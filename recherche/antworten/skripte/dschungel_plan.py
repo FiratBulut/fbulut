@@ -4,6 +4,11 @@
 dschungel_plan.py – Planer „Dschungel inkl. Karst-Kalktürme“ (Auftrag 11, Teil B7) für Eldarien (UE 5.8.3, 1-m-Raster 9577 × 7057).
 Stand: Korrektur Runde 1 (10.10.2026) nach antworten/verteilung-KONVENTIONEN.md §1–§5.
 
+Korrektur Runde 3b: `entfernen` (Witcher-Lianen sm_vines_01a, keine Bäume) nur mit Freigabe (--ersetzen oder Regel entfernen_aktiv,
+Standard aus); ohne Freigabe bleibt plan.json["entfernen"] leer und die Kandidaten stehen mit Zahl in plan.json["entfernen_vorschlag"].
+Mit Freigabe nur, wenn die Landzellen des Feldes >= zustaendigkeit.entfernen_min_anteil_land Dschungel sind und <= entfernen_max_fremd_anteil
+der Kandidaten in Saum-/Fremdzellen stehen (der Filter des Setzers gilt feldweit). Die Bäume der Witcher-/Bestand-Ebene bleiben immer.
+
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern (H6, G4, G5) rauchgetestet.
 Korrekturen bitte als auftraege/verteilung-dschungel-korrektur.md.
 
@@ -39,7 +44,8 @@ nach Priorität, dann exakte Kappung; Satelliten (Lianen) werden erst nach der B
 
 Aufruf
 ------
-  python -I scripts/dschungel/dschungel_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]
+  python -I scripts/dschungel/dschungel_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD] [--ersetzen]
+  --ersetzen Freigabe fuer den entfernen-Filter (Standard aus: entfernen leer, Kandidaten in entfernen_vorschlag)
   --basis   production-Wurzel (Default "."), darunter export/unreal/welt/, daten/netze.csv, daten/biome_je_feld.json, docs/
   --regeln  Regeldatei (Default: dschungel_regeln.json neben dem Skript)
   --faktor  Dichtefaktor auf alle Klassen (Budget bleibt)
@@ -598,6 +604,80 @@ def licht_faktor(b, kurve):
 
 
 # ----------------------------------------------------------------------------- Hauptplanung
+def pruefe_entfernen(kand, regeln, inv):
+    """Runde 3b: ein entfernen-Praefix bleibt nur, wenn jedes Inventarnetz, das mit ihm beginnt, ein Netz dieses Planers ist
+    (der feldweite Netznamen-Filter darf nur ersetzen, was der Planer selbst neu setzt). Ohne Inventar: Praefixe ungeprueft."""
+    if not kand or inv is None:
+        return list(kand), []
+    eigen = set()
+    for kname, kl in regeln['klassen'].items():
+        if not kname.startswith('_'):
+            eigen |= {str(n).rsplit('/', 1)[-1].lower() for n in kl.get('netze', [])}
+    namen = sorted({str(q).rsplit('/', 1)[-1].lower() for q in inv})
+    gut, warn = [], []
+    for p in kand:
+        treffer = [n for n in namen if n.startswith(p)]
+        fremd = [n for n in treffer if n not in eigen]
+        if fremd or not treffer:
+            warn.append('entfernen-Praefix %r verworfen (%s)' % (p, ('traefe fremde Netze: ' + ', '.join(fremd[:6])) if fremd else 'kein Inventarnetz'))
+        else:
+            gut.append(p)
+    return gut, warn
+
+
+def zaehle_entfernen(basis, feld, win, praefixe, eigen, zust_m, land_m, im_feld):
+    """Runde 3b: alte Instanzen (witcher/ + bestand/, Feld + 8 Nachbarn, Position im Feld), deren Netzname mit einem Praefix beginnt;
+    getrennt nach eigenen Biomzellen, Saum und fremden Zellen."""
+    out = {'gesamt': 0, 'eigen': 0, 'saum': 0, 'fremd': 0, 'wasser': 0, 'je_netz': {}, 'je_ebene': {}}
+    if not praefixe:
+        return out
+    H, W = eigen.shape
+    s, r = ord(feld[0]) - ord('A'), int(feld[1:])
+    for ds in (-1, 0, 1):
+        for dr in (-1, 0, 1):
+            ss, rr = s + ds, r + dr
+            if not (0 <= ss <= 9 and 1 <= rr <= 7):
+                continue
+            nf = chr(ord('A') + ss) + str(rr)
+            for ebene in ('bestand', 'witcher'):
+                ordner = os.path.join(basis, WELT, ebene, nf)
+                pj = os.path.join(ordner, 'plan.json')
+                if not os.path.isfile(pj):
+                    continue
+                try:
+                    plan = json.load(open(pj, encoding='utf-8'))
+                except Exception:
+                    continue
+                for name in sorted(plan.get('dateien', {})):
+                    if not any(name.lower().startswith(p) for p in praefixe):
+                        continue
+                    f = os.path.join(ordner, name + '.f32')
+                    if not os.path.isfile(f):
+                        continue
+                    a = np.fromfile(f, dtype='<f4')
+                    if a.size == 0 or a.size % 10:
+                        continue
+                    a = a.reshape(-1, 10)
+                    fi = a[:, 1] / 100.0 + Y0 - win[0]
+                    fj = a[:, 0] / 100.0 + X0 - win[2]
+                    ii = np.clip(np.round(fi).astype(np.int64), 0, H - 1)
+                    jj = np.clip(np.round(fj).astype(np.int64), 0, W - 1)
+                    m = im_feld[ii, jj] & (fi >= -0.5) & (fi < H - 0.5) & (fj >= -0.5) & (fj < W - 0.5)
+                    if not m.any():
+                        continue
+                    ii, jj = ii[m], jj[m]
+                    e = eigen[ii, jj]
+                    sm = ~e & zust_m[ii, jj]
+                    n = int(m.sum())
+                    for k, v in (('gesamt', n), ('eigen', int(e.sum())), ('saum', int(sm.sum())), ('fremd', int((~e & ~sm).sum())),
+                                 ('wasser', int((~land_m[ii, jj]).sum()))):
+                        out[k] += v
+                    out['je_netz'][name] = out['je_netz'].get(name, 0) + n
+                    out['je_ebene'][ebene] = out['je_ebene'].get(ebene, 0) + n
+    out['je_netz'] = dict(sorted(out['je_netz'].items()))
+    return out
+
+
 def schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_anteil, biom_quelle, hinweise, t0):
     """Konventionen §1: Eigenanteil < min_anteil_fenster -> leerer plan.json (instanzen 0, keine f32), nie Text statt plan.json."""
     Z = regeln['zustaendigkeit']
@@ -619,7 +699,7 @@ def schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_ant
     return plan
 
 
-def plane_feld(feld, basis, regeln, faktor, bild):
+def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
     t0 = time.time()
     hinweise = []
     seed = int(regeln['seed'])
@@ -1049,8 +1129,44 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     top((hs <= hmin40 + 0.05) & ((hmax40 - hs) >= 8) & ~wasser_m & ~meer & (d_weg > 5), hmax40 - hs, 2, 'doline', 'geschlossene Senke (Relief ≥ 8 m in 40 m) – Farne/Moos dicht, Nebel-Volumen', 200)
     top((d_wand >= 10) & (d_wand <= 40) & (hang < 8) & (d_weg <= 60) & ~wasser_m & ~meer, -(hang + d_weg / 60.0), 2, 'tempelruine', 'flacher Karstfuß nahe Weg – AncientRuins-Ersatz (spuren_overrides), Lianen/Moos ×2', 250)
 
+    # --- entfernen (Korrektur Runde 3b): nur mit Freigabe, nur wenn der feldweite Filter praktisch nur eigene Zellen trifft
+    kand = [p.strip().lower() for p in str(feld_info.get('entfernen', '') or '').split(',') if p.strip()]
+    kand, warn = pruefe_entfernen(kand, regeln, inv)
+    hinweise.extend(warn)
+    entf, entf_info = '', None
+    if kand:
+        land_m = ~(wasser_m | meer)
+        land_feld = land_m & im_feld
+        anteil_land = float((eigen & land_feld).sum()) / float(max(1, int(land_feld.sum())))
+        zl = zaehle_entfernen(basis, feld, win, kand, eigen, zust > 0, land_m, im_feld)
+        fremd_anteil = (zl['saum'] + zl['fremd']) / float(zl['gesamt']) if zl['gesamt'] else 0.0
+        e_min = float(Z.get('entfernen_min_anteil_land', 0.85))
+        e_fremd = float(Z.get('entfernen_max_fremd_anteil', 0.05))
+        freigabe = bool(ersetzen) or bool(regeln.get('entfernen_aktiv', False))
+        if not freigabe:
+            grund = 'keine Freigabe (Schalter --ersetzen oder Regel entfernen_aktiv)'
+        elif anteil_land < e_min:
+            grund = 'Dschungel-Anteil der Landzellen im Feld %.0f %% < %.0f %% (Filter gilt feldweit)' % (100 * anteil_land, 100 * e_min)
+        elif fremd_anteil > e_fremd:
+            grund = '%.1f %% der Kandidaten in Saum-/Fremdzellen > %.0f %% (Filter gilt feldweit)' % (100 * fremd_anteil, 100 * e_fremd)
+        elif zl['gesamt'] == 0:
+            grund = 'keine passenden alten Instanzen in witcher/bestand im Feld'
+        else:
+            grund = ''
+            entf = ','.join(kand)
+        entf_info = {'praefixe': ','.join(kand), 'anzahl': zl['gesamt'], 'anzahl_eigene_zellen': zl['eigen'], 'anzahl_saum': zl['saum'],
+                     'anzahl_fremde_zellen': zl['fremd'], 'anzahl_auf_wasser': zl['wasser'], 'je_netz': zl['je_netz'], 'je_ebene': zl['je_ebene'],
+                     'baeume': 0, 'anteil_eigen_land_feld': round(anteil_land, 4), 'anteil_saum_fremd': round(fremd_anteil, 4),
+                     'freigabe': freigabe, 'aktiv': bool(entf), 'grund': grund or 'aktiv', 'nur_ft_praefixe': list(regeln.get('entfernen_nur_ft', []))}
+        if entf:
+            hinweise.append('entfernen aktiv (%s): %d alte Instanzen im Feld (eigene Zellen %d, Saum %d, fremd %d), davon Baeume 0'
+                            % (entf, zl['gesamt'], zl['eigen'], zl['saum'], zl['fremd']))
+        else:
+            hinweise.append('entfernen nicht gesetzt: %s; Vorschlag %d Instanzen (eigene Zellen %d) in plan.json["entfernen_vorschlag"]'
+                            % (grund, zl['gesamt'], zl['eigen']))
+
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(gesamt), 'dateien': dateien,
-            'entfernen': feld_info.get('entfernen', ''), 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
+            'entfernen': entf, 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
             'biome_fenster': biome_fenster, 'zellen_zustaendig': zellen_zustaendig, 'biome_eigen': list(Z['biome_eigen']),
             'kollision_anzahl': int(nk),
             'statistik': {'je_klasse': stat, 'je_schicht': {s: int(sum(stat.get(k, 0) for k in klassen if klassen[k]['schicht'] == s)) for s in SCHICHTEN},
@@ -1063,6 +1179,13 @@ def plane_feld(feld, basis, regeln, faktor, bild):
                       'wand_hoehe_min_max_m': [round(float(hoehe[wand_feld].min()), 1), round(float(hoehe[wand_feld].max()), 1)] if n_wand else None},
             'blickziele': blick, 'hinweise': hinweise,
             'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet (UNGETESTET MIT ECHTDATEN)'}
+    if entf_info is not None:
+        if entf:
+            plan['entfernen_zaehlung'] = entf_info
+            if entf_info['nur_ft_praefixe']:
+                plan['entfernen_nur_ft'] = entf_info['nur_ft_praefixe']
+        else:
+            plan['entfernen_vorschlag'] = entf_info
     with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
         json.dump(plan, f, ensure_ascii=False, indent=1)
     meld('%s: %d Instanzen (%d mit Kollision), %d Netze, Schichten %s, %.1f s' % (feld, gesamt, nk, len(dateien), plan['statistik']['je_schicht'], time.time() - t0))
@@ -1117,6 +1240,9 @@ def main():
     ap.add_argument('--faktor', type=float, default=1.0)
     ap.add_argument('--basis', default='.')
     ap.add_argument('--regeln', default=None)
+    ap.add_argument('--ersetzen', action='store_true',
+                    help='Freigabe fuer den entfernen-Filter (Witcher-Lianen); ohne Schalter bleibt plan.json["entfernen"] leer und die '
+                         'Kandidaten stehen mit Zahl in plan.json["entfernen_vorschlag"] (Korrektur Runde 3b)')
     a = ap.parse_args()
     rp = a.regeln or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dschungel_regeln.json')
     if not os.path.isfile(rp):
@@ -1127,8 +1253,12 @@ def main():
         abbruch('Regeldatei %s nicht lesbar: %s' % (rp, ex))
     if not NUMBA:
         meld('numba nicht verfügbar – reiner NumPy-Pfad (ausreichend)')
+    if a.ersetzen or regeln.get('entfernen_aktiv'):
+        meld('Freigabe entfernen: ja (%s)' % ('--ersetzen' if a.ersetzen else 'Regel entfernen_aktiv'))
+    else:
+        meld('Freigabe entfernen: nein - plan.json["entfernen"] bleibt leer, Kandidaten in "entfernen_vorschlag"')
     for feld in a.felder:
-        plane_feld(feld.strip().upper(), a.basis, json.loads(json.dumps(regeln)), a.faktor, a.bild)
+        plane_feld(feld.strip().upper(), a.basis, json.loads(json.dumps(regeln)), a.faktor, a.bild, ersetzen=a.ersetzen)
 
 
 if __name__ == '__main__':

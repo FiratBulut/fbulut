@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 18:35 UTC. Runde 3b in Arbeit.
+Stand: 2026-10-10 18:55 UTC. Runde 3b abgeschlossen, Antwort: verteilung-korrektur-runde3b.md.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -118,4 +118,51 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 | Teil | Aufgabe | Stand |
 |---|---|---|
 | hochgebirge + mittelschicht | Pflanzen nur wo lage_Schnee < 60 und lage_Eis < 30; auf Schnee nur Steine/Flechtensteine (tiefer eingegraben) und Eiszapfen an Felskanten | fertig, gepusht (synthetisch E1-artig: Pflanzen auf Schnee/Eis hochgebirge 679 -> 0, mittelschicht 161 -> 0; Steine auf Schnee 40-60 % eingegraben; Bergwiese -0,4 %; polster auf Wiese +11 %, weil Klassenbudget nicht mehr auf Schnee verbraucht wird). Neuer Schluessel lagen_max (KONVENTIONEN §6); mittelschicht sperrt Pflanzen auf Schnee/Eis global in allen Biomen (lagen_max_pflanzen) |
-| nordkueste + dschungel | `entfernen`-Filter je Feld begruenden, erwartete Zahl entfernter Baeume; ohne Freigabe nichts entfernen | laeuft |
+| nordkueste + dschungel | `entfernen`-Filter je Feld begruenden, erwartete Zahl entfernter Baeume; ohne Freigabe nichts entfernen | fertig, gepusht: Schalter `--ersetzen` / Regel `entfernen_aktiv` (Standard aus). Ohne Freigabe `entfernen` leer, Kandidaten in plan.json["entfernen_vorschlag"] (eigen/Saum/fremd, je Netz). nordkueste-Filter war zu breit (traf liegende Staemme und Jungpflanzen, zaehlte Meerzellen) - korrigiert. Details: verteilung-entfernen.md |
+
+### entfernen-Filter je Feld (Runde 3b, Schaetzung Dichte x Flaeche, ohne Echtdaten)
+
+Ohne Freigabe entfernt kein Planer etwas. Mit `--ersetzen` greift nordkueste nur, wenn das Feldland zu >= 85 % eigenes Biom ist und <= 5 % der
+Kandidaten in Saum-/Fremdzellen stehen, und nur auf Baeume, die der Planer selbst neu setzt. Der Setzer sollte nur auf `entfernen_nur_ft`
+(`FT_EL_WIT_`/`FT_EL_BST_`) wirken, sonst trifft er eigene neue Baeume. Exakte Zahl lokal: Planer ohne `--ersetzen` laufen lassen und
+`entfernen_vorschlag` lesen; mit Freigabe steht sie in `entfernen_zaehlung`.
+
+**nordkueste** (Kiefern/Tannen):
+
+| Feld | Biomanteil (Land %) | Begründung | Kandidaten (Schätzung) | erwartet entfernt: ohne Freigabe / mit `--ersetzen` | neue Bäume: ohne Freigabe (ergänzen) / mit `--ersetzen` |
+|---|---|---|---|---|---|
+| A3 | bergwald 92, aue 8 (16) | Filter möglich: Kiefern-Monokultur am Hang → Artenmix | 150–650 | 0 / 150–650 | 70–200 / 200–600 |
+| B3 | bergwald 100 (47) | Filter möglich: reiner Bergwald, Monokultur → Mix mit Tanne, Birke, Hainbuche, Totbaum | 300–1 550 | 0 / 300–1 550 | 150–450 / 450–1 400 |
+| I3 | bergwald 94, elfenwald 6 (31) | Filter möglich; der Elfenwald-Planer entfernt hier nichts (6 % < 50 %) | 200–1 000 | 0 / 200–1 000 | 100–300 / 300–900 |
+| A4 | bergwald 92, aue 8 (36) | Filter möglich: FELS7_A4 zeigt die Kiefern-Monokultur am Fjordhang | 250–1 150 | 0 / 250–1 150 | 100–350 / 350–1 000 |
+| B4 | bergwald 100 (100) | Filter möglich: steiler Bergwald, Waldgrenze 420–560 m, darüber nur Krüppelkiefer | 600–3 050 | 0 / 600–3 050 | 300–900 / 900–2 750 |
+| A5 | kueste 75, bergwald 14, aue 11 (24) | Filter möglich: Klippenküste, Küstenkiefer/-eiche statt Forstkiefer. Entfällt, wenn > 5 % der alten Kiefern in den Aue-Zellen stehen | 150–650 | 0 / 0–650 | 70–200 / 200–600 |
+| B5 | bergwald 79, kueste 21 (98) | Filter möglich: Küste → Hangwald → Grat; Synthetiktest mit Filter aktiv | 600–2 950 | 0 / 600–2 950 | 300–900 / 900–2 650 |
+| H2 | kueste 78, elfenwald 20 (39) | kein Filter: Landanteil 78 % < 85 %, sonst würden Elfenwald-Bäume gelöscht | 200–1 000 | 0 / 0 | 100–300 / 100–300 (ergänzen) |
+| I4 | bergwald 78, elfenwald 21 (63) | kein Filter: 78 % < 85 % | 300–1 600 | 0 / 0 | 150–500 / 150–500 |
+| I5 | bergwald 68, dschungel 21, sumpf 11 (50) | kein Filter: 68 % < 85 % | 350–1 700 | 0 / 0 | 150–500 / 150–500 |
+| B6 | bergwald 63, aue 24, lava 13 (63) | kein Filter: 63 % < 85 % | 350–1 800 | 0 / 0 | 200–550 / 200–550 |
+| C1 | fjord 31, gletscher 69 (38) | kein Filter: nur Fjordzellen bis zur Gletschergrenze | 70–350 | 0 / 0 | 30–100 / 30–100 |
+| D1 | fjord 26, gletscher 72 (40) | kein Filter | 60–300 | 0 / 0 | 30–90 / 30–90 |
+| C2 | fjord 23, gletscher 46, tundra 21 (65) | kein Filter | 100–500 | 0 / 0 | 50–150 / 50–150 |
+| D2 | fjord 19, tundra 47, gletscher 34 (100) | kein Filter | 150–700 | 0 / 0 | 70–200 / 70–200 |
+| B2 | bergwald 20, gletscher 80 (25) | kein Filter | 30–150 | 0 / 0 | 10–40 / 10–40 |
+| C3 | bergwald 6 (62) | kein Filter: nur Saumfeld | 40–200 | 0 / 0 | 20–50 / 20–50 |
+| C4 | bergwald 6 (100) | kein Filter: nur Saumfeld | 60–300 | 0 / 0 | 30–90 / 30–90 |
+| C5 | bergwald 6 (100) | kein Filter: nur Saumfeld | 60–300 | 0 / 0 | 30–90 / 30–90 |
+| H1, A2, I2 | kueste 19 / bergwald 19 / bergwald 20 (Land 0) | kein Land, also keine Bäume | 0 | 0 / 0 | 0 / 0 |
+| **Summe** | | **Filter möglich nur in A3, B3, I3, A4, B4, A5, B5** | | **0 / ≈ 2 100–11 000** | |
+
+**dschungel** (keine Baeume; nur Witcher-Lianen `sm_vines_01a`):
+
+| Feld | Biomanteil (Land %) | Begründung | Bäume entfernt | Lianen `sm_vines_01a`: ohne Freigabe / mit `--ersetzen` (Schätzung) | Farne (Teil D, Vorschlag) | neue Bäume (Ergänzung, beide Fälle) |
+|---|---|---|---|---|---|---|
+| G6 | dschungel 97, aue 3 (80) | Filter möglich: Lianen an Stämmen und Wänden statt Streuung | 0 | 0 / 400–1 950 | nach Freigabe | 3 950–7 100 |
+| H6 | dschungel 100 (94) | Filter möglich (Synthetiktest aktiv) | 0 | 0 / 500–2 400 | nach Freigabe | 4 800–8 600 |
+| I6 | dschungel 100 (63) | Filter möglich | 0 | 0 / 300–1 600 | nach Freigabe | 3 200–5 750 |
+| G7 | dschungel 73, aue 27 (10) | kein Filter: 73 % < 85 %; im Synthetiktest standen 29 % der Kandidaten in Aue- oder Saumzellen | 0 | 0 / 0 | nein | 350–650 |
+| H7 | dschungel 76, aue 24 (22) | kein Filter: 76 % < 85 % | 0 | 0 / 0 | nein | 850–1 550 |
+| I7 | dschungel 76, aue 24 (15) | kein Filter: 76 % < 85 % | 0 | 0 / 0 | nein | 600–1 050 |
+| G5 | dschungel 22, heide 77 (100) | kein Filter (keine Kandidaten in den Regeln) | 0 | 0 / 0 | nein | 1 100–2 000 |
+| H5 | dschungel 12, sumpf 78 (99) | kein Filter | 0 | 0 / 0 | nein | 600–1 100 |
+| I5 | dschungel 21, bergwald 68 (50) | kein Filter | 0 | 0 / 0 | nein | 550–950 |

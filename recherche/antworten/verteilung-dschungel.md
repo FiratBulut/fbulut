@@ -388,3 +388,8 @@ geklippt, leeres GelÃ¤nde) 0 Instanzen in 4,2 s mit Hinweisen, fehlende Basis â†
 - Gesperrte AncientRuins-Netze (Saeule Nr. 03, Hauptbogen Nr. 01) aus `spuren_overrides.tempelruine.netze` entfernt; es bleiben SM_Column_02, SM_Wall_01, SM_Wall_02.
 - `moosstein` (Schicht 5): Massstab 0,8-1,6 -> 0,8-1,1, damit MossyForestRock_02 (0,71 m) unter 0,8 m bleibt. Keine Platten im Planer (Karstplatten/geroell_platte nur in `felsgruppen_overrides`).
 - Rauchtest synthetisch H6: 26 768 Instanzen, zwei Laeufe byteidentisch, gesperrte Netze 0, Log ASCII, 16 s.
+
+## Korrektur Runde 3b (10.10.2026)
+
+- Dschungel entfernt keine Baeume. `sm_vines_01a` (Witcher-Lianen) nur mit Freigabe (`--ersetzen` oder `entfernen_aktiv`, Standard aus) und nur bei Dschungel-Landanteil >= 85 % (G6/H6/I6, nicht G7/H7/I7); sonst `entfernen ""` + `entfernen_vorschlag` mit Zahl. Farn-Entfernung fuer Teil D liegt jetzt in `mittelschicht_overrides._entfernen_je_feld_vorschlag` (`entfernen_je_feld` leer). Details: `verteilung-entfernen.md`.
+

@@ -400,3 +400,8 @@ sich die Schwelle für C6 und die Dichte für A5 (Ziel 15 000–30 000) nachstel
 ### 7.8 Korrektur Runde 3 (10.10.2026)
 
 - Rote `/Game/AncientContent/…/SM_IcelandicBoulder_01/02` aus `felsgruppen_overrides` entfernt: `zusatzklassen.felsufer` -> `/Game/Megascans/…/SM_MossyForestBoulder_03` (2,0 m) + `SM_ground_rock_01` (2,3 m, Mountain_Environment_Set); `palette.bevorzugt.kahl_bevorzugt` nur ohne `_02` (Granit pkeeM + Island skjsL bleiben). Planer-Code unveraendert.
+
+### 7.9 Korrektur Runde 3b (10.10.2026)
+
+- `entfernen` nur mit Freigabe (`--ersetzen` oder `entfernen_aktiv`, Standard aus). Ohne Freigabe: `entfernen ""`, Kandidaten mit Zahl in `plan.json["entfernen_vorschlag"]`, `baum_modus auto` -> ergaenzen (kein Doppelbestand). Mit Freigabe nur bei Land-Eigenanteil >= 85 % und <= 5 % Kandidaten in Saum-/Fremdzellen; Praefixe nur noch eigene Baumnetze (Kiefer 01-03/05-07, Fir 03-07, pine_beach; keine `_log`, Jungpflanzen, Totbaeume). Begruendung, Feldtabelle und erwartete Zahlen: `verteilung-entfernen.md`.
+

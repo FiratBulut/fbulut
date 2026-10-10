@@ -6,6 +6,11 @@ Auftrag 11, Teil B1, Stand Korrektur Runde 1 (10.10.2026, verteilung-KONVENTIONE
 Korrektur Runde 2: Platten-Klassen (platten_regel; Rolle platte/geroell_platte oder RockyGround-/flat_rock-Netze) nur auf
 lage_Kies/Geroell/Fels/Felsplatte >= 100, nie wo Gras/Wiese staerker deckt, >= 50 % eingegraben, an der Normale; Kiesel mit
 teppich_sperre nur auf/um Geroell-Lagen, am Weg und am Ufer (kein Hangteppich).
+Korrektur Runde 3b: `entfernen` nur mit Freigabe (Schalter --ersetzen oder Regel entfernen_aktiv, Standard aus). Ohne Freigabe bleibt
+plan.json["entfernen"] leer, die Kandidaten stehen mit exakter Zahl (aus witcher/ + bestand/ im Feld) in plan.json["entfernen_vorschlag"],
+und baum_modus auto faellt auf ergaenzen zurueck (kein Doppelbestand). Mit Freigabe wird der Filter nur gesetzt, wenn die Landzellen des
+Feldes >= ersetzen_min_anteil eigene Biome sind und <= entfernen_max_fremd_anteil der Kandidaten in Saum-/Fremdzellen stehen; die
+Praefixe treffen nur Kiefern/Tannen, die dieser Planer selbst setzt (pruefe_entfernen gegen netze.csv, keine _log/Jungpflanzen/Totbaeume).
 
 Schichten dieses Planers: 0 boden (Nadelstreu, Kiesel, Moos, Bodendecker), 1 NUR Nordküsten-Sonderformen (Windflucht-Krüppelkiefer,
 Windflucht-Küstenkiefer, Strandhafer, Klippenwiesen-Blumen, Efeu an Fels, Wurzelanläufe an Stämmen), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel/-platten).
@@ -31,7 +36,8 @@ Reihenfolge: Ebene 2 (Bäume) → Kronendach → Ebenen 1, 0, 5. Budget: Schicht
 
 Aufruf
 ------
-  python -I scripts/nordkueste/nordkueste_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]
+  python -I scripts/nordkueste/nordkueste_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD] [--ersetzen]
+  --ersetzen Freigabe fuer den entfernen-Filter (Standard aus: entfernen leer, Kandidaten in entfernen_vorschlag)
   --basis   production-Wurzel (Default "."), darunter export/unreal/welt/, daten/netze.csv, daten/netze_masse.json, docs/
   --regeln  Regeldatei (Default: nordkueste_regeln.json neben dem Skript)
   --faktor  Dichtefaktor auf alle Klassen
@@ -44,7 +50,8 @@ Ausgabe (FORMAT.md §3 + Konventionen §2)
   export/unreal/welt/nordkueste/<Feld>/<Netzname>.f32   10 float32 LE je Instanz: x,y,z cm; qx,qy,qz,qw; sx,sy,sz
   export/unreal/welt/nordkueste/<Feld>/plan.json        instanzen, dateien{pfad, anzahl, gruppe, rolle, ebene, sichtweite, schatten,
                                                          kollision}, biome_fenster, zellen_zustaendig, biome_eigen, kollision_anzahl,
-                                                         entfernen (nur baum_modus ersetzen), ft_ordner, ft_praefix, hinweise, statistik
+                                                         entfernen (nur ersetzen + Freigabe, sonst ""), entfernen_vorschlag bzw.
+                                                         entfernen_zaehlung, ft_ordner, ft_praefix, hinweise, statistik
   Ein Netz, das in zwei Ebenen vorkommt, bekommt in der zweiten Ebene den Dateinamen <Netzname>_e<Ebene>.f32.
 
 Quellen (Regeln, Zahlen): antworten/verteilung-nordkueste.md (Skellige-Analyse, Schichten, Testanleitung, Korrektur Runde 1),

@@ -62,10 +62,11 @@
   "weltgelaende": "aue"
  },
  "zustaendigkeit": {
-  "_doku": "Konventionen Paragraph 1: Biom je Zelle aus eigner.r8 + welt.json (rezept); Kennzahl 0 = Weltgelaende -> aue, Vulkanregion -> lava. Nur wenn eigner.r8 fehlt: dominantes Feldbiom aus daten/biome_je_feld.json (Hinweis im Log); fehlt auch das: feld_biom_fallback (+ feld_fallback_hoehe_max_m). Bebaut werden Zellen mit Biom in biome_eigen plus Saum saum_m nach aussen (Dichte linear 1 -> 0). Anteil biome_eigen im Fenster < min_anteil_eigen -> leerer plan.json (instanzen 0), Exit 0. Der entfernen-Filter (baum_modus ersetzen) wird nur gesetzt, wenn der Eigenanteil im Feld >= ersetzen_min_anteil ist; sonst ersetzen ohne entfernen (volle Baumdichte, vorhandene Baeume bleiben und werden umpflanzt), weil der Filter feldweit gilt.",
+  "_doku": "Konventionen Paragraph 1: Biom je Zelle aus eigner.r8 + welt.json (rezept); Kennzahl 0 = Weltgelaende -> aue, Vulkanregion -> lava. Nur wenn eigner.r8 fehlt: dominantes Feldbiom aus daten/biome_je_feld.json (Hinweis im Log); fehlt auch das: feld_biom_fallback (+ feld_fallback_hoehe_max_m). Bebaut werden Zellen mit Biom in biome_eigen plus Saum saum_m nach aussen (Dichte linear 1 -> 0). Anteil biome_eigen im Fenster < min_anteil_eigen -> leerer plan.json (instanzen 0), Exit 0. Der entfernen-Filter (baum_modus ersetzen) wird nur mit Freigabe gesetzt (--ersetzen oder entfernen_aktiv) und nur, wenn die LANDzellen des Feldes zu >= ersetzen_min_anteil eigene Biome sind und hoechstens entfernen_max_fremd_anteil der Kandidaten (alte Baeume mit passendem Netznamen im Feld) in Saum- oder Fremdzellen stehen, weil der Filter feldweit gilt (Runde 3b).",
   "saum_m": 30,
   "min_anteil_eigen": 0.02,
-  "ersetzen_min_anteil": 0.85
+  "ersetzen_min_anteil": 0.85,
+  "entfernen_max_fremd_anteil": 0.05
  },
  "feld_biom_fallback": {
   "C1": "fjord",
@@ -208,10 +209,16 @@
   "fallback_beschattung_max": 0.7
  },
  "baum_modus": "auto",
- "baum_modus_doku": "auto: ersetzen, wenn bestand/<Feld>/ fehlt (volle Baumschicht, entfernen-Filter gesetzt); sonst ergaenzen (Dichten × ergaenzen_faktor, nur ≥ bestand_baum Abstand zu vorhandenen Bäumen). ergaenzen | ersetzen erzwingen.",
+ "baum_modus_doku": "auto: ersetzen, wenn bestand/<Feld>/ fehlt UND der entfernen-Filter wirklich gesetzt wird (Freigabe + Pruefungen, siehe entfernen_doku); sonst ergaenzen (Dichten × ergaenzen_faktor, nur ≥ bestand_baum Abstand zu vorhandenen Bäumen). ergaenzen | ersetzen erzwingen (ersetzen ohne Freigabe = volle Baumschicht, alte Bäume bleiben als Hindernis).",
  "ergaenzen_faktor": 0.35,
- "entfernen_bei_ersetzen": "sm_forest_pine_0,fir_0,sm_pine_beach_0",
- "entfernen_doku": "Nur bei baum_modus ersetzen: alte Kiefern/Tannen der Witcher-/Bestand-Ebene im Feld löschen (Monokultur → Artenmix). Kleinzeug der Witcher-Ebene bleibt.",
+ "entfernen_aktiv": false,
+ "entfernen_bei_ersetzen": "sm_forest_pine_01,sm_forest_pine_02,sm_forest_pine_03,sm_forest_pine_05,sm_forest_pine_06,sm_forest_pine_07,fir_03,fir_04,fir_05,fir_06,fir_07,sm_pine_beach_0",
+ "entfernen_doku": "Korrektur Runde 3b. Standard AUS (entfernen_aktiv false, Schalter --ersetzen): ohne Freigabe bleibt plan.json[\"entfernen\"] leer, die Kandidaten stehen mit Zahl in plan.json[\"entfernen_vorschlag\"] und baum_modus auto plant ergaenzen. Mit Freigabe und baum_modus ersetzen: alte Kiefern/Tannen/Küstenkiefern der Witcher-/Bestand-Ebene im Feld löschen (Monokultur → Artenmix, Witcher-Messlatte: Skellige lichter Mischwald statt gleichmäßiger Kiefernplantage), nur Netze, die dieser Planer selbst als Baum neu setzt (kiefer_alt/kiefer_mittel/tanne/kuestenkiefer). Nicht im Filter: SM_Forest_pine_04/08/09 (Präfix träfe die liegenden Stämme SM_Forest_pine_04/08/09_log), Fir_01_Plant/Fir_02_Small (Jungpflanzen), Fir_08_Dead_* (Totbaum) – diese alten Instanzen bleiben und gelten als vorhandene Bäume (Abstand, Kronendach). Der Planer prüft jedes Präfix gegen daten/netze.csv und verwirft es, wenn es ein fremdes Netz träfe. Gesetzt nur, wenn Land-Eigenanteil im Feld >= zustaendigkeit.ersetzen_min_anteil und Kandidaten in Saum/Fremdzellen <= zustaendigkeit.entfernen_max_fremd_anteil. Kleinzeug der Witcher-Ebene bleibt.",
+ "entfernen_nur_ft": [
+  "FT_EL_WIT_",
+  "FT_EL_BST_"
+ ],
+ "entfernen_nur_ft_doku": "Hinweis an den Setzer (plan.json[\"entfernen_nur_ft\"], nur bei aktivem Filter): Präfixe nur auf Instanzen dieser Foliage-Typ-Präfixe anwenden (Witcher-/Bestand-Ebene), nie auf FT_EL_NK_* (eigene neue Bäume), FT_EL_WELT_* oder Houdini-Akteure. Ignoriert der Setzer den Schlüssel, trifft der Netznamen-Filter auch namensgleiche Houdini-/WELT-Instanzen (Zahl: entfernen_zaehlung.houdini_netzgleich).",
  "waldgrenze": {
   "voll_bis_m": 420,
   "null_ab_m": 560,

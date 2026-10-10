@@ -7,6 +7,11 @@
  "ft_praefix": "FT_EL_DS_",
  "ausgabe_ordner": "dschungel",
  "fenster_rand_m": 64,
+ "entfernen_aktiv": false,
+ "entfernen_doku": "Korrektur Runde 3b. felder[F].entfernen = Kandidaten-Praefixe (Witcher-Lianen sm_vines_01a; KEINE Baeume: Witcher-/Bestand-Baeume, AsianTemple-Baeume und SM_Tree_Palm_01 bleiben, die eigene Baumschicht ergaenzt mit 4 m Abstand). Standard AUS: ohne Freigabe (Schalter --ersetzen oder entfernen_aktiv true) bleibt plan.json[\"entfernen\"] leer, die Kandidaten stehen mit exakter Zahl aus witcher/ + bestand/ in plan.json[\"entfernen_vorschlag\"]. Mit Freigabe wird der Filter nur gesetzt, wenn die Landzellen des Feldes >= zustaendigkeit.entfernen_min_anteil_land Dschungel sind (G6/H6/I6 ja, G7/H7/I7 mit 73-76 % nein) und hoechstens zustaendigkeit.entfernen_max_fremd_anteil der Kandidaten in Saum-/Fremdzellen stehen, weil der Setzer feldweit loescht. Jedes Praefix wird gegen daten/netze.csv geprueft: es darf nur Netze treffen, die dieser Planer selbst setzt (sm_vines_01a -> nur SM_Vines_01a, liane_stamm/liane_wand). Begruendung: SM_Vines_01a (12 Dreiecke, kein Nanite) streut die Witcher-Ebene gleichmaessig ohne Bezug zu Stamm/Wand; der Planer setzt dieselbe Ranke als Satellit 0,6-1,6 m an eigenen Laubbaeumen und in Wandspalten 40-78 Grad.",
+ "entfernen_nur_ft": [
+  "FT_EL_WIT_"
+ ],
  "felder": {
   "G6": {
    "dschungel": 0.97,
@@ -77,7 +82,9 @@
    "dschungel"
   ],
   "saum_m": 30,
-  "min_anteil_fenster": 0.02
+  "min_anteil_fenster": 0.02,
+  "entfernen_min_anteil_land": 0.85,
+  "entfernen_max_fremd_anteil": 0.05
  },
  "lagen": {
   "_doku": "Gewicht je Bodenlage (lage_<Name>.r8, 0–255 → 0–1). Faktor der Zelle = Summe(gewicht · deckung) / Summe(deckung) je Schicht-Lagengruppe; fehlt eine Lage-Datei, zählt sie 0; fehlen alle, gilt 'ohne_lagen'.",
@@ -1961,13 +1968,15 @@
     }
    }
   },
-  "entfernen_je_feld": {
+  "entfernen_je_feld": {},
+  "_entfernen_je_feld_vorschlag": {
    "G6": "sm_fern_01a,sm_fern_02a",
    "H6": "sm_fern_01a,sm_fern_02a",
    "I6": "sm_fern_01a,sm_fern_02a",
    "G7": "sm_fern_01a,sm_fern_02a",
    "H7": "sm_fern_01a,sm_fern_02a",
    "I7": "sm_fern_01a,sm_fern_02a"
-  }
+  },
+  "_entfernen_je_feld_doku": "Korrektur Runde 3b: ohne Freigabe leer. Freigabe = die Eintraege aus _entfernen_je_feld_vorschlag nach entfernen_je_feld kopieren (mittelschicht_plan.py haengt sie an sein plan.json[\"entfernen\"]). Vorschlag: Witcher-Farne SM_Fern_01a/02a in G6/H6/I6 (Dschungel >= 97 % der Landzellen); G7/H7/I7 (73-76 %) nicht freigeben, weil der Filter feldweit gilt. Keine Baeume."
  }
 }
