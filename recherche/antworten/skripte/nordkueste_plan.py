@@ -308,11 +308,29 @@ def lade_masse(basis):
         return {}
 
 
+def feld_dominantes_biom(basis, feld):
+    """Dominantes Biom des Feldes aus daten/biome_je_feld.json (felder[FELD].biome_prozent[0][0]); None, wenn unlesbar."""
+    p = os.path.join(basis, 'daten', 'biome_je_feld.json')
+    if not os.path.isfile(p):
+        return None
+    try:
+        d = json.load(open(p, encoding='utf-8'))
+        bp = d['felder'][feld]['biome_prozent']
+        bp = sorted(bp, key=lambda e: -float(e[1]))
+        return str(bp[0][0]).lower()
+    except Exception as e:
+        meld('Hinweis: daten/biome_je_feld.json nicht auswertbar für %s (%s)' % (feld, e))
+        return None
+
+
 def lade_biome(basis, win, regeln, feld, hoehe):
-    """Biomname je Zelle als Index in BIOME_ALLE; Fallback je Feld; bei C1/D1/C2 ohne eigner.r8 Höhengrenze."""
+    """Biomname je Zelle als Index in biome_planer + ['sonst']: eigner.r8 + welt.json (Kennzahl → rezept → Biom);
+    Kennzahl 0 (Weltgelände) = dominantes Feldbiom aus daten/biome_je_feld.json (sonst Fallback aus den Regeln);
+    ohne eigner.r8: Fallback je Feld, bei C1/D1/C2 zusätzlich Höhengrenze."""
     planer = regeln['biome_planer']
     namen = list(planer) + ['sonst']
     fb = regeln.get('feld_biom_fallback', {}).get(feld)
+    dom = feld_dominantes_biom(basis, feld)
     H, W = win[1] - win[0], win[3] - win[2]
     eig = lade_raster(os.path.join(basis, WELT, 'eigner.r8'), np.uint8, win)
     wj = os.path.join(basis, WELT, 'welt.json')
@@ -351,8 +369,14 @@ def lade_biome(basis, win, regeln, feld, hoehe):
             if 0 <= kk < 256:
                 rz = v.get('rezept', '') if isinstance(v, dict) else ''
                 tabelle[kk] = biom_aus_rezept(rz) if rz else len(planer)
-        tabelle[0] = len(planer)  # 0 = Weltgelände → aue → nicht unser Biom
+        # Kennzahl 0 = Weltgelände: nicht pauschal Aue, sondern dominantes Feldbiom (große Bergflächen liegen im Weltgelände)
+        null_biom = dom if dom in planer else (fb if (dom is None and fb in planer) else None)
+        tabelle[0] = namen.index(null_biom) if null_biom else len(planer)
+        meld('Biom für eigner 0 (Weltgelände) in %s: %s (dominant laut biome_je_feld.json: %s)' % (feld, null_biom or 'sonst', dom))
         bio = tabelle[eig]
+        hmax = regeln.get('feld_fallback_hoehe_max_m', {}).get(feld)
+        if hmax is not None and null_biom:
+            bio[(eig == 0) & (hoehe > float(hmax))] = len(planer)
     ant = {namen[k]: round(float((bio == k).mean()), 3) for k in np.unique(bio)}
     return bio, namen, ant
 
@@ -679,9 +703,16 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
         lr = dilate(lichtung, float(licht['lichtungsrand_m'])) & w
         return w, s, lr
 
+    d_totholz = None
     for ebene in EBENEN:
         es = int(regeln['seed_je_ebene'].get(ebene, 0))
         eb_klassen = [kn for kn in klassen_namen if str(klassen[kn]['ebene']) == ebene]
+        if ebene == '0':
+            tm = np.zeros((H, W), bool)
+            for a in aus:
+                if a['klasse'] in regeln.get('totholz_klassen', ['totholz_liegend', 'stumpf', 'wurzel']):
+                    tm[a['mi'], a['mj']] = True
+            d_totholz = distanz(tm, 4.0)
         if ebene != '2' and besch is None:
             # Kronendach aus alten + neuen Bäumen
             fi_all = [alt_baum[:, 0]] + [b[0] for b in neu_baum]
@@ -784,6 +815,9 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
                     d *= nah
                 else:
                     d *= 1 + (float(kl['baum_nah']['faktor']) - 1) * nah
+            if kl.get('totholz_nah') and d_totholz is not None:
+                tn = kl['totholz_nah'] if isinstance(kl['totholz_nah'], dict) else {}
+                d *= 1 + (float(tn.get('faktor', 2.5)) - 1) * (d_totholz < float(tn.get('bis_m', 2.5)))
             if kl.get('ufer_vorhanden_faktor') is not None and ufer_da:
                 d *= float(kl['ufer_vorhanden_faktor'])
             # Klumpung
@@ -814,7 +848,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
                 gcj = np.round(cfj).astype(np.int64) + wj0
                 n = ga + np.minimum((hash01(gci, gcj, seed + es, kanal * 16 + 14) * (gb - ga + 1)).astype(np.int64), gb - ga)
                 rep = np.repeat(np.arange(cfi.size), n)
-                k = np.concatenate([np.arange(x) for x in n]) if n.size else np.zeros(0, np.int64)
+                k = np.arange(rep.size, dtype=np.int64) - np.repeat(np.cumsum(n) - n, n)  # 0..n_g−1 je Gruppe, vektorisiert
                 r0, r1 = [float(v) for v in kl['gruppe_radius_m']]
                 rad = (r0 + (r1 - r0) * hash01(gci[rep], gcj[rep] + 11, seed + es, kanal * 16 + 15 + 0)) * np.sqrt(hash01(gci[rep] + k, gcj[rep], seed + es, kanal * 16 + 13))
                 ang = hash01(gci[rep] + 3 * k, gcj[rep] + k, seed + es, kanal * 16 + 12) * 2 * math.pi

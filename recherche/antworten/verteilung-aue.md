@@ -3,8 +3,10 @@
 **Auftrag 11, Teil B2.** Biom `aue`, Foliage-Präfix `FT_EL_AU_`, Ordner `/Game/Eldarien/Welt/Foliage/Aue`. Stand 2026-10-10.
 Lieferung: dieser Bericht, `skripte/aue_regeln.json` (25 Klassen, 211 Netzpfade, alle gegen `netze.csv` geprüft),
 `skripte/aue_plan.py` (Planer, FORMAT §3/§5). **Alles UNGETESTET MIT ECHTDATEN** – in der Cloud nur mit synthetischen
-Rastern (E5, siehe §4) rauchgetestet. Web-Quellen konnten nur als Suchmaschinen-Auszüge gelesen werden (80.lv, GDC Vault,
-Fab waren per Proxy nicht erreichbar); solche Belege sind mit **[Suchauszug]** markiert, Zahlen ohne Beleg mit **Richtwert**.
+Rastern (E5, siehe §4) rauchgetestet; der Rauchtest wurde nach dem Sitzungsabbruch am 10.10. wiederholt und nachgeprüft
+(byte-identische Ausgabe, Schema, Sperrflächen). Web-Quellen konnten nur als Suchmaschinen-Auszüge gelesen werden (80.lv,
+GDC Vault, Fab per Proxy nicht direkt erreichbar); solche Belege sind mit **[Suchauszug]** markiert, Zahlen ohne Beleg mit
+**Richtwert**. Quellenliste am Ende von §1.
 
 Betroffene Felder (aue dominant): F1, I1, F2, G2, F3, J3, C4, C5, D5, E5, J5, A6, F6, J6, A7, B7, D7, F7, J7; Aue-Anteile in
 F4, F5, H5, E7 (und kleiner in C3, B6, D6, C7, G7–I7, E4, D4, H4, A5). Der Planer läuft in jedem Feld nur auf Zellen mit Biom
@@ -25,12 +27,16 @@ Eldarien: Bäume im 15-m-Raster ohne Clumps, Wiese „ein Beige ohne hohe Gräse
 **Dichten und Gruppen (Richtwerte, aus den Bildern abgeschätzt).** witcher_01 zeigt in 10 m Bildtiefe ~6 Grasarten/Höhen,
 1 Blumeninsel je 15–25 m², 1 Busch je 20–40 m², einen Stein je 3–5 m² am Ufer; witcher_03 im Auwald 1 liegenden Stamm je ~100 m²,
 Zweige/Äste 0,05–0,1 je m². CDPR beschreibt das Verfahren hinter diesen Dichten: Die GDC-2014-Session „Landscape Creation and
-Rendering in REDengine 3“ (Marcin Gollent) nennt Vegetation, die „procedurally generated, offline and in real time“ gesetzt wird,
-und ein Generator simuliert „water accumulation and sunlight distribution“, vergleicht Schattenwurf mit dem Lichtbedarf jeder Art und
-setzt die passende **[Suchauszug: gdcvault.com/play/1020197; dualshockers.com GDC-Bericht]**. Die REDkit-Doku beschreibt das
-Vegetation Edit Tool mit eigenen Pinseln je Geländetyp („fields, meadows, swamps and forests“) mit einstellbarem Spacing und
-Scale-Variation **[Suchauszug: cdprojektred.atlassian.net W3REDkit „Vegetation Edit Tool“; 80.lv „World building of Witcher 3“]**.
-Genau das bildet der Planer nach: Wasserabstand + relative Höhe (Feuchte) und Kronendach (Licht) steuern jede Klasse.
+Rendering in REDengine 3“ (Marcin Gollent) nennt laut Vault-Beschreibung Vegetation, die „procedurally generated, offline and in
+real time“ gesetzt wird, ohne Handplatzierung **[Suchauszug: GDC Vault 1020197, Folien-PDF media.gdcvault.com, Mitschnitt
+archive.org/GDC2014Gollent]**. Dass der Offline-Generator Wasseransammlung und Sonnenlicht simuliert (Hangneigung zu Nachbarzellen
+verteilt „Ressourcen“, Sonnenbahn → Schattenanteil je Zelle, Vergleich mit dem Lichtbedarf jeder Art, handgemalte Flächen
+ausgenommen), steht nur im Sekundärbericht von DualShockers **[Suchauszug, nicht in den Folien geprüft]**. Die REDkit-Doku
+beschreibt das Vegetation Edit Tool mit Pinseln je Geländetyp („fields, meadows, swamps and forests“) mit einstellbarem Spacing und
+Scale-Variation; 80.lv ergänzt den Ablauf „von großen Bäumen zu kleinen, dann Farne und Gras“, Asset-Bibliotheken je Region
+und Sichtweiten je Netz **[Suchauszug: W3REDkit „Vegetation Edit Tool“; 80.lv „World building of Witcher 3“]**. Genau das bildet
+der Planer nach: Wasserabstand + relative Höhe (Feuchte) und Kronendach (Licht) steuern jede Klasse; die Reihenfolge Baum → Strauch
+→ Farn/Gras entspricht Schicht 2 → 1 → 0.
 
 **Höhenstufen Ufer → Aue → Terrasse.** In Velen liegen drei Stufen über dem Wasser: der Uferstreifen (0–8 m, Schilf, Seggen,
 Kies, Weidengebüsch, freigespülte Wurzeln an Prallhängen), die Aue (bis ~4 m über Wasser, Wiese mit Blumeninseln, Pappel-/Weiden-
@@ -47,14 +53,23 @@ mit einer Hauptart je Insel (60 %), nicht gleichmäßig gestreut; Goldrute/Topin
 structures“, mit „dense forests, sprawling swamps, and war-ravaged villages“ beschrieben **[Suchauszug: primoumo.medium.com; xgamerss.com]**.
 Für Eldarien heißt das: je Weiler Feldstreifen bis an den Ortsrand, lückige Zäune, ein Obstgarten, Kopfweiden-Reihen an Gräben und
 Wegen, eine Wassermühle am Bach mit Gefälle, Solitärbäume als Blickziel auf freier Wiese, Totbäume als Velen-Akzent. Die
-Witcher-4-Demo (Kovir, State of Unreal 2025) belegt die Technikseite: Nanite Foliage, „every single leaf and pine needle“, Mass-Crowds,
-Fast Geometry Streaming **[Suchauszug: press.cdprojektred.com; gameinformer.com]**; der Digital-Foundry-Befund, dass Gras und Kleinzeug
-über Runtime-GPU-PCG kommen, ist in `boden-kleinzeug-gras.md` bereits ausgewertet. Für den Planer folgt daraus nur: Kleinzeug kurz
-cullen (3 500–7 000 cm), Bäume ohne Cull.
+Witcher-4-Demo (Kovir, State of Unreal 2025, PS5 bei 60 fps, Tech-Demo statt Gameplay) belegt die Technikseite: Nanite Foliage mit
+voll dreidimensionalen Blättern statt Flachkarten, dynamisch skalierende Foliage-Elemente, Mass-Crowds, Fast Geometry Streaming
+**[Suchauszug: press.cdprojektred.com Pressemitteilung; vgtimes/gamespace-Breakdowns]**; der Digital-Foundry-Befund, dass Gras und
+Kleinzeug über Runtime-GPU-PCG kommen, ist in `boden-kleinzeug-gras.md` bereits ausgewertet. Für den Planer folgt daraus nur:
+Kleinzeug kurz cullen (3 500–7 000 cm), Bäume ohne Cull.
 
 **Was in E5/G5/I5 heute fehlt (Ist-Bilder).** W6FIN_E5: Weiden und Kiefern gleichmäßig verteilt, kein Uferband, keine Büsche,
 keine Stämme; BACH3_G5: Bach ohne Uferraum, Wiese ohne Höhenstaffel, Büsche als gleichmäßige Punkte; TERR3_I5: Ufer als Kiesstreifen
 ohne Schilf, keine Stufe Ufer/Aue. Die Aue-Ebene adressiert genau diese drei Lücken (Schichten 1, 2, 5).
+
+**Quellen (5 WebSearch-Läufe, nur Suchauszüge gelesen):** GDC Vault „Landscape Creation and Rendering in REDengine 3“
+(gdcvault.com/play/1020197; Folien media.gdcvault.com/GDC2014/Presentations/Gollent_Marcin_Landscape_Creation_and.pdf; Mitschnitt
+archive.org/details/GDC2014Gollent) · DualShockers „Amazing The Witcher 3 Work-in-Progress Screenshots … GDC“ (Sekundärbericht zum
+Vegetationsgenerator) · W3REDkit-Wiki „TOOL: Vegetation Edit Tool“ (cdprojektred.atlassian.net) · 80.lv „World Building of Witcher 3“
+und „The Witcher 3: Tips for the Environment Design“ · CDPR Press Center „The Witcher 4 Unreal Engine 5 Tech Demo at The State of
+Unreal 2025“ (press.cdprojektred.com/en/news/1778) · Fab-Listing „Megaplants: Dry Common Reed“ (fab.com/listings/00299cb6-…) ·
+Fextralife-Wiki „White Orchard“. Keine dieser Quellen nennt Instanzen je m²; alle Dichten unten sind Richtwerte aus den Zielbildern.
 
 ## 2. Regelwerk (`aue_regeln.json`) – Erklärung je Schicht
 
@@ -132,6 +147,28 @@ deterministisch in der Reihenfolge Kiesel → Zweige → Laub → … → Haine 
   Big_Tree_willow_01 auf 0,45–0,6 (7–10 m) als Akteur; **neu `muehle`** (nur Positionsliste: Bach mit ≥ 2 m Gefälle je 100 m, ≤ 250 m
   vom Ort); Stege nur an Stillwasser; Blickziel-Typen aue = Solitärbaum, Kopfweiden-Reihe, Ruine, Blumenlichtung, Mühle.
 
+### 2.1 Planer `aue_plan.py` (FORMAT §3/§5)
+
+- **Aufruf:** `python -I scripts/aue/aue_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]`; ohne
+  `--basis` ist die production-Wurzel das Arbeitsverzeichnis, ohne `--regeln` gilt `aue_regeln.json` neben dem Skript. Keine
+  Unreal-Importe, nur NumPy (+ Pillow für `--bild`); numba wird erkannt, aber nicht benötigt.
+- **Lesen:** `hoehe.f32` als memmap, nur das Fenster Feld + 64 m (`fenster_rand_m`), ebenso `karte_*.r8`, `lage_*.r8`, `eigner.r8`
+  (alle optional außer `hoehe.f32`; fehlende Dateien → Hinweis im Protokoll und in `plan.json["hinweise"]`). Randspalte J wird bei
+  `NX` geklippt. Bestand aus `bestand/`, `witcher/` (Feld + 8 Nachbarn), `ufer/foliage_<Feld>`, `instanzen/instanzen.json`.
+- **Rechnen:** Hang/Normale aus dem Gradienten; Wasserdistanz, nächste Wasserzelle und deren Höhe per Jump-Flooding (max 128 m);
+  Stillwasser aus Polygonrasterung; Kronendach als Gauß-geglättete Baumdichte (σ 6 m) → Beschattung 0–1; Saum 10–12 m um Waldkanten;
+  je Klasse eine Dichtekarte λ, dann Bernoulli-Zug per Hash (Rasterkoordinate, Seed 1105, Kanal) → Gruppenzentren → Mitglieder im
+  Radius; Haine mit Mindestabstand über ein grobes Raster; Solitäre als 96-m-Raster. Kein Python-Loop über Zellen.
+- **Budget:** Kollision > 3 000 → proportional; Schichtziele; dann Gesamtziel 52 000 über die Prioritätsliste. Harte Grenze 60 000.
+- **Schreiben:** `export/unreal/welt/aue/<Feld>/<Netz>.f32` (10 float32 LE, alte f32 werden vorher gelöscht) und `plan.json` mit
+  `stand, feld, instanzen, dateien{pfad, anzahl, gruppe, rolle, sichtweite, schatten, kollision, ebene}, entfernen (leer),
+  ft_ordner, ft_praefix, statistik{je_klasse, je_schicht, kollision, hoehenstufen_anteil, …}, hinweise, ungetestet`.
+  `--bild` → `docs/pruefung/aue/<Feld>.png` (1 px = 1 m; Höhenstufen getönt, Wasser blau, Stillwasser hellblau, Weg braun, Ort rot,
+  Klassen nach `bild_farben`, Bäume/Kollision als Kreuz).
+- **Inventarprüfung:** alle 211 Netzpfade der Schichten (und die 24 in den Overrides) gegen `daten/netze.csv`; fehlende Pfade werden
+  mit Warnung gestrichen, der Lauf bricht nicht ab. Wüstenfelder C3 C4 D3 D4 D5 E3 E4 E5: Faktor 0,6, Sand/Sandstein ≥ 0,5 gesperrt,
+  `entfernen` bleibt leer (nur ergänzen).
+
 ## 3. Abgrenzung zu vorhandenen Ebenen: ergänzen, nicht ersetzen
 
 | Ebene | Verhältnis zur Aue-Ebene | `entfernen`? |
@@ -149,17 +186,24 @@ Unterwuchs sichtbar werden, sollte man die WIT-Dichte je Feld über deren Planer
 
 ## 4. Testanleitung
 
-**Rauchtest Cloud (gelaufen).** Mini-Produktionswurzel mit `hoehe.f32` in voller Größe 7057 × 9577 (memmap, nur E5-Fenster
-beschrieben: flache Aue 12 m, Mäanderfluss 18 m breit, Bach, Altarm 110 × 36 m mit Umriss in `wasser_welt.json`, Terrassenstufe +18 m,
-Kuppe), `karte_wasser/weg/ort.r8`, `lage_Wiese/Trockengras/Moos/Laub/Sand.r8`, `eigner.r8` + `welt.json`, `bestand/E5` (190 Bäume in
-3 Hainen), `ufer/foliage_E5` (3 000 Kiesel), `daten/netze.csv`. Ergebnis `python -I scripts/aue/aue_plan.py E5 --bild`:
-**32 627 Instanzen (790 mit Kollision), 188 Netze, Laufzeit 8,0 s** (4 Kerne, NumPy 2.5, ohne numba), Schichten boden 11 980 /
-mittel 16 254 / baum 702 / wasserkante 3 691 (E5 ist Wüstenfeld → Faktor 0,6); 0 Instanzen auf Wasser/Weg/Ort; alle f32 lesbar
-(Zeilen × 10, Quaternionen normiert, Anzahl = `plan.json`); zwei Läufe byte-identisch (MD5); Stillwasser-Umriss erkannt
-(28,9 % der Uferzellen still); Kiesbank-Dämpfung aktiv (8,7 % der Uferzone). Zweiter Lauf mit nur `hoehe.f32` (keine Karten, F6/J7):
-klare Hinweise je fehlender Datei, J7 (Randspalte, 505 m breit) 22 774 Instanzen in 0,6 s; ungültiges Feld und fehlende Basis
-→ klare Meldung. Prüfbild `docs/pruefung/aue/E5.png`: Höhenstufen getönt (Ufer blau, Aue grün, Terrasse beige), Stillwasser hellblau,
-Klassen nach `bild_farben`.
+**Rauchtest Cloud (gelaufen, am 10.10. nach dem Abbruch wiederholt und nachgeprüft).** Mini-Produktionswurzel mit `hoehe.f32` in
+voller Größe 7057 × 9577 (memmap, nur E5-Fenster beschrieben: flache Aue 12 m, Mäanderfluss 18 m breit, Bach, Altarm 110 × 36 m
+mit Umriss in `wasser_welt.json`, Terrassenstufe +18 m, Kuppe), `karte_wasser/weg/ort.r8`, `lage_Wiese/Trockengras/Moos/Laub/Sand.r8`,
+`eigner.r8` + `welt.json`, `bestand/E5` (190 Bäume in 3 Hainen), `ufer/foliage_E5` (3 000 Kiesel), `daten/netze.csv`. Ergebnis
+`python -I scripts/aue/aue_plan.py E5 --bild --basis .`: **32 627 Instanzen (790 mit Kollision), 188 Netze, Laufzeit 8,5 s**
+(9,3 s Wanduhr inkl. Bild; 4 Kerne, Python 3.13, NumPy 2.5, ohne numba), Schichten boden 11 980 / mittel 16 254 / baum 702 /
+wasserkante 3 691 (E5 ist Wüstenfeld → Faktor 0,6; Anteil aue-Zellen 97,9 %, Höhenstufen Ufer 6,5 / Aue 36,2 / Terrasse 57,3 %).
+Je Klasse: Grasbüschel 7 791, Blumeninsel 4 516, Bodendecker 3 775, Laub 3 448, Zweige 2 944, Seggen 1 755, Kiesel 1 686, Hochstaude 1 641,
+Schilf 1 433, Strauch 1 251, Uferstaude 502, Jungbaum 472, Hain 319, Pappel 177, Stumpf 158, Pilz 127, Kiefer 99, Totholz klein 185 /
+groß 88, Farn 91, Hecke 61, Weide 48, Solitär 40, Totbaum 19, Uferwurzel 1 (Synthetik-Ufer ist flach, Regel Hang ≥ 14° greift nicht).
+Prüfskript: alle 188 f32 durch 10 teilbar, Anzahl = `plan.json`, Quaternionen normiert (|q|−1 ≤ 1,2·10⁻⁷), alle Schlüssel inkl.
+`ebene` vorhanden, **0 Instanzen** auf Wasser/Weg/Ort und außerhalb des Feldes, z − Gelände zwischen −0,82 m (große Stämme, 25 %
+eingegraben) und +0,41 m (Vergleichsartefakt Zellmitte/bilinear an der 18-m-Terrassenkante); zwei Läufe byte-identisch (MD5);
+Stillwasser-Umriss erkannt (28,9 % der Uferzellen still); Kiesbank-Dämpfung aktiv (8,7 % der Uferzone). Lauf mit nur `hoehe.f32`
+(F6, J7; keine Karten, kein Inventar): je fehlender Datei ein Hinweis, Höhenstufe aus Lagen-Fallback, Schichtbudget Boden
+23 447 → 22 000 greift, J7 (Randspalte, 505 m breit) 22 774 Instanzen (945 Kollision) in 0,9 s; ungültiges Feld (K9), fehlende
+Weltdaten-Basis und fehlende Regeldatei → klare Meldung, Exit. Prüfbild `docs/pruefung/aue/E5.png` (1008 × 1008): Höhenstufen
+getönt (Ufer blau, Aue grün, Terrasse beige), Stillwasser hellblau, Hain-Beschattung dunkel, Klassen nach `bild_farben`.
 
 **Erwartete Instanzzahlen je Feld (Richtwert, Spanne ±35 %; Grundlage: Land-/Wasseranteil aus `biome_je_feld.md`, 0,05–0,06
 Instanzen je m² Aue-Land nach Budget):**

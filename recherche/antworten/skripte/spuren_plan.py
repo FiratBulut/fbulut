@@ -11,8 +11,8 @@ Aufruf (lokal, production-Wurzel):
 Liest:   export/unreal/welt/hoehe.f32 (memmap, Fenster Feld + 64 m), karte_ort.r8 (Orte = Zusammenhangskomponenten → Mittelpunkt,
          Radius), karte_weg.r8 (Wege, Tangente aus Distanzfeld), karte_wasser.r8 (Seen = Wasserkomponenten ≥ 2 500 m² und ≥ 15 m breit),
          lage_*.r8 (optional), eigner.r8 + welt.json (Biom), bestand/<Feld>/, witcher/<Feld>/, instanzen/instanzen.json (Kronendach).
-Schreibt: export/unreal/welt/spuren/<Feld>/<Netzname>.f32 + plan.json (FORMAT.md §3; zusätzlich `akteure` für Großobjekte
-          mit rolle akteur, `punkte` für Rauchsäulen, `flaechen` für Feldstreifen/Meilerplätze (Lagen-Vorschlag), `blickziele`),
+Schreibt: export/unreal/welt/spuren/<Feld>/<Netzname>.f32 + plan.json (FORMAT.md §3; Großobjekte zusätzlich als akteur_<Netzname>.f32
+          mit rolle akteur und Liste `akteure` (Konvention wie felsgruppen_plan.py), `punkte` für Rauchsäulen, `flaechen` für Feldstreifen/Meilerplätze (Lagen-Vorschlag), `blickziele`),
           bei --bild docs/pruefung/spuren/<Feld>.png (1 px = 1 m).
 Regeln:  scripts/spuren/spuren_regeln.json (neben dem Skript) oder --regeln PFAD.
 
@@ -417,7 +417,8 @@ class Sammler:
         for k in np.unique(netz_wahl[ok]):
             m = ok & (netz_wahl == k)
             p = pfade[int(k)]
-            self.rows.append(dict(pfad=p, name=p.rsplit('/', 1)[-1], inst=inst[m], gruppe=gruppe, kollision=bool(kollision),
+            # Akteure in eigene Dateien akteur_<Netz>.f32 (Konvention wie felsgruppen_plan.py), damit ein Setzer sie nicht als Foliage setzt
+            self.rows.append(dict(pfad=p, name=('akteur_' if akteur else '') + p.rsplit('/', 1)[-1], inst=inst[m], gruppe=gruppe, kollision=bool(kollision),
                                   sichtweite=list(sichtweite), akteur=bool(akteur), fi=fi[m], fj=fj[m]))
             if akteur:
                 for row in inst[m]:
@@ -429,6 +430,12 @@ class Sammler:
     def budget(self, max_inst, max_koll, seed, prio, hinweise):
         """Deckel je Feld (FORMAT.md §3): erst Gesamtzahl, dann Kollision. Gedünnt wird deterministisch (Hash je Instanz)
         in der Reihenfolge `prio` (unwichtigste Gruppe zuerst), je Runde höchstens 60 % einer Gruppe; Akteure bleiben."""
+        koll_je_name = {}
+        for r in self.rows:
+            koll_je_name[r['name']] = koll_je_name.get(r['name'], False) or r['kollision']
+        for r in self.rows:
+            r['kollision'] = koll_je_name[r['name']]  # ein Foliage-Typ je Netz → eine Kollisionseinstellung (Vereinigung)
+
         def zaehle(nur_koll):
             return sum(int(r['inst'].shape[0]) for r in self.rows if not r['akteur'] and (r['kollision'] or not nur_koll))
 
@@ -472,11 +479,12 @@ class Sammler:
             arr = np.concatenate([r['inst'] for r in rs], axis=0).astype('<f4')
             arr.tofile(os.path.join(ordner, name + '.f32'))
             r0 = rs[0]
-            dateien[name] = {'pfad': r0['pfad'], 'anzahl': int(arr.shape[0]), 'gruppe': r0['gruppe'],
-                             'rolle': 'akteur' if r0['akteur'] else 'spuren', 'sichtweite': r0['sichtweite'],
-                             'schatten': True, 'kollision': r0['kollision']}
+            koll_n = any(r['kollision'] for r in rs)
+            dateien[name] = {'pfad': r0['pfad'], 'anzahl': int(arr.shape[0]), 'gruppe': '+'.join(sorted({r['gruppe'] for r in rs})),
+                             'rolle': 'akteur' if r0['akteur'] else 'spuren', 'sichtweite': [min(r['sichtweite'][0] for r in rs), 0 if any(r['sichtweite'][1] == 0 for r in rs) else max(r['sichtweite'][1] for r in rs)],
+                             'schatten': True, 'kollision': koll_n}
             gesamt += arr.shape[0]
-            if r0['kollision']:
+            if koll_n:
                 koll += arr.shape[0]
             for r in rs:
                 je_gruppe[r['gruppe']] = je_gruppe.get(r['gruppe'], 0) + int(r['inst'].shape[0])
@@ -1094,6 +1102,9 @@ def plane_feld(feld, basis, regeln, faktor, bild):
                       'flaeche_m2': int(o['flaeche_m2']), 'biom': o['biom'], 'im_feld': o['im_feld']} for o in orte],
             'statistik': dict(stat, je_gruppe=je_gruppe, kollision=int(koll), akteure=len(S.akteure), rauchpunkte=len(punkte), faktor=faktor,
                               laufzeit_s=round(time.time() - t0, 1), numba=NUMBA),
+            'hinweis_setzer': "Einträge mit rolle 'akteur' (Dateien akteur_<Netz>.f32, Liste 'akteure') als StaticMeshActor setzen (Ordner Spuren/<Feld>), "
+                             "alle anderen als HISM-Foliage FT_EL_SP_<Netz>; 'punkte' typ herd/meiler/lagerfeuer = Rauch-Partikel (Niagara) an x,y,z; "
+                             "typ steg = Stegachse; 'flaechen' = Rechtecke/Kreise zum Malen der Landschaftslage (lage_vorschlag).",
             'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet'}
     with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
         json.dump(plan, f, ensure_ascii=False, indent=1)
