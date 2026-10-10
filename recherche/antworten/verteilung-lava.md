@@ -1,7 +1,7 @@
 # Verteilung Biomgruppe 8: Lava (Vulkanregion C6, C7, C5, D6, B6, D7, B7)
 
-**Auftrag 11, Teil B8.** Biom `lava`, Foliage-Präfix `FT_EL_LV_`, Ordner `/Game/Eldarien/Welt/Foliage/Lava`. Stand 2026-10-10
-(Fortsetzung nach API-Abbruch). Lieferung: dieser Bericht, `skripte/lava_regeln.json` (16 Klassen, 78 Netze in 82 Paletteneinträgen,
+**Auftrag 11, Teil B8.** Biom `lava`, Foliage-Präfix `FT_EL_LV_`, Ordner `/Game/Eldarien/Welt/Foliage/Lava`. Stand 2026-10-10,
+**Korrektur Runde 1** (Abschnitt unten, gilt vor §1–§6). Ursprüngliche Lieferung (Runde 0): dieser Bericht, `skripte/lava_regeln.json` (16 Klassen, 78 Netze in 82 Paletteneinträgen,
 alle gegen `daten/netze.csv` geprüft, 0 fehlend), `skripte/lava_plan.py` (Planer nach FORMAT §3/§5, Schichten 0/1/2/5 plus Punktliste
 und Overrides für 3/4). **Alles UNGETESTET MIT ECHTDATEN** – in der Cloud `py_compile`-sauber und mit synthetischen Rastern (C6 mit
 Schlackenkegel, Lavastrom, See, Weg, Ort, Fremdbiom-Kachel; §4) rauchgetestet. Web-Quellen waren nur als Suchmaschinen-Auszüge lesbar
@@ -12,6 +12,135 @@ Betroffene Felder laut `biome_je_feld.md`: C6 (lava 99 %, Lavafels 45, Lavasand 
 Bergwald 63 %), D7 (lava 13 %), B7 (lava 6 %). Der Planer läuft in jedem Feld auf der Lava-Maske aus `eigner.r8` + `welt.json`
 (Rezept „Vulkanregion“ → lava) und einem 100-m-Übergangssaum außerhalb; Kennzahl 0 (Weltgelände) wird über die Lagen `Lavafels` +
 `Lavasand` ≥ 96/255 als Lava erkannt, sonst gilt das dominante Feldbiom.
+
+## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md` (lokaler Echtdaten-Test 10.10. 15:30) und `verteilung-KONVENTIONEN.md` §1–§6.
+Geändert wurden nur `skripte/lava_plan.py` (jetzt 1 278 Zeilen), `skripte/lava_regeln.json` und dieser Bericht. Wo §2–§6 unten
+etwas anderes sagen (100-m-Übergang, Lage-Erkennung für Kennzahl 0, Klassen `pionier`/`gras`/`verkohlt_liegend`/`verkohlt_stumpf`/
+`ufer_block`, Overrides im `plan.json`, Empfehlung „Teil D in lava auf Faktor 0“ in §3 und §6.8), gilt dieser Abschnitt.
+
+**Echtdaten-Befund (Vorfassung, Referenz):** A5 0, G4 0, E1 0 Instanzen – richtig, dort gibt es keine Lava. C6 (lava 99 %) **33 516**:
+Das liegt unter dem Deckel von 60 000 und unter dem Zielband 45 000–52 000, ein Budgetproblem gab es also nicht. Das Problem waren
+**Doppelungen**: In C6 setzte außerdem `mittelschicht` 7 515 Instanzen (Grasbüschel, Zwergheide, Totholz mit denselben Netzen wie
+`gras`, `pionier`, `verkohlt_*`, `asche` hier); `felsgruppen` (27 357) und dieser Planer teilten sich die Lava-Blöcke über 0,8 m
+(`ufer_block`, `lava_s_rock_03/04` in `schlacke`). Dazu kam die Biomregel: Kennzahl 0 wurde
+über die Lagen Lavafels+Lavasand als Lava gelesen, und der Übergang reichte 100 m in fremde Biome. Die Zahl der Kollisionen meldete
+die Vorfassung nur als `instanzen_kollision`.
+
+### Was sich geändert hat
+
+| Punkt | Runde 0 | Korrektur Runde 1 |
+|---|---|---|
+| Biom je Zelle (§1) | Kennzahl 0 → Lava, wenn Lavafels+Lavasand ≥ 96/255, sonst Feld-Fallback-Tabelle | `eigner.r8` + `welt.json`-Rezept; **Kennzahl 0 und unbekannte Rezepte → `aue`**, Rezept mit „vulkan“/„lava“ → `lava`, sonst exakter Biomname oder Teilwort. Nur wenn `eigner.r8`/`welt.json` fehlen, gilt das dominante Feldbiom aus `daten/biome_je_feld.json` (Hinweis in Log und `plan.json`). Regelblock `biom` → `zustaendigkeit` |
+| Zuständigkeit (§1) | Lava-Maske + 100-m-Übergangssaum (Aschestaub in Aue/Bergwald) | `biome_eigen = ["lava"]`; bebaut werden lava-Zellen (Faktor 1) und ein **30-m-Saum**, in dem die Dichte linear auf 0 fällt (Distanz per iterativer Dilatation, NumPy). Die Zone `uebergang` ist jetzt dieser Saum. Alle Klassen werden mit dem Faktor multipliziert, Gruppenmitglieder an ihrer eigenen Zelle geprüft. Alle Punkte (Fumarolen, Spire, Höhle, Dampf, Gipfel, Opferstätte) liegen nur auf lava-Zellen im Feld |
+| Leerplan (§1) | Feld ohne Lava: `plan.json` mit 0 Instanzen ohne Biomangaben | Eigenanteil im Fenster (Feld + 64 m) **< 2 %** → `plan.json` mit `instanzen: 0`, `leer: true`, `dateien: {}`, `entfernen: ""`, `punkte: []` und allen Pflichtschlüsseln; alte `.f32` werden gelöscht; eine Logzeile |
+| plan.json (§2) | `instanzen_kollision`, Overrides als Kopie im Plan | neu: `biome_fenster` (Anteile, absteigend), `zellen_zustaendig` (Feldzellen mit Faktor > 0 ohne Wasser), `biome_eigen`, `kollision_anzahl`; außerdem `ebene` je Datei, `akteure`, `eigenanteil_fenster`, `lava_anteil`, `biom_quelle`, `saum_m`, `budget` (Deckel, Ziel, Zahl vor der Ausdünnung, Zahl je Klasse) und `overrides` (Verweis auf die Blöcke in `lava_regeln.json`). `punkte` bleibt, weil `felsgruppen_plan.py` daraus die Spire-Standorte liest |
+| Budget (§3) | proportionale Hash-Ausdünnung (nicht exakt); die Kollision im Budget anders gezählt als im `plan.json` | **exakte** Kappung nach Instanz-Hash: Klassen-`max` → Akteure ≤ 60 → Kollision ≤ 3 000 (nur kollidierende Instanzen, unwichtigste Klasse zuerst) → Ziel 52 000 (je Klasse höchstens 60 % weg, Reihenfolge `prioritaet_behalten` von hinten: kiesel, schwarzkies, asche, schlacke …) → hart 60 000. Kollision je Netz wird für Budget und `plan.json` mit derselben Funktion bestimmt. Jede Ausdünnung schreibt `WARNUNG Budget: …` in Log und `hinweise`; wird Kleinzeug (kiesel, schwarzkies, asche) gedünnt, steht der Hinweis „Landschafts-Gras GT_Steinchen/GT_Kraut dichter stellen“ im Plan |
+| Schicht 1 (§4) | moos, flechtenstein, pionier, kiefer_strauch, verkohlt_liegend/stumpf/schnag, gras | nur **Lava-Sonderformen**: `moos` (Racomitrium-Moospolster), `flechtenstein` (Wulstlava, ≤ 0,55 m), `kiefer_strauch` (Rolle jetzt `krummholz`; laut `verteilung-STATUS.md` entfällt `strauch` in der Mittelschicht für lava, weil der Kiefernstrauch Lava-Sonderform ist). `pionier` → `mittelschicht beere`, `gras` → `grasbueschel`, `verkohlt_liegend` → `totholz_liegend`, `verkohlt_stumpf` → `totholz_stumpf` (Werte unter `_korrektur_runde1_alt_klassen` dokumentiert). Eine Sperrliste im Code (`GENERISCH_MITTELSCHICHT`) überspringt solche Klassen mit Hinweis, falls sie wieder in die Regeldatei geraten |
+| Schicht 0 | schlacke (inkl. `lava_s_rock_03/04` 1,1–1,2 m), kiesel, asche | `schlacke` nur noch `lava_s_rock_06/07/08` mit Maßstab 0,5–1,3 (0,24–0,78 m); Schlackenfelder und erkaltete Stromkanten (Hang 24–40° × 1,8, Kegelflanke × 2,2) bleiben. `asche` bleibt als **Brandstreu** (Asche-Bodendecker, Zweige 0,36–0,53 m, Schicht 0 wie die Zweige im Elfenwald); weil `mittelschicht` für lava dieselben Netze als `totholz_ast` führt, steht dort Faktor 0 |
+| Schicht 2 | baum_tot, baum_kiefer | + `verkohlt_schnag` (stehende verkohlte Stämme 2–3,8 m; Totbaum-Rest, Kollision an) |
+| Felsen > 0,8 m (§4/§6) | `ufer_block` (Schicht 5), `saeule`, Spires nur als Punktvorschlag | `ufer_block` → `felsgruppen_overrides.zusatzklassen.lava_uferblock`; Spires → `zusatzklassen.spire`. Eine Prüfung im Code nimmt Stein-/Block-/Kieselnetze mit Höhe × Maßstab > 0,8 m aus der Palette, außer bei `"fels_ausnahme": true`. Die einzige Ausnahme ist `saeule` (Basaltsäulen-Ersatz, Akteure an steilen Lava-Ufern, Yaw = Uferrichtung), die laut Auftrag als Lava-Sonderform bleibt. Für die Übergabe an Teil C steht `zusatzklassen.basaltsaeule` mit `"aktiv": false` bereit |
+| Spuren (§4) | `spuren_overrides` mit freien Schlüsseln | Schema `palette`/`faktor`/`verbote`/`zusatzklassen` wie bei nordkueste (unten) |
+| Logs (§5) | Umlaute, „→“, „–“ in `print()` | alle Ausgaben über `ascii_text()` (ä→ae, →→->, ≤→<=, §→Par., Rest „?“); `hinweise` im `plan.json` ebenfalls ASCII. Fehlende `hoehe.f32`, Regeldatei oder `netze.csv` sowie ein unbekanntes Feld → `FEHLER: …` und **Exit-Code 2**. `netze.csv` wird zusätzlich neben dem Skript gesucht. Ein Fehler in einem Feld bricht die anderen Felder nicht ab; Exit-Code dann 1 |
+| Determinismus (§5) | `stand` mit Uhrzeit, `plan.json` je Lauf verschieden | `stand` = Regelstand („2026-10-10 Korrektur Runde 1“); zwei Läufe sind byteidentisch (alle f32, `plan.json`, PNG) |
+
+### Override-Schema in `lava_regeln.json`
+
+**`mittelschicht_overrides`** (für `mittelschicht_plan.py`, Format wie `nordkueste_regeln.json`/`dschungel_regeln.json`):
+
+```
+"mittelschicht_overrides": {
+  "biom": "lava", "gilt_fuer": ["lava"],
+  "palette":   {"grasbueschel": [6 Pfade], "beere": [6], "totholz_liegend": [5], "totholz_stumpf": [5]},   # ersetzt die Teil-D-Palette
+  "faktor":    {"grasbueschel": 0.4, "beere": 0.4, "totholz_liegend": 0.6, "totholz_stumpf": 0.4, "totholz_ast": 0.0,
+                "strauch": 0.0, "jungbaum": 0.0, "farn": 0.0, "hochstaude": 0.0, "pilz": 0.0, "totbaum": 0.0, "wurzel": 0.0, "kletter": 0.0},
+  "faktor_begruendung": {...},
+  "vorlage_biom": {"totholz_stumpf": "bergwald"},                       # Klasse fehlt in mittelschicht_regeln.json für lava
+  "parameter": {klasse: {massstab, gruppe, radius_m, kippen, hang_max, eingraben_cm, laengs_hang, kollision, sichtweite, lagen_faktor}},
+  "zusatzklassen": {}                                                    # keine: Moos, Wulstlava, Krummholz, Brandstreu setzt lava_plan.py
+}
+```
+
+| Klasse | Palette (aus Runde 0) | Faktor | Herleitung / Parameter |
+|---|---|---|---|
+| grasbueschel | Tundra-Gras `SM_wk2oaeyqx_VarB/C/F/G`, `SM_dead_grass_03/01` (Aschegras) | 0,4 | Runde 0 `gras` ≈ 0,0011/m² in C6 (Lagenmix Lavafels 45 / Lavasand 27 / Moos 17 / Gras 8 %, Zonen frisch 0, alt 0,4, rand 1) gegen Teil D 0,006 × Lagenfaktor ≈ 0,5 = 0,003; `lagen_faktor` Lavafels 0,05, Lavasand 0,4, Moos 1,3, Gras/Trockengras 2,0 (ersetzt die Alterszonen: kein Gras auf frischer Lava) |
+| beere | `SM_heath_A/B_01`, `SM_billberry_dry_01`, `SM_forest_heather_01`, `SM_beach_rose_06/07` (Ginster-Ersatz) | 0,4 | Runde 0 `pionier` ≈ 0,0013/m²; Maßstab 1,1–1,8, Gruppen 3–8 in 2,4 m |
+| totholz_liegend | `SM_OldFallenTree_01/02`, `SM_Forest_pine_04/08/09_log` (verkohlt) | 0,6 | Runde 0 ≈ 0,00012/m² gegen 0,0002; Kollision, längs Hang, eingraben 25 cm |
+| totholz_stumpf | `SM_BrokenStump_01`, `SM_RottenTreeStump_02`, `SM_pine_stump_01…03` | 0,4 | Runde 0 ≈ 0,00011/m² gegen Vorlage bergwald 0,0003; ohne Kollision |
+| totholz_ast | – | 0 | dieselben Netze setzt `lava_plan.py` zoniert als `asche` (Brandstreu) |
+| strauch, jungbaum, farn, hochstaude, pilz, kletter, wurzel, totbaum | – | 0 | Krummholz und Totbäume sind Lava-Sonderformen bzw. Schicht 2 hier, der Rest kommt auf Lava nicht vor |
+
+**`felsgruppen_overrides`** (für `felsgruppen_plan.py`): `palette: "lava"`, `biom_faktor` 1,6, `klassen_faktor` (Blockstrom 2,0, Fuß 1,6,
+Kuppe 1,3, Grat 0,9, Band 0,3, Wand 1,0, Prallhang 0,8), `eingraben` [0,3; 0,45], `platte_ersatz`; dazu die Altstelle `hero_akteure` +
+`hero_akteur_punkte` und neu `zusatzklassen` nach §6:
+
+| Zusatzklasse | Palette | Schlüssel (§6 + von felsgruppen gelesene Erweiterungen) |
+|---|---|---|
+| `spire` | `SM_IcelandicLavaSpire_02/01/03` (5–15 m, Nanite, 4 Kollisionsprimitive) | `rolle: fels_hero`, `akteur: true`, **`punkte: {ebene: "lava", typ: "spire_vorschlag"}`**, `hang_grad` [0, 18], `kuppen_prominenz_m` 6, `lagen_min` {Lavafels: 128}, `je_km2` 6, `max_je_feld` 6, `massstab` 0,85–1,2, `eingraben_anteil` 0,2–0,3, `gruppe` 1, `kollision`, `sichtweite` [0, 0] |
+| `lava_uferblock` | `SM_lava_s_rock_01/02/05/03` (1–2,3 m) | `rolle: fels_block`, `dichte_je_ha` 200, `wasser_abstand_m` [0, 6], `hang_grad` [0, 60], `massstab` 0,8–1,3, `eingraben_anteil` 0,35–0,55, `gruppe` 1–3 in 2 m, `max_je_feld` 75, `kollision` (bisher `ufer_block` in Schicht 5) |
+| `basaltsaeule` | `SM_lava_wall_05/04` | `"aktiv": false` – nur Schalter; aktiv setzen **und** `klassen.saeule` entfernen, wenn Teil C die Basaltsäulen übernehmen soll |
+
+**`spuren_overrides`** (für `spuren_plan.py`; dort ist das Lesen der Overrides noch nicht eingebaut): `palette.steinmann` =
+`SM_lava_s_rock_08/07/06`; `faktor.lava` Steinmann 1,5, Wegkreuz 0,5, Karren 0,3, Rauch 1,0, Feldstreifen/Obstgarten/Zaun/Mauer/Steg/
+Holzschlag/Köhler/Gräber 0; `verbote.lava` dieselben plus Schrein; `rauch_punkte` {ebene lava, typ fumarole/dampf}; `zusatzklassen`
+(§6-Schema mit `punkte`): `schwefelgrube` (Kiste, Fass, Karren, Sack, 3–6 in 8 m an `schwefelgrube_vorschlag`), `opferstaette_saeule`
+(`SM_Column_03` als Akteur an `opferstaette_vorschlag`), `opferstaette_steinkreis` (8–12 Schlackenbrocken, Ring r 3 m, `anordnung: ring`),
+`ruine_verkohlt` (`SM_Wall_02` + `SM_Column_02`, schwarze Material-Instanz, max 1 je Feld, Hang ≤ 12°, 6–40 m vom Weg); `blickziele`
+wie bisher.
+
+### Spires: Übergabe an `felsgruppen_plan.py`
+
+Was felsgruppen künftig liest: `lava_regeln.json["felsgruppen_overrides"]["zusatzklassen"]["spire"]`. Weil Name und Inhalt gleich sind,
+ersetzt felsgruppen die Altstelle (`hero_akteure` + `punkte.spire_vorschlag`) und meldet „Altstelle(n) spire durch zusatzklassen
+ersetzt“. Die Altstelle bleibt in der Datei, damit ältere felsgruppen-Fassungen weiterlaufen. Standorte: felsgruppen öffnet
+`export/unreal/welt/lava/<Feld>/plan.json` und nimmt `punkte[typ == "spire_vorschlag"]` (Weltkoordinaten cm). Dieses Format ist
+unverändert: flache Kuppen im frischen/alten Kern, Hang ≤ 18°, Prominenz ≥ 6 m, Abstand ≥ 150 m, max 6 je Feld. Fehlt der Lava-Plan,
+oder enthält er keine Spire-Punkte, setzt felsgruppen über die Ersatzmaske (Hang, Kuppenprominenz, Lavafels ≥ 128, 6 je km² lava,
+max 6) nur in lava-Zellen + Saum. Zwei Einschränkungen gelten für felsgruppen, nicht für diesen Planer. (1) Ein Lava-Plan mit 0 Spire-Punkten
+(Leerplan oder keine Kuppe) löst ebenfalls die Ersatzmaske aus. Wenn das stört, sollte felsgruppen „Datei vorhanden, 0 Punkte“ als
+„keine Spires“ behandeln. (2) `netz` und `yaw_grad` aus dem Punkt werden nicht übernommen; felsgruppen wählt Netz und Yaw selbst.
+Reihenfolge laut §4: zuerst `lava_plan.py`, dann `felsgruppen_plan.py`, damit die Punkte vorliegen.
+
+### Rauchtest Korrektur Runde 1 (synthetisch, Python 3.13, NumPy 2.5, Pillow 12, ohne numba; Raster neu erzeugt, danach gelöscht)
+
+Synthetische Produktionswurzel im Scratchpad: `hoehe.f32` in voller Größe (memmap). **C6**: Schlackenkegel r 320 m / +230 m mit Krater,
+Lavastrom 120 m, See r 55 m, zwei Wege, Ort; `eigner.r8` = Kennzahl 7 „Vulkanregion“, dazu eine bergwald-Kachel (Kennzahl 3) in der Ecke,
+**99,0 % lava im Feld**. **C5** (Mischfeld): südliches Drittel lava mit Wellengrenze, Rest Kennzahl 0 (= aue) mit Teich. **G4**
+(Fremdfeld): elfenwald (Kennzahl 5) + Kennzahl 0. Lagen Lavafels/Lavasand/Moos/Gras, `bestand/C6` mit 300 Kiefern, `netze.csv`,
+`netze_masse.json`, `biome_je_feld.json`.
+
+| Feld | biome_fenster | Instanzen (vor Budget) | Kollision | zuständig (Zellen) | Schichten boden / mittel / baum / wasserkante | Punkte | Laufzeit |
+|---|---|---|---|---|---|---|---|
+| C6 | lava 0,979, bergwald 0,021 | **40 840** (45 141) | 75 (davon 6 Säulen-Akteure) | 1 001 567 | 31 482 / 9 156 / 69 / 133 | 28: 11 Fumarolen, 9 Dampf, 2 Gipfel, 3 Spire, 1 Höhle, 1 Schwefelgrube, 1 Opferstätte | 3,2–4,0 s |
+| C5 | aue 0,645, lava 0,355 | **17 240** (18 477) | 113 | 375 256 | 7 794 / 9 333 / 113 / 0 | 3 | 2,9–3,0 s |
+| G4 | elfenwald 0,789, aue 0,211 | **0** – leerer `plan.json`, alle Pflichtschlüssel | 0 | 0 | – | 0 | < 1 s |
+
+Prüfskript (unabhängige Distanz über die Randzellen der lava-Maske):
+
+- Alle Pflichtschlüssel sind vorhanden. f32-Summe = `instanzen`, Kollisionssumme = `kollision_anzahl`, jede Datei hat `ebene`.
+- Quaternionen sind normiert, Maßstäbe > 0, alle Instanzen liegen im Feld.
+- **0 Instanzen** auf Wasser, Weg oder Ort.
+- **0 Instanzen jenseits des Saums:** Der größte Abstand einer Instanz außerhalb der Lava zur nächsten lava-Zelle beträgt in C5 29,1 m und in C6 19,0 m (bergwald-Ecke). Das Prüfbild C5 zeigt einen schmalen Saum und einen leeren aue-Teil, auch der Teich bleibt leer.
+- **Zwei Läufe sind byteidentisch:** 100 Dateien, f32 + `plan.json` + PNG.
+- **Logs: 0 Nicht-ASCII-Zeichen.**
+- **Exit-Code 2** bei fehlender `hoehe.f32`, unbekanntem Feld (K9) und fehlender Regeldatei.
+- `py_compile` ist sauber.
+
+Budget:
+
+- `--faktor 3`: C6 43 482, C5 34 225. Hier greifen nur die Klassen-`max`.
+- Stresslauf mit Regelkopie (Klassen-`max` aus, Kollisionsdeckel 100, `--faktor 4`): C6 184 392 → **59 995** Instanzen, 34 Kollisionen. Ausgedünnt wurde der Reihe nach nach Kollision, Ziel (60 % je Klasse) und harter Kappung, jeder Schritt als WARNUNG, dazu der Landschafts-Gras-Hinweis.
+
+Querprobe mit den Querschnitts-Planern auf denselben Daten:
+
+- `felsgruppen_plan.py C6` liest `lava_regeln.json` mit 11 gelesenen und 0 ignorierten Schlüsseln. `spire` holt 3 Punkte aus `lava/C6/plan.json` und setzt 3 Akteure, `lava_uferblock` 15 Blöcke; die Altstelle wird gemeldet und ersetzt.
+- `mittelschicht_plan.py C6` liest palette, faktor, zusatzklassen, parameter und vorlage_biom ohne unbekannte Schlüssel. Ergebnis: grasbueschel 699, beere 633, totholz_liegend 41, totholz_stumpf 38, gesamt 1 588 einschließlich bergwald-Ecke (Vorfassung Echtdaten: 7 515).
+
+**Erwartung Echtdaten C6:** Die Vorfassung setzte 33 516. Entfallen sind gras, pionier, verkohlt_liegend/stumpf und ufer_block (im
+Runde-0-Synthetik rund 13 % der Instanzen), außerdem gilt nur noch der 30-m-Saum. Erwartet werden deshalb **~28 000–31 000**, Kollision unter
+500, also weit unter Deckel und Ziel. Die Rand-Zone ist in Feldern mit 99 % Lava sehr schmal (Synthetik 0,3 %), deshalb gibt es kaum
+Krummholz oder Totbäume. In Echtdaten mit 17 % Moos `zonen.alter_gewichte.randnaehe` prüfen (§6.1 unten).
 
 ## 1. Referenzanalyse: was ein Lavafeld zwischen Boden und Horizont füllt
 

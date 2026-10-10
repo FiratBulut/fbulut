@@ -1716,7 +1716,7 @@
  },
  "mittelschicht_overrides": {
   "hinweis": "Fuer mittelschicht_plan.py (Teil D, einziger Planer der generischen Mittelschicht-Klassen, KONVENTIONEN par. 4): Palette, Dichtefaktoren und Parameter in wueste/canyon/oedland. Herkunft = bisherige B9-Klassen (Runde 0), die dieser Planer nicht mehr setzt.",
-  "entscheidung": "Statt biom_faktor 0 (Runde 0) liefert B9 Palette + Faktor: sonst bekaemen die gebauten Wuestenfelder C3-E5 und die Oedland-Felder ausserhalb (D6, E6, E7, F6, F7) gar keine Trockengras-Bueschel/Totholz/Zweige mehr. In C3-E5 wirkt faktor_je_feld: Gesamtfaktor dort = faktor x faktor_je_feld x wuesten_feld_faktor (0,5 der Mittelschicht) = 0,2-0,4 des Oedland-Werts (grasbueschel 0,35, totholz_liegend 0,4, totholz_ast 0,3, strauch 0,2, totholz_stumpf 0,2, beere 0), weil die Namaqualand-Ebene (FT_EL_WU_*) dort Straeucher/Sukkulenten schon streut.",
+  "begruendung": "Statt biom_faktor 0 (Runde 0) liefert B9 Palette + Faktor: sonst bekaemen die gebauten Wuestenfelder C3-E5 und die Oedland-Felder ausserhalb (D6, E6, E7, F6, F7) gar keine Trockengras-Bueschel/Totholz/Zweige mehr. In C3-E5 wirkt faktor_je_feld: Gesamtfaktor dort = faktor x faktor_je_feld x wuesten_feld_faktor (0,5 der Mittelschicht), wirksam 0,2-0,4 des Werts ausserhalb der Wuestenfelder (grasbueschel 0,35, totholz_liegend 0,4, totholz_ast 0,3, strauch 0,2, totholz_stumpf 0,2, beere 0), weil die Namaqualand-Ebene (FT_EL_WU_*) dort Straeucher/Sukkulenten schon streut.",
   "gilt_fuer": [
    "wueste",
    "canyon",
@@ -1900,6 +1900,7 @@
     "an_totholz": 3.0
    }
   },
+  "faktor_hinweis": "je_biom.faktor kalibriert am synthetischen Feld E6 (oedland) gegen die Runde-0-Zahlen dieses Planers: grasbueschel Ziel ~75 % von Runde 0 (Landschafts-Gras uebernimmt kleine Bueschel), Totholz/Zweige/Stuempfe ~100 %, strauch nur Trockenhang-Straeucher + Rooibos (Runde 0 ~460 je km2); canyon/wueste aus den Runde-0-Biomgewichten und den Grunddichten von mittelschicht_regeln.json (canyon eigene Klassen, wueste/oedland-Vorlage) abgeleitet, max. 3,0.",
   "faktor": {
    "farn": 0.0,
    "jungbaum": 0.0,
@@ -1909,32 +1910,32 @@
   "je_biom": {
    "wueste": {
     "faktor": {
-     "grasbueschel": 1.0,
-     "strauch": 1.0,
-     "totholz_liegend": 1.0,
-     "totholz_stumpf": 1.0,
-     "totholz_ast": 1.0,
+     "grasbueschel": 1.2,
+     "strauch": 0.2,
+     "totholz_liegend": 1.9,
+     "totholz_stumpf": 0.36,
+     "totholz_ast": 1.5,
      "beere": 0.0
     }
    },
    "canyon": {
     "faktor": {
-     "grasbueschel": 1.0,
-     "strauch": 1.0,
-     "totholz_liegend": 1.0,
-     "totholz_stumpf": 1.0,
-     "totholz_ast": 1.0,
+     "grasbueschel": 2.7,
+     "strauch": 0.33,
+     "totholz_liegend": 3.0,
+     "totholz_stumpf": 0.72,
+     "totholz_ast": 1.6,
      "beere": 0.0
     }
    },
    "oedland": {
     "faktor": {
-     "grasbueschel": 1.0,
-     "strauch": 1.0,
-     "totholz_liegend": 1.0,
-     "totholz_stumpf": 1.0,
-     "totholz_ast": 1.0,
-     "beere": 0.5
+     "grasbueschel": 2.4,
+     "strauch": 0.3,
+     "totholz_liegend": 2.5,
+     "totholz_stumpf": 1.2,
+     "totholz_ast": 1.5,
+     "beere": 0.25
     }
    }
   },

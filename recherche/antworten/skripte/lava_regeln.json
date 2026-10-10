@@ -1370,7 +1370,7 @@
     }
   },
   "erwartung_je_feld": {
-    "hinweis": "Spannen (Instanzen) vor Budget-Ausdünnung, aus Flächenanteilen in biome_je_feld.md und den Dichten oben abgeleitet (Rechnung, nicht gemessen). C6: 1,016 km² Lava, Lavafels 45 %, Lavasand 27 %, Moos 17 %, Gras 8 %; C7: 0,49 km² Land, lava 61 %; C5: lava 31 % ≈ 0,31 km² + Übergangssaum; D6 26 %, B6 13 %, D7 13 %, B7 6 %.",
+    "hinweis": "Korrektur Runde 1: Spannen ohne die nach mittelschicht/felsgruppen verschobenen Klassen (gras, pionier, verkohlt_liegend/stumpf, ufer_block) und nur Lava-Zellen + 30-m-Saum. Echtdaten der Vorfassung: C6 33 516 (lokal 10.10.); erwartet jetzt ~28 000-31 000. Rechnung, nicht gemessen. Spannen (Instanzen) vor Budget-Ausdünnung, aus Flächenanteilen in biome_je_feld.md und den Dichten oben abgeleitet (Rechnung, nicht gemessen). C6: 1,016 km² Lava, Lavafels 45 %, Lavasand 27 %, Moos 17 %, Gras 8 %; C7: 0,49 km² Land, lava 61 %; C5: lava 31 % ≈ 0,31 km² + Übergangssaum; D6 26 %, B6 13 %, D7 13 %, B7 6 %.",
     "C6": {
       "schlacke": [
         6000,
@@ -1392,29 +1392,9 @@
         1200,
         2500
       ],
-      "pionier": [
-        800,
-        2000
-      ],
       "kiefer_strauch": [
         100,
         350
-      ],
-      "verkohlt_liegend": [
-        120,
-        350
-      ],
-      "verkohlt_stumpf": [
-        100,
-        300
-      ],
-      "verkohlt_schnag": [
-        120,
-        350
-      ],
-      "gras": [
-        1000,
-        2500
       ],
       "baum_tot": [
         40,
@@ -1433,8 +1413,12 @@
         24
       ],
       "gesamt": [
-        32000,
-        48000
+        26000,
+        44000
+      ],
+      "verkohlt_schnag": [
+        120,
+        350
       ]
     },
     "C7": {
@@ -1461,7 +1445,7 @@
         1,
         6
       ],
-      "hinweis": "Übergang Lava → Aue: gras/pionier/baum_tot im 100-m-Saum, ufer_block/schwarzkies an 5,8 % Wasser."
+      "hinweis": "Lava-Teil + 30-m-Saum zur Aue (Brandstreu, Totbaeume, Krummholz); Uferbloecke setzt felsgruppen (lava_uferblock), schwarzkies/saeule hier."
     },
     "D6": {
       "gesamt": [
