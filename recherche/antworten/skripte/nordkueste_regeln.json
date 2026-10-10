@@ -1910,8 +1910,7 @@
     ],
     "kahl_bevorzugt": [
      "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
-     "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
-     "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02"
+     "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0"
     ]
    }
   },
@@ -1961,8 +1960,8 @@
     "ebene": 5,
     "rolle": "wasserkante",
     "netze": [
-     "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
-     "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_01",
      "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
      "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
      "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",

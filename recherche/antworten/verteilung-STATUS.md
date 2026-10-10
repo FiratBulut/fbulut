@@ -97,4 +97,4 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 | Teil | Aufgabe | Stand |
 |---|---|---|
 | felsgruppen | 8-20 Formgruppen je Feld mit Hero 10-30 m (Massive/Huge Nordic Coastal Cliff, Sharp_Cliff, big_rock_wall, Big_Rock; Skalierung 1,0-2,0, Akteure, 35-60 % eingegraben) auf markanten, von Taelern/Wegen sichtbaren Graten/Kuppen; Satelliten 2-6 m, Blockstrom; keine Gruppe auf Wiese ohne Hangknick; rote IcelandicBoulder (AncientContent) nur canyon/oedland/wueste/lava; uchoab3fa gesperrt | laeuft |
-| Biom-Regeldateien | rote IcelandicBoulder aus nordkueste, heide_tundra, hochgebirge entfernen, grauer Ersatz | laeuft |
+| Biom-Regeldateien | rote IcelandicBoulder aus nordkueste, heide_tundra, hochgebirge entfernen, grauer Ersatz | fertig, gepusht: ersetzt durch SM_MossyForestBoulder_03/04, SM_ground_rock_01, SM_mountain_rock_big_02_4 (ueber Schneegrenze ohne Moos); assets-taxonomie.json: rote Findlinge nur noch canyon/oedland/wueste/lava geeignet |

@@ -455,3 +455,7 @@ Kostenhinweis aus `boden-kleinzeug-gras.md`: Megascans-Assets sind seit 2025 je 
 
 - Keine gesperrten Netze und keine Platten im Planer. `kiesel` hat `teppich_sperre` (nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80/255, bis 3 m am Weg, bis 5 m am Wasser); `flechtenstein`/`moorstein` unveraendert.
 - Rauchtest synthetisch D2: Kiesel 14 302 -> 7 302, Hangteppich-Kiesel 6 311 -> 0; Feld 38 842 Instanzen, zwei Laeufe byteidentisch, Log ASCII, 6 s.
+
+## Korrektur Runde 3 (10.10.2026)
+
+- Rote `/Game/AncientContent/…/SM_IcelandicBoulder_01/02/03` entfernt (nur noch canyon/oedland/wueste/lava): `felsgruppen_overrides.heide.paletten_neu.heide` hero `_03` -> `/Game/Megascans/…/SM_MossyForestBoulder_04` (3,3 m), block `_01`+`_02` -> `SM_MossyForestBoulder_03` (2,0 m); `spuren_overrides.heide.steinkreis` ohne `_03` (bleiben 3 graue Netze 4,1–5,3 m, Hoehe wird ohnehin skaliert). Planer-Code unveraendert.

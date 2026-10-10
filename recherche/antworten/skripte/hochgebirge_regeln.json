@@ -1550,10 +1550,10 @@
         "hero": [
           "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_02",
           "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
-          "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03"
+          "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4"
         ],
         "block": [
-          "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
+          "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_01",
           "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
           "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
           "/Game/Fab/Megascans/3D/Granite_Rock_pjEr1/Raw/pjEr1_tier_0/StaticMeshes/pjEr1_tier_0"
@@ -1725,7 +1725,6 @@
       },
       "bachblock": {
         "palette": [
-          "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
           "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
           "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xf3odif/Raw/xf3odif_tier_0/StaticMeshes/xf3odif_tier_0",
           "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
@@ -1773,7 +1772,7 @@
       "sturzblock": {
         "palette": [
           "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
-          "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+          "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
           "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
           "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0"
         ],

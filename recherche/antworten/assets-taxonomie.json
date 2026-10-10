@@ -2,21 +2,21 @@
  "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01": {
   "rolle": "fels_block",
   "biome": {
-   "aue": 1,
-   "bergwald": 1,
-   "gletscher": 2,
-   "tundra": 2,
+   "aue": 0,
+   "bergwald": 0,
+   "gletscher": 0,
+   "tundra": 0,
    "canyon": 1,
    "oedland": 1,
-   "heide": 1,
-   "elfenwald": 1,
-   "dschungel": 1,
-   "kueste": 2,
+   "heide": 0,
+   "elfenwald": 0,
+   "dschungel": 0,
+   "kueste": 0,
    "wueste": 1,
-   "lava": 0,
-   "frost": 2,
-   "sumpf": 1,
-   "fjord": 2
+   "lava": 1,
+   "frost": 0,
+   "sumpf": 0,
+   "fjord": 0
   },
   "hoehe_m": 1.22,
   "groesse_m": [
@@ -33,26 +33,26 @@
   "genutzt_in": [],
   "paket": "AncientContent",
   "name": "SM_IcelandicBoulder_01",
-  "note": "Fels, größte Kante 1.9 m; Hinweise: nordisch"
+  "note": "Fels, größte Kante 1.9 m; Hinweise: nordisch; rendert terrakotta-rot (Runde 3): nur canyon/oedland/wueste/lava"
  },
  "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02": {
   "rolle": "fels_block",
   "biome": {
-   "aue": 1,
-   "bergwald": 1,
-   "gletscher": 2,
-   "tundra": 2,
+   "aue": 0,
+   "bergwald": 0,
+   "gletscher": 0,
+   "tundra": 0,
    "canyon": 1,
    "oedland": 1,
-   "heide": 1,
-   "elfenwald": 1,
-   "dschungel": 1,
-   "kueste": 2,
+   "heide": 0,
+   "elfenwald": 0,
+   "dschungel": 0,
+   "kueste": 0,
    "wueste": 1,
-   "lava": 0,
-   "frost": 2,
-   "sumpf": 1,
-   "fjord": 2
+   "lava": 1,
+   "frost": 0,
+   "sumpf": 0,
+   "fjord": 0
   },
   "hoehe_m": 1.5,
   "groesse_m": [
@@ -74,26 +74,26 @@
   ],
   "paket": "AncientContent",
   "name": "SM_IcelandicBoulder_02",
-  "note": "Fels, größte Kante 2.2 m; Hinweise: nordisch"
+  "note": "Fels, größte Kante 2.2 m; Hinweise: nordisch; rendert terrakotta-rot (Runde 3): nur canyon/oedland/wueste/lava"
  },
  "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03": {
   "rolle": "fels_hero",
   "biome": {
-   "aue": 1,
-   "bergwald": 1,
-   "gletscher": 2,
-   "tundra": 2,
+   "aue": 0,
+   "bergwald": 0,
+   "gletscher": 0,
+   "tundra": 0,
    "canyon": 1,
    "oedland": 1,
-   "heide": 1,
-   "elfenwald": 1,
-   "dschungel": 1,
-   "kueste": 2,
+   "heide": 0,
+   "elfenwald": 0,
+   "dschungel": 0,
+   "kueste": 0,
    "wueste": 1,
-   "lava": 0,
-   "frost": 2,
-   "sumpf": 1,
-   "fjord": 2
+   "lava": 1,
+   "frost": 0,
+   "sumpf": 0,
+   "fjord": 0
   },
   "hoehe_m": 2.57,
   "groesse_m": [
@@ -115,7 +115,7 @@
   ],
   "paket": "AncientContent",
   "name": "SM_IcelandicBoulder_03",
-  "note": "Fels, größte Kante 3.4 m; Hinweise: nordisch"
+  "note": "Fels, größte Kante 3.4 m; Hinweise: nordisch; rendert terrakotta-rot (Runde 3): nur canyon/oedland/wueste/lava"
  },
  "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01": {
   "rolle": "fels_hero",

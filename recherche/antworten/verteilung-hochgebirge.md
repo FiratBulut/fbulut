@@ -437,6 +437,10 @@ Fab-Allgemeines **[Suchauszug: fab.com-Launch-Meldungen]** – Namen sind Suchbe
 - `kiesel_schutt` hat `teppich_sperre` (nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80, bis 3 m Weg, bis 5 m Wasser). `moraene`/`paletten_zusatz.platte` bleiben in `felsgruppen_overrides` (Teil C regelt zentral).
 - Rauchtest synthetisch E2: Schneefleck-Platten 6 000 -> 1 505, davon auf Gras/ohne Fels-Lage 5 177 -> 0, zu flach 0; Hangteppich-Kiesel 5 364 -> 0 (Budget 22 000 bleibt voll); zwei Laeufe byteidentisch, Log ASCII, 6 s.
 
+## Korrektur Runde 3 (10.10.2026)
+
+- Rote `/Game/AncientContent/…/SM_IcelandicBoulder_01/03` aus `felsgruppen_overrides` entfernt: `paletten_zusatz.tundra` hero `_03` -> `SM_mountain_rock_big_02_4` (4,1 m), block `_01` -> `SM_ground_rock_01` (2,3 m, beide Mountain_Environment_Set, grau, ohne Moos wegen Schneegrenze); `zusatzklassen.sturzblock` `_03` -> `SM_mountain_rock_big_02_4`; `zusatzklassen.bachblock` nur ohne `_01` (4 Netze 1,5–2,7 m bleiben). `entfernen_zusatz` (FT_EL_FS_IcelandicBoulder_*) bleibt. Planer-Code unveraendert.
+
 ## Quellen
 
 - Repo: `vorlagen/FORMAT.md`; `vorlagen/daten/biome_je_feld.md`; `vorlagen/doku/ANALYSE_WITCHER_2026-10-08.md`; `antworten/bildkritik-witcher-messlatte.md`;
