@@ -1,0 +1,2853 @@
+{
+ "stand": "2026-10-10 13:42",
+ "raster": "1 m, X=(j-4730.5) m, Y=(i-4060.5) m, Feld 1008 m, A1 = links oben (j,i klein)",
+ "biome": [
+  "aue",
+  "bergwald",
+  "gletscher",
+  "tundra",
+  "canyon",
+  "oedland",
+  "heide",
+  "elfenwald",
+  "dschungel",
+  "kueste",
+  "wueste",
+  "lava",
+  "frost",
+  "sumpf",
+  "fjord"
+ ],
+ "felder": {
+  "A1": {
+   "biome_prozent": [
+    [
+     "aue",
+     82
+    ],
+    [
+     "gletscher",
+     18
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    null,
+    null,
+    -12.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     100
+    ]
+   ]
+  },
+  "B1": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     94
+    ],
+    [
+     "aue",
+     6
+    ]
+   ],
+   "land_prozent": 9,
+   "hoehe_m": [
+    0.0,
+    41.0,
+    151.0
+   ],
+   "steil_ueber_30grad_prozent": 82,
+   "wand_ueber_50grad_prozent": 19.2,
+   "wasser_prozent": 0.2,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     90
+    ],
+    [
+     "Gras",
+     3
+    ]
+   ]
+  },
+  "C1": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     69
+    ],
+    [
+     "fjord",
+     31
+    ]
+   ],
+   "land_prozent": 38,
+   "hoehe_m": [
+    0.0,
+    100.0,
+    344.0
+   ],
+   "steil_ueber_30grad_prozent": 84,
+   "wand_ueber_50grad_prozent": 32.3,
+   "wasser_prozent": 0.9,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     61
+    ],
+    [
+     "Fels",
+     12
+    ],
+    [
+     "Trockengras",
+     11
+    ],
+    [
+     "Erde",
+     5
+    ],
+    [
+     "Moos",
+     3
+    ]
+   ]
+  },
+  "D1": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     72
+    ],
+    [
+     "fjord",
+     26
+    ]
+   ],
+   "land_prozent": 40,
+   "hoehe_m": [
+    0.0,
+    128.0,
+    411.0
+   ],
+   "steil_ueber_30grad_prozent": 88,
+   "wand_ueber_50grad_prozent": 38.5,
+   "wasser_prozent": 0.6,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     57
+    ],
+    [
+     "Fels",
+     16
+    ],
+    [
+     "Trockengras",
+     10
+    ],
+    [
+     "Erde",
+     4
+    ],
+    [
+     "Heide",
+     4
+    ]
+   ]
+  },
+  "E1": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     100
+    ]
+   ],
+   "land_prozent": 35,
+   "hoehe_m": [
+    0.0,
+    112.0,
+    419.0
+   ],
+   "steil_ueber_30grad_prozent": 65,
+   "wand_ueber_50grad_prozent": 28.0,
+   "wasser_prozent": 0.9,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     62
+    ],
+    [
+     "Fels",
+     11
+    ],
+    [
+     "Trockengras",
+     7
+    ],
+    [
+     "Heide",
+     5
+    ],
+    [
+     "Geroell",
+     3
+    ]
+   ]
+  },
+  "F1": {
+   "biome_prozent": [
+    [
+     "aue",
+     96
+    ],
+    [
+     "gletscher",
+     4
+    ]
+   ],
+   "land_prozent": 10,
+   "hoehe_m": [
+    0.0,
+    7.0,
+    56.0
+   ],
+   "steil_ueber_30grad_prozent": 3,
+   "wand_ueber_50grad_prozent": 0.1,
+   "wasser_prozent": 0.1,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     88
+    ],
+    [
+     "Wiese",
+     6
+    ]
+   ]
+  },
+  "G1": {
+   "biome_prozent": [
+    [
+     "aue",
+     100
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    null,
+    null,
+    -2.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     100
+    ]
+   ]
+  },
+  "H1": {
+   "biome_prozent": [
+    [
+     "aue",
+     81
+    ],
+    [
+     "kueste",
+     19
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    null,
+    null,
+    -4.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     100
+    ]
+   ]
+  },
+  "I1": {
+   "biome_prozent": [
+    [
+     "aue",
+     100
+    ]
+   ],
+   "land_prozent": 11,
+   "hoehe_m": [
+    0.0,
+    4.0,
+    18.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     89
+    ],
+    [
+     "Wiese",
+     7
+    ]
+   ]
+  },
+  "J1": {
+   "biome_prozent": [
+    [
+     "aue",
+     100
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    null,
+    null,
+    -11.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     100
+    ]
+   ]
+  },
+  "A2": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     73
+    ],
+    [
+     "bergwald",
+     19
+    ],
+    [
+     "aue",
+     8
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    null,
+    null,
+    -11.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     100
+    ]
+   ]
+  },
+  "B2": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     80
+    ],
+    [
+     "bergwald",
+     20
+    ]
+   ],
+   "land_prozent": 25,
+   "hoehe_m": [
+    0.0,
+    73.0,
+    213.0
+   ],
+   "steil_ueber_30grad_prozent": 87,
+   "wand_ueber_50grad_prozent": 23.9,
+   "wasser_prozent": 0.5,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     73
+    ],
+    [
+     "Gras",
+     7
+    ],
+    [
+     "Fels",
+     6
+    ],
+    [
+     "Trockengras",
+     6
+    ],
+    [
+     "Wiese",
+     3
+    ]
+   ]
+  },
+  "C2": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     46
+    ],
+    [
+     "fjord",
+     23
+    ],
+    [
+     "tundra",
+     21
+    ]
+   ],
+   "land_prozent": 65,
+   "hoehe_m": [
+    0.0,
+    159.0,
+    475.0
+   ],
+   "steil_ueber_30grad_prozent": 74,
+   "wand_ueber_50grad_prozent": 37.6,
+   "wasser_prozent": 2.3,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     32
+    ],
+    [
+     "Fels",
+     25
+    ],
+    [
+     "Trockengras",
+     16
+    ],
+    [
+     "Heide",
+     9
+    ],
+    [
+     "Wiese",
+     6
+    ]
+   ]
+  },
+  "D2": {
+   "biome_prozent": [
+    [
+     "tundra",
+     47
+    ],
+    [
+     "gletscher",
+     34
+    ],
+    [
+     "fjord",
+     19
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    26.0,
+    182.0,
+    446.0
+   ],
+   "steil_ueber_30grad_prozent": 57,
+   "wand_ueber_50grad_prozent": 18.8,
+   "wasser_prozent": 0.9,
+   "weg_prozent": 0.18,
+   "ort_prozent": 2.45,
+   "lagen_prozent": [
+    [
+     "Heide",
+     22
+    ],
+    [
+     "Trockengras",
+     21
+    ],
+    [
+     "Fels",
+     19
+    ],
+    [
+     "Schnee",
+     9
+    ],
+    [
+     "Geroell",
+     8
+    ]
+   ]
+  },
+  "E2": {
+   "biome_prozent": [
+    [
+     "gletscher",
+     50
+    ],
+    [
+     "frost",
+     39
+    ],
+    [
+     "tundra",
+     11
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    1.0,
+    139.0,
+    381.0
+   ],
+   "steil_ueber_30grad_prozent": 46,
+   "wand_ueber_50grad_prozent": 13.3,
+   "wasser_prozent": 2.2,
+   "weg_prozent": 0.07,
+   "ort_prozent": 2.79,
+   "lagen_prozent": [
+    [
+     "Schnee",
+     47
+    ],
+    [
+     "Fels",
+     13
+    ],
+    [
+     "Trockengras",
+     12
+    ],
+    [
+     "Heide",
+     10
+    ],
+    [
+     "Eis",
+     9
+    ]
+   ]
+  },
+  "F2": {
+   "biome_prozent": [
+    [
+     "aue",
+     54
+    ],
+    [
+     "frost",
+     46
+    ]
+   ],
+   "land_prozent": 34,
+   "hoehe_m": [
+    0.0,
+    34.0,
+    174.0
+   ],
+   "steil_ueber_30grad_prozent": 22,
+   "wand_ueber_50grad_prozent": 1.0,
+   "wasser_prozent": 0.5,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     58
+    ],
+    [
+     "Schnee",
+     34
+    ]
+   ]
+  },
+  "G2": {
+   "biome_prozent": [
+    [
+     "aue",
+     80
+    ],
+    [
+     "elfenwald",
+     20
+    ]
+   ],
+   "land_prozent": 4,
+   "hoehe_m": [
+    0.0,
+    25.0,
+    91.0
+   ],
+   "steil_ueber_30grad_prozent": 51,
+   "wand_ueber_50grad_prozent": 2.5,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     96
+    ]
+   ]
+  },
+  "H2": {
+   "biome_prozent": [
+    [
+     "kueste",
+     78
+    ],
+    [
+     "elfenwald",
+     20
+    ]
+   ],
+   "land_prozent": 39,
+   "hoehe_m": [
+    0.0,
+    83.0,
+    248.0
+   ],
+   "steil_ueber_30grad_prozent": 71,
+   "wand_ueber_50grad_prozent": 13.2,
+   "wasser_prozent": 0.7,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     59
+    ],
+    [
+     "Nadeln",
+     11
+    ],
+    [
+     "Gras",
+     10
+    ],
+    [
+     "Fels",
+     6
+    ],
+    [
+     "Laub",
+     5
+    ]
+   ]
+  },
+  "I2": {
+   "biome_prozent": [
+    [
+     "aue",
+     78
+    ],
+    [
+     "bergwald",
+     20
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    0.0,
+    1.0,
+    3.0
+   ],
+   "steil_ueber_30grad_prozent": 12,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     98
+    ]
+   ]
+  },
+  "J2": {
+   "biome_prozent": [
+    [
+     "aue",
+     100
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    null,
+    null,
+    -11.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     100
+    ]
+   ]
+  },
+  "A3": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     92
+    ],
+    [
+     "aue",
+     8
+    ]
+   ],
+   "land_prozent": 16,
+   "hoehe_m": [
+    0.0,
+    23.0,
+    154.0
+   ],
+   "steil_ueber_30grad_prozent": 20,
+   "wand_ueber_50grad_prozent": 2.3,
+   "wasser_prozent": 0.8,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     81
+    ],
+    [
+     "Nadeln",
+     6
+    ],
+    [
+     "Wiese",
+     4
+    ],
+    [
+     "Gras",
+     3
+    ]
+   ]
+  },
+  "B3": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     100
+    ]
+   ],
+   "land_prozent": 47,
+   "hoehe_m": [
+    0.0,
+    116.0,
+    411.0
+   ],
+   "steil_ueber_30grad_prozent": 72,
+   "wand_ueber_50grad_prozent": 20.5,
+   "wasser_prozent": 2.2,
+   "weg_prozent": 0.43,
+   "ort_prozent": 8.2,
+   "lagen_prozent": [
+    [
+     "Sand",
+     50
+    ],
+    [
+     "Nadeln",
+     18
+    ],
+    [
+     "Fels",
+     12
+    ],
+    [
+     "Gras",
+     7
+    ],
+    [
+     "Erde",
+     5
+    ]
+   ]
+  },
+  "C3": {
+   "biome_prozent": [
+    [
+     "aue",
+     61
+    ],
+    [
+     "tundra",
+     27
+    ],
+    [
+     "bergwald",
+     6
+    ]
+   ],
+   "land_prozent": 62,
+   "hoehe_m": [
+    0.0,
+    16.0,
+    88.0
+   ],
+   "steil_ueber_30grad_prozent": 7,
+   "wand_ueber_50grad_prozent": 0.7,
+   "wasser_prozent": 1.3,
+   "weg_prozent": 0.64,
+   "ort_prozent": 5.89,
+   "lagen_prozent": [
+    [
+     "Sand",
+     34
+    ],
+    [
+     "Trockengras",
+     16
+    ],
+    [
+     "Nadeln",
+     13
+    ],
+    [
+     "Wiese",
+     11
+    ],
+    [
+     "Heide",
+     10
+    ]
+   ]
+  },
+  "D3": {
+   "biome_prozent": [
+    [
+     "tundra",
+     73
+    ],
+    [
+     "canyon",
+     15
+    ],
+    [
+     "wueste",
+     11
+    ]
+   ],
+   "land_prozent": 76,
+   "hoehe_m": [
+    0.0,
+    37.0,
+    166.0
+   ],
+   "steil_ueber_30grad_prozent": 25,
+   "wand_ueber_50grad_prozent": 8.9,
+   "wasser_prozent": 3.3,
+   "weg_prozent": 0.38,
+   "ort_prozent": 4.91,
+   "lagen_prozent": [
+    [
+     "Sand",
+     32
+    ],
+    [
+     "Trockengras",
+     22
+    ],
+    [
+     "Wiese",
+     13
+    ],
+    [
+     "Heide",
+     12
+    ],
+    [
+     "Geroell",
+     7
+    ]
+   ]
+  },
+  "E3": {
+   "biome_prozent": [
+    [
+     "tundra",
+     60
+    ],
+    [
+     "wueste",
+     32
+    ],
+    [
+     "frost",
+     7
+    ]
+   ],
+   "land_prozent": 56,
+   "hoehe_m": [
+    0.0,
+    40.0,
+    124.0
+   ],
+   "steil_ueber_30grad_prozent": 33,
+   "wand_ueber_50grad_prozent": 15.6,
+   "wasser_prozent": 1.2,
+   "weg_prozent": 0.65,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     52
+    ],
+    [
+     "Schnee",
+     17
+    ],
+    [
+     "Sandstein",
+     9
+    ],
+    [
+     "Trockengras",
+     8
+    ],
+    [
+     "Geroell",
+     7
+    ]
+   ]
+  },
+  "F3": {
+   "biome_prozent": [
+    [
+     "aue",
+     90
+    ],
+    [
+     "frost",
+     8
+    ],
+    [
+     "tundra",
+     3
+    ]
+   ],
+   "land_prozent": 1,
+   "hoehe_m": [
+    0.0,
+    1.0,
+    8.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     96
+    ]
+   ]
+  },
+  "G3": {
+   "biome_prozent": [
+    [
+     "elfenwald",
+     97
+    ],
+    [
+     "aue",
+     3
+    ]
+   ],
+   "land_prozent": 72,
+   "hoehe_m": [
+    0.0,
+    34.0,
+    101.0
+   ],
+   "steil_ueber_30grad_prozent": 8,
+   "wand_ueber_50grad_prozent": 0.2,
+   "wasser_prozent": 1.4,
+   "weg_prozent": 0.49,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Laub",
+     56
+    ],
+    [
+     "Sand",
+     23
+    ],
+    [
+     "Gras",
+     7
+    ],
+    [
+     "Kies",
+     6
+    ],
+    [
+     "Moos",
+     4
+    ]
+   ]
+  },
+  "H3": {
+   "biome_prozent": [
+    [
+     "elfenwald",
+     100
+    ]
+   ],
+   "land_prozent": 89,
+   "hoehe_m": [
+    0.0,
+    142.0,
+    448.0
+   ],
+   "steil_ueber_30grad_prozent": 60,
+   "wand_ueber_50grad_prozent": 24.9,
+   "wasser_prozent": 4.2,
+   "weg_prozent": 0.27,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Laub",
+     38
+    ],
+    [
+     "Fels",
+     26
+    ],
+    [
+     "Sand",
+     10
+    ],
+    [
+     "Erde",
+     7
+    ],
+    [
+     "Gras",
+     7
+    ]
+   ]
+  },
+  "I3": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     94
+    ],
+    [
+     "elfenwald",
+     6
+    ]
+   ],
+   "land_prozent": 31,
+   "hoehe_m": [
+    0.0,
+    80.0,
+    406.0
+   ],
+   "steil_ueber_30grad_prozent": 66,
+   "wand_ueber_50grad_prozent": 25.4,
+   "wasser_prozent": 1.2,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     69
+    ],
+    [
+     "Fels",
+     9
+    ],
+    [
+     "Wiese",
+     5
+    ],
+    [
+     "Gras",
+     4
+    ],
+    [
+     "Laub",
+     3
+    ]
+   ]
+  },
+  "J3": {
+   "biome_prozent": [
+    [
+     "aue",
+     98
+    ]
+   ],
+   "land_prozent": 7,
+   "hoehe_m": [
+    0.0,
+    4.0,
+    15.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     92
+    ],
+    [
+     "Wiese",
+     5
+    ]
+   ]
+  },
+  "A4": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     92
+    ],
+    [
+     "aue",
+     8
+    ]
+   ],
+   "land_prozent": 36,
+   "hoehe_m": [
+    0.0,
+    80.0,
+    375.0
+   ],
+   "steil_ueber_30grad_prozent": 65,
+   "wand_ueber_50grad_prozent": 23.2,
+   "wasser_prozent": 2.6,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     61
+    ],
+    [
+     "Fels",
+     10
+    ],
+    [
+     "Gras",
+     10
+    ],
+    [
+     "Nadeln",
+     9
+    ],
+    [
+     "Wiese",
+     5
+    ]
+   ]
+  },
+  "B4": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     100
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    34.0,
+    295.0,
+    684.0
+   ],
+   "steil_ueber_30grad_prozent": 80,
+   "wand_ueber_50grad_prozent": 41.0,
+   "wasser_prozent": 4.2,
+   "weg_prozent": 0.55,
+   "ort_prozent": 5.66,
+   "lagen_prozent": [
+    [
+     "Fels",
+     50
+    ],
+    [
+     "Nadeln",
+     26
+    ],
+    [
+     "Erde",
+     7
+    ],
+    [
+     "Gras",
+     6
+    ],
+    [
+     "Moos",
+     4
+    ]
+   ]
+  },
+  "C4": {
+   "biome_prozent": [
+    [
+     "aue",
+     75
+    ],
+    [
+     "canyon",
+     19
+    ],
+    [
+     "bergwald",
+     6
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    14.0,
+    42.0,
+    113.0
+   ],
+   "steil_ueber_30grad_prozent": 7,
+   "wand_ueber_50grad_prozent": 1.8,
+   "wasser_prozent": 5.4,
+   "weg_prozent": 0.95,
+   "ort_prozent": 13.06,
+   "lagen_prozent": [
+    [
+     "Nadeln",
+     24
+    ],
+    [
+     "Trockengras",
+     24
+    ],
+    [
+     "Sand",
+     17
+    ],
+    [
+     "Wiese",
+     15
+    ],
+    [
+     "Geroell",
+     4
+    ]
+   ]
+  },
+  "D4": {
+   "biome_prozent": [
+    [
+     "canyon",
+     60
+    ],
+    [
+     "wueste",
+     27
+    ],
+    [
+     "aue",
+     13
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    23.0,
+    66.0,
+    151.0
+   ],
+   "steil_ueber_30grad_prozent": 14,
+   "wand_ueber_50grad_prozent": 5.6,
+   "wasser_prozent": 3.5,
+   "weg_prozent": 1.64,
+   "ort_prozent": 20.3,
+   "lagen_prozent": [
+    [
+     "Sand",
+     49
+    ],
+    [
+     "Trockengras",
+     12
+    ],
+    [
+     "Erde",
+     9
+    ],
+    [
+     "Geroell",
+     8
+    ],
+    [
+     "Wiese",
+     8
+    ]
+   ]
+  },
+  "E4": {
+   "biome_prozent": [
+    [
+     "wueste",
+     79
+    ],
+    [
+     "aue",
+     20
+    ]
+   ],
+   "land_prozent": 89,
+   "hoehe_m": [
+    0.0,
+    49.0,
+    164.0
+   ],
+   "steil_ueber_30grad_prozent": 34,
+   "wand_ueber_50grad_prozent": 14.6,
+   "wasser_prozent": 1.4,
+   "weg_prozent": 1.95,
+   "ort_prozent": 9.93,
+   "lagen_prozent": [
+    [
+     "Sand",
+     59
+    ],
+    [
+     "Sandstein",
+     16
+    ],
+    [
+     "Geroell",
+     10
+    ],
+    [
+     "Gras",
+     6
+    ],
+    [
+     "Wiese",
+     4
+    ]
+   ]
+  },
+  "F4": {
+   "biome_prozent": [
+    [
+     "aue",
+     79
+    ],
+    [
+     "heide",
+     21
+    ]
+   ],
+   "land_prozent": 54,
+   "hoehe_m": [
+    0.0,
+    14.0,
+    55.0
+   ],
+   "steil_ueber_30grad_prozent": 2,
+   "wand_ueber_50grad_prozent": 0.7,
+   "wasser_prozent": 3.7,
+   "weg_prozent": 0.18,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     46
+    ],
+    [
+     "Laub",
+     18
+    ],
+    [
+     "Wiese",
+     17
+    ],
+    [
+     "Trockengras",
+     9
+    ],
+    [
+     "Geroell",
+     4
+    ]
+   ]
+  },
+  "G4": {
+   "biome_prozent": [
+    [
+     "elfenwald",
+     76
+    ],
+    [
+     "heide",
+     22
+    ],
+    [
+     "aue",
+     3
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    0.0,
+    23.0,
+    52.0
+   ],
+   "steil_ueber_30grad_prozent": 1,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 5.0,
+   "weg_prozent": 0.52,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Laub",
+     75
+    ],
+    [
+     "Moos",
+     6
+    ],
+    [
+     "Trockengras",
+     4
+    ],
+    [
+     "Wiese",
+     4
+    ],
+    [
+     "Gras",
+     3
+    ]
+   ]
+  },
+  "H4": {
+   "biome_prozent": [
+    [
+     "elfenwald",
+     82
+    ],
+    [
+     "aue",
+     10
+    ],
+    [
+     "sumpf",
+     8
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    5.0,
+    108.0,
+    489.0
+   ],
+   "steil_ueber_30grad_prozent": 33,
+   "wand_ueber_50grad_prozent": 10.5,
+   "wasser_prozent": 4.4,
+   "weg_prozent": 0.16,
+   "ort_prozent": 15.39,
+   "lagen_prozent": [
+    [
+     "Laub",
+     54
+    ],
+    [
+     "Fels",
+     12
+    ],
+    [
+     "Gras",
+     11
+    ],
+    [
+     "Erde",
+     7
+    ],
+    [
+     "Moos",
+     6
+    ]
+   ]
+  },
+  "I4": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     78
+    ],
+    [
+     "elfenwald",
+     21
+    ]
+   ],
+   "land_prozent": 63,
+   "hoehe_m": [
+    0.0,
+    153.0,
+    487.0
+   ],
+   "steil_ueber_30grad_prozent": 71,
+   "wand_ueber_50grad_prozent": 23.2,
+   "wasser_prozent": 2.3,
+   "weg_prozent": 0.19,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     33
+    ],
+    [
+     "Fels",
+     16
+    ],
+    [
+     "Laub",
+     13
+    ],
+    [
+     "Nadeln",
+     10
+    ],
+    [
+     "Erde",
+     7
+    ]
+   ]
+  },
+  "J4": {
+   "biome_prozent": [
+    [
+     "aue",
+     98
+    ]
+   ],
+   "land_prozent": 0,
+   "hoehe_m": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     98
+    ]
+   ]
+  },
+  "A5": {
+   "biome_prozent": [
+    [
+     "kueste",
+     75
+    ],
+    [
+     "bergwald",
+     14
+    ],
+    [
+     "aue",
+     11
+    ]
+   ],
+   "land_prozent": 24,
+   "hoehe_m": [
+    0.0,
+    116.0,
+    365.0
+   ],
+   "steil_ueber_30grad_prozent": 79,
+   "wand_ueber_50grad_prozent": 20.7,
+   "wasser_prozent": 0.6,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     75
+    ],
+    [
+     "Gras",
+     8
+    ],
+    [
+     "Wiese",
+     8
+    ],
+    [
+     "Fels",
+     7
+    ]
+   ]
+  },
+  "B5": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     79
+    ],
+    [
+     "kueste",
+     21
+    ]
+   ],
+   "land_prozent": 98,
+   "hoehe_m": [
+    0.0,
+    235.0,
+    664.0
+   ],
+   "steil_ueber_30grad_prozent": 82,
+   "wand_ueber_50grad_prozent": 33.6,
+   "wasser_prozent": 2.8,
+   "weg_prozent": 0.06,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Fels",
+     39
+    ],
+    [
+     "Gras",
+     18
+    ],
+    [
+     "Nadeln",
+     16
+    ],
+    [
+     "Wiese",
+     11
+    ],
+    [
+     "Erde",
+     5
+    ]
+   ]
+  },
+  "C5": {
+   "biome_prozent": [
+    [
+     "aue",
+     63
+    ],
+    [
+     "lava",
+     31
+    ],
+    [
+     "bergwald",
+     6
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    12.0,
+    28.0,
+    78.0
+   ],
+   "steil_ueber_30grad_prozent": 2,
+   "wand_ueber_50grad_prozent": 0.1,
+   "wasser_prozent": 5.8,
+   "weg_prozent": 0.52,
+   "ort_prozent": 14.92,
+   "lagen_prozent": [
+    [
+     "Wiese",
+     32
+    ],
+    [
+     "Moos",
+     24
+    ],
+    [
+     "Trockengras",
+     12
+    ],
+    [
+     "Gras",
+     11
+    ],
+    [
+     "Lavafels",
+     8
+    ]
+   ]
+  },
+  "D5": {
+   "biome_prozent": [
+    [
+     "aue",
+     79
+    ],
+    [
+     "oedland",
+     19
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    16.0,
+    29.0,
+    72.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.1,
+   "wasser_prozent": 7.1,
+   "weg_prozent": 1.65,
+   "ort_prozent": 33.21,
+   "lagen_prozent": [
+    [
+     "Wiese",
+     43
+    ],
+    [
+     "Trockengras",
+     27
+    ],
+    [
+     "Moos",
+     8
+    ],
+    [
+     "Erde",
+     6
+    ],
+    [
+     "Geroell",
+     4
+    ]
+   ]
+  },
+  "E5": {
+   "biome_prozent": [
+    [
+     "aue",
+     93
+    ],
+    [
+     "oedland",
+     7
+    ]
+   ],
+   "land_prozent": 97,
+   "hoehe_m": [
+    0.0,
+    17.0,
+    74.0
+   ],
+   "steil_ueber_30grad_prozent": 1,
+   "wand_ueber_50grad_prozent": 0.1,
+   "wasser_prozent": 7.3,
+   "weg_prozent": 0.68,
+   "ort_prozent": 3.49,
+   "lagen_prozent": [
+    [
+     "Wiese",
+     48
+    ],
+    [
+     "Trockengras",
+     21
+    ],
+    [
+     "Moos",
+     8
+    ],
+    [
+     "Sand",
+     6
+    ],
+    [
+     "Gras",
+     5
+    ]
+   ]
+  },
+  "F5": {
+   "biome_prozent": [
+    [
+     "heide",
+     74
+    ],
+    [
+     "aue",
+     25
+    ]
+   ],
+   "land_prozent": 58,
+   "hoehe_m": [
+    0.0,
+    4.0,
+    23.0
+   ],
+   "steil_ueber_30grad_prozent": 1,
+   "wand_ueber_50grad_prozent": 0.1,
+   "wasser_prozent": 9.7,
+   "weg_prozent": 0.2,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     35
+    ],
+    [
+     "Wiese",
+     25
+    ],
+    [
+     "Geroell",
+     15
+    ],
+    [
+     "Trockengras",
+     14
+    ],
+    [
+     "Moos",
+     4
+    ]
+   ]
+  },
+  "G5": {
+   "biome_prozent": [
+    [
+     "heide",
+     77
+    ],
+    [
+     "dschungel",
+     22
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    0.0,
+    18.0,
+    102.0
+   ],
+   "steil_ueber_30grad_prozent": 3,
+   "wand_ueber_50grad_prozent": 0.7,
+   "wasser_prozent": 3.9,
+   "weg_prozent": 0.77,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Trockengras",
+     37
+    ],
+    [
+     "Heide",
+     16
+    ],
+    [
+     "Wiese",
+     14
+    ],
+    [
+     "Laub",
+     10
+    ],
+    [
+     "Moos",
+     9
+    ]
+   ]
+  },
+  "H5": {
+   "biome_prozent": [
+    [
+     "sumpf",
+     78
+    ],
+    [
+     "dschungel",
+     12
+    ],
+    [
+     "aue",
+     8
+    ]
+   ],
+   "land_prozent": 99,
+   "hoehe_m": [
+    0.0,
+    8.0,
+    93.0
+   ],
+   "steil_ueber_30grad_prozent": 3,
+   "wand_ueber_50grad_prozent": 1.0,
+   "wasser_prozent": 0.4,
+   "weg_prozent": 0.06,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Laub",
+     26
+    ],
+    [
+     "Schlamm",
+     21
+    ],
+    [
+     "Algen",
+     14
+    ],
+    [
+     "Gras",
+     13
+    ],
+    [
+     "Kraut",
+     12
+    ]
+   ]
+  },
+  "I5": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     68
+    ],
+    [
+     "dschungel",
+     21
+    ],
+    [
+     "sumpf",
+     11
+    ]
+   ],
+   "land_prozent": 50,
+   "hoehe_m": [
+    0.0,
+    10.0,
+    117.0
+   ],
+   "steil_ueber_30grad_prozent": 4,
+   "wand_ueber_50grad_prozent": 0.1,
+   "wasser_prozent": 0.2,
+   "weg_prozent": 0.13,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     47
+    ],
+    [
+     "Laub",
+     12
+    ],
+    [
+     "Schlamm",
+     9
+    ],
+    [
+     "Wiese",
+     8
+    ],
+    [
+     "Gras",
+     7
+    ]
+   ]
+  },
+  "J5": {
+   "biome_prozent": [
+    [
+     "aue",
+     98
+    ]
+   ],
+   "land_prozent": 9,
+   "hoehe_m": [
+    0.0,
+    1.0,
+    4.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     90
+    ],
+    [
+     "Wiese",
+     6
+    ]
+   ]
+  },
+  "A6": {
+   "biome_prozent": [
+    [
+     "aue",
+     98
+    ]
+   ],
+   "land_prozent": 9,
+   "hoehe_m": [
+    0.0,
+    6.0,
+    48.0
+   ],
+   "steil_ueber_30grad_prozent": 3,
+   "wand_ueber_50grad_prozent": 0.9,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     90
+    ],
+    [
+     "Wiese",
+     6
+    ]
+   ]
+  },
+  "B6": {
+   "biome_prozent": [
+    [
+     "bergwald",
+     63
+    ],
+    [
+     "aue",
+     24
+    ],
+    [
+     "lava",
+     13
+    ]
+   ],
+   "land_prozent": 63,
+   "hoehe_m": [
+    0.0,
+    39.0,
+    159.0
+   ],
+   "steil_ueber_30grad_prozent": 22,
+   "wand_ueber_50grad_prozent": 0.9,
+   "wasser_prozent": 1.3,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     35
+    ],
+    [
+     "Wiese",
+     15
+    ],
+    [
+     "Lavasand",
+     14
+    ],
+    [
+     "Nadeln",
+     14
+    ],
+    [
+     "Gras",
+     12
+    ]
+   ]
+  },
+  "C6": {
+   "biome_prozent": [
+    [
+     "lava",
+     99
+    ]
+   ],
+   "land_prozent": 100,
+   "hoehe_m": [
+    24.0,
+    125.0,
+    381.0
+   ],
+   "steil_ueber_30grad_prozent": 38,
+   "wand_ueber_50grad_prozent": 6.9,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Lavafels",
+     45
+    ],
+    [
+     "Lavasand",
+     27
+    ],
+    [
+     "Moos",
+     17
+    ],
+    [
+     "Gras",
+     8
+    ],
+    [
+     "Wiese",
+     3
+    ]
+   ]
+  },
+  "D6": {
+   "biome_prozent": [
+    [
+     "oedland",
+     61
+    ],
+    [
+     "lava",
+     26
+    ],
+    [
+     "aue",
+     13
+    ]
+   ],
+   "land_prozent": 97,
+   "hoehe_m": [
+    0.0,
+    48.0,
+    343.0
+   ],
+   "steil_ueber_30grad_prozent": 19,
+   "wand_ueber_50grad_prozent": 6.3,
+   "wasser_prozent": 3.7,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Trockengras",
+     17
+    ],
+    [
+     "Lavasand",
+     14
+    ],
+    [
+     "Wiese",
+     13
+    ],
+    [
+     "Lehm",
+     12
+    ],
+    [
+     "Lavafels",
+     11
+    ]
+   ]
+  },
+  "E6": {
+   "biome_prozent": [
+    [
+     "oedland",
+     96
+    ],
+    [
+     "aue",
+     4
+    ]
+   ],
+   "land_prozent": 88,
+   "hoehe_m": [
+    0.0,
+    22.0,
+    89.0
+   ],
+   "steil_ueber_30grad_prozent": 16,
+   "wand_ueber_50grad_prozent": 8.9,
+   "wasser_prozent": 0.4,
+   "weg_prozent": 0.13,
+   "ort_prozent": 4.22,
+   "lagen_prozent": [
+    [
+     "Lehm",
+     25
+    ],
+    [
+     "Erde",
+     18
+    ],
+    [
+     "Geroell",
+     15
+    ],
+    [
+     "Sandstein",
+     12
+    ],
+    [
+     "Trockengras",
+     9
+    ]
+   ]
+  },
+  "F6": {
+   "biome_prozent": [
+    [
+     "aue",
+     96
+    ],
+    [
+     "oedland",
+     4
+    ]
+   ],
+   "land_prozent": 51,
+   "hoehe_m": [
+    0.0,
+    5.0,
+    51.0
+   ],
+   "steil_ueber_30grad_prozent": 4,
+   "wand_ueber_50grad_prozent": 1.0,
+   "wasser_prozent": 1.7,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     37
+    ],
+    [
+     "Trockengras",
+     16
+    ],
+    [
+     "Wiese",
+     15
+    ],
+    [
+     "Erde",
+     12
+    ],
+    [
+     "Geroell",
+     11
+    ]
+   ]
+  },
+  "G6": {
+   "biome_prozent": [
+    [
+     "dschungel",
+     97
+    ],
+    [
+     "aue",
+     3
+    ]
+   ],
+   "land_prozent": 80,
+   "hoehe_m": [
+    0.0,
+    32.0,
+    159.0
+   ],
+   "steil_ueber_30grad_prozent": 23,
+   "wand_ueber_50grad_prozent": 13.9,
+   "wasser_prozent": 1.4,
+   "weg_prozent": 0.12,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Laub",
+     33
+    ],
+    [
+     "Sand",
+     15
+    ],
+    [
+     "Fels",
+     13
+    ],
+    [
+     "Schlamm",
+     9
+    ],
+    [
+     "Trockengras",
+     8
+    ]
+   ]
+  },
+  "H6": {
+   "biome_prozent": [
+    [
+     "dschungel",
+     100
+    ]
+   ],
+   "land_prozent": 94,
+   "hoehe_m": [
+    0.0,
+    31.0,
+    166.0
+   ],
+   "steil_ueber_30grad_prozent": 19,
+   "wand_ueber_50grad_prozent": 9.0,
+   "wasser_prozent": 3.8,
+   "weg_prozent": 0.22,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Laub",
+     59
+    ],
+    [
+     "Fels",
+     12
+    ],
+    [
+     "Kraut",
+     8
+    ],
+    [
+     "Schlamm",
+     8
+    ],
+    [
+     "Moos",
+     7
+    ]
+   ]
+  },
+  "I6": {
+   "biome_prozent": [
+    [
+     "dschungel",
+     100
+    ]
+   ],
+   "land_prozent": 63,
+   "hoehe_m": [
+    0.0,
+    56.0,
+    164.0
+   ],
+   "steil_ueber_30grad_prozent": 31,
+   "wand_ueber_50grad_prozent": 11.5,
+   "wasser_prozent": 1.2,
+   "weg_prozent": 0.26,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     33
+    ],
+    [
+     "Laub",
+     26
+    ],
+    [
+     "Wiese",
+     9
+    ],
+    [
+     "Fels",
+     8
+    ],
+    [
+     "Moos",
+     5
+    ]
+   ]
+  },
+  "J6": {
+   "biome_prozent": [
+    [
+     "aue",
+     98
+    ]
+   ],
+   "land_prozent": 41,
+   "hoehe_m": [
+    0.0,
+    2.0,
+    8.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     60
+    ],
+    [
+     "Wiese",
+     24
+    ],
+    [
+     "Trockengras",
+     6
+    ],
+    [
+     "Gras",
+     4
+    ],
+    [
+     "Moos",
+     3
+    ]
+   ]
+  },
+  "A7": {
+   "biome_prozent": [
+    [
+     "aue",
+     100
+    ]
+   ],
+   "land_prozent": 13,
+   "hoehe_m": [
+    0.0,
+    4.0,
+    24.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     86
+    ],
+    [
+     "Wiese",
+     8
+    ]
+   ]
+  },
+  "B7": {
+   "biome_prozent": [
+    [
+     "aue",
+     94
+    ],
+    [
+     "lava",
+     6
+    ]
+   ],
+   "land_prozent": 28,
+   "hoehe_m": [
+    0.0,
+    4.0,
+    61.0
+   ],
+   "steil_ueber_30grad_prozent": 1,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     71
+    ],
+    [
+     "Wiese",
+     14
+    ],
+    [
+     "Trockengras",
+     4
+    ],
+    [
+     "Geroell",
+     3
+    ],
+    [
+     "Lavasand",
+     3
+    ]
+   ]
+  },
+  "C7": {
+   "biome_prozent": [
+    [
+     "lava",
+     61
+    ],
+    [
+     "aue",
+     39
+    ]
+   ],
+   "land_prozent": 48,
+   "hoehe_m": [
+    0.0,
+    102.0,
+    378.0
+   ],
+   "steil_ueber_30grad_prozent": 59,
+   "wand_ueber_50grad_prozent": 7.7,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     47
+    ],
+    [
+     "Lavafels",
+     33
+    ],
+    [
+     "Lavasand",
+     20
+    ]
+   ]
+  },
+  "D7": {
+   "biome_prozent": [
+    [
+     "aue",
+     87
+    ],
+    [
+     "lava",
+     13
+    ]
+   ],
+   "land_prozent": 36,
+   "hoehe_m": [
+    0.0,
+    50.0,
+    319.0
+   ],
+   "steil_ueber_30grad_prozent": 27,
+   "wand_ueber_50grad_prozent": 5.8,
+   "wasser_prozent": 0.9,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     63
+    ],
+    [
+     "Wiese",
+     13
+    ],
+    [
+     "Lavasand",
+     8
+    ],
+    [
+     "Lavafels",
+     6
+    ],
+    [
+     "Trockengras",
+     5
+    ]
+   ]
+  },
+  "E7": {
+   "biome_prozent": [
+    [
+     "oedland",
+     72
+    ],
+    [
+     "aue",
+     28
+    ]
+   ],
+   "land_prozent": 13,
+   "hoehe_m": [
+    0.0,
+    2.0,
+    11.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 1.29,
+   "lagen_prozent": [
+    [
+     "Sand",
+     80
+    ],
+    [
+     "Erde",
+     9
+    ],
+    [
+     "Wiese",
+     6
+    ],
+    [
+     "Trockengras",
+     3
+    ]
+   ]
+  },
+  "F7": {
+   "biome_prozent": [
+    [
+     "aue",
+     97
+    ],
+    [
+     "oedland",
+     3
+    ]
+   ],
+   "land_prozent": 21,
+   "hoehe_m": [
+    0.0,
+    2.0,
+    9.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 4.13,
+   "lagen_prozent": [
+    [
+     "Sand",
+     78
+    ],
+    [
+     "Wiese",
+     9
+    ],
+    [
+     "Trockengras",
+     5
+    ],
+    [
+     "Erde",
+     4
+    ]
+   ]
+  },
+  "G7": {
+   "biome_prozent": [
+    [
+     "dschungel",
+     73
+    ],
+    [
+     "aue",
+     27
+    ]
+   ],
+   "land_prozent": 10,
+   "hoehe_m": [
+    0.0,
+    12.0,
+    73.0
+   ],
+   "steil_ueber_30grad_prozent": 24,
+   "wand_ueber_50grad_prozent": 11.1,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     84
+    ],
+    [
+     "Laub",
+     6
+    ],
+    [
+     "Schlamm",
+     6
+    ]
+   ]
+  },
+  "H7": {
+   "biome_prozent": [
+    [
+     "dschungel",
+     76
+    ],
+    [
+     "aue",
+     24
+    ]
+   ],
+   "land_prozent": 22,
+   "hoehe_m": [
+    0.0,
+    7.0,
+    65.0
+   ],
+   "steil_ueber_30grad_prozent": 7,
+   "wand_ueber_50grad_prozent": 2.7,
+   "wasser_prozent": 2.5,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     71
+    ],
+    [
+     "Laub",
+     18
+    ],
+    [
+     "Schlamm",
+     6
+    ]
+   ]
+  },
+  "I7": {
+   "biome_prozent": [
+    [
+     "dschungel",
+     76
+    ],
+    [
+     "aue",
+     24
+    ]
+   ],
+   "land_prozent": 15,
+   "hoehe_m": [
+    0.0,
+    43.0,
+    154.0
+   ],
+   "steil_ueber_30grad_prozent": 40,
+   "wand_ueber_50grad_prozent": 18.7,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     83
+    ],
+    [
+     "Laub",
+     5
+    ],
+    [
+     "Fels",
+     3
+    ]
+   ]
+  },
+  "J7": {
+   "biome_prozent": [
+    [
+     "aue",
+     99
+    ]
+   ],
+   "land_prozent": 2,
+   "hoehe_m": [
+    0.0,
+    1.0,
+    3.0
+   ],
+   "steil_ueber_30grad_prozent": 0,
+   "wand_ueber_50grad_prozent": 0.0,
+   "wasser_prozent": 0.0,
+   "weg_prozent": 0.0,
+   "ort_prozent": 0.0,
+   "lagen_prozent": [
+    [
+     "Sand",
+     98
+    ]
+   ]
+  }
+ }
+}
