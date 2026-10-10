@@ -1,13 +1,14 @@
 {
  "_doku": {
-  "stand": "2026-10-10 (Korrektur Runde 2)",
+  "stand": "2026-10-10 (Korrektur Runde 3)",
   "zweck": "Regeln für felsgruppen_plan.py (Auftrag 11 Teil C). Alle Zahlen Richtwerte; Vorfassung lief lokal mit Echtdaten (A5 13 311, G4 114, E1 18 482, C6 27 357 Instanzen) ohne Absturz; Pfade geprüft gegen daten/netze.csv (1435 Netze).",
   "einheiten": "Längen in m, Winkel in Grad, Krümmung in 1/m, Sichtweite in cm, Maßstab als Faktor; Raster 1 m (FORMAT.md §1).",
   "pivot": "Eingraben rechnet z = Boden - min_z*s - eingraben*H*s. min_z aus daten/netze_masse.json, sonst 0 (Pivot unten) bzw. -H/2 für Netze in netz_pivot_mitte.",
   "rollen": "hero (>3 m, Hauptfels), wand (Schale/Klippe an Wand >50°), band (geschichtete Platte/Leiste), block (0,8–3 m), stein (<0,8 m), platte (flache Bodenplatte), kiesel (5–40 cm, Geröllsaum).",
   "taxonomie": "Abgleich mit assets-taxonomie.json (Teil A, nach Festlegung der Palette erschienen): Taxonomie stuft nach größter Kante, diese Palette nach Höhe (Auftrag: hero > 3 m, block 0,8–3 m, stein < 0,8 m); Kiesel entsprechen dort 'ufer_stein', Nordic-/Sandstein-Klippen 'klippe_schale'. Aus der Taxonomie übernommen: SM_IcelandicLavaSpire_01–03 als Hero für lava/tundra.",
   "korrektur_runde1": "Biom je Zelle strikt (biom_zuordnung), biome_eigen = alle 15 Biome (Querschnitts-Planer), plan.json-Pflichtschlüssel (biome_fenster, zellen_zustaendig, biome_eigen, kollision_anzahl, hinweise), Budget mit Warnung (budget.ziel), Biom-Overrides (overrides), Klasse einzel + mindestdichte_je_ha.",
-  "korrektur_runde2": "auftraege/verteilung-korrektur-runde2.md Befund 2/3: Gruppen als Form auf 300 m (Hauptfels 4-10 m sichtbar an Graten/Kuppen, Satelliten 1,5-4 m eng gestaffelt mit Abstand <= 1,5 x Hauptfels-Radius, Gruppe 10-30 m breit, halb so viele Gruppen), Felskrone als Kette entlang des Kamms, Blockstrom am Fuss von Waenden > 50 Grad (Groesse hangabwaerts abnehmend), Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100, Kleinmaterial nur im Kontaktsaum, Sperrliste 'gesperrt'."
+  "korrektur_runde2": "auftraege/verteilung-korrektur-runde2.md Befund 2/3: Gruppen als Form auf 300 m (Hauptfels 4-10 m sichtbar an Graten/Kuppen, Satelliten 1,5-4 m eng gestaffelt mit Abstand <= 1,5 x Hauptfels-Radius, Gruppe 10-30 m breit, halb so viele Gruppen), Felskrone als Kette entlang des Kamms, Blockstrom am Fuss von Waenden > 50 Grad (Groesse hangabwaerts abnehmend), Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100, Kleinmaterial nur im Kontaktsaum, Sperrliste 'gesperrt'.",
+  "korrektur_runde3": "auftraege/verteilung-korrektur-runde3.md: (1) rote Findlinge /Game/AncientContent/.../SM_IcelandicBoulder_01-03 nur in canyon, oedland, wueste, lava (Block netz_nur_biome, im Planer je Palette, Override und Zusatzklasse erzwungen, Ersatz grau gleicher Groesse); (2) Formgruppen 10-30 m (Block formgruppen): 8-20 je Feld auf den markantesten Graten/Kuppen/Wandnasen, Auswahl nach Kruemmung, Prominenz und Sichtbarkeit von Tal/Weg (300-1500 m), Hero = grosse Klippennetze skaliert 1,0-2,0 als Akteur, 35-60 % eingegraben, Rueckseite hangwaerts, Satelliten 2-6 m, Blockstrom am Fuss, Mindestabstand; (3) Runde-2-Gruppen grat/kuppe nur noch als Begleitung (formgruppen.begleitung); (4) keine Gruppe auf Wiese ohne Hangknick (Block hangknick); (5) uchoab3fa (Quarry Cliff) gesperrt."
  },
  "seed": 110,
  "rand_m": 64,
@@ -116,8 +117,7 @@
     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_6",
     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_7",
     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_8",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
     "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
     "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xf3odif/Raw/xf3odif_tier_0/StaticMeshes/xf3odif_tier_0",
     "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
@@ -128,8 +128,7 @@
     "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_01",
     "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_02",
     "/Game/Environment_Set/Environment/Rocks/Models/SM_Middle_Rock_01",
-    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_03_03",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01"
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_03_03"
    ],
    "stein": [
     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
@@ -209,7 +208,8 @@
     "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_01",
     "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_02",
     "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
     "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
     "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0",
     "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01",
@@ -232,9 +232,10 @@
     "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_C"
    ],
    "block": [
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+    "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_1",
     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_2",
     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
@@ -336,7 +337,6 @@
     "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
     "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
     "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
     "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_01",
     "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_03",
     "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_05"
@@ -974,6 +974,18 @@
     0.5
    ],
    "hinweis": "Nur aktiv, wenn für ein Biom mindestdichte_je_ha > 0 gilt (Override der Biom-Regeldatei oder Tabelle mindestdichte_je_ha). Einzelblock/Moosfels + 0–2 Nebenblöcke + Steine + Kieselsaum, freie Fläche ohne Mulde/Wand/Baumsperre; gejittertes 20-m-Gitter (globaler Hash, nahtlos). Annahme p = Fehlmenge / freie Gitterpunkte im Feld."
+  },
+  "formgruppe": {
+   "farbe": [
+    10,
+    10,
+    10
+   ],
+   "kiesel": [
+    0,
+    0
+   ],
+   "hinweis": "Runde 3: Formgruppe 10-30 m (Hero-Klippe als Akteur + Satelliten + Blockstrom). Regeln im Block 'formgruppen'."
   }
  },
  "gruppe": {
@@ -1173,7 +1185,8 @@
    "kiesel": 40000
   },
   "thinning": "Deckel hart (KONVENTIONEN §3). Runde 2: je Rolle und gesamt nach Gruppen-Prioritaet (ganze Gruppen zuerst, nicht einzelne Stuecke vieler Gruppen), Kiesel nach Instanz-Hash; Kollision ueber dem Deckel: zuerst Kollision der kleinsten Stuecke abschalten (Stueck bleibt sichtbar), WARNUNG im Log; Akteure ueber dem Deckel als Foliage (kleinste zuerst). Danach Kontaktsaum-Pruefung (kleinmaterial).",
-  "ziel": 52000
+  "ziel": 52000,
+  "akteure_hinweis": "Runde 3: Deckel 150 bleibt (Formgruppen 8-20 Akteure je Feld + Runde-2-Hauptfelsen >= 5 m + wand). Formgruppen-Heros werden nie zu Foliage umgestellt und bei Ausduennung zuletzt entfernt."
  },
  "erwartung_je_feld": {
   "hinweis": "Spannen für Bergfelder (B4, B5, C2, D2, E1): grat 80–250 Gruppen, band 200–600, wand 20–80, fuss 300–900, blockstrom 40–150, kuppe 5–25; Instanzen: hero 60–300, wand 40–250, band 250–1200, block 600–2000, stein 3000–9000, kiesel 10000–35000; Summe 15000–45000. Flachfelder (Aue/Heide): 300–3000 Instanzen.",
@@ -1244,9 +1257,10 @@
  "gesperrt": {
   "netze": [
    "/Game/AncientRuins/Meshes/SM_Column_03",
-   "/Game/AncientRuins/Meshes/SM_Main_Arch_01"
+   "/Game/AncientRuins/Meshes/SM_Main_Arch_01",
+   "/Game/Fab/Megascans/3D/Quarry_Cliff_uchoab3fa/Raw/uchoab3fa_tier_0/StaticMeshes/uchoab3fa_tier_0"
   ],
-  "_hinweis": "Korrektur Runde 2 Befund 3: leere Grundfarbtextur -> weiss. Werden aus allen Paletten, Override-Paletten, Zusatzklassen und Punkt-Netzen entfernt (Log-Hinweis mit Anzahl). Weitere Netze hier eintragen (Pfad wie in netze.csv)."
+  "_hinweis": "Korrektur Runde 2 Befund 3: leere Grundfarbtextur -> weiss. Werden aus allen Paletten, Override-Paletten, Zusatzklassen und Punkt-Netzen entfernt (Log-Hinweis mit Anzahl). Weitere Netze hier eintragen (Pfad wie in netze.csv). Runde 3: uchoab3fa (Quarry Cliff) hat lokal kein Klippenmaterial MI_EL_Klippe_* -> gesperrt (auch aus der wand-Palette nordisch)."
  },
  "form": {
   "_hinweis": "Korrektur Runde 2 (Befund 2): Gruppengrammatik. Hoehen sind SICHTBARE Hoehen ueber Boden (Netzhoehe x Massstab x (1 - Eingraben)). Massstab je Netz = Zielhoehe / Netzhoehe (netze_masse.json, sonst netze.csv groesse_z_m), begrenzt auf [min_skalierung, max_skalierung_megascans] fuer Pfade mit megascans_muster, sonst max_skalierung_sonst; Netze, die die Zielhoehe nicht erreichen, werden fuer diese Rolle nicht gewaehlt (Rueckfall: naechstliegendes Netz). Flache Netze (Hoehe < flach_verhaeltnis x Breite) und Platten-Netze sind nie Hauptfels/Satellit.",
@@ -1362,7 +1376,8 @@
   "strom_groesse": [
    0.8,
    0.25
-  ]
+  ],
+  "_hinweis_runde3": "max_breite_m.hero (14 m) gilt nur noch fuer die Runde-2-Gruppen (zweite Stufe); Formgruppen-Heros nutzen formgruppen.hero.breite_max_m (38 m), ihre Satelliten formgruppen.satelliten.breite_max_m (9 m)."
  },
  "platten": {
   "_hinweis": "Korrektur Runde 2 (Befund 2): flache Platten-Netze (Name passt zu 'muster', oder flaches Netz - Hoehe < form.flach_verhaeltnis x Breite - mit Rolle platte/geroell_platte; nicht flache Bloecke einer Platten-Rolle, z. B. hochgebirge moraene, behalten die Lagen-Bedingung des Bioms) nur auf Zellen, deren max(lage_Kies, lage_Geroell, lage_Fels, lage_Felsplatte) >= lagen_min ist und Gras/Wiese nicht ueberwiegt (Mitte + 4 Randpunkte bei 0,6 x Radius), eingegraben >= eingraben_min der Netzhoehe, Z-Achse = Gelaendenormale (kein Kippen, keine Schichtneigung), strenger Schwebe-Test (Gelaende darf unter dem Rand hoechstens Eingrabtiefe + schwebe_toleranz_m unter der Plattenebene liegen). Gilt zentral auch fuer zusatzklassen der Biom-Overrides. Fehlen alle Lagen-Raster: keine Platten.",
@@ -1401,5 +1416,498 @@
    "stein"
   ],
   "gross_ab_m": 0.5
+ },
+ "netz_nur_biome": {
+  "_hinweis": "Korrektur Runde 3 Befund 1: Netze, die nur in den genannten Biomen stehen duerfen (Pfad exakt wie netze.csv; Schluessel mit '*' am Ende = Praefix). Der Planer erzwingt das je Biom fuer Grundpaletten, Override-Paletten (palette, paletten_neu, paletten_ergaenzung, Rollen-Netze), Formgruppen-Hero-Paletten und Zusatzklassen (je Stueck nach Biom der Zelle); verbotene Verweise werden durch 'ersatz' (grau, gleiche Groesse) ersetzt, Log-Hinweis mit Anzahl. Letzte Pruefung nach dem Erzeugen: Stuecke mit gesperrtem Netz in einer Zelle eines fremden Bioms (Gruppenrand ueber der Biomgrenze) bekommen das Ersatznetz bei gleicher Hoehe. Die grauen /Game/Megascans/.../SM_IcelandicBoulder_* gibt es im Inventar (netze.csv, inventar.json) nicht; sie waeren erlaubt.",
+  "netze": {
+   "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01": [
+    "canyon",
+    "oedland",
+    "wueste",
+    "lava"
+   ],
+   "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02": [
+    "canyon",
+    "oedland",
+    "wueste",
+    "lava"
+   ],
+   "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03": [
+    "canyon",
+    "oedland",
+    "wueste",
+    "lava"
+   ]
+  },
+  "ersatz": {
+   "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01": [
+    "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
+    "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0"
+   ],
+   "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02": [
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0"
+   ],
+   "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03": [
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04"
+   ]
+  }
+ },
+ "hangknick": {
+  "_hinweis": "Runde 3 Befund 2 ('keine Gruppe auf Wiesen ohne Hangknick'): Hangknick = groesster Betrag der Hauptkruemmungen der sigma-25-m-Hoehe (glaettung.massiv_sigma_m) >= kruemmung_min (0,004 1/m ~ 14 Grad Hangwechsel auf 60 m). Wiese = Gras/Wiese >= platten.lagen_min und keine Kies/Geroell/Fels/Felsplatte-Lage >= lagen_min. Gruppen der genannten Klassen, deren Hauptstueck auf Wiese ohne Hangknick laege, entfallen (Statistik statistik.hangknick). Formgruppen verlangen den Hangknick immer (auch ohne Lagen-Raster).",
+  "kruemmung_min": 0.004,
+  "klassen": [
+   "grat",
+   "band",
+   "wand",
+   "fuss",
+   "blockstrom",
+   "kuppe",
+   "prallhang"
+  ]
+ },
+ "formgruppen": {
+  "_hinweis": "Korrektur Runde 3 Befund 2: Felskronen 10-30 m auf den markantesten Graten, Kuppen und Wandnasen. Kandidaten: Gratstaerke (sigma 8) >= kruemmung_min, Hangknick (hangknick) Pflicht, Relief gegen sigma 25 >= relief_min_m, Prominenz (sigma-12-Hoehe minus Mittel im Umkreis umgebung_m auf dem 8-m-Grobraster) >= prominenz_min_m, frei, Hang <= hang_max_grad, keine Mulde. Je vorwahl_zelle_m-Zelle der beste Punkt, davon die vorwahl_max besten. Sichtbarkeit: Strahlen in 'richtungen' Richtungen auf dem Grobraster (raster_m) bis abstand_m[1]; gezaehlt werden Ziel-Zellen (Weg, Tal, Binnenwasser, Meer mit Gewicht) in abstand_m[0]-abstand_m[1] mit freier Sichtlinie vom Auge (Gelaende + augenhoehe_m) zur Felskrone (Gelaende + zielhoehe_m), Flaechengewicht d/1000; sicht_n = 1 - exp(-sicht/ref). Score = Summe gewichte x (Prominenz/prominenz_ref_m, Kruemmung/kruemmung_ref, sicht_n). Auswahl gierig nach Score mit Mindestabstand abstand_min_m (auch zu Kandidaten im 64-m-Rand), je Feld hoechstens je_feld[1] mit Score >= score_min, aufgefuellt bis je_feld[0] mit Kandidaten ueber prominenz_fuell_min_m. Hero: Netz je Typ (grat/kuppe/nase) und Biom-Palette, Massstab 1,0-2,0 (Ziel-Breite breite_m, Grenzen breite_max_m und sicht_hoehe_max_m), Akteur mit Kollision, eingegraben 35-60 % (mehr, wenn der Fuss sonst schwebt; Gruppe entfaellt, wenn > eingraben[1] noetig), Rueckseite (offene Seite) hangwaerts: Front = Sichtrichtung + Gefaelle (sigma 25), am Grat quer zur Gratachse; Hero um versatz_tiefe_anteil x halbe Tiefe zur Front verschoben, damit die Rueckseite im Kamm steckt; Neigung: normale_anteil zur Gelaendenormale, kippen_grad in den Hang, Schichtneigung (schichtung, je Massiv) x schichtneigung_anteil. rueckseite je Netz = lokale Achse der offenen Seite (ANNAHME '+y' bei in X langen Netzen, '+x' bei in Y langen; im Editor mit Pruefkamera formgruppe_front_120m pruefen und hier umdrehen). Runde-2-Gruppen grat/kuppe nur noch als Begleitung (begleitung).",
+  "aktiv": true,
+  "je_feld": [
+   8,
+   20
+  ],
+  "abstand_min_m": 120,
+  "kruemmung_min": 0.006,
+  "kruemmung_ref": 0.03,
+  "relief_min_m": 2.0,
+  "prominenz_min_m": 12.0,
+  "prominenz_fuell_min_m": 8.0,
+  "prominenz_ref_m": 45.0,
+  "umgebung_m": 200,
+  "hang_max_grad": 62,
+  "vorwahl_zelle_m": 40,
+  "vorwahl_max": 400,
+  "score_min": 0.45,
+  "gewichte": {
+   "prominenz": 0.35,
+   "kruemmung": 0.2,
+   "sicht": 0.45
+  },
+  "biome_aus": [
+   "sumpf",
+   "dschungel"
+  ],
+  "biome_aus_hinweis": "sumpf: kaum Relief; dschungel: Karsttuerme sind Gelaende/eigene Klasse karstfuss (AsianTemple-Klippen 30-75 m passen nicht in 1,0-2,0).",
+  "typ": {
+   "kuppe_umkreis_m": 24,
+   "nase_wand_abstand_m": 30,
+   "kuppe_toleranz_m": 1.0,
+   "kamm_quer_m": 24.0,
+   "kamm_quer_relief_m": 2.5
+  },
+  "sicht": {
+   "raster_m": 8,
+   "richtungen": 32,
+   "abstand_m": [
+    300,
+    1500
+   ],
+   "augenhoehe_m": 1.8,
+   "zielhoehe_m": 8.0,
+   "ziele": {
+    "weg": 1.0,
+    "tal": 1.0,
+    "wasser_binnen": 0.6,
+    "meer": 0.3
+   },
+   "tal_umkreis_m": 200,
+   "tal_tiefe_m": 12.0,
+   "tal_hang_max_grad": 20,
+   "ref": 60.0
+  },
+  "hero": {
+   "massstab": [
+    1.0,
+    2.0
+   ],
+   "breite_m": [
+    14.0,
+    32.0
+   ],
+   "breite_max_m": 38.0,
+   "sicht_hoehe_max_m": 24.0,
+   "eingraben": [
+    0.35,
+    0.6
+   ],
+   "alternativen": 8,
+   "ueberstand_min_m": 3.0,
+   "groesse_min_m": 10.0,
+   "sicht_hoehe_min_m": 4.0,
+   "boden_puffer_m": 0.3,
+   "fussabdruck_anteil": 0.8,
+   "kippen_grad": [
+    2,
+    8
+   ],
+   "normale_anteil": 0.4,
+   "schichtneigung_anteil": 1.0,
+   "versatz_tiefe_anteil": 0.6,
+   "front_gewichte": {
+    "sicht": 1.0,
+    "gefaelle": 0.7
+   },
+   "nicht_uniform": 0.1,
+   "sichtweite_cm": [
+    0,
+    0
+   ],
+   "rueckseite_standard": "auto",
+   "palette_je_biom": {
+    "moos": "nordisch",
+    "tundra": "tundra"
+   },
+   "paletten": {
+    "nordisch": [
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vfmjadufa/Medium/vfmjadufa_tier_2/StaticMeshes/vfmjadufa_tier_2",
+      "typen": [
+       "grat",
+       "nase",
+       "kuppe"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vdssailfa/Medium/vdssailfa_tier_2/StaticMeshes/vdssailfa_tier_2",
+      "typen": [
+       "kuppe",
+       "nase",
+       "grat"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_veqnci0db/Medium/veqnci0db_tier_2/StaticMeshes/veqnci0db_tier_2",
+      "typen": [
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 0.6
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
+      "typen": [
+       "kuppe",
+       "nase",
+       "grat"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_01",
+      "typen": [
+       "grat",
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_02",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 0.8
+     },
+     {
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 0.5
+     },
+     {
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_02",
+      "typen": [
+       "grat"
+      ],
+      "gewicht": 0.3
+     },
+     {
+      "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_01",
+      "typen": [
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 0.3
+     },
+     {
+      "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_02",
+      "typen": [
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 0.3
+     },
+     {
+      "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_03",
+      "typen": [
+       "kuppe",
+       "nase",
+       "grat"
+      ],
+      "gewicht": 0.4
+     }
+    ],
+    "tundra": [
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vfmjadufa/Medium/vfmjadufa_tier_2/StaticMeshes/vfmjadufa_tier_2",
+      "typen": [
+       "grat",
+       "nase",
+       "kuppe"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vdssailfa/Medium/vdssailfa_tier_2/StaticMeshes/vdssailfa_tier_2",
+      "typen": [
+       "kuppe",
+       "nase",
+       "grat"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_veqnci0db/Medium/veqnci0db_tier_2/StaticMeshes/veqnci0db_tier_2",
+      "typen": [
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 0.6
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
+      "typen": [
+       "kuppe",
+       "nase",
+       "grat"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_01",
+      "typen": [
+       "grat",
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_02",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 0.8
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_02",
+      "typen": [
+       "kuppe"
+      ],
+      "gewicht": 0.6
+     },
+     {
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 0.5
+     },
+     {
+      "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_03",
+      "typen": [
+       "kuppe",
+       "nase",
+       "grat"
+      ],
+      "gewicht": 0.4
+     }
+    ],
+    "sandstein": [
+     {
+      "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_02",
+      "typen": [
+       "grat",
+       "nase",
+       "kuppe"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+      "typen": [
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 0.8
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 0.8
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+      "typen": [
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 0.6
+     },
+     {
+      "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_03",
+      "typen": [
+       "kuppe",
+       "nase"
+      ],
+      "gewicht": 0.6
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 0.6
+     }
+    ],
+    "lava": [
+     {
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_01",
+      "typen": [
+       "grat",
+       "nase",
+       "kuppe"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_02",
+      "typen": [
+       "grat",
+       "nase",
+       "kuppe"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_03",
+      "typen": [
+       "grat",
+       "nase",
+       "kuppe"
+      ],
+      "gewicht": 1.0
+     },
+     {
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_09",
+      "typen": [
+       "grat",
+       "nase"
+      ],
+      "gewicht": 0.8
+     },
+     {
+      "pfad": "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02",
+      "typen": [
+       "kuppe",
+       "grat"
+      ],
+      "gewicht": 0.6
+     }
+    ]
+   }
+  },
+  "satelliten": {
+   "anzahl": [
+    3,
+    6
+   ],
+   "hoehe_m": [
+    2.0,
+    6.0
+   ],
+   "winkel_grad": [
+    15,
+    150
+   ],
+   "abstand_rand": [
+    0.85,
+    1.15
+   ],
+   "breite_max_m": 9.0,
+   "rolle": "block"
+  },
+  "blockstrom": {
+   "p": 0.8,
+   "hang_min_grad": 10,
+   "n": [
+    4,
+    8
+   ],
+   "kopf_hoehe_m": [
+    2.0,
+    3.5
+   ],
+   "laenge_max_m": 40,
+   "abstand_front_m": 1.5
+  },
+  "begleitung": {
+   "_hinweis": "Runde-2-Gruppen (Hauptfels 4,5-8,5 m, Klassen grat/kuppe) bleiben als zweite Stufe, aber nur noch als Begleiter: je Formgruppe hoechstens max_je_formgruppe im Abstand abstand_m (naechste zuerst), dazu je Feld hoechstens frei_max_je_feld weitere fern jeder Formgruppe (beste nach Relief, untereinander >= frei_abstand_m). Naeher als abstand_m[0] an einer Formgruppe entfallen sie (keine Konkurrenz zum Hero).",
+   "aktiv": true,
+   "klassen": [
+    "grat",
+    "kuppe"
+   ],
+   "abstand_m": [
+    35,
+    220
+   ],
+   "max_je_formgruppe": 3,
+   "frei_max_je_feld": 6,
+   "frei_abstand_m": 150
+  }
  }
 }

@@ -27,6 +27,18 @@ Stand Korrektur Runde 2 (auftraege/verteilung-korrektur-runde2.md, Befund 2/3; E
   - Sperrliste "gesperrt" (SM_Column_03, SM_Main_Arch_01) für Paletten, Overrides, Zusatzklassen und Punkt-Netze.
   - Budget nach Gruppen-Priorität (ganze Gruppen), Kollision über dem Deckel wird bei den kleinsten Stücken abgeschaltet;
     plan.json: statistik.form (Kennzahlen), pruefkameras (Grat-Blick aus 300 m u. a.), gesperrt.
+Stand Korrektur Runde 3 (auftraege/verteilung-korrektur-runde3.md; Echtdaten Runde 2: A5 5 563 Instanzen / 316 Gruppen /
+45 Akteure, G4 1 448; aus 300 m weiter nur Punkte, rote Findlinge im Nordwald):
+  - netz_nur_biome: rote /Game/AncientContent/.../SM_IcelandicBoulder_01-03 nur in canyon/oedland/wueste/lava; erzwungen je
+    Biom-Palette (inkl. Override-Paletten), je Zusatzklassen-Stück (Biom der Zelle) und in einer Schlussprüfung; Ersatz grau,
+    gleiche Größe (Regeldatei), Log-Hinweis mit Anzahl. uchoab3fa (Quarry Cliff) steht auf der Sperrliste.
+  - Formgruppen (Klasse "formgruppe", Block "formgruppen"): 8-20 je Feld auf den markantesten Graten/Kuppen/Wandnasen,
+    Auswahl nach Krümmung, Prominenz und Sichtbarkeit von Tal/Weg/Wasser in 300-1500 m (Strahlen auf einem 8-m-Grobraster
+    aus hoehe.f32, Fenster Feld + 1,5 km), Mindestabstand; Hero = große Klippennetze (Massive/Huge Nordic Coastal Cliff,
+    Sharp_Cliff rcygn, Fab-Massive vdssailfa/vfmjadufa/veqnci0db, big_rock_wall, Big_Rock) skaliert 1,0-2,0 als Akteur mit
+    Kollision, 35-60 % eingegraben, Rückseite hangwärts, Schichtneigung je Massiv; Satelliten 2-6 m eng am Fuß, Blockstrom.
+  - Runde-2-Gruppen grat/kuppe (Hauptfels 4,5-8,5 m) nur noch als Begleiter der Formgruppen (formgruppen.begleitung).
+  - Hangknick-Pflicht (Block hangknick): keine Gruppe auf Wiese ohne Hangknick.
 In der Cloud nur synthetisch rauchgetestet. Korrekturen bitte als auftraege/verteilung-felsgruppen-korrektur.md.
 
 Was das Skript tut
@@ -121,7 +133,7 @@ X0, Y0 = 4730.5, 4060.5  # X_m = j - X0, Y_m = i - Y0
 BIOME = ["aue", "bergwald", "gletscher", "tundra", "canyon", "oedland", "heide", "elfenwald", "dschungel", "kueste", "wueste",
          "lava", "frost", "sumpf", "fjord"]
 ROLLEN_ORDNUNG = ["hero", "wand", "band", "block", "platte", "stein", "kiesel"]
-KLASSEN = ["grat", "band", "wand", "fuss", "blockstrom", "kuppe", "prallhang", "einzel"]
+KLASSEN = ["formgruppe", "grat", "band", "wand", "fuss", "blockstrom", "kuppe", "prallhang", "einzel"]
 U64 = np.uint64
 
 _ASCII = {"ä": "ae", "ö": "oe", "ü": "ue", "Ä": "Ae", "Ö": "Oe", "Ü": "Ue", "ß": "ss", "–": "-", "—": "-", "→": "->",
@@ -666,6 +678,8 @@ class OverrideLeser:
         self.datei_json = {}      # ganze Biom-Regeldatei (für eindeutige Altwerte, z. B. lava punkte.spire_vorschlag)
         self.gesperrt = gesperrte_netze(R)  # Runde 2: Sperrliste (felsgruppen_regeln.json "gesperrt")
         self.gesperrt_treffer = []
+        self.nbs = NetzBiomSperre(R, netze, self.gesperrt)  # Runde 3: biombeschränkte Netze (nur melden; erzwungen im Planer)
+        self.biomsperre_treffer = []
         k = R["gruppe"]["kiesel_dichte_je_m2"]
         self.kiesel_basis = 0.5 * (k[0] + k[1])
 
@@ -704,6 +718,8 @@ class OverrideLeser:
             if q in self.netze:
                 if q not in out:
                     out.append(q)
+                if self.nbs.aktiv and any(not self.nbs.darf(q, BIOME.index(bn)) for bn in self.biome):
+                    self.biomsperre_treffer.append(q)
             elif q not in self.fehlpfade:
                 self.fehlpfade.append(q)
         return out
@@ -1385,6 +1401,68 @@ def gesperrte_netze(R):
     return set(norm_pfad(p) for p in liste if isinstance(p, str))
 
 
+class NetzBiomSperre:
+    """Runde 3 (Befund 1): Netze, die nur in bestimmten Biomen stehen dürfen (felsgruppen_regeln.json["netz_nur_biome"]).
+    netze {pfad: [biome]} (Schlüssel mit '*' am Ende = Präfix), ersatz {pfad: [graue Netze gleicher Größe]}."""
+
+    def __init__(self, R, netze, gesperrt=()):
+        B = R.get("netz_nur_biome") or {}
+        self.exakt, self.praefix, self.ersatz = {}, [], {}
+        for p, bl in (B.get("netze") or {}).items():
+            if not isinstance(p, str) or p.startswith("_") or not isinstance(bl, list):
+                continue
+            s = frozenset(BIOME.index(b) for b in bl if b in BIOME)
+            if p.endswith("*"):
+                self.praefix.append((p[:-1] if p.startswith("/") else "/Game/" + p[:-1], s))
+            else:
+                self.exakt[norm_pfad(p)] = s
+        self.praefix.sort()
+        self._cache = {}
+        for p, l in (B.get("ersatz") or {}).items():
+            if isinstance(l, list):
+                self.ersatz[norm_pfad(p)] = [q for q in (norm_pfad(x) for x in l if isinstance(x, str))
+                                             if q in netze and q not in gesperrt and self.erlaubt(q) is None]
+        self.aktiv = bool(self.exakt or self.praefix)
+
+    def erlaubt(self, pfad):
+        """frozenset der erlaubten Biom-Indizes oder None (Netz unbeschränkt)."""
+        if pfad not in self._cache:
+            s = self.exakt.get(pfad)
+            if s is None:
+                for pre, ps in self.praefix:
+                    if pfad.startswith(pre):
+                        s = ps
+                        break
+            self._cache[pfad] = s
+        return self._cache[pfad]
+
+    def darf(self, pfad, b):
+        s = self.erlaubt(pfad)
+        return s is None or int(b) in s
+
+    def biome_text(self, pfad):
+        s = self.erlaubt(pfad)
+        return "alle" if s is None else ",".join(BIOME[i] for i in sorted(s))
+
+    def ersatz_fuer(self, pfad):
+        return list(self.ersatz.get(pfad, []))
+
+    def liste_filtern(self, liste, b):
+        """Netzliste für Biom b: verbotene Netze raus, Ersatz (falls noch nicht drin) an ihre Stelle. -> (neu, raus, rein)."""
+        neu, raus, rein = [], [], []
+        for p in liste:
+            if self.darf(p, b):
+                if p not in neu:
+                    neu.append(p)
+                continue
+            raus.append(p)
+            for q in self.ersatz_fuer(p):
+                if q not in neu and q not in liste:
+                    neu.append(q)
+                    rein.append(q)
+        return neu, raus, rein
+
+
 def lade_overrides(R, regeln_pfad, basis, skriptdir, ordner, netze):
     """Liest felsgruppen_overrides aller Biom-Regeldateien (Zuordnung R["overrides"]["dateien"]). Fehlende Datei -> Hinweis."""
     O = R.get("overrides", {})
@@ -1442,8 +1520,13 @@ def lade_overrides(R, regeln_pfad, basis, skriptdir, ordner, netze):
         if L.gesperrt_treffer:
             log("  Hinweis: %s: %d Verweise auf gesperrte Netze entfernt (%s)." % (
                 datei, len(L.gesperrt_treffer), ", ".join(sorted(set(p.rsplit("/", 1)[-1] for p in L.gesperrt_treffer)))))
+        if L.biomsperre_treffer:
+            log("  Hinweis: %s: %d Verweise auf biombeschraenkte Netze (%s) - werden nur in erlaubten Biomen gesetzt, sonst "
+                "grauer Ersatz (netz_nur_biome)." % (datei, len(L.biomsperre_treffer), ", ".join(
+                    "%s nur %s" % (p.rsplit("/", 1)[-1], L.nbs.biome_text(p)) for p in sorted(set(L.biomsperre_treffer)))))
         info[datei] = {"biome": biome, "status": "gelesen", "biome_mit_aenderung": sorted(erg), "gelesen": L.gelesen,
                        "gesperrt_entfernt": sorted(set(L.gesperrt_treffer)),
+                       "biombeschraenkt_verweise": sorted(set(L.biomsperre_treffer)),
                        "ignoriert": L.ignoriert, "fremde_biome_ignoriert": L.fremd, "fehlende_netzpfade": L.fehlpfade,
                        "zusatzklassen": {z["name"]: {"altstelle": z["alt"], "verworfen": bool(z.get("verworfen")),
                                                      "gelesen": z["gelesen"], "ignoriert": z["ignoriert"]} for z in L.zusatz}}
@@ -1493,6 +1576,26 @@ class Planer:
                         fehlend.append(p)
         if fehlend:
             abbruch("%d Paletten-Pfade aus felsgruppen_regeln.json nicht in netze.csv, z. B. %s" % (len(fehlend), fehlend[:3]))
+        # Runde 3: biombeschränkte Netze (rote Findlinge) und Formgruppen-Hero-Paletten
+        self.nbs = NetzBiomSperre(regeln, netze, self.gesperrt)
+        if self.nbs.aktiv:
+            log("Netz-Biomsperre: %s; Ersatz grau: %s" % (
+                "; ".join("%s nur %s" % (p.rsplit("/", 1)[-1], self.nbs.biome_text(p)) for p in sorted(self.nbs.exakt)) or "-",
+                "; ".join("%s->%s" % (p.rsplit("/", 1)[-1], ",".join(q.rsplit("/", 1)[-1] for q in l))
+                          for p, l in sorted(self.nbs.ersatz.items())) or "-"))
+        self.form_paletten = {}
+        FG = regeln.get("formgruppen") or {}
+        for pn, eintraege in sorted(((FG.get("hero") or {}).get("paletten") or {}).items()):
+            ok = []
+            for e in eintraege if isinstance(eintraege, list) else []:
+                p = norm_pfad(e.get("pfad", "")) if isinstance(e, dict) else ""
+                if p not in netze or p in self.gesperrt:
+                    log("Hinweis: Formgruppen-Hero %s (%s) nicht im Inventar oder gesperrt - ignoriert." % (p, pn))
+                    continue
+                ok.append({"pfad": p, "typen": list(e.get("typen", ["grat", "kuppe", "nase"])), "gewicht": float(e.get("gewicht", 1.0)),
+                           "rueckseite": e.get("rueckseite")})
+            if ok:
+                self.form_paletten[pn] = ok
 
     # Biom-Konfiguration je Feld (Grundregeln + Overrides) --------------------------------------------------------------
     def konfig(self, feld):
@@ -1559,6 +1662,38 @@ class Planer:
                                  "klassen_aus": sorted(aus[bn]), "kiesel_faktor": round(float(kiesel[b]), 3),
                                  "mindestdichte_je_ha": float(mind[b]), "rollen": {"%s" % r: d for (bb, r), d in self.rollen_ov.items() if bb == b},
                                  "klassen_param": {kn: d for (bb, kn), d in self.klassen_ov.items() if bb == b}}
+        # Runde 3 (Befund 1): biombeschränkte Netze je Biom-Palette erzwingen (Grundpalette und Override-Paletten gleichermaßen)
+        self.form_pal_basis = list(namen)  # Palettenname vor der Biomsperre (für die Formgruppen-Hero-Palette)
+        self.netzsperre_stat = {"paletten": {}}
+        if self.nbs.aktiv:
+            varianten, biome_je_var = {}, {}
+            for b in range(len(BIOME)):
+                name = namen[b]
+                neu, raus_, rein_ = {}, [], []
+                for r, liste in pal[name].items():
+                    neu[r], ra, re_ = self.nbs.liste_filtern(liste, b)
+                    raus_ += ra
+                    rein_ += re_
+                if not raus_:
+                    continue
+                key = (name, tuple(sorted(set(raus_))))
+                if key not in varianten:
+                    vn = name + "~grau"
+                    if vn in pal and pal[vn] != neu:
+                        vn = name + "~grau_" + BIOME[b]
+                    pal[vn] = neu
+                    varianten[key] = (vn, len(raus_), sorted(set(rein_)))
+                biome_je_var.setdefault(key, []).append(BIOME[b])
+                namen[b] = varianten[key][0]
+                if BIOME[b] in self.ov_aktiv:
+                    self.ov_aktiv[BIOME[b]]["palette"] = namen[b]
+            for key, (vn, n_raus, rein_) in sorted(varianten.items()):
+                bl = biome_je_var[key]
+                self.netzsperre_stat["paletten"][vn] = {"biome": bl, "entfernt": [p.rsplit("/", 1)[-1] for p in key[1]],
+                                                        "verweise": n_raus, "ersatz": [p.rsplit("/", 1)[-1] for p in rein_]}
+                log("Netz-Biomsperre: Palette %s fuer %s: %d Verweise entfernt (%s), Ersatz %s." % (
+                    key[0], ",".join(bl), n_raus, ",".join(p.rsplit("/", 1)[-1] for p in key[1]),
+                    ",".join(p.rsplit("/", 1)[-1] for p in rein_) or "bereits enthalten"))
         self.paletten = pal
         self.pal_je_biom = namen
         self.pal_info = {}
@@ -1626,6 +1761,7 @@ class Planer:
         H, W = h.shape
         self.h = h
         self.hinweise = []
+        self.fg_stat, self.form_stat, self.kameras, self.form_info = {}, {}, [], None
         self.haupt_je_biom = np.zeros(len(BIOME), dtype=np.int64)
         self.konfig(feld)
         self.biom, self.biom_quelle = lade_biome(welt_dir, win, self.basis, self.skriptdir, feld, R)
@@ -1740,6 +1876,10 @@ class Planer:
         self.hs25 = hs25
         l1b, l2b, _ = hessian(hs25)
         self.hohl25 = l1b + l2b  # Laplace grob: > 0 Hangfuß/Mulde
+        # Runde 3: Hangknick = größter Betrag der Hauptkrümmungen (sigma 25 m); Gefälle sigma 25 (Front der Formgruppen)
+        self.knick = np.maximum(np.abs(l1b), np.abs(l2b)) >= float(R.get("hangknick", {}).get("kruemmung_min", 0.004))
+        g25y, g25x = np.gradient(hs25)
+        self.gef25 = np.stack([-g25x, -g25y], axis=2)  # Gefälle-Vektor (x, y), Betrag = tan(Hang)
         hs12 = gauss(h, G["kuppe_sigma_m"])
         self.hs12 = hs12
         self.land = h > 0.2
@@ -1802,20 +1942,30 @@ class Planer:
         inst = []  # Liste von dicts mit Arrays
         self.statistik = {}
         gruppen_gesamt = 0
+        self.wiese_stat = {}
+        self.begleit_stat = {}
+        # Runde 3: Formgruppen 10-30 m zuerst (ihre Lage steuert die Begleitgruppen der Runde 2)
+        teile_fg, n_fg = self.formgruppen_erzeugen(welt_dir, feld)
+        self.statistik["formgruppe"] = {"gruppen": int(n_fg), "instanzen": int(sum(len(t["x"]) for t in teile_fg))}
+        inst.extend(teile_fg)
+        gruppen_gesamt += n_fg
         self._kuppen = self.kandidaten_kuppe()  # vor dem Grat: Kuppen haben Vorrang vor Kettengliedern
         for kname in KLASSEN:  # "einzel" zuletzt: füllt nur bis mindestdichte_je_ha auf
+            if kname == "formgruppe":
+                continue
             if kname == "prallhang":
                 g = self.kandidaten_prallhang(welt_dir)
             elif kname == "kuppe":
                 g = self._kuppen
             elif kname == "grat":
-                g = self.kandidaten_kamm()
+                g, self._kuppen = self.begleit_filter(self.kandidaten_kamm(), self._kuppen)
             elif kname == "fuss":
                 g = self.kandidaten_strom()
             elif kname == "einzel":
                 g = self.kandidaten_einzel()
             else:
                 g = self.kandidaten_gitter(kname)
+            g = self.wiese_filter(kname, g)
             if g is None or len(g["ci"]) == 0:
                 self.statistik[kname] = {"gruppen": 0}
                 continue
@@ -1837,9 +1987,11 @@ class Planer:
                 inst.append(t)
                 gruppen_gesamt += n_g
         alle = self.zusammenfuehren(inst)
+        alle = self.netz_biom_pruefung(alle)
         alle = self.budget(alle)
         alle = self.kontaktsaum(alle)
         self.form_statistik(alle)
+        self.formgruppen_statistik(alle)
         self.pruefkameras(alle)
         t1 = time.time()
         self.schreiben(feld, alle, welt_dir)
@@ -2107,6 +2259,586 @@ class Planer:
         g["stufe"] = None
         return g
 
+    # Runde 3: Hangknick-Pflicht und Begleitgruppen -------------------------------------------------------------------
+    @staticmethod
+    def _g_auswahl(g, keep):
+        return {k: (v[keep] if isinstance(v, np.ndarray) else v) for k, v in g.items()}
+
+    def wiese_filter(self, kname, g):
+        """Keine Gruppe auf Wiese ohne Hangknick (Block hangknick): Kandidaten der genannten Klassen auf Wiese-Zellen
+        (Gras/Wiese >= lagen_min, keine Kies/Geroell/Fels-Lage) ohne Hangknick entfallen."""
+        if g is None or len(g["ci"]) == 0 or kname not in self.R.get("hangknick", {}).get("klassen", []):
+            return g
+        wk = self.m_gras[g["ci"], g["cj"]] & ~self.knick[g["ci"], g["cj"]]
+        self.wiese_stat[kname] = int(wk.sum())
+        return self._g_auswahl(g, ~wk) if wk.any() else g
+
+    def begleit_filter(self, gr, ku):
+        """Runde-2-Gruppen (grat/kuppe) nur noch als Begleiter der Formgruppen: je Formgruppe höchstens max_je_formgruppe im
+        Abstand abstand_m (nächste zuerst), dazu je Feld höchstens frei_max_je_feld fern jeder Formgruppe (beste nach Relief,
+        untereinander >= frei_abstand_m). Ankerpunkte = alle ausgewählten Formgruppen im Fenster (auch im Rand)."""
+        FG = self.R.get("formgruppen") or {}
+        B = FG.get("begleitung") or {}
+        if not FG.get("aktiv") or not B.get("aktiv", True):
+            return gr, ku
+        kl = B.get("klassen", ["grat", "kuppe"])
+        quellen = [(n, g) for n, g in (("grat", gr), ("kuppe", ku)) if n in kl and g is not None and len(g["ci"])]
+        if not quellen:
+            return gr, ku
+        ci = np.concatenate([g["ci"] for _, g in quellen])
+        cj = np.concatenate([g["cj"] for _, g in quellen])
+        hh = np.concatenate([g["h"] for _, g in quellen])
+        src = np.concatenate([np.full(len(g["ci"]), q) for q, (_, g) in enumerate(quellen)])
+        n = len(ci)
+        a0, a1 = [float(x) for x in B.get("abstand_m", [35, 220])]
+        anker = getattr(self, "form_anker", np.zeros((0, 2)))
+        if len(anker):
+            d_all = np.hypot(ci[:, None] - anker[None, :, 0], cj[:, None] - anker[None, :, 1])
+            na = np.argmin(d_all, axis=1)
+            d = d_all[np.arange(n), na]
+        else:
+            na, d = np.zeros(n, dtype=np.int64), np.full(n, np.inf)
+        keep = np.zeros(n, dtype=bool)
+        mx = int(B.get("max_je_formgruppe", 3))
+        zaehl = np.zeros(max(len(anker), 1), dtype=np.int64)
+        for k in np.lexsort((uni(hh, 71), d)):
+            if a0 <= d[k] <= a1 and zaehl[na[k]] < mx:
+                keep[k] = True
+                zaehl[na[k]] += 1
+        # fern jeder Formgruppe: wenige, verteilt
+        fs_i, fs_j = self.feld_slice
+        im = (ci >= fs_i.start) & (ci < fs_i.stop) & (cj >= fs_j.start) & (cj < fs_j.stop)
+        score = (self.hs8 - self.hs25)[ci, cj] + 0.5 * uni(hh, 72)
+        fmax, fab = int(B.get("frei_max_je_feld", 6)), float(B.get("frei_abstand_m", 150))
+        gew, n_feld = [], 0
+        for k in np.argsort(-score, kind="stable"):
+            if d[k] <= a1:
+                continue
+            if any(math.hypot(ci[k] - a, cj[k] - b) < fab for a, b in gew):
+                continue
+            if im[k]:
+                if n_feld >= fmax:
+                    continue
+                n_feld += 1
+            gew.append((ci[k], cj[k]))
+            keep[k] = True
+        st = {"anker_formgruppen": int(len(anker)), "begleitend": int((keep & (d <= a1)).sum()),
+              "frei": int((keep & (d > a1)).sum()), "entfernt_zu_nah": int((d < a0).sum()),
+              "entfernt_gesamt": int((~keep).sum()), "kandidaten": int(n)}
+        for q, (name, _) in enumerate(quellen):
+            st["%s_vorher" % name] = int((src == q).sum())
+            st["%s_nachher" % name] = int((keep & (src == q)).sum())
+        self.begleit_stat = st
+        log("Begleitung (Runde-2-Gruppen grat/kuppe): %d Kandidaten -> %d begleitend (je Formgruppe <= %d in %d-%d m) + %d frei "
+            "(<= %d je Feld), %d entfernt." % (n, st["begleitend"], mx, int(a0), int(a1), st["frei"], fmax, st["entfernt_gesamt"]))
+        out = {}
+        for q, (name, g) in enumerate(quellen):
+            out[name] = self._g_auswahl(g, keep[src == q])
+        return out.get("grat", gr), out.get("kuppe", ku)
+
+    # Runde 3: Formgruppen 10-30 m ----------------------------------------------------------------------------------------
+    def sicht_daten(self, welt_dir):
+        """Grobraster (raster_m, global ausgerichtet) im Fenster Feld + abstand_m[1]: Höhe (Blockmittel aus hoehe.f32), Ziele
+        (Weg, Tal, Binnenwasser, Meer mit Gewicht) und Umgebungsmittel (Box umgebung_m) für Prominenz und Tal."""
+        FG = self.R["formgruppen"]
+        S = FG["sicht"]
+        r = int(S["raster_m"])
+        reich = int(S["abstand_m"][1]) + 2 * r
+        i0f, i1f, j0f, j1f = self.feld_box
+        I0, I1 = max(0, (i0f - reich) // r), min(-(-NY // r), -(-(i1f + reich) // r))
+        J0, J1 = max(0, (j0f - reich) // r), min(-(-NX // r), -(-(j1f + reich) // r))
+        a_, b_, c_, d_ = I0 * r, min(I1 * r, NY), J0 * r, min(J1 * r, NX)
+        nI, nJ = I1 - I0, J1 - J0
+
+        def block(pfad, dtype, art):
+            if not os.path.isfile(pfad) or os.path.getsize(pfad) != NX * NY * np.dtype(dtype).itemsize:
+                return None
+            mm = np.memmap(pfad, dtype=dtype, mode="r", shape=(NY, NX))
+            roh = np.array(mm[a_:b_, c_:d_])
+            if art == "mittel":
+                x = np.full((nI * r, nJ * r), np.nan, dtype=np.float32)
+                x[:roh.shape[0], :roh.shape[1]] = roh
+                x = x.reshape(nI, r, nJ, r)
+                ok = np.isfinite(x)
+                s = np.where(ok, x, 0.0).sum(axis=(1, 3), dtype=np.float64)
+                c = ok.sum(axis=(1, 3))
+                return np.where(c > 0, s / np.maximum(c, 1), np.nan)
+            x = np.zeros((nI * r, nJ * r), dtype=bool)
+            x[:roh.shape[0], :roh.shape[1]] = roh > 0
+            return x.reshape(nI, r, nJ, r).any(axis=(1, 3))
+
+        hc = block(os.path.join(welt_dir, "hoehe.f32"), "<f4", "mittel")
+        weg = block(os.path.join(welt_dir, "karte_weg.r8"), np.uint8, "max")
+        was = block(os.path.join(welt_dir, "karte_wasser.r8"), np.uint8, "max")
+        gueltig = np.isfinite(hc)
+        hz = np.where(gueltig, hc, 0.0)
+        k = max(1, int(round(float(FG.get("umgebung_m", 200)) / r)))
+
+        def boxsumme(a):
+            p = np.pad(a, ((k + 1, k), (k + 1, k)), mode="constant")
+            c = p.cumsum(0).cumsum(1)
+            return c[2 * k + 1:, 2 * k + 1:] - c[:-2 * k - 1, 2 * k + 1:] - c[2 * k + 1:, :-2 * k - 1] + c[:-2 * k - 1, :-2 * k - 1]
+
+        umg = boxsumme(hz) / np.maximum(boxsumme(gueltig.astype(np.float64)), 1.0)
+        gy, gx = np.gradient(hz, float(r))
+        hang_c = np.degrees(np.arctan(np.hypot(gx, gy)))
+        land = gueltig & (hc > 0.2)
+        if was is None:
+            was = gueltig & (hc <= 0.05)
+        meer = was & (hz <= 0.5)
+        tal = land & ~was & (hc - umg <= -float(S["tal_tiefe_m"])) & (hang_c <= float(S["tal_hang_max_grad"]))
+        Z = S["ziele"]
+        T = np.zeros(hc.shape)
+        if weg is not None:
+            T = np.maximum(T, float(Z.get("weg", 1.0)) * weg)
+        T = np.maximum(T, float(Z.get("tal", 1.0)) * tal)
+        T = np.maximum(T, float(Z.get("wasser_binnen", 0.6)) * (was & ~meer))
+        T = np.maximum(T, float(Z.get("meer", 0.3)) * meer)
+        if weg is None:
+            self.hinweise.append("Formgruppen-Sichtbarkeit ohne karte_weg.r8 (nur Tal/Wasser als Ziel)")
+        self.sd = {"r": r, "I0": I0, "J0": J0, "hc": hc, "T": T, "umg": umg,
+                   "ziele_anteil": {"weg": float(weg.mean()) if weg is not None else 0.0, "tal": float(tal.mean()),
+                                    "wasser": float(was.mean())}}
+        return self.sd
+
+    def _grob(self, feld_arr, fi, fj):
+        """Bilinearer Wert eines Grobrasters an Fensterkoordinaten (fi, fj) (Zellmitten global ausgerichtet)."""
+        sd = self.sd
+        r = sd["r"]
+        gi = (fi + self.win[0] + 0.5) / r - 0.5 - sd["I0"]
+        gj = (fj + self.win[2] + 0.5) / r - 0.5 - sd["J0"]
+        a = np.nan_to_num(feld_arr, nan=0.0)
+        return bilinear(a, np.clip(gi, 0, a.shape[0] - 1.001), np.clip(gj, 0, a.shape[1] - 1.001))
+
+    def sichtbarkeit(self, ci, cj):
+        """Je Kandidat: gewichtete Zahl sichtbarer Ziel-Zellen (Weg/Tal/Wasser) in abstand_m und die Haupt-Sichtrichtung
+        (Einheitsvektor x, y). Strahlen auf dem Grobraster; Sichtlinie Auge (Ziel + augenhoehe_m) -> Felskrone (Gelände +
+        zielhoehe_m) frei, wenn der Höhenwinkel nicht unter dem Horizont der näheren Strahlpunkte liegt."""
+        S = self.R["formgruppen"]["sicht"]
+        sd = self.sd
+        r = sd["r"]
+        nd = int(S["richtungen"])
+        th = 2.0 * np.pi * np.arange(nd) / nd
+        dd = np.arange(r, float(S["abstand_m"][1]) + 1e-6, float(r))
+        gi = (ci + self.win[0]).astype(np.float64)
+        gj = (cj + self.win[2]).astype(np.float64)
+        Y = gi[:, None, None] + 0.5 + np.sin(th)[None, :, None] * dd[None, None, :]
+        X = gj[:, None, None] + 0.5 + np.cos(th)[None, :, None] * dd[None, None, :]
+        I = np.floor(Y / r).astype(np.int64) - sd["I0"]
+        J = np.floor(X / r).astype(np.int64) - sd["J0"]
+        hc, T = sd["hc"], sd["T"]
+        ok = (I >= 0) & (I < hc.shape[0]) & (J >= 0) & (J < hc.shape[1])
+        Ic, Jc = np.clip(I, 0, hc.shape[0] - 1), np.clip(J, 0, hc.shape[1] - 1)
+        hk = np.where(ok, hc[Ic, Jc], np.nan)
+        ok &= np.isfinite(hk)
+        auge = self.h[ci, cj] + float(S["zielhoehe_m"])
+        ang = np.where(ok, (np.nan_to_num(hk) - auge[:, None, None]) / dd[None, None, :], -np.inf)
+        hor = np.maximum.accumulate(ang, axis=2)
+        hor_vor = np.concatenate([np.full(hor.shape[:2] + (1,), -np.inf), hor[:, :, :-1]], axis=2)
+        blick = (np.nan_to_num(hk) + float(S["augenhoehe_m"]) - auge[:, None, None]) / dd[None, None, :]
+        ring = (dd >= float(S["abstand_m"][0]))[None, None, :]
+        w = np.where(ok & ring & (blick >= hor_vor), T[Ic, Jc], 0.0) * (dd / 1000.0)[None, None, :]
+        je_r = w.sum(axis=2)
+        summe = je_r.sum(axis=1)
+        v = np.stack([(je_r * np.cos(th)[None, :]).sum(1), (je_r * np.sin(th)[None, :]).sum(1)], axis=1)
+        nv = np.linalg.norm(v, axis=1, keepdims=True)
+        v = np.where(nv > 1e-9, v / np.maximum(nv, 1e-9), 0.0)
+        return summe, v
+
+    def netz_xyz(self, pfad):
+        """(Breite x, Breite y, Höhe, min_z) in m; Maße aus netze_masse.json, sonst netze.csv (Pivot laut netz_mass)."""
+        n = self.netze[pfad]
+        if pfad in self.masse:
+            mn, mx = self.masse[pfad]
+            return (mx[0] - mn[0]) / 100.0, (mx[1] - mn[1]) / 100.0, (mx[2] - mn[2]) / 100.0, mn[2] / 100.0
+        h_cm, _, mz = self.netz_mass(pfad)
+        return n["sx"], n["sy"], h_cm / 100.0, mz / 100.0
+
+    def form_hero_palette(self, b):
+        """Formgruppen-Hero-Palette des Bioms: Basisname der Biom-Palette (ohne @/~-Zusatz) über hero.palette_je_biom, sonst
+        Grundzuordnung biom_palette, Rückfall nordisch. Biombeschränkte Netze werden für dieses Biom ausgefiltert."""
+        H = self.R["formgruppen"]["hero"]
+        pje = H.get("palette_je_biom", {})
+        kand = []
+        for nm in (self.form_pal_basis[b], self.R["biom_palette"].get(BIOME[b], "nordisch")):
+            nm = nm.split("@")[0].split("~")[0]
+            kand += [pje.get(nm, nm), nm]
+        kand.append("nordisch")
+        for nm in kand:
+            if nm in self.form_paletten:
+                return nm, [e for e in self.form_paletten[nm] if self.nbs.darf(e["pfad"], b)]
+        return None, []
+
+    def formgruppen_erzeugen(self, welt_dir, feld):
+        """Formgruppen 10-30 m (Klasse formgruppe): Kandidaten auf markanten Graten/Kuppen/Wandnasen (Krümmung, Hangknick,
+        Prominenz), Sichtbarkeit von Tal/Weg, gierige Auswahl mit Mindestabstand, je Feld je_feld; Hero (große Klippe als
+        Akteur, 1,0-2,0, 35-60 % eingegraben, Rückseite hangwärts), Satelliten 2-6 m am Fuß, Blockstrom, Kieselsaum."""
+        FG = self.R.get("formgruppen") or {}
+        self.form_anker = np.zeros((0, 2))
+        self.form_info = None
+        self.form_stat_vorab = {}
+        if not FG.get("aktiv"):
+            return [], 0
+        HE, SA = FG["hero"], FG["satelliten"]
+        i0, i1, j0, j1 = self.win
+        H, W = self.h.shape
+        fs_i, fs_j = self.feld_slice
+        rel = self.hs8 - self.hs25
+        b_aus = np.array([(BIOME[b] in FG.get("biome_aus", [])) or bool(self.aus_klasse["formgruppe"][b]) for b in range(len(BIOME))])
+        maske = (self.knick & (self.grat >= float(FG["kruemmung_min"])) & (rel >= float(FG["relief_min_m"])) & self.m_frei
+                 & ~self.m_sperr & ~self.m_mulde & (self.hang <= float(FG["hang_max_grad"])) & ~b_aus[self.biom])
+        rd = 3
+        maske[:rd, :] = False; maske[-rd:, :] = False; maske[:, :rd] = False; maske[:, -rd:] = False
+        ci, cj = np.nonzero(maske)
+        st = {"maskenzellen": int(len(ci))}
+        self.form_stat_vorab = st
+        if len(ci) == 0:
+            log("Formgruppen: keine Kandidaten (Hangknick + Gratstaerke + Relief) im Fenster.")
+            return [], 0
+        kr_ref, pr_ref = float(FG["kruemmung_ref"]), float(FG["prominenz_ref_m"])
+        vor = np.clip(self.grat[ci, cj] / kr_ref, 0, 1) + np.clip(rel[ci, cj] / 10.0, 0, 1)
+        S_ = int(FG.get("vorwahl_zelle_m", 40))
+        s = self._zellen_wahl(ci, cj, vor + 1e-6 * uni(hash64(self.seed, 90, ci + i0, cj + j0), 1), S_, 0.75 * S_)
+        ci, cj = ci[s], cj[s]
+        self.sicht_daten(welt_dir)
+        prom = self.hs12[ci, cj] - self._grob(self.sd["umg"], ci.astype(float), cj.astype(float))
+        ok = prom >= float(FG["prominenz_fuell_min_m"])
+        ci, cj, prom = ci[ok], cj[ok], prom[ok]
+        st["vorwahl"] = int(len(ci))
+        if len(ci) == 0:
+            log("Formgruppen: keine Kandidaten mit Prominenz >= %.0f m." % float(FG["prominenz_fuell_min_m"]))
+            return [], 0
+        hsh = hash64(self.seed, 91, ci + i0, cj + j0)
+        vs = np.clip(self.grat[ci, cj] / kr_ref, 0, 1) + np.clip(prom / pr_ref, 0, 1)
+        nmax = int(FG.get("vorwahl_max", 400))
+        if len(ci) > nmax:
+            o = np.lexsort((uni(hsh, 2), -vs))[:nmax]
+            o.sort()
+            ci, cj, prom, hsh = ci[o], cj[o], prom[o], hsh[o]
+        sicht, vdir = self.sichtbarkeit(ci, cj)
+        GW = FG["gewichte"]
+        sicht_n = 1.0 - np.exp(-sicht / float(FG["sicht"]["ref"]))
+        score = (float(GW["prominenz"]) * np.clip(prom / pr_ref, 0, 1) + float(GW["kruemmung"]) * np.clip(self.grat[ci, cj] / kr_ref, 0, 1)
+                 + float(GW["sicht"]) * sicht_n)
+        # Typ: kuppe (lokales Maximum), nase (Wand >= 50 Grad in der Nähe), sonst grat
+        T_ = FG.get("typ", {})
+        kup = self.hs12[ci, cj] >= boxmax(self.hs12, int(T_.get("kuppe_umkreis_m", 24)))[ci, cj] - float(T_.get("kuppe_toleranz_m", 1.0))
+        # Kamm: höchster Punkt im Querschnitt +-kamm_quer_m quer zur Gratachse und deutlich über beiden Seiten
+        qg = float(T_.get("kamm_quer_m", 24.0))
+        quer = self.gratachse[ci, cj] + 0.5 * np.pi
+        Hh, Wh = self.hs8.shape
+        h0 = self.hs8[ci, cj]
+        g1 = bilinear(self.hs8, np.clip(ci + np.sin(quer) * qg, 0, Hh - 1.001), np.clip(cj + np.cos(quer) * qg, 0, Wh - 1.001))
+        g2 = bilinear(self.hs8, np.clip(ci - np.sin(quer) * qg, 0, Hh - 1.001), np.clip(cj - np.cos(quer) * qg, 0, Wh - 1.001))
+        kamm = (h0 >= np.maximum(g1, g2)) & (h0 - 0.5 * (g1 + g2) >= float(T_.get("kamm_quer_relief_m", 2.5)))
+        nase = dilate(self.m_wand, int(T_.get("nase_wand_abstand_m", 30)))[ci, cj] & ~kup & ~kamm
+        typ = np.where(kup, "kuppe", np.where(nase, "nase", "grat"))
+        # Hero je Kandidat (vektorisiert je Hero-Palette): Machbarkeit vor der Auswahl
+        hero = self._form_hero(ci, cj, hsh, typ, vdir)
+        mach = hero["ok"]
+        st.update({"sicht_median": round(float(np.median(sicht)), 1) if len(sicht) else 0.0,
+                   "machbar": int(mach.sum()), "verworfen_eingraben": int(hero["grund_eingraben"].sum()),
+                   "verworfen_frei": int(hero["grund_frei"].sum()), "verworfen_ueberstand": int(hero["grund_ueberstand"].sum())})
+        # gierige Auswahl: Score absteigend, Mindestabstand (auch zu Kandidaten im Rand)
+        pmin = float(FG["prominenz_min_m"])
+        smin = float(FG["score_min"])
+        lo, hi = [int(x) for x in FG["je_feld"]]
+        dmin = float(FG["abstand_min_m"])
+        im = hero["im_feld"]
+        order = np.lexsort((uni(hsh, 3), -score))
+        gew = []
+        for k in order:
+            if not mach[k]:
+                continue
+            if any(math.hypot(hero["fi"][k] - hero["fi"][q], hero["fj"][k] - hero["fj"][q]) < dmin for q in gew):
+                continue
+            gew.append(k)
+        stark = [k for k in gew if score[k] >= smin and prom[k] >= pmin]
+        nim = [k for k in stark if im[k]][:hi]
+        if len(nim) < lo:  # auffüllen bis je_feld[0] mit schwächeren, aber gültigen Kandidaten
+            rest = [k for k in gew if im[k] and k not in nim]
+            nim += rest[:lo - len(nim)]
+        nim = sorted(nim, key=lambda k: (-score[k], int(hsh[k] % U64(1 << 62))))
+        rand_anker = [k for k in gew if not im[k] and score[k] >= smin]
+        self.form_anker = np.array([[hero["fi"][k], hero["fj"][k]] for k in nim + rand_anker]).reshape(-1, 2)
+        st.update({"ausgewaehlt_im_feld": len(nim), "auswahl_gesamt_fenster": len(gew), "score_min": smin,
+                   "aufgefuellt": int(sum(1 for k in nim if not (score[k] >= smin and prom[k] >= pmin)))})
+        if not nim:
+            log("Formgruppen: %d Kandidaten, %d machbar, keine im Feld ausgewaehlt." % (len(ci), int(mach.sum())))
+            return [], 0
+        sel = np.array(nim, dtype=np.int64)
+        info = {k: (v[sel] if isinstance(v, np.ndarray) and len(v) == len(ci) else v) for k, v in hero.items()}
+        info.update({"score": score[sel], "prom": prom[sel], "sicht": sicht[sel], "kruemmung": self.grat[ci[sel], cj[sel]],
+                     "typ": typ[sel], "h": hsh[sel]})
+        self.form_info = info
+        teile = self._form_gruppen(info)
+        log("Formgruppen: %d Kandidaten (Vorwahl %d, machbar %d) -> %d im Feld (Score >= %.2f, Abstand >= %.0f m, je Feld %d-%d), "
+            "Typen %s; Hero sichtbar median %.1f m (max %.1f), Breite median %.1f m (max %.1f)." % (
+                st["maskenzellen"], st["vorwahl"], int(mach.sum()), len(nim), smin, dmin, lo, hi,
+                ",".join("%s %d" % (t, int((info["typ"] == t).sum())) for t in ("grat", "kuppe", "nase")),
+                float(np.median(info["sicht_h"])), float(info["sicht_h"].max()), float(np.median(info["breite"])), float(info["breite"].max())))
+        return teile, len(nim)
+
+    def _form_hero(self, ci, cj, hsh, typ, vdir):
+        """Hero-Klippe je Kandidat: Front (Sichtrichtung + Gefälle, am Grat quer zur Gratachse), Netzwahl (Typ, Biom-Palette,
+        gewichtete Reihenfolge per Hash; bis zu hero.alternativen Netze werden probiert, das erste machbare gilt), Geometrie
+        und Machbarkeit (_form_geo). Liefert Arrays je Kandidat."""
+        FG = self.R["formgruppen"]
+        HE = FG["hero"]
+        n = len(ci)
+        FW = HE.get("front_gewichte", {})
+        g25 = self.gef25[ci, cj]
+        g25n = np.linalg.norm(g25, axis=1, keepdims=True)
+        f = float(FW.get("sicht", 1.0)) * vdir + float(FW.get("gefaelle", 0.7)) * g25 / np.maximum(g25n, 1e-9) * np.minimum(1.0, g25n / 0.1)
+        ga = self.gratachse[ci, cj]
+        ax_ = np.stack([np.cos(ga), np.sin(ga)], axis=1)
+        fp = f - (f * ax_).sum(1, keepdims=True) * ax_
+        quer = (typ == "grat") & (np.linalg.norm(fp, axis=1) > 0.2)
+        f = np.where(quer[:, None], fp, f)
+        nf = np.linalg.norm(f, axis=1, keepdims=True)
+        zz = zwischen(hsh, 85, 0, 2 * np.pi)
+        f = np.where(nf > 1e-6, f / np.maximum(nf, 1e-9), np.stack([np.cos(zz), np.sin(zz)], axis=1))
+        # Netz-Reihenfolge je Kandidat: gewichtete Ziehung ohne Zurücklegen (Schlüssel u^(1/w))
+        n_alt = max(1, int(HE.get("alternativen", 4)))
+        biom = self.biom[ci, cj]
+        pfad_alt = np.full((n, n_alt), "", dtype=object)
+        achse_alt = np.full((n, n_alt), "auto", dtype=object)
+        pal_name = np.full(n, "", dtype=object)
+        for b in np.unique(biom):
+            pn, ents = self.form_hero_palette(int(b))
+            s = np.nonzero(biom == b)[0]
+            pal_name[s] = pn or ""
+            for t in ("grat", "kuppe", "nase"):
+                st_ = s[typ[s] == t]
+                e_t = [e for e in ents if t in e["typen"]] or ents
+                if len(st_) == 0 or not e_t:
+                    continue
+                w = np.array([max(e["gewicht"], 1e-6) for e in e_t])
+                u = uni(hash64(hsh[st_][:, None], 80, np.arange(len(e_t))[None, :]), 1)
+                key = np.log(np.maximum(u, 1e-300)) / w[None, :]
+                order = np.argsort(-key, axis=1, kind="stable")[:, :n_alt]
+                for a in range(order.shape[1]):
+                    for kk, e in enumerate(e_t):
+                        m_ = st_[order[:, a] == kk]
+                        pfad_alt[m_, a] = e["pfad"]
+                        achse_alt[m_, a] = e.get("rueckseite") or HE.get("rueckseite_standard", "auto")
+        out = None
+        offen = np.ones(n, dtype=bool)
+        for a in range(n_alt):
+            r = self._form_geo(ci, cj, hsh, f, pfad_alt[:, a], achse_alt[:, a])
+            r["alternative"] = np.full(n, a)
+            if out is None:
+                out = r
+            else:
+                neu = offen & r["ok"]
+                for k_, v in r.items():
+                    if isinstance(v, np.ndarray) and len(v) == n:
+                        out[k_][neu] = v[neu]
+            offen &= ~out["ok"]
+            if not offen.any():
+                break
+        for g_ in ("grund_eingraben", "grund_frei", "grund_ueberstand"):  # Gründe nur für endgültig nicht machbare
+            out[g_] = out[g_] & ~out["ok"]
+        out.update({"front": f, "biom": biom, "palette": pal_name})
+        return out
+
+    def _form_geo(self, ci, cj, hsh, f, pfade, achsen):
+        """Geometrie einer Hero-Klippe je Kandidat für das gegebene Netz: Maßstab 1,0-2,0 (Ziel-Breite, Grenzen), Yaw (offene
+        Seite = -Front), Versatz zur Front, Neigung (Normale, Kippen in den Hang, Schichtneigung) und Eingraben: die geneigte
+        Unterseite muss an 9 Punkten des Fußabdrucks um boden_puffer_m unter dem Gelände liegen; nötiger Anteil > eingraben[1]
+        oder Überstand über dem höchsten Fußpunkt < ueberstand_min_m -> nicht machbar."""
+        HE = self.R["formgruppen"]["hero"]
+        n = len(ci)
+        H, W = self.h.shape
+        i0, _, j0, _ = self.win
+        hat = pfade != ""
+        dims = {p: self.netz_xyz(p) for p in sorted(set(pfade[hat].tolist()))}
+        wx = np.array([dims[p][0] if p else 1.0 for p in pfade])
+        wy = np.array([dims[p][1] if p else 1.0 for p in pfade])
+        Hm = np.array([dims[p][2] if p else 1.0 for p in pfade])
+        mz = np.array([dims[p][3] if p else 0.0 for p in pfade])
+        achse = np.array([("+y" if wx[k] >= wy[k] else "+x") if a == "auto" else a for k, a in enumerate(achsen)], dtype=object)
+        auf_y = np.array([a[-1] == "y" for a in achse])
+        w_lang = np.where(auf_y, wx, wy)
+        w_tief = np.where(auf_y, wy, wx)
+        s0, s1 = [float(x) for x in HE["massstab"]]
+        eb0, eb1 = [float(x) for x in HE["eingraben"]]
+        bury = zwischen(hsh, 83, eb0, eb1)
+        ziel_b = zwischen(hsh, 82, float(HE["breite_m"][0]), float(HE["breite_m"][1]))
+        sk = np.clip(ziel_b / np.maximum(w_lang, 0.1), s0, s1)
+        sk = np.minimum(sk, np.maximum(s0, float(HE["breite_max_m"]) / np.maximum(w_lang, 0.1)))
+        sk = np.minimum(sk, np.maximum(s0, float(HE["sicht_hoehe_max_m"]) / np.maximum(Hm * (1.0 - bury), 0.1)))
+        nu = float(HE.get("nicht_uniform", 0.1))
+        sx = sk * (1 + nu * (2 * uni(hsh, 86) - 1))
+        sy = sk * (1 + nu * (2 * uni(hsh, 87) - 1))
+        s_lang_max = np.maximum(sk, float(HE["breite_max_m"]) / np.maximum(w_lang, 0.1))  # Breitengrenze auch nach nicht_uniform
+        sx = np.where(auf_y, np.minimum(sx, s_lang_max), sx)
+        sy = np.where(auf_y, sy, np.minimum(sy, s_lang_max))
+        # Yaw: lokale Achse der offenen Seite zeigt hangwärts (= -Front)
+        bk = -f
+        psi_b = np.arctan2(bk[:, 1], bk[:, 0])
+        off = np.array([{"+x": 0.0, "-x": np.pi, "+y": -0.5 * np.pi, "-y": 0.5 * np.pi}.get(a, -0.5 * np.pi) for a in achse])
+        yaw = psi_b + off
+        ex = np.stack([np.cos(yaw), np.sin(yaw)], axis=1)          # lokale X-Achse in Welt (x, y)
+        ey = np.stack([-np.sin(yaw), np.cos(yaw)], axis=1)         # lokale Y-Achse
+        # Versatz zur Front: Rückseite steckt im Kamm
+        tief_h = 0.5 * w_tief * np.where(auf_y, sy, sx)
+        versatz = float(HE.get("versatz_tiefe_anteil", 0.5)) * tief_h
+        fi = ci + f[:, 1] * versatz
+        fj = cj + f[:, 0] * versatz
+        inside = (fi >= 2) & (fi < H - 2) & (fj >= 2) & (fj < W - 2)
+        fi_c, fj_c = np.clip(fi, 1, H - 1.001), np.clip(fj, 1, W - 1.001)
+        hz = bilinear(self.h, fi_c, fj_c)
+        cii, cjj = np.round(fi_c).astype(np.int64), np.round(fj_c).astype(np.int64)
+        # Neigung: Anteil Normale, Kippen in den Hang (Oberkante zur Rückseite), Schichtneigung um das Streichen
+        a_n = float(HE.get("normale_anteil", 0.3))
+        up = (1.0 - a_n) * np.array([0.0, 0.0, 1.0])[None, :] + a_n * self.normal[cii, cjj]
+        up /= np.linalg.norm(up, axis=1, keepdims=True)
+        kipp = np.radians(zwischen(hsh, 84, float(HE["kippen_grad"][0]), float(HE["kippen_grad"][1])))
+        up = up + np.concatenate([bk * np.tan(kipp)[:, None], np.zeros((n, 1))], axis=1)
+        up /= np.linalg.norm(up, axis=1, keepdims=True)
+        d = self.dip[cii, cjj] * float(HE.get("schichtneigung_anteil", 1.0))
+        stv = self.strike[cii, cjj]
+        sv = np.stack([np.cos(stv), np.sin(stv), np.zeros(n)], axis=1)
+        up = up * np.cos(d)[:, None] + np.cross(sv, up) * np.sin(d)[:, None] + sv * (sv * up).sum(1, keepdims=True) * (1 - np.cos(d))[:, None]
+        up /= np.linalg.norm(up, axis=1, keepdims=True)
+        # Fußabdruck (gedrehtes Rechteck, 9 Punkte): Gelände gegen die geneigte Unterseite, Freiheit
+        fa = float(HE.get("fussabdruck_anteil", 0.8))
+        ax_h, ay_h = 0.5 * wx * sx * fa, 0.5 * wy * sy * fa
+        frei = self.m_frei[cii, cjj] & ~self.m_sperr[cii, cjj] & self.knick[cii, cjj]  # Hangknick-Pflicht auch an der Hero-Mitte
+        verbot = self.m_wasser | self.m_weg | self.m_ort
+        rueck_lok = {"+x": (1, 0), "-x": (-1, 0), "+y": (0, 1), "-y": (0, -1)}
+        lu = np.array([rueck_lok.get(a, (0, 1))[0] for a in achse])
+        lv = np.array([rueck_lok.get(a, (0, 1))[1] for a in achse])
+        rel_max = np.full(n, -np.inf)   # max(Gelände-Unterseitenebene) relativ zur Mitte: bestimmt den Überstand
+        rel_min = np.full(n, np.inf)    # min(...): bestimmt das nötige Eingraben
+        b_r = np.zeros(n); b_f = np.zeros(n)
+        for u_ in (-1, 0, 1):
+            for v_ in (-1, 0, 1):
+                dj = u_ * ax_h * ex[:, 0] + v_ * ay_h * ey[:, 0]
+                di = u_ * ax_h * ex[:, 1] + v_ * ay_h * ey[:, 1]
+                pi, pj = fi + di, fj + dj
+                inside &= (pi >= 1) & (pi < H - 1) & (pj >= 1) & (pj < W - 1)
+                pic, pjc = np.clip(pi, 1, H - 1.001), np.clip(pj, 1, W - 1.001)
+                gh = bilinear(self.h, pic, pjc)
+                dz = -(up[:, 0] * dj + up[:, 1] * di) / up[:, 2]   # Höhe der geneigten Unterseitenebene gegenüber der Mitte
+                rel = gh - (hz + dz)
+                rel_min = np.minimum(rel_min, rel)
+                rel_max = np.maximum(rel_max, rel)
+                frei &= ~verbot[np.round(pic).astype(np.int64), np.round(pjc).astype(np.int64)]
+                b_r = np.where((lu == u_) & (lv == v_), gh, b_r)    # Mitte der Rückseite
+                b_f = np.where((lu == -u_) & (lv == -v_), gh, b_f)  # Mitte der Front
+        Hs = Hm * sk
+        puffer = float(HE.get("boden_puffer_m", 0.3))
+        noetig = (puffer - rel_min) / np.maximum(Hs, 0.1)
+        bury = np.maximum(bury, noetig)
+        ueber = Hs * (1.0 - bury) - rel_max
+        g_eb = bury > eb1 + 1e-9
+        g_ue = ueber < float(HE.get("ueberstand_min_m", 3.0))
+        # Formgröße: max(Breite, sichtbare Höhe) >= groesse_min_m, sichtbare Höhe >= sicht_hoehe_min_m (sonst kein Hero, sondern Block)
+        breite = w_lang * np.where(auf_y, sx, sy)
+        g_ue |= (np.maximum(breite, Hs * (1.0 - bury)) < float(HE.get("groesse_min_m", 10.0))) | \
+            (Hs * (1.0 - bury) < float(HE.get("sicht_hoehe_min_m", 4.0)))
+        ok = hat & inside & frei & ~g_eb & ~g_ue
+        i0f, i1f, j0f, j1f = self.feld_box
+        return {"ok": ok, "im_feld": (fi + i0 >= i0f) & (fi + i0 < i1f) & (fj + j0 >= j0f) & (fj + j0 < j1f),
+                "grund_eingraben": hat & inside & frei & g_eb, "grund_frei": hat & ~(inside & frei),
+                "grund_ueberstand": hat & inside & frei & ~g_eb & g_ue, "pfad": pfade.copy(), "achse": achse,
+                "q": quat_aus_yaw_up(yaw, up), "fi": fi, "fj": fj, "yaw": yaw, "sx": sx, "sy": sy, "sz": sk, "hz": hz, "bury": bury,
+                "H": Hm, "z": hz * 100.0 - mz * 100.0 * sk - bury * Hm * 100.0 * sk, "breite": breite,
+                "tiefe": 2.0 * tief_h, "sicht_h": Hs * (1.0 - bury), "hoehe_m": Hs, "ax": 0.5 * wx * sx, "ay": 0.5 * wy * sy,
+                "rueck_hoeher": b_r > b_f, "rueck_diff_m": b_r - b_f, "ueberstand_m": ueber,
+                "r_m": 0.5 * np.maximum(wx * sx, wy * sy)}
+
+    def _ellipse_r(self, info, s_idx, ang):
+        """Abstand Mitte -> Rand des Hero-Fußabdrucks (Ellipse mit Halbachsen ax, ay) in Richtung ang (Welt)."""
+        rel_ = ang - info["yaw"][s_idx]
+        return 1.0 / np.sqrt((np.cos(rel_) / info["ax"][s_idx]) ** 2 + (np.sin(rel_) / info["ay"][s_idx]) ** 2)
+
+    def _form_gruppen(self, info):
+        """Instanzen der ausgewählten Formgruppen: Hero (Akteur), Satelliten 2-6 m eng am Fuß (Front und Flanken, nicht hinten),
+        Blockstrom ab dem Frontfuß hangabwärts, Kieselsaum um Satelliten/Blockstrom."""
+        FG = self.R["formgruppen"]
+        SA, BS = FG["satelliten"], FG["blockstrom"]
+        i0, _, j0, _ = self.win
+        m = len(info["fi"])
+        hv = info["h"]
+        gid = hash64(hv, 92, 0)
+        gp = np.full(m, -1.0)  # Budget: Formgruppen zuletzt ausdünnen
+        ci = np.round(info["fi"]).astype(np.int64)
+        cj = np.round(info["fj"]).astype(np.int64)
+        RO = self.R["rollen"]["hero"]
+        hero = {"x": (info["fj"] + j0 - X0) * 100.0, "y": (info["fi"] + i0 - Y0) * 100.0, "z": info["z"], "q": info["q"],
+                "sx": info["sx"], "sy": info["sy"], "sz": info["sz"], "pfad": info["pfad"].astype(object),
+                "rolle": np.full(m, "hero"), "klasse": np.full(m, "formgruppe"), "koll": np.ones(m, bool),
+                "schatten": np.ones(m, bool), "sicht": np.tile(np.array(FG["hero"].get("sichtweite_cm", RO["sichtweite_cm"]), dtype=float), (m, 1)),
+                "akteur": np.ones(m, bool), "hoehe_m": info["hoehe_m"], "prio": uni(hv, 53), "ci": ci, "cj": cj,
+                "fi": info["fi"], "fj": info["fj"], "gid": gid.astype(U64), "gprio": gp, "haupt": np.ones(m, bool),
+                "sicht_h": info["sicht_h"], "r_m": info["r_m"], "dist_r": np.full(m, np.nan), "haengend": np.zeros(m, bool)}
+        teile = [hero]
+        for b in info["biom"]:
+            self.haupt_je_biom[int(b)] += 1
+        f = info["front"]
+        ang_f = np.arctan2(f[:, 1], f[:, 0])
+        for bi in np.unique(info["biom"]):
+            sb = np.nonzero(info["biom"] == bi)[0]
+            pal = self.pal_je_biom[int(bi)]
+            K = self.klasse_param("formgruppe", bi)
+            gross = []
+            # Satelliten: abwechselnd links/rechts der Front, Winkel winkel_grad, am Rand der Hero-Ellipse
+            cnt = ganz(hv[sb], 93, int(SA["anzahl"][0]), int(SA["anzahl"][1]))
+            idx = np.repeat(sb, cnt)
+            k = np.arange(len(idx)) - np.repeat(np.cumsum(cnt) - cnt, cnt)
+            if len(idx):
+                hs_ = hash64(hv[idx], 94, k)
+                seite = np.where(k % 2 == 0, 1.0, -1.0)
+                w0, w1 = np.radians(SA["winkel_grad"][0]), np.radians(SA["winkel_grad"][1])
+                ang = ang_f[idx] + seite * zwischen(hs_, 1, w0, w1)
+                re_ = self._ellipse_r(info, idx, ang)
+                lo, hi = [float(x) for x in SA["hoehe_m"]]
+                u = k / np.maximum(np.repeat(cnt, cnt) - 1, 1)
+                ziel = np.minimum(lo + (hi - lo) * zwischen(hs_, 3, 0.35, 1.0) * (1.0 - 0.45 * u), 0.6 * info["sicht_h"][idx])
+                ziel = np.maximum(ziel, lo)
+                r_sat = 0.45 * ziel  # grobe Fußhalbbreite des Satelliten
+                dist = re_ * zwischen(hs_, 2, float(SA["abstand_rand"][0]), float(SA["abstand_rand"][1])) + 0.5 * r_sat
+                t, _ = self._platzieren(pal, "formgruppe", bi, SA.get("rolle", "block"), info["fi"][idx] + np.sin(ang) * dist,
+                                        info["fj"][idx] + np.cos(ang) * dist, hs_, info["yaw"][idx], ziel, gid[idx], gp[idx],
+                                        dist_r=dist / np.maximum(re_, 1e-3), wmax=float(SA.get("breite_max_m", 9.0)))
+                if t is not None:
+                    teile.append(t)
+                    gross.append(t)
+            # Blockstrom ab dem Frontfuß
+            pb = uni(hv[sb], 95) < float(BS.get("p", 0.8))
+            s2 = sb[pb]
+            if len(s2):
+                d0 = self._ellipse_r(info, s2, ang_f[s2]) + float(BS.get("abstand_front_m", 1.5))
+                sfi = info["fi"][s2] + np.sin(ang_f[s2]) * d0
+                sfj = info["fj"][s2] + np.cos(ang_f[s2]) * d0
+                Hh_ = self.h.shape
+                ci2 = np.clip(np.round(sfi), 0, Hh_[0] - 1).astype(np.int64)
+                cj2 = np.clip(np.round(sfj), 0, Hh_[1] - 1).astype(np.int64)
+                steil = self.hang[ci2, cj2] >= float(BS.get("hang_min_grad", 10))
+                s2, sfi, sfj, ci2, cj2 = s2[steil], sfi[steil], sfj[steil], ci2[steil], cj2[steil]
+                if len(s2):
+                    hz2 = hash64(hv[s2], 96, 0)
+                    ab = self.abfall[ci2, cj2]
+                    y2 = np.arctan2(ab[:, 1], ab[:, 0])
+                    kr = BS.get("kopf_hoehe_m", [2.0, 3.5])
+                    kopf, v = self._haupt(pal, "formgruppe", bi, [("block", np.ones(len(s2), bool), zwischen(hz2, 21, kr[0], kr[1]))],
+                                          sfi, sfj, hz2, y2, gp[s2])
+                    if kopf is not None:
+                        kopf["haupt"][:] = False
+                        kopf["gid"] = gid[s2][v].astype(U64)
+                        teile.append(kopf)
+                        gross.append(kopf)
+                        F = self.R["form"]
+                        zt = self._zunge(pal, "formgruppe", bi, F, kopf["r_m"], kopf["sicht_h"], kopf["fi"], kopf["fj"], y2[v], hz2[v],
+                                         gp[s2][v], gid[s2][v], BS.get("n", [4, 8]), float(BS.get("laenge_max_m", 40)))
+                        teile += zt
+                        gross += zt
+            teile += self._saum(pal, "formgruppe", bi, K, gross)
+        return [t for t in teile if t is not None and len(t["x"])]
+
     # Gruppen → Instanzen (Korrektur Runde 2: Gruppengrammatik „Form auf 300 m“) ----------------------------------------
     def ist_platte_pfad(self, pfad):
         """Flaches Platten-Netz laut Namensmuster (platten.muster), unabhängig von der Rolle."""
@@ -2191,7 +2923,8 @@ class Planer:
             ok &= (hz + gx * dj + gy * di - hp) <= tiefe_m + tol
         return ok
 
-    def _platzieren(self, pal, kname, bi, rolle, fi, fj, hh, yaw0, ziel=None, gid=None, gprio=None, haupt=False, dist_r=None):
+    def _platzieren(self, pal, kname, bi, rolle, fi, fj, hh, yaw0, ziel=None, gid=None, gprio=None, haupt=False, dist_r=None,
+                    wmax=None):
         """Netzwahl, Maßstab, Eingraben, Prüfung (Fenster, Feld, frei, schwebend, Platten-Regel) und Ausrichtung für n Stücke einer
         Rolle. ziel = sichtbare Zielhöhe in m (Maßstab = Ziel / (Netzhöhe × (1 - Eingraben))); None = Maßstab aus der Rollenregel.
         Liefert (Instanz-Dict, Indizes der gültigen Eingaben) oder (None, leer)."""
@@ -2221,7 +2954,7 @@ class Planer:
             if kand is None:
                 return leer
             ziel_netz = np.asarray(ziel, dtype=np.float64) / np.maximum(1.0 - bury, 0.3)
-            k, sk, n_rueck = self.waehle_ziel(kand, ziel_netz, hh, float(F["max_breite_m"].get(rolle, 16.0)))
+            k, sk, n_rueck = self.waehle_ziel(kand, ziel_netz, hh, float(wmax if wmax is not None else F["max_breite_m"].get(rolle, 16.0)))
             self.form_rueckfall[rolle] = self.form_rueckfall.get(rolle, 0) + n_rueck
             pfade_l, H_cm, R_cm, MZ = kand[0], kand[1][k] * 100.0, kand[2][k], kand[3][k]
         else:
@@ -2450,10 +3183,18 @@ class Planer:
             return []
         self.haupt_je_biom[int(bi)] += len(haupt["x"])
         teile, gross = [haupt], [haupt]
-        Rh, Hh, cfi, cfj = haupt["r_m"], haupt["sicht_h"], haupt["fi"], haupt["fj"]
-        yaw, hv, gp = gyaw[v], gh[v], gprio[v]
-        m = len(v)
-        nr = K.get("n", K.get("block", [3, 5]))
+        zt = self._zunge(pal, kname, bi, F, haupt["r_m"], haupt["sicht_h"], haupt["fi"], haupt["fj"], gyaw[v], gh[v], gprio[v], gh[v],
+                         K.get("n", K.get("block", [3, 5])), float(K.get("laenge_max_m", 30)))
+        teile += zt
+        gross += zt
+        teile += self._saum(pal, kname, bi, K, gross)
+        return teile
+
+    def _zunge(self, pal, kname, bi, F, Rh, Hh, cfi, cfj, yaw, hv, gp, gid, nr, laenge_max):
+        """Schwanz einer Blockstrom-Zunge ab dem Kopfblock (Mitte cfi/cfj, Radius Rh, sichtbare Höhe Hh): n Blöcke/Steine entlang
+        der Falllinie yaw, Größe abnehmend (form.strom_groesse), Fächer breiter, Länge <= laenge_max. gid = Gruppen-Id je Kopf."""
+        teile = []
+        m = len(hv)
         cnt = ganz(hv, 31, int(nr[0]), int(nr[1]))
         idx = np.repeat(np.arange(m), cnt)
         k = np.arange(len(idx)) - np.repeat(np.cumsum(cnt) - cnt, cnt)
@@ -2472,17 +3213,15 @@ class Planer:
             y_ = yaw[idx]
             pfi = cfi[idx] + np.sin(y_) * s_lang + np.cos(y_) * lat
             pfj = cfj[idx] + np.cos(y_) * s_lang - np.sin(y_) * lat
-            lang_ok = s_lang + r_est <= float(K.get("laenge_max_m", 30))
+            lang_ok = s_lang + r_est <= laenge_max
             for rolle, maske in (("block", t >= 0.8), ("stein", t < 0.8)):
                 s = np.nonzero(maske & lang_ok)[0]
                 if len(s) == 0:
                     continue
-                tt, _ = self._platzieren(pal, kname, bi, rolle, pfi[s], pfj[s], hs_[s], y_[s], np.maximum(t[s], 0.5), hv[idx][s],
+                tt, _ = self._platzieren(pal, kname, bi, rolle, pfi[s], pfj[s], hs_[s], y_[s], np.maximum(t[s], 0.5), gid[idx][s],
                                          gp[idx][s])
                 if tt is not None:
                     teile.append(tt)
-                    gross.append(tt)
-        teile += self._saum(pal, kname, bi, K, gross)
         return teile
 
     def _saum(self, pal, kname, bi, K, gross):
@@ -2707,6 +3446,14 @@ class Planer:
                 pfade.append(pn)
         if not pfade:
             return None, 0
+        # Runde 3: biombeschränkte Netze (rote Findlinge) je Stück nach Biom der Zelle; Ersatz grau gleicher Größe
+        restr = [p for p in pfade if self.nbs.erlaubt(p) is not None] if self.nbs.aktiv else []
+        ersatz_neu = []
+        for p in restr:
+            for q in self.nbs.ersatz_fuer(p):
+                if q not in pfade:
+                    pfade.append(q)
+                    ersatz_neu.append(q)
         mass = [self.netz_mass(p) for p in pfade]
         hc = np.array([m[0] for m in mass]); rc = np.array([m[1] for m in mass]); mzc = np.array([m[2] for m in mass])
         ro = self.R["rollen"][z["rolle"]]
@@ -2731,6 +3478,28 @@ class Planer:
         pidx = {p: n_ for n_, p in enumerate(pfade)}
         k_punkt = np.array([pidx.get(pn, -1) for pn in p_netz[idx]], dtype=np.int64)
         k = np.where((m == 0) & (k_punkt >= 0), k_punkt, k)
+        sperre_weg = np.zeros(len(k), dtype=bool)
+        if restr:
+            bp = self.biom[pci, pcj]
+            braucht = np.array([any(not self.nbs.darf(p, b_) for p in restr) for b_ in range(len(BIOME))])
+            A_ = np.array([[self.nbs.darf(p, b_) for b_ in range(len(BIOME))] for p in pfade])
+            for q in ersatz_neu:  # Ersatz nur dort, wo ein beschränktes Netz verboten ist
+                A_[pfade.index(q)] = braucht
+            bad = ~A_[k, bp]
+            for b_ in np.unique(bp[bad]):
+                okk = np.nonzero(A_[:, b_])[0]
+                s_ = np.nonzero(bad & (bp == b_))[0]
+                if len(okk) == 0:
+                    sperre_weg[s_] = True
+                    continue
+                k[s_] = okk[np.minimum((uni(hh[s_], 47) * len(okk)).astype(np.int64), len(okk) - 1)]
+            self.netzsperre_stat.setdefault("zusatzklassen", {})[name] = {
+                "netze": [p.rsplit("/", 1)[-1] for p in restr], "ersatz": [p.rsplit("/", 1)[-1] for p in ersatz_neu],
+                "stuecke_umgestellt": int((bad & ~sperre_weg).sum()), "stuecke_ohne_ersatz_entfallen": int(sperre_weg.sum())}
+            log("Zusatzklasse %s: biombeschraenkte Netze %s (nur %s): %d Stuecke im Fremdbiom auf grauen Ersatz %s umgestellt%s." % (
+                name, ",".join(p.rsplit("/", 1)[-1] for p in restr), self.nbs.biome_text(restr[0]), int((bad & ~sperre_weg).sum()),
+                ",".join(p.rsplit("/", 1)[-1] for p in ersatz_neu) or "-",
+                (", %d ohne Ersatz entfallen" % int(sperre_weg.sum())) if sperre_weg.any() else ""))
         yaw_alle = zwischen(hh, 50, 0, 2 * np.pi)
         yp = p_yaw[idx]
         yaw_alle = np.where((m == 0) & ~np.isnan(yp), np.nan_to_num(yp), yaw_alle)
@@ -2751,7 +3520,7 @@ class Planer:
         nicht_schwebend = (hz - hmin_rand) <= bury * H_cm * sk / 100.0 + 0.3 + rr * np.tan(np.radians(60.0))
         if z["z_versatz"]:  # hängende Stücke (Pivot oben, z. B. Eisvorhänge): Floating-Prüfung entfällt bewusst
             nicht_schwebend = np.ones(len(hh), dtype=bool)
-        ok = inside & im_feld & (w[pci, pcj] > 0) & nicht_schwebend
+        ok = inside & im_feld & (w[pci, pcj] > 0) & nicht_schwebend & ~sperre_weg
         if ist_pl.any():
             s_ = np.nonzero(ok & ist_pl)[0]
             if len(s_):
@@ -2812,6 +3581,45 @@ class Planer:
             return leer
         return {k: np.concatenate([t[k] for t in teile]) for k in self.SCHLUESSEL}
 
+    def netz_biom_pruefung(self, a):
+        """Schlussprüfung Netz-Biomsperre (Runde 3): Stücke mit biombeschränktem Netz in einer Zelle eines fremden Bioms (z. B.
+        Satellit über der Biomgrenze) bekommen ein Ersatznetz gleicher Gesamthöhe (Eingrabanteil bleibt); ohne Ersatz entfallen sie."""
+        st = self.netzsperre_stat.setdefault("schlusspruefung", {"umgestellt": 0, "entfallen": 0})
+        if not self.nbs.aktiv or len(a["x"]) == 0:
+            return a
+        b = self.biom[a["ci"], a["cj"]]
+        bad = np.array([not self.nbs.darf(p, bb) for p, bb in zip(a["pfad"], b)], dtype=bool)
+        if not bad.any():
+            return a
+        weg = np.zeros(len(bad), dtype=bool)
+        H, W = self.h.shape
+        for k in np.nonzero(bad)[0]:
+            alt = a["pfad"][k]
+            ers = [q for q in self.nbs.ersatz_fuer(alt) if self.nbs.darf(q, b[k])]
+            if not ers or a["haengend"][k]:
+                weg[k] = True
+                continue
+            neu = ers[int(uni(np.array([a["gid"][k]], dtype=U64), 48)[0] * len(ers)) % len(ers)]
+            h_alt, _, mz_alt = self.netz_mass(alt)
+            h_neu, r_neu, mz_neu = self.netz_mass(neu)
+            s_alt = float(a["sz"][k])
+            s_neu = s_alt * h_alt / max(h_neu, 1e-3)
+            hz = float(bilinear(self.h, np.clip(np.array([a["fi"][k]]), 1, H - 1.001), np.clip(np.array([a["fj"][k]]), 1, W - 1.001))[0])
+            bury = (hz * 100.0 - mz_alt * s_alt - float(a["z"][k])) / max(h_alt * s_alt, 1e-3)
+            f = s_neu / s_alt
+            a["sx"][k] *= f
+            a["sy"][k] *= f
+            a["sz"][k] = s_neu
+            a["z"][k] = hz * 100.0 - mz_neu * s_neu - bury * h_neu * s_neu
+            a["pfad"][k] = neu
+            a["r_m"][k] = r_neu * max(a["sx"][k], a["sy"][k]) / 100.0
+            a["hoehe_m"][k] = h_neu * s_neu / 100.0
+        st["umgestellt"] += int((bad & ~weg).sum())
+        st["entfallen"] += int(weg.sum())
+        log("Netz-Biomsperre Schlusspruefung: %d Stuecke mit biombeschraenktem Netz im Fremdbiom auf Ersatz umgestellt, %d entfallen." % (
+            int((bad & ~weg).sum()), int(weg.sum())))
+        return {k: v[~weg] for k, v in a.items()} if weg.any() else a
+
     def budget(self, a):
         """Harte Deckel (KONVENTIONEN §3): je Rolle, gesamt, Kollision, Akteure. Runde 2: Ausdünnung nach Gruppen-Priorität
         (ganze Gruppen zuerst statt einzelner Stücke vieler Gruppen; Kiesel nach Instanz-Hash); Kollision über dem Deckel wird bei
@@ -2850,8 +3658,8 @@ class Planer:
             a["koll"][s] = False
             grund["kollision>%d (abgeschaltet, Stueck bleibt)" % B["kollision"]] = int(len(s))
         s = np.nonzero(keep & a["akteur"])[0]
-        if len(s) > B["akteure"]:
-            kleinste = s[np.argsort(a["hoehe_m"][s], kind="stable")[: len(s) - B["akteure"]]]
+        if len(s) > B["akteure"]:  # Formgruppen-Heros (Runde 3) bleiben immer Akteure
+            kleinste = s[np.lexsort((a["hoehe_m"][s], a["klasse"][s] == "formgruppe"))[: len(s) - B["akteure"]]]
             a["akteur"][kleinste] = False
             log("Hinweis Budget: %d kleinste Akteure als Foliage gesetzt (Akteure <= %d)." % (len(kleinste), B["akteure"]))
         if grund:
@@ -2981,6 +3789,89 @@ class Planer:
                 breite.get("form", {}).get("p10"), breite.get("form", {}).get("p90"), st["satellitenabstand_r"]["max"],
                 st["platten"]["anzahl"], st["platten"]["auf_gras"], st["kleinmaterial"]["anzahl"], st["kleinmaterial"]["ausserhalb_saum"]))
 
+    def formgruppen_statistik(self, a):
+        """Kennzahlen Runde 3 (nach Budget und Kontaktsaum): Formgruppen (Hero-Netz, sichtbare Größe, Eingraben, Satelliten,
+        Blockstrom), Begleitgruppen, Hangknick-Prüfung, Netz-Biomsperre. plan.json statistik.formgruppen und Log."""
+        def q(v, p):
+            return round(float(np.percentile(v, p)), 2) if len(v) else None
+
+        st = {"vorauswahl": dict(getattr(self, "form_stat_vorab", {}))}
+        fg = a["klasse"] == "formgruppe"
+        hk = np.nonzero(fg & a["haupt"])[0]
+        st["anzahl"] = int(len(hk))
+        info = getattr(self, "form_info", None)
+        if len(hk) and info is not None:
+            gid_info = hash64(info["h"], 92, 0)
+            pos = {int(g): i for i, g in enumerate(gid_info)}
+            ii = np.array([pos.get(int(g), -1) for g in a["gid"][hk]])
+            ii = ii[ii >= 0]
+            netze = {}
+            for p in info["pfad"][ii]:
+                nm = self.netze[p]["name"]
+                netze[nm] = netze.get(nm, 0) + 1
+            hb = info["bury"][ii]
+            st["typen"] = {t: int((info["typ"][ii] == t).sum()) for t in ("grat", "kuppe", "nase")}
+            st["hero_netze"] = dict(sorted(netze.items()))
+            st["hero_breite_m"] = {"min": q(info["breite"][ii], 0), "median": q(info["breite"][ii], 50), "max": q(info["breite"][ii], 100)}
+            st["hero_sichtbar_hoch_m"] = {"min": q(info["sicht_h"][ii], 0), "median": q(info["sicht_h"][ii], 50),
+                                          "max": q(info["sicht_h"][ii], 100)}
+            st["hero_groesse_m"] = {"median": q(np.maximum(info["breite"][ii], info["sicht_h"][ii]), 50),
+                                    "max": q(np.maximum(info["breite"][ii], info["sicht_h"][ii]), 100),
+                                    "hinweis": "max(Breite, sichtbare Hoehe); Ziel 10-30 m"}
+            st["hero_netzhoehe_x_massstab_m"] = {"median": q(info["hoehe_m"][ii], 50), "max": q(info["hoehe_m"][ii], 100)}
+            st["massstab"] = {"min": q(info["sz"][ii], 0), "median": q(info["sz"][ii], 50), "max": q(info["sz"][ii], 100)}
+            st["eingraben_anteil"] = {"min": q(hb, 0), "median": q(hb, 50), "max": q(hb, 100)}
+            st["eingrabtiefe_m"] = {"median": q(hb * info["hoehe_m"][ii], 50), "max": q(hb * info["hoehe_m"][ii], 100)}
+            st["rueckseite_hangwaerts_anteil"] = round(float(info["rueck_hoeher"][ii].mean()), 3)
+            st["rueckseite_minus_front_boden_m"] = {"median": q(info["rueck_diff_m"][ii], 50), "min": q(info["rueck_diff_m"][ii], 0)}
+            st["ueberstand_ueber_hoechstem_fusspunkt_m"] = {"min": q(info["ueberstand_m"][ii], 0), "median": q(info["ueberstand_m"][ii], 50)}
+            st["score"] = {"min": q(info["score"][ii], 0), "median": q(info["score"][ii], 50)}
+            st["prominenz_m"] = {"min": q(info["prom"][ii], 0), "median": q(info["prom"][ii], 50)}
+            st["sicht"] = {"min": q(info["sicht"][ii], 0), "median": q(info["sicht"][ii], 50), "max": q(info["sicht"][ii], 100)}
+            xy = np.stack([a["x"][hk], a["y"][hk]], axis=1) / 100.0
+            if len(hk) > 1:
+                dm = np.hypot(xy[:, None, 0] - xy[None, :, 0], xy[:, None, 1] - xy[None, :, 1])
+                np.fill_diagonal(dm, np.inf)
+                st["abstand_naechste_m"] = {"min": q(dm.min(1), 0), "median": q(dm.min(1), 50)}
+            sat = fg & ~a["haupt"] & np.isfinite(a["dist_r"]) & (a["rolle"] != "kiesel")
+            zunge = fg & ~a["haupt"] & ~np.isfinite(a["dist_r"]) & np.isin(a["rolle"], ["block", "stein"])
+            ns = np.array([int((sat & (a["gid"] == g)).sum()) for g in a["gid"][hk]])
+            nz = np.array([int((zunge & (a["gid"] == g)).sum()) for g in a["gid"][hk]])
+            st["satelliten"] = {"gesamt": int(sat.sum()), "je_formgruppe": {"min": int(ns.min()), "median": q(ns, 50), "max": int(ns.max())},
+                                "sichtbar_hoch_m": {"min": q(a["sicht_h"][sat], 0), "median": q(a["sicht_h"][sat], 50),
+                                                    "max": q(a["sicht_h"][sat], 100)},
+                                "abstand_zum_herorand_anteil": {"median": q(a["dist_r"][sat], 50), "max": q(a["dist_r"][sat], 100)}}
+            st["blockstrom"] = {"stuecke": int(zunge.sum()), "formgruppen_mit_blockstrom": int((nz > 0).sum())}
+            st["kiesel_im_saum"] = int((fg & (a["rolle"] == "kiesel")).sum())
+            st["instanzen"] = int(fg.sum())
+        st["begleitung"] = dict(getattr(self, "begleit_stat", {}))
+        # Hangknick-Pflicht: Hauptstücke der Relief-Klassen auf Wiese ohne Hangknick (soll 0 sein)
+        kl = self.R.get("hangknick", {}).get("klassen", []) + ["formgruppe"]
+        hm = a["haupt"] & np.isin(a["klasse"], kl)
+        wk = hm & self.m_gras[a["ci"], a["cj"]] & ~self.knick[a["ci"], a["cj"]]
+        st["hangknick"] = {"kandidaten_verworfen_wiese_ohne_knick": dict(getattr(self, "wiese_stat", {})),
+                           "hauptstuecke_auf_wiese_ohne_knick": int(wk.sum()),
+                           "einzel_auf_wiese_ohne_knick": int((a["haupt"] & (a["klasse"] == "einzel") & self.m_gras[a["ci"], a["cj"]]
+                                                              & ~self.knick[a["ci"], a["cj"]]).sum())}
+        b = self.biom[a["ci"], a["cj"]]
+        rot = np.array([self.nbs.erlaubt(p) is not None and not self.nbs.darf(p, bb) for p, bb in zip(a["pfad"], b)], dtype=bool)
+        rot_ok = np.array([self.nbs.erlaubt(p) is not None for p in a["pfad"]], dtype=bool)
+        st["netzsperre"] = dict(self.netzsperre_stat, beschraenkt_gesetzt=int(rot_ok.sum()), beschraenkt_im_fremdbiom=int(rot.sum()),
+                                gesperrt_gesetzt=int(np.isin(a["pfad"], sorted(self.gesperrt)).sum()))
+        self.fg_stat = st
+        if st["anzahl"]:
+            log("Formgruppen-Statistik: %d Formgruppen %s; Hero Breite median %s m (max %s), sichtbar hoch median %s m (max %s), "
+                "Massstab %s-%s, eingegraben %s-%s (median %s); Satelliten %d (je Gruppe %s-%s, sichtbar median %s m); "
+                "Blockstrom %d Stuecke; Rueckseite hangwaerts %.0f %%." % (
+                    st["anzahl"], st["typen"], st["hero_breite_m"]["median"], st["hero_breite_m"]["max"],
+                    st["hero_sichtbar_hoch_m"]["median"], st["hero_sichtbar_hoch_m"]["max"], st["massstab"]["min"], st["massstab"]["max"],
+                    st["eingraben_anteil"]["min"], st["eingraben_anteil"]["max"], st["eingraben_anteil"]["median"],
+                    st["satelliten"]["gesamt"], st["satelliten"]["je_formgruppe"]["min"], st["satelliten"]["je_formgruppe"]["max"],
+                    st["satelliten"]["sichtbar_hoch_m"]["median"], st["blockstrom"]["stuecke"], 100 * st["rueckseite_hangwaerts_anteil"]))
+        log("Pruefung: Hauptstuecke auf Wiese ohne Hangknick %d; biombeschraenkte Netze im Fremdbiom %d; gesperrte Netze %d." % (
+            st["hangknick"]["hauptstuecke_auf_wiese_ohne_knick"], st["netzsperre"]["beschraenkt_im_fremdbiom"],
+            st["netzsperre"]["gesperrt_gesetzt"]))
+
     def pruefkameras(self, a):
         """Kamera-Vorschläge (Weltkoordinaten cm, UE-Yaw/Pitch in Grad): Grat-Blick aus ~300 m quer zur Gratachse auf die höchste
         Felskrone, Blockstrom-Blick 120 m hangabwärts, Kuppe aus 200 m. Höhe: Gelände am Kamerapunkt (im Fenster) + Angabe."""
@@ -3001,6 +3892,24 @@ class Planer:
                          "pitch_grad": round(math.degrees(math.atan2(zz - cz, abstand)), 1),
                          "ziel_cm": [round(zx * 100), round(zy * 100), round(zz * 100)], "zweck": zweck,
                          "boden_aus": "hoehe.f32" if inn else "geschaetzt (ausserhalb Fenster)"})
+        # Runde 3: Formgruppen (die drei mit dem höchsten Score) von der Front aus 300 m und die beste aus 120 m
+        hf_ = np.nonzero(a["haupt"] & (a["klasse"] == "formgruppe"))[0]
+        info = getattr(self, "form_info", None)
+        if len(hf_) and info is not None:
+            pos = {int(g): i for i, g in enumerate(hash64(info["h"], 92, 0))}
+            ii = np.array([pos.get(int(g), -1) for g in a["gid"][hf_]])
+            sc = np.where(ii >= 0, info["score"][np.maximum(ii, 0)], -1.0)
+            for rang, k_ in enumerate(np.argsort(-sc, kind="stable")[:3]):
+                k = hf_[k_]
+                fr = info["front"][ii[k_]] if ii[k_] >= 0 else np.array([1.0, 0.0])
+                kamera("formgruppe_300m_%d" % (rang + 1), k, 300.0, math.atan2(fr[1], fr[0]), 40.0,
+                       "Formgruppe %s (%s) aus Tal-/Wegrichtung: Felskrone 10-30 m mit dem Hang verwachsen, Satelliten am Fuss" % (
+                           rang + 1, info["typ"][ii[k_]] if ii[k_] >= 0 else "?"))
+                if rang == 0:
+                    kamera("formgruppe_front_120m", k, 120.0, math.atan2(fr[1], fr[0]), 20.0,
+                           "Front der Hero-Klippe: offene Seite darf nicht sichtbar sein (sonst rueckseite im Regelblock umdrehen)")
+                    kamera("formgruppe_flanke_120m", k, 120.0, math.atan2(fr[1], fr[0]) + 0.5 * np.pi, 20.0,
+                           "Flanke: Eingraben 35-60 %, Rueckseite im Hang, Blockstrom am Fuss")
         hk = np.nonzero(a["haupt"] & (a["klasse"] == "grat"))[0]
         if len(hk):
             k = hk[np.argmax(a["z"][hk])]
@@ -3074,6 +3983,7 @@ class Planer:
         stat["mindestdichte"] = {BIOME[b]: {"soll_je_ha": float(self.mindest[b]), "hauptstuecke_relief": int(self.haupt_je_biom[b])}
                                  for b in np.nonzero(self.mindest > 0)[0] if BIOME[b] in self.biome_fenster}
         stat["form"] = dict(getattr(self, "form_stat", {}))
+        stat["formgruppen"] = dict(getattr(self, "fg_stat", {}))
         plan = plan_kopf(self.R, feld, int(n), self.stand)
         plan.update({"biome_fenster": self.biome_fenster, "zellen_zustaendig": int(self.zellen_zustaendig),
                      "kollision_anzahl": int(a["koll"].sum()), "biom_quelle": self.biom_quelle,
@@ -3113,7 +4023,7 @@ class Planer:
             ok = (ci >= 0) & (ci < H) & (cj >= 0) & (cj < W)
             farben = {k: np.array(v["farbe"], dtype=np.uint8) for k, v in self.R["klassen"].items()}
             # Runde 2: Stücke als Scheibe mit ihrem Fußradius (1 px = 1 m), damit die Gruppenform in der Draufsicht lesbar ist
-            rad = np.clip(np.round(a["r_m"]), 0, 9).astype(np.int64)
+            rad = np.clip(np.round(a["r_m"]), 0, 20).astype(np.int64)
             rad[a["rolle"] == "kiesel"] = 0
             for rolle in ["kiesel", "stein", "platte", "block", "band", "wand", "hero"]:
                 s = ok & (a["rolle"] == rolle)
@@ -3149,7 +4059,8 @@ def plan_kopf(R, feld, n, stand):
     return {"stand": stand, "feld": feld, "instanzen": int(n), "ebene": "felsgruppen", "biome_eigen": list(BIOME),
             "biome_fenster": {}, "zellen_zustaendig": 0, "kollision_anzahl": 0, "dateien": {}, "akteure": [],
             "entfernen": AU.get("entfernen", ""), "ft_ordner": AU["ft_ordner"], "ft_praefix": AU["ft_praefix"],
-            "quelle": "felsgruppen_plan.py (Korrektur Runde 2: Gruppengrammatik, Platten-Regel, Kontaktsaum, Sperrliste)",
+            "quelle": "felsgruppen_plan.py (Korrektur Runde 3: Formgruppen 10-30 m, Netz-Biomsperre, Hangknick; Runde 2: Gruppengrammatik, "
+                      "Platten-Regel, Kontaktsaum, Sperrliste)",
             "hinweis_setzer": "Eintraege mit rolle 'akteur' (Dateien akteur_*.f32, Liste 'akteure') als StaticMeshActor setzen, "
                               "nicht als Foliage; Kollision nur wo kollision=true; Z enthaelt bereits das Eingraben.",
             "hinweise": []}
@@ -3172,7 +4083,7 @@ def schreibe_leeren_plan(basis, R, feld, grund):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
-    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C, Korrektur Runde 2).")
+    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C, Korrektur Runde 3).")
     ap.add_argument("felder", nargs="+", help="Gitterfelder, z. B. B4 C2")
     ap.add_argument("--bild", action="store_true", help="Draufsicht docs/pruefung/felsgruppen/<Feld>.png")
     ap.add_argument("--faktor", type=float, default=1.0, help="Dichtefaktor (Standard 1.0)")
