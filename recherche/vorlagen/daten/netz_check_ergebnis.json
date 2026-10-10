@@ -1,0 +1,2987 @@
+{
+ "/Game/Graveyard/trees/SM_Dead_Tree_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Dead_Bark_1",
+    "material": "/Game/Graveyard/trees/M_Dead_Bark_1.M_Dead_Bark_1",
+    "basis": "/Game/Graveyard/trees/M_Dead_Bark_1.M_Dead_Bark_1",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_Dead_Tree_Leaves",
+    "material": "/Game/Graveyard/trees/M_Dead_Tree_Leaves.M_Dead_Tree_Leaves",
+    "basis": "/Game/Graveyard/trees/M_Dead_Tree_Leaves.M_Dead_Tree_Leaves",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_Dead_Tree_01_Imposter",
+    "material": "/Game/Graveyard/trees/M_Dead_Tree_01_cross.M_Dead_Tree_01_cross",
+    "basis": "/Game/Graveyard/trees/M_Dead_Tree_01_cross.M_Dead_Tree_01_cross",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Graveyard/trees/SM_Dead_Tree_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Dead_Tree_Leaves",
+    "material": "/Game/Graveyard/trees/M_Dead_Tree_Leaves.M_Dead_Tree_Leaves",
+    "basis": "/Game/Graveyard/trees/M_Dead_Tree_Leaves.M_Dead_Tree_Leaves",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_Dead_Bark_1",
+    "material": "/Game/Graveyard/trees/M_Dead_Bark_1.M_Dead_Bark_1",
+    "basis": "/Game/Graveyard/trees/M_Dead_Bark_1.M_Dead_Bark_1",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_Dead_Tree_02_Imposter",
+    "material": "/Game/Graveyard/trees/M_Dead_Tree_02_cross.M_Dead_Tree_02_cross",
+    "basis": "/Game/Graveyard/trees/M_Dead_Tree_02_cross.M_Dead_Tree_02_cross",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Graveyard/trees/SM_Dead_Tree_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Dead_Tree_Leaves",
+    "material": "/Game/Graveyard/trees/M_Dead_Tree_Leaves.M_Dead_Tree_Leaves",
+    "basis": "/Game/Graveyard/trees/M_Dead_Tree_Leaves.M_Dead_Tree_Leaves",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_Dead_Bark_1",
+    "material": "/Game/Graveyard/trees/M_Dead_Bark_1.M_Dead_Bark_1",
+    "basis": "/Game/Graveyard/trees/M_Dead_Bark_1.M_Dead_Bark_1",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_Dead_Tree_03_Imposter",
+    "material": "/Game/Graveyard/trees/M_Dead_Tree_03_cross.M_Dead_Tree_03_cross",
+    "basis": "/Game/Graveyard/trees/M_Dead_Tree_03_cross.M_Dead_Tree_03_cross",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Geometry/SM_Icon_Arrow_Test": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "01 - Default",
+    "material": "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Materials/MI_UI_01.MI_UI_01",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Materials/M_UI_Element.M_UI_Element",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Geometry/SM_Icon_Base": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "01 - Default",
+    "material": "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Materials/MI_UI_01.MI_UI_01",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Materials/M_UI_Element.M_UI_Element",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Geometry/SM_Icon_Sock": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "01 - Default",
+    "material": "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Materials/MI_UI_01.MI_UI_01",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/GlobalFoliageActor/Materials/M_UI_Element.M_UI_Element",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestBoulder/MI_MossyForestBoulder_10.MI_MossyForestBoulder_10",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_06": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_01.MI_Crownbeard_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "MI_Crownbeard_tefoajkr_Billboard_4K",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_02.MI_Crownbeard_02",
+    "basis": "/Game/MSPresets/M_MS_Billboard_Material/M_MS_Billboard_Material.M_MS_Billboard_Material",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/PivotPainter/SM_EuropeanHornbeam_Forest_10_PP": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/PivotPainter/Forest/Forest_10/MI_EuropeanHornbeam_Forest_10_Tileable.MI_EuropeanHornbeam_Forest_10_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Field_01": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Trunk",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Trunk_01.MI_EuropeanHornbeam_Trunk_01",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Field_02": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Field_03": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Trunk",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Trunk_01.MI_EuropeanHornbeam_Trunk_01",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Field_04": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_01": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_02": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_03": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Trunk",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Trunk_01.MI_EuropeanHornbeam_Trunk_01",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_04": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Trunk",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Trunk_02.MI_EuropeanHornbeam_Trunk_02",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_05": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Trunk",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Trunk_03.MI_EuropeanHornbeam_Trunk_03",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_06": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Trunk",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Trunk_03.MI_EuropeanHornbeam_Trunk_03",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_07": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Trunk",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Trunk_02.MI_EuropeanHornbeam_Trunk_02",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_08": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_09": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Decoration",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Decoration.MI_EuropeanHornbeam_Decoration",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_10": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_04": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_05": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_07": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_08": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_03": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_04": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_05": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "TwoSided",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_TwoSided.MI_EuropeanHornbeam_TwoSided",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "Tileable",
+    "material": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Materials/SimpleWind/MI_EuropeanHornbeam_Tileable.MI_EuropeanHornbeam_Tileable",
+    "basis": "/Game/MSPresets/MS_Foliage_Material_LATEST/MasterMaterials/M_Foliage.M_Foliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/PurpleShamrock/SM_PurpleShamrock_01": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/PurpleShamrock/MI_PurpleShamrock_01.MI_PurpleShamrock_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "MI_Purple_Shamrock_rjrrH_Billboard_4K",
+    "material": "/Game/Megascans/3D_Plants/PurpleShamrock/MI_PurpleShamrock_02.MI_PurpleShamrock_02",
+    "basis": "/Game/MSPresets/M_MS_Foliage_Material/M_MS_Foliage_Material.M_MS_Foliage_Material",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/PurpleShamrock/SM_PurpleShamrock_02": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/PurpleShamrock/MI_PurpleShamrock_01.MI_PurpleShamrock_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "MI_Purple_Shamrock_rjrrH_Billboard_4K",
+    "material": "/Game/Megascans/3D_Plants/PurpleShamrock/MI_PurpleShamrock_02.MI_PurpleShamrock_02",
+    "basis": "/Game/MSPresets/M_MS_Foliage_Material/M_MS_Foliage_Material.M_MS_Foliage_Material",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/PurpleShamrock/SM_PurpleShamrock_03": {
+  "klasse": "schwarz_mspresets",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/PurpleShamrock/MI_PurpleShamrock_01.MI_PurpleShamrock_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   },
+   {
+    "slot": "MI_Purple_Shamrock_rjrrH_Billboard_4K",
+    "material": "/Game/Megascans/3D_Plants/PurpleShamrock/MI_PurpleShamrock_02.MI_PurpleShamrock_02",
+    "basis": "/Game/MSPresets/M_MS_Foliage_Material/M_MS_Foliage_Material.M_MS_Foliage_Material",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_10_dead": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Pine_trunk_10",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_Pine_trunk_10.MI_Pine_trunk_10",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_trunk.M_trunk",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_Pine_leaves_dead",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_Pine_leaves.MI_Pine_leaves",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_leaves.M_leaves",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_pine_10",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_pine_10.MI_pine_10",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_Cross.M_Cross",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Pine_leaves",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_Pine_leaves.MI_Pine_leaves",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_leaves.M_leaves",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_pine_plant_01",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_pine_plant_1.MI_pine_plant_1",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_Cross.M_Cross",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Pine_leaves",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_Pine_leaves.MI_Pine_leaves",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_leaves.M_leaves",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_pine_plant_02",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_pine_plant_2.MI_pine_plant_2",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_Cross.M_Cross",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Pine_leaves",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_Pine_leaves.MI_Pine_leaves",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_leaves.M_leaves",
+    "textur_leer": []
+   },
+   {
+    "slot": "M_pine_plant_03",
+    "material": "/Game/Mountain_Environment_Set/Foliage/Materials/MI_pine_plant_3.MI_pine_plant_3",
+    "basis": "/Game/Mountain_Environment_Set/Foliage/Materials/M_Cross.M_Cross",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_01_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_01_Bark.MI_Palm_01_01_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_01_Branch_Dry.MI_Palm_01_01_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_01_Bark_Details.MI_Palm_01_01_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_01_Leaves_G.MI_Palm_01_01_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_01_Leaves_Dry.MI_Palm_01_01_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_01_Branch.MI_Palm_01_01_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_01_Impostor_G.MI_Palm_01_01_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_02_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_02_Bark.MI_Palm_01_02_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_02_Branch_Dry.MI_Palm_01_02_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_02_Bark_Details.MI_Palm_01_02_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_02_Branch.MI_Palm_01_02_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_02_Leaves_G.MI_Palm_01_02_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_02_Leaves_Dry.MI_Palm_01_02_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_02_Impostor_G.MI_Palm_01_02_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_03_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_03_Bark.MI_Palm_01_03_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_03_Branch_Dry.MI_Palm_01_03_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_03_Bark_Details.MI_Palm_01_03_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_03_Branch.MI_Palm_01_03_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_03_Leaves_G.MI_Palm_01_03_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_03_Leaves_Dry.MI_Palm_01_03_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_03_Impostor_G.MI_Palm_01_03_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_04_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_04_Bark.MI_Palm_01_04_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_04_Branch_Dry.MI_Palm_01_04_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_04_Bark_Details.MI_Palm_01_04_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_04_Branch.MI_Palm_01_04_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_04_Leaves_G.MI_Palm_01_04_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_04_Leaves_Dry.MI_Palm_01_04_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_04_Impostor_G.MI_Palm_01_04_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_05_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_05_Bark.MI_Palm_01_05_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_05_Branch_Dry.MI_Palm_01_05_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_05_Bark_Details.MI_Palm_01_05_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_05_Branch.MI_Palm_01_05_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_05_Leaves_G.MI_Palm_01_05_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_05_Leaves_Dry.MI_Palm_01_05_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_05_Impostor_G.MI_Palm_01_05_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_06_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_06_Bark.MI_Palm_01_06_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_06_Branch_Dry.MI_Palm_01_06_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_06_Bark_Details.MI_Palm_01_06_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_06_Leaves_G.MI_Palm_01_06_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_06_Leaves_Dry.MI_Palm_01_06_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_06_Branch.MI_Palm_01_06_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_06_Impostor_G.MI_Palm_01_06_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_07_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_07_Bark.MI_Palm_01_07_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_07_Branch_Dry.MI_Palm_01_07_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_07_Bark_Details.MI_Palm_01_07_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_07_Leaves_G.MI_Palm_01_07_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_07_Leaves_Dry.MI_Palm_01_07_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_07_Branch.MI_Palm_01_07_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_07_Impostor_G.MI_Palm_01_07_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_08_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_08_Bark.MI_Palm_01_08_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_08_Branch_Dry.MI_Palm_01_08_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_08_Bark_Details.MI_Palm_01_08_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_08_Leaves_G.MI_Palm_01_08_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_08_Leaves_Dry.MI_Palm_01_08_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_08_Branch.MI_Palm_01_08_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_08_Impostor_G.MI_Palm_01_08_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_09_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_09_Bark.MI_Palm_01_09_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_09_Branch_Dry.MI_Palm_01_09_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_09_Bark_Details.MI_Palm_01_09_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_09_Leaves_G.MI_Palm_01_09_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_09_Branch.MI_Palm_01_09_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_09_Leaves_Dry.MI_Palm_01_09_Leaves_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_09_Impostor_G.MI_Palm_01_09_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_10_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_10_Bark.MI_Palm_01_10_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_10_Branch_Dry.MI_Palm_01_10_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_10_Bark_Details.MI_Palm_01_10_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_10_Leaves_G.MI_Palm_01_10_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_10_Branch.MI_Palm_01_10_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_10_Impostor_G.MI_Palm_01_10_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_11_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_11_Bark.MI_Palm_01_11_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_11_Branch_Dry.MI_Palm_01_11_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_11_Bark_Details.MI_Palm_01_11_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_11_Leaves_G.MI_Palm_01_11_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_11_Branch.MI_Palm_01_11_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_11_Impostor_G.MI_Palm_01_11_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Palms_Pack_01/Meshes/SM_Palm_01_12_G": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "Trunk",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_12_Bark.MI_Palm_01_12_Bark",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch_Dry",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_12_Branch_Dry.MI_Palm_01_12_Branch_Dry",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Bark_Details",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_12_Bark_Details.MI_Palm_01_12_Bark_Details",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Branch",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_12_Branch.MI_Palm_01_12_Branch",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Leaves",
+    "material": "/Game/Palms_Pack_01/Materials/MI_Palm_01_12_Leaves_G.MI_Palm_01_12_Leaves_G",
+    "basis": "/Game/Palms_Pack_01/Materials/M_Trees_PP2.M_Trees_PP2",
+    "textur_leer": []
+   },
+   {
+    "slot": "Impostor",
+    "material": "/Game/Palms_Pack_01/Materials/Impostor_Mat/MI_Palm_01_12_Impostor_G.MI_Palm_01_12_Impostor_G",
+    "basis": "/Game/Palms_Pack_01/Materials/Impostor_Mat/M_Impostor.M_Impostor",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_01": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/ErodedRockyGround/MI_ErodedRockyGround_01.MI_ErodedRockyGround_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_02": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/ErodedRockyGround/MI_ErodedRockyGround_01.MI_ErodedRockyGround_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_03": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/ErodedRockyGround/MI_ErodedRockyGround_01.MI_ErodedRockyGround_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_05": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/ForestRockFormation/MI_ForestRockFormation_05.MI_ForestRockFormation_05",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_06": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/ForestRockFormation/MI_ForestRockFormation_02.MI_ForestRockFormation_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/ForestRockShelf/MI_ForestRockShelf_02.MI_ForestRockShelf_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/ForestRockSlab/MI_ForestRockSlab_01.MI_ForestRockSlab_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/LichenedForestBoulder/MI_LichenedForestBoulder_01.MI_LichenedForestBoulder_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestBoulder/MI_MossyForestBoulder_01.MI_MossyForestBoulder_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestBoulder/MI_MossyForestBoulder_03.MI_MossyForestBoulder_03",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestBoulder/MI_MossyForestBoulder_04.MI_MossyForestBoulder_04",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestBoulder/MI_MossyForestBoulder_06.MI_MossyForestBoulder_06",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestBoulder/MI_MossyForestBoulder_07.MI_MossyForestBoulder_07",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestBoulder/MI_MossyForestBoulder_09.MI_MossyForestBoulder_09",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/MossyRocks/MI_MossyRocks_01.MI_MossyRocks_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/MossyRocks/MI_MossyRocks_02.MI_MossyRocks_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/NordicBeachRock/MI_NordicBeachRock_01.MI_NordicBeachRock_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/NordicBeachRocks/MI_NordicBeachRocks_01.MI_NordicBeachRocks_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/NordicBeachRockyGround/MI_NordicBeachRockyGround_01.MI_NordicBeachRockyGround_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/NordicBeachRockyGround/MI_NordicBeachRockyGround_02.MI_NordicBeachRockyGround_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/NordicBoulder/MI_NordicBoulder_01.MI_NordicBoulder_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/SmallStonesPack/MI_SmallStonesPack_01.MI_SmallStonesPack_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/TundraMossyBoulder/MI_TundraMossyBoulder_01.MI_TundraMossyBoulder_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/TundraRockyGround/MI_TundraRockyGround_01.MI_TundraRockyGround_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/MI_HugeNordicCoastalCliff_01.MI_HugeNordicCoastalCliff_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/MI_HugeNordicCoastalCliff_01.MI_HugeNordicCoastalCliff_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "_mat_defaultMat",
+    "material": "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/MI_MassiveNordicCoastalCliff_01.MI_MassiveNordicCoastalCliff_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Big_Rock_03",
+    "material": "/Game/Environment_Set/Environment/Rocks/Materials/MI_Rocks_Big_03.MI_Rocks_Big_03",
+    "basis": "/Game/Environment_Set/Environment/Rocks/Materials/M_Rocks.M_Rocks",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Big_rock_03",
+    "material": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03",
+    "basis": "/Game/Mountain_Environment_Set/Master_Materials/M_Master_material.M_Master_material",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "normal2",
+    "material": "/Game/Megascans/3D_Assets/ForestRockFormation/MI_ForestRockFormation_03.MI_ForestRockFormation_03",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestRock/MI_MossyForestRock_01.MI_MossyForestRock_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/MossyForestRock/MI_MossyForestRock_02.MI_MossyForestRock_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyRockFace/SM_MossyRockFace_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/MossyRockFace/MI_MossyRockFace_02.MI_MossyRockFace_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Fern/SM_Fern_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Fern/MI_Fern_01.MI_Fern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Fern/SM_Fern_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Fern/MI_Fern_01.MI_Fern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Fern/SM_Fern_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Fern/MI_Fern_01.MI_Fern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Fern/SM_Fern_04": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Fern/MI_Fern_01.MI_Fern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Fern/SM_Fern_05": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Fern/MI_Fern_01.MI_Fern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Fern/SM_Fern_06": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Fern/MI_Fern_01.MI_Fern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/SilverLadyFern/MI_SilverLadyFern_01.MI_SilverLadyFern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/SilverLadyFern/MI_SilverLadyFern_01.MI_SilverLadyFern_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_07": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_01.MI_Crownbeard_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_08": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_01.MI_Crownbeard_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldTreeBranch/MI_OldTreeBranch_02.MI_OldTreeBranch_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/LargeFallenTree/MI_LargeFallenTree_02.MI_LargeFallenTree_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "_mat_defaultMat",
+    "material": "/Game/Megascans/3D_Assets/FallenTreeAssembly/MI_FallenTreeAssembly_01.MI_FallenTreeAssembly_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/MossyTree/SM_MossyTree_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "_mat__High_MasterdefaultMat",
+    "material": "/Game/Megascans/3D_Assets/MossyTree/MI_MossyTree_01.MI_MossyTree_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "_mat_defaultMat",
+    "material": "/Game/Megascans/3D_Assets/TreeStump/MI_TreeStump_01.MI_TreeStump_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/BirchTreeStump/SM_BirchTreeStump_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/BirchTreeStump/MI_BirchTreeStump_01.MI_BirchTreeStump_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/RottenTreeStump/MI_RottenTreeStump_01.MI_RottenTreeStump_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_White_Windflower_sktlN_4K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/WhiteWindflower/MI_WhiteWindflower_02.MI_WhiteWindflower_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/WhiteWindflower/MI_WhiteWindflower_01.MI_WhiteWindflower_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_04": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/WhiteWindflower/MI_WhiteWindflower_01.MI_WhiteWindflower_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_06": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/WhiteWindflower/MI_WhiteWindflower_01.MI_WhiteWindflower_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/LilyOfTheValley/MI_LilyOfTheValley_01.MI_LilyOfTheValley_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/LilyOfTheValley/MI_LilyOfTheValley_01.MI_LilyOfTheValley_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/LilyOfTheValley/MI_LilyOfTheValley_01.MI_LilyOfTheValley_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Periwinkle_tfclbger_4K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Periwinkle/MI_Periwinkle_01.MI_Periwinkle_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Periwinkle_tfclbger_4K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Periwinkle/MI_Periwinkle_01.MI_Periwinkle_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_04": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Periwinkle_tfclbger_4K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Periwinkle/MI_Periwinkle_01.MI_Periwinkle_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/SilverLadyFern/MI_SilverLadyFern_02.MI_SilverLadyFern_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoWPO.M_MS_CustomFoliageNoWPO",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_01.MI_Crownbeard_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_04": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_01.MI_Crownbeard_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_05": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_01.MI_Crownbeard_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_09": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/Crownbeard/MI_Crownbeard_01.MI_Crownbeard_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_02": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_06": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_08": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_09": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_10": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/MI_WoodenSticksAndTwigs_01.MI_WoodenSticksAndTwigs_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/DryBranches/MI_DryBranches_01.MI_DryBranches_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Default_Overwrite/M_MS_CustomDefault.M_MS_CustomDefault",
+    "textur_leer": [
+     "DetailNormal",
+     "Detail Rouhness"
+    ]
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/FallenSpruceTree/MI_FallenSpruceTree_01.MI_FallenSpruceTree_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/LargeFallenTree/MI_LargeFallenTree_01.MI_LargeFallenTree_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldFallenTree/MI_OldFallenTree_01.MI_OldFallenTree_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "WorldGridMaterial",
+    "material": "/Game/Megascans/3D_Assets/BrokenTreeAssembly/MI_BrokenTreeAssembly_01.MI_BrokenTreeAssembly_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "_mat_defaultMat",
+    "material": "/Game/Megascans/3D_Assets/BrokenStump/MI_BrokenStump_01.MI_BrokenStump_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldTreeBranch/MI_OldTreeBranch_07.MI_OldTreeBranch_07",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_09": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/BeechFern/MI_BeechFern_02.MI_BeechFern_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_10": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/BeechFern/MI_BeechFern_02.MI_BeechFern_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_15": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "lambert1",
+    "material": "/Game/Megascans/3D_Plants/BeechFern/MI_BeechFern_02.MI_BeechFern_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/GrassyEmbankment/SM_GrassyEmbankment_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/GrassyEmbankment/MI_GrassyEmbankment_01.MI_GrassyEmbankment_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/GrassyEmbankment/SM_GrassyEmbankment_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/GrassyEmbankment/MI_GrassyEmbankment_01.MI_GrassyEmbankment_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_10": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_11": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_12": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Elderberry_wfzobb2ia_8K_NoOpac",
+    "material": "/Game/Megascans/3D_Plants/Elderberry/MI_Elderberry_01.MI_Elderberry_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacity.M_MS_CustomFoliageNoOpacity",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldTreeBranch/MI_OldTreeBranch_01.MI_OldTreeBranch_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldTreeBranch/MI_OldTreeBranch_05.MI_OldTreeBranch_05",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_05": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldTreeBranch/MI_OldTreeBranch_06.MI_OldTreeBranch_06",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/BrokenTreeBranch/MI_BrokenTreeBranch_01.MI_BrokenTreeBranch_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OakBranch/SM_OakBranch_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OakBranch/MI_OakBranch_01.MI_OakBranch_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldFallenTree/MI_OldFallenTree_02.MI_OldFallenTree_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "default_material",
+    "material": "/Game/Megascans/3D_Assets/OldTreeBranch/MI_OldTreeBranch_02.MI_OldTreeBranch_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "normal2",
+    "material": "/Game/Megascans/3D_Assets/RottenTreeStump/MI_RottenTreeStump_02.MI_RottenTreeStump_02",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering.M_MS_Default_Material_VT_DynamicLayering",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_01": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "01 - Default",
+    "material": "/Game/Megascans/3D_Plants/CustomMoss/MI_CustomMoss_01.MI_CustomMoss_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoWPO.M_MS_CustomFoliageNoWPO",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_03": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "01 - Default",
+    "material": "/Game/Megascans/3D_Plants/CustomMoss/MI_CustomMoss_01.MI_CustomMoss_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoWPO.M_MS_CustomFoliageNoWPO",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_25": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Ivy_xbkldeu_4K",
+    "material": "/Game/Megascans/3D_Plants/Ivy/MI_Ivy_01.MI_Ivy_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacityNoWPO.M_MS_CustomFoliageNoOpacityNoWPO",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_17": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "MI_Ivy_xbkldeu_4K",
+    "material": "/Game/Megascans/3D_Plants/Ivy/MI_Ivy_01.MI_Ivy_01",
+    "basis": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliageNoOpacityNoWPO.M_MS_CustomFoliageNoOpacityNoWPO",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/MedievalCastle/Meshes/SM_Cross": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "ChurchDIvider",
+    "material": "/Game/MedievalCastle/Materials/Instances/MI_DividerChurch.MI_DividerChurch",
+    "basis": "/Game/MedievalCastle/Materials/Masters/M_Standard_ORM.M_Standard_ORM",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/MedievalFantasyVillage/Props/SM_cartB_a1": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "trimsheet_mat",
+    "material": "/Game/MedievalFantasyVillage/Props/MI_CartB_a1.MI_CartB_a1",
+    "basis": "/Game/MedievalFantasyVillage/Materials/Masters/MM_Surface_VertBlend_01a.MM_Surface_VertBlend_01a",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/MedievalCastle/Meshes/SM_BrokenWoodWagon": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "woodwagon_rope",
+    "material": "/Game/MedievalCastle/Materials/Instances/MI_BrokenWagon_rope.MI_BrokenWagon_rope",
+    "basis": "/Game/MedievalCastle/Materials/Masters/M_Standard_ORM.M_Standard_ORM",
+    "textur_leer": []
+   },
+   {
+    "slot": "woodwagon_wood",
+    "material": "/Game/MedievalCastle/Materials/Instances/MI_BrokenWagon_wood.MI_BrokenWagon_wood",
+    "basis": "/Game/MedievalCastle/Materials/Masters/M_Standard_ORM.M_Standard_ORM",
+    "textur_leer": []
+   },
+   {
+    "slot": "woodwagon_wheel",
+    "material": "/Game/MedievalCastle/Materials/Instances/MI_BrokenWagon_wheel.MI_BrokenWagon_wheel",
+    "basis": "/Game/MedievalCastle/Materials/Masters/M_Standard_ORM.M_Standard_ORM",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/AncientRuins/Meshes/SM_Column_03": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "Stone",
+    "material": "/Game/AncientRuins/Materials/Material_Layering/Materials_and_Blends/MI_Column_03.MI_Column_03",
+    "basis": "/Game/AncientRuins/Materials/Material_Layering/Layering_Logic_Bases/M_LayeredMaterial.M_LayeredMaterial",
+    "textur_leer": [
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Edge Breakup Noise",
+     "RGB_Mask",
+     "Edge Breakup Noise",
+     "RGB_Mask",
+     "Edge Breakup Noise",
+     "RGB_Mask"
+    ]
+   },
+   {
+    "slot": "Broken_Stone",
+    "material": "/Game/AncientRuins/Materials/Simple_Materials/MI_Stone_Broken.MI_Stone_Broken",
+    "basis": "/Game/AncientRuins/Materials/Simple_Materials/M_Simple_Master_Triplanar.M_Simple_Master_Triplanar",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/AncientRuins/Meshes/SM_Main_Arch_01": {
+  "klasse": "textur_leer",
+  "slots": [
+   {
+    "slot": "Stone",
+    "material": "/Game/AncientRuins/Materials/Material_Layering/Materials_and_Blends/MI_Main_Arch_01.MI_Main_Arch_01",
+    "basis": "/Game/AncientRuins/Materials/Material_Layering/Layering_Logic_Bases/M_LayeredMaterial.M_LayeredMaterial",
+    "textur_leer": [
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Base Color",
+     "Base_R_AO_H",
+     "Tiling Normal",
+     "Edge Breakup Noise",
+     "RGB_Mask",
+     "Edge Breakup Noise",
+     "RGB_Mask",
+     "Edge Breakup Noise",
+     "RGB_Mask"
+    ]
+   },
+   {
+    "slot": "Broken_Stone",
+    "material": "/Game/AncientRuins/Materials/Simple_Materials/MI_Stone_Broken.MI_Stone_Broken",
+    "basis": "/Game/AncientRuins/Materials/Simple_Materials/M_Simple_Master_Triplanar.M_Simple_Master_Triplanar",
+    "textur_leer": []
+   }
+  ]
+ },
+ "/Game/Mountain_Environment_Set/Statue/Meshes/SM_Sviatovid_Stone": {
+  "klasse": "ok",
+  "slots": [
+   {
+    "slot": "M_Sviatovid",
+    "material": "/Game/Mountain_Environment_Set/Statue/Materials/MI_Sviatovid_stone.MI_Sviatovid_stone",
+    "basis": "/Game/Mountain_Environment_Set/Master_Materials/M_Master_material.M_Master_material",
+    "textur_leer": []
+   }
+  ]
+ }
+}
