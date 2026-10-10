@@ -23,7 +23,7 @@ Alle Pfade relativ zu `production/` (= `D:\Das Lied der Asche\ELDARIEN_ENVIRONME
 |---|---|---|
 | `hoehe.f32` | float32, Meter | Geländehöhe (= Unreal-Höhe ≤ 1,2 cm) |
 | `lage_<Name>.r8` | uint8 0–255 | Deckung der Bodenlage (Gewicht des Landschaftsmaterials): Wiese, Gras, Trockengras, Laub, Nadeln, Moos, Heide, Kraut, Erde, Lehm, Schlamm, Sand, Kies, Geroell, Fels, Felsplatte, Sandstein, Schnee, Eis, Lavafels, Lavasand, Algen |
-| `karte_wasser.r8` | uint8 | > 0 = Wasserfläche (Flüsse, Seen, Bäche, Teiche, Meer) |
+| `karte_wasser.r8` | uint8 | > 0 = **Süßwasser** (Flüsse, Seen, Bäche, Teiche). **Das Meer ist NICHT enthalten:** Meer = `hoehe.f32 < 0` und `karte_wasser == 0` (Korrektur 10.10.) |
 | `karte_weg.r8` | uint8 | > 0 = Weg/Straße (Abstand halten: 2,5 m Kleinzeug, 4 m Bäume/Felsen) |
 | `karte_ort.r8` | uint8 | > 0 = Ort/Bauwerk (Abstand 5 m) |
 | `eigner.r8` + `welt.json` | uint8 | Houdini-Kachel-Kennzahl je Zelle; `welt.json["kacheln"][k]["rezept"]` = **Biom** (0 = Weltgelände → `aue`, Vulkanregion → `lava`) |
