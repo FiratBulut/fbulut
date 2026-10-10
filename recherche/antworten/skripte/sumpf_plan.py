@@ -333,10 +333,27 @@ def pruefe_netze(regeln, basis):
         if not ok:
             k['dichte'] = 0.0
             meld('WARNUNG: Klasse %s hat kein Netz im Inventar – deaktiviert' % kname)
+    # Override-Netze (Teil C/D) nur melden, nicht streichen
+    ov = []
+
+    def sammle(o):
+        if isinstance(o, dict):
+            for v in o.values():
+                sammle(v)
+        elif isinstance(o, list):
+            for v in o:
+                sammle(v)
+        elif isinstance(o, str) and o.startswith('/Game/'):
+            ov.append(o)
+    sammle(regeln.get('felsgruppen_overrides', {}))
+    sammle(regeln.get('spuren_overrides', {}))
+    ov_fehlt = sorted(set(n for n in ov if n not in pfade))
+    if ov_fehlt:
+        meld('WARNUNG: %d Override-Netze (Teil C/D) nicht im Inventar: %s' % (len(ov_fehlt), ', '.join(ov_fehlt[:8])))
     if fehlt:
         meld('WARNUNG: %d Netzpfade nicht in %s: %s' % (len(fehlt), p, ', '.join(sorted(set(fehlt))[:8])))
     else:
-        meld('Netzpfade geprüft gegen %s: alle vorhanden' % p)
+        meld('Netzpfade geprüft gegen %s: alle %d Klassen-Netze vorhanden' % (p, len(set(n for k in regeln['klassen'].values() for n in k['netze']))))
 
 
 # ----------------------------------------------------------------------------- Weltdaten
@@ -373,7 +390,8 @@ def lade_biome(basis, win, regeln, feld):
         return None
 
     tabelle = [None] * 256
-    tabelle[0] = 'aue'
+    # Kennzahl 0 = Weltgelände ohne Houdini-Kachel: dominantes Feldbiom (Regeln 'felder' → biom_fallback), sonst aue (FORMAT §2)
+    tabelle[0] = fb
     eintraege = kacheln.items() if isinstance(kacheln, dict) else enumerate(kacheln)
     for k, v in eintraege:
         try:
