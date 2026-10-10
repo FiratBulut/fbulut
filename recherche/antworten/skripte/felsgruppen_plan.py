@@ -1209,6 +1209,8 @@ def main():
             pl.plane_feld(feld.upper(), welt_dir, args.bild)
         except SystemExit:
             raise
+        except ValueError as e:
+            log("FEHLER: %s – Feld übersprungen." % e)
         except Exception as e:  # klare Meldung, weiter mit nächstem Feld
             import traceback
             traceback.print_exc()

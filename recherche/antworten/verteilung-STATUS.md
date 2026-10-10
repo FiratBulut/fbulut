@@ -1,11 +1,11 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 12:30 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 13:05 UTC. Wird bei jedem Push aktualisiert.
 
 | Teil | Thema | Agent | Stand | Dateien |
 |---|---|---|---|---|
 | A | Asset-Taxonomie | 1 Agent | fertig, gepusht | `assets-taxonomie.json`, `assets-taxonomie.md` |
-| C | Fels organisch | 1 Agent | läuft | `verteilung-fels-organisch.md`, `skripte/felsgruppen_plan.py`, `skripte/felsgruppen_regeln.json` |
+| C | Fels organisch | 1 Agent | fertig, gepusht (Rauchtest synthetisch B4: 55 856 Inst., 7,9 s) | `verteilung-fels-organisch.md`, `skripte/felsgruppen_plan.py`, `skripte/felsgruppen_regeln.json` |
 | D | Leere füllen (Mittelschicht, Spuren) | 1 Agent | läuft | `verteilung-leere-fuellen.md`, `skripte/mittelschicht_plan.py`, `skripte/mittelschicht_regeln.json`, `skripte/spuren_plan.py`, `skripte/spuren_regeln.json` |
 | B1 | Nordküste (fjord, kueste, bergwald) | 1 Agent | läuft | `verteilung-nordkueste.md`, `skripte/nordkueste_*` |
 | B2 | Aue/Flussauen | 1 Agent | läuft | `verteilung-aue.md`, `skripte/aue_*` |

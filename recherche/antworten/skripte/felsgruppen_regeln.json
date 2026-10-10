@@ -4,7 +4,8 @@
   "zweck": "Regeln für felsgruppen_plan.py (Auftrag 11 Teil C). Alle Zahlen Richtwerte, UNGETESTET MIT ECHTDATEN; Pfade geprüft gegen daten/netze.csv (1435 Netze).",
   "einheiten": "Längen in m, Winkel in Grad, Krümmung in 1/m, Sichtweite in cm, Maßstab als Faktor; Raster 1 m (FORMAT.md §1).",
   "pivot": "Eingraben rechnet z = Boden - min_z*s - eingraben*H*s. min_z aus daten/netze_masse.json, sonst 0 (Pivot unten) bzw. -H/2 für Netze in netz_pivot_mitte.",
-  "rollen": "hero (>3 m, Hauptfels), wand (Schale/Klippe an Wand >50°), band (geschichtete Platte/Leiste), block (0,8–3 m), stein (<0,8 m), platte (flache Bodenplatte), kiesel (5–40 cm, Geröllsaum)."
+  "rollen": "hero (>3 m, Hauptfels), wand (Schale/Klippe an Wand >50°), band (geschichtete Platte/Leiste), block (0,8–3 m), stein (<0,8 m), platte (flache Bodenplatte), kiesel (5–40 cm, Geröllsaum).",
+  "taxonomie": "Abgleich mit assets-taxonomie.json (Teil A, nach Festlegung der Palette erschienen): Taxonomie stuft nach größter Kante, diese Palette nach Höhe (Auftrag: hero > 3 m, block 0,8–3 m, stein < 0,8 m); Kiesel entsprechen dort 'ufer_stein', Nordic-/Sandstein-Klippen 'klippe_schale'. Aus der Taxonomie übernommen: SM_IcelandicLavaSpire_01–03 als Hero für lava/tundra."
  },
  "seed": 110,
  "rand_m": 64,
@@ -205,7 +206,10 @@
     "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01",
     "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
     "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
-    "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0"
+    "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_03"
    ],
    "wand": [
     "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_02",
@@ -477,7 +481,10 @@
     "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04",
     "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
     "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_01",
-    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_02"
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_02",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_03"
    ],
    "wand": [
     "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_01",
