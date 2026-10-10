@@ -24,6 +24,8 @@ Fortsetzung ab 12:55 UTC in drei Wellen zu je 3–4 Agenten, die auf den vorhand
 Reihenfolge: A, C, D parallel → dann B1–B9 parallel (zwei Wellen). Alle Skripte sind in der Cloud nur syntaxgeprüft und mit
 synthetischen Rastern rauchgetestet (keine echten Weltdaten in der Cloud); Korrekturen bitte als `auftraege/verteilung-<thema>-korrektur.md`.
 
+Gesamtantworten: `verteilung-biome-witcher.md` (Auftrag 11) und `verteilung-korrektur-runde1.md` (Korrektur Runde 1).
+
 ## Korrektur Runde 1 (Auftrag `auftraege/verteilung-korrektur-runde1.md`, 10.10. 15:30 lokal)
 
 Alle zwölf Planer werden nach `antworten/verteilung-KONVENTIONEN.md` überarbeitet: strikte Biom-Zuständigkeit mit 30-m-Saum und
