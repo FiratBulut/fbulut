@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 18:25 UTC. Runde 3 abgeschlossen, Antwort: verteilung-korrektur-runde3.md.
+Stand: 2026-10-10 18:35 UTC. Runde 3b in Arbeit.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -112,3 +112,10 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 - Runde-2-Gruppen (4,5-8,5 m) nur noch als Begleiter: max. 3 je Formgruppe, sonst max. 6 je Feld.
 - SM_Big_Rock_0* und big_rock_wall_02 erreichen auch bei Massstab 2,0 keine 10 m und sind aussortiert (`groesse_min_m` auf 8 senken, falls gewuenscht). Graue /Game/Megascans/.../SM_IcelandicBoulder_* gibt es im Inventar nicht; Ersatz pkeeM/skjsL, MossyForestBoulder_03/04, mountain_rock_big_02_4.
 - Vor dem Setzen pruefen: offene Seite der Klippennetze angenommen auf lokal +y (veqnci0db +x) - falls in Kamera `formgruppe_front_120m` von vorn offen, je Netz `"rueckseite": "-y"` in `formgruppen.hero.paletten`; Pivot unten angenommen (keines der Hero-Netze in netze_masse.json). Pruefkameras in plan.json: formgruppe_300m_1..3, formgruppe_front_120m, formgruppe_flanke_120m. Klasse `band` unveraendert (Hebel `klassen.band.p`).
+
+## Runde 3b (Auftrag `auftraege/verteilung-korrektur-runde3b.md`, Nahbilder 10.10. 20:20 lokal)
+
+| Teil | Aufgabe | Stand |
+|---|---|---|
+| hochgebirge + mittelschicht | Pflanzen nur wo lage_Schnee < 60 und lage_Eis < 30; auf Schnee nur Steine/Flechtensteine (tiefer eingegraben) und Eiszapfen an Felskanten | laeuft |
+| nordkueste + dschungel | `entfernen`-Filter je Feld begruenden, erwartete Zahl entfernter Baeume; ohne Freigabe nichts entfernen | laeuft |
