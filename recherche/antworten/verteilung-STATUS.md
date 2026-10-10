@@ -76,5 +76,5 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 - mittelschicht_plan.py kennt keine Hoehenstufen relativ zur Baumgrenze; `hoehe_max_m` ist absolut. Folge: Alpenrose/Gras fehlen ueber 430/470 m, Heide kann unter Bergwald-Kiefern landen (Hinweis hochgebirge).
 - erledigt: felsgruppen `z_versatz_anteil` (Eis haengt 0,6-4,7 m ueber Boden), lava `spire` als echte Zusatzklasse.
 - Echtdaten-Pruefpunkt sumpf: liegen Teiche/Gewaesser in eigner.r8 auf Kennzahl 0, zaehlen sie als aue; der Sumpf-Planer setzt dann Schilfguertel nur ueber den Saum. Falls so, Gewaesser im Sumpf dem Sumpf-Rezept zuordnen oder Wasserzellen dem Biom der naechsten Landzelle zuweisen (Runde 2, alle Planer).
-- felsgruppen/lava: Lava-Plan ohne Spire-Punkte loest Ersatzmaske aus; Netz/Drehung aus Spire-Punkt nicht uebernommen - Nachbesserung beauftragt.
+- erledigt: felsgruppen/lava - Spires genau nach Lava-Plan-Punkten (auch 0), Ersatzmaske nur ohne Lava-Plan; netz/yaw_grad aus dem Punkt werden uebernommen.
 - erledigt: wueste-Felsklassen synthetisch D4 getestet (terrassenkanten 632, felsnadel 3 Akteure).

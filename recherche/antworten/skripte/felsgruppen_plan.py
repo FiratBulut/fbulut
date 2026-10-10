@@ -2292,21 +2292,31 @@ class Planer:
         name = "%s/%s" % (z["datei"].replace("_regeln.json", ""), z["name"])
         punkte = None
         if z["punkte"]:
+            # Plan des Biom-Planers vorhanden -> genau dessen Punkte (auch 0); Ersatzmaske nur, wenn der Plan fehlt/unlesbar ist
             pq = z["punkte"]
             pp = os.path.join(welt_dir, pq.get("ebene", ""), feld, "plan.json")
-            try:
-                with open(pp, encoding="utf-8") as f:
-                    pl = json.load(f)
-                pts = [p for p in pl.get("punkte", []) if p.get("typ") == pq.get("typ")]
-                punkte = np.array([[p["y_cm"] / 100.0 + Y0 - self.win[0], p["x_cm"] / 100.0 + X0 - self.win[2]] for p in pts]).reshape(-1, 2)
-                log("Zusatzklasse %s: %d Punkte (%s) aus %s" % (name, len(punkte), pq.get("typ"), pp))
-            except Exception:
-                log("Hinweis: Zusatzklasse %s: %s/%s/plan.json fehlt/unlesbar - Ersatz ueber Maske (Hang, Prominenz, Lagen)." % (
+            if os.path.isfile(pp):
+                try:
+                    with open(pp, encoding="utf-8") as f:
+                        pl = json.load(f)
+                    punkte = [p for p in pl.get("punkte", []) if isinstance(p, dict) and p.get("typ") == pq.get("typ")
+                              and _zahl(p.get("x_cm")) and _zahl(p.get("y_cm"))]
+                    log("Zusatzklasse %s: %d Punkte (%s) aus %s" % (name, len(punkte), pq.get("typ"), pp))
+                except Exception as e:
+                    log("Hinweis: Zusatzklasse %s: %s unlesbar (%s) - Ersatz ueber Maske." % (name, pp, e))
+            else:
+                log("Hinweis: Zusatzklasse %s: %s/%s/plan.json fehlt - Ersatz ueber Maske (Hang, Prominenz, Lagen)." % (
                     name, pq.get("ebene"), feld))
-        if punkte is not None and len(punkte):
-            fi, fj = punkte[:, 0], punkte[:, 1]
+            if punkte is not None and not punkte:
+                return None, 0
+        p_netz = p_yaw = None
+        if punkte:
+            fi = np.array([p["y_cm"] / 100.0 + Y0 - self.win[0] for p in punkte])
+            fj = np.array([p["x_cm"] / 100.0 + X0 - self.win[2] for p in punkte])
+            p_netz = np.array([norm_pfad(p["netz"]) if isinstance(p.get("netz"), str) else "" for p in punkte], dtype=object)
+            p_yaw = np.array([math.radians(p["yaw_grad"]) if _zahl(p.get("yaw_grad")) else np.nan for p in punkte])
             ok = (fi >= 1) & (fi < self.h.shape[0] - 1) & (fj >= 1) & (fj < self.h.shape[1] - 1)
-            fi, fj = fi[ok], fj[ok]
+            fi, fj, p_netz, p_yaw = fi[ok], fj[ok], p_netz[ok], p_yaw[ok]
             ci, cj = np.round(fi).astype(np.int64), np.round(fj).astype(np.int64)
             hsh = hash64(self.seed, salz, ci + self.win[0], cj + self.win[2])
             # Punkte des Biom-Planers tragen dessen Bedingungen schon: gültig, wo frei (nicht über die Ersatzmaske)
@@ -2330,12 +2340,15 @@ class Planer:
             else:
                 p = dichte * r * r / 1e4
             ok = uni(hsh, 5) < np.minimum(1.0, p * wp * self.faktor)
-        fi, fj, ci, cj, hsh = fi[ok], fj[ok], ci[ok], cj[ok], hsh[ok]
+        if p_netz is None:
+            p_netz = np.full(len(fi), "", dtype=object)
+            p_yaw = np.full(len(fi), np.nan)
+        fi, fj, ci, cj, hsh, p_netz, p_yaw = fi[ok], fj[ok], ci[ok], cj[ok], hsh[ok], p_netz[ok], p_yaw[ok]
         im = (ci >= fs_i.start) & (ci < fs_i.stop) & (cj >= fs_j.start) & (cj < fs_j.stop)
-        fi, fj, ci, cj, hsh = fi[im], fj[im], ci[im], cj[im], hsh[im]
+        fi, fj, ci, cj, hsh, p_netz, p_yaw = fi[im], fj[im], ci[im], cj[im], hsh[im], p_netz[im], p_yaw[im]
         if z["max_je_feld"] is not None and len(ci) > z["max_je_feld"]:
             o = np.argsort(uni(hsh, 7), kind="stable")[: z["max_je_feld"]]
-            fi, fj, ci, cj, hsh = fi[o], fj[o], ci[o], cj[o], hsh[o]
+            fi, fj, ci, cj, hsh, p_netz, p_yaw = fi[o], fj[o], ci[o], cj[o], hsh[o], p_netz[o], p_yaw[o]
         if len(ci) == 0:
             return None, 0
         # Palette: eigene Netzliste, sonst Rollen der Biom-Palette (Altstellen ohne Netze)
@@ -2344,6 +2357,9 @@ class Planer:
             b0 = BIOME.index(next(iter(z["biome"])))
             for r_ in z["palette_rollen"]:
                 pfade += [p for p in self.paletten[self.pal_je_biom[b0]].get(r_, []) if p not in pfade]
+        for pn in p_netz:  # Netz aus dem Punkt (im Inventar) zusätzlich erlauben
+            if pn and pn in self.netze and pn not in pfade:
+                pfade.append(pn)
         if not pfade:
             return None, 0
         mass = [self.netz_mass(p) for p in pfade]
@@ -2366,6 +2382,13 @@ class Planer:
         pci, pcj = np.round(fi_c).astype(np.int64), np.round(fj_c).astype(np.int64)
         im_feld = (pfi + i0 >= i0f) & (pfi + i0 < i1f) & (pfj + j0 >= j0f) & (pfj + j0 < j1f)
         k = np.minimum((uni(hh, 40) * len(pfade)).astype(np.int64), len(pfade) - 1)
+        # Hauptstück (m == 0) übernimmt Netz und Drehung aus dem Punkt, falls angegeben
+        pidx = {p: n_ for n_, p in enumerate(pfade)}
+        k_punkt = np.array([pidx.get(pn, -1) for pn in p_netz[idx]], dtype=np.int64)
+        k = np.where((m == 0) & (k_punkt >= 0), k_punkt, k)
+        yaw_alle = zwischen(hh, 50, 0, 2 * np.pi)
+        yp = p_yaw[idx]
+        yaw_alle = np.where((m == 0) & ~np.isnan(yp), np.nan_to_num(yp), yaw_alle)
         ms = z["massstab"] or ro["massstab"]
         sk = zwischen(hh, 41, ms[0], ms[1])
         eb = z["eingraben"] or ro["eingraben"]
@@ -2382,13 +2405,13 @@ class Planer:
         ok = inside & im_feld & (w[pci, pcj] > 0) & nicht_schwebend
         if not ok.any():
             return None, len(ci)
-        hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ = (a[ok] for a in (hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ))
+        hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ, yaw_alle = (a[ok] for a in (hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ, yaw_alle))
         kipp = np.radians(zwischen(hh, 45, ro["kippen_grad"][0], ro["kippen_grad"][1]))
         up = self.normal[pci, pcj] + np.concatenate([-self.abfall[pci, pcj] * np.tan(kipp)[:, None], np.zeros((len(kipp), 1))], axis=1)
         if z["z_versatz"]:  # hängend: Z-Achse = Welt-Z (nicht auf die Wandnormale gekippt)
             up = np.tile(np.array([0.0, 0.0, 1.0]), (len(kipp), 1))
         up /= np.linalg.norm(up, axis=1, keepdims=True)
-        q = quat_aus_yaw_up(zwischen(hh, 50, 0, 2 * np.pi), up)
+        q = quat_aus_yaw_up(yaw_alle, up)
         nu = ro["nicht_uniform"]
         sx = sk * (1 + nu * (2 * uni(hh, 51) - 1)); sy = sk * (1 + nu * (2 * uni(hh, 52) - 1)); sz = sk
         hoehe_m = H_cm * sz / 100.0

@@ -445,3 +445,10 @@ byteidentisch (246 Dateien), Log reines ASCII, py_compile OK.
    stufen, eine Felsnadel mit > 12 m Prominenz): terrassenkanten 632 Kantenstücke (399 mit Kollision) im Streifen an den Stufenkanten,
    felsnadel 3 Akteure auf Kuppen (je_km2 1–3), Feld 715 Instanzen, 4 Akteure. In B4 hat lava inzwischen eine echte Zusatzklasse `spire` –
    die Altstelle `hero_akteure` wird dadurch ersetzt (gemeldet). B4 + D4 zweimal: byteidentisch (205 Dateien), Log ASCII, py_compile OK.
+5. **lava `spire` (Meldung lava, `zusatzklassen.spire`):** (a) Liegt `lava/<Feld>/plan.json` vor, gelten **genau dessen Punkte**
+   `punkte[typ == spire_vorschlag]` – auch 0 (dann keine Spires); die Ersatzmaske (Hang ≤ 18°, Prominenz ≥ 6 m, Lavafels ≥ 128, 6/km², max 6)
+   greift nur, wenn der Lava-Plan fehlt oder unlesbar ist (Hinweis im Log). (b) Trägt ein Punkt `netz` (im Inventar) und/oder `yaw_grad`,
+   übernimmt das Hauptstück der Gruppe beides; sonst Netz aus der Palette und Yaw aus dem Hash wie bisher (Kippen in den Hang bleibt).
+   Rauchtest C6: Lava-Plan mit 4 Punkten (2 mit netz/yaw) → 4 Spire-Akteure an den Punkten, Netz und Yaw 90° übernommen (beim zweiten
+   182° statt 180°, Differenz aus dem Kippen in den Hang); Lava-Plan ohne Spire-Punkte → 0; ohne Lava-Plan → 6 über die Ersatzmaske. Zwei Läufe
+   byteidentisch, Log ASCII, py_compile OK.
