@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 13:35 UTC. Wird bei jedem Push aktualisiert. Welle K1 nach Abbruch durch Nutzungslimit neu gestartet.
+Stand: 2026-10-10 13:55 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -41,7 +41,8 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 | felsgruppen (C) | Welle K1 läuft |
 | mittelschicht + spuren (D) | Welle K1 läuft |
 | nordkueste (B1) | Welle K1 läuft |
-| elfenwald (B5) | Welle K1 läuft |
+| elfenwald (B5) | korrigiert, gepusht (synthetisch G4 mit 17 000 Baeumen: 31 023 Inst., 215 Kollision; Fremdbiom-Feld Leerplan; Saum 30 m) |
 | dschungel (B7) | Welle K1 läuft |
-| aue (B2), heide_tundra (B3), hochgebirge (B4), sumpf (B6), lava (B8) | Welle K2 wartet |
+| aue (B2) | Welle K2 laeuft |
+| heide_tundra (B3), hochgebirge (B4), sumpf (B6), lava (B8) | Welle K2 wartet |
 | wueste_ergaenzung (B9) | Welle K2 wartet |

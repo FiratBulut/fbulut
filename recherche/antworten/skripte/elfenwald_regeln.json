@@ -1,8 +1,8 @@
 {
- "stand": "2026-10-10",
+ "stand": "2026-10-10 (Korrektur Runde 1)",
  "thema": "elfenwald",
  "seed": 1511,
- "hinweis": "Regelwerk Biomgruppe 5 Elfenwald (Auftrag 11 Teil B). Dichten in Instanzen je m^2 als [offen (Beschattung 0), voll beschattet (Beschattung 1)]; Gruppen aendern die Dichte nicht (Gruppenzentren = Dichte / Gruppenmittel). Baumklassen werden ueber ein Jitter-Raster (raster_m) gezogen, damit Mindestabstaende gelten. UNGETESTET MIT ECHTDATEN - in der Cloud nur mit synthetischen Rastern rauchgetestet. Mittelschicht-Abgrenzung zu Teil D: siehe 'teil_d' (Standard --mittel zusatz).",
+ "hinweis": "Regelwerk Biomgruppe 5 Elfenwald (Auftrag 11 Teil B). Dichten in Instanzen je m^2 als [offen (Beschattung 0), voll beschattet (Beschattung 1)]; Gruppen aendern die Dichte nicht (Gruppenzentren = Dichte / Gruppenmittel). Baumklassen ueber Jitter-Raster (raster_m). Korrektur Runde 1: Zustaendigkeit nur elfenwald-Zellen + 30-m-Saum (zustaendigkeit), Budget 60000/3000 hart (budget), generische Mittelschicht in mittelschicht_overrides (Teil D). UNGETESTET MIT ECHTDATEN.",
  "ft_ordner": "/Game/Eldarien/Welt/Foliage/Elfenwald",
  "ft_praefix": "FT_EL_EW_",
  "fenster_rand_m": 64,
@@ -24,22 +24,32 @@
   "H2": "kueste",
   "G2": "aue"
  },
- "biom_faktor": {
-  "elfenwald": 1.0,
-  "bergwald": 0.6,
-  "aue": 0.5,
-  "heide": 0.25,
-  "sumpf": 0.35,
-  "kueste": 0.3,
-  "dschungel": 0.2,
-  "tundra": 0.0,
-  "gletscher": 0.0,
-  "frost": 0.0,
-  "fjord": 0.1,
-  "lava": 0.0,
-  "wueste": 0.0,
-  "canyon": 0.0,
-  "oedland": 0.0
+ "zustaendigkeit": {
+  "biome_eigen": [
+   "elfenwald"
+  ],
+  "biome_alle": [
+   "aue",
+   "bergwald",
+   "gletscher",
+   "tundra",
+   "canyon",
+   "oedland",
+   "heide",
+   "elfenwald",
+   "dschungel",
+   "kueste",
+   "wueste",
+   "lava",
+   "frost",
+   "sumpf",
+   "fjord"
+  ],
+  "eigner0_biom": "aue",
+  "saum_m": 30.0,
+  "min_eigenanteil_fenster": 0.02,
+  "entfernen_min_eigenanteil_feld": 0.5,
+  "hinweis": "Konventionen par. 1: Biom je Zelle aus eigner.r8 + welt.json (rezept); Kennzahl 0 = Weltgelaende -> aue, Vulkanregion -> lava. Bebaut werden nur elfenwald-Zellen plus ein Saum von saum_m (Dichtefaktor linear 1 -> 0, Distanzfeld). Eigenanteil im Fenster < min_eigenanteil_fenster -> leerer plan.json. Nur wenn eigner.r8/welt.json fehlen: dominantes Feldbiom aus daten/biome_je_feld.json (sonst feld_biom_fallback). Ersetzt den frueheren biom_faktor (bergwald 0,6, aue 0,5, ...), der A5/C6 bebaut hat."
  },
  "inventar_kandidaten": [
   "daten/netze.csv",
@@ -51,65 +61,51 @@
   "min_hoehe_m": 0.3
  },
  "budget": {
-  "je_schicht": {
-   "0_boden": 60000,
-   "1_mittel": 60000,
-   "2_baum": 60000,
-   "5_wasserkante": 20000
-  },
-  "ziel_je_schicht": {
-   "0_boden": 52000,
-   "1_mittel": 48000,
-   "2_baum": 22000,
-   "5_wasserkante": 15000
-  },
+  "deckel_je_feld": 60000,
+  "ziel_je_feld": [
+   45000,
+   52000
+  ],
+  "ausduennen_auf": 52000,
   "kollision_je_feld": 3000,
-  "kollision_baum_je_feld": 20000,
-  "kollision_hinweis": "kollision_je_feld (3000) gilt fuer liegende Staemme + Stuempfe der Schichten 1/5. Die Baum-Schicht braucht wie die Bestand-Ebene (17000 Baeume in G4) mehr: kollision_baum_je_feld. Wird es auf 3000 gesetzt, erhalten nur hero/alt/tot Kollision (Prioritaet), der Rest kollision=false.",
-  "prioritaet": {
-   "0_boden": [
-    "wurzel",
-    "ast",
-    "stein_klein",
-    "pilz",
-    "zweige",
-    "kraut",
-    "moos",
-    "laubhaufen"
-   ],
-   "1_mittel": [
-    "stamm_liegend",
-    "stumpf",
-    "strauch",
-    "jungbaum",
-    "farn",
-    "adlerfarn",
-    "efeu",
-    "hochstaude",
-    "beere",
-    "blume_lichtung",
-    "grashorst",
-    "grasbueschel"
-   ],
-   "2_baum": [
-    "hero",
-    "tot",
-    "alt",
-    "mittel",
-    "pappel",
-    "birke",
-    "weide",
-    "jung"
-   ],
-   "5_wasserkante": [
-    "moosstein_bach",
-    "embankment",
-    "farn_ufer",
-    "schachtelhalm",
-    "binse",
-    "moos_ufer"
-   ]
-  }
+  "max_ausduennung_je_klasse": 0.6,
+  "prioritaet_ausduennen": [
+   "0_boden/laubhaufen",
+   "0_boden/zweige",
+   "0_boden/kraut",
+   "0_boden/moos",
+   "0_boden/stein_klein",
+   "5_wasserkante/moos_ufer",
+   "5_wasserkante/binse",
+   "5_wasserkante/schachtelhalm",
+   "5_wasserkante/farn_ufer",
+   "1_mittel/blume_lichtung",
+   "5_wasserkante/moosstein_bach",
+   "1_mittel/wurzel",
+   "1_mittel/efeu",
+   "5_wasserkante/embankment",
+   "1_mittel/moosstamm",
+   "2_baum/jung",
+   "2_baum/birke",
+   "2_baum/weide",
+   "2_baum/pappel",
+   "2_baum/mittel",
+   "2_baum/alt",
+   "2_baum/tot",
+   "2_baum/hero"
+  ],
+  "kollision_prioritaet": [
+   "hero",
+   "tot",
+   "alt",
+   "moosstamm",
+   "pappel",
+   "mittel",
+   "birke",
+   "weide",
+   "jung"
+  ],
+  "hinweis": "Konventionen par. 3 (hart): <= deckel_je_feld Instanzen je Feld fuer die ganze Ebene elfenwald/, davon <= kollision_je_feld mit kollision=true (gilt auch fuer Baeume; die fruehere Ausnahme kollision_baum_je_feld 20000 entfaellt). Ziel 45000-52000: liegt die Summe ueber ausduennen_auf, wird deterministisch (Hash) nach prioritaet_ausduennen ausgeduennt (zuerst Laub/Zweige, je Klasse hoechstens max_ausduennung_je_klasse, dann die naechste), Warnung im Log, Hinweis Landschafts-Gras im plan.json. Kollision: Netze in der Reihenfolge kollision_prioritaet (Klasse) und Anzahl aufsteigend, bis 3000 erreicht sind; alle weiteren Netze (kleinere Baumklassen) kollision=false. Im Modus --baum voll (13000 Baeume) haben dadurch nur hero/tot/Teil von alt Kollision; wer volle Baumkollision braucht, nimmt die Bestand-Ebene (eigenes Budget) und --baum ergaenzen."
  },
  "abstand_m": {
   "weg_klein": 2.5,
@@ -198,7 +194,7 @@
    "tot_je_ha": 0.45,
    "jung_faktor": 0.0,
    "abstand_bestand_m": 7.0,
-   "hinweis": "Bei vorhandener Bestand-Ebene nur Hero-Altbaeume (Blickziel, Lichtungsrand) und stehendes Totholz ergaenzen; Jungwuchs kommt aus Schicht 1."
+   "hinweis": "Bei vorhandener Bestand-Ebene nur Hero-Altbaeume (Blickziel, Lichtungsrand) und stehendes Totholz ergaenzen; Jungwuchs (jungbaum) kommt aus mittelschicht_plan.py (Teil D, mittelschicht_overrides)."
   },
   "artenmix_hinweis": "Hainbuche ~45 %, Buche ~30 %, Pappel ~8 % (Lichtungsrand/Feuchte), Birke ~4 % (Saum, Herbstakzent), Weide ~1 % (Bach), tot ~2.5 %, Hero < 0.5 %. Eiche fehlt im Inventar (Einkaufsliste).",
   "klassen": {
@@ -508,6 +504,7 @@
    }
   }
  },
+ "schichten_hinweis": "Korrektur Runde 1: Schicht 1 nur Elfenwald-Sonderformen (Wurzel-/Efeu-Ring, Moos-Stamm am Totholz, Lichtungsblumen-Inseln); generische Klassen in mittelschicht_overrides. Schicht 0: Laub/Zweige -36 bis -38 %, Moos/Kraut -30 %; Flaechenstreu von Laub/Zweigen/Pilzen/Kleinsteinen liefert das Landschafts-Gras (GT_Kraut, GT_Steinchen), siehe landschaftsgras.",
  "schichten": {
   "0_boden": {
    "laubhaufen": {
@@ -523,8 +520,8 @@
      "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_leaves_03"
     ],
     "dichte": [
-     0.006,
-     0.024
+     0.004,
+     0.015
     ],
     "gruppe": [
      3,
@@ -577,8 +574,8 @@
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07"
     ],
     "dichte": [
-     0.004,
-     0.014
+     0.0025,
+     0.009
     ],
     "gruppe": [
      2,
@@ -615,154 +612,6 @@
     "nah_baum": 2.0,
     "wegrand": 0.5
    },
-   "ast": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_05",
-     "/Game/Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01",
-     "/Game/Megascans/3D_Assets/OakBranch/SM_OakBranch_01",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2",
-     "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_branches_02"
-    ],
-    "dichte": [
-     0.0012,
-     0.0035
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0.0,
-    "massstab": [
-     0.9,
-     1.3
-    ],
-    "eingraben_cm": 3,
-    "kippen": 0.9,
-    "sichtweite": [
-     0,
-     12000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "saum": 1.0,
-    "lichtung": 0.5,
-    "lichtungsrand": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 38,
-    "lagen_faktor": {
-     "Laub": 1.2,
-     "Fels": 0.3
-    },
-    "mulde": 1.0,
-    "nah_baum": 1.6,
-    "wegrand": 0.5
-   },
-   "pilz": {
-    "netze": [
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
-    ],
-    "dichte": [
-     0.0002,
-     0.003
-    ],
-    "gruppe": [
-     3,
-     9
-    ],
-    "radius_m": 0.9,
-    "massstab": [
-     0.5,
-     1.1
-    ],
-    "eingraben_cm": 1,
-    "kippen": 0.4,
-    "sichtweite": [
-     0,
-     6000
-    ],
-    "kollision": false,
-    "schatten": false,
-    "saum": 1.0,
-    "lichtung": 0.1,
-    "lichtungsrand": 0.8,
-    "feuchte": [
-     0.5,
-     2.2
-    ],
-    "hang_max": 35,
-    "lagen_faktor": {
-     "Moos": 1.6,
-     "Laub": 1.1,
-     "Gras": 0.2,
-     "Fels": 0.2
-    },
-    "mulde": 1.5,
-    "nah_baum": 1.5,
-    "an_totholz": 4.0,
-    "wegrand": 0.8
-   },
-   "wurzel": {
-    "netze": [
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_beech_old_roots_01",
-     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
-     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02",
-     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_03",
-     "/Game/Megascans/3D_Assets/ForestRoots/SM_ForestRoots_01",
-     "/Game/Megascans/3D_Assets/ForestRoots/SM_ForestRoots_02",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_crooked_root_01"
-    ],
-    "dichte": [
-     0.0,
-     0.0
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0.0,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 6,
-    "kippen": 0.8,
-    "sichtweite": [
-     0,
-     15000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "saum": 1.0,
-    "lichtung": 1.0,
-    "lichtungsrand": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 40,
-    "lagen_faktor": {},
-    "an_baum": {
-     "klassen": [
-      "alt",
-      "hero",
-      "tot"
-     ],
-     "je_baum": 0.3,
-     "max_je_baum": 2,
-     "ring_m": [
-      0.7,
-      2.2
-     ],
-     "yaw": "radial"
-    }
-   },
    "moos": {
     "netze": [
      "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_01",
@@ -774,8 +623,8 @@
      "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02"
     ],
     "dichte": [
-     0.003,
-     0.02
+     0.002,
+     0.014
     ],
     "gruppe": [
      4,
@@ -826,8 +675,8 @@
      "/Game/Megascans/3D_Plants/CloverVarieties/SM_CloverVarieties_03"
     ],
     "dichte": [
-     0.004,
-     0.016
+     0.003,
+     0.011
     ],
     "gruppe": [
      6,
@@ -918,277 +767,19 @@
    }
   },
   "1_mittel": {
-   "farn": {
+   "wurzel": {
     "netze": [
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
-     "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
-     "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
-     "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
-     "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_09",
-     "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_10",
-     "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_15"
+     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_beech_old_roots_01",
+     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02",
+     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_03",
+     "/Game/Megascans/3D_Assets/ForestRoots/SM_ForestRoots_01",
+     "/Game/Megascans/3D_Assets/ForestRoots/SM_ForestRoots_02",
+     "/Game/Environment_Set/Environment/Foliage/Models/SM_crooked_root_01"
     ],
     "dichte": [
-     0.003,
-     0.034
-    ],
-    "gruppe": [
-     6,
-     18
-    ],
-    "radius_m": 3.5,
-    "massstab": [
-     0.8,
-     1.45
-    ],
-    "eingraben_cm": 4,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "saum": 1.0,
-    "lichtung": 0.15,
-    "lichtungsrand": 1.2,
-    "feuchte": [
-     0.5,
-     1.9
-    ],
-    "hang_max": 35,
-    "lagen_faktor": {
-     "Moos": 1.6,
-     "Laub": 1.1,
-     "Gras": 0.5,
-     "Wiese": 0.3,
-     "Fels": 0.4
-    },
-    "mulde": 1.4,
-    "nah_baum": 1.2,
-    "wegrand": 1.4
-   },
-   "adlerfarn": {
-    "netze": [
-     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
-     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
-     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
-     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_04"
-    ],
-    "dichte": [
-     0.009,
-     0.002
-    ],
-    "gruppe": [
-     8,
-     25
-    ],
-    "radius_m": 5.0,
-    "massstab": [
-     0.9,
-     1.5
-    ],
-    "eingraben_cm": 4,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "saum": 2.0,
-    "lichtung": 0.5,
-    "lichtungsrand": 3.0,
-    "feuchte": [
-     0.8,
-     1.3
-    ],
-    "hang_max": 35,
-    "lagen_faktor": {
-     "Gras": 1.3,
-     "Laub": 1.0,
-     "Moos": 0.8,
-     "Fels": 0.2
-    },
-    "mulde": 1.0,
-    "nah_baum": 1.0,
-    "wegrand": 1.0
-   },
-   "jungbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_04",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_05",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_07",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_01",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_02",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_03"
-    ],
-    "dichte": [
-     0.009,
-     0.003
-    ],
-    "gruppe": [
-     2,
-     6
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 4,
-    "kippen": 0.1,
-    "sichtweite": [
-     0,
-     35000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "saum": 3.0,
-    "lichtung": 0.7,
-    "lichtungsrand": 4.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 38,
-    "lagen_faktor": {
-     "Fels": 0.3,
-     "Laub": 1.1
-    },
-    "mulde": 1.0,
-    "nah_baum": 0.6,
-    "wegrand": 0.8
-   },
-   "strauch": {
-    "netze": [
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_10",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_11",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_12",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03"
-    ],
-    "dichte": [
-     0.008,
-     0.002
-    ],
-    "gruppe": [
-     1,
-     3
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.8,
-     1.4
-    ],
-    "eingraben_cm": 4,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     35000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "saum": 3.0,
-    "lichtung": 0.6,
-    "lichtungsrand": 2.2,
-    "feuchte": [
-     1.0,
-     1.2
-    ],
-    "hang_max": 35,
-    "lagen_faktor": {
-     "Fels": 0.3
-    },
-    "mulde": 1.0,
-    "nah_baum": 0.7,
-    "wegrand": 1.2
-   },
-   "beere": {
-    "netze": [
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_02",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03"
-    ],
-    "dichte": [
-     0.002,
-     0.016
-    ],
-    "gruppe": [
-     8,
-     24
-    ],
-    "radius_m": 3.0,
-    "massstab": [
-     0.9,
-     1.4
-    ],
-    "eingraben_cm": 3,
-    "kippen": 0.4,
-    "sichtweite": [
-     0,
-     15000
-    ],
-    "kollision": false,
-    "schatten": false,
-    "saum": 1.0,
-    "lichtung": 0.2,
-    "lichtungsrand": 1.0,
-    "feuchte": [
-     0.8,
-     1.2
-    ],
-    "hang_max": 35,
-    "lagen_faktor": {
-     "Moos": 1.8,
-     "Laub": 1.0,
-     "Gras": 0.4,
-     "Wiese": 0.1,
-     "Fels": 0.3
-    },
-    "mulde": 1.0,
-    "nah_baum": 1.0,
-    "wegrand": 0.8
-   },
-   "stamm_liegend": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/MossyTree/SM_MossyTree_01",
-     "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
-     "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
-     "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
-     "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
-     "/Game/Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01",
-     "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04"
-    ],
-    "dichte": [
-     0.0008,
-     0.0016
+     0.0,
+     0.0
     ],
     "gruppe": [
      1,
@@ -1196,272 +787,41 @@
     ],
     "radius_m": 0.0,
     "massstab": [
-     0.9,
-     1.35
-    ],
-    "eingraben_cm": 12,
-    "kippen": 0.9,
-    "sichtweite": [
-     0,
-     50000
-    ],
-    "kollision": true,
-    "schatten": true,
-    "saum": 1.0,
-    "lichtung": 0.5,
-    "lichtungsrand": 1.3,
-    "feuchte": [
-     1.0,
+     0.8,
      1.3
     ],
-    "hang_max": 38,
-    "lagen_faktor": {
-     "Fels": 0.3
-    },
-    "mulde": 1.2,
-    "nah_baum": 1.0,
-    "wegrand": 0.4,
-    "laengs_hang": true
-   },
-   "stumpf": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
-     "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
-     "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02",
-     "/Game/Megascans/3D_Assets/BirchTreeStump/SM_BirchTreeStump_01",
-     "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
-    ],
-    "dichte": [
-     0.0005,
-     0.001
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0.0,
-    "massstab": [
-     0.85,
-     1.4
-    ],
-    "eingraben_cm": 8,
-    "kippen": 0.7,
-    "sichtweite": [
-     0,
-     40000
-    ],
-    "kollision": true,
-    "schatten": true,
-    "saum": 1.0,
-    "lichtung": 0.8,
-    "lichtungsrand": 1.3,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 38,
-    "lagen_faktor": {
-     "Fels": 0.3
-    },
-    "mulde": 1.0,
-    "nah_baum": 1.0,
-    "wegrand": 0.6
-   },
-   "grasbueschel": {
-    "netze": [
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_01_1",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_01_2",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_01_4",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_02_1",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_02_3",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_03_1",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_03_3",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_clover_01"
-    ],
-    "dichte": [
-     0.025,
-     0.003
-    ],
-    "gruppe": [
-     3,
-     9
-    ],
-    "radius_m": 2.0,
-    "massstab": [
-     0.8,
-     1.5
-    ],
-    "eingraben_cm": 3,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     15000
-    ],
-    "kollision": false,
-    "schatten": false,
-    "saum": 1.3,
-    "lichtung": 1.5,
-    "lichtungsrand": 1.5,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 40,
-    "lagen_faktor": {
-     "Gras": 2.0,
-     "Wiese": 2.0,
-     "Trockengras": 1.5,
-     "Laub": 0.5,
-     "Moos": 0.6,
-     "Fels": 0.3
-    },
-    "mulde": 1.0,
-    "nah_baum": 0.8,
-    "wegrand": 1.5
-   },
-   "grashorst": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/GrassyEmbankment/SM_GrassyEmbankment_01",
-     "/Game/Megascans/3D_Assets/GrassyEmbankment/SM_GrassyEmbankment_02"
-    ],
-    "dichte": [
-     0.0025,
-     0.0004
-    ],
-    "gruppe": [
-     1,
-     3
-    ],
-    "radius_m": 1.5,
-    "massstab": [
-     0.9,
-     1.4
-    ],
-    "eingraben_cm": 5,
+    "eingraben_cm": 6,
     "kippen": 0.8,
     "sichtweite": [
      0,
-     20000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "saum": 1.2,
-    "lichtung": 1.2,
-    "lichtungsrand": 1.2,
-    "feuchte": [
-     0.7,
-     1.6
-    ],
-    "hang_max": 40,
-    "lagen_faktor": {
-     "Moos": 1.8,
-     "Gras": 1.5,
-     "Laub": 0.5
-    },
-    "mulde": 1.5,
-    "nah_baum": 1.0,
-    "wegrand": 1.3
-   },
-   "blume_lichtung": {
-    "netze": [
-     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01",
-     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_02",
-     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_03",
-     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_05",
-     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_07",
-     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01",
-     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02",
-     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_03",
-     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_01",
-     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_02",
-     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03",
-     "/Game/Megascans/3D_Plants/YellowArchangel/SM_YellowArchangel_04",
-     "/Game/Megascans/3D_Plants/YellowArchangel/SM_YellowArchangel_08"
-    ],
-    "dichte": [
-     0.01,
-     0.001
-    ],
-    "gruppe": [
-     10,
-     30
-    ],
-    "radius_m": 4.0,
-    "massstab": [
-     0.9,
-     1.4
-    ],
-    "eingraben_cm": 2,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     12000
-    ],
-    "kollision": false,
-    "schatten": false,
-    "saum": 1.5,
-    "lichtung": 2.0,
-    "lichtungsrand": 2.0,
-    "feuchte": [
-     0.8,
-     1.3
-    ],
-    "hang_max": 30,
-    "lagen_faktor": {
-     "Gras": 1.4,
-     "Wiese": 1.4,
-     "Laub": 1.0,
-     "Moos": 1.0,
-     "Fels": 0.1
-    },
-    "mulde": 1.0,
-    "nah_baum": 0.8,
-    "wegrand": 2.0
-   },
-   "hochstaude": {
-    "netze": [
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_0_SM_nettle_01_0",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_1_SM_nettle_01_1"
-    ],
-    "dichte": [
-     0.008,
-     0.002
-    ],
-    "gruppe": [
-     4,
-     12
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.9,
-     1.4
-    ],
-    "eingraben_cm": 3,
-    "kippen": 0.2,
-    "sichtweite": [
-     0,
      15000
     ],
     "kollision": false,
-    "schatten": false,
-    "saum": 2.5,
-    "lichtung": 0.6,
-    "lichtungsrand": 1.5,
+    "schatten": true,
+    "saum": 1.0,
+    "lichtung": 1.0,
+    "lichtungsrand": 1.0,
     "feuchte": [
-     0.5,
-     2.0
+     1.0,
+     1.0
     ],
-    "hang_max": 30,
-    "lagen_faktor": {
-     "Erde": 1.6,
-     "Lehm": 1.6,
-     "Moos": 1.0,
-     "Fels": 0.1
+    "hang_max": 40,
+    "lagen_faktor": {},
+    "an_baum": {
+     "klassen": [
+      "alt",
+      "hero",
+      "tot"
+     ],
+     "je_baum": 0.3,
+     "max_je_baum": 2,
+     "ring_m": [
+      0.7,
+      2.2
+     ],
+     "yaw": "radial"
     },
-    "mulde": 1.5,
-    "nah_baum": 0.8,
-    "wegrand": 1.8
+    "sonderform": "Wurzelanlauf-Ring 0,7-2,2 m am Stamm alter Baeume (radial), Witcher-Stammfuss"
    },
    "efeu": {
     "netze": [
@@ -1519,7 +879,130 @@
       0.6
      ],
      "yaw": "zum_stamm"
-    }
+    },
+    "sonderform": "Efeu-Ring 0,35-0,6 m am Stamm (Blick zum Stamm), nur alt/hero/tot"
+   },
+   "moosstamm": {
+    "netze": [
+     "/Game/Megascans/3D_Assets/MossyTree/SM_MossyTree_01",
+     "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+     "/Game/Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01",
+     "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01"
+    ],
+    "dichte": [
+     0.0,
+     0.0
+    ],
+    "gruppe": [
+     1,
+     1
+    ],
+    "radius_m": 0.0,
+    "massstab": [
+     0.9,
+     1.25
+    ],
+    "eingraben_cm": 12,
+    "kippen": 0.9,
+    "sichtweite": [
+     0,
+     50000
+    ],
+    "kollision": true,
+    "schatten": true,
+    "saum": 1.0,
+    "lichtung": 0.5,
+    "lichtungsrand": 1.3,
+    "feuchte": [
+     1.0,
+     1.3
+    ],
+    "hang_max": 38,
+    "lagen_faktor": {
+     "Fels": 0.3
+    },
+    "mulde": 1.2,
+    "nah_baum": 1.0,
+    "wegrand": 0.4,
+    "laengs_hang": true,
+    "an_baum": {
+     "klassen": [
+      "tot",
+      "hero",
+      "alt"
+     ],
+     "je_baum": 0.02,
+     "je_baum_klasse": {
+      "tot": 0.5,
+      "hero": 0.2,
+      "alt": 0.02
+     },
+     "max_je_baum": 1,
+     "ring_m": [
+      2.5,
+      6.0
+     ],
+     "yaw": "radial"
+    },
+    "ist_totholz": true,
+    "sonderform": "Moos-Stamm (Windwurf/Baumleiche) 2,5-6 m neben stehendem Totholz und Altbaeumen, radial ausgerichtet; Flaechen-Totholz liefert Teil D (totholz_liegend)"
+   },
+   "blume_lichtung": {
+    "netze": [
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01",
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_02",
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_03",
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_05",
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_07",
+     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01",
+     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02",
+     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_03",
+     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_01",
+     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_02",
+     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03",
+     "/Game/Megascans/3D_Plants/YellowArchangel/SM_YellowArchangel_04",
+     "/Game/Megascans/3D_Plants/YellowArchangel/SM_YellowArchangel_08"
+    ],
+    "dichte": [
+     0.01,
+     0.001
+    ],
+    "gruppe": [
+     10,
+     30
+    ],
+    "radius_m": 4.0,
+    "massstab": [
+     0.9,
+     1.4
+    ],
+    "eingraben_cm": 2,
+    "kippen": 0.3,
+    "sichtweite": [
+     0,
+     12000
+    ],
+    "kollision": false,
+    "schatten": false,
+    "saum": 1.5,
+    "lichtung": 2.0,
+    "lichtungsrand": 2.0,
+    "feuchte": [
+     0.8,
+     1.3
+    ],
+    "hang_max": 30,
+    "lagen_faktor": {
+     "Gras": 1.4,
+     "Wiese": 1.4,
+     "Laub": 1.0,
+     "Moos": 1.0,
+     "Fels": 0.1
+    },
+    "mulde": 1.0,
+    "nah_baum": 0.8,
+    "wegrand": 2.0,
+    "sonderform": "Lichtungsblumen-Inseln 10-30 Stueck (Blickziel lichtung_mit_blumen), nur Lichtung/Lichtungsrand/Wegrand"
    }
   },
   "5_wasserkante": {
@@ -1763,33 +1246,11 @@
  },
  "entfernen": {
   "witcher_ohne_bestand": [
-   "sm_fern_0",
-   "sm_silverladyfern_0",
-   "sm_beechfern_",
-   "sm_foliage_fern_01",
    "sm_deadleaves_",
    "sm_detail_leaves_0",
    "sm_detail_branches_0",
    "sm_drybranches_0",
    "sm_woodensticksandtwigs_",
-   "sm_brokentreebranch_01",
-   "sm_oldtreebranch_0",
-   "sm_oakbranch_01",
-   "sm_elderberry_",
-   "sm_hazel_0",
-   "sm_black_cherry_0",
-   "sm_maple_bush_0",
-   "sm_beech_plant_0",
-   "sm_europeanhornbeam_sapling_",
-   "sm_europeanhornbeam_seedling_",
-   "sm_stump_03",
-   "sm_treestump_01",
-   "sm_rottentreestump_0",
-   "sm_birchtreestump_01",
-   "sm_brokenstump_01",
-   "sm_largefallentree_0",
-   "sm_oldfallentree_0",
-   "sm_fallentreeassembly_01",
    "sm_mossytree_01",
    "sm_deadtree_0",
    "sm_mossyforestroots_0",
@@ -1800,15 +1261,8 @@
    "sm_yellowarchangel_",
    "sm_crownbeard_",
    "sm_redlachenalia_",
-   "sm_kikuyugrass_",
-   "sm_grass_01_1",
-   "sm_grass_02_a_1",
-   "sm_grass_03_a_1",
-   "sm_grass_bush_0",
    "sm_mountain_rock_small_01",
    "sm_mossyforestrock_0",
-   "sm_mossyforestboulder_0",
-   "sm_lichenedforestboulder_01",
    "sm_smallstonespack_0",
    "sm_bark_debris_01",
    "sm_didelta_",
@@ -1821,33 +1275,11 @@
    "sm_dead_quiver_branch_"
   ],
   "witcher_mit_bestand": [
-   "sm_fern_0",
-   "sm_silverladyfern_0",
-   "sm_beechfern_",
-   "sm_foliage_fern_01",
    "sm_deadleaves_",
    "sm_detail_leaves_0",
    "sm_detail_branches_0",
    "sm_drybranches_0",
    "sm_woodensticksandtwigs_",
-   "sm_brokentreebranch_01",
-   "sm_oldtreebranch_0",
-   "sm_oakbranch_01",
-   "sm_elderberry_",
-   "sm_hazel_0",
-   "sm_black_cherry_0",
-   "sm_maple_bush_0",
-   "sm_beech_plant_0",
-   "sm_europeanhornbeam_sapling_",
-   "sm_europeanhornbeam_seedling_",
-   "sm_stump_03",
-   "sm_treestump_01",
-   "sm_rottentreestump_0",
-   "sm_birchtreestump_01",
-   "sm_brokenstump_01",
-   "sm_largefallentree_0",
-   "sm_oldfallentree_0",
-   "sm_fallentreeassembly_01",
    "sm_mossytree_01",
    "sm_deadtree_0",
    "sm_mossyforestroots_0",
@@ -1858,15 +1290,8 @@
    "sm_yellowarchangel_",
    "sm_crownbeard_",
    "sm_redlachenalia_",
-   "sm_kikuyugrass_",
-   "sm_grass_01_1",
-   "sm_grass_02_a_1",
-   "sm_grass_03_a_1",
-   "sm_grass_bush_0",
    "sm_mountain_rock_small_01",
    "sm_mossyforestrock_0",
-   "sm_mossyforestboulder_0",
-   "sm_lichenedforestboulder_01",
    "sm_smallstonespack_0",
    "sm_bark_debris_01",
    "sm_didelta_",
@@ -1918,7 +1343,427 @@
    "big_tree_"
   ],
   "nur_wenn_vorhanden": true,
-  "begruendung": "Die Witcher-Ebene (FT_EL_WIT_*) streut im Elfenwald generische Farne, Laub, Zweige, Gebuesch, Totholz, Blumen und Namaqualand-Netze ohne Beschattungs-, Saum- und Feuchte-Regel. Die Elfenwald-Schichten 0/1 setzen dieselben Rollen biomgenau neu; doppelt haette man 2x Farne/Laub am selben Ort und > 100000 Instanzen. Die Witcher-Baeume (Haine) bleiben, solange keine Bestand-Ebene da ist; bei --baum voll werden auch sie und die Bestand-Ebene ersetzt (dann liefert der Elfenwald-Planer den Bestand). Der Filter wird nur fuer Praefixe gesetzt, die laut witcher/<Feld>/plan.json bzw. bestand/<Feld>/plan.json im Feld tatsaechlich vorkommen (nur_wenn_vorhanden)."
+  "begruendung": "Der Elfenwald-Planer entfernt nur noch Witcher-Netze der Rollen, die er selbst ersetzt (Laub, Zweige, Wurzeln, Lichtungsblumen, Moos-Kleinsteine, Moos-Staemme, stehendes Totholz) sowie Namaqualand-Fremdnetze. Generische Mittelschicht-Praefixe stehen in mittelschicht_overrides.entfernen_witcher_vorschlag (Teil D), Felsbloecke in felsgruppen_overrides.entfernen_witcher_vorschlag (Teil C). entfernen wird nur gesetzt, wenn der Elfenwald-Anteil im Feld >= zustaendigkeit.entfernen_min_eigenanteil_feld ist und das Praefix im Feld vorkommt (nur_wenn_vorhanden). Bei --baum voll zusaetzlich Witcher-Baeume und Bestand-Ebene."
+ },
+ "mittelschicht_overrides": {
+  "biom": "elfenwald",
+  "hinweis": "Korrektur Runde 1, Konventionen par. 4: mittelschicht_plan.py (Teil D) ist der einzige Planer fuer die generischen Mittelschicht-Klassen (strauch, jungbaum, farn, totholz_liegend, totholz_stumpf, totholz_ast, hochstaude, grasbueschel, beere, pilz). Er liest mittelschicht_regeln.json['biome']['elfenwald'] und danach diese Overrides; die Overrides gewinnen. palette: Netzliste je Klasse ersetzt die Teil-D-Palette (bisherige Elfenwald-Paletten, alle im Inventar). faktor: Multiplikator auf die Teil-D-Dichte der Klasse (0 = Klasse im Elfenwald aus, weil der Elfenwald-Planer die Sonderform setzt). zusatzklassen: vollstaendige Klassendefinition im mittelschicht-Format fuer Klassen, die Teil D im Elfenwald nicht hat; faktor gilt auch fuer sie. parameter (optional): einzelne Klassenparameter, die Teil D ueberschreiben soll (z. B. Farninseln: gruppe 6-18, radius 3,5 m). klassen_alias: Name der Klasse in mittelschicht_regeln.json biome.elfenwald, falls er vom Konventionsnamen abweicht.",
+  "klassen_alias": {
+   "totholz_liegend": "totholz",
+   "totholz_stumpf": "stumpf",
+   "totholz_ast": "ast"
+  },
+  "palette": {
+   "farn": [
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
+    "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_09",
+    "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_10",
+    "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_15"
+   ],
+   "strauch": [
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_10",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_11",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_12",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03"
+   ],
+   "jungbaum": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_04",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_05",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_07",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_01",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_02",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_03"
+   ],
+   "totholz_liegend": [
+    "/Game/Megascans/3D_Assets/MossyTree/SM_MossyTree_01",
+    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
+    "/Game/Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01",
+    "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04"
+   ],
+   "totholz_stumpf": [
+    "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+    "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+    "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02",
+    "/Game/Megascans/3D_Assets/BirchTreeStump/SM_BirchTreeStump_01",
+    "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
+   ],
+   "totholz_ast": [
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_05",
+    "/Game/Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01",
+    "/Game/Megascans/3D_Assets/OakBranch/SM_OakBranch_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2",
+    "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_branches_02"
+   ],
+   "hochstaude": [
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_0_SM_nettle_01_0",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_1_SM_nettle_01_1"
+   ],
+   "grasbueschel": [
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_01_1",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_01_2",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_01_4",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_02_1",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_02_3",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_03_1",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_grass_03_3",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_clover_01"
+   ],
+   "beere": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_02",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03"
+   ],
+   "pilz": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
+   ]
+  },
+  "faktor": {
+   "farn": 1.5,
+   "strauch": 0.5,
+   "jungbaum": 1.0,
+   "totholz_liegend": 1.0,
+   "totholz_stumpf": 1.0,
+   "totholz_ast": 0.35,
+   "hochstaude": 0.5,
+   "grasbueschel": 1.0,
+   "beere": 1.0,
+   "pilz": 0.3,
+   "adlerfarn": 1.0,
+   "grashorst": 1.0,
+   "wurzel": 0.0,
+   "kletter": 0.0,
+   "totbaum": 0.0
+  },
+  "faktor_begruendung": {
+   "farn": "Farninseln: Teil-D-Farn 0,006/0,022 je m2 x1,5 und als Inseln (parameter.farn: gruppe 6-18, radius 3,5 m, Mulde x1,4, Moos x1,6). Ersetzt den bisherigen Elfenwald-Zusatz (Farn x0,45 obendrauf).",
+   "strauch": "Elfenwald-Altbestand: Strauch im Schatten 0,002 statt 0,005 je m2; Saum/Lichtungsrand dichter (parameter).",
+   "jungbaum": "wie Teil D, aber Gap-Regeneration: Lichtungsrand x4, Saum x3 (parameter).",
+   "totholz_liegend": "Elfenwald-Palette mit MossyTree/LargeFallenTree/OldFallenTree (Moos-Staemme), Dichte wie Teil D; laengs Hang.",
+   "totholz_stumpf": "Palette Rotten/Broken/Birch-Stump, Dichte wie Teil D.",
+   "totholz_ast": "Teil-D-Ast 0,004/0,010 ist fuer den Laubwald mit Laubhaufen zu dicht: x0,35 (= bisher 0,0012/0,0035).",
+   "hochstaude": "Brennnessel nur an Wegrand/Lichtung/Feuchte: x0,5 (parameter: wegrand 1,8, lichtung 0,6).",
+   "grasbueschel": "unveraendert; Flaechengras liefert das Landschafts-Gras (Lage Gras/Wiese).",
+   "beere": "Heidelbeere fehlt in Teil D fuer elfenwald: Definition in zusatzklassen.beere (Moos x1,8, Schatten 0,016 je m2).",
+   "pilz": "x0,3 und an Totholz x4 (parameter.pilz.an_totholz); Pilze sind zusaetzlich in GT_Kraut (Landschafts-Gras).",
+   "adlerfarn": "Zusatzklasse (Lichtungsrand x3, offen 0,009 je m2), fehlt in Teil D.",
+   "grashorst": "Zusatzklasse GrassyEmbankment (Moos-Grashorst in Mulden), fehlt in Teil D.",
+   "wurzel": "0: Wurzelanlauf setzt der Elfenwald-Planer als Ring am Stamm alter Baeume (Schicht 1, Sonderform) - sonst doppelt.",
+   "kletter": "0: Efeu setzt der Elfenwald-Planer als Ring am Stamm (Schicht 1, Sonderform) - sonst doppelt.",
+   "totbaum": "0: stehendes Totholz kommt aus der Baumschicht (Bestand-Ebene bzw. Elfenwald-Klasse tot)."
+  },
+  "parameter": {
+   "farn": {
+    "gruppe": [
+     6,
+     18
+    ],
+    "radius_m": 3.5,
+    "massstab": [
+     0.8,
+     1.45
+    ],
+    "feuchte": [
+     0.5,
+     1.9
+    ],
+    "lichtung": 0.15,
+    "lichtungsrand": 1.2,
+    "lagen_faktor": {
+     "Moos": 1.6,
+     "Laub": 1.1,
+     "Gras": 0.5,
+     "Wiese": 0.3,
+     "Fels": 0.4
+    },
+    "mulde": 1.4,
+    "nah_baum": 1.2,
+    "wegrand": 1.4
+   },
+   "strauch": {
+    "saum": 3.0,
+    "lichtung": 0.6,
+    "lichtungsrand": 2.2,
+    "nah_baum": 0.7,
+    "wegrand": 1.2
+   },
+   "jungbaum": {
+    "gruppe": [
+     2,
+     6
+    ],
+    "saum": 3.0,
+    "lichtung": 0.7,
+    "lichtungsrand": 4.0,
+    "nah_baum": 0.6,
+    "wegrand": 0.8
+   },
+   "totholz_liegend": {
+    "massstab": [
+     0.9,
+     1.35
+    ],
+    "eingraben_cm": 12,
+    "kippen": 0.9,
+    "laengs_hang": true,
+    "mulde": 1.2,
+    "wegrand": 0.4
+   },
+   "hochstaude": {
+    "gruppe": [
+     4,
+     12
+    ],
+    "saum": 2.5,
+    "lichtung": 0.6,
+    "lichtungsrand": 1.5,
+    "feuchte": [
+     0.5,
+     2.0
+    ],
+    "lagen_faktor": {
+     "Erde": 1.6,
+     "Lehm": 1.6,
+     "Moos": 1.0,
+     "Fels": 0.1
+    },
+    "wegrand": 1.8
+   },
+   "pilz": {
+    "gruppe": [
+     3,
+     9
+    ],
+    "radius_m": 0.9,
+    "feuchte": [
+     0.5,
+     2.2
+    ],
+    "lagen_faktor": {
+     "Moos": 1.6,
+     "Laub": 1.1,
+     "Gras": 0.2,
+     "Fels": 0.2
+    },
+    "an_totholz": 4.0
+   }
+  },
+  "zusatzklassen": {
+   "beere": {
+    "netze": [
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_01",
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_02",
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03"
+    ],
+    "dichte": [
+     0.002,
+     0.016
+    ],
+    "gruppe": [
+     8,
+     24
+    ],
+    "radius_m": 3.0,
+    "massstab": [
+     0.9,
+     1.4
+    ],
+    "eingraben_cm": 3,
+    "kippen": 0.4,
+    "sichtweite": [
+     0,
+     15000
+    ],
+    "kollision": false,
+    "saum": 1.0,
+    "feuchte": [
+     0.8,
+     1.2
+    ],
+    "hang_max": 35,
+    "hoehe_max_m": 9999,
+    "lichtungsrand": 1.0,
+    "laengs_hang": false,
+    "an_baum": false,
+    "schatten": false,
+    "lichtung": 0.2,
+    "lagen_faktor": {
+     "Moos": 1.8,
+     "Laub": 1.0,
+     "Gras": 0.4,
+     "Wiese": 0.1,
+     "Fels": 0.3
+    },
+    "mulde": 1.0,
+    "nah_baum": 1.0,
+    "wegrand": 0.8,
+    "basisklasse": "beere"
+   },
+   "adlerfarn": {
+    "netze": [
+     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_04"
+    ],
+    "dichte": [
+     0.009,
+     0.002
+    ],
+    "gruppe": [
+     8,
+     25
+    ],
+    "radius_m": 5.0,
+    "massstab": [
+     0.9,
+     1.5
+    ],
+    "eingraben_cm": 4,
+    "kippen": 0.3,
+    "sichtweite": [
+     0,
+     30000
+    ],
+    "kollision": false,
+    "saum": 2.0,
+    "feuchte": [
+     0.8,
+     1.3
+    ],
+    "hang_max": 35,
+    "hoehe_max_m": 9999,
+    "lichtungsrand": 3.0,
+    "laengs_hang": false,
+    "an_baum": false,
+    "schatten": true,
+    "lichtung": 0.5,
+    "lagen_faktor": {
+     "Gras": 1.3,
+     "Laub": 1.0,
+     "Moos": 0.8,
+     "Fels": 0.2
+    },
+    "mulde": 1.0,
+    "nah_baum": 1.0,
+    "wegrand": 1.0,
+    "basisklasse": "farn"
+   },
+   "grashorst": {
+    "netze": [
+     "/Game/Megascans/3D_Assets/GrassyEmbankment/SM_GrassyEmbankment_01",
+     "/Game/Megascans/3D_Assets/GrassyEmbankment/SM_GrassyEmbankment_02"
+    ],
+    "dichte": [
+     0.0025,
+     0.0004
+    ],
+    "gruppe": [
+     1,
+     3
+    ],
+    "radius_m": 1.5,
+    "massstab": [
+     0.9,
+     1.4
+    ],
+    "eingraben_cm": 5,
+    "kippen": 0.8,
+    "sichtweite": [
+     0,
+     20000
+    ],
+    "kollision": false,
+    "saum": 1.2,
+    "feuchte": [
+     0.7,
+     1.6
+    ],
+    "hang_max": 40,
+    "hoehe_max_m": 9999,
+    "lichtungsrand": 1.2,
+    "laengs_hang": false,
+    "an_baum": false,
+    "schatten": true,
+    "lichtung": 1.2,
+    "lagen_faktor": {
+     "Moos": 1.8,
+     "Gras": 1.5,
+     "Laub": 0.5
+    },
+    "mulde": 1.5,
+    "nah_baum": 1.0,
+    "wegrand": 1.3,
+    "basisklasse": "grasbueschel"
+   }
+  },
+  "entfernen_witcher_vorschlag": [
+   "sm_fern_0",
+   "sm_silverladyfern_0",
+   "sm_beechfern_",
+   "sm_foliage_fern_01",
+   "sm_brokentreebranch_01",
+   "sm_oldtreebranch_0",
+   "sm_oakbranch_01",
+   "sm_elderberry_",
+   "sm_hazel_0",
+   "sm_black_cherry_0",
+   "sm_maple_bush_0",
+   "sm_beech_plant_0",
+   "sm_europeanhornbeam_sapling_",
+   "sm_europeanhornbeam_seedling_",
+   "sm_stump_03",
+   "sm_treestump_01",
+   "sm_rottentreestump_0",
+   "sm_birchtreestump_01",
+   "sm_brokenstump_01",
+   "sm_largefallentree_0",
+   "sm_oldfallentree_0",
+   "sm_fallentreeassembly_01",
+   "sm_kikuyugrass_",
+   "sm_grass_01_1",
+   "sm_grass_02_a_1",
+   "sm_grass_03_a_1",
+   "sm_grass_bush_0"
+  ],
+  "entfernen_hinweis": "Witcher-Netze (FT_EL_WIT_*) der generischen Mittelschicht in Elfenwald-Feldern: bisher hat der Elfenwald-Planer sie per entfernen geloescht; seit Runde 1 setzt Teil D den Ersatz und sollte diese Praefixe in seinen entfernen-Filter aufnehmen."
  },
  "felsgruppen_overrides": {
   "biom": "elfenwald",
@@ -1968,6 +1813,12 @@
    "schuttfaecher": false,
    "mulden_ohne_wand": false
   },
+  "mindestdichte_je_ha": 1.0,
+  "mindestdichte_klassen": [
+   "fels_block",
+   "fels_stein"
+  ],
+  "mindestdichte_hinweis": "Moosfelsen auch im flachen Wald: mindestens 1,0 Gruppe (Moosblock + 2-5 Moossteine) je ha Elfenwald-Flaeche, auch wo nur_wo (Hang >= 12 Grad, Kuppe, Prallhang) nicht greift; felsgruppen_plan.py liest den Wert kuenftig.",
   "gruppe": {
    "hauptfels": 1,
    "nebenbloecke": [
@@ -2072,7 +1923,11 @@
   "budget_je_feld": {
    "akteure": 120,
    "foliage": 6000
-  }
+  },
+  "entfernen_witcher_vorschlag": [
+   "sm_mossyforestboulder_0",
+   "sm_lichenedforestboulder_01"
+  ]
  },
  "spuren_overrides": {
   "biom": "elfenwald",
@@ -2224,7 +2079,7 @@
    "lage": "Lichtungsmitte mit Hang < 6 Grad, >= 40 m vom Weg, Blumeninsel innen (blume_lichtung x3)"
   },
   "elfenpfad": {
-   "hinweis": "Wege im Elfenwald (karte_weg): Abstand 2.5 m Kleinzeug / 4 m Baeume bleibt; Wegrand 2.5-8 m bekommt im Elfenwald-Planer Blumen x2, Farn x1.4, Hochstauden x1.8 (wegrand-Faktor). Fuer die Wegtextur Laub/Moos statt Kies empfehlen (Landschaftsmaterial, nicht Planer)."
+   "hinweis": "Wege im Elfenwald (karte_weg): Abstand 2.5 m Kleinzeug / 4 m Baeume bleibt; Wegrand 2.5-8 m bekommt Lichtungsblumen x2 (Elfenwald-Planer) sowie Farn x1.4 und Hochstauden x1.8 (mittelschicht_overrides.parameter, Teil D). Fuer die Wegtextur Laub/Moos statt Kies empfehlen (Landschaftsmaterial, nicht Planer)."
   }
  },
  "blickziele": {
@@ -2287,60 +2142,10 @@
    40,
    10
   ],
-  "farn": [
-   40,
-   170,
-   70
-  ],
-  "adlerfarn": [
-   60,
-   200,
-   90
-  ],
-  "jungbaum": [
-   140,
-   220,
-   90
-  ],
-  "strauch": [
-   20,
-   110,
-   30
-  ],
-  "beere": [
-   60,
-   40,
-   120
-  ],
-  "stamm_liegend": [
-   150,
-   80,
-   30
-  ],
-  "stumpf": [
-   110,
-   60,
-   20
-  ],
-  "grasbueschel": [
-   190,
-   190,
-   110
-  ],
-  "grashorst": [
-   170,
-   170,
-   80
-  ],
   "blume_lichtung": [
    255,
    255,
    255
-  ],
-  "hochstaude": [
-   220,
-   200,
-   40
   ],
   "efeu": [
    0,
@@ -2356,16 +2161,6 @@
    190,
    140,
    90
-  ],
-  "ast": [
-   160,
-   100,
-   50
-  ],
-  "pilz": [
-   255,
-   230,
-   200
   ],
   "wurzel": [
    100,
@@ -2416,42 +2211,41 @@
    50,
    130,
    60
+  ],
+  "moosstamm": [
+   150,
+   80,
+   30
   ]
  },
- "teil_d": {
-  "hinweis": "Teil D (mittelschicht_plan.py, Ebene FT_EL_MS_*) liefert die biomuebergreifende Mittelschicht auch im Elfenwald (farn, strauch, jungbaum, hochstaude, grasbueschel, totholz, stumpf, ast, wurzel, pilz, kletter, totbaum). Im Modus --mittel zusatz (Standard) setzt der Elfenwald-Planer nur den elfenwaldspezifischen Zusatz: Klassen mit Faktor 0 entfallen, Faktor < 1 daempft. --mittel voll = vollstaendige Mittelschicht (nur wenn mittelschicht_plan.py in den Elfenwald-Feldern NICHT laeuft).",
-  "zusatz_faktor": {
-   "1_mittel": {
-    "farn": 0.45,
-    "adlerfarn": 1.0,
-    "jungbaum": 0.0,
-    "strauch": 0.0,
-    "beere": 1.0,
-    "stamm_liegend": 0.0,
-    "stumpf": 0.0,
-    "grasbueschel": 0.0,
-    "grashorst": 1.0,
-    "blume_lichtung": 1.0,
-    "hochstaude": 0.0,
-    "efeu": 1.0
-   },
-   "0_boden": {
-    "laubhaufen": 1.0,
-    "zweige": 1.0,
-    "ast": 0.0,
-    "pilz": 0.4,
-    "wurzel": 1.0,
-    "moos": 1.0,
-    "kraut": 1.0,
-    "stein_klein": 1.0
-   }
+ "landschaftsgras": {
+  "klassen": {
+   "laubhaufen": "GT_Kraut",
+   "zweige": "GT_Kraut",
+   "kraut": "GT_Kraut",
+   "moos": "GT_Kraut",
+   "stein_klein": "GT_Steinchen"
   },
-  "begruendung": {
-   "farn": "Teil D streut Farn 0,006/0,022 je m2 gleichmaessig nach Beschattung; der Elfenwald-Zusatz (x0,45) legt zusaetzlich dichte Farninseln (6-18 Stueck, Radius 3,5 m) in Mulden und feuchte Schattlagen - das ist die Witcher-Farninsel, nicht der Teil-D-Streufarn.",
-   "adlerfarn, beere, grashorst, blume_lichtung": "fehlen in Teil D fuer elfenwald (Beere '-', keine Lichtungsblumen-Inseln, kein GrassyEmbankment).",
-   "efeu": "Teil D kletter streut Efeu frei (0,0012 je m2 beschattet); hier Efeu nur als Ring am Stamm alter Baeume (yaw zum Stamm) - andere Platzierung, geringe Zahl.",
-   "wurzel": "Teil D wurzel streut frei; hier nur Wurzelanlauf 0,7-2,2 m am Stamm (radial) - der Witcher-Stammfuss.",
-   "pilz": "Teil D pilz 0,002/0,010; hier x0,4 und nur mit Totholz-/Moos-Bonus (an_totholz x4)."
-  }
+  "hinweis": "Kleinzeug bevorzugt im Landschafts-Gras: GT_Kraut enthaelt DeadLeaves_01/02/05/10/12/13, WoodenSticksAndTwigs_01/04/07, DryBranches_01/04, detail_leaves/branches, Pilze; GT_Steinchen die SmallStonesPack-Netze. Im Elfenwald Lage Laub/Moos -> GT_Kraut mit hoher Dichte; die Elfenwald-Ebene setzt nur Haufen (Mulden, Stammfuss) und wird bei Budgetknappheit zuerst ausgeduennt."
+ },
+ "ebenen": {
+  "generisch_mittelschicht": [
+   "strauch",
+   "jungbaum",
+   "farn",
+   "totholz_liegend",
+   "totholz_stumpf",
+   "totholz_ast",
+   "hochstaude",
+   "grasbueschel",
+   "beere",
+   "pilz"
+  ],
+  "alias": {
+   "stamm_liegend": "totholz_liegend",
+   "stumpf": "totholz_stumpf",
+   "ast": "totholz_ast"
+  },
+  "hinweis": "Klassen mit diesen Namen (oder Alias) setzt der Elfenwald-Planer nie, auch nicht mit --mittel voll; sie gehoeren zu mittelschicht_plan.py."
  }
 }

@@ -11,7 +11,173 @@ Felder (laut `biome_je_feld.md`): **G3** (elfenwald 97 %, Land 72 %, Laub 56 %),
 **G4** (76 % + heide 22 %, Land 100 %, Laub 75 %, Moos 6 %, Wasser 5 %), **H4** (82 % + aue/sumpf, Land 100 %, 33 % steil), **I4**
 (bergwald 78 / elfenwald 21), **H2** (kueste 78 / elfenwald 20), **G2** (Land 4 %). Der Planer läuft je Zelle mit Biomfaktor (elfenwald
 1,0; bergwald 0,6; aue 0,5; sumpf 0,35; kueste 0,3; heide 0,25; alles andere 0) aus `eigner.r8`/`welt.json`; Kennzahl 0 und fehlende
-Datei → dominantes Feldbiom aus `feld_biom_fallback` (I4 bergwald, H2 kueste, G2 aue, sonst elfenwald).
+Datei → dominantes Feldbiom aus `feld_biom_fallback` (I4 bergwald, H2 kueste, G2 aue, sonst elfenwald). **Überholt durch Korrektur
+Runde 1 (nächster Abschnitt):** nur elfenwald-Zellen + 30-m-Saum, Kennzahl 0 = aue, Budget 60 000/3 000 je Feld, Mittelschicht in Teil D.
+
+---
+
+## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md` (Echtdaten-Test 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md` (verbindlich).
+Geändert wurden nur `skripte/elfenwald_plan.py` (jetzt 1 373 Zeilen), `skripte/elfenwald_regeln.json` und dieser Bericht. Wo §2, §4, §5 und §7
+etwas anderes sagen, gilt dieser Abschnitt.
+
+**Echtdaten-Befund (Referenz, lokal, alte Fassung):** A5 (bergwald/fjord) **2 152** Instanzen, G4 (elfenwald) **86 811**, E1 (gletscher) 0,
+C6 (lava 99 %) **5 875**. Dabei war G4 um 45 % über dem Deckel von 60 000, und A5/C6 lagen in fremden Biomen. Ursachen: (1) `biom_faktor` hat
+auch bergwald ×0,6, aue ×0,5, kueste ×0,3 und heide ×0,25 bebaut, und Kennzahl 0 wurde auf das dominante Feldbiom statt auf `aue` gelegt;
+(2) das Budget galt je Schicht (Boden 52 000 + Mittel 48 000 + …) statt je Feld; (3) die Mittelschicht doppelte Teil D.
+
+### Was sich geändert hat
+
+1. **Zuständigkeit (§1):** Das Biom je Zelle kommt aus `eigner.r8` + `welt.json["kacheln"][k]["rezept"]`. **Kennzahl 0 ist `aue`**, ein Rezept mit
+   „vulkan“ oder „lava“ ist `lava`, unbekannte Rezepte zählen als `aue` und erzeugen eine Logzeile. Nur wenn `eigner.r8` oder `welt.json` fehlt,
+   gilt das dominante Feldbiom aus `daten/biome_je_feld.json` (sonst `feld_biom_fallback`, dazu ein Hinweis im Log). `biome_eigen = ["elfenwald"]`;
+   `biom_faktor` ist ersetzt durch `zustaendigkeit` in der Regeldatei. Bebaut werden nur elfenwald-Zellen und ein **Saum von 30 m**, in dem der
+   Faktor linear von 1 auf 0 fällt. Er wird aus einem Jump-Flooding-Distanzfeld über die Biom-Maske berechnet, also in NumPy ohne Zellschleife,
+   und gilt für alle Schichten einschließlich der Bäume. Liegt der Eigenanteil im Fenster unter **2 %**, schreibt der Planer einen **leeren
+   `plan.json`** (`instanzen: 0`, `dateien: {}`, `leer: true`, ohne f32; alte f32 werden gelöscht) und meldet das in einer Zeile.
+   Das `entfernen` für Witcher-Netze setzt er nur noch, wenn der elfenwald-Anteil **im Feld** mindestens 50 % beträgt; in I4, H2 und G2 behalten
+   die Fremdbiome dadurch ihre Witcher-Ebene.
+2. **Pflichtschlüssel (§2)** in jedem `plan.json`, auch im leeren: `biome_fenster` (Anteile aller Biome im Fenster), `zellen_zustaendig`
+   (Zellen im Feld mit Faktor > 0, also mit Saum, nur Land), `biome_eigen`, `kollision_anzahl` (Summe der Dateien mit `kollision: true`).
+   Zusätzlich gibt es `eigenanteil_fenster/_feld`, `saum_m`, `biom_quelle`, `budget` (Deckel, Ziel, Zahl vor der Ausdünnung, Faktoren je Klasse,
+   Netze ohne Kollision) und `an_landschaftsgras`.
+3. **Budget (§3, hart), Schlüssel `budget`:** `deckel_je_feld` 60 000 für die ganze Ebene `elfenwald/`, `ziel_je_feld` 45 000–52 000,
+   `ausduennen_auf` 52 000, `kollision_je_feld` **3 000 einschließlich der Bäume**. Die frühere Ausnahme `kollision_baum_je_feld` 20 000 entfällt.
+   - **Dichten der Bodenschicht gesenkt:** Laubhaufen [0,006; 0,024] → [0,004; 0,015] (−37,5 %), Zweige [0,004; 0,014] → [0,0025; 0,009]
+     (−36 %), Moos [0,003; 0,020] → [0,002; 0,014] (−30 %), Sauerklee/Kraut [0,004; 0,016] → [0,003; 0,011] (−31 %). Ast und Pilz sind in die
+     Mittelschicht gewandert (Teil D).
+   - **Ausdünnung bei Überlauf:** Liegt die Summe über 52 000, wird deterministisch per Hash in der Reihenfolge `prioritaet_ausduennen`
+     ausgedünnt: zuerst Laubhaufen, Zweige, Kraut, Moos und Kleinsteine, dann kleine Uferpflanzen, Blumen, Ringe, Moos-Stamm, Bäume zuletzt.
+     Je Klasse fallen höchstens 60 % weg, danach folgt die nächste Klasse; reicht das nicht, werden alle Nicht-Baum-Klassen gleichmäßig
+     ausgedünnt, und eine harte Sicherung hält 60 000. Jede Ausdünnung schreibt eine `WARNUNG` ins Log und einen Hinweis ins `plan.json`.
+   - **Kleinzeug an das Landschafts-Gras:** `hinweise` und `an_landschaftsgras` nennen Laub, Zweige, Moos und Kraut → `GT_Kraut` (die Grasart
+     enthält laut `netze.csv` bereits DeadLeaves_01/02/05/10/12/13, WoodenSticksAndTwigs_01/04/07, DryBranches_01/04 und Pilze) sowie
+     Kleinsteine → `GT_Steinchen`. Ebenfalls dort steht der Anteil, der wegen des Budgets abgegeben wurde. Empfehlung: Lage Laub/Moos im
+     Elfenwald mit hoher GT_Kraut-Dichte malen. Die Elfenwald-Ebene setzt dann nur die Haufen in Mulden und am Stammfuß.
+   - **Kollision je Netz:** Die Netze bekommen Kollision in der Reihenfolge `kollision_prioritaet` (hero, tot, alt, moosstamm, pappel, mittel,
+     birke, weide, jung), innerhalb einer Klasse das kleinste Netz zuerst, bis 3 000 erreicht sind. Alle weiteren Netze erhalten
+     `kollision: false`, und der Hinweis nennt die betroffenen Klassen. Im Standardmodus `ergaenzen` (G4 mit Bestand-Ebene) sind es nur
+     ~200–300 Kollisionen. Im Modus `--baum voll` (G3/H3/H4 ohne Bestand) haben nur hero, tot und ein Teil von alt Kollision. Wer dort volle
+     Baumkollision braucht, sollte `bestand_plan.py` laufen lassen (eigene Ebene, eigenes Budget) und dann `--baum ergaenzen` nutzen.
+4. **Ebenen-Abgrenzung (§4):** Schicht 1 enthält nur noch **Elfenwald-Sonderformen**:
+   - `wurzel`: Wurzelanlauf-Ring 0,7–2,2 m am Stamm von alt/hero/tot, radial; aus Schicht 0 hierher verschoben.
+   - `efeu`: Efeu-Ring 0,35–0,6 m mit Blick zum Stamm.
+   - `moosstamm` (neu): MossyTree_01, LargeFallenTree_02, Fallen/BrokenTreeAssembly als Baumleiche 2,5–6 m neben stehendem Totholz (0,5 je tot,
+     0,2 je hero, 0,02 je Altbaum), radial ausgerichtet, mit Kollision.
+   - `blume_lichtung`: Lichtungsblumen-Inseln.
+
+   Die generischen Klassen `strauch, jungbaum, farn, totholz_liegend/stumpf/ast, hochstaude, grasbueschel, beere, pilz` (bisher farn,
+   adlerfarn, jungbaum, strauch, beere, stamm_liegend, stumpf, grasbueschel, grashorst, hochstaude, ast, pilz) setzt der Planer **nie mehr**,
+   auch nicht mit `--mittel voll`. Dafür sorgt die Liste `ebenen.generisch_mittelschicht` samt Alias im Code; eine Klasse dieses Namens in der
+   Regeldatei wird mit Hinweis übersprungen. `--mittel` bleibt als Schalter erhalten, `voll` verhält sich wie `zusatz` und schreibt einen Hinweis.
+   Der Abschnitt `teil_d` (zusatz_faktor) ist durch `mittelschicht_overrides` ersetzt. `felsgruppen_overrides` hat zusätzlich
+   **`"mindestdichte_je_ha": 1.0`** (`mindestdichte_klassen`: fels_block, fels_stein; Moosfelsen auch im flachen Wald, wo `nur_wo` nicht
+   greift). `spuren_overrides` bleibt bis auf den Elfenpfad-Text gleich.
+5. **ASCII (§5):** Alle Ausgaben laufen über `meld()`/`fehler()`. Beide wandeln Umlaute in ae/oe/ue/ss um, → in ->, ≤ in <=, – in -, × in x,
+   ° in „ Grad“, und alles Übrige in „?“. Auch die `hinweise` und Blickziel-Regeln im `plan.json` sind ASCII. Fehlende Pflichtdateien
+   (hoehe.f32, Regeldatei, `netze.csv`, Weltordner) und ein unbekanntes Feld führen zu einer Meldung auf stderr und **Exit-Code 2**.
+   `netze.csv` wird jetzt auch unter `vorlagen/daten/` neben dem Skript gesucht.
+
+### Override-Schema `mittelschicht_overrides` (für `mittelschicht_plan.py`, Teil D)
+
+```
+"mittelschicht_overrides": {
+  "biom": "elfenwald",
+  "klassen_alias": {"totholz_liegend": "totholz", "totholz_stumpf": "stumpf", "totholz_ast": "ast"},   # Namen in mittelschicht_regeln.json
+  "palette":  {"farn": [12 Pfade], "strauch": [14], "jungbaum": [12], "totholz_liegend": [13], "totholz_stumpf": [6],
+               "totholz_ast": [8], "hochstaude": [2], "grasbueschel": [8], "beere": [3], "pilz": [2]},          # ersetzt die Teil-D-Palette
+  "faktor":   {"farn": 1.5, "strauch": 0.5, "jungbaum": 1.0, "totholz_liegend": 1.0, "totholz_stumpf": 1.0, "totholz_ast": 0.35,
+               "hochstaude": 0.5, "grasbueschel": 1.0, "beere": 1.0, "pilz": 0.3, "adlerfarn": 1.0, "grashorst": 1.0,
+               "wurzel": 0.0, "kletter": 0.0, "totbaum": 0.0},                                                 # x Teil-D-Dichte
+  "parameter": {"farn": {"gruppe": [6, 18], "radius_m": 3.5, "mulde": 1.4, "lagen_faktor": {"Moos": 1.6, ...}, ...},   # optional
+                "jungbaum": {"lichtungsrand": 4.0, "saum": 3.0, ...}, "pilz": {"an_totholz": 4.0, ...}, ...},
+  "zusatzklassen": {"beere": {...}, "adlerfarn": {...}, "grashorst": {...}},     # volle Klassendefinition im mittelschicht-Format
+  "faktor_begruendung": {...}, "entfernen_witcher_vorschlag": [27 Witcher-Praefixe der generischen Mittelschicht]
+}
+```
+
+Regeln für Teil D: Die Overrides gewinnen gegen `mittelschicht_regeln.json["biome"]["elfenwald"]`. `faktor` multipliziert die Teil-D-Dichte
+der Klasse; 0 heißt „Klasse im Elfenwald aus“. Das gilt für `wurzel`, `kletter` und `totbaum`: Wurzel- und Efeu-Ring setzt der
+Elfenwald-Planer, stehendes Totholz kommt aus der Baumschicht. `zusatzklassen` sind Klassen, die Teil D im Elfenwald nicht hat (Heidelbeere,
+Adlerfarn am Lichtungsrand, Moos-Grashorst); `faktor` gilt auch für sie. Die **Farninseln** sind jetzt `faktor.farn` = 1,5 plus
+`parameter.farn` (Gruppen 6–18 im Radius 3,5 m, Mulde ×1,4, Moos ×1,6) statt eines eigenen Elfenwald-Farns ×0,45 obendrauf. Die Faktoren
+sind aus dem Verhältnis der bisherigen Elfenwald-Dichten zu den Teil-D-Dichten im Schatten (Beschattung 0,8–0,9) abgeleitet;
+`faktor_begruendung` nennt die Werte je Klasse. Die Witcher-Präfixe der generischen Klassen (Farne, Holunder, Hasel, Stümpfe, liegende
+Stämme, Äste, Gras) entfernt der Elfenwald-Planer nicht mehr. Sie stehen als Vorschlag für den `entfernen`-Filter von Teil D in
+`entfernen_witcher_vorschlag`, Felsblöcke analog in `felsgruppen_overrides.entfernen_witcher_vorschlag`.
+
+### Rauchtest Runde 1 (Cloud, synthetisch; Raster danach gelöscht)
+
+Die Raster wurden neu erzeugt, in voller Größe 7 057 × 9 577 (memmap, nur die Fenster beschrieben):
+
+- **G4:** elfenwald 68 % / heide 21 % / Kennzahl 0 → aue 11 % im Fenster (im Feld 74 / 21 / 5 %), Bach, Teich, Weg, Ort, `lage_Laub/Moos/Gras`.
+  Die **Bestand-Ebene hat 17 000 Bäume** (Echtdaten-Größenordnung) in Gruppen 8–40 m mit drei Lichtungen. Die Witcher-Ebene hat 300 Farne,
+  120 Laub und 50 Moosstämme.
+- **I4 (Mischfeld):** elfenwald-Streifen West 21 % des Feldes, bergwald, eine aue-Ecke, keine Bestand-Ebene.
+- **C6 (Fremdbiom):** Rezept „Vulkanregion“ 97 % + bergwald 3 %.
+
+Umgebung: Python 3.13.16, NumPy 2.5.3, ohne numba, 4 Kerne, Aufruf `python -I -X utf8`.
+
+| Lauf | Instanzen | Boden / Mittel / Baum / Wasserkante | Kollision | in eigenen Zellen / Saum / fremd (> 31 m) | Laufzeit |
+|---|---|---|---|---|---|
+| G4, **alte Fassung** (Kalibrierung) | 61 623 | 39 428 / 21 003 / 19 / 1 173 | 19 (+0) | – | 13,0 s |
+| **G4 Standard** (ergaenzen) | **31 023** | 21 787 / 8 085 / 19 / 1 132 | **215** | 30 012 / 1 011 / **0** | 12,6 s |
+| G4 `--mittel voll` | 31 023 (MD5 gleich) | wie Standard, Hinweis „wirkungslos“ | 215 | wie Standard | 12,6 s |
+| G4 `--baum voll` | 44 296 | 28 279 / 3 855 / 11 061 / 1 101 | **3 000** (23 Netze; 14 Netze / 5 562 Bäume ohne) | 42 868 / 1 428 / 0 | 11,3 s |
+| G4 `--faktor 2.5` (Überlauf) | 74 215 → **51 980** | Laub ×0,40, Zweige ×0,39, Kraut ×0,85 | 258 | – | 12,6 s |
+| **I4 Mischfeld** (voll) | 13 979 | 9 076 / 1 083 / 3 567 / 253 | 2 800 | 13 177 / 802 / **0** | 10,8 s |
+| **C6 Fremdbiom** | **0 (Leerplan)** | – | 0 | – | < 1 s |
+| G4 ohne `eigner.r8` (Fallback biome_je_feld → elfenwald) | 40 543 | 28 172 / 11 146 / 26 / 1 199 | 271 | 100 % zuständig | 12,2 s |
+| C6 ohne `eigner.r8` (Fallback → lava) | 0 (Leerplan) | – | 0 | – | < 1 s |
+
+Einzelheiten zu den Läufen:
+
+- **G4 Standard je Klasse:** Laub 8 284 (vorher 14 798, −44 %), Zweige 5 474 (9 401, −42 %), Moos 3 439, Kraut 3 635, Kleinsteine 955;
+  Wurzel 2 559, Efeu 492, Moos-Stamm 196, Lichtungsblumen 4 838; Bäume: hero 14, tot 5. Farn, Adlerfarn, Beere, Grashorst, Pilz und Ast
+  (vorher zusammen 15 121) setzt jetzt Teil D.
+- **Plan-Schlüssel G4:** `biome_fenster` {elfenwald 0,681, heide 0,213, aue 0,106}, `zellen_zustaendig` 785 621.
+- **Plan-Schlüssel I4:** `biome_fenster` {bergwald 0,708, elfenwald 0,243, aue 0,049}, `zellen_zustaendig` 242 928.
+- **Plan-Schlüssel C6:** `biome_fenster` {lava 0,917, bergwald 0,083}, `zellen_zustaendig` 0, `instanzen` 0, 0 f32.
+- **Saum-Abfall** (Instanzen je m², Distanz in 4er-Nachbarschaft):
+
+  | | innen | 1–6 m | 6–12 m | 12–18 m | 18–24 m | 24–31 m | > 31 m |
+  |---|---|---|---|---|---|---|---|
+  | G4 | 0,0403 | 0,0307 | 0,0269 | 0,0204 | 0,0095 | 0,0045 | 0 |
+  | I4 | 0,0619 | 0,0475 | 0,0454 | 0,0261 | 0,0179 | 0,0037 | 0 |
+
+Weitere Prüfungen, alle bestanden:
+
+- **Schlüssel und Budget:** Alle Pflichtschlüssel sind vorhanden, auch im Leerplan, und Σ `biome_fenster` = 1,000. Jede f32 ist durch 10
+  teilbar, die Anzahl stimmt mit `plan.json` überein, und `kollision_anzahl` = Σ Kollisionsdateien. In keinem Lauf mehr als 60 000 Instanzen
+  oder 3 000 Kollisionen, keine generische Mittelschicht-Klasse in der Ausgabe.
+- **Geometrie:** |q| − 1 ≤ 1,2·10⁻⁷. 0 Instanzen auf Wasser, Weg oder Ort, 0 außerhalb des Feldes; z − Gelände −0,32 bis +0,19 m.
+- **Determinismus:** Zwei Läufe sind byte-identisch (G4: MD5 aller f32 `d749b884…`, `plan.json` ohne `stand`/`laufzeit_s` `9b98dd30…`;
+  I4: `f96c3295…`).
+- **ASCII:** Alle Logs (G4, `--mittel voll`, `--baum voll`, Überlauf, I4, C6, Fehlertexte) haben 0 Nicht-ASCII-Bytes.
+- **Exit-Code 2:** bei Feld `K9`, fehlender `hoehe.f32`, fehlender `netze.csv` und fehlender Regeldatei, jeweils mit einzeiliger Meldung.
+- **Inventar:** 1 435 Netze, 0 fehlen (inklusive Override-Paletten). `py_compile` ok.
+
+### Erwartete Zahlen mit Echtdaten (ersetzt die Tabelle in §5)
+
+Die alte Fassung ergab auf der neuen G4-Synthetik 61 623 Instanzen, echt 86 811, also einen Faktor Echtdaten zu Synthetik von ≈ 1,41 (mehr
+Wasser, Laub-Lage und Saum als in der Synthetik). Neue Fassung, Standardmodus:
+
+| Feld | Biom-Anteil (biome_je_feld) | Erwartung neu | Kollision | Anmerkung |
+|---|---|---|---|---|
+| **G4** | elfenwald 76 / heide 22 / aue 3 | **≈ 44 000** (Spanne 38 000–50 000) | 200–400 | 31 023 × 1,41; Deckel 60 000 nicht erreicht, Ausdünnung erst ab 52 000 |
+| G3, H3, H4 (`voll`, keine Bestand-Ebene) | 97–100 / 82 | 45 000–52 000 (Ausdünnung greift ggf.) | 3 000 | Baumschicht 9 000–15 000, kleinere Baumklassen ohne Kollision |
+| I4 | elfenwald 21 | 10 000–18 000 | ≤ 3 000 | nur elfenwald-Streifen + 30 m |
+| H2 | elfenwald 20, Land 39 | 4 000–10 000 | ≤ 2 000 | |
+| G2 | elfenwald 20, Land 4 | 0–1 500 | < 200 | |
+| **A5** | kueste 75 / bergwald 14 / aue 11 | **0 (Leerplan)** | 0 | vorher 2 152 |
+| **C6** | lava 99 | **0 (Leerplan)** | 0 | vorher 5 875 |
+| E1 | gletscher 100 | 0 (Leerplan) | 0 | unverändert 0 |
+
+Falls ein Feld lokal doch über 52 000 liegt, steht im Log `WARNUNG: … Budget … ausgeduennt` und im `plan.json` unter `budget.ausduennung`.
+Dann sollte die Dichte von Laub und Zweigen in der Regeldatei weiter gesenkt werden, statt sie ausdünnen zu lassen. Offen bleiben die Seite
+von Teil D, das `mittelschicht_overrides` (palette, faktor, parameter, zusatzklassen, klassen_alias) lesen muss, und Teil C, das
+`mindestdichte_je_ha` lesen muss. Die Abgrenzung gehört außerdem in `verteilung-STATUS.md`; diese Datei ist nicht Teil von B5.
 
 ---
 
@@ -93,6 +259,9 @@ Bestand; erwartet 30–120 Stück je Feld.
 
 ### Schicht 1 Mittelschicht 0,3–3 m (Standard `--mittel zusatz`, siehe §4)
 
+*Stand vor Korrektur Runde 1. Seitdem setzt Schicht 1 nur noch wurzel, efeu, moosstamm und blume_lichtung; die übrigen Klassen
+stehen als `mittelschicht_overrides` in der Regeldatei (siehe Abschnitt Korrektur Runde 1).*
+
 | Klasse | Netze (Auszug) | Dichte je m² | Gruppe / Radius | Maßstab | Steuerung | Sichtweite |
 |---|---|---|---|---|---|---|
 | farn (Farninsel) | Fern_01–06, SilverLadyFern_01–03, BeechFern_09/10/15 | 0,003 / 0,034 (×0,45 im Zusatz) | 6–18 / 3,5 m | 0,8–1,45 | Lichtung ×0,15, Feuchte 0,5→1,9, Moos ×1,6, Mulde ×1,4 | 300 m |
@@ -131,6 +300,8 @@ ForestRockShelf_01) 0,012→0,002 nur bei Hang 18–60°, Eingraben 30 cm; farn_
 Alles ohne Kollision, Sichtweiten 50–300 m.
 
 ### Budget und Priorität
+
+*Überholt durch Korrektur Runde 1: Deckel 60 000 je Feld, Ziel 45 000–52 000, Kollision ≤ 3 000 einschließlich Bäume.*
 
 Ziel je Schicht: Boden 52 000, Mittel 48 000, Baum 22 000, Wasserkante 15 000 (Obergrenzen 60 000 / 20 000). Bei Überschreitung dünnt der
 Planer die Klassen von hinten in der Prioritätsliste (Boden: wurzel > ast > stein > pilz > zweige > kraut > moos > laubhaufen; Mittel:
