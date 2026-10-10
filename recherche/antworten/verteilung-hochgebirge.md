@@ -473,7 +473,7 @@ Fab-Allgemeines **[Suchauszug: fab.com-Launch-Meldungen]** – Namen sind Suchbe
   - `meer_zellen` 417 903, `meer_gefiltert` 4. Der Rest wird schon durch die Masken verhindert.
   - `kiesel_schutt` 8 584 → 7 737. Die Bäume verschieben sich um ±10, weil sich der Kollisionsfaktor ändert.
   - Zwei Läufe byteidentisch (f32 und plan.json), Log ASCII, py_compile ok, 4–5 s. Leerplan (G4) meldet `meer_zellen` und `meer_gefiltert` 0.
-- Offen: Biom-Anteil und `zellen_zustaendig` beziehen sich weiter auf alle Fensterzellen bzw. auf Land > 0,2 m. Meer ist dort bereits ausgeschlossen, Süßwasser nicht. Ein `biome_fenster_bezug` nach §1 („Landzellen“) ist hier noch nicht umgesetzt.
+- Nachtrag Landzellen-Bezug (§1): `biome_fenster`, Eigenanteil (2-%-Schwelle) und Saum laufen nur noch über Landzellen ohne `wasser_alle`; `plan.json["biome_fenster_bezug"] = "land"`. Synthetisch: Inselfeld A2 Leerplan → Plan (Eigenanteil 1,45 % → 77,9 %, 1 251 Instanzen), Küste C2 aue (Meer) fällt aus `biome_fenster`, Binnen E2 ohne Saum in den Kennzahl-0-See (`zellen_zustaendig` 791 219 → 765 959), Instanzen in C2/E2 unverändert; byteidentisch, ASCII.
 
 ## Quellen
 

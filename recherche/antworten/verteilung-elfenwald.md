@@ -499,4 +499,4 @@ Foliage-Typen `FT_EL_EW_*`); keine Instanz schwebt (Eingraben 1–30 cm) und kei
   - `meer_zellen` 445 037, `meer_gefiltert` 9 (Bäume 7, kraut 1, zweige 1).
   - Die Zunahme um 259 kommt aus der Feuchte: Meeresnähe zählt jetzt als Wassernähe (kraut +122, moos +118, pappel +17, blume_lichtung +25).
   - Zwei Läufe byteidentisch, Log ASCII, py_compile ok, 11–12 s. Leerplan (C2) meldet `meer_zellen`.
-- Offen: Biom-Anteil über alle Fensterzellen. Der Landzellen-Bezug nach §1 (`biome_fenster_bezug`) ist hier noch nicht umgesetzt.
+- Nachtrag Landzellen-Bezug (§1): `biome_fenster`, Eigenanteil (2-%-Schwelle) und Saum nur über Landzellen ohne `wasser_alle`, `biome_fenster_bezug: "land"`. Synthetisch: Inselfeld I4 Leerplan → Plan (1,37 % → 77,9 %, 1 112 Instanzen), Küste G4/Binnen G6 Instanzen unverändert, `zellen_zustaendig` ohne Saum im See (G6 791 219 → 765 959). Dazu: Netze in zwei Schichten (SM_CustomMoss_01–05, SM_MossyForestRock_01 in 0_boden und 5_wasserkante) bekommen je Schicht eine eigene Datei (`<Netz>_e5`), damit `rolle`/`ebene` je Datei stimmen. Byteidentisch, ASCII.
