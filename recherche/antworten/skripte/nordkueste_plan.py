@@ -6,14 +6,16 @@ Auftrag 11, Teil B1. Schichten 0 boden, 1 mittel (0,3–3 m), 2 baum, 5 wasserka
 felsgruppen_plan.py und spuren_plan.py (Overrides in nordkueste_regeln.json unter felsgruppen_overrides / spuren_overrides).
 
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft (py_compile) und mit synthetischen Rastern rauchgetestet
-(B5-Fenster, Küste/Hang/Grat, siehe verteilung-nordkueste.md §4). Korrekturen bitte als auftraege/verteilung-nordkueste-korrektur.md.
+(B5-Fenster, Küste/Hang/Grat, siehe verteilung-nordkueste.md §4: 27 114 Instanzen, 11,7 s, deterministisch). Korrekturen bitte als auftraege/verteilung-nordkueste-korrektur.md.
 
 Was das Skript tut
 ------------------
 Je Gitterfeld wird ein Fenster (Feld + 64 m Rand) aus hoehe.f32 per np.memmap gelesen (kein Volllesen). Daraus Hang, Normale,
 Nordhang; aus karte_wasser.r8 + Höhe ≤ 0,6 m die Meeres-Wasserlinie (Abstandsfeld bis 500 m: 1 m fein bis 30 m, dann 4 m grob),
-aus karte_weg/karte_ort Sperrzonen, aus eigner.r8 + welt.json das Biom je Zelle (Fallback je Feld aus den Regeln; bei C1/D1/C2
-zusätzlich Höhengrenze, weil der Rest Gletscher ist), aus lage_*.r8 Lagenfaktoren. Vorhandene Bäume (bestand/, witcher/, 8 Nachbar-
+aus karte_weg/karte_ort Sperrzonen, aus eigner.r8 + welt.json das Biom je Zelle (Kennzahl 0 = Weltgelände → dominantes
+Feldbiom aus daten/biome_je_feld.json, nicht pauschal Aue; ohne eigner.r8 Fallback je Feld aus den Regeln; bei C1/D1/C2 zusätzlich
+Höhengrenze, weil der Rest Gletscher ist), aus lage_*.r8 Lagenfaktoren. Pilze (Ebene 0) werden an den in Ebene 1 geplanten Stämmen/
+Stümpfen verdichtet (totholz_nah). Vorhandene Bäume (bestand/, witcher/, 8 Nachbar-
 felder, instanzen/instanzen.json) werden gelesen für Abstände; aus ihnen + den hier geplanten Bäumen entsteht ein Kronendach
 (Punkt-Splat π·r² + Gauß-Glättung) → Beschattung, Wald, Waldsaum, Lichtungen. Jede Klasse hat ein Dichtefeld (Instanzen/m²) aus
 Licht × Biom × Lagen × Hang × Höhe × Küstenabstand × Wasserabstand × Saum/Lichtung × Klumpung (Wertrauschen, 2 Oktaven) ×

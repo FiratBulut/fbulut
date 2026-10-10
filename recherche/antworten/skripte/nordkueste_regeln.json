@@ -12,7 +12,9 @@
   "yaw": "zufall | hang (Längsachse hangparallel ±20°) | kueste (Längsachse küstenparallel ±20°, bei Pflanzen Leeseite).",
   "eingraben": "cm fest, oder anteil × Netzhöhe (groesse_z aus netze.csv).",
   "kletter": "darf auf Hang > 40° (sonst Sperre nach FORMAT §3).",
-  "ebene": "0 boden, 1 mittel, 2 baum, 5 wasserkante; 3 fels und 4 spuren liefern felsgruppen_plan.py / spuren_plan.py (Overrides unten)."
+  "ebene": "0 boden, 1 mittel, 2 baum, 5 wasserkante; 3 fels und 4 spuren liefern felsgruppen_plan.py / spuren_plan.py (Overrides unten).",
+  "eigner_0": "eigner.r8-Kennzahl 0 (Weltgelände) = dominantes Biom des Feldes aus daten/biome_je_feld.json (nicht pauschal aue); liegt es nicht in biome_planer → 'sonst' (nichts planen).",
+  "totholz_nah": "Klassen der Ebene 0 mit totholz_nah {bis_m, faktor}: Dichte × faktor im Umkreis der in Ebene 1 geplanten totholz_klassen (Pilze an Stämmen/Stümpfen)."
  },
  "stand": "2026-10-10",
  "thema": "nordkueste",
@@ -554,7 +556,10 @@
     "bis_m": 4.0,
     "faktor": 2.5
    },
-   "totholz_nah": true,
+   "totholz_nah": {
+    "bis_m": 2.5,
+    "faktor": 2.5
+   },
    "hinweis": "Pilzgruppen (Hexenringe 3–9) an Stämmen/Totholz, nur im Schatten."
   },
   "bodendecker": {
@@ -2915,5 +2920,16 @@
    ]
   },
   "hinweis": "Skellige-Spuren: Steinmänner an Küstenpfaden und Graten, Trockenmauern um Weiden, Hügelgräber, Fischerstege (Netz fehlt → Einkaufsliste), Holzschlag-Lichtungen im Bergwald."
+ },
+ "totholz_klassen": [
+  "totholz_liegend",
+  "stumpf",
+  "wurzel"
+ ],
+ "rauchtest": {
+  "stand": "2026-10-10",
+  "feld": "B5 synthetisch (Küste W, Hangwald, Grat O, Bach, Weg, Ort, 700 Bestand-Kiefern, 250 Witcher-Farne)",
+  "ergebnis": "ergaenzen: 27 114 Instanzen (757 Kollision), je Ebene 2: 452, 1: 12 032, 0: 13 098, 5: 1 532, 317 Netze, 11,7 s; ersetzen: 28 326 (1 708 Kollision), Ebene 2: 1 328; zweiter Lauf byteidentisch",
+  "hinweis": "Synthetischer Hang 55 % > 40° → reale Felder (B5: 82 % > 30°) liegen in derselben Größenordnung; Budget 60 000 nicht erreicht."
  }
 }

@@ -21,8 +21,8 @@ Schichten: 0 boden (Schutt-Kiesel, Flechtensteine, Schneefleck-Platten, Schuttf�
 Alpenrose, Polster, Grasbüschel, Totholz, Wurzelteller, Flechtenblöcke), 2 baum (Bergwald-Kiefer, Krummholz-Baum, Schluchtwald,
 Totbaum), 5 wasserkante (Bachblöcke, Moossteine, Bachkiesel, Wasserfall-Sturzblöcke, Eiszapfen). 3 fels / 4 spuren liefern
 Teil C/D; biomspezifische Überschreibungen stehen in hochgebirge_regeln.json („felsgruppen_overrides“, „spuren_overrides“).
-Nichts auf Wasser/Weg/Ort, Abstand zu Bäumen (bestand/, witcher/, instanzen/) und Felsschalen (felsschalen/plan_<Feld>.json);
-Hang > 40° nur Steine/Eiszapfen. Zufall deterministisch: 64-bit-Hash aus (Seed, Klasse, Weltraster-Koordinate, Mitglied).
+Nichts auf Wasser/Meer (Höhe ≤ 0,2 m)/Weg/Ort, Abstand zu Bäumen (bestand/, witcher/, instanzen/) und Felsschalen
+(felsschalen/plan_<Feld>.json); Hang > 40° nur Steine/Eiszapfen. Budget ≤ 60 000 je Feld (Ziel 52 000), ≤ 3 000 mit Kollision. Zufall deterministisch: 64-bit-Hash aus (Seed, Klasse, Weltraster-Koordinate, Mitglied).
 
 Aufruf
 ------
@@ -709,7 +709,7 @@ def instanzen_bauen(name, K, M, ctx):
         wr = math.radians(E.get("wind_richtung_grad", 90))
         yaw = wr + np.radians((uni(hm, 24) - 0.5) * 2 * E.get("wind_streuung_grad", 18))
         klo, khi = E.get("wind_kippen_grad", [6, 18])
-        kg = np.radians(zwischen(hm, 25, klo, khi)) * kipp / max(kipp, 1e-6) * (1 if kipp > 0 else 0)
+        kg = np.radians(zwischen(hm, 25, klo, khi)) if kipp > 0 else np.zeros(N)  # Kippen in den Wind (Luv → Lee)
         up = np.array([0, 0, 1.0])[None, :] * (1 - kipp * 0.5) + nrm[ci, cj] * (kipp * 0.5)
         up = up + np.stack([np.cos(wr) * np.sin(kg), np.sin(wr) * np.sin(kg), np.zeros(N)], axis=1)
     up /= np.linalg.norm(up, axis=1)[:, None]
@@ -748,6 +748,7 @@ def bild_schreiben(pfad, ctx, ergebnisse, feld, rand):
     shade = np.clip(0.75 + 0.25 * (-gj - gi) / (np.hypot(gi, gj) + 0.5), 0.5, 1.0)
     farben = np.array(F.get("stufe", [[70, 95, 60], [110, 120, 80], [150, 150, 140], [225, 230, 240]]), dtype=np.float64)
     img = farben[np.clip(stufe, 0, 3)] * shade[..., None]
+    img[~ctx["land"][i0:i1, j0:j1]] = F.get("meer", [20, 40, 120])
     sch = ctx["schlucht"][i0:i1, j0:j1]
     img[sch] = img[sch] * 0.5 + np.array(F.get("schlucht", [60, 110, 90])) * 0.5
     wf = ctx["wasserfall_fuss"][i0:i1, j0:j1]
@@ -769,7 +770,7 @@ def bild_schreiben(pfad, ctx, ergebnisse, feld, rand):
     try:
         d = ImageDraw.Draw(im)
         y = 4
-        d.text((4, y), "%s hochgebirge: Grau=Höhenstufe 0..3 (dunkel→hell), blau=Wasser, cyan=Wasserfallfuß" % feld, fill=(255, 255, 0))
+        d.text((4, y), "%s hochgebirge: Stufen bergwald/krummholz/matte/fels-schnee (dunkelgruen/oliv/ocker/weiss), blau=Wasser, cyan=Wasserfallfuss" % feld, fill=(255, 255, 0))
         for name, arr in ergebnisse:
             if arr is None or arr.shape[0] == 0:
                 continue
@@ -786,6 +787,10 @@ def bild_schreiben(pfad, ctx, ergebnisse, feld, rand):
 # ----------------------------------------------------------------------------------------------------------------------
 # Hauptplanung je Feld
 # ----------------------------------------------------------------------------------------------------------------------
+def ctx_feld_slice(i0, i1, j0, j1):
+    return (slice(i0, i1), slice(j0, j1))
+
+
 def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     t0 = time.time()
     feld = feld.strip().upper()
@@ -827,12 +832,16 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     if "Eis" in lagen:
         stufe[lagen["Eis"] >= HS.get("lage_eis_als_stufe3_ab", 0.4)] = 3
     stufe[wasser_m] = -1
+    land = h > float(regeln.get("ausschluss", {}).get("meer_hoehe_m", 0.2))  # Meer/Nullhöhe ist nie Land
+    stufe[~land] = -1
     # Wasser-Ableitungen
     W = regeln.get("wasser", {})
     dist_wasser = dist_cheb(wasser_m, 16)
     steil_wasser = wasser_m & (hang >= W.get("steil_grad", 18))
-    wasserfall_fuss = dilate(steil_wasser, W.get("fuss_radius_m", 10)) & ~wasser_m & (hang < W.get("fuss_hang_max_grad", 25))
-    eiswand = (hang >= regeln["klassen"].get("eiszapfen", {}).get("hang_min_grad", 55)) & ((stufe >= 2) | dilate(steil_wasser, 3))
+    wasserfall_fuss = dilate(steil_wasser, W.get("fuss_radius_m", 10)) & ~wasser_m & land & (hang < W.get("fuss_hang_max_grad", 25))
+    gb_stufe = int(W.get("gletscherbach_ab_stufe", 2))
+    gletscherbach = dilate(wasser_m & (stufe >= gb_stufe), int(W.get("kante_bis_m", 6)))  # Saum um Wasser über der Baumgrenze
+    eiswand = (hang >= regeln["klassen"].get("eiszapfen", {}).get("hang_min_grad", 55)) & ((stufe >= gb_stufe) | gletscherbach | dilate(steil_wasser, 3))
     # Biomfaktor
     BF = regeln.get("biom_faktor", {})
     biomf = np.zeros(form)
@@ -847,7 +856,7 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     A = regeln["ausschluss"]
     baeume = lade_baeume(basis, welt_dir, feld, win)
     schalen = lade_felsschalen(welt_dir, feld)
-    basis_sperre = wasser_m | dilate(ort_m, A.get("ort_m", 5))
+    basis_sperre = wasser_m | ~land | dilate(ort_m, A.get("ort_m", 5))
     weg_klein = dilate(weg_m, A.get("weg_klein_m", 2.5))
     weg_gross = dilate(weg_m, A.get("weg_gross_m", 4.0))
     sperre = {}
@@ -861,8 +870,10 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
             s |= sperrmaske(win, schalen, rs)
         sperre[eb] = s
     anteil = lambda m: 100.0 * m.mean()
-    log("Höhenstufen im Fenster: bergwald %.0f%%, krummholz %.0f%%, matte %.0f%%, fels/schnee %.0f%%, Wasser %.1f%%; Schlucht %.1f%%, Wasserfallfuß %.2f%%, Eiswand %.2f%%" % (
-        anteil(stufe == 0), anteil(stufe == 1), anteil(stufe == 2), anteil(stufe == 3), anteil(stufe < 0), anteil(schlucht), anteil(wasserfall_fuss), anteil(eiswand)))
+    log("Höhenstufen im Fenster: bergwald %.0f%%, krummholz %.0f%%, matte %.0f%%, fels/schnee %.0f%%, Wasser/Meer %.1f%%; Schlucht %.1f%%, Wasserfallfuß %.2f%%, Gletscherbach-Saum %.2f%%, Eiswand %.2f%%" % (
+        anteil(stufe == 0), anteil(stufe == 1), anteil(stufe == 2), anteil(stufe == 3), anteil(stufe < 0), anteil(schlucht), anteil(wasserfall_fuss), anteil(gletscherbach), anteil(eiswand)))
+    if not land[ctx_feld_slice(fi0 - win[0], fi1 - win[0], fj0 - win[2], fj1 - win[2])].any():
+        log("Hinweis: Feld %s hat im Fenster kein Land (Höhe ≤ %.1f m) – es wird ein leerer Plan geschrieben." % (feld, regeln.get("ausschluss", {}).get("meer_hoehe_m", 0.2)))
     log("Baumgrenze Fenster: %.0f–%.0f m (Mittel %.0f), Schneegrenze %.0f–%.0f m; Höhe %.0f–%.0f m; aktive Biomfläche %.0f%%" % (
         bg.min(), bg.max(), bg.mean(), sg.min(), sg.max(), h.min(), h.max(), anteil(biomf > 0)))
     minz = {}
@@ -871,7 +882,7 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
             mz = min_z_m(masse, p, netze.get(p, {}).get("name", ""))
             if mz is not None and mz < -0.01:
                 minz[p] = mz
-    ctx = {"regeln": regeln, "win": win, "form": form, "h": h, "hs": hs, "hang": hang, "nrm": nrm, "sonnig": sonnig, "stufe": stufe,
+    ctx = {"regeln": regeln, "win": win, "form": form, "h": h, "hs": hs, "hang": hang, "nrm": nrm, "sonnig": sonnig, "stufe": stufe, "land": land,
            "schlucht": schlucht, "wasserfall_fuss": wasserfall_fuss, "eiswand": eiswand, "dist_wasser": dist_wasser, "lagen": lagen,
            "biomf": biomf, "kern": kern, "sperre": sperre, "weg_klein": weg_klein, "weg_gross": weg_gross, "netze": netze, "minz": minz,
            "klassen_index": {k: i for i, k in enumerate(regeln["klassen"])}, "masken": {"wasser": wasser_m, "weg": weg_m, "ort": ort_m},
@@ -890,7 +901,7 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
         inner = (im >= fi0) & (im < fi1) & (jm >= fj0) & (jm < fj1)
         arr, nidx, hm = arr[inner], M["netz"][inner], M["h"][inner]
         # Klassen-Budget: deterministisch per Hash ausdünnen
-        b = int(K.get("budget", 10 ** 9) * max(faktor, 1e-6) ** 0)  # Budget bleibt fix
+        b = int(K.get("budget", 10 ** 9))  # Klassen-Budget ist unabhängig von --faktor
         if arr.shape[0] > b:
             keep = np.argsort(uni(hm, 30))[:b]
             arr, nidx, hm = arr[keep], nidx[keep], hm[keep]
@@ -983,8 +994,11 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
             "hinweis": "UNGETESTET MIT ECHTDATEN; Eiszapfen-Pivot (z_versatz_anteil) am ersten Feld prüfen."}
     with open(os.path.join(out_dir, "plan.json"), "w", encoding="utf-8") as f:
         json.dump(plan, f, ensure_ascii=False, indent=1)
+    log("Klassen: " + ", ".join("%s %d" % kv for kv in statistik["je_klasse"].items() if kv[1]))
     log("Feld %s: %d Instanzen (%s), Kollision %d, %d Netze, %.1f s → %s" % (
         feld, plan["instanzen"], ", ".join("%s %d" % kv for kv in statistik["je_ebene"].items()), koll_gesamt, len(dateien), time.time() - t0, out_dir))
+    if plan["instanzen"] > int(B.get("instanzen_je_feld", 60000)) or koll_gesamt > kmax:
+        log("WARNUNG: Budget überschritten (%d Instanzen, %d Kollision) – Regeln prüfen." % (plan["instanzen"], koll_gesamt))
     if bild:
         bild_schreiben(os.path.join(basis, AUS.get("bild", "docs/pruefung/hochgebirge"), feld + ".png"), ctx,
                        [(nm, v[0]) for nm, v in ergebnisse.items()], feld, rand)

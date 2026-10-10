@@ -484,7 +484,7 @@ class Sammler:
                              'rolle': 'akteur' if r0['akteur'] else 'spuren', 'sichtweite': [min(r['sichtweite'][0] for r in rs), 0 if any(r['sichtweite'][1] == 0 for r in rs) else max(r['sichtweite'][1] for r in rs)],
                              'schatten': True, 'kollision': koll_n}
             gesamt += arr.shape[0]
-            if koll_n:
+            if koll_n and not r0['akteur']:  # Akteure haben ein eigenes Budget (akteure_je_feld)
                 koll += arr.shape[0]
             for r in rs:
                 je_gruppe[r['gruppe']] = je_gruppe.get(r['gruppe'], 0) + int(r['inst'].shape[0])

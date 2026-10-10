@@ -1,7 +1,7 @@
 # Verteilung Biomgruppe 2: Aue/Flussauen (Velen, Weißgarten, Kovir)
 
 **Auftrag 11, Teil B2.** Biom `aue`, Foliage-Präfix `FT_EL_AU_`, Ordner `/Game/Eldarien/Welt/Foliage/Aue`. Stand 2026-10-10.
-Lieferung: dieser Bericht, `skripte/aue_regeln.json` (25 Klassen, 211 Netzpfade, alle gegen `netze.csv` geprüft),
+Lieferung: dieser Bericht, `skripte/aue_regeln.json` (25 Klassen, 193 Netze in 211 Paletteneinträgen, alle gegen `netze.csv` geprüft),
 `skripte/aue_plan.py` (Planer, FORMAT §3/§5). **Alles UNGETESTET MIT ECHTDATEN** – in der Cloud nur mit synthetischen
 Rastern (E5, siehe §4) rauchgetestet; der Rauchtest wurde nach dem Sitzungsabbruch am 10.10. wiederholt und nachgeprüft
 (byte-identische Ausgabe, Schema, Sperrflächen). Web-Quellen konnten nur als Suchmaschinen-Auszüge gelesen werden (80.lv,
@@ -63,13 +63,11 @@ Kleinzeug kurz cullen (3 500–7 000 cm), Bäume ohne Cull.
 keine Stämme; BACH3_G5: Bach ohne Uferraum, Wiese ohne Höhenstaffel, Büsche als gleichmäßige Punkte; TERR3_I5: Ufer als Kiesstreifen
 ohne Schilf, keine Stufe Ufer/Aue. Die Aue-Ebene adressiert genau diese drei Lücken (Schichten 1, 2, 5).
 
-**Quellen (5 WebSearch-Läufe, nur Suchauszüge gelesen):** GDC Vault „Landscape Creation and Rendering in REDengine 3“
-(gdcvault.com/play/1020197; Folien media.gdcvault.com/GDC2014/Presentations/Gollent_Marcin_Landscape_Creation_and.pdf; Mitschnitt
-archive.org/details/GDC2014Gollent) · DualShockers „Amazing The Witcher 3 Work-in-Progress Screenshots … GDC“ (Sekundärbericht zum
-Vegetationsgenerator) · W3REDkit-Wiki „TOOL: Vegetation Edit Tool“ (cdprojektred.atlassian.net) · 80.lv „World Building of Witcher 3“
-und „The Witcher 3: Tips for the Environment Design“ · CDPR Press Center „The Witcher 4 Unreal Engine 5 Tech Demo at The State of
-Unreal 2025“ (press.cdprojektred.com/en/news/1778) · Fab-Listing „Megaplants: Dry Common Reed“ (fab.com/listings/00299cb6-…) ·
-Fextralife-Wiki „White Orchard“. Keine dieser Quellen nennt Instanzen je m²; alle Dichten unten sind Richtwerte aus den Zielbildern.
+**Quellen (5 WebSearch-Läufe, nur Suchauszüge):** GDC Vault 1020197 „Landscape Creation and Rendering in REDengine 3“ (Folien
+media.gdcvault.com/GDC2014/Presentations/Gollent_Marcin_Landscape_Creation_and.pdf; Mitschnitt archive.org/details/GDC2014Gollent) ·
+DualShockers-GDC-Bericht (Vegetationsgenerator) · W3REDkit-Wiki „TOOL: Vegetation Edit Tool“ · 80.lv „World Building of Witcher 3“ ·
+CDPR Press Center news/1778 (Witcher-4-Tech-Demo 2025) · Fab „Megaplants: Dry Common Reed“ · Fextralife „White Orchard“. Keine
+Quelle nennt Instanzen je m²; alle Dichten unten sind Richtwerte aus den Zielbildern.
 
 ## 2. Regelwerk (`aue_regeln.json`) – Erklärung je Schicht
 
@@ -165,8 +163,8 @@ deterministisch in der Reihenfolge Kiesel → Zweige → Laub → … → Haine 
   ft_ordner, ft_praefix, statistik{je_klasse, je_schicht, kollision, hoehenstufen_anteil, …}, hinweise, ungetestet`.
   `--bild` → `docs/pruefung/aue/<Feld>.png` (1 px = 1 m; Höhenstufen getönt, Wasser blau, Stillwasser hellblau, Weg braun, Ort rot,
   Klassen nach `bild_farben`, Bäume/Kollision als Kreuz).
-- **Inventarprüfung:** alle 211 Netzpfade der Schichten (und die 24 in den Overrides) gegen `daten/netze.csv`; fehlende Pfade werden
-  mit Warnung gestrichen, der Lauf bricht nicht ab. Wüstenfelder C3 C4 D3 D4 D5 E3 E4 E5: Faktor 0,6, Sand/Sandstein ≥ 0,5 gesperrt,
+- **Inventarprüfung:** alle 211 Paletteneinträge (193 verschiedene Netze) gegen `daten/netze.csv`; fehlende Pfade werden mit Warnung
+  gestrichen, der Lauf bricht nicht ab. Die 10 Override-Pfade (5 nur dort) wurden in der Cloud ebenfalls geprüft: alle vorhanden. Wüstenfelder C3 C4 D3 D4 D5 E3 E4 E5: Faktor 0,6, Sand/Sandstein ≥ 0,5 gesperrt,
   `entfernen` bleibt leer (nur ergänzen).
 
 ## 3. Abgrenzung zu vorhandenen Ebenen: ergänzen, nicht ersetzen
@@ -193,16 +191,14 @@ mit Umriss in `wasser_welt.json`, Terrassenstufe +18 m, Kuppe), `karte_wasser/we
 `python -I scripts/aue/aue_plan.py E5 --bild --basis .`: **32 627 Instanzen (790 mit Kollision), 188 Netze, Laufzeit 8,5 s**
 (9,3 s Wanduhr inkl. Bild; 4 Kerne, Python 3.13, NumPy 2.5, ohne numba), Schichten boden 11 980 / mittel 16 254 / baum 702 /
 wasserkante 3 691 (E5 ist Wüstenfeld → Faktor 0,6; Anteil aue-Zellen 97,9 %, Höhenstufen Ufer 6,5 / Aue 36,2 / Terrasse 57,3 %).
-Je Klasse: Grasbüschel 7 791, Blumeninsel 4 516, Bodendecker 3 775, Laub 3 448, Zweige 2 944, Seggen 1 755, Kiesel 1 686, Hochstaude 1 641,
-Schilf 1 433, Strauch 1 251, Uferstaude 502, Jungbaum 472, Hain 319, Pappel 177, Stumpf 158, Pilz 127, Kiefer 99, Totholz klein 185 /
-groß 88, Farn 91, Hecke 61, Weide 48, Solitär 40, Totbaum 19, Uferwurzel 1 (Synthetik-Ufer ist flach, Regel Hang ≥ 14° greift nicht).
-Prüfskript: alle 188 f32 durch 10 teilbar, Anzahl = `plan.json`, Quaternionen normiert (|q|−1 ≤ 1,2·10⁻⁷), alle Schlüssel inkl.
-`ebene` vorhanden, **0 Instanzen** auf Wasser/Weg/Ort und außerhalb des Feldes, z − Gelände zwischen −0,82 m (große Stämme, 25 %
-eingegraben) und +0,41 m (Vergleichsartefakt Zellmitte/bilinear an der 18-m-Terrassenkante); zwei Läufe byte-identisch (MD5);
-Stillwasser-Umriss erkannt (28,9 % der Uferzellen still); Kiesbank-Dämpfung aktiv (8,7 % der Uferzone). Lauf mit nur `hoehe.f32`
-(F6, J7; keine Karten, kein Inventar): je fehlender Datei ein Hinweis, Höhenstufe aus Lagen-Fallback, Schichtbudget Boden
-23 447 → 22 000 greift, J7 (Randspalte, 505 m breit) 22 774 Instanzen (945 Kollision) in 0,9 s; ungültiges Feld (K9), fehlende
-Weltdaten-Basis und fehlende Regeldatei → klare Meldung, Exit. Prüfbild `docs/pruefung/aue/E5.png` (1008 × 1008): Höhenstufen
+Größte Klassen: Grasbüschel 7 791, Blumeninsel 4 516, Bodendecker 3 775, Laub 3 448, Seggen 1 755, Schilf 1 433, Strauch 1 251,
+Hain 319, Pappel 177, Hecke 61, Weide 48, Solitär 40, Totbaum 19, Uferwurzel 1 (Synthetik-Ufer flach, Regel Hang ≥ 14° greift nicht).
+Prüfskript: alle 188 f32 durch 10 teilbar, Anzahl = `plan.json`, Quaternionen normiert (|q|−1 ≤ 1,2·10⁻⁷), Schema inkl. `ebene`
+vollständig, **0 Instanzen** auf Wasser/Weg/Ort oder außerhalb des Feldes, z − Gelände −0,82 m (Stämme 25 % eingegraben) bis
++0,41 m (Vergleichsartefakt an der Terrassenkante); zwei Läufe byte-identisch (MD5); Stillwasser-Umriss erkannt (28,9 % der
+Uferzellen); Kiesbank-Dämpfung aktiv (8,7 % der Uferzone). Lauf mit nur `hoehe.f32` (F6, J7; keine Karten, kein Inventar): je
+fehlender Datei ein Hinweis, Schichtbudget Boden 23 447 → 22 000 greift, J7 (Randspalte, 505 m breit) 22 774 Instanzen in 0,9 s;
+ungültiges Feld (K9), fehlende Basis und fehlende Regeldatei → klare Meldung, Exit. Prüfbild `docs/pruefung/aue/E5.png` (1008 × 1008): Höhenstufen
 getönt (Ufer blau, Aue grün, Terrasse beige), Stillwasser hellblau, Hain-Beschattung dunkel, Klassen nach `bild_farben`.
 
 **Erwartete Instanzzahlen je Feld (Richtwert, Spanne ±35 %; Grundlage: Land-/Wasseranteil aus `biome_je_feld.md`, 0,05–0,06
@@ -247,7 +243,8 @@ Kollisionsklassen proportional.
 | **Weide/Erle Nanite** (Salix, Alnus) | Fab „Stylized Willow Tree“ (c6bfbdf6-…) ist stilisiert, 2 947 Dreiecke, Nanite „not recommended with wind“ **[Suchauszug]** – ungeeignet; Megascans Trees „European Black Alder“ / „White Willow“ bei Erscheinen prüfen | High | Ersatz der Nicht-Nanite Big_Tree_willow (30–38 k Dreiecke) | offen |
 | **Obstbäume** (Apfel, Birne, Pflaume) | Fab-Suche „apple tree Nanite“ lieferte keinen Treffer **[Suchauszug]**; Megascans „Apple Tree“ (Trees-Kollektion) prüfen | High | Obstgarten je Weiler (Weißgarten) | offen, Ersatz Hornbeam_Forest_09/10 |
 | **Hecken** (Weißdorn, Schlehe, Haselhecke als Segment 2–4 m) | keine Treffer; Megascans „Hawthorn“ / „Blackthorn“ prüfen | High | Feldrand- und Wegsaum-Hecken | offen, Ersatz sea_buckthorn + hazel |
-| **Schilf-Varianten** (Phragmites) | Quixel Megaplants „Dry Common Reed“ (Fab, Experimental, Procedural Vegetation Editor) – im Projekt als Megaplant_Library vorhanden, aber nur Blatt-/Blütenkarten, kein Streunetz; Drittanbieter „Common Reed mid poly, 3 Netze, auto LODs“ **[Suchauszug]** | High | Schilfgürtel am Fluss (Rohrkolben = Teich-Optik) | **kaufen/prüfen**: 3-Netz-Set |
+| **Schilf-Varianten** (Phragmites) | Quixel „Megaplants: Dry Common Reed“ (fab.com/listings/00299cb6-8602-4736-8565-4b19b41f5686): prozedurales Asset, braucht Plugin Procedural Vegetation Editor + „Nanite Foliage (Experimental)“, erzeugt mehrere Varianten je Paket **[Suchauszug]**; im Projekt ist Megaplant_Library nur als Karten da, kein Streunetz. Alternative Drittanbieter „Common Reed mid poly, 3 Netze, auto LODs“ **[Suchauszug]** | High | Schilfgürtel am Fluss (Rohrkolben = Teich-Optik) | **prüfen**: Megaplants in 5.8.3 (PVE experimentell) oder 3-Netz-Set |
+| **Liegender Hero-Stamm am Ufer** (> 5 m, mit Wurzelteller, freigespült) | Taxonomie-Lücke aue: nur 5 Netze > 5 m, keines mit Uferbezug. Megascans „Fallen Tree“ / „Uprooted Tree“ (Trees-Kollektion) oder Fab „Nanite Fallen Tree with Roots“ prüfen | High | Prallhang-Akzent, Totholz quer zum Bach (witcher_03) | offen, Ersatz LargeFallenTree_02 + MossyForestRoots |
 | **Seggen/Binsen** (Carex, Juncus) | Megascans „Soft Rush“ / „Sedge“ prüfen; ToadRush vorhanden (15–29 k Dreiecke ohne Nanite, nur 2 Netze eingesetzt) | High | Band 1–12 m | offen |
 | **Feldfrüchte** | Fab „Nanite Foliage – Wheat Field“ (dbcbdc42-…), Vollgeometrie ohne Alpha, Wind + Interaktion, UE 5.1+, Update 08/2025 **[Suchauszug]** | – | Feldstreifen (Spuren) | **kaufen** (Preis nicht ermittelt) |
 | **Wassermühle** | kein Mühlen-Netz im Inventar; Fab-Suche „medieval watermill“ (Hivemind/Meshingun-Kits enthalten keine) | High | Blickziel am Bach | offen |
@@ -279,4 +276,8 @@ Kostenhinweis aus `boden-kleinzeug-gras.md`: Megascans ist seit 2025 pro Asset k
    Kalibrierschritt: C5 und E5 setzen, Kamera 1 und 2 aufnehmen, `--faktor 0,7 … 1,4` vergleichen.
 9. **Felder mit Sand-Strand** (F1, I1, J3, J5, A6, A7, J7: Sand 86–98 %) bekommen über die Sand-Dämpfung nur ~25 % der Aue-Dichte; ob
    dort überhaupt Aue-Bewuchs gewünscht ist (Küstenwiese?) entscheidet Ferat – sonst diese Felder nicht planen.
-10. **Status-Datei** `verteilung-STATUS.md` wurde nicht verändert (Koordinator); B2 kann auf „fertig (ungetestet)“ gesetzt werden.
+10. **Grenzen des Rauchtests**: flaches Synthetik-Gelände → Hangregeln (Uferwurzel ≥ 14°, Bäume ≤ 30°, Schilf ≤ 12°) und
+    Höhenabnahme ab 80 m ungetestet; `witcher/<Feld>/` und `instanzen.json` fehlten (Code nur syntaktisch geprüft). Erstes
+    Echtdaten-Feld daher D7 (bis 319 m, 27 % steil) neben C5.
+11. **Status-Datei** `verteilung-STATUS.md` wurde nicht verändert (Koordinator); B2 kann auf „fertig (ungetestet mit Echtdaten)“
+    gesetzt werden.
