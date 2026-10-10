@@ -1,0 +1,2919 @@
+{
+ "_doku": {
+  "stand": "2026-10-10",
+  "zweck": "Regeln für nordkueste_plan.py (Auftrag 11, Teil B1: fjord, kueste, bergwald). Alle Zahlen Richtwerte, UNGETESTET MIT ECHTDATEN; Pfade geprüft gegen daten/netze.csv (1435 Netze).",
+  "einheiten": "Dichte in Instanzen je m² [offen, voll beschattet]; Längen m; Winkel Grad; Sichtweite cm; Maßstab Faktor.",
+  "dichte_modell": "d = dichte[licht] × biome[b] × lagen × hang × hoehe × kueste × wasser × saum/lichtung × klumpung × fels_nah/baum_nah × faktor. Gruppen (gruppe_n) teilen die Dichte: Zentren = d / mittel(gruppe_n).",
+  "lagen_modus": "gewicht: f = 1 + Σ(w−1)·deckung (deckung 0–1); nur: f = Σ w·deckung (0, wo keine der Lagen liegt).",
+  "hang": "[voll_bis, null_ab] Grad: Faktor 1 bis voll_bis, linear 0 bei null_ab. hang_min [null_bis, voll_ab] für Klassen, die Steilheit brauchen.",
+  "hoehe": "[voll_bis, null_ab] m: 1 bis voll_bis, 0 ab null_ab (Waldgrenze). hoehe_min [null_bis, voll_ab].",
+  "kueste": "Trapez [d0,d1,d2,d3] über Abstand zur Meeres-Wasserlinie (m): 0 bei d0, 1 zwischen d1 und d2, 0 ab d3. kueste_nur: Klasse nur dort.",
+  "wasser": "Trapez über Abstand zu beliebigem Wasser (Bach/See/Meer); außerhalb wasser_faktor_fern.",
+  "yaw": "zufall | hang (Längsachse hangparallel ±20°) | kueste (Längsachse küstenparallel ±20°, bei Pflanzen Leeseite).",
+  "eingraben": "cm fest, oder anteil × Netzhöhe (groesse_z aus netze.csv).",
+  "kletter": "darf auf Hang > 40° (sonst Sperre nach FORMAT §3).",
+  "ebene": "0 boden, 1 mittel, 2 baum, 5 wasserkante; 3 fels und 4 spuren liefern felsgruppen_plan.py / spuren_plan.py (Overrides unten)."
+ },
+ "stand": "2026-10-10",
+ "thema": "nordkueste",
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/Nordkueste",
+ "ft_praefix": "FT_EL_NK_",
+ "seed": 1911,
+ "seed_je_ebene": {
+  "0": 11,
+  "1": 23,
+  "2": 37,
+  "5": 53
+ },
+ "fenster_rand_m": 64,
+ "raster": {
+  "nx": 9577,
+  "ny": 7057,
+  "feld_m": 1008,
+  "x0_m": 4730.5,
+  "y0_m": 4060.5
+ },
+ "biome_planer": [
+  "fjord",
+  "kueste",
+  "bergwald"
+ ],
+ "feld_biom_fallback": {
+  "C1": "fjord",
+  "D1": "fjord",
+  "C2": "fjord",
+  "H2": "kueste",
+  "A3": "bergwald",
+  "B3": "bergwald",
+  "I3": "bergwald",
+  "A4": "bergwald",
+  "B4": "bergwald",
+  "I4": "bergwald",
+  "A5": "kueste",
+  "B5": "bergwald",
+  "I5": "bergwald",
+  "B6": "bergwald"
+ },
+ "feld_fallback_hoehe_max_m": {
+  "C1": 230,
+  "D1": 260,
+  "C2": 260
+ },
+ "feld_hinweise": {
+  "C1": "fjord 31 % (Rest gletscher): ohne eigner.r8 nur bis 230 m planen (Fjordhang), darüber Gletscher-Planer.",
+  "D1": "fjord 26 %: wie C1, bis 260 m.",
+  "C2": "fjord 23 %, tundra 21 %, gletscher 46 %: ohne eigner.r8 bis 260 m.",
+  "H2": "kueste 78 %, elfenwald 20 %: Hainbuche/Laub-Lagen (Laub 5 %) = Elfenwald-Übergang.",
+  "A3": "bergwald 92 %, nur 16 % Land, flach (Ø 23 m): Küstenwald niedrig.",
+  "B3": "bergwald 100 %, 0–411 m, 72 % steil: klassischer Hangwald, Waldgrenze nicht erreicht.",
+  "I3": "bergwald 94 %: Laub 3 % → Hainbuche gering.",
+  "A4": "bergwald 92 %, 36 % Land, Fjordufer: Felsufer + Hangwald (FELS7_A4).",
+  "B4": "bergwald 100 %, 34–684 m, Fels 50 %: Waldgrenze 420–560 m, Krüppelkiefer bis 640 m, Grat kahl.",
+  "I4": "bergwald 78 %, elfenwald 21 %: Laub 13 % → Hainbuche voll.",
+  "A5": "kueste 75 %: Klippenküste (Klippen-Planer A5/B5), Strand nur in Buchten.",
+  "B5": "bergwald 79 %, kueste 21 %, 0–664 m: Küste → Hang → Grat in einem Feld = Referenzfeld für den Rauchtest.",
+  "I5": "bergwald 68 %, dschungel 21 %, sumpf 11 %, flach (Ø 10 m): Laub/Schlamm → Farne, Tanne an Wasser.",
+  "B6": "bergwald 63 %, aue 24 %, lava 13 %: nur bergwald-Zellen; Lavasand-Lage = Faktor 0."
+ },
+ "biom_faktor_ebene": {
+  "fjord": {
+   "0": 0.8,
+   "1": 0.8,
+   "2": 0.55,
+   "5": 1.0
+  },
+  "kueste": {
+   "0": 0.8,
+   "1": 1.0,
+   "2": 0.7,
+   "5": 1.0
+  },
+  "bergwald": {
+   "0": 1.0,
+   "1": 1.0,
+   "2": 1.0,
+   "5": 0.0
+  }
+ },
+ "lagen_sperre": {
+  "Lavafels": 0.0,
+  "Lavasand": 0.0,
+  "Eis": 0.0,
+  "Schnee": 0.35,
+  "Sandstein": 0.5
+ },
+ "budget": {
+  "instanzen_je_ebene": 60000,
+  "ziel_je_ebene": {
+   "0": 50000,
+   "1": 45000,
+   "2": 20000,
+   "5": 20000
+  },
+  "kollision_je_feld": 3000,
+  "prioritaet": [
+   "kiefer_alt",
+   "tanne",
+   "kuestenkiefer",
+   "hainbuche",
+   "kiefer_mittel",
+   "birke",
+   "kuesteneiche",
+   "totbaum",
+   "totholz_liegend",
+   "treibholz",
+   "felsufer",
+   "stumpf",
+   "strauch_wald",
+   "strauch_kueste",
+   "krueppelkiefer",
+   "jungbaum_nadel",
+   "jungbaum_laub",
+   "farninsel",
+   "wurzel",
+   "heide_beere",
+   "strandgras",
+   "strandplatte",
+   "grasbueschel",
+   "blume_kueste",
+   "blume_wald",
+   "kletter",
+   "tang",
+   "treibholz",
+   "strandkiesel",
+   "moos",
+   "zweige",
+   "kiesel",
+   "bodendecker",
+   "nadelstreu",
+   "pilz"
+  ]
+ },
+ "abstand_m": {
+  "weg_klein": 2.5,
+  "weg_gross": 4.0,
+  "ort": 5.0,
+  "wasser": 0.6,
+  "baum_klein": 0.9,
+  "baum_baum": 3.5,
+  "bestand_baum": 4.5,
+  "standort": 5.0
+ },
+ "hang_sperre_grad": 40,
+ "meer": {
+  "hoehe_max_m": 0.6,
+  "suche_bis_m": 500,
+  "windflucht_bis_m": 180,
+  "windflucht_z": [
+   0.65,
+   0.9
+  ],
+  "windflucht_neigung_grad": [
+   5,
+   12
+  ]
+ },
+ "licht": {
+  "kronen_radius_m": 4.5,
+  "kronen_sigma_m": 5.0,
+  "beschattung_k": 1.5,
+  "wald_schwelle": 0.35,
+  "lichtung_schwelle": 0.15,
+  "saum_aussen_m": 12.0,
+  "saum_innen_m": 8.0,
+  "lichtungsrand_m": 8.0,
+  "fallback_lagen": {
+   "Nadeln": 0.9,
+   "Laub": 0.9,
+   "Moos": 0.4
+  },
+  "fallback_beschattung_max": 0.7
+ },
+ "baum_modus": "auto",
+ "baum_modus_doku": "auto: ersetzen, wenn bestand/<Feld>/ fehlt (volle Baumschicht, entfernen-Filter gesetzt); sonst ergaenzen (Dichten × ergaenzen_faktor, nur ≥ bestand_baum Abstand zu vorhandenen Bäumen). ergaenzen | ersetzen erzwingen.",
+ "ergaenzen_faktor": 0.35,
+ "entfernen_bei_ersetzen": "sm_forest_pine_0,fir_0,sm_pine_beach_0",
+ "entfernen_doku": "Nur bei baum_modus ersetzen: alte Kiefern/Tannen der Witcher-/Bestand-Ebene im Feld löschen (Monokultur → Artenmix). Kleinzeug der Witcher-Ebene bleibt.",
+ "waldgrenze": {
+  "voll_bis_m": 420,
+  "null_ab_m": 560,
+  "krueppel_bis_m": 640,
+  "doku": "Skellige/Nordisch: Waldgrenze tief (Kaer Trolde); Felder B4/B5 reichen bis 684/664 m."
+ },
+ "hoehenstufen_doku": {
+  "kueste": "0–60 m: Spülsaum, Strand, Klippenwiese, windgeformte Kiefer/Eiche",
+  "hang": "40–450 m: Kiefer-Tannen-Hangwald mit Birke/Hainbuche, Farn/Strauch-Mittelschicht",
+  "grat": "450–700 m: Waldgrenze, Krüppelkiefer, Heide, Gras, Totholz, Fels"
+ },
+ "nordhang": {
+  "aspekt_doku": "Nordhang = Normale zeigt nach −Y (Zeile i kleiner = Norden); Faktor nordhang_faktor gilt bei Hang > 12°."
+ },
+ "klassen": {
+  "nadelstreu": {
+   "ebene": 0,
+   "rolle": "boden",
+   "netze": [
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_01",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_12",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_13",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_14",
+    "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_leaves_01",
+    "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_leaves_02",
+    "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_leaves_03"
+   ],
+   "dichte": [
+    0.004,
+    0.035
+   ],
+   "biome": {
+    "fjord": 0.5,
+    "kueste": 0.6,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 2
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    3500,
+    7000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Nadeln": 2.2,
+    "Laub": 2.0,
+    "Moos": 1.2,
+    "Fels": 0.1,
+    "Sand": 0.2,
+    "Kies": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    28,
+    40
+   ],
+   "klumpung": {
+    "skala_m": 9,
+    "staerke": 0.6,
+    "schwelle": 0.3
+   },
+   "hinweis": "Nadel-/Laubstreu-Flecken unter Kronen; Platzhalter bis Nadelstreu-Netz gekauft ist (Einkaufsliste)."
+  },
+  "zweige": {
+   "ebene": 0,
+   "rolle": "boden",
+   "netze": [
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_02",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_06",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_08",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_09",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_10",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
+   ],
+   "dichte": [
+    0.003,
+    0.03
+   ],
+   "biome": {
+    "fjord": 0.6,
+    "kueste": 0.6,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.9,
+    1.6
+   ],
+   "eingraben": {
+    "cm": 2
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    4000,
+    8000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Nadeln": 1.8,
+    "Laub": 1.6,
+    "Moos": 1.3,
+    "Erde": 1.2,
+    "Fels": 0.2,
+    "Sand": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    42
+   ],
+   "klumpung": {
+    "skala_m": 6,
+    "staerke": 0.5,
+    "schwelle": 0.25
+   },
+   "baum_nah": {
+    "bis_m": 6.0,
+    "faktor": 2.0
+   },
+   "hinweis": "Ast- und Zweigwurf dichter um Stämme (baum_nah)."
+  },
+  "kiesel": {
+   "ebene": 0,
+   "rolle": "boden",
+   "netze": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08",
+    "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01"
+   ],
+   "dichte": [
+    0.02,
+    0.012
+   ],
+   "biome": {
+    "fjord": 1.2,
+    "kueste": 1.0,
+    "bergwald": 0.8
+   },
+   "massstab": [
+    0.7,
+    1.6
+   ],
+   "eingraben": {
+    "anteil": 0.35
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    3500,
+    7000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Kies": 3.0,
+    "Geroell": 2.5,
+    "Fels": 2.0,
+    "Erde": 1.2,
+    "Sand": 0.8,
+    "Nadeln": 0.5,
+    "Laub": 0.4,
+    "Wiese": 0.3,
+    "Gras": 0.5
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    32,
+    44
+   ],
+   "klumpung": {
+    "skala_m": 12,
+    "staerke": 0.6,
+    "schwelle": 0.3
+   },
+   "fels_nah": {
+    "bis_m": 8.0,
+    "faktor": 2.5
+   },
+   "hinweis": "Geröllsaum um Felsen (fels_nah) + Kiesflecken; Felsgruppen-Planer liefert zusätzlich seinen eigenen Saum."
+  },
+  "moos": {
+   "ebene": 0,
+   "rolle": "boden",
+   "netze": [
+    "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_01",
+    "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_02",
+    "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_03",
+    "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_04",
+    "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_05",
+    "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+    "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_02",
+    "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+    "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_04",
+    "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+    "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+    "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02"
+   ],
+   "dichte": [
+    0.002,
+    0.02
+   ],
+   "biome": {
+    "fjord": 0.8,
+    "kueste": 0.5,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.9,
+    1.8
+   ],
+   "eingraben": {
+    "cm": 1
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    3500,
+    6000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Moos": 3.0,
+    "Fels": 1.5,
+    "Nadeln": 1.2,
+    "Erde": 1.0,
+    "Sand": 0.1
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    35,
+    55
+   ],
+   "wasser": [
+    0,
+    0,
+    12,
+    30
+   ],
+   "wasser_faktor_fern": 0.5,
+   "klumpung": {
+    "skala_m": 7,
+    "staerke": 0.7,
+    "schwelle": 0.35
+   },
+   "fels_nah": {
+    "bis_m": 3.0,
+    "faktor": 2.0
+   },
+   "kletter": true,
+   "hinweis": "Moospolster an Felsfüßen, Bachnähe, Nordhang; darf bis 55° (kletter)."
+  },
+  "pilz": {
+   "ebene": 0,
+   "rolle": "boden",
+   "netze": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
+   ],
+   "dichte": [
+    0.0,
+    0.004
+   ],
+   "biome": {
+    "fjord": 0.3,
+    "kueste": 0.4,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.6,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 1
+   },
+   "kippen": 0.6,
+   "yaw": "zufall",
+   "sichtweite": [
+    3500,
+    6000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Nadeln": 2.0,
+    "Laub": 2.0,
+    "Moos": 1.5
+   },
+   "lagen_modus": "nur",
+   "hang": [
+    25,
+    38
+   ],
+   "gruppe_n": [
+    3,
+    9
+   ],
+   "gruppe_radius_m": [
+    0.3,
+    1.2
+   ],
+   "baum_nah": {
+    "bis_m": 4.0,
+    "faktor": 2.5
+   },
+   "totholz_nah": true,
+   "hinweis": "Pilzgruppen (Hexenringe 3–9) an Stämmen/Totholz, nur im Schatten."
+  },
+  "bodendecker": {
+   "ebene": 0,
+   "rolle": "boden",
+   "netze": [
+    "/Game/Megascans/3D_Plants/CloverVarieties/SM_CloverVarieties_01",
+    "/Game/Megascans/3D_Plants/CloverVarieties/SM_CloverVarieties_02",
+    "/Game/Megascans/3D_Plants/CloverVarieties/SM_CloverVarieties_03",
+    "/Game/Fab/Megascans/Plants/Violet_Wood_Sorrel_uchkajuia/Raw/uchkajuia_tier_0/StaticMeshes/SM_uchkajuia_VarB",
+    "/Game/Fab/Megascans/Plants/Violet_Wood_Sorrel_uchkajuia/Raw/uchkajuia_tier_0/StaticMeshes/SM_uchkajuia_VarD",
+    "/Game/Fab/Megascans/Plants/Violet_Wood_Sorrel_uchkajuia/Raw/uchkajuia_tier_0/StaticMeshes/SM_uchkajuia_VarG",
+    "/Game/Fab/Megascans/Plants/Violet_Wood_Sorrel_uchkajuia/Raw/uchkajuia_tier_0/StaticMeshes/SM_uchkajuia_VarH",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_04",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_05",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_ground_foliage_01",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_ground_foliage_03_SM_ground_foliage_03"
+   ],
+   "dichte": [
+    0.003,
+    0.012
+   ],
+   "biome": {
+    "fjord": 0.3,
+    "kueste": 0.4,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 2
+   },
+   "kippen": 0.4,
+   "yaw": "zufall",
+   "sichtweite": [
+    4000,
+    8000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Laub": 2.0,
+    "Moos": 1.5,
+    "Nadeln": 1.0,
+    "Erde": 1.0,
+    "Gras": 0.8
+   },
+   "lagen_modus": "nur",
+   "hang": [
+    25,
+    38
+   ],
+   "klumpung": {
+    "skala_m": 8,
+    "staerke": 0.7,
+    "schwelle": 0.4
+   },
+   "hinweis": "Sauerklee/Klee/Keimlinge als Flecken im Laub-/Mischwald-Anteil."
+  },
+  "strauch_wald": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_05"
+   ],
+   "dichte": [
+    0.0035,
+    0.0012
+   ],
+   "biome": {
+    "fjord": 0.5,
+    "kueste": 0.6,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.35
+   ],
+   "eingraben": {
+    "cm": 4
+   },
+   "kippen": 0.3,
+   "yaw": "zufall",
+   "sichtweite": [
+    25000,
+    40000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 2,
+   "lagen": {
+    "Fels": 0.2,
+    "Sand": 0.4,
+    "Geroell": 0.3,
+    "Schnee": 0.2
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    28,
+    40
+   ],
+   "hoehe": [
+    380,
+    520
+   ],
+   "saum_faktor": 3.0,
+   "lichtung_faktor": 1.6,
+   "gruppe_n": [
+    1,
+    4
+   ],
+   "gruppe_radius_m": [
+    1.0,
+    3.5
+   ],
+   "klumpung": {
+    "skala_m": 30,
+    "staerke": 0.6,
+    "schwelle": 0.35
+   },
+   "hinweis": "Hasel/Holunder/Ahorn-Busch: Waldsaum 3x, Lichtungsrand 1,6x, Trupps 1–4."
+  },
+  "strauch_kueste": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01_with_white_flowers",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02_with_pink_flowers",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02_fruits",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_04",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_02"
+   ],
+   "dichte": [
+    0.006,
+    0.002
+   ],
+   "biome": {
+    "fjord": 0.7,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.75,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 4
+   },
+   "kippen": 0.4,
+   "yaw": "kueste",
+   "sichtweite": [
+    25000,
+    40000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 2,
+   "lagen": {
+    "Fels": 0.3,
+    "Kies": 0.6
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    3,
+    15,
+    120,
+    260
+   ],
+   "hang": [
+    30,
+    42
+   ],
+   "hoehe": [
+    150,
+    260
+   ],
+   "gruppe_n": [
+    2,
+    6
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    5.0
+   ],
+   "klumpung": {
+    "skala_m": 35,
+    "staerke": 0.7,
+    "schwelle": 0.4
+   },
+   "hinweis": "Strandrose, Sanddorn, Krüppelkiefer in 3–260 m Küstenabstand, windgedrückt (yaw kueste = Leeseite)."
+  },
+  "krueppelkiefer": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_02",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_02",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_03",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02"
+   ],
+   "dichte": [
+    0.004,
+    0.001
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 0.6,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.7,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 5
+   },
+   "kippen": 0.5,
+   "yaw": "zufall",
+   "sichtweite": [
+    30000,
+    50000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 2,
+   "lagen": {
+    "Fels": 1.2,
+    "Geroell": 1.0,
+    "Heide": 1.5,
+    "Trockengras": 1.2,
+    "Schnee": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    34,
+    46
+   ],
+   "hoehe_min": [
+    380,
+    470
+   ],
+   "hoehe": [
+    640,
+    720
+   ],
+   "gruppe_n": [
+    2,
+    7
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    6.0
+   ],
+   "klumpung": {
+    "skala_m": 40,
+    "staerke": 0.6,
+    "schwelle": 0.35
+   },
+   "kletter": true,
+   "hinweis": "Latschen-/Krüppelkiefer-Gürtel über der Waldgrenze (470–640 m) und an Küstengraten; Wacholder fehlt (Einkaufsliste)."
+  },
+  "jungbaum_nadel": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_03"
+   ],
+   "dichte": [
+    0.005,
+    0.0015
+   ],
+   "biome": {
+    "fjord": 0.8,
+    "kueste": 0.8,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.6,
+    1.25
+   ],
+   "eingraben": {
+    "cm": 5
+   },
+   "kippen": 0.15,
+   "yaw": "zufall",
+   "sichtweite": [
+    30000,
+    50000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 2,
+   "lagen": {
+    "Fels": 0.2,
+    "Sand": 0.5,
+    "Nadeln": 1.3,
+    "Gras": 1.2,
+    "Wiese": 1.0
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    40
+   ],
+   "hoehe": [
+    430,
+    560
+   ],
+   "saum_faktor": 3.5,
+   "lichtung_faktor": 2.5,
+   "gruppe_n": [
+    2,
+    8
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    6.0
+   ],
+   "klumpung": {
+    "skala_m": 30,
+    "staerke": 0.6,
+    "schwelle": 0.35
+   },
+   "hinweis": "Kiefern-/Tannen-Jungwuchs 1,5–7 m an Lichtungsrändern und im Saum (Witcher: Schösslinge im Saum)."
+  },
+  "jungbaum_laub": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02"
+   ],
+   "dichte": [
+    0.002,
+    0.0025
+   ],
+   "biome": {
+    "fjord": 0.0,
+    "kueste": 0.3,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.7,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 4
+   },
+   "kippen": 0.15,
+   "yaw": "zufall",
+   "sichtweite": [
+    25000,
+    40000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 2,
+   "lagen": {
+    "Laub": 2.0,
+    "Erde": 1.2,
+    "Moos": 1.0,
+    "Nadeln": 0.6,
+    "Fels": 0.1
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    28,
+    38
+   ],
+   "hoehe": [
+    260,
+    380
+   ],
+   "saum_faktor": 2.0,
+   "gruppe_n": [
+    2,
+    6
+   ],
+   "gruppe_radius_m": [
+    1.0,
+    4.0
+   ],
+   "klumpung": {
+    "skala_m": 25,
+    "staerke": 0.6,
+    "schwelle": 0.4
+   },
+   "hinweis": "Hainbuchen-Jungwuchs im unteren Bergwald (< 380 m), Laubbeimischung."
+  },
+  "farninsel": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
+    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_2"
+   ],
+   "dichte": [
+    0.002,
+    0.03
+   ],
+   "biome": {
+    "fjord": 0.5,
+    "kueste": 0.7,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.7,
+    1.4
+   ],
+   "eingraben": {
+    "cm": 3
+   },
+   "kippen": 0.3,
+   "yaw": "zufall",
+   "sichtweite": [
+    12000,
+    20000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Moos": 1.8,
+    "Laub": 1.5,
+    "Nadeln": 1.2,
+    "Erde": 1.0,
+    "Fels": 0.3,
+    "Sand": 0.2,
+    "Schnee": 0.1
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    42
+   ],
+   "hoehe": [
+    420,
+    560
+   ],
+   "wasser": [
+    0,
+    0,
+    25,
+    60
+   ],
+   "wasser_faktor_fern": 0.6,
+   "gruppe_n": [
+    4,
+    14
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    5.0
+   ],
+   "klumpung": {
+    "skala_m": 20,
+    "staerke": 0.8,
+    "schwelle": 0.45
+   },
+   "nordhang_faktor": 1.5,
+   "hinweis": "Farninseln (4–14) im Schatten, feucht, Nordhang 1,5x; ergänzt FT_EL_WIT-Farne (dort gleichmäßiger)."
+  },
+  "heide_beere": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_simple_01",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_00",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_01",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_04",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_05",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_02"
+   ],
+   "dichte": [
+    0.012,
+    0.006
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 1.0,
+    "bergwald": 0.8
+   },
+   "massstab": [
+    0.8,
+    1.5
+   ],
+   "eingraben": {
+    "cm": 3
+   },
+   "kippen": 0.6,
+   "yaw": "zufall",
+   "sichtweite": [
+    12000,
+    20000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Heide": 3.0,
+    "Trockengras": 1.5,
+    "Moos": 1.2,
+    "Nadeln": 1.0,
+    "Fels": 0.6,
+    "Gras": 0.8,
+    "Sand": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    32,
+    44
+   ],
+   "gruppe_n": [
+    5,
+    20
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    6.0
+   ],
+   "klumpung": {
+    "skala_m": 18,
+    "staerke": 0.8,
+    "schwelle": 0.45
+   },
+   "kletter": true,
+   "hinweis": "Heidekraut-/Beeren-Zwergstrauchteppiche (Blaubeere fehlt als Netz → black_cherry/beach_rose_05 als Stand-in)."
+  },
+  "grasbueschel": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_A_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_B_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_B_1",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_04",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_05"
+   ],
+   "dichte": [
+    0.02,
+    0.004
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 0.9,
+    "bergwald": 0.8
+   },
+   "massstab": [
+    0.7,
+    1.5
+   ],
+   "eingraben": {
+    "cm": 3
+   },
+   "kippen": 0.4,
+   "yaw": "zufall",
+   "sichtweite": [
+    10000,
+    15000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Gras": 1.5,
+    "Wiese": 1.3,
+    "Trockengras": 1.6,
+    "Heide": 1.0,
+    "Erde": 0.8,
+    "Fels": 0.3,
+    "Sand": 0.3,
+    "Schnee": 0.1
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    34,
+    44
+   ],
+   "hoehe": [
+    520,
+    660
+   ],
+   "klumpung": {
+    "skala_m": 14,
+    "staerke": 0.6,
+    "schwelle": 0.3
+   },
+   "fels_nah": {
+    "bis_m": 2.5,
+    "faktor": 1.8
+   },
+   "hinweis": "Hohe Grasbüschel 0,6–1,5 m (Landschafts-Gras deckt nur 0,2–1,2 m, kameranah) – Höhenstufen im Bild."
+  },
+  "strandgras": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_01_1",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_01_2",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_01_hp_1",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_01_hp_2",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_02_1",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_02_2",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_02_3"
+   ],
+   "dichte": [
+    0.05,
+    0.02
+   ],
+   "biome": {
+    "fjord": 0.6,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.8,
+    1.4
+   ],
+   "eingraben": {
+    "cm": 3
+   },
+   "kippen": 0.4,
+   "yaw": "kueste",
+   "sichtweite": [
+    10000,
+    15000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Sand": 2.0,
+    "Kies": 1.2,
+    "Trockengras": 1.2,
+    "Fels": 0.2
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    2,
+    6,
+    40,
+    90
+   ],
+   "hang": [
+    25,
+    38
+   ],
+   "hoehe": [
+    40,
+    80
+   ],
+   "gruppe_n": [
+    6,
+    25
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    5.0
+   ],
+   "klumpung": {
+    "skala_m": 15,
+    "staerke": 0.7,
+    "schwelle": 0.35
+   },
+   "hinweis": "Strandhafer-Horste 2–90 m hinter der Wasserlinie, nur bis 80 m Höhe."
+  },
+  "blume_wald": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01",
+    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_02",
+    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_04",
+    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_06",
+    "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01",
+    "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02",
+    "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_03",
+    "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_02",
+    "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03",
+    "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_04",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_lily_01_1",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_lily_01_2"
+   ],
+   "dichte": [
+    0.004,
+    0.006
+   ],
+   "biome": {
+    "fjord": 0.2,
+    "kueste": 0.4,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 2
+   },
+   "kippen": 0.3,
+   "yaw": "zufall",
+   "sichtweite": [
+    8000,
+    12000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Laub": 2.0,
+    "Moos": 1.5,
+    "Erde": 1.0,
+    "Nadeln": 0.8,
+    "Gras": 0.8
+   },
+   "lagen_modus": "nur",
+   "hang": [
+    25,
+    36
+   ],
+   "hoehe": [
+    350,
+    480
+   ],
+   "gruppe_n": [
+    8,
+    30
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    5.0
+   ],
+   "klumpung": {
+    "skala_m": 22,
+    "staerke": 0.9,
+    "schwelle": 0.55
+   },
+   "saum_faktor": 1.8,
+   "hinweis": "Blumeninseln (Windröschen, Maiglöckchen, Immergrün) – wenige, aber dichte Inseln (Witcher: Farbakzente in Gruppen)."
+  },
+  "blume_kueste": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_holly_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_holly_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_holly_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_kidney_vetch_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_kidney_vetch_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_eastern_groundsel_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_eastern_groundsel_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_hedge_bedstraw_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_wormwood_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_wormwood_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_pea_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_chamomile_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_chamomile_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_common_chicory_01"
+   ],
+   "dichte": [
+    0.01,
+    0.002
+   ],
+   "biome": {
+    "fjord": 0.8,
+    "kueste": 1.0,
+    "bergwald": 0.2
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 2
+   },
+   "kippen": 0.3,
+   "yaw": "zufall",
+   "sichtweite": [
+    8000,
+    12000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Gras": 1.2,
+    "Wiese": 1.5,
+    "Trockengras": 1.3,
+    "Sand": 1.0,
+    "Heide": 0.8,
+    "Fels": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    3,
+    20,
+    200,
+    400
+   ],
+   "hang": [
+    28,
+    40
+   ],
+   "hoehe": [
+    200,
+    320
+   ],
+   "gruppe_n": [
+    8,
+    30
+   ],
+   "gruppe_radius_m": [
+    1.5,
+    6.0
+   ],
+   "klumpung": {
+    "skala_m": 22,
+    "staerke": 0.9,
+    "schwelle": 0.55
+   },
+   "hinweis": "Klippenwiesen-Blumen (Stranddistel, Wundklee, Kamille) in Inseln an der Klippenkante (witcher_04 Vordergrund)."
+  },
+  "totholz_liegend": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+    "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
+    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06",
+    "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04"
+   ],
+   "dichte": [
+    0.0006,
+    0.0018
+   ],
+   "biome": {
+    "fjord": 0.5,
+    "kueste": 0.5,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "anteil": 0.28
+   },
+   "kippen": 1.0,
+   "yaw": "hang",
+   "sichtweite": [
+    35000,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 3,
+   "lagen": {
+    "Nadeln": 1.5,
+    "Laub": 1.3,
+    "Moos": 1.3,
+    "Fels": 0.3,
+    "Sand": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    40
+   ],
+   "hoehe": [
+    450,
+    580
+   ],
+   "klumpung": {
+    "skala_m": 40,
+    "staerke": 0.5,
+    "schwelle": 0.3
+   },
+   "baum_nah": {
+    "bis_m": 8.0,
+    "faktor": 1.6
+   },
+   "hinweis": "Liegende Stämme hangparallel (yaw hang), 28 % eingegraben, Kollision; ~3 % der Bäume."
+  },
+  "stumpf": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
+    "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+    "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+    "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
+   ],
+   "dichte": [
+    0.0008,
+    0.0012
+   ],
+   "biome": {
+    "fjord": 0.5,
+    "kueste": 0.6,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 6
+   },
+   "kippen": 0.8,
+   "yaw": "zufall",
+   "sichtweite": [
+    30000,
+    50000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "klein",
+   "raster_m": 3,
+   "lagen": {
+    "Nadeln": 1.5,
+    "Laub": 1.2,
+    "Moos": 1.2,
+    "Fels": 0.2,
+    "Sand": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    40
+   ],
+   "hoehe": [
+    450,
+    580
+   ],
+   "klumpung": {
+    "skala_m": 40,
+    "staerke": 0.5,
+    "schwelle": 0.3
+   },
+   "lichtung_faktor": 2.5,
+   "hinweis": "Stümpfe, gehäuft an Lichtungen (Holzschlag) – Spuren von Leben ohne Spuren-Planer."
+  },
+  "wurzel": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
+    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
+   ],
+   "dichte": [
+    0.0,
+    0.0012
+   ],
+   "biome": {
+    "fjord": 0.3,
+    "kueste": 0.4,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "eingraben": {
+    "anteil": 0.3
+   },
+   "kippen": 1.0,
+   "yaw": "hang",
+   "sichtweite": [
+    20000,
+    35000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 3,
+   "lagen": {
+    "Nadeln": 1.5,
+    "Moos": 1.5,
+    "Erde": 1.5,
+    "Laub": 1.0,
+    "Fels": 0.6
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    42
+   ],
+   "hoehe": [
+    450,
+    580
+   ],
+   "baum_nah": {
+    "bis_m": 3.0,
+    "faktor": 4.0
+   },
+   "baum_nah_nur": true,
+   "hinweis": "Wurzelanläufe nur direkt an Stämmen (≤ 3 m), hangabwärts gedreht."
+  },
+  "kletter": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_01",
+    "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_04",
+    "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_06",
+    "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_07",
+    "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_08",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_ivy_01_1",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_ivy_01_2",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_ivy_01_3"
+   ],
+   "dichte": [
+    0.0,
+    0.0
+   ],
+   "biome": {
+    "fjord": 0.3,
+    "kueste": 0.5,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.9,
+    1.5
+   ],
+   "eingraben": {
+    "cm": 2
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    8000,
+    12000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Fels": 2.0,
+    "Moos": 1.5,
+    "Felsplatte": 1.5
+   },
+   "lagen_modus": "nur",
+   "hang_min": [
+    20,
+    35
+   ],
+   "hang": [
+    70,
+    85
+   ],
+   "hoehe": [
+    300,
+    420
+   ],
+   "dichte_hang": 0.012,
+   "klumpung": {
+    "skala_m": 10,
+    "staerke": 0.8,
+    "schwelle": 0.5
+   },
+   "kletter": true,
+   "hinweis": "Efeu/Ranken nur an Steilhängen 35–85° mit Fels-Lage (einzige Klasse über 40° neben Moos/Krüppelkiefer/Heide)."
+  },
+  "kiefer_alt": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_02",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_03",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_04",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_05",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_06",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_07",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_08",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_09"
+   ],
+   "dichte": [
+    0.0075,
+    0.0075
+   ],
+   "biome": {
+    "fjord": 0.6,
+    "kueste": 0.5,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.75,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 8
+   },
+   "kippen": 0.05,
+   "yaw": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 4,
+   "lagen": {
+    "Nadeln": 1.6,
+    "Gras": 1.0,
+    "Erde": 1.0,
+    "Moos": 1.0,
+    "Fels": 0.25,
+    "Sand": 0.5,
+    "Geroell": 0.3,
+    "Schnee": 0.2
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    32,
+    42
+   ],
+   "hoehe": [
+    420,
+    560
+   ],
+   "klumpung": {
+    "skala_m": 45,
+    "staerke": 0.85,
+    "schwelle": 0.4
+   },
+   "gruppen_skala_m": 18,
+   "hoehe_kohaerenz": 0.5,
+   "kueste_windflucht": true,
+   "baum": true,
+   "hinweis": "Leitart Bergwald: Waldkiefer 19–29 m. Lichtungen 15–20 % durch Klumpung (schwelle 0,4), Gruppen 8–40 m."
+  },
+  "kiefer_mittel": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_02_A"
+   ],
+   "dichte": [
+    0.0025,
+    0.0025
+   ],
+   "biome": {
+    "fjord": 0.8,
+    "kueste": 0.8,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.25
+   ],
+   "eingraben": {
+    "cm": 6
+   },
+   "kippen": 0.08,
+   "yaw": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 4,
+   "lagen": {
+    "Nadeln": 1.3,
+    "Gras": 1.1,
+    "Fels": 0.3,
+    "Sand": 0.6,
+    "Schnee": 0.2
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    33,
+    42
+   ],
+   "hoehe": [
+    470,
+    600
+   ],
+   "klumpung": {
+    "skala_m": 45,
+    "staerke": 0.7,
+    "schwelle": 0.35
+   },
+   "saum_faktor": 2.0,
+   "kueste_windflucht": true,
+   "baum": true,
+   "hinweis": "Mittelalte Kiefern 10–16 m, Saum 2x (Altersmix)."
+  },
+  "tanne": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_03_Medium",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_04_Standalone",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_05_Standalone",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_06_Forest",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_07_Forest"
+   ],
+   "dichte": [
+    0.0035,
+    0.0035
+   ],
+   "biome": {
+    "fjord": 0.5,
+    "kueste": 0.2,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.75,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 8
+   },
+   "kippen": 0.05,
+   "yaw": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 4,
+   "lagen": {
+    "Nadeln": 1.5,
+    "Moos": 1.5,
+    "Erde": 1.0,
+    "Fels": 0.2,
+    "Sand": 0.3,
+    "Schnee": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    32,
+    42
+   ],
+   "hoehe_min": [
+    60,
+    140
+   ],
+   "hoehe": [
+    400,
+    540
+   ],
+   "klumpung": {
+    "skala_m": 60,
+    "staerke": 0.9,
+    "schwelle": 0.5
+   },
+   "nordhang_faktor": 1.6,
+   "wasser": [
+    0,
+    0,
+    40,
+    120
+   ],
+   "wasser_faktor_fern": 0.7,
+   "baum": true,
+   "hinweis": "Tanne als Fichten-Ersatz (Fichte fehlt): dunkle Horste in Schattenhängen/Bachtälern 140–400 m (witcher_07 dunkle Nadelmasse)."
+  },
+  "birke": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Nature_Set/Meshes/Big_Tree_birch_01"
+   ],
+   "dichte": [
+    0.0012,
+    0.0006
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 0.7,
+    "bergwald": 0.8
+   },
+   "massstab": [
+    0.7,
+    1.2
+   ],
+   "eingraben": {
+    "cm": 6
+   },
+   "kippen": 0.08,
+   "yaw": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 4,
+   "lagen": {
+    "Gras": 1.2,
+    "Wiese": 1.2,
+    "Heide": 1.3,
+    "Trockengras": 1.2,
+    "Fels": 0.3,
+    "Sand": 0.4
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    32,
+    42
+   ],
+   "hoehe": [
+    480,
+    600
+   ],
+   "klumpung": {
+    "skala_m": 35,
+    "staerke": 0.7,
+    "schwelle": 0.45
+   },
+   "saum_faktor": 2.5,
+   "lichtung_faktor": 1.8,
+   "kueste_windflucht": true,
+   "baum": true,
+   "hinweis": "Birke als heller Farbakzent an Lichtungen, Säumen und Fjordhängen (Pionierart)."
+  },
+  "hainbuche": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_03",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_04",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_05",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_06",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_08"
+   ],
+   "dichte": [
+    0.0022,
+    0.0022
+   ],
+   "biome": {
+    "fjord": 0.0,
+    "kueste": 0.3,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "eingraben": {
+    "cm": 8
+   },
+   "kippen": 0.05,
+   "yaw": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 4,
+   "lagen": {
+    "Laub": 2.0,
+    "Erde": 1.2,
+    "Moos": 1.0,
+    "Nadeln": 0.6,
+    "Fels": 0.1,
+    "Sand": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    40
+   ],
+   "hoehe": [
+    220,
+    340
+   ],
+   "klumpung": {
+    "skala_m": 50,
+    "staerke": 0.8,
+    "schwelle": 0.5
+   },
+   "baum": true,
+   "hinweis": "Laubbeimischung (Nanite) im unteren Bergwald < 340 m und Elfenwald-Übergang I3/I4/H2."
+  },
+  "kuestenkiefer": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_01_A",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_01_B",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_03_A",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_04_A",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_02"
+   ],
+   "dichte": [
+    0.004,
+    0.003
+   ],
+   "biome": {
+    "fjord": 0.8,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.7,
+    1.2
+   ],
+   "eingraben": {
+    "cm": 6
+   },
+   "kippen": 0.1,
+   "yaw": "kueste",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 3,
+   "lagen": {
+    "Sand": 1.2,
+    "Gras": 1.0,
+    "Nadeln": 1.3,
+    "Fels": 0.3,
+    "Kies": 0.6
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    8,
+    25,
+    250,
+    450
+   ],
+   "hang": [
+    32,
+    42
+   ],
+   "hoehe": [
+    180,
+    300
+   ],
+   "klumpung": {
+    "skala_m": 35,
+    "staerke": 0.75,
+    "schwelle": 0.4
+   },
+   "kueste_windflucht": true,
+   "baum": true,
+   "hinweis": "Küstenkiefer 5–10 m, windgeformt (Windflucht: Z-Stauchung 0,65–0,9, 5–12° Lee-Neigung) in 8–450 m Küstenstreifen."
+  },
+  "kuesteneiche": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_A",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_B",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_C",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_D",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_A",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_C"
+   ],
+   "dichte": [
+    0.0015,
+    0.001
+   ],
+   "biome": {
+    "fjord": 0.5,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "cm": 6
+   },
+   "kippen": 0.1,
+   "yaw": "kueste",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 4,
+   "lagen": {
+    "Gras": 1.2,
+    "Wiese": 1.3,
+    "Sand": 0.8,
+    "Fels": 0.3
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    15,
+    40,
+    300,
+    500
+   ],
+   "hang": [
+    30,
+    40
+   ],
+   "hoehe": [
+    150,
+    260
+   ],
+   "klumpung": {
+    "skala_m": 40,
+    "staerke": 0.7,
+    "schwelle": 0.45
+   },
+   "kueste_windflucht": true,
+   "baum": true,
+   "hinweis": "Knorrige Küsteneichen 4–9 m als Solitäre/Trupps auf Klippenwiesen."
+  },
+  "totbaum": {
+   "ebene": 2,
+   "rolle": "baum",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_10_dead",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_08_Dead_Forest",
+    "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_XL_01",
+    "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_M_01",
+    "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+    "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02"
+   ],
+   "dichte": [
+    0.0005,
+    0.0005
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 0.8,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "eingraben": {
+    "cm": 8
+   },
+   "kippen": 0.1,
+   "yaw": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "gross",
+   "raster_m": 5,
+   "lagen": {
+    "Fels": 0.6,
+    "Sand": 0.6
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    34,
+    44
+   ],
+   "hoehe": [
+    520,
+    640
+   ],
+   "klumpung": {
+    "skala_m": 45,
+    "staerke": 0.5,
+    "schwelle": 0.3
+   },
+   "baum": true,
+   "waldgrenze_faktor": 2.5,
+   "hinweis": "Stehendes Totholz 3–4 % der Bäume, gehäuft an der Waldgrenze und windexponierten Graten."
+  },
+  "tang": {
+   "ebene": 5,
+   "rolle": "wasserkante",
+   "netze": [
+    "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant01",
+    "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant02",
+    "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant03",
+    "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant04"
+   ],
+   "dichte": [
+    0.06,
+    0.06
+   ],
+   "biome": {
+    "fjord": 0.8,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.5,
+    1.1
+   ],
+   "eingraben": {
+    "cm": 1
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    4000,
+    8000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Sand": 1.0,
+    "Kies": 1.2,
+    "Fels": 1.0,
+    "Algen": 2.0
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    0,
+    0,
+    2.5,
+    5
+   ],
+   "hoehe": [
+    1.5,
+    3.0
+   ],
+   "hang": [
+    25,
+    40
+   ],
+   "klumpung": {
+    "skala_m": 6,
+    "staerke": 0.7,
+    "schwelle": 0.3
+   },
+   "kueste_nur": true,
+   "hinweis": "Spülsaum 0–5 m über Wasserlinie: STAND-IN (flache Wasserpflanzen) bis Tang/Blasentang gekauft (Einkaufsliste Nr. 3)."
+  },
+  "treibholz": {
+   "ebene": 5,
+   "rolle": "wasserkante",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_01",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06",
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
+    "/Game/Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04"
+   ],
+   "dichte": [
+    0.012,
+    0.012
+   ],
+   "biome": {
+    "fjord": 0.6,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.7,
+    1.4
+   ],
+   "eingraben": {
+    "anteil": 0.25
+   },
+   "kippen": 1.0,
+   "yaw": "kueste",
+   "sichtweite": [
+    35000,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "klein",
+   "raster_m": 2,
+   "lagen": {
+    "Sand": 1.5,
+    "Kies": 1.3,
+    "Fels": 0.5
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    1,
+    3,
+    10,
+    22
+   ],
+   "hoehe": [
+    3.0,
+    6.0
+   ],
+   "hang": [
+    12,
+    25
+   ],
+   "klumpung": {
+    "skala_m": 25,
+    "staerke": 0.8,
+    "schwelle": 0.45
+   },
+   "kueste_nur": true,
+   "hinweis": "Treibholz küstenparallel (yaw kueste ± 20°) 1–22 m hinter der Wasserlinie, geklumpt in Buchten (Hang < 12°)."
+  },
+  "strandkiesel": {
+   "ebene": 5,
+   "rolle": "wasserkante",
+   "netze": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+    "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4"
+   ],
+   "dichte": [
+    0.25,
+    0.25
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.6,
+    1.6
+   ],
+   "eingraben": {
+    "anteil": 0.4
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    3500,
+    7000
+   ],
+   "schatten": false,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 1,
+   "lagen": {
+    "Kies": 2.0,
+    "Sand": 1.0,
+    "Fels": 1.2,
+    "Geroell": 1.5
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    0,
+    0,
+    6,
+    14
+   ],
+   "hoehe": [
+    2.0,
+    5.0
+   ],
+   "hang": [
+    20,
+    35
+   ],
+   "klumpung": {
+    "skala_m": 10,
+    "staerke": 0.6,
+    "schwelle": 0.3
+   },
+   "kueste_nur": true,
+   "ufer_vorhanden_faktor": 0.25,
+   "hinweis": "Kiesel/Kopfsteine 5–40 cm im Spülsaum; wenn Ufer-Ebene FT_EL_UF_* im Feld liegt, nur 25 % (Ergänzung)."
+  },
+  "strandplatte": {
+   "ebene": 5,
+   "rolle": "wasserkante",
+   "netze": [
+    "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01",
+    "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
+    "/Game/Megascans/3D_Assets/BeachSandWithPebbles/SM_BeachSandWithPebbles_01",
+    "/Game/Megascans/3D_Assets/BeachSandWithPebbles/SM_BeachSandWithPebbles_02",
+    "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0"
+   ],
+   "dichte": [
+    0.004,
+    0.004
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 1.0,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": {
+    "anteil": 0.45
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    20000,
+    35000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 4,
+   "lagen": {
+    "Kies": 2.0,
+    "Fels": 1.5,
+    "Sand": 0.8,
+    "Geroell": 1.5
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    0,
+    0,
+    8,
+    18
+   ],
+   "hoehe": [
+    2.5,
+    6.0
+   ],
+   "hang": [
+    15,
+    28
+   ],
+   "klumpung": {
+    "skala_m": 20,
+    "staerke": 0.7,
+    "schwelle": 0.4
+   },
+   "kueste_nur": true,
+   "ufer_vorhanden_faktor": 0.4,
+   "hinweis": "Kiesel-Platten (Nanite) als Fläche zwischen Wasser und Strandgras; 45 % eingegraben."
+  },
+  "felsufer": {
+   "ebene": 5,
+   "rolle": "wasserkante",
+   "netze": [
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
+    "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_3",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02"
+   ],
+   "dichte": [
+    0.008,
+    0.008
+   ],
+   "biome": {
+    "fjord": 1.0,
+    "kueste": 0.5,
+    "bergwald": 0.0
+   },
+   "massstab": [
+    0.6,
+    1.3
+   ],
+   "eingraben": {
+    "anteil": 0.4
+   },
+   "kippen": 1.0,
+   "yaw": "zufall",
+   "sichtweite": [
+    35000,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "abstand_weg": "klein",
+   "raster_m": 3,
+   "lagen": {
+    "Fels": 2.0,
+    "Geroell": 1.5,
+    "Sand": 0.3,
+    "Kies": 0.5
+   },
+   "lagen_modus": "gewicht",
+   "kueste": [
+    0,
+    0,
+    5,
+    14
+   ],
+   "hoehe": [
+    6.0,
+    12.0
+   ],
+   "hang_min": [
+    6,
+    14
+   ],
+   "hang": [
+    40,
+    60
+   ],
+   "klumpung": {
+    "skala_m": 14,
+    "staerke": 0.6,
+    "schwelle": 0.3
+   },
+   "kueste_nur": true,
+   "kletter": true,
+   "hinweis": "Fjord-Felsufer: Blöcke 0,8–1,8 m an steilen Ufern (Hang 14–60°), kein Strand; Felsgruppen-Planer liefert die großen Stücke."
+  }
+ },
+ "farben": {
+  "0": [
+   120,
+   90,
+   50
+  ],
+  "1": [
+   60,
+   170,
+   60
+  ],
+  "2": [
+   10,
+   90,
+   20
+  ],
+  "5": [
+   200,
+   170,
+   60
+  ],
+  "je_klasse": {
+   "kiefer_alt": [
+    0,
+    70,
+    0
+   ],
+   "tanne": [
+    0,
+    40,
+    40
+   ],
+   "birke": [
+    220,
+    220,
+    160
+   ],
+   "hainbuche": [
+    80,
+    140,
+    40
+   ],
+   "kuestenkiefer": [
+    40,
+    110,
+    60
+   ],
+   "kuesteneiche": [
+    120,
+    150,
+    60
+   ],
+   "totbaum": [
+    140,
+    100,
+    80
+   ],
+   "farninsel": [
+    40,
+    200,
+    90
+   ],
+   "strauch_wald": [
+    90,
+    180,
+    60
+   ],
+   "strauch_kueste": [
+    170,
+    120,
+    170
+   ],
+   "krueppelkiefer": [
+    30,
+    120,
+    90
+   ],
+   "heide_beere": [
+    150,
+    60,
+    140
+   ],
+   "grasbueschel": [
+    190,
+    200,
+    90
+   ],
+   "strandgras": [
+    220,
+    210,
+    120
+   ],
+   "blume_wald": [
+    250,
+    250,
+    250
+   ],
+   "blume_kueste": [
+    250,
+    220,
+    90
+   ],
+   "totholz_liegend": [
+    120,
+    70,
+    30
+   ],
+   "stumpf": [
+    110,
+    60,
+    30
+   ],
+   "tang": [
+    60,
+    90,
+    40
+   ],
+   "treibholz": [
+    200,
+    160,
+    100
+   ],
+   "strandkiesel": [
+    200,
+    200,
+    200
+   ],
+   "strandplatte": [
+    160,
+    160,
+    170
+   ],
+   "felsufer": [
+    110,
+    110,
+    120
+   ]
+  }
+ },
+ "felsgruppen_overrides": {
+  "_doku": "Biomspezifische Überschreibungen für felsgruppen_plan.py (Teil C). Schlüssel folgen felsgruppen_regeln.json: biom_palette, biom_faktor, paletten.<name>.<rolle> (ergänzend), klassen_faktor (grat/band/wand/fuss/blockstrom/kuppe/prallhang), eingraben, auflage.",
+  "biom_palette": {
+   "fjord": "nordisch",
+   "kueste": "nordisch",
+   "bergwald": "nordisch"
+  },
+  "biom_faktor": {
+   "fjord": 1.15,
+   "kueste": 1.0,
+   "bergwald": 0.95
+  },
+  "klassen_faktor": {
+   "fjord": {
+    "wand": 1.3,
+    "fuss": 1.0,
+    "kuppe": 1.2,
+    "grat": 1.1,
+    "band": 1.2,
+    "blockstrom": 0.8,
+    "prallhang": 0.6
+   },
+   "kueste": {
+    "wand": 1.2,
+    "fuss": 0.9,
+    "kuppe": 1.4,
+    "grat": 1.0,
+    "band": 1.0,
+    "blockstrom": 0.7,
+    "prallhang": 0.7
+   },
+   "bergwald": {
+    "wand": 1.0,
+    "fuss": 1.1,
+    "kuppe": 1.0,
+    "grat": 1.2,
+    "band": 0.8,
+    "blockstrom": 1.2,
+    "prallhang": 1.0
+   }
+  },
+  "paletten_ergaenzung": {
+   "nordisch": {
+    "hero": [
+     "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
+     "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01"
+    ],
+    "block": [
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03"
+    ],
+    "platte": [
+     "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
+     "/Game/Meshes/_GENERATED/RockFormation/SM_NordicBeach_02"
+    ]
+   }
+  },
+  "palette_bergwald_moosig": {
+   "doku": "Im bergwald unter Kronen (Beschattung > 0,5) für block/stein die Mossy-Netze bevorzugen (Gewicht 2), über der Waldgrenze Granit/Icelandic (Gewicht 2).",
+   "moos_bevorzugt": [
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+    "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0"
+   ],
+   "kahl_bevorzugt": [
+    "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
+    "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02"
+   ]
+  },
+  "eingraben": {
+   "fjord": [
+    0.3,
+    0.45
+   ],
+   "kueste": [
+    0.28,
+    0.42
+   ],
+   "bergwald": [
+    0.3,
+    0.45
+   ]
+  },
+  "kiesel_dichte_faktor": {
+   "fjord": 1.3,
+   "kueste": 1.0,
+   "bergwald": 0.9
+  },
+  "auflage": {
+   "fjord": "flechte",
+   "kueste": "salz_flechte",
+   "bergwald": "moos"
+  },
+  "kuesten_regel": "Blöcke 0–30 m über Meer: Eingraben 40–45 % (Brandungsgerundet), keine Mossy-Netze, Hauptrichtung = Küstenlinie."
+ },
+ "spuren_overrides": {
+  "_doku": "Biomspezifische Überschreibungen für spuren_plan.py (Teil D). Schlüssel: netze_ergaenzung (zu spuren_regeln.json netze), dichtefaktor je Spurenart, verbote.",
+  "dichtefaktor": {
+   "fjord": {
+    "zaun_holz": 0.4,
+    "zaun_latten": 0.3,
+    "zaun_pfahl": 1.2,
+    "mauer_stein": 1.4,
+    "steinmann": 1.8,
+    "kreuz": 0.5,
+    "saeule": 0.3,
+    "mauerrest": 0.8,
+    "brunnen": 0.5,
+    "karren": 0.4,
+    "feldstreifen": 0.3,
+    "obstbaum": 0.0,
+    "holzschlag": 0.8,
+    "koehler": 0.3,
+    "grab": 1.5,
+    "rauch": 1.0,
+    "steg": 1.5
+   },
+   "kueste": {
+    "zaun_holz": 0.6,
+    "zaun_latten": 0.5,
+    "zaun_pfahl": 1.5,
+    "mauer_stein": 1.3,
+    "steinmann": 1.5,
+    "kreuz": 0.8,
+    "saeule": 0.3,
+    "mauerrest": 0.8,
+    "brunnen": 0.8,
+    "karren": 0.6,
+    "feldstreifen": 0.6,
+    "obstbaum": 0.3,
+    "holzschlag": 0.8,
+    "koehler": 0.5,
+    "grab": 1.3,
+    "rauch": 1.0,
+    "steg": 2.0
+   },
+   "bergwald": {
+    "zaun_holz": 0.7,
+    "zaun_latten": 0.6,
+    "zaun_pfahl": 0.8,
+    "mauer_stein": 1.0,
+    "steinmann": 1.2,
+    "kreuz": 1.0,
+    "saeule": 0.4,
+    "mauerrest": 0.8,
+    "brunnen": 0.8,
+    "karren": 0.7,
+    "feldstreifen": 0.5,
+    "obstbaum": 0.3,
+    "holzschlag": 1.6,
+    "koehler": 1.4,
+    "grab": 0.8,
+    "rauch": 1.0,
+    "steg": 0.8
+   }
+  },
+  "netze_ergaenzung": {
+   "zaun_pfahl": [
+    "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_1_01",
+    "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_2_01"
+   ],
+   "steinmann": [
+    "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3"
+   ],
+   "mauer_stein": [
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0"
+   ],
+   "holzstapel": [
+    "/Game/MedievalFantasyVillage/Props/SM_firewoodSetA_a1"
+   ],
+   "holzschlag_stumpf": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03"
+   ]
+  },
+  "verbote": {
+   "fjord": [
+    "obstbaum",
+    "feldstreifen_gross"
+   ],
+   "kueste": [],
+   "bergwald": [
+    "steg_meer"
+   ]
+  },
+  "hinweis": "Skellige-Spuren: Steinmänner an Küstenpfaden und Graten, Trockenmauern um Weiden, Hügelgräber, Fischerstege (Netz fehlt → Einkaufsliste), Holzschlag-Lichtungen im Bergwald."
+ }
+}

@@ -130,19 +130,21 @@ def dilate(mask, r):
 
 
 def max_filter(a, r):
-    """Gleitendes Maximum über Fenster (2r+1)² durch Verdopplungs-Schritte (separierbar)."""
-    out = a.copy()
+    """Gleitendes Maximum über Fenster (2r+1)² durch Verdopplungs-Schritte (separierbar, exakt; Rand wird geklippt)."""
+    out = a.astype(np.float32)
+    L = 2 * r + 1
     for achse in (0, 1):
-        m = out.copy()
+        pad = ((r, r), (0, 0)) if achse == 0 else ((0, 0), (r, r))
+        m = np.pad(out, pad, mode='constant', constant_values=-np.inf)
+
+        def sh(x, k):
+            return verschiebe(x, k, 0, np.float32(-np.inf)) if achse == 0 else verschiebe(x, 0, k, np.float32(-np.inf))
         s = 1
-        laenge = 1
-        while laenge < 2 * r + 1:
-            sh = (s, 0) if achse == 0 else (0, s)
-            m = np.maximum(m, verschiebe(m, sh[0], sh[1], -np.inf))
-            laenge += s
+        while s * 2 <= L:
+            m = np.maximum(m, sh(m, s))  # m[i] = max a[i .. i+2s-1]
             s *= 2
-        # m[i] = max über [i, i+laenge) → zentrieren
-        out = verschiebe(m, -(laenge // 2), 0, -np.inf) if achse == 0 else verschiebe(m, 0, -(laenge // 2), -np.inf)
+        res = np.maximum(m, sh(m, L - s))  # res[i] = max über [i, i+L) im gepolsterten Array = [i-r, i+r] im Original
+        out = res[:out.shape[0], :] if achse == 0 else res[:, :out.shape[1]]
     return out
 
 
@@ -637,8 +639,14 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             la = Og['groesse_m'][0][0] + (Og['groesse_m'][0][1] - Og['groesse_m'][0][0]) * h1(a, b, seed, 52)
             lb = Og['groesse_m'][1][0] + (Og['groesse_m'][1][1] - Og['groesse_m'][1][0]) * h1(a, b, seed, 53)
             wk = float(tang_yaw[a, b]) if d_weg[a, b] < 80 else h1(a, b, seed, 54) * math.pi
-            e = rechteck_ecken(a, b, la, lb, wk)
-            if not rechteck_frei(e, erlaubt_feld, H, W):
+            ok = False
+            for sh, dw in ((1.0, 0.0), (1.0, math.pi / 2), (0.75, 0.0), (0.75, math.pi / 2)):
+                e = rechteck_ecken(a, b, la * sh, lb * sh, wk + dw)
+                if rechteck_frei(e, erlaubt_feld, H, W):
+                    ok = True
+                    la, lb, wk = la * sh, lb * sh, wk + dw
+                    break
+            if not ok:
                 continue
             if any(math.hypot(f[0] - a, f[1] - b) < (math.hypot(f[2], f[3]) + math.hypot(la, lb)) / 2 + 4 for f in felder_ok):
                 continue
@@ -678,11 +686,11 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             la = Fs['groesse_m'][0][0] + (Fs['groesse_m'][0][1] - Fs['groesse_m'][0][0]) * h1(a, b, seed, 24)
             lb = Fs['groesse_m'][1][0] + (Fs['groesse_m'][1][1] - Fs['groesse_m'][1][0]) * h1(a, b, seed, 25)
             ok = False
-            for sh in (1.0, 0.7, 0.5):
-                e = rechteck_ecken(a, b, la * sh, lb * sh, wk)
+            for sh, dw in ((1.0, 0.0), (1.0, math.pi / 2), (0.7, 0.0), (0.7, math.pi / 2), (0.5, 0.0)):
+                e = rechteck_ecken(a, b, la * sh, lb * sh, wk + dw)
                 if rechteck_frei(e, erlaubt_feld, H, W):
                     ok = True
-                    la, lb = la * sh, lb * sh
+                    la, lb, wk = la * sh, lb * sh, wk + dw
                     break
             if not ok:
                 continue

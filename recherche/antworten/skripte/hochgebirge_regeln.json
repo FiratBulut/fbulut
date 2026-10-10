@@ -1,0 +1,378 @@
+{
+  "_doku": {
+    "stand": "2026-10-10",
+    "zweck": "Regelwerk Teil B4 Gletscher/Frost/Hochgebirge (Auftrag 11) für hochgebirge_plan.py. Alle Zahlen änderbar ohne Code. UNGETESTET MIT ECHTDATEN (Cloud: nur synthetischer Rauchtest D2).",
+    "einheiten": "Dichten = Instanzen je m² Rasterzelle VOR Faktoren; Höhen m; Hang Grad; Sichtweite cm; Maßstab Faktor; eingraben_anteil = Anteil der Netzhöhe (groesse_z aus netze.csv) bzw. eingraben_cm absolut.",
+    "hoehenstufen": "0 bergwald (unter Baumgrenze −60 m) | 1 krummholz (Baumgrenze −60 … +40 m) | 2 matte (bis Schneegrenze) | 3 fels_schnee (über Schneegrenze oder lage_Schnee/Eis hoch). Baumgrenze/Schneegrenze = Basis je Biom + Exposition + Hang + Grat + Rauschen + Schlucht-Bonus (siehe 'hoehenstufen').",
+    "stufen_faktor": "Je Klasse 4 Faktoren [bergwald, krummholz, matte, fels_schnee]; 0 = nie in dieser Stufe.",
+    "lagen": "Faktor = 1 + Σ deckung_l · (w_l − 1) über vorhandene lage_<Name>.r8 (Deckung 0–1). Fehlende Lage-Datei → Faktor 1 für diese Lage.",
+    "exposition": "Faktor linear zwischen exposition[0] (reiner Nordhang) und exposition[1] (reiner Südhang); sonnigkeit = 0,5 + 0,5·süd·min(1, hang/15°). ANNAHME: Rasterzeile i wächst nach Süden (biome_je_feld.json: A1 = links oben).",
+    "hang": "[voll_bis_grad, null_ab_grad]: Faktor 1 bis voll_bis, linear auf 0 bei null_ab. Pflanzen nie über 40°, Steine bis 55°, Eiszapfen 55–88° (Wand).",
+    "gruppe": "Zellen-Saatwahrscheinlichkeit = dichte·Faktoren / mittlere Gruppengröße; jede Saat setzt n ∈ [n_lo, n_hi] Mitglieder im Radius (Mitglied 0 im Zentrum). Dichte bleibt damit die Instanzdichte.",
+    "yaw": "zufall | hangab (Längsachse hangabwärts ±streuung) | wind (Längsachse in wind_richtung_grad ±streuung, Kippen in Windrichtung)",
+    "pivot": "ANNAHME: Pivot aller Netze an der Bodenmitte (netze_masse.json wird für z-Versatz genutzt, wenn vorhanden: z −= min_z·Maßstab bei Netzen mit Pivot über dem Fuß)."
+  },
+  "stand": "2026-10-10",
+  "thema": "hochgebirge",
+  "seed": 4411,
+  "fenster_rand_m": 64,
+  "raster": {"nx": 9577, "ny": 7057, "feld_m": 1008, "x0_m": 4730.5, "y0_m": 4060.5},
+  "ausgabe": {
+    "ordner": "export/unreal/welt/hochgebirge",
+    "bild": "docs/pruefung/hochgebirge",
+    "ft_ordner": "/Game/Eldarien/Welt/Foliage/Hochgebirge",
+    "ft_praefix": "FT_EL_HG_",
+    "entfernen": "",
+    "entfernen_vorschlag": "FT_EL_WIT_foliage_fern,FT_EL_WIT_maple_bush,FT_EL_WIT_grey_willow,FT_EL_WIT_plant_0",
+    "entfernen_hinweis": "Standard leer: der Planer ERGÄNZT. Der Vorschlag entfernt Farn/Ahornbusch/Weide/Krautpflanzen der Witcher-Ebene nur in Feldern, die vollständig gletscher/frost sind (E1, F2); in Mischfeldern (C2 fjord 23 %, D2 tundra 47 %) nicht setzen, weil entfernen feldweit wirkt. Entscheidung siehe verteilung-hochgebirge.md §3."
+  },
+  "biom_faktor": {
+    "gletscher": 1.0, "frost": 1.0, "tundra": 0.55, "fjord": 0.4, "bergwald": 0.3,
+    "aue": 0.0, "canyon": 0.0, "oedland": 0.0, "heide": 0.0, "elfenwald": 0.0, "dschungel": 0.0, "kueste": 0.0, "wueste": 0.0, "lava": 0.0, "sumpf": 0.0
+  },
+  "kern_biome": ["gletscher", "frost"],
+  "nicht_kern_nur_ab_stufe": 1,
+  "kern_biome_hinweis": "In Kernbiomen wirken alle Stufen. In tundra/fjord/bergwald (Teil B1/B3 planen dort den Wald) setzt dieser Planer nur Stufe ≥ 1 (Krummholz, Matte, Fels/Schnee), damit nichts doppelt geplant wird.",
+  "eigner0": {
+    "hinweis": "eigner.r8 = 0 (Weltgelände) → dominantes Biom des Feldes aus daten/biome_je_feld.json; fehlt sie: aue (dann plant dieser Planer nichts) außer Zellen ≥ fallback_hang_grad oder ≥ fallback_hoehe_m → fallback_biom.",
+    "fallback_hang_grad": 25,
+    "fallback_hoehe_m": 220,
+    "fallback_biom": "gletscher"
+  },
+  "glaettung": {"hang_sigma_m": 1.5, "kruemmung_sigma_m": 8.0, "grat_sigma_m": 6.0, "rauschen_gitter_m": 320},
+  "hoehenstufen": {
+    "baumgrenze_m": {"gletscher": 240, "frost": 190, "tundra": 280, "fjord": 260, "bergwald": 420, "default": 320},
+    "schneegrenze_m": {"gletscher": 330, "frost": 240, "tundra": 380, "fjord": 360, "bergwald": 520, "default": 450},
+    "exposition_versatz_m": 45,
+    "hang_versatz": {"ab_grad": 25, "bis_grad": 45, "versatz_m": 30},
+    "grat_versatz_m": 40,
+    "grat_staerke_min": 0.015,
+    "rauschen_amplitude_m": 35,
+    "krummholz_band_m": [-60, 40],
+    "schlucht": {"kruemmung_min": 0.006, "wasser_m": 25, "bonus_m": 70, "hinweis": "konkave Rinnen mit Bach ≤ 25 m: Baum- und Schneegrenze +70 m (Lärchen-Schluchtwald, witcher_07)"},
+    "lage_schnee_als_stufe3_ab": 0.55,
+    "lage_eis_als_stufe3_ab": 0.4,
+    "schnee_auf_sims": {"hinweis": "Schnee-Kleinzeug nur auf Flächen < sims_max_grad (Schnee auf Simsen, nicht an Wänden; ANALYSE_WITCHER Punkt 5)", "sims_max_grad": 32}
+  },
+  "exposition": {"hang_voll_grad": 15, "wind_richtung_grad": 90, "wind_streuung_grad": 18, "wind_kippen_grad": [6, 18],
+    "hinweis": "wind_richtung_grad: Unreal-Yaw, 0 = +X (Osten, j wachsend), 90 = +Y (Süden, i wachsend). ANNAHME: Westwind → Bäume lehnen nach Osten (Yaw 0) – hier 90 = nach Süden, weil Hauptmassiv nördlich liegt und die Küste im Norden; bitte prüfen."},
+  "ausschluss": {
+    "wasser_m": 0,
+    "weg_klein_m": 2.5,
+    "weg_gross_m": 4.0,
+    "ort_m": 5.0,
+    "baum_abstand_m": {"baum": 4.0, "mittel": 1.5, "boden": 0.0, "wasserkante": 1.0},
+    "felsschale_m": {"baum": 3.0, "mittel": 1.0, "boden": 0.0, "wasserkante": 0.0},
+    "hang_max_pflanze_grad": 40,
+    "hang_max_stein_grad": 55,
+    "hinweis": "Nichts auf Wasser (0 m), Kleinzeug 2,5 m zum Weg, Bäume/Blöcke 4 m; Ort 5 m. Bestand/Witcher/Houdini-Bäume: Abstände je Ebene."
+  },
+  "wasser": {
+    "steil_grad": 18,
+    "fuss_radius_m": 10,
+    "fuss_hang_max_grad": 25,
+    "kante_bis_m": 6,
+    "gletscherbach_ab_stufe": 2,
+    "hinweis": "Wasserzellen mit Hang ≥ 18° = Wasserfall/Kaskade; Fuß = Zellen ≤ 10 m davon mit Hang < 25° (nicht Wasser). Gletscherbach = Wasser in Stufe ≥ 2 (Eisplatten, Eiszapfen am Rand)."
+  },
+  "budget": {
+    "instanzen_je_feld": 60000,
+    "ziel_instanzen_je_feld": 52000,
+    "kollision_je_feld": 3000,
+    "kollision_ab_hoehe_m": 0.8,
+    "prioritaet": ["wasserfall_block", "totbaum_grenze", "schluchtwald", "krummholz_baum", "bergwald_kiefer", "wurzelteller", "krueppelkiefer", "latsche", "bach_block", "flechtenblock", "geroellplatte", "eiszapfen", "alpenrose", "totholz_wind", "bach_moosstein", "polster", "grasbueschel_alpin", "schneefleck", "flechtenstein", "bach_kiesel", "kiesel_schutt"],
+    "hinweis": "Erst Klassen-Budget (je Klasse), dann Gesamt: Klassen von hinten (niedrigste Priorität) deterministisch per Instanz-Hash ausdünnen, bis ziel erreicht; Kollision ebenso auf 3 000."
+  },
+  "klassen": {
+    "kiesel_schutt": {
+      "ebene": 0, "rolle": "kiesel", "gruppe_name": "schutt",
+      "netze": ["/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08"],
+      "dichte_je_m2": 0.30, "stufen": [0.25, 0.7, 1.0, 1.0],
+      "lagen": {"Geroell": 2.2, "Fels": 1.6, "Felsplatte": 1.4, "Kies": 1.8, "Schnee": 0.5, "Eis": 0.3, "Trockengras": 0.5, "Heide": 0.35, "Wiese": 0.2, "Gras": 0.2, "Moos": 0.3, "Sand": 0.6},
+      "hang": [35, 55], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [4, 14], "radius_m": 1.8}, "weg": "klein",
+      "massstab": [0.8, 1.6], "nicht_uniform": 0.2, "eingraben_anteil": 0.35, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 6000], "kollision": false, "schatten": false, "budget": 22000
+    },
+    "flechtenstein": {
+      "ebene": 0, "rolle": "stein", "gruppe_name": "flechtenstein",
+      "netze": ["/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_5", "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01", "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02", "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_03", "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01"],
+      "dichte_je_m2": 0.06, "stufen": [0.3, 0.8, 1.0, 0.7],
+      "lagen": {"Geroell": 1.6, "Fels": 1.5, "Felsplatte": 1.3, "Heide": 0.8, "Trockengras": 0.8, "Schnee": 0.5, "Eis": 0.2, "Wiese": 0.4, "Gras": 0.4, "Moos": 0.6},
+      "hang": [35, 55], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [2, 6], "radius_m": 2.0}, "weg": "klein",
+      "massstab": [0.7, 1.4], "nicht_uniform": 0.15, "eingraben_anteil": 0.4, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 12000], "kollision": false, "schatten": true, "budget": 9000
+    },
+    "schneefleck": {
+      "ebene": 0, "rolle": "platte", "gruppe_name": "schneefleck",
+      "netze": ["/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0", "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Medium/xjijdiz_tier_2/StaticMeshes/xjijdiz_tier_2", "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02", "/Game/Meshes/_GENERATED/RockFormation/SM_NordicBeach_02"],
+      "dichte_je_m2": 0.035, "stufen": [0.0, 0.2, 0.6, 1.0],
+      "lagen": {"Schnee": 1.8, "Eis": 1.4, "Fels": 1.0, "Geroell": 1.0, "Trockengras": 0.4, "Heide": 0.3},
+      "hang": [20, 32], "exposition": [1.2, 0.8],
+      "gruppe": {"n": [2, 5], "radius_m": 2.5}, "weg": "klein",
+      "massstab": [0.8, 1.3], "nicht_uniform": 0.15, "eingraben_anteil": 0.5, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 10000], "kollision": false, "schatten": true, "budget": 6000,
+      "hinweis": "Schnee-Sims-Kleinzeug: flache Steinplatten, die aus Schneeflecken ragen; nur auf Flächen < 32° (Schnee bleibt auf Simsen liegen)."
+    },
+    "geroellplatte": {
+      "ebene": 0, "rolle": "platte", "gruppe_name": "schuttfaecher",
+      "netze": ["/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01", "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01", "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Raw/xjijdiz_tier_0/StaticMeshes/xjijdiz_tier_0"],
+      "dichte_je_m2": 0.004, "stufen": [0.1, 0.5, 1.0, 0.8],
+      "lagen": {"Geroell": 2.5, "Fels": 1.4, "Kies": 1.5, "Schnee": 0.6, "Eis": 0.2, "Trockengras": 0.4, "Heide": 0.3, "Wiese": 0.1},
+      "hang_min_grad": 14, "hang": [36, 46], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [1, 3], "radius_m": 5.0}, "weg": "gross",
+      "massstab": [0.8, 1.25], "nicht_uniform": 0.2, "eingraben_anteil": 0.45, "kippen": 1.0, "yaw": "hangab", "yaw_streuung_grad": 25,
+      "sichtweite": [0, 30000], "kollision": false, "schatten": true, "budget": 1500,
+      "hinweis": "Schuttfächer-Platten 2–6 m auf Hängen 14–46° (Schutthalden liegen bei 30–38°, Wikipedia Scree/Bithell 2014); Längsachse hangabwärts."
+    },
+    "latsche": {
+      "ebene": 1, "rolle": "strauch", "gruppe_name": "latsche",
+      "netze": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_02", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_03", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_02"],
+      "gewichte": [2, 2, 2, 2, 1, 1, 1],
+      "dichte_je_m2": 0.02, "stufen": [0.2, 1.0, 0.3, 0.0],
+      "lagen": {"Heide": 1.3, "Trockengras": 1.0, "Wiese": 0.9, "Gras": 0.9, "Moos": 0.8, "Fels": 0.35, "Felsplatte": 0.2, "Geroell": 0.6, "Schnee": 0.15, "Eis": 0.0, "Sand": 0.5},
+      "hang": [30, 40], "exposition": [0.6, 1.3],
+      "gruppe": {"n": [3, 9], "radius_m": 3.5}, "weg": "klein",
+      "massstab": [0.8, 1.3], "nicht_uniform": 0.15, "eingraben_cm": 6, "kippen": 0.3, "yaw": "wind",
+      "sichtweite": [0, 35000], "kollision": false, "schatten": true, "budget": 7000,
+      "hinweis": "Latschen-/Legföhren-Gürtel: dichte Inseln 3–9 Stück, Südhang dichter; kein Nanite (Mountain_Environment_Set) → Sichtweite 350 m."
+    },
+    "krueppelkiefer": {
+      "ebene": 1, "rolle": "strauch", "gruppe_name": "krueppelkiefer",
+      "netze": ["/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_01", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_02"],
+      "dichte_je_m2": 0.004, "stufen": [0.1, 1.0, 0.15, 0.0],
+      "lagen": {"Heide": 1.2, "Trockengras": 1.0, "Fels": 0.6, "Geroell": 0.7, "Schnee": 0.2, "Eis": 0.0, "Wiese": 0.8},
+      "hang": [30, 40], "exposition": [0.5, 1.4],
+      "gruppe": {"n": [1, 3], "radius_m": 4.0}, "weg": "gross",
+      "massstab": [0.8, 1.2], "nicht_uniform": 0.25, "eingraben_cm": 10, "kippen": 0.5, "yaw": "wind",
+      "sichtweite": [0, 40000], "kollision": true, "schatten": true, "budget": 1500,
+      "hinweis": "Windschiefe Krüppelkiefern an der Baumgrenze, Längsachse in Windrichtung, 6–18° in den Wind gekippt. Kollision nur crooked_01 (3,4 m, ≥ 0,8 m)."
+    },
+    "alpenrose": {
+      "ebene": 1, "rolle": "bodendecker", "gruppe_name": "alpenrose",
+      "netze": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_02", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03"],
+      "gewichte": [3, 3, 2, 2, 1, 1],
+      "dichte_je_m2": 0.05, "stufen": [0.3, 1.0, 1.0, 0.1],
+      "lagen": {"Heide": 1.7, "Trockengras": 1.0, "Moos": 1.1, "Wiese": 0.8, "Gras": 0.8, "Fels": 0.3, "Felsplatte": 0.1, "Geroell": 0.5, "Schnee": 0.2, "Eis": 0.0, "Sand": 0.4},
+      "hang": [32, 40], "exposition": [1.25, 0.8],
+      "gruppe": {"n": [6, 16], "radius_m": 3.0}, "weg": "klein",
+      "massstab": [0.9, 1.4], "nicht_uniform": 0.1, "eingraben_cm": 3, "kippen": 0.5, "yaw": "zufall",
+      "sichtweite": [0, 12000], "kollision": false, "schatten": false, "budget": 10000,
+      "hinweis": "Alpenrosen-Ersatz (SM_rhododendron) + Heide/Preiselbeere: Zwergstrauchheide über der Baumgrenze, Nordhang dichter (lange Schneedecke)."
+    },
+    "polster": {
+      "ebene": 1, "rolle": "bodendecker", "gruppe_name": "polster",
+      "netze": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_cross_01", "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_02"],
+      "dichte_je_m2": 0.03, "stufen": [0.1, 0.6, 1.0, 0.3],
+      "lagen": {"Fels": 1.2, "Felsplatte": 1.0, "Geroell": 1.3, "Kies": 1.2, "Trockengras": 1.0, "Heide": 0.9, "Schnee": 0.4, "Eis": 0.0, "Wiese": 0.5},
+      "hang": [34, 40], "exposition": [0.9, 1.1],
+      "gruppe": {"n": [3, 8], "radius_m": 1.5}, "weg": "klein",
+      "massstab": [0.6, 1.0], "nicht_uniform": 0.1, "eingraben_cm": 3, "kippen": 0.8, "yaw": "zufall",
+      "sichtweite": [0, 10000], "kollision": false, "schatten": false, "budget": 6000,
+      "hinweis": "Polsterpflanzen in Felsritzen und auf Schutt (Fels/Geröll-Lagen bevorzugt)."
+    },
+    "grasbueschel_alpin": {
+      "ebene": 1, "rolle": "grasbueschel", "gruppe_name": "grasbueschel",
+      "netze": ["/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarA", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarD", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarH", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1", "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03"],
+      "gewichte": [2, 2, 2, 1, 2, 2, 1, 1, 1],
+      "dichte_je_m2": 0.06, "stufen": [0.5, 1.0, 1.0, 0.1],
+      "lagen": {"Trockengras": 1.6, "Wiese": 1.3, "Gras": 1.2, "Heide": 0.8, "Moos": 0.7, "Fels": 0.3, "Felsplatte": 0.1, "Geroell": 0.4, "Schnee": 0.1, "Eis": 0.0, "Sand": 0.5},
+      "hang": [32, 40], "exposition": [0.8, 1.2],
+      "gruppe": {"n": [4, 12], "radius_m": 2.5}, "weg": "klein",
+      "massstab": [0.8, 1.3], "nicht_uniform": 0.1, "eingraben_cm": 3, "kippen": 0.4, "yaw": "zufall",
+      "sichtweite": [0, 12000], "kollision": false, "schatten": false, "budget": 12000
+    },
+    "totholz_wind": {
+      "ebene": 1, "rolle": "totholz", "gruppe_name": "totholz",
+      "netze": ["/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01", "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02", "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03", "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04", "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01", "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02", "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01", "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02"],
+      "dichte_je_m2": 0.004, "stufen": [0.6, 1.0, 0.3, 0.05],
+      "lagen": {"Heide": 1.2, "Trockengras": 1.0, "Nadeln": 1.3, "Fels": 0.6, "Geroell": 0.6, "Schnee": 0.3, "Eis": 0.0},
+      "hang": [30, 40], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [1, 3], "radius_m": 2.0}, "weg": "klein",
+      "massstab": [0.8, 1.3], "nicht_uniform": 0.1, "eingraben_anteil": 0.25, "kippen": 1.0, "yaw": "hangab", "yaw_streuung_grad": 60,
+      "sichtweite": [0, 25000], "kollision": false, "schatten": true, "budget": 2000,
+      "hinweis": "Windgeformtes Totholz (sturmgebrochene Äste, Stammstücke, Stümpfe) um die Baumgrenze; Stämme quer bis längs zum Hang."
+    },
+    "wurzelteller": {
+      "ebene": 1, "rolle": "totholz", "gruppe_name": "wurzel",
+      "netze": ["/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01"],
+      "dichte_je_m2": 0.0008, "stufen": [0.5, 1.0, 0.2, 0.0],
+      "lagen": {"Heide": 1.0, "Trockengras": 1.0, "Nadeln": 1.3, "Fels": 0.8, "Geroell": 0.5, "Schnee": 0.3, "Eis": 0.0},
+      "hang": [30, 40], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [1, 1], "radius_m": 1.0}, "weg": "gross",
+      "massstab": [0.8, 1.2], "nicht_uniform": 0.1, "eingraben_anteil": 0.2, "kippen": 1.0, "yaw": "hangab", "yaw_streuung_grad": 30,
+      "sichtweite": [0, 40000], "kollision": true, "schatten": true, "budget": 300
+    },
+    "flechtenblock": {
+      "ebene": 1, "rolle": "block", "gruppe_name": "flechtenblock",
+      "netze": ["/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01", "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_2", "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5", "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6", "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0", "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0", "/Game/Fab/Megascans/3D/Granite_Rock_pjtsT/Raw/pjtsT_tier_0/StaticMeshes/pjtsT_tier_0"],
+      "dichte_je_m2": 0.012, "stufen": [0.4, 0.8, 1.0, 0.8],
+      "lagen": {"Fels": 1.4, "Felsplatte": 1.2, "Geroell": 1.5, "Kies": 1.0, "Heide": 0.8, "Trockengras": 0.8, "Schnee": 0.5, "Eis": 0.2, "Wiese": 0.4},
+      "hang": [38, 55], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [2, 5], "radius_m": 2.5}, "weg": "gross",
+      "massstab": [0.7, 1.3], "nicht_uniform": 0.2, "eingraben_anteil": 0.35, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 35000], "kollision": true, "schatten": true, "budget": 4000,
+      "hinweis": "Flechtensteine/Blöcke 0,5–1 m als Mittelschicht-Ersatz über der Baumgrenze (Taxonomie: 'dort Felsen 0,3–3 m als Ersatz'). Kollision nur Netze ≥ 0,8 m."
+    },
+    "bergwald_kiefer": {
+      "ebene": 2, "rolle": "baum", "gruppe_name": "kiefer",
+      "netze": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_02", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_03", "/Game/Environment_Set/Environment/Foliage/Models/Fir_06_Forest", "/Game/Environment_Set/Environment/Foliage/Models/Fir_03_Medium"],
+      "gewichte": [3, 3, 2, 2, 2],
+      "dichte_je_m2": 0.006, "stufen": [1.0, 0.15, 0.0, 0.0],
+      "lagen": {"Nadeln": 1.4, "Heide": 1.1, "Trockengras": 1.0, "Moos": 1.0, "Gras": 1.0, "Wiese": 0.8, "Fels": 0.3, "Felsplatte": 0.1, "Geroell": 0.5, "Schnee": 0.3, "Eis": 0.0, "Sand": 0.5},
+      "hang": [30, 40], "exposition": [0.8, 1.2],
+      "gruppe": {"n": [3, 8], "radius_m": 9.0}, "weg": "gross",
+      "massstab": [0.75, 1.15], "nicht_uniform": 0.05, "eingraben_cm": 20, "kippen": 0.05, "yaw": "zufall",
+      "sichtweite": [0, 0], "kollision": true, "schatten": true, "budget": 2500,
+      "hinweis": "Bergwald unter der Baumgrenze nur in Kernbiomen (gletscher/frost), wo keine Bestand-Ebene liegt; Abstand 4 m zu BST/WIT/Houdini-Bäumen. Lärche fehlt (Einkaufsliste); Rostton über Foliage-Typ-Farbvariation."
+    },
+    "krummholz_baum": {
+      "ebene": 2, "rolle": "baum", "gruppe_name": "krummholz",
+      "netze": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_03_A", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_04_A", "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant", "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small"],
+      "gewichte": [2, 2, 2, 1, 1],
+      "dichte_je_m2": 0.0035, "stufen": [0.3, 1.0, 0.12, 0.0],
+      "lagen": {"Heide": 1.2, "Trockengras": 1.0, "Nadeln": 1.2, "Fels": 0.5, "Geroell": 0.6, "Schnee": 0.2, "Eis": 0.0, "Wiese": 0.8},
+      "hang": [30, 40], "exposition": [0.6, 1.3],
+      "gruppe": {"n": [1, 4], "radius_m": 5.0}, "weg": "gross",
+      "massstab": [0.7, 1.1], "nicht_uniform": 0.2, "z_stauchung": [0.7, 1.0], "eingraben_cm": 15, "kippen": 0.35, "yaw": "wind",
+      "sichtweite": [0, 0], "kollision": true, "schatten": true, "budget": 1500,
+      "hinweis": "Windschiefe Einzelbäume/Trupps 4–7,5 m an der Baumgrenze, z-gestaucht 0,7–1,0, in Windrichtung gekippt."
+    },
+    "schluchtwald": {
+      "ebene": 2, "rolle": "baum", "gruppe_name": "schluchtwald",
+      "netze": ["/Game/Environment_Set/Environment/Foliage/Models/Fir_03_Medium", "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_02", "/Game/Environment_Set/Environment/Foliage/Models/Fir_07_Forest"],
+      "gewichte": [3, 2, 2, 2, 1],
+      "nur_schlucht": true,
+      "dichte_je_m2": 0.012, "stufen": [1.0, 1.0, 0.6, 0.0],
+      "lagen": {"Nadeln": 1.3, "Moos": 1.2, "Heide": 1.0, "Trockengras": 1.0, "Fels": 0.5, "Geroell": 0.6, "Schnee": 0.4, "Eis": 0.0},
+      "hang": [34, 44], "exposition": [1.1, 0.9],
+      "gruppe": {"n": [4, 10], "radius_m": 7.0}, "weg": "gross",
+      "massstab": [0.7, 1.2], "nicht_uniform": 0.08, "eingraben_cm": 20, "kippen": 0.08, "yaw": "zufall",
+      "sichtweite": [0, 0], "kollision": true, "schatten": true, "budget": 2000,
+      "hinweis": "Lärchen-/Fichten-Schluchtwald (witcher_07): nur in konkaven Rinnen ≤ 25 m vom Bach, reicht 70 m über die Baumgrenze; Nordhang bevorzugt (Schatten, Feuchte)."
+    },
+    "totbaum_grenze": {
+      "ebene": 2, "rolle": "totbaum", "gruppe_name": "totbaum",
+      "netze": ["/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01", "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02", "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0", "/Game/Environment_Set/Environment/Foliage/Models/Fir_08_Dead_Forest"],
+      "gewichte": [3, 3, 3, 1],
+      "dichte_je_m2": 0.0006, "stufen": [0.3, 1.0, 0.3, 0.02],
+      "lagen": {"Heide": 1.0, "Trockengras": 1.0, "Fels": 0.9, "Geroell": 0.8, "Schnee": 0.5, "Eis": 0.0},
+      "hang": [32, 40], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [1, 2], "radius_m": 6.0}, "weg": "gross",
+      "massstab": [0.6, 1.0], "nicht_uniform": 0.15, "eingraben_cm": 15, "kippen": 0.3, "yaw": "wind",
+      "sichtweite": [0, 0], "kollision": true, "schatten": true, "budget": 300,
+      "hinweis": "Wetterharte Totbäume (Megascans DeadTree, Nanite) an der Baumgrenze – Silhouetten gegen den Himmel (Blickziel-Akzent)."
+    },
+    "bach_block": {
+      "ebene": 5, "rolle": "block", "gruppe_name": "bachblock",
+      "netze": ["/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01", "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0", "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xf3odif/Raw/xf3odif_tier_0/StaticMeshes/xf3odif_tier_0", "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0", "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0"],
+      "wasser_band_m": [0, 4],
+      "dichte_je_m2": 0.05, "stufen": [1.0, 1.0, 1.0, 0.7],
+      "lagen": {"Fels": 1.3, "Geroell": 1.4, "Kies": 1.3, "Schnee": 0.7, "Eis": 0.6},
+      "hang": [40, 55], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [1, 3], "radius_m": 2.5}, "weg": "gross",
+      "massstab": [0.8, 1.4], "nicht_uniform": 0.2, "eingraben_anteil": 0.35, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 40000], "kollision": true, "schatten": true, "budget": 2500,
+      "hinweis": "Nasse Blöcke 0,9–1,5 m im Gletscherbach-Saum 0–4 m (Steine ragen aus dem Wasser, ANALYSE_WITCHER Punkt 8)."
+    },
+    "bach_moosstein": {
+      "ebene": 5, "rolle": "stein", "gruppe_name": "moosstein",
+      "netze": ["/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01", "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02", "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_1", "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_3", "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_4"],
+      "wasser_band_m": [0, 6],
+      "dichte_je_m2": 0.08, "stufen": [1.0, 1.0, 0.7, 0.2],
+      "lagen": {"Moos": 1.5, "Fels": 1.2, "Geroell": 1.2, "Schnee": 0.5, "Eis": 0.3},
+      "hang": [40, 55], "exposition": [1.1, 0.9],
+      "gruppe": {"n": [2, 5], "radius_m": 2.0}, "weg": "klein",
+      "massstab": [0.7, 1.3], "nicht_uniform": 0.15, "eingraben_anteil": 0.4, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 25000], "kollision": false, "schatten": true, "budget": 4000,
+      "hinweis": "Moossteine am Wasserfallfuß und Bachsaum (Gischtzone, Moos nur unter der Schneegrenze)."
+    },
+    "bach_kiesel": {
+      "ebene": 5, "rolle": "kiesel", "gruppe_name": "bachkiesel",
+      "netze": ["/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06"],
+      "wasser_band_m": [0, 3],
+      "dichte_je_m2": 0.5, "stufen": [1.0, 1.0, 1.0, 0.8],
+      "lagen": {"Kies": 1.5, "Geroell": 1.3, "Fels": 1.0, "Sand": 1.0, "Schnee": 0.6, "Eis": 0.4},
+      "hang": [40, 55], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [4, 12], "radius_m": 1.5}, "weg": "klein",
+      "massstab": [0.8, 1.6], "nicht_uniform": 0.2, "eingraben_anteil": 0.35, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 6000], "kollision": false, "schatten": false, "budget": 8000
+    },
+    "wasserfall_block": {
+      "ebene": 5, "rolle": "hero", "gruppe_name": "wasserfallfuss",
+      "netze": ["/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01", "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03", "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01", "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0"],
+      "gewichte": [1, 2, 2, 2],
+      "nur_wasserfall_fuss": true,
+      "dichte_je_m2": 0.03, "stufen": [1.0, 1.0, 1.0, 1.0],
+      "lagen": {"Fels": 1.2, "Geroell": 1.2, "Schnee": 0.8, "Eis": 0.8},
+      "hang": [30, 45], "exposition": [1.0, 1.0],
+      "gruppe": {"n": [1, 3], "radius_m": 4.0}, "weg": "gross",
+      "massstab": [0.7, 1.2], "nicht_uniform": 0.2, "eingraben_anteil": 0.4, "kippen": 1.0, "yaw": "zufall",
+      "sichtweite": [0, 0], "kollision": true, "schatten": true, "budget": 300,
+      "hinweis": "Sturzblöcke am Wasserfallfuß (Zellen ≤ 10 m unter steilen Wasserzellen)."
+    },
+    "eiszapfen": {
+      "ebene": 5, "rolle": "eis", "gruppe_name": "eiszapfen",
+      "netze": ["/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_1", "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_2", "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_3", "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_5", "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_6", "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_7"],
+      "gewichte": [3, 2, 2, 3, 1, 2],
+      "nur_eiswand": true,
+      "dichte_je_m2": 0.04, "stufen": [0.0, 0.15, 0.6, 1.0],
+      "lagen": {"Eis": 1.6, "Schnee": 1.3, "Fels": 1.0, "Geroell": 0.5, "Trockengras": 0.3, "Heide": 0.3},
+      "hang": [90, 91], "hang_min_grad": 55, "exposition": [1.4, 0.6],
+      "gruppe": {"n": [2, 6], "radius_m": 1.5}, "weg": "klein",
+      "massstab": [0.6, 1.2], "nicht_uniform": 0.1, "eingraben_cm": 0, "z_versatz_anteil": 0.85, "kippen": 0.0, "yaw": "zufall",
+      "sichtweite": [0, 20000], "kollision": false, "schatten": true, "budget": 1500,
+      "hinweis": "Eiszapfen (Eldarien-Paket) an Wänden ≥ 55° über der Schneegrenze und an Wasserfall-Kanten; Nordwand bevorzugt. ANNAHME: Pivot am oberen Ende, Netz hängt nach −z → z = Gelände + 0,85·Netzhöhe·Maßstab (hängt von der Wand). Bitte am ersten Feld prüfen und z_versatz_anteil anpassen."
+    }
+  },
+  "bild_farben": {
+    "stufe": [[70, 95, 60], [110, 120, 80], [150, 150, 140], [225, 230, 240]],
+    "wasser": [40, 90, 200], "weg": [120, 80, 40], "ort": [200, 40, 200], "schlucht": [60, 110, 90], "wasserfall_fuss": [0, 200, 255],
+    "kiesel_schutt": [160, 140, 110], "flechtenstein": [190, 170, 120], "schneefleck": [255, 255, 255], "geroellplatte": [120, 100, 70],
+    "latsche": [0, 110, 30], "krueppelkiefer": [0, 70, 20], "alpenrose": [220, 60, 120], "polster": [120, 200, 120], "grasbueschel_alpin": [200, 190, 60],
+    "totholz_wind": [120, 70, 20], "wurzelteller": [90, 50, 10], "flechtenblock": [230, 200, 90],
+    "bergwald_kiefer": [0, 40, 0], "krummholz_baum": [30, 120, 60], "schluchtwald": [170, 80, 20], "totbaum_grenze": [255, 120, 0],
+    "bach_block": [0, 150, 220], "bach_moosstein": [40, 160, 120], "bach_kiesel": [120, 200, 240], "wasserfall_block": [255, 0, 0], "eiszapfen": [120, 230, 255]
+  },
+  "felsgruppen_overrides": {
+    "_hinweis": "Zum Einpflegen in felsgruppen_regeln.json (Teil C) für Zellen der Biome gletscher/frost – dieser Planer wendet sie NICHT selbst an. Schlüssel folgen felsgruppen_regeln.json.",
+    "biom_faktor": {"gletscher": 1.3, "frost": 1.1},
+    "biom_palette": {"gletscher": "tundra", "frost": "tundra"},
+    "paletten_zusatz": {
+      "tundra": {
+        "hero": ["/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_02", "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01", "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03"],
+        "block": ["/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01", "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0", "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0", "/Game/Fab/Megascans/3D/Granite_Rock_pjEr1/Raw/pjEr1_tier_0/StaticMeshes/pjEr1_tier_0"],
+        "platte": ["/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01", "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0"],
+        "eis": ["/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_4", "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_8", "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_9"]
+      }
+    },
+    "schneegrenze": {"hinweis": "Über der Schneegrenze (hochgebirge_regeln.hoehenstufen.schneegrenze_m + Versätze, oder lage_Schnee ≥ 0,55): Moos-Hinweis-Netze (TundraMossyBoulder, MossyForest*) ausschließen; Kiesel-Dichte ×0,5; Blöcke ×1,0; Hero ×1,2 (freigewitterte Felsen).", "moos_netze_aus": true, "kiesel_faktor": 0.5, "hero_faktor": 1.2},
+    "lagen": {"schnee_hemmung_faktor_min": 0.6, "hinweis": "Schnee hemmt Felsen in gletscher/frost nur bis 0,6 (nicht 0,5): Schnee liegt AUF Felsen, Felsen verschwinden nicht."},
+    "klassen": {
+      "fuss": {"p": 0.7, "faecher_max_m": 90, "stufen": [[0, 10, "block", 0.85, 1.2], [10, 22, "block", 0.55, 0.85], [22, 45, "stein", 0.7, 1.1], [45, 90, "stein", 0.4, 0.7]], "hinweis": "Schuttfächer unter Gletscher-Wänden länger und dichter (Frostsprengung); Hang 30–38° Kern (Wikipedia Scree)."},
+      "blockstrom": {"p_faktor": 1.4, "hinweis": "Moränen-Ersatz: Blockströme am Hangfuß und an Karböden (konkav, Hang 5–18°) als 'moraene' mit Wall-Form: Hauptrichtung quer zum Tal."},
+      "grat": {"p": 0.65, "hero_p": 0.7, "hinweis": "Grate über der Schneegrenze mit Hero + Eiszapfen (Rolle eis, Nordseite, Wand ≥ 55°, Dichte 0,04/m², z-Versatz wie hochgebirge_regeln.klassen.eiszapfen)."},
+      "band": {"p_faktor": 0.8, "hinweis": "Felsbänder: Schnee-Simse darauf (Kleinzeug schneefleck liegt auf dem Band, nicht an der Wand)."}
+    },
+    "gruppe": {"kiesel_dichte_je_m2": [2.0, 5.0]},
+    "entfernen_zusatz": "FT_EL_FS_mountain_rock_big_02_8_gletscher,FT_EL_FS_mountain_rock_big_02_8_frost,FT_EL_FS_IcelandicBoulder_02_gletscher,FT_EL_FS_IcelandicBoulder_02_frost,FT_EL_FS_IcelandicBoulder_03_gletscher,FT_EL_FS_IcelandicBoulder_03_frost"
+  },
+  "spuren_overrides": {
+    "_hinweis": "Zum Einpflegen in spuren_regeln.json (Teil D) für gletscher/frost. Dieser Planer wendet sie NICHT selbst an.",
+    "steinmann": {"frei_je_km2": 12, "weg_schritt_m": [60, 100], "weg_abstand_m": [2, 5], "nur_ab_stufe": 1, "kuppen_prominenz_m": 8, "steine": [5, 11], "basis_massstab": [1.6, 2.4], "hinweis": "Steinmännchen alle 60–100 m entlang Pfaden über der Baumgrenze, auf Kuppen/Pässen (Prominenz ≥ 8 m) und frei 12/km²; Netze wie spuren_regeln.netze.steinmann (mountain_rock_small, s_rock, NordicBeachRock)."},
+    "wegkreuz": {"schrein_anteil": 0.0, "schritt_m": 400, "hinweis": "Über der Baumgrenze keine Schreine, nur Holzkreuz alle 400 m an Pässen."},
+    "zaun_weg": {"je_ort": 0, "hinweis": "Keine Zäune über der Baumgrenze."},
+    "feldstreifen": {"max_je_ort": 0, "hinweis": "Keine Felder in gletscher/frost (Orte dort = Hütten/Pass-Stationen)."},
+    "graeber": {"einzel_je_km_weg": 0.6, "hinweis": "Einzelgräber an Pässen (Steinhaufen + Kreuz) 0,6 je km Weg."},
+    "gipfelkreuz": {"netz": null, "regel": "lokales Maximum (Fenster 300 m, Prominenz ≥ 25 m, Hang < 20°), 1 je Feld, Akteur; Netz fehlt → Einkaufsliste", "kandidat_zwischenloesung": "/Game/Graveyard/… Holzkreuz aus spuren_regeln.netze.kreuz, Maßstab 2,5"},
+    "unterstand": {"netz": null, "regel": "an Wegen über der Baumgrenze alle 500–800 m, Hang < 12°, Lee-Seite (Ost) von Blöcken ≥ 3 m; Netz fehlt → Einkaufsliste"},
+    "seilbruecke_steg": {"netz": null, "regel": "Weg quert Bach mit Hang ≥ 18° beidseits oder Schlucht (konkav, Tiefe ≥ 6 m, Breite ≤ 25 m) → Steg/Seilbrücke als Akteur, Netz fehlt → Einkaufsliste; Zwischenlösung spuren_regeln.steg (Planken + Balken)"},
+    "rauch": {"ort": 0.5, "hinweis": "Pass-Hütten rauchen (Winter), halbe Dichte."},
+    "blickziele": {"typ_je_biom": {"gletscher": ["felsturm", "wasserfall", "gletscherzunge", "gipfelkreuz"], "frost": ["gletscherzunge", "wasserfall", "totbaum_solitaer", "felsturm"]}, "gletscherzunge_regel": "größte zusammenhängende lage_Eis-Fläche ≥ 2 000 m² mit Hang 8–25°: Zungenende (tiefster Punkt) = Blickziel; Bach beginnt dort (Quelle)."}
+  },
+  "erwartung_je_feld": {
+    "hinweis": "Rechenwerte aus dem synthetischen Rauchtest (D2-Fenster, 100 % Land) skaliert mit Land-% und Kernbiom-Anteil aus biome_je_feld.json; mit Echtdaten ±50 %. Siehe verteilung-hochgebirge.md §4.",
+    "werte": {}
+  }
+}

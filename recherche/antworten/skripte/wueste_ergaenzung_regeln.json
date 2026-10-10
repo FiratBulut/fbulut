@@ -1,0 +1,2393 @@
+{
+ "_doku": {
+  "stand": "2026-10-10",
+  "thema": "wueste_ergaenzung",
+  "zweck": "Auftrag 11, Teil B9: Wüste/Canyon/Ödland. Ergänzt die Namaqualand-Ebene (FT_EL_WU_*, Felder C3 C4 D3 D4 D5 E3 E4 E5) um fehlende Rollen und liefert in Ödland-/Canyon-Feldern außerhalb dieser Felder die Schichten 0 boden, 1 mittel, 2 baum, 5 wasserkante vollständig. Schicht 3 fels kommt von felsgruppen_plan.py (Teil C), Schicht 4 spuren von spuren_plan.py (Teil D) – Overrides unten.",
+  "einheiten": "Dichten je m² bei voller Lagen-Deckung (Σ Lage × Dichte), Abstände m, Eingraben cm oder Anteil der Netzhöhe, Sichtweite cm, Winkel Grad.",
+  "wichtig": "In Wüstenfeldern C3–E5 NUR ergänzen: Klassen mit wuestenfeld_faktor 0 werden dort nicht gestreut, Budget 15 000, kein entfernen. UNGETESTET MIT ECHTDATEN.",
+  "quellen": [
+   "vorlagen/FORMAT.md",
+   "antworten/assets-taxonomie.md (Lücken wueste/canyon/oedland)",
+   "antworten/bildkritik-witcher-messlatte.md (NORD3_D3: Blöcke nach Rinnen/Schuttfächern, 3 Größenstufen, Eingraben 30 %)",
+   "antworten/verteilung-wueste.md (Herleitung aller Zahlen)"
+  ]
+ },
+ "stand": "2026-10-10",
+ "thema": "wueste_ergaenzung",
+ "seed": 1109,
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/WuesteErgaenzung",
+ "ft_praefix": "FT_EL_WE_",
+ "ebene": "wueste_ergaenzung",
+ "fenster_rand_m": 64,
+ "raster": {
+  "nx": 9577,
+  "ny": 7057,
+  "feld_m": 1008,
+  "x0_m": 4730.5,
+  "y0_m": 4060.5
+ },
+ "biome": [
+  "aue",
+  "bergwald",
+  "gletscher",
+  "tundra",
+  "canyon",
+  "oedland",
+  "heide",
+  "elfenwald",
+  "dschungel",
+  "kueste",
+  "wueste",
+  "lava",
+  "frost",
+  "sumpf",
+  "fjord"
+ ],
+ "biom_faktor": {
+  "wueste": 1.0,
+  "canyon": 1.0,
+  "oedland": 1.0,
+  "aue": 0.0,
+  "bergwald": 0.0,
+  "gletscher": 0.0,
+  "tundra": 0.0,
+  "heide": 0.0,
+  "elfenwald": 0.0,
+  "dschungel": 0.0,
+  "kueste": 0.0,
+  "lava": 0.0,
+  "frost": 0.0,
+  "sumpf": 0.0,
+  "fjord": 0.0
+ },
+ "biom_faktor_hinweis": "Nur wueste/canyon/oedland werden bedient; andere Biome im selben Feld (z. B. aue 13 % in D4, tundra 73 % in D3) bleiben den Planern B2/B3 überlassen. Übergang: Biom-Maske wird 6 m weich gefiltert (biom_saum_m).",
+ "biom_saum_m": 6,
+ "feld_biom_fallback": {
+  "C3": "wueste",
+  "C4": "canyon",
+  "D3": "canyon",
+  "D4": "canyon",
+  "D5": "oedland",
+  "E3": "wueste",
+  "E4": "wueste",
+  "E5": "oedland",
+  "D6": "oedland",
+  "E6": "oedland",
+  "E7": "oedland",
+  "F6": "oedland",
+  "F7": "oedland"
+ },
+ "feld_biom_fallback_hinweis": "Nur wenn eigner.r8/welt.json fehlen. Felder ohne Eintrag → aue → Faktor 0 → nichts geplant (Meldung).",
+ "wuesten_felder": [
+  "C3",
+  "C4",
+  "D3",
+  "D4",
+  "D5",
+  "E3",
+  "E4",
+  "E5"
+ ],
+ "wuesten_feld": {
+  "modus": "ergaenzung",
+  "budget_instanzen": 15000,
+  "budget_kollision": 1200,
+  "global_faktor": 1.0,
+  "ebene_pfad_default": "export/unreal/welt/wueste",
+  "ebene_hinweis": "Pfad der vorhandenen Wüsten-Ebene (Planer scripts/wueste_bewuchs/) ist in der Cloud unbekannt. Option --wueste_ebene PFAD (Ordner mit <Feld>/plan.json + *.f32 oder direkt *.f32). Ohne Angabe wird export/unreal/welt/wueste/<Feld>/ probiert, sonst Hinweis und Planung ohne Abstandsprüfung zur WU-Ebene.",
+  "abstand_m": {
+   "klein": 0.6,
+   "gross": 1.8,
+   "baum": 3.0
+  },
+  "kein_entfernen": true
+ },
+ "abstand_m": {
+  "wasser": 1.0,
+  "weg_klein": 2.5,
+  "weg_gross": 4.0,
+  "ort": 5.0,
+  "fremd_klein": 0.6,
+  "fremd_gross": 1.5,
+  "fremd_baum": 2.5,
+  "eigen_baum_zu_baum": 4.0
+ },
+ "vorhandene_ebenen": [
+  "bestand",
+  "witcher",
+  "mittelschicht",
+  "felsgruppen",
+  "spuren",
+  "ufer",
+  "wueste"
+ ],
+ "vorhandene_ebenen_hinweis": "Ordner export/unreal/welt/<ebene>/<Feld>/ (ufer: ufer/foliage_<Feld>/) mit plan.json + *.f32 werden als belegt geladen (Fremdabstand); fehlende Ordner → Hinweis, kein Abbruch. instanzen/instanzen.json (Houdini) ebenso, Bäume mit fremd_baum.",
+ "gelaende": {
+  "hang_sigma_m": 1.5,
+  "rinne": {
+   "sigma_klein_m": 3.0,
+   "sigma_gross_m": 9.0,
+   "konkav_ab": 0.03,
+   "konkav_voll": 0.16,
+   "gewicht_gross": 0.7,
+   "hinweis": "Rinnenstärke 0–1 aus positivem Laplace (konkav) der geglätteten Höhe; klein = Erosionsrinnen 3–10 m, groß = Talrinnen 20–40 m."
+  },
+  "kuppe": {
+   "sigma_m": 9.0,
+   "konvex_ab": 0.015,
+   "konvex_voll": 0.07,
+   "umkreis_m": 16,
+   "toleranz_m": 0.4,
+   "hinweis": "Kuppe = konvex UND höchste Zelle im Umkreis (±Toleranz)."
+  },
+  "senke": {
+   "sigma_m": 24.0,
+   "tiefe_ab_m": 0.8,
+   "tiefe_voll_m": 3.0,
+   "hinweis": "Senke = Höhe unter 24-m-Mittel; Restfeuchte-Quelle."
+  },
+  "wand": {
+   "wand_ab_grad": 35,
+   "wandfuss_umkreis_m": 12,
+   "wandfuss_hoehe_min_m": 4.0,
+   "schutt_reichweite_m": 30,
+   "terrasse_umkreis_m": 6,
+   "terrasse_abbruch_min_m": 3.0,
+   "terrasse_hang_max_grad": 14,
+   "hinweis": "Wandfuß: flache Zelle, Wand > 35° bis 12 m entfernt und ≥ 4 m höher. Schuttfächer bis 30 m vom Wandfuß, Faktor linear fallend. Terrassenkante: flache Zelle (< 14°), Abbruch ≥ 3 m tiefer in 6 m."
+  },
+  "restfeuchte": {
+   "wasser_radius_m": 25.0,
+   "senke_gewicht": 0.6,
+   "rinne_gewicht": 0.35,
+   "lagen": {
+    "Lehm": 0.3,
+    "Schlamm": 0.8,
+    "Moos": 0.5,
+    "Wiese": 0.3,
+    "Gras": 0.3,
+    "Algen": 0.8
+   },
+   "hinweis": "Restfeuchte 0–1 = clip(Wassernähe + 0,6·Senke + 0,35·Rinne + Lagen)."
+  },
+  "schnee": {
+   "lage": "Schnee",
+   "faktor_bei_voll": 0.15
+  },
+  "hang_max_grad_alle": 40
+ },
+ "lagen": [
+  "Sand",
+  "Sandstein",
+  "Geroell",
+  "Erde",
+  "Lehm",
+  "Trockengras",
+  "Fels",
+  "Felsplatte",
+  "Kies",
+  "Wiese",
+  "Gras",
+  "Heide",
+  "Laub",
+  "Moos",
+  "Schlamm",
+  "Algen",
+  "Schnee"
+ ],
+ "lagen_hinweis": "lage_<Name>.r8 optional. Fehlen alle → dichte_ohne_lagen_je_m2 je Klasse; fehlen einzelne → Gewicht 0.",
+ "schichten": {
+  "0_boden": "Geröll, Trockenriss-Kleinzeug (Ersatz), Knochen-Ersatz, Zweige, Trockenlaub",
+  "1_mittel": "Trockengras-Büschel 3 Höhen, Dornsträucher, Trockenhang-Sträucher, Sukkulenten, Totholz liegend, Stümpfe",
+  "2_baum": "tote Bäume groß/klein, lebende Einzelbäume in Rinnen/Senken, Krüppelkiefern an Terrassen, Köcherbäume",
+  "3_fels": "Teil C felsgruppen_plan.py (felsgruppen_overrides)",
+  "4_spuren": "Teil D spuren_plan.py (spuren_overrides)",
+  "5_wasserkante": "Schilf und grünes Gras an Oasen/Rinnen mit Restfeuchte"
+ },
+ "planungs_reihenfolge": [
+  "2_baum",
+  "1_mittel",
+  "0_boden",
+  "5_wasserkante"
+ ],
+ "klassen": {
+  "kiesel": {
+   "schicht": "0_boden",
+   "netze": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_b_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_c_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_d_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_e_NN"
+   ],
+   "biome": {
+    "wueste": 0.8,
+    "canyon": 1.0,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Geroell": 0.05,
+    "Kies": 0.06,
+    "Sandstein": 0.035,
+    "Fels": 0.02,
+    "Felsplatte": 0.02,
+    "Erde": 0.008,
+    "Lehm": 0.004,
+    "Sand": 0.012,
+    "Trockengras": 0.006
+   },
+   "dichte_ohne_lagen_je_m2": 0.015,
+   "hang_voll_bis_grad": 30,
+   "hang_null_ab_grad": 45,
+   "hoehe_max_m": 9999,
+   "rinne": 2.5,
+   "kuppe": 0.8,
+   "senke": 1.0,
+   "wandfuss": 2.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    3,
+    9
+   ],
+   "radius_m": 1.2,
+   "massstab": [
+    0.7,
+    1.6
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": null,
+   "eingraben_anteil": 0.4,
+   "kippen": 1.0,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    6000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.25,
+   "netze_wuestenfeld": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07"
+   ],
+   "hinweis": "Kiesel 7–19 cm; in Rinnen und am Wandfuß gehäuft. In C3–E5 nur Megascans-Kiesel (Namaqualand-Steine streut die WU-Ebene)."
+  },
+  "stein": {
+   "schicht": "0_boden",
+   "netze": [
+    "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_03",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_b_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_b_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_c_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_d_NN",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02"
+   ],
+   "biome": {
+    "wueste": 0.8,
+    "canyon": 1.0,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Geroell": 0.012,
+    "Sandstein": 0.006,
+    "Fels": 0.004,
+    "Felsplatte": 0.003,
+    "Erde": 0.002,
+    "Sand": 0.002,
+    "Kies": 0.006,
+    "Lehm": 0.0008
+   },
+   "dichte_ohne_lagen_je_m2": 0.003,
+   "hang_voll_bis_grad": 30,
+   "hang_null_ab_grad": 45,
+   "hoehe_max_m": 9999,
+   "rinne": 2.0,
+   "kuppe": 1.3,
+   "senke": 1.0,
+   "wandfuss": 3.0,
+   "terrasse": 1.5,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    2,
+    5
+   ],
+   "radius_m": 1.8,
+   "massstab": [
+    0.8,
+    1.5
+   ],
+   "massstab_schutt_abnahme": 0.5,
+   "eingraben_cm": null,
+   "eingraben_anteil": 0.35,
+   "kippen": 1.0,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
+   "wuestenfeld_faktor": 0.5,
+   "netze_wuestenfeld": [
+    "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_03",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02"
+   ],
+   "hinweis": "Steine 0,2–0,6 m: Schuttfächer unter Wänden (Größe nimmt hangabwärts ab), Rinnenböden, Kuppen. Blöcke > 0,8 m kommen von Teil C."
+  },
+  "lehmplatte": {
+   "schicht": "0_boden",
+   "netze": [
+    "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_01",
+    "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_02",
+    "/Game/Meshes/_GENERATED/RockFormation/SM_DryRiverBed_02"
+   ],
+   "biome": {
+    "wueste": 0.4,
+    "canyon": 0.6,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Lehm": 0.006,
+    "Erde": 0.001,
+    "Schlamm": 0.004
+   },
+   "dichte_ohne_lagen_je_m2": 0.0008,
+   "hang_voll_bis_grad": 4,
+   "hang_null_ab_grad": 10,
+   "hoehe_max_m": 9999,
+   "rinne": 1.5,
+   "kuppe": 0.3,
+   "senke": 2.5,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    3,
+    8
+   ],
+   "radius_m": 3.0,
+   "massstab": [
+    0.9,
+    1.4
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 3,
+   "eingraben_anteil": null,
+   "kippen": 1.0,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.5,
+   "netze_wuestenfeld": null,
+   "hinweis": "Trockenriss-Ersatz: flache Megascans-Trockenbett-Platten (1 × 1,7 m, 5–8 cm) als Flecken in Lehm-Senken, nur < 10° Hang. Echte Trockenriss-Decals: Einkaufsliste."
+  },
+  "geroellplatte": {
+   "schicht": "0_boden",
+   "netze": [
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_01",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_02",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_03"
+   ],
+   "biome": {
+    "wueste": 0.5,
+    "canyon": 1.0,
+    "oedland": 0.8
+   },
+   "lage_dichte_je_m2": {
+    "Geroell": 0.0012,
+    "Sandstein": 0.0008,
+    "Felsplatte": 0.001,
+    "Fels": 0.0004
+   },
+   "dichte_ohne_lagen_je_m2": 0.0002,
+   "hang_voll_bis_grad": 18,
+   "hang_null_ab_grad": 32,
+   "hoehe_max_m": 9999,
+   "rinne": 0.5,
+   "kuppe": 1.0,
+   "senke": 1.0,
+   "wandfuss": 3.0,
+   "terrasse": 2.5,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    2
+   ],
+   "radius_m": 4.0,
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 12,
+   "eingraben_anteil": null,
+   "kippen": 1.0,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    20000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.6,
+   "netze_wuestenfeld": null,
+   "hinweis": "Geröll-Platten 7 × 3,7 m (33 cm) als Schutt-Teppich am Wandfuß und auf Terrassen; verbindet Felsgruppen (Teil C) mit dem Boden."
+  },
+  "zweige": {
+   "schicht": "0_boden",
+   "netze": [
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08",
+    "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_01_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_02_NN"
+   ],
+   "biome": {
+    "wueste": 0.5,
+    "canyon": 0.8,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.012,
+    "Trockengras": 0.015,
+    "Lehm": 0.004,
+    "Geroell": 0.005,
+    "Sand": 0.004,
+    "Wiese": 0.006,
+    "Gras": 0.006
+   },
+   "dichte_ohne_lagen_je_m2": 0.006,
+   "hang_voll_bis_grad": 25,
+   "hang_null_ab_grad": 40,
+   "hoehe_max_m": 9999,
+   "rinne": 1.6,
+   "kuppe": 1.0,
+   "senke": 1.5,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": [
+    8.0,
+    4.0
+   ],
+   "gruppe": [
+    1,
+    3
+   ],
+   "radius_m": 1.5,
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 2,
+   "eingraben_anteil": null,
+   "kippen": 1.0,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    5000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.5,
+   "netze_wuestenfeld": [
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08"
+   ],
+   "hinweis": "Dürre Zweige 0,3–0,5 m; ×4 im Umkreis 8 m toter Bäume (Schicht 2 wird zuerst geplant)."
+  },
+  "knochen_ersatz": {
+   "schicht": "0_boden",
+   "netze": [
+    "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_b_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_c_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_d_NN",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_05"
+   ],
+   "biome": {
+    "wueste": 0.6,
+    "canyon": 0.6,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.0008,
+    "Lehm": 0.0008,
+    "Sand": 0.0006,
+    "Trockengras": 0.0005,
+    "Geroell": 0.0003
+   },
+   "dichte_ohne_lagen_je_m2": 0.0004,
+   "hang_voll_bis_grad": 15,
+   "hang_null_ab_grad": 30,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.0,
+   "senke": 1.5,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": [
+    8.0,
+    40.0,
+    2.0
+   ],
+   "nahe_totbaum": null,
+   "gruppe": [
+    2,
+    6
+   ],
+   "radius_m": 1.4,
+   "massstab": [
+    1.0,
+    1.6
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 1,
+   "eingraben_anteil": null,
+   "kippen": 1.0,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    7000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.5,
+   "netze_wuestenfeld": null,
+   "hinweis": "ERSATZ: gebleichte Rindenstücke (Namaqualand bark_debris, 0,4–0,6 m) als „Kadaverstelle“ in Gruppen 2–6 nahe Wegen. Echte Knochen/Schädel: Einkaufsliste; dann Palette tauschen."
+  },
+  "laub_trocken": {
+   "schicht": "0_boden",
+   "netze": [
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_01",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_12",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_13",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_14",
+    "/Game/Namaqualand/Meshes/General/NN/SM_dry_quiver_leaf_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_dry_quiver_leaf_b_NN"
+   ],
+   "biome": {
+    "wueste": 0.3,
+    "canyon": 0.5,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.002,
+    "Lehm": 0.002,
+    "Trockengras": 0.002,
+    "Laub": 0.02
+   },
+   "dichte_ohne_lagen_je_m2": 0.001,
+   "hang_voll_bis_grad": 20,
+   "hang_null_ab_grad": 35,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.0,
+   "senke": 2.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": [
+    10.0,
+    6.0
+   ],
+   "gruppe": [
+    2,
+    5
+   ],
+   "radius_m": 2.0,
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 1,
+   "eingraben_anteil": null,
+   "kippen": 1.0,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    4000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.3,
+   "netze_wuestenfeld": [
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_01",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_13",
+    "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_14"
+   ],
+   "hinweis": "Trockenlaub-Flecken nur unter toten Bäumen (×6 im Umkreis 10 m) und in Senken."
+  },
+  "trockengras_hoch": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG"
+   ],
+   "biome": {
+    "wueste": 0.5,
+    "canyon": 0.9,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Trockengras": 0.08,
+    "Erde": 0.012,
+    "Lehm": 0.004,
+    "Wiese": 0.03,
+    "Gras": 0.03,
+    "Sand": 0.004,
+    "Heide": 0.02,
+    "Geroell": 0.004
+   },
+   "dichte_ohne_lagen_je_m2": 0.02,
+   "hang_voll_bis_grad": 25,
+   "hang_null_ab_grad": 38,
+   "hoehe_max_m": 9999,
+   "rinne": 1.6,
+   "kuppe": 0.6,
+   "senke": 1.8,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    2.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    4,
+    10
+   ],
+   "radius_m": 2.5,
+   "massstab": [
+    0.8,
+    1.4
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 3,
+   "eingraben_anteil": null,
+   "kippen": 0.3,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    12000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.35,
+   "netze_wuestenfeld": null,
+   "hinweis": "Trockengras-Büschel 0,6–0,75 m (Megascans Tundra Grass, Nanite); Gold-Akzent, in Rinnen/Senken dichter, auf Kuppen dünner. WU-Ebene hat keine Grasbüschel → auch in C3–E5 (Faktor 0,35)."
+  },
+  "trockengras_niedrig": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarA",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarD",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarE",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarH",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarI"
+   ],
+   "biome": {
+    "wueste": 0.6,
+    "canyon": 1.0,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Trockengras": 0.05,
+    "Geroell": 0.012,
+    "Sandstein": 0.01,
+    "Erde": 0.006,
+    "Sand": 0.006,
+    "Lehm": 0.002,
+    "Fels": 0.004,
+    "Heide": 0.01
+   },
+   "dichte_ohne_lagen_je_m2": 0.015,
+   "hang_voll_bis_grad": 30,
+   "hang_null_ab_grad": 42,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.2,
+   "senke": 1.0,
+   "wandfuss": 1.3,
+   "terrasse": 1.4,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    5,
+    12
+   ],
+   "radius_m": 2.0,
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 3,
+   "eingraben_anteil": null,
+   "kippen": 0.5,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.35,
+   "netze_wuestenfeld": null,
+   "hinweis": "Niedrige Büschel/Polster 0,22–0,32 m auf Kuppen, Terrassen, Geröll – füllt den Blick in 0,3–1 m Höhe."
+  },
+  "trockengras_flach": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03"
+   ],
+   "biome": {
+    "wueste": 0.3,
+    "canyon": 0.5,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Trockengras": 0.012,
+    "Erde": 0.008,
+    "Wiese": 0.006,
+    "Lehm": 0.003
+   },
+   "dichte_ohne_lagen_je_m2": 0.004,
+   "hang_voll_bis_grad": 12,
+   "hang_null_ab_grad": 28,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.0,
+   "senke": 1.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": [
+    6.0,
+    60.0,
+    1.8
+   ],
+   "nahe_totbaum": null,
+   "gruppe": [
+    6,
+    14
+   ],
+   "radius_m": 4.0,
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 4,
+   "eingraben_anteil": null,
+   "kippen": 0.6,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    8000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.3,
+   "netze_wuestenfeld": null,
+   "hinweis": "Flache, dürre Grasflecken (Meadow dead_grass, 2 m, kein Nanite) als „verlassene Felder“ nahe Wegen; Flecken 6–14 je 4 m."
+  },
+  "dornstrauch": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_small_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_medium_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_large_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_e_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_f_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_g_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_c_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_d_NN"
+   ],
+   "biome": {
+    "wueste": 0.6,
+    "canyon": 1.0,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.0022,
+    "Trockengras": 0.0025,
+    "Geroell": 0.0015,
+    "Sand": 0.0012,
+    "Lehm": 0.0008,
+    "Sandstein": 0.0008,
+    "Heide": 0.002,
+    "Wiese": 0.001
+   },
+   "dichte_ohne_lagen_je_m2": 0.0012,
+   "hang_voll_bis_grad": 22,
+   "hang_null_ab_grad": 34,
+   "hoehe_max_m": 9999,
+   "rinne": 2.5,
+   "kuppe": 0.5,
+   "senke": 2.0,
+   "wandfuss": 1.5,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    2.5
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    4
+   ],
+   "radius_m": 3.0,
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 4,
+   "eingraben_anteil": null,
+   "kippen": 0.3,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    30000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.0,
+   "netze_wuestenfeld": null,
+   "hinweis": "Dornsträucher 0,7–2,1 m (Namaqualand didelta „spinosa“, searsia, othonna) in Rinnen/Senken gehäuft. In C3–E5 aus (WU-Ebene streut sie)."
+  },
+  "trockenhang_strauch": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_burchellii_small_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_burchellii_medium_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_a_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_b_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_c_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_d_NN"
+   ],
+   "biome": {
+    "wueste": 0.4,
+    "canyon": 1.0,
+    "oedland": 0.6
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.0008,
+    "Trockengras": 0.0008,
+    "Geroell": 0.0008,
+    "Sandstein": 0.0006,
+    "Fels": 0.0004,
+    "Heide": 0.0008
+   },
+   "dichte_ohne_lagen_je_m2": 0.0005,
+   "hang_voll_bis_grad": 30,
+   "hang_null_ab_grad": 40,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.2,
+   "senke": 1.0,
+   "wandfuss": 1.5,
+   "terrasse": 2.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    3
+   ],
+   "radius_m": 4.0,
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 5,
+   "eingraben_anteil": null,
+   "kippen": 0.35,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    35000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.0,
+   "netze_wuestenfeld": null,
+   "hinweis": "Toussaint-Trockenhang: größere Sträucher 1,5–2,7 m auf Hängen 10–30° und Terrassen; nur bis Hang 40°. In C3–E5 aus."
+  },
+  "sukkulent": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_d_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_e_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_f_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_g_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_h_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_i_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_e_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_f_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_g_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_wild_rooibos_bush_a_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_wild_rooibos_bush_b_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_wild_rooibos_bush_c_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_wild_rooibos_bush_d_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_wild_rooibos_bush_e_NN"
+   ],
+   "biome": {
+    "wueste": 0.5,
+    "canyon": 1.0,
+    "oedland": 0.4
+   },
+   "lage_dichte_je_m2": {
+    "Sandstein": 0.006,
+    "Geroell": 0.005,
+    "Fels": 0.003,
+    "Felsplatte": 0.004,
+    "Sand": 0.002,
+    "Erde": 0.001
+   },
+   "dichte_ohne_lagen_je_m2": 0.0015,
+   "hang_voll_bis_grad": 28,
+   "hang_null_ab_grad": 42,
+   "hoehe_max_m": 9999,
+   "rinne": 0.7,
+   "kuppe": 1.0,
+   "senke": 1.0,
+   "wandfuss": 2.0,
+   "terrasse": 2.5,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    3,
+    8
+   ],
+   "radius_m": 2.0,
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 2,
+   "eingraben_anteil": null,
+   "kippen": 0.6,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    12000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.0,
+   "netze_wuestenfeld": null,
+   "hinweis": "Sukkulenten/Agaven-Ersatz (Namaqualand) an Terrassenkanten und am Wandfuß der Canyon-Wände. In C3–E5 aus."
+  },
+  "totholz_klein": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02"
+   ],
+   "biome": {
+    "wueste": 0.8,
+    "canyon": 1.0,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.0005,
+    "Trockengras": 0.0005,
+    "Lehm": 0.0004,
+    "Sand": 0.0003,
+    "Geroell": 0.0003,
+    "Wiese": 0.0003,
+    "Laub": 0.001
+   },
+   "dichte_ohne_lagen_je_m2": 0.0003,
+   "hang_voll_bis_grad": 25,
+   "hang_null_ab_grad": 38,
+   "hoehe_max_m": 9999,
+   "rinne": 2.5,
+   "kuppe": 1.0,
+   "senke": 2.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": [
+    10.0,
+    5.0
+   ],
+   "gruppe": [
+    1,
+    3
+   ],
+   "radius_m": 2.5,
+   "massstab": [
+    0.9,
+    1.4
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": null,
+   "eingraben_anteil": 0.25,
+   "kippen": 1.0,
+   "ausrichtung": "hangabwaerts",
+   "sichtweite": [
+    0,
+    35000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
+   "wuestenfeld_faktor": 1.0,
+   "netze_wuestenfeld": null,
+   "hinweis": "Liegendes Totholz 1–3,6 m ohne Kollision; sammelt sich in Rinnen (hangabwärts ausgerichtet) und unter toten Bäumen. Rolle fehlt der WU-Ebene → in C3–E5 voll."
+  },
+  "totholz_stamm": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+    "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_01",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01"
+   ],
+   "biome": {
+    "wueste": 0.6,
+    "canyon": 0.8,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.00012,
+    "Trockengras": 0.00012,
+    "Lehm": 0.0001,
+    "Sand": 6e-05,
+    "Geroell": 6e-05,
+    "Wiese": 8e-05
+   },
+   "dichte_ohne_lagen_je_m2": 8e-05,
+   "hang_voll_bis_grad": 20,
+   "hang_null_ab_grad": 32,
+   "hoehe_max_m": 9999,
+   "rinne": 3.0,
+   "kuppe": 1.0,
+   "senke": 2.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": [
+    14.0,
+    4.0
+   ],
+   "gruppe": [
+    1,
+    1
+   ],
+   "radius_m": 1.0,
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": null,
+   "eingraben_anteil": 0.3,
+   "kippen": 1.0,
+   "ausrichtung": "hangabwaerts",
+   "sichtweite": [
+    0,
+    50000
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 1.0,
+   "netze_wuestenfeld": null,
+   "hinweis": "Stämme 2,3–5,3 m mit Kollision (≤ 3 000 je Feld, Budget). Gebleichtes Treibholz als „Ödland-Stamm“."
+  },
+  "stumpf": {
+   "schicht": "1_mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03"
+   ],
+   "biome": {
+    "wueste": 0.3,
+    "canyon": 0.6,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.00025,
+    "Trockengras": 0.0002,
+    "Lehm": 0.00015,
+    "Wiese": 0.0002,
+    "Sand": 5e-05
+   },
+   "dichte_ohne_lagen_je_m2": 0.0001,
+   "hang_voll_bis_grad": 20,
+   "hang_null_ab_grad": 32,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.0,
+   "senke": 1.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": [
+    5.0,
+    50.0,
+    1.5
+   ],
+   "nahe_totbaum": [
+    12.0,
+    3.0
+   ],
+   "gruppe": [
+    1,
+    4
+   ],
+   "radius_m": 5.0,
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 6,
+   "eingraben_anteil": null,
+   "kippen": 0.8,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
+   "wuestenfeld_faktor": 0.3,
+   "netze_wuestenfeld": null,
+   "hinweis": "Stümpfe als Spur von Holzschlag („abgeholzt, dann verbrannt“); nahe Wegen und toten Bäumen. Verkohlte Stümpfe: Einkaufsliste."
+  },
+  "totbaum_gross": {
+   "schicht": "2_baum",
+   "netze": [
+    "/Game/Graveyard/trees/SM_Dead_Tree_01",
+    "/Game/Graveyard/trees/SM_Dead_Tree_02",
+    "/Game/Graveyard/trees/SM_Dead_Tree_03",
+    "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_XL_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_10_dead",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_08_Dead_Forest"
+   ],
+   "biome": {
+    "wueste": 0.15,
+    "canyon": 0.35,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 5e-05,
+    "Trockengras": 5e-05,
+    "Lehm": 4e-05,
+    "Wiese": 4e-05,
+    "Gras": 4e-05,
+    "Geroell": 2e-05,
+    "Sand": 1e-05,
+    "Laub": 0.0001
+   },
+   "dichte_ohne_lagen_je_m2": 3e-05,
+   "hang_voll_bis_grad": 18,
+   "hang_null_ab_grad": 28,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 2.5,
+   "senke": 1.3,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": [
+    12.0,
+    70.0,
+    1.6
+   ],
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    3
+   ],
+   "radius_m": 9.0,
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 15,
+   "eingraben_anteil": null,
+   "kippen": 0.05,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.5,
+   "netze_wuestenfeld": null,
+   "hinweis": "Tote Bäume 10–25 m, sehr spärlich (~40–80 je km²), gern auf Kuppen (Galgen-Silhouette, Velen) und in Sichtweite von Wegen; Gruppen 1–3 (toter Hain). Graveyard/Forest-Bäume sind kein Nanite → Sichtweite 0."
+  },
+  "totbaum_klein": {
+   "schicht": "2_baum",
+   "netze": [
+    "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+    "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
+    "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0",
+    "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_M_01",
+    "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_trunk_NN"
+   ],
+   "biome": {
+    "wueste": 0.5,
+    "canyon": 0.8,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.00014,
+    "Trockengras": 0.00012,
+    "Lehm": 0.0001,
+    "Sand": 6e-05,
+    "Geroell": 8e-05,
+    "Sandstein": 6e-05,
+    "Wiese": 0.0001,
+    "Heide": 0.0001
+   },
+   "dichte_ohne_lagen_je_m2": 8e-05,
+   "hang_voll_bis_grad": 22,
+   "hang_null_ab_grad": 34,
+   "hoehe_max_m": 9999,
+   "rinne": 2.0,
+   "kuppe": 1.0,
+   "senke": 2.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.5,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    3
+   ],
+   "radius_m": 6.0,
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 10,
+   "eingraben_anteil": null,
+   "kippen": 0.08,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.6,
+   "netze_wuestenfeld": [
+    "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+    "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
+    "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0"
+   ],
+   "hinweis": "Kleine tote Bäume 2–7 m (Nanite) in Rinnen/Senken/an Terrassen; Köcherbaum-Stamm nur außerhalb C3–E5."
+  },
+  "einzelbaum_rinne": {
+   "schicht": "2_baum",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_A",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_B",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_C",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_D",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_E",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_A",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_B",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_C",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_D"
+   ],
+   "biome": {
+    "wueste": 0.4,
+    "canyon": 0.8,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.0004,
+    "Trockengras": 0.0003,
+    "Lehm": 0.0005,
+    "Wiese": 0.0005,
+    "Gras": 0.0005,
+    "Sand": 0.0001,
+    "Geroell": 0.0001
+   },
+   "dichte_ohne_lagen_je_m2": 0.0002,
+   "hang_voll_bis_grad": 20,
+   "hang_null_ab_grad": 30,
+   "hoehe_max_m": 9999,
+   "rinne": 1.5,
+   "kuppe": 1.0,
+   "senke": 1.5,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    0.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.35,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    4
+   ],
+   "radius_m": 10.0,
+   "massstab": [
+    0.8,
+    1.25
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 12,
+   "eingraben_anteil": null,
+   "kippen": 0.05,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.5,
+   "netze_wuestenfeld": null,
+   "hinweis": "Lebende Einzelbäume (Coast_Dunes „dry oak“ 4–9 m, krumm, Toussaint-Look) NUR bei Restfeuchte ≥ 0,35: Rinnen, Senken, ≤ 25 m vom Wasser. Kein Nanite → Sichtweite 0, LOD prüfen."
+  },
+  "krueppelkiefer_terrasse": {
+   "schicht": "2_baum",
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04"
+   ],
+   "biome": {
+    "wueste": 0.0,
+    "canyon": 1.0,
+    "oedland": 0.3
+   },
+   "lage_dichte_je_m2": {
+    "Sandstein": 0.0002,
+    "Geroell": 0.00015,
+    "Fels": 0.0001,
+    "Felsplatte": 0.00015,
+    "Erde": 0.0001
+   },
+   "dichte_ohne_lagen_je_m2": 8e-05,
+   "hang_voll_bis_grad": 25,
+   "hang_null_ab_grad": 38,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.5,
+   "senke": 1.0,
+   "wandfuss": 1.5,
+   "terrasse": 3.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    2
+   ],
+   "radius_m": 5.0,
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 10,
+   "eingraben_anteil": null,
+   "kippen": 0.1,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.5,
+   "netze_wuestenfeld": null,
+   "hinweis": "Krüppelkiefern 1,7–4,8 m an Terrassenkanten und Felsabsätzen der Canyon-Wände (witcher_06: Nadelbäume auf Simsen). Kein Nanite."
+  },
+  "koecherbaum": {
+   "schicht": "2_baum",
+   "netze": [
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_quiver_tree_01_NN",
+    "/Game/Namaqualand/Meshes/Foliage/NN/SM_quiver_tree_02_NN"
+   ],
+   "biome": {
+    "wueste": 1.0,
+    "canyon": 1.0,
+    "oedland": 0.2
+   },
+   "lage_dichte_je_m2": {
+    "Sandstein": 0.0002,
+    "Geroell": 0.00015,
+    "Sand": 0.0001,
+    "Fels": 0.0001,
+    "Erde": 5e-05
+   },
+   "dichte_ohne_lagen_je_m2": 8e-05,
+   "hang_voll_bis_grad": 25,
+   "hang_null_ab_grad": 38,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 2.0,
+   "senke": 1.0,
+   "wandfuss": 1.0,
+   "terrasse": 2.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    1,
+    3
+   ],
+   "radius_m": 7.0,
+   "massstab": [
+    0.9,
+    1.5
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 8,
+   "eingraben_anteil": null,
+   "kippen": 0.05,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "wuestenfeld_faktor": 0.0,
+   "netze_wuestenfeld": null,
+   "hinweis": "Köcherbäume (Namaqualand) nur außerhalb C3–E5 (dort streut sie die WU-Ebene): Canyon-Zellen in Nachbarfeldern, Kuppen und Terrassen."
+  },
+  "schilf_rest": {
+   "schicht": "5_wasserkante",
+   "netze": [
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_1",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_2",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_3",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_4",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_5",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_6",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_1",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_2",
+    "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_3"
+   ],
+   "biome": {
+    "wueste": 0.7,
+    "canyon": 0.8,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.06,
+    "Lehm": 0.08,
+    "Schlamm": 0.1,
+    "Sand": 0.04,
+    "Wiese": 0.06,
+    "Gras": 0.06,
+    "Trockengras": 0.04,
+    "Geroell": 0.02,
+    "Algen": 0.1
+   },
+   "dichte_ohne_lagen_je_m2": 0.05,
+   "hang_voll_bis_grad": 12,
+   "hang_null_ab_grad": 25,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.0,
+   "senke": 1.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    1.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.0,
+   "wasser_band_m": [
+    0.8,
+    5.0
+   ],
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    3,
+    8
+   ],
+   "radius_m": 1.8,
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 4,
+   "eingraben_anteil": null,
+   "kippen": 0.1,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.6,
+   "netze_wuestenfeld": null,
+   "hinweis": "Rohrkolben-Horste (Eldarien-Netze) nur im Band 0,8–5 m am Wasser (Oasen, Rinnen mit Wasser), flach < 25°."
+  },
+  "gras_gruen": {
+   "schicht": "5_wasserkante",
+   "netze": [
+    "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_01",
+    "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_02",
+    "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_03",
+    "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_04",
+    "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_05",
+    "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_06"
+   ],
+   "biome": {
+    "wueste": 0.6,
+    "canyon": 0.8,
+    "oedland": 1.0
+   },
+   "lage_dichte_je_m2": {
+    "Erde": 0.05,
+    "Lehm": 0.05,
+    "Sand": 0.03,
+    "Wiese": 0.06,
+    "Gras": 0.06,
+    "Trockengras": 0.04,
+    "Geroell": 0.02,
+    "Moos": 0.06,
+    "Schlamm": 0.05
+   },
+   "dichte_ohne_lagen_je_m2": 0.04,
+   "hang_voll_bis_grad": 18,
+   "hang_null_ab_grad": 32,
+   "hoehe_max_m": 9999,
+   "rinne": 1.0,
+   "kuppe": 1.0,
+   "senke": 1.0,
+   "wandfuss": 1.0,
+   "terrasse": 1.0,
+   "restfeuchte": [
+    0.0,
+    1.0
+   ],
+   "nur_restfeuchte_ab": 0.55,
+   "wasser_band_m": null,
+   "weg_band_m": null,
+   "nahe_totbaum": null,
+   "gruppe": [
+    5,
+    12
+   ],
+   "radius_m": 2.5,
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "massstab_schutt_abnahme": 0.0,
+   "eingraben_cm": 3,
+   "eingraben_anteil": null,
+   "kippen": 0.3,
+   "ausrichtung": "zufall",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
+   "wuestenfeld_faktor": 0.4,
+   "netze_wuestenfeld": null,
+   "hinweis": "Grüne Grasbüschel (Megascans Kikuyu, Nanite) nur bei Restfeuchte ≥ 0,55: Uferband ≤ 12 m, Oasen-Senken; Grün-Akzent im Ocker."
+  }
+ },
+ "budget": {
+  "instanzen_je_feld": 60000,
+  "ziel_instanzen_je_feld": 50000,
+  "kollision_je_feld": 3000,
+  "wuestenfeld_instanzen": 15000,
+  "wuestenfeld_kollision": 1200,
+  "ausduenn_reihenfolge": [
+   "kiesel",
+   "trockengras_niedrig",
+   "trockengras_hoch",
+   "zweige",
+   "gras_gruen",
+   "trockengras_flach",
+   "sukkulent",
+   "lehmplatte",
+   "laub_trocken",
+   "schilf_rest",
+   "stein",
+   "knochen_ersatz",
+   "geroellplatte",
+   "dornstrauch",
+   "trockenhang_strauch",
+   "stumpf",
+   "totholz_klein",
+   "totholz_stamm",
+   "krueppelkiefer_terrasse",
+   "koecherbaum",
+   "einzelbaum_rinne",
+   "totbaum_klein",
+   "totbaum_gross"
+  ],
+  "hinweis": "Überschreitung: Klassen in dieser Reihenfolge proportional ausdünnen (deterministisch per Hash), bis Ziel erreicht; Kollisionsklassen separat auf Kollisionsbudget."
+ },
+ "erwartung_je_feld": {
+  "E6": {
+   "gesamt": [
+    35000,
+    50000
+   ],
+   "kollision": [
+    250,
+    700
+   ],
+   "kiesel": [
+    9000,
+    14000
+   ],
+   "trockengras_hoch": [
+    7000,
+    11000
+   ],
+   "trockengras_niedrig": [
+    5000,
+    9000
+   ],
+   "zweige": [
+    3500,
+    6000
+   ],
+   "dornstrauch": [
+    800,
+    1600
+   ],
+   "totbaum_gross": [
+    40,
+    90
+   ],
+   "totbaum_klein": [
+    100,
+    220
+   ],
+   "einzelbaum_rinne": [
+    40,
+    140
+   ],
+   "schilf_rest": [
+    100,
+    600
+   ],
+   "gras_gruen": [
+    600,
+    2500
+   ]
+  },
+  "E7": {
+   "gesamt": [
+    3000,
+    8000
+   ],
+   "hinweis": "nur 13 % Land, Sand 80 %"
+  },
+  "D6": {
+   "gesamt": [
+    20000,
+    38000
+   ],
+   "hinweis": "oedland 61 %, lava 26 % (Faktor 0), aue 13 % (Faktor 0)"
+  },
+  "F6": {
+   "gesamt": [
+    1000,
+    4000
+   ],
+   "hinweis": "oedland 4 %"
+  },
+  "D4": {
+   "gesamt": [
+    6000,
+    15000
+   ],
+   "kollision": [
+    60,
+    400
+   ],
+   "hinweis": "Wüstenfeld: Ergänzung, Budget 15 000; canyon 60 % + wueste 27 %"
+  },
+  "E4": {
+   "gesamt": [
+    4000,
+    12000
+   ],
+   "hinweis": "Wüstenfeld, wueste 79 %: Totholz, Steine, Trockengras 0,35, Oasen"
+  },
+  "C4": {
+   "gesamt": [
+    2000,
+    7000
+   ],
+   "hinweis": "Wüstenfeld, canyon 19 %"
+  },
+  "D3": {
+   "gesamt": [
+    2000,
+    7000
+   ],
+   "hinweis": "Wüstenfeld, canyon 15 % + wueste 11 %"
+  },
+  "E3": {
+   "gesamt": [
+    2000,
+    7000
+   ],
+   "hinweis": "Wüstenfeld, wueste 32 %, Schnee 17 % (Faktor 0,15)"
+  },
+  "D5": {
+   "gesamt": [
+    1500,
+    5000
+   ],
+   "hinweis": "Wüstenfeld, oedland 19 %"
+  },
+  "E5": {
+   "gesamt": [
+    500,
+    2500
+   ],
+   "hinweis": "Wüstenfeld, oedland 7 %"
+  },
+  "hinweis": "Spannen aus Lagenanteilen (biome_je_feld.md) × Dichten; UNGETESTET, mit Echtdaten nachjustieren (--faktor)."
+ },
+ "felsgruppen_overrides": {
+  "hinweis": "Für felsgruppen_plan.py (Teil C) in Biomen wueste/canyon/oedland. Übernahme in felsgruppen_regeln.json durch den Teil-C-Agenten oder Koordinator; Werte hier sind der B9-Vorschlag.",
+  "biom_palette": {
+   "canyon": "sandstein",
+   "oedland": "sandstein",
+   "wueste": "sandstein"
+  },
+  "schichtung": {
+   "dip_grad": [
+    2,
+    8
+   ],
+   "band_abstand_m": [
+    10,
+    28
+   ],
+   "band_breite_anteil": 0.3,
+   "hinweis": "Schichtstufen (Monument Valley/Wadi Rum): nahezu horizontale Bänder, enger Abstand, breitere Bänder; harte Bank = Steilstufe, weiche Lage = Schuttböschung 30–35°."
+  },
+  "klassen_faktor": {
+   "canyon": {
+    "band": 1.6,
+    "fuss": 1.5,
+    "wand": 1.2,
+    "kuppe": 1.0,
+    "grat": 0.6,
+    "blockstrom": 1.2,
+    "prallhang": 1.0
+   },
+   "oedland": {
+    "band": 0.6,
+    "fuss": 1.0,
+    "wand": 0.8,
+    "kuppe": 1.6,
+    "grat": 0.5,
+    "blockstrom": 0.8,
+    "prallhang": 1.2
+   },
+   "wueste": {
+    "band": 0.0,
+    "fuss": 1.0,
+    "wand": 0.8,
+    "kuppe": 1.2,
+    "grat": 0.4,
+    "blockstrom": 0.6,
+    "prallhang": 0.6
+   }
+  },
+  "terrassenkanten": {
+   "aktiv": true,
+   "hang_max_grad": 14,
+   "abbruch_min_m": 3.0,
+   "umkreis_m": 6,
+   "netze": [
+    "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Small_07_uk5ebcp/Raw/uk5ebcp_tier_0/StaticMeshes/uk5ebcp_tier_0",
+    "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_05_uldubik/Raw/uldubik_tier_0/StaticMeshes/uldubik_tier_0",
+    "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+    "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034"
+   ],
+   "abstand_m": [
+    6,
+    14
+   ],
+   "eingraben_anteil": [
+    0.3,
+    0.45
+   ],
+   "hinweis": "Kantenstücke entlang der Terrassenkante (Kante = Hauptrichtung), Lücken 6–14 m, nie lückenlos."
+  },
+  "eingraben_anteil": [
+   0.3,
+   0.45
+  ],
+  "kippen_in_hang": true,
+  "kiesel_ring": {
+   "kiesel_ring_m": 2.5,
+   "kiesel_dichte_je_m2": 1.2,
+   "netze": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07"
+   ]
+  },
+  "wueste_felder_faktor": 0.4,
+  "felsnadel": {
+   "aktiv": true,
+   "je_km2": [
+    1,
+    3
+   ],
+   "kuppen_prominenz_min_m": 12,
+   "netze": [
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_03",
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_01",
+    "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05"
+   ],
+   "massstab": [
+    0.6,
+    1.1
+   ],
+   "eingraben_anteil": 0.3,
+   "hinweis": "Blickziel Felsnadel/Hoodoo als Akteur auf prominenten Kuppen (Bogen: Einkaufsliste)."
+  }
+ },
+ "spuren_overrides": {
+  "hinweis": "Für spuren_plan.py (Teil D) in wueste/canyon/oedland. Vorschlag B9; Übernahme in spuren_regeln.json.",
+  "karren": {
+   "je_km_weg": 2.6,
+   "anteil_schwer": 0.5,
+   "kippen_grad": [
+    8,
+    22
+   ],
+   "beiwerk": [
+    1,
+    4
+   ],
+   "netze": [
+    "/Game/MedievalCastle/Meshes/SM_BrokenWoodWagon",
+    "/Game/MedievalFantasyVillage/Props/SM_cartB_a1",
+    "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_Carriage_01a"
+   ],
+   "beiwerk_netze": [
+    "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_Wheel_01b",
+    "/Game/MedievalFantasyVillage/Props/SM_barrelClosedA_a1",
+    "/Game/MedievalFantasyVillage/Props/SM_crateA_a1",
+    "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_FoodSac_02b"
+   ],
+   "hinweis": "Karren-Wracks (Velen-Kriegsödnis): häufiger, stärker gekippt, zerbrochen (BrokenWoodWagon bevorzugt), Beiwerk verstreut 1–4 m."
+  },
+  "brunnen": {
+   "netze": [
+    "/Game/Bazaar_Meshingun/Environment/Assets/Mesh/Prop/SM_Well_02a"
+   ],
+   "je_ort": [
+    1,
+    2
+   ],
+   "frei_je_km2": 0.6,
+   "bedingung": "Restfeuchte ≥ 0,4 (Senke/Rinne) oder ≤ 40 m vom Ort",
+   "hinweis": "Verlassener Brunnen in Senken als Blickziel; Trog/Fass als Beiwerk."
+  },
+  "galgen_ersatz": {
+   "je_km_weg": 0.4,
+   "kuppen_bonus": 3.0,
+   "weg_abstand_m": [
+    6,
+    25
+   ],
+   "bauteile": [
+    {
+     "netz": "/Game/Town/Meshes/House/SM_Beam_4m",
+     "versatz_m": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "rot_grad": [
+      0,
+      0,
+      0
+     ],
+     "hinweis": "Pfosten 1 senkrecht (4 m)"
+    },
+    {
+     "netz": "/Game/Town/Meshes/House/SM_Beam_4m",
+     "versatz_m": [
+      3.2,
+      0.0,
+      0.0
+     ],
+     "rot_grad": [
+      0,
+      0,
+      0
+     ],
+     "hinweis": "Pfosten 2"
+    },
+    {
+     "netz": "/Game/Bazaar_Meshingun/Environment/Assets/Mesh/Architecture/SM_Wood_Beam_4m_01a",
+     "versatz_m": [
+      -0.3,
+      0.0,
+      3.75
+     ],
+     "rot_grad": [
+      0,
+      0,
+      0
+     ],
+     "hinweis": "Querbalken 4 m liegend auf den Pfosten (Rot. je nach Pivot anpassen – UNGETESTET)"
+    }
+   ],
+   "hinweis": "ERSATZ-Galgen aus Balken (Velen-Hangman-Tree-Motiv), bis ein Galgen-Asset gekauft ist (Einkaufsliste). Tote Bäume auf Kuppen (Klasse totbaum_gross, kuppe 2,5) ergeben das Hangman-Tree-Motiv ohne Bauteile."
+  },
+  "steinmann": {
+   "biome_zusatz": [
+    "oedland",
+    "canyon",
+    "wueste"
+   ],
+   "frei_je_km2": 2.0,
+   "netze_zusatz": [
+    "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_03",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_a_NN"
+   ]
+  },
+  "graeber": {
+   "einzel_je_km_weg": 1.2,
+   "totbaum_anteil": 0.6,
+   "hinweis": "Einzelgräber (Kreuz + 3–6 Steine) an Wegen, oft unter totem Baum."
+  },
+  "feldstreifen_verlassen": {
+   "aktiv": true,
+   "biome": [
+    "oedland"
+   ],
+   "stoppel_netze": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02"
+   ],
+   "zaun_lueckenanteil": 0.55,
+   "zaun_kippen_grad": [
+    5,
+    25
+   ],
+   "hinweis": "Verbrannte/verlassene Felder um Orte: Stoppeln (dead_grass) statt Frucht, Zaun zu 55 % lückig und gekippt."
+  },
+  "knochen": {
+   "netze": [],
+   "hinweis": "Keine Knochen/Schädel im Inventar – Einkaufsliste. Bis dahin Klasse knochen_ersatz (Schicht 0)."
+  },
+  "blickziele_typ": {
+   "oedland": [
+    "totbaum_solitaer",
+    "ruine",
+    "galgen_ersatz",
+    "brunnen"
+   ],
+   "canyon": [
+    "felsnadel",
+    "ruine",
+    "karren"
+   ],
+   "wueste": [
+    "felsnadel",
+    "ruine",
+    "brunnen"
+   ]
+  },
+  "wueste_felder_faktor": 0.6
+ },
+ "mittelschicht_overrides": {
+  "hinweis": "Für mittelschicht_plan.py (Teil D): in Biomen wueste/canyon/oedland Faktor 0 setzen, sobald wueste_ergaenzung gesetzt ist (Schicht 1 kommt dann von hier; sonst doppelte Sträucher/Totholz). Alternativ mittelschicht zuerst setzen und wueste_ergaenzung liest sie als belegt (vorhandene_ebenen).",
+  "biom_faktor": {
+   "wueste": 0.0,
+   "canyon": 0.0,
+   "oedland": 0.0
+  }
+ },
+ "bild_farben": {
+  "kiesel": [
+   200,
+   200,
+   200
+  ],
+  "stein": [
+   150,
+   150,
+   150
+  ],
+  "lehmplatte": [
+   180,
+   120,
+   90
+  ],
+  "geroellplatte": [
+   120,
+   110,
+   100
+  ],
+  "zweige": [
+   170,
+   120,
+   70
+  ],
+  "knochen_ersatz": [
+   250,
+   250,
+   220
+  ],
+  "laub_trocken": [
+   160,
+   100,
+   40
+  ],
+  "trockengras_hoch": [
+   230,
+   200,
+   80
+  ],
+  "trockengras_niedrig": [
+   210,
+   190,
+   110
+  ],
+  "trockengras_flach": [
+   190,
+   170,
+   90
+  ],
+  "dornstrauch": [
+   90,
+   110,
+   40
+  ],
+  "trockenhang_strauch": [
+   60,
+   100,
+   50
+  ],
+  "sukkulent": [
+   120,
+   170,
+   90
+  ],
+  "totholz_klein": [
+   140,
+   80,
+   30
+  ],
+  "totholz_stamm": [
+   110,
+   60,
+   20
+  ],
+  "stumpf": [
+   100,
+   50,
+   20
+  ],
+  "totbaum_gross": [
+   40,
+   20,
+   10
+  ],
+  "totbaum_klein": [
+   70,
+   35,
+   15
+  ],
+  "einzelbaum_rinne": [
+   30,
+   140,
+   40
+  ],
+  "krueppelkiefer_terrasse": [
+   20,
+   90,
+   60
+  ],
+  "koecherbaum": [
+   150,
+   200,
+   120
+  ],
+  "schilf_rest": [
+   200,
+   170,
+   90
+  ],
+  "gras_gruen": [
+   60,
+   200,
+   60
+  ],
+  "_gelaende": {
+   "wasser": [
+    40,
+    80,
+    200
+   ],
+   "weg": [
+    120,
+    80,
+    40
+   ],
+   "ort": [
+    200,
+    40,
+    40
+   ],
+   "rinne": [
+    60,
+    60,
+    140
+   ],
+   "wandfuss": [
+    140,
+    90,
+    60
+   ],
+   "terrasse": [
+    200,
+    140,
+    60
+   ],
+   "kuppe": [
+    240,
+    230,
+    200
+   ]
+  }
+ },
+ "ausgabe": {
+  "ordner": "export/unreal/welt/wueste_ergaenzung",
+  "bild": "docs/pruefung/wueste_ergaenzung"
+ },
+ "pruefkameras": [
+  {
+   "feld": "D4",
+   "name": "Canyon-Wand",
+   "position_m": "Wandfuß der höchsten Steilstufe (Zelle mit max. wandfuss-Stärke), 12 m vor der Wand, Augenhöhe 1,7 m",
+   "blick": "auf die Wand, 15° nach oben",
+   "erwartung": "Schuttfächer: Steine groß am Fuß, kleiner hangabwärts; Terrassenkante mit Krüppelkiefer/Sukkulenten; kein Block ohne Bezug zur Rinne; Trockengras in den Rinnen gold"
+  },
+  {
+   "feld": "E6",
+   "name": "Ödland Augenhöhe",
+   "position_m": "Mitte einer Lehm-Senke mit Restfeuchte, 1,7 m",
+   "blick": "Horizont, Weg im Bild",
+   "erwartung": "in 10 m mindestens 1 Objekt 0,5–3 m (Dornstrauch/Totholz), Trockenbett-Platten, Trockengras-Büschel 3 Höhen, toter Baum auf Kuppe am Horizont, Karren-Wrack am Weg (Teil D)"
+  },
+  {
+   "feld": "E4",
+   "name": "Wüstenrand",
+   "position_m": "Grenze wueste/aue (Biom-Saum), 1,7 m",
+   "blick": "entlang der Grenze",
+   "erwartung": "WU-Ebene unverändert; zusätzlich Totholz, Kiesel in Rinnen, vereinzelt Trockengras; keine Doppelungen (Sträucher nicht doppelt), Gesamt ≤ 15 000"
+  }
+ ]
+}
