@@ -1,10 +1,125 @@
 {
- "stand": "2026-10-10",
+ "stand": "2026-10-10 (Korrektur Runde 1)",
  "thema": "mittelschicht",
  "seed": 1107,
- "hinweis": "Dichten in Instanzen je m^2: [offen (Beschattung 0), voll beschattet (Beschattung 1)]; Gruppen multiplizieren die Dichte NICHT (Dichte ist Einzelinstanz-Dichte, Gruppenzentren = Dichte/Gruppenmittel). UNGETESTET MIT ECHTDATEN.",
+ "hinweis": "Dichten in Instanzen je m^2: [offen (Beschattung 0), voll beschattet (Beschattung 1)]; Gruppen multiplizieren die Dichte NICHT (Gruppenzentren = Dichte/Gruppenmittel). Klasse optional: netze_massstab {pfad: [min,max]}, netze_gewicht {pfad: w}. Einziger Planer der generischen Mittelschicht-Klassen (KONVENTIONEN §4).",
  "ft_ordner": "/Game/Eldarien/Welt/Foliage/Mittelschicht",
  "ft_praefix": "FT_EL_MS_",
+ "ebene": 1,
+ "entfernen": "",
+ "min_anteil_eigen_fenster": 0.02,
+ "biome_eigen": "alle 15 (Querschnitts-Planer, KONVENTIONEN §1)",
+ "generische_klassen": [
+  "strauch",
+  "jungbaum",
+  "farn",
+  "totholz_liegend",
+  "totholz_stumpf",
+  "totholz_ast",
+  "hochstaude",
+  "grasbueschel",
+  "beere",
+  "pilz"
+ ],
+ "zusatzklassen_eigen": {
+  "wurzel": "nur elfenwald, dschungel (sumpf/nordkueste/hochgebirge setzen Wurzeln als Sonderform)",
+  "kletter": "nur elfenwald, sumpf, dschungel (Efeu/Lianen frei; Lianen an Stamm/Wand = dschungel-Sonderform)",
+  "totbaum": "nur elfenwald, dschungel (alle anderen Biom-Planer setzen Totbaeume in Schicht 2)"
+ },
+ "entfallen_korrektur_runde1": {
+  "schilf": "aue, sumpf: Schilfguertel ist Sonderform der Biom-Planer (Schicht 5)",
+  "strauch": "gletscher, frost, lava: Latschen/Krummholz/Kiefernstrauch sind Sonderformen (hochgebirge, lava)",
+  "beere (heath/heather)": "heide, tundra: Heidekraut-Flecken sind Sonderform von heide_tundra; Beere nur noch Preisel-/Heidelbeere",
+  "totbaum": "alle Biome ausser elfenwald, dschungel",
+  "wurzel": "sumpf, bergwald, fjord"
+ },
+ "biom_planer": {
+  "fjord": "nordkueste",
+  "kueste": "nordkueste",
+  "bergwald": "nordkueste",
+  "aue": "aue",
+  "heide": "heide_tundra",
+  "tundra": "heide_tundra",
+  "gletscher": "hochgebirge",
+  "frost": "hochgebirge",
+  "elfenwald": "elfenwald",
+  "sumpf": "sumpf",
+  "dschungel": "dschungel",
+  "lava": "lava",
+  "wueste": "wueste_ergaenzung",
+  "canyon": "wueste_ergaenzung",
+  "oedland": "wueste_ergaenzung"
+ },
+ "override_schema": {
+  "hinweis": "Block mittelschicht_overrides in <thema>_regeln.json des Biom-Planers (gleicher Ordner wie diese Datei, sonst ../<thema>/). Overrides gewinnen; fehlende Datei/Block -> Hinweis, eigene Werte. Klassennamen totholz/stumpf/ast werden als totholz_liegend/totholz_stumpf/totholz_ast gelesen.",
+  "palette": "{klasse: [Unreal-Pfade]} ersetzt die Netzliste der Klasse (Pfade ausserhalb des Inventars werden verworfen)",
+  "faktor": "{klasse: float} Dichtefaktor (0 = Klasse aus); Gesamtfaktor = Feldfaktor x faktor x biom_faktor",
+  "zusatzklassen": "{name: klassendef} neue Klasse (fehlende Schluessel aus klasse_vorgabe); optional biome [Liste], biom_faktor {biom: f}, lagen (= lagen_faktor), schatten, farbe",
+  "je_biom": "optional {biom: {palette, faktor, zusatzklassen}} fuer Planer mit mehreren Biomen",
+  "faktor_je_feld": "optional {Feld: {klasse: float}} ersetzt den Feldfaktor (feld_klassen_faktor)",
+  "biom_faktor": "alt (wueste_ergaenzung): {biom: float} multipliziert alle Klassen des Bioms",
+  "parameter": "{klasse: {schluessel: wert}} ueberschreibt einzelne Klassenschluessel (auch lichtung, wegrand, nah_baum, mulde, an_totholz als Dichtefaktoren)",
+  "vorlage_biom": "{klasse: biom} Vorlage, wenn die Klasse im Biom fehlt (sonst erstes Biom mit dieser Klasse)",
+  "entfernen_je_feld": "{Feld: \"praefix,praefix\"} wird an plan.json entfernen angehaengt"
+ },
+ "klasse_vorgabe": {
+  "netze": [],
+  "dichte": [
+   0.002,
+   0.002
+  ],
+  "gruppe": [
+   1,
+   1
+  ],
+  "radius_m": 2.0,
+  "massstab": [
+   0.8,
+   1.2
+  ],
+  "eingraben_cm": 4,
+  "kippen": 0.3,
+  "sichtweite": [
+   0,
+   30000
+  ],
+  "kollision": false,
+  "saum": 1.0,
+  "feuchte": [
+   1.0,
+   1.0
+  ],
+  "hang_max": 35,
+  "hoehe_max_m": 9999,
+  "lichtungsrand": 1.0,
+  "laengs_hang": false,
+  "an_baum": false
+ },
+ "feld_klassen_faktor": {
+  "dschungel": {
+   "hinweis": "verteilung-dschungel.md §3: Farn/Kletter/Totholz/Stumpf/Wurzel/Pilz 0, Strauch/Jungbaum/Hochstaude 0,5 in den Karstfeldern, solange dschungel_plan.py diese Klassen selbst setzt. nur_ohne_override: sobald dschungel_regeln.json einen Block mittelschicht_overrides hat (B7 setzt dann nur noch Sonderformen), ist die Tabelle inaktiv; B7 steuert Karstfelder ueber faktor_je_feld.",
+   "nur_ohne_override": true,
+   "felder": [
+    "G6",
+    "H6",
+    "I6",
+    "I7",
+    "G7",
+    "H7"
+   ],
+   "faktor": {
+    "farn": 0.0,
+    "kletter": 0.0,
+    "totholz_liegend": 0.0,
+    "totholz_stumpf": 0.0,
+    "wurzel": 0.0,
+    "pilz": 0.0,
+    "strauch": 0.5,
+    "jungbaum": 0.5,
+    "hochstaude": 0.5
+   }
+  }
+ },
  "fenster_rand_m": 64,
  "budget": {
   "instanzen_je_feld": 60000,
@@ -12,18 +127,17 @@
   "ziel_instanzen_je_feld": 52000,
   "prioritaet": [
    "totbaum",
-   "totholz",
-   "stumpf",
+   "totholz_liegend",
+   "totholz_stumpf",
    "strauch",
    "jungbaum",
    "farn",
    "wurzel",
-   "schilf",
    "hochstaude",
    "beere",
    "kletter",
    "grasbueschel",
-   "ast",
+   "totholz_ast",
    "pilz"
   ]
  },
@@ -33,11 +147,12 @@
   "ort": 5.0,
   "wasser": 1.0,
   "baumstamm": 0.9,
-  "bestand_sonst": 1.2
+  "bestand_sonst": 1.2,
+  "wegrand_band_m": 8.0
  },
  "gross_klassen": [
-  "totholz",
-  "stumpf",
+  "totholz_liegend",
+  "totholz_stumpf",
   "totbaum",
   "strauch",
   "jungbaum"
@@ -395,7 +510,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
@@ -439,7 +554,7 @@
     "laengs_hang": true,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
      "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
@@ -482,7 +597,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
      "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
@@ -941,7 +1056,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
@@ -982,7 +1097,7 @@
     "laengs_hang": true,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
@@ -1020,7 +1135,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
@@ -1062,43 +1177,6 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "wurzel": {
-    "netze": [
-     "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
-     "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
-     "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03"
-    ],
-    "dichte": [
-     0.0003,
-     0.002
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 10,
-    "kippen": 1.0,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": true
-   },
    "pilz": {
     "netze": [
      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
@@ -1128,43 +1206,6 @@
     "feuchte": [
      0.4,
      1.8
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Environment_Set/Environment/Foliage/Models/Fir_08_Dead_Forest",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02"
-    ],
-    "dichte": [
-     5e-05,
-     0.0002
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.1
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
     ],
     "hang_max": 35,
     "hoehe_max_m": 9999,
@@ -1355,55 +1396,6 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "schilf": {
-    "netze": [
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_1",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_2",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_3",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_4",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_5",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_6",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_1",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_2",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_3",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_01",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_02",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_03"
-    ],
-    "dichte": [
-     0.0,
-     0.0
-    ],
-    "gruppe": [
-     3,
-     8
-    ],
-    "radius_m": 2.0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 5,
-    "kippen": 0.1,
-    "sichtweite": [
-     0,
-     12000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     0.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false,
-    "lagen_faktor": {
-     "ufer_0_6m": 0.03
-    }
-   },
    "grasbueschel": {
     "netze": [
      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_01",
@@ -1447,7 +1439,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
@@ -1488,7 +1480,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03",
      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_01",
@@ -1526,7 +1518,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2",
@@ -1600,57 +1592,18 @@
     "lichtungsrand": 1.0,
     "laengs_hang": false,
     "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02"
-    ],
-    "dichte": [
-     4e-05,
-     0.0001
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
    }
   },
   "heide": {
    "beere": {
     "netze": [
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01",
      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_01",
      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_02"
     ],
     "dichte": [
-     0.045,
-     0.02
+     0.02,
+     0.012
     ],
     "gruppe": [
      5,
@@ -1850,7 +1803,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
@@ -1890,7 +1843,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03",
      "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
@@ -1927,7 +1880,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
@@ -2003,43 +1956,6 @@
     "lichtungsrand": 1.0,
     "laengs_hang": false,
     "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0"
-    ],
-    "dichte": [
-     6e-05,
-     0.0001
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
    }
   },
   "tundra": {
@@ -2047,14 +1963,11 @@
     "netze": [
      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_01",
      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_02",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01"
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01"
     ],
     "dichte": [
-     0.04,
-     0.025
+     0.02,
+     0.014
     ],
     "gruppe": [
      5,
@@ -2239,7 +2152,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
@@ -2276,7 +2189,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
@@ -2312,43 +2225,6 @@
     ],
     "hang_max": 35,
     "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0"
-    ],
-    "dichte": [
-     4e-05,
-     8e-05
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.7,
-     1.0
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 350,
     "lichtungsrand": 1.0,
     "laengs_hang": false,
     "an_baum": false
@@ -2440,47 +2316,7 @@
      "Eis": 0.0
     }
    },
-   "strauch": {
-    "netze": [
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02"
-    ],
-    "dichte": [
-     0.0012,
-     0.0006
-    ],
-    "gruppe": [
-     1,
-     3
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.6,
-     1.0
-    ],
-    "eingraben_cm": 5,
-    "kippen": 0.4,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 280,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false,
-    "lagen_faktor": {
-     "Schnee": 0.3,
-     "Eis": 0.0
-    }
-   },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
@@ -2521,7 +2357,7 @@
      "Eis": 0.0
     }
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log"
@@ -2553,43 +2389,6 @@
     ],
     "hang_max": 35,
     "hoehe_max_m": 320,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0"
-    ],
-    "dichte": [
-     3e-05,
-     3e-05
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.7,
-     1.0
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 300,
     "lichtungsrand": 1.0,
     "laengs_hang": false,
     "an_baum": false
@@ -2682,50 +2481,7 @@
      "Eis": 0.0
     }
    },
-   "strauch": {
-    "netze": [
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_02",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_03"
-    ],
-    "dichte": [
-     0.002,
-     0.001
-    ],
-    "gruppe": [
-     1,
-     3
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.6,
-     1.0
-    ],
-    "eingraben_cm": 5,
-    "kippen": 0.4,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 320,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false,
-    "lagen_faktor": {
-     "Schnee": 0.3,
-     "Eis": 0.0
-    }
-   },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
@@ -2766,7 +2522,7 @@
      "Eis": 0.0
     }
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log"
@@ -2798,43 +2554,6 @@
     ],
     "hang_max": 35,
     "hoehe_max_m": 320,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0"
-    ],
-    "dichte": [
-     3e-05,
-     3e-05
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.7,
-     1.0
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 300,
     "lichtungsrand": 1.0,
     "laengs_hang": false,
     "an_baum": false
@@ -3093,7 +2812,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
@@ -3133,7 +2852,7 @@
     "laengs_hang": true,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
@@ -3170,7 +2889,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
@@ -3201,80 +2920,6 @@
      12000
     ],
     "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "wurzel": {
-    "netze": [
-     "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
-     "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
-     "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03"
-    ],
-    "dichte": [
-     0.0002,
-     0.0015
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 10,
-    "kippen": 1.0,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": true
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Environment_Set/Environment/Foliage/Models/Fir_08_Dead_Forest",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02"
-    ],
-    "dichte": [
-     5e-05,
-     0.00015
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.7,
-     1.1
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
     "saum": 1.0,
     "feuchte": [
      1.0,
@@ -3495,7 +3140,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_01",
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
@@ -3534,7 +3179,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
@@ -3572,7 +3217,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
@@ -3613,100 +3258,9 @@
     "lichtungsrand": 1.0,
     "laengs_hang": false,
     "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02"
-    ],
-    "dichte": [
-     5e-05,
-     0.0001
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.7,
-     1.1
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
    }
   },
   "sumpf": {
-   "schilf": {
-    "netze": [
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_1",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_2",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_3",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_4",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_5",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_6",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_1",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_2",
-     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_3",
-     "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_00",
-     "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_01",
-     "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_02",
-     "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_010",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_01",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_02",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_03"
-    ],
-    "dichte": [
-     0.0,
-     0.0
-    ],
-    "gruppe": [
-     3,
-     9
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 5,
-    "kippen": 0.1,
-    "sichtweite": [
-     0,
-     12000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     0.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false,
-    "lagen_faktor": {
-     "ufer_0_6m": 0.05,
-     "Schlamm": 1.0,
-     "Algen": 1.0
-    }
-   },
    "hochstaude": {
     "netze": [
      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_01",
@@ -3923,7 +3477,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
@@ -3964,7 +3518,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
      "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02",
@@ -4001,45 +3555,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "wurzel": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
-     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02",
-     "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_03",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_beech_old_roots_01"
-    ],
-    "dichte": [
-     0.001,
-     0.004
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 10,
-    "kippen": 1.0,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
      "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
@@ -4159,47 +3675,6 @@
     "lichtungsrand": 1.0,
     "laengs_hang": false,
     "an_baum": true
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Graveyard/trees/SM_Dead_Tree_01",
-     "/Game/Graveyard/trees/SM_Dead_Tree_02",
-     "/Game/Graveyard/trees/SM_Dead_Tree_03",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0",
-     "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_M_01"
-    ],
-    "dichte": [
-     0.0003,
-     0.0006
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.7,
-     1.1
-    ],
-    "eingraben_cm": 20,
-    "kippen": 0.08,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
    }
   },
   "dschungel": {
@@ -4207,14 +3682,15 @@
     "netze": [
      "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
      "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
      "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
      "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
-     "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_04",
+     "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+     "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+     "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_04",
+     "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_09",
      "/Game/AsianTemple/Environment/Mesh/SM_Fern_01a",
      "/Game/AsianTemple/Environment/Mesh/SM_Fern_02a"
     ],
@@ -4253,14 +3729,9 @@
     "netze": [
      "/Game/AsianTemple/Environment/Mesh/SM_Bush_01a",
      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_01",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_02",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_03",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_04"
+     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09"
     ],
     "dichte": [
      0.01,
@@ -4291,18 +3762,37 @@
     "hoehe_max_m": 9999,
     "lichtungsrand": 1.0,
     "laengs_hang": false,
-    "an_baum": false
+    "an_baum": false,
+    "netze_massstab": {
+     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05": [
+      1.5,
+      2.4
+     ],
+     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07": [
+      1.5,
+      2.4
+     ],
+     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08": [
+      1.5,
+      2.4
+     ],
+     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09": [
+      1.5,
+      2.4
+     ]
+    },
+    "netze_gewicht": {
+     "/Game/AsianTemple/Environment/Mesh/SM_Bush_01a": 4.0
+    }
    },
    "jungbaum": {
     "netze": [
-     "/Game/Palms_Pack_01/Meshes/SM_Palm_01_09_G",
      "/Game/Palms_Pack_01/Meshes/SM_Palm_01_10_G",
      "/Game/Palms_Pack_01/Meshes/SM_Palm_01_11_G",
      "/Game/Palms_Pack_01/Meshes/SM_Palm_01_12_G",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_04"
+     "/Game/Palms_Pack_01/Meshes/SM_Palm_01_07_G",
+     "/Game/Palms_Pack_01/Meshes/SM_Palm_01_08_G",
+     "/Game/Palms_Pack_01/Meshes/SM_Palm_01_09_G"
     ],
     "dichte": [
      0.006,
@@ -4339,14 +3829,8 @@
     "netze": [
      "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_03",
      "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_04",
-     "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_05",
-     "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_06",
      "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_07",
      "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_08",
-     "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_09",
-     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_01",
-     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_02",
-     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03",
      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_01",
      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_02",
      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_03"
@@ -4384,10 +3868,12 @@
    },
    "grasbueschel": {
     "netze": [
+     "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_01",
+     "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_04",
      "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_05",
      "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_06",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03"
+     "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_07",
+     "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_10"
     ],
     "dichte": [
      0.01,
@@ -4420,12 +3906,11 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
-     "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+     "/Game/Megascans/3D_Assets/MossyTree/SM_MossyTree_01",
      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
-     "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
      "/Game/Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01"
     ],
     "dichte": [
@@ -4459,10 +3944,12 @@
     "laengs_hang": true,
     "an_baum": false
    },
-   "stumpf": {
+   "totholz_stumpf": {
     "netze": [
      "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
-     "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02"
+     "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02",
+     "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+     "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01"
     ],
     "dichte": [
      0.0003,
@@ -4535,16 +4022,13 @@
    },
    "kletter": {
     "netze": [
+     "/Game/AsianTemple/Environment/Mesh/SM_Vines_01a",
      "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_11",
      "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_12",
-     "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_13",
      "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_17",
      "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_18",
      "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_21",
-     "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_23",
-     "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_24",
-     "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_25",
-     "/Game/AsianTemple/Environment/Mesh/SM_Vines_01a"
+     "/Game/Megascans/3D_Plants/Ivy/SM_Ivy_25"
     ],
     "dichte": [
      0.0004,
@@ -4577,13 +4061,10 @@
     "laengs_hang": false,
     "an_baum": true
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03",
      "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_05",
      "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06",
      "/Game/Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01",
      "/Game/Megascans/3D_Assets/OakBranch/SM_OakBranch_01"
@@ -4784,47 +4265,7 @@
      "Moos": 1.5
     }
    },
-   "strauch": {
-    "netze": [
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02"
-    ],
-    "dichte": [
-     0.001,
-     0.0005
-    ],
-    "gruppe": [
-     1,
-     2
-    ],
-    "radius_m": 2.0,
-    "massstab": [
-     0.6,
-     1.0
-    ],
-    "eingraben_cm": 5,
-    "kippen": 0.5,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false,
-    "lagen_faktor": {
-     "Lavafels": 0.1,
-     "Lavasand": 0.3
-    }
-   },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
@@ -4864,7 +4305,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
@@ -4888,43 +4329,6 @@
     "sichtweite": [
      0,
      45000
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0"
-    ],
-    "dichte": [
-     0.0002,
-     0.0002
-    ],
-    "gruppe": [
-     1,
-     2
-    ],
-    "radius_m": 4.0,
-    "massstab": [
-     0.7,
-     1.1
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
     ],
     "kollision": true,
     "saum": 1.0,
@@ -4979,7 +4383,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_01_NN",
      "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_02_NN",
@@ -5008,42 +4412,6 @@
      12000
     ],
     "kollision": false,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_trunk_NN",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01"
-    ],
-    "dichte": [
-     0.0002,
-     0.0002
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     45000
-    ],
-    "kollision": true,
     "saum": 1.0,
     "feuchte": [
      1.0,
@@ -5137,7 +4505,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_01_NN",
      "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_02_NN",
@@ -5177,7 +4545,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
      "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_01"
@@ -5206,44 +4574,6 @@
     "feuchte": [
      0.8,
      2.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0",
-     "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_trunk_NN"
-    ],
-    "dichte": [
-     0.0001,
-     0.0002
-    ],
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
     ],
     "hang_max": 35,
     "hoehe_max_m": 9999,
@@ -5373,7 +4703,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "ast": {
+   "totholz_ast": {
     "netze": [
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
@@ -5415,7 +4745,7 @@
     "laengs_hang": false,
     "an_baum": false
    },
-   "totholz": {
+   "totholz_liegend": {
     "netze": [
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
@@ -5440,44 +4770,6 @@
     "sichtweite": [
      0,
      45000
-    ],
-    "kollision": true,
-    "saum": 1.0,
-    "feuchte": [
-     1.0,
-     1.0
-    ],
-    "hang_max": 35,
-    "hoehe_max_m": 9999,
-    "lichtungsrand": 1.0,
-    "laengs_hang": false,
-    "an_baum": false
-   },
-   "totbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
-     "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
-     "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0",
-     "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_M_01"
-    ],
-    "dichte": [
-     0.0002,
-     0.0003
-    ],
-    "gruppe": [
-     1,
-     2
-    ],
-    "radius_m": 5.0,
-    "massstab": [
-     0.8,
-     1.2
-    ],
-    "eingraben_cm": 15,
-    "kippen": 0.05,
-    "sichtweite": [
-     0,
-     0
     ],
     "kollision": true,
     "saum": 1.0,
@@ -5519,27 +4811,22 @@
    200,
    40
   ],
-  "schilf": [
-   200,
-   170,
-   90
-  ],
   "grasbueschel": [
    190,
    190,
    110
   ],
-  "totholz": [
+  "totholz_liegend": [
    140,
    80,
    30
   ],
-  "stumpf": [
+  "totholz_stumpf": [
    110,
    60,
    20
   ],
-  "ast": [
+  "totholz_ast": [
    170,
    120,
    70
@@ -5564,5 +4851,6 @@
    30,
    10
   ]
- }
+ },
+ "mulde_tiefe_m": 0.4
 }

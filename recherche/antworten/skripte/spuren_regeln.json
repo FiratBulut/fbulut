@@ -1,10 +1,14 @@
 {
- "stand": "2026-10-10",
+ "stand": "2026-10-10 (Korrektur Runde 1)",
  "thema": "spuren",
  "seed": 2207,
  "hinweis": "Spuren von Leben: Orte aus karte_ort.r8 (Zusammenhangskomponenten), Wege aus karte_weg.r8, Seen aus karte_wasser.r8. Grossobjekte zusaetzlich als akteure. UNGETESTET MIT ECHTDATEN.",
  "ft_ordner": "/Game/Eldarien/Welt/Foliage/Spuren",
  "ft_praefix": "FT_EL_SP_",
+ "ebene": 4,
+ "entfernen": "",
+ "min_anteil_eigen_fenster": 0.02,
+ "biome_eigen": "alle 15 (Querschnitts-Planer, KONVENTIONEN §1); Palette je Zelle nach Biom (mauer.biome_stein, steinmann.biome, obstbaum je Biom, wegkreuz.biome_schrein)",
  "fenster_rand_m": 64,
  "budget": {
   "instanzen_je_feld": 60000,

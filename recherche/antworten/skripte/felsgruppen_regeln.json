@@ -1,11 +1,12 @@
 {
  "_doku": {
-  "stand": "2026-10-10",
-  "zweck": "Regeln für felsgruppen_plan.py (Auftrag 11 Teil C). Alle Zahlen Richtwerte, UNGETESTET MIT ECHTDATEN; Pfade geprüft gegen daten/netze.csv (1435 Netze).",
+  "stand": "2026-10-10 (Korrektur Runde 1)",
+  "zweck": "Regeln für felsgruppen_plan.py (Auftrag 11 Teil C). Alle Zahlen Richtwerte; Vorfassung lief lokal mit Echtdaten (A5 13 311, G4 114, E1 18 482, C6 27 357 Instanzen) ohne Absturz; Pfade geprüft gegen daten/netze.csv (1435 Netze).",
   "einheiten": "Längen in m, Winkel in Grad, Krümmung in 1/m, Sichtweite in cm, Maßstab als Faktor; Raster 1 m (FORMAT.md §1).",
   "pivot": "Eingraben rechnet z = Boden - min_z*s - eingraben*H*s. min_z aus daten/netze_masse.json, sonst 0 (Pivot unten) bzw. -H/2 für Netze in netz_pivot_mitte.",
   "rollen": "hero (>3 m, Hauptfels), wand (Schale/Klippe an Wand >50°), band (geschichtete Platte/Leiste), block (0,8–3 m), stein (<0,8 m), platte (flache Bodenplatte), kiesel (5–40 cm, Geröllsaum).",
-  "taxonomie": "Abgleich mit assets-taxonomie.json (Teil A, nach Festlegung der Palette erschienen): Taxonomie stuft nach größter Kante, diese Palette nach Höhe (Auftrag: hero > 3 m, block 0,8–3 m, stein < 0,8 m); Kiesel entsprechen dort 'ufer_stein', Nordic-/Sandstein-Klippen 'klippe_schale'. Aus der Taxonomie übernommen: SM_IcelandicLavaSpire_01–03 als Hero für lava/tundra."
+  "taxonomie": "Abgleich mit assets-taxonomie.json (Teil A, nach Festlegung der Palette erschienen): Taxonomie stuft nach größter Kante, diese Palette nach Höhe (Auftrag: hero > 3 m, block 0,8–3 m, stein < 0,8 m); Kiesel entsprechen dort 'ufer_stein', Nordic-/Sandstein-Klippen 'klippe_schale'. Aus der Taxonomie übernommen: SM_IcelandicLavaSpire_01–03 als Hero für lava/tundra.",
+  "korrektur_runde1": "Biom je Zelle strikt (biom_zuordnung), biome_eigen = alle 15 Biome (Querschnitts-Planer), plan.json-Pflichtschlüssel (biome_fenster, zellen_zustaendig, biome_eigen, kollision_anzahl, hinweise), Budget mit Warnung (budget.ziel), Biom-Overrides (overrides), Klasse einzel + mindestdichte_je_ha."
  },
  "seed": 110,
  "rand_m": 64,
@@ -70,6 +71,9 @@
    "band",
    "wand"
   ]
+ },
+ "mindestdichte_je_ha": {
+  "_hinweis": "Optional je Biom: Mindestzahl Felsgruppen (Hauptstücke) je ha freier Biomfläche im Feld. Fehlt etwas nach den Relief-Klassen, füllt Klasse 'einzel' auf (Einzelblöcke/Moosfelsen auch in flachem Gelände). Wird normalerweise über felsgruppen_overrides.mindestdichte_je_ha der Biom-Regeldatei gesetzt (Override gewinnt); hier bewusst leer. Richtwert Elfenwald 0,5–2 /ha."
  },
  "paletten": {
   "nordisch": {
@@ -913,6 +917,36 @@
    ],
    "hauptrichtung": "flusstangente",
    "hero_akteur_ab_m": 5.0
+  },
+  "einzel": {
+   "farbe": [
+    255,
+    140,
+    200
+   ],
+   "raster_m": 20,
+   "hang_grad": [
+    0,
+    35
+   ],
+   "hero_p": 0.12,
+   "block": [
+    0,
+    2
+   ],
+   "stein": [
+    2,
+    6
+   ],
+   "kiesel": [
+    4,
+    12
+   ],
+   "eingraben": [
+    0.35,
+    0.5
+   ],
+   "hinweis": "Nur aktiv, wenn für ein Biom mindestdichte_je_ha > 0 gilt (Override der Biom-Regeldatei oder Tabelle mindestdichte_je_ha). Einzelblock/Moosfels + 0–2 Nebenblöcke + Steine + Kieselsaum, freie Fläche ohne Mulde/Wand/Baumsperre; gejittertes 20-m-Gitter (globaler Hash, nahtlos). Annahme p = Fehlmenge / freie Gitterpunkte im Feld."
   }
  },
  "gruppe": {
@@ -1110,10 +1144,12 @@
    "stein": 15000,
    "kiesel": 40000
   },
-  "thinning": "bei Überschreitung deterministisch je Instanz-Hash ausdünnen; hero/wand/akteure zuletzt"
+  "thinning": "Deckel hart (KONVENTIONEN §3): je Rolle, dann gesamt (kiesel, stein, platte, block, band), dann Kollision (block, band, wand, hero) – jeweils deterministisch nach Instanz-Hash; Akteure über dem Deckel bleiben als Foliage (kleinste zuerst). Jede Ausdünnung: WARNUNG im Log + plan.json hinweise; über 'ziel' nur Hinweis.",
+  "ziel": 52000
  },
  "erwartung_je_feld": {
-  "hinweis": "Spannen für Bergfelder (B4, B5, C2, D2, E1): grat 80–250 Gruppen, band 200–600, wand 20–80, fuss 300–900, blockstrom 40–150, kuppe 5–25; Instanzen: hero 60–300, wand 40–250, band 250–1200, block 600–2000, stein 3000–9000, kiesel 10000–35000; Summe 15000–45000. Flachfelder (Aue/Heide): 300–3000 Instanzen."
+  "hinweis": "Spannen für Bergfelder (B4, B5, C2, D2, E1): grat 80–250 Gruppen, band 200–600, wand 20–80, fuss 300–900, blockstrom 40–150, kuppe 5–25; Instanzen: hero 60–300, wand 40–250, band 250–1200, block 600–2000, stein 3000–9000, kiesel 10000–35000; Summe 15000–45000. Flachfelder (Aue/Heide): 300–3000 Instanzen.",
+  "echtdaten_vorfassung": "Lokaler Lauf 10.10. (Vorfassung, Kennzahl 0 = dominantes Feldbiom, ohne Overrides): A5 13 311 (65 Akteure), G4 114, E1 18 482, C6 27 357."
  },
  "ausgabe": {
   "ordner": "export/unreal/welt/felsgruppen",
@@ -1123,9 +1159,48 @@
   "entfernen": "FT_EL_FS_IcelandicBoulder_0,FT_EL_FS_MossyForestBoulder_0,FT_EL_FS_TundraMossyBoulder_01,FT_EL_FS_SandstoneBoulder_0,FT_EL_FS_RockSandstone_040,FT_EL_FS_namaqualand_boulder_0,FT_EL_FS_mountain_rock_big_02_",
   "entfernen_hinweis": "Nur Block-Klassen der Felsschalen-Foliage (FT_EL_FS_*): die Felsgruppen ersetzen sie. Wand-Schalen (big_rock_wall, MassiveNordicCoastalCliff, HugeSandstoneCliff, Cliff_01, lava_wall) bleiben bis zur Abnahme der Klasse wand; siehe verteilung-fels-organisch.md Abschnitt e."
  },
- "eigner0": {
-  "hinweis": "eigner.r8 = 0 (Weltgelände) heißt laut FORMAT 'aue'; große Bergflächen liegen aber im Weltgelände. Darum: Zellen mit Kennzahl 0 bekommen das dominante Biom des Feldes aus daten/biome_je_feld.json; fehlt die Datei, gilt 'aue', außer Hang ≥ fallback_hang_grad → fallback_biom.",
-  "fallback_hang_grad": 25,
-  "fallback_biom": "bergwald"
+ "biom_zuordnung": {
+  "hinweis": "Korrektur Runde 1, KONVENTIONEN §1 (verbindlich): Biom je Zelle = eigner.r8 + welt.json['kacheln'][k]['rezept']; Kennzahl 0 (Weltgelände) = aue, Vulkanregion = lava; unbekanntes Rezept bzw. Kennzahl ohne welt.json-Eintrag = aue (Hinweis im Log). Nur wenn eigner.r8 fehlt: dominantes Feldbiom aus daten/biome_je_feld.json (Hinweis im Log), fehlt auch das: fallback_biom. Die frühere Regel 'Kennzahl 0 = dominantes Feldbiom' und der Hang-Fallback sind entfallen.",
+  "fallback_biom": "aue"
+ },
+ "overrides": {
+  "aktiv": true,
+  "schluessel": "felsgruppen_overrides",
+  "_hinweis": "KONVENTIONEN §4: optionaler Block in den Biom-Regeldateien; gilt nur für die hier zugeordneten Biome der Datei, Overrides gewinnen. Suche: --overrides-ordner, Ordner dieser Regeldatei, <basis>/scripts/<thema>/, <Skriptordner>/../<thema>/. Fehlende Datei -> Hinweis. Gelesene/ignorierte Schlüssel stehen in plan.json['overrides']['dateien'] und in verteilung-fels-organisch.md (Korrektur Runde 1).",
+  "dateien": {
+   "nordkueste_regeln.json": [
+    "fjord",
+    "kueste",
+    "bergwald"
+   ],
+   "aue_regeln.json": [
+    "aue"
+   ],
+   "heide_tundra_regeln.json": [
+    "heide",
+    "tundra"
+   ],
+   "hochgebirge_regeln.json": [
+    "gletscher",
+    "frost"
+   ],
+   "elfenwald_regeln.json": [
+    "elfenwald"
+   ],
+   "sumpf_regeln.json": [
+    "sumpf"
+   ],
+   "dschungel_regeln.json": [
+    "dschungel"
+   ],
+   "lava_regeln.json": [
+    "lava"
+   ],
+   "wueste_ergaenzung_regeln.json": [
+    "wueste",
+    "canyon",
+    "oedland"
+   ]
+  }
  }
 }

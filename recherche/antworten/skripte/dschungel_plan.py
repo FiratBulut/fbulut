@@ -2,53 +2,67 @@
 # -*- coding: utf-8 -*-
 """
 dschungel_plan.py – Planer „Dschungel inkl. Karst-Kalktürme“ (Auftrag 11, Teil B7) für Eldarien (UE 5.8.3, 1-m-Raster 9577 × 7057).
+Stand: Korrektur Runde 1 (10.10.2026) nach antworten/verteilung-KONVENTIONEN.md §1–§5.
 
-*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern (H6-Fenster) rauchgetestet.
+*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern (H6, G4, G5) rauchgetestet.
 Korrekturen bitte als auftraege/verteilung-dschungel-korrektur.md.
 
-Was das Skript tut
-------------------
-Plant je Gitterfeld vier Schichten eines gemäßigt-subtropischen Fantasy-Dschungels als Foliage-Instanzen (HISM):
+Zuständigkeit (Konventionen §1)
+-------------------------------
+Biom je Zelle = eigner.r8 + welt.json["kacheln"][k]["rezept"]; Kennzahl 0 (Weltgelände) → aue, Vulkanregion → lava. Nur wenn
+eigner.r8/welt.json fehlen, gilt das dominante Feldbiom aus daten/biome_je_feld.json (Hinweis im Log). biome_eigen = [dschungel]:
+bebaut werden nur Dschungel-Zellen plus ein 30-m-Saum (Dichtefaktor 1 an der Grenze, linear auf 0 bei 30 m außerhalb,
+Distanztransformation). Anteil der eigenen Biome im Fenster (Feld + Rand) < 2 % → leerer plan.json (instanzen 0, keine f32).
+
+Was das Skript tut (Ebenen-Abgrenzung, Konventionen §4)
+-------------------------------------------------------
+Plant je Gitterfeld vier Schichten als Foliage-Instanzen (HISM):
   2 baum         Emergenten/Laubriesen (AsianTemple), Palmen (Bazaar, Palms_Pack), Jungpalmen – sehr dicht in Kernen,
                  Lichtungen (Wertrauschen 110 m, 16 %) und lichte Karstfüße
-  1 mittel       Riesenfarne, kleine Farne, Stauden/Blühstauden, Bananen-Ersatz (Holunder/Pestwurz groß), Busch, Jungpalmen,
-                 liegende Moosstämme (+Moos-Satelliten), Stümpfe (+Pilze), Wurzelteller, Lianen an Stämmen (Satelliten der Bäume)
-                 und an Karstwänden (40–78°), Karst-Kalkplatten am Turmfuß, Grasbüschel in Lichtungen
-  0 boden        Laubstreu, Bodendecker, Zweige, Äste, Pilze, Moospolster, Keimlinge, Blüteninseln
+  1 mittel       NUR Dschungel-Sonderformen: Lianen/Efeu an Stämmen der eigenen Laubbäume (Epiphyten-Ersatz, Satelliten),
+                 Kletterpflanzen in Karstspalten und Steilwänden 40–78°, Moospolster (Karstfuß, Wurzeln, Steilhänge bis 75°)
+  0 boden        Laubstreu, Bodendecker, Zweige, Keimlinge, Blüteninseln
   5 wasserkante  Moossteine, Uferfarne, Schilf/Rohrkolben, Schachtelhalm im Band 0,3–7 m am Wasser
-Schicht 3 fels (Karsttürme als Akteure, Moosblöcke) und 4 spuren (Tempelruine, Pfad) planen Teil C/D mit den Blöcken
-`felsgruppen_overrides` / `spuren_overrides` aus dschungel_regeln.json; dieses Skript liefert dafür in plan.json
-`karst` (Wand-/Fußzellen, Türme) und `blickziele` (Karstturm, Wasserfall, Doline, Tempelruinen-Standort).
+Die generischen Mittelschicht-Klassen (farn, strauch, jungbaum, hochstaude, grasbueschel, totholz_liegend/stumpf/ast, pilz, beere)
+setzt mittelschicht_plan.py (Teil D) mit der Dschungel-Palette aus `mittelschicht_overrides` in dschungel_regeln.json (inkl.
+Zusatzklassen Riesenfarn-Inseln, Staudenflur, Bananen-Ersatz). Schicht 3 fels (Karsttürme als Akteure, Moosblöcke, Karstplatten) und
+4 spuren (Tempelruine, Pfad) planen Teil C/D mit `felsgruppen_overrides` / `spuren_overrides`; dieses Skript liefert dafür in plan.json
+`karst` (Wand-/Fußzellen, Türme) und `blickziele` (Karstturm, Wasserfall, Doline, Tempelruinen-Standort, nur auf Dschungel-Zellen).
 
-Dichte je Zelle = Kern-Dichte · Lage (lage_*.r8) · Licht (Beschattung aus Kronendach: bestand/, witcher/, instanzen.json, eigene
-Bäume) · Hang · Höhenstufe (Talboden/Hang/Karst) · Karstlage (Fuß/Spalte/Gipfel/Wand) · Biom (eigner.r8 + welt.json, Saum 30 m)
-· Gruppen-Wertrauschen · Wasser-/Weg-/Ort-Abstände. Streuung über gejitterte Gitterzellen (Zellgröße ≈ Mindestabstand);
+Dichte je Zelle = Kern-Dichte · Zuständigkeit (Biom + Saum) · Lage (lage_*.r8) · Licht (Beschattung aus Kronendach: bestand/,
+witcher/, instanzen.json, eigene Bäume) · Hang · Höhenstufe (Talboden/Hang/Karst) · Karstlage (Fuß/Spalte/Gipfel/Wand) ·
+Gruppen-Wertrauschen · Wasser-/Weg-/Ort-Abstände. Streuung über gejitterte Gitterzellen (Zellgröße ≈ Mindestabstand);
 Zufall = Hash aus (Weltraster-Koordinate, Seed, Kanal) → deterministisch, Nachbarfelder nahtlos (Fenster Feld + 64 m).
+
+Budget (Konventionen §3): ≤ 60 000 Instanzen je Feld (Ziel 50 000), ≤ 3 000 mit Kollision – erst proportionale Hash-Ausdünnung
+nach Priorität, dann exakte Kappung; Satelliten (Lianen) werden erst nach der Baum-Ausdünnung erzeugt (keine verwaisten Lianen).
 
 Aufruf
 ------
   python -I scripts/dschungel/dschungel_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]
-  --basis   production-Wurzel (Default "."), darunter export/unreal/welt/, daten/netze.csv, docs/
+  --basis   production-Wurzel (Default "."), darunter export/unreal/welt/, daten/netze.csv, daten/biome_je_feld.json, docs/
   --regeln  Regeldatei (Default: dschungel_regeln.json neben dem Skript)
   --faktor  Dichtefaktor auf alle Klassen (Budget bleibt)
   --bild    Draufsicht docs/pruefung/dschungel/<Feld>.png (1 px = 1 m, Farben je Klasse, Karstwand weiß)
+Exit-Code 2 bei fehlender Pflichtdatei (hoehe.f32, Regeln) oder unbekanntem Feld. Alle Log-Zeilen nur ASCII (Konventionen §5).
 
 Ein-/Ausgabe (FORMAT.md §1–§5)
 -----------------------------
 Liest:    export/unreal/welt/hoehe.f32 (np.memmap, nur Fenster), lage_<Name>.r8 (optional), karte_wasser/weg/ort.r8 (optional),
-          eigner.r8 + welt.json (optional, Fallback je Feld), bestand/<Feld>/, witcher/<Feld>/ (+ 8 Nachbarn),
+          eigner.r8 + welt.json (sonst daten/biome_je_feld.json), bestand/<Feld>/, witcher/<Feld>/ (+ 8 Nachbarn),
           instanzen/instanzen.json (+ instanzen/<name>.f32, optional), docs/staedte/standorte.json (optional), daten/netze.csv.
 Schreibt: export/unreal/welt/dschungel/<Feld>/<Netzname>.f32 (10 float32 LE: x,y,z cm; qx,qy,qz,qw; sx,sy,sz)
           export/unreal/welt/dschungel/<Feld>/plan.json (FORMAT §3: stand, feld, instanzen, dateien{pfad, anzahl, gruppe, rolle,
-          sichtweite, schatten, kollision, + ebene}, entfernen, ft_ordner, ft_praefix; zusätzlich statistik, karst, blickziele, hinweise)
+          sichtweite, schatten, kollision, ebene}, entfernen, ft_ordner, ft_praefix; Konventionen §2: biome_fenster,
+          zellen_zustaendig, biome_eigen, kollision_anzahl; dazu statistik, karst, blickziele, hinweise)
           docs/pruefung/dschungel/<Feld>.png bei --bild.
-Nur NumPy (numba optional, wird nicht benötigt); Laufzeit-Ziel ≤ 60 s je Feld. Fehlende Pflichtdateien → klare Meldung.
+Nur NumPy (numba optional, wird nicht benötigt); Laufzeit-Ziel ≤ 60 s je Feld.
 
-Quellen: vorlagen/FORMAT.md; antworten/assets-taxonomie.md (Paletten/Lücken dschungel); antworten/bildkritik-witcher-messlatte.md
-(Größenstaffelung, Lichtungen 15–25 %, Waldkanten-Falloff); antworten/klippennetze-a5.md (Eingraben 25–45 %, Gruppen 2–5);
-UN-REDD 2011 „Forest ecological stratification Vietnam“ (Kalkwald < 700 m: fünfstöckig, Oberstand > 40 m; auf Kalk 1–2 Stockwerke
-8–15 m); UNEP-WCMC South China Karst (Sukzession Moos/Flechte → Kraut → Strauch → Wald); Azoren-Laurisilva-Feldführer
-(dicht, „nahezu undurchdringlich“, Epiphyten, Farnkrautschicht); Yakushima-Reiseführer (> 100 Moosarten auf Granitblöcken, Epiphytenfarne).
+Quellen: vorlagen/FORMAT.md; antworten/verteilung-KONVENTIONEN.md; antworten/assets-taxonomie.md (Paletten/Lücken dschungel);
+antworten/bildkritik-witcher-messlatte.md (Größenstaffelung, Lichtungen 15–25 %, Waldkanten-Falloff); antworten/klippennetze-a5.md
+(Eingraben 25–45 %, Gruppen 2–5); UN-REDD 2011 „Forest ecological stratification Vietnam“ (Kalkwald < 700 m: fünfstöckig, Oberstand
+> 40 m; auf Kalk 1–2 Stockwerke 8–15 m); UNEP-WCMC South China Karst (Sukzession Moos/Flechte → Kraut → Strauch → Wald);
+Azoren-Laurisilva-Feldführer (dicht, Epiphyten, Farnkrautschicht); Yakushima-Reiseführer (> 100 Moosarten auf Granitblöcken).
 """
 import argparse
 import csv
@@ -74,19 +88,38 @@ SCHICHTEN = ('2 baum', '1 mittel', '0 boden', '5 wasserkante')
 BAUM_WORTE = ('baum', 'tree', 'palm', 'nadel', 'laub', 'kiefer', 'buche', 'birke', 'fichte', 'eiche', 'weide', 'pappel', 'hainbuche', 'hornbeam', 'beech', 'pine', 'poplar', 'willow')
 
 
+ASCII_ERSATZ = (('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ä', 'Ae'), ('Ö', 'Oe'), ('Ü', 'Ue'), ('ß', 'ss'), ('–', '-'), ('—', '-'),
+                ('→', '->'), ('←', '<-'), ('…', '...'), ('≤', '<='), ('≥', '>='), ('°', ' Grad'), ('×', 'x'), ('²', '2'), ('·', '*'),
+                ('„', '"'), ('“', '"'), ('”', '"'), ('‚', "'"), ('‘', "'"), ('’', "'"), ('±', '+-'), ('≈', '~'), ('µ', 'u'))
+
+
+def ascii_text(s):
+    """Log-Text nur ASCII (Konventionen §5: Logs werden unter Windows mit cp1252 weiterverarbeitet)."""
+    s = str(s)
+    for a, b in ASCII_ERSATZ:
+        s = s.replace(a, b)
+    return s.encode('ascii', 'replace').decode('ascii')
+
+
 def meld(*a):
-    print('[dschungel]', *a, flush=True)
+    print(ascii_text(' '.join(['[dschungel]'] + [str(x) for x in a])), flush=True)
+
+
+def abbruch(text, code=2):
+    """Klare Meldung, Exit-Code 2 (fehlende Pflichtdatei, unbekanntes Feld)."""
+    meld('FEHLER: ' + text)
+    sys.exit(code)
 
 
 # ----------------------------------------------------------------------------- Raster-Helfer
 def feld_fenster(feld, rand):
     feld = feld.strip().upper()
     if len(feld) < 2 or not feld[0].isalpha() or not feld[1:].isdigit():
-        raise SystemExit('Unbekanntes Feld %r (A1 … J7)' % feld)
+        abbruch('Unbekanntes Feld %r (A1 ... J7)' % feld)
     s = ord(feld[0]) - ord('A')
     r = int(feld[1:])
     if not (0 <= s <= 9 and 1 <= r <= 7):
-        raise SystemExit('Unbekanntes Feld %r (A1 … J7)' % feld)
+        abbruch('Unbekanntes Feld %r (A1 ... J7)' % feld)
     j0, j1 = s * FELD_M, min((s + 1) * FELD_M, NX)   # J-Spalte: 9072..9577 (geklippt)
     i0, i1 = (r - 1) * FELD_M, min(r * FELD_M, NY)
     win = (max(0, i0 - rand), min(NY, i1 + rand), max(0, j0 - rand), min(NX, j1 + rand))
@@ -97,13 +130,13 @@ def lade_raster(pfad, dtype, win, pflicht=False):
     wi0, wi1, wj0, wj1 = win
     if not os.path.isfile(pfad):
         if pflicht:
-            raise SystemExit('Pflichtdatei fehlt: %s' % pfad)
+            abbruch('Pflichtdatei fehlt: %s' % pfad)
         return None
     n = os.path.getsize(pfad) // np.dtype(dtype).itemsize
     if n != NX * NY:
         meld('WARNUNG: %s hat %d Werte, erwartet %d – ignoriert' % (pfad, n, NX * NY))
         if pflicht:
-            raise SystemExit('Pflichtdatei %s hat falsche Größe' % pfad)
+            abbruch('Pflichtdatei %s hat falsche Groesse' % pfad)
         return None
     mm = np.memmap(pfad, dtype=dtype, mode='r', shape=(NY, NX))
     return np.array(mm[wi0:wi1, wj0:wj1])
@@ -314,31 +347,59 @@ def pruefe_klassen(regeln, inv, hinweise):
 
 
 # ----------------------------------------------------------------------------- Weltdaten
-def lade_biome(basis, win, regeln, feld):
-    namen = regeln['biome']
-    fb = regeln.get('feld_biom_fallback', {}).get(feld, 'aue')
-    fb = fb if fb in namen else 'aue'
+def dominantes_feldbiom(basis, feld, namen):
+    """Nur wenn eigner.r8/welt.json fehlen: dominantes Biom des Feldes aus daten/biome_je_feld.json, sonst aue."""
+    skript_dir = os.path.dirname(os.path.abspath(__file__))
+    for k in (os.path.join(basis, 'daten', 'biome_je_feld.json'), os.path.join(skript_dir, 'biome_je_feld.json')):
+        if not os.path.isfile(k):
+            continue
+        try:
+            d = json.load(open(k, encoding='utf-8'))
+            e = d.get('felder', d).get(feld)
+            bp = e.get('biome_prozent') if isinstance(e, dict) else None
+            if bp:
+                b = str(sorted(bp, key=lambda x: -float(x[1]))[0][0]).lower()
+                if b in namen:
+                    return b, k
+        except Exception as ex:
+            meld('Hinweis: %s nicht auswertbar (%s)' % (k, ex))
+    return 'aue', 'Standard aue (biome_je_feld.json fehlt)'
+
+
+def lade_biome(basis, win, namen, feld, hinweise):
+    """Biom-Index je Zelle (Konventionen §1): eigner.r8 + welt.json-Rezept; Kennzahl 0 und unbekannte Kennzahlen → aue,
+    Rezept mit 'vulkan'/'lava' → lava. Fallback dominantes Feldbiom nur, wenn eigner.r8 oder welt.json fehlen/unlesbar sind."""
     H, W = win[1] - win[0], win[3] - win[2]
     eig = lade_raster(os.path.join(basis, WELT, 'eigner.r8'), np.uint8, win)
     wj = os.path.join(basis, WELT, 'welt.json')
+    welt, grund = None, ''
     if eig is None or not os.path.isfile(wj):
-        meld('Hinweis: eigner.r8/welt.json fehlen – Biom je Zelle = Fallback %r' % fb)
-        return np.full((H, W), namen.index(fb), np.int16), fb
-    try:
-        welt = json.load(open(wj, encoding='utf-8'))
-    except Exception as e:
-        meld('Hinweis: welt.json unlesbar (%s) – Fallback %r' % (e, fb))
-        return np.full((H, W), namen.index(fb), np.int16), fb
-    tabelle = np.full(256, namen.index(fb), np.int16)
+        grund = 'eigner.r8/welt.json fehlen'
+    else:
+        try:
+            welt = json.load(open(wj, encoding='utf-8'))
+        except Exception as e:
+            grund = 'welt.json unlesbar (%s)' % e
+    if welt is None:
+        fb, quelle = dominantes_feldbiom(basis, feld, namen)
+        txt = '%s - Biom je Zelle = dominantes Feldbiom %r aus %s' % (grund, fb, quelle)
+        meld('Hinweis:', txt)
+        hinweise.append(txt)
+        return np.full((H, W), namen.index(fb), np.int16), 'feldbiom:' + fb
+    aue = namen.index('aue')
+    tabelle = np.full(256, aue, np.int16)
     kacheln = welt.get('kacheln', {})
     eintraege = kacheln.items() if isinstance(kacheln, dict) else enumerate(kacheln)
+    bekannt, unklar = {0}, []
     for k, v in eintraege:
         try:
             kk = int(v.get('kennzahl', v.get('id', k))) if isinstance(v, dict) else int(k)
         except Exception:
             continue
+        if not 0 <= kk < 256:
+            continue
         rz = str(v.get('rezept', '')).lower() if isinstance(v, dict) else ''
-        b = fb
+        b = None
         if rz in namen:
             b = rz
         elif 'vulkan' in rz or 'lava' in rz:
@@ -348,10 +409,18 @@ def lade_biome(basis, win, regeln, feld):
                 if n in rz:
                     b = n
                     break
-        if 0 <= kk < 256:
-            tabelle[kk] = namen.index(b)
-    tabelle[0] = namen.index(fb)   # Kennzahl 0 (Weltgelände) → dominantes Feldbiom (FORMAT §2 nennt aue; in Dschungelfeldern ist das Feldbiom gemeint)
-    return tabelle[eig], fb
+        if b is None:
+            b = 'aue'
+            if kk != 0:
+                unklar.append('%d:%s' % (kk, rz or '-'))
+        tabelle[kk] = namen.index(b)
+        bekannt.add(kk)
+    tabelle[0] = aue   # Kennzahl 0 = Weltgelaende -> aue (FORMAT §2, Konventionen §1)
+    ohne = sorted(set(np.unique(eig).tolist()) - bekannt)
+    if unklar or ohne:
+        hinweise.append('Kennzahlen ohne erkennbares Biom -> aue: %s%s' % (', '.join(unklar[:10]),
+                        (' / ohne welt.json-Eintrag: %s' % ohne[:10]) if ohne else ''))
+    return tabelle[eig], 'eigner.r8'
 
 
 def lade_ebene(ordner, win, inv):
@@ -529,6 +598,27 @@ def licht_faktor(b, kurve):
 
 
 # ----------------------------------------------------------------------------- Hauptplanung
+def schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_anteil, biom_quelle, hinweise, t0):
+    """Konventionen §1: Eigenanteil < min_anteil_fenster -> leerer plan.json (instanzen 0, keine f32), nie Text statt plan.json."""
+    Z = regeln['zustaendigkeit']
+    os.makedirs(ausgabe, exist_ok=True)
+    for f in os.listdir(ausgabe):
+        if f.endswith('.f32'):
+            os.remove(os.path.join(ausgabe, f))
+    hinweise.append('Anteil eigener Biome %s im Fenster %.4f < %.2f - kein Plan' % (Z['biome_eigen'], anteil_eigen, Z['min_anteil_fenster']))
+    plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': 0, 'dateien': {}, 'entfernen': '',
+            'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
+            'biome_fenster': biome_fenster, 'zellen_zustaendig': 0, 'biome_eigen': list(Z['biome_eigen']), 'kollision_anzahl': 0,
+            'statistik': {'je_klasse': {}, 'anteil_eigen_fenster': round(anteil_eigen, 4), 'dschungel_anteil_feld': round(ds_anteil, 4),
+                          'biom_quelle': biom_quelle, 'laufzeit_s': round(time.time() - t0, 1)},
+            'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet (UNGETESTET MIT ECHTDATEN)'}
+    with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
+        json.dump(plan, f, ensure_ascii=False, indent=1)
+    meld('%s: Anteil %s im Fenster %.2f %% < %.0f %% - leerer plan.json (instanzen 0)' % (
+        feld, '/'.join(Z['biome_eigen']), 100 * anteil_eigen, 100 * Z['min_anteil_fenster']))
+    return plan
+
+
 def plane_feld(feld, basis, regeln, faktor, bild):
     t0 = time.time()
     hinweise = []
@@ -537,15 +627,41 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     fb_, win = feld_fenster(feld, rand)
     wi0, wi1, wj0, wj1 = win
     H, W = wi1 - wi0, wj1 - wj0
+    ausgabe = os.path.join(basis, WELT, regeln.get('ausgabe_ordner', 'dschungel'), feld)
+    im_feld = np.zeros((H, W), bool)
+    im_feld[fb_[0] - wi0:fb_[1] - wi0, fb_[2] - wj0:fb_[3] - wj0] = True
+
+    # --- Höhe (Pflicht) und Zuständigkeit nach Biom-Zellen (Konventionen §1)
+    hoehe = lade_raster(os.path.join(basis, WELT, 'hoehe.f32'), np.float32, win, pflicht=True)
+    namen = regeln['biome']
+    Z = regeln['zustaendigkeit']
+    eigen_idx = [namen.index(b) for b in Z['biome_eigen'] if b in namen]
+    bio, biom_quelle = lade_biome(basis, win, namen, feld, hinweise)
+    werte, zahl = np.unique(bio, return_counts=True)
+    biome_fenster = {namen[int(k)]: round(float(c) / bio.size, 4) for k, c in sorted(zip(werte, zahl), key=lambda x: -x[1])}
+    eigen = np.isin(bio, eigen_idx)
+    anteil_eigen = float(eigen.mean())
+    ds_anteil = float(eigen[im_feld].mean())
+    if anteil_eigen < float(Z['min_anteil_fenster']):
+        return schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_anteil, biom_quelle, hinweise, t0)
+    saum_m = float(Z['saum_m'])
+    if eigen.all():
+        zust = np.ones((H, W), np.float32)
+    else:
+        d_eigen = distanz(eigen, max(64.0, 2 * saum_m))
+        zust = np.where(eigen, 1.0, np.clip(1.0 - d_eigen / saum_m, 0, 1)).astype(np.float32)
+    zellen_zustaendig = int(((zust > 0) & im_feld).sum())
+    meld('%s: Biome im Fenster %s, eigen %.1f %%, zustaendig %d Zellen im Feld (inkl. Saum %d m)' % (
+        feld, {k: v for k, v in list(biome_fenster.items())[:4]}, 100 * anteil_eigen, zellen_zustaendig, int(saum_m)))
+
     feld_info = regeln['felder'].get(feld, {'dschungel': 0.0, 'karst': False, 'entfernen': ''})
     if feld not in regeln['felder']:
-        hinweise.append('Feld %s steht nicht in regeln["felder"] – geplant mit Biom-Maske aus eigner.r8' % feld)
+        hinweise.append('Feld %s steht nicht in regeln["felder"] - geplant mit Biom-Maske aus eigner.r8, ohne entfernen/Karst' % feld)
     karstfeld = bool(feld_info.get('karst', False))
     inv = lade_inventar(basis)
     pruefe_klassen(regeln, inv, hinweise)
 
-    # --- Höhe, Hang, Normale, Relief
-    hoehe = lade_raster(os.path.join(basis, WELT, 'hoehe.f32'), np.float32, win, pflicht=True)
+    # --- Hang, Normale, Relief
     hs = gauss_blur(hoehe, 1.0)
     dzdi = (verschiebe(hs, 1, 0, 0) - verschiebe(hs, -1, 0, 0)) * 0.5
     dzdj = (verschiebe(hs, 0, 1, 0) - verschiebe(hs, 0, -1, 0)) * 0.5
@@ -578,21 +694,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     A = regeln['abstand_m']
     sperre_klein = wasser_m | meer | (d_weg < A['weg_klein']) | (d_ort < A['ort']) | standorte | (d_wasser < A['wasser_klein'])
     sperre_gross = wasser_m | meer | (d_weg < A['weg_gross']) | (d_ort < A['ort']) | standorte | (d_wasser < A['wasser_gross'])
-
-    # --- Biom
-    bio, fb_biom = lade_biome(basis, win, regeln, feld)
-    namen = regeln['biome']
-    BF = regeln['biom_faktor']
-    tab = np.array([float(BF.get(n, 0.0)) for n in namen], np.float32)
-    biom_f = tab[bio]
-    ds_m = bio == namen.index('dschungel')
-    if ds_m.any() and not ds_m.all():
-        d_ds = distanz(ds_m, 64)
-        saum = np.clip(1.0 - d_ds / float(BF.get('saum_m', 30)), 0, 1).astype(np.float32)
-        biom_f = np.where(ds_m, 1.0, np.maximum(biom_f, np.where(tab[bio] > 0, saum, 0.0))).astype(np.float32)
-    if not ds_m.any():
-        hinweise.append('Keine Dschungel-Zellen im Fenster (Biom %s) – nur Nachbar-Biomfaktoren wirken; erwartbar leer' % fb_biom)
-    ds_anteil = float(ds_m[rand:rand + (fb_[1] - fb_[0]), rand:rand + (fb_[3] - fb_[2])].mean()) if ds_m.size else 0.0
+    biom_f = zust
 
     # --- Lagen
     lagen_namen = sorted({n for g in regeln['lagen'].values() if isinstance(g, dict) for n in g})
@@ -626,9 +728,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     spalte = (hang >= K['spalte_grad'][0]) & (hang <= K['spalte_grad'][1])
     steilwand = hang > K['spalte_grad'][1]
     gipfel = (relief > K['gipfel_relief_m']) & (hang < K['gipfel_hang_max']) & (d_wand <= K['gipfel_wand_m']) & ~fuss
-    im_feld = np.zeros((H, W), bool)
-    im_feld[fb_[0] - wi0:fb_[1] - wi0, fb_[2] - wj0:fb_[3] - wj0] = True
-    wand_feld = wand & im_feld
+    wand_feld = wand & im_feld & eigen
     n_wand = int(wand_feld.sum())
     turm = n_wand >= K['turm_min_zellen'] and (float(hoehe[wand_feld].max() - hoehe[wand_feld].min()) if n_wand else 0.0) >= K['turm_min_hoehenspanne_m']
     if karstfeld and not turm:
@@ -735,7 +835,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         ok = (fi >= 0) & (fi < H - 1) & (fj >= 0) & (fj < W - 1)
         fi, fj = fi[ok], fj[ok]
         mi, mj = np.round(fi).astype(np.int32), np.round(fj).astype(np.int32)
-        ok = ~(wasser_m[mi, mj] | meer[mi, mj] | weg_m[mi, mj] | ort_m[mi, mj]) & im_feld[mi, mj]
+        ok = ~(wasser_m[mi, mj] | meer[mi, mj] | weg_m[mi, mj] | ort_m[mi, mj]) & im_feld[mi, mj] & (zust[mi, mj] > 0)
         if not sk.get('kletter'):
             ok &= hang3[mi, mj] <= min(sk.get('hang_max', 40), regeln['hang']['hang_max_pflanze'])
         else:
@@ -775,7 +875,6 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             continue
         aus.append(dict(klasse=kname, fi=fi, fj=fj, mi=mi, mj=mj))
         stat[kname] = stat.get(kname, 0) + int(fi.size)
-        satelliten(kname, kl, fi, fj)
     # kleine Klassen: nicht in Baumstämme
     stamm = np.zeros((H, W), bool)
     for b in baeume_alle:
@@ -791,9 +890,10 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     for a in aus:
         stat[a['klasse']] = stat.get(a['klasse'], 0) + int(a['fi'].size)
 
-    # --- Budget
+    # --- Budget (Konventionen §3): proportionale Hash-Ausduennung, Satelliten, dann exakte Kappung
     B = regeln['budget']
     ausduenn = {}
+    kleinzeug = set(B.get('kleinzeug_an_gras', []))
 
     def duenne(klassen_liste, ziel, ist, grund):
         if ist <= ziel:
@@ -801,17 +901,19 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         ueber = ist - ziel
         pool, summe = [], 0
         for kname in klassen_liste:
-            n = stat.get(kname, 0)
-            if n == 0:
+            n = stat.get(kname, 0) * ausduenn.get(kname, 1.0)   # schon ausgeduennte Klassen zaehlen mit ihrem Rest
+            if n <= 0:
                 continue
             pool.append(kname)
             summe += n
             if summe * 0.6 >= ueber:
                 break
-        f = max(0.0, 1.0 - ueber / float(max(1, summe)))
+        f = max(0.0, 1.0 - ueber / float(max(1.0, summe)))
         for kname in pool:
-            ausduenn[kname] = min(ausduenn.get(kname, 1.0), f)
-        hinweise.append('%s: %d → %d, Ausdünnung %s' % (grund, ist, ziel, {k: round(ausduenn[k], 2) for k in pool}))
+            ausduenn[kname] = ausduenn.get(kname, 1.0) * f       # Faktoren multiplizieren sich
+        hinweise.append('WARNUNG %s: %d -> %d, Ausduennung %s' % (grund, ist, ziel, {k: round(ausduenn[k], 2) for k in pool}))
+        if kleinzeug & set(pool):
+            hinweise.append('Kleinzeug %s ausgeduennt - Flaeche soll Landschafts-Gras (GT_*) tragen' % sorted(kleinzeug & set(pool)))
 
     koll = sum(stat.get(k, 0) for k in klassen if klassen[k].get('kollision'))
     duenne(B['kollision_prioritaet'], B['kollision_je_feld'], koll, 'Kollisionsbudget')
@@ -826,6 +928,47 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             keep = hash01(a['mi'] + wi0, a['mj'] + wj0, seed, 7000 + kidx[a['klasse']]) < f
             for k in ('fi', 'fj', 'mi', 'mj'):
                 a[k] = a[k][keep]
+
+    # Satelliten (Lianen an Staemmen) erst jetzt: nur an Baeumen, die das Budget ueberlebt haben
+    for a in list(aus):
+        kl = klassen[a['klasse']]
+        if kl.get('satelliten') and a['fi'].size:
+            satelliten(a['klasse'], kl, a['fi'], a['fj'])
+
+    def kappe(klassen_liste, ziel, zaehlt, grund):
+        """Exakte Kappung: in Prioritaetsreihenfolge fallen je Klasse die Instanzen mit dem hoechsten Hash zuerst."""
+        ist = sum(int(a['fi'].size) for a in aus if zaehlt(a['klasse']))
+        if ist <= ziel:
+            return
+        ueber = ist - ziel
+        weg_je = {}
+        for kname in klassen_liste:
+            if ueber <= 0:
+                break
+            teile = [a for a in aus if a['klasse'] == kname and a['fi'].size]
+            if not teile or not zaehlt(kname):
+                continue
+            hv = np.concatenate([hash01(a['mi'] + wi0, a['mj'] + wj0, seed, 7500 + kidx[kname]) +
+                                 1e-4 * hash01(np.round(a['fi'] * 5).astype(np.int64), np.round(a['fj'] * 5).astype(np.int64), seed, 7600)
+                                 for a in teile])
+            n = int(hv.size)
+            k = min(ueber, n)
+            raus = np.zeros(n, bool)
+            raus[np.argsort(-hv, kind='stable')[:k]] = True
+            o = 0
+            for a in teile:
+                m = a['fi'].size
+                keep = ~raus[o:o + m]
+                o += m
+                for kk in ('fi', 'fj', 'mi', 'mj'):
+                    a[kk] = a[kk][keep]
+            ueber -= k
+            weg_je[kname] = k
+        hinweise.append('WARNUNG %s hart: %d -> %d, gestrichen %s' % (grund, ist, ziel, weg_je))
+
+    kappe(B['kollision_prioritaet'], int(B['kollision_je_feld']), lambda k: bool(klassen[k].get('kollision')), 'Kollisionsdeckel')
+    kappe(B['prioritaet'] + [k for k in klassen if k not in B['prioritaet']], int(B.get('hart_instanzen_je_feld', 60000)),
+          lambda k: True, 'Instanzdeckel')
 
     # --- Instanzen bauen und schreiben
     ausgabe = os.path.join(basis, WELT, regeln.get('ausgabe_ordner', 'dschungel'), feld)
@@ -887,7 +1030,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         return {'i': int(i + wi0), 'j': int(j + wj0), 'x_cm': round(float((j + wj0 - X0) * 100), 1), 'y_cm': round(float((i + wi0 - Y0) * 100), 1), 'z_cm': round(float(hoehe[i, j] * 100), 1)}
 
     def top(masse, bewert, n, art, hinweis, sperr_m=150):
-        bew = np.where(masse & im_feld, bewert, -np.inf)
+        bew = np.where(masse & im_feld & eigen, bewert, -np.inf)
         for _ in range(n):
             if not np.isfinite(bew).any():
                 break
@@ -903,13 +1046,16 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     hmin10 = minmax_filter(hs, 10, np.minimum)
     top(wasser_m & ((hs - hmin10) >= 8), hs - hmin10, 2, 'wasserfall', 'Wasserzelle mit ≥ 8 m Abfall in 10 m – Gischt/Partikel, Moos + Farne im Umkreis 15 m', 120)
     hmin40, hmax40 = minmax_filter(hs, 40, np.minimum), minmax_filter(hs, 40, np.maximum)
-    top((hs <= hmin40 + 0.05) & ((hmax40 - hs) >= 8) & ~wasser_m & ~meer & (d_weg > 5) & ds_m, hmax40 - hs, 2, 'doline', 'geschlossene Senke (Relief ≥ 8 m in 40 m) – Farne/Moos dicht, Nebel-Volumen', 200)
+    top((hs <= hmin40 + 0.05) & ((hmax40 - hs) >= 8) & ~wasser_m & ~meer & (d_weg > 5), hmax40 - hs, 2, 'doline', 'geschlossene Senke (Relief ≥ 8 m in 40 m) – Farne/Moos dicht, Nebel-Volumen', 200)
     top((d_wand >= 10) & (d_wand <= 40) & (hang < 8) & (d_weg <= 60) & ~wasser_m & ~meer, -(hang + d_weg / 60.0), 2, 'tempelruine', 'flacher Karstfuß nahe Weg – AncientRuins-Ersatz (spuren_overrides), Lianen/Moos ×2', 250)
 
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(gesamt), 'dateien': dateien,
             'entfernen': feld_info.get('entfernen', ''), 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
+            'biome_fenster': biome_fenster, 'zellen_zustaendig': zellen_zustaendig, 'biome_eigen': list(Z['biome_eigen']),
+            'kollision_anzahl': int(nk),
             'statistik': {'je_klasse': stat, 'je_schicht': {s: int(sum(stat.get(k, 0) for k in klassen if klassen[k]['schicht'] == s)) for s in SCHICHTEN},
-                          'kollision': int(nk), 'dschungel_anteil_feld': round(ds_anteil, 3), 'biom_fallback': fb_biom,
+                          'kollision': int(nk), 'anteil_eigen_fenster': round(anteil_eigen, 4), 'dschungel_anteil_feld': round(ds_anteil, 4),
+                          'biom_quelle': biom_quelle, 'saum_m': saum_m,
                           'beschattung_mittel_feld': round(float(beschattung[im_feld].mean()), 3), 'lichtung_anteil': round(float(lichtung[im_feld].mean()), 3),
                           'fremde_baeume_fenster': int(fremd.shape[0]), 'faktor': faktor, 'laufzeit_s': round(time.time() - t0, 1), 'numba': NUMBA},
             'karst': {'karstfeld': karstfeld, 'turm': bool(turm), 'wand_zellen_feld': n_wand, 'fuss_zellen_feld': int((fuss & im_feld).sum()),
@@ -965,7 +1111,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
 
 
 def main():
-    ap = argparse.ArgumentParser(description='Eldarien Dschungel-Planer (Boden, Mittel, Baum, Wasserkante; Karst-Info für Teil C/D)')
+    ap = argparse.ArgumentParser(description='Eldarien Dschungel-Planer (Boden, Sonderformen Mittel, Baum, Wasserkante; Karst-Info fuer Teil C/D)')
     ap.add_argument('felder', nargs='+')
     ap.add_argument('--bild', action='store_true')
     ap.add_argument('--faktor', type=float, default=1.0)
@@ -974,8 +1120,11 @@ def main():
     a = ap.parse_args()
     rp = a.regeln or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dschungel_regeln.json')
     if not os.path.isfile(rp):
-        raise SystemExit('Regeldatei fehlt: %s' % rp)
-    regeln = json.load(open(rp, encoding='utf-8'))
+        abbruch('Regeldatei fehlt: %s' % rp)
+    try:
+        regeln = json.load(open(rp, encoding='utf-8'))
+    except Exception as ex:
+        abbruch('Regeldatei %s nicht lesbar: %s' % (rp, ex))
     if not NUMBA:
         meld('numba nicht verfügbar – reiner NumPy-Pfad (ausreichend)')
     for feld in a.felder:

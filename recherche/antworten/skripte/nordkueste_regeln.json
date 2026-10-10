@@ -12,9 +12,9 @@
   "yaw": "zufall | hang (Längsachse hangparallel ±20°) | kueste (Längsachse küstenparallel ±20°, bei Pflanzen Leeseite).",
   "eingraben": "cm fest, oder anteil × Netzhöhe (groesse_z aus netze.csv).",
   "kletter": "darf auf Hang > 40° (sonst Sperre nach FORMAT §3).",
-  "ebene": "0 boden, 1 mittel, 2 baum, 5 wasserkante; 3 fels und 4 spuren liefern felsgruppen_plan.py / spuren_plan.py (Overrides unten).",
-  "eigner_0": "eigner.r8-Kennzahl 0 (Weltgelände) = dominantes Biom des Feldes aus daten/biome_je_feld.json (nicht pauschal aue); liegt es nicht in biome_planer → 'sonst' (nichts planen).",
-  "totholz_nah": "Klassen der Ebene 0 mit totholz_nah {bis_m, faktor}: Dichte × faktor im Umkreis der in Ebene 1 geplanten totholz_klassen (Pilze an Stämmen/Stümpfen)."
+  "ebene": "0 boden (Nadelstreu, Kiesel, Moos, Bodendecker), 1 nur Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Klippenblumen, Efeu), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel, Strandplatten). Generische Schicht-1-Klassen -> mittelschicht_overrides, Felsbloecke > 0,8 m -> felsgruppen_overrides, Spuren -> spuren_overrides.",
+  "eigner_0": "eigner.r8-Kennzahl 0 (Weltgelaende) = aue (Konventionen Paragraph 1), also NICHT Nordkueste; Rezept mit vulkan = lava.",
+  "korrektur_runde1": "2026-10-10: Zustaendigkeit nach Biom-Zellen + 30-m-Saum, Pflichtschluessel, Feld-Budget, Ebenen-Abgrenzung (siehe verteilung-nordkueste.md, Korrektur Runde 1)."
  },
  "stand": "2026-10-10",
  "thema": "nordkueste",
@@ -35,11 +35,38 @@
   "x0_m": 4730.5,
   "y0_m": 4060.5
  },
- "biome_planer": [
+ "biome_eigen": [
   "fjord",
   "kueste",
   "bergwald"
  ],
+ "biome_alle": [
+  "aue",
+  "bergwald",
+  "gletscher",
+  "tundra",
+  "canyon",
+  "oedland",
+  "heide",
+  "elfenwald",
+  "dschungel",
+  "kueste",
+  "wueste",
+  "lava",
+  "frost",
+  "sumpf",
+  "fjord"
+ ],
+ "rezept_alias": {
+  "vulkan": "lava",
+  "weltgelaende": "aue"
+ },
+ "zustaendigkeit": {
+  "_doku": "Konventionen Paragraph 1: Biom je Zelle aus eigner.r8 + welt.json (rezept); Kennzahl 0 = Weltgelaende -> aue, Vulkanregion -> lava. Nur wenn eigner.r8 fehlt: dominantes Feldbiom aus daten/biome_je_feld.json (Hinweis im Log); fehlt auch das: feld_biom_fallback (+ feld_fallback_hoehe_max_m). Bebaut werden Zellen mit Biom in biome_eigen plus Saum saum_m nach aussen (Dichte linear 1 -> 0). Anteil biome_eigen im Fenster < min_anteil_eigen -> leerer plan.json (instanzen 0), Exit 0. Der entfernen-Filter (baum_modus ersetzen) wird nur gesetzt, wenn der Eigenanteil im Feld >= ersetzen_min_anteil ist; sonst ersetzen ohne entfernen (volle Baumdichte, vorhandene Baeume bleiben und werden umpflanzt), weil der Filter feldweit gilt.",
+  "saum_m": 30,
+  "min_anteil_eigen": 0.02,
+  "ersetzen_min_anteil": 0.85
+ },
  "feld_biom_fallback": {
   "C1": "fjord",
   "D1": "fjord",
@@ -105,14 +132,16 @@
   "Sandstein": 0.5
  },
  "budget": {
-  "instanzen_je_ebene": 60000,
-  "ziel_je_ebene": {
-   "0": 50000,
-   "1": 45000,
-   "2": 20000,
-   "5": 20000
-  },
+  "_doku": "Konventionen Paragraph 3: hart <= 60 000 Instanzen je Feld fuer die ganze Nordkuesten-Ebene (alle Schichten zusammen), davon <= 3 000 mit Kollision. Erst Schicht-Ziele, dann Feld-Ziel; Ausduennung deterministisch (Hash-Rang, exakte Anzahl) von hinten nach Prioritaet, Warnung im Log.",
+  "instanzen_je_feld": 60000,
+  "ziel_je_feld": 50000,
   "kollision_je_feld": 3000,
+  "ziel_je_ebene": {
+   "0": 30000,
+   "1": 20000,
+   "2": 12000,
+   "5": 15000
+  },
   "prioritaet": [
    "kiefer_alt",
    "tanne",
@@ -122,33 +151,19 @@
    "birke",
    "kuesteneiche",
    "totbaum",
-   "totholz_liegend",
    "treibholz",
-   "felsufer",
-   "stumpf",
-   "strauch_wald",
-   "strauch_kueste",
    "krueppelkiefer",
-   "jungbaum_nadel",
-   "jungbaum_laub",
-   "farninsel",
-   "wurzel",
-   "heide_beere",
+   "windflucht_kiefer",
    "strandgras",
-   "strandplatte",
-   "grasbueschel",
    "blume_kueste",
-   "blume_wald",
    "kletter",
+   "strandplatte",
    "tang",
-   "treibholz",
    "strandkiesel",
    "moos",
-   "zweige",
-   "kiesel",
    "bodendecker",
-   "nadelstreu",
-   "pilz"
+   "kiesel",
+   "nadelstreu"
   ]
  },
  "abstand_m": {
@@ -268,85 +283,6 @@
     "schwelle": 0.3
    },
    "hinweis": "Nadel-/Laubstreu-Flecken unter Kronen; Platzhalter bis Nadelstreu-Netz gekauft ist (Einkaufsliste)."
-  },
-  "zweige": {
-   "ebene": 0,
-   "rolle": "boden",
-   "netze": [
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_02",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_06",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_08",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_09",
-    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_10",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
-    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08",
-    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
-    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02",
-    "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
-    "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
-    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
-    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
-   ],
-   "dichte": [
-    0.003,
-    0.03
-   ],
-   "biome": {
-    "fjord": 0.6,
-    "kueste": 0.6,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.9,
-    1.6
-   ],
-   "eingraben": {
-    "cm": 2
-   },
-   "kippen": 1.0,
-   "yaw": "zufall",
-   "sichtweite": [
-    4000,
-    8000
-   ],
-   "schatten": false,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 1,
-   "lagen": {
-    "Nadeln": 1.8,
-    "Laub": 1.6,
-    "Moos": 1.3,
-    "Erde": 1.2,
-    "Fels": 0.2,
-    "Sand": 0.3
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    30,
-    42
-   ],
-   "klumpung": {
-    "skala_m": 6,
-    "staerke": 0.5,
-    "schwelle": 0.25
-   },
-   "baum_nah": {
-    "bis_m": 6.0,
-    "faktor": 2.0
-   },
-   "hinweis": "Ast- und Zweigwurf dichter um Stämme (baum_nah)."
   },
   "kiesel": {
    "ebene": 0,
@@ -501,67 +437,6 @@
    "kletter": true,
    "hinweis": "Moospolster an Felsfüßen, Bachnähe, Nordhang; darf bis 55° (kletter)."
   },
-  "pilz": {
-   "ebene": 0,
-   "rolle": "boden",
-   "netze": [
-    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
-    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
-   ],
-   "dichte": [
-    0.0,
-    0.004
-   ],
-   "biome": {
-    "fjord": 0.3,
-    "kueste": 0.4,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.6,
-    1.3
-   ],
-   "eingraben": {
-    "cm": 1
-   },
-   "kippen": 0.6,
-   "yaw": "zufall",
-   "sichtweite": [
-    3500,
-    6000
-   ],
-   "schatten": false,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 1,
-   "lagen": {
-    "Nadeln": 2.0,
-    "Laub": 2.0,
-    "Moos": 1.5
-   },
-   "lagen_modus": "nur",
-   "hang": [
-    25,
-    38
-   ],
-   "gruppe_n": [
-    3,
-    9
-   ],
-   "gruppe_radius_m": [
-    0.3,
-    1.2
-   ],
-   "baum_nah": {
-    "bis_m": 4.0,
-    "faktor": 2.5
-   },
-   "totholz_nah": {
-    "bis_m": 2.5,
-    "faktor": 2.5
-   },
-   "hinweis": "Pilzgruppen (Hexenringe 3–9) an Stämmen/Totholz, nur im Schatten."
-  },
   "bodendecker": {
    "ebene": 0,
    "rolle": "boden",
@@ -622,160 +497,6 @@
     "schwelle": 0.4
    },
    "hinweis": "Sauerklee/Klee/Keimlinge als Flecken im Laub-/Mischwald-Anteil."
-  },
-  "strauch_wald": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
-    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
-    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
-    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
-    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
-    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
-    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
-    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
-    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_05"
-   ],
-   "dichte": [
-    0.0035,
-    0.0012
-   ],
-   "biome": {
-    "fjord": 0.5,
-    "kueste": 0.6,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.8,
-    1.35
-   ],
-   "eingraben": {
-    "cm": 4
-   },
-   "kippen": 0.3,
-   "yaw": "zufall",
-   "sichtweite": [
-    25000,
-    40000
-   ],
-   "schatten": true,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 2,
-   "lagen": {
-    "Fels": 0.2,
-    "Sand": 0.4,
-    "Geroell": 0.3,
-    "Schnee": 0.2
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    28,
-    40
-   ],
-   "hoehe": [
-    380,
-    520
-   ],
-   "saum_faktor": 3.0,
-   "lichtung_faktor": 1.6,
-   "gruppe_n": [
-    1,
-    4
-   ],
-   "gruppe_radius_m": [
-    1.0,
-    3.5
-   ],
-   "klumpung": {
-    "skala_m": 30,
-    "staerke": 0.6,
-    "schwelle": 0.35
-   },
-   "hinweis": "Hasel/Holunder/Ahorn-Busch: Waldsaum 3x, Lichtungsrand 1,6x, Trupps 1–4."
-  },
-  "strauch_kueste": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_03",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01_with_white_flowers",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02_with_pink_flowers",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_03",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02_fruits",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_04",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_01",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_02"
-   ],
-   "dichte": [
-    0.006,
-    0.002
-   ],
-   "biome": {
-    "fjord": 0.7,
-    "kueste": 1.0,
-    "bergwald": 0.0
-   },
-   "massstab": [
-    0.75,
-    1.3
-   ],
-   "eingraben": {
-    "cm": 4
-   },
-   "kippen": 0.4,
-   "yaw": "kueste",
-   "sichtweite": [
-    25000,
-    40000
-   ],
-   "schatten": true,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 2,
-   "lagen": {
-    "Fels": 0.3,
-    "Kies": 0.6
-   },
-   "lagen_modus": "gewicht",
-   "kueste": [
-    3,
-    15,
-    120,
-    260
-   ],
-   "hang": [
-    30,
-    42
-   ],
-   "hoehe": [
-    150,
-    260
-   ],
-   "gruppe_n": [
-    2,
-    6
-   ],
-   "gruppe_radius_m": [
-    1.5,
-    5.0
-   ],
-   "klumpung": {
-    "skala_m": 35,
-    "staerke": 0.7,
-    "schwelle": 0.4
-   },
-   "hinweis": "Strandrose, Sanddorn, Krüppelkiefer in 3–260 m Küstenabstand, windgedrückt (yaw kueste = Leeseite)."
   },
   "krueppelkiefer": {
    "ebene": 1,
@@ -849,42 +570,32 @@
     "schwelle": 0.35
    },
    "kletter": true,
-   "hinweis": "Latschen-/Krüppelkiefer-Gürtel über der Waldgrenze (470–640 m) und an Küstengraten; Wacholder fehlt (Einkaufsliste)."
+   "hinweis": "Sonderform: Windflucht-Kruppelkiefern/Latschen-Guertel ueber der Waldgrenze (380-640 m) und an Graten; in Meeresnaehe (< 180 m) zusaetzlich Windflucht (Z-Stauchung, Lee-Neigung). Wacholder fehlt (Einkaufsliste).",
+   "sonderform": true,
+   "kueste_windflucht": true
   },
-  "jungbaum_nadel": {
+  "windflucht_kiefer": {
    "ebene": 1,
    "rolle": "mittel",
-   "netze": [
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03",
-    "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant",
-    "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_03",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_01",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_03"
-   ],
+   "sonderform": true,
    "dichte": [
-    0.005,
-    0.0015
+    0.0025,
+    0.001
    ],
    "biome": {
     "fjord": 0.8,
-    "kueste": 0.8,
-    "bergwald": 1.0
+    "kueste": 1.0,
+    "bergwald": 0.0
    },
    "massstab": [
-    0.6,
-    1.25
+    0.7,
+    1.2
    ],
    "eingraben": {
     "cm": 5
    },
-   "kippen": 0.15,
-   "yaw": "zufall",
+   "kippen": 0.4,
+   "yaw": "kueste",
    "sichtweite": [
     30000,
     50000
@@ -894,341 +605,49 @@
    "abstand_weg": "klein",
    "raster_m": 2,
    "lagen": {
-    "Fels": 0.2,
-    "Sand": 0.5,
-    "Nadeln": 1.3,
-    "Gras": 1.2,
-    "Wiese": 1.0
+    "Sand": 1.2,
+    "Kies": 1.0,
+    "Fels": 1.0,
+    "Trockengras": 1.2,
+    "Heide": 1.2
    },
    "lagen_modus": "gewicht",
-   "hang": [
-    30,
-    40
+   "kueste": [
+    4,
+    15,
+    110,
+    200
    ],
-   "hoehe": [
-    430,
-    560
-   ],
-   "saum_faktor": 3.5,
-   "lichtung_faktor": 2.5,
-   "gruppe_n": [
-    2,
-    8
-   ],
-   "gruppe_radius_m": [
-    1.5,
-    6.0
-   ],
-   "klumpung": {
-    "skala_m": 30,
-    "staerke": 0.6,
-    "schwelle": 0.35
-   },
-   "hinweis": "Kiefern-/Tannen-Jungwuchs 1,5–7 m an Lichtungsrändern und im Saum (Witcher: Schösslinge im Saum)."
-  },
-  "jungbaum_laub": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
-    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
-    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
-    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06",
-    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01",
-    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02"
-   ],
-   "dichte": [
-    0.002,
-    0.0025
-   ],
-   "biome": {
-    "fjord": 0.0,
-    "kueste": 0.3,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.7,
-    1.3
-   ],
-   "eingraben": {
-    "cm": 4
-   },
-   "kippen": 0.15,
-   "yaw": "zufall",
-   "sichtweite": [
-    25000,
-    40000
-   ],
-   "schatten": true,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 2,
-   "lagen": {
-    "Laub": 2.0,
-    "Erde": 1.2,
-    "Moos": 1.0,
-    "Nadeln": 0.6,
-    "Fels": 0.1
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    28,
-    38
-   ],
-   "hoehe": [
-    260,
-    380
-   ],
-   "saum_faktor": 2.0,
-   "gruppe_n": [
-    2,
-    6
-   ],
-   "gruppe_radius_m": [
-    1.0,
-    4.0
-   ],
-   "klumpung": {
-    "skala_m": 25,
-    "staerke": 0.6,
-    "schwelle": 0.4
-   },
-   "hinweis": "Hainbuchen-Jungwuchs im unteren Bergwald (< 380 m), Laubbeimischung."
-  },
-  "farninsel": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
-    "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
-    "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
-    "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
-    "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
-    "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
-    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
-    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
-    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
-    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
-    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
-    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_2"
-   ],
-   "dichte": [
-    0.002,
-    0.03
-   ],
-   "biome": {
-    "fjord": 0.5,
-    "kueste": 0.7,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.7,
-    1.4
-   ],
-   "eingraben": {
-    "cm": 3
-   },
-   "kippen": 0.3,
-   "yaw": "zufall",
-   "sichtweite": [
-    12000,
-    20000
-   ],
-   "schatten": false,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 1,
-   "lagen": {
-    "Moos": 1.8,
-    "Laub": 1.5,
-    "Nadeln": 1.2,
-    "Erde": 1.0,
-    "Fels": 0.3,
-    "Sand": 0.2,
-    "Schnee": 0.1
-   },
-   "lagen_modus": "gewicht",
+   "kueste_nur": true,
+   "kueste_windflucht": true,
    "hang": [
     30,
     42
    ],
    "hoehe": [
-    420,
-    560
+    90,
+    160
    ],
-   "wasser": [
-    0,
-    0,
-    25,
-    60
-   ],
-   "wasser_faktor_fern": 0.6,
    "gruppe_n": [
-    4,
-    14
+    2,
+    5
    ],
    "gruppe_radius_m": [
     1.5,
     5.0
    ],
    "klumpung": {
-    "skala_m": 20,
-    "staerke": 0.8,
-    "schwelle": 0.45
-   },
-   "nordhang_faktor": 1.5,
-   "hinweis": "Farninseln (4–14) im Schatten, feucht, Nordhang 1,5x; ergänzt FT_EL_WIT-Farne (dort gleichmäßiger)."
-  },
-  "heide_beere": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_simple_01",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_00",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_01",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_04",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_05",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
-    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_02"
-   ],
-   "dichte": [
-    0.012,
-    0.006
-   ],
-   "biome": {
-    "fjord": 1.0,
-    "kueste": 1.0,
-    "bergwald": 0.8
-   },
-   "massstab": [
-    0.8,
-    1.5
-   ],
-   "eingraben": {
-    "cm": 3
-   },
-   "kippen": 0.6,
-   "yaw": "zufall",
-   "sichtweite": [
-    12000,
-    20000
-   ],
-   "schatten": false,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 1,
-   "lagen": {
-    "Heide": 3.0,
-    "Trockengras": 1.5,
-    "Moos": 1.2,
-    "Nadeln": 1.0,
-    "Fels": 0.6,
-    "Gras": 0.8,
-    "Sand": 0.3
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    32,
-    44
-   ],
-   "gruppe_n": [
-    5,
-    20
-   ],
-   "gruppe_radius_m": [
-    1.5,
-    6.0
-   ],
-   "klumpung": {
-    "skala_m": 18,
-    "staerke": 0.8,
-    "schwelle": 0.45
-   },
-   "kletter": true,
-   "hinweis": "Heidekraut-/Beeren-Zwergstrauchteppiche (Blaubeere fehlt als Netz → black_cherry/beach_rose_05 als Stand-in)."
-  },
-  "grasbueschel": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_A_1",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_B_1",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
-    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_B_1",
-    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
-    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
-    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
-    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_04",
-    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_05"
-   ],
-   "dichte": [
-    0.02,
-    0.004
-   ],
-   "biome": {
-    "fjord": 1.0,
-    "kueste": 0.9,
-    "bergwald": 0.8
-   },
-   "massstab": [
-    0.7,
-    1.5
-   ],
-   "eingraben": {
-    "cm": 3
-   },
-   "kippen": 0.4,
-   "yaw": "zufall",
-   "sichtweite": [
-    10000,
-    15000
-   ],
-   "schatten": false,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 1,
-   "lagen": {
-    "Gras": 1.5,
-    "Wiese": 1.3,
-    "Trockengras": 1.6,
-    "Heide": 1.0,
-    "Erde": 0.8,
-    "Fels": 0.3,
-    "Sand": 0.3,
-    "Schnee": 0.1
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    34,
-    44
-   ],
-   "hoehe": [
-    520,
-    660
-   ],
-   "klumpung": {
-    "skala_m": 14,
+    "skala_m": 30,
     "staerke": 0.6,
-    "schwelle": 0.3
+    "schwelle": 0.4
    },
-   "fels_nah": {
-    "bis_m": 2.5,
-    "faktor": 1.8
-   },
-   "hinweis": "Hohe Grasbüschel 0,6–1,5 m (Landschafts-Gras deckt nur 0,2–1,2 m, kameranah) – Höhenstufen im Bild."
+   "netze": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_02"
+   ],
+   "hinweis": "Sonderform Nordkueste: windgeschorene Jungkiefern-Trupps 15-110 m hinter der Wasserlinie (Z gestaucht, Lee-Neigung wie Kuestenkiefer). Wacholder-Gruppen fehlen im Inventar (Einkaufsliste)."
   },
   "strandgras": {
    "ebene": 1,
@@ -1302,82 +721,9 @@
     "staerke": 0.7,
     "schwelle": 0.35
    },
-   "hinweis": "Strandhafer-Horste 2–90 m hinter der Wasserlinie, nur bis 80 m Höhe."
-  },
-  "blume_wald": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01",
-    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_02",
-    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_04",
-    "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_06",
-    "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01",
-    "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02",
-    "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_03",
-    "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_02",
-    "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03",
-    "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_04",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_lily_01_1",
-    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_lily_01_2"
-   ],
-   "dichte": [
-    0.004,
-    0.006
-   ],
-   "biome": {
-    "fjord": 0.2,
-    "kueste": 0.4,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.8,
-    1.3
-   ],
-   "eingraben": {
-    "cm": 2
-   },
-   "kippen": 0.3,
-   "yaw": "zufall",
-   "sichtweite": [
-    8000,
-    12000
-   ],
-   "schatten": false,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 1,
-   "lagen": {
-    "Laub": 2.0,
-    "Moos": 1.5,
-    "Erde": 1.0,
-    "Nadeln": 0.8,
-    "Gras": 0.8
-   },
-   "lagen_modus": "nur",
-   "hang": [
-    25,
-    36
-   ],
-   "hoehe": [
-    350,
-    480
-   ],
-   "gruppe_n": [
-    8,
-    30
-   ],
-   "gruppe_radius_m": [
-    1.5,
-    5.0
-   ],
-   "klumpung": {
-    "skala_m": 22,
-    "staerke": 0.9,
-    "schwelle": 0.55
-   },
-   "saum_faktor": 1.8,
-   "hinweis": "Blumeninseln (Windröschen, Maiglöckchen, Immergrün) – wenige, aber dichte Inseln (Witcher: Farbakzente in Gruppen)."
+   "hinweis": "Sonderform: Strandhafer-Horste (Duenen-/Strandsaum) 2-90 m hinter der Wasserlinie, nur bis 80 m Hoehe.",
+   "sonderform": true,
+   "kueste_nur": true
   },
   "blume_kueste": {
    "ebene": 1,
@@ -1460,205 +806,9 @@
     "staerke": 0.9,
     "schwelle": 0.55
    },
-   "hinweis": "Klippenwiesen-Blumen (Stranddistel, Wundklee, Kamille) in Inseln an der Klippenkante (witcher_04 Vordergrund)."
-  },
-  "totholz_liegend": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
-    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
-    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
-    "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
-    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
-    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
-    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
-    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
-    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_02",
-    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03",
-    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06",
-    "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
-    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
-    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
-    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03",
-    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04"
-   ],
-   "dichte": [
-    0.0006,
-    0.0018
-   ],
-   "biome": {
-    "fjord": 0.5,
-    "kueste": 0.5,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.8,
-    1.3
-   ],
-   "eingraben": {
-    "anteil": 0.28
-   },
-   "kippen": 1.0,
-   "yaw": "hang",
-   "sichtweite": [
-    35000,
-    60000
-   ],
-   "schatten": true,
-   "kollision": true,
-   "abstand_weg": "gross",
-   "raster_m": 3,
-   "lagen": {
-    "Nadeln": 1.5,
-    "Laub": 1.3,
-    "Moos": 1.3,
-    "Fels": 0.3,
-    "Sand": 0.3
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    30,
-    40
-   ],
-   "hoehe": [
-    450,
-    580
-   ],
-   "klumpung": {
-    "skala_m": 40,
-    "staerke": 0.5,
-    "schwelle": 0.3
-   },
-   "baum_nah": {
-    "bis_m": 8.0,
-    "faktor": 1.6
-   },
-   "hinweis": "Liegende Stämme hangparallel (yaw hang), 28 % eingegraben, Kollision; ~3 % der Bäume."
-  },
-  "stumpf": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
-    "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
-    "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
-    "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
-    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
-   ],
-   "dichte": [
-    0.0008,
-    0.0012
-   ],
-   "biome": {
-    "fjord": 0.5,
-    "kueste": 0.6,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.8,
-    1.3
-   ],
-   "eingraben": {
-    "cm": 6
-   },
-   "kippen": 0.8,
-   "yaw": "zufall",
-   "sichtweite": [
-    30000,
-    50000
-   ],
-   "schatten": true,
-   "kollision": true,
-   "abstand_weg": "klein",
-   "raster_m": 3,
-   "lagen": {
-    "Nadeln": 1.5,
-    "Laub": 1.2,
-    "Moos": 1.2,
-    "Fels": 0.2,
-    "Sand": 0.3
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    30,
-    40
-   ],
-   "hoehe": [
-    450,
-    580
-   ],
-   "klumpung": {
-    "skala_m": 40,
-    "staerke": 0.5,
-    "schwelle": 0.3
-   },
-   "lichtung_faktor": 2.5,
-   "hinweis": "Stümpfe, gehäuft an Lichtungen (Holzschlag) – Spuren von Leben ohne Spuren-Planer."
-  },
-  "wurzel": {
-   "ebene": 1,
-   "rolle": "mittel",
-   "netze": [
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
-    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
-    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
-   ],
-   "dichte": [
-    0.0,
-    0.0012
-   ],
-   "biome": {
-    "fjord": 0.3,
-    "kueste": 0.4,
-    "bergwald": 1.0
-   },
-   "massstab": [
-    0.8,
-    1.2
-   ],
-   "eingraben": {
-    "anteil": 0.3
-   },
-   "kippen": 1.0,
-   "yaw": "hang",
-   "sichtweite": [
-    20000,
-    35000
-   ],
-   "schatten": true,
-   "kollision": false,
-   "abstand_weg": "klein",
-   "raster_m": 3,
-   "lagen": {
-    "Nadeln": 1.5,
-    "Moos": 1.5,
-    "Erde": 1.5,
-    "Laub": 1.0,
-    "Fels": 0.6
-   },
-   "lagen_modus": "gewicht",
-   "hang": [
-    30,
-    42
-   ],
-   "hoehe": [
-    450,
-    580
-   ],
-   "baum_nah": {
-    "bis_m": 3.0,
-    "faktor": 4.0
-   },
-   "baum_nah_nur": true,
-   "hinweis": "Wurzelanläufe nur direkt an Stämmen (≤ 3 m), hangabwärts gedreht."
+   "hinweis": "Sonderform: Klippenwiesen-Blumeninseln (Stranddistel, Wundklee, Meerkohl, Kamille) 3-400 m hinter der Wasserlinie (witcher_04 Vordergrund).",
+   "sonderform": true,
+   "kueste_nur": true
   },
   "kletter": {
    "ebene": 1,
@@ -1724,7 +874,8 @@
     "schwelle": 0.5
    },
    "kletter": true,
-   "hinweis": "Efeu/Ranken nur an Steilhängen 35–85° mit Fels-Lage (einzige Klasse über 40° neben Moos/Krüppelkiefer/Heide)."
+   "hinweis": "Sonderform: Efeu/Ranken nur an Steilhaengen 35-85 Grad mit Fels-Lage (darf ueber 40 Grad).",
+   "sonderform": true
   },
   "kiefer_alt": {
    "ebene": 2,
@@ -2304,7 +1455,8 @@
     "schwelle": 0.3
    },
    "kueste_nur": true,
-   "hinweis": "Spülsaum 0–5 m über Wasserlinie: STAND-IN (flache Wasserpflanzen) bis Tang/Blasentang gekauft (Einkaufsliste Nr. 3)."
+   "hinweis": "Spülsaum 0–5 m über Wasserlinie: STAND-IN (flache Wasserpflanzen) bis Tang/Blasentang gekauft (Einkaufsliste Nr. 3).",
+   "sonderform": true
   },
   "treibholz": {
    "ebene": 5,
@@ -2371,7 +1523,8 @@
     "schwelle": 0.45
    },
    "kueste_nur": true,
-   "hinweis": "Treibholz küstenparallel (yaw kueste ± 20°) 1–22 m hinter der Wasserlinie, geklumpt in Buchten (Hang < 12°)."
+   "hinweis": "Treibholz küstenparallel (yaw kueste ± 20°) 1–22 m hinter der Wasserlinie, geklumpt in Buchten (Hang < 12°).",
+   "sonderform": true
   },
   "strandkiesel": {
    "ebene": 5,
@@ -2450,7 +1603,8 @@
    },
    "kueste_nur": true,
    "ufer_vorhanden_faktor": 0.25,
-   "hinweis": "Kiesel/Kopfsteine 5–40 cm im Spülsaum; wenn Ufer-Ebene FT_EL_UF_* im Feld liegt, nur 25 % (Ergänzung)."
+   "hinweis": "Kiesel/Kopfsteine 5–40 cm im Spülsaum; wenn Ufer-Ebene FT_EL_UF_* im Feld liegt, nur 25 % (Ergänzung).",
+   "sonderform": true
   },
   "strandplatte": {
    "ebene": 5,
@@ -2516,79 +1670,8 @@
    },
    "kueste_nur": true,
    "ufer_vorhanden_faktor": 0.4,
-   "hinweis": "Kiesel-Platten (Nanite) als Fläche zwischen Wasser und Strandgras; 45 % eingegraben."
-  },
-  "felsufer": {
-   "ebene": 5,
-   "rolle": "wasserkante",
-   "netze": [
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
-    "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
-    "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
-    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
-    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_3",
-    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02"
-   ],
-   "dichte": [
-    0.008,
-    0.008
-   ],
-   "biome": {
-    "fjord": 1.0,
-    "kueste": 0.5,
-    "bergwald": 0.0
-   },
-   "massstab": [
-    0.6,
-    1.3
-   ],
-   "eingraben": {
-    "anteil": 0.4
-   },
-   "kippen": 1.0,
-   "yaw": "zufall",
-   "sichtweite": [
-    35000,
-    60000
-   ],
-   "schatten": true,
-   "kollision": true,
-   "abstand_weg": "klein",
-   "raster_m": 3,
-   "lagen": {
-    "Fels": 2.0,
-    "Geroell": 1.5,
-    "Sand": 0.3,
-    "Kies": 0.5
-   },
-   "lagen_modus": "gewicht",
-   "kueste": [
-    0,
-    0,
-    5,
-    14
-   ],
-   "hoehe": [
-    6.0,
-    12.0
-   ],
-   "hang_min": [
-    6,
-    14
-   ],
-   "hang": [
-    40,
-    60
-   ],
-   "klumpung": {
-    "skala_m": 14,
-    "staerke": 0.6,
-    "schwelle": 0.3
-   },
-   "kueste_nur": true,
-   "kletter": true,
-   "hinweis": "Fjord-Felsufer: Blöcke 0,8–1,8 m an steilen Ufern (Hang 14–60°), kein Strand; Felsgruppen-Planer liefert die großen Stücke."
+   "hinweis": "Kiesel-Platten (Nanite) als Fläche zwischen Wasser und Strandgras; 45 % eingegraben.",
+   "sonderform": true
   }
  },
  "farben": {
@@ -2648,34 +1731,9 @@
     100,
     80
    ],
-   "farninsel": [
-    40,
-    200,
-    90
-   ],
-   "strauch_wald": [
-    90,
-    180,
-    60
-   ],
-   "strauch_kueste": [
-    170,
-    120,
-    170
-   ],
    "krueppelkiefer": [
     30,
     120,
-    90
-   ],
-   "heide_beere": [
-    150,
-    60,
-    140
-   ],
-   "grasbueschel": [
-    190,
-    200,
     90
    ],
    "strandgras": [
@@ -2683,25 +1741,10 @@
     210,
     120
    ],
-   "blume_wald": [
-    250,
-    250,
-    250
-   ],
    "blume_kueste": [
     250,
     220,
     90
-   ],
-   "totholz_liegend": [
-    120,
-    70,
-    30
-   ],
-   "stumpf": [
-    110,
-    60,
-    30
    ],
    "tang": [
     60,
@@ -2723,83 +1766,172 @@
     160,
     170
    ],
-   "felsufer": [
-    110,
-    110,
-    120
+   "windflucht_kiefer": [
+    60,
+    140,
+    110
    ]
-  }
+  },
+  "saum": [
+   255,
+   150,
+   0
+  ],
+  "fremd_abdunkeln": 0.5
  },
  "felsgruppen_overrides": {
-  "_doku": "Biomspezifische Überschreibungen für felsgruppen_plan.py (Teil C). Schlüssel folgen felsgruppen_regeln.json: biom_palette, biom_faktor, paletten.<name>.<rolle> (ergänzend), klassen_faktor (grat/band/wand/fuss/blockstrom/kuppe/prallhang), eingraben, auflage.",
-  "biom_palette": {
-   "fjord": "nordisch",
-   "kueste": "nordisch",
-   "bergwald": "nordisch"
-  },
-  "biom_faktor": {
-   "fjord": 1.15,
-   "kueste": 1.0,
-   "bergwald": 0.95
-  },
-  "klassen_faktor": {
-   "fjord": {
-    "wand": 1.3,
-    "fuss": 1.0,
-    "kuppe": 1.2,
-    "grat": 1.1,
-    "band": 1.2,
-    "blockstrom": 0.8,
-    "prallhang": 0.6
+  "_doku": "Fuer felsgruppen_plan.py (Teil C), Schema {palette, faktor} wie mittelschicht_overrides. palette.biom: Palettenname je Biom (felsgruppen_regeln.json biom_palette); palette.ergaenzung: zusaetzliche Netze je Palette und Rolle; palette.bevorzugt: Gewicht 2 fuer moosige Netze unter Kronen bzw. kahle ueber der Waldgrenze. faktor.biom: Dichtefaktor je Biom; faktor.klassen: Faktor je Felsklasse und Biom; faktor.kiesel: Kiesel-Dichte. zusatzklassen.felsufer: Fjord-Felsufer-Bloecke (bisher Schicht 5 hier). eingraben [min,max] Anteil der Netzhoehe; auflage: Bewuchs-Hinweis.",
+  "palette": {
+   "biom": {
+    "fjord": "nordisch",
+    "kueste": "nordisch",
+    "bergwald": "nordisch"
    },
-   "kueste": {
-    "wand": 1.2,
-    "fuss": 0.9,
-    "kuppe": 1.4,
-    "grat": 1.0,
-    "band": 1.0,
-    "blockstrom": 0.7,
-    "prallhang": 0.7
+   "ergaenzung": {
+    "nordisch": {
+     "hero": [
+      "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
+      "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01"
+     ],
+     "block": [
+      "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03"
+     ],
+     "platte": [
+      "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
+      "/Game/Meshes/_GENERATED/RockFormation/SM_NordicBeach_02"
+     ]
+    }
    },
-   "bergwald": {
-    "wand": 1.0,
-    "fuss": 1.1,
-    "kuppe": 1.0,
-    "grat": 1.2,
-    "band": 0.8,
-    "blockstrom": 1.2,
-    "prallhang": 1.0
-   }
-  },
-  "paletten_ergaenzung": {
-   "nordisch": {
-    "hero": [
-     "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
-     "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01"
+   "bevorzugt": {
+    "doku": "Im bergwald unter Kronen (Beschattung > 0,5) für block/stein die Mossy-Netze bevorzugen (Gewicht 2), über der Waldgrenze Granit/Icelandic (Gewicht 2).",
+    "moos_bevorzugt": [
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+     "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0"
     ],
-    "block": [
-     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03"
-    ],
-    "platte": [
-     "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
-     "/Game/Meshes/_GENERATED/RockFormation/SM_NordicBeach_02"
+    "kahl_bevorzugt": [
+     "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
+     "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+     "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02"
     ]
    }
   },
-  "palette_bergwald_moosig": {
-   "doku": "Im bergwald unter Kronen (Beschattung > 0,5) für block/stein die Mossy-Netze bevorzugen (Gewicht 2), über der Waldgrenze Granit/Icelandic (Gewicht 2).",
-   "moos_bevorzugt": [
-    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
-    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
-    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
-    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
-    "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0"
-   ],
-   "kahl_bevorzugt": [
-    "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
-    "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
-    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02"
-   ]
+  "faktor": {
+   "biom": {
+    "fjord": 1.15,
+    "kueste": 1.0,
+    "bergwald": 0.95
+   },
+   "klassen": {
+    "fjord": {
+     "wand": 1.3,
+     "fuss": 1.0,
+     "kuppe": 1.2,
+     "grat": 1.1,
+     "band": 1.2,
+     "blockstrom": 0.8,
+     "prallhang": 0.6
+    },
+    "kueste": {
+     "wand": 1.2,
+     "fuss": 0.9,
+     "kuppe": 1.4,
+     "grat": 1.0,
+     "band": 1.0,
+     "blockstrom": 0.7,
+     "prallhang": 0.7
+    },
+    "bergwald": {
+     "wand": 1.0,
+     "fuss": 1.1,
+     "kuppe": 1.0,
+     "grat": 1.2,
+     "band": 0.8,
+     "blockstrom": 1.2,
+     "prallhang": 1.0
+    }
+   },
+   "kiesel": {
+    "fjord": 1.3,
+    "kueste": 1.0,
+    "bergwald": 0.9
+   }
+  },
+  "zusatzklassen": {
+   "felsufer": {
+    "ebene": 5,
+    "rolle": "wasserkante",
+    "netze": [
+     "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
+     "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
+     "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+     "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
+     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
+     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_3",
+     "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02"
+    ],
+    "dichte": [
+     0.008,
+     0.008
+    ],
+    "biome": {
+     "fjord": 1.0,
+     "kueste": 0.5,
+     "bergwald": 0.0
+    },
+    "massstab": [
+     0.6,
+     1.3
+    ],
+    "eingraben": {
+     "anteil": 0.4
+    },
+    "kippen": 1.0,
+    "yaw": "zufall",
+    "sichtweite": [
+     35000,
+     60000
+    ],
+    "schatten": true,
+    "kollision": true,
+    "abstand_weg": "klein",
+    "raster_m": 3,
+    "lagen": {
+     "Fels": 2.0,
+     "Geroell": 1.5,
+     "Sand": 0.3,
+     "Kies": 0.5
+    },
+    "lagen_modus": "gewicht",
+    "kueste": [
+     0,
+     0,
+     5,
+     14
+    ],
+    "hoehe": [
+     6.0,
+     12.0
+    ],
+    "hang_min": [
+     6,
+     14
+    ],
+    "hang": [
+     40,
+     60
+    ],
+    "klumpung": {
+     "skala_m": 14,
+     "staerke": 0.6,
+     "schwelle": 0.3
+    },
+    "kueste_nur": true,
+    "kletter": true,
+    "hinweis": "Bisher Schicht 5 des Nordkuesten-Planers (Bloecke > 0,8 m mit Kollision) -> nach Paragraph 4 Sache von felsgruppen_plan.py. Regel im Nordkuesten-Format: Fjord-Felsufer 0-14 m hinter der Wasserlinie, Hang 14-60 Grad, Hoehe bis 12 m, kein Strand."
+   }
   },
   "eingraben": {
    "fjord": [
@@ -2815,11 +1947,6 @@
     0.45
    ]
   },
-  "kiesel_dichte_faktor": {
-   "fjord": 1.3,
-   "kueste": 1.0,
-   "bergwald": 0.9
-  },
   "auflage": {
    "fjord": "flechte",
    "kueste": "salz_flechte",
@@ -2828,8 +1955,29 @@
   "kuesten_regel": "Blöcke 0–30 m über Meer: Eingraben 40–45 % (Brandungsgerundet), keine Mossy-Netze, Hauptrichtung = Küstenlinie."
  },
  "spuren_overrides": {
-  "_doku": "Biomspezifische Überschreibungen für spuren_plan.py (Teil D). Schlüssel: netze_ergaenzung (zu spuren_regeln.json netze), dichtefaktor je Spurenart, verbote.",
-  "dichtefaktor": {
+  "_doku": "Fuer spuren_plan.py (Teil D), Schema {palette, faktor}: palette = zusaetzliche Netze je Spurenart (zu spuren_regeln.json netze), faktor = Dichtefaktor je Biom und Spurenart (0 = aus), verbote = Spurenarten, die im Biom nie gesetzt werden.",
+  "palette": {
+   "zaun_pfahl": [
+    "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_1_01",
+    "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_2_01"
+   ],
+   "steinmann": [
+    "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3"
+   ],
+   "mauer_stein": [
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0"
+   ],
+   "holzstapel": [
+    "/Game/MedievalFantasyVillage/Props/SM_firewoodSetA_a1"
+   ],
+   "holzschlag_stumpf": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03"
+   ]
+  },
+  "faktor": {
    "fjord": {
     "zaun_holz": 0.4,
     "zaun_latten": 0.3,
@@ -2888,27 +2036,6 @@
     "steg": 0.8
    }
   },
-  "netze_ergaenzung": {
-   "zaun_pfahl": [
-    "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_1_01",
-    "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_2_01"
-   ],
-   "steinmann": [
-    "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01",
-    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3"
-   ],
-   "mauer_stein": [
-    "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0"
-   ],
-   "holzstapel": [
-    "/Game/MedievalFantasyVillage/Props/SM_firewoodSetA_a1"
-   ],
-   "holzschlag_stumpf": [
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03"
-   ]
-  },
   "verbote": {
    "fjord": [
     "obstbaum",
@@ -2921,15 +2048,854 @@
   },
   "hinweis": "Skellige-Spuren: Steinmänner an Küstenpfaden und Graten, Trockenmauern um Weiden, Hügelgräber, Fischerstege (Netz fehlt → Einkaufsliste), Holzschlag-Lichtungen im Bergwald."
  },
- "totholz_klassen": [
-  "totholz_liegend",
-  "stumpf",
-  "wurzel"
- ],
  "rauchtest": {
-  "stand": "2026-10-10",
-  "feld": "B5 synthetisch (Küste W, Hangwald, Grat O, Bach, Weg, Ort, 700 Bestand-Kiefern, 250 Witcher-Farne)",
-  "ergebnis": "ergaenzen: 27 114 Instanzen (757 Kollision), je Ebene 2: 452, 1: 12 032, 0: 13 098, 5: 1 532, 317 Netze, 11,7 s; ersetzen: 28 326 (1 708 Kollision), Ebene 2: 1 328; zweiter Lauf byteidentisch",
-  "hinweis": "Synthetischer Hang 55 % > 40° → reale Felder (B5: 82 % > 30°) liegen in derselben Größenordnung; Budget 60 000 nicht erreicht."
+  "stand": "2026-10-10, Korrektur Runde 1 (synthetisch, Python 3.13, NumPy, kein numba)",
+  "felder": "B5 Kueste/Hangwald/Grat (eigner: kueste 210-m-Streifen, bergwald, Aue-Bachtal-Band als Fremdbiom, Meer = Kennzahl 0 = aue, 700 Bestand-Kiefern); C6 Vulkanregion 99,7 % + 60x60-m-bergwald-Fleck; H4 bergwald/heide 51/49 mit gewellter Grenze; J1 nur Kennzahl 0 (aue)",
+  "ergebnis": "B5: 14 069 Instanzen (360 Kollision), Schicht 2: 322, 1: 4 959, 0: 6 559, 5: 2 229, 153 f32, 9 s; H4: 24 171 (2 996 Kollision, Kollisionsdeckel greift), Schicht 2: 2 996, 0: 21 175, 79 f32; C6 und J1: leerer plan.json (instanzen 0, keine f32), Exit 0",
+  "saum": "Instanzen auf Fremdzellen B5 246 (0-10 m 142, 10-20 m 83, 20-30 m 21), H4 447 (269/145/33); jenseits 30 m: 0 (unabhaengig per Brute-Force-Abstand geprueft)",
+  "budget": "--faktor 5: B5 62 122 -> 49 999 (Schicht 0 und Feld-Ziel), H4 Kollision 7 354 -> 2 997; harte Deckel nie ueberschritten",
+  "determinismus": "zweiter Lauf: alle f32 byteidentisch, plan.json bis auf stand/laufzeit_s identisch",
+  "fehlerfaelle": "netze.csv/hoehe.f32/Regeln fehlen oder Feld X9 -> Meldung, Exit 2; ohne eigner.r8 -> dominantes Feldbiom (C6 lava -> leer, B5 bergwald); Konsole 0 Nicht-ASCII-Zeichen"
+ },
+ "mittelschicht_overrides": {
+  "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen Paragraph 4: generische Schicht-1-Klassen in fjord/kueste/bergwald setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b].palette[k] vor palette[k] vor mittelschicht_regeln.json[\"biome\"][b][k]; Dichte = mittelschicht-Dichte x (je_biom[b].faktor[k] oder faktor[k]). faktor 0 = Klasse im Biom aus. Faktoren = Dichte des bisherigen Nordkuesten-Planers / mittelschicht-Dichte (Mittel offen/beschattet, mit Biomgewicht), auf 0,25-3 begrenzt. vorlage_biom: Klasse fehlt in mittelschicht_regeln.json fuer dieses Biom -> Parameter aus dem genannten Biom uebernehmen. Netze der Nordkuesten-Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Treibholz, Baeume ...) sind aus allen Paletten entfernt (keine Doppelung). zusatzklassen im Klassenformat von mittelschicht_regeln.json plus biome/biom_faktor/lagen.",
+  "gilt_fuer": [
+   "fjord",
+   "kueste",
+   "bergwald"
+  ],
+  "klassen_alias_mittelschicht": {
+   "totholz_liegend": "totholz",
+   "totholz_stumpf": "stumpf",
+   "totholz_ast": "ast"
+  },
+  "palette": {
+   "strauch": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_05",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01_with_white_flowers",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02_with_pink_flowers",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02_fruits",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_04"
+   ],
+   "jungbaum": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant",
+    "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_03",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_03",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02"
+   ],
+   "farn": [
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
+    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+    "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_2"
+   ],
+   "totholz_liegend": [
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+    "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
+    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+    "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+    "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03"
+   ],
+   "totholz_stumpf": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
+    "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+    "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+    "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
+   ],
+   "totholz_ast": [
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_02",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_06",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_08",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_09",
+    "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_10",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+    "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
+    "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
+   ],
+   "wurzel": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
+    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
+   ],
+   "grasbueschel": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_A_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_B_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_B_1",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+    "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_04",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_05"
+   ],
+   "beere": [
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_simple_01",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_00",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_01",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_04",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_05",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_02"
+   ],
+   "pilz": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
+   ]
+  },
+  "faktor": {
+   "strauch": 0.65,
+   "jungbaum": 0.93,
+   "farn": 2.18,
+   "totholz_liegend": 0.77,
+   "totholz_stumpf": 1.42,
+   "totholz_ast": 1.62,
+   "wurzel": 0.34,
+   "grasbueschel": 1.07,
+   "beere": 0.6,
+   "pilz": 0.36,
+   "totbaum": 0.0
+  },
+  "zusatzklassen": {
+   "blaubeer_teppich": {
+    "biome": [
+     "bergwald",
+     "fjord"
+    ],
+    "biom_faktor": {
+     "bergwald": 1.0,
+     "fjord": 0.6
+    },
+    "netze": [
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_01",
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_02",
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03",
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01",
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_01",
+     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_02"
+    ],
+    "dichte": [
+     0.006,
+     0.02
+    ],
+    "gruppe": [
+     8,
+     20
+    ],
+    "radius_m": 4.0,
+    "massstab": [
+     0.8,
+     1.3
+    ],
+    "eingraben_cm": 2,
+    "kippen": 0.5,
+    "sichtweite": [
+     0,
+     15000
+    ],
+    "kollision": false,
+    "saum": 1.2,
+    "feuchte": [
+     1.0,
+     1.0
+    ],
+    "hang_max": 38,
+    "hoehe_max_m": 640,
+    "lichtungsrand": 1.5,
+    "laengs_hang": false,
+    "an_baum": false,
+    "lagen": {
+     "Nadeln": 1.8,
+     "Moos": 1.5,
+     "Heide": 1.2
+    },
+    "hinweis": "Blaubeer-/Preiselbeer-Teppiche unter lichtem Kiefernschirm (Skellige-Bergwald), dichter unter Kronen, Gruppen 8-20 in 4 m."
+   },
+   "blume_wald": {
+    "biome": [
+     "bergwald",
+     "kueste",
+     "fjord"
+    ],
+    "biom_faktor": {
+     "fjord": 0.2,
+     "kueste": 0.4,
+     "bergwald": 1.0
+    },
+    "netze": [
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01",
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_02",
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_04",
+     "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_06",
+     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01",
+     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02",
+     "/Game/Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_03",
+     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_02",
+     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03",
+     "/Game/Megascans/3D_Plants/Periwinkle/SM_Periwinkle_04",
+     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_lily_01_1",
+     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_lily_01_2"
+    ],
+    "dichte": [
+     0.004,
+     0.006
+    ],
+    "gruppe": [
+     8,
+     30
+    ],
+    "radius_m": 5.0,
+    "massstab": [
+     0.8,
+     1.3
+    ],
+    "eingraben_cm": 2,
+    "kippen": 0.3,
+    "sichtweite": [
+     0,
+     12000
+    ],
+    "kollision": false,
+    "saum": 1.8,
+    "feuchte": [
+     1.0,
+     1.0
+    ],
+    "hang_max": 36,
+    "hoehe_max_m": 480,
+    "lichtungsrand": 1.5,
+    "laengs_hang": false,
+    "an_baum": false,
+    "lagen": {
+     "Laub": 2.0,
+     "Moos": 1.5,
+     "Erde": 1.0,
+     "Nadeln": 0.8,
+     "Gras": 0.8
+    },
+    "hinweis": "Waldblumen-Inseln (Windroeschen, Maigloeckchen, Immergruen), bisher Schicht-1-Klasse blume_wald des Nordkuesten-Planers."
+   }
+  },
+  "je_biom": {
+   "fjord": {
+    "palette": {
+     "strauch": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_05",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_03",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01_with_white_flowers",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02_with_pink_flowers",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_03",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02_fruits",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_04"
+     ],
+     "jungbaum": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03",
+      "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant",
+      "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_03",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_03"
+     ],
+     "farn": [
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_2"
+     ],
+     "totholz_liegend": [
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+      "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
+      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+      "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03"
+     ],
+     "totholz_stumpf": [
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
+      "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+      "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+      "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
+     ],
+     "totholz_ast": [
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_02",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_06",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_08",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_09",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_10",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
+     ],
+     "wurzel": [
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
+      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
+     ],
+     "grasbueschel": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_A_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_B_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_B_1",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_04",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_05"
+     ],
+     "beere": [
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_simple_01",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_00",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_01",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_04",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_05",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_02"
+     ],
+     "pilz": [
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
+     ]
+    },
+    "faktor": {
+     "strauch": 0.67,
+     "jungbaum": 0.76,
+     "farn": 1.6,
+     "totholz_liegend": 0.56,
+     "totholz_stumpf": 1.0,
+     "totholz_ast": 1.22,
+     "wurzel": 0.25,
+     "grasbueschel": 0.91,
+     "beere": 0.36,
+     "pilz": 0.25,
+     "totbaum": 0.0
+    },
+    "vorlage_biom": {
+     "pilz": "bergwald"
+    }
+   },
+   "kueste": {
+    "palette": {
+     "strauch": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_05",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_03",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_01_with_white_flowers",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_02_with_pink_flowers",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_03",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02_fruits",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_04"
+     ],
+     "jungbaum": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03",
+      "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant",
+      "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_03",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_03",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02"
+     ],
+     "farn": [
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_2"
+     ],
+     "totholz_liegend": [
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+      "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
+      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+      "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03"
+     ],
+     "totholz_stumpf": [
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
+      "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+      "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+      "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
+     ],
+     "totholz_ast": [
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_02",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_06",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_08",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_09",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_10",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
+     ],
+     "wurzel": [
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
+      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
+     ],
+     "grasbueschel": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_A_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_B_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_B_1",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_04",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_05"
+     ],
+     "beere": [
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_simple_01",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_00",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_01",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_04",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_05",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_02"
+     ],
+     "pilz": [
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
+     ]
+    },
+    "faktor": {
+     "strauch": 0.98,
+     "jungbaum": 1.19,
+     "farn": 2.04,
+     "totholz_liegend": 0.67,
+     "totholz_stumpf": 1.71,
+     "totholz_ast": 1.58,
+     "wurzel": 0.25,
+     "grasbueschel": 1.03,
+     "beere": 1.12,
+     "pilz": 0.25,
+     "totbaum": 0.0
+    },
+    "vorlage_biom": {
+     "farn": "bergwald",
+     "wurzel": "bergwald",
+     "pilz": "bergwald"
+    }
+   },
+   "bergwald": {
+    "palette": {
+     "strauch": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+      "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_03",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_05"
+     ],
+     "jungbaum": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03",
+      "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant",
+      "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_03",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_medium_03",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_06",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_01",
+      "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_02"
+     ],
+     "farn": [
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+      "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+      "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+      "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_2"
+     ],
+     "totholz_liegend": [
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+      "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
+      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+      "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+      "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+      "/Game/Megascans/3D_Assets/BrokenTreeAssembly/SM_BrokenTreeAssembly_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03"
+     ],
+     "totholz_stumpf": [
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
+      "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+      "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+      "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03"
+     ],
+     "totholz_ast": [
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_02",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_06",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_08",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_09",
+      "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_10",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_02",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+      "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_08",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
+      "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
+      "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
+     ],
+     "wurzel": [
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
+      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
+      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
+     ],
+     "grasbueschel": [
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_A_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_B_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
+      "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_B_1",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+      "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_04",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_simple_05"
+     ],
+     "beere": [
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+      "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_simple_01",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_00",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_01",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_02",
+      "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_black_cherry_04",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_05",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
+      "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_02"
+     ],
+     "pilz": [
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
+     ]
+    },
+    "faktor": {
+     "strauch": 0.29,
+     "jungbaum": 0.85,
+     "farn": 2.91,
+     "totholz_liegend": 1.09,
+     "totholz_stumpf": 1.54,
+     "totholz_ast": 2.06,
+     "wurzel": 0.52,
+     "grasbueschel": 1.28,
+     "beere": 0.32,
+     "pilz": 0.57,
+     "totbaum": 0.0
+    }
+   }
+  },
+  "herkunft": {
+   "strauch": [
+    "strauch_wald",
+    "strauch_kueste"
+   ],
+   "jungbaum": [
+    "jungbaum_nadel",
+    "jungbaum_laub"
+   ],
+   "farn": [
+    "farninsel"
+   ],
+   "totholz_liegend": [
+    "totholz_liegend"
+   ],
+   "totholz_stumpf": [
+    "stumpf"
+   ],
+   "totholz_ast": [
+    "zweige"
+   ],
+   "wurzel": [
+    "wurzel"
+   ],
+   "grasbueschel": [
+    "grasbueschel"
+   ],
+   "beere": [
+    "heide_beere"
+   ],
+   "pilz": [
+    "pilz"
+   ],
+   "blume_wald": [
+    "blume_wald"
+   ],
+   "totbaum": [
+    "Faktor 0: Totbaeume plant nordkueste_plan.py in Schicht 2 (Klasse totbaum)"
+   ]
+  }
  }
 }

@@ -9,6 +9,9 @@ Foliage-Typen `FT_EL_NK_*` unter `/Game/Eldarien/Welt/Foliage/Nordkueste`).
 **Status:** Skript syntaxgeprüft und mit einem **synthetischen** B5-Fenster rauchgetestet (Abschnitt 4). **UNGETESTET MIT ECHTDATEN, kein
 Setzen im Editor.** Alle 301 Netzpfade maschinell gegen `daten/netze.csv` geprüft (0 Fehler). Zahlen ohne Quelle sind Richtwerte.
 Web-Quellen liegen nur als Suchauszüge vor (kein Direktzugriff auf 80.lv/GDC Vault/Kotaku aus dieser Umgebung) und sind so gekennzeichnet.
+**Korrektur Runde 1 (10.10.2026):** Zuständigkeit strikt nach Biom-Zellen + 30-m-Saum, leerer `plan.json` bei < 2 % Eigenanteil, neue
+Pflichtschlüssel, Feld-Budget, Schicht 1 nur noch Sonderformen (generische Klassen → `mittelschicht_overrides`). Regeldatei jetzt 21 Klassen,
+150 Netze im Planer. **Abschnitt 7 ersetzt, wo er abweicht, die Abschnitte 2–4 und 6.**
 
 ## 1. Witcher-Analyse: Skellige als Messlatte für Fjord, Küste und Bergwald
 
@@ -253,3 +256,133 @@ Vor dem Kauf prüfen, ob das Megascans-Asset vor dem 31.12.2024 beansprucht wurd
 8. **Foliage-Typen je Feld 300–320** (viele Varianten je Klasse) – HISM-Komponenten und Setzer-Laufzeit; kürzen siehe Abschnitt 4.
 9. **Kollision**: 757–1 708 je Feld (Bäume, Totholz, Stümpfe, Treibholz, Felsufer), Deckel 3 000 mit proportionaler Ausdünnung – im Test nicht ausgelöst.
 10. **Nicht geprüft:** `entfernen`-Verhalten des Setzers, Nanite Foliage (ab 5.7) für die Nicht-Nanite-Kiefern, HLOD der Baumebene.
+
+## 7. Korrektur Runde 1 (10.10.2026)
+
+**Anlass** (`auftraege/verteilung-korrektur-runde1.md`, lokaler Echtdatenlauf, Windows, Python 3.11): A5 (bergwald/fjord) **27 302**
+Instanzen – in Ordnung; G4 (elfenwald) und E1 (gletscher) kein Plan – richtig, aber nur als Textmeldung statt leerem `plan.json`;
+C6 (Fenster 96,8 % lava + 3 % bergwald) **1 078** Instanzen – zu viel, weil alle Ebenen aller Planer sich in jedem Feld stapeln.
+Umgesetzt nach `verteilung-KONVENTIONEN.md` §1–§5.
+
+### 7.1 Änderungen im Planer (`nordkueste_plan.py`)
+
+| Punkt | Vorher | Jetzt |
+|---|---|---|
+| Biom je Zelle (§1) | eigner 0 → dominantes Feldbiom | eigner 0 → **aue**, Rezept mit „vulkan“ → **lava**; nur ohne `eigner.r8`/`welt.json` dominantes Feldbiom aus `daten/biome_je_feld.json` (Hinweis im Log), danach Regel-Fallback |
+| Zuständigkeit (§1) | alle Zellen mit fjord/kueste/bergwald, harte Kante | `biome_eigen` = fjord, kueste, bergwald **plus 30-m-Saum** nach außen: exakte euklidische Distanztransformation (separierbar, NumPy, keine Zellschleifen), Dichtefaktor 1 an der Biomgrenze → 0 bei 30 m; im Saum gelten die Regeln des **nächsten** eigenen Bioms (Label-Weitergabe in derselben Transformation). Jitter-Punkte, die über die Saumgrenze oder auf Sperrzellen fallen, werden verworfen |
+| Fremdes Biom (§1) | `return None` + Textzeile | Eigenanteil im Fenster < 2 % → **leerer `plan.json`** (`instanzen: 0`, `dateien: {}`, alle Pflichtschlüssel, alte f32 gelöscht), eine Hinweiszeile, Exit 0; ebenso, wenn eigene Zellen nur im Rand liegen |
+| `plan.json` (§2) | `statistik.biome_anteil` | neu oben: `biome_fenster` (Anteile aller Biome im Fenster, absteigend), `zellen_zustaendig` (Feldzellen inkl. Saum), `biome_eigen`, `kollision_anzahl`; `statistik.zustaendigkeit` mit Quelle, Eigenanteil Fenster/Feld, Zellen eigen/Saum, Rohzahl vor Budget |
+| Budget (§3) | 60 000 **je Schicht** (zusammen bis 135 000 möglich), Kollision proportional per Zufall | Schicht-Ziele (0: 30 000, 1: 20 000, 2: 12 000, 5: 15 000), dann **Feld-Ziel 50 000 für die ganze Nordküsten-Ebene**, hart 60 000; Kollision hart 3 000. Ausdünnung exakt (Hash-Rang, `floor`) von der niedrigsten Priorität aufwärts, `WARNUNG` im Log und Eintrag in `hinweise`; bei Schicht 0 zusätzlich Hinweis „Kleinzeug an Landschafts-Gras“ |
+| `entfernen`-Filter | bei `ersetzen` immer | nur wenn Eigenanteil im Feld ≥ 85 % (`ersetzen_min_anteil`), sonst `ersetzen` ohne Filter (der Filter gilt feldweit und würde Bäume fremder Biome löschen) |
+| Ausgabe (§5) | Umlaute, „→“, „–“ in `print()` | alle Konsolenzeilen ASCII (`ascii_text()`: ae/oe/ue/ss, `->`, `-`); `plan.json` bleibt UTF-8 |
+| Fehler (§5) | `SystemExit` je Feld abgefangen, Exit 0; `netze.csv` optional | fehlende `hoehe.f32`, Regeldatei oder `daten/netze.csv`, ungültiger Feldname → Meldung, **Exit 2**; fehlende optionale Dateien → Hinweis, weiter |
+| Overrides-Prüfung | – | alle `/Game/…`-Pfade in den drei Override-Blöcken werden gegen `netze.csv` geprüft (nur Warnung) |
+
+### 7.2 Neue Schicht-1-Definition (§4)
+
+Schicht 1 dieses Planers enthält **nur noch Nordküsten-Sonderformen** (alle mit `"sonderform": true` im Regel-JSON):
+
+| Klasse | Inhalt | Wo |
+|---|---|---|
+| `krueppelkiefer` | Windflucht-Krüppelkiefern/Latschen-Gürtel (dwarf_pine, 7 Netze), Gruppen 2–7 | über der Waldgrenze 380–640 m, Grate bis 46°; < 180 m vom Meer zusätzlich Windflucht (Z-Stauchung, Lee-Neigung) |
+| `windflucht_kiefer` (neu, aus `strauch_kueste` herausgelöst) | windgeschorene Jungkiefern-Trupps (pine_beach_crooked/short, 4 Netze), Gruppen 2–5 | nur Küste, 15–110 m hinter der Wasserlinie, bis 160 m Höhe, Windflucht |
+| `strandgras` | Strandhafer-Horste | nur Küste (jetzt `kueste_nur`), 2–90 m hinter der Wasserlinie |
+| `blume_kueste` | Klippenwiesen-Blumeninseln (Stranddistel, Wundklee, Meerkohl, Kamille) | nur Küste (jetzt `kueste_nur` – vorher auch im Binnen-Bergwald), 3–400 m |
+| `kletter` | Efeu/Ranken an Fels | Hang 35–85° mit Fels-Lage |
+
+Schicht 0 (Nadelstreu, Kiesel, Moos, Bodendecker), Schicht 2 (8 Baumklassen inkl. Totbaum) und Schicht 5 (Tang, Treibholz,
+Strandkiesel, Strandplatten = Tang-/Treibholz-Säume) bleiben. **Wacholder-Gruppen** sind nicht möglich: kein Wacholder im Inventar
+(Einkaufsliste, Abschnitt 5).
+
+**Verschoben** (nichts geht verloren):
+
+| Bisherige Klasse | Ziel | Grund |
+|---|---|---|
+| `strauch_wald`, `strauch_kueste` | `mittelschicht_overrides` → `strauch` | generisch |
+| `jungbaum_nadel`, `jungbaum_laub` | → `jungbaum` | generisch |
+| `farninsel` | → `farn` | generisch |
+| `totholz_liegend`, `stumpf`, `zweige` (Schicht 0) | → `totholz_liegend`, `totholz_stumpf`, `totholz_ast` | generisch (Zweige = Astwurf) |
+| `wurzel` | → `wurzel` (mittelschicht-Klasse) | generisch |
+| `grasbueschel`, `heide_beere`, `pilz` (Schicht 0) | → `grasbueschel`, `beere`, `pilz` | generisch |
+| `blume_wald` | → `mittelschicht_overrides.zusatzklassen.blume_wald` | keine generische Klasse, aber nicht biomspezifisch |
+| neu | → `zusatzklassen.blaubeer_teppich` (billberry/lingonberry, 6 Netze) | Blaubeer-Teppiche unter lichtem Kiefernschirm |
+| `felsufer` (Schicht 5, Blöcke > 0,8 m mit Kollision) | → `felsgruppen_overrides.zusatzklassen.felsufer` | §4: Felsen > 0,8 m nur felsgruppen |
+
+### 7.3 Override-Schema (in `nordkueste_regeln.json`)
+
+```
+"mittelschicht_overrides": {
+  "gilt_fuer": ["fjord", "kueste", "bergwald"],
+  "klassen_alias_mittelschicht": {"totholz_liegend": "totholz", "totholz_stumpf": "stumpf", "totholz_ast": "ast"},
+  "palette":  {"strauch": [22 Pfade], "jungbaum": [17], "farn": [15], "totholz_liegend": [11], "totholz_stumpf": [7],
+               "totholz_ast": [24], "wurzel": [8], "grasbueschel": [15], "beere": [11], "pilz": [2]},     # gemeinsam (Fallback)
+  "faktor":   {"strauch": 0.65, "jungbaum": 0.93, "farn": 2.18, ..., "totbaum": 0.0},                # Mittel der drei Biome
+  "zusatzklassen": {"blaubeer_teppich": {...}, "blume_wald": {...}},   # Klassenformat von mittelschicht_regeln.json + biome/biom_faktor/lagen
+  "je_biom": {"fjord":    {"palette": {...}, "faktor": {...}, "vorlage_biom": {"pilz": "bergwald"}},
+              "kueste":   {"palette": {...}, "faktor": {...}, "vorlage_biom": {"farn": "bergwald", "wurzel": "bergwald", "pilz": "bergwald"}},
+              "bergwald": {"palette": {...}, "faktor": {...}}},
+  "herkunft": {"strauch": ["strauch_wald", "strauch_kueste"], ...}
+}
+```
+
+Auflösung je Zelle mit Biom b: `je_biom[b].palette[k]` vor `palette[k]` vor `mittelschicht_regeln.json["biome"][b][k]`; Dichte =
+mittelschicht-Dichte × `je_biom[b].faktor[k]` (sonst `faktor[k]`). Die Faktoren sind aus den bisherigen Nordküsten-Dichten abgeleitet
+(Mittel offen/beschattet × Biomgewicht ÷ mittelschicht-Dichte, auf 0,25–3 begrenzt), z. B. bergwald strauch 0,29 / farn 2,91 /
+totholz_ast 2,06, kueste strauch 0,98 / jungbaum 1,19. `totbaum` = 0, weil Totbäume hier in Schicht 2 geplant werden. `vorlage_biom`:
+Klasse fehlt in `mittelschicht_regeln.json` für das Biom → Parameter aus bergwald. Netze aller Nordküsten-Sonderformen und Bäume sind aus
+den Paletten entfernt (z. B. dwarf_pine aus `strauch`, beach_driftwood aus `totholz_liegend`), damit kein Netz doppelt gesetzt wird.
+
+`felsgruppen_overrides` und `spuren_overrides` geprüft und auf dasselbe Schema gebracht (Inhalt unverändert):
+`felsgruppen_overrides = {palette: {biom, ergaenzung, bevorzugt}, faktor: {biom, klassen, kiesel}, zusatzklassen: {felsufer}, eingraben,
+auflage, kuesten_regel}`; `spuren_overrides = {palette: <Netze je Spurenart>, faktor: <Dichtefaktor je Biom und Spurenart>, verbote,
+hinweis}`. Alle Pfade stehen in `netze.csv` (0 Warnungen). Teil C/D müssen die Blöcke noch einlesen (`<thema>_regeln.json` neben der
+eigenen Regeldatei, §4).
+
+### 7.4 Rauchtest Runde 1 (synthetisch, Cloud: Python 3.13, NumPy, Pillow, kein numba)
+
+Mini-Produktionswurzel mit vollen Rastern (memmap, danach gelöscht): **B5** Meer im Westen, 210-m-Küstenstreifen (`kueste_nordisch`),
+Hangwald (`bergwald_fichte`), Grat bis ~650 m, Bach mit 56 m breitem `aue_bachtal`-Band als Fremdbiom, Weg, Ort, 700 Bestand-Kiefern,
+250 Witcher-Farne; **C6** `vulkanregion_asche` 99,7 % + 60 × 60 m bergwald; **H4** bergwald/heide 51/49 mit gewellter Grenze; **J1** nur
+Kennzahl 0.
+
+| Prüfung | Ergebnis |
+|---|---|
+| B5 (eigene Zellen) | 14 069 Instanzen, 360 Kollision; Schicht 2: 322, 1: 4 959 (nur Sonderformen), 0: 6 559, 5: 2 229; 153 f32; 8–10 s; `biome_fenster` bergwald 0,574 / aue 0,233 (inkl. Meer = Kennzahl 0) / kueste 0,180 / lava 0,013; `zellen_zustaendig` 883 740 (davon Saum 76 482) |
+| C6 lava | **leerer `plan.json`** (instanzen 0, keine f32, `biome_fenster` lava 0,9972 / bergwald 0,0028), eine Zeile im Log, Exit 0; eine alte f32 im Ordner wurde gelöscht |
+| H4 50/50 | 24 171 Instanzen (Kollisionsdeckel greift: 4 565 → 2 996), Schicht 2: 2 996, 0: 21 175; `entfernen` nicht gesetzt (Eigenanteil 51 % < 85 %); Saum im PNG als oranger Streifen entlang der weißen Biomgrenze, Instanzen dünnen nach außen aus, heide-Seite leer |
+| J1 fremd | leerer `plan.json`, Exit 0 |
+| 30-m-Saum (unabhängig per Brute-Force-Abstand je Instanz) | Instanzen auf Fremdzellen B5: 246 (0–10 m 142, 10–20 m 83, 20–30 m 21), H4: 447 (269/145/33); **jenseits 30 m: 0** |
+| Pflichtschlüssel | `instanzen`, `dateien` (mit `ebene`), `biome_fenster`, `zellen_zustaendig`, `biome_eigen`, `kollision_anzahl`, `ft_ordner`, `ft_praefix` in allen vier Plänen; `anzahl` = Zeilen der f32 |
+| Budget `--faktor 5` | B5 62 122 → **49 999** (Schicht 0 Nadelstreu, dann Feld-Ziel Kiesel/Nadelstreu), H4 Kollision 7 354 → **2 997**; Warnungen im Log |
+| Determinismus | zweiter Lauf: alle f32 byteidentisch (B5 154, H4 80 Dateien), `plan.json` bis auf `stand`/`laufzeit_s` identisch |
+| ASCII | 0 Nicht-ASCII-Zeichen in allen Konsolenausgaben (4 Läufe) |
+| Fehlerfälle | ohne `netze.csv`, ohne `hoehe.f32`, Feld X9, Regeldatei fehlt → Meldung, Exit 2; ohne `eigner.r8` → dominantes Feldbiom (C6 lava → leer, B5 bergwald → 9 832) |
+| Format | 10 float32 je Instanz, 0 NaN, Quaternionen normiert (Fehler ≤ 1,2e-7), alle Positionen im Feld; `py_compile` ok |
+
+Die Zahlen sind nicht mit dem Rauchtest aus Abschnitt 4 vergleichbar (andere synthetische Biomkarte: Bach-Aue und Meer sind jetzt
+Fremdbiom, und Schicht 1 enthält nur noch Sonderformen).
+
+### 7.5 Echtdaten-Referenz und Erwartung nach der Korrektur
+
+| Feld | Echtlauf 10.10. (vor Korrektur) | Erwartung jetzt | Begründung |
+|---|---|---|---|
+| A5 (kueste 75 / bergwald 14 / aue 11 % laut `biome_je_feld.md`) | 27 302 | etwa 10 000–18 000 | generische Schicht 1 und Zweige/Pilze entfallen (im Synthetiklauf ~60 % von Schicht 1), Kennzahl-0-Zellen sind jetzt aue statt Feldbiom |
+| G4 (elfenwald) | kein Plan (Text) | leerer `plan.json`, Exit 0 | Eigenanteil ≈ 0 |
+| E1 (gletscher 100 %) | kein Plan (Text) | leerer `plan.json`, Exit 0 | Eigenanteil 0 |
+| C6 (lava 96,8 % + bergwald 3 %) | 1 078 | **nicht zwingend 0**: liegen die 3 % bergwald als eigene Kacheln im Fenster, ist die 2-%-Schwelle überschritten und der Planer bebaut genau diese Zellen + 30-m-Saum, ohne generische Mittelschicht – erwartet wenige hundert Instanzen | Regel aus §1 (< 2 % → leer); soll C6 leer bleiben, `zustaendigkeit.min_anteil_eigen` in `nordkueste_regeln.json` auf 0,04 setzen |
+
+Bitte beim nächsten Echtlauf `biome_fenster`, `zellen_zustaendig` und `statistik.zustaendigkeit` von A5/C6 zurückmelden; daraus lässt
+sich die Schwelle für C6 und die Dichte für A5 (Ziel 15 000–30 000) nachstellen.
+
+### 7.6 Offene Punkte nach Runde 1
+
+1. `mittelschicht_plan.py`, `felsgruppen_plan.py`, `spuren_plan.py` lesen die Override-Blöcke noch nicht (Teil C/D). Bis dahin fehlt in
+   Nordküsten-Feldern die biomspezifische Feinsteuerung von Strauch/Farn/Totholz, nicht aber die Klassen selbst (mittelschicht setzt sie mit
+   eigenen Pauschalwerten). Das Fjord-Felsufer fehlt, bis felsgruppen `zusatzklassen.felsufer` umsetzt.
+2. Die Override-Faktoren sind aus Dichtemitteln abgeleitet, ohne Lagen-/Licht-/Klumpungsfaktoren beider Planer – Richtwerte, nach dem
+   ersten gemeinsamen Setzen in A5/B5 gegen die Zielbilder nachstellen.
+3. Abschnitt 5 korrigiert: Blaubeere/Preiselbeere **sind** im Inventar (`SM_billberry_01–03`, `SM_lingonberry_01–02`) und werden jetzt
+   als `blaubeer_teppich` genutzt; es fehlt nur Wacholder.
+4. Meer und andere Kennzahl-0-Flächen zählen in `biome_fenster` als aue (Konvention); Küstenklassen stehen auf kueste-Landzellen und
+   werden davon nicht berührt.
+5. Abschnitt 6 Punkt 9 überholt: der Kollisionsdeckel greift jetzt exakt (H4 synthetisch 4 565 → 2 996).

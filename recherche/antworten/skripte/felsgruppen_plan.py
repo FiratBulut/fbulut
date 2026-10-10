@@ -3,8 +3,18 @@
 """
 felsgruppen_plan.py – Planer „Fels organisch“ (Auftrag 11, Teil C) für Eldarien (UE 5.8.3, 1-m-Raster 9577 × 7057).
 
-*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern rauchgetestet (B4-Fenster).
-Korrekturen bitte als auftraege/verteilung-felsgruppen-korrektur.md.
+Stand Korrektur Runde 1 (10.10.2026): Die Vorfassung lief lokal mit Echtdaten ohne Absturz (A5 13 311 Instanzen/65 Akteure,
+G4 114, E1 18 482, C6 27 357). Diese Fassung setzt antworten/verteilung-KONVENTIONEN.md um:
+  - Biom je Zelle strikt aus eigner.r8 + welt.json (Kennzahl 0 = Weltgelände -> aue, Vulkanregion -> lava); das dominante
+    Feldbiom (daten/biome_je_feld.json) gilt nur, wenn eigner.r8 fehlt. Querschnitts-Planer: biome_eigen = alle 15 Biome,
+    Palette und Dichte je Zelle nach Biom.
+  - plan.json mit biome_fenster, zellen_zustaendig, biome_eigen, kollision_anzahl, hinweise; leerer plan.json (instanzen 0)
+    statt Textabbruch (Feld ohne Land, Fehler im Feld). Pflichtdatei fehlt -> Meldung, Exit-Code 2.
+  - Budget hart: <= 60 000 Instanzen, <= 3 000 mit Kollision; Ausdünnung deterministisch (Hash-Priorität) mit WARNUNG im Log.
+  - print() nur ASCII (Umlaute -> ae/oe/ue/ss), Logs werden unter Windows mit cp1252 weiterverarbeitet.
+  - optional felsgruppen_overrides aus den Biom-Regeldateien (Zuordnung in felsgruppen_regeln.json["overrides"]); Overrides
+    gewinnen. Neue Override-Option mindestdichte_je_ha (Klasse "einzel": Einzelblöcke/Moosfelsen auch ohne Relief).
+In der Cloud nur synthetisch rauchgetestet. Korrekturen bitte als auftraege/verteilung-felsgruppen-korrektur.md.
 
 Was das Skript tut
 ------------------
@@ -25,18 +35,46 @@ erzeugen dieselben Gruppen im Überlappungsrand (kein Nahtsprung).
 Aufruf
 ------
   python -I scripts/felsgruppen/felsgruppen_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]
+                                                    [--overrides-ordner PFAD] [--ohne-overrides]
   --basis   production-Wurzel (Default "."), darunter export/unreal/welt/, daten/netze.csv, daten/netze_masse.json, docs/
   --regeln  Regeldatei (Default: felsgruppen_regeln.json neben dem Skript, sonst scripts/felsgruppen/felsgruppen_regeln.json)
   --faktor  Dichtefaktor (multipliziert alle Annahme-Wahrscheinlichkeiten und die Kiesel-Dichte)
   --bild    Draufsicht docs/pruefung/felsgruppen/<Feld>.png (1 px = 1 m, Farben je Klasse)
+  --overrides-ordner  Ordner mit den Biom-Regeldateien (<thema>_regeln.json). Ohne Angabe gesucht: Ordner der Regeldatei,
+            <basis>/scripts/<thema>/, <Skriptordner>/../<thema>/. Fehlende Datei -> Hinweis, Biom ohne Overrides.
+  --ohne-overrides    Biom-Overrides nicht lesen (Vergleichslauf).
+
+Biom-Overrides (KONVENTIONEN §4)
+--------------------------------
+Je Biom-Regeldatei der Block "felsgruppen_overrides" (Zuordnung Datei -> Biome in felsgruppen_regeln.json["overrides"]).
+Gilt nur für die Biome dieser Datei; Overrides gewinnen gegen felsgruppen_regeln.json. Tolerant gelesen (Werte global für
+die Biome der Datei, als {biom: wert} oder in Biom-Unterblöcken {"heide": {...}}):
+  palette / biom_palette        Name einer Palette (str) oder {rolle: [Netzpfade]} (ersetzt die Rolle)
+  paletten_neu                  {name: {rolle: [..]}} neue Palette (Basis = bisherige Palette des Bioms)
+  paletten_ergaenzung/_zusatz   {palette: {rolle: [..]}} hängt Netze an die Palette an
+  fels_hero/fels_block/... , netze_moosblock, platte_ersatz, wand_palette.klippe_schale, kiesel_ring.netze,
+  kontaktzone.geroellsaum_netze Rollen-Netze (Aliase: fels_hero->hero, klippe_schale->wand, geroell_platte->platte, ...)
+  faktor / faktoren / biom_faktor   Zahl = Biomfaktor (ersetzt), {klasse: f} = Klassenfaktor, {biom: ...}
+  biom_faktor_<biom>, gruppen_dichte_faktor (multipliziert), klassen_faktor {klasse: f}
+  biom_klassen_aus / klassen_aus (ersetzt Liste), klassen_erlaubt (Komplement)
+  klassen.<klasse>.p (-> Faktor p/p_basis), klassen.<klasse>.p_faktor, klassen.findling_frei.je_km2 (-> mindestdichte)
+  eingraben / eingraben_anteil [lo, hi] (alle Felsrollen), rollen.<rolle>.{massstab, eingraben, sichtweite_cm},
+  massstab {rolle: [..]}, sichtweite {rolle: [..]}, wand_palette.{massstab, eingraben_anteil, kippen_in_hang_grad}
+  kiesel_dichte_faktor, gruppe.kiesel_dichte_je_m2, kiesel_ring.kiesel_dichte_je_m2 (-> Kieselfaktor)
+  mindestdichte_je_ha           Zahl oder [lo, hi] (Mittel): Mindestzahl Felsgruppen je ha Biomfläche (Klasse einzel)
+  felder                        Liste: Overrides nur in diesen Feldern
+Alle anderen Schlüssel werden ignoriert und in plan.json["overrides"][datei]["ignoriert"] gelistet.
 
 Ausgabe (FORMAT.md §3)
 ----------------------
   export/unreal/welt/felsgruppen/<Feld>/<Netzname>.f32   10 float32 LE je Instanz: x,y,z cm; qx,qy,qz,qw; sx,sy,sz
-  export/unreal/welt/felsgruppen/<Feld>/plan.json        dateien{pfad, anzahl, gruppe, rolle, sichtweite, schatten, kollision},
-                                                         akteure[] (große Stücke, rolle "akteur"), entfernen, ft_ordner, ft_praefix
+  export/unreal/welt/felsgruppen/<Feld>/plan.json        dateien{pfad, anzahl, gruppe, rolle, sichtweite, schatten, kollision,
+                                                         ebene}, akteure[] (große Stücke, rolle "akteur"), entfernen, ft_ordner,
+                                                         ft_praefix, biome_fenster, zellen_zustaendig, biome_eigen,
+                                                         kollision_anzahl, paletten_je_biom, overrides, hinweise
   Akteur-Instanzen liegen zusätzlich in akteur_<Netzname>.f32 (gleiches Format), damit ein generischer Setzer sie nicht als
-  Foliage setzt: dateien-Eintrag trägt rolle "akteur".
+  Foliage setzt: dateien-Eintrag trägt rolle "akteur". Instanzen mit Kollision liegen in <Netzname>_kol.f32 (Kollision ist im
+  Setzer je Foliage-Typ/Datei); Netz immer über dateien[...]["pfad"], nicht über den Dateinamen.
 
 Quellen (Regeln, Zahlen): antworten/verteilung-fels-organisch.md, antworten/klippennetze-a5.md (Eingraben 25–45 %,
 Schichtneigung je Front, Gruppen 2–5), antworten/bildkritik-witcher-messlatte.md (Cluster statt Stufenkanten, Floating-Check),
@@ -64,11 +102,31 @@ X0, Y0 = 4730.5, 4060.5  # X_m = j - X0, Y_m = i - Y0
 BIOME = ["aue", "bergwald", "gletscher", "tundra", "canyon", "oedland", "heide", "elfenwald", "dschungel", "kueste", "wueste",
          "lava", "frost", "sumpf", "fjord"]
 ROLLEN_ORDNUNG = ["hero", "wand", "band", "block", "platte", "stein", "kiesel"]
+KLASSEN = ["grat", "band", "wand", "fuss", "blockstrom", "kuppe", "prallhang", "einzel"]
 U64 = np.uint64
+
+_ASCII = {"ä": "ae", "ö": "oe", "ü": "ue", "Ä": "Ae", "Ö": "Oe", "Ü": "Ue", "ß": "ss", "–": "-", "—": "-", "→": "->",
+          "←": "<-", "≤": "<=", "≥": ">=", "×": "x", "°": " Grad", "…": "...", "„": '"', "“": '"', "”": '"', "‚": "'",
+          "‘": "'", "’": "'", "²": "2", "±": "+/-", "≈": "~", "·": "*", "µ": "u", "é": "e"}
+
+
+def ascii_text(t):
+    """Nur ASCII für print(): Logs werden unter Windows mit cp1252 weiterverarbeitet (KONVENTIONEN §5)."""
+    t = str(t)
+    for k, v in _ASCII.items():
+        if k in t:
+            t = t.replace(k, v)
+    return t.encode("ascii", "replace").decode("ascii")
 
 
 def log(*a):
-    print("[felsgruppen]", *a, flush=True)
+    print(ascii_text("[felsgruppen] " + " ".join(str(x) for x in a)), flush=True)
+
+
+def abbruch(msg):
+    """Pflichtdatei fehlt/fehlerhaft: klare Meldung, Exit-Code 2 (KONVENTIONEN §5)."""
+    log("FEHLER: " + msg)
+    sys.exit(2)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -218,16 +276,16 @@ def lade_raster(pfad, dtype, win, pflicht=False, name=""):
     """Fenster (i0,i1,j0,j1) aus NY×NX-Raster per memmap; None wenn fehlt (oder Abbruch bei pflicht)."""
     if not os.path.isfile(pfad):
         if pflicht:
-            sys.exit("FEHLT (Pflicht): %s" % pfad)
-        log("Hinweis: %s fehlt (%s) – wird ohne fortgesetzt." % (name or os.path.basename(pfad), pfad))
+            abbruch("Pflichtdatei fehlt: %s" % pfad)
+        log("Hinweis: %s fehlt (%s) - wird ohne fortgesetzt." % (name or os.path.basename(pfad), pfad))
         return None
     itemsize = np.dtype(dtype).itemsize
     groesse = os.path.getsize(pfad)
     if groesse != NX * NY * itemsize:
         msg = "%s hat %d Byte, erwartet %d (NY=%d × NX=%d × %d)" % (pfad, groesse, NX * NY * itemsize, NY, NX, itemsize)
         if pflicht:
-            sys.exit("FEHLER: " + msg)
-        log("Hinweis: " + msg + " – ignoriert.")
+            abbruch(msg)
+        log("Hinweis: " + msg + " - ignoriert.")
         return None
     mm = np.memmap(pfad, dtype=dtype, mode="r", shape=(NY, NX))
     i0, i1, j0, j1 = win
@@ -248,7 +306,7 @@ def lade_netze(basis, skriptdir):
                                         "kollision": int(r["kollision_primitive"] or 0)}
             log("Inventar: %d Netze aus %s" % (len(netze), p))
             return netze
-    sys.exit("FEHLT (Pflicht): daten/netze.csv (gesucht: %s)" % ", ".join(kandidaten))
+    abbruch("Pflichtdatei fehlt: daten/netze.csv (gesucht: %s)" % ", ".join(kandidaten))
 
 
 def lade_masse(basis, skriptdir):
@@ -262,7 +320,7 @@ def lade_masse(basis, skriptdir):
 
 
 def dominantes_biom(basis, skriptdir, feld):
-    """Dominantes Biom des Feldes aus daten/biome_je_feld.json (für Kennzahl 0 = Weltgelände); None wenn unbekannt."""
+    """Dominantes Biom des Feldes aus daten/biome_je_feld.json; None wenn unbekannt. Nur Fallback, wenn eigner.r8 fehlt."""
     for p in [os.path.join(basis, "daten", "biome_je_feld.json"), os.path.join(skriptdir, "..", "..", "vorlagen", "daten", "biome_je_feld.json")]:
         if os.path.isfile(p):
             try:
@@ -277,24 +335,53 @@ def dominantes_biom(basis, skriptdir, feld):
     return None
 
 
-def lade_biome(welt_dir, win, basis, skriptdir, feld, regeln, hang):
-    """Biom-Index je Zelle (Index in BIOME) aus eigner.r8 + welt.json; Kennzahl 0 → dominantes Feldbiom, Fallback aue."""
+def biom_aus_rezept(rez):
+    """welt.json-Rezept -> Biomname (None = unbekannt). Weltgelände -> aue, Vulkanregion -> lava (KONVENTIONEN §1)."""
+    r = str(rez).strip().lower()
+    if r in BIOME:
+        return r
+    if r in ("", "0", "welt", "weltgelaende", "weltgelände"):
+        return "aue"
+    if "vulkan" in r or "lava" in r:
+        return "lava"
+    for bn in sorted(BIOME, key=len, reverse=True):
+        if bn in r:
+            return bn
+    for teil, bn in (("glet", "gletscher"), ("elfen", "elfenwald"), ("dschung", "dschungel"), ("jungle", "dschungel"),
+                     ("kuest", "kueste"), ("küst", "kueste"), ("wuest", "wueste"), ("wüst", "wueste"), ("moor", "sumpf"),
+                     ("frost", "frost"), ("eis", "gletscher"), ("wald", "bergwald")):
+        if teil in r:
+            return bn
+    return None
+
+
+def lade_biome(welt_dir, win, basis, skriptdir, feld, regeln):
+    """Biom-Index je Zelle (Index in BIOME) strikt nach KONVENTIONEN §1.
+
+    eigner.r8 + welt.json["kacheln"][k]["rezept"]; Kennzahl 0 = Weltgelände -> aue; Vulkanregion -> lava.
+    Nur wenn eigner.r8 fehlt: dominantes Feldbiom aus daten/biome_je_feld.json (Hinweis), sonst biom_zuordnung.fallback_biom.
+    Liefert (biom_index_raster, quelle)."""
+    shape = (win[1] - win[0], win[3] - win[2])
+    fb = regeln.get("biom_zuordnung", {}).get("fallback_biom", "aue")
+    fb = fb if fb in BIOME else "aue"
     eig = lade_raster(os.path.join(welt_dir, "eigner.r8"), np.uint8, win, name="eigner.r8")
-    E0 = regeln.get("eigner0", {})
-    dom = dominantes_biom(basis, skriptdir, feld)
-    b0 = BIOME.index(dom) if dom else 0
-    tab = np.full(256, b0, dtype=np.int16)
+    if eig is None:
+        dom = dominantes_biom(basis, skriptdir, feld)
+        bn = dom or fb
+        log("Hinweis: eigner.r8 fehlt - Fallback: Biom im ganzen Fenster '%s' (%s)." % (
+            bn, "dominantes Feldbiom aus daten/biome_je_feld.json" if dom else "biome_je_feld.json fehlt -> fallback_biom"))
+        return np.full(shape, BIOME.index(bn), dtype=np.int16), ("fallback_feldbiom" if dom else "fallback_biom")
+    aue = BIOME.index("aue")
+    tab = np.full(256, aue, dtype=np.int16)
     wj = os.path.join(welt_dir, "welt.json")
-    if eig is None or not os.path.isfile(wj):
-        if eig is not None:
-            log("Hinweis: welt.json fehlt – Biom überall '%s'." % BIOME[b0])
-        out = np.full((win[1] - win[0], win[3] - win[2]), b0, dtype=np.int16)
-        if dom is None and hang is not None:
-            out[hang >= E0.get("fallback_hang_grad", 25)] = BIOME.index(E0.get("fallback_biom", "bergwald"))
-        return out
+    if not os.path.isfile(wj):
+        dom = dominantes_biom(basis, skriptdir, feld) or fb
+        tab[1:] = BIOME.index(dom)
+        log("Hinweis: welt.json fehlt - Kennzahl 0 = aue, alle anderen Kennzahlen = '%s' (dominantes Feldbiom)." % dom)
+        return tab[eig], "eigner_ohne_welt_json"
     with open(wj, encoding="utf-8") as f:
         welt = json.load(f)
-    kacheln = welt.get("kacheln", welt)
+    kacheln = welt.get("kacheln", welt) if isinstance(welt, dict) else welt
     eintraege = []
     if isinstance(kacheln, dict):
         for k, v in kacheln.items():
@@ -308,40 +395,25 @@ def lade_biome(welt_dir, win, basis, skriptdir, feld, regeln, hang):
             k = v.get("id", v.get("kennzahl", idx)) if isinstance(v, dict) else idx
             eintraege.append((int(k), v))
     unbekannt = set()
+    bekannt = np.zeros(256, dtype=bool)
+    bekannt[0] = True
     for k, v in eintraege:
-        if not (0 <= k < 256):
-            continue
+        if not (0 < k < 256):
+            continue  # 0 bleibt Weltgelände = aue
         rez = v.get("rezept", v.get("biom", "")) if isinstance(v, dict) else str(v)
-        rez = str(rez).lower()
-        b = 0
-        if k == 0 or rez in ("", "0", "welt", "weltgelaende", "weltgelände"):
-            b = 0
-        else:
-            for i, bn in enumerate(BIOME):
-                if bn in rez:
-                    b = i
-                    break
-            else:
-                if "vulkan" in rez or "lava" in rez:
-                    b = BIOME.index("lava")
-                elif "glet" in rez or "eis" in rez:
-                    b = BIOME.index("gletscher")
-                elif "wald" in rez:
-                    b = BIOME.index("bergwald")
-                else:
-                    unbekannt.add(rez)
-        tab[k] = b0 if k == 0 else b
+        bn = biom_aus_rezept(rez)
+        if bn is None:
+            unbekannt.add(str(rez))
+            bn = "aue"
+        tab[k] = BIOME.index(bn)
+        bekannt[k] = True
     if unbekannt:
-        log("Hinweis: unbekannte Rezepte in welt.json → aue: %s" % ", ".join(sorted(unbekannt))[:300])
+        log("Hinweis: unbekannte Rezepte in welt.json -> aue: %s" % ", ".join(sorted(unbekannt))[:300])
     out = tab[eig]
-    if dom is None and hang is not None:
-        steil = (eig == 0) & (hang >= E0.get("fallback_hang_grad", 25))
-        out[steil] = BIOME.index(E0.get("fallback_biom", "bergwald"))
-        log("Hinweis: biome_je_feld.json fehlt – Weltgelände (0) = aue, steile Zellen (≥ %s°) = %s" % (E0.get("fallback_hang_grad", 25), E0.get("fallback_biom", "bergwald")))
-    else:
-        log("Biome: Kennzahl 0 (Weltgelände) → %s; Anteile im Fenster: %s" % (
-            BIOME[b0], ", ".join("%s %.0f%%" % (BIOME[i], 100 * (out == i).mean()) for i in np.unique(out))))
-    return out
+    fehl = np.unique(eig[~bekannt[eig]])
+    if len(fehl):
+        log("Hinweis: Kennzahlen ohne Eintrag in welt.json -> aue: %s" % ", ".join(str(int(x)) for x in fehl[:20]))
+    return out, "eigner_welt_json"
 
 
 def finde_polylinien(obj, out, tiefe=0):
@@ -473,10 +545,522 @@ def quat_aus_yaw_up(yaw_rad, up):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Biom-Overrides (felsgruppen_overrides aus den Biom-Regeldateien, KONVENTIONEN §4)
+# ----------------------------------------------------------------------------------------------------------------------
+ROLLEN_ALIAS = {r: r for r in ROLLEN_ORDNUNG}
+ROLLEN_ALIAS.update({"fels_hero": "hero", "fels_wand": "wand", "klippe_schale": "wand", "fels_band": "band", "fels_block": "block",
+                     "fels_stein": "stein", "fels_platte": "platte", "geroell_platte": "platte", "geroellsaum": "kiesel",
+                     "geroellsaum_netze": "kiesel", "fels_kiesel": "kiesel", "netze_moosblock": "block",
+                     "platte_ersatz": "platte"})
+DOKU_SCHLUESSEL = ("hinweis", "doku", "quelle", "stand", "biom", "bedingung")
+
+
+def _ist_doku(k):
+    return k in DOKU_SCHLUESSEL or k.startswith("_") or k.endswith("_hinweis") or k.endswith("_doku")
+
+
+def _zahl(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+
+def _spanne(v):
+    return isinstance(v, (list, tuple)) and len(v) == 2 and all(_zahl(x) for x in v)
+
+
+def _ist_biom_dict(v):
+    return isinstance(v, dict) and len(v) > 0 and all(k in BIOME for k in v)
+
+
+def norm_pfad(p):
+    """Netzpfad tolerant: ohne '/Game/' -> ergänzt; '.Name'-Suffix entfernt."""
+    p = str(p).strip()
+    if not p.startswith("/"):
+        p = "/Game/" + p
+    letzt = p.rsplit("/", 1)[-1]
+    if "." in letzt:
+        p = p.rsplit(".", 1)[0]
+    return p
+
+
+def _leer_rec():
+    return {"palette_name": None, "palette_rollen": {}, "palette_zusatz": {}, "paletten_neu": {}, "faktor": None,
+            "faktor_mult": 1.0, "klassen_faktor": {}, "klassen_aus": None, "eingraben": None, "rollen": {},
+            "kiesel_faktor": None, "mindestdichte_je_ha": None, "mindest_findling": None, "einzel_rollen": None,
+            "felder": None}
+
+
+class OverrideLeser:
+    """Normalisiert einen felsgruppen_overrides-Block (beliebiges der vorkommenden Schemata) zu je-Biom-Datensätzen."""
+
+    def __init__(self, R, datei, biome, netze):
+        self.R = R
+        self.datei = datei
+        self.biome = [b for b in biome if b in BIOME]
+        self.netze = netze
+        self.rec = {bn: _leer_rec() for bn in self.biome}
+        self.gelesen, self.ignoriert, self.fehlpfade, self.fremd = [], [], [], []
+        k = R["gruppe"]["kiesel_dichte_je_m2"]
+        self.kiesel_basis = 0.5 * (k[0] + k[1])
+
+    def _g(self, t):
+        if t not in self.gelesen:
+            self.gelesen.append(t)
+
+    def _i(self, t):
+        if t not in self.ignoriert:
+            self.ignoriert.append(t)
+
+    def je_biom(self, v, scope, pfad):
+        if _ist_biom_dict(v):
+            for bn, x in v.items():
+                if bn in scope:
+                    yield bn, x
+                else:
+                    self.fremd.append("%s.%s" % (pfad, bn))
+        else:
+            for bn in scope:
+                yield bn, v
+
+    def pfade(self, liste):
+        if isinstance(liste, str):
+            liste = [liste]
+        out = []
+        if not isinstance(liste, (list, tuple)):
+            return out
+        for p in liste:
+            if not isinstance(p, str):
+                continue
+            q = norm_pfad(p)
+            if q in self.netze:
+                if q not in out:
+                    out.append(q)
+            elif q not in self.fehlpfade:
+                self.fehlpfade.append(q)
+        return out
+
+    def rollen_palette(self, d, scope, pfad):
+        for k, v in d.items():
+            r = ROLLEN_ALIAS.get(k)
+            p = "%s.%s" % (pfad, k) if pfad else k
+            if r is None:
+                if not _ist_doku(k):
+                    self._i(p)
+                continue
+            liste = self.pfade(v)
+            if not liste:
+                self._i(p + " (keine gueltigen Netzpfade)")
+                continue
+            for bn in scope:
+                self.rec[bn]["palette_rollen"][r] = liste
+            self._g(p)
+
+    def paletten_tabelle(self, d, scope, pfad, ziel):
+        if not isinstance(d, dict):
+            self._i(pfad)
+            return
+        for name, rollen in d.items():
+            if not isinstance(rollen, dict):
+                if not _ist_doku(name):
+                    self._i("%s.%s" % (pfad, name))
+                continue
+            tab = {}
+            for k, v in rollen.items():
+                r = ROLLEN_ALIAS.get(k)
+                if r is None:
+                    if not _ist_doku(k):
+                        self._i("%s.%s.%s" % (pfad, name, k))
+                    continue
+                liste = self.pfade(v)
+                if liste:
+                    tab[r] = liste
+            if tab:
+                for bn in scope:
+                    self.rec[bn][ziel].setdefault(name, {}).update(tab)
+                self._g("%s.%s" % (pfad, name))
+
+    def palette(self, v, scope, pfad):
+        # Schema wie mittelschicht_overrides: {"biom": {biom: name}, "ergaenzung": {palette: {rolle: [..]}}, "neu": {...},
+        # "<rolle>": [..], "bevorzugt": ... (ignoriert)}
+        if isinstance(v, dict) and not _ist_biom_dict(v) and any(k in ("biom", "ergaenzung", "zusatz", "neu", "rollen") for k in v):
+            rest = {}
+            for k, x in v.items():
+                p = "%s.%s" % (pfad, k)
+                if k == "biom":
+                    self.palette(x, scope, p)
+                elif k in ("ergaenzung", "zusatz"):
+                    self.paletten_tabelle(x, scope, p, "palette_zusatz")
+                elif k == "neu":
+                    self.paletten_tabelle(x, scope, p, "paletten_neu")
+                elif k == "rollen" and isinstance(x, dict):
+                    self.rollen_palette(x, scope, p)
+                else:
+                    rest[k] = x
+            if rest:
+                self.rollen_palette(rest, scope, pfad)
+            return
+        for bn, x in self.je_biom(v, scope, pfad):
+            if isinstance(x, str):
+                self.rec[bn]["palette_name"] = x
+                self._g(pfad)
+            elif isinstance(x, dict):
+                self.rollen_palette(x, [bn], pfad)
+            else:
+                self._i(pfad)
+
+    def _kf(self, bn, kname, f):
+        kf = self.rec[bn]["klassen_faktor"]
+        kf[kname] = kf.get(kname, 1.0) * float(f)
+
+    def faktor(self, v, scope, pfad):
+        if _zahl(v):
+            for bn in scope:
+                self.rec[bn]["faktor"] = float(v)
+            self._g(pfad)
+            return
+        if not isinstance(v, dict):
+            self._i(pfad)
+            return
+        if _ist_biom_dict(v):
+            for bn, x in self.je_biom(v, scope, pfad):
+                self.faktor(x, [bn], pfad)
+            return
+        for k, x in v.items():
+            p = "%s.%s" % (pfad, k)
+            if k in KLASSEN and _zahl(x):
+                for bn in scope:
+                    self._kf(bn, k, x)
+            elif k in ("gesamt", "dichte") and _zahl(x):
+                for bn in scope:
+                    self.rec[bn]["faktor"] = float(x)
+            elif k == "biom":  # Zahl oder {biom: zahl}
+                self.faktor(x, scope, p)
+                continue
+            elif k == "klassen":  # {klasse: f} oder {biom: {klasse: f}}
+                self.klassen_faktor(x, scope, p)
+                continue
+            elif k == "kiesel":  # Zahl oder {biom: zahl}
+                for bn, y in self.je_biom(x, scope, p):
+                    if _zahl(y):
+                        self.rec[bn]["kiesel_faktor"] = float(y)
+            elif k == "eingraben":
+                self.eingraben(x, scope, p)
+                continue
+            else:
+                if not _ist_doku(k):
+                    self._i(p)
+                continue
+            self._g(p)
+
+    def klassen_faktor(self, v, scope, pfad):
+        for bn, x in self.je_biom(v, scope, pfad):
+            if not isinstance(x, dict):
+                self._i(pfad)
+                continue
+            for k, f in x.items():
+                if k in KLASSEN and _zahl(f):
+                    self._kf(bn, k, f)
+                    self._g(pfad)
+                elif not _ist_doku(k):
+                    self._i("%s.%s" % (pfad, k))
+
+    def klassen_aus(self, v, scope, pfad, erlaubt=False):
+        for bn, x in self.je_biom(v, scope, pfad):
+            if not isinstance(x, list):
+                self._i(pfad)
+                continue
+            liste = [k for k in x if k in KLASSEN]
+            if erlaubt:  # Komplement der Relief-Klassen; "einzel" (mindestdichte) bleibt erlaubt
+                liste = [k for k in KLASSEN if k != "einzel" and k not in liste]
+            self.rec[bn]["klassen_aus"] = liste
+            self._g(pfad)
+
+    def klassen(self, v, scope, pfad):
+        if not isinstance(v, dict):
+            self._i(pfad)
+            return
+        for kname, d in v.items():
+            pk = "%s.%s" % (pfad, kname)
+            if not isinstance(d, dict):
+                if not _ist_doku(kname):
+                    self._i(pk)
+                continue
+            for bn, par in self.je_biom(d, scope, pk):
+                if not isinstance(par, dict):
+                    continue
+                if kname in KLASSEN:
+                    basis_p = float(self.R["klassen"].get(kname, {}).get("p", 1.0)) or 1.0
+                    for k, x in par.items():
+                        if k == "p" and _zahl(x):
+                            self._kf(bn, kname, float(x) / basis_p)
+                            self._g(pk + ".p")
+                        elif k == "p_faktor" and _zahl(x):
+                            self._kf(bn, kname, x)
+                            self._g(pk + ".p_faktor")
+                        elif not _ist_doku(k):
+                            self._i("%s.%s" % (pk, k))
+                elif kname in ("findling_frei", "findlinge", "einzelbloecke") and ("je_km2" in par or "je_ha" in par):
+                    w = par.get("je_ha")
+                    if w is None:
+                        jk = par["je_km2"]
+                        w = (0.5 * (jk[0] + jk[1]) if _spanne(jk) else jk) / 100.0 if (_spanne(jk) or _zahl(jk)) else None
+                    elif _spanne(w):
+                        w = 0.5 * (w[0] + w[1])
+                    if _zahl(w):
+                        self.rec[bn]["mindest_findling"] = float(w)
+                        self._g(pk + ".je_km2 (-> mindestdichte_je_ha)")
+                    for k in par:
+                        if k not in ("je_km2", "je_ha") and not _ist_doku(k):
+                            self._i("%s.%s" % (pk, k))
+                else:
+                    self._i(pk)
+
+    def eingraben(self, v, scope, pfad):
+        for bn, x in self.je_biom(v, scope, pfad):
+            if _spanne(x):
+                self.rec[bn]["eingraben"] = [float(x[0]), float(x[1])]
+                self._g(pfad)
+            else:
+                self._i(pfad)
+
+    def rolle_param(self, bn, r, par, pfad):
+        for k, x in par.items():
+            kk = {"eingraben_anteil": "eingraben", "sichtweite": "sichtweite_cm", "kippen_in_hang_grad": "kippen_grad"}.get(k, k)
+            if kk in ("massstab", "eingraben", "sichtweite_cm", "kippen_grad") and _spanne(x):
+                self.rec[bn]["rollen"].setdefault(r, {})[kk] = [float(x[0]), float(x[1])]
+                self._g("%s.%s" % (pfad, k))
+            elif ROLLEN_ALIAS.get(k) is not None or _ist_doku(k):
+                continue  # Netzlisten werden separat gelesen
+            else:
+                self._i("%s.%s" % (pfad, k))
+
+    def rollen(self, v, scope, pfad):
+        if not isinstance(v, dict):
+            self._i(pfad)
+            return
+        for k, d in v.items():
+            r = ROLLEN_ALIAS.get(k)
+            pk = "%s.%s" % (pfad, k)
+            if r is None or not isinstance(d, dict):
+                if not _ist_doku(k):
+                    self._i(pk)
+                continue
+            for bn, par in self.je_biom(d, scope, pk):
+                if isinstance(par, dict):
+                    self.rolle_param(bn, r, par, pk)
+
+    def je_rolle_spanne(self, v, scope, pfad, kk):
+        for bn, d in self.je_biom(v, scope, pfad):
+            if not isinstance(d, dict):
+                self._i(pfad)
+                continue
+            for k, x in d.items():
+                r = ROLLEN_ALIAS.get(k)
+                if r is None or not _spanne(x):
+                    if not _ist_doku(k):
+                        self._i("%s.%s" % (pfad, k))
+                    continue
+                self.rec[bn]["rollen"].setdefault(r, {})[kk] = [float(x[0]), float(x[1])]
+                self._g("%s.%s" % (pfad, k))
+
+    def kiesel_dichte(self, x, scope, pfad):
+        f = None
+        if _spanne(x):
+            f = 0.5 * (x[0] + x[1]) / self.kiesel_basis
+        elif _zahl(x):
+            f = float(x) / self.kiesel_basis
+        if f is None:
+            self._i(pfad)
+            return
+        for bn in scope:
+            self.rec[bn]["kiesel_faktor"] = f
+        self._g(pfad + " (-> Kieselfaktor %.2f)" % f)
+
+    def mindest(self, v, scope, pfad):
+        for bn, x in self.je_biom(v, scope, pfad):
+            w = float(x) if _zahl(x) else (0.5 * (x[0] + x[1]) if _spanne(x) else None)
+            if w is None:
+                self._i(pfad)
+                continue
+            self.rec[bn]["mindestdichte_je_ha"] = max(0.0, w)
+            self._g(pfad)
+
+    def lies(self, block, scope=None, pfad=""):
+        scope = list(scope or self.biome)
+        if not isinstance(block, dict):
+            self._i(pfad or "(kein JSON-Objekt)")
+            return
+        bio = block.get("biom")
+        if isinstance(bio, str):
+            if bio in scope:
+                scope = [bio]
+                self._g((pfad + "." if pfad else "") + "biom")
+            else:
+                self.fremd.append((pfad + "." if pfad else "") + "biom=" + bio)
+                return
+        bed = block.get("bedingung")
+        if isinstance(bed, dict):
+            pb = (pfad + "." if pfad else "") + "bedingung"
+            if isinstance(bed.get("biom"), str) and bed["biom"] in scope:
+                scope = [bed["biom"]]
+                self._g(pb + ".biom")
+            for k in bed:
+                if k != "biom":
+                    self._i("%s.%s" % (pb, k))
+        for k, v in block.items():
+            p = (pfad + "." if pfad else "") + k
+            if k in BIOME and isinstance(v, dict):
+                if k in scope:
+                    self.lies(v, [k], p)
+                else:
+                    self.fremd.append(p)
+                continue
+            if _ist_doku(k):
+                continue
+            if k in ("palette", "biom_palette"):
+                self.palette(v, scope, p)
+            elif k in ("paletten_neu", "paletten"):
+                self.paletten_tabelle(v, scope, p, "paletten_neu")
+            elif k in ("paletten_ergaenzung", "paletten_zusatz", "palette_zusatz"):
+                self.paletten_tabelle(v, scope, p, "palette_zusatz")
+            elif k in ROLLEN_ALIAS and isinstance(v, list):
+                self.rollen_palette({k: v}, scope, pfad)
+            elif k == "wand_palette" and isinstance(v, dict):
+                self.rollen_palette({kk: x for kk, x in v.items() if kk in ROLLEN_ALIAS}, scope, p)
+                for bn in scope:
+                    self.rolle_param(bn, "wand", {kk: x for kk, x in v.items() if kk not in ROLLEN_ALIAS}, p)
+            elif k == "kiesel_ring" and isinstance(v, dict):
+                for kk, x in v.items():
+                    if kk == "netze":
+                        self.rollen_palette({"kiesel": x}, scope, p + ".netze->")
+                    elif kk == "kiesel_dichte_je_m2":
+                        self.kiesel_dichte(x, scope, p + "." + kk)
+                    elif not _ist_doku(kk):
+                        self._i("%s.%s" % (p, kk))
+            elif k == "kontaktzone" and isinstance(v, dict):
+                for kk, x in v.items():
+                    if kk == "geroellsaum_netze":
+                        self.rollen_palette({kk: x}, scope, p)
+                    elif not _ist_doku(kk):
+                        self._i("%s.%s" % (p, kk))
+            elif k in ("faktor", "faktoren", "biom_faktor"):
+                self.faktor(v, scope, p)
+            elif k.startswith("biom_faktor_") and _zahl(v):
+                bn = k[len("biom_faktor_"):]
+                if bn in scope:
+                    self.rec[bn]["faktor"] = float(v)
+                    self._g(p)
+                else:
+                    self._i(p)
+            elif k in ("gruppen_dichte_faktor", "dichte_faktor") and _zahl(v):
+                for bn in scope:
+                    self.rec[bn]["faktor_mult"] *= float(v)
+                self._g(p)
+            elif k == "klassen_faktor":
+                self.klassen_faktor(v, scope, p)
+            elif k in ("biom_klassen_aus", "klassen_aus"):
+                self.klassen_aus(v, scope, p)
+            elif k == "klassen_erlaubt":
+                self.klassen_aus(v, scope, p, erlaubt=True)
+            elif k == "klassen":
+                self.klassen(v, scope, p)
+            elif k in ("eingraben", "eingraben_anteil"):
+                self.eingraben(v, scope, p)
+            elif k == "rollen":
+                self.rollen(v, scope, p)
+            elif k == "massstab" and isinstance(v, dict):
+                self.je_rolle_spanne(v, scope, p, "massstab")
+            elif k == "sichtweite" and isinstance(v, dict):
+                self.je_rolle_spanne(v, scope, p, "sichtweite_cm")
+            elif k == "kiesel_dichte_faktor":
+                for bn, x in self.je_biom(v, scope, p):
+                    if _zahl(x):
+                        self.rec[bn]["kiesel_faktor"] = float(x)
+                        self._g(p)
+            elif k == "gruppe" and isinstance(v, dict):
+                for kk, x in v.items():
+                    if kk == "kiesel_dichte_je_m2":
+                        self.kiesel_dichte(x, scope, p + "." + kk)
+                    elif not _ist_doku(kk):
+                        self._i("%s.%s" % (p, kk))
+            elif k == "mindestdichte_je_ha":
+                self.mindest(v, scope, p)
+            elif k == "mindestdichte_klassen" and isinstance(v, list):
+                rl = [ROLLEN_ALIAS[x] for x in v if x in ROLLEN_ALIAS]
+                for bn in scope:
+                    self.rec[bn]["einzel_rollen"] = rl
+                self._g(p)
+            elif k == "felder" and isinstance(v, list):
+                for bn in scope:
+                    self.rec[bn]["felder"] = [str(f).strip().upper() for f in v]
+                self._g(p)
+            else:
+                self._i(p)
+
+    def ergebnis(self):
+        """Nur Biome mit tatsächlichen Abweichungen; mindest_findling greift, wenn mindestdichte_je_ha nicht gesetzt ist."""
+        out = {}
+        for bn, r in self.rec.items():
+            if r["mindestdichte_je_ha"] is None and r["mindest_findling"] is not None:
+                r["mindestdichte_je_ha"] = r["mindest_findling"]
+            if any(r[k] not in (None, {}, 1.0) for k in r if k != "mindest_findling"):
+                out[bn] = r
+        return out
+
+
+def lade_overrides(R, regeln_pfad, basis, skriptdir, ordner, netze):
+    """Liest felsgruppen_overrides aller Biom-Regeldateien (Zuordnung R["overrides"]["dateien"]). Fehlende Datei -> Hinweis."""
+    O = R.get("overrides", {})
+    if not O.get("aktiv", True):
+        log("Overrides: in felsgruppen_regeln.json abgeschaltet (overrides.aktiv = false).")
+        return {}, {}
+    schl = O.get("schluessel", "felsgruppen_overrides")
+    alle, info = {}, {}
+    for datei, biome in O.get("dateien", {}).items():
+        if datei.startswith("_"):
+            continue
+        thema = datei[:-len("_regeln.json")] if datei.endswith("_regeln.json") else os.path.splitext(datei)[0]
+        kand = []
+        if ordner:
+            kand.append(os.path.join(ordner, datei))
+        if regeln_pfad:
+            kand.append(os.path.join(os.path.dirname(os.path.abspath(regeln_pfad)), datei))
+        kand += [os.path.join(basis, "scripts", thema, datei), os.path.join(skriptdir, "..", thema, datei)]
+        pfad = next((p for p in kand if os.path.isfile(p)), None)
+        if pfad is None:
+            log("Hinweis: %s fehlt (gesucht in %d Ordnern) - Biome %s ohne Overrides." % (datei, len(kand), ",".join(biome)))
+            info[datei] = {"biome": biome, "status": "Datei fehlt"}
+            continue
+        try:
+            with open(pfad, encoding="utf-8") as f:
+                block = json.load(f).get(schl)
+        except Exception as e:
+            log("Hinweis: %s unlesbar (%s) - Biome %s ohne Overrides." % (pfad, e, ",".join(biome)))
+            info[datei] = {"biome": biome, "status": "unlesbar"}
+            continue
+        if not block:
+            log("Hinweis: %s ohne Block '%s' - Biome %s ohne Overrides." % (datei, schl, ",".join(biome)))
+            info[datei] = {"biome": biome, "status": "kein Block %s" % schl}
+            continue
+        L = OverrideLeser(R, datei, biome, netze)
+        L.lies(block)
+        erg = L.ergebnis()
+        alle.update(erg)
+        info[datei] = {"biome": biome, "status": "gelesen", "biome_mit_aenderung": sorted(erg), "gelesen": L.gelesen,
+                       "ignoriert": L.ignoriert, "fremde_biome_ignoriert": L.fremd, "fehlende_netzpfade": L.fehlpfade}
+        log("Overrides %s -> %s: gelesen %d Schluessel, ignoriert %d%s%s" % (
+            datei, ",".join(sorted(erg)) or "(keine Aenderung)", len(L.gelesen), len(L.ignoriert),
+            (", %d Netzpfade nicht im Inventar (verworfen)" % len(L.fehlpfade)) if L.fehlpfade else "",
+            (", fremde Biome ignoriert: %s" % ",".join(L.fremd)[:120]) if L.fremd else ""))
+        if L.ignoriert:
+            log("  ignoriert: %s" % ", ".join(L.ignoriert)[:400])
+    return alle, info
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Planer
 # ----------------------------------------------------------------------------------------------------------------------
 class Planer:
-    def __init__(self, regeln, netze, masse, basis, faktor, skriptdir="."):
+    def __init__(self, regeln, netze, masse, basis, faktor, skriptdir=".", overrides=None, ov_info=None):
         self.R = regeln
         self.skriptdir = skriptdir
         self.netze = netze
@@ -486,6 +1070,9 @@ class Planer:
         self.seed = int(regeln.get("seed", 1))
         self.pivot_mitte = set(regeln.get("netz_pivot_mitte", []))
         self.pal_info = {}
+        self.ov = overrides or {}
+        self.ov_info = ov_info or {}
+        self.stand = "regeln %s" % regeln.get("_doku", {}).get("stand", "?")  # deterministisch (kein Zeitstempel)
         fehlend = []
         for pal, rollen in regeln["paletten"].items():
             for rolle, pfade in rollen.items():
@@ -493,7 +1080,85 @@ class Planer:
                     if p not in netze:
                         fehlend.append(p)
         if fehlend:
-            sys.exit("FEHLER: %d Paletten-Pfade nicht in netze.csv, z. B. %s" % (len(fehlend), fehlend[:3]))
+            abbruch("%d Paletten-Pfade aus felsgruppen_regeln.json nicht in netze.csv, z. B. %s" % (len(fehlend), fehlend[:3]))
+
+    # Biom-Konfiguration je Feld (Grundregeln + Overrides) --------------------------------------------------------------
+    def konfig(self, feld):
+        R = self.R
+        pal = {k: {r: list(v) for r, v in rollen.items()} for k, rollen in R["paletten"].items()}
+        namen = [R["biom_palette"].get(bn, "nordisch") for bn in BIOME]
+        bf = np.array([float(R["biom_faktor"].get(bn, 1.0)) for bn in BIOME])
+        aus = {bn: set(R.get("biom_klassen_aus", {}).get(bn, [])) for bn in BIOME}
+        kf = {bn: {} for bn in BIOME}
+        kiesel = np.ones(len(BIOME))
+        mind = np.zeros(len(BIOME))
+        for bn, v in R.get("mindestdichte_je_ha", {}).items():
+            if bn in BIOME and _zahl(v):
+                mind[BIOME.index(bn)] = float(v)
+        self.rollen_ov = {}
+        self.ov_aktiv = {}
+        self.einzel_rollen = {}
+        for bn, rec in sorted(self.ov.items()):
+            b = BIOME.index(bn)
+            if rec["felder"] and feld not in rec["felder"]:
+                log("Overrides %s: nur fuer Felder %s - in %s nicht aktiv." % (bn, ",".join(rec["felder"]), feld))
+                continue
+            for name, rollen in rec["paletten_neu"].items():
+                if name not in pal:
+                    pal[name] = {r: list(v) for r, v in pal[namen[b]].items()}  # Basis: bisherige Palette des Bioms
+                pal[name].update({r: list(v) for r, v in rollen.items()})
+            basis = rec["palette_name"] or namen[b]
+            if basis not in pal:
+                log("Hinweis: Overrides %s: Palette '%s' unbekannt - bleibt '%s'." % (bn, basis, namen[b]))
+                basis = namen[b]
+            zus = rec["palette_zusatz"].get(basis, {})
+            if rec["palette_rollen"] or zus:
+                neu = {r: list(v) for r, v in pal[basis].items()}
+                for r, v in rec["palette_rollen"].items():
+                    neu[r] = list(v)
+                for r, v in zus.items():
+                    neu[r] = neu.get(r, []) + [p for p in v if p not in neu.get(r, [])]
+                namen[b] = basis + "@" + bn
+                pal[namen[b]] = neu
+            else:
+                namen[b] = basis
+            if rec["faktor"] is not None:
+                bf[b] = rec["faktor"]
+            bf[b] *= rec["faktor_mult"]
+            kf[bn].update(rec["klassen_faktor"])
+            if rec["klassen_aus"] is not None:
+                aus[bn] = set(rec["klassen_aus"])
+            if rec["kiesel_faktor"] is not None:
+                kiesel[b] = rec["kiesel_faktor"]
+            if rec["mindestdichte_je_ha"] is not None:
+                mind[b] = rec["mindestdichte_je_ha"]
+            if rec["einzel_rollen"]:
+                self.einzel_rollen[b] = set(rec["einzel_rollen"])
+            for r, d in rec["rollen"].items():
+                self.rollen_ov[(b, r)] = dict(d)
+            if rec["eingraben"] is not None:
+                for r in ("hero", "wand", "band", "block", "platte", "stein"):
+                    self.rollen_ov.setdefault((b, r), {}).setdefault("eingraben", list(rec["eingraben"]))
+            self.ov_aktiv[bn] = {"palette": namen[b], "biom_faktor": round(float(bf[b]), 3),
+                                 "klassen_faktor": {k: round(v, 3) for k, v in sorted(kf[bn].items())},
+                                 "klassen_aus": sorted(aus[bn]), "kiesel_faktor": round(float(kiesel[b]), 3),
+                                 "mindestdichte_je_ha": float(mind[b]), "rollen": {"%s" % r: d for (bb, r), d in self.rollen_ov.items() if bb == b}}
+        self.paletten = pal
+        self.pal_je_biom = namen
+        self.pal_info = {}
+        self.bf_klasse = {k: np.array([bf[b] * float(kf[BIOME[b]].get(k, 1.0)) for b in range(len(BIOME))]) for k in KLASSEN}
+        self.aus_klasse = {k: np.array([k in aus[bn] for bn in BIOME]) for k in KLASSEN}
+        self.kiesel_f = kiesel
+        self.mindest = mind
+
+    def rolle_param(self, b, rolle):
+        ro = self.R["rollen"][rolle]
+        o = self.rollen_ov.get((int(b), rolle))
+        if not o:
+            return ro
+        d = dict(ro)
+        d.update(o)
+        return d
 
     # Netz-Kennwerte -------------------------------------------------------------------------------------------------
     def netz_mass(self, pfad):
@@ -512,7 +1177,7 @@ class Planer:
         return h_cm, r_cm, minz
 
     def palette_arrays(self, pal, rolle):
-        pfade = self.R["paletten"][pal].get(rolle, [])
+        pfade = self.paletten[pal].get(rolle, [])
         if not pfade:
             return None
         key = (pal, rolle)
@@ -534,6 +1199,10 @@ class Planer:
         h = lade_raster(os.path.join(welt_dir, "hoehe.f32"), "<f4", win, pflicht=True, name="hoehe.f32").astype(np.float64)
         H, W = h.shape
         self.h = h
+        self.hinweise = []
+        self.haupt_je_biom = np.zeros(len(BIOME), dtype=np.int64)
+        self.konfig(feld)
+        self.biom, self.biom_quelle = lade_biome(welt_dir, win, self.basis, self.skriptdir, feld, R)
         ii, jj = np.mgrid[0:H, 0:W]
         self.ii, self.jj = ii, jj
         xg = (jj + j0) - X0  # Welt-m
@@ -601,7 +1270,6 @@ class Planer:
         gy, gx = np.gradient(h1)
         gmag = np.hypot(gx, gy)
         self.hang = np.degrees(np.arctan(gmag))
-        self.biom = lade_biome(welt_dir, win, self.basis, self.skriptdir, feld, R, self.hang)
         nz = 1.0 / np.sqrt(1.0 + gmag ** 2)
         self.normal = np.stack([-gx * nz, -gy * nz, nz], axis=2)
         gm = np.where(gmag > 1e-6, gmag, 1.0)
@@ -617,6 +1285,20 @@ class Planer:
         hs12 = gauss(h, G["kuppe_sigma_m"])
         self.hs12 = hs12
         self.land = h > 0.2
+        # Biom-Anteile im Fenster (Landzellen; KONVENTIONEN §2)
+        bl = self.biom[self.land]
+        if bl.size:
+            cnt = np.bincount(bl.astype(np.int64), minlength=len(BIOME)) / float(bl.size)
+            self.biome_fenster = {BIOME[i]: round(float(cnt[i]), 4) for i in np.argsort(-cnt) if cnt[i] > 0}
+        else:
+            self.biome_fenster = {}
+        log("Biome im Fenster (Land, Quelle %s): %s" % (self.biom_quelle, ", ".join(
+            "%s %.1f%%" % (k, 100 * v) for k, v in self.biome_fenster.items()) or "kein Land"))
+        for bn in self.biome_fenster:
+            if bn in self.ov_aktiv:
+                o = self.ov_aktiv[bn]
+                log("  %s: Palette %s, Biomfaktor %.2f, Klassen aus %s, Mindestdichte %.2f/ha (Overrides)" % (
+                    bn, o["palette"], o["biom_faktor"], ",".join(o["klassen_aus"]) or "-", o["mindestdichte_je_ha"]))
 
         # Wände und Schuttfächer
         K = R["klassen"]
@@ -647,16 +1329,28 @@ class Planer:
         # Allgemeine Ausschlüsse
         self.m_frei = self.land & ~self.m_wasser & ~self.m_weg & ~self.m_ort & (self.hang <= A["max_hang_grad"])
         self.m_frei_klein = self.land & ~self.m_wasser & ~self.m_weg_klein & ~self.m_ort & (self.hang <= A["max_hang_grad"])
+        fs_i, fs_j = slice(i0f - i0, i1f - i0), slice(j0f - j0, j1f - j0)
+        self.feld_slice = (fs_i, fs_j)
+        self.zellen_zustaendig = int(self.m_frei[fs_i, fs_j].sum())
+        if not self.land[fs_i, fs_j].any():
+            log("%s: kein Land im Feld - leerer plan.json." % feld)
+            self.hinweise.append("kein Land im Feld")
+            leer = self.zusammenfuehren([])
+            self.statistik = {}
+            self.schreiben(feld, leer, welt_dir)
+            return leer
 
         # Gruppen je Klasse -------------------------------------------------------------------------------------------
         inst = []  # Liste von dicts mit Arrays
         self.statistik = {}
         gruppen_gesamt = 0
-        for kname in ["grat", "band", "wand", "fuss", "blockstrom", "kuppe", "prallhang"]:
+        for kname in KLASSEN:  # "einzel" zuletzt: füllt nur bis mindestdichte_je_ha auf
             if kname == "prallhang":
                 g = self.kandidaten_prallhang(welt_dir)
             elif kname == "kuppe":
                 g = self.kandidaten_kuppe()
+            elif kname == "einzel":
+                g = self.kandidaten_einzel()
             else:
                 g = self.kandidaten_gitter(kname)
             if g is None or len(g["ci"]) == 0:
@@ -692,14 +1386,9 @@ class Planer:
         return fi[ok], fj[ok], hsh[ok]
 
     def _klasse_erlaubt(self, kname, ci, cj):
+        """Je Kandidat: Klasse im Biom der Zelle erlaubt? und Faktor = Biomfaktor * Klassenfaktor (Grundregeln + Overrides)."""
         b = self.biom[ci, cj]
-        aus = self.R.get("biom_klassen_aus", {})
-        erlaubt = np.ones(len(ci), dtype=bool)
-        for bn, kl in aus.items():
-            if kname in kl and bn in BIOME:
-                erlaubt &= b != BIOME.index(bn)
-        bf = np.array([self.R["biom_faktor"].get(bn, 1.0) for bn in BIOME])
-        return erlaubt, bf[b]
+        return ~self.aus_klasse[kname][b], self.bf_klasse[kname][b]
 
     def kandidaten_gitter(self, kname):
         K = self.R["klassen"][kname]
@@ -751,6 +1440,43 @@ class Planer:
         erl, bf = self._klasse_erlaubt("kuppe", ci, cj)
         ok = erl & (uni(hsh, 5) < K["p"] * self.faktor * bf)
         return {"ci": ci[ok], "cj": cj[ok], "fi": ci[ok].astype(float), "fj": cj[ok].astype(float), "h": hsh[ok],
+                "yaw": zwischen(hsh[ok], 6, 0, 2 * np.pi), "stufe": None}
+
+    def kandidaten_einzel(self):
+        """Mindestdichte (mindestdichte_je_ha je Biom): Einzelblöcke/Moosfelsen auch ohne Relief.
+
+        Ist-Dichte = Hauptstücke der Relief-Klassen je ha freier Biomfläche im Feld. Fehlt etwas, werden gejitterte
+        Gitterpunkte (raster_m, globaler Hash -> nahtlos) mit p = Fehlmenge / Zahl freier Gitterpunkte angenommen."""
+        K = self.R["klassen"].get("einzel")
+        if K is None or not (self.mindest > 0).any():
+            return None
+        fs_i, fs_j = self.feld_slice
+        hang_ok = (self.hang >= K["hang_grad"][0]) & (self.hang <= K["hang_grad"][1])
+        basis = self.m_frei & hang_ok & ~self.m_mulde & ~self.m_wand & ~self.m_sperr
+        rm = float(K["raster_m"])
+        p_b = np.zeros(len(BIOME))
+        for b in np.nonzero(self.mindest > 0)[0]:
+            bfeld = self.biom[fs_i, fs_j] == b
+            flaeche_ha = float((bfeld & self.m_frei[fs_i, fs_j]).sum()) / 1e4
+            if flaeche_ha < 0.05 or self.aus_klasse["einzel"][b]:
+                continue
+            frei_ha = float((bfeld & basis[fs_i, fs_j]).sum()) / 1e4
+            ist = self.haupt_je_biom[b] / flaeche_ha
+            fehl = max(0.0, float(self.mindest[b]) - ist)
+            if fehl <= 0 or frei_ha <= 0:
+                log("Mindestdichte %s: Ist %.2f/ha, Soll %.2f/ha - keine Einzelbloecke noetig." % (BIOME[b], ist, self.mindest[b]))
+                continue
+            punkte = frei_ha * 1e4 / (rm * rm)
+            p_b[b] = min(1.0, fehl * flaeche_ha / max(punkte, 1e-9))
+            log("Mindestdichte %s: Soll %.2f/ha, Ist %.2f/ha auf %.1f ha -> ca. %d Einzelgruppen (p=%.3f je %d-m-Punkt)" % (
+                BIOME[b], self.mindest[b], ist, flaeche_ha, int(round(min(fehl * flaeche_ha, punkte))), p_b[b], int(rm)))
+        if not (p_b > 0).any():
+            return None
+        fi, fj, hsh = self._gitterpunkte(int(rm), 18)
+        ci, cj = np.round(fi).astype(np.int64), np.round(fj).astype(np.int64)
+        b = self.biom[ci, cj]
+        ok = basis[ci, cj] & (uni(hsh, 5) < p_b[b] * self.faktor)
+        return {"ci": ci[ok], "cj": cj[ok], "fi": fi[ok], "fj": fj[ok], "h": hsh[ok],
                 "yaw": zwischen(hsh[ok], 6, 0, 2 * np.pi), "stufe": None}
 
     def kandidaten_prallhang(self, welt_dir):
@@ -819,16 +1545,18 @@ class Planer:
     def gruppe_erzeugen(self, kname, g):
         K = self.R["klassen"][kname]
         GR = self.R["gruppe"]
-        palname = np.array([self.R["biom_palette"].get(BIOME[b], "nordisch") for b in self.biom[g["ci"], g["cj"]]])
+        biom_g = self.biom[g["ci"], g["cj"]]
         teile = []
-        for pal in np.unique(palname):
-            sel = palname == pal
+        for bi in np.unique(biom_g):  # je Biom: Palette, Rollen-Parameter und Kieselfaktor des Bioms (inkl. Overrides)
+            sel = biom_g == bi
+            pal = self.pal_je_biom[int(bi)]
             gi, gj, gh, gyaw = g["fi"][sel], g["fj"][sel], g["h"][sel], g["yaw"][sel]
             stufe = g["stufe"][sel] if g.get("stufe") is not None else None
             n = len(gi)
             # Hauptstück: hero (mit Wahrscheinlichkeit) sonst block / band / wand / stufenrolle
             haupt_rolle = np.full(n, "block", dtype=object)
-            if kname in ("grat", "kuppe", "prallhang"):
+            erl_einzel = self.einzel_rollen.get(int(bi)) if kname == "einzel" else None
+            if kname in ("grat", "kuppe", "prallhang", "einzel") and (erl_einzel is None or "hero" in erl_einzel):
                 haupt_rolle[uni(gh, 20) < K["hero_p"]] = "hero"
             elif kname == "band":
                 haupt_rolle[:] = "band"
@@ -855,16 +1583,20 @@ class Planer:
             else:
                 plan.append(("block", anzahl("block", 32), False, GR["neben_abstand_hero_r"], 32))
             plan.append(("stein", anzahl("stein", 33), False, GR["stein_abstand_hero_r"], 33))
-            if "platte" in self.R["paletten"][pal] and self.R["paletten"][pal]["platte"] and kname in ("blockstrom", "fuss", "kuppe"):
+            if erl_einzel is not None:  # mindestdichte_klassen: nur diese Rollen als Nebenstücke (Kieselsaum bleibt)
+                plan = [e for e in plan if e[0] == "__haupt__" or e[0] in erl_einzel]
+            if self.paletten[pal].get("platte") and kname in ("blockstrom", "fuss", "kuppe"):
                 plan.append(("platte", (uni(gh, 34) < 0.5).astype(np.int64), False, (1.0, 1.6), 34))
             # Hauptstück zuerst, um den Radius zu kennen
             haupt = self._stuecke(pal, kname, haupt_rolle, gi, gj, gh, gyaw, np.ones(n, dtype=np.int64), True, (0, 0), 30,
-                                  None, stufe)
+                                  None, stufe, bi=bi)
             if haupt is None:
                 r_haupt = np.full(n, 150.0)
             else:
                 r_haupt = haupt["r_haupt"]  # je Gruppe, cm
                 teile.append(haupt)
+                if kname != "einzel":
+                    self.haupt_je_biom[int(bi)] += len(haupt["x"])  # Hauptstücke liegen alle im Feld (im_feld-Prüfung)
             for rolle, cnt, _, rb, salz in plan[1:]:
                 if cnt.sum() == 0:
                     continue
@@ -872,25 +1604,27 @@ class Planer:
                     rl = haupt_rolle
                 else:
                     rl = np.full(n, rolle, dtype=object)
-                t = self._stuecke(pal, kname, rl, gi, gj, gh, gyaw, cnt, False, rb, salz, r_haupt, stufe)
+                t = self._stuecke(pal, kname, rl, gi, gj, gh, gyaw, cnt, False, rb, salz, r_haupt, stufe, bi=bi)
                 if t is not None:
                     teile.append(t)
-            # Kiesel-Saum
-            if "kiesel" in K and self.R["paletten"][pal].get("kiesel"):
+            # Kiesel-Saum (Kieselfaktor des Bioms aus Overrides skaliert Dichte und Spanne)
+            kf = float(self.kiesel_f[int(bi)])
+            if "kiesel" in K and self.paletten[pal].get("kiesel") and kf > 0:
                 lo, hi = K["kiesel"]
+                lo, hi = int(round(lo * kf)), max(int(round(lo * kf)), int(round(hi * kf)))
                 ring0, ring1 = GR["kiesel_ring_m"]
                 d0, d1 = GR["kiesel_dichte_je_m2"]
                 rh = r_haupt / 100.0
                 flaeche = np.pi * ((rh + ring1) ** 2 - (rh + ring0) ** 2)
-                dichte = zwischen(gh, 35, d0, d1) * self.faktor
+                dichte = zwischen(gh, 35, d0, d1) * self.faktor * kf
                 cnt = np.clip(np.round(flaeche * dichte), lo, hi).astype(np.int64)
                 t = self._stuecke(pal, kname, np.full(n, "kiesel", dtype=object), gi, gj, gh, gyaw, cnt, False,
-                                  (ring0, ring1), 36, r_haupt, stufe, ring=True)
+                                  (ring0, ring1), 36, r_haupt, stufe, ring=True, bi=bi)
                 if t is not None:
                     teile.append(t)
         return [t for t in teile if t is not None and len(t["x"])]
 
-    def _stuecke(self, pal, kname, rollen, gi, gj, gh, gyaw, cnt, ist_haupt, rb, salz, r_haupt, stufe, ring=False):
+    def _stuecke(self, pal, kname, rollen, gi, gj, gh, gyaw, cnt, ist_haupt, rb, salz, r_haupt, stufe, ring=False, bi=0):
         """Erzeugt cnt[k] Stücke je Gruppe k mit Rolle rollen[k]. Liefert Instanz-Arrays (oder None)."""
         K = self.R["klassen"][kname]
         GR = self.R["gruppe"]
@@ -923,7 +1657,8 @@ class Planer:
                     continue
             pfade, hc, rc, mz = pa
             k = np.minimum((uni(hh[s], 40) * len(pfade)).astype(np.int64), len(pfade) - 1)
-            ro = RO[rolle]
+            ro = self.rolle_param(bi, rolle)  # Grundregel + Biom-Override (massstab, eingraben, sichtweite_cm, kippen_grad)
+            ov_eb = self.rollen_ov.get((int(bi), rolle), {}).get("eingraben")
             sk_s = zwischen(hh[s], 41, ro["massstab"][0], ro["massstab"][1])
             if kname == "fuss":
                 st = K["stufen"]
@@ -933,7 +1668,7 @@ class Planer:
                 sk_s *= zwischen(hh[s], 43, 0.55, 0.9)  # Größenstaffelung: Nebenstücke kleiner als das Hauptstück
             pfade_alle[s] = np.array(pfade, dtype=object)[k]
             H_cm[s] = hc[k]; R_cm[s] = rc[k]; MZ[s] = mz[k]; sk[s] = sk_s
-            eb = K.get("eingraben", ro["eingraben"]) if kname == "kuppe" else ro["eingraben"]
+            eb = ov_eb if ov_eb is not None else K.get("eingraben", RO[rolle]["eingraben"])  # Override > Klasse > Rolle
             bury[s] = zwischen(hh[s], 44, eb[0], eb[1])
             kipp[s] = np.radians(zwischen(hh[s], 45, ro["kippen_grad"][0], ro["kippen_grad"][1]))
             nu[s] = ro["nicht_uniform"]
@@ -1046,41 +1781,57 @@ class Planer:
         return {k: np.concatenate([t[k] for t in teile]) for k in keys}
 
     def budget(self, a):
+        """Harte Deckel (KONVENTIONEN §3): je Rolle, Kollision, Akteure, gesamt. Ausdünnung deterministisch nach Hash-Priorität
+        (prio aus Instanz-Hash), Kleinzeug zuerst, hero/wand zuletzt; jede Ausdünnung mit WARNUNG im Log und in hinweise."""
         B = self.R["budget"]
         n = len(a["x"])
         if n == 0:
             return a
         keep = np.ones(n, dtype=bool)
         rolle = a["rolle"]
+        grund = {}
+
+        def weg(idx, g):
+            if len(idx):
+                keep[idx] = False
+                grund[g] = grund.get(g, 0) + int(len(idx))
         # je Rolle
         for ro, cap in B.get("je_rolle", {}).items():
             s = np.nonzero(keep & (rolle == ro))[0]
             if len(s) > cap:
-                drop = s[np.argsort(-a["prio"][s])[: len(s) - cap]]
-                keep[drop] = False
-        # Kollision
-        for ro in ["block", "band", "wand", "hero"]:
-            nk = int((keep & a["koll"]).sum())
-            if nk <= B["kollision"]:
-                break
-            s = np.nonzero(keep & a["koll"] & (rolle == ro))[0]
-            drop = s[np.argsort(-a["prio"][s])[: min(len(s), nk - B["kollision"])]]
-            keep[drop] = False
-        # Akteure
-        s = np.nonzero(keep & a["akteur"])[0]
-        if len(s) > B["akteure"]:
-            kleinste = s[np.argsort(a["hoehe_m"][s])[: len(s) - B["akteure"]]]
-            a["akteur"][kleinste] = False  # bleiben als Foliage
-        # Gesamt
+                weg(s[np.argsort(-a["prio"][s], kind="stable")[: len(s) - cap]], "%s>%d" % (ro, cap))
+        # Gesamt (Kleinzeug zuerst)
         for ro in ["kiesel", "stein", "platte", "block", "band"]:
             ng = int(keep.sum())
             if ng <= B["gesamt"]:
                 break
             s = np.nonzero(keep & (rolle == ro))[0]
-            drop = s[np.argsort(-a["prio"][s])[: min(len(s), ng - B["gesamt"])]]
-            keep[drop] = False
-        if (~keep).any():
-            log("Budget: %d Instanzen ausgedünnt (gesamt ≤ %d, Kollision ≤ %d, Akteure ≤ %d)" % (int((~keep).sum()), B["gesamt"], B["kollision"], B["akteure"]))
+            weg(s[np.argsort(-a["prio"][s], kind="stable")[: min(len(s), ng - B["gesamt"])]], "gesamt>%d" % B["gesamt"])
+        # Kollision (kleine Rollen zuerst)
+        for ro in ["block", "band", "wand", "hero"]:
+            nk = int((keep & a["koll"]).sum())
+            if nk <= B["kollision"]:
+                break
+            s = np.nonzero(keep & a["koll"] & (rolle == ro))[0]
+            weg(s[np.argsort(-a["prio"][s], kind="stable")[: min(len(s), nk - B["kollision"])]], "kollision>%d" % B["kollision"])
+        # Akteure: kleinste bleiben als Foliage
+        s = np.nonzero(keep & a["akteur"])[0]
+        if len(s) > B["akteure"]:
+            kleinste = s[np.argsort(a["hoehe_m"][s], kind="stable")[: len(s) - B["akteure"]]]
+            a["akteur"][kleinste] = False
+            log("Hinweis Budget: %d kleinste Akteure als Foliage gesetzt (Akteure <= %d)." % (len(kleinste), B["akteure"]))
+        if grund:
+            txt = "%d von %d Instanzen deterministisch ausgeduennt (%s)" % (int((~keep).sum()), n, ", ".join(
+                "%s: %d" % (g, k) for g, k in grund.items()))
+            log("WARNUNG Budget: " + txt)
+            self.hinweise.append("Budget: " + txt)
+            if any(g.startswith(("kiesel", "stein", "gesamt")) for g in grund):
+                self.hinweise.append("Kleinzeug (kiesel/stein) ausgeduennt: Geroellsaum bevorzugt ueber Landschafts-Gras bzw. "
+                                     "Bodenlagen Kies/Geroell darstellen (KONVENTIONEN §3).")
+        ziel = int(B.get("ziel", 52000))
+        if int(keep.sum()) > ziel:
+            log("Hinweis Budget: %d Instanzen ueber Zielwert %d (Deckel %d)." % (int(keep.sum()), ziel, B["gesamt"]))
+            self.hinweise.append("Instanzen ueber Zielwert %d (Deckel %d)" % (ziel, B["gesamt"]))
         return {k: v[keep] for k, v in a.items()}
 
     # Ausgabe --------------------------------------------------------------------------------------------------------
@@ -1096,7 +1847,11 @@ class Planer:
         n = len(a["x"])
         if n:
             rec = np.column_stack([a["x"], a["y"], a["z"], a["q"], a["sx"], a["sy"], a["sz"]]).astype("<f4")
-            schluessel = np.char.add(np.where(a["akteur"], "akteur_", "").astype(str), np.array([self.netze[p]["name"] for p in a["pfad"]]).astype(str))
+            # Kollision ist im Setzer eine Eigenschaft des Foliage-Typs (je Datei): Instanzen mit Kollision stehen deshalb in
+            # eigener Datei <Netz>_kol.f32, damit kollision_anzahl genau dem entspricht, was der Setzer mit Kollision setzt.
+            schluessel = np.char.add(np.char.add(np.where(a["akteur"], "akteur_", "").astype(str),
+                                                 np.array([self.netze[p]["name"] for p in a["pfad"]]).astype(str)),
+                                     np.where(a["koll"].astype(bool), "_kol", "").astype(str))
             for key in np.unique(schluessel):
                 s = np.nonzero(schluessel == key)[0]
                 rec[s].tofile(os.path.join(out, key + ".f32"))
@@ -1105,7 +1860,7 @@ class Planer:
                 sicht = a["sicht"][s]
                 sw = [0, 0] if (sicht[:, 1] == 0).any() else [int(sicht[:, 0].min()), int(sicht[:, 1].max())]
                 rollen = sorted(set(a["rolle"][s].tolist()))
-                dateien[key] = {"pfad": pf, "anzahl": int(len(s)), "gruppe": "/".join(rollen),
+                dateien[key] = {"pfad": pf, "anzahl": int(len(s)), "gruppe": "/".join(rollen), "ebene": "felsgruppen",
                                 "rolle": "akteur" if ist_akteur else "fels", "sichtweite": sw,
                                 "schatten": bool(a["schatten"][s].any()), "kollision": bool(a["koll"][s].any()),
                                 "nanite": bool(self.netze[pf]["nanite"]),
@@ -1121,12 +1876,16 @@ class Planer:
         stat["je_rolle"] = {ro: int((a["rolle"] == ro).sum()) for ro in ROLLEN_ORDNUNG}
         stat["kollision"] = int(a["koll"].sum())
         stat["akteure"] = len(akteure)
-        plan = {"stand": time.strftime("%Y-%m-%d %H:%M"), "feld": feld, "instanzen": int(n), "ebene": "felsgruppen",
-                "dateien": dateien, "akteure": akteure, "entfernen": AU.get("entfernen", ""),
-                "ft_ordner": AU["ft_ordner"], "ft_praefix": AU["ft_praefix"], "seed": self.seed, "faktor": self.faktor,
-                "statistik": stat, "quelle": "felsgruppen_plan.py (UNGETESTET MIT ECHTDATEN)",
-                "hinweis_setzer": "Einträge mit rolle 'akteur' (Dateien akteur_*.f32, Liste 'akteure') als StaticMeshActor setzen, "
-                                  "nicht als Foliage; Kollision nur wo kollision=true; Z enthält bereits das Eingraben."}
+        stat["mindestdichte"] = {BIOME[b]: {"soll_je_ha": float(self.mindest[b]), "hauptstuecke_relief": int(self.haupt_je_biom[b])}
+                                 for b in np.nonzero(self.mindest > 0)[0] if BIOME[b] in self.biome_fenster}
+        plan = plan_kopf(self.R, feld, int(n), self.stand)
+        plan.update({"biome_fenster": self.biome_fenster, "zellen_zustaendig": int(self.zellen_zustaendig),
+                     "kollision_anzahl": int(a["koll"].sum()), "biom_quelle": self.biom_quelle,
+                     "dateien": dateien, "akteure": akteure, "seed": self.seed, "faktor": self.faktor,
+                     "paletten_je_biom": {bn: self.pal_je_biom[BIOME.index(bn)] for bn in self.biome_fenster},
+                     "overrides": {"aktiv_je_biom": {bn: o for bn, o in self.ov_aktiv.items() if bn in self.biome_fenster},
+                                   "dateien": self.ov_info},
+                     "hinweise": list(self.hinweise), "statistik": stat})
         with open(os.path.join(out, "plan.json"), "w", encoding="utf-8") as f:
             json.dump(plan, f, ensure_ascii=False, indent=1)
         log("geschrieben: %s (%d Dateien, %d Akteure)" % (out, len(dateien), len(akteure)))
@@ -1178,13 +1937,43 @@ class Planer:
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+def plan_kopf(R, feld, n, stand):
+    """Gemeinsame Pflichtschlüssel (FORMAT §3, KONVENTIONEN §2) für vollen und leeren plan.json."""
+    AU = R["ausgabe"]
+    return {"stand": stand, "feld": feld, "instanzen": int(n), "ebene": "felsgruppen", "biome_eigen": list(BIOME),
+            "biome_fenster": {}, "zellen_zustaendig": 0, "kollision_anzahl": 0, "dateien": {}, "akteure": [],
+            "entfernen": AU.get("entfernen", ""), "ft_ordner": AU["ft_ordner"], "ft_praefix": AU["ft_praefix"],
+            "quelle": "felsgruppen_plan.py (Korrektur Runde 1; Vorfassung lief mit Echtdaten A5/G4/E1/C6)",
+            "hinweis_setzer": "Eintraege mit rolle 'akteur' (Dateien akteur_*.f32, Liste 'akteure') als StaticMeshActor setzen, "
+                              "nicht als Foliage; Kollision nur wo kollision=true; Z enthaelt bereits das Eingraben.",
+            "hinweise": []}
+
+
+def schreibe_leeren_plan(basis, R, feld, grund):
+    """Leerer plan.json (instanzen 0, keine f32) statt Textabbruch, z. B. nach einem Fehler im Feld."""
+    out = os.path.join(basis, R["ausgabe"]["ordner"], feld)
+    os.makedirs(out, exist_ok=True)
+    for fn in os.listdir(out):
+        if fn.endswith(".f32"):
+            os.remove(os.path.join(out, fn))
+    plan = plan_kopf(R, feld, 0, "regeln %s" % R.get("_doku", {}).get("stand", "?"))
+    plan["hinweise"] = [ascii_text(grund)]
+    plan["fehler"] = ascii_text(grund)
+    with open(os.path.join(out, "plan.json"), "w", encoding="utf-8") as f:
+        json.dump(plan, f, ensure_ascii=False, indent=1)
+    log("leerer plan.json geschrieben: %s (%s)" % (out, grund))
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 def main():
-    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C). UNGETESTET MIT ECHTDATEN.")
+    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C, Korrektur Runde 1).")
     ap.add_argument("felder", nargs="+", help="Gitterfelder, z. B. B4 C2")
-    ap.add_argument("--bild", action="store_true")
-    ap.add_argument("--faktor", type=float, default=1.0)
-    ap.add_argument("--basis", default=".")
-    ap.add_argument("--regeln", default=None)
+    ap.add_argument("--bild", action="store_true", help="Draufsicht docs/pruefung/felsgruppen/<Feld>.png")
+    ap.add_argument("--faktor", type=float, default=1.0, help="Dichtefaktor (Standard 1.0)")
+    ap.add_argument("--basis", default=".", help="production-Wurzel")
+    ap.add_argument("--regeln", default=None, help="felsgruppen_regeln.json")
+    ap.add_argument("--overrides-ordner", default=None, help="Ordner mit den Biom-Regeldateien (<thema>_regeln.json)")
+    ap.add_argument("--ohne-overrides", action="store_true", help="felsgruppen_overrides der Biom-Planer nicht lesen")
     args = ap.parse_args()
     skriptdir = os.path.dirname(os.path.abspath(__file__))
     regeln = args.regeln
@@ -1194,27 +1983,40 @@ def main():
                 regeln = p
                 break
     if regeln is None or not os.path.isfile(regeln):
-        sys.exit("FEHLT (Pflicht): felsgruppen_regeln.json (--regeln PFAD)")
-    with open(regeln, encoding="utf-8") as f:
-        R = json.load(f)
+        abbruch("Pflichtdatei fehlt: felsgruppen_regeln.json (--regeln PFAD)")
+    try:
+        with open(regeln, encoding="utf-8") as f:
+            R = json.load(f)
+    except Exception as e:
+        abbruch("felsgruppen_regeln.json unlesbar: %s" % e)
     log("Regeln: %s (Seed %s), numba: %s" % (regeln, R.get("seed"), "ja" if HAVE_NUMBA else "nein (NumPy-Fallback)"))
     welt_dir = os.path.join(args.basis, "export", "unreal", "welt")
     if not os.path.isdir(welt_dir):
-        sys.exit("FEHLT (Pflicht): %s (production-Wurzel mit --basis angeben)" % welt_dir)
+        abbruch("Ordner fehlt: %s (production-Wurzel mit --basis angeben)" % welt_dir)
     netze = lade_netze(args.basis, skriptdir)
     masse = lade_masse(args.basis, skriptdir)
-    pl = Planer(R, netze, masse, args.basis, args.faktor, skriptdir)
+    if args.ohne_overrides:
+        ov, ov_info = {}, {}
+        log("Overrides: abgeschaltet (--ohne-overrides).")
+    else:
+        ov, ov_info = lade_overrides(R, regeln, args.basis, skriptdir, args.overrides_ordner, netze)
+    pl = Planer(R, netze, masse, args.basis, args.faktor, skriptdir, ov, ov_info)
     for feld in args.felder:
+        try:
+            feld_bereich(feld)
+        except ValueError as e:
+            log("FEHLER: %s - Feld uebersprungen." % e)
+            continue
         try:
             pl.plane_feld(feld.upper(), welt_dir, args.bild)
         except SystemExit:
             raise
-        except ValueError as e:
-            log("FEHLER: %s – Feld übersprungen." % e)
-        except Exception as e:  # klare Meldung, weiter mit nächstem Feld
+        except Exception as e:  # klare Meldung, leerer plan.json, weiter mit nächstem Feld
             import traceback
-            traceback.print_exc()
+            for zeile in traceback.format_exc().rstrip().splitlines():
+                log("  " + zeile)
             log("FEHLER in Feld %s: %s" % (feld, e))
+            schreibe_leeren_plan(args.basis, R, feld.upper(), "Fehler im Planer: %s" % e)
 
 
 if __name__ == "__main__":
