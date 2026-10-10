@@ -1,7 +1,7 @@
 # Verteilung Biomgruppe 2: Aue/Flussauen (Velen, Weißgarten, Kovir)
 
 **Auftrag 11, Teil B2.** Biom `aue`, Foliage-Präfix `FT_EL_AU_`, Ordner `/Game/Eldarien/Welt/Foliage/Aue`. Stand 2026-10-10.
-Lieferung: dieser Bericht, `skripte/aue_regeln.json` (25 Klassen, 193 Netze in 211 Paletteneinträgen, alle gegen `netze.csv` geprüft),
+Lieferung: dieser Bericht, `skripte/aue_regeln.json` (ursprünglich 25 Klassen und 193 Netze in 211 Paletteneinträgen; nach Korrektur Runde 1 16 Klassen und 137 Netze, die generischen Klassen stehen in `mittelschicht_overrides`; alle gegen `netze.csv` geprüft),
 `skripte/aue_plan.py` (Planer, FORMAT §3/§5). **Alles UNGETESTET MIT ECHTDATEN** – in der Cloud nur mit synthetischen
 Rastern (E5, siehe §4) rauchgetestet; der Rauchtest wurde nach dem Sitzungsabbruch am 10.10. wiederholt und nachgeprüft
 (byte-identische Ausgabe, Schema, Sperrflächen). Web-Quellen konnten nur als Suchmaschinen-Auszüge gelesen werden (80.lv,
@@ -12,6 +12,202 @@ Betroffene Felder (aue dominant): F1, I1, F2, G2, F3, J3, C4, C5, D5, E5, J5, A6
 F4, F5, H5, E7 (und kleiner in C3, B6, D6, C7, G7–I7, E4, D4, H4, A5). Der Planer läuft in jedem Feld nur auf Zellen mit Biom
 `aue` (`eigner.r8` + `welt.json`, Kennzahl 0 = aue laut FORMAT §2), in den Wüstenfeldern C4, D5, E5 (und C3/D3/D4/E3/E4) zusätzlich
 nur außerhalb Sand/Sandstein ≥ 0,5 und mit Faktor 0,6.
+
+## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md` (Echtdaten-Test 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md` (verbindlich).
+Geändert wurden nur `skripte/aue_plan.py` (jetzt 1 262 Zeilen), `skripte/aue_regeln.json` und dieser Bericht. Wo §2 bis §4 etwas anderes
+sagen, gilt dieser Abschnitt.
+
+**Echtdaten-Befund (Referenz, lokal, alte Fassung):** A5 (bergwald/fjord; laut `biome_je_feld` kueste 75 / bergwald 14 / aue 11 %)
+**1 743** Instanzen, G4 (elfenwald 76 / heide 22 / aue 3 %) **1 433**, E1 (gletscher 100 %) 0, C6 (lava 99 %) 0. Die alte Fassung bebaute
+schon nur aue-Zellen, ohne Biomfaktoren für fremde Biome. In A5 und G4 lagen die Instanzen also auf Zellen mit Kennzahl 0 (Weltgelände → aue).
+Zu viel waren sie aus zwei Gründen: (1) Etwa ein Drittel der Aue-Ebene waren generische Mittelschicht-Klassen (Grasbüschel, Sträucher,
+Hochstauden, Farn, Jungbäume, Totholz, Pilze), die Teil D noch einmal setzt. (2) Es gab keine Mindestgrenze: Jeder aue-Fleck wurde voll
+bebaut, und Meer- oder Seezellen mit Kennzahl 0 zählten im Anteil als aue.
+
+### Was sich geändert hat
+
+1. **Zuständigkeit (§1):** Das Biom je Zelle kommt aus `eigner.r8` + `welt.json["kacheln"][k]["rezept"]`. **Kennzahl 0 ist `aue`**, ein Rezept
+   mit „vulkan“ oder „lava“ ist `lava`. Eine Kennzahl ohne Biom-Zuordnung bekommt das dominante Feldbiom und erzeugt eine `WARNUNG`; sie wird
+   also nicht automatisch aue. Nur wenn `eigner.r8` oder `welt.json` fehlt, gilt für alle Zellen das dominante Feldbiom aus
+   `daten/biome_je_feld.json` (zweiter Fallback: `feld_biom_fallback`, dazu eine Logzeile). `biome_eigen = ["aue"]`, Block
+   `zustaendigkeit` in der Regeldatei.
+   - **Saum:** Bebaut werden aue-Zellen plus ein **Saum von 30 m**, in dem der Faktor von 1 an der Biomgrenze linear auf 0 fällt
+     (Jump-Flooding-Distanzfeld). Er gilt für alle Schichten einschließlich der Bäume und wirkt als Multiplikator auf λ.
+   - **Leerplan:** Liegt der aue-Anteil im Fenster unter **2 %**, schreibt der Planer einen **leeren `plan.json`** (`instanzen: 0`,
+     `dateien: {}`, `leer: true`, ohne f32; alte f32 werden gelöscht) und meldet das in einer Zeile.
+   - **Landbezug (Präzisierung):** Anteil und Saum beziehen sich auf **Landzellen** (ohne `karte_wasser`). Kennzahl 0 deckt auch Meer
+     und Seen ab. Sonst würde Wasser den aue-Anteil in Küstenfeldern wie A5 aufblähen, und der Saum würde von Meereszellen 30 m in die Küste
+     reichen. `plan.json["biome_fenster_bezug"]` nennt das.
+   - Die bisherigen Biom-Sonderwege (Fallback-Biom für unbekannte Rezepte = Feldbiom aus der Regeldatei) sind durch diese Regel ersetzt.
+     Biomfaktoren für fremde Biome gibt es nicht.
+2. **Wüstenfelder C3 C4 D3 D4 D5 E3 E4 E5:** Hier wird nur ergänzt, mit Faktor 0,6. Zellen mit Sand/Sandstein ≥ 0,5 sind gesperrt, auch für
+   den Saum. `entfernen` bleibt dort **immer leer**, auch wenn in der Regeldatei etwas stünde. Außerhalb der Wüste wird `entfernen` (Standard
+   leer) nur gesetzt, wenn aue im Feld ≥ 50 % hat.
+3. **Pflichtschlüssel (§2)** stehen in jedem `plan.json`, auch im leeren: `biome_fenster` (Anteile aller Biome, Σ = 1), `zellen_zustaendig`
+   (Landzellen im Feld mit Faktor > 0, also einschließlich Saum), `biome_eigen`, `kollision_anzahl` (Σ der Dateien mit `kollision: true`).
+   Zusätzlich gibt es `eigenanteil_fenster/_feld`, `saum_m`, `biom_quelle`, `budget` (Deckel, Ziel, Zahl vor der Ausdünnung, Faktoren je
+   Klasse), `an_landschaftsgras` und `statistik.saum_zellen_feld`.
+4. **Budget (§3, hart), Block `budget`:** `deckel_je_feld` 60 000, `ziel_je_feld` 45 000–52 000, `ausduennen_auf` 52 000,
+   `kollision_je_feld` 3 000. Die Ausdünnung ist deterministisch per Hash je Instanz und hat drei Stufen:
+   - **Kollision:** Liegt sie über 3 000, wird in der Reihenfolge Kiefer → Hain → Pappel → Weide → Totbaum → Solitär ausgedünnt (je Klasse
+     höchstens 60 %), danach gleichmäßig.
+   - **Schichtziele (weich):** Boden 26 000, Mittel 12 000, Baum 2 600, Wasserkante 12 000, jeweils innerhalb der Schicht nach Priorität.
+   - **Feld:** Über 52 000 wird zuerst Kiesel, dann Zweige, Laub usw. ausgedünnt, danach alle Nicht-Baum-Klassen gleichmäßig. Eine harte
+     Sicherung hält 60 000.
+
+   Jede Stufe schreibt eine `WARNUNG` ins Log und einen Hinweis ins `plan.json`. Kleinzeug geht an das Landschafts-Gras: `an_landschaftsgras`
+   nennt Laub, Zweige und Bodendecker → `GT_Kraut` sowie Kiesel → `GT_Steinchen`, jeweils mit dem behaltenen Anteil.
+5. **Ebenen-Abgrenzung (§4):** Die generischen Klassen sind aus dem Planer entfernt und stehen jetzt als `mittelschicht_overrides` im Regel-JSON
+   (Schema unten). Das betrifft Grasbüschel, Hochstauden, Sträucher, Jungbäume, Farn, Totholz klein/groß, Stümpfe und Pilze (Schicht 0).
+   Steht eine Klasse dieses Namens oder Alias (`ebenen.generisch_mittelschicht`, `ebenen.alias`) trotzdem in `schichten`, überspringt der
+   Planer sie mit Hinweis. Felsen > 0,8 m setzt der Planer weiterhin nicht (nur `felsgruppen_overrides`), Spuren ebenso nicht (nur
+   `spuren_overrides`).
+6. **ASCII und Exit-Codes (§5):** Alle Ausgaben laufen über `meld()`/`fehler()` und werden in ASCII umgewandelt: ä→ae, ß→ss, →→->, ≤→<=, –→-.
+   Auch `plan.json["hinweise"]` ist ASCII. Ein unbekanntes Feld, eine fehlende Regeldatei, ein fehlendes `daten/netze.csv` (gesucht unter
+   `basis/daten/`, neben dem Skript und unter `vorlagen/daten/`, oder per `--inventar PFAD`), ein fehlendes `hoehe.f32` oder ein fehlender
+   Weltordner führen jeweils zu einer Meldung auf stderr und **Exit-Code 2**. Eine Regeldatei ohne `zustaendigkeit`/`budget` (alte Fassung)
+   ebenfalls.
+
+### Neue Schicht-1-Definition (nur Aue-Sonderformen)
+
+| Schicht | Klassen (16 statt 25; 137 Netze statt 193) |
+|---|---|
+| 0 boden | laub, zweige, kiesel, bodendecker (`pilz` → Teil D) |
+| **1 mittel** | **`blumeninsel`**: Auenwiesen-Blumeninseln (10–26 Stück, Hauptart 60 %, 14 Meadow-Blumen). **`hecke_weg`**: Wegsaum-Hecken 4–7 m neben Wegen auf 40 % der 48-m-Abschnitte, außerhalb von 150 m um Orte, Yaw entlang des Weges |
+| 2 baum | auwald_weide, auwald_pappel, hain_terrasse, kiefer_hain, solitaer, totbaum (stehendes Totholz bleibt hier, Teil D setzt in der Aue keinen Totbaum) |
+| 5 wasserkante | schilf, seggen, **uferstaude** (= Uferstauden-Saum 2–16 m vom Wasser, Pestwurz/Goldrute/Topinambur/Nessel), uferwurzel |
+
+Was nicht mehr in Schicht 1 steht:
+
+- **Feldrand-Hecken und Kopfweiden-Reihen** stehen nur in `spuren_overrides` (`feldstreifen.hecke_am_feldrand`, `kopfweiden_reihe`) und
+  werden deshalb hier nicht gesetzt.
+- **Holzschlag-Stümpfe** um Orte (bisher `stumpf.ort_nah_faktor` ×3 in 200 m) entfallen; sie kommen aus `spuren_plan.py` (`holzschlag`).
+
+### Override-Schema
+
+```
+"mittelschicht_overrides": {            # für mittelschicht_plan.py (Teil D), gewinnt gegen mittelschicht_regeln.json["biome"]["aue"]
+  "biom": "aue",
+  "palette":  {"grasbueschel": [11 Pfade], "hochstaude": [8], "strauch": [15], "jungbaum": [9], "farn": [8],
+               "totholz_liegend": [9: dead_log_01-04, trunk_01/02, LargeFallenTree_02, FallenTreeAssembly_01, MossyTree_01],
+               "totholz_stumpf": [7: stump_03, TreeStump_01, BirchTreeStump_01, RottenTreeStump_01, Tree_Stump_01/02/03],
+               "totholz_ast": [OldTreeBranch_03], "pilz": [2]},            # bisherige Aue-Paletten, 70 Pfade, alle im Inventar
+  "faktor":   {jede der 9 Klassen: 1.0},                                   # Stellschraube x Teil-D-Dichte (0 = aus)
+  "parameter": {klasse: {"dichte": [offen, beschattet], "gruppe", "radius_m", "massstab", "eingraben_cm", "kippen", "sichtweite",
+                         "hang_max", "saum", "feuchte", "lichtungsrand", "lagen_faktor"}},   # bisherige Aue-Werte im mittelschicht-Format
+  "zusatzklassen": {},                                                     # Teil D hat alle Aue-Klassen
+  "herkunft": {...}, "nicht_uebertragbar_hinweis": "..."
+}
+```
+
+- **Dichte:** `parameter.<klasse>.dichte` ist die bisherige Aue-Dichte als Mittel der Höhenstufen (Ufer 6,5 / Aue 36,2 / Terrasse 57,3 %,
+  E5-Synthetik) mal `licht` [offen, beschattet]. Beispiele: Grasbüschel [0,0118; 0,0030], Strauch [0,0029; 0,0009], Farn [0,00008; 0,0062],
+  Totholz liegend [0,00047; 0,00175].
+- **Faktor:** Weil die Dichte schon in `parameter` steht, sind alle `faktor` = 1,0. Das Verhältnis zur Teil-D-Grunddichte wäre Grasbüschel
+  0,74, Hochstaude 0,32, Strauch 0,60, Jungbaum 0,45.
+- **Prüfung:** `mittelschicht_plan.effektive_regeln()` liest den Block (`palette, faktor, zusatzklassen, parameter`); alle 9 Klassen haben
+  Quelle `aue`.
+- **Nicht übertragbar:** Teil D kennt keine Höhenstufen. Die Ufer-Betonung (Hochstaude, Farn, Strauch) trägt `parameter.feuchte`.
+
+```
+"felsgruppen_overrides": {"biom": "aue", "palette": "moos", "faktor": {"gesamt": 0.35, "klassen": {"kuppe": 0.625, "blockstrom": 0.4}},
+                          "klassen_aus": ["band", "wand", "grat", "fuss"],
+                          "rollen": {"kiesel": {"sichtweite_cm": [0, 5000]}, "stein": {"eingraben": [0.4, 0.55]}},
+                          "wunsch_hinweis": "...", "wuesten_felder_hinweis": "..."}
+```
+
+- **Auf das gelesene Schema gebracht:** Die Werte sind dieselben wie bisher (`biom_faktor` 0,35, Klassen `kuppe` p 0,5 → 0,625,
+  `blockstrom` p 0,2 → 0,4).
+- **Als Text abgelegt:** Was Teil C nicht auswertet (Höhenstufe Terrasse, Prallhang-Zahlen, Lagen), steht jetzt in `wunsch_hinweis`
+  und erscheint nicht mehr als „ignoriert“.
+- **Prüfung mit `OverrideLeser`:** gelesen werden `biom, faktor.gesamt, faktor.klassen, klassen_aus, rollen.kiesel.sichtweite_cm,
+  rollen.stein.eingraben`.
+- **Hinweis an Teil C:** Die aktuelle Arbeitskopie von `felsgruppen_plan.py` meldet `palette` (Name) als ignoriert, weil der Zweig
+  `palette`/`biom_palette` in `lies()` fehlt. Laut eigener Doku wird er gelesen. Die Wirkung ist null, weil `moos` ohnehin die
+  Standardpalette für aue ist.
+
+`spuren_overrides`: Neu ist ein Kopf mit `biom`, `palette` und `faktor`:
+
+- `palette`: Hecke am Feldrand (4 Netze), Obstgarten (4), Kopfweiden-Reihe (2).
+- `faktor`: feldstreifen, obstgarten, zaun_weg, kopfweiden_reihe, muehle und steg, jeweils 1,0.
+
+Die Elementparameter sind unverändert. `spuren_plan.py` liest in der Arbeitskopie noch keine `spuren_overrides`; der Block ist als
+Vorgabe abgelegt.
+
+### Rauchtest Runde 1 (Cloud, synthetisch; Raster danach gelöscht)
+
+Die Raster wurden neu erzeugt, in voller Größe 7 057 × 9 577 (memmap, nur die Fenster beschrieben):
+
+- **E5:** wie Runde 0, alles Kennzahl 0.
+- **H5 (Mischfeld):** aue im Westen mit welliger Grenze, sumpf, eine dschungel-Ecke und ein 40 × 40-m-Block mit Kennzahl 99 ohne
+  `welt.json`-Eintrag. Dazu Fluss, zwei Teiche und ein Weg; keine Bestand-Ebene.
+- **C6 (Fremdbiom):** Vulkanregion 96,6 %, bergwald 2,5 % und ein aue-Fleck mit 0,9 %.
+- **A5 (Küste):** Meer mit Kennzahl 0 (Wasser), kueste-Land und ein aue-Fleck mit 13 % des Landes am Ostrand.
+
+Umgebung: Python 3.13.16, NumPy 2.5.3, ohne numba, 4 Kerne, Aufruf `python -I -X utf8`.
+
+| Lauf | Instanzen | Boden / Mittel / Baum / Wasserkante | Kollision | `biome_fenster` (Land) | `zellen_zustaendig` | Wanduhr |
+|---|---|---|---|---|---|---|
+| E5, **alte Fassung** (Runde 0) | 32 627 | 11 980 / 16 254 / 702 / 3 691 | 790 | – | – | 9,3 s |
+| **E5** (eigene Zellen, Wüstenfeld ×0,6) | **21 085** | 11 704 / 4 996 / 621 / 3 764 | 621 | aue 1,0 | 971 132 | 9,4 s |
+| **H5 Mischfeld** | **12 836** | 5 953 / 3 174 / 351 / 3 358 | 351 | sumpf 0,644, aue 0,322, dschungel 0,034 | 325 932 | 6,5 s |
+| **C6 Fremdbiom** | **0 (Leerplan)** | – | 0 | lava 0,966, bergwald 0,025, aue 0,009 | 0 | 0,3 s |
+| **A5 Küste** | **859** | 614 / 203 / 42 / 0 | 42 | kueste 0,866, aue 0,134 | 47 556 | 5,3 s |
+| E5 `--faktor 3` (Überlauf) | 51 257 | 25 967 / 11 932 / 1 947 / 11 411 | 1 947 | – | – | 9,1 s |
+| E5 `--faktor 6` (Kollisionsüberlauf) | 51 997 | 25 507 / 11 948 / 2 600 / 11 942 | **2 600** | – | – | 8,9 s |
+| ohne `eigner.r8`: E5 / H5 / C6 | 21 085 / Leerplan / Leerplan | Fallback biome_je_feld → aue / sumpf / lava | | | | |
+
+Einzelheiten zu den Läufen:
+
+- **E5 je Klasse:** Blumeninsel 4 918, Bodendecker 3 626, Laub 3 448, Zweige 2 944, Seggen 1 966, Kiesel 1 686, Schilf 1 292, Uferstaude 505,
+  Hain 236, Pappel 186, Kiefer 106, Hecke 78, Weide 55, Totbaum 21, Solitär 17. Die 11 542 Instanzen der früheren generischen Klassen
+  (Grasbüschel 7 791, Strauch 1 251 usw.) setzt jetzt Teil D.
+- **Überlauf `--faktor 3`:** Die WARNUNG nennt Schicht Boden 36 313 → 25 967 und Mittel 14 967 → 11 932, mit den Faktoren Kiesel ×0,39,
+  Zweige ×0,40, Laub ×0,83 und Blumeninsel ×0,79.
+- **Kollisionsüberlauf `--faktor 6`:** Die WARNUNG nennt Kollision 4 095 → 2 976 (Kiefer ×0,17, Hain ×0,41), Schicht Baum 2 976 → 2 600
+  und Feld 52 383 → 51 997.
+- **Saum-Abfall** (Instanzen je m² Land im Feld nach Abstand zur nächsten aue-Landzelle; Höchstabstand H5 26,0 m, A5 28,9 m):
+
+  | | innen | 1–6 m | 6–12 m | 12–18 m | 18–24 m | 24–30 m | > 30 m |
+  |---|---|---|---|---|---|---|---|
+  | H5 | 0,0417 | 0,0268 | 0,0270 | 0,0216 | 0,0110 | 0,0019 | **0** (668 049 Zellen) |
+  | A5 | 0,0229 | 0,0183 | 0,0079 | 0,0085 | 0,0050 | 0,0028 | **0** (201 519 Zellen) |
+
+  In A5 bekommt die Küstenlinie (Meer = Kennzahl 0) keinen Saum, denn Instanzen stehen nur am aue-Fleck.
+- **Kennzahl 99 (H5):** 1 521 Zellen. Die `WARNUNG` meldet sie, sie werden dem dominanten Feldbiom sumpf zugeordnet und nicht bebaut.
+
+Weitere Prüfungen, alle bestanden:
+
+- **Schlüssel und Budget:** Alle Pflichtschlüssel sind vorhanden, auch im Leerplan. Jede f32 ist durch 10 teilbar, die Summe stimmt mit
+  `instanzen` überein, und `kollision_anzahl` = Σ Kollisionsdateien. In keinem Lauf mehr als 60 000 Instanzen oder 3 000 Kollisionen, keine
+  generische Mittelschicht-Klasse in der Ausgabe.
+- **Geometrie:** |q| − 1 ≤ 1,2·10⁻⁷. 0 Instanzen auf Wasser, Weg oder Ort, 0 außerhalb des Feldes, 0 jenseits des Saums;
+  z − Gelände −0,12 bis −0,01 m.
+- **Determinismus:** Zwei Läufe sind byte-identisch. MD5 aller f32: E5 `244f6b02…`, H5 `2f3f3573…`, A5 `383995fc…`. `plan.json` ohne
+  `stand`/`laufzeit_s`: E5 `fb333e39…`, H5 `1757f578…`, A5 `f2d9dae1…`, C6 `aa679f6d…`.
+- **ASCII:** Alle 17 Logs (Läufe, Überläufe, Fallbacks, Fehlertexte) und alle `hinweise` haben 0 Nicht-ASCII-Bytes.
+- **Exit-Code 2:** bei Feld `K9`, fehlender Regeldatei, fehlender `netze.csv`, fehlender `hoehe.f32` und fehlendem Weltordner, jeweils mit
+  einzeiliger Meldung.
+- **Inventar:** 1 435 Netze, 0 fehlen (141 Paletteneinträge und 90 Override-Pfade). `py_compile` ok.
+
+### Erwartete Zahlen mit Echtdaten (Referenz; ersetzt die Tabelle in §4)
+
+Faktor neu/alt aus der E5-Synthetik: 21 085 / 32 627 ≈ **0,65**. Der Saum kommt nur in Mischfeldern hinzu, als Band von 30 m mit
+mittlerem Faktor ≈ 0,5.
+
+| Feld | Echtdaten alt | Erwartung neu | Anmerkung |
+|---|---|---|---|
+| **A5** (kueste/bergwald, aue 11 % des Landes) | 1 743 | **≈ 1 000–1 400** | aue ≥ 2 % der Landzellen → Plan; nur aue-Land + Saum, kein Saum entlang des Meeres |
+| **G4** (elfenwald, aue 3 %) | 1 433 | **≈ 900–1 200** oder Leerplan | Plan, wenn aue ≥ 2 % der Landzellen im Fenster; Rest wie A5 |
+| **E1** (gletscher 100 %) | 0 | **0, Leerplan** mit Pflichtschlüsseln | vorher Nullplan ohne Pflichtschlüssel `biome_fenster` usw. |
+| **C6** (lava 99 %) | 0 | **0, Leerplan** | wie Synthetik C6 |
+| C5 / E5, D5, C4 (Wüste ×0,6) | – | 20 000–28 000 / 13 000–22 000 | Spalte „mittel“ in §4 gilt nur noch für Blumeninseln/Hecken (≈ 30 % der alten Werte) |
+| Kollision je Feld | – | 400–1 500 | nur Bäume, die liegenden Stämme liegen jetzt in Teil D |
+
+Damit bleibt jedes Aue-Feld deutlich unter dem Ziel 45 000–52 000. Nur bei `--faktor` ≥ 2,5 greifen die Schichtziele, das Feldziel 52 000
+und der Kollisionsdeckel mit WARNUNG.
 
 ## 1. Witcher-Analyse: Was Velen, Weißgarten und die Kovir-Auen zwischen Boden und Krone füllt
 

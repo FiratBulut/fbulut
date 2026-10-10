@@ -14,6 +14,8 @@ elfenwald, sumpf, dschungel, lava, wueste_ergaenzung). Grundlage: `auftraege/ver
   Dilatation oder separierbare Minimum-Filter), keine Python-Zellschleifen.
 - Ist der Anteil der eigenen Biome im Fenster (Feld + Rand) **< 2 %**, schreibt der Planer einen **leeren plan.json** (`instanzen: 0`, keine f32)
   und meldet das in einer Zeile. Nie mit Text statt plan.json beenden.
+- Bezug für Anteil und Saum sind die **Landzellen** des Fensters (ohne `karte_wasser`), damit Meer/Seen mit Kennzahl 0 den aue-Anteil nicht
+  aufblähen und keinen Saum ins Wasser ziehen. Der Planer nennt den Bezug in `plan.json["biome_fenster_bezug"]` (z. B. "land"). Ergänzt nach aue-Korrektur.
 - Querschnitts-Planer (felsgruppen, mittelschicht, spuren) sind für alle Biome zuständig (`biome_eigen` = alle 15), wählen aber Palette und
   Dichten je Zelle nach Biom.
 
