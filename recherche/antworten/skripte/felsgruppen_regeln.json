@@ -1322,7 +1322,7 @@
    "/Megascans/"
   ],
   "max_breite_m": {
-   "hero": 16.0,
+   "hero": 14.0,
    "block": 7.0,
    "stein": 2.5
   },
@@ -1365,7 +1365,7 @@
   ]
  },
  "platten": {
-  "_hinweis": "Korrektur Runde 2 (Befund 2): flache Platten-Netze (Rolle platte/geroell_platte oder Name passt zu 'muster') nur auf Zellen, deren max(lage_Kies, lage_Geroell, lage_Fels, lage_Felsplatte) >= lagen_min ist und Gras/Wiese nicht ueberwiegt (Mitte + 4 Randpunkte bei 0,6 x Radius), eingegraben >= eingraben_min der Netzhoehe, Z-Achse = Gelaendenormale (kein Kippen, keine Schichtneigung), strenger Schwebe-Test (Gelaende darf unter dem Rand hoechstens Eingrabtiefe + schwebe_toleranz_m unter der Plattenebene liegen). Gilt zentral auch fuer zusatzklassen der Biom-Overrides. Fehlen alle Lagen-Raster: keine Platten.",
+  "_hinweis": "Korrektur Runde 2 (Befund 2): flache Platten-Netze (Name passt zu 'muster', oder flaches Netz - Hoehe < form.flach_verhaeltnis x Breite - mit Rolle platte/geroell_platte; nicht flache Bloecke einer Platten-Rolle, z. B. hochgebirge moraene, behalten die Lagen-Bedingung des Bioms) nur auf Zellen, deren max(lage_Kies, lage_Geroell, lage_Fels, lage_Felsplatte) >= lagen_min ist und Gras/Wiese nicht ueberwiegt (Mitte + 4 Randpunkte bei 0,6 x Radius), eingegraben >= eingraben_min der Netzhoehe, Z-Achse = Gelaendenormale (kein Kippen, keine Schichtneigung), strenger Schwebe-Test (Gelaende darf unter dem Rand hoechstens Eingrabtiefe + schwebe_toleranz_m unter der Plattenebene liegen). Gilt zentral auch fuer zusatzklassen der Biom-Overrides. Fehlen alle Lagen-Raster: keine Platten.",
   "muster": [
    "SM_ErodedRockyGround_",
    "SM_NordicBeachRockyGround_",
@@ -1390,15 +1390,16 @@
   "schwebe_toleranz_m": 0.05
  },
  "kleinmaterial": {
-  "_hinweis": "Korrektur Runde 2 (Befund 2): Kiesel und Steine < hoehe_max_m nur im Kontaktsaum (bis saum_m vom Rand eines grossen Stuecks der Rollen gross_rollen bzw. >= gross_ab_m, auch aus Zusatzklassen). Nach Budget geprueft (verwaiste Saeume fallen weg); haengende Stuecke (z_versatz_anteil) ausgenommen.",
+  "_hinweis": "Korrektur Runde 2 (Befund 2): Kiesel und Steine < hoehe_max_m nur im Kontaktsaum (Abstand zum Rand eines Gruppenstuecks >= hoehe_max_m bzw. der Rollen gross_rollen, auch aus Zusatzklassen, hoechstens saum_m; Platten zaehlen nicht). Nach dem Budget geprueft (verwaiste Saeume fallen weg); haengende Stuecke (z_versatz_anteil) ausgenommen.",
   "hoehe_max_m": 0.5,
   "saum_m": 2.0,
   "gross_rollen": [
    "hero",
    "wand",
    "band",
-   "block"
+   "block",
+   "stein"
   ],
-  "gross_ab_m": 0.8
+  "gross_ab_m": 0.5
  }
 }

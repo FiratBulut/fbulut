@@ -2103,6 +2103,11 @@ class Planer:
             v = self._platte_pfad[pfad] = any(m in name for m in self.R.get("platten", {}).get("muster", []))
         return v
 
+    def ist_platte(self, rolle, pfad):
+        """Platten-Regel greift für Netze laut Namensmuster und für flache Netze (Höhe < flach_verhaeltnis × Breite) mit Rolle
+        platte/geroell_platte; nicht flache Blöcke einer Platten-Rolle (z. B. hochgebirge moraene) bleiben bei den Lagen des Bioms."""
+        return self.ist_platte_pfad(pfad) or (rolle in self.platten_rollen and bool(self.netz_info(pfad)[5]))
+
     def netz_info(self, pfad):
         """(Höhe cm, Radius cm, min_z cm, Breite m, max. Maßstab, flach) – Maßstab-Obergrenze 2,5 für Megascans, sonst 1,5."""
         v = self._ninfo.get(pfad)
@@ -2214,7 +2219,7 @@ class Planer:
                 sk = sk * zwischen(hh, 43, 0.55, 0.9)  # Nebenstücke kleiner als das Hauptstück
             H_cm, R_cm, MZ = hc[k], rc[k], mz[k]
         pfade = np.array(pfade_l, dtype=object)[k]
-        ist_pl = np.array([rolle in self.platten_rollen or self.ist_platte_pfad(p) for p in pfade_l])[k]
+        ist_pl = np.array([self.ist_platte(rolle, p) for p in pfade_l])[k]
         if ist_pl.any():
             pmin = float(self.R["platten"].get("eingraben_min", 0.5))
             bury = np.where(ist_pl, np.maximum(bury, pmin), bury)
@@ -2281,7 +2286,7 @@ class Planer:
                 "schatten": np.full(m, bool(ro["schatten"])), "sicht": np.tile(np.array(ro["sichtweite_cm"], dtype=float), (m, 1)),
                 "akteur": akteur, "hoehe_m": hoehe_m, "prio": uni(hh, 53), "ci": ci, "cj": cj, "fi": fi, "fj": fj,
                 "gid": (gid[v] if gid is not None else hh).astype(U64), "gprio": gprio[v] if gprio is not None else uni(hh, 60),
-                "haupt": np.full(m, bool(haupt)), "sicht_h": hoehe_m * (1.0 - bury), "r_m": r_eigen / 100.0,
+                "haupt": np.full(m, bool(haupt)), "sicht_h": hoehe_m * (1.0 - bury), "r_m": R_cm * np.maximum(sx, sy) / 100.0,
                 "dist_r": dist_r[v] if dist_r is not None else np.full(m, np.nan), "haengend": np.zeros(m, dtype=bool)}, v
 
     def gruppe_erzeugen(self, kname, g):
@@ -2722,7 +2727,7 @@ class Planer:
         bury = zwischen(hh, 44, eb[0], eb[1])
         H_cm, R_cm, MZ = hc[k], rc[k], mzc[k]
         # Platten-Regel (Runde 2) zentral auch für Zusatzklassen: Rolle platte oder Platten-Netz laut Namensmuster
-        ist_pl = np.array([z["rolle"] in self.platten_rollen or self.ist_platte_pfad(p) for p in pfade])[k]
+        ist_pl = np.array([self.ist_platte(z["rolle"], p) for p in pfade])[k]
         if ist_pl.any():
             bury = np.where(ist_pl, np.maximum(bury, float(self.R["platten"].get("eingraben_min", 0.5))), bury)
         r_eigen = R_cm * sk
@@ -2748,6 +2753,7 @@ class Planer:
         hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ, yaw_alle, ist_pl, r_eigen, m_ = (a[ok] for a in (
             hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ, yaw_alle, ist_pl, r_eigen, m))
         gidx = idx[ok]
+        k_ok = np.nonzero(ok)[0]
         kipp = np.radians(zwischen(hh, 45, ro["kippen_grad"][0], ro["kippen_grad"][1]))
         kipp = np.where(ist_pl, 0.0, kipp)  # Platten: Z-Achse = Geländenormale
         up = self.normal[pci, pcj] + np.concatenate([-self.abfall[pci, pcj] * np.tan(kipp)[:, None], np.zeros((len(kipp), 1))], axis=1)
@@ -2770,7 +2776,7 @@ class Planer:
              "schatten": np.full(n, bool(ro["schatten"] if z["schatten"] is None else z["schatten"])), "sicht": sicht,
              "akteur": np.full(n, bool(z["akteur"])), "hoehe_m": hoehe_m, "prio": uni(hh, 53), "ci": pci, "cj": pcj,
              "fi": pfi, "fj": pfj, "gid": hsh[gidx].astype(U64), "gprio": uni(hsh[gidx], 60), "haupt": np.zeros(n, dtype=bool),
-             "sicht_h": hoehe_m * (1.0 - bury) + (zv * hoehe_m if z["z_versatz"] else 0.0), "r_m": r_eigen / 100.0,
+             "sicht_h": hoehe_m * (1.0 - bury) + (zv * hoehe_m if z["z_versatz"] else 0.0), "r_m": R_cm[k_ok] * np.maximum(sx, sy) / 100.0,
              "dist_r": np.full(n, np.nan), "haengend": np.full(n, bool(z["z_versatz"]))}
         log("Zusatzklasse %s: %d Gruppen, %d Instanzen (%d mit Kollision%s)" % (
             name, len(ci), n, int(koll.sum()), ", Akteure" if z["akteur"] else ""))
@@ -2870,10 +2876,10 @@ class Planer:
 
     def kleinmaterial_maske(self, a):
         KM = self.R.get("kleinmaterial", {})
-        klein = (a["rolle"] == "kiesel") | ((a["rolle"] == "stein") & (a["hoehe_m"] < float(KM.get("hoehe_max_m", 0.5))))
-        klein &= ~a["haengend"]
-        gross = (np.isin(a["rolle"], KM.get("gross_rollen", ["hero", "wand", "band", "block"])) |
-                 (a["hoehe_m"] >= float(KM.get("gross_ab_m", 0.8)))) & ~klein & ~np.isin(a["rolle"], ["platte"])
+        pl = np.array([self.ist_platte(r, p) for r, p in zip(a["rolle"], a["pfad"])], dtype=bool) if len(a["x"]) else np.zeros(0, bool)
+        klein = ((a["rolle"] == "kiesel") | (a["hoehe_m"] < float(KM.get("hoehe_max_m", 0.5)))) & ~a["haengend"] & ~pl
+        gross = (np.isin(a["rolle"], KM.get("gross_rollen", ["hero", "wand", "band", "block", "stein"])) |
+                 (a["hoehe_m"] >= float(KM.get("gross_ab_m", 0.5)))) & ~klein & ~pl
         return klein, gross
 
     def kontaktsaum(self, a):
@@ -2941,7 +2947,7 @@ class Planer:
         dr = a["dist_r"][np.isfinite(a["dist_r"]) & np.isin(a["klasse"], form_kl)]
         st["satellitenabstand_r"] = {"anzahl": int(len(dr)), "median": q(dr, 50), "p95": q(dr, 95), "max": q(dr, 100)}
         # Platten: auf Gras = Lagen-Maske verletzt (Gras/Wiese >= 100 und keine Kies/Geroell/Fels-Lage >= 100)
-        pl = (a["rolle"] == "platte") | np.array([self.ist_platte_pfad(p) for p in a["pfad"]], dtype=bool)
+        pl = np.array([self.ist_platte(r, p) for r, p in zip(a["rolle"], a["pfad"])], dtype=bool)
         st["platten"] = {"anzahl": int(pl.sum()), "auf_gras": int((pl & self.m_gras[a["ci"], a["cj"]]).sum()),
                          "ohne_kies_fels_lage": int((pl & ~self.m_platte[a["ci"], a["cj"]]).sum()),
                          "verworfen_platten_regel": int(self.platten_verworfen)}

@@ -592,7 +592,7 @@ class Sammler:
                                          'q': [round(float(v), 5) for v in row[3:7]], 's': round(float(row[7]), 3)})
         return int(ok.sum())
 
-    def budget(self, max_inst, max_koll, seed, prio, hinweise):
+    def budget(self, max_inst, max_koll, seed, prio, hinweise, geschuetzt=()):
         """Deckel je Feld (FORMAT.md §3): erst Gesamtzahl, dann Kollision. Gedünnt wird deterministisch (Hash je Instanz)
         in der Reihenfolge `prio` (unwichtigste Gruppe zuerst), je Runde höchstens 60 % einer Gruppe; Akteure bleiben."""
         koll_je_name = {}
@@ -626,6 +626,8 @@ class Sammler:
             while ist > deckel and runde < 12:
                 runde += 1
                 for g in prio:
+                    if g in geschuetzt and runde <= 6:  # Ensembles erst als letztes Mittel (ab Runde 7) duennen
+                        continue
                     n = sum(int(r['inst'].shape[0]) for r in self.rows if r['gruppe'] == g and not r['akteur'] and (r['kollision'] or not nur_koll))
                     if n == 0:
                         continue
@@ -2937,7 +2939,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
     # ------------------------------------------------------------------ Budget und Ausgabe
     hinweise[:] = list(dict.fromkeys(hinweise))
     S.budget(int(R['budget']['instanzen_je_feld'] * feld_faktor_budget(faktor)), int(R['budget']['kollision_je_feld']), seed,
-             R['budget'].get('prioritaet', ['feld', 'mauer', 'zaun', 'grab', 'holzschlag', 'koehler', 'steg', 'wegkreuz', 'karren', 'steinmann', 'obstgarten', 'schrein']), hinweise)
+             R['budget'].get('prioritaet', ['feld', 'mauer', 'zaun', 'grab', 'holzschlag', 'koehler', 'steg', 'wegkreuz', 'karren', 'steinmann', 'obstgarten', 'schrein']), hinweise,
+             geschuetzt=tuple(R['budget'].get('geschuetzt', ['ensemble'])))
     dateien, gesamt, koll, je_gruppe = S.schreibe(ausgabe)
     if S.gesperrt:
         hinweise.append('%d Instanzen auf Wasser/Weg/Ort verworfen (Steg-Teile über Wasser erlaubt)' % S.gesperrt)

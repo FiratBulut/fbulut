@@ -79,7 +79,10 @@
    "brunnen",
    "ensemble"
   ],
-  "hinweis": "prioritaet = Reihenfolge der Ausdünnung bei Überschreitung (unwichtigste Gruppe zuerst); Gruppen ohne Eintrag (zusatz_*) direkt nach feld; Akteure werden nie gedünnt"
+  "hinweis": "prioritaet = Reihenfolge der Ausdünnung bei Überschreitung (unwichtigste Gruppe zuerst); Gruppen ohne Eintrag (zusatz_*) direkt nach feld; Akteure werden nie gedünnt geschuetzt: Gruppen, die erst ab Runde 7 (letztes Mittel) geduennt werden (Ensembles, Korrektur Runde 2).",
+  "geschuetzt": [
+   "ensemble"
+  ]
  },
  "abstand_m": {
   "wasser": 1.0,

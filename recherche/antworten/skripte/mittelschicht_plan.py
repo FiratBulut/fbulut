@@ -1658,6 +1658,9 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
         rgb[wasser_m[fi0:fi1, fj0:fj1]] = (40, 80, 200)
         rgb[weg_m[fi0:fi1, fj0:fj1]] = (120, 80, 40)
         rgb[ort_m[fi0:fi1, fj0:fj1]] = (200, 40, 40)
+        if sicht_F is not None:  # Sichtachsen (Faktor < 1) blaeulich getoent
+            sm_ = sicht_F[fi0:fi1, fj0:fj1] < 0.999
+            rgb[sm_] = rgb[sm_] * 0.5 + np.array([60, 160, 255], np.float32) * 0.5
         for a in aus:
             if a['fi'].size == 0:
                 continue
