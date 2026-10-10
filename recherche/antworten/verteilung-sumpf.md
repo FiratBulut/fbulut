@@ -479,3 +479,38 @@ Editor **[Suchauszug: quixel.com/news; fab.com/listings/00299cb6-…]**.
    grey_willow, Poplar_Small – Sichtweiten gesetzt, LOD-Übergänge im Editor prüfen; Anzahl der Weiden ist bewusst klein (43 im Test).
 9. **Zahlen** sind Richtwerte aus Bildern; erster Kalibrierschritt: H5 setzen, Kamera 1 und 2 aufnehmen, `--faktor 0,7 … 1,4` vergleichen.
 10. `verteilung-STATUS.md` wurde nicht geändert (Koordinator); B6 kann auf „fertig (ungetestet mit Echtdaten)“ gesetzt werden.
+
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in karte_wasser
+
+- `karte_wasser.r8` enthält nur Süßwasser. Neu nach Konventionen §1b: `meer = (hoehe < 0) & (karte_wasser == 0)`.
+  - Teich-/See-Umrisse aus `teiche.json`/`wasser_welt.json` gelten als Süßwasser und nie als Meer.
+  - `wasser_alle` = Süßwasser | Meer.
+- Spiegel, Wassertiefe und die Zonen flachwasser/tiefwasser/spiegel/ufer/bult bleiben **nur am Süßwasser**. Die Gürtel aus Schilf, Binsen, Seerosen und toten Bäumen nach Wassertiefe entstehen also nie im Meer.
+  - Meerzellen sind kein Land und haben Zone 0 (keine Klasse). Sie sind in der Grundsperre und nie Nass- oder Bultenfläche.
+  - `zellen_zustaendig` zählt das Meer nicht mehr mit.
+- Küstensaum (Nicht-Wasser unter +0,3 m bis 30 m zum Meer): nur Rolle `wasserkante`, `strand: true` oder `meer_rolle: true`.
+  - Zusätzlich gibt es einen Schlussfilter am Instanzort (bilineare Geländehöhe, vor dem Budget).
+  - Neuer Block `meer` in `sumpf_regeln.json`. Neu in `plan.json`: `meer_zellen`, `meer_gefiltert`, `statistik.meer`.
+- Rauchtest synthetisch H5: flache Marschküste (0–0,3 m auf 75 m), Meer bis −6 m ohne `karte_wasser`, Polder −0,4 m hinter der Küste, vier Teiche über 0 m in `karte_wasser`. Höhe = Gelände am Instanzort:
+
+  | | vorher | nachher |
+  |---|---|---|
+  | Instanzen gesamt | 47 930 | 47 823 (Budget-Ziel 48 000 greift in beiden Läufen) |
+  | Gelände < −0,3 m (Meer) | **840** | 0 |
+  | −0,3 … 0 m (Meer) | 28 | 0 |
+  | auf Meerzellen | 863 | 0 |
+  | 0–0,3 m ≤ 30 m zum Meer | 1 763 (baum 61, boden 773, mittel 670, wasserkante 259) | 0 |
+  | Instanz-z < −0,3 m | 846 | 0 |
+  | `zellen_zustaendig` | 1 016 064 | 807 814 |
+
+  - `meer_zellen` 304 315, `meer_gefiltert` 3. Mit `--faktor 0.5` (ohne Budget) 43 167 → 40 798.
+  - 41 Instanzen liegen 29,5–31 m vom Meer (Zellraster): Rundung an der Saumgrenze.
+- Süßwasser unverändert:
+  - Mit `--faktor 0.5` sind alle 972 Instanzen auf `karte_wasser`-Zellen byteidentisch. Die Klassen schilf_wasser 629, binse_wasser 207, seerose 118, totbaum_wasser 9, treibholz_wasser 9, seggen_spiegel 48, schilf_land 98, moos_ufer 26 und schlamm_stein 13 sind gleich geblieben.
+  - Mit Faktor 1 sind die Wassertiefe-Klassen gleich (totbaum_wasser 19, schilf_wasser 1 213, binse_wasser 470, seerose 237, treibholz_wasser 15, schilf_land 152).
+  - Nur seggen_spiegel 36 → 38, moos_ufer 27 → 30 und schlamm_stein 12 → 14 ändern sich. Grund: Das Budget dünnt weniger aus (Runde-1-Faktor 0,532 → 0,566), weil die Meer-Instanzen fehlen.
+- Zwei Läufe byteidentisch (f32 und plan.json, Faktor 1 und 0,5), Log ASCII, py_compile ok, 5–6 s. Leerplan (C2) meldet `meer_zellen`.
+- Offen:
+  1. Netze, die mehrere Klassen nutzen (z. B. ToadRush: binse_wasser **und** segge_bult), landen in einer Datei. Diese trägt `rolle`/`ebene` der ersten Klasse, sodass segge_bult (Ebene 1) unter „wasserkante“ steht. Das bestand schon vorher. Der Planer filtert je Klasse richtig, der Setzer sieht aber nur die Datei.
+  2. Biom-Anteil über alle Fensterzellen. Der Landzellen-Bezug nach §1 (`biome_fenster_bezug`) ist hier noch nicht umgesetzt.
+  3. Keine Meeres-Klassen im Sumpf. `meer_rolle` lässt der Schlussfilter zu, eine Meer-Zone gibt es aber nicht (Tang und Muscheln gehören zu nordkueste).

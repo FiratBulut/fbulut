@@ -459,3 +459,19 @@ Kostenhinweis aus `boden-kleinzeug-gras.md`: Megascans-Assets sind seit 2025 je 
 ## Korrektur Runde 3 (10.10.2026)
 
 - Rote `/Game/AncientContent/…/SM_IcelandicBoulder_01/02/03` entfernt (nur noch canyon/oedland/wueste/lava): `felsgruppen_overrides.heide.paletten_neu.heide` hero `_03` -> `/Game/Megascans/…/SM_MossyForestBoulder_04` (3,3 m), block `_01`+`_02` -> `SM_MossyForestBoulder_03` (2,0 m); `spuren_overrides.heide.steinkreis` ohne `_03` (bleiben 3 graue Netze 4,1–5,3 m, Hoehe wird ohnehin skaliert). Planer-Code unveraendert.
+
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+- Ausgangslage: Der Planer setzte schon nur auf `hoehe > 0,05` und hatte deshalb keine Instanzen unter 0 m. Er zählte aber das Meer (eigner 0 = aue) im Biom-Anteil mit, ließ Kleinzeug, Wacholder und Heidekraut bis an die Wasserlinie und nutzte `karte_wasser` allein für Sperre und Abstand.
+- Umgesetzt nach Konventionen §1b: `meer = hoehe < 0 & karte_wasser == 0`, `wasser_alle = karte_wasser > 0 | meer`. Landzellen-Bezug für `biome_fenster` (`biome_fenster_bezug`), Eigenanteil/Leerplan-Schwelle, Saum und `zellen_zustaendig`. Sperre und Abstand (`wasser_min`) sowie die Ufer-Kieselmaske laufen über den Abstand zu `wasser_alle`. Am Süßwasser bleiben das Wasserkante-Band (Seggen, Moorsteine, Treibholz, Wollgras an Moortümpeln) und `wasser_bonus` (Moorbirke, Totbaum).
+- Neuer Block `meer` in `heide_tundra_regeln.json` (`tief_m` −0,3, `saum_hoehe_m` 0,3, `saum_m` 30). Unter −0,3 m nichts. −0,3…0 m nur `meer_rolle`, hier keine. 0…+0,3 m im Küstensaum (≤ 30 m zum Meer) nur Schicht 5 wasserkante oder `strand: true`.
+- Schlussfilter: Er prüft die Geländehöhe bilinear am Instanzort und an der Küste z ≥ −0,3 m. `plan.json` meldet `meer_zellen` und `meer_gefiltert` (auch im Leerplan), `statistik` meldet `kuestensaum_zellen_feld` und `meer_gefiltert_je_klasse`.
+- Rauchtest synthetisch (A5: Heide bis an einen Strand 0–0,3 m, Meer West nicht in `karte_wasser`, Fluss und Süßwassersee unter 0 m in `karte_wasser`; B5: Tundra an der Nordküste; J6 nur aue; Raster danach gelöscht):
+
+| Feld | Gesamt vorher → nachher | Gelände < 0 m | 0…0,3 m Küstensaum vorher → nachher |
+|---|---|---|---|
+| A5 | 6 174 → 5 898 | 0 → 0 | 273 (Heidekraut 127, Kiesel/Flechtensteine 119, Streumatten 24, Wacholder 3) → 0 |
+| B5 | 2 391 → 2 238 | 0 → 0 | 147 (Steine 85, Streumatten 40, Wacholder 16, Heidekraut 5, Baum 1) → 0 |
+| J6 | 0 → 0 (leer) | – | – |
+
+`meer_gefiltert` 0, weil die Maske schon greift. Instanz-z < 0: vorher 6, nachher 0. Zwei Läufe byteidentisch, Log ASCII, `py_compile` ok, 6 s je Feld.

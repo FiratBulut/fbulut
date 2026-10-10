@@ -478,3 +478,25 @@ Foliage-Typen `FT_EL_EW_*`); keine Instanz schwebt (Eingraben 1–30 cm) und kei
 - Gesperrte AncientRuins-Netze (Saeule Nr. 03, Hauptbogen Nr. 01) aus `spuren_overrides.ruine` entfernt (Ersatz SM_Column_02 als Foliage, SM_Wall_01 als Akteur); Blickziel heisst jetzt `ruine_auf_kuppe` (Ruinenwand + Saeulen).
 - Felsen > 0,8 m aus Schicht 5 an Teil C abgegeben: 5 Bloecke aus `moosstein_bach` (MossyForestRock_02, MossyForestBoulder_02/05/06/07, bis 1,3 m) -> `felsgruppen_overrides.zusatzklassen.bachblock` (40/ha im Band 0,5-6 m), ForestRockShelf_01 aus `embankment` -> `zusatzklassen.uferfelsstufe`; Embankment-Massstab 0,9-1,0 (<= 0,8 m). Keine Platten-Netze im Planer.
 - Rauchtest synthetisch G4: 51 999 Instanzen, zwei Laeufe byteidentisch, gesperrte Netze 0, Log ASCII, 11 s.
+
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in karte_wasser
+
+- `karte_wasser.r8` enthält nur Süßwasser. Neu nach Konventionen §1b: `meer = (hoehe < 0) & (karte_wasser == 0)` und `wasser_alle = karte_wasser | meer`.
+  - `wasser_alle` gilt für `abstand_m.wasser` (Sperre), Waldgebiet, Ring-an-Baum (`an_baum`), Kuppen-Blickziel und Feuchte aus Wassernähe.
+  - Bei `karte_wasser` bleiben Bachsaum (Schicht 5 `band_m`), Bach/Fluss-Erkennung, `bach_dichte` und Schrein an der Bachquerung.
+  - Land wie bisher erst ab 0,3 m und nie im Meer.
+- Küstensaum unter +0,3 m bis 30 m zum Meer: nur Schicht/Rolle `wasserkante`, `strand: true` oder `meer_rolle: true`.
+  - Der Schlussfilter am Instanzort sitzt in `merke()`. Bäume werden davor gefiltert, damit sie nicht ins Kronendach zählen.
+  - Neuer Block `meer` in `elfenwald_regeln.json`. Neu in `plan.json`: `meer_zellen`, `meer_gefiltert`, `statistik.meer`.
+- Rauchtest synthetisch G4: Küste, Strand 0–0,6 m auf 30 m, Hügelwald, Bach bis ins Meer, Teich, Senke −0,4 m:
+
+  | | vorher | nachher |
+  |---|---|---|
+  | Instanzen gesamt | 41 886 | 42 145 |
+  | Gelände < 0 m | 0 | 0 |
+  | 0–0,3 m (alle ≤ 30 m zum Meer) | 13 (baum 7, boden 1, wasserkante 5) | 5 (nur wasserkante, Bachsaum an der Mündung) |
+
+  - `meer_zellen` 445 037, `meer_gefiltert` 9 (Bäume 7, kraut 1, zweige 1).
+  - Die Zunahme um 259 kommt aus der Feuchte: Meeresnähe zählt jetzt als Wassernähe (kraut +122, moos +118, pappel +17, blume_lichtung +25).
+  - Zwei Läufe byteidentisch, Log ASCII, py_compile ok, 11–12 s. Leerplan (C2) meldet `meer_zellen`.
+- Offen: Biom-Anteil über alle Fensterzellen. Der Landzellen-Bezug nach §1 (`biome_fenster_bezug`) ist hier noch nicht umgesetzt.

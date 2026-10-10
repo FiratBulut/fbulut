@@ -482,3 +482,21 @@ Kostenhinweis aus `boden-kleinzeug-gras.md`: Megascans ist seit 2025 pro Asset k
 
 - Keine gesperrten Netze und keine Platten im aue-Planer. `kiesel` (Schicht 0) hat `teppich_sperre`: nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80/255, bis 3 m am Weg, bis 5 m am Wasser (Kiesbaenke bleiben Ufer-Ebene).
 - Rauchtest synthetisch F5 (Wiese-dominiert, wenig Kies): Kiesel 3 285 -> 245, Flaechenteppich-Kiesel 3 019 -> 0; Feld 25 796 Instanzen, zwei Laeufe byteidentisch, Log ASCII, 8 s. Auf Echt-F5 (Geroell 15 %, Sand 35 %) faellt der Rueckgang kleiner aus.
+
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+Ursache: Der Landzellen-Bezug war `karte_wasser == 0`. Das Meer steht nicht in `karte_wasser` und hat eigner 0, zählte also als aue-Landzelle. Deshalb lagen 51 % der Instanzen unter 0 m (gemessen 176 k). Umgesetzt nach Konventionen §1b:
+
+- `meer = hoehe < 0 & karte_wasser == 0`, `wasser_alle = karte_wasser > 0 | meer`. Landzellen = ohne `wasser_alle`. Das gilt für aue-Anteil, Leerplan-Schwelle 2 %, Saum, `zellen_zustaendig`, `biome_fenster` (`biome_fenster_bezug`), Sperre (`abstand_m.wasser_klein/gross`) und Ufer-Kieselmaske. Am Süßwasser bleiben: Höhenstufen ufer/aue/terrasse, Feuchte, `d_wasser_m` von Schilf/Seggen/Uferstauden/Uferwurzeln/Auwald, Weiden-Solitäre und Ufer-Yaw.
+- Neuer Block `meer` in `aue_regeln.json` (`tief_m` −0,3, `saum_hoehe_m` 0,3, `saum_m` 30). Unter −0,3 m nichts. −0,3…0 m nur `meer_rolle`, aue hat keine. 0…+0,3 m im Küstensaum nur Schicht 5 wasserkante oder `strand: true`.
+- Schlussfilter: Er prüft die Geländehöhe bilinear am Instanzort und an der Küste z nach dem Eingraben ≥ −0,3 m. `plan.json` meldet `meer_zellen` und `meer_gefiltert` (auch im Leerplan), `statistik` meldet `meer_anteil`, `kuestensaum_zellen_feld` und `meer_gefiltert_je_klasse`.
+- Rauchtest synthetisch (A5/B5 Küstenfelder mit aue-Band am Fluss bzw. ohne aue-Land, J6 aue-Küstenfeld mit Fluss und Sandbank; Meer nicht in `karte_wasser`; Raster danach gelöscht):
+
+| Feld | Gesamt vorher → nachher | Gelände < 0 m vorher → nachher | 0…0,3 m Küstensaum vorher → nachher |
+|---|---|---|---|
+| A5 | 10 275 → 2 340 | 7 142 → 0 | 798 (Bäume 18, Kiesel 420, Laub/Zweige/Bodendecker 207, Blumeninseln 89, Wasserkante 64) → 57 (nur Schilf/Seggen/Uferstauden an der Flussmündung) |
+| B5 | 7 237 → 0 (Leerplan: aue-Anteil der Landzellen 0 %) | 6 517 → 0 | 702 → 0 |
+| J6 | 21 732 → 13 946 | 6 683 → 0 | 1 091 → 34 (nur Wasserkante) |
+| Summe | 39 244 → 16 286 | 20 342 (52 %) → 0 | 2 591 → 91 |
+
+`meer_gefiltert` J6 7. Instanz-z < −0,3 m: 0. Zwei Läufe byteidentisch, Log ASCII, `py_compile` ok, 3–8 s je Feld. Ein Feld ohne Meer (C6) läuft unverändert durch, `meer_zellen` ist dort 0.

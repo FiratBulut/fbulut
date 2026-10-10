@@ -405,3 +405,20 @@ sich die Schwelle für C6 und die Dichte für A5 (Ziel 15 000–30 000) nachstel
 
 - `entfernen` nur mit Freigabe (`--ersetzen` oder `entfernen_aktiv`, Standard aus). Ohne Freigabe: `entfernen ""`, Kandidaten mit Zahl in `plan.json["entfernen_vorschlag"]`, `baum_modus auto` -> ergaenzen (kein Doppelbestand). Mit Freigabe nur bei Land-Eigenanteil >= 85 % und <= 5 % Kandidaten in Saum-/Fremdzellen; Praefixe nur noch eigene Baumnetze (Kiefer 01-03/05-07, Fir 03-07, pine_beach; keine `_log`, Jungpflanzen, Totbaeume). Begruendung, Feldtabelle und erwartete Zahlen: `verteilung-entfernen.md`.
 
+
+### 7.10 Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+Ursache: Der Planer nahm das Meer als tiefes `karte_wasser` (`meer.hoehe_max_m` 0,6). `karte_wasser` ist aber nur Süßwasser, also war das Meer Bauland (Bäume/Sträucher im Flachwasser, B7/J6) und `d_meer` bezog sich nur auf Seen/Flussmündungen. Umgesetzt nach Konventionen §1b:
+
+- `meer = hoehe < 0 & karte_wasser == 0`, `wasser_alle = karte_wasser > 0 | meer`. `wasser_alle` gilt für Sperre und Abstand (`abstand_m.wasser`), Ufer-Kieselmaske (`teppich_sperre`), Biom-Anteil/Leerplan-Schwelle/Saum (Landzellen-Bezug, `biome_fenster` jetzt über Landzellen, `biome_fenster_bezug`), `zellen_zustaendig` und `entfernen`-Landanteil. Der Feuchte-Faktor `wasser` (Moos, Tanne) bleibt am Süßwasser. `kueste`-Trapez, Küstenrichtung und Windflucht laufen über den Abstand zu `meer`; `meer.hoehe_max_m` entfällt.
+- Rollen: `meer_rolle: true` für `tang`, `treibholz`, `strandkiesel` (−0,3 bis 0 m, im Meer höchstens `meer.meer_band_m` = 8 m seewärts der Wasserlinie); `strand: true` zusätzlich für `strandplatte`. Unter −0,3 m nichts. Zwischen 0 und +0,3 m im Küstensaum (≤ 30 m zum Meer) nur Strand-Rollen (Ebene 5, `strand`, `meer_rolle`), also keine Bäume, Krüppel-/Windflucht-Kiefern, Strandhafer, Nadelstreu oder Moos.
+- Schlussfilter: Er prüft die Geländehöhe bilinear am Instanzort und an der Küste auch die Instanzhöhe nach dem Eingraben (z ≥ −0,3 m). `plan.json` meldet `meer_zellen` (Fenster) und `meer_gefiltert`, `statistik` meldet `meer_gefiltert_je_klasse` und `kuestensaum_zellen_feld`.
+- Rauchtest synthetisch (Raster danach gelöscht): A5 Meer West (Schelf −0,3 m auf 30 m, Strand 0–0,3 m auf 25 m, zwei Inseln 1,5 m und 0,2 m, Fluss mit Mündung −0,5 m und Süßwassersee −0,8 m **in** `karte_wasser`, Heide bis an den Strand), B5 Meer Nord (Küste/Fjord/Bergwald, Tundra an der Küste, Bach), J6 aue-Küstenfeld. Meer < 0 m **nicht** in `karte_wasser`, Meer = eigner 0.
+
+| Feld | Gesamt vorher → nachher | Gelände < −0,3 m | −0,3…0 m vorher (Rollen) | −0,3…0 m nachher | 0…0,3 m Küstensaum vorher | nachher |
+|---|---|---|---|---|---|---|
+| A5 | 13 674 → 21 859 | 35 → 0 | 531 (Baum 34, Boden 192, Mittel 225, Wasserkante 80) | 3 065 (Strandkiesel 2 568, Tang 497) | 1 096 (Baum 45, Boden 556, Mittel 306, Wasserkante 189) | 5 309 (Strandkiesel 4 861, Tang 266, Treibholz 149, Strandplatte 33) |
+| B5 | 14 830 → 21 054 | 0 → 0 | 217 (Baum 24, Boden 142, Mittel 51) | 2 141 (Strandkiesel 1 849, Tang 292) | 750 (Baum 18, Boden 578, Mittel 121, Wasserkante 33) | 4 030 (Strandkiesel 3 711, Tang 192, Treibholz 93, Strandplatte 34) |
+| J6 | 0 → 0 (leer, nur aue) | – | – | – | – | – |
+
+Unzulässige Instanzen unter 0 m: vorher 783, nachher 0. Unter 0 m stehen nur noch Meeres-Rollen. Instanz-z < −0,3 m (mit Eingraben): 0. `meer_gefiltert` A5 5 und B5 7 (Randfälle der bilinearen Höhe). Die Gesamtzahl steigt, weil die Küstenklassen (Tang, Treibholz, Strandkiesel/-platten, Strandhafer, Windflucht-Kiefer, Küstenkiefer/-eiche) jetzt das echte Meer finden. Vorher sahen sie nur Seen ≤ 0,6 m. Zwei Läufe byteidentisch (327 f32), Log ASCII, `py_compile` ok, 7 s je Feld. Auf Echtdaten wird das Plus kleiner, weil der Schelf dort steiler ist als die 1 % der Synthetik.

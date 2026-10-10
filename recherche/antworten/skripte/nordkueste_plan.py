@@ -13,7 +13,7 @@ Feldes >= ersetzen_min_anteil eigene Biome sind und <= entfernen_max_fremd_antei
 Praefixe treffen nur Kiefern/Tannen, die dieser Planer selbst setzt (pruefe_entfernen gegen netze.csv, keine _log/Jungpflanzen/Totbaeume).
 Korrektur Runde 4 (Konventionen §1b): karte_wasser ist nur Suesswasser. Meer = hoehe < 0 und karte_wasser == 0, wasser_alle = Suesswasser
 | Meer fuer Sperre, Ufer-Abstand, Biom-Anteil/Leerplan-Schwelle und zellen_zustaendig (Landzellen-Bezug). Unter -0,3 m nichts; -0,3 .. 0 m nur
-meer_rolle-Klassen (Tang, Treibholz, Strandkiesel); 0 .. +0,3 m im Kuestensaum (<= 30 m zum Meer) nur Strand-Rollen (zusaetzlich
+meer_rolle-Klassen (Tang, Treibholz, Strandkiesel; hoechstens meer_band_m = 8 m seewaerts der Wasserlinie); 0 .. +0,3 m im Kuestensaum (<= 30 m zum Meer) nur Strand-Rollen (zusaetzlich
 Strandplatten, Ebene 5); Kueste-Trapez und Windflucht ueber den Abstand zum Meer. Schlussfilter mit der Gelaendehoehe bilinear am
 Instanzort; plan.json meldet meer_zellen und meer_gefiltert.
 
@@ -1059,7 +1059,10 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse, ersetzen=False):
     if d_standort is not None:
         sonst_basis |= d_standort < float(A.get('standort', 5.0))
     sperr_basis = wasser_alle | dilate(wasser_alle, float(A['wasser'])) | sonst_basis
-    sperr_basis_meer = wasser_m | dilate(wasser_m, float(A['wasser'])) | (hoehe < meer_tief) | sonst_basis
+    meer_band = float(meer_r.get('meer_band_m', 8.0))  # Meeres-Rollen nur bis meer_band_m seewaerts der Wasserlinie
+    d_ufer = distanz(~meer_m, meer_band + 1.0) if hat_meer else np.zeros((H, W), np.float32)
+    sperr_basis_meer = (wasser_m | dilate(wasser_m, float(A['wasser'])) | (hoehe < meer_tief) | (meer_m & (d_ufer > meer_band))
+                        | sonst_basis)
     zus_klein = (d_weg < float(A['weg_klein'])) | (d_altbaum < float(A['baum_klein'])) | dilate(sonst_m, 0.5)
     zus_gross = (d_weg < float(A['weg_gross'])) | (d_altbaum < float(A['bestand_baum']))
     sperr_klein, sperr_gross = sperr_basis | zus_klein, sperr_basis | zus_gross

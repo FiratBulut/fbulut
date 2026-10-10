@@ -182,10 +182,11 @@
  },
  "hang_sperre_grad": 40,
  "meer": {
-  "_doku": "Korrektur Runde 4 (Konventionen §1b): karte_wasser enthaelt nur Suesswasser. Meer = hoehe < 0 und karte_wasser == 0. Unter tief_m nichts; tief_m .. 0 m nur Klassen mit meer_rolle: true; 0 .. saum_hoehe_m im Kuestensaum (Abstand zu Meer <= saum_m) nur Klassen mit meer_rolle/strand: true, Ebene 5 oder Rolle wasserkante/strand (keine Baeume, Straeucher, Mittelschicht, Boden). Sperre/Abstand/Landzellen-Bezug ueber wasser_alle = Suesswasser | Meer. Der alte Schluessel hoehe_max_m (Meer als tiefes karte_wasser) entfaellt. Schlussfilter mit der Gelaendehoehe bilinear am Instanzort; verworfene Kandidaten zaehlt plan.json[\"meer_gefiltert\"].",
+  "_doku": "Korrektur Runde 4 (Konventionen §1b): karte_wasser enthaelt nur Suesswasser. Meer = hoehe < 0 und karte_wasser == 0. Unter tief_m nichts; tief_m .. 0 m nur Klassen mit meer_rolle: true; 0 .. saum_hoehe_m im Kuestensaum (Abstand zu Meer <= saum_m) nur Klassen mit meer_rolle/strand: true, Ebene 5 oder Rolle wasserkante/strand (keine Baeume, Straeucher, Mittelschicht, Boden). Sperre/Abstand/Landzellen-Bezug ueber wasser_alle = Suesswasser | Meer. Der alte Schluessel hoehe_max_m (Meer als tiefes karte_wasser) entfaellt. Schlussfilter mit der Gelaendehoehe bilinear am Instanzort; verworfene Kandidaten zaehlt plan.json[\"meer_gefiltert\"]. meer_band_m: Meeres-Rollen im Meer hoechstens so weit seewaerts der Wasserlinie (kein Kiesel-/Tangteppich ueber flachem Schelf).",
   "tief_m": -0.3,
   "saum_hoehe_m": 0.3,
   "saum_m": 30,
+  "meer_band_m": 8,
   "suche_bis_m": 500,
   "windflucht_bis_m": 180,
   "windflucht_z": [

@@ -451,6 +451,30 @@ Fab-Allgemeines **[Suchauszug: fab.com-Launch-Meldungen]** – Namen sind Suchbe
   - Pflanzen auf der Bergwiese ohne polster 4433 → 4427 (−0,1 %). Die Zahl der polster auf der Wiese steigt 5378 → 5987 (+11 %). Grund: Das Klassen-Budget von 6000 geht nicht mehr teils an Schneezellen (roh 9709 → 8552). Die Wiesen-Rohdichte bleibt gleich.
 - Instanzen 43 429 → 43 354, Kollision 1054 (≤ 3000). Läufe sind byteidentisch (236 f32), 4,8 s, Log nur ASCII. Ohne `lage_Schnee`/`lage_Eis` ist die Ausgabe byteidentisch zum Stand vorher.
 
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in karte_wasser
+
+- `karte_wasser.r8` enthält nur Süßwasser. Neu nach Konventionen §1b: `meer = (hoehe < 0) & (karte_wasser == 0)` und `wasser_alle = karte_wasser | meer`.
+  - `wasser_alle` gilt für die Grundsperre, für Höhenstufe −1 und für den Ufer-Abstand des Kiesel-Teppichs (`teppich_sperre.wasser_m`).
+  - Bei `karte_wasser` bleiben die Bach-Klassen (`wasser_band_m`), Schlucht-Bonus, Wasserfallfuß und Gletscherbach-Saum.
+  - Die Landschwelle `meer_hoehe_m` 0,2 m bleibt.
+- Küstensaum (Gletscher-/Fjordküste): Zellen unter +0,3 m bis 30 m zum Meer. Dort dürfen nur Ebene/Rolle `wasserkante`, `strand: true` oder `meer_rolle: true` stehen, also keine Pflanzen.
+  - Im Meer dürfen nur `meer_rolle`-Klassen zwischen −0,3 und 0 m stehen. Hochgebirge hat keine solche Klasse.
+  - Neuer Block `meer` in `hochgebirge_regeln.json`.
+- Zusätzlich gibt es einen Schlussfilter am Instanzort (bilineare Geländehöhe, vor dem Budget). Neu in `plan.json`: `meer_zellen`, `meer_gefiltert`, `statistik.meer`.
+- Rauchtest synthetisch C2: Fjordküste, Meer < 0 m ohne `karte_wasser`, Strand 0–0,6 m auf 40 m, Bach bis ins Meer, See, Senke −0,5 m hinter dem Strand. Höhe = Gelände am Instanzort:
+
+  | | vorher | nachher |
+  |---|---|---|
+  | Instanzen gesamt | 35 440 | 34 570 |
+  | Gelände < 0 m | 0 | 0 |
+  | 0–0,3 m (alle ≤ 30 m zum Meer) | 905 (boden 820, mittel 48, baum 22, wasserkante 15) | 15 (nur wasserkante: Bach-Moossteine/-Kiesel an der Mündung) |
+  | Instanz-z < −0,3 m | 0 | 0 |
+
+  - `meer_zellen` 417 903, `meer_gefiltert` 4. Der Rest wird schon durch die Masken verhindert.
+  - `kiesel_schutt` 8 584 → 7 737. Die Bäume verschieben sich um ±10, weil sich der Kollisionsfaktor ändert.
+  - Zwei Läufe byteidentisch (f32 und plan.json), Log ASCII, py_compile ok, 4–5 s. Leerplan (G4) meldet `meer_zellen` und `meer_gefiltert` 0.
+- Offen: Biom-Anteil und `zellen_zustaendig` beziehen sich weiter auf alle Fensterzellen bzw. auf Land > 0,2 m. Meer ist dort bereits ausgeschlossen, Süßwasser nicht. Ein `biome_fenster_bezug` nach §1 („Landzellen“) ist hier noch nicht umgesetzt.
+
 ## Quellen
 
 - Repo: `vorlagen/FORMAT.md`; `vorlagen/daten/biome_je_feld.md`; `vorlagen/doku/ANALYSE_WITCHER_2026-10-08.md`; `antworten/bildkritik-witcher-messlatte.md`;
