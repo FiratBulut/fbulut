@@ -8,27 +8,33 @@ Eldarien – Planer „Heide/Tundra“ (Auftrag 11, Teil B3): Ebene `heide_tundr
                  Moorbirken-Jungwuchs, Heideblüte (Farbakzent), liegendes Totholz, Stümpfe
   2 baum         Einzelkiefern (windschief auf Kuppen, Gruppen 2–5 in Mulden), Moorbirken am Moorrand, Totbäume – Baumgrenze nach Höhe
   5 wasserkante  Wollgras-Stellvertreter, Seggen/Binsen, Moorsteine, Treibholz an Moortümpeln
-  3 fels / 4 spuren kommen aus felsgruppen_plan.py / spuren_plan.py (Overrides in heide_tundra_regeln.json).
+  3 fels / 4 spuren kommen aus felsgruppen_plan.py / spuren_plan.py (Overrides `felsgruppen_overrides` / `spuren_overrides`
+                 in heide_tundra_regeln.json).
 
 Aufruf (lokal, production-Wurzel):
     python -I scripts/heide_tundra/heide_tundra_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]
                                                         [--entfernen "praefix1,praefix2"]
 
-Liest:   export/unreal/welt/hoehe.f32 (np.memmap, Fenster Feld + 64 m, NY=7057 × NX=9577, J-Spalte geklippt), lage_*.r8 (optional),
-         karte_wasser/weg/ort.r8 (optional, Warnung), eigner.r8 + welt.json (Biom je Zelle, Fallback je Feld bzw. aue),
-         bestand/<Feld>/, witcher/<Feld>/ (+ Nachbarn) für Kronendach/Stammabstand, instanzen/instanzen.json (Houdini-Bäume, optional),
-         ufer/foliage_<Feld>/ (wenn vorhanden: Klasse moorstein entfällt), daten/netze.csv (Pfadprüfung + Netzhöhen).
-Schreibt: export/unreal/welt/heide_tundra/<Feld>/<Netzname>.f32 (10 float32 LE: x,y,z cm, qx,qy,qz,qw, sx,sy,sz) + plan.json (FORMAT §3,
-         zusätzlich "ebene", "klassen", "schichten"), bei --bild docs/pruefung/heide_tundra/<Feld>.png (1 px = 1 m).
+Liest:   export/unreal/welt/hoehe.f32 (np.memmap, nur Fenster Feld + 64 m; NY=7057 × NX=9577, J-Spalte bei NX geklippt),
+         lage_*.r8 (optional, alle 22 Namen aus FORMAT §2), karte_wasser/weg/ort.r8 (optional, Warnung),
+         eigner.r8 + welt.json (Biom je Zelle; Kennzahl 0 = Weltgelände → dominantes Feldbiom aus daten/biome_je_feld.json,
+         sonst Tabelle feld_biom_fallback, sonst aue), bestand/<Feld>/, witcher/<Feld>/, mittelschicht/, felsgruppen/ (Feld + 8
+         Nachbarn: Kronendach, Stamm-/Objektabstand), ufer/foliage_<Feld>/ (vorhanden → Klasse moorstein entfällt),
+         instanzen/instanzen.json (Houdini-Bestand, optional, Meldung wenn fehlt), daten/netze.csv (Pfadprüfung + Netzhöhen).
+Schreibt: export/unreal/welt/heide_tundra/<Feld>/<Netzname>.f32 (10 float32 LE: x,y,z cm, qx,qy,qz,qw, sx,sy,sz) + plan.json
+         (FORMAT §3: stand, feld, instanzen, dateien{pfad, anzahl, gruppe, rolle, sichtweite, schatten, kollision, ebene},
+         ft_ordner, ft_praefix, optional entfernen; zusätzlich ebene, klassen, schichten, kollision_instanzen, hinweise),
+         bei --bild docs/pruefung/heide_tundra/<Feld>.png (Draufsicht 1 px = 1 m).
 
-Nur NumPy-Vektoroperationen (Box-/Gauß-Faltung über Summenbilder, Jump-Flooding-Distanz, Hash-Zufall aus absoluter Rasterkoordinate →
-deterministisch und nahtlos zu Nachbarfeldern). numba optional (nur Meldung), Pillow optional (sonst PPM). Ziel ≤ 60 s je Feld.
+Nur NumPy-Vektoroperationen (Box-/Gauß-Faltung über Summenbilder, Jump-Flooding-Distanz, Hash-Zufall aus absoluter
+Rasterkoordinate → deterministisch und nahtlos zu Nachbarfeldern). numba optional (nur Meldung), Pillow optional (sonst PPM).
+Ziel ≤ 60 s je Feld (Cloud-Rauchtest D2/G5 synthetisch: 5–8 s, siehe verteilung-heide-tundra.md §4).
 
-Quellen: vorlagen/FORMAT.md §1–§5; antworten/assets-taxonomie.md (Paletten heide/tundra); antworten/bildkritik-witcher-messlatte.md;
-antworten/boden-kleinzeug-gras.md; antworten/verteilung-heide-tundra.md §1 (Witcher-Analyse mit Web-Quellen: 80.lv „World Building of
-Witcher 3“, SpeedTree-Fallstudie W3, JNCC NVC M19/H4030, Irish Vegetation Classification HE3F/BG2E).
+Quellen: vorlagen/FORMAT.md §1–§5; antworten/assets-taxonomie.md (Paletten/Lücken heide, tundra); antworten/bildkritik-witcher-
+messlatte.md; antworten/boden-kleinzeug-gras.md; antworten/verteilung-heide-tundra.md §1 (Witcher-Analyse: Skellige-Heide/Hochmoor,
+Velen-Moor, Kovir-Hochland; Vegetationsklassen NVC H4030/M19, nur Suchauszüge).
 
-UNGETESTET MIT ECHTDATEN – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern rauchgetestet.
+UNGETESTET MIT ECHTDATEN – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern (D2, G5) rauchgetestet.
 """
 import argparse
 import csv
@@ -51,9 +57,13 @@ FELD_M = 1008
 X0, Y0 = 4730.5, 4060.5
 WELT = os.path.join('export', 'unreal', 'welt')
 BAUM_ROLLEN = ('baum', 'tree', 'nadel', 'laub', 'kiefer', 'buche', 'birke', 'fichte', 'eiche', 'weide', 'pappel', 'palme',
-               'hainbuche', 'pine', 'fir', 'tanne')
+               'hainbuche', 'hornbeam', 'poplar', 'willow', 'beech', 'pine', 'fir', 'tanne', 'birch')
+NICHT_BAUM = ('tot', 'dead', 'stump', 'log', 'plant', 'sapling', 'seedling', 'leaves', 'branch', 'root')
 LAGEN_NAMEN = ['Wiese', 'Gras', 'Trockengras', 'Laub', 'Nadeln', 'Moos', 'Heide', 'Kraut', 'Erde', 'Lehm', 'Schlamm', 'Sand', 'Kies',
                'Geroell', 'Fels', 'Felsplatte', 'Sandstein', 'Schnee', 'Eis', 'Lavafels', 'Lavasand', 'Algen']
+BIOME15 = ('aue', 'bergwald', 'gletscher', 'tundra', 'canyon', 'oedland', 'heide', 'elfenwald', 'dschungel', 'kueste', 'wueste',
+           'lava', 'frost', 'sumpf', 'fjord')
+SCHICHT_KURZ = {'0 boden': 'boden', '1 mittel': 'mittel', '2 baum': 'baum', '5 wasserkante': 'wasserkante'}
 
 
 # ----------------------------------------------------------------------------- Helfer
@@ -77,6 +87,7 @@ def feld_fenster(feld, rand):
 
 
 def lade_raster(pfad, dtype, win, pflicht=False):
+    """Fenster eines NY×NX-Rasters per memmap (nur das Fenster wird gelesen)."""
     wi0, wi1, wj0, wj1 = win
     if not os.path.isfile(pfad):
         if pflicht:
@@ -128,7 +139,7 @@ def verschiebe(a, di, dj, fill):
 
 
 def dilate(mask, r):
-    """Binäre Dilatation ≈ Kreisscheibe mit Radius r Zellen."""
+    """Binäre Dilatation ≈ Kreisscheibe mit Radius r Zellen (Wechsel 4er/8er-Nachbarschaft → Oktagon)."""
     m = mask.copy()
     for k in range(int(math.ceil(r))):
         n = m.copy()
@@ -146,7 +157,7 @@ def dilate(mask, r):
 
 
 def distanz(mask, max_m=64.0):
-    """Euklidische Distanz (m) zur nächsten True-Zelle per Jump-Flooding (vektorisiert)."""
+    """Euklidische Distanz (m) zur nächsten True-Zelle per Jump-Flooding (vektorisiert); jenseits max_m = 2·max_m."""
     H, W = mask.shape
     fern = np.float32(max_m * 2.0)
     if not mask.any():
@@ -198,7 +209,7 @@ def hash01(i, j, seed, kanal):
 
 
 def wertrauschen(ii_abs, jj_abs, skala_m, seed, kanal, oktaven=2):
-    """Wertrauschen [0,1] auf absolutem Gitter (nahtlos über Feldgrenzen), bilinear, 2 Oktaven."""
+    """Wertrauschen [0,1] auf absolutem Gitter (nahtlos über Feldgrenzen), bilinear mit Smoothstep, n Oktaven."""
     out = np.zeros(ii_abs.shape, np.float32)
     gew_sum = 0.0
     gew = 1.0
@@ -262,9 +273,9 @@ def quaternionen(tx, ty, tz, yaw):
     return (q / (np.linalg.norm(q, axis=1, keepdims=True) + 1e-9)).astype(np.float32)
 
 
-# ----------------------------------------------------------------------------- Inventar
+# ----------------------------------------------------------------------------- Inventar / Regeln
 def lade_inventar(basis, skript_dir):
-    """daten/netze.csv → {pfad: hoehe_m}; sucht production/daten, dann Repo-Vorlage neben dem Skript."""
+    """daten/netze.csv → {pfad: hoehe_m}; sucht production/daten, dann neben dem Skript, dann Repo-Vorlage."""
     kandidaten = [os.path.join(basis, 'daten', 'netze.csv'),
                   os.path.join(skript_dir, 'netze.csv'),
                   os.path.join(skript_dir, '..', '..', 'vorlagen', 'daten', 'netze.csv')]
@@ -284,36 +295,68 @@ def lade_inventar(basis, skript_dir):
 
 
 def pruefe_paletten(regeln, inv):
+    """Alle Netzpfade der Klassen gegen das Inventar prüfen; fehlende streichen (Warnung), leere Paletten melden."""
+    if inv is None:
+        return []
     fehlt = []
     for kn, kl in regeln['klassen'].items():
-        for prof, liste in kl['netze'].items():
-            for p in liste:
-                if inv is not None and p not in inv:
-                    fehlt.append('%s/%s: %s' % (kn, prof, p))
+        for prof, liste in list(kl['netze'].items()):
+            ok = [p for p in liste if p in inv]
+            fehlt += ['%s/%s: %s' % (kn, prof, p) for p in liste if p not in inv]
+            kl['netze'][prof] = ok
+            if not ok:
+                meld('WARNUNG: Klasse %s/%s hat nach der Inventarprüfung kein Netz mehr – Klasse entfällt dort' % (kn, prof))
     if fehlt:
-        meld('FEHLER: %d Netzpfade nicht im Inventar:' % len(fehlt))
+        meld('WARNUNG: %d Netzpfade nicht im Inventar, gestrichen:' % len(fehlt))
         for f in fehlt:
             meld('   ', f)
-        raise SystemExit('Netzpfade fehlen – Regeln oder Inventar prüfen')
+    else:
+        n = sum(len(v) for kl in regeln['klassen'].values() for v in kl['netze'].values())
+        meld('Netzpfade geprüft: alle %d Paletteneinträge im Inventar' % n)
+    return fehlt
+
+
+def dominantes_feldbiom(basis, skript_dir, regeln, feld):
+    """Biom für eigner.r8 = 0: dominantes Biom des Feldes aus daten/biome_je_feld.json, sonst Tabelle feld_biom_fallback, sonst aue."""
+    kandidaten = [os.path.join(basis, 'daten', 'biome_je_feld.json'),
+                  os.path.join(skript_dir, 'biome_je_feld.json'),
+                  os.path.join(skript_dir, '..', '..', 'vorlagen', 'daten', 'biome_je_feld.json')]
+    for k in kandidaten:
+        if not os.path.isfile(k):
+            continue
+        try:
+            d = json.load(open(k, encoding='utf-8'))
+            e = d.get('felder', d).get(feld)
+            bp = e.get('biome_prozent') if isinstance(e, dict) else None
+            if bp:
+                bp = sorted(bp, key=lambda x: -float(x[1]))
+                b = str(bp[0][0]).lower()
+                if b in BIOME15:
+                    return b, 'biome_je_feld.json'
+        except Exception as ex:
+            meld('Hinweis: %s nicht auswertbar (%s)' % (k, ex))
+    fb = regeln.get('feld_biom_fallback', {}).get(feld)
+    if isinstance(fb, str) and fb in BIOME15:
+        return fb, 'feld_biom_fallback'
+    return 'aue', 'Standard aue (FORMAT §2)'
 
 
 # ----------------------------------------------------------------------------- Weltdaten
-def lade_biome(basis, win, regeln, feld):
-    """Biom-Name je Zelle als Index in `namen` (Reihenfolge profil_je_biom)."""
+def lade_biome(basis, win, regeln, feld, fb):
+    """Biom-Index je Zelle (Reihenfolge profil_je_biom); eigner 0 → fb (dominantes Feldbiom)."""
     namen = list(regeln['profil_je_biom'].keys())
-    fb = regeln.get('feld_biom_fallback', {}).get(feld, 'aue')
     if fb not in namen:
         fb = 'aue'
     H, W = win[1] - win[0], win[3] - win[2]
     eig = lade_raster(os.path.join(basis, WELT, 'eigner.r8'), np.uint8, win)
     wj = os.path.join(basis, WELT, 'welt.json')
     if eig is None or not os.path.isfile(wj):
-        meld('Hinweis: eigner.r8/welt.json fehlen – Biom je Zelle = Fallback %r' % fb)
+        meld('Hinweis: eigner.r8/welt.json fehlen – Biom je Zelle = Feldbiom %r' % fb)
         return np.full((H, W), namen.index(fb), np.int16), namen, {fb: 1.0}
     try:
         welt = json.load(open(wj, encoding='utf-8'))
     except Exception as e:
-        meld('Hinweis: welt.json unlesbar (%s) – Fallback %r' % (e, fb))
+        meld('Hinweis: welt.json unlesbar (%s) – Feldbiom %r' % (e, fb))
         return np.full((H, W), namen.index(fb), np.int16), namen, {fb: 1.0}
     kacheln = welt.get('kacheln', {})
     tabelle = np.full(256, namen.index(fb), np.int16)
@@ -337,13 +380,14 @@ def lade_biome(basis, win, regeln, feld):
         if 0 <= kk < 256:
             rz = v.get('rezept', '') if isinstance(v, dict) else ''
             tabelle[kk] = namen.index(biom_aus_rezept(rz) if rz else fb)
-    tabelle[0] = namen.index(fb)  # Weltgelände → Feld-Fallback (FORMAT: aue; hier dominantes Feldbiom, s. Regeln)
+    tabelle[0] = namen.index(fb)  # Weltgelände → dominantes Feldbiom
     bio = tabelle[eig]
     ant = {namen[k]: round(float((bio == k).mean()), 3) for k in np.unique(bio)}
     return bio, namen, ant
 
 
 def lade_ebene_positionen(ordner, win):
+    """Instanzpositionen (Fenster-i, Fenster-j) einer Ebene (plan.json + f32), Bäume und Sonstige getrennt."""
     baum, sonst = [], []
     pj = os.path.join(ordner, 'plan.json')
     if not os.path.isfile(pj):
@@ -369,17 +413,17 @@ def lade_ebene_positionen(ordner, win):
         if not m.any():
             continue
         txt = (str(info.get('rolle', '')) + ' ' + str(info.get('gruppe', '')) + ' ' + name).lower()
-        ist_baum = any(r in txt for r in BAUM_ROLLEN) and 'tot' not in txt and 'stump' not in txt and 'log' not in txt \
-            and 'plant' not in txt and 'sapling' not in txt and 'seedling' not in txt
+        ist_baum = any(r in txt for r in BAUM_ROLLEN) and not any(s in txt for s in NICHT_BAUM)
         (baum if ist_baum else sonst).append(np.stack([fi[m], fj[m]], axis=1))
     return baum, sonst
 
 
 def lade_bestand(basis, feld, win):
-    """Baum-Positionen (Fenster-Koordinaten) aus bestand/, witcher/ (Feld + 8 Nachbarn), instanzen.json; Sonstiges nur im Feld."""
+    """Baum-Positionen (Fensterkoordinaten) aus bestand/, witcher/, mittelschicht/, felsgruppen/ (Feld + 8 Nachbarn),
+    Ufer-Ebene des Feldes, instanzen/instanzen.json (optional)."""
     s = ord(feld[0]) - ord('A')
     r = int(feld[1:])
-    baum, sonst, quellen = [], [], []
+    baum, sonst, quellen, hinweise = [], [], [], []
     for ds in (-1, 0, 1):
         for dr in (-1, 0, 1):
             ss, rr = s + ds, r + dr
@@ -402,6 +446,7 @@ def lade_bestand(basis, feld, win):
     if os.path.isfile(ij):
         try:
             inst = json.load(open(ij, encoding='utf-8'))
+            n_dat = 0
             for e in inst.get('verzeichnis', []):
                 txt = (str(e.get('klasse', '')) + ' ' + str(e.get('name', ''))).lower()
                 f = e.get('datei') or (str(e.get('name', '')) + '.f32')
@@ -418,11 +463,17 @@ def lade_bestand(basis, feld, win):
                 if m.any():
                     (baum if any(k in txt for k in BAUM_ROLLEN) else sonst).append(np.stack([fi[m], fj[m]], axis=1))
                     quellen.append('instanzen/' + os.path.basename(f))
+                    n_dat += 1
+            if n_dat == 0:
+                hinweise.append('instanzen/instanzen.json gelesen, aber keine f32-Datei mit Instanzen im Fenster gefunden '
+                                '(Houdini-Bestand wird dann nur über eigner.r8 berücksichtigt)')
         except Exception as e:
-            meld('Hinweis: instanzen.json nicht auswertbar (%s)' % e)
+            hinweise.append('instanzen/instanzen.json nicht auswertbar (%s) – Houdini-Bestand ohne Abstandsprüfung' % e)
+    else:
+        hinweise.append('instanzen/instanzen.json fehlt (optional) – Houdini-Bäume/Felsen ohne Abstandsprüfung')
     baum = np.concatenate(baum, axis=0) if baum else np.zeros((0, 2), np.float32)
     sonst = np.concatenate(sonst, axis=0) if sonst else np.zeros((0, 2), np.float32)
-    return baum, sonst, quellen, ufer_da
+    return baum, sonst, quellen, ufer_da, hinweise
 
 
 def punkte_maske(pts, H, W):
@@ -435,7 +486,7 @@ def punkte_maske(pts, H, W):
 
 
 def lagen_faktor(lagen, gewichte):
-    """Gewichtetes Mittel der Lagen-Gewichte über die Deckung; keine Lagen → 1."""
+    """Gewichtetes Mittel der Lagen-Gewichte über die Deckung (Σ w·d / Σ d); Zellen ohne Deckung → 1."""
     if not lagen:
         return None
     num = None
@@ -445,8 +496,7 @@ def lagen_faktor(lagen, gewichte):
         d = a.astype(np.float32) / 255.0
         num = d * w if num is None else num + d * w
         den = d if den is None else den + d
-    f = np.where(den > 0.02, num / np.maximum(den, 1e-3), 1.0).astype(np.float32)
-    return f
+    return np.where(den > 0.02, num / np.maximum(den, 1e-3), 1.0).astype(np.float32)
 
 
 def lagen_anteil(lagen, namen):
@@ -459,14 +509,15 @@ def lagen_anteil(lagen, namen):
 
 
 # ----------------------------------------------------------------------------- Planung je Feld
-def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
+def plane_feld(feld_in, basis, skript_dir, regeln, faktor, bild, inv, entfernen_cli):
     t0 = time.time()
     rand = int(regeln.get('fenster_rand_m', 64))
-    feld, fb, win = feld_fenster(feld_in, rand)
-    i0, i1, j0, j1 = fb
+    feld, fb_, win = feld_fenster(feld_in, rand)
+    i0, i1, j0, j1 = fb_
     wi0, wi1, wj0, wj1 = win
     H, W = wi1 - wi0, wj1 - wj0
     seed = int(regeln.get('seed', 1))
+    hinweise = []
     meld('Feld %s: Fenster i %d–%d, j %d–%d (%d × %d)' % (feld, wi0, wi1, wj0, wj1, H, W))
 
     # --- Raster
@@ -476,7 +527,8 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
     ort = lade_raster(os.path.join(basis, WELT, 'karte_ort.r8'), np.uint8, win)
     for nm, a in (('karte_wasser.r8', wasser), ('karte_weg.r8', weg), ('karte_ort.r8', ort)):
         if a is None:
-            meld('WARNUNG: %s fehlt – ohne Abstand geplant' % nm)
+            meld('WARNUNG: %s fehlt – ohne Abstand zu dieser Fläche geplant' % nm)
+            hinweise.append('%s fehlt – Annahme: keine Fläche dieser Art' % nm)
     wasser = (wasser > 0) if wasser is not None else np.zeros((H, W), bool)
     weg = (weg > 0) if weg is not None else np.zeros((H, W), bool)
     ort = (ort > 0) if ort is not None else np.zeros((H, W), bool)
@@ -485,16 +537,23 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         a = lade_raster(os.path.join(basis, WELT, 'lage_%s.r8' % n), np.uint8, win)
         if a is not None:
             lagen[n] = a
-    meld('Lagen vorhanden: %s' % (', '.join(sorted(lagen)) if lagen else 'keine (Faktor 1)'))
-    bio, biom_namen, biom_anteile = lade_biome(basis, win, regeln, feld)
-    meld('Biome im Fenster: %s' % biom_anteile)
-    baum_pts, sonst_pts, quellen, ufer_da = lade_bestand(basis, feld, win)
+    meld('Lagen vorhanden: %s' % (', '.join(sorted(lagen)) if lagen else 'keine (Lagenfaktor 1)'))
+    if not lagen:
+        hinweise.append('keine lage_*.r8 gefunden – Lagenfaktoren = 1, keine Sand-/Wald-/Schnee-Dämpfung')
+    fb, fb_quelle = dominantes_feldbiom(basis, skript_dir, regeln, feld)
+    bio, biom_namen, biom_anteile = lade_biome(basis, win, regeln, feld, fb)
+    meld('Biome im Fenster: %s (eigner 0 → %s aus %s)' % (biom_anteile, fb, fb_quelle))
+    baum_pts, sonst_pts, quellen, ufer_da, hw = lade_bestand(basis, feld, win)
+    hinweise += hw
     meld('Bestand: %d Bäume, %d Sonstige aus %s' % (len(baum_pts), len(sonst_pts), quellen or 'nichts'))
+    for h in hw:
+        meld('Hinweis:', h)
 
     # --- abgeleitete Felder
     ii, jj = np.indices((H, W), dtype=np.int32)
     ii_abs = ii + wi0
     jj_abs = jj + wj0
+    im_feld_zelle = (ii_abs >= i0) & (ii_abs < i1) & (jj_abs >= j0) & (jj_abs < j1)
     g = regeln['gelaende']
     hs = gauss_blur(hoehe, float(g.get('hang_sigma_m', 2.0)))
     dhi = np.gradient(hs, axis=0)
@@ -507,13 +566,13 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
     land = hoehe > 0.05
     d_wasser = distanz(wasser, 64.0)
     ab = regeln['abstand_m']
-    weg_klein = dilate(weg, ab.get('weg_klein', 2.5))
-    weg_gross = dilate(weg, ab.get('weg_gross', 4.0))
-    ort_m = dilate(ort, ab.get('ort', 5.0))
+    weg_klein = dilate(weg, ab.get('weg_klein', 2.5)) if weg.any() else weg
+    weg_gross = dilate(weg, ab.get('weg_gross', 4.0)) if weg.any() else weg
+    ort_m = dilate(ort, ab.get('ort', 5.0)) if ort.any() else ort
     baum_mask = punkte_maske(baum_pts, H, W)
     sonst_mask = punkte_maske(sonst_pts, H, W)
-    stamm = dilate(baum_mask, ab.get('baumstamm', 1.5))
-    sonst_nah = dilate(sonst_mask, ab.get('bestand_sonst', 1.0))
+    stamm = dilate(baum_mask, ab.get('baumstamm', 1.5)) if baum_mask.any() else baum_mask
+    sonst_nah = dilate(sonst_mask, ab.get('bestand_sonst', 1.0)) if sonst_mask.any() else sonst_mask
     kd = regeln['kronendach']
     kr = int(round(float(kd.get('radius_m', 4.5))))
     beschattung = np.clip(box_blur(baum_mask.astype(np.float32), kr) * (2 * kr + 1) ** 2 * float(kd.get('k', 0.9)), 0, 1)
@@ -525,18 +584,18 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
     fak_tab = np.array([float(pjb[n][1]) for n in biom_namen], np.float32)
     profil = prof_tab[bio]
     biomfak = fak_tab[bio]
-    for hw in regeln.get('lagen_biom_hinweis', []):
-        ln = hw['lage']
+    for hw_ in regeln.get('lagen_biom_hinweis', []):
+        ln = hw_['lage']
         if ln not in lagen:
             continue
         d = lagen[ln].astype(np.float32) / 255.0
-        m = d >= float(hw['ab_anteil'])
-        if 'ab_hoehe_m' in hw:
-            m &= hoehe >= float(hw['ab_hoehe_m'])
-        verboten = np.isin(bio, [biom_namen.index(b) for b in hw.get('nicht_in', []) if b in biom_namen])
+        m = d >= float(hw_['ab_anteil'])
+        if 'ab_hoehe_m' in hw_:
+            m &= hoehe >= float(hw_['ab_hoehe_m'])
+        verboten = np.isin(bio, [biom_namen.index(b) for b in hw_.get('nicht_in', []) if b in biom_namen])
         m &= ~verboten
-        profil = np.where(m, 0 if hw['profil'] == 'heide' else 1, profil).astype(np.int8)
-        biomfak = np.where(m, np.maximum(biomfak, float(hw.get('faktor_min', 0.8))), biomfak).astype(np.float32)
+        profil = np.where(m, 0 if hw_['profil'] == 'heide' else 1, profil).astype(np.int8)
+        biomfak = np.where(m, np.maximum(biomfak, float(hw_.get('faktor_min', 0.8))), biomfak).astype(np.float32)
     sperre = np.ones((H, W), np.float32)
     for sn, sp in regeln.get('sperren', {}).items():
         a = lagen_anteil(lagen, sp['lagen'])
@@ -546,46 +605,53 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
     sand_sperre = np.zeros((H, W), bool)
     if feld in wf.get('felder', []):
         sperre *= float(wf.get('faktor', 0.7))
+        nur = [biom_namen.index(b) for b in wf.get('nur_biome', ['tundra', 'heide']) if b in biom_namen]
+        biomfak = np.where(np.isin(bio, nur), biomfak, 0.0).astype(np.float32)
         a = lagen_anteil(lagen, wf.get('sand_lagen', ['Sand', 'Sandstein']))
         if a is not None:
             ab_ = float(wf.get('sand_sperre_ab', 0.5))
             sperre *= np.clip(1.0 - a / max(ab_, 1e-3), 0, 1).astype(np.float32)
             sand_sperre = a >= ab_
-        meld('Wüstenfeld: Faktor %.2f, Sand-Sperre %.1f %%' % (wf.get('faktor', 0.7), 100 * sand_sperre.mean()))
+        meld('Wüstenfeld (nur ergänzen): Faktor %.2f, nur Biome %s, Sand/Sandstein-Sperre %.1f %% des Fensters'
+             % (wf.get('faktor', 0.7), wf.get('nur_biome', ['tundra', 'heide']), 100 * sand_sperre.mean()))
+        hinweise.append('Wüstenfeld: Faktor %.2f, nur tundra/heide-Zellen, Sand+Sandstein >= %.1f gesperrt, kein entfernen'
+                        % (wf.get('faktor', 0.7), wf.get('sand_sperre_ab', 0.5)))
     basisfak = (biomfak * sperre * float(faktor)).astype(np.float32)
     schnee = lagen.get(regeln['schnee']['lage'])
     schnee = schnee.astype(np.float32) / 255.0 if schnee is not None else None
     ho = regeln['hoehe']
-    anteil_prof = {'heide': float((profil == 0).mean()), 'tundra': float((profil == 1).mean())}
-    meld('Profil: heide %.0f %%, tundra %.0f %%; mittlerer Basisfaktor %.2f' % (100 * anteil_prof['heide'], 100 * anteil_prof['tundra'], basisfak.mean()))
+    anteil_prof = {'heide': round(float((profil[im_feld_zelle] == 0).mean()), 3), 'tundra': round(float((profil[im_feld_zelle] == 1).mean()), 3)}
+    meld('Profil im Feld: heide %.0f %%, tundra %.0f %%; mittlerer Basisfaktor %.2f'
+         % (100 * anteil_prof['heide'], 100 * anteil_prof['tundra'], basisfak[im_feld_zelle].mean()))
+    if basisfak[im_feld_zelle & land].max() <= 0 if (im_feld_zelle & land).any() else True:
+        hinweise.append('kein planbares Land im Feld (Biomfaktor 0 oder nur Wasser) – nichts zu planen')
 
     # --- Flecken (Rauschen) je Name
     flecken = {}
-    for fn, fp in regeln['flecken'].items():
+    for k_, (fn, fp) in enumerate(regeln['flecken'].items()):
         if not isinstance(fp, dict):
             continue
-        n = wertrauschen(ii_abs, jj_abs, fp['skala_m'], seed, 1000 + 13 * len(flecken), int(fp.get('oktaven', 2)))
+        n = wertrauschen(ii_abs, jj_abs, fp['skala_m'], seed, 90000 + 20 * k_, int(fp.get('oktaven', 2)))
         flecken[fn] = smoothstep((n - float(fp['schwelle'])) / max(float(fp.get('weich', 0.1)), 1e-3))
 
     lagen_fak_cache = {}
 
     def lagen_fak(name):
         if name not in lagen_fak_cache:
-            f = lagen_faktor(lagen, regeln['lagen_gewichte'][name]) if lagen else None
-            lagen_fak_cache[name] = f
+            lagen_fak_cache[name] = lagen_faktor(lagen, regeln['lagen_gewichte'][name]) if lagen else None
         return lagen_fak_cache[name]
 
     # --- Klassen
     wind = regeln['wind']
-    lee = math.radians(float(wind.get('richtung_grad', 300)) + 180.0)  # leewärts (Kompass, 0 = N)
-    lee_x, lee_y = math.sin(lee), -math.cos(lee)  # X = +j (Ost), Y = +i (Süd)
-    ergebnis = {}  # klasse → dict(arrays)
-    kanal = 10
+    lee = math.radians(float(wind.get('richtung_grad', 300)) + 180.0)  # leewärts (Kompass, 0 = N, Y wächst nach Süden)
+    lee_x, lee_y = math.sin(lee), -math.cos(lee)
+    ergebnis = {}
     klassen = regeln['klassen']
-    for kn, kl in klassen.items():
-        kanal += 50
+    for k_idx, (kn, kl) in enumerate(klassen.items()):
+        kanal = 1000 + 500 * k_idx  # Kanäle: Zentren kanal, Gruppen kanal+1, Positionen kanal+100.., Attribute kanal+200..
         if kn == 'moorstein' and ufer_da:
-            meld('  %-14s übersprungen (Ufer-Ebene vorhanden)' % kn)
+            meld('  %-14s übersprungen (Ufer-Ebene ufer/foliage_%s vorhanden)' % (kn, feld))
+            hinweise.append('moorstein entfällt: Ufer-Ebene vorhanden')
             continue
         netze_heide = kl['netze'].get('heide', kl['netze'].get('beide', []))
         netze_tundra = kl['netze'].get('tundra', kl['netze'].get('beide', []))
@@ -593,34 +659,27 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         if (d_h <= 0 or not netze_heide) and (d_t <= 0 or not netze_tundra):
             continue
         p = np.where(profil == 0, d_h if netze_heide else 0.0, d_t if netze_tundra else 0.0).astype(np.float32) * basisfak
-        # Lagen
         lf = lagen_fak(kl.get('lagen', 'pflanze_trocken'))
         if lf is not None:
             p *= lf
-        # Hang
         hv, hn = float(kl.get('hang_voll_bis', 28)), float(kl.get('hang_null_ab', 40))
         p *= np.clip((hn - hang) / max(hn - hv, 1e-3), 0, 1)
-        # Höhe (nur tundra-Profil hat endliche Grenzen)
-        if 'hoehe_grenze' in kl:
+        if 'hoehe_grenze' in kl:  # Höhenstufen (nur Profil tundra hat endliche Grenzen)
             for pi, pn in ((0, 'heide'), (1, 'tundra')):
                 grenze = float(ho[pn].get(kl['hoehe_grenze'], 9999))
-                ab_h = float(ho[pn].get(kl.get('hoehe_abnahme', ''), grenze - 20)) if grenze < 9000 else 9999
                 if grenze < 9000:
+                    ab_h = float(ho[pn].get(kl.get('hoehe_abnahme', ''), grenze - 20))
                     fh = np.clip((grenze - hoehe) / max(grenze - ab_h, 1e-3), 0, 1)
                     p = np.where(profil == pi, p * fh, p)
         if 'hoehe_max_m_tundra' in kl:
             p = np.where((profil == 1) & (hoehe > float(kl['hoehe_max_m_tundra'])), 0, p)
-        # Schnee
         if schnee is not None and kl.get('schnee'):
             fv = float(regeln['schnee']['faktor_steine_bei_voll' if kl['schnee'] == 'stein' else 'faktor_pflanzen_bei_voll'])
             p *= (1 - (1 - fv) * schnee)
-        # Kronendach
         if not kl.get('ohne_kronen_faktor', False):
             p *= (1 - (1 - float(kd.get('pflanzen_faktor_bei_voll', 0.25))) * beschattung)
-        # Flecken
         if kl.get('flecken') in flecken:
             p *= flecken[kl['flecken']]
-        # Exposition / Mulde / Wasser / Baumnähe
         if 'expo_bonus' in kl:
             p *= (1 + float(kl['expo_bonus']) * np.clip(expo, 0, 1))
         if 'mulde_bonus' in kl and 'mulde_gruppe' not in kl:
@@ -628,13 +687,12 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         if 'wasser_bonus' in kl:
             wb = float(kl.get('wasser_bonus_m', 40))
             p *= (1 + (float(kl['wasser_bonus']) - 1) * np.clip(1 - d_wasser / wb, 0, 1))
-        if 'baum_naehe_bonus' in kl:
+        if 'baum_naehe_bonus' in kl and baum_mask.any():
             r = int(kl.get('baum_naehe_m', 12))
             if r not in baum_nah:
                 baum_nah[r] = dilate(baum_mask, r)
             p *= np.where(baum_nah[r], float(kl['baum_naehe_bonus']), 1.0)
-        # Wasserkante-Band
-        if 'wasser_band_m' in kl:
+        if 'wasser_band_m' in kl:  # Wasserkante: Band um Moortümpel/Bäche, zusätzlich feuchte Lagen
             a0, a1 = kl['wasser_band_m']
             band = ((d_wasser >= a0) & (d_wasser <= a1)).astype(np.float32)
             if kl.get('feucht_lagen_auch'):
@@ -642,11 +700,11 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
                 if fa is not None:
                     band = np.maximum(band, (fa >= float(kl.get('feucht_ab_anteil', 0.5))) * float(kl.get('feucht_faktor', 0.35)))
             p *= band
-            ok = land & ~wasser & ~ort_m & ~sonst_nah & ~stamm
+            ok = land & ~wasser & (d_wasser >= float(a0)) & ~ort_m & ~sonst_nah & ~stamm
         else:
             ok = land & ~wasser & (d_wasser >= float(kl.get('wasser_min', 0.5))) & ~ort_m & ~sonst_nah & ~stamm
         ok &= ~(weg_gross if kl.get('weg', 'klein') == 'gross' else weg_klein)
-        if 'baum_abstand_m' in kl:
+        if 'baum_abstand_m' in kl and baum_mask.any():
             r = int(math.ceil(float(kl['baum_abstand_m'])))
             if ('b', r) not in baum_nah:
                 baum_nah[('b', r)] = dilate(baum_mask, r)
@@ -654,7 +712,7 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         p = np.where(ok, p, 0).astype(np.float32)
         p = np.minimum(p, 0.95)
 
-        # --- Ziehen: Einzel oder Gruppen (Zentren + Mitglieder)
+        # --- Ziehen: Gruppenzentren (Bernoulli je Zelle) + Mitglieder im Radius
         gmin, gmax = kl.get('gruppe', [1, 1])
         if 'mulde_gruppe' in kl:  # Bäume: Einzel auf Kuppen, Gruppen in Mulden
             mg0, mg1 = kl['mulde_gruppe']
@@ -671,7 +729,6 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         ci_abs, cj_abs = ci + wi0, cj + wj0
         if 'mulde_gruppe' in kl:
             im = ist_mulde[ci, cj]
-            mg0, mg1 = kl['mulde_gruppe']
             n = np.where(im, mg0 + (hash01(ci_abs, cj_abs, seed, kanal + 1) * (mg1 - mg0 + 1)).astype(np.int32), 1).astype(np.int32)
             rad = np.where(im, float(kl.get('mulde_radius_m', 8)), 0.0).astype(np.float32)
         else:
@@ -682,11 +739,12 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         rep = np.repeat(np.arange(len(ci)), n)
         m_idx = np.arange(tot) - np.repeat(np.cumsum(n) - n, n)
         pci, pcj = ci_abs[rep], cj_abs[rep]
-        ang = hash01(pci, pcj, seed, kanal + 2 + 3 * m_idx) * 2 * np.pi
-        rr = np.sqrt(hash01(pci, pcj, seed, kanal + 3 + 3 * m_idx)) * rad[rep]
+        kp = kanal + 100 + 4 * m_idx
+        ang = hash01(pci, pcj, seed, kp) * 2 * np.pi
+        rr = np.sqrt(hash01(pci, pcj, seed, kp + 1)) * rad[rep]
         rr = np.where(m_idx == 0, 0.0, rr)
-        fi = ci[rep] + hash01(pci, pcj, seed, kanal + 4 + 3 * m_idx) + rr * np.sin(ang) - 0.5
-        fj = cj[rep] + hash01(pci, pcj, seed, kanal + 6 + 3 * m_idx) + rr * np.cos(ang) - 0.5
+        fi = ci[rep] + hash01(pci, pcj, seed, kp + 2) + rr * np.sin(ang) - 0.5
+        fj = cj[rep] + hash01(pci, pcj, seed, kp + 3) + rr * np.cos(ang) - 0.5
         gi = np.clip(np.round(fi).astype(np.int32), 0, H - 1)
         gj = np.clip(np.round(fj).astype(np.int32), 0, W - 1)
         gut = (fi >= 0) & (fi < H - 1) & (fj >= 0) & (fj < W - 1) & ok[gi, gj]
@@ -695,17 +753,16 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         fi, fj, gi, gj, pci, pcj, m_idx = fi[gut], fj[gut], gi[gut], gj[gut], pci[gut], pcj[gut], m_idx[gut]
         if len(fi) == 0:
             continue
-        # Mindestabstand innerhalb der Klasse für Bäume (eine Instanz je Zelle von baum_abstand_m)
-        if 'baum_abstand_m' in kl:
+        if 'baum_abstand_m' in kl:  # Mindestabstand innerhalb der Klasse: eine Instanz je Zelle eines groben Rasters
             d = max(2, int(round(float(kl['baum_abstand_m']) * 0.7)))
-            key = (gi // d).astype(np.int64) * 100000 + (gj // d)
+            key = ((gi + wi0) // d).astype(np.int64) * 100003 + ((gj + wj0) // d)
             _, erste = np.unique(key, return_index=True)
             keep = np.zeros(len(fi), bool)
             keep[erste] = True
             fi, fj, gi, gj, pci, pcj, m_idx = fi[keep], fj[keep], gi[keep], gj[keep], pci[keep], pcj[keep], m_idx[keep]
         # --- Attribute
         nn = len(fi)
-        kan = kanal + 20 + 3 * m_idx
+        kan = kanal + 200 + 16 * m_idx
         prof_i = profil[gi, gj]
         s0, s1 = kl['massstab']
         sk = (s0 + hash01(pci, pcj, seed, kan) * (s1 - s0)).astype(np.float32)
@@ -717,19 +774,19 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
             sk = sk * np.where(ex > float(wind.get('expo_ab', 0.25)), e0 + (e1 - e0) * hash01(pci, pcj, seed, kan + 1), 1.0)
             sk = sk * np.where(mu > 0.35, m0 + (m1 - m0) * hash01(pci, pcj, seed, kan + 2), 1.0)
         sk = sk.astype(np.float32)
-        # Netzwahl je Profil
-        netz_idx = np.where(prof_i == 0,
-                            (hash01(pci, pcj, seed, kan + 7) * len(netze_heide)).astype(np.int32),
-                            (hash01(pci, pcj, seed, kan + 7) * len(netze_tundra)).astype(np.int32))
-        netz = np.array([netze_heide[k] if pr == 0 else netze_tundra[k] for pr, k in zip(prof_i, netz_idx)], dtype=object)
-        # Höhe/Eingraben
+        # Netzwahl je Profil (vektorisiert über Objekt-Arrays)
+        nh_arr = np.array(netze_heide if netze_heide else [''], dtype=object)
+        nt_arr = np.array(netze_tundra if netze_tundra else [''], dtype=object)
+        hv_ = hash01(pci, pcj, seed, kan + 7)
+        netz = np.where(prof_i == 0, nh_arr[(hv_ * len(nh_arr)).astype(np.int32)], nt_arr[(hv_ * len(nt_arr)).astype(np.int32)])
+        # Höhe / Eingraben
         z = bilinear(hoehe, fi, fj)
         if 'eingraben_anteil' in kl:
             nh = np.array([inv.get(pf, 0.3) if inv else 0.3 for pf in netz], np.float32)
             z = z - float(kl['eingraben_anteil']) * nh * sk
         else:
             z = z - float(kl.get('eingraben_cm', 3)) / 100.0
-        # Rotation: Kippen auf Normale (Anteil), Wind-Lehnen, Yaw
+        # Rotation: Kippen auf Normale (Anteil), Wind-Lehnen leewärts, Yaw
         kip = float(kl.get('kippen', 0.3))
         tx = kip * nx_[gi, gj]
         ty = kip * ny_[gi, gj]
@@ -753,13 +810,14 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
             'q': q, 's': sk, 'netz': netz, 'im_feld': im_feld, 'gi': gi, 'gj': gj,
             'thin': hash01(pci, pcj, seed, kan + 9), 'klasse': kl,
         }
-        meld('  %-14s %7d Instanzen (%d im Feld), Dichte-Mittel %.4f/m²' % (kn, nn, int(im_feld.sum()), float(p.mean())))
+        meld('  %-14s %7d Instanzen (%d im Feld), Dichte-Mittel %.4f/m²' % (kn, nn, int(im_feld.sum()), float(p[im_feld_zelle].mean())))
 
     # --- Budget: Ausdünnen nach Priorität (nur Instanzen im Feld zählen)
     bud = regeln['budget']
     prio = list(bud.get('prioritaet', list(klassen.keys())))
     prio = [k for k in prio if k in ergebnis] + [k for k in ergebnis if k not in prio]
     maxi, maxk = int(bud.get('instanzen_je_feld', 60000)), int(bud.get('kollision_je_feld', 3000))
+    ziel = int(bud.get('ziel_instanzen_je_feld', maxi))
 
     def koll_flag(kn, netz):
         kl = klassen[kn]
@@ -772,21 +830,29 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         ergebnis[kn]['koll'] = koll_flag(kn, ergebnis[kn]['netz'])
         ergebnis[kn]['keep'] = ergebnis[kn]['im_feld'].copy()
     gesamt = sum(int(e['keep'].sum()) for e in ergebnis.values())
-    if gesamt > maxi:
-        meld('Budget: %d > %d – dünne aus (niedrigste Priorität zuerst)' % (gesamt, maxi))
+    gesamt_vor = gesamt
+    if gesamt > ziel:
+        # 1. Durchgang: niedrigste Priorität zuerst, je Klasse höchstens auf 25 % kürzen
         for kn in reversed(prio):
-            if gesamt <= maxi:
+            if gesamt <= ziel:
                 break
             e = ergebnis[kn]
             n = int(e['keep'].sum())
-            ziel = max(int(n * 0.25), n - (gesamt - maxi))
-            if ziel < n:
-                frac = ziel / max(n, 1)
-                e['keep'] &= e['thin'] < frac
+            z_ = max(int(n * 0.25), n - (gesamt - ziel))
+            if z_ < n:
+                e['keep'] &= e['thin'] < (z_ / max(n, 1))
                 gesamt -= n - int(e['keep'].sum())
+        # 2. Durchgang (harte Grenze): proportional über alle Klassen
+        if gesamt > maxi:
+            f = maxi / float(gesamt)
+            for e in ergebnis.values():
+                e['keep'] &= e['thin'] < f
+            gesamt = sum(int(e['keep'].sum()) for e in ergebnis.values())
+        meld('Budget: %d → %d (Ziel %d, Grenze %d)' % (gesamt_vor, gesamt, ziel, maxi))
+        hinweise.append('Instanzbudget: %d → %d (Ziel %d), Ausdünnung von hinten nach prioritaet' % (gesamt_vor, gesamt, ziel))
     koll = sum(int((e['keep'] & e['koll']).sum()) for e in ergebnis.values())
     if koll > maxk:
-        meld('Kollision: %d > %d – dünne Kollisionsklassen aus' % (koll, maxk))
+        koll_vor = koll
         for kn in reversed(prio):
             if koll <= maxk:
                 break
@@ -794,11 +860,12 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
             n = int((e['keep'] & e['koll']).sum())
             if n == 0:
                 continue
-            ziel = max(0, n - (koll - maxk))
-            frac = ziel / max(n, 1)
-            drop = e['koll'] & (e['thin'] >= frac)
+            z_ = max(0, n - (koll - maxk))
+            drop = e['koll'] & (e['thin'] >= z_ / max(n, 1))
             e['keep'] &= ~drop
             koll -= n - int((e['keep'] & e['koll']).sum())
+        meld('Kollision: %d → %d (Grenze %d)' % (koll_vor, koll, maxk))
+        hinweise.append('Kollisionsbudget: %d → %d' % (koll_vor, koll))
 
     # --- Ausgabe
     out_dir = os.path.join(basis, regeln['ausgabe']['ordner'], feld)
@@ -809,6 +876,7 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
     dateien = {}
     schichten = {}
     klassen_n = {}
+    netz_rows = {}
     total = 0
     for kn, e in ergebnis.items():
         kl = e['klasse']
@@ -823,29 +891,36 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         for pf in np.unique(netz):
             m = netz == pf
             name = pf.split('/')[-1]
-            arr = rows[m]
-            with open(os.path.join(out_dir, name + '.f32'), 'ab') as f:
-                arr.tofile(f)
+            netz_rows.setdefault(name, []).append(rows[m])
+            koll_ok = bool(kl.get('kollision', False) and (inv.get(pf, 0.3) if inv else 0.3) >= float(kl.get('kollision_ab_hoehe_m', 0)))
+            if name in dateien and dateien[name]['klasse'] != kn:
+                hinweise.append('Netz %s in Klassen %s und %s – Setzer-Einstellungen der ersten Klasse gelten' % (name, dateien[name]['klasse'], kn))
             d = dateien.setdefault(name, {'pfad': pf, 'anzahl': 0, 'gruppe': kl.get('gruppe_name', kn), 'rolle': kl.get('rolle', kn),
                                           'sichtweite': [int(v) for v in kl.get('sichtweite', [0, 0])],
-                                          'schatten': bool(kl.get('schatten', False)),
-                                          'kollision': bool(kl.get('kollision', False) and (inv.get(pf, 0.3) if inv else 0.3) >= float(kl.get('kollision_ab_hoehe_m', 0))),
-                                          'schicht': kl['schicht'], 'klasse': kn})
+                                          'schatten': bool(kl.get('schatten', False)), 'kollision': koll_ok,
+                                          'ebene': SCHICHT_KURZ.get(kl['schicht'], kl['schicht']), 'schicht': kl['schicht'], 'klasse': kn})
             d['anzahl'] += int(m.sum())
             total += int(m.sum())
+    for name, teile in netz_rows.items():
+        np.concatenate(teile, axis=0).astype('<f4').tofile(os.path.join(out_dir, name + '.f32'))
     koll_n = sum(d['anzahl'] for d in dateien.values() if d['kollision'])
     plan = {
         'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'ebene': regeln.get('ebene', 'heide_tundra'), 'instanzen': total,
         'dateien': dateien, 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
         'klassen': klassen_n, 'schichten': schichten, 'kollision_instanzen': koll_n,
-        'profil_anteil': anteil_prof, 'biome_fenster': biom_anteile, 'quellen_bestand': quellen,
-        'faktor': faktor, 'seed': seed, 'laufzeit_s': round(time.time() - t0, 1),
-        'hinweis': 'UNGETESTET MIT ECHTDATEN; Setzer: HISM je Netz, Kollision nur wo kollision=true, sichtweite in cm.',
+        'profil_anteil_feld': anteil_prof, 'biome_fenster': biom_anteile, 'feldbiom_fuer_eigner0': fb,
+        'quellen_bestand': quellen, 'faktor': faktor, 'seed': seed, 'numba': NUMBA, 'laufzeit_s': round(time.time() - t0, 1),
+        'hinweise': hinweise,
+        'ungetestet': 'UNGETESTET MIT ECHTDATEN – Cloud-Rauchtest nur mit synthetischen Rastern (D2, G5). Setzer: HISM je Netz, '
+                      'Kollision nur wo kollision=true, sichtweite in cm.',
     }
     ent = entfernen_cli
     if ent is None:
         prof_dom = 'heide' if anteil_prof['heide'] >= anteil_prof['tundra'] else 'tundra'
         ent = regeln.get('entfernen', {}).get(prof_dom, '')
+    if ent and feld in wf.get('felder', []):
+        meld('Hinweis: Wüstenfeld %s – entfernen %r wird ignoriert (nur ergänzen)' % (feld, ent))
+        ent = ''
     if ent:
         plan['entfernen'] = ent
     with open(os.path.join(out_dir, 'plan.json'), 'w', encoding='utf-8') as f:
@@ -855,18 +930,17 @@ def plane_feld(feld_in, basis, regeln, faktor, bild, inv, entfernen_cli):
         meld('   Schicht %-14s %6d' % (s, schichten[s]))
 
     if bild:
-        schreibe_bild(basis, regeln, feld, fb, win, hoehe, wasser, weg, ort, profil, sand_sperre, ergebnis)
+        schreibe_bild(basis, regeln, feld, fb_, win, hoehe, wasser, weg, ort, profil, sand_sperre, basisfak, ergebnis)
     return plan
 
 
-def schreibe_bild(basis, regeln, feld, fb, win, hoehe, wasser, weg, ort, profil, sand_sperre, ergebnis):
+def schreibe_bild(basis, regeln, feld, fb, win, hoehe, wasser, weg, ort, profil, sand_sperre, basisfak, ergebnis):
     i0, i1, j0, j1 = fb
     wi0, wi1, wj0, wj1 = win
     a0, a1, b0, b1 = i0 - wi0, i1 - wi0, j0 - wj0, j1 - wj0
     h = hoehe[a0:a1, b0:b1]
     H, W = h.shape
     fb_ = regeln.get('bild_farben', {})
-    # Schummerung
     dj = np.gradient(h, axis=1)
     di = np.gradient(h, axis=0)
     shade = np.clip(0.55 + 0.45 * (-0.7 * dj - 0.5 * di) / np.sqrt(dj * dj + di * di + 1), 0.2, 1.0)
@@ -875,6 +949,7 @@ def schreibe_bild(basis, regeln, feld, fb, win, hoehe, wasser, weg, ort, profil,
     pt = np.array(fb_.get('tundra_profil', [60, 70, 60]), np.float32)
     pr = profil[a0:a1, b0:b1]
     img[:] = np.where(pr[..., None] == 0, ph, pt) * (0.6 + 0.8 * shade[..., None])
+    img[basisfak[a0:a1, b0:b1] <= 0] *= 0.5  # nicht planbare Biome dunkel
     img[h <= 0.05] = [30, 40, 70]
     img[sand_sperre[a0:a1, b0:b1]] = fb_.get('sand_sperre', [210, 190, 140])
     img[wasser[a0:a1, b0:b1]] = fb_.get('wasser', [40, 80, 160])
@@ -909,13 +984,13 @@ def schreibe_bild(basis, regeln, feld, fb, win, hoehe, wasser, weg, ort, profil,
 
 # ----------------------------------------------------------------------------- main
 def main():
-    ap = argparse.ArgumentParser(description='Eldarien Heide/Tundra-Planer (Ebene heide_tundra)')
+    ap = argparse.ArgumentParser(description='Eldarien Heide/Tundra-Planer (Ebene heide_tundra: Boden, Mittelschicht, Bäume, Wasserkante)')
     ap.add_argument('felder', nargs='+', help='Gitterfelder, z. B. D2 G5')
     ap.add_argument('--bild', action='store_true', help='Draufsicht PNG nach docs/pruefung/heide_tundra/')
     ap.add_argument('--faktor', type=float, default=1.0, help='globaler Dichtefaktor')
     ap.add_argument('--basis', default='.', help='production-Wurzel (Standard: aktuelles Verzeichnis)')
     ap.add_argument('--regeln', default=None, help='Regeln-JSON (Standard: heide_tundra_regeln.json neben dem Skript)')
-    ap.add_argument('--entfernen', default=None, help='Netznamen-Präfixe alter Instanzen für plan.json["entfernen"]')
+    ap.add_argument('--entfernen', default=None, help='Netznamen-Präfixe alter Instanzen für plan.json["entfernen"] (nicht in Wüstenfeldern)')
     args = ap.parse_args()
     skript_dir = os.path.dirname(os.path.abspath(__file__))
     rp = args.regeln or os.path.join(skript_dir, 'heide_tundra_regeln.json')
@@ -930,7 +1005,7 @@ def main():
     pruefe_paletten(regeln, inv)
     for feld in args.felder:
         try:
-            plane_feld(feld, basis, regeln, args.faktor, args.bild, inv, args.entfernen)
+            plane_feld(feld, basis, skript_dir, regeln, args.faktor, args.bild, inv, args.entfernen)
         except SystemExit:
             raise
         except MemoryError:

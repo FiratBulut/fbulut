@@ -17,7 +17,7 @@ Aufruf (lokal, production-Wurzel):
                                                   [--schichten 0,1,2,5] [--baum auto|voll|ergaenzen] [--inventar PFAD]
 
 Liest:   export/unreal/welt/hoehe.f32 (np.memmap, Fenster Feld + 64 m, J-Spalte geklippt), lage_*.r8 (optional),
-         karte_wasser/weg/ort.r8, eigner.r8 + welt.json (Biom je Zelle, Fallback aue/Feldtabelle), bestand/<Feld>/ und
+         karte_wasser/weg/ort.r8, eigner.r8 + welt.json (Biom je Zelle; Kennzahl 0 und fehlende Datei → dominantes Feldbiom), bestand/<Feld>/ und
          witcher/<Feld>/ (+ Nachbarfelder; f32-Baumpositionen → Kronendach-Dichtefeld per Faltung), instanzen/instanzen.json
          (optional), daten/netze.csv (Inventar-Prüfung der Netzpfade beim Start).
 Schreibt: export/unreal/welt/elfenwald/<Feld>/<Netzname>.f32 (10 float32 LE: x,y,z cm, qx,qy,qz,qw, sx,sy,sz) + plan.json
@@ -40,6 +40,7 @@ import math
 import os
 import sys
 import time
+import zlib
 
 import numpy as np
 
@@ -56,7 +57,8 @@ WELT = os.path.join('export', 'unreal', 'welt')
 THEMA = 'elfenwald'
 BAUM_ROLLEN = ('baum', 'tree', 'nadel', 'laub', 'kiefer', 'buche', 'birke', 'fichte', 'eiche', 'weide', 'pappel', 'palme',
                'hainbuche', 'hornbeam', 'beech', 'poplar', 'pine', 'fir', 'birch', 'willow')
-NICHT_BAUM = ('tot', 'dead', 'stump', 'log', 'fallen', 'plant', 'sapling', 'seedling', 'bush', 'branch', 'root')
+NICHT_BAUM = ('tot', 'dead', 'stump', 'log', 'fallen', 'plant', 'sapling', 'seedling', 'bush', 'branch', 'root', 'mossytree',
+              'stamm', 'strauch', 'farn', 'fern', 'leaves', 'laub')
 BAUM_REIHENFOLGE = ('hero', 'alt', 'tot', 'mittel', 'pappel', 'birke', 'weide', 'jung')
 ROLLE_JE_SCHICHT = {'0_boden': 'boden', '1_mittel': 'mittelschicht', '2_baum': 'baum', '5_wasserkante': 'wasserkante'}
 
@@ -64,6 +66,11 @@ ROLLE_JE_SCHICHT = {'0_boden': 'boden', '1_mittel': 'mittelschicht', '2_baum': '
 # ----------------------------------------------------------------------------- Helfer
 def meld(*a):
     print('[elfenwald]', *a, flush=True)
+
+
+def kanal_von(name):
+    """Deterministischer Kanal aus einem Klassennamen (Pythons eingebautes hash ist je Prozess zufällig)."""
+    return zlib.crc32(name.encode('utf-8')) & 0xFFFFFFFF
 
 
 def feld_fenster(feld, rand):
@@ -371,7 +378,7 @@ def lade_biome(basis, win, regeln, feld):
         if 0 <= kk < 256:
             rz = v.get('rezept', '') if isinstance(v, dict) else ''
             namen[kk] = biom_aus_rezept(rz) if rz else fb
-    namen[0] = 'aue'
+    namen[0] = fb  # Kennzahl 0 = Weltgelände: dominantes Feldbiom (feld_biom_fallback), nicht pauschal aue
     tab = np.array([bf.get(n, 0.0) for n in namen], np.float32)
     faktor = tab[eig]
     anteil = {}
@@ -608,9 +615,10 @@ def ring_an_baum(baeume, kl, c, kanal, frei):
     u = hash01(bi, bj, c.seed, kanal)
     anz = np.minimum(np.floor(ab['je_baum'] + u).astype(np.int32), int(ab['max_je_baum']))
     rep = np.repeat(np.arange(n), anz)
-    k = np.concatenate([np.arange(a) for a in anz]) if rep.size else np.zeros(0, np.int32)
     if rep.size == 0:
         return (np.zeros(0, np.float32),) * 3 + (np.zeros(0, np.int32),) * 2
+    start = np.repeat(np.cumsum(anz) - anz, anz)
+    k = (np.arange(rep.size) - start).astype(np.int64)
     ang = hash01(bi[rep] + 31 * k, bj[rep] + 37 * k, c.seed, kanal + 1) * 2 * math.pi
     r0, r1 = ab['ring_m']
     rad = (r0 + (r1 - r0) * hash01(bi[rep] + 41 * k, bj[rep] + 43 * k, c.seed, kanal + 2)) * np.clip(baeume[rep, 2], 0.6, 1.8)
@@ -776,7 +784,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
         if fi.size == 0:
             return None
         gmi, gmj = mi + wi0, mj + wj0
-        kanal = 50000 + (abs(hash(schicht + kname)) % 9000) * 10
+        kanal = 50000 + (kanal_von(schicht + kname) % 9000) * 10
         hv = hash01(gmi, gmj, c.seed, kanal + 5) + 0.37 * hash01(np.round(fi * 7).astype(np.int64), np.round(fj * 7).astype(np.int64), c.seed, kanal + 6)
         hv = hv % 1.0
         netzl = kl['netze']
@@ -845,7 +853,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
                 continue
             d = merke('2_baum', kname, kl, fi, fj, mi, mj)
             # alle (auch Rand) für Kronendach und Abstände
-            ms_all = kl['massstab'][0] + (kl['massstab'][1] - kl['massstab'][0]) * hash01(mi + wi0, mj + wj0, c.seed, 50000 + (abs(hash('2_baum' + kname)) % 9000) * 10 + 7)
+            ms_all = kl['massstab'][0] + (kl['massstab'][1] - kl['massstab'][0]) * hash01(mi + wi0, mj + wj0, c.seed, 50000 + (kanal_von('2_baum' + kname) % 9000) * 10 + 7)
             baum_neu.append(np.stack([fi, fj, ms_all.astype(np.float32), np.full(fi.size, BAUM_REIHENFOLGE.index(kname), np.float32)], axis=1))
             m_neu = np.zeros((H, W), bool)
             m_neu[mi, mj] = True
@@ -978,7 +986,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
     for a in aus:
         f = ausduenn.get((a['schicht'], a['klasse']), 1.0)
         if f < 1.0:
-            keep = hash01(a['mi'] + wi0, a['mj'] + wj0, c.seed, 99991 + (abs(hash(a['schicht'] + a['klasse'])) % 7919)) < f
+            keep = hash01(a['mi'] + wi0, a['mj'] + wj0, c.seed, 99991 + (kanal_von(a['schicht'] + a['klasse']) % 7919)) < f
             for key in ('fi', 'fj', 'mi', 'mj', 'netz', 'massstab', 'yaw'):
                 a[key] = a[key][keep]
     koll_baum = sum(int(a['fi'].size) for a in aus if a['kollision'] and a['schicht'] == '2_baum')

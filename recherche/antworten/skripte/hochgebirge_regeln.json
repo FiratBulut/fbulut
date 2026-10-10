@@ -10,7 +10,8 @@
     "hang": "[voll_bis_grad, null_ab_grad]: Faktor 1 bis voll_bis, linear auf 0 bei null_ab. Pflanzen nie über 40° (FORMAT §3), Steine bis 55°, Eiszapfen 55–88° (Wand). Krummholz-/Mattenklassen voll bis 32–36°, weil Latschen und Zwergstrauchheide gerade Steilhänge besiedeln.",
     "gruppe": "Zellen-Saatwahrscheinlichkeit = dichte·Faktoren / mittlere Gruppengröße; jede Saat setzt n ∈ [n_lo, n_hi] Mitglieder im Radius (Mitglied 0 im Zentrum). Dichte bleibt damit die Instanzdichte.",
     "yaw": "zufall | hangab (Längsachse hangabwärts ±streuung) | wind (Längsachse in wind_richtung_grad ±streuung, Kippen in Windrichtung)",
-    "pivot": "ANNAHME: Pivot aller Netze an der Bodenmitte (netze_masse.json wird für z-Versatz genutzt, wenn vorhanden: z −= min_z·Maßstab bei Netzen mit Pivot über dem Fuß)."
+    "pivot": "ANNAHME: Pivot aller Netze an der Bodenmitte (netze_masse.json wird für z-Versatz genutzt, wenn vorhanden: z −= min_z·Maßstab bei Netzen mit Pivot über dem Fuß).",
+    "rauchtest": "Synthetik D2 (Cloud, 10.10.): 44 107 Instanzen, 112 Netze, 1 207 Kollision, 4,1–5,2 s; zwei Läufe byteidentisch; J7/E1 ohne Land → leerer Plan mit Hinweis; fehlende hoehe.f32/netze.csv → klare Meldung."
   },
   "stand": "2026-10-10",
   "thema": "hochgebirge",
@@ -1908,7 +1909,69 @@
     }
   },
   "erwartung_je_feld": {
-    "hinweis": "Rechenwerte aus dem synthetischen Rauchtest (D2-Fenster, 100 % Land) skaliert mit Land-% und Kernbiom-Anteil aus biome_je_feld.json; mit Echtdaten ±50 %. Siehe verteilung-hochgebirge.md §4.",
-    "werte": {}
+    "hinweis": "Spannen (Instanzen gesamt / davon Kollision) aus dem synthetischen Rauchtest D2 (100 % Land, 72 % Hang > 30°, gletscher 29 % + tundra 71 %: 44 107 Inst., 1 207 Kollision, boden 31 690 / mittel 9 815 / baum 317 / wasserkante 2 285) skaliert mit Land-% und Kernbiom-Anteil aus biome_je_feld.json. Mit Echtdaten ±50 %; Boden-Klassen laufen in Bergfeldern gegen ihre Klassenbudgets (kiesel 22 000, flechtenstein 9 000).",
+    "werte": {
+      "D2": [
+        30000,
+        50000,
+        800,
+        1800
+      ],
+      "E2": [
+        35000,
+        58000,
+        900,
+        2200
+      ],
+      "C2": [
+        20000,
+        40000,
+        600,
+        1500
+      ],
+      "C1": [
+        10000,
+        22000,
+        300,
+        900
+      ],
+      "D1": [
+        12000,
+        25000,
+        350,
+        1000
+      ],
+      "E1": [
+        12000,
+        24000,
+        350,
+        1000
+      ],
+      "B2": [
+        8000,
+        16000,
+        250,
+        700
+      ],
+      "F2": [
+        6000,
+        14000,
+        150,
+        500
+      ],
+      "E3": [
+        2000,
+        8000,
+        50,
+        300
+      ],
+      "B1": [
+        1500,
+        5000,
+        30,
+        200
+      ]
+    },
+    "format": "[gesamt_min, gesamt_max, kollision_min, kollision_max]"
   }
 }

@@ -4,7 +4,8 @@
 hochgebirge_plan.py – Planer Teil B4 „Gletscher/Frost/Hochgebirge“ (Auftrag 11) für Eldarien (UE 5.8.3, 1-m-Raster 9577 × 7057).
 
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft (py_compile) und mit synthetischen Rastern rauchgetestet
-(D2-Fenster: Bergmassiv 0–700 m, Grat, Kar, Gletscherbach). Korrekturen bitte als auftraege/verteilung-hochgebirge-korrektur.md.
+(D2-Fenster: Bergmassiv 0–668 m, Grat, Kar mit See, Gletscherbach, Passweg, Hütte, Meer-Ecke; Ergebnis 44 107 Instanzen in 4–5 s,
+deterministisch, Python 3.13 / NumPy 2.5 / Pillow 12, ohne numba). Korrekturen bitte als auftraege/verteilung-hochgebirge-korrektur.md.
 
 Was das Skript tut
 ------------------
