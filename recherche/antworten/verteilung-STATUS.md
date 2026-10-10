@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 17:40 UTC. Runde 2 abgeschlossen, Antwort: verteilung-korrektur-runde2.md.
+Stand: 2026-10-10 17:35 UTC. Runde 3 in Arbeit.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -91,3 +91,10 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 | felsgruppen | Gruppen auf 300 m als Form (Hauptfels 4-10 m, Bloecke 1,5-4 m eng, Gruppe 10-30 m, halb so viele Gruppen; Felskrone an Graten, Blockstrom am Hangfuss); flache Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100, >= 50 % eingegraben, an der Normale; Kleinmaterial nur im Kontaktsaum; gesperrte Netze | fertig, gepusht (synthetisch A5-artig: Gruppen 2 381 -> 515, Instanzen 39 802 -> 10 696, Hauptfels Grat/Kuppe Median 5,8 m / max 6,9 m, Gruppenbreite Median 24,7 m, Platten auf Gras 691 -> 0, Kleinmaterial ausserhalb Saum 34 % -> 0 %; B4 analog). Ursache: Hauptfels nur in 3 Klassen und ohne Zielhoehe, Faecher-Raster 9-16 m streute Kleinmaterial, Budget duennte Satelliten aus. Gruppenzahl 22-29 % statt 50 %: fuer mehr Gruppen klassen.band.raster_m bzw. klassen.fuss.strom_abstand_m in felsgruppen_regeln.json verkleinern. Hauptfels max ~7,6 m wegen 14-m-Fussbreitengrenze. Pruefkamera grat_300m fuer A5 in plan.json |
 | spuren + mittelschicht | 1-3 sichtbare Spuren-Ensembles je Feld an Wegen/Orten statt vieler Einzelteile; Mittelschicht in Sichtachsen von Lichtungen lichter; gesperrte Netze | fertig, gepusht (synthetisch A5/G4 je 3 Ensembles mit 3-6 Teilen, 6 Typen: Wegkreuz, Mauerrest+Steinmann, Rastplatz, Ortsrand, Schrein, Ruinenrast; verstreute Einzelteile A5 57 -> 11, G4 40 -> 12; Mittelschicht G4 45 408 -> 45 139, im Sichtkorridor -30 %; gesperrte Netze 0). Planungsreihenfolge: spuren vor mittelschicht (Ensembles sind Blickziele) |
 | Biom-Planer (9) | gesperrte Netze SM_Column_03 / SM_Main_Arch_01 entfernen; selbst gesetzte Platten nach derselben Lagen-Regel oder an felsgruppen abgeben; kein Kiesel-Hangteppich | fertig, gepusht: gesperrte Netze in elfenwald/lava/dschungel ersetzt (SM_Column_02, SM_Wall_01); Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100 und nie wo Gras/Wiese ueberwiegt, >= 50 % eingegraben (nordkueste strandplatte, hochgebirge schneefleck 6 000 -> 1 505); Kiesel-Teppich synthetisch 0 (nordkueste, hochgebirge, aue, heide_tundra); Bloecke > 0,8 m aus elfenwald an felsgruppen, lava basaltsaeule an felsgruppen (aktiv) |
+
+## Runde 3 (Auftrag `auftraege/verteilung-korrektur-runde3.md`, Bilder 10.10. 19:15 lokal)
+
+| Teil | Aufgabe | Stand |
+|---|---|---|
+| felsgruppen | 8-20 Formgruppen je Feld mit Hero 10-30 m (Massive/Huge Nordic Coastal Cliff, Sharp_Cliff, big_rock_wall, Big_Rock; Skalierung 1,0-2,0, Akteure, 35-60 % eingegraben) auf markanten, von Taelern/Wegen sichtbaren Graten/Kuppen; Satelliten 2-6 m, Blockstrom; keine Gruppe auf Wiese ohne Hangknick; rote IcelandicBoulder (AncientContent) nur canyon/oedland/wueste/lava; uchoab3fa gesperrt | laeuft |
+| Biom-Regeldateien | rote IcelandicBoulder aus nordkueste, heide_tundra, hochgebirge entfernen, grauer Ersatz | laeuft |
