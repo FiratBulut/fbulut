@@ -8,10 +8,181 @@ gegen `netze.csv` geprüft, 0 fehlend; dazu `felsgruppen_overrides`, `spuren_ove
 `py_compile` und Rauchtest mit synthetischen Rastern (D4, E6; §5). Web-Quellen waren nur als Suchmaschinen-Auszüge lesbar; solche Belege
 sind mit **[Suchauszug]** markiert, Zahlen ohne Beleg mit **Richtwert**.
 
+**Korrektur Runde 1 (10.10.2026):** Zuständigkeit strikt nach Biom-Zellen + 30-m-Saum, leerer `plan.json` bei < 2 %, Pflichtschlüssel §2, harte Budgets, Exit 2; generische Mittelschicht-Klassen jetzt als `mittelschicht_overrides` (Palette + Faktor statt `biom_faktor` 0), Geröllplatten/Terrassenkanten/Felsnadeln als `felsgruppen_overrides.zusatzklassen`, Knochen-Ersatz als `spuren_overrides.zusatzklassen` – Details im folgenden Abschnitt „Korrektur Runde 1“, der vor §1–§7 gilt.
+
 **Felder.** Wüstenfelder mit eigenem Namaqualand-Planer (`FT_EL_WU_*`): C3, C4, D3, D4, D5, E3, E4, E5 → **nur ergänzen**, Budget
 ≤ 15 000, kein `entfernen`. Außerhalb davon volle Schichten 0/1/2/5: D6 (oedland 61 %), E6 (oedland 96 %), E7 (oedland 72 %, 13 % Land),
 F6/F7 (oedland 4 %/3 %, nur Saum). Innerhalb eines Feldes läuft der Planer ausschließlich auf Zellen der drei Biome (`eigner.r8` +
-`welt.json`; `wueste_namaqualand` wird als `wueste` erkannt), mit 6 m weichem Saum; Aue-, Tundra- und Lava-Anteile bleiben B2/B3/B8.
+`welt.json`; `wueste_namaqualand` wird als `wueste` erkannt), seit Korrektur Runde 1 mit 30-m-Saum nach außen (Landbezug, < 2 % → leerer Plan); Aue-, Tundra- und Lava-Anteile bleiben B2/B3/B8.
+
+## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md` (lokaler Echtdaten-Test 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md` §1–§6
+(verbindlich). Geändert wurden nur `skripte/wueste_ergaenzung_plan.py`, `skripte/wueste_ergaenzung_regeln.json` und dieser Bericht. Wo §1 bis §7
+etwas anderes sagen, gilt dieser Abschnitt. Das betrifft vor allem den 6-m-Saum, die Schicht-1-Tabelle, Geröllplatten und Knochen-Ersatz in
+Schicht 0 sowie den Vorschlag `biom_faktor` 0 für die Mittelschicht.
+
+**Echtdaten-Befund (Referenz, alte Fassung):** A5 (bergwald/fjord), G4 (elfenwald), E1 (gletscher 100 %) und C6 (lava 99 %) hatten je
+**0 Instanzen**. Das ist korrekt, denn in keinem der vier Felder gibt es wueste, canyon oder oedland. Die Korrektur war trotzdem nötig, und zwar
+aus drei Gründen. (1) Die Pflichtschlüssel aus §2 fehlten teilweise. (2) Die Saumlogik war ein 6-m-Box-Mittel statt eines 30-m-Saums auf
+Landbezug. (3) Die Planer-Ebene setzte generische Mittelschicht-Klassen und Geröllplatten, die nach §4 anderen Planern gehören.
+
+### Änderungen
+
+| Punkt | Runde 0 | Korrektur Runde 1 |
+|---|---|---|
+| Biom je Zelle (§1) | `eigner.r8` + `welt.json`; unbekanntes Rezept → Feld-Fallback der Regeln | Kennzahl 0 → **aue**, Vulkan/Lava → **lava**, `rezept_alias` (namaqualand → wueste, badland/steppe → oedland, mesa/schlucht → canyon). Ein Rezept, das nicht erkannt wird, ergibt **aue** und eine WARNUNG. Nur wenn `eigner.r8`/`welt.json` fehlen, gilt das dominante Feldbiom aus `daten/biome_je_feld.json` (Hinweis), danach `feld_biom_fallback` |
+| Zuständigkeit (§1) | `biom_faktor` je Biom, 6-m-Box-Mittel (verwischt die Kante nach innen und außen) | `zustaendigkeit.biome_eigen` = wueste, canyon, oedland. Eigene Landzellen haben Gewicht 1. Der **30-m-Saum** nach außen fällt linear 1 → 0 (Jump-Flooding-Distanz mit Quellzelle). Im Saum gelten die Regeln des **nächsten** eigenen Bioms, zwischen eigenen Biomen gibt es einen weichen Wechsel (6 m). Jitter-/Gruppenpunkte, die außerhalb der Zuständigkeit oder auf Sperrzellen landen, werden verworfen |
+| Landbezug (§1) | alle Fensterzellen | `biome_fenster`, Eigenanteil und Saum beziehen sich nur auf Landzellen (ohne `karte_wasser`); `plan.json["biome_fenster_bezug"] = "land"` |
+| Leerplan (§1) | Planung lief leer durch, `plan.json` ohne Teil der Schlüssel | Eigenanteil im Fenster **< 2 %** oder keine zuständige Feldzelle → sofort leerer `plan.json` (`instanzen` 0, `dateien` {}, alle Pflichtschlüssel, alte f32 gelöscht), eine Logzeile, Exit 0 |
+| plan.json (§2) | `biome_fenster` über alle Zellen, `zellen_zustaendig` ohne Saum, `entfernen` nur außerhalb der Wüstenfelder | `biome_fenster` (Land, absteigend), `biome_fenster_bezug`, `zellen_zustaendig` (Feldzellen inkl. Saum), `biome_eigen`, `kollision_anzahl`, `entfernen` **immer** `""` (es wird nichts ersetzt, auch nicht in C3–E5), `dateien[].ebene` (0/1/2/5). Dazu `statistik.zustaendigkeit` (Quelle, Eigenanteil Fenster/Feld, Zellen eigen/Saum), `statistik.roh_vor_budget` und `overrides_geliefert` |
+| Budget (§3) | proportionale Ausdünnung mit `min` der Faktoren, keine harte Grenze | Faktoren multiplizieren sich. Danach folgt eine **exakte Kappung** per Hash-Rang, niedrigste Priorität zuerst: hart 60 000 / Kollision 3 000 (Ziel 50 000), in den Wüstenfeldern 15 000 / 1 200. Jede Kürzung erscheint als `WARNUNG` in Log und `hinweise`; wird Schicht 0 gekürzt, folgt der Hinweis „Landschafts-Gras übernimmt“ |
+| Ebenen (§4) | Schicht 1 mit 9 Klassen, Schicht 0 mit Zweigen, Knochen-Ersatz, Geröllplatten | Schicht 1 enthält nur noch **Sonderformen**: `dornstrauch` (Dornbusch-Ödland) und `sukkulent` (Sukkulenten-Polster, ohne Rooibos). Schicht 0 hat Kiesel, Steine **< 0,8 m** (Maßstab 0,8–1,25, SandstoneBoulder_03 max. 0,78 m), Trockenbett-Platten und Trockenlaub. Wandfuß-Faktor und Schuttsortierung von Kiesel/Stein sind auf 1,0/0 gesetzt, weil Schuttfächer und Geröllsaum Teil C gehören. Schicht 2 und 5 bleiben unverändert. **13 statt 23 Klassen** |
+| Ergänzungsprinzip | C3–E5: `wuestenfeld_faktor`, `netze_wuestenfeld`, Budget 15 000 | unverändert: In den Wüstenfeldern wird nichts entfernt, Klassen mit Faktor 0 entfallen, die WU-Ebene gilt als belegt (`--wueste_ebene`) |
+| Logs/Fehler (§5) | `SystemExit` (Exit 1), Umlaute in Meldungen, `netze.csv` optional | Alle `print()` laufen über `ascii_()`. Eine fehlende `hoehe.f32`, Regeldatei oder `daten/netze.csv`, eine Regeldatei ohne Block `zustaendigkeit` (Runde-0-Fassung) und ein ungültiges Feld ergeben jeweils eine `FEHLER`-Zeile und **Exit 2**. Die Netzpfade der drei Override-Blöcke werden gegen `netze.csv` geprüft und gemeldet |
+
+### Entscheidung `mittelschicht_overrides`: Palette + Faktor statt `biom_faktor` 0
+
+Runde 0 schlug `biom_faktor` 0 für wueste/canyon/oedland vor. Das widerspricht §4, nach dem `mittelschicht_plan.py` die **einzige** Quelle
+der generischen Klassen ist. Weil die Planer-Ebene diese Klassen jetzt selbst nicht mehr setzt, hätten die gebauten Wüstenfelder C3–E5 und die
+Ödland-Felder D6, E6, E7, F6, F7 gar keine Trockengras-Büschel, kein Totholz und keine Zweige mehr bekommen. Deshalb liefert B9 jetzt Palette,
+Parameter und Faktoren. Die Runde-0-Klassen gehen dabei vollständig in die Mittelschicht über (`herkunft`, `herkunft_runde0` mit Lagen-Dichten
+und Formfaktoren):
+
+| Mittelschicht-Klasse | Palette (aus Runde-0-Klasse) | Parameter | Faktor oedland / canyon / wueste |
+|---|---|---|---|
+| `grasbueschel` | Tundra Grass Var A–I + Meadow dead_grass 01–03 (12; aus trockengras_hoch/niedrig/flach) | Gruppen 4–10 / 2,5 m, Maßstab 0,8–1,35, Hang ≤ 38°, Feuchte 1→2, Mulde ×1,6, Lagen Trockengras ×1,8, Sand ×0,4, Fels/Felsplatte ×0,5 | 2,4 / 2,7 / 1,2 |
+| `strauch` | searsia burchellii small/medium, lucida a–d + wild_rooibos a–e (11; trockenhang_strauch + Rooibos aus sukkulent) | Gruppen 1–3 / 4 m, Hang ≤ 40°, Feuchte 1→2, Mulde ×1,4 | 0,3 / 0,33 / 0,2 |
+| `totholz_liegend` | dead_log 01–04, OldFallenTree 01/02, Forest_pine_04/08_log, beach_driftwood_01 (9) | Gruppen 1–2, eingraben 8 cm, **Kollision**, längs Hang, Mulde ×2 | 2,5 / 3,0 / 1,9 |
+| `totholz_stumpf` | pine_stump 01–03 | Gruppen 1–3 / 5 m, Wegrand ×1,5, Hang ≤ 32° (Vorlage heide) | 1,2 / 0,72 / 0,36 |
+| `totholz_ast` | DryBranches 01–08, dead_quiver_branch 01/02 (10; aus zweige) | Gruppen 1–3, Sicht 50 m, Mulde ×1,6, an Totholz ×3 | 1,5 / 1,6 / 1,5 |
+| `beere` | Mittelschicht-Palette (heath/heather) | – | 0,25 / 0 / 0 |
+| `farn`, `jungbaum`, `hochstaude`, `pilz` | – | – | 0 |
+
+**Kalibrierung.** Grundlage ist ein Lauf von `mittelschicht_plan.py` mit allen Faktoren 1 auf dem synthetischen Feld E6. Auf den oedland-Zellen
+ergab das grasbueschel 8 336, totholz_ast 3 382, strauch 1 707, totholz_liegend 226 und totholz_stumpf 170. Die Ziele kommen aus den Runde-0-Zahlen
+dieses Planers auf demselben Raster: Trockengras 29 827, Zweige 5 888, Totholz 613, Stümpfe 219, Strauch ~460. Gras ist bewusst auf ~75 % gesetzt,
+weil kleine Büschel das Landschafts-Gras übernimmt (§3). canyon und wueste sind aus den Runde-0-Biomgewichten und den Grunddichten von
+`mittelschicht_regeln.json` abgeleitet; canyon hat eigene, kleinere Grunddichten, wueste nutzt die oedland-Vorlage. Der Höchstwert ist 3,0.
+
+**Gebaute Wüstenfelder C3–E5.** Dort gilt `faktor_je_feld`: grasbueschel 0,7, strauch 0,4, totholz_liegend 0,8, totholz_stumpf 0,4,
+totholz_ast 0,6, beere 0. Zusammen mit `wuesten_feld_faktor` 0,5 der Mittelschicht wirkt das als **0,35 / 0,2 / 0,4 / 0,2 / 0,3 / 0** des
+Werts außerhalb der Wüstenfelder, also im geforderten Bereich 0,2–0,4. Die Namaqualand-Ebene streut dort schon Sträucher und Sukkulenten,
+deshalb ist strauch am kleinsten. Die Mittelschicht ergänzt vor allem Gras und Totholz, das der WU-Ebene fehlt.
+
+### Override-Schema (alle drei Blöcke in `wueste_ergaenzung_regeln.json`)
+
+```
+"mittelschicht_overrides": {
+  "gilt_fuer": ["wueste", "canyon", "oedland"],
+  "vorlage_biom": {"grasbueschel": "oedland", "totholz_liegend": "oedland", "totholz_stumpf": "heide", "totholz_ast": "oedland", "strauch": "oedland"},
+  "palette":   {klasse: [Pfade]},                 # 5 Klassen, 45 Netze
+  "parameter": {klasse: {gruppe, radius_m, massstab, eingraben_cm, kippen, sichtweite, hang_max, feuchte, mulde, lagen_faktor, wegrand, an_totholz, kollision, laengs_hang}},
+  "faktor":    {"farn": 0, "jungbaum": 0, "hochstaude": 0, "pilz": 0},
+  "je_biom":   {"wueste": {"faktor": {...}}, "canyon": {"faktor": {...}}, "oedland": {"faktor": {...}}},
+  "faktor_je_feld": {"C3": {...}, ..., "E5": {...}},   # Wüstenfelder, multiplikativ
+  "herkunft": {...}, "herkunft_runde0": {...}, "begruendung": "...", "faktor_hinweis": "..."
+}
+"felsgruppen_overrides": {
+  "biom_palette": {wueste/canyon/oedland: "sandstein"}, "klassen_faktor": {...}, "eingraben_anteil": [0.3, 0.45],
+  "kiesel_ring": {netze, kiesel_dichte_je_m2},
+  "zusatzklassen": {                                   # KONVENTIONEN §6
+    "terrassenkanten": {palette (4), rolle fels_block, dichte_je_ha 83.3, hang_grad [0, 14], massstab [0.7, 1.2], eingraben_anteil [0.3, 0.45],
+                        gruppe {groesse [1, 2], radius_m 3}, kollision, sichtweite [0, 60000], akteur false, biome {canyon 1, oedland 0.5, wueste 0.4},
+                        abbruch_min_m 3, umkreis_m 6, abstand_m [6, 14]},          # letzte drei: felsgruppen-Erweiterung (Kantenstreifen)
+    "felsnadel":       {palette (3), rolle fels_hero, akteur true, je_km2 [1, 3], kuppen_prominenz_min_m 12, max_je_feld 3, massstab [0.6, 1.1],
+                        eingraben_anteil [0.25, 0.35], kollision, sichtweite [0, 0], biome {canyon 1, wueste 1, oedland 0.5}},
+    "geroellplatte":   {palette ErodedRockyGround 01–03, rolle geroell_platte, dichte_je_ha 6, hang_grad [0, 18, 18, 32],
+                        lagen {Geroell 1, Felsplatte 0.8, Sandstein 0.7, Fels 0.4}, zonen_faktor {fuss 3, wand 0}, fuss_breite_m 30,
+                        massstab [0.8, 1.3], eingraben_anteil [0.3, 0.42], gruppe {groesse [1, 2], radius_m 4}, kollision false, sichtweite [0, 20000]}},
+  "_vorschlag_teil_c": {schichtung, kippen_in_hang, wueste_felder_faktor 0.4, kiesel_ring_m}   # nicht gelesen, als Doku geführt
+}
+"spuren_overrides": {
+  "gilt_fuer": [...], "palette": {"karren": [3], "stoppel": [2]},
+  "faktor": {"wueste": {feld 0, obstgarten 0, kopfweiden 0, hecke 0, holzschlag 0, koehler 0, steg 0.5},
+             "canyon": {feld 0.2, ..., holzschlag 0.3, steg 0.5}, "oedland": {feld 1, obstgarten 0, kopfweiden 0, hecke 0.3, holzschlag 0.6, koehler 0.4}},
+  "zusatzklassen": {"knochen_ersatz": {palette bark_debris a–d + dead_log_05, rolle kleinzeug, dichte_je_ha 3.5, hang_grad [0, 30],
+                                       massstab [1.0, 1.6], eingraben_anteil [0.1, 0.2], gruppe {groesse [2, 6], radius_m 1.4}, kollision false, sichtweite [0, 7000]}},
+  "karren": {je_km_weg 2.6, anteil_schwer 0.5, kippen_grad, beiwerk, beiwerk_netze}, "brunnen": {...}, "galgen_ersatz": {bauteile ...},
+  "steinmann": {...}, "graeber": {...}, "feldstreifen_verlassen": {...}, "blickziele_typ": {...}, "wueste_felder_faktor": 0.6
+}
+```
+
+**Altstellen-Kompatibilität (felsgruppen).** In Runde 0 standen `terrassenkanten` und `felsnadel` direkt im Block. `felsgruppen_plan.py` las
+sie als „Altstelle“ (siehe `verteilung-fels-organisch.md` h). Jetzt stehen sie unter `zusatzklassen`, mit denselben Werten. Beide Wege laufen
+in felsgruppen über dieselbe Funktion `zusatz_lesen`, und bei gleichem Namen gewinnt `zusatzklassen`. Die alten Schlüssel sind entfernt, damit
+nichts doppelt gelesen wird. `schichtung`, `kippen_in_hang`, `wueste_felder_faktor` und `kiesel_ring_m` las felsgruppen schon in Runde 0 nicht.
+Sie stehen jetzt unter `_vorschlag_teil_c`, damit sie nicht mehr als „ignoriert“ gemeldet werden.
+
+**Gegenprobe mit den Querschnitts-Planern (unverändert, synthetische Wurzel aus dem Rauchtest):**
+- **mittelschicht_plan.py:** Der Block wird gelesen (palette, faktor, parameter, je_biom, faktor_je_feld, vorlage_biom), 0 unbekannte Schlüssel.
+  In E6 ergeben sich auf oedland grasbueschel 20 583, totholz_ast 5 215, beere 773, totholz_liegend 620, strauch 525 und totholz_stumpf 199
+  (Feld gesamt 29 308, Kollision 856). D4 (Wüstenfeld) hat 7 789 Instanzen, davon canyon 4 962 und wueste 1 523; die Quelle zeigt
+  „wueste_ergaenzung x1.89“ (2,7 × 0,7) für canyon-grasbueschel.
+- **felsgruppen_plan.py:** Gelesen werden 8 Schlüssel, ignoriert 0. Die Zusatzklassen terrassenkanten (16 Schlüssel gelesen / 0 ignoriert),
+  felsnadel (11/0) und geroellplatte (15/0) sind ok. In D4 entstehen terrassenkanten 728 Instanzen (394 mit Kollision), felsnadel 3 Akteure und
+  geroellplatte 25, in E6 112 / 1 / 5.
+- **spuren_plan.py:** Alle Schlüssel werden umgesetzt (palette, faktor, zusatzklassen, karren, brunnen, galgen_ersatz, steinmann, graeber,
+  feldstreifen_verlassen, blickziele_typ, wueste_felder_faktor). knochen_ersatz ergibt D4 361 und E6 286, dazu E6 1 Galgen-Ersatz, je 2
+  Brunnen und je 14 Karren.
+
+### Rauchtest Korrektur Runde 1 (synthetisch, Cloud: Python 3.13, NumPy 2.5, kein numba; Raster neu erzeugt, danach gelöscht)
+
+Für den Test gab es eine Produktionswurzel im Scratchpad (`wueste_test`) mit vollen Rastern (memmap). Die Felder waren so aufgebaut:
+- **D4** (Wüstenfeld): Canyon-Schichtstufen mit Rinne, Fluss, Weg und Ort. Im Westen canyon (Kennzahl 7), im Osten `wueste_namaqualand` (11),
+  im Süden ein Streifen Weltgelände 0 (→ aue). Die WU-Ebene hat 3 000 Instanzen.
+- **E6** (Ödland, außerhalb der gebauten Felder): Kuppen, Gullies, Teich, aue-Ecke im Nordosten und 200 Bestand-Bäume.
+- **D6** (Mischfeld): oedland im Westen, `vulkanregion_asche` (→ lava) im Osten, mit gewellter Grenze.
+- **G4** (Fremdfeld): elfenwald/heide.
+Dazu kamen 9 Lagen, `welt.json`, `daten/netze.csv`, `biome_je_feld.json` und `netze_masse.json`. Aufruf:
+`python -I -X utf8 wueste_ergaenzung_plan.py D4 E6 D6 G4 --wueste_ebene … --bild`.
+
+| Feld | Instanzen | Kollision | Schicht 2 / 1 / 0 / 5 | biome_fenster (Land) | zellen_zustaendig (eigen + Saum) | Zeit | Runde 0, gleiches Raster |
+|---|---|---|---|---|---|---|---|
+| D4 Wüstenfeld | **4 158** (≤ 15 000) | 52 | 52 / 0 / 3 789 / 317 | canyon 0,527, wueste 0,309, aue 0,165 | 916 742 (887 655 + 29 087) | 6,5 s | 12 631 |
+| E6 Ödland | **12 675** | 173 | 173 / 1 912 / 10 206 / 384 | oedland 0,804, lava 0,141, aue 0,056 | 917 469 | 5,8 s | 49 993 |
+| D6 Mischfeld | **7 523** | 79 | 79 / 887 / 6 549 / 8 | oedland 0,5005, lava 0,4995 | 538 985 (508 562 + 30 423) | 4,3 s | 27 250 |
+| G4 Fremdfeld | **0** (leerer plan.json) | 0 | – | elfenwald 0,765, heide 0,235 | 0 | < 1 s | 0 |
+
+Zusammen mit der Mittelschicht (oedland-Anteil in E6 ~27 900) liegt E6 bei ~40 600 Instanzen über beide Ebenen; in Runde 0 waren es 49 993
+in einer Ebene. Ein zweiter Lauf mit vorhandenen felsgruppen-, mittelschicht- und spuren-Ebenen, die dann als belegt gelten, ergab D4 3 986,
+E6 10 840 und D6 6 656.
+
+Folgendes wurde geprüft:
+- **Schlüssel:** Alle Pflichtschlüssel (FORMAT §3 und KONVENTIONEN §2) sind in allen vier Plänen vorhanden. `instanzen` ist gleich der Summe
+  der f32-Zeilen und gleich der Summe von `dateien[].anzahl`, `kollision_anzahl` ist gleich der Zahl der Instanzen in Dateien mit
+  `kollision=true`, jede Datei hat `ebene`, `entfernen` ist `""`.
+- **Zuständigkeit/Saum:** Der Abstand wurde unabhängig per Brute-Force je Instanz zur nächsten eigenen Landzelle gemessen. Auf fremden
+  Biomzellen liegen in D4 63 Instanzen (0–10 m: 37, 10–20 m: 15, 20–30 m: 11), in E6 322 (168 / 115 / 39) und in D6 210 (121 / 71 / 18).
+  **Jenseits von 30 m: 0** (Maximum 29,4 m). Im Prüfbild ist der Saum grau, fremde Biome sind abgedunkelt.
+- **Sperrflächen/Format:** 0 Instanzen auf Wasser, Weg oder Ort; alle Instanzen liegen im Feld; 0 NaN; Quaternionen normiert (Fehler
+  ≤ 1,2e-7); Maßstab ≥ 0,70; z zwischen −0,74 und +0,35 m zur Geländehöhe (Eingraben).
+- **Determinismus:** Bei zwei Läufen sind alle 191 f32 byteidentisch (md5), und `plan.json` ist bis auf `stand`/`laufzeit_s` identisch.
+- **Budget:** Mit `--faktor 6` wurde E6 von 65 979 auf **50 067** gekürzt (Kiesel ×0,57), D4 von 22 619 auf **14 933** (≤ 15 000), jeweils mit
+  WARNUNG und Gras-Hinweis. Mit Testregeln (Kollision 100, hart 5 000) ergab E6 Kollision 142 → **exakt 100** und gesamt 10 798 → 4 934.
+- **Fallback:** Ohne `eigner.r8` gilt `biome_je_feld.json`. D4 wird dann als canyon gelesen (4 719 Instanzen), E6 als oedland (12 677), G4 als
+  elfenwald (leerer Plan); der Log enthält einen Hinweis.
+- **Fehlerfälle:** Feld K9, fehlende `hoehe.f32`, fehlende Regeldatei, Runde-0-Regeldatei (ohne `zustaendigkeit`) und fehlende `netze.csv`
+  ergeben jeweils eine `FEHLER`-Zeile und **Exit 2**.
+- **Logs:** 0 Nicht-ASCII-Bytes in allen Logs (12 Läufe). `py_compile` ist ok, pyflakes meldet nur den optionalen numba-Import.
+
+### Erwartung mit Echtdaten (`erwartung_je_feld`) und offene Punkte
+
+A5, G4 und E1 ergeben einen leeren Plan, wie im Echtlauf. Auch C6 wird leer, es sei denn, oedland-Zellen aus D6 liegen im 64-m-Rand über
+der 2-%-Schwelle. Dann bebaut der Planer nur den 30-m-Saum am Ostrand, mit höchstens einigen hundert Instanzen; die Zahl lässt sich an
+`statistik.zustaendigkeit` prüfen. Für die eigenen Felder gelten die Runde-0-Spannen × 0,25–0,35:
+- E6 10 000–17 000, D6 6 000–11 000, E7 1 000–2 500
+- D4 3 500–5 500, E4 1 500–4 000, C4/D3/E3 700–2 500, D5 500–1 700, E5 200–800
+
+Die Mittelschicht kommt jeweils dazu.
+
+Offen sind drei Punkte:
+1. Teil D liest den neuen Block bereits richtig. Die Faktoren sind aber nur synthetisch kalibriert und sollten nach dem ersten
+   gemeinsamen Echtlauf (Reihenfolge felsgruppen → wueste_ergaenzung → mittelschicht → spuren) an E6/D4 gegen die Prüfkameras nachgestellt werden.
+2. In `verteilung-STATUS.md` (Abgrenzung, letzter Absatz) ist der offene Punkt „wueste_ergaenzung biom_faktor 0“ damit erledigt; der
+   Koordinator sollte die Zeile austauschen (die Datei liegt außerhalb dieses Auftrags).
+3. `mittelschicht_plan.py` liest die Namaqualand-Ebene (`wueste/`) nicht als belegt. In C3–E5 können Mittelschicht-Sträucher (Faktor 0,2) also
+   neben WU-Sträuchern stehen. Abhilfe wäre, `wueste` in die belegten Ebenen der Mittelschicht aufzunehmen (Teil D).
 
 ## 1. Referenzanalyse: was Velen-Ödnis, Toussaint-Trockenhang, Schichtstufen-Canyon und Steppe zwischen Boden und Krone füllt
 
@@ -142,7 +313,7 @@ Wüstenfeld-Faktor 0,6.
   Trockenbett-Platten, tote Bäume (0,5–0,6), Oasen-Grün. Budget 15 000, Kollision 1 200, **kein `entfernen`**; `plan.json["modus"]` =
   `ergaenzung`. Die WU-Ebene wird als belegt geladen (`--wueste_ebene PFAD`, sonst `export/unreal/welt/wueste/<Feld>/`; ihr Pfad ist in
   der Cloud unbekannt → Hinweis im Protokoll, Planung ohne Abstandsprüfung).
-- **Teil D Mittelschicht** streut in wueste/canyon/oedland Rooibos/Totholz mit Faktor 0,5 und bittet um Abstimmung. Vorschlag
+- *(Überholt durch Korrektur Runde 1: Palette + Faktor statt Faktor 0.)* **Teil D Mittelschicht** streut in wueste/canyon/oedland Rooibos/Totholz mit Faktor 0,5 und bittet um Abstimmung. Vorschlag
   (`mittelschicht_overrides`): sobald `wueste_ergaenzung` gesetzt ist, `biom_faktor` wueste/canyon/oedland in `mittelschicht_regeln.json`
   auf 0 (Schicht 1 kommt dann von hier). Alternativ Mittelschicht zuerst setzen – dieser Planer liest `mittelschicht/<Feld>/` als belegt.
 - **Teil C Felsgruppen** liefert Schicht 3 (Blöcke > 0,8 m, Bänder, Wände, Fächer); dieser Planer setzt nur Kiesel, Steine 0,2–0,6 m
@@ -223,7 +394,7 @@ Hinweis: das ältere „Megascans Desert Pack“ liegt nur im Epic-Vault, nicht 
 2. **Pfad der WU-Ebene** (`scripts/wueste_bewuchs/`) ist unbekannt; ohne `--wueste_ebene` plant der Planer in C3–E5 ohne Abstand zur
    Namaqualand-Ebene (Hinweis im Protokoll). Ebenso unbekannt: ob die WU-Ebene Kiesel/Steine streut – falls ja, `kiesel`/`stein`
    `wuestenfeld_faktor` auf 0.
-3. **Abstimmung Teil D:** `mittelschicht_regeln.json` Biomfaktor wueste/canyon/oedland → 0 oder Reihenfolge Mittelschicht → Wüste;
+3. *(Erledigt in Korrektur Runde 1: Override-Blöcke im Schema von Teil C/D, von allen drei Querschnitts-Planern gelesen.)* **Abstimmung Teil D:** `mittelschicht_regeln.json` Biomfaktor wueste/canyon/oedland → 0 oder Reihenfolge Mittelschicht → Wüste;
    `spuren_regeln.json` Übernahme der Karren-/Brunnen-/Galgen-/Steinmann-Overrides; Teil C Übernahme von `felsgruppen_overrides`
    (Sandstein-Palette ist dort vorhanden, Schichtungs- und Terrassenparameter noch nicht).
 4. **Rinnen-Erkennung** (Laplace 0,03–0,16) ist auf 1-m-Raster mit glatten Houdini-Höhen abgestimmt; bei rauen Echtdaten evtl.
