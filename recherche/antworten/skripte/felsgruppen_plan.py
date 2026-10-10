@@ -761,8 +761,39 @@ class OverrideLeser:
                 self._g(pfad)
             elif isinstance(x, dict):
                 self.rollen_palette(x, [bn], pfad)
+            elif isinstance(x, list):
+                self.palette_liste(x, [bn], pfad)
             else:
                 self._i(pfad)
+
+    def palette_liste(self, lst, scope, pfad):
+        """palette als Liste: Netzpfade (Rolle aus der Netzgröße laut _doku.rollen: hero > 3 m, block 0,8-3 m, stein < 0,8 m,
+        kiesel < 0,4 m, platte = flach) oder {"pfad"/"netz": ..., "rolle": ...}. Ersetzt die genannten Rollen der Biom-Palette;
+        nicht belegte Rollen (z. B. wand, band) bleiben aus der Standardpalette."""
+        tab = {}
+        for e in lst:
+            if isinstance(e, dict):
+                p_ = e.get("pfad", e.get("netz"))
+                r = ROLLEN_ALIAS.get(e.get("rolle", ""), ZK_ROLLEN.get(e.get("rolle", "")))
+            else:
+                p_, r = e, None
+            if not isinstance(p_, str):
+                continue
+            q = self.pfade([p_])
+            if not q:
+                continue
+            if r is None:
+                n = self.netze[q[0]]
+                hoch, breit = n["sz"], max(n["sx"], n["sy"])
+                r = ("platte" if breit >= 1.0 and hoch < 0.3 * breit else "hero" if hoch > 3.0 else "block" if hoch >= 0.8
+                     else "stein" if hoch >= 0.4 else "kiesel")
+            tab.setdefault(r, []).append(q[0])
+        if not tab:
+            self._i(pfad + " (Liste ohne gueltige Netzpfade)")
+            return
+        for bn in scope:
+            self.rec[bn]["palette_rollen"].update(tab)
+        self._g(pfad + " (Liste -> %s)" % ", ".join("%s %d" % (r, len(l)) for r, l in sorted(tab.items())))
 
     def _kf(self, bn, kname, f):
         kf = self.rec[bn]["klassen_faktor"]
@@ -962,7 +993,7 @@ class OverrideLeser:
              "kruemmung": "egal", "massstab": None, "eingraben": None, "gruppe_n": (1, 1), "gruppe_r": None,
              "kollision": None, "sichtweite": None, "schatten": None, "akteur": False, "raster_m": None, "klumpung": None,
              "wand_abstand": None, "relief": None, "kuppe_prominenz_m": None, "exposition": None, "max_je_feld": None,
-             "punkte": None, "felder": None, "gelesen": [], "ignoriert": []}
+             "punkte": None, "felder": None, "zonen": None, "fuss_m": 22.0, "gelesen": [], "ignoriert": []}
         G, I = z["gelesen"].append, z["ignoriert"].append
         hang_lo = hang_hi = p_alt = abstand = umkreis = abbruch = None
         for k, v in d.items():
@@ -1072,7 +1103,16 @@ class OverrideLeser:
             elif k == "klumpung" and isinstance(v, dict) and _zahl(v.get("skala_m")):
                 z["klumpung"] = (float(v["skala_m"]), float(v.get("staerke", 0.6)), float(v.get("schwelle", 0.3)))
                 G(k)
-            elif k == "zone_m" and _trapez_spec(v):
+            elif k in ("zonen_faktor", "karst_faktor") and isinstance(v, dict):
+                z["zonen"] = {zk: float(x) for zk, x in v.items() if zk in ("wand", "fuss", "gipfel", "spalte", "sonst") and _zahl(x)}
+                for zk in v:
+                    if zk not in ("wand", "fuss", "gipfel", "spalte", "sonst"):
+                        I("%s.%s" % (k, zk))
+                G(k + " (-> zonen_faktor)")
+            elif k == "fuss_breite_m" and _zahl(v):
+                z["fuss_m"] = float(v)
+                G(k)
+            elif k in ("wand_abstand_m", "zone_m") and _trapez_spec(v):
                 z["wand_abstand"] = _trapez_spec(v)
                 G(k + " (-> Abstand zur Wand)")
             elif k == "abstand_m" and _mittel(v) is not None:
@@ -1186,6 +1226,8 @@ class OverrideLeser:
             if k == "hero_akteur_punkte":
                 self._g(p + " (-> spire.punkte)")
                 continue
+            if k in ("palette", "biom_palette"):
+                self.palette(v, scope, p)
             elif k in ("paletten_neu", "paletten"):
                 self.paletten_tabelle(v, scope, p, "paletten_neu")
             elif k in ("paletten_ergaenzung", "paletten_zusatz", "palette_zusatz"):
@@ -1264,6 +1306,12 @@ class OverrideLeser:
             elif isinstance(v, dict) and (isinstance(v.get("netze"), list) or isinstance(v.get("palette"), list)):
                 # Altstelle mit eigener Netzliste; Rolle nur, wo die Quelle sie eindeutig nennt
                 ex = {}
+                if isinstance(v.get("karst_faktor"), dict):  # dschungel karstplatte: Zonen laut karst_faktor, Fussbreite = karstfuss.zone_m
+                    zm = (block.get("karstfuss") or {}).get("zone_m")
+                    if _spanne(zm):
+                        ex["fuss_breite_m"] = float(zm[1])
+                    if "sonst" not in v["karst_faktor"] and "Karstfu" in str(v.get("_doku", "")):
+                        ex["zonen_faktor"] = dict(v["karst_faktor"], sonst=0.0)  # nach karst_faktor gelesen  # _doku: "Platten am Karstfuss" -> uebrige Flaeche 0
                 if "rolle" not in v:
                     if "platte" in k or "geroell_platte" in str(v.get("_doku", "")):
                         ex["rolle"] = "geroell_platte"          # dschungel karstplatte: "Jetzt Teil C (geroell_platte)"
@@ -2165,6 +2213,21 @@ class Planer:
             if k not in self._abst_cache:
                 self._abst_cache[k] = self.abstand(self.m_wand, maxd)
             w = w * trapez(self._abst_cache[k], z["wand_abstand"])
+        if z["zonen"]:  # Geländezonen (Vorrang wand > fuss > gipfel > spalte > sonst); nicht genannte Zonen Faktor 1
+            Zf = z["zonen"]
+            maxd = int(min(64, max(1.0, z["fuss_m"])))
+            k = ("wand", maxd)
+            if k not in self._abst_cache:
+                self._abst_cache[k] = self.abstand(self.m_wand, maxd)
+            fuss = (self._abst_cache[k] <= z["fuss_m"]) & ~self.m_wand
+            gipfel = ~self.m_wand & ~fuss & (self.grat > 0.005)
+            spalte = ~self.m_wand & ~fuss & ~gipfel & (self.mulde > 0.005)
+            zf = np.full(w.shape, Zf.get("sonst", 1.0))
+            zf[spalte] = Zf.get("spalte", 1.0)
+            zf[gipfel] = Zf.get("gipfel", 1.0)
+            zf[fuss] = Zf.get("fuss", 1.0)
+            zf[self.m_wand] = Zf.get("wand", 1.0)
+            w = w * zf
         if z["klumpung"]:
             sk, st, sw = z["klumpung"]
             n = wertrauschen(self.xg, self.yg, sk, self.seed, 50 + zlib.crc32(z["name"].encode()) % 1000)
