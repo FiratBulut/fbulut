@@ -42,6 +42,7 @@ Ziel ≤ 60 s je Feld.
 
 Quellen: vorlagen/FORMAT.md §1–§5; antworten/verteilung-KONVENTIONEN.md §1–§5; antworten/assets-taxonomie.md (Paletten/Lücken heide,
 tundra); antworten/bildkritik-witcher-messlatte.md; antworten/verteilung-heide-tundra.md (Witcher-Analyse, Korrektur Runde 1).
+Korrektur Runde 2: Kiesel mit `teppich_sperre` nur auf/um Kies-/Geroell-/Fels-Lagen, am Weg und am Ufer (kein Hangteppich).
 
 UNGETESTET MIT ECHTDATEN – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern (D2, G5, E1, F4) rauchgetestet.
 """
@@ -568,6 +569,20 @@ def lagen_faktor(lagen, gewichte):
     return np.where(den > 0.02, num / np.maximum(den, 1e-3), 1.0).astype(np.float32)
 
 
+def teppich_maske(lagen, ts, weg, d_wasser):
+    """Kiesel/Steine < 0,5 m nicht als Hangteppich (Korrektur Runde 2): nur auf/um Geroell-Lagen (kontakt_m), am Weg (weg_m) und
+    am Ufer (wasser_m). lagen = uint8 0-255."""
+    fels = np.zeros(weg.shape, bool)
+    for n in ts.get('lagen', ['Kies', 'Geroell', 'Fels', 'Felsplatte']):
+        if n in lagen:
+            fels |= lagen[n] >= int(ts.get('ab', 80))
+    m = dilate(fels, float(ts.get('kontakt_m', 6))) if fels.any() else fels
+    if weg.any():
+        m |= dilate(weg, float(ts.get('weg_m', 3)))
+    m |= d_wasser <= float(ts.get('wasser_m', 5))
+    return m
+
+
 def lagen_anteil(lagen, namen):
     out = None
     for n in namen:
@@ -775,6 +790,8 @@ def plane_feld(feld_in, basis, skript_dir, regeln, faktor, bild, inv, entfernen_
         lf = lagen_fak(kl.get('lagen', 'pflanze_trocken'))
         if lf is not None:
             p *= lf
+        if kl.get('teppich_sperre'):  # Runde 2: Kiesel nicht flaechig ueber ganze Haenge
+            p *= teppich_maske(lagen, kl['teppich_sperre'], weg, d_wasser)
         hv, hn = float(kl.get('hang_voll_bis', 28)), float(kl.get('hang_null_ab', 40))
         p *= np.clip((hn - hang) / max(hn - hv, 1e-3), 0, 1)
         if 'hoehe_grenze' in kl:  # Höhenstufen (nur Profil tundra hat endliche Grenzen)

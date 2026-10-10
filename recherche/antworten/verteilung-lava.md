@@ -85,7 +85,7 @@ Kuppe 1,3, Grat 0,9, Band 0,3, Wand 1,0, Prallhang 0,8), `eingraben` [0,3; 0,45]
 `SM_lava_s_rock_08/07/06`; `faktor.lava` Steinmann 1,5, Wegkreuz 0,5, Karren 0,3, Rauch 1,0, Feldstreifen/Obstgarten/Zaun/Mauer/Steg/
 Holzschlag/Köhler/Gräber 0; `verbote.lava` dieselben plus Schrein; `rauch_punkte` {ebene lava, typ fumarole/dampf}; `zusatzklassen`
 (§6-Schema mit `punkte`): `schwefelgrube` (Kiste, Fass, Karren, Sack, 3–6 in 8 m an `schwefelgrube_vorschlag`), `opferstaette_saeule`
-(`SM_Column_03` als Akteur an `opferstaette_vorschlag`), `opferstaette_steinkreis` (8–12 Schlackenbrocken, Ring r 3 m, `anordnung: ring`),
+(Runde 2: `SM_Column_02` × 0,58–0,66 als Akteur an `opferstaette_vorschlag`), `opferstaette_steinkreis` (8–12 Schlackenbrocken, Ring r 3 m, `anordnung: ring`),
 `ruine_verkohlt` (`SM_Wall_02` + `SM_Column_02`, schwarze Material-Instanz, max 1 je Feld, Hang ≤ 12°, 6–40 m vom Weg); `blickziele`
 wie bisher.
 
@@ -248,7 +248,7 @@ mit Netz und Yaw) als `hero_akteur_punkte` für Teil C oder für die Hand.
 `plan.json["spuren_overrides"]`: aus = Feldstreifen, Obstgarten, Zaun, Mauer, Steg, Holzschlag, Köhler, Friedhof; **Steinmänner** ×1,5
 aus `SM_lava_s_rock_06/07/08` entlang der Wege (Abstand 90–140 m); Wegkreuze ×0,5, keine Schreine; Rauchsäulen aus `punkte[typ ==
 fumarole]`; Schwefelgrube (Kisten/Fässer/Karren 3–6 im Radius 8 m) an `schwefelgrube_vorschlag`; Opferstätte (Steinkreis 8–12 Schlacken,
-r 3 m, `AncientRuins/SM_Column_03`) an `opferstaette_vorschlag`; Blickziele Kegelgipfel, Spire, stärkste Fumarole, Höhleneingang.
+r 3 m, `AncientRuins/SM_Column_02`, Runde 2) an `opferstaette_vorschlag`; Blickziele Kegelgipfel, Spire, stärkste Fumarole, Höhleneingang.
 
 ### 2.4 Punktliste (`plan.json["punkte"]`, Weltkoordinaten cm)
 
@@ -394,3 +394,9 @@ nach `klippennetze-a5.md` (Nanite, Convex-Kollision 4–16 Hulls, Texturen auf 4
    (Sichtweite 2–3 km, Rauch träge 3–8 m hoch, Dampf am Wasser kürzer).
 10. **Zeitplan Setzer:** 76–78 Foliage-Typen je Feld sind viele; wenn der generische Setzer je Typ > 3 s braucht, Palette per
     `netz_gewichte` 0 auf ~50 Netze kürzen (Kiesel 10 → 6, Moos 6 → 4).
+
+## Korrektur Runde 2 (10.10.2026)
+
+- Gesperrte Saeule Nr. 03 aus `spuren_overrides.zusatzklassen.opferstaette_saeule` ersetzt durch SM_Column_02 (5 m x 0,58-0,66 = ca. 3 m, gleiche Wirkung); Hinweistext in `punkte.opferstaette_vorschlag` angepasst.
+- Basaltsaeulen-Ersatz (lava_wall_04/05, 3,9-4,5 m, Felsen > 0,8 m) an Teil C uebergeben: Klasse `saeule` entfernt (Werte in `_korrektur_runde2_alt_klassen`), `felsgruppen_overrides.zusatzklassen.basaltsaeule.aktiv = true`. `platte_ersatz` (TundraRockyGround) bleibt Teil C. Keine Platten im Planer.
+- Rauchtest synthetisch C6: 33 279 Instanzen, zwei Laeufe byteidentisch, gesperrte Netze 0, Log ASCII, 3 s.

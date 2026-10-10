@@ -390,3 +390,9 @@ sich die Schwelle für C6 und die Dichte für A5 (Ziel 15 000–30 000) nachstel
 4. Meer und andere Kennzahl-0-Flächen zählen in `biome_fenster` als aue (Konvention); Küstenklassen stehen auf kueste-Landzellen und
    werden davon nicht berührt.
 5. Abschnitt 6 Punkt 9 überholt: der Kollisionsdeckel greift jetzt exakt (H4 synthetisch 4 752 → 2 998).
+
+### 7.7 Korrektur Runde 2 (10.10.2026)
+
+- `strandplatte` (NordicBeachRockyGround, BeachSandWithPebbles, Island-Platte; Schicht 5, flach <= 0,77 m) hat jetzt `platten_regel`: nur auf `lage_Kies/Geroell/Fels/Felsplatte` >= 100/255, nie wo Gras/Wiese staerker deckt, 55 % eingegraben (Code erzwingt >= 50 %), voll an der Normale. Gilt im Code automatisch auch fuer jede Klasse mit Rolle platte/geroell_platte oder RockyGround-/flat_rock-Netzen.
+- `kiesel` hat `teppich_sperre`: nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80, bis 3 m am Weg, bis 5 m am Wasser.
+- Rauchtest synthetisch B5 (vorher/nachher): Strandplatten 13 -> 4, davon auf Gras/ohne Fels-Lage 8 -> 0, zu flach eingegraben 4 -> 0; Kiesel 10 403 -> 9 095, Hangteppich-Kiesel 1 110 -> 0. Zwei Laeufe byteidentisch (f32), Log ASCII, gesperrte Netze 0, 9 s.

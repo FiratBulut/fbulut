@@ -219,7 +219,9 @@
       "weg": "klein",
       "wasser_min": 0.3,
       "ohne_kronen_faktor": true,
-      "schnee": "stein"
+      "schnee": "stein",
+      "teppich_sperre": {"lagen": ["Kies", "Geroell", "Fels", "Felsplatte"], "ab": 80, "kontakt_m": 6, "weg_m": 3, "wasser_m": 5,
+                         "hinweis": "Korrektur Runde 2: Kiesel nicht als Teppich ueber ganze Haenge; nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80/255, bis 3 m am Weg, bis 5 m am Wasser."}
     },
     "flechtenstein": {
       "schicht": "0 boden",

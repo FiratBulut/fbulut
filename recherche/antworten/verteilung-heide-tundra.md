@@ -450,3 +450,8 @@ Kostenhinweis aus `boden-kleinzeug-gras.md`: Megascans-Assets sind seit 2025 je 
 9. **Rauchtest-Grenzen**: synthetisches Rauschen ohne echte Grate/Blockfelder, keine `witcher/`-Rollen, keine `instanzen.json`,
     Sand-Sperre nur ohne Sandlage durchlaufen. Erstes Echtdaten-Feld daher G5 (flach, Heide) neben D2 (Höhenstufen, Wind).
 10. **Status-Datei** `verteilung-STATUS.md` wurde nicht verändert (Koordinator); B3 kann auf „fertig (ungetestet mit Echtdaten)“ gesetzt werden.
+
+## Korrektur Runde 2 (10.10.2026)
+
+- Keine gesperrten Netze und keine Platten im Planer. `kiesel` hat `teppich_sperre` (nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80/255, bis 3 m am Weg, bis 5 m am Wasser); `flechtenstein`/`moorstein` unveraendert.
+- Rauchtest synthetisch D2: Kiesel 14 302 -> 7 302, Hangteppich-Kiesel 6 311 -> 0; Feld 38 842 Instanzen, zwei Laeufe byteidentisch, Log ASCII, 6 s.

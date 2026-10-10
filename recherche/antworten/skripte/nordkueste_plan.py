@@ -3,6 +3,9 @@
 """
 nordkueste_plan.py – Planer Biomgruppe 1 „Nordküste“ (biome_eigen = fjord, kueste, bergwald) für Eldarien (UE 5.8.3, 1-m-Raster 9577 × 7057).
 Auftrag 11, Teil B1, Stand Korrektur Runde 1 (10.10.2026, verteilung-KONVENTIONEN.md §1–§5).
+Korrektur Runde 2: Platten-Klassen (platten_regel; Rolle platte/geroell_platte oder RockyGround-/flat_rock-Netze) nur auf
+lage_Kies/Geroell/Fels/Felsplatte >= 100, nie wo Gras/Wiese staerker deckt, >= 50 % eingegraben, an der Normale; Kiesel mit
+teppich_sperre nur auf/um Geroell-Lagen, am Weg und am Ufer (kein Hangteppich).
 
 Schichten dieses Planers: 0 boden (Nadelstreu, Kiesel, Moos, Bodendecker), 1 NUR Nordküsten-Sonderformen (Windflucht-Krüppelkiefer,
 Windflucht-Küstenkiefer, Strandhafer, Klippenwiesen-Blumen, Efeu an Fels, Wurzelanläufe an Stämmen), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel/-platten).
@@ -70,11 +73,58 @@ FELD_M = 1008
 X0, Y0 = 4730.5, 4060.5  # X_cm = (j - 4730.5)*100, Y_cm = (i - 4060.5)*100
 WELT = os.path.join('export', 'unreal', 'welt')
 EBENEN = ['2', '1', '0', '5']  # Planungsreihenfolge: Bäume zuerst (Kronendach)
+# Korrektur Runde 2 (Befund 2): flache Platten-Netze nur auf Kies-/Geroell-/Fels-Lagen, tief eingegraben, an der Normale
+PLATTEN_MUSTER = ('erodedrockyground', 'nordicbeachrockyground', 'tundrarockyground', 'flat_rock_0')
+PLATTEN_ROLLEN = ('platte', 'geroell_platte')
+PLATTEN_STANDARD = {'lagen_min': {'Kies': 100, 'Geroell': 100, 'Fels': 100, 'Felsplatte': 100}, 'nicht_auf': ['Gras', 'Wiese'],
+                    'eingraben_min_anteil': 0.5, 'kippen': 1.0}
 BAUM_ROLLEN = ('baum', 'tree', 'nadel', 'laub', 'kiefer', 'buche', 'birke', 'fichte', 'tanne', 'eiche', 'weide', 'pappel',
                'palme', 'hainbuche', 'pine', 'fir', 'oak', 'poplar', 'hornbeam')
 
 
 # ----------------------------------------------------------------------------- Helfer
+def platten_regel(kl):
+    """Platten-Regel (Runde 2) fuer eine Klasse: explizit `platten_regel`, sonst Standard fuer Rolle platte/geroell_platte oder
+    Klassen mit flachen RockyGround-/flat_rock-Netzen; None = keine Platten-Klasse."""
+    pr = kl.get('platten_regel')
+    if pr is None and (str(kl.get('rolle', '')) in PLATTEN_ROLLEN
+                       or any(m in str(n).lower() for n in kl.get('netze', []) for m in PLATTEN_MUSTER)):
+        pr = {}
+    if pr is None or pr is False:
+        return None
+    out = dict(PLATTEN_STANDARD)
+    out.update({k: v for k, v in pr.items() if k in PLATTEN_STANDARD})
+    return out
+
+
+def platten_maske(lagen, pr, form):
+    """True, wo mindestens eine der Lagen pr['lagen_min'] >= Schwelle (0-255) liegt und keine der Lagen pr['nicht_auf']
+    (Gras/Wiese) staerker deckt als die staerkste Fels-Lage. Ohne Lagen: nirgends (Platten nie blind setzen)."""
+    ok = np.zeros(form, bool)
+    fels = np.zeros(form, np.float32)
+    for ln, mn in pr['lagen_min'].items():
+        if ln in lagen:
+            ok |= lagen[ln] * 255.0 >= float(mn) - 1e-3
+            fels = np.maximum(fels, lagen[ln])
+    for ln in pr['nicht_auf']:
+        if ln in lagen:
+            ok &= lagen[ln] < fels
+    return ok
+
+
+def teppich_maske(lagen, ts, d_weg, d_wasser, form):
+    """Kiesel/Steine < 0,5 m nicht als Hangteppich (Runde 2): erlaubt nur auf/um Geroell-Lagen (Kontakt kontakt_m), am Weg
+    (weg_m) und am Ufer (wasser_m)."""
+    fels = np.zeros(form, bool)
+    for ln in ts.get('lagen', ['Kies', 'Geroell', 'Fels', 'Felsplatte']):
+        if ln in lagen:
+            fels |= lagen[ln] * 255.0 >= float(ts.get('ab', 80)) - 1e-3
+    m = dilate(fels, float(ts.get('kontakt_m', 6))) if fels.any() else fels
+    m |= d_weg <= float(ts.get('weg_m', 3))
+    m |= d_wasser <= float(ts.get('wasser_m', 5))
+    return m
+
+
 _ASCII = {'ä': 'ae', 'ö': 'oe', 'ü': 'ue', 'Ä': 'Ae', 'Ö': 'Oe', 'Ü': 'Ue', 'ß': 'ss', '→': '->', '←': '<-', '≤': '<=', '≥': '>=',
           '…': '...', '–': '-', '—': '-', '×': 'x', '°': ' Grad', 'π': 'pi', '²': '2', '„': '"', '“': '"', '”': '"', '‚': "'",
           '‘': "'", '’': "'", '±': '+/-', '·': '*', '≈': '~', '\u00a0': ' ', '\u202f': ' '}
@@ -776,6 +826,11 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
     lagen_namen = set(regeln.get('lagen_sperre', {}).keys()) | set(licht.get('fallback_lagen', {}).keys())
     for k in klassen.values():
         lagen_namen |= set(k.get('lagen', {}).keys())
+        pr_ = platten_regel(k)
+        if pr_:
+            lagen_namen |= set(pr_['lagen_min']) | set(pr_['nicht_auf'])
+        if k.get('teppich_sperre'):
+            lagen_namen |= set(k['teppich_sperre'].get('lagen', ['Kies', 'Geroell', 'Fels', 'Felsplatte']))
     lagen = {}
     fehlend = []
     for ln in sorted(lagen_namen):
@@ -923,6 +978,14 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
                         if ln in lagen:
                             f += (float(w) - 1.0) * lagen[ln]
                 d *= np.clip(f, 0, 4)
+            # Korrektur Runde 2: Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100, nie auf Gras/Wiese; Kiesel kein Hangteppich
+            pr = platten_regel(kl)
+            if pr:
+                d *= platten_maske(lagen, pr, (H, W))
+                if not any(ln in lagen for ln in pr['lagen_min']):
+                    hinweise.append('%s: keine Fels-Lagen gefunden - Platten-Klasse ohne Instanzen (Runde 2)' % kn)
+            if kl.get('teppich_sperre'):
+                d *= teppich_maske(lagen, kl['teppich_sperre'], d_weg, d_wasser, (H, W))
             # Hang
             hv, hn = kl.get('hang', [30, 40])
             d *= rampe_ab(hang, float(hv), float(hn))
@@ -1060,6 +1123,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
             # Normale (Gelände) und Windflucht
             nx_, ny_, nz_ = n_x[mi, mj], n_y[mi, mj], n_z[mi, mj]
             kipp = float(kl.get('kippen', 0.3))
+            if pr:
+                kipp = max(kipp, float(pr['kippen']))  # Platten an der Gelaendenormale
             if kl.get('kueste_windflucht') and hat_meer:
                 wb = float(meer_r['windflucht_bis_m'])
                 st = np.clip(1.0 - d_meer[mi, mj] / wb, 0, 1)  # 1 direkt am Wasser
@@ -1150,8 +1215,12 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
                     pass
         minz = minz[a['netz']]
         eg = kl.get('eingraben', {'cm': 3})
-        if 'anteil' in eg:
-            ein = float(eg['anteil']) * hz * a['msz']
+        pr = platten_regel(kl)
+        if 'anteil' in eg or pr:
+            ant = float(eg.get('anteil', 0.0))
+            if pr:
+                ant = max(ant, float(pr['eingraben_min_anteil']))  # Runde 2: Platten >= 50 % der Netzhoehe eingraben
+            ein = ant * hz * a['msz']
         else:
             ein = np.full(n, float(eg.get('cm', 3)) / 100.0, np.float32)
         z = bilinear(hoehe, a['fi'], a['fj']) - minz * a['msz'] - ein

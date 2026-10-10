@@ -522,6 +522,19 @@
      "Wiese": 0.3
     },
     "stillwasser": 0.3,
+    "teppich_sperre": {
+     "lagen": [
+      "Kies",
+      "Geroell",
+      "Fels",
+      "Felsplatte"
+     ],
+     "ab": 80,
+     "kontakt_m": 6,
+     "weg_m": 3,
+     "wasser_m": 5,
+     "hinweis": "Korrektur Runde 2: Kiesel nicht flaechig ueber Wiesen/Terrassenhaenge; nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80/255, bis 3 m am Weg, bis 5 m am Wasser (Kiesbaenke selbst: Ufer-Ebene)."
+    },
     "hinweis": "Kiesbänke am Ufer kommen aus FT_EL_UF_*; hier nur Terrasse/Aue auf Kies-/Geröll-/Erdlagen."
    },
    "bodendecker": {

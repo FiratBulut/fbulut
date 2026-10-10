@@ -21,9 +21,10 @@ Konventionen (KONVENTIONEN §1–§6)
   §4 Schicht 1 nur Lava-Sonderformen (Moospolster, Wulstlava-Flechtensteine, Krüppelkiefer-Krummholz). Die generischen Klassen
      (strauch, jungbaum, farn, totholz_*, hochstaude, grasbueschel, beere, pilz) setzt nur mittelschicht_plan.py; Palette und
      Faktoren dafür stehen in lava_regeln.json["mittelschicht_overrides"]. Felsen > 0,8 m setzt felsgruppen_plan.py
-     (lava_regeln.json["felsgruppen_overrides"]["zusatzklassen"]: spire, lava_uferblock), Spuren spuren_plan.py
-     (["spuren_overrides"]: Schwefelgrube, Opferstätte, verkohlte Ruine). Einzige Ausnahme > 0,8 m: Basaltsäulen-Ersatz
-     (saeule, Akteure an steilen Lava-Ufern) als Lava-Sonderform; ein Schalter für die Übergabe an Teil C steht bereit.
+     (lava_regeln.json["felsgruppen_overrides"]["zusatzklassen"]: spire, lava_uferblock, basaltsaeule), Spuren spuren_plan.py
+     (["spuren_overrides"]: Schwefelgrube, Opferstätte, verkohlte Ruine). Korrektur Runde 2: auch der Basaltsäulen-Ersatz
+     (früher Klasse saeule, Akteure an steilen Lava-Ufern) liegt jetzt bei Teil C (zusatzklassen.basaltsaeule, aktiv true);
+     dieser Planer setzt keine Klasse > 0,8 m mehr (Schalter fels_ausnahme bleibt im Code für spätere Sonderformen).
   §5 print() nur ASCII; fehlende Pflichtdatei (hoehe.f32, Regeln, netze.csv) oder unbekanntes Feld -> Meldung, Exit-Code 2;
      zwei Läufe byteidentisch (auch plan.json: "stand" kommt aus der Regeldatei, keine Uhrzeit).
 
@@ -39,7 +40,7 @@ des Lavastroms** (alter 0..1 aus Lage Moos/Gras, Randnähe, 300-m-Wertrauschen, 
 Schlackenkegel (lokale Maxima mit Prominenz ≥ 8 m) bekommen Flanken-Faktoren (Schlacke 2,2×, Pflanzen 0,3×); erkaltete
 Stromkanten (Hang 24–40°) tragen Schlacke 1,8×.
 Schichten: 0 boden (schlacke, kiesel, asche = Brandstreu), 1 mittel (moos, flechtenstein, kiefer_strauch),
-2 baum (baum_tot, baum_kiefer, verkohlt_schnag), 5 wasserkante (schwarzkies, saeule als Akteure).
+2 baum (baum_tot, baum_kiefer, verkohlt_schnag), 5 wasserkante (schwarzkies).
 Punktliste `punkte` (Fumarolen mit Stärke/Radius/Schwefel, Dampf an Wasserkanten, Kegelgipfel, Spire-/Höhlen-/Schwefelgruben-/
 Opferstätten-Vorschläge) für Niagara, Teil C (felsgruppen liest punkte[typ == spire_vorschlag]) und Teil D.
 Zufall deterministisch: 64-bit-Hash aus (Seed, Klasse, Weltraster-Koordinate); Nachbarfelder liefern im Rand dieselben Instanzen.
@@ -1177,7 +1178,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse, start_hinweise=N
             "saum_m": saum_m, "punkte": punkte, "zonen": zonen_anteil,
             "budget": {"deckel": Bg["gesamt"], "ziel": Bg["ziel"], "kollision": Bg["kollision"], "vor_ausduennung": int(vorher),
                        "je_klasse": {kn: int(len(r_["x"])) for kn, r_ in ergebnis.items()}},
-            "overrides": {"felsgruppen": "lava_regeln.json[felsgruppen_overrides] (zusatzklassen spire an punkte[typ == spire_vorschlag], lava_uferblock)",
+            "overrides": {"felsgruppen": "lava_regeln.json[felsgruppen_overrides] (zusatzklassen spire an punkte[typ == spire_vorschlag], lava_uferblock, basaltsaeule ab Runde 2)",
                           "mittelschicht": "lava_regeln.json[mittelschicht_overrides] (grasbueschel, beere, totholz_liegend, totholz_stumpf)",
                           "spuren": "lava_regeln.json[spuren_overrides] (schwefelgrube, opferstaette, ruine_verkohlt an punkte)"},
             "faktor": faktor, "seed": seed, "quelle": "lava_plan.py Korrektur Runde 1 (UNGETESTET MIT ECHTDATEN)",

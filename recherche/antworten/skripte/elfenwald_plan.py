@@ -1218,8 +1218,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus, mittel_
         if kuppe.any():
             k = int(np.argmax(np.where(kuppe, hs25, -1e9)))
             pi, pj = k // W, k % W
-            blickziele.append({'art': 'ruinenbogen_auf_kuppe', 'x_cm': float((pj + wj0 - X0) * 100), 'y_cm': float((pi + wi0 - Y0) * 100),
-                               'z_cm': float(hoehe[pi, pj] * 100), 'regel': 'lokales Höhenmaximum (geglättet) mit Hang < %d°, %d–%d m vom Weg: SM_Main_Arch_01 + 2–4 Säulen (spuren_overrides.ruine)' % (Bz['kuppe']['hang_max_grad'], Bz['kuppe']['weg_abstand_m'][0], Bz['kuppe']['weg_abstand_m'][1])})
+            blickziele.append({'art': 'ruine_auf_kuppe', 'x_cm': float((pj + wj0 - X0) * 100), 'y_cm': float((pi + wi0 - Y0) * 100),
+                               'z_cm': float(hoehe[pi, pj] * 100), 'regel': 'lokales Höhenmaximum (geglättet) mit Hang < %d°, %d–%d m vom Weg: Ruinenwand SM_Wall_01 + 2–4 Säulen SM_Column_02 (spuren_overrides.ruine)' % (Bz['kuppe']['hang_max_grad'], Bz['kuppe']['weg_abstand_m'][0], Bz['kuppe']['weg_abstand_m'][1])})
         quer = dilate(weg_m, 6) & wasser_m & im_feld if weg_m.any() else np.zeros((H, W), bool)
         if quer.any():
             d_q = np.where(quer, distanz(~quer, max_m=16.0), 0)

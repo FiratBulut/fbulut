@@ -283,6 +283,19 @@
       ],
       "kollision": false,
       "schatten": false,
+      "teppich_sperre": {
+        "lagen": [
+          "Kies",
+          "Geroell",
+          "Fels",
+          "Felsplatte"
+        ],
+        "ab": 80,
+        "kontakt_m": 6,
+        "weg_m": 3,
+        "wasser_m": 5,
+        "hinweis": "Korrektur Runde 2: Schutt-Kiesel nicht als Teppich ueber Matten-/Grashaenge; nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80/255, bis 3 m am Weg, bis 5 m am Wasser."
+      },
       "budget": 22000
     },
     "flechtenstein": {
@@ -369,9 +382,7 @@
         "Schnee": 1.8,
         "Eis": 1.4,
         "Fels": 1.0,
-        "Geroell": 1.0,
-        "Trockengras": 0.4,
-        "Heide": 0.3
+        "Geroell": 1.0
       },
       "hang": [
         20,
@@ -394,7 +405,22 @@
         1.3
       ],
       "nicht_uniform": 0.15,
-      "eingraben_anteil": 0.5,
+      "eingraben_anteil": 0.55,
+      "platten_regel": {
+        "lagen_min": {
+          "Kies": 100,
+          "Geroell": 100,
+          "Fels": 100,
+          "Felsplatte": 100
+        },
+        "nicht_auf": [
+          "Gras",
+          "Wiese"
+        ],
+        "eingraben_min_anteil": 0.5,
+        "kippen": 1.0,
+        "hinweis": "Korrektur Runde 2 (Befund 2): Rolle platte nur auf Zellen mit lage_Kies/Geroell/Fels/Felsplatte >= 100 von 255, nie wo Gras/Wiese staerker deckt; >= 50 % eingegraben, voll an der Normale. Trockengras-/Heide-Gewichte entfernt."
+      },
       "kippen": 1.0,
       "yaw": "zufall",
       "sichtweite": [

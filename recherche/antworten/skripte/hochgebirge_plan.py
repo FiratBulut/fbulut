@@ -3,6 +3,8 @@
 """
 hochgebirge_plan.py – Planer Teil B4 „Gletscher/Frost/Hochgebirge“ (Auftrag 11) für Eldarien (UE 5.8.3, 1-m-Raster 9577 × 7057).
 Stand: Korrektur Runde 1 (10.10.2026) nach antworten/verteilung-KONVENTIONEN.md §1–§6.
+Korrektur Runde 2: Platten (Rolle platte, z. B. schneefleck) nur auf lage_Kies/Geroell/Fels/Felsplatte >= 100, nie wo Gras/Wiese
+staerker deckt, >= 50 % eingegraben, an der Normale; kiesel_schutt mit teppich_sperre (kein Hangteppich ueber Matten).
 
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft (py_compile) und mit synthetischen Rastern rauchgetestet
 (D2/E2 eigene Zellen, C2 Mischfeld fjord/gletscher, C6 Vulkanregion = Leerplan; Python 3.13 / NumPy 2.5 / Pillow, ohne numba).
@@ -93,6 +95,11 @@ X0, Y0 = 4730.5, 4060.5
 BIOME = ["aue", "bergwald", "gletscher", "tundra", "canyon", "oedland", "heide", "elfenwald", "dschungel", "kueste", "wueste",
          "lava", "frost", "sumpf", "fjord"]
 EBENE_NAME = {0: "boden", 1: "mittel", 2: "baum", 5: "wasserkante"}
+# Korrektur Runde 2 (Befund 2): flache Platten-Netze nur auf Kies-/Geroell-/Fels-Lagen, tief eingegraben, an der Normale
+PLATTEN_MUSTER = ("erodedrockyground", "nordicbeachrockyground", "tundrarockyground", "flat_rock_0")
+PLATTEN_ROLLEN = ("platte", "geroell_platte")
+PLATTEN_STANDARD = {"lagen_min": {"Kies": 100, "Geroell": 100, "Fels": 100, "Felsplatte": 100}, "nicht_auf": ["Gras", "Wiese"],
+                    "eingraben_min_anteil": 0.5, "kippen": 1.0}
 U64 = np.uint64
 BAUM_WORTE = ("baum", "tree", "pine", "fir", "beech", "birch", "willow", "poplar", "hornbeam", "kiefer", "tanne", "buche", "birke",
               "weide", "pappel", "hainbuche", "palm", "cherry")
@@ -676,6 +683,50 @@ def hoehenstufen(h, hang, sonnig, lap, lap_g, biom, wasser, win, regeln):
 # ----------------------------------------------------------------------------------------------------------------------
 # Klassen-Planung
 # ----------------------------------------------------------------------------------------------------------------------
+def platten_regel(K):
+    """Platten-Regel (Runde 2): explizit `platten_regel`, sonst Standard fuer Rolle platte/geroell_platte oder Klassen mit flachen
+    RockyGround-/flat_rock-Netzen; None = keine Platten-Klasse."""
+    pr = K.get("platten_regel")
+    if pr is None and (str(K.get("rolle", "")) in PLATTEN_ROLLEN
+                       or any(m in str(n).lower() for n in K.get("netze", []) for m in PLATTEN_MUSTER)):
+        pr = {}
+    if pr is None or pr is False:
+        return None
+    out = dict(PLATTEN_STANDARD)
+    out.update({k: v for k, v in pr.items() if k in PLATTEN_STANDARD})
+    return out
+
+
+def platten_maske(lagen, pr, form):
+    """True, wo mindestens eine Lage aus pr['lagen_min'] >= Schwelle (0-255) liegt und Gras/Wiese (pr['nicht_auf']) nicht staerker
+    deckt als die staerkste Fels-Lage. Ohne Lagen: nirgends."""
+    ok = np.zeros(form, bool)
+    fels = np.zeros(form, np.float32)
+    for ln, mn in pr["lagen_min"].items():
+        if ln in lagen:
+            ok |= lagen[ln] * 255.0 >= float(mn) - 1e-3
+            fels = np.maximum(fels, lagen[ln])
+    for ln in pr["nicht_auf"]:
+        if ln in lagen:
+            ok &= lagen[ln] < fels
+    return ok
+
+
+def teppich_maske(ctx, ts):
+    """Kiesel/Steine < 0,5 m nicht als Hangteppich (Runde 2): nur auf/um Geroell-Lagen (kontakt_m), am Weg und am Ufer."""
+    form = ctx["form"]
+    fels = np.zeros(form, bool)
+    for ln in ts.get("lagen", ["Kies", "Geroell", "Fels", "Felsplatte"]):
+        if ln in ctx["lagen"]:
+            fels |= ctx["lagen"][ln] * 255.0 >= float(ts.get("ab", 80)) - 1e-3
+    m = dilate(fels, float(ts.get("kontakt_m", 6))) if fels.any() else fels
+    wm = ctx["masken"]["weg"]
+    if wm.any():
+        m |= dilate(wm, float(ts.get("weg_m", 3)))
+    m |= ctx["dist_wasser"] <= float(ts.get("wasser_m", 5))
+    return m
+
+
 def plane_klasse(name, K, ctx, faktor):
     """Liefert dict mit Arrays (fi, fj, netz_idx, h) der Mitglieder im Fenster (noch ohne Feld-Beschnitt)."""
     R = ctx["regeln"]
@@ -696,6 +747,12 @@ def plane_klasse(name, K, ctx, faktor):
         if cov is not None:
             lf += cov * (float(w) - 1.0)
     p *= np.clip(lf, 0.0, 3.0)
+    # Korrektur Runde 2: Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100 (nie auf Gras/Wiese); Kiesel kein Hangteppich
+    pr = platten_regel(K)
+    if pr:
+        p *= platten_maske(ctx["lagen"], pr, form)
+    if K.get("teppich_sperre"):
+        p *= teppich_maske(ctx, K["teppich_sperre"])
     # Hang
     hv, hn = K.get("hang", [30, 40])
     hf = np.clip(1.0 - (hang - hv) / max(1e-6, hn - hv), 0, 1)
@@ -789,6 +846,9 @@ def instanzen_bauen(name, K, M, ctx):
     # Rotation
     up = nrm[ci, cj].copy()
     kipp = float(K.get("kippen", 1.0))
+    pr = platten_regel(K)
+    if pr:
+        kipp = max(kipp, float(pr["kippen"]))  # Runde 2: Platten voll an der Gelaendenormale
     up = np.array([0, 0, 1.0])[None, :] * (1 - kipp) + up * kipp
     yaw_mode = K.get("yaw", "zufall")
     E = R.get("exposition", {})
@@ -810,8 +870,11 @@ def instanzen_bauen(name, K, M, ctx):
     hoehe = np.array([ctx["netze"].get(p, {}).get("hoehe_m", 0.5) for p in K["netze"]])[M["netz"]]
     minz = np.array([ctx["minz"].get(p, 0.0) for p in K["netze"]])[M["netz"]]
     z = z0.copy()
-    if "eingraben_anteil" in K:
-        z -= hoehe * sz * float(K["eingraben_anteil"])
+    if "eingraben_anteil" in K or pr:
+        ant = float(K.get("eingraben_anteil", 0.0))
+        if pr:
+            ant = max(ant, float(pr["eingraben_min_anteil"]))  # Runde 2: Platten >= 50 % der Netzhoehe eingraben
+        z -= hoehe * sz * ant
     else:
         z -= float(K.get("eingraben_cm", 3)) / 100.0
     z -= minz * sz  # Netze mit Pivot über dem Fuß (min_z < 0) nicht schweben lassen
@@ -1020,6 +1083,12 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     lagen_namen = set()
     for K in regeln["klassen"].values():
         lagen_namen.update(K.get("lagen", {}).keys())
+        pr_ = platten_regel(K)
+        if pr_:
+            lagen_namen.update(pr_["lagen_min"].keys())
+            lagen_namen.update(pr_["nicht_auf"])
+        if K.get("teppich_sperre"):
+            lagen_namen.update(K["teppich_sperre"].get("lagen", ["Kies", "Geroell", "Fels", "Felsplatte"]))
     lagen = {}
     for ln in sorted(lagen_namen):
         p = os.path.join(welt_dir, "lage_%s.r8" % ln)

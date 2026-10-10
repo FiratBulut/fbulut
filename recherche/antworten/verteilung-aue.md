@@ -477,3 +477,8 @@ Kostenhinweis aus `boden-kleinzeug-gras.md`: Megascans ist seit 2025 pro Asset k
     Echtdaten-Feld daher D7 (bis 319 m, 27 % steil) neben C5.
 11. **Status-Datei** `verteilung-STATUS.md` wurde nicht verändert (Koordinator); B2 kann auf „fertig (ungetestet mit Echtdaten)“
     gesetzt werden.
+
+## Korrektur Runde 2 (10.10.2026)
+
+- Keine gesperrten Netze und keine Platten im aue-Planer. `kiesel` (Schicht 0) hat `teppich_sperre`: nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80/255, bis 3 m am Weg, bis 5 m am Wasser (Kiesbaenke bleiben Ufer-Ebene).
+- Rauchtest synthetisch F5 (Wiese-dominiert, wenig Kies): Kiesel 3 285 -> 245, Flaechenteppich-Kiesel 3 019 -> 0; Feld 25 796 Instanzen, zwei Laeufe byteidentisch, Log ASCII, 8 s. Auf Echt-F5 (Geroell 15 %, Sand 35 %) faellt der Rueckgang kleiner aus.

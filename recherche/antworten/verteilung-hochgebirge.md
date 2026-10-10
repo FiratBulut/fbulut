@@ -431,6 +431,12 @@ Fab-Allgemeines **[Suchauszug: fab.com-Launch-Meldungen]** – Namen sind Suchbe
 10. **Nicht geprüft:** Setzer-Verhalten mit 112 Netzen je Feld (Foliage-Typ-Anzahl `FT_EL_HG_*` ≈ 110), HLOD der Nicht-Nanite-Pflanzen,
    Abstimmung mit Teil C (Overrides müssen in `felsgruppen_regeln.json` übernommen werden; nicht automatisch).
 
+## Korrektur Runde 2 (10.10.2026)
+
+- `schneefleck` (Rolle platte, flache Island-/Nordic-Platten) hat `platten_regel`: nur auf `lage_Kies/Geroell/Fels/Felsplatte` >= 100/255, nie wo Gras/Wiese staerker deckt, 55 % eingegraben (Code >= 50 %), voll an der Normale; Gewichte Trockengras/Heide entfernt. Gilt im Code automatisch fuer jede Klasse mit Rolle platte/geroell_platte oder RockyGround-/flat_rock-Netzen.
+- `kiesel_schutt` hat `teppich_sperre` (nur auf/bis 6 m um Kies-/Geroell-/Fels-Lagen >= 80, bis 3 m Weg, bis 5 m Wasser). `moraene`/`paletten_zusatz.platte` bleiben in `felsgruppen_overrides` (Teil C regelt zentral).
+- Rauchtest synthetisch E2: Schneefleck-Platten 6 000 -> 1 505, davon auf Gras/ohne Fels-Lage 5 177 -> 0, zu flach 0; Hangteppich-Kiesel 5 364 -> 0 (Budget 22 000 bleibt voll); zwei Laeufe byteidentisch, Log ASCII, 6 s.
+
 ## Quellen
 
 - Repo: `vorlagen/FORMAT.md`; `vorlagen/daten/biome_je_feld.md`; `vorlagen/doku/ANALYSE_WITCHER_2026-10-08.md`; `antworten/bildkritik-witcher-messlatte.md`;

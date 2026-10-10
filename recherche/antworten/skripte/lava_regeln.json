@@ -118,7 +118,6 @@
     "akteure": 60,
     "max_anteil_je_klasse": 0.6,
     "prioritaet_behalten": [
-      "saeule",
       "baum_tot",
       "baum_kiefer",
       "verkohlt_schnag",
@@ -793,67 +792,6 @@
       "schatten": false,
       "max": 1500,
       "hinweis": "Schwarzsand-Strand-Ersatz: gerundeter Nordic-Beach-Kiesel + Kleinsteine, dunkle Material-Instanz. Die Schwarzsand-Fläche selbst ist Lage Lavasand (Landschaftsmaterial), kein Netz."
-    },
-    "saeule": {
-      "schicht": "5 wasserkante",
-      "rolle": "akteur",
-      "gruppe": "basaltsaeule_ersatz",
-      "farbe": [
-        120,
-        60,
-        200
-      ],
-      "netze": [
-        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
-        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04"
-      ],
-      "netz_gewichte": [
-        2,
-        1
-      ],
-      "wasserband_m": [
-        1.0,
-        10.0
-      ],
-      "dichte_je_m2": {
-        "sonst": 0.0025
-      },
-      "zone_faktor": {
-        "frisch": 1.0,
-        "alt": 0.8,
-        "rand": 0.3,
-        "uebergang": 0.0
-      },
-      "hang_min_grad": 28,
-      "gruppe_n": [
-        2,
-        5
-      ],
-      "gruppe_radius_m": 4.0,
-      "massstab": [
-        0.9,
-        1.5
-      ],
-      "nicht_uniform": 0.2,
-      "eingraben": [
-        0.3,
-        0.45
-      ],
-      "kippen": 0.2,
-      "yaw": "hang",
-      "hang_grad": [
-        28,
-        75
-      ],
-      "sichtweite": [
-        0,
-        0
-      ],
-      "kollision": true,
-      "schatten": true,
-      "max": 40,
-      "hinweis": "Basaltsäulen-ERSATZ an steilen Lava-Ufern: hochkant stehende lava_wall_05 (1,75×1,95×3,95 m) in Reihen 2–5 mit gemeinsamer Hauptrichtung (Yaw = Uferrichtung). Akteure (akteur_<Netz>.f32), Kollision nötig (keine Primitive im Netz). Echte Basaltsäulen: Einkaufsliste. Korrektur Runde 1: einzige Klasse > 0,8 m in diesem Planer (Lava-Sonderform, fels_ausnahme). Soll Teil C sie setzen: hier entfernen und felsgruppen_overrides.zusatzklassen.basaltsaeule.aktiv auf true.",
-      "fels_ausnahme": true
     }
   },
   "punkte": {
@@ -938,7 +876,7 @@
     },
     "opferstaette_vorschlag": {
       "max_je_feld": 1,
-      "hinweis": "Opferstätte am Kegelfuß/Spire: Steinkreis aus Schlacke (8–12 Steine, r 3 m) + AncientRuins SM_Column_03; von spuren_plan.py zu setzen."
+      "hinweis": "Opferstätte am Kegelfuß/Spire: Steinkreis aus Schlacke (8–12 Steine, r 3 m) + AncientRuins SM_Column_02 (x0,58-0,66 = ca. 3 m; Saeule Nr. 03 gesperrt, Runde 2); von spuren_plan.py zu setzen."
     }
   },
   "felsgruppen_overrides": {
@@ -1061,7 +999,7 @@
         "hinweis": "Lava trifft Wasser: abgeschreckte Bloecke 1-2,3 m im Uferband 0-6 m, 35-55 % eingegraben (Runde 0: Klasse ufer_block in lava_plan.py, 0,02 je m2 im Band, max 150 je Feld -> 200 je ha, max 75 Gruppen). Lava_Volcano-Netze ohne Kollisionsprimitive: Setzer Konvex-Huelle."
       },
       "basaltsaeule": {
-        "aktiv": false,
+        "aktiv": true,
         "palette": [
           "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
           "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04"
@@ -1098,7 +1036,7 @@
           0,
           0
         ],
-        "hinweis": "Nur Schalter: Basaltsaeulen-Ersatz setzt lava_plan.py (Klasse saeule, Yaw = Uferrichtung). Fuer die Uebergabe an Teil C aktiv true setzen und saeule aus lava_regeln.json[klassen] entfernen (sonst doppelt)."
+        "hinweis": "Korrektur Runde 2: von lava_plan.py (Klasse saeule) an Teil C uebergeben - Basaltsaeulen-Ersatz hochkant (lava_wall_05 1,75x1,95x3,95 m, lava_wall_04 4,49 m) an steilen Lava-Ufern (1-10 m vom Wasser, Hang 28-75 Grad), Reihen 2-5 mit gemeinsamer Hauptrichtung (wenn moeglich Yaw = Uferrichtung), Akteure mit Kollision. lava_plan.py setzt sie nicht mehr (keine Doppelung)."
       }
     }
   },
@@ -1184,9 +1122,13 @@
       },
       "opferstaette_saeule": {
         "palette": [
-          "/Game/AncientRuins/Meshes/SM_Column_03"
+          "/Game/AncientRuins/Meshes/SM_Column_02"
         ],
         "rolle": "akteur",
+        "massstab": [
+          0.58,
+          0.66
+        ],
         "akteur": true,
         "punkte": {
           "ebene": "lava",
@@ -1209,7 +1151,7 @@
           0,
           0
         ],
-        "hinweis": "Saeule (3,1 m) in der Mitte der Opferstaette am Kegelfuss/Spire, 25 m hangab vom Anker."
+        "hinweis": "Saeule SM_Column_02 (5,0 m x 0,58-0,66 = 2,9-3,3 m; Ersatz fuer die gesperrte Saeule Nr. 03, Korrektur Runde 2) in der Mitte der Opferstaette am Kegelfuss/Spire, 25 m hangab vom Anker."
       },
       "opferstaette_steinkreis": {
         "palette": [
@@ -1802,6 +1744,70 @@
       "schatten": true,
       "max": 150,
       "hinweis": "Lava trifft Wasser: abgeschreckte Blöcke 1–2,3 m halb im Wasser (Ufer-Band 0–6 m), tief eingegraben. Lava_Volcano-Netze haben KEINE Kollisionsprimitive → Setzer muss Komplex-als-Einfach oder Konvex-Hülle erzeugen (Taxonomie, Qualitätshinweise)."
+    }
+  },
+  "_korrektur_runde2_alt_klassen": {
+    "hinweis": "Korrektur Runde 2 (Befund 2, Konventionen Par. 4): Basaltsaeulen-Ersatz (lava_wall_04/05, 3,9-4,5 m, Felsen > 0,8 m) setzt jetzt felsgruppen_plan.py ueber felsgruppen_overrides.zusatzklassen.basaltsaeule (aktiv true). Alte Klassenwerte zur Nachvollziehbarkeit:",
+    "saeule": {
+      "schicht": "5 wasserkante",
+      "rolle": "akteur",
+      "gruppe": "basaltsaeule_ersatz",
+      "farbe": [
+        120,
+        60,
+        200
+      ],
+      "netze": [
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04"
+      ],
+      "netz_gewichte": [
+        2,
+        1
+      ],
+      "wasserband_m": [
+        1.0,
+        10.0
+      ],
+      "dichte_je_m2": {
+        "sonst": 0.0025
+      },
+      "zone_faktor": {
+        "frisch": 1.0,
+        "alt": 0.8,
+        "rand": 0.3,
+        "uebergang": 0.0
+      },
+      "hang_min_grad": 28,
+      "gruppe_n": [
+        2,
+        5
+      ],
+      "gruppe_radius_m": 4.0,
+      "massstab": [
+        0.9,
+        1.5
+      ],
+      "nicht_uniform": 0.2,
+      "eingraben": [
+        0.3,
+        0.45
+      ],
+      "kippen": 0.2,
+      "yaw": "hang",
+      "hang_grad": [
+        28,
+        75
+      ],
+      "sichtweite": [
+        0,
+        0
+      ],
+      "kollision": true,
+      "schatten": true,
+      "max": 40,
+      "hinweis": "Basaltsäulen-ERSATZ an steilen Lava-Ufern: hochkant stehende lava_wall_05 (1,75×1,95×3,95 m) in Reihen 2–5 mit gemeinsamer Hauptrichtung (Yaw = Uferrichtung). Akteure (akteur_<Netz>.f32), Kollision nötig (keine Primitive im Netz). Echte Basaltsäulen: Einkaufsliste. Korrektur Runde 1: einzige Klasse > 0,8 m in diesem Planer (Lava-Sonderform, fels_ausnahme). Soll Teil C sie setzen: hier entfernen und felsgruppen_overrides.zusatzklassen.basaltsaeule.aktiv auf true.",
+      "fels_ausnahme": true
     }
   },
   "mittelschicht_overrides": {

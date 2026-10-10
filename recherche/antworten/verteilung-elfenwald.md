@@ -324,7 +324,7 @@ RVT-Fußblend 30–60 cm, Auflage Moos 0,85 / Flechte 0,2. Abstand zu Bäumen 2,
 
 **Ruinen/Schreine (`spuren_overrides`, für `spuren_plan.py`).** Aus: Zaun, Feldstreifen, Obstgarten, Karren, Holzschlag, Köhler, Rauch, Steg,
 Mauer. **Ruine** 1–3 Gruppen je Feld à 3–8 Stücke (Radius 6–18 m) auf Kuppe/Hangschulter < 12°, 20–80 m vom Weg, nicht im Ort (+30 m), ≥ 10 m
-vom Wasser, Beschattung 0,3–0,7; Foliage `SM_Column_02/03`, `SM_Wall_02`; Akteure `SM_Main_Arch_01` (529 640 Dreiecke, ≤ 1 je Feld) und
+vom Wasser, Beschattung 0,3–0,7; Foliage `SM_Column_02`, `SM_Wall_02`; Akteur (Runde 2: Säule 03 und Hauptbogen gesperrt, entfernt) und
 `SM_Wall_01` (372 163, ≤ 2); Eingraben 15–35 %, Kippen 2–8°, Hauptrichtung ±12°, Säulenreihe 3–4 m; Bewuchs Efeu an 40 % der Wände, Moos
 6–12, Farn 2–5, Bruchsteine 3–8 je Stück. **Schrein** 1–2 je Feld: `SM_Sviatovid_Stone` an Wegkreuzung/Bachquerung, 2–4 m neben dem Weg,
 unter Altbaum oder vor Hero-Fels, 6–12 Kiesel + 8–16 Blumen; `SM_Cross` (christlich) nicht. **Steinmann** 2–6 je Feld an Wegen, 4–7 Steine.
@@ -472,3 +472,9 @@ Foliage-Typen `FT_EL_EW_*`); keine Instanz schwebt (Eingraben 1–30 cm) und kei
 7. **Blickziele** sind Vorschläge in `plan.json` (3 Arten, cm); Instanzen setzt `spuren_plan.py` nach den Overrides; der Elfenwald-Planer
    liefert nur Blumeninsel (Lichtung ×2) und Hero-Altbaum (Lichtungsrand ×12). **Laufzeit** 8–14 s je Feld (4 Kerne, ohne numba; Distanzfelder
    ≈ 6 s).
+
+## Korrektur Runde 2 (10.10.2026)
+
+- Gesperrte AncientRuins-Netze (Saeule Nr. 03, Hauptbogen Nr. 01) aus `spuren_overrides.ruine` entfernt (Ersatz SM_Column_02 als Foliage, SM_Wall_01 als Akteur); Blickziel heisst jetzt `ruine_auf_kuppe` (Ruinenwand + Saeulen).
+- Felsen > 0,8 m aus Schicht 5 an Teil C abgegeben: 5 Bloecke aus `moosstein_bach` (MossyForestRock_02, MossyForestBoulder_02/05/06/07, bis 1,3 m) -> `felsgruppen_overrides.zusatzklassen.bachblock` (40/ha im Band 0,5-6 m), ForestRockShelf_01 aus `embankment` -> `zusatzklassen.uferfelsstufe`; Embankment-Massstab 0,9-1,0 (<= 0,8 m). Keine Platten-Netze im Planer.
+- Rauchtest synthetisch G4: 51 999 Instanzen, zwei Laeufe byteidentisch, gesperrte Netze 0, Log ASCII, 11 s.

@@ -1083,7 +1083,7 @@
    "gruppe": "gleich",
    "massstab": [
     0.8,
-    1.6
+    1.1
    ],
    "eingraben_cm": 14,
    "kippen": 1.0,
@@ -1094,7 +1094,7 @@
    "kollision": false,
    "schatten": true,
    "gross": false,
-   "hinweis": "Ufer-Ebene (FT_EL_UF_*) setzt bereits Kiesel/Kopfsteine; hier nur bemooste Ergänzung, Dichte bewusst niedrig"
+   "hinweis": "Ufer-Ebene (FT_EL_UF_*) setzt bereits Kiesel/Kopfsteine; hier nur bemooste Ergänzung, Dichte bewusst niedrig. Korrektur Runde 2: Massstab max 1,1 (MossyForestRock_02 0,71 m x 1,1 = 0,78 m < 0,8 m; Bloecke > 0,8 m nur felsgruppen)."
   },
   "uferfarn": {
    "schicht": "5 wasserkante",
@@ -1405,11 +1405,10 @@
   "tempelruine": {
    "netze": [
     "AncientRuins/Meshes/SM_Column_02",
-    "AncientRuins/Meshes/SM_Column_03",
     "AncientRuins/Meshes/SM_Wall_02",
-    "AncientRuins/Meshes/SM_Wall_01",
-    "AncientRuins/Meshes/SM_Main_Arch_01"
+    "AncientRuins/Meshes/SM_Wall_01"
    ],
+   "gesperrt_runde2": "gesperrte AncientRuins-Netze (Saeule Nr. 03, Hauptbogen Nr. 01; leere Grundfarbtextur, netz_check_ergebnis.json textur_leer) entfernt, Korrektur Runde 2",
    "je_feld": [
     1,
     2

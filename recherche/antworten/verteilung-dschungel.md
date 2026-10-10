@@ -260,7 +260,7 @@ Palette, LimestoneRocks als Platten), 1–3 Hero je Turm (`Mossy_Rock_Formation_
 mit 2–5 Nebenblöcken, Kollision ab 0,8 m. `dschungel_plan.py` liefert dafür in `plan.json["karst"]` Zellzahlen und in `blickziele[]` die
 höchsten Wandzellen (`karstturm`, bis 3 je Feld, 150 m Sperrkreis).
 `spuren_overrides`: AsianTemple-Spuren – im Inventar sind vom Paket **nur** Bush/Cliff/Fern/Tree/Vines, keine Tempel-, Laternen-, Brücken-
-oder Treppennetze. Ersatz: AncientRuins `SM_Column_02/03`, `SM_Wall_01/02`, `SM_Main_Arch_01`, 1–2 Ruinen je Feld auf flachem Karstfuß
+oder Treppennetze. Ersatz: AncientRuins `SM_Column_02`, `SM_Wall_01/02` (Runde 2: Säule 03 und Hauptbogen gesperrt), 1–2 Ruinen je Feld auf flachem Karstfuß
 10–40 m von der Wand und ≤ 60 m vom Weg (Blickziel `tempelruine`), 18–30 m Fläche, 10–30 % eingegraben, um die Ruine Lianen ×2,
 Moos ×2,5, Riesenfarn ×1,5. Dazu `doline` (geschlossene Senke, Relief ≥ 8 m in 40 m: Farne/Moos, Nebel-Volumen) und `wasserfall`
 (Wasserzelle mit ≥ 8 m Abfall in 10 m: Gischt, Moos + Farne im Umkreis 15 m) als Blickziele.
@@ -382,3 +382,9 @@ geklippt, leeres Gelände) 0 Instanzen in 4,2 s mit Hinweisen, fehlende Basis �
    aber mit B6 abstimmen, damit beide Planer nicht dieselben Zellen füllen.
 8. *(Runde 1 geändert)* Teil D liest `mittelschicht_overrides` aus `dschungel_regeln.json` (Palette, Faktor, Zusatzklassen,
    `entfernen_je_feld`); bis das umgesetzt ist, fehlen im Dschungel Farne/Stauden statt doppelt zu stehen.
+
+## Korrektur Runde 2 (10.10.2026)
+
+- Gesperrte AncientRuins-Netze (Saeule Nr. 03, Hauptbogen Nr. 01) aus `spuren_overrides.tempelruine.netze` entfernt; es bleiben SM_Column_02, SM_Wall_01, SM_Wall_02.
+- `moosstein` (Schicht 5): Massstab 0,8-1,6 -> 0,8-1,1, damit MossyForestRock_02 (0,71 m) unter 0,8 m bleibt. Keine Platten im Planer (Karstplatten/geroell_platte nur in `felsgruppen_overrides`).
+- Rauchtest synthetisch H6: 26 768 Instanzen, zwei Laeufe byteidentisch, gesperrte Netze 0, Log ASCII, 16 s.

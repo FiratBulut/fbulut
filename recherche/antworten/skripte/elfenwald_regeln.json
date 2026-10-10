@@ -1009,14 +1009,9 @@
    "moosstein_bach": {
     "netze": [
      "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
-     "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
      "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03",
      "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
      "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
-     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
-     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
-     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
-     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07",
      "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01"
     ],
     "dichte_band": [
@@ -1048,13 +1043,13 @@
     "lagen_faktor": {
      "Kies": 1.5,
      "Fels": 1.5
-    }
+    },
+    "hinweis": "Korrektur Runde 2: nur noch Steine/flache Moosplatten <= 0,64 m (Hoehe x Massstab 1,4); die Bloecke 0,61-0,94 m (x1,4 bis 1,3 m) setzt felsgruppen_plan.py als zusatzklassen.bachblock."
    },
    "embankment": {
     "netze": [
      "/Game/Megascans/3D_Assets/MossyEmbankment/SM_MossyEmbankment_01",
-     "/Game/Megascans/3D_Assets/MossyEmbankment/SM_MossyEmbankment_02",
-     "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01"
+     "/Game/Megascans/3D_Assets/MossyEmbankment/SM_MossyEmbankment_02"
     ],
     "dichte_band": [
      0.012,
@@ -1071,7 +1066,7 @@
     "radius_m": 0.0,
     "massstab": [
      0.9,
-     1.4
+     1.0
     ],
     "eingraben_cm": 30,
     "kippen": 1.0,
@@ -1083,7 +1078,8 @@
     "schatten": true,
     "hang_max": 60,
     "hang_min": 18,
-    "lagen_faktor": {}
+    "lagen_faktor": {},
+    "hinweis": "Korrektur Runde 2: nur noch Moos-Erdboeschungen (MossyEmbankment 0,6/0,79 m hoch, Massstab 0,9-1,0 -> <= 0,8 m); die Felsstufe ForestRockShelf_01 (0,95 m) setzt felsgruppen_plan.py als zusatzklassen.uferfelsstufe."
    },
    "farn_ufer": {
     "netze": [
@@ -1927,7 +1923,87 @@
   "entfernen_witcher_vorschlag": [
    "sm_mossyforestboulder_0",
    "sm_lichenedforestboulder_01"
-  ]
+  ],
+  "zusatzklassen": {
+   "bachblock": {
+    "palette": [
+     "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+     "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07"
+    ],
+    "rolle": "fels_block",
+    "dichte_je_ha": 40.0,
+    "wasser_abstand_m": [
+     0.5,
+     6.0
+    ],
+    "hang_grad": [
+     0,
+     50
+    ],
+    "massstab": [
+     0.7,
+     1.4
+    ],
+    "eingraben_anteil": [
+     0.3,
+     0.45
+    ],
+    "gruppe": {
+     "groesse": [
+      1,
+      3
+     ],
+     "radius_m": 2.0
+    },
+    "kollision": true,
+    "sichtweite": [
+     0,
+     35000
+    ],
+    "akteur": false,
+    "hinweis": "Korrektur Runde 2 (Konventionen Par. 4): bisher Teil von elfenwald Schicht 5 moosstein_bach (Band 0,5-6 m am Bach, Dichte zum Wasser hin hoeher, Kies/Fels-Lagen x1,5). Bemooste Bachbloecke 0,6-1,3 m, eng gruppiert; nur Zellen mit Biom elfenwald (+ Saum)."
+   },
+   "uferfelsstufe": {
+    "palette": [
+     "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01"
+    ],
+    "rolle": "fels_block",
+    "dichte_je_ha": 2.0,
+    "wasser_abstand_m": [
+     0.5,
+     4.0
+    ],
+    "hang_grad": [
+     18,
+     60
+    ],
+    "massstab": [
+     0.9,
+     1.4
+    ],
+    "eingraben_anteil": [
+     0.3,
+     0.45
+    ],
+    "gruppe": {
+     "groesse": [
+      1,
+      1
+     ],
+     "radius_m": 0
+    },
+    "kollision": true,
+    "sichtweite": [
+     0,
+     40000
+    ],
+    "akteur": false,
+    "hinweis": "Korrektur Runde 2: bisher Teil von elfenwald Schicht 5 embankment (Band 0,5-4 m, Hang 18-60 Grad). Felsstufe 5,4 x 2,4 x 0,95 m an steilen Bachufern."
+   }
+  }
  },
  "spuren_overrides": {
   "biom": "elfenwald",
@@ -1945,14 +2021,13 @@
   ],
   "ruine": {
    "netze_foliage": [
-    "/Game/AncientRuins/Meshes/SM_Column_03",
     "/Game/AncientRuins/Meshes/SM_Column_02",
     "/Game/AncientRuins/Meshes/SM_Wall_02"
    ],
    "netze_akteur": [
-    "/Game/AncientRuins/Meshes/SM_Main_Arch_01",
     "/Game/AncientRuins/Meshes/SM_Wall_01"
    ],
+   "gesperrt_runde2": "gesperrte AncientRuins-Netze (Saeule Nr. 03, Hauptbogen Nr. 01; leere Grundfarbtextur, netz_check_ergebnis.json textur_leer) entfernt, Korrektur Runde 2; Ersatz SM_Column_02 (Foliage) und SM_Wall_01 (Akteur)",
    "gruppen_je_feld": [
     1,
     3
@@ -2008,7 +2083,7 @@
      8
     ]
    },
-   "limits": "SM_Wall_01 372 163 Dreiecke und SM_Main_Arch_01 529 640 Dreiecke (Nanite): nur als Akteur, je Feld <= 1 Bogen und <= 2 Wall_01"
+   "limits": "SM_Wall_01 372 163 Dreiecke (Nanite): nur als Akteur, je Feld <= 2 Wall_01"
   },
   "schrein": {
    "netze": [
@@ -2095,7 +2170,7 @@
     20,
     80
    ],
-   "beschreibung": "lokales Hoehenmaximum (geglaettet 25 m) nahe Weg: Ruinenbogen + 2-4 Saeulen (spuren_overrides.ruine)"
+   "beschreibung": "lokales Hoehenmaximum (geglaettet 25 m) nahe Weg: Ruinenwand SM_Wall_01 + 2-4 Saeulen SM_Column_02 (spuren_overrides.ruine)"
   },
   "bach_querung": {
    "beschreibung": "Schnittpunkt Weg (dilatiert 6 m) x Wasser: Schrein (Sviatovid) 3 m neben dem Weg, Moossteine x2 im Umkreis 8 m"

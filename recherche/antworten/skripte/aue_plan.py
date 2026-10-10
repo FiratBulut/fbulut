@@ -7,6 +7,7 @@ Eine Ebene `aue` mit vier Schichten: `0 boden` (Laub, Zweige, Kiesel, Bodendecke
 Kiefern-Gruppen, Solitäre, Totbäume), `5 wasserkante` (Schilfgürtel, Seggen, Uferstauden-Saum, Uferwurzeln).
 Höhenstufen Ufer → Aue → Terrasse aus Abstand und relativer Höhe zum nächsten Wasser.
 
+Korrektur Runde 2: Kiesel mit `teppich_sperre` nur auf/um Kies-/Geroell-/Fels-Lagen, am Weg und am Ufer (kein Flaechenteppich).
 Korrektur Runde 1 (antworten/verteilung-KONVENTIONEN.md, verbindlich):
   §1 Zuständigkeit: Biom je Zelle aus eigner.r8 + welt.json (Kennzahl 0 = Weltgelände → aue, Vulkan/Lava → lava; Fallback
      dominantes Feldbiom aus daten/biome_je_feld.json nur, wenn eigner.r8 oder welt.json fehlt). biome_eigen = [aue].
@@ -206,6 +207,20 @@ def dilate(mask, r):
             n[:-1, 1:] |= m[1:, :-1]
             n[:-1, :-1] |= m[1:, 1:]
         m = n
+    return m
+
+
+def teppich_maske(lagen, ts, weg_m, d_wasser):
+    """Kiesel/Steine < 0,5 m nicht als Flaechenteppich (Korrektur Runde 2): nur auf/um Geroell-Lagen (kontakt_m), am Weg (weg_m)
+    und am Ufer (wasser_m). lagen = float 0-1."""
+    fels = np.zeros(weg_m.shape, bool)
+    for ln in ts.get('lagen', ['Kies', 'Geroell', 'Fels', 'Felsplatte']):
+        if ln in lagen:
+            fels |= lagen[ln] * 255.0 >= float(ts.get('ab', 80)) - 1e-3
+    m = dilate(fels, float(ts.get('kontakt_m', 6))) if fels.any() else fels
+    if weg_m.any():
+        m |= dilate(weg_m, float(ts.get('weg_m', 3)))
+    m |= d_wasser <= float(ts.get('wasser_m', 5))
     return m
 
 
@@ -717,6 +732,8 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     for sch in regeln['schichten'].values():
         for kl in sch.values():
             lagen_namen |= set(kl.get('lagen_faktor', {}).keys())
+            if kl.get('teppich_sperre'):
+                lagen_namen |= set(kl['teppich_sperre'].get('lagen', ['Kies', 'Geroell', 'Fels', 'Felsplatte']))
     lagen = {}
     for ln in sorted(lagen_namen):
         a = r8('lage_%s.r8' % ln)
@@ -876,6 +893,8 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             for ln, w in kl.get('lagen_faktor', {}).items():
                 if ln in lagen:
                     lam *= 1 + (w - 1) * lagen[ln]
+            if kl.get('teppich_sperre'):  # Runde 2: Kiesel nicht flaechig ueber Wiesen/Haenge
+                lam = lam * teppich_maske(lagen, kl['teppich_sperre'], weg_m, d_wasser)
             SD = regeln.get('sand')
             if SD and SD['lage'] in lagen and kname not in SD.get('ausnahmen', []):
                 lam *= 1 - (1 - SD['faktor_bei_voll']) * lagen[SD['lage']]
