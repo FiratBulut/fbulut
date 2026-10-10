@@ -1,6 +1,6 @@
 # Leere füllen: Mittelschicht 0,3–3 m und Spuren von Leben (Auftrag 11, Teil D)
 
-**Projekt:** Eldarien, UE 5.8.3, 9,6 × 7 km, 62 Landfelder. **Stand:** 2026-10-10 (Fortsetzung nach API-Abbruch). **Lieferung:** dieser Bericht, `skripte/mittelschicht_regeln.json` + `mittelschicht_plan.py`, `skripte/spuren_regeln.json` + `spuren_plan.py`. **Status der Skripte:** `py_compile` sauber; Rauchtest mit synthetischer Produktionswurzel bestanden (G4 mit Orten/Weg/See/932 Bäumen, Randfeld A1, baumloses G3, Budget-Zwangstest, Fehlerpfade; Abschnitt 5). Echtdaten-Lauf der Vorfassung lokal ohne Absturz (A5/G4/E1/C6); **Korrektur Runde 1 siehe Abschnitt 8** (Biom-Zuständigkeit, Pflichtschlüssel, Ebenen-Abgrenzung, Override-Schema, Budget, ASCII-Logs). Beide Planer prüfen beim Start alle Netzpfade ihrer Regeldatei gegen `daten/netze.csv` (237 + 85 Pfade, 0 fehlend) und brechen bei unbekannten Netzen mit Liste ab. Paletten nachträglich gegen `assets-taxonomie.json` geprüft: 663 von 830 Netz-Biom-Zuordnungen der Mittelschicht haben Eignung ≥ 1 (80 %); die übrigen sind bewusste Zweitverwertung in Biomen ohne eigene Mittelschicht (gletscher, frost, lava, oedland, canyon, wueste: Trockengras, Dürräste, Totbäume) sowie 54 Dschungel-Zuordnungen (gemäßigte Farne/Holunder als Füller; Abschnitt 7).
+**Projekt:** Eldarien, UE 5.8.3, 9,6 × 7 km, 62 Landfelder. **Stand:** 2026-10-10 (Fortsetzung nach API-Abbruch). **Lieferung:** dieser Bericht, `skripte/mittelschicht_regeln.json` + `mittelschicht_plan.py`, `skripte/spuren_regeln.json` + `spuren_plan.py`. **Status der Skripte:** `py_compile` sauber; Rauchtest mit synthetischer Produktionswurzel bestanden (G4 mit Orten/Weg/See/932 Bäumen, Randfeld A1, baumloses G3, Budget-Zwangstest, Fehlerpfade; Abschnitt 5). Echtdaten-Lauf der Vorfassung lokal ohne Absturz (A5/G4/E1/C6); **Korrektur Runde 1 siehe Abschnitt 8** (Biom-Zuständigkeit, Pflichtschlüssel, Ebenen-Abgrenzung, Override-Schema, Budget, ASCII-Logs). **Korrektur Runde 2 siehe Abschnitt 9** (Spuren-Ensembles statt Einzelteile, Sichtachsen in der Mittelschicht, gesperrte Netze). Beide Planer prüfen beim Start alle Netzpfade ihrer Regeldatei gegen `daten/netze.csv` (237 + 85 Pfade, 0 fehlend) und brechen bei unbekannten Netzen mit Liste ab. Paletten nachträglich gegen `assets-taxonomie.json` geprüft: 663 von 830 Netz-Biom-Zuordnungen der Mittelschicht haben Eignung ≥ 1 (80 %); die übrigen sind bewusste Zweitverwertung in Biomen ohne eigene Mittelschicht (gletscher, frost, lava, oedland, canyon, wueste: Trockengras, Dürräste, Totbäume) sowie 54 Dschungel-Zuordnungen (gemäßigte Farne/Holunder als Füller; Abschnitt 7).
 
 ## 1. Befund aus den Bildern: was in 0,5–3 m Höhe fehlt
 
@@ -404,6 +404,188 @@ Damit steht die Alpenrose nur noch im Krummholz und auf der Matte, nicht mehr un
 byteidentisch, ASCII-Logs, 3–5 s je Feld. Die Stufenanteile im Log stimmen mit dem hochgebirge-Rechenweg überein
 (E2: bergwald 27 %, krummholz 20 %, matte 18 %, fels/schnee 35 %).
 Hochgebirge muss `hoehe_max_m` in seinen `mittelschicht_overrides` noch auf Stufenangaben umstellen.
+
+## 9. Korrektur Runde 2 (10.10.2026)
+
+Grundlage: `auftraege/verteilung-korrektur-runde2.md`, Befunde 1, 3 und 4.
+
+Was die Bilder zeigen:
+- `CLOUD1_G4_hain1` gegen `HEUTE1_G4_hain1`: Die Mittelschicht wirkt. Unter den Kiefern stehen Jungbäume, Farn und Sträucher, das Bild ist geschichtet. Sie bleibt deshalb unverändert, bis auf Sichtachsen.
+- `CLOUD1_A5_rundgang`: Von Spuren ist nichts zu sehen. Echtdaten Runde 1: A5 1 050 Instanzen, G4 1 133 Instanzen und 19 Akteure. Das sind fast nur Einzelteile von 0,2 bis 1,5 m, nämlich Steinmann-Steine, Mauersteine, einzelne Kreuze und Karren.
+
+Geänderte Dateien: `skripte/spuren_plan.py`, `spuren_regeln.json`, `mittelschicht_plan.py`, `mittelschicht_regeln.json`. Die Regeldateien der Biom-Planer werden nur gelesen.
+
+### 9.1 Spuren-Ensembles (`spuren_regeln.json["ensembles"]`)
+
+Je Feld entstehen 1–3 Ensembles. Die Zielzahl ist 1, dazu 1 je 1,2 km Weg im Feld und 1, wenn ein Ort im Feld liegt; höchstens 3. Ohne Weg entsteht kein Ensemble.
+
+Ein Ensemble ist ein Anker mit 3–8 Teilen in fester Komposition. Die Lage der Teile ist in Ortskoordinaten angegeben: u läuft entlang des Wegs (je Standort per Hash gespiegelt), v zeigt vom Weg weg. Alle Teile richten sich gemeinsam zum Weg aus (Front zum Weg, entlang der Tangente oder mit festem Winkel zur Tangente). Benachbarte Teile liegen 1–6 m auseinander. Die Vorlagen stehen im JSON und lassen sich ohne Code ändern.
+
+| Typ | Teile (u/v in m) | Biome laut Regel | Vorrang am Anker |
+|---|---|---|---|
+| `wegkreuz` | Kreuz (Akteur, 2,2–2,6-fach) auf 3 Sockelsteinen (0/0), Zaunstück aus 2 Feldern (−6,6…−0,9 / 2,4–2,9; in Stein-Biomen ein Mauerstück), Holzstapel (2,6/2,4), 2 Sträucher (v 3,6–3,9), Findling (3,9/0,6) | aue, bergwald, tundra, heide, kueste, sumpf, fjord, gletscher, frost | Kreuzung |
+| `mauerrest_steinmann` | zwei Trockenmauer-Läufe mit 1,4 m Lücke als Ecke (−6,5…4,2 / 2,1–3,9), Steinmann 1,15-fach (1,0/0,9), Findling, Versturz aus 6 Steinen, Ast/Stamm | fjord, kueste, bergwald, heide, tundra, gletscher, frost, lava, oedland, canyon | Knick/Aussicht |
+| `rastplatz` | Feuerstelle aus 7 Steinen im Ring r 0,75 (0/2,6) mit Rauchpunkt `lagerfeuer` 0,3 und Fläche r 4 m „Erde“, 2 Holzstapel, Karren (Akteur, 4,6/1,4, Tangente +8°), Ladung (Fass, Kiste, Sack), Sitzstamm | aue, bergwald, tundra, heide, kueste, sumpf, fjord, oedland, canyon, wueste | Wegrand |
+| `ortsrand` | Zaunlauf 13 m (0,8…14 / 2,5; Stein-Biome: Mauer), Brunnen (nur bei Taxonomie-Eignung, sonst Tränke/Trog), 2 Fässer, Feldkante aus 3 Reihen Feldfrucht/Stoppel mit Fläche 12 × 10 m „Erde“, Heu, Holzstapel | alle | Ortsrand |
+| `schrein` | Bildstock: im Elfenwald der Bildstein aus `spuren_overrides.schrein`, sonst `SM_Column_02` 0,6–0,7-fach; dazu Laterne, Kieselkranz, Sträucher, Sitzstein bzw. -stamm | elfenwald, dschungel, aue, sumpf, heide | Kreuzung |
+| `ruinenrast` | Mauerrest `SM_Wall_02` (Akteur, 45 % eingegraben), Säulenstumpf `SM_Column_02` (50 % eingegraben), Bruchsteine und Bewuchs aus `spuren_overrides.ruine` des Elfenwalds, kleiner Steinmann | elfenwald, dschungel, canyon, oedland, aue, sumpf, heide | Knick, Wegrand |
+
+**Wie die Typen je Biom zustande kommen.** Drei Filter wirken nacheinander:
+1. Netze: die Zonen-Palette nach den `spuren_overrides`, auch Sonderform-Netze wie Bildstein, Bruchsteine und Farn der Ruine.
+2. Taxonomie (`assets-taxonomie.json`): Ein Teil braucht Eignung ≥ 1 im Biom. Sonst entfällt es, oder der nächste Schlüssel der Rückfall-Liste greift. Netze mit Eignung 0 werden aus dem Teil entfernt. Ohne Taxonomie-Datei gibt das Log einen Hinweis, und nur die Biomlisten gelten.
+3. Tor-Faktoren der Overrides gelten je Teil: `aus`, `verbote` und `faktor`. Beispiele: Elfenwald ohne Zaun, Mauer, Karren und Rauch; Sumpf ohne Karren und Steinmann.
+
+Ein Typ ist nur zulässig, wenn alle Pflichtteile vorhanden sind und mindestens 3 Teile übrig bleiben. Ergebnis mit den aktuellen Overrides (Zahl = Teile):
+
+| Biom | zulässige Typen |
+|---|---|
+| aue | wegkreuz (6), schrein (5), rastplatz (6), ruinenrast (5), ortsrand (6) |
+| heide | wegkreuz (6), schrein (5), rastplatz (6), mauerrest_steinmann (6), ruinenrast (5), ortsrand (6) |
+| bergwald, kueste, tundra | wegkreuz (6), rastplatz (6), mauerrest_steinmann (6), ortsrand (6) |
+| fjord | wie bergwald, ortsrand mit 5 Teilen |
+| elfenwald | schrein (4), ruinenrast (5) |
+| sumpf | wegkreuz, schrein, rastplatz, ruinenrast, ortsrand (je 4–6) |
+| dschungel | schrein (3), ruinenrast (4) |
+| canyon, oedland | mauerrest_steinmann, ruinenrast |
+| gletscher, frost | mauerrest_steinmann |
+
+wueste und lava bekommen keinen Typ. Ihnen fehlen geeignete Holz- und Vorratsnetze, und die Lava-Overrides verbieten Mauern. Dort bleiben die Sonderformen Galgen, Brunnen und Opferstätte.
+
+**Ankerregeln.** Ein Standort liegt 4–6,5 m neben dem nächsten Weg, mindestens 16 m innerhalb des Feldes und mindestens 4 m vom Wasser entfernt, bei Hang ≤ 14°. Die Anker:
+
+| Anker | Regel | Bonus |
+|---|---|---|
+| Ortsrand | Abstand zum Ort aus `karte_ort.r8` 8–35 m, am Weg | 3 |
+| Kreuzung | im Umkreis von 12 m um eine verdichtete Wegzelle (`kreuzung()`) | 3 |
+| Knick/Aussicht | im Umkreis von 10 m um Wegzellen mit Strukturtensor-Kohärenz < 0,7 (σ 8 m) oder um Wegzellen mit Prominenz ≥ 4 m und Sichtanteil ≥ 0,65 | 2 |
+| Wegrand | übrige Standorte | 0 |
+
+Außer am Ortsrand gilt ein Mindestabstand von 60 m zum Ort. Je 60-m-Raster bleibt der beste Kandidat. Danach wählt der Planer gierig nach Score mit mindestens 220 m Abstand zwischen den Ensembles. Bei der Typwahl zählt der Vorrang aus `anker_typen`. Typen, die im Feld schon benutzt sind, rücken nach hinten; ein kleiner Hash mischt die Reihenfolge.
+
+**Sichtbarkeit (Raster-Heuristik).** Der Score enthält:
+- 1,5 × (1 − Beschattung), geglättet mit Radius 5 m,
+- −0,2 × Stämme im 9 × 9-m-Fenster, und zwar am Standort und auf halbem Weg zwischen Weg und Standort,
+- 0,04 × Prominenz,
+- 0,6 × Sichtanteil (Anteil tiefer liegender Umgebung).
+
+„Streng frei“ heißt: Beschattung ≤ 0,5, höchstens 1 Stamm davor, mindestens 80 % freie Fläche im 13 × 13-m-Fenster. Steht dichter Wald bis an den Weg, gibt es eine Notfallstufe (Beschattung ≤ 0,8, höchstens 3 Stämme, 60 % frei) mit Malus 4. Der Malus ist größer als jeder Anker-Bonus, streng freie Standorte gehen also immer vor. Einzelne Teile auf Stamm (1,5 m) oder Wasser entfallen. Die Mittelschicht lichtet den Umkreis jedes Ensembles aus (9.3).
+
+**Ausgabe.**
+- Gruppe `ensemble`, Sichtweite 600 m (Kleinteile 200 m). Kreuz, Karren, Säule, Mauerrest und Brunnen werden als Akteure gesetzt.
+- `plan.json["ensembles"]` enthält je Ensemble id, typ, anker, biom, zone, x/y/z, `yaw_front_rad` (Richtung Standort → Weg), die gesetzten Teile, Instanzen, `weg_m` und die Sichtwerte.
+- Feuerstellen liefern Rauchpunkte, Feldkanten und Rastplätze Flächen.
+- Im Budget sind Ensembles `geschuetzt`. Sie werden erst ab Runde 7 als letztes Mittel gedünnt. Zwangstest mit Deckel 2 000: Alle 160 Ensemble-Instanzen blieben erhalten.
+
+### 9.2 Weniger verstreute Einzelteile (`spuren_regeln.json["einzelteile"]`)
+
+Die Faktoren wirken nach den Biom-Overrides als deterministische Ausdünnung je Objekt:
+
+| Einzelteil | Faktor bzw. Grenze |
+|---|---|
+| Steinmann als Wegmarke | 0,15 |
+| Steinmann frei | 0,25 |
+| Steinmann auf Kuppen | höchstens 2 je Feld, die mit der höchsten Prominenz |
+| einzelnes Wegkreuz | 0,3 |
+| Karren | 0,35 |
+| Einzelgrab | 0,4 |
+
+Im Umkreis von 40 m um ein Ensemble steht kein Einzelteil. Die Kernzone von 12 m bleibt für alle anderen Spuren gesperrt.
+
+Unverändert bleiben alle Sonderformen der Biome (Hecken, Stege, Pfähle, Knüppeldamm, Pferche, freie Mauern, Ruinen, Steinkreis, Hügelgrab, Galgen, Brunnen, Opferstätte) und alles am Ort (Feldstreifen, Obstgarten, Zaun am Weg, Friedhof).
+
+**Synthetischer Rauchtest:**
+
+| Feld | Einzelteil-Objekte vorher | nachher | Instanzen Steinmann + Wegkreuz + Karren |
+|---|---|---|---|
+| A5-artig | 57 (44 Steinmänner, 7 Kreuze, 3 Karren, 3 Gräber) | 11 (−81 %) | 305 → 48 |
+| G4-artig | 40 | 12 (−70 %) | 148 → 44 |
+
+### 9.3 Sichtachsen in der Mittelschicht (`mittelschicht_regeln.json["sichtachsen"]`)
+
+**Blickziele:**
+- `plan.json["blickziele"]` und `["ensembles"]` aus `spuren/` und allen Biom-Ebenen, jeweils Feld und 8 Nachbarn, damit an Feldgrenzen nichts springt.
+- Lichtungsmitten. Lichtung heißt: Beschattung < `licht.lichtung_schwelle`, Waldanteil im 30-m-Umfeld ≥ 0,3. Je 120-m-Raster (globale Koordinaten) gilt die Zelle mit dem größten Abstand zum Lichtungsrand als Mitte, sofern dieser Abstand ≥ 8 m ist; je Lichtung bleibt eine Mitte. Das Kronendach stammt aus den Baum-Ebenen, ohne Baum-Ebene aus den Lagen.
+
+**Wo die Dichte sinkt:**
+- Kegel: Je Ziel gibt es bis zu 2 Blickpunkte auf dem Weg. Der erste ist der nächste Weg im Umkreis von 180 m, der zweite liegt mindestens 60 m vom ersten entfernt. Vom Blickpunkt zum Ziel läuft ein Kegel mit Halbwinkel 10°, mindestens 6 m breit, mit 4 m weichem Rand. Dichtefaktor **0,5**.
+- Offener Lichtungsrand: Nicht-Wald bis 6 m vor der Waldkante, nur um gefundene Lichtungen. Faktor **0,6**. Der Saum im Wald dahinter bleibt.
+- Umkreis 10 m um Spuren-Ensembles: Faktor **0,5**.
+
+Betroffen sind nur hohe Klassen: Strauch, Jungbaum, Hochstaude, Farn, Totbaum, Stumpf, dazu Zusatzklassen mit strauch/busch/jungbaum/farn/staude/bananen/wacholder/hasel/holunder/krummholz im Namen, z. B. Adlerfarn, Riesenfarn-Insel und Staudenflur. Gras, Beeren, Pilze, Äste und liegendes Totholz bleiben, und außerhalb der Achsen ändert sich nichts.
+
+`aktiv: false` misst nur. `plan.json["statistik"]["sichtachsen"]` enthält Ziele, Lichtungen, `kegel_cm` (Blickpunkt und Ziel), `lichtung_mitten_cm`, Fläche und Instanzen im Korridor. Das Prüfbild tönt die Achsen bläulich. Liegen mehr als 15 % der Feldfläche in Achsen, kommt eine WARNUNG.
+
+**Reihenfolge:** `spuren_plan.py` vor `mittelschicht_plan.py` planen, damit die Ensembles gelesen werden. Die Reihenfolge beim Setzen bleibt wie bisher.
+
+**Synthetischer Rauchtest:**
+
+| Feld | gesamt vorher → nachher | im Korridor, alle Klassen | im Korridor, hohe Klassen | Achsenfläche |
+|---|---|---|---|---|
+| G4-artig (27 738 Kiefern, 4 Lichtungen) | 45 408 → 45 139 (−0,6 %) | 1 192 → 940 | 827 → 575 (−30 %) | 1,8 % des Feldes: 5 Lichtungsmitten, 3 Spuren-Blickziele, 3 Ensembles, 10 Kegel |
+| A5-artig | 26 366 → 26 337 (−0,1 %) | 186 → 158 | 64 → 36 | 1,1 % |
+
+Die Gesamtzahl sinkt also weit weniger als die erlaubten 10–15 %. Die G4-Wirkung bleibt erhalten.
+
+### 9.4 Gesperrte Netze
+
+`gesperrt` in beiden Regeldateien sperrt zwei Netze:
+- `/Game/AncientRuins/Meshes/SM_Column_03`
+- `/Game/AncientRuins/Meshes/SM_Main_Arch_01`
+
+Grund: leere Grundfarbtextur, `netz_check_ergebnis.json` (`textur_leer`, 23 Netze, die übrigen löst der Editor per Ersatzmaterial).
+
+Wie gefiltert wird:
+- `SM_Column_03` ist aus `spuren_regeln.netze.saeule` entfernt.
+- Beim Lesen der eigenen Regeln und aller Override-Blöcke wird rekursiv gefiltert, auch Kurzpfade wie `AncientRuins/Meshes/SM_Column_03` und Schlüssel von `netze_massstab`.
+- Spuren setzen in Listen und Einzelwerten Ersatz ein: `SM_Column_03 → SM_Column_02`, `SM_Main_Arch_01 → SM_Wall_01`. Duplikate entfallen. Die Mittelschicht braucht keinen Ersatz.
+- Letzte Sperre im Instanz-Sammler bzw. in der Klassenpalette.
+- Log-Zeile: „Override …: n Eintraege mit gesperrten Netzen gefiltert …“; dazu `plan.json["gesperrt"]` mit `instanzen_im_plan`.
+
+Die aktuellen Biom-Regeldateien (dschungel, elfenwald, lava) hatten die Netze beim Test schon selbst entfernt. Deshalb lief ein Zwangstest: Elfenwald-Ruine und Elfenwald-Palette `farn` bekamen beide Netze zurück. Ergebnis: Log-Hinweise in beiden Planern, 0 gesperrte Instanzen, Ruine mit `SM_Column_02`/`SM_Wall_01`. Der Vorlauf mit der alten Fassung hatte in G4 noch `akteur_SM_Column_03` geschrieben.
+
+### 9.5 Rauchtest (Cloud, synthetisch, Raster danach gelöscht)
+
+Synthetische Produktionswurzel (volle Raster 7057 × 9577):
+- **A5-artig:** Küstenrücken bis 280 m, Meer im Westen, Serpentine mit Abzweig, Weiler auf ebener Terrasse, kueste/bergwald/fjord, 6 855 Bäume.
+- **G4-artig:** Kiefernwald mit 27 738 Bäumen und 4 Lichtungen, Wegkreuzung, Abzweig mit Knick, Dorf am Weg, See, elfenwald/heide/aue.
+
+Override-Dateien: Momentaufnahme aller neun Biom-Regeldateien. „Vorher“ = Fassung Runde 1 (git HEAD) mit denselben Daten.
+
+| Prüfung | Ergebnis |
+|---|---|
+| Spuren A5 | 2 345 → 2 272 Instanzen, Akteure 11 → 4. Ensembles: `ortsrand` (Ortsrand, kueste, 6 Teile, 113 Inst.), `rastplatz` (Wegrand, fjord, 5 Teile, 13 Inst., Rauchpunkt), `mauerrest_steinmann` (Wegrand, kueste, 6 Teile, 68 Inst.); alle streng frei |
+| Spuren G4 | 6 048 → 5 864 Instanzen, Akteure 19 → 12. Ensembles: `ortsrand` (heide, 6 Teile, 130 Inst.), `ruinenrast` (elfenwald, 5 Teile, 19 Inst.), `schrein` (Kreuzung im Wald, Notfallstufe, 3 Teile, 11 Inst.) |
+| Teile je Ensemble | 3–6 (Mittel 5,2); 11–130 Instanzen |
+| Mittelschicht | siehe 9.3; „vorher“ (Runde-1-Skript) und „nur gemessen“ (`aktiv: false`) sind identisch (26 366 / 45 408) |
+| Sperren | 0 Instanzen auf Wasser, Weg oder Ort; 0 gesperrte Netze |
+| Format | Σ anzahl = instanzen, Kollision = `kollision_anzahl`, Quaternionen normiert |
+| Leeres Feld A1 | Spuren 0 Instanzen mit Hinweis „kein Weg“; Mittelschicht läuft |
+| Determinismus | zwei Läufe je Planer (A5, G4, A1), alle f32 byte-identisch (103 bzw. 375 Dateien) |
+| ASCII | 0 Nicht-ASCII-Zeichen in allen Logs |
+| Budget | Spuren-Zwangstest mit Deckel 2 000 / 300: 5 852 → 1 987, Ensembles unverändert 160, WARNUNG im Log |
+| Laufzeit | Spuren 14–16 s, Mittelschicht 6–7 s je Feld |
+| `py_compile` | beide Skripte sauber |
+
+**Erwartung Echtdaten:**
+- A5 (1 050) sinkt deutlich im Anteil Steinmann-Steine, Kreuze und Karren. Dazu kommen 1–3 Ensembles mit 15–130 Instanzen, je nach Wegen und Ort.
+- G4 (1 133 + 19 Akteure) bekommt im Elfenwald Schrein und Ruinenrast, an Heide/Aue-Wegen Wegkreuz, Rastplatz oder Mauerrest.
+- Die Mittelschicht sinkt um 0,5–3 %.
+
+### 9.6 Prüfkameras
+
+Allgemein: Höhe 170 cm, 35 mm. Kameras für Ensembles stehen auf dem Weg gegenüber dem Ensemble. Die Position ist `ensembles[k]` x/y plus (`weg_m` + 2 m) in Richtung `yaw_front_rad`; der Blick geht entgegengesetzt, zum Ensemble.
+
+1. **A5 Ensembles nah:** je Ensemble aus `spuren/A5/plan.json["ensembles"]`, Abstand 15–20 m, auf dem Weg seitlich versetzt. Erwartet: eine lesbare Gruppe, z. B. Zaunlauf mit Brunnen bzw. Trog und Feldkante, oder Mauerecke mit Steinmann davor. Die Teile richten sich zum Weg aus, kein Baum steht davor.
+2. **A5 Ensembles auf 60–80 m** vom Weg aus (Rundgang-Höhe). Erwartet: Die Silhouette ist als Ort erkennbar (Mauerecke, Karren, Rauch). Auf 300 m (`CLOUD1_A5_rundgang`) bleiben 1–2 m hohe Teile physikalisch klein; sichtbar sind dort nur Rauch und Mauerrest bzw. Wand. Felsgruppen bleiben die Fernform (Teil C).
+3. **G4 Waldweg-Ensemble:** Schrein oder Ruinenrast im Elfenwald, Kamera auf dem Weg. Erwartet: im Umkreis von 10 m halbe Strauch- und Farndichte, Wand und Säule frei sichtbar.
+4. **G4 Sichtachse:** Kamera am Blickpunkt aus `mittelschicht/G4/plan.json["statistik"]["sichtachsen"]["kegel_cm"]` (erste zwei Werte), Blick zum Ziel (letzte zwei). Erwartet: im 10°-Kegel lichter, Lichtung bzw. Blickziel frei. Links und rechts davon bleibt die Schichtung wie in `CLOUD1_G4_hain1`.
+5. **G4 Lichtungsrand:** Kamera an `lichtung_mitten_cm`, Blick zur Waldkante. Erwartet: Die vorderen 6 m sind lichter, der Saum aus Jungbäumen und Sträuchern dahinter ist unverändert.
+
+### 9.7 Offen
+
+1. Die Taxonomie-Datei muss lokal neben dem Skript liegen, `daten/assets-taxonomie.json` oder `scripts/assets-taxonomie.json`. Sonst gelten nur die Biomlisten (Hinweis im Log). Folge: Die Laterne könnte dann am Elfenwald-Schrein erscheinen.
+2. Für wueste und lava gibt es keinen Ensemble-Typ (siehe 9.1). Einkaufsliste §6: Wegweiser, Bildstock und Marktstand würden dort helfen.
+3. Wie sichtbar die Ensembles auf 300 m sind, hängt an der Netzgröße. Mit 1–2 m Props ist die Fernwirkung begrenzt. Die Wirkung entsteht auf 20–80 m vom Weg.
 
 ## Quellen
 

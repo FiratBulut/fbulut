@@ -1148,9 +1148,16 @@ def sichtachsen_feld(regeln, ziele, weg_m, wald, d_kante, lichtung, gi, gj, im_f
                 pts.append((float(wi_[k2]), float(wj_[k2])))
         return pts
     ziel_liste = [(z[0], z[1]) for z in ziele if z[2] == 'blickziel'] + [(float(a), float(b)) for a, b, _ in lichtungen]
+    wi0, wj0 = int(gi[0, 0]), int(gj[0, 0])
+
+    def cm(a, b):
+        return [round(float((b + wj0 - X0) * 100), 1), round(float((a + wi0 - Y0) * 100), 1)]
+    info['kegel_cm'] = []  # [Wegpunkt x, y, Ziel x, y] je Kegel (Prüfkamera: am Wegpunkt, Blick zum Ziel)
     for ti, tj in ziel_liste:
         for P in blickpunkte(ti, tj):
-            info['korridore'] += _kegel(F, P, (ti, tj), halb_tan, wmin, rand, fk)
+            if _kegel(F, P, (ti, tj), halb_tan, wmin, rand, fk):
+                info['korridore'] += 1
+                info['kegel_cm'].append(cm(*P) + cm(ti, tj))
     # offener Lichtungsrand (zur Lichtung hin)
     rb = float(SA.get('lichtungsrand_breite_m', 6))
     if lichtungen:
@@ -1176,8 +1183,7 @@ def sichtachsen_feld(regeln, ziele, weg_m, wald, d_kante, lichtung, gi, gj, im_f
     maske = F < 0.999
     info['flaeche_feld_m2'] = int((maske & im_feld).sum())
     info['anteil_feld'] = round(float((maske & im_feld).sum()) / max(1, int(im_feld.sum())), 4)
-    info['lichtung_mitten_cm'] = [[round(float((b + gj[0, 0] - X0) * 100), 1), round(float((a + gi[0, 0] - Y0) * 100), 1), round(r_, 1)]
-                                  for a, b, r_ in lichtungen]
+    info['lichtung_mitten_cm'] = [cm(a, b) + [round(r_, 1)] for a, b, r_ in lichtungen]
     return F, info
 
 

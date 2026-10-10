@@ -1479,7 +1479,7 @@
       "kippen": 0.6,
       "eingraben_cm": 6,
       "roll_grad": 4,
-      "tor": "zaun"
+      "tor": "zaun_weg"
      },
      {
       "teil": "brunnen",
