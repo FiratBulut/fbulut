@@ -1215,7 +1215,7 @@ SCHEMA6 = ('palette', 'rolle', 'dichte_je_ha', 'hang_grad', 'hoehe_m', 'wasser_a
            'eingraben_anteil', 'gruppe', 'kollision', 'sichtweite', 'akteur')
 # Erweiterungen, die spuren_plan.py zusätzlich auswertet: Standorte aus Punkten einer anderen Ebene, Obergrenze je Feld,
 # Ringanordnung der Gruppe, Wegabstand
-SCHEMA6_ERWEITERUNG = ('punkte', 'max_je_feld', 'anordnung', 'weg_abstand_m')
+SCHEMA6_ERWEITERUNG = ('punkte', 'max_je_feld', 'anordnung', 'weg_abstand_m', 'meer_rolle', 'strand')
 
 
 class Zone:
