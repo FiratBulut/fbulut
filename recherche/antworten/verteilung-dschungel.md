@@ -1,8 +1,9 @@
 # Verteilung Biomgruppe 7: Dschungel inkl. Karst-Kalktürme (Guilin / Ha Long, Yakushima, Azoren-Lorbeerwald)
 
 **Auftrag 11, Teil B7.** Biom `dschungel`, Foliage-Präfix `FT_EL_DS_`, Ordner `/Game/Eldarien/Welt/Foliage/Dschungel`. Stand 2026-10-10.
-Lieferung: dieser Bericht, `skripte/dschungel_regeln.json` (31 Klassen, 134 Paletteneinträge, alle gegen `daten/netze.csv` geprüft, 0 fehlend;
-dazu `felsgruppen_overrides` und `spuren_overrides` für Teil C/D), `skripte/dschungel_plan.py` (Planer, FORMAT §3/§5).
+Lieferung: dieser Bericht, `skripte/dschungel_regeln.json` (Korrektur Runde 1: 18 Planer-Klassen, dazu `mittelschicht_overrides` mit
+12 Klassen-Paletten + 3 Zusatzklassen für Teil D, `felsgruppen_overrides` und `spuren_overrides` für Teil C/D; alle Pfade gegen
+`daten/netze.csv` geprüft, 0 fehlend), `skripte/dschungel_plan.py` (Planer, FORMAT §3/§5, Konventionen §1–§5).
 **Alles UNGETESTET MIT ECHTDATEN** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern (H6, §5) rauchgetestet; der
 Rauchtest wurde nach dem Sitzungsabbruch wiederholt, zwei Fehler behoben (Wandkanten, Budget) und das Ergebnis nachgeprüft.
 Web-Quellen konnten nur als Suchmaschinen-Auszüge gelesen werden; solche Belege sind mit **[Suchauszug]** markiert, Zahlen ohne
@@ -11,10 +12,107 @@ Beleg als **Richtwert**. Quellenliste am Ende von §1.
 Betroffene Felder: **H6** (dschungel 100 %, Laub 59, Fels 12, Kraut 8, Schlamm 8, Moos 7), **I6** (100 %, Sand 33, Laub 26, Fels 8, Moos 5,
 steil 31 %), **G6** (97 %, Laub 33, Fels 13, Schlamm 9, Wasser 1,4 %), **G7/H7/I7** (73–76 %, Rest aue, 10–22 % Land), Anteile in **G5**
 (22 %, Heide dominant), **I5** (21 %, Bergwald), **H5** (12 %, Sumpf). Karst-Kalktürme laut Auftrag in G6, H6, I6, I7 (`felder[..].karst`).
-Der Planer läuft nur auf Zellen mit Biom `dschungel` (`eigner.r8` + `welt.json`), Nachbarbiome bekommen einen 30-m-Saum ab der Dschungel-
-grenze und danach Faktor 0,3 (aue/bergwald), 0,45 (sumpf), 0,25 (elfenwald), 0,2 (kueste), 0 (heide und alle kalten/trockenen Biome).
-Kennzahl 0 (Weltgelände) wird – abweichend von FORMAT §2 (`aue`) – als **dominantes Feldbiom** gelesen (`feld_biom_fallback`), weil in
-G6–I7 das Weltgelände der Dschungelboden ist; wo das falsch ist, Fallback-Tabelle anpassen.
+Der Planer bebaut nur Zellen mit Biom `dschungel` (`eigner.r8` + `welt.json`, Kennzahl 0 = `aue`) plus einen 30-m-Saum mit linear
+fallender Dichte; bei weniger als 2 % Dschungel im Fenster schreibt er einen leeren `plan.json` (Abschnitt **Korrektur Runde 1**; die
+Runde-0-Regeln mit Grundfaktoren für Nachbarbiome und `feld_biom_fallback` sind gestrichen).
+
+## Korrektur Runde 1 (10.10.2026, nach `auftraege/verteilung-korrektur-runde1.md` und `verteilung-KONVENTIONEN.md`)
+
+**Anlass (Echtdaten-Test 10.10. 15:30).** Der Dschungel-Planer lief ohne Absturz, setzte aber Instanzen in Feldern ohne Dschungel:
+A5 (kueste/bergwald/aue) **1 038**, G4 (elfenwald 76 %, heide 22 %) **15 590**, E1 (gletscher) 0, C6 (lava 99 %) **2 783**. Ursache war
+die Biom-Logik aus Runde 0. Nachbarbiome bekamen nach dem 30-m-Saum einen Grundfaktor (aue/bergwald 0,3, elfenwald 0,25, kueste 0,2,
+sumpf 0,45), und Kennzahl 0 wurde über `feld_biom_fallback` gelesen. Felder, die in dieser Tabelle fehlen, fielen damit auf `aue` mit Faktor 0,3 zurück. Daher kamen C6 und G4 zu
+ihren Instanzen, obwohl es dort kaum Dschungel-Zellen gibt.
+
+### Änderungen
+
+| Punkt | Runde 0 | Korrektur Runde 1 |
+|---|---|---|
+| Biom je Zelle (§1) | Kennzahl 0 → dominantes Feldbiom (`feld_biom_fallback`) | Kennzahl 0 und Kennzahlen ohne erkennbares Rezept → **`aue`**, Vulkan/Lava-Rezept → `lava`; nur wenn `eigner.r8`/`welt.json` fehlen: dominantes Feldbiom aus `daten/biome_je_feld.json` (Hinweis im Log). `feld_biom_fallback` und `biom_faktor` sind gestrichen |
+| Zuständigkeit (§1) | Dschungel 1,0, Nachbarbiome Grundfaktor 0,2–0,45 überall | `zustaendigkeit.biome_eigen = ["dschungel"]`. Nur eigene Zellen plus **30-m-Saum, linear 1 → 0** (Distanztransformation über Jump-Flooding, NumPy). Fremde Zellen weiter weg bekommen 0 |
+| Leerplan (§1) | – | Eigenanteil im Fenster (Feld + 64 m) **< 2 %** → `plan.json` mit `instanzen: 0`, `dateien: {}`, `entfernen: ""`, alte `.f32` gelöscht, eine Logzeile |
+| plan.json (§2) | – | neu: `biome_fenster` (Anteile, absteigend), `zellen_zustaendig` (Feldzellen mit Faktor > 0), `biome_eigen`, `kollision_anzahl`; in `statistik` zusätzlich `anteil_eigen_fenster`, `biom_quelle`, `saum_m` |
+| Budget (§3) | proportionale Hash-Ausdünnung. Weil die Faktoren mit `min` statt multiplikativ verknüpft waren, blieb im Rauchtest 3 005 > 3 000 Kollision stehen | Faktoren multiplizieren sich, danach **exakte Kappung** (`kappe`): Kollision ≤ `kollision_je_feld` 3 000, gesamt ≤ `hart_instanzen_je_feld` 60 000; Ziel 50 000; je Schicht Boden 22 000 / Mittel 12 000 / Baum 9 000 / Wasserkante 5 000; jede Ausdünnung als `WARNUNG` in Log und `hinweise`, Kleinzeug-Hinweis „Landschafts-Gras übernimmt“ |
+| Lianen-Satelliten | entstanden vor der Baum-Ausdünnung, an gestrichenen Bäumen blieben dadurch Lianen ohne Stamm stehen | werden erst **nach** dem Budget an den verbliebenen Laubbäumen erzeugt (geprüft: max. 1,60 m zum nächsten eigenen Laubbaum) |
+| Ebenen (§4) | Schicht 1 mit 15 Klassen (Farne, Stauden, Strauch, Jungpalme, Totholz, Wurzel, Gras, Karstplatte …), Pilz/Ast in Schicht 0 | Schicht 1 nur noch **Dschungel-Sonderformen**: `liane_stamm` (Epiphyten-/Lianen-Ersatz an Stämmen eigener Laubbäume), `liane_wand` (Kletterpflanzen in Karstspalten/Steilwänden 40–78°), `moos_polster` (aus Schicht 0 hierher, kletterfähig bis 75°, Karstfuß 2-fach). Generische Klassen → `mittelschicht_overrides`, `karstplatte` → `felsgruppen_overrides.karstplatte` (Teil C hat dieselben Netze schon als `geroell_platte`). Schicht 0 (Streu, Bodendecker, Zweige, Keimlinge, Blüteninseln), 2 (Bäume, Palmen) und 5 (Wasserkante) bleiben |
+| entfernen | `sm_fern_01a,sm_fern_02a,sm_vines_01a` | B7 entfernt nur noch `sm_vines_01a` (setzt Lianen selbst); Farn-Entfernung steht als `mittelschicht_overrides.entfernen_je_feld`, weil jetzt Teil D die Farne setzt |
+| Blickziele | Karstturm, Wasserfall und Tempelruine auf jeder Feldzelle möglich | nur auf Dschungel-Zellen |
+| Logs (§5) | Umlaute, „→“, „…“ in `print()` | alle Logs über `ascii_text()` nur ASCII (ae/oe/ue/ss, `->`, `...`), geprüft: 0 Nicht-ASCII-Bytes; fehlende `hoehe.f32`/Regeldatei/unbekanntes Feld → `FEHLER: …`, **Exit-Code 2** |
+
+### Override-Schema `mittelschicht_overrides` (in `dschungel_regeln.json`, für `mittelschicht_plan.py`)
+
+```
+"mittelschicht_overrides": {
+  "biom": "dschungel",
+  "alias":   {"totholz_liegend": "totholz", "totholz_stumpf": "stumpf", "totholz_ast": "ast"},   # Konventionsname → heutiger Klassenname in mittelschicht_regeln.json
+  "palette": {klasse: [Unreal-Pfade]},       # ersetzt die Netzliste von mittelschicht_regeln.json["biome"]["dschungel"][klasse]
+  "faktor":  {klasse: float},                # multipliziert deren "dichte" [licht, schatten]; 0 = Klasse aus
+  "parameter": {klasse: {schluessel: wert}}, # optional: einzelne Klassenschlüssel überschreiben (massstab, eingraben_cm, kippen, sichtweite, kollision, laengs_hang, hang_max)
+  "zusatzklassen": {name: Klassenblock},     # vollständige Klassen im mittelschicht-Schema (netze, dichte [licht, schatten], gruppe, radius_m, massstab, eingraben_cm, kippen,
+                                             # sichtweite, kollision, saum, feuchte, hang_max, hoehe_max_m, lichtungsrand, laengs_hang, an_baum) + farbe + herkunft_b7
+  "entfernen_je_feld": {feld: "praefix,…"}   # Witcher-Farne, die Teil D beim Setzen der Mittelschicht entfernt (G6, H6, I6, G7, H7, I7)
+}
+```
+
+Die verbindliche Dschungel-Palette aus §3 ist damit maschinenlesbar. Alle 75 Pfade (59 Palette, 16 Zusatzklassen) wurden gegen `vorlagen/daten/netze.csv` geprüft, es fehlen 0.
+
+| Klasse | Palette (Netze) | Faktor | Parameter / Begründung |
+|---|---|---|---|
+| farn | Megascans Fern 01/02/04/05, EagleFern M_01/S_01/S_02, SilverLadyFern 01/02, BeechFern 04/09, `SM_Fern_01a/02a` (13) | 1,3 | Maßstab 0,9–1,5, kippen 0,5, Hang ≤ 45°; farnreicher Unterwuchs |
+| strauch | nur `SM_Bush_01a` | 0,6 | Maßstab 0,45–0,8; Unterholz ist Farn/Staude |
+| jungbaum | `SM_Palm_01_07…12_G` (6) – keine Hainbuchen-Schösslinge | 1,5 | Maßstab 0,8–1,4, Sicht 150 m (Palms_Pack ohne Nanite) |
+| hochstaude | Crownbeard 03/04/07/08, Pestwurz 01–03 | 0,6 | weil `staudenflur` als Zusatzklasse kommt |
+| grasbueschel | KikuyuGrass 01/04/05/06/07/10 | 0,6 | nur Lichtungen/Karstgipfel |
+| totholz_liegend | MossyTree_01, LargeFallenTree_02, OldFallenTree_01, FallenTreeAssembly_01 | 1,0 | eingraben 28 cm, kippen 0,9, **Kollision**, längs Hang, Sicht 500 m |
+| totholz_stumpf | RottenTreeStump 01/02, TreeStump_01, BrokenStump_01 | 1,0 | eingraben 18 cm, Sicht 400 m |
+| totholz_ast | OldTreeBranch 01/04/06, BrokenTreeBranch_01, OakBranch_01 | 0,8 | eingraben 6 cm, längs Hang |
+| wurzel | MossyForestRoots 01–03, ForestRoots_01 | 1,2 | eingraben 10 cm, Normale voll |
+| kletter | `SM_Vines_01a`, Ivy 11/12/17/18/21/25 | 0,5 | B7 bedient eigene Laubbäume (`liane_stamm`) und Wände (`liane_wand`), Teil D die Bestand-/Witcher-Bäume |
+| pilz | Meadow `SM_mushroom_01/02` | 1,0 | bis tropische Pilze importiert sind |
+| beere | – | 0 | keine Beerensträucher im Dschungel |
+| **Zusatz** `riesenfarn_insel` | Fern 01/02/04/05, `SM_Fern_01a` | dichte [0,006 licht, 0,03 schatten] | Gruppen 3–12 in 4 m, Maßstab 1,1–1,9, Lichtungsrand 0,4 (B7 Runde 0: 0,045/m², Farninseln 22 m, Karstfuß 1,7) |
+| **Zusatz** `staudenflur` | Crownbeard 03/04/07/08, Pestwurz 01/02, Holunder 05/07 | [0,02, 0,003] | Gruppen 3–8, Lichtungsrand 2,5 (Lichtungs-Staudenflur) |
+| **Zusatz** `bananen_ersatz` | Holunder 08/09, Pestwurz 03 (×1,5–2,4) | [0,006, 0,003] | Gruppen 1–3, Feuchte 0,6–1,8 (B7: nur 0–40 m vom Wasser), bis Megascans Banana importiert ist |
+
+Die bisherigen B7-Parameter (Lichtkurve, Karstfaktoren, Kern-Dichte) stehen je Zusatzklasse unter `herkunft_b7`, damit nichts verloren
+geht. `felsgruppen_overrides` (Karsttürme als Akteure, Moosblöcke, Geröllplatten, neu `karstplatte` mit Dichte 0,004, Fuß 3,0, Gipfel 1,5)
+und `spuren_overrides` (Tempelruine, Pfad; `um_ruine.riesenfarn` → `riesenfarn_insel`) bleiben erhalten.
+
+### Rauchtest Korrektur Runde 1 (synthetisch, Raster neu erzeugt, danach gelöscht)
+
+Synthetische Produktionswurzel im Scratchpad. `hoehe.f32` hat volle Größe (memmap) mit zwei Karsttürmen (110/80 m) in H6, einem 2-m-Bach, einem Weg und einem Ort.
+`eigner.r8`/`welt.json`: 5 = dschungel, 7 = elfenwald, 8 = heide, 0 = Weltgelände. H6 ist Dschungel mit einer Weltgelände-Ecke (→ aue, 5 %),
+G4 hat nur elfenwald/heide, G5 ist im Westen heide und im Osten dschungel. Dazu `lage_*.r8`, `bestand/H6` (300 Bäume), `daten/netze.csv` und `biome_je_feld.json`.
+Aufruf `python -I -X utf8 dschungel_plan.py H6 G4 G5 --bild`:
+
+| Feld | Instanzen | Kollision | Schichten Baum / Mittel / Boden / Wasser | biome_fenster | zellen_zustaendig | Zeit |
+|---|---|---|---|---|---|---|
+| H6 (eigene Zellen) | **30 343** | 2 690 | 8 330 / 4 047 / 17 715 / 251 | dschungel 0,949, aue 0,051 | 990 479 | 15 s |
+| G4 (elfenwald/heide) | **0** (Leerplan) | 0 | – | elfenwald 0,862, heide 0,138 | 0 | < 1 s |
+| G5 (Mischfeld, Saum) | **13 568** | 1 226 | 4 050 / 1 728 / 7 790 / 0 | heide 0,546, dschungel 0,414, elfenwald 0,041 | 452 886 | 9 s |
+
+Geprüft wurde Folgendes:
+- **Schlüssel:** Alle Pflichtschlüssel (FORMAT §3 und Konventionen §2) sind vorhanden. `instanzen` ist gleich der Summe der `.f32`, `kollision_anzahl` ist gleich der Zahl der Instanzen mit `kollision=true`, und jede Datei hat `ebene`.
+- **Zuständigkeit:** Außerhalb von Dschungel-Zellen liegen in H6 139 Instanzen (höchstens 25 m entfernt) und in G5 869 (höchstens 29 m entfernt). Im Westsaum von G5 stehen innen 219 Instanzen je 10-m-Band, außen 166 / 95 / 38 in 0–10 / 10–20 / 20–30 m und 0 ab 30 m. Die Dichte fällt also linear.
+- **Determinismus:** Bei zwei Läufen sind die MD5 aller `.f32` gleich, und `plan.json` ist bis auf `stand`/`laufzeit_s` identisch.
+- **Budget mit `--faktor 3`:** 40 656 Instanzen, davon 2 988 mit Kollision. Die Ausdünnung steht als WARNUNG im Log.
+- **Harte Kappung:** Mit Testregeln (Kollision 1 000, gesamt 20 000) ergeben sich exakt 1 000 / 20 000 Instanzen. Gestrichen wurden zuerst `laub_mittel` bzw. Keimlinge.
+- **Fallback ohne `eigner.r8`:** G4 wird über `biome_je_feld` als elfenwald gelesen und bekommt einen Leerplan. H6 wird als dschungel gelesen (31 225 Instanzen), mit Hinweis im Log.
+- **Fehlerfälle:** Fehlende `hoehe.f32` und ein unbekanntes Feld (K9) enden mit Exit-Code 2 und einer `FEHLER`-Zeile.
+- **Logs:** Sie enthalten 0 Nicht-ASCII-Bytes. `py_compile` und pyflakes sind sauber (nur der optionale numba-Import ist ungenutzt).
+
+Der Wert für H6 ist nicht 1:1 mit Runde 0 vergleichbar (54 932, anderes synthetisches Raster). Der Rückgang kommt vor allem aus der Mittelschicht:
+23 944 → 4 047, weil Farne, Stauden, Totholz und Gras jetzt Teil D setzt.
+
+**Erwartung mit Echtdaten** (`erwartung_je_feld`):
+- A5, G4, E1 und C6 → **0** (Leerplan), weil `biome_je_feld` dort keinen Dschungel zeigt. Dschungel-Zellen aus Nachbarfeldern im 64-m-Rand liegen unter 2 %.
+- H6 30 000–45 000, G6 25 000–42 000, I6 18 000–35 000.
+- G7/H7/I7 3 000–11 000.
+- G5/I5/H5 2 000–10 000, nur auf ihren Dschungel-Zellen plus Saum.
+
+**Offen für Echtdaten:**
+- **Kennzahl 0:** Sind die Dschungelflächen in `eigner.r8` als Kennzahl 0 (Weltgelände) kodiert, liest der Planer sie nach Konvention als `aue`, und H6 bleibt fast leer. `biome_je_feld.json` meldet für H6 100 % dschungel, die Kacheln sollten also das Rezept `dschungel` tragen. Das bitte beim ersten Lauf an `biome_fenster` prüfen.
+- **Teil D:** Teil D muss `mittelschicht_overrides` lesen, bis dahin fehlen im Dschungel die Farne/Stauden der Runde 0.
 
 ## 1. Referenzanalyse: Was einen Fantasy-Dschungel mit Kalktürmen zwischen Boden und Krone füllt
 
@@ -98,6 +196,10 @@ Lichtungen (16 %) haben Baumfaktor 0,12. Bäume werden groß → klein geplant; 
 280/200/150 m und keine Kollision (Stamm < 40 cm; Capsule im Foliage-Typ, falls nötig).
 
 ### 2.2 Schicht 1 mittel (Budget 24 000)
+
+> **Stand Runde 0.** Seit Korrektur Runde 1 setzt B7 in Schicht 1 nur noch `liane_stamm`, `liane_wand` und `moos_polster` (Budget 12 000).
+> Riesenfarn, Kleinfarn, Staude, Bananen-Ersatz, Strauch, Jungpalme, Totholz, Wurzel und Gras stehen als `mittelschicht_overrides` für
+> Teil D, die Karstplatte steht als `felsgruppen_overrides.karstplatte` für Teil C. Die Tabelle bleibt als Herkunft der Parameter stehen.
 
 | Klasse | Netze (Auszug) | Dichte /m² | Zelle | Licht | Hang max | Karst Fuß/Spalte/Gipfel | Maßstab | Eingraben | Sicht | Besonderes |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -192,7 +294,9 @@ in `hinweise`.
   entfallen lassen (Begründung: Türme brauchen Gipfel-/Fußlogik und Moos-Blend, nicht Statistik); außerhalb der Karstfelder unverändert.
 - **`FT_EL_UF_*` (Ufer):** bleibt führend an allen Ufern; die Wasserkante hier ist nur Moosstein (0,05/m², 0,3–3,5 m), Uferfarn, Schilf,
   Schachtelhalm, alle ohne Kollision.
-- **Teil D (`mittelschicht_plan.py`, `spuren_plan.py`):** Teil D nutzt im Dschungel 54 Netz-Zuordnungen mit Taxonomie-Eignung 0 und bittet um
+- **Teil D (`mittelschicht_plan.py`, `spuren_plan.py`)** – *überholt durch Korrektur Runde 1:* Die Palette unten steht jetzt
+  maschinenlesbar in `dschungel_regeln.json["mittelschicht_overrides"]`. Teil D setzt die generischen Klassen im Dschungel selbst
+  (kein Nullsetzen mehr), B7 nur noch Lianen und Moospolster. Ursprünglicher Text: Teil D nutzt im Dschungel 54 Netz-Zuordnungen mit Taxonomie-Eignung 0 und bittet um
   Abstimmung. **Verbindliche Dschungel-Palette für Teil D** (gleiche Netze wie hier, damit beide Ebenen ein Bild ergeben):
   - farn: `SM_Fern_01/02/04/05` (Megascans Fern), `SM_EagleFern_M_01/S_01/S_02`, `SM_SilverLadyFern_01/02`, `SM_BeechFern_04/09`, `SM_Fern_01a/02a`;
   - strauch: nur `SM_Bush_01a` (Maßstab 0,45–0,8 wie bei Teil D); Holunder **nur** `SM_Elderberry_05/07/08/09` als Bananen-Ersatz 1,5–2,4-fach,
@@ -261,8 +365,8 @@ geklippt, leeres Gelände) 0 Instanzen in 4,2 s mit Hinweisen, fehlende Basis �
 
 ## 6. Offene Punkte
 
-1. **Echtdaten**: Kennzahl 0 in `eigner.r8` → Feldbiom (hier) vs. `aue` (FORMAT) muss am echten `welt.json` geprüft werden; wenn die
-   Dschungelkacheln eigene Kennzahlen haben, `feld_biom_fallback` auf `aue` zurückstellen.
+1. **Echtdaten**: *(Runde 1 erledigt: Kennzahl 0 → `aue` nach Konvention, `feld_biom_fallback` gestrichen.)* Am echten `welt.json`
+   prüfen, dass die Dschungelkacheln eine eigene Kennzahl mit Rezept `dschungel` haben (`plan.json["biome_fenster"]`).
 2. **Wandzellen**: `wand_grad` 50 setzt voraus, dass die Karsttürme im Landschafts-Höhenfeld stehen. Sind sie nur als Felsschalen-Akteure
    vorhanden (Höhenfeld flach), erkennt der Planer keinen Turm (Hinweis im Log) – dann `karst`-Lagen aus den Akteur-Positionen von Teil C
    ableiten (Erweiterung: `felsgruppen/<Feld>/plan.json` lesen).
@@ -276,4 +380,5 @@ geklippt, leeres Gelände) 0 Instanzen in 4,2 s mit Hinweisen, fehlende Basis �
    Deckel 5 000.
 7. **Sumpf-Übergang H5** (sumpf 78 %, dschungel 12 %): Biomfaktor sumpf 0,45 lässt Palmen in den Sumpfsaum laufen – gewollt (Palmsumpf),
    aber mit B6 abstimmen, damit beide Planer nicht dieselben Zellen füllen.
-8. Teil D muss die Abstimmung aus §3 (Klassen auf 0 in G6–I7) in `mittelschicht_regeln.json` nachziehen; bis dahin doppelte Farne.
+8. *(Runde 1 geändert)* Teil D liest `mittelschicht_overrides` aus `dschungel_regeln.json` (Palette, Faktor, Zusatzklassen,
+   `entfernen_je_feld`); bis das umgesetzt ist, fehlen im Dschungel Farne/Stauden statt doppelt zu stehen.

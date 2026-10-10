@@ -2,8 +2,9 @@
 
 **Projekt:** Eldarien, UE 5.8.3, 1-m-Raster 9577 × 7057, World Partition, Nanite. **Stand:** 2026-10-10.
 **Lieferung:** dieses Dokument, `skripte/felsgruppen_regeln.json` (alle Zahlen), `skripte/felsgruppen_plan.py` (Planer, FORMAT.md §3/§5).
-**Status:** Skript in der Cloud syntaxgeprüft und mit einem **synthetischen** B4-Fenster rauchgetestet (Abschnitt d). **Kein Lauf mit
-Echtdaten, kein Setzen im Editor.** Zahlen ohne Quelle sind Richtwerte und so markiert. Web-Quellen nur als Suchauszüge (kein
+**Status:** Vorfassung lief lokal mit Echtdaten (A5, G4, E1, C6) ohne Absturz; **Korrektur Runde 1** (Abschnitt h) setzt
+`verteilung-KONVENTIONEN.md` um und ist in der Cloud nur synthetisch rauchgetestet (B4 + G4). Kein Setzen im Editor. Zahlen ohne Quelle sind
+Richtwerte und so markiert. Web-Quellen nur als Suchauszüge (kein
 Direktzugriff auf Epic-Doku/Fab/80.lv aus dieser Umgebung).
 
 ## a) Kurzbefund aus den Bildern: warum die Felsen „aufgeklebt“ wirken
@@ -138,6 +139,9 @@ Als Default-Master für alle Felsnetze der Paletten eintragen (Fab-MSPresets wer
 ohne numba). Danach `docs/pruefung/felsgruppen/<Feld>.png` prüfen: rot = Grat, orange = Band, magenta = Wand, hellblau = Fächer, blau =
 Blockstrom, gelb = Kuppe, grün = Prallhang, braun = Wände > 50°. Erwartung: rote Gruppen nur auf Kammlinien, orange in Linien gleicher Höhe
 mit sichtbarer Neigung, hellblau als Säume unter braunen Flächen, nichts in Talmulden ohne Wand, nichts in Wasser/Weg/Ort.
+Seit Korrektur Runde 1 (Abschnitt h): rosa = Klasse `einzel` (Mindestdichte); Log-Zeilen `Overrides <datei> -> …`, `Biome im Fenster …`,
+`Mindestdichte …` und `WARNUNG Budget` prüfen; Vergleich ohne Biom-Overrides mit `--ohne-overrides`, eigener Override-Ordner mit
+`--overrides-ordner PFAD`.
 
 **Setzen.** Generischer Setzer auf `export/unreal/welt/felsgruppen/<Feld>/`; Einträge mit `rolle: "akteur"` (Dateien `akteur_<Netz>.f32`,
 Liste `akteure`) als StaticMeshActor (Ordner `Felsgruppen/<Feld>`, Tag `EL_Felsgruppe`), alle anderen als HISM-Foliage `FT_EL_FG_<Netz>` unter
@@ -242,3 +246,134 @@ aus `klippennetze-a5.md` (Nanite, Kollision Convex, Texturen auf 4K klemmen, `us
    keine Felsgruppen).
 10. **Nicht geprüft:** Verhalten des `entfernen`-Filters im vorhandenen Setzer (löscht Präfixe nur im Feld?), HLOD-Einbindung der Akteure
    (siehe `hlod-fernansicht-world-partition.md`), Shader-Kosten von `M_EL_Klippe_RVT` (nur Ableitung).
+
+## h) Korrektur Runde 1 (10.10.2026)
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md`, `antworten/verteilung-KONVENTIONEN.md` (verbindlich), `vorlagen/FORMAT.md`.
+Geändert: nur `skripte/felsgruppen_plan.py`, `skripte/felsgruppen_regeln.json` und dieses Dokument (gleiche Dateinamen).
+
+**Echtdaten-Referenz (lokaler Lauf der Vorfassung, Windows, Python 3.11, `python -I -X utf8`):**
+
+| Feld | Biome (biome_je_feld) | Instanzen | Bemerkung |
+|---|---|---|---|
+| A5 | kueste 75, bergwald 14, aue 11 | 13 311 (65 Akteure) | Erwartung „Küste 24 % Land" 6 000–15 000 – im Rahmen |
+| G4 | elfenwald 76, heide 22, aue 3 | 114 | flach (Ø 23 m, 1 % > 30°): wenig Fels richtig, aber keine Moosfelsen im Wald → Mindestdichte (unten) |
+| E1 | gletscher 100 | 18 482 | im Rahmen „Berg 60–75 % steil" |
+| C6 | lava 99 | 27 357 | im Rahmen „Lava" 12 000–30 000 |
+
+### Änderungen
+
+1. **Biom je Zelle strikt (§1).** `eigner.r8` + `welt.json["kacheln"][k]["rezept"]`; Kennzahl 0 = Weltgelände → `aue` (nicht mehr das
+   dominante Feldbiom), Rezept mit „vulkan"/„lava" → `lava`, sonst Biomname im Rezept (z. B. `K6_FJORD` → fjord); unbekanntes Rezept oder
+   Kennzahl ohne `welt.json`-Eintrag → `aue` mit Hinweiszeile. Nur wenn `eigner.r8` fehlt: dominantes Feldbiom aus `daten/biome_je_feld.json`
+   (Hinweis), fehlt auch das → `biom_zuordnung.fallback_biom` (aue). `welt.json` fehlt/unlesbar → 0 = aue, alle anderen Kennzahlen = Feldbiom
+   (Hinweis). Regelblock `eigner0` (Hang-Fallback) entfällt, ersetzt durch `biom_zuordnung`. Als Querschnitts-Planer ist felsgruppen für alle
+   15 Biome zuständig (`biome_eigen` = alle 15, kein 2-%-Abbruch, kein Saum nötig); Palette, Biomfaktor, Klassenfaktoren, Klassen-Ausschlüsse,
+   Eingraben, Maßstab, Sichtweite und Kieselfaktor werden **je Zelle nach Biom** gewählt (Gruppen werden je Biom statt je Palette erzeugt).
+2. **plan.json-Pflichtschlüssel (§2):** `biome_fenster` (Anteile der Landzellen im Fenster Feld + 64 m, Summe 1), `zellen_zustaendig`
+   (freie Landzellen im Feld: kein Wasser/Weg/Ort, Hang ≤ 84°), `biome_eigen` (15), `kollision_anzahl`; dazu `biom_quelle`,
+   `paletten_je_biom`, `overrides` (aktive Werte je Biom + je Datei gelesene/ignorierte Schlüssel), `hinweise`; `ebene` auch je `dateien`-Eintrag.
+   `stand` ist jetzt der Regelstand statt der Uhrzeit → zwei Läufe sind **byteidentisch inklusive plan.json**.
+3. **Kollision je Datei.** Kollision ist im Setzer eine Eigenschaft des Foliage-Typs; bisher lagen kollidierende und nicht kollidierende
+   Instanzen desselben Netzes in einer Datei (`kollision: true`, wenn eine kollidiert) – im synthetischen B4 hätte der Setzer 4 040 statt
+   3 000 Instanzen mit Kollision gesetzt. Jetzt stehen Instanzen mit Kollision in **`<Netz>_kol.f32`** (bzw. `akteur_<Netz>_kol.f32`);
+   `kollision_anzahl` = Summe der Dateien mit `kollision: true` ≤ 3 000. **Setzer:** Netz immer über `dateien[...]["pfad"]`, nicht über den Dateinamen.
+4. **Budget (§3).** Deckel unverändert hart: 60 000 gesamt, 3 000 Kollision, 150 Akteure, je Rolle (kiesel 40 000, stein 15 000, block 2 600 …).
+   Reihenfolge: je Rolle → gesamt (Kleinzeug zuerst) → Kollision (block, band, wand, hero); deterministisch nach Instanz-Hash. Jede Ausdünnung
+   → `WARNUNG Budget: … (block>2600: n, kiesel>40000: n, …)` im Log und in `hinweise`, bei Kleinzeug zusätzlich der Hinweis, den Geröllsaum über
+   Landschafts-Gras/Bodenlagen Kies/Geröll zu tragen. Neu `budget.ziel` = 52 000: darüber nur Hinweis.
+5. **Ausgabe/Robustheit (§5).** Alle `print()` laufen durch `ascii_text()` (ä→ae, ß→ss, →/≤/≥/°/– ersetzt, Rest `?`); auch Tracebacks.
+   Pflichtdatei fehlt (hoehe.f32, Regeln, netze.csv, Paletten-Pfade der Grundregeln) → `FEHLER: …`, **Exit-Code 2**. Feld ohne Land → leerer
+   plan.json (`instanzen: 0`, keine f32, `hinweise: ["kein Land im Feld"]`); Ausnahme im Feld → Traceback als Log, **leerer plan.json** mit
+   `fehler`, weiter mit dem nächsten Feld. Unlesbare optionale JSON (wasser_welt, welt, felsschalen) → Hinweis, weiter.
+6. **Biom-Overrides (§4)** und **Mindestdichte** – siehe unten.
+
+### Override-Schema (felsgruppen_overrides)
+
+Zuordnung in `felsgruppen_regeln.json["overrides"]["dateien"]`: nordkueste → fjord/kueste/bergwald, aue → aue, heide_tundra → heide/tundra,
+hochgebirge → gletscher/frost, elfenwald, sumpf, dschungel, lava, wueste_ergaenzung → wueste/canyon/oedland. Suche: `--overrides-ordner`, Ordner
+der Regeldatei, `<basis>/scripts/<thema>/`, `<Skriptordner>/../<thema>/`; fehlende Datei oder fehlender Block → eine Hinweiszeile, Biom ohne
+Overrides. `--ohne-overrides` für Vergleichsläufe. Ein Block wirkt **nur auf die Biome seiner Datei** (fremde Biome werden gemeldet und
+ignoriert); **Overrides gewinnen** gegen `felsgruppen_regeln.json`. Netzpfade tolerant (`/Game/` ergänzt, `.Name` entfernt), Pfade nicht im
+Inventar → verworfen (gezählt im Log). Gelesen wird (Wert global für die Biome der Datei, als `{biom: wert}` oder in Biom-Unterblöcken):
+
+| Schlüssel (Varianten) | Wirkung |
+|---|---|
+| `palette` / `biom_palette`: Name, `{rolle: [..]}`, `{biom: …}`, oder `{biom, ergaenzung, neu, <rolle>}` (Schema wie mittelschicht) | Palettenname bzw. Rollen-Netze ersetzen; `ergaenzung`/`paletten_ergaenzung`/`paletten_zusatz` hängen an; `paletten_neu`/`neu` definieren eine Palette (Basis = bisherige Palette des Bioms). Ergebnis heißt `<palette>@<biom>` |
+| Rollen-Aliase | `fels_hero`→hero, `fels_block`→block, `fels_stein`→stein, `geroell_platte`/`platte_ersatz`→platte, `klippe_schale`/`wand_palette`→wand, `netze_moosblock`→block, `kontaktzone.geroellsaum_netze`/`kiesel_ring.netze`→kiesel |
+| `faktor`/`faktoren`/`biom_faktor` (Zahl, `{biom: zahl}`, `{biom, klassen, kiesel, eingraben, <klasse>}`), `biom_faktor_<biom>` | Biomfaktor (ersetzt); `gruppen_dichte_faktor` multipliziert |
+| `klassen_faktor`, `faktor.klassen`, `klassen.<k>.p` (→ p/p_basis), `klassen.<k>.p_faktor` | Klassenfaktor je Biom (multiplikativ) |
+| `biom_klassen_aus`/`klassen_aus` (ersetzt), `klassen_erlaubt` (Komplement der 7 Relief-Klassen) | Klassen-Ausschluss je Biom |
+| `eingraben`/`eingraben_anteil` [lo, hi]; `rollen.<rolle>.{massstab, eingraben, sichtweite_cm}`; `massstab {rolle: […]}`; `sichtweite {rolle: […]}`; `wand_palette.{massstab, eingraben_anteil, kippen_in_hang_grad}` | Rollen-Parameter je Biom (Rolle > Biom-Eingraben > Klasse > Grundregel) |
+| `kiesel_dichte_faktor`, `faktor.kiesel`, `gruppe.kiesel_dichte_je_m2`, `kiesel_ring.kiesel_dichte_je_m2` (→ Verhältnis zu 2,75 /m²) | Kieselfaktor (Dichte und Spanne des Saums) |
+| `mindestdichte_je_ha` (Zahl oder [lo, hi] → Mittel), `mindestdichte_klassen`, `klassen.findling_frei.je_km2` (→ /100 je ha, nur wenn keine Mindestdichte gesetzt) | Mindestdichte (Klasse `einzel`) |
+| `felder` | Block nur in diesen Feldern aktiv (dschungel: G6, H6, I6, I7 – gilt für den ganzen Block) |
+
+**Stand der echten Blöcke (Lauf 10.10., 13:45; die Biom-Agenten passen ihre Dateien parallel an):**
+
+| Datei | gelesen | ignoriert (geloggt, in plan.json) |
+|---|---|---|
+| nordkueste | palette.biom, palette.ergaenzung.nordisch, faktor.biom, faktor.klassen, faktor.kiesel, eingraben | palette.bevorzugt, **zusatzklassen (felsufer)**, auflage, kuesten_regel |
+| aue | biom_palette, biom_faktor 0,35, biom_klassen_aus, klassen.kuppe.p, klassen.blockstrom.p, rollen.kiesel.sichtweite_cm, rollen.stein.eingraben | übrige klassen-Parameter (hang_grad, hero_p, nur_hoehenstufe, prallhang-Zahlen), lagen |
+| heide_tundra | heide/tundra: biom_palette, biom_faktor, biom_klassen_aus, paletten_neu.heide, klassen.kuppe.p, tundra klassen.blockstrom.p_faktor, findling_frei.je_km2 (→ 0,045 bzw. 0,06 /ha) | übrige Kuppen-Parameter, findling_frei-Details, neue Klasse blockfeld, auflage |
+| hochgebirge | biom_faktor, biom_palette, paletten_zusatz.tundra (hero/block/platte), klassen fuss/grat p, band/blockstrom p_faktor, gruppe.kiesel_dichte_je_m2 (→ 1,27) | Rolle eis, schneegrenze, lagen, fuss.stufen/faecher_max_m, grat.hero_p, entfernen_zusatz (durch Präfix `FT_EL_FS_mountain_rock_big_02_` schon abgedeckt) |
+| elfenwald | biom, palette (5 Rollen), gruppen_dichte_faktor 0,7, mindestdichte_je_ha 1,0, mindestdichte_klassen, eingraben_anteil, massstab, sichtweite, kontaktzone.geroellsaum_netze | nur_wo, gruppe-Zahlen, kippen_in_hang, übrige kontaktzone (Farnring, Moos → Mittelschicht), abstand_zu_baum_m, budget_je_feld, entfernen_witcher_vorschlag |
+| sumpf | biom_faktor_sumpf 0,25, klassen_erlaubt (kuppe, prallhang), palette moos, eingraben_anteil, netze_moosblock | moosblock_je_m2_bult |
+| dschungel | bedingung.biom, felder, wand_palette (klippe_schale + massstab 0,35–0,8 + eingraben + kippen), fels_hero/block/stein, geroell_platte, sichtweite.block/stein | bedingung.hang_min_grad/wand_min_hoehe_m, schichtneigung_grad, karstfuss, karstplatte, bild_farbe |
+| lava | biom, palette lava, biom_faktor 1,6, klassen_faktor, eingraben, platte_ersatz | zone_faktor, kollision_ab_hoehe_m (= global 0,8), kiesel_ersatz (Text), hero_akteure/-punkte |
+| wueste_ergaenzung | biom_palette, klassen_faktor, eingraben_anteil, kiesel_ring (Netze, Dichte → 0,44) | schichtung, terrassenkanten, felsnadel, kippen_in_hang, wueste_felder_faktor |
+
+### Mindestdichte (`mindestdichte_je_ha`, neue Klasse `einzel`)
+
+G4 lieferte 114 Instanzen: wenig Fels bei wenig Relief ist richtig, aber im flachen Elfenwald fehlen Einzelblöcke/Moosfelsen. Neu: optional
+je Biom `mindestdichte_je_ha` (Gruppen je ha freier Biomfläche im Feld; Richtwert Elfenwald 0,5–2). Nach den sieben Relief-Klassen zählt der
+Planer die Hauptstücke je Biom im Feld; fehlt etwas, füllt Klasse `einzel` auf: gejittertes 20-m-Gitter (globaler Hash → nahtlos), Annahme
+p = Fehlmenge / freie Gitterpunkte (frei = kein Wasser/Weg/Ort, keine Mulde ohne Wand, keine Wand, Baumsperre 2,5 m, Hang 0–35°), Gruppe =
+Block (Hero mit p 0,12) + 0–2 Nebenblöcke + 2–6 Steine + 4–12 Kiesel, Eingraben 35–50 %. `mindestdichte_klassen` (z. B. `["fels_block",
+"fels_stein"]`) beschränkt die Rollen (kein Hero; Kieselsaum bleibt). Gesetzt wird der Wert **im Override der Biom-Regeldatei**
+(`felsgruppen_overrides.mindestdichte_je_ha`, gewinnt) oder in der Tabelle `mindestdichte_je_ha` von `felsgruppen_regeln.json` (bewusst leer).
+In `elfenwald_regeln.json` hat der Elfenwald-Agent inzwischen selbst **1,0 /ha** mit `mindestdichte_klassen: [fels_block, fels_stein]`
+eingetragen (nicht von Teil C gesetzt). plan.json: `statistik.mindestdichte` (Soll je ha, Hauptstücke aus Relief-Klassen).
+
+### Rauchtest Korrektur Runde 1 (synthetisch, Cloud, Python 3.13, NumPy, kein numba)
+
+Raster in voller Größe neu erzeugt (memmap), danach gelöscht. **B4** Gebirge wie Abschnitt d, Kacheln jetzt gemischt: bergwald (59 %), fjord
+(29 %), Tal mit Kennzahl 0 → aue (9 %), Ecke „Vulkanregion" → lava (3 %). **G4** flacher Wald (Ø 23 m) mit elfenwald (64 %), heide (28 %),
+Bachaue mit Kennzahl 0 → aue (8 %), eine Kennzahl ohne `welt.json`-Eintrag, Bach, Weg, **12 000 Bäume** in `bestand/G4`. Overrides aus den
+**echten** Biom-Regeldateien in `antworten/skripte/` (alle neun gelesen).
+
+| Lauf | Gruppen | Instanzen | Kollision | Akteure | Zeit |
+|---|---|---|---|---|---|
+| B4 (Overrides) | 3 259 | 55 196 (vor Budget 66 052; WARNUNG: block > 2 600: 2 440, kiesel > 40 000: 7 754, kollision > 3 000: 662; Hinweis > Ziel 52 000) | 3 000 | 150 (314 kleinste als Foliage) | 7–9 s |
+| G4 (Overrides, Elfenwald 1,0 /ha) | 72 (davon 71 einzel) | 1 125 | 51 | 0 | 5–6 s |
+| G4 `--ohne-overrides` | 1 | 31 | 3 | 0 | 8 s |
+| G4 mit Kopie elfenwald 2,0 /ha (`--overrides-ordner`) | 147 | 2 167 | 104 | 0 | 7 s |
+
+Geprüft: alle Pflichtschlüssel vorhanden; `instanzen` = Summe `dateien.anzahl` = Zeilen der f32; `kollision_anzahl` = Instanzen in Dateien mit
+`kollision: true`; `biome_fenster` Summe 1,000 (B4 bergwald 0,592, fjord 0,293, aue 0,088, lava 0,028); `paletten_je_biom` B4 nordisch@bergwald,
+nordisch@fjord, moos, lava@lava – G4 moos@elfenwald (MossyForestBoulder/Lichened/Forest_Boulder, Saum SmallStonesPack_02/06), heide (neue
+Palette aus heide_tundra), moos; Quaternionen normiert (Fehler ≤ 1,2e-7), alle x/y im Feld; zwei Läufe **byteidentisch (196 Dateien inkl.
+plan.json)**; Log und `--help` **reines ASCII**. Randfälle: A1 (kein Land) → leerer plan.json; Z9 → Zeile „Feld uebersprungen"; `eigner.r8`
+entfernt → Fallback dominantes Feldbiom (elfenwald 100 %, Hinweis); `welt.json` bzw. `wasser_welt.json` kaputt → Hinweis, weiter;
+`hoehe.f32` fehlt → `FEHLER`, Exit 2; dschungel-Block in B4/G4 inaktiv (nur G6/H6/I6/I7).
+
+**Erwartung Echtdaten nach der Korrektur** (nicht gemessen): A5 – die 11 % aue (Weltgelände) bekommen nur noch kuppe/prallhang/blockstrom mit
+Faktor 0,35, Rest wie bisher → leicht weniger als 13 311. G4 – plus ca. 70 Einzelgruppen (≈ 0,76 km² Elfenwald × 1 /ha) ≈ 1 000–1 500
+Instanzen. E1 – gletscher-Overrides (Faktor 1,3, fuss ×1,56, blockstrom ×1,4, Kiesel ×1,27) → spürbar mehr als 18 482, Kollisionsdeckel
+wahrscheinlich. C6 – lava-Overrides (Faktor 1,6, blockstrom ×2, fuss ×1,6) → deutlich mehr als 27 357, Deckel (Kollision 3 000, ggf. block
+2 600) greift mit WARNUNG; falls zu dicht, im lava-Override `biom_faktor` senken statt hier.
+
+### Offene Punkte aus Runde 1
+
+1. **`nordkueste … zusatzklassen.felsufer`** (bisher Schicht 5 des Nordküsten-Planers: Fjord-Felsufer-Blöcke > 0,8 m mit Kollision, 0–14 m
+   hinter der Wasserlinie, Hang 14–60°, Dichte 0,008 /m², Klumpung) wird **nicht** gelesen (Auftrag: nur Palette/Faktoren). Da felsgruppen laut
+   §4 der einzige Planer für Felsen > 0,8 m ist, fehlen diese Blöcke, bis entschieden ist: (a) Klasse `ufer` hier nachrüsten (Küstenabstand aus
+   `karte_wasser`/Meer, Rest wie `einzel`) oder (b) felsufer bleibt im Nordküsten-Planer als Ausnahme. Entscheidung Koordination.
+2. Neue Klassen anderer Biome werden ignoriert: heide_tundra `blockfeld` (Felsenmeer), wueste `terrassenkanten`/`felsnadel`, dschungel
+   `karstfuss`/`karstplatte`, lava `hero_akteure` (Spires), hochgebirge Rolle `eis`. Kandidaten für eine Runde 2 (je eine Klasse nach dem Muster
+   von `einzel`).
+3. Strikte Zuordnung 0 → aue: steile Weltgelände-Zellen verlieren grat/band/wand/fuss (aue-Override schaltet sie ab). Laut `biome_je_feld`
+   sind die Bergfelder fast vollständig mit Kacheln belegt (B4 bergwald 100 %), das Risiko ist klein; bei Sichtkontrolle in A5 (aue 11 %) prüfen.
+4. Dateinamen `<Netz>_kol.f32` neu: Setzer muss das Netz aus `pfad` lesen (tut er laut FORMAT §3 ohnehin) und je Datei einen Foliage-Typ
+   anlegen (`FT_EL_FG_<Datei>`).
+5. Abschnitt g Punkt 1 und 3 sind überholt: die Vorfassung lief mit Echtdaten; unbekannte Rezepte gehen jetzt auf aue (nicht Feldbiom).

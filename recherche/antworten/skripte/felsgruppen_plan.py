@@ -379,8 +379,14 @@ def lade_biome(welt_dir, win, basis, skriptdir, feld, regeln):
         tab[1:] = BIOME.index(dom)
         log("Hinweis: welt.json fehlt - Kennzahl 0 = aue, alle anderen Kennzahlen = '%s' (dominantes Feldbiom)." % dom)
         return tab[eig], "eigner_ohne_welt_json"
-    with open(wj, encoding="utf-8") as f:
-        welt = json.load(f)
+    try:
+        with open(wj, encoding="utf-8") as f:
+            welt = json.load(f)
+    except Exception as e:
+        dom = dominantes_biom(basis, skriptdir, feld) or fb
+        tab[1:] = BIOME.index(dom)
+        log("Hinweis: welt.json unlesbar (%s) - Kennzahl 0 = aue, alle anderen = '%s' (dominantes Feldbiom)." % (e, dom))
+        return tab[eig], "eigner_ohne_welt_json"
     kacheln = welt.get("kacheln", welt) if isinstance(welt, dict) else welt
     eintraege = []
     if isinstance(kacheln, dict):
@@ -436,10 +442,14 @@ def lade_fluesse(welt_dir):
     if not os.path.isfile(p):
         log("Hinweis: wasser_welt.json fehlt – Klasse prallhang entfällt.")
         return []
-    with open(p, encoding="utf-8") as f:
-        w = json.load(f)
+    try:
+        with open(p, encoding="utf-8") as f:
+            w = json.load(f)
+    except Exception as e:
+        log("Hinweis: wasser_welt.json unlesbar (%s) - Klasse prallhang entfaellt." % e)
+        return []
     out = []
-    finde_polylinien(w.get("fluesse", w), out)
+    finde_polylinien(w.get("fluesse", w) if isinstance(w, dict) else w, out)
     log("Flüsse: %d Polylinien aus wasser_welt.json" % len(out))
     return out
 
@@ -1251,9 +1261,12 @@ class Planer:
             log("Bestand: %d Baum-Instanzen als Sperre (%.1f m)" % (len(bst[0]), A["baum_m"]))
         fs = os.path.join(welt_dir, "felsschalen", "plan_%s.json" % feld)
         if os.path.isfile(fs):
-            with open(fs, encoding="utf-8") as f:
-                pos = []
-                positionen_aus_json(json.load(f), pos)
+            pos = []
+            try:
+                with open(fs, encoding="utf-8") as f:
+                    positionen_aus_json(json.load(f), pos)
+            except Exception as e:
+                log("Hinweis: felsschalen/plan_%s.json unlesbar (%s)." % (feld, e))
             if pos:
                 p = np.array(pos)
                 sperr |= sperrmaske(win, (p[:, 0], p[:, 1]), A["felsschale_m"])

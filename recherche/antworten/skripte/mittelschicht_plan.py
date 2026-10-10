@@ -1009,11 +1009,11 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
     dateien, netz_inst, stat, stat_biom = {}, {}, {}, {}
     nk = 0
     koll_netz = {}
-    for a in aus:  # ein Foliage-Typ je Netz → Kollision als Vereinigung
+    for a in aus:  # Netz mit und ohne Kollision genutzt → eigene Datei <Netz>_ohne_koll (eigener Foliage-Typ)
         if a['fi'].size:
             for ni in np.unique(a['netz']):
                 nm = netze_je_klasse[a['klasse']][ni].rsplit('/', 1)[-1]
-                koll_netz[nm] = koll_netz.get(nm, False) or a['kollision']
+                koll_netz.setdefault(nm, set()).add(bool(a['kollision']))
     for a in aus:
         n = a['fi'].size
         if n == 0:
@@ -1031,12 +1031,14 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
             m = a['netz'] == ni
             p = pfade[ni]
             name = p.rsplit('/', 1)[-1]
+            if len(koll_netz.get(name, ())) == 2 and not a['kollision']:
+                name += '_ohne_koll'
             netz_inst.setdefault(name, []).append(inst[m])
             if name not in dateien:
                 dateien[name] = {'pfad': p, 'anzahl': 0, 'gruppe': a['klasse'], 'rolle': 'mittelschicht', 'ebene': EBENE,
                                  'sichtweite': list(a['sichtweite']),
                                  'schatten': bool(a['schatten']) if isinstance(a['schatten'], bool) else a['klasse'] not in ('pilz', 'totholz_ast', 'grasbueschel', 'beere'),
-                                 'kollision': bool(koll_netz.get(name, a['kollision']))}
+                                 'kollision': bool(a['kollision'])}
             elif a['klasse'] not in dateien[name]['gruppe'].split('+'):
                 dateien[name]['gruppe'] = '+'.join(sorted(dateien[name]['gruppe'].split('+') + [a['klasse']]))
             dateien[name]['anzahl'] += int(m.sum())

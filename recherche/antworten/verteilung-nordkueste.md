@@ -338,10 +338,10 @@ auflage, kuesten_regel}`; `spuren_overrides = {palette: <Netze je Spurenart>, fa
 hinweis}`. Alle Pfade stehen in `netze.csv` (0 Warnungen). Teil C/D müssen die Blöcke noch einlesen (`<thema>_regeln.json` neben der
 eigenen Regeldatei, §4).
 
-### 7.4 Rauchtest Runde 1 (synthetisch, Cloud: Python 3.13, NumPy, Pillow, kein numba)
+### 7.4 Rauchtest Runde 1 (synthetisch, Cloud: Python 3.13, NumPy 2.5, Pillow, kein numba)
 
 Mini-Produktionswurzel mit vollen Rastern (memmap, danach gelöscht): **B5** Meer im Westen, 210-m-Küstenstreifen (`kueste_nordisch`),
-Hangwald (`bergwald_fichte`), Grat bis ~650 m, Bach mit 56 m breitem `aue_bachtal`-Band als Fremdbiom, Weg, Ort, 700 Bestand-Kiefern,
+Hangwald (`bergwald_fichte`), Grat bis ~1 090 m (steiler als real, viel Hang > 40°), Bach mit 56 m breitem `aue_bachtal`-Band als Fremdbiom, Weg, Ort, 700 Bestand-Kiefern,
 250 Witcher-Farne; **C6** `vulkanregion_asche` 99,7 % + 60 × 60 m bergwald; **H4** bergwald/heide 51/49 mit gewellter Grenze; **J1** nur
 Kennzahl 0.
 

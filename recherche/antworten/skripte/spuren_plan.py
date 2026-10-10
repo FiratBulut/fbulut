@@ -520,9 +520,10 @@ class Sammler:
         in der Reihenfolge `prio` (unwichtigste Gruppe zuerst), je Runde höchstens 60 % einer Gruppe; Akteure bleiben."""
         koll_je_name = {}
         for r in self.rows:
-            koll_je_name[r['name']] = koll_je_name.get(r['name'], False) or r['kollision']
-        for r in self.rows:
-            r['kollision'] = koll_je_name[r['name']]  # ein Foliage-Typ je Netz → eine Kollisionseinstellung (Vereinigung)
+            koll_je_name.setdefault(r['name'], set()).add(bool(r['kollision']))
+        for r in self.rows:  # Netz mit und ohne Kollision genutzt → eigene Datei/Foliage-Typ <Netz>_ohne_koll (keine Vereinigung)
+            if len(koll_je_name[r['name']]) == 2 and not r['kollision'] and not r['akteur']:
+                r['name'] = r['name'] + '_ohne_koll'
 
         def zaehle(nur_koll):
             return sum(int(r['inst'].shape[0]) for r in self.rows if not r['akteur'] and (r['kollision'] or not nur_koll))

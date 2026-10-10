@@ -12,7 +12,7 @@
   "yaw": "zufall | hang (Längsachse hangparallel ±20°) | kueste (Längsachse küstenparallel ±20°, bei Pflanzen Leeseite).",
   "eingraben": "cm fest, oder anteil × Netzhöhe (groesse_z aus netze.csv).",
   "kletter": "darf auf Hang > 40° (sonst Sperre nach FORMAT §3).",
-  "ebene": "0 boden (Nadelstreu, Kiesel, Moos, Bodendecker), 1 nur Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Klippenblumen, Efeu), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel, Strandplatten). Generische Schicht-1-Klassen -> mittelschicht_overrides, Felsbloecke > 0,8 m -> felsgruppen_overrides, Spuren -> spuren_overrides.",
+  "ebene": "0 boden (Nadelstreu, Kiesel, Moos, Bodendecker), 1 nur Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Klippenblumen, Efeu, Wurzelanlaeufe), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel, Strandplatten). Generische Schicht-1-Klassen -> mittelschicht_overrides, Felsbloecke > 0,8 m -> felsgruppen_overrides, Spuren -> spuren_overrides.",
   "eigner_0": "eigner.r8-Kennzahl 0 (Weltgelaende) = aue (Konventionen Paragraph 1), also NICHT Nordkueste; Rezept mit vulkan = lava.",
   "korrektur_runde1": "2026-10-10: Zustaendigkeit nach Biom-Zellen + 30-m-Saum, Pflichtschluessel, Feld-Budget, Ebenen-Abgrenzung (siehe verteilung-nordkueste.md, Korrektur Runde 1)."
  },
@@ -157,6 +157,7 @@
    "strandgras",
    "blume_kueste",
    "kletter",
+   "wurzel",
    "strandplatte",
    "tang",
    "strandkiesel",
@@ -809,6 +810,69 @@
    "hinweis": "Sonderform: Klippenwiesen-Blumeninseln (Stranddistel, Wundklee, Meerkohl, Kamille) 3-400 m hinter der Wasserlinie (witcher_04 Vordergrund).",
    "sonderform": true,
    "kueste_nur": true
+  },
+  "wurzel": {
+   "ebene": 1,
+   "rolle": "mittel",
+   "netze": [
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
+    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
+    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
+   ],
+   "dichte": [
+    0.0,
+    0.0012
+   ],
+   "biome": {
+    "fjord": 0.3,
+    "kueste": 0.4,
+    "bergwald": 1.0
+   },
+   "massstab": [
+    0.8,
+    1.2
+   ],
+   "eingraben": {
+    "anteil": 0.3
+   },
+   "kippen": 1.0,
+   "yaw": "hang",
+   "sichtweite": [
+    20000,
+    35000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "abstand_weg": "klein",
+   "raster_m": 3,
+   "lagen": {
+    "Nadeln": 1.5,
+    "Moos": 1.5,
+    "Erde": 1.5,
+    "Laub": 1.0,
+    "Fels": 0.6
+   },
+   "lagen_modus": "gewicht",
+   "hang": [
+    30,
+    42
+   ],
+   "hoehe": [
+    450,
+    580
+   ],
+   "baum_nah": {
+    "bis_m": 3.0,
+    "faktor": 4.0
+   },
+   "baum_nah_nur": true,
+   "hinweis": "Sonderform: Wurzelanlaeufe/Steinwurzeln nur direkt an Staemmen (<= 3 m), hangabwaerts gedreht; laut mittelschicht_regeln.json (zusatzklassen_eigen) setzt mittelschicht in bergwald/fjord keine Wurzeln mehr.",
+   "sonderform": true
   },
   "kletter": {
    "ebene": 1,
@@ -1770,6 +1834,11 @@
     60,
     140,
     110
+   ],
+   "wurzel": [
+    130,
+    90,
+    60
    ]
   },
   "saum": [
@@ -2058,17 +2127,12 @@
   "fehlerfaelle": "netze.csv/hoehe.f32/Regeln fehlen oder Feld X9 -> Meldung, Exit 2; ohne eigner.r8 -> dominantes Feldbiom (C6 lava -> leer, B5 bergwald); Konsole 0 Nicht-ASCII-Zeichen"
  },
  "mittelschicht_overrides": {
-  "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen Paragraph 4: generische Schicht-1-Klassen in fjord/kueste/bergwald setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b].palette[k] vor palette[k] vor mittelschicht_regeln.json[\"biome\"][b][k]; Dichte = mittelschicht-Dichte x (je_biom[b].faktor[k] oder faktor[k]). faktor 0 = Klasse im Biom aus. Faktoren = Dichte des bisherigen Nordkuesten-Planers / mittelschicht-Dichte (Mittel offen/beschattet, mit Biomgewicht), auf 0,25-3 begrenzt. vorlage_biom: Klasse fehlt in mittelschicht_regeln.json fuer dieses Biom -> Parameter aus dem genannten Biom uebernehmen. Netze der Nordkuesten-Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Treibholz, Baeume ...) sind aus allen Paletten entfernt (keine Doppelung). zusatzklassen im Klassenformat von mittelschicht_regeln.json plus biome/biom_faktor/lagen.",
+  "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen Paragraph 4: generische Schicht-1-Klassen in fjord/kueste/bergwald setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b].palette[k] vor palette[k] vor mittelschicht_regeln.json[\"biome\"][b][k]; Dichte = mittelschicht-Dichte x (je_biom[b].faktor[k] oder faktor[k]). faktor 0 = Klasse im Biom aus. Faktoren = Dichte des bisherigen Nordkuesten-Planers / mittelschicht-Dichte (Mittel offen/beschattet, mit Biomgewicht; Stand mittelschicht_regeln.json 10.10. nach Korrektur), auf 0,25-3 begrenzt. vorlage_biom: Klasse fehlt in mittelschicht_regeln.json fuer dieses Biom -> Parameter aus dem genannten Biom uebernehmen. Netze der Nordkuesten-Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Wurzeln, Treibholz, Baeume ...) sind aus allen Paletten entfernt (keine Doppelung). zusatzklassen im Klassenformat von mittelschicht_regeln.json plus biome/biom_faktor/lagen.",
   "gilt_fuer": [
    "fjord",
    "kueste",
    "bergwald"
   ],
-  "klassen_alias_mittelschicht": {
-   "totholz_liegend": "totholz",
-   "totholz_stumpf": "stumpf",
-   "totholz_ast": "ast"
-  },
   "palette": {
    "strauch": [
     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
@@ -2178,16 +2242,6 @@
     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
    ],
-   "wurzel": [
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
-    "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
-    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
-    "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
-   ],
    "grasbueschel": [
     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
@@ -2230,11 +2284,14 @@
    "totholz_liegend": 0.77,
    "totholz_stumpf": 1.42,
    "totholz_ast": 1.62,
-   "wurzel": 0.34,
    "grasbueschel": 1.07,
    "beere": 0.6,
    "pilz": 0.36,
    "totbaum": 0.0
+  },
+  "vorlage_biom": {
+   "farn": "bergwald",
+   "pilz": "bergwald"
   },
   "zusatzklassen": {
    "blaubeer_teppich": {
@@ -2461,16 +2518,6 @@
       "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
       "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
      ],
-     "wurzel": [
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
-      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
-      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
-     ],
      "grasbueschel": [
       "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
       "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
@@ -2513,7 +2560,6 @@
      "totholz_liegend": 0.56,
      "totholz_stumpf": 1.0,
      "totholz_ast": 1.22,
-     "wurzel": 0.25,
      "grasbueschel": 0.91,
      "beere": 0.36,
      "pilz": 0.25,
@@ -2633,16 +2679,6 @@
       "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
       "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
      ],
-     "wurzel": [
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
-      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
-      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
-     ],
      "grasbueschel": [
       "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
       "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
@@ -2685,7 +2721,6 @@
      "totholz_liegend": 0.67,
      "totholz_stumpf": 1.71,
      "totholz_ast": 1.58,
-     "wurzel": 0.25,
      "grasbueschel": 1.03,
      "beere": 1.12,
      "pilz": 0.25,
@@ -2693,7 +2728,6 @@
     },
     "vorlage_biom": {
      "farn": "bergwald",
-     "wurzel": "bergwald",
      "pilz": "bergwald"
     }
    },
@@ -2797,16 +2831,6 @@
       "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_1",
       "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_branch_01_2"
      ],
-     "wurzel": [
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_01",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_02",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_Pine_roots_03",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_02",
-      "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_03",
-      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
-      "/Game/Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02"
-     ],
      "grasbueschel": [
       "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
       "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
@@ -2849,7 +2873,6 @@
      "totholz_liegend": 1.09,
      "totholz_stumpf": 1.54,
      "totholz_ast": 2.06,
-     "wurzel": 0.52,
      "grasbueschel": 1.28,
      "beere": 0.32,
      "pilz": 0.57,
@@ -2877,9 +2900,6 @@
    ],
    "totholz_ast": [
     "zweige"
-   ],
-   "wurzel": [
-    "wurzel"
    ],
    "grasbueschel": [
     "grasbueschel"
