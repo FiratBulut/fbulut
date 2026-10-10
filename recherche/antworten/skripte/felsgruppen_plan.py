@@ -64,6 +64,11 @@ die Biome der Datei, als {biom: wert} oder in Biom-Unterblöcken {"heide": {...}
   mindestdichte_je_ha           Zahl oder [lo, hi] (Mittel): Mindestzahl Felsgruppen je ha Biomfläche (Klasse einzel)
   felder                        Liste: Overrides nur in diesen Feldern
 Alle anderen Schlüssel werden ignoriert und in plan.json["overrides"][datei]["ignoriert"] gelistet.
+  zusatzklassen {name: {...}}   eigene Felsklassen der Biom-Planer (KONVENTIONEN §6: palette Pflicht; rolle, dichte_je_ha,
+                                hang_grad, hoehe_m, wasser_abstand_m, lagen_min, kruemmung, massstab, eingraben_anteil, gruppe,
+                                kollision, sichtweite, akteur). Gesetzt nur in Zellen der liefernden Biome + 30-m-Saum, im gemeinsamen
+                                Budget, Klasse "z_<name>". Altstellen (heide_tundra klassen.*.neu, wueste terrassenkanten/felsnadel,
+                                dschungel karstfuss/karstplatte, lava hero_akteure + Lava-Plan-Punkte) werden, wo eindeutig, abgebildet.
 
 Ausgabe (FORMAT.md §3)
 ----------------------
@@ -1257,7 +1262,14 @@ class OverrideLeser:
                     self.rec[bn]["felder"] = [str(f).strip().upper() for f in v]
                 self._g(p)
             elif isinstance(v, dict) and (isinstance(v.get("netze"), list) or isinstance(v.get("palette"), list)):
-                self.zusatz_lesen(k, v, scope, p, alt=True)  # Altstelle mit eigener Netzliste
+                # Altstelle mit eigener Netzliste; Rolle nur, wo die Quelle sie eindeutig nennt
+                ex = {}
+                if "rolle" not in v:
+                    if "platte" in k or "geroell_platte" in str(v.get("_doku", "")):
+                        ex["rolle"] = "geroell_platte"          # dschungel karstplatte: "Jetzt Teil C (geroell_platte)"
+                    elif "akteur" in str(v.get("hinweis", "")).lower():
+                        ex["rolle"] = "akteur"                  # wueste felsnadel: "Blickziel ... als Akteur"
+                self.zusatz_lesen(k, v, scope, p, alt=True, extra=ex)
             else:
                 self._i(p)
 
@@ -1313,6 +1325,11 @@ def lade_overrides(R, regeln_pfad, basis, skriptdir, ordner, netze):
         erg = L.ergebnis()
         alle.update(erg)
         felder_block = block.get("felder") if isinstance(block.get("felder"), list) else None
+        echt = {z["name"] for z in L.zusatz if not z["alt"]}
+        doppelt = [z for z in L.zusatz if z["alt"] and z["name"] in echt]
+        if doppelt:  # gleiche Klasse unter zusatzklassen und an einer Altstelle: zusatzklassen gewinnt
+            log("  Hinweis: %s: Altstelle(n) %s durch zusatzklassen ersetzt." % (datei, ",".join(z["name"] for z in doppelt)))
+            L.zusatz = [z for z in L.zusatz if z not in doppelt]
         for z in L.zusatz:
             if felder_block and not z.get("felder"):
                 z["felder"] = [str(f).strip().upper() for f in felder_block]
@@ -2160,7 +2177,7 @@ class Planer:
         """Kandidaten (Gitter oder Punkte) -> Gruppen -> Instanzen (Format wie _stuecke)."""
         salz = 2000 + zlib.crc32(("%s/%s" % (z["datei"], z["name"])).encode()) % 100000
         w = self.zusatz_gewicht(z, welt_dir)
-        if w is None:
+        if w is None or not (w > 0).any():
             return None, 0
         fs_i, fs_j = self.feld_slice
         n_lo, n_hi = z["gruppe_n"]
@@ -2186,7 +2203,9 @@ class Planer:
             fi, fj = fi[ok], fj[ok]
             ci, cj = np.round(fi).astype(np.int64), np.round(fj).astype(np.int64)
             hsh = hash64(self.seed, salz, ci + self.win[0], cj + self.win[2])
-            ok = (w[ci, cj] > 0) | (self.m_frei[ci, cj] & ~self.m_sperr[ci, cj])
+            # Punkte des Biom-Planers tragen dessen Bedingungen schon: gültig, wo frei (nicht über die Ersatzmaske)
+            w = (self.m_frei & ~self.m_sperr).astype(np.float64)
+            ok = w[ci, cj] > 0
         else:
             if dichte <= 0:
                 return None, 0

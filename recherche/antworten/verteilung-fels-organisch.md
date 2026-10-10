@@ -313,7 +313,7 @@ Inventar → verworfen (gezählt im Log). Gelesen wird (Wert global für die Bio
 
 | Datei | gelesen | ignoriert (geloggt, in plan.json) |
 |---|---|---|
-| nordkueste | palette.biom, palette.ergaenzung.nordisch, faktor.biom, faktor.klassen, faktor.kiesel, eingraben | palette.bevorzugt, **zusatzklassen (felsufer)**, auflage, kuesten_regel |
+| nordkueste | palette.biom, palette.ergaenzung.nordisch, faktor.biom, faktor.klassen, faktor.kiesel, eingraben | palette.bevorzugt, auflage, kuesten_regel (zusatzklassen.felsufer: siehe Zusatzklassen) |
 | aue | biom_palette, biom_faktor 0,35, biom_klassen_aus, klassen.kuppe.p, klassen.blockstrom.p, rollen.kiesel.sichtweite_cm, rollen.stein.eingraben | übrige klassen-Parameter (hang_grad, hero_p, nur_hoehenstufe, prallhang-Zahlen), lagen |
 | heide_tundra | heide/tundra: biom_palette, biom_faktor, biom_klassen_aus, paletten_neu.heide, klassen.kuppe.p, tundra klassen.blockstrom.p_faktor, findling_frei.je_km2 (→ 0,045 bzw. 0,06 /ha) | übrige Kuppen-Parameter, findling_frei-Details, neue Klasse blockfeld, auflage |
 | hochgebirge | biom_faktor, biom_palette, paletten_zusatz.tundra (hero/block/platte), klassen fuss/grat p, band/blockstrom p_faktor, gruppe.kiesel_dichte_je_m2 (→ 1,27) | Rolle eis, schneegrenze, lagen, fuss.stufen/faecher_max_m, grat.hero_p, entfernen_zusatz (durch Präfix `FT_EL_FS_mountain_rock_big_02_` schon abgedeckt) |
@@ -363,15 +363,46 @@ Instanzen. E1 – gletscher-Overrides (Faktor 1,3, fuss ×1,56, blockstrom ×1,4
 wahrscheinlich. C6 – lava-Overrides (Faktor 1,6, blockstrom ×2, fuss ×1,6) → deutlich mehr als 27 357, Deckel (Kollision 3 000, ggf. block
 2 600) greift mit WARNUNG; falls zu dicht, im lava-Override `biom_faktor` senken statt hier.
 
+### Zusatzklassen (KONVENTIONEN §6, Entscheidung Koordination 10.10.)
+
+felsgruppen ist laut §4 der einzige Planer für Felsen > 0,8 m und setzt deshalb jetzt die `zusatzklassen` aller Biom-`felsgruppen_overrides`
+(Regelblock `zusatz` in `felsgruppen_regeln.json`). **Setzen:** nur in Zellen der liefernden Biome (Gewicht je Biom, optional `biome`) plus
+**30-m-Saum** (Chebyshev-Abstand per iterativer 3×3-Dilatation, Gewicht linear 1 → 0), multipliziert mit den Bedingungen (Hang, Höhe,
+Wasser-/Meerabstand, Lagen, Krümmung, Exposition, Kantenrelief, Kuppenprominenz, Wandabstand, Klumpung), auf freien Zellen (kein Wasser/Weg/Ort;
+große Rollen zusätzlich Baum-/Felsschalen-Sperre), nur im Feld, mit Floating-Prüfung. **Dichte:** `dichte_je_ha` = Instanzen je ha der zulässigen
+Maske (Gruppen = Dichte / mittlere `gruppe.groesse`), gejittertes Gitter mit globalem Hash (nahtlos, deterministisch); Altform `je_km2` = je ha
+Biomfläche des Feldes; `max_je_feld` nach Hash-Priorität. **Rolle** steuert Eingraben/Kippen/Kollision/Sichtweite-Standard (`fels_block`→block,
+`fels_hero`→hero, `fels_platte`/`geroell_platte`→platte, `eis`→stein …; `akteur: true` → Akteur). Alles läuft durch **dasselbe Budget**
+(60 000 / 3 000 Kollision / 150 Akteure / je Rolle); Kollision weiter in `*_kol.f32`; Klasse in der Ausgabe `z_<name>`; Statistik
+`plan.json["statistik"]["zusatzklassen"]`, gelesene/ignorierte Schlüssel je Klasse in `plan.json["overrides"]["dateien"][<datei>]["zusatzklassen"]`.
+**Altstellen** (Klassen noch nicht unter `zusatzklassen`) werden abgebildet, wo die Quelle eindeutig ist, und als „Altstelle" gemeldet; steht
+dieselbe Klasse auch unter `zusatzklassen`, gewinnt diese. Klasse ohne `palette` (und ohne ableitbare Netze) → verworfen mit Meldung.
+
+| Biom (Datei) | Klasse | Quelle | gelesen (→ Schema) | ignoriert (gemeldet) |
+|---|---|---|---|---|
+| fjord/kueste (nordkueste) | felsufer | zusatzklassen | netze→palette, dichte 0,008/m²→80/ha, biome {fjord 1, kueste 0,5, bergwald 0}, massstab, eingraben.anteil, sichtweite, schatten, kollision, raster_m, lagen+gewicht, kueste [0,0,5,14]+kueste_nur→Meerabstand, hoehe [6,12]→voll bis 6, 0 bei 12 m, hang_min+hang→Rampe 6–14/40–60°, klumpung | ebene, rolle=wasserkante (→ block), kippen, yaw, abstand_weg, kletter |
+| tundra (heide_tundra) | blockfeld | Altstelle `klassen.blockfeld` (neu) | hang_grad, ab_hoehe_m→hoehe_m ≥ 280, raster_m+p→Dichte, block→gruppe.groesse, eingraben; Netze = block-Rolle der Tundra-Palette | stein, kiesel (Saum), flechten |
+| gletscher/frost (hochgebirge) | eis, flechtenblock, bachblock, sturzblock, moraene | zusatzklassen (Schema §6) | alle Schemaschlüssel (palette, rolle, dichte_je_ha, hang_grad, hoehe_m, wasser_abstand_m, lagen_min, kruemmung, massstab, eingraben_anteil, gruppe, kollision, sichtweite, akteur) | – (`bedingung` = Beschreibung) |
+| dschungel (nur G6/H6/I6/I7) | karstfuss | Altstelle | dichte_block_je_m2→120/ha, zone_m [0,22]→Abstand zur Wand (Hang ≥ 50°), eingraben_anteil; Netze = `fels_block` des Blocks, Gruppe 1–3 / 3 m | hero_je_turm, nebenbloecke_je_hero, kippen_in_hang, moos_auflage, kollision_ab_m |
+| dschungel (nur G6/H6/I6/I7) | karstplatte | Altstelle | netze, dichte_je_m2→40/ha, massstab, hang_max 34°, kollision, sichtweite; Rolle platte (laut `_doku` „geroell_platte") | karst_faktor, eingraben_cm, yaw_hang, moos_satelliten |
+| lava | spire | Altstelle `hero_akteure` | Netze, Akteur, Punkte `lava/<Feld>/plan.json` typ spire_vorschlag; ohne Lava-Plan Ersatz aus `lava_regeln.punkte.spire_vorschlag` (Hang ≤ 18°, Prominenz ≥ 6 m, max 6 je Feld) + Lavafels ≥ 128, eingraben | – |
+| wueste/canyon/oedland | terrassenkanten | Altstelle | netze, hang_max 14°, abbruch_min_m 3 + umkreis_m 6 → Kantenstreifen (Relief ≥ 3 m in 6 m), abstand_m 6–14 → 83 Stück/ha im Streifen, eingraben_anteil | – (aktiv, hinweis) |
+| wueste/canyon/oedland | felsnadel | Altstelle | netze, je_km2 1–3, kuppen_prominenz_min_m 12, massstab, eingraben_anteil; Akteur (laut Hinweis) | – |
+
+Rauchtest Zusatzklassen (synthetisch, zusätzlich zu oben): **A5** Küste (Meer im Westen, kueste/fjord/bergwald-Kacheln, Kliffhang):
+felsufer 21 Stücke (14 mit Kollision), Feld 2 355 Instanzen. **C6** Vulkan (lava 98 %, Kraterrand, Lavafels, `lava/C6/plan.json` mit 4
+Spire-Punkten): spire 4 Akteure aus den Punkten, Feld 56 342 Instanzen (vor Budget 77 995; WARNUNG: kiesel > 40 000: 19 060, block > 2 600: 2 431,
+platte > 1 500: 162), Kollision 2 893. **G6** Karst (dschungel 100 %, 9 Türme): karstfuss 509 Gruppen / 851 Stücke, karstplatte 3 995 Platten
+(Budget platte ≤ 1 500 dünnt 2 510 aus), Feld 4 198. **B4** mit tundra-/gletscher-Kacheln: blockfeld 5, eis 99, flechtenblock 626, moraene 62
+Stücke; Feld 55 691 (3 000 Kollision, 150 Akteure). wueste-Klassen ohne Testfeld (nur Lesen geprüft). Fünf Felder × zwei Läufe
+**byteidentisch (443 Dateien)**, Log reines ASCII, alle f32/plan.json-Prüfungen wie oben bestanden, Laufzeit 7–11 s je Feld ohne numba.
+
 ### Offene Punkte aus Runde 1
 
-1. **`nordkueste … zusatzklassen.felsufer`** (bisher Schicht 5 des Nordküsten-Planers: Fjord-Felsufer-Blöcke > 0,8 m mit Kollision, 0–14 m
-   hinter der Wasserlinie, Hang 14–60°, Dichte 0,008 /m², Klumpung) wird **nicht** gelesen (Auftrag: nur Palette/Faktoren). Da felsgruppen laut
-   §4 der einzige Planer für Felsen > 0,8 m ist, fehlen diese Blöcke, bis entschieden ist: (a) Klasse `ufer` hier nachrüsten (Küstenabstand aus
-   `karte_wasser`/Meer, Rest wie `einzel`) oder (b) felsufer bleibt im Nordküsten-Planer als Ausnahme. Entscheidung Koordination.
-2. Neue Klassen anderer Biome werden ignoriert: heide_tundra `blockfeld` (Felsenmeer), wueste `terrassenkanten`/`felsnadel`, dschungel
-   `karstfuss`/`karstplatte`, lava `hero_akteure` (Spires), hochgebirge Rolle `eis`. Kandidaten für eine Runde 2 (je eine Klasse nach dem Muster
-   von `einzel`).
+1. Erledigt (Zusatzklassen oben): nordkueste `felsufer` und die Altstellen werden gesetzt. Die Biom-Agenten sollten ihre Altstellen auf
+   `zusatzklassen` (§6) umstellen; ignorierte Schlüssel stehen in der Tabelle. Werte aus Hinweistexten werden nicht mehr abgeleitet.
+2. karstplatte setzt ohne `karst_faktor` (fuss 3 / gipfel 1,5 / spalte 0 / wand 0) gleichmäßig auf allen Dschungelflächen ≤ 34° (40/ha) und
+   läuft in den Deckel platte 1 500 – Vorschlag an dschungel: `wand_abstand_m`/`zone_m` und `dichte_je_ha` im §6-Schema angeben.
 3. Strikte Zuordnung 0 → aue: steile Weltgelände-Zellen verlieren grat/band/wand/fuss (aue-Override schaltet sie ab). Laut `biome_je_feld`
    sind die Bergfelder fast vollständig mit Kacheln belegt (B4 bergwald 100 %), das Risiko ist klein; bei Sichtkontrolle in A5 (aue 11 %) prüfen.
 4. Dateinamen `<Netz>_kol.f32` neu: Setzer muss das Netz aus `pfad` lesen (tut er laut FORMAT §3 ohnehin) und je Datei einen Foliage-Typ
