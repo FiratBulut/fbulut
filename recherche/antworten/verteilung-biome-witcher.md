@@ -43,10 +43,11 @@ deren Overrides lesen.
 ```
 python -I -X utf8 felsgruppen_plan.py A5 G4 --basis <production-Wurzel> [--bild] [--faktor 1.0]
 python -I -X utf8 <biom>_plan.py      A5 G4 --basis <production-Wurzel>
-python -I -X utf8 mittelschicht_plan.py A5 G4 --basis <production-Wurzel>
 python -I -X utf8 spuren_plan.py      A5 G4 --basis <production-Wurzel>
+python -I -X utf8 mittelschicht_plan.py A5 G4 --basis <production-Wurzel>
 ```
 
+- **Reihenfolge beim Planen (seit Runde 2):** lava, felsgruppen, übrige Biom-Planer, spuren, mittelschicht. mittelschicht liest die Spuren-Ensembles als Blickziele und hält Sichtachsen frei.
 - **Reihenfolge beim Setzen:** felsgruppen, dann Biom-Planer, dann mittelschicht, dann spuren.
 - **Spires:** `felsgruppen` liest die Spire-Punkte aus `lava/<Feld>/plan.json`. Für Lava-Felder daher `lava_plan.py` vor `felsgruppen`
   laufen lassen. Ohne Lava-Plan greift eine Ersatzmaske mit höchstens 6 Spires je Feld.
