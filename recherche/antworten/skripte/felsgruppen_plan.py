@@ -87,6 +87,7 @@ import math
 import os
 import sys
 import time
+import zlib
 
 import numpy as np
 np.seterr(over="ignore")  # uint64-Hash-Multiplikation darf überlaufen
@@ -592,6 +593,40 @@ def norm_pfad(p):
     return p
 
 
+ZK_ROLLEN = {"fels_block": "block", "block": "block", "fels_hero": "hero", "hero": "hero", "fels_stein": "stein", "stein": "stein",
+             "geroell_platte": "platte", "fels_platte": "platte", "platte": "platte", "kiesel": "kiesel", "ufer_stein": "kiesel",
+             "klippe_schale": "wand", "wand": "wand", "band": "band", "fels_band": "band", "eis": "stein"}
+
+
+def _mittel(v):
+    if _zahl(v):
+        return float(v)
+    if _spanne(v):
+        return 0.5 * (v[0] + v[1])
+    return None
+
+
+def _trapez_spec(v):
+    """[lo, hi] (hart) oder [a, b, c, d] (Rampe a->b, voll b..c, Rampe c->d)."""
+    if _spanne(v):
+        return (float(v[0]), float(v[0]), float(v[1]), float(v[1]))
+    if isinstance(v, (list, tuple)) and len(v) == 4 and all(_zahl(x) for x in v):
+        return tuple(float(x) for x in v)
+    return None
+
+
+def trapez(x, t):
+    a, b, c, d = t
+    w = np.ones(np.shape(x))
+    w = np.where(x < a, 0.0, w)
+    w = np.where(x > d, 0.0, w)
+    if b > a:
+        w = np.where((x >= a) & (x < b), (x - a) / (b - a), w)
+    if d > c:
+        w = np.where((x > c) & (x <= d), (d - x) / (d - c), w)
+    return w
+
+
 def _leer_rec():
     return {"palette_name": None, "palette_rollen": {}, "palette_zusatz": {}, "paletten_neu": {}, "faktor": None,
             "faktor_mult": 1.0, "klassen_faktor": {}, "klassen_aus": None, "eingraben": None, "rollen": {},
@@ -609,6 +644,8 @@ class OverrideLeser:
         self.netze = netze
         self.rec = {bn: _leer_rec() for bn in self.biome}
         self.gelesen, self.ignoriert, self.fehlpfade, self.fremd = [], [], [], []
+        self.zusatz = []          # normalisierte Zusatzklassen (KONVENTIONEN §6)
+        self.datei_json = {}      # ganze Biom-Regeldatei (für eindeutige Altwerte, z. B. lava punkte.spire_vorschlag)
         k = R["gruppe"]["kiesel_dichte_je_m2"]
         self.kiesel_basis = 0.5 * (k[0] + k[1])
 
@@ -676,6 +713,11 @@ class OverrideLeser:
             tab = {}
             for k, v in rollen.items():
                 r = ROLLEN_ALIAS.get(k)
+                if r is None and k == "eis":  # Altstelle hochgebirge: Eiszapfen, Werte aus klassen.grat.hinweis
+                    self.zusatz_lesen("eis", {"palette": v, "rolle": "eis", "hang_grad": [55, 90], "exposition": "nord",
+                                              "dichte_je_m2": 0.04, "lagen_min": {"Schnee": 140}, "eingraben_anteil": [0.0, 0.05],
+                                              "kollision": False, "kruemmung": "konvex"}, scope, "%s.%s.%s" % (pfad, name, k), alt=True)
+                    continue
                 if r is None:
                     if not _ist_doku(k):
                         self._i("%s.%s.%s" % (pfad, name, k))
@@ -821,6 +863,10 @@ class OverrideLeser:
                     for k in par:
                         if k not in ("je_km2", "je_ha") and not _ist_doku(k):
                             self._i("%s.%s" % (pk, k))
+                elif isinstance(par, dict) and par.get("neu"):  # Altstelle heide_tundra (blockfeld ...): Netze aus Biom-Palette
+                    ex = {} if ("palette" in par or "netze" in par) else {"palette_rollen": ["block"]}
+                    self.zusatz_lesen(kname, {k: x for k, x in par.items() if k not in ("neu", "flechten")}, [bn], pk,
+                                      alt=True, extra=ex)
                 else:
                     self._i(pk)
 
@@ -894,6 +940,194 @@ class OverrideLeser:
             self.rec[bn]["mindestdichte_je_ha"] = max(0.0, w)
             self._g(pfad)
 
+    def zusatz_lesen(self, name, d, scope, pfad, alt=False, extra=None):
+        """Zusatzklasse (KONVENTIONEN §6) tolerant normalisieren; abweichende Schlüssel, wo eindeutig, auf das Schema abbilden.
+        alt=True: aus einer Altstelle (nicht unter 'zusatzklassen') abgeleitet."""
+        if not isinstance(d, dict):
+            self._i(pfad)
+            return
+        if extra:
+            d = dict(d, **{k: v for k, v in extra.items() if k not in d})
+        if d.get("aktiv") is False:
+            self._g(pfad + " (aktiv=false, nicht gesetzt)")
+            return
+        z = {"name": name, "datei": self.datei, "pfad": pfad, "alt": alt, "biome": {bn: 1.0 for bn in scope},
+             "palette": [], "palette_rollen": None, "rolle": "block", "dichte_je_ha": None, "dichte_bezug": "maske",
+             "hang": None, "hoehe": None, "wasser": None, "meer_nur": False, "lagen_min": {}, "lagen_gewicht": {},
+             "kruemmung": "egal", "massstab": None, "eingraben": None, "gruppe_n": (1, 1), "gruppe_r": None,
+             "kollision": None, "sichtweite": None, "schatten": None, "akteur": False, "raster_m": None, "klumpung": None,
+             "wand_abstand": None, "relief": None, "kuppe_prominenz_m": None, "exposition": None, "max_je_feld": None,
+             "punkte": None, "felder": None, "gelesen": [], "ignoriert": []}
+        G, I = z["gelesen"].append, z["ignoriert"].append
+        hang_lo = hang_hi = p_alt = abstand = umkreis = abbruch = None
+        for k, v in d.items():
+            if _ist_doku(k) or k == "aktiv":
+                continue
+            if k in ("palette", "netze"):
+                lst = [p for l in v.values() if isinstance(l, list) for p in l] if isinstance(v, dict) else v
+                z["palette"] = self.pfade(lst)
+                G(k)
+            elif k == "palette_rollen" and isinstance(v, list):
+                z["palette_rollen"] = [ROLLEN_ALIAS[r] for r in v if r in ROLLEN_ALIAS]
+                G(k)
+            elif k == "rolle" and isinstance(v, str):
+                if v == "akteur":
+                    z["akteur"], z["rolle"] = True, "hero"
+                elif v in ZK_ROLLEN:
+                    z["rolle"] = ZK_ROLLEN[v]
+                else:
+                    I("rolle=%s (-> block)" % v)
+                    continue
+                G(k)
+            elif k == "dichte_je_ha" and _mittel(v) is not None:
+                z["dichte_je_ha"] = _mittel(v)
+                G(k)
+            elif k in ("dichte", "dichte_je_m2", "dichte_block_je_m2") and _mittel(v) is not None:
+                z["dichte_je_ha"] = _mittel(v) * 1e4
+                G(k + " (je m2 -> je ha)")
+            elif k == "je_km2" and _mittel(v) is not None:
+                z["dichte_je_ha"], z["dichte_bezug"] = _mittel(v) / 100.0, "biom"
+                G(k + " (-> je ha Biomflaeche)")
+            elif k in ("hang_grad", "hang") and _trapez_spec(v):
+                z["hang"] = _trapez_spec(v)
+                G(k)
+            elif k == "hang_min" and (_spanne(v) or _zahl(v)):
+                hang_lo = (v[0], v[1]) if _spanne(v) else (v, v)
+                G(k)
+            elif k in ("hang_max", "hang_max_grad") and _zahl(v):
+                hang_hi = float(v)
+                G(k)
+            elif k == "hoehe_m" and _trapez_spec(v):
+                z["hoehe"] = _trapez_spec(v)
+                G(k)
+            elif k == "hoehe" and _spanne(v):
+                z["hoehe"] = (-1e5, -1e5, float(v[0]), float(v[1]))
+                G(k + " (voll bis a, 0 bei b)")
+            elif k == "ab_hoehe_m" and _zahl(v):
+                z["hoehe"] = (float(v), float(v), 1e5, 1e5)
+                G(k)
+            elif k == "wasser_abstand_m" and _trapez_spec(v):
+                z["wasser"] = _trapez_spec(v)
+                G(k)
+            elif k == "kueste" and _trapez_spec(v):
+                z["wasser"], z["meer_nur"] = _trapez_spec(v), True
+                G(k + " (-> wasser_abstand_m zum Meer)")
+            elif k == "kueste_nur":
+                z["meer_nur"] = bool(v)
+                G(k)
+            elif k == "lagen_min" and isinstance(v, dict):
+                z["lagen_min"] = {l: float(x) for l, x in v.items() if _zahl(x)}
+                G(k)
+            elif k == "lagen" and isinstance(v, dict) and d.get("lagen_modus", "gewicht") == "gewicht":
+                z["lagen_gewicht"] = {l: float(x) for l, x in v.items() if _zahl(x)}
+                G(k + " (gewicht)")
+            elif k == "lagen_modus":
+                continue
+            elif k == "kruemmung" and v in ("konvex", "konkav", "egal"):
+                z["kruemmung"] = v
+                G(k)
+            elif k == "massstab" and _spanne(v):
+                z["massstab"] = [float(v[0]), float(v[1])]
+                G(k)
+            elif k in ("eingraben_anteil", "eingraben"):
+                x = v.get("anteil") if isinstance(v, dict) else v
+                if _spanne(x):
+                    z["eingraben"] = [float(x[0]), float(x[1])]
+                elif _zahl(x):
+                    z["eingraben"] = [float(x), float(x)]
+                else:
+                    I(k)
+                    continue
+                G(k)
+            elif k == "gruppe" and isinstance(v, dict):
+                for kk, x in v.items():
+                    if kk == "groesse" and (_spanne(x) or _zahl(x)):
+                        z["gruppe_n"] = (int(x[0]), int(x[1])) if _spanne(x) else (int(x), int(x))
+                        G("gruppe.groesse")
+                    elif kk == "radius_m" and _zahl(x):
+                        z["gruppe_r"] = float(x)
+                        G("gruppe.radius_m")
+                    elif not _ist_doku(kk):
+                        I("gruppe." + kk)
+            elif k == "block" and _spanne(v) and alt:
+                z["gruppe_n"] = (int(v[0]), int(v[1]))
+                G(k + " (-> gruppe.groesse)")
+            elif k in ("kollision", "schatten", "akteur") and isinstance(v, bool):
+                z[k] = v
+                G(k)
+            elif k == "sichtweite" and _spanne(v):
+                z["sichtweite"] = [float(v[0]), float(v[1])]
+                G(k)
+            elif k == "raster_m" and _zahl(v):
+                z["raster_m"] = float(v)
+                G(k)
+            elif k == "p" and _zahl(v):
+                p_alt = float(v)
+                G(k + " (mit raster_m -> dichte)")
+            elif k == "klumpung" and isinstance(v, dict) and _zahl(v.get("skala_m")):
+                z["klumpung"] = (float(v["skala_m"]), float(v.get("staerke", 0.6)), float(v.get("schwelle", 0.3)))
+                G(k)
+            elif k == "zone_m" and _trapez_spec(v):
+                z["wand_abstand"] = _trapez_spec(v)
+                G(k + " (-> Abstand zur Wand)")
+            elif k == "abstand_m" and _mittel(v) is not None:
+                abstand = _mittel(v)
+                G(k)
+            elif k == "umkreis_m" and _zahl(v):
+                umkreis = float(v)
+                G(k)
+            elif k == "abbruch_min_m" and _zahl(v):
+                abbruch = float(v)
+                G(k)
+            elif k in ("kuppen_prominenz_min_m", "kuppen_prominenz_m") and _zahl(v):
+                z["kuppe_prominenz_m"] = float(v)
+                G(k)
+            elif k == "exposition" and v in ("nord", "sued", "ost", "west"):
+                z["exposition"] = v
+                G(k)
+            elif k == "max_je_feld" and _zahl(v):
+                z["max_je_feld"] = int(v)
+                G(k)
+            elif k == "punkte" and isinstance(v, dict):
+                z["punkte"] = v
+                G(k)
+            elif k == "felder" and isinstance(v, list):
+                z["felder"] = [str(f).strip().upper() for f in v]
+                G(k)
+            elif k == "biome" and isinstance(v, dict):
+                z["biome"] = {bn: float(x) for bn, x in v.items() if bn in scope and _zahl(x)}
+                G(k)
+            else:
+                I(k)
+        if hang_lo or hang_hi is not None:
+            t = z["hang"] or (0.0, 0.0, 90.0, 90.0)
+            if hang_lo:
+                t = (float(hang_lo[0]), float(hang_lo[1]), t[2], t[3])
+            if hang_hi is not None:
+                t = (t[0], t[1], min(t[2], hang_hi), min(t[3], hang_hi))
+            z["hang"] = t
+        if abbruch is not None:
+            z["relief"] = (umkreis or 6.0, abbruch)
+        if abstand and z["dichte_je_ha"] is None:  # Kantenstücke: ein Stück je abstand_m auf einem Streifen 2 * umkreis
+            z["dichte_je_ha"] = 1e4 / (abstand * 2.0 * (umkreis or 6.0))
+            G("abstand_m (-> dichte_je_ha %.0f im Kantenstreifen)" % z["dichte_je_ha"])
+        if p_alt is not None and z["raster_m"] and z["dichte_je_ha"] is None:
+            z["dichte_je_ha"] = p_alt * 1e4 / z["raster_m"] ** 2 * 0.5 * sum(z["gruppe_n"])
+        if z["gruppe_r"] is None:
+            z["gruppe_r"] = 0.5 * z["raster_m"] if (z["raster_m"] and z["gruppe_n"][1] > 1) else 4.0
+        if not z["palette"] and not z["palette_rollen"]:
+            I("palette fehlt (Pflicht) -> Klasse verworfen")
+            self._i(pfad + " (Zusatzklasse ohne palette)")
+            self.zusatz.append(dict(z, verworfen=True))
+            return
+        if z["dichte_je_ha"] is None and not z["punkte"]:
+            z["dichte_je_ha"] = 1.0
+            I("dichte fehlt -> 1 je ha")
+        if not any(x > 0 for x in z["biome"].values()):
+            I("keine Biome mit Gewicht > 0 -> nicht gesetzt")
+        self._g(pfad + " (Zusatzklasse)")
+        self.zusatz.append(z)
+
     def lies(self, block, scope=None, pfad=""):
         scope = list(scope or self.biome)
         if not isinstance(block, dict):
@@ -926,8 +1160,27 @@ class OverrideLeser:
                 continue
             if _ist_doku(k):
                 continue
-            if k in ("palette", "biom_palette"):
-                self.palette(v, scope, p)
+            if k == "zusatzklassen" and isinstance(v, dict):
+                for name, zd in v.items():
+                    if not _ist_doku(name):
+                        self.zusatz_lesen(name, zd, scope, "%s.%s" % (p, name))
+                continue
+            if k == "karstfuss" and isinstance(v, dict):  # Altstelle dschungel: Moosblöcke am Karstfuß, Netze = fels_block des Blocks
+                self.zusatz_lesen(k, v, scope, p, alt=True, extra={
+                    "palette": block.get("fels_block", []), "rolle": "fels_block", "kruemmung": "egal",
+                    "gruppe": {"groesse": [1, 3], "radius_m": 3}})
+                continue
+            if k == "hero_akteure" and isinstance(v, list):  # Altstelle lava: Spires als Akteure an Punkten des Lava-Planers
+                sp = (self.datei_json.get("punkte") or {}).get("spire_vorschlag") or {}
+                ex = {"palette": v, "rolle": "akteur", "punkte": {"ebene": "lava", "typ": "spire_vorschlag"},
+                      "hang_max_grad": sp.get("hang_max_grad", 18), "kuppen_prominenz_m": sp.get("kuppen_prominenz_m", 6),
+                      "max_je_feld": sp.get("max_je_feld", 6), "je_km2": sp.get("max_je_feld", 6), "lagen_min": {"Lavafels": 128},
+                      "eingraben_anteil": block.get("eingraben", [0.3, 0.45]), "kollision": True}
+                self.zusatz_lesen("spire", ex, scope, p, alt=True)
+                continue
+            if k == "hero_akteur_punkte":
+                self._g(p + " (-> spire.punkte)")
+                continue
             elif k in ("paletten_neu", "paletten"):
                 self.paletten_tabelle(v, scope, p, "paletten_neu")
             elif k in ("paletten_ergaenzung", "paletten_zusatz", "palette_zusatz"):
@@ -1003,6 +1256,8 @@ class OverrideLeser:
                 for bn in scope:
                     self.rec[bn]["felder"] = [str(f).strip().upper() for f in v]
                 self._g(p)
+            elif isinstance(v, dict) and (isinstance(v.get("netze"), list) or isinstance(v.get("palette"), list)):
+                self.zusatz_lesen(k, v, scope, p, alt=True)  # Altstelle mit eigener Netzliste
             else:
                 self._i(p)
 
@@ -1022,9 +1277,9 @@ def lade_overrides(R, regeln_pfad, basis, skriptdir, ordner, netze):
     O = R.get("overrides", {})
     if not O.get("aktiv", True):
         log("Overrides: in felsgruppen_regeln.json abgeschaltet (overrides.aktiv = false).")
-        return {}, {}
+        return {}, {}, []
     schl = O.get("schluessel", "felsgruppen_overrides")
-    alle, info = {}, {}
+    alle, info, zusatz = {}, {}, []
     for datei, biome in O.get("dateien", {}).items():
         if datei.startswith("_"):
             continue
@@ -1042,7 +1297,8 @@ def lade_overrides(R, regeln_pfad, basis, skriptdir, ordner, netze):
             continue
         try:
             with open(pfad, encoding="utf-8") as f:
-                block = json.load(f).get(schl)
+                ganz_json = json.load(f)
+            block = ganz_json.get(schl)
         except Exception as e:
             log("Hinweis: %s unlesbar (%s) - Biome %s ohne Overrides." % (pfad, e, ",".join(biome)))
             info[datei] = {"biome": biome, "status": "unlesbar"}
@@ -1052,25 +1308,37 @@ def lade_overrides(R, regeln_pfad, basis, skriptdir, ordner, netze):
             info[datei] = {"biome": biome, "status": "kein Block %s" % schl}
             continue
         L = OverrideLeser(R, datei, biome, netze)
+        L.datei_json = ganz_json
         L.lies(block)
         erg = L.ergebnis()
         alle.update(erg)
+        felder_block = block.get("felder") if isinstance(block.get("felder"), list) else None
+        for z in L.zusatz:
+            if felder_block and not z.get("felder"):
+                z["felder"] = [str(f).strip().upper() for f in felder_block]
+            zusatz.append(z)
+            log("  Zusatzklasse %s/%s%s: %s; Biome %s; gelesen %d, ignoriert %d%s" % (
+                datei, z["name"], " (Altstelle)" if z["alt"] else "", "VERWORFEN" if z.get("verworfen") else "ok",
+                ",".join("%s %.1f" % kv for kv in z["biome"].items()), len(z["gelesen"]), len(z["ignoriert"]),
+                (" [" + ", ".join(z["ignoriert"])[:200] + "]") if z["ignoriert"] else ""))
         info[datei] = {"biome": biome, "status": "gelesen", "biome_mit_aenderung": sorted(erg), "gelesen": L.gelesen,
-                       "ignoriert": L.ignoriert, "fremde_biome_ignoriert": L.fremd, "fehlende_netzpfade": L.fehlpfade}
+                       "ignoriert": L.ignoriert, "fremde_biome_ignoriert": L.fremd, "fehlende_netzpfade": L.fehlpfade,
+                       "zusatzklassen": {z["name"]: {"altstelle": z["alt"], "verworfen": bool(z.get("verworfen")),
+                                                     "gelesen": z["gelesen"], "ignoriert": z["ignoriert"]} for z in L.zusatz}}
         log("Overrides %s -> %s: gelesen %d Schluessel, ignoriert %d%s%s" % (
             datei, ",".join(sorted(erg)) or "(keine Aenderung)", len(L.gelesen), len(L.ignoriert),
             (", %d Netzpfade nicht im Inventar (verworfen)" % len(L.fehlpfade)) if L.fehlpfade else "",
             (", fremde Biome ignoriert: %s" % ",".join(L.fremd)[:120]) if L.fremd else ""))
         if L.ignoriert:
             log("  ignoriert: %s" % ", ".join(L.ignoriert)[:400])
-    return alle, info
+    return alle, info, zusatz
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Planer
 # ----------------------------------------------------------------------------------------------------------------------
 class Planer:
-    def __init__(self, regeln, netze, masse, basis, faktor, skriptdir=".", overrides=None, ov_info=None):
+    def __init__(self, regeln, netze, masse, basis, faktor, skriptdir=".", overrides=None, ov_info=None, zusatz=None):
         self.R = regeln
         self.skriptdir = skriptdir
         self.netze = netze
@@ -1082,6 +1350,7 @@ class Planer:
         self.pal_info = {}
         self.ov = overrides or {}
         self.ov_info = ov_info or {}
+        self.zusatz = [z for z in (zusatz or []) if not z.get("verworfen")]
         self.stand = "regeln %s" % regeln.get("_doku", {}).get("stand", "?")  # deterministisch (kein Zeitstempel)
         fehlend = []
         for pal, rollen in regeln["paletten"].items():
@@ -1375,6 +1644,19 @@ class Planer:
             self.statistik[kname] = {"gruppen": n_vor, "instanzen": n_inst}
             gruppen_gesamt += n_vor
             inst.extend(teile)
+        # Zusatzklassen der Biom-Planer (KONVENTIONEN §6): nur Zellen des liefernden Bioms + 30-m-Saum, gemeinsames Budget
+        self.zusatz_stat = {}
+        self._abst_cache = {}
+        self._lage_cache = {}
+        for z in self.zusatz:
+            if z["felder"] and feld not in z["felder"]:
+                continue
+            t, n_g = self.zusatz_erzeugen(z, feld, welt_dir)
+            self.zusatz_stat["%s/%s" % (z["datei"].replace("_regeln.json", ""), z["name"])] = {
+                "gruppen": int(n_g), "instanzen": int(len(t["x"])) if t is not None else 0}
+            if t is not None and len(t["x"]):
+                inst.append(t)
+                gruppen_gesamt += n_g
         alle = self.zusammenfuehren(inst)
         alle = self.budget(alle)
         t1 = time.time()
@@ -1786,6 +2068,214 @@ class Planer:
                 "sicht": sicht, "akteur": akteur, "hoehe_m": hoehe_m, "prio": uni(hh, 53),
                 "r_haupt": r_haupt if ist_haupt else None, "ci": ci, "cj": cj}
 
+    # Zusatzklassen ---------------------------------------------------------------------------------------------------
+    def abstand(self, maske, maxd):
+        """Chebyshev-Abstand (m) zu maske, bis maxd (darüber maxd + 1); iterative 3x3-Dilatation, keine Zellschleifen."""
+        d = np.full(maske.shape, float(maxd + 1))
+        d[maske] = 0.0
+        cur = maske.copy()
+        for k in range(1, int(maxd) + 1):
+            nxt = cur.copy()
+            for ax in (0, 1):
+                nxt |= _shift(cur, 1, ax, False) | _shift(cur, -1, ax, False)
+            nxt |= _shift(_shift(cur, 1, 0, False), 1, 1, False) | _shift(_shift(cur, 1, 0, False), -1, 1, False)
+            nxt |= _shift(_shift(cur, -1, 0, False), 1, 1, False) | _shift(_shift(cur, -1, 0, False), -1, 1, False)
+            d[nxt & ~cur] = float(k)
+            cur = nxt
+            if cur.all():
+                break
+        return d
+
+    def lage(self, welt_dir, name):
+        if name not in self._lage_cache:
+            a = lade_raster(os.path.join(welt_dir, "lage_%s.r8" % name), np.uint8, self.win, name="lage_%s.r8" % name)
+            self._lage_cache[name] = None if a is None else a.astype(np.float64)
+        return self._lage_cache[name]
+
+    def zusatz_gewicht(self, z, welt_dir):
+        """Gewicht 0..1.5 je Zelle im Fenster: Biom (+30-m-Saum) x Hang x Höhe x Wasserabstand x Lagen x Krümmung x ..."""
+        saum = float(self.R.get("zusatz", {}).get("saum_m", 30))
+        bw = np.zeros(len(BIOME))
+        for bn, x in z["biome"].items():
+            bw[BIOME.index(bn)] = x
+        if not (bw > 0).any():
+            return None
+        key = ("biom",) + tuple(np.nonzero(bw > 0)[0])
+        if key not in self._abst_cache:
+            self._abst_cache[key] = self.abstand(bw[self.biom] > 0, int(saum))
+        d = self._abst_cache[key]
+        w = np.where(bw[self.biom] > 0, bw[self.biom], np.clip(1.0 - d / saum, 0.0, 1.0) * bw.max())
+        if z["hang"]:
+            w = w * trapez(self.hang, z["hang"])
+        if z["hoehe"]:
+            w = w * trapez(self.h, z["hoehe"])
+        if z["wasser"]:
+            wm = self.m_wasser_roh & (self.h <= 0.5) if z["meer_nur"] else self.m_wasser_roh
+            maxd = int(min(64, max(1.0, z["wasser"][3])))
+            k = ("wasser", z["meer_nur"], maxd)
+            if k not in self._abst_cache:
+                self._abst_cache[k] = self.abstand(wm, maxd)
+            w = w * trapez(self._abst_cache[k], z["wasser"])
+        for ln, mn in z["lagen_min"].items():
+            a = self.lage(welt_dir, ln)
+            if a is not None:
+                w = w * (a >= mn)
+        if z["lagen_gewicht"]:
+            summe, da = np.zeros_like(w), False
+            for ln, g in z["lagen_gewicht"].items():
+                a = self.lage(welt_dir, ln)
+                if a is not None:
+                    summe += g * a / 255.0
+                    da = True
+            if da:
+                w = w * np.clip(summe, 0.0, 1.5)
+        if z["kruemmung"] == "konvex":
+            w = w * (self.grat > 0.005)
+        elif z["kruemmung"] == "konkav":
+            w = w * (self.mulde > 0.005)
+        if z["exposition"]:
+            ax, sg = {"nord": (1, -1), "sued": (1, 1), "ost": (0, 1), "west": (0, -1)}[z["exposition"]]
+            w = w * (sg * self.abfall[:, :, ax] > 0.5)
+        if z["relief"]:
+            u, mn = z["relief"]
+            w = w * ((boxmax(self.h, int(u)) - boxmin(self.h, int(u))) >= mn)
+        if z["kuppe_prominenz_m"]:
+            hs = self.hs12
+            w = w * ((hs >= boxmax(hs, 16) - 0.5) & (hs - boxmin(hs, 64) >= z["kuppe_prominenz_m"]))
+        if z["wand_abstand"]:
+            maxd = int(min(64, max(1.0, z["wand_abstand"][3])))
+            k = ("wand", maxd)
+            if k not in self._abst_cache:
+                self._abst_cache[k] = self.abstand(self.m_wand, maxd)
+            w = w * trapez(self._abst_cache[k], z["wand_abstand"])
+        if z["klumpung"]:
+            sk, st, sw = z["klumpung"]
+            n = wertrauschen(self.xg, self.yg, sk, self.seed, 50 + zlib.crc32(z["name"].encode()) % 1000)
+            w = w * ((1.0 - st) + st * np.clip((n - sw) / max(1e-6, 1.0 - sw), 0.0, 1.0))
+        klein = z["rolle"] in ("stein", "kiesel", "platte")
+        frei = self.m_frei_klein if klein else (self.m_frei & ~self.m_sperr)
+        return w * frei
+
+    def zusatz_erzeugen(self, z, feld, welt_dir):
+        """Kandidaten (Gitter oder Punkte) -> Gruppen -> Instanzen (Format wie _stuecke)."""
+        salz = 2000 + zlib.crc32(("%s/%s" % (z["datei"], z["name"])).encode()) % 100000
+        w = self.zusatz_gewicht(z, welt_dir)
+        if w is None:
+            return None, 0
+        fs_i, fs_j = self.feld_slice
+        n_lo, n_hi = z["gruppe_n"]
+        n_mittel = max(0.5 * (n_lo + n_hi), 1.0)
+        dichte = (z["dichte_je_ha"] or 0.0) / n_mittel  # Gruppen je ha
+        name = "%s/%s" % (z["datei"].replace("_regeln.json", ""), z["name"])
+        punkte = None
+        if z["punkte"]:
+            pq = z["punkte"]
+            pp = os.path.join(welt_dir, pq.get("ebene", ""), feld, "plan.json")
+            try:
+                with open(pp, encoding="utf-8") as f:
+                    pl = json.load(f)
+                pts = [p for p in pl.get("punkte", []) if p.get("typ") == pq.get("typ")]
+                punkte = np.array([[p["y_cm"] / 100.0 + Y0 - self.win[0], p["x_cm"] / 100.0 + X0 - self.win[2]] for p in pts]).reshape(-1, 2)
+                log("Zusatzklasse %s: %d Punkte (%s) aus %s" % (name, len(punkte), pq.get("typ"), pp))
+            except Exception:
+                log("Hinweis: Zusatzklasse %s: %s/%s/plan.json fehlt/unlesbar - Ersatz ueber Maske (Hang, Prominenz, Lagen)." % (
+                    name, pq.get("ebene"), feld))
+        if punkte is not None and len(punkte):
+            fi, fj = punkte[:, 0], punkte[:, 1]
+            ok = (fi >= 1) & (fi < self.h.shape[0] - 1) & (fj >= 1) & (fj < self.h.shape[1] - 1)
+            fi, fj = fi[ok], fj[ok]
+            ci, cj = np.round(fi).astype(np.int64), np.round(fj).astype(np.int64)
+            hsh = hash64(self.seed, salz, ci + self.win[0], cj + self.win[2])
+            ok = (w[ci, cj] > 0) | (self.m_frei[ci, cj] & ~self.m_sperr[ci, cj])
+        else:
+            if dichte <= 0:
+                return None, 0
+            fein = bool(z["relief"] or z["kuppe_prominenz_m"] or z["exposition"])
+            r = z["raster_m"] or np.clip(math.sqrt(1e4 / max(dichte, 1e-6)) / 2.0, 2.0, 32.0)
+            r = int(max(2, min(r, 3 if fein else r)))
+            fi, fj, hsh = self._gitterpunkte(r, salz)
+            ci, cj = np.round(fi).astype(np.int64), np.round(fj).astype(np.int64)
+            wp = w[ci, cj]
+            if z["dichte_bezug"] == "biom":  # Dichte je ha Biomfläche (je_km2): auf die Kandidaten im Feld verteilen
+                bw = np.array([z["biome"].get(bn, 0.0) for bn in BIOME])
+                flaeche_ha = float(((bw[self.biom[fs_i, fs_j]] > 0) & self.land[fs_i, fs_j]).sum()) / 1e4
+                im = ((ci >= fs_i.start) & (ci < fs_i.stop) & (cj >= fs_j.start) & (cj < fs_j.stop))
+                summe = float(wp[im].sum())
+                p = (dichte * flaeche_ha / summe) if summe > 0 else 0.0
+            else:
+                p = dichte * r * r / 1e4
+            ok = uni(hsh, 5) < np.minimum(1.0, p * wp * self.faktor)
+        fi, fj, ci, cj, hsh = fi[ok], fj[ok], ci[ok], cj[ok], hsh[ok]
+        im = (ci >= fs_i.start) & (ci < fs_i.stop) & (cj >= fs_j.start) & (cj < fs_j.stop)
+        fi, fj, ci, cj, hsh = fi[im], fj[im], ci[im], cj[im], hsh[im]
+        if z["max_je_feld"] is not None and len(ci) > z["max_je_feld"]:
+            o = np.argsort(uni(hsh, 7), kind="stable")[: z["max_je_feld"]]
+            fi, fj, ci, cj, hsh = fi[o], fj[o], ci[o], cj[o], hsh[o]
+        if len(ci) == 0:
+            return None, 0
+        # Palette: eigene Netzliste, sonst Rollen der Biom-Palette (Altstellen ohne Netze)
+        pfade = list(z["palette"])
+        if not pfade:
+            b0 = BIOME.index(next(iter(z["biome"])))
+            for r_ in z["palette_rollen"]:
+                pfade += [p for p in self.paletten[self.pal_je_biom[b0]].get(r_, []) if p not in pfade]
+        if not pfade:
+            return None, 0
+        mass = [self.netz_mass(p) for p in pfade]
+        hc = np.array([m[0] for m in mass]); rc = np.array([m[1] for m in mass]); mzc = np.array([m[2] for m in mass])
+        ro = self.R["rollen"][z["rolle"]]
+        # Gruppen -> Stücke
+        cnt = ganz(hsh, 21, n_lo, n_hi)
+        idx = np.repeat(np.arange(len(ci)), cnt)
+        m = np.arange(len(idx)) - np.repeat(np.cumsum(cnt) - cnt, cnt)
+        hh = hash64(hsh[idx], salz, m)
+        dist = np.where(m == 0, 0.0, z["gruppe_r"] * np.sqrt(uni(hh, 22)))
+        ang = zwischen(hh, 23, 0, 2 * np.pi)
+        pfi = fi[idx] + np.sin(ang) * dist
+        pfj = fj[idx] + np.cos(ang) * dist
+        H, W = self.h.shape
+        i0, i1, j0, j1 = self.win
+        i0f, i1f, j0f, j1f = self.feld_box
+        inside = (pfi >= 1) & (pfi < H - 1) & (pfj >= 1) & (pfj < W - 1)
+        fi_c = np.clip(pfi, 1, H - 1.001); fj_c = np.clip(pfj, 1, W - 1.001)
+        pci, pcj = np.round(fi_c).astype(np.int64), np.round(fj_c).astype(np.int64)
+        im_feld = (pfi + i0 >= i0f) & (pfi + i0 < i1f) & (pfj + j0 >= j0f) & (pfj + j0 < j1f)
+        k = np.minimum((uni(hh, 40) * len(pfade)).astype(np.int64), len(pfade) - 1)
+        ms = z["massstab"] or ro["massstab"]
+        sk = zwischen(hh, 41, ms[0], ms[1])
+        eb = z["eingraben"] or ro["eingraben"]
+        bury = zwischen(hh, 44, eb[0], eb[1])
+        H_cm, R_cm, MZ = hc[k], rc[k], mzc[k]
+        r_eigen = R_cm * sk
+        hz = bilinear(self.h, fi_c, fj_c)
+        rr = np.clip(r_eigen / 100.0, 0.5, 20.0)
+        hmin_rand = np.minimum.reduce([bilinear(self.h, np.clip(fi_c + d_[0] * rr, 1, H - 1.001), np.clip(fj_c + d_[1] * rr, 1, W - 1.001))
+                                       for d_ in ((1, 0), (-1, 0), (0, 1), (0, -1))])
+        nicht_schwebend = (hz - hmin_rand) <= bury * H_cm * sk / 100.0 + 0.3 + rr * np.tan(np.radians(60.0))
+        ok = inside & im_feld & (w[pci, pcj] > 0) & nicht_schwebend
+        if not ok.any():
+            return None, len(ci)
+        hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ = (a[ok] for a in (hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ))
+        kipp = np.radians(zwischen(hh, 45, ro["kippen_grad"][0], ro["kippen_grad"][1]))
+        up = self.normal[pci, pcj] + np.concatenate([-self.abfall[pci, pcj] * np.tan(kipp)[:, None], np.zeros((len(kipp), 1))], axis=1)
+        up /= np.linalg.norm(up, axis=1, keepdims=True)
+        q = quat_aus_yaw_up(zwischen(hh, 50, 0, 2 * np.pi), up)
+        nu = ro["nicht_uniform"]
+        sx = sk * (1 + nu * (2 * uni(hh, 51) - 1)); sy = sk * (1 + nu * (2 * uni(hh, 52) - 1)); sz = sk
+        hoehe_m = H_cm * sz / 100.0
+        n = len(hh)
+        koll_basis = ro["kollision"] if z["kollision"] is None else z["kollision"]
+        koll = np.full(n, bool(koll_basis)) & (hoehe_m >= self.R.get("kollision_ab_hoehe_m", 0.8))
+        sicht = np.tile(np.array(z["sichtweite"] or ro["sichtweite_cm"], dtype=float), (n, 1))
+        t = {"x": (pfj + j0 - X0) * 100.0, "y": (pfi + i0 - Y0) * 100.0, "z": hz * 100.0 - MZ * sz - bury * H_cm * sz, "q": q,
+             "sx": sx, "sy": sy, "sz": sz, "pfad": np.array(pfade, dtype=object)[k], "rolle": np.full(n, z["rolle"]),
+             "klasse": np.full(n, "z_" + z["name"]), "koll": koll,
+             "schatten": np.full(n, bool(ro["schatten"] if z["schatten"] is None else z["schatten"])), "sicht": sicht,
+             "akteur": np.full(n, bool(z["akteur"])), "hoehe_m": hoehe_m, "prio": uni(hh, 53), "ci": pci, "cj": pcj}
+        log("Zusatzklasse %s: %d Gruppen, %d Instanzen (%d mit Kollision%s)" % (
+            name, len(ci), n, int(koll.sum()), ", Akteure" if z["akteur"] else ""))
+        return t, len(ci)
+
     # Zusammenführen, Budget ------------------------------------------------------------------------------------------
     def zusammenfuehren(self, teile):
         keys = ["x", "y", "z", "q", "sx", "sy", "sz", "pfad", "rolle", "klasse", "koll", "schatten", "sicht", "akteur", "hoehe_m", "prio", "ci", "cj"]
@@ -1889,6 +2379,7 @@ class Planer:
         stat["je_rolle"] = {ro: int((a["rolle"] == ro).sum()) for ro in ROLLEN_ORDNUNG}
         stat["kollision"] = int(a["koll"].sum())
         stat["akteure"] = len(akteure)
+        stat["zusatzklassen"] = dict(getattr(self, "zusatz_stat", {}))
         stat["mindestdichte"] = {BIOME[b]: {"soll_je_ha": float(self.mindest[b]), "hauptstuecke_relief": int(self.haupt_je_biom[b])}
                                  for b in np.nonzero(self.mindest > 0)[0] if BIOME[b] in self.biome_fenster}
         plan = plan_kopf(self.R, feld, int(n), self.stand)
@@ -1936,7 +2427,7 @@ class Planer:
                 r = gross[rolle]
                 for kl in np.unique(a["klasse"][s]):
                     ss = s & (a["klasse"] == kl)
-                    col = farben[kl]
+                    col = farben.get(kl, np.array(self.R.get("zusatz", {}).get("farbe", [255, 255, 255]), dtype=np.uint8))
                     if rolle == "kiesel":
                         col = (col.astype(int) * 0.5 + 100).astype(np.uint8)
                     for di in range(-r, r + 1):
@@ -2009,11 +2500,11 @@ def main():
     netze = lade_netze(args.basis, skriptdir)
     masse = lade_masse(args.basis, skriptdir)
     if args.ohne_overrides:
-        ov, ov_info = {}, {}
+        ov, ov_info, zusatz = {}, {}, []
         log("Overrides: abgeschaltet (--ohne-overrides).")
     else:
-        ov, ov_info = lade_overrides(R, regeln, args.basis, skriptdir, args.overrides_ordner, netze)
-    pl = Planer(R, netze, masse, args.basis, args.faktor, skriptdir, ov, ov_info)
+        ov, ov_info, zusatz = lade_overrides(R, regeln, args.basis, skriptdir, args.overrides_ordner, netze)
+    pl = Planer(R, netze, masse, args.basis, args.faktor, skriptdir, ov, ov_info, zusatz)
     for feld in args.felder:
         try:
             feld_bereich(feld)

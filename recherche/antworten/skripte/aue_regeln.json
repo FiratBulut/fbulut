@@ -1703,7 +1703,8 @@
   "eigner0_biom": "aue",
   "saum_m": 30.0,
   "min_eigenanteil_fenster": 0.02,
-  "hinweis": "Konventionen par. 1: Biom je Zelle aus eigner.r8 + welt.json (kacheln[k].rezept); Kennzahl 0 = Weltgelaende -> aue, Rezept mit vulkan/lava -> lava; Rezepte ohne Biom-Zuordnung -> dominantes Feldbiom (Warnung). Bebaut werden nur aue-Zellen plus ein Saum von saum_m nach aussen (Dichtefaktor linear 1 an der Biomgrenze -> 0 bei saum_m, Jump-Flooding-Distanzfeld), fuer alle Schichten. Eigenanteil im Fenster < min_eigenanteil_fenster -> leerer plan.json (instanzen 0, keine f32). Nur wenn eigner.r8 oder welt.json fehlt: dominantes Feldbiom aus daten/biome_je_feld.json, sonst feld_biom_fallback (Hinweis im Log). Es gibt keine Biomfaktoren fuer fremde Biome."
+  "entfernen_min_eigenanteil_feld": 0.5,
+  "hinweis": "Konventionen par. 1: Biom je Zelle aus eigner.r8 + welt.json (kacheln[k].rezept); Kennzahl 0 = Weltgelaende -> aue, Rezept mit vulkan/lava -> lava; Rezepte ohne Biom-Zuordnung -> dominantes Feldbiom (Warnung). Bebaut werden nur aue-Zellen plus ein Saum von saum_m nach aussen (Dichtefaktor linear 1 an der Biomgrenze -> 0 bei saum_m, Jump-Flooding-Distanzfeld), fuer alle Schichten. Eigenanteil im Fenster < min_eigenanteil_fenster -> leerer plan.json (instanzen 0, keine f32). Nur wenn eigner.r8 oder welt.json fehlt: dominantes Feldbiom aus daten/biome_je_feld.json, sonst feld_biom_fallback (Hinweis im Log). Es gibt keine Biomfaktoren fuer fremde Biome. entfernen (Standard leer) wird nur gesetzt, wenn der aue-Anteil im Feld >= entfernen_min_eigenanteil_feld ist, und nie in Wuestenfeldern."
  },
  "ebenen": {
   "generisch_mittelschicht": [

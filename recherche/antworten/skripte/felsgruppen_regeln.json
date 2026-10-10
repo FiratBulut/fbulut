@@ -1202,5 +1202,14 @@
     "oedland"
    ]
   }
+ },
+ "zusatz": {
+  "saum_m": 30,
+  "farbe": [
+   255,
+   255,
+   255
+  ],
+  "_hinweis": "KONVENTIONEN §6: zusatzklassen aus felsgruppen_overrides der Biom-Regeldateien (Schema: palette Pflicht; rolle, dichte_je_ha, hang_grad, hoehe_m, wasser_abstand_m, lagen_min, kruemmung, massstab, eingraben_anteil, gruppe{groesse, radius_m}, kollision, sichtweite, akteur optional). Gesetzt nur in Zellen der liefernden Biome (Gewicht je Biom über 'biome') plus linearem Saum saum_m, innerhalb des gemeinsamen Budgets; dichte_je_ha = Instanzen je ha der zulässigen Maske (Gruppen = dichte / mittlere Gruppengröße); je_km2 (Altform) = je ha Biomfläche. Bereichswerte [lo, hi] hart oder [a, b, c, d] als Rampe. Tolerant gelesen außerdem: netze, dichte/dichte_je_m2 (je m2), hang_min/hang_max, hoehe (voll bis a, 0 bei b), ab_hoehe_m, kueste (+kueste_nur, Abstand zum Meer), lagen+lagen_modus gewicht, eingraben{anteil}, raster_m, p (mit raster_m), klumpung, zone_m (Abstand zur Wand > 50°), abstand_m/umkreis_m/abbruch_min_m (Kantenstreifen), kuppen_prominenz_(min_)m, exposition, max_je_feld, punkte{ebene, typ}, felder, biome{biom: gewicht}. Altstellen ohne 'zusatzklassen' (heide_tundra klassen.*.neu, wueste terrassenkanten/felsnadel, dschungel karstfuss/karstplatte, lava hero_akteure, hochgebirge Rolle eis) werden abgebildet und als 'Altstelle' gemeldet. Unbekannte Schlüssel: Log + plan.json overrides.dateien.<datei>.zusatzklassen."
  }
 }
