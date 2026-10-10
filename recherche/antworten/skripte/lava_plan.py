@@ -3,7 +3,8 @@
 """
 lava_plan.py – Planer Biom „Lava“ (Auftrag 11, Teil B, Gruppe 8) für Eldarien (UE 5.8.3, 1-m-Raster 9577 × 7057).
 
-*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern rauchgetestet (Feld C6).
+*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern rauchgetestet (Feld C6: Schlackenkegel,
+Lavastrom, See, Weg, Ort; 42 169 Instanzen in 4 s, deterministisch; Randfeld J7 ohne Lava: 0 Instanzen, kein Fehler).
 Korrekturen bitte als auftraege/verteilung-lava-korrektur.md.
 
 Was das Skript tut
@@ -783,6 +784,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
         # Hang
         hg = k["hang_grad"]
         hang_ok = (hang >= hg[0]) & (hang <= hg[1])
+        # Globale Obergrenze (FORMAT §3: Hang > 40° nur Felsen): Pflanzen/Totholz ≤ hang_pflanzen_max_grad, Steine ≤ hang_steine_max_grad
+        hang_ok &= hang <= float(A["hang_pflanzen_max_grad"] if (pflanze or kname == "moos") else A["hang_steine_max_grad"])
         if "hang_bonus" in k:
             hb = k["hang_bonus"]
             D *= np.where((hang >= hb["ab_grad"]) & (hang <= hb["bis_grad"]), hb["faktor"], 1.0)

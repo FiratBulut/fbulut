@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 14:05 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 14:15 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -18,7 +18,7 @@ Fortsetzung ab 12:55 UTC in drei Wellen zu je 3–4 Agenten, die auf den vorhand
 | B5 | Elfenwald | 1 Agent | fertig, gepusht (Rauchtest synthetisch G4: 40 846 Inst., 12–14 s; Schalter --mittel zusatz/voll) | `verteilung-elfenwald.md`, `skripte/elfenwald_plan.py`, `skripte/elfenwald_regeln.json` |
 | B6 | Sumpf | 1 Agent | fertig, gepusht (Rauchtest synthetisch H5: 37 789 Inst., 7,1 s) | `verteilung-sumpf.md`, `skripte/sumpf_*` |
 | B7 | Dschungel (inkl. Karst) | 1 Agent | fertig, gepusht (Rauchtest synthetisch H6: 54 932 Inst., 16 s) | `verteilung-dschungel.md`, `skripte/dschungel_*` |
-| B8 | Lava | 1 Agent | läuft (Fortsetzung) | `verteilung-lava.md`, `skripte/lava_*` |
+| B8 | Lava | 1 Agent | fertig, gepusht (Rauchtest synthetisch C6: 42 169 Inst., 23 Punkte, ~4 s) | `verteilung-lava.md`, `skripte/lava_plan.py`, `skripte/lava_regeln.json` |
 | B9 | Wüste/Canyon/Ödland (nur ergänzen) | 1 Agent | läuft (Fortsetzung) | `verteilung-wueste.md`, `skripte/wueste_ergaenzung_*` |
 
 Reihenfolge: A, C, D parallel → dann B1–B9 parallel (zwei Wellen). Alle Skripte sind in der Cloud nur syntaxgeprüft und mit

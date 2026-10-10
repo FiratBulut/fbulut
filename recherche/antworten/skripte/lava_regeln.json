@@ -38,13 +38,13 @@
     "hinweis": "alter = 0.5·Moos + 0.2·Gras + 0.3·(1 − d_rand/120) + 0.2·(Rauschen − 0.5) − 0.2·Lavafels·(1 − Moos), geklemmt 0..1. Island: junge Ströme (< 70 a) kahl, 170–700 a Moosdecke, Rand (> 600 a) Gefäßpflanzen."
   },
   "kegel": {
-    "glaettung_m": 80,
-    "prominenz_min_m": 15,
+    "glaettung_m": 120,
+    "prominenz_min_m": 8,
     "gipfel_fenster_m": 60,
     "flanke_hang_grad": [24, 36],
     "flanke_faktor_schlacke": 2.2,
     "flanke_faktor_pflanzen": 0.3,
-    "hinweis": "Schlackenkegel: Gipfel = lokales Maximum (60-m-Fenster) mit Prominenz ≥ 15 m gegen 80-m-Mittel; Flanken 24–36° (Schüttwinkel loser Schlacke 30–35°) tragen 2,2× Schlacke und 0,3× Pflanzen."
+    "hinweis": "Schlackenkegel: Gipfel = lokales Maximum (60-m-Fenster) mit Prominenz ≥ 8 m gegen 120-m-Mittel (Kraterrand eines 36°-Kegels erreicht nur ~11 m gegen 80-m-Mittel); Flanken 24–36° (Schüttwinkel loser Schlacke 30–35°) tragen 2,2× Schlacke und 0,3× Pflanzen."
   },
   "ausschluss": {
     "wasser_m": 1.5,
@@ -54,6 +54,7 @@
     "bestand_baum_m": 2.0,
     "bestand_sonst_m": 1.0,
     "hang_pflanzen_max_grad": 38,
+    "hang_hinweis": "Obergrenzen für alle Pflanzen-/Totholz-Klassen bzw. Steine/Blöcke, zusätzlich zu hang_grad je Klasse (FORMAT §3: Hang > 40° nur Felsen).",
     "hang_steine_max_grad": 62,
     "hoehe_pflanzen_abnahme_ab_m": 220,
     "hoehe_pflanzen_null_ab_m": 360

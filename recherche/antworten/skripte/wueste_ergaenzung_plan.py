@@ -5,8 +5,9 @@ wueste_ergaenzung_plan.py – Planer „Wüste/Canyon/Ödland – Ergänzung“ 
 (UE 5.8.3, 1-m-Raster NX 9577 × NY 7057, World Partition).
 
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft (py_compile) und mit synthetischen Rastern
-rauchgetestet (D4 Canyon-Schichtstufen + Rinnen, E6 Ödland-Kuppen/Senken). Korrekturen bitte als
-auftraege/verteilung-wueste-korrektur.md.
+rauchgetestet (10.10.2026): D4 (Wüstenfeld, Ergänzungsmodus, Canyon-Schichtstufen + Rinne + 3 000 WU-Instanzen als belegt)
+14 998 Instanzen / 164 Kollision / 6,5 s; E6 (Ödland voll, Kuppen/Senken/Rinnen) 49 966 / 345 / 4,2 s; zweiter Lauf
+byte-identisch; 0 Instanzen auf Wasser/Weg/Ort. Korrekturen bitte als auftraege/verteilung-wueste-korrektur.md.
 
 Was das Skript tut
 ------------------
@@ -511,7 +512,8 @@ def plane_feld(feld, basis, regeln, inv, faktor, bild, wueste_ebene):
 
     # --- Rinnen (konkav), Kuppen (konvex), Senken
     def laplace(a):
-        return (verschiebe(a, 1, 0, 0) + verschiebe(a, -1, 0, 0) + verschiebe(a, 0, 1, 0) + verschiebe(a, 0, -1, 0) - 4 * a)
+        p = np.pad(a, 1, mode='edge')
+        return (p[2:, 1:-1] + p[:-2, 1:-1] + p[1:-1, 2:] + p[1:-1, :-2] - 4 * a).astype(np.float32)
     R = G['rinne']
     lk = laplace(gauss_blur(hoehe, R['sigma_klein_m']))
     lg = laplace(gauss_blur(hoehe, R['sigma_gross_m']))
@@ -520,12 +522,13 @@ def plane_feld(feld, basis, regeln, inv, faktor, bild, wueste_ebene):
     r_g = np.clip((lg - R['konkav_ab'] * sk) / max(1e-6, (R['konkav_voll'] - R['konkav_ab']) * sk), 0, 1)
     rinne = np.maximum(r_k, R['gewicht_gross'] * r_g).astype(np.float32)
     Kp = G['kuppe']
-    lkp = laplace(gauss_blur(hoehe, Kp['sigma_m'])) if Kp['sigma_m'] != R['sigma_gross_m'] else lg
-    hmax_k = fenster_max(hoehe, int(Kp['umkreis_m']), np.maximum)
-    kuppe = (np.clip((-lkp - Kp['konvex_ab']) / max(1e-6, Kp['konvex_voll'] - Kp['konvex_ab']), 0, 1)
-             * (hoehe >= hmax_k - Kp['toleranz_m'])).astype(np.float32)
     S = G['senke']
-    senke = np.clip((gauss_blur(hoehe, S['sigma_m']) - hoehe - S['tiefe_ab_m']) / max(1e-6, S['tiefe_voll_m'] - S['tiefe_ab_m']), 0, 1).astype(np.float32)
+    h_mittel = gauss_blur(hoehe, S['sigma_m'])  # 24-m-Mittel: Senke darunter, Kuppe darüber
+    hmax_k = fenster_max(hoehe, int(Kp['umkreis_m']), np.maximum)
+    prominenz = hoehe - gauss_blur(hoehe, Kp['sigma_m']) if Kp['sigma_m'] != S['sigma_m'] else hoehe - h_mittel
+    kuppe = (np.clip((prominenz - Kp['prominenz_ab_m']) / max(1e-6, Kp['prominenz_voll_m'] - Kp['prominenz_ab_m']), 0, 1)
+             * (hoehe >= hmax_k - Kp['toleranz_m'])).astype(np.float32)
+    senke = np.clip((h_mittel - hoehe - S['tiefe_ab_m']) / max(1e-6, S['tiefe_voll_m'] - S['tiefe_ab_m']), 0, 1).astype(np.float32)
 
     # --- Wandfuß / Schuttfächer / Terrassenkanten
     Wd = G['wand']
@@ -550,7 +553,7 @@ def plane_feld(feld, basis, regeln, inv, faktor, bild, wueste_ebene):
     weg_m = (weg > 0) if weg is not None else np.zeros((H, W), bool)
     ort_m = (ort > 0) if ort is not None else np.zeros((H, W), bool)
     d_wasser = distanz(wasser_m, max_m=64.0)
-    d_weg = distanz(weg_m, max_m=64.0)
+    d_weg = distanz(weg_m, max_m=96.0)
     nah_wasser = dilate(wasser_m, A['wasser'])
     nah_weg_klein = dilate(weg_m, A['weg_klein'])
     nah_weg_gross = dilate(weg_m, A['weg_gross'])
@@ -728,7 +731,7 @@ def plane_feld(feld, basis, regeln, inv, faktor, bild, wueste_ebene):
                 ok = lam[mi, mj] > 0
                 fi, fj, mi, mj = fi[ok], fj[ok], mi[ok], mj[ok]
                 d_mitte = rad[ok].astype(np.float32)
-            ok = im_feld[mi, mj]
+            ok = (fi + wi0 >= fb[0]) & (fi + wi0 < fb[1]) & (fj + wj0 >= fb[2]) & (fj + wj0 < fb[3])
             fi, fj, mi, mj, d_mitte = fi[ok], fj[ok], mi[ok], mj[ok], d_mitte[ok]
             if fi.size == 0:
                 continue

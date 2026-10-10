@@ -133,12 +133,12 @@
    "hinweis": "Rinnenstärke 0–1 aus positivem Laplace (konkav) der geglätteten Höhe; klein = Erosionsrinnen 3–10 m, groß = Talrinnen 20–40 m."
   },
   "kuppe": {
-   "sigma_m": 9.0,
-   "konvex_ab": 0.015,
-   "konvex_voll": 0.07,
+   "sigma_m": 24.0,
+   "prominenz_ab_m": 0.6,
+   "prominenz_voll_m": 2.5,
    "umkreis_m": 16,
    "toleranz_m": 0.4,
-   "hinweis": "Kuppe = konvex UND höchste Zelle im Umkreis (±Toleranz)."
+   "hinweis": "Kuppe = Prominenz (Höhe über dem 24-m-Mittel) ≥ 0,6 m, voll ab 2,5 m, UND höchste Zelle im Umkreis 16 m (±Toleranz). Laplace-Schwelle war für flache Ödland-Kuppen zu streng (Rauchtest E6: 0 %)."
   },
   "senke": {
    "sigma_m": 24.0,
@@ -239,17 +239,17 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Geroell": 0.05,
-    "Kies": 0.06,
-    "Sandstein": 0.035,
-    "Fels": 0.02,
-    "Felsplatte": 0.02,
-    "Erde": 0.008,
-    "Lehm": 0.004,
-    "Sand": 0.012,
-    "Trockengras": 0.006
+    "Geroell": 0.0425,
+    "Kies": 0.051,
+    "Sandstein": 0.02975,
+    "Fels": 0.017,
+    "Felsplatte": 0.017,
+    "Erde": 0.0068,
+    "Lehm": 0.0034,
+    "Sand": 0.0102,
+    "Trockengras": 0.0051
    },
-   "dichte_ohne_lagen_je_m2": 0.015,
+   "dichte_ohne_lagen_je_m2": 0.01275,
    "hang_voll_bis_grad": 30,
    "hang_null_ab_grad": 45,
    "hoehe_max_m": 9999,
@@ -512,15 +512,15 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Erde": 0.012,
-    "Trockengras": 0.015,
-    "Lehm": 0.004,
-    "Geroell": 0.005,
-    "Sand": 0.004,
-    "Wiese": 0.006,
-    "Gras": 0.006
+    "Erde": 0.0066,
+    "Trockengras": 0.00825,
+    "Lehm": 0.0022,
+    "Geroell": 0.00275,
+    "Sand": 0.0022,
+    "Wiese": 0.0033,
+    "Gras": 0.0033
    },
-   "dichte_ohne_lagen_je_m2": 0.006,
+   "dichte_ohne_lagen_je_m2": 0.0033,
    "hang_voll_bis_grad": 25,
    "hang_null_ab_grad": 40,
    "hoehe_max_m": 9999,
@@ -589,13 +589,13 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Erde": 0.0008,
-    "Lehm": 0.0008,
-    "Sand": 0.0006,
-    "Trockengras": 0.0005,
-    "Geroell": 0.0003
+    "Erde": 0.00056,
+    "Lehm": 0.00056,
+    "Sand": 0.00042,
+    "Trockengras": 0.00035,
+    "Geroell": 0.00021
    },
-   "dichte_ohne_lagen_je_m2": 0.0004,
+   "dichte_ohne_lagen_je_m2": 0.00028,
    "hang_voll_bis_grad": 15,
    "hang_null_ab_grad": 30,
    "hoehe_max_m": 9999,
@@ -657,12 +657,12 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Erde": 0.002,
-    "Lehm": 0.002,
-    "Trockengras": 0.002,
-    "Laub": 0.02
+    "Erde": 0.001,
+    "Lehm": 0.001,
+    "Trockengras": 0.001,
+    "Laub": 0.01
    },
-   "dichte_ohne_lagen_je_m2": 0.001,
+   "dichte_ohne_lagen_je_m2": 0.0005,
    "hang_voll_bis_grad": 20,
    "hang_null_ab_grad": 35,
    "hoehe_max_m": 9999,
@@ -725,16 +725,16 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Trockengras": 0.08,
-    "Erde": 0.012,
-    "Lehm": 0.004,
-    "Wiese": 0.03,
-    "Gras": 0.03,
-    "Sand": 0.004,
-    "Heide": 0.02,
-    "Geroell": 0.004
+    "Trockengras": 0.036,
+    "Erde": 0.0054,
+    "Lehm": 0.0018,
+    "Wiese": 0.0135,
+    "Gras": 0.0135,
+    "Sand": 0.0018,
+    "Heide": 0.009,
+    "Geroell": 0.0018
    },
-   "dichte_ohne_lagen_je_m2": 0.02,
+   "dichte_ohne_lagen_je_m2": 0.009,
    "hang_voll_bis_grad": 25,
    "hang_null_ab_grad": 38,
    "hoehe_max_m": 9999,
@@ -791,16 +791,16 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Trockengras": 0.05,
-    "Geroell": 0.012,
-    "Sandstein": 0.01,
-    "Erde": 0.006,
-    "Sand": 0.006,
-    "Lehm": 0.002,
-    "Fels": 0.004,
-    "Heide": 0.01
+    "Trockengras": 0.0275,
+    "Geroell": 0.0066,
+    "Sandstein": 0.0055,
+    "Erde": 0.0033,
+    "Sand": 0.0033,
+    "Lehm": 0.0011,
+    "Fels": 0.0022,
+    "Heide": 0.0055
    },
-   "dichte_ohne_lagen_je_m2": 0.015,
+   "dichte_ohne_lagen_je_m2": 0.00825,
    "hang_voll_bis_grad": 30,
    "hang_null_ab_grad": 42,
    "hoehe_max_m": 9999,
@@ -855,12 +855,12 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Trockengras": 0.012,
-    "Erde": 0.008,
-    "Wiese": 0.006,
-    "Lehm": 0.003
+    "Trockengras": 0.0072,
+    "Erde": 0.0048,
+    "Wiese": 0.0036,
+    "Lehm": 0.0018
    },
-   "dichte_ohne_lagen_je_m2": 0.004,
+   "dichte_ohne_lagen_je_m2": 0.0024,
    "hang_voll_bis_grad": 12,
    "hang_null_ab_grad": 28,
    "hoehe_max_m": 9999,
@@ -924,16 +924,16 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Erde": 0.0022,
-    "Trockengras": 0.0025,
-    "Geroell": 0.0015,
-    "Sand": 0.0012,
-    "Lehm": 0.0008,
-    "Sandstein": 0.0008,
-    "Heide": 0.002,
-    "Wiese": 0.001
+    "Erde": 0.00154,
+    "Trockengras": 0.00175,
+    "Geroell": 0.00105,
+    "Sand": 0.00084,
+    "Lehm": 0.00056,
+    "Sandstein": 0.00056,
+    "Heide": 0.0014,
+    "Wiese": 0.0007
    },
-   "dichte_ohne_lagen_je_m2": 0.0012,
+   "dichte_ohne_lagen_je_m2": 0.00084,
    "hang_voll_bis_grad": 22,
    "hang_null_ab_grad": 34,
    "hoehe_max_m": 9999,
@@ -1738,17 +1738,17 @@
     "oedland": 1.0
    },
    "lage_dichte_je_m2": {
-    "Erde": 0.05,
-    "Lehm": 0.05,
-    "Sand": 0.03,
-    "Wiese": 0.06,
-    "Gras": 0.06,
-    "Trockengras": 0.04,
-    "Geroell": 0.02,
-    "Moos": 0.06,
-    "Schlamm": 0.05
+    "Erde": 0.04,
+    "Lehm": 0.04,
+    "Sand": 0.024,
+    "Wiese": 0.048,
+    "Gras": 0.048,
+    "Trockengras": 0.032,
+    "Geroell": 0.016,
+    "Moos": 0.048,
+    "Schlamm": 0.04
    },
-   "dichte_ohne_lagen_je_m2": 0.04,
+   "dichte_ohne_lagen_je_m2": 0.032,
    "hang_voll_bis_grad": 18,
    "hang_null_ab_grad": 32,
    "hoehe_max_m": 9999,
@@ -1822,7 +1822,7 @@
    "totbaum_klein",
    "totbaum_gross"
   ],
-  "hinweis": "Überschreitung: Klassen in dieser Reihenfolge proportional ausdünnen (deterministisch per Hash), bis Ziel erreicht; Kollisionsklassen separat auf Kollisionsbudget."
+  "hinweis": "Überschreitung: Klassen in dieser Reihenfolge proportional ausdünnen (deterministisch per Hash), bis Ziel erreicht; Kollisionsklassen separat auf Kollisionsbudget. Dichten am 10.10. nach Rauchtest kalibriert (Rohsumme zuvor 2,1× Ziel); Ziel: Rohsumme ≈ Ziel, Ausdünnung nur als Deckel."
  },
  "erwartung_je_feld": {
   "E6": {
