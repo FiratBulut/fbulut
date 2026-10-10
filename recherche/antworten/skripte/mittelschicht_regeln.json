@@ -16,6 +16,12 @@
   "grund": "Korrektur Runde 2 Befund 3: leere Grundfarbtextur -> weiss (vorlagen/daten/netz_check_ergebnis.json klasse textur_leer). Nur diese zwei sind gesperrt.",
   "regel": "Aus der eigenen Regeldatei und aus allen mittelschicht_overrides beim Lesen entfernt (auch Kurzpfade und Schluessel von netze_massstab/netze_gewicht), letzte Sperre je Klassenpalette; Log-Zeile und plan.json['gesperrt']. Kein Ersatz noetig: AncientRuins-Netze sind keine Mittelschicht."
  },
+ "meer": {
+  "_doku": "Korrektur Runde 4 (KONVENTIONEN 1b): karte_wasser.r8 = nur Suesswasser. Meer = hoehe < 0 und karte_wasser == 0. Unter tief_m nichts; tief_m..0 nur Klassen mit meer_rolle true; 0..saum_hoehe_m im Kuestensaum (Abstand zum Meer <= saum_m) nur Rolle wasserkante/strand bzw. strand true; Schlussfilter je Instanz (Gelaendehoehe am Instanzort).",
+  "tief_m": -0.3,
+  "saum_hoehe_m": 0.3,
+  "saum_m": 30
+ },
  "min_anteil_eigen_fenster": 0.02,
  "biome_eigen": "alle 15 (Querschnitts-Planer, KONVENTIONEN §1)",
  "generische_klassen": [

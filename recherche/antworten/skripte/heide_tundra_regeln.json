@@ -34,6 +34,12 @@
     "bestand_sonst": 1.0,
     "hinweis": "weg_gross für Bäume, Krüppelkiefern; wasser_min für alles außer Wasserkante-Klassen und Wollgras (die haben ein eigenes Band)."
   },
+  "meer": {
+    "tief_m": -0.3,
+    "saum_hoehe_m": 0.3,
+    "saum_m": 30,
+    "hinweis": "Korrektur Runde 4 (Konventionen §1b): karte_wasser = nur Süßwasser; Meer = hoehe < 0 und karte_wasser == 0 (eigner 0 = aue). wasser_alle = Süßwasser | Meer für Biom-Anteil/Leerplan-Schwelle, Saum, zellen_zustaendig, Sperre/Abstand (wasser_min) und Ufer-Kieselmaske; Wasserkante-Band (Moortümpel) und wasser_bonus bleiben am Süßwasser. Unter tief_m nichts; tief_m .. 0 m nur Klassen mit meer_rolle: true (keine); 0 .. saum_hoehe_m im Küstensaum (<= saum_m zum Meer) nur Schicht 5 wasserkante oder strand: true. Schlussfilter mit der Geländehöhe bilinear am Instanzort; plan.json meer_zellen, meer_gefiltert."
+  },
   "wuesten_felder": {
     "felder": ["C3", "C4", "D3", "D4", "D5", "E3", "E4", "E5"],
     "faktor": 0.7,

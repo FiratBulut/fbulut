@@ -10,6 +10,12 @@
   "korrektur_runde2": "auftraege/verteilung-korrektur-runde2.md Befund 2/3: Gruppen als Form auf 300 m (Hauptfels 4-10 m sichtbar an Graten/Kuppen, Satelliten 1,5-4 m eng gestaffelt mit Abstand <= 1,5 x Hauptfels-Radius, Gruppe 10-30 m breit, halb so viele Gruppen), Felskrone als Kette entlang des Kamms, Blockstrom am Fuss von Waenden > 50 Grad (Groesse hangabwaerts abnehmend), Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100, Kleinmaterial nur im Kontaktsaum, Sperrliste 'gesperrt'.",
   "korrektur_runde3": "auftraege/verteilung-korrektur-runde3.md: (1) rote Findlinge /Game/AncientContent/.../SM_IcelandicBoulder_01-03 nur in canyon, oedland, wueste, lava (Block netz_nur_biome, im Planer je Palette, Override und Zusatzklasse erzwungen, Ersatz grau gleicher Groesse); (2) Formgruppen 10-30 m (Block formgruppen): 8-20 je Feld auf den markantesten Graten/Kuppen/Wandnasen, Auswahl nach Kruemmung, Prominenz und Sichtbarkeit von Tal/Weg (300-1500 m), Hero = grosse Klippennetze skaliert 1,0-2,0 als Akteur, 35-60 % eingegraben, Rueckseite hangwaerts, Satelliten 2-6 m, Blockstrom am Fuss, Mindestabstand; (3) Runde-2-Gruppen grat/kuppe nur noch als Begleitung (formgruppen.begleitung); (4) keine Gruppe auf Wiese ohne Hangknick (Block hangknick); (5) uchoab3fa (Quarry Cliff) gesperrt."
  },
+ "meer": {
+  "_doku": "Korrektur Runde 4 (KONVENTIONEN 1b): karte_wasser.r8 = nur Suesswasser. Meer = hoehe < 0 und karte_wasser == 0. Unter tief_m nichts; tief_m..0 nur Klassen mit meer_rolle true; 0..saum_hoehe_m im Kuestensaum (Abstand zum Meer <= saum_m) nur Rolle wasserkante/strand bzw. strand true; Schlussfilter je Instanz (Gelaendehoehe am Instanzort).",
+  "tief_m": -0.3,
+  "saum_hoehe_m": 0.3,
+  "saum_m": 30
+ },
  "seed": 110,
  "rand_m": 64,
  "raster": {

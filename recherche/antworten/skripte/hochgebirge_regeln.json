@@ -170,6 +170,13 @@
     "gletscherbach_ab_stufe": 2,
     "hinweis": "Wasserzellen mit Hang ≥ 18° = Wasserfall/Kaskade; Fuß = Zellen ≤ 10 m davon mit Hang < 25° (nicht Wasser). Gletscherbach = Wasser in Stufe ≥ 2; Saum kante_bis_m um ihn zählt als Eiswand-Zone (Eiszapfen an Bachkanten ≥ 55°)."
   },
+  "meer": {
+    "nichts_unter_m": -0.3,
+    "kueste_bis_m": 0.3,
+    "kuesten_saum_m": 30,
+    "kueste_rollen": ["wasserkante", "strand"],
+    "hinweis": "Korrektur Runde 4 (Konventionen §1b): karte_wasser.r8 enthaelt nur Suesswasser. Meer = hoehe.f32 < 0 und karte_wasser == 0. Unter nichts_unter_m nichts; nichts_unter_m...0 m nur Klassen mit meer_rolle: true; 0...kueste_bis_m in Zellen bis kuesten_saum_m zum Meer nur Rolle/Ebene wasserkante, strand: true oder meer_rolle: true. Gletscher-/Fjordkuesten: keine Pflanzen unter +0,3 m am Meer. Sperre, Stufe -1 und Ufer-Abstand des Kiesel-Teppichs nutzen wasser_alle (Suesswasser | Meer); wasser_band_m (Bach-Moossteine/-Kiesel), Schlucht, Wasserfallfuss und Gletscherbach bleiben bei karte_wasser."
+  },
   "ebenen_abgrenzung": {
     "_doku": "Konventionen §4: generische Mittelschicht-Klassen setzt nur mittelschicht_plan.py (Werte in mittelschicht_overrides), Felsen > 0,8 m nur felsgruppen_plan.py (felsgruppen_overrides.zusatzklassen), Spuren nur spuren_plan.py. Der Planer ueberspringt Klassen mit diesen Namen/Rollen mit WARNUNG und meldet Stein-/Kiesel-/Plattennetze, deren Hoehe x max. Massstab fels_max_hoehe_m uebersteigt.",
     "generisch_mittelschicht": [

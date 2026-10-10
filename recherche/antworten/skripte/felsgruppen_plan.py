@@ -39,6 +39,15 @@ Stand Korrektur Runde 3 (auftraege/verteilung-korrektur-runde3.md; Echtdaten Run
     Kollision, 35-60 % eingegraben, Rückseite hangwärts, Schichtneigung je Massiv; Satelliten 2-6 m eng am Fuß, Blockstrom.
   - Runde-2-Gruppen grat/kuppe (Hauptfels 4,5-8,5 m) nur noch als Begleiter der Formgruppen (formgruppen.begleitung).
   - Hangknick-Pflicht (Block hangknick): keine Gruppe auf Wiese ohne Hangknick.
+Stand Korrektur Runde 4 (auftraege/verteilung-korrektur-runde4.md, KONVENTIONEN §1b; Meer fehlt in karte_wasser):
+  - karte_wasser.r8 = nur Süßwasser. Meer = hoehe < 0 und karte_wasser == 0; wasser_alle = Süßwasser | Meer ersetzt
+    karte_wasser als Sperre (ausschluss.wasser_m), Landzellen-Bezug (biome_fenster), Sichtziele (Tal/Binnenwasser/Meer).
+    Süßwasser-spezifisch bleiben wasser_abstand_m der Ufer-Zusatzklassen (Bach-/Uferblöcke) und prallhang (Flusspolylinien).
+  - Unter -0,3 m nichts; -0,3..0 m nur Zusatzklassen mit "meer_rolle": true; 0..+0,3 m im Küstensaum (<= 30 m zum Meer)
+    nur Strand-Zusatzklassen (Rolle wasserkante/strand, "strand": true, kueste/kueste_nur wie nordkueste felsufer) – keine
+    Gruppen, Formgruppen, Blockströme. kueste/kueste_nur messen den Abstand jetzt zum echten Meer.
+  - Schlussfilter je Instanz (Geländehöhe bilinear am Instanzort) als Sicherheitsnetz; plan.json meer_zellen, meer_gefiltert,
+    statistik.meer; Parameter regeln["meer"] (tief_m, saum_hoehe_m, saum_m).
 In der Cloud nur synthetisch rauchgetestet. Korrekturen bitte als auftraege/verteilung-felsgruppen-korrektur.md.
 
 Was das Skript tut
@@ -628,6 +637,19 @@ ZK_ROLLEN = {"fels_block": "block", "block": "block", "fels_hero": "hero", "hero
              "klippe_schale": "wand", "wand": "wand", "band": "band", "fels_band": "band", "eis": "stein"}
 
 
+MEER_VORGABE = {"tief_m": -0.3, "saum_hoehe_m": 0.3, "saum_m": 30.0}
+STRAND_ROLLEN = ("wasserkante", "strand")
+
+
+def meer_parameter(R):
+    """Runde 4 (KONVENTIONEN §1b): Grenzen aus R["meer"] (tief_m, saum_hoehe_m, saum_m), Vorgabe -0,3 / 0,3 / 30."""
+    M = dict(MEER_VORGABE)
+    for k, v in (R.get("meer") or {}).items():
+        if k in M and _zahl(v):
+            M[k] = float(v)
+    return M
+
+
 def _mittel(v):
     if _zahl(v):
         return float(v)
@@ -1046,7 +1068,8 @@ class OverrideLeser:
              "kruemmung": "egal", "massstab": None, "eingraben": None, "gruppe_n": (1, 1), "gruppe_r": None,
              "kollision": None, "sichtweite": None, "schatten": None, "akteur": False, "raster_m": None, "klumpung": None,
              "wand_abstand": None, "relief": None, "kuppe_prominenz_m": None, "exposition": None, "max_je_feld": None,
-             "punkte": None, "felder": None, "zonen": None, "fuss_m": 22.0, "dichte_gruppen": False, "z_versatz": None, "gelesen": [], "ignoriert": []}
+             "punkte": None, "felder": None, "zonen": None, "fuss_m": 22.0, "dichte_gruppen": False, "z_versatz": None,
+             "strand": False, "meer_rolle": False, "gelesen": [], "ignoriert": []}
         G, I = z["gelesen"].append, z["ignoriert"].append
         hang_lo = hang_hi = p_alt = abstand = umkreis = abbruch = None
         for k, v in d.items():
@@ -1062,6 +1085,10 @@ class OverrideLeser:
             elif k == "rolle" and isinstance(v, str):
                 if v == "akteur":
                     z["akteur"], z["rolle"] = True, "hero"
+                elif v in STRAND_ROLLEN:  # Runde 4: Strand-/Küstenfelsen (z. B. nordkueste felsufer) dürfen auf den Strand
+                    z["strand"], z["rolle"] = True, "block"
+                    G(k + " (%s: Strand erlaubt, Stuecke als block)" % v)
+                    continue
                 elif v in ZK_ROLLEN:
                     z["rolle"] = ZK_ROLLEN[v]
                 else:
@@ -1103,6 +1130,9 @@ class OverrideLeser:
                 G(k + " (-> wasser_abstand_m zum Meer)")
             elif k == "kueste_nur":
                 z["meer_nur"] = bool(v)
+                G(k)
+            elif k in ("strand", "meer_rolle") and isinstance(v, bool):
+                z[k] = v
                 G(k)
             elif k == "lagen_min" and isinstance(v, dict):
                 z["lagen_min"] = {l: float(x) for l, x in v.items() if _zahl(x)}
@@ -1204,6 +1234,8 @@ class OverrideLeser:
                 G(k)
             else:
                 I(k)
+        if z["meer_nur"] or z["meer_rolle"]:  # Küstenklassen (kueste/kueste_nur) und Meeres-Rollen dürfen auf den Strand
+            z["strand"] = True
         if hang_lo or hang_hi is not None:
             t = z["hang"] or (0.0, 0.0, 90.0, 90.0)
             if hang_lo:
@@ -1779,8 +1811,20 @@ class Planer:
         weg = r8("karte_weg.r8")
         ort = r8("karte_ort.r8")
         A = R["ausschluss"]
-        self.m_wasser = dilate(wasser > 0, A["wasser_m"]) if wasser is not None else (h <= 0.05)
-        self.m_wasser_roh = (wasser > 0) if wasser is not None else (h <= 0.05)
+        # Runde 4 (KONVENTIONEN §1b): karte_wasser = nur Süßwasser; Meer = hoehe < 0 und karte_wasser == 0
+        MP = self.MP = meer_parameter(R)
+        suess = (wasser > 0) if wasser is not None else np.zeros(h.shape, dtype=bool)
+        self.m_suess = suess
+        self.meer = (h < 0.0) & ~suess
+        self.wasser_alle = suess | self.meer
+        self.d_meer = self.abstand(self.meer, int(math.ceil(MP["saum_m"])) + 1) if self.meer.any() else np.full(h.shape, 1e9)
+        self.kuestensaum = ~self.wasser_alle & (h < MP["saum_hoehe_m"]) & (self.d_meer <= MP["saum_m"])
+        self.meer_stat = {"meer_zellen_fenster": int(self.meer.sum()), "kuestensaum_zellen_fenster": int(self.kuestensaum.sum()),
+                          "grenzen_m": MP, "kandidaten_gesperrt": 0,
+                          "schlussfilter": {"unter_tief": 0, "unter_0_ohne_meer_rolle": 0, "strandsaum_ohne_strand_rolle": 0}}
+        self.m_wasser = dilate(self.wasser_alle, A["wasser_m"])
+        self.m_wasser_roh = self.wasser_alle
+        nah_suess = dilate(suess, A["wasser_m"])
         self.m_weg = dilate(weg > 0, A["weg_m"]) if weg is not None else np.zeros_like(self.m_wasser)
         self.m_weg_klein = dilate(weg > 0, int(math.ceil(2.5))) if weg is not None else np.zeros_like(self.m_wasser)
         self.m_ort = dilate(ort > 0, A["ort_m"]) if ort is not None else np.zeros_like(self.m_wasser)
@@ -1883,8 +1927,8 @@ class Planer:
         hs12 = gauss(h, G["kuppe_sigma_m"])
         self.hs12 = hs12
         self.land = h > 0.2
-        # Biom-Anteile im Fenster (Landzellen; KONVENTIONEN §2)
-        bl = self.biom[self.land]
+        # Biom-Anteile im Fenster (Landzellen ohne Süßwasser und Meer; KONVENTIONEN §1/§1b)
+        bl = self.biom[self.land & ~self.wasser_alle]
         if bl.size:
             cnt = np.bincount(bl.astype(np.int64), minlength=len(BIOME)) / float(bl.size)
             self.biome_fenster = {BIOME[i]: round(float(cnt[i]), 4) for i in np.argsort(-cnt) if cnt[i] > 0}
@@ -1925,8 +1969,17 @@ class Planer:
         self.m_band = (phase - np.floor(phase)) < S["band_breite_anteil"]
 
         # Allgemeine Ausschlüsse
-        self.m_frei = self.land & ~self.m_wasser & ~self.m_weg & ~self.m_ort & (self.hang <= A["max_hang_grad"])
-        self.m_frei_klein = self.land & ~self.m_wasser & ~self.m_weg_klein & ~self.m_ort & (self.hang <= A["max_hang_grad"])
+        hang_ok = self.hang <= A["max_hang_grad"]
+        # Runde 4: Gruppen/Formgruppen/Blockströme nie im Meer, nie im Strandsaum (0..+0,3 m, <= 30 m zum Meer)
+        self.m_frei = self.land & ~self.m_wasser & ~self.kuestensaum & ~self.m_weg & ~self.m_ort & hang_ok
+        self.m_frei_klein = self.land & ~self.m_wasser & ~self.kuestensaum & ~self.m_weg_klein & ~self.m_ort & hang_ok
+        # nur durch die Meer-Regel gesperrt (für meer_gefiltert)
+        self.m_frei_om = self.land & ~nah_suess & ~self.m_weg & ~self.m_ort & hang_ok
+        self.m_frei_klein_om = self.land & ~nah_suess & ~self.m_weg_klein & ~self.m_ort & hang_ok
+        # Strand-Zusatzklassen (Rolle wasserkante/strand, strand true, kueste): ab 0 m bis an die Wasserlinie; meer_rolle ab tief_m
+        self.m_frei_strand = (h >= 0.0) & ~self.meer & ~nah_suess & ~self.m_weg & ~self.m_ort & hang_ok
+        self.m_frei_strand_klein = (h >= 0.0) & ~self.meer & ~nah_suess & ~self.m_weg_klein & ~self.m_ort & hang_ok
+        self.m_frei_meer = (h >= MP["tief_m"]) & ~nah_suess & ~self.m_weg_klein & ~self.m_ort & hang_ok
         fs_i, fs_j = slice(i0f - i0, i1f - i0), slice(j0f - j0, j1f - j0)
         self.feld_slice = (fs_i, fs_j)
         self.zellen_zustaendig = int(self.m_frei[fs_i, fs_j].sum())
@@ -1988,6 +2041,7 @@ class Planer:
                 gruppen_gesamt += n_g
         alle = self.zusammenfuehren(inst)
         alle = self.netz_biom_pruefung(alle)
+        alle = self.meer_schlussfilter(alle)
         alle = self.budget(alle)
         alle = self.kontaktsaum(alle)
         self.form_statistik(alle)
@@ -2384,21 +2438,22 @@ class Planer:
         hang_c = np.degrees(np.arctan(np.hypot(gx, gy)))
         land = gueltig & (hc > 0.2)
         if was is None:
-            was = gueltig & (hc <= 0.05)
-        meer = was & (hz <= 0.5)
-        tal = land & ~was & (hc - umg <= -float(S["tal_tiefe_m"])) & (hang_c <= float(S["tal_hang_max_grad"]))
+            was = np.zeros(hc.shape, dtype=bool)
+        meer = gueltig & (hc < 0.0) & ~was  # Runde 4: karte_wasser = nur Süßwasser; Meer = Blockmittel < 0 ohne Süßwasser
+        was_alle = was | meer
+        tal = land & ~was_alle & (hc - umg <= -float(S["tal_tiefe_m"])) & (hang_c <= float(S["tal_hang_max_grad"]))
         Z = S["ziele"]
         T = np.zeros(hc.shape)
         if weg is not None:
             T = np.maximum(T, float(Z.get("weg", 1.0)) * weg)
         T = np.maximum(T, float(Z.get("tal", 1.0)) * tal)
-        T = np.maximum(T, float(Z.get("wasser_binnen", 0.6)) * (was & ~meer))
+        T = np.maximum(T, float(Z.get("wasser_binnen", 0.6)) * was)
         T = np.maximum(T, float(Z.get("meer", 0.3)) * meer)
         if weg is None:
             self.hinweise.append("Formgruppen-Sichtbarkeit ohne karte_weg.r8 (nur Tal/Wasser als Ziel)")
         self.sd = {"r": r, "I0": I0, "J0": J0, "hc": hc, "T": T, "umg": umg,
                    "ziele_anteil": {"weg": float(weg.mean()) if weg is not None else 0.0, "tal": float(tal.mean()),
-                                    "wasser": float(was.mean())}}
+                                    "wasser": float(was_alle.mean())}}
         return self.sd
 
     def _grob(self, feld_arr, fi, fj):
@@ -2978,8 +3033,11 @@ class Planer:
         im_feld = (fi + i0 >= i0f) & (fi + i0 < i1f) & (fj + j0 >= j0f) & (fj + j0 < j1f)
         if rolle in ("stein", "kiesel", "platte"):
             frei = self.m_frei_klein[ci, cj]
+            frei_om = self.m_frei_klein_om[ci, cj]
         else:
             frei = self.m_frei[ci, cj] & ~self.m_sperr[ci, cj]
+            frei_om = self.m_frei_om[ci, cj] & ~self.m_sperr[ci, cj]
+        self.meer_stat["kandidaten_gesperrt"] += int((inside & im_feld & frei_om & ~frei).sum())  # Runde 4: nur Meer-Regel
         hz = bilinear(self.h, fi_c, fj_c)
         rr = np.clip(r_eigen / 100.0, 0.5, 20.0)
         hmin_rand = np.minimum.reduce([bilinear(self.h, np.clip(fi_c + d[0] * rr, 1, H - 1.001), np.clip(fj_c + d[1] * rr, 1, W - 1.001))
@@ -3301,9 +3359,11 @@ class Planer:
         if z["hoehe"]:
             w = w * trapez(self.h, z["hoehe"])
         if z["wasser"]:
-            wm = self.m_wasser_roh & (self.h <= 0.5) if z["meer_nur"] else self.m_wasser_roh
+            # Runde 4: kueste/kueste_nur = Abstand zum Meer; Strandklassen = Abstand zu allem Wasser; sonst Ufer = Süßwasser
+            art = "meer" if z["meer_nur"] else ("alle" if z["strand"] else "suess")
+            wm = {"meer": self.meer, "alle": self.wasser_alle, "suess": self.m_suess}[art]
             maxd = int(min(64, max(1.0, z["wasser"][3])))
-            k = ("wasser", z["meer_nur"], maxd)
+            k = ("wasser", art, maxd)
             if k not in self._abst_cache:
                 self._abst_cache[k] = self.abstand(wm, maxd)
             w = w * trapez(self._abst_cache[k], z["wasser"])
@@ -3358,9 +3418,16 @@ class Planer:
             sk, st, sw = z["klumpung"]
             n = wertrauschen(self.xg, self.yg, sk, self.seed, 50 + zlib.crc32(z["name"].encode()) % 1000)
             w = w * ((1.0 - st) + st * np.clip((n - sw) / max(1e-6, 1.0 - sw), 0.0, 1.0))
+        return w * self.zusatz_frei(z)
+
+    def zusatz_frei(self, z):
+        """Freie Zellen einer Zusatzklasse (Runde 4): meer_rolle ab tief_m, Strandklassen ab 0 m, sonst Land ohne Strandsaum."""
         klein = z["rolle"] in ("stein", "kiesel", "platte")
-        frei = self.m_frei_klein if klein else (self.m_frei & ~self.m_sperr)
-        return w * frei
+        if z["meer_rolle"]:
+            return self.m_frei_meer & (True if klein else ~self.m_sperr)
+        if z["strand"]:
+            return self.m_frei_strand_klein if klein else (self.m_frei_strand & ~self.m_sperr)
+        return self.m_frei_klein if klein else (self.m_frei & ~self.m_sperr)
 
     def zusatz_erzeugen(self, z, feld, welt_dir):
         """Kandidaten (Gitter oder Punkte) -> Gruppen -> Instanzen (Format wie _stuecke)."""
@@ -3403,7 +3470,7 @@ class Planer:
             ci, cj = np.round(fi).astype(np.int64), np.round(fj).astype(np.int64)
             hsh = hash64(self.seed, salz, ci + self.win[0], cj + self.win[2])
             # Punkte des Biom-Planers tragen dessen Bedingungen schon: gültig, wo frei (nicht über die Ersatzmaske)
-            w = (self.m_frei & ~self.m_sperr).astype(np.float64)
+            w = self.zusatz_frei(z).astype(np.float64)
             ok = w[ci, cj] > 0
         else:
             if dichte <= 0:
@@ -3618,6 +3685,34 @@ class Planer:
         log("Netz-Biomsperre Schlusspruefung: %d Stuecke mit biombeschraenktem Netz im Fremdbiom auf Ersatz umgestellt, %d entfallen." % (
             int((bad & ~weg).sum()), int(weg.sum())))
         return {k: v[~weg] for k, v in a.items()} if weg.any() else a
+
+    def meer_schlussfilter(self, a):
+        """Runde 4 (KONVENTIONEN §1b), Sicherheitsnetz: Geländehöhe bilinear am Instanzort; < tief_m nie, < 0 nur meer_rolle,
+        0..saum_hoehe_m im Küstensaum (<= saum_m zum Meer) nur Strand-Zusatzklassen."""
+        SF = self.meer_stat["schlussfilter"]
+        if len(a["x"]) == 0:
+            return a
+        MP = self.MP
+        H, W = self.h.shape
+        hz = bilinear(self.h, np.clip(a["fi"], 1, H - 1.001), np.clip(a["fj"], 1, W - 1.001))
+        mk = {"z_" + z["name"] for z in self.zusatz if z["meer_rolle"]}
+        sk = {"z_" + z["name"] for z in self.zusatz if z["strand"] or z["meer_rolle"]}
+        kl = a["klasse"].astype(str)
+        meer_ok = np.isin(kl, sorted(mk)) if mk else np.zeros(len(kl), dtype=bool)
+        strand_ok = np.isin(kl, sorted(sk)) if sk else np.zeros(len(kl), dtype=bool)
+        saum = self.d_meer[a["ci"], a["cj"]] <= MP["saum_m"]
+        r1 = hz < MP["tief_m"]
+        r2 = ~r1 & (hz < 0.0) & ~meer_ok
+        r3 = ~r1 & ~r2 & (hz < MP["saum_hoehe_m"]) & saum & ~strand_ok
+        weg = r1 | r2 | r3
+        SF["unter_tief"] += int(r1.sum())
+        SF["unter_0_ohne_meer_rolle"] += int(r2.sum())
+        SF["strandsaum_ohne_strand_rolle"] += int(r3.sum())
+        if weg.any():
+            log("Meer-Schlussfilter (Runde 4): %d Stuecke verworfen (unter %.1f m: %d, unter 0 ohne meer_rolle: %d, Strandsaum ohne Strand-Klasse: %d)." % (
+                int(weg.sum()), MP["tief_m"], int(r1.sum()), int(r2.sum()), int(r3.sum())))
+            return {k: v[~weg] for k, v in a.items()}
+        return a
 
     def budget(self, a):
         """Harte Deckel (KONVENTIONEN §3): je Rolle, gesamt, Kollision, Akteure. Runde 2: Ausdünnung nach Gruppen-Priorität
@@ -3984,7 +4079,16 @@ class Planer:
         stat["form"] = dict(getattr(self, "form_stat", {}))
         stat["formgruppen"] = dict(getattr(self, "fg_stat", {}))
         plan = plan_kopf(self.R, feld, int(n), self.stand)
+        ms = getattr(self, "meer_stat", {})
+        meer_gef = int(ms.get("kandidaten_gesperrt", 0) + sum(ms.get("schlussfilter", {}).values()))
+        stat["meer"] = ms
+        if ms.get("meer_zellen_fenster"):
+            self.hinweise.append("Meer (Runde 4): %d Zellen im Fenster (hoehe < 0, nicht in karte_wasser), Kuestensaum %d Zellen; "
+                                 "%d Stuecke durch Meer/Strandsaum verworfen (davon Schlussfilter %d)" % (
+                                     ms["meer_zellen_fenster"], ms.get("kuestensaum_zellen_fenster", 0), meer_gef,
+                                     sum(ms.get("schlussfilter", {}).values())))
         plan.update({"biome_fenster": self.biome_fenster, "zellen_zustaendig": int(self.zellen_zustaendig),
+                     "biome_fenster_bezug": "land", "meer_zellen": int(ms.get("meer_zellen_fenster", 0)), "meer_gefiltert": meer_gef,
                      "kollision_anzahl": int(a["koll"].sum()), "biom_quelle": self.biom_quelle,
                      "dateien": dateien, "akteure": akteure, "seed": self.seed, "faktor": self.faktor,
                      "paletten_je_biom": {bn: self.pal_je_biom[BIOME.index(bn)] for bn in self.biome_fenster},
@@ -4056,9 +4160,10 @@ def plan_kopf(R, feld, n, stand):
     """Gemeinsame Pflichtschlüssel (FORMAT §3, KONVENTIONEN §2) für vollen und leeren plan.json."""
     AU = R["ausgabe"]
     return {"stand": stand, "feld": feld, "instanzen": int(n), "ebene": "felsgruppen", "biome_eigen": list(BIOME),
-            "biome_fenster": {}, "zellen_zustaendig": 0, "kollision_anzahl": 0, "dateien": {}, "akteure": [],
+            "biome_fenster": {}, "biome_fenster_bezug": "land", "zellen_zustaendig": 0, "kollision_anzahl": 0, "dateien": {}, "akteure": [],
+            "meer_zellen": 0, "meer_gefiltert": 0,
             "entfernen": AU.get("entfernen", ""), "ft_ordner": AU["ft_ordner"], "ft_praefix": AU["ft_praefix"],
-            "quelle": "felsgruppen_plan.py (Korrektur Runde 3: Formgruppen 10-30 m, Netz-Biomsperre, Hangknick; Runde 2: Gruppengrammatik, "
+            "quelle": "felsgruppen_plan.py (Korrektur Runde 4: Meer = hoehe < 0 ohne karte_wasser; Runde 3: Formgruppen 10-30 m, Netz-Biomsperre, Hangknick; Runde 2: Gruppengrammatik, "
                       "Platten-Regel, Kontaktsaum, Sperrliste)",
             "hinweis_setzer": "Eintraege mit rolle 'akteur' (Dateien akteur_*.f32, Liste 'akteure') als StaticMeshActor setzen, "
                               "nicht als Foliage; Kollision nur wo kollision=true; Z enthaelt bereits das Eingraben.",
@@ -4082,7 +4187,7 @@ def schreibe_leeren_plan(basis, R, feld, grund):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
-    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C, Korrektur Runde 3).")
+    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C, Korrektur Runde 4).")
     ap.add_argument("felder", nargs="+", help="Gitterfelder, z. B. B4 C2")
     ap.add_argument("--bild", action="store_true", help="Draufsicht docs/pruefung/felsgruppen/<Feld>.png")
     ap.add_argument("--faktor", type=float, default=1.0, help="Dichtefaktor (Standard 1.0)")

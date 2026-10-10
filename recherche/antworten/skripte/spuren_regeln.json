@@ -19,6 +19,12 @@
   "grund": "Korrektur Runde 2 Befund 3: leere Grundfarbtextur -> rendert weiss (vorlagen/daten/netz_check_ergebnis.json klasse textur_leer). Nur diese zwei sind gesperrt; die uebrigen textur_leer-/schwarz_mspresets-Netze loest der Editor per Ersatzmaterial.",
   "regel": "Gesperrte Pfade werden aus der eigenen Regeldatei und aus allen spuren_overrides beim Lesen entfernt (auch Kurzpfade wie AncientRuins/Meshes/SM_Column_03). In Listen tritt der Ersatz an die Stelle (Duplikate entfallen), Einzelwerte (saeule, netz, bauteile) bekommen den Ersatz. Letzte Sperre im Instanz-Sammler: ein gesperrtes Netz wird nie geschrieben. Log-Zeile und plan.json['gesperrt']."
  },
+ "meer": {
+  "_doku": "Korrektur Runde 4 (KONVENTIONEN 1b): karte_wasser.r8 = nur Suesswasser. Meer = hoehe < 0 und karte_wasser == 0. Unter tief_m nichts; tief_m..0 nur Klassen mit meer_rolle true; 0..saum_hoehe_m im Kuestensaum (Abstand zum Meer <= saum_m) nur Rolle wasserkante/strand bzw. strand true; Schlussfilter je Instanz (Gelaendehoehe am Instanzort).",
+  "tief_m": -0.3,
+  "saum_hoehe_m": 0.3,
+  "saum_m": 30
+ },
  "min_anteil_eigen_fenster": 0.02,
  "biome_eigen": "alle 15 (Querschnitts-Planer, KONVENTIONEN §1); Palette je Zelle nach Biom (mauer.biome_stein, steinmann.biome, obstbaum je Biom, wegkreuz.biome_schrein)",
  "zusatz_saum_m": 30.0,

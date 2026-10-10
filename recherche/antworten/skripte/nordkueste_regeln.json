@@ -7,14 +7,16 @@
   "lagen_modus": "gewicht: f = 1 + Σ(w−1)·deckung (deckung 0–1); nur: f = Σ w·deckung (0, wo keine der Lagen liegt).",
   "hang": "[voll_bis, null_ab] Grad: Faktor 1 bis voll_bis, linear 0 bei null_ab. hang_min [null_bis, voll_ab] für Klassen, die Steilheit brauchen.",
   "hoehe": "[voll_bis, null_ab] m: 1 bis voll_bis, 0 ab null_ab (Waldgrenze). hoehe_min [null_bis, voll_ab].",
-  "kueste": "Trapez [d0,d1,d2,d3] über Abstand zur Meeres-Wasserlinie (m): 0 bei d0, 1 zwischen d1 und d2, 0 ab d3. kueste_nur: Klasse nur dort.",
-  "wasser": "Trapez über Abstand zu beliebigem Wasser (Bach/See/Meer); außerhalb wasser_faktor_fern.",
+  "kueste": "Trapez [d0,d1,d2,d3] über Abstand zum Meer (m; Meer = hoehe < 0 und karte_wasser == 0, Runde 4): 0 bei d0, 1 zwischen d1 und d2, 0 ab d3. kueste_nur: Klasse nur dort.",
+  "wasser": "Trapez über Abstand zu Süßwasser (karte_wasser: Bach/See/Fluss; Feuchte-Faktor); außerhalb wasser_faktor_fern. Sperre und Ufer-Abstand (teppich_sperre) gelten für wasser_alle = Süßwasser | Meer.",
   "yaw": "zufall | hang (Längsachse hangparallel ±20°) | kueste (Längsachse küstenparallel ±20°, bei Pflanzen Leeseite).",
   "eingraben": "cm fest, oder anteil × Netzhöhe (groesse_z aus netze.csv).",
   "kletter": "darf auf Hang > 40° (sonst Sperre nach FORMAT §3).",
   "ebene": "0 boden (Nadelstreu, Kiesel, Moos, Bodendecker), 1 nur Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Klippenblumen, Efeu, Wurzelanlaeufe), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel, Strandplatten). Generische Schicht-1-Klassen -> mittelschicht_overrides, Felsbloecke > 0,8 m -> felsgruppen_overrides, Spuren -> spuren_overrides.",
   "eigner_0": "eigner.r8-Kennzahl 0 (Weltgelaende) = aue (Konventionen Paragraph 1), also NICHT Nordkueste; Rezept mit vulkan = lava.",
-  "korrektur_runde1": "2026-10-10: Zustaendigkeit nach Biom-Zellen + 30-m-Saum, Pflichtschluessel, Feld-Budget, Ebenen-Abgrenzung (siehe verteilung-nordkueste.md, Korrektur Runde 1)."
+  "korrektur_runde1": "2026-10-10: Zustaendigkeit nach Biom-Zellen + 30-m-Saum, Pflichtschluessel, Feld-Budget, Ebenen-Abgrenzung (siehe verteilung-nordkueste.md, Korrektur Runde 1).",
+  "meer_rollen": "Runde 4 (Konventionen §1b): meer_rolle: true = Meeres-Rolle (Tang, Treibholz, Strandkiesel) -0,3 .. +0,3 m und darüber; strand: true = Strandklasse (zusätzlich Strandplatten), darf in den Küstensaum 0 .. +0,3 m (≤ 30 m zum Meer). Alle übrigen Klassen nicht unter +0,3 m im Küstensaum, nie unter 0 m.",
+  "korrektur_runde4": "2026-10-10: Meer fehlt in karte_wasser - Meer = hoehe < 0 und karte_wasser == 0, wasser_alle für Sperre/Abstand/Biom-Anteil, Küstensaum-Regel, Schlussfilter (plan.json meer_zellen, meer_gefiltert)."
  },
  "stand": "2026-10-10",
  "thema": "nordkueste",
@@ -180,7 +182,10 @@
  },
  "hang_sperre_grad": 40,
  "meer": {
-  "hoehe_max_m": 0.6,
+  "_doku": "Korrektur Runde 4 (Konventionen §1b): karte_wasser enthaelt nur Suesswasser. Meer = hoehe < 0 und karte_wasser == 0. Unter tief_m nichts; tief_m .. 0 m nur Klassen mit meer_rolle: true; 0 .. saum_hoehe_m im Kuestensaum (Abstand zu Meer <= saum_m) nur Klassen mit meer_rolle/strand: true, Ebene 5 oder Rolle wasserkante/strand (keine Baeume, Straeucher, Mittelschicht, Boden). Sperre/Abstand/Landzellen-Bezug ueber wasser_alle = Suesswasser | Meer. Der alte Schluessel hoehe_max_m (Meer als tiefes karte_wasser) entfaellt. Schlussfilter mit der Gelaendehoehe bilinear am Instanzort; verworfene Kandidaten zaehlt plan.json[\"meer_gefiltert\"].",
+  "tief_m": -0.3,
+  "saum_hoehe_m": 0.3,
+  "saum_m": 30,
   "suche_bis_m": 500,
   "windflucht_bis_m": 180,
   "windflucht_z": [
@@ -1540,7 +1545,10 @@
    },
    "kueste_nur": true,
    "hinweis": "Spülsaum 0–5 m über Wasserlinie: STAND-IN (flache Wasserpflanzen) bis Tang/Blasentang gekauft (Einkaufsliste Nr. 3).",
-   "sonderform": true
+   "sonderform": true,
+   "meer_rolle": true,
+   "strand": true,
+   "meer_rolle_hinweis": "Runde 4: Meeres-Rolle (Spuelsaum/Flachwasser), darf -0,3 .. +0,3 m und darueber bis 5 m vom Meer."
   },
   "treibholz": {
    "ebene": 5,
@@ -1608,7 +1616,10 @@
    },
    "kueste_nur": true,
    "hinweis": "Treibholz küstenparallel (yaw kueste ± 20°) 1–22 m hinter der Wasserlinie, geklumpt in Buchten (Hang < 12°).",
-   "sonderform": true
+   "sonderform": true,
+   "meer_rolle": true,
+   "strand": true,
+   "meer_rolle_hinweis": "Runde 4: Treibgut am Strand, Meeres-Rolle (-0,3 .. +0,3 m und darueber), Abstand ueber d_meer."
   },
   "strandkiesel": {
    "ebene": 5,
@@ -1688,7 +1699,10 @@
    "kueste_nur": true,
    "ufer_vorhanden_faktor": 0.25,
    "hinweis": "Kiesel/Kopfsteine 5–40 cm im Spülsaum; wenn Ufer-Ebene FT_EL_UF_* im Feld liegt, nur 25 % (Ergänzung).",
-   "sonderform": true
+   "sonderform": true,
+   "meer_rolle": true,
+   "strand": true,
+   "meer_rolle_hinweis": "Runde 4: Kiesel/Muscheln an der Wasserlinie, Meeres-Rolle (-0,3 .. +0,3 m und darueber)."
   },
   "strandplatte": {
    "ebene": 5,
@@ -1770,7 +1784,9 @@
    "kueste_nur": true,
    "ufer_vorhanden_faktor": 0.4,
    "hinweis": "Kiesel-Platten (Nanite, flach <= 0,77 m hoch, Schicht 5 Wasserkante) als Flaeche zwischen Wasser und Strandgras; seit Runde 2 nur auf Kies-/Geroell-/Fels-Lagen und 55 % eingegraben (platten_regel).",
-   "sonderform": true
+   "sonderform": true,
+   "strand": true,
+   "meer_rolle_hinweis": "Runde 4: strand-Felsklasse (strand: true), darf in den Kuestensaum 0 .. +0,3 m, nicht unter 0 m."
   }
  },
  "farben": {

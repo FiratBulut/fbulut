@@ -47,6 +47,13 @@
   "tiefe_max_seerose_m": 1.5,
   "distanz_max_m": 64.0
  },
+ "meer": {
+  "nichts_unter_m": -0.3,
+  "kueste_bis_m": 0.3,
+  "kuesten_saum_m": 30,
+  "kueste_rollen": ["wasserkante", "strand"],
+  "hinweis": "Korrektur Runde 4 (Konventionen §1b): karte_wasser.r8 enthaelt nur Suesswasser. Meer = hoehe.f32 < 0 und weder karte_wasser noch Teich-/See-Umriss. Die Wasserflaeche fuer Spiegel, Wassertiefe und Zonen (flachwasser/tiefwasser/spiegel/ufer/bult) ist nur Suesswasser - Schilf-/Binsen-/Seerosen-Guertel nach Wassertiefe nie im Meer. Meer ist Zone 0 (keine Klasse), Landklassen sperren wasser_alle. Unter nichts_unter_m nichts; nichts_unter_m...0 m nur meer_rolle: true; 0...kueste_bis_m in Nicht-Wasser-Zellen bis kuesten_saum_m zum Meer nur Rolle wasserkante, strand: true oder meer_rolle: true. Schlussfilter am Instanzort zaehlt meer_gefiltert."
+ },
  "zonen": {
   "flachwasser": {"tiefe_m": [0.0, 0.5], "hinweis": "Wasserzelle, Grund 0-0,5 m unter Spiegel: Schilf (0-0,3), Binsen (0-0,15), tote Baeume (0-0,5), Treibholz"},
   "tiefwasser": {"tiefe_m": [0.5, 99.0], "hinweis": "nur Seerosen 0,3-1,5 m (auf dem Spiegel), sonst nichts"},

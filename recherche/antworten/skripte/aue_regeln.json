@@ -91,6 +91,12 @@
   },
   "hinweis": "ufer: d_wasser <= 8 m oder (Höhe über nächstem Wasser <= 1 m und d <= 40 m); aue: hrel <= 4 m und d <= 120 m; sonst terrasse."
  },
+ "meer": {
+  "tief_m": -0.3,
+  "saum_hoehe_m": 0.3,
+  "saum_m": 30,
+  "hinweis": "Korrektur Runde 4 (Konventionen §1b): karte_wasser = nur Suesswasser; Meer = hoehe < 0 und karte_wasser == 0 (eigner 0, zaehlte bisher als aue). wasser_alle = Suesswasser | Meer fuer Landzellen-Bezug (aue-Anteil, Leerplan-Schwelle, Saum, zellen_zustaendig), Sperre (abstand_m.wasser_klein/gross) und Ufer-Kieselmaske. Hoehenstufen ufer/aue, Feuchte, d_wasser_m der Wasserkante-Klassen und Weiden-Solitaere bleiben am Suesswasser. Unter tief_m nichts; tief_m .. 0 m nur Klassen mit meer_rolle: true (aue hat keine); 0 .. saum_hoehe_m im Kuestensaum (<= saum_m zum Meer) nur Schicht 5 wasserkante oder strand: true. Schlussfilter mit der Gelaendehoehe bilinear am Instanzort; plan.json meer_zellen, meer_gefiltert."
+ },
  "stillwasser": {
   "quellen": [
    "wasser_welt.json:seen.umriss",

@@ -60,6 +60,16 @@
  "land": {
   "min_hoehe_m": 0.3
  },
+ "meer": {
+  "nichts_unter_m": -0.3,
+  "kueste_bis_m": 0.3,
+  "kuesten_saum_m": 30,
+  "kueste_rollen": [
+   "wasserkante",
+   "strand"
+  ],
+  "hinweis": "Korrektur Runde 4 (Konventionen §1b): karte_wasser.r8 enthaelt nur Suesswasser. Meer = hoehe.f32 < 0 und karte_wasser == 0; wasser_alle = Suesswasser | Meer fuer Sperren (abstand_m.wasser), Waldgebiet, Ring-an-Baum, Kuppen-Blickziel und Feuchte aus Wassernaehe. Bachsaum (Schicht 5 band_m), Bach/Fluss-Erkennung, bach_dichte und Schrein an Bachquerung bleiben bei karte_wasser. Unter nichts_unter_m nichts; nichts_unter_m...0 m nur meer_rolle: true; 0...kueste_bis_m bis kuesten_saum_m zum Meer nur Schicht/Rolle wasserkante, strand: true oder meer_rolle: true. Schlussfilter am Instanzort zaehlt meer_gefiltert."
+ },
  "budget": {
   "deckel_je_feld": 60000,
   "ziel_je_feld": [
