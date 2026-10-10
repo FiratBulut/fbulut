@@ -1,0 +1,727 @@
+{
+ "stand": "2026-10-10",
+ "thema": "spuren",
+ "seed": 2207,
+ "hinweis": "Spuren von Leben: Orte aus karte_ort.r8 (Zusammenhangskomponenten), Wege aus karte_weg.r8, Seen aus karte_wasser.r8. Grossobjekte zusaetzlich als akteure. UNGETESTET MIT ECHTDATEN.",
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/Spuren",
+ "ft_praefix": "FT_EL_SP_",
+ "fenster_rand_m": 64,
+ "budget": {
+  "instanzen_je_feld": 60000,
+  "kollision_je_feld": 3000,
+  "akteure_je_feld": 400
+ },
+ "abstand_m": {
+  "wasser": 1.0,
+  "ort_innen_frei": 0.0,
+  "baumstamm": 1.5
+ },
+ "feld_biom_fallback": {
+  "B1": "gletscher",
+  "C1": "gletscher",
+  "D1": "gletscher",
+  "E1": "gletscher",
+  "F1": "aue",
+  "I1": "aue",
+  "B2": "gletscher",
+  "C2": "gletscher",
+  "D2": "tundra",
+  "E2": "gletscher",
+  "F2": "aue",
+  "G2": "aue",
+  "H2": "kueste",
+  "A3": "bergwald",
+  "B3": "bergwald",
+  "C3": "aue",
+  "D3": "tundra",
+  "E3": "tundra",
+  "F3": "aue",
+  "G3": "elfenwald",
+  "H3": "elfenwald",
+  "I3": "bergwald",
+  "J3": "aue",
+  "A4": "bergwald",
+  "B4": "bergwald",
+  "C4": "aue",
+  "D4": "canyon",
+  "E4": "wueste",
+  "F4": "aue",
+  "G4": "elfenwald",
+  "H4": "elfenwald",
+  "I4": "bergwald",
+  "A5": "kueste",
+  "B5": "bergwald",
+  "C5": "aue",
+  "D5": "aue",
+  "E5": "aue",
+  "F5": "heide",
+  "G5": "heide",
+  "H5": "sumpf",
+  "I5": "bergwald",
+  "J5": "aue",
+  "A6": "aue",
+  "B6": "bergwald",
+  "C6": "lava",
+  "D6": "oedland",
+  "E6": "oedland",
+  "F6": "aue",
+  "G6": "dschungel",
+  "H6": "dschungel",
+  "I6": "dschungel",
+  "J6": "aue",
+  "A7": "aue",
+  "B7": "aue",
+  "C7": "lava",
+  "D7": "aue",
+  "E7": "oedland",
+  "F7": "aue",
+  "G7": "dschungel",
+  "H7": "dschungel",
+  "I7": "dschungel",
+  "J7": "aue"
+ },
+ "wuesten_felder": [
+  "C3",
+  "C4",
+  "D3",
+  "D4",
+  "D5",
+  "E3",
+  "E4",
+  "E5"
+ ],
+ "wuesten_feld_faktor": 0.6,
+ "netze": {
+  "zaun_holz": [
+   "/Game/MedievalFantasyVillage/Props/SM_fenceA_a1",
+   "/Game/MedievalFantasyVillage/Props/SM_fenceD_a1",
+   "/Game/MedievalFantasyVillage/Props/SM_fenceE_a1"
+  ],
+  "zaun_holz_laenge_m": 3.29,
+  "zaun_latten": [
+   "/Game/Town/Meshes/Barn/SM_Fence_01",
+   "/Game/Town/Meshes/Barn/SM_Fence_03"
+  ],
+  "zaun_latten_laenge_m": 5.0,
+  "zaun_pfahl": [
+   "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_1_01",
+   "/Game/Coast_Dunes_Environment_Set/Fences/Meshes/SM_wooden_pales_2_01"
+  ],
+  "mauer_stein": [
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_5",
+   "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+   "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02",
+   "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_03",
+   "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_1",
+   "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_4",
+   "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5"
+  ],
+  "mauer_stein_moos": [
+   "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
+   "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+   "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02"
+  ],
+  "steinmann": [
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+   "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_5",
+   "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+   "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02",
+   "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01"
+  ],
+  "kreuz": [
+   "/Game/MedievalCastle/Meshes/SM_Cross"
+  ],
+  "saeule": [
+   "/Game/AncientRuins/Meshes/SM_Column_03",
+   "/Game/AncientRuins/Meshes/SM_Column_02"
+  ],
+  "mauerrest": [
+   "/Game/AncientRuins/Meshes/SM_Wall_02"
+  ],
+  "lampe": [
+   "/Game/Town/Meshes/Props/SM_Lamp"
+  ],
+  "brunnen": [
+   "/Game/Bazaar_Meshingun/Environment/Assets/Mesh/Prop/SM_Well_02a"
+  ],
+  "karren": [
+   "/Game/MedievalFantasyVillage/Props/SM_cartB_a1",
+   "/Game/MedievalCastle/Meshes/SM_BrokenWoodWagon"
+  ],
+  "karren_schwer": [
+   "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_Carriage_01a"
+  ],
+  "rad": [
+   "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_Wheel_01b"
+  ],
+  "fass": [
+   "/Game/MedievalFantasyVillage/Props/SM_barrelClosedA_a1"
+  ],
+  "kiste": [
+   "/Game/MedievalFantasyVillage/Props/SM_crateA_a1"
+  ],
+  "sack": [
+   "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_FoodSac_02b"
+  ],
+  "trog": [
+   "/Game/Village/Environment/Asset/Mesh/Prop_V02/SM_Trough_01a"
+  ],
+  "holzstapel": [
+   "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_Pile_WoodLog_02a",
+   "/Game/MedievalFantasyVillage/Props/SM_firewoodSetA_a1"
+  ],
+  "heu": [
+   "/Game/Town/Meshes/Props/SM_Hay_Pile",
+   "/Game/Village/Environment/Asset/Mesh/Prop_V02/SM_StrawPile_01a",
+   "/Game/Town/Meshes/Props/SM_Hay_02"
+  ],
+  "steg_planke": [
+   "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_PlankThin_4m_01a"
+  ],
+  "steg_balken": [
+   "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_Plank_4m_01a"
+  ],
+  "steg_pfosten": [
+   "/Game/Town/Meshes/House/SM_Beam_4m"
+  ],
+  "steg_gelaender": [
+   "/Game/Town/Meshes/House/SM_Rail_3m"
+  ],
+  "stamm_liegend": [
+   "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
+   "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+   "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+   "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02"
+  ],
+  "stumpf_nadel": [
+   "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+   "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+   "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
+   "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01"
+  ],
+  "stumpf_laub": [
+   "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+   "/Game/Megascans/3D_Assets/BirchTreeStump/SM_BirchTreeStump_01",
+   "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+   "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03",
+   "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_02"
+  ],
+  "ast": [
+   "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
+   "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04",
+   "/Game/Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01",
+   "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
+   "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+   "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04"
+  ],
+  "totbaum": [
+   "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+   "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
+   "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_M_01"
+  ],
+  "feldfrucht": [
+   "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_sunroot_01",
+   "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_sunroot_02"
+  ],
+  "stoppel": [
+   "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+   "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02"
+  ],
+  "obstbaum": {
+   "aue": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_10",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_tree_00_C",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_tree_00_D"
+   ],
+   "elfenwald": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_10",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_09",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_tree_00_D"
+   ],
+   "heide": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_10",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_tree_00_B"
+   ],
+   "kueste": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_C",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_D"
+   ],
+   "fjord": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02"
+   ],
+   "bergwald": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_10"
+   ],
+   "sumpf": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_10"
+   ],
+   "dschungel": [
+    "/Game/Palms_Pack_01/Meshes/SM_Palm_01_06_G",
+    "/Game/Palms_Pack_01/Meshes/SM_Palm_01_07_G",
+    "/Game/Palms_Pack_01/Meshes/SM_Palm_01_08_G"
+   ],
+   "tundra": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_02"
+   ],
+   "canyon": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_D"
+   ],
+   "oedland": [
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_C"
+   ],
+   "gletscher": [],
+   "frost": [],
+   "lava": [],
+   "wueste": []
+  },
+  "strauch_ort": [
+   "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+   "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+   "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+   "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02"
+  ]
+ },
+ "ort": {
+  "min_flaeche_m2": 400,
+  "raster_m": 4,
+  "rand_frei_m": 5.0,
+  "rauch_je_1000m2": 1.2,
+  "rauch_max": 10,
+  "rauch_min": 1
+ },
+ "feldstreifen": {
+  "ring_m": [
+   30,
+   150
+  ],
+  "groesse_m": [
+   [
+    20,
+    60
+   ],
+   [
+    20,
+    60
+   ]
+  ],
+  "raster_m": 36,
+  "anteil_zellen": 0.55,
+  "hang_max_grad": 8,
+  "beschattung_max": 0.3,
+  "anteil_frucht": 0.35,
+  "frucht_reihe_m": 1.2,
+  "frucht_abstand_m": 0.9,
+  "stoppel_je_m2": 0.08,
+  "heu_je_feld": [
+   0,
+   3
+  ],
+  "zaun_lueckenanteil": 0.15,
+  "zaun_kippen_grad": 6,
+  "max_je_ort": 12,
+  "max_je_feld": 30,
+  "ausrichtung": "naechster_weg",
+  "lage_vorschlag": "Erde",
+  "lage_vorschlag_frucht": "Lehm"
+ },
+ "obstgarten": {
+  "min_ort_radius_m": 35,
+  "groesse_m": [
+   [
+    30,
+    50
+   ],
+   [
+    24,
+    40
+   ]
+  ],
+  "reihe_m": 7.0,
+  "abstand_m": 6.0,
+  "massstab": [
+   0.7,
+   1.0
+  ],
+  "ring_m": [
+   20,
+   90
+  ],
+  "max_je_ort": 1,
+  "kollision": true
+ },
+ "zaun_weg": {
+  "ortsrand_m": [
+   10,
+   70
+  ],
+  "laenge_m": [
+   20,
+   60
+  ],
+  "seitenabstand_m": 3.5,
+  "lueckenanteil": 0.2,
+  "je_ort": [
+   1,
+   3
+  ]
+ },
+ "mauer": {
+  "biome_stein": [
+   "fjord",
+   "kueste",
+   "bergwald",
+   "heide",
+   "tundra",
+   "gletscher",
+   "frost"
+  ],
+  "laenge_m": [
+   15,
+   60
+  ],
+  "stein_abstand_m": 0.45,
+  "lagen": [
+   0.0,
+   0.28,
+   0.52
+  ],
+  "lagen_anteil": [
+   1.0,
+   0.85,
+   0.5
+  ],
+  "massstab": [
+   0.8,
+   1.2
+  ],
+  "eingraben_cm": 8,
+  "jitter_m": 0.12,
+  "kollision": false
+ },
+ "steinmann": {
+  "biome": [
+   "tundra",
+   "gletscher",
+   "frost",
+   "fjord",
+   "bergwald",
+   "heide",
+   "kueste",
+   "lava",
+   "oedland",
+   "canyon"
+  ],
+  "weg_abstand_m": [
+   3,
+   6
+  ],
+  "weg_schritt_m": [
+   90,
+   140
+  ],
+  "kuppen_prominenz_m": 12,
+  "kuppen_fenster_m": 90,
+  "frei_je_km2": 6,
+  "steine": [
+   5,
+   9
+  ],
+  "basis_massstab": [
+   1.5,
+   2.2
+  ],
+  "abnahme": 0.82,
+  "hoehe_versatz_m": 0.24,
+  "kollision": true
+ },
+ "wegkreuz": {
+  "weg_abstand_m": [
+   3,
+   5
+  ],
+  "schritt_m": 220,
+  "ortsrand_m": [
+   40,
+   90
+  ],
+  "kuppen_bonus": 2.0,
+  "furt_bonus": 2.0,
+  "massstab": [
+   2.2,
+   2.6
+  ],
+  "steine": 3,
+  "kollision": true,
+  "biome_schrein": [
+   "elfenwald",
+   "dschungel",
+   "aue",
+   "sumpf"
+  ],
+  "schrein_anteil": 0.4
+ },
+ "karren": {
+  "weg_abstand_m": [
+   2.0,
+   5.0
+  ],
+  "je_km_weg": 1.6,
+  "ort_min_m": 120,
+  "beiwerk": [
+   1,
+   3
+  ],
+  "kippen_grad": [
+   4,
+   14
+  ],
+  "kollision": true,
+  "anteil_schwer": 0.2
+ },
+ "steg": {
+  "see_min_m2": 2500,
+  "see_min_breite_m": 15,
+  "ufer_hang_max_grad": 7,
+  "tiefe_6m_max_m": 1.6,
+  "laenge_segmente": [
+   2,
+   4
+  ],
+  "segment_m": 4.0,
+  "breite_planken": 4,
+  "planke_breite_m": 0.31,
+  "deck_ueber_wasser_m": 0.6,
+  "pfosten_je_segment": 2,
+  "ort_max_m": 400,
+  "weg_max_m": 80,
+  "max_je_feld": 3,
+  "kollision": true,
+  "beiwerk": [
+   1,
+   2
+  ]
+ },
+ "holzschlag": {
+  "max_je_feld": 3,
+  "lichtung_min_m2": 150,
+  "weg_max_m": 180,
+  "radius_m": [
+   12,
+   22
+  ],
+  "stumpf_je_m2": 0.045,
+  "ast_je_m2": 0.03,
+  "staemme": [
+   2,
+   5
+  ],
+  "stapel": [
+   1,
+   2
+  ],
+  "karren_anteil": 0.3,
+  "lagerfeuer_anteil": 0.3,
+  "kollision_stumpf": true
+ },
+ "koehler": {
+  "max_je_feld": 2,
+  "beschattung": [
+   0.3,
+   0.75
+  ],
+  "weg_m": [
+   40,
+   220
+  ],
+  "hang_max_grad": 6,
+  "radius_m": 3.2,
+  "stapel": 6,
+  "stuempfe": 10,
+  "platz_radius_m": 7,
+  "rauch_staerke": 0.6
+ },
+ "graeber": {
+  "friedhof_min_ort_radius_m": 25,
+  "friedhof_groesse_m": [
+   12,
+   18
+  ],
+  "friedhof_ring_m": [
+   8,
+   30
+  ],
+  "reihe_m": [
+   1.6,
+   2.2
+  ],
+  "kreuz_massstab": [
+   0.9,
+   1.3
+  ],
+  "kreuz_kippen_grad": 8,
+  "einzel_je_km_weg": 0.7,
+  "einzel_weg_abstand_m": [
+   4,
+   8
+  ],
+  "einzel_steine": 3,
+  "totbaum_anteil": 0.6
+ },
+ "rauch": {
+  "ort": "herd",
+  "koehler": "meiler",
+  "holzschlag": "lagerfeuer",
+  "hoehe_ueber_boden_m": 2.5
+ },
+ "blickziele": {
+  "kuppen_fenster_m": 150,
+  "prominenz_min_m": 15,
+  "hang_max_grad": 18,
+  "lichtung_min_m2": 300,
+  "max_je_feld": 3,
+  "typ_je_biom": {
+   "aue": [
+    "solitaerbaum",
+    "ruine",
+    "blumenlichtung"
+   ],
+   "bergwald": [
+    "felsturm",
+    "wasserfall",
+    "ruine"
+   ],
+   "gletscher": [
+    "felsturm",
+    "wasserfall"
+   ],
+   "tundra": [
+    "steinkreis_ruine",
+    "solitaerbaum"
+   ],
+   "canyon": [
+    "felsturm",
+    "ruine"
+   ],
+   "oedland": [
+    "ruine",
+    "totbaum_solitaer"
+   ],
+   "heide": [
+    "solitaerbaum",
+    "steinkreis_ruine",
+    "blumenlichtung"
+   ],
+   "elfenwald": [
+    "blumenlichtung",
+    "ruine",
+    "solitaerbaum"
+   ],
+   "dschungel": [
+    "ruine",
+    "wasserfall",
+    "felsturm"
+   ],
+   "kueste": [
+    "felsturm",
+    "ruine",
+    "solitaerbaum"
+   ],
+   "wueste": [
+    "felsturm",
+    "ruine"
+   ],
+   "lava": [
+    "felsturm",
+    "totbaum_solitaer"
+   ],
+   "frost": [
+    "ruine",
+    "felsturm"
+   ],
+   "sumpf": [
+    "totbaum_solitaer",
+    "ruine"
+   ],
+   "fjord": [
+    "felsturm",
+    "wasserfall",
+    "ruine"
+   ]
+  }
+ },
+ "bild_farben": {
+  "zaun": [
+   200,
+   150,
+   60
+  ],
+  "mauer": [
+   150,
+   150,
+   150
+  ],
+  "steinmann": [
+   230,
+   230,
+   230
+  ],
+  "wegkreuz": [
+   255,
+   255,
+   0
+  ],
+  "karren": [
+   255,
+   120,
+   0
+  ],
+  "steg": [
+   120,
+   80,
+   200
+  ],
+  "holzschlag": [
+   160,
+   90,
+   40
+  ],
+  "koehler": [
+   40,
+   40,
+   40
+  ],
+  "grab": [
+   220,
+   220,
+   255
+  ],
+  "feld": [
+   210,
+   180,
+   120
+  ],
+  "obstgarten": [
+   100,
+   200,
+   100
+  ],
+  "rauch": [
+   255,
+   0,
+   0
+  ],
+  "blickziel": [
+   0,
+   255,
+   255
+  ]
+ }
+}

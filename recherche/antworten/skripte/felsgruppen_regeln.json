@@ -1,0 +1,1124 @@
+{
+ "_doku": {
+  "stand": "2026-10-10",
+  "zweck": "Regeln für felsgruppen_plan.py (Auftrag 11 Teil C). Alle Zahlen Richtwerte, UNGETESTET MIT ECHTDATEN; Pfade geprüft gegen daten/netze.csv (1435 Netze).",
+  "einheiten": "Längen in m, Winkel in Grad, Krümmung in 1/m, Sichtweite in cm, Maßstab als Faktor; Raster 1 m (FORMAT.md §1).",
+  "pivot": "Eingraben rechnet z = Boden - min_z*s - eingraben*H*s. min_z aus daten/netze_masse.json, sonst 0 (Pivot unten) bzw. -H/2 für Netze in netz_pivot_mitte.",
+  "rollen": "hero (>3 m, Hauptfels), wand (Schale/Klippe an Wand >50°), band (geschichtete Platte/Leiste), block (0,8–3 m), stein (<0,8 m), platte (flache Bodenplatte), kiesel (5–40 cm, Geröllsaum)."
+ },
+ "seed": 110,
+ "rand_m": 64,
+ "raster": {
+  "nx": 9577,
+  "ny": 7057,
+  "feld_m": 1008,
+  "x0_m": 4730.5,
+  "y0_m": 4060.5
+ },
+ "biom_palette": {
+  "bergwald": "nordisch",
+  "fjord": "nordisch",
+  "kueste": "nordisch",
+  "gletscher": "tundra",
+  "tundra": "tundra",
+  "frost": "tundra",
+  "elfenwald": "moos",
+  "aue": "moos",
+  "heide": "moos",
+  "sumpf": "moos",
+  "canyon": "sandstein",
+  "wueste": "sandstein",
+  "oedland": "sandstein",
+  "lava": "lava",
+  "dschungel": "karst"
+ },
+ "biom_faktor": {
+  "bergwald": 1.0,
+  "fjord": 1.1,
+  "kueste": 1.0,
+  "gletscher": 1.1,
+  "tundra": 0.9,
+  "frost": 0.9,
+  "elfenwald": 0.8,
+  "aue": 0.5,
+  "heide": 0.6,
+  "sumpf": 0.25,
+  "canyon": 1.0,
+  "wueste": 0.4,
+  "oedland": 0.8,
+  "lava": 1.0,
+  "dschungel": 0.9
+ },
+ "biom_hinweis": {
+  "wueste": "C3–E5 haben eigenen Namaqualand-Planer: nur ergänzen (Faktor 0,4, keine Klasse band).",
+  "sumpf": "fast keine Felsen; nur kuppe/prallhang",
+  "aue": "nur blockstrom/kuppe/prallhang in Hanglagen"
+ },
+ "biom_klassen_aus": {
+  "wueste": [
+   "band"
+  ],
+  "sumpf": [
+   "grat",
+   "band",
+   "wand",
+   "fuss",
+   "blockstrom"
+  ],
+  "aue": [
+   "band",
+   "wand"
+  ]
+ },
+ "paletten": {
+  "nordisch": {
+   "hero": [
+    "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+    "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_01",
+    "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_02",
+    "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
+    "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vfmjadufa/Medium/vfmjadufa_tier_2/StaticMeshes/vfmjadufa_tier_2",
+    "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vdssailfa/Medium/vdssailfa_tier_2/StaticMeshes/vdssailfa_tier_2",
+    "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0",
+    "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_03"
+   ],
+   "wand": [
+    "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
+    "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vdssailfa/Medium/vdssailfa_tier_2/StaticMeshes/vdssailfa_tier_2",
+    "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_veqnci0db/Medium/veqnci0db_tier_2/StaticMeshes/veqnci0db_tier_2",
+    "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vfmjadufa/Medium/vfmjadufa_tier_2/StaticMeshes/vfmjadufa_tier_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+    "/Game/Fab/Megascans/3D/Quarry_Cliff_uchoab3fa/Raw/uchoab3fa_tier_0/StaticMeshes/uchoab3fa_tier_0"
+   ],
+   "band": [
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_03",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_cliff_01_A",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_cliff_01_B",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_cliff_01_C",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_A",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_B",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_C",
+    "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_3"
+   ],
+   "block": [
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_5",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_6",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_7",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_8",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xf3odif/Raw/xf3odif_tier_0/StaticMeshes/xf3odif_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
+    "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+    "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
+    "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+    "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_01",
+    "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_02",
+    "/Game/Environment_Set/Environment/Rocks/Models/SM_Middle_Rock_01",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_03_03",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01"
+   ],
+   "stein": [
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_3",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_4",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_5",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_01",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07",
+    "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
+    "/Game/Fab/Megascans/3D/Forest_Rock_wjxqcct/Raw/wjxqcct_tier_0/StaticMeshes/wjxqcct_tier_0",
+    "/Game/Fab/Megascans/3D/Forest_Boulder_wgosajs/Raw/wgosajs_tier_0/StaticMeshes/wgosajs_tier_0",
+    "/Game/Fab/Megascans/3D/Granite_Rock_pjEr1/Raw/pjEr1_tier_0/StaticMeshes/pjEr1_tier_0",
+    "/Game/Fab/Megascans/3D/Granite_Rock_pjtsT/Raw/pjtsT_tier_0/StaticMeshes/pjtsT_tier_0",
+    "/Game/Fab/Megascans/3D/Japanese_Mossy_Boulder_veqhehl/Raw/veqhehl_tier_0/StaticMeshes/veqhehl_tier_0",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_1",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_2",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_3",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_4",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_04"
+   ],
+   "platte": [
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_05",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_06",
+    "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01",
+    "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
+    "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Raw/xjijdiz_tier_0/StaticMeshes/xjijdiz_tier_0",
+    "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_01",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_02",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_03"
+   ],
+   "kiesel": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_5",
+    "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01"
+   ]
+  },
+  "tundra": {
+   "hero": [
+    "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_01",
+    "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_02",
+    "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+    "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+    "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0"
+   ],
+   "wand": [
+    "/Game/Megascans/3D_Assets/MassiveTundraRockFormation/SM_MassiveTundraRockFormation_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+    "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
+    "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0"
+   ],
+   "band": [
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_3",
+    "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_A",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_B",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_C"
+   ],
+   "block": [
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_5",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_6",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_7",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_8",
+    "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
+    "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_01",
+    "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_03_03"
+   ],
+   "stein": [
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_3",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_4",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_5",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_01",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_1",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_2",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_3",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_4",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_04",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
+    "/Game/Fab/Megascans/3D/Granite_Rock_pjEr1/Raw/pjEr1_tier_0/StaticMeshes/pjEr1_tier_0",
+    "/Game/Fab/Megascans/3D/Granite_Rock_pjtsT/Raw/pjtsT_tier_0/StaticMeshes/pjtsT_tier_0",
+    "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01"
+   ],
+   "platte": [
+    "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_01",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_02",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_03",
+    "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Raw/xjijdiz_tier_0/StaticMeshes/xjijdiz_tier_0",
+    "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01"
+   ],
+   "kiesel": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_5"
+   ]
+  },
+  "moos": {
+   "hero": [
+    "/Game/Megascans/3D_Assets/HugeMossyForestCliff/SM_HugeMossyForestCliff_01",
+    "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+    "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+    "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01"
+   ],
+   "wand": [
+    "/Game/Megascans/3D_Assets/HugeMossyForestCliff/SM_HugeMossyForestCliff_01",
+    "/Game/Megascans/3D_Assets/MossyRockFace/SM_MossyRockFace_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01"
+   ],
+   "band": [
+    "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_05",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_06",
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_03"
+   ],
+   "block": [
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07",
+    "/Game/Fab/Megascans/3D/Japanese_Mossy_Boulder_veqhehl/Raw/veqhehl_tier_0/StaticMeshes/veqhehl_tier_0",
+    "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
+    "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_01",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_03",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_05"
+   ],
+   "stein": [
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+    "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
+    "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+    "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+    "/Game/Fab/Megascans/3D/Forest_Boulder_wgosajs/Raw/wgosajs_tier_0/StaticMeshes/wgosajs_tier_0",
+    "/Game/Fab/Megascans/3D/Forest_Rock_wjxqcct/Raw/wjxqcct_tier_0/StaticMeshes/wjxqcct_tier_0",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_1",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_2",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_3",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_4",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5",
+    "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_04",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_06",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_07",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02",
+    "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_03"
+   ],
+   "platte": [
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_01",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_02",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_03",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_04",
+    "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03",
+    "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01"
+   ],
+   "kiesel": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08"
+   ]
+  },
+  "sandstein": {
+   "hero": [
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_01",
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_03",
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_05",
+    "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_02",
+    "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+    "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+    "/Game/Fab/Megascans/3D/Massive_Sandstone_Cliff_vmnmbhv/Raw/vmnmbhv_tier_0/StaticMeshes/vmnmbhv_tier_0",
+    "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0",
+    "/Game/Fab/Megascans/3D/Sharp_Cliff_rcygn/Raw/rcygn_tier_0/StaticMeshes/rcygn_tier_0",
+    "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040"
+   ],
+   "wand": [
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_01",
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_03",
+    "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_05",
+    "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+    "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0",
+    "/Game/Fab/Megascans/3D/Massive_Sandstone_Cliff_vmnmbhv/Raw/vmnmbhv_tier_0/StaticMeshes/vmnmbhv_tier_0"
+   ],
+   "band": [
+    "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+    "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Small_07_uk5ebcp/Raw/uk5ebcp_tier_0/StaticMeshes/uk5ebcp_tier_0",
+    "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_05_uldubik/Raw/uldubik_tier_0/StaticMeshes/uldubik_tier_0",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_A",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_B",
+    "/Game/Coast_Dunes_Environment_Set/Cliffs/Meshes/SM_beach_escarpment_01_C"
+   ],
+   "block": [
+    "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+    "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+    "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+    "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_02_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_03_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_04_NN",
+    "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_05_uldubik/Raw/uldubik_tier_0/StaticMeshes/uldubik_tier_0"
+   ],
+   "stein": [
+    "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_03",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_05_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_06_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_b_NN",
+    "/Game/AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks2",
+    "/Game/AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks3"
+   ],
+   "platte": [
+    "/Game/Megascans/3D_Assets/SmoothRockShelf/SM_SmoothRockShelf_01",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_01",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_02",
+    "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_03"
+   ],
+   "kiesel": [
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_b_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_c_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_d_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_a_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_b_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_c_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_d_NN",
+    "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_e_NN",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14"
+   ]
+  },
+  "lava": {
+   "hero": [
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_01",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_02",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_03",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_01",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_02"
+   ],
+   "wand": [
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_01",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_02",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_03",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_09"
+   ],
+   "band": [
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_06",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_07",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_08"
+   ],
+   "block": [
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_01",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_02",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_03",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_04",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_05",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_06",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_07",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_08",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_03",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_04",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_01",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_02"
+   ],
+   "stein": [
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_03",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_04",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_05",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07",
+    "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_08"
+   ],
+   "platte": [],
+   "kiesel": [
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_5"
+   ]
+  },
+  "karst": {
+   "hero": [
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01a",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01b",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01c",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01d",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01e",
+    "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
+    "/Game/Megascans/3D_Assets/HugeMossyForestCliff/SM_HugeMossyForestCliff_01"
+   ],
+   "wand": [
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01a",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01b",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01c",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01d",
+    "/Game/AsianTemple/Environment/Mesh/SM_Cliff_01e"
+   ],
+   "band": [
+    "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01",
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+    "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_06"
+   ],
+   "block": [
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+    "/Game/Fab/Megascans/3D/Japanese_Mossy_Boulder_veqhehl/Raw/veqhehl_tier_0/StaticMeshes/veqhehl_tier_0",
+    "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
+    "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01"
+   ],
+   "stein": [
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+    "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+    "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
+    "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+    "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+    "/Game/Fab/Megascans/3D/Forest_Boulder_wgosajs/Raw/wgosajs_tier_0/StaticMeshes/wgosajs_tier_0"
+   ],
+   "platte": [
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+    "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+    "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03",
+    "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01"
+   ],
+   "kiesel": [
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+    "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_03",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07",
+    "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08"
+   ]
+  }
+ },
+ "netz_pivot_mitte": [
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_01",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_02",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_03",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_b_rock_04",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_01",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_02",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_03",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_04",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_05",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_06",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_07",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_m_rock_08",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_01",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_02",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_03",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_04",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_05",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_08",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_01",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_02",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_03",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_06",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_07",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_08",
+  "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_09"
+ ],
+ "glaettung": {
+  "hang_sigma_m": 1.5,
+  "kruemmung_sigma_m": 8.0,
+  "massiv_sigma_m": 25.0,
+  "kuppe_sigma_m": 12.0
+ },
+ "schichtung": {
+  "gitter_m": 512,
+  "dip_grad": [
+   6,
+   18
+  ],
+  "band_abstand_m": [
+   24,
+   40
+  ],
+  "band_breite_anteil": 0.22,
+  "hinweis": "Strike/Dip aus Wert-Rauschen auf 512-m-Gitter (bilinear, Seed): innerhalb eines Bergmassivs (~300 m) praktisch konstant, keine Nahtsprünge zwischen Feldern."
+ },
+ "ausschluss": {
+  "wasser_m": 2,
+  "weg_m": 4,
+  "ort_m": 5,
+  "baum_m": 2.5,
+  "felsschale_m": 6,
+  "mulde_staerke_min": 0.012,
+  "mulde_wand_umkreis_m": 64,
+  "mulde_wand_hoehe_min_m": 10,
+  "max_hang_grad": 84,
+  "hinweis": "Kleinzeug (stein/kiesel) hält zu Weg 2,5 m statt 4 m; Hang > 40° nur Felsen (hier alles Fels)."
+ },
+ "lagen": {
+  "fels_boost": [
+   "Fels",
+   "Felsplatte",
+   "Sandstein",
+   "Lavafels"
+  ],
+  "geroell_boost": [
+   "Geroell",
+   "Kies"
+  ],
+  "schnee_hemmung": "Schnee",
+  "faktor_min": 0.5,
+  "faktor_max": 1.5
+ },
+ "klassen": {
+  "grat": {
+   "farbe": [
+    255,
+    60,
+    60
+   ],
+   "raster_m": 14,
+   "p": 0.55,
+   "hang_grad": [
+    10,
+    72
+   ],
+   "grat_staerke_min": 0.02,
+   "hero_p": 0.6,
+   "hero_akteur_ab_m": 5.0,
+   "block": [
+    2,
+    5
+   ],
+   "stein": [
+    5,
+    12
+   ],
+   "kiesel": [
+    12,
+    28
+   ],
+   "hauptrichtung": "gratachse"
+  },
+  "band": {
+   "farbe": [
+    255,
+    170,
+    40
+   ],
+   "raster_m": 9,
+   "p": 0.35,
+   "hang_grad": [
+    32,
+    70
+   ],
+   "band": [
+    1,
+    3
+   ],
+   "stein": [
+    2,
+    6
+   ],
+   "kiesel": [
+    6,
+    16
+   ],
+   "hauptrichtung": "streichen"
+  },
+  "wand": {
+   "farbe": [
+    200,
+    0,
+    200
+   ],
+   "raster_m": 36,
+   "p": 0.5,
+   "hang_grad": [
+    50,
+    84
+   ],
+   "nase_min": 0.012,
+   "wand": [
+    2,
+    4
+   ],
+   "block": [
+    1,
+    3
+   ],
+   "stein": [
+    3,
+    8
+   ],
+   "akteur": true,
+   "hauptrichtung": "streichen"
+  },
+  "fuss": {
+   "farbe": [
+    60,
+    200,
+    255
+   ],
+   "raster_m": 10,
+   "p": 0.45,
+   "hang_grad": [
+    18,
+    42
+   ],
+   "wand_ab_grad": 50,
+   "wand_hoehe_min_m": 8,
+   "faecher_max_m": 64,
+   "stufen": [
+    [
+     0,
+     8,
+     "block",
+     0.8,
+     1.15
+    ],
+    [
+     8,
+     16,
+     "block",
+     0.55,
+     0.85
+    ],
+    [
+     16,
+     32,
+     "stein",
+     0.75,
+     1.1
+    ],
+    [
+     32,
+     64,
+     "stein",
+     0.45,
+     0.75
+    ]
+   ],
+   "n": [
+    2,
+    4
+   ],
+   "kiesel": [
+    6,
+    14
+   ],
+   "groessenverlauf": "abnehmend",
+   "hinweis": "Auftrag: Größe nimmt hangabwärts ab. Reale Schutthalden zeigen oft Sturzsortierung (große Blöcke am Fuß); bei Bedarf groessenverlauf='zunehmend' setzen."
+  },
+  "blockstrom": {
+   "farbe": [
+    40,
+    120,
+    255
+   ],
+   "raster_m": 16,
+   "p": 0.5,
+   "hang_grad": [
+    5,
+    24
+   ],
+   "wand_umkreis_m": 128,
+   "wand_hoehe_min_m": 25,
+   "hohl_min": 0.002,
+   "block": [
+    3,
+    7
+   ],
+   "stein": [
+    6,
+    14
+   ],
+   "kiesel": [
+    15,
+    30
+   ],
+   "hauptrichtung": "falllinie"
+  },
+  "kuppe": {
+   "farbe": [
+    255,
+    255,
+    0
+   ],
+   "umkreis_m": 32,
+   "p": 0.8,
+   "hang_grad": [
+    0,
+    38
+   ],
+   "hero_p": 0.5,
+   "block": [
+    1,
+    3
+   ],
+   "stein": [
+    3,
+    8
+   ],
+   "kiesel": [
+    8,
+    20
+   ],
+   "eingraben": [
+    0.35,
+    0.45
+   ],
+   "hero_akteur_ab_m": 5.0
+  },
+  "prallhang": {
+   "farbe": [
+    0,
+    255,
+    120
+   ],
+   "abstand_m": 25,
+   "kruemmung_min": 0.004,
+   "hang_grad": [
+    18,
+    75
+   ],
+   "ufer_abstand_m": [
+    3,
+    10
+   ],
+   "hero_p": 0.7,
+   "block": [
+    2,
+    4
+   ],
+   "stein": [
+    4,
+    10
+   ],
+   "kiesel": [
+    10,
+    20
+   ],
+   "hauptrichtung": "flusstangente",
+   "hero_akteur_ab_m": 5.0
+  }
+ },
+ "gruppe": {
+  "neben_abstand_hero_r": [
+   0.7,
+   1.3
+  ],
+  "stein_abstand_hero_r": [
+   0.9,
+   1.8
+  ],
+  "kiesel_ring_m": [
+   0.5,
+   2.0
+  ],
+  "kiesel_dichte_je_m2": [
+   1.5,
+   4.0
+  ],
+  "yaw_streuung_grad": 20,
+  "neben_yaw_streuung_grad": 35,
+  "ueberlappung_anteil": [
+   0.1,
+   0.3
+  ],
+  "groessenstaffel": [
+   1.0,
+   0.55,
+   0.3,
+   0.12
+  ],
+  "hinweis": "Hauptfels + 2–5 Nebenblöcke + 5–12 Steine + 15–35 Kiesel; Nebenblöcke 10–30 % in den Hauptfels geschoben; alle mit gemeinsamer Hauptrichtung ±20°."
+ },
+ "rollen": {
+  "hero": {
+   "massstab": [
+    0.9,
+    1.4
+   ],
+   "eingraben": [
+    0.3,
+    0.45
+   ],
+   "kippen_grad": [
+    4,
+    12
+   ],
+   "sichtweite_cm": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "nicht_uniform": 0.15
+  },
+  "wand": {
+   "massstab": [
+    1.0,
+    1.6
+   ],
+   "eingraben": [
+    0.3,
+    0.45
+   ],
+   "kippen_grad": [
+    0,
+    6
+   ],
+   "sichtweite_cm": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "nicht_uniform": 0.2
+  },
+  "band": {
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "eingraben": [
+    0.35,
+    0.5
+   ],
+   "kippen_grad": [
+    0,
+    0
+   ],
+   "sichtweite_cm": [
+    0,
+    60000
+   ],
+   "kollision": true,
+   "schatten": true,
+   "nicht_uniform": 0.2
+  },
+  "block": {
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben": [
+    0.25,
+    0.4
+   ],
+   "kippen_grad": [
+    4,
+    12
+   ],
+   "sichtweite_cm": [
+    0,
+    45000
+   ],
+   "kollision": true,
+   "schatten": true,
+   "nicht_uniform": 0.15
+  },
+  "platte": {
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "eingraben": [
+    0.4,
+    0.5
+   ],
+   "kippen_grad": [
+    0,
+    4
+   ],
+   "sichtweite_cm": [
+    0,
+    30000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "nicht_uniform": 0.15
+  },
+  "stein": {
+   "massstab": [
+    0.7,
+    1.2
+   ],
+   "eingraben": [
+    0.3,
+    0.5
+   ],
+   "kippen_grad": [
+    0,
+    8
+   ],
+   "sichtweite_cm": [
+    0,
+    15000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "nicht_uniform": 0.15
+  },
+  "kiesel": {
+   "massstab": [
+    0.6,
+    1.3
+   ],
+   "eingraben": [
+    0.3,
+    0.5
+   ],
+   "kippen_grad": [
+    0,
+    0
+   ],
+   "sichtweite_cm": [
+    0,
+    6000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "nicht_uniform": 0.2
+  }
+ },
+ "kollision_ab_hoehe_m": 0.8,
+ "akteur_ab_hoehe_m": 5.0,
+ "budget": {
+  "gesamt": 60000,
+  "kollision": 3000,
+  "akteure": 150,
+  "je_rolle": {
+   "hero": 400,
+   "wand": 300,
+   "band": 1500,
+   "block": 2600,
+   "platte": 1500,
+   "stein": 15000,
+   "kiesel": 40000
+  },
+  "thinning": "bei Überschreitung deterministisch je Instanz-Hash ausdünnen; hero/wand/akteure zuletzt"
+ },
+ "erwartung_je_feld": {
+  "hinweis": "Spannen für Bergfelder (B4, B5, C2, D2, E1): grat 80–250 Gruppen, band 200–600, wand 20–80, fuss 300–900, blockstrom 40–150, kuppe 5–25; Instanzen: hero 60–300, wand 40–250, band 250–1200, block 600–2000, stein 3000–9000, kiesel 10000–35000; Summe 15000–45000. Flachfelder (Aue/Heide): 300–3000 Instanzen."
+ },
+ "ausgabe": {
+  "ordner": "export/unreal/welt/felsgruppen",
+  "bild": "docs/pruefung/felsgruppen",
+  "ft_ordner": "/Game/Eldarien/Welt/Foliage/Felsgruppen",
+  "ft_praefix": "FT_EL_FG_",
+  "entfernen": "FT_EL_FS_IcelandicBoulder_0,FT_EL_FS_MossyForestBoulder_0,FT_EL_FS_TundraMossyBoulder_01,FT_EL_FS_SandstoneBoulder_0,FT_EL_FS_RockSandstone_040,FT_EL_FS_namaqualand_boulder_0,FT_EL_FS_mountain_rock_big_02_",
+  "entfernen_hinweis": "Nur Block-Klassen der Felsschalen-Foliage (FT_EL_FS_*): die Felsgruppen ersetzen sie. Wand-Schalen (big_rock_wall, MassiveNordicCoastalCliff, HugeSandstoneCliff, Cliff_01, lava_wall) bleiben bis zur Abnahme der Klasse wand; siehe verteilung-fels-organisch.md Abschnitt e."
+ },
+ "eigner0": {
+  "hinweis": "eigner.r8 = 0 (Weltgelände) heißt laut FORMAT 'aue'; große Bergflächen liegen aber im Weltgelände. Darum: Zellen mit Kennzahl 0 bekommen das dominante Biom des Feldes aus daten/biome_je_feld.json; fehlt die Datei, gilt 'aue', außer Hang ≥ fallback_hang_grad → fallback_biom.",
+  "fallback_hang_grad": 25,
+  "fallback_biom": "bergwald"
+ }
+}
