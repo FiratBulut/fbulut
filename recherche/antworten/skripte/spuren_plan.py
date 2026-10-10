@@ -671,9 +671,14 @@ FAKTOR_PARAMETER = {'steinmann': [('steinmann', 'frei_je_km2', 1), ('steinmann',
                     'obstgarten': [('obstgarten', 'max_je_ort', 1)]}
 
 
+DOKU_TEXT = ('lage', 'regel', 'bedingung', 'stelle', 'umsetzung', 'limits', 'kandidat_zwischenloesung')
+SPEZIAL_ZUSATZ = {'knueppeldamm': ('auf_weg', 'nur_nass', 'schritt_m', 'breite_m', 'yaw', 'eingraben_cm', 'jitter_cm', 'max_laenge_m_je_feld'),
+                  'pfaehle': ('neigung_grad', 'eingraben_cm', 'je_km_ufer', 'radius_m', 'tiefe_max_m', 'zone')}
+
+
 def doku_schluessel(k):
     k = str(k)
-    return k.startswith('_') or k.startswith('herkunft') or k.endswith(('doku', 'hinweis', 'begruendung', 'quelle_text'))
+    return k.startswith('_') or k.startswith('herkunft') or k.endswith(('doku', 'hinweis', 'begruendung', 'quelle_text')) or k in DOKU_TEXT
 
 
 def lade_inventar(basis):
@@ -849,14 +854,35 @@ def spuren_aufloesen(R, blk, thema, biom, feld, pfade, info):
                         unb('palette.' + str(nk))
                 um(k)
             elif k == 'zusatzklassen' and isinstance(v, dict):
-                RB['_extra']['zusatzklassen'] = copy.deepcopy(v)
+                allg = {}
                 for zn, kd in v.items():
-                    if isinstance(kd, dict):
-                        for zk in kd:
-                            if zk not in SCHEMA6 and zk not in ('netze', 'radius_m', 'farbe') and not doku_schluessel(zk):
-                                unb('zusatzklassen.%s.%s' % (zn, zk))
-                        if not kd.get('palette') and not kd.get('netze'):
-                            nu('zusatzklassen.' + str(zn), 'palette fehlt (Pflicht nach KONVENTIONEN Par. 6)')
+                    if not isinstance(kd, dict):
+                        continue
+                    if kd.get('aktiv') is False:
+                        nu('zusatzklassen.' + str(zn), 'aktiv: false')
+                        continue
+                    if not kd.get('palette') and not kd.get('netze'):
+                        nu('zusatzklassen.' + str(zn), 'palette fehlt (Pflicht nach KONVENTIONEN Par. 6)')
+                        continue
+                    bekannt = set(SCHEMA6) | {'netze', 'radius_m', 'farbe', 'aktiv'} | set(SPEZIAL_ZUSATZ.get(zn, ()))
+                    for zk in kd:
+                        if zk not in bekannt and not doku_schluessel(zk):
+                            unb('zusatzklassen.%s.%s' % (zn, zk))
+                    if zn in SPEZIAL_ZUSATZ:  # Sumpf-Spurtypen mit eigener Logik (Knüppeldamm auf dem Weg, Pfähle am Ufer)
+                        sv = copy.deepcopy(kd)
+                        sv['netze'] = pfade.liste(kd.get('palette') or kd.get('netze'), fehlt)
+                        RB['_extra'][zn] = sv
+                    else:
+                        allg[zn] = copy.deepcopy(kd)
+                if allg:
+                    RB['_extra']['zusatzklassen'] = allg
+                um(k)
+            elif k == 'parameter' and isinstance(v, dict):
+                for sek, sv in v.items():
+                    if sek in SEKTIONEN and isinstance(sv, dict):
+                        _sektion(RB, sek, sv, biom, tor, netz_setzen, um, nu, unb)
+                    elif not doku_schluessel(sek):
+                        unb('parameter.' + str(sek))
                 um(k)
             elif k == 'blickziele_typ' and isinstance(v, dict):
                 RB['blickziele'].setdefault('typ_je_biom', {}).update(copy.deepcopy(v))
@@ -1452,7 +1478,13 @@ def sf_pfaehle(K, Z):
     d_land = K.d_land()
     ufer_m = float(((d_land > 0) & (d_land <= 1.5) & Z.maske & K.im_feld).sum())
     n = _anzahl(float(cfg.get('je_km_ufer', 6)) * ufer_m / 1000.0, K.wi0 + 3, K.wj0, K.seed, 931)
-    flach = K.wasser_m & (d_land > 0) & (d_land <= 3.0)
+    wa = cfg.get('wasser_abstand_m')
+    if isinstance(wa, list) and len(wa) == 2:  # Uferband an Land (sumpf: 0,3-3 m)
+        flach = (~K.wasser_m) & (K.d_wasser >= float(wa[0])) & (K.d_wasser <= float(wa[1])) & K.frei_basis
+        im_wasser = False
+    else:  # Flachwasser bis 3 m vom Ufer
+        flach = K.wasser_m & (d_land > 0) & (d_land <= 3.0)
+        im_wasser = True
     gesetzt = 0
     for a, b in _top(K, flach & Z.maske & K.im_feld, hash01(K.gi, K.gj, K.seed, 932), 30, n):
         if not Z.gate('pfaehle', a, b):
@@ -1467,8 +1499,10 @@ def sf_pfaehle(K, Z):
         ok = flach[mi, mj]
         ng = cfg.get('neigung_grad', [3, 14])
         roll = np.radians(ng[0] + (ng[1] - ng[0]) * hash01(q * 3 + a, q + b, K.seed, 936)).astype(np.float32)
-        gesetzt += K.S.add(cfg['netze'], fi_[ok], fj_[ok], 'pfaehle', False, (0, 30000), 1.0, None, 0.0, float(cfg.get('eingraben_cm', 60)),
-                           roll=roll[ok], auf_wasser=True, seed=K.seed, kanal=937)
+        msr = cfg.get('massstab', [0.8, 1.2])
+        ms = msr[0] + (msr[1] - msr[0]) * hash01(mi + K.wi0, mj + K.wj0, K.seed, 938)
+        gesetzt += K.S.add(cfg['netze'], fi_[ok], fj_[ok], 'pfaehle', bool(cfg.get('kollision', False)), tuple(cfg.get('sichtweite', (0, 30000))),
+                           ms[ok], None, 0.0, float(cfg.get('eingraben_cm', 60)), roll=roll[ok], auf_wasser=im_wasser, seed=K.seed, kanal=937)
     return gesetzt
 
 
@@ -1476,7 +1510,7 @@ def sf_knueppeldamm(K, Z):
     cfg = Z.extra.get('knueppeldamm')
     if not cfg or not cfg.get('netze') or not K.weg_m.any():
         return 0
-    nass = (K.d_wasser <= 12.0) | (K.lage('Schlamm') > 0.3)
+    nass = (K.d_wasser <= 12.0) | (K.lage('Schlamm') > 0.3) | (K.lage('Algen') > 0.3)
     m = K.weg_m & nass & Z.maske & K.im_feld
     idx = np.flatnonzero(m)
     if idx.size == 0:
@@ -1499,8 +1533,10 @@ def sf_knueppeldamm(K, Z):
     gl = np.round(fj_ * 4).astype(np.int64) + K.wj0
     fi_ = fi_ + (hash01(gk, gl, K.seed, 941) - 0.5) * 2 * jit
     yaw = yaw + (hash01(gl, gk, K.seed, 942) - 0.5) * math.radians(8)
-    return K.S.add(cfg['netze'], fi_, fj_, 'knueppeldamm', False, (0, 25000), 1.0, yaw, 1.0, float(cfg.get('eingraben_cm', 6)),
-                   auf_weg=True, seed=K.seed, kanal=943)
+    msr = cfg.get('massstab', [0.9, 1.1])
+    ms = msr[0] + (msr[1] - msr[0]) * hash01(gk, gl, K.seed, 944)
+    return K.S.add(cfg['netze'], fi_, fj_, 'knueppeldamm', bool(cfg.get('kollision', False)), tuple(cfg.get('sichtweite', (0, 25000))), ms, yaw, 1.0,
+                   float(cfg.get('eingraben_cm', 6)), auf_weg=True, seed=K.seed, kanal=943)
 
 
 def sf_lava_punkte(K, Z):
@@ -2390,6 +2426,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
                            'regel': 'Lichtung ≥ 150 m² (Beschattung < 0,18) im Wald (Waldanteil 60 m > 0,3), Weg < 200 m'})
 
     # ------------------------------------------------------------------ Budget und Ausgabe
+    hinweise[:] = list(dict.fromkeys(hinweise))
     S.budget(int(R['budget']['instanzen_je_feld'] * feld_faktor_budget(faktor)), int(R['budget']['kollision_je_feld']), seed,
              R['budget'].get('prioritaet', ['feld', 'mauer', 'zaun', 'grab', 'holzschlag', 'koehler', 'steg', 'wegkreuz', 'karren', 'steinmann', 'obstgarten', 'schrein']), hinweise)
     dateien, gesamt, koll, je_gruppe = S.schreibe(ausgabe)

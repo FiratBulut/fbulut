@@ -11,7 +11,7 @@
     "gruppe": "Zellen-Saatwahrscheinlichkeit = dichte·Faktoren / mittlere Gruppengröße; jede Saat setzt n ∈ [n_lo, n_hi] Mitglieder im Radius (Mitglied 0 im Zentrum). Dichte bleibt damit die Instanzdichte.",
     "yaw": "zufall | hangab (Längsachse hangabwärts ±streuung) | wind (Längsachse in wind_richtung_grad ±streuung, Kippen in Windrichtung)",
     "pivot": "ANNAHME: Pivot aller Netze an der Bodenmitte (netze_masse.json wird für z-Versatz genutzt, wenn vorhanden: z −= min_z·Maßstab bei Netzen mit Pivot über dem Fuß).",
-    "rauchtest": "siehe verteilung-hochgebirge.md, Abschnitt 'Korrektur Runde 1' (Rauchtest synthetisch D2/E2/C2/C6).",
+    "rauchtest": "Korrektur Runde 1 (synthetisch, Cloud): D2 35 187 Inst. / 296 Kollision, E2 43 235 / 2 998 (Deckel griff), C2-Mischfeld 43 765 / 143 (Saum 1 788 Inst., 0 jenseits 31 m), C6 Vulkan -> leerer plan.json; zwei Laeufe byteidentisch; 3,4-4,9 s je Feld; Details verteilung-hochgebirge.md.",
     "korrektur_runde1": "Zustaendigkeit strikt nach Biom-Zellen (biome_eigen gletscher/frost + 30-m-Saum, Kennzahl 0 = aue), leerer plan.json bei Eigenanteil < 2 %; Schicht 1 nur Sonderformen (latsche, krueppelkiefer, polster, totholz_wind, wurzelteller, eiszapfen); generische Klassen (alpenrose -> beere + zusatzklasse alpenrose, grasbueschel_alpin -> grasbueschel) stehen in mittelschicht_overrides; Bloecke > 0,8 m (flechtenblock, bach_block, wasserfall_block, geroellplatte, grosse Eiszapfen) stehen in felsgruppen_overrides.zusatzklassen (Schema Konventionen §6)."
   },
   "stand": "2026-10-10 (Korrektur Runde 1)",
@@ -1631,6 +1631,7 @@
           0.0,
           0.0
         ],
+        "z_versatz_anteil": 0.85,
         "gruppe": {
           "groesse": [
             1,
@@ -1644,7 +1645,7 @@
           30000
         ],
         "akteur": false,
-        "bedingung": "Eisvorhaenge/Eisfaelle 2-3 m an Waenden >= 55 Grad ueber der Schneegrenze, an Gletscherbach-Kanten und unter Wasserfaellen (Wasserzellen mit Hang >= 18 Grad, Saum 3 m), Nordseite bevorzugt (Faktor 1,4 Nord / 0,6 Sued). Pivot oben: z = Gelaende + 0,85 x Netzhoehe x Massstab (wie hochgebirge Klasse eiszapfen). Echte Eisbloecke (Gletscherbruch, Seracs) fehlen im Inventar -> Einkaufsliste; SM_K7_GLETSCHER__EIS ist Landmarke, nicht Streugut."
+        "bedingung": "Eisvorhaenge/Eisfaelle 2-3 m an Waenden >= 55 Grad ueber der Schneegrenze, an Gletscherbach-Kanten und unter Wasserfaellen (Wasserzellen mit Hang >= 18 Grad, Saum 3 m), Nordseite bevorzugt (Faktor 1,4 Nord / 0,6 Sued). Pivot oben: z = Gelaende + 0,85 x Netzhoehe x Massstab (z_versatz_anteil, wie hochgebirge Klasse eiszapfen; Schluessel nicht im Schema §6 - solange felsgruppen ihn ignoriert, stehen die Eisvorhaenge am Wandfuss). Echte Eisbloecke (Gletscherbruch, Seracs) fehlen im Inventar -> Einkaufsliste; SM_K7_GLETSCHER__EIS ist Landmarke, nicht Streugut."
       },
       "flechtenblock": {
         "palette": [
@@ -1918,68 +1919,81 @@
     }
   },
   "erwartung_je_feld": {
-    "hinweis": "Spannen (Instanzen gesamt / davon Kollision) aus dem synthetischen Rauchtest D2 (100 % Land, 72 % Hang > 30°, gletscher 29 % + tundra 71 %: 44 107 Inst., 1 207 Kollision, boden 31 690 / mittel 9 815 / baum 317 / wasserkante 2 285) skaliert mit Land-% und Kernbiom-Anteil aus biome_je_feld.json. Mit Echtdaten ±50 %; Boden-Klassen laufen in Bergfeldern gegen ihre Klassenbudgets (kiesel 22 000, flechtenstein 9 000).",
+    "hinweis": "Korrektur Runde 1: nur gletscher/frost-Zellen + 30-m-Saum, Schicht 1 nur Sonderformen, Bloecke > 0,8 m bei felsgruppen. Spannen geschaetzt aus den synthetischen Laeufen Runde 1 (D2 35 187 / 296 Kollision, E2 43 235 / 2 998, C2-Mischfeld 43 765 / 143; Runde 0 auf denselben Rastern 44 189 / 50 248 / 52 000) und dem Echtlauf 10.10. (E1 35 132 mit Runde-0-Klassen), skaliert mit Eigenanteil und Land-% aus biome_je_feld.json. Mit Echtdaten +/-50 %; Boden-Klassen laufen in Bergfeldern gegen ihre Klassenbudgets (kiesel_schutt 22 000, flechtenstein 9 000).",
     "werte": {
-      "D2": [
-        30000,
-        50000,
-        800,
-        1800
+      "E1": [
+        26000,
+        34000,
+        200,
+        900
       ],
       "E2": [
         35000,
-        58000,
-        900,
-        2200
+        50000,
+        1500,
+        3000
+      ],
+      "D2": [
+        15000,
+        30000,
+        200,
+        800
       ],
       "C2": [
-        20000,
-        40000,
-        600,
-        1500
-      ],
-      "C1": [
-        10000,
-        22000,
-        300,
+        15000,
+        32000,
+        200,
         900
       ],
       "D1": [
-        12000,
-        25000,
-        350,
-        1000
+        11000,
+        22000,
+        150,
+        600
       ],
-      "E1": [
-        12000,
-        24000,
-        350,
-        1000
+      "C1": [
+        10000,
+        20000,
+        150,
+        600
       ],
       "B2": [
-        8000,
-        16000,
-        250,
-        700
+        7000,
+        14000,
+        100,
+        400
       ],
       "F2": [
-        6000,
-        14000,
-        150,
-        500
-      ],
-      "E3": [
-        2000,
-        8000,
+        4000,
+        10000,
         50,
         300
       ],
       "B1": [
         1500,
         5000,
-        30,
-        200
+        20,
+        150
+      ],
+      "E3": [
+        0,
+        5000,
+        0,
+        150
       ]
+    },
+    "leer_erwartet": [
+      "A5",
+      "G4",
+      "C6",
+      "alle Felder ohne gletscher/frost-Kacheln (Eigenanteil im Fenster < 2 %)"
+    ],
+    "echtdaten_10_10": {
+      "A5": 0,
+      "G4": 0,
+      "E1": 35132,
+      "C6": 0,
+      "hinweis": "lokaler Echtlauf 10.10. 15:30 mit Runde-0-Fassung (auftraege/verteilung-korrektur-runde1.md); Zustaendigkeit stimmte bereits."
     },
     "format": "[gesamt_min, gesamt_max, kollision_min, kollision_max]"
   }

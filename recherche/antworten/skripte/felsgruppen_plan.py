@@ -113,7 +113,7 @@ U64 = np.uint64
 
 _ASCII = {"ä": "ae", "ö": "oe", "ü": "ue", "Ä": "Ae", "Ö": "Oe", "Ü": "Ue", "ß": "ss", "–": "-", "—": "-", "→": "->",
           "←": "<-", "≤": "<=", "≥": ">=", "×": "x", "°": " Grad", "…": "...", "„": '"', "“": '"', "”": '"', "‚": "'",
-          "‘": "'", "’": "'", "²": "2", "±": "+/-", "≈": "~", "·": "*", "µ": "u", "é": "e"}
+          "‘": "'", "’": "'", "²": "2", "§": "Par. ", "±": "+/-", "≈": "~", "·": "*", "µ": "u", "é": "e"}
 
 
 def ascii_text(t):
@@ -636,7 +636,7 @@ def _leer_rec():
     return {"palette_name": None, "palette_rollen": {}, "palette_zusatz": {}, "paletten_neu": {}, "faktor": None,
             "faktor_mult": 1.0, "klassen_faktor": {}, "klassen_aus": None, "eingraben": None, "rollen": {},
             "kiesel_faktor": None, "mindestdichte_je_ha": None, "mindest_findling": None, "einzel_rollen": None,
-            "felder": None}
+            "klassen_param": {}, "felder": None}
 
 
 class OverrideLeser:
@@ -884,9 +884,19 @@ class OverrideLeser:
                         elif k == "p_faktor" and _zahl(x):
                             self._kf(bn, kname, x)
                             self._g(pk + ".p_faktor")
+                        elif (k == "hero_p" and _zahl(x)) or (k in ("block", "stein", "kiesel", "band", "wand", "n", "eingraben")
+                                                              and _spanne(x)):
+                            # Gruppen-Feinparameter: werden beim Gruppenaufbau je Biom angewandt
+                            self.rec[bn]["klassen_param"].setdefault(kname, {})[k] = (float(x) if _zahl(x) else
+                                                                                       [x[0], x[1]])
+                            self._g("%s.%s" % (pk, k))
+                        elif k in ("umkreis_m", "hang_grad", "raster_m", "kruemmung_min", "ufer_abstand_m", "abstand_m",
+                                   "stufen", "faecher_max_m", "grat_staerke_min", "nase_min", "hohl_min", "wand_umkreis_m"):
+                            self._i("%s.%s (%s)" % (pk, k, "Kandidatensuche gilt fuer alle Biome gemeinsam"))
                         elif not _ist_doku(k):
                             self._i("%s.%s" % (pk, k))
-                elif kname in ("findling_frei", "findlinge", "einzelbloecke") and ("je_km2" in par or "je_ha" in par):
+                elif kname in ("findling_frei", "findlinge", "einzelbloecke") and ("je_km2" in par or "je_ha" in par) \
+                        and not par.get("neu"):
                     w = par.get("je_ha")
                     if w is None:
                         jk = par["je_km2"]
@@ -899,10 +909,19 @@ class OverrideLeser:
                     for k in par:
                         if k not in ("je_km2", "je_ha") and not _ist_doku(k):
                             self._i("%s.%s" % (pk, k))
-                elif isinstance(par, dict) and par.get("neu"):  # Altstelle heide_tundra (blockfeld ...): Netze aus Biom-Palette
-                    ex = {} if ("palette" in par or "netze" in par) else {"palette_rollen": ["block"]}
-                    self.zusatz_lesen(kname, {k: x for k, x in par.items() if k not in ("neu", "flechten")}, [bn], pk,
-                                      alt=True, extra=ex)
+                elif isinstance(par, dict) and par.get("neu"):  # Altstelle heide_tundra (blockfeld, findling_frei): Netze aus Biom-Palette
+                    pz = {k: x for k, x in par.items() if k not in ("neu", "flechten")}
+                    ex = {}
+                    if "palette" not in par and "netze" not in par:
+                        hp = par.get("hero_p")
+                        ex["palette_rollen"] = ["hero", "block"] if (_zahl(hp) and hp >= 0.5) else ["block"]
+                        ex["rolle"] = "fels_hero" if (_zahl(hp) and hp >= 0.5) else "fels_block"
+                    if _zahl(par.get("hero_p")) and _spanne(par.get("block")):  # Hauptstück + Nebenblöcke
+                        pz["block"] = [1 + par["block"][0], 1 + par["block"][1]]
+                    nm = kname if len(self.biome) == 1 else "%s_%s" % (kname, bn)  # eindeutig je Biom (Statistik, Hash)
+                    self.zusatz_lesen(nm, pz, [bn], pk, alt=True, extra=ex)
+                    if "flechten" in par:
+                        self._i(pk + ".flechten (Materialauflage, nicht Planer)")
                 else:
                     self._i(pk)
 
@@ -993,7 +1012,7 @@ class OverrideLeser:
              "kruemmung": "egal", "massstab": None, "eingraben": None, "gruppe_n": (1, 1), "gruppe_r": None,
              "kollision": None, "sichtweite": None, "schatten": None, "akteur": False, "raster_m": None, "klumpung": None,
              "wand_abstand": None, "relief": None, "kuppe_prominenz_m": None, "exposition": None, "max_je_feld": None,
-             "punkte": None, "felder": None, "zonen": None, "fuss_m": 22.0, "gelesen": [], "ignoriert": []}
+             "punkte": None, "felder": None, "zonen": None, "fuss_m": 22.0, "dichte_gruppen": False, "gelesen": [], "ignoriert": []}
         G, I = z["gelesen"].append, z["ignoriert"].append
         hang_lo = hang_hi = p_alt = abstand = umkreis = abbruch = None
         for k, v in d.items():
@@ -1022,8 +1041,8 @@ class OverrideLeser:
                 z["dichte_je_ha"] = _mittel(v) * 1e4
                 G(k + " (je m2 -> je ha)")
             elif k == "je_km2" and _mittel(v) is not None:
-                z["dichte_je_ha"], z["dichte_bezug"] = _mittel(v) / 100.0, "biom"
-                G(k + " (-> je ha Biomflaeche)")
+                z["dichte_je_ha"], z["dichte_bezug"], z["dichte_gruppen"] = _mittel(v) / 100.0, "biom", True
+                G(k + " (Gruppen je km2 Biomflaeche)")
             elif k in ("hang_grad", "hang") and _trapez_spec(v):
                 z["hang"] = _trapez_spec(v)
                 G(k)
@@ -1088,6 +1107,10 @@ class OverrideLeser:
             elif k == "block" and _spanne(v) and alt:
                 z["gruppe_n"] = (int(v[0]), int(v[1]))
                 G(k + " (-> gruppe.groesse)")
+            elif k == "hero_p" and alt and _zahl(v):
+                G(k + " (-> Netze hero+block der Biom-Palette)" if v >= 0.5 else k + " (< 0,5: nur block)")
+            elif k in ("stein", "kiesel") and alt and _spanne(v):
+                I("%s (Kleinzeug-Saum je Gruppe: nicht im Schema §6)" % k)
             elif k in ("kollision", "schatten", "akteur") and isinstance(v, bool):
                 z[k] = v
                 G(k)
@@ -1318,6 +1341,8 @@ class OverrideLeser:
                     elif "akteur" in str(v.get("hinweis", "")).lower():
                         ex["rolle"] = "akteur"                  # wueste felsnadel: "Blickziel ... als Akteur"
                 self.zusatz_lesen(k, v, scope, p, alt=True, extra=ex)
+            elif k == "auflage":
+                self._i(p + " (Materialauflage, nicht Planer)")
             else:
                 self._i(p)
 
@@ -1442,6 +1467,7 @@ class Planer:
         self.rollen_ov = {}
         self.ov_aktiv = {}
         self.einzel_rollen = {}
+        self.klassen_ov = {}
         for bn, rec in sorted(self.ov.items()):
             b = BIOME.index(bn)
             if rec["felder"] and feld not in rec["felder"]:
@@ -1478,6 +1504,8 @@ class Planer:
                 mind[b] = rec["mindestdichte_je_ha"]
             if rec["einzel_rollen"]:
                 self.einzel_rollen[b] = set(rec["einzel_rollen"])
+            for kn, par in rec["klassen_param"].items():
+                self.klassen_ov[(b, kn)] = dict(par)
             for r, d in rec["rollen"].items():
                 self.rollen_ov[(b, r)] = dict(d)
             if rec["eingraben"] is not None:
@@ -1486,7 +1514,8 @@ class Planer:
             self.ov_aktiv[bn] = {"palette": namen[b], "biom_faktor": round(float(bf[b]), 3),
                                  "klassen_faktor": {k: round(v, 3) for k, v in sorted(kf[bn].items())},
                                  "klassen_aus": sorted(aus[bn]), "kiesel_faktor": round(float(kiesel[b]), 3),
-                                 "mindestdichte_je_ha": float(mind[b]), "rollen": {"%s" % r: d for (bb, r), d in self.rollen_ov.items() if bb == b}}
+                                 "mindestdichte_je_ha": float(mind[b]), "rollen": {"%s" % r: d for (bb, r), d in self.rollen_ov.items() if bb == b},
+                                 "klassen_param": {kn: d for (bb, kn), d in self.klassen_ov.items() if bb == b}}
         self.paletten = pal
         self.pal_je_biom = namen
         self.pal_info = {}
@@ -1494,6 +1523,16 @@ class Planer:
         self.aus_klasse = {k: np.array([k in aus[bn] for bn in BIOME]) for k in KLASSEN}
         self.kiesel_f = kiesel
         self.mindest = mind
+
+    def klasse_param(self, kname, b):
+        """Klassenregel + Biom-Feinparameter aus Overrides (hero_p, block/stein/kiesel/band/wand/n, eingraben)."""
+        K = self.R["klassen"][kname]
+        o = self.klassen_ov.get((int(b), kname))
+        if not o:
+            return K
+        d = dict(K)
+        d.update(o)
+        return d
 
     def rolle_param(self, b, rolle):
         ro = self.R["rollen"][rolle]
@@ -1910,6 +1949,7 @@ class Planer:
         for bi in np.unique(biom_g):  # je Biom: Palette, Rollen-Parameter und Kieselfaktor des Bioms (inkl. Overrides)
             sel = biom_g == bi
             pal = self.pal_je_biom[int(bi)]
+            K = self.klasse_param(kname, bi)
             gi, gj, gh, gyaw = g["fi"][sel], g["fj"][sel], g["h"][sel], g["yaw"][sel]
             stufe = g["stufe"][sel] if g.get("stufe") is not None else None
             n = len(gi)
@@ -1986,7 +2026,7 @@ class Planer:
 
     def _stuecke(self, pal, kname, rollen, gi, gj, gh, gyaw, cnt, ist_haupt, rb, salz, r_haupt, stufe, ring=False, bi=0):
         """Erzeugt cnt[k] Stücke je Gruppe k mit Rolle rollen[k]. Liefert Instanz-Arrays (oder None)."""
-        K = self.R["klassen"][kname]
+        K = self.klasse_param(kname, bi)
         GR = self.R["gruppe"]
         RO = self.R["rollen"]
         idx = np.repeat(np.arange(len(gi)), cnt)
@@ -2245,7 +2285,7 @@ class Planer:
         fs_i, fs_j = self.feld_slice
         n_lo, n_hi = z["gruppe_n"]
         n_mittel = max(0.5 * (n_lo + n_hi), 1.0)
-        dichte = (z["dichte_je_ha"] or 0.0) / n_mittel  # Gruppen je ha
+        dichte = (z["dichte_je_ha"] or 0.0) / (1.0 if z["dichte_gruppen"] else n_mittel)  # Gruppen je ha
         name = "%s/%s" % (z["datei"].replace("_regeln.json", ""), z["name"])
         punkte = None
         if z["punkte"]:

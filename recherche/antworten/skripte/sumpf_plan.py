@@ -715,8 +715,9 @@ def behalte(e, keep):
 
 
 def budget_anwenden(ergebnisse, prio, B, seed, wi0, wj0, klassen_idx, hinweise, feld):
-    """Konventionen §3: proportionale Hash-Ausdünnung (Kollision, dann Ziel nach Priorität von hinten, höchstens 60 % je Klasse und
-    Durchgang), danach exakte Kappung auf die harten Deckel (niedrigste Priorität und höchster Hash zuerst). Deterministisch."""
+    """Konventionen §3: proportionale Hash-Ausdünnung (Kollision, dann Ziel nach Priorität von hinten – Klassen ohne Kollision zuerst –,
+    höchstens 60 % je Klasse und Durchgang), danach exakte Kappung auf Kollisionsdeckel und Ziel (≤ harter Deckel; niedrigste Priorität
+    und höchster Hash zuerst). Deterministisch."""
     hart = int(B.get('instanzen_je_feld', 60000))
     kmax = int(B.get('kollision_je_feld', 3000))
     ziel = min(int(B.get('ziel_instanzen_je_feld', hart)), hart)
@@ -747,13 +748,16 @@ def budget_anwenden(ergebnisse, prio, B, seed, wi0, wj0, klassen_idx, hinweise, 
     # 2) Ziel proportional, von der niedrigsten Priorität aufwärts
     for runde in range(8):
         gesamt = n_ges()
-        if gesamt <= ziel:
-            break
         ueber = gesamt - ziel
+        if ueber <= max(50, int(0.005 * ziel)):   # kleiner Rest -> exakte Kappung unten
+            break
         pool, summe = [], 0
-        for kn in reversed(prio):
-            e = je.get(kn)
-            if e is None or e['fi'].size == 0:
+        # erst Klassen ohne Kollision (Kollisionsklassen sind schon auf ihren Deckel gebracht), dann bei Bedarf die übrigen
+        reihe = [kn for kn in reversed(prio) if kn in je and not je[kn]['kollision']] + \
+                [kn for kn in reversed(prio) if kn in je and je[kn]['kollision']]
+        for kn in reihe:
+            e = je[kn]
+            if e['fi'].size == 0:
                 continue
             pool.append(kn)
             summe += int(e['fi'].size)
@@ -763,11 +767,11 @@ def budget_anwenden(ergebnisse, prio, B, seed, wi0, wj0, klassen_idx, hinweise, 
         for kn in pool:
             fak[kn] = fak.get(kn, 1.0) * f
             behalte(je[kn], h_von(je[kn]) < fak[kn])
-        txt = 'WARNUNG %s: Instanzen %d > Ziel %d - Runde %d ausgeduennt %s' % (feld, gesamt, ziel, runde + 1, {kn: round(f, 3) for kn in pool})
+        txt = 'WARNUNG %s: Instanzen %d > Ziel %d - Runde %d ausgeduennt %s' % (feld, gesamt, ziel, runde + 1, {kn: round(f, 4) for kn in pool})
         meld(txt)
         hinweise.append(txt)
     # 3) exakte Kappung (harte Deckel)
-    for deckel, nur_koll, name in ((kmax, True, 'Kollision'), (hart, False, 'Instanzen')):
+    for deckel, nur_koll, name in ((kmax, True, 'Kollision'), (ziel, False, 'Instanzen')):
         sel = [e for e in ergebnisse if e['fi'].size and (e['kollision'] or not nur_koll)]
         n = sum(int(e['fi'].size) for e in sel)
         if n <= deckel:

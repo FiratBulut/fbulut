@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 14:30 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 14:45 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -38,7 +38,7 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 
 | Planer | Korrektur-Stand |
 |---|---|
-| felsgruppen (C) | korrigiert, gepusht (synthetisch B4: 55 196 Inst., 3 000 Kollision, 150 Akteure; Kollision in *_kol.f32). zusatzklassen aus felsgruppen_overrides aller Biom-Regeln nach §6 werden gesetzt (z_<name>), Altstellen heide_tundra/wueste/dschungel/lava abgebildet; offen: dschungel karstplatte ohne karst_faktor, wueste-Klassen ungetestet |
+| felsgruppen (C) | korrigiert, gepusht (synthetisch B4: 55 196 Inst., 3 000 Kollision, 150 Akteure; Kollision in *_kol.f32). zusatzklassen aus felsgruppen_overrides aller Biom-Regeln nach §6 werden gesetzt (z_<name>), Altstellen heide_tundra/wueste/dschungel/lava abgebildet; Nachbesserung: palette/faktor je Biom wieder gelesen, karst_faktor als Zonenfaktor (G6 758 Platten), heide_tundra-Feinparameter wirken, findling_frei eigene Klasse; offen: wueste-Klassen ungetestet |
 | mittelschicht + spuren (D) | korrigiert, gepusht (synthetisch G4: Mittelschicht 51 943 / Spuren 23 913; C6 8 147 / 158; A1 Leerplan); Nachruestung spuren_overrides laeuft |
 | nordkueste (B1) | korrigiert, gepusht (synthetisch B5: 14 083 Inst.; C6 lava Leerplan; H4 Saum, Kollision gedeckelt 2 998). Hinweis: C6 hat echt 3 % bergwald > 2 %-Schwelle, daher dort einige hundert Instanzen moeglich; fuer Leerplan zustaendigkeit.min_anteil_eigen = 0.04 |
 | elfenwald (B5) | korrigiert, gepusht (synthetisch G4 mit 17 000 Baeumen: 31 023 Inst., 215 Kollision; Fremdbiom-Feld Leerplan; Saum 30 m) |

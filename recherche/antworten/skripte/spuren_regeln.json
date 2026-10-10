@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-10 (Korrektur Runde 1)",
+ "stand": "2026-10-10 (Korrektur Runde 1, Spuren-Overrides)",
  "thema": "spuren",
  "seed": 2207,
  "hinweis": "Spuren von Leben: Orte aus karte_ort.r8 (Zusammenhangskomponenten), Wege aus karte_weg.r8, Seen aus karte_wasser.r8. Grossobjekte zusaetzlich als akteure. UNGETESTET MIT ECHTDATEN.",
@@ -9,6 +9,33 @@
  "entfernen": "",
  "min_anteil_eigen_fenster": 0.02,
  "biome_eigen": "alle 15 (Querschnitts-Planer, KONVENTIONEN §1); Palette je Zelle nach Biom (mauer.biome_stein, steinmann.biome, obstbaum je Biom, wegkreuz.biome_schrein)",
+ "zusatz_saum_m": 30.0,
+ "biom_planer": {
+  "fjord": "nordkueste",
+  "kueste": "nordkueste",
+  "bergwald": "nordkueste",
+  "aue": "aue",
+  "heide": "heide_tundra",
+  "tundra": "heide_tundra",
+  "gletscher": "hochgebirge",
+  "frost": "hochgebirge",
+  "elfenwald": "elfenwald",
+  "sumpf": "sumpf",
+  "dschungel": "dschungel",
+  "lava": "lava",
+  "wueste": "wueste_ergaenzung",
+  "canyon": "wueste_ergaenzung",
+  "oedland": "wueste_ergaenzung"
+ },
+ "override_schema": {
+  "hinweis": "Block spuren_overrides in <thema>_regeln.json des Biom-Planers (gleicher Ordner wie diese Datei, sonst ../<thema>/). Overrides gewinnen; gelten nur in Zellen des Bioms + 30-m-Saum (zusatz_saum_m, Anteil linear auf 0). Fehlende Datei/Block -> Hinweis, eigene Werte. Unbekannte Schluessel: Log + plan.json[\"overrides\"].",
+  "palette": "{netzschluessel: [pfade]} ersetzt spuren_regeln.netze[...] (auch obstbaum/obstgarten je Biom, holzschlag_stumpf, hecke_am_feldrand, kopfweiden_reihe); Kurzpfade wie \"AncientRuins/Meshes/SM_Column_02\" werden ueber das Inventar aufgeloest",
+  "faktor": "{spur: f} oder {biom: {spur: f}}; < 1 duennt je Objekt, 0 = aus, > 1 skaliert Zaehlparameter (frei_je_km2, je_km_weg, max_je_feld, ...)",
+  "aus / verbote": "Liste der Spuren, die im Biom entfallen ({biom: [...]} bei verbote)",
+  "sektionen": "ort, feldstreifen, obstgarten, zaun_weg, mauer, steinmann, wegkreuz, karren, steg, holzschlag, koehler, graeber, rauch, blickziele: Schluessel wie in dieser Datei, direkt oder unter parameter {sektion: {...}} oder je Biom ({heide: {...}}); Netzlisten in Sektionen (netze, steine, beiwerk_netze, pfahl_netze, ...) werden zugeordnet",
+  "sonderformen": "kopfweiden_reihe, hecke_am_feldrand, pferch, mauer.je_km2 (freie Mauern), steinkreis, graeber.art (Huegelgrab), ruine, tempelruine, schrein (Bildstein), galgen_ersatz, brunnen, pfaehle, knueppeldamm, opferstaette/schwefelgrube/rauch.quelle (aus lava/<Feld>/plan.json punkte)",
+  "zusatzklassen": "KONVENTIONEN §6 (palette Pflicht; rolle, dichte_je_ha, hang_grad, hoehe_m, wasser_abstand_m, lagen_min, kruemmung, massstab, eingraben_anteil, gruppe, kollision, sichtweite, akteur)"
+ },
  "fenster_rand_m": 64,
  "budget": {
   "instanzen_je_feld": 60000,
@@ -16,19 +43,30 @@
   "akteure_je_feld": 400,
   "prioritaet": [
    "feld",
+   "hecke",
+   "knueppeldamm",
    "mauer",
    "zaun",
+   "pfaehle",
    "grab",
    "holzschlag",
    "koehler",
+   "pferch",
    "steg",
    "wegkreuz",
    "karren",
    "steinmann",
    "obstgarten",
-   "schrein"
+   "kopfweiden",
+   "schrein",
+   "ruine",
+   "steinkreis",
+   "opferstaette",
+   "schwefelgrube",
+   "galgen",
+   "brunnen"
   ],
-  "hinweis": "prioritaet = Reihenfolge der Ausdünnung bei Überschreitung (unwichtigste Gruppe zuerst); Akteure werden nie gedünnt"
+  "hinweis": "prioritaet = Reihenfolge der Ausdünnung bei Überschreitung (unwichtigste Gruppe zuerst); Gruppen ohne Eintrag (zusatz_*) direkt nach feld; Akteure werden nie gedünnt"
  },
  "abstand_m": {
   "wasser": 1.0,
