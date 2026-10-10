@@ -595,6 +595,40 @@ Allgemein: Höhe 170 cm, 35 mm. Kameras für Ensembles stehen auf dem Weg gegen�
   - Bergwiese 14 151 → 14 088 (−0,4 %), Kernwiese mit ≥ 5 m Abstand zum Schnee 13 739 → 13 702 (−0,3 %).
 - Instanzen 14 315 → 14 091, Kollision 138. Läufe sind byteidentisch, 9,4 s, Log nur ASCII, keine unbekannten Override-Schlüssel.
 
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+- **Masken (KONVENTIONEN §1b).** Meer = `hoehe < 0` und `karte_wasser == 0`, dazu `wasser_alle` = Süßwasser oder Meer.
+  `wasser_alle` gilt für Sperre und Abstand (`abstand_m.wasser`), Landanteil, `zellen_zustaendig`, `biome_fenster` (jetzt
+  Landzellen, `biome_fenster_bezug: "land"`), Höhenstufen, die Untergrenze von `wasser_abstand_m`, Kuppen, den Abstand von Ensembles
+  und Einzelteilen sowie die Ufer von Stegen.
+  - Die Wassernähe kommt nie vom Meer. Das betrifft Feuchte, Uferband (`ufer_*`), Schlucht-Bonus, die Obergrenze von
+    `wasser_abstand_m`, Furt, Kopfweiden am Bach, die Nähe von Brunnen und Pferch sowie Knüppeldamm und Pfähle.
+    Ausnahme sind Strand- und Küstenklassen.
+  - Stege gibt es nur an Seen aus `karte_wasser`.
+- **Höhenregeln.** Unter −0,3 m wird nichts gesetzt. Zwischen −0,3 und 0 m sind nur Klassen mit `meer_rolle: true` erlaubt. Von 0 bis
+  +0,3 m im Küstensaum (≤ 30 m zum Meer) sind nur Rolle `wasserkante`/`strand` oder `strand: true` erlaubt.
+  - Mittelschicht prüft das als Maske je Klasse, spuren als Sperre je Instanz im Sammler nach Gruppe.
+  - Beide haben einen Schlussfilter vor dem Budget. Er prüft die Geländehöhe bilinear am Instanzort und filtert auch die
+    Akteurliste. Steg-Teile und Pfähle über Süßwasser sind ausgenommen.
+  - Die Parameter stehen in `regeln["meer"]`. Die Schlüssel `meer_rolle` und `strand` sind in den Overrides bekannt.
+- **plan.json.** Neu sind `meer_zellen`, `meer_gefiltert` und `statistik.meer`. Die Mittelschicht schätzt dabei die gesperrten Kandidaten
+  plus den Schlussfilter. Spuren zählt Sperren je Instanz plus den Schlussfilter; Kandidatenmasken filtern vorher, deshalb steht dort
+  oft 0.
+- **Rauchtest, synthetisch.** A5-artiges Küstenfeld: 40 % Meer, das nicht in `karte_wasser` steht, Strand von 0 bis 0,3 m, Fluss und
+  See in `karte_wasser`, Fischerdorf mit Strandweg. Die Raster wurden danach gelöscht. „Unter 0 m“ ist die Geländehöhe am Instanzort.
+
+| Planer | vorher unter 0 m | nachher | Strand 0–0,3 m (Saum) vorher → nachher | Instanzen vorher → nachher |
+|---|---|---|---|---|
+| mittelschicht | 8 608 (23 %, davon 8 340 unter −0,3 m) | 0 | 758 → 0 | 37 139 → 27 724 (`meer_gefiltert` 9 733) |
+| spuren | 428 (3,8 %, vorwiegend Mauern/Felder des Küstendorfs) | 0 | 1 862 → 0 | 11 191 → 9 202 |
+
+  - Probeklassen (nur Test): mittelschicht `meer_rolle` 350 Instanzen zwischen −0,3 und 0 m, keine darunter. spuren `meer_rolle`
+    28 Instanzen zwischen −0,3 und 0 m. Strand-Rollen liegen nur auf 0–0,3 m.
+  - Zwei Läufe sind byteidentisch, das Log ist ASCII, `py_compile` läuft ohne Fehler.
+  - Inland-Felder ohne Meer (G4, H5 synthetisch) liefern byteidentische f32 wie vorher.
+  - Echtdaten zum Vergleich (lokal gemessen): mittelschicht A5 96 % unter 0 m, spuren A5 39 %. Nach dem Neurechnen sollten dort
+    0 Instanzen unter 0 m stehen.
+
 ## Quellen
 
 - FORMAT.md, bildkritik-witcher-messlatte.md, boden-kleinzeug-gras.md, strassen-splines-bruecken.md (Frage 4), assets-taxonomie.md, verteilung-fels-organisch.md (Akteur-Konvention).

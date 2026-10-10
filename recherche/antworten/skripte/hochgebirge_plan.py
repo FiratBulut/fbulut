@@ -12,7 +12,8 @@ Korrektur Runde 4 (Konventionen §1b): karte_wasser.r8 ist nur Suesswasser; Meer
 wasser_alle = Suesswasser | Meer fuer Sperre, Stufe -1 und allgemeinen Ufer-Abstand (Kiesel-Teppich); Bach/Wasserfall/Gletscherbach/
 Bachsaum bleiben bei karte_wasser. Kuestensaum (Nicht-Wasser < +0,3 m, <= 30 m zum Meer): nur Ebene/Rolle wasserkante, strand:true,
 meer_rolle:true; im Meer nur meer_rolle zwischen -0,3 und 0 m. Schlussfilter am Instanzort (bilineare Gelaendehoehe) als
-Sicherheitsnetz; plan.json meldet meer_zellen und meer_gefiltert.
+Sicherheitsnetz; plan.json meldet meer_zellen und meer_gefiltert. Landzellen-Bezug (Konventionen §1): biome_fenster, Eigenanteil
+(2-%-Schwelle) und 30-m-Saum nur ueber Landzellen ohne wasser_alle; plan.json["biome_fenster_bezug"] = "land".
 
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft (py_compile) und mit synthetischen Rastern rauchgetestet
 (D2/E2 eigene Zellen, C2 Mischfeld fjord/gletscher, C6 Vulkanregion = Leerplan; Python 3.13 / NumPy 2.5 / Pillow, ohne numba).
@@ -1053,7 +1054,8 @@ def leerer_plan(feld, basis, regeln, biome_fenster, zellen_zustaendig, stat_zust
     out_dir = ausgabe_leeren(basis, regeln, feld)
     plan = {"stand": time.strftime("%Y-%m-%d %H:%M"), "feld": feld, "instanzen": 0, "dateien": {}, "entfernen": "",
             "ft_ordner": AUS.get("ft_ordner"), "ft_praefix": AUS.get("ft_praefix"),
-            "biome_fenster": biome_fenster, "zellen_zustaendig": int(zellen_zustaendig), "biome_eigen": list(regeln["biome_eigen"]),
+            "biome_fenster": biome_fenster, "biome_fenster_bezug": "land", "zellen_zustaendig": int(zellen_zustaendig),
+            "biome_eigen": list(regeln["biome_eigen"]),
             "kollision_anzahl": 0, "meer_zellen": int(meer_zellen), "meer_gefiltert": 0,
             "leer": True, "thema": regeln.get("thema", "hochgebirge"), "seed": regeln.get("seed"),
             "statistik": {"zustaendigkeit": stat_zust, "laufzeit_s": round(time.time() - t0, 1)},
@@ -1138,11 +1140,14 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
         tot = float(max(1, werte.size))
         reihen = sorted(zip(ks.tolist(), ns.tolist()), key=lambda e: (-e[1], e[0]))
         return {BIOME[k]: round(n / tot, 4) for k, n in reihen}
-    biome_fenster = anteile(biom)
-    eigen_m = np.isin(biom, eigen_idx)
-    anteil_fenster = float(eigen_m.mean())
-    anteil_feld = float(eigen_m[im_feld].mean())
-    stat_zust = {"biom_quelle": bio_quelle, "anteil_eigen_fenster": round(anteil_fenster, 4), "anteil_eigen_feld": round(anteil_feld, 4),
+    # Konventionen §1 (Landzellen-Bezug, Runde 4): Anteile, 2-%-Schwelle und Saum nur ueber Landzellen ohne wasser_alle
+    land_z = ~wasser_alle
+    bezug = land_z if land_z.any() else np.ones(form, bool)
+    biome_fenster = anteile(biom[bezug])
+    eigen_m = np.isin(biom, eigen_idx) & land_z
+    anteil_fenster = float(eigen_m[bezug].mean())
+    anteil_feld = float(eigen_m[im_feld & bezug].mean()) if (im_feld & bezug).any() else 0.0
+    stat_zust = {"biom_quelle": bio_quelle, "bezug": "land", "landzellen_fenster": int(bezug.sum()), "anteil_eigen_fenster": round(anteil_fenster, 4), "anteil_eigen_feld": round(anteil_feld, 4),
                  "biome_feld": anteile(biom[im_feld]), "saum_m": saum_m, "min_anteil_eigen": min_anteil}
     if anteil_fenster < min_anteil:
         log("%s: Anteil gletscher/frost im Fenster %.2f %% < %.1f %% (Quelle %s, Fenster %s) -> leerer plan.json (instanzen 0)"
@@ -1154,7 +1159,7 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     for q, b in enumerate(eigen_idx):
         lbl[biom == b] = q
     d_eigen, lbl_n = edt_label(eigen_m, lbl, saum_m)
-    zust_f = np.where(eigen_m, 1.0, np.clip(1.0 - d_eigen / saum_m, 0.0, 1.0)).astype(np.float64)
+    zust_f = np.where(eigen_m, 1.0, np.where(land_z, np.clip(1.0 - d_eigen / saum_m, 0.0, 1.0), 0.0)).astype(np.float64)  # Saum nur auf Land
     zust_m = zust_f > 0
     zellen_zustaendig = int((zust_m & im_feld & land).sum())
     stat_zust["zellen_eigen_feld"] = int((eigen_m & im_feld & land).sum())
@@ -1409,7 +1414,7 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     statistik["laufzeit_s"] = round(time.time() - t0, 1)
     plan = {"stand": time.strftime("%Y-%m-%d %H:%M"), "feld": feld, "instanzen": int(sum(d["anzahl"] for d in dateien.values())),
             "dateien": dateien, "entfernen": AUS.get("entfernen", ""), "ft_ordner": AUS.get("ft_ordner"), "ft_praefix": AUS.get("ft_praefix"),
-            "biome_fenster": biome_fenster, "zellen_zustaendig": zellen_zustaendig, "biome_eigen": eigen_namen,
+            "biome_fenster": biome_fenster, "biome_fenster_bezug": "land", "zellen_zustaendig": zellen_zustaendig, "biome_eigen": eigen_namen,
             "kollision_anzahl": kollision_anzahl, "meer_zellen": meer_zellen, "meer_gefiltert": int(sum(meer_gef.values())),
             "thema": regeln.get("thema", "hochgebirge"), "faktor": faktor, "seed": regeln.get("seed"), "statistik": statistik,
             "hinweise": [ascii_text(x) for x in hinweise],

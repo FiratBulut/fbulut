@@ -878,3 +878,28 @@ Rote Findlinge außerhalb canyon/oedland/wueste/lava: 0. uchoab3fa: 0.
    `abstand_min_m` erhöhen.
 4. **Bänder.** Wirkt der Hang aus 300 m weiter punktig, ist `klassen.band.p` (0,4) der Hebel; band bleibt bisher unverändert. Auf glatten
    Wiesenhängen fallen die Bänder schon durch die Hangknick-Pflicht weg.
+
+## k) Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+Auftrag `auftraege/verteilung-korrektur-runde4.md`, umgesetzt nach KONVENTIONEN §1b.
+
+- **Masken.** Meer = `hoehe < 0` und `karte_wasser == 0`, dazu `wasser_alle` = Süßwasser oder Meer. `wasser_alle` gilt jetzt für die Sperre
+  `ausschluss.wasser_m`, für den Landbezug von `biome_fenster` (`biome_fenster_bezug: "land"`) und für die Sichtziele der Formgruppen:
+  Tal ohne Wasser, Binnenwasser, Meer = Blockmittel < 0. Süßwasser-spezifisch bleiben die `wasser_abstand_m`-Ufer der
+  Zusatzklassen (Bach-/Uferblöcke) und `prallhang`. `kueste`/`kueste_nur` (nordkueste `felsufer`) messen den Abstand jetzt zum
+  echten Meer. Vorher bezogen sie sich auf Süßwasser bis 0,5 m Höhe, also faktisch auf Flussmündungen.
+- **Höhenregeln.** Unter −0,3 m wird nichts gesetzt. Zwischen −0,3 und 0 m sind nur Zusatzklassen mit `meer_rolle: true` erlaubt.
+  Von 0 bis +0,3 m im Küstensaum (≤ 30 m zum Meer) sind nur Strand-Zusatzklassen erlaubt: Rolle `wasserkante`/`strand`,
+  `strand: true` oder `kueste`. Gruppen, Formgruppen und Blockströme kommen dort nie hin. Die Höhe wird am Instanzort geprüft
+  (bilinear aus `hoehe.f32`). Ein Schlussfilter vor dem Budget dient als Sicherheitsnetz. Die Parameter stehen in
+  `felsgruppen_regeln.json["meer"]`.
+- **plan.json.** Neu sind `meer_zellen`, `meer_gefiltert` (durch die Meer-Regel verworfene Stücke plus Schlussfilter) und
+  `statistik.meer`.
+- **Rauchtest, synthetisch** (A5-artig, Raster danach gelöscht). Das Feld ist zu 40 % Meer, das nicht in `karte_wasser` steht. Dazu
+  kommen 1 % Flachwasser von −0,3 bis 0 m, ein 22 m breiter Strand von 0 bis 0,3 m, eine Steilküste, eine Insel und Fluss und See in
+  `karte_wasser`, wobei die Flussmündung unter 0 m liegt. Felsgruppen lag schon vorher nie unter 0 m (Land = Höhe > 0,2 m):
+  1 342 → 1 363 Instanzen, unter 0 m 0 → 0, Strand 0–0,3 m 0 → 0, `meer_gefiltert` 4. Das Plus kommt von `felsufer` (jetzt 5 Stücke
+  an der echten Steilküste, vorher 0) und von den Formgruppen, deren Sichtziele jetzt das echte Meer kennen.
+  Probeklasse `strand: true` (nur Test): 31 Stücke auf 0–0,3 m, keines unter 0 m, 1 Stück vom Schlussfilter verworfen.
+  Zwei Läufe sind byteidentisch, das Log ist ASCII. Inland-Felder ohne Meer (G4, H5) liefern byteidentische f32 wie vorher.
+

@@ -7,7 +7,9 @@ Korrektur Runde 4 (Konventionen §1b): karte_wasser.r8 ist nur Süßwasser. Meer
 See-Umriss; wasser_alle = Süßwasser | Meer. Spiegel, Wassertiefe und Zonen (Schilf-/Binsen-/Seerosen-Gürtel, Ufer, Bulten) nur
 am Süßwasser; Meerzellen sind Zone 0 (keine Klasse) und für alle Klassen gesperrt. Küstensaum (Nicht-Wasser < +0,3 m, ≤ 30 m zum
 Meer): nur Rolle wasserkante, strand:true, meer_rolle:true. Schlussfilter am Instanzort (bilineare Geländehöhe) als
-Sicherheitsnetz; plan.json meldet meer_zellen und meer_gefiltert.
+Sicherheitsnetz; plan.json meldet meer_zellen und meer_gefiltert. Landzellen-Bezug (Konventionen §1): biome_fenster und
+Eigenanteil (2-%-Schwelle) nur über Landzellen ohne wasser_alle; Saum nur auf Land (Süßwasser des eigenen Bioms bleibt eigen);
+plan.json["biome_fenster_bezug"] = "land".
 
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern rauchgetestet
 (H5 eigene Zellen, Fremdfeld mit Schlamm-Lagen, Mischfeld mit Saum; verteilung-sumpf.md Abschnitt „Korrektur Runde 1“).
@@ -712,7 +714,8 @@ def plan_kopf(feld, regeln, n, dateien, entfernen, biome_fenster, zellen_zustaen
     Z = regeln['zustaendigkeit']
     return {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(n), 'dateien': dateien, 'entfernen': entfernen,
             'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
-            'biome_fenster': biome_fenster, 'zellen_zustaendig': int(zellen_zustaendig), 'biome_eigen': list(Z['biome_eigen']),
+            'biome_fenster': biome_fenster, 'biome_fenster_bezug': 'land', 'zellen_zustaendig': int(zellen_zustaendig),
+            'biome_eigen': list(Z['biome_eigen']),
             'kollision_anzahl': int(nk)}
 
 
@@ -864,12 +867,18 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     # --- Zuständigkeit nach Biom-Zellen (Konventionen §1)
     Z = regeln['zustaendigkeit']
     bio, biom_quelle = lade_biome(basis, win, feld, regeln, hinweise)
-    werte, zahl = np.unique(bio, return_counts=True)
-    biome_fenster = {BIOME15[int(k)]: round(float(c) / bio.size, 4) for k, c in sorted(zip(werte, zahl), key=lambda x: -x[1])}
-    eigen = np.isin(bio, [BIOME15.index(b) for b in Z['biome_eigen'] if b in BIOME15])
+    # Konventionen §1 (Landzellen-Bezug, Runde 4): Anteile und 2-%-Schwelle nur über Landzellen ohne wasser_alle
+    # (karte_wasser | Meer); Saum nur auf Land. Süßwasser mit eigenem Biom bleibt eigene Zelle (Schilf/Seerosen im Sumpfteich).
+    land_z = ~(wasser_k | meer)
+    bezug = land_z if land_z.any() else np.ones((H, W), bool)
+    werte, zahl = np.unique(bio[bezug], return_counts=True)
+    n_bezug = max(1, int(bezug.sum()))
+    biome_fenster = {BIOME15[int(k)]: round(float(c) / n_bezug, 4) for k, c in sorted(zip(werte, zahl), key=lambda x: -x[1])}
+    eigen_biom = np.isin(bio, [BIOME15.index(b) for b in Z['biome_eigen'] if b in BIOME15])
     del bio
-    anteil_eigen = float(eigen.mean())
-    anteil_feld = float(eigen[im_feld].mean())
+    anteil_eigen = float(eigen_biom[bezug].mean())
+    anteil_feld = float(eigen_biom[im_feld & bezug].mean()) if (im_feld & bezug).any() else 0.0
+    eigen = eigen_biom & ~meer   # eigene Zellen: Land + Süßwasser des eigenen Bioms, nie Meer
     if anteil_eigen < float(Z['min_anteil_fenster']):
         return schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, anteil_feld, biom_quelle, hinweise, t0,
                                  int(meer.sum()))
@@ -878,7 +887,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         zust = np.ones((H, W), np.float32)
     else:
         d_eigen, _, _ = jfa(eigen, max_m=max(64.0, 2.0 * saum_m))
-        zust = np.where(eigen, 1.0, np.clip(1.0 - d_eigen / saum_m, 0.0, 1.0)).astype(np.float32)
+        zust = np.where(eigen, 1.0, np.where(land_z, np.clip(1.0 - d_eigen / saum_m, 0.0, 1.0), 0.0)).astype(np.float32)  # Saum nur auf Land
         del d_eigen
     zust_m = zust > 0
     zellen_zustaendig = int((zust_m & im_feld & ~meer).sum())   # Runde 4: Meer ist nicht bebaubar
@@ -934,6 +943,8 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     # Meer (Runde 4): Teich-/See-Umrisse sind Süßwasser, nie Meer; Spiegel/Tiefe/Zonen unten nur aus Süßwasser (wasser0)
     meer &= ~wasser0
     if polys:
+        zust = np.where(wasser0 & ~eigen, 0.0, zust).astype(np.float32)  # kein Saum in fremde Teich-/See-Umrisse (§1)
+        zust_m = zust > 0
         zellen_zustaendig = int((zust_m & im_feld & ~meer).sum())
         zellen_eigen_feld = int((eigen & im_feld & ~meer).sum())
     wasser_alle = wasser0 | meer
@@ -1270,6 +1281,10 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             m = e['netz'] == ni
             p = netze[int(ni)]
             name = p.rsplit('/', 1)[-1]
+            if name in dateien and dateien[name]['ebene'] != e['ebene']:
+                # Runde 4: gleiches Netz in anderer Ebene -> eigene Datei (rolle/ebene stimmen je Datei; vorher erbte z. B.
+                # segge_bult (1 mittel) die Rolle wasserkante von binse_wasser, weil beide ToadRush nutzen)
+                name = '%s_e%s' % (name, e['ebene'].split(' ', 1)[0])
             netz_inst.setdefault(name, []).append(inst[m])
             if name not in dateien:
                 dateien[name] = {'pfad': p, 'anzahl': 0, 'gruppe': e['klasse'], 'rolle': e['ebene'].split(' ', 1)[-1],

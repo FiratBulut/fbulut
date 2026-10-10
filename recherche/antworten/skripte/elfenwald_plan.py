@@ -8,6 +8,8 @@ wasser_alle = Suesswasser | Meer fuer Sperren (abstand_m.wasser), Waldgebiet, Ri
 Bachsaum (Schicht 5), Bach/Fluss-Erkennung, bach_dichte und Schrein an der Bachquerung bleiben bei karte_wasser. Kuestensaum
 (< +0,3 m, <= 30 m zum Meer): nur Schicht/Rolle wasserkante, strand:true, meer_rolle:true; im Meer nur meer_rolle -0,3...0 m.
 Schlussfilter am Instanzort (bilineare Gelaendehoehe) in merke(); plan.json meldet meer_zellen und meer_gefiltert.
+Landzellen-Bezug (Konventionen par. 1): biome_fenster, Eigenanteil (2-%-Schwelle) und 30-m-Saum nur ueber Landzellen ohne
+wasser_alle; plan.json["biome_fenster_bezug"] = "land".
 
 Zustaendigkeit (Konventionen par. 1): Biom je Zelle aus eigner.r8 + welt.json (rezept; Kennzahl 0 = Weltgelaende -> aue,
 Vulkanregion -> lava; nur wenn eigner.r8/welt.json fehlen: dominantes Feldbiom aus daten/biome_je_feld.json). biome_eigen =
@@ -421,7 +423,7 @@ def dominantes_feldbiom(basis, feld, regeln):
     return 'aue', 'Standard aue'
 
 
-def lade_biome(basis, win, regeln, feld):
+def lade_biome(basis, win, regeln, feld, bezug=None):
     """Biom je Zelle (Konventionen par. 1). Rueckgabe: eigen (bool H x W: Zelle gehoert zu biome_eigen),
     anteile {biom: Anteil im Fenster}, quelle (Text)."""
     Z = regeln['zustaendigkeit']
@@ -470,7 +472,8 @@ def lade_biome(basis, win, regeln, feld):
         meld('Hinweis: %d Rezepte ohne Biom-Zuordnung (-> %s): %s' % (len(unbekannt), null_biom, ', '.join(sorted(set(unbekannt))[:6])))
     lut = np.array([n in eigen_l for n in namen], bool)
     eigen = lut[eig]
-    zahl = np.bincount(eig.ravel(), minlength=256).astype(np.float64) / max(1, eig.size)
+    e_b = eig[bezug] if bezug is not None else eig.ravel()  # Konventionen par. 1: Anteile nur ueber Landzellen
+    zahl = np.bincount(e_b, minlength=256).astype(np.float64) / max(1, e_b.size)
     anteile = {}
     for kk in np.flatnonzero(zahl):
         anteile[namen[kk]] = anteile.get(namen[kk], 0.0) + float(zahl[kk])
@@ -746,7 +749,7 @@ def plan_grund(feld, regeln, anteile, zellen, kollision_anzahl, instanzen):
     return {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(instanzen), 'dateien': {},
             'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
             'biome_fenster': {k: round(v, 4) for k, v in sorted(anteile.items(), key=lambda kv: (-kv[1], kv[0]))},
-            'zellen_zustaendig': int(zellen), 'biome_eigen': list(regeln['zustaendigkeit']['biome_eigen']),
+            'biome_fenster_bezug': 'land', 'zellen_zustaendig': int(zellen), 'biome_eigen': list(regeln['zustaendigkeit']['biome_eigen']),
             'kollision_anzahl': int(kollision_anzahl)}
 
 
@@ -785,9 +788,13 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus, mittel_
     meer_gef = {}
 
     Z = regeln['zustaendigkeit']
-    eigen, bio_anteil, bio_quelle = lade_biome(basis, win, regeln, feld)
-    eigen_anteil = float(eigen.mean())
-    eigen_anteil_feld = float(eigen[im_feld].mean())
+    # Konventionen par. 1 (Landzellen-Bezug, Runde 4): Anteile, 2-%-Schwelle und Saum nur ueber Landzellen ohne wasser_alle
+    land_z = ~wasser_alle
+    bezug = land_z if land_z.any() else np.ones((H, W), bool)
+    eigen, bio_anteil, bio_quelle = lade_biome(basis, win, regeln, feld, bezug)
+    eigen &= land_z
+    eigen_anteil = float(eigen[bezug].mean())
+    eigen_anteil_feld = float(eigen[im_feld & bezug].mean()) if (im_feld & bezug).any() else 0.0
     if eigen_anteil < float(Z['min_eigenanteil_fenster']):
         ausgabe = ausgabe_leeren(basis, feld)
         plan = plan_grund(feld, regeln, bio_anteil, 0, 0, 0)
@@ -804,7 +811,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus, mittel_
         zust = np.ones((H, W), np.float32)
     else:
         d_eigen = distanz(eigen, max_m=max(32.0, saum_m + 2))
-        zust = np.where(eigen, 1.0, np.clip(1.0 - d_eigen / saum_m, 0, 1)).astype(np.float32)
+        zust = np.where(eigen, 1.0, np.where(land_z, np.clip(1.0 - d_eigen / saum_m, 0, 1), 0)).astype(np.float32)  # Saum nur auf Land
 
     # Gelände
     dzdy, dzdx = np.gradient(hoehe)
@@ -1306,13 +1313,18 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus, mittel_
         for ni in np.unique(a['netz']):
             m = a['netz'] == ni
             p = a['netze'][ni]
-            name = p.rsplit('/', 1)[-1]
+            basisname = p.rsplit('/', 1)[-1]
+            name = basisname
+            if name in dateien and dateien[name]['ebene'] != a['schicht']:
+                # Runde 4: gleiches Netz in anderer Schicht (z. B. SM_CustomMoss in 0_boden und 5_wasserkante) -> eigene Datei,
+                # damit rolle/ebene je Datei stimmen
+                name = '%s_e%s' % (basisname, a['schicht'][0])
             netz_inst.setdefault(name, []).append(inst[m])
             if name not in dateien:
                 dateien[name] = {'pfad': p, 'anzahl': 0, 'gruppe': a['klasse'], 'rolle': ROLLE_JE_SCHICHT[a['schicht']], 'ebene': a['schicht'],
-                                 'sichtweite': list(a['sichtweite']), 'schatten': a['schatten'], 'kollision': name in koll_an}
+                                 'sichtweite': list(a['sichtweite']), 'schatten': a['schatten'], 'kollision': basisname in koll_an}
             dateien[name]['anzahl'] += int(m.sum())
-            if name in koll_an:
+            if basisname in koll_an:
                 nk['2_baum' if a['schicht'] == '2_baum' else 'andere'] += int(m.sum())
         stat.setdefault(a['schicht'], {})[a['klasse']] = stat.get(a['schicht'], {}).get(a['klasse'], 0) + n
     gesamt = 0
