@@ -11,6 +11,9 @@ auf 80.lv/Fab/ArtStation aus dieser Umgebung, maximal 6 Suchen).
 neue Pflichtschlüssel, hartes Feld-Budget, Schicht 1 nur Sonderformen; generische Klassen stehen jetzt in `mittelschicht_overrides`, Felsen
 > 0,8 m in `felsgruppen_overrides.zusatzklassen`. **Der folgende Abschnitt gilt vor §2–§5 und §7, wo diese abweichen.**
 
+
+> Nachtrag Koordinator (10.10.): `mittelschicht_overrides` nutzen jetzt relative Hoehenstufen statt absoluter Grenzen (beere `stufen` [0,4; 1; 1; 0,1], grasbueschel `stufen` [0,5; 1; 1; 0,3], alpenrose `stufe` [1, 2]; `hoehe_max_m` 9999). Grundlage: `mittelschicht_plan.py` rechnet die Stufen wie `hochgebirge_plan.py` (KONVENTIONEN §6). Faktoren je Stufe sind Richtwerte, ungetestet mit Echtdaten.
+
 ## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
 
 Grundlage: `auftraege/verteilung-korrektur-runde1.md` (lokaler Echtdatenlauf 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md` §1–§6.

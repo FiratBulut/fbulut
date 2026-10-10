@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 15:20 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 16:00 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -39,7 +39,7 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 | Planer | Korrektur-Stand |
 |---|---|
 | felsgruppen (C) | korrigiert, gepusht (synthetisch B4: 55 196 Inst., 3 000 Kollision, 150 Akteure; Kollision in *_kol.f32). zusatzklassen aus felsgruppen_overrides aller Biom-Regeln nach §6 werden gesetzt (z_<name>), Altstellen heide_tundra/wueste/dschungel/lava abgebildet; Nachbesserung: palette/faktor je Biom wieder gelesen, karst_faktor als Zonenfaktor (G6 758 Platten), heide_tundra-Feinparameter wirken, findling_frei eigene Klasse; z_versatz_anteil fuer Eis, wueste-Klassen auf D4 getestet |
-| mittelschicht + spuren (D) | korrigiert, gepusht (synthetisch G4: Mittelschicht 51 943 / Spuren 23 913; C6 8 147 / 158; A1 Leerplan); Nachruestung spuren_overrides laeuft |
+| mittelschicht + spuren (D) | korrigiert, gepusht (synthetisch Mittelschicht G4 51 943 / C6 8 147 / A1 Leerplan; Spuren G4 9 564, H5 aue+sumpf 16 551, C6 402). spuren liest spuren_overrides aller neun Biom-Planer (Sonderformen je Biom), mittelschicht kennt relative Hoehenstufen (stufe/stufen/hoehe_rel_baumgrenze_m); hochgebirge-Overrides darauf umgestellt |
 | nordkueste (B1) | korrigiert, gepusht (synthetisch B5: 14 083 Inst.; C6 lava Leerplan; H4 Saum, Kollision gedeckelt 2 998). Hinweis: C6 hat echt 3 % bergwald > 2 %-Schwelle, daher dort einige hundert Instanzen moeglich; fuer Leerplan zustaendigkeit.min_anteil_eigen = 0.04 |
 | elfenwald (B5) | korrigiert, gepusht (synthetisch G4 mit 17 000 Baeumen: 31 023 Inst., 215 Kollision; Fremdbiom-Feld Leerplan; Saum 30 m) |
 | dschungel (B7) | korrigiert, gepusht (synthetisch H6: 30 343 Inst., 2 690 Kollision; G4 Leerplan; G5 Saum) |
@@ -73,7 +73,8 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 
 ### Runde-2-Punkte (gesammelt)
 
-- mittelschicht_plan.py kennt keine Hoehenstufen relativ zur Baumgrenze; `hoehe_max_m` ist absolut. Folge: Alpenrose/Gras fehlen ueber 430/470 m, Heide kann unter Bergwald-Kiefern landen (Hinweis hochgebirge).
+- erledigt: mittelschicht relative Hoehenstufen; hochgebirge beere/grasbueschel/alpenrose nutzen sie (synthetisch E2: Alpenrose nur noch Krummholz/Matte).
+- spuren: nicht umgesetzt mangels Netzen - Muehle, Boot, Laternen, Steinbruecke, Gipfelkreuz, Unterstand, Seilbruecke (Einkaufsliste); Torfstich ohne Instanzen-Spur.
 - erledigt: felsgruppen `z_versatz_anteil` (Eis haengt 0,6-4,7 m ueber Boden), lava `spire` als echte Zusatzklasse.
 - Echtdaten-Pruefpunkt sumpf: liegen Teiche/Gewaesser in eigner.r8 auf Kennzahl 0, zaehlen sie als aue; der Sumpf-Planer setzt dann Schilfguertel nur ueber den Saum. Falls so, Gewaesser im Sumpf dem Sumpf-Rezept zuordnen oder Wasserzellen dem Biom der naechsten Landzelle zuweisen (Runde 2, alle Planer).
 - erledigt: felsgruppen/lava - Spires genau nach Lava-Plan-Punkten (auch 0), Ersatzmaske nur ohne Lava-Plan; netz/yaw_grad aus dem Punkt werden uebernommen.

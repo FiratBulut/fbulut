@@ -302,10 +302,108 @@ Synthetische Produktionswurzel (Raster 7057 × 9577 als memmap, nach dem Test ge
 
 ### 8.5 Offen nach Runde 1
 
-1. `spuren_overrides` der Biom-Planer (z. B. Dschungel-Tempelruinen, Wüsten-Karren/Brunnen/Galgen-Ersatz, Hochgebirge-Gipfelkreuz) werden von `spuren_plan.py` noch nicht gelesen. Beim Rauchtest enthielt kein `spuren_overrides`-Block `zusatzklassen` nach §6; die übrigen Blöcke sind themenspezifische Strukturen (je Spurtyp), die einen eigenen Abgleich in Runde 2 brauchen.
+1. ~~`spuren_overrides` werden nicht gelesen~~ – erledigt, siehe 8.6.
 2. Biom-Planer ohne Override-Block (aue, sumpf, heide_tundra, hochgebirge, lava) und die Altform von wueste_ergaenzung: Doppelungen bzw. fehlende Mittelschicht, bis sie umgestellt sind (siehe 8.3).
 3. Nordküsten-Zusatzklassen nutzen `lagen` – als `lagen_faktor` gelesen (Faktor bei voller Deckung); falls dort anders gemeint, bitte melden.
 4. Abgrenzungsliste 8.2 sollte in `verteilung-STATUS.md` übernommen werden (Koordinator).
+
+### 8.6 Spuren-Overrides (Nachtrag 10.10.)
+
+`spuren_plan.py` liest jetzt `spuren_overrides` aus den neun Biom-Regeldateien (gleiche Zuordnung Biom → Datei und Suche wie bei der
+Mittelschicht, `spuren_regeln.json["biom_planer"]`). **Zonen:** Jedes Biom im Fenster, dessen Planer einen Block liefert, bildet eine
+Zone aus seinen Zellen (Anteil 1) plus 30-m-Saum (`zusatz_saum_m`, Anteil linear auf 0); die Anteile werden je Zelle zu einer
+Zerlegung von [0, 1) normiert, Rest = Zone „standard“ mit `spuren_regeln.json`. Jede Spur (Feld, Zaun, Steinmann, Kreuz, Karren, Steg,
+Holzschlag, Köhler, Grab, Rauch, Sonderform) entscheidet an ihrem Ankerpunkt per Zell-Hash, welcher Zone sie gehört, und nutzt deren
+Regeln; die Spur-Routinen laufen je Zone. Keine Spur wird doppelt gesetzt, Übergänge sind weich, alles bleibt deterministisch.
+Ortsgebundene Spuren gehören der Zone des Ortsmittelpunkts. Budget, Kollision, Akteure und die Sperre Wasser/Weg/Ort gelten wie bisher
+gemeinsam für alle Zonen.
+
+**Gelesen werden (Overrides gewinnen):**
+- `palette` → `spuren_regeln.netze` (auch `obstbaum` je Biom, `holzschlag_stumpf`, `steg_pfosten`, `zaun_pfahl`, …);
+  Kurzpfade wie `AncientRuins/Meshes/SM_Column_02` werden über das Inventar aufgelöst, Unbekanntes verworfen und gemeldet.
+- `faktor` `{spur: f}` oder `{biom: {spur: f}}`: unter 1 dünnt je Objekt, 0 = aus, über 1 skaliert Zählparameter (`frei_je_km2`,
+  `je_km_weg`, `max_je_feld`, …). `aus`/`verbote` = 0.
+- Sektionen wie in `spuren_regeln.json`, direkt, unter `parameter` oder je Biom (`{heide: {…}}`).
+- Zusatzklassen nach §6 plus die Lava-Erweiterung `punkte {ebene, typ}` (Standorte aus `<ebene>/<Feld>/plan.json`), `max_je_feld`,
+  `anordnung: ring`, `weg_abstand_m`.
+
+**Umgesetzte Sonderformen:**
+
+| Biom-Planer | Sonderform |
+|---|---|
+| aue | Feldstreifen-Parameter, Hecke am Feldrand (Anteil der Ränder, Abstand, Lücken, 1,5 m außerhalb des Zauns), Kopfweiden-Reihen entlang Weg/Bach im Ortsring (Akteure) |
+| sumpf | Stege (kleinere Seen, 4–5 Segmente, Deck 0,45 m), Pfähle (Uferband 0,3–3 m an Land in 2–5er-Gruppen bzw. Flachwasser ohne `wasser_abstand_m`), Knüppeldamm (Halbstämme quer auf nassen Wegzellen, Wegrichtung per Strukturtensor, ≤ 400 m je Feld; einzige Spur, die auf dem Weg liegen darf) |
+| heide_tundra | Trockenmauer-Parameter, freie Mauern hang-/wegparallel (`je_km2`, Lücken), Pferche (Rechteck aus Trockenmauer mit Öffnung, Trog/Heu/Pfahl), Steinkreis auf Kuppen, Zaun am Weg als Mauer |
+| dschungel | Tempelruine (AncientRuins-Akteure am flachen Karstfuß 10–60 m vom Weg, nur in den Feldern aus `felder`, `um_ruine` als Fläche für andere Ebenen) |
+| elfenwald | Ruine mit Bewuchs (Efeu/Moos/Farn/Bruchsteine), Bildstein-Schrein an Wegkreuzung/Bachquerung mit Kiesel/Blumen, Hügelgrab statt Friedhof, Steinmänner |
+| wueste_ergaenzung | Karren-Parameter/Netze, Galgen-Ersatz aus Bauteilen (Versatz/Rotation, Akteure, Kuppenbonus), Brunnen (je Ort und frei in Senken), verlassene Feldstreifen (Ödland), Knochen-Ersatz als Zusatzklasse |
+| lava | Opferstätte (Säule + Steinring) und Schwefelgrube (Beiwerk) an `opferstaette_/schwefelgrube_vorschlag` aus `lava/<Feld>/plan.json`, Fumarolen/Dampf als Rauchpunkte; neue Form als Zusatzklassen mit `punkte`, alte Sektionsform weiter lesbar |
+| nordkueste, hochgebirge | Faktoren/Paletten/Verbote je Biom, Steinmann-/Kreuz-/Grab-Parameter |
+
+**Nicht umgesetzt** (mit Grund in Log und `plan.json["overrides"][thema]["nicht_umgesetzt"]`):
+- Keine Netze geliefert: Mühle, Boot, Laternen, Steinbrücke, Knochen (alt), Hütte.
+- Netz `null`: Gipfelkreuz, Unterstand, Seilbrücke.
+- Keine Instanzen-Spur: Torfstich (Höhenpass/Decal), Tempelpfad (Boden/Felsgruppen).
+- Blickziel-Sonderformen: Sumpf-Totbaum, Pfahlbau-Ruine.
+
+Unbekannte Schlüssel (z. B. hochgebirge `steinmann.nur_ab_stufe`) stehen im Log und unter `unbekannte_schluessel`.
+
+**Rauchtest:** synthetisch, Raster wieder gelöscht, mit den aktuellen Regeldateien der neun Biom-Planer aus dem Repository.
+
+| Feld | Inhalt | Ergebnis |
+|---|---|---|
+| G4 | elfenwald/heide/aue | 9 564 Instanzen, 348 mit Kollision, 21 Akteure; Elfenwald-Ruinen, Bildsteine; Heide: 2 Pferche, 1 freie Mauer, 1 Steinkreis. Im Elfenwald entfallen Felder, Zäune und Rauch (`aus`). |
+| H5 | aue/sumpf | 16 551 Instanzen, 836 mit Kollision; 1 Kopfweiden-Reihe, Hecken an Feldrändern, 2 Stege, 65 Pfähle, 800 Knüppeldamm-Hölzer. Im Sumpf entstehen keine eigenen Felder, Karren oder Steinmänner (`verbote`). |
+| C6 | lava 78 %, oedland 17 % | 402 Instanzen; Opferstätten-Säule + Steinring, Schwefelgruben-Beiwerk, Fumarole, Brunnen, Knochen-Ersatz. Galgen nur im Zwangstest (je_km_weg 4: 4 Galgen). |
+| D2 | gletscher/tundra | 125 Instanzen, 1 Akteur |
+| A1 | nur Meer | leer |
+
+Weitere Prüfungen:
+- Jeweils 0 Instanzen auf Wasser, Weg und Ort, mit zwei Ausnahmen: Steg und Pfähle dürfen ins Wasser, der Knüppeldamm auf den Weg.
+- Zwei Läufe byteidentisch, Logs reines ASCII, Laufzeit 4–16 s je Feld, `py_compile` sauber.
+
+### 8.7 Höhenstufen statt absoluter Höhen in der Mittelschicht (Nachtrag 10.10.)
+
+**Problem:** hochgebirge meldete, dass Alpenrose, Zwergstrauch und Grasbüschel über 430/470 m fehlen (absolutes `hoehe_max_m`) und
+Heide unter Bergwald-Kiefern landen kann. Zusätzlich dämpfte die Mittelschicht pauschal ab 350 m (0 ab 650 m).
+
+**Wie hochgebirge rechnet** (`hochgebirge_plan.py`, `hoehenstufen()`):
+- Baum- und Schneegrenze je Biom (gletscher 230/370 m, frost 180/280 m, …).
+- Verschoben um Exposition ±45 m, Steilhang −30 m, Grat −40 m, Wertrauschen ±35 m (320-m-Gitter) und Schlucht +70 m.
+- Stufen: bergwald < Baumgrenze − 60 ≤ krummholz < + 40 ≤ matte < Schneegrenze ≤ fels/schnee. Lage Schnee ≥ 0,55 bzw. Eis ≥ 0,4 zählt als fels/schnee.
+
+**Umsetzung:** `mittelschicht_plan.py` rechnet dasselbe, mit Hash, Rauschen und Glättung aus hochgebirge portiert. Die Parameter liest
+es aus `hochgebirge_regeln.json` (`hoehenstufen`, `glaettung`, `seed`; neben der Regeldatei oder `../hochgebirge/`, sonst Vorgabe), aber
+nur, wenn eine Klasse sie nutzt. Neue optionale Klassenschlüssel, auch in `parameter`/`zusatzklassen` (KONVENTIONEN §6, eine Zeile):
+- `stufe` [min, max];
+- `stufen` [f0, f1, f2, f3] (Dichtefaktor je Stufe);
+- `hoehe_rel_baumgrenze_m` [min, max] (Abstand zur lokalen Baumgrenze);
+- `hoehe_min_m` (absolut).
+
+Mit einer der drei relativen Angaben entfällt der pauschale Abfall ab 350 m. Absolute `hoehe_max_m`/`hoehe_m` wirken weiter: bestehende
+Regeln ändern sich nicht. Für reine Stufensteuerung setzt hochgebirge `hoehe_max_m` auf 9999. Eine fenster-relative Höhe (Feld-Min/Max)
+gibt es bewusst nicht, sie erzeugt Nahtsprünge zwischen Nachbarfeldern; Baumgrenze und Stufen sind stetig.
+
+**Rauchtest D2/E2** (synthetischer Bergrücken 40–650 m, gletscher/tundra, Schnee über 520 m).
+
+Vorher (absolut 430/470 m):
+
+| Feld | Instanzen | Alpenrose in Stufe 0/1/2/3 | Beere in Stufe 0 |
+|---|---|---|---|
+| D2 | 30 112 | 1 481 / 946 / 1 045 / 144 | 3 129 |
+| E2 | 38 124 | 5 191 / 3 405 / 2 573 / 528 | 5 328 |
+
+Nachher (Variante `beere.stufe [1, 2]`, `grasbueschel.stufen [0.3, 1, 1, 0.2]`, `alpenrose.hoehe_rel_baumgrenze_m [−60, 120]`, `hoehe_max_m` 9999):
+
+| Feld | Instanzen | Alpenrose in Stufe 0/1/2/3 | Beere in Stufe 0 |
+|---|---|---|---|
+| D2 | 21 696 | 0 / 935 / 909 / 0 | 991 (Tundra-Palette ohne Stufenangabe) |
+| E2 | 21 279 | 0 / 3 373 / 2 307 / 0 | 0 |
+
+Damit steht die Alpenrose nur noch im Krummholz und auf der Matte, nicht mehr unter dem Bergwald. Bestätigt: zwei Läufe
+byteidentisch, ASCII-Logs, 3–5 s je Feld. Die Stufenanteile im Log stimmen mit dem hochgebirge-Rechenweg überein
+(E2: bergwald 27 %, krummholz 20 %, matte 18 %, fels/schnee 35 %).
+Hochgebirge muss `hoehe_max_m` in seinen `mittelschicht_overrides` noch auf Stufenangaben umstellen.
 
 ## Quellen
 

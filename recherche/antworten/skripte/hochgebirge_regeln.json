@@ -1342,7 +1342,7 @@
     "fremd_abdunkeln": 0.4
   },
   "mittelschicht_overrides": {
-    "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen §4: generische Schicht-1-Klassen in gletscher/frost setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b] vor flachem Block vor mittelschicht_regeln.json['biome'][b]. palette ersetzt die Netzliste, faktor multipliziert die mittelschicht-Dichte (0 = Klasse aus), parameter ueberschreibt einzelne Klassenschluessel, zusatzklassen = neue Klasse im Klassenformat von mittelschicht_regeln.json. Faktoren = bisherige Hochgebirgs-Dichte / mittelschicht-Dichte (offen), auf 0-3 begrenzt. Netze der Sonderformen (Latsche, Krueppelkiefer, Polster, windgeformtes Totholz, Wurzelteller, Eiszapfen) stehen in keiner Palette (keine Doppelung). hoehe_max_m ist absolut: Richtwert Schneegrenze + 60 m (gletscher 370, frost 280).",
+    "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen §4: generische Schicht-1-Klassen in gletscher/frost setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b] vor flachem Block vor mittelschicht_regeln.json['biome'][b]. palette ersetzt die Netzliste, faktor multipliziert die mittelschicht-Dichte (0 = Klasse aus), parameter ueberschreibt einzelne Klassenschluessel, zusatzklassen = neue Klasse im Klassenformat von mittelschicht_regeln.json. Faktoren = bisherige Hochgebirgs-Dichte / mittelschicht-Dichte (offen), auf 0-3 begrenzt. Netze der Sonderformen (Latsche, Krueppelkiefer, Polster, windgeformtes Totholz, Wurzelteller, Eiszapfen) stehen in keiner Palette (keine Doppelung). Hoehen relativ ueber Hoehenstufen (KONVENTIONEN §6, seit 10.10.): beere/grasbueschel per stufen [bergwald, krummholz, matte, fels/schnee], alpenrose per stufe [1, 2]; hoehe_max_m 9999 (vorher absolut 430/470).",
     "gilt_fuer": [
       "gletscher",
       "frost"
@@ -1384,7 +1384,8 @@
     },
     "parameter": {
       "beere": {
-        "hoehe_max_m": 430,
+        "hoehe_max_m": 9999,
+        "stufen": [0.4, 1.0, 1.0, 0.1],
         "hang_max": 40,
         "gruppe": [
           6,
@@ -1402,7 +1403,8 @@
         }
       },
       "grasbueschel": {
-        "hoehe_max_m": 470,
+        "hoehe_max_m": 9999,
+        "stufen": [0.5, 1.0, 1.0, 0.3],
         "hang_max": 40,
         "gruppe": [
           4,
@@ -1461,7 +1463,8 @@
           1.0
         ],
         "hang_max": 40,
-        "hoehe_max_m": 430,
+        "hoehe_max_m": 9999,
+        "stufe": [1, 2],
         "lichtungsrand": 1.0,
         "laengs_hang": false,
         "an_baum": false,

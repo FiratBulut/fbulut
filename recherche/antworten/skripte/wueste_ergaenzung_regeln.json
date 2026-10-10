@@ -1166,29 +1166,46 @@
   "hart_instanzen_je_feld": 60000
  },
  "erwartung_je_feld": {
+  "hinweis": "Korrektur Runde 1: nur noch diese Ebene (Schicht 0, Sonderformen 1, Baeume 2, Wasserkante 5). Spannen = Runde-0-Spannen x 0,25-0,35 (synthetisch E6 12 675 statt 49 993, D4 4 158 statt 12 631, D6 7 523 statt 27 250). Generische Mittelschicht kommt zusaetzlich von Teil D (synthetisch E6 oedland ~28 000, D4 canyon+wueste ~6 700). UNGETESTET MIT ECHTDATEN, mit --faktor nachjustieren.",
+  "A5": {
+   "gesamt": [
+    0,
+    0
+   ],
+   "hinweis": "kueste/bergwald/aue: leerer Plan (Echtlauf 10.10. alte Fassung: 0)"
+  },
+  "G4": {
+   "gesamt": [
+    0,
+    0
+   ],
+   "hinweis": "elfenwald/heide: leerer Plan"
+  },
+  "E1": {
+   "gesamt": [
+    0,
+    0
+   ],
+   "hinweis": "gletscher: leerer Plan"
+  },
+  "C6": {
+   "gesamt": [
+    0,
+    300
+   ],
+   "hinweis": "lava 99 %: leerer Plan, ausser oedland-Zellen von D6 liegen im 64-m-Rand (> 2 %) - dann nur 30-m-Saum am Ostrand"
+  },
   "E6": {
    "gesamt": [
-    38000,
-    55000
+    10000,
+    17000
    ],
    "kollision": [
-    250,
-    600
+    100,
+    400
    ],
    "kiesel": [
-    4000,
-    9000
-   ],
-   "trockengras_hoch": [
-    12000,
-    20000
-   ],
-   "trockengras_niedrig": [
-    6000,
-    11000
-   ],
-   "zweige": [
-    4000,
+    3000,
     8000
    ],
    "dornstrauch": [
@@ -1208,7 +1225,7 @@
     120
    ],
    "schilf_rest": [
-    40,
+    20,
     600
    ],
    "gras_gruen": [
@@ -1216,81 +1233,87 @@
     2500
    ]
   },
+  "D6": {
+   "gesamt": [
+    6000,
+    11000
+   ],
+   "hinweis": "oedland 61 %; lava/aue nur im 30-m-Saum"
+  },
   "E7": {
    "gesamt": [
-    3000,
-    8000
+    1000,
+    2500
    ],
    "hinweis": "nur 13 % Land, Sand 80 %"
   },
-  "D6": {
-   "gesamt": [
-    20000,
-    38000
-   ],
-   "hinweis": "oedland 61 %, lava 26 % (Faktor 0), aue 13 % (Faktor 0)"
-  },
   "F6": {
    "gesamt": [
-    1000,
-    4000
+    300,
+    1200
    ],
    "hinweis": "oedland 4 %"
   },
+  "F7": {
+   "gesamt": [
+    200,
+    800
+   ],
+   "hinweis": "oedland 3 %"
+  },
   "D4": {
    "gesamt": [
-    10000,
-    15000
+    3500,
+    5500
    ],
    "kollision": [
-    80,
-    400
+    30,
+    150
    ],
-   "hinweis": "Wüstenfeld: Ergänzung, Budget 15 000; canyon 60 % + wueste 27 %"
+   "hinweis": "Wuestenfeld: Ergaenzung (Schicht 0/2/5), Budget 15 000; canyon 60 % + wueste 27 %"
   },
   "E4": {
    "gesamt": [
-    4000,
-    12000
+    1500,
+    4000
    ],
-   "hinweis": "Wüstenfeld, wueste 79 %: Totholz, Steine, Trockengras 0,35, Oasen"
+   "hinweis": "Wuestenfeld, wueste 79 %"
   },
   "C4": {
    "gesamt": [
-    2000,
-    7000
+    700,
+    2500
    ],
-   "hinweis": "Wüstenfeld, canyon 19 %"
+   "hinweis": "Wuestenfeld, canyon 19 %"
   },
   "D3": {
    "gesamt": [
-    2000,
-    7000
+    700,
+    2500
    ],
-   "hinweis": "Wüstenfeld, canyon 15 % + wueste 11 %"
+   "hinweis": "Wuestenfeld, canyon 15 % + wueste 11 %"
   },
   "E3": {
    "gesamt": [
-    2000,
-    7000
+    700,
+    2500
    ],
-   "hinweis": "Wüstenfeld, wueste 32 %, Schnee 17 % (Faktor 0,15)"
+   "hinweis": "Wuestenfeld, wueste 32 %, Schnee 17 % (Faktor 0,15)"
   },
   "D5": {
    "gesamt": [
-    1500,
-    5000
+    500,
+    1700
    ],
-   "hinweis": "Wüstenfeld, oedland 19 %"
+   "hinweis": "Wuestenfeld, oedland 19 %"
   },
   "E5": {
    "gesamt": [
-    500,
-    2500
+    200,
+    800
    ],
-   "hinweis": "Wüstenfeld, oedland 7 %"
-  },
-  "hinweis": "Spannen aus Lagenanteilen (biome_je_feld.md) × Dichten, nach Rauchtest 10.10. (synthetisch D4 14 998, E6 49 966 vor/nach Deckel) kalibriert; UNGETESTET MIT ECHTDATEN, mit --faktor nachjustieren. Rohsumme über Ziel → deterministische Ausdünnung (ausduenn_reihenfolge), protokolliert in plan.json[\"hinweise\"]."
+   "hinweis": "Wuestenfeld, oedland 7 %"
+  }
  },
  "felsgruppen_overrides": {
   "hinweis": "Fuer felsgruppen_plan.py (Teil C, einziger Planer fuer Felsen > 0,8 m, Baender, Schuttfaecher, Geroellsaum) in wueste/canyon/oedland. Zusatzklassen nach KONVENTIONEN par. 6; terrassenkanten/felsnadel waren in Runde 0 Altstellen (felsgruppen_overrides.terrassenkanten/.felsnadel) und stehen jetzt unter zusatzklassen mit denselben Werten (felsgruppen liest beide Formen ueber dieselbe Funktion; zusatzklassen gewinnt). geroellplatte kam in Runde 0 aus diesem Planer (Schicht 0).",
@@ -2387,7 +2410,7 @@
    "name": "Canyon-Wand",
    "position_m": "Wandfuß der höchsten Steilstufe (Zelle mit max. wandfuss-Stärke), 12 m vor der Wand, Augenhöhe 1,7 m",
    "blick": "auf die Wand, 15° nach oben",
-   "erwartung": "Schuttfächer: Steine groß am Fuß, kleiner hangabwärts; Terrassenkante mit Krüppelkiefer/Sukkulenten; kein Block ohne Bezug zur Rinne; Trockengras in den Rinnen gold"
+   "erwartung": "Schuttfaecher/Bloecke > 0,8 m, Terrassenkanten-Stuecke und Geroellplatten von Teil C (felsgruppen); von hier: Steine < 0,8 m und Kiesel in der Rinne, Krueppelkiefer/tote Baeume an der Terrassenkante; Trockengras-Bueschel von Teil D; WU-Straeucher unveraendert, kein Doppel"
   },
   {
    "feld": "E6",
