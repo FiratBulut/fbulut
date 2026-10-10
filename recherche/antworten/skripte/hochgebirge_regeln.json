@@ -1,7 +1,7 @@
 {
   "_doku": {
-    "stand": "2026-10-10",
-    "zweck": "Regelwerk Teil B4 Gletscher/Frost/Hochgebirge (Auftrag 11) für hochgebirge_plan.py. Alle Zahlen änderbar ohne Code. UNGETESTET MIT ECHTDATEN (Cloud: nur synthetischer Rauchtest D2).",
+    "stand": "2026-10-10 (Korrektur Runde 1)",
+    "zweck": "Regelwerk Teil B4 Gletscher/Frost/Hochgebirge (Auftrag 11) fuer hochgebirge_plan.py. Alle Zahlen aenderbar ohne Code. UNGETESTET MIT ECHTDATEN (Cloud: nur synthetische Rauchtests). Korrektur Runde 1 nach antworten/verteilung-KONVENTIONEN.md.",
     "einheiten": "Dichten = Instanzen je m² Rasterzelle VOR Faktoren; Höhen m; Hang Grad; Sichtweite cm; Maßstab Faktor; eingraben_anteil = Anteil der Netzhöhe (groesse_z aus netze.csv) bzw. eingraben_cm absolut.",
     "hoehenstufen": "0 bergwald (unter Baumgrenze −60 m) | 1 krummholz (Baumgrenze −60 … +40 m) | 2 matte (bis Schneegrenze) | 3 fels_schnee (über Schneegrenze oder lage_Schnee/Eis hoch). Baumgrenze/Schneegrenze = Basis je Biom + Exposition + Hang + Grat + Rauschen + Schlucht-Bonus (siehe 'hoehenstufen').",
     "stufen_faktor": "Je Klasse 4 Faktoren [bergwald, krummholz, matte, fels_schnee]; 0 = nie in dieser Stufe.",
@@ -11,9 +11,10 @@
     "gruppe": "Zellen-Saatwahrscheinlichkeit = dichte·Faktoren / mittlere Gruppengröße; jede Saat setzt n ∈ [n_lo, n_hi] Mitglieder im Radius (Mitglied 0 im Zentrum). Dichte bleibt damit die Instanzdichte.",
     "yaw": "zufall | hangab (Längsachse hangabwärts ±streuung) | wind (Längsachse in wind_richtung_grad ±streuung, Kippen in Windrichtung)",
     "pivot": "ANNAHME: Pivot aller Netze an der Bodenmitte (netze_masse.json wird für z-Versatz genutzt, wenn vorhanden: z −= min_z·Maßstab bei Netzen mit Pivot über dem Fuß).",
-    "rauchtest": "Synthetik D2 (Cloud, 10.10.): 44 107 Instanzen, 112 Netze, 1 207 Kollision, 4,1–5,2 s; zwei Läufe byteidentisch; J7/E1 ohne Land → leerer Plan mit Hinweis; fehlende hoehe.f32/netze.csv → klare Meldung."
+    "rauchtest": "siehe verteilung-hochgebirge.md, Abschnitt 'Korrektur Runde 1' (Rauchtest synthetisch D2/E2/C2/C6).",
+    "korrektur_runde1": "Zustaendigkeit strikt nach Biom-Zellen (biome_eigen gletscher/frost + 30-m-Saum, Kennzahl 0 = aue), leerer plan.json bei Eigenanteil < 2 %; Schicht 1 nur Sonderformen (latsche, krueppelkiefer, polster, totholz_wind, wurzelteller, eiszapfen); generische Klassen (alpenrose -> beere + zusatzklasse alpenrose, grasbueschel_alpin -> grasbueschel) stehen in mittelschicht_overrides; Bloecke > 0,8 m (flechtenblock, bach_block, wasserfall_block, geroellplatte, grosse Eiszapfen) stehen in felsgruppen_overrides.zusatzklassen (Schema Konventionen §6)."
   },
-  "stand": "2026-10-10",
+  "stand": "2026-10-10 (Korrektur Runde 1)",
   "thema": "hochgebirge",
   "seed": 4411,
   "fenster_rand_m": 64,
@@ -33,31 +34,31 @@
     "entfernen_vorschlag": "FT_EL_WIT_foliage_fern,FT_EL_WIT_maple_bush,FT_EL_WIT_grey_willow,FT_EL_WIT_plant_0",
     "entfernen_hinweis": "Standard leer: der Planer ERGÄNZT. Der Vorschlag entfernt Farn/Ahornbusch/Weide/Krautpflanzen der Witcher-Ebene nur in Feldern, die vollständig gletscher/frost sind (E1, F2); in Mischfeldern (C2 fjord 23 %, D2 tundra 47 %) nicht setzen, weil entfernen feldweit wirkt. Entscheidung siehe verteilung-hochgebirge.md §3."
   },
-  "biom_faktor": {
-    "gletscher": 1.0,
-    "frost": 1.0,
-    "tundra": 0.55,
-    "fjord": 0.4,
-    "bergwald": 0.3,
-    "aue": 0.0,
-    "canyon": 0.0,
-    "oedland": 0.0,
-    "heide": 0.0,
-    "elfenwald": 0.0,
-    "dschungel": 0.0,
-    "kueste": 0.0,
-    "wueste": 0.0,
-    "lava": 0.0,
-    "sumpf": 0.0
-  },
-  "kern_biome": [
+  "biome_eigen": [
     "gletscher",
     "frost"
   ],
-  "nicht_kern_nur_ab_stufe": 1,
-  "kern_biome_hinweis": "In Kernbiomen wirken alle Stufen. In tundra/fjord/bergwald (Teil B1/B3 planen dort den Wald) setzt dieser Planer nur Stufe ≥ 1 (Krummholz, Matte, Fels/Schnee), damit nichts doppelt geplant wird.",
+  "zustaendigkeit": {
+    "_doku": "Konventionen §1: Biom je Zelle aus eigner.r8 + welt.json (kacheln[k].rezept); Kennzahl 0 = Weltgelaende -> aue; Rezept mit 'vulkan'/'lava' -> lava; unbekanntes Rezept -> aue (Hinweis im Log). Nur wenn eigner.r8 oder welt.json fehlt: dominantes Feldbiom aus daten/biome_je_feld.json fuer das ganze Fenster; fehlt auch das: eigner0-Regel (aue, steile/hohe Zellen gletscher). Bebaut werden Zellen mit Biom in biome_eigen plus Saum saum_m nach aussen (exakte euklidische Distanz, Dichtefaktor linear 1 -> 0); im Saum gelten Baum-/Schneegrenze und biom_faktor des naechsten eigenen Bioms. Eigenanteil im Fenster < min_anteil_eigen oder keine zustaendige Landzelle im Feld -> leerer plan.json (instanzen 0, keine f32), Exit 0.",
+    "saum_m": 30,
+    "min_anteil_eigen": 0.02,
+    "rezept_alias": {
+      "vulkan": "lava",
+      "glet": "gletscher",
+      "firn": "gletscher",
+      "schnee": "gletscher",
+      "wald": "bergwald",
+      "welt": "aue"
+    },
+    "rezept_alias_hinweis": "Reihenfolge der Aufloesung: exakter Biomname, Biomname als Teilwort (laengster zuerst), dann diese Teilwoerter; sonst aue."
+  },
+  "biom_faktor": {
+    "gletscher": 1.0,
+    "frost": 1.0
+  },
+  "biom_faktor_hinweis": "Dichtefaktor je eigenem Biom (im Saum: naechstes eigenes Biom) x Zustaendigkeit (1 innen, linear 0 bei 30 m). Fremde Biome (tundra, fjord, bergwald, ...) plant dieser Planer nicht mehr (bisher 0,3-0,55).",
   "eigner0": {
-    "hinweis": "eigner.r8 = 0 (Weltgelände) → dominantes Biom des Feldes aus daten/biome_je_feld.json; fehlt sie: aue (dann plant dieser Planer nichts) außer Zellen ≥ fallback_hang_grad oder ≥ fallback_hoehe_m → fallback_biom.",
+    "hinweis": "Nur wenn eigner.r8/welt.json UND daten/biome_je_feld.json fehlen: Biom aue, ausser Zellen >= fallback_hang_grad oder >= fallback_hoehe_m -> fallback_biom (Hinweis im Log).",
     "fallback_hang_grad": 25,
     "fallback_hoehe_m": 220,
     "fallback_biom": "gletscher"
@@ -152,35 +153,65 @@
     "gletscherbach_ab_stufe": 2,
     "hinweis": "Wasserzellen mit Hang ≥ 18° = Wasserfall/Kaskade; Fuß = Zellen ≤ 10 m davon mit Hang < 25° (nicht Wasser). Gletscherbach = Wasser in Stufe ≥ 2; Saum kante_bis_m um ihn zählt als Eiswand-Zone (Eiszapfen an Bachkanten ≥ 55°)."
   },
+  "ebenen_abgrenzung": {
+    "_doku": "Konventionen §4: generische Mittelschicht-Klassen setzt nur mittelschicht_plan.py (Werte in mittelschicht_overrides), Felsen > 0,8 m nur felsgruppen_plan.py (felsgruppen_overrides.zusatzklassen), Spuren nur spuren_plan.py. Der Planer ueberspringt Klassen mit diesen Namen/Rollen mit WARNUNG und meldet Stein-/Kiesel-/Plattennetze, deren Hoehe x max. Massstab fels_max_hoehe_m uebersteigt.",
+    "generisch_mittelschicht": [
+      "strauch",
+      "jungbaum",
+      "farn",
+      "totholz_liegend",
+      "totholz_stumpf",
+      "totholz_ast",
+      "hochstaude",
+      "grasbueschel",
+      "beere",
+      "pilz"
+    ],
+    "fels_rollen": [
+      "block",
+      "hero",
+      "fels_block",
+      "fels_hero",
+      "wand",
+      "band"
+    ],
+    "fels_max_hoehe_m": 0.8,
+    "schicht1_sonderformen": [
+      "latsche",
+      "krueppelkiefer",
+      "polster",
+      "totholz_wind",
+      "wurzelteller",
+      "eiszapfen"
+    ]
+  },
   "budget": {
+    "_doku": "Konventionen §3 (hart): <= instanzen_je_feld fuer die ganze Ebene hochgebirge/ (alle Schichten), davon <= kollision_je_feld mit Kollision. Erst Klassen-Budget (budget je Klasse), dann Feld-Ziel ziel_instanzen_je_feld: von der niedrigsten Prioritaet aufwaerts Klassen sammeln, bis 60 % ihrer Summe den Ueberschuss decken, diese gleichmaessig (floor, Hash-Rang) ausduennen; dann Kollision: alle Kollisionsinstanzen proportional auf kollision_je_feld. Jede Ausduennung: WARNUNG im Log + Eintrag in plan.json hinweise. Kleinzeug-Klassen in kleinzeug_an_gras: Hinweis, die Deckung ueber die Landschafts-Grasart abzudecken.",
     "instanzen_je_feld": 60000,
-    "ziel_instanzen_je_feld": 52000,
+    "ziel_instanzen_je_feld": 50000,
     "kollision_je_feld": 3000,
     "kollision_ab_hoehe_m": 0.8,
     "prioritaet": [
-      "wasserfall_block",
       "totbaum_grenze",
       "schluchtwald",
       "krummholz_baum",
       "bergwald_kiefer",
-      "wurzelteller",
       "krueppelkiefer",
       "latsche",
-      "bach_block",
-      "flechtenblock",
-      "geroellplatte",
+      "wurzelteller",
       "eiszapfen",
-      "alpenrose",
       "totholz_wind",
-      "bach_moosstein",
       "polster",
-      "grasbueschel_alpin",
+      "bach_moosstein",
       "schneefleck",
       "flechtenstein",
       "bach_kiesel",
       "kiesel_schutt"
     ],
-    "hinweis": "Erst Klassen-Budget (je Klasse), dann Gesamt: Klassen von hinten (niedrigste Priorität) deterministisch per Instanz-Hash ausdünnen, bis ziel erreicht; Kollision ebenso auf 3 000."
+    "kleinzeug_an_gras": {
+      "kiesel_schutt": "GT_Steinchen",
+      "bach_kiesel": "GT_Steinchen"
+    }
   },
   "klassen": {
     "kiesel_schutt": {
@@ -325,9 +356,7 @@
       "gruppe_name": "schneefleck",
       "netze": [
         "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0",
-        "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Medium/xjijdiz_tier_2/StaticMeshes/xjijdiz_tier_2",
-        "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
-        "/Game/Meshes/_GENERATED/RockFormation/SM_NordicBeach_02"
+        "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Medium/xjijdiz_tier_2/StaticMeshes/xjijdiz_tier_2"
       ],
       "dichte_je_m2": 0.035,
       "stufen": [
@@ -375,68 +404,7 @@
       "kollision": false,
       "schatten": true,
       "budget": 6000,
-      "hinweis": "Schnee-Sims-Kleinzeug: flache Steinplatten, die aus Schneeflecken ragen; nur auf Flächen < 32° (Schnee bleibt auf Simsen liegen)."
-    },
-    "geroellplatte": {
-      "ebene": 0,
-      "rolle": "platte",
-      "gruppe_name": "schuttfaecher",
-      "netze": [
-        "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
-        "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01",
-        "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Raw/xjijdiz_tier_0/StaticMeshes/xjijdiz_tier_0"
-      ],
-      "dichte_je_m2": 0.004,
-      "stufen": [
-        0.1,
-        0.5,
-        1.0,
-        0.8
-      ],
-      "lagen": {
-        "Geroell": 2.5,
-        "Fels": 1.4,
-        "Kies": 1.5,
-        "Schnee": 0.6,
-        "Eis": 0.2,
-        "Trockengras": 0.4,
-        "Heide": 0.3,
-        "Wiese": 0.1
-      },
-      "hang_min_grad": 14,
-      "hang": [
-        36,
-        46
-      ],
-      "exposition": [
-        1.0,
-        1.0
-      ],
-      "gruppe": {
-        "n": [
-          1,
-          3
-        ],
-        "radius_m": 5.0
-      },
-      "weg": "gross",
-      "massstab": [
-        0.8,
-        1.25
-      ],
-      "nicht_uniform": 0.2,
-      "eingraben_anteil": 0.45,
-      "kippen": 1.0,
-      "yaw": "hangab",
-      "yaw_streuung_grad": 25,
-      "sichtweite": [
-        0,
-        30000
-      ],
-      "kollision": false,
-      "schatten": true,
-      "budget": 1500,
-      "hinweis": "Schuttfächer-Platten 2–6 m auf Hängen 14–46° (Schutthalden liegen bei 30–38°, Wikipedia Scree/Bithell 2014); Längsachse hangabwärts."
+      "hinweis": "Schnee-Sims-Kleinzeug: flache Steinplatten (<= 2 m, Hoehe <= 0,41 m), die aus Schneeflecken ragen; nur auf Flaechen < 32 Grad. Die 3,5-m-Platten (NordicBeach) stehen jetzt in felsgruppen_overrides.zusatzklassen.moraene."
     },
     "latsche": {
       "ebene": 1,
@@ -511,7 +479,8 @@
       "kollision": false,
       "schatten": true,
       "budget": 7000,
-      "hinweis": "Latschen-/Legföhren-Gürtel: dichte Inseln 3–9 Stück, Südhang dichter; kein Nanite (Mountain_Environment_Set) → Sichtweite 350 m."
+      "hinweis": "Latschen-/Legföhren-Gürtel: dichte Inseln 3–9 Stück, Südhang dichter; kein Nanite (Mountain_Environment_Set) → Sichtweite 350 m. Sonderform Schicht 1 (Konventionen §4).",
+      "sonderform": true
     },
     "krueppelkiefer": {
       "ebene": 1,
@@ -570,80 +539,8 @@
       "kollision": true,
       "schatten": true,
       "budget": 1500,
-      "hinweis": "Windschiefe Krüppelkiefern an der Baumgrenze, Längsachse in Windrichtung, 6–18° in den Wind gekippt. Kollision nur crooked_01 (3,4 m, ≥ 0,8 m)."
-    },
-    "alpenrose": {
-      "ebene": 1,
-      "rolle": "bodendecker",
-      "gruppe_name": "alpenrose",
-      "netze": [
-        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_01",
-        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_02",
-        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01",
-        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01",
-        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_01",
-        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03"
-      ],
-      "gewichte": [
-        3,
-        3,
-        2,
-        2,
-        1,
-        1
-      ],
-      "dichte_je_m2": 0.05,
-      "stufen": [
-        0.3,
-        1.0,
-        1.0,
-        0.1
-      ],
-      "lagen": {
-        "Heide": 1.7,
-        "Trockengras": 1.0,
-        "Moos": 1.1,
-        "Wiese": 0.8,
-        "Gras": 0.8,
-        "Fels": 0.3,
-        "Felsplatte": 0.1,
-        "Geroell": 0.5,
-        "Schnee": 0.2,
-        "Eis": 0.0,
-        "Sand": 0.4
-      },
-      "hang": [
-        34,
-        40
-      ],
-      "exposition": [
-        1.25,
-        0.8
-      ],
-      "gruppe": {
-        "n": [
-          6,
-          16
-        ],
-        "radius_m": 3.0
-      },
-      "weg": "klein",
-      "massstab": [
-        0.9,
-        1.4
-      ],
-      "nicht_uniform": 0.1,
-      "eingraben_cm": 3,
-      "kippen": 0.5,
-      "yaw": "zufall",
-      "sichtweite": [
-        0,
-        12000
-      ],
-      "kollision": false,
-      "schatten": false,
-      "budget": 10000,
-      "hinweis": "Alpenrosen-Ersatz (SM_rhododendron) + Heide/Preiselbeere: Zwergstrauchheide über der Baumgrenze, Nordhang dichter (lange Schneedecke)."
+      "hinweis": "Windschiefe Krüppelkiefern an der Baumgrenze, Längsachse in Windrichtung, 6–18° in den Wind gekippt. Kollision nur crooked_01 (3,4 m, ≥ 0,8 m). Sonderform Schicht 1.",
+      "sonderform": true
     },
     "polster": {
       "ebene": 1,
@@ -704,85 +601,8 @@
       "kollision": false,
       "schatten": false,
       "budget": 6000,
-      "hinweis": "Polsterpflanzen in Felsritzen und auf Schutt (Fels/Geröll-Lagen bevorzugt)."
-    },
-    "grasbueschel_alpin": {
-      "ebene": 1,
-      "rolle": "grasbueschel",
-      "gruppe_name": "grasbueschel",
-      "netze": [
-        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarA",
-        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
-        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
-        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarD",
-        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
-        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
-        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarH",
-        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
-        "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03"
-      ],
-      "gewichte": [
-        2,
-        2,
-        2,
-        1,
-        2,
-        2,
-        1,
-        1,
-        1
-      ],
-      "dichte_je_m2": 0.06,
-      "stufen": [
-        0.5,
-        1.0,
-        1.0,
-        0.1
-      ],
-      "lagen": {
-        "Trockengras": 1.6,
-        "Wiese": 1.3,
-        "Gras": 1.2,
-        "Heide": 0.8,
-        "Moos": 0.7,
-        "Fels": 0.3,
-        "Felsplatte": 0.1,
-        "Geroell": 0.4,
-        "Schnee": 0.1,
-        "Eis": 0.0,
-        "Sand": 0.5
-      },
-      "hang": [
-        34,
-        40
-      ],
-      "exposition": [
-        0.8,
-        1.2
-      ],
-      "gruppe": {
-        "n": [
-          4,
-          12
-        ],
-        "radius_m": 2.5
-      },
-      "weg": "klein",
-      "massstab": [
-        0.8,
-        1.3
-      ],
-      "nicht_uniform": 0.1,
-      "eingraben_cm": 3,
-      "kippen": 0.4,
-      "yaw": "zufall",
-      "sichtweite": [
-        0,
-        12000
-      ],
-      "kollision": false,
-      "schatten": false,
-      "budget": 12000
+      "hinweis": "Polsterpflanzen in Felsritzen und auf Schutt (Fels/Geröll-Lagen bevorzugt). Sonderform Schicht 1.",
+      "sonderform": true
     },
     "totholz_wind": {
       "ebene": 1,
@@ -802,7 +622,7 @@
       ],
       "dichte_je_m2": 0.004,
       "stufen": [
-        0.6,
+        0.0,
         1.0,
         0.3,
         0.05
@@ -848,7 +668,8 @@
       "kollision": false,
       "schatten": true,
       "budget": 2000,
-      "hinweis": "Windgeformtes Totholz (sturmgebrochene Äste, Stammstücke, Stümpfe) um die Baumgrenze; Stämme quer bis längs zum Hang."
+      "hinweis": "Sonderform: windgeformtes Totholz (sturmgebrochene Aeste, Stammstuecke, Stuempfe) im Krummholzguertel um die Baumgrenze; unterhalb (Stufe bergwald) setzt mittelschicht_plan.py das generische Totholz (mittelschicht_overrides.faktor).",
+      "sonderform": true
     },
     "wurzelteller": {
       "ebene": 1,
@@ -862,7 +683,7 @@
       ],
       "dichte_je_m2": 0.0008,
       "stufen": [
-        0.5,
+        0.0,
         1.0,
         0.2,
         0.0
@@ -907,71 +728,9 @@
       ],
       "kollision": true,
       "schatten": true,
-      "budget": 300
-    },
-    "flechtenblock": {
-      "ebene": 1,
-      "rolle": "block",
-      "gruppe_name": "flechtenblock",
-      "netze": [
-        "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
-        "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_2",
-        "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5",
-        "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
-        "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
-        "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
-        "/Game/Fab/Megascans/3D/Granite_Rock_pjtsT/Raw/pjtsT_tier_0/StaticMeshes/pjtsT_tier_0"
-      ],
-      "dichte_je_m2": 0.012,
-      "stufen": [
-        0.4,
-        0.8,
-        1.0,
-        0.8
-      ],
-      "lagen": {
-        "Fels": 1.4,
-        "Felsplatte": 1.2,
-        "Geroell": 1.5,
-        "Kies": 1.0,
-        "Heide": 0.8,
-        "Trockengras": 0.8,
-        "Schnee": 0.5,
-        "Eis": 0.2,
-        "Wiese": 0.4
-      },
-      "hang": [
-        38,
-        55
-      ],
-      "exposition": [
-        1.0,
-        1.0
-      ],
-      "gruppe": {
-        "n": [
-          2,
-          5
-        ],
-        "radius_m": 2.5
-      },
-      "weg": "gross",
-      "massstab": [
-        0.7,
-        1.3
-      ],
-      "nicht_uniform": 0.2,
-      "eingraben_anteil": 0.35,
-      "kippen": 1.0,
-      "yaw": "zufall",
-      "sichtweite": [
-        0,
-        35000
-      ],
-      "kollision": true,
-      "schatten": true,
-      "budget": 4000,
-      "hinweis": "Flechtensteine/Blöcke 0,5–1 m als Mittelschicht-Ersatz über der Baumgrenze (Taxonomie: 'dort Felsen 0,3–3 m als Ersatz'). Kollision nur Netze ≥ 0,8 m."
+      "budget": 300,
+      "hinweis": "Sonderform: Windwurf-Wurzelteller an der Baumgrenze (mittelschicht_regeln.zusatzklassen_eigen: hochgebirge setzt Wurzeln selbst). Kollision nur Netze >= 0,8 m.",
+      "sonderform": true
     },
     "bergwald_kiefer": {
       "ebene": 2,
@@ -1250,68 +1009,6 @@
       "budget": 300,
       "hinweis": "Wetterharte Totbäume (Megascans DeadTree, Nanite) an der Baumgrenze – Silhouetten gegen den Himmel (Blickziel-Akzent)."
     },
-    "bach_block": {
-      "ebene": 5,
-      "rolle": "block",
-      "gruppe_name": "bachblock",
-      "netze": [
-        "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
-        "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
-        "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xf3odif/Raw/xf3odif_tier_0/StaticMeshes/xf3odif_tier_0",
-        "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
-        "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0"
-      ],
-      "wasser_band_m": [
-        0,
-        4
-      ],
-      "dichte_je_m2": 0.05,
-      "stufen": [
-        1.0,
-        1.0,
-        1.0,
-        0.7
-      ],
-      "lagen": {
-        "Fels": 1.3,
-        "Geroell": 1.4,
-        "Kies": 1.3,
-        "Schnee": 0.7,
-        "Eis": 0.6
-      },
-      "hang": [
-        40,
-        55
-      ],
-      "exposition": [
-        1.0,
-        1.0
-      ],
-      "gruppe": {
-        "n": [
-          1,
-          3
-        ],
-        "radius_m": 2.5
-      },
-      "weg": "gross",
-      "massstab": [
-        0.8,
-        1.4
-      ],
-      "nicht_uniform": 0.2,
-      "eingraben_anteil": 0.35,
-      "kippen": 1.0,
-      "yaw": "zufall",
-      "sichtweite": [
-        0,
-        40000
-      ],
-      "kollision": true,
-      "schatten": true,
-      "budget": 2500,
-      "hinweis": "Nasse Blöcke 0,9–1,5 m im Gletscherbach-Saum 0–4 m (Steine ragen aus dem Wasser, ANALYSE_WITCHER Punkt 8)."
-    },
     "bach_moosstein": {
       "ebene": 5,
       "rolle": "stein",
@@ -1436,71 +1133,8 @@
       "schatten": false,
       "budget": 8000
     },
-    "wasserfall_block": {
-      "ebene": 5,
-      "rolle": "hero",
-      "gruppe_name": "wasserfallfuss",
-      "netze": [
-        "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
-        "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
-        "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
-        "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0"
-      ],
-      "gewichte": [
-        1,
-        2,
-        2,
-        2
-      ],
-      "nur_wasserfall_fuss": true,
-      "dichte_je_m2": 0.03,
-      "stufen": [
-        1.0,
-        1.0,
-        1.0,
-        1.0
-      ],
-      "lagen": {
-        "Fels": 1.2,
-        "Geroell": 1.2,
-        "Schnee": 0.8,
-        "Eis": 0.8
-      },
-      "hang": [
-        30,
-        45
-      ],
-      "exposition": [
-        1.0,
-        1.0
-      ],
-      "gruppe": {
-        "n": [
-          1,
-          3
-        ],
-        "radius_m": 4.0
-      },
-      "weg": "gross",
-      "massstab": [
-        0.7,
-        1.2
-      ],
-      "nicht_uniform": 0.2,
-      "eingraben_anteil": 0.4,
-      "kippen": 1.0,
-      "yaw": "zufall",
-      "sichtweite": [
-        0,
-        0
-      ],
-      "kollision": true,
-      "schatten": true,
-      "budget": 300,
-      "hinweis": "Sturzblöcke am Wasserfallfuß (Zellen ≤ 10 m unter steilen Wasserzellen)."
-    },
     "eiszapfen": {
-      "ebene": 5,
+      "ebene": 1,
       "rolle": "eis",
       "gruppe_name": "eiszapfen",
       "netze": [
@@ -1568,7 +1202,8 @@
       "kollision": false,
       "schatten": true,
       "budget": 1500,
-      "hinweis": "Eiszapfen (Eldarien-Paket) an Wänden ≥ 55° über der Schneegrenze und an Wasserfall-Kanten; Nordwand bevorzugt. ANNAHME: Pivot am oberen Ende, Netz hängt nach −z → z = Gelände + 0,85·Netzhöhe·Maßstab (hängt von der Wand). Bitte am ersten Feld prüfen und z_versatz_anteil anpassen."
+      "hinweis": "Sonderform (Eis, kein Fels): Eiszapfen 0,8-2,6 m (Eldarien-Paket) an Waenden >= 55 Grad ueber der Schneegrenze und an Gletscherbach-/Wasserfall-Kanten; Nordwand bevorzugt; jetzt Schicht 1 (bisher 5). Grosse Eisvorhaenge (EISZAPFEN_4/8/9, 2-3 m) setzt felsgruppen (zusatzklassen.eis). ANNAHME: Pivot am oberen Ende, Netz haengt nach -z -> z = Gelaende + 0,85*Netzhoehe*Massstab. Bitte am ersten Feld pruefen.",
+      "sonderform": true
     }
   },
   "bild_farben": {
@@ -1634,11 +1269,6 @@
       255,
       255
     ],
-    "geroellplatte": [
-      120,
-      100,
-      70
-    ],
     "latsche": [
       0,
       110,
@@ -1649,20 +1279,10 @@
       70,
       20
     ],
-    "alpenrose": [
-      220,
-      60,
-      120
-    ],
     "polster": [
       120,
       200,
       120
-    ],
-    "grasbueschel_alpin": [
-      200,
-      190,
-      60
     ],
     "totholz_wind": [
       120,
@@ -1673,11 +1293,6 @@
       90,
       50,
       10
-    ],
-    "flechtenblock": [
-      230,
-      200,
-      90
     ],
     "bergwald_kiefer": [
       0,
@@ -1699,11 +1314,6 @@
       120,
       0
     ],
-    "bach_block": [
-      0,
-      150,
-      220
-    ],
     "bach_moosstein": [
       40,
       160,
@@ -1714,11 +1324,6 @@
       200,
       240
     ],
-    "wasserfall_block": [
-      255,
-      0,
-      0
-    ],
     "eiszapfen": [
       60,
       60,
@@ -1728,10 +1333,181 @@
       20,
       40,
       120
-    ]
+    ],
+    "saum": [
+      255,
+      150,
+      0
+    ],
+    "fremd_abdunkeln": 0.4
+  },
+  "mittelschicht_overrides": {
+    "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen §4: generische Schicht-1-Klassen in gletscher/frost setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b] vor flachem Block vor mittelschicht_regeln.json['biome'][b]. palette ersetzt die Netzliste, faktor multipliziert die mittelschicht-Dichte (0 = Klasse aus), parameter ueberschreibt einzelne Klassenschluessel, zusatzklassen = neue Klasse im Klassenformat von mittelschicht_regeln.json. Faktoren = bisherige Hochgebirgs-Dichte / mittelschicht-Dichte (offen), auf 0-3 begrenzt. Netze der Sonderformen (Latsche, Krueppelkiefer, Polster, windgeformtes Totholz, Wurzelteller, Eiszapfen) stehen in keiner Palette (keine Doppelung). hoehe_max_m ist absolut: Richtwert Schneegrenze + 60 m (gletscher 370, frost 280).",
+    "gilt_fuer": [
+      "gletscher",
+      "frost"
+    ],
+    "palette": {
+      "beere": [
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03"
+      ],
+      "grasbueschel": [
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarA",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarD",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarH",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
+        "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03"
+      ]
+    },
+    "faktor": {
+      "strauch": 0.0,
+      "jungbaum": 0.0,
+      "farn": 0.0,
+      "totholz_liegend": 3.0,
+      "totholz_stumpf": 0.0,
+      "totholz_ast": 0.5,
+      "hochstaude": 0.0,
+      "grasbueschel": 3.0,
+      "beere": 2.5,
+      "pilz": 0.0,
+      "wurzel": 0.0,
+      "kletter": 0.0,
+      "totbaum": 0.0,
+      "alpenrose": 1.0
+    },
+    "parameter": {
+      "beere": {
+        "hoehe_max_m": 430,
+        "hang_max": 40,
+        "gruppe": [
+          6,
+          16
+        ],
+        "radius_m": 3.0,
+        "lagen_faktor": {
+          "Heide": 1.7,
+          "Moos": 1.1,
+          "Fels": 0.3,
+          "Felsplatte": 0.1,
+          "Geroell": 0.5,
+          "Schnee": 0.2,
+          "Eis": 0.0
+        }
+      },
+      "grasbueschel": {
+        "hoehe_max_m": 470,
+        "hang_max": 40,
+        "gruppe": [
+          4,
+          12
+        ],
+        "radius_m": 2.5,
+        "lagen_faktor": {
+          "Trockengras": 1.6,
+          "Wiese": 1.3,
+          "Gras": 1.2,
+          "Fels": 0.3,
+          "Felsplatte": 0.1,
+          "Geroell": 0.4,
+          "Schnee": 0.1,
+          "Eis": 0.0
+        }
+      }
+    },
+    "zusatzklassen": {
+      "alpenrose": {
+        "biome": [
+          "gletscher",
+          "frost"
+        ],
+        "biom_faktor": {
+          "gletscher": 1.0,
+          "frost": 0.8
+        },
+        "netze": [
+          "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_01",
+          "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_02"
+        ],
+        "dichte": [
+          0.025,
+          0.012
+        ],
+        "gruppe": [
+          6,
+          16
+        ],
+        "radius_m": 3.0,
+        "massstab": [
+          0.9,
+          1.4
+        ],
+        "eingraben_cm": 3,
+        "kippen": 0.5,
+        "sichtweite": [
+          0,
+          12000
+        ],
+        "kollision": false,
+        "saum": 1.0,
+        "feuchte": [
+          1.0,
+          1.0
+        ],
+        "hang_max": 40,
+        "hoehe_max_m": 430,
+        "lichtungsrand": 1.0,
+        "laengs_hang": false,
+        "an_baum": false,
+        "lagen": {
+          "Heide": 1.7,
+          "Trockengras": 1.0,
+          "Moos": 1.1,
+          "Wiese": 0.8,
+          "Gras": 0.8,
+          "Fels": 0.3,
+          "Felsplatte": 0.1,
+          "Geroell": 0.5,
+          "Schnee": 0.2,
+          "Eis": 0.0,
+          "Sand": 0.4
+        },
+        "hinweis": "Alpenrosen-Ersatz (SM_rhododendron 0,4-0,5 m): Zwergstrauchheide ueber der Baumgrenze, bisher hochgebirge Klasse alpenrose (Rhododendron-Anteil 50 % von 0,05/m2). Kein Generikum in mittelschicht_regeln.json fuer gletscher/frost (strauch dort entfallen) -> Zusatzklasse."
+      }
+    },
+    "je_biom": {
+      "frost": {
+        "parameter": {
+          "beere": {
+            "hoehe_max_m": 340
+          },
+          "grasbueschel": {
+            "hoehe_max_m": 380
+          },
+          "alpenrose": {
+            "hoehe_max_m": 340
+          }
+        }
+      }
+    },
+    "herkunft": {
+      "beere": "alpenrose (Heide/Preisel-/Blaubeer-Netze, 50 % der Instanzen)",
+      "alpenrose": "alpenrose (Rhododendron-Netze, 50 % der Instanzen)",
+      "grasbueschel": "grasbueschel_alpin (0,06/m2 -> Faktor 6, auf 3 begrenzt)",
+      "totholz_liegend": "totholz_wind Anteil Stufe bergwald (0,6 x 0,004/m2, 40 % Staemme = 0,001/m2 -> Faktor 9,6, auf 3 begrenzt)",
+      "totholz_ast": "totholz_wind Anteil Stufe bergwald (40 % Aeste = 0,001/m2 / 0,002 -> 0,5)",
+      "strauch/jungbaum/farn/hochstaude/pilz/totholz_stumpf": "0: im Hochgebirge Sonderformen (Latsche, Krummholz) oder nicht vorgesehen",
+      "wurzel/kletter/totbaum": "0: Wurzelteller und Totbaeume setzt hochgebirge selbst (Schicht 1/2)"
+    }
   },
   "felsgruppen_overrides": {
-    "_hinweis": "Zum Einpflegen in felsgruppen_regeln.json (Teil C) für Zellen der Biome gletscher/frost – dieser Planer wendet sie NICHT selbst an. Schlüssel folgen felsgruppen_regeln.json.",
+    "_hinweis": "Fuer felsgruppen_plan.py (Teil C), gilt fuer Zellen der Biome gletscher/frost (+ Saum). Dieser Planer wendet den Block NICHT selbst an. biom_faktor/biom_palette/paletten_zusatz/schneegrenze/lagen/klassen/gruppe wie bisher (Schluessel aus felsgruppen_regeln.json); zusatzklassen nach Konventionen §6 (Pflicht: palette; Rest optional). Hoehenstufen-Bedingungen stehen in 'bedingung' (Doku): matte = ueber Baumgrenze + 40 m, fels_schnee = ueber Schneegrenze; Baum-/Schneegrenze siehe hochgebirge_regeln.hoehenstufen (gletscher 230/370 m, frost 180/280 m, +/- Exposition/Grat/Rauschen).",
     "biom_faktor": {
       "gletscher": 1.3,
       "frost": 1.1
@@ -1756,11 +1532,6 @@
         "platte": [
           "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
           "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0"
-        ],
-        "eis": [
-          "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_4",
-          "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_8",
-          "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_9"
         ]
       }
     },
@@ -1830,10 +1601,248 @@
         5.0
       ]
     },
-    "entfernen_zusatz": "FT_EL_FS_mountain_rock_big_02_8_gletscher,FT_EL_FS_mountain_rock_big_02_8_frost,FT_EL_FS_IcelandicBoulder_02_gletscher,FT_EL_FS_IcelandicBoulder_02_frost,FT_EL_FS_IcelandicBoulder_03_gletscher,FT_EL_FS_IcelandicBoulder_03_frost"
+    "entfernen_zusatz": "FT_EL_FS_mountain_rock_big_02_8_gletscher,FT_EL_FS_mountain_rock_big_02_8_frost,FT_EL_FS_IcelandicBoulder_02_gletscher,FT_EL_FS_IcelandicBoulder_02_frost,FT_EL_FS_IcelandicBoulder_03_gletscher,FT_EL_FS_IcelandicBoulder_03_frost",
+    "zusatzklassen": {
+      "eis": {
+        "palette": [
+          "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_4",
+          "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_8",
+          "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_9"
+        ],
+        "rolle": "eis",
+        "dichte_je_ha": 60.0,
+        "hang_grad": [
+          55,
+          89
+        ],
+        "hoehe_m": [
+          280,
+          9999
+        ],
+        "lagen_min": {
+          "Eis": 60
+        },
+        "kruemmung": "egal",
+        "massstab": [
+          0.7,
+          1.2
+        ],
+        "eingraben_anteil": [
+          0.0,
+          0.0
+        ],
+        "gruppe": {
+          "groesse": [
+            1,
+            3
+          ],
+          "radius_m": 3
+        },
+        "kollision": false,
+        "sichtweite": [
+          0,
+          30000
+        ],
+        "akteur": false,
+        "bedingung": "Eisvorhaenge/Eisfaelle 2-3 m an Waenden >= 55 Grad ueber der Schneegrenze, an Gletscherbach-Kanten und unter Wasserfaellen (Wasserzellen mit Hang >= 18 Grad, Saum 3 m), Nordseite bevorzugt (Faktor 1,4 Nord / 0,6 Sued). Pivot oben: z = Gelaende + 0,85 x Netzhoehe x Massstab (wie hochgebirge Klasse eiszapfen). Echte Eisbloecke (Gletscherbruch, Seracs) fehlen im Inventar -> Einkaufsliste; SM_K7_GLETSCHER__EIS ist Landmarke, nicht Streugut."
+      },
+      "flechtenblock": {
+        "palette": [
+          "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+          "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_2",
+          "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5",
+          "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
+          "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
+          "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+          "/Game/Fab/Megascans/3D/Granite_Rock_pjtsT/Raw/pjtsT_tier_0/StaticMeshes/pjtsT_tier_0"
+        ],
+        "rolle": "fels_block",
+        "dichte_je_ha": 120.0,
+        "hang_grad": [
+          0,
+          55
+        ],
+        "hoehe_m": [
+          170,
+          9999
+        ],
+        "lagen_min": {
+          "Fels": 40
+        },
+        "kruemmung": "egal",
+        "massstab": [
+          0.7,
+          1.3
+        ],
+        "eingraben_anteil": [
+          0.3,
+          0.4
+        ],
+        "gruppe": {
+          "groesse": [
+            2,
+            5
+          ],
+          "radius_m": 2.5
+        },
+        "kollision": true,
+        "sichtweite": [
+          0,
+          35000
+        ],
+        "akteur": false,
+        "bedingung": "Bisher hochgebirge Schicht 1 (flechtenblock). Flechtenbloecke 0,5-1,2 m als Mittelschicht-Ersatz ueber der Baumgrenze: Stufenfaktor bergwald 0,4 / krummholz 0,8 / matte 1,0 / fels_schnee 0,8; Lagen Geroell x1,5, Fels x1,4, Felsplatte x1,2, Schnee x0,5, Eis x0,2; Hang voll bis 38 Grad, 0 bei 55. Kollision nur Netze >= 0,8 m."
+      },
+      "bachblock": {
+        "palette": [
+          "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01",
+          "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
+          "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xf3odif/Raw/xf3odif_tier_0/StaticMeshes/xf3odif_tier_0",
+          "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
+          "/Game/Fab/Megascans/3D/Granite_Rock_pkeeM/Raw/pkeeM_tier_0/StaticMeshes/pkeeM_tier_0"
+        ],
+        "rolle": "fels_block",
+        "dichte_je_ha": 500.0,
+        "hang_grad": [
+          0,
+          55
+        ],
+        "hoehe_m": [
+          0,
+          9999
+        ],
+        "wasser_abstand_m": [
+          0,
+          4
+        ],
+        "lagen_min": {},
+        "kruemmung": "egal",
+        "massstab": [
+          0.8,
+          1.4
+        ],
+        "eingraben_anteil": [
+          0.3,
+          0.4
+        ],
+        "gruppe": {
+          "groesse": [
+            1,
+            3
+          ],
+          "radius_m": 2.5
+        },
+        "kollision": true,
+        "sichtweite": [
+          0,
+          40000
+        ],
+        "akteur": false,
+        "bedingung": "Bisher hochgebirge Schicht 5 (bach_block): nasse Bloecke 0,9-1,5 m im Gletscherbach-Saum 0-4 m (Steine ragen aus dem Wasser); Stufenfaktor 1,0 / 1,0 / 1,0 / 0,7; Lagen Geroell x1,4, Fels/Kies x1,3."
+      },
+      "sturzblock": {
+        "palette": [
+          "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+          "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+          "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
+          "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0"
+        ],
+        "rolle": "fels_hero",
+        "dichte_je_ha": 300.0,
+        "hang_grad": [
+          0,
+          25
+        ],
+        "hoehe_m": [
+          0,
+          9999
+        ],
+        "wasser_abstand_m": [
+          1,
+          10
+        ],
+        "lagen_min": {},
+        "kruemmung": "egal",
+        "massstab": [
+          0.7,
+          1.2
+        ],
+        "eingraben_anteil": [
+          0.35,
+          0.45
+        ],
+        "gruppe": {
+          "groesse": [
+            1,
+            3
+          ],
+          "radius_m": 4.0
+        },
+        "kollision": true,
+        "sichtweite": [
+          0,
+          0
+        ],
+        "akteur": false,
+        "bedingung": "Bisher hochgebirge Schicht 5 (wasserfall_block): Sturzbloecke 1-4 m am Wasserfallfuss = Landzellen <= 10 m unter Wasserzellen mit Hang >= 18 Grad, eigener Hang < 25 Grad."
+      },
+      "moraene": {
+        "palette": [
+          "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
+          "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01",
+          "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Small_xjijdiz/Raw/xjijdiz_tier_0/StaticMeshes/xjijdiz_tier_0",
+          "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
+          "/Game/Meshes/_GENERATED/RockFormation/SM_NordicBeach_02"
+        ],
+        "rolle": "fels_platte",
+        "dichte_je_ha": 40.0,
+        "hang_grad": [
+          5,
+          46
+        ],
+        "hoehe_m": [
+          170,
+          9999
+        ],
+        "lagen_min": {
+          "Geroell": 60
+        },
+        "kruemmung": "konkav",
+        "massstab": [
+          0.8,
+          1.25
+        ],
+        "eingraben_anteil": [
+          0.4,
+          0.5
+        ],
+        "gruppe": {
+          "groesse": [
+            1,
+            3
+          ],
+          "radius_m": 5.0
+        },
+        "kollision": false,
+        "sichtweite": [
+          0,
+          30000
+        ],
+        "akteur": false,
+        "bedingung": "Bisher hochgebirge Schicht 0 (geroellplatte) + 3,5-m-Platten aus schneefleck: Schuttfelder/Moraenen-Platten 2-6 m auf Hang 14-46 Grad (Schutthalden 30-38 Grad, Wikipedia Scree) und Karboeden/Hangfuss 5-18 Grad (konkav, Wallform quer zum Tal, vgl. klassen.blockstrom); Laengsachse hangabwaerts (+/- 25 Grad); Stufenfaktor 0,1 / 0,5 / 1,0 / 0,8; Kollision aus (flach, Hoehe <= 0,84 m)."
+      }
+    },
+    "zusatzklassen_hinweis": "Konventionen §6: felsgruppen_plan.py setzt diese Klassen nur in gletscher/frost-Zellen (+ Saum). dichte_je_ha = Dichte bei Faktor 1 (vor Stufen-, Lagen-, Hangfaktoren aus 'bedingung').",
+    "herkunft": {
+      "flechtenblock": "hochgebirge Schicht 1 flechtenblock",
+      "bachblock": "hochgebirge Schicht 5 bach_block",
+      "sturzblock": "hochgebirge Schicht 5 wasserfall_block",
+      "moraene": "hochgebirge Schicht 0 geroellplatte + schneefleck-Platten > 2 m",
+      "eis": "felsgruppen_overrides.paletten_zusatz.tundra.eis (Runde 0)"
+    }
   },
   "spuren_overrides": {
-    "_hinweis": "Zum Einpflegen in spuren_regeln.json (Teil D) für gletscher/frost. Dieser Planer wendet sie NICHT selbst an.",
+    "_hinweis": "Fuer spuren_plan.py (Teil D) in gletscher/frost (+ Saum); unveraendert seit Runde 0. Dieser Planer wendet sie NICHT selbst an.",
     "steinmann": {
       "frei_je_km2": 12,
       "weg_schritt_m": [
