@@ -635,7 +635,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         ci, cj = wahl_je_raster(kand, sc, 40, ii, jj)
         if ci.size == 0:
             continue
-        for a, b in zip(ci[np.argsort(sc[ci, cj])][:12], cj[np.argsort(sc[ci, cj])][:12]):
+        for a, b in zip(ci[np.argsort(sc[ci, cj])][:40], cj[np.argsort(sc[ci, cj])][:40]):
             la = Og['groesse_m'][0][0] + (Og['groesse_m'][0][1] - Og['groesse_m'][0][0]) * h1(a, b, seed, 52)
             lb = Og['groesse_m'][1][0] + (Og['groesse_m'][1][1] - Og['groesse_m'][1][0]) * h1(a, b, seed, 53)
             wk = float(tang_yaw[a, b]) if d_weg[a, b] < 80 else h1(a, b, seed, 54) * math.pi

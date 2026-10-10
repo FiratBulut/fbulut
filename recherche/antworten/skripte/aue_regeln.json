@@ -130,6 +130,16 @@
   "null_ab_m": 260,
   "hinweis": "Aue ist Tiefland; Auwald über 80 m nur noch ausdünnend, über 260 m nichts (D7 bis 319 m, C7 Lava)."
  },
+ "sand": {
+  "lage": "Sand",
+  "faktor_bei_voll": 0.25,
+  "ausnahmen": [
+   "kiefer_hain",
+   "kiesel",
+   "zweige"
+  ],
+  "hinweis": "Strand-/Sandlagen (F1, I1, J3, J5, A6, A7, J7: Sand 86–98 %) dämpfen alle Aue-Klassen auf 25 %; Kiefern, Kiesel, Zweige ausgenommen."
+ },
  "wuesten_felder": [
   "C3",
   "C4",

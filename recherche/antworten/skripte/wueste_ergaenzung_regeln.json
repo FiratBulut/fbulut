@@ -174,7 +174,13 @@
    "lage": "Schnee",
    "faktor_bei_voll": 0.15
   },
-  "hang_max_grad_alle": 40
+  "hang_max_grad_alle": 40,
+  "fels_klassen": [
+   "kiesel",
+   "stein",
+   "geroellplatte"
+  ],
+  "fels_klassen_hinweis": "Diese Klassen dürfen über hang_max_grad_alle hinaus (bis ihr eigenes hang_null_ab_grad); alle anderen enden bei 40°."
  },
  "lagen": [
   "Sand",
