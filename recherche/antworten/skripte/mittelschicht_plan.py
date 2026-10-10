@@ -703,6 +703,50 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     return plan
 
 
+def pruefe_netze(regeln, basis, thema):
+    """Alle /Game/-Pfade der Regeldatei gegen das Inventar daten/netze.csv (Spalte pfad, Trenner ;) prüfen.
+    Fehlendes Inventar → Hinweis, keine Prüfung. Unbekannte Pfade → Abbruch mit Liste (FORMAT.md §5)."""
+    pfade = set()
+
+    def sammle(o):
+        if isinstance(o, str):
+            if o.startswith('/Game/'):
+                pfade.add(o)
+        elif isinstance(o, dict):
+            for v in o.values():
+                sammle(v)
+        elif isinstance(o, list):
+            for v in o:
+                sammle(v)
+    sammle(regeln)
+    pfade.discard(regeln.get('ft_ordner', ''))
+    kandidaten = [os.path.join(basis, 'daten', 'netze.csv'),
+                  os.path.join(os.path.dirname(os.path.abspath(__file__)), 'netze.csv'),
+                  os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'daten', 'netze.csv')]
+    csv = next((p for p in kandidaten if os.path.isfile(p)), None)
+    if csv is None:
+        meld('Hinweis: daten/netze.csv nicht gefunden – %d Netzpfade der Regeln bleiben ungeprüft' % len(pfade))
+        return
+    inventar = set()
+    with open(csv, encoding='utf-8', errors='replace') as f:
+        kopf = f.readline().rstrip('\n').split(';')
+        try:
+            sp = kopf.index('pfad')
+        except ValueError:
+            sp = 0
+        for zeile in f:
+            t = zeile.rstrip('\n').split(';')
+            if len(t) > sp:
+                inventar.add(t[sp].strip())
+    fehlt = sorted(p for p in pfade if p not in inventar)
+    if fehlt:
+        meld('FEHLER: %d Netzpfade der %s-Regeln fehlen im Inventar %s:' % (len(fehlt), thema, csv))
+        for p in fehlt:
+            meld('   ', p)
+        raise SystemExit('Regeldatei enthält Netze, die nicht im Inventar stehen – bitte Einkaufsliste/Regeln abgleichen')
+    meld('%d Netzpfade gegen %s geprüft: alle vorhanden' % (len(pfade), csv))
+
+
 def main():
     ap = argparse.ArgumentParser(description='Eldarien Mittelschicht-Planer (0,3–3 m)')
     ap.add_argument('felder', nargs='+')
@@ -715,6 +759,7 @@ def main():
     if not os.path.isfile(rp):
         raise SystemExit('Regeldatei fehlt: %s' % rp)
     regeln = json.load(open(rp, encoding='utf-8'))
+    pruefe_netze(regeln, a.basis, 'Mittelschicht')
     if not NUMBA:
         meld('numba nicht verfügbar – reiner NumPy-Pfad (ausreichend)')
     for feld in a.felder:

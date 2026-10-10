@@ -9,7 +9,22 @@
  "budget": {
   "instanzen_je_feld": 60000,
   "kollision_je_feld": 3000,
-  "akteure_je_feld": 400
+  "akteure_je_feld": 400,
+  "prioritaet": [
+   "feld",
+   "mauer",
+   "zaun",
+   "grab",
+   "holzschlag",
+   "koehler",
+   "steg",
+   "wegkreuz",
+   "karren",
+   "steinmann",
+   "obstgarten",
+   "schrein"
+  ],
+  "hinweis": "prioritaet = Reihenfolge der Ausdünnung bei Überschreitung (unwichtigste Gruppe zuerst); Akteure werden nie gedünnt"
  },
  "abstand_m": {
   "wasser": 1.0,

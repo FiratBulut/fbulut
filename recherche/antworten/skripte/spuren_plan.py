@@ -426,6 +426,39 @@ class Sammler:
                                          'q': [round(float(v), 5) for v in row[3:7]], 's': round(float(row[7]), 3)})
         return int(ok.sum())
 
+    def budget(self, max_inst, max_koll, seed, prio, hinweise):
+        """Deckel je Feld (FORMAT.md §3): erst Gesamtzahl, dann Kollision. Gedünnt wird deterministisch (Hash je Instanz)
+        in der Reihenfolge `prio` (unwichtigste Gruppe zuerst), je Runde höchstens 60 % einer Gruppe; Akteure bleiben."""
+        def zaehle(nur_koll):
+            return sum(int(r['inst'].shape[0]) for r in self.rows if not r['akteur'] and (r['kollision'] or not nur_koll))
+
+        def duenne(gruppe, faktor, kanal):
+            for r in self.rows:
+                if r['gruppe'] != gruppe or r['akteur']:
+                    continue
+                gi = np.round(r['fi'] * 4).astype(np.int64) + self.win[0]
+                gj = np.round(r['fj'] * 4).astype(np.int64) + self.win[2]
+                keep = hash01(gi, gj, seed, kanal) < faktor
+                r['inst'], r['fi'], r['fj'] = r['inst'][keep], r['fi'][keep], r['fj'][keep]
+        for nur_koll, deckel, txt in ((False, max_inst, 'Instanzbudget'), (True, max_koll, 'Kollisionsbudget')):
+            ist = zaehle(nur_koll)
+            if ist <= deckel:
+                continue
+            vorher, runde = ist, 0
+            while ist > deckel and runde < 12:
+                runde += 1
+                for g in prio:
+                    n = sum(int(r['inst'].shape[0]) for r in self.rows if r['gruppe'] == g and not r['akteur'] and (r['kollision'] or not nur_koll))
+                    if n == 0:
+                        continue
+                    f = max(0.4, 1.0 - (ist - deckel) / float(n))
+                    duenne(g, f, 9000 + runde * 50 + prio.index(g))
+                    ist = zaehle(nur_koll)
+                    if ist <= deckel:
+                        break
+            hinweise.append('%s: %d → %d (Deckel %d), gedünnt in Reihenfolge %s' % (txt, vorher, ist, deckel, ', '.join(prio)))
+        self.rows = [r for r in self.rows if r['inst'].shape[0] > 0]
+
     def schreibe(self, ordner):
         os.makedirs(ordner, exist_ok=True)
         for f in os.listdir(ordner):
@@ -1047,9 +1080,11 @@ def plane_feld(feld, basis, regeln, faktor, bild):
 
     # ------------------------------------------------------------------ Budget und Ausgabe
     ausgabe = os.path.join(basis, WELT, 'spuren', feld)
+    S.budget(int(R['budget']['instanzen_je_feld'] * feld_faktor_budget(faktor)), int(R['budget']['kollision_je_feld']), seed,
+             R['budget'].get('prioritaet', ['feld', 'mauer', 'zaun', 'grab', 'holzschlag', 'koehler', 'steg', 'wegkreuz', 'karren', 'steinmann', 'obstgarten', 'schrein']), hinweise)
     dateien, gesamt, koll, je_gruppe = S.schreibe(ausgabe)
     if koll > R['budget']['kollision_je_feld']:
-        hinweise.append('WARNUNG: %d Instanzen mit Kollision > Budget %d – Mauern/Zäune im Setzer ohne Kollision setzen oder Feldstreifen reduzieren' % (koll, R['budget']['kollision_je_feld']))
+        hinweise.append('WARNUNG: %d Instanzen mit Kollision > Budget %d' % (koll, R['budget']['kollision_je_feld']))
     if len(S.akteure) > R['budget']['akteure_je_feld']:
         hinweise.append('WARNUNG: %d Akteure > Budget %d' % (len(S.akteure), R['budget']['akteure_je_feld']))
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(gesamt), 'dateien': dateien,
@@ -1104,6 +1139,11 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     return plan
 
 
+def feld_faktor_budget(faktor):
+    """Der Deckel je Feld bleibt unabhängig von --faktor (FORMAT.md §3); --faktor skaliert nur Dichten."""
+    return 1.0
+
+
 def mauer_setzen(S, p0, p1, R, seed, kanal, a, b):
     """Trockenmauer aus Einzelsteinen entlang p0→p1: 3 Lagen, Steinabstand, seitlicher Jitter, Eingraben der Basislage."""
     M = R['mauer']
@@ -1142,6 +1182,50 @@ def steinmann_setzen(S, a, b, R, seed, kanal):
     return 1
 
 
+def pruefe_netze(regeln, basis, thema):
+    """Alle /Game/-Pfade der Regeldatei gegen das Inventar daten/netze.csv (Spalte pfad, Trenner ;) prüfen.
+    Fehlendes Inventar → Hinweis, keine Prüfung. Unbekannte Pfade → Abbruch mit Liste (FORMAT.md §5)."""
+    pfade = set()
+
+    def sammle(o):
+        if isinstance(o, str):
+            if o.startswith('/Game/'):
+                pfade.add(o)
+        elif isinstance(o, dict):
+            for v in o.values():
+                sammle(v)
+        elif isinstance(o, list):
+            for v in o:
+                sammle(v)
+    sammle(regeln)
+    pfade.discard(regeln.get('ft_ordner', ''))
+    kandidaten = [os.path.join(basis, 'daten', 'netze.csv'),
+                  os.path.join(os.path.dirname(os.path.abspath(__file__)), 'netze.csv'),
+                  os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'daten', 'netze.csv')]
+    csv = next((p for p in kandidaten if os.path.isfile(p)), None)
+    if csv is None:
+        meld('Hinweis: daten/netze.csv nicht gefunden – %d Netzpfade der Regeln bleiben ungeprüft' % len(pfade))
+        return
+    inventar = set()
+    with open(csv, encoding='utf-8', errors='replace') as f:
+        kopf = f.readline().rstrip('\n').split(';')
+        try:
+            sp = kopf.index('pfad')
+        except ValueError:
+            sp = 0
+        for zeile in f:
+            t = zeile.rstrip('\n').split(';')
+            if len(t) > sp:
+                inventar.add(t[sp].strip())
+    fehlt = sorted(p for p in pfade if p not in inventar)
+    if fehlt:
+        meld('FEHLER: %d Netzpfade der %s-Regeln fehlen im Inventar %s:' % (len(fehlt), thema, csv))
+        for p in fehlt:
+            meld('   ', p)
+        raise SystemExit('Regeldatei enthält Netze, die nicht im Inventar stehen – bitte Einkaufsliste/Regeln abgleichen')
+    meld('%d Netzpfade gegen %s geprüft: alle vorhanden' % (len(pfade), csv))
+
+
 def main():
     ap = argparse.ArgumentParser(description='Eldarien Spuren-Planer (Zäune, Mauern, Steinmänner, Wegkreuze, Karren, Stege, Holzschlag, Köhler, Gräber, Rauch, Blickziele)')
     ap.add_argument('felder', nargs='+')
@@ -1154,6 +1238,7 @@ def main():
     if not os.path.isfile(rp):
         raise SystemExit('Regeldatei fehlt: %s' % rp)
     regeln = json.load(open(rp, encoding='utf-8'))
+    pruefe_netze(regeln, a.basis, 'Spuren')
     if not NUMBA:
         meld('numba nicht verfügbar – reiner NumPy-Pfad (ausreichend)')
     for feld in a.felder:
