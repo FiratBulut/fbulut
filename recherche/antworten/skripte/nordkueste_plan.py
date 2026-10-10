@@ -578,6 +578,79 @@ def lade_baeume(basis, feld, win, entfernen_praefixe=()):
     return baum, sonst, quellen
 
 
+def zaehle_entfernen(basis, feld, win, praefixe, eigen_m, zust_m, land_m, im_feld):
+    """Runde 3b: alte Instanzen, die der entfernen-Filter im Feld loeschen wuerde (Netzname beginnt mit einem Praefix, Position im
+    Feld), aus witcher/ und bestand/ (Feld + 8 Nachbarn, nur Positionen im Feld). Getrennt nach eigenen Biomzellen, Saum (fremdes Biom
+    <= saum_m) und fremden Zellen; dazu namensgleiche Houdini-Instanzen (instanzen.json), die ein reiner Netznamen-Filter ebenfalls traefe."""
+    out = {'gesamt': 0, 'eigen': 0, 'saum': 0, 'fremd': 0, 'wasser': 0, 'je_netz': {}, 'je_ebene': {}, 'houdini_netzgleich': 0}
+    if not praefixe:
+        return out
+    H, W = eigen_m.shape
+    s = ord(feld[0]) - ord('A')
+    r = int(feld[1:])
+
+    def zaehle(fi, fj):
+        ii = np.clip(np.round(fi).astype(np.int64), 0, H - 1)
+        jj = np.clip(np.round(fj).astype(np.int64), 0, W - 1)
+        m = im_feld[ii, jj] & (fi >= -0.5) & (fi < H - 0.5) & (fj >= -0.5) & (fj < W - 0.5)
+        ii, jj = ii[m], jj[m]
+        e = eigen_m[ii, jj]
+        sm = ~e & zust_m[ii, jj]
+        return int(m.sum()), int(e.sum()), int(sm.sum()), int((~e & ~sm).sum()), int((~land_m[ii, jj]).sum())
+
+    for ds in (-1, 0, 1):
+        for dr in (-1, 0, 1):
+            ss, rr = s + ds, r + dr
+            if not (0 <= ss <= 9 and 1 <= rr <= 7):
+                continue
+            nf = chr(ord('A') + ss) + str(rr)
+            for ebene in ('bestand', 'witcher'):
+                ordner = os.path.join(basis, WELT, ebene, nf)
+                pj = os.path.join(ordner, 'plan.json')
+                if not os.path.isfile(pj):
+                    continue
+                try:
+                    plan = json.load(open(pj, encoding='utf-8'))
+                except Exception:
+                    continue
+                for name in sorted(plan.get('dateien', {})):
+                    if not any(name.lower().startswith(p) for p in praefixe):
+                        continue
+                    f = os.path.join(ordner, name + '.f32')
+                    if not os.path.isfile(f):
+                        continue
+                    a = np.fromfile(f, dtype='<f4')
+                    if a.size == 0 or a.size % 10:
+                        continue
+                    a = a.reshape(-1, 10)
+                    n, e, sm, fr, wa = zaehle(a[:, 1] / 100.0 + Y0 - win[0], a[:, 0] / 100.0 + X0 - win[2])
+                    if n == 0:
+                        continue
+                    for k, v in (('gesamt', n), ('eigen', e), ('saum', sm), ('fremd', fr), ('wasser', wa)):
+                        out[k] += v
+                    out['je_netz'][name] = out['je_netz'].get(name, 0) + n
+                    out['je_ebene'][ebene] = out['je_ebene'].get(ebene, 0) + n
+    ij = os.path.join(basis, WELT, 'instanzen', 'instanzen.json')
+    if os.path.isfile(ij):
+        try:
+            for e in json.load(open(ij, encoding='utf-8')).get('verzeichnis', []):
+                netz = str(e.get('ref', '')).rsplit('/', 1)[-1].split('.')[0].lower()
+                if not any(netz.startswith(p) for p in praefixe):
+                    continue
+                f = os.path.join(basis, WELT, 'instanzen', e.get('datei') or (str(e.get('name', '')) + '.f32'))
+                if not os.path.isfile(f):
+                    continue
+                a = np.fromfile(f, dtype='<f4')
+                if a.size == 0 or a.size % 10:
+                    continue
+                a = a.reshape(-1, 10)
+                out['houdini_netzgleich'] += zaehle(a[:, 1] / 100.0 + Y0 - win[0], a[:, 0] / 100.0 + X0 - win[2])[0]
+        except Exception as ex:
+            meld('Hinweis: instanzen.json fuer entfernen-Zaehlung nicht auswertbar (%s)' % ex)
+    out['je_netz'] = dict(sorted(out['je_netz'].items()))
+    return out
+
+
 def lade_standorte(basis, win):
     """docs/staedte/standorte.json (optional, Format nur geraten): Liste/Dict mit x_cm/y_cm (oder x/y in m) und radius_m."""
     p = os.path.join(basis, 'docs', 'staedte', 'standorte.json')
@@ -683,7 +756,7 @@ def schreibe_leer(feld, basis, regeln, biome_fenster, zellen_zustaendig, statist
     ausgabe = ausgabe_leeren(basis, feld)
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': 0, 'dateien': {},
             'biome_fenster': biome_fenster, 'zellen_zustaendig': int(zellen_zustaendig), 'biome_eigen': list(regeln['biome_eigen']),
-            'kollision_anzahl': 0, 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
+            'kollision_anzahl': 0, 'entfernen': '', 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
             'statistik': statistik, 'hinweise': hinweise}
     with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
         json.dump(plan, f, ensure_ascii=False, indent=1)
@@ -724,7 +797,7 @@ def budget_ziele(anzahl, klassen_reihe, ziel):
 
 
 # ----------------------------------------------------------------------------- Planung je Feld
-def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
+def plane_feld(feld, basis, regeln, faktor, bild, netze, masse, ersetzen=False):
     t0 = time.time()
     rand = int(regeln.get('fenster_rand_m', 64))
     fb_, win = feld_fenster(feld, rand)
@@ -848,17 +921,51 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
     fels_m = (lagen['Fels'] > 0.5) if 'Fels' in lagen else np.zeros((H, W), bool)
     d_fels = distanz(fels_m, 10.0)
 
-    # ---------------- vorhandene Bäume, Modus
-    modus = regeln.get('baum_modus', 'auto')
+    # ---------------- vorhandene Bäume, Modus, entfernen (Korrektur Runde 3b: nur mit Freigabe, nur eigene Zellen)
+    modus_regel = regeln.get('baum_modus', 'auto')
+    modus = modus_regel
     bestand_da = os.path.isdir(os.path.join(basis, WELT, 'bestand', feld))
     if modus == 'auto':
         modus = 'ergaenzen' if bestand_da else 'ersetzen'
-    entf = regeln.get('entfernen_bei_ersetzen', '') if modus == 'ersetzen' else ''
-    ersetzen_min = float(zr.get('ersetzen_min_anteil', 0.85))
-    if entf and anteil_feld < ersetzen_min:
-        entf = ''
-        hinweise.append('baum_modus ersetzen OHNE entfernen-Filter: Eigenanteil im Feld %.0f %% < %.0f %% (der Filter gilt feldweit und '
-                        'wuerde Baeume fremder Biome loeschen); vorhandene Baeume bleiben und werden umpflanzt' % (anteil_feld * 100, ersetzen_min * 100))
+    freigabe = bool(ersetzen) or bool(regeln.get('entfernen_aktiv', False))
+    kand = tuple(regeln.get('_entfernen_praefixe', ())) if modus == 'ersetzen' else ()
+    entf = ''
+    entf_info = None
+    if kand:
+        land_feld = im_feld & ~wasser_m
+        anteil_land = float((eigen_m & land_feld).sum()) / float(max(1, int(land_feld.sum())))
+        zl = zaehle_entfernen(basis, feld, win, kand, eigen_m, zust_m, ~wasser_m, im_feld)
+        fremd_anteil = (zl['saum'] + zl['fremd']) / float(zl['gesamt']) if zl['gesamt'] else 0.0
+        ersetzen_min = float(zr.get('ersetzen_min_anteil', 0.85))
+        max_fremd = float(zr.get('entfernen_max_fremd_anteil', 0.05))
+        if not freigabe:
+            grund = 'keine Freigabe (Schalter --ersetzen oder Regel entfernen_aktiv)'
+        elif anteil_land < ersetzen_min:
+            grund = 'Eigenanteil der Landzellen im Feld %.0f %% < %.0f %% (Filter gilt feldweit)' % (anteil_land * 100, ersetzen_min * 100)
+        elif fremd_anteil > max_fremd:
+            grund = '%.1f %% der Kandidaten stehen in Saum-/Fremdzellen > %.0f %% (Filter gilt feldweit)' % (fremd_anteil * 100, max_fremd * 100)
+        elif zl['gesamt'] == 0:
+            grund = 'keine passenden alten Instanzen in witcher/bestand im Feld'
+        else:
+            grund = ''
+            entf = ','.join(kand)
+        entf_info = {'praefixe': ','.join(kand), 'anzahl': zl['gesamt'], 'anzahl_eigene_zellen': zl['eigen'],
+                     'anzahl_saum': zl['saum'], 'anzahl_fremde_zellen': zl['fremd'], 'anzahl_auf_wasser': zl['wasser'],
+                     'je_netz': zl['je_netz'], 'je_ebene': zl['je_ebene'], 'houdini_netzgleich': zl['houdini_netzgleich'],
+                     'anteil_eigen_land_feld': round(anteil_land, 4), 'anteil_saum_fremd': round(fremd_anteil, 4),
+                     'freigabe': freigabe, 'aktiv': bool(entf), 'grund': grund or 'aktiv',
+                     'nur_ft_praefixe': list(regeln.get('entfernen_nur_ft', []))}
+        if entf:
+            hinweise.append('entfernen aktiv (%s): %d alte Instanzen im Feld (eigene Zellen %d, Saum %d, fremd %d)'
+                            % (entf, zl['gesamt'], zl['eigen'], zl['saum'], zl['fremd']))
+        else:
+            hinweise.append('entfernen nicht gesetzt: %s; Vorschlag %d Instanzen (eigene Zellen %d) in plan.json["entfernen_vorschlag"]'
+                            % (grund, zl['gesamt'], zl['eigen']))
+            if modus_regel == 'auto':
+                modus = 'ergaenzen'
+                hinweise.append('baum_modus auto -> ergaenzen, weil nichts entfernt wird (kein Doppelbestand)')
+            else:
+                hinweise.append('baum_modus ersetzen OHNE entfernen-Filter: vorhandene Baeume bleiben und werden umpflanzt')
     entf_praefixe = tuple(p.strip().lower() for p in entf.split(',') if p.strip())
     alt_baum, alt_sonst, quellen = lade_baeume(basis, feld, win, entf_praefixe)
     if not quellen:
@@ -1270,8 +1377,14 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
                           'alte_baeume_im_fenster': int(alt_baum.shape[0]), 'quellen': quellen, 'faktor': faktor,
                           'baum_modus': modus, 'laufzeit_s': round(time.time() - t0, 1), 'numba': NUMBA},
             'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet'}
-    if entf:
-        plan['entfernen'] = entf
+    plan['entfernen'] = entf  # Runde 3b: leer ohne Freigabe; Kandidaten mit Zahl dann in entfernen_vorschlag
+    if entf_info is not None:
+        if entf:
+            plan['entfernen_zaehlung'] = entf_info
+            if entf_info['nur_ft_praefixe']:
+                plan['entfernen_nur_ft'] = entf_info['nur_ft_praefixe']
+        else:
+            plan['entfernen_vorschlag'] = entf_info
     with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
         json.dump(plan, f, ensure_ascii=False, indent=1)
     meld('%s: %d Instanzen (%d mit Kollision), je Ebene %s, %d Netze, %.1f s' % (feld, gesamt, nk, je_ebene, len(dateien), time.time() - t0))
@@ -1356,6 +1469,31 @@ def pruefe_netze(regeln, netze):
             meld('WARNUNG: %s nennt ein Netz, das nicht im Inventar steht: %s' % (ov, p))
 
 
+def pruefe_entfernen(regeln, netze):
+    """Runde 3b: entfernen-Praefixe (entfernen_bei_ersetzen) gegen das Inventar pruefen. Ein Praefix bleibt nur, wenn JEDES
+    Inventarnetz, das mit ihm beginnt, ein Baumnetz dieses Planers ist (Ebene 2 ohne Klasse totbaum) - so trifft der feldweite
+    Netznamen-Filter keine liegenden Staemme (_log), Jungpflanzen (Fir_01_Plant/Fir_02_Small) oder Totbaeume. Ergebnis in
+    regeln['_entfernen_praefixe'] (Tupel, klein geschrieben)."""
+    roh = [p.strip().lower() for p in str(regeln.get('entfernen_bei_ersetzen', '') or '').split(',') if p.strip()]
+    eigen = set()
+    for kn, kl in regeln['klassen'].items():
+        if str(kl.get('ebene')) == '2' and kn != 'totbaum':
+            eigen |= {str(n).rsplit('/', 1)[-1].lower() for n in kl.get('netze', [])}
+    inv = sorted({str(p).rsplit('/', 1)[-1].lower() for p in netze})
+    gut = []
+    for p in roh:
+        treffer = [n for n in inv if n.startswith(p)]
+        fremd = [n for n in treffer if n not in eigen]
+        if fremd:
+            meld('WARNUNG: entfernen-Praefix %r verworfen - traefe auch Netze, die dieser Planer nicht als Baum setzt: %s'
+                 % (p, ', '.join(fremd[:6])))
+        elif not treffer:
+            meld('WARNUNG: entfernen-Praefix %r trifft kein Inventarnetz - verworfen' % p)
+        else:
+            gut.append(p)
+    regeln['_entfernen_praefixe'] = tuple(gut)
+
+
 def main():
     ap = argparse.ArgumentParser(description='Eldarien Nordkuesten-Planer (biome_eigen fjord, kueste, bergwald): Schichten 0 boden, '
                                              '1 Sonderformen, 2 baum, 5 wasserkante')
@@ -1364,6 +1502,9 @@ def main():
     ap.add_argument('--faktor', type=float, default=1.0)
     ap.add_argument('--basis', default='.')
     ap.add_argument('--regeln', default=None)
+    ap.add_argument('--ersetzen', action='store_true',
+                    help='Freigabe fuer den entfernen-Filter (alte Kiefern/Tannen ersetzen); ohne Schalter bleibt plan.json["entfernen"] leer '
+                         'und die Kandidaten stehen mit Zahl in plan.json["entfernen_vorschlag"] (Korrektur Runde 3b)')
     a = ap.parse_args()
     rp = a.regeln or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'nordkueste_regeln.json')
     if not os.path.isfile(rp):
@@ -1383,11 +1524,16 @@ def main():
         sys.exit(2)
     masse = lade_masse(a.basis)
     pruefe_netze(regeln, netze)
+    pruefe_entfernen(regeln, netze)
+    if a.ersetzen or regeln.get('entfernen_aktiv'):
+        meld('Freigabe entfernen: ja (%s)' % ('--ersetzen' if a.ersetzen else 'Regel entfernen_aktiv'))
+    else:
+        meld('Freigabe entfernen: nein - plan.json["entfernen"] bleibt leer, Kandidaten in "entfernen_vorschlag"')
     rc = 0
     for feld in a.felder:
         feld = feld.strip().upper()
         try:
-            plane_feld(feld, a.basis, regeln, a.faktor, a.bild, netze, masse)
+            plane_feld(feld, a.basis, regeln, a.faktor, a.bild, netze, masse, ersetzen=a.ersetzen)
         except Pflichtfehler as e:
             meld('ABBRUCH %s: %s' % (feld, e))
             rc = 2
