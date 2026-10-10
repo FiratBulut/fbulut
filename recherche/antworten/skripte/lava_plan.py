@@ -670,7 +670,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, netze, masse):
     pf *= np.where(kegel_flanke | (prominenz > 8), F["kegelflanke_faktor"], 1.0)
     pf[(hang > F["hang_max_grad"]) | sperre_gross | ~innen] = 0
     hf = hash64(seed, 101, ii, jj)
-    kand = np.nonzero(uni(hf, 1) < pf * 6.0)  # 6× überzeichnen, dann Abstand/Deckel
+    kand = np.nonzero(uni(hf, 1) < pf * 12.0)  # 12× überzeichnen, dann Abstand/Deckel
     if len(kand[0]):
         pts = np.stack([kand[0], kand[1]], axis=1).astype(np.float32)
         score = uni(hf[kand], 2) + np.where(kegel_flanke[kand], 0.5, 0.0)

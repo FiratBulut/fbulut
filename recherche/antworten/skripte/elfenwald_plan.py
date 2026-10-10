@@ -36,7 +36,8 @@ Quellen: FORMAT.md §1–§5; antworten/assets-taxonomie.md (Paletten elfenwald)
 je Geländetyp, Abstands-/Skalenvarianz); Nagel et al. 2013 PLOS ONE (Totholz 19–21 % des Volumens in Buchen-Urwäldern);
 Runkle-Typ Lückenanteile 3–18 % in Laub-Altwäldern; Gap-Regeneration: Jungwuchs an Lückenrändern dichter als in der Mitte.
 
-UNGETESTET MIT ECHTDATEN – in der Cloud nur mit synthetischen Rastern rauchgetestet (siehe verteilung-elfenwald.md §4/§6).
+UNGETESTET MIT ECHTDATEN – in der Cloud nur mit synthetischen Rastern rauchgetestet (G4, siehe verteilung-elfenwald.md §5):
+40 846–88 092 Instanzen je Modus, 8–14 s je Feld, deterministisch (MD5), 0 Instanzen auf Wasser/Weg/Ort.
 """
 import argparse
 import csv

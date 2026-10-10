@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 13:55 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 14:05 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -15,9 +15,9 @@ Fortsetzung ab 12:55 UTC in drei Wellen zu je 3–4 Agenten, die auf den vorhand
 | B2 | Aue/Flussauen | 1 Agent | fertig, gepusht (Rauchtest synthetisch E5: 32 627 Inst., 8,5 s) | `verteilung-aue.md`, `skripte/aue_*` |
 | B3 | Heide/Tundra | 1 Agent | fertig, gepusht (Rauchtest synthetisch D2/G5: je ~44 900 Inst., ~4,8 s) | `verteilung-heide-tundra.md`, `skripte/heide_tundra_*` |
 | B4 | Gletscher/Frost/Hochgebirge | 1 Agent | fertig (Rauchtest synthetisch D2: 44 107 Inst., 4,1 s, deterministisch; ungetestet mit Echtdaten) | `verteilung-hochgebirge.md`, `skripte/hochgebirge_plan.py`, `skripte/hochgebirge_regeln.json` |
-| B5 | Elfenwald | 1 Agent | läuft (Fortsetzung) | `verteilung-elfenwald.md`, `skripte/elfenwald_*` |
+| B5 | Elfenwald | 1 Agent | fertig, gepusht (Rauchtest synthetisch G4: 40 846 Inst., 12–14 s; Schalter --mittel zusatz/voll) | `verteilung-elfenwald.md`, `skripte/elfenwald_plan.py`, `skripte/elfenwald_regeln.json` |
 | B6 | Sumpf | 1 Agent | fertig, gepusht (Rauchtest synthetisch H5: 37 789 Inst., 7,1 s) | `verteilung-sumpf.md`, `skripte/sumpf_*` |
-| B7 | Dschungel (inkl. Karst) | 1 Agent | läuft (Fortsetzung) | `verteilung-dschungel.md`, `skripte/dschungel_*` |
+| B7 | Dschungel (inkl. Karst) | 1 Agent | fertig, gepusht (Rauchtest synthetisch H6: 54 932 Inst., 16 s) | `verteilung-dschungel.md`, `skripte/dschungel_*` |
 | B8 | Lava | 1 Agent | läuft (Fortsetzung) | `verteilung-lava.md`, `skripte/lava_*` |
 | B9 | Wüste/Canyon/Ödland (nur ergänzen) | 1 Agent | läuft (Fortsetzung) | `verteilung-wueste.md`, `skripte/wueste_ergaenzung_*` |
 

@@ -143,29 +143,23 @@ Spiel). Setzt man es auf 3 000, bekommen nur hero/tot/alt Kollision (Reihenfolge
 
 ## 3. Overrides für Teil C und Teil D (nur JSON, keine Instanzen aus diesem Planer)
 
-**Moosfelsen (`felsgruppen_overrides`, für `felsgruppen_plan.py`).** Im Elfenwald sind Felsen bemooste Granit-/Gneisblöcke im Laubwald,
-keine Wände und keine Schuttfächer (Ausnahme H3/H4 mit Fels-Lagen > 25 %). Palette: Hero `Mossy_Rock_Formation_plFhY`,
-`MossyForestBoulder_04`, `TundraMossyBoulder_01`; Block 11 Netze (`MossyForestBoulder_01/03/05/06/07`, `MossyRockFace_02`,
-`Forest_Boulder_wgosajs`, `Forest_Rock_wjxqcct`, `Japanese_Mossy_Boulder_veqhehl`, `Nordic_Forest_Rock_Small_xjijbgx`,
-`LichenedForestBoulder_01`); Stein `MossyForestRock_01/02`; Platten `MossyRocks_01/02`, `ForestRockSlab_01`, `ForestRockShelf_01`,
-`ForestRockFormation_01/02`, `MossyEmbankment_01/02`; Schale nur `HugeMossyForestCliff_01`. Gruppendichte ×0,7, nur Hang ≥ 12° oder
-Kuppe oder Bach-Prallhang, keine Mulden ohne Wand. Gruppe = 1 Hauptfels + 2–5 Nebenblöcke + 4–10 Schutt + 10–30 Kiesel, Hauptrichtung
-±15°, Eingraben 35–50 % (tiefer als im Gebirge: der Waldboden ist weich), Kippen voll in den Hang. Kontaktzone: Geröllsaum 0,6/m² im Ring
-0,5–2 m (`MossyForestRock_01`, `SmallStonesPack_02/06`), Farnring 2–6 nur auf der Schattseite (`SilverLadyFern_02`, `Fern_04`,
-`BeechFern_10`), Moos am Fuß 4–10 (`CustomMoss_02/04`), RVT-Fußblend 30–60 cm, Auflage-Material Moos 0,85 / Flechte 0,2 / Schnee 0.
-Abstand zu Bäumen 2,5 m; Budget 120 Akteure + 6 000 Foliage je Feld; Sichtweiten Hero 0, Block 500 m, Stein 200 m, Platte 350 m.
+**Moosfelsen (`felsgruppen_overrides`, für `felsgruppen_plan.py`).** Felsen im Elfenwald sind bemooste Granit-/Gneisblöcke im Laubwald,
+keine Wände, keine Schuttfächer (Ausnahme H3/H4, Fels-Lagen > 25 %). Palette: Hero `Mossy_Rock_Formation_plFhY`, `MossyForestBoulder_04`,
+`TundraMossyBoulder_01`; Block 11 Moos-/Forest-Boulder (Megascans + Fab); Stein `MossyForestRock_01/02`; Platten `MossyRocks`, `ForestRockSlab/
+Shelf/Formation`, `MossyEmbankment`; Schale nur `HugeMossyForestCliff_01`. Gruppendichte ×0,7; nur Hang ≥ 12°, Kuppe oder Bach-Prallhang, keine
+Mulden ohne Wand. Gruppe = 1 Hauptfels + 2–5 Nebenblöcke + 4–10 Schutt + 10–30 Kiesel, Hauptrichtung ±15°, Eingraben 35–50 % (weicher
+Waldboden), Kippen voll in den Hang. Kontaktzone: Geröllsaum 0,6/m² im Ring 0,5–2 m, Farnring 2–6 nur Schattseite, Moos am Fuß 4–10,
+RVT-Fußblend 30–60 cm, Auflage Moos 0,85 / Flechte 0,2. Abstand zu Bäumen 2,5 m; Budget 120 Akteure + 6 000 Foliage je Feld.
 
-**Ruinen/Schreine (`spuren_overrides`, für `spuren_plan.py`).** Aus: Zaun, Feldstreifen, Obstgarten, Karren, Holzschlag, Köhler, Rauch,
-Steg, Mauer. Stattdessen: **Ruine** 1–3 Gruppen je Feld à 3–8 Stücke im Radius 6–18 m, Lage Kuppe/Hangschulter < 12°, 20–80 m vom Weg,
-nicht im Ort (+30 m), ≥ 10 m vom Wasser, Beschattung 0,3–0,7 (im Wald mit Lichtschneise); Foliage `SM_Column_02/03`, `SM_Wall_02`; Akteur
-`SM_Main_Arch_01` (529 640 Dreiecke, je Feld ≤ 1) und `SM_Wall_01` (372 163 Dreiecke, ≤ 2); Eingraben 15–35 %, Kippen 2–8°, gemeinsame
-Hauptrichtung ±12°, Säulen in Reihe 3–4 m; Bewuchs: Efeu an 40 % der Wände (`Ivy_11/17/21/25`), Moos 6–12 je Stück, Farn 2–5, Bruchsteine 3–8.
-**Schrein** 1–2 je Feld: `SM_Sviatovid_Stone` an Wegkreuzung oder Bachquerung (Weg dilatiert 6 m ∩ Wasser), 2–4 m neben dem Weg, unter
-Altbaum oder vor Hero-Fels, Beigaben 6–12 Kiesel + 8–16 Blumen (`LilyOfTheValley_02`, `WhiteWindflower_04`); `SM_Cross` (christlich) nicht
-im Elfenwald. **Steinmann** 2–6 je Feld an Wegen auf Kuppen/Lichtungsrändern, 4–7 Steine. **Hügelgrab/Steinkreis** 0–1 je Feld in der
-Lichtungsmitte (Hang < 6°, ≥ 40 m vom Weg), 7–12 Moosblöcke im Radius 4–7 m, Blumeninsel innen ×3. Der Elfenwald-Planer liefert die
-Standorte als `blickziele` in `plan.json` (größte Lichtung mit Radius, Kuppe nahe Weg, Bachquerung) – im Rauchtest: Lichtung r = 36 m bei
-X 1 391 / Y −863 m, Schrein an der Bachquerung X 1 734 / Y −548 m.
+**Ruinen/Schreine (`spuren_overrides`, für `spuren_plan.py`).** Aus: Zaun, Feldstreifen, Obstgarten, Karren, Holzschlag, Köhler, Rauch, Steg,
+Mauer. **Ruine** 1–3 Gruppen je Feld à 3–8 Stücke (Radius 6–18 m) auf Kuppe/Hangschulter < 12°, 20–80 m vom Weg, nicht im Ort (+30 m), ≥ 10 m
+vom Wasser, Beschattung 0,3–0,7; Foliage `SM_Column_02/03`, `SM_Wall_02`; Akteure `SM_Main_Arch_01` (529 640 Dreiecke, ≤ 1 je Feld) und
+`SM_Wall_01` (372 163, ≤ 2); Eingraben 15–35 %, Kippen 2–8°, Hauptrichtung ±12°, Säulenreihe 3–4 m; Bewuchs Efeu an 40 % der Wände, Moos
+6–12, Farn 2–5, Bruchsteine 3–8 je Stück. **Schrein** 1–2 je Feld: `SM_Sviatovid_Stone` an Wegkreuzung/Bachquerung, 2–4 m neben dem Weg,
+unter Altbaum oder vor Hero-Fels, 6–12 Kiesel + 8–16 Blumen; `SM_Cross` (christlich) nicht. **Steinmann** 2–6 je Feld an Wegen, 4–7 Steine.
+**Hügelgrab/Steinkreis** 0–1 je Feld in der Lichtungsmitte (Hang < 6°, ≥ 40 m vom Weg), 7–12 Moosblöcke, Blumeninsel innen ×3. Standorte
+liefert der Elfenwald-Planer als `blickziele` in `plan.json` (größte Lichtung mit Radius, Kuppe nahe Weg, Bachquerung) – Rauchtest: Lichtung
+r = 36 m bei X 1 391 / Y −863 m, Schrein an der Bachquerung X 1 734 / Y −548 m.
 
 ---
 
@@ -280,9 +274,9 @@ Foliage-Typen `FT_EL_EW_*`); keine Instanz schwebt (Eingraben 1–30 cm) und kei
 | **Ruinenstücke elfisch** (gebogene Bögen, Säulenstümpfe, Reliefplatten, Treppenreste, Bodenplatten) | `spuren_overrides.ruine` – heute nur 5 AncientRuins-Netze, zwei davon > 370 k Dreiecke | Fab „Ancient Ruins Modular“ / „Overgrown Ruins Kit“, Megascans „Ruined Wall Section“, „Stone Column Fragment“, „Carved Stone Slab“ | High, Nanite |
 | **Pilze** (Steinpilz, Fliegenpilz, Baumpilz/Zunderschwamm, Pilzgruppen) | Boden-Klasse pilz hat nur 2 Meadow-Netze; Baumpilze an Totholz fehlen ganz | Megascans 3D Plants „Mushroom“ (Fly Agaric, Bolete, Shelf Fungus), Fab „Forest Mushrooms Pack“ | High |
 | **Efeu/Ranken** als Stammhüllen und Wandbewuchs (gebogene Karten, Ranken 2–4 m) | Efeu am Stamm (heute flache Ivy-Karten), Ruinenbewuchs 40 % | Megascans „English Ivy Climbing“ (Trunk/Wall-Varianten), „Wild Grape Vine“, Fab „Vines & Creepers“ | High |
-| Waldbodenblumen in 0,5–1,5 m Höhe (Fingerhut, Waldgeißbart, Bärlauch-Flächen) | Lücke aus Taxonomie: Lichtpflanzen 0,5–1,5 m | Megascans „Foxglove“, „Wild Garlic“, „Goatsbeard“ | High |
-| Liegender Hero-Stamm > 8 m mit Wurzelteller, bemoost | Blickziel/Querung im Altwald (LargeFallenTree ist 5–6 m) | Megascans „Fallen Beech Tree Large“, „Uprooted Tree“ | High/Raw |
-| Opfergaben/Kerzen/Stoffbänder für Schreine | `spuren_overrides.schrein.beigaben` (fehlt im Inventar) | Fab „Shrine Offerings“, „Medieval Candles“ | Medium |
+| Waldbodenblumen 0,5–1,5 m (Fingerhut, Bärlauch) | Taxonomie-Lücke Lichtpflanzen 0,5–1,5 m | Megascans „Foxglove“, „Wild Garlic“ | High |
+| Liegender Hero-Stamm > 8 m mit Wurzelteller | Blickziel im Altwald (LargeFallenTree 5–6 m) | Megascans „Fallen Beech Tree Large“, „Uprooted Tree“ | High/Raw |
+| Opfergaben/Kerzen für Schreine | `spuren_overrides.schrein.beigaben` (fehlt) | Fab „Shrine Offerings“, „Medieval Candles“ | Medium |
 
 ---
 
@@ -300,13 +294,10 @@ Foliage-Typen `FT_EL_EW_*`); keine Instanz schwebt (Eingraben 1–30 cm) und kei
    bei Farn (×0,45) möglich und gewollt (Insel-Verdichtung).
 4. **Witcher-Haine bei `voll`.** `entfernen` löscht Witcher-Bäume nur mit den gelisteten Präfixen; Netznamen, die in `witcher/<Feld>/plan.json`
    anders heißen, bleiben stehen → nach dem ersten Echtlauf den Hinweis „entfernen-Filter“ gegen die Witcher-Dateinamen prüfen.
-5. **Hang > 40°** bekommt nur Moos und Kleinsteine (bis 45°) und Böschungsstücke am Bach (bis 60°); Kletterpflanzen an Wänden sind Teil C/D.
-6. **Nicht-Nanite-Netze** in den Paletten (Poplar_*, Big_Tree_birch/willow, hazel, black_cherry, maple_bush, nettle, Forest-grass, Forest-fern)
-   brauchen LOD-Prüfung im Setzer; Sichtweiten sind entsprechend kurz gesetzt (150–350 m).
-7. **I4/H2/G2** sind Randfelder mit 20 % Elfenwald-Anteil; dort läuft der Planer nur auf den elfenwald-Zellen voll und auf bergwald/kueste/
-   aue-Zellen mit 0,6/0,3/0,5 – die Biomgruppen 1 (Nordküste) und 2 (Aue) bleiben dort führend; Dopplungen im Übergang über `eigner.r8`
-   ausgeschlossen, solange beide Planer denselben Biomfaktor-Schnitt verwenden (Elfenwald 1,0 nur auf `rezept = elfenwald`).
-8. **Blickziele** sind Vorschläge in `plan.json` (3 Arten, Koordinaten in cm); Instanzen dafür setzt `spuren_plan.py` nach den Overrides,
-   der Elfenwald-Planer setzt nur die Blumeninsel-Verdichtung (Lichtung ×2) und den Hero-Altbaum (Lichtungsrand ×12).
-9. **Laufzeit** 11–14 s je Feld in der Cloud (4 Kerne); die Jump-Flooding-Distanzfelder (9 Aufrufe) sind der größte Posten (≈ 6 s). Auf dem
-   Projekt-PC mit numba ändert sich nichts (numba wird nur gemeldet, nicht genutzt).
+5. **Hang > 40°** bekommt nur Moos/Kleinsteine (bis 45°) und Böschungsstücke am Bach (bis 60°). **Nicht-Nanite-Netze** (Poplar_*,
+   Big_Tree_*, hazel, black_cherry, maple_bush, nettle, Forest-grass/-fern) brauchen LOD-Prüfung im Setzer; Sichtweiten 150–350 m.
+6. **I4/H2/G2** (20 % Elfenwald): der Planer setzt elfenwald-Zellen voll, bergwald/kueste/aue-Zellen mit 0,6/0,3/0,5; Biomgruppen 1 und 2
+   bleiben dort führend. Dopplungen sind über `eigner.r8` ausgeschlossen, solange jeder Planer nur auf seinem `rezept` den Faktor 1,0 hat.
+7. **Blickziele** sind Vorschläge in `plan.json` (3 Arten, cm); Instanzen setzt `spuren_plan.py` nach den Overrides; der Elfenwald-Planer
+   liefert nur Blumeninsel (Lichtung ×2) und Hero-Altbaum (Lichtungsrand ×12). **Laufzeit** 8–14 s je Feld (4 Kerne, ohne numba; Distanzfelder
+   ≈ 6 s).
