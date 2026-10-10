@@ -965,8 +965,9 @@ def plane_feld(feld_in, basis, skript_dir, regeln, faktor, bild, inv, entfernen_
         txt = 'WARNUNG %s: %d -> %d, gestrichen %s' % (grund, ist, grenze, weg_je)
         meld(txt)
         hinweise.append(txt)
-        if kleinzeug & set(weg_je):
-            hinweise.append('Kleinzeug %s ausgedünnt – Fläche soll Landschafts-Gras (GT_*) tragen' % sorted(kleinzeug & set(weg_je)))
+        kz = 'Kleinzeug %s ausgedünnt – Fläche soll Landschafts-Gras (GT_*) tragen' % sorted(kleinzeug & set(weg_je))
+        if kleinzeug & set(weg_je) and kz not in hinweise:
+            hinweise.append(kz)
         return grenze
 
     # 1. Kollisionsdeckel exakt (Kollisionsklassen in Prioritätsreihenfolge)
@@ -990,8 +991,9 @@ def plane_feld(feld_in, basis, skript_dir, regeln, faktor, bild, inv, entfernen_
         txt = 'WARNUNG Budget-Ziel: %d -> %d (Ziel %d, Deckel %d), ausgeduennt %s' % (gesamt_vor, gesamt, ziel, maxi, weg_je)
         meld(txt)
         hinweise.append(txt)
-        if kleinzeug & set(weg_je):
-            hinweise.append('Kleinzeug %s ausgedünnt – Fläche soll Landschafts-Gras (GT_*) tragen' % sorted(kleinzeug & set(weg_je)))
+        kz = 'Kleinzeug %s ausgedünnt – Fläche soll Landschafts-Gras (GT_*) tragen' % sorted(kleinzeug & set(weg_je))
+        if kleinzeug & set(weg_je) and kz not in hinweise:
+            hinweise.append(kz)
     # 3. harter Deckel exakt
     kappe(maxi, lambda e: np.ones(len(e['keep']), bool), 'Instanzdeckel (%d)' % maxi)
 

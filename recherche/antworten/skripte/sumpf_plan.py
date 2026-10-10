@@ -2,44 +2,67 @@
 # -*- coding: utf-8 -*-
 """
 Eldarien – Planer „Sumpf“ (Biom sumpf, Velen/Crookback-Bog-Typ; Auftrag 11 Teil B6).
-Legt vier Ebenen in EINEM Ausgabeordner an: 0 boden (Laub, Zweige, Pilze, Moospolster, Schlammsteine),
-1 mittel (Rohrkolben-Landteil, Seggenbulten, Schachtelhalm, Pestwurz, Adlerfarn, Weidengebüsch, liegendes Totholz,
-Stümpfe, Wurzelteller), 2 baum (Weiden, tote Bäume im Flachwasser und an Land, Erlen-Ersatz, Jungweiden),
-5 wasserkante (Rohrkolben/Binsen im Flachwasser nach Wassertiefe, Seerosen auf dem Spiegel, Seggen und Moos am Spiegel,
-Treibholz im Flachwasser) sowie eine Punktliste für Wasserlinsen-Flecken (kein Netz im Inventar).
-Fels (3) und Spuren (4) kommen aus Teil C/D; die Overrides dafür stehen in sumpf_regeln.json.
+Stand: Korrektur Runde 1 (10.10.2026) nach antworten/verteilung-KONVENTIONEN.md §1–§6.
+
+*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern rauchgetestet
+(H5 eigene Zellen, Fremdfeld mit Schlamm-Lagen, Mischfeld mit Saum; verteilung-sumpf.md Abschnitt „Korrektur Runde 1“).
+
+Zuständigkeit (Konventionen §1)
+-------------------------------
+Biom je Zelle = eigner.r8 + welt.json["kacheln"][k]["rezept"]; Kennzahl 0 (Weltgelände) → aue, Rezept mit „vulkan“/„lava“ → lava,
+unbekannte Kennzahl → aue (Hinweis). Nur wenn eigner.r8 oder welt.json fehlen/unlesbar sind, gilt das dominante Feldbiom aus
+daten/biome_je_feld.json (danach regeln["felder"][Feld]["biom_fallback"], sonst aue) – mit Hinweis im Log.
+biome_eigen = [sumpf]. Bebaut werden nur Sumpf-Zellen plus ein 30-m-Saum nach außen (Dichtefaktor 1 an der Biomgrenze, linear auf 0
+bei 30 m; Jump-Flooding-Distanztransformation, keine Zellschleifen). Alle Klassen, auch die Wasserzonen-Klassen und die
+Nassflächen-Bultenzone (Schlamm/Algen-Lagen ohne offenes Wasser), gelten nur innerhalb dieser Zuständigkeit.
+Anteil eigener Biome im Fenster (Feld + 64 m) < 2 % → leerer plan.json (instanzen 0, keine f32) und eine Logzeile.
+
+Ebenen (Konventionen §4) – alle in EINEM Ausgabeordner, je Datei "ebene" im plan.json
+--------------------------------------------------------------------------------
+  0 boden        laub_nass (Laub auf Schlamm), moos_polster, schlamm_stein
+  1 mittel       NUR Sumpf-Sonderformen: schilf_land (Rohrkolben-Landteil am Spiegel), segge_bult (Seggenbulten),
+                 schachtelhalm (Röhricht-Saum am Ufer), wurzel (Wurzelteller an Bäumen)
+  2 baum         weide, totbaum_wasser (tote Bäume im Flachwasser), totbaum_land, erle_ersatz
+  5 wasserkante  schilf_wasser + binse_wasser (Gürtel nach Wassertiefe), seerose, seggen_spiegel, moos_ufer, treibholz_wasser
+  extras         Wasserlinsen-Flecken als Punktliste (kein Netz im Inventar)
+Die generischen Mittelschicht-Klassen (strauch, jungbaum, farn, totholz_liegend/_stumpf/_ast, hochstaude, grasbueschel, beere, pilz)
+setzt mittelschicht_plan.py mit `mittelschicht_overrides` aus sumpf_regeln.json; Moosblöcke > 0,8 m setzt felsgruppen_plan.py
+(`felsgruppen_overrides.zusatzklassen.moosblock_bult`), Stege/Knüppeldämme/Pfähle/Boote spuren_plan.py (`spuren_overrides`).
 
 Aufruf (lokal, production-Wurzel):
     python -I scripts/sumpf/sumpf_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]
+Exit-Code 2 bei fehlender Pflichtdatei (hoehe.f32, Regeldatei, daten/netze.csv) oder unbekanntem Feld.
+Alle Konsolenzeilen nur ASCII (Konventionen §5); plan.json bleibt UTF-8.
 
 Liest (alle relativ zu --basis, Standard '.'):
     export/unreal/welt/hoehe.f32 (Pflicht, memmap, Fenster Feld + 64 m), karte_wasser.r8, karte_weg.r8, karte_ort.r8,
-    eigner.r8 + welt.json (Biom je Zelle, Fallback aus Regeln je Feld, sonst aue), lage_<Name>.r8 (optional),
-    teiche/teiche.json und wasser_welt.json[seen] (Umrisse, Spiegelhöhen; Fallback Spiegel = Geländehöhe am Wasserrand),
-    bestand/<Feld>/, witcher/<Feld>/, ufer/foliage_<Feld>/, instanzen/instanzen.json (optional; Abstände zu Bäumen/Steinen),
-    daten/netze.csv (Netzpfade prüfen; sonst vorlagen/daten/netze.csv neben dem Repo).
+    eigner.r8 + welt.json (Biom je Zelle), lage_<Name>.r8 (optional), teiche/teiche.json und wasser_welt.json[seen]
+    (Umrisse, Spiegelhöhen; Fallback Spiegel = Geländehöhe am Wasserrand), bestand/<Feld>/, witcher/<Feld>/,
+    ufer/foliage_<Feld>/, instanzen/instanzen.json (optional; Abstände zu Bäumen/Steinen),
+    daten/netze.csv (Pflicht; sonst netze.csv neben dem Skript oder vorlagen/daten/netze.csv neben dem Repo),
+    daten/biome_je_feld.json (nur Fallback ohne eigner.r8/welt.json).
 Schreibt:
     export/unreal/welt/sumpf/<Feld>/<Netzname>.f32 (je Instanz 10 float32 LE: x,y,z cm | qx,qy,qz,qw | sx,sy,sz)
-    export/unreal/welt/sumpf/<Feld>/plan.json (FORMAT.md §3, je Datei zusätzlich "ebene"), bei --bild
-    docs/pruefung/sumpf/<Feld>.png (1 px = 1 m; Zonen, Wasser mit Tiefe, Instanzen je Klasse).
+    export/unreal/welt/sumpf/<Feld>/plan.json (FORMAT.md §3 + Konventionen §2: biome_fenster, zellen_zustaendig, biome_eigen,
+    kollision_anzahl), bei --bild docs/pruefung/sumpf/<Feld>.png (1 px = 1 m; Zonen, Saum, Wasser mit Tiefe, Instanzen).
 
 Methode: Wasserfläche = karte_wasser ∪ Teich-/See-Umrisse. Wasserrand-Zellen sind Saatpunkte eines Jump-Flooding-Distanzfelds
 (NumPy, exakt euklidisch bis 64 m); jede Zelle kennt so ihren nächsten Uferpunkt. Spiegel einer Wasserzelle = Höhe dieses
 Uferpunkts (3-m-Glättung innerhalb des Wassers), überschrieben durch spiegel_cm aus teiche.json/wasser_welt.json.
 Wassertiefe = Spiegel − Grund, Höhe über Spiegel (Land) = Grund − Spiegel des nächsten Ufers. Daraus Zonen flachwasser (≤ 0,5 m),
 tiefwasser, spiegel (±0,2 m, ≤ 2 m), ufer (≤ 3 m, ≤ 0,8 m), bult (3–18 m; zusätzlich jede Nassfläche aus Schlamm/Algen-Lagen ohne
-offenes Wasser in 18 m, weil H5 nur 0,4 % kartiertes Wasser hat), hinterland. karte_wasser-Zellen über dem Spiegel werden für die
-Zonierung als Land behandelt, bleiben aber für alle Landklassen gesperrt (FORMAT §3: nichts auf Wasser). Dichte je Klasse = Basis × Zone ×
-Bodenlagen × Hang × Höhe über Spiegel/Tiefe × Biom/Nässe × --faktor. Gruppen (Zentren + Mitglieder im Radius), Zufall aus
-Hash(Rasterkoordinate, Seed, Kanal) → deterministisch, Nachbarfelder nahtlos. Nur NumPy; numba optional (nicht benötigt).
+offenes Wasser in 18 m – NUR innerhalb der Zuständigkeit), hinterland. karte_wasser-Zellen über dem Spiegel zählen für die Zonierung
+als Land, bleiben aber für alle Landklassen gesperrt (FORMAT §3: nichts auf Wasser). Dichte je Klasse = Basis × Zone × Bodenlagen ×
+Hang × Höhe über Spiegel/Tiefe × Zuständigkeit (1 im Sumpf, Saum linear) × --faktor. Gruppen (Zentren + Mitglieder im Radius,
+Mitglieder nur auf Zellen mit Dichte > 0), Zufall aus Hash(Rasterkoordinate, Seed, Kanal) → deterministisch, Nachbarfelder nahtlos.
+Budget (Konventionen §3): Ziel 48 000, hart 60 000 Instanzen, hart 3 000 mit Kollision; Ausdünnung per Hash nach Priorität,
+danach exakte Kappung, jede Ausdünnung als WARNUNG im Log und in plan.json["hinweise"]. Nur NumPy; numba optional (nicht benötigt).
 
-Quellen: FORMAT.md §1–§5; antworten/bildkritik-witcher-messlatte.md (TEICH1, Top 5); antworten/ufer-kies-coast-dunes.md (Frage 3);
-antworten/assets-taxonomie.json (Biom sumpf); Rohrkolben 10–50 cm Tiefe (teichpflanzen-teichbau.com); Nymphaea alba 0,3–1,5 m
-(first-nature.com); Snag-Dichte überfluteter Wälder 2 → 105/ha (ScienceDirect 2025, Ecological Indicators); Baumsterben ab 0,7–1,3 m
-Überstau (USDA Forest Service, Lake Ocklawaha); GDC 2014 Gollent „Landscape Creation and Rendering in REDengine 3“ (Wasser-/Licht-
-Simulation für Vegetation); 80.lv „World building of Witcher 3“ (Biom-Pinsel Sumpf).
-
-UNGETESTET MIT ECHTDATEN – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern rauchgetestet (verteilung-sumpf.md §4/§6).
+Quellen: FORMAT.md §1–§5; verteilung-KONVENTIONEN.md §1–§6; antworten/bildkritik-witcher-messlatte.md (TEICH1, Top 5);
+antworten/ufer-kies-coast-dunes.md (Frage 3); antworten/assets-taxonomie.json (Biom sumpf); Rohrkolben 10–50 cm Tiefe
+(teichpflanzen-teichbau.com); Nymphaea alba 0,3–1,5 m (first-nature.com); Snag-Dichte überfluteter Wälder 2 → 105/ha
+(ScienceDirect 2025, Ecological Indicators); Baumsterben ab 0,7–1,3 m Überstau (USDA Forest Service, Lake Ocklawaha);
+GDC 2014 Gollent „Landscape Creation and Rendering in REDengine 3“; 80.lv „World building of Witcher 3“ (Biom-Pinsel Sumpf).
 """
 import argparse
 import csv
@@ -61,27 +84,48 @@ NX, NY = 9577, 7057
 FELD_M = 1008
 X0, Y0 = 4730.5, 4060.5  # X_cm = (j − 4730,5)·100, Y_cm = (i − 4060,5)·100
 WELT = os.path.join('export', 'unreal', 'welt')
+BIOME15 = ['aue', 'bergwald', 'gletscher', 'tundra', 'canyon', 'oedland', 'heide', 'elfenwald', 'dschungel', 'kueste', 'wueste',
+           'lava', 'frost', 'sumpf', 'fjord']
 BAUM_HINWEISE = ('baum', 'tree', 'nadel', 'laub', 'kiefer', 'buche', 'birke', 'fichte', 'eiche', 'weide', 'pappel', 'palme',
                  'hainbuche', 'hornbeam', 'beech', 'pine', 'poplar', 'willow', 'birch', 'fir', 'palm')
 BAUM_AUSSCHLUSS = ('tot', 'dead', 'stump', 'log', 'fallen', 'branch', 'root', 'plant', 'sapling', 'seedling', 'bush')
 ZONEN = {'flachwasser': 1, 'tiefwasser': 2, 'spiegel': 3, 'ufer': 4, 'bult': 5, 'hinterland': 6}
 WASSER_ZONEN = (1, 2)
+KLEINZEUG = ('laub_nass', 'moos_polster', 'schlamm_stein', 'moos_ufer')
+ASCII_ERSATZ = (('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ä', 'Ae'), ('Ö', 'Oe'), ('Ü', 'Ue'), ('ß', 'ss'), ('–', '-'), ('—', '-'),
+                ('→', '->'), ('←', '<-'), ('…', '...'), ('≤', '<='), ('≥', '>='), ('°', ' Grad'), ('×', 'x'), ('²', '2'), ('·', '*'),
+                ('„', '"'), ('“', '"'), ('”', '"'), ('‚', "'"), ('‘', "'"), ('’', "'"), ('±', '+-'), ('≈', '~'), ('µ', 'u'),
+                ('§', 'Par.'), ('∪', 'u'), ('−', '-'))
 
 
 # ----------------------------------------------------------------------------- kleine Helfer
+def ascii_text(s):
+    """Log-Text nur ASCII (Konventionen §5: Logs werden unter Windows mit cp1252 weiterverarbeitet)."""
+    s = str(s)
+    for a, b in ASCII_ERSATZ:
+        s = s.replace(a, b)
+    return s.encode('ascii', 'replace').decode('ascii')
+
+
 def meld(*a):
-    print('[sumpf]', *a, flush=True)
+    print(ascii_text(' '.join(['[sumpf]'] + [str(x) for x in a])), flush=True)
+
+
+def abbruch(text, code=2):
+    """Klare Meldung, Exit-Code 2 (fehlende Pflichtdatei, unbekanntes Feld; Konventionen §5)."""
+    meld('FEHLER: ' + str(text))
+    sys.exit(code)
 
 
 def feld_fenster(feld, rand):
     """'H5' → ((i0,i1,j0,j1) Feld, (wi0,wi1,wj0,wj1) Fenster), beides auf das Raster geklippt (J-Spalte endet bei NX)."""
     feld = feld.strip().upper()
     if len(feld) < 2 or not feld[0].isalpha() or not feld[1:].isdigit():
-        raise SystemExit('Unbekanntes Feld %r (A1 … J7)' % feld)
+        abbruch('Unbekanntes Feld %r (A1 ... J7)' % feld)
     s = ord(feld[0]) - ord('A')
     r = int(feld[1:])
     if not (0 <= s <= 9 and 1 <= r <= 7):
-        raise SystemExit('Unbekanntes Feld %r (A1 … J7)' % feld)
+        abbruch('Unbekanntes Feld %r (A1 ... J7)' % feld)
     j0, j1 = s * FELD_M, min((s + 1) * FELD_M, NX)
     i0, i1 = (r - 1) * FELD_M, min(r * FELD_M, NY)
     win = (max(0, i0 - rand), min(NY, i1 + rand), max(0, j0 - rand), min(NX, j1 + rand))
@@ -93,13 +137,13 @@ def lade_raster(pfad, dtype, win, pflicht=False):
     wi0, wi1, wj0, wj1 = win
     if not os.path.isfile(pfad):
         if pflicht:
-            raise SystemExit('Pflichtdatei fehlt: %s' % pfad)
+            abbruch('Pflichtdatei fehlt: %s' % pfad)
         return None
     n = os.path.getsize(pfad) // np.dtype(dtype).itemsize
     if n != NX * NY:
-        meld('WARNUNG: %s hat %d Werte, erwartet %d (NY×NX) – Datei wird ignoriert' % (pfad, n, NX * NY))
         if pflicht:
-            raise SystemExit('Pflichtdatei hat falsche Größe: %s' % pfad)
+            abbruch('Pflichtdatei hat falsche Groesse: %s (%d Werte, erwartet %d)' % (pfad, n, NX * NY))
+        meld('WARNUNG: %s hat %d Werte, erwartet %d (NY x NX) - Datei wird ignoriert' % (pfad, n, NX * NY))
         return None
     mm = np.memmap(pfad, dtype=dtype, mode='r', shape=(NY, NX))
     return np.array(mm[wi0:wi1, wj0:wj1])
@@ -295,9 +339,16 @@ def polygon_maske(pi, pj, H, W):
 # ----------------------------------------------------------------------------- Inventar / Regeln
 def lade_regeln(pfad):
     if not os.path.isfile(pfad):
-        raise SystemExit('Regeldatei fehlt: %s' % pfad)
-    with open(pfad, encoding='utf-8') as f:
-        return json.load(f)
+        abbruch('Regeldatei fehlt: %s' % pfad)
+    try:
+        with open(pfad, encoding='utf-8') as f:
+            r = json.load(f)
+    except Exception as e:
+        abbruch('Regeldatei unlesbar: %s (%s)' % (pfad, e))
+    for k in ('klassen', 'zustaendigkeit', 'budget', 'zonen', 'ausgabe'):
+        if k not in r:
+            abbruch('Regeldatei %s ohne Schluessel %r' % (pfad, k))
+    return r
 
 
 def finde_netze_csv(basis):
@@ -312,12 +363,24 @@ def finde_netze_csv(basis):
     return None
 
 
+def sammle_pfade(o, aus):
+    if isinstance(o, dict):
+        for k, v in o.items():
+            if not str(k).startswith('_'):
+                sammle_pfade(v, aus)
+    elif isinstance(o, list):
+        for v in o:
+            sammle_pfade(v, aus)
+    elif isinstance(o, str) and o.startswith('/Game/'):
+        aus.append(o)
+    return aus
+
+
 def pruefe_netze(regeln, basis):
-    """Entfernt Netzpfade, die nicht im Inventar stehen; Klassen ohne Netz werden deaktiviert."""
+    """Entfernt Netzpfade, die nicht im Inventar stehen; Klassen ohne Netz werden deaktiviert. Override-Netze nur melden."""
     p = finde_netze_csv(basis)
     if p is None:
-        meld('WARNUNG: daten/netze.csv nicht gefunden – Netzpfade ungeprüft')
-        return
+        abbruch('Pflichtdatei daten/netze.csv fehlt (gesucht unter %s, neben dem Skript, vorlagen/daten/)' % os.path.join(basis, 'daten'))
     pfade = set()
     with open(p, encoding='utf-8', newline='') as f:
         for row in csv.DictReader(f, delimiter=';'):
@@ -325,6 +388,8 @@ def pruefe_netze(regeln, basis):
                 pfade.add(row['pfad'].strip())
     fehlt = []
     for kname, k in regeln['klassen'].items():
+        if kname.startswith('_'):
+            continue
         ok = [n for n in k['netze'] if n in pfade]
         bad = [n for n in k['netze'] if n not in pfade]
         if bad:
@@ -334,88 +399,102 @@ def pruefe_netze(regeln, basis):
             k['netze'] = ok
         if not ok:
             k['dichte'] = 0.0
-            meld('WARNUNG: Klasse %s hat kein Netz im Inventar – deaktiviert' % kname)
-    # Override-Netze (Teil C/D) nur melden, nicht streichen
+            meld('WARNUNG: Klasse %s hat kein Netz im Inventar - deaktiviert' % kname)
     ov = []
-
-    def sammle(o):
-        if isinstance(o, dict):
-            for v in o.values():
-                sammle(v)
-        elif isinstance(o, list):
-            for v in o:
-                sammle(v)
-        elif isinstance(o, str) and o.startswith('/Game/'):
-            ov.append(o)
-    sammle(regeln.get('felsgruppen_overrides', {}))
-    sammle(regeln.get('spuren_overrides', {}))
+    for blk in ('felsgruppen_overrides', 'mittelschicht_overrides', 'spuren_overrides'):
+        sammle_pfade(regeln.get(blk, {}), ov)
     ov_fehlt = sorted(set(n for n in ov if n not in pfade))
     if ov_fehlt:
         meld('WARNUNG: %d Override-Netze (Teil C/D) nicht im Inventar: %s' % (len(ov_fehlt), ', '.join(ov_fehlt[:8])))
     if fehlt:
         meld('WARNUNG: %d Netzpfade nicht in %s: %s' % (len(fehlt), p, ', '.join(sorted(set(fehlt))[:8])))
     else:
-        meld('Netzpfade geprüft gegen %s: alle %d Klassen-Netze vorhanden' % (p, len(set(n for k in regeln['klassen'].values() for n in k['netze']))))
+        meld('Netzpfade geprueft gegen %s: alle %d Klassen-Netze und %d Override-Netze vorhanden' % (
+            p, len(set(n for kn, k in regeln['klassen'].items() if not kn.startswith('_') for n in k['netze'])), len(set(ov))))
 
 
-# ----------------------------------------------------------------------------- Weltdaten
-def lade_biome(basis, win, regeln, feld):
-    """Biomfaktor je Zelle (0–1) und Maske 'biom sumpf'."""
-    bf = regeln['biom_faktor']
-    fb = regeln.get('felder', {}).get(feld, {}).get('biom_fallback', 'aue')
+# ----------------------------------------------------------------------------- Biom je Zelle (Konventionen §1)
+def dominantes_feldbiom(basis, feld, regeln):
+    """Nur wenn eigner.r8/welt.json fehlen: dominantes Biom des Feldes aus daten/biome_je_feld.json,
+    danach regeln['felder'][feld]['biom_fallback'], sonst aue."""
+    hier = os.path.dirname(os.path.abspath(__file__))
+    for k in (os.path.join(basis, 'daten', 'biome_je_feld.json'), os.path.join(hier, 'biome_je_feld.json'),
+              os.path.join(hier, '..', '..', 'vorlagen', 'daten', 'biome_je_feld.json')):
+        if not os.path.isfile(k):
+            continue
+        try:
+            d = json.load(open(k, encoding='utf-8'))
+            e = d.get('felder', d).get(feld)
+            bp = e.get('biome_prozent') if isinstance(e, dict) else None
+            if bp:
+                b = str(sorted(bp, key=lambda x: -float(x[1]))[0][0]).lower()
+                if b in BIOME15:
+                    return b, k
+        except Exception as ex:
+            meld('Hinweis: %s nicht auswertbar (%s)' % (k, ex))
+    fb = regeln.get('felder', {}).get(feld, {}).get('biom_fallback')
+    if fb in BIOME15:
+        return fb, 'sumpf_regeln.json felder.%s' % feld
+    return 'aue', 'Standard aue (biome_je_feld.json fehlt)'
+
+
+def biom_aus_rezept(rz):
+    """Rezeptname → Biom: exakter Name, 'vulkan'/'lava' → lava, sonst das Biom, dessen Name am weitesten vorn im Rezept steht."""
+    rz = str(rz).strip().lower()
+    if rz in BIOME15:
+        return rz
+    if 'vulkan' in rz or 'lava' in rz:
+        return 'lava'
+    treffer = [(rz.find(n), -len(n), n) for n in BIOME15 if n in rz]
+    return min(treffer)[2] if treffer else None
+
+
+def lade_biome(basis, win, feld, regeln, hinweise):
+    """Biom-Index je Zelle (Index in BIOME15) und Quelle. Kennzahl 0 und unbekannte Kennzahlen → aue (Konventionen §1)."""
     H, W = win[1] - win[0], win[3] - win[2]
     eig = lade_raster(os.path.join(basis, WELT, 'eigner.r8'), np.uint8, win)
     wj = os.path.join(basis, WELT, 'welt.json')
-    anteil = {}
+    welt, grund = None, ''
     if eig is None or not os.path.isfile(wj):
-        meld('Hinweis: eigner.r8/welt.json fehlen – Biom je Zelle = Fallback %r' % fb)
-        f = float(bf.get(fb, 0.0))
-        return np.full((H, W), f, np.float32), np.full((H, W), fb == 'sumpf', bool), {fb: 1.0}
-    try:
-        welt = json.load(open(wj, encoding='utf-8'))
-    except Exception as e:
-        meld('Hinweis: welt.json unlesbar (%s) – Fallback %r' % (e, fb))
-        f = float(bf.get(fb, 0.0))
-        return np.full((H, W), f, np.float32), np.full((H, W), fb == 'sumpf', bool), {fb: 1.0}
+        grund = 'eigner.r8/welt.json fehlen'
+    else:
+        try:
+            welt = json.load(open(wj, encoding='utf-8'))
+        except Exception as e:
+            grund = 'welt.json unlesbar (%s)' % e
+    if welt is None:
+        fb, quelle = dominantes_feldbiom(basis, feld, regeln)
+        txt = '%s - Biom je Zelle = dominantes Feldbiom %r aus %s' % (grund, fb, quelle)
+        meld('Hinweis:', txt)
+        hinweise.append(txt)
+        return np.full((H, W), BIOME15.index(fb), np.int16), 'feldbiom:' + fb
+    aue = BIOME15.index('aue')
+    tabelle = np.full(256, aue, np.int16)
     kacheln = welt.get('kacheln', {})
-    namen = list(bf.keys())
-
-    def biom_aus_rezept(rz):
-        rz = str(rz).lower()
-        if rz in namen:
-            return rz
-        if 'vulkan' in rz or 'lava' in rz:
-            return 'lava'
-        for n in namen:
-            if n in rz:
-                return n
-        return None
-
-    tabelle = [None] * 256
-    # Kennzahl 0 = Weltgelände ohne Houdini-Kachel: dominantes Feldbiom (Regeln 'felder' → biom_fallback), sonst aue (FORMAT §2)
-    tabelle[0] = fb
     eintraege = kacheln.items() if isinstance(kacheln, dict) else enumerate(kacheln)
+    bekannt, unklar = {0}, []
     for k, v in eintraege:
         try:
-            if isinstance(v, dict) and any(x in v for x in ('id', 'kennzahl', 'nr')):
-                k = v.get('id', v.get('kennzahl', v.get('nr')))
-            idx = int(k)
+            kk = int(v.get('kennzahl', v.get('id', v.get('nr', k)))) if isinstance(v, dict) else int(k)
         except Exception:
             continue
-        if 0 <= idx < 256:
-            b = biom_aus_rezept(v.get('rezept', v.get('biom', '')) if isinstance(v, dict) else v)
-            tabelle[idx] = b or tabelle[idx]
-    fakt = np.zeros(256, np.float32)
-    sumpf_t = np.zeros(256, bool)
-    for idx in range(256):
-        b = tabelle[idx] or fb
-        fakt[idx] = float(bf.get(b, 0.0))
-        sumpf_t[idx] = (b == 'sumpf')
-    werte, zahl = np.unique(eig, return_counts=True)
-    for w, c in zip(werte, zahl):
-        b = tabelle[int(w)] or fb
-        anteil[b] = anteil.get(b, 0.0) + float(c) / eig.size
-    return fakt[eig], sumpf_t[eig], anteil
+        if not 0 <= kk < 256:
+            continue
+        rz = (v.get('rezept', v.get('biom', '')) if isinstance(v, dict) else v)
+        b = biom_aus_rezept(rz)
+        if b is None:
+            b = 'aue'
+            if kk != 0:
+                unklar.append('%d:%s' % (kk, rz or '-'))
+        tabelle[kk] = BIOME15.index(b)
+        bekannt.add(kk)
+    tabelle[0] = aue   # Kennzahl 0 = Weltgelaende -> aue (FORMAT §2, Konventionen §1); KEIN Feldbiom-Fallback mehr
+    ohne = sorted(set(np.unique(eig).tolist()) - bekannt)
+    if unklar or ohne:
+        txt = 'Kennzahlen ohne erkennbares Biom -> aue: %s%s' % (', '.join(unklar[:10]), (' / ohne welt.json-Eintrag: %s' % ohne[:10]) if ohne else '')
+        meld('Hinweis:', txt)
+        hinweise.append(txt)
+    return tabelle[eig], 'eigner.r8'
 
 
 def lade_lagen(basis, win, namen):
@@ -595,6 +674,123 @@ def punkte_maske(pts, H, W):
     return m
 
 
+# ----------------------------------------------------------------------------- Leerplan, Budget
+def plan_kopf(feld, regeln, n, dateien, entfernen, biome_fenster, zellen_zustaendig, nk):
+    """plan.json-Pflichtschlüssel (FORMAT §3, Konventionen §2) in fester Reihenfolge."""
+    Z = regeln['zustaendigkeit']
+    return {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(n), 'dateien': dateien, 'entfernen': entfernen,
+            'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
+            'biome_fenster': biome_fenster, 'zellen_zustaendig': int(zellen_zustaendig), 'biome_eigen': list(Z['biome_eigen']),
+            'kollision_anzahl': int(nk)}
+
+
+def schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, anteil_feld, biom_quelle, hinweise, t0):
+    """Konventionen §1: Eigenanteil im Fenster < min_anteil_fenster → leerer plan.json (instanzen 0, keine f32), nie Text statt plan.json."""
+    Z = regeln['zustaendigkeit']
+    os.makedirs(ausgabe, exist_ok=True)
+    for f in os.listdir(ausgabe):
+        if f.endswith('.f32'):
+            os.remove(os.path.join(ausgabe, f))
+    hinweise.append('Anteil eigener Biome %s im Fenster %.4f < %.2f - kein Plan' % (Z['biome_eigen'], anteil_eigen, float(Z['min_anteil_fenster'])))
+    plan = plan_kopf(feld, regeln, 0, {}, '', biome_fenster, 0, 0)
+    plan.update({'ebenen': {}, 'extras': {'wasserlinsen_flecken': []},
+                 'statistik': {'je_klasse': {}, 'zustaendigkeit': {'quelle': biom_quelle, 'anteil_eigen_fenster': round(anteil_eigen, 4),
+                                                                  'anteil_eigen_feld': round(anteil_feld, 4), 'saum_m': float(Z['saum_m'])},
+                               'laufzeit_s': round(time.time() - t0, 1)},
+                 'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet (UNGETESTET MIT ECHTDATEN)'})
+    with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
+        json.dump(plan, f, ensure_ascii=False, indent=1)
+    meld('%s: Anteil %s im Fenster %.2f %% < %.0f %% - leerer plan.json (instanzen 0)' % (
+        feld, '/'.join(Z['biome_eigen']), 100 * anteil_eigen, 100 * float(Z['min_anteil_fenster'])))
+    return plan
+
+
+FELDER_INST = ('fi', 'fj', 'mi', 'mj', 'netz', 'massstab', 'yaw', 'neig', 'neig_phi')
+
+
+def behalte(e, keep):
+    for key in FELDER_INST:
+        if e[key] is not None:
+            e[key] = e[key][keep]
+
+
+def budget_anwenden(ergebnisse, prio, B, seed, wi0, wj0, klassen_idx, hinweise, feld):
+    """Konventionen §3: proportionale Hash-Ausdünnung (Kollision, dann Ziel nach Priorität von hinten, höchstens 60 % je Klasse und
+    Durchgang), danach exakte Kappung auf die harten Deckel (niedrigste Priorität und höchster Hash zuerst). Deterministisch."""
+    hart = int(B.get('instanzen_je_feld', 60000))
+    kmax = int(B.get('kollision_je_feld', 3000))
+    ziel = min(int(B.get('ziel_instanzen_je_feld', hart)), hart)
+    rang = {k: i for i, k in enumerate(prio)}
+    je = {e['klasse']: e for e in ergebnisse}
+
+    def h_von(e):
+        return hash01(e['mi'] + wi0, e['mj'] + wj0, seed, 99991 + klassen_idx[e['klasse']])
+
+    def n_ges():
+        return sum(int(e['fi'].size) for e in ergebnisse)
+
+    def n_koll():
+        return sum(int(e['fi'].size) for e in ergebnisse if e['kollision'])
+
+    roh, roh_k = n_ges(), n_koll()
+    fak = {}
+    # 1) Kollision proportional
+    if roh_k > kmax:
+        f = kmax / float(roh_k)
+        for e in ergebnisse:
+            if e['kollision'] and e['fi'].size:
+                behalte(e, h_von(e) < f)
+                fak[e['klasse']] = f
+        txt = 'WARNUNG %s: Kollision %d > %d - Kollisionsklassen x %.3f (Hash)' % (feld, roh_k, kmax, f)
+        meld(txt)
+        hinweise.append(txt)
+    # 2) Ziel proportional, von der niedrigsten Priorität aufwärts
+    for runde in range(8):
+        gesamt = n_ges()
+        if gesamt <= ziel:
+            break
+        ueber = gesamt - ziel
+        pool, summe = [], 0
+        for kn in reversed(prio):
+            e = je.get(kn)
+            if e is None or e['fi'].size == 0:
+                continue
+            pool.append(kn)
+            summe += int(e['fi'].size)
+            if summe * 0.6 >= ueber:
+                break
+        f = max(0.4, 1.0 - ueber / float(max(1, summe)))
+        for kn in pool:
+            fak[kn] = fak.get(kn, 1.0) * f
+            behalte(je[kn], h_von(je[kn]) < fak[kn])
+        txt = 'WARNUNG %s: Instanzen %d > Ziel %d - Runde %d ausgeduennt %s' % (feld, gesamt, ziel, runde + 1, {kn: round(f, 3) for kn in pool})
+        meld(txt)
+        hinweise.append(txt)
+    # 3) exakte Kappung (harte Deckel)
+    for deckel, nur_koll, name in ((kmax, True, 'Kollision'), (hart, False, 'Instanzen')):
+        sel = [e for e in ergebnisse if e['fi'].size and (e['kollision'] or not nur_koll)]
+        n = sum(int(e['fi'].size) for e in sel)
+        if n <= deckel:
+            continue
+        r = np.concatenate([np.full(e['fi'].size, rang.get(e['klasse'], 999), np.int32) for e in sel])
+        h = np.concatenate([h_von(e) for e in sel])
+        ordnung = np.lexsort((h, r))
+        keep = np.zeros(n, bool)
+        keep[ordnung[:deckel]] = True
+        a = 0
+        for e in sel:
+            m = e['fi'].size
+            behalte(e, keep[a:a + m])
+            a += m
+        txt = 'WARNUNG %s: %s %d > Deckel %d - exakt gekappt (niedrigste Prioritaet zuerst)' % (feld, name, n, deckel)
+        meld(txt)
+        hinweise.append(txt)
+    if any(k in fak for k in KLEINZEUG):
+        hinweise.append('Kleinzeug (Laub, Moos, Schlammsteine) ausgeduennt - bei Bedarf an Landschafts-Gras (GT_*) abgeben (Konventionen §3)')
+    return {'roh': roh, 'roh_kollision': roh_k, 'nach': n_ges(), 'nach_kollision': n_koll(),
+            'faktor_je_klasse': {k: round(v, 4) for k, v in fak.items()}}
+
+
 # ----------------------------------------------------------------------------- Planung je Feld
 def plane_feld(feld, basis, regeln, faktor, bild):
     t0 = time.time()
@@ -604,18 +800,47 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     H, W = wi1 - wi0, wj1 - wj0
     seed = int(regeln.get('seed', 1))
     hinweise = []
-    meld('Feld %s: Fenster %d×%d m (Rand %d m)' % (feld, H, W, rand))
+    ausgabe = os.path.join(basis, regeln['ausgabe']['ordner'], feld)
+    im_feld = np.zeros((H, W), bool)
+    im_feld[fb[0] - wi0:fb[1] - wi0, fb[2] - wj0:fb[3] - wj0] = True
+    meld('Feld %s: Fenster %dx%d m (Rand %d m)' % (feld, H, W, rand))
 
-    # --- Raster
+    # --- Höhe (Pflicht)
     hoehe = lade_raster(os.path.join(basis, WELT, 'hoehe.f32'), '<f4', win, pflicht=True).astype(np.float32)
     if not np.isfinite(hoehe).all():
         hoehe = np.nan_to_num(hoehe, nan=0.0, posinf=0.0, neginf=0.0)
-        hinweise.append('hoehe.f32 enthielt NaN/Inf → 0')
+        hinweise.append('hoehe.f32 enthielt NaN/Inf -> 0')
 
+    # --- Zuständigkeit nach Biom-Zellen (Konventionen §1)
+    Z = regeln['zustaendigkeit']
+    bio, biom_quelle = lade_biome(basis, win, feld, regeln, hinweise)
+    werte, zahl = np.unique(bio, return_counts=True)
+    biome_fenster = {BIOME15[int(k)]: round(float(c) / bio.size, 4) for k, c in sorted(zip(werte, zahl), key=lambda x: -x[1])}
+    eigen = np.isin(bio, [BIOME15.index(b) for b in Z['biome_eigen'] if b in BIOME15])
+    del bio
+    anteil_eigen = float(eigen.mean())
+    anteil_feld = float(eigen[im_feld].mean())
+    if anteil_eigen < float(Z['min_anteil_fenster']):
+        return schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, anteil_feld, biom_quelle, hinweise, t0)
+    saum_m = float(Z['saum_m'])
+    if eigen.all():
+        zust = np.ones((H, W), np.float32)
+    else:
+        d_eigen, _, _ = jfa(eigen, max_m=max(64.0, 2.0 * saum_m))
+        zust = np.where(eigen, 1.0, np.clip(1.0 - d_eigen / saum_m, 0.0, 1.0)).astype(np.float32)
+        del d_eigen
+    zust_m = zust > 0
+    zellen_zustaendig = int((zust_m & im_feld).sum())
+    zellen_eigen_feld = int((eigen & im_feld).sum())
+    meld('%s: Biome im Fenster %s, eigen %.1f %% (Feld %.1f %%), zustaendig %d Zellen im Feld (davon Saum %d, Saum %d m), Quelle %s' % (
+        feld, {k: v for k, v in list(biome_fenster.items())[:4]}, 100 * anteil_eigen, 100 * anteil_feld, zellen_zustaendig,
+        zellen_zustaendig - zellen_eigen_feld, int(saum_m), biom_quelle))
+
+    # --- übrige Raster
     def r8(name):
         a = lade_raster(os.path.join(basis, WELT, name), np.uint8, win)
         if a is None:
-            meld('Hinweis: %s fehlt – als leer behandelt' % name)
+            meld('Hinweis: %s fehlt - als leer behandelt' % name)
             hinweise.append('%s fehlt' % name)
             return np.zeros((H, W), bool)
         return a > 0
@@ -623,14 +848,14 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     wasser_k = r8('karte_wasser.r8')
     weg = r8('karte_weg.r8')
     ort = r8('karte_ort.r8')
-    biomf, biom_sumpf, bio_anteil = lade_biome(basis, win, regeln, feld)
 
+    K = {k: v for k, v in regeln['klassen'].items() if not k.startswith('_')}
     lagen_namen = set(regeln['nass_maske']['lagen'].keys())
-    for k in regeln['klassen'].values():
+    for k in K.values():
         lagen_namen |= set(k.get('lagen_faktor', {}).keys())
     lagen = lade_lagen(basis, win, lagen_namen)
     if not lagen:
-        hinweise.append('keine lage_*.r8 gefunden – Lagenfaktoren = 1, Nassmaske nur aus Wassernähe')
+        hinweise.append('keine lage_*.r8 gefunden - Lagenfaktoren = 1, Nassmaske nur aus Wassernaehe')
     meld('Lagen geladen: %s' % (', '.join(sorted(lagen)) or 'keine'))
 
     # --- Gelände: Normale, Hang
@@ -638,8 +863,8 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     gi = np.gradient(hg, axis=0)
     gj = np.gradient(hg, axis=1)
     n_len = np.sqrt(gi * gi + gj * gj + 1.0)
-    n_x = (-gj / n_len).astype(np.float32)  # Weltx ↔ Spalte j
-    n_y = (-gi / n_len).astype(np.float32)  # Welty ↔ Zeile i
+    n_x = (-gj / n_len).astype(np.float32)  # Welt x <-> Spalte j
+    n_y = (-gi / n_len).astype(np.float32)  # Welt y <-> Zeile i
     n_z = (1.0 / n_len).astype(np.float32)
     hang = np.degrees(np.arctan(np.sqrt(gi * gi + gj * gj))).astype(np.float32)
 
@@ -663,13 +888,13 @@ def plane_feld(feld, basis, regeln, faktor, bild):
                 spiegel0[m] = np.float32(sp)
                 n_sp += 1
         if polys:
-            meld('%d Umrisse, davon %d mit expliziter Spiegelhöhe' % (len(polys), n_sp))
+            meld('%d Umrisse, davon %d mit expliziter Spiegelhoehe' % (len(polys), n_sp))
     wasser = wasser0 & (hoehe <= spiegel0 + 0.05)
-    trocken_w = wasser0 & ~wasser  # als Wasser kartiert, aber über dem Spiegel: für die Zonierung Land, für Landklassen trotzdem gesperrt
+    trocken_w = wasser0 & ~wasser  # als Wasser kartiert, aber über dem Spiegel: für die Zonierung Land, für Landklassen gesperrt
     if wasser0.any() and not wasser.any():
-        hinweise.append('Wasserflächen liegen komplett über dem abgeleiteten Spiegel – Umrisse/Spiegel prüfen')
+        hinweise.append('Wasserflaechen liegen komplett ueber dem abgeleiteten Spiegel - Umrisse/Spiegel pruefen')
     if trocken_w.any():
-        hinweise.append('%d karte_wasser-Zellen liegen > 5 cm über dem Spiegel (Zonierung als Land, für Landklassen gesperrt)' % int(trocken_w.sum()))
+        hinweise.append('%d karte_wasser-Zellen liegen > 5 cm ueber dem Spiegel (Zonierung als Land, fuer Landklassen gesperrt)' % int(trocken_w.sum()))
     if wasser.any():
         rand_w = wasser & dilate(~wasser, 1)
         d_w, si, sj = jfa(rand_w, max_m=distmax)
@@ -680,14 +905,16 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         si = sj = np.full((H, W), -1, np.int32)
         hat = np.zeros((H, W), bool)
         spiegel = hoehe.copy()
-        hinweise.append('kein Wasser im Fenster – nur Hinterland-Klassen')
+        hinweise.append('kein Wasser im Fenster - nur Land-Klassen')
     tiefe = np.where(wasser, np.maximum(spiegel - hoehe, 0.0), 0.0).astype(np.float32)
     h_ueber = np.where(wasser, 0.0, np.where(hat, hoehe - spiegel, 0.0)).astype(np.float32)
     fern = ~hat & ~wasser
-    wasser_anteil = float(wasser[fb[0] - wi0:fb[1] - wi0, fb[2] - wj0:fb[3] - wj0].mean())
-    meld('Wasser im Feld: %.2f %% der Fläche; Tiefe max %.2f m' % (100 * wasser_anteil, float(tiefe.max())))
+    wasser_anteil = float(wasser[im_feld].mean())
+    wasser_zust = float((wasser & zust_m & im_feld).sum()) / max(1, zellen_zustaendig)
+    meld('Wasser im Feld: %.2f %% der Flaeche (%.2f %% der Zustaendigkeit); Tiefe max %.2f m' % (
+        100 * wasser_anteil, 100 * wasser_zust, float(tiefe[zust_m].max()) if zust_m.any() else 0.0))
 
-    # --- Nassmaske
+    # --- Nassmaske (Schlamm/Algen-Lagen oder Wassernähe) – NUR innerhalb der Zuständigkeit (Korrektur Runde 1)
     nm = regeln['nass_maske']
     if lagen:
         summe = np.zeros((H, W), np.float32)
@@ -698,39 +925,34 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         nass = (summe >= float(nm.get('schwelle', 0.35))) | (d_w <= 3.0)
     else:
         nass = d_w <= 12.0
-    sumpfig = biom_sumpf | nass
+    nass_fremd = int((nass & ~zust_m & im_feld).sum())   # Nassflächen fremder Biome: früher bebaut (Ursache der Fremdbiom-Instanzen)
+    nass &= zust_m
 
     # --- Zonen
-    Z = regeln['zonen']
+    Zo = regeln['zonen']
     zone = np.zeros((H, W), np.int8)
-    fw_max = float(Z['flachwasser']['tiefe_m'][1])
+    fw_max = float(Zo['flachwasser']['tiefe_m'][1])
     zone[wasser & (tiefe <= fw_max)] = ZONEN['flachwasser']
     zone[wasser & (tiefe > fw_max)] = ZONEN['tiefwasser']
     land = ~wasser
-    sp_lo, sp_hi = Z['spiegel']['hoehe_ueber_spiegel_m']
-    sp_d = float(Z['spiegel'].get('abstand_wasser_max_m', 2.0))
-    z_sp = land & hat & (h_ueber <= sp_hi) & (d_w <= sp_d)
-    zone[z_sp] = ZONEN['spiegel']
-    uf_d0, uf_d1 = Z['ufer']['abstand_wasser_m']
-    uf_h = float(Z['ufer']['hoehe_ueber_spiegel_m'][1])
-    z_uf = land & hat & (zone == 0) & (d_w <= uf_d1) & (h_ueber <= uf_h)
-    zone[z_uf] = ZONEN['ufer']
-    bu_d0, bu_d1 = Z['bult']['abstand_wasser_m']
-    bu_h = float(Z['bult']['hoehe_ueber_spiegel_m'][1])
-    z_bu = land & hat & (zone == 0) & (d_w <= bu_d1) & (h_ueber <= bu_h)
-    zone[z_bu] = ZONEN['bult']
-    hi_h = float(Z['hinterland']['hoehe_ueber_spiegel_m'][1])
-    z_hi = land & (zone == 0) & ((h_ueber <= hi_h) | fern)
-    zone[z_hi] = ZONEN['hinterland']
-    # Nassflächen ohne offenes Wasser (Schlamm/Algen-Lagen > 18 m vom nächsten Wasser, z. B. H5 mit nur 0,4 % kartiertem Wasser)
-    # zählen als Bultenzone: dort Seggen, Moos, Weidengebüsch statt nur Hinterland-Laub.
+    sp_lo, sp_hi = Zo['spiegel']['hoehe_ueber_spiegel_m']
+    sp_d = float(Zo['spiegel'].get('abstand_wasser_max_m', 2.0))
+    zone[land & hat & (h_ueber <= sp_hi) & (d_w <= sp_d)] = ZONEN['spiegel']
+    uf_d0, uf_d1 = Zo['ufer']['abstand_wasser_m']
+    uf_h = float(Zo['ufer']['hoehe_ueber_spiegel_m'][1])
+    zone[land & hat & (zone == 0) & (d_w <= uf_d1) & (h_ueber <= uf_h)] = ZONEN['ufer']
+    bu_d0, bu_d1 = Zo['bult']['abstand_wasser_m']
+    bu_h = float(Zo['bult']['hoehe_ueber_spiegel_m'][1])
+    zone[land & hat & (zone == 0) & (d_w <= bu_d1) & (h_ueber <= bu_h)] = ZONEN['bult']
+    hi_h = float(Zo['hinterland']['hoehe_ueber_spiegel_m'][1])
+    zone[land & (zone == 0) & ((h_ueber <= hi_h) | fern)] = ZONEN['hinterland']
+    # Nassflächen ohne offenes Wasser in 18 m zählen als Bultenzone – nur innerhalb der Zuständigkeit (nass ist schon maskiert).
     nass_fern = (zone == ZONEN['hinterland']) & nass & (d_w > bu_d1)
     zone[nass_fern] = ZONEN['bult']
-    im_feld = np.zeros((H, W), bool)
-    im_feld[fb[0] - wi0:fb[1] - wi0, fb[2] - wj0:fb[3] - wj0] = True
-    zstat = {name: int(((zone == idx) & im_feld & sumpfig).sum()) for name, idx in ZONEN.items()}
+    zstat = {name: int(((zone == idx) & im_feld & zust_m).sum()) for name, idx in ZONEN.items()}
     zstat['bult_ohne_wasser'] = int((nass_fern & im_feld).sum())
-    meld('Zonen im Feld (sumpfig, m²): %s' % zstat)
+    zstat['nass_fremdbiom_gesperrt'] = nass_fremd
+    meld('Zonen im Feld (zustaendig, m2): %s' % zstat)
 
     # --- Faktoren
     HA = regeln['hoehe_ueber_spiegel_abnahme']
@@ -738,8 +960,6 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     h_f[fern] = 1.0  # ohne Wasser in 64 m: Sumpfbiom gilt als flach
     HG = regeln['hang']
     hang_f = np.clip(1.0 - (hang - HG['voll_bis_grad']) / max(1e-3, HG['null_ab_grad'] - HG['voll_bis_grad']), 0.0, 1.0).astype(np.float32)
-    nass_f = np.where(nass, 0.5, 0.0).astype(np.float32)
-    biom_wasserkl = np.maximum(biomf, nass_f)  # Wasserzonen-Klassen auch außerhalb des Sumpfbioms (halbe Stärke)
 
     # --- Ausschlüsse
     A = regeln['abstand_m']
@@ -747,13 +967,13 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     weg_gross = dilate(weg, A['weg_gross']) if weg.any() else weg
     ort_m = dilate(ort, A['ort']) if ort.any() else ort
     baum_pts, sonst_pts, quellen = lade_bestand(basis, feld, win)
-    meld('Bestand: %d Bäume, %d Sonstige aus %s' % (len(baum_pts), len(sonst_pts), ', '.join(quellen) or 'nichts'))
+    meld('Bestand: %d Baeume, %d Sonstige aus %s' % (len(baum_pts), len(sonst_pts), ', '.join(quellen) or 'nichts'))
     baum_m = punkte_maske(baum_pts, H, W)
     sonst_m = punkte_maske(sonst_pts, H, W)
     sonst_d = dilate(sonst_m, A['bestand_sonst']) if sonst_m.any() else sonst_m
     stamm_klein = dilate(baum_m, A['baumstamm_klein']) if baum_m.any() else baum_m
     eigene_baum_m = np.zeros((H, W), bool)   # von dieser Ebene gesetzte Bäume
-    holz_m = np.zeros((H, W), bool)          # liegendes Totholz / Stümpfe dieser Ebene (für Pilze)
+    holz_m = np.zeros((H, W), bool)          # Holz dieser Ebene (Klassen mit "holz": true)
     baum_dil_cache = {}
 
     def baum_abstand_maske(r):
@@ -764,11 +984,10 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         return baum_dil_cache[key]
 
     # --- Klassen
-    prio = list(regeln['budget']['prioritaet'])
-    for kname in regeln['klassen']:
+    prio = [k for k in regeln['budget']['prioritaet'] if k in K]
+    for kname in K:
         if kname not in prio:
             prio.append(kname)
-    K = regeln['klassen']
     klassen_idx = {k: n for n, k in enumerate(K.keys())}
     ergebnisse = []
     ii_abs, jj_abs = np.indices((H, W), dtype=np.int32)
@@ -777,6 +996,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     dw_blur = gauss_blur(d_w, 2.0)
     dgi = np.gradient(dw_blur, axis=0)
     dgj = np.gradient(dw_blur, axis=1)
+    sperre_basis = ~zust_m   # nichts jenseits des 30-m-Saums
 
     for kname in prio:
         k = K.get(kname)
@@ -819,21 +1039,19 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             prof = k.get('tiefe_profil')
             if prof:
                 xs = np.array(sorted(float(x) for x in prof), np.float32)
-                ys = np.array([float(prof[str(x) if str(x) in prof else x]) for x in sorted(prof, key=float)], np.float32)
+                ys = np.array([float(prof[x]) for x in sorted(prof, key=float)], np.float32)
                 tf = tf * np.interp(tiefe, xs, ys).astype(np.float32)
             dens = dens * tf
             # Landzellen der Spiegelzone (falls Klasse sie erlaubt): ohne Tiefenfilter, mit Hangfaktor
             if ZONEN['spiegel'] in zonen:
                 dens = np.where(zone == ZONEN['spiegel'], (float(k['dichte']) * faktor) * zf[ZONEN['spiegel']] * lagen_f * hang_f, dens)
-            dens = dens * biom_wasserkl
         else:
             dens = dens * hang_f * np.where(hang <= hmax, 1.0, 0.0) * h_f
-            dens = dens * (biomf if k.get('biom_hinterland') else biom_wasserkl)
-            dens = dens * np.where(zone == ZONEN['hinterland'], biomf, 1.0)
-        dens = dens * np.where(sumpfig, 1.0, 0.0)
+        # Zuständigkeit: 1 in Sumpf-Zellen, linear auf 0 im 30-m-Saum, 0 sonst (Konventionen §1) – für ALLE Klassen
+        dens = dens * zust
         # Ausschlüsse
         gross = bool(k.get('kollision')) or k['ebene'].startswith('2')
-        erlaubt = ~ort_m & ~(weg_gross if gross else weg_klein) & ~sonst_d
+        erlaubt = ~sperre_basis & ~ort_m & ~(weg_gross if gross else weg_klein) & ~sonst_d
         if ist_wasserklasse:
             erlaubt &= np.isin(zone, zonen)
         else:
@@ -886,7 +1104,8 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             mi = np.clip(np.round(fi).astype(np.int32), 0, H - 1)
             mj = np.clip(np.round(fj).astype(np.int32), 0, W - 1)
             if mm > 0:
-                # Mitglied nur, wenn Zelle erlaubt und Dichte dort nicht viel kleiner als am Zentrum
+                # Mitglied nur, wenn Zelle erlaubt (Dichte > 0, damit auch innerhalb der Zuständigkeit) und Dichte dort nicht viel
+                # kleiner als am Zentrum
                 dz = dens[ci[sel][ok], cj[sel][ok]]
                 akz = (dens[mi, mj] > 0) & (hash01(mi + wi0, mj + wj0, seed, kan + 30) < np.minimum(dens[mi, mj] / np.maximum(dz, 1e-6), 1.0))
                 fi, fj, mi, mj = fi[akz], fj[akz], mi[akz], mj[akz]
@@ -949,57 +1168,25 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         if k['ebene'].startswith('2'):
             eigene_baum_m[mi, mj] = True
             baum_dil_cache.clear()
-        if kname in ('totholz_gross', 'totholz_klein', 'stumpf', 'treibholz_wasser'):
+        if k.get('holz'):
             holz_m[mi, mj] = True
 
-    # --- Budget
-    B = regeln['budget']
-    stat = {e['klasse']: int(e['fi'].size) for e in ergebnisse}
-    gesamt = sum(stat.values())
-    nk = sum(n for kn, n in stat.items() if K[kn].get('kollision'))
-    ausduenn = {}
-    if nk > B['kollision_je_feld']:
-        f = B['kollision_je_feld'] / float(nk)
-        for kn in stat:
-            if K[kn].get('kollision'):
-                ausduenn[kn] = f
-        hinweise.append('Kollisionsbudget: %d → %d, Faktor %.2f auf Kollisionsklassen' % (nk, B['kollision_je_feld'], f))
-    ziel = int(B.get('ziel_instanzen_je_feld', B['instanzen_je_feld']))
-    if gesamt > ziel:
-        ueber = gesamt - ziel
-        pool, summe = [], 0
-        for kn in reversed(prio):
-            n = stat.get(kn, 0)
-            if n == 0:
-                continue
-            pool.append(kn)
-            summe += n
-            if summe * 0.6 >= ueber:
-                break
-        f = max(0.0, 1.0 - ueber / float(max(1, summe)))
-        for kn in pool:
-            ausduenn[kn] = min(ausduenn.get(kn, 1.0), f)
-        hinweise.append('Instanzbudget: %d → Ziel %d, Ausdünnung %s' % (gesamt, ziel, {kn: round(v, 2) for kn, v in ausduenn.items()}))
-    for e in ergebnisse:
-        f = ausduenn.get(e['klasse'], 1.0)
-        if f < 1.0:
-            keep = hash01(e['mi'] + wi0, e['mj'] + wj0, seed, 99991 + klassen_idx[e['klasse']]) < f
-            for key in ('fi', 'fj', 'mi', 'mj', 'netz', 'massstab', 'yaw', 'neig', 'neig_phi'):
-                if e[key] is not None:
-                    e[key] = e[key][keep]
+    # --- Budget (Konventionen §3)
+    bstat = budget_anwenden(ergebnisse, prio, regeln['budget'], seed, wi0, wj0, klassen_idx, hinweise, feld)
 
     # --- Instanzen bauen und schreiben
-    ausgabe = os.path.join(basis, regeln['ausgabe']['ordner'], feld)
     os.makedirs(ausgabe, exist_ok=True)
     for f in os.listdir(ausgabe):
         if f.endswith('.f32'):
             os.remove(os.path.join(ausgabe, f))
     dateien, netz_inst, stat, ebenen_stat = {}, {}, {}, {}
     nk = 0
+    saum_inst = 0
     for e in ergebnisse:
         n = e['fi'].size
         if n == 0:
             continue
+        saum_inst += int((~eigen[e['mi'], e['mj']]).sum())
         grund = bilinear(hoehe, e['fi'], e['fj'])
         if e['auf_spiegel']:
             z = bilinear(spiegel, e['fi'], e['fj']) + e['spiegel_versatz'] / 100.0
@@ -1033,23 +1220,23 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             dateien[name]['anzahl'] += int(m.sum())
         stat[e['klasse']] = stat.get(e['klasse'], 0) + n
         ebenen_stat[e['ebene']] = ebenen_stat.get(e['ebene'], 0) + n
-        if e['kollision']:
-            nk += n
     gesamt = 0
-    for name, teile in netz_inst.items():
-        arr = np.concatenate(teile, axis=0).astype('<f4')
+    for name in sorted(netz_inst):
+        arr = np.concatenate(netz_inst[name], axis=0).astype('<f4')
         arr.tofile(os.path.join(ausgabe, name + '.f32'))
         gesamt += arr.shape[0]
+    # Kollision je Datei: eine Datei mit kollision=true zählt ganz (Setzer stellt Kollision je Foliage-Typ ein)
+    nk = sum(d['anzahl'] for d in dateien.values() if d['kollision'])
 
-    # --- Wasserlinsen-Flecken (Punktliste, kein Netz)
+    # --- Wasserlinsen-Flecken (Punktliste, kein Netz) – nur innerhalb der Zuständigkeit
     WL = regeln.get('wasserlinsen_flecken', {})
     flecken = []
     if WL and wasser.any():
         t0_, t1_ = WL.get('tiefe_m', [0.0, 0.7])
         rm = int(WL.get('raster_m', 6))
-        cand = wasser & (tiefe >= t0_) & (tiefe <= t1_) & (d_w <= float(WL.get('abstand_ufer_max_m', 6.0))) & im_feld & sumpfig
+        cand = wasser & (tiefe >= t0_) & (tiefe <= t1_) & (d_w <= float(WL.get('abstand_ufer_max_m', 6.0))) & im_feld & zust_m
         cand &= (ii_abs % rm == 0) & (jj_abs % rm == 0)
-        cand &= hash01(ii_abs, jj_abs, seed, 7001) < float(WL.get('anteil', 0.4))
+        cand &= hash01(ii_abs, jj_abs, seed, 7001) < float(WL.get('anteil', 0.4)) * zust
         ci, cj = np.nonzero(cand)
         r0, r1 = WL.get('radius_m', [2.5, 6.0])
         rr = r0 + (r1 - r0) * hash01(ci + wi0, cj + wj0, seed, 7002)
@@ -1058,30 +1245,42 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             flecken.append([round(float((cj[a] + wj0 - X0) * 100.0), 1), round(float((ci[a] + wi0 - Y0) * 100.0), 1),
                             round(float(spiegel[ci[a], cj[a]] * 100.0), 1), round(float(rr[a] * 100.0), 1)])
 
-    plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(gesamt), 'dateien': dateien}
-    if regeln['ausgabe'].get('entfernen'):
-        plan['entfernen'] = regeln['ausgabe']['entfernen']
-    plan.update({'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
-                 'ebenen': ebenen_stat,
+    # --- entfernen (feldweit!) nur, wenn das Feld überwiegend Sumpf ist
+    entfernen = str(regeln['ausgabe'].get('entfernen', '') or '')
+    emin = float(regeln['ausgabe'].get('entfernen_min_anteil_feld', 0.85))
+    if entfernen and anteil_feld < emin:
+        hinweise.append('entfernen "%s" nicht gesetzt: Sumpf-Anteil im Feld %.2f < %.2f (Filter gilt feldweit)' % (entfernen, anteil_feld, emin))
+        entfernen = ''
+
+    plan = plan_kopf(feld, regeln, gesamt, dateien, entfernen, biome_fenster, zellen_zustaendig, nk)
+    plan.update({'ebenen': ebenen_stat,
                  'extras': {'wasserlinsen_flecken': flecken,
-                            'wasserlinsen_hinweis': 'x,y,z(Spiegel),radius in cm – für Decal/Material-Maske/Niagara; kein Netz im Inventar'},
-                 'statistik': {'je_klasse': stat, 'kollision': int(nk), 'biome_anteil': {kk: round(v, 3) for kk, v in bio_anteil.items()},
-                               'wasser_anteil_feld': round(wasser_anteil, 4), 'zonen_m2': zstat, 'faktor': faktor,
+                            'wasserlinsen_hinweis': 'x,y,z(Spiegel),radius in cm - fuer Decal/Material-Maske/Niagara; kein Netz im Inventar'},
+                 'statistik': {'je_klasse': stat, 'kollision': int(nk),
+                               'zustaendigkeit': {'quelle': biom_quelle, 'anteil_eigen_fenster': round(anteil_eigen, 4),
+                                                  'anteil_eigen_feld': round(anteil_feld, 4), 'saum_m': saum_m,
+                                                  'zellen_eigen_feld': zellen_eigen_feld, 'zellen_saum_feld': zellen_zustaendig - zellen_eigen_feld,
+                                                  'instanzen_im_saum': saum_inst},
+                               'budget': bstat, 'wasser_anteil_feld': round(wasser_anteil, 4), 'zonen_m2': zstat, 'faktor': faktor,
                                'laufzeit_s': round(time.time() - t0, 1), 'numba': NUMBA, 'quellen_bestand': quellen},
-                 'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet'})
+                 'overrides_geliefert': {b: sorted(k for k in regeln.get(b, {}) if not k.startswith('_'))
+                                         for b in ('mittelschicht_overrides', 'felsgruppen_overrides', 'spuren_overrides')},
+                 'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet (UNGETESTET MIT ECHTDATEN)'})
     with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
         json.dump(plan, f, ensure_ascii=False, indent=1)
-    meld('%s: %d Instanzen (%d mit Kollision), %d Netze, %d Wasserlinsen-Flecken, %.1f s' % (feld, gesamt, nk, len(dateien), len(flecken), time.time() - t0))
+    meld('%s: %d Instanzen (%d mit Kollision, %d im Saum), %d Netze, %d Wasserlinsen-Flecken, %.1f s' % (
+        feld, gesamt, nk, saum_inst, len(dateien), len(flecken), time.time() - t0))
     for eb in sorted(ebenen_stat):
         meld('  Ebene %-14s %6d' % (eb, ebenen_stat[eb]))
     for h in hinweise:
-        meld('  Hinweis:', h)
+        if not str(h).startswith('WARNUNG'):
+            meld('  Hinweis:', h)
 
     if bild:
         try:
             from PIL import Image
         except Exception:
-            meld('Pillow fehlt – kein Prüfbild')
+            meld('Pillow fehlt - kein Pruefbild')
             return plan
         farben = regeln.get('bild_farben', {})
         fi0, fi1, fj0, fj1 = fb[0] - wi0, fb[1] - wi0, fb[2] - wj0, fb[3] - wj0
@@ -1089,10 +1288,14 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         g = np.clip((hh - hh.min()) / max(1e-3, float(hh.max() - hh.min())), 0, 1) * 100 + 80
         rgb = np.stack([g, g, g], axis=2).astype(np.float32)
         zz = zone[fi0:fi1, fj0:fj1]
-        sf = sumpfig[fi0:fi1, fj0:fj1]
-        for zname, col in (('bult', farben.get('bult')), ('ufer', farben.get('ufer')), ('spiegel', farben.get('spiegel'))):
+        zu = zust[fi0:fi1, fj0:fj1]
+        sm = (zu > 0) & ~eigen[fi0:fi1, fj0:fj1]
+        rgb[sm] = 0.5 * rgb[sm] + 0.5 * np.array(farben.get('saum', [230, 150, 40]), np.float32)
+        rgb[zu <= 0] *= 0.55
+        for zname in ('bult', 'ufer', 'spiegel'):
+            col = farben.get(zname)
             if col:
-                m = (zz == ZONEN[zname]) & sf
+                m = (zz == ZONEN[zname]) & (zu > 0)
                 rgb[m] = 0.45 * rgb[m] + 0.55 * np.array(col, np.float32)
         tt = tiefe[fi0:fi1, fj0:fj1]
         ww = wasser[fi0:fi1, fj0:fj1]
@@ -1117,39 +1320,33 @@ def plane_feld(feld, basis, regeln, faktor, bild):
             pi = np.clip(np.round(e['fi']).astype(np.int32) - fi0, 0, fi1 - fi0 - 1)
             pj = np.clip(np.round(e['fj']).astype(np.int32) - fj0, 0, fj1 - fj0 - 1)
             rgb[pi, pj] = c
-            if e['ebene'].startswith('2') or e['klasse'] == 'totholz_gross':
+            if e['ebene'].startswith('2'):
                 rgb[np.minimum(pi + 1, fi1 - fi0 - 1), pj] = c
                 rgb[pi, np.minimum(pj + 1, fj1 - fj0 - 1)] = c
                 rgb[np.minimum(pi + 1, fi1 - fi0 - 1), np.minimum(pj + 1, fj1 - fj0 - 1)] = c
         od = os.path.join(basis, regeln['ausgabe']['bild'])
         os.makedirs(od, exist_ok=True)
         Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8)).save(os.path.join(od, feld + '.png'))
-        meld('Prüfbild: %s' % os.path.join(od, feld + '.png'))
+        meld('Pruefbild: %s' % os.path.join(od, feld + '.png'))
     return plan
 
 
 def main():
-    ap = argparse.ArgumentParser(description='Eldarien Sumpf-Planer (Boden, Mittel, Baum, Wasserkante; Biom sumpf)')
+    ap = argparse.ArgumentParser(description='Eldarien Sumpf-Planer (Boden, Sumpf-Sonderformen, Baum, Wasserkante; Biom sumpf)')
     ap.add_argument('felder', nargs='+', help='Gitterfelder, z. B. H5 I5 H4')
-    ap.add_argument('--bild', action='store_true', help='Prüfbild docs/pruefung/sumpf/<Feld>.png schreiben')
-    ap.add_argument('--faktor', type=float, default=1.0, help='globaler Dichtefaktor')
-    ap.add_argument('--basis', default='.', help='production-Wurzel (enthält export/unreal/welt)')
+    ap.add_argument('--bild', action='store_true', help='Pruefbild docs/pruefung/sumpf/<Feld>.png schreiben')
+    ap.add_argument('--faktor', type=float, default=1.0, help='globaler Dichtefaktor (Budget bleibt hart)')
+    ap.add_argument('--basis', default='.', help='production-Wurzel (enthaelt export/unreal/welt)')
     ap.add_argument('--regeln', default=None, help='Regeldatei (Standard: sumpf_regeln.json neben dem Skript)')
     args = ap.parse_args()
     regeln = lade_regeln(args.regeln or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sumpf_regeln.json'))
+    for feld in args.felder:   # Feldnamen vor jeder Arbeit prüfen (Exit 2)
+        feld_fenster(feld, 0)
     if not NUMBA:
-        meld('numba nicht verfügbar – reiner NumPy-Pfad (ausreichend)')
+        meld('numba nicht verfuegbar - reiner NumPy-Pfad (ausreichend)')
     pruefe_netze(regeln, args.basis)
-    felder_bekannt = regeln.get('felder', {})
     for feld in args.felder:
-        feld = feld.strip().upper()
-        if felder_bekannt and feld not in felder_bekannt:
-            meld('Hinweis: %s ist laut biome_je_feld.md kein Sumpffeld (bekannt: %s) – es wird nur geplant, wo eigner.r8 sumpf oder die Nassmaske greift' % (feld, ', '.join(felder_bekannt)))
-        try:
-            plane_feld(feld, args.basis, regeln, args.faktor, args.bild)
-        except SystemExit as e:
-            meld('ABBRUCH %s: %s' % (feld, e))
-            sys.exit(1)
+        plane_feld(feld.strip().upper(), args.basis, regeln, args.faktor, args.bild)
 
 
 if __name__ == '__main__':
