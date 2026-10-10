@@ -60,7 +60,8 @@
   "biom_faktor": "alt (wueste_ergaenzung): {biom: float} multipliziert alle Klassen des Bioms",
   "parameter": "{klasse: {schluessel: wert}} ueberschreibt einzelne Klassenschluessel (auch lichtung, wegrand, nah_baum, mulde, an_totholz als Dichtefaktoren)",
   "vorlage_biom": "{klasse: biom} Vorlage, wenn die Klasse im Biom fehlt (sonst erstes Biom mit dieser Klasse)",
-  "entfernen_je_feld": "{Feld: \"praefix,praefix\"} wird an plan.json entfernen angehaengt"
+  "entfernen_je_feld": "{Feld: \"praefix,praefix\"} wird an plan.json entfernen angehaengt",
+  "hoehenstufen": "Klassenschluessel (auch in parameter/zusatzklassen): stufe [min,max] (0 bergwald, 1 krummholz, 2 matte, 3 fels/schnee), stufen [f0,f1,f2,f3], hoehe_rel_baumgrenze_m [min,max], hoehe_min_m. Stufen/Baumgrenze wie hochgebirge_plan.py aus hochgebirge_regeln.json (hoehenstufen, glaettung, seed; Datei neben dieser oder ../hochgebirge/, sonst Vorgabe). Mit stufe/stufen/hoehe_rel_baumgrenze_m entfaellt der pauschale Hoehenabfall (hoehe.abnahme_ab_m/null_ab_m); absolute hoehe_max_m bleibt wirksam (fuer reine Stufensteuerung 9999 setzen)."
  },
  "klasse_vorgabe": {
   "netze": [],
