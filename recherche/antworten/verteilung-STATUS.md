@@ -178,4 +178,4 @@ Regel verbindlich in `verteilung-KONVENTIONEN.md` §1b: Meer = hoehe < 0 und kar
 | felsgruppen, mittelschicht, spuren | laeuft |
 | nordkueste, aue, heide_tundra | laeuft |
 | hochgebirge, elfenwald, sumpf | laeuft |
-| dschungel, lava, wueste_ergaenzung | laeuft |
+| dschungel, lava, wueste_ergaenzung | fertig, gepusht (synthetisch Boden unter 0 m: dschungel G6 2 -> 0, lava C7 14 245 -> 0, wueste E7 7 969 -> 0; Gesamt 15 588 -> 15 171 / 32 892 -> 32 651 / 18 783 -> 10 428; Kuestensaum 0-0,3 m nur Wasserkante/Strand, im Dschungel vorher 95 Baeume/Palmen dort). Hinweis: z unter 0 durch Eingraben auf Strand ab 0 m moeglich (dschungel 87, lava 257, wueste 1) - kein Meer |

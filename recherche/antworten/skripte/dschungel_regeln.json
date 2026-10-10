@@ -192,7 +192,7 @@
   "relief_umkreis_m": 96
  },
  "abstand_m": {
-  "_doku": "Mindestabstände (m) zu Weg/Ort/Wasser je Größenklasse; 'klein' = Boden/Mittel, 'gross' = Bäume. Wasser: nichts auf Wasser; Wasserkante-Klassen haben eigene Bänder.",
+  "_doku": "Mindestabstände (m) zu Weg/Ort/Wasser je Größenklasse; 'klein' = Boden/Mittel, 'gross' = Bäume. Wasser: nichts auf Wasser; Wasserkante-Klassen haben eigene Bänder. Runde 4: Wasser = Süßwasser (karte_wasser) ODER Meer (hoehe < 0 und karte_wasser == 0), siehe Block meer.",
   "weg_klein": 2.5,
   "weg_gross": 4.0,
   "ort": 5.0,
@@ -201,6 +201,13 @@
   "standorte": 5.0,
   "baum_fremd_gross": 4.0,
   "baum_fremd_klein": 1.2
+ },
+ "meer": {
+  "_doku": "Korrektur Runde 4 (KONVENTIONEN §1b): karte_wasser.r8 enthält nur Süßwasser. meer = hoehe < meeresspiegel_m UND karte_wasser == 0; wasser_alle = karte_wasser > 0 ODER meer gilt für Sperren, Wasserabstände (abstand_m.wasser_*), das Wasserkanten-Band (moosstein, uferfarn), Landzellen und Blickziele. Klassen mit suesswasser true (schilf = Rohrkolben, horsetail = Schachtelhalm) messen ihr Band nur an karte_wasser und stehen nie im Küstensaum. Unter nichts_unter_m nichts; nichts_unter_m..0 nur Klassen mit meer_rolle true (hier keine); 0..saum_hoehe_m in Zellen mit Abstand <= saum_abstand_m zum Meer nur Schicht 5 wasserkante (ohne suesswasser) oder strand true. Geprüft wird zellweise und als Schlussfilter an der Bodenhöhe am Instanzort (bilinear); plan.json meldet meer_zellen und meer_gefiltert.",
+  "meeresspiegel_m": 0.0,
+  "nichts_unter_m": -0.3,
+  "saum_hoehe_m": 0.3,
+  "saum_abstand_m": 30.0
  },
  "karst": {
   "_doku": "Karst-Kalktürme (G6 H6 I6 I7): wand = Hang > wand_grad; fuss = Zellen ≤ fuss_m von einer Wand mit Hang < fuss_hang_max; spalte = Hang spalte_grad[0]..[1]; gipfel = Relief > gipfel_relief_m, Hang < gipfel_hang_max, ≤ gipfel_wand_m von einer Wand. Faktoren je Lage werden je Klasse unter 'karst' angegeben (fuss/spalte/gipfel/wand).",
@@ -1155,6 +1162,7 @@
   "schilf": {
    "schicht": "5 wasserkante",
    "rolle": "ufer",
+   "suesswasser": true,
    "netze": [
     "Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_1",
     "Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_3",
@@ -1206,6 +1214,7 @@
   "horsetail": {
    "schicht": "5 wasserkante",
    "rolle": "ufer",
+   "suesswasser": true,
    "netze": [
     "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_01",
     "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_02",

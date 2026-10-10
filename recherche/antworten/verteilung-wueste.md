@@ -15,6 +15,38 @@ sind mit **[Suchauszug]** markiert, Zahlen ohne Beleg mit **Richtwert**.
 F6/F7 (oedland 4 %/3 %, nur Saum). Innerhalb eines Feldes läuft der Planer ausschließlich auf Zellen der drei Biome (`eigner.r8` +
 `welt.json`; `wueste_namaqualand` wird als `wueste` erkannt), seit Korrektur Runde 1 mit 30-m-Saum nach außen (Landbezug, < 2 % → leerer Plan); Aue-, Tundra- und Lava-Anteile bleiben B2/B3/B8.
 
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+Anlass: `auftraege/verteilung-korrektur-runde4.md`. Lokal gemessen lagen **20 % der `wueste_ergaenzung`-Instanzen unter 0 m**, weil
+`karte_wasser.r8` nur Süßwasser enthält und der Meeresboden als Land zählte. Umsetzung nach `verteilung-KONVENTIONEN.md` §1b in
+`skripte/wueste_ergaenzung_plan.py` und `skripte/wueste_ergaenzung_regeln.json` (neuer Block `meer`):
+
+- `meer = (hoehe < 0) & (karte_wasser == 0)`, `wasser_alle = karte_wasser > 0 | meer`.
+- `wasser_alle` gilt für die Sperre (`abstand_m.wasser`), die Landzellen (`land`: Biom-Anteil, `biome_fenster`, Zuständigkeit, 30-m-Saum),
+  die Rinnen-Maske und das Prüfbild.
+- Süßwasser-spezifisch bleiben die Restfeuchte (Oasen/Rinnen) und das Band von `schilf_rest`. `schilf_rest` und `gras_gruen` sind als
+  `suesswasser: true` markiert und stehen nie im Küstensaum.
+- Unter −0,3 m nichts. −0,3…0 m nur `meer_rolle` (keine Klasse). 0…+0,3 m im Küstensaum (≤ 30 m zu `meer`) hier ebenfalls nichts, da der
+  Planer keine Strand-/Mangrovenklasse hat.
+- Prüfung zellweise (Freiflächen-Maske) und als Schlussfilter an der Bodenhöhe am Instanzort (bilinear), vor dem Budget.
+  `plan.json` meldet `meer_zellen` und `meer_gefiltert` (auch im leeren Plan), dazu `statistik.gelaende.meer_anteil` und `kuestensaum_zellen`.
+- Das Ergänzungsprinzip in den Wüstenfeldern C3–E5 bleibt unverändert: `wuestenfeld_faktor`, Budget 15 000, kein `entfernen`.
+
+Rauchtest synthetisch (Scratchpad, danach gelöscht): je Feld eine Küste quer durchs Feld – Meer bis −14 m **nicht** in `karte_wasser`, flache Zone −0,3…0 m (≈ 25 m breit), Strand 0…0,3 m (15 m), Insel, See + Fluss in `karte_wasser` bis 45 m ins Meer, Binnensenke 0,15 m (> 100 m vom Meer), Weg. Gezählt an der Bodenhöhe am Instanzort (bilinear) und am Feld z (mit Eingraben). Feld E7 (oedland 100 %, Meer 41 % des Fensters):
+
+| E7 | vorher | nachher |
+|---|---|---|
+| Instanzen gesamt | 18 783 | 10 428 |
+| Bodenhöhe < 0 m / < −0,3 m | **7 969 (42 %)** / 7 573 | **0 / 0** |
+| −0,3…0 m nach Rolle | 396 (Kiesel 256, Stein 78, Laub 27, Schilf 13, Lehmplatte 10, Dornstrauch 10, Bäume 2) | 0 |
+| 0…0,3 m im Küstensaum | 377 (Kiesel 254, Stein 41, Lehmplatte 35, Dornstrauch 17, Schilf 12, Laub 9, Sukkulent 8, Totbaum 1) | 0 |
+| Feld z < 0 (mit Eingraben) | 8 045 | 1 (Binnensenke 0,15 m, kein Meer) |
+| `meer_gefiltert` | – | 2 |
+
+Zwei Läufe sind byteidentisch (f32, `plan.json` ohne `stand`/`laufzeit_s`). Das Log ist ASCII-only, `py_compile` ist sauber, `--bild` und
+fehlende `karte_wasser.r8` laufen. UNGETESTET MIT ECHTDATEN. Mit Echtdaten erwarte ich 0 Instanzen auf Boden < 0 m statt 20 %; die
+Gesamtzahl sinkt in Küstenfeldern etwa um diesen Anteil.
+
 ## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
 
 Grundlage: `auftraege/verteilung-korrektur-runde1.md` (lokaler Echtdaten-Test 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md` §1–§6

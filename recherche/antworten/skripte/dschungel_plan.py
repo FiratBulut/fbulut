@@ -9,6 +9,13 @@ Standard aus); ohne Freigabe bleibt plan.json["entfernen"] leer und die Kandidat
 Mit Freigabe nur, wenn die Landzellen des Feldes >= zustaendigkeit.entfernen_min_anteil_land Dschungel sind und <= entfernen_max_fremd_anteil
 der Kandidaten in Saum-/Fremdzellen stehen (der Filter des Setzers gilt feldweit). Die Bäume der Witcher-/Bestand-Ebene bleiben immer.
 
+Korrektur Runde 4 (Meer, KONVENTIONEN §1b): karte_wasser.r8 enthält nur Süßwasser. meer = (hoehe < 0) & (karte_wasser == 0),
+wasser_alle = karte_wasser > 0 | meer. Sperren, Wasserabstände, Wasserkanten-Band (moosstein, uferfarn), Landzellen und Blickziele nutzen
+wasser_alle; Süßwasser-Klassen (schilf/Rohrkolben, horsetail; Regel `suesswasser: true`) messen ihr Band nur an karte_wasser. Unter −0,3 m
+nichts, −0,3…0 m nur Klassen mit `meer_rolle: true` (hier keine), 0…+0,3 m im Küstensaum (≤ 30 m zu meer) nur Wasserkante (ohne
+Süßwasser-Klassen) bzw. `strand: true`. Prüfung zellweise (Dichtekarte) und als Schlussfilter an der Bodenhöhe am Instanzort (bilinear);
+plan.json meldet `meer_zellen` (Fenster) und `meer_gefiltert` (vom Schlussfilter verworfene Instanzen). Parameter in regeln["meer"].
+
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft und mit synthetischen Rastern (H6, G4, G5) rauchgetestet.
 Korrekturen bitte als auftraege/verteilung-dschungel-korrektur.md.
 
@@ -678,7 +685,7 @@ def zaehle_entfernen(basis, feld, win, praefixe, eigen, zust_m, land_m, im_feld)
     return out
 
 
-def schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_anteil, biom_quelle, hinweise, t0):
+def schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_anteil, biom_quelle, hinweise, t0, meer_zellen=0):
     """Konventionen §1: Eigenanteil < min_anteil_fenster -> leerer plan.json (instanzen 0, keine f32), nie Text statt plan.json."""
     Z = regeln['zustaendigkeit']
     os.makedirs(ausgabe, exist_ok=True)
@@ -689,6 +696,7 @@ def schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_ant
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': 0, 'dateien': {}, 'entfernen': '',
             'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
             'biome_fenster': biome_fenster, 'zellen_zustaendig': 0, 'biome_eigen': list(Z['biome_eigen']), 'kollision_anzahl': 0,
+            'meer_zellen': int(meer_zellen), 'meer_gefiltert': 0,
             'statistik': {'je_klasse': {}, 'anteil_eigen_fenster': round(anteil_eigen, 4), 'dschungel_anteil_feld': round(ds_anteil, 4),
                           'biom_quelle': biom_quelle, 'laufzeit_s': round(time.time() - t0, 1)},
             'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet (UNGETESTET MIT ECHTDATEN)'}
@@ -713,6 +721,17 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
 
     # --- Höhe (Pflicht) und Zuständigkeit nach Biom-Zellen (Konventionen §1)
     hoehe = lade_raster(os.path.join(basis, WELT, 'hoehe.f32'), np.float32, win, pflicht=True)
+    # Runde 4 (KONVENTIONEN §1b): karte_wasser = nur Suesswasser; Meer = hoehe < 0 und karte_wasser == 0
+    MR = regeln.get('meer', {})
+    meer_spiegel = float(MR.get('meeresspiegel_m', 0.0))
+    meer_nichts_unter = float(MR.get('nichts_unter_m', -0.3))
+    meer_saum_hoehe = float(MR.get('saum_hoehe_m', 0.3))
+    meer_saum_m = float(MR.get('saum_abstand_m', 30.0))
+    wasser = lade_raster(os.path.join(basis, WELT, 'karte_wasser.r8'), np.uint8, win)
+    wasser_m = (wasser > 0) if wasser is not None else np.zeros((H, W), bool)   # Suesswasser (Fluss, See, Bach, Teich)
+    meer = (hoehe < meer_spiegel) & ~wasser_m
+    wasser_alle = wasser_m | meer
+    meer_zellen = int(meer.sum())
     namen = regeln['biome']
     Z = regeln['zustaendigkeit']
     eigen_idx = [namen.index(b) for b in Z['biome_eigen'] if b in namen]
@@ -723,7 +742,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
     anteil_eigen = float(eigen.mean())
     ds_anteil = float(eigen[im_feld].mean())
     if anteil_eigen < float(Z['min_anteil_fenster']):
-        return schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_anteil, biom_quelle, hinweise, t0)
+        return schreibe_leerplan(feld, ausgabe, regeln, biome_fenster, anteil_eigen, ds_anteil, biom_quelle, hinweise, t0, meer_zellen)
     saum_m = float(Z['saum_m'])
     if eigen.all():
         zust = np.ones((H, W), np.float32)
@@ -757,23 +776,26 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
     relief = (hs - hmin_lokal).astype(np.float32)
 
     # --- Masken
-    wasser = lade_raster(os.path.join(basis, WELT, 'karte_wasser.r8'), np.uint8, win)
     weg = lade_raster(os.path.join(basis, WELT, 'karte_weg.r8'), np.uint8, win)
     ort = lade_raster(os.path.join(basis, WELT, 'karte_ort.r8'), np.uint8, win)
     for nm, a in (('karte_wasser', wasser), ('karte_weg', weg), ('karte_ort', ort)):
         if a is None:
             hinweise.append('%s.r8 fehlt – ohne %s geplant' % (nm, nm.split('_')[1]))
-    wasser_m = (wasser > 0) if wasser is not None else np.zeros((H, W), bool)
     weg_m = (weg > 0) if weg is not None else np.zeros((H, W), bool)
     ort_m = (ort > 0) if ort is not None else np.zeros((H, W), bool)
-    meer = (hoehe <= 0.05)
-    d_wasser = distanz(wasser_m | meer, 64)
+    d_wasser = distanz(wasser_alle, 64)      # Abstand zu Suesswasser ODER Meer (Sperre, Wasserkante allgemein)
+    d_suess = distanz(wasser_m, 64)          # nur Suesswasser (Schilf/Rohrkolben, Schachtelhalm: suesswasser true)
+    d_meer = distanz(meer, max(64.0, meer_saum_m))
+    kuestensaum = ~wasser_alle & (hoehe >= meer_spiegel) & (hoehe < meer_spiegel + meer_saum_hoehe) & (d_meer <= meer_saum_m)
+    if meer_zellen:
+        meld('%s: Meer %d Zellen im Fenster (%.1f %%), Kuestensaum 0..%.1f m im Feld %d Zellen' % (
+            feld, meer_zellen, 100.0 * meer_zellen / meer.size, meer_saum_hoehe, int((kuestensaum & im_feld).sum())))
     d_weg = distanz(weg_m, 32)
     d_ort = distanz(ort_m, 32)
     standorte = lade_standorte(basis, win)
     A = regeln['abstand_m']
-    sperre_klein = wasser_m | meer | (d_weg < A['weg_klein']) | (d_ort < A['ort']) | standorte | (d_wasser < A['wasser_klein'])
-    sperre_gross = wasser_m | meer | (d_weg < A['weg_gross']) | (d_ort < A['ort']) | standorte | (d_wasser < A['wasser_gross'])
+    sperre_klein = wasser_alle | (d_weg < A['weg_klein']) | (d_ort < A['ort']) | standorte | (d_wasser < A['wasser_klein'])
+    sperre_gross = wasser_alle | (d_weg < A['weg_gross']) | (d_ort < A['ort']) | standorte | (d_wasser < A['wasser_gross'])
     biom_f = zust
 
     # --- Lagen
@@ -848,6 +870,31 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
     aus = []     # je Klasse: dict mit fi, fj, mi, mj
     stat = {}
 
+    def kueste_erlaubt(kl):
+        """§1b: im Kuestensaum 0..0,3 m nur Wasserkante (ohne Suesswasser-Klassen), strand- und Meeres-Rollen."""
+        return bool(kl.get('meer_rolle') or kl.get('strand') or (kl['schicht'] == '5 wasserkante' and not kl.get('suesswasser')))
+
+    meer_gef = {}
+
+    def meer_schluss(kname, kl, fi, fj):
+        """Schlussfilter (Sicherheitsnetz, §1b) an der Bodenhoehe am Instanzort (bilinear): unter -0,3 m nichts, -0,3..0 m nur
+        meer_rolle, 0..0,3 m im Kuestensaum (<= 30 m zu meer) nur kueste_erlaubt. Rueckgabe: Behalten-Maske; zaehlt meer_gefiltert."""
+        if fi.size == 0 or not meer_zellen:
+            return np.ones(fi.size, bool)
+        hb = bilinear(hoehe, fi, fj)
+        ri = np.clip(np.round(fi).astype(np.int32), 0, H - 1)
+        rj = np.clip(np.round(fj).astype(np.int32), 0, W - 1)
+        mr = bool(kl.get('meer_rolle'))
+        weg_ = hb < meer_nichts_unter
+        if not mr:
+            weg_ |= (hb < meer_spiegel) | meer[ri, rj]
+        if not kueste_erlaubt(kl):
+            weg_ |= (hb < meer_spiegel + meer_saum_hoehe) & (d_meer[ri, rj] <= meer_saum_m)
+        n = int(weg_.sum())
+        if n:
+            meer_gef[kname] = meer_gef.get(kname, 0) + n
+        return ~weg_
+
     def lambda_karte(kname, kl):
         lam = np.full((H, W), kl['dichte'] * faktor, np.float32)
         lam *= biom_f
@@ -881,14 +928,17 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
         lam *= gruppe_f(kl.get('gruppe', 'gleich'))
         if kl['schicht'] == '5 wasserkante':
             band = kl.get('wasser', WK['band_m'])
-            lam[(d_wasser < band[0]) | (d_wasser > band[1]) | (hang > WK['hang_max'])] = 0
-            lam[wasser_m | meer | (d_weg < A['weg_klein']) | (d_ort < A['ort']) | standorte] = 0
+            dw = d_suess if kl.get('suesswasser') else d_wasser
+            lam[(dw < band[0]) | (dw > band[1]) | (hang > WK['hang_max'])] = 0
+            lam[wasser_alle | (d_weg < A['weg_klein']) | (d_ort < A['ort']) | standorte] = 0
         else:
             if 'wasser' in kl:
                 lam[(d_wasser < kl['wasser'][0]) | (d_wasser > kl['wasser'][1])] = 0
             lam[sperre_gross if kl.get('gross') else sperre_klein] = 0
         if kl.get('gross'):
             lam[belegt_gross] = 0
+        if not kueste_erlaubt(kl):
+            lam[kuestensaum] = 0           # §1b: 0..0,3 m am Meer nur Wasserkante/Strand
         return lam
 
     def satelliten(kname, kl, pi, pj):
@@ -915,11 +965,15 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
         ok = (fi >= 0) & (fi < H - 1) & (fj >= 0) & (fj < W - 1)
         fi, fj = fi[ok], fj[ok]
         mi, mj = np.round(fi).astype(np.int32), np.round(fj).astype(np.int32)
-        ok = ~(wasser_m[mi, mj] | meer[mi, mj] | weg_m[mi, mj] | ort_m[mi, mj]) & im_feld[mi, mj] & (zust[mi, mj] > 0)
+        ok = ~(wasser_alle[mi, mj] | weg_m[mi, mj] | ort_m[mi, mj]) & im_feld[mi, mj] & (zust[mi, mj] > 0)
+        if not kueste_erlaubt(sk):
+            ok &= ~kuestensaum[mi, mj]
         if not sk.get('kletter'):
             ok &= hang3[mi, mj] <= min(sk.get('hang_max', 40), regeln['hang']['hang_max_pflanze'])
         else:
             ok &= hang[mi, mj] <= min(sk.get('hang_max', 78), regeln['hang']['hang_max_kletter'])
+        fi, fj, mi, mj = fi[ok], fj[ok], mi[ok], mj[ok]
+        ok = meer_schluss(s['klasse'], sk, fi, fj)
         fi, fj, mi, mj = fi[ok], fj[ok], mi[ok], mj[ok]
         if fi.size:
             aus.append(dict(klasse=s['klasse'], fi=fi.astype(np.float32), fj=fj.astype(np.float32), mi=mi, mj=mj))
@@ -950,6 +1004,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
             bm[mi, mj] = True
             belegt_gross |= dilate(bm, A['baum_fremd_gross'])
         ok = im_feld[mi, mj]
+        fi, fj, mi, mj = fi[ok], fj[ok], mi[ok], mj[ok]
+        ok = meer_schluss(kname, kl, fi, fj)
         fi, fj, mi, mj = fi[ok], fj[ok], mi[ok], mj[ok]
         if fi.size == 0:
             continue
@@ -1050,6 +1106,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
     kappe(B['prioritaet'] + [k for k in klassen if k not in B['prioritaet']], int(B.get('hart_instanzen_je_feld', 60000)),
           lambda k: True, 'Instanzdeckel')
 
+    if meer_gef:
+        hinweise.append('Meer-Schlussfilter (KONVENTIONEN 1b): %d Kandidaten verworfen %s' % (sum(meer_gef.values()), dict(sorted(meer_gef.items()))))
     # --- Instanzen bauen und schreiben
     ausgabe = os.path.join(basis, WELT, regeln.get('ausgabe_ordner', 'dschungel'), feld)
     os.makedirs(ausgabe, exist_ok=True)
@@ -1135,7 +1193,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
     hinweise.extend(warn)
     entf, entf_info = '', None
     if kand:
-        land_m = ~(wasser_m | meer)
+        land_m = ~wasser_alle
         land_feld = land_m & im_feld
         anteil_land = float((eigen & land_feld).sum()) / float(max(1, int(land_feld.sum())))
         zl = zaehle_entfernen(basis, feld, win, kand, eigen, zust > 0, land_m, im_feld)
@@ -1168,8 +1226,9 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(gesamt), 'dateien': dateien,
             'entfernen': entf, 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
             'biome_fenster': biome_fenster, 'zellen_zustaendig': zellen_zustaendig, 'biome_eigen': list(Z['biome_eigen']),
-            'kollision_anzahl': int(nk),
-            'statistik': {'je_klasse': stat, 'je_schicht': {s: int(sum(stat.get(k, 0) for k in klassen if klassen[k]['schicht'] == s)) for s in SCHICHTEN},
+            'kollision_anzahl': int(nk), 'meer_zellen': meer_zellen, 'meer_gefiltert': int(sum(meer_gef.values())),
+            'statistik': {'je_klasse': stat, 'meer_gefiltert_je_klasse': dict(sorted(meer_gef.items())),
+                          'kuestensaum_zellen_feld': int((kuestensaum & im_feld).sum()), 'je_schicht': {s: int(sum(stat.get(k, 0) for k in klassen if klassen[k]['schicht'] == s)) for s in SCHICHTEN},
                           'kollision': int(nk), 'anteil_eigen_fenster': round(anteil_eigen, 4), 'dschungel_anteil_feld': round(ds_anteil, 4),
                           'biom_quelle': biom_quelle, 'saum_m': saum_m,
                           'beschattung_mittel_feld': round(float(beschattung[im_feld].mean()), 3), 'lichtung_anteil': round(float(lichtung[im_feld].mean()), 3),
@@ -1209,7 +1268,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ersetzen=False):
         rgb[lichtung[fi0:fi1, fj0:fj1]] = rgb[lichtung[fi0:fi1, fj0:fj1]] * 0.75 + np.array(F['_lichtung']) * 0.25
         rgb[fuss[fi0:fi1, fj0:fj1]] = F['_karst_fuss']
         rgb[wand[fi0:fi1, fj0:fj1]] = F['_karst_wand']
-        rgb[(wasser_m | meer)[fi0:fi1, fj0:fj1]] = F['_wasser']
+        rgb[wasser_alle[fi0:fi1, fj0:fj1]] = F['_wasser']
         rgb[weg_m[fi0:fi1, fj0:fj1]] = F['_weg']
         rgb[ort_m[fi0:fi1, fj0:fj1]] = F['_ort']
         for sch in ('0 boden', '5 wasserkante', '1 mittel', '2 baum'):

@@ -400,3 +400,31 @@ nach `klippennetze-a5.md` (Nanite, Convex-Kollision 4–16 Hulls, Texturen auf 4
 - Gesperrte Saeule Nr. 03 aus `spuren_overrides.zusatzklassen.opferstaette_saeule` ersetzt durch SM_Column_02 (5 m x 0,58-0,66 = ca. 3 m, gleiche Wirkung); Hinweistext in `punkte.opferstaette_vorschlag` angepasst.
 - Basaltsaeulen-Ersatz (lava_wall_04/05, 3,9-4,5 m, Felsen > 0,8 m) an Teil C uebergeben: Klasse `saeule` entfernt (Werte in `_korrektur_runde2_alt_klassen`), `felsgruppen_overrides.zusatzklassen.basaltsaeule.aktiv = true`. `platte_ersatz` (TundraRockyGround) bleibt Teil C. Keine Platten im Planer.
 - Rauchtest synthetisch C6: 33 279 Instanzen, zwei Laeufe byteidentisch, gesperrte Netze 0, Log ASCII, 3 s.
+
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+Anlass: `auftraege/verteilung-korrektur-runde4.md`. `karte_wasser.r8` enthält nur Süßwasser, und die Lava-Planung lief bis auf den
+Meeresboden. Umgesetzt nach `verteilung-KONVENTIONEN.md` §1b in `skripte/lava_plan.py` und `skripte/lava_regeln.json` (neuer Block `meer`):
+
+- `meer = (hoehe < 0) & (karte_wasser == 0)`. Im Code steht `wasser` jetzt für `wasser_alle = karte_wasser > 0 | meer`, `suess` nur
+  für `karte_wasser`. Das gilt für Sperren, `wasser_nah` (`ausschluss.wasser_m`), das Wasserband von `schwarzkies`, Dampf-Punkte (Lava trifft
+  Wasser, auch Meer), Höhlen-Vorschläge, `zellen_zustaendig` und das Prüfbild. Der Lavastrom ist kein Wasser.
+- `schwarzkies` (schwarzer Lavasand-Strand) bekommt `strand: true`. Es ist die einzige Klasse im Küstensaum 0…+0,3 m (≤ 30 m zu `meer`).
+  Unter −0,3 m wird nichts gesetzt, −0,3…0 m nur `meer_rolle` (keine Klasse).
+- Die Prüfung läuft zellweise in der Dichtekarte und als Schlussfilter an der Bodenhöhe am Instanzort (bilinear), vor dem Budget.
+  `plan.json` meldet `meer_zellen`, `meer_gefiltert`, `meer_gefiltert_je_klasse` und `kuestensaum_zellen_feld`, der leere Plan `meer_zellen`.
+
+Rauchtest synthetisch (Scratchpad, danach gelöscht): je Feld eine Küste quer durchs Feld – Meer bis −14 m **nicht** in `karte_wasser`, flache Zone −0,3…0 m (≈ 25 m breit), Strand 0…0,3 m (15 m), Insel, See + Fluss in `karte_wasser` bis 45 m ins Meer, Binnensenke 0,15 m (> 100 m vom Meer), Weg. Gezählt an der Bodenhöhe am Instanzort (bilinear) und am Feld z (mit Eingraben). Feld C7 (lava 100 %, Meer 41 % des Fensters):
+
+| C7 | vorher | nachher |
+|---|---|---|
+| Instanzen gesamt | 32 892 | 32 651 |
+| Bodenhöhe < 0 m / < −0,3 m | **14 245 (43 %)** / 13 192 | **0 / 0** |
+| −0,3…0 m nach Rolle | 1 053 (Kiesel 725, Schlacke 251, Moos 61, Flechtenstein 11, Schnag 5) | 0 |
+| 0…0,3 m im Küstensaum | 711, darunter Schlacke 186, Moos 19, Flechtenstein 12, Schnag 5 | 1 042, nur `schwarzkies` (Netzdateien geprüft) |
+| Feld z < 0 (mit Eingraben) | 14 230 | 257 – Strand-Kiesel auf Boden 0…0,3 m (Eingraben 30–50 %) |
+| `meer_gefiltert` | – | 41 |
+
+Die Gesamtzahl bleibt fast gleich, weil `kiesel` (22 000) und `schwarzkies` (1 500) am Klassen-`max` hängen. Was nicht mehr auf den
+Meeresboden fällt, füllt das Land auf. Zwei Läufe sind byteidentisch, das Log ist ASCII-only, `py_compile` ist sauber, `--bild` und
+fehlende `karte_wasser.r8` laufen. UNGETESTET MIT ECHTDATEN.

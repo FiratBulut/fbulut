@@ -124,6 +124,13 @@
   "fremd_baum": 2.5,
   "eigen_baum_zu_baum": 4.0
  },
+ "meer": {
+  "_doku": "Korrektur Runde 4 (KONVENTIONEN par. 1b): karte_wasser.r8 enthält nur Süßwasser. meer = hoehe < meeresspiegel_m UND karte_wasser == 0; wasser_alle = karte_wasser > 0 ODER meer gilt für die Sperre (abstand_m.wasser), die Landzellen (Biom-Anteil, Zuständigkeit, Saum) und die Rinnen-Maske. Süßwasser-spezifisch bleiben Restfeuchte (Oasen/Rinnen) und das Band von schilf_rest. Unter nichts_unter_m nichts; nichts_unter_m..0 nur Klassen mit meer_rolle true (hier keine); 0..saum_hoehe_m in Zellen mit Abstand <= saum_abstand_m zum Meer nur Schicht 5 ohne suesswasser bzw. strand true (hier keine Klasse: schilf_rest und gras_gruen sind Oasen-Klassen). Geprüft wird zellweise und als Schlussfilter an der Bodenhöhe am Instanzort (bilinear); plan.json meldet meer_zellen und meer_gefiltert.",
+  "meeresspiegel_m": 0.0,
+  "nichts_unter_m": -0.3,
+  "saum_hoehe_m": 0.3,
+  "saum_abstand_m": 30.0
+ },
  "vorhandene_ebenen": [
   "bestand",
   "witcher",
@@ -998,6 +1005,7 @@
   },
   "schilf_rest": {
    "schicht": "5_wasserkante",
+   "suesswasser": true,
    "netze": [
     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_1",
     "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_2",
@@ -1073,6 +1081,7 @@
   },
   "gras_gruen": {
    "schicht": "5_wasserkante",
+   "suesswasser": true,
    "netze": [
     "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_01",
     "/Game/Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_02",

@@ -393,3 +393,31 @@ geklippt, leeres Gelände) 0 Instanzen in 4,2 s mit Hinweisen, fehlende Basis �
 
 - Dschungel entfernt keine Baeume. `sm_vines_01a` (Witcher-Lianen) nur mit Freigabe (`--ersetzen` oder `entfernen_aktiv`, Standard aus) und nur bei Dschungel-Landanteil >= 85 % (G6/H6/I6, nicht G7/H7/I7); sonst `entfernen ""` + `entfernen_vorschlag` mit Zahl. Farn-Entfernung fuer Teil D liegt jetzt in `mittelschicht_overrides._entfernen_je_feld_vorschlag` (`entfernen_je_feld` leer). Details: `verteilung-entfernen.md`.
 
+## Korrektur Runde 4 (10.10.2026): Meer fehlt in `karte_wasser`
+
+Anlass: `auftraege/verteilung-korrektur-runde4.md` – `karte_wasser.r8` enthält nur Süßwasser; Bilder B7/J6 zeigen Bäume im flachen Meer.
+Umsetzung nach `verteilung-KONVENTIONEN.md` §1b in `skripte/dschungel_plan.py` und `skripte/dschungel_regeln.json` (neuer Block `meer`):
+
+- `meer = (hoehe < 0) & (karte_wasser == 0)`, `wasser_alle = karte_wasser > 0 | meer`. Die alte Ersatzregel `meer = hoehe <= 0,05` ist ersetzt.
+- `wasser_alle` gilt für Sperren (`abstand_m.wasser_*`), `d_wasser`, das Wasserkanten-Band von `moosstein`/`uferfarn`, Lianen-Satelliten,
+  Landzellen der `entfernen`-Zählung, Blickziele (Doline, Tempelruine) und das Prüfbild. Nur Süßwasser (`suesswasser: true`, Band an
+  `karte_wasser`): `schilf` (Rohrkolben), `horsetail` (Schachtelhalm); der Wasserfall-Blickpunkt bleibt bei `karte_wasser`.
+- Unter −0,3 m nichts; −0,3…0 m nur `meer_rolle: true` (keine Klasse); 0…+0,3 m im Küstensaum (≤ 30 m zu `meer`) nur Schicht 5 ohne
+  Süßwasser-Klassen bzw. `strand: true`. Keine Mangroven-/Strandklassen im Dschungel-Planer.
+- Prüfung zellweise in der Dichtekarte und als Schlussfilter an der Bodenhöhe am Instanzort (bilinear), auch für Satelliten.
+  `plan.json`: `meer_zellen` (Fenster), `meer_gefiltert` (Schlussfilter), `statistik.meer_gefiltert_je_klasse`, `statistik.kuestensaum_zellen_feld`.
+
+Rauchtest synthetisch (Scratchpad, danach gelöscht): je Feld eine Küste quer durchs Feld – Meer bis −14 m **nicht** in `karte_wasser`, flache Zone −0,3…0 m (≈ 25 m breit), Strand 0…0,3 m (15 m), Insel, See + Fluss in `karte_wasser` bis 45 m ins Meer, Binnensenke 0,15 m (> 100 m vom Meer), Weg. Gezählt an der Bodenhöhe am Instanzort (bilinear) und am Feld z (mit Eingraben). Feld G6 (Dschungel 100 %, Meer 44 % des Fensters):
+
+| G6 | vorher | nachher |
+|---|---|---|
+| Instanzen gesamt | 15 588 | 15 171 |
+| Bodenhöhe < 0 m / < −0,3 m | 2 / 0 | **0 / 0** |
+| −0,3…0 m nach Rolle | moosstein 1, horsetail 1 | 0 |
+| 0…0,3 m im Küstensaum | 609, davon 399 nicht erlaubt (95 Bäume/Palmen, Lianen 18, Boden 217, Schilf/Schachtelhalm 50, Moos 19) | 205, nur Wasserkante (uferfarn 127, moosstein 78) |
+| Feld z < 0 (mit Eingraben) | 86 | 87 – alle auf Boden ≥ 0 m (Binnensenke 0,15 m, Strandsteine); nicht im Meer |
+| `meer_gefiltert` | – | 55 |
+
+Der Dschungel-Planer hatte das Meer schon über `hoehe <= 0,05` gesperrt; deshalb ändert sich die Zahl kaum. Neu sind der Küstensaum
+(keine Bäume am Strand) und der Schlussfilter. Zwei Läufe sind byteidentisch (f32, `plan.json` ohne `stand`/`laufzeit_s`). Das Log ist
+ASCII-only, `py_compile` ist sauber, `--bild` und fehlende `karte_wasser.r8` laufen. UNGETESTET MIT ECHTDATEN.

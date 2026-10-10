@@ -86,6 +86,13 @@
     "hoehe_pflanzen_abnahme_ab_m": 220,
     "hoehe_pflanzen_null_ab_m": 360
   },
+  "meer": {
+    "_doku": "Korrektur Runde 4 (KONVENTIONEN §1b): karte_wasser.r8 enthält nur Süßwasser. meer = hoehe < meeresspiegel_m UND karte_wasser == 0; wasser_alle = karte_wasser > 0 ODER meer gilt für Sperren (ausschluss.wasser_m), das Wasserband von schwarzkies, Dampf-Punkte (Lava trifft Wasser, auch Meer = Laze), zellen_zustaendig. Der Lavastrom selbst ist kein Wasser. Unter nichts_unter_m nichts; nichts_unter_m..0 nur Klassen mit meer_rolle true (hier keine); 0..saum_hoehe_m in Zellen mit Abstand <= saum_abstand_m zum Meer nur Klassen mit strand true bzw. Schicht 5 ohne suesswasser (schwarzkies = schwarzer Lavasand-Strand). Geprüft wird zellweise und als Schlussfilter an der Bodenhöhe am Instanzort (bilinear); plan.json meldet meer_zellen und meer_gefiltert.",
+    "meeresspiegel_m": 0.0,
+    "nichts_unter_m": -0.3,
+    "saum_hoehe_m": 0.3,
+    "saum_abstand_m": 30.0
+  },
   "pivot": {
     "hinweis": "z = Boden − min_z·s − eingraben·H·s (Felsen/Steine) bzw. z = Boden − eingraben_cm (Pflanzen). min_z aus daten/netze_masse.json; fehlt es, 0 (Pivot unten) oder −H/2 für Netze in netz_pivot_mitte.",
     "netz_pivot_mitte": [
@@ -733,6 +740,7 @@
     "schwarzkies": {
       "schicht": "5 wasserkante",
       "rolle": "kiesel",
+      "strand": true,
       "gruppe": "schwarzsand_kies",
       "farbe": [
         30,
