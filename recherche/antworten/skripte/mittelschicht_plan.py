@@ -355,20 +355,27 @@ def lade_biome(basis, win, regeln, feld, hinweise):
 
 # ----------------------------------------------------------------------------- Inventar und Overrides
 def lade_inventar(basis):
-    """Menge aller Netzpfade aus daten/netze.csv (Spalte pfad, Trenner ;) oder None, wenn nicht gefunden."""
+    """Netzpfade aus daten/netze.csv (Spalte pfad, Trenner ;) mit Netzhöhe groesse_z_m; None, wenn nicht gefunden."""
     kandidaten = [os.path.join(basis, 'daten', 'netze.csv'), os.path.join(SKRIPT_DIR, 'netze.csv'),
                   os.path.join(SKRIPT_DIR, '..', '..', 'daten', 'netze.csv')]
     csv = next((p for p in kandidaten if os.path.isfile(p)), None)
     if csv is None:
         return None, None
-    inventar = set()
+    inventar = {}  # pfad -> Netzhöhe in m (groesse_z_m) oder None
     with open(csv, encoding='utf-8', errors='replace') as f:
         kopf = f.readline().rstrip('\n').split(';')
         sp = kopf.index('pfad') if 'pfad' in kopf else 0
+        sz = kopf.index('groesse_z_m') if 'groesse_z_m' in kopf else -1
         for zeile in f:
             t = zeile.rstrip('\n').split(';')
             if len(t) > sp:
-                inventar.add(t[sp].strip())
+                z = None
+                if 0 <= sz < len(t):
+                    try:
+                        z = float(t[sz])
+                    except ValueError:
+                        z = None
+                inventar[t[sp].strip()] = z
     return inventar, csv
 
 
@@ -398,7 +405,80 @@ def lade_overrides(regeln, regel_pfad):
             continue
         ov[thema] = (blk, p)
         hinw.append('Override: %s gelesen (%s) fuer %s' % (os.path.basename(p), ', '.join(k for k in schluessel if k in blk), ', '.join(biome)))
+        ub = unbekannte_schluessel(blk)
+        if ub:
+            hinw.append('Override %s: unbekannte Schluessel ignoriert %s' % (os.path.basename(p), ub))
     return ov, zuordnung, hinw
+
+
+SCHEMA6 = ('palette', 'rolle', 'dichte_je_ha', 'hang_grad', 'hoehe_m', 'wasser_abstand_m', 'lagen_min', 'kruemmung', 'massstab',
+           'eingraben_anteil', 'gruppe', 'kollision', 'sichtweite', 'akteur')
+KLASSEN_SCHLUESSEL = set(KLASSE_VORGABE) | set(SCHEMA6) | {
+    'lagen_faktor', 'lagen', 'netze_massstab', 'netze_gewicht', 'biome', 'biom_faktor', 'schatten', 'farbe', 'lichtung', 'wegrand',
+    'nah_baum', 'mulde', 'an_totholz', 'basisklasse'}
+BLOCK_SCHLUESSEL = {'palette', 'faktor', 'zusatzklassen', 'parameter', 'je_biom', 'faktor_je_feld', 'vorlage_biom', 'biom_faktor',
+                    'entfernen_je_feld', 'biom', 'gilt_fuer', 'alias', 'klassen_alias', 'klassen_alias_mittelschicht', 'herkunft'}
+
+
+def doku_schluessel(k):
+    k = str(k)
+    return k.startswith('_') or k.startswith('herkunft') or k.endswith(('doku', 'hinweis', 'begruendung', 'quelle'))
+
+
+def unbekannte_schluessel(blk):
+    """Unbekannte Schlüssel eines Override-Blocks: {'block': [...], '<klasse>': [...]} (Doku-Schlüssel ausgenommen)."""
+    out = {}
+    ub = sorted(k for k in blk if k not in BLOCK_SCHLUESSEL and not doku_schluessel(k))
+    if ub:
+        out['block'] = ub
+    teile = [('', blk)] + [(b + '/', t) for b, t in (blk.get('je_biom') or {}).items() if isinstance(t, dict)]
+    for pre, t in teile:
+        for name, kd in (t.get('zusatzklassen') or {}).items():
+            if isinstance(kd, dict):
+                u = sorted(k for k in kd if k not in KLASSEN_SCHLUESSEL and not doku_schluessel(k))
+                if u:
+                    out[pre + str(name)] = u
+        for name, par in (t.get('parameter') or {}).items():
+            if isinstance(par, dict):
+                u = sorted(k for k in par if k not in KLASSEN_SCHLUESSEL and not doku_schluessel(k))
+                if u:
+                    out[pre + 'parameter.' + str(name)] = u
+    return out
+
+
+def schema6_klasse(kd, inventar):
+    """Zusatzklasse im Mindestschema KONVENTIONEN §6 (oder im mittelschicht-Format) → mittelschicht-Klassendefinition."""
+    kd = copy.deepcopy(kd)
+    if 'netze' not in kd and isinstance(kd.get('palette'), list):
+        kd['netze'] = kd['palette']
+    rolle = str(kd.get('rolle', '')).lower()
+    fest = any(r in rolle for r in ('fels', 'stein', 'block', 'stamm', 'totholz_liegend', 'baum'))
+    if 'dichte' not in kd and isinstance(kd.get('dichte_je_ha'), (int, float)):
+        d = float(kd['dichte_je_ha']) / 10000.0
+        kd['dichte'] = [d, d]
+    g = kd.get('gruppe')
+    if isinstance(g, dict):
+        kd['gruppe'] = list(g.get('groesse', [1, 1]))
+        if 'radius_m' in g and 'radius_m' not in kd:
+            kd['radius_m'] = float(g['radius_m'])
+    if isinstance(kd.get('hang_grad'), list) and len(kd['hang_grad']) == 2:
+        kd['hang_bereich'] = [float(x) for x in kd['hang_grad']]
+        kd.setdefault('hang_max', 90)  # harte Maske statt Abfall
+    if isinstance(kd.get('hoehe_m'), list) and len(kd['hoehe_m']) == 2:
+        kd['hoehe_bereich'] = [float(x) for x in kd['hoehe_m']]
+    if 'kollision' not in kd and fest:
+        kd['kollision'] = True
+    if 'eingraben_cm' not in kd:
+        ant = kd.get('eingraben_anteil', [0.25, 0.45] if fest else None)
+        if isinstance(ant, list) and len(ant) == 2:
+            zs = [inventar.get(p) for p in kd.get('netze', [])] if isinstance(inventar, dict) else []
+            zs = [z for z in zs if z]
+            hz = (sum(zs) / len(zs)) if zs else 1.0
+            ms = kd.get('massstab', [1.0, 1.0])
+            kd['eingraben_cm'] = round(100.0 * hz * 0.5 * (ant[0] + ant[1]) * 0.5 * (ms[0] + ms[1]), 1)
+    if fest:
+        kd.setdefault('kippen', 0.8)
+    return kd
 
 
 def _klasse(name):
@@ -463,8 +543,9 @@ def effektive_regeln(regeln, ov, zuordnung, feld, inventar, hinweise_feld, vorha
                     if isinstance(kd.get('biome'), list) and biom not in kd['biome']:
                         continue
                     neu = copy.deepcopy(vorgabe)
-                    neu.update(copy.deepcopy(kd))
+                    neu.update(schema6_klasse(kd, inventar))
                     lagen_alias(neu)
+                    neu['ist_zusatz'] = True  # nur Zellen des liefernden Bioms + Saum (KONVENTIONEN §6)
                     neu['netze'] = pfade_pruefen(neu.get('netze', []), '%s/%s/%s' % (thema, biom, name))
                     if not neu['netze']:
                         hinweise.append('Override %s/%s: Zusatzklasse %s ohne gueltige Netze - entfaellt' % (thema, biom, name))
@@ -783,6 +864,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
     for b in eff.values():
         for k in b.values():
             lagen_namen |= set(k.get('lagen_faktor', {}).keys())
+            if isinstance(k.get('lagen_min'), dict):
+                lagen_namen |= set(k['lagen_min'].keys())
     lagen = {}
     for ln in sorted(lagen_namen):
         if ln.startswith('ufer_'):
@@ -862,8 +945,10 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                 mod_cache[name] = (distanz(weg_m, max_m=16.0) <= float(abst.get('wegrand_band_m', 8.0))) & ~weg_m
             elif name == 'nah_baum':
                 mod_cache[name] = ring_3
+            elif name == 'mulde_wert':
+                mod_cache[name] = (gauss_blur(hoehe, 10.0) - hoehe).astype(np.float32)
             elif name == 'mulde':
-                mod_cache[name] = (gauss_blur(hoehe, 10.0) - hoehe) > float(regeln.get('mulde_tiefe_m', 0.4))
+                mod_cache[name] = modulator('mulde_wert') > float(regeln.get('mulde_tiefe_m', 0.4))
         return mod_cache[name]
 
     # ------------------------------------------------------------------ Streuung je Biom und Klasse
@@ -879,10 +964,13 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                 if p not in netze_je_klasse[kname]:
                     netze_je_klasse[kname].append(p)
     quellen_klasse = {}
+    saum_m = float(regeln.get('zusatz_saum_m', 30.0))
+    meldungen = set()
     for bidx, bname in enumerate(BIOME15):
         in_biom = bio == bidx
         if not in_biom.any():
             continue
+        saum_cache = {}
         for kname, kl in sorted(eff[bname].items(), key=lambda e: (1 if e[1].get('an_totholz') else 0, e[0])):
             fk = float(kl.get('faktor', 1.0))
             if fk <= 0 or not kl.get('netze'):
@@ -916,7 +1004,35 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                         tm[a0['mi'], a0['mj']] = True
                 if tm.any():
                     lam = np.where(dilate(tm, 2.0), lam * float(kl['an_totholz']), lam)
-            frei = in_biom & ~sperre
+            # Bedingungen aus dem Zusatzklassen-Schema (KONVENTIONEN §6)
+            if isinstance(kl.get('hang_bereich'), list):
+                lam = np.where((hang >= kl['hang_bereich'][0]) & (hang <= kl['hang_bereich'][1]), lam, 0)
+            if isinstance(kl.get('hoehe_bereich'), list):
+                lam = np.where((hoehe >= kl['hoehe_bereich'][0]) & (hoehe <= kl['hoehe_bereich'][1]), lam, 0)
+            wa = kl.get('wasser_abstand_m')
+            if isinstance(wa, list) and len(wa) == 2:
+                lam = np.where((d_wasser >= float(wa[0])) & (d_wasser <= float(wa[1])), lam, 0)
+            for ln, wmin in (kl.get('lagen_min') or {}).items():
+                if ln in lagen:
+                    lam = np.where(lagen[ln] * 255.0 >= float(wmin), lam, 0)
+                else:
+                    lam = lam * 0
+                    if (kname, ln) not in meldungen:
+                        meldungen.add((kname, ln))
+                        hinweise.append('%s/%s: lage_%s.r8 fehlt - lagen_min nicht erfuellbar, Klasse entfaellt' % (bname, kname, ln))
+            kr = str(kl.get('kruemmung', 'egal')).lower()
+            if kr in ('konvex', 'konkav'):
+                mul = modulator('mulde_wert')
+                lam = np.where(mul > 0.2 if kr == 'konkav' else mul < -0.2, lam, 0)
+            if kl.get('ist_zusatz'):  # Zusatzklassen eines Biom-Planers: Biom + weicher Saum (linear auf 0)
+                if 'd' not in saum_cache:
+                    saum_cache['d'] = distanz(in_biom, max_m=max(2.0, saum_m + 2.0))
+                d_b = saum_cache['d']
+                gebiet = d_b <= saum_m
+                lam = lam * np.clip(1.0 - d_b / max(1e-3, saum_m), 0, 1)
+            else:
+                gebiet = in_biom
+            frei = gebiet & ~sperre
             frei &= ~(nah_weg_gross if (kname in gross or kl.get('kollision')) else nah_weg_klein)
             if kl.get('an_baum'):
                 if not baum_m.any():
@@ -998,7 +1114,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
             aus.append(dict(fi=fi.astype(np.float32), fj=fj.astype(np.float32), mi=mi, mj=mj, klasse=kname, netz=nglob, kanal=kanal % 1000003,
                             massstab=ms.astype(np.float32), yaw=yaw.astype(np.float32), kippen=kl['kippen'],
                             eingraben=kl['eingraben_cm'], kollision=bool(kl['kollision']), sichtweite=kl['sichtweite'], biom=bname,
-                            schatten=kl.get('schatten'), farbe=kl.get('farbe')))
+                            schatten=kl.get('schatten'), farbe=kl.get('farbe'), akteur=bool(kl.get('akteur'))))
             quellen_klasse.setdefault(bname, {})[kname] = kl.get('quelle', 'mittelschicht') + ('' if fk == 1.0 else ' x%.2f' % fk)
 
     # ------------------------------------------------------------------ Budget
@@ -1033,9 +1149,11 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
             name = p.rsplit('/', 1)[-1]
             if len(koll_netz.get(name, ())) == 2 and not a['kollision']:
                 name += '_ohne_koll'
+            if a['akteur']:
+                name = 'akteur_' + name  # Konvention felsgruppen/spuren: als StaticMeshActor setzen
             netz_inst.setdefault(name, []).append(inst[m])
             if name not in dateien:
-                dateien[name] = {'pfad': p, 'anzahl': 0, 'gruppe': a['klasse'], 'rolle': 'mittelschicht', 'ebene': EBENE,
+                dateien[name] = {'pfad': p, 'anzahl': 0, 'gruppe': a['klasse'], 'rolle': 'akteur' if a['akteur'] else 'mittelschicht', 'ebene': EBENE,
                                  'sichtweite': list(a['sichtweite']),
                                  'schatten': bool(a['schatten']) if isinstance(a['schatten'], bool) else a['klasse'] not in ('pilz', 'totholz_ast', 'grasbueschel', 'beere'),
                                  'kollision': bool(a['kollision'])}
@@ -1061,6 +1179,11 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                          'paletten_quelle': quellen_klasse, 'wald_anteil': round(float(wald[im_feld].mean()), 3),
                          'beschattung_mittel': round(float(beschattung[im_feld].mean()), 3), 'faktor': faktor,
                          'laufzeit_s': round(time.time() - t0, 1), 'numba': NUMBA}
+    plan['overrides'] = {thema: {'datei': os.path.basename(ov[thema][1]),
+                                 'biome': sorted(b for b, t in zuordnung.items() if t == thema),
+                                 'schluessel': sorted(k for k in ov[thema][0] if not doku_schluessel(k)),
+                                 'zusatzklassen': sorted({k for b in BIOME15 if zuordnung.get(b) == thema for k, v in eff[b].items() if v.get('ist_zusatz')}),
+                                 'unbekannte_schluessel': unbekannte_schluessel(ov[thema][0])} for thema in sorted(ov)}
     plan['ungetestet'] = 'Korrektur Runde 1: in der Cloud nur mit synthetischen Daten rauchgetestet'
     schreibe_plan(ausgabe, plan)
     meld('%s: %d Instanzen (%d mit Kollision), %d Netze, Biome %s, %.1f s' % (feld, gesamt, nk, len(dateien),

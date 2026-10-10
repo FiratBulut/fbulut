@@ -54,7 +54,7 @@
   "hinweis": "Block mittelschicht_overrides in <thema>_regeln.json des Biom-Planers (gleicher Ordner wie diese Datei, sonst ../<thema>/). Overrides gewinnen; fehlende Datei/Block -> Hinweis, eigene Werte. Klassennamen totholz/stumpf/ast werden als totholz_liegend/totholz_stumpf/totholz_ast gelesen.",
   "palette": "{klasse: [Unreal-Pfade]} ersetzt die Netzliste der Klasse (Pfade ausserhalb des Inventars werden verworfen)",
   "faktor": "{klasse: float} Dichtefaktor (0 = Klasse aus); Gesamtfaktor = Feldfaktor x faktor x biom_faktor",
-  "zusatzklassen": "{name: klassendef} neue Klasse (fehlende Schluessel aus klasse_vorgabe); optional biome [Liste], biom_faktor {biom: f}, lagen (= lagen_faktor), schatten, farbe",
+  "zusatzklassen": "{name: klassendef} neue Klasse, gesetzt nur in Zellen des liefernden Bioms + 30-m-Saum (zusatz_saum_m, Dichte linear auf 0). Gelesen werden das Mindestschema KONVENTIONEN §6 (palette Pflicht; rolle, dichte_je_ha, hang_grad, hoehe_m, wasser_abstand_m, lagen_min 0-255, kruemmung konvex|konkav|egal, massstab, eingraben_anteil (x Netzhoehe aus netze.csv), gruppe {groesse, radius_m}, kollision, sichtweite, akteur) und das mittelschicht-Klassenformat (netze, dichte, gruppe, radius_m, ...); fehlende Schluessel aus klasse_vorgabe; optional biome, biom_faktor, lagen, schatten, farbe. Unbekannte Schluessel: Log + plan.json[\"overrides\"].",
   "je_biom": "optional {biom: {palette, faktor, zusatzklassen}} fuer Planer mit mehreren Biomen",
   "faktor_je_feld": "optional {Feld: {klasse: float}} ersetzt den Feldfaktor (feld_klassen_faktor)",
   "biom_faktor": "alt (wueste_ergaenzung): {biom: float} multipliziert alle Klassen des Bioms",
@@ -4852,5 +4852,6 @@
    10
   ]
  },
- "mulde_tiefe_m": 0.4
+ "mulde_tiefe_m": 0.4,
+ "zusatz_saum_m": 30.0
 }

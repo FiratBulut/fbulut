@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 14:25 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 14:40 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -39,12 +39,32 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 | Planer | Korrektur-Stand |
 |---|---|
 | felsgruppen (C) | korrigiert, gepusht (synthetisch B4: 55 196 Inst., 3 000 Kollision, 150 Akteure; Kollision in eigenen *_kol.f32); Nachruestung zusatzklassen laeuft |
-| mittelschicht + spuren (D) | Welle K1 läuft |
+| mittelschicht + spuren (D) | korrigiert, gepusht (synthetisch G4: Mittelschicht 51 943 / Spuren 23 913; C6 8 147 / 158; A1 Leerplan); Nachruestung spuren_overrides laeuft |
 | nordkueste (B1) | korrigiert, gepusht (synthetisch B5: 14 083 Inst.; C6 lava Leerplan; H4 Saum, Kollision gedeckelt 2 998). Hinweis: C6 hat echt 3 % bergwald > 2 %-Schwelle, daher dort einige hundert Instanzen moeglich; fuer Leerplan zustaendigkeit.min_anteil_eigen = 0.04 |
 | elfenwald (B5) | korrigiert, gepusht (synthetisch G4 mit 17 000 Baeumen: 31 023 Inst., 215 Kollision; Fremdbiom-Feld Leerplan; Saum 30 m) |
 | dschungel (B7) | korrigiert, gepusht (synthetisch H6: 30 343 Inst., 2 690 Kollision; G4 Leerplan; G5 Saum) |
 | aue (B2) | Welle K2 laeuft |
 | heide_tundra (B3) | Welle K2 laeuft |
 | hochgebirge (B4) | Welle K2 laeuft |
-| sumpf (B6), lava (B8) | Welle K2 wartet |
+| sumpf (B6) | Welle K2 laeuft |
+| lava (B8) | Welle K2 wartet |
 | wueste_ergaenzung (B9) | Welle K2 wartet |
+
+### Abgrenzung Mittelschicht / Biom-Planer (aus verteilung-leere-fuellen.md 8.2)
+
+`mittelschicht_plan.py` ist der einzige Planer der generischen Klassen **strauch, jungbaum, farn, totholz_liegend, totholz_stumpf, totholz_ast, hochstaude, grasbueschel, beere, pilz** (Umbenennung totholz/stumpf/ast → totholz_*; alte Namen in Overrides werden weiter verstanden). Eigene Zusatzklassen nur dort, wo kein Biom-Planer dieselbe Form setzt:
+
+| Klasse | bleibt in | entfällt in (Grund) |
+|---|---|---|
+| schilf | – | aue, sumpf (Schilfgürtel = Sonderform/Schicht 5 der Biom-Planer) |
+| totbaum | elfenwald, dschungel | alle übrigen (Biom-Planer setzen Totbäume in Schicht 2) |
+| wurzel | elfenwald, dschungel | sumpf, bergwald, fjord (Sonderform sumpf/nordkueste) |
+| kletter | elfenwald, sumpf, dschungel | – (Lianen an Stamm/Wand bleiben Sonderform B7) |
+| strauch | – | gletscher, frost, lava (Latschen/Krummholz/Kiefernstrauch = Sonderform hochgebirge/lava) |
+| beere (heath/heather) | Preisel-/Heidelbeere | heide, tundra (Heidekraut-Flecken = Sonderform heide_tundra), Dichte 0,02/0,012 bzw. 0,02/0,014 |
+
+**Dschungel:** Palette nach `verteilung-dschungel.md` §3 übernommen (Farne Megascans/EagleFern/SilverLady/BeechFern/`SM_Fern_01a/02a`; Strauch nur `SM_Bush_01a` 0,45–0,8 plus Holunder 05/07/08/09 als Bananen-Ersatz 1,5–2,4 über `netze_massstab`, Gewicht Busch 4 : je Holunder 1; Hochstaude Crownbeard 03/04/07/08 + Pestwurz; Jungbaum Palmen 07–12; Totholz/Stumpf/Wurzel Megascans; Kletter Vines + Ivy; Kikuyu-Gras). Die §3-Tabelle (in G6, H6, I6, I7, G7, H7 Farn/Kletter/Totholz/Stumpf/Wurzel/Pilz = 0, Strauch/Jungbaum/Hochstaude × 0,5) steht als `feld_klassen_faktor.dschungel` mit `nur_ohne_override: true` in den Regeln: Sie gilt nur, solange `dschungel_plan.py` diese Klassen selbst setzt. Seit B7 in Runde 1 einen `mittelschicht_overrides`-Block liefert (und nur noch Lianen, Moospolster, Bäume, Boden, Wasserkante setzt), ist sie inaktiv – sonst blieben die Karstfelder ohne Farn und Totholz. B7 kann Karstfelder über `faktor_je_feld` steuern; `entfernen_je_feld` (G6–I7: `sm_fern_01a,sm_fern_02a`) landet im Mittelschicht-`plan.json["entfernen"]`.
+
+**Heide/Tundra:** Zwergstrauch (Preisel-/Heidelbeere) und Grasbüschel kommen nur noch aus der Mittelschicht; `heide_tundra` setzt künftig nur Heidekraut-Flecken und Sonderformen. Bis `heide_tundra_regeln.json` einen Override-Block hat und `grasbueschel`/`wacholder`/`kruepelkiefer`/`jungwuchs`/`totholz`/`stumpf` nicht mehr selbst setzt, doppeln sich diese Klassen in den zehn Heide/Tundra-Feldern.
+
+Offen: wueste_ergaenzung hat mittelschicht_overrides.biom_faktor = 0 (Mittelschicht setzt dort nichts) - wird in der B9-Korrektur bestaetigt oder auf palette/faktor umgestellt. heide_tundra, sumpf, hochgebirge, lava erhalten ihre Override-Bloecke in Welle K2; bis dahin moegliche Doppelungen in diesen Biomen.

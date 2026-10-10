@@ -272,9 +272,11 @@ Der Block steht in `<thema>_regeln.json` des zuständigen Biom-Planers, gesucht 
 }
 ```
 
+**Zusatzklassen nach KONVENTIONEN §6** (Nachtrag 14:15 UTC): gelesen wird tolerant sowohl das Mindestschema (`palette` Pflicht; `rolle`, `dichte_je_ha`, `hang_grad`, `hoehe_m`, `wasser_abstand_m`, `lagen_min` 0–255, `kruemmung` konvex/konkav/egal (±0,2 m gegen das 10-m-Mittel), `massstab`, `eingraben_anteil` × Netzhöhe aus `netze.csv`, `gruppe` {groesse, radius_m}, `kollision`, `sichtweite`, `akteur`) als auch das mittelschicht-Klassenformat (dschungel `riesenfarn_insel`/`staudenflur`/`bananen_ersatz`, elfenwald, nordkueste). Rollen mit fels/stein/block/stamm/baum bekommen ohne Angabe Kollision, Eingraben 25–45 % und Kippen 0,8; `akteur: true` → Datei `akteur_<Netz>.f32` mit `rolle: "akteur"`. Zusatzklassen werden **nur in Zellen des liefernden Bioms plus 30-m-Saum** gesetzt (`zusatz_saum_m`, Dichte linear von 1 an der Biomgrenze auf 0); generische Klassen bleiben streng je Zellbiom. Unbekannte Schlüssel (außer Doku-Schlüsseln wie `_doku`, `*hinweis`, `*begruendung`, `herkunft*`) stehen als Logzeile und in `plan.json["overrides"][thema]["unbekannte_schluessel"]`; `plan.json["overrides"]` nennt je Biom-Planer Datei, Biome, gelesene Schlüssel und Zusatzklassen.
+
 Regeln: Reihenfolge je Teil (flacher Block, danach `je_biom[biom]`) zusatzklassen → palette → parameter → faktor → faktor_je_feld. Gesamtfaktor = Feldfaktor × `faktor` × `biom_faktor`. Zusatzklassen brauchen nur die abweichenden Schlüssel (Rest aus `klasse_vorgabe`), optional `biome` (Liste), `biom_faktor` {biom: f}, `lagen` (= `lagen_faktor`), `schatten`, `farbe`. Klassenparameter, die als Dichtefaktoren wirken: `lichtung` (Lichtung), `wegrand` (≤ 8 m vom Weg), `nah_baum` (0,9–3 m um Stämme), `mulde` (≥ 0,4 m unter dem 10-m-Mittel), `an_totholz` (≤ 2 m um gesetztes Totholz, Klasse wird danach geplant). Palette für eine Klasse, die im Biom fehlt: Vorlage aus `vorlage_biom` bzw. dem ersten Biom mit dieser Klasse. Altform `biom_faktor` {biom: f} (wueste_ergaenzung) multipliziert alle Klassen des Bioms. Zusatzklassen ohne Prioritätseintrag stehen im Budget hinter `hochstaude`.
 
-**Stand der Blöcke beim Rauchtest:** dschungel, elfenwald, nordkueste liefern Blöcke im neuen Schema (wurden ohne Änderung gelesen: Dschungel-Zusatzklassen riesenfarn_insel/staudenflur/bananen_ersatz, Elfenwald adlerfarn/grashorst/beere mit wurzel/kletter/totbaum = 0, Nordküste blaubeer_teppich/blume_wald je Biom); aue, sumpf, heide_tundra, hochgebirge, lava ohne Block (eigene Werte, Doppelungsrisiko bis zu deren Korrektur); **wueste_ergaenzung** hat noch die Altform `biom_faktor` wueste/canyon/oedland = 0 – damit setzt die Mittelschicht dort nichts, was §4 widerspricht (B9 sollte auf palette/faktor umstellen oder die Null bewusst bestätigen).
+**Stand der Blöcke beim Rauchtest:** aue, dschungel, elfenwald, nordkueste liefern Blöcke im neuen Schema (wurden ohne Änderung gelesen: Dschungel-Zusatzklassen riesenfarn_insel/staudenflur/bananen_ersatz, Elfenwald adlerfarn/grashorst/beere mit wurzel/kletter/totbaum = 0, Nordküste blaubeer_teppich/blume_wald je Biom); sumpf, heide_tundra, hochgebirge, lava ohne Block (eigene Werte, Doppelungsrisiko bis zu deren Korrektur); elfenwald meldet den unbekannten Schlüssel `entfernen_witcher_vorschlag` (wird nicht ausgewertet – bei Bedarf als `entfernen_je_feld` liefern); **wueste_ergaenzung** hat noch die Altform `biom_faktor` wueste/canyon/oedland = 0 – damit setzt die Mittelschicht dort nichts, was §4 widerspricht (B9 sollte auf palette/faktor umstellen oder die Null bewusst bestätigen).
 
 ### 8.4 Rauchtest (Cloud, synthetisch, Python 3.13, NumPy, ohne numba)
 
@@ -282,16 +284,17 @@ Synthetische Produktionswurzel (Raster 7057 × 9577 als memmap, nach dem Test ge
 
 | Prüfung | Ergebnis |
 |---|---|
-| Mittelschicht G4 | 55 120 geplant → **51 944** (WARNUNG Instanzbudget, Pilz/Ast/Grasbüschel × 0,81), **1 081 Kollision**, 150 Netze, 5,2 s; Kronendach 1 532 Bäume (bestand + elfenwald), 900 belegt, Laubhaufen ignoriert; Elfenwald-Overrides wirksam (Farn × 1,5, Adlerfarn 4 357, Grashorst 1 185, keine Wurzel/Kletter/Totbaum) |
-| Mittelschicht C6 | **8 187**, 151 Kollision, 1,0 s; Instanzen in Lava-Zellen nur Lava-Palette (Beere/Gras/Ast/Totholz), in Bergwald-Zellen Nordküsten-Palette inkl. Zusatzklasse blaubeer_teppich, in Weltgelände-Zellen Aue-Palette |
+| Mittelschicht G4 | 54 659 geplant → **51 943** (WARNUNG Instanzbudget, Pilz/Ast/Grasbüschel × 0,84), **1 061 Kollision**, 146 Netze, 5,9 s; Kronendach 1 532 Bäume (bestand + elfenwald), 900 belegt, Laubhaufen ignoriert; Elfenwald-Overrides wirksam (Farn × 1,5, Adlerfarn 4 357, Grashorst 1 185, keine Wurzel/Kletter/Totbaum; Adlerfarn/Grashorst nur im Elfenwald + Saum: 61/50 in Heide-, 34/23 in Aue-Zellen) |
+| Mittelschicht C6 (ohne Test-Zusatzklassen) | **8 147**, 191 Kollision, 2,9 s; Lava-Zellen nur Lava-Palette (Beere/Gras/Ast/Totholz) plus 13 blaubeer_teppich aus dem Bergwald-Saum, Bergwald-Zellen Nordküsten-Palette inkl. Zusatzklasse blaubeer_teppich, Weltgelände-Zellen Aue-Palette |
 | Spuren G4 / C6 | **23 913** (937 Kollision inkl. Akteure, 14 Akteure, 12 Punkte, 29 Flächen) / **158** (146 Kollision, Steinmänner/Wegkreuze in Lava), 8,6 / 1,9 s |
 | A1 (Landanteil 0 %) | beide: leerer `plan.json` mit allen Pflichtschlüsseln, `instanzen 0`, eine Logzeile |
 | Pflichtschlüssel | `biome_fenster`, `zellen_zustaendig`, `biome_eigen` (15), `kollision_anzahl`, `ebene`, `entfernen` in allen sechs plan.json; Σ `anzahl` = `instanzen`, Kollisionssumme = `kollision_anzahl`, Quaternionen normiert |
 | Wasser/Weg/Ort | **0 Instanzen** auf `karte_wasser/weg/ort > 0` (Mittelschicht alle, Spuren alle außer Steg-Teilen über Wasser) |
-| Determinismus | zwei Läufe je Planer: alle f32 byte-identisch (MD5 über alle Dateien) |
+| Determinismus | zwei Läufe je Planer (G4, C6, A1): alle f32 byte-identisch (MD5 über alle Dateien) |
 | Budget-Zwangstest | Mittelschicht Deckel 10 000 / Ziel 8 000 / Kollision 300: 54 332 → 8 065, Kollision 1 081 → 52; Spuren Deckel 3 000 / 800: 23 899 → 2 978 (154 Kollision, 14 Akteure unverändert); jeweils `WARNUNG` im Log |
 | ASCII | 0 Nicht-ASCII-Zeichen in beiden Logs (inkl. Hinweisen mit „§“, „→“, „≥“, Umlauten) |
 | Fehlerpfade | fehlende `hoehe.f32`, fehlende Regeldatei, Feld `Z9` → `FEHLER: …`, Exit-Code 2; fehlende `eigner.r8` → dominantes Feldbiom aus `biome_je_feld.json` (G4 → elfenwald) mit Hinweis |
+| Zusatzklassen §6 | Test-Override in `lava_regeln.json`: `moospolster_test` (dichte_je_ha 300, hang_grad, hoehe_m, lagen_min Lavafels 60, gruppe {groesse, radius_m}, eingraben_anteil, unbekannter Schlüssel `foo_unbekannt`) → 24 511 Instanzen in Lava-Zellen, 147/27 im 30-m-Saum in Aue/Bergwald, sonst 0; `felsnadel_test` (rolle fels_block, 2/ha, konvex, akteur) → 42 in `akteur_SM_IcelandicBoulder_01.f32`, Kollision an; unbekannter Schlüssel in Log und `plan.json["overrides"]`; Pfad außerhalb des Inventars verworfen mit Hinweis |
 | Dschungel-Feldtabelle | G6 ohne B7-Block: Farn/Kletter/Totholz/Stumpf/Wurzel/Pilz 0, Strauch/Jungbaum/Hochstaude 0,5; mit B7-Block: inaktiv (Hinweis), Faktoren aus B7 |
 | `py_compile` | beide Skripte sauber |
 
@@ -299,7 +302,7 @@ Synthetische Produktionswurzel (Raster 7057 × 9577 als memmap, nach dem Test ge
 
 ### 8.5 Offen nach Runde 1
 
-1. `spuren_overrides` der Biom-Planer (z. B. Dschungel-Tempelruinen, Wüsten-Karren/Brunnen/Galgen-Ersatz) werden von `spuren_plan.py` noch nicht gelesen – Schema analog zu 8.3 in Runde 2.
+1. `spuren_overrides` der Biom-Planer (z. B. Dschungel-Tempelruinen, Wüsten-Karren/Brunnen/Galgen-Ersatz, Hochgebirge-Gipfelkreuz) werden von `spuren_plan.py` noch nicht gelesen. Beim Rauchtest enthielt kein `spuren_overrides`-Block `zusatzklassen` nach §6; die übrigen Blöcke sind themenspezifische Strukturen (je Spurtyp), die einen eigenen Abgleich in Runde 2 brauchen.
 2. Biom-Planer ohne Override-Block (aue, sumpf, heide_tundra, hochgebirge, lava) und die Altform von wueste_ergaenzung: Doppelungen bzw. fehlende Mittelschicht, bis sie umgestellt sind (siehe 8.3).
 3. Nordküsten-Zusatzklassen nutzen `lagen` – als `lagen_faktor` gelesen (Faktor bei voller Deckung); falls dort anders gemeint, bitte melden.
 4. Abgrenzungsliste 8.2 sollte in `verteilung-STATUS.md` übernommen werden (Koordinator).
