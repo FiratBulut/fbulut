@@ -56,3 +56,31 @@ Weiterhin `instanzen`, `dateien` (mit `ebene`), `entfernen`, `ft_ordner`, `ft_pr
 - Fehlende optionale Dateien → eine Hinweiszeile, weiter; fehlende Pflichtdatei (hoehe.f32, Regeln, netze.csv) → klare Meldung, Exit-Code 2.
 - Jeder Lauf deterministisch (zwei Läufe byteidentisch), Laufzeit ≤ 60 s je Feld, keine Unreal-Importe, numba optional.
 - Rauchtest in der Cloud nur synthetisch; Echtdaten-Zahlen aus `verteilung-korrektur-runde1.md` als Referenz im Bericht nennen.
+
+## 6. Schema für `zusatzklassen` in Overrides (Nachtrag 10.10. 14:15 UTC)
+
+Biom-Planer dürfen in `felsgruppen_overrides`, `mittelschicht_overrides` und `spuren_overrides` eigene Klassen unter
+`zusatzklassen` anlegen (z. B. nordkueste `felsufer`, heide_tundra `blockfeld`, wueste `terrassenkanten`/`felsnadel`,
+dschungel `karstfuss`/`karstplatte`, lava Spires, hochgebirge `eis`). Der jeweilige Querschnitts-Planer **muss** diese Klassen
+setzen, nur in Zellen des liefernden Bioms (plus Saum). Gemeinsames Mindestschema, alle Schlüssel außer `palette` optional:
+
+```
+"<name>": {
+  "palette": ["/Game/..."],            # Pflicht, Pfade aus netze.csv
+  "rolle": "fels_block",                # Taxonomie-Rolle, steuert Eingraben/Kollision-Standard
+  "dichte_je_ha": 4.0,                  # Ziel-Dichte in der zulässigen Maske
+  "hang_grad": [20, 60],                # zulässiger Hang
+  "hoehe_m": [0, 900],                  # zulässige Geländehöhe
+  "wasser_abstand_m": [0, 8],           # Abstand zur Wasserkante (karte_wasser)
+  "lagen_min": {"Fels": 60},            # Mindestgewicht 0-255 je Bodenlage
+  "kruemmung": "konvex|konkav|egal",
+  "massstab": [0.8, 1.4],
+  "eingraben_anteil": [0.25, 0.45],
+  "gruppe": {"groesse": [1, 4], "radius_m": 6},
+  "kollision": true,
+  "sichtweite": [0, 0],
+  "akteur": false                       # true = als Akteur statt Foliage
+}
+```
+Unbekannte Schlüssel werden ignoriert und im Log/`plan.json["overrides"]` gemeldet. Biom-Planer passen ihre bisherigen
+Zusatzklassen auf dieses Schema an; Querschnitts-Planer lesen es tolerant.

@@ -1,6 +1,6 @@
 # Leere füllen: Mittelschicht 0,3–3 m und Spuren von Leben (Auftrag 11, Teil D)
 
-**Projekt:** Eldarien, UE 5.8.3, 9,6 × 7 km, 62 Landfelder. **Stand:** 2026-10-10 (Fortsetzung nach API-Abbruch). **Lieferung:** dieser Bericht, `skripte/mittelschicht_regeln.json` + `mittelschicht_plan.py`, `skripte/spuren_regeln.json` + `spuren_plan.py`. **Status der Skripte:** `py_compile` sauber; Rauchtest mit synthetischer Produktionswurzel bestanden (G4 mit Orten/Weg/See/932 Bäumen, Randfeld A1, baumloses G3, Budget-Zwangstest, Fehlerpfade; Abschnitt 5). **UNGETESTET MIT ECHTDATEN.** Beide Planer prüfen beim Start alle Netzpfade ihrer Regeldatei gegen `daten/netze.csv` (237 + 85 Pfade, 0 fehlend) und brechen bei unbekannten Netzen mit Liste ab. Paletten nachträglich gegen `assets-taxonomie.json` geprüft: 663 von 830 Netz-Biom-Zuordnungen der Mittelschicht haben Eignung ≥ 1 (80 %); die übrigen sind bewusste Zweitverwertung in Biomen ohne eigene Mittelschicht (gletscher, frost, lava, oedland, canyon, wueste: Trockengras, Dürräste, Totbäume) sowie 54 Dschungel-Zuordnungen (gemäßigte Farne/Holunder als Füller; Abschnitt 7).
+**Projekt:** Eldarien, UE 5.8.3, 9,6 × 7 km, 62 Landfelder. **Stand:** 2026-10-10 (Fortsetzung nach API-Abbruch). **Lieferung:** dieser Bericht, `skripte/mittelschicht_regeln.json` + `mittelschicht_plan.py`, `skripte/spuren_regeln.json` + `spuren_plan.py`. **Status der Skripte:** `py_compile` sauber; Rauchtest mit synthetischer Produktionswurzel bestanden (G4 mit Orten/Weg/See/932 Bäumen, Randfeld A1, baumloses G3, Budget-Zwangstest, Fehlerpfade; Abschnitt 5). Echtdaten-Lauf der Vorfassung lokal ohne Absturz (A5/G4/E1/C6); **Korrektur Runde 1 siehe Abschnitt 8** (Biom-Zuständigkeit, Pflichtschlüssel, Ebenen-Abgrenzung, Override-Schema, Budget, ASCII-Logs). Beide Planer prüfen beim Start alle Netzpfade ihrer Regeldatei gegen `daten/netze.csv` (237 + 85 Pfade, 0 fehlend) und brechen bei unbekannten Netzen mit Liste ab. Paletten nachträglich gegen `assets-taxonomie.json` geprüft: 663 von 830 Netz-Biom-Zuordnungen der Mittelschicht haben Eignung ≥ 1 (80 %); die übrigen sind bewusste Zweitverwertung in Biomen ohne eigene Mittelschicht (gletscher, frost, lava, oedland, canyon, wueste: Trockengras, Dürräste, Totbäume) sowie 54 Dschungel-Zuordnungen (gemäßigte Farne/Holunder als Füller; Abschnitt 7).
 
 ## 1. Befund aus den Bildern: was in 0,5–3 m Höhe fehlt
 
@@ -16,6 +16,8 @@ Gezählt je Bild, was innerhalb von ~10 m um die Kamera (≈ 300 m²) zwischen K
 Die Lücke ist ein Faktor **5–10** in der Mittelschicht (offen 0,3 → 2,5; Wald 0,5 → 4–5) und **> 10** bei Spuren von Leben (außerhalb der Houdini-Orte heute 0). Boden- und Baumebene sind da; die Höhe dazwischen ist leer, und nichts verrät, dass Menschen hier leben.
 
 ## 2. Mittelschicht-Regeln 0,3–3 m (alle 15 Biome)
+
+> Stand Runde 0. Seit Korrektur Runde 1 heißen die Totholz-Klassen `totholz_liegend`, `totholz_stumpf`, `totholz_ast`; `schilf` entfällt, `totbaum`/`wurzel`/`kletter` nur noch in einzelnen Biomen, Paletten werden von den Biom-Planern überschrieben – siehe Abschnitt 8.
 
 Alle Zahlen stehen in `mittelschicht_regeln.json` (Biom → Klasse → Netze, Dichte, Gruppe, Maßstab, Eingraben, Kippen, Sichtweite, Kollision; 14 Klassen: farn, strauch, jungbaum, beere, hochstaude, schilf, grasbueschel, totholz, stumpf, ast, wurzel, pilz, kletter, totbaum).
 
