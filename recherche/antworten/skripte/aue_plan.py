@@ -411,11 +411,11 @@ def dominantes_feldbiom(basis, feld, regeln):
     return 'aue', 'Standard aue'
 
 
-def lade_biome(basis, win, regeln, feld):
+def lade_biome(basis, win, regeln, feld, land=None):
     """Biom je Zelle (Konventionen par. 1): eigner.r8 + welt.json["kacheln"][k]["rezept"], Kennzahl 0 = Weltgelaende -> aue,
     Vulkan/Lava -> lava, unbekanntes Rezept -> dominantes Feldbiom (Warnung). Nur wenn eigner.r8 oder welt.json fehlt:
-    dominantes Feldbiom fuer alle Zellen. Rueckgabe: eigen (bool H x W, Biom in biome_eigen), Anteile {biom: Anteil im Fenster},
-    Quelle (Text). Keine Biomfaktoren fuer fremde Biome."""
+    dominantes Feldbiom fuer alle Zellen. Rueckgabe: eigen (bool H x W, Biom in biome_eigen), Anteile {biom: Anteil im Fenster,
+    bezogen auf die Landzellen `land` (ohne karte_wasser), sonst alle Zellen}, Quelle (Text). Keine Biomfaktoren fuer fremde Biome."""
     Z = regeln['zustaendigkeit']
     eigen_l = set(Z['biome_eigen'])
     alle = list(Z['biome_alle'])
@@ -457,7 +457,7 @@ def lade_biome(basis, win, regeln, feld):
         if 0 < kk < 256:
             namen[kk] = biom_aus_rezept(v.get('rezept', '') if isinstance(v, dict) else v)
     namen[0] = null_biom  # Kennzahl 0 = Weltgelaende -> aue (Konventionen par. 1)
-    zahl = np.bincount(eig.ravel(), minlength=256)
+    zahl = np.bincount(eig.ravel() if land is None else eig[land], minlength=256)
     fehlt = [kk for kk in np.flatnonzero(zahl) if namen[kk] is None]
     if fehlt:
         fb, q = dominantes_feldbiom(basis, feld, regeln)
@@ -469,7 +469,7 @@ def lade_biome(basis, win, regeln, feld):
     eigen = lut[eig]
     anteile = {}
     for kk in np.flatnonzero(zahl):
-        anteile[namen[kk]] = anteile.get(namen[kk], 0.0) + float(zahl[kk]) / max(1, eig.size)
+        anteile[namen[kk]] = anteile.get(namen[kk], 0.0) + float(zahl[kk]) / max(1, int(zahl.sum()))
     return eigen, anteile, 'eigner.r8 + welt.json'
 
 
@@ -574,7 +574,15 @@ def lade_stillwasser(basis, win, H, W):
                 umrisse.append(o['umriss'])
     if not umrisse:
         return np.zeros((H, W), bool), 0
-    return polygon_maske(H, W, win, umrisse), len(umrisse)
+    im_fenster = 0
+    for um in umrisse:  # nur Umrisse zaehlen, die das Fenster beruehren
+        try:
+            pts = np.asarray(um, dtype=np.float64)
+            px, py = pts[:, 0] / 100.0 + X0 - win[2], pts[:, 1] / 100.0 + Y0 - win[0]
+            im_fenster += int(not (px.max() < 0 or px.min() > W or py.max() < 0 or py.min() > H))
+        except Exception:
+            continue
+    return polygon_maske(H, W, win, umrisse), im_fenster
 
 
 def lade_standorte(basis, win, H, W, radius_m):
@@ -636,15 +644,22 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     im_feld = (gi >= fb[0]) & (gi < fb[1]) & (gj >= fb[2]) & (gj < fb[3])
 
     # ------------------------------------------------------------------ Zustaendigkeit (Konventionen par. 1)
+    # Anteile und Saum nur ueber Landzellen: Kennzahl 0 (Weltgelaende -> aue) deckt auch Meer/Seen; sonst wuerde Wasser den
+    # aue-Anteil in Kuestenfeldern (A5) aufblaehen und der Saum von Meereszellen in fremde Biome reichen.
     Z = regeln['zustaendigkeit']
-    eigen, bio_anteil, bio_quelle = lade_biome(basis, win, regeln, feld)
-    eigen_anteil = float(eigen.mean())
-    eigen_anteil_feld = float(eigen[im_feld].mean())
+    w0 = lade_raster(os.path.join(basis, WELT, 'karte_wasser.r8'), np.uint8, win)
+    land_z = (w0 == 0) if w0 is not None else np.ones((H, W), bool)
+    if not land_z.any():
+        land_z = np.ones((H, W), bool)
+    eigen, bio_anteil, bio_quelle = lade_biome(basis, win, regeln, feld, land_z)
+    eigen &= land_z
+    eigen_anteil = float(eigen[land_z].mean())
+    eigen_anteil_feld = float(eigen[im_feld & land_z].mean()) if (im_feld & land_z).any() else 0.0
     if eigen_anteil < float(Z['min_eigenanteil_fenster']):
         ausgabe = ausgabe_leeren(basis, regeln, feld)
         plan = plan_grund(feld, regeln, bio_anteil, 0, 0, 0)
         plan.update({'leer': True, 'eigenanteil_fenster': round(eigen_anteil, 4), 'eigenanteil_feld': round(eigen_anteil_feld, 4),
-                     'biom_quelle': bio_quelle,
+                     'biome_fenster_bezug': 'Landzellen im Fenster (ohne karte_wasser)', 'biom_quelle': bio_quelle,
                      'hinweise': ['aue-Anteil im Fenster %.2f %% < %.0f %% - kein Plan (Konventionen par. 1)' % (
                          100 * eigen_anteil, 100 * float(Z['min_eigenanteil_fenster']))]})
         schreibe_plan(ausgabe, plan)
@@ -1136,7 +1151,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     plan['dateien'] = dateien
     plan['entfernen'] = entf
     plan.update({'eigenanteil_fenster': round(eigen_anteil, 4), 'eigenanteil_feld': round(eigen_anteil_feld, 4), 'saum_m': saum_m,
-                 'biom_quelle': bio_quelle,
+                 'biome_fenster_bezug': 'Landzellen im Fenster (ohne karte_wasser)', 'biom_quelle': bio_quelle,
                  'budget': {'deckel': deckel, 'ziel': [ziel_lo, ziel_hi], 'ausduennen_auf': auf, 'vor_ausduennung': int(vorher),
                             'kollision_vor_ausduennung': int(koll_vorher), 'kollision_deckel': koll_max, 'ausduennung': ausduenn},
                  'an_landschaftsgras': an_gras,

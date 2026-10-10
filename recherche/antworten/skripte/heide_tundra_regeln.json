@@ -551,7 +551,7 @@
   "entfernen": {
     "heide": "",
     "tundra": "",
-    "hinweis": "Standard: nichts entfernen – die Ebene ergänzt FT_EL_WIT_*, FT_EL_BST_*, FT_EL_UF_*, FT_EL_FS_*/FT_EL_FG_*. Die Runde-0-Empfehlung, Witcher-Laubgebüsch (maple_bush, Elderberry) in D2/G5 zu entfernen, betrifft jetzt die Mittelschicht und steht als mittelschicht_overrides.entfernen_vorschlag (nicht aktiv)."
+    "hinweis": "Standard: nichts entfernen – die Ebene ergänzt FT_EL_WIT_*, FT_EL_BST_*, FT_EL_UF_*, FT_EL_FS_*/FT_EL_FG_*. Die Runde-0-Empfehlung, Witcher-Laubgebüsch (maple_bush, Elderberry) in D2/G5 zu entfernen, betrifft jetzt die Mittelschicht und steht als mittelschicht_overrides._entfernen_vorschlag (nicht aktiv)."
   },
   "felsgruppen_overrides": {
     "hinweis": "Für felsgruppen_plan.py (Teil C): Einträge überschreiben biom_palette/biom_faktor/biom_klassen_aus/klassen je Biom. Findlinge mit Flechten, Blockfelder; keine Bänder/Wände in der Flachheide. Korrektur Runde 1: Flechtensteine über 0,8 m (xjijbgx, mountain_rock_big_01_2/3, stones_01_3) aus der Klasse flechtenstein hierher verschoben (tundra: paletten_ergaenzung.tundra.stein, heide: paletten_neu.heide.stein).",
@@ -663,7 +663,7 @@
       "stumpf": {"schicht": "1 mittel", "rolle": "stumpf", "gruppe_name": "stumpf", "prioritaet": 7, "dichte": {"tundra": 0.00015, "heide": 0.0002}, "gruppe": [1, 1], "radius_m": 0, "lagen": "streu", "massstab": [0.9, 1.3], "eingraben_cm": 10, "kippen": 0.6, "hang_voll_bis": 30, "hang_null_ab": 40, "sichtweite": [0, 30000], "kollision": false, "schatten": true, "weg": "klein", "wasser_min": 1.0},
       "zweige": {"schicht": "0 boden", "rolle": "totholz", "gruppe_name": "zweige", "prioritaet": 17, "dichte": {"tundra": 0.003, "heide": 0.004}, "gruppe": [1, 3], "radius_m": 1.5, "lagen": "streu", "baum_naehe_bonus": 2.5, "baum_naehe_m": 12, "massstab": [0.8, 1.3], "eingraben_cm": 3, "kippen": 1.0, "hang_voll_bis": 30, "hang_null_ab": 42, "sichtweite": [0, 9000], "kollision": false, "schatten": false, "weg": "klein", "wasser_min": 0.5}
     },
-    "entfernen_vorschlag": {
+    "_entfernen_vorschlag": {
       "D2": "FT_EL_WIT_maple_bush_0,FT_EL_WIT_Elderberry_",
       "G5": "FT_EL_WIT_maple_bush_0,FT_EL_WIT_Elderberry_",
       "hinweis": "Nicht aktiv (deshalb nicht entfernen_je_feld): Witcher-Laubgebüsch wirkt auf Heide/Tundra fremd; nach Sichtung im Editor in entfernen_je_feld übernehmen."

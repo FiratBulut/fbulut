@@ -1885,7 +1885,7 @@
     "gipfelkreuz": {
       "netz": null,
       "regel": "lokales Maximum (Fenster 300 m, Prominenz ≥ 25 m, Hang < 20°), 1 je Feld, Akteur; Netz fehlt → Einkaufsliste",
-      "kandidat_zwischenloesung": "/Game/Graveyard/… Holzkreuz aus spuren_regeln.netze.kreuz, Maßstab 2,5"
+      "kandidat_zwischenloesung": "Holzkreuz aus spuren_regeln.netze.kreuz (Paket Graveyard), Massstab 2,5"
     },
     "unterstand": {
       "netz": null,
