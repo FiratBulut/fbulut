@@ -1,12 +1,13 @@
 {
  "_doku": {
-  "stand": "2026-10-10 (Korrektur Runde 1)",
+  "stand": "2026-10-10 (Korrektur Runde 2)",
   "zweck": "Regeln für felsgruppen_plan.py (Auftrag 11 Teil C). Alle Zahlen Richtwerte; Vorfassung lief lokal mit Echtdaten (A5 13 311, G4 114, E1 18 482, C6 27 357 Instanzen) ohne Absturz; Pfade geprüft gegen daten/netze.csv (1435 Netze).",
   "einheiten": "Längen in m, Winkel in Grad, Krümmung in 1/m, Sichtweite in cm, Maßstab als Faktor; Raster 1 m (FORMAT.md §1).",
   "pivot": "Eingraben rechnet z = Boden - min_z*s - eingraben*H*s. min_z aus daten/netze_masse.json, sonst 0 (Pivot unten) bzw. -H/2 für Netze in netz_pivot_mitte.",
   "rollen": "hero (>3 m, Hauptfels), wand (Schale/Klippe an Wand >50°), band (geschichtete Platte/Leiste), block (0,8–3 m), stein (<0,8 m), platte (flache Bodenplatte), kiesel (5–40 cm, Geröllsaum).",
   "taxonomie": "Abgleich mit assets-taxonomie.json (Teil A, nach Festlegung der Palette erschienen): Taxonomie stuft nach größter Kante, diese Palette nach Höhe (Auftrag: hero > 3 m, block 0,8–3 m, stein < 0,8 m); Kiesel entsprechen dort 'ufer_stein', Nordic-/Sandstein-Klippen 'klippe_schale'. Aus der Taxonomie übernommen: SM_IcelandicLavaSpire_01–03 als Hero für lava/tundra.",
-  "korrektur_runde1": "Biom je Zelle strikt (biom_zuordnung), biome_eigen = alle 15 Biome (Querschnitts-Planer), plan.json-Pflichtschlüssel (biome_fenster, zellen_zustaendig, biome_eigen, kollision_anzahl, hinweise), Budget mit Warnung (budget.ziel), Biom-Overrides (overrides), Klasse einzel + mindestdichte_je_ha."
+  "korrektur_runde1": "Biom je Zelle strikt (biom_zuordnung), biome_eigen = alle 15 Biome (Querschnitts-Planer), plan.json-Pflichtschlüssel (biome_fenster, zellen_zustaendig, biome_eigen, kollision_anzahl, hinweise), Budget mit Warnung (budget.ziel), Biom-Overrides (overrides), Klasse einzel + mindestdichte_je_ha.",
+  "korrektur_runde2": "auftraege/verteilung-korrektur-runde2.md Befund 2/3: Gruppen als Form auf 300 m (Hauptfels 4-10 m sichtbar an Graten/Kuppen, Satelliten 1,5-4 m eng gestaffelt mit Abstand <= 1,5 x Hauptfels-Radius, Gruppe 10-30 m breit, halb so viele Gruppen), Felskrone als Kette entlang des Kamms, Blockstrom am Fuss von Waenden > 50 Grad (Groesse hangabwaerts abnehmend), Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100, Kleinmaterial nur im Kontaktsaum, Sperrliste 'gesperrt'."
  },
  "seed": 110,
  "rand_m": 64,
@@ -693,28 +694,38 @@
     60,
     60
    ],
-   "raster_m": 14,
-   "p": 0.55,
+   "p": 0.8,
    "hang_grad": [
-    10,
-    72
+    0,
+    65
    ],
-   "grat_staerke_min": 0.02,
-   "hero_p": 0.6,
+   "hero_p": 0.9,
    "hero_akteur_ab_m": 5.0,
    "block": [
-    2,
+    3,
     5
    ],
    "stein": [
-    5,
-    12
+    2,
+    5
    ],
    "kiesel": [
-    12,
-    28
+    8,
+    16
    ],
-   "hauptrichtung": "gratachse"
+   "hauptrichtung": "gratachse",
+   "platte_p": 0.35,
+   "kamm_staerke_min": 0.006,
+   "kamm_relief_min_m": 1.5,
+   "kamm_quer_m": 4.0,
+   "kamm_toleranz_m": 0.03,
+   "kamm_quer_gross_m": 24.0,
+   "kamm_quer_relief_m": 2.5,
+   "kette_abstand_m": 28,
+   "kette_min_abstand_m": 20,
+   "kette_zufall_m": 3.0,
+   "kuppe_abstand_m": 24,
+   "hinweis": "Runde 2: Felskrone = Kette von Formgruppen entlang der Kammlinie. Kammlinie: Gratstaerke (sigma 8 m) >= kamm_staerke_min, Querschnitt-Maximum (hoeher als +-kamm_quer_m quer zur Gratachse), zusaetzlich grossraeumig: hoechster Punkt im Querschnitt +-kamm_quer_gross_m und mindestens kamm_quer_relief_m ueber dem Mittel beider Seiten (trennt echte Kaemme von Buckeln am Hang), Relief gegen sigma 25 m >= kamm_relief_min_m. Eine Gruppe je kette_abstand_m-Zelle (hoechster Kammpunkt), Nachbarn naeher als kette_min_abstand_m und Kuppen (kuppe_abstand_m) unterdrueckt."
   },
   "band": {
    "farbe": [
@@ -722,23 +733,23 @@
     170,
     40
    ],
-   "raster_m": 9,
-   "p": 0.35,
+   "raster_m": 14,
+   "p": 0.4,
    "hang_grad": [
     32,
     70
    ],
    "band": [
-    1,
+    2,
     3
    ],
    "stein": [
-    2,
-    6
+    1,
+    3
    ],
    "kiesel": [
-    6,
-    16
+    4,
+    10
    ],
    "hauptrichtung": "streichen"
   },
@@ -764,11 +775,15 @@
     3
    ],
    "stein": [
-    3,
-    8
+    1,
+    3
    ],
    "akteur": true,
-   "hauptrichtung": "streichen"
+   "hauptrichtung": "streichen",
+   "kiesel": [
+    3,
+    8
+   ]
   },
   "fuss": {
    "farbe": [
@@ -776,11 +791,10 @@
     200,
     255
    ],
-   "raster_m": 10,
-   "p": 0.45,
+   "p": 0.75,
    "hang_grad": [
-    18,
-    42
+    15,
+    45
    ],
    "wand_ab_grad": 50,
    "wand_hoehe_min_m": 8,
@@ -816,15 +830,22 @@
     ]
    ],
    "n": [
-    2,
-    4
+    4,
+    7
    ],
    "kiesel": [
-    6,
-    14
+    3,
+    6
    ],
    "groessenverlauf": "abnehmend",
-   "hinweis": "Auftrag: Größe nimmt hangabwärts ab. Reale Schutthalden zeigen oft Sturzsortierung (große Blöcke am Fuß); bei Bedarf groessenverlauf='zunehmend' setzen."
+   "hinweis": "Runde 2: Blockstrom am Fuss von Waenden >= wand_ab_grad: Kopfblock (sichtbar kopf_hoehe_m) in 0-8 m unter der Wand, dann n Bloecke/Steine entlang der Falllinie, Groesse hangabwaerts abnehmend (0,8 -> 0,25 x Kopf), Faecherbreite waechst, Laenge <= laenge_max_m. Eine Zunge je strom_abstand_m-Zelle. stufen/groessenverlauf gelten nur noch fuer die Kandidatenzone (Stufe 0).",
+   "strom_abstand_m": 24,
+   "strom_min_abstand_m": 15,
+   "kopf_hoehe_m": [
+    2.5,
+    4.0
+   ],
+   "laenge_max_m": 30
   },
   "blockstrom": {
    "farbe": [
@@ -832,8 +853,8 @@
     120,
     255
    ],
-   "raster_m": 16,
-   "p": 0.5,
+   "raster_m": 32,
+   "p": 0.6,
    "hang_grad": [
     5,
     24
@@ -843,17 +864,22 @@
    "hohl_min": 0.002,
    "block": [
     3,
-    7
+    5
    ],
    "stein": [
-    6,
-    14
+    1,
+    3
    ],
    "kiesel": [
-    15,
-    30
+    3,
+    6
    ],
-   "hauptrichtung": "falllinie"
+   "hauptrichtung": "falllinie",
+   "kopf_hoehe_m": [
+    2.0,
+    3.5
+   ],
+   "laenge_max_m": 26
   },
   "kuppe": {
    "farbe": [
@@ -862,29 +888,30 @@
     0
    ],
    "umkreis_m": 32,
-   "p": 0.8,
+   "p": 0.85,
    "hang_grad": [
     0,
     38
    ],
-   "hero_p": 0.5,
+   "hero_p": 0.85,
    "block": [
-    1,
-    3
+    2,
+    4
    ],
    "stein": [
-    3,
-    8
+    2,
+    4
    ],
    "kiesel": [
-    8,
-    20
+    6,
+    14
    ],
    "eingraben": [
-    0.35,
-    0.45
+    0.25,
+    0.35
    ],
-   "hero_akteur_ab_m": 5.0
+   "hero_akteur_ab_m": 5.0,
+   "platte_p": 0.35
   },
   "prallhang": {
    "farbe": [
@@ -902,18 +929,18 @@
     3,
     10
    ],
-   "hero_p": 0.7,
+   "hero_p": 0.8,
    "block": [
     2,
     4
    ],
    "stein": [
-    4,
-    10
+    1,
+    3
    ],
    "kiesel": [
-    10,
-    20
+    6,
+    12
    ],
    "hauptrichtung": "flusstangente",
    "hero_akteur_ab_m": 5.0
@@ -931,16 +958,16 @@
    ],
    "hero_p": 0.12,
    "block": [
-    0,
-    2
+    1,
+    3
    ],
    "stein": [
-    2,
-    6
+    1,
+    3
    ],
    "kiesel": [
-    4,
-    12
+    3,
+    8
    ],
    "eingraben": [
     0.35,
@@ -978,7 +1005,8 @@
    0.3,
    0.12
   ],
-  "hinweis": "Hauptfels + 2–5 Nebenblöcke + 5–12 Steine + 15–35 Kiesel; Nebenblöcke 10–30 % in den Hauptfels geschoben; alle mit gemeinsamer Hauptrichtung ±20°."
+  "hinweis": "Runde 1 (Grundlage der Override-Faktoren: kiesel_bezug_je_m2 = Mittel der Runde-1-Dichte 1,5-4 je m2). Die Gruppengrammatik ab Runde 2 steht in 'form'; neben_/stein_abstand_hero_r, ueberlappung_anteil und groessenstaffel werden nicht mehr benutzt.",
+  "kiesel_bezug_je_m2": 2.75
  },
  "rollen": {
   "hero": {
@@ -987,8 +1015,8 @@
     1.4
    ],
    "eingraben": [
-    0.3,
-    0.45
+    0.25,
+    0.35
    ],
    "kippen_grad": [
     4,
@@ -1051,7 +1079,7 @@
    ],
    "eingraben": [
     0.25,
-    0.4
+    0.38
    ],
    "kippen_grad": [
     4,
@@ -1067,16 +1095,16 @@
   },
   "platte": {
    "massstab": [
-    0.9,
-    1.3
+    0.6,
+    1.0
    ],
    "eingraben": [
-    0.4,
-    0.5
+    0.5,
+    0.65
    ],
    "kippen_grad": [
     0,
-    4
+    0
    ],
    "sichtweite_cm": [
     0,
@@ -1110,7 +1138,7 @@
   "kiesel": {
    "massstab": [
     0.6,
-    1.3
+    1.1
    ],
    "eingraben": [
     0.3,
@@ -1144,12 +1172,13 @@
    "stein": 15000,
    "kiesel": 40000
   },
-  "thinning": "Deckel hart (KONVENTIONEN §3): je Rolle, dann gesamt (kiesel, stein, platte, block, band), dann Kollision (block, band, wand, hero) – jeweils deterministisch nach Instanz-Hash; Akteure über dem Deckel bleiben als Foliage (kleinste zuerst). Jede Ausdünnung: WARNUNG im Log + plan.json hinweise; über 'ziel' nur Hinweis.",
+  "thinning": "Deckel hart (KONVENTIONEN §3). Runde 2: je Rolle und gesamt nach Gruppen-Prioritaet (ganze Gruppen zuerst, nicht einzelne Stuecke vieler Gruppen), Kiesel nach Instanz-Hash; Kollision ueber dem Deckel: zuerst Kollision der kleinsten Stuecke abschalten (Stueck bleibt sichtbar), WARNUNG im Log; Akteure ueber dem Deckel als Foliage (kleinste zuerst). Danach Kontaktsaum-Pruefung (kleinmaterial).",
   "ziel": 52000
  },
  "erwartung_je_feld": {
   "hinweis": "Spannen für Bergfelder (B4, B5, C2, D2, E1): grat 80–250 Gruppen, band 200–600, wand 20–80, fuss 300–900, blockstrom 40–150, kuppe 5–25; Instanzen: hero 60–300, wand 40–250, band 250–1200, block 600–2000, stein 3000–9000, kiesel 10000–35000; Summe 15000–45000. Flachfelder (Aue/Heide): 300–3000 Instanzen.",
-  "echtdaten_vorfassung": "Lokaler Lauf 10.10. (Vorfassung, Kennzahl 0 = dominantes Feldbiom, ohne Overrides): A5 13 311 (65 Akteure), G4 114, E1 18 482, C6 27 357."
+  "echtdaten_vorfassung": "Lokaler Lauf 10.10. (Vorfassung, Kennzahl 0 = dominantes Feldbiom, ohne Overrides): A5 13 311 (65 Akteure), G4 114, E1 18 482, C6 27 357.",
+  "runde2": "Synthetischer Rauchtest Runde 2: Gruppen je Feld <= 50 % von Runde 1 (gleiches Raster); Werte siehe verteilung-fels-organisch.md Abschnitt 'Korrektur Runde 2'."
  },
  "ausgabe": {
   "ordner": "export/unreal/welt/felsgruppen",
@@ -1211,5 +1240,165 @@
    255
   ],
   "_hinweis": "KONVENTIONEN §6: zusatzklassen aus felsgruppen_overrides der Biom-Regeldateien (Schema: palette Pflicht; rolle, dichte_je_ha, hang_grad, hoehe_m, wasser_abstand_m, lagen_min, kruemmung, massstab, eingraben_anteil, gruppe{groesse, radius_m}, kollision, sichtweite, akteur optional). Gesetzt nur in Zellen der liefernden Biome (Gewicht je Biom über 'biome') plus linearem Saum saum_m, innerhalb des gemeinsamen Budgets; dichte_je_ha = Instanzen je ha der zulässigen Maske (Gruppen = dichte / mittlere Gruppengröße); je_km2 (Altform) = je ha Biomfläche. Bereichswerte [lo, hi] hart oder [a, b, c, d] als Rampe. Tolerant gelesen außerdem: netze, dichte/dichte_je_m2 (je m2), hang_min/hang_max, hoehe (voll bis a, 0 bei b), ab_hoehe_m, kueste (+kueste_nur, Abstand zum Meer), lagen+lagen_modus gewicht, eingraben{anteil}, raster_m, p (mit raster_m), klumpung, zone_m (Abstand zur Wand > 50°), abstand_m/umkreis_m/abbruch_min_m (Kantenstreifen), kuppen_prominenz_(min_)m, exposition, max_je_feld, punkte{ebene, typ}, felder, biome{biom: gewicht}. Altstellen ohne 'zusatzklassen' (heide_tundra klassen.*.neu, wueste terrassenkanten/felsnadel, dschungel karstfuss/karstplatte, lava hero_akteure, hochgebirge Rolle eis) werden abgebildet und als 'Altstelle' gemeldet. Unbekannte Schlüssel: Log + plan.json overrides.dateien.<datei>.zusatzklassen."
+ },
+ "gesperrt": {
+  "netze": [
+   "/Game/AncientRuins/Meshes/SM_Column_03",
+   "/Game/AncientRuins/Meshes/SM_Main_Arch_01"
+  ],
+  "_hinweis": "Korrektur Runde 2 Befund 3: leere Grundfarbtextur -> weiss. Werden aus allen Paletten, Override-Paletten, Zusatzklassen und Punkt-Netzen entfernt (Log-Hinweis mit Anzahl). Weitere Netze hier eintragen (Pfad wie in netze.csv)."
+ },
+ "form": {
+  "_hinweis": "Korrektur Runde 2 (Befund 2): Gruppengrammatik. Hoehen sind SICHTBARE Hoehen ueber Boden (Netzhoehe x Massstab x (1 - Eingraben)). Massstab je Netz = Zielhoehe / Netzhoehe (netze_masse.json, sonst netze.csv groesse_z_m), begrenzt auf [min_skalierung, max_skalierung_megascans] fuer Pfade mit megascans_muster, sonst max_skalierung_sonst; Netze, die die Zielhoehe nicht erreichen, werden fuer diese Rolle nicht gewaehlt (Rueckfall: naechstliegendes Netz). Flache Netze (Hoehe < flach_verhaeltnis x Breite) und Platten-Netze sind nie Hauptfels/Satellit.",
+  "hero_hoehe_m": {
+   "grat": [
+    4.5,
+    8.5
+   ],
+   "kuppe": [
+    4.0,
+    7.5
+   ],
+   "prallhang": [
+    4.0,
+    7.0
+   ],
+   "einzel": [
+    3.0,
+    5.0
+   ]
+  },
+  "haupt_block_hoehe_m": [
+   2.5,
+   4.0
+  ],
+  "haupt_block_hoehe_einzel_m": [
+   1.5,
+   3.0
+  ],
+  "satellit_hoehe_m": [
+   1.5,
+   4.0
+  ],
+  "satellit_anteil_haupt": [
+   0.35,
+   0.7
+  ],
+  "satellit_abstand_r": [
+   0.7,
+   1.5
+  ],
+  "satellit_streuung_grad": 35,
+  "stein_hoehe_m": [
+   0.5,
+   1.4
+  ],
+  "stein_abstand_r": [
+   1.0,
+   1.5
+  ],
+  "platte_abstand_r": [
+   0.7,
+   1.3
+  ],
+  "kandidaten_rollen": {
+   "hero": [
+    "hero",
+    "block"
+   ],
+   "block": [
+    "block",
+    "hero"
+   ],
+   "stein": [
+    "stein",
+    "block"
+   ]
+  },
+  "max_skalierung_megascans": 2.5,
+  "max_skalierung_sonst": 1.5,
+  "min_skalierung": 0.45,
+  "megascans_muster": [
+   "/Megascans/"
+  ],
+  "max_breite_m": {
+   "hero": 16.0,
+   "block": 7.0,
+   "stein": 2.5
+  },
+  "flach_verhaeltnis": 0.3,
+  "yaw_streuung_grad": 20,
+  "kiesel_ring_m": [
+   0.5,
+   2.0
+  ],
+  "kiesel_dichte_je_m2": [
+   0.6,
+   1.2
+  ],
+  "kiesel_hangab_anteil": 0.65,
+  "kiesel_je_stueck": {
+   "block": [
+    1,
+    4
+   ],
+   "band": [
+    2,
+    5
+   ],
+   "wand": [
+    2,
+    5
+   ],
+   "stein": [
+    0,
+    1
+   ]
+  },
+  "strom_abstand_faktor": [
+   1.1,
+   1.5
+  ],
+  "strom_groesse": [
+   0.8,
+   0.25
+  ]
+ },
+ "platten": {
+  "_hinweis": "Korrektur Runde 2 (Befund 2): flache Platten-Netze (Rolle platte/geroell_platte oder Name passt zu 'muster') nur auf Zellen, deren max(lage_Kies, lage_Geroell, lage_Fels, lage_Felsplatte) >= lagen_min ist und Gras/Wiese nicht ueberwiegt (Mitte + 4 Randpunkte bei 0,6 x Radius), eingegraben >= eingraben_min der Netzhoehe, Z-Achse = Gelaendenormale (kein Kippen, keine Schichtneigung), strenger Schwebe-Test (Gelaende darf unter dem Rand hoechstens Eingrabtiefe + schwebe_toleranz_m unter der Plattenebene liegen). Gilt zentral auch fuer zusatzklassen der Biom-Overrides. Fehlen alle Lagen-Raster: keine Platten.",
+  "muster": [
+   "SM_ErodedRockyGround_",
+   "SM_NordicBeachRockyGround_",
+   "SM_TundraRockyGround_01",
+   "SM_flat_rock_0"
+  ],
+  "rollen": [
+   "platte"
+  ],
+  "lagen": [
+   "Kies",
+   "Geroell",
+   "Fels",
+   "Felsplatte"
+  ],
+  "lagen_min": 100,
+  "vorrang_gegen": [
+   "Gras",
+   "Wiese"
+  ],
+  "eingraben_min": 0.5,
+  "schwebe_toleranz_m": 0.05
+ },
+ "kleinmaterial": {
+  "_hinweis": "Korrektur Runde 2 (Befund 2): Kiesel und Steine < hoehe_max_m nur im Kontaktsaum (bis saum_m vom Rand eines grossen Stuecks der Rollen gross_rollen bzw. >= gross_ab_m, auch aus Zusatzklassen). Nach Budget geprueft (verwaiste Saeume fallen weg); haengende Stuecke (z_versatz_anteil) ausgenommen.",
+  "hoehe_max_m": 0.5,
+  "saum_m": 2.0,
+  "gross_rollen": [
+   "hero",
+   "wand",
+   "band",
+   "block"
+  ],
+  "gross_ab_m": 0.8
  }
 }

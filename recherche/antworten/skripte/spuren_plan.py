@@ -30,7 +30,15 @@ Landanteil im Fenster < 2 % → leerer plan.json; Budget 60 000 / 3 000 Kollisio
 keine Instanz auf Wasser/Weg/Ort (Ausnahme: Steg-Planken/-Pfosten über Wasser); Kronendach zusätzlich aus den
 Baum-Dateien (ebene 2) der Biom-Planer-Ebenen; Logs nur ASCII; fehlende Pflichtdatei → Exit-Code 2.
 
-Echtdaten-Lauf der Vorfassung lokal (A5 51, G4 591, E1 55, C6 393 Instanzen); diese Fassung in der Cloud nur synthetisch rauchgetestet.
+Korrektur Runde 2 (auftraege/verteilung-korrektur-runde2.md, Befund 3/4): je Feld 1-3 Spuren-Ensembles an Wegen/Orten
+(Wegkreuz + Zaunstueck + Holzstapel, Steinmauer-Rest + Steinmann, Rastplatz mit Feuerstelle/Holzstapel/Karren, Ortsrand mit
+Zaun/Feldkante/Brunnen, Schrein, Ruinenrast) in fester Komposition zum Weg, Standort mit freier Sicht vom Weg; verstreute
+Einzelteile (Steinmaenner, Wegkreuze, Karren, Einzelgraeber) per regeln["einzelteile"] stark reduziert; gesperrte Netze
+(regeln["gesperrt"]) aus Regeln und spuren_overrides gefiltert, nie geschrieben. Ensembles in plan.json["ensembles"]
+(mittelschicht_plan.py haelt dort die Sicht frei). Taxonomie-Eignung je Teil aus assets-taxonomie.json (daten/, neben dem
+Skript oder ../), ohne Taxonomie nur Biomlisten der Typen.
+
+Echtdaten-Lauf Runde 1 lokal (A5 1 050, G4 1 133 + 19 Akteure); diese Fassung in der Cloud nur synthetisch rauchgetestet.
 """
 import argparse
 import json
@@ -77,6 +85,62 @@ def asc(s):
 
 def meld(*a):
     print(asc(' '.join(['[spuren]'] + [str(x) for x in a])), flush=True)
+
+
+# ----------------------------------------------------------------------------- gesperrte Netze (Korrektur Runde 2, Befund 3)
+GESPERRT = set()   # volle /Game-Pfade aus regeln["gesperrt"]["netze"]
+ERSATZ = {}        # gesperrt -> Ersatz (optional)
+
+
+def gesperrt_laden(regeln):
+    g = regeln.get('gesperrt') or {}
+    netze = g.get('netze', []) if isinstance(g, dict) else (g if isinstance(g, list) else [])
+    GESPERRT.clear()
+    GESPERRT.update(p for p in netze if isinstance(p, str) and p.startswith('/Game/'))
+    ERSATZ.clear()
+    if isinstance(g, dict) and isinstance(g.get('ersatz'), dict):
+        ERSATZ.update({k: v for k, v in g['ersatz'].items() if isinstance(v, str) and v not in GESPERRT})
+
+
+def gesperrt_voll(s):
+    """Voller gesperrter Pfad zu s (auch Kurzpfad wie 'AncientRuins/Meshes/SM_Column_03'), sonst None."""
+    if not isinstance(s, str) or '/' not in s or not GESPERRT:
+        return None
+    s = s.strip()
+    if s in GESPERRT:
+        return s
+    t = '/' + s.lstrip('/').lower()
+    for g in GESPERRT:
+        if g.lower().endswith(t):
+            return g
+    return None
+
+
+def gesperrt_filtern(obj, wo, treffer):
+    """Gesperrte Netze rekursiv entfernen: in Listen durch den Ersatz ersetzt (Duplikate entfallen) oder gestrichen,
+    Einzelwerte bekommen den Ersatz (sonst None). treffer sammelt (Ort, Netz)."""
+    if isinstance(obj, dict):
+        return {k: (v if k == 'gesperrt' else gesperrt_filtern(v, '%s.%s' % (wo, k), treffer)) for k, v in obj.items()}
+    if isinstance(obj, list):
+        out = []
+        for v in obj:
+            g = gesperrt_voll(v)
+            if g:
+                treffer.append((wo, g.rsplit('/', 1)[-1]))
+                v = ERSATZ.get(g)
+                if v is None:
+                    continue
+            else:
+                v = gesperrt_filtern(v, wo, treffer)
+            if isinstance(v, str) and v in out:
+                continue
+            out.append(v)
+        return out
+    g = gesperrt_voll(obj)
+    if g:
+        treffer.append((wo, g.rsplit('/', 1)[-1]))
+        return ERSATZ.get(g)
+    return obj
 
 
 def abbruch(text):
@@ -461,6 +525,10 @@ class Sammler:
         self.rows = []
         self.akteure = []
         self.gesperrt = 0
+        self.gesperrt_netz = 0  # Instanzen, deren Netz gesperrt war (Ersatz/weggelassen)
+
+    def anzahl(self):
+        return sum(int(r['inst'].shape[0]) for r in self.rows)
 
     def add(self, pfade, fi, fj, gruppe, kollision=True, sichtweite=(0, 45000), massstab=1.0, yaw=None, kippen=0.3,
             eingraben_cm=5.0, z_offset_m=None, roll=None, akteur=False, netz_wahl=None, seed=0, kanal=0, nur_feld=True, z_abs_m=None,
@@ -470,6 +538,12 @@ class Sammler:
         n = fi.size
         if n == 0:
             return 0
+        if GESPERRT and any(p in GESPERRT for p in pfade):  # letzte Sperre: gesperrte Netze nie schreiben (Ersatz oder weglassen)
+            neu = list(dict.fromkeys(ERSATZ.get(p, p) for p in pfade if p not in GESPERRT or p in ERSATZ))
+            self.gesperrt_netz += n
+            if not neu:
+                return 0
+            pfade, netz_wahl = neu, None
         mi = np.clip(np.round(fi).astype(np.int32), 0, self.H - 1)
         mj = np.clip(np.round(fj).astype(np.int32), 0, self.W - 1)
         ok = (fi >= 0) & (fi < self.H) & (fj >= 0) & (fj < self.W)
@@ -635,7 +709,7 @@ BIOM_PLANER_VORGABE = {'fjord': 'nordkueste', 'kueste': 'nordkueste', 'bergwald'
                        'elfenwald': 'elfenwald', 'sumpf': 'sumpf', 'dschungel': 'dschungel', 'lava': 'lava',
                        'wueste': 'wueste_ergaenzung', 'canyon': 'wueste_ergaenzung', 'oedland': 'wueste_ergaenzung'}
 SEKTIONEN = ('ort', 'feldstreifen', 'obstgarten', 'zaun_weg', 'mauer', 'steinmann', 'wegkreuz', 'karren', 'steg', 'holzschlag',
-             'koehler', 'graeber', 'rauch', 'blickziele')
+             'koehler', 'graeber', 'rauch', 'blickziele', 'ensembles', 'einzelteile')
 # Override-Gruppenname → Tor (Objekt-Entscheidung im Planer)
 TOR_ALIAS = {'feldstreifen': 'feld', 'feld': 'feld', 'obstgarten': 'obstgarten', 'obstbaum': 'obstgarten', 'zaun_weg': 'zaun_weg',
              'zaun': 'zaun', 'zaun_holz': 'zaun', 'mauer': 'mauer', 'mauer_stein': 'mauer', 'steinmann': 'steinmann',
@@ -645,7 +719,9 @@ TOR_ALIAS = {'feldstreifen': 'feld', 'feld': 'feld', 'obstgarten': 'obstgarten',
              'kopfweiden_reihe': 'kopfweiden', 'pferch': 'pferch', 'steinkreis': 'steinkreis', 'ruine': 'ruine',
              'tempelruine': 'ruine', 'mauerrest': 'ruine', 'galgen_ersatz': 'galgen', 'pfaehle': 'pfaehle',
              'knueppeldamm': 'knueppeldamm', 'opferstaette': 'opferstaette', 'schwefelgrube': 'schwefelgrube',
-             'hecke_am_feldrand': 'hecke', 'hecke': 'hecke', 'kopfweiden': 'kopfweiden', 'muehle': 'muehle', 'huegelgrab': 'huegelgrab'}
+             'hecke_am_feldrand': 'hecke', 'hecke': 'hecke', 'kopfweiden': 'kopfweiden', 'muehle': 'muehle', 'huegelgrab': 'huegelgrab',
+             'ensemble': 'ensemble', 'ensembles': 'ensemble', 'rastplatz': 'rastplatz', 'mauerrest_steinmann': 'mauerrest_steinmann',
+             'ruinenrast': 'ruinenrast', 'ortsrand': 'ortsrand'}
 # Palette-Schlüssel → Netzschlüssel in spuren_regeln.json["netze"] (Listen = mehrere Ziele)
 PALETTE_ALIAS = {'holzschlag_stumpf': ['stumpf_nadel', 'stumpf_laub'], 'obstbaum': ['obstbaum'], 'obstgarten': ['obstbaum'],
                  'stein': ['mauer_stein'], 'zaun': ['zaun_holz']}
@@ -719,6 +795,9 @@ class Pfade:
         if not isinstance(p, str) or not p.strip():
             return None
         p = p.strip()
+        g = gesperrt_voll(p)
+        if g:  # gesperrtes Netz (regeln["gesperrt"]): Ersatz oder nichts
+            return ERSATZ.get(g)
         if self.inv is None:
             return p if p.startswith('/Game/') else None
         if p in self.inv:
@@ -731,8 +810,9 @@ class Pfade:
         for p in (pf if isinstance(pf, list) else [pf]):
             q = self(p)
             if q:
-                out.append(q)
-            elif isinstance(p, str):
+                if q not in out:
+                    out.append(q)
+            elif isinstance(p, str) and not gesperrt_voll(p):
                 fehlt.add(p)
         return out
 
@@ -759,6 +839,12 @@ def lade_spuren_overrides(regeln, regel_pfad):
         if not isinstance(blk, dict) or not [k for k in blk if not doku_schluessel(k)]:
             hinw.append('Override: %s ohne Block spuren_overrides - eigene Werte fuer %s' % (os.path.basename(p), ', '.join(biome)))
             continue
+        treffer = []
+        blk = gesperrt_filtern(blk, thema, treffer)
+        if treffer:
+            hinw.append('Override %s: %d Eintraege mit gesperrten Netzen gefiltert (%s)%s' % (
+                os.path.basename(p), len(treffer), ', '.join(sorted({'%s %s' % (w.split('.', 1)[-1], n) for w, n in treffer})),
+                ' - Ersatz: ' + ', '.join('%s -> %s' % (k.rsplit('/', 1)[-1], v.rsplit('/', 1)[-1]) for k, v in sorted(ERSATZ.items())) if ERSATZ else ''))
         ov[thema] = (blk, p)
     return ov, zuordnung, hinw
 
@@ -1748,6 +1834,19 @@ class Kontext:
             self._c['wn'] = (0.5 * np.arctan2(2 * jxy, jxx - jyy)).astype(np.float32)
         return self._c['wn']
 
+    def weg_knick(self, koh_max):
+        """Wegzellen mit Richtungswechsel: Kohärenz des Strukturtensors (sigma 8 m) des Wegrasters < koh_max
+        (gerade Wege ~1, Knicke/Kurven/Abzweige deutlich darunter)."""
+        k = 'knick_%.3f' % float(koh_max)
+        if k not in self._c:
+            g = gauss_blur(self.weg_m.astype(np.float32), 2.0)
+            gy, gx = np.gradient(g)
+            jxx, jyy, jxy = gauss_blur(gx * gx, 8.0), gauss_blur(gy * gy, 8.0), gauss_blur(gx * gy, 8.0)
+            spur = jxx + jyy
+            koh = np.sqrt((jxx - jyy) ** 2 + 4 * jxy ** 2) / (spur + 1e-12)
+            self._c[k] = self.weg_m & (spur > 1e-7) & (koh < float(koh_max))
+        return self._c[k]
+
     def lava_punkte(self):
         return self.ebene_punkte('lava')
 
@@ -1775,6 +1874,344 @@ class Kontext:
                     pts = None
             self._c['pkt_' + ebene] = pts
         return self._c['pkt_' + ebene]
+
+
+# ----------------------------------------------------------------------------- Spuren-Ensembles (Korrektur Runde 2, Befund 4)
+def lade_taxonomie(basis):
+    """assets-taxonomie.json → {pfad: {biom: Eignung 0-2}} (daten/, neben dem Skript, ../ oder ../../daten/); (None, None) ohne Datei."""
+    for p in (os.path.join(basis, 'daten', 'assets-taxonomie.json'), os.path.join(SKRIPT_DIR, 'assets-taxonomie.json'),
+              os.path.join(SKRIPT_DIR, '..', 'assets-taxonomie.json'), os.path.join(SKRIPT_DIR, '..', '..', 'daten', 'assets-taxonomie.json')):
+        if os.path.isfile(p):
+            try:
+                d = json.load(open(p, encoding='utf-8'))
+                return {k: v.get('biome', {}) for k, v in d.items() if isinstance(v, dict) and isinstance(v.get('biome'), dict)}, p
+            except Exception:
+                continue
+    return None, None
+
+
+ENS_SONDERNETZ = {'schrein_extra': ('schrein', 'netze'), 'schrein_kiesel': ('schrein', 'beigaben', 'kiesel'),
+                  'ruine_bruchsteine': ('ruine', 'bewuchs', 'bruchsteine'), 'ruine_farn': ('ruine', 'bewuchs', 'farn'),
+                  'ruine_moos': ('ruine', 'bewuchs', 'moos_am_fuss')}
+
+
+def _ens_netze(Z, key):
+    """Netzliste eines Teil-Schlüssels: Zonen-Palette (spuren_regeln.netze nach Overrides) oder Sonderform-Netze des Biom-Overrides."""
+    if key in ENS_SONDERNETZ:
+        v = Z.extra
+        for k in ENS_SONDERNETZ[key]:
+            v = v.get(k) if isinstance(v, dict) else None
+    else:
+        v = Z.R['netze'].get(key)
+    if not isinstance(v, list):
+        return []
+    return [p for p in dict.fromkeys(v) if isinstance(p, str) and p.startswith('/Game/') and p not in GESPERRT]
+
+
+def _ens_eignung(K, netze, biom):
+    """(beste Eignung, Netze mit Eignung >= Minimum) nach Taxonomie; Netze ohne Taxonomie-Eintrag gelten als geeignet (1)."""
+    if K.tax is None:
+        return 2, netze
+    ein = [(p, K.tax[p].get(biom)) for p in netze if p in K.tax and isinstance(K.tax[p].get(biom), (int, float))]
+    if not ein:
+        return 1, netze
+    gut = [p for p in netze if p not in K.tax or not isinstance(K.tax[p].get(biom), (int, float)) or K.tax[p][biom] >= K.tax_min]
+    return max([e for _, e in ein] + ([1] if len(ein) < len(netze) else [])), (gut or netze)
+
+
+def _ens_teil_netz(K, Z, keys, biom):
+    """Erster Schlüssel der Rückfall-Liste mit Netzen und Taxonomie-Eignung >= Minimum → (schlüssel, netze); sonst (None, [])."""
+    for k in (keys if isinstance(keys, list) else [keys]):
+        if not isinstance(k, str):
+            continue
+        nl = _ens_netze(Z, k)
+        if not nl:
+            continue
+        e, gut = _ens_eignung(K, nl, biom)
+        if e >= K.tax_min:
+            return k, gut
+    return None, []
+
+
+def _ens_aufloesen(K, Z, typdef, biom, a, b):
+    """Teile eines Ensemble-Typs für Zone/Biom auflösen (Netze, Taxonomie, Tor-Faktoren). Rückgabe (teile, fehlende Pflichtteile)."""
+    stein = biom in Z.R['mauer'].get('biome_stein', [])
+    teile, fehlt = [], []
+    for t in typdef.get('teile', []):
+        t = dict(t)
+        art = t.get('art', 'einzel')
+        if art == 'linie' and t.get('stein_biome') == 'mauer' and stein:
+            art, t['tor'] = 'mauer', 'mauer'
+        t['art'] = art
+        ok = True
+        if t.get('tor') and not Z.gate(str(t['tor']), a, b):
+            ok = False
+        elif art == 'mauer':
+            ok = bool(_ens_teil_netz(K, Z, 'mauer_stein', biom)[0])
+        elif art == 'steinmann':
+            ok = bool(_ens_teil_netz(K, Z, 'steinmann', biom)[0])
+        elif art == 'punkte' and isinstance(t.get('netz'), list) and len(t['netz']) == len(t.get('punkte', [])) and len(t['netz']) > 1:
+            je = [_ens_teil_netz(K, Z, k, biom) for k in t['netz']]  # je Punkt ein Schlüssel (z. B. Fass, Kiste, Sack)
+            t['_je_punkt'] = [x if x[0] else None for x in je]
+            ok = any(x for x in t['_je_punkt'])
+        else:
+            k, nl = _ens_teil_netz(K, Z, t.get('netz'), biom)
+            t['_key'], t['_netze'] = k, nl
+            ok = bool(k)
+        if ok:
+            teile.append(t)
+        elif t.get('pflicht'):
+            fehlt.append(t.get('teil', art))
+    return teile, fehlt
+
+
+def _ens_setzen(K, Z, E, typ, teile, a, b, eid):
+    """Komposition setzen: u entlang Weg (deterministisch gespiegelt), v vom Weg weg; gemeinsame Ausrichtung zum Weg.
+    Rückgabe (gesetzte Teile, Instanzen)."""
+    S, seed = K.S, K.seed
+    vi, vj = float(K.vn_i[a, b]), float(K.vn_j[a, b])          # Einheitsvektor Standort → Weg
+    sp = -1.0 if h1(a + K.wi0, b + K.wj0, seed, 1501) < 0.5 else 1.0
+    ti, tj = -vj * sp, vi * sp                                  # u-Achse (Tangente, gespiegelt)
+    yaw_t = math.atan2(ti, tj)
+    yaw_f = math.atan2(vi, vj)                                  # Front zum Weg
+
+    def pos(u, v):
+        return a + u * ti - v * vi, b + u * tj - v * vj
+
+    def yaw_von(spec, k=0):
+        if spec == 'front':
+            return yaw_f
+        if spec == 'tangente':
+            return yaw_t
+        if isinstance(spec, (int, float)):
+            return yaw_t + sp * math.radians(float(spec))
+        return h1(a + 7 * k, b + 3 * k, seed, 1502) * 2 * math.pi
+
+    def masz(t, key, k):
+        m = t.get('massstab', [1.0, 1.0])
+        if isinstance(m, dict):
+            m = m.get(key, m.get('standard', [1.0, 1.0]))
+        return _spanne(m, a + 11 * k, b + 5 * k, seed, 1503 + k, 1.0)
+
+    def frei(fi_, fj_):
+        mi = np.clip(np.round(fi_).astype(np.int32), 0, K.H - 1)
+        mj = np.clip(np.round(fj_).astype(np.int32), 0, K.W - 1)
+        return (fi_ >= 0) & (fi_ < K.H) & (fj_ >= 0) & (fj_ < K.W) & ~K.nah_baum[mi, mj] & ~K.wasser_m[mi, mj]
+
+    sw_g, sw_k = tuple(E.get('sichtweite_gross', (0, 60000))), tuple(E.get('sichtweite_klein', (0, 20000)))
+    gesetzt, n0 = [], S.anzahl()
+    for ti_, t in enumerate(teile):
+        art = t['art']
+        kanal = 1600 + 20 * ti_ + 400 * (zlib.crc32(typ.encode()) % 7)
+        roll = math.radians(float(t.get('roll_grad', 0.0)))
+        kipp = float(t.get('kippen', 0.3))
+        koll = bool(t.get('kollision', False))
+        vor = S.anzahl()
+        if art == 'mauer':
+            p0, p1 = np.array(pos(*t['von'])), np.array(pos(*t['bis']))
+            pm = 0.5 * (p0 + p1)
+            if frei(np.array([pm[0]]), np.array([pm[1]]))[0]:
+                mauer_setzen(S, p0, p1, Z.R, seed, kanal, a, b, gruppe='ensemble', sichtweite=sw_g)
+        elif art == 'steinmann':
+            fi_, fj_ = pos(float(t.get('u', 0)), float(t.get('v', 0)))
+            if frei(np.array([fi_]), np.array([fj_]))[0]:
+                steinmann_setzen(S, fi_, fj_, Z.R, seed, kanal, gruppe='ensemble', faktor=float(t.get('massstab_faktor', 1.0)), sichtweite=sw_g)
+        elif art == 'punkte':
+            for k, (u, v) in enumerate(t.get('punkte', [])):
+                if '_je_punkt' in t:
+                    x = t['_je_punkt'][k]
+                    if not x:
+                        continue
+                    key, nl = x
+                else:
+                    key, nl = t['_key'], t['_netze']
+                fi_, fj_ = pos(u, v)
+                if not frei(np.array([fi_]), np.array([fj_]))[0]:
+                    continue
+                ms = masz(t, key, k)
+                ein = float(t.get('eingraben_cm', 4.0))
+                S.add(nl, [fi_], [fj_], 'ensemble', koll, sw_k, ms, [yaw_von(t.get('yaw'), k)], kipp, ein, seed=seed, kanal=kanal + k)
+        elif art in ('einzel', 'ring', 'streu', 'linie', 'reihe'):
+            key, nl = t['_key'], t['_netze']
+            akt = bool(t.get('akteur', False)) or key in (t.get('akteur_netz') or [])
+            if art == 'einzel':
+                fi_, fj_ = pos(float(t.get('u', 0)), float(t.get('v', 0)))
+                fi_, fj_ = np.array([fi_]), np.array([fj_])
+                yw = np.array([yaw_von(t.get('yaw'))], np.float32)
+                ms = np.array([masz(t, key, 0)], np.float32)
+                rl = np.array([(h1(a, b, seed, kanal + 1) - 0.5) * 2 * roll], np.float32)
+            elif art in ('ring', 'streu'):
+                n = int(t.get('n', 5))
+                k = np.arange(n)
+                cu, cv = float(t.get('u', 0)), float(t.get('v', 0))
+                ci_, cj_ = pos(cu, cv)
+                r = float(t.get('radius_m', 1.0))
+                if art == 'ring':
+                    ang = k * 2 * math.pi / n + (hash01(k + a, k + b, seed, kanal + 2) - 0.5) * 0.4
+                    rr = np.full(n, r, np.float32)
+                else:
+                    ang = hash01(k * 3 + a, k + b, seed, kanal + 2) * 2 * math.pi
+                    rr = (0.35 + 0.65 * np.sqrt(hash01(k + a, k * 5 + b, seed, kanal + 3))) * r
+                fi_, fj_ = ci_ + rr * np.sin(ang), cj_ + rr * np.cos(ang)
+                yw = (hash01(k * 7 + a, k + b, seed, kanal + 4) * 2 * math.pi).astype(np.float32)
+                m0, m1 = (t.get('massstab', [1.0, 1.0]) if isinstance(t.get('massstab'), list) else [1.0, 1.0])
+                ms = (m0 + (m1 - m0) * hash01(k + b, k * 3 + a, seed, kanal + 5)).astype(np.float32)
+                rl = None
+            elif art == 'linie':
+                p0, p1 = np.array(pos(*t['von'])), np.array(pos(*t['bis']))
+                fi_, fj_, yw0 = linie_punkte(p0, p1, float(t.get('schritt_m', 3.0)))
+                k = np.arange(fi_.size)
+                keep = hash01(k + a, k + b, seed, kanal + 6) >= float(t.get('luecken', 0.0))
+                keep[:1] = True  # erstes Segment immer (Lesbarkeit)
+                fi_, fj_, k = fi_[keep], fj_[keep], k[keep]
+                yw = np.full(fi_.size, yw0, np.float32)
+                ms = np.ones(fi_.size, np.float32)
+                rl = ((hash01(k + b, k + a, seed, kanal + 7) - 0.5) * 2 * roll).astype(np.float32)
+            else:  # reihe: Feldstreifen-Kante, Reihen parallel zum Weg
+                p0, p1 = np.array(pos(*t['von'])), np.array(pos(*t['bis']))
+                fi0, fj0, _ = linie_punkte(p0, p1, float(t.get('schritt_m', 0.9)))
+                fi_, fj_ = [], []
+                for rr_ in range(int(t.get('reihen', 1))):
+                    d = rr_ * float(t.get('reihe_abstand_m', 1.2))
+                    fi_.append(fi0 - d * vi)
+                    fj_.append(fj0 - d * vj)
+                fi_, fj_ = np.concatenate(fi_), np.concatenate(fj_)
+                k = np.arange(fi_.size)
+                yw = None
+                m0, m1 = t.get('massstab', [0.6, 0.9])
+                ms = (m0 + (m1 - m0) * hash01(k + a, k * 3 + b, seed, kanal + 8)).astype(np.float32)
+                rl = None
+                tiefe = float(t.get('flaeche_tiefe_m', 0))
+                if tiefe > 0 and fi_.size:
+                    u0, v0 = t['von']
+                    u1, v1 = t['bis']
+                    ecken = [np.array(pos(u0, v0)), np.array(pos(u1, v1)), np.array(pos(u1, v1 + tiefe)), np.array(pos(u0, v0 + tiefe))]
+                    K.flaechen.append({'typ': 'ensemble_feldkante', 'ensemble': eid, 'ecken_cm': ecken_welt(ecken, K.win), 'lage_vorschlag': 'Erde'})
+            ok = frei(np.asarray(fi_, np.float32), np.asarray(fj_, np.float32))
+            if ok.any():
+                if 'eingraben_anteil' in t:
+                    ein = 100.0 * _netzhoehe(K, nl, 1.0) * float(t['eingraben_anteil']) * float(np.mean(ms))
+                else:
+                    ein = float(t.get('eingraben_cm', 4.0))
+                S.add(nl, np.asarray(fi_)[ok], np.asarray(fj_)[ok], 'ensemble', koll, (0, 0) if akt else (sw_g if art in ('einzel', 'linie') else sw_k),
+                      ms[ok], None if yw is None else yw[ok], kipp, ein, roll=None if rl is None else rl[ok], akteur=akt, seed=seed, kanal=kanal + 9)
+        if S.anzahl() > vor:
+            gesetzt.append(t.get('teil', art))
+            if t.get('rauch') and Z.tor_faktor('rauch') > 0:
+                fi_, fj_ = pos(float(t.get('u', 0)), float(t.get('v', 0)))
+                x, y = _welt(K, fi_, fj_)
+                K.punkte.append({'typ': str(t['rauch']), 'x': x, 'y': y, 'z': round(float((K.hoehe[int(round(fi_)), int(round(fj_))] + 1.0) * 100), 1),
+                                 'staerke': float(t.get('rauch_staerke', 0.3)), 'ensemble': eid})
+            if t.get('flaeche_radius_m'):
+                fi_, fj_ = pos(float(t.get('u', 0)), float(t.get('v', 0)))
+                K.flaechen.append({'typ': 'ensemble_' + typ, 'ensemble': eid, 'mitte_cm': list(_welt(K, fi_, fj_)),
+                                   'radius_m': float(t['flaeche_radius_m']), 'lage_vorschlag': 'Erde'})
+    return gesetzt, S.anzahl() - n0
+
+
+def ensembles_planen(K, zonen, orte, R, hinweise):
+    """1–3 Ensembles je Feld an Wegkreuzung, Wegknick/Aussicht, Ortsrand oder Wegrand mit freier Sicht vom Weg."""
+    E = R.get('ensembles') or {}
+    if not E or not E.get('aktiv', True) or not K.weg_m.any():
+        if E and not K.weg_m.any():
+            hinweise.append('Ensembles: kein Weg im Fenster - keine Ensembles')
+        return []
+    fb, rm = K.fb, float(E.get('feld_rand_m', 16))
+    innen = (K.gi >= fb[0] + rm) & (K.gi < fb[1] - rm) & (K.gj >= fb[2] + rm) & (K.gj < fb[3] - rm)
+    weg_km = float((K.weg_m & K.im_feld).sum()) / max(1.0, float(E.get('weg_breite_m', 4.0))) / 1000.0
+    if weg_km < 0.05:
+        hinweise.append('Ensembles: weniger als 50 m Weg im Feld - keine Ensembles')
+        return []
+    jf = E.get('je_feld', [1, 3])
+    n_gross = sum(1 for o in orte if o['gross'] and o['im_feld'])
+    n_ziel = int(np.clip(jf[0] + int(weg_km / max(0.1, float(E.get('km_weg_je_ensemble', 1.2)))) + (1 if n_gross else 0), jf[0], jf[1]))
+    # Sicht vom Weg: geglättete Beschattung am Standort, Stämme zwischen Weg und Standort, freie Fläche um den Standort
+    wa = E.get('weg_abstand_m', [4.0, 6.5])
+    frei_anteil = box_blur((K.frei_basis | K.weg_m).astype(np.float32), int(E.get('frei_radius_m', 6)))
+    besch = box_blur(K.beschattung, 5)
+    baum_n = box_blur(K.baum_m.astype(np.float32), 4) * 81.0
+    mi = np.clip(np.round(K.ii + 0.5 * (np.maximum(K.wg_i, 0) - K.ii)).astype(np.int32), 0, K.H - 1)
+    mj = np.clip(np.round(K.jj + 0.5 * (np.maximum(K.wg_j, 0) - K.jj)).astype(np.int32), 0, K.W - 1)
+    baum_vor = np.maximum(baum_n[mi, mj], baum_n)
+    basis = K.frei_basis & innen & (K.d_weg >= wa[0]) & (K.d_weg <= wa[1]) & (K.hang <= float(E.get('hang_max_grad', 10)))
+    basis &= (K.d_wasser >= float(E.get('wasser_abstand_m', 4))) & (K.wg_i >= 0)
+    # freie Sicht: streng (bevorzugt) und Notfall (dichter Wald am Weg, mit Malus im Score)
+    streng = basis & (frei_anteil >= float(E.get('frei_min', 0.8))) & (besch <= float(E.get('beschattung_max', 0.5))) & (baum_vor <= float(E.get('baeume_vor_max', 1.0)))
+    nf = E.get('notfall', {})
+    band = streng | (basis & (frei_anteil >= float(nf.get('frei_min', 0.6))) & (besch <= float(nf.get('beschattung_max', 0.8))) & (baum_vor <= float(nf.get('baeume_vor_max', 3.0))))
+    if not band.any():
+        hinweise.append('Ensembles: kein Standort mit freier Sicht 4-6,5 m neben dem Weg (Beschattung/Staemme/Hang) - keine Ensembles')
+        return []
+    sicht = np.clip(1.0 - besch, 0, 1) - 0.2 * baum_vor - float(nf.get('malus', 4.0)) * (~streng)
+    kreuz = dilate(K.kreuzung(), 12)
+    aussicht = K.weg_m & (K.prominenz >= float(E.get('aussicht_prominenz_min_m', 4))) & (K.tiefer >= float(E.get('aussicht_tiefer_min', 0.65)))
+    knick = dilate(K.weg_knick(float(E.get('knick_kohaerenz_max', 0.7))) | aussicht, 10) & ~kreuz
+    ort_ab = float(E.get('ort_abstand_m', 60))
+    ro = E.get('ortsrand_m', [8, 35])
+    bonus = E.get('anker_bonus', {})
+    klassen = [('ortsrand', band & (K.d_ort >= ro[0]) & (K.d_ort <= ro[1])),
+               ('kreuzung', band & kreuz & (K.d_ort > ort_ab)),
+               ('knick', band & knick & (K.d_ort > ort_ab)),
+               ('wegrand', band & (K.d_ort > ort_ab))]
+    basis_sc = -(1.5 * sicht + 0.04 * np.clip(K.prominenz, 0, 25) + 0.6 * K.tiefer) + 0.25 * hash01(K.gi, K.gj, K.seed, 1401)
+    kand, je_kl = [], {}
+    for kl, m in klassen:
+        je_kl[kl] = int(m.sum())
+        if not m.any():
+            continue
+        sc = basis_sc - float(bonus.get(kl, 0.0))
+        ci, cj = wahl_je_raster(m, sc, int(E.get('raster_m', 60)), K.ii, K.jj)
+        kand += [(float(sc[a, b]), kl, int(a), int(b)) for a, b in zip(ci, cj)]
+    kand.sort(key=lambda e: (e[0], e[2], e[3]))
+    typen = E.get('typen', {})
+    anker_typen = E.get('anker_typen', {})
+    tmin = int(E.get('teile_min', 3))
+    gewaehlt, benutzt, ergebnis = [], {}, []
+    dmin = float(E.get('min_abstand_m', 220))
+    for sc, kl, a, b in kand:
+        if len(ergebnis) >= n_ziel:
+            break
+        if any(math.hypot(a - g[0], b - g[1]) < dmin for g in gewaehlt):
+            continue
+        Z = next((z for z in zonen if z.drin(a, b)), zonen[-1])
+        if Z.tor_faktor('ensemble') <= 0:
+            continue
+        biom = BIOME15[int(K.bio[a, b])]
+        prefs = [t for t in anker_typen.get(kl, list(typen)) if t in typen]
+        reihe = sorted(range(len(prefs)), key=lambda i: (benutzt.get(prefs[i], 0), i + 1.2 * h1(a + K.wi0 + i, b + K.wj0, K.seed, 1402)))
+        wahl = None
+        for i in reihe:
+            typ = prefs[i]
+            td = typen[typ]
+            if biom not in td.get('biome', BIOME15) or not Z.gate(typ, a, b):
+                continue
+            teile, fehlt = _ens_aufloesen(K, Z, td, biom, a, b)
+            if fehlt or len(teile) < tmin:
+                continue
+            wahl = (typ, teile)
+            break
+        if wahl is None:
+            continue
+        typ, teile = wahl
+        eid = len(ergebnis) + 1
+        gesetzt, n_inst = _ens_setzen(K, Z, E, typ, teile, a, b, eid)
+        if not gesetzt:
+            continue
+        gewaehlt.append((a, b))
+        benutzt[typ] = benutzt.get(typ, 0) + 1
+        x, y = _welt(K, a, b)
+        ergebnis.append({'id': eid, 'typ': typ, 'anker': kl, 'biom': biom, 'zone': Z.thema or 'spuren_regeln', 'x': x, 'y': y,
+                         'z': round(float(K.hoehe[a, b] * 100), 1), 'yaw_front_rad': round(math.atan2(float(K.vn_i[a, b]), float(K.vn_j[a, b])), 4),
+                         'teile': gesetzt, 'teile_anzahl': len(gesetzt), 'instanzen': int(n_inst),
+                         'weg_m': round(float(K.d_weg[a, b]), 1), 'sicht': {'frei_streng': bool(streng[a, b]), 'beschattung': round(float(besch[a, b]), 2),
+                                                                            'staemme_vor': round(float(baum_vor[a, b]), 1),
+                                                                            'frei_anteil': round(float(frei_anteil[a, b]), 2)}})
+    if not ergebnis:
+        hinweise.append('Ensembles: %d Standort-Kandidaten, aber kein Typ mit >= %d Teilen zulaessig (Biom/Taxonomie/Overrides)' % (len(kand), tmin))
+    else:
+        hinweise.append('Ensembles: %d von Ziel %d (Weg %.1f km im Feld, %d Kandidaten, Standortzellen je Anker %s, davon streng frei %d): %s' % (
+            len(ergebnis), n_ziel, weg_km, len(kand), je_kl, int(streng.sum()), ', '.join('%s@%s/%s (%d Teile, %d Inst.)' % (e['typ'], e['anker'], e['biom'], e['teile_anzahl'], e['instanzen']) for e in ergebnis)))
+    return ergebnis
 
 
 def baue_zonen(R, ov, zuordnung, bio, feld, pfade, U, seed, win, saum_m):
@@ -1814,7 +2251,7 @@ def baue_zonen(R, ov, zuordnung, bio, feld, pfade, U, seed, win, saum_m):
 
 
 # ----------------------------------------------------------------------------- Planung
-def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inventar=None):
+def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inventar=None, tax=None):
     t0 = time.time()
     R = regeln
     N = R['netze']
@@ -1860,7 +2297,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
         plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'ebene': EBENE, 'instanzen': 0, 'dateien': {},
                 'entfernen': R.get('entfernen', ''), 'ft_ordner': R['ft_ordner'], 'ft_praefix': R['ft_praefix'],
                 'biome_fenster': biome_fenster, 'zellen_zustaendig': 0, 'biome_eigen': list(BIOME15), 'kollision_anzahl': 0,
-                'akteure': [], 'punkte': [], 'flaechen': [], 'blickziele': [], 'hinweise': hinweise}
+                'akteure': [], 'punkte': [], 'flaechen': [], 'blickziele': [], 'ensembles': [], 'hinweise': hinweise}
         with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
             json.dump(plan, f, ensure_ascii=False, indent=1)
         meld('%s: Landanteil %.1f %% < %.0f %% - leerer plan.json (instanzen 0)' % (feld, 100 * land_anteil, 100 * min_anteil))
@@ -1914,6 +2351,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
     mittel = box_blur(hoehe, rk)
     prominenz = (hoehe - mittel).astype(np.float32)
     kuppe = (hoehe >= lokal_max - 0.01) & (prominenz >= R['steinmann']['kuppen_prominenz_m']) & ~wasser_m
+    tiefer = 1.0 - box_blur((hoehe - mittel > 0).astype(np.float32), rk)  # Anteil der Umgebung, die tiefer liegt ≈ Sichtbarkeit
 
     frei_basis0 = ~wasser_m & ~nah_wasser & ~ort_m & ~nah_baum
     S = Sammler(hoehe, n_x, n_y, n_z, win, im_feld, wasser_m | weg_m | ort_m, weg_m | ort_m, wasser_m | ort_m)
@@ -1952,11 +2390,31 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
                 hang=hang, dzdx=dzdx, dzdy=dzdy, d_weg=d_weg, d_wasser=d_wasser, d_ort=d_ort, ws_i=ws_i, ws_j=ws_j,
                 tang_yaw=tang_yaw, normal_yaw=normal_yaw, wasser_m=wasser_m, weg_m=weg_m, ort_m=ort_m, frei_basis=frei_basis0,
                 lab_voll=lab_voll, im_feld=im_feld, bio=bio, lichtung=lichtung, kuppe=kuppe, prominenz=prominenz, S=S, punkte=punkte,
-                flaechen=flaechen, blickziele=blickziele, felder_ok=felder_ok, stat=stat, hinweise=hinweise, inv=inventar, pfade=pfade)
+                flaechen=flaechen, blickziele=blickziele, felder_ok=felder_ok, stat=stat, hinweise=hinweise, inv=inventar, pfade=pfade,
+                fb=fb, vn_i=vn_i, vn_j=vn_j, wg_i=wg_i, wg_j=wg_j, beschattung=beschattung, baum_m=baum_m, nah_baum=nah_baum, tiefer=tiefer,
+                tax=tax, tax_min=float((R.get('ensembles') or {}).get('taxonomie_min_eignung', 1)))
     zonen, ov_info = baue_zonen(R, ov or {}, zuordnung or BIOM_PLANER_VORGABE, bio, feld, pfade, hash01(gi, gj, seed, 4242), seed, win,
                                 float(R.get('zusatz_saum_m', 30.0)))
     hinweise.append('Zonen: ' + ', '.join('%s (%s, Anteil Feld %.0f %%)' % (z.name, z.thema or 'spuren_regeln', 100.0 * float((z.anteil * im_feld).sum()) / max(1, int(im_feld.sum())))
                                          for z in zonen if (z.anteil * im_feld).sum() > 0))
+
+    # ------------------------------------------------------------------ Ensembles (Korrektur Runde 2): zuerst, dann Einzelteile mit Abstand
+    if tax is None and R.get('ensembles'):
+        hinweise.append('assets-taxonomie.json nicht gefunden - Ensemble-Teile nur nach Biomlisten der Typen (keine Eignungspruefung)')
+    ensembles = ensembles_planen(K, zonen, orte_alle, R, hinweise)
+    EZ = R.get('einzelteile') or {}
+    ens_kern = np.zeros((H, W), bool)
+    ens_sperre = np.zeros((H, W), bool)
+    for e in ensembles:
+        ea, eb = e['y'] / 100.0 + Y0 - wi0, e['x'] / 100.0 + X0 - wj0
+        dd = np.hypot(ii - ea, jj - eb)
+        ens_kern |= dd <= float(EZ.get('kern_um_ensemble_m', 12))
+        ens_sperre |= dd <= float(EZ.get('sperre_um_ensemble_m', 40))
+    frei_basis0 &= ~ens_kern  # in place: K.frei_basis zeigt auf dasselbe Array
+    ens_frei = ~ens_sperre
+    stat['ensembles'] = len(ensembles)
+    stat['ensemble_teile'] = [e['teile_anzahl'] for e in ensembles]
+    stat['ensemble_instanzen'] = [e['instanzen'] for e in ensembles]
 
     def zone_planen(R, zone):
         N = R['netze']
@@ -2161,32 +2619,40 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
         stein_biome = set(Sm['biome'])
         bio_stein = np.isin(bio, [biom_namen.index(b) for b in stein_biome if b in biom_namen])
         n_sm = 0
+        EZ = R.get('einzelteile') or {}  # Korrektur Runde 2: verstreute Einzelteile stark reduziert, nie im Umkreis eines Ensembles
+        ez = stat.setdefault('einzelteile', {})
         # a) Wegmarken
-        band = bio_stein & frei_basis & (d_weg >= Sm['weg_abstand_m'][0]) & (d_weg <= Sm['weg_abstand_m'][1]) & (d_ort > 40)
+        band = bio_stein & frei_basis & ens_frei & (d_weg >= Sm['weg_abstand_m'][0]) & (d_weg <= Sm['weg_abstand_m'][1]) & (d_ort > 40)
         ci, cj = wahl_je_raster(band, hash01(gi, gj, seed, 71), int(0.5 * (Sm['weg_schritt_m'][0] + Sm['weg_schritt_m'][1])), ii, jj)
-        keep = hash01(ci + wi0, cj + wj0, seed, 72) < 0.8 * feld_faktor
+        keep = hash01(ci + wi0, cj + wj0, seed, 72) < 0.8 * feld_faktor * float(EZ.get('steinmann_weg', 1.0))
         for a, b in zip(ci[keep], cj[keep]):
             if zone.gate('steinmann', a, b):
                 n_sm += steinmann_setzen(S, a, b, R, seed, 73)
-        # b) Kuppen und Pässe (Weg über Kuppe)
-        band = bio_stein & kuppe & frei_basis & (d_ort > 40)
+                ez['steinmann_weg'] = ez.get('steinmann_weg', 0) + 1
+        # b) Kuppen und Pässe (Weg über Kuppe), höchstens steinmann_kuppe_max_je_feld (höchste Prominenz zuerst)
+        band = bio_stein & kuppe & frei_basis & ens_frei & (d_ort > 40)
         ci, cj = wahl_je_raster(band, hash01(gi, gj, seed, 74), int(Sm['kuppen_fenster_m']), ii, jj)
-        for a, b in zip(ci, cj):
-            if zone.gate('steinmann', a, b):
+        o_k = np.argsort(-prominenz[ci, cj], kind='stable') if ci.size else []
+        for a, b in zip(ci[o_k], cj[o_k]) if ci.size else []:
+            if ez.get('steinmann_kuppe', 0) >= int(EZ.get('steinmann_kuppe_max_je_feld', 9999)):
+                break
+            if zone.gate('steinmann', a, b) and im_feld[a, b]:
                 n_sm += steinmann_setzen(S, a, b, R, seed, 75)
+                ez['steinmann_kuppe'] = ez.get('steinmann_kuppe', 0) + 1
         # c) frei in der Landschaft
         raster = int(math.sqrt(1.0e6 / max(1.0, Sm['frei_je_km2'])))
-        band = bio_stein & frei_basis & (d_weg > 20) & (d_ort > 60) & (hang < 25)
+        band = bio_stein & frei_basis & ens_frei & (d_weg > 20) & (d_ort > 60) & (hang < 25)
         ci, cj = wahl_je_raster(band, hash01(gi, gj, seed, 76), raster, ii, jj)
-        keep = hash01(ci + wi0, cj + wj0, seed, 77) < 0.7 * feld_faktor
+        keep = hash01(ci + wi0, cj + wj0, seed, 77) < 0.7 * feld_faktor * float(EZ.get('steinmann_frei', 1.0))
         for a, b in zip(ci[keep], cj[keep]):
             if zone.gate('steinmann', a, b):
                 n_sm += steinmann_setzen(S, a, b, R, seed, 78)
+                ez['steinmann_frei'] = ez.get('steinmann_frei', 0) + 1
         stat['steinmaenner'] = stat.get('steinmaenner', 0) + (n_sm)
 
         # ------------------------------------------------------------------ Wegkreuze / Schreine
         Wk = R['wegkreuz']
-        band = frei_basis & (d_weg >= Wk['weg_abstand_m'][0]) & (d_weg <= Wk['weg_abstand_m'][1]) & (hang < 20)
+        band = frei_basis & ens_frei & (d_weg >= Wk['weg_abstand_m'][0]) & (d_weg <= Wk['weg_abstand_m'][1]) & (hang < 20)
         bonus = np.zeros((H, W), np.float32)
         bonus += Wk['kuppen_bonus'] * dilate(kuppe, 10)
         bonus += Wk['furt_bonus'] * ((d_wasser < 15) & (d_wasser > 2))
@@ -2194,6 +2660,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
         score = 1.0 - hash01(gi, gj, seed, 81) - bonus  # klein = gut
         ci, cj = wahl_je_raster(band, score, int(Wk['schritt_m']), ii, jj)
         keep = (score[ci, cj] < 0.35) if ci.size else np.zeros(0, bool)
+        if ci.size:
+            keep &= hash01(ci + wi0, cj + wj0, seed, 93) < float(EZ.get('wegkreuz', 1.0))
         n_wk = 0
         for a, b in zip(ci[keep], cj[keep]):
             if not zone.gate('wegkreuz', a, b):
@@ -2213,13 +2681,14 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
             S.add(N['steinmann'], a + 0.55 * np.sin(ang), b + 0.55 * np.cos(ang), 'wegkreuz', False, (0, 15000), 0.7 + 0.3 * hash01(np.arange(Wk['steine']) + b, np.arange(Wk['steine']) + a, seed, 91), None, 1.0, 10.0, seed=seed, kanal=92)
             n_wk += 1
         stat['wegkreuze_schreine'] = stat.get('wegkreuze_schreine', 0) + (n_wk)
+        ez['wegkreuz'] = ez.get('wegkreuz', 0) + n_wk
 
         # ------------------------------------------------------------------ verlassene Karren
         Kr = R['karren']
-        band = frei_basis & (d_weg >= Kr['weg_abstand_m'][0]) & (d_weg <= Kr['weg_abstand_m'][1]) & (d_ort > Kr['ort_min_m']) & (hang < 18)
+        band = frei_basis & ens_frei & (d_weg >= Kr['weg_abstand_m'][0]) & (d_weg <= Kr['weg_abstand_m'][1]) & (d_ort > Kr['ort_min_m']) & (hang < 18)
         raster = int(1000.0 / max(0.1, Kr['je_km_weg']) / 1.6)
         ci, cj = wahl_je_raster(band, hash01(gi, gj, seed, 101), raster, ii, jj)
-        keep = hash01(ci + wi0, cj + wj0, seed, 102) < 0.65 * feld_faktor
+        keep = hash01(ci + wi0, cj + wj0, seed, 102) < 0.65 * feld_faktor * float(EZ.get('karren', 1.0))
         n_kr = 0
         for a, b in zip(ci[keep], cj[keep]):
             if not zone.gate('karren', a, b):
@@ -2234,6 +2703,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
             S.add(N.get('karren_beiwerk') or (N['fass'] + N['kiste'] + N['rad'] + N['sack']), a + rad * np.sin(ang), b + rad * np.cos(ang), 'karren', True, (0, 25000), 1.0, None, 0.5, 4.0, seed=seed, kanal=111)
             n_kr += 1
         stat['karren'] = stat.get('karren', 0) + (n_kr)
+        ez['karren'] = ez.get('karren', 0) + n_kr
 
         # ------------------------------------------------------------------ Fischerstege an flachen Seeufern
         St = R['steg']
@@ -2397,10 +2867,10 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
                 break
             if not platziert:
                 hinweise.append('Ort %d: kein freier Friedhofsplatz gefunden' % o['id'])
-        band = frei_basis & (d_weg >= Gr['einzel_weg_abstand_m'][0]) & (d_weg <= Gr['einzel_weg_abstand_m'][1]) & (d_ort > 100) & (hang < 15)
+        band = frei_basis & ens_frei & (d_weg >= Gr['einzel_weg_abstand_m'][0]) & (d_weg <= Gr['einzel_weg_abstand_m'][1]) & (d_ort > 100) & (hang < 15)
         raster = int(1000.0 / max(0.1, Gr['einzel_je_km_weg']) / 1.6)
         ci, cj = wahl_je_raster(band, hash01(gi, gj, seed, 185), raster, ii, jj)
-        keep = hash01(ci + wi0, cj + wj0, seed, 186) < 0.6 * feld_faktor
+        keep = hash01(ci + wi0, cj + wj0, seed, 186) < 0.6 * feld_faktor * float(EZ.get('einzelgrab', 1.0))
         for a, b in zip(ci[keep], cj[keep]):
             if not zone.gate('grab', a, b):
                 continue
@@ -2412,6 +2882,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
             n_eg += 1
         stat['friedhoefe'] = stat.get('friedhoefe', 0) + (n_fh)
         stat['einzelgraeber'] = stat.get('einzelgraeber', 0) + (n_eg)
+        ez['einzelgrab'] = ez.get('einzelgrab', 0) + n_eg
 
 
         # Sonderformen der Biom-Planer (nur in dieser Zone)
@@ -2438,7 +2909,6 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
                 typen_ov[k] = v
 
     # ------------------------------------------------------------------ Blickziele (Vorschläge, keine Instanzen)
-    tiefer = 1.0 - box_blur((hoehe - mittel > 0).astype(np.float32), rk)  # Anteil der Umgebung, die tiefer liegt ≈ Sichtbarkeit
     kand = kuppe & (prominenz >= Bz['prominenz_min_m']) & (hang <= Bz['hang_max_grad']) & im_feld
     sc = -(prominenz + 20 * tiefer + 5 * (d_weg < 150)) + hash01(gi, gj, seed, 201)
     ci, cj = wahl_je_raster(kand, sc, 200, ii, jj)
@@ -2471,6 +2941,11 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
     dateien, gesamt, koll, je_gruppe = S.schreibe(ausgabe)
     if S.gesperrt:
         hinweise.append('%d Instanzen auf Wasser/Weg/Ort verworfen (Steg-Teile über Wasser erlaubt)' % S.gesperrt)
+    n_gesp = sum(int(v['anzahl']) for v in dateien.values() if v['pfad'] in GESPERRT)
+    if S.gesperrt_netz:
+        hinweise.append('gesperrte Netze: %d Instanzen beim Setzen ersetzt/weggelassen (%s)' % (S.gesperrt_netz, ', '.join(sorted(g.rsplit('/', 1)[-1] for g in GESPERRT))))
+    if n_gesp:
+        hinweise.append('WARNUNG: %d Instanzen mit gesperrtem Netz im Plan' % n_gesp)
     if koll > R['budget']['kollision_je_feld'] or gesamt > R['budget']['instanzen_je_feld']:
         hinweise.append('WARNUNG: %d Instanzen / %d mit Kollision (inkl. Akteure) über Deckel %d / %d' % (gesamt, koll, R['budget']['instanzen_je_feld'], R['budget']['kollision_je_feld']))
     if len(S.akteure) > R['budget']['akteure_je_feld']:
@@ -2479,18 +2954,21 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
             'entfernen': R.get('entfernen', ''), 'ft_ordner': R['ft_ordner'], 'ft_praefix': R['ft_praefix'],
             'biome_fenster': biome_fenster, 'zellen_zustaendig': zellen_zustaendig, 'biome_eigen': list(BIOME15),
             'kollision_anzahl': int(koll), 'overrides': ov_info,
-            'akteure': S.akteure, 'punkte': punkte, 'flaechen': flaechen, 'blickziele': blickziele,
+            'akteure': S.akteure, 'punkte': punkte, 'flaechen': flaechen, 'blickziele': blickziele, 'ensembles': ensembles,
+            'gesperrt': {'netze': sorted(GESPERRT), 'ersatz': dict(sorted(ERSATZ.items())), 'instanzen_im_plan': int(n_gesp),
+                         'beim_setzen_ersetzt_oder_weggelassen': int(S.gesperrt_netz)},
             'orte': [{'id': o['id'], 'x': round(float((o['j'] + wj0 - X0) * 100), 1), 'y': round(float((o['i'] + wi0 - Y0) * 100), 1), 'radius_m': round(o['radius'], 1),
                       'flaeche_m2': int(o['flaeche_m2']), 'biom': o['biom'], 'im_feld': o['im_feld']} for o in orte],
             'statistik': dict(stat, je_gruppe=je_gruppe, kollision=int(koll), akteure=len(S.akteure), rauchpunkte=len(punkte), faktor=faktor,
                               laufzeit_s=round(time.time() - t0, 1), numba=NUMBA),
             'hinweis_setzer': "Einträge mit rolle 'akteur' (Dateien akteur_<Netz>.f32, Liste 'akteure') als StaticMeshActor setzen (Ordner Spuren/<Feld>), "
                              "alle anderen als HISM-Foliage FT_EL_SP_<Netz>; 'punkte' typ herd/meiler/lagerfeuer = Rauch-Partikel (Niagara) an x,y,z; "
-                             "typ steg = Stegachse; 'flaechen' = Rechtecke/Kreise zum Malen der Landschaftslage (lage_vorschlag).",
-            'hinweise': hinweise, 'ungetestet': 'Korrektur Runde 1: in der Cloud nur mit synthetischen Daten rauchgetestet'}
+                             "typ steg = Stegachse; 'flaechen' = Rechtecke/Kreise zum Malen der Landschaftslage (lage_vorschlag); "
+                             "'ensembles' = Standorte der Spuren-Ensembles (Gruppe 'ensemble', Prüfkamera auf dem Weg, Blick nach yaw_front_rad + pi).",
+            'hinweise': hinweise, 'ungetestet': 'Korrektur Runde 2: in der Cloud nur mit synthetischen Daten rauchgetestet'}
     with open(os.path.join(ausgabe, 'plan.json'), 'w', encoding='utf-8') as f:
         json.dump(plan, f, ensure_ascii=False, indent=1)
-    meld('%s: %d Instanzen (%d Kollision), %d Akteure, %d Rauch-/Stegpunkte, %d Flächen, %d Blickziele, %.1f s' % (feld, gesamt, koll, len(S.akteure), len(punkte), len(flaechen), len(blickziele), time.time() - t0))
+    meld('%s: %d Instanzen (%d Kollision), %d Akteure, %d Ensembles, %d Rauch-/Stegpunkte, %d Flächen, %d Blickziele, %.1f s' % (feld, gesamt, koll, len(S.akteure), len(ensembles), len(punkte), len(flaechen), len(blickziele), time.time() - t0))
     for h in hinweise:
         meld('  Hinweis:', h)
 
@@ -2527,6 +3005,10 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
             x = bz['x'] / 100 + X0 - wj0 - fj0
             y = bz['y'] / 100 + Y0 - wi0 - fi0
             d.rectangle([x - 6, y - 6, x + 6, y + 6], outline=tuple(farben.get('blickziel', [0, 255, 255])))
+        for e in ensembles:
+            x = e['x'] / 100 + X0 - wj0 - fj0
+            y = e['y'] / 100 + Y0 - wi0 - fi0
+            d.ellipse([x - 12, y - 12, x + 12, y + 12], outline=tuple(farben.get('ensemble', [255, 0, 255])))
         os.makedirs(os.path.join(basis, 'docs', 'pruefung', 'spuren'), exist_ok=True)
         img.save(os.path.join(basis, 'docs', 'pruefung', 'spuren', feld + '.png'))
     return plan
@@ -2537,7 +3019,7 @@ def feld_faktor_budget(faktor):
     return 1.0
 
 
-def mauer_setzen(S, p0, p1, R, seed, kanal, a, b):
+def mauer_setzen(S, p0, p1, R, seed, kanal, a, b, gruppe='mauer', sichtweite=(0, 30000)):
     """Trockenmauer aus Einzelsteinen entlang p0→p1: 3 Lagen, Steinabstand, seitlicher Jitter, Eingraben der Basislage."""
     M = R['mauer']
     N = R['netze']
@@ -2554,24 +3036,24 @@ def mauer_setzen(S, p0, p1, R, seed, kanal, a, b):
         versatz = (li % 2) * M['stein_abstand_m'] * 0.5
         fi2 = fi_ + qi * jit + math.sin(yw) * versatz
         fj2 = fj_ + qj * jit + math.cos(yw) * versatz
-        n += S.add(N['mauer_stein'] + N['mauer_stein_moos'][:1], fi2[keep], fj2[keep], 'mauer', M['kollision'], (0, 30000), ms[keep], None, 0.8,
+        n += S.add(N['mauer_stein'] + N['mauer_stein_moos'][:1], fi2[keep], fj2[keep], gruppe, M['kollision'], tuple(sichtweite), ms[keep], None, 0.8,
                    M['eingraben_cm'] if li == 0 else 0.0, z_offset_m=np.full(int(keep.sum()), zl, np.float32), seed=seed, kanal=kanal + 3)
     return n
 
 
-def steinmann_setzen(S, a, b, R, seed, kanal):
+def steinmann_setzen(S, a, b, R, seed, kanal, gruppe='steinmann', faktor=1.0, sichtweite=(0, 30000)):
     """Steinmann: 5–9 Steine aufeinander, Maßstab nimmt nach oben ab, kleiner seitlicher Versatz."""
     Sm = R['steinmann']
     N = R['netze']
     n = int(Sm['steine'][0] + h1(a, b, seed, kanal) * (Sm['steine'][1] - Sm['steine'][0] + 1))
     k = np.arange(n)
-    ms0 = Sm['basis_massstab'][0] + h1(a, b, seed, kanal + 1) * (Sm['basis_massstab'][1] - Sm['basis_massstab'][0])
+    ms0 = (Sm['basis_massstab'][0] + h1(a, b, seed, kanal + 1) * (Sm['basis_massstab'][1] - Sm['basis_massstab'][0])) * float(faktor)
     ms = ms0 * Sm['abnahme'] ** k
     z = np.cumsum(np.concatenate([[0.0], (Sm['hoehe_versatz_m'] * ms[:-1])])) - 0.10
     ang = hash01(k + int(a), k + int(b), seed, kanal + 2) * 2 * math.pi
     jit = 0.06 * np.sqrt(k)
     yaw = hash01(k * 7 + int(a), k + int(b), seed, kanal + 3) * 2 * math.pi
-    S.add(N['steinmann'], a + jit * np.sin(ang), b + jit * np.cos(ang), 'steinmann', Sm['kollision'], (0, 30000), ms, yaw, 0.6, 0.0, z_offset_m=z, seed=seed, kanal=kanal + 4)
+    S.add(N['steinmann'], a + jit * np.sin(ang), b + jit * np.cos(ang), gruppe, Sm['kollision'], tuple(sichtweite), ms, yaw, 0.6, 0.0, z_offset_m=z, seed=seed, kanal=kanal + 4)
     return 1
 
 
@@ -2633,8 +3115,15 @@ def main():
         regeln = json.load(open(rp, encoding='utf-8'))
     except Exception as e:
         abbruch('Regeldatei unlesbar: %s (%s)' % (rp, e))
+    gesperrt_laden(regeln)
+    treffer = []
+    regeln = gesperrt_filtern(regeln, 'spuren_regeln', treffer)
+    meld('gesperrte Netze: %s%s' % (', '.join(sorted(g.rsplit('/', 1)[-1] for g in GESPERRT)) or 'keine',
+                                     ' - in spuren_regeln.json %d Eintraege gefiltert (%s)' % (len(treffer), ', '.join(sorted({w for w, _ in treffer}))) if treffer else ''))
     pruefe_netze(regeln, a.basis, 'Spuren')
     inventar, _ = lade_inventar(a.basis)
+    tax, tax_pfad = lade_taxonomie(a.basis)
+    meld('Taxonomie: %s' % (('%s (%d Netze)' % (tax_pfad, len(tax))) if tax else 'assets-taxonomie.json nicht gefunden - Ensemble-Teile ohne Eignungspruefung'))
     ov, zuordnung, ov_hinw = lade_spuren_overrides(regeln, rp)
     for h in ov_hinw:
         meld(h)
@@ -2653,7 +3142,7 @@ def main():
     if not NUMBA:
         meld('numba nicht verfügbar – reiner NumPy-Pfad (ausreichend)')
     for feld in a.felder:
-        plane_feld(feld.strip().upper(), a.basis, regeln, a.faktor, a.bild, ov, zuordnung, inventar)
+        plane_feld(feld.strip().upper(), a.basis, regeln, a.faktor, a.bild, ov, zuordnung, inventar, tax)
 
 
 if __name__ == '__main__':

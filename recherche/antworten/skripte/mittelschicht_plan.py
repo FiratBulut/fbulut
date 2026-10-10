@@ -34,7 +34,14 @@ deterministisch, Nachbarfelder nahtlos). numba wird nicht benötigt. Laufzeit-Zi
 Quellen: FORMAT.md §1–§5; verteilung-KONVENTIONEN.md; verteilung-dschungel.md §3 (verbindliche Dschungel-Palette);
 bildkritik-witcher-messlatte.md; boden-kleinzeug-gras.md; Naturschutzbund „Waldränder“; Harms et al. 2004 Biotropica.
 
-Echtdaten-Lauf der Vorfassung lokal (A5/G4/E1/C6) ohne Absturz; diese Fassung in der Cloud nur synthetisch rauchgetestet.
+Korrektur Runde 2 (auftraege/verteilung-korrektur-runde2.md, Befund 1/3): Mittelschicht bleibt wie in G4 (CLOUD1_G4_hain1),
+wird aber in Sichtachsen lichter: Dichtefaktor regeln["sichtachsen"] (0,5) fuer hohe Klassen (Strauch, Jungbaum, Hochstaude,
+Farn, Totbaum, Stumpf + passende Zusatzklassen) in Kegeln vom naechsten Wegpunkt zu Blickzielen (plan.json["blickziele"] und
+["ensembles"] aus spuren/ und den Biom-Ebenen, Feld + 8 Nachbarn) und zu Lichtungsmitten (aus Kronendach bzw. Lagen), am
+offenen Lichtungsrand (0,6) und um Spuren-Ensembles (0,5). Gesperrte Netze (regeln["gesperrt"]) werden aus Regeln und
+mittelschicht_overrides gefiltert und nie geschrieben.
+
+Echtdaten-Lauf Runde 1 lokal (A5 30 915, G4 20 371); diese Fassung in der Cloud nur synthetisch rauchgetestet.
 """
 import argparse
 import copy
@@ -92,6 +99,72 @@ def asc(s):
 
 def meld(*a):
     print(asc(' '.join(['[mittelschicht]'] + [str(x) for x in a])), flush=True)
+
+
+# ----------------------------------------------------------------------------- gesperrte Netze (Korrektur Runde 2, Befund 3)
+GESPERRT = set()   # volle /Game-Pfade aus regeln["gesperrt"]["netze"]
+ERSATZ = {}        # gesperrt -> Ersatz (optional)
+
+
+def gesperrt_laden(regeln):
+    g = regeln.get('gesperrt') or {}
+    netze = g.get('netze', []) if isinstance(g, dict) else (g if isinstance(g, list) else [])
+    GESPERRT.clear()
+    GESPERRT.update(p for p in netze if isinstance(p, str) and p.startswith('/Game/'))
+    ERSATZ.clear()
+    if isinstance(g, dict) and isinstance(g.get('ersatz'), dict):
+        ERSATZ.update({k: v for k, v in g['ersatz'].items() if isinstance(v, str) and v not in GESPERRT})
+
+
+def gesperrt_voll(s):
+    """Voller gesperrter Pfad zu s (auch Kurzpfad wie 'AncientRuins/Meshes/SM_Column_03'), sonst None."""
+    if not isinstance(s, str) or '/' not in s or not GESPERRT:
+        return None
+    s = s.strip()
+    if s in GESPERRT:
+        return s
+    t = '/' + s.lstrip('/').lower()
+    for g in GESPERRT:
+        if g.lower().endswith(t):
+            return g
+    return None
+
+
+def gesperrt_filtern(obj, wo, treffer):
+    """Gesperrte Netze rekursiv entfernen (Listen: Ersatz statt gesperrt, Duplikate entfallen; Einzelwert: Ersatz oder None;
+    Schlüssel von netze_massstab/netze_gewicht: Eintrag entfällt). treffer sammelt (Ort, Netz)."""
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if k == 'gesperrt':
+                out[k] = v
+                continue
+            g = gesperrt_voll(k)
+            if g:
+                treffer.append((wo, g.rsplit('/', 1)[-1]))
+                continue
+            out[k] = gesperrt_filtern(v, '%s.%s' % (wo, k), treffer)
+        return out
+    if isinstance(obj, list):
+        out = []
+        for v in obj:
+            g = gesperrt_voll(v)
+            if g:
+                treffer.append((wo, g.rsplit('/', 1)[-1]))
+                v = ERSATZ.get(g)
+                if v is None:
+                    continue
+            else:
+                v = gesperrt_filtern(v, wo, treffer)
+            if isinstance(v, str) and v in out:
+                continue
+            out.append(v)
+        return out
+    g = gesperrt_voll(obj)
+    if g:
+        treffer.append((wo, g.rsplit('/', 1)[-1]))
+        return ERSATZ.get(g)
+    return obj
 
 
 def abbruch(text):
@@ -403,6 +476,11 @@ def lade_overrides(regeln, regel_pfad):
         if not isinstance(blk, dict) or not any(k in blk for k in schluessel):
             hinw.append('Override: %s ohne Block mittelschicht_overrides - eigene Werte fuer %s' % (os.path.basename(p), ', '.join(biome)))
             continue
+        treffer = []
+        blk = gesperrt_filtern(blk, thema, treffer)
+        if treffer:
+            hinw.append('Override %s: %d Eintraege mit gesperrten Netzen gefiltert (%s)' % (
+                os.path.basename(p), len(treffer), ', '.join(sorted({'%s %s' % (w.split('.', 1)[-1], n) for w, n in treffer}))))
         ov[thema] = (blk, p)
         hinw.append('Override: %s gelesen (%s) fuer %s' % (os.path.basename(p), ', '.join(k for k in schluessel if k in blk), ', '.join(biome)))
         ub = unbekannte_schluessel(blk)
@@ -586,6 +664,9 @@ def effektive_regeln(regeln, ov, zuordnung, feld, inventar, hinweise_feld, vorha
                 bfaktor = float(bf)
                 hinweise.append('Override %s: biom_faktor %s = %.2f auf alle Mittelschicht-Klassen' % (thema, biom, bfaktor))
         for k in kl:
+            if GESPERRT and any(p in GESPERRT for p in kl[k].get('netze', [])):  # letzte Sperre (Regeln + Overrides schon gefiltert)
+                kl[k]['netze'] = list(dict.fromkeys(ERSATZ.get(p, p) for p in kl[k]['netze'] if p not in GESPERRT or p in ERSATZ))
+                hinweise.append('%s/%s: gesperrte Netze aus der Palette entfernt' % (biom, k))
             kl[k]['faktor'] = ffeld.get(k, 1.0) * fov.get(k, 1.0) * bfaktor * float(kl[k].pop('zusatz_biom_faktor', 1.0))
             if k in fov or k in ffeld:
                 kl[k]['quelle'] = kl[k].get('quelle', 'mittelschicht') if k not in fov else (thema or 'mittelschicht')
@@ -949,6 +1030,167 @@ def hoehenstufen(hoehe, bio, wasser_m, lage_fn, win, hg):
     return stufe, bg.astype(np.float32)
 
 
+# ----------------------------------------------------------------------------- Sichtachsen (Korrektur Runde 2, Befund 1)
+SICHT_KLASSEN_VORGABE = ['strauch', 'jungbaum', 'hochstaude', 'farn', 'totbaum', 'totholz_stumpf']
+
+
+def ziele_aus_ebenen(basis, feld, win, ebenen):
+    """Blickziele und Ensembles (x/y bzw. x_cm/y_cm in cm) aus <ebene>/<Feld + 8 Nachbarn>/plan.json → [(fi, fj, art, quelle)] im Fenster."""
+    s, r = ord(feld[0]) - ord('A'), int(feld[1:])
+    H, W = win[1] - win[0], win[3] - win[2]
+    out, gesehen = [], set()
+    for ds in (-1, 0, 1):
+        for dr in (-1, 0, 1):
+            ss, rr = s + ds, r + dr
+            if not (0 <= ss <= 9 and 1 <= rr <= 7):
+                continue
+            nf = chr(ord('A') + ss) + str(rr)
+            for ebene in ebenen:
+                pj = os.path.join(basis, WELT, ebene, nf, 'plan.json')
+                if not os.path.isfile(pj):
+                    continue
+                try:
+                    plan = json.load(open(pj, encoding='utf-8'))
+                except Exception:
+                    continue
+                for key in ('blickziele', 'ensembles'):
+                    for z in plan.get(key) or []:
+                        if not isinstance(z, dict):
+                            continue
+                        x, y = z.get('x_cm', z.get('x')), z.get('y_cm', z.get('y'))
+                        if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+                            continue
+                        fi, fj = float(y) / 100.0 + Y0 - win[0], float(x) / 100.0 + X0 - win[2]
+                        if not (0 <= fi < H and 0 <= fj < W):
+                            continue
+                        k = (int(round(fi)), int(round(fj)), key)
+                        if k in gesehen:
+                            continue
+                        gesehen.add(k)
+                        out.append((fi, fj, 'ensemble' if key == 'ensembles' else 'blickziel', '%s/%s:%s' % (ebene, nf, z.get('typ', key))))
+    out.sort(key=lambda e: (round(e[0], 2), round(e[1], 2), e[2], e[3]))
+    return out
+
+
+def _kegel(F, P, T, halb_tan, wmin, rand, fk):
+    """Dichtefaktor fk im Kegel von P (Wegpunkt) nach T (Ziel): Halbbreite max(wmin/2, t·tan), weicher Rand `rand` m."""
+    H, W = F.shape
+    L = math.hypot(T[0] - P[0], T[1] - P[1])
+    if L < 1.0:
+        return 0
+    di, dj = (T[0] - P[0]) / L, (T[1] - P[1]) / L
+    reach = L * halb_tan + wmin / 2.0 + rand + 1
+    i0, i1 = max(0, int(min(P[0], T[0]) - reach)), min(H, int(max(P[0], T[0]) + reach) + 1)
+    j0, j1 = max(0, int(min(P[1], T[1]) - reach)), min(W, int(max(P[1], T[1]) + reach) + 1)
+    if i1 <= i0 or j1 <= j0:
+        return 0
+    I, J = np.ogrid[i0:i1, j0:j1]
+    vi, vj = (I - P[0]).astype(np.float32), (J - P[1]).astype(np.float32)
+    t = vi * di + vj * dj
+    perp = np.abs(vi * dj - vj * di)
+    half = np.maximum(wmin / 2.0, t * halb_tan)
+    w = np.clip((half + rand - perp) / rand, 0, 1) * np.clip((t + rand) / rand, 0, 1) * np.clip((L + rand - t) / rand, 0, 1)
+    F[i0:i1, j0:j1] = np.minimum(F[i0:i1, j0:j1], (1.0 - (1.0 - fk) * w).astype(np.float32))
+    return 1
+
+
+def sichtachsen_feld(regeln, ziele, weg_m, wald, d_kante, lichtung, gi, gj, im_feld, seed):
+    """Dichtefaktor-Raster F (1 = unverändert) für hohe Mittelschicht-Klassen: Kegel Weg → Blickziel/Lichtungsmitte,
+    offener Lichtungsrand, Umkreis von Spuren-Ensembles. Lichtungen = offene Zellen (Beschattung < Schwelle) mit Wald im
+    Umfeld; Mitte = Zelle mit größtem Abstand zum Nicht-Lichtungs-Rand je Raster (globale Rasterkoordinaten → nahtlos)."""
+    SA = regeln.get('sichtachsen') or {}
+    H, W = weg_m.shape
+    F = np.ones((H, W), np.float32)
+    info = {'ziele_ebenen': sum(1 for z in ziele if z[2] == 'blickziel'), 'ensembles': sum(1 for z in ziele if z[2] == 'ensemble'),
+            'lichtungen': 0, 'korridore': 0}
+    if not SA:
+        return None, info
+    fk, fr, fe = float(SA.get('faktor_korridor', 0.5)), float(SA.get('faktor_lichtungsrand', 0.6)), float(SA.get('faktor_ensemble', 0.5))
+    # Lichtungsmitten
+    wald_anteil = box_blur(wald.astype(np.float32), int(SA.get('lichtung_umfeld_m', 30)))
+    lk = lichtung & (wald_anteil >= float(SA.get('lichtung_waldanteil_min', 0.3)))
+    rmin = float(SA.get('lichtung_min_radius_m', 8))
+    lichtungen = []
+    if lk.any():
+        d_in = distanz(~lk, max_m=48.0)
+        kand = lk & (d_in >= rmin)
+        idx = np.flatnonzero(kand)
+        if idx.size:
+            rast = int(SA.get('lichtung_raster_m', 120))
+            zelle = (gi.ravel()[idx].astype(np.int64) // rast) * 100000 + (gj.ravel()[idx].astype(np.int64) // rast)
+            sc = -d_in.ravel()[idx] + 0.01 * hash01(gi.ravel()[idx], gj.ravel()[idx], seed, 5501)
+            o = np.lexsort((sc, zelle))
+            zs = zelle[o]
+            sel = o[np.concatenate([[True], zs[1:] != zs[:-1]])]
+            kandl = sorted(((float(d_in.ravel()[k]), int(k // W), int(k % W)) for k in idx[sel]), key=lambda e: (-e[0], e[1], e[2]))
+            for r_, a, b in kandl:  # Unterdrückung: eine Mitte je Lichtung
+                if all(math.hypot(a - x[0], b - x[1]) > max(r_, x[2]) + 10 for x in lichtungen):
+                    lichtungen.append((a, b, r_))
+    info['lichtungen'] = len(lichtungen)
+    # Blickpunkte auf dem Weg
+    wi_, wj_ = np.nonzero(weg_m)
+    weg_max, bp_n, bp_abst = float(SA.get('weg_max_m', 180)), int(SA.get('blickpunkte_je_ziel', 2)), float(SA.get('blickpunkt_abstand_min_m', 60))
+    halb_tan = math.tan(math.radians(float(SA.get('kegel_halbwinkel_grad', 10))))
+    wmin, rand = float(SA.get('korridor_breite_min_m', 6)), float(SA.get('rand_weich_m', 4))
+
+    def blickpunkte(ti, tj):
+        if wi_.size == 0:
+            return []
+        d = np.hypot(wi_ - ti, wj_ - tj)
+        k1 = int(np.argmin(d))
+        if d[k1] > weg_max:
+            return []
+        pts = [(float(wi_[k1]), float(wj_[k1]))]
+        if bp_n >= 2:
+            m = (d <= weg_max) & (np.hypot(wi_ - wi_[k1], wj_ - wj_[k1]) >= bp_abst)
+            if m.any():
+                k2 = int(np.flatnonzero(m)[np.argmin(d[m])])
+                pts.append((float(wi_[k2]), float(wj_[k2])))
+        return pts
+    ziel_liste = [(z[0], z[1]) for z in ziele if z[2] == 'blickziel'] + [(float(a), float(b)) for a, b, _ in lichtungen]
+    for ti, tj in ziel_liste:
+        for P in blickpunkte(ti, tj):
+            info['korridore'] += _kegel(F, P, (ti, tj), halb_tan, wmin, rand, fk)
+    # offener Lichtungsrand (zur Lichtung hin)
+    rb = float(SA.get('lichtungsrand_breite_m', 6))
+    if lichtungen:
+        rand_m = (~wald) & (d_kante <= rb)
+        for a, b, r_ in lichtungen:
+            i0, i1 = max(0, int(a - 2 * r_ - 25)), min(H, int(a + 2 * r_ + 26))
+            j0, j1 = max(0, int(b - 2 * r_ - 25)), min(W, int(b + 2 * r_ + 26))
+            I, J = np.ogrid[i0:i1, j0:j1]
+            m = rand_m[i0:i1, j0:j1] & (np.hypot(I - a, J - b) <= 2 * r_ + 25)
+            F[i0:i1, j0:j1] = np.where(m, np.minimum(F[i0:i1, j0:j1], fr), F[i0:i1, j0:j1])
+    # Umkreis der Spuren-Ensembles
+    re = float(SA.get('ensemble_radius_m', 10))
+    for a, b, art, _ in ziele:
+        if art != 'ensemble':
+            continue
+        i0, i1 = max(0, int(a - re - rand - 1)), min(H, int(a + re + rand + 2))
+        j0, j1 = max(0, int(b - re - rand - 1)), min(W, int(b + re + rand + 2))
+        if i1 <= i0 or j1 <= j0:
+            continue
+        I, J = np.ogrid[i0:i1, j0:j1]
+        w = np.clip((re + rand - np.hypot(I - a, J - b)) / rand, 0, 1)
+        F[i0:i1, j0:j1] = np.minimum(F[i0:i1, j0:j1], (1.0 - (1.0 - fe) * w).astype(np.float32))
+    maske = F < 0.999
+    info['flaeche_feld_m2'] = int((maske & im_feld).sum())
+    info['anteil_feld'] = round(float((maske & im_feld).sum()) / max(1, int(im_feld.sum())), 4)
+    info['lichtung_mitten_cm'] = [[round(float((b + gj[0, 0] - X0) * 100), 1), round(float((a + gi[0, 0] - Y0) * 100), 1), round(r_, 1)]
+                                  for a, b, r_ in lichtungen]
+    return F, info
+
+
+def sicht_klasse(kname, kl, SA):
+    """Gehört die Klasse zu den hohen, sichtversperrenden Klassen (Liste + Muster für Zusatzklassen)?"""
+    if kname in (SA.get('klassen') or SICHT_KLASSEN_VORGABE):
+        return True
+    if not kl.get('ist_zusatz'):
+        return False
+    txt = (kname + ' ' + str(kl.get('basisklasse', '')) + ' ' + str(kl.get('rolle', ''))).lower()
+    return any(m in txt for m in (SA.get('zusatz_muster') or []))
+
+
 # ----------------------------------------------------------------------------- Planung je Feld
 def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, inventar, hg=None):
     t0 = time.time()
@@ -1068,6 +1310,21 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
     lichtung = (~wald) & (beschattung < L['lichtung_schwelle']) & (d_kante < 40)
     lichtungsrand = lichtung & (d_kante <= L['lichtungsrand_m'])
 
+    # Sichtachsen (Korrektur Runde 2): hohe Klassen in Kegeln Weg -> Blickziel/Lichtung, am offenen Lichtungsrand, um Ensembles lichter
+    SA = regeln.get('sichtachsen') or {}
+    sicht_F, sicht_info, sicht_aktiv = None, {}, False
+    if SA:
+        ziele = ziele_aus_ebenen(basis, feld, win, SA.get('quellen_ebenen', ['spuren'] + list(BIOM_EBENEN)))
+        sicht_F, sicht_info = sichtachsen_feld(regeln, ziele, weg_m, wald, d_kante, lichtung, gi, gj, im_feld, int(regeln['seed']))
+        sicht_aktiv = SA.get('aktiv', True) is not False and sicht_F is not None
+        hinweise.append('Sichtachsen%s: %d Blickziele (%s), %d Ensembles, %d Lichtungsmitten, %d Kegel, %.1f %% der Feldflaeche mit Faktor < 1 (Kegel %.2f, Lichtungsrand %.2f, Ensemble %.2f)' % (
+            '' if sicht_aktiv else ' (nur gemessen, aktiv=false)', sicht_info.get('ziele_ebenen', 0),
+            ', '.join(sorted({z[3].split(':')[0].split('/')[0] for z in ziele})) or 'keine plan.json mit blickziele/ensembles',
+            sicht_info.get('ensembles', 0), sicht_info.get('lichtungen', 0), sicht_info.get('korridore', 0), 100.0 * sicht_info.get('anteil_feld', 0.0),
+            float(SA.get('faktor_korridor', 0.5)), float(SA.get('faktor_lichtungsrand', 0.6)), float(SA.get('faktor_ensemble', 0.5))))
+        if sicht_info.get('anteil_feld', 0.0) > float(SA.get('max_anteil_feld', 0.15)):
+            hinweise.append('WARNUNG Sichtachsen: %.1f %% der Feldflaeche > %.0f %% - Kegelwinkel/Weg-Abstand pruefen' % (100.0 * sicht_info['anteil_feld'], 100.0 * float(SA.get('max_anteil_feld', 0.15))))
+
     # Feuchte, Hang, Höhe, Schnee
     F = regeln['feuchte']
     feuchte = np.clip(1 - d_wasser / F['wasser_radius_m'], 0, 1) * 0.8
@@ -1175,6 +1432,8 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
             for mod in ('lichtung', 'wegrand', 'nah_baum', 'mulde'):
                 if isinstance(kl.get(mod), (int, float)) and float(kl[mod]) != 1.0:
                     lam = np.where(modulator(mod), lam * float(kl[mod]), lam)
+            if sicht_aktiv and sicht_klasse(kname, kl, SA):  # Sichtachsen: hohe Klassen lichter
+                lam = lam * sicht_F
             if isinstance(kl.get('an_totholz'), (int, float)) and float(kl['an_totholz']) != 1.0:
                 tm = np.zeros((H, W), bool)
                 for a0 in aus:
@@ -1357,12 +1616,26 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                          'paletten_quelle': quellen_klasse, 'wald_anteil': round(float(wald[im_feld].mean()), 3),
                          'beschattung_mittel': round(float(beschattung[im_feld].mean()), 3), 'faktor': faktor,
                          'laufzeit_s': round(time.time() - t0, 1), 'numba': NUMBA}
+    if sicht_F is not None:
+        smask = sicht_F < 0.999
+        n_k, n_k_hoch = 0, 0
+        for a in aus:
+            if a['fi'].size:
+                c = int(smask[a['mi'], a['mj']].sum())
+                n_k += c
+                if sicht_klasse(a['klasse'], eff[a['biom']].get(a['klasse'], {}), SA):
+                    n_k_hoch += c
+        sicht_info['instanzen_im_korridor'] = n_k
+        sicht_info['hohe_klassen_im_korridor'] = n_k_hoch
+        sicht_info['aktiv'] = bool(sicht_aktiv)
+        plan['statistik']['sichtachsen'] = sicht_info
+    plan['gesperrt'] = {'netze': sorted(GESPERRT), 'instanzen_im_plan': int(sum(v['anzahl'] for v in dateien.values() if v['pfad'] in GESPERRT))}
     plan['overrides'] = {thema: {'datei': os.path.basename(ov[thema][1]),
                                  'biome': sorted(b for b, t in zuordnung.items() if t == thema),
                                  'schluessel': sorted(k for k in ov[thema][0] if not doku_schluessel(k)),
                                  'zusatzklassen': sorted({k for b in BIOME15 if zuordnung.get(b) == thema for k, v in eff[b].items() if v.get('ist_zusatz')}),
                                  'unbekannte_schluessel': unbekannte_schluessel(ov[thema][0])} for thema in sorted(ov)}
-    plan['ungetestet'] = 'Korrektur Runde 1: in der Cloud nur mit synthetischen Daten rauchgetestet'
+    plan['ungetestet'] = 'Korrektur Runde 2: in der Cloud nur mit synthetischen Daten rauchgetestet'
     schreibe_plan(ausgabe, plan)
     meld('%s: %d Instanzen (%d mit Kollision), %d Netze, Biome %s, %.1f s' % (feld, gesamt, nk, len(dateien),
          ', '.join('%s %.0f%%' % (k, 100 * v) for k, v in sorted(biome_fenster.items(), key=lambda e: -e[1]) if v >= 0.01), time.time() - t0))
@@ -1443,6 +1716,11 @@ def main():
         regeln = json.load(open(rp, encoding='utf-8'))
     except Exception as e:
         abbruch('Regeldatei unlesbar: %s (%s)' % (rp, e))
+    gesperrt_laden(regeln)
+    treffer = []
+    regeln = gesperrt_filtern(regeln, 'mittelschicht_regeln', treffer)
+    meld('gesperrte Netze: %s%s' % (', '.join(sorted(g.rsplit('/', 1)[-1] for g in GESPERRT)) or 'keine',
+                                     ' - in mittelschicht_regeln.json %d Eintraege gefiltert (%s)' % (len(treffer), ', '.join(sorted({w for w, _ in treffer}))) if treffer else ''))
     inventar, csv = lade_inventar(a.basis)
     pruefe_netze(regeln, inventar, csv)
     ov, zuordnung, ov_hinweise = lade_overrides(regeln, rp)

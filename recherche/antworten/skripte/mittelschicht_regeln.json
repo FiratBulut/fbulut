@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-10 (Korrektur Runde 1)",
+ "stand": "2026-10-10 (Korrektur Runde 2: Sichtachsen, gesperrte Netze)",
  "thema": "mittelschicht",
  "seed": 1107,
  "hinweis": "Dichten in Instanzen je m^2: [offen (Beschattung 0), voll beschattet (Beschattung 1)]; Gruppen multiplizieren die Dichte NICHT (Gruppenzentren = Dichte/Gruppenmittel). Klasse optional: netze_massstab {pfad: [min,max]}, netze_gewicht {pfad: w}. Einziger Planer der generischen Mittelschicht-Klassen (KONVENTIONEN §4).",
@@ -7,6 +7,15 @@
  "ft_praefix": "FT_EL_MS_",
  "ebene": 1,
  "entfernen": "",
+ "gesperrt": {
+  "netze": [
+   "/Game/AncientRuins/Meshes/SM_Column_03",
+   "/Game/AncientRuins/Meshes/SM_Main_Arch_01"
+  ],
+  "ersatz": {},
+  "grund": "Korrektur Runde 2 Befund 3: leere Grundfarbtextur -> weiss (vorlagen/daten/netz_check_ergebnis.json klasse textur_leer). Nur diese zwei sind gesperrt.",
+  "regel": "Aus der eigenen Regeldatei und aus allen mittelschicht_overrides beim Lesen entfernt (auch Kurzpfade und Schluessel von netze_massstab/netze_gewicht), letzte Sperre je Klassenpalette; Log-Zeile und plan.json['gesperrt']. Kein Ersatz noetig: AncientRuins-Netze sind keine Mittelschicht."
+ },
  "min_anteil_eigen_fenster": 0.02,
  "biome_eigen": "alle 15 (Querschnitts-Planer, KONVENTIONEN §1)",
  "generische_klassen": [
@@ -4854,5 +4863,59 @@
   ]
  },
  "mulde_tiefe_m": 0.4,
- "zusatz_saum_m": 30.0
+ "zusatz_saum_m": 30.0,
+ "sichtachsen": {
+  "_doku": "Korrektur Runde 2 Befund 1: Mittelschicht so lassen (G4 CLOUD1_G4_hain1), in Sichtachsen von Lichtungen etwas lichter. Blickziele = plan.json['blickziele'] und ['ensembles'] aus quellen_ebenen (Feld + 8 Nachbarn; spuren zuerst planen) plus Lichtungsmitten (offene Zellen mit Beschattung < licht.lichtung_schwelle, Waldanteil im Umfeld >= lichtung_waldanteil_min, Mitte = groesster Abstand zum Lichtungsrand >= lichtung_min_radius_m, je lichtung_raster_m-Raster eine). Je Ziel bis zu blickpunkte_je_ziel Wegpunkte (naechster Weg <= weg_max_m, zweiter >= blickpunkt_abstand_min_m vom ersten): Kegel vom Wegpunkt zum Ziel (Halbwinkel, Mindestbreite, weicher Rand) mit faktor_korridor; offener Lichtungsrand (Nicht-Wald <= lichtungsrand_breite_m von der Waldkante, nur um gefundene Lichtungen) faktor_lichtungsrand; Umkreis ensemble_radius_m um Spuren-Ensembles faktor_ensemble. Wirkt nur auf klassen + Zusatzklassen, deren Name/basisklasse/rolle ein zusatz_muster enthaelt; Kleinzeug (Gras, Beere, Pilz, Ast, liegendes Totholz) bleibt. aktiv=false: nur messen (plan.json statistik.sichtachsen).",
+  "aktiv": true,
+  "faktor_korridor": 0.5,
+  "faktor_lichtungsrand": 0.6,
+  "faktor_ensemble": 0.5,
+  "klassen": [
+   "strauch",
+   "jungbaum",
+   "hochstaude",
+   "farn",
+   "totbaum",
+   "totholz_stumpf"
+  ],
+  "zusatz_muster": [
+   "strauch",
+   "busch",
+   "jungbaum",
+   "jungwuchs",
+   "farn",
+   "staude",
+   "bananen",
+   "wacholder",
+   "hasel",
+   "holunder",
+   "krummholz"
+  ],
+  "quellen_ebenen": [
+   "spuren",
+   "elfenwald",
+   "dschungel",
+   "aue",
+   "nordkueste",
+   "heide_tundra",
+   "hochgebirge",
+   "sumpf",
+   "lava",
+   "wueste_ergaenzung",
+   "felsgruppen"
+  ],
+  "kegel_halbwinkel_grad": 10,
+  "korridor_breite_min_m": 6,
+  "rand_weich_m": 4,
+  "weg_max_m": 180,
+  "blickpunkte_je_ziel": 2,
+  "blickpunkt_abstand_min_m": 60,
+  "lichtung_min_radius_m": 8,
+  "lichtung_raster_m": 120,
+  "lichtung_umfeld_m": 30,
+  "lichtung_waldanteil_min": 0.3,
+  "lichtungsrand_breite_m": 6,
+  "ensemble_radius_m": 10,
+  "max_anteil_feld": 0.15
+ }
 }
