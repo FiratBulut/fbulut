@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 14:45 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 14:55 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -45,7 +45,7 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 | dschungel (B7) | korrigiert, gepusht (synthetisch H6: 30 343 Inst., 2 690 Kollision; G4 Leerplan; G5 Saum) |
 | aue (B2) | korrigiert, gepusht (synthetisch E5 21 085 Inst./621 Kollision, H5 Mischfeld 12 836, C6 Leerplan, A5 859; Anteil/Saum nur ueber Landzellen) |
 | heide_tundra (B3) | korrigiert, gepusht (synthetisch D2 16 399 / G5 36 674 / F4 Mischfeld 10 595 / D3 Wueste 14 816; E1, C6 Leerplan; Ursache E1: profil_je_biom-Abbildung fremder Biome, gestrichen) |
-| hochgebirge (B4) | Welle K2 laeuft |
+| hochgebirge (B4) | korrigiert, gepusht (synthetisch D2 35 187 / E2 43 235, Kollisionsdeckel greift / C2 Mischfeld 43 765 davon 1 788 im Saum / C6 Leerplan; Erwartung E1 26 000-34 000) |
 | sumpf (B6) | Welle K2 laeuft |
 | lava (B8) | Welle K2 laeuft |
 | wueste_ergaenzung (B9) | Welle K2 laeuft |
@@ -67,6 +67,12 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 
 **Heide/Tundra:** Zwergstrauch (Preisel-/Heidelbeere) und Grasbüschel kommen nur noch aus der Mittelschicht; `heide_tundra` setzt künftig nur Heidekraut-Flecken und Sonderformen. Bis `heide_tundra_regeln.json` einen Override-Block hat und `grasbueschel`/`wacholder`/`kruepelkiefer`/`jungwuchs`/`totholz`/`stumpf` nicht mehr selbst setzt, doppeln sich diese Klassen in den zehn Heide/Tundra-Feldern.
 
-Offen: wueste_ergaenzung hat mittelschicht_overrides.biom_faktor = 0 (Mittelschicht setzt dort nichts) - wird in der B9-Korrektur bestaetigt oder auf palette/faktor umgestellt. sumpf, hochgebirge, lava erhalten ihre Override-Bloecke in Welle K2; bis dahin moegliche Doppelungen in diesen Biomen.
+Offen: wueste_ergaenzung hat mittelschicht_overrides.biom_faktor = 0 (Mittelschicht setzt dort nichts) - wird in der B9-Korrektur bestaetigt oder auf palette/faktor umgestellt. sumpf, lava erhalten ihre Override-Bloecke in Welle K2; bis dahin moegliche Doppelungen in diesen Biomen.
 
 Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontrollieren, dass heide/tundra-Gebiete nicht als Kennzahl 0 kodiert sind - sonst werden sie als aue gelesen und der heide_tundra-Planer bleibt dort leer.
+
+### Runde-2-Punkte (gesammelt)
+
+- mittelschicht_plan.py kennt keine Hoehenstufen relativ zur Baumgrenze; `hoehe_max_m` ist absolut. Folge: Alpenrose/Gras fehlen ueber 430/470 m, Heide kann unter Bergwald-Kiefern landen (Hinweis hochgebirge).
+- felsgruppen: `eis.z_versatz_anteil` (Eisvorhaenge an der Wand statt am Wandfuss) - Nachbesserung beauftragt.
+- wueste-Felsklassen in felsgruppen noch ungetestet (kein Wuestenfeld im Rauchtest).

@@ -2,59 +2,62 @@
 # -*- coding: utf-8 -*-
 """
 wueste_ergaenzung_plan.py – Planer „Wüste/Canyon/Ödland – Ergänzung“ (Auftrag 11, Teil B9) für Eldarien
-(UE 5.8.3, 1-m-Raster NX 9577 × NY 7057, World Partition).
+(UE 5.8.3, 1-m-Raster NX 9577 × NY 7057, World Partition). Fassung Korrektur Runde 1 (10.10.2026).
 
-*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft (py_compile) und mit synthetischen Rastern
-rauchgetestet (10.10.2026): D4 (Wüstenfeld, Ergänzungsmodus, Canyon-Schichtstufen + Rinne + 3 000 WU-Instanzen als belegt)
-14 998 Instanzen / 164 Kollision / 6,5 s; E6 (Ödland voll, Kuppen/Senken/Rinnen) 49 966 / 345 / 4,2 s; zweiter Lauf
-byte-identisch; 0 Instanzen auf Wasser/Weg/Ort. Korrekturen bitte als auftraege/verteilung-wueste-korrektur.md.
+*** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur py_compile + Rauchtest mit synthetischen Rastern (Bericht
+antworten/verteilung-wueste.md, Abschnitt „Korrektur Runde 1“). Echtlauf 10.10. (alte Fassung): A5/G4/E1/C6 je 0 Instanzen (korrekt).
 
-Was das Skript tut
-------------------
-Plant je Gitterfeld eine NEUE Foliage-Ebene „wueste_ergaenzung“ (FT_EL_WE_*) für die Biome wueste, canyon, oedland:
-  Schicht 0 boden        Kiesel, Steine 0,2–0,6 m, Lehm-/Trockenbett-Platten (Trockenriss-Ersatz), Geröll-Platten,
-                         dürre Zweige, Knochen-Ersatz (Rindenstücke), Trockenlaub
-  Schicht 1 mittel       Trockengras-Büschel (3 Höhen), Dornsträucher, Trockenhang-Sträucher, Sukkulenten/Agaven-Ersatz,
-                         Totholz liegend (klein ohne / Stämme mit Kollision), Stümpfe
-  Schicht 2 baum         tote Bäume groß/klein, lebende Einzelbäume nur bei Restfeuchte (Rinnen/Senken/Ufer),
-                         Krüppelkiefern an Terrassenkanten, Köcherbäume (außerhalb C3–E5)
-  Schicht 5 wasserkante  Rohrkolben und grünes Gras an Oasen/Rinnen mit Restfeuchte
-Schicht 3 fels liefert felsgruppen_plan.py (Teil C), Schicht 4 spuren liefert spuren_plan.py (Teil D); Vorschläge dafür
-stehen als felsgruppen_overrides / spuren_overrides in der Regeldatei.
+Korrektur Runde 1 (verteilung-KONVENTIONEN.md §1–§6)
+----------------------------------------------------
+§1 Zuständigkeit: biome_eigen = wueste, canyon, oedland. Biom je Zelle aus eigner.r8 + welt.json["kacheln"][k]["rezept"]
+   (Kennzahl 0 = Weltgelände → aue, Vulkan/Lava-Rezept → lava, unbekanntes Rezept → aue mit WARNUNG; rezept_alias in den
+   Regeln). Nur wenn eigner.r8/welt.json fehlen: dominantes Feldbiom aus daten/biome_je_feld.json (Hinweis), danach
+   feld_biom_fallback. Bebaut werden nur eigene Zellen plus 30-m-Saum nach außen (Dichtefaktor linear 1 → 0, Jump-Flooding-
+   Distanz; im Saum gelten die Regeln des nächsten eigenen Bioms). Bezug sind die Landzellen (ohne karte_wasser).
+   Eigenanteil im Fenster < 2 % → leerer plan.json (instanzen 0, dateien {}, alte f32 gelöscht), eine Logzeile.
+§2 plan.json: biome_fenster, biome_fenster_bezug ("land"), zellen_zustaendig, biome_eigen, kollision_anzahl, entfernen
+   (immer leer: nichts wird ersetzt), dateien[].ebene (0/1/2/5).
+§3 Budget hart 60 000 Instanzen / 3 000 Kollision (Ziel 50 000); Wüstenfelder C3–E5 15 000 / 1 200. Ausdünnung
+   proportional, danach exakte Kappung per Hash-Rang; WARNUNG im Log und in plan.json["hinweise"].
+§4 Ebenen: generische Mittelschicht-Klassen (Trockengras-Büschel, Trockenhang-Sträucher, Totholz, Stümpfe, Zweige) setzt
+   nur noch mittelschicht_plan.py (Block mittelschicht_overrides: palette/faktor/parameter/je_biom/faktor_je_feld);
+   Felsen > 0,8 m, Geröllplatten, Terrassenkanten, Felsnadeln setzt felsgruppen_plan.py (felsgruppen_overrides.zusatzklassen);
+   Knochen-Ersatz, Karren, Brunnen, Galgen-Ersatz setzt spuren_plan.py (spuren_overrides). Hier bleiben:
+     Schicht 0 boden        Kiesel, Steine < 0,8 m, Trockenbett-Platten (Trockenriss-Ersatz), Trockenlaub unter toten Bäumen
+     Schicht 1 mittel       nur Sonderformen: Dornbusch-Ödland, Sukkulenten-Polster
+     Schicht 2 baum         tote Bäume groß/klein, Einzelbäume bei Restfeuchte, Krüppelkiefern an Terrassen, Köcherbäume
+     Schicht 5 wasserkante  Rohrkolben und grünes Gras an Oasen/Rinnen mit Restfeuchte
+§5 print() nur ASCII; fehlende Pflichtdatei (hoehe.f32, Regeldatei, daten/netze.csv) oder ungültiges Feld → FEHLER-Zeile,
+   Exit-Code 2; fehlende optionale Dateien → Hinweis. Deterministisch (Hash aus Weltraster-Koordinate, Seed, Kanal).
 
 Geländeableitung (nur NumPy, Fenster Feld + 64 m): Hang und Normale aus Gradient, Rinnen = konkave Krümmung (positiver
-Laplace der geglätteten Höhe, zwei Maßstäbe), Kuppen = konvex + lokal höchste Zelle, Senken = Höhe unter dem 24-m-Mittel,
-Wandfuß/Schuttfächer = flache Zellen unter Wänden > 35° (bis 30 m, Stein-Größe nimmt hangabwärts ab), Terrassenkanten =
-flache Zellen mit Abbruch ≥ 3 m darunter, Restfeuchte aus Wassernähe + Senke + Rinne + Lagen (Lehm/Schlamm/Moos/Wiese).
+Laplace der geglätteten Höhe, zwei Maßstäbe), Kuppen = Prominenz über dem 24-m-Mittel + lokal höchste Zelle, Senken = Höhe
+unter dem 24-m-Mittel, Wandfuß = flache Zellen unter Wänden > 35°, Terrassenkanten = flache Zellen mit Abbruch ≥ 3 m in 6 m
+(dieselbe Definition wie felsgruppen_overrides.zusatzklassen.terrassenkanten), Restfeuchte aus Wassernähe + Senke + Rinne + Lagen.
 
 Wüstenfelder C3 C4 D3 D4 D5 E3 E4 E5 (eigener Namaqualand-Planer, FT_EL_WU_*): NUR ERGÄNZEN. Klassen mit
-wuestenfeld_faktor 0 (Namaqualand-Sträucher/Sukkulenten/Köcherbäume) werden dort nicht gestreut, Namaqualand-Netze durch
-netze_wuestenfeld ersetzt, Budget 15 000 Instanzen, KEIN „entfernen“ im plan.json. Die vorhandene Wüsten-Ebene wird – wenn
-auffindbar – als belegt geladen (Abstand). Ihr Pfad ist in der Cloud unbekannt: --wueste_ebene PFAD.
+wuestenfeld_faktor 0 werden dort nicht gestreut, Namaqualand-Netze durch netze_wuestenfeld ersetzt, Budget 15 000, nichts
+wird entfernt. Die vorhandene Wüsten-Ebene wird – wenn auffindbar – als belegt geladen (Abstand): --wueste_ebene PFAD.
 
 Aufruf
 ------
   python -I scripts/wueste_ergaenzung/wueste_ergaenzung_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD]
          [--regeln PFAD] [--netze PFAD] [--wueste_ebene PFAD]
-  --basis         production-Wurzel (Default "."): darunter export/unreal/welt/, daten/netze.csv, docs/
+  --basis         production-Wurzel (Default "."): darunter export/unreal/welt/, daten/netze.csv, daten/biome_je_feld.json
   --regeln        Regeldatei (Default: wueste_ergaenzung_regeln.json neben dem Skript)
-  --netze         Inventar netze.csv (Default: <basis>/daten/netze.csv, sonst vorlagen/daten/netze.csv relativ zum Skript)
+  --netze         Inventar netze.csv (Default: <basis>/daten/netze.csv, sonst neben dem Skript bzw. vorlagen/daten/)
   --wueste_ebene  Ordner der vorhandenen Wüsten-Ebene (<PFAD>/<Feld>/plan.json + *.f32 oder <PFAD>/*.f32)
   --faktor        Dichtefaktor auf alle Klassen
-  --bild          Draufsicht docs/pruefung/wueste_ergaenzung/<Feld>.png (1 px = 1 m)
+  --bild          Draufsicht docs/pruefung/wueste_ergaenzung/<Feld>.png (1 px = 1 m; Saum grau, fremde Biome dunkel)
 
-Liest   export/unreal/welt/hoehe.f32 (np.memmap, nur Fenster), lage_*.r8 (optional), karte_wasser/weg/ort.r8 (optional),
-        eigner.r8 + welt.json (Biom je Zelle; Fallback je Feld aus Regeln, sonst aue → nichts), vorhandene Ebenen
-        bestand/ witcher/ mittelschicht/ felsgruppen/ spuren/ ufer/ wueste/ (<Feld>/plan.json + f32) und instanzen/instanzen.json.
+Liest   export/unreal/welt/hoehe.f32 (Pflicht, np.memmap, nur Fenster), lage_*.r8, karte_wasser/weg/ort.r8 (optional),
+        eigner.r8 + welt.json, daten/biome_je_feld.json (Fallback), vorhandene Ebenen bestand/ witcher/ mittelschicht/
+        felsgruppen/ spuren/ ufer/ wueste/ (<Feld>/plan.json + f32) und instanzen/instanzen.json (belegt).
 Schreibt export/unreal/welt/wueste_ergaenzung/<Feld>/<Netzname>.f32 (10 float32 LE: x,y,z cm; qx,qy,qz,qw; sx,sy,sz)
-        + plan.json (FORMAT.md §3, plus "ebene", "modus"; in Wüstenfeldern ohne "entfernen").
+        + plan.json (FORMAT.md §3 + KONVENTIONEN §2, plus "ebene", "modus", "statistik", "hinweise").
 
-Determinismus: alle Zufallszahlen aus Hash(Weltraster-Koordinate, Seed, Kanal) → Nachbarfelder nahtlos, Wiederholung identisch.
-Laufzeit-Ziel ≤ 60 s je Feld (reine NumPy-Vektoroperationen; numba wird nicht benötigt, nur gemeldet).
-
-Quellen: vorlagen/FORMAT.md §1–§5; antworten/assets-taxonomie.md (Lücken wueste/canyon/oedland); antworten/bildkritik-
-witcher-messlatte.md (NORD3_D3: Blöcke nach Erosion, 3 Größenstufen, Eingraben 30 %); antworten/verteilung-wueste.md
-(Referenzanalyse Velen/Toussaint/Monument Valley/Wadi Rum/Steppe, Herleitung der Dichten).
+Quellen: vorlagen/FORMAT.md; antworten/verteilung-KONVENTIONEN.md; antworten/assets-taxonomie.md (Lücken wueste/canyon/
+oedland); antworten/bildkritik-witcher-messlatte.md; antworten/verteilung-wueste.md (Herleitung der Dichten, Korrektur Runde 1).
 """
 import argparse
 import csv
@@ -94,15 +97,21 @@ def meld(*a):
     print('[wueste_ergaenzung]', *(ascii_(x) for x in a), flush=True)
 
 
+def fehler(text):
+    """Fehlende Pflichtdatei / falscher Aufruf: eine FEHLER-Zeile (ASCII) und Exit-Code 2 (KONVENTIONEN par. 5)."""
+    print('[wueste_ergaenzung] FEHLER: ' + ascii_(text), flush=True)
+    sys.exit(2)
+
+
 # ----------------------------------------------------------------------------- Raster-Helfer
 def feld_fenster(feld, rand):
     feld = feld.strip().upper()
     if len(feld) < 2 or not feld[0].isalpha() or not feld[1:].isdigit():
-        raise SystemExit('Unbekanntes Feld %r (A1 … J7)' % feld)
+        fehler('Unbekanntes Feld %r (A1 ... J7)' % feld)
     s = ord(feld[0]) - ord('A')
     r = int(feld[1:])
     if not (0 <= s <= 9 and 1 <= r <= 7):
-        raise SystemExit('Unbekanntes Feld %r (A1 … J7)' % feld)
+        fehler('Unbekanntes Feld %r (A1 ... J7)' % feld)
     j0, j1 = s * FELD_M, min((s + 1) * FELD_M, NX)  # J-Spalte: 9072 … 9577 (nur 505 m) – geklippt
     i0, i1 = (r - 1) * FELD_M, min(r * FELD_M, NY)
     wi0, wi1 = max(0, i0 - rand), min(NY, i1 + rand)
@@ -115,13 +124,13 @@ def lade_raster(pfad, dtype, win, pflicht=False):
     wi0, wi1, wj0, wj1 = win
     if not os.path.isfile(pfad):
         if pflicht:
-            raise SystemExit('Pflichtdatei fehlt: %s' % pfad)
+            fehler('Pflichtdatei fehlt: %s' % pfad)
         return None
     n = os.path.getsize(pfad) // np.dtype(dtype).itemsize
     if n != NX * NY:
         meld('WARNUNG: %s hat %d Werte, erwartet %d (NY %d × NX %d) – ignoriert' % (pfad, n, NX * NY, NY, NX))
         if pflicht:
-            raise SystemExit('Pflichtdatei hat falsche Größe: %s' % pfad)
+            fehler('Pflichtdatei hat falsche Groesse: %s' % pfad)
         return None
     mm = np.memmap(pfad, dtype=dtype, mode='r', shape=(NY, NX))
     a = np.array(mm[wi0:wi1, wj0:wj1])
@@ -201,12 +210,16 @@ def fenster_max(a, r, fn):
     return out
 
 
-def distanz(mask, max_m=64.0):
-    """Euklidische Distanz (m) zur nächsten True-Zelle per Jump-Flooding; > max_m → 2·max_m."""
+def distanz(mask, max_m=64.0, quelle=False):
+    """Euklidische Distanz (m) zur nächsten True-Zelle per Jump-Flooding; > max_m → 2·max_m.
+    quelle=True: zusätzlich (si, sj) = Fensterindex der nächsten True-Zelle (-1, wenn keine in Reichweite)."""
     H, W = mask.shape
     fern = np.float32(max_m * 2.0)
     if not mask.any():
-        return np.full((H, W), fern, np.float32)
+        d = np.full((H, W), fern, np.float32)
+        if quelle:
+            return d, np.full((H, W), -1, np.int32), np.full((H, W), -1, np.int32)
+        return d
     ii, jj = np.indices((H, W), dtype=np.int32)
     si = np.where(mask, ii, -1).astype(np.int32)
     sj = np.where(mask, jj, -1).astype(np.int32)
@@ -236,7 +249,10 @@ def distanz(mask, max_m=64.0):
                 sj = np.where(besser, csj, sj)
     d = np.sqrt(d2.astype(np.float32))
     d[d2 >= INF] = fern
-    return np.minimum(d, fern).astype(np.float32)
+    d = np.minimum(d, fern).astype(np.float32)
+    if quelle:
+        return d, si, sj
+    return d
 
 
 def hash01(i, j, seed, kanal):
@@ -300,6 +316,7 @@ def lade_inventar(basis, netze_arg):
     hier = os.path.dirname(os.path.abspath(__file__))
     kandidaten.append(os.path.normpath(os.path.join(hier, '..', '..', 'vorlagen', 'daten', 'netze.csv')))
     kandidaten.append(os.path.normpath(os.path.join(hier, '..', 'daten', 'netze.csv')))
+    kandidaten.append(os.path.join(hier, 'netze.csv'))
     for p in kandidaten:
         if os.path.isfile(p):
             inv = {}
@@ -311,8 +328,7 @@ def lade_inventar(basis, netze_arg):
                         continue
             meld('Inventar: %d Netze aus %s' % (len(inv), p))
             return inv
-    meld('Hinweis: netze.csv nicht gefunden (%s) – Netzpfade werden NICHT geprüft, Netzhöhen aus Regeln geschätzt' % ', '.join(kandidaten[:2]))
-    return None
+    fehler('Pflichtdatei fehlt: daten/netze.csv (gesucht: %s)' % ', '.join(kandidaten))
 
 
 def pruefe_paletten(regeln, inv):
@@ -334,6 +350,19 @@ def pruefe_paletten(regeln, inv):
         meld('WARNUNG: Netz nicht im Inventar (Klasse %s): %s' % (kname, p))
     if not fehlend:
         meld('Netzpaletten geprüft: alle Pfade im Inventar')
+    # Override-Blöcke für Teil C/D: nur prüfen und melden (die Querschnitts-Planer verwerfen fehlende Pfade selbst)
+    def pfade(o):
+        if isinstance(o, str):
+            return [o] if o.startswith('/Game/') else []
+        if isinstance(o, dict):
+            return [p for v in o.values() for p in pfade(v)]
+        if isinstance(o, list):
+            return [p for v in o for p in pfade(v)]
+        return []
+    for blk in ('mittelschicht_overrides', 'felsgruppen_overrides', 'spuren_overrides'):
+        alle = pfade({k: v for k, v in regeln.get(blk, {}).items() if not str(k).startswith('herkunft')})
+        fehlt = sorted(set(p for p in alle if p not in inv))
+        meld('%s: %d Netzpfade, %d nicht im Inventar%s' % (blk, len(set(alle)), len(fehlt), (' (' + ', '.join(fehlt[:4]) + ')') if fehlt else ''))
 
 
 def netz_hoehe(inv, pfad, default=0.3):

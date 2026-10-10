@@ -4,9 +4,172 @@
 **Felder:** B1, C1, D1, E1, B2, C2, D2, E2, F2, E3 (Biome `gletscher`, `frost`; Mischanteile fjord/tundra/bergwald/aue).
 **Lieferung:** dieses Dokument, `skripte/hochgebirge_regeln.json` (alle Zahlen, ohne Code änderbar), `skripte/hochgebirge_plan.py`
 (Planer nach FORMAT.md §3/§5; Thema `hochgebirge`, Foliage-Typen `FT_EL_HG_*` in `/Game/Eldarien/Welt/Foliage/Hochgebirge`).
-**Status:** Skript in der Cloud syntaxgeprüft und mit einem **synthetischen** D2-Fenster rauchgetestet (§5). **Kein Lauf mit Echtdaten,
-kein Setzen im Editor.** Zahlen ohne Quelle sind Richtwerte und so markiert; Web-Quellen nur als **[Suchauszug]** (kein Direktzugriff
+**Status:** Skript in der Cloud syntaxgeprüft und mit synthetischen Fenstern rauchgetestet (Runde 0: D2, §5; Runde 1: D2/E2/C2/C6).
+Kein eigener Lauf mit Echtdaten, kein Setzen im Editor; Echtdaten-Referenz aus dem lokalen Test vom 10.10. siehe Korrektur Runde 1. Zahlen ohne Quelle sind Richtwerte und so markiert; Web-Quellen nur als **[Suchauszug]** (kein Direktzugriff
 auf 80.lv/Fab/ArtStation aus dieser Umgebung, maximal 6 Suchen).
+**Korrektur Runde 1 (10.10.2026):** Zuständigkeit nur noch gletscher/frost-Zellen plus 30-m-Saum, leerer `plan.json` bei < 2 % Eigenanteil,
+neue Pflichtschlüssel, hartes Feld-Budget, Schicht 1 nur Sonderformen; generische Klassen stehen jetzt in `mittelschicht_overrides`, Felsen
+> 0,8 m in `felsgruppen_overrides.zusatzklassen`. **Der folgende Abschnitt gilt vor §2–§5 und §7, wo diese abweichen.**
+
+## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md` (lokaler Echtdatenlauf 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md` §1–§6.
+Geändert wurden nur `skripte/hochgebirge_plan.py` (jetzt 1 329 Zeilen), `skripte/hochgebirge_regeln.json` (15 Klassen, 77 Netze im Planer)
+und dieser Bericht.
+
+**Echtdaten-Befund (Runde-0-Fassung):** A5 (bergwald/fjord) **0**, G4 (elfenwald) **0**, E1 (gletscher 100 %) **35 132**, C6 (lava 99 %) **0**.
+Die Zuständigkeit stimmte also schon. In Mischfeldern hätte die alte Fassung aber über `biom_faktor` auch tundra (0,55), fjord (0,4) und
+bergwald (0,3) ab der Krummholzstufe bebaut, und Kennzahl 0 galt als dominantes Feldbiom (D2: tundra) statt als aue. Außerdem setzte sie
+generische Mittelschicht-Klassen (Alpenrose/Heide, Grasbüschel) und Blöcke > 0,8 m, die jetzt anderen Planern gehören.
+
+### Änderungen im Planer
+
+| Punkt | Vorher (Runde 0) | Jetzt |
+|---|---|---|
+| Biom je Zelle (§1) | Kennzahl 0 → dominantes Feldbiom; unbekanntes Rezept → Feldbiom | Kennzahl 0 → **aue**; Rezept → Biomname (längster Treffer), sonst `rezept_alias` (vulkan → lava, glet/firn/schnee → gletscher, wald → bergwald), sonst aue mit Hinweis. Nur ohne `eigner.r8`/`welt.json`: dominantes Feldbiom aus `daten/biome_je_feld.json` (Hinweis im Log); fehlt auch das: `eigner0`-Regel (aue, Hang ≥ 25° oder Höhe ≥ 220 m → gletscher) |
+| Zuständigkeit (§1) | `biom_faktor` gletscher/frost 1,0, tundra 0,55, fjord 0,4, bergwald 0,3; Nicht-Kernbiome ab Stufe 1 | `biome_eigen` = gletscher, frost; bebaut werden nur deren Zellen **plus 30-m-Saum**. Exakte euklidische Distanztransformation (separierbar, NumPy, wie `nordkueste_plan.py`), Faktor 1 an der Grenze → 0 bei 30 m. Im Saum gelten Baum-/Schneegrenze und `biom_faktor` des nächsten eigenen Bioms (Label-Weitergabe in derselben Transformation). Gruppenmitglieder, die über den Saum hinaus springen, werden verworfen. `kern_biome`/`nicht_kern_nur_ab_stufe` entfallen |
+| Fremdes Biom (§1) | Plan mit 0 Instanzen nur bei fehlendem Land | Eigenanteil im Fenster < 2 % (`zustaendigkeit.min_anteil_eigen`) oder keine zuständige Landzelle im Feld → **leerer `plan.json`** (`instanzen: 0`, `dateien: {}`, `leer: true`, alle Pflichtschlüssel, alte f32 gelöscht), eine Logzeile, Exit 0 |
+| `plan.json` (§2) | `statistik` ohne Biomangaben | neu: `biome_fenster` (Anteile aller Biome im Fenster, absteigend), `zellen_zustaendig` (Landzellen im Feld inkl. Saum), `biome_eigen`, `kollision_anzahl` (= Summe der Dateien mit `kollision: true`), `hinweise`; `statistik.zustaendigkeit` mit Biomquelle, Eigenanteil Fenster/Feld, Zellen eigen/Saum, Rohzahl vor Budget. `dateien[*].ebene` ist jetzt die Schichtnummer (0/1/2/5), dazu `ebene_name`; ein Netz in zwei Schichten bekommt eine eigene Datei `<Netz>_e<Schicht>` |
+| Budget (§3) | Ziel 52 000; Ausdünnung entfernte ganze Klassen von hinten; Kollision von hinten | Klassenbudgets wie bisher, dann **Feld-Ziel 50 000** (hart 60 000) für die ganze Ebene: von der niedrigsten Priorität aufwärts Klassen sammeln, bis 60 % ihrer Summe den Überschuss decken, diese gleichmäßig nach Hash-Rang ausdünnen. Danach Kollision **hart 3 000**: alle Kollisionsinstanzen proportional. Jede Ausdünnung schreibt `WARNUNG` ins Log und einen Eintrag in `hinweise`; Kiesel am Budget → Hinweis „über Landschafts-Gras `GT_Steinchen`“ (`budget.kleinzeug_an_gras`). Zusätzlich eine Laufzeitprüfung: Summe > 60 000 oder Kollision > 3 000 → Abbruch statt stiller Überschreitung |
+| Ebenen (§4) | Schicht 1 mit Alpenrose, Grasbüschel, Flechtenblock; Schicht 0/5 mit Blöcken > 0,8 m | siehe die beiden folgenden Unterabschnitte. Schutz im Code: Klassen mit generischem Namen (`ebenen_abgrenzung.generisch_mittelschicht`, auch Aliasse wie `grasbueschel_alpin`, `alpenrose`) oder Fels-Rolle (block, hero, wand, band) werden mit WARNUNG übersprungen; Stein-/Kiesel-/Plattennetze mit Höhe × max. Maßstab > 0,8 m werden gemeldet |
+| Ausgabe (§5) | Umlaute, „→“, „–“ in `print()` | alle Konsolenzeilen ASCII (`ascii_text()`: ae/oe/ue/ss, `->`, `-`, `§` → `Par.`); `plan.json` bleibt UTF-8, `hinweise` ASCII |
+| Fehler (§5) | `sys.exit("FEHLT …")` (Exit 1), fehlende Palettenpfade → Abbruch | fehlende `hoehe.f32`, Regeldatei, `daten/netze.csv` oder ungültiger Feldname → Meldung, **Exit 2**; Netz nicht im Inventar → WARNUNG, Netz entfernt, Klasse ohne Netz deaktiviert; Override-Pfade werden nur gemeldet |
+| Prüfbild | Höhenstufen + Klassen | zusätzlich Saum orange, nicht zuständige Zellen abgedunkelt |
+
+### Neue Schicht-1-Definition (§4)
+
+Schicht 1 enthält nur noch **Hochgebirgs-Sonderformen** (im Regel-JSON `"sonderform": true`, Liste `ebenen_abgrenzung.schicht1_sonderformen`):
+
+| Klasse | Inhalt | Wo / Änderung |
+|---|---|---|
+| `latsche` | Latschen-/Legföhren-Gürtel (dwarf_pine small/medium/big), Inseln 3–9 | Krummholzstufe, Stufen 0,2/1/0,3/0 – unverändert |
+| `krueppelkiefer` | windschiefe Krüppelkiefern (pine_beach_crooked/short) | Baumgrenze, in den Wind gekippt – unverändert |
+| `polster` | Polsterpflanzen in Felsritzen und auf Schutt (heath_cross, forest_heather, billberry_dry, lingonberry_02) | Matte, Fels/Geröll-Lagen bevorzugt – unverändert |
+| `totholz_wind` | windgeformtes Totholz (dead_log, Pine_broken_branch, mountain_branch, pine_stump) | **nur noch ab Krummholzstufe**: Stufen 0/1/0,3/0,05 (vorher 0,6 in der Bergwaldstufe – das generische Totholz dort setzt jetzt mittelschicht) |
+| `wurzelteller` | Windwurf-Wurzelteller (Pine_roots, stones_roots) | Stufen 0/1/0,2/0 (vorher 0,5 im Bergwald); bleibt hier, weil `mittelschicht_regeln.json` („zusatzklassen_eigen“) Wurzeln dem Hochgebirgs-Planer überlässt |
+| `eiszapfen` | Eiszapfen 0,8–2,6 m (SM_EISZAPFEN_1/2/3/5/6/7), Eis, kein Fels | **von Schicht 5 nach Schicht 1** (sie hängen an allen Wänden ≥ 55° über der Schneegrenze, nicht nur am Wasser); die großen Eisvorhänge 4/8/9 setzt felsgruppen (`zusatzklassen.eis`) |
+
+Unverändert bleiben Schicht 0 (`kiesel_schutt`, `flechtenstein` ≤ 0,62 m, `schneefleck` jetzt nur noch mit den beiden Platten ≤ 2 m), Schicht 2
+(`bergwald_kiefer` – jetzt nur in gletscher/frost + Saum –, `krummholz_baum`, `schluchtwald`, `totbaum_grenze`) und Schicht 5 (`bach_moosstein`,
+`bach_kiesel`, alle Netze ≤ 0,8 m hoch).
+
+**Verschoben** (nichts geht verloren):
+
+| Bisherige Klasse | Ziel | Grund |
+|---|---|---|
+| `alpenrose` (Heide/Preisel-/Blaubeer-Netze) | `mittelschicht_overrides.palette.beere` + `faktor.beere` 2,5 | generisch (beere) |
+| `alpenrose` (SM_rhododendron_01/02) | `mittelschicht_overrides.zusatzklassen.alpenrose` | Zwergstrauch, für gletscher/frost hat Teil D kein `strauch` mehr |
+| `grasbueschel_alpin` | `palette.grasbueschel` (9 Netze) + `faktor` 3,0 | generisch |
+| `totholz_wind`, Anteil Bergwaldstufe | `faktor.totholz_liegend` 3,0 / `totholz_ast` 0,5 (Teil-D-Paletten DryBranches, LargeFallenTree) | generisch |
+| `flechtenblock` (Schicht 1, 0,46–0,91 m × bis 1,3) | `felsgruppen_overrides.zusatzklassen.flechtenblock` | Felsen > 0,8 m nur felsgruppen |
+| `bach_block` (Schicht 5) | `zusatzklassen.bachblock` | Blöcke 0,9–1,5 m |
+| `wasserfall_block` (Schicht 5) | `zusatzklassen.sturzblock` | Hero-Blöcke 1–4 m |
+| `geroellplatte` (Schicht 0) + 3,5-m-Platten aus `schneefleck` | `zusatzklassen.moraene` | Schuttfächer/Moräne sind Sache von felsgruppen |
+| `felsgruppen_overrides.paletten_zusatz.tundra.eis` | `zusatzklassen.eis` | felsgruppen kennt keine Rolle `eis` in Paletten |
+
+### Override-Schema (in `hochgebirge_regeln.json`)
+
+```
+"mittelschicht_overrides": {
+  "gilt_fuer": ["gletscher", "frost"],
+  "palette":  {"beere": [heath_A_01, heath_B_01, lingonberry_01, billberry_03], "grasbueschel": [Tundra_Grass VarA-H, grass_03_A_1, dead_grass_03]},
+  "faktor":   {"strauch": 0, "jungbaum": 0, "farn": 0, "totholz_liegend": 3.0, "totholz_stumpf": 0, "totholz_ast": 0.5, "hochstaude": 0,
+               "grasbueschel": 3.0, "beere": 2.5, "pilz": 0, "wurzel": 0, "kletter": 0, "totbaum": 0, "alpenrose": 1.0},
+  "parameter": {"beere": {"hoehe_max_m": 430, "hang_max": 40, "gruppe": [6, 16], "lagen_faktor": {...}},
+                "grasbueschel": {"hoehe_max_m": 470, "hang_max": 40, "gruppe": [4, 12], "lagen_faktor": {...}}},
+  "zusatzklassen": {"alpenrose": {"biome": [...], "biom_faktor": {"gletscher": 1.0, "frost": 0.8}, "netze": [rhododendron_01/02],
+                                  "dichte": [0.025, 0.012], "gruppe": [6, 16], "hang_max": 40, "hoehe_max_m": 430, "lagen": {...}, ...}},
+  "je_biom": {"frost": {"parameter": {"beere": {"hoehe_max_m": 340}, "grasbueschel": {"hoehe_max_m": 380}, "alpenrose": {"hoehe_max_m": 340}}}},
+  "herkunft": {...}
+}
+"felsgruppen_overrides": {
+  biom_faktor, biom_palette, paletten_zusatz, schneegrenze, lagen, klassen, gruppe, entfernen_zusatz   # wie Runde 0 (ohne Rolle eis)
+  "zusatzklassen": {                                                                                     # Schema Konventionen §6
+    "eis":           {"palette": [EISZAPFEN_4/8/9], "rolle": "eis", "dichte_je_ha": 60, "hang_grad": [55, 89], "hoehe_m": [280, 9999],
+                      "lagen_min": {"Eis": 60}, "eingraben_anteil": [0, 0], "z_versatz_anteil": 0.85, "kollision": false, ...},
+    "flechtenblock": {"rolle": "fels_block", "dichte_je_ha": 120, "hang_grad": [0, 55], "hoehe_m": [170, 9999], "lagen_min": {"Fels": 40}, "kollision": true, ...},
+    "bachblock":     {"rolle": "fels_block", "dichte_je_ha": 500, "wasser_abstand_m": [0, 4], "kollision": true, ...},
+    "sturzblock":    {"rolle": "fels_hero",  "dichte_je_ha": 300, "wasser_abstand_m": [1, 10], "hang_grad": [0, 25], "kollision": true, ...},
+    "moraene":       {"rolle": "fels_platte","dichte_je_ha": 40, "hang_grad": [5, 46], "lagen_min": {"Geroell": 60}, "kruemmung": "konkav", ...}
+  },
+  "herkunft": {...}
+}
+"spuren_overrides": unverändert (Steinmännchen, Holzkreuz, Gräber, Blickziel Gletscherzunge)
+```
+
+Die Faktoren sind aus dem Verhältnis der bisherigen Hochgebirgsdichte zur Teil-D-Dichte (offen) abgeleitet und auf 0–3 begrenzt
+(Grasbüschel 6 → 3, liegendes Totholz 9,6 → 3). `hoehe_max_m` ist in Teil D absolut; die Werte entsprechen Schneegrenze + 60 m (gletscher
+370 m, frost 280 m). Höhenstufen-Bedingungen der Felsklassen (Stufenfaktoren, Lagen-Gewichte) stehen im Doku-Schlüssel `bedingung`,
+`dichte_je_ha` ist die Dichte bei Faktor 1. **Gegenprobe mit den aktuellen Lesern:** `mittelschicht_plan.py` (`lade_overrides` +
+`effektive_regeln`, Feld D2) liest palette, faktor, zusatzklassen, parameter, je_biom ohne Hinweis oder Verwerfung; gletscher: alpenrose 1,0
+(2 Netze, bis 430 m), beere 2,5 (4), grasbueschel 3,0 (9, bis 470 m), totholz_ast 0,5, totholz_liegend 3,0; frost dasselbe mit alpenrose 0,8
+und Höhen 340/380 m. `felsgruppen_plan.py` (`lade_overrides`) liest alle fünf Zusatzklassen („ok“, 14–15 Schlüssel). Ignoriert werden nur
+`eis.z_versatz_anteil` (nicht im §6-Schema) und die Runde-0-Schlüssel `schneegrenze`, `lagen`, `klassen.fuss.faecher_max_m/stufen`,
+`entfernen_zusatz`, `herkunft`. Alle Override-Pfade stehen in `netze.csv` (0 Warnungen).
+
+### Rauchtest Runde 1 (Cloud, synthetisch; Raster danach gelöscht)
+
+Die Raster wurden in voller Größe 7 057 × 9 577 neu erzeugt (memmap, nur die Fenster beschrieben). Ein Fenster C2–E2 enthält: D2-Massiv
+wie in Runde 0 (Grat, Kar mit See, Gletscherbach, Passweg, Hütte, 300 Bestand-Kiefern, 40 Felsschalen), Kacheln gletscher_nord/tundra_hang
+und Kennzahl-0-Streifen (40 m breit, jetzt aue); in E2 ein frost/gletscher-Massiv; in C2 ein Mischfeld fjord_kueste (West) / gletscher (Ost)
+mit gewellter Grenze. Dazu C6 mit Rezept `vulkanregion_asche` 99,7 % und 60 × 60 m `bergwald_fichte`. Umgebung: Python 3.13.16,
+NumPy 2.5.3, Pillow, ohne numba, 4 Kerne, Aufruf `python -I -X utf8`.
+
+| Lauf | Instanzen | Boden / Mittel / Baum / Wasserkante | Kollision | auf eigenen Zellen / im Saum (0–10 / 10–20 / 20–30 / 30–31 m) / jenseits 31 m | Laufzeit |
+|---|---|---|---|---|---|
+| **D2** (Fenster tundra 46 / gletscher 40 / aue 14 %; zuständig 563 611 Zellen, davon Saum 191 279) | **35 187** | 31 422 / 2 940 / 230 / 595 | 296 | 24 564 / 10 623 (5 649 / 3 903 / 1 070 / 1) / **0** | 3,4–4,6 s |
+| **E2** (Feld 100 % eigen; gletscher 70 / frost 25 / tundra 6 % im Fenster) | **43 235** | 31 186 / 9 466 / 2 583 / 0 | **2 998** (Deckel: 3 108 → 2 998) | 43 235 / 0 / **0** | 3,7–4,8 s |
+| **C2 Mischfeld** (kueste 51 / gletscher 43 %, Eigenanteil Feld 48 %; zuständig 529 028, Saum 37 582) | **43 765** | 37 000 / 6 696 / 69 / 0 | 143 | 41 977 / 1 788 (980 / 605 / 203 / 0) / **0** | 3,7–4,6 s |
+| **C6 Vulkan** (lava 99,72 / bergwald 0,28 %) | **0 (leerer `plan.json`)** | – | 0 | – (eine alte f32 im Ordner wurde gelöscht) | 1,1 s |
+| zum Vergleich Runde-0-Fassung, gleiche Raster | D2 44 189, E2 50 248, C2 52 000 | Mittel D2 9 863, C2 21 424 | 1 274 / 3 000 / 1 259 | – (tundra/kueste mit Faktor 0,55/0,4 bebaut) | 4,0–5,4 s |
+| `--faktor 3` (Budgetprobe) | D2 41 014; E2 52 647 → **50 000** | E2: kiesel_schutt 22 000 → 19 353 | E2 5 689 → **2 999** | wie oben | 4,6–4,9 s |
+
+Weitere Prüfungen:
+
+- **Saum unabhängig geprüft** (Brute-Force-Abstand jeder Instanz zur nächsten gletscher/frost-Zellmitte aus `eigner.r8` + `welt.json`): in allen
+  Läufen 0 Instanzen weiter als 31 m (30 m Saum + halbe Zelldiagonale). Der große Saumanteil in D2 kommt von den 40 m breiten
+  Kennzahl-0-Streifen mitten im Gletscher, die vollständig im Saum liegen.
+- **Pflichtschlüssel** `instanzen`, `dateien` (mit `ebene`), `entfernen`, `ft_ordner`, `ft_praefix`, `biome_fenster`, `zellen_zustaendig`,
+  `biome_eigen`, `kollision_anzahl` in allen vier Plänen, auch im leeren; `anzahl` = Zeilen der f32, `kollision_anzahl` = Summe der
+  Kollisionsdateien.
+- **Determinismus:** zwei Läufe D2/E2/C2/C6 → alle 216 f32 byteidentisch, `plan.json` bis auf `stand`/`laufzeit_s` identisch.
+- **ASCII:** 0 Nicht-ASCII-Zeichen in allen Konsolenausgaben (9 Läufe).
+- **Format:** 10 float32 je Instanz, 0 NaN, Quaternionen normiert (Fehler ≤ 6e-8), alle Positionen im Feld; `py_compile` ok.
+- **Fehlerfälle:** Feld X9, Regeldatei fehlt, `hoehe.f32` fehlt, `netze.csv` fehlt → Meldung, Exit 2. Ohne `eigner.r8` → dominantes
+  Feldbiom aus `biome_je_feld.json` mit Hinweis (D2 tundra → leerer Plan, C6 lava → leerer Plan), Exit 0.
+- **Ebenen-Schutz:** Regeldatei mit eingeschmuggelter Klasse `farn` bzw. Runde-0-`flechtenblock` → beide mit WARNUNG übersprungen.
+- **Prüfbild** (D2/C2): Saum als oranger Streifen entlang der Biomgrenze und über den aue-Streifen, kueste-/tundra-Seite abgedunkelt und leer.
+
+### Echtdaten-Referenz und Erwartung
+
+| Feld | Echtlauf 10.10. (Runde 0) | Erwartung jetzt | Begründung |
+|---|---|---|---|
+| A5 (kueste/bergwald/aue) | 0 | leerer `plan.json`, Exit 0 | Eigenanteil 0 % |
+| G4 (elfenwald) | 0 | leerer `plan.json` | Eigenanteil 0 % |
+| E1 (gletscher 100 %, Land 35 %) | **35 132** | **26 000–34 000**, Kollision 200–900 | Feld voll zuständig; es entfallen Alpenrose, Grasbüschel, Flechtenblöcke, Geröllplatten, Bach- und Sturzblöcke (im Synthetik −14 bis −20 %); Boden läuft weiter gegen die Klassenbudgets (Kiesel 22 000, Flechtenstein 9 000) |
+| C6 (lava 99 %) | 0 | leerer `plan.json` | Eigenanteil 0 % |
+| D2, C2 (Mischfelder) | – | D2 15 000–30 000, C2 15 000–32 000 | nur noch gletscher-Anteil 34–46 % + Saum (bisher auch tundra/fjord ab Krummholzstufe) |
+
+Alle Spannen stehen in `erwartung_je_feld` (E2 35 000–50 000, D1 11 000–22 000, C1 10 000–20 000, B2 7 000–14 000, F2 4 000–10 000,
+B1 1 500–5 000, E3 0–5 000). Bitte beim nächsten Echtlauf `biome_fenster`, `zellen_zustaendig` und `statistik.zustaendigkeit` von E1, D2 und
+E3 zurückmelden. E3 (frost 7 %) liegt nahe an der 2-%-Schwelle.
+
+### Offene Punkte nach Runde 1
+
+1. **Eisvorhänge bei felsgruppen:** `zusatzklassen.eis` hängt von der Wand (Pivot oben, `z_versatz_anteil` 0,85). Den Schlüssel gibt es im
+   §6-Schema nicht, und felsgruppen meldet ihn als ignoriert. Bis Teil C ihn unterstützt, stehen die Eisvorhänge am Wandfuß. Entweder
+   Teil C übernimmt den Schlüssel, oder `eis` wandert als Sonderform zurück in Schicht 1.
+2. **Teil D kennt keine Höhenstufen:** `hoehe_max_m` ist absolut. Auf Massiven mit hoher Baumgrenze (Südhang, Schlucht-Bonus) fehlen Alpenrose
+   und Gras über 430/470 m. Umgekehrt kann Teil D Heide und Gras unter Bergwald-Kiefern setzen. Eine saubere Lösung wäre eine exportierte
+   Stufenkarte (z. B. `hochgebirge/<Feld>/stufe.r8`), die Teil D liest. Sie ist nicht umgesetzt.
+3. **Gedeckelte Faktoren:** Grasbüschel (3 statt 6) und liegendes Totholz (3 statt 9,6) sind in der Matte dünner als in Runde 0. Nach dem ersten
+   gemeinsamen Setzen gegen die Zielbilder nachstellen.
+4. Runde-0-Schlüssel in `felsgruppen_overrides` (`schneegrenze`, `lagen`, `klassen.fuss.stufen/faecher_max_m`, `entfernen_zusatz`) liest
+   Teil C nicht. Sie bleiben als Wunsch stehen, und Teil C entscheidet über ihre Übernahme.
+5. Ohne `eigner.r8` gilt nach §1 das dominante Feldbiom. D2 (tundra 47 %) wird dann leer, obwohl dort 34 % gletscher liegen. Das betrifft nur
+   den Fall, dass `eigner.r8` fehlt.
+6. Die früheren offenen Punkte 4 (Nicht-Kernbiome) und 5 (unbekanntes Rezept → Feldbiom) in §7 sind überholt. Punkt 7 gilt nur noch für
+   Latsche und Krüppelkiefer, weil Alpenrose und Gras jetzt bei Teil D liegen.
 
 ## 1. Witcher-Analyse: Kaer Morhen, Blaue Berge, Kovir – was den Berg zwischen Boden und Gipfel füllt
 
@@ -66,6 +229,10 @@ Latsche erhält deshalb den vollen Faktor bis 34° (Steilhang-Besiedler), nicht 
 
 ## 2. Regelwerk (`hochgebirge_regeln.json`) – Erklärung je Schicht
 
+*Stand Runde 0. Seit Korrektur Runde 1 fehlen in diesem Planer alpenrose, grasbueschel_alpin, flechtenblock, geroellplatte, bach_block und
+wasserfall_block (jetzt in den Overrides). Eiszapfen liegen in Schicht 1, Totholz und Wurzelteller erst ab der Krummholzstufe, und Biomfaktoren
+gelten nur für gletscher/frost + Saum. Siehe Abschnitt Korrektur Runde 1.*
+
 Alle Dichten sind Instanzen je m² vor Faktoren; Faktoren: Stufe [bergwald, krummholz, matte, fels_schnee], Biom (gletscher/frost 1,0; tundra
 0,55; fjord 0,4; bergwald 0,3; alle anderen 0), Lagen (1 + Σ Deckung·(w−1)), Hang (voll bis a°, null ab b°), Exposition (Nord→Süd linear).
 Gruppen: Saat-Wahrscheinlichkeit = Dichte / mittlere Gruppengröße, dann n Mitglieder im Radius; jedes Mitglied muss selbst eine gültige
@@ -124,6 +291,9 @@ deterministisch. Zufall: 64-bit-Hash aus (Seed 4411 + Klassenindex, Weltraster i
 
 ## 3. Overrides für die Querschnitts-Planer (nicht von diesem Skript angewendet)
 
+*Stand Runde 0. Neu seit Runde 1: `mittelschicht_overrides` und `felsgruppen_overrides.zusatzklassen` (eis, flechtenblock, bachblock,
+sturzblock, moraene); die Rolle `eis` in `paletten_zusatz` ist entfallen. Siehe Abschnitt Korrektur Runde 1.*
+
 **Felsgruppen (Teil C, `felsgruppen_overrides`).** Biomfaktor gletscher 1,3 / frost 1,1 mit Palette `tundra` plus Zusatz-Hero
 (MassiveTundraRockFormation_02, NordicBoulder_01, IcelandicBoulder_03), Blöcke (IcelandicBoulder_01, skjsL, pkeeM, pjEr1), Platten
 (TundraRockyGround_01, texndcpda) und Rolle `eis` (SM_EISZAPFEN_4/8/9 für Grat-Nordwände). **Schneegrenze:** oberhalb (Höhenregel oder
@@ -141,6 +311,9 @@ Regel hinterlegt und stehen in der Einkaufsliste; Zwischenlösung Holzkreuz ×2,
 **Gletscherzunge:** größte zusammenhängende `lage_Eis`-Fläche ≥ 2 000 m² mit Hang 8–25°; ihr tiefster Punkt ist Zungenende und Bachquelle.
 
 ## 4. Abgrenzung zu `FT_EL_WIT_*`, `FT_EL_BST_*`, `FT_EL_FS_*`
+
+*Seit Runde 1 bebaut der Planer tundra/fjord/bergwald nicht mehr (nur gletscher/frost + 30-m-Saum). Die Zeilen zu Nicht-Kernbiomen
+unten sind damit überholt.*
 
 | Ebene | Verhältnis | `entfernen` |
 |---|---|---|

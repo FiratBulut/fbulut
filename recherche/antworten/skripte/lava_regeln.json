@@ -1,16 +1,23 @@
 {
   "_doku": {
-    "stand": "2026-10-10",
+    "stand": "2026-10-10 Korrektur Runde 1",
     "thema": "lava",
-    "zweck": "Regeln für lava_plan.py (Auftrag 11, Teil B, Biomgruppe 8 Lava). Felder C6 C7 C5 D6 B6 D7 B7. Alle Zahlen Richtwerte, UNGETESTET MIT ECHTDATEN; Netzpfade gegen daten/netze.csv (1435 Netze) geprüft.",
+    "zweck": "Regeln fuer lava_plan.py (Auftrag 11, Teil B, Biomgruppe 8 Lava), Stand Korrektur Runde 1 nach verteilung-KONVENTIONEN.md. Felder mit Lava: C6 C7 C5 D6 B6 D7 B7. Der Planer bebaut nur Zellen mit Biom lava (eigner.r8 + welt.json, Kennzahl 0 = aue, Vulkanregion = lava) plus 30-m-Saum (Dichte linear auf 0); Eigenanteil im Fenster < 2 % -> leerer plan.json. Alle Zahlen Richtwerte, UNGETESTET MIT ECHTDATEN; Netzpfade gegen daten/netze.csv geprueft.",
     "einheiten": "Längen m, Winkel Grad, Dichten Instanzen je m² (Einzelinstanzen, nicht Gruppen), Sichtweite cm, Maßstab Faktor, Eingraben Anteil der Netzhöhe (Felsen/Steine) oder cm (Pflanzen).",
-    "schichten": "0 boden (schlacke, kiesel, asche), 1 mittel (moos, flechte, pionier, kiefer_strauch, verkohlt_*, gras), 2 baum (nur rand/uebergang), 5 wasserkante (ufer_block, schwarzkies, saeule). 3 fels und 4 spuren kommen aus felsgruppen_plan.py / spuren_plan.py mit den Overrides unten.",
-    "zonen": "alter 0..1 je Zelle aus lage Moos/Gras, Abstand zum Biomrand und 300-m-Wertrauschen: frisch (< frisch_bis) schwarz-kahl, alt (bis alt_bis) Moos/Flechten, rand (darüber) Pioniervegetation/Totbäume; uebergang = außerhalb der Lava-Maske bis uebergang_aussen_m (Aschestaub in Aue/Bergwald).",
-    "quellen": "Vilmundardóttir et al. 2018 (Hekla: Racomitrium/Stereocaulon < 70 a, Moosdominanz 170–700 a, Gefäßpflanzen > 600 a); Suo 74 (2023) Moosdecke 13,7 cm, max. 30–40 cm nach 300–700 a, Vollbedeckung in 24 a; Etna-Sukzession (Stereocaulon ab ~6–10 a, Genista auf Strömen > 100 a); Teide/Arafo (Flechten → Retama-Ginster); NPS Hawaii (Farne/ʻŌhiʻa in Rissen nach wenigen Jahren, Tumuli < 10 m, Aa-Klinker dm–m); vorlagen/FORMAT.md; antworten/bildkritik-witcher-messlatte.md; antworten/assets-taxonomie.md."
+    "schichten": "0 boden (schlacke, kiesel, asche = Brandstreu), 1 mittel nur Lava-Sonderformen (moos = Moospolster, flechtenstein = Wulstlava, kiefer_strauch = Kruppelkiefer-Krummholz), 2 baum (baum_tot, baum_kiefer, verkohlt_schnag), 5 wasserkante (schwarzkies, saeule = Basaltsaeulen-Ersatz). Generische Mittelschicht (grasbueschel, beere, totholz_*) -> mittelschicht_overrides; Felsen > 0,8 m (Spires, Uferbloecke) -> felsgruppen_overrides.zusatzklassen; Spuren (Schwefelgrube, Opferstaette, Ruine) -> spuren_overrides.",
+    "zonen": "alter 0..1 je Zelle aus lage Moos/Gras, Abstand zum Biomrand und 300-m-Wertrauschen: frisch (< frisch_bis) schwarz-kahl, alt (bis alt_bis) Moos/Flechten, rand (darueber) Krummholz/Totbaeume; uebergang = 30-m-Saum ausserhalb der Lava-Maske (zustaendigkeit.saum_m).",
+    "quellen": "Vilmundardóttir et al. 2018 (Hekla: Racomitrium/Stereocaulon < 70 a, Moosdominanz 170–700 a, Gefäßpflanzen > 600 a); Suo 74 (2023) Moosdecke 13,7 cm, max. 30–40 cm nach 300–700 a, Vollbedeckung in 24 a; Etna-Sukzession (Stereocaulon ab ~6–10 a, Genista auf Strömen > 100 a); Teide/Arafo (Flechten → Retama-Ginster); NPS Hawaii (Farne/ʻŌhiʻa in Rissen nach wenigen Jahren, Tumuli < 10 m, Aa-Klinker dm–m); vorlagen/FORMAT.md; antworten/bildkritik-witcher-messlatte.md; antworten/assets-taxonomie.md.",
+    "korrektur_runde1": "Entfernt aus dem Planer: pionier (-> mittelschicht beere), gras (-> grasbueschel), verkohlt_liegend (-> totholz_liegend), verkohlt_stumpf (-> totholz_stumpf), ufer_block (-> felsgruppen_overrides.zusatzklassen.lava_uferblock); schlacke ohne lava_s_rock_03/04 (> 0,8 m); verkohlt_schnag in Schicht 2 mit Kollision; kiefer_strauch Rolle krummholz; biom-Block (Lage-Erkennung fuer Kennzahl 0, uebergang 100 m) ersetzt durch zustaendigkeit. Werte der entfernten Klassen: _korrektur_runde1_alt_klassen."
   },
   "seed": 806,
   "rand_m": 64,
-  "raster": {"nx": 9577, "ny": 7057, "feld_m": 1008, "x0_m": 4730.5, "y0_m": 4060.5},
+  "raster": {
+    "nx": 9577,
+    "ny": 7057,
+    "feld_m": 1008,
+    "x0_m": 4730.5,
+    "y0_m": 4060.5
+  },
   "ausgabe": {
     "ordner": "export/unreal/welt/lava",
     "bild": "docs/pruefung/lava",
@@ -20,28 +27,48 @@
     "entfernen": "FT_EL_WIT_lava_s_rock_06,FT_EL_WIT_lava_s_rock_07,FT_EL_WIT_lava_s_rock_08",
     "entfernen_hinweis": "Nur die drei kleinen Lava-Steine der Witcher-Ebene (0,5–0,8 m, gleichmäßig gestreut) werden durch die geclusterte Schlacke-Schicht ersetzt. FT_EL_WIT_lava_s_rock_01–05 und lava_m_rock_01/04 bleiben, bis Teil C (felsgruppen, Palette lava) abgenommen ist; FT_EL_FS_lava_wall_* (Felsschalen) bleiben. FT_EL_WELT_* (Houdini-Moos/Gras) bleibt; Doppelungen mit moos/gras werden über belegt-Abstand vermieden."
   },
-  "lagen": ["Lavafels", "Lavasand", "Moos", "Gras", "Wiese", "Trockengras", "Sand", "Nadeln", "Erde", "Geroell"],
-  "biom": {
-    "lava_biome": ["lava"],
-    "feld_fallback": {"C6": "lava", "C7": "lava", "C5": "aue", "D6": "oedland", "B6": "bergwald", "D7": "aue", "B7": "aue"},
-    "lage_erkennung": {"hinweis": "Wenn eigner.r8/welt.json fehlen oder Kennzahl 0 (Weltgelände): Zelle gilt als Lava, wenn Lavafels+Lavasand ≥ schwelle (0–255).", "schwelle": 96},
-    "maske_glaettung_m": 6,
-    "eigner0_ist_lava_wenn_lage": true
+  "lagen": [
+    "Lavafels",
+    "Lavasand",
+    "Moos",
+    "Gras",
+    "Wiese",
+    "Trockengras",
+    "Sand",
+    "Nadeln",
+    "Erde",
+    "Geroell"
+  ],
+  "zustaendigkeit": {
+    "biome_eigen": [
+      "lava"
+    ],
+    "saum_m": 30.0,
+    "min_anteil_fenster": 0.02,
+    "hinweis": "KONVENTIONEN Par. 1: Biom je Zelle aus eigner.r8 + welt.json[kacheln][k][rezept]; Kennzahl 0 und unbekannte Rezepte = aue, Rezept mit vulkan/lava = lava. Nur wenn eigner.r8/welt.json fehlen: dominantes Feldbiom aus daten/biome_je_feld.json. Bebaut: lava-Zellen (Faktor 1) und Saum bis saum_m ausserhalb (Faktor linear 1 -> 0). Eigenanteil im Fenster < min_anteil_fenster -> leerer plan.json. Die fruehere Lage-Erkennung (Lavafels+Lavasand >= 96 bei Kennzahl 0) und der 100-m-Uebergang entfallen."
   },
   "zonen": {
     "rand_innen_m": 120,
-    "uebergang_aussen_m": 100,
-    "alter_gewichte": {"moos": 0.5, "gras": 0.2, "randnaehe": 0.3, "rauschen": 0.2, "lavafels_abzug": 0.2},
+    "alter_gewichte": {
+      "moos": 0.5,
+      "gras": 0.2,
+      "randnaehe": 0.3,
+      "rauschen": 0.2,
+      "lavafels_abzug": 0.2
+    },
     "rauschen_gitter_m": 300,
     "frisch_bis": 0.28,
     "alt_bis": 0.52,
-    "hinweis": "alter = 0.5·Moos + 0.2·Gras + 0.3·(1 − d_rand/120) + 0.2·(Rauschen − 0.5) − 0.2·Lavafels·(1 − Moos), geklemmt 0..1. Island: junge Ströme (< 70 a) kahl, 170–700 a Moosdecke, Rand (> 600 a) Gefäßpflanzen."
+    "hinweis": "alter = 0.5·Moos + 0.2·Gras + 0.3·(1 − d_rand/120) + 0.2·(Rauschen − 0.5) − 0.2·Lavafels·(1 − Moos), geklemmt 0..1. Island: junge Ströme (< 70 a) kahl, 170–700 a Moosdecke, Rand (> 600 a) Gefäßpflanzen. Uebergang = 30-m-Saum (zustaendigkeit.saum_m), nicht mehr 100 m."
   },
   "kegel": {
     "glaettung_m": 120,
     "prominenz_min_m": 8,
     "gipfel_fenster_m": 60,
-    "flanke_hang_grad": [24, 36],
+    "flanke_hang_grad": [
+      24,
+      36
+    ],
     "flanke_faktor_schlacke": 2.2,
     "flanke_faktor_pflanzen": 0.3,
     "hinweis": "Schlackenkegel: Gipfel = lokales Maximum (60-m-Fenster) mit Prominenz ≥ 8 m gegen 120-m-Mittel (Kraterrand eines 36°-Kegels erreicht nur ~11 m gegen 80-m-Mittel); Flanken 24–36° (Schüttwinkel loser Schlacke 30–35°) tragen 2,2× Schlacke und 0,3× Pflanzen."
@@ -61,315 +88,1887 @@
   },
   "pivot": {
     "hinweis": "z = Boden − min_z·s − eingraben·H·s (Felsen/Steine) bzw. z = Boden − eingraben_cm (Pflanzen). min_z aus daten/netze_masse.json; fehlt es, 0 (Pivot unten) oder −H/2 für Netze in netz_pivot_mitte.",
-    "netz_pivot_mitte": ["SM_lava_b_rock_01", "SM_lava_b_rock_02", "SM_lava_b_rock_03", "SM_lava_b_rock_04", "SM_lava_m_rock_01", "SM_lava_m_rock_02", "SM_lava_m_rock_03", "SM_lava_m_rock_04", "SM_lava_m_rock_05", "SM_lava_m_rock_06", "SM_lava_m_rock_07", "SM_lava_m_rock_08", "SM_lava_s_rock_01", "SM_lava_s_rock_02", "SM_lava_s_rock_03", "SM_lava_s_rock_04", "SM_lava_s_rock_05", "SM_lava_s_rock_06", "SM_lava_s_rock_07", "SM_lava_s_rock_08"]
+    "netz_pivot_mitte": [
+      "SM_lava_b_rock_01",
+      "SM_lava_b_rock_02",
+      "SM_lava_b_rock_03",
+      "SM_lava_b_rock_04",
+      "SM_lava_m_rock_01",
+      "SM_lava_m_rock_02",
+      "SM_lava_m_rock_03",
+      "SM_lava_m_rock_04",
+      "SM_lava_m_rock_05",
+      "SM_lava_m_rock_06",
+      "SM_lava_m_rock_07",
+      "SM_lava_m_rock_08",
+      "SM_lava_s_rock_01",
+      "SM_lava_s_rock_02",
+      "SM_lava_s_rock_03",
+      "SM_lava_s_rock_04",
+      "SM_lava_s_rock_05",
+      "SM_lava_s_rock_06",
+      "SM_lava_s_rock_07",
+      "SM_lava_s_rock_08"
+    ]
   },
   "budget": {
     "gesamt": 60000,
     "ziel": 52000,
     "kollision": 3000,
     "akteure": 60,
-    "prioritaet_behalten": ["saeule", "baum_tot", "baum_kiefer", "ufer_block", "verkohlt_liegend", "verkohlt_schnag", "verkohlt_stumpf", "kiefer_strauch", "flechtenstein", "pionier", "moos", "gras", "schlacke", "asche", "schwarzkies", "kiesel"],
-    "hinweis": "Bei Überschreitung werden zuerst kiesel, schwarzkies, asche, schlacke ausgedünnt (deterministisch je Instanz-Hash); Akteure/Bäume zuletzt."
+    "max_anteil_je_klasse": 0.6,
+    "prioritaet_behalten": [
+      "saeule",
+      "baum_tot",
+      "baum_kiefer",
+      "verkohlt_schnag",
+      "kiefer_strauch",
+      "flechtenstein",
+      "moos",
+      "schlacke",
+      "asche",
+      "schwarzkies",
+      "kiesel"
+    ],
+    "kleinzeug_an_landschaftsgras": [
+      "kiesel",
+      "schwarzkies",
+      "asche"
+    ],
+    "hinweis": "KONVENTIONEN Par. 3 hart: <= 60 000 Instanzen je Feld (Ziel 52 000), <= 3 000 mit Kollision (Kollision je Netz wie im plan.json). Erst Klassen-max und Akteure, dann Kollision (nur kollidierende Instanzen, unwichtigste Klasse zuerst), dann Ziel (je Klasse hoechstens 60 % weg, Reihenfolge prioritaet_behalten von hinten), zuletzt harte Kappung auf 60 000. Exakt nach Instanz-Hash, jede Ausduennung als WARNUNG in Log und hinweise."
   },
   "klassen": {
     "schlacke": {
-      "schicht": "0 boden", "rolle": "stein", "gruppe": "schlacke", "farbe": [90, 90, 90],
-      "netze": ["/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_08", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_03", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_04"],
-      "netz_gewichte": [3, 3, 3, 1, 1],
-      "dichte_je_m2": {"Lavafels": 0.012, "Lavasand": 0.010, "Geroell": 0.012, "Moos": 0.003, "Gras": 0.001, "sonst": 0.002},
-      "zone_faktor": {"frisch": 1.4, "alt": 1.0, "rand": 0.5, "uebergang": 0.25},
-      "gruppe_n": [3, 8], "gruppe_radius_m": 2.2,
-      "massstab": [0.45, 0.85], "nicht_uniform": 0.15,
-      "eingraben": [0.3, 0.5], "kippen": 1.0, "yaw": "zufall",
-      "hang_grad": [0, 62], "hang_bonus": {"ab_grad": 24, "bis_grad": 40, "faktor": 1.8},
-      "sichtweite": [0, 15000], "kollision": false, "schatten": true,
+      "schicht": "0 boden",
+      "rolle": "stein",
+      "gruppe": "schlacke",
+      "farbe": [
+        90,
+        90,
+        90
+      ],
+      "netze": [
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_08"
+      ],
+      "netz_gewichte": [
+        3,
+        3,
+        3
+      ],
+      "dichte_je_m2": {
+        "Lavafels": 0.012,
+        "Lavasand": 0.01,
+        "Geroell": 0.012,
+        "Moos": 0.003,
+        "Gras": 0.001,
+        "sonst": 0.002
+      },
+      "zone_faktor": {
+        "frisch": 1.4,
+        "alt": 1.0,
+        "rand": 0.5,
+        "uebergang": 0.25
+      },
+      "gruppe_n": [
+        3,
+        8
+      ],
+      "gruppe_radius_m": 2.2,
+      "massstab": [
+        0.5,
+        1.3
+      ],
+      "nicht_uniform": 0.15,
+      "eingraben": [
+        0.3,
+        0.5
+      ],
+      "kippen": 1.0,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        62
+      ],
+      "hang_bonus": {
+        "ab_grad": 24,
+        "bis_grad": 40,
+        "faktor": 1.8
+      },
+      "sichtweite": [
+        0,
+        15000
+      ],
+      "kollision": false,
+      "schatten": true,
       "max": 9000,
-      "hinweis": "Aa-Klinker/Schlackenbrocken 0,25–0,8 m: Lava-Steine 06–08 (0,5–0,8 m) auf 0,45–0,85 skaliert, dazu s_rock_03/04 (1,1 m) klein skaliert. Auf Kegelflanken 1,8–2,2×."
+      "hinweis": "Aa-Klinker/Schlackenbrocken 0,25-0,78 m: Lava-Steine 06-08 (0,48-0,6 m) 0,5-1,3x. Auf Kegelflanken 2,2x, auf erkalteten Stromkanten (Hang 24-40 Grad) 1,8x. Korrektur Runde 1: lava_s_rock_03/04 (1,1-1,2 m) entfernt, Bloecke > 0,8 m setzt felsgruppen_plan.py (Palette lava)."
     },
     "kiesel": {
-      "schicht": "0 boden", "rolle": "kiesel", "gruppe": "lavakiesel", "farbe": [150, 150, 150],
-      "netze": ["/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07"],
-      "netz_gewichte": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      "dichte_je_m2": {"Lavasand": 0.045, "Lavafels": 0.028, "Geroell": 0.04, "Sand": 0.015, "Moos": 0.006, "Gras": 0.004, "sonst": 0.008},
-      "zone_faktor": {"frisch": 1.2, "alt": 0.9, "rand": 0.6, "uebergang": 0.5},
-      "gruppe_n": [6, 18], "gruppe_radius_m": 1.6,
-      "massstab": [1.2, 2.6], "nicht_uniform": 0.25,
-      "eingraben": [0.3, 0.5], "kippen": 1.0, "yaw": "zufall",
-      "hang_grad": [0, 50],
-      "sichtweite": [0, 6000], "kollision": false, "schatten": false,
+      "schicht": "0 boden",
+      "rolle": "kiesel",
+      "gruppe": "lavakiesel",
+      "farbe": [
+        150,
+        150,
+        150
+      ],
+      "netze": [
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+        "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+        "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+        "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07"
+      ],
+      "netz_gewichte": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Lavasand": 0.045,
+        "Lavafels": 0.028,
+        "Geroell": 0.04,
+        "Sand": 0.015,
+        "Moos": 0.006,
+        "Gras": 0.004,
+        "sonst": 0.008
+      },
+      "zone_faktor": {
+        "frisch": 1.2,
+        "alt": 0.9,
+        "rand": 0.6,
+        "uebergang": 0.5
+      },
+      "gruppe_n": [
+        6,
+        18
+      ],
+      "gruppe_radius_m": 1.6,
+      "massstab": [
+        1.2,
+        2.6
+      ],
+      "nicht_uniform": 0.25,
+      "eingraben": [
+        0.3,
+        0.5
+      ],
+      "kippen": 1.0,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        50
+      ],
+      "sichtweite": [
+        0,
+        6000
+      ],
+      "kollision": false,
+      "schatten": false,
       "max": 22000,
       "hinweis": "Lavakiesel-ERSATZ: graue Megascans-Kleinsteine (0,1–0,2 m) 1,2–2,6× skaliert → 0,15–0,45 m. Setzer: Material-Instanz dunkel (Albedo ×0,35, Rauheit 0,9) anlegen, sonst grau auf schwarz. Echte Lavakiesel: Einkaufsliste. Feinkies < 10 cm gehört ins Landschafts-Gras (GT_), nicht in diese Ebene."
     },
     "asche": {
-      "schicht": "0 boden", "rolle": "ast", "gruppe": "asche_zweig", "farbe": [60, 40, 30],
-      "netze": ["/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01", "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04", "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05", "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07", "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_01_NN", "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_02_NN"],
-      "netz_gewichte": [2, 2, 2, 2, 1, 1],
-      "dichte_je_m2": {"Lavasand": 0.004, "Lavafels": 0.001, "Moos": 0.003, "Gras": 0.004, "Nadeln": 0.006, "Sand": 0.003, "sonst": 0.003},
-      "zone_faktor": {"frisch": 0.0, "alt": 0.6, "rand": 1.2, "uebergang": 1.5},
-      "gruppe_n": [1, 4], "gruppe_radius_m": 2.5,
-      "massstab": [0.9, 1.5], "nicht_uniform": 0.1,
-      "eingraben_cm": 3, "kippen": 1.0, "yaw": "zufall",
-      "hang_grad": [0, 40],
-      "sichtweite": [0, 9000], "kollision": false, "schatten": false,
+      "schicht": "0 boden",
+      "rolle": "ast",
+      "gruppe": "asche_zweig",
+      "farbe": [
+        60,
+        40,
+        30
+      ],
+      "netze": [
+        "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+        "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+        "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+        "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+        "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_01_NN",
+        "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_02_NN"
+      ],
+      "netz_gewichte": [
+        2,
+        2,
+        2,
+        2,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Lavasand": 0.004,
+        "Lavafels": 0.001,
+        "Moos": 0.003,
+        "Gras": 0.004,
+        "Nadeln": 0.006,
+        "Sand": 0.003,
+        "sonst": 0.003
+      },
+      "zone_faktor": {
+        "frisch": 0.0,
+        "alt": 0.6,
+        "rand": 1.2,
+        "uebergang": 1.5
+      },
+      "gruppe_n": [
+        1,
+        4
+      ],
+      "gruppe_radius_m": 2.5,
+      "massstab": [
+        0.9,
+        1.5
+      ],
+      "nicht_uniform": 0.1,
+      "eingraben_cm": 3,
+      "kippen": 1.0,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        40
+      ],
+      "sichtweite": [
+        0,
+        9000
+      ],
+      "kollision": false,
+      "schatten": false,
       "max": 2500,
-      "hinweis": "Verkohlte Zweige/Asche-Kleinzeug am Rand und im Übergang. Setzer: dieselbe schwarze Material-Instanz wie verkohlt_*."
+      "hinweis": "Brandstreu (Lava-Sonderform Schicht 0, Asche-Bodendecker): verkohlte Zweige 0,36-0,53 m auf Lavasand am Rand und im 30-m-Saum; Setzer: schwarze Material-Instanz wie verkohlt_*. Gleiche Netze wie mittelschicht totholz_ast lava -> dort Faktor 0 (mittelschicht_overrides), keine Doppelung."
     },
     "moos": {
-      "schicht": "1 mittel", "rolle": "bodendecker", "gruppe": "moospolster", "farbe": [150, 190, 60],
-      "netze": ["/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01", "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03", "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05", "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossPlane", "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01", "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02"],
-      "netz_gewichte": [3, 3, 3, 2, 1, 1],
-      "dichte_je_m2": {"Moos": 0.05, "Lavafels": 0.012, "Gras": 0.01, "Lavasand": 0.003, "sonst": 0.004},
-      "zone_faktor": {"frisch": 0.08, "alt": 1.0, "rand": 1.1, "uebergang": 0.4},
-      "gruppe_n": [5, 14], "gruppe_radius_m": 2.0,
-      "massstab": [2.0, 4.0], "nicht_uniform": 0.3,
-      "eingraben_cm": 4, "kippen": 1.0, "yaw": "zufall",
-      "hang_grad": [0, 40], "an_stein_bonus": 1.6,
-      "sichtweite": [0, 12000], "kollision": false, "schatten": false,
+      "schicht": "1 mittel",
+      "rolle": "bodendecker",
+      "gruppe": "moospolster",
+      "farbe": [
+        150,
+        190,
+        60
+      ],
+      "netze": [
+        "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+        "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+        "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+        "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossPlane",
+        "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+        "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02"
+      ],
+      "netz_gewichte": [
+        3,
+        3,
+        3,
+        2,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Moos": 0.05,
+        "Lavafels": 0.012,
+        "Gras": 0.01,
+        "Lavasand": 0.003,
+        "sonst": 0.004
+      },
+      "zone_faktor": {
+        "frisch": 0.08,
+        "alt": 1.0,
+        "rand": 1.1,
+        "uebergang": 0.4
+      },
+      "gruppe_n": [
+        5,
+        14
+      ],
+      "gruppe_radius_m": 2.0,
+      "massstab": [
+        2.0,
+        4.0
+      ],
+      "nicht_uniform": 0.3,
+      "eingraben_cm": 4,
+      "kippen": 1.0,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        40
+      ],
+      "an_stein_bonus": 1.6,
+      "sichtweite": [
+        0,
+        12000
+      ],
+      "kollision": false,
+      "schatten": false,
       "max": 8000,
       "hinweis": "Racomitrium-Polster 0,3–0,7 m: MossClump (0,1–0,18 m) 2–4× skaliert, MossPlane 1 m als Decke. Am Fuß von Schlacke/Blöcken 1,6× (Moos wächst in Rissen und Windschatten). Setzer: Farbe Richtung Gelbgrün (Island) per Material-Instanz, nicht Waldgrün."
     },
     "flechtenstein": {
-      "schicht": "1 mittel", "rolle": "stein", "gruppe": "flechtenstein", "farbe": [120, 160, 120],
-      "netze": ["/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01", "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01", "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02", "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01", "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03", "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0"],
-      "netz_gewichte": [3, 2, 2, 2, 2, 2],
-      "dichte_je_m2": {"Moos": 0.006, "Lavafels": 0.004, "Gras": 0.002, "Lavasand": 0.0005, "sonst": 0.001},
-      "zone_faktor": {"frisch": 0.1, "alt": 1.0, "rand": 0.8, "uebergang": 0.3},
-      "gruppe_n": [1, 4], "gruppe_radius_m": 2.5,
-      "massstab": [0.7, 1.2], "nicht_uniform": 0.15,
-      "eingraben": [0.35, 0.55], "kippen": 1.0, "yaw": "zufall",
-      "hang_grad": [0, 50],
-      "sichtweite": [0, 20000], "kollision": false, "schatten": true,
+      "schicht": "1 mittel",
+      "rolle": "stein",
+      "gruppe": "flechtenstein",
+      "farbe": [
+        120,
+        160,
+        120
+      ],
+      "netze": [
+        "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+        "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+        "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+        "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
+        "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03",
+        "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0"
+      ],
+      "netz_gewichte": [
+        3,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "dichte_je_m2": {
+        "Moos": 0.006,
+        "Lavafels": 0.004,
+        "Gras": 0.002,
+        "Lavasand": 0.0005,
+        "sonst": 0.001
+      },
+      "zone_faktor": {
+        "frisch": 0.1,
+        "alt": 1.0,
+        "rand": 0.8,
+        "uebergang": 0.3
+      },
+      "gruppe_n": [
+        1,
+        4
+      ],
+      "gruppe_radius_m": 2.5,
+      "massstab": [
+        0.7,
+        1.2
+      ],
+      "nicht_uniform": 0.15,
+      "eingraben": [
+        0.35,
+        0.55
+      ],
+      "kippen": 1.0,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        50
+      ],
+      "sichtweite": [
+        0,
+        20000
+      ],
+      "kollision": false,
+      "schatten": true,
       "max": 2500,
       "hinweis": "Flechten-/Moosplatten als Wulstlava-Ersatz (alte Zone): MossyRocks (flach 0,35 m) tief eingegraben 35–55 %, so dass nur die bemooste Oberseite als Pahoehoe-Wulst steht. Island-Basalt texndcpda hat Kollision (1 Primitiv), bleibt < 0,8 m → kollision false."
     },
-    "pionier": {
-      "schicht": "1 mittel", "rolle": "strauch", "gruppe": "pionierstrauch", "farbe": [200, 170, 60],
-      "netze": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01", "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07"],
-      "netz_gewichte": [3, 3, 2, 2, 1, 1],
-      "dichte_je_m2": {"Moos": 0.006, "Gras": 0.008, "Wiese": 0.004, "Lavasand": 0.003, "Lavafels": 0.001, "Trockengras": 0.006, "sonst": 0.002},
-      "zone_faktor": {"frisch": 0.0, "alt": 0.5, "rand": 1.2, "uebergang": 0.9},
-      "gruppe_n": [3, 8], "gruppe_radius_m": 2.4,
-      "massstab": [1.1, 1.8], "nicht_uniform": 0.2,
-      "eingraben_cm": 3, "kippen": 0.5, "yaw": "zufall",
-      "hang_grad": [0, 38],
-      "sichtweite": [0, 15000], "kollision": false, "schatten": true,
-      "max": 2500,
-      "hinweis": "Ginster-/Retama-ERSATZ: Heide (0,2–0,4 m) 1,1–1,8× skaliert, trockene Heidelbeere, Strandrose 0,5 m als Zwergstrauch. Echter Ginster 1–2 m: Einkaufsliste (Farbakzent Gelb). Keine Heide in frischer Zone."
-    },
     "kiefer_strauch": {
-      "schicht": "1 mittel", "rolle": "strauch", "gruppe": "krueppelkiefer", "farbe": [30, 110, 50],
-      "netze": ["/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_01", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_02", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_01"],
-      "netz_gewichte": [2, 2, 1, 2, 2, 1],
-      "dichte_je_m2": {"Gras": 0.0012, "Wiese": 0.0008, "Nadeln": 0.0015, "Moos": 0.0008, "Lavasand": 0.0004, "Lavafels": 0.0003, "Trockengras": 0.0008, "sonst": 0.0004},
-      "zone_faktor": {"frisch": 0.0, "alt": 0.25, "rand": 1.0, "uebergang": 1.3},
-      "gruppe_n": [1, 3], "gruppe_radius_m": 3.0,
-      "massstab": [0.7, 1.15], "nicht_uniform": 0.15,
-      "eingraben_cm": 6, "kippen": 0.35, "yaw": "zufall",
-      "hang_grad": [0, 36],
-      "sichtweite": [0, 30000], "kollision": false, "schatten": true,
+      "schicht": "1 mittel",
+      "rolle": "krummholz",
+      "gruppe": "krueppelkiefer",
+      "farbe": [
+        30,
+        110,
+        50
+      ],
+      "netze": [
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_01",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_02",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_01"
+      ],
+      "netz_gewichte": [
+        2,
+        2,
+        1,
+        2,
+        2,
+        1
+      ],
+      "dichte_je_m2": {
+        "Gras": 0.0012,
+        "Wiese": 0.0008,
+        "Nadeln": 0.0015,
+        "Moos": 0.0008,
+        "Lavasand": 0.0004,
+        "Lavafels": 0.0003,
+        "Trockengras": 0.0008,
+        "sonst": 0.0004
+      },
+      "zone_faktor": {
+        "frisch": 0.0,
+        "alt": 0.25,
+        "rand": 1.0,
+        "uebergang": 1.3
+      },
+      "gruppe_n": [
+        1,
+        3
+      ],
+      "gruppe_radius_m": 3.0,
+      "massstab": [
+        0.7,
+        1.15
+      ],
+      "nicht_uniform": 0.15,
+      "eingraben_cm": 6,
+      "kippen": 0.35,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        36
+      ],
+      "sichtweite": [
+        0,
+        30000
+      ],
+      "kollision": false,
+      "schatten": true,
       "max": 500,
-      "hinweis": "Krüppelkiefern 0,8–2 m als Einzelgänger/Zweiergruppen am Rand; nicht Nanite (Coast_Dunes/Mountain) → Sichtweite 300 m."
-    },
-    "verkohlt_liegend": {
-      "schicht": "1 mittel", "rolle": "totholz", "gruppe": "verkohlt_stamm", "farbe": [40, 25, 20],
-      "netze": ["/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01", "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02", "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log", "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log", "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log"],
-      "netz_gewichte": [2, 2, 1, 1, 1],
-      "dichte_je_m2": {"Nadeln": 0.0006, "Gras": 0.0004, "Lavasand": 0.0004, "Moos": 0.0003, "Lavafels": 0.0001, "sonst": 0.0002},
-      "zone_faktor": {"frisch": 0.15, "alt": 0.6, "rand": 1.0, "uebergang": 1.4},
-      "gruppe_n": [1, 2], "gruppe_radius_m": 4.0,
-      "massstab": [0.9, 1.3], "nicht_uniform": 0.1,
-      "eingraben": [0.2, 0.35], "kippen": 1.0, "yaw": "hang",
-      "hang_grad": [0, 35],
-      "sichtweite": [0, 45000], "kollision": true, "schatten": true,
-      "max": 450,
-      "hinweis": "Verkohlte liegende Stämme: Setzer-Hinweis Material-Instanz schwarz/verkohlt (Albedo ×0,2, Rauheit 0,95, leichte Rissnormalen). Ausrichtung quer-hangab (yaw = Hangrichtung ± 35°). Kollision, da Stamm > 0,8 m."
-    },
-    "verkohlt_stumpf": {
-      "schicht": "1 mittel", "rolle": "stumpf", "gruppe": "verkohlt_stumpf", "farbe": [70, 45, 30],
-      "netze": ["/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01", "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02", "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03"],
-      "netz_gewichte": [2, 2, 1, 1, 1],
-      "dichte_je_m2": {"Nadeln": 0.0006, "Gras": 0.0004, "Lavasand": 0.0004, "Moos": 0.0002, "Lavafels": 0.0001, "sonst": 0.0002},
-      "zone_faktor": {"frisch": 0.2, "alt": 0.6, "rand": 1.0, "uebergang": 1.3},
-      "gruppe_n": [1, 3], "gruppe_radius_m": 5.0,
-      "massstab": [0.9, 1.4], "nicht_uniform": 0.1,
-      "eingraben_cm": 8, "kippen": 0.8, "yaw": "zufall",
-      "hang_grad": [0, 35],
-      "sichtweite": [0, 25000], "kollision": false, "schatten": true,
-      "max": 400,
-      "hinweis": "Stümpfe eines verbrannten Waldes (Lavastrom hat den Wald geschnitten → Stümpfe im Übergang, Stämme hangab). Schwarze Material-Instanz."
-    },
-    "verkohlt_schnag": {
-      "schicht": "1 mittel", "rolle": "totholz_stehend", "gruppe": "verkohlt_schnag", "farbe": [90, 60, 40],
-      "netze": ["/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_trunk_NN", "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01"],
-      "netz_gewichte": [3, 1],
-      "dichte_je_m2": {"Nadeln": 0.0005, "Gras": 0.0003, "Lavasand": 0.0004, "Moos": 0.0002, "Lavafels": 0.0001, "sonst": 0.0002},
-      "zone_faktor": {"frisch": 0.3, "alt": 0.8, "rand": 1.0, "uebergang": 1.0},
-      "gruppe_n": [1, 4], "gruppe_radius_m": 6.0,
-      "massstab": [1.0, 1.9], "nicht_uniform": 0.1,
-      "eingraben_cm": 15, "kippen": 0.15, "yaw": "zufall",
-      "hang_grad": [0, 35],
-      "sichtweite": [0, 30000], "kollision": false, "schatten": true,
-      "max": 400,
-      "hinweis": "Stehende verkohlte Stümpfe 2–3,8 m (Köcherbaum-Totstamm 2 m skaliert 1–1,9; 88 Dreiecke, Nanite). Im frischen Kern selten (einzelne versengte Stümpfe, die die Lava umfloss = Kipuka-Rest)."
-    },
-    "gras": {
-      "schicht": "1 mittel", "rolle": "grasbueschel", "gruppe": "grasbueschel", "farbe": [190, 190, 110],
-      "netze": ["/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF", "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG", "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03", "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01"],
-      "netz_gewichte": [2, 2, 2, 2, 2, 1],
-      "dichte_je_m2": {"Gras": 0.012, "Wiese": 0.008, "Trockengras": 0.012, "Moos": 0.004, "Lavasand": 0.004, "Lavafels": 0.001, "Sand": 0.004, "sonst": 0.003},
-      "zone_faktor": {"frisch": 0.0, "alt": 0.4, "rand": 1.0, "uebergang": 1.2},
-      "gruppe_n": [3, 9], "gruppe_radius_m": 2.0,
-      "massstab": [0.9, 1.4], "nicht_uniform": 0.2,
-      "eingraben_cm": 3, "kippen": 0.4, "yaw": "zufall",
-      "hang_grad": [0, 38],
-      "sichtweite": [0, 12000], "kollision": false, "schatten": false,
-      "max": 3000,
-      "hinweis": "Horstgräser (Tundra-Gras Nanite, trockenes Wiesengras) in Rissen und auf Lavasand am Rand; ergänzt das GPU-Gras, das auf Lavafels/Lavasand fehlt."
+      "hinweis": "Lava-Sonderform Krummholz: Kruppelkiefern 0,8-2 m als Einzelgaenger/Zweiergruppen am Stromrand (Aetna-Kiefer, verteilung-STATUS: strauch entfaellt in lava, Kiefernstrauch = Sonderform). Nicht Nanite -> Sichtweite 300 m."
     },
     "baum_tot": {
-      "schicht": "2 baum", "rolle": "baum_tot", "gruppe": "totbaum", "farbe": [60, 30, 10],
-      "netze": ["/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01", "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02", "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_XL_01", "/Game/Environment_Set/Environment/Foliage/Models/Fir_08_Dead_NoBillboard"],
-      "netz_gewichte": [3, 3, 1, 1],
-      "dichte_je_m2": {"Nadeln": 0.0005, "Gras": 0.0003, "Wiese": 0.0002, "Lavasand": 0.0003, "Moos": 0.00015, "Lavafels": 0.00005, "sonst": 0.0001},
-      "zone_faktor": {"frisch": 0.0, "alt": 0.3, "rand": 1.0, "uebergang": 1.4},
-      "gruppe_n": [1, 3], "gruppe_radius_m": 7.0,
-      "massstab": [0.9, 1.3], "nicht_uniform": 0.1,
-      "eingraben_cm": 20, "kippen": 0.1, "yaw": "zufall",
-      "hang_grad": [0, 32],
-      "sichtweite": [0, 0], "kollision": true, "schatten": true,
+      "schicht": "2 baum",
+      "rolle": "baum_tot",
+      "gruppe": "totbaum",
+      "farbe": [
+        60,
+        30,
+        10
+      ],
+      "netze": [
+        "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+        "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
+        "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_XL_01",
+        "/Game/Environment_Set/Environment/Foliage/Models/Fir_08_Dead_NoBillboard"
+      ],
+      "netz_gewichte": [
+        3,
+        3,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Nadeln": 0.0005,
+        "Gras": 0.0003,
+        "Wiese": 0.0002,
+        "Lavasand": 0.0003,
+        "Moos": 0.00015,
+        "Lavafels": 5e-05,
+        "sonst": 0.0001
+      },
+      "zone_faktor": {
+        "frisch": 0.0,
+        "alt": 0.3,
+        "rand": 1.0,
+        "uebergang": 1.4
+      },
+      "gruppe_n": [
+        1,
+        3
+      ],
+      "gruppe_radius_m": 7.0,
+      "massstab": [
+        0.9,
+        1.3
+      ],
+      "nicht_uniform": 0.1,
+      "eingraben_cm": 20,
+      "kippen": 0.1,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        32
+      ],
+      "sichtweite": [
+        0,
+        0
+      ],
+      "kollision": true,
+      "schatten": true,
       "max": 180,
       "hinweis": "Tote Bäume nur rand/uebergang (Island/Hawaii: Lava tötet den Waldrand, die Stämme stehen Jahrzehnte). Nanite: DeadTree 6–7 m, Beech_Dead_XL 21 m; Fir_08_Dead nicht Nanite (nur 1 Gewicht). Setzer: verkohlte Material-Instanz."
     },
     "baum_kiefer": {
-      "schicht": "2 baum", "rolle": "baum_kiefer_jung", "gruppe": "krueppelkiefer_baum", "farbe": [20, 80, 40],
-      "netze": ["/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01", "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_01", "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_02"],
-      "netz_gewichte": [2, 2, 2, 1, 1],
-      "dichte_je_m2": {"Nadeln": 0.0012, "Gras": 0.0006, "Wiese": 0.0004, "Moos": 0.0004, "Lavasand": 0.0003, "Lavafels": 0.0001, "Trockengras": 0.0004, "sonst": 0.0002},
-      "zone_faktor": {"frisch": 0.0, "alt": 0.15, "rand": 1.0, "uebergang": 1.2},
-      "gruppe_n": [1, 4], "gruppe_radius_m": 6.0,
-      "massstab": [0.7, 1.1], "nicht_uniform": 0.1,
-      "eingraben_cm": 10, "kippen": 0.15, "yaw": "zufall",
-      "hang_grad": [0, 34],
-      "sichtweite": [0, 0], "kollision": true, "schatten": true,
+      "schicht": "2 baum",
+      "rolle": "baum_kiefer_jung",
+      "gruppe": "krueppelkiefer_baum",
+      "farbe": [
+        20,
+        80,
+        40
+      ],
+      "netze": [
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_01",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_small_04",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_02"
+      ],
+      "netz_gewichte": [
+        2,
+        2,
+        2,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Nadeln": 0.0012,
+        "Gras": 0.0006,
+        "Wiese": 0.0004,
+        "Moos": 0.0004,
+        "Lavasand": 0.0003,
+        "Lavafels": 0.0001,
+        "Trockengras": 0.0004,
+        "sonst": 0.0002
+      },
+      "zone_faktor": {
+        "frisch": 0.0,
+        "alt": 0.15,
+        "rand": 1.0,
+        "uebergang": 1.2
+      },
+      "gruppe_n": [
+        1,
+        4
+      ],
+      "gruppe_radius_m": 6.0,
+      "massstab": [
+        0.7,
+        1.1
+      ],
+      "nicht_uniform": 0.1,
+      "eingraben_cm": 10,
+      "kippen": 0.15,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        34
+      ],
+      "sichtweite": [
+        0,
+        0
+      ],
+      "kollision": true,
+      "schatten": true,
       "max": 250,
       "hinweis": "Krüppelkiefern 2,5–5 m als Baumschicht am Rand (Krummholz-Saum wie Ätna-Kiefern/Island-Birken-Ersatz). Nicht Nanite → LOD prüfen."
     },
-    "ufer_block": {
-      "schicht": "5 wasserkante", "rolle": "block", "gruppe": "lava_uferblock", "farbe": [40, 60, 120],
-      "netze": ["/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_01", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_02", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_05", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_03"],
-      "netz_gewichte": [2, 2, 2, 1],
-      "wasserband_m": [0.0, 6.0],
-      "dichte_je_m2": {"sonst": 0.02},
-      "zone_faktor": {"frisch": 1.0, "alt": 1.0, "rand": 0.8, "uebergang": 0.0},
-      "gruppe_n": [1, 3], "gruppe_radius_m": 2.0,
-      "massstab": [0.8, 1.3], "nicht_uniform": 0.15,
-      "eingraben": [0.35, 0.55], "kippen": 1.0, "yaw": "zufall",
-      "hang_grad": [0, 60],
-      "sichtweite": [0, 40000], "kollision": true, "schatten": true,
-      "max": 150,
-      "hinweis": "Lava trifft Wasser: abgeschreckte Blöcke 1–2,3 m halb im Wasser (Ufer-Band 0–6 m), tief eingegraben. Lava_Volcano-Netze haben KEINE Kollisionsprimitive → Setzer muss Komplex-als-Einfach oder Konvex-Hülle erzeugen (Taxonomie, Qualitätshinweise)."
+    "verkohlt_schnag": {
+      "schicht": "2 baum",
+      "rolle": "totholz_stehend",
+      "gruppe": "verkohlt_schnag",
+      "farbe": [
+        90,
+        60,
+        40
+      ],
+      "netze": [
+        "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_trunk_NN",
+        "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01"
+      ],
+      "netz_gewichte": [
+        3,
+        1
+      ],
+      "dichte_je_m2": {
+        "Nadeln": 0.0005,
+        "Gras": 0.0003,
+        "Lavasand": 0.0004,
+        "Moos": 0.0002,
+        "Lavafels": 0.0001,
+        "sonst": 0.0002
+      },
+      "zone_faktor": {
+        "frisch": 0.3,
+        "alt": 0.8,
+        "rand": 1.0,
+        "uebergang": 1.0
+      },
+      "gruppe_n": [
+        1,
+        4
+      ],
+      "gruppe_radius_m": 6.0,
+      "massstab": [
+        1.0,
+        1.9
+      ],
+      "nicht_uniform": 0.1,
+      "eingraben_cm": 15,
+      "kippen": 0.15,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        35
+      ],
+      "sichtweite": [
+        0,
+        30000
+      ],
+      "kollision": true,
+      "schatten": true,
+      "max": 400,
+      "hinweis": "Stehende verkohlte Staemme 2-3,8 m (Koecherbaum-Totstamm 2 m x1-1,9; Nanite) = Totbaum-Rest in Schicht 2 (mittelschicht totbaum entfaellt in lava). Im frischen Kern selten (Kipuka-Rest). Korrektur Runde 1: aus Schicht 1 hierher, Kollision an (Stamm > 0,8 m)."
     },
     "schwarzkies": {
-      "schicht": "5 wasserkante", "rolle": "kiesel", "gruppe": "schwarzsand_kies", "farbe": [30, 30, 40],
-      "netze": ["/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08", "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12", "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06"],
-      "netz_gewichte": [3, 1, 1, 1],
-      "wasserband_m": [0.0, 8.0],
-      "dichte_je_m2": {"sonst": 0.12},
-      "zone_faktor": {"frisch": 1.0, "alt": 1.0, "rand": 1.0, "uebergang": 0.6},
-      "gruppe_n": [5, 16], "gruppe_radius_m": 1.8,
-      "massstab": [0.8, 1.6], "nicht_uniform": 0.25,
-      "eingraben": [0.3, 0.5], "kippen": 1.0, "yaw": "zufall",
-      "hang_grad": [0, 45],
-      "sichtweite": [0, 6000], "kollision": false, "schatten": false,
+      "schicht": "5 wasserkante",
+      "rolle": "kiesel",
+      "gruppe": "schwarzsand_kies",
+      "farbe": [
+        30,
+        30,
+        40
+      ],
+      "netze": [
+        "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+        "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+        "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06"
+      ],
+      "netz_gewichte": [
+        3,
+        1,
+        1,
+        1
+      ],
+      "wasserband_m": [
+        0.0,
+        8.0
+      ],
+      "dichte_je_m2": {
+        "sonst": 0.12
+      },
+      "zone_faktor": {
+        "frisch": 1.0,
+        "alt": 1.0,
+        "rand": 1.0,
+        "uebergang": 0.6
+      },
+      "gruppe_n": [
+        5,
+        16
+      ],
+      "gruppe_radius_m": 1.8,
+      "massstab": [
+        0.8,
+        1.6
+      ],
+      "nicht_uniform": 0.25,
+      "eingraben": [
+        0.3,
+        0.5
+      ],
+      "kippen": 1.0,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        45
+      ],
+      "sichtweite": [
+        0,
+        6000
+      ],
+      "kollision": false,
+      "schatten": false,
       "max": 1500,
       "hinweis": "Schwarzsand-Strand-Ersatz: gerundeter Nordic-Beach-Kiesel + Kleinsteine, dunkle Material-Instanz. Die Schwarzsand-Fläche selbst ist Lage Lavasand (Landschaftsmaterial), kein Netz."
     },
     "saeule": {
-      "schicht": "5 wasserkante", "rolle": "akteur", "gruppe": "basaltsaeule_ersatz", "farbe": [120, 60, 200],
-      "netze": ["/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04"],
-      "netz_gewichte": [2, 1],
-      "wasserband_m": [1.0, 10.0],
-      "dichte_je_m2": {"sonst": 0.0025},
-      "zone_faktor": {"frisch": 1.0, "alt": 0.8, "rand": 0.3, "uebergang": 0.0},
+      "schicht": "5 wasserkante",
+      "rolle": "akteur",
+      "gruppe": "basaltsaeule_ersatz",
+      "farbe": [
+        120,
+        60,
+        200
+      ],
+      "netze": [
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04"
+      ],
+      "netz_gewichte": [
+        2,
+        1
+      ],
+      "wasserband_m": [
+        1.0,
+        10.0
+      ],
+      "dichte_je_m2": {
+        "sonst": 0.0025
+      },
+      "zone_faktor": {
+        "frisch": 1.0,
+        "alt": 0.8,
+        "rand": 0.3,
+        "uebergang": 0.0
+      },
       "hang_min_grad": 28,
-      "gruppe_n": [2, 5], "gruppe_radius_m": 4.0,
-      "massstab": [0.9, 1.5], "nicht_uniform": 0.2,
-      "eingraben": [0.3, 0.45], "kippen": 0.2, "yaw": "hang",
-      "hang_grad": [28, 75],
-      "sichtweite": [0, 0], "kollision": true, "schatten": true,
+      "gruppe_n": [
+        2,
+        5
+      ],
+      "gruppe_radius_m": 4.0,
+      "massstab": [
+        0.9,
+        1.5
+      ],
+      "nicht_uniform": 0.2,
+      "eingraben": [
+        0.3,
+        0.45
+      ],
+      "kippen": 0.2,
+      "yaw": "hang",
+      "hang_grad": [
+        28,
+        75
+      ],
+      "sichtweite": [
+        0,
+        0
+      ],
+      "kollision": true,
+      "schatten": true,
       "max": 40,
-      "hinweis": "Basaltsäulen-ERSATZ an steilen Lava-Ufern: hochkant stehende lava_wall_05 (1,75×1,95×3,95 m) in Reihen 2–5 mit gemeinsamer Hauptrichtung (Yaw = Uferrichtung). Akteure (akteur_<Netz>.f32), Kollision nötig (keine Primitive im Netz). Echte Basaltsäulen: Einkaufsliste."
+      "hinweis": "Basaltsäulen-ERSATZ an steilen Lava-Ufern: hochkant stehende lava_wall_05 (1,75×1,95×3,95 m) in Reihen 2–5 mit gemeinsamer Hauptrichtung (Yaw = Uferrichtung). Akteure (akteur_<Netz>.f32), Kollision nötig (keine Primitive im Netz). Echte Basaltsäulen: Einkaufsliste. Korrektur Runde 1: einzige Klasse > 0,8 m in diesem Planer (Lava-Sonderform, fels_ausnahme). Soll Teil C sie setzen: hier entfernen und felsgruppen_overrides.zusatzklassen.basaltsaeule.aktiv auf true.",
+      "fels_ausnahme": true
     }
   },
   "punkte": {
     "fumarole": {
-      "je_km2": {"frisch": 12.0, "alt": 4.0, "rand": 0.5, "uebergang": 0.0},
+      "je_km2": {
+        "frisch": 12.0,
+        "alt": 4.0,
+        "rand": 0.5,
+        "uebergang": 0.0
+      },
       "kegelflanke_faktor": 3.0,
       "hang_max_grad": 40,
       "min_abstand_m": 45,
       "max_je_feld": 24,
-      "staerke": [0.4, 1.0],
-      "radius_m": [1.5, 5.0],
+      "staerke": [
+        0.4,
+        1.0
+      ],
+      "radius_m": [
+        1.5,
+        5.0
+      ],
       "schwefel_anteil": 0.6,
       "hoehe_ueber_boden_m": 0.3,
       "hinweis": "Rauchsäulen/Fumarolen für Niagara: typ fumarole, staerke (Emissionsrate), radius_m (Schwefelkruste/Decal-Radius), schwefel true = gelbe Kruste (Námafjall/Seltún). Frei halten: Planer setzt im radius_m keine Pflanzen."
     },
     "dampf": {
-      "wasserband_m": [0.0, 3.0],
-      "zonen": ["frisch", "alt"],
+      "wasserband_m": [
+        0.0,
+        3.0
+      ],
+      "zonen": [
+        "frisch",
+        "alt"
+      ],
       "min_abstand_m": 25,
       "max_je_feld": 20,
-      "staerke": [0.3, 0.7],
+      "staerke": [
+        0.3,
+        0.7
+      ],
       "hinweis": "Dampf-Punkte, wo frische/alte Lava das Wasser berührt (Hawaii-Laze-Optik): typ dampf, für Niagara-Dampf, keine Netze."
     },
-    "kegel_gipfel": {"max_je_feld": 6, "hinweis": "Schlackenkegel-Gipfel als Blickziel (typ kegel_gipfel, prominenz_m)."},
+    "kegel_gipfel": {
+      "max_je_feld": 6,
+      "hinweis": "Schlackenkegel-Gipfel als Blickziel (typ kegel_gipfel, prominenz_m)."
+    },
     "spire_vorschlag": {
-      "zonen": ["frisch", "alt"], "hang_max_grad": 18, "kuppen_prominenz_m": 6, "min_abstand_m": 150, "max_je_feld": 6,
-      "netze": ["/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02", "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01", "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_03"],
+      "zonen": [
+        "frisch",
+        "alt"
+      ],
+      "hang_max_grad": 18,
+      "kuppen_prominenz_m": 6,
+      "min_abstand_m": 150,
+      "max_je_feld": 6,
+      "netze": [
+        "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02",
+        "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01",
+        "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_03"
+      ],
       "hinweis": "Vorschlagspunkte für Lava-Spires als Akteure (Hornito/Spatter-Kegel-Optik, 5–15 m) auf flachen Kuppen im Kern; Platzierung durch felsgruppen_plan.py (Override hero_akteur_punkte) oder von Hand. Nicht von diesem Planer gesetzt."
     },
-    "hoehle_vorschlag": {"zonen": ["frisch", "alt"], "hang_grad": [48, 75], "rand_abstand_min_m": 40, "min_abstand_m": 300, "max_je_feld": 2, "hinweis": "Lavahöhlen-/Tube-Eingang: kein Netz im Inventar (Einkaufsliste). Nur Vorschlagspunkt an steilen Lava-Wänden."},
-    "schwefelgrube_vorschlag": {"max_je_feld": 1, "weg_max_m": 150, "hinweis": "Verlassene Schwefelgrube (Spur von Leben, Teil D): an der stärksten Fumarole mit Weg ≤ 150 m; Kisten/Karren/Fass aus spuren_regeln.netze."},
-    "opferstaette_vorschlag": {"max_je_feld": 1, "hinweis": "Opferstätte am Kegelfuß/Spire: Steinkreis aus Schlacke (8–12 Steine, r 3 m) + AncientRuins SM_Column_03; von spuren_plan.py zu setzen."}
+    "hoehle_vorschlag": {
+      "zonen": [
+        "frisch",
+        "alt"
+      ],
+      "hang_grad": [
+        48,
+        75
+      ],
+      "rand_abstand_min_m": 40,
+      "min_abstand_m": 300,
+      "max_je_feld": 2,
+      "hinweis": "Lavahöhlen-/Tube-Eingang: kein Netz im Inventar (Einkaufsliste). Nur Vorschlagspunkt an steilen Lava-Wänden."
+    },
+    "schwefelgrube_vorschlag": {
+      "max_je_feld": 1,
+      "weg_max_m": 150,
+      "hinweis": "Verlassene Schwefelgrube (Spur von Leben, Teil D): an der stärksten Fumarole mit Weg ≤ 150 m; Kisten/Karren/Fass aus spuren_regeln.netze."
+    },
+    "opferstaette_vorschlag": {
+      "max_je_feld": 1,
+      "hinweis": "Opferstätte am Kegelfuß/Spire: Steinkreis aus Schlacke (8–12 Steine, r 3 m) + AncientRuins SM_Column_03; von spuren_plan.py zu setzen."
+    }
   },
   "felsgruppen_overrides": {
+    "_doku": "Fuer felsgruppen_plan.py (Teil C), KONVENTIONEN Par. 4 und Par. 6. Gilt nur fuer Zellen mit Biom lava (+30-m-Saum fuer zusatzklassen). palette = Palettenname in felsgruppen_regeln.json; biom_faktor/klassen_faktor = Dichtefaktoren; eingraben = Anteil der Netzhoehe; platte_ersatz = Netze fuer die Rolle platte. zusatzklassen im Schema Par. 6: spire (Lava-Spires als Akteure an den Punkten punkte[typ == spire_vorschlag] aus export/unreal/welt/lava/<Feld>/plan.json, ohne Lava-Plan Ersatzmaske), lava_uferblock (abgeschreckte Bloecke 1-2,3 m an Lava-Ufern, bisher Schicht 5 ufer_block in lava_plan.py), basaltsaeule (aktiv false: Basaltsaeulen setzt lava_plan.py als Sonderform saeule; Schalter fuer die Uebergabe an Teil C). Die Altstelle hero_akteure + hero_akteur_punkte bleibt fuer aeltere felsgruppen-Fassungen stehen; felsgruppen_plan.py ersetzt sie durch zusatzklassen.spire (gleicher Name).",
     "biom": "lava",
     "palette": "lava",
     "biom_faktor": 1.6,
-    "klassen_faktor": {"blockstrom": 2.0, "fuss": 1.6, "kuppe": 1.3, "grat": 0.9, "band": 0.3, "wand": 1.0, "prallhang": 0.8},
-    "zone_faktor": {"frisch": 1.3, "alt": 1.0, "rand": 0.7, "uebergang": 0.4},
-    "eingraben": [0.3, 0.45],
-    "kollision_ab_hoehe_m": 0.8,
-    "kollision_hinweis": "Alle 29 Lava_Volcano-Netze ohne Kollisionsprimitive → plan.json kollision true für Blöcke > 0,8 m, Setzer erzeugt Komplex-als-Einfach/Konvex (klippennetze-a5.md: einfache Hulls, nie Complex-as-Simple auf dichten Fallbacks bei Hunderten Stücken).",
-    "platte_ersatz": ["/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01", "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02", "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01", "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0"],
-    "kiesel_ersatz": "Palette lava.kiesel in felsgruppen_regeln.json (SM_stone_03–08) → bitte durch Klasse kiesel dieses Regelwerks (SmallStonesPack dunkel) ersetzen oder dunkle Material-Instanz.",
-    "hero_akteure": ["/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02", "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01", "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_03"],
+    "klassen_faktor": {
+      "blockstrom": 2.0,
+      "fuss": 1.6,
+      "kuppe": 1.3,
+      "grat": 0.9,
+      "band": 0.3,
+      "wand": 1.0,
+      "prallhang": 0.8
+    },
+    "eingraben": [
+      0.3,
+      0.45
+    ],
+    "platte_ersatz": [
+      "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+      "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+      "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
+      "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0"
+    ],
+    "hero_akteure": [
+      "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02",
+      "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01",
+      "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_03"
+    ],
     "hero_akteur_punkte": "plan.json punkte[typ == spire_vorschlag]",
-    "hinweis": "Lava-Felder tragen 1,6× Felsdichte (Blockfelder/Aa-Klinker, Hangfuß-Blockströme 2×); Felsbänder (band) nur 0,3× (keine Sedimentschichtung; Lavaströme bilden stattdessen Stromfronten = Klasse fuss/wand). Spires nur im Kern, max 6 je Feld, als Akteure."
+    "kollision_hinweis": "Alle 29 Lava_Volcano-Netze ohne Kollisionsprimitive → plan.json kollision true für Blöcke > 0,8 m, Setzer erzeugt Komplex-als-Einfach/Konvex (klippennetze-a5.md: einfache Hulls, nie Complex-as-Simple auf dichten Fallbacks bei Hunderten Stücken).",
+    "kiesel_ersatz_hinweis": "Palette lava.kiesel in felsgruppen_regeln.json (SM_stone_03–08) → bitte durch Klasse kiesel dieses Regelwerks (SmallStonesPack dunkel) ersetzen oder dunkle Material-Instanz.",
+    "zone_faktor_hinweis": "Runde 0 hatte zone_faktor frisch 1,3 / alt 1,0 / rand 0,7 / uebergang 0,4; felsgruppen kennt die Lava-Zonen nicht, daher nur als Hinweis. Gleiche Wirkung naeherungsweise ueber biom_faktor 1,6 und die Lagen.",
+    "hinweis": "Lava-Felder tragen 1,6× Felsdichte (Blockfelder/Aa-Klinker, Hangfuß-Blockströme 2×); Felsbänder (band) nur 0,3× (keine Sedimentschichtung; Lavaströme bilden stattdessen Stromfronten = Klasse fuss/wand). Spires nur im Kern, max 6 je Feld, als Akteure.",
+    "zusatzklassen": {
+      "spire": {
+        "palette": [
+          "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_02",
+          "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_01",
+          "/Game/AncientContent/Megascans/3DAssets/IcelandicLavaSpire/SM_IcelandicLavaSpire_03"
+        ],
+        "rolle": "fels_hero",
+        "akteur": true,
+        "punkte": {
+          "ebene": "lava",
+          "typ": "spire_vorschlag"
+        },
+        "hang_grad": [
+          0,
+          18
+        ],
+        "kuppen_prominenz_m": 6,
+        "lagen_min": {
+          "Lavafels": 128
+        },
+        "max_je_feld": 6,
+        "je_km2": 6,
+        "massstab": [
+          0.85,
+          1.2
+        ],
+        "eingraben_anteil": [
+          0.2,
+          0.3
+        ],
+        "gruppe": {
+          "groesse": [
+            1,
+            1
+          ],
+          "radius_m": 0
+        },
+        "kollision": true,
+        "sichtweite": [
+          0,
+          0
+        ],
+        "hinweis": "Lava-Spires/Hornitos 5-15 m (SM_IcelandicLavaSpire_01..03, Nanite, 4 Kollisionsprimitive) als Akteure. Standorte: punkte[typ == spire_vorschlag] des Lava-Plans (flache Kuppen im frischen/alten Kern, Hang <= 18 Grad, Prominenz >= 6 m, Abstand >= 150 m, max 6; der Punkt traegt zusaetzlich netz und yaw_grad). Ohne lava/<Feld>/plan.json oder ohne Punkte: Ersatzmaske (hang_grad, kuppen_prominenz_m, lagen_min, je_km2 6 je km2 lava, max 6 je Feld). punkte, je_km2, max_je_feld, kuppen_prominenz_m sind Erweiterungen zu Par. 6, die felsgruppen_plan.py liest."
+      },
+      "lava_uferblock": {
+        "palette": [
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_01",
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_02",
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_05",
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_03"
+        ],
+        "rolle": "fels_block",
+        "dichte_je_ha": 200.0,
+        "wasser_abstand_m": [
+          0,
+          6
+        ],
+        "hang_grad": [
+          0,
+          60
+        ],
+        "massstab": [
+          0.8,
+          1.3
+        ],
+        "eingraben_anteil": [
+          0.35,
+          0.55
+        ],
+        "gruppe": {
+          "groesse": [
+            1,
+            3
+          ],
+          "radius_m": 2.0
+        },
+        "max_je_feld": 75,
+        "kollision": true,
+        "sichtweite": [
+          0,
+          40000
+        ],
+        "hinweis": "Lava trifft Wasser: abgeschreckte Bloecke 1-2,3 m im Uferband 0-6 m, 35-55 % eingegraben (Runde 0: Klasse ufer_block in lava_plan.py, 0,02 je m2 im Band, max 150 je Feld -> 200 je ha, max 75 Gruppen). Lava_Volcano-Netze ohne Kollisionsprimitive: Setzer Konvex-Huelle."
+      },
+      "basaltsaeule": {
+        "aktiv": false,
+        "palette": [
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04"
+        ],
+        "rolle": "fels_hero",
+        "akteur": true,
+        "dichte_je_ha": 25.0,
+        "wasser_abstand_m": [
+          1,
+          10
+        ],
+        "hang_grad": [
+          28,
+          75
+        ],
+        "massstab": [
+          0.9,
+          1.5
+        ],
+        "eingraben_anteil": [
+          0.3,
+          0.45
+        ],
+        "gruppe": {
+          "groesse": [
+            2,
+            5
+          ],
+          "radius_m": 4
+        },
+        "max_je_feld": 12,
+        "kollision": true,
+        "sichtweite": [
+          0,
+          0
+        ],
+        "hinweis": "Nur Schalter: Basaltsaeulen-Ersatz setzt lava_plan.py (Klasse saeule, Yaw = Uferrichtung). Fuer die Uebergabe an Teil C aktiv true setzen und saeule aus lava_regeln.json[klassen] entfernen (sonst doppelt)."
+      }
+    }
   },
   "spuren_overrides": {
+    "_doku": "Fuer spuren_plan.py (Teil D), KONVENTIONEN Par. 4/Par. 6, Schema {palette, faktor, verbote, zusatzklassen} wie nordkueste: palette = zusaetzliche Netze je Spurenart, faktor = Dichtefaktor je Biom und Spurenart (0 = aus), verbote = nie gesetzte Spurenarten. zusatzklassen im Schema Par. 6 (palette Pflicht) mit Erweiterung punkte {ebene, typ}: Standorte aus export/unreal/welt/lava/<Feld>/plan.json (schwefelgrube_vorschlag, opferstaette_vorschlag). spuren_plan.py liest diesen Block noch nicht (Stand Korrektur Runde 1).",
     "biom": "lava",
-    "aus": ["feldstreifen", "obstgarten", "zaun_weg", "mauer", "steg", "holzschlag", "koehler", "graeber_friedhof"],
-    "steinmann": {"faktor": 1.5, "netze": ["/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_08", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06"], "hinweis": "Steinmänner aus Schlacke entlang der Wege (Island-Vörður), Abstand 90–140 m."},
-    "wegkreuz": {"faktor": 0.5, "schrein_anteil": 0.0},
-    "rauch": {"quelle": "plan.json punkte[typ == fumarole]", "typ": "fumarole", "hinweis": "Zusätzlich zu Herd/Meiler: Fumarolen-Rauch (weiß-gelb, träge, 3–8 m Höhe) und Dampf an Wasserkanten (typ dampf)."},
-    "schwefelgrube": {"quelle": "plan.json punkte[typ == schwefelgrube_vorschlag]", "beiwerk": ["kiste", "fass", "karren", "sack"], "beiwerk_n": [3, 6], "radius_m": 8},
-    "opferstaette": {"quelle": "plan.json punkte[typ == opferstaette_vorschlag]", "saeule": "/Game/AncientRuins/Meshes/SM_Column_03", "steinkreis_netze": ["/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06", "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07"], "steine": [8, 12], "radius_m": 3.0},
-    "verkohlte_huette": {"hinweis": "Kein verkohltes Hütten-Netz im Inventar (Einkaufsliste). Ersatz: MedievalFantasyVillage-Ruine mit schwarzer Material-Instanz, 1 je Feld im Übergang nahe Weg."},
-    "blickziele": ["kegel_gipfel", "spire_vorschlag", "fumarole (stärkste)", "hoehle_vorschlag"]
+    "palette": {
+      "steinmann": [
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_08",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06"
+      ]
+    },
+    "faktor": {
+      "lava": {
+        "steinmann": 1.5,
+        "wegkreuz": 0.5,
+        "karren": 0.3,
+        "rauch": 1.0,
+        "feldstreifen": 0.0,
+        "obstgarten": 0.0,
+        "zaun_weg": 0.0,
+        "mauer": 0.0,
+        "steg": 0.0,
+        "holzschlag": 0.0,
+        "koehler": 0.0,
+        "graeber": 0.0
+      }
+    },
+    "verbote": {
+      "lava": [
+        "feldstreifen",
+        "obstgarten",
+        "zaun_weg",
+        "mauer",
+        "steg",
+        "holzschlag",
+        "koehler",
+        "graeber",
+        "schrein"
+      ]
+    },
+    "steinmann_hinweis": "Steinmänner aus Schlacke entlang der Wege (Island-Vörður), Abstand 90–140 m.",
+    "rauch_punkte": {
+      "ebene": "lava",
+      "typ": [
+        "fumarole",
+        "dampf"
+      ],
+      "hinweis": "Zusaetzlich zu Herd/Meiler: Fumarolen-Rauch (weiss-gelb, traege, 3-8 m) an punkte[typ == fumarole] (staerke, radius_m, schwefel), Dampf an punkte[typ == dampf]."
+    },
+    "zusatzklassen": {
+      "schwefelgrube": {
+        "palette": [
+          "/Game/MedievalFantasyVillage/Props/SM_crateA_a1",
+          "/Game/MedievalFantasyVillage/Props/SM_barrelClosedA_a1",
+          "/Game/MedievalFantasyVillage/Props/SM_cartB_a1",
+          "/Game/Village/Environment/Asset/Mesh/Prop_V01/SM_FoodSac_02b"
+        ],
+        "rolle": "spur_beiwerk",
+        "punkte": {
+          "ebene": "lava",
+          "typ": "schwefelgrube_vorschlag"
+        },
+        "gruppe": {
+          "groesse": [
+            3,
+            6
+          ],
+          "radius_m": 8
+        },
+        "max_je_feld": 1,
+        "massstab": [
+          0.9,
+          1.1
+        ],
+        "kollision": false,
+        "sichtweite": [
+          0,
+          30000
+        ],
+        "hinweis": "Verlassene Schwefelgrube an der staerksten Fumarole mit Weg <= 150 m: Kisten, Faesser, Karren, Saecke im Radius 8 m, Schwefel-Decal am Punkt."
+      },
+      "opferstaette_saeule": {
+        "palette": [
+          "/Game/AncientRuins/Meshes/SM_Column_03"
+        ],
+        "rolle": "akteur",
+        "akteur": true,
+        "punkte": {
+          "ebene": "lava",
+          "typ": "opferstaette_vorschlag"
+        },
+        "gruppe": {
+          "groesse": [
+            1,
+            1
+          ],
+          "radius_m": 0
+        },
+        "max_je_feld": 1,
+        "eingraben_anteil": [
+          0.1,
+          0.2
+        ],
+        "kollision": true,
+        "sichtweite": [
+          0,
+          0
+        ],
+        "hinweis": "Saeule (3,1 m) in der Mitte der Opferstaette am Kegelfuss/Spire, 25 m hangab vom Anker."
+      },
+      "opferstaette_steinkreis": {
+        "palette": [
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_06",
+          "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_07"
+        ],
+        "rolle": "fels_stein",
+        "punkte": {
+          "ebene": "lava",
+          "typ": "opferstaette_vorschlag"
+        },
+        "gruppe": {
+          "groesse": [
+            8,
+            12
+          ],
+          "radius_m": 3.0
+        },
+        "anordnung": "ring",
+        "max_je_feld": 1,
+        "massstab": [
+          0.6,
+          0.9
+        ],
+        "eingraben_anteil": [
+          0.3,
+          0.45
+        ],
+        "kollision": false,
+        "sichtweite": [
+          0,
+          35000
+        ],
+        "hinweis": "Steinkreis aus 8-12 Schlackenbrocken (0,35-0,55 m) auf einem Ring r 3 m um die Saeule; anordnung ring = Erweiterung zu Par. 6."
+      },
+      "ruine_verkohlt": {
+        "palette": [
+          "/Game/AncientRuins/Meshes/SM_Wall_02",
+          "/Game/AncientRuins/Meshes/SM_Column_02"
+        ],
+        "rolle": "akteur",
+        "akteur": true,
+        "dichte_je_ha": 0.01,
+        "max_je_feld": 1,
+        "hang_grad": [
+          0,
+          12
+        ],
+        "weg_abstand_m": [
+          6,
+          40
+        ],
+        "eingraben_anteil": [
+          0.15,
+          0.3
+        ],
+        "gruppe": {
+          "groesse": [
+            1,
+            2
+          ],
+          "radius_m": 4
+        },
+        "kollision": true,
+        "sichtweite": [
+          0,
+          0
+        ],
+        "hinweis": "Verkohlte Ruine am Lava-Rand nahe Weg (vom Strom ueberrollte Huette): Mauerrest + Saeule mit schwarzer Material-Instanz; kein verkohltes Huetten-Netz im Inventar (Einkaufsliste). weg_abstand_m = Erweiterung zu Par. 6."
+      }
+    },
+    "blickziele": [
+      "kegel_gipfel",
+      "spire_vorschlag",
+      "fumarole (stärkste)",
+      "hoehle_vorschlag"
+    ]
   },
   "bild": {
-    "hintergrund": {"frisch": [28, 24, 24], "alt": [52, 56, 40], "rand": [70, 84, 50], "uebergang": [110, 100, 80], "sonst": [140, 135, 120], "wasser": [40, 80, 160], "weg": [120, 90, 60], "ort": [200, 60, 60]},
-    "punkte": {"fumarole": [255, 220, 0], "dampf": [180, 220, 255], "kegel_gipfel": [255, 0, 0], "spire_vorschlag": [255, 0, 255], "hoehle_vorschlag": [0, 255, 255], "schwefelgrube_vorschlag": [255, 140, 0], "opferstaette_vorschlag": [255, 255, 255]}
+    "hintergrund": {
+      "frisch": [
+        28,
+        24,
+        24
+      ],
+      "alt": [
+        52,
+        56,
+        40
+      ],
+      "rand": [
+        70,
+        84,
+        50
+      ],
+      "uebergang": [
+        110,
+        100,
+        80
+      ],
+      "sonst": [
+        140,
+        135,
+        120
+      ],
+      "wasser": [
+        40,
+        80,
+        160
+      ],
+      "weg": [
+        120,
+        90,
+        60
+      ],
+      "ort": [
+        200,
+        60,
+        60
+      ]
+    },
+    "punkte": {
+      "fumarole": [
+        255,
+        220,
+        0
+      ],
+      "dampf": [
+        180,
+        220,
+        255
+      ],
+      "kegel_gipfel": [
+        255,
+        0,
+        0
+      ],
+      "spire_vorschlag": [
+        255,
+        0,
+        255
+      ],
+      "hoehle_vorschlag": [
+        0,
+        255,
+        255
+      ],
+      "schwefelgrube_vorschlag": [
+        255,
+        140,
+        0
+      ],
+      "opferstaette_vorschlag": [
+        255,
+        255,
+        255
+      ]
+    }
   },
   "erwartung_je_feld": {
     "hinweis": "Spannen (Instanzen) vor Budget-Ausdünnung, aus Flächenanteilen in biome_je_feld.md und den Dichten oben abgeleitet (Rechnung, nicht gemessen). C6: 1,016 km² Lava, Lavafels 45 %, Lavasand 27 %, Moos 17 %, Gras 8 %; C7: 0,49 km² Land, lava 61 %; C5: lava 31 % ≈ 0,31 km² + Übergangssaum; D6 26 %, B6 13 %, D7 13 %, B7 6 %.",
-    "C6": {"schlacke": [6000, 9000], "kiesel": [18000, 22000], "asche": [300, 1200], "moos": [4000, 8000], "flechtenstein": [1200, 2500], "pionier": [800, 2000], "kiefer_strauch": [100, 350], "verkohlt_liegend": [120, 350], "verkohlt_stumpf": [100, 300], "verkohlt_schnag": [120, 350], "gras": [1000, 2500], "baum_tot": [40, 150], "baum_kiefer": [40, 150], "wasserkante": [0, 0], "fumarolen": [8, 24], "gesamt": [32000, 48000]},
-    "C7": {"gesamt": [12000, 26000], "fumarolen": [3, 12], "hinweis": "59 % steil > 30°: Schlacke auf Flanken dominiert, Pflanzen auf Sand-Flächen (47 %) im Übergang."},
-    "C5": {"gesamt": [8000, 18000], "wasserkante": [200, 1200], "fumarolen": [1, 6], "hinweis": "Übergang Lava → Aue: gras/pionier/baum_tot im 100-m-Saum, ufer_block/schwarzkies an 5,8 % Wasser."},
-    "D6": {"gesamt": [6000, 14000], "wasserkante": [100, 800]},
-    "B6": {"gesamt": [3000, 8000]},
-    "D7": {"gesamt": [3000, 8000]},
-    "B7": {"gesamt": [800, 3000]}
+    "C6": {
+      "schlacke": [
+        6000,
+        9000
+      ],
+      "kiesel": [
+        18000,
+        22000
+      ],
+      "asche": [
+        300,
+        1200
+      ],
+      "moos": [
+        4000,
+        8000
+      ],
+      "flechtenstein": [
+        1200,
+        2500
+      ],
+      "pionier": [
+        800,
+        2000
+      ],
+      "kiefer_strauch": [
+        100,
+        350
+      ],
+      "verkohlt_liegend": [
+        120,
+        350
+      ],
+      "verkohlt_stumpf": [
+        100,
+        300
+      ],
+      "verkohlt_schnag": [
+        120,
+        350
+      ],
+      "gras": [
+        1000,
+        2500
+      ],
+      "baum_tot": [
+        40,
+        150
+      ],
+      "baum_kiefer": [
+        40,
+        150
+      ],
+      "wasserkante": [
+        0,
+        0
+      ],
+      "fumarolen": [
+        8,
+        24
+      ],
+      "gesamt": [
+        32000,
+        48000
+      ]
+    },
+    "C7": {
+      "gesamt": [
+        12000,
+        26000
+      ],
+      "fumarolen": [
+        3,
+        12
+      ],
+      "hinweis": "59 % steil > 30°: Schlacke auf Flanken dominiert, Pflanzen auf Sand-Flächen (47 %) im Übergang."
+    },
+    "C5": {
+      "gesamt": [
+        8000,
+        18000
+      ],
+      "wasserkante": [
+        200,
+        1200
+      ],
+      "fumarolen": [
+        1,
+        6
+      ],
+      "hinweis": "Übergang Lava → Aue: gras/pionier/baum_tot im 100-m-Saum, ufer_block/schwarzkies an 5,8 % Wasser."
+    },
+    "D6": {
+      "gesamt": [
+        6000,
+        14000
+      ],
+      "wasserkante": [
+        100,
+        800
+      ]
+    },
+    "B6": {
+      "gesamt": [
+        3000,
+        8000
+      ]
+    },
+    "D7": {
+      "gesamt": [
+        3000,
+        8000
+      ]
+    },
+    "B7": {
+      "gesamt": [
+        800,
+        3000
+      ]
+    }
+  },
+  "_korrektur_runde1_alt_klassen": {
+    "hinweis": "Runde-0-Klassen, die der Planer nicht mehr setzt (nur Doku; Werte stecken jetzt in den Overrides).",
+    "pionier": {
+      "schicht": "1 mittel",
+      "rolle": "strauch",
+      "gruppe": "pionierstrauch",
+      "farbe": [
+        200,
+        170,
+        60
+      ],
+      "netze": [
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01",
+        "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07"
+      ],
+      "netz_gewichte": [
+        3,
+        3,
+        2,
+        2,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Moos": 0.006,
+        "Gras": 0.008,
+        "Wiese": 0.004,
+        "Lavasand": 0.003,
+        "Lavafels": 0.001,
+        "Trockengras": 0.006,
+        "sonst": 0.002
+      },
+      "zone_faktor": {
+        "frisch": 0.0,
+        "alt": 0.5,
+        "rand": 1.2,
+        "uebergang": 0.9
+      },
+      "gruppe_n": [
+        3,
+        8
+      ],
+      "gruppe_radius_m": 2.4,
+      "massstab": [
+        1.1,
+        1.8
+      ],
+      "nicht_uniform": 0.2,
+      "eingraben_cm": 3,
+      "kippen": 0.5,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        38
+      ],
+      "sichtweite": [
+        0,
+        15000
+      ],
+      "kollision": false,
+      "schatten": true,
+      "max": 2500,
+      "hinweis": "Ginster-/Retama-ERSATZ: Heide (0,2–0,4 m) 1,1–1,8× skaliert, trockene Heidelbeere, Strandrose 0,5 m als Zwergstrauch. Echter Ginster 1–2 m: Einkaufsliste (Farbakzent Gelb). Keine Heide in frischer Zone."
+    },
+    "gras": {
+      "schicht": "1 mittel",
+      "rolle": "grasbueschel",
+      "gruppe": "grasbueschel",
+      "farbe": [
+        190,
+        190,
+        110
+      ],
+      "netze": [
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+        "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+        "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01"
+      ],
+      "netz_gewichte": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        1
+      ],
+      "dichte_je_m2": {
+        "Gras": 0.012,
+        "Wiese": 0.008,
+        "Trockengras": 0.012,
+        "Moos": 0.004,
+        "Lavasand": 0.004,
+        "Lavafels": 0.001,
+        "Sand": 0.004,
+        "sonst": 0.003
+      },
+      "zone_faktor": {
+        "frisch": 0.0,
+        "alt": 0.4,
+        "rand": 1.0,
+        "uebergang": 1.2
+      },
+      "gruppe_n": [
+        3,
+        9
+      ],
+      "gruppe_radius_m": 2.0,
+      "massstab": [
+        0.9,
+        1.4
+      ],
+      "nicht_uniform": 0.2,
+      "eingraben_cm": 3,
+      "kippen": 0.4,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        38
+      ],
+      "sichtweite": [
+        0,
+        12000
+      ],
+      "kollision": false,
+      "schatten": false,
+      "max": 3000,
+      "hinweis": "Horstgräser (Tundra-Gras Nanite, trockenes Wiesengras) in Rissen und auf Lavasand am Rand; ergänzt das GPU-Gras, das auf Lavafels/Lavasand fehlt."
+    },
+    "verkohlt_liegend": {
+      "schicht": "1 mittel",
+      "rolle": "totholz",
+      "gruppe": "verkohlt_stamm",
+      "farbe": [
+        40,
+        25,
+        20
+      ],
+      "netze": [
+        "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+        "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
+        "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+        "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+        "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log"
+      ],
+      "netz_gewichte": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Nadeln": 0.0006,
+        "Gras": 0.0004,
+        "Lavasand": 0.0004,
+        "Moos": 0.0003,
+        "Lavafels": 0.0001,
+        "sonst": 0.0002
+      },
+      "zone_faktor": {
+        "frisch": 0.15,
+        "alt": 0.6,
+        "rand": 1.0,
+        "uebergang": 1.4
+      },
+      "gruppe_n": [
+        1,
+        2
+      ],
+      "gruppe_radius_m": 4.0,
+      "massstab": [
+        0.9,
+        1.3
+      ],
+      "nicht_uniform": 0.1,
+      "eingraben": [
+        0.2,
+        0.35
+      ],
+      "kippen": 1.0,
+      "yaw": "hang",
+      "hang_grad": [
+        0,
+        35
+      ],
+      "sichtweite": [
+        0,
+        45000
+      ],
+      "kollision": true,
+      "schatten": true,
+      "max": 450,
+      "hinweis": "Verkohlte liegende Stämme: Setzer-Hinweis Material-Instanz schwarz/verkohlt (Albedo ×0,2, Rauheit 0,95, leichte Rissnormalen). Ausrichtung quer-hangab (yaw = Hangrichtung ± 35°). Kollision, da Stamm > 0,8 m."
+    },
+    "verkohlt_stumpf": {
+      "schicht": "1 mittel",
+      "rolle": "stumpf",
+      "gruppe": "verkohlt_stumpf",
+      "farbe": [
+        70,
+        45,
+        30
+      ],
+      "netze": [
+        "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+        "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02",
+        "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+        "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+        "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03"
+      ],
+      "netz_gewichte": [
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "dichte_je_m2": {
+        "Nadeln": 0.0006,
+        "Gras": 0.0004,
+        "Lavasand": 0.0004,
+        "Moos": 0.0002,
+        "Lavafels": 0.0001,
+        "sonst": 0.0002
+      },
+      "zone_faktor": {
+        "frisch": 0.2,
+        "alt": 0.6,
+        "rand": 1.0,
+        "uebergang": 1.3
+      },
+      "gruppe_n": [
+        1,
+        3
+      ],
+      "gruppe_radius_m": 5.0,
+      "massstab": [
+        0.9,
+        1.4
+      ],
+      "nicht_uniform": 0.1,
+      "eingraben_cm": 8,
+      "kippen": 0.8,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        35
+      ],
+      "sichtweite": [
+        0,
+        25000
+      ],
+      "kollision": false,
+      "schatten": true,
+      "max": 400,
+      "hinweis": "Stümpfe eines verbrannten Waldes (Lavastrom hat den Wald geschnitten → Stümpfe im Übergang, Stämme hangab). Schwarze Material-Instanz."
+    },
+    "ufer_block": {
+      "schicht": "5 wasserkante",
+      "rolle": "block",
+      "gruppe": "lava_uferblock",
+      "farbe": [
+        40,
+        60,
+        120
+      ],
+      "netze": [
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_01",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_02",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_05",
+        "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_s_rock_03"
+      ],
+      "netz_gewichte": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "wasserband_m": [
+        0.0,
+        6.0
+      ],
+      "dichte_je_m2": {
+        "sonst": 0.02
+      },
+      "zone_faktor": {
+        "frisch": 1.0,
+        "alt": 1.0,
+        "rand": 0.8,
+        "uebergang": 0.0
+      },
+      "gruppe_n": [
+        1,
+        3
+      ],
+      "gruppe_radius_m": 2.0,
+      "massstab": [
+        0.8,
+        1.3
+      ],
+      "nicht_uniform": 0.15,
+      "eingraben": [
+        0.35,
+        0.55
+      ],
+      "kippen": 1.0,
+      "yaw": "zufall",
+      "hang_grad": [
+        0,
+        60
+      ],
+      "sichtweite": [
+        0,
+        40000
+      ],
+      "kollision": true,
+      "schatten": true,
+      "max": 150,
+      "hinweis": "Lava trifft Wasser: abgeschreckte Blöcke 1–2,3 m halb im Wasser (Ufer-Band 0–6 m), tief eingegraben. Lava_Volcano-Netze haben KEINE Kollisionsprimitive → Setzer muss Komplex-als-Einfach oder Konvex-Hülle erzeugen (Taxonomie, Qualitätshinweise)."
+    }
+  },
+  "mittelschicht_overrides": {
+    "_doku": "Fuer mittelschicht_plan.py (Teil D), KONVENTIONEN Par. 4: generische Schicht-1-Klassen in lava setzt NUR mittelschicht. palette ersetzt die Netzliste von mittelschicht_regeln.json[biome][lava][klasse]; faktor multipliziert deren dichte (0 = aus); parameter ueberschreibt einzelne Klassenschluessel; vorlage_biom: Klasse fehlt fuer lava -> Parameter aus dem genannten Biom. Faktoren = Runde-0-Dichte des Lava-Planers (Lagenmix C6 Lavafels 45/Lavasand 27/Moos 17/Gras 8 %, Zonen frisch 0, alt 0,4-0,6, rand 1) / mittelschicht-Dichte (offen, mit Lagenfaktor ~0,5), gerundet. Lava ist ueberwiegend kahl: nur Aschegras, Zwergheide und verkohltes Totholz, kleine Faktoren.",
+    "biom": "lava",
+    "gilt_fuer": [
+      "lava"
+    ],
+    "palette": {
+      "grasbueschel": [
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+        "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+        "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+        "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01"
+      ],
+      "beere": [
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01",
+        "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01",
+        "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_06",
+        "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_rose_07"
+      ],
+      "totholz_liegend": [
+        "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+        "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
+        "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_log",
+        "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_08_log",
+        "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log"
+      ],
+      "totholz_stumpf": [
+        "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+        "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02",
+        "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+        "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+        "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03"
+      ]
+    },
+    "faktor": {
+      "grasbueschel": 0.4,
+      "beere": 0.4,
+      "totholz_liegend": 0.6,
+      "totholz_stumpf": 0.4,
+      "totholz_ast": 0.0,
+      "strauch": 0.0,
+      "jungbaum": 0.0,
+      "farn": 0.0,
+      "hochstaude": 0.0,
+      "pilz": 0.0,
+      "totbaum": 0.0,
+      "wurzel": 0.0,
+      "kletter": 0.0
+    },
+    "faktor_begruendung": {
+      "grasbueschel": "Runde 0 gras ~0,0011/m2 (C6) / mittelschicht 0,006 x Lagen 0,5 = 0,003 -> 0,4 (Aschegras in Rissen und auf Lavasand)",
+      "beere": "Runde 0 pionier ~0,0013/m2 / 0,003 -> 0,4; Palette = Heide/Heidelbeere trocken/Strandrose als Ginster-Ersatz",
+      "totholz_liegend": "Runde 0 verkohlt_liegend ~0,00012/m2 / 0,0002 -> 0,6; verkohlte Staemme hangab",
+      "totholz_stumpf": "Runde 0 verkohlt_stumpf ~0,00011/m2 / Vorlage bergwald 0,0003 -> 0,4",
+      "totholz_ast": "0: dieselben Netze setzt lava_plan.py zoniert als Brandstreu (Klasse asche, Schicht 0)",
+      "strauch/jungbaum": "0: Kruppelkiefer-Krummholz (kiefer_strauch) und Krummholz-Baeume (baum_kiefer) sind Lava-Sonderformen im Lava-Planer",
+      "farn/hochstaude/pilz/kletter/wurzel/totbaum": "0: kommen auf Lava nicht vor bzw. Totbaeume in Schicht 2 des Lava-Planers"
+    },
+    "vorlage_biom": {
+      "totholz_stumpf": "bergwald"
+    },
+    "parameter": {
+      "grasbueschel": {
+        "massstab": [
+          0.9,
+          1.4
+        ],
+        "gruppe": [
+          3,
+          9
+        ],
+        "radius_m": 2.0,
+        "kippen": 0.4,
+        "hang_max": 38,
+        "lagen_faktor": {
+          "Lavafels": 0.05,
+          "Lavasand": 0.4,
+          "Moos": 1.3,
+          "Gras": 2.0,
+          "Trockengras": 2.0
+        }
+      },
+      "beere": {
+        "massstab": [
+          1.1,
+          1.8
+        ],
+        "gruppe": [
+          3,
+          8
+        ],
+        "radius_m": 2.4,
+        "kippen": 0.5,
+        "hang_max": 38,
+        "lagen_faktor": {
+          "Lavafels": 0.05,
+          "Lavasand": 0.3,
+          "Moos": 1.5,
+          "Gras": 1.8
+        }
+      },
+      "totholz_liegend": {
+        "massstab": [
+          0.9,
+          1.3
+        ],
+        "eingraben_cm": 25,
+        "kippen": 1.0,
+        "laengs_hang": true,
+        "kollision": true,
+        "sichtweite": [
+          0,
+          45000
+        ],
+        "lagen_faktor": {
+          "Lavafels": 0.3,
+          "Lavasand": 1.2,
+          "Nadeln": 2.0
+        }
+      },
+      "totholz_stumpf": {
+        "massstab": [
+          0.9,
+          1.4
+        ],
+        "eingraben_cm": 8,
+        "kippen": 0.8,
+        "gruppe": [
+          1,
+          3
+        ],
+        "radius_m": 5.0,
+        "kollision": false,
+        "sichtweite": [
+          0,
+          25000
+        ],
+        "lagen_faktor": {
+          "Lavafels": 0.3,
+          "Lavasand": 1.2,
+          "Nadeln": 2.0
+        }
+      }
+    },
+    "zusatzklassen": {},
+    "zusatzklassen_hinweis": "Keine: Moospolster, Wulstlava-Flechtensteine, Krummholz und Brandstreu setzt lava_plan.py als Sonderformen. Material-Hinweis fuer alle Lava-Paletten: totholz_* schwarze/verkohlte Material-Instanz (Albedo x0,2, Rauheit 0,95), Gras graugelb."
   }
 }

@@ -1085,7 +1085,9 @@ class Zone:
 
 
 def _anzahl(spanne, a, b, seed, kanal):
-    """Ganzzahl aus [min, max] (Liste) oder Zahl, deterministisch je Ort."""
+    """Ganzzahl aus [min, max] (Liste, auch {'groesse': [min, max]}) oder Zahl, deterministisch je Ort."""
+    if isinstance(spanne, dict):
+        spanne = spanne.get('groesse', spanne.get('anzahl', 0))
     if isinstance(spanne, (int, float)):
         x = float(spanne)
         return int(x) + int(h1(a, b, seed, kanal) < x - int(x))
@@ -1492,7 +1494,8 @@ def sf_pfaehle(K, Z):
         c = _anzahl(cfg.get('gruppe', [2, 5]), a, b, K.seed, 933)
         q = np.arange(c)
         an = hash01(q + a, q + b, K.seed, 934) * 2 * math.pi
-        rq = np.sqrt(hash01(q + b, q + a, K.seed, 935)) * float(cfg.get('radius_m', 3.0))
+        g = cfg.get('gruppe') if isinstance(cfg.get('gruppe'), dict) else {}
+        rq = np.sqrt(hash01(q + b, q + a, K.seed, 935)) * float(cfg.get('radius_m', g.get('radius_m', 3.0)))
         fi_, fj_ = a + rq * np.sin(an), b + rq * np.cos(an)
         mi = np.clip(np.round(fi_).astype(np.int32), 0, K.H - 1)
         mj = np.clip(np.round(fj_).astype(np.int32), 0, K.W - 1)
@@ -1552,7 +1555,9 @@ def sf_lava_punkte(K, Z):
     n = 0
     for p in pts:
         a, b = p['i'], p['j']
-        if not (0 <= a < K.H and 0 <= b < K.W) or not K.im_feld[int(a), int(b)] or not Z.drin(a, b):
+        if not (0 <= a < K.H and 0 <= b < K.W) or not K.im_feld[int(a), int(b)]:
+            continue
+        if Z.biom and int(K.bio[int(a), int(b)]) != BIOME15.index(Z.biom):  # Vorschlagspunkte gehören dem Biom ihrer Zelle
             continue
         typ = str(p.get('typ', ''))
         if typ.startswith('opferstaette') and 'opferstaette' in ex and Z.gate('opferstaette', a, b):
@@ -1912,7 +1917,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov=None, zuordnung=None, inven
     K = Kontext(basis=basis, feld=feld, win=win, wi0=wi0, wj0=wj0, H=H, W=W, ii=ii, jj=jj, gi=gi, gj=gj, seed=seed, hoehe=hoehe,
                 hang=hang, dzdx=dzdx, dzdy=dzdy, d_weg=d_weg, d_wasser=d_wasser, d_ort=d_ort, ws_i=ws_i, ws_j=ws_j,
                 tang_yaw=tang_yaw, normal_yaw=normal_yaw, wasser_m=wasser_m, weg_m=weg_m, ort_m=ort_m, frei_basis=frei_basis0,
-                lab_voll=lab_voll, im_feld=im_feld, lichtung=lichtung, kuppe=kuppe, prominenz=prominenz, S=S, punkte=punkte,
+                lab_voll=lab_voll, im_feld=im_feld, bio=bio, lichtung=lichtung, kuppe=kuppe, prominenz=prominenz, S=S, punkte=punkte,
                 flaechen=flaechen, blickziele=blickziele, felder_ok=felder_ok, stat=stat, hinweise=hinweise, inv=inventar, pfade=pfade)
     zonen, ov_info = baue_zonen(R, ov or {}, zuordnung or BIOM_PLANER_VORGABE, bio, feld, pfade, hash01(gi, gj, seed, 4242), seed, win,
                                 float(R.get('zusatz_saum_m', 30.0)))
