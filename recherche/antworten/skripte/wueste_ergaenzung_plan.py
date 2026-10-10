@@ -81,8 +81,17 @@ BAUM_WORTE = ('baum', 'tree', 'nadel', 'laub', 'kiefer', 'buche', 'birke', 'fich
               'hainbuche', 'pine', 'beech', 'oak', 'poplar', 'quiver', 'hornbeam', 'willow', 'fir')
 
 
+_ASCII = str.maketrans({'ä': 'ae', 'ö': 'oe', 'ü': 'ue', 'Ä': 'Ae', 'Ö': 'Oe', 'Ü': 'Ue', 'ß': 'ss', '→': '->', '–': '-', '—': '-',
+                        '≤': '<=', '≥': '>=', '×': 'x', '„': '"', '“': '"', '”': '"', '…': '...', '°': 'deg', '²': '2'})
+
+
+def ascii_(t):
+    return str(t).translate(_ASCII).encode('ascii', 'replace').decode('ascii')
+
+
 def meld(*a):
-    print('[wueste_ergaenzung]', *a, flush=True)
+    """Konsole nur ASCII (Windows-Logs werden mit cp1252 weiterverarbeitet, Korrektur Runde 1)."""
+    print('[wueste_ergaenzung]', *(ascii_(x) for x in a), flush=True)
 
 
 # ----------------------------------------------------------------------------- Raster-Helfer
@@ -593,8 +602,16 @@ def plane_feld(feld, basis, regeln, inv, faktor, bild, wueste_ebene):
         if ind.any():
             biom_gew[b] = box_blur(ind.astype(np.float32), saum) if saum > 0 else ind.astype(np.float32)
     bio_anteil = {namen[k]: round(float((bio[im_feld] == k).mean()), 3) for k in np.unique(bio[im_feld])}
-    if not biom_gew:
-        hinweise.append('Feld %s enthält keine Zellen der Biome wueste/canyon/oedland (Biom-Quelle %s: %s) – nichts geplant' % (feld, bio_quelle, bio_anteil))
+    biome_fenster = {namen[k]: round(float((bio == k).mean()), 4) for k in np.unique(bio)}
+    biome_eigen = [b for b, f in regeln['biom_faktor'].items() if f > 0 and b in namen]
+    eigen_m = np.isin(bio, [namen.index(b) for b in biome_eigen])
+    zellen_zustaendig = int(eigen_m[im_feld].sum())
+    anteil_eigen_fenster = float(eigen_m.mean())
+    min_anteil = float(regeln.get('min_anteil_eigen_fenster', 0.02))
+    if anteil_eigen_fenster < min_anteil:
+        hinweise.append('Feld %s: Anteil der Biome %s im Fenster %.1f %% < %.0f %% (Biom-Quelle %s: %s) - nichts geplant'
+                        % (feld, '/'.join(biome_eigen), anteil_eigen_fenster * 100, min_anteil * 100, bio_quelle, bio_anteil))
+        biom_gew = {}
 
     # --- Fremde Ebenen
     fremd, quellen = lade_fremd(basis, feld, win, regeln, wueste_ebene, hinweise)
@@ -631,7 +648,7 @@ def plane_feld(feld, basis, regeln, inv, faktor, bild, wueste_ebene):
     eigen_baum = np.zeros((H, W), bool)
     totbaum_m = np.zeros((H, W), bool)
     stat_roh = {}
-    for schicht in reihenfolge:
+    for schicht in (reihenfolge if biom_gew else []):
         for kname in knamen:
             kl = klassen[kname]
             if kl['schicht'] != schicht:
@@ -841,7 +858,8 @@ def plane_feld(feld, basis, regeln, inv, faktor, bild, wueste_ebene):
            'terrasse_anteil': round(float(terrasse[im_feld].mean()), 4), 'restfeuchte_mittel': round(float(restfeuchte[im_feld].mean()), 4),
            'hang_mittel_grad': round(float(hang[im_feld].mean()), 2), 'wasser_anteil': round(float(wasser_m[im_feld].mean()), 4)}
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(gesamt), 'ebene': regeln.get('ebene', 'wueste_ergaenzung'),
-            'modus': modus, 'dateien': dateien, 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
+            'modus': modus, 'kollision_anzahl': int(nk), 'biome_eigen': biome_eigen, 'biome_fenster': biome_fenster,
+            'zellen_zustaendig': zellen_zustaendig, 'dateien': dateien, 'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
             'statistik': {'je_klasse': stat, 'je_schicht': stat_schicht, 'kollision': int(nk), 'biome_anteil_feld': bio_anteil, 'biom_quelle': bio_quelle,
                           'gelaende': gel, 'faktor': faktor, 'wuestenfeld': wf, 'laufzeit_s': round(time.time() - t0, 1), 'numba': NUMBA},
             'hinweise': hinweise, 'ungetestet': 'Planer in der Cloud nur mit synthetischen Daten rauchgetestet'}

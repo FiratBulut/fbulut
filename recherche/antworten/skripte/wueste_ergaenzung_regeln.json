@@ -1827,51 +1827,51 @@
  "erwartung_je_feld": {
   "E6": {
    "gesamt": [
-    35000,
-    50000
+    38000,
+    55000
    ],
    "kollision": [
     250,
-    700
+    600
    ],
    "kiesel": [
-    9000,
-    14000
-   ],
-   "trockengras_hoch": [
-    7000,
-    11000
-   ],
-   "trockengras_niedrig": [
-    5000,
+    4000,
     9000
    ],
+   "trockengras_hoch": [
+    12000,
+    20000
+   ],
+   "trockengras_niedrig": [
+    6000,
+    11000
+   ],
    "zweige": [
-    3500,
-    6000
+    4000,
+    8000
    ],
    "dornstrauch": [
-    800,
-    1600
+    1000,
+    2200
    ],
    "totbaum_gross": [
-    40,
-    90
+    25,
+    70
    ],
    "totbaum_klein": [
-    100,
-    220
+    90,
+    200
    ],
    "einzelbaum_rinne": [
-    40,
-    140
+    5,
+    120
    ],
    "schilf_rest": [
-    100,
+    40,
     600
    ],
    "gras_gruen": [
-    600,
+    150,
     2500
    ]
   },
@@ -1898,11 +1898,11 @@
   },
   "D4": {
    "gesamt": [
-    6000,
+    10000,
     15000
    ],
    "kollision": [
-    60,
+    80,
     400
    ],
    "hinweis": "Wüstenfeld: Ergänzung, Budget 15 000; canyon 60 % + wueste 27 %"
@@ -1949,7 +1949,7 @@
    ],
    "hinweis": "Wüstenfeld, oedland 7 %"
   },
-  "hinweis": "Spannen aus Lagenanteilen (biome_je_feld.md) × Dichten; UNGETESTET, mit Echtdaten nachjustieren (--faktor)."
+  "hinweis": "Spannen aus Lagenanteilen (biome_je_feld.md) × Dichten, nach Rauchtest 10.10. (synthetisch D4 14 998, E6 49 966 vor/nach Deckel) kalibriert; UNGETESTET MIT ECHTDATEN, mit --faktor nachjustieren. Rohsumme über Ziel → deterministische Ausdünnung (ausduenn_reihenfolge), protokolliert in plan.json[\"hinweise\"]."
  },
  "felsgruppen_overrides": {
   "hinweis": "Für felsgruppen_plan.py (Teil C) in Biomen wueste/canyon/oedland. Übernahme in felsgruppen_regeln.json durch den Teil-C-Agenten oder Koordinator; Werte hier sind der B9-Vorschlag.",
@@ -2395,5 +2395,7 @@
    "blick": "entlang der Grenze",
    "erwartung": "WU-Ebene unverändert; zusätzlich Totholz, Kiesel in Rinnen, vereinzelt Trockengras; keine Doppelungen (Sträucher nicht doppelt), Gesamt ≤ 15 000"
   }
- ]
+ ],
+ "min_anteil_eigen_fenster": 0.02,
+ "min_anteil_eigen_fenster_hinweis": "Korrektur Runde 1: Anteil der Biome wueste/canyon/oedland im Fenster < 2 % -> leerer plan.json (instanzen 0). Übergangssaum biom_saum_m 6 m (erlaubt bis 30 m)."
 }

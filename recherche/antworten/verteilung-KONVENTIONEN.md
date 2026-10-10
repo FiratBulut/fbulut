@@ -1,0 +1,58 @@
+# Verbindliche Konventionen für alle Verteilungs-Planer (Korrektur Runde 1, 10.10.2026)
+
+Gilt für alle zwölf Planer in `antworten/skripte/` (felsgruppen, mittelschicht, spuren, nordkueste, aue, heide_tundra, hochgebirge,
+elfenwald, sumpf, dschungel, lava, wueste_ergaenzung). Grundlage: `auftraege/verteilung-korrektur-runde1.md` und `vorlagen/FORMAT.md`.
+
+## 1. Zuständigkeit strikt nach Biom-Zellen
+
+- Biom je Zelle: `eigner.r8` + `welt.json["kacheln"][k]["rezept"]`. Kennzahl **0 = Weltgelände → `aue`**, Vulkanregion → `lava`.
+  Nur wenn `eigner.r8` fehlt, gilt als Fallback das dominante Feldbiom aus `daten/biome_je_feld.json` (mit Hinweis im Log).
+- Jeder Biom-Planer hat eine feste Liste `biome_eigen` (z. B. nordkueste = fjord, kueste, bergwald; aue = aue; heide_tundra = heide, tundra;
+  hochgebirge = gletscher, frost; elfenwald = elfenwald; sumpf = sumpf; dschungel = dschungel; lava = lava; wueste_ergaenzung = wueste, canyon, oedland).
+- Bebaut werden nur Zellen, deren Biom in `biome_eigen` liegt, plus ein **weicher Übergangssaum von 30 m** nach außen: Dichtefaktor fällt linear
+  von 1 (an der Biomgrenze) auf 0 (30 m außerhalb). Berechnung über Distanztransformation der Zuständigkeitsmaske (NumPy, z. B. iterative
+  Dilatation oder separierbare Minimum-Filter), keine Python-Zellschleifen.
+- Ist der Anteil der eigenen Biome im Fenster (Feld + Rand) **< 2 %**, schreibt der Planer einen **leeren plan.json** (`instanzen: 0`, keine f32)
+  und meldet das in einer Zeile. Nie mit Text statt plan.json beenden.
+- Querschnitts-Planer (felsgruppen, mittelschicht, spuren) sind für alle Biome zuständig (`biome_eigen` = alle 15), wählen aber Palette und
+  Dichten je Zelle nach Biom.
+
+## 2. plan.json: zusätzliche Pflichtschlüssel (alle Planer)
+
+```
+"biome_fenster":   {"lava": 0.968, "bergwald": 0.03, ...}   # Anteile aller Biome im Fenster, Summe ≈ 1
+"zellen_zustaendig": 123456                                 # Zellen im Feld (ohne Rand), die der Planer bebauen darf (inkl. Saum)
+"biome_eigen":     ["fjord", "kueste", "bergwald"]
+"kollision_anzahl": 1234                                    # Instanzen mit kollision=true (Deckel 3 000)
+```
+Weiterhin `instanzen`, `dateien` (mit `ebene`), `entfernen`, `ft_ordner`, `ft_praefix` nach FORMAT §3.
+
+## 3. Budget (hart)
+
+- ≤ 60 000 Instanzen je Feld und Planer-Ebene, davon ≤ 3 000 mit Kollision. Überschreitung → deterministische Ausdünnung nach Priorität
+  (Hash-basiert), Warnung im Log, nie stillschweigend. Zielwert 45 000–52 000, damit Echtdaten (mehr Bäume als Synthetik) nicht sofort deckeln.
+- Kleinzeug (Laub, Zweige, Kiesel) bevorzugt an Landschafts-Gras abgeben, wenn das Budget knapp wird (Hinweis im plan.json `hinweise`).
+
+## 4. Ebenen-Abgrenzung (Doppelungen vermeiden)
+
+- **mittelschicht_plan.py** (Teil D) ist der einzige Planer für die generischen Mittelschicht-Klassen in allen Biomen:
+  `strauch, jungbaum, farn, totholz_liegend, totholz_stumpf, totholz_ast, hochstaude, grasbueschel, beere, pilz`.
+  Er liest je Biom Palette und Dichtefaktoren aus `mittelschicht_regeln.json["biome"][<biom>]` und zusätzlich, falls vorhanden,
+  `mittelschicht_overrides` aus `<thema>_regeln.json` des zuständigen Biom-Planers (gleicher Ordner wie die eigene Regeldatei; Schlüssel:
+  `palette` je Klasse, `faktor` je Klasse, `zusatzklassen`). Die Overrides gewinnen.
+- **Biom-Planer** (B1–B9) setzen in Schicht 1 **keine** generischen Klassen mehr, sondern nur biomspezifische Sonderformen
+  (z. B. Schilfgürtel, Latschen/Krummholz, Heidekraut-Flecken, Lianen/Riesenfarn-Inseln, Moospolster auf Lava, Tang/Treibholz, Dornbusch-Ödland),
+  dazu Schicht 0 (Boden), 2 (Baum) und 5 (Wasserkante). Ihre bisherigen generischen Schicht-1-Klassen wandern als `mittelschicht_overrides`
+  in ihr Regel-JSON (Palette + Faktor), damit nichts verloren geht. elfenwald behält den Schalter `--mittel zusatz|voll` (Standard `zusatz`).
+- **felsgruppen_plan.py** (Teil C) ist der einzige Planer für Felsen > 0,8 m, Felsbänder, Schuttfächer und Geröllsaum; Biom-Planer setzen
+  keine fels_block/fels_hero-Klassen, nur `felsgruppen_overrides` (Palette, Faktoren) in ihrem JSON, die felsgruppen_plan.py optional liest.
+- **spuren_plan.py** (Teil D) ist der einzige Planer für Spuren von Leben; Biom-Planer liefern `spuren_overrides`.
+- Reihenfolge beim Setzen: felsgruppen → Biom-Planer → mittelschicht → spuren (mittelschicht liest die Baum-Ebenen `bestand/`, `elfenwald/`
+  usw. als Kronendach, falls vorhanden).
+
+## 5. Ausgabe und Robustheit
+
+- `print()` nur ASCII (keine Umlaute, kein „→“, kein „≤“): Logs werden unter Windows mit cp1252 weiterverarbeitet. Umlaute in Logs als ae/oe/ue/ss.
+- Fehlende optionale Dateien → eine Hinweiszeile, weiter; fehlende Pflichtdatei (hoehe.f32, Regeln, netze.csv) → klare Meldung, Exit-Code 2.
+- Jeder Lauf deterministisch (zwei Läufe byteidentisch), Laufzeit ≤ 60 s je Feld, keine Unreal-Importe, numba optional.
+- Rauchtest in der Cloud nur synthetisch; Echtdaten-Zahlen aus `verteilung-korrektur-runde1.md` als Referenz im Bericht nennen.

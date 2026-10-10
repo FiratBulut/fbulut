@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 14:15 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 14:25 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -19,7 +19,29 @@ Fortsetzung ab 12:55 UTC in drei Wellen zu je 3–4 Agenten, die auf den vorhand
 | B6 | Sumpf | 1 Agent | fertig, gepusht (Rauchtest synthetisch H5: 37 789 Inst., 7,1 s) | `verteilung-sumpf.md`, `skripte/sumpf_*` |
 | B7 | Dschungel (inkl. Karst) | 1 Agent | fertig, gepusht (Rauchtest synthetisch H6: 54 932 Inst., 16 s) | `verteilung-dschungel.md`, `skripte/dschungel_*` |
 | B8 | Lava | 1 Agent | fertig, gepusht (Rauchtest synthetisch C6: 42 169 Inst., 23 Punkte, ~4 s) | `verteilung-lava.md`, `skripte/lava_plan.py`, `skripte/lava_regeln.json` |
-| B9 | Wüste/Canyon/Ödland (nur ergänzen) | 1 Agent | läuft (Fortsetzung) | `verteilung-wueste.md`, `skripte/wueste_ergaenzung_*` |
+| B9 | Wüste/Canyon/Ödland (nur ergänzen) | 1 Agent | fertig (Welle 3): Planer korrigiert/kalibriert; Rauchtest synthetisch D4 (Wüstenfeld, Ergänzung) 14 998 Inst./164 Koll./6,5 s, E6 (Ödland voll) 49 966/345/4,2 s, deterministisch, 0 auf Wasser/Weg/Ort; ungetestet mit Echtdaten | `verteilung-wueste.md`, `skripte/wueste_ergaenzung_plan.py`, `skripte/wueste_ergaenzung_regeln.json` |
 
 Reihenfolge: A, C, D parallel → dann B1–B9 parallel (zwei Wellen). Alle Skripte sind in der Cloud nur syntaxgeprüft und mit
 synthetischen Rastern rauchgetestet (keine echten Weltdaten in der Cloud); Korrekturen bitte als `auftraege/verteilung-<thema>-korrektur.md`.
+
+## Korrektur Runde 1 (Auftrag `auftraege/verteilung-korrektur-runde1.md`, 10.10. 15:30 lokal)
+
+Alle zwölf Planer werden nach `antworten/verteilung-KONVENTIONEN.md` überarbeitet: strikte Biom-Zuständigkeit mit 30-m-Saum und
+Leerplan bei < 2 % Eigenanteil, Pflichtschlüssel `biome_fenster`/`zellen_zustaendig`/`biome_eigen`/`kollision_anzahl`, hartes Budget,
+ASCII-Logs, leerer plan.json statt Textabbruch.
+
+**Ebenen-Abgrenzung (Entscheidung):** `mittelschicht_plan.py` ist der einzige Planer für die generischen Mittelschicht-Klassen
+(strauch, jungbaum, farn, totholz_liegend/stumpf/ast, hochstaude, grasbueschel, beere, pilz) und liest je Biom Palette und Faktoren aus
+seinem eigenen JSON plus `mittelschicht_overrides` der Biom-Regeldateien. Biom-Planer setzen in Schicht 1 nur biomspezifische Sonderformen
+und liefern ihre bisherigen generischen Klassen als Overrides. Felsen > 0,8 m nur über `felsgruppen_plan.py`, Spuren nur über `spuren_plan.py`.
+Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
+
+| Planer | Korrektur-Stand |
+|---|---|
+| felsgruppen (C) | Welle K1 läuft |
+| mittelschicht + spuren (D) | Welle K1 läuft |
+| nordkueste (B1) | Welle K1 läuft |
+| elfenwald (B5) | Welle K1 läuft |
+| dschungel (B7) | Welle K1 läuft |
+| aue (B2), heide_tundra (B3), hochgebirge (B4), sumpf (B6), lava (B8) | Welle K2 wartet |
+| wueste_ergaenzung (B9) | Erstfassung läuft noch, Korrektur danach |
