@@ -14,6 +14,19 @@ G4 114, E1 18 482, C6 27 357). Diese Fassung setzt antworten/verteilung-KONVENTI
   - print() nur ASCII (Umlaute -> ae/oe/ue/ss), Logs werden unter Windows mit cp1252 weiterverarbeitet.
   - optional felsgruppen_overrides aus den Biom-Regeldateien (Zuordnung in felsgruppen_regeln.json["overrides"]); Overrides
     gewinnen. Neue Override-Option mindestdichte_je_ha (Klasse "einzel": Einzelblöcke/Moosfelsen auch ohne Relief).
+Stand Korrektur Runde 2 (auftraege/verteilung-korrektur-runde2.md, Befund 2/3; Echtdaten A5 Runde 1: 12 785 Instanzen +
+53 Akteure, aus 300 m nur verstreute Punkte und flache helle Platten auf Gras):
+  - Gruppengrammatik (Regelblock "form"): Hauptfels sichtbar 4,5-8,5 m (Grat) bzw. 4-7,5 m (Kuppe), Maßstab = Zielhöhe /
+    Netzhöhe (netze_masse.json, sonst netze.csv), Megascans bis 2,5, sonst bis 1,5; 3-5 Satelliten 1,5-4 m entlang der
+    gemeinsamen Hauptrichtung, Mittenabstand <= 1,5 x Hauptfels-Radius; Steine 0,5-1,4 m; ohne gültigen Hauptfels keine Gruppe.
+  - Felskrone: grat = Kette von Formgruppen auf der Kammlinie (Querschnitt-Maximum, eine Gruppe je 28-m-Zelle);
+    fuss = Blockstrom-Zunge am Fuß von Wänden > 50 Grad (Kopfblock 2,5-4 m, Größe hangabwärts abnehmend, <= 30 m).
+  - Platten-Regel (Block "platten"): flache Platten-Netze nur auf Kies/Geröll/Fels/Felsplatte >= 100 (Gras/Wiese nicht
+    stärker), >= 50 % eingegraben, an der Normale, strenger Schwebe-Test; zentral auch für Zusatzklassen der Biome.
+  - Kleinmaterial (Kiesel, Stücke < 0,5 m) nur im Kontaktsaum <= 2 m um Gruppenstücke (Block "kleinmaterial"), nach Budget geprüft.
+  - Sperrliste "gesperrt" (SM_Column_03, SM_Main_Arch_01) für Paletten, Overrides, Zusatzklassen und Punkt-Netze.
+  - Budget nach Gruppen-Priorität (ganze Gruppen), Kollision über dem Deckel wird bei den kleinsten Stücken abgeschaltet;
+    plan.json: statistik.form (Kennzahlen), pruefkameras (Grat-Blick aus 300 m u. a.), gesperrt.
 In der Cloud nur synthetisch rauchgetestet. Korrekturen bitte als auftraege/verteilung-felsgruppen-korrektur.md.
 
 Was das Skript tut
@@ -2982,7 +2995,7 @@ class Planer:
             fi, fj = cy + Y0 - i0, cx + X0 - j0
             inn = (1 <= fi < H - 1) and (1 <= fj < W - 1)
             boden = float(bilinear(self.h, np.array([fi]), np.array([fj]))[0]) if inn else zz - 0.5 * abstand * 0.3
-            cz = max(boden, 0.0) + ueber
+            cz = max(max(boden, 0.0) + ueber, zz - abstand * math.tan(math.radians(12.0)))  # höchstens 12 Grad Aufblick
             cams.append({"name": name, "x_cm": round(cx * 100), "y_cm": round(cy * 100), "z_cm": round(cz * 100),
                          "yaw_grad": round(math.degrees(math.atan2(zy - cy, zx - cx)), 1),
                          "pitch_grad": round(math.degrees(math.atan2(zz - cz, abstand)), 1),

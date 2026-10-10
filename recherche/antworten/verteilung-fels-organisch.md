@@ -3,7 +3,8 @@
 **Projekt:** Eldarien, UE 5.8.3, 1-m-Raster 9577 × 7057, World Partition, Nanite. **Stand:** 2026-10-10.
 **Lieferung:** dieses Dokument, `skripte/felsgruppen_regeln.json` (alle Zahlen), `skripte/felsgruppen_plan.py` (Planer, FORMAT.md §3/§5).
 **Status:** Vorfassung lief lokal mit Echtdaten (A5, G4, E1, C6) ohne Absturz; **Korrektur Runde 1** (Abschnitt h) setzt
-`verteilung-KONVENTIONEN.md` um und ist in der Cloud nur synthetisch rauchgetestet (B4 + G4). Kein Setzen im Editor. Zahlen ohne Quelle sind
+`verteilung-KONVENTIONEN.md` um und ist in der Cloud nur synthetisch rauchgetestet (B4 + G4); **Korrektur Runde 2** (Abschnitt i:
+Felsgruppen als Form auf 300 m, Platten-Regel, Kontaktsaum, Sperrliste) ebenfalls nur synthetisch (A5-artig + B4). Kein Setzen im Editor. Zahlen ohne Quelle sind
 Richtwerte und so markiert. Web-Quellen nur als Suchauszüge (kein
 Direktzugriff auf Epic-Doku/Fab/80.lv aus dieser Umgebung).
 
@@ -452,3 +453,176 @@ byteidentisch (246 Dateien), Log reines ASCII, py_compile OK.
    Rauchtest C6: Lava-Plan mit 4 Punkten (2 mit netz/yaw) → 4 Spire-Akteure an den Punkten, Netz und Yaw 90° übernommen (beim zweiten
    182° statt 180°, Differenz aus dem Kippen in den Hang); Lava-Plan ohne Spire-Punkte → 0; ohne Lava-Plan → 6 über die Ersatzmaske. Zwei Läufe
    byteidentisch, Log ASCII, py_compile OK.
+
+## i) Korrektur Runde 2 (10.10.2026, Befund 2 und 3)
+
+Grundlage: `auftraege/verteilung-korrektur-runde2.md`. Echtdaten A5 aus Runde 1: 12 785 Instanzen + 53 Akteure; im Editor
+(`CLOUD1_A5_rundgang` gegen `FELS8_A5_rundgang`, Nahaufnahme `V17TEST_A5_rundgang`) aus ~300 m nur verstreute Punkte, helle flache Platten
+„wie Pappe“ auf dem Gras, kein Grat mit Felskrone, kein Blockstrom. Geändert: nur `skripte/felsgruppen_plan.py`,
+`skripte/felsgruppen_regeln.json` und dieses Dokument. Biom-Regeldateien nur gelesen.
+
+### Ursache (aus Code und Messung, nicht aus Echtdaten nachgemessen)
+
+1. **Hauptfels zu klein.** Nur grat/kuppe/prallhang konnten überhaupt einen Hero setzen (hero_p 0,5–0,7). Alle übrigen Klassen begannen
+   mit einem Block 0,9–3,6 m Netzhöhe × Maßstab 0,8–1,3, abzüglich 25–45 % Eingraben – sichtbar meist 0,5–2,5 m. In Runde 1 waren das
+   im A5-artigen Test 1 941 von 2 381 Gruppen (fuss 1 465, band 394, blockstrom 82). Der Hero wurde gleichverteilt aus der Palette gezogen,
+   mit festem Maßstab 0,9–1,4 und ohne Bezug zu einer Zielhöhe. Ergebnis: nur 461 von 39 802 Stücken (1,2 %) waren mindestens 3 m hoch.
+2. **Zu dünn besetzt und verstreut.** Kandidatenraster von 9–16 m mit p 0,35–0,55 erzeugten Tausende kleiner Gruppen gleichmäßig über alle Hänge.
+   Der Schuttfächer nahm jede Zelle bis 64 m unter einer Wand, in 16–64 m Abstand nur Steine; daraus entstand der Teppich. Der Grat
+   (14-m-Raster, Gratstärke ≥ 0,02 1/m) traf Buckel auf den Flanken statt der Kammlinie. Auf breiten echten Rücken ist 0,02 1/m
+   (Krümmungsradius 50 m) vermutlich selten erreicht; dann fehlt die Krone ganz. Das Budget dünnte nach Instanz-Hash aus: Die Deckel
+   block > 2 600 und Kollision > 3 000 nahmen Nebenblöcke zufällig aus *allen* Gruppen (synthetisches B4: 2 574 Blöcke und 414 mit
+   Kollision). Jede Gruppe wurde dadurch löchrig, statt dass es weniger Gruppen gab.
+3. **Platten wie Pappe.** Jede fuss/blockstrom/kuppe-Gruppe bekam mit 50 % eine Platte (ErodedRockyGround 7 × 3,7 × 0,33 m,
+   NordicBeachRockyGround …). Es gab keine Lagenprüfung. Eingegraben wurden 40–50 % von 0,33 m, also 13–16 cm; dazu kamen Kippen 0–4°
+   und auf band/wand die Schichtneigung. Im A5-artigen Test lagen 691 von 1 133 Platten auf Gras.
+4. **Kleinmaterial als Teppich.** 6–30 Kiesel je Gruppe × 2 381 Gruppen ergaben 29 165 Kiesel und 6 650 Steine. 34 % des Kleinmaterials
+   lagen mehr als 2 m vom nächsten Felsstück entfernt.
+
+### Änderungen
+
+1. **Gruppengrammatik** (neuer Regelblock `form`). Höhen sind *sichtbare* Höhen: Netzhöhe × Maßstab × (1 − Eingraben).
+   - **Hauptfels:** an Graten 4,5–8,5 m, an Kuppen 4–7,5 m, an Prallhängen 4–7 m (hero_p 0,9 / 0,85 / 0,8; sonst ein Hauptblock
+     2,5–4 m). Der Maßstab je Netz ist Zielhöhe / Netzhöhe aus `netze_masse.json`, sonst `netze.csv`. Grenzen: Megascans-Pfade
+     (`/Megascans/`) bis 2,5, andere Sets bis 1,5, untere Grenze 0,45, Fußbreite ≤ 14 m.
+   - **Netzwahl:** gewählt wird per Hash unter den Netzen, die das Ziel in diesen Grenzen erreichen. Kandidaten sind hero + block,
+     flache Netze und Platten-Netze sind ausgeschlossen. Erreicht kein Netz das Ziel, wird zufällig unter den nächstliegenden gewählt
+     (gezählt in `statistik.form.netzwahl_rueckfall`).
+   - **Satelliten:** 3–5 Blöcke 1,5–4 m (0,35–0,7 × Hauptfels, kleiner mit dem Rang), abwechselnd auf beiden Seiten der gemeinsamen
+     Hauptrichtung (Gratachse bzw. Streichen, ±35°). Mittenabstand 0,7–1,5 × Hauptfels-Radius, so liegen sie teils am Fels an.
+   - **Steine:** 2–5 Steine 0,5–1,4 m im Abstand 1,0–1,5 × Radius, bevorzugt hangabwärts.
+   - **Platte:** optional eine Platte am Fuß (p 0,35, nur nach Platten-Regel).
+   - **Ohne gültigen Hauptfels entfällt die ganze Gruppe.** Es bleiben keine verwaisten Satelliten stehen.
+   - Eingraben und Kippen bleiben wie bisher; Hero-Eingraben 25–35 %, Biom-Overrides gewinnen weiter.
+2. **Felskrone als Kette** (Klasse grat, `kandidaten_kamm`). Kammlinie heißt:
+   - Gratstärke ≥ 0,006 1/m;
+   - Querschnitt-Maximum der σ-8-Höhe bei ±4 m quer zur Gratachse;
+   - großräumig höchster Punkt bei ±24 m und mindestens 2,5 m über dem Mittel beider Seiten (das trennt Kämme von Buckeln am Hang);
+   - Relief gegen σ 25 m ≥ 1,5 m.
+
+   Je globaler 28-m-Zelle wird der höchste Kammpunkt genommen. Nachbarn unter 20 m und Kuppen unter 24 m werden unterdrückt, dann gilt
+   p 0,8 × Fels-Lagenfaktor × Biomfaktor. Das ergibt eine Kette von Formgruppen entlang des Kamms, Hauptrichtung = Gratachse.
+3. **Blockstrom am Wandfuß** (Klasse fuss, `kandidaten_strom`): je 24-m-Zelle eine Zunge aus Zellen 0–8 m unter einer großen Wand
+   (≥ 50°, Relief ≥ 8 m). Aufbau:
+   - Kopfblock sichtbar 2,5–4 m an der Wand;
+   - dann 4–7 Blöcke bzw. Steine entlang der Falllinie, Größe von 0,8 auf 0,25 × Kopf abnehmend;
+   - der Fächer wird nach unten breiter, die Länge ist ≤ 30 m.
+
+   blockstrom (Hangfuß, konkav) nutzt dieselbe Zunge mit Kopf 2–3,5 m auf einem 32-m-Raster. band läuft auf einem 14-m-Raster mit p 0,4;
+   wand bleibt unverändert.
+4. **Platten-Regel** (Block `platten`, zentral in `_platzieren` und `zusatz_erzeugen`):
+   - **Was als Platte gilt:** Netze laut Muster `SM_ErodedRockyGround_`, `SM_NordicBeachRockyGround_`, `SM_TundraRockyGround_01`,
+     `SM_flat_rock_0`, dazu flache Netze (Höhe < 0,3 × Breite) mit Rolle platte/geroell_platte. Nicht flache Blöcke einer
+     Platten-Rolle (hochgebirge `moraene`) behalten die Lagen-Bedingung des Bioms (Geroell 60), laut Absprache mit dem Biom-Agenten.
+   - **Lage:** nur auf Zellen mit max(`lage_Kies`, `lage_Geroell`, `lage_Fels`, `lage_Felsplatte`) ≥ 100, Namen laut FORMAT §2.
+     Gras/Wiese darf nicht stärker sein als die stärkste dieser Lagen. Geprüft werden die Mitte und 4 Randpunkte bei 0,6 × Radius.
+   - **Einbau:** Eingraben ≥ 50 % (Rollenregel 50–65 %), Z-Achse = Geländenormale ohne Kippen und Schichtneigung, Maßstab 0,6–1,0.
+   - **Schwebe-Test (streng):** in 8 Richtungen darf das Gelände höchstens Eingrabtiefe + 5 cm unter der Plattenebene liegen.
+   - **Geltung:** auch für Zusatzklassen der Biome, z. B. wueste `geroellplatte`, dschungel `karstplatte`, hochgebirge `moraene`.
+     Fehlen alle Lagen-Raster, werden keine Platten gesetzt (Hinweis).
+5. **Kleinmaterial nur im Kontaktsaum** (Block `kleinmaterial`).
+   - Kiesel entstehen nur noch als Ring 0,5–2 m um jedes große Stück (Hauptfels, Satellit, Strom-Block), zu 65 % hangabwärts.
+     Dichte 0,6–1,2 /m², je Stück begrenzt (Hauptfels laut Klasse, z. B. grat 8–16; Satellit 1–4). Bei Zungen ergibt das den Schuttfächer.
+   - Nach dem Budget prüft `kontaktsaum` exakt: Kiesel und Stücke < 0,5 m müssen höchstens 2 m vom Rand eines Gruppenstücks ≥ 0,5 m
+     liegen, sonst fallen sie weg. Das betrifft verwaiste Säume und auch Zusatzklassen; hängende Stücke (`z_versatz_anteil`) sind ausgenommen.
+   - Der Fußradius kommt aus dem tatsächlichen x/y-Maßstab.
+6. **Sperrliste** `gesperrt.netze` (`/Game/AncientRuins/Meshes/SM_Column_03`, `SM_Main_Arch_01`). Sie wird entfernt aus:
+   - den Grundpaletten (Log `Sperrliste: …`);
+   - allen Override-Pfaden: Paletten, Ergänzungen, Zusatzklassen-Netze (Log `Hinweis: <datei>: n Verweise auf gesperrte Netze entfernt`,
+     `plan.json overrides.dateien.<datei>.gesperrt_entfernt`);
+   - Netzen aus Lava-Plan-Punkten.
+
+   `plan.json["gesperrt"]` listet die Sperrliste. In den heutigen `felsgruppen_overrides` kommen beide Netze nicht vor; mit einer Testkopie
+   ist die Entfernung geprüft (2 Override-Verweise und 1 Paletten-Verweis entfernt, 0 Instanzen).
+7. **Budget nach Gruppen.**
+   - Je Rolle und gesamt wird nach Gruppen-Priorität ausgedünnt: ganze Gruppen zuerst, Kiesel weiter nach Instanz-Hash.
+   - Über dem Kollisionsdeckel wird die Kollision der kleinsten Stücke abgeschaltet, das Stück bleibt sichtbar; WARNUNG wie bisher.
+   - Test B4 mit `--faktor 3`: block > 2 600 entfernt 1 114 Stücke ganzer Gruppen, 298 Kollisionen abgeschaltet, 1 827 verwaiste
+     Kiesel im Kontaktsaum entfernt.
+8. **plan.json:**
+   - `statistik.form`: Gruppen je Klasse, Hauptfels-Höhen sichtbar/Netz/Maßstab, Gruppenbreite, Blockstrom-Länge, Satellitenabstand,
+     Platten auf Gras, Kleinmaterial außerhalb Saum, Netzwahl-Rückfälle, Kammzellen;
+   - `pruefkameras` (unten), `gesperrt`;
+   - Log-Zeile `Form: …`.
+   - Draufsicht `--bild`: Stücke als Scheibe mit Fußradius, Platten weiß.
+
+Neue Zusatzklassen der Biom-Agenten (lava `basaltsaeule`, elfenwald `bachblock`/`uferfelsstufe`) werden gelesen. Bei allen Klassen:
+0 ignorierte Schlüssel.
+
+### Rauchtest Runde 2 (synthetisch, Cloud, Python 3.13, NumPy, kein numba; Raster danach gelöscht)
+
+**Testgelände:**
+- **A5-artig:** Meer im Westen, Bergrücken N–S bis 400 m mit scharfem Kamm, breiter Seitengrat, Kliffband > 50°, 3 Kuppen.
+  Kacheln: kueste, bergwald, aue-Tal, Lava-Küstenstreifen, Elfenwald mit Bach, Canyon-Flecken mit Geroell/Gras-Mosaik.
+  19 % der Landzellen > 50°.
+- **B4:** Gebirge wie Runde 1.
+- **Lagen in beiden:** Gras/Wiese auf flachen und mittleren Hängen, Fels an Steilhängen und Kronen, Kies/Geroell im 30-m-Streifen unter Wänden.
+- **Overrides:** aus den aktuellen, stabilen Biom-Regeldateien (Kopie).
+- **Runde 1:** Planer und Regeln aus Git (Stand vor Runde 2) auf demselben Raster.
+- **Messung:** Platten und Kleinmaterial unabhängig aus f32 + Lagen-Rastern gemessen (exakter Randabstand), Formwerte aus `statistik.form`.
+
+| Wert | A5-artig R1 → R2 | B4 R1 → R2 |
+|---|---|---|
+| Gruppen (Kandidaten, Summe der Klassen) | 2 381 → **515 (22 %)**; mit gültigem Hauptfels 392 | 2 891 → **825 (29 %)**; gültig 697 |
+| davon grat / band / wand / fuss / blockstrom / kuppe | 382/394/56/1 465/82/2 → 44/210/56/176/27/2 | 558/621/130/1 319/258/4 → 93/314/130/229/54/4 |
+| Instanzen | 39 802 → 10 696 | 54 566 → 21 303 |
+| Kollision / Akteure | 2 778 / 150 → 1 509 / 127 | 3 000 / 150 → 2 805 / 150 |
+| Hauptfels Grat/Kuppe sichtbar (Median / Max) | – → **5,8 / 6,9 m** (min 2,7 = Hauptblock bei 3 von 39) | – → **5,4 / 7,6 m** |
+| Netzhöhe × Maßstab Hauptfels (Median / Max), Maßstab max | – → 9,0 / 10,6 m, 2,1 | – → 8,5 / 10,6 m, 2,1 |
+| Stücke ≥ 3 m (Netzhöhe × Maßstab) | 461 → 672 | 713 → 1 206 |
+| Gruppenbreite Formgruppen p10 / Median / p90 / Max | – → 14,8 / 24,7 / 27,7 / 28,6 m | – → 13,4 / 23,4 / 26,8 / 29,2 m |
+| Blockstrom-Länge Median / Max | – → 20,7 / 31,6 m | – → 20,1 / 30,9 m |
+| Satellitenabstand / Hauptfels-Radius Median / p95 / Max | – → 1,13 / 1,45 / **1,50** | – → 1,12 / 1,46 / **1,50** |
+| Platten gesamt (davon auf Gras) | 1 133 (**691**) → 8 (**0**) | 1 620 (**817**) → 34 (**0**) |
+| Kleinmaterial < 0,5 m (Anteil > 2 m vom Rand eines Stücks) | 31 842 (34 %) → 8 524 (**0 %**) | 43 587 (27,5 %) → 16 851 (**0 %**) |
+
+Zusatzklassen im A5-artigen Test (Runde 1 → Runde 2 gleich): elfenwald `bachblock` 9 Gruppen / 14 Stücke, lava `basaltsaeule` 1 / 2
+(Akteure), wueste `geroellplatte` 2 / 3 auf dem Geroell-Mosaik (keine auf den Gras-Flecken). Im B4-Test wurden bei hochgebirge `moraene`
+4 Platten-Netze verworfen (Lage < 100).
+
+**Gruppenzahl.** Sie liegt bei 22–29 % von Runde 1, also mehr als halbiert. Der größte Teil der Runde-1-„Gruppen“ waren 2–4-teilige
+Fächerhäufchen. Wer näher an 50 % will, verkleinert `klassen.band.raster_m` (14) oder `klassen.fuss.strom_abstand_m` (24).
+
+**Weitere Prüfungen.**
+- Zwei Läufe A5 + B4 byteidentisch (352 Dateien inkl. plan.json; PNG gleich).
+- Log und `--help` reines ASCII.
+- Prüfwerte: `instanzen` = Summe `anzahl` = f32-Zeilen, `kollision_anzahl` stimmt, Quaternionen normiert (Fehler ≤ 6e-8),
+  Pflichtschlüssel vorhanden.
+- Randfälle: A1 → leerer plan.json, Z9 → übersprungen, ohne `hoehe.f32` Exit 2.
+- Laufzeit 9–11 s je Feld; py_compile OK.
+- Draufsicht A5: Runde 1 zeigt einen gleichmäßigen Teppich aus Fächer-Punkten über allen Hängen. Runde 2 zeigt eine geschlossene Kette
+  großer Formgruppen auf dem Hauptkamm, kurze Blockstrom-Zungen quer unter den Wänden und freie Grashänge.
+
+**Erwartung Echtdaten A5** (nicht gemessen): deutlich weniger als 12 785 Instanzen (im synthetischen A5 27 % von Runde 1, also grob 3 000–5 000). Kollision
+und Akteure bleiben unter dem Deckel. Liegen auf den A5-Grashängen keine Kies-/Fels-Lagen, gibt es dort keine Platten mehr.
+
+### Prüfkameras A5 (Grat-Blick aus ~300 m)
+
+Der Planer schreibt je Feld `plan.json["pruefkameras"]` aus den Echtdaten (Weltkoordinaten cm, UE-Yaw/Pitch in Grad):
+- `grat_300m`: Ziel ist die höchste Felskrone (Hauptfels der Klasse grat). Die Kamera steht 300 m quer zur Gratachse auf der tieferen
+  Seite, Gelände + 60 m, höchstens 12° Aufblick.
+- `grat_120m`: dieselbe Gruppe aus 120 m, + 25 m.
+- `blockstrom_120m`: 120 m hangabwärts vom größten Kopfblock, + 15 m.
+- `kuppe_200m`: Kuppe aus 200 m.
+
+**Vorgehen in A5** (Feldmitte X −422 650, Y 47 550): `grat_300m` aus `felsgruppen/A5/plan.json` übernehmen. Ersatzweise vom Wasser vor
+der Steilküste 300 m vor dem Bergrücken, 60 m über Meer, Blick auf den Kamm wie in `CLOUD1_A5_rundgang`.
+
+**Erfolg erkennbar an:**
+- Auf dem Kamm sitzt eine Kette von Felsformen (5–8 m hoch, 15–29 m breit, alle 25–35 m) mit eng anliegenden Blöcken.
+- Unter den Wänden laufen Blockströme mit großen Blöcken oben und kleinen unten.
+- Die Grashänge dazwischen sind frei: keine einzelnen hellen Platten, kein Kieselteppich.
+- Aus 120 m sitzt der Kieselsaum nur am Fuß der Stücke.
+
+Synthetik-Beispiel A5-artig: `grat_300m` bei (−437 150, 77 893, 32 745) cm, Yaw −4,7°, Pitch 12° auf das Ziel (−407 250, 75 450, 39 122).
+
+### Offene Punkte Runde 2
+
+1. **Kammschwellen nur synthetisch abgestimmt.** Betroffen sind 0,006 1/m, ±24 m und 2,5 m Querrelief. Bekommt ein echter A5-Kamm keine
+   Krone, `statistik.form.kammzellen` prüfen und `kamm_quer_relief_m` auf 1,5 senken; trägt er zu viele, auf 4 heben.
+2. **Hauptfels-Netze erreichen höchstens ~7–8 m sichtbar.** Grund ist die Fußbreite ≤ 14 m; die Kliffnetze werden dafür verkleinert,
+   Rückfälle in `netzwahl_rueckfall`. Für 9–10 m fehlen schlanke 6–10-m-Felsen; das passt zur Einkaufsliste f („Nordic Rock Cliff“ 4–8 m).
+3. **Klasse wand unverändert.** Die Kliff-Schalen (bis 34 m breit) sind keine Formgruppen; ihre „Breite“ (Median ~50 m) steht getrennt
+   in `statistik.form.gruppenbreite_m.wand`.
+4. **Kleinmaterial-Anteil.** Rund 80 % der Instanzen sind weiter Kleinmaterial, in absoluten Zahlen aber −61 bis −73 %. Bei Bedarf
+   `form.kiesel_dichte_je_m2` bzw. `kiesel_je_stueck` senken.
