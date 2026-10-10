@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-10",
+ "stand": "2026-10-10 (Rauchtest-Abgleich)",
  "thema": "dschungel",
  "hinweis": "Regeln für dschungel_plan.py (Auftrag 11, Teil B7: Dschungel inkl. Karst-Kalktürme). Alle Dichten in Instanzen je m² Kernfläche; sie werden mit Lage-, Licht-, Hang-, Höhen-, Wasser-, Karst- und Gruppen-Faktoren multipliziert. UNGETESTET MIT ECHTDATEN (Cloud: nur synthetischer Rauchtest). Pfade ohne '/Game/' werden vom Planer ergänzt und gegen daten/netze.csv geprüft.",
  "seed": 7107,
@@ -8,355 +8,2248 @@
  "ausgabe_ordner": "dschungel",
  "fenster_rand_m": 64,
  "felder": {
-  "G6": {"dschungel": 0.97, "karst": true, "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"},
-  "H6": {"dschungel": 1.00, "karst": true, "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"},
-  "I6": {"dschungel": 1.00, "karst": true, "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"},
-  "G7": {"dschungel": 0.73, "karst": false, "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"},
-  "H7": {"dschungel": 0.76, "karst": false, "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"},
-  "I7": {"dschungel": 0.76, "karst": true, "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"},
-  "G5": {"dschungel": 0.22, "karst": false, "entfernen": ""},
-  "I5": {"dschungel": 0.21, "karst": false, "entfernen": ""},
-  "H5": {"dschungel": 0.12, "karst": false, "entfernen": ""}
+  "G6": {
+   "dschungel": 0.97,
+   "karst": true,
+   "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"
+  },
+  "H6": {
+   "dschungel": 1.0,
+   "karst": true,
+   "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"
+  },
+  "I6": {
+   "dschungel": 1.0,
+   "karst": true,
+   "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"
+  },
+  "G7": {
+   "dschungel": 0.73,
+   "karst": false,
+   "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"
+  },
+  "H7": {
+   "dschungel": 0.76,
+   "karst": false,
+   "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"
+  },
+  "I7": {
+   "dschungel": 0.76,
+   "karst": true,
+   "entfernen": "sm_fern_01a,sm_fern_02a,sm_vines_01a"
+  },
+  "G5": {
+   "dschungel": 0.22,
+   "karst": false,
+   "entfernen": ""
+  },
+  "I5": {
+   "dschungel": 0.21,
+   "karst": false,
+   "entfernen": ""
+  },
+  "H5": {
+   "dschungel": 0.12,
+   "karst": false,
+   "entfernen": ""
+  }
  },
- "feld_biom_fallback": {"G6": "dschungel", "H6": "dschungel", "I6": "dschungel", "G7": "dschungel", "H7": "dschungel", "I7": "dschungel", "G5": "heide", "I5": "bergwald", "H5": "sumpf"},
- "biome": ["aue", "bergwald", "gletscher", "tundra", "canyon", "oedland", "heide", "elfenwald", "dschungel", "kueste", "wueste", "lava", "frost", "sumpf", "fjord"],
+ "feld_biom_fallback": {
+  "G6": "dschungel",
+  "H6": "dschungel",
+  "I6": "dschungel",
+  "G7": "dschungel",
+  "H7": "dschungel",
+  "I7": "dschungel",
+  "G5": "heide",
+  "I5": "bergwald",
+  "H5": "sumpf"
+ },
+ "biome": [
+  "aue",
+  "bergwald",
+  "gletscher",
+  "tundra",
+  "canyon",
+  "oedland",
+  "heide",
+  "elfenwald",
+  "dschungel",
+  "kueste",
+  "wueste",
+  "lava",
+  "frost",
+  "sumpf",
+  "fjord"
+ ],
  "biom_faktor": {
   "_doku": "Faktor auf alle Dichten je Biom der Zelle (eigner.r8 + welt.json). Nur dschungel voll; Nachbarbiome bekommen einen Übergangssaum (saum_m) ab der Dschungel-Grenze, danach den Faktor hier. 0 = nichts.",
-  "dschungel": 1.0, "aue": 0.3, "sumpf": 0.45, "bergwald": 0.3, "elfenwald": 0.25, "heide": 0.0, "kueste": 0.2,
-  "gletscher": 0.0, "tundra": 0.0, "canyon": 0.0, "oedland": 0.0, "wueste": 0.0, "lava": 0.0, "frost": 0.0, "fjord": 0.0,
+  "dschungel": 1.0,
+  "aue": 0.3,
+  "sumpf": 0.45,
+  "bergwald": 0.3,
+  "elfenwald": 0.25,
+  "heide": 0.0,
+  "kueste": 0.2,
+  "gletscher": 0.0,
+  "tundra": 0.0,
+  "canyon": 0.0,
+  "oedland": 0.0,
+  "wueste": 0.0,
+  "lava": 0.0,
+  "frost": 0.0,
+  "fjord": 0.0,
   "saum_m": 30
  },
  "lagen": {
   "_doku": "Gewicht je Bodenlage (lage_<Name>.r8, 0–255 → 0–1). Faktor der Zelle = Summe(gewicht · deckung) / Summe(deckung) je Schicht-Lagengruppe; fehlt eine Lage-Datei, zählt sie 0; fehlen alle, gilt 'ohne_lagen'.",
   "ohne_lagen": 0.8,
-  "feucht": {"Laub": 1.0, "Moos": 1.1, "Schlamm": 0.9, "Kraut": 0.9, "Erde": 0.8, "Lehm": 0.7, "Gras": 0.7, "Wiese": 0.6, "Sand": 0.5, "Trockengras": 0.3, "Heide": 0.2, "Kies": 0.4, "Geroell": 0.3, "Fels": 0.15, "Felsplatte": 0.1, "Algen": 0.6, "Nadeln": 0.5},
-  "licht": {"Laub": 0.8, "Moos": 0.6, "Schlamm": 0.5, "Kraut": 1.0, "Erde": 0.8, "Lehm": 0.7, "Gras": 1.0, "Wiese": 1.0, "Sand": 0.6, "Trockengras": 0.6, "Heide": 0.3, "Kies": 0.4, "Geroell": 0.3, "Fels": 0.15, "Felsplatte": 0.1, "Algen": 0.3, "Nadeln": 0.5},
-  "moos": {"Laub": 0.6, "Moos": 1.6, "Schlamm": 0.8, "Kraut": 0.5, "Erde": 0.6, "Lehm": 0.5, "Gras": 0.3, "Wiese": 0.2, "Sand": 0.3, "Trockengras": 0.1, "Heide": 0.1, "Kies": 0.4, "Geroell": 0.5, "Fels": 0.9, "Felsplatte": 0.9, "Algen": 0.8, "Nadeln": 0.5},
-  "streu": {"Laub": 1.3, "Moos": 0.7, "Schlamm": 0.6, "Kraut": 0.8, "Erde": 0.9, "Lehm": 0.7, "Gras": 0.5, "Wiese": 0.4, "Sand": 0.5, "Trockengras": 0.4, "Heide": 0.2, "Kies": 0.3, "Geroell": 0.3, "Fels": 0.2, "Felsplatte": 0.1, "Algen": 0.3, "Nadeln": 0.8}
+  "feucht": {
+   "Laub": 1.0,
+   "Moos": 1.1,
+   "Schlamm": 0.9,
+   "Kraut": 0.9,
+   "Erde": 0.8,
+   "Lehm": 0.7,
+   "Gras": 0.7,
+   "Wiese": 0.6,
+   "Sand": 0.5,
+   "Trockengras": 0.3,
+   "Heide": 0.2,
+   "Kies": 0.4,
+   "Geroell": 0.3,
+   "Fels": 0.15,
+   "Felsplatte": 0.1,
+   "Algen": 0.6,
+   "Nadeln": 0.5
+  },
+  "licht": {
+   "Laub": 0.8,
+   "Moos": 0.6,
+   "Schlamm": 0.5,
+   "Kraut": 1.0,
+   "Erde": 0.8,
+   "Lehm": 0.7,
+   "Gras": 1.0,
+   "Wiese": 1.0,
+   "Sand": 0.6,
+   "Trockengras": 0.6,
+   "Heide": 0.3,
+   "Kies": 0.4,
+   "Geroell": 0.3,
+   "Fels": 0.15,
+   "Felsplatte": 0.1,
+   "Algen": 0.3,
+   "Nadeln": 0.5
+  },
+  "moos": {
+   "Laub": 0.6,
+   "Moos": 1.6,
+   "Schlamm": 0.8,
+   "Kraut": 0.5,
+   "Erde": 0.6,
+   "Lehm": 0.5,
+   "Gras": 0.3,
+   "Wiese": 0.2,
+   "Sand": 0.3,
+   "Trockengras": 0.1,
+   "Heide": 0.1,
+   "Kies": 0.4,
+   "Geroell": 0.5,
+   "Fels": 0.9,
+   "Felsplatte": 0.9,
+   "Algen": 0.8,
+   "Nadeln": 0.5
+  },
+  "streu": {
+   "Laub": 1.3,
+   "Moos": 0.7,
+   "Schlamm": 0.6,
+   "Kraut": 0.8,
+   "Erde": 0.9,
+   "Lehm": 0.7,
+   "Gras": 0.5,
+   "Wiese": 0.4,
+   "Sand": 0.5,
+   "Trockengras": 0.4,
+   "Heide": 0.2,
+   "Kies": 0.3,
+   "Geroell": 0.3,
+   "Fels": 0.2,
+   "Felsplatte": 0.1,
+   "Algen": 0.3,
+   "Nadeln": 0.8
+  }
  },
  "licht": {
   "_doku": "Beschattung 0–1 aus Kronendach (Bäume aus bestand/, witcher/, instanzen.json und der eigenen Baumschicht). Kronenradius_m = kronen_faktor · Netzhöhe_m · Maßstab (min/max geklemmt). Deckung = 1 − exp(−k · Kronenfläche je m², Gauß-geglättet sigma_m). Jede Klasse nennt 'licht': [b0, b1, b2, b3] = Faktor bei Beschattung 0 / 0,33 / 0,67 / 1 (linear interpoliert).",
-  "kronen_faktor": 0.33, "kronen_radius_min_m": 1.5, "kronen_radius_max_m": 14.0, "k": 1.4, "sigma_m": 4.0,
-  "lichtung": {"wellenlaenge_m": 110, "anteil": 0.16, "_doku": "Wertrauschen; die 'anteil' niedrigsten Werte sind Lichtungen (Baumfaktor lichtung_baum_faktor, Lichtpflanzen bekommen dort licht[0])."},
+  "kronen_faktor": 0.33,
+  "kronen_radius_min_m": 1.5,
+  "kronen_radius_max_m": 14.0,
+  "k": 1.4,
+  "sigma_m": 4.0,
+  "lichtung": {
+   "wellenlaenge_m": 110,
+   "anteil": 0.16,
+   "_doku": "Wertrauschen; die 'anteil' niedrigsten Werte sind Lichtungen (Baumfaktor lichtung_baum_faktor, Lichtpflanzen bekommen dort licht[0])."
+  },
   "lichtung_baum_faktor": 0.12
  },
  "hang": {
   "_doku": "Hang in Grad aus hoehe.f32 (Zentraldifferenz 2 m). Globale Sperren: > hang_max_pflanze nur Klassen mit 'kletter': true (Lianen/Efeu/Moos/kleine Farne) bis zu ihrem eigenen hang_max.",
-  "hang_max_pflanze": 40, "hang_max_kletter": 78
+  "hang_max_pflanze": 40,
+  "hang_max_kletter": 78
  },
  "hoehe": {
   "_doku": "Absolute Höhe m (Meeresspiegel 0) und Relief (Höhe minus Minimum im Umkreis relief_umkreis_m). Stufen: talboden h < talboden_max_m; hang dazwischen; karst_hoch: relief > karst_relief_m. Klassen nennen 'stufe': {talboden, hang, karst_hoch} Faktoren.",
-  "talboden_max_m": 35, "karst_relief_m": 45, "relief_umkreis_m": 96
+  "talboden_max_m": 35,
+  "karst_relief_m": 45,
+  "relief_umkreis_m": 96
  },
  "abstand_m": {
   "_doku": "Mindestabstände (m) zu Weg/Ort/Wasser je Größenklasse; 'klein' = Boden/Mittel, 'gross' = Bäume. Wasser: nichts auf Wasser; Wasserkante-Klassen haben eigene Bänder.",
-  "weg_klein": 2.5, "weg_gross": 4.0, "ort": 5.0, "wasser_klein": 0.5, "wasser_gross": 2.0, "standorte": 5.0,
-  "baum_fremd_gross": 4.0, "baum_fremd_klein": 1.2
+  "weg_klein": 2.5,
+  "weg_gross": 4.0,
+  "ort": 5.0,
+  "wasser_klein": 0.5,
+  "wasser_gross": 2.0,
+  "standorte": 5.0,
+  "baum_fremd_gross": 4.0,
+  "baum_fremd_klein": 1.2
  },
  "karst": {
   "_doku": "Karst-Kalktürme (G6 H6 I6 I7): wand = Hang > wand_grad; fuss = Zellen ≤ fuss_m von einer Wand mit Hang < fuss_hang_max; spalte = Hang spalte_grad[0]..[1]; gipfel = Relief > gipfel_relief_m, Hang < gipfel_hang_max, ≤ gipfel_wand_m von einer Wand. Faktoren je Lage werden je Klasse unter 'karst' angegeben (fuss/spalte/gipfel/wand).",
-  "wand_grad": 50, "fuss_m": 22, "fuss_hang_max": 30, "spalte_grad": [40, 78], "gipfel_relief_m": 40, "gipfel_hang_max": 26, "gipfel_wand_m": 40,
-  "turm_min_zellen": 60, "turm_min_hoehenspanne_m": 15
+  "wand_grad": 50,
+  "fuss_m": 22,
+  "fuss_hang_max": 30,
+  "spalte_grad": [
+   40,
+   78
+  ],
+  "gipfel_relief_m": 40,
+  "gipfel_hang_max": 26,
+  "gipfel_wand_m": 40,
+  "turm_min_zellen": 60,
+  "turm_min_hoehenspanne_m": 15
  },
  "gruppen": {
   "_doku": "Wertrauschen (Hash auf Gitterpunkten, bilinear) je Klasse: faktor = clip((rauschen − schwelle)/(1 − schwelle), 0, 1)^kontrast + rest. Klassen referenzieren einen Namen hier.",
-  "farninsel": {"wellenlaenge_m": 22, "schwelle": 0.42, "kontrast": 1.4, "rest": 0.08},
-  "staudenflur": {"wellenlaenge_m": 30, "schwelle": 0.5, "kontrast": 1.6, "rest": 0.05},
-  "blueteninsel": {"wellenlaenge_m": 34, "schwelle": 0.66, "kontrast": 2.0, "rest": 0.0},
-  "moosteppich": {"wellenlaenge_m": 18, "schwelle": 0.38, "kontrast": 1.2, "rest": 0.1},
-  "palmenhain": {"wellenlaenge_m": 70, "schwelle": 0.35, "kontrast": 1.2, "rest": 0.2},
-  "laubriesen": {"wellenlaenge_m": 90, "schwelle": 0.3, "kontrast": 1.0, "rest": 0.25},
-  "streuhaufen": {"wellenlaenge_m": 12, "schwelle": 0.3, "kontrast": 1.0, "rest": 0.3},
-  "gleich": {"wellenlaenge_m": 50, "schwelle": 0.0, "kontrast": 1.0, "rest": 0.0}
+  "farninsel": {
+   "wellenlaenge_m": 22,
+   "schwelle": 0.42,
+   "kontrast": 1.4,
+   "rest": 0.08
+  },
+  "staudenflur": {
+   "wellenlaenge_m": 30,
+   "schwelle": 0.5,
+   "kontrast": 1.6,
+   "rest": 0.05
+  },
+  "blueteninsel": {
+   "wellenlaenge_m": 34,
+   "schwelle": 0.66,
+   "kontrast": 2.0,
+   "rest": 0.0
+  },
+  "moosteppich": {
+   "wellenlaenge_m": 18,
+   "schwelle": 0.38,
+   "kontrast": 1.2,
+   "rest": 0.1
+  },
+  "palmenhain": {
+   "wellenlaenge_m": 70,
+   "schwelle": 0.35,
+   "kontrast": 1.2,
+   "rest": 0.2
+  },
+  "laubriesen": {
+   "wellenlaenge_m": 90,
+   "schwelle": 0.3,
+   "kontrast": 1.0,
+   "rest": 0.25
+  },
+  "streuhaufen": {
+   "wellenlaenge_m": 12,
+   "schwelle": 0.3,
+   "kontrast": 1.0,
+   "rest": 0.3
+  },
+  "gleich": {
+   "wellenlaenge_m": 50,
+   "schwelle": 0.0,
+   "kontrast": 1.0,
+   "rest": 0.0
+  }
  },
- "wasserkante": {"_doku": "Bänder in m Abstand zur Wasserfläche (Landseite).", "band_m": [0.3, 7.0], "hang_max": 30},
+ "wasserkante": {
+  "_doku": "Bänder in m Abstand zur Wasserfläche (Landseite).",
+  "band_m": [
+   0.3,
+   7.0
+  ],
+  "hang_max": 30
+ },
  "budget": {
   "_doku": "Instanzen je Feld (gesamt und je Schicht); 'kollision_je_feld' kappt Instanzen mit Kollision (Bäume ≥ 8 m, liegende Stämme). Überschuss wird in der Reihenfolge 'prioritaet' (zuerst genannte zuerst) deterministisch ausgedünnt.",
   "ziel_instanzen_je_feld": 60000,
-  "je_schicht": {"0 boden": 22000, "1 mittel": 24000, "2 baum": 9000, "5 wasserkante": 5000},
+  "je_schicht": {
+   "0 boden": 22000,
+   "1 mittel": 24000,
+   "2 baum": 9000,
+   "5 wasserkante": 5000
+  },
   "kollision_je_feld": 3000,
-  "prioritaet": ["keimling", "zweige", "streu_klein", "moos_polster", "streu", "grasbueschel", "farn_klein", "bluete_boden", "pilz", "uferfarn", "moosstein", "horsetail", "riesenfarn", "staude", "jungpalme", "palme_jung", "liane_wand", "liane_stamm", "wurzel", "bananen_ersatz", "karstplatte", "schilf", "strauch", "ast", "stumpf", "stamm_moos", "palme", "laub_mittel", "palme_alt", "laubriese", "emergent"],
-  "kollision_prioritaet": ["laub_mittel", "palme_alt", "stamm_moos", "laubriese", "emergent"]
+  "prioritaet": [
+   "keimling",
+   "zweige",
+   "streu_klein",
+   "moos_polster",
+   "streu",
+   "grasbueschel",
+   "farn_klein",
+   "bluete_boden",
+   "pilz",
+   "uferfarn",
+   "moosstein",
+   "horsetail",
+   "riesenfarn",
+   "staude",
+   "jungpalme",
+   "palme_jung",
+   "liane_wand",
+   "liane_stamm",
+   "wurzel",
+   "bananen_ersatz",
+   "karstplatte",
+   "schilf",
+   "strauch",
+   "ast",
+   "stumpf",
+   "stamm_moos",
+   "palme",
+   "laub_mittel",
+   "palme_alt",
+   "laubriese",
+   "emergent"
+  ],
+  "kollision_prioritaet": [
+   "laub_mittel",
+   "palme_alt",
+   "stamm_moos",
+   "laubriese",
+   "emergent"
+  ]
  },
  "erwartung_je_feld": {
   "_doku": "Erwartete Instanzen gesamt (Spanne, Schätzung ohne Echtdaten) – Prüfwert für die Testanleitung.",
-  "H6": [45000, 60000], "G6": [35000, 55000], "I6": [25000, 45000], "I7": [6000, 13000], "H7": [8000, 15000], "G7": [4000, 9000], "G5": [6000, 13000], "I5": [5000, 11000], "H5": [3000, 8000]
+  "H6": [
+   45000,
+   60000
+  ],
+  "G6": [
+   35000,
+   55000
+  ],
+  "I6": [
+   25000,
+   45000
+  ],
+  "I7": [
+   6000,
+   13000
+  ],
+  "H7": [
+   8000,
+   15000
+  ],
+  "G7": [
+   4000,
+   9000
+  ],
+  "G5": [
+   6000,
+   13000
+  ],
+  "I5": [
+   5000,
+   11000
+  ],
+  "H5": [
+   3000,
+   8000
+  ]
  },
  "klassen": {
   "_doku": "Je Klasse: schicht; netze (Pfade); dichte (Instanzen/m² Kern); zelle_m (Gitterzelle der Streuung ≈ Mindestabstand); lagengruppe; licht [4]; hang_max (°); kletter; stufe {talboden, hang, karst_hoch}; karst {fuss, spalte, gipfel, wand} Faktoren (1 = neutral); wasser [min_m, max_m] (optional Band); gruppe (Name aus 'gruppen'); massstab [min, max]; eingraben_cm; kippen (0–1 Anteil Normale); yaw_hang (true: lange Achse quer zum Hang); sichtweite [cm, cm]; kollision; schatten; gross (true: Baum-Abstände); satelliten (optional: Klasse, n [min,max], radius_m [min,max]); nicht_nanite (Hinweis).",
   "emergent": {
-   "schicht": "2 baum", "rolle": "baum", "gruppe_name": "laubriese_emergent",
-   "netze": ["AsianTemple/Environment/Mesh/SM_Tree_Big_01b"],
-   "dichte": 0.0005, "zelle_m": 36, "lagengruppe": "feucht", "licht": [1.0, 1.0, 0.8, 0.5], "hang_max": 28,
-   "stufe": {"talboden": 1.0, "hang": 0.8, "karst_hoch": 0.0}, "karst": {"fuss": 0.6, "spalte": 0, "gipfel": 0, "wand": 0},
-   "gruppe": "laubriesen", "massstab": [0.62, 0.9], "eingraben_cm": 12, "kippen": 0.05, "sichtweite": [0, 0], "kollision": true, "schatten": true, "gross": true,
+   "schicht": "2 baum",
+   "rolle": "baum",
+   "gruppe_name": "laubriese_emergent",
+   "netze": [
+    "AsianTemple/Environment/Mesh/SM_Tree_Big_01b"
+   ],
+   "dichte": 0.0005,
+   "zelle_m": 36,
+   "lagengruppe": "feucht",
+   "licht": [
+    1.0,
+    1.0,
+    0.8,
+    0.5
+   ],
+   "hang_max": 28,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.8,
+    "karst_hoch": 0.0
+   },
+   "karst": {
+    "fuss": 0.6,
+    "spalte": 0,
+    "gipfel": 0,
+    "wand": 0
+   },
+   "gruppe": "laubriesen",
+   "massstab": [
+    0.62,
+    0.9
+   ],
+   "eingraben_cm": 12,
+   "kippen": 0.05,
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
    "hoehe_m": 48.9
   },
   "laubriese": {
-   "schicht": "2 baum", "rolle": "baum", "gruppe_name": "laubriese",
-   "netze": ["AsianTemple/Environment/Mesh/SM_Tree_Big_01a", "AsianTemple/Environment/Mesh/SM_Tree_Small_01a"],
-   "dichte": 0.0028, "zelle_m": 16, "lagengruppe": "feucht", "licht": [1.0, 1.0, 0.85, 0.55], "hang_max": 32,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.3}, "karst": {"fuss": 0.35, "spalte": 0, "gipfel": 0.3, "wand": 0},
-   "gruppe": "laubriesen", "massstab": [0.8, 1.15], "eingraben_cm": 10, "kippen": 0.08, "sichtweite": [0, 0], "kollision": true, "schatten": true, "gross": true,
-   "hoehe_m": 31.7, "satelliten": {"klasse": "liane_stamm", "n": [0, 2], "radius_m": [0.6, 1.6]}
+   "schicht": "2 baum",
+   "rolle": "baum",
+   "gruppe_name": "laubriese",
+   "netze": [
+    "AsianTemple/Environment/Mesh/SM_Tree_Big_01a",
+    "AsianTemple/Environment/Mesh/SM_Tree_Small_01a"
+   ],
+   "dichte": 0.0028,
+   "zelle_m": 16,
+   "lagengruppe": "feucht",
+   "licht": [
+    1.0,
+    1.0,
+    0.85,
+    0.55
+   ],
+   "hang_max": 32,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.3
+   },
+   "karst": {
+    "fuss": 0.35,
+    "spalte": 0,
+    "gipfel": 0.3,
+    "wand": 0
+   },
+   "gruppe": "laubriesen",
+   "massstab": [
+    0.8,
+    1.15
+   ],
+   "eingraben_cm": 10,
+   "kippen": 0.08,
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "hoehe_m": 31.7,
+   "satelliten": {
+    "klasse": "liane_stamm",
+    "n": [
+     0,
+     2
+    ],
+    "radius_m": [
+     0.6,
+     1.6
+    ]
+   }
   },
   "laub_mittel": {
-   "schicht": "2 baum", "rolle": "baum", "gruppe_name": "laub_mittel",
-   "netze": ["AsianTemple/Environment/Mesh/SM_Tree_Medium_01a"],
-   "dichte": 0.006, "zelle_m": 10, "lagengruppe": "feucht", "licht": [0.9, 1.0, 0.9, 0.6], "hang_max": 35,
-   "stufe": {"talboden": 1.0, "hang": 1.1, "karst_hoch": 0.5}, "karst": {"fuss": 0.35, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "gleich", "massstab": [0.85, 1.3], "eingraben_cm": 8, "kippen": 0.1, "sichtweite": [0, 0], "kollision": true, "schatten": true, "gross": true,
-   "hoehe_m": 16.2, "satelliten": {"klasse": "liane_stamm", "n": [0, 1], "radius_m": [0.4, 1.0]}
+   "schicht": "2 baum",
+   "rolle": "baum",
+   "gruppe_name": "laub_mittel",
+   "netze": [
+    "AsianTemple/Environment/Mesh/SM_Tree_Medium_01a"
+   ],
+   "dichte": 0.00351,
+   "zelle_m": 10,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.9,
+    1.0,
+    0.9,
+    0.6
+   ],
+   "hang_max": 35,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.1,
+    "karst_hoch": 0.5
+   },
+   "karst": {
+    "fuss": 0.35,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "gleich",
+   "massstab": [
+    0.85,
+    1.3
+   ],
+   "eingraben_cm": 8,
+   "kippen": 0.1,
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
+   "hoehe_m": 16.2,
+   "satelliten": {
+    "klasse": "liane_stamm",
+    "n": [
+     0,
+     1
+    ],
+    "radius_m": [
+     0.4,
+     1.0
+    ]
+   }
   },
   "palme_alt": {
-   "schicht": "2 baum", "rolle": "baum", "gruppe_name": "palme_alt",
-   "netze": ["Bazaar_Meshingun/Environment/Assets/Foliage/Mesh/Palm/SM_Tree_Palm_01"],
-   "dichte": 0.0018, "zelle_m": 18, "lagengruppe": "feucht", "licht": [1.0, 0.9, 0.6, 0.3], "hang_max": 25,
-   "stufe": {"talboden": 1.0, "hang": 0.4, "karst_hoch": 0.0}, "karst": {"fuss": 0.5, "spalte": 0, "gipfel": 0, "wand": 0},
-   "gruppe": "palmenhain", "massstab": [0.6, 0.9], "eingraben_cm": 10, "kippen": 0.05, "sichtweite": [0, 0], "kollision": true, "schatten": true, "gross": true,
+   "schicht": "2 baum",
+   "rolle": "baum",
+   "gruppe_name": "palme_alt",
+   "netze": [
+    "Bazaar_Meshingun/Environment/Assets/Foliage/Mesh/Palm/SM_Tree_Palm_01"
+   ],
+   "dichte": 0.0018,
+   "zelle_m": 18,
+   "lagengruppe": "feucht",
+   "licht": [
+    1.0,
+    0.9,
+    0.6,
+    0.3
+   ],
+   "hang_max": 25,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.4,
+    "karst_hoch": 0.0
+   },
+   "karst": {
+    "fuss": 0.5,
+    "spalte": 0,
+    "gipfel": 0,
+    "wand": 0
+   },
+   "gruppe": "palmenhain",
+   "massstab": [
+    0.6,
+    0.9
+   ],
+   "eingraben_cm": 10,
+   "kippen": 0.05,
+   "sichtweite": [
+    0,
+    0
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": true,
    "hoehe_m": 30.1
   },
   "palme": {
-   "schicht": "2 baum", "rolle": "baum", "gruppe_name": "palme",
-   "netze": ["Palms_Pack_01/Meshes/SM_Palm_01_02_G", "Palms_Pack_01/Meshes/SM_Palm_01_03_G", "Palms_Pack_01/Meshes/SM_Palm_01_04_G", "Palms_Pack_01/Meshes/SM_Palm_01_05_G", "Palms_Pack_01/Meshes/SM_Palm_01_01_G", "Palms_Pack_01/Meshes/SM_Palm_01_06_G"],
-   "dichte": 0.014, "zelle_m": 7, "lagengruppe": "feucht", "licht": [1.0, 1.0, 0.7, 0.35], "hang_max": 30,
-   "stufe": {"talboden": 1.0, "hang": 0.7, "karst_hoch": 0.15}, "karst": {"fuss": 0.4, "spalte": 0, "gipfel": 0.4, "wand": 0},
-   "gruppe": "palmenhain", "massstab": [0.9, 1.4], "eingraben_cm": 6, "kippen": 0.1, "sichtweite": [0, 28000], "kollision": false, "schatten": true, "gross": true,
-   "hoehe_m": 8.5, "nicht_nanite": "Palms_Pack ist kein Nanite (19–31 k Dreiecke, LOD): Sichtweite 280 m; Kollision aus (Stamm < 40 cm) – bei Bedarf Capsule im Foliage-Typ"
+   "schicht": "2 baum",
+   "rolle": "baum",
+   "gruppe_name": "palme",
+   "netze": [
+    "Palms_Pack_01/Meshes/SM_Palm_01_02_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_03_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_04_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_05_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_01_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_06_G"
+   ],
+   "dichte": 0.014,
+   "zelle_m": 7,
+   "lagengruppe": "feucht",
+   "licht": [
+    1.0,
+    1.0,
+    0.7,
+    0.35
+   ],
+   "hang_max": 30,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.7,
+    "karst_hoch": 0.15
+   },
+   "karst": {
+    "fuss": 0.4,
+    "spalte": 0,
+    "gipfel": 0.4,
+    "wand": 0
+   },
+   "gruppe": "palmenhain",
+   "massstab": [
+    0.9,
+    1.4
+   ],
+   "eingraben_cm": 6,
+   "kippen": 0.1,
+   "sichtweite": [
+    0,
+    28000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": true,
+   "hoehe_m": 8.5,
+   "nicht_nanite": "Palms_Pack ist kein Nanite (19–31 k Dreiecke, LOD): Sichtweite 280 m; Kollision aus (Stamm < 40 cm) – bei Bedarf Capsule im Foliage-Typ"
   },
   "palme_jung": {
-   "schicht": "2 baum", "rolle": "baum", "gruppe_name": "palme_jung",
-   "netze": ["Palms_Pack_01/Meshes/SM_Palm_01_07_G", "Palms_Pack_01/Meshes/SM_Palm_01_08_G", "Palms_Pack_01/Meshes/SM_Palm_01_09_G"],
-   "dichte": 0.02, "zelle_m": 5, "lagengruppe": "feucht", "licht": [0.6, 1.0, 1.0, 0.5], "hang_max": 32,
-   "stufe": {"talboden": 1.0, "hang": 0.9, "karst_hoch": 0.3}, "karst": {"fuss": 0.6, "spalte": 0, "gipfel": 1.2, "wand": 0},
-   "gruppe": "palmenhain", "massstab": [0.8, 1.3], "eingraben_cm": 5, "kippen": 0.15, "sichtweite": [0, 20000], "kollision": false, "schatten": true, "gross": true,
-   "hoehe_m": 5.0, "nicht_nanite": "Palms_Pack, LOD; Sichtweite 200 m"
+   "schicht": "2 baum",
+   "rolle": "baum",
+   "gruppe_name": "palme_jung",
+   "netze": [
+    "Palms_Pack_01/Meshes/SM_Palm_01_07_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_08_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_09_G"
+   ],
+   "dichte": 0.02,
+   "zelle_m": 5,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.6,
+    1.0,
+    1.0,
+    0.5
+   ],
+   "hang_max": 32,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.9,
+    "karst_hoch": 0.3
+   },
+   "karst": {
+    "fuss": 0.6,
+    "spalte": 0,
+    "gipfel": 1.2,
+    "wand": 0
+   },
+   "gruppe": "palmenhain",
+   "massstab": [
+    0.8,
+    1.3
+   ],
+   "eingraben_cm": 5,
+   "kippen": 0.15,
+   "sichtweite": [
+    0,
+    20000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": true,
+   "hoehe_m": 5.0,
+   "nicht_nanite": "Palms_Pack, LOD; Sichtweite 200 m"
   },
-
   "riesenfarn": {
-   "schicht": "1 mittel", "rolle": "mittelschicht",
-   "netze": ["Megascans/3D_Plants/Fern/SM_Fern_01", "Megascans/3D_Plants/Fern/SM_Fern_02", "Megascans/3D_Plants/Fern/SM_Fern_04", "Megascans/3D_Plants/Fern/SM_Fern_05", "AsianTemple/Environment/Mesh/SM_Fern_01a"],
-   "dichte": 0.06, "zelle_m": 2, "lagengruppe": "feucht", "licht": [0.25, 0.7, 1.0, 1.0], "hang_max": 38,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.7}, "karst": {"fuss": 1.7, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "farninsel", "massstab": [1.1, 1.9], "eingraben_cm": 4, "kippen": 0.3, "sichtweite": [0, 14000], "kollision": false, "schatten": true, "gross": false,
+   "schicht": "1 mittel",
+   "rolle": "mittelschicht",
+   "netze": [
+    "Megascans/3D_Plants/Fern/SM_Fern_01",
+    "Megascans/3D_Plants/Fern/SM_Fern_02",
+    "Megascans/3D_Plants/Fern/SM_Fern_04",
+    "Megascans/3D_Plants/Fern/SM_Fern_05",
+    "AsianTemple/Environment/Mesh/SM_Fern_01a"
+   ],
+   "dichte": 0.045,
+   "zelle_m": 2,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.25,
+    0.7,
+    1.0,
+    1.0
+   ],
+   "hang_max": 38,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.7
+   },
+   "karst": {
+    "fuss": 1.7,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "farninsel",
+   "massstab": [
+    1.1,
+    1.9
+   ],
+   "eingraben_cm": 4,
+   "kippen": 0.3,
+   "sichtweite": [
+    0,
+    14000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
    "nicht_nanite": "SM_Fern_01a (AsianTemple) ist kein Nanite, 96 Dreiecke – unkritisch"
   },
   "farn_klein": {
-   "schicht": "1 mittel", "rolle": "mittelschicht",
-   "netze": ["Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01", "Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01", "Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02", "Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01", "Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02", "Megascans/3D_Plants/BeechFern/SM_BeechFern_04", "Megascans/3D_Plants/BeechFern/SM_BeechFern_09", "AsianTemple/Environment/Mesh/SM_Fern_02a"],
-   "dichte": 0.08, "zelle_m": 1, "lagengruppe": "feucht", "licht": [0.3, 0.8, 1.0, 1.0], "hang_max": 60, "kletter": true,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.8}, "karst": {"fuss": 1.4, "spalte": 0.5, "gipfel": 0.6, "wand": 0},
-   "gruppe": "farninsel", "massstab": [0.9, 1.5], "eingraben_cm": 3, "kippen": 0.5, "sichtweite": [0, 10000], "kollision": false, "schatten": false, "gross": false
+   "schicht": "1 mittel",
+   "rolle": "mittelschicht",
+   "netze": [
+    "Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+    "Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+    "Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+    "Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+    "Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+    "Megascans/3D_Plants/BeechFern/SM_BeechFern_04",
+    "Megascans/3D_Plants/BeechFern/SM_BeechFern_09",
+    "AsianTemple/Environment/Mesh/SM_Fern_02a"
+   ],
+   "dichte": 0.0448,
+   "zelle_m": 1,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.3,
+    0.8,
+    1.0,
+    1.0
+   ],
+   "hang_max": 60,
+   "kletter": true,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.8
+   },
+   "karst": {
+    "fuss": 1.4,
+    "spalte": 0.5,
+    "gipfel": 0.6,
+    "wand": 0
+   },
+   "gruppe": "farninsel",
+   "massstab": [
+    0.9,
+    1.5
+   ],
+   "eingraben_cm": 3,
+   "kippen": 0.5,
+   "sichtweite": [
+    0,
+    10000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false
   },
   "staude": {
-   "schicht": "1 mittel", "rolle": "mittelschicht",
-   "netze": ["Megascans/3D_Plants/Crownbeard/SM_Crownbeard_03", "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_04", "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_07", "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_08", "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_01", "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_02", "Megascans/3D_Plants/Elderberry/SM_Elderberry_05", "Megascans/3D_Plants/Elderberry/SM_Elderberry_07"],
-   "dichte": 0.05, "zelle_m": 2, "lagengruppe": "licht", "licht": [1.0, 1.0, 0.6, 0.2], "hang_max": 36,
-   "stufe": {"talboden": 1.0, "hang": 0.9, "karst_hoch": 0.5}, "karst": {"fuss": 0.8, "spalte": 0, "gipfel": 1.0, "wand": 0},
-   "gruppe": "staudenflur", "massstab": [1.0, 1.6], "eingraben_cm": 3, "kippen": 0.3, "sichtweite": [0, 12000], "kollision": false, "schatten": true, "gross": false,
+   "schicht": "1 mittel",
+   "rolle": "mittelschicht",
+   "netze": [
+    "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_03",
+    "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_04",
+    "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_07",
+    "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_08",
+    "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_01",
+    "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_02",
+    "Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+    "Megascans/3D_Plants/Elderberry/SM_Elderberry_07"
+   ],
+   "dichte": 0.05,
+   "zelle_m": 2,
+   "lagengruppe": "licht",
+   "licht": [
+    1.0,
+    1.0,
+    0.6,
+    0.2
+   ],
+   "hang_max": 36,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.9,
+    "karst_hoch": 0.5
+   },
+   "karst": {
+    "fuss": 0.8,
+    "spalte": 0,
+    "gipfel": 1.0,
+    "wand": 0
+   },
+   "gruppe": "staudenflur",
+   "massstab": [
+    1.0,
+    1.6
+   ],
+   "eingraben_cm": 3,
+   "kippen": 0.3,
+   "sichtweite": [
+    0,
+    12000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
    "nicht_nanite": "petasites (Coast_Dunes) kein Nanite, 157 Dreiecke – unkritisch"
   },
   "bananen_ersatz": {
-   "schicht": "1 mittel", "rolle": "mittelschicht",
-   "netze": ["Megascans/3D_Plants/Elderberry/SM_Elderberry_08", "Megascans/3D_Plants/Elderberry/SM_Elderberry_09", "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_03"],
-   "dichte": 0.012, "zelle_m": 4, "lagengruppe": "feucht", "licht": [0.9, 1.0, 0.7, 0.3], "hang_max": 30,
-   "stufe": {"talboden": 1.0, "hang": 0.7, "karst_hoch": 0.2}, "karst": {"fuss": 1.2, "spalte": 0, "gipfel": 0.3, "wand": 0},
-   "wasser": [0.0, 40.0], "gruppe": "staudenflur", "massstab": [1.5, 2.4], "eingraben_cm": 4, "kippen": 0.2, "sichtweite": [0, 20000], "kollision": false, "schatten": true, "gross": false,
+   "schicht": "1 mittel",
+   "rolle": "mittelschicht",
+   "netze": [
+    "Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+    "Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+    "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_petasites_spurius_03"
+   ],
+   "dichte": 0.012,
+   "zelle_m": 4,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.9,
+    1.0,
+    0.7,
+    0.3
+   ],
+   "hang_max": 30,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.7,
+    "karst_hoch": 0.2
+   },
+   "karst": {
+    "fuss": 1.2,
+    "spalte": 0,
+    "gipfel": 0.3,
+    "wand": 0
+   },
+   "wasser": [
+    0.0,
+    40.0
+   ],
+   "gruppe": "staudenflur",
+   "massstab": [
+    1.5,
+    2.4
+   ],
+   "eingraben_cm": 4,
+   "kippen": 0.2,
+   "sichtweite": [
+    0,
+    20000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
    "hinweis": "Ersatz für Bananenstauden (Lücke): Holunder 2,5 m und Pestwurz auf 1,5–2,4× skaliert, bis Megascans 'Banana'/'Huge Banana Leaf' importiert ist"
   },
   "strauch": {
-   "schicht": "1 mittel", "rolle": "mittelschicht",
-   "netze": ["AsianTemple/Environment/Mesh/SM_Bush_01a"],
-   "dichte": 0.0035, "zelle_m": 8, "lagengruppe": "licht", "licht": [1.0, 1.0, 0.6, 0.25], "hang_max": 36,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 1.2}, "karst": {"fuss": 0.7, "spalte": 0, "gipfel": 1.8, "wand": 0},
-   "gruppe": "staudenflur", "massstab": [0.7, 1.2], "eingraben_cm": 6, "kippen": 0.3, "sichtweite": [0, 30000], "kollision": false, "schatten": true, "gross": false
+   "schicht": "1 mittel",
+   "rolle": "mittelschicht",
+   "netze": [
+    "AsianTemple/Environment/Mesh/SM_Bush_01a"
+   ],
+   "dichte": 0.0035,
+   "zelle_m": 8,
+   "lagengruppe": "licht",
+   "licht": [
+    1.0,
+    1.0,
+    0.6,
+    0.25
+   ],
+   "hang_max": 36,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 1.2
+   },
+   "karst": {
+    "fuss": 0.7,
+    "spalte": 0,
+    "gipfel": 1.8,
+    "wand": 0
+   },
+   "gruppe": "staudenflur",
+   "massstab": [
+    0.7,
+    1.2
+   ],
+   "eingraben_cm": 6,
+   "kippen": 0.3,
+   "sichtweite": [
+    0,
+    30000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false
   },
   "jungpalme": {
-   "schicht": "1 mittel", "rolle": "mittelschicht",
-   "netze": ["Palms_Pack_01/Meshes/SM_Palm_01_10_G", "Palms_Pack_01/Meshes/SM_Palm_01_11_G", "Palms_Pack_01/Meshes/SM_Palm_01_12_G"],
-   "dichte": 0.02, "zelle_m": 3, "lagengruppe": "feucht", "licht": [0.5, 1.0, 1.0, 0.6], "hang_max": 34,
-   "stufe": {"talboden": 1.0, "hang": 0.9, "karst_hoch": 0.4}, "karst": {"fuss": 0.9, "spalte": 0, "gipfel": 1.2, "wand": 0},
-   "gruppe": "palmenhain", "massstab": [0.8, 1.4], "eingraben_cm": 4, "kippen": 0.2, "sichtweite": [0, 15000], "kollision": false, "schatten": true, "gross": false,
+   "schicht": "1 mittel",
+   "rolle": "mittelschicht",
+   "netze": [
+    "Palms_Pack_01/Meshes/SM_Palm_01_10_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_11_G",
+    "Palms_Pack_01/Meshes/SM_Palm_01_12_G"
+   ],
+   "dichte": 0.02,
+   "zelle_m": 3,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.5,
+    1.0,
+    1.0,
+    0.6
+   ],
+   "hang_max": 34,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.9,
+    "karst_hoch": 0.4
+   },
+   "karst": {
+    "fuss": 0.9,
+    "spalte": 0,
+    "gipfel": 1.2,
+    "wand": 0
+   },
+   "gruppe": "palmenhain",
+   "massstab": [
+    0.8,
+    1.4
+   ],
+   "eingraben_cm": 4,
+   "kippen": 0.2,
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
    "nicht_nanite": "Palms_Pack, LOD; Sichtweite 150 m"
   },
   "stamm_moos": {
-   "schicht": "1 mittel", "rolle": "totholz",
-   "netze": ["Megascans/3D_Assets/MossyTree/SM_MossyTree_01", "Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02", "Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01", "Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01"],
-   "dichte": 0.0012, "zelle_m": 14, "lagengruppe": "moos", "licht": [0.4, 0.8, 1.0, 1.0], "hang_max": 30,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.5}, "karst": {"fuss": 1.3, "spalte": 0, "gipfel": 0.4, "wand": 0},
-   "gruppe": "gleich", "massstab": [0.9, 1.3], "eingraben_cm": 28, "kippen": 0.9, "yaw_hang": true, "sichtweite": [0, 50000], "kollision": true, "schatten": true, "gross": false,
-   "satelliten": {"klasse": "moos_polster", "n": [4, 9], "radius_m": [0.4, 2.6]}
+   "schicht": "1 mittel",
+   "rolle": "totholz",
+   "netze": [
+    "Megascans/3D_Assets/MossyTree/SM_MossyTree_01",
+    "Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+    "Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+    "Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01"
+   ],
+   "dichte": 0.0012,
+   "zelle_m": 14,
+   "lagengruppe": "moos",
+   "licht": [
+    0.4,
+    0.8,
+    1.0,
+    1.0
+   ],
+   "hang_max": 30,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.5
+   },
+   "karst": {
+    "fuss": 1.3,
+    "spalte": 0,
+    "gipfel": 0.4,
+    "wand": 0
+   },
+   "gruppe": "gleich",
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "eingraben_cm": 28,
+   "kippen": 0.9,
+   "yaw_hang": true,
+   "sichtweite": [
+    0,
+    50000
+   ],
+   "kollision": true,
+   "schatten": true,
+   "gross": false,
+   "satelliten": {
+    "klasse": "moos_polster",
+    "n": [
+     4,
+     9
+    ],
+    "radius_m": [
+     0.4,
+     2.6
+    ]
+   }
   },
   "stumpf": {
-   "schicht": "1 mittel", "rolle": "totholz",
-   "netze": ["Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01", "Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02", "Megascans/3D_Assets/TreeStump/SM_TreeStump_01", "Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01"],
-   "dichte": 0.0009, "zelle_m": 12, "lagengruppe": "moos", "licht": [0.5, 0.9, 1.0, 1.0], "hang_max": 32,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.5}, "karst": {"fuss": 1.0, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "gleich", "massstab": [0.9, 1.3], "eingraben_cm": 18, "kippen": 0.8, "sichtweite": [0, 40000], "kollision": false, "schatten": true, "gross": false,
-   "satelliten": {"klasse": "pilz", "n": [2, 6], "radius_m": [0.3, 1.4]}
+   "schicht": "1 mittel",
+   "rolle": "totholz",
+   "netze": [
+    "Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+    "Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_02",
+    "Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+    "Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01"
+   ],
+   "dichte": 0.0009,
+   "zelle_m": 12,
+   "lagengruppe": "moos",
+   "licht": [
+    0.5,
+    0.9,
+    1.0,
+    1.0
+   ],
+   "hang_max": 32,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.5
+   },
+   "karst": {
+    "fuss": 1.0,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "gleich",
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "eingraben_cm": 18,
+   "kippen": 0.8,
+   "sichtweite": [
+    0,
+    40000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
+   "satelliten": {
+    "klasse": "pilz",
+    "n": [
+     2,
+     6
+    ],
+    "radius_m": [
+     0.3,
+     1.4
+    ]
+   }
   },
   "wurzel": {
-   "schicht": "1 mittel", "rolle": "totholz",
-   "netze": ["Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01", "Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02", "Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_03", "Megascans/3D_Assets/ForestRoots/SM_ForestRoots_01"],
-   "dichte": 0.004, "zelle_m": 6, "lagengruppe": "moos", "licht": [0.1, 0.5, 1.0, 1.0], "hang_max": 36,
-   "stufe": {"talboden": 1.0, "hang": 1.1, "karst_hoch": 0.6}, "karst": {"fuss": 1.2, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "gleich", "massstab": [0.9, 1.4], "eingraben_cm": 10, "kippen": 1.0, "sichtweite": [0, 30000], "kollision": false, "schatten": true, "gross": false
+   "schicht": "1 mittel",
+   "rolle": "totholz",
+   "netze": [
+    "Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_01",
+    "Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_02",
+    "Megascans/3D_Assets/MossyForestRoots/SM_MossyForestRoots_03",
+    "Megascans/3D_Assets/ForestRoots/SM_ForestRoots_01"
+   ],
+   "dichte": 0.004,
+   "zelle_m": 6,
+   "lagengruppe": "moos",
+   "licht": [
+    0.1,
+    0.5,
+    1.0,
+    1.0
+   ],
+   "hang_max": 36,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.1,
+    "karst_hoch": 0.6
+   },
+   "karst": {
+    "fuss": 1.2,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "gleich",
+   "massstab": [
+    0.9,
+    1.4
+   ],
+   "eingraben_cm": 10,
+   "kippen": 1.0,
+   "sichtweite": [
+    0,
+    30000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false
   },
   "liane_stamm": {
-   "schicht": "1 mittel", "rolle": "kletterpflanze", "nur_satellit": true,
-   "netze": ["AsianTemple/Environment/Mesh/SM_Vines_01a", "Megascans/3D_Plants/Ivy/SM_Ivy_11", "Megascans/3D_Plants/Ivy/SM_Ivy_17", "Megascans/3D_Plants/Ivy/SM_Ivy_25", "Megascans/3D_Plants/Ivy/SM_Ivy_21"],
-   "dichte": 0.0, "zelle_m": 1, "lagengruppe": "feucht", "licht": [1, 1, 1, 1], "hang_max": 78, "kletter": true,
-   "stufe": {"talboden": 1, "hang": 1, "karst_hoch": 1}, "karst": {"fuss": 1, "spalte": 1, "gipfel": 1, "wand": 1},
-   "gruppe": "gleich", "massstab": [0.9, 1.6], "eingraben_cm": -40, "kippen": 0.0, "sichtweite": [0, 15000], "kollision": false, "schatten": false, "gross": false,
+   "schicht": "1 mittel",
+   "rolle": "kletterpflanze",
+   "nur_satellit": true,
+   "netze": [
+    "AsianTemple/Environment/Mesh/SM_Vines_01a",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_11",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_17",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_25",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_21"
+   ],
+   "dichte": 0.0,
+   "zelle_m": 1,
+   "lagengruppe": "feucht",
+   "licht": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "hang_max": 78,
+   "kletter": true,
+   "stufe": {
+    "talboden": 1,
+    "hang": 1,
+    "karst_hoch": 1
+   },
+   "karst": {
+    "fuss": 1,
+    "spalte": 1,
+    "gipfel": 1,
+    "wand": 1
+   },
+   "gruppe": "gleich",
+   "massstab": [
+    0.9,
+    1.6
+   ],
+   "eingraben_cm": -40,
+   "kippen": 0.0,
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
    "nicht_nanite": "SM_Vines_01a kein Nanite (12 Dreiecke, Hängeranke 5,7 m, Pivot oben? → im Editor prüfen; eingraben −40 cm hebt sie an)"
   },
   "liane_wand": {
-   "schicht": "1 mittel", "rolle": "kletterpflanze",
-   "netze": ["AsianTemple/Environment/Mesh/SM_Vines_01a", "Megascans/3D_Plants/Ivy/SM_Ivy_11", "Megascans/3D_Plants/Ivy/SM_Ivy_17", "Megascans/3D_Plants/Ivy/SM_Ivy_18", "Megascans/3D_Plants/Ivy/SM_Ivy_12"],
-   "dichte": 0.03, "zelle_m": 2, "lagengruppe": "moos", "licht": [1.0, 1.0, 0.9, 0.7], "hang_min": 40, "hang_max": 78, "kletter": true,
-   "stufe": {"talboden": 0.6, "hang": 1.0, "karst_hoch": 1.0}, "karst": {"fuss": 0.5, "spalte": 1.0, "gipfel": 0.2, "wand": 1.0},
-   "gruppe": "moosteppich", "massstab": [0.9, 1.7], "eingraben_cm": 5, "kippen": 1.0, "sichtweite": [0, 15000], "kollision": false, "schatten": false, "gross": false,
+   "schicht": "1 mittel",
+   "rolle": "kletterpflanze",
+   "netze": [
+    "AsianTemple/Environment/Mesh/SM_Vines_01a",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_11",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_17",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_18",
+    "Megascans/3D_Plants/Ivy/SM_Ivy_12"
+   ],
+   "dichte": 0.03,
+   "zelle_m": 2,
+   "lagengruppe": "moos",
+   "licht": [
+    1.0,
+    1.0,
+    0.9,
+    0.7
+   ],
+   "hang_min": 40,
+   "hang_max": 78,
+   "kletter": true,
+   "stufe": {
+    "talboden": 0.6,
+    "hang": 1.0,
+    "karst_hoch": 1.0
+   },
+   "karst": {
+    "fuss": 0.5,
+    "spalte": 1.0,
+    "gipfel": 0.2,
+    "wand": 1.0
+   },
+   "gruppe": "moosteppich",
+   "massstab": [
+    0.9,
+    1.7
+   ],
+   "eingraben_cm": 5,
+   "kippen": 1.0,
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
    "hinweis": "Spaltenvegetation an Karstwänden 40–78°; außerhalb Karstfeldern nur an Steilhängen"
   },
   "karstplatte": {
-   "schicht": "1 mittel", "rolle": "fels_klein",
-   "netze": ["AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks2", "AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks3", "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01", "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02", "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03"],
-   "dichte": 0.004, "zelle_m": 6, "lagengruppe": "moos", "licht": [1, 1, 1, 1], "hang_max": 34,
-   "stufe": {"talboden": 0.6, "hang": 1.0, "karst_hoch": 1.0}, "karst": {"fuss": 3.0, "spalte": 0, "gipfel": 1.5, "wand": 0}, "nur_karstfeld": true,
-   "gruppe": "gleich", "massstab": [0.8, 1.4], "eingraben_cm": 22, "kippen": 1.0, "yaw_hang": true, "sichtweite": [0, 40000], "kollision": false, "schatten": true, "gross": false,
-   "satelliten": {"klasse": "moos_polster", "n": [2, 5], "radius_m": [0.3, 1.8]}
+   "schicht": "1 mittel",
+   "rolle": "fels_klein",
+   "netze": [
+    "AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks2",
+    "AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks3",
+    "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+    "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+    "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03"
+   ],
+   "dichte": 0.004,
+   "zelle_m": 6,
+   "lagengruppe": "moos",
+   "licht": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "hang_max": 34,
+   "stufe": {
+    "talboden": 0.6,
+    "hang": 1.0,
+    "karst_hoch": 1.0
+   },
+   "karst": {
+    "fuss": 3.0,
+    "spalte": 0,
+    "gipfel": 1.5,
+    "wand": 0
+   },
+   "nur_karstfeld": true,
+   "gruppe": "gleich",
+   "massstab": [
+    0.8,
+    1.4
+   ],
+   "eingraben_cm": 22,
+   "kippen": 1.0,
+   "yaw_hang": true,
+   "sichtweite": [
+    0,
+    40000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
+   "satelliten": {
+    "klasse": "moos_polster",
+    "n": [
+     2,
+     5
+    ],
+    "radius_m": [
+     0.3,
+     1.8
+    ]
+   }
   },
   "grasbueschel": {
-   "schicht": "1 mittel", "rolle": "mittelschicht",
-   "netze": ["Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_01", "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_04", "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_05", "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_06", "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_07", "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_10"],
-   "dichte": 0.06, "zelle_m": 1, "lagengruppe": "licht", "licht": [1.0, 0.9, 0.4, 0.1], "hang_max": 38,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 1.0}, "karst": {"fuss": 0.6, "spalte": 0, "gipfel": 1.8, "wand": 0},
-   "gruppe": "staudenflur", "massstab": [0.9, 1.5], "eingraben_cm": 3, "kippen": 0.5, "sichtweite": [0, 9000], "kollision": false, "schatten": false, "gross": false
+   "schicht": "1 mittel",
+   "rolle": "mittelschicht",
+   "netze": [
+    "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_01",
+    "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_04",
+    "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_05",
+    "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_06",
+    "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_07",
+    "Megascans/3D_Plants/KikuyuGrass/SM_KikuyuGrass_10"
+   ],
+   "dichte": 0.0336,
+   "zelle_m": 1,
+   "lagengruppe": "licht",
+   "licht": [
+    1.0,
+    0.9,
+    0.4,
+    0.1
+   ],
+   "hang_max": 38,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 1.0
+   },
+   "karst": {
+    "fuss": 0.6,
+    "spalte": 0,
+    "gipfel": 1.8,
+    "wand": 0
+   },
+   "gruppe": "staudenflur",
+   "massstab": [
+    0.9,
+    1.5
+   ],
+   "eingraben_cm": 3,
+   "kippen": 0.5,
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false
   },
-
   "streu": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_01", "Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_12", "Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_13", "Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_14"],
-   "dichte": 0.03, "zelle_m": 2, "lagengruppe": "streu", "licht": [0.4, 0.8, 1.0, 1.0], "hang_max": 36,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.6}, "karst": {"fuss": 1.0, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "streuhaufen", "massstab": [0.9, 1.5], "eingraben_cm": 2, "kippen": 1.0, "sichtweite": [0, 7000], "kollision": false, "schatten": false, "gross": false
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_01",
+    "Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_12",
+    "Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_13",
+    "Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_14"
+   ],
+   "dichte": 0.012,
+   "zelle_m": 2,
+   "lagengruppe": "streu",
+   "licht": [
+    0.4,
+    0.8,
+    1.0,
+    1.0
+   ],
+   "hang_max": 36,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.6
+   },
+   "karst": {
+    "fuss": 1.0,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "streuhaufen",
+   "massstab": [
+    0.9,
+    1.5
+   ],
+   "eingraben_cm": 2,
+   "kippen": 1.0,
+   "sichtweite": [
+    0,
+    7000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false
   },
   "streu_klein": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Megascans/3D_Plants/GroundCover/SM_GroundCover_02", "Megascans/3D_Plants/GroundCover/SM_GroundCover_03", "Megascans/3D_Plants/GroundCover/SM_GroundCover_04", "Megascans/3D_Plants/GroundCover/SM_GroundCover_01", "Megascans/3D_Plants/GroundCover/SM_GroundCover_06"],
-   "dichte": 0.05, "zelle_m": 1, "lagengruppe": "streu", "licht": [0.6, 0.9, 1.0, 1.0], "hang_max": 36,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.7}, "karst": {"fuss": 1.0, "spalte": 0, "gipfel": 0.7, "wand": 0},
-   "gruppe": "streuhaufen", "massstab": [0.9, 1.4], "eingraben_cm": 2, "kippen": 1.0, "sichtweite": [0, 5000], "kollision": false, "schatten": false, "gross": false
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Megascans/3D_Plants/GroundCover/SM_GroundCover_02",
+    "Megascans/3D_Plants/GroundCover/SM_GroundCover_03",
+    "Megascans/3D_Plants/GroundCover/SM_GroundCover_04",
+    "Megascans/3D_Plants/GroundCover/SM_GroundCover_01",
+    "Megascans/3D_Plants/GroundCover/SM_GroundCover_06"
+   ],
+   "dichte": 0.0104,
+   "zelle_m": 1,
+   "lagengruppe": "streu",
+   "licht": [
+    0.6,
+    0.9,
+    1.0,
+    1.0
+   ],
+   "hang_max": 36,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.7
+   },
+   "karst": {
+    "fuss": 1.0,
+    "spalte": 0,
+    "gipfel": 0.7,
+    "wand": 0
+   },
+   "gruppe": "streuhaufen",
+   "massstab": [
+    0.9,
+    1.4
+   ],
+   "eingraben_cm": 2,
+   "kippen": 1.0,
+   "sichtweite": [
+    0,
+    5000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false
   },
   "zweige": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01", "Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04", "Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05", "Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07", "Megascans/3D_Assets/DryBranches/SM_DryBranches_01", "Megascans/3D_Assets/DryBranches/SM_DryBranches_04", "Megascans/3D_Assets/DryBranches/SM_DryBranches_07"],
-   "dichte": 0.08, "zelle_m": 1, "lagengruppe": "streu", "licht": [0.5, 0.8, 1.0, 1.0], "hang_max": 36,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.7}, "karst": {"fuss": 1.0, "spalte": 0, "gipfel": 0.6, "wand": 0},
-   "gruppe": "streuhaufen", "massstab": [1.2, 2.2], "eingraben_cm": 1, "kippen": 1.0, "sichtweite": [0, 6000], "kollision": false, "schatten": false, "gross": false
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
+    "Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_04",
+    "Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_05",
+    "Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_07",
+    "Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+    "Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+    "Megascans/3D_Assets/DryBranches/SM_DryBranches_07"
+   ],
+   "dichte": 0.0156,
+   "zelle_m": 1,
+   "lagengruppe": "streu",
+   "licht": [
+    0.5,
+    0.8,
+    1.0,
+    1.0
+   ],
+   "hang_max": 36,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.7
+   },
+   "karst": {
+    "fuss": 1.0,
+    "spalte": 0,
+    "gipfel": 0.6,
+    "wand": 0
+   },
+   "gruppe": "streuhaufen",
+   "massstab": [
+    1.2,
+    2.2
+   ],
+   "eingraben_cm": 1,
+   "kippen": 1.0,
+   "sichtweite": [
+    0,
+    6000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false
   },
   "ast": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01", "Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04", "Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01", "Megascans/3D_Assets/OakBranch/SM_OakBranch_01", "Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06"],
-   "dichte": 0.005, "zelle_m": 5, "lagengruppe": "streu", "licht": [0.4, 0.8, 1.0, 1.0], "hang_max": 34,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.6}, "karst": {"fuss": 1.0, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "gleich", "massstab": [0.9, 1.4], "eingraben_cm": 6, "kippen": 1.0, "yaw_hang": true, "sichtweite": [0, 25000], "kollision": false, "schatten": true, "gross": false
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
+    "Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04",
+    "Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01",
+    "Megascans/3D_Assets/OakBranch/SM_OakBranch_01",
+    "Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06"
+   ],
+   "dichte": 0.003,
+   "zelle_m": 5,
+   "lagengruppe": "streu",
+   "licht": [
+    0.4,
+    0.8,
+    1.0,
+    1.0
+   ],
+   "hang_max": 34,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.6
+   },
+   "karst": {
+    "fuss": 1.0,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "gleich",
+   "massstab": [
+    0.9,
+    1.4
+   ],
+   "eingraben_cm": 6,
+   "kippen": 1.0,
+   "yaw_hang": true,
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false
   },
   "pilz": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01", "Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"],
-   "dichte": 0.008, "zelle_m": 2, "lagengruppe": "moos", "licht": [0.1, 0.5, 1.0, 1.0], "hang_max": 34,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.6}, "karst": {"fuss": 1.3, "spalte": 0, "gipfel": 0.4, "wand": 0},
-   "gruppe": "moosteppich", "massstab": [0.8, 1.6], "eingraben_cm": 2, "kippen": 0.7, "sichtweite": [0, 5000], "kollision": false, "schatten": false, "gross": false,
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+    "Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
+   ],
+   "dichte": 0.004,
+   "zelle_m": 2,
+   "lagengruppe": "moos",
+   "licht": [
+    0.1,
+    0.5,
+    1.0,
+    1.0
+   ],
+   "hang_max": 34,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.6
+   },
+   "karst": {
+    "fuss": 1.3,
+    "spalte": 0,
+    "gipfel": 0.4,
+    "wand": 0
+   },
+   "gruppe": "moosteppich",
+   "massstab": [
+    0.8,
+    1.6
+   ],
+   "eingraben_cm": 2,
+   "kippen": 0.7,
+   "sichtweite": [
+    0,
+    5000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
    "nicht_nanite": "Meadow-Pilze kein Nanite, 470 Dreiecke – unkritisch; tropische Pilze fehlen (Einkaufsliste)"
   },
   "moos_polster": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01", "Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03", "Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05", "Megascans/3D_Plants/CustomMoss/SM_CustomMoss_01", "Megascans/3D_Plants/CustomMoss/SM_CustomMoss_02", "Megascans/3D_Plants/CustomMoss/SM_CustomMoss_05", "Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossPlane"],
-   "dichte": 0.06, "zelle_m": 1, "lagengruppe": "moos", "licht": [0.2, 0.6, 1.0, 1.0], "hang_max": 75, "kletter": true,
-   "stufe": {"talboden": 1.0, "hang": 1.1, "karst_hoch": 1.0}, "karst": {"fuss": 2.0, "spalte": 1.0, "gipfel": 0.8, "wand": 0.4},
-   "gruppe": "moosteppich", "massstab": [1.2, 2.6], "eingraben_cm": 2, "kippen": 1.0, "sichtweite": [0, 6000], "kollision": false, "schatten": false, "gross": false
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+    "Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+    "Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+    "Megascans/3D_Plants/CustomMoss/SM_CustomMoss_01",
+    "Megascans/3D_Plants/CustomMoss/SM_CustomMoss_02",
+    "Megascans/3D_Plants/CustomMoss/SM_CustomMoss_05",
+    "Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossPlane"
+   ],
+   "dichte": 0.0168,
+   "zelle_m": 1,
+   "lagengruppe": "moos",
+   "licht": [
+    0.2,
+    0.6,
+    1.0,
+    1.0
+   ],
+   "hang_max": 75,
+   "kletter": true,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.1,
+    "karst_hoch": 1.0
+   },
+   "karst": {
+    "fuss": 2.0,
+    "spalte": 1.0,
+    "gipfel": 0.8,
+    "wand": 0.4
+   },
+   "gruppe": "moosteppich",
+   "massstab": [
+    1.2,
+    2.6
+   ],
+   "eingraben_cm": 2,
+   "kippen": 1.0,
+   "sichtweite": [
+    0,
+    6000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false
   },
   "keimling": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Megascans/3D_Plants/Crownbeard/SM_Crownbeard_01", "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_02", "Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_03", "Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_04", "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_10"],
-   "dichte": 0.04, "zelle_m": 1, "lagengruppe": "feucht", "licht": [0.7, 1.0, 0.9, 0.6], "hang_max": 36,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.6}, "karst": {"fuss": 0.9, "spalte": 0, "gipfel": 0.6, "wand": 0},
-   "gruppe": "streuhaufen", "massstab": [1.0, 2.0], "eingraben_cm": 2, "kippen": 0.3, "sichtweite": [0, 5000], "kollision": false, "schatten": false, "gross": false
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_01",
+    "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_02",
+    "Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_03",
+    "Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_04",
+    "Megascans/3D_Plants/Crownbeard/SM_Crownbeard_10"
+   ],
+   "dichte": 0.0091,
+   "zelle_m": 1,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.7,
+    1.0,
+    0.9,
+    0.6
+   ],
+   "hang_max": 36,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.6
+   },
+   "karst": {
+    "fuss": 0.9,
+    "spalte": 0,
+    "gipfel": 0.6,
+    "wand": 0
+   },
+   "gruppe": "streuhaufen",
+   "massstab": [
+    1.0,
+    2.0
+   ],
+   "eingraben_cm": 2,
+   "kippen": 0.3,
+   "sichtweite": [
+    0,
+    5000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false
   },
   "bluete_boden": {
-   "schicht": "0 boden", "rolle": "boden",
-   "netze": ["Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01", "Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02", "Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01", "Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_05", "Megascans/3D_Plants/Periwinkle/SM_Periwinkle_01", "Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03", "Megascans/3D_Plants/YellowArchangel/SM_YellowArchangel_04"],
-   "dichte": 0.03, "zelle_m": 1, "lagengruppe": "feucht", "licht": [0.6, 1.0, 0.9, 0.4], "hang_max": 34,
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 0.7}, "karst": {"fuss": 1.3, "spalte": 0, "gipfel": 0.8, "wand": 0},
-   "gruppe": "blueteninsel", "massstab": [1.0, 1.6], "eingraben_cm": 2, "kippen": 0.3, "sichtweite": [0, 8000], "kollision": false, "schatten": false, "gross": false,
+   "schicht": "0 boden",
+   "rolle": "boden",
+   "netze": [
+    "Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_01",
+    "Megascans/3D_Plants/LilyOfTheValley/SM_LilyOfTheValley_02",
+    "Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01",
+    "Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_05",
+    "Megascans/3D_Plants/Periwinkle/SM_Periwinkle_01",
+    "Megascans/3D_Plants/Periwinkle/SM_Periwinkle_03",
+    "Megascans/3D_Plants/YellowArchangel/SM_YellowArchangel_04"
+   ],
+   "dichte": 0.015,
+   "zelle_m": 1,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.6,
+    1.0,
+    0.9,
+    0.4
+   ],
+   "hang_max": 34,
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 0.7
+   },
+   "karst": {
+    "fuss": 1.3,
+    "spalte": 0,
+    "gipfel": 0.8,
+    "wand": 0
+   },
+   "gruppe": "blueteninsel",
+   "massstab": [
+    1.0,
+    1.6
+   ],
+   "eingraben_cm": 2,
+   "kippen": 0.3,
+   "sichtweite": [
+    0,
+    8000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
    "hinweis": "Farbakzent (weiß/violett/gelb) in Inseln; tropische Blüten (Ingwer, Helikonie) fehlen – Einkaufsliste"
   },
-
   "moosstein": {
-   "schicht": "5 wasserkante", "rolle": "ufer",
-   "netze": ["Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01", "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02", "Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01", "Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07", "Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14"],
-   "dichte": 0.05, "zelle_m": 1, "lagengruppe": "moos", "licht": [1, 1, 1, 1], "hang_max": 32, "wasser": [0.3, 3.5],
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 1.0}, "karst": {"fuss": 1.4, "spalte": 0, "gipfel": 1.0, "wand": 0},
-   "gruppe": "gleich", "massstab": [0.8, 1.6], "eingraben_cm": 14, "kippen": 1.0, "sichtweite": [0, 9000], "kollision": false, "schatten": true, "gross": false,
+   "schicht": "5 wasserkante",
+   "rolle": "ufer",
+   "netze": [
+    "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
+    "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+    "Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+    "Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+    "Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14"
+   ],
+   "dichte": 0.05,
+   "zelle_m": 1,
+   "lagengruppe": "moos",
+   "licht": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "hang_max": 32,
+   "wasser": [
+    0.3,
+    3.5
+   ],
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 1.0
+   },
+   "karst": {
+    "fuss": 1.4,
+    "spalte": 0,
+    "gipfel": 1.0,
+    "wand": 0
+   },
+   "gruppe": "gleich",
+   "massstab": [
+    0.8,
+    1.6
+   ],
+   "eingraben_cm": 14,
+   "kippen": 1.0,
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
    "hinweis": "Ufer-Ebene (FT_EL_UF_*) setzt bereits Kiesel/Kopfsteine; hier nur bemooste Ergänzung, Dichte bewusst niedrig"
   },
   "uferfarn": {
-   "schicht": "5 wasserkante", "rolle": "ufer",
-   "netze": ["Megascans/3D_Plants/Fern/SM_Fern_03", "Megascans/3D_Plants/Fern/SM_Fern_06", "Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01", "Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03"],
-   "dichte": 0.08, "zelle_m": 1, "lagengruppe": "feucht", "licht": [0.7, 1.0, 1.0, 1.0], "hang_max": 32, "wasser": [1.0, 7.0],
-   "stufe": {"talboden": 1.0, "hang": 1.0, "karst_hoch": 1.0}, "karst": {"fuss": 1.3, "spalte": 0, "gipfel": 1.0, "wand": 0},
-   "gruppe": "farninsel", "massstab": [1.0, 1.7], "eingraben_cm": 3, "kippen": 0.4, "sichtweite": [0, 12000], "kollision": false, "schatten": true, "gross": false
+   "schicht": "5 wasserkante",
+   "rolle": "ufer",
+   "netze": [
+    "Megascans/3D_Plants/Fern/SM_Fern_03",
+    "Megascans/3D_Plants/Fern/SM_Fern_06",
+    "Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_M_01",
+    "Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03"
+   ],
+   "dichte": 0.08,
+   "zelle_m": 1,
+   "lagengruppe": "feucht",
+   "licht": [
+    0.7,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "hang_max": 32,
+   "wasser": [
+    1.0,
+    7.0
+   ],
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 1.0,
+    "karst_hoch": 1.0
+   },
+   "karst": {
+    "fuss": 1.3,
+    "spalte": 0,
+    "gipfel": 1.0,
+    "wand": 0
+   },
+   "gruppe": "farninsel",
+   "massstab": [
+    1.0,
+    1.7
+   ],
+   "eingraben_cm": 3,
+   "kippen": 0.4,
+   "sichtweite": [
+    0,
+    12000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false
   },
   "schilf": {
-   "schicht": "5 wasserkante", "rolle": "ufer",
-   "netze": ["Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_1", "Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_3", "Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_1", "AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_00", "AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_013"],
-   "dichte": 0.04, "zelle_m": 2, "lagengruppe": "feucht", "licht": [1.0, 1.0, 0.7, 0.4], "hang_max": 14, "wasser": [0.3, 2.5],
-   "stufe": {"talboden": 1.0, "hang": 0.5, "karst_hoch": 0.3}, "karst": {"fuss": 1.0, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "staudenflur", "massstab": [0.9, 1.3], "eingraben_cm": 4, "kippen": 0.2, "sichtweite": [0, 15000], "kollision": false, "schatten": true, "gross": false,
+   "schicht": "5 wasserkante",
+   "rolle": "ufer",
+   "netze": [
+    "Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_1",
+    "Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_3",
+    "Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_1",
+    "AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_00",
+    "AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_013"
+   ],
+   "dichte": 0.04,
+   "zelle_m": 2,
+   "lagengruppe": "feucht",
+   "licht": [
+    1.0,
+    1.0,
+    0.7,
+    0.4
+   ],
+   "hang_max": 14,
+   "wasser": [
+    0.3,
+    2.5
+   ],
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.5,
+    "karst_hoch": 0.3
+   },
+   "karst": {
+    "fuss": 1.0,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "staudenflur",
+   "massstab": [
+    0.9,
+    1.3
+   ],
+   "eingraben_cm": 4,
+   "kippen": 0.2,
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "kollision": false,
+   "schatten": true,
+   "gross": false,
    "nicht_nanite": "ToadRush kein Nanite (15–29 k Dreiecke!) – nur 2 Netze, Sichtweite 150 m"
   },
   "horsetail": {
-   "schicht": "5 wasserkante", "rolle": "ufer",
-   "netze": ["Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_01", "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_02", "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_03"],
-   "dichte": 0.05, "zelle_m": 1, "lagengruppe": "feucht", "licht": [1.0, 1.0, 0.8, 0.5], "hang_max": 24, "wasser": [0.5, 5.0],
-   "stufe": {"talboden": 1.0, "hang": 0.8, "karst_hoch": 0.4}, "karst": {"fuss": 1.0, "spalte": 0, "gipfel": 0.5, "wand": 0},
-   "gruppe": "staudenflur", "massstab": [1.0, 1.8], "eingraben_cm": 3, "kippen": 0.3, "sichtweite": [0, 9000], "kollision": false, "schatten": false, "gross": false,
+   "schicht": "5 wasserkante",
+   "rolle": "ufer",
+   "netze": [
+    "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_01",
+    "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_02",
+    "Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_03"
+   ],
+   "dichte": 0.05,
+   "zelle_m": 1,
+   "lagengruppe": "feucht",
+   "licht": [
+    1.0,
+    1.0,
+    0.8,
+    0.5
+   ],
+   "hang_max": 24,
+   "wasser": [
+    0.5,
+    5.0
+   ],
+   "stufe": {
+    "talboden": 1.0,
+    "hang": 0.8,
+    "karst_hoch": 0.4
+   },
+   "karst": {
+    "fuss": 1.0,
+    "spalte": 0,
+    "gipfel": 0.5,
+    "wand": 0
+   },
+   "gruppe": "staudenflur",
+   "massstab": [
+    1.0,
+    1.8
+   ],
+   "eingraben_cm": 3,
+   "kippen": 0.3,
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "kollision": false,
+   "schatten": false,
+   "gross": false,
    "nicht_nanite": "Coast_Dunes kein Nanite, 42–56 Dreiecke – unkritisch"
   }
  },
  "felsgruppen_overrides": {
   "_doku": "Für Teil C (felsgruppen_plan.py): Karst-Kalktürme als Akteure an Steilstellen > 50° in den Karstfeldern, Moosblöcke am Karstfuß. Konsum: felsgruppen_plan.py liest diesen Block über --overrides oder kopiert ihn in felsgruppen_regeln.json['biom_palette']['dschungel'].",
-  "felder": ["G6", "H6", "I6", "I7"],
-  "bedingung": {"hang_min_grad": 50, "biom": "dschungel", "wand_min_hoehe_m": 15},
+  "felder": [
+   "G6",
+   "H6",
+   "I6",
+   "I7"
+  ],
+  "bedingung": {
+   "hang_min_grad": 50,
+   "biom": "dschungel",
+   "wand_min_hoehe_m": 15
+  },
   "wand_palette": {
-   "klippe_schale": ["AsianTemple/Environment/Mesh/SM_Cliff_01a", "AsianTemple/Environment/Mesh/SM_Cliff_01c", "AsianTemple/Environment/Mesh/SM_Cliff_01d", "AsianTemple/Environment/Mesh/SM_Cliff_01e", "AsianTemple/Environment/Mesh/SM_Cliff_01b", "Megascans/3D_Assets/HugeMossyForestCliff/SM_HugeMossyForestCliff_01"],
-   "massstab": [0.35, 0.8], "eingraben_anteil": [0.3, 0.45], "kippen_in_hang_grad": [4, 12], "schichtneigung_grad": [3, 10], "rolle": "akteur",
+   "klippe_schale": [
+    "AsianTemple/Environment/Mesh/SM_Cliff_01a",
+    "AsianTemple/Environment/Mesh/SM_Cliff_01c",
+    "AsianTemple/Environment/Mesh/SM_Cliff_01d",
+    "AsianTemple/Environment/Mesh/SM_Cliff_01e",
+    "AsianTemple/Environment/Mesh/SM_Cliff_01b",
+    "Megascans/3D_Assets/HugeMossyForestCliff/SM_HugeMossyForestCliff_01"
+   ],
+   "massstab": [
+    0.35,
+    0.8
+   ],
+   "eingraben_anteil": [
+    0.3,
+    0.45
+   ],
+   "kippen_in_hang_grad": [
+    4,
+    12
+   ],
+   "schichtneigung_grad": [
+    3,
+    10
+   ],
+   "rolle": "akteur",
    "hinweis": "SM_Cliff_01a–e sind 29–75 m hoch; mit 0,35–0,8 skaliert ergeben sie 12–60 m Türme. Rück-/Unterseite im Gelände; je Turm 1 Hauptschale + 1–2 Nebenschalen (Überlappung 10–30 %). Moos-Auflage über WorldAlignedBlend im Material, nicht über Zusatznetze."
   },
-  "fels_hero": ["Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0", "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04", "Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01"],
-  "fels_block": ["Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01", "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03", "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05", "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07", "Fab/Megascans/3D/Japanese_Mossy_Boulder_veqhehl/Raw/veqhehl_tier_0/StaticMeshes/veqhehl_tier_0", "Fab/Megascans/3D/Forest_Boulder_wgosajs/Raw/wgosajs_tier_0/StaticMeshes/wgosajs_tier_0", "Megascans/3D_Assets/MossyRockFace/SM_MossyRockFace_02"],
-  "fels_stein": ["Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01", "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02"],
-  "geroell_platte": ["AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks2", "AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks3", "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01", "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02"],
-  "karstfuss": {"dichte_block_je_m2": 0.012, "zone_m": [0, 22], "hero_je_turm": [1, 3], "nebenbloecke_je_hero": [2, 5], "eingraben_anteil": [0.3, 0.45], "kippen_in_hang": true, "moos_auflage": true, "kollision_ab_m": 0.8},
-  "sichtweite": {"akteur": [0, 0], "block": [0, 50000], "stein": [0, 12000]},
-  "bild_farbe": [230, 230, 240]
+  "fels_hero": [
+   "Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
+   "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+   "Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01"
+  ],
+  "fels_block": [
+   "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+   "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+   "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+   "Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07",
+   "Fab/Megascans/3D/Japanese_Mossy_Boulder_veqhehl/Raw/veqhehl_tier_0/StaticMeshes/veqhehl_tier_0",
+   "Fab/Megascans/3D/Forest_Boulder_wgosajs/Raw/wgosajs_tier_0/StaticMeshes/wgosajs_tier_0",
+   "Megascans/3D_Assets/MossyRockFace/SM_MossyRockFace_02"
+  ],
+  "fels_stein": [
+   "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
+   "Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02"
+  ],
+  "geroell_platte": [
+   "AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks2",
+   "AncientContent/Megascans/3DAssets/LimestoneRocks/SM_LimestoneRocks3",
+   "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+   "Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02"
+  ],
+  "karstfuss": {
+   "dichte_block_je_m2": 0.012,
+   "zone_m": [
+    0,
+    22
+   ],
+   "hero_je_turm": [
+    1,
+    3
+   ],
+   "nebenbloecke_je_hero": [
+    2,
+    5
+   ],
+   "eingraben_anteil": [
+    0.3,
+    0.45
+   ],
+   "kippen_in_hang": true,
+   "moos_auflage": true,
+   "kollision_ab_m": 0.8
+  },
+  "sichtweite": {
+   "akteur": [
+    0,
+    0
+   ],
+   "block": [
+    0,
+    50000
+   ],
+   "stein": [
+    0,
+    12000
+   ]
+  },
+  "bild_farbe": [
+   230,
+   230,
+   240
+  ]
  },
  "spuren_overrides": {
   "_doku": "Für Teil D (spuren_plan.py): AsianTemple-Elemente im Dschungel. Im Inventar sind vom AsianTemple-Paket NUR Bush/Cliff/Fern/Tree/Vines – keine Tempel-, Laternen-, Brücken- oder Treppennetze. Ersatz bis zum Import: AncientRuins. Blickziel-Koordinaten liefert dschungel_plan.py in plan.json['blickziele'].",
-  "felder": ["G6", "H6", "I6", "I7", "G7", "H7"],
-  "tempelruine": {"netze": ["AncientRuins/Meshes/SM_Column_02", "AncientRuins/Meshes/SM_Column_03", "AncientRuins/Meshes/SM_Wall_02", "AncientRuins/Meshes/SM_Wall_01", "AncientRuins/Meshes/SM_Main_Arch_01"], "je_feld": [1, 2], "lage": "karstfuss_flach_nahe_weg", "flaeche_m": [18, 30], "eingraben_anteil": [0.1, 0.3], "rolle": "akteur", "um_ruine": {"liane_wand": 2.0, "moos_polster": 2.5, "riesenfarn": 1.5, "baum_faktor": 0.3}},
-  "tempelpfad": {"quelle": "karte_weg.r8 innerhalb Biom dschungel", "elemente": "Steinplatten (geroell_platte LimestoneRocks2/3 flach, eingraben 60 %) alle 2–3 m auf dem Weg, Laternen (FEHLEN) alle 25–40 m beidseitig, Moos-Saum 1 m"},
-  "laternen": {"netze": [], "hinweis": "FEHLEN im Inventar – Einkaufsliste (AsianTemple-Paket Vollversion / Fab 'Asian Lantern')"},
-  "steinbruecke": {"netze": [], "hinweis": "FEHLT – Bachquerungen aus 2–3 Karstplatten (LimestoneRocks3, Maßstab 1,5–2) als Trittsteine, bis ein Brückennetz importiert ist"},
-  "blickziele": {"_doku": "Koordinatenregeln (dschungel_plan.py berechnet Kandidaten): karstturm = höchste Zelle eines Wand-Clusters (Hang > 50°, ≥ 60 Zellen, Höhenspanne ≥ 15 m); wasserfall = Wasserzelle neben Hang > 30° mit Höhenabfall ≥ 8 m in 10 m (sonst wasser_welt.json['wasserfaelle']); doline = lokales Minimum mit Relief ≥ 8 m im Umkreis 40 m, ohne Wasser/Weg; tempelruine = flachste Zelle (Hang < 8°) im Karstfuß-Band 10–40 m, ≤ 60 m vom Weg.", "je_feld": [1, 3]}
+  "felder": [
+   "G6",
+   "H6",
+   "I6",
+   "I7",
+   "G7",
+   "H7"
+  ],
+  "tempelruine": {
+   "netze": [
+    "AncientRuins/Meshes/SM_Column_02",
+    "AncientRuins/Meshes/SM_Column_03",
+    "AncientRuins/Meshes/SM_Wall_02",
+    "AncientRuins/Meshes/SM_Wall_01",
+    "AncientRuins/Meshes/SM_Main_Arch_01"
+   ],
+   "je_feld": [
+    1,
+    2
+   ],
+   "lage": "karstfuss_flach_nahe_weg",
+   "flaeche_m": [
+    18,
+    30
+   ],
+   "eingraben_anteil": [
+    0.1,
+    0.3
+   ],
+   "rolle": "akteur",
+   "um_ruine": {
+    "liane_wand": 2.0,
+    "moos_polster": 2.5,
+    "riesenfarn": 1.5,
+    "baum_faktor": 0.3
+   }
+  },
+  "tempelpfad": {
+   "quelle": "karte_weg.r8 innerhalb Biom dschungel",
+   "elemente": "Steinplatten (geroell_platte LimestoneRocks2/3 flach, eingraben 60 %) alle 2–3 m auf dem Weg, Laternen (FEHLEN) alle 25–40 m beidseitig, Moos-Saum 1 m"
+  },
+  "laternen": {
+   "netze": [],
+   "hinweis": "FEHLEN im Inventar – Einkaufsliste (AsianTemple-Paket Vollversion / Fab 'Asian Lantern')"
+  },
+  "steinbruecke": {
+   "netze": [],
+   "hinweis": "FEHLT – Bachquerungen aus 2–3 Karstplatten (LimestoneRocks3, Maßstab 1,5–2) als Trittsteine, bis ein Brückennetz importiert ist"
+  },
+  "blickziele": {
+   "_doku": "Koordinatenregeln (dschungel_plan.py berechnet Kandidaten): karstturm = höchste Zelle eines Wand-Clusters (Hang > 50°, ≥ 60 Zellen, Höhenspanne ≥ 15 m); wasserfall = Wasserzelle neben Hang > 30° mit Höhenabfall ≥ 8 m in 10 m (sonst wasser_welt.json['wasserfaelle']); doline = lokales Minimum mit Relief ≥ 8 m im Umkreis 40 m, ohne Wasser/Weg; tempelruine = flachste Zelle (Hang < 8°) im Karstfuß-Band 10–40 m, ≤ 60 m vom Weg.",
+   "je_feld": [
+    1,
+    3
+   ]
+  }
  },
  "bild_farben": {
-  "emergent": [255, 60, 60], "laubriese": [230, 90, 40], "laub_mittel": [240, 140, 60], "palme_alt": [255, 220, 40], "palme": [250, 240, 90], "palme_jung": [255, 255, 170],
-  "riesenfarn": [30, 200, 90], "farn_klein": [90, 220, 140], "staude": [200, 120, 220], "bananen_ersatz": [160, 60, 200], "strauch": [120, 180, 60], "jungpalme": [230, 230, 120],
-  "stamm_moos": [140, 90, 40], "stumpf": [120, 70, 30], "wurzel": [100, 60, 30], "liane_stamm": [60, 160, 60], "liane_wand": [40, 140, 80], "karstplatte": [220, 220, 230], "grasbueschel": [170, 220, 80],
-  "streu": [150, 110, 60], "streu_klein": [130, 100, 60], "zweige": [120, 100, 80], "ast": [110, 80, 50], "pilz": [250, 200, 200], "moos_polster": [40, 120, 40], "keimling": [140, 200, 120], "bluete_boden": [255, 255, 255],
-  "moosstein": [120, 160, 160], "uferfarn": [60, 200, 180], "schilf": [200, 180, 80], "horsetail": [80, 170, 120],
-  "_karst_wand": [250, 250, 255], "_karst_fuss": [200, 200, 220], "_wasser": [40, 80, 200], "_weg": [120, 80, 40], "_ort": [200, 40, 40], "_lichtung": [90, 90, 70]
+  "emergent": [
+   255,
+   60,
+   60
+  ],
+  "laubriese": [
+   230,
+   90,
+   40
+  ],
+  "laub_mittel": [
+   240,
+   140,
+   60
+  ],
+  "palme_alt": [
+   255,
+   220,
+   40
+  ],
+  "palme": [
+   250,
+   240,
+   90
+  ],
+  "palme_jung": [
+   255,
+   255,
+   170
+  ],
+  "riesenfarn": [
+   30,
+   200,
+   90
+  ],
+  "farn_klein": [
+   90,
+   220,
+   140
+  ],
+  "staude": [
+   200,
+   120,
+   220
+  ],
+  "bananen_ersatz": [
+   160,
+   60,
+   200
+  ],
+  "strauch": [
+   120,
+   180,
+   60
+  ],
+  "jungpalme": [
+   230,
+   230,
+   120
+  ],
+  "stamm_moos": [
+   140,
+   90,
+   40
+  ],
+  "stumpf": [
+   120,
+   70,
+   30
+  ],
+  "wurzel": [
+   100,
+   60,
+   30
+  ],
+  "liane_stamm": [
+   60,
+   160,
+   60
+  ],
+  "liane_wand": [
+   40,
+   140,
+   80
+  ],
+  "karstplatte": [
+   220,
+   220,
+   230
+  ],
+  "grasbueschel": [
+   170,
+   220,
+   80
+  ],
+  "streu": [
+   150,
+   110,
+   60
+  ],
+  "streu_klein": [
+   130,
+   100,
+   60
+  ],
+  "zweige": [
+   120,
+   100,
+   80
+  ],
+  "ast": [
+   110,
+   80,
+   50
+  ],
+  "pilz": [
+   250,
+   200,
+   200
+  ],
+  "moos_polster": [
+   40,
+   120,
+   40
+  ],
+  "keimling": [
+   140,
+   200,
+   120
+  ],
+  "bluete_boden": [
+   255,
+   255,
+   255
+  ],
+  "moosstein": [
+   120,
+   160,
+   160
+  ],
+  "uferfarn": [
+   60,
+   200,
+   180
+  ],
+  "schilf": [
+   200,
+   180,
+   80
+  ],
+  "horsetail": [
+   80,
+   170,
+   120
+  ],
+  "_karst_wand": [
+   250,
+   250,
+   255
+  ],
+  "_karst_fuss": [
+   200,
+   200,
+   220
+  ],
+  "_wasser": [
+   40,
+   80,
+   200
+  ],
+  "_weg": [
+   120,
+   80,
+   40
+  ],
+  "_ort": [
+   200,
+   40,
+   40
+  ],
+  "_lichtung": [
+   90,
+   90,
+   70
+  ]
  }
 }

@@ -27,7 +27,9 @@ Methode: Wasserfläche = karte_wasser ∪ Teich-/See-Umrisse. Wasserrand-Zellen 
 (NumPy, exakt euklidisch bis 64 m); jede Zelle kennt so ihren nächsten Uferpunkt. Spiegel einer Wasserzelle = Höhe dieses
 Uferpunkts (3-m-Glättung innerhalb des Wassers), überschrieben durch spiegel_cm aus teiche.json/wasser_welt.json.
 Wassertiefe = Spiegel − Grund, Höhe über Spiegel (Land) = Grund − Spiegel des nächsten Ufers. Daraus Zonen flachwasser (≤ 0,5 m),
-tiefwasser, spiegel (±0,2 m, ≤ 2 m), ufer (≤ 3 m, ≤ 0,8 m), bult (3–18 m), hinterland. Dichte je Klasse = Basis × Zone ×
+tiefwasser, spiegel (±0,2 m, ≤ 2 m), ufer (≤ 3 m, ≤ 0,8 m), bult (3–18 m; zusätzlich jede Nassfläche aus Schlamm/Algen-Lagen ohne
+offenes Wasser in 18 m, weil H5 nur 0,4 % kartiertes Wasser hat), hinterland. karte_wasser-Zellen über dem Spiegel werden für die
+Zonierung als Land behandelt, bleiben aber für alle Landklassen gesperrt (FORMAT §3: nichts auf Wasser). Dichte je Klasse = Basis × Zone ×
 Bodenlagen × Hang × Höhe über Spiegel/Tiefe × Biom/Nässe × --faktor. Gruppen (Zentren + Mitglieder im Radius), Zufall aus
 Hash(Rasterkoordinate, Seed, Kanal) → deterministisch, Nachbarfelder nahtlos. Nur NumPy; numba optional (nicht benötigt).
 
@@ -663,8 +665,11 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         if polys:
             meld('%d Umrisse, davon %d mit expliziter Spiegelhöhe' % (len(polys), n_sp))
     wasser = wasser0 & (hoehe <= spiegel0 + 0.05)
+    trocken_w = wasser0 & ~wasser  # als Wasser kartiert, aber über dem Spiegel: für die Zonierung Land, für Landklassen trotzdem gesperrt
     if wasser0.any() and not wasser.any():
         hinweise.append('Wasserflächen liegen komplett über dem abgeleiteten Spiegel – Umrisse/Spiegel prüfen')
+    if trocken_w.any():
+        hinweise.append('%d karte_wasser-Zellen liegen > 5 cm über dem Spiegel (Zonierung als Land, für Landklassen gesperrt)' % int(trocken_w.sum()))
     if wasser.any():
         rand_w = wasser & dilate(~wasser, 1)
         d_w, si, sj = jfa(rand_w, max_m=distmax)
@@ -717,9 +722,14 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     hi_h = float(Z['hinterland']['hoehe_ueber_spiegel_m'][1])
     z_hi = land & (zone == 0) & ((h_ueber <= hi_h) | fern)
     zone[z_hi] = ZONEN['hinterland']
+    # Nassflächen ohne offenes Wasser (Schlamm/Algen-Lagen > 18 m vom nächsten Wasser, z. B. H5 mit nur 0,4 % kartiertem Wasser)
+    # zählen als Bultenzone: dort Seggen, Moos, Weidengebüsch statt nur Hinterland-Laub.
+    nass_fern = (zone == ZONEN['hinterland']) & nass & (d_w > bu_d1)
+    zone[nass_fern] = ZONEN['bult']
     im_feld = np.zeros((H, W), bool)
     im_feld[fb[0] - wi0:fb[1] - wi0, fb[2] - wj0:fb[3] - wj0] = True
     zstat = {name: int(((zone == idx) & im_feld & sumpfig).sum()) for name, idx in ZONEN.items()}
+    zstat['bult_ohne_wasser'] = int((nass_fern & im_feld).sum())
     meld('Zonen im Feld (sumpfig, m²): %s' % zstat)
 
     # --- Faktoren
@@ -827,7 +837,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         if ist_wasserklasse:
             erlaubt &= np.isin(zone, zonen)
         else:
-            erlaubt &= land & np.isin(zone, zonen)
+            erlaubt &= land & ~trocken_w & np.isin(zone, zonen)  # FORMAT §3: nichts auf Wasser (karte_wasser gilt hart)
         ab = float(k.get('abstand_baum_m', 0.0))
         erlaubt &= ~(baum_abstand_maske(ab) if ab > 0 else stamm_klein)
         if k.get('abstand_ufer_min_m'):
@@ -1014,6 +1024,8 @@ def plane_feld(feld, basis, regeln, faktor, bild):
                                  'ebene': e['ebene']}
             else:
                 d = dateien[name]
+                if e['klasse'] != d['gruppe'] and e['klasse'] not in d.get('gruppen', []):
+                    d.setdefault('gruppen', [d['gruppe']]).append(e['klasse'])  # Netz von mehreren Klassen genutzt (anderes Eingraben)
                 d['kollision'] = d['kollision'] or e['kollision']
                 d['schatten'] = d['schatten'] or e['schatten']
                 if e['sichtweite'][1] == 0 or (d['sichtweite'][1] != 0 and e['sichtweite'][1] > d['sichtweite'][1]):

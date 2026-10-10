@@ -350,7 +350,7 @@ def lade_biome(basis, win, regeln, feld):
                     break
         if 0 <= kk < 256:
             tabelle[kk] = namen.index(b)
-    tabelle[0] = namen.index('aue')
+    tabelle[0] = namen.index(fb)   # Kennzahl 0 (Weltgelände) → dominantes Feldbiom (FORMAT §2 nennt aue; in Dschungelfeldern ist das Feldbiom gemeint)
     return tabelle[eig], fb
 
 
@@ -403,6 +403,8 @@ def lade_fremde_baeume(basis, feld, win, inv, hinweise):
                     quellen.append('%s/%s' % (ebene, nf))
                     baum += b
     ij = os.path.join(basis, WELT, 'instanzen', 'instanzen.json')
+    if not os.path.isfile(ij):
+        meld('Hinweis: %s fehlt – Houdini-Bestand wird nicht ins Kronendach gerechnet (optional)' % ij)
     if os.path.isfile(ij):
         try:
             verz = json.load(open(ij, encoding='utf-8')).get('verzeichnis', [])
@@ -550,6 +552,7 @@ def plane_feld(feld, basis, regeln, faktor, bild):
     dzdi[0, :] = dzdi[-1, :] = 0
     dzdj[:, 0] = dzdj[:, -1] = 0
     hang = np.degrees(np.arctan(np.sqrt(dzdi * dzdi + dzdj * dzdj))).astype(np.float32)
+    hang3 = minmax_filter(hang, 1, np.maximum)   # steilste Zelle im 3×3-Umfeld: Nicht-Kletterer meiden auch Wandkanten
     nl = np.sqrt(dzdi * dzdi + dzdj * dzdj + 1.0)
     n_x, n_y, n_z = (-dzdj / nl).astype(np.float32), (-dzdi / nl).astype(np.float32), (1.0 / nl).astype(np.float32)
     Hh = regeln['hoehe']
@@ -689,9 +692,10 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         hmax = kl.get('hang_max', 40)
         if not kl.get('kletter'):
             hmax = min(hmax, regeln['hang']['hang_max_pflanze'])
+            lam[hang3 > hmax] = 0          # Nicht-Kletterer: auch keine Zelle neben einer steileren
         else:
             hmax = min(hmax, regeln['hang']['hang_max_kletter'])
-        lam[hang > hmax] = 0
+            lam[hang > hmax] = 0
         if 'hang_min' in kl:
             lam[hang < kl['hang_min']] = 0
         lam *= gruppe_f(kl.get('gruppe', 'gleich'))
@@ -733,7 +737,9 @@ def plane_feld(feld, basis, regeln, faktor, bild):
         mi, mj = np.round(fi).astype(np.int32), np.round(fj).astype(np.int32)
         ok = ~(wasser_m[mi, mj] | meer[mi, mj] | weg_m[mi, mj] | ort_m[mi, mj]) & im_feld[mi, mj]
         if not sk.get('kletter'):
-            ok &= hang[mi, mj] <= sk.get('hang_max', 40)
+            ok &= hang3[mi, mj] <= min(sk.get('hang_max', 40), regeln['hang']['hang_max_pflanze'])
+        else:
+            ok &= hang[mi, mj] <= min(sk.get('hang_max', 78), regeln['hang']['hang_max_kletter'])
         fi, fj, mi, mj = fi[ok], fj[ok], mi[ok], mj[ok]
         if fi.size:
             aus.append(dict(klasse=s['klasse'], fi=fi.astype(np.float32), fj=fj.astype(np.float32), mi=mi, mj=mj))

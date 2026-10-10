@@ -14,7 +14,12 @@ Schicht 3 (Fels) und 4 (Spuren) kommen von Teil C/D; die Biom-Überschreibungen 
 
 Aufruf (lokal, production-Wurzel):
     python -I scripts/elfenwald/elfenwald_plan.py FELD [FELD …] [--bild] [--faktor 1.0] [--basis PFAD] [--regeln PFAD]
-                                                  [--schichten 0,1,2,5] [--baum auto|voll|ergaenzen] [--inventar PFAD]
+                                                  [--schichten 0,1,2,5] [--baum auto|voll|ergaenzen] [--mittel zusatz|voll]
+                                                  [--inventar PFAD]
+    --mittel zusatz (Standard): Schichten 0/1 nur als elfenwaldspezifischer Zusatz zur Teil-D-Mittelschicht (FT_EL_MS_*):
+    Farninseln (gedämpft), Adlerfarn, Heidelbeere, Grashorste, Lichtungsblumen, Efeu/Wurzelanlauf am Stamm, Laub/Zweige/Moos/
+    Sauerklee/Kleinsteine; Sträucher, Jungbäume, Hochstauden, Grasbüschel, Stämme, Stümpfe, Äste kommen von Teil D (regeln['teil_d']).
+    --mittel voll: komplette Mittelschicht (nur wenn mittelschicht_plan.py in den Elfenwald-Feldern nicht läuft).
 
 Liest:   export/unreal/welt/hoehe.f32 (np.memmap, Fenster Feld + 64 m, J-Spalte geklippt), lage_*.r8 (optional),
          karte_wasser/weg/ort.r8, eigner.r8 + welt.json (Biom je Zelle; Kennzahl 0 und fehlende Datei → dominantes Feldbiom), bestand/<Feld>/ und
@@ -636,7 +641,7 @@ def ring_an_baum(baeume, kl, c, kanal, frei):
 
 
 # ----------------------------------------------------------------------------- Planung je Feld
-def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
+def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus, mittel_modus='zusatz'):
     t0 = time.time()
     rand = int(regeln.get('fenster_rand_m', 64))
     fb, win = feld_fenster(feld, rand)
@@ -777,7 +782,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
     stat = {}
 
     def merke(schicht, kname, kl, fi, fj, mi, mj, yaw=None, netz_hash=None):
-        ok = im_feld[mi, mj]
+        ok = (fi + wi0 >= fb[0]) & (fi + wi0 < fb[1]) & (fj + wj0 >= fb[2]) & (fj + wj0 < fb[3])  # exakte Feldgrenze
         fi, fj, mi, mj = fi[ok], fj[ok], mi[ok], mj[ok]
         if yaw is not None:
             yaw = yaw[ok]
@@ -900,11 +905,19 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
 
     # ------------------------------------------------------------------ Schichten 1 und 0
     gross = set(['stamm_liegend', 'stumpf', 'strauch', 'jungbaum', 'grashorst', 'embankment'])
+    TD = regeln.get('teil_d', {}).get('zusatz_faktor', {}) if mittel_modus == 'zusatz' else {}
+    if mittel_modus == 'zusatz':
+        weg_kl = sorted(k for sch in TD for k, v in TD[sch].items() if v <= 0)
+        hinweise.append('Mittelschicht-Modus zusatz (Teil D liefert die Grundschicht): ohne %s; gedämpft %s' % (
+            ','.join(weg_kl), ','.join('%s x%.2f' % (k, v) for sch in TD for k, v in TD[sch].items() if 0 < v < 1)))
     for schicht in ('1_mittel', '0_boden'):
         if schicht[0] not in schichten:
             continue
         for kidx, (kname, kl) in enumerate(regeln['schichten'][schicht].items()):
             if not kl['netze']:
+                continue
+            td_f = float(TD.get(schicht, {}).get(kname, 1.0))
+            if td_f <= 0:
                 continue
             kanal = (3000 if schicht == '1_mittel' else 5000) + kidx * 20
             frei = frei_basis & ~(nah_weg_gross if kname in gross else nah_weg_klein)
@@ -913,11 +926,11 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
                 bt = baeume_fuer(kl['an_baum']['klassen'])
                 fi, fj, yaw, mi, mj = ring_an_baum(bt, kl, c, kanal, frei_ab)
                 if fi.size:
-                    keep = c.biomf[mi, mj] * faktor >= hash01(mi + wi0, mj + wj0, c.seed, kanal + 9)
+                    keep = c.biomf[mi, mj] * faktor * td_f >= hash01(mi + wi0, mj + wj0, c.seed, kanal + 9)
                     merke(schicht, kname, kl, fi[keep], fj[keep], mi[keep], mj[keep], yaw=yaw[keep])
                 continue
             frei = frei & ~nah_baum
-            lam = dichtefeld_schicht(kl, c, faktor)
+            lam = dichtefeld_schicht(kl, c, faktor * td_f)
             fi, fj, mi, mj = ziehe(lam, frei, kl, c, kanal)
             if fi.size == 0:
                 continue
@@ -1075,7 +1088,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, schichten, baum_modus):
     lichtung_anteil = float((licht_k & waldgebiet & im_feld).sum() / max(1, (waldgebiet & im_feld).sum())) if baum_modus == 'voll' else float((c.lichtung & im_feld).sum() / max(1, (waldgebiet & im_feld).sum()))
     plan = {'stand': time.strftime('%Y-%m-%d %H:%M'), 'feld': feld, 'instanzen': int(gesamt), 'dateien': dateien,
             'ft_ordner': regeln['ft_ordner'], 'ft_praefix': regeln['ft_praefix'],
-            'baum_modus': baum_modus,
+            'baum_modus': baum_modus, 'mittel_modus': mittel_modus,
             'statistik': {'je_schicht': je_schicht, 'je_klasse': stat, 'kollision_baum': nk['2_baum'], 'kollision_andere': nk['andere'],
                           'biome_anteil': {k: round(v, 3) for k, v in bio_anteil.items()},
                           'waldgebiet_anteil': round(float(waldgebiet[im_feld].mean()), 3),
@@ -1145,6 +1158,8 @@ def main():
     ap.add_argument('--inventar', default=None, help='Pfad zu daten/netze.csv (sonst Suche)')
     ap.add_argument('--schichten', default='0,1,2,5', help='Teilmenge von 0,1,2,5')
     ap.add_argument('--baum', default='auto', choices=['auto', 'voll', 'ergaenzen'])
+    ap.add_argument('--mittel', default='zusatz', choices=['zusatz', 'voll'],
+                    help='zusatz: nur elfenwaldspezifische Mittelschicht (Teil D liefert den Rest); voll: komplette Mittelschicht')
     a = ap.parse_args()
     rp = a.regeln or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'elfenwald_regeln.json')
     if not os.path.isfile(rp):
@@ -1157,7 +1172,7 @@ def main():
     pruefe_inventar(regeln, a.basis, a.inventar)
     schichten = set(s.strip() for s in a.schichten.split(',') if s.strip())
     for feld in a.felder:
-        plane_feld(feld.strip().upper(), a.basis, regeln, a.faktor, a.bild, schichten, a.baum)
+        plane_feld(feld.strip().upper(), a.basis, regeln, a.faktor, a.bild, schichten, a.baum, a.mittel)
 
 
 if __name__ == '__main__':

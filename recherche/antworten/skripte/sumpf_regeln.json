@@ -34,7 +34,7 @@
   "tiefwasser": {"tiefe_m": [0.5, 99.0], "hinweis": "nur Seerosen 0,3-1,5 m (auf dem Spiegel), sonst nichts"},
   "spiegel": {"hoehe_ueber_spiegel_m": [-0.2, 0.2], "abstand_wasser_max_m": 2.0, "hinweis": "Landzelle am Spiegel: Seggen, Rohrkolben-Landteil, liegendes Totholz, Moos"},
   "ufer": {"hoehe_ueber_spiegel_m": [0.0, 0.8], "abstand_wasser_m": [0.0, 3.0], "hinweis": "0-3 m vom Wasser, bis 0,8 m ueber Spiegel: Moosteppich, Bulten, Pestwurz, Schachtelhalm"},
-  "bult": {"abstand_wasser_m": [3.0, 18.0], "hoehe_ueber_spiegel_m": [0.0, 2.5], "hinweis": "Bultenzone: Seggenbulten, Weidenbuesche, Farninseln, Stuempfe, Weiden"},
+  "bult": {"abstand_wasser_m": [3.0, 18.0], "hoehe_ueber_spiegel_m": [0.0, 2.5], "hinweis": "Bultenzone: Seggenbulten, Weidenbuesche, Farninseln, Stuempfe, Weiden. Zusaetzlich jede Nassflaeche (nass_maske aus Schlamm/Algen-Lagen) ohne offenes Wasser in 18 m, damit die Schlamm-/Algen-Flaechen von H5 (35 % des Feldes bei nur 0,4 % kartiertem Wasser) nicht leer bleiben"},
   "hinterland": {"abstand_wasser_m": [18.0, 999.0], "hoehe_ueber_spiegel_m": [0.0, 6.0], "hinweis": "Sumpfwald-Reste: Laub, Zweige, Pilze, Erlen-Ersatz, tote Baeume an Land"}
  },
  "hoehe_ueber_spiegel_abnahme": {"voll_bis_m": 1.5, "null_ab_m": 6.0, "hinweis": "lineare Abnahme der Landklassen zwischen voll_bis_m und null_ab_m; Sumpf ist Senke"},
