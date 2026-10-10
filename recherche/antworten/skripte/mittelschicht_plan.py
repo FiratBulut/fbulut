@@ -415,7 +415,7 @@ SCHEMA6 = ('palette', 'rolle', 'dichte_je_ha', 'hang_grad', 'hoehe_m', 'wasser_a
            'eingraben_anteil', 'gruppe', 'kollision', 'sichtweite', 'akteur')
 KLASSEN_SCHLUESSEL = set(KLASSE_VORGABE) | set(SCHEMA6) | {
     'lagen_faktor', 'lagen', 'netze_massstab', 'netze_gewicht', 'biome', 'biom_faktor', 'schatten', 'farbe', 'lichtung', 'wegrand',
-    'nah_baum', 'mulde', 'an_totholz', 'basisklasse'}
+    'nah_baum', 'mulde', 'an_totholz', 'basisklasse', 'stufe', 'stufen', 'hoehe_rel_baumgrenze_m', 'hoehe_min_m'}
 BLOCK_SCHLUESSEL = {'palette', 'faktor', 'zusatzklassen', 'parameter', 'je_biom', 'faktor_je_feld', 'vorlage_biom', 'biom_faktor',
                     'entfernen_je_feld', 'biom', 'gilt_fuer', 'alias', 'klassen_alias', 'klassen_alias_mittelschicht', 'herkunft'}
 
@@ -799,8 +799,158 @@ def budget_anwenden(aus, regeln, seed, wi0, wj0, hinweise):
     return roh, protokoll
 
 
+# ----------------------------------------------------------------------------- Höhenstufen (wie hochgebirge_plan.py)
+HS_VORGABE = {"baumgrenze_m": {"gletscher": 230, "frost": 180, "tundra": 280, "fjord": 260, "bergwald": 420, "default": 320},
+              "schneegrenze_m": {"gletscher": 370, "frost": 280, "tundra": 420, "fjord": 400, "bergwald": 540, "default": 470},
+              "exposition_versatz_m": 45, "hang_versatz": {"ab_grad": 25, "bis_grad": 45, "versatz_m": 30}, "grat_versatz_m": 40,
+              "grat_staerke_min": 0.015, "rauschen_amplitude_m": 35, "krummholz_band_m": [-60, 40],
+              "schlucht": {"kruemmung_min": 0.006, "wasser_m": 25, "bonus_m": 70},
+              "lage_schnee_als_stufe3_ab": 0.55, "lage_eis_als_stufe3_ab": 0.4}
+U64 = np.uint64
+
+
+def _hg_mix(h):
+    h = np.atleast_1d(h).astype(U64, copy=True)
+    with np.errstate(over='ignore'):
+        h ^= h >> U64(30)
+        h *= U64(0xBF58476D1CE4E5B9)
+        h ^= h >> U64(27)
+        h *= U64(0x94D049BB133111EB)
+        h ^= h >> U64(31)
+    return h
+
+
+def _hg_hash64(*teile):
+    h = None
+    with np.errstate(over='ignore'):
+        for t in teile:
+            a = np.atleast_1d(np.asarray(t)).astype(np.int64).astype(U64)
+            h = a * U64(0x9E3779B97F4A7C15) if h is None else _hg_mix(h ^ (a + U64(0x9E3779B97F4A7C15)))
+    return _hg_mix(h)
+
+
+def _hg_uni(h, salz):
+    with np.errstate(over='ignore'):
+        return (_hg_mix(h ^ U64((salz * 0x9E3779B97F4A7C15) & 0xFFFFFFFFFFFFFFFF)) >> U64(11)).astype(np.float64) * (1.0 / 9007199254740992.0)
+
+
+def _hg_wertrauschen(ii, jj, gitter, seed, salz):
+    gi = ii / float(gitter)
+    gj = jj / float(gitter)
+    i0 = np.floor(gi).astype(np.int64)
+    j0 = np.floor(gj).astype(np.int64)
+    fi = gi - i0
+    fj = gj - j0
+    fi = fi * fi * (3 - 2 * fi)
+    fj = fj * fj * (3 - 2 * fj)
+
+    def v(di, dj):
+        return _hg_uni(_hg_hash64(seed, salz, i0 + di, j0 + dj), 7)
+    return v(0, 0) * (1 - fi) * (1 - fj) + v(0, 1) * (1 - fi) * fj + v(1, 0) * fi * (1 - fj) + v(1, 1) * fi * fj
+
+
+def _hg_gauss1d(a, sigma, axis):
+    r = max(1, int(3.0 * sigma + 0.5))
+    x = np.arange(-r, r + 1, dtype=np.float64)
+    k = np.exp(-0.5 * (x / sigma) ** 2)
+    k /= k.sum()
+    pad = [(0, 0), (0, 0)]
+    pad[axis] = (r, r)
+    ap = np.pad(a, pad, mode='edge')
+    out = np.zeros_like(a, dtype=np.float64)
+    n = a.shape[axis]
+    for t, w in enumerate(k):
+        sl = [slice(None), slice(None)]
+        sl[axis] = slice(t, t + n)
+        out += w * ap[tuple(sl)]
+    return out
+
+
+def _hg_gauss(a, sigma):
+    return a.astype(np.float64) if sigma <= 0 else _hg_gauss1d(_hg_gauss1d(a.astype(np.float64), sigma, 0), sigma, 1)
+
+
+def _hg_dilate(mask, r):
+    r = int(round(r))
+    out = mask.copy()
+    for axis in (0, 1):
+        pad = [(0, 0), (0, 0)]
+        pad[axis] = (r, r)
+        ap = np.pad(out, pad, mode='constant', constant_values=False)
+        acc = out.copy()
+        n = out.shape[axis]
+        for t in range(2 * r + 1):
+            sl = [slice(None), slice(None)]
+            sl[axis] = slice(t, t + n)
+            acc = np.maximum(acc, ap[tuple(sl)])
+        out = acc
+    return out
+
+
+def lade_hg_regeln(regel_pfad):
+    """hoehenstufen/glaettung/seed aus hochgebirge_regeln.json (Ordner der eigenen Regeln, sonst ../hochgebirge/), sonst Vorgabe."""
+    ordner = os.path.dirname(os.path.abspath(regel_pfad))
+    for p in (os.path.join(ordner, 'hochgebirge_regeln.json'), os.path.join(ordner, '..', 'hochgebirge', 'hochgebirge_regeln.json')):
+        if os.path.isfile(p):
+            try:
+                d = json.load(open(p, encoding='utf-8'))
+                if isinstance(d.get('hoehenstufen'), dict):
+                    return {'hoehenstufen': d['hoehenstufen'], 'glaettung': d.get('glaettung', {}), 'seed': d.get('seed', 1),
+                            'exposition': d.get('exposition', {}), 'quelle': os.path.basename(p)}
+            except Exception:
+                pass
+    return {'hoehenstufen': HS_VORGABE, 'glaettung': {}, 'seed': 4411, 'exposition': {}, 'quelle': 'Vorgabe (wie hochgebirge_regeln.json 10.10.)'}
+
+
+def hoehenstufen(hoehe, bio, wasser_m, lage_fn, win, hg):
+    """Höhenstufe je Zelle (0 bergwald, 1 krummholz, 2 matte, 3 fels/schnee) und lokale Baumgrenze (m), Rechenweg wie
+    hochgebirge_plan.py (Baum-/Schneegrenze je Biom, Exposition, Hang, Grat, Wertrauschen, Schlucht-Bonus, Krummholzband)."""
+    HS, G = hg['hoehenstufen'], hg.get('glaettung', {})
+    seed = int(hg.get('seed', 1))
+    hs = _hg_gauss(hoehe, G.get('hang_sigma_m', 1.5))
+    gi_, gj_ = np.gradient(hs)
+    hang = np.degrees(np.arctan(np.hypot(gi_, gj_)))
+    g = np.hypot(gi_, gj_) + 1e-9
+    voll = float(hg.get('exposition', {}).get('hang_voll_grad', 15))
+    sonnig = 0.5 + 0.5 * (-gi_ / g) * np.minimum(1.0, hang / voll)
+    hk = _hg_gauss(hoehe, G.get('kruemmung_sigma_m', 8.0))
+    gki, gkj = np.gradient(hk)
+    lap = np.gradient(gki)[0] + np.gradient(gkj)[1]
+    hg_ = _hg_gauss(hoehe, G.get('grat_sigma_m', 6.0))
+    gi2, gj2 = np.gradient(hg_)
+    lap_g = np.gradient(gi2)[0] + np.gradient(gj2)[1]
+    bgd, sgd = HS['baumgrenze_m'], HS['schneegrenze_m']
+    bg = np.full(hoehe.shape, float(bgd.get('default', 320)))
+    sg = np.full(hoehe.shape, float(sgd.get('default', 470)))
+    for bi, bn in enumerate(BIOME15):
+        m = bio == bi
+        if m.any():
+            bg[m] = bgd.get(bn, bgd.get('default', 320))
+            sg[m] = sgd.get(bn, sgd.get('default', 470))
+    v = (sonnig - 0.5) * 2.0 * HS.get('exposition_versatz_m', 45)
+    HV = HS.get('hang_versatz', {})
+    t = np.clip((hang - HV.get('ab_grad', 25)) / max(1e-6, HV.get('bis_grad', 45) - HV.get('ab_grad', 25)), 0, 1)
+    v = v - t * HV.get('versatz_m', 30)
+    v = v - np.clip(-lap_g / max(1e-9, HS.get('grat_staerke_min', 0.015)), 0, 1) * HS.get('grat_versatz_m', 40)
+    ii, jj = np.meshgrid(np.arange(win[0], win[1]), np.arange(win[2], win[3]), indexing='ij')
+    v = v + (_hg_wertrauschen(ii, jj, G.get('rauschen_gitter_m', 320), seed, 11) - 0.5) * 2.0 * HS.get('rauschen_amplitude_m', 35)
+    S = HS.get('schlucht', {})
+    nah_w = _hg_dilate(wasser_m, S.get('wasser_m', 25))
+    schlucht = _hg_dilate(nah_w & (lap > S.get('kruemmung_min', 0.006)) & (hang >= 8), 6) & nah_w
+    bg = bg + v + schlucht * S.get('bonus_m', 70)
+    sg = sg + v
+    kb = HS.get('krummholz_band_m', [-60, 40])
+    stufe = np.zeros(hoehe.shape, np.int8)
+    stufe[hoehe >= bg + kb[0]] = 1
+    stufe[hoehe >= bg + kb[1]] = 2
+    stufe[hoehe >= sg] = 3
+    stufe[lage_fn('Schnee') >= HS.get('lage_schnee_als_stufe3_ab', 0.55)] = 3
+    stufe[lage_fn('Eis') >= HS.get('lage_eis_als_stufe3_ab', 0.4)] = 3
+    return stufe, bg.astype(np.float32)
+
+
 # ----------------------------------------------------------------------------- Planung je Feld
-def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, inventar):
+def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, inventar, hg=None):
     t0 = time.time()
     rand = int(regeln.get('fenster_rand_m', 64))
     fb, win = feld_fenster(feld, rand)
@@ -945,6 +1095,18 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                 mod_cache[name] = (distanz(weg_m, max_m=16.0) <= float(abst.get('wegrand_band_m', 8.0))) & ~weg_m
             elif name == 'nah_baum':
                 mod_cache[name] = ring_3
+            elif name in ('stufe', 'baumgrenze'):
+                def lage_fn(ln):
+                    if ln in lagen:
+                        return lagen[ln]
+                    a_ = r8('lage_%s.r8' % ln)
+                    return a_.astype(np.float32) / 255.0 if a_ is not None else np.zeros((H, W), np.float32)
+                hgr = hg or lade_hg_regeln(os.path.join(SKRIPT_DIR, 'mittelschicht_regeln.json'))
+                st_, bg_ = hoehenstufen(hoehe, bio, wasser_m, lage_fn, win, hgr)
+                st_[wasser_m] = -1
+                mod_cache['stufe'], mod_cache['baumgrenze'] = st_, bg_
+                anteile = {n_: round(float((st_[im_feld] == k_).mean()), 3) for k_, n_ in enumerate(('bergwald', 'krummholz', 'matte', 'fels_schnee'))}
+                hinweise.append('Hoehenstufen (%s) im Feld: %s' % (hgr.get('quelle'), anteile))
             elif name == 'mulde_wert':
                 mod_cache[name] = (gauss_blur(hoehe, 10.0) - hoehe).astype(np.float32)
             elif name == 'mulde':
@@ -986,9 +1148,25 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
             hm = kl['hang_max']
             if hm < 60:
                 lam *= np.clip((hm - hang) / max(1.0, hm - voll_bis), 0, 1)
-            lam *= f_hoehe * f_schnee * (feld_faktor * fk)
+            stufen_klasse = any(k_ in kl for k_ in ('stufe', 'stufen', 'hoehe_rel_baumgrenze_m'))
+            lam *= (1.0 if stufen_klasse else f_hoehe) * f_schnee * (feld_faktor * fk)  # mit Stufenangabe kein pauschaler Abfall ab 350 m
             if kl['hoehe_max_m'] < 9000:
                 lam = np.where(hoehe > kl['hoehe_max_m'], 0, lam)
+            if isinstance(kl.get('hoehe_min_m'), (int, float)):
+                lam = np.where(hoehe < float(kl['hoehe_min_m']), 0, lam)
+            if stufen_klasse:  # relative Höhen: Höhenstufe bzw. Abstand zur lokalen Baumgrenze (wie hochgebirge_plan.py)
+                st_ = modulator('stufe')
+                stv = kl.get('stufe')
+                if isinstance(stv, (int, float)):
+                    stv = [stv, stv]
+                if isinstance(stv, list) and len(stv) == 2:
+                    lam = np.where((st_ >= stv[0]) & (st_ <= stv[1]), lam, 0)
+                if isinstance(kl.get('stufen'), list) and len(kl['stufen']) == 4:
+                    lam = lam * np.asarray(kl['stufen'], np.float32)[np.clip(st_, 0, 3)] * (st_ >= 0)
+                rb = kl.get('hoehe_rel_baumgrenze_m')
+                if isinstance(rb, list) and len(rb) == 2:
+                    rel = hoehe - modulator('baumgrenze')
+                    lam = np.where((rel >= rb[0]) & (rel <= rb[1]), lam, 0)
             for ln, w in kl.get('lagen_faktor', {}).items():
                 if ln.startswith('ufer_'):
                     lam = np.where(ufer_band, lam + w * fk, lam)
@@ -1273,7 +1451,7 @@ def main():
     if not NUMBA:
         meld('numba nicht verfuegbar - reiner NumPy-Pfad (ausreichend)')
     for feld in a.felder:
-        plane_feld(feld.strip().upper(), a.basis, regeln, a.faktor, a.bild, ov, zuordnung, ov_hinweise, inventar)
+        plane_feld(feld.strip().upper(), a.basis, regeln, a.faktor, a.bild, ov, zuordnung, ov_hinweise, inventar, lade_hg_regeln(rp))
 
 
 if __name__ == '__main__':

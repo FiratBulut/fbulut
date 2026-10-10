@@ -86,5 +86,6 @@ setzen, nur in Zellen des liefernden Bioms (plus Saum). Gemeinsames Mindestschem
 ```
 Optional ergänzt (felsgruppen, 10.10.): `"wand_abstand_m": [0, 22]` (Abstand zur Wand ≥ 50°, Rampe [a, b, c, d] möglich) und
 `"zonen_faktor": {"fuss": 3, "gipfel": 1.5, "spalte": 0, "wand": 0, "sonst": 1}` mit `"fuss_breite_m": 22` (multipliziert `dichte_je_ha` je Geländezone).
+`"z_versatz_anteil": 0.85` (Zahl oder [lo, hi]): hängendes Stück (Pivot oben, z. B. Eisvorhang) – z = Gelände + Anteil × Netzhöhe × Maßstab, aufrecht, ohne Floating-Prüfung.
 Unbekannte Schlüssel werden ignoriert und im Log/`plan.json["overrides"]` gemeldet. Biom-Planer passen ihre bisherigen
 Zusatzklassen auf dieses Schema an; Querschnitts-Planer lesen es tolerant.

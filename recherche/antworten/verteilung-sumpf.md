@@ -2,9 +2,10 @@
 
 **Auftrag 11, Teil B6.** Biom `sumpf`, Foliage-Präfix `FT_EL_SU_`, Ordner `/Game/Eldarien/Welt/Foliage/Sumpf`. Stand 2026-10-10
 (Fortsetzung nach API-Abbruch; Regeln und Planer-Entwurf des Vorgängers geprüft, vervollständigt und rauchgetestet).
-Lieferung: dieser Bericht, `skripte/sumpf_regeln.json` (26 Klassen, 115 Netze, alle gegen `netze.csv` geprüft; 12 Override-Netze
-für Teil C/D ebenfalls vorhanden), `skripte/sumpf_plan.py` (Planer nach FORMAT §3/§5). **Alles UNGETESTET MIT ECHTDATEN** – in der
-Cloud nur mit synthetischen Rastern (H5, §4) rauchgetestet. Web-Quellen waren nur als Suchmaschinen-Auszüge lesbar (6 Läufe
+Lieferung: dieser Bericht, `skripte/sumpf_regeln.json` (Korrektur Runde 1: 17 Planer-Klassen, 74 Netze, dazu `mittelschicht_overrides`,
+`felsgruppen_overrides` und `spuren_overrides` mit 67 Netzen; alle gegen `netze.csv` geprüft, 0 fehlend), `skripte/sumpf_plan.py` (Planer
+nach FORMAT §3/§5 und Konventionen §1–§6). **Alles UNGETESTET MIT ECHTDATEN** – in der Cloud nur mit synthetischen Rastern rauchgetestet
+(Runde 0: H5, §4; Runde 1: H5, C6, H4, Abschnitt K5). Web-Quellen waren nur als Suchmaschinen-Auszüge lesbar (6 Läufe
 WebSearch, Markierung **[Suchauszug]**); Zahlen ohne Beleg sind **Richtwerte** aus den Bildern.
 
 Betroffene Felder: **H5** (sumpf 78 %, dschungel 12 %, aue 8 %; Laub 26, Schlamm 21, Algen 14, Gras 13, Kraut 12 %; Höhe 0–93 m,
@@ -12,7 +13,210 @@ nur 3 % steil, **kartiertes Wasser 0,4 %**), **I5** (sumpf 11 % als Zunge am Wes
 Senke am Südrand des Elfenwalds). Der Planer läuft nur dort, wo `eigner.r8` + `welt.json` Biom `sumpf` liefern oder die Nassmaske
 (Lagen Schlamm/Algen/Moos/Lehm/Kraut, geglättet σ 6 m, Schwelle 0,35) bzw. Wassernähe ≤ 3 m greift; außerhalb des Sumpfbioms wirken
 nur die Wasserzonen-Klassen mit halber Stärke, Hinterland-Klassen mit dem Biomfaktor (aue 0,35, dschungel 0,3, elfenwald 0,25,
-bergwald 0,15, Rest 0).
+bergwald 0,15, Rest 0). **Überholt durch Korrektur Runde 1 (nächster Abschnitt):** genau diese biomübergreifende Nassmaske war die
+Ursache der Fremdbiom-Instanzen. Jetzt gelten nur Sumpf-Zellen plus 30-m-Saum, Kennzahl 0 ist aue, bei < 2 % Sumpf im Fenster wird ein
+leerer plan.json geschrieben, und die generischen Mittelschicht-Klassen liefert Teil D über `mittelschicht_overrides`.
+
+---
+
+## Korrektur Runde 1 (10.10.2026): gilt vor allen folgenden Abschnitten
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md` (lokaler Echtdaten-Test 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md`
+(verbindlich, inkl. §6 Zusatzklassen-Schema). Geändert wurden nur `skripte/sumpf_plan.py` (jetzt 1 357 Zeilen), `skripte/sumpf_regeln.json`
+(17 Planer-Klassen, 74 Netze; dazu 67 Netze in den drei Override-Blöcken, alle in `netze.csv`) und dieser Bericht. Wo §2–§4 und §6
+etwas anderes sagen, gilt dieser Abschnitt.
+
+### K1. Echtdaten-Befund und Ursache der Fremdbiom-Instanzen
+
+**Befund (alte Fassung, lokal, `plan.json["instanzen"]`):** A5 (kueste 75 / bergwald 14 / aue 11 %) **75**, G4 (elfenwald 76 / heide 22 %)
+**549**, E1 (gletscher 100 %) **140**, C6 (lava 99 %) **995**. In keinem der vier Felder gibt es Sumpf (`biome_je_feld.json`: Sumpf nur in
+H5 78 %, I5 11 %, H4 8 %). Jede dieser Instanzen war also falsch.
+
+**Ursache (im Code der alten Fassung nachvollzogen und synthetisch reproduziert).** Die Ebene war nicht an das Biom gebunden, sondern an
+eine biomübergreifende **Nassmaske**:
+
+1. `sumpfig = biom_sumpf | nass`. `nass` entstand **in jedem Biom** aus den Lagen Schlamm ×1, Algen ×1, **Moos ×0,5**, Lehm ×0,4 und
+   Kraut ×0,2 (geglättet mit σ 6 m, Schwelle 0,35) oder aus „≤ 3 m vom Wasser“.
+2. Die Regel „Nassflächen aus Schlamm/Algen ohne offenes Wasser in 18 m = Bultenzone“ (eingeführt für H5, das nur 0,4 % kartiertes
+   Wasser hat) griff überall dort, wo `nass` griff. Moospolster auf Lava (C6: Moos 17 %) oder Moos/Kraut im Elfenwald wurden so zur
+   Sumpf-Bultenzone.
+3. Wasser- und Bult-Klassen bekamen außerhalb des Sumpfs den Faktor `max(biom_faktor, 0,5)`. Damit wurden **lava/gletscher
+   (biom_faktor 0) auf 0,5 angehoben**. Hinterland-Klassen liefen zusätzlich mit aue 0,35, dschungel 0,3, elfenwald 0,25 und bergwald 0,15.
+4. Kennzahl 0 (Weltgelände) wurde auf `felder[Feld].biom_fallback` gelegt (H5 → sumpf, sonst aue mit 0,35) statt immer auf `aue`.
+
+Zuordnung zu den Echtdaten-Feldern. Sie ist aus den Lagen- und Wasseranteilen in `biome_je_feld.json` abgeleitet; die Zahlen je Klasse
+lagen lokal nicht vor:
+
+| Feld | Auslöser | Was gesetzt wurde |
+|---|---|---|
+| C6 (lava 99 %, Moos 17 %, Wasser 0 %) | 1 + 2 + 3: Moos-Lage → nass → „Bultenzone ohne Wasser“, Faktor 0,5 statt 0 | Seggenbulten, Moospolster, Schachtelhalm, Weidengebüsch, Pestwurz, Stümpfe |
+| G4 (elfenwald, Wasser 5 %, Moos 6 %) | 1 + 3: Wasserrand ≤ 3 m und Moos → Wasser-/Ufer-/Bult-Klassen mit 0,5, Hinterland mit 0,25 | Schilf/Binsen/Seerosen an Elfenwald-Seen, Bulten, Laub/Zweige |
+| E1 (gletscher, Wasser 0,9 %, keine Nass-Lagen) | 1 + 3: nur „≤ 3 m vom Wasser“ | Schilf, Binsen und Seerosen an Gletscherseen und -bächen |
+| A5 (kueste/bergwald/aue, Wasser 0,6 %) | 1 + 3 + 4: Wasserrand, Kennzahl 0 → aue 0,35 | Uferklassen an Bächen |
+
+**Synthetischer Nachweis.** Die alte Fassung lief auf denselben synthetischen Rastern wie der neue Rauchtest (K5). In **C6** (lava 96,5 %
++ bergwald 3,5 %, Moos-Flecken 16,6 %, zwei Tümpel 1 %) setzte sie **5 063 Instanzen, alle auf Lava**. Davon waren 4 644 Landklassen
+(segge_bult 1 898, moos_polster 1 589, schachtelhalm 382, bult_strauch 180, pestwurz 155 …) aus 97 624 m² „Bultenzone ohne Wasser“, die
+allein aus der Moos-Lage kam. Die übrigen 419 waren Wasserkante (schilf_wasser 224, seerose 82, binse 61). Im Mischfeld **H4** lagen 2 101 von
+12 337 Instanzen in Fremdbiom-Zellen, **537 davon mehr als 30 m** von der Sumpfgrenze entfernt (bis 72 m). Im Hauptfeld H5 waren es 115
+jenseits von 30 m. Die neue Fassung setzt in C6 **0** Instanzen (leerer plan.json). In H4 liegen alle 1 319 Fremdzellen-Instanzen im Saum
+(höchstens 29,5 m).
+
+### K2. Änderungen im Planer (`sumpf_plan.py`)
+
+| Punkt | Vorher | Jetzt (Konventionen) |
+|---|---|---|
+| Biom je Zelle (§1) | Kennzahl 0 → `felder[].biom_fallback` (H5: sumpf), sonst aue | Kennzahl 0 → **aue**, Rezept mit „vulkan“/„lava“ → lava, unbekannte Kennzahl → aue (mit Hinweis). Nur ohne `eigner.r8`/`welt.json`: dominantes Feldbiom aus `daten/biome_je_feld.json` (danach `felder[].biom_fallback`, sonst aue), mit Hinweis im Log |
+| Zuständigkeit (§1) | `biom_faktor` je Biom + Nassmaske in jedem Biom | `biome_eigen = [sumpf]`; Dichtefaktor `zust` = 1 in Sumpf-Zellen, im **30-m-Saum** linear 1 → 0 (Jump-Flooding-Distanztransformation, NumPy), sonst 0 und gesperrt. Gilt für **alle** Klassen, auch Wasserkante und Wasserlinsen-Flecken; Gruppenmitglieder nur auf Zellen mit Dichte > 0. `biom_faktor` ist aus den Regeln entfernt |
+| Nassmaske / Bultenzone | in jedem Biom | `nass &= zust > 0`: die Bult-Erweiterung „Schlamm/Algen ohne Wasser in 18 m“ gilt nur in Sumpf-Zellen und im Saum. Gesperrte fremde Nassflächen werden als `zonen_m2.nass_fremdbiom_gesperrt` gezählt (H4 synthetisch 8 374 m²) |
+| Fremdes Feld (§1) | Plan mit Instanzen | Eigenanteil im Fenster < 2 % → **leerer plan.json** (`instanzen 0`, `dateien {}`, alle Pflichtschlüssel, alte f32 gelöscht), eine Logzeile, Exit 0 |
+| plan.json (§2) | `statistik.biome_anteil` | neu: `biome_fenster`, `zellen_zustaendig` (Feldzellen mit `zust > 0`), `biome_eigen`, `kollision_anzahl`, immer `entfernen` (Standard leer; ein gesetzter Filter wird nur bei Sumpf-Anteil im Feld ≥ 85 % ausgegeben, weil er feldweit wirkt); `statistik.zustaendigkeit` (Quelle, Anteile, Zellen eigen/Saum, Instanzen im Saum), `statistik.budget`, `overrides_geliefert` |
+| Budget (§3) | Kollision und Ziel proportional, ohne harte Prüfung | Ziel 48 000, **hart 60 000 / 3 000 Kollision**. Erst Kollisionsklassen proportional per Hash, dann das Ziel von der niedrigsten Priorität aufwärts (Klassen ohne Kollision zuerst, ≤ 60 % je Klasse und Durchgang), danach **exakte Kappung** (Priorität, dann Hash). Jede Ausdünnung als `WARNUNG` im Log und in `hinweise`; bei Kleinzeug zusätzlich der Hinweis „an Landschafts-Gras abgeben“ |
+| Ausgabe (§5) | Umlaute, „→“, „×“ in `print()` | `ascii_text()` für jede Konsolenzeile (ae/oe/ue/ss, `->`, `x`, Par.), Rest `?`; `plan.json` bleibt UTF-8 |
+| Fehler (§5) | `SystemExit` je Feld abgefangen, Exit 1; `netze.csv` optional | fehlende `hoehe.f32`, Regeldatei oder `daten/netze.csv` (auch nicht neben dem Skript bzw. in `vorlagen/daten/`), ungültiges Feld → `FEHLER: …`, **Exit 2**; optionale Dateien → Hinweis, weiter |
+| Overrides-Prüfung | nur fels/spuren | alle `/Game/…`-Pfade in `mittelschicht_`, `felsgruppen_` und `spuren_overrides` gegen `netze.csv` (Warnung) |
+
+### K3. Neue Schicht-Definition (§4)
+
+Der Planer setzt nur noch **Boden, Sumpf-Sonderformen, Bäume und Wasserkante**. Die Sonderformen tragen im Regel-JSON `"sonderform": true`.
+
+| Schicht | Klassen | Inhalt / Regel |
+|---|---|---|
+| 0 boden | `laub_nass`, `moos_polster`, `schlamm_stein` | Laub auf Schlamm, Moospolster (MossClump/CustomMoss ≤ 0,16 m), Schlammsteine am Spiegel (≤ 0,12 m) |
+| 1 mittel (nur Sonderformen) | `schilf_land` | Rohrkolben-Landteil am Spiegel (±0,2 m) und Ufer, Gruppen 4–12 |
+| | `segge_bult` | Seggenbulten (ToadRush/KikuyuGrass 0,3–0,55 m Horste, Maßstab 0,9–1,5); grass_bush_01/03 entfernt, weil sie Netze der generischen Klasse `grasbueschel` sind |
+| | `schachtelhalm` | Röhricht-Saum (Equisetum) am Ufer 0–3 m, Bulten ×0,3 |
+| | `wurzel` | Wurzelteller an Bäumen. Bleibt hier, weil `mittelschicht_regeln.json` (`zusatzklassen_eigen`) Wurzeln im Sumpf ausdrücklich der Sonderform überlässt |
+| 2 baum | `totbaum_wasser`, `weide`, `erle_ersatz`, `totbaum_land` | **tote Bäume im Flachwasser** (0–0,5 m, Neigung 2–9°), Weiden, Erlen-Ersatz, Totbäume an Land. `mittelschicht` setzt `totbaum` im Sumpf nicht |
+| 5 wasserkante (nur Sonderformen) | `schilf_wasser`, `binse_wasser` | **Schilf-/Rohrkolbengürtel nach Wassertiefe** (Rohrkolben 0–0,3 m, Profil voll bis 0,15 m; Binsen 0–0,15 m) |
+| | `seerose`, Wasserlinsen-Flecken | Seerosen 0,3–1,5 m auf dem Spiegel; Wasserlinsen als Punktliste `extras.wasserlinsen_flecken` |
+| | `seggen_spiegel`, `moos_ufer`, `treibholz_wasser` | Seggen und Moos am Spiegel, Treibholz **im** Flachwasser 0–0,35 m (die Mittelschicht setzt nichts auf Wasser) |
+
+**Verschoben (nichts geht verloren):**
+
+| Bisherige Klasse (Schicht) | Ziel |
+|---|---|
+| `bult_strauch` (1) | `mittelschicht_overrides.palette.strauch` (grey_willow 01–04 Gewicht 3, Elderberry 01–04 Gewicht 1) + Zusatzklasse `weidengebuesch_saum` (1–18 m vom Wasser, 30/ha) |
+| `jungweide` (2, ohne Kollision) | `palette.jungbaum` (Hornbeam Forest_10/Sapling_01/03, Poplar_plant A/B/C) |
+| `farn_bult` (1) | `palette.farn` (EagleFern M_01/S_01/S_02/S_04 + Fern 01/03/05 + SilverLadyFern 01/02), Faktor 1,3 |
+| `pestwurz` (1) | `palette.hochstaude` (petasites Gewicht 3, Brennnessel, Shaggy Soldier), Faktor 1,2 + Zusatzklasse `pestwurz_ufer` (0–3 m vom Wasser, 300/ha) |
+| `totholz_gross`, `totholz_klein` (1) | `palette.totholz_liegend` (LargeFallenTree 01/02, MossyTree_01, dead_log_02, OldFallenTree_01, FallenTreeAssembly_01, trunk 01/02), Faktor 2,0 |
+| `stumpf` (1) | `palette.totholz_stumpf` (5 Netze), Faktor 1,8 |
+| `zweig` (0) + OldTreeBranch_02/03 aus `totholz_gross` | `palette.totholz_ast` (12 Netze), Faktor 2,5 |
+| `pilz` (0) | `faktor.pilz` 0,8, `parameter.pilz.an_totholz` 4,0 |
+| Moosblöcke (`felsgruppen_overrides.netze_moosblock`, `moosblock_je_m2_bult`) | `felsgruppen_overrides.zusatzklassen.moosblock_bult` (§6) |
+| Steg/Knüppeldamm/Pfähle/Boot (eigene Strukturen) | `spuren_overrides` mit `palette`/`faktor`/`verbote`/`parameter`/`zusatzklassen` |
+
+Netze der verbleibenden Sumpf-Klassen fehlen in den Mittelschicht-Paletten, damit kein Netz doppelt gesetzt wird. Treibholz-Netze
+dead_log_01/03/04, OldFallenTree_02, OldTreeBranch_06 und beach_driftwood stehen nicht in `totholz_liegend`, grey_willow_04 nur noch in
+`strauch` (Prüfung: 0 gemeinsame Pfade zwischen Planer-Klassen und Mittelschicht-Overrides). Die Faktoren entsprechen grob der alten
+Sumpf-Dichte in ihren Zonen geteilt durch die Mittelschicht-Dichte (Mittel aus offen und beschattet), begrenzt auf 0,6–3. Dazu kommen
+`grasbueschel` 0,6 (die Seggenbulten übernehmen die Rolle) sowie `beere`, `totbaum` und `wurzel` = 0. Das sind Richtwerte: nach dem ersten
+gemeinsamen Setzen in H5 gegen TEICH1 nachstellen.
+
+### K4. Override-Schema (in `sumpf_regeln.json`)
+
+```
+"mittelschicht_overrides": {                      # Leser: mittelschicht_plan.py (Teil D)
+  "gilt_fuer": ["sumpf"],
+  "palette":   {"strauch": [8], "jungbaum": [6], "farn": [9], "hochstaude": [7],
+                "totholz_liegend": [8], "totholz_stumpf": [5], "totholz_ast": [12]},
+  "faktor":    {"strauch": 1.0, "jungbaum": 1.0, "farn": 1.3, "hochstaude": 1.2, "totholz_liegend": 2.0, "totholz_stumpf": 1.8,
+                "totholz_ast": 2.5, "grasbueschel": 0.6, "pilz": 0.8, "beere": 0.0, "totbaum": 0.0, "wurzel": 0.0},
+  "parameter": {"strauch": {"netze_gewicht": {...}, "feuchte": [0.6, 2.0]}, "hochstaude": {"netze_gewicht": {...}},
+                "pilz": {"an_totholz": 4.0}},
+  "zusatzklassen": {                              # Mindestschema §6, nur Sumpf-Zellen + 30-m-Saum
+    "pestwurz_ufer":       {"palette": [3], "rolle": "hochstaude", "dichte_je_ha": 300, "wasser_abstand_m": [0, 3],
+                            "hang_grad": [0, 28], "gruppe": {"groesse": [3, 9], "radius_m": 2.0}, "kollision": false, ...},
+    "weidengebuesch_saum": {"palette": [3], "rolle": "strauch", "dichte_je_ha": 30, "wasser_abstand_m": [1, 18], ...}},
+  "herkunft": {...}}
+"felsgruppen_overrides": {                         # Leser: felsgruppen_plan.py (Teil C)
+  "palette": {"biom": {"sumpf": "moos"}}, "faktor": {"biom": {"sumpf": 0.25}, "kiesel": {"sumpf": 0.0}},
+  "klassen_erlaubt": ["kuppe", "prallhang"], "eingraben_anteil": [0.4, 0.5],
+  "zusatzklassen": {"moosblock_bult": {"palette": [MossyForestBoulder_01/03/06, MossyRocks_01, MossyEmbankment_02],
+      "rolle": "fels_block", "dichte_je_ha": 4.0, "hang_grad": [0, 18], "wasser_abstand_m": [3, 18], "kruemmung": "konvex",
+      "massstab": [0.8, 1.3], "eingraben_anteil": [0.4, 0.5], "gruppe": {"groesse": [1, 3], "radius_m": 5.0},
+      "kollision": true, "sichtweite": [0, 0], "akteur": false}}}
+"spuren_overrides": {                              # Leser: spuren_plan.py (Teil D)
+  "palette": {"zaun_pfahl": [...], "steg_pfosten": [...], "steg_planke": [...]},
+  "faktor":  {"sumpf": {"steg": 2.0, "zaun_weg": 0.4, "wegkreuz": 0.6, "graeber": 0.5, "rauch": 0.6, "holzschlag": 0.3,
+                        "mauer": 0, "feldstreifen": 0, "obstgarten": 0, "karren": 0, "steinmann": 0, "koehler": 0}},
+  "verbote": {"sumpf": ["karren", "mauer", "feldstreifen", "obstgarten", "steinmann"]},
+  "parameter": {"steg": {"see_min_m2": 1200, "see_min_breite_m": 10, "deck_ueber_wasser_m": 0.45, "laenge_segmente": [2, 5], ...}},
+  "zusatzklassen": {"knueppeldamm": {"palette": [SM_half_log, dead_log_04], "rolle": "spur_weg", "auf_weg": true, "nur_nass": true,
+                                     "schritt_m": 0.45, "breite_m": 2.6, "yaw": "quer_zum_weg", ...},
+                    "pfaehle": {"palette": [wooden_pales_1/2], "dichte_je_ha": 70, "wasser_abstand_m": [0.3, 3],
+                                "gruppe": {"groesse": [2, 5], "radius_m": 3.0}, "neigung_grad": [3, 14], ...},
+                    "boot": {"palette": [], "aktiv": false, ...}},     # kein Bootsnetz im Inventar
+  "blickziele": {...}}
+```
+
+**Gegenprobe mit den aktuellen Lesern** (Module aus `skripte/` importiert, Inventar `vorlagen/daten/netze.csv`):
+- `mittelschicht_plan.py` (`lade_overrides` + `effektive_regeln`, Feld H5): Block gelesen (palette, faktor, zusatzklassen, parameter),
+  0 unbekannte Schlüssel, 0 verworfene Pfade. Im Sumpf kommen hochstaude, farn, strauch, jungbaum, grasbueschel, totholz_* und pilz mit
+  Quelle `sumpf`; `pestwurz_ufer` (0,03/m², Wasserabstand 0–3 m) und `weidengebuesch_saum` (0,003/m², 1–18 m) sind als Zusatzklassen
+  aktiv. `kletter` bleibt bei der Mittelschicht.
+- `felsgruppen_plan.py` (`lade_overrides`): gelesen `palette.biom`, `faktor.biom`, `faktor.kiesel`, `klassen_erlaubt`, `eingraben_anteil`,
+  `zusatzklassen.moosblock_bult` (13 Schlüssel gelesen, 0 ignoriert), Biomfaktor 0,25, Klassen grat/band/wand/fuss/blockstrom aus,
+  Kiesel 0.
+- `spuren_plan.py` liest noch keine `spuren_overrides` (Teil D, Nachrüstung läuft). Die Schlüssel `auf_weg`, `nur_nass`, `schritt_m`,
+  `breite_m`, `yaw`, `je_km_ufer` und `neigung_grad` tragen die Sumpf-Logik über das §6-Mindestschema hinaus. Ein Leser ohne Unterstützung
+  dafür meldet sie als unbekannt.
+
+### K5. Rauchtest Runde 1 (synthetisch, Cloud: Python 3.13, NumPy 2.5, Pillow, kein numba)
+
+Raster neu erzeugt (volle Größe 7057 × 9577 als memmap, nur drei Fenster beschrieben, nach dem Test gelöscht). **H5**: Sumpf-Kachel
+`sumpf_velen` mit fünf Teichen, Bach, Weg, Ort, Schlamm-Nassfläche ohne Wasser, Dschungel-Osten, Weltgelände-Nordstreifen (Kennzahl 0),
+150 Bestandsbäume, 800 Ufer-Kiesel. **C6** (Fremdfeld): `Vulkanregion_Sued` 96,5 % + bergwald-Randstreifen, Moos-Flecken 16,6 %,
+Schlamm/Algen um zwei Tümpel. **H4** (Mischfeld): elfenwald mit Sumpfsenke (6,6 % des Feldes) und Teich, Schlamm/Algen reichen ~60 m über
+die Sumpfgrenze hinaus, Weltgelände im Osten.
+
+| Prüfung | Ergebnis |
+|---|---|
+| H5 (eigene Zellen) | **26 512** Instanzen (602 Kollision), 74 Netze, 205 Wasserlinsen-Flecken, 7 s. Schichten: boden 12 036 / mittel 7 159 / baum 602 / wasserkante 6 715. `biome_fenster` sumpf 0,777 / dschungel 0,152 / aue 0,070. `zellen_zustaendig` 922 300 (davon Saum 43 388). 469 Instanzen im Saum. Bultenzone ohne Wasser 60 973 m² (nur Sumpf) |
+| C6 (Fremdfeld mit Schlamm-/Moos-Lagen) | **leerer plan.json** (`instanzen 0`, keine f32, `biome_fenster` lava 0,965 / bergwald 0,035), eine Logzeile, Exit 0. Alte Fassung: 5 063 |
+| H4 (Mischfeld, Saum) | **8 503** Instanzen (145 Kollision), 70 Netze. `zellen_zustaendig` 111 878 (Saum 44 645). Instanzen auf Fremdzellen: 1 319, Abstand zur Sumpfgrenze 0–10 m: 844, 10–20 m: 338, 20–30 m: 137, **> 30 m: 0** (unabhängig per Brute-Force-Abstand, max 29,5 m). 8 374 m² fremde Nassfläche gesperrt. Prüfbild: oranger Saumring, außerhalb keine Instanzen. Alte Fassung: 12 337, davon 537 jenseits von 30 m |
+| 30-m-Saum H5 | 469 Fremdzellen-Instanzen: 262 / 166 / 41 in 0–10 / 10–20 / 20–30 m, **> 30 m: 0** |
+| Pflichtschlüssel (§2) | `instanzen`, `dateien` (mit `ebene`), `entfernen`, `ft_ordner`, `ft_praefix`, `biome_fenster`, `zellen_zustaendig`, `biome_eigen`, `kollision_anzahl` in allen drei Plänen; Σ `anzahl` = `instanzen` = f32-Zeilen; `kollision_anzahl` = Summe der Dateien mit `kollision` |
+| Format | 10 float32 je Instanz, 0 NaN, Quaternionen normiert (Fehler ≤ 6·10⁻⁸), 0 Instanzen außerhalb des Feldes, auf Weg, auf Ort, 0 Landklassen auf `karte_wasser` |
+| Determinismus | zweiter Lauf: alle 144 f32 byte-identisch (MD5), `plan.json` bis auf `stand`/`laufzeit_s` identisch |
+| Budget | `--faktor 3` (H5): 79 009 → Ziel 48 000. Runde 1 dünnt Kleinzeug und Bulten ×0,437, dann exakte Kappung 48 104 → **48 000**; Kollision 1 659. `WARNUNG` im Log, Kleinzeug-Hinweis in `hinweise`. Zwangstest mit Deckel 20 000 / Kollision 300: 602 → 288 Kollision, 26 512 → 19 989. Direkter Funktionstest: Kollision 3 043 → exakt 2 999, Instanzen 48 146 → exakt 48 000 |
+| ASCII (§5) | 0 Nicht-ASCII-Zeichen in allen Konsolenausgaben (zwei Volläufe, Budget- und Fehlerläufe); die alte Fassung hatte 21 Zeilen mit Umlauten/Sonderzeichen |
+| Fehlerpfade (§5) | Feld K9, fehlende `hoehe.f32`, fehlende Regeldatei, fehlende `netze.csv` (Skript isoliert kopiert) → `FEHLER: …`, **Exit 2**. Ohne `eigner.r8`: dominantes Feldbiom aus `daten/biome_je_feld.json` mit Hinweis (H5 → sumpf, 29 180 Instanzen; C6 → lava, H4 → elfenwald: jeweils Leerplan) |
+| `py_compile` / pyflakes | sauber (nur „numba imported but unused“, gewollt) |
+
+Die Zahlen sind nicht mit §4 vergleichbar: Kennzahl 0 ist jetzt aue statt sumpf, und die generischen Klassen fehlen. Vorher setzte H5
+41 008 Instanzen auf denselben Rastern. Die Differenz von 14 496 besteht vor allem aus Zweigen, Farnen, Pilzen, Stümpfen, Totholz,
+Weidengebüsch, Pestwurz und Jungweiden. Diese Klassen setzt jetzt die Mittelschicht.
+
+### K6. Echtdaten-Referenz und Erwartung nach der Korrektur
+
+| Feld | Echtlauf 10.10. (alt) | Erwartung jetzt | Begründung |
+|---|---|---|---|
+| A5 (kueste/bergwald/aue) | 75 | **leerer plan.json** | Sumpf-Anteil im Fenster 0 % |
+| G4 (elfenwald/heide) | 549 | **leerer plan.json** | 0 % Sumpf. Das Fenster reicht 64 m nach H4/H5 hinein; selbst wenn dort Sumpf-Kacheln liegen, bleibt der Anteil deutlich unter 2 % |
+| E1 (gletscher 100 %) | 140 | **leerer plan.json** | 0 % Sumpf |
+| C6 (lava 99 %) | 995 | **leerer plan.json** | 0 % Sumpf; Moos-Lage wirkt nicht mehr |
+| H5 (sumpf 78 %) | – | 18 000–32 000 (Kollision 400–900) | ohne generische Klassen; Kennzahl-0-Zellen sind jetzt aue und bekommen nur Saum |
+| I5 (sumpf 11 %) | – | 2 000–6 000 | nur Sumpfzunge + Saum |
+| H4 (sumpf 8 %) | – | 1 500–5 000 | nur Senke + Saum; Elfenwald-Nassflächen bleiben frei |
+
+Beim nächsten Echtlauf bitte `biome_fenster`, `zellen_zustaendig` und `statistik.zustaendigkeit` von H5/I5/H4 zurückmelden. Wichtig:
+Liegen die H5-Teiche in `eigner.r8` auf **Kennzahl 0** (Weltgelände), sind sie jetzt aue. Dann bekommen nur Wasserzellen ≤ 30 m vom
+Sumpfufer einen Gürtel (Saumfaktor < 1), und Seerosen/Schilf werden zur Teichmitte hin dünner. Abhilfe wäre ein Eintrag für die
+Teich-Kennzahl in `welt.json` oder eine Ausnahme „Wasser in Sumpf-Kachel-Nähe“ in Runde 2.
+
+### K7. Offene Punkte nach Runde 1
+
+1. `spuren_plan.py` liest `spuren_overrides` noch nicht. Knüppeldamm, Pfähle und Sumpf-Stege fehlen, bis Teil D sie umsetzt. Die
+   Sumpf-Sonderschlüssel stehen in K4.
+2. Die Override-Faktoren sind Richtwerte aus Dichteverhältnissen, ohne Licht-/Feuchte-Faktoren der Mittelschicht. Nach dem ersten
+   gemeinsamen Setzen (felsgruppen → sumpf → mittelschicht → spuren) in H5 mit den Kameras aus §4 nachstellen.
+3. Kennzahl-0-Teiche (siehe K6).
+4. `verteilung-STATUS.md` wurde nicht geändert (Koordinator): B6 kann auf „korrigiert (synthetisch H5 26 512, C6 Leerplan, H4 Saum)“
+   gesetzt werden. Die Zeile „sumpf, heide_tundra, hochgebirge, lava ohne Block“ in `verteilung-leere-fuellen.md` 8.3 ist für sumpf überholt.
+
+---
 
 ## 1. Witcher-Analyse: Velen und Crookback Bog
 
@@ -59,6 +263,11 @@ Moos, Totholz oder Schlamm; die Weiden stehen einzeln im 15–20-m-Raster, kein 
 adressiert die Ebene.
 
 ## 2. Regelwerk (`sumpf_regeln.json`) – Zonierung und Schichten
+
+> **Stand Runde 0.** Seit Korrektur Runde 1 gilt die Zonierung nur in Sumpf-Zellen + 30-m-Saum (auch die Bult-Erweiterung auf
+> Nassflächen). Schicht 0 hat nur noch laub_nass/moos_polster/schlamm_stein, Schicht 1 nur schilf_land/segge_bult/schachtelhalm/wurzel;
+> zweig, pilz, pestwurz, farn_bult, bult_strauch, totholz_gross/klein, stumpf und jungweide sind nach `mittelschicht_overrides` gewandert.
+> Das Budget ist hart (K2). Siehe K2/K3.
 
 **Zonen (je Zelle, aus `hoehe.f32`, `karte_wasser.r8`, Umrissen und Spiegeln).** Wasserfläche = `karte_wasser` ∪ Teich-/See-Umrisse.
 Spiegel einer Wasserzelle = `spiegel_cm` aus `teiche/teiche.json` bzw. `wasser_welt.json[seen]`; fehlt er, Geländehöhe der nächsten
@@ -143,6 +352,10 @@ hinten über die Prioritätsliste (Schlammsteine, Laub, Zweige zuerst; Totbäume
 
 ## 3. Overrides für Teil C/D und Abgrenzung
 
+> **Stand Runde 0.** Override-Blöcke seit Korrektur Runde 1 im Schema {palette, faktor, zusatzklassen} (K4); Moosblöcke als
+> `felsgruppen_overrides.zusatzklassen.moosblock_bult`. Neu ist `mittelschicht_overrides`. Die Zeile `FT_EL_MS_` der Tabelle unten ist
+> überholt: die Mittelschicht ist jetzt der einzige Planer der generischen Klassen im Sumpf.
+
 **`felsgruppen_overrides`** (an `felsgruppen_plan.py`): Biomfaktor 0,25, nur Klassen `kuppe` und `prallhang`, Palette `moos`,
 Eingraben 40–50 %, kein Geröllsaum (Schlamm statt Kies); zusätzlich **Moosblöcke** 0,0004/m² auf Bulten aus MossyForestBoulder_01/03/06,
 MossyRocks_01, MossyEmbankment_02 (alle im Inventar).
@@ -170,6 +383,8 @@ Uferkuppe > 1 m über Spiegel, ≤ 60 m vom Weg), Steg.
 | Felsschalen `FT_EL_FS_*` | unberührt (Sumpf ist flach) | nein |
 
 ## 4. Testanleitung
+
+> **Stand Runde 0.** Rauchtest und Erwartungswerte nach der Korrektur stehen in K5/K6; die Prüfkameras unten gelten weiter.
 
 **Rauchtest Cloud (gelaufen am 10.10., Python 3.13, NumPy 2.5, ohne numba).** Synthetische Produktionswurzel im Scratchpad:
 `hoehe.f32` in voller Größe 7057 × 9577 als memmap, nur das H5-Fenster (1136 × 1136 m) beschrieben – flache Senke 6 m mit Rauschen

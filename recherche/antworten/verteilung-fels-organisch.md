@@ -384,7 +384,7 @@ dieselbe Klasse auch unter `zusatzklassen`, gewinnt diese. Klasse ohne `palette`
 | tundra (heide_tundra) | blockfeld_tundra | Altstelle `klassen.blockfeld` (neu) | hang_grad, ab_hoehe_m→hoehe_m ≥ 280, raster_m+p→Dichte, block→gruppe.groesse, eingraben; Netze = block-Rolle der Tundra-Palette | stein, kiesel (Kleinzeug-Saum je Gruppe, nicht im §6-Schema), flechten (Materialauflage) |
 | heide, tundra (heide_tundra) | findling_frei_heide, findling_frei_tundra | Altstelle `klassen.findling_frei` (neu) | je_km2 (Gruppen je km² Biomfläche), hang_grad, hero_p ≥ 0,5 → Netze hero+block der Biom-Palette, block → Gruppe 1 + Nebenblöcke, eingraben (vorher nur als Mindestdichte gelesen) | stein, kiesel (Kleinzeug-Saum, nicht im §6-Schema), flechten (Materialauflage) |
 | sumpf | moosblock_bult | zusatzklassen (Schema §6, vom Sumpf-Agenten neu) | alle Schemaschlüssel | – |
-| gletscher/frost (hochgebirge) | eis, flechtenblock, bachblock, sturzblock, moraene | zusatzklassen (Schema §6) | alle Schemaschlüssel (palette, rolle, dichte_je_ha, hang_grad, hoehe_m, wasser_abstand_m, lagen_min, kruemmung, massstab, eingraben_anteil, gruppe, kollision, sichtweite, akteur) | – (`bedingung` = Beschreibung) |
+| gletscher/frost (hochgebirge) | eis, flechtenblock, bachblock, sturzblock, moraene | zusatzklassen (Schema §6) | alle Schemaschlüssel (palette, rolle, dichte_je_ha, hang_grad, hoehe_m, wasser_abstand_m, lagen_min, kruemmung, massstab, eingraben_anteil, gruppe, kollision, sichtweite, akteur); eis zusätzlich `z_versatz_anteil` 0,85 (Nachbesserung 4) | – (`bedingung` = Beschreibung) |
 | dschungel (nur G6/H6/I6/I7) | karstfuss | Altstelle | dichte_block_je_m2→120/ha, zone_m [0,22]→Abstand zur Wand (Hang ≥ 50°), eingraben_anteil; Netze = `fels_block` des Blocks, Gruppe 1–3 / 3 m | hero_je_turm, nebenbloecke_je_hero, kippen_in_hang, moos_auflage, kollision_ab_m |
 | dschungel (nur G6/H6/I6/I7) | karstplatte | Altstelle | netze, dichte_je_m2→40/ha, massstab, hang_max 34°, kollision, sichtweite; Rolle platte (laut `_doku` „geroell_platte"); **karst_faktor → zonen_faktor** (fuss ×3, gipfel ×1,5, spalte 0, wand 0, übrige Fläche 0 laut `_doku` „am Karstfuß"; Fußbreite 22 m = karstfuss.zone_m) | eingraben_cm, yaw_hang, moos_satelliten |
 | lava | spire | Altstelle `hero_akteure` | Netze, Akteur, Punkte `lava/<Feld>/plan.json` typ spire_vorschlag; ohne Lava-Plan Ersatz aus `lava_regeln.punkte.spire_vorschlag` (Hang ≤ 18°, Prominenz ≥ 6 m, max 6 je Feld) + Lavafels ≥ 128, eingraben | – |
@@ -396,7 +396,7 @@ felsufer 21 Stücke (14 mit Kollision), Feld 2 355 Instanzen. **C6** Vulkan (lav
 Spire-Punkten): spire 4 Akteure aus den Punkten, Feld 56 342 Instanzen (vor Budget 77 995; WARNUNG: kiesel > 40 000: 19 060, block > 2 600: 2 431,
 platte > 1 500: 162), Kollision 2 893. **G6** Karst (dschungel 100 %, 9 Türme): karstfuss 509 Gruppen / 851 Stücke, karstplatte zuerst 3 995 Platten gleichmäßig
 bis 34° (Budget platte ≤ 1 500 dünnte 2 510 aus), nach Nachbesserung 2 (zonen_faktor) **758 Platten** an Turmfuß/-kuppen, kein Ausdünnen, Feld 3 471. **B4** mit tundra-/gletscher-Kacheln: blockfeld 5, eis 99, flechtenblock 626, moraene 62
-Stücke; Feld 55 691 (3 000 Kollision, 150 Akteure). wueste-Klassen ohne Testfeld (nur Lesen geprüft). Fünf Felder × zwei Läufe
+Stücke; Feld 55 691 (3 000 Kollision, 150 Akteure). wueste-Klassen: siehe Nachbesserung 4 (D4). Fünf Felder × zwei Läufe
 **byteidentisch (443 Dateien)**, Log reines ASCII, alle f32/plan.json-Prüfungen wie oben bestanden, Laufzeit 7–11 s je Feld ohne numba.
 
 ### Offene Punkte aus Runde 1
@@ -436,3 +436,12 @@ byteidentisch (246 Dateien), Log reines ASCII, py_compile OK.
    eine Zusatzklasse je Biom (statt nur Mindestdichte), `blockfeld` heißt `blockfeld_tundra`. Ergebnis heide_tundra: 24 gelesen, 7 ignoriert
    (vorher 12 / 32), Gründe in der Tabelle oben und im Log. Rauchtest B4 (tundra/gletscher-Kacheln): blockfeld_tundra 17, findling_frei_tundra 3
    Stücke, Feld 55 681; G4 1 066; G6 3 471; F4 26; zwei Läufe byteidentisch (286 Dateien), Log ASCII.
+4. **`z_versatz_anteil`** (hochgebirge `zusatzklassen.eis`), neuer optionaler §6-Schlüssel (Zahl oder [lo, hi], Wert je Stück
+   deterministisch aus dem Instanz-Hash): **z = Gelände + Anteil × Netzhöhe × Maßstab** (senkrecht, Welt-Z, wie vom hochgebirge-Agenten als
+   „Pivot oben" beschrieben; Eingraben/Pivot-Korrektur wie sonst). Solche hängenden Stücke bleiben **aufrecht** (Z-Achse = Welt-Z statt
+   Wandnormale, nur Zufalls-Yaw) und sind von der Floating-Prüfung ausgenommen. Eine Zeile in `verteilung-KONVENTIONEN.md` §6 ergänzt.
+   Test B4 (gletscher-Kacheln über 420 m): eis 150 Stücke, alle aufrecht, z über Boden 0,6–4,7 m (vorher am Wandfuß).
+   **Wüsten-Klassen** (wueste_ergaenzung_regeln.json nur gelesen): synthetisches **D4** (wueste 68 %, canyon 32 %, Tafelberge mit 5-m-Schicht-
+   stufen, eine Felsnadel mit > 12 m Prominenz): terrassenkanten 632 Kantenstücke (399 mit Kollision) im Streifen an den Stufenkanten,
+   felsnadel 3 Akteure auf Kuppen (je_km2 1–3), Feld 715 Instanzen, 4 Akteure. In B4 hat lava inzwischen eine echte Zusatzklasse `spire` –
+   die Altstelle `hero_akteure` wird dadurch ersetzt (gemeldet). B4 + D4 zweimal: byteidentisch (205 Dateien), Log ASCII, py_compile OK.

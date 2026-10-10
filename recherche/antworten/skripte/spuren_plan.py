@@ -1560,14 +1560,14 @@ def sf_lava_punkte(K, Z):
         if Z.biom and int(K.bio[int(a), int(b)]) != BIOME15.index(Z.biom):  # Vorschlagspunkte gehören dem Biom ihrer Zelle
             continue
         typ = str(p.get('typ', ''))
-        if typ.startswith('opferstaette') and 'opferstaette' in ex and Z.gate('opferstaette', a, b):
+        if typ.startswith('opferstaette') and 'opferstaette' in ex and Z.tor_faktor('opferstaette') > 0:
             c = ex['opferstaette']
             if c.get('saeule'):
                 n += K.S.add([c['saeule']], [a], [b], 'opferstaette', True, (0, 0), 1.0, None, 0.1, 20.0, akteur=True, seed=K.seed, kanal=951)
             ns = _anzahl(c.get('steine', [8, 12]), a, b, K.seed, 952)
             n += _ring(K, Z, a, b, float(c.get('radius_m', 3.0)), ns, c.get('steinkreis_netze') or N.get('steinmann'), 'opferstaette', False,
                        False, 0.0, None, [0.2, 0.3], 953)
-        elif typ.startswith('schwefelgrube') and 'schwefelgrube' in ex and Z.gate('schwefelgrube', a, b):
+        elif typ.startswith('schwefelgrube') and 'schwefelgrube' in ex and Z.tor_faktor('schwefelgrube') > 0:
             c = ex['schwefelgrube']
             namen = [x for x in (c.get('beiwerk') or ['kiste', 'fass']) if isinstance(x, str)]
             nb = _anzahl(c.get('beiwerk_n', [3, 6]), a, b, K.seed, 954)

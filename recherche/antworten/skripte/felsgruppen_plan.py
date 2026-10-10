@@ -1012,7 +1012,7 @@ class OverrideLeser:
              "kruemmung": "egal", "massstab": None, "eingraben": None, "gruppe_n": (1, 1), "gruppe_r": None,
              "kollision": None, "sichtweite": None, "schatten": None, "akteur": False, "raster_m": None, "klumpung": None,
              "wand_abstand": None, "relief": None, "kuppe_prominenz_m": None, "exposition": None, "max_je_feld": None,
-             "punkte": None, "felder": None, "zonen": None, "fuss_m": 22.0, "dichte_gruppen": False, "gelesen": [], "ignoriert": []}
+             "punkte": None, "felder": None, "zonen": None, "fuss_m": 22.0, "dichte_gruppen": False, "z_versatz": None, "gelesen": [], "ignoriert": []}
         G, I = z["gelesen"].append, z["ignoriert"].append
         hang_lo = hang_hi = p_alt = abstand = umkreis = abbruch = None
         for k, v in d.items():
@@ -1132,6 +1132,9 @@ class OverrideLeser:
                     if zk not in ("wand", "fuss", "gipfel", "spalte", "sonst"):
                         I("%s.%s" % (k, zk))
                 G(k + " (-> zonen_faktor)")
+            elif k == "z_versatz_anteil" and (_zahl(v) or _spanne(v)):
+                z["z_versatz"] = [float(v), float(v)] if _zahl(v) else [float(v[0]), float(v[1])]
+                G(k)
             elif k == "fuss_breite_m" and _zahl(v):
                 z["fuss_m"] = float(v)
                 G(k)
@@ -2374,12 +2377,16 @@ class Planer:
         hmin_rand = np.minimum.reduce([bilinear(self.h, np.clip(fi_c + d_[0] * rr, 1, H - 1.001), np.clip(fj_c + d_[1] * rr, 1, W - 1.001))
                                        for d_ in ((1, 0), (-1, 0), (0, 1), (0, -1))])
         nicht_schwebend = (hz - hmin_rand) <= bury * H_cm * sk / 100.0 + 0.3 + rr * np.tan(np.radians(60.0))
+        if z["z_versatz"]:  # hängende Stücke (Pivot oben, z. B. Eisvorhänge): Floating-Prüfung entfällt bewusst
+            nicht_schwebend = np.ones(len(hh), dtype=bool)
         ok = inside & im_feld & (w[pci, pcj] > 0) & nicht_schwebend
         if not ok.any():
             return None, len(ci)
         hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ = (a[ok] for a in (hh, pfi, pfj, pci, pcj, hz, k, sk, bury, H_cm, MZ))
         kipp = np.radians(zwischen(hh, 45, ro["kippen_grad"][0], ro["kippen_grad"][1]))
         up = self.normal[pci, pcj] + np.concatenate([-self.abfall[pci, pcj] * np.tan(kipp)[:, None], np.zeros((len(kipp), 1))], axis=1)
+        if z["z_versatz"]:  # hängend: Z-Achse = Welt-Z (nicht auf die Wandnormale gekippt)
+            up = np.tile(np.array([0.0, 0.0, 1.0]), (len(kipp), 1))
         up /= np.linalg.norm(up, axis=1, keepdims=True)
         q = quat_aus_yaw_up(zwischen(hh, 50, 0, 2 * np.pi), up)
         nu = ro["nicht_uniform"]
@@ -2389,7 +2396,9 @@ class Planer:
         koll_basis = ro["kollision"] if z["kollision"] is None else z["kollision"]
         koll = np.full(n, bool(koll_basis)) & (hoehe_m >= self.R.get("kollision_ab_hoehe_m", 0.8))
         sicht = np.tile(np.array(z["sichtweite"] or ro["sichtweite_cm"], dtype=float), (n, 1))
-        t = {"x": (pfj + j0 - X0) * 100.0, "y": (pfi + i0 - Y0) * 100.0, "z": hz * 100.0 - MZ * sz - bury * H_cm * sz, "q": q,
+        zv = zwischen(hh, 54, z["z_versatz"][0], z["z_versatz"][1]) if z["z_versatz"] else 0.0
+        # z_versatz_anteil: Stück um Anteil x Netzhöhe x Maßstab nach oben (Welt-Z) versetzt (hochgebirge: "Pivot oben")
+        t = {"x": (pfj + j0 - X0) * 100.0, "y": (pfi + i0 - Y0) * 100.0, "z": hz * 100.0 - MZ * sz - bury * H_cm * sz + zv * H_cm * sz, "q": q,
              "sx": sx, "sy": sy, "sz": sz, "pfad": np.array(pfade, dtype=object)[k], "rolle": np.full(n, z["rolle"]),
              "klasse": np.full(n, "z_" + z["name"]), "koll": koll,
              "schatten": np.full(n, bool(ro["schatten"] if z["schatten"] is None else z["schatten"])), "sicht": sicht,
