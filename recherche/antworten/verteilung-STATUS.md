@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 16:15 UTC. Korrektur Runde 1 fuer alle 12 Planer abgeschlossen.
+Stand: 2026-10-10 16:35 UTC. Runde 2 in Arbeit.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -83,3 +83,11 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 - mittelschicht liest die vorhandene Namaqualand-Ebene in C3-E5 nicht als belegt: einzelne Mittelschicht-Straeucher koennen neben vorhandenen stehen (Runde 2).
 - Override-Faktoren aller Biome nur synthetisch kalibriert: nach erstem gemeinsamen Echtlauf nachstellen.
 - erledigt: wueste-Felsklassen synthetisch D4 getestet (terrassenkanten 632, felsnadel 3 Akteure).
+
+## Runde 2 (Auftrag `auftraege/verteilung-korrektur-runde2.md`, erste Editor-Bilder 10.10. 18:15 lokal)
+
+| Teil | Aufgabe | Stand |
+|---|---|---|
+| felsgruppen | Gruppen auf 300 m als Form (Hauptfels 4-10 m, Bloecke 1,5-4 m eng, Gruppe 10-30 m, halb so viele Gruppen; Felskrone an Graten, Blockstrom am Hangfuss); flache Platten nur auf Kies/Geroell/Fels/Felsplatte >= 100, >= 50 % eingegraben, an der Normale; Kleinmaterial nur im Kontaktsaum; gesperrte Netze | laeuft |
+| spuren + mittelschicht | 1-3 sichtbare Spuren-Ensembles je Feld an Wegen/Orten statt vieler Einzelteile; Mittelschicht in Sichtachsen von Lichtungen lichter; gesperrte Netze | laeuft |
+| Biom-Planer (9) | gesperrte Netze SM_Column_03 / SM_Main_Arch_01 entfernen; selbst gesetzte Platten nach derselben Lagen-Regel oder an felsgruppen abgeben; kein Kiesel-Hangteppich | laeuft |
