@@ -38,7 +38,7 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 
 | Planer | Korrektur-Stand |
 |---|---|
-| felsgruppen (C) | korrigiert, gepusht (synthetisch B4: 55 196 Inst., 3 000 Kollision, 150 Akteure; Kollision in *_kol.f32). zusatzklassen aus felsgruppen_overrides aller Biom-Regeln nach §6 werden gesetzt (z_<name>), Altstellen heide_tundra/wueste/dschungel/lava abgebildet; Nachbesserung: palette/faktor je Biom wieder gelesen, karst_faktor als Zonenfaktor (G6 758 Platten), heide_tundra-Feinparameter wirken, findling_frei eigene Klasse; offen: wueste-Klassen ungetestet |
+| felsgruppen (C) | korrigiert, gepusht (synthetisch B4: 55 196 Inst., 3 000 Kollision, 150 Akteure; Kollision in *_kol.f32). zusatzklassen aus felsgruppen_overrides aller Biom-Regeln nach §6 werden gesetzt (z_<name>), Altstellen heide_tundra/wueste/dschungel/lava abgebildet; Nachbesserung: palette/faktor je Biom wieder gelesen, karst_faktor als Zonenfaktor (G6 758 Platten), heide_tundra-Feinparameter wirken, findling_frei eigene Klasse; z_versatz_anteil fuer Eis, wueste-Klassen auf D4 getestet |
 | mittelschicht + spuren (D) | korrigiert, gepusht (synthetisch G4: Mittelschicht 51 943 / Spuren 23 913; C6 8 147 / 158; A1 Leerplan); Nachruestung spuren_overrides laeuft |
 | nordkueste (B1) | korrigiert, gepusht (synthetisch B5: 14 083 Inst.; C6 lava Leerplan; H4 Saum, Kollision gedeckelt 2 998). Hinweis: C6 hat echt 3 % bergwald > 2 %-Schwelle, daher dort einige hundert Instanzen moeglich; fuer Leerplan zustaendigkeit.min_anteil_eigen = 0.04 |
 | elfenwald (B5) | korrigiert, gepusht (synthetisch G4 mit 17 000 Baeumen: 31 023 Inst., 215 Kollision; Fremdbiom-Feld Leerplan; Saum 30 m) |
@@ -74,6 +74,6 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 ### Runde-2-Punkte (gesammelt)
 
 - mittelschicht_plan.py kennt keine Hoehenstufen relativ zur Baumgrenze; `hoehe_max_m` ist absolut. Folge: Alpenrose/Gras fehlen ueber 430/470 m, Heide kann unter Bergwald-Kiefern landen (Hinweis hochgebirge).
-- felsgruppen: `eis.z_versatz_anteil` (Eisvorhaenge an der Wand statt am Wandfuss) - Nachbesserung beauftragt.
+- erledigt: felsgruppen `z_versatz_anteil` (Eis haengt 0,6-4,7 m ueber Boden), lava `spire` als echte Zusatzklasse.
 - Echtdaten-Pruefpunkt sumpf: liegen Teiche/Gewaesser in eigner.r8 auf Kennzahl 0, zaehlen sie als aue; der Sumpf-Planer setzt dann Schilfguertel nur ueber den Saum. Falls so, Gewaesser im Sumpf dem Sumpf-Rezept zuordnen oder Wasserzellen dem Biom der naechsten Landzelle zuweisen (Runde 2, alle Planer).
-- wueste-Felsklassen in felsgruppen noch ungetestet (kein Wuestenfeld im Rauchtest).
+- erledigt: wueste-Felsklassen synthetisch D4 getestet (terrassenkanten 632, felsnadel 3 Akteure).
