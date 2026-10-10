@@ -1,8 +1,8 @@
 {
- "stand": "2026-10-10",
+ "stand": "2026-10-10 (Korrektur Runde 1)",
  "thema": "aue",
  "seed": 1105,
- "hinweis": "Aue/Flussauen (Velen/Weißgarten/Kovir). Dichten in Instanzen je m^2 je Höhenstufe (ufer/aue/terrasse), multipliziert mit licht[offen..beschattet], Lagenfaktoren, Hang- und Höhenfaktor. Gruppen: Dichte ist Einzelinstanz-Dichte (Zentren = Dichte/Gruppenmittel). UNGETESTET MIT ECHTDATEN.",
+ "hinweis": "Aue/Flussauen (Velen/Weissgarten/Kovir). Dichten in Instanzen je m^2 je Hoehenstufe (ufer/aue/terrasse), multipliziert mit licht[offen..beschattet], Lagenfaktoren, Hang- und Hoehenfaktor und dem Zustaendigkeitsfaktor (aue-Zelle 1, 30-m-Saum linear -> 0). Gruppen: Dichte ist Einzelinstanz-Dichte (Zentren = Dichte/Gruppenmittel). Korrektur Runde 1: generische Mittelschicht-Klassen stehen in mittelschicht_overrides (Teil D). UNGETESTET MIT ECHTDATEN.",
  "ft_ordner": "/Game/Eldarien/Welt/Foliage/Aue",
  "ft_praefix": "FT_EL_AU_",
  "ausgabe": {
@@ -18,12 +18,17 @@
   "y0_m": 4060.5
  },
  "budget": {
-  "instanzen_je_feld": 60000,
+  "deckel_je_feld": 60000,
+  "ziel_je_feld": [
+   45000,
+   52000
+  ],
+  "ausduennen_auf": 52000,
   "kollision_je_feld": 3000,
-  "ziel_instanzen_je_feld": 52000,
+  "max_ausduennung_je_klasse": 0.6,
   "ziel_je_schicht": {
-   "0 boden": 22000,
-   "1 mittel": 22000,
+   "0 boden": 26000,
+   "1 mittel": 12000,
    "2 baum": 2600,
    "5 wasserkante": 12000
   },
@@ -32,21 +37,12 @@
    "zweige",
    "laub",
    "bodendecker",
-   "pilz",
-   "grasbueschel",
    "seggen",
    "schilf",
    "uferstaude",
    "blumeninsel",
-   "hochstaude",
-   "farn",
    "hecke_weg",
-   "jungbaum",
-   "strauch",
    "uferwurzel",
-   "totholz_klein",
-   "stumpf",
-   "totholz_gross",
    "kiefer_hain",
    "hain_terrasse",
    "auwald_pappel",
@@ -54,7 +50,15 @@
    "totbaum",
    "solitaer"
   ],
-  "hinweis": "Ausdünnung deterministisch je Instanz-Hash, Reihenfolge von links (zuerst) nach rechts (zuletzt)."
+  "kollision_prioritaet_ausduennen": [
+   "kiefer_hain",
+   "hain_terrasse",
+   "auwald_pappel",
+   "auwald_weide",
+   "totbaum",
+   "solitaer"
+  ],
+  "hinweis": "Konventionen par. 3 (hart): <= deckel_je_feld Instanzen je Feld fuer die ganze Ebene aue/, davon <= kollision_je_feld mit kollision=true. Zielwert 45000-52000: liegt die Summe ueber ausduennen_auf, wird deterministisch (Hash je Instanz) nach prioritaet_ausduennen ausgeduennt (zuerst Kiesel/Zweige/Laub, je Klasse hoechstens max_ausduennung_je_klasse, dann die naechste; danach alle Nicht-Baum-Klassen gleichmaessig; harte Sicherung auf den Deckel). Kollision > kollision_je_feld: Ausduennung der Kollisionsklassen in der Reihenfolge kollision_prioritaet_ausduennen (je Klasse hoechstens 60 %, dann gleichmaessig). ziel_je_schicht: weiches Schichtziel (Ausduennung nur innerhalb der Schicht). Jede Ausduennung -> WARNUNG im Log und Hinweis in plan.json."
  },
  "abstand_m": {
   "weg_klein": 2.5,
@@ -198,7 +202,7 @@
    "H4",
    "A5"
   ],
-  "hinweis": "Planer läuft je Feld nur auf Zellen mit Biom aue (eigner.r8 + welt.json, Fallback je Feld)."
+  "hinweis": "Nur Information (aus daten/biome_je_feld.md). Der Planer laeuft je Feld nur auf Zellen mit Biom aue (eigner.r8 + welt.json) plus 30-m-Saum; Eigenanteil im Fenster < 2 % -> leerer plan.json."
  },
  "feld_biom_fallback": {
   "B1": "gletscher",
@@ -306,64 +310,19 @@
    200,
    200
   ],
-  "pilz": [
-   250,
-   250,
-   250
-  ],
   "bodendecker": [
    90,
    170,
    90
-  ],
-  "grasbueschel": [
-   190,
-   190,
-   110
   ],
   "blumeninsel": [
    255,
    80,
    80
   ],
-  "hochstaude": [
-   230,
-   210,
-   40
-  ],
-  "strauch": [
-   20,
-   110,
-   30
-  ],
   "hecke_weg": [
    0,
    70,
-   20
-  ],
-  "jungbaum": [
-   120,
-   200,
-   80
-  ],
-  "farn": [
-   40,
-   160,
-   60
-  ],
-  "totholz_klein": [
-   140,
-   80,
-   30
-  ],
-  "totholz_gross": [
-   100,
-   50,
-   20
-  ],
-  "stumpf": [
-   110,
-   60,
    20
   ],
   "auwald_weide": [
@@ -565,47 +524,6 @@
     "stillwasser": 0.3,
     "hinweis": "Kiesbänke am Ufer kommen aus FT_EL_UF_*; hier nur Terrasse/Aue auf Kies-/Geröll-/Erdlagen."
    },
-   "pilz": {
-    "netze": [
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.0005,
-     "aue": 0.0008,
-     "terrasse": 0.001
-    },
-    "gruppe": [
-     3,
-     7
-    ],
-    "radius_m": 0.6,
-    "massstab": [
-     0.7,
-     1.3
-    ],
-    "eingraben_cm": 1,
-    "kippen": 0.4,
-    "sichtweite": [
-     0,
-     4000
-    ],
-    "kollision": false,
-    "schatten": false,
-    "hang_max_grad": 35,
-    "licht": [
-     0.3,
-     4.0
-    ],
-    "feuchte": [
-     0.5,
-     2.0
-    ],
-    "lagen_faktor": {
-     "Laub": 2.0,
-     "Moos": 1.5
-    }
-   },
    "bodendecker": {
     "netze": [
      "/Game/Megascans/3D_Plants/CloverVarieties/SM_CloverVarieties_01",
@@ -659,55 +577,6 @@
    }
   },
   "1 mittel": {
-   "grasbueschel": {
-    "netze": [
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_01",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_02",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_03",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_04",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_06",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_08",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.016,
-     "aue": 0.014,
-     "terrasse": 0.01
-    },
-    "gruppe": [
-     2,
-     6
-    ],
-    "radius_m": 1.6,
-    "massstab": [
-     0.8,
-     1.4
-    ],
-    "eingraben_cm": 3,
-    "kippen": 0.4,
-    "sichtweite": [
-     0,
-     12000
-    ],
-    "kollision": false,
-    "schatten": false,
-    "hang_max_grad": 35,
-    "licht": [
-     1.0,
-     0.25
-    ],
-    "lagen_faktor": {
-     "Wiese": 1.3,
-     "Trockengras": 1.1,
-     "Gras": 1.2,
-     "Laub": 0.4
-    },
-    "hinweis": "Höhenmix 0,4–1,7 m (meadow_02/04/08 hoch, 01/03/06 mittel, dead_grass niedrig) für Witcher-Staffelung."
-   },
    "blumeninsel": {
     "netze": [
      "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_common_poppy_01",
@@ -758,111 +627,7 @@
      "Laub": 0.1
     },
     "insel_netz_anteil": 0.6,
-    "hinweis": "Inseln: je Gruppe eine Hauptart (60 % der Instanzen) + Beimischung; Meadow-Blumen statt der Witcher-Ebene (Crownbeard/Lachenalia), damit beide Ebenen sich ergänzen."
-   },
-   "hochstaude": {
-    "netze": [
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_goldenrod_01",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_goldenrod_02",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_sunroot_01",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_sunroot_02",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_0_SM_nettle_01_0",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_1_SM_nettle_01_1",
-     "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_07",
-     "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_08"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.01,
-     "aue": 0.005,
-     "terrasse": 0.002
-    },
-    "gruppe": [
-     4,
-     10
-    ],
-    "radius_m": 2.2,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 3,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     12000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "hang_max_grad": 30,
-    "licht": [
-     1.0,
-     0.4
-    ],
-    "feuchte": [
-     0.6,
-     2.0
-    ],
-    "saum": 2.0,
-    "lagen_faktor": {
-     "Kraut": 2.0,
-     "Erde": 1.3
-    }
-   },
-   "strauch": {
-    "netze": [
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
-     "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_02",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_03",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_04",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
-     "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
-     "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.0045,
-     "aue": 0.0032,
-     "terrasse": 0.0026
-    },
-    "gruppe": [
-     1,
-     4
-    ],
-    "radius_m": 2.8,
-    "massstab": [
-     0.85,
-     1.5
-    ],
-    "eingraben_cm": 4,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "hang_max_grad": 35,
-    "licht": [
-     1.0,
-     0.3
-    ],
-    "saum": 2.5,
-    "feuchte": [
-     0.8,
-     1.4
-    ],
-    "lagen_faktor": {
-     "Wiese": 0.9,
-     "Trockengras": 0.8
-    },
-    "hinweis": "grey_willow nur Ufer/Aue (Weidengebüsch), Elderberry/hazel/maple_bush Terrasse und Saum, sea_buckthorn als Weißdorn-Ersatz."
+    "hinweis": "Inseln: je Gruppe eine Hauptart (60 % der Instanzen) + Beimischung; Meadow-Blumen statt der Witcher-Ebene (Crownbeard/Lachenalia), damit beide Ebenen sich ergänzen. Aue-Sonderform (Auenwiesen-Blumeninseln), keine generische Mittelschicht-Klasse."
    },
    "hecke_weg": {
     "netze": [
@@ -902,221 +667,7 @@
     ],
     "yaw": "weg",
     "nur_band": "hecke_weg",
-    "hinweis": "Dichte gilt im Band 4–7 m neben Wegen auf 40 % der 48-m-Abschnitte: ~1 Strauch je 2,8 m Weg."
-   },
-   "jungbaum": {
-    "netze": [
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
-     "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_04",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_A_00",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_B_00",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_C_00",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_02",
-     "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_03"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.0012,
-     "aue": 0.0016,
-     "terrasse": 0.0014
-    },
-    "gruppe": [
-     1,
-     3
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 4,
-    "kippen": 0.1,
-    "sichtweite": [
-     0,
-     30000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "hang_max_grad": 32,
-    "licht": [
-     0.6,
-     0.5
-    ],
-    "saum": 3.0,
-    "lichtungsrand": 2.0
-   },
-   "farn": {
-    "netze": [
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
-     "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
-     "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
-     "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.004,
-     "aue": 0.002,
-     "terrasse": 0.001
-    },
-    "gruppe": [
-     3,
-     10
-    ],
-    "radius_m": 2.5,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 4,
-    "kippen": 0.3,
-    "sichtweite": [
-     0,
-     25000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "hang_max_grad": 35,
-    "licht": [
-     0.05,
-     4.0
-    ],
-    "feuchte": [
-     0.5,
-     1.8
-    ],
-    "lagen_faktor": {
-     "Laub": 1.5,
-     "Moos": 1.5
-    }
-   },
-   "totholz_klein": {
-    "netze": [
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03",
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_02",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_03",
-     "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.0008,
-     "aue": 0.0005,
-     "terrasse": 0.0006
-    },
-    "gruppe": [
-     1,
-     2
-    ],
-    "radius_m": 1.5,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 5,
-    "kippen": 0.9,
-    "sichtweite": [
-     0,
-     35000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "hang_max_grad": 35,
-    "licht": [
-     0.6,
-     2.0
-    ],
-    "yaw": "hang",
-    "lagen_faktor": {
-     "Laub": 1.5
-    }
-   },
-   "totholz_gross": {
-    "netze": [
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_trunk_01",
-     "/Game/Environment_Set/Environment/Foliage/Models/SM_trunk_02",
-     "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
-     "/Game/Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01",
-     "/Game/Megascans/3D_Assets/MossyTree/SM_MossyTree_01",
-     "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_01"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.00035,
-     "aue": 0.0002,
-     "terrasse": 0.00025
-    },
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0.0,
-    "massstab": [
-     0.9,
-     1.3
-    ],
-    "eingraben_cm": 8,
-    "kippen": 1.0,
-    "sichtweite": [
-     0,
-     60000
-    ],
-    "kollision": true,
-    "schatten": true,
-    "hang_max_grad": 35,
-    "licht": [
-     0.5,
-     2.5
-    ],
-    "yaw": "hang",
-    "lagen_faktor": {
-     "Laub": 1.5
-    },
-    "eingraben_anteil": 0.25,
-    "hinweis": "Stämme ≥ 1,5 m mit Kollision; Eingraben 25 % der Netzhöhe (FORMAT §3 Stämme 20–35 %)."
-   },
-   "stumpf": {
-    "netze": [
-     "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03",
-     "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
-     "/Game/Megascans/3D_Assets/BirchTreeStump/SM_BirchTreeStump_01",
-     "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01"
-    ],
-    "dichte_je_m2": {
-     "ufer": 0.0002,
-     "aue": 0.0003,
-     "terrasse": 0.0004
-    },
-    "gruppe": [
-     1,
-     1
-    ],
-    "radius_m": 0.0,
-    "massstab": [
-     0.8,
-     1.3
-    ],
-    "eingraben_cm": 6,
-    "kippen": 0.8,
-    "sichtweite": [
-     0,
-     40000
-    ],
-    "kollision": false,
-    "schatten": true,
-    "hang_max_grad": 35,
-    "licht": [
-     0.6,
-     1.8
-    ],
-    "ort_nah_faktor": [
-     200.0,
-     3.0
-    ],
-    "hinweis": "Innerhalb 200 m um Orte ×3 (Holzschlag-Spuren)."
+    "hinweis": "Dichte gilt im Band 4–7 m neben Wegen auf 40 % der 48-m-Abschnitte: ~1 Strauch je 2,8 m Weg. Aue-Sonderform: Wegsaum-Hecke; Feldrand-Hecken und Kopfweiden-Reihen liefert spuren_plan.py (spuren_overrides.feldstreifen.hecke_am_feldrand, kopfweiden_reihe)."
    }
   },
   "2 baum": {
@@ -1518,7 +1069,7 @@
      2.0,
      16.0
     ],
-    "hinweis": "Pestwurz (petasites) als Uferstaude vorn, Goldrute/Topinambur/Nessel dahinter."
+    "hinweis": "Pestwurz (petasites) als Uferstaude vorn, Goldrute/Topinambur/Nessel dahinter. Aue-Sonderform Uferstauden-Saum 2-16 m (bleibt in Schicht 5, nicht in Teil D)."
    },
    "uferwurzel": {
     "netze": [
@@ -1566,63 +1117,379 @@
    }
   }
  },
- "felsgruppen_overrides": {
-  "hinweis": "Nur Abweichungen für Biom aue; Schlüssel wie in felsgruppen_regeln.json. Grund: Flussauen sind Lockersediment, Fels nur an Prallhängen und Terrassenkuppen.",
-  "biom_palette": {
-   "aue": "moos"
-  },
-  "biom_faktor": {
-   "aue": 0.35
-  },
-  "biom_klassen_aus": {
-   "aue": [
-    "band",
-    "wand",
-    "grat",
-    "fuss"
+ "mittelschicht_overrides": {
+  "biom": "aue",
+  "hinweis": "Korrektur Runde 1, Konventionen par. 4: mittelschicht_plan.py (Teil D) ist der einzige Planer fuer die generischen Mittelschicht-Klassen (strauch, jungbaum, farn, totholz_liegend, totholz_stumpf, totholz_ast, hochstaude, grasbueschel, beere, pilz). Er liest mittelschicht_regeln.json['biome']['aue'] und danach diesen Block; die Overrides gewinnen. palette: Netzliste je Klasse ersetzt die Teil-D-Palette (bisherige Aue-Paletten, alle im Inventar). faktor: Multiplikator auf die Teil-D-Dichte der Klasse (1.0 = unveraendert, 0 = aus); weil parameter.dichte die bisherige Aue-Dichte schon traegt, stehen alle Faktoren auf 1.0 und sind nur Stellschrauben. parameter: Klassenschluessel im mittelschicht-Format (dichte [offen, beschattet] je m2 = bisherige Aue-Dichte als Mittel der Hoehenstufen Ufer 6,5 / Aue 36,2 / Terrasse 57,3 % x licht[offen, beschattet]; gruppe, radius, saum, feuchte, lagen_faktor, lichtungsrand wie bisher). zusatzklassen: keine (Teil D hat alle Aue-Klassen).",
+  "palette": {
+   "grasbueschel": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_03",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_04",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_06",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_08",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02"
+   ],
+   "hochstaude": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_goldenrod_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_goldenrod_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_sunroot_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_sunroot_02",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_0_SM_nettle_01_0",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_nettle_01_1_SM_nettle_01_1",
+    "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_07",
+    "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_08"
+   ],
+   "strauch": [
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_05",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_06",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_07",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_09",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_03",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_04",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_03",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_maple_bush_04",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02"
+   ],
+   "jungbaum": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_01",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_02",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_03",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Sapling_04",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_A_00",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_B_00",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_C_00",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_02",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_plant_03"
+   ],
+   "farn": [
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+    "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+    "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02"
+   ],
+   "totholz_liegend": [
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03",
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_trunk_01",
+    "/Game/Environment_Set/Environment/Foliage/Models/SM_trunk_02",
+    "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_02",
+    "/Game/Megascans/3D_Assets/FallenTreeAssembly/SM_FallenTreeAssembly_01",
+    "/Game/Megascans/3D_Assets/MossyTree/SM_MossyTree_01"
+   ],
+   "totholz_stumpf": [
+    "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_stump_03",
+    "/Game/Megascans/3D_Assets/TreeStump/SM_TreeStump_01",
+    "/Game/Megascans/3D_Assets/BirchTreeStump/SM_BirchTreeStump_01",
+    "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_02",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_03",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Tree_Stump_01"
+   ],
+   "totholz_ast": [
+    "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03"
+   ],
+   "pilz": [
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_mushroom_02"
    ]
   },
-  "klassen": {
-   "kuppe": {
-    "aue": {
-     "p": 0.5,
-     "hang_grad": [
-      4,
-      30
-     ],
-     "hero_p": 0.3,
-     "nur_hoehenstufe": "terrasse"
+  "faktor": {
+   "grasbueschel": 1.0,
+   "hochstaude": 1.0,
+   "strauch": 1.0,
+   "jungbaum": 1.0,
+   "farn": 1.0,
+   "totholz_liegend": 1.0,
+   "totholz_stumpf": 1.0,
+   "totholz_ast": 1.0,
+   "pilz": 1.0
+  },
+  "parameter": {
+   "grasbueschel": {
+    "dichte": [
+     0.0118,
+     0.00296
+    ],
+    "gruppe": [
+     2,
+     6
+    ],
+    "radius_m": 1.6,
+    "massstab": [
+     0.8,
+     1.4
+    ],
+    "eingraben_cm": 3,
+    "kippen": 0.4,
+    "sichtweite": [
+     0,
+     12000
+    ],
+    "hang_max": 35,
+    "saum": 1.0,
+    "feuchte": [
+     1.0,
+     1.0
+    ],
+    "lichtungsrand": 1.0,
+    "lagen_faktor": {
+     "Wiese": 1.3,
+     "Trockengras": 1.1,
+     "Gras": 1.2,
+     "Laub": 0.4
     }
    },
-   "blockstrom": {
-    "aue": {
-     "p": 0.2,
-     "nur_hoehenstufe": "terrasse"
+   "hochstaude": {
+    "dichte": [
+     0.00361,
+     0.00144
+    ],
+    "gruppe": [
+     4,
+     10
+    ],
+    "radius_m": 2.2,
+    "massstab": [
+     0.8,
+     1.3
+    ],
+    "eingraben_cm": 3,
+    "kippen": 0.3,
+    "sichtweite": [
+     0,
+     12000
+    ],
+    "hang_max": 30,
+    "saum": 2.0,
+    "feuchte": [
+     0.6,
+     2.0
+    ],
+    "lichtungsrand": 1.0,
+    "lagen_faktor": {
+     "Kraut": 2.0,
+     "Erde": 1.3
     }
    },
-   "prallhang": {
-    "aue": {
-     "hero_p": 0.5,
-     "kruemmung_min": 0.003,
-     "ufer_abstand_m": [
-      2,
-      8
-     ],
-     "block": [
-      2,
-      5
-     ],
-     "stein": [
-      6,
-      14
-     ],
-     "kiesel": [
-      15,
-      30
-     ]
+   "strauch": {
+    "dichte": [
+     0.00294,
+     0.000882
+    ],
+    "gruppe": [
+     1,
+     4
+    ],
+    "radius_m": 2.8,
+    "massstab": [
+     0.85,
+     1.5
+    ],
+    "eingraben_cm": 4,
+    "kippen": 0.3,
+    "sichtweite": [
+     0,
+     30000
+    ],
+    "hang_max": 35,
+    "saum": 2.5,
+    "feuchte": [
+     0.8,
+     1.4
+    ],
+    "lichtungsrand": 1.0,
+    "lagen_faktor": {
+     "Wiese": 0.9,
+     "Trockengras": 0.8
+    }
+   },
+   "jungbaum": {
+    "dichte": [
+     0.000876,
+     0.00073
+    ],
+    "gruppe": [
+     1,
+     3
+    ],
+    "radius_m": 2.5,
+    "massstab": [
+     0.8,
+     1.3
+    ],
+    "eingraben_cm": 4,
+    "kippen": 0.1,
+    "sichtweite": [
+     0,
+     30000
+    ],
+    "hang_max": 32,
+    "saum": 3.0,
+    "feuchte": [
+     1.0,
+     1.0
+    ],
+    "lichtungsrand": 2.0
+   },
+   "farn": {
+    "dichte": [
+     7.79e-05,
+     0.00623
+    ],
+    "gruppe": [
+     3,
+     10
+    ],
+    "radius_m": 2.5,
+    "massstab": [
+     0.8,
+     1.3
+    ],
+    "eingraben_cm": 4,
+    "kippen": 0.3,
+    "sichtweite": [
+     0,
+     25000
+    ],
+    "hang_max": 35,
+    "saum": 1.0,
+    "feuchte": [
+     0.5,
+     1.8
+    ],
+    "lichtungsrand": 1.0,
+    "lagen_faktor": {
+     "Laub": 1.5,
+     "Moos": 1.5
+    }
+   },
+   "totholz_liegend": {
+    "dichte": [
+     0.000465,
+     0.00175
+    ],
+    "gruppe": [
+     1,
+     2
+    ],
+    "radius_m": 1.5,
+    "massstab": [
+     0.8,
+     1.3
+    ],
+    "lagen_faktor": {
+     "Laub": 1.5
+    }
+   },
+   "totholz_stumpf": {
+    "dichte": [
+     0.00021,
+     0.000631
+    ],
+    "gruppe": [
+     1,
+     1
+    ],
+    "radius_m": 0.0,
+    "massstab": [
+     0.8,
+     1.3
+    ],
+    "eingraben_cm": 6,
+    "kippen": 0.8,
+    "sichtweite": [
+     0,
+     40000
+    ],
+    "hang_max": 35,
+    "saum": 1.0,
+    "feuchte": [
+     1.0,
+     1.0
+    ],
+    "lichtungsrand": 1.0
+   },
+   "pilz": {
+    "dichte": [
+     0.000269,
+     0.00358
+    ],
+    "gruppe": [
+     3,
+     7
+    ],
+    "radius_m": 0.6,
+    "massstab": [
+     0.7,
+     1.3
+    ],
+    "eingraben_cm": 1,
+    "kippen": 0.4,
+    "sichtweite": [
+     0,
+     4000
+    ],
+    "hang_max": 35,
+    "saum": 1.0,
+    "feuchte": [
+     0.5,
+     2.0
+    ],
+    "lichtungsrand": 1.0,
+    "lagen_faktor": {
+     "Laub": 2.0,
+     "Moos": 1.5
     }
    }
   },
+  "zusatzklassen": {},
+  "herkunft": {
+   "grasbueschel": "1 mittel/grasbueschel",
+   "hochstaude": "1 mittel/hochstaude",
+   "strauch": "1 mittel/strauch",
+   "jungbaum": "1 mittel/jungbaum",
+   "farn": "1 mittel/farn",
+   "totholz_liegend": "1 mittel/totholz_klein (dead_log_01-04) + 1 mittel/totholz_gross (trunk_01/02, LargeFallenTree_02, FallenTreeAssembly_01, MossyTree_01; bisher mit Kollision, Eingraben 25 %)",
+   "totholz_stumpf": "1 mittel/stumpf + Tree_Stump_01/02/03 aus totholz_klein/gross",
+   "totholz_ast": "OldTreeBranch_03 aus totholz_klein (Teil-D-Dichte bleibt)",
+   "pilz": "0 boden/pilz"
+  },
+  "nicht_uebertragbar_hinweis": "Teil D kennt keine Hoehenstufen (Ufer/Aue/Terrasse); die Dichte ist deshalb das gewichtete Mittel, die Ufer-Betonung von hochstaude/farn/strauch traegt parameter.feuchte. stumpf.ort_nah_faktor [200 m, x3] (Holzschlag um Orte) entfaellt hier; Holzschlag-Spuren liefert spuren_plan.py (Klasse holzschlag)."
+ },
+ "felsgruppen_overrides": {
+  "biom": "aue",
+  "hinweis": "Fuer Teil C (felsgruppen_plan.py), Schema palette/faktor: Flussauen sind Lockersediment; Fels nur an Prallhaengen und Terrassenkuppen. palette = Palettenname aus felsgruppen_regeln.json (moos). faktor.gesamt = Biomfaktor aue, faktor.klassen = Faktor je Reliefklasse (kuppe 0,625 = p 0,5 bei Basis 0,8; blockstrom 0,4 = p 0,2 bei Basis 0,5). Der Aue-Planer setzt selbst keine Felsen > 0,8 m.",
+  "palette": "moos",
+  "faktor": {
+   "gesamt": 0.35,
+   "klassen": {
+    "kuppe": 0.625,
+    "blockstrom": 0.4
+   }
+  },
+  "klassen_aus": [
+   "band",
+   "wand",
+   "grat",
+   "fuss"
+  ],
   "rollen": {
    "kiesel": {
     "aue": {
@@ -1641,22 +1508,38 @@
     }
    }
   },
-  "lagen": {
-   "aue": {
-    "fels_boost": [
-     "Geroell",
-     "Kies"
-    ],
-    "hemmung": [
-     "Wiese",
-     "Schlamm"
-    ]
-   }
-  },
+  "wunsch_hinweis": "Von Teil C (Stand Korrektur Runde 1) nicht ausgewertet, als Wunsch fuer eine spaetere Fassung: kuppe/blockstrom nur in der Hoehenstufe terrasse, kuppe hang_grad 4-30 und hero_p 0,3; prallhang hero_p 0,5, kruemmung_min 0,003, ufer_abstand_m 2-8, je Gruppe block 2-5 / stein 6-14 / kiesel 15-30; Lagen Geroell/Kies foerdern, Wiese/Schlamm hemmen Felsgruppen.",
   "wuesten_felder_hinweis": "C4, C5(nein), D5, E5: Felsgruppen nur außerhalb Sand/Sandstein ≥ 0,5."
  },
  "spuren_overrides": {
-  "hinweis": "Nur Abweichungen für Biom aue; Schlüssel wie in spuren_regeln.json. Velen/Weißgarten: Felder bis an den Ortsrand, Zäune lückig, Kopfweiden-Reihen an Gräben/Wegen, Obstgarten je Weiler.",
+  "biom": "aue",
+  "hinweis": "Nur Abweichungen für Biom aue; Schlüssel wie in spuren_regeln.json. Velen/Weißgarten: Felder bis an den Ortsrand, Zäune lückig, Kopfweiden-Reihen an Gräben/Wegen, Obstgarten je Weiler. Schema: palette {element: [Netzpfade]} und faktor {element: float} oben, darunter die Elementparameter (unveraendert aus der ersten Fassung). Kopfweiden-Reihen und Feldrand-Hecken liegen nur hier, nicht im Aue-Planer.",
+  "palette": {
+   "hecke_am_feldrand": [
+    "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+    "/Game/Megascans/3D_Plants/Elderberry/SM_Elderberry_08",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_01",
+    "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02"
+   ],
+   "obstgarten": [
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_10",
+    "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Forest_09",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_tree_00_C",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_beech_tree_00_D"
+   ],
+   "kopfweiden_reihe": [
+    "/Game/Nature_Set/Meshes/Big_Tree_willow_01",
+    "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_tree_01"
+   ]
+  },
+  "faktor": {
+   "feldstreifen": 1.0,
+   "obstgarten": 1.0,
+   "zaun_weg": 1.0,
+   "kopfweiden_reihe": 1.0,
+   "muehle": 1.0,
+   "steg": 1.0
+  },
   "feldstreifen": {
    "ring_m": [
     20,
@@ -1786,5 +1669,65 @@
     ]
    }
   }
- }
+ },
+ "landschaftsgras": {
+  "klassen": {
+   "laub": "GT_Kraut",
+   "zweige": "GT_Kraut",
+   "bodendecker": "GT_Kraut",
+   "kiesel": "GT_Steinchen"
+  },
+  "hinweis": "Konventionen par. 3: Kleinzeug bevorzugt im Landschafts-Gras (GT_Kraut enthaelt DeadLeaves_01/02/05/10/12/13, WoodenSticksAndTwigs_01/04/07, DryBranches_01/04, CloverVarieties_01/03, GroundCover_01/06/07; GT_Steinchen die SmallStonesPack-Netze). Wird das Budget knapp, duennt der Planer diese Klassen zuerst und nennt den abgegebenen Anteil in plan.json an_landschaftsgras."
+ },
+ "zustaendigkeit": {
+  "biome_eigen": [
+   "aue"
+  ],
+  "biome_alle": [
+   "aue",
+   "bergwald",
+   "gletscher",
+   "tundra",
+   "canyon",
+   "oedland",
+   "heide",
+   "elfenwald",
+   "dschungel",
+   "kueste",
+   "wueste",
+   "lava",
+   "frost",
+   "sumpf",
+   "fjord"
+  ],
+  "eigner0_biom": "aue",
+  "saum_m": 30.0,
+  "min_eigenanteil_fenster": 0.02,
+  "hinweis": "Konventionen par. 1: Biom je Zelle aus eigner.r8 + welt.json (kacheln[k].rezept); Kennzahl 0 = Weltgelaende -> aue, Rezept mit vulkan/lava -> lava; Rezepte ohne Biom-Zuordnung -> dominantes Feldbiom (Warnung). Bebaut werden nur aue-Zellen plus ein Saum von saum_m nach aussen (Dichtefaktor linear 1 an der Biomgrenze -> 0 bei saum_m, Jump-Flooding-Distanzfeld), fuer alle Schichten. Eigenanteil im Fenster < min_eigenanteil_fenster -> leerer plan.json (instanzen 0, keine f32). Nur wenn eigner.r8 oder welt.json fehlt: dominantes Feldbiom aus daten/biome_je_feld.json, sonst feld_biom_fallback (Hinweis im Log). Es gibt keine Biomfaktoren fuer fremde Biome."
+ },
+ "ebenen": {
+  "generisch_mittelschicht": [
+   "strauch",
+   "jungbaum",
+   "farn",
+   "totholz_liegend",
+   "totholz_stumpf",
+   "totholz_ast",
+   "hochstaude",
+   "grasbueschel",
+   "beere",
+   "pilz"
+  ],
+  "alias": {
+   "stamm_liegend": "totholz_liegend",
+   "totholz": "totholz_liegend",
+   "totholz_klein": "totholz_liegend",
+   "totholz_gross": "totholz_liegend",
+   "stumpf": "totholz_stumpf",
+   "ast": "totholz_ast"
+  },
+  "hinweis": "Konventionen par. 4: Klassen mit diesen Namen (oder Alias) setzt der Aue-Planer nie; steht eine solche Klasse in schichten, wird sie mit Hinweis uebersprungen. Ihre Paletten/Dichten stehen in mittelschicht_overrides. Fels > 0,8 m nur ueber felsgruppen_overrides, Spuren nur ueber spuren_overrides."
+ },
+ "wuesten_hinweis": "Wuestenfelder C3 C4 D3 D4 D5 E3 E4 E5: nur ergaenzen (Faktor wuesten_feld_faktor, Sand/Sandstein >= ab_deckung gesperrt), entfernen bleibt dort immer leer (auch wenn entfernen gesetzt ist).",
+ "feld_biom_fallback_hinweis": "Zweiter Fallback (nur wenn eigner.r8/welt.json fehlen UND daten/biome_je_feld.json fehlt): dominantes Feldbiom je Feld; aue-Zellen nur, wenn hier aue steht."
 }

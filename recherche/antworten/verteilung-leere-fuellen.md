@@ -213,6 +213,97 @@ Die Spannen sind Erwartungswerte aus den Lagenanteilen, nicht aus den Rastern; b
 11. **Akteur-Dateien** `akteur_<Netz>.f32` folgen der Felsgruppen-Konvention; ein generischer Setzer, der alle `.f32` als Foliage liest, muss `rolle == "akteur"` auslassen.
 12. Numba wird nicht genutzt (reiner NumPy-Pfad: 4–10 s je Feld).
 
+## 8. Korrektur Runde 1 (10.10.2026)
+
+Grundlage: `auftraege/verteilung-korrektur-runde1.md` (lokaler Echtdaten-Test 10.10. 15:30) und `antworten/verteilung-KONVENTIONEN.md`.
+Gleiche Dateinamen: `skripte/mittelschicht_plan.py`, `mittelschicht_regeln.json`, `spuren_plan.py`, `spuren_regeln.json`.
+
+**Echtdaten-Referenz der Vorfassung** (lokal, Windows, Python 3.11, `plan.json["instanzen"]`):
+
+| Planer | A5 (bergwald/fjord) | G4 (elfenwald) | E1 (gletscher 100 %) | C6 (lava 99 %) |
+|---|---|---|---|---|
+| mittelschicht | 36 259 | 26 746 | 15 586 | 7 515 |
+| spuren | 51 | 591 | 55 | 393 |
+
+Alle unter dem Deckel 60 000; die Zahlen sind die Vergleichsbasis für den nächsten lokalen Lauf (erwartete Verschiebungen unten).
+
+### 8.1 Was geändert wurde (beide Planer)
+
+- **Biom je Zelle strikt nach KONVENTIONEN §1:** `eigner.r8` + `welt.json["kacheln"][k]["rezept"]`; Kennzahl **0 → `aue`**, Rezept mit „vulkan“/„lava“ → `lava`, sonst exakter Biomname oder Teilwort. Nur wenn `eigner.r8` fehlt, gilt das dominante Feldbiom aus `daten/biome_je_feld.json` (Hinweiszeile). Unbekannte Rezepte → dominantes Feldbiom mit `WARNUNG` und Kennzahlenliste (früher stillschweigend Feld-Fallback).
+- **Querschnitts-Planer:** `biome_eigen` = alle 15 Biome; Palette und Dichten je Zelle nach Biom (Spuren: Mauer-/Steinmann-/Schrein-Biome, Obstbaum je Biom, Nadel-/Laubstümpfe).
+- **Pflichtschlüssel §2 in jedem plan.json:** `biome_fenster` (Anteile aller Biome im Fenster Feld + 64 m, Summe 1), `zellen_zustaendig` (Feldzellen ohne Wasser/Weg/Ort), `biome_eigen`, `kollision_anzahl` (alle Instanzen mit `kollision: true`, bei Spuren einschließlich Akteure), dazu `ebene` (Mittelschicht 1, Spuren 4) auf Plan- und Dateiebene und `entfernen` (leer bzw. aus Overrides).
+- **Leerplan:** Landanteil im Fenster < 2 % (oder keine bebaubare Zelle) → `plan.json` mit `instanzen: 0`, `dateien: {}`, alle Pflichtschlüssel, alte f32 gelöscht, eine Logzeile. Kein Textabbruch mehr.
+- **Budget §3:** Deckel 60 000 / 3 000 Kollision hart, Ziel Mittelschicht 52 000. Ausdünnung deterministisch per Hash der globalen Rasterzelle in Prioritätsreihenfolge (Mittelschicht: Pilz, Ast, Grasbüschel, Kletter, Beere, Zusatzklassen, Hochstaude … zuletzt Totbaum), bis zu 6 Runden, jede Ausdünnung als `WARNUNG …` im Log und in `hinweise`, bei gedünntem Grasbüschel/Pilz zusätzlich „Landschafts-Gras GT_* dichter stellen“. Spuren zählen Akteure in den Deckel (werden nie gedünnt; Deckel für Foliage = 60 000 − Akteure bzw. 3 000 − Akteure mit Kollision).
+- **Kollision je Netz ohne Vereinigung:** Wird ein Netz in Klassen mit und ohne Kollision genutzt (Spuren: Mauerstein = Steinmann-Stein; Mittelschicht: Ast-Netz auch als liegendes Totholz), schreibt der Planer die Nicht-Kollisions-Instanzen in `<Netz>_ohne_koll.f32` (eigener Foliage-Typ). Vorher machte die Vereinigung im Test G4 aus 937 echten 5 210 Kollisions-Instanzen und zwang die Ausdünnung, Trockenmauern lückig zu machen.
+- **Spuren: nichts auf Wasser/Weg/Ort** – zentrale Sperre im Instanz-Sammler (Beiwerk um Karren, Stege, Gräber eingeschlossen); einzige Ausnahme sind Steg-Planken/-Pfosten/-Balken/-Geländer über dem Wasser. Verworfene Instanzen werden gezählt (`hinweise`).
+- **Kronendach** (beide) zusätzlich aus den Baum-Dateien der Biom-Planer-Ebenen `nordkueste/ aue/ heide_tundra/ hochgebirge/ elfenwald/ sumpf/ dschungel/ lava/ wueste_ergaenzung/` je `<Feld>/` + 8 Nachbarn: Datei zählt als Baum, wenn `dateien[].ebene` bzw. `schicht` mit „2“ beginnt oder „baum“ enthält (ohne `ebene`: Rolle/Gruppe/Name), Totbäume/Stämme/Stümpfe nicht. Mittelschicht markiert außerdem alle Nicht-Boden-Instanzen dieser Ebenen und von `felsgruppen/<Feld>/` im eigenen Feld als belegt (1,2 m); Schicht 0 (Laub, Kiesel) wird ignoriert.
+- **Logs nur ASCII:** jede `print`-Ausgabe läuft durch eine Abbildung (ä→ae, ö→oe, ü→ue, ß→ss, →→->, ≤→<=, §→Par., Rest → `?`); `plan.json` bleibt UTF-8. Fehlende Pflichtdatei (`hoehe.f32`, Regeldatei), unbekanntes Feld oder Netzpfade außerhalb des Inventars → `FEHLER: …` und **Exit-Code 2**.
+
+### 8.2 Ebenen-Abgrenzung (KONVENTIONEN §4) in der Mittelschicht
+
+`mittelschicht_plan.py` ist der einzige Planer der generischen Klassen **strauch, jungbaum, farn, totholz_liegend, totholz_stumpf, totholz_ast, hochstaude, grasbueschel, beere, pilz** (Umbenennung totholz/stumpf/ast → totholz_*; alte Namen in Overrides werden weiter verstanden). Eigene Zusatzklassen nur dort, wo kein Biom-Planer dieselbe Form setzt:
+
+| Klasse | bleibt in | entfällt in (Grund) |
+|---|---|---|
+| schilf | – | aue, sumpf (Schilfgürtel = Sonderform/Schicht 5 der Biom-Planer) |
+| totbaum | elfenwald, dschungel | alle übrigen (Biom-Planer setzen Totbäume in Schicht 2) |
+| wurzel | elfenwald, dschungel | sumpf, bergwald, fjord (Sonderform sumpf/nordkueste) |
+| kletter | elfenwald, sumpf, dschungel | – (Lianen an Stamm/Wand bleiben Sonderform B7) |
+| strauch | – | gletscher, frost, lava (Latschen/Krummholz/Kiefernstrauch = Sonderform hochgebirge/lava) |
+| beere (heath/heather) | Preisel-/Heidelbeere | heide, tundra (Heidekraut-Flecken = Sonderform heide_tundra), Dichte 0,02/0,012 bzw. 0,02/0,014 |
+
+**Dschungel:** Palette nach `verteilung-dschungel.md` §3 übernommen (Farne Megascans/EagleFern/SilverLady/BeechFern/`SM_Fern_01a/02a`; Strauch nur `SM_Bush_01a` 0,45–0,8 plus Holunder 05/07/08/09 als Bananen-Ersatz 1,5–2,4 über `netze_massstab`, Gewicht Busch 4 : je Holunder 1; Hochstaude Crownbeard 03/04/07/08 + Pestwurz; Jungbaum Palmen 07–12; Totholz/Stumpf/Wurzel Megascans; Kletter Vines + Ivy; Kikuyu-Gras). Die §3-Tabelle (in G6, H6, I6, I7, G7, H7 Farn/Kletter/Totholz/Stumpf/Wurzel/Pilz = 0, Strauch/Jungbaum/Hochstaude × 0,5) steht als `feld_klassen_faktor.dschungel` mit `nur_ohne_override: true` in den Regeln: Sie gilt nur, solange `dschungel_plan.py` diese Klassen selbst setzt. Seit B7 in Runde 1 einen `mittelschicht_overrides`-Block liefert (und nur noch Lianen, Moospolster, Bäume, Boden, Wasserkante setzt), ist sie inaktiv – sonst blieben die Karstfelder ohne Farn und Totholz. B7 kann Karstfelder über `faktor_je_feld` steuern; `entfernen_je_feld` (G6–I7: `sm_fern_01a,sm_fern_02a`) landet im Mittelschicht-`plan.json["entfernen"]`.
+
+**Heide/Tundra:** Zwergstrauch (Preisel-/Heidelbeere) und Grasbüschel kommen nur noch aus der Mittelschicht; `heide_tundra` setzt künftig nur Heidekraut-Flecken und Sonderformen. Bis `heide_tundra_regeln.json` einen Override-Block hat und `grasbueschel`/`wacholder`/`kruepelkiefer`/`jungwuchs`/`totholz`/`stumpf` nicht mehr selbst setzt, doppeln sich diese Klassen in den zehn Heide/Tundra-Feldern.
+
+### 8.3 Override-Schema für die Biom-Planer (`mittelschicht_overrides`)
+
+Der Block steht in `<thema>_regeln.json` des zuständigen Biom-Planers, gesucht im Ordner der Mittelschicht-Regeldatei, sonst in `../<thema>/`. Zuordnung (`mittelschicht_regeln.json["biom_planer"]`): fjord/kueste/bergwald → nordkueste, aue → aue, heide/tundra → heide_tundra, gletscher/frost → hochgebirge, elfenwald → elfenwald, sumpf → sumpf, dschungel → dschungel, lava → lava, wueste/canyon/oedland → wueste_ergaenzung. Fehlende Datei oder fehlender Block → eine Hinweiszeile, Mittelschicht nimmt eigene Werte. **Overrides gewinnen.**
+
+```json
+"mittelschicht_overrides": {
+  "palette":       {"strauch": ["/Game/…/SM_hazel_01", "…"]},          // ersetzt die Netzliste (Pfade außerhalb netze.csv werden verworfen)
+  "faktor":        {"farn": 1.5, "totholz_ast": 0.35, "kletter": 0.0},  // Dichtefaktor, 0 = Klasse aus
+  "zusatzklassen": {"adlerfarn": {"netze": ["…"], "dichte": [0.009, 0.002], "gruppe": [8, 25], "radius_m": 5.0}},
+  "parameter":     {"farn": {"gruppe": [6, 18], "lichtung": 0.15, "mulde": 1.4}},   // optional: einzelne Klassenschlüssel
+  "je_biom":       {"fjord": {"palette": {…}, "faktor": {…}, "vorlage_biom": {"pilz": "bergwald"}}},
+  "faktor_je_feld":   {"G6": {"farn": 0.0}},                       // optional, ersetzt den Feldfaktor
+  "entfernen_je_feld": {"G6": "sm_fern_01a,sm_fern_02a"}            // optional, → plan.json entfernen
+}
+```
+
+Regeln: Reihenfolge je Teil (flacher Block, danach `je_biom[biom]`) zusatzklassen → palette → parameter → faktor → faktor_je_feld. Gesamtfaktor = Feldfaktor × `faktor` × `biom_faktor`. Zusatzklassen brauchen nur die abweichenden Schlüssel (Rest aus `klasse_vorgabe`), optional `biome` (Liste), `biom_faktor` {biom: f}, `lagen` (= `lagen_faktor`), `schatten`, `farbe`. Klassenparameter, die als Dichtefaktoren wirken: `lichtung` (Lichtung), `wegrand` (≤ 8 m vom Weg), `nah_baum` (0,9–3 m um Stämme), `mulde` (≥ 0,4 m unter dem 10-m-Mittel), `an_totholz` (≤ 2 m um gesetztes Totholz, Klasse wird danach geplant). Palette für eine Klasse, die im Biom fehlt: Vorlage aus `vorlage_biom` bzw. dem ersten Biom mit dieser Klasse. Altform `biom_faktor` {biom: f} (wueste_ergaenzung) multipliziert alle Klassen des Bioms. Zusatzklassen ohne Prioritätseintrag stehen im Budget hinter `hochstaude`.
+
+**Stand der Blöcke beim Rauchtest:** dschungel, elfenwald, nordkueste liefern Blöcke im neuen Schema (wurden ohne Änderung gelesen: Dschungel-Zusatzklassen riesenfarn_insel/staudenflur/bananen_ersatz, Elfenwald adlerfarn/grashorst/beere mit wurzel/kletter/totbaum = 0, Nordküste blaubeer_teppich/blume_wald je Biom); aue, sumpf, heide_tundra, hochgebirge, lava ohne Block (eigene Werte, Doppelungsrisiko bis zu deren Korrektur); **wueste_ergaenzung** hat noch die Altform `biom_faktor` wueste/canyon/oedland = 0 – damit setzt die Mittelschicht dort nichts, was §4 widerspricht (B9 sollte auf palette/faktor umstellen oder die Null bewusst bestätigen).
+
+### 8.4 Rauchtest (Cloud, synthetisch, Python 3.13, NumPy, ohne numba)
+
+Synthetische Produktionswurzel (Raster 7057 × 9577 als memmap, nach dem Test gelöscht): **G4** elfenwald 64 % / heide 30 % / Weltgelände 6 % (→ aue), 2 Orte, 2 Wege, See + Fluss, 932 Buchen in `bestand/G4`, Biom-Ebene `elfenwald/G4` mit 600 Bäumen (`ebene "2_baum"`), 900 Adlerfarnen (`1_mittel`), 5 000 Laubhaufen (`0_boden`); **C6** Kachel-Rezept „Vulkanregion_Sued“ 95 %, bergwald 4 % (Randstreifen + Insel im Feld), Weltgelände 1 %, Weg; **A1** nur Meer. Override-Dateien: die aktuellen Regeldateien der neun Biom-Planer aus dem Repository; zusätzlich ein Testblock in `../elfenwald/` (Ordner-Fallback, Fremdpfad im Inventar verworfen, Alias `stumpf`, `faktor_je_feld`).
+
+| Prüfung | Ergebnis |
+|---|---|
+| Mittelschicht G4 | 55 120 geplant → **51 944** (WARNUNG Instanzbudget, Pilz/Ast/Grasbüschel × 0,81), **1 081 Kollision**, 150 Netze, 5,2 s; Kronendach 1 532 Bäume (bestand + elfenwald), 900 belegt, Laubhaufen ignoriert; Elfenwald-Overrides wirksam (Farn × 1,5, Adlerfarn 4 357, Grashorst 1 185, keine Wurzel/Kletter/Totbaum) |
+| Mittelschicht C6 | **8 187**, 151 Kollision, 1,0 s; Instanzen in Lava-Zellen nur Lava-Palette (Beere/Gras/Ast/Totholz), in Bergwald-Zellen Nordküsten-Palette inkl. Zusatzklasse blaubeer_teppich, in Weltgelände-Zellen Aue-Palette |
+| Spuren G4 / C6 | **23 913** (937 Kollision inkl. Akteure, 14 Akteure, 12 Punkte, 29 Flächen) / **158** (146 Kollision, Steinmänner/Wegkreuze in Lava), 8,6 / 1,9 s |
+| A1 (Landanteil 0 %) | beide: leerer `plan.json` mit allen Pflichtschlüsseln, `instanzen 0`, eine Logzeile |
+| Pflichtschlüssel | `biome_fenster`, `zellen_zustaendig`, `biome_eigen` (15), `kollision_anzahl`, `ebene`, `entfernen` in allen sechs plan.json; Σ `anzahl` = `instanzen`, Kollisionssumme = `kollision_anzahl`, Quaternionen normiert |
+| Wasser/Weg/Ort | **0 Instanzen** auf `karte_wasser/weg/ort > 0` (Mittelschicht alle, Spuren alle außer Steg-Teilen über Wasser) |
+| Determinismus | zwei Läufe je Planer: alle f32 byte-identisch (MD5 über alle Dateien) |
+| Budget-Zwangstest | Mittelschicht Deckel 10 000 / Ziel 8 000 / Kollision 300: 54 332 → 8 065, Kollision 1 081 → 52; Spuren Deckel 3 000 / 800: 23 899 → 2 978 (154 Kollision, 14 Akteure unverändert); jeweils `WARNUNG` im Log |
+| ASCII | 0 Nicht-ASCII-Zeichen in beiden Logs (inkl. Hinweisen mit „§“, „→“, „≥“, Umlauten) |
+| Fehlerpfade | fehlende `hoehe.f32`, fehlende Regeldatei, Feld `Z9` → `FEHLER: …`, Exit-Code 2; fehlende `eigner.r8` → dominantes Feldbiom aus `biome_je_feld.json` (G4 → elfenwald) mit Hinweis |
+| Dschungel-Feldtabelle | G6 ohne B7-Block: Farn/Kletter/Totholz/Stumpf/Wurzel/Pilz 0, Strauch/Jungbaum/Hochstaude 0,5; mit B7-Block: inaktiv (Hinweis), Faktoren aus B7 |
+| `py_compile` | beide Skripte sauber |
+
+**Erwartung beim nächsten lokalen Lauf** (gegen die Referenz oben): A5 steigt (Nordküsten-Faktoren Farn × 2,2–2,9, Ast × 1,2–2,1, zwei Zusatzklassen), bleibt aber unter dem Ziel 52 000; G4 steigt wegen Elfenwald-Farninseln/Adlerfarn/Grashorst bis an das Ziel (Ausdünnung mit WARNUNG möglich); E1 sinkt (gletscher ohne Latschen-Strauch und Totbaum); C6 bleibt bei ~7 500. Spuren: Zahlen wie bisher, `kollision_anzahl` jetzt inkl. Akteure; Mauern bleiben vollständig, weil Mauersteine nicht mehr die Steinmann-Kollision erben.
+
+### 8.5 Offen nach Runde 1
+
+1. `spuren_overrides` der Biom-Planer (z. B. Dschungel-Tempelruinen, Wüsten-Karren/Brunnen/Galgen-Ersatz) werden von `spuren_plan.py` noch nicht gelesen – Schema analog zu 8.3 in Runde 2.
+2. Biom-Planer ohne Override-Block (aue, sumpf, heide_tundra, hochgebirge, lava) und die Altform von wueste_ergaenzung: Doppelungen bzw. fehlende Mittelschicht, bis sie umgestellt sind (siehe 8.3).
+3. Nordküsten-Zusatzklassen nutzen `lagen` – als `lagen_faktor` gelesen (Faktor bei voller Deckung); falls dort anders gemeint, bitte melden.
+4. Abgrenzungsliste 8.2 sollte in `verteilung-STATUS.md` übernommen werden (Koordinator).
+
 ## Quellen
 
 - FORMAT.md, bildkritik-witcher-messlatte.md, boden-kleinzeug-gras.md, strassen-splines-bruecken.md (Frage 4), assets-taxonomie.md, verteilung-fels-organisch.md (Akteur-Konvention).
