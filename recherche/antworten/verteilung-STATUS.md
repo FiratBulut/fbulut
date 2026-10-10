@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 14:25 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 13:35 UTC. Wird bei jedem Push aktualisiert. Welle K1 nach Abbruch durch Nutzungslimit neu gestartet.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -19,7 +19,7 @@ Fortsetzung ab 12:55 UTC in drei Wellen zu je 3–4 Agenten, die auf den vorhand
 | B6 | Sumpf | 1 Agent | fertig, gepusht (Rauchtest synthetisch H5: 37 789 Inst., 7,1 s) | `verteilung-sumpf.md`, `skripte/sumpf_*` |
 | B7 | Dschungel (inkl. Karst) | 1 Agent | fertig, gepusht (Rauchtest synthetisch H6: 54 932 Inst., 16 s) | `verteilung-dschungel.md`, `skripte/dschungel_*` |
 | B8 | Lava | 1 Agent | fertig, gepusht (Rauchtest synthetisch C6: 42 169 Inst., 23 Punkte, ~4 s) | `verteilung-lava.md`, `skripte/lava_plan.py`, `skripte/lava_regeln.json` |
-| B9 | Wüste/Canyon/Ödland (nur ergänzen) | 1 Agent | fertig (Welle 3): Planer korrigiert/kalibriert; Rauchtest synthetisch D4 (Wüstenfeld, Ergänzung) 14 998 Inst./164 Koll./6,5 s, E6 (Ödland voll) 49 966/345/4,2 s, deterministisch, 0 auf Wasser/Weg/Ort; ungetestet mit Echtdaten | `verteilung-wueste.md`, `skripte/wueste_ergaenzung_plan.py`, `skripte/wueste_ergaenzung_regeln.json` |
+| B9 | Wüste/Canyon/Ödland (nur ergänzen) | 1 Agent | Erstfassung fertig, gepusht (lokal auf Echtdaten A5/G4/E1/C6 ohne Absturz, 0 Instanzen ausserhalb Wueste korrekt) | `verteilung-wueste.md`, `skripte/wueste_ergaenzung_plan.py`, `skripte/wueste_ergaenzung_regeln.json` |
 
 Reihenfolge: A, C, D parallel → dann B1–B9 parallel (zwei Wellen). Alle Skripte sind in der Cloud nur syntaxgeprüft und mit
 synthetischen Rastern rauchgetestet (keine echten Weltdaten in der Cloud); Korrekturen bitte als `auftraege/verteilung-<thema>-korrektur.md`.
@@ -44,4 +44,4 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 | elfenwald (B5) | Welle K1 läuft |
 | dschungel (B7) | Welle K1 läuft |
 | aue (B2), heide_tundra (B3), hochgebirge (B4), sumpf (B6), lava (B8) | Welle K2 wartet |
-| wueste_ergaenzung (B9) | Erstfassung läuft noch, Korrektur danach |
+| wueste_ergaenzung (B9) | Welle K2 wartet |
