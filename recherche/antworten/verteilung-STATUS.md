@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 18:55 UTC. Runde 3b abgeschlossen, Antwort: verteilung-korrektur-runde3b.md.
+Stand: 2026-10-10 19:40 UTC. Runde 4 in Arbeit (alle 12 Planer).
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -166,3 +166,16 @@ Kandidaten in Saum-/Fremdzellen stehen, und nur auf Baeume, die der Planer selbs
 | G5 | dschungel 22, heide 77 (100) | kein Filter (keine Kandidaten in den Regeln) | 0 | 0 / 0 | nein | 1 100–2 000 |
 | H5 | dschungel 12, sumpf 78 (99) | kein Filter | 0 | 0 / 0 | nein | 600–1 100 |
 | I5 | dschungel 21, bergwald 68 (50) | kein Filter | 0 | 0 / 0 | nein | 550–950 |
+
+## Runde 4 (Auftrag `auftraege/verteilung-korrektur-runde4.md`, Meer fehlt in karte_wasser, 10.10. 21:40 lokal)
+
+Regel verbindlich in `verteilung-KONVENTIONEN.md` §1b: Meer = hoehe < 0 und karte_wasser == 0; unter -0,3 m nichts; -0,3..0 nur Meeres-Rollen;
+0..+0,3 m im Kuestensaum nur wasserkante/strand; karte_wasser als Sperre/Abstand/Landbezug durch wasser_alle ersetzt; plan.json meldet
+`meer_zellen`, `meer_gefiltert`.
+
+| Planer | Stand |
+|---|---|
+| felsgruppen, mittelschicht, spuren | laeuft |
+| nordkueste, aue, heide_tundra | laeuft |
+| hochgebirge, elfenwald, sumpf | laeuft |
+| dschungel, lava, wueste_ergaenzung | laeuft |

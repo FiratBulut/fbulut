@@ -19,6 +19,21 @@ elfenwald, sumpf, dschungel, lava, wueste_ergaenzung). Grundlage: `auftraege/ver
 - Querschnitts-Planer (felsgruppen, mittelschicht, spuren) sind für alle Biome zuständig (`biome_eigen` = alle 15), wählen aber Palette und
   Dichten je Zelle nach Biom.
 
+## 1b. Meer (Runde 4, verbindlich für alle 12 Planer)
+
+- `karte_wasser.r8` enthält **nur Süßwasser** (Flüsse, Seen, Bäche, Teiche), **nicht das Meer**. Meer = `hoehe.f32 < 0,0` UND
+  `karte_wasser == 0` (Meeresspiegel 0 m). Jeder Planer bildet `meer` und `wasser_alle = (karte_wasser > 0) | meer`.
+- **Unter −0,3 m:** nichts setzen.
+- **−0,3 bis 0,0 m (Meer):** nur ausdrücklich als Meeres-Rolle markierte Klassen (z. B. Tang, Muscheln, Treibgut am Strand; Schlüssel
+  `meer_rolle: true`), sonst nichts.
+- **0,0 bis +0,3 m (Küstensaum, nur wo Meer angrenzt, d. h. Abstand zu `meer` ≤ 30 m):** nur Rollen `wasserkante`/`strand` und Meeres-Rollen;
+  keine Bäume, Sträucher, Mittelschicht, Spuren, Felsgruppen-Gruppen (Ausnahme: ausdrücklich `strand`-Felsklassen wie Strandplatten/Brandungsfelsen
+  mit `strand: true`).
+- Überall, wo bisher `karte_wasser` als Sperre, Abstand („Wassernähe“, Ufer, Saum) oder als Nicht-Landzelle (Biom-Anteil, §1 Landzellen-Bezug)
+  diente, ist `wasser_alle` zu verwenden. Süßwasser-spezifische Regeln (Ufer von Fluss/See, Schilf, Stege) bleiben bei `karte_wasser`.
+- `plan.json` meldet `meer_zellen` (Anzahl im Fenster) und `meer_gefiltert` (verworfene Kandidaten). Rauchtest-Pflicht: 0 Instanzen mit
+  z < −0,3 m; zwischen −0,3 und +0,3 m nur erlaubte Rollen.
+
 ## 2. plan.json: zusätzliche Pflichtschlüssel (alle Planer)
 
 ```
