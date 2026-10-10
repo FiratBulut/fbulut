@@ -41,6 +41,11 @@ Farn, Totbaum, Stumpf + passende Zusatzklassen) in Kegeln vom naechsten Wegpunkt
 offenen Lichtungsrand (0,6) und um Spuren-Ensembles (0,5). Gesperrte Netze (regeln["gesperrt"]) werden aus Regeln und
 mittelschicht_overrides gefiltert und nie geschrieben.
 
+Korrektur Runde 3b (NAH1_E1_hochge_nah1): neuer Klassenschluessel "lagen_max" {Lage: Grenze} als harte Maske (Rohwerte 0-255,
+erlaubt nur Wert < Grenze; fuer Klassen, Zusatzklassen und Override-"parameter"). Globale Vorgabe regeln["lagen_max_pflanzen"]
+(Schnee < 60, Eis < 30) fuer alle pflanzlichen Klassen in allen Biomen (Rollen in ausnahme_rollen bzw. "pflanze": false ausgenommen);
+die Klasse ueberschreibt je Lage (null = frei). Fehlende lage_*.r8 = keine Sperre.
+
 Echtdaten-Lauf Runde 1 lokal (A5 30 915, G4 20 371); diese Fassung in der Cloud nur synthetisch rauchgetestet.
 """
 import argparse
@@ -493,7 +498,7 @@ SCHEMA6 = ('palette', 'rolle', 'dichte_je_ha', 'hang_grad', 'hoehe_m', 'wasser_a
            'eingraben_anteil', 'gruppe', 'kollision', 'sichtweite', 'akteur')
 KLASSEN_SCHLUESSEL = set(KLASSE_VORGABE) | set(SCHEMA6) | {
     'lagen_faktor', 'lagen', 'netze_massstab', 'netze_gewicht', 'biome', 'biom_faktor', 'schatten', 'farbe', 'lichtung', 'wegrand',
-    'nah_baum', 'mulde', 'an_totholz', 'basisklasse', 'stufe', 'stufen', 'hoehe_rel_baumgrenze_m', 'hoehe_min_m'}
+    'nah_baum', 'mulde', 'an_totholz', 'basisklasse', 'stufe', 'stufen', 'hoehe_rel_baumgrenze_m', 'hoehe_min_m', 'lagen_max', 'pflanze'}
 BLOCK_SCHLUESSEL = {'palette', 'faktor', 'zusatzklassen', 'parameter', 'je_biom', 'faktor_je_feld', 'vorlage_biom', 'biom_faktor',
                     'entfernen_je_feld', 'biom', 'gilt_fuer', 'alias', 'klassen_alias', 'klassen_alias_mittelschicht', 'herkunft'}
 
@@ -557,6 +562,27 @@ def schema6_klasse(kd, inventar):
     if fest:
         kd.setdefault('kippen', 0.8)
     return kd
+
+
+def lagen_max_wirksam(kl, LMP):
+    """Runde 3b: harte Obergrenzen je Bodenlage (Rohwert 0-255, erlaubt nur Wert < Grenze). Pflanzliche Klassen (Rolle ohne
+    Teilwort aus LMP['ausnahme_rollen'], oder 'pflanze': true) erben LMP['lagen']; 'lagen_max' der Klasse ueberschreibt je Lage
+    (null = Lage frei)."""
+    out = {}
+    if isinstance(LMP, dict) and LMP.get('aktiv', True) is not False:
+        rolle = str(kl.get('rolle', '')).lower()
+        pfl = kl.get('pflanze')
+        if not isinstance(pfl, bool):
+            teile = set(rolle.replace('-', '_').replace(' ', '_').split('_'))  # Wortteile, z. B. fels_block -> fels, block
+            pfl = not (teile & set(LMP.get('ausnahme_rollen', ['fels', 'stein', 'kiesel', 'eis', 'block', 'platte', 'geroell'])))
+        if pfl:
+            out.update({ln: float(v) for ln, v in (LMP.get('lagen') or {}).items() if isinstance(v, (int, float))})
+    for ln, v in (kl.get('lagen_max') or {}).items() if isinstance(kl.get('lagen_max'), dict) else ():
+        if v is None:
+            out.pop(ln, None)
+        elif isinstance(v, (int, float)):
+            out[ln] = float(v)
+    return out
 
 
 def _klasse(name):
@@ -1264,6 +1290,10 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
             lagen_namen |= set(k.get('lagen_faktor', {}).keys())
             if isinstance(k.get('lagen_min'), dict):
                 lagen_namen |= set(k['lagen_min'].keys())
+            if isinstance(k.get('lagen_max'), dict):
+                lagen_namen |= set(k['lagen_max'].keys())
+    LMP = regeln.get('lagen_max_pflanzen') or {}
+    lagen_namen |= set((LMP.get('lagen') or {}).keys())
     lagen = {}
     for ln in sorted(lagen_namen):
         if ln.startswith('ufer_'):
@@ -1391,6 +1421,7 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
     quellen_klasse = {}
     saum_m = float(regeln.get('zusatz_saum_m', 30.0))
     meldungen = set()
+    lm_cache, lm_klassen = {}, set()
     for bidx, bname in enumerate(BIOME15):
         in_biom = bio == bidx
         if not in_biom.any():
@@ -1463,6 +1494,17 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                     if (kname, ln) not in meldungen:
                         meldungen.add((kname, ln))
                         hinweise.append('%s/%s: lage_%s.r8 fehlt - lagen_min nicht erfuellbar, Klasse entfaellt' % (bname, kname, ln))
+            lm = lagen_max_wirksam(kl, LMP)  # Runde 3b: Pflanzen nie aus Schnee/Eis (harte Maske)
+            for ln, wmax in sorted(lm.items()):
+                if ln in lagen:
+                    if (ln, wmax) not in lm_cache:
+                        lm_cache[(ln, wmax)] = np.rint(lagen[ln] * 255.0) < wmax
+                    lam = np.where(lm_cache[(ln, wmax)], lam, 0)
+                elif ('lm', ln) not in meldungen:
+                    meldungen.add(('lm', ln))
+                    hinweise.append('lagen_max: lage_%s.r8 fehlt - keine Sperre fuer %s' % (ln, ln))
+            if lm:
+                lm_klassen.add('%s/%s' % (bname, kname))
             kr = str(kl.get('kruemmung', 'egal')).lower()
             if kr in ('konvex', 'konkav'):
                 mul = modulator('mulde_wert')
@@ -1559,6 +1601,15 @@ def plane_feld(feld, basis, regeln, faktor, bild, ov, zuordnung, ov_hinweise, in
                             eingraben=kl['eingraben_cm'], kollision=bool(kl['kollision']), sichtweite=kl['sichtweite'], biom=bname,
                             schatten=kl.get('schatten'), farbe=kl.get('farbe'), akteur=bool(kl.get('akteur'))))
             quellen_klasse.setdefault(bname, {})[kname] = kl.get('quelle', 'mittelschicht') + ('' if fk == 1.0 else ' x%.2f' % fk)
+
+    if LMP.get('lagen'):
+        lm_g = np.zeros((H, W), bool)
+        for ln, wmax in LMP['lagen'].items():
+            if ln in lagen and isinstance(wmax, (int, float)):
+                lm_g |= np.rint(lagen[ln] * 255.0) >= float(wmax)
+        lm_anteil = float((lm_g & im_feld & ~wasser_m).sum()) / max(1, int((im_feld & ~wasser_m).sum()))
+        hinweise.append('lagen_max (Runde 3b): Pflanzen nur wo %s - %.1f %% der Landzellen im Feld gesperrt, %d Biom/Klassen maskiert' % (
+            ' und '.join('lage_%s < %g' % kv for kv in sorted(LMP['lagen'].items())), 100.0 * lm_anteil, len(lm_klassen)))
 
     # ------------------------------------------------------------------ Budget
     roh, protokoll = budget_anwenden(aus, regeln, seed, wi0, wj0, hinweise)

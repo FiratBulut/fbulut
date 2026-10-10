@@ -117,5 +117,5 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 
 | Teil | Aufgabe | Stand |
 |---|---|---|
-| hochgebirge + mittelschicht | Pflanzen nur wo lage_Schnee < 60 und lage_Eis < 30; auf Schnee nur Steine/Flechtensteine (tiefer eingegraben) und Eiszapfen an Felskanten | laeuft |
+| hochgebirge + mittelschicht | Pflanzen nur wo lage_Schnee < 60 und lage_Eis < 30; auf Schnee nur Steine/Flechtensteine (tiefer eingegraben) und Eiszapfen an Felskanten | fertig, gepusht (synthetisch E1-artig: Pflanzen auf Schnee/Eis hochgebirge 679 -> 0, mittelschicht 161 -> 0; Steine auf Schnee 40-60 % eingegraben; Bergwiese -0,4 %; polster auf Wiese +11 %, weil Klassenbudget nicht mehr auf Schnee verbraucht wird). Neuer Schluessel lagen_max (KONVENTIONEN §6); mittelschicht sperrt Pflanzen auf Schnee/Eis global in allen Biomen (lagen_max_pflanzen) |
 | nordkueste + dschungel | `entfernen`-Filter je Feld begruenden, erwartete Zahl entfernter Baeume; ohne Freigabe nichts entfernen | laeuft |

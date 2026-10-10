@@ -441,6 +441,16 @@ Fab-Allgemeines **[Suchauszug: fab.com-Launch-Meldungen]** – Namen sind Suchbe
 
 - Rote `/Game/AncientContent/…/SM_IcelandicBoulder_01/03` aus `felsgruppen_overrides` entfernt: `paletten_zusatz.tundra` hero `_03` -> `SM_mountain_rock_big_02_4` (4,1 m), block `_01` -> `SM_ground_rock_01` (2,3 m, beide Mountain_Environment_Set, grau, ohne Moos wegen Schneegrenze); `zusatzklassen.sturzblock` `_03` -> `SM_mountain_rock_big_02_4`; `zusatzklassen.bachblock` nur ohne `_01` (4 Netze 1,5–2,7 m bleiben). `entfernen_zusatz` (FT_EL_FS_IcelandicBoulder_*) bleibt. Planer-Code unveraendert.
 
+## Korrektur Runde 3b (10.10.2026)
+
+- Befund `NAH1_E1_hochge_nah1`: Alpenrosen und Grasbüschel wuchsen aus der Schneedecke. Neu ist eine harte Maske für alle eigenen Pflanzenklassen (latsche, krueppelkiefer, polster, totholz_wind, wurzelteller und die Bäume). Gesetzt wird nur, wo `lage_Schnee` < 60 und `lage_Eis` < 30 (Rohwerte, `regeln["pflanzen_lagen_max"]`). Je Klasse lässt sich das mit `lagen_max` überschreiben. Ausgenommen sind die Rollen kiesel, stein, platte und eis.
+- In `mittelschicht_overrides` (flacher Block, gilt für gletscher und frost) gilt `lagen_max` {Schnee 60, Eis 30} für beere, grasbueschel, totholz_liegend, totholz_ast und alpenrose. Dazu kommt die globale Vorgabe in mittelschicht.
+- Steine und Kiesel auf Schnee ≥ 60 werden tiefer eingegraben (`schnee_eingraben`): linear 40 % bei Schnee 60 bis 60 % bei 255, mindestens der bisherige Wert. Eiszapfen standen schon nur an Wänden ≥ 55° (`nur_eiswand`); dort keine Änderung.
+- Rauchtest, synthetisch, E1-artig: 20 % Schnee/Eis, Schneefelder in der Bergwiese, Gletscherzunge. Pflanzen auf Schnee/Eis 679 → **0** (polster 610, latsche 42, Bäume 14, totholz 9, krueppelkiefer 4).
+  - Eingraben auf Schnee: flechtenstein 0,40 → Mittel 0,51 (0,40–0,60), schutt 0,35 → 0,52. Eiszapfen: 397 von 411 auf `lage_Fels` ≥ 128.
+  - Pflanzen auf der Bergwiese ohne polster 4433 → 4427 (−0,1 %). Die Zahl der polster auf der Wiese steigt 5378 → 5987 (+11 %). Grund: Das Klassen-Budget von 6000 geht nicht mehr teils an Schneezellen (roh 9709 → 8552). Die Wiesen-Rohdichte bleibt gleich.
+- Instanzen 43 429 → 43 354, Kollision 1054 (≤ 3000). Läufe sind byteidentisch (236 f32), 4,8 s, Log nur ASCII. Ohne `lage_Schnee`/`lage_Eis` ist die Ausgabe byteidentisch zum Stand vorher.
+
 ## Quellen
 
 - Repo: `vorlagen/FORMAT.md`; `vorlagen/daten/biome_je_feld.md`; `vorlagen/doku/ANALYSE_WITCHER_2026-10-08.md`; `antworten/bildkritik-witcher-messlatte.md`;

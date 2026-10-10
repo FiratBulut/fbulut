@@ -5,6 +5,9 @@ hochgebirge_plan.py – Planer Teil B4 „Gletscher/Frost/Hochgebirge“ (Auftra
 Stand: Korrektur Runde 1 (10.10.2026) nach antworten/verteilung-KONVENTIONEN.md §1–§6.
 Korrektur Runde 2: Platten (Rolle platte, z. B. schneefleck) nur auf lage_Kies/Geroell/Fels/Felsplatte >= 100, nie wo Gras/Wiese
 staerker deckt, >= 50 % eingegraben, an der Normale; kiesel_schutt mit teppich_sperre (kein Hangteppich ueber Matten).
+Korrektur Runde 3b: harte Maske fuer alle Pflanzenklassen (alles ausser Rollen kiesel/stein/platte/eis): nur wo lage_Schnee < 60 und
+lage_Eis < 30 (Rohwerte 0-255, regeln["pflanzen_lagen_max"], je Klasse ueberschreibbar mit "lagen_max"); Steine/Kiesel auf Schnee
+tiefer eingegraben (regeln["schnee_eingraben"]: 40-60 % der Netzhoehe je nach Schneelage 60-255 statt Normalwert).
 
 *** UNGETESTET MIT ECHTDATEN *** – in der Cloud nur syntaxgeprüft (py_compile) und mit synthetischen Rastern rauchgetestet
 (D2/E2 eigene Zellen, C2 Mischfeld fjord/gletscher, C6 Vulkanregion = Leerplan; Python 3.13 / NumPy 2.5 / Pillow, ohne numba).
@@ -727,6 +730,33 @@ def teppich_maske(ctx, ts):
     return m
 
 
+def lagen_max_wirksam(K, R):
+    """Runde 3b: harte Obergrenzen je Bodenlage (Rohwert 0-255, erlaubt nur Wert < Grenze) fuer diese Klasse.
+    Pflanzenklassen (Rolle nicht in nicht_pflanze_rollen, oder "pflanze": true) erben regeln["pflanzen_lagen_max"]["lagen"];
+    "lagen_max" der Klasse ueberschreibt je Lage (null = Lage frei)."""
+    G = R.get("pflanzen_lagen_max") or {}
+    out = {}
+    nicht = set(G.get("nicht_pflanze_rollen", ["kiesel", "stein", "platte", "geroell_platte", "block", "hero", "eis"]))
+    pflanze = K.get("pflanze") if isinstance(K.get("pflanze"), bool) else str(K.get("rolle", "")) not in nicht
+    if pflanze and G.get("aktiv", True) is not False:
+        out.update({ln: float(v) for ln, v in (G.get("lagen") or {}).items() if isinstance(v, (int, float))})
+    for ln, v in (K.get("lagen_max") or {}).items():
+        if v is None:
+            out.pop(ln, None)
+        elif isinstance(v, (int, float)):
+            out[ln] = float(v)
+    return out
+
+
+def lagen_max_maske(lagen, lm, form):
+    """True, wo alle Lagen aus lm unter ihrer Grenze liegen (Rohwert gerundet); fehlende Lage = 0 (keine Sperre)."""
+    ok = np.ones(form, bool)
+    for ln, mx in lm.items():
+        if ln in lagen:
+            ok &= np.rint(lagen[ln] * 255.0) < mx
+    return ok
+
+
 def plane_klasse(name, K, ctx, faktor):
     """Liefert dict mit Arrays (fi, fj, netz_idx, h) der Mitglieder im Fenster (noch ohne Feld-Beschnitt)."""
     R = ctx["regeln"]
@@ -753,6 +783,10 @@ def plane_klasse(name, K, ctx, faktor):
         p *= platten_maske(ctx["lagen"], pr, form)
     if K.get("teppich_sperre"):
         p *= teppich_maske(ctx, K["teppich_sperre"])
+    # Korrektur Runde 3b: Pflanzen nie aus Schnee/Eis (harte Maske, Rohwerte 0-255)
+    lm = lagen_max_wirksam(K, R)
+    if lm:
+        p *= lagen_max_maske(ctx["lagen"], lm, form)
     # Hang
     hv, hn = K.get("hang", [30, 40])
     hf = np.clip(1.0 - (hang - hv) / max(1e-6, hn - hv), 0, 1)
@@ -871,9 +905,17 @@ def instanzen_bauen(name, K, M, ctx):
     minz = np.array([ctx["minz"].get(p, 0.0) for p in K["netze"]])[M["netz"]]
     z = z0.copy()
     if "eingraben_anteil" in K or pr:
-        ant = float(K.get("eingraben_anteil", 0.0))
+        ant = np.full(N, float(K.get("eingraben_anteil", 0.0)))
         if pr:
-            ant = max(ant, float(pr["eingraben_min_anteil"]))  # Runde 2: Platten >= 50 % der Netzhoehe eingraben
+            ant = np.maximum(ant, float(pr["eingraben_min_anteil"]))  # Runde 2: Platten >= 50 % der Netzhoehe eingraben
+        SE = R.get("schnee_eingraben") or {}
+        if SE and str(K.get("rolle", "")) in SE.get("rollen", ["stein", "kiesel"]) and SE.get("lage", "Schnee") in ctx["lagen"]:
+            # Runde 3b: halb eingeschneit - auf Schnee >= ab tiefer eingraben, linear lo..hi bis Schnee = voll (Rohwerte 0-255)
+            sw = np.rint(ctx["lagen"][SE.get("lage", "Schnee")][ci, cj] * 255.0)
+            ab, voll = float(SE.get("ab", 60)), float(SE.get("voll", 255))
+            lo, hi = SE.get("anteil", [0.4, 0.6])
+            t = np.clip((sw - ab) / max(1.0, voll - ab), 0.0, 1.0)
+            ant = np.where(sw >= ab, np.maximum(ant, lo + (hi - lo) * t), ant)
         z -= hoehe * sz * ant
     else:
         z -= float(K.get("eingraben_cm", 3)) / 100.0
@@ -1080,8 +1122,11 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     weg_m = (weg > 0) if weg is not None else np.zeros(form, bool)
     ort_m = (ort > 0) if ort is not None else np.zeros(form, bool)
     # Lagen
-    lagen_namen = set()
+    lagen_namen = set((regeln.get("pflanzen_lagen_max") or {}).get("lagen", {}).keys())
+    if regeln.get("schnee_eingraben"):
+        lagen_namen.add(regeln["schnee_eingraben"].get("lage", "Schnee"))
     for K in regeln["klassen"].values():
+        lagen_namen.update((K.get("lagen_max") or {}).keys())
         lagen_namen.update(K.get("lagen", {}).keys())
         pr_ = platten_regel(K)
         if pr_:
@@ -1097,6 +1142,16 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
             if a is not None:
                 lagen[ln] = a.astype(np.float32) / 255.0
     log("Lagen gefunden: %s" % (", ".join(sorted(lagen)) or "keine (Faktor 1)"))
+    PL = regeln.get("pflanzen_lagen_max") or {}
+    pl_lagen = {ln: float(v) for ln, v in (PL.get("lagen") or {}).items() if isinstance(v, (int, float))}
+    schnee_info = {"lagen": pl_lagen, "aktiv": PL.get("aktiv", True) is not False}
+    if pl_lagen:
+        gesp = ~lagen_max_maske(lagen, pl_lagen, form) & im_feld & land
+        schnee_info["feld_land_gesperrt_prozent"] = round(100.0 * float(gesp.sum()) / max(1, int((im_feld & land).sum())), 1)
+        schnee_info["lagen_fehlen"] = sorted(ln for ln in pl_lagen if ln not in lagen)
+        log("Pflanzen-Sperre Schnee/Eis (Runde 3b): Pflanzen nur wo %s; im Feld %.1f %% der Landzellen gesperrt%s" % (
+            " und ".join("lage_%s < %g" % kv for kv in sorted(pl_lagen.items())), schnee_info["feld_land_gesperrt_prozent"],
+            ("; Hinweis: fehlt %s (keine Sperre)" % ", ".join(schnee_info["lagen_fehlen"])) if schnee_info["lagen_fehlen"] else ""))
     HS = regeln["hoehenstufen"]
     stufe, bg, sg, schlucht, grat = hoehenstufen(h, hang, sonnig, lap, lap_g, biom_st, wasser_m, win, regeln)
     if "Schnee" in lagen:
@@ -1273,6 +1328,7 @@ def plane_feld(feld, basis, regeln, netze, masse, faktor, bild, skriptdir):
     statistik["schneegrenze_m"] = [round(float(sg[zf].min())), round(float(sg[zf].mean())), round(float(sg[zf].max()))]
     stat_zust.update({"roh_vor_budget": int(roh), "ziel_je_feld": ziel, "hart_je_feld": hart, "kollision_hart": kmax})
     statistik["zustaendigkeit"] = stat_zust
+    statistik["pflanzen_lagen_max"] = schnee_info
     statistik["laufzeit_s"] = round(time.time() - t0, 1)
     plan = {"stand": time.strftime("%Y-%m-%d %H:%M"), "feld": feld, "instanzen": int(sum(d["anzahl"] for d in dateien.values())),
             "dateien": dateien, "entfernen": AUS.get("entfernen", ""), "ft_ordner": AUS.get("ft_ordner"), "ft_praefix": AUS.get("ft_praefix"),

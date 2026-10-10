@@ -145,6 +145,23 @@
     "hinweis": "Nichts auf Wasser (0 m), Meer/Nullhöhe (hoehe ≤ 0,2 m = kein Land), Kleinzeug 2,5 m zum Weg, Bäume/Blöcke 4 m; Ort 5 m. Bestand/Witcher/Houdini-Bäume: Abstände je Ebene.",
     "meer_hoehe_m": 0.2
   },
+  "pflanzen_lagen_max": {
+    "hinweis": "Korrektur Runde 3b (NAH1_E1_hochge_nah1: Alpenrosen/Grasbueschel aus der Schneedecke): harte Maske fuer alle Pflanzenklassen (latsche, krueppelkiefer, polster, totholz_wind, wurzelteller, Baeume) - nur wo jede Lage unter ihrer Grenze liegt (Rohwert 0-255). Ausgenommen sind Rollen in nicht_pflanze_rollen (Steine, Kiesel, Platten, Eiszapfen). Je Klasse ueberschreibbar mit \"lagen_max\" ({Lage: Grenze}, null = frei) bzw. \"pflanze\": false.",
+    "aktiv": true,
+    "lagen": {
+      "Schnee": 60,
+      "Eis": 30
+    },
+    "nicht_pflanze_rollen": ["kiesel", "stein", "platte", "geroell_platte", "block", "hero", "eis"]
+  },
+  "schnee_eingraben": {
+    "hinweis": "Korrektur Runde 3b: Steine/Kiesel auf Schnee halb eingeschneit - Eingraben-Anteil der Netzhoehe linear anteil[0] (bei lage_Schnee = ab) bis anteil[1] (bei voll), mindestens der Normalwert der Klasse.",
+    "lage": "Schnee",
+    "ab": 60,
+    "voll": 255,
+    "anteil": [0.4, 0.6],
+    "rollen": ["stein", "kiesel"]
+  },
   "wasser": {
     "steil_grad": 18,
     "fuss_radius_m": 10,
@@ -1368,7 +1385,7 @@
     "fremd_abdunkeln": 0.4
   },
   "mittelschicht_overrides": {
-    "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen §4: generische Schicht-1-Klassen in gletscher/frost setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b] vor flachem Block vor mittelschicht_regeln.json['biome'][b]. palette ersetzt die Netzliste, faktor multipliziert die mittelschicht-Dichte (0 = Klasse aus), parameter ueberschreibt einzelne Klassenschluessel, zusatzklassen = neue Klasse im Klassenformat von mittelschicht_regeln.json. Faktoren = bisherige Hochgebirgs-Dichte / mittelschicht-Dichte (offen), auf 0-3 begrenzt. Netze der Sonderformen (Latsche, Krueppelkiefer, Polster, windgeformtes Totholz, Wurzelteller, Eiszapfen) stehen in keiner Palette (keine Doppelung). Hoehen relativ ueber Hoehenstufen (KONVENTIONEN §6, seit 10.10.): beere/grasbueschel per stufen [bergwald, krummholz, matte, fels/schnee], alpenrose per stufe [1, 2]; hoehe_max_m 9999 (vorher absolut 430/470).",
+    "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen §4: generische Schicht-1-Klassen in gletscher/frost setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b] vor flachem Block vor mittelschicht_regeln.json['biome'][b]. palette ersetzt die Netzliste, faktor multipliziert die mittelschicht-Dichte (0 = Klasse aus), parameter ueberschreibt einzelne Klassenschluessel, zusatzklassen = neue Klasse im Klassenformat von mittelschicht_regeln.json. Faktoren = bisherige Hochgebirgs-Dichte / mittelschicht-Dichte (offen), auf 0-3 begrenzt. Netze der Sonderformen (Latsche, Krueppelkiefer, Polster, windgeformtes Totholz, Wurzelteller, Eiszapfen) stehen in keiner Palette (keine Doppelung). Hoehen relativ ueber Hoehenstufen (KONVENTIONEN §6, seit 10.10.): beere/grasbueschel per stufen [bergwald, krummholz, matte, fels/schnee], alpenrose per stufe [1, 2]; hoehe_max_m 9999 (vorher absolut 430/470). Korrektur Runde 3b: lagen_max {Schnee: 60, Eis: 30} (harte Maske, Rohwerte 0-255) im flachen Block fuer alle Pflanzenklassen (beere, grasbueschel, totholz_liegend, totholz_ast, alpenrose) - gilt fuer gletscher und frost; dieselbe Grenze ist ausserdem globale Vorgabe in mittelschicht_regeln.json lagen_max_pflanzen.",
     "gilt_fuer": [
       "gletscher",
       "frost"
@@ -1426,7 +1443,8 @@
           "Geroell": 0.5,
           "Schnee": 0.2,
           "Eis": 0.0
-        }
+        },
+        "lagen_max": {"Schnee": 60, "Eis": 30}
       },
       "grasbueschel": {
         "hoehe_max_m": 9999,
@@ -1446,7 +1464,14 @@
           "Geroell": 0.4,
           "Schnee": 0.1,
           "Eis": 0.0
-        }
+        },
+        "lagen_max": {"Schnee": 60, "Eis": 30}
+      },
+      "totholz_liegend": {
+        "lagen_max": {"Schnee": 60, "Eis": 30}
+      },
+      "totholz_ast": {
+        "lagen_max": {"Schnee": 60, "Eis": 30}
       }
     },
     "zusatzklassen": {
@@ -1507,6 +1532,7 @@
           "Eis": 0.0,
           "Sand": 0.4
         },
+        "lagen_max": {"Schnee": 60, "Eis": 30},
         "hinweis": "Alpenrosen-Ersatz (SM_rhododendron 0,4-0,5 m): Zwergstrauchheide ueber der Baumgrenze, bisher hochgebirge Klasse alpenrose (Rhododendron-Anteil 50 % von 0,05/m2). Kein Generikum in mittelschicht_regeln.json fuer gletscher/frost (strauch dort entfallen) -> Zusatzklasse."
       }
     },

@@ -587,6 +587,14 @@ Allgemein: Höhe 170 cm, 35 mm. Kameras für Ensembles stehen auf dem Weg gegen�
 2. Für wueste und lava gibt es keinen Ensemble-Typ (siehe 9.1). Einkaufsliste §6: Wegweiser, Bildstock und Marktstand würden dort helfen.
 3. Wie sichtbar die Ensembles auf 300 m sind, hängt an der Netzgröße. Mit 1–2 m Props ist die Fernwirkung begrenzt. Die Wirkung entsteht auf 20–80 m vom Weg.
 
+## Korrektur Runde 3b (10.10.2026)
+
+- Neuer Klassenschlüssel `lagen_max` {Lage: Grenze} als harte Maske (Rohwert 0–255, erlaubt nur Wert < Grenze, `null` = frei). Er gilt für Klassen, Zusatzklassen und Override-`parameter`. hochgebirge setzt ihn im flachen Block (gletscher und frost) für beere, grasbueschel, totholz_* und alpenrose.
+- Globale Vorgabe `mittelschicht_regeln.json["lagen_max_pflanzen"]`: Schnee < 60 und Eis < 30 für alle pflanzlichen Klassen in allen Biomen. Ausgenommen sind Rollen mit fels/stein/kiesel/eis/block/platte/geroell und Klassen mit `pflanze: false`. Begründung: Schneelagen gibt es auch in tundra, bergwald und fjord, dort entstünde derselbe Bildfehler. In Feldern ohne Schnee/Eis über der Grenze bleiben die f32 byteidentisch (geprüft: 236 Dateien). Der weiche Abfall `schnee.faktor_bei_voll` gilt weiter.
+- Rauchtest, synthetisch, E1-artig mit gletscher/frost/tundra/bergwald: Pflanzen auf Schnee/Eis 161 → **0** (grasbueschel 60, beere 35 + 27, alpenrose 21, totholz_ast 15, strauch/jungbaum 3).
+  - Bergwiese 14 151 → 14 088 (−0,4 %), Kernwiese mit ≥ 5 m Abstand zum Schnee 13 739 → 13 702 (−0,3 %).
+- Instanzen 14 315 → 14 091, Kollision 138. Läufe sind byteidentisch, 9,4 s, Log nur ASCII, keine unbekannten Override-Schlüssel.
+
 ## Quellen
 
 - FORMAT.md, bildkritik-witcher-messlatte.md, boden-kleinzeug-gras.md, strassen-splines-bruecken.md (Frage 4), assets-taxonomie.md, verteilung-fels-organisch.md (Akteur-Konvention).

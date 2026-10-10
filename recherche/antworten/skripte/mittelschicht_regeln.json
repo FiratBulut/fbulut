@@ -208,6 +208,23 @@
   "lage": "Schnee",
   "faktor_bei_voll": 0.25
  },
+ "lagen_max_pflanzen": {
+  "_doku": "Korrektur Runde 3b (NAH1_E1_hochge_nah1): harte Maske fuer alle pflanzlichen Klassen in allen Biomen (generische Klassen, Zusatzklassen der Biom-Planer; auch Pilz und Totholz, die nicht aus geschlossener Schnee-/Eisdecke ragen sollen). Pflanzen nur, wo jede Lage unter ihrer Grenze liegt (Rohwert 0-255). Global statt nur gletscher/frost, weil Schneelagen auch in tundra, bergwald, fjord und heide vorkommen und dort derselbe Bildfehler entstuende; Felder ohne lage_Schnee/Eis >= Grenze bleiben byte-gleich. Ausgenommen: Klassen mit Rolle (Wortteil) aus ausnahme_rollen oder \"pflanze\": false. Je Klasse ueberschreibbar mit \"lagen_max\" ({Lage: Grenze}, null = frei). Der weiche Abfall schnee.faktor_bei_voll gilt weiter unterhalb der Grenze.",
+  "aktiv": true,
+  "lagen": {
+   "Schnee": 60,
+   "Eis": 30
+  },
+  "ausnahme_rollen": [
+   "fels",
+   "stein",
+   "kiesel",
+   "eis",
+   "block",
+   "platte",
+   "geroell"
+  ]
+ },
  "wuesten_felder": [
   "C3",
   "C4",
