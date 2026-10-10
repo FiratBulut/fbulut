@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 14:15 UTC. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-10 14:25 UTC. Wird bei jedem Push aktualisiert.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -40,10 +40,11 @@ Setz-Reihenfolge: felsgruppen → Biom-Planer → mittelschicht → spuren.
 |---|---|
 | felsgruppen (C) | korrigiert, gepusht (synthetisch B4: 55 196 Inst., 3 000 Kollision, 150 Akteure; Kollision in eigenen *_kol.f32); Nachruestung zusatzklassen laeuft |
 | mittelschicht + spuren (D) | Welle K1 läuft |
-| nordkueste (B1) | Welle K1 läuft |
+| nordkueste (B1) | korrigiert, gepusht (synthetisch B5: 14 083 Inst.; C6 lava Leerplan; H4 Saum, Kollision gedeckelt 2 998). Hinweis: C6 hat echt 3 % bergwald > 2 %-Schwelle, daher dort einige hundert Instanzen moeglich; fuer Leerplan zustaendigkeit.min_anteil_eigen = 0.04 |
 | elfenwald (B5) | korrigiert, gepusht (synthetisch G4 mit 17 000 Baeumen: 31 023 Inst., 215 Kollision; Fremdbiom-Feld Leerplan; Saum 30 m) |
 | dschungel (B7) | korrigiert, gepusht (synthetisch H6: 30 343 Inst., 2 690 Kollision; G4 Leerplan; G5 Saum) |
 | aue (B2) | Welle K2 laeuft |
 | heide_tundra (B3) | Welle K2 laeuft |
-| hochgebirge (B4), sumpf (B6), lava (B8) | Welle K2 wartet |
+| hochgebirge (B4) | Welle K2 laeuft |
+| sumpf (B6), lava (B8) | Welle K2 wartet |
 | wueste_ergaenzung (B9) | Welle K2 wartet |

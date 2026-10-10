@@ -2120,11 +2120,12 @@
  "rauchtest": {
   "stand": "2026-10-10, Korrektur Runde 1 (synthetisch, Python 3.13, NumPy, kein numba)",
   "felder": "B5 Kueste/Hangwald/Grat (eigner: kueste 210-m-Streifen, bergwald, Aue-Bachtal-Band als Fremdbiom, Meer = Kennzahl 0 = aue, 700 Bestand-Kiefern); C6 Vulkanregion 99,7 % + 60x60-m-bergwald-Fleck; H4 bergwald/heide 51/49 mit gewellter Grenze; J1 nur Kennzahl 0 (aue)",
-  "ergebnis": "B5: 14 069 Instanzen (360 Kollision), Schicht 2: 322, 1: 4 959, 0: 6 559, 5: 2 229, 153 f32, 9 s; H4: 24 171 (2 996 Kollision, Kollisionsdeckel greift), Schicht 2: 2 996, 0: 21 175, 79 f32; C6 und J1: leerer plan.json (instanzen 0, keine f32), Exit 0",
-  "saum": "Instanzen auf Fremdzellen B5 246 (0-10 m 142, 10-20 m 83, 20-30 m 21), H4 447 (269/145/33); jenseits 30 m: 0 (unabhaengig per Brute-Force-Abstand geprueft)",
-  "budget": "--faktor 5: B5 62 122 -> 49 999 (Schicht 0 und Feld-Ziel), H4 Kollision 7 354 -> 2 997; harte Deckel nie ueberschritten",
+  "ergebnis": "B5: 14 083 Instanzen (422 Kollision), Schicht 2: 345, 1: 5 018, 0: 6 552, 5: 2 168, 160 f32, 8 s; H4: 24 594 (Kollision 4 752 -> 2 998, Deckel greift), Schicht 2: 2 998, 1: 80, 0: 21 516, 87 f32; C6 und J1: leerer plan.json (instanzen 0, keine f32), Exit 0",
+  "saum": "Instanzen auf Fremdzellen B5 234 (0-10 m 141, 10-20 m 77, 20-30 m 16), H4 455 (274/147/34); jenseits 30 m: 0 (unabhaengig per Brute-Force-Abstand geprueft)",
+  "budget": "--faktor 5: B5 61 941 -> 49 999 (Schicht 0 und Feld-Ziel), H4 Schicht 2 16 463 -> 12 000, Kollision 11 997 -> 2 998; harte Deckel nie ueberschritten",
   "determinismus": "zweiter Lauf: alle f32 byteidentisch, plan.json bis auf stand/laufzeit_s identisch",
-  "fehlerfaelle": "netze.csv/hoehe.f32/Regeln fehlen oder Feld X9 -> Meldung, Exit 2; ohne eigner.r8 -> dominantes Feldbiom (C6 lava -> leer, B5 bergwald); Konsole 0 Nicht-ASCII-Zeichen"
+  "fehlerfaelle": "netze.csv/hoehe.f32/Regeln fehlen oder Feld X9 -> Meldung, Exit 2; ohne eigner.r8 -> dominantes Feldbiom (C6 lava -> leer, B5 bergwald -> 9 868); Konsole 0 Nicht-ASCII-Zeichen",
+  "mittelschicht_kompatibel": "mittelschicht_plan.py lade_overrides/effektive_regeln liest den Block ohne Hinweis/Verwerfung (B5, 10.10.)"
  },
  "mittelschicht_overrides": {
   "_doku": "Fuer mittelschicht_plan.py (Teil D), Konventionen Paragraph 4: generische Schicht-1-Klassen in fjord/kueste/bergwald setzt NUR mittelschicht. Aufloesung je Zelle mit Biom b: je_biom[b].palette[k] vor palette[k] vor mittelschicht_regeln.json[\"biome\"][b][k]; Dichte = mittelschicht-Dichte x (je_biom[b].faktor[k] oder faktor[k]). faktor 0 = Klasse im Biom aus. Faktoren = Dichte des bisherigen Nordkuesten-Planers / mittelschicht-Dichte (Mittel offen/beschattet, mit Biomgewicht; Stand mittelschicht_regeln.json 10.10. nach Korrektur), auf 0,25-3 begrenzt. vorlage_biom: Klasse fehlt in mittelschicht_regeln.json fuer dieses Biom -> Parameter aus dem genannten Biom uebernehmen. Netze der Nordkuesten-Sonderformen (Kruppelkiefer, Windflucht-Kiefer, Strandhafer, Wurzeln, Treibholz, Baeume ...) sind aus allen Paletten entfernt (keine Doppelung). zusatzklassen im Klassenformat von mittelschicht_regeln.json plus biome/biom_faktor/lagen.",

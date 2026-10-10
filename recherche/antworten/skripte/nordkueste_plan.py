@@ -5,7 +5,7 @@ nordkueste_plan.py – Planer Biomgruppe 1 „Nordküste“ (biome_eigen = fjord
 Auftrag 11, Teil B1, Stand Korrektur Runde 1 (10.10.2026, verteilung-KONVENTIONEN.md §1–§5).
 
 Schichten dieses Planers: 0 boden (Nadelstreu, Kiesel, Moos, Bodendecker), 1 NUR Nordküsten-Sonderformen (Windflucht-Krüppelkiefer,
-Windflucht-Küstenkiefer, Strandhafer, Klippenwiesen-Blumen, Efeu an Fels), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel/-platten).
+Windflucht-Küstenkiefer, Strandhafer, Klippenwiesen-Blumen, Efeu an Fels, Wurzelanläufe an Stämmen), 2 baum, 5 wasserkante (Tang, Treibholz, Strandkiesel/-platten).
 Generische Mittelschicht-Klassen (strauch, jungbaum, farn, totholz_liegend/_stumpf/_ast, hochstaude, grasbueschel, beere, pilz) setzt nur
 mittelschicht_plan.py; dieser Planer liefert dafür `mittelschicht_overrides` (Palette, Faktor, Zusatzklassen wie Blaubeer-Teppiche) in
 nordkueste_regeln.json. Felsblöcke > 0,8 m (auch Fjord-Felsufer) → `felsgruppen_overrides`, Spuren → `spuren_overrides`.
