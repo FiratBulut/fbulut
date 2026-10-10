@@ -645,7 +645,7 @@ TOR_ALIAS = {'feldstreifen': 'feld', 'feld': 'feld', 'obstgarten': 'obstgarten',
              'kopfweiden_reihe': 'kopfweiden', 'pferch': 'pferch', 'steinkreis': 'steinkreis', 'ruine': 'ruine',
              'tempelruine': 'ruine', 'mauerrest': 'ruine', 'galgen_ersatz': 'galgen', 'pfaehle': 'pfaehle',
              'knueppeldamm': 'knueppeldamm', 'opferstaette': 'opferstaette', 'schwefelgrube': 'schwefelgrube',
-             'hecke_am_feldrand': 'hecke', 'muehle': 'muehle', 'huegelgrab': 'huegelgrab'}
+             'hecke_am_feldrand': 'hecke', 'hecke': 'hecke', 'kopfweiden': 'kopfweiden', 'muehle': 'muehle', 'huegelgrab': 'huegelgrab'}
 # Palette-Schlüssel → Netzschlüssel in spuren_regeln.json["netze"] (Listen = mehrere Ziele)
 PALETTE_ALIAS = {'holzschlag_stumpf': ['stumpf_nadel', 'stumpf_laub'], 'obstbaum': ['obstbaum'], 'obstgarten': ['obstbaum'],
                  'stein': ['mauer_stein'], 'zaun': ['zaun_holz']}
@@ -864,7 +864,7 @@ def spuren_aufloesen(R, blk, thema, biom, feld, pfade, info):
                     if not kd.get('palette') and not kd.get('netze'):
                         nu('zusatzklassen.' + str(zn), 'palette fehlt (Pflicht nach KONVENTIONEN Par. 6)')
                         continue
-                    bekannt = set(SCHEMA6) | {'netze', 'radius_m', 'farbe', 'aktiv'} | set(SPEZIAL_ZUSATZ.get(zn, ()))
+                    bekannt = set(SCHEMA6) | set(SCHEMA6_ERWEITERUNG) | {'netze', 'radius_m', 'farbe', 'aktiv'} | set(SPEZIAL_ZUSATZ.get(zn, ()))
                     for zk in kd:
                         if zk not in bekannt and not doku_schluessel(zk):
                             unb('zusatzklassen.%s.%s' % (zn, zk))
@@ -883,6 +883,9 @@ def spuren_aufloesen(R, blk, thema, biom, feld, pfade, info):
                         _sektion(RB, sek, sv, biom, tor, netz_setzen, um, nu, unb)
                     elif not doku_schluessel(sek):
                         unb('parameter.' + str(sek))
+                um(k)
+            elif k == 'rauch_punkte' and isinstance(v, dict):
+                RB['_extra']['rauch_quelle'] = copy.deepcopy(v)
                 um(k)
             elif k == 'blickziele_typ' and isinstance(v, dict):
                 RB['blickziele'].setdefault('typ_je_biom', {}).update(copy.deepcopy(v))
@@ -1035,6 +1038,9 @@ def _sektion(RB, sek, v, biom, tor, netz_setzen, um, nu, unb):
 
 SCHEMA6 = ('palette', 'rolle', 'dichte_je_ha', 'hang_grad', 'hoehe_m', 'wasser_abstand_m', 'lagen_min', 'kruemmung', 'massstab',
            'eingraben_anteil', 'gruppe', 'kollision', 'sichtweite', 'akteur')
+# Erweiterungen, die spuren_plan.py zusätzlich auswertet: Standorte aus Punkten einer anderen Ebene, Obergrenze je Feld,
+# Ringanordnung der Gruppe, Wegabstand
+SCHEMA6_ERWEITERUNG = ('punkte', 'max_je_feld', 'anordnung', 'weg_abstand_m')
 
 
 class Zone:
@@ -1547,7 +1553,7 @@ def sf_lava_punkte(K, Z):
     ex = Z.extra
     if not any(k in ex for k in ('opferstaette', 'schwefelgrube', 'rauch_quelle')):
         return 0
-    pts = K.lava_punkte()
+    pts = K.ebene_punkte((ex.get('rauch_quelle') or {}).get('ebene', 'lava'))
     if pts is None:
         K.hinweise.append('lava/%s/plan.json fehlt - Opferstaette/Schwefelgrube/Fumarolen ohne Vorschlagspunkte' % K.feld)
         return 0
@@ -1580,7 +1586,7 @@ def sf_lava_punkte(K, Z):
                 if netze:
                     n += K.S.add(netze, [a + rq[s] * math.sin(an[s])], [b + rq[s] * math.cos(an[s])], 'schwefelgrube', True, (0, 0 if nm == 'karren' else 25000),
                                  1.0, None, 0.5, 5.0, akteur=nm == 'karren', seed=K.seed, kanal=957 + s)
-        elif 'rauch_quelle' in ex and typ == str(ex['rauch_quelle'].get('typ', 'fumarole')):
+        elif 'rauch_quelle' in ex and typ in (ex['rauch_quelle'].get('typ') if isinstance(ex['rauch_quelle'].get('typ'), list) else [str(ex['rauch_quelle'].get('typ', 'fumarole'))]):
             x, y = _welt(K, a, b)
             K.punkte.append({'typ': typ, 'x': x, 'y': y, 'z': p.get('z', round(float(K.hoehe[int(a), int(b)] * 100), 1)), 'staerke': p.get('staerke', 0.7),
                              'quelle': 'lava/plan.json'})
@@ -1647,16 +1653,40 @@ def sf_zusatzklassen(K, Z):
             m &= K.mulde() > 0.2
         elif kr == 'konvex':
             m &= K.mulde() < -0.2
+        if isinstance(kd.get('weg_abstand_m'), list):
+            m &= (K.d_weg >= kd['weg_abstand_m'][0]) & (K.d_weg <= kd['weg_abstand_m'][1])
         kanal = 980 + zlib.crc32(name.encode()) % 97 * 10
-        idx = np.flatnonzero(m & (hash01(K.gi, K.gj, K.seed, kanal) < lam))
-        if idx.size == 0:
+        pk = kd.get('punkte')
+        if isinstance(pk, dict):  # Standorte aus punkte[typ] einer anderen Ebene (z. B. lava/<Feld>/plan.json)
+            pts = K.ebene_punkte(pk.get('ebene', Z.thema or 'lava'))
+            if pts is None:
+                K.hinweise.append('Zusatzklasse %s/%s: %s/%s/plan.json fehlt - keine Standorte' % (Z.thema, name, pk.get('ebene'), K.feld))
+                continue
+            typen = pk.get('typ') if isinstance(pk.get('typ'), list) else [pk.get('typ')]
+            ci, cj = [], []
+            for p in pts:
+                a, b = int(round(p['i'])), int(round(p['j']))
+                if p.get('typ') in typen and 0 <= a < K.H and 0 <= b < K.W and K.im_feld[a, b] and (not Z.biom or int(K.bio[a, b]) == BIOME15.index(Z.biom)):
+                    ci.append(a)
+                    cj.append(b)
+            ci, cj = np.asarray(ci, np.int32), np.asarray(cj, np.int32)
+        else:
+            idx = np.flatnonzero(m & (hash01(K.gi, K.gj, K.seed, kanal) < lam))
+            ci, cj = K.ii.ravel()[idx], K.jj.ravel()[idx]
+        if isinstance(kd.get('max_je_feld'), (int, float)) and ci.size > int(kd['max_je_feld']):
+            o = np.argsort(hash01(ci + K.wi0, cj + K.wj0, K.seed, kanal + 9), kind='stable')[:int(kd['max_je_feld'])]
+            ci, cj = ci[o], cj[o]
+        if ci.size == 0:
             continue
-        ci, cj = K.ii.ravel()[idx], K.jj.ravel()[idx]
         c = gr[0] + np.floor(hash01(ci + K.wi0, cj + K.wj0, K.seed, kanal + 1) * (gr[1] - gr[0] + 1)).astype(np.int32)
         rep = np.repeat(np.arange(ci.size), c)
         k = np.concatenate([np.arange(x) for x in c]) if c.size else np.zeros(0, np.int64)
-        an = hash01(ci[rep] + 7 * k, cj[rep] + 13 * k, K.seed, kanal + 2) * 2 * math.pi
-        rr = np.where(k == 0, 0.0, np.sqrt(hash01(ci[rep] + 3 * k, cj[rep] + 5 * k, K.seed, kanal + 3)) * rad)
+        if str(kd.get('anordnung', '')) == 'ring':  # gleichmäßig auf dem Kreis (Steinkreis um einen Punkt)
+            an = 2 * math.pi * k / np.maximum(1, c[rep]) + (hash01(ci[rep] + k, cj[rep], K.seed, kanal + 2) - 0.5) * 0.3
+            rr = np.full(k.shape, rad, np.float64)
+        else:
+            an = hash01(ci[rep] + 7 * k, cj[rep] + 13 * k, K.seed, kanal + 2) * 2 * math.pi
+            rr = np.where(k == 0, 0.0, np.sqrt(hash01(ci[rep] + 3 * k, cj[rep] + 5 * k, K.seed, kanal + 3)) * rad)
         fi_, fj_ = ci[rep] + rr * np.sin(an), cj[rep] + rr * np.cos(an)
         rolle = str(kd.get('rolle', '')).lower()
         fest = any(x in rolle for x in ('fels', 'stein', 'block', 'stamm', 'baum'))
@@ -1719,9 +1749,13 @@ class Kontext:
         return self._c['wn']
 
     def lava_punkte(self):
-        """punkte aus lava/<Feld>/plan.json in Fensterkoordinaten (None, wenn die Lava-Ebene fehlt)."""
-        if 'lava' not in self._c:
-            p = os.path.join(self.basis, WELT, 'lava', self.feld, 'plan.json')
+        return self.ebene_punkte('lava')
+
+    def ebene_punkte(self, ebene):
+        """punkte aus <ebene>/<Feld>/plan.json in Fensterkoordinaten (None, wenn die Ebene fehlt)."""
+        ebene = str(ebene)
+        if ('pkt_' + ebene) not in self._c:
+            p = os.path.join(self.basis, WELT, ebene, self.feld, 'plan.json')
             pts = None
             if os.path.isfile(p):
                 try:
@@ -1737,10 +1771,10 @@ class Kontext:
                             d['z'] = q['z_cm']
                         pts.append(d)
                 except Exception as e:
-                    self.hinweise.append('lava/%s/plan.json unlesbar (%s)' % (self.feld, e))
+                    self.hinweise.append('%s/%s/plan.json unlesbar (%s)' % (ebene, self.feld, e))
                     pts = None
-            self._c['lava'] = pts
-        return self._c['lava']
+            self._c['pkt_' + ebene] = pts
+        return self._c['pkt_' + ebene]
 
 
 def baue_zonen(R, ov, zuordnung, bio, feld, pfade, U, seed, win, saum_m):

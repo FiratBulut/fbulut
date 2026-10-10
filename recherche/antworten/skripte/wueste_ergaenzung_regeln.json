@@ -1333,7 +1333,6 @@
    0.45
   ],
   "kiesel_ring": {
-   "kiesel_ring_m": 2.5,
    "kiesel_dichte_je_m2": 1.2,
    "netze": [
     "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
@@ -1435,19 +1434,24 @@
      "/Game/Megascans/3D_Assets/ErodedRockyGround/SM_ErodedRockyGround_03"
     ],
     "rolle": "geroell_platte",
-    "dichte_je_ha": 2.0,
+    "dichte_je_ha": 6.0,
     "hang_grad": [
      0,
      18,
      18,
      32
     ],
-    "wand_abstand_m": [
-     0,
-     0,
-     20,
-     30
-    ],
+    "lagen": {
+     "Geroell": 1.0,
+     "Felsplatte": 0.8,
+     "Sandstein": 0.7,
+     "Fels": 0.4
+    },
+    "zonen_faktor": {
+     "fuss": 3.0,
+     "wand": 0.0
+    },
+    "fuss_breite_m": 30,
     "massstab": [
      0.8,
      1.3
@@ -1474,7 +1478,7 @@
      "oedland": 0.8,
      "wueste": 0.5
     },
-    "hinweis": "Geroell-Platten 7 x 3,7 m (33 cm) als Schutt-Teppich am Wandfuss (bis 30 m von der Wand, Rampe 20-30 m) und auf Terrassen; Runde 0: Schicht 0 von wueste_ergaenzung (Wandfuss x3, Terrasse x2,5, E6 41 / D4 91 Stueck)."
+    "hinweis": "Geroell-Platten 7 x 3,7 m (33 cm) als Schutt-Teppich: Dichte je ha x Lagen-Gewicht (Geroell 1, Felsplatte 0,8, Sandstein 0,7, Fels 0,4; 6/ha bei voller Geroell-Lage), am Wandfuss (felsgruppen-Zone fuss, 30 m) x3, nicht auf Waenden; lagen/zonen_faktor/fuss_breite_m sind felsgruppen-Erweiterungen. Runde 0: Schicht 0 von wueste_ergaenzung (Wandfuss x3, Terrasse x2,5; synthetisch E6 41 / D4 91 Stueck)."
    }
   },
   "_vorschlag_teil_c": {
@@ -1492,6 +1496,7 @@
    },
    "kippen_in_hang": true,
    "wueste_felder_faktor": 0.4,
+   "kiesel_ring_m": 2.5,
    "hinweis": "Von felsgruppen_plan.py (Stand Runde 1) nicht gelesen; Vorschlag fuer die Schichtstufen-Bankung und einen Wuestenfeld-Faktor (0,4). Unter _ gefuehrt, damit sie nicht als ignorierte Schluessel gemeldet werden."
   }
  },
