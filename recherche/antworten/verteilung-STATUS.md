@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 17:35 UTC. Runde 3 in Arbeit.
+Stand: 2026-10-10 18:25 UTC. Runde 3 abgeschlossen, Antwort: verteilung-korrektur-runde3.md.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -96,5 +96,19 @@ Pruefpunkt Echtdaten (Hinweis heide_tundra): an plan.json["biome_fenster"] kontr
 
 | Teil | Aufgabe | Stand |
 |---|---|---|
-| felsgruppen | 8-20 Formgruppen je Feld mit Hero 10-30 m (Massive/Huge Nordic Coastal Cliff, Sharp_Cliff, big_rock_wall, Big_Rock; Skalierung 1,0-2,0, Akteure, 35-60 % eingegraben) auf markanten, von Taelern/Wegen sichtbaren Graten/Kuppen; Satelliten 2-6 m, Blockstrom; keine Gruppe auf Wiese ohne Hangknick; rote IcelandicBoulder (AncientContent) nur canyon/oedland/wueste/lava; uchoab3fa gesperrt | laeuft |
+| felsgruppen | 8-20 Formgruppen je Feld mit Hero 10-30 m (Massive/Huge Nordic Coastal Cliff, Sharp_Cliff, big_rock_wall, Big_Rock; Skalierung 1,0-2,0, Akteure, 35-60 % eingegraben) auf markanten, von Taelern/Wegen sichtbaren Graten/Kuppen; Satelliten 2-6 m, Blockstrom; keine Gruppe auf Wiese ohne Hangknick; rote IcelandicBoulder (AncientContent) nur canyon/oedland/wueste/lava; uchoab3fa gesperrt | fertig, gepusht (synthetisch, Echtdaten ungetestet) |
 | Biom-Regeldateien | rote IcelandicBoulder aus nordkueste, heide_tundra, hochgebirge entfernen, grauer Ersatz | fertig, gepusht: ersetzt durch SM_MossyForestBoulder_03/04, SM_ground_rock_01, SM_mountain_rock_big_02_4 (ueber Schneegrenze ohne Moos); assets-taxonomie.json: rote Findlinge nur noch canyon/oedland/wueste/lava geeignet |
+
+**Erwartete Zahlen Runde 3 (Echtdaten, aus synthetischem Test abgeleitet):**
+
+| Feld | Formgruppen | Instanzen gesamt | Akteure |
+|---|---|---|---|
+| A5 | 10-16 | ca. 4 800-5 600 | ca. 45-60 |
+| B4 | 8-14 | - | - |
+| G4 | 0-3 | - | - |
+
+- Hero-Klippen (Akteure, Kollision, Massstab 1,0-2,0, 35-60 % eingegraben, Rueckseite hangwaerts): rcygn, vfmjadufa, vdssailfa, veqnci0db, MassiveNordicCoastalCliff_01, HugeNordicCoastalCliff_01/02; Canyon Sandstein-Klippen, Lava LavaSpire_02. Groesse 18-38 m breit (Median ca. 25-30 m), sichtbar 5-18 m hoch (Median ca. 8-12 m). Synthetisch: A5 10, B4 8, G4 1 Formgruppen.
+- Auswahl: Kruemmung + Prominenz + Sichtbarkeit von Weg/Tal/Wasser aus 300-1 500 m, Mindestabstand 120 m, Hangknick Pflicht (Wiese ohne Hangknick 0). Je Formgruppe 3-6 Satelliten 2-6 m und Blockstrom.
+- Runde-2-Gruppen (4,5-8,5 m) nur noch als Begleiter: max. 3 je Formgruppe, sonst max. 6 je Feld.
+- SM_Big_Rock_0* und big_rock_wall_02 erreichen auch bei Massstab 2,0 keine 10 m und sind aussortiert (`groesse_min_m` auf 8 senken, falls gewuenscht). Graue /Game/Megascans/.../SM_IcelandicBoulder_* gibt es im Inventar nicht; Ersatz pkeeM/skjsL, MossyForestBoulder_03/04, mountain_rock_big_02_4.
+- Vor dem Setzen pruefen: offene Seite der Klippennetze angenommen auf lokal +y (veqnci0db +x) - falls in Kamera `formgruppe_front_120m` von vorn offen, je Netz `"rueckseite": "-y"` in `formgruppen.hero.paletten`; Pivot unten angenommen (keines der Hero-Netze in netze_masse.json). Pruefkameras in plan.json: formgruppe_300m_1..3, formgruppe_front_120m, formgruppe_flanke_120m. Klasse `band` unveraendert (Hebel `klassen.band.p`).

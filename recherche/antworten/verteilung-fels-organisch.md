@@ -4,7 +4,8 @@
 **Lieferung:** dieses Dokument, `skripte/felsgruppen_regeln.json` (alle Zahlen), `skripte/felsgruppen_plan.py` (Planer, FORMAT.md §3/§5).
 **Status:** Vorfassung lief lokal mit Echtdaten (A5, G4, E1, C6) ohne Absturz; **Korrektur Runde 1** (Abschnitt h) setzt
 `verteilung-KONVENTIONEN.md` um und ist in der Cloud nur synthetisch rauchgetestet (B4 + G4); **Korrektur Runde 2** (Abschnitt i:
-Felsgruppen als Form auf 300 m, Platten-Regel, Kontaktsaum, Sperrliste) ebenfalls nur synthetisch (A5-artig + B4). Kein Setzen im Editor. Zahlen ohne Quelle sind
+Felsgruppen als Form auf 300 m, Platten-Regel, Kontaktsaum, Sperrliste) ebenfalls nur synthetisch (A5-artig + B4); **Korrektur Runde 3**
+(Abschnitt j: Formgruppen 10–30 m, rote Findlinge nur canyon/oedland/wueste/lava, Hangknick-Pflicht) synthetisch (A5-, B4-, G4-artig). Kein Setzen im Editor. Zahlen ohne Quelle sind
 Richtwerte und so markiert. Web-Quellen nur als Suchauszüge (kein
 Direktzugriff auf Epic-Doku/Fab/80.lv aus dieser Umgebung).
 
@@ -626,3 +627,254 @@ Synthetik-Beispiel A5-artig: `grat_300m` bei (−437 150, 77 893, 32 745) cm, Ya
    in `statistik.form.gruppenbreite_m.wand`.
 4. **Kleinmaterial-Anteil.** Rund 80 % der Instanzen sind weiter Kleinmaterial, in absoluten Zahlen aber −61 bis −73 %. Bei Bedarf
    `form.kiesel_dichte_je_m2` bzw. `kiesel_je_stueck` senken.
+
+## j) Korrektur Runde 3 (10.10.2026)
+
+Grundlage: `auftraege/verteilung-korrektur-runde3.md`, Bilder `bilder/cloud3/` (`CLOUD3_A5_rundgang` gegen `CLOUD2_A5_rundgang`,
+`KLIPPE2_A5_fern`, `rote_findlinge_zoom`, `CLOUD3_G4_*`). Echtdaten Runde 2: A5 5 563 Instanzen / 316 Gruppen / 45 Akteure, G4 1 448.
+Geändert: nur `skripte/felsgruppen_plan.py`, `skripte/felsgruppen_regeln.json` und dieses Dokument. Biom-Regeldateien nur gelesen;
+der Biom-Agent hat die roten Findlinge parallel aus nordkueste, heide_tundra und hochgebirge entfernt.
+
+### Ursache (Code und synthetische Messung)
+
+1. **Hauptfels zu klein für 300 m.** In Runde 2 hatten die Hauptfelsen an Grat und Kuppe sichtbar 4–8,5 m (Median 5,3 m). Zwei Grenzen
+   hielten sie dort:
+   - die Fußbreite ≤ 14 m;
+   - die Zielhöhe 4,5–8,5 m.
+
+   Die großen Klippennetze (Massive/Huge Nordic Coastal Cliff, rcygn, vdssailfa …) standen nur in der Klasse `wand`, also an Wänden
+   ≥ 50° und nicht auf Kämmen. In den Gratgruppen wurden sie auf ≤ 14 m herunterskaliert. Ein 5-m-Block erscheint aus 300 m unter rund 1°
+   und liest sich als Punkt.
+2. **Zu viele gleichartige Gruppen.** Die Kette setzte alle 28 m eine Gruppe auf jeden Kamm, im A5-artigen Test 34 Gruppen an
+   Grat und Kuppe. Es gab keine Auswahl nach Markanz oder nach Sichtbarkeit von Tal und Weg. So entsteht ein gleichmäßiges Punktfeld statt
+   weniger Felskronen.
+3. **Rote Findlinge.** `/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_01–03` standen in den
+   Grundpaletten `nordisch.block`, `tundra.hero/block` und `moos.block`. Dazu kamen die Overrides von nordkueste, heide_tundra und
+   hochgebirge. Runde 2 setzte im synthetischen A5 113 davon (bergwald 96, kueste 15, canyon 2), im synthetischen B4 294.
+4. **Gruppen auf glatten Wiesenhängen.** `band` (32–70°) und `fuss` prüften keinen Hangknick. Auf gleichmäßig steilen Grashängen
+   entstanden deshalb Gruppen ohne geologischen Anlass.
+
+### Änderungen
+
+1. **Netz-Biomsperre** (Regelblock `netz_nur_biome`).
+   - **Regel:** `netze` = {Pfad: [canyon, oedland, wueste, lava]} für die drei roten Findlinge. Ein Schlüssel mit `*` am Ende gilt als
+     Präfix.
+   - **Ersatz** (grau, gleiche Größe):
+
+     | rot | Ersatz |
+     |---|---|
+     | `_01` (1,44 × 1,91 × 1,22 m) | `Granite_Rock_pkeeM`, `Icelandic_Rock_skjsL` |
+     | `_02` (1,82 × 2,22 × 1,50 m) | `SM_MossyForestBoulder_03`, `Nordic_Forest_Cluster_Rock_Medium_xfplcbf` |
+     | `_03` (3,26 × 3,40 × 2,57 m) | `SM_mountain_rock_big_02_4`, `SM_MossyForestBoulder_04` |
+
+   - **Durchsetzung im Planer, an vier Stellen:**
+     1. je Biom-Palette, auch für Override-Paletten (`palette`, `paletten_neu`, `paletten_ergaenzung`, Rollen-Netze). Das Ergebnis ist
+        eine Variante `<palette>~grau`, mit Log-Zeile `Netz-Biomsperre: Palette … fuer …: n Verweise entfernt …`;
+     2. je Zusatzklassen-Stück nach dem Biom der Zelle, z. B. im 30-m-Saum einer Canyon-Klasse im Bergwald;
+     3. bei den Formgruppen-Hero-Paletten;
+     4. in einer Schlussprüfung vor dem Budget. Liegt ein Satellit über der Biomgrenze, bekommt er das Ersatznetz bei gleicher Höhe und
+        gleichem Eingrabanteil.
+   - **Override-Dateien mit Verweisen** werden je Datei gemeldet.
+   - **plan.json:** `statistik.formgruppen.netzsperre`.
+   - **Grundpaletten:** In der Regeldatei sind die roten Findlinge in `nordisch`, `tundra` und `moos` direkt durch den Ersatz ersetzt.
+   - **Graue Findlinge:** `/Game/Megascans/…/SM_IcelandicBoulder_*` gibt es weder in `netze.csv` noch in `inventar.json`. Sie wären
+     erlaubt.
+   - **Sperrliste:** `uchoab3fa` (Quarry Cliff) steht jetzt in `gesperrt`. Damit fällt er auch aus `nordisch.wand`.
+2. **Formgruppen 10–30 m** (neue Klasse `formgruppe`, Regelblock `formgruppen`; läuft vor allen anderen Klassen).
+   - **Kandidaten:**
+     - Gratstärke (σ 8 m) ≥ 0,006 1/m;
+     - Hangknick ist Pflicht (siehe 4);
+     - Relief gegen σ 25 m ≥ 2 m;
+     - frei, Hang ≤ 62°, keine Mulde;
+     - Biom nicht `sumpf` oder `dschungel` und Klasse nicht per Override abgeschaltet.
+
+     Je 40-m-Zelle bleibt der beste Punkt. **Prominenz** = σ-12-Höhe minus Mittel im Umkreis ±200 m auf einem 8-m-Grobraster; Mindestwert
+     8 m, für die Hauptauswahl 12 m.
+   - **Sichtbarkeit** (deterministisch, ohne Zufall):
+     - Grundlage ist ein 8-m-Grobraster aus `hoehe.f32`, `karte_weg.r8` und `karte_wasser.r8` im Fenster Feld + 1,5 km (Blockmittel bzw.
+       Blockmaximum, global ausgerichtet).
+     - Je Kandidat laufen 32 Strahlen bis 1 500 m. Gezählt werden Ziel-Zellen in 300–1 500 m mit freier Sichtlinie vom Auge (Gelände +
+       1,8 m) zur Felskrone (Gelände + 8 m). Die Linie ist frei, wenn ihr Höhenwinkel nicht unter dem Horizont der näheren Strahlpunkte
+       liegt.
+     - Ziel-Gewichte: Weg 1, Tal 1, Binnenwasser 0,6, Meer 0,3. Tal heißt: ≥ 12 m unter dem 200-m-Mittel und Hang ≤ 20°.
+     - Jeder Treffer zählt mit dem Flächengewicht d/1000.
+
+     Daraus folgt `sicht_n = 1 − exp(−sicht/60)`. Die Summe der Treffer je Richtung ergibt die **Sichtrichtung**.
+   - **Score** = 0,35 · Prominenz/45 m + 0,2 · Krümmung/0,03 + 0,45 · sicht_n.
+   - **Auswahl:** gierig nach Score, Mindestabstand 120 m. Kandidaten im 64-m-Rand blockieren mit. Je Feld werden höchstens 20 mit
+     Score ≥ 0,45 und Prominenz ≥ 12 m genommen. Fehlen welche, wird bis 8 aufgefüllt, mit Kandidaten über 8 m Prominenz. Im flachen Feld
+     gibt es deshalb weniger als 8; das ist gewollt.
+   - **Typ:**
+     - kuppe = lokales Maximum (24 m);
+     - grat = Querschnitt-Maximum ±24 m, mindestens 2,5 m über beiden Seiten;
+     - nase = Wand ≥ 50° in 30 m;
+     - sonst grat.
+   - **Hero** = Klippennetz als Akteur mit Kollision, Rolle `hero`, Klasse `formgruppe`. Er wird bei Ausdünnung zuletzt entfernt und nie
+     zu Foliage umgestellt.
+     - **Netzwahl:** je Typ und Biom-Palette in gewichteter Hash-Reihenfolge. Bis zu 8 Netze werden probiert, das erste machbare gilt.
+     - **Maßstab:** 1,0–2,0, Ziel-Breite 14–32 m. Grenzen: Breite ≤ 38 m (statt 14 m in Runde 2), sichtbare Höhe ≤ 24 m.
+     - **Front:** Sichtrichtung + 0,7 × Gefälle (σ 25 m), am Grat quer zur Gratachse. Die **offene Rückseite zeigt hangwärts**. Der Hero
+       wird um 0,6 × halbe Tiefe zur Front versetzt, damit die Rückseite im Kamm steckt.
+     - **Neigung:** 40 % zur Geländenormale, 2–8° in den Hang gekippt, dazu die Schichtneigung je Massiv (Strike/Dip wie `band`).
+     - **Eingraben 35–60 %:** Die geneigte Unterseite muss an 9 Punkten des Fußabdrucks (80 % der Bounds) 0,3 m unter dem Gelände
+       liegen. Reicht der Zufallsanteil nicht, wird tiefer eingegraben.
+     - **Nicht machbar**, wenn mehr als 60 % nötig wären, der Überstand über dem höchsten Fußpunkt < 3 m ist, max(Breite, sichtbare Höhe)
+       < 10 m ist, die sichtbare Höhe < 4 m ist oder Weg/Wasser/Ort im Fußabdruck liegen. Der Hangknick muss auch an der Hero-Mitte
+       gelten.
+   - **Satelliten:** 3–6 Blöcke, sichtbar 2–6 m (≤ 0,6 × Hero), Rolle `block` mit Kollision, Breite ≤ 9 m. Sie stehen abwechselnd links
+     und rechts der Front, 15–150° neben der Front, nie hinten. Ihr Abstand ist 0,85–1,15 × Rand der Hero-Ellipse plus halbe eigene Breite;
+     sie liegen also am Hero-Fuß an.
+   - **Blockstrom:** mit p 0,8 ab dem Frontfuß hangabwärts, wenn der Hang dort ≥ 10° ist. Kopf 2–3,5 m, 4–8 Stücke abnehmend, ≤ 40 m.
+     Der Code ist derselbe wie für die Runde-2-Zunge (`_zunge`, ausgelagert, Runde-2-Ergebnis unverändert).
+   - **Kleinmaterial** gibt es nur als Kontaktsaum um Satelliten und Blockstrom, nicht um den Hero.
+3. **Runde-2-Gruppen als zweite Stufe** (`formgruppen.begleitung`). Betroffen sind `grat` und `kuppe` mit Hauptfels 4,5–8,5 m.
+   - Je Formgruppe bleiben höchstens 3 im Abstand 35–220 m, die nächsten zuerst.
+   - Fern jeder Formgruppe bleiben je Feld höchstens 6, verteilt mit ≥ 150 m Abstand; Auswahl nach Relief.
+   - Näher als 35 m an einer Formgruppe entfallen sie.
+
+   Ergebnis synthetisch: A5 34 → 17, B4 39 → 21 gesetzte Grat- und Kuppengruppen (−50 %). `band`, `wand`, `fuss` und `blockstrom`
+   bleiben unverändert.
+4. **Hangknick-Pflicht** (Block `hangknick`): Hangknick = größte Hauptkrümmung der σ-25-m-Höhe ≥ 0,004 1/m. Das entspricht rund 14°
+   Hangwechsel auf 60 m. Kandidaten der Klassen grat, band, wand, fuss, blockstrom, kuppe und prallhang auf **Wiese ohne Hangknick**
+   entfallen. Wiese heißt: Gras/Wiese ≥ 100 und keine Kies/Geröll/Fels/Felsplatte-Lage ≥ 100. Formgruppen verlangen den Hangknick immer,
+   auch ohne Lagen-Raster. Die Klasse `einzel` (Mindestdichte Elfenwald) und Zusatzklassen bleiben ausgenommen; sie folgen ihren
+   Biom-Regeln.
+5. **Budget:** Deckel unverändert (60 000 / 3 000 Kollision / 150 Akteure).
+   - Formgruppen-Heros sind nie unter den „kleinsten Akteuren“, die zu Foliage werden.
+   - Hero und Satelliten haben die niedrigste Ausdünn-Priorität.
+   - Je Feld kommen 8–20 Akteure hinzu. Im B4-artigen Test war der Deckel schon in Runde 2 erreicht (150; 42 kleinere Runde-2-Hauptfelsen
+     und Wandschalen werden Foliage).
+6. **plan.json:** `statistik.formgruppen` enthält:
+   - Vorauswahl und Gründe;
+   - Hero-Netze, Breite, sichtbare Höhe, Größe, Maßstab, Eingrabanteil und -tiefe;
+   - Rückseite hangwärts, Überstand, Score, Prominenz, Sicht, Abstand zur nächsten Formgruppe;
+   - Satelliten, Blockstrom, Begleitung, Hangknick, Netzsperre.
+
+   Dazu kommen Prüfkameras (unten) und die Log-Zeilen `Formgruppen:`, `Formgruppen-Statistik:` und `Pruefung:`. Die Draufsicht zeigt
+   Formgruppen schwarz.
+
+### Hero-Netze (Maße aus `vorlagen/daten/netze.csv`, B × T × H in m; keines steht in `netze_masse.json`, daher Pivot unten angenommen)
+
+| Palette (Biome) | Netz | Maße | Typen | Gewicht |
+|---|---|---|---|---|
+| nordisch (bergwald, fjord, kueste; auch moos → aue, elfenwald, heide) und tundra (gletscher, tundra, frost) | `Sharp_Cliff_rcygn/…/rcygn_tier_0` | 18,81 × 4,62 × 10,94 | grat, nase | 1,0 |
+| | `Massive_Nordic_Coastal_Cliff_vfmjadufa/…/vfmjadufa_tier_2` | 21,49 × 10,23 × 13,80 | grat, nase, kuppe | 1,0 |
+| | `Massive_Nordic_Coastal_Cliff_vdssailfa/…/vdssailfa_tier_2` | 21,04 × 15,01 × 14,77 | kuppe, nase, grat | 1,0 |
+| | `Massive_Nordic_Coastal_Cliff_veqnci0db/…/veqnci0db_tier_2` | 22,89 × 37,67 × 33,77 | kuppe, nase | 0,4 |
+| | `/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01` | 20,98 × 15,02 × 14,66 | alle | 1,0 |
+| | `…/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_01` | 13,75 × 8,52 × 9,06 | alle | 1,0 |
+| | `…/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_02` | 12,16 × 6,22 × 7,05 | grat, nase | 0,8 |
+| | `/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01` / `_02` | 7,78 × 3,86 × 3,36 / 5,22 × 1,48 × 2,54 | grat (nase) | 0,5 / 0,3 |
+| | `/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_01` / `_02` / `_03` | 4,70 × 4,14 × 3,64 / 4,59 × 3,88 × 4,03 / 2,84 × 3,22 × 5,32 | kuppe, nase | 0,3–0,4 |
+| nur tundra | `SM_MassiveTundraRockFormation_02` | 29,06 × 20,45 × 6,83 | kuppe | 0,6 |
+| sandstein (canyon, oedland, wueste) | `SM_HugeSandstoneCliff_02` / `_05` / `_07`, `SM_MassiveSandstoneCliff_02` / `_03`, `ukjhcamga_tier_0`, rcygn | 17–31 m breit, 6,7–29 m hoch | je Netz | 0,6–1,0 |
+| lava | `SM_lava_wall_01/02/03/09`, `SM_IcelandicLavaSpire_02` (15,32 × 6,84 × 5,10) | | | 0,6–1,0 |
+
+**Kleine Netze in der Liste.** `SM_Big_Rock_0*` und `SM_big_rock_wall_02` kommen selbst bei Maßstab 2,0 und 35 % Eingraben nicht auf
+10 m Formgröße (Breite oder sichtbare Höhe) bzw. 4 m sichtbare Höhe. Das gilt meist auch für `big_rock_wall_01` und die Lava-Wände. Die
+Größenregel filtert sie deshalb heraus; als Hauptfels und Satelliten der Runde-2-Stufe bleiben sie in Gebrauch. Wer sie als Krone will,
+senkt `hero.groesse_min_m` auf 8. In Lava trägt deshalb vor allem `SM_IcelandicLavaSpire_02` die Formgruppen.
+
+**Rückseite (ANNAHME).** Die offene Seite ist die lokale Achse `+y` bei Netzen, die in X lang sind, bzw. `+x` bei in Y langen Netzen
+(veqnci0db) (`rueckseite_standard: "auto"`). Die Rotation ist geprüft (lokale Rückseitenachse · Hangrichtung = 0,99–1,00). Ob `+y`
+wirklich die offene Seite der Scans ist, ließ sich ohne Editor nicht prüfen. Zeigt die Prüfkamera `formgruppe_front_120m` die offene
+Seite, je Netz `"rueckseite": "-y"` in `formgruppen.hero.paletten` eintragen.
+
+### Rauchtest Runde 3 (synthetisch, Cloud, Python 3.13, NumPy, kein numba; Raster danach gelöscht)
+
+**Testgelände** (Raster in voller Größe, sparse; nur die Bereiche um A5, B4 und G4 je ±1,5 km beschrieben):
+
+| Gelände | Aufbau | Biome |
+|---|---|---|
+| **A5-artig** | Meer im Westen mit Kliff; Hauptkamm N–S bis ~400 m mit scharfem Kamm; zwei Seitengrate nach Osten; Kuppen; Wandstufen; Osttal mit Weg; Weg auf dem Küstenplateau. Glatte Wiesenflanken ohne Hangknick (Kammprofil ^1,3, Krümmung σ 25 m < 0,001). | kueste, bergwald, aue (Tal), canyon (Eck), lava (Streifen) |
+| **B4-artig** | Zwei NE–SW-Kämme bis 470 m, Quergrat, Kuppen, Wandstufen; Talfluss mit Weg. | bergwald, fjord, tundra (> 380 m) |
+| **G4-artig** | Flacher Wald (Ø ~30 m, sanfte Hügel), zwei Hügelkuppen 18–28 m, Bach, Weg, 8 000 Bäume in `bestand/G4`. | elfenwald, heide, aue |
+
+Lagen in allen drei: Wiese/Gras < 38°, Fels steil, Geröll/Kies 30–40°.
+
+Overrides kamen aus Kopien der aktuellen Biom-Regeldateien (Stand nach der Entfernung der roten Findlinge). „Vorher“ ist Planer und
+Regeldatei Runde 2 aus Git auf demselben Raster.
+
+| Wert | A5-artig R2 → R3 | B4-artig R2 → R3 | G4-artig R2 → R3 |
+|---|---|---|---|
+| **Formgruppen** (Typen grat/kuppe/nase) | 0 → **10** (8/2/0) | 0 → **8** (4/0/4) | 0 → **1** (Kuppe, aufgefüllt) |
+| Hero-Netze (R3) | rcygn 3, HugeNordic_02 2, HugeNordic_01, MassiveNordic_01, vdssailfa, veqnci0db, HugeSandstone_02 (Canyon) je 1 | rcygn 3, veqnci0db 3, vfmjadufa 2 | HugeNordic_01 |
+| Hero-Breite min / Median / Max (R3) | 17,9 / **24,8** / 37,5 m | 17,5 / **29,4** / 36,4 m | 15,5 m |
+| Hero sichtbar hoch min / Median / Max (R3) | 5,0 / **8,2** / 16,4 m | 5,6 / **11,4** / 18,4 m | 4,8 m |
+| Netzhöhe × Maßstab Median / Max (R3) | 14,9 / 33,8 m | 18,0 / 33,8 m | 10,5 m |
+| Maßstab min / Median / Max (R3) | 1,0 / 1,38 / 2,0 | 1,0 / 1,0 / 1,68 | 1,16 |
+| Eingraben Anteil (Median), Tiefe Median / Max (R3) | 40–54 % (48 %), 7,2 / 17,3 m | 35–60 % (47 %), 8,5 / 19,7 m | 54 %, 5,7 m |
+| Rückseite hangwärts (Boden hinten > vorn) | 90 % | 100 % | 100 % |
+| Abstand nächste Formgruppe min / Median | 132 / 149 m | 161 / 192 m | – |
+| Satelliten gesamt, je Gruppe, sichtbar Median / Max | 41, 3–6, 4,0 / 5,3 m | 39, 3–6, 3,7 / 4,8 m | 1, 1, 2,9 m |
+| Satellitenabstand / Ellipsenrand Median / Max | 1,09 / 1,43 | 1,09 / 1,37 | 1,13 |
+| Blockstrom an Formgruppen | 62 Stücke an 8 | 37 Stücke an 6 | 0 (Hang < 10°) |
+| Score / Prominenz / Sicht (Median) | 0,89 / 82 m / 103 | 0,92 / 130 m / 119 | 0,31 / 24 m / 11 |
+| Runde-2-Gruppen grat+kuppe (gesetzt) | 34 → **17** | 39 → **21** | 0 → 0 |
+| Gruppen gesamt | 517 → 476 | 851 → 826 | 79 → 80 (61 einzel) |
+| Instanzen gesamt | 8 842 → **8 319** | 17 747 → **17 300** | 1 237 → **1 243** |
+| davon Kleinmaterial < 0,5 m (außerhalb Saum) | 6 874 → 6 450 (0) | 14 381 → 14 008 (0) | 958 → 962 (0) |
+| Kollision / Akteure | 1 064 / 89 → 1 054 / 87 | 1 796 / 150 → 1 788 / 150 | 153 / 0 → 155 / 1 |
+| Rote Findlinge außerhalb canyon/oedland/wueste/lava | 111 → **0** | 294 → **0** | 0 → **0** |
+| `uchoab3fa` | 0 → **0** | 0 → **0** | 0 → **0** |
+| Hauptstücke auf Wiese ohne Hangknick | – → **0** (verworfen: band 17, fuss 1) | – → **0** (band 1, blockstrom 1) | – → **0** |
+| Laufzeit | 10,4 → 12,6 s | 9,0 → 11,2 s | 9,1 → 9,3 s |
+
+**Vorauswahl je Feld** (Kandidaten nach Prominenz → machbar → gewählt im Fenster → im Feld):
+- A5: 68 → 38 → 14 → 10;
+- B4: 70 → 29 → 12 → 8, davon 1 aufgefüllt;
+- G4: 3 → 2 → 1 → 1.
+
+Nicht machbar waren vor allem Kandidaten, bei denen mehr als 60 % Eingraben nötig gewesen wäre. Die synthetischen Kämme sind
+messerscharf (47° beidseits); echte Rücken sind runder, dort wird mehr machbar.
+
+**Weitere Prüfungen:**
+- **Rote Findlinge, Gegenprobe mit Override-Kopie:** rote Findlinge in nordkueste-Palette und `felsufer`, in der heide-Palette und
+  in einer Canyon-Ergänzung samt `terrassenkanten`. Ergebnis A5: 42 rote Findlinge, alle in Canyon-Zellen. In bergwald, kueste und fjord
+  greift der Ersatz: Paletten-Varianten `nordisch@…~grau`, 2 Terrassenkanten-Stücke im Saum umgestellt, 2 Stücke in der Schlussprüfung
+  umgestellt. Unabhängig gegen `eigner.r8` nachgezählt: 0 im Fremdbiom.
+- **Formgruppen-Heros:** an der Hero-Mitte unabhängig nachgerechnet (σ-25-Hessian aus `hoehe.f32` + Lagen), 0 auf Wiese ohne Hangknick.
+  Rotation der lokalen Rückseitenachse gegen die Hangrichtung: Skalarprodukt 0,99–1,00.
+- **Determinismus:** zwei Läufe A5 + B4 + G4 (zweiter mit anderem `PYTHONHASHSEED`) byteidentisch, 302 Dateien inkl. plan.json und PNG.
+- **Ausgabe:** Log und `--help` reines ASCII.
+- **Prüfwerte:** `instanzen` = Summe der f32-Zeilen; `kollision_anzahl` stimmt; Akteure (plan.json) = Zeilen der `akteur_*.f32`;
+  Quaternionen normiert (Fehler ≤ 6e-8).
+- **Randfälle:** A1 → leerer plan.json, Z9 → übersprungen, ohne `hoehe.f32` Exit 2. py_compile OK.
+
+### Erwartung Echtdaten (nicht gemessen)
+
+| Feld | Formgruppen | Hero-Breite | Hero sichtbar hoch | Weitere Erwartung |
+|---|---|---|---|---|
+| **A5** (Küstenrücken, R2: 316 Gruppen / 5 563 Instanzen / 45 Akteure) | **10–16** | 18–38 m, Median ~25–30 m | 5–18 m, Median ~8–12 m | Runde-2-Grat/Kuppe etwa halbiert; Instanzen ~4 800–5 600 (Kleinmaterial leicht weniger, Bänder auf glatten Wiesenhängen fallen weg); Akteure ~45–60 |
+| **B4** (bergwald 100 %) | **8–14** | | | Heros eher die großen Netze (vfmjadufa, rcygn, veqnci0db) |
+| **G4** (flach, Ø 23 m) | **0–3** | | | nur Kuppen mit ≥ 8 m Prominenz und Hangknick; Instanzen ~1 450 wie Runde 2 (Elfenwald-Einzelblöcke unverändert) |
+
+Rote Findlinge außerhalb canyon/oedland/wueste/lava: 0. uchoab3fa: 0.
+
+### Prüfkameras (plan.json `pruefkameras`, Weltkoordinaten cm, UE-Yaw/Pitch)
+
+- `formgruppe_300m_1` … `_3`: die drei Formgruppen mit dem höchsten Score. Die Kamera steht 300 m vor der Front (Tal-/Wegseite),
+  Gelände + 40 m, höchstens 12° Aufblick. Erfolg: die Felskrone ist als Form lesbar (20–38 m breit) und mit dem Hang verwachsen; die
+  Satelliten sitzen am Fuß; kein Punktfeld.
+- `formgruppe_front_120m`: beste Formgruppe von vorn. Hier darf **keine offene Seite** sichtbar sein, sonst `rueckseite` umdrehen
+  (siehe oben).
+- `formgruppe_flanke_120m`: von der Seite. Erkennbar sind 35–60 % Eingraben, die Rückseite im Hang und der Blockstrom am Fuß.
+- Weiter vorhanden: `grat_300m`/`_120m` (jetzt Runde-2-Begleitgruppe), `blockstrom_120m`, `kuppe_200m`.
+
+**A5 ersatzweise:** vom Wasser vor der Steilküste 300 m vor dem Bergrücken, 60 m über Meer, Blick auf den Kamm wie in
+`CLOUD3_A5_rundgang`. Synthetik-Beispiel: `formgruppe_300m_1` bei (−394 372, 71 209, 30 623) cm, Yaw 172,3°, Pitch 12° auf das Ziel
+(−424 103, 75 217, 36 999).
+
+### Offene Punkte Runde 3
+
+1. **Rückseitenachse und Pivot** der Klippennetze sind Annahmen. Offene Seite `+y`/`+x` wie oben; Pivot unten, weil keines der
+   Hero-Netze in `netze_masse.json` steht. Mit Bounds in `netze_masse.json` rechnet der Planer `min_z` automatisch. Bitte mit
+   `formgruppe_front_120m` prüfen.
+2. **Nahtstellen.** Den Mindestabstand zwischen Formgruppen sieht ein Feld nur bis 64 m in das Nachbarfeld (Fensterrand). An Feldgrenzen
+   können sich zwei Formgruppen deshalb auf 60–120 m nähern. Die Sichtbarkeit ist global ausgerichtet und nahtlos.
+3. **Schwellen nur synthetisch abgestimmt.** Betroffen sind `prominenz_min_m` 12, `score_min` 0,45, `sicht.ref` 60 und
+   `hangknick.kruemmung_min` 0,004. Bekommt ein Echtfeld zu wenige Formgruppen, `statistik.formgruppen.vorauswahl` ansehen (`maskenzellen`
+   → `vorwahl` → `machbar`) und `hangknick.kruemmung_min` auf 0,003 bzw. `prominenz_fuell_min_m` senken. Sind es zu viele,
+   `abstand_min_m` erhöhen.
+4. **Bänder.** Wirkt der Hang aus 300 m weiter punktig, ist `klassen.band.p` (0,4) der Hebel; band bleibt bisher unverändert. Auf glatten
+   Wiesenhängen fallen die Bänder schon durch die Hangknick-Pflicht weg.

@@ -2479,7 +2479,6 @@ class Planer:
         self.form_stat_vorab = {}
         if not FG.get("aktiv"):
             return [], 0
-        HE, SA = FG["hero"], FG["satelliten"]
         i0, i1, j0, j1 = self.win
         H, W = self.h.shape
         fs_i, fs_j = self.feld_slice

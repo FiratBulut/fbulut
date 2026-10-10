@@ -1191,7 +1191,8 @@
  "erwartung_je_feld": {
   "hinweis": "Spannen für Bergfelder (B4, B5, C2, D2, E1): grat 80–250 Gruppen, band 200–600, wand 20–80, fuss 300–900, blockstrom 40–150, kuppe 5–25; Instanzen: hero 60–300, wand 40–250, band 250–1200, block 600–2000, stein 3000–9000, kiesel 10000–35000; Summe 15000–45000. Flachfelder (Aue/Heide): 300–3000 Instanzen.",
   "echtdaten_vorfassung": "Lokaler Lauf 10.10. (Vorfassung, Kennzahl 0 = dominantes Feldbiom, ohne Overrides): A5 13 311 (65 Akteure), G4 114, E1 18 482, C6 27 357.",
-  "runde2": "Synthetischer Rauchtest Runde 2: Gruppen je Feld <= 50 % von Runde 1 (gleiches Raster); Werte siehe verteilung-fels-organisch.md Abschnitt 'Korrektur Runde 2'."
+  "runde2": "Synthetischer Rauchtest Runde 2: Gruppen je Feld <= 50 % von Runde 1 (gleiches Raster); Werte siehe verteilung-fels-organisch.md Abschnitt 'Korrektur Runde 2'.",
+  "runde3": "Synthetischer Rauchtest Runde 3 (verteilung-fels-organisch.md Abschnitt j): Formgruppen A5-artig 10, B4-artig 8, G4-artig 1; Hero Breite median 25-35 m (max 38), sichtbar hoch median 8-17 m (max 21), Massstab 1,0-2,0, eingegraben 38-58 %; Runde-2-Gruppen grat/kuppe etwa halbiert (nur Begleiter). Erwartung Echtdaten: A5 10-16, B4 8-14, G4 0-3 Formgruppen."
  },
  "ausgabe": {
   "ordner": "export/unreal/welt/felsgruppen",
@@ -1468,7 +1469,7 @@
   ]
  },
  "formgruppen": {
-  "_hinweis": "Korrektur Runde 3 Befund 2: Felskronen 10-30 m auf den markantesten Graten, Kuppen und Wandnasen. Kandidaten: Gratstaerke (sigma 8) >= kruemmung_min, Hangknick (hangknick) Pflicht, Relief gegen sigma 25 >= relief_min_m, Prominenz (sigma-12-Hoehe minus Mittel im Umkreis umgebung_m auf dem 8-m-Grobraster) >= prominenz_min_m, frei, Hang <= hang_max_grad, keine Mulde. Je vorwahl_zelle_m-Zelle der beste Punkt, davon die vorwahl_max besten. Sichtbarkeit: Strahlen in 'richtungen' Richtungen auf dem Grobraster (raster_m) bis abstand_m[1]; gezaehlt werden Ziel-Zellen (Weg, Tal, Binnenwasser, Meer mit Gewicht) in abstand_m[0]-abstand_m[1] mit freier Sichtlinie vom Auge (Gelaende + augenhoehe_m) zur Felskrone (Gelaende + zielhoehe_m), Flaechengewicht d/1000; sicht_n = 1 - exp(-sicht/ref). Score = Summe gewichte x (Prominenz/prominenz_ref_m, Kruemmung/kruemmung_ref, sicht_n). Auswahl gierig nach Score mit Mindestabstand abstand_min_m (auch zu Kandidaten im 64-m-Rand), je Feld hoechstens je_feld[1] mit Score >= score_min, aufgefuellt bis je_feld[0] mit Kandidaten ueber prominenz_fuell_min_m. Hero: Netz je Typ (grat/kuppe/nase) und Biom-Palette, Massstab 1,0-2,0 (Ziel-Breite breite_m, Grenzen breite_max_m und sicht_hoehe_max_m), Akteur mit Kollision, eingegraben 35-60 % (mehr, wenn der Fuss sonst schwebt; Gruppe entfaellt, wenn > eingraben[1] noetig), Rueckseite (offene Seite) hangwaerts: Front = Sichtrichtung + Gefaelle (sigma 25), am Grat quer zur Gratachse; Hero um versatz_tiefe_anteil x halbe Tiefe zur Front verschoben, damit die Rueckseite im Kamm steckt; Neigung: normale_anteil zur Gelaendenormale, kippen_grad in den Hang, Schichtneigung (schichtung, je Massiv) x schichtneigung_anteil. rueckseite je Netz = lokale Achse der offenen Seite (ANNAHME '+y' bei in X langen Netzen, '+x' bei in Y langen; im Editor mit Pruefkamera formgruppe_front_120m pruefen und hier umdrehen). Runde-2-Gruppen grat/kuppe nur noch als Begleitung (begleitung).",
+  "_hinweis": "Korrektur Runde 3 Befund 2: Felskronen 10-30 m auf den markantesten Graten, Kuppen und Wandnasen. Kandidaten: Gratstaerke (sigma 8) >= kruemmung_min, Hangknick (hangknick) Pflicht, Relief gegen sigma 25 >= relief_min_m, Prominenz (sigma-12-Hoehe minus Mittel im Umkreis umgebung_m auf dem 8-m-Grobraster) >= prominenz_min_m, frei, Hang <= hang_max_grad, keine Mulde. Je vorwahl_zelle_m-Zelle der beste Punkt, davon die vorwahl_max besten. Sichtbarkeit: Strahlen in 'richtungen' Richtungen auf dem Grobraster (raster_m) bis abstand_m[1]; gezaehlt werden Ziel-Zellen (Weg, Tal, Binnenwasser, Meer mit Gewicht) in abstand_m[0]-abstand_m[1] mit freier Sichtlinie vom Auge (Gelaende + augenhoehe_m) zur Felskrone (Gelaende + zielhoehe_m), Flaechengewicht d/1000; sicht_n = 1 - exp(-sicht/ref). Score = Summe gewichte x (Prominenz/prominenz_ref_m, Kruemmung/kruemmung_ref, sicht_n). Auswahl gierig nach Score mit Mindestabstand abstand_min_m (auch zu Kandidaten im 64-m-Rand), je Feld hoechstens je_feld[1] mit Score >= score_min, aufgefuellt bis je_feld[0] mit Kandidaten ueber prominenz_fuell_min_m. Typ: kuppe = lokales Maximum (sigma 12, kuppe_umkreis_m, Toleranz kuppe_toleranz_m), grat = Querschnitt-Maximum +-kamm_quer_m mit >= kamm_quer_relief_m, nase = Wand >= 50 Grad in nase_wand_abstand_m, sonst grat. Hero: Netz je Typ und Biom-Palette in gewichteter Hash-Reihenfolge, bis zu hero.alternativen Netze werden probiert (das erste machbare gilt), Massstab 1,0-2,0 (Ziel-Breite breite_m, Grenzen breite_max_m und sicht_hoehe_max_m), Akteur mit Kollision, eingegraben 35-60 % (geneigte Unterseite an 9 Punkten des Fussabdrucks x fussabdruck_anteil um boden_puffer_m unter dem Gelaende; mehr Eingraben, wenn noetig; nicht machbar, wenn > eingraben[1] noetig, Ueberstand ueber dem hoechsten Fusspunkt < ueberstand_min_m, max(Breite, sichtbare Hoehe) < groesse_min_m oder sichtbare Hoehe < sicht_hoehe_min_m; Hangknick auch an der Hero-Mitte), Rueckseite (offene Seite) hangwaerts: Front = Sichtrichtung + Gefaelle (sigma 25), am Grat quer zur Gratachse; Hero um versatz_tiefe_anteil x halbe Tiefe zur Front verschoben, damit die Rueckseite im Kamm steckt; Neigung: normale_anteil zur Gelaendenormale, kippen_grad in den Hang, Schichtneigung (schichtung, je Massiv) x schichtneigung_anteil. rueckseite je Netz = lokale Achse der offenen Seite (ANNAHME '+y' bei in X langen Netzen, '+x' bei in Y langen; im Editor mit Pruefkamera formgruppe_front_120m pruefen und hier umdrehen). Runde-2-Gruppen grat/kuppe nur noch als Begleitung (begleitung).",
   "aktiv": true,
   "je_feld": [
    8,
@@ -1599,7 +1600,7 @@
        "kuppe",
        "nase"
       ],
-      "gewicht": 0.6
+      "gewicht": 0.4
      },
      {
       "pfad": "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
@@ -1701,7 +1702,7 @@
        "kuppe",
        "nase"
       ],
-      "gewicht": 0.6
+      "gewicht": 0.4
      },
      {
       "pfad": "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
