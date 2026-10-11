@@ -903,3 +903,195 @@ Auftrag `auftraege/verteilung-korrektur-runde4.md`, umgesetzt nach KONVENTIONEN 
   Probeklasse `strand: true` (nur Test): 31 Stücke auf 0–0,3 m, keines unter 0 m, 1 Stück vom Schlussfilter verworfen.
   Zwei Läufe sind byteidentisch, das Log ist ASCII. Inland-Felder ohne Meer (G4, H5) liefern byteidentische f32 wie vorher.
 
+## l) Korrektur Runde 5 (11.10.2026): Steilhänge ohne Kistenhaufen, Blockstrom eingebettet
+
+Grundlage: `auftraege/verteilung-korrektur-runde5.md`, Bilder `bilder/felsr3/`. Gut und unverändert gelassen: A5
+`formgruppe_front_120m` (Felsnasen mit Klippenwand) und B4 `grat_120m` (Felskronen am Kamm). Schlecht: B4 `formgruppe_300m_2`/`_3`
+(kantige, fast würfelige Blöcke dicht an dicht) und A5 `blockstrom_120m` (dünne Platten flach obenauf). Geändert wurden nur
+`skripte/felsgruppen_plan.py`, `skripte/felsgruppen_regeln.json` (neue Blöcke `steilhang` und `blockstrom_platten`) und dieses Dokument.
+
+### Ursache (Code und synthetische Messung mit dem Planer von Runde 4)
+
+1. **Keine Dichtegrenze am Hang.** Am Steilhang überlagern sich mehrere Klassen:
+   - `band`: 14-m-Raster, 2–3 Bandstücke von 4–9 m Länge;
+   - `fuss`: Kopfblock 2,5–4 m und Zunge;
+   - Satelliten der Formgruppen (2–6 m);
+   - Runde-2-Gruppen.
+
+   Eine Obergrenze je Fläche gab es nicht. Im synthetischen B4 lag der Abstand von einem Stück > 2 m zum nächsten im Median bei 3,7 m.
+   In einer 48-m-Zelle standen bis zu 1,4 Blöcke > 2 m je 100 m², erlaubt sind 0,67.
+2. **Größen gleichverteilt.** Die Zielhöhen kamen aus `zwischen(lo, hi)`. Dadurch entstanden mehr große als kleine Stücke: am
+   Steilhang 2 904 Stücke > 2 m, aber nur 126 Stücke < 1,5 m (ohne Kiesel).
+3. **Würfelige und stehende Netze.**
+   - `SM_Big_Rock_01`/`_02` und `SM_Middle_Rock_01` (Seitenverhältnis 1,18–1,39) waren auch Hauptblöcke;
+   - `SM_Big_Rock_03` (2,8 × 3,2 × 5,3 m) stand mit Z an der Normale als Pfeiler aus dem Hang;
+   - an Hängen > 30° waren 37 % der Stücke von 2–4 m würfelartig, 90 davon Hauptstück.
+4. **Kaum eingegraben, falsch gedreht.** Blöcke waren 25–38 % eingegraben, gemessen wurde lotrecht. Senkrecht zum Hang sind das bei 50°
+   nur rund 16–24 %, im Median gemessen 25 %, Minimum 3,5 %. Dazu kam ein Zusatzkippen von 4–12° bergauf, im Median 8° gegen die Normale.
+   Deshalb waren hangabwärts die dunklen Unterseiten sichtbar (Bild `_300m_3`). Die Ausrichtung war zufällig: Abweichung der langen Achse
+   von der Falllinie im Median 44°.
+5. **Blockstrom.** Plattige Netze in den Zungen, zum Beispiel `SM_ground_rock_01` (2,3 × 1,8 × 0,7 m) und `SM_ground_rock_03_03`
+   (3,8 × 3,9 × 1,3 m), waren nur 25–38 % lotrecht eingegraben (gemessen ab 6 %) und um 4–12° gekippt. 1–3 % lagen ohne Hangknick.
+
+### Änderungen
+
+1. **Dichtegrenze am Steilhang** (`steilhang.dichte`).
+   - Steilhang heißt: Hang am Instanzort (σ 1,5 m) > 35°.
+   - Blockgröße d = längste Achse Netz × Maßstab. Die Maße kommen aus `netze_masse.json`, sonst aus `netze.csv`.
+   - Grenzwerte: d > 2 m höchstens 1 je 150 m², d > 4 m höchstens 1 je 600 m².
+   - Die Grenze ist hart und deterministisch und gilt dreifach:
+     1. Mindestabstand 0,8 × √Fläche (9,8 m bzw. 19,6 m) zwischen Stücken derselben Stufe, Poisson-Disk gierig in fester Rangfolge;
+     2. Quote je 48-m-Weltzelle: floor(Steilhangfläche der Zelle / 150 bzw. 600). Die Feldgrenzen fallen auf Zellgrenzen;
+     3. Quote je Feld.
+   - Rangfolge: Formgruppen-Heros (zählen mit, werden nie entfernt) → Rolle `wand` → Hauptstücke → übrige. Innerhalb davon kommen
+     plattige und längliche Netze vor den übrigen, dann gilt die Gruppen-Priorität.
+   - Überzählige Stücke werden nach Potenzgesetz auf 0,6–1,9 m verkleinert (gleicher Eingrabanteil). Würfelartige Netze werden
+     dabei kleiner als 1,5 m.
+   - Ist der Maßstab dafür zu klein (< 0,45), wird das Stück an gleicher Stelle durch einen Stein der Biom-Palette ersetzt. Dafür
+     gelten Netzform-Regel und Biom-Sperre, Platten-Netze sind ausgeschlossen, die lange Achse bleibt gleich ausgerichtet. Erst wenn auch
+     das nicht geht, entfällt das Stück. Verwaiste Kiesel nimmt der Kontaktsaum weg.
+   - `plan.json`: `statistik.steilhang.dichte` (Quoten, vorher/nachher, Maximum je Zelle) und Log-Zeile `Steilhang-Dichte`.
+2. **Potenzgesetz** (`steilhang.potenz`, Exponent 2,2, also N(>d) ∝ d^−2,2).
+   - Am Steilhang wird die geplante Größe als Zielwert der *längsten Achse* gelesen: sichtbare Höhe / (1 − Eingraben).
+   - Gezogen wird aus einem abgeschnittenen Potenzgesetz: für Satelliten, Steine und Zungenstücke auf [0,6 m, Plan], für Hauptstücke
+     auf [0,4 × Plan, Plan]; bei Rolle `band` nach Rollenmaßstab.
+   - Das Netz wird nach d / längster Achse skaliert.
+3. **Eingraben und Ausrichtung am Steilhang.** Gilt für die Rollen hero/band/block/platte/stein.
+   - **Eingraben:** 50–70 % der Netzhöhe *senkrecht zum Hang* (z-Versatz = Anteil × Höhe / cos Hang).
+   - **Schwebe-Test:** Die Unterseiten-Ebene an der Normale muss an 8 Punkten des Fußabdrucks unter dem Gelände liegen (Toleranz 0,1 m).
+     Sonst wird tiefer eingegraben, bis höchstens 85 %; geht das nicht, entfällt das Stück.
+   - **Drehung:** Z-Achse = Geländenormale, ohne Zusatzkippen und ohne Schichtneigung. Die längere waagerechte Netzachse liegt in der
+     Hangebene entlang der Falllinie, ±20° in der Hangebene gemessen (Ziehung umgerechnet über cos Hang).
+   - **Ausnahmen**, damit die guten Beispiele bleiben:
+     - Formgruppen-Heros behalten ihre Eingrab-Geometrie aus Runde 3 (35–60 %, 9-Punkt-Fußabdruck);
+     - `wand`-Klippenschalen bleiben unverändert;
+     - die Hauptstücke von `grat`/`kuppe` (Felskronen) behalten Größe, Eingraben und Ausrichtung.
+
+     Alle drei zählen aber für die Dichte. Die Regel gilt auch für Zusatzklassen der Biome, außer bei hängenden Stücken und Akteuren.
+4. **Netzform-Regel** (`steilhang.netzform`).
+   - **Würfelartig** heißt: längste/kürzeste Achse < 1,4.
+   - **Stehend** heißt: Z ist die längste Achse. Mit Z an der Normale stünde die lange Achse senkrecht aus dem Hang. Das ist am Steilhang
+     wie würfelartig behandelt.
+   - Beide sind an Hängen > 30° nur als Satellit mit d < 1,5 m erlaubt (mit Reserve für den ungleichmäßigen Maßstab ±15 %). Nie als
+     Hauptstück/Gruppenkern, Formgruppen-Hero (Hero-Netzliste je Kandidat) oder Blockstrom-Kopf.
+   - Bevorzugt werden plattige Netze (Z ≤ 0,5 × längere waagerechte Achse, Gewicht 3) und längliche Netze (waagerechte Achsen ≥ 1,5,
+     Gewicht 2).
+   - Würfelartige Netze in den Paletten (Log `Netzform (Runde 5)`):
+     - Mountain/Forest/Environment: `SM_Big_Rock_01` 1,29, `SM_Big_Rock_02` 1,18, `SM_Middle_Rock_01` 1,39, `SM_Rock_07` 1,13,
+       `SM_s_rock_01`/`_02`;
+     - Megascans/Fab: `SM_MossyForestBoulder_07` 1,20, `veqhehl` 1,17;
+     - Sandstein: `SM_SandstoneBoulder_04`, `SM_RockSandstone_021`, `SM_namaqualand_boulder_04_NN`;
+     - Lava: `SM_lava_m_rock_01/02/05/06/07`, `SM_lava_b_rock_04`, `SM_lava_s_rock_03/04/06/07/08`, `SM_lava_wall_04`.
+
+     Stehend sind `SM_Big_Rock_03`, `SM_lava_m_rock_04`, `SM_lava_s_rock_01/02`, `SM_lava_wall_05`, dazu Kliffs (`SM_Cliff_01a/c/d/e`,
+     `SM_MassiveSandstoneCliff_01–03`), die nur Hero/Wand sind, sowie `SM_EISZAPFEN_4` (hängend, ausgenommen).
+5. **Blockstrom** (`blockstrom_platten`). Gilt für die Klassen fuss/blockstrom und die Zungen der Formgruppen.
+   - Plattige Netze nur, wo am Ort ein Hangknick ist (σ 25 m, 0,004 1/m); sonst wird ein nicht plattiges Netz gewählt.
+   - Platten mindestens 40 % senkrecht eingegraben (+ 2 % Reserve) und an der Normale, ohne Kippen.
+   - Lage: Die Kandidaten der Zungen gewinnen die Zellwahl in einer **Rinne** oder am **Hangfuß**. Rinne heißt Tiefenlinie:
+     Tangentialkrümmung der σ-8-Höhe ≥ 0,012 1/m bei Hang ≥ 8°. Hangfuß heißt Laplace σ 25 ≥ 0,002.
+   - Ohne Rinne, Hangfuß und Hangknick gilt p × 0,3. `blockstrom` ist jetzt auch in Rinnen zulässig (p × 1,5).
+6. **Unverändert:**
+   - Formgruppen Runde 3: Auswahl, Heros und Positionen sind im Test byteidentisch zu Runde 4 (17/16 Akteure, gleiche Netze und Lage);
+   - Meer-Regel Runde 4, Platten-Lagenregel Runde 2, rote Findlinge (Netz-Biomsperre), Sperrliste, Budget;
+   - Flächen unter 30° Hang (Ausnahme: Blockstrom-Platten).
+7. **plan.json:** `statistik.steilhang` enthält `dichte`, `netzform` (Listen), `zaehler`, den Würfelanteil je Größe an Hängen > 30°,
+   `eingraben_steilhang`, `ausrichtung_steilhang` und `blockstrom_platten`. Dazu kommen die neuen Prüfkameras (unten) und die Log-Zeilen
+   `Steilhang-Dichte` und `Steilhang-Statistik`.
+
+### Rauchtest Runde 5 (synthetisch, Cloud, Python 3.13, NumPy, kein numba; Raster danach gelöscht)
+
+**Testgelände:**
+- **B4-artig:** NE–SW-Massiv bis ~550 m mit Flanken 32–58°, drei Wandstufen (70–80°), Seitensporn, Rinnen und Rippen, Talfluss mit Weg;
+  bergwald mit Fjord-Ecke. 77 % der Feldfläche liegen über 35°.
+- **A5-artig:** Meer im Westen (24 %, nicht in `karte_wasser`), Kliff und Strand, Küstenrücken N–S bis ~430 m mit Flanken 32–52°, zwei
+  Wandstufen, Rinnen, Bach; kueste und bergwald.
+- **Lagen:** Fels ab 28°, Geröll um 32°, Gras unter 38°.
+- **Overrides:** aktuelle Biom-Regeldateien.
+
+„Vorher“ ist Planer und Regeldatei Runde 4 (Git-Stand) auf demselben Raster. Die Messung ist vom Planer unabhängig: Hang, Normale und
+Hangknick sind aus `hoehe.f32` neu gerechnet, die Netzmaße aus `netze_masse.json`/`netze.csv`. Gezählt werden Felsstücke ohne Kiesel,
+inklusive Formgruppen-Heros.
+
+| Wert (Hang am Instanzort) | B4-artig vorher → nachher | A5-artig vorher → nachher |
+|---|---|---|
+| Steilhangfläche > 35° im Feld | 769 877 m² | 595 533 m² |
+| Blöcke > 2 m am Steilhang | 2 904 → **563** | 2 436 → **452** |
+| Dichte > 2 m je 100 m² (Grenze 0,667), Feld / max. 48-m-Zelle | 0,377 / **1,40** → 0,073 / **0,31** | 0,409 / **1,56** → 0,076 / **0,26** |
+| Blöcke > 4 m am Steilhang | 1 915 → **288** | 1 598 → **240** |
+| Dichte > 4 m je 100 m² (Grenze 0,167), Feld / max. Zelle | 0,249 / **1,09** → 0,037 / **0,156** | 0,268 / **1,07** → 0,040 / **0,164** |
+| Abstand nächster Block > 2 m, min / Median | 0,09 / 3,7 m → 9,9 / 19,3 m | 0,21 / 3,7 m → 9,9 / 20,3 m |
+| Stücke < 1,5 m am Steilhang (ohne Kiesel) | 126 → 2 291 | 122 → 1 757 |
+| Würfelartige an Hängen > 30°, nach d: < 1,5 / 1,5–2 / 2–4 / > 4 m | 48 % / 44 % / 37 % / 11 % → 7 % / **0** / **0** / **0** | 38 % / 39 % / 35 % / 10 % → 8 % / **0** / **0** / **0** |
+| Würfelartige als Kern/Hero an Hängen > 30° | 90 → **0** | 75 → **0** |
+| Eingraben am Steilhang senkrecht, Anteil Median / Min | 0,25 / 0,035 → **0,60 / 0,50** | 0,25 / 0,049 → **0,61 / 0,50** |
+| Eingrabtiefe Median / Min | 0,50 / 0,03 m → 0,28 / 0,06 m (Stücke kleiner) | 0,48 / 0,07 m → 0,28 / 0,08 m |
+| Lange Achse zur Falllinie (in der Hangebene), Median / p90 | 44,0° / 82° → **9,9° / 18°** (100 % ≤ 20°) | 46,3° / 84° → **9,9° / 18°** |
+| Z-Achse gegen Normale, Median | 8,0° → 0,0° | 8,1° → 0,0° |
+| Blockstrom-Platten: Anzahl, Eingraben min | 261, 0,06 → 464, **0,415** | 219, 0,105 → 342, **0,42** |
+| Blockstrom-Platten ohne Hangknick | 3 (1,1 %) → **0** | 6 (2,7 %) → **0** |
+| Instanzen / Kollision / Akteure | 18 888 / 2 713 / 150 → 14 051 / 921 / 150 | 16 331 / 2 277 / 150 → 11 849 / 807 / 150 |
+| Formgruppen (Heros) | 17 → 17 (identisch) | 16 → 16 (identisch) |
+
+Die Würfelanteile vorher und nachher als Stückzahlen (würfelartig/alle):
+
+| Feld | < 1,5 m | 1,5–2 m | 2–4 m | > 4 m |
+|---|---|---|---|---|
+| B4 vorher | 64/134 | 149/336 | 393/1 072 | 225/2 100 |
+| B4 nachher | 168/2 315 | 0/132 | 0/321 | 0/446 |
+| A5 vorher | 50/130 | 111/288 | 318/919 | 172/1 728 |
+| A5 nachher | 143/1 768 | 0/119 | 0/275 | 0/355 |
+
+**Weitere Werte aus dem Planer** (`statistik.steilhang`, B4 / A5):
+- vor der Grenze 1 235 / 1 035 Stücke > 2 m; davon 6 / 9 verkleinert, 517 / 447 durch Steine ersetzt, 131 / 114 entfernt;
+- 15 / 19 Stücke wegen Schwebe-Test (> 85 % nötig) verworfen;
+- 68 würfelartige Hero-Varianten gesperrt;
+- Blockstrom-Köpfe in Rinne/Hangfuß: 56 % / 69 %.
+
+**Prüfungen:**
+- **Budget:** ≤ 60 000 Instanzen, ≤ 3 000 Kollision, ≤ 150 Akteure; `instanzen` = f32-Zeilen.
+- **Meer-Regel:** Schlussfilter 0/0/0, `meer_gefiltert` 9 in A5.
+- **Determinismus:** zwei Läufe B4 + A5 + A1 + Z9 (verschiedene `PYTHONHASHSEED`) byteidentisch, 244 Dateien inkl. plan.json und PNG.
+- **Ausgabe:** Log und `--help` reines ASCII.
+- **Randfälle:** A1 → leerer plan.json, Z9 → übersprungen, ohne `hoehe.f32` Exit 2.
+- **Laufzeit:** 12–17 s je Feld; py_compile OK.
+
+**Einordnung:**
+- **Dichte:** Schon vorher lag die mittlere Dichte unter der Grenze. Verletzt war sie *örtlich*, in Gruppen, Bändern und Zungen
+  (Zellmaximum 1,4–1,6 je 100 m²). Jetzt bindet vor allem der Mindestabstand; alle Zellen liegen unter der Grenze.
+- **Gemessenes Größengefälle:** N(>2)/N(>4) ergibt einen Exponenten von 0,6 → 0,9–1,0. Das bleibt unter 2,2, weil `wand`-Schalen,
+  Formgruppen-Heros und Felskronen ihre Größe bewusst behalten (zusammen 140–160 der Stücke > 4 m). Für Satelliten, Steine und Zungen
+  gilt 2,2.
+- **Instanzen −27 bis −28 %:** Das sind vor allem Kiesel, die zum Saum entfernter oder verkleinerter großer Stücke gehörten (Kontaktsaum),
+  und weniger Kollision: kleine Stücke < 0,8 m haben keine.
+- **Satelliten der Formgruppen:** An steilen Fronten sind sie jetzt meist eingebettete Platten und Steine (sichtbar im Median 0,23 m,
+  vorher 3,8 m). Grund ist die harte Dichtegrenze: Satelliten > 2 m in < 9,8 m Abstand zum nächsten großen Stück werden verkleinert.
+  Der Hero selbst ist unverändert.
+
+### Prüfkameras (plan.json `pruefkameras`)
+
+- `steilhang_300m` / `steilhang_120m` (neu): größtes Stück in der 48-m-Zelle mit der größten Steilhangfläche, von hangabwärts, Gelände +
+  40 / 25 m. Erfolg erkennbar an:
+  - wenige große, halb eingegrabene Platten entlang der Falllinie;
+  - dazwischen kleines Geröll und der Fels der Landschaft;
+  - kein Kistenhaufen, keine dunklen Unterseiten, keine Pfeiler.
+
+  Für B4 Echtdaten: zusätzlich `formgruppe_300m_2` und `_3` wie in FELSR3, der gleiche Ausschnitt muss ruhiger wirken.
+- `blockstrom_rinne_60m` (neu): Blockstrom-Kopf in einer Rinne, 60 m hangabwärts, + 12 m. Erfolg: Platten mindestens zur Hälfte im Boden,
+  keine flach obenauf liegenden Platten.
+- `blockstrom_120m` (A5, wie FELSR3): keine dünnen Platten auf glatter Fläche.
+- **Gegenprobe, unverändert erwartet:** `formgruppe_front_120m` (A5) und `grat_120m` (B4). Heros und Kronen haben dieselbe Lage und
+  Größe; nur die Satelliten am Steilhang sind kleiner und eingebettet.
+
+### Offene Punkte Runde 5
+
+1. **Nur synthetisch abgestimmt.** Betroffen sind der Mindestabstand (`mindestabstand_faktor` 0,8), der Exponent 2,2,
+   `haupt_d_min_anteil` 0,4 und die Rinnen-Schwelle 0,012.
+   - Wirkt der Steilhang in Echtdaten zu leer: Faktor auf 0,6 senken. Die Zellquote bleibt hart.
+   - Wirkt er weiter zu blockig: Exponent auf 2,5 heben.
+2. **Nahtstellen.** Den Mindestabstand prüft ein Feld nur gegen eigene Stücke. An Feldgrenzen können zwei Blöcke > 2 m näher als 9,8 m
+   stehen. Die Quoten je Zelle und Feld gelten trotzdem, weil die Zellen an der Feldgrenze enden.
+3. **Satelliten der Formgruppen am Steilhang** sind klein (siehe oben). Sollen sie größer bleiben, geht das nur über einen kleineren
+   `mindestabstand_faktor`. `ausnahme_klassen` schaltet nur Größe, Eingraben und Ausrichtung ab, nicht die Dichtegrenze.
+4. **Orientierung der Megascans-Netze:** Die lange Achse wird aus den Bounds bestimmt (`netze_masse.json`, sonst `netze.csv`). Bei Netzen
+   ohne Bounds-Eintrag ist ein Pivot unten angenommen (wie bisher).

@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-11 04:05 UTC. Runde 5 in Arbeit.
+Stand: 2026-10-11 05:00 UTC. Runde 5 abgeschlossen, Antwort: verteilung-korrektur-runde5.md.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -184,4 +184,4 @@ Regel verbindlich in `verteilung-KONVENTIONEN.md` §1b: Meer = hoehe < 0 und kar
 
 | Teil | Aufgabe | Stand |
 |---|---|---|
-| felsgruppen | Steilhang > 35 Grad: Bloecke > 2 m max. 1 je 150 m2, > 4 m max. 1 je 600 m2, Potenzgesetz der Groessen; Eingraben 50-70 %, lange Achse entlang Fallrichtung +-20 Grad; wuerfelartige Netze an Haengen > 30 Grad nur als Satelliten < 1,5 m; Blockstrom-Platten >= 40 % eingegraben, nur in Rinnen/Hangfuss | laeuft |
+| felsgruppen | Steilhang > 35 Grad: Bloecke > 2 m max. 1 je 150 m2, > 4 m max. 1 je 600 m2, Potenzgesetz der Groessen; Eingraben 50-70 %, lange Achse entlang Fallrichtung +-20 Grad; wuerfelartige Netze an Haengen > 30 Grad nur als Satelliten < 1,5 m; Blockstrom-Platten >= 40 % eingegraben, nur in Rinnen/Hangfuss | fertig, gepusht (synthetisch B4: Bloecke > 2 m an Haengen > 35 Grad 2 904 -> 563, Dichte max. Zelle 1,40 -> 0,31 je 100 m2; > 4 m 1 915 -> 288; Wuerfelanteil > 1,5 m -> 0 %; Eingraben Median 0,25 -> 0,60; Achse zur Falllinie 44 -> 10 Grad; Blockstrom-Platten min. 0,415 eingegraben, 0 ohne Hangknick. Formgruppen-Heros und Grat-Kronen unveraendert. Instanzen -27 %) |

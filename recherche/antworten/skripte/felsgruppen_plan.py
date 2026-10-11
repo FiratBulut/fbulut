@@ -1822,8 +1822,7 @@ class Planer:
         self.fg_stat, self.form_stat, self.kameras, self.form_info = {}, {}, [], None
         self.steil_stat, self.dichte_stat = {}, {}
         self.haupt_je_biom = np.zeros(len(BIOME), dtype=np.int64)
-        self.sh_stat = {"netzform_verworfen": 0, "netzform_umgestellt": 0, "schwebend_verworfen": 0, "potenz_stuecke": 0,
-                        "strom_platten_ohne_knick_umgestellt": 0}
+        self.sh_stat = {"netzform_verworfen": 0, "netzform_umgestellt": 0, "schwebend_verworfen": 0, "potenz_stuecke": 0}
         self.konfig(feld)
         self.netzform_info = self.netzform_log() if self.sh_aktiv else {}
         self.biom, self.biom_quelle = lade_biome(welt_dir, win, self.basis, self.skriptdir, feld, R)
@@ -3156,13 +3155,14 @@ class Planer:
         ci0, cj0 = np.round(fi_c0).astype(np.int64), np.round(fj_c0).astype(np.int64)
         # Runde 5: Steilhang- und Netzform-Masken am Ort des Stücks
         hang0 = self.hang[ci0, cj0]
-        kronen = bool(haupt) and kname in SH.get("ausnahme_haupt_klassen", ["grat", "kuppe"])
+        kronen = (bool(haupt) and kname in SH.get("ausnahme_haupt_klassen", ["grat", "kuppe"])) or kname in SH.get("ausnahme_klassen", [])
         steil = (hang0 > float(SH.get("hang_grad", 35))) & (rolle in SH.get("eingraben_rollen", [])) & (not kronen) & self.sh_aktiv
         w30 = (hang0 > float(SH.get("wuerfel_hang_grad", 30))) & (rolle != "kiesel") & self.sh_aktiv
         strom_r = bool(strom) and self.bp_aktiv
         strom_ok = np.full(n, strom_r) & (~self.knick[ci0, cj0] if bool(self.BP.get("nur_mit_hangknick", True)) else False)
         PZ = SH.get("potenz", {})
         p_exp, p_dmin = float(PZ.get("exponent", 2.2)), float(PZ.get("d_min_m", 0.6))
+        p_haupt = float(PZ.get("haupt_d_min_anteil", 0.4))  # Hauptstück: Potenzgesetz auf [anteil x geplante Größe, geplante Größe]
         kein_netz = np.zeros(n, dtype=bool)
         if ziel is not None:
             kand = self.kandidaten_netze(pal, rolle)
@@ -3172,9 +3172,10 @@ class Planer:
             regel = None
             if w30.any() or strom_ok.any():
                 if steil.any():  # geplante Netzhöhe als Zielwert der längsten Achse; Satelliten nach Potenzgesetz
-                    d_ziel = ziel_netz if haupt else potenz(hh, 47, np.minimum(p_dmin, ziel_netz), ziel_netz, p_exp)
+                    lo_ = np.minimum(np.maximum(p_dmin, p_haupt * ziel_netz), ziel_netz) if haupt else np.minimum(p_dmin, ziel_netz)
+                    d_ziel = potenz(hh, 47, lo_, ziel_netz, p_exp)
                     ziel_netz = np.where(steil, d_ziel, ziel_netz)
-                    self.sh_stat["potenz_stuecke"] += 0 if haupt else int(steil.sum())
+                    self.sh_stat["potenz_stuecke"] += int(steil.sum())
                 regel = {"achse": steil, "steil": steil, "w30": w30, "haupt": haupt, "strom_ohne_knick": strom_ok,
                          "nu": float(ro["nicht_uniform"])}
             k, sk, n_rueck, kein_netz = self.waehle_ziel(kand, ziel_netz, hh,
@@ -3197,10 +3198,11 @@ class Planer:
                 k_neu = np.argmax(sc, axis=1)
                 k = np.where(w30, k_neu, k)
                 kein_netz = w30 & (sc[np.arange(n), k_neu] < 0)
-            if steil.any() and not haupt:  # Potenzgesetz auf die längste Achse, Maßstab >= min_skalierung
+            if steil.any():  # Potenzgesetz auf die längste Achse, Maßstab >= min_skalierung
                 a_k = self.netzform_arrays(pfade_l)[0][k]
                 d_alt = a_k * sk
-                d_neu = potenz(hh, 47, np.minimum(p_dmin, d_alt), d_alt, p_exp)
+                lo_ = np.minimum(np.maximum(p_dmin, p_haupt * d_alt), d_alt) if haupt else np.minimum(p_dmin, d_alt)
+                d_neu = potenz(hh, 47, lo_, d_alt, p_exp)
                 sk = np.where(steil, np.maximum(d_neu / a_k, np.minimum(sk, float(F["min_skalierung"]))), sk)
                 self.sh_stat["potenz_stuecke"] += int(steil.sum())
             H_cm, R_cm, MZ = hc[k], rc[k], mz[k]
@@ -3217,9 +3219,9 @@ class Planer:
             e0, e1 = [float(x) for x in SH.get("eingraben", [0.5, 0.7])]
             bury = np.where(steil, np.maximum(zwischen(hh, 46, e0, e1), np.where(ist_pl, bury, 0.0)), bury)
         if strom_pl.any():
-            bury = np.where(strom_pl, np.maximum(bury, float(self.BP.get("eingraben_min", 0.4))), bury)
+            bury = np.where(strom_pl, np.maximum(bury, float(self.BP.get("eingraben_min", 0.4)) + float(self.BP.get("reserve", 0.02))), bury)
         senk = steil | strom_pl
-        cosn = np.clip(self.normal[ci0, cj0, 2], 0.3, 1.0)
+        cosn = np.clip(self.normal[ci0, cj0, 2], 0.1, 1.0)
         cfak = np.where(senk, 1.0 / cosn, 1.0)  # z-Versatz je Eingrabtiefe (senkrecht zum Hang gemessen)
         nu = ro["nicht_uniform"]
         fx, fy = 1 + nu * (2 * uni(hh, 51) - 1), 1 + nu * (2 * uni(hh, 52) - 1)
@@ -3845,7 +3847,7 @@ class Planer:
             e0, e1 = [float(x) for x in SH.get("eingraben", [0.5, 0.7])]
             bury = np.where(steil, np.maximum(zwischen(hh, 46, e0, e1), np.where(ist_pl, bury, 0.0)), bury)
             senk = steil
-            cosn = np.clip(self.normal[pci, pcj, 2], 0.3, 1.0)
+            cosn = np.clip(self.normal[pci, pcj, 2], 0.1, 1.0)
             cfak = np.where(senk, 1.0 / cosn, 1.0)
             nfa = self.netzform_arrays(pfade)
             dxk, dyk = nfa[6][k], nfa[7][k]
@@ -4271,7 +4273,7 @@ class Planer:
         hz = bilinear(self.h, np.clip(a["fi"][idx], 1, H - 1.001), np.clip(a["fj"][idx], 1, W - 1.001)) * 100.0
         mz = np.array([self.netz_mass(p)[2] for p in a["pfad"][idx]])
         hc = np.array([self.netz_mass(p)[0] for p in a["pfad"][idx]])
-        cosn = np.clip(self.normal[a["ci"][idx], a["cj"][idx], 2], 0.3, 1.0)
+        cosn = np.clip(self.normal[a["ci"][idx], a["cj"][idx], 2], 0.1, 1.0)
         tiefe_v = hz - mz * a["sz"][idx] - a["z"][idx]
         return tiefe_v * cosn / np.maximum(hc * a["sz"][idx], 1e-3), tiefe_v * cosn / 100.0
 
@@ -4300,7 +4302,8 @@ class Planer:
         kern = m30 & wue & (a["haupt"] | ((a["klasse"] == "formgruppe") & (a["rolle"] == "hero")))
         st["wuerfel_als_kern_oder_hero"] = int(kern.sum())
         # Eingraben/Ausrichtung am Steilhang (Rollen eingraben_rollen, ohne Ausnahmen: Formgruppen-Hero, wand, Kronen-Hauptstücke)
-        kronen = a["haupt"] & np.isin(a["klasse"], SH.get("ausnahme_haupt_klassen", ["grat", "kuppe"]))
+        kronen = (a["haupt"] & np.isin(a["klasse"], SH.get("ausnahme_haupt_klassen", ["grat", "kuppe"]))) | \
+            np.isin(a["klasse"], SH.get("ausnahme_klassen", []) or ["-"])
         regel = fels & (hang_i > float(SH.get("hang_grad", 35))) & np.isin(a["rolle"], SH.get("eingraben_rollen", [])) & ~kronen \
             & ~(np.char.startswith(a["klasse"].astype(str), "z_") & a["akteur"]) & ~((a["klasse"] == "formgruppe") & (a["rolle"] == "hero"))
         idx = np.nonzero(regel)[0]
@@ -4609,6 +4612,39 @@ class Planer:
             ab = self.abfall[a["ci"][k], a["cj"][k]]
             kamera("blockstrom_120m", k, 120.0, math.atan2(ab[1], ab[0]), 15.0,
                    "Blockstrom am Wandfuss: Kopfblock an der Wand, Groesse hangabwaerts abnehmend")
+        # Runde 5: Steilhang (Zelle mit der größten Steilhangfläche, größtes Stück > 2 m dort) und Blockstrom in einer Rinne
+        if self.sh_aktiv and len(a["x"]):
+            hg_ = self.hang[a["ci"], a["cj"]]
+            d_ = self.blockgroesse(a)
+            Z = int(self.SH.get("dichte", {}).get("zelle_m", 48))
+            sm = self.steil_maske()
+            fs_i, fs_j = self.feld_slice
+            sub = sm[fs_i, fs_j]
+            nz_ = (sub.shape[0] // Z) * Z, (sub.shape[1] // Z) * Z
+            if nz_[0] and nz_[1]:
+                zf = sub[:nz_[0], :nz_[1]].reshape(nz_[0] // Z, Z, nz_[1] // Z, Z).sum(axis=(1, 3))
+                m_ = np.zeros(len(a["x"]), dtype=bool)
+                for zz in np.argsort(-zf.ravel(), kind="stable")[:40]:  # Zellen nach Steilhangfläche, erste mit Stück
+                    zi, zj = np.unravel_index(int(zz), zf.shape)
+                    ii0, jj0 = fs_i.start + zi * Z, fs_j.start + zj * Z
+                    m_ = (hg_ > float(self.SH.get("hang_grad", 35))) & (a["rolle"] != "kiesel") & (a["ci"] >= ii0) & (a["ci"] < ii0 + Z) \
+                        & (a["cj"] >= jj0) & (a["cj"] < jj0 + Z) & (d_ > 1.0)
+                    if m_.any():
+                        break
+                if m_.any():
+                    k = np.nonzero(m_)[0][int(np.argmax(d_[m_]))]
+                    ab = self.abfall[a["ci"][k], a["cj"][k]]
+                    kamera("steilhang_300m", k, 300.0, math.atan2(ab[1], ab[0]), 40.0,
+                           "Steilhang > 35 Grad (Runde 5): wenige grosse, halb eingegrabene Platten entlang der Falllinie, dazwischen kleines "
+                           "Geroell; kein Kistenhaufen aus wuerfeligen Bloecken")
+                    kamera("steilhang_120m", k, 120.0, math.atan2(ab[1], ab[0]), 25.0,
+                           "Steilhang nah: Bloecke > 2 m mit >= 10 m Abstand, Z an der Normale, 50-70 % eingegraben, keine sichtbare Unterseite")
+            hr = np.nonzero(a["haupt"] & np.isin(a["klasse"], ["fuss", "blockstrom"]) & self.rinne[a["ci"], a["cj"]])[0]
+            if len(hr):
+                k = hr[np.argmax(a["hoehe_m"][hr])]
+                ab = self.abfall[a["ci"][k], a["cj"][k]]
+                kamera("blockstrom_rinne_60m", k, 60.0, math.atan2(ab[1], ab[0]), 12.0,
+                       "Blockstrom in einer Rinne (Runde 5): Platten eingebettet (>= 40 %), nur mit Hangknick, nicht flach obenauf")
         hq = np.nonzero(a["haupt"] & (a["klasse"] == "kuppe"))[0]
         if len(hq):
             k = hq[np.argmax(a["z"][hq])]
@@ -4748,7 +4784,8 @@ def plan_kopf(R, feld, n, stand):
             "biome_fenster": {}, "biome_fenster_bezug": "land", "zellen_zustaendig": 0, "kollision_anzahl": 0, "dateien": {}, "akteure": [],
             "meer_zellen": 0, "meer_gefiltert": 0,
             "entfernen": AU.get("entfernen", ""), "ft_ordner": AU["ft_ordner"], "ft_praefix": AU["ft_praefix"],
-            "quelle": "felsgruppen_plan.py (Korrektur Runde 4: Meer = hoehe < 0 ohne karte_wasser; Runde 3: Formgruppen 10-30 m, Netz-Biomsperre, Hangknick; Runde 2: Gruppengrammatik, "
+            "quelle": "felsgruppen_plan.py (Korrektur Runde 5: Steilhang-Dichtegrenze, Potenzgesetz, Eingraben 50-70 %, Netzform-Regel, "
+                      "Blockstrom-Platten; Runde 4: Meer = hoehe < 0 ohne karte_wasser; Runde 3: Formgruppen 10-30 m, Netz-Biomsperre, Hangknick; Runde 2: Gruppengrammatik, "
                       "Platten-Regel, Kontaktsaum, Sperrliste)",
             "hinweis_setzer": "Eintraege mit rolle 'akteur' (Dateien akteur_*.f32, Liste 'akteure') als StaticMeshActor setzen, "
                               "nicht als Foliage; Kollision nur wo kollision=true; Z enthaelt bereits das Eingraben.",
@@ -4772,7 +4809,7 @@ def schreibe_leeren_plan(basis, R, feld, grund):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def main():
-    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C, Korrektur Runde 4).")
+    ap = argparse.ArgumentParser(description="Felsgruppen-Planer Eldarien (Auftrag 11 C, Korrektur Runde 5).")
     ap.add_argument("felder", nargs="+", help="Gitterfelder, z. B. B4 C2")
     ap.add_argument("--bild", action="store_true", help="Draufsicht docs/pruefung/felsgruppen/<Feld>.png")
     ap.add_argument("--faktor", type=float, default=1.0, help="Dichtefaktor (Standard 1.0)")
