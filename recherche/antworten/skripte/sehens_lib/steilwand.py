@@ -497,7 +497,7 @@ def halde_lage(ctx, lg):
     return np.clip(_stm._bilinear_fenster(w, st.fe, ctx.welt, lg.X, lg.Y, 0.0) * 1.6, 0.0, 1.0)
 
 
-PLANER_GRENZE_GRAD = 40.0   # Planer rechnet im nativen Raster (2 m): Reserve fuer die 1-m-Interpolation des Pruefers
+PLANER_GRENZE_GRAD = 38.0   # Planer rechnet im nativen Raster (2 m): Reserve fuer die 1-m-Interpolation des Pruefers
 
 
 def _steil_im_stempel(ctx, grenze_grad=PLANER_GRENZE_GRAD):
@@ -661,7 +661,7 @@ def auto_verkleiden(ctx):
     grp = {"name": v.get("name", "wandverkleidung"), "ebene": "begleiter", "rolle": "fels",
            "warum": "13h: neue Steilflaeche > 45 Grad nur mit Fels - automatische Verkleidung mit Wandnetzen des Bioms (A15)",
            "verteilung": {"typ": "steilwand", "max_anzahl": int(v.get("max_anzahl", 30)), "versatz_m": 0.3,
-                          "min_flaeche_m2": float(v.get("min_flaeche_m2", 4.0))},
+                          "min_flaeche_m2": float(v.get("min_flaeche_m2", 2.0))},
            "groesse_m": v.get("groesse_m", [3.0, 7.0]), "groesse_achse": v.get("groesse_achse", "z"),
            "front_achse": v.get("front_achse", "+y"), "im_wasser": "egal",
            "hinweis": "Schauseite +Y angenommen (E35) - im Editorbild pruefen"}
