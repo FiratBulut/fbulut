@@ -19,11 +19,19 @@ Geprueft:
     (daten.lade rastert sie) - fuer Weg 80-300 m, Sicht und Erreichbarkeit.
   Global ueber alle Biome: Mindestabstand 350 m (beide in kleinen Biomen: 200 m), doppelte IDs (Orte, Pfade).
   --sicht: Leuchtfeuer aus 300-800 m von Weg/Pfad sichtbar (WARNUNG sonst), Fundstueck verdeckt (HINWEIS sonst).
-  Phase 2 orte.json: Pflichtfelder §2, Gelaende/Lagen §3 (Fenster, max_aenderung, Dateigroessen, Rand = 0),
-    Wasser §5 (Umriss gegen Uhrzeigersinn = Flaeche > 0 in X/Y wie wasser_welt.json, Farben, Bachgefaelle),
-    Effekte §6, Materialwuensche §7 (<= 6 je Biom), Kameras §8, Budget §9.
+  Phase 2 orte.json: Pflichtfelder §2, Gelaende/Lagen §3 (Fenster, max_aenderung, Dateigroessen, Rand = 0,
+    |Delta| > 40 m nur mit 'begruendung' (Ferat 11.10.), mit Daten: keine Aenderung <= 2-3 m an Wegen/Wasser,
+    Seeufer rundum ueber dem Spiegel nach dem Stempel), Wasser §5 (Umriss gegen Uhrzeigersinn = Flaeche > 0 in X/Y
+    wie wasser_welt.json, Farben, Bachgefaelle), Effekte §6 (Niagara/Decal gegen inventar_extra.json: fehlt -> FEHLER,
+    "optional": true -> HINWEIS), Klaenge, Pfad (13c), Materialwuensche §7 (<= 6 je Biom, Parameter der Master),
+    Kameras §8, Budget §9, Witcher-Detailebenen (HINWEIS bei leeren Ebenen).
+  Phase 2 Instanzen sw_<biom>/<Feld>/ (--ebene, Standard neben orte.json): plan.json-Schluessel, f32 = 10 float32 je
+    Instanz, anzahl/instanzen/kollision_anzahl stimmen, Netze in netze.csv (nicht gesperrt, kein Houdini SW_*),
+    Quaternion normiert, Massstab, Lage im Feldrechteck, <= 500 Akteure je Feld, Budget je Ort = orte.json-Budget
+    und <= §9, mit Daten: Meer, Weg, Schweben/Versinken gegen das Gelaende nach dem Stempel.
 
-API: pruefe_standorte(d, welt=None, gel=None), pruefe_orte(d, basis=None), pruefe_global(liste),
+API: pruefe_standorte(d, welt=None, gel=None), pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None),
+     pruefe_ebene(sw_ordner, biom, inv, orte, welt, basis), pruefe_global(liste),
      pruefe_alle(sehens_ordner, welt=None, gel=None, sicht=False), pruefe_pfad(...), pruefe_pfade_datei(...),
      pruefe_sicht(liste, welt), melde(befunde, titel)
 Befund = (stufe, ort_id, text) mit stufe in FEHLER / WARNUNG / HINWEIS.
@@ -51,6 +59,7 @@ FARBEN = ("klar", "tuerkis", "tiefblau", "smaragd", "moorbraun", "schwarz_spiege
 MASTER = ("M_EL_Fels_MS", "M_EL_Fels_Auflage", "M_EL_Fels_Sand", "M_EL_Klippe_RVT", "M_EL_Pflanze",
           "M_EL_Eis4", "M_EL_Wasserfall2", "M_MS_Decal", "M_MS_Base")
 BUDGET = {"instanzen": 15000, "kollision": 1500, "akteure": 80, "lichter": 4, "niagara": 3, "decals": 12}
+BUDGET_OPTIONAL = {"nebel": 2}
 FELD_RE = re.compile(r"^[A-J][1-7]$")
 
 
@@ -496,13 +505,18 @@ def _pruefe_fenster(oid, name, g, art, basis, suffixe=None, typ="f32"):
                     b.append((FEHLER, oid, "%s: Rand des Fensters nicht 0 (max %.2f m)" % (df, np.abs(rand).max())))
                 mx = float(np.abs(a).max())
                 if mx > 40:
-                    b.append((WARNUNG, oid, "%s: |Delta| bis %.1f m > 40 m (begruenden)" % (df, mx)))
+                    b.append((HINWEIS if g.get("begruendung") else WARNUNG, oid,
+                              "%s: |Delta| bis %.1f m > 40 m (Ferat 11.10.: erlaubt, %s)"
+                              % (df, mx, "begruendet" if g.get("begruendung") else "bitte 'begruendung' setzen")))
+                if not np.isfinite(a).all():
+                    b.append((FEHLER, oid, "%s: NaN/Inf im Gelaende-Delta" % df))
                 if abs(mx - float(g.get("max_aenderung_m", mx))) > 0.5:
                     b.append((HINWEIS, oid, "%s: max_aenderung_m %.1f, Datei %.1f" % (df, g.get("max_aenderung_m"), mx)))
     return b
 
 
-def pruefe_ort(o, biom, basis=None):
+def pruefe_ort(o, biom, basis=None, inv=None, welt=None):
+    """Ein orte.json-Eintrag (Phase 2). inv: inventar.Inventar (Asset-Pruefung), welt: Kameras/Gelaende-Regeln."""
     b = []
     oid = o.get("id", "?")
     for f in ("id", "name", "art", "kurz", "mitte_cm", "radius_m", "felder", "standort_begruendung", "sicht",
@@ -525,8 +539,8 @@ def pruefe_ort(o, biom, basis=None):
     if "gelaende" in o and o["gelaende"]:
         g = o["gelaende"]
         b += _pruefe_fenster(oid, "gelaende", g, art, basis, typ="f32")
-        if _zahl(g.get("max_aenderung_m")) and g["max_aenderung_m"] > 40:
-            b.append((WARNUNG, oid, "gelaende.max_aenderung_m %.1f > 40 (begruenden)" % g["max_aenderung_m"]))
+        if _zahl(g.get("max_aenderung_m")) and g["max_aenderung_m"] > 40 and not g.get("begruendung"):
+            b.append((WARNUNG, oid, "gelaende.max_aenderung_m %.1f > 40 ohne 'begruendung'" % g["max_aenderung_m"]))
     if "lagen" in o and o["lagen"]:
         lg = o["lagen"]
         for n in lg.get("lagen", []):
@@ -600,24 +614,55 @@ def pruefe_ort(o, biom, basis=None):
                     b.append((FEHLER, oid, "lokaler_nebel.%s fehlt" % f))
         elif t == "niagara":
             zahl["niagara"] += 1
-            if not e.get("optional"):
-                b.append((FEHLER, oid, "niagara: im Projekt gibt es keine Niagara-Systeme -> \"optional\": true"))
+            for f in ("asset", "pos_cm"):
+                if f not in e:
+                    b.append((FEHLER, oid, "niagara.%s fehlt" % f))
+            if inv is not None:
+                b += [(st, oid, tx) for st, tx in inv.asset_pruefen("niagara", e.get("asset"), bool(e.get("optional")))]
+            elif not e.get("optional"):
+                b.append((HINWEIS, oid, "niagara %s: ohne Inventar nicht pruefbar" % e.get("asset")))
         elif t == "decal":
             zahl["decal"] += 1
             for f in ("material", "pos_cm", "groesse_cm"):
                 if f not in e:
                     b.append((FEHLER, oid, "decal.%s fehlt" % f))
+            if inv is not None and e.get("material"):
+                b += [(st, oid, tx) for st, tx in inv.asset_pruefen("decal", e["material"], bool(e.get("optional")))]
         else:
             b.append((FEHLER, oid, "effekte.typ %r" % t))
     for n, mx in (("licht", 4), ("nebel", 2), ("niagara", 3), ("decal", 12)):
         if zahl[n] > mx:
             b.append((FEHLER, oid, "%d %s-Effekte > %d" % (zahl[n], n, mx)))
     for mw in o.get("materialwuensche", []) or []:
+        if inv is not None:
+            b += [(st, oid, tx) for st, tx in inv.material_pruefen(mw)]
+            continue
         if not str(mw.get("name", "")).startswith("MI_EL_SW_"):
             b.append((FEHLER, oid, "materialwunsch.name muss mit MI_EL_SW_ beginnen: %r" % mw.get("name")))
         if mw.get("basis") not in MASTER:
             b.append((FEHLER, oid, "materialwunsch.basis %r ist kein erlaubter Master" % mw.get("basis")))
-    b += pruefe_kameras(oid, art, o.get("kameras"), m)
+    for k in o.get("klaenge", []) or []:
+        if not k.get("asset") or not _pkt(k.get("pos_cm"), 3):
+            b.append((FEHLER, oid, "klaenge: asset und pos_cm [x, y, z] noetig"))
+        elif inv is not None:
+            b += [(st, oid, tx) for st, tx in inv.asset_pruefen("klang", k["asset"], bool(k.get("optional")))]
+    pf = o.get("pfad")
+    if pf:
+        pts = pf.get("punkte_cm") or []
+        if len(pts) < 2 or not all(_pkt(q, 2) for q in pts):
+            b.append((FEHLER, oid, "pfad.punkte_cm: >= 2 Punkte [x, y] (13c)"))
+        if not (_zahl(pf.get("breite_cm")) and 120 <= pf["breite_cm"] <= 200):
+            b.append((FEHLER, oid, "pfad.breite_cm %r (Soll 120-200, 13c)" % pf.get("breite_cm")))
+        if pf.get("art") not in _daten.PFAD_ARTEN:
+            b.append((FEHLER, oid, "pfad.art %r (%s)" % (pf.get("art"), "/".join(_daten.PFAD_ARTEN))))
+    de = o.get("detail_ebenen")
+    if isinstance(de, dict):
+        for eb in ("held", "begleiter", "schutt", "kleinzeug", "bewuchs", "kontakt"):
+            if not (de.get(eb) or {}).get("anzahl"):
+                b.append((HINWEIS, oid, "Witcher-Detailebene '%s' leer" % eb))
+    if welt is not None:
+        b += pruefe_ort_gelaende(o, basis, welt)
+    b += pruefe_kameras(oid, art, o.get("kameras"), m, welt)
     mk = o.get("marker") or {}
     if not mk.get("titel") or not mk.get("text"):
         b.append((WARNUNG, oid, "marker.titel/text leer"))
@@ -636,21 +681,265 @@ def pruefe_ort(o, biom, basis=None):
     return b
 
 
-def pruefe_orte(d, basis=None):
-    """Prueft eine orte.json (Phase 2). basis: Ordner der Datei (fuer gelaende/lagen-Dateien)."""
+def pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None):
+    """Prueft eine orte.json (Phase 2). basis: Ordner der Datei (fuer gelaende/lagen-Dateien), inv: Inventar
+    (Assets), welt: Gelaende-Regeln, sw_ordner: Instanz-Ebene sw_<biom> (Format, Assets, Budget-Abgleich)."""
     b = []
     biom = d.get("biom")
     if biom not in _daten.BIOME:
         b.append((FEHLER, "-", "biom %r unbekannt" % biom))
     orte = d.get("orte") or []
     for o in orte:
-        b += pruefe_ort(o, biom or "?", basis)
+        b += pruefe_ort(o, biom or "?", basis, inv, welt)
+    if sw_ordner is not None:
+        b += pruefe_ebene(sw_ordner, biom, inv, orte, welt, basis)
     mw = sum(len(o.get("materialwuensche", []) or []) for o in orte)
     if mw > 6:
         b.append((FEHLER, biom, "%d Materialwuensche > 6 je Biom" % mw))
     b += pruefe_global([(biom, o, "") for o in orte])
     return b
 
+
+
+# ============================================================================================
+# Phase 2: Gelaende gegen Daten, Instanz-Ebene sw_<biom>
+# ============================================================================================
+class BodenNachStempel:
+    """Bodenhoehe NACH den Gelaendestempeln aller Orte einer orte.json (Welt bilinear + 1-m-Deltas)."""
+
+    def __init__(self, welt, orte, basis):
+        self.welt = welt
+        self.deltas = []
+        for o in orte or []:
+            g = o.get("gelaende") or {}
+            fij = g.get("fenster_ij")
+            if not (basis and g.get("datei") and isinstance(fij, list) and len(fij) == 4):
+                continue
+            pf = os.path.join(basis, g["datei"])
+            if os.path.exists(pf) and os.path.getsize(pf) == fij[2] * fij[3] * 4:
+                self.deltas.append((fij, np.fromfile(pf, dtype="<f4").reshape(fij[2], fij[3])))
+
+    def delta(self, x_m, y_m):
+        x = np.asarray(x_m, np.float64)
+        y = np.asarray(y_m, np.float64)
+        out = np.zeros(np.broadcast(x, y).shape)
+        for (i0, j0, hh, ww), a in self.deltas:
+            fi = y + _daten.OFF_I - i0
+            fj = x + _daten.OFF_J - j0
+            innen = (fi >= 0) & (fi <= hh - 1) & (fj >= 0) & (fj <= ww - 1)
+            if not innen.any():
+                continue
+            i = np.clip(np.floor(fi).astype(np.int64), 0, hh - 2)
+            j = np.clip(np.floor(fj).astype(np.int64), 0, ww - 2)
+            di = np.clip(fi - i, 0, 1)
+            dj = np.clip(fj - j, 0, 1)
+            v = (a[i, j] * (1 - di) * (1 - dj) + a[i, j + 1] * (1 - di) * dj + a[i + 1, j] * di * (1 - dj) +
+                 a[i + 1, j + 1] * di * dj)
+            out = np.where(innen, out + v, out)
+        return out
+
+    def hoehe(self, x_m, y_m):
+        return self.welt.bilinear(self.welt.hoehe, np.asarray(x_m, np.float64), np.asarray(y_m, np.float64)) + \
+            self.delta(x_m, y_m)
+
+
+def pruefe_ort_gelaende(o, basis, welt):
+    """§3 mit Daten: keine Aenderung <= 3 m an Wegen/bestehendem Wasser (ausser 'ist_wasser'), Seeufer rundum
+    ueber dem Spiegel (Gelaende nach Stempel), Kamera/Ort nicht im Meer."""
+    b = []
+    oid = o.get("id", "?")
+    g = o.get("gelaende") or {}
+    fij = g.get("fenster_ij")
+    a = None
+    if basis and g.get("datei") and isinstance(fij, list) and len(fij) == 4:
+        pf = os.path.join(basis, g["datei"])
+        if os.path.exists(pf) and os.path.getsize(pf) == fij[2] * fij[3] * 4:
+            a = np.fromfile(pf, dtype="<f4").reshape(fij[2], fij[3])
+    if a is not None:
+        i0, j0, hh, ww = fij
+        z = welt.zelle_m
+        ii = np.clip(((np.arange(i0, i0 + hh)) // int(z)).astype(np.int64), 0, welt.ny - 1)
+        jj = np.clip(((np.arange(j0, j0 + ww)) // int(z)).astype(np.int64), 0, welt.nx - 1)
+        weg = welt.weg[ii][:, jj] > 0
+        wasser = welt.wasser[ii][:, jj] > 0
+        from . import gelaende as _g
+        geaendert = np.abs(a) > 0.05
+        for name, m in (("Weg", weg), ("bestehendem Wasser", wasser)):
+            if name != "Weg" and g.get("ist_wasser"):
+                continue
+            if not m.any() or not geaendert.any():
+                continue
+            d = _g.abstand(m, 1.0, 10.0)
+            n = int((geaendert & (d <= 2.0)).sum())
+            if n:
+                b.append((WARNUNG if name != "Weg" else FEHLER, oid,
+                          "Gelaende aendert sich %d m2 naeher als 2 m an %s (Soll: keine Aenderung <= 3 m, §3)" % (n, name)))
+    # Seeufer
+    boden = BodenNachStempel(welt, [o], basis)
+    for w in o.get("wasser", []) or []:
+        if w.get("typ") != "see" or not w.get("umriss_cm") or not _zahl(w.get("spiegel_cm")):
+            continue
+        u = np.asarray(w["umriss_cm"], np.float64) / 100.0
+        c = u.mean(axis=0)
+        v = u - c
+        n = np.maximum(np.hypot(v[:, 0], v[:, 1]), 1e-6)
+        aussen = u + v / n[:, None] * max(1.5, welt.zelle_m)
+        zr = boden.hoehe(aussen[:, 0], aussen[:, 1])
+        tief = float(w["spiegel_cm"]) / 100.0 - float(zr.min())
+        if tief > 0.05:
+            b.append((WARNUNG, oid, "see %s: Ufer bis %.2f m UNTER dem Spiegel (Gelaende nach Stempel)" % (w.get("id"), tief)))
+    m = o.get("mitte_cm")
+    if _pkt(m, 2) and welt.im_raster_m(m[0] / 100.0, m[1] / 100.0):
+        i, j = welt.cm_zu_ij(m[0], m[1])
+        if welt.meer[i, j]:
+            b.append((FEHLER, oid, "Mitte liegt im Meer"))
+    return b
+
+
+def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
+    """Instanz-Ebene sw_<biom>/<Feld>/ (FORMAT.md §3, SEHENS_FORMAT §4, §9): plan.json-Schluessel, f32-Groessen,
+    Anzahlen, Assets (netze.csv, Sperre, Houdini), Quaternion/Massstab, Lage im Feld, Akteure (<= 500 je Feld),
+    Budget je Ort gegen orte.json, mit Welt: Meer, Weg, Schweben/Versinken gegen das Gelaende NACH dem Stempel."""
+    from . import instanzen as _ins
+    b = []
+    tag = "sw_%s" % biom
+    ebene = _ins.lies_ebene(sw_ordner)
+    if not ebene:
+        b.append((WARNUNG, tag, "keine Felder in %s" % sw_ordner))
+        return b
+    je_ort = {}
+    boden = BodenNachStempel(welt, orte, basis) if welt is not None else None
+    ort_re = re.compile(r"^(%s_\d{2}_[a-z0-9_]+?)_[a-z0-9_]+$" % re.escape(biom))
+    orte_ids = {o.get("id") for o in (orte or [])}
+
+    def ort_von_klasse(k):
+        for oid in orte_ids:
+            if k.startswith(oid + "_"):
+                return oid
+        mm = ort_re.match(k or "")
+        return mm.group(1) if mm else None
+
+    for feld, (plan, arr) in sorted(ebene.items()):
+        ft = "%s/%s" % (tag, feld)
+        for k in ("stand", "feld", "instanzen", "dateien", "akteure"):
+            if k not in plan:
+                b.append((FEHLER, ft, "plan.json: Schluessel %s fehlt" % k))
+        if plan.get("feld") != feld:
+            b.append((FEHLER, ft, "plan.json feld %r passt nicht zum Ordner" % plan.get("feld")))
+        try:
+            x0, y0, x1, y1 = _daten.feld_grenzen_m(feld)
+        except (ValueError, IndexError):
+            b.append((FEHLER, ft, "Ordnername ist kein Feld"))
+            continue
+        summe = kol = 0
+        n_schwebt = n_vers = n_weg = n_wasser = n_aussen = 0
+        for key, d in (plan.get("dateien") or {}).items():
+            a = arr.get(key)
+            if a is None:
+                b.append((FEHLER, ft, "%s.f32 fehlt" % key))
+                continue
+            if a.ndim != 2:
+                b.append((FEHLER, ft, "%s.f32: Groesse kein Vielfaches von 40 Bytes" % key))
+                continue
+            if a.shape[0] != d.get("anzahl"):
+                b.append((FEHLER, ft, "%s: anzahl %s, Datei %d" % (key, d.get("anzahl"), a.shape[0])))
+            summe += a.shape[0]
+            if d.get("kollision"):
+                kol += a.shape[0]
+            for f in ("pfad", "anzahl", "sichtweite", "kollision"):
+                if f not in d:
+                    b.append((FEHLER, ft, "%s: Schluessel %s fehlt" % (key, f)))
+            if inv is not None:
+                b += [(st, ft, "%s: %s" % (key, tx)) for st, tx in inv.netz_pruefen(d.get("pfad", key))]
+            if not np.isfinite(a).all():
+                b.append((FEHLER, ft, "%s: NaN/Inf" % key))
+                continue
+            qn = np.linalg.norm(a[:, 3:7], axis=1)
+            if np.abs(qn - 1).max() > 1e-3:
+                b.append((FEHLER, ft, "%s: Quaternion nicht normiert (max |q| %.4f)" % (key, qn.max())))
+            if (a[:, 7:10] <= 0).any() or (a[:, 7:10] > 60).any():
+                b.append((FEHLER, ft, "%s: Massstab <= 0 oder > 60" % key))
+            xm, ym = a[:, 0] / 100.0, a[:, 1] / 100.0
+            aus = (xm < x0) | (xm >= x1) | (ym < y0) | (ym >= y1)
+            n_aussen += int(aus.sum())
+            for oid, n in (d.get("orte") or {}).items():
+                z = je_ort.setdefault(oid, {"instanzen": 0, "kollision": 0, "akteure": 0})
+                z["instanzen"] += n
+                if d.get("kollision"):
+                    z["kollision"] += n
+            if welt is not None:
+                bz = boden.hoehe(xm, ym)
+                zz = a[:, 2] / 100.0
+                if inv is not None and inv.netz_pfad(d.get("pfad", "")):
+                    info = inv.netz(d["pfad"])
+                    hoch = info["groesse_m"][2] * a[:, 7:10].max(axis=1)
+                else:
+                    hoch = np.full(len(zz), 1.0)
+                tol = 0.35 + 0.5 * welt.zelle_m
+                n_schwebt += int((zz - bz > tol).sum())
+                n_vers += int((zz < bz - hoch - 0.5).sum())
+                i, j = welt.m_zu_ij(xm, ym)
+                if (bz < -0.3).any():
+                    b.append((FEHLER, ft, "%s: %d Instanzen im Meer (Boden < -0,3 m)" % (key, int((bz < -0.3).sum()))))
+                n_weg += int((welt.weg_basis[i, j] > 0).sum()) if "pfad" not in str(d.get("gruppe")) else 0
+                if not any(t in str(d.get("gruppe", "")) for t in ("wasser", "pfad")):
+                    n_wasser += int((welt.wasser[i, j] > 0).sum())
+        if summe != plan.get("instanzen"):
+            b.append((FEHLER, ft, "instanzen %s, Summe der Dateien %d" % (plan.get("instanzen"), summe)))
+        if "kollision_anzahl" in plan and kol != plan["kollision_anzahl"]:
+            b.append((FEHLER, ft, "kollision_anzahl %s, Summe %d" % (plan["kollision_anzahl"], kol)))
+        if summe > 60000:
+            b.append((WARNUNG, ft, "%d Instanzen > 60 000 je Feld (alle Ebenen zusammen!)" % summe))
+        ak = plan.get("akteure") or []
+        if len(ak) > 500:
+            b.append((FEHLER, ft, "%d Akteure > 500 je Feld" % len(ak)))
+        for k, e in enumerate(ak):
+            fehlt = [f for f in ("netz", "pfad", "x", "y", "z", "qx", "qy", "qz", "qw", "sx", "sy", "sz", "klasse")
+                     if f not in e]
+            if fehlt:
+                b.append((FEHLER, ft, "akteur %d: %s fehlt" % (k, ", ".join(fehlt))))
+                continue
+            if inv is not None:
+                b += [(st, ft, "akteur %s: %s" % (e["netz"], tx)) for st, tx in inv.netz_pruefen(e["pfad"])]
+            if not (x0 <= e["x"] / 100.0 < x1 and y0 <= e["y"] / 100.0 < y1):
+                n_aussen += 1
+            qn = math.sqrt(e["qx"] ** 2 + e["qy"] ** 2 + e["qz"] ** 2 + e["qw"] ** 2)
+            if abs(qn - 1) > 1e-3:
+                b.append((FEHLER, ft, "akteur %s: Quaternion nicht normiert" % e["netz"]))
+            oid = ort_von_klasse(e["klasse"])
+            if oid is None:
+                b.append((FEHLER, ft, "akteur klasse %r muss '<ort_id>_<rolle>' sein" % e["klasse"]))
+            else:
+                je_ort.setdefault(oid, {"instanzen": 0, "kollision": 0, "akteure": 0})["akteure"] += 1
+            if welt is not None and _zahl(e.get("unterkante_z")) and _zahl(e.get("boden_z")):
+                bz = float(boden.hoehe(e["x"] / 100.0, e["y"] / 100.0))
+                if e["unterkante_z"] / 100.0 > bz + 0.3 + 0.5 * welt.zelle_m and "z_frei" not in e:
+                    b.append((WARNUNG, ft, "akteur %s (%s): Unterkante %.1f m ueber dem Boden"
+                              % (e["netz"], e["klasse"], e["unterkante_z"] / 100.0 - bz)))
+        if n_aussen:
+            b.append((FEHLER, ft, "%d Instanzen/Akteure ausserhalb des Feldrechtecks (Setzer ueberspringt sie)" % n_aussen))
+        if n_schwebt:
+            b.append((WARNUNG, ft, "%d Instanzen schweben (Pivot > Boden nach Stempel + Toleranz)" % n_schwebt))
+        if n_vers:
+            b.append((HINWEIS, ft, "%d Instanzen ganz im Boden (Pivot tiefer als Netzhoehe)" % n_vers))
+        if n_weg:
+            b.append((WARNUNG, ft, "%d Instanzen auf dem Wegenetz" % n_weg))
+        if n_wasser:
+            b.append((HINWEIS, ft, "%d Instanzen im bestehenden Suesswasser (nicht Ebene wasser/pfad)" % n_wasser))
+    # Budget je Ort gegen orte.json und §9
+    for o in orte or []:
+        oid = o.get("id")
+        z = je_ort.get(oid, {"instanzen": 0, "kollision": 0, "akteure": 0})
+        bu = o.get("budget") or {}
+        for k in ("instanzen", "kollision", "akteure"):
+            if _zahl(bu.get(k)) and int(bu[k]) != z[k]:
+                b.append((FEHLER, oid, "budget.%s = %s, Ebene %s enthaelt %d" % (k, bu[k], tag, z[k])))
+            if z[k] > BUDGET[k]:
+                b.append((WARNUNG, oid, "%s %d > %d (§9)" % (k, z[k], BUDGET[k])))
+    for oid in je_ort:
+        if orte is not None and oid not in orte_ids:
+            b.append((WARNUNG, oid, "Instanzen in %s fuer einen Ort, der nicht in orte.json steht" % tag))
+    return b
 
 # ============================================================================================
 # Ausgabe / CLI
@@ -677,6 +966,8 @@ def main(argv=None):
     ap.add_argument("--datei", nargs="*", default=None, help="einzelne standorte.json / orte.json")
     ap.add_argument("--ohne-daten", action="store_true", help="nur Format, keine Gelaende-Regeln")
     ap.add_argument("--sicht", action="store_true", help="auch Sicht vom Weg/Pfad (Leuchtfeuer/Fundstueck)")
+    ap.add_argument("--ebene", default=None, help="Phase 2: Ordner sw_<biom> (Standard: neben orte.json, falls vorhanden)")
+    ap.add_argument("--inventar", default=None, help="Ordner mit netze.csv/inventar_extra.json (Standard vorlagen/daten)")
     _daten.argumente_hinzufuegen(ap)
     a = ap.parse_args(argv)
     welt = gel = None
@@ -693,7 +984,18 @@ def main(argv=None):
             with open(p, "r", encoding="utf-8") as f:
                 d = json.load(f)
             if os.path.basename(p).startswith("orte") or any("budget" in o for o in d.get("orte", [])):
-                bb = pruefe_orte(d, basis=os.path.dirname(os.path.abspath(p)))
+                from . import inventar as _inv
+                basis = os.path.dirname(os.path.abspath(p))
+                try:
+                    inv = _inv.Inventar.lade(a.inventar)
+                except Exception as ex:
+                    log("Inventar nicht geladen (%s) - keine Asset-Pruefung" % ex)
+                    inv = None
+                sw = a.ebene or os.path.join(basis, "sw_%s" % d.get("biom"))
+                if not os.path.isdir(sw):
+                    log("Hinweis: keine Ebene %s - Instanzen nicht geprueft (--ebene angeben)" % sw)
+                    sw = None
+                bb = pruefe_orte(d, basis=basis, inv=inv, welt=welt, sw_ordner=sw)
             else:
                 bb = pruefe_standorte(d, welt, gel)
             melde(bb, os.path.basename(p))
