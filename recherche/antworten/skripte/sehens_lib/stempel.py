@@ -318,6 +318,22 @@ class Stempel:
         g = abfall(d, max(reichweite_m * 0.4, breite_m), reichweite_m)
         self._anwenden(g, rel=hoehe_m * prof, modus=modus, name="abbruch")
 
+    def damm(self, punkte_m, breite_m, hoehe_m, krone=0.3, verjuengung_m=None, geschlossen=False, modus="add"):
+        """Wall entlang einer Polylinie (Duenenkamm, Eisschubwall, Kesselrand, Uferwall): Kosinus-Querprofil mit
+        flacher Krone (krone x breite), Fussbreite breite_m; hoehe_m < 0 = Graben. Offene Linien laufen an den
+        Enden auf verjuengung_m (Standard breite_m) aus; geschlossen=True schliesst den Ring."""
+        P = [list(p) for p in punkte_m]
+        if geschlossen and P and P[0] != P[-1]:
+            P = P + [P[0]]
+        d, s, _ = polylinie_abstand(self.X, self.Y, P)
+        w = abfall(d, max(0.0, float(krone)) * breite_m / 2.0, breite_m / 2.0)
+        if not geschlossen:
+            L = max(polylinie_laenge(P), 1e-6)
+            v = float(verjuengung_m if verjuengung_m is not None else breite_m)
+            if v > 0:
+                w = w * glatt01(np.minimum(s, L - s) / v)
+        self._anwenden(w, rel=float(hoehe_m), modus=modus, name="damm")
+
     def glaetten(self, x, y, radius_m, staerke=1.0, sigma_m=3.0, rand_m=4.0):
         cur = self.h0 + self.delta
         gl = _gel.glaetten(cur.astype(np.float32), max(0.5, sigma_m / self.z)).astype(np.float64)
