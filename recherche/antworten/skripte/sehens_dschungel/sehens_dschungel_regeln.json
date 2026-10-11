@@ -205,7 +205,7 @@
     {"typ": "see", "id": "auge", "bei": "schacht", "spiegel": 0.3, "tiefe_m": 18, "farbe": "tuerkis", "becken": {"a_m": 36.0, "b_m": 26.0, "richtung": 30, "ufer_m": 5, "freibord_m": 1.0, "boden": 0.25, "auslass": null}}
    ],
    "gruppen": [
-    {"name": "schachtwand", "ebene": "held", "warum": "senkrechte Schachtwand rundum: Kalkschalen, Fuss tief unter Wasser, Kopf knapp unter der Kante", "netz": "SM_Cliff_01d", "anzahl": 9, "verteilung": {"typ": "reihe", "punkte": "ufer_auge", "abstand_m": 15, "versatz_m": 1.0, "versatz_streuung_m": 0.8, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.22, 0.27], "front_achse": "-x", "z_bezug": "see:auge", "oberkante_ueber_m": 9.0, "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0, "hinweis": "SM_Cliff_01d: Schauseite -x angenommen (Editorbild _held)"},
+    {"name": "schachtwand", "ebene": "held", "warum": "senkrechte Schachtwand rundum: Kalkschalen, Fuss tief unter Wasser, Kopf knapp unter der Kante", "netz": "SM_Cliff_01d", "anzahl": 9, "verteilung": {"typ": "reihe", "punkte": "ufer_auge", "abstand_m": 15, "versatz_m": 1.0, "versatz_streuung_m": 0.8, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.22, 0.27], "front_achse": "-x", "z_bezug": "see:auge", "oberkante_ueber_m": 9.0, "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0, "hinweis": "SM_Cliff_01d: Schauseite -x angenommen (Editorbild _held)"},
     {"name": "riesenbaum", "ebene": "begleiter", "warum": "Urwaldriese am Westrand, seine Luftwurzeln suchen das Wasser", "netz": "SM_Tree_Big_01a", "verteilung": {"typ": "punkt", "bei": "riesenbaum"}, "skala": 1.0, "rolle": "baum", "akteur": true, "kollision": true, "weg_abstand_m": 0},
     {"name": "uferplatten", "ebene": "begleiter", "warum": "Sturzbloecke und Platten am schmalen Uferband (vom Rand gebrochen)", "palette": ["SM_MossyForestBoulder_04", "SM_LimestoneRocks3", "SM_flat_rock_02"], "anzahl": 5, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 48, "band_m": [0.0, 2.0]}, "abstand_m": 6, "skala": [1.0, 1.6], "akteur": true, "kollision": true, "im_wasser": "egal", "material": "MI_EL_SW_Kalk_Nass"},
     {"name": "randschutt", "ebene": "schutt", "warum": "Kalkschutt und Aeste an der Kante", "palette": ["SM_LimestoneRocks2", "SM_ground_rock_01", "SM_OldTreeBranch_04", "SM_OldTreeBranch_06"], "anzahl": 50, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 54, "band_m": [1.0, 9.0]}, "abstand_m": 1.5, "groesse_m": [0.6, 1.8], "eingraben": [0.3, 0.45]},
@@ -234,7 +234,8 @@
    ],
    "klaenge": [
     {"asset": "CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue", "bei": "rand_ost", "radius_m": 40, "lautstaerke": 0.25, "zweck": "Papageien am Schachtrand (leise)"}
-   ]
+   ],
+   "schacht": {"see": "auge", "kante_m": 0.8, "rand_zellen": 5, "warum": "Hook cenote_umriss: Seeumriss = Schachtkontur, Vertiefung nur >= 10 m von der Schachtwand"}
   },
 
   "dschungel_05_verborgene_lagune": {

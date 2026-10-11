@@ -419,8 +419,8 @@
    "ringe": {"bei": [0, 0], "a_m": 13, "b_m": 11, "richtung": 60, "abstand_m": 4.4, "r_m": [0.95, 1.6], "stein_abstand_m": 0.42, "grus_je": [6, 10], "warum": "sortierte Steinkreise: Frosthub schiebt grobe Steine nach aussen (Hook im Planer)"},
    "anker": {"seeseite": {"von": "mitte", "richtung": 130, "abstand_m": 18}},
    "linien": {
-    "strandwall": {"punkte": [[3.4, 19.2], [-1.7, 19.4], [-6.7, 18.3], [-11.2, 16.0], [-14.9, 12.5], [-17.7, 8.2], [-19.2, 3.4], [-19.4, -1.7], [-18.3, -6.7], [-16.0, -11.2], [-12.5, -14.9], [-8.2, -17.7], [-3.4, -19.2], [1.7, -19.4], [6.7, -18.3], [11.2, -16.0], [14.9, -12.5], [17.7, -8.2], [19.2, -3.4], [19.4, 1.7]]},
-    "eisschub": {"punkte": [[17.4, 1.5], [16.4, 6.0], [14.3, 10.0], [11.2, 13.4]]}
+    "strandwall": {"punkte": [[3.4, 19.2], [-1.7, 19.4], [-6.7, 18.3], [-11.2, 16.0], [-14.9, 12.5], [-17.7, 8.2], [-19.2, 3.4], [-19.4, -1.7], [-18.3, -6.7], [-16.0, -11.2], [-12.5, -14.9], [-8.2, -17.7], [-3.4, -19.2], [1.7, -19.4], [6.7, -18.3], [11.2, -16.0], [14.9, -12.5], [17.7, -8.2], [19.2, -3.4], [19.4, 1.7], [18.3, 6.7]]},
+    "eisschub": {"punkte": [[17.2, -3.0], [17.4, 1.5], [16.4, 6.0], [14.3, 10.0], [11.2, 13.4]]}
    },
    "gelaende": {
     "fenster_m": [84, 84],
@@ -476,16 +476,21 @@
    ],
    "waben": {"bei": [2, 0], "r_m": 20, "abstand_m": 10.5, "rand_m": 0.4, "graben_m": 0.3, "mitte_m": 0.25, "tuempel": 7, "tuempel_r_m": [1.6, 2.3], "spiegel_m": 0.1, "tiefe_m": 0.5, "farbe": "schwarz_spiegel", "warum": "Eiskeilpolygone: Randwall + Graben auf der Grenze, Tuempel in der Mitte (Hook im Planer)"},
    "anker": {},
-   "linien": {"saum_nord": {"punkte": [[-34, -29], [-22, -27], [-10, -26], [4, -25], [18, -23]]}, "saum_ost": {"punkte": [[22, -20], [29, -8], [31, 6], [27, 18]]}},
+   "linien": {
+    "saum_nord": {"punkte": [[-34, -29], [-22, -27], [-10, -26], [4, -25], [18, -23]]},
+    "saum_ost": {"punkte": [[22, -20], [29, -8], [31, 6], [27, 18]]},
+    "saum_west": {"punkte": [[-22, -28], [-26, -14], [-27, 0], [-26, 14], [-22, 24]]}
+   },
    "gelaende": {
     "fenster_m": [100, 96],
     "rand_m": 10,
     "ops": [
-     {"op": "terrasse", "bei": [2, 0], "radius_m": 18, "ziel_z": 4.8, "rand_m": 8, "modus": "max", "warum": "Uferterrasse aufgefuellt (nur heben: die Boeschung im Norden bleibt als Rahmen stehen)"}
+     {"op": "terrasse", "bei": [2, 0], "radius_m": 14, "ziel_z": 4.8, "rand_m": 6, "modus": "min", "warum": "Uferterrasse eingeebnet (nur abtragen; Boeschung im Norden und Kante im Sueden bleiben als Rahmen)"}
     ],
     "senke_begruendung": "Polygonmitten ohne Tuempel: flache nasse Mulden (low-centred polygons) - gewollt",
     "daemme": [
-     {"punkte": "saum_ost", "breite_m": 10, "hoehe_m": 1.7, "krone": 0.3, "verjuengung_m": 6, "warum": "Uferwall Ost (Sturmflutsaum): Rahmen gegen den hoeheren Kuestenweg Ost (Ferat: verbessern, wo es geht)"}
+     {"punkte": "saum_ost", "breite_m": 10, "hoehe_m": 1.7, "krone": 0.3, "verjuengung_m": 6, "warum": "Uferwall Ost (Sturmflutsaum): Rahmen gegen den hoeheren Kuestenweg Ost (Ferat: verbessern, wo es geht)"},
+     {"punkte": "saum_west", "breite_m": 9, "hoehe_m": 1.5, "krone": 0.3, "verjuengung_m": 6, "warum": "natuerlicher Uferwall (Levee) am Fluss: Rahmen gegen den hoeheren Weg im Nordwesten"}
     ]
    },
    "sicht": {"ziel_hoehe_m": 0.6},
@@ -493,6 +498,7 @@
     {"name": "torfkanten", "ebene": "held", "warum": "die Wabenraender: Torfkanten an jedem Tuempel (das Muster ist der Held)", "palette": ["SM_GrassyEmbankment_01", "SM_GrassyEmbankment_02", "SM_MossyEmbankment_02"], "gewichte": [3, 3, 1], "anzahl": 50, "verteilung": {"typ": "ufer", "bei": [2, 0], "r_m": 22, "band_m": [0.3, 1.1]}, "skala": [0.7, 1.0], "kipp_grad": [5, 15], "rolle": "fels", "akteur": false, "kollision": false, "material": "MI_EL_SW_Torf", "abstand_m": 1.4, "meide": null},
     {"name": "weidensaum_nord", "ebene": "bewuchs", "warum": "Uferweiden-Saum auf der Boeschungskante (Rahmen: Fundstueck erst von der Kante)", "palette": ["SM_grey_willow_03", "SM_grey_willow_04"], "anzahl": 45, "verteilung": {"typ": "band", "punkte": "saum_nord", "breite_m": 9}, "skala": [1.6, 2.1], "abstand_m": 1.6, "rolle": "pflanze"},
     {"name": "weidensaum_ost", "ebene": "bewuchs", "warum": "Weiden auf dem Uferwall Ost (Rahmen gegen den Kuestenweg)", "palette": ["SM_grey_willow_03", "SM_grey_willow_04"], "anzahl": 40, "verteilung": {"typ": "band", "punkte": "saum_ost", "breite_m": 9}, "skala": [1.6, 2.1], "abstand_m": 1.5, "rolle": "pflanze"},
+    {"name": "weidensaum_west", "ebene": "bewuchs", "warum": "Weidengebuesch auf dem Uferwall am Fluss (Rahmen gegen den Weg im Nordwesten)", "palette": ["SM_grey_willow_03", "SM_grey_willow_04"], "anzahl": 55, "verteilung": {"typ": "band", "punkte": "saum_west", "breite_m": 10}, "skala": [1.8, 2.3], "abstand_m": 1.5, "rolle": "pflanze"},
     {"name": "binsen_tuempel", "ebene": "bewuchs", "warum": "Binsen und Seggen in den nassen Raendern", "palette": ["SM_ToadRush_00", "SM_ToadRush_01", "SM_ToadRush_010", "SM_ToadRush_013", "SM_ToadRush_015"], "dichte_je_m2": 0.6, "verteilung": {"typ": "ufer", "bei": [2, 0], "r_m": 22, "band_m": [-0.4, 1.4]}, "abstand_m": 0.3, "rolle": "pflanze", "im_wasser": "egal"},
     {"name": "binsen_graben", "ebene": "bewuchs", "warum": "Binsen in den Eiskeilgraeben (Zellgrenzen)", "palette": ["SM_ToadRush_00", "SM_ToadRush_010", "SM_ToadRush_02"], "verteilung": {"typ": "anker", "praefix": "grenz_"}, "skala": [0.8, 1.2], "rolle": "pflanze", "meide": null},
     {"name": "wollgras", "ebene": "bewuchs", "warum": "Wollgras-Ersatz: weisse Fruchtstaende ueber den Binsen", "palette": ["SM_WhiteWindflower_01", "SM_WhiteWindflower_03", "SM_WhiteWindflower_05"], "dichte_je_m2": 0.2, "verteilung": {"typ": "ufer", "bei": [2, 0], "r_m": 22, "band_m": [0.2, 2.5]}, "skala": [0.35, 0.45], "abstand_m": 0.5, "rolle": "pflanze"},
@@ -501,7 +507,7 @@
     {"name": "treibgut", "ebene": "kleinzeug", "warum": "Aeste und Treibholz vom Fluss angeschwemmt", "palette": ["SM_branch_01_1", "SM_beach_driftwood_03", "SM_beach_driftwood_06", "SM_beach_driftwood_09"], "anzahl": 60, "verteilung": {"typ": "kreis", "bei": [-8, 4], "r_m": 26}, "abstand_m": 1.2, "rolle": "streu"},
     {"name": "grabentorf", "ebene": "schutt", "warum": "Torfstuecke an den Grabenraendern", "palette": "torf_klein", "anzahl": 60, "verteilung": {"typ": "anker", "praefix": "grenz_"}, "skala": [0.6, 0.9], "kipp_grad": [5, 20], "rolle": "fels", "material": "MI_EL_SW_Torf", "meide": null},
     {"name": "nassband", "ebene": "kontakt", "warum": "Moos bis an die Wasserlinie", "palette": ["SM_moss_01", "SM_moss_02", "SM_MossClump_04"], "dichte_je_m2": 0.8, "verteilung": {"typ": "ufer", "bei": [2, 0], "r_m": 22, "band_m": [-0.1, 0.8]}, "abstand_m": 0.25, "rolle": "streu", "im_wasser": "egal"},
-    {"name": "weidenfuss", "ebene": "kontakt", "warum": "Moos und Zweige unter den Weiden", "palette": ["SM_MossClump_03", "SM_branch_01_1", "SM_moss_01"], "verteilung": {"typ": "um_gruppe", "gruppe": ["weidensaum_nord", "weidensaum_ost"], "ring_m": [0.3, 1.5], "je": [2, 4]}, "rolle": "streu"}
+    {"name": "weidenfuss", "ebene": "kontakt", "warum": "Moos und Zweige unter den Weiden", "palette": ["SM_MossClump_03", "SM_branch_01_1", "SM_moss_01"], "verteilung": {"typ": "um_gruppe", "gruppe": ["weidensaum_nord", "weidensaum_ost", "weidensaum_west"], "ring_m": [0.3, 1.5], "je": [2, 4]}, "rolle": "streu"}
    ],
    "lagen": [
     {"lage": "Moos", "form": "kreis", "bei": [2, 0], "r_m": 22, "wert": 210, "flecken": 0.3},

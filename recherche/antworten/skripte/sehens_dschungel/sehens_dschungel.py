@@ -113,7 +113,7 @@ def hook_cenote_umriss(ctx):
             if not (0 <= i < m0.shape[0] and 0 <= j < m0.shape[1]) or not m0[i, j]:
                 break
             r_last = r
-        pts.append([cx + ux * max(r_last - 0.5, 1.0), cy + uy * max(r_last - 0.5, 1.0)])
+        pts.append([cx + ux * max(r_last + 0.5, 1.0), cy + uy * max(r_last + 0.5, 1.0)])
     if stm.flaeche(pts) < 0:
         pts = pts[::-1]
     s.update(umriss_m=pts, x=cx, y=cy)

@@ -246,7 +246,8 @@
    },
    "gelaende": {"fenster_m": [130, 170], "rand_m": 10, "bei": [0, -6], "ist_wasser": true, "ist_wasser_r_m": 80, "begruendung": "Die Schlucht IST der Plateaubach: der Spalt wird entlang des bestehenden Gerinnes 12-17 m eingetieft, der Bach fliesst neu im Spalt (wasser 'spaltbach'); der alte Bachabschnitt im Fenster entfaellt.",
     "ops": [
-     {"op": "rinne", "punkte": "spalt", "breite_m": 4.5, "sohle": [80.4, 63.5], "rand_m": 2.0, "warum": "Kerbe 2-6 m breit: Sohle faellt stetig von 80,4 auf 63,5 m (bis -17 m)"}
+     {"op": "rinne", "punkte": ["s0", "s1", "s2", "s2b", "s3"], "breite_m": 4.5, "sohle": [80.4, 67.8], "rand_m": 2.0, "warum": "Kerbe 2-6 m breit, oberer Teil: Sohle 80,4 -> 67,8 m"},
+     {"op": "rinne", "punkte": ["s3", "s4", "s5", "lippe"], "breite_m": 4.5, "sohle": [67.8, 63.5], "rand_m": 2.0, "warum": "unterer Teil bis zur Fallkante: 67,8 -> 63,5 m (bis -17 m unter dem Plateau)"}
     ]
    },
    "wasser": [
@@ -313,10 +314,10 @@
    "linien": {
     "kesselrand": {"punkte": [[6, -30], [-12, -26], [-24, -12], [-27, 2], [-23, 16], [-11, 27], [6, 31]]}
    },
-   "gelaende": {"fenster_m": [130, 120], "rand_m": 12, "bei": [-4, 0], "senke_begruendung": "Kessel ist zum Canyon hin offen; Restsenken sind flache Kolke im Kesselboden (Regenwasser versickert im Sandstein)",
+   "gelaende": {"fenster_m": [130, 120], "rand_m": 12, "bei": [-4, 0],
     "ops": [
-     {"op": "mulde", "bei": "kessel", "radius_m": 24, "tiefe_m": 13, "rand_m": 9, "boden": 0.35, "streckung": [1.35, 1.0], "richtung": 0, "warum": "Erosionskessel -13 m, halbrund, Achse N-S am Canyonrand"},
-     {"op": "rinne", "punkte": ["boden", "oeffnung", [30, 6]], "breite_m": 10, "tiefe_m": 6, "rand_m": 4, "modus": "min", "warum": "Oeffnung zum Canyon (keine geschlossene Senke)"},
+     {"op": "mulde", "bei": "kessel", "radius_m": 24, "rand_m": 9, "boden": 0.35, "streckung": [1.35, 1.0], "richtung": 0, "warum": "Erosionskessel bis 13 m unter den Rand (absolute Sohle, nur absenken: der Canyonboden bleibt unberuehrt)", "ziel_z": "boden-13"},
+     {"op": "rinne", "punkte": ["boden", "oeffnung"], "breite_m": 10, "rand_m": 4, "modus": "min", "warum": "Oeffnung zum Canyon (keine geschlossene Senke)", "sohle": ["boden-0.5", "boden-8"]},
      {"op": "buckel", "bei": "kessel", "radius_m": 26, "amplitude_m": 1.2, "wellenlaenge_m": 6, "warum": "Rippen und Rinnen zwischen den Saeulen"}
     ]
    },
@@ -508,7 +509,7 @@
    },
    "gelaende": {"fenster_m": [120, 120], "rand_m": 12, "bei": [0, 0],
     "ops": [
-     {"op": "mulde", "bei": "welle", "radius_m": 24, "tiefe_m": 5.5, "rand_m": 10, "boden": 0.45, "streckung": [1.2, 1.0], "richtung": 120, "warum": "Mulde -5 m: verdeckt die Welle vom Weg (Pflicht-Verdeckung)"},
+     {"op": "mulde", "bei": "welle", "radius_m": 24, "rand_m": 10, "boden": 0.45, "streckung": [1.2, 1.0], "richtung": 120, "warum": "Mulde -5 m: verdeckt die Welle vom Weg (Pflicht-Verdeckung)", "ziel_z": "boden-5.5"},
      {"op": "rinne", "punkte": ["welle", "abfluss"], "breite_m": 5, "rand_m": 5, "modus": "min", "warum": "Abfluss nach SW (keine geschlossene Senke)", "sohle": ["boden-1.0", "boden+0.0"]},
      {"op": "glaetten", "bei": "welle", "radius_m": 18, "staerke": 0.6, "sigma_m": 4, "warum": "Plattenboden glatt (Slickrock)"}
     ]
