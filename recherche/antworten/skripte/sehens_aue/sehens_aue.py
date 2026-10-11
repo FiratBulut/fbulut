@@ -203,7 +203,14 @@ def main(argv=None):
         ctx = rezept.OrtKontext(welt, gel, inv, ebene, copy.deepcopy(alle[oid]), regel, BIOM, seed=R.get("seed", 0),
                                 pfade_biom=pfade_biom, paletten=R.get("paletten"), materialien=R.get("materialwuensche"),
                                 orte_mitten=mitten)
+        zp = regel.get("zugang_punkte")
+        if zp:
+            # Zugang neu gefuehrt (z. B. um den neuen Teich herum): Ort -> Weg, relativ zur Mitte; Endpunkt am Weg wie Phase 1
+            ctx.st["pfad_cm"] = [[round((ctx.mx + p[0]) * 100), round((ctx.my + p[1]) * 100),
+                                  round(float(welt.hoehe_bei_m(ctx.mx + p[0], ctx.my + p[1])) * 100)] for p in zp]
         ctx.baue(HOOKS.get(oid))
+        if zp and ctx.pfad:
+            ctx.pfad["quelle"] = "zugang_punkte (Planer: Fussweg aus Phase 1 um das neue Wasser herumgefuehrt)"
         if regel.get("verdeckung") and not a.ohne_verdeckung:
             if wp is None:
                 wp = sicht.Wegpunkte(welt, 20)
