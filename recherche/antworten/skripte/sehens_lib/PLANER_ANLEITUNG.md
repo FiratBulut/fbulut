@@ -298,6 +298,53 @@ Verzweigte Pfade (Erweiterung, optional): `"pfad_id": "<id>"` wählt genau diese
   ein voller Pfad ist nicht belegt → weiter `material_hinweis`. `inventar.wasser_material_pfad(name)` findet einen Pfad,
   sobald er in `inventar_extra.json["wasser_materialien"]` steht.
 
+### 3.11 Korrekturen nach dem 1-m-Lauf (Auftrag 13f)
+
+Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der Bäche und Lagen.
+
+- **Bäche (A4/A8/A9/A12/A13, Modul `bach.py`)** – jeder `bach` wird jetzt *gestempelt*:
+  - Enden: Ein Bach mit `bis_see`/`muendung: <eigener See>` endet **auf dem Umriss** (Spiegel = Seespiegel + 2 cm),
+    nie im See; erreicht der Lauf den See nicht, wird er gerade bis ans Ufer verlängert (HINWEIS). `abfluss_von`
+    beginnt am Auslass **auf dem Seespiegel** und läuft zuerst radial vom See weg (kein Lauf am Ufer/Damm entlang).
+  - Mündung: nur **Epic-Gewässer** (`baeche_alle.json`, `wasser_welt.json` Flüsse/Seen, `teiche.json`). `muendung:
+    "auto"` sucht am Ende (halbe Breite + 6 m) und verlängert sonst entlang der Tiefenlinie (`verlaengern_m`, Standard
+    40 m; D8 auf dem gefüllten Gelände). Ohne Ziel: `versickert` mit **mindestens 25 m**. Liegt ein Bestandsgewässer
+    höher als der Bachanfang, ist es keine Mündung. Ein Bachende liegt nie unter dem Spiegel des Ziels (+ 2 cm).
+    `"muendung_houdini": "<Netz>"` (oder `true` = Name lokal zuordnen) – explizit in einen sichtbaren Houdini-Lauf.
+  - Spiegel als **Treppe** (Regelwerk Auftrag 15, `gefaelle_regeln.json`): Becken ≤ 3 %, ≥ 3 m (`becken.laenge_min`,
+    `stufen.abstand_L`), Stufen zwei Punkte (Lippe → Fuß 0,5 m). In `orte.json` stehen sie explizit:
+    `"stufen": [{"lippe_cm": [x, y, z], "fuss_cm": [x, y, z], "fall_m", "art": "schnelle|stufe|fall"}]`.
+  - **Querprofil** (15b): Wasserkante innen, Bett = Spiegel − `tiefe_cm`, Böschung 35°, Ufer am Netzrand ≥ Spiegel
+    + 5 cm (Uferring bis + 0,5 m, hebt ≤ 1 m). Der Spiegel liegt 0,3 m unter dem Gelände (eingetieft); liegt eine
+    Uferseite tiefer, sinkt der Spiegel bis 2 m tiefer. Fremde Seen samt Uferring werden nicht angeschnitten.
+    `"profil": false` schaltet den Stempel für einen Bach ab (nur für Sonderfälle).
+  - **Furt** (A13): Quert ein Bach die 3-m-Schutzzone eines Wegs/Orts, läuft er dort flach über den Boden
+    (`"furten": [{"von_cm", "bis_cm"}]` im Eintrag); `"furt": {"palette", "groesse_m", "abstand_m"}` legt Trittsteine
+    quer zum Bach (Ebene `pfad`).
+  - Offene Mündung in Bestandswasser: im Mündungskorridor (letzte 8 m, halbe Breite + 1 m) gilt der Wasserschutz
+    nicht (`muendung_offen_ab_cm`).
+  - Neue Felder im Bach-Eintrag: `laenge_m`, `muendung_art` (`see_eigen|bach|fluss|see|teich|houdini|versickert`),
+    `muendung_spiegel_cm`, `abfluss_von`, `stufen`, `furten`, `muendung_offen_ab_cm`.
+- **Seen**: `tiefe_m` = größte Tiefe nach dem Stempel (`tiefe_regel_m` = Rezept, falls abweichend). Seen < 10 m²
+  (A13) werden **Lage/Decal** statt Epic-See: `"klein": {"lage": "Schlamm", "wert": 230, "decal": "MI_…"}`
+  (Standard Lage Schlamm, kein Becken). Seeufer unter dem Spiegel ist jetzt FEHLER (Zu-/Abflüsse ausgenommen).
+- **Houdini-Wasser ausblenden** (B): `"houdini_ausblenden": [{"netz": "R_M2_P0__WASSER", "see": "<id>",
+  "puffer_m": 2} | {"netz", "bach": "<id>", "breite_m": 8} | {"netz", "bei", "r_m"}]` → `orte.json`
+  `bestand_ausblenden: [{"art": "houdini", "netz", "umriss_cm", "flaeche_m2", "ersetzt_durch", "grund"}]`.
+- **Gelände**: Schutzzone 3 m um Wege **und Orte** hart 0 (gemessen bis zum Zellrand), Übergang erst außerhalb;
+  `ist_wasser` hebt nur den Wasserschutz auf. Kleine Senken (< 50 m², < 0,5 m, vom Stempel erzeugt) werden in
+  `fertig()` aufgefüllt (A5); `"senken_fuellen": {"max_flaeche_m2", "max_tiefe_m"}` erlaubt größere,
+  `false` schaltet ab; gewollte Hohlformen weiter mit `senke_begruendung`.
+- **Bäume** (A3): `bezug: mitte` mit Fußradius ≥ 1,5 m steht auf dem Boden am Pivot:
+  `z = Boden(Pivot) − eingraben − max(0, bmin_z·sz)`.
+- **Wand-/Hängepflanzen** (A6): `"z_frei": true` an der Gruppe (Efeu, Lianen, Luftwurzeln). `plan.json` führt
+  `z_frei_index`; der Prüfer zählt diese Stücke weder als „schwebt“ noch als „im Meer“.
+- **Materialwünsche** (A7): zusätzlich biomweit oben in `orte.json` als `"materialwuensche_biom"`.
+- **Lagen** (A11): Ränder ≥ 3 m weich (auch innen bei `ring`/`um_gruppe`/`ufer`); Pfad-Bodenband mit 1 m Übergang
+  beidseits und 10 m vor dem Lagenfenster ausgeblendet; alle Lagen laufen am Fensterrand auf 3 m aus.
+- **Feldzuordnung** (A10): `s = floor((x_cm + 473050)/100800)`, `r = floor((y_cm + 406050)/100800) + 1` –
+  wie Setzer und Landschaftskomponenten (`daten.feld_von_m`, `feld_grenzen_m`, Prüfer).
+
 ## 4. Bausteine der Bibliothek (für Hooks und Sonderfälle)
 
 ```python
@@ -374,3 +421,7 @@ Beispiel: `hook_windwurf_anker` im Bergwald-Planer setzt die Stammfüße einer S
 - Liegende Foliage-Bäume: `ausrichtung: liegend`, `zentrieren: false`, Material mit `Wind_Staerke` 0.
 - Kleinzeug großzügig (Hunderte bis Tausende) – es kostet wenig, und das Budget dünnt automatisch aus.
 - Die Regeldatei ist JSON: keine Kommentare, Gründe in `warum`/`hinweis`/`_doku`.
+- 13f: Ein Bach muss ganz im Geländefenster liegen (sonst gekappt, Mündung → `versickert`) – `fenster_m` groß genug
+  wählen. Ketten von Töpfen mit `abfluss_von` + `bis_see` verbinden, nicht mit `von: "<see>_auslass"`.
+- 13f: Bäche nicht als `punkte` auf einen Grat oder an eine Abbruchkante legen – das Profil kann eine Uferseite nur
+  ≤ 1 m anheben; der Prüfer meldet „Ufer unter dem Spiegel“.

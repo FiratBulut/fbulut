@@ -51,3 +51,4 @@ dort hilft kein Wall.
 - `SM_K13_FROSTSEE__*` werden nicht verwendet, unter 02 steht ein Freiraum (E23). Nach der Prüfung im Editor das Bild `frost_02_frostsee_held` mit und ohne Freiraum vergleichen.
 - Eisfall, Eisvorhang, Frostblumen und Glockenbach entstehen aus `SM_EISZAPFEN_*` + Spritzeis. CryoGen bleibt als Wunsch stehen (Kauf erst, wenn das im Bild nicht trägt).
 - Pivot/Schauseite: Arbeitsannahme E35.
+- **13f:** frost_02: Houdini-Netz `K13_FROSTSEE__WASSER` im Seeumriss ausgeblendet (`houdini_ausblenden`).

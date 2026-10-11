@@ -1027,6 +1027,13 @@ def pruefe_baeche(o, welt, boden=None):
         hc = np.asarray(boden.hoehe(xs, ys), np.float64)
         hl = np.asarray(boden.hoehe(xs + nx_ * du, ys + ny_ * du), np.float64)
         hr = np.asarray(boden.hoehe(xs - nx_ * du, ys - ny_ * du), np.float64)
+        # Innenseite enger Bogen: liegt die Uferprobe naeher an einem anderen Stueck des Bachs, ist sie kein Ufer
+        from .stempel import polylinie_abstand as _pa
+        Pl = np.stack([X, Y], 1)
+        dl, _, _ = _pa(xs + nx_ * du, ys + ny_ * du, Pl)
+        dr, _, _ = _pa(xs - nx_ * du, ys - ny_ * du, Pl)
+        hl = np.where(dl < 0.9 * du, ws + 1.0, hl)
+        hr = np.where(dr < 0.9 * du, ws + 1.0, hr)
         # Toleranz: 1 cm auf 1 m; auf 2 m (Cloud-Test) verschmiert die Interpolation Boeschung und Stufen
         tol = 0.01 if z <= 1.0 else 0.02 + 0.2 * (z - 1.0)
         n_mitte = int((hc > ws + tol).sum())

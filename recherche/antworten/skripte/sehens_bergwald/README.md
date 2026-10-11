@@ -73,3 +73,8 @@ Material-Instanzen 5 von 6: `MI_EL_SW_Verkohlt`, `_Klammfels_Nass`, `_Granit_Moo
   Lokal auf 1 m laufen lassen und Fallkante/Fuß der Klamm prüfen.
 - Ameisen (`SM_anthill_ants_anim_random`) am Ameisenhaufen sind aktiv (E04); andere Tiere (Forellen) bleiben aus.
 - Pfadbänder werden auf das Lagenfenster (400/600 m) gekappt; der volle Pfad steht in `orte.json["pfad"]`.
+- **13f (Pilot bergwald_03 + bergwald_06):** Riesentannen stehen am Stammfuß (A3). Karsee: Zulauf West beginnt im alten
+  Houdini-Lauf `R_M2_P0__WASSER` (Anker `rinne_w` ohne Wasserausschluss) und endet auf dem Umriss, der Abfluss läuft im
+  alten Lauf nach Osten (`muendung_houdini`); das Houdini-Netz ist im See und in beiden Bachkorridoren ausgeblendet
+  (`houdini_ausblenden` → `bestand_ausblenden` art `houdini`); `ist_wasser_r_m` 68; `tiefe_m` steht nach dem Stempel in
+  `orte.json`. Klemmblock-Klamm: Fenster 130 m, Klammbach endet im bestehenden Houdini-Gerinne (`muendung_houdini: true`).

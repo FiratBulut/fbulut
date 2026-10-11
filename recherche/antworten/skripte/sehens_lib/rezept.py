@@ -454,7 +454,8 @@ class OrtKontext:
                                      auslass_sektor_grad=float(b.get("auslass_sektor_grad", 30.0)),
                                      lippe_m=float(b.get("lippe_m", 1.5)))
         self.see[w["id"]] = {"umriss_m": um, "spiegel_m": spiegel, "x": x, "y": y, "a_m": a_m, "b_m": b_m,
-                             "richtung": rg, "auslass_grad": aus_g, "lippe_m": float(b.get("lippe_m", 1.5))}
+                             "richtung": rg, "auslass_grad": aus_g, "lippe_m": float(b.get("lippe_m", 1.5)),
+                             "ufer_m": float(b.get("ufer_m", 6.0))}
         self.linien["ufer_" + w["id"]] = um + [um[0]]
         # Auto-Anker: <id>_mitte, <id>_auslass (Uferpunkt in Abflussrichtung, 3 m nach aussen)
         self.anker[w["id"] + "_mitte"] = (x, y)
@@ -532,12 +533,21 @@ class OrtKontext:
                         continue
                     drin = self._im_see_puffer(kx, ky, sv)
                     if sid_ == ziel_see and drin.any():
+                        # Zielsee erreicht: hinein, solange der Lauf nicht schon unter dessen Spiegel liegt (der
+                        # Uferring ist hoeher als das Gelaende - deshalb nicht nach der Hoehe des Nachbarn fragen)
                         kz_z = np.where(drin, kz, np.inf)
                         kk = int(np.argmin(kz_z))
-                        if np.isfinite(kz_z[kk]) and kz_z[kk] <= zc + 0.5:
+                        if np.isfinite(kz_z[kk]) and (kz_z[kk] <= zc + 0.5 or zc >= float(sv["spiegel_m"]) - 0.1):
                             pts.append([float(kx[kk]), float(ky[kk])])
                             return pts
                     kz = np.where(drin, np.inf, kz)
+                    if sid_ != ziel_see:
+                        # im Uferring des Sees (Puffer + Ringbreite): nur vom See weg, nicht am Ufer/Damm entlang
+                        ring = self._see_puffer_m() + max(float(sv.get("ufer_m", 4.0)), 2.5 * self.welt.zelle_m + 2.5)
+                        if bool(self._im_see_puffer(np.array([x]), np.array([y]), sv, ring)[0]):
+                            r_jetzt = math.hypot(x - sv["x"], y - sv["y"])
+                            r_kand = np.hypot(kx - sv["x"], ky - sv["y"])
+                            kz = np.where(r_kand < r_jetzt + 0.5 * schritt_m, np.inf, kz)
             k = int(np.argmin(kz))
             if not np.isfinite(kz[k]):
                 break
@@ -612,7 +622,8 @@ class OrtKontext:
             sx, sy = um[k, 0] + vx / n * aus_m, um[k, 1] + vy / n * aus_m
             vor = [[float(um[k, 0] + vx / n * t_), float(um[k, 1] + vy / n * t_)] for t_ in np.arange(0.0, aus_m - 0.4, 1.0)]
             pts = [[float(um[k, 0]), float(um[k, 1])]] + self._abwaerts(
-                sx, sy, float(w.get("laenge_m", 60.0)), vorher=vor, richtung0=_st.vektor_kompass(vx, vy))
+                sx, sy, float(w.get("laenge_m", 60.0)), vorher=vor, richtung0=_st.vektor_kompass(vx, vy),
+                ziel_see=end_see)
         elif "von" in w:
             x, y = self.punkt(w["von"])
             pts = self._abwaerts(x, y, float(w.get("laenge_m", 60.0)), ziel_see=end_see)
@@ -651,6 +662,14 @@ class OrtKontext:
             ziel = self._bach_ziel(w, wid, pts, B, epic, hinweise, start_see)
             pts = ziel.pop("_pts")
         pts = _verdichten(_vereinfachen(pts, 0.5 if len(pts) < 6 else 1.0), float(w.get("max_segment_m", 2.0)))
+        if "punkte" not in w:
+            # keine Schleife: kommt der Lauf an ein frueheres Stueck (Kehre in flachem Gelaende), endet er dort
+            n0 = len(pts)
+            pts = _ohne_schleife(pts, 2.0 * _bach.halbe_breite_eff(B, self.welt.zelle_m) + 1.5)
+            if len(pts) < n0:
+                hinweise.append("Schleife abgeschnitten nach %.0f m" % _st.polylinie_laenge(pts))
+                if ziel.get("art") not in ("versickert", "see_eigen", "houdini"):
+                    ziel = {"art": "versickert", "id": "versickert"}
         # ---- im Stempelfenster halten (Rand: Delta laeuft auf 0 aus)
         x0, y0, x1, y1 = self.stempel.fe.grenzen_m()
         rr = max(self.stempel.rand_m, 8.0) + 2.0 * self.welt.zelle_m + _bach.halbe_breite_eff(B, self.welt.zelle_m)
@@ -697,6 +716,7 @@ class OrtKontext:
         g_r = np.asarray(self.boden(xa - nx_ * du, ya - ny_ * du), np.float64)
         g_eff = np.minimum(g, np.minimum(g_l, g_r) + _bach.WULST_MAX_M - _bach.RING_UEBER_M - 0.05 +
                            _bach.EINBETTUNG_M)
+        g_eff = np.maximum(g_eff, g - 2.0)      # hoechstens 2 m tiefer als die Mitte (Bach am Abbruch: Pruefer meldet)
         if start_see or end_see:
             # am eigenen See (Auslass-Lippe, Muendung) bestimmt der See den Spiegel
             for sid_ in (start_see, end_see):
@@ -738,14 +758,28 @@ class OrtKontext:
                 self._ausnahmen.append(d <= _bach.halbe_breite_eff(B, self.welt.zelle_m) + 1.0)
         # ---- Querprofil (A12)
         if w.get("profil", True):
-            ring_aus = np.zeros(self.stempel.X.shape, bool)
+            X_, Y_ = self.stempel.X, self.stempel.Y
+            ring_aus = np.zeros(X_.shape, bool)
+            tief_aus = np.zeros(X_.shape, bool)
+            he = _bach.halbe_breite_eff(B, self.welt.zelle_m)
             for sid, sv in self.see.items():
-                if not sv.get("klein"):
-                    ring_aus |= _in_polygon(self.stempel.X, self.stempel.Y, sv["umriss_m"])
+                if sv.get("klein"):
+                    continue
+                ring_aus |= _in_polygon(X_, Y_, sv["umriss_m"])
+                # Seebecken und Uferring nicht anschneiden: fremde Seen ganz, der eigene Zu-/Abfluss-See ausser im
+                # Muendungs-/Auslasskorridor (erste bzw. letzte 6 m des Bachs, halbe Breite + 1 m)
+                zone = self._im_see_puffer(X_, Y_, sv, 3.0 + 2.0 * self.welt.zelle_m)
+                if sid in (start_see, end_see):
+                    L_ = float(sa[-1])
+                    stueck = _bach.linien_stueck(np.stack([xa, ya], 1), 0.0, 6.0) if sid == start_see else \
+                        _bach.linien_stueck(np.stack([xa, ya], 1), L_ - 6.0, L_)
+                    dk, _, _ = _st.polylinie_abstand(X_, Y_, stueck)
+                    zone &= dk > he + 1.0
+                tief_aus |= zone
             if offen_s is not None:
                 ring_aus |= self.stempel.fe.get("wasser") > 0
             self.stempel.bach_profil(np.stack([xa, ya], 1), sa, W, B, tiefe, ring_aus=ring_aus,
-                                     tiefe_max_m=float(np.max(g - W)) + tiefe)
+                                     tiefe_max_m=float(np.max(g - W)) + tiefe, tief_aus=tief_aus)
         furten = []
         if furt.any():
             k = 0
@@ -1062,7 +1096,10 @@ class OrtKontext:
         for a_, b_ in pl["furten"]:
             sk.add(round(a_, 3))
             sk.add(round(b_, 3))
-        sk = np.array(sorted(v for v in sk if 0.0 <= v <= kum[-1] + 1e-6))
+        sk = np.clip(np.array(sorted(v for v in sk if -1e-3 <= v <= kum[-1] + 1e-3)), 0.0, kum[-1])
+        sk = np.unique(np.concatenate([[0.0], sk, [kum[-1]]]))
+        sk = sk[np.concatenate([[True], np.diff(sk) > 1e-3])]
+        sk[-1] = kum[-1]
         x, y = _bach.punkt_bei(P, kum, sk)
         z = np.interp(sk, s, W)
         # Stufen exakt: Lippe = Oberwasser, Fuss = Unterwasser
@@ -2205,7 +2242,9 @@ def ufer_freibord(boden_fn, umriss_m, spiegel_m, zelle_m=1.0, offen=None):
                 Pz, orr = o_
                 dd, _, _ = polylinie_abstand(um[:, 0], um[:, 1], Pz)
                 frei &= dd > orr
-        if frei.sum() >= 3:
+        if not frei.any():
+            return 0.0            # ganzer Umriss liegt an Zu-/Abfluessen (kleiner Topf zwischen zwei Baechen)
+        if True:
             um_alle = um
             um = um[frei]
             v = um - um_alle.mean(axis=0)
@@ -2242,6 +2281,23 @@ def _in_polygon(x, y, poly):
         c = ((y1 > y) != (y2 > y)) & (x < (x2 - x1) * (y - y1) / np.where(y2 - y1 == 0, 1e-12, y2 - y1) + x1)
         innen ^= c
     return innen
+
+
+def _ohne_schleife(pts, abstand_m, mindest_bogen_m=None):
+    """Kuerzt eine Polylinie an der ersten Stelle, die naeher als abstand_m an ein frueheres Stueck kommt, das entlang
+    der Linie mehr als mindest_bogen_m (Standard 3 x abstand_m) zurueckliegt."""
+    P = np.asarray(pts, np.float64)[:, :2]
+    if len(P) < 4:
+        return pts
+    kum = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(P, axis=0).T))])
+    mb = float(mindest_bogen_m if mindest_bogen_m is not None else 3.0 * abstand_m)
+    for k in range(2, len(P)):
+        alt = kum < kum[k] - mb
+        if alt.any():
+            d = np.hypot(P[alt, 0] - P[k, 0], P[alt, 1] - P[k, 1])
+            if d.min() < abstand_m:
+                return [list(map(float, q)) for q in P[:k]]
+    return pts
 
 
 def _verdichten(pts, max_m):

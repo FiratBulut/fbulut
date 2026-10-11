@@ -345,7 +345,7 @@
     "blick": {"pos_m": [-3728.35, 1052.5]},
     "strand": [-8.0, 12.0]
    },
-   "tuempel": {"bei": "bank", "a_m": 15, "b_m": 7, "richtung": 70, "anzahl": 11, "r_m": [0.85, 1.9], "abstand_m": 1.0, "tiefe_m": [0.3, 0.55], "rand_m": 2.5, "spiegel": "boden-0.12", "farbe": "klar", "warum": "Tuempel in den Mulden der Bank (Hook hook_tuempel_anker)"},
+   "tuempel": {"bei": "bank", "a_m": 15, "b_m": 7, "richtung": 70, "anzahl": 9, "r_m": [1.8, 2.2], "abstand_m": 1.0, "tiefe_m": [0.3, 0.55], "rand_m": 2.5, "spiegel": "boden-0.12", "farbe": "klar", "warum": "Tuempel in den Mulden der Bank (Hook hook_tuempel_anker); 13f A13: r >= 1,8 m, damit jeder Tuempel >= 10 m2 hat (Epic-Wasser trianguliert kleinere schlecht)"},
    "gelaende": {"fenster_m": [80, 90], "rand_m": 9, "bei": "bank", "ops": [
     {"op": "terrasse", "bei": "bank", "radius_m": 7, "streckung": [2.2, 1.0], "richtung": 70, "ziel_z": 1.0, "modus": "setzen", "rand_m": 6, "warum": "Felsbank 30 x 14 m knapp ueber dem Wasser (+1 m)"},
     {"op": "buckel", "bei": "bank", "radius_m": 16, "amplitude_m": 0.18, "wellenlaenge_m": 4, "streckung": [2.0, 1.0], "richtung": 70, "warum": "Bank uneben, Rippen und Mulden"},

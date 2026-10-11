@@ -46,3 +46,4 @@ Materialwünsche 6/6: `Oedland_Ton`, `_Rot`, `_Violett`, `Russ`, `Konkretion`, `
   und `NS_EL_SW_Schlammblasen` (schlammgrau 0,35/0,32/0,28, Größe ×0,5, Spawn ×0,4) unter `/Game/Eldarien/Welt/FX/Sehens/`,
   jeweils mit `kopie_von` und `kopie_aenderungen` in `orte.json`; die Originale bleiben unberührt.
 - Ein Feuerklang fehlt im Bestand (Wunsch Fantasy Ambiences).
+- **13f:** Salsen < 10 m² sind jetzt Lage Schlamm statt Epic-See (A13).

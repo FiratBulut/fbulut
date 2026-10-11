@@ -254,7 +254,7 @@
     "ufer": [8.0, 4.0],
     "gassenmund": [25.0, 25.0]
    },
-   "gelaende": {"fenster_m": [130, 120], "bei": [20, 20], "rand_m": 10, "begruendung": "Gasse durch die Suedostwand (Wand bis 55 m -> Sohle 24,5 ... 23,5 m, d. h. bis -31 m), leicht nach aussen fallend; das Becken selbst bleibt (natuerlicher geschlossener Karstkessel, Boden 9,5 m)", "ops": [
+   "gelaende": {"fenster_m": [130, 120], "bei": [20, 20], "rand_m": 10, "senke_begruendung": "natuerlicher geschlossener Karstkessel (Boden 9,5 m) - die Gasse fuehrt nur hinein (13f A5)", "begruendung": "Gasse durch die Suedostwand (Wand bis 55 m -> Sohle 24,5 ... 23,5 m, d. h. bis -31 m), leicht nach aussen fallend; das Becken selbst bleibt (natuerlicher geschlossener Karstkessel, Boden 9,5 m)", "ops": [
     {"op": "rinne", "punkte": "gasse", "breite_m": 7, "sohle": [24.5, 23.5], "rand_m": 4, "warum": "Gasse 43 x 6 m durch die Wand (Zugang)"}
    ]},
    "gruppen": [
@@ -316,13 +316,13 @@
    "linien": {
     "zulauf": {"punkte": [[30, -20], [28, -14], [22, -12], [16, -9], [10, -7.5]]}
    },
-   "gelaende": {"fenster_m": [80, 70], "bei": [10, -6], "rand_m": 9, "ist_wasser": true, "ist_wasser_r_m": 40, "begruendung": "Der Ort IST die Schwinde der Baeche B_R_P3_P1_03 / B_R2_R_P3_P1_03: Schwinde-Trichter am Bachende (geschlossene Senke mit Abfluss in den Untergrund - gewollt)", "ops": [
+   "gelaende": {"fenster_m": [80, 70], "bei": [10, -6], "rand_m": 9, "ist_wasser": true, "ist_wasser_r_m": 40, "senke_begruendung": "Schwinde-Trichter (Ponor): das Wasser verschwindet im Strudeltopf in den Untergrund (13f A5)", "begruendung": "Der Ort IST die Schwinde der Baeche B_R_P3_P1_03 / B_R2_R_P3_P1_03: Schwinde-Trichter am Bachende (geschlossene Senke mit Abfluss in den Untergrund - gewollt)", "ops": [
     {"op": "mulde", "bei": "trichter", "radius_m": 10, "tiefe_m": 5.0, "boden": 0.15, "streckung": [1.5, 1.0], "richtung": 100, "rand_m": 6, "warum": "Schwinde-Trichter 30 x 20 m"},
     {"op": "rinne", "punkte": "zulauf", "breite_m": 3, "tiefe_m": 0.6, "rand_m": 2, "warum": "Bachende an den Trichter anschliessen"}
    ]},
    "wasser": [
-    {"typ": "bach", "id": "schwinde", "punkte": "zulauf", "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "muendung": "versickert", "hinweis": "beide Baeche enden heute hier; letzte 6 m steil ins Portal (Strudel, Schaum)", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
-    {"typ": "see", "id": "strudeltopf", "bei": "portal", "r_m": 2.6, "spiegel": "boden+0.2", "tiefe_m": 0.8, "farbe": "schwarz_spiegel", "becken": {"ufer_m": 2.0, "freibord_m": 0.1, "boden": 0.3}}
+    {"typ": "bach", "id": "schwinde", "punkte": "zulauf", "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "muendung": "strudeltopf", "bis_see": "strudeltopf", "hinweis": "beide Baeche enden heute hier; letzte 6 m steil ins Portal (Strudel, Schaum); 13f: muendet in den Strudeltopf (Ponor)", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "see", "id": "strudeltopf", "bei": {"auf_linie": "zulauf", "t": 0.76}, "r_m": 2.6, "spiegel": "boden+0.15", "hinweis_wasser": "13f: Strudeltopf am Grund des Trichters vor dem Portal (Ponor) - dort verschwindet die Schwinde; vorher lag er 6,5 m ueber dem Bachende an der Portalwand", "tiefe_m": 0.8, "farbe": "schwarz_spiegel", "becken": {"ufer_m": 2.0, "freibord_m": 0.1, "boden": 0.3}}
    ],
    "gruppen": [
     {"name": "portaldach", "ebene": "held", "warum": "Hoehlendach: Kalkbank-Ueberhang ueber dem Portal (Landschaft kann keinen Ueberhang)", "netz": "/Game/Meshes/_GENERATED/RockFormation/SM_ForestRockShelf_02", "verteilung": {"typ": "punkt", "bei": {"anker": "portal", "versatz_m": [-2.0, 0.5]}}, "skala": 2.2, "yaw": 0, "yaw_streuung_grad": 4, "ausrichtung": "aufrecht", "kipp_grad": 8, "kipp_richtung": 270, "z_bezug": "boden+2.4", "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0, "material": "MI_EL_SW_Sinter"},

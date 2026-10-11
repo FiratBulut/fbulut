@@ -4198,7 +4198,7 @@
     {
      "typ": "bach",
      "id": "klammbach_1",
-     "von": "topf1_auslass",
+     "abfluss_von": "topf1",
      "bis_see": "topf2",
      "laenge_m": 25,
      "breite_m": 1.2,
@@ -4209,7 +4209,7 @@
     {
      "typ": "bach",
      "id": "klammbach_2",
-     "von": "topf2_auslass",
+     "abfluss_von": "topf2",
      "bis_see": "topf3",
      "laenge_m": 25,
      "breite_m": 1.2,

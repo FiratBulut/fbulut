@@ -108,7 +108,7 @@
     "fusslinie": {"punkte": ["f1", "f2", "f3", "f4", "f5"]},
     "kantenlinie": {"punkte": ["k1", "k2", "k3", "k4", "k5"]}
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [190, 160], "bei": "wandmitte", "rand_m": 14, "ops": [
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [270, 200], "bei": "wandmitte", "rand_m": 14, "ops": [
     {"op": "rinne", "punkte": [{"anker": "k1", "versatz_m": [0, 12]}, "k1"], "breite_m": 4, "tiefe_m": 1.0, "rand_m": 2, "warum": "Firnrinne als Quelle (Fall 1)"},
     {"op": "rinne", "punkte": [{"anker": "k3", "versatz_m": [0, 12]}, "k3"], "breite_m": 4, "tiefe_m": 1.0, "rand_m": 2, "warum": "Firnrinne als Quelle (Fall 3)"},
     {"op": "rinne", "punkte": [{"anker": "k4", "versatz_m": [0, 12]}, "k4"], "breite_m": 4, "tiefe_m": 1.0, "rand_m": 2, "warum": "Firnrinne als Quelle (Fall 4)"}

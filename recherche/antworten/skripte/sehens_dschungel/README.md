@@ -74,3 +74,6 @@ Material-Instanzen 3 von 6: `MI_EL_SW_Kalk_Nass`, `MI_EL_SW_Sinter`, `MI_EL_SW_R
 - `SM_Cliff_01*` haben keine Bounds in `netze_masse.json` → Pivot „unten Mitte“ angenommen, Schauseiten Annahme.
 - Der Bogen ist zusammengesetzt; aus 500 m (`_fern`) zuerst prüfen (Katalog-Plan B: Kerbe statt Sturz).
 - Riesenblätter bleiben „groß, aber europäisch“, bis ein Tropenpflanzen-Paket da ist.
+- **13f:** `luftwurzeln`, `nadellianen`, `lianenvorhang` mit `z_frei` (A6). dschungel_02: Fenster 210 × 130 m um den ganzen
+  Quellbach, Furt mit Trittsteinen am Weg (`furt`, A13). dschungel_06: Strudeltopf am Grund des Trichters, die Schwinde
+  mündet dort (vorher lag er 6,5 m über dem Bachende); Karstkessel/Trichter mit `senke_begruendung`.

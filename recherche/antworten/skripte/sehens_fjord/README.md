@@ -59,3 +59,4 @@ Von bestehenden Wegen allein sieht keiner der vier Orte (der Fjord hat keinen We
 - 04: Das Gelände ist eine gleichmäßige V-Rinne mit 40–50° Gefälle, ein Hängetal gibt es dort nicht. Die Stufe (−11…+11 m) ist gebaut.
 - Pivot/Schauseite: Arbeitsannahme E35 (Zunge 03 und Grottenwände 07 im Editor prüfen).
 - Klang: Für Brandung, Möwen und Höhle gibt es keinen Cue. Ersatz sind Water-Stream- und Wind-Cues (Cave Ambience und Fantasy Ambiences stehen auf der Kaufliste).
+- **13f:** fjord_02: Geländefenster 270 × 200 m, damit die Abflüsse unter den Gumpen ganz gestempelt werden (≥ 25 m).

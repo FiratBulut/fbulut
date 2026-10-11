@@ -83,3 +83,4 @@ zwischen 22° und 40°; steiler werden es Kehren aus Ferats Werkzeug.
 - Houdini-Steilküste K9 (E23): `freiraeume` mit Rolle `houdini` und den Netzen `SM_K9_STEILKUESTE__FELS/__SEHENS/
   __SEHENS_DECKE` an kueste_01 (r 150 m) und kueste_03 (r 90 m) – nur Kachelteile unter den neuen Pfeilern ausblenden
   (Prüfschritt im Outliner); `__WASSER` bleibt.
+- **13f:** `efeu_kante` mit `z_frei` (A6). Tümpel der Gezeitenbank mit r ≥ 1,8 m (≥ 10 m², A13); es passen 4 auf die Bank.

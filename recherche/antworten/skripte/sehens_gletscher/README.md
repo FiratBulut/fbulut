@@ -71,3 +71,4 @@ sie nicht als Gletschereis, Kehren sind dort erlaubt. Die Linie bleibt, die Fels
 - Houdini-Reste `SM_K7_GLETSCHER__EIS` werden nicht verwendet. Unter 01/02/05 stehen sie als `freiraeume` (E23).
 - Für die Schneefahne (05/07) gibt es kein Schnee-Niagara, sie bleibt als optionale `NS_Smoke_Plume`-Stelle. Den Kauf des Niagara-Snow-Pakets empfiehlt die Kaufliste nicht.
 - Gewollte Hohlformen tragen `senke_begruendung` (Bergschrund, Strudeltöpfe, Kolke).
+- **13f:** gletscher_06: Topf-Kette mit `abfluss_von` + `bis_see` (statt `von: topfN_auslass`).

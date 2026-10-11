@@ -63,3 +63,5 @@ Material-Instanzen 4 von 6: `MI_EL_SW_Silberholz`, `_Torfmoos`, `_Weide_Grau`, `
   Tagsonne, bleiben unter den Leuchtpilzen des Elfenwalds (180–300 cd).
 - Tiere (E04): keine; Reiherhorst ohne Fischgräten (E05, Knochen-Regel – der Planer setzt keine).
 - Erlen fehlen weiter (Birke/Pappel, 13c); Pfadbänder werden auf das Lagenfenster gekappt.
+- **13f:** Erlenring im Osten verdichtet (`erlenring_ost`, 45 Bäume im Ostsektor). Die Schlenke liegt jetzt am tiefsten
+  Punkt der Rinne (Anker-Suche), damit das Rinnsal hinein- und nicht bergauf fließt.

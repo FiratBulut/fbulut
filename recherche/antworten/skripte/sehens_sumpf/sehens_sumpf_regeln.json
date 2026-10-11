@@ -259,7 +259,7 @@
    "verdeckung": {"probe_r_m": 8, "ziel_hoehe_m": 3.0},
    "zugang": {},
    "anker": {
-    "schlenke": [2.0, 5.0],
+    "schlenke": {"suche": "tiefster", "bei": [8.0, 6.0], "r_m": 8},
     "tor": [-14.0, -6.0]
    },
    "anker_danach": {

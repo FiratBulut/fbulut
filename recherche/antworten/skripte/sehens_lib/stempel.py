@@ -393,7 +393,8 @@ class Stempel:
         return um
 
     # -- Bach (13f A12) --
-    def bach_profil(self, punkte_m, s_k, W_k, breite_m, tiefe_m, ring_aus=None, tiefe_max_m=2.0, name="bach_profil"):
+    def bach_profil(self, punkte_m, s_k, W_k, breite_m, tiefe_m, ring_aus=None, tiefe_max_m=2.0, name="bach_profil",
+                    tief_aus=None):
         """Querprofil eines Bachs (Auftrag 15b/13f A12): Wasserkante innen, Bett = Spiegel - Tiefe, Boeschung 35 Grad,
         Ufer beidseits >= Spiegel + 5 cm, Uferring Spiegel + 0,15 m (hebt <= 1 m). s_k/W_k: Spiegel entlang der
         Bogenlaenge (Treppe mit Stufen). ring_aus: bool-Maske im Fenster ohne Uferring (Seen, Muendung)."""
@@ -418,6 +419,8 @@ class Stempel:
         Wu = np.interp(np.maximum(sp - 1.5, 0.0), s_k, W_k)
         T, Rr, ring = _b.profil(d, W, Wu, breite_m, tiefe_m, self.z)
         innen = (sp > 0.01) & (sp < L - 0.01) & (d <= R)
+        if tief_aus is not None:
+            innen &= ~tief_aus[box]          # z. B. fremde Seebecken samt Uferring nicht anschneiden
         cur = (self.h0 + self.delta)[box]
         neu = np.where(innen, np.minimum(cur, T), cur)
         rm = innen & ring
@@ -536,9 +539,13 @@ class Stempel:
                         q.append((a, b))
             ii = np.array([c[0] for c in zellen])
             jj = np.array([c[1] for c in zellen])
-            fl = len(zellen) * z2
+            # Flaeche wie die Senkenpruefung (senken(): Fuelltiefe > 0,3 m); der flache Saum darf hoechstens 4x so
+            # gross sein (keine grossen flachen Mulden auffuellen)
+            fl = float((tief[ii, jj] > 0.3).sum()) * z2
             tmax = float(tief[ii, jj].max())
-            if fl >= max_flaeche_m2 or tmax >= max_tiefe_m:
+            if fl >= max_flaeche_m2 or tmax >= max_tiefe_m or len(zellen) * z2 > 4.0 * max_flaeche_m2:
+                if os.environ.get("SEHENS_DBG_SENKEN"):
+                    log("Senke bleibt: %.0f m2 (%d Zellen), %.2f m" % (fl, len(zellen), tmax))  # noqa
                 continue
             if wasser is not None and wasser[ii, jj].any():
                 continue
@@ -548,6 +555,8 @@ class Stempel:
                 continue
             self.delta[ii, jj] += tief[ii, jj]
             flaeche_sum += fl
+            if os.environ.get("SEHENS_DBG_SENKEN"):
+                log("Senke gefuellt: %.0f m2, %.2f m" % (fl, tmax))
             max_hub = max(max_hub, tmax)
         if flaeche_sum > 0:
             self.protokoll.append("senken_gefuellt")

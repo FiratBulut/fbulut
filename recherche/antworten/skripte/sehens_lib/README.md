@@ -84,7 +84,8 @@ Orte, die nur über einen Pfad gelten, tragen `"pfad_id": "<id>"`. Ferats Werkze
 - Koordinaten: `welt.m_zu_ij(x_m, y_m)`, `welt.ij_zu_m(i, j)`, `welt.cm_zu_ij`, `welt.ij_zu_cm`, Modul:
   `pixel_zu_m(i, j, zelle_m)`, `m_zu_pixel(x, y, zelle_m)`. Formel: `X_cm = (z·j + (z−1)/2 − 4730,5)·100`,
   `Y_cm = (z·i + (z−1)/2 − 4060,5)·100` (z = 1/2/4 m). Norden = −Y = Bildoben.
-- `feld_von_m(x, y)` → "E5", `feld_grenzen_m("E5")`, `felder_im_kreis(x, y, r)`.
+- `feld_von_m(x, y)` → "E5", `feld_grenzen_m("E5")`, `felder_im_kreis(x, y, r)` – Feldgrenze wie der Setzer:
+  `s = floor((x_cm + 473050)/100800)` (13f A10).
 - `welt.hoehe_bei_m(x, y)` (bilinear), `welt.hoehe_bei_cm`, `welt.baumhoehe_bei_m`, `welt.biom_bei_m`, `welt.boden_bei_m`.
 - `welt.fenster(x_m, y_m, radius_m)` / `welt.fenster_box(x0, y0, x1, y1)` → `Fenster` mit `.sl`, `.get("hoehe")`,
   `.get(array)`, `.x_m`, `.y_m`, `.gitter_m()`, `.lokal(x, y)`, `.fenster_ij_1m()` (für orte.json).
@@ -166,6 +167,31 @@ Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorie
 `gelaende.ist_wasser`, `see.auslass_cm`, `see.freibord_min_m`. In `plan.json`: `orte_budget`, `dateien[*].orte`,
 `dateien[*].material_wunsch`, `dateien[*].z_frei_anzahl`, Akteure mit `hoehe_m`, `boden_z`, `unterkante_z`, `pivot`.
 
+## Auftrag 13f (Korrekturen nach dem 1-m-Lauf)
+
+| Punkt | Wo | Was |
+|---|---|---|
+| A1/A2 | `daten.lade_1m` | Biom über die Kennzahl (15d); Bachliste `baeche/baeche_alle.json` bevorzugt |
+| A3 | `instanzen.platziere` | `bezug: mitte` mit Fußradius ≥ 1,5 m: Boden am Pivot |
+| A4/A8/A9/A12/A13 | **`bach.py`** + `rezept._bach_linie`/`_bach_eintrag`, `stempel.bach_profil` | Enden am Seeumriss, Mündung nur Epic, Spiegel-Treppe mit expliziten `stufen`, Querprofil 15b, Furten, offene Mündung |
+| A5 | `stempel.senken_fuellen` (in `fertig(senken_fuellen=True)`) | Senken < 50 m² und < 0,5 m auffüllen (nur anheben) |
+| A6 | `rezept._ein_stueck`, `instanzen.Ebene.schreibe`, Prüfer | Gruppen-Feld `z_frei`, `z_frei_index` in `plan.json` |
+| A7 | `rezept.schreibe_biom` | `materialwuensche_biom` oben in `orte.json` |
+| A10 | `daten.feld_von_m`/`feld_grenzen_m` | Feldgrenze = Mitte der 1-m-Zelle j = 1008 s |
+| A11 | `stempel.Lagen` | Ränder ≥ 3 m, Pfadband 1 m Übergang, Ausblenden am Fensterrand |
+| A13 | `stempel.schutz_faktor`, `rezept._klein_see`, Prüfer | Schutzzone hart (Wege + Orte), Seen < 10 m² → Lage/Decal, Seeufer-FEHLER |
+| B | `rezept._houdini_ausblenden` | `bestand_ausblenden` mit `art: houdini` |
+
+Neue Prüferregeln (`sehens_pruefen.pruefe_baeche`): Bachende am eigenen See unter dem Spiegel / Punkte im See (FEHLER),
+Abfluss unter dem Seespiegel (FEHLER), Bachende unter dem Spiegel des Epic-Ziels (FEHLER), `suesswasser_bestand`
+(FEHLER), `versickert` < 25 m (WARNUNG), Querprofil am Netzrand: Ufer unter dem Spiegel bzw. Gelände über dem Spiegel
+in der Mitte (auf 1 m FEHLER; auf 2 m WARNUNG, weil ein 1–2 m breiter Bach im 2-m-Raster nicht auflösbar ist; Furten,
+Stufenzonen ±(0,5 + 0,75 Zellen), Seen und offene Mündungen ausgenommen). Seeufer unter dem Spiegel (FEHLER),
+Geländeänderung ≤ 3 m an Wegen/Orten (FEHLER).
+
+Die 1-m-Logik lässt sich in der Cloud mit einer synthetischen 1-m-Welt prüfen (2-m-Daten hochgerechnet, siehe Antwort
+`antworten/13f-p2-1m-korrekturen.md`); der Selbsttest (Schritt 11) baut dafür eine kleine 1-m-Welt in der NW-Ecke.
+
 ## Cache und Laufzeiten (2 m, 4789 × 3529, ohne SciPy)
 
 - Ordner: `$SEHENS_CACHE` oder `--cache`, Standard
@@ -182,7 +208,11 @@ Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorie
 `--aus` (Standard Scratchpad `a13/`, nie ins Repo). Schritt 9 prüft die Pfade (Testpfad rastern, Abstände, Prüfer, Rücksetzen).
 Schritt 10 prüft Phase 2: Inventar-/Asset-Prüfung, Quaternionen, Stempel mit allen Werkzeugen (Rand 0, 1-m-Datei),
 einen Ort aus einem Rezept zweimal (byteidentisch), orte.json + Ebene, Vorschau, Prüfer 0 FEHLER und absichtlich kaputte
-Fälle (Uhrzeigersinn, fehlendes Niagara, Budget ≠ Ebene, falsche Anzahl, unbekanntes Netz). Laufzeit ~30 s mit Cache.
+Fälle (Uhrzeigersinn, fehlendes Niagara, Budget ≠ Ebene, falsche Anzahl, unbekanntes Netz). Schritt 11 (13f):
+synthetischer 1-m-Ordner für den Lader (A1 Kennzahl, A2 `baeche_alle.json`), Feldgrenze (A10), Baumfuß am Hang (A3),
+kleine synthetische 1-m-Welt mit Kerbtal, See, Zulauf und Abfluss (A4 Ende/Anfang am Seespiegel, A8 Stufen/Becken,
+A12 Querprofil 0 FEHLER + absichtlich kaputte Fälle, A13 Furt mit Trittsteinen und harte Schutzzone am Weg) und
+kleine/große Senke (A5). Laufzeit ~40 s mit Cache.
 
 ## Bekannte Grenzen
 

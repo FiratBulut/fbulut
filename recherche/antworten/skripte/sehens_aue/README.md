@@ -75,3 +75,5 @@ Alle Orte weit unter §9. Material-Instanzen 6 von 6: `MI_EL_SW_Lehmwand`, `_Kal
   Lehm-Decals, `material_hinweis` M_River_Water_Translucent). Weiter fehlend: Stieleiche, tote Eiche, Erlen, Driftwood,
   große Kalkfelsen, Forest Fungi, Niagara-Laub (in `assets_wunsch`).
 - Pfadbänder werden auf das Lagenfenster gekappt; der volle Fußweg steht in `orte.json["pfad"]`.
+- **13f:** aue_01 `ersetzt_bestandsbach` für `B_R2_R_M1_M1_04` im Teich (einlauf → ueberlauf) und Houdini
+  `R_M1_M1__WASSER` im Teich ausgeblendet. Efeu/Stammefeu mit `z_frei` (A6).

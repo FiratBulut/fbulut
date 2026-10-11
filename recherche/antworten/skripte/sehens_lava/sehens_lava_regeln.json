@@ -423,7 +423,7 @@
      ]
     }
    },
-   "gelaende": {
+   "gelaende": {"senken_fuellen": {"max_flaeche_m2": 400, "max_tiefe_m": 1.5, "grund": "13f A5: keine Absicht - die Kerben sollen zur Front hin abfallen (kein Loch); Senke hinter der angehobenen Stirn wird aufgefuellt"}, 
     "fenster_m": [
      170,
      150

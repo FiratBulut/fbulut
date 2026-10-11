@@ -16,8 +16,8 @@ bzw. am Ufer (`pfad.ende_r_m`), Verdeckungsprüfung der Fundstücke (`sehens_lib
 **Ferat (Brushify abgelehnt):** Ginster = Sanddorn (`MI_EL_SW_Ginster` grün, `MI_EL_SW_Ginstergold` **gelb getönt** – auch
 auf weißen Windröschen als Blütenköpfe), Wacholder = schlank skalierte Jungkiefern (`MI_EL_SW_Wacholder`), Wollgras =
 Binsen + weiße Windröschen ×0,4. Eigene Decal-Textur `sehens/heide/decal_russ.png` (+ `_n`) für den alten Heidebrand
-(Materialwunsch `MI_EL_SW_Russ_Decal`). **E13:** Ruß-Decal fest eingeplant (`optional: false`, `bedingung` „MI wird
-angelegt“; Claude legt die Instanz lokal an). **E12:** Sanddorn als Ginster ist entschieden (keine offene Frage mehr).
+(Materialwunsch `MI_EL_SW_Russ_Decal`). **13f B:** Ruß-Decal wieder `optional: true`, bis der Textur-Import lokal
+möglich ist (vorher E13 fest eingeplant). **E12:** Sanddorn als Ginster ist entschieden (keine offene Frage mehr).
 
 ## Testlauf 2 m (11.10.2026, ~75 s, zwei Läufe byteidentisch)
 
