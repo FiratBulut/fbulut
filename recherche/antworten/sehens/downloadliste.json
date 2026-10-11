@@ -11,7 +11,7 @@
  "summe": {
   "anzahl": {
    "A": 1,
-   "B": 14,
+   "B": 13,
    "C": 12
   },
   "gb_schaetzung": {
@@ -24,7 +24,6 @@
    "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
    "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack",
    "Nanite Tropical Plant Pack 2",
-   "Brushify – Moorlands Pack",
    "Taxodium Distichum (Bald Cypress) Tree Pack",
    "Tundra Icelandic Rock Cluster (Quixel Megascans)",
    "Moss & Lichen Forest Ground Rock Materials"
@@ -311,6 +310,10 @@
   {
    "name": "Realistic Waterfall and Water VFX",
    "grund": "bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft."
+  },
+  {
+   "name": "Brushify – Moorlands Pack",
+   "grund": "bewusst nicht aufgenommen: Ferat besitzt es nicht und findet es zu teuer; Heide bleibt beim Bestand."
   },
   {
    "name": "Waterfall Pro",
@@ -601,30 +604,6 @@
    "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 130+ Loops, darunter Lava (4 Ambiences, 17 Dateien), Höhle, Wind. Begründung: Lava- und Höhlenklang gibt es kostenlos nicht. Vorher die kostenlosen Hörproben anhören (laut Listing verlinkt).",
    "status": "fehlt",
    "warum_prioritaet": "Lava-/Windklänge gibt es im Bestand nicht."
-  },
-  {
-   "name": "Brushify – Moorlands Pack",
-   "fab_link": "https://www.fab.com/listings/d0b8065d-0ef1-42b2-915e-4810ee19f44e",
-   "anbieter": "Brushify (Joe Garth)",
-   "preis": "ungeprueft (vermutlich kostenpflichtig; Brushify-Pakete waren zeitweise Gratis-Monatsassets - prüfen: evtl. schon in Bibliothek)",
-   "groesse_gb": null,
-   "ue_version": "laut Listing aktualisiert fuer UE 5.4+",
-   "nanite": null,
-   "ersatz_bestand": "SM_forest_heather_01, SM_heath_A_01/B_01/cross_01 (Tint), Granit pjEr1/pjtsT/pkeeM_tier_0, SM_big_rock_wall_*",
-   "pruefen_bibliothek": false,
-   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug: 'Brushify - Moorlands Pack', Heather vegetation, 3 photogrammetry rocks scanned in the UK, Nanite/Lumen, UE 5.4+)",
-   "bemerkung": "Einziges gefundenes Heide-/Moorland-Paket: 4 Heidekraut-Foliagetypen (gruen, braun, purpur, Farn) + 3 in Grossbritannien gescannte Felsen - genau Dartmoor-Granit und Besenheide. Bestand hat nur SM_heath_A/B (0,3 m) und SM_forest_heather_01.",
-   "prioritaet": "B",
-   "status": "fehlt",
-   "wofuer": [
-    "heide_01_die_graue_burg",
-    "heide_02_ginstergold",
-    "heide_03_die_wacholderprozession",
-    "heide_04_der_kolk",
-    "heide_05_der_wackelstein",
-    "heide_07_der_totengrund"
-   ],
-   "warum_prioritaet": "neu aus B5 (heide): Besenheide + UK-Granit für 6 Heide-Orte."
   },
   {
    "name": "Taxodium Distichum (Bald Cypress) Tree Pack",
@@ -1027,6 +1006,10 @@
   {
    "name": "Waterfall Pro",
    "grund": "überflüssig: Nature Water FX ist gekauft."
+  },
+  {
+   "name": "Brushify – Moorlands Pack",
+   "grund": "Ferat besitzt es nicht und findet es zu teuer. Heide bleibt beim Bestand (SM_forest_heather_01, SM_heath_A/B_01 mit Tönung, Granit pjEr1/pjtsT/pkeeM_tier_0); Ginster, Wacholder, Wollgras: Sanddorn, gestauchte Jungkiefern, Binsen."
   }
  ]
 }

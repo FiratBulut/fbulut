@@ -7,7 +7,7 @@ Stand 11.10.2026, nachmittags · Download-Liste: `antworten/sehens-downloadliste
 - **Übernommen.** Das neue Inventar ist die Grundlage für die Planung: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit
   73 Niagara-Systemen, 44 Decals, 316 Klängen und 46 Cues.
 - **Download-Liste neu.** Sie hat jetzt die Abschnitte „Erledigt / im Projekt“ (8 Pakete mit echtem Pfad und Netzzahl), „Läuft bei Ferat /
-  wird geladen / Import ausstehend“ (7), „Erneut versuchen“ (2 Asset-IDs) und die noch fehlenden Pakete: A 1, B 14, C 12.
+  wird geladen / Import ausstehend“ (7), „Erneut versuchen“ (2 Asset-IDs) und die noch fehlenden Pakete: A 1, B 13, C 12.
   A + B sind etwa 20,5 GB, soweit eine Größe bekannt ist. Preise bleiben ungeprüft, weil fab.com aus der Cloud nicht erreichbar ist.
 - **Die nächsten 5:** Electric Dreams (kostenlos), Nanite Driftwood Props, Quercus Robur (Stieleiche), Forest Fungi, CryoGen.
 - **Kataloge und Asset-Bedarf** der 8 Biome aus der ersten Welle (aue, bergwald, lava, elfenwald, dschungel, gletscher, frost, fjord)
@@ -41,6 +41,8 @@ Coast & Dunes (als Lehmwand für aue_03 und als Terrassenkanten für fjord_08 ei
 - Forest Cretaceous: laut Ferat teuer und sehr schlecht bewertet; Riesenbäume bleiben Bestand plus Skalierung.
 - Realistic Waterfall and Water VFX und Waterfall Pro: überflüssig, weil Nature Water FX gekauft ist.
 - Realistic Starter VFX Pack Vol 2: Dampf kommt jetzt aus dem Niagara Examples Pack.
+- Brushify – Moorlands Pack (Wunsch aus B5): Ferat besitzt es nicht und findet es zu teuer. Für Ginster, Wacholder und Wollgras bleibt der
+  Ersatz aus dem Bestand: Sanddorn, gestauchte Jungkiefern, Binsen.
 
 **Entfallene Wünsche:**
 - gletscher: Der Atem, Gletschertisch, Büßereis, Schmelzsee
@@ -73,7 +75,7 @@ Liste nicht eindeutig einem Paket zuordnen, weil die Liste Listing-IDs führt un
 | Prio | Pakete |
 |---|---|
 | A (1) | Nanite Driftwood Props (Held von aue_04) |
-| B (14) | Electric Dreams (kostenlos); Quercus Robur (neu, 13c); Forest Fungi; CryoGen (C → B); Arctic Cliffs; Cave Ambience; Cave Stalactites & Wall Kit (neu); Nanite Tropical Plant Pack 2 (neu); Travertine Terraces; Ultimate Niagara Environmental VFX; Fantasy Ambiences; Brushify Moorlands (neu, B5); Taxodium Distichum (Bald Cypress) Tree Pack (neu, ganze Sumpfzypressen); Megascans Trees: European Black Alder (bleibt B laut B8, nicht abwarten) |
+| B (13) | Electric Dreams (kostenlos); Quercus Robur (neu, 13c); Forest Fungi; CryoGen (C → B); Arctic Cliffs; Cave Ambience; Cave Stalactites & Wall Kit (neu); Nanite Tropical Plant Pack 2 (neu); Travertine Terraces; Ultimate Niagara Environmental VFX; Fantasy Ambiences; Taxodium Distichum (Bald Cypress) Tree Pack (neu, ganze Sumpfzypressen); Megascans Trees: European Black Alder (bleibt B laut B8, nicht abwarten) |
 | C (12) | Icelandic Sand, tote Stieleiche, Tundra Icelandic Rock Cluster, Moss & Lichen (B5), Niagara VFX Pack Snow (B → C, nur noch Schnee), Giant Fantasy Mushrooms, Hollowstone, Wadi Rum, Procedural Rocks Generator, Tropical Vegetation, Rain Forest Pack, Wilderness Nature Loops |
 
 **Top 5 der noch fehlenden Pakete:**

@@ -73,6 +73,7 @@ Stand 11.10.2026, nachmittags
 | Mönch aus `veqnci0db_tier_2`: ja, erster Wurf | Dazu kommen Sockel und Schutt aus `Basalt_Basalt_Cliff_Rock_A_SM`, `Basalt_Basalt_Rock_C/D_SM` und `vdssailfa_tier_2`, getönt mit `MI_EL_SW_Granit_Moos`. Das Prüfbild entscheidet. | `sehens/bergwald/katalog.md`, `asset_bedarf.json` |
 | Nicht-Nanite-Nadelbäume liegend (Windwurf) und 2,5× (Säulenhain): ja | Vermerkt. Forest Cretaceous ist ganz gestrichen (Ferat: teuer, sehr schlecht bewertet). Neu als Kleinzeug: `SM_Forest_pine_04_01/02/03_log`. | `sehens/bergwald/…`, `sehens-downloadliste.md` |
 | Karsee-Stempel ±6 m: ja | Vermerkt. | `sehens/bergwald/katalog.md` |
+| (Nachtrag Ferat) Landschaftsform frei anpassbar | Geländestempel sind **keine feste Grenze**, auch über 40 m hinaus (bisher SEHENS_FORMAT §3: \|Δ\| ≤ 40 m, mehr nur begründet). Die Planer dürfen die Form dort anpassen, wo der Ort sie braucht; die übrigen Regeln aus §3 gelten weiter (weicher Rand, Wege und Wasser schonen, keine Überhänge im Gelände). | diese Datei; SEHENS_FORMAT pflegt der Koordinator |
 
 ### Nachträge von Ferat und B4/B5/B8 (während der Arbeit)
 
@@ -81,6 +82,9 @@ Stand 11.10.2026, nachmittags
 - **Gestrichen:** Realistic Waterfall VFX und Waterfall Pro.
 - **Forest Cretaceous** steht unter „Bewusst nicht aufgenommen“.
 - **Megascans** gelten als „kostenlos (2024 beansprucht)“.
+- **Brushify – Moorlands Pack** ist nicht aufgenommen: Ferat besitzt es nicht und findet es zu teuer. Für Ginster, Wacholder und Wollgras bleibt
+  der Ersatz aus dem Bestand: Sanddorn, gestauchte Jungkiefern, Binsen.
+- **Landschaftsform frei:** Geländestempel sind keine feste Grenze, auch über 40 m hinaus.
 - **Wird geladen:** Desert Western Cliff, weitere Limestone-Assets und Ancraite „Limestone Rock Set“.
 - **Merge B4:**
   - Die entfallenen Gletscher- und Fjord-Wünsche sind aus der Liste genommen.

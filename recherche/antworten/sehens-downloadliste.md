@@ -21,7 +21,7 @@ Stand 11.10.2026, nach dem Abgleich mit dem Inventar 13b, den Antworten 13c und 
 
 **Bitte noch einmal versuchen:** zwei Megascans-Downloads sind im Fab-Fenster fehlgeschlagen (Asset-IDs `61882812-0d2e-4b2a-a43b-9f2d019973a1` und `6676d940-e165-47b0-9471-50a68115315c`). Welche Assets das sind, lässt sich aus unserer Liste nicht eindeutig sagen.
 
-**Zahlen:** Noch offen sind A = 1, B = 14 und C = 12 Pakete. A + B sind etwa 20,5 GB, soweit eine Größe bekannt ist; 7 Pakete haben keine Größenangabe. Alle Preise und Größen sind **ungeprüft**, weil fab.com aus der Cloud nicht erreichbar ist. Megascans gelten als kostenlos (2024 beansprucht). **Kostenpflichtige Pakete nur ansehen, nicht kaufen – du entscheidest.**
+**Zahlen:** Noch offen sind A = 1, B = 13 und C = 12 Pakete. A + B sind etwa 20,5 GB, soweit eine Größe bekannt ist; 6 Pakete haben keine Größenangabe. Alle Preise und Größen sind **ungeprüft**, weil fab.com aus der Cloud nicht erreichbar ist. Megascans gelten als kostenlos (2024 beansprucht). **Kostenpflichtige Pakete nur ansehen, nicht kaufen – du entscheidest.**
 
 ## Erledigt / im Projekt
 
@@ -67,7 +67,7 @@ Abkürzungen: GB = geschätzte Downloadgröße · wofür = Ort-IDs aus den `asse
 |---|---|---|---|---|---|---|---|---|---|
 | **Nanite Driftwood Props** | [Fab](https://www.fab.com/listings/0e9cba47-33ee-4a64-a1e1-88611efbee3b) | ungeprüft | Preis ungeprüft | 2 | UE5 (ungeprüft) | ja | aue_04_treibholzwerder, aue_05_lilienrinne, kueste_07_der_duenenkamm | SM_beach_driftwood_01, SM_LargeFallenTree_01/02, SM_OldFallenTree_01/02, SM_BrokenTreeAssembly_01, SM_trunk_01/02 | Held des Leuchtfeuers aue_04 (Treibholzburg); Bestand hat nur 1 Treibholz von 3,6 m. |
 
-### B – deutlich besser – 14 Pakete, ~18,5 GB (soweit bekannt)
+### B – deutlich besser – 13 Pakete, ~18,5 GB (soweit bekannt)
 
 | Paket | Link | Anbieter | Preis | GB | UE | Nanite | wofür | Ersatz im Bestand | warum diese Priorität |
 |---|---|---|---|---|---|---|---|---|---|
@@ -82,7 +82,6 @@ Abkürzungen: GB = geschätzte Downloadgröße · wofür = Ort-IDs aus den `asse
 | **Travertine Hot Spring Terraces – Modular Environment Pack** | – | ungeprüft | Preis ungeprüft (vermutlich kostenpflichtig) | 2 | UE5 (ungeprüft) | ja | dschungel_08_sinterhalle, elfenwald_04_elfentreppe, canyon:Hängender Garten (Kalktuff) (Katalog v1) | keiner (Sinterterrassen fehlen ganz) | elfenwald_04 (Held); gletscher/tundra-Wünsche entfallen. |
 | **Ultimate Niagara Environmental VFX** | [Fab](https://www.fab.com/listings/e25c0150-ec47-4e9f-a818-8aa9f501c481) | ungeprüft | Preis ungeprüft | 1,5 | ungeprüft | ? | bergwald_07_windwurf, kueste_01_die_alten, kueste_03_das_nadeltor, kueste_08_das_blasloch, lava_08_glutauge, oedland:Höllentor (Katalog v1), wueste:Große Sterndüne (Sandfahnen) (Katalog v1) | keiner | deckt die Lücken im Niagara-Bestand: Schnee/Schneefahnen, Gischt, Glut/Asche. |
 | **Fantasy Ambiences (Lava, Höhle, Wind …)** | [Fab](https://www.fab.com/listings/25aa5e05-aa98-4f79-b7a8-b1b739e8cdb8) | David Dumais Audio | ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft) | 3 | Audio (WAV) | ? | fjord_03_trollzunge, gletscher_05_die_waechte, lava_02_schwefelgrund, lava_06_kraterreihe, lava_08_glutauge, tundra_01_der_pingo, oedland:Höllentor (Katalog v1) | keiner | Lava-/Windklänge gibt es im Bestand nicht. |
-| **Brushify – Moorlands Pack** | [Fab](https://www.fab.com/listings/d0b8065d-0ef1-42b2-915e-4810ee19f44e) | Brushify (Joe Garth) | ungeprueft (vermutlich kostenpflichtig; Brushify-Pakete waren zeitweise Gratis-Monatsassets - prüfen: evtl. schon in Bibliothek) | ? | laut Listing aktualisiert fuer UE 5.4+ | ? | heide_01_die_graue_burg, heide_02_ginstergold, heide_03_die_wacholderprozession, heide_04_der_kolk, heide_05_der_wackelstein, heide_07_der_totengrund | SM_forest_heather_01, SM_heath_A_01/B_01/cross_01 (Tint), Granit pjEr1/pjtsT/pkeeM_tier_0, SM_big_rock_wall_* | neu aus B5 (heide): Besenheide + UK-Granit für 6 Heide-Orte. |
 | **Taxodium Distichum (Bald Cypress) Tree Pack** | [Fab](https://www.fab.com/listings/749dc94a-9b33-4f22-b6d1-b9376e64a5f6) | ungeprüft | Preis ungeprüft | ? | UE5 (ungeprüft) | ja | sumpf_01_der_ertrunkene_wald, sumpf_02_der_weidendom | SM_SwampCypress_A (Wurzelstock) + Weiden Big_Tree_Willow_01/02 | ganze Sumpfzypressen – im Bestand nur 1 Wurzelstock (Kandidat aus der Websuche 11.10.; B8 plant bis dahin Weiden auf Wurzelfuß). |
 | **Megascans Trees: European Black Alder** | – | Quixel Megascans | kostenlos (2024 beansprucht) bzw. kostenlos (Early Access, laut UE-Marketplace-Seite) | 3 | UE5 (Megascans Trees) | ? | aue_01_biberstau, aue_04_treibholzwerder, aue_06_mondarm, sumpf_05_der_erlenbruch | Big_Tree_Willow_01/02, SM_Poplar_tree_03/04, SM_EuropeanHornbeam_Forest_* (Override nötig) | nicht im Bestand (13c); laut B8 bleibt der Wunsch B (Held von sumpf_05 Erlenbruch). Bis dahin Birken/Pappeln/Weiden – nicht abwarten. |
 
@@ -115,7 +114,6 @@ Abkürzungen: GB = geschätzte Downloadgröße · wofür = Ort-IDs aus den `asse
 - **Travertine Hot Spring Terraces – Modular Environment Pack** (B): KOSTENPFLICHTIG vermutet – Ferat entscheidet. Laut Auszug 26 modulare Teile nach Pamukkale/Mammoth Hot Springs, Farbsteuerung im Material, Nanite + Lumen. Link nicht sicher zuzuordnen (Suchtreffer-IDs d55e2477-c3e6-4557-9f60-4beb64ed636f oder 3960dde2-40d3-467d-b972-409d044d10a5) – auf Fab nach dem Titel suchen. Begründung: drei Orte hängen an Sinterterrassen.
 - **Ultimate Niagara Environmental VFX** (B): Kostenpflichtig vermutet – Ferat entscheidet. 39 Niagara-Effekte: Wetter, Feuer & Glut (Flame Dust, Smoke Spark), Wasser, Rauch, fallendes Laub. Link-Zuordnung aus Suchtreffern (ungeprüft); es gibt auch eine V2 mit 44 Effekten.
 - **Fantasy Ambiences (Lava, Höhle, Wind …)** (B): KOSTENPFLICHTIG – Ferat entscheidet. 130+ Loops, darunter Lava (4 Ambiences, 17 Dateien), Höhle, Wind. Begründung: Lava- und Höhlenklang gibt es kostenlos nicht. Vorher die kostenlosen Hörproben anhören (laut Listing verlinkt).
-- **Brushify – Moorlands Pack** (B): Einziges gefundenes Heide-/Moorland-Paket: 4 Heidekraut-Foliagetypen (gruen, braun, purpur, Farn) + 3 in Grossbritannien gescannte Felsen - genau Dartmoor-Granit und Besenheide. Bestand hat nur SM_heath_A/B (0,3 m) und SM_forest_heather_01.
 - **Taxodium Distichum (Bald Cypress) Tree Pack** (B): Ganze Sumpfzypressen für den ertrunkenen Wald/Weidendom. Animierte Skeletal-Teile nicht nötig.
 - **Megascans Icelandic Sand With Pebbles** (C): Schwarzer Sand/Kies als Boden-/Decal-Quelle.
 - **Megascans Trees: European Black Alder** (B): Die Erle ist der Baum der Ufer und Bruchwälder – heute gibt es keinen einzigen Ufer-Laubbaum außer zwei Trauerweiden. Schwesterpaket der vorhandenen Megascans-Hainbuchen, daher evtl. schon in der Bibliothek.
@@ -145,6 +143,7 @@ Abkürzungen: GB = geschätzte Downloadgröße · wofür = Ort-IDs aus den `asse
 | Free City & Nature Sounds | erledigt – im Projekt (siehe „Erledigt“) |
 | Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie) | bewusst nicht aufgenommen: laut Ferat teuer und sehr schlecht bewertet. Riesenbäume bleiben Bestand plus Skalierung (13c: Nicht-Nanite-Nadelbäume ×2,2–2,5, SM_beech_tree_05 ×2,5). |
 | Realistic Waterfall and Water VFX | bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft. |
+| Brushify – Moorlands Pack | bewusst nicht aufgenommen: Ferat besitzt es nicht und findet es zu teuer; Heide bleibt beim Bestand. |
 | Waterfall Pro | bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft. |
 | Realistic Starter VFX Pack Vol 2 | entfällt: Dampf/Rauch jetzt mit NS_Smoke_Plume/NS_Chimney_Smoke aus dem Niagara Examples Pack; Cascade-Paket war nur Texturquelle. |
 
@@ -177,6 +176,7 @@ Abkürzungen: GB = geschätzte Downloadgröße · wofür = Ort-IDs aus den `asse
 - **Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)**: laut Ferat teuer und sehr schlecht bewertet; Riesenbäume bleiben Bestand plus Skalierung.
 - **Realistic Waterfall and Water VFX**: überflüssig: Nature Water FX ist gekauft.
 - **Waterfall Pro**: überflüssig: Nature Water FX ist gekauft.
+- **Brushify – Moorlands Pack**: Ferat besitzt es nicht und findet es zu teuer. Heide bleibt beim Bestand (SM_forest_heather_01, SM_heath_A/B_01 mit Tönung, Granit pjEr1/pjtsT/pkeeM_tier_0); Ginster, Wacholder, Wollgras: Sanddorn, gestauchte Jungkiefern, Binsen.
 - **Ancient Temple Ruins** (Epic): Ruinen-Paket → Ferats Regel „keine Bauten/Ruinen“.
 - **Smuggler's Cove** (Poly Haven): überwiegend Schiffe, Fort, Steg; widersprüchliche Lizenzangaben.
 - **Valley of the Ancient**: braucht ~205 GB; Reste liegen schon als `AncientContent` im Projekt.
