@@ -272,10 +272,6 @@
    },
    "assets_wunsch": [
     {
-     "paket": "Arctic Cliffs",
-     "statt_jetzt": "Megascans Ice Cliff (uhprdg2fa, veipbcmcb, uhpocesfa, vd5leh0ga, vctiegmfa) x1,6-2,6 als Seracs, Large Ice Cliff vdsrdd0fa als Torsturz"
-    },
-    {
      "paket": "Cave Ambience",
      "statt_jetzt": "CUE_Water_Stream_II_Cue (Schmelzwasser im Tor)"
     }
@@ -1151,7 +1147,10 @@
      "zweck": "Schmelzwasser aus dem Tor"
     }
    ],
-   "bild_groesse_m": 420
+   "bild_groesse_m": 420,
+   "_entschieden": [
+    "Arctic Cliffs: E31/Kaufliste: nicht empfohlen (Megascans Ice Cliff gleichwertig)"
+   ]
   },
   "gletscher_02_lawinenkegel": {
    "kurz": "Aus einer engen Rinne zieht ein schmutzig-weisser Kegel aus Altschnee in den Waldhang; Fichten liegen wie Streichhoelzer in Fallrichtung, oben haengt noch Schnee.",
@@ -3179,10 +3178,6 @@
    },
    "assets_wunsch": [
     {
-     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
-     "statt_jetzt": "keine Schneefahne (kein Schnee-Niagara im Bestand); Wind nur als Klang"
-    },
-    {
      "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
      "statt_jetzt": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue (leise, Laubanteil im Editor pruefen)"
     }
@@ -3934,6 +3929,9 @@
      "lautstaerke": 0.5,
      "zweck": "Gurgeln der Gletschermuehle"
     }
+   ],
+   "_entschieden": [
+    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam: Kaufliste: nicht empfohlen (Schneefahne nur als Kopie/ohne Effekt)"
    ]
   },
   "gletscher_06_gletschertoepfe": {
@@ -4729,12 +4727,7 @@
     "niagara": 1,
     "decals": 3
    },
-   "assets_wunsch": [
-    {
-     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
-     "statt_jetzt": "keine Schneefahne (optional NS_Smoke_Plume-Kopie)"
-    }
-   ],
+   "assets_wunsch": [],
    "anker": {
     "zahn": [
      0.0,
@@ -5213,7 +5206,10 @@
     "richtung": "hangab",
     "abstand_m": 14
    },
-   "sicht_probe_m": 12
+   "sicht_probe_m": 12,
+   "_entschieden": [
+    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam: Kaufliste: nicht empfohlen (Schneefahne nur als Kopie/ohne Effekt)"
+   ]
   },
   "gletscher_08_gletscherschliff": {
    "kurz": "Auf der Nordflanke ueber dem Meer hat das Eis den Fels poliert: Rundhoecker wie Walruecken mit Schrammen; auf dem hoechsten Buckel sitzt ein Findling auf drei kleinen Steinen.",
@@ -5230,12 +5226,7 @@
     "niagara": 0,
     "decals": 4
    },
-   "assets_wunsch": [
-    {
-     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
-     "statt_jetzt": "MI_TileableLeakage_02 gestreckt als Gletscherschrammen"
-    }
-   ],
+   "assets_wunsch": [],
    "anker": {
     "buckel": {
      "pos_m": [
@@ -5855,7 +5846,10 @@
       "min_m": 15
      }
     ]
-   }
+   },
+   "_entschieden": [
+    "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen): 13d: Paket ist im Bestand; Leakage-Decal bleibt bewusst (gestreckte Schrammen)"
+   ]
   }
  }
 }

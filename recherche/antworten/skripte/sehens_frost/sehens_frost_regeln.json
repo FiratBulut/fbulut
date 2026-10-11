@@ -1105,12 +1105,7 @@
     "niagara": 0,
     "decals": 10
    },
-   "assets_wunsch": [
-    {
-     "paket": "Arctic Cliffs",
-     "statt_jetzt": "Megascans Ice Cliff (uhpocesfa, vd5leh0ga, veipbcmcb, uhprdg2fa) als Presseisplatten, schraeg, im Eis versenkt"
-    }
-   ],
+   "assets_wunsch": [],
    "anker": {
     "see": {
      "pos_m": [
@@ -1617,6 +1612,9 @@
      "lautstaerke": 0.2,
      "zweck": "Eisknacken (nur falls ohne Schrittgeraeusch - im Editor pruefen)"
     }
+   ],
+   "_entschieden": [
+    "Arctic Cliffs: E31/Kaufliste: nicht empfohlen (Megascans Ice Cliff gleichwertig)"
    ]
   },
   "frost_03_eisvorhang": {
@@ -2290,12 +2288,7 @@
     "niagara": 1,
     "decals": 2
    },
-   "assets_wunsch": [
-    {
-     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
-     "statt_jetzt": "NS_Sparkling (Free Niagara Particles, Kopie weiss, sehr klein) als Glitzern"
-    }
-   ],
+   "assets_wunsch": [],
    "anker": {
     "schulter": {
      "pos_m": [
@@ -2692,6 +2685,9 @@
      "lautstaerke": 0.45,
      "zweck": "Westwind (Laubanteil im Editor pruefen)"
     }
+   ],
+   "_entschieden": [
+    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam: Kaufliste: nicht empfohlen (Schneefahne nur als Kopie/ohne Effekt)"
    ]
   },
   "frost_05_blockgletscher": {
