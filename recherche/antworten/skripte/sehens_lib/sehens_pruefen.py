@@ -74,7 +74,7 @@ def _pkt(v, n):
 # ============================================================================================
 # Kameras (§8)
 # ============================================================================================
-def pruefe_kameras(oid, art, kams, mitte_cm, welt=None, gel=None):
+def pruefe_kameras(oid, art, kams, mitte_cm, welt=None, gel=None, ausgeblendet=None):
     b = []
     if not isinstance(kams, list) or len(kams) < 3:
         b.append((FEHLER, oid, "kameras: mindestens 3 noetig (_anmarsch, _held, _nah)"))
@@ -112,7 +112,14 @@ def pruefe_kameras(oid, art, kams, mitte_cm, welt=None, gel=None):
                 continue
             i, j = welt.cm_zu_ij(kx, ky)
             if welt.meer[i, j] or welt.wasser[i, j] > 0:
-                b.append((WARNUNG, oid, "Kamera %s steht im Wasser/Meer" % name))
+                # 13h: Bestandswasser, das der Ort ausblendet (bestand_ausblenden art houdini), zaehlt nicht
+                weg_ = False
+                if not welt.meer[i, j] and ausgeblendet:
+                    from . import steilwand as _sw
+                    weg_ = any(_sw.in_polygon(np.array([kx / 100.0]), np.array([ky / 100.0]),
+                                              np.asarray(u, np.float64) / 100.0)[0] for u in ausgeblendet)
+                if not weg_:
+                    b.append((WARNUNG, oid, "Kamera %s steht im Wasser/Meer" % name))
             boden = welt.hoehe_bei_cm(kx, ky)
             hk = (boden - hoch) if hoch < 0 else max(boden + hoch, zz + 300)
             if hoch > 0 and art_k in ("anmarsch", "fern") and hk - (boden + hoch) > 500:
@@ -710,7 +717,9 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None, mi_geplant=None):
                 b.append((HINWEIS, oid, "Witcher-Detailebene '%s' leer" % eb))
     if welt is not None:
         b += pruefe_ort_gelaende(o, basis, welt)
-    b += pruefe_kameras(oid, art, o.get("kameras"), m, welt)
+    b += pruefe_kameras(oid, art, o.get("kameras"), m, welt,
+                        ausgeblendet=[e["umriss_cm"] for e in (o.get("bestand_ausblenden") or [])
+                                      if e.get("art") == "houdini" and e.get("umriss_cm")])
     mk = o.get("marker") or {}
     if not mk.get("titel") or not mk.get("text"):
         b.append((WARNUNG, oid, "marker.titel/text leer"))
@@ -758,6 +767,12 @@ def pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None):
         b += pruefe_ort(o, biom or "?", basis, inv, welt, mi_geplant=mi_geplant)
     if sw_ordner is not None:
         b += pruefe_ebene(sw_ordner, biom, inv, orte, welt, basis)
+    if welt is not None:
+        # 13h: neue Steilflaechen > 45 Grad auf > 20 m2 nur mit Fels-Akteur (FEHLER); Kameras frei (FEHLER)
+        from . import steilwand as _sw
+        from . import kamera_frei as _kf
+        b += _sw.pruefe_orte_steil(d, basis, welt, sw_ordner, inv)
+        b += _kf.pruefe_orte_kameras(d, basis, welt, sw_ordner, inv)
     mw = sum(len(o.get("materialwuensche", []) or []) for o in orte)
     if mw > 6:
         b.append((FEHLER, biom, "%d Materialwuensche > 6 je Biom" % mw))

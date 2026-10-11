@@ -32,6 +32,8 @@ from . import stempel as _st
 from . import instanzen as _ins
 from . import inventar as _inv
 from . import bach as _bach
+from . import steilwand as _sw
+from . import kamera_frei as _kf
 
 FEHLER, WARNUNG, HINWEIS = "FEHLER", "WARNUNG", "HINWEIS"
 BUDGET_9 = {"instanzen": 15000, "kollision": 1500, "akteure": 80, "lichter": 4, "niagara": 3, "nebel": 2,
@@ -335,9 +337,14 @@ class OrtKontext:
         if g.get("ist_wasser"):
             self._ist_wasser_maske = np.hypot(st.X - self.mx, st.Y - self.my) <= float(
                 g.get("ist_wasser_r_m", self.st["radius_m"]))
+        delta_vor_bach = st.delta.copy()
         for w in self.r.get("wasser") or []:
             if w.get("typ") == "bach":
                 self._bach_linie(w)
+        # 13h: Bachprofil ausserhalb von Netzrand + Uferring hoechstens tiefe + 0,5 m eintiefen (keine Keilwaende)
+        n_k = _sw.bach_einschnitt_begrenzen(self, delta_vor_bach)
+        if n_k > 0:
+            self.melde(HINWEIS, "Bachprofil (13h): Einschnitt ausserhalb Netzrand + Uferring auf %.0f m2 begrenzt" % n_k)
         ausnahme = self._ausnahme_maske(wasser_ausnahmen=True)
         st.fertig(schutz=g.get("schutz", True), weg_m=float(g.get("schutz_weg_m", 3.0)),
                   wasser=not g.get("wasser_frei", False), ausnahme_maske=ausnahme,
@@ -353,6 +360,8 @@ class OrtKontext:
             st.delta = fweg * (st.delta * fw + (1.0 - fw) * c * np.clip(st.delta, -0.5, 0.5))
             st.delta[np.abs(st.delta) < 0.005] = 0.0
             st.max_aenderung_m = float(np.abs(st.delta).max()) if st.delta.size else 0.0
+        # 13h: neue Steilflaechen flacher (Halde) - ausser gewollten, verkleideten Waenden (steil_erlaubt)
+        _sw.boeschung_anwenden(self)
         if st.gefuellt_m2 > 0:
             self.melde(HINWEIS, "kleine Senken aufgefuellt (A5): %.0f m2, bis %.2f m angehoben"
                        % (st.gefuellt_m2, st.gefuellt_max_m))
@@ -468,6 +477,19 @@ class OrtKontext:
                              "richtung": rg, "auslass_grad": aus_g, "lippe_m": float(b.get("lippe_m", 1.5)),
                              "ufer_m": float(b.get("ufer_m", 6.0))}
         self.linien["ufer_" + w["id"]] = um + [um[0]]
+        ins = b.get("insel")
+        if ins:
+            # 13h: Felsinsel als Gelaendekuppe im Becken - Krone >= ueber_m ueber dem Spiegel (nichts unter Wasser)
+            ux, uy = _st.kompass_vektor(rg)
+            dx, dy = (ins.get("versatz_m") or [0.0, 0.0])
+            ix, iy = x + dx, y + dy
+            ziel = spiegel + float(ins.get("ueber_m", 0.6))
+            hb = float(self.stempel.hoehe_bei_m(ix, iy))
+            if ziel > hb:
+                self.stempel.kuppe(ix, iy, float(ins.get("r_m", 4.0)), ziel - hb, rand_m=float(ins.get("rand_m", 2.5)),
+                                   plateau=float(ins.get("plateau", 0.35)), modus="max")
+            self.see[w["id"]]["insel"] = {"x": ix, "y": iy, "r_m": float(ins.get("r_m", 4.0)), "krone_m": ziel}
+            self.anker[w["id"] + "_insel"] = (ix, iy)
         # Auto-Anker: <id>_mitte, <id>_auslass (Uferpunkt in Abflussrichtung, 3 m nach aussen)
         self.anker[w["id"] + "_mitte"] = (x, y)
         U = np.asarray(um)
@@ -1494,6 +1516,8 @@ class OrtKontext:
         if not g.get("aktiv", True):
             self.melde(HINWEIS, "Gruppe %s abgeschaltet (%s)" % (name, g.get("grund", "aktiv: false")))
             return []
+        if (g.get("verteilung") or {}).get("typ") == "steilwand":
+            return _sw.verkleiden(self, g)            # 13h: neue Steilflaechen mit Wand-/Klippennetzen verkleiden
         ebene = g.get("ebene", "schutt")
         rolle = g.get("rolle", "fels")
         rng = _ins.rng_fuer(self.seed, self.id, name)
@@ -1550,6 +1574,8 @@ class OrtKontext:
                 ring = tuple(v.get("ring", (0.9, 1.6)))
             xs, ys, ts = _ins.um_stuecke(rng, basis, ring, tuple(v.get("je", (3, 6))),
                                          seite, float(v.get("seite_staerke", 0.6)), self.boden)
+        elif t == "halde":
+            xs, ys, ts, ziel_n = _sw.halde_punkte(self, g, rng)       # 13h: Bloecke auf der Schutthalde
         else:
             form = self._form(v, rng)
             n = _anzahl(g.get("anzahl"), rng) if "anzahl" in g else int(round(float(g.get("dichte_je_m2", 0.1)) *
@@ -1922,6 +1948,9 @@ class OrtKontext:
                     innen_w = _st.glatt01((d - a + 1.5) / 3.0) if a > 0 else 1.0
                     w = np.where(nah, _st.abfall(d, b, b + 3.0) * innen_w, 0.0)
                     lg.maske(name, w, wert, r.get("flecken", 0.3), r.get("flecken_m", 4.0))
+                elif form == "halde":
+                    # 13h: Schutthalde der Boeschung (Geroell statt glatter Erdflaeche)
+                    lg.maske(name, _sw.halde_lage(self, lg), wert, r.get("flecken", 0.3), r.get("flecken_m", 4.0))
                 elif form == "hang":
                     x, y = self.punkt(r.get("bei", "mitte"))
                     hg = r.get("hang_grad", [0, 90])
@@ -2257,6 +2286,8 @@ class OrtKontext:
                 self.gruppe(g)
             except (KeyError, ValueError) as ex:
                 self.melde(FEHLER, "Gruppe %s: %s" % (g.get("name"), ex))
+        if getattr(self, "_halde_gruppe", None):
+            self.gruppe(self._halde_gruppe)              # 13h: Bloecke auf der Schutthalde (Boeschung)
         if hooks.get("gruppen"):
             hooks["gruppen"](self)
         self.pfad_bauen()
@@ -2308,7 +2339,13 @@ class OrtKontext:
 
     def eintrag_bauen(self, mat_liste):
         bud, z = self.budget()
+        # 13h: Kameras gegen eigene Netze, Bestandskronen und Gelaende pruefen, blockierte versetzen (Regel "kameras")
+        kam_neu = _kf.kameras_bauen(self)
+        if kam_neu is not None:
+            self.st = dict(self.st, kameras=kam_neu)
         e = _fmt.ort_phase2(self.st, kurz=self.r.get("kurz", ""))
+        if kam_neu is not None:
+            e["kameras_13h"] = "Kameras gegenueber standorte.json geaendert (13h: freie Sicht, Abstand zu Kronen)"
         if self.stempel is not None:
             e["gelaende_max_m"] = round(self.stempel.max_aenderung_m, 2)
         e["wasser"] = self.wasser

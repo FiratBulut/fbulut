@@ -600,17 +600,28 @@ class Stempel:
         self.ist_fertig = True
         return self
 
-    def boeschung(self, max_grad=38.0, fest=None, max_auftrag_m=3.0, max_abtrag_m=3.0, max_iter=400):
+    def boeschung(self, max_grad=38.0, fest=None, max_auftrag_m=3.0, max_abtrag_m=3.0, max_iter=400, reichweite_m=None):
         """13h: neue Steilflaechen flacher stempeln (Schutthalde statt Erdwand). Kein Nachbarpaar darf durch den
         Stempel steiler als max_grad werden (bestehende Steilheit bleibt erlaubt): zuerst am Fuss AUFFUELLEN
         (Schuttkegel, hoechstens max_auftrag_m), dann an der Oberkante ABTRAGEN (hoechstens max_abtrag_m). fest: Zellen,
         die bleiben (Wasser, Bachprofil, Uferring, Schutz, Rand). Laeuft nach fertig(); setzt self.halde (geaenderte
-        Zellen) und max_aenderung_m neu. Rueckgabe (m2 aufgefuellt, m2 abgetragen)."""
+        Zellen) und max_aenderung_m neu. reichweite_m: Auf-/Abtrag nur so weit vom bisher geaenderten Gebiet
+        (|Delta| > 0,25 m), linear auslaufend - an Haengen steiler als max_grad liefe der Ausgleich sonst den ganzen
+        Hang hinauf (Standard max(Auf-, Abtrag) / tan(max_grad) + 2 Zellen). Rueckgabe (m2 aufgefuellt, m2 abgetragen)."""
         h0 = self.h0
         h = h0 + self.delta
         frei = np.ones(h.shape, bool) if fest is None else ~np.asarray(fest, bool)
         t = math.tan(math.radians(float(max_grad)))
         z = float(self.z)
+        if reichweite_m is None:
+            reichweite_m = max(float(max_auftrag_m), float(max_abtrag_m)) / max(t, 1e-6) + 2.0 * z
+        geaendert = np.abs(self.delta) > 0.25
+        if not geaendert.any():
+            self.halde = np.zeros(h.shape, bool)
+            return 0.0, 0.0
+        dist = _gel.abstand(geaendert, z, max_m=float(reichweite_m) + 2.0 * z).astype(np.float64)
+        anteil = np.clip(1.0 - dist / max(float(reichweite_m), 1e-6), 0.0, 1.0)
+        frei &= anteil > 0
         nach = [(di, dj, z * math.hypot(di, dj)) for di in (-1, 0, 1) for dj in (-1, 0, 1) if di or dj]
 
         def verschiebe(a, di, dj, leer):
@@ -629,7 +640,7 @@ class Stempel:
             abfall.append(np.maximum(t * d, np.nan_to_num(n0 - h0, nan=t * d)))
         h_auf = h.copy()
         if max_auftrag_m > 0:
-            ober = h + float(max_auftrag_m)
+            ober = h + float(max_auftrag_m) * anteil
             for _ in range(max_iter):
                 kand = h_auf
                 for (di, dj, d), e in zip(nach, abfall):
@@ -641,7 +652,7 @@ class Stempel:
                     break
         h_ab = h_auf.copy()
         if max_abtrag_m > 0:
-            unter = h_auf - float(max_abtrag_m)
+            unter = h_auf - float(max_abtrag_m) * anteil
             for _ in range(max_iter):
                 kand = h_ab
                 for (di, dj, d), e in zip(nach, anstieg):
