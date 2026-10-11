@@ -223,7 +223,7 @@
   "canyon_04_fluesterschlucht": {
    "kurz": "Der Plateaubach verschwindet in einem 2-6 m breiten, bis 17 m tiefen Spalt mit glattgewaschenen Waenden; ein Klemmblock haengt ueber dem Wasser, am Ende faellt der Bach in den Hauptcanyon.",
    "marker": {"titel": "Die Fluesterschlucht", "text": "Von oben nur eine dunkle Fuge im Sand. Unten fluestert das Wasser, und das Licht faellt in Streifen, als waere die Welt nur einen Spalt breit offen.", "entdeckung_m": 20},
-   "budget": {"instanzen": 5000, "kollision": 600, "akteure": 40, "lichter": 0, "niagara": 2, "decals": 4},
+   "budget": {"instanzen": 5000, "kollision": 600, "akteure": 40, "lichter": 0, "niagara": 3, "decals": 4},
    "assets_wunsch": [
     {"paket": "Fantasy Ambiences (Lava, Höhle, Wind …)", "statt_jetzt": "CUE_Water_Stream_II_Cue (Fluestern = Wasser im Spalt)"}
    ],
@@ -244,15 +244,15 @@
     "spalt": {"punkte": ["s0", "s1", "s2", "s2b", "s3", "s4", "s5", "lippe"]},
     "spalt_tief": {"punkte": ["s2", "s2b", "s3", "s4", "s5", "lippe"]}
    },
-   "gelaende": {"fenster_m": [130, 170], "rand_m": 10, "bei": [0, -6], "ist_wasser": true, "ist_wasser_r_m": 80, "begruendung": "Die Schlucht IST der Plateaubach: der Spalt wird entlang des bestehenden Gerinnes 12-17 m eingetieft, der Bach fliesst neu im Spalt (wasser 'spaltbach'); der alte Bachabschnitt im Fenster entfaellt.",
+   "gelaende": {"fenster_m": [130, 170], "rand_m": 10, "bei": [0, -6], "ist_wasser": true, "ist_wasser_r_m": 80, "begruendung": "Die Schlucht IST der Plateaubach: der Spalt wird entlang des bestehenden Gerinnes 12-17 m eingetieft, der Bach fliesst neu im Spalt (wasser 'spaltbach'); der alte Bachabschnitt im Fenster entfaellt.", "senke_begruendung": "Strudeltopf im Spaltgrund an der Biegung (Kolk, vom Bach ausgeschliffen)",
     "ops": [
      {"op": "rinne", "punkte": ["s0", "s1", "s2", "s2b", "s3"], "breite_m": 4.5, "sohle": [80.4, 67.8], "rand_m": 2.0, "warum": "Kerbe 2-6 m breit, oberer Teil: Sohle 80,4 -> 67,8 m"},
      {"op": "rinne", "punkte": ["s3", "s4", "s5", "lippe"], "breite_m": 4.5, "sohle": [67.8, 63.5], "rand_m": 2.0, "warum": "unterer Teil bis zur Fallkante: 67,8 -> 63,5 m (bis -17 m unter dem Plateau)"}
     ]
    },
    "wasser": [
-    {"typ": "bach", "id": "spaltbach", "punkte": ["s0", "s1", "s2", "s2b", "s3", "s4", "s5", "lippe"], "breite_m": 2.0, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "auto", "ueber_boden_m": 0.08},
-    {"typ": "wasserfall", "id": "spaltfall", "kante": [{"anker": "lippe", "versatz_m": [0, -2]}, {"anker": "lippe", "versatz_m": [0, 2]}], "fuss": "fuss", "breite_m": 2.5, "farbe": "klar"}
+    {"typ": "bach", "id": "spaltbach", "punkte": ["s0", "s1", "s2", "s2b", "s3", "s4", "s5", "lippe"], "breite_m": 2.0, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "auto", "ueber_boden_m": 0.08, "material_hinweis": "Mountain Set (13d): M_River_Water_Translucent fuer Bach/Fall; sonst M_EL_Wasserfall2"},
+    {"typ": "wasserfall", "id": "spaltfall", "kante": [{"anker": "lippe", "versatz_m": [0, -2]}, {"anker": "lippe", "versatz_m": [0, 2]}], "fuss": "fuss", "breite_m": 2.5, "farbe": "klar", "material_hinweis": "Mountain Set (13d): M_River_Water_Translucent fuer Bach/Fall; sonst M_EL_Wasserfall2"}
    ],
    "gruppen": [
     {"name": "wand_nord", "ebene": "held", "warum": "Nordwand des Spalts (sonnig): Desert Western Cliff Layered XL 11, glattgewaschene Baender, oben ueberkragend (Landschaft kann keine Ueberhaenge)", "palette": ["venuafk_tier_0"], "verteilung": {"typ": "reihe", "punkte": "spalt_tief", "abstand_m": 8, "versatz_m": 2.2, "versatz_streuung_m": 0.4, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "groesse_m": 19, "groesse_achse": "z", "skala_xyz": [0.46, 0.28, 1.0], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben_m": [0.4, 0.8], "kipp_grad": [4, 8], "kipp_richtung": "zu:spaltachse", "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
@@ -288,8 +288,9 @@
     {"typ": "lokaler_nebel", "zweck": "Gischt am Fallfuss im Hauptcanyon", "bei": "fuss", "hoehe_m": 2, "radius_m": 10, "dichte": 0.07, "farbe": [0.9, 0.92, 0.94], "hoehenabfall": 0.8},
     {"typ": "decal", "material": "MI_TileableLeakage_03", "zweck": "glattgewaschene Nassstreifen an den Waenden", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 4}, "hoehe_m": 3, "ausrichtung": "wand", "blick": "zu:s0", "groesse_m": [1.0, 2.0, 6.0]},
     {"typ": "decal", "material": "MI_TileableMossPatches_01", "zweck": "Moosflecken im Spaltgrund", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 6}, "groesse_m": [1.0, 2.0, 2.0]},
-    {"typ": "niagara", "asset": "NS_Waterfall_Small", "zweck": "Fall in den Hauptcanyon (Nature Water FX)", "bei": "lippe", "hoehe_m": 0.2, "yaw_grad": 250},
-    {"typ": "niagara", "asset": "NS_Impact_Small", "zweck": "Gischt am Aufprall", "bei": "fuss", "hoehe_m": 0.1}
+    {"typ": "niagara", "asset": "NS_Waterfall_Small", "zweck": "Fall in den Hauptcanyon (Nature Water FX)", "bei": "lippe", "hoehe_m": 0.2, "optional": false, "yaw": 250},
+    {"typ": "niagara", "asset": "NS_Impact_Small", "zweck": "Gischt am Aufprall", "bei": "fuss", "hoehe_m": 0.1, "optional": false},
+    {"typ": "niagara", "asset": "NS_Stream_Small", "zweck": "Stroemung im Spaltbach (Nature Water FX)", "bei": "s3", "hoehe_m": 0.1, "yaw": "spalt", "optional": false}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_II_Cue", "bei": "s4", "radius_m": 35, "lautstaerke": 0.6, "zweck": "Wasser im Spalt (das Fluestern)"},
@@ -314,7 +315,7 @@
    "linien": {
     "kesselrand": {"punkte": [[6, -30], [-12, -26], [-24, -12], [-27, 2], [-23, 16], [-11, 27], [6, 31]]}
    },
-   "gelaende": {"fenster_m": [130, 120], "rand_m": 12, "bei": [-4, 0],
+   "gelaende": {"fenster_m": [130, 120], "rand_m": 12, "bei": [-4, 0], "senke_begruendung": "flache Kolke im Kesselboden und am Rand der Oeffnung (Regenwasser versickert im Sandstein); der Kessel selbst ist zum Canyon offen",
     "ops": [
      {"op": "mulde", "bei": "kessel", "radius_m": 24, "rand_m": 9, "boden": 0.35, "streckung": [1.35, 1.0], "richtung": 0, "warum": "Erosionskessel bis 13 m unter den Rand (absolute Sohle, nur absenken: der Canyonboden bleibt unberuehrt)", "ziel_z": "boden-13"},
      {"op": "rinne", "punkte": ["boden", "oeffnung"], "breite_m": 10, "rand_m": 4, "modus": "min", "warum": "Oeffnung zum Canyon (keine geschlossene Senke)", "sohle": ["boden-0.5", "boden-8"]},
@@ -429,7 +430,7 @@
   "canyon_07_smaragdgumpe": {
    "kurz": "In einem Alkoven der Suedstufe faellt der Plateaubach in Faeden ueber die Baender in eine smaragdgruene Gumpe; die Rueckwand ist ein haengender Garten, ein Felsriegel verdeckt den Blick vom Weg.",
    "marker": {"titel": "Die Smaragdgumpe", "text": "Hinter dem Riegel wird es kuehl. Das Wasser faellt in Faeden, und aus jeder Fuge der Wand haengt ein Garten, den niemand gepflanzt hat.", "entdeckung_m": 25},
-   "budget": {"instanzen": 6000, "kollision": 600, "akteure": 25, "lichter": 0, "niagara": 2, "decals": 5},
+   "budget": {"instanzen": 6000, "kollision": 600, "akteure": 25, "lichter": 0, "niagara": 3, "decals": 5},
    "assets_wunsch": [],
    "anker": {
     "gumpe": [1, -1],
@@ -453,8 +454,8 @@
    },
    "wasser": [
     {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 8.5, "spiegel_rand_min": -0.1, "tiefe_m": 2.5, "farbe": "smaragd", "becken": {"ufer_m": 4, "freibord_m": 0.25, "auslass": "auto"}},
-    {"typ": "bach", "id": "abfluss", "abfluss_von": "gumpe", "laenge_m": 40, "breite_m": 2.5, "tiefe_cm": 30, "farbe": "klar", "quelle": false},
-    {"typ": "wasserfall", "id": "fadenfall", "kante": [{"anker": "fall_oben", "versatz_m": [-3, 0]}, {"anker": "fall_oben", "versatz_m": [3, 0]}], "becken": "gumpe", "breite_m": 5.0, "farbe": "klar", "hinweis": "Material: Fluss-/Wasserfall-Material aus dem Mountain Set (13d) oder M_EL_Wasserfall2"}
+    {"typ": "bach", "id": "abfluss", "abfluss_von": "gumpe", "laenge_m": 40, "breite_m": 2.5, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "material_hinweis": "Mountain Set (13d): M_River_Water_Translucent fuer Bach/Fall; sonst M_EL_Wasserfall2"},
+    {"typ": "wasserfall", "id": "fadenfall", "kante": [{"anker": "fall_oben", "versatz_m": [-3, 0]}, {"anker": "fall_oben", "versatz_m": [3, 0]}], "becken": "gumpe", "breite_m": 5.0, "farbe": "klar", "material_hinweis": "Mountain Set (13d): M_River_Water_Translucent fuer Bach/Fall; sonst M_EL_Wasserfall2"}
    ],
    "gruppen": [
     {"name": "alkovenwand", "ebene": "held", "warum": "Alkovenwand (Desert Western Cliff Layered): Sickerwasser hat den Stufenfuss ausgehoehlt; schwarz-gruene Streifen ueber Decals", "palette": ["venuafk_tier_0", "uk5oded_tier_0"], "verteilung": {"typ": "reihe", "punkte": "alkovenwand", "abstand_m": 13, "versatz_m": 1.5, "versatz_streuung_m": 0.8, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.36, 0.46], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.3, 0.38], "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "hinweis": "links der Linie (W -> O) = aussen/Stufe; Schauseite zur Gumpe"},
@@ -487,9 +488,10 @@
     {"typ": "lokaler_nebel", "zweck": "Spruehnebel am Fallfuss", "bei": "gumpe", "hoehe_m": 2, "radius_m": 12, "dichte": 0.08, "farbe": [0.88, 0.94, 0.92], "hoehenabfall": 0.8},
     {"typ": "decal", "material": "MI_Leakage_01", "zweck": "schwarz-gruene Sickerstreifen an der Rueckwand", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "alkovenwand", "breite_m": 4, "versatz_m": -2}, "hoehe_m": 6, "ausrichtung": "wand", "blick": "zu:gumpe", "groesse_m": [1.5, 3.0, 10.0]},
     {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Moospolster am Fuss der Wand", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "alkovenwand", "breite_m": 6, "versatz_m": -4}, "groesse_m": [1.0, 3.0, 3.0]},
-    {"typ": "niagara", "asset": "NS_Waterfall_Medium", "zweck": "Fadenfall ueber die Baender (Nature Water FX)", "bei": "fall_oben", "hoehe_m": 0.2, "yaw_grad": 190},
-    {"typ": "niagara", "asset": "NS_Impact_Medium", "zweck": "Gischt am Aufprall in die Gumpe", "bei": "gumpe", "hoehe_m": 0.1},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband rund um die Gumpe (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 14, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "niagara", "asset": "NS_Waterfall_Medium", "zweck": "Fadenfall ueber die Baender (Nature Water FX)", "bei": "fall_oben", "hoehe_m": 0.2, "optional": false, "yaw": 190},
+    {"typ": "niagara", "asset": "NS_Impact_Medium", "zweck": "Gischt am Aufprall in die Gumpe", "bei": "gumpe", "hoehe_m": 0.1, "optional": false},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband rund um die Gumpe (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 14, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "niagara", "asset": "NS_Stream_Small", "zweck": "Stroemung im Abfluss durch den Riegel", "bei": {"anker": "abfluss"}, "hoehe_m": 0.1, "yaw": 215, "optional": false}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_IX_Cue", "bei": "gumpe", "radius_m": 45, "lautstaerke": 0.85, "zweck": "Fallrauschen"}
