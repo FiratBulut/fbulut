@@ -144,3 +144,12 @@ Alle Links stehen in der Tabelle bei der jeweiligen Entscheidung. Projektintern:
 - `sehens-downloadliste.md` (Preise Fantasy Ambiences, Megascans-Prüfung)
 
 Seiten von fab.com waren nur über Suchauszüge erreichbar. Fab-Preise sind deshalb [ungeprüft].
+
+## Nachtrag: Entscheidungen zu den Fragen aus den Planern Gletscher/Frost/Fjord
+
+| Nr | Frage | Entscheidung | Vorbild / Begründung |
+|---|---|---|---|
+| E46 | Fjord 04/05/06/08 sind vom Fjordsteig aus sichtbar; ließe sich im offenen U-Tal nicht abschirmen | **Werden Leuchtfeuer**; Fjord = 7 Leuchtfeuer + 1 Fundstück (07 Brandungsgrotte) | Ein Fjord ist eine Aussichtslandschaft (Geirangerfjord, Skellige); der Fjordsteig ist als Panoramaweg gedacht. Den Steig umzulegen hilft im U-Tal nicht |
+| E47 | Gelten die Schneefelder am Nordhang als Eis (≤ 12° laut E22)? | **Nein**: E22 meint flaches Gletschereis; Serpentinen über Schnee mit 17–30° sind erlaubt | RDR2 Grizzlies, Witcher-Skellige-Pässe |
+| E48 | Fjordfall mit `M_River_Water_Translucent` oder eigenem Vorhang? | **Eigener Vorhang `MI_EL_SW_Schleierfall`**; das River-Material bleibt `material_hinweis` für Bäche/Gumpen | Deckt sich mit Auftrag 14: Der Vorhang trägt die Fernsicht, Niagara ergänzt nah |
+| E49 | Lagenfenster > 400 m bei vier Leuchtfeuern | **Akzeptiert** (`warnung_akzeptiert`) | Reine Fenstergröße der Lagen-Daten, keine Gestaltungsfrage |
