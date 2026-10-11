@@ -1,6 +1,6 @@
 # Auftrag 13 – Sehenswürdigkeiten (8 je Biom): Status
 
-Stand: 2026-10-11 12:30 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-11 13:33 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
 
 ## Phase 1
 
@@ -11,7 +11,14 @@ Stand: 2026-10-11 12:30 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 | B/C | Katalog + `sehens/<biom>/standorte.json` + Draufsichten je Ort | **fertig**: 120 Orte (48 Leuchtfeuer/72 Fundstücke), 19 Pfade (20,9 km) in `pfade`; Gesamtkatalog `sehens-katalog.md` mit allen Ortsabschnitten; `sehens/marker.json`; Prüfer über alle Biome 0 FEHLER, 1 WARNUNG (Tundra-Pfad streift ROMAN_LOC_018) |
 | D | diese Datei | aktuell |
 | Pfade | `pfade` in `standorte.json` (Schema 13c), Lib rastert sie als Wege | fertig: alte `standorte_*.json` aufgelöst, Lava/Gletscher/Frost/Fjord je 8 Orte |
-| Phase 2 | Planer `skripte/sehens_<biom>/` + Lib-Erweiterung | beginnt mit Inventar 13b (fehlende Pakete mit Ersatz) |
+| Phase 2 | Planer `skripte/sehens_<biom>/` + Lib-Erweiterung | **Lib fertig** (`inventar.py`, `stempel.py`, `instanzen.py`, `rezept.py`, `vorschau.py`, Prüfer Phase 2, `PLANER_ANLEITUNG.md`); **Referenzplaner Bergwald fertig** (8 Orte, alle 6 Detail-Ebenen, Prüfer 0 FEHLER/0 WARNUNG, deterministisch, Testbilder `sehens/bergwald/test_*.png`). Übrige 14 Biome laufen parallel: aue+sumpf · elfenwald+dschungel · lava · gletscher+frost+fjord · tundra+heide · canyon+wueste+oedland · kueste |
+
+### Phase 2 – Hinweise aus dem Bergwald-Referenzplaner
+
+- **Karsee (bergwald_06):** Der Karboden ist in den 2-m-Daten 18–27° geneigt; der See braucht ~±9 m Erdbau statt ±6 m (Gelände frei → umgesetzt, begründet im Stempel). Im 1-m-Lauf prüfen.
+- **Mönch (bergwald_01):** Sockelplateau entfällt (Hang 52°); die Nadel steckt hangseitig tiefer im Boden.
+- **Pivot/Schauseite:** Für Klippenschalen, Basalt und viele Mountain-Netze fehlen Maße in `netze_masse.json` → Annahme „Pivot unten Mitte“, Schauseite angenommen; das Prüfbild im Editor entscheidet.
+- **1-m-Daten:** Planer noch nicht mit 1 m getestet (lokal bei Claude).
 
 ## Biome
 
