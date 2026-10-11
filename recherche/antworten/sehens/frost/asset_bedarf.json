@@ -43,7 +43,7 @@
      "wofuer": "Eiskegel am Fuß (Rocky Snow Pile)",
      "ersatz_bestand": "Geländekegel + Lage Eis",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
@@ -78,7 +78,7 @@
      "wofuer": "Presseisplatten (Ice Cliff zerschnitten)",
      "ersatz_bestand": "SM_EISZAPFEN_8/9 flach + Material M_EL_Eis4",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Arctic Cliffs",
@@ -136,7 +136,7 @@
      "wofuer": "Eisglasur am Fels",
      "ersatz_bestand": "Material M_EL_Eis4",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     }
    ]
   },
@@ -163,7 +163,7 @@
      "wofuer": "Schneekappen/Wehen (Snow Embankment klein)",
      "ersatz_bestand": "Lage Schnee + Raureif-Material",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
@@ -225,7 +225,7 @@
      "wofuer": "Eis in den Stirnlücken",
      "ersatz_bestand": "SM_EISZAPFEN_1/5 liegend",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     }
    ]
   },
@@ -253,7 +253,7 @@
      "wofuer": "Eiskegel und Eiskappen (Rocky Snow Pile, Ice Cliff)",
      "ersatz_bestand": "Lage Eis + SM_EISZAPFEN_8/9",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Niagara Examples Pack",
@@ -754,7 +754,7 @@
    "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "läuft bei Ferat",
    "CryoGen: Native Procedural Ice Architecture": "fehlt (Download-Liste)",
    "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
-   "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)",
+   "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)",
    "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
    "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt (Download-Liste)"

@@ -236,7 +236,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 ### Entscheidungen aus 13c
 
 - **Steige** (gletscher_03, _05–_08): Die Steige (West, Nordhang, Ost) überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator in `sehens-STATUS.md` nach.
-- **Eis/Schnee im Bestand** (alle): 32 Megascans-Netze sind da (Nanite, Material `M_MS_Base_Trm` mit Durchscheinen). Größtes Eis: `uhprdg2fa_tier_0` 6,7 × 1,7 × 6,2 m; Séracwand 15–30 m also mit ×2,5–4 und Gruppen. Größter Schnee: `vdspdazqa_tier_0` (Huge Snow Hill) 15,2 × 7,4 × 1,8 m.
+- **Eis/Schnee im Bestand** (alle): 31 Megascans-Netze stehen in netze.csv (13b nennt 32; Nanite, Material `M_MS_Base_Trm` mit Durchscheinen). Größtes Eis: `uhprdg2fa_tier_0` 6,7 × 1,7 × 6,2 m; Séracwand 15–30 m also mit ×2,5–4 und Gruppen. Größter Schnee: `vdspdazqa_tier_0` (Huge Snow Hill) 15,2 × 7,4 × 1,8 m.
 
 ### Neu im Bestand – je Ort
 
@@ -277,7 +277,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen) | läuft bei Ferat | 08 |
 | Fantasy Ambiences (Lava, Höhle, Wind …) | fehlt (Download-Liste) | 05 |
 | Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 02, 03, 04, 06 |
-| Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile | im Projekt (32 Netze, /Game/Fab/Megascans/3D) | 01, 02, 05, 07 |
+| Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile | im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D) | 01, 02, 05, 07 |
 | Megascans Icelandic Sand With Pebbles | fehlt (Download-Liste) | 03 |
 | Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 01, 06 |
 | Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 01 |

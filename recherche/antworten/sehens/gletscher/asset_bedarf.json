@@ -61,7 +61,7 @@
      "wofuer": "Séracwand und Portal aus echtem Eis (Ice Cliff), Kalbungsbrocken (Rocky Snow Pile)",
      "ersatz_bestand": "SM_EISZAPFEN_8/9 gebündelt + Geländestufe, Material M_EL_Eis4",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Arctic Cliffs",
@@ -147,7 +147,7 @@
      "wofuer": "Altschnee-Kegel (Snow Embankment, Huge Snow Hill)",
      "ersatz_bestand": "Geländekegel + Lage Schnee",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Free City & Nature Sounds",
@@ -308,7 +308,7 @@
      "wofuer": "Wächte (Snow Embankment gekippt), Wächtenbruch (Rocky Snow Pile)",
      "ersatz_bestand": "Geländewulst + Lage Schnee + SM_EISZAPFEN_6/9",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
@@ -429,7 +429,7 @@
      "wofuer": "Firnfeld-Ränder, Schnee am Fels (Rocky Snow Pile)",
      "ersatz_bestand": "Lage Schnee + M_EL_Fels_Auflage",
      "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
+     "status_13b": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
@@ -906,7 +906,7 @@
    "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "läuft bei Ferat",
    "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt (Download-Liste)",
    "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
-   "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)",
+   "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile": "im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D)",
    "Megascans Icelandic Sand With Pebbles": "fehlt (Download-Liste)",
    "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
    "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
@@ -921,7 +921,7 @@
    {
     "thema": "Eis/Schnee im Bestand",
     "orte": "alle",
-    "umsetzung": "32 Megascans-Netze sind da (Nanite, Material `M_MS_Base_Trm` mit Durchscheinen). Größtes Eis: `uhprdg2fa_tier_0` 6,7 × 1,7 × 6,2 m; Séracwand 15–30 m also mit ×2,5–4 und Gruppen. Größter Schnee: `vdspdazqa_tier_0` (Huge Snow Hill) 15,2 × 7,4 × 1,8 m."
+    "umsetzung": "31 Megascans-Netze stehen in netze.csv (13b nennt 32; Nanite, Material `M_MS_Base_Trm` mit Durchscheinen). Größtes Eis: `uhprdg2fa_tier_0` 6,7 × 1,7 × 6,2 m; Séracwand 15–30 m also mit ×2,5–4 und Gruppen. Größter Schnee: `vdspdazqa_tier_0` (Huge Snow Hill) 15,2 × 7,4 × 1,8 m."
    }
   ],
   "fehlt_weiter": [

@@ -31,11 +31,11 @@ mit **Hoch −170** und echtem Ziel, `_held`/`_fern` Hoch 170 mit `zz_augenhoehe
 
 | ID | Art | Länge | Höhe | max / Mittel | > 22° | Anschluss | für |
 |---|---|---|---|---|---|---|---|
-| `kueste_pfad_klippensteig` | serpentine, 1,5 m | 4 307 m | 19–156 m | 33,4° / 10,7° | 114 m | Wegende bei Zalas Archiv (X −2367, Y 885) – **derselbe Start wie der Kratersteig** (Lava) | kueste_01–05 |
+| `kueste_pfad_klippensteig` | serpentine, 1,5 m | 4 346 m | 19–156 m | 33,4° / 10,6° | 114 m | Weg am Südrand von Zalas verborgener Stadt (X −2507, Y 541), außerhalb des Stadtkreises ROMAN_LOC_009 | kueste_01–05 |
 | `kueste_pfad_kap` | trampelpfad, 1,5 m | 1 925 m | 0–100 m | 27,3° / 8,5° | 50 m | Wegkehre südl. der Bucht (X 2453, Y −1741, H2) | kueste_06–08 |
 
 - **Klippensteig** (Abschnitte, Dijkstra auf 4 m, Kante ≤ 22°, Querhang ≤ 40°, Ortskreise 88 m gesperrt, damit kein Ort < 80 m am Pfad liegt):
-  1. Zugang 1 741 m: Wegende → Westen über die Hochfläche nördlich des Meeresarms, **um den Kopf des Meeresarms herum** (Y ≈ 730) und am
+  1. Zugang 1 780 m: Weg südlich der Stadt (Stadtkreise beim Suchen gesperrt) → Westen über die Hochfläche nördlich des Meeresarms, **um den Kopf des Meeresarms herum** (Y ≈ 730) und am
      Westufer hinab in die Strandebene (A6, X −3480 / Y 1250); 34 m steiler als 22° (max 31,8°) – zwei kurze Kehrenstücke am Westufer.
      Variante mit Kiesnehrung über den Meeresarm (Stempel +1,5 m auf 18 m × 20 m im Meer) wäre 1 193 m bis zum Westufer – **nicht
      empfohlen** (Geländeänderung im Meer, kaum kürzer).
@@ -50,11 +50,11 @@ mit **Hoch −170** und echtem Ziel, `_held`/`_fern` Hoch 170 mit `zz_augenhoehe
 
 ## Prüfung
 
-- `sehens_pruefen.py` heute (Pfade noch nicht als Weg): **8 FEHLER „Abstand zum Weg 654–1383 m“** – erwartet, bis der Prüfer `pfade`
-  liest (13c: „in Kürze“). Alle anderen Biome: keine Abstandskonflikte mit der Küste (nächster fremder Ort 790 m:
-  `elfenwald_08_wurzelbruecke`; mit `standorte_steige.json`/`standorte_kratersteig.json` geprüft).
-- Derselbe Prüfer mit **Wegen + beiden Pfaden** (Pfade als 2-m-Wegzellen gerastert, `abstand_weg` neu gerechnet): **0 FEHLER, 0 WARNUNG**,
-  2 HINWEIS („_anmarsch 93/112 m vom Weg“ – Kamera steht am Zugang, wo sich der Ort öffnet).
+- `sehens_pruefen.py` (Stand 11.10. abends, rastert `pfade` aller Biome als Wege): für die Küste **0 FEHLER, 0 WARNUNG**; HINWEISE:
+  „_anmarsch 94/112 m vom Weg“ (Kamera am Zugang), Klippensteig quert Süßwasser auf ~114 m, Kap-Pfad 64 von 91 Segmenten > 15 % und
+  quert Süßwasser auf ~74 m → Kehren und Trittsteine wie unten. Ohne Pfade wären es 8 FEHLER „Abstand zum Weg 654–1383 m“.
+  Keine Abstandskonflikte mit anderen Biomen (nächster fremder Ort 790 m: `elfenwald_08_wurzelbruecke`). Eigene Gegenprobe mit nur
+  diesen zwei Pfaden (`pfadwelt.py`): ebenfalls 0 FEHLER.
 - Abstände untereinander ≥ 235 m (Dünenkamm – Blasloch 235 m, Alten – Gezeitenbank 310 m, Vogelinsel – Nadeltor 329 m; Regel kleine
   Biome 200 m); zu Fremdorten ≥ 790 m. Mitten höchstens 43 m außerhalb des Bioms (Gezeitenbank, Regel ≤ 150 m).
 - 4 Leuchtfeuer / 4 Fundstücke (Richtwert 3/5): die Westküste hat drei Meeresformen, die man nur aus der Ferne sieht – Fundstücke
@@ -384,7 +384,7 @@ Environmental VFX** (B), **Coast & Dunes** (A).
 
 ## Offene Fragen an Ferat
 
-1. **Klippensteig (4,3 km) und Kap-Pfad (1,9 km) bauen?** Ohne sie hat die Küste keinen einzigen gültigen Ort (alles 543–1 383 m vom Weg).
+1. **Klippensteig (4,35 km) und Kap-Pfad (1,9 km) bauen?** Ohne sie hat die Küste keinen einzigen gültigen Ort (alles 543–1 383 m vom Weg).
    Kürzere Variante: Klippensteig nur bis zum Seefall (2,9 km) – dann fallen Vogelinsel und Nadeltor weg.
 2. Darf das Höhenfeld unter dem **Nadeltor** um bis zu 48 m abgesenkt werden (Torgang), oder Bogen außen an den Pfeiler setzen?
 3. Bleiben die Klippen-Kacheln der alten Houdini-Steilküste (K9) stehen? Die Planung setzt die neuen Felsen auf das heutige Höhenfeld.

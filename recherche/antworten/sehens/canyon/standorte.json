@@ -190,7 +190,7 @@
    "kameras": [
     ["D4", -112552, -63552, -123500, -84800, 8254, "canyon_04_fluesterschlucht_anmarsch", -170],
     ["D4", -117500, -74408, -123500, -84800, 8066, "canyon_04_fluesterschlucht_held", 170],
-    ["D4", -123000, -83934, -123500, -84800, 8204, "canyon_04_fluesterschlucht_nah", -170]
+    ["D4", -124266, -84157, -123500, -84800, 8204, "canyon_04_fluesterschlucht_nah", -170]
    ],
    "ziel_hoehe_m": 3,
    "sicht": {

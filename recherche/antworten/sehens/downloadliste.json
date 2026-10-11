@@ -1,379 +1,332 @@
 {
- "stand": "2026-10-11",
- "auftrag": "13 Phase 1, Teil A – Download-Liste",
+ "stand": "2026-10-11 (nach 13b/13c und Ferats Nachtrag)",
+ "auftrag": "13 Phase 1, Teil A – Download-Liste (Abgleich mit Inventar 13b)",
  "hinweise": [
-  "fab.com war aus der Rechercheumgebung nicht abrufbar (Proxy/DNS). Angaben stammen aus Suchmaschinen-Auszügen und aus vorlagen/doku/fab_pakete_bewertung_2026-10-10.md; Preis/Größe/UE-Version/Nanite sind ungeprüft, wenn nicht anders vermerkt.",
-  "groesse_gb ist überwiegend eine Schätzung (siehe groesse_hinweis); null = unbekannt.",
-  "Preise: USD-Angaben grob in € umgerechnet (Faktor ca. 0,9). Kostenpflichtiges nur nach Ferats Entscheidung – nichts kaufen.",
-  "wofuer: vorläufige Kürzel <biom>:<Ortname aus SEHENS_KATALOG_v1>; die endgültigen Ort-IDs vergeben die Biom-Agenten.",
-  "Nicht in fab_geladen.json enthaltene Pakete; keine Houdini-Assets; keine Bauten/Ruinen/Knochen."
+  "fab.com ist aus der Cloud nicht erreichbar. Preise, Größen und UE-Versionen sind deshalb ungeprüft (Suchmaschinen-Auszüge, Bewertung 10.10.).",
+  "Megascans: Ferat hat 2024 die meisten beansprucht → „kostenlos (2024 beansprucht)“.",
+  "Bestand = vorlagen/daten/netze.csv (1 692 Netze, Stand 11.10. 13:25) und inventar_extra.json (73 Niagara, 44 Decals, 316 Klänge + 46 Cues).",
+  "wofuer: Ort-IDs der fertigen Biome (aue, bergwald, lava, elfenwald, dschungel, gletscher, frost, fjord); „(vorläufig)“ = Biom läuft noch; „(Katalog v1)“ = Biom ohne Asset-Bedarf.",
+  "Credits: Free Niagara Particles steht unter CC BY 4.0 → Namensnennung „SoftTofuVFX“."
  ],
  "summe": {
   "anzahl": {
-   "A": 9,
-   "B": 13,
-   "C": 12
+   "A": 1,
+   "B": 14,
+   "C": 15
   },
   "gb_schaetzung": {
-   "A": 27.1,
-   "B": 22.4,
-   "C": 17.0
+   "A": 2.0,
+   "B": 16.0,
+   "C": 21.6
   },
-  "gb_a_plus_b": 49.5,
-  "gb_top10": 26.6,
+  "gb_a_plus_b": 18.0,
   "ohne_groesse": [
-   "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)"
+   "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
+   "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack",
+   "Nanite Tropical Plant Pack 2",
+   "Brushify – Moorlands Pack",
+   "Taxodium Distichum (Bald Cypress) Tree Pack",
+   "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+   "Moss & Lichen Forest Ground Rock Materials"
   ]
  },
- "top10": [
+ "top5_fehlend": [
   {
    "nr": 1,
-   "name": "Niagara Examples Pack",
-   "fab_link": "https://www.fab.com/listings/0e188eca-4e54-4fb2-a9ed-d8b8a565e600",
-   "warum": "Epics kostenlose Effekt-Sammlung: Nebel, Rauch, Funken, Feuer – die Grundlage für alle Dampf- und Glutorte."
+   "name": "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
+   "warum": "kostenlos; tropische Uferpflanzen und Luftwurzeln für Blaues Auge und Garten der Riesen.",
+   "fab_link": "https://www.fab.com/listings/d79688f5-29be-4fb2-a650-2d4a813f5306",
+   "preis": "kostenlos"
   },
   {
    "nr": 2,
-   "name": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-   "fab_link": "https://www.fab.com/listings/154cf0a8-207c-4c5d-a667-60e80e32cfe1",
-   "warum": "Das Lava-Paket hast du schon gekauft – die 20 Effekte (Rauch, Blasen, Lava-Spritzer) und 7 Glut-Decals fehlen aber im Projekt."
+   "name": "Nanite Driftwood Props",
+   "warum": "die Treibholzburg ist der Held des Leuchtfeuers aue_04 (A).",
+   "fab_link": "https://www.fab.com/listings/0e9cba47-33ee-4a64-a1e1-88611efbee3b",
+   "preis": "Preis ungeprüft"
   },
   {
    "nr": 3,
-   "name": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
-   "fab_link": "https://www.fab.com/listings/9ec7df30-3347-4056-8933-6156d983b0cf",
-   "warum": "Schon gekauft: das Fluss-Material mit automatischen Wasserfällen löst Schleierfall, Seefall und Turmquelle."
+   "name": "Quercus Robur (Stieleiche) – Nanite & Impostor",
+   "warum": "echte Stieleiche für Die Alte (aue_02); bis dahin Schwarzpappel ×1,3.",
+   "fab_link": "https://www.fab.com/listings/453443d0-2015-4d94-9997-81de633b1941",
+   "preis": "Preis ungeprüft"
   },
   {
    "nr": 4,
-   "name": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
-   "fab_link": "https://www.fab.com/listings/15697157-fccc-45dc-8e23-2897ece19c99",
-   "warum": "Schon gekauft: 14 Ufer-Decals (Nässe, Lehm, Kiesel), Seetang, Muscheln und Dünen-Stempel fehlen im Projekt."
+   "name": "Forest Fungi – Mushroom Pack",
+   "warum": "Pilze an Totholz und in Wurzelnischen für 7 Orte in drei Biomen.",
+   "fab_link": "https://www.fab.com/listings/72270a2e-6de7-4230-a757-f0143a14d261",
+   "preis": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
   },
   {
    "nr": 5,
-   "name": "Free City & Nature Sounds",
-   "fab_link": "https://www.fab.com/listings/15f8225f-057b-4536-af62-7a43ec328632",
-   "warum": "23 Natur-Aufnahmen kostenlos – damit die Orte überhaupt klingen (bisher gibt es keinen einzigen Umgebungsklang)."
-  },
-  {
-   "nr": 6,
-   "name": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
-   "fab_link": "https://www.fab.com/listings/198d6561-73ca-4d4e-adc5-efe457f5c793",
-   "warum": "Echtes gescanntes Eis und Schnee für Gletschertor, Eisvorhang und Diamantstrand – bisher gibt es nur Eiszapfen."
-  },
-  {
-   "nr": 7,
-   "name": "Megascans Rembrandt Water Lily",
-   "fab_link": "https://www.fab.com/listings/96391dd8-2556-47cf-a3ff-de5634adf19d",
-   "warum": "Echte Seerosen für Tellerweiher und Moorauge – bisher gibt es nur Rohrkolben."
-  },
-  {
-   "nr": 8,
-   "name": "Swamp Cypress Roots – Nanite Ready (Free)",
-   "fab_link": "https://www.fab.com/listings/770f0ddb-2e52-4bd7-9fa8-deaf33466765",
-   "warum": "Kostenlose Sumpfzypressen-Wurzeln für den Geisterwald – tote Stämme im schwarzen Wasser."
-  },
-  {
-   "nr": 9,
-   "name": "Free Niagara Particles",
-   "fab_link": "https://www.fab.com/listings/183732bc-c2fb-465c-9453-f70a1ce7ba2c",
-   "warum": "Kostenlose Funkel- und Laub-Partikel: Leuchtpunkte für Mutterbaum und Glühwürmchen-Lichtung, fallendes Laub."
-  },
-  {
-   "nr": 10,
-   "name": "Megascans Limestone Rocks",
-   "fab_link": "https://www.fab.com/listings/796fb016-84b1-4920-82b1-ebde6dd40910",
-   "warum": "Echter Kalkstein für Steinwald, Mondtor und Karrenfeld (Karst)."
+   "name": "CryoGen: Native Procedural Ice Architecture",
+   "warum": "Eissäulen, Zapfenvorhang, Eisglocken und Frostblumen – 4 Frost-Orte.",
+   "fab_link": "https://www.fab.com/listings/1758130d-aa4e-4b26-ae97-fb5f43a2c22b",
+   "preis": "Preis ungeprüft"
   }
  ],
- "pakete": [
+ "erledigt": [
+  {
+   "name": "Basalt Columns and Rocks 21 Types – AssetKit PBR",
+   "status": "im Projekt (gekauft)",
+   "pfad": "/Game/Basalt/meshes/*",
+   "netze": 22,
+   "nanite": false,
+   "hinweis": "Säulen klein: 0,29 m Querschnitt, 0,15–2,6 m hoch; Basalt_Basalt_Cliff_SM 8,6 × 5,3 × 6,0 m, Cluster 3,4 m. Orgel und Burgen durch Gruppen und Skalierung 3–8×. Kein Nanite → wenige große Stücke.",
+   "fuer": [
+    "lava_07_basaltorgel",
+    "lava_01/_04/_05/_08 (Ersatz für SM_lava_wall_* bis 13d)",
+    "bergwald_01_der_moench (Sockel)"
+   ]
+  },
+  {
+   "name": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+   "status": "im Projekt",
+   "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_* (6), Large_Ice_Cliff_* (1), Snow_Embankment_* (13), Snow_Pile_* (4), Rocky_Snow_Pile_* (5), Snowy_Rocks_Pile_* (1), Huge_Snow_Hill_* (1)",
+   "netze": 31,
+   "nanite": true,
+   "hinweis": "13b nennt 32, netze.csv enthält 31. Material M_MS_Base_Trm (Durchscheinen). Größtes Eis 6,7 × 1,7 × 6,2 m (uhprdg2fa_tier_0) → Séracwand mit ×2,5–4; größter Schnee 15,2 × 7,4 × 1,8 m (vdspdazqa_tier_0).",
+   "fuer": [
+    "gletscher_01, _02, _03, _04, _05, _07",
+    "frost_01–_06, _08",
+    "fjord_04",
+    "tundra (vorläufig)"
+   ]
+  },
+  {
+   "name": "Megascans Rembrandt Water Lily",
+   "status": "im Projekt",
+   "pfad": "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/* (VarA–G)",
+   "netze": 7,
+   "nanite": true,
+   "hinweis": "je 1,2–1,7 m; Riesenseerose durch Skalierung 2,5–4×.",
+   "fuer": [
+    "aue_06_mondarm (Held)",
+    "dschungel_05 (optional)",
+    "sumpf_07, _02, _04 (vorläufig)"
+   ]
+  },
+  {
+   "name": "Swamp Cypress Roots – Nanite Ready (Free)",
+   "status": "im Projekt",
+   "pfad": "/Game/Downloads/SwampCypress/StaticMeshes/SM_SwampCypress_A",
+   "netze": 1,
+   "nanite": true,
+   "hinweis": "nur 1 Wurzelstock 2,1 × 1,7 × 1,6 m – ganze Bäume fehlen (siehe B: Bald Cypress Tree Pack).",
+   "fuer": [
+    "sumpf_01, _02 (vorläufig)"
+   ]
+  },
+  {
+   "name": "Megascans Limestone Rocks",
+   "status": "im Projekt (nur kleiner Haufen)",
+   "pfad": "/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High",
+   "netze": 1,
+   "nanite": true,
+   "hinweis": "nur flacher Steinhaufen 0,6 × 0,65 × 0,09 m – Kalkschutt/Kleinzeug, kein Karst. Große Kalkfelsen: siehe „wird geladen“.",
+   "fuer": [
+    "aue_07",
+    "dschungel_01, _03, _05, _06"
+   ]
+  },
   {
    "name": "Niagara Examples Pack",
-   "fab_link": "https://www.fab.com/listings/0e188eca-4e54-4fb2-a9ed-d8b8a565e600",
-   "anbieter": "Epic Games",
-   "preis": "kostenlos",
-   "groesse_gb": 1.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "5.7 (5.8 ungeprüft)",
+   "status": "im Projekt",
+   "pfad": "/Game/NiagaraExamples/* (FX_Smoke, FX_Sparks, FX_Misc, FX_Fog …)",
+   "netze": 75,
    "nanite": null,
-   "wofuer": [
-    "alle Biome: Nebel in Senken, Dampf, Rauch, Funken",
-    "lava:Schwefelgrund",
-    "lava:Glutauge",
-    "oedland:Höllentor",
-    "sumpf:Geisterwald",
-    "sumpf:Schlammtöpfe",
-    "tundra:Warme Quelle",
-    "gletscher:Der Atem",
-    "bergwald:Blitzbaum"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "keiner (0 Niagara-Systeme im Projekt)",
-   "pruefen_bibliothek": true,
-   "quelle": "https://www.unrealengine.com/news/discover-over-50-free-niagara-systems-ready-to-use-in-unreal-engine-5-7",
-   "bemerkung": "Über 50 Niagara-Systeme (u. a. Funken, Feuer, Rauch, Mist Cards) plus Galerie-Level, erschienen 28.01.2026. Kein Wasserfall. Viele Systeme sind Kampfeffekte – wir nehmen nur Nebel/Rauch/Funken/Feuer als Vorlage.",
-   "art": "Niagara"
+   "hinweis": "59 Niagara-Systeme (viele Kampf-/Spieleffekte, nicht nutzen). Für Orte brauchbar: NS_Smoke_Plume, NS_Chimney_Smoke, NS_Spark_Continuous, NS_Fire, NS_Bubble_Burst; Nebel nur als Blueprints BP_FogBankCard/BP_FogBankVolume (FX_Fog). Kein Wasserfall-, Gischt-, Schnee- oder Tropfen-System.",
+   "fuer": [
+    "lava_02, _04, _06, _08",
+    "elfenwald_02",
+    "aue_05, _06",
+    "gletscher_01",
+    "bergwald_05, dschungel_02, fjord_02, _07 (Gischt-Vorlage)"
+   ]
   },
+  {
+   "name": "Free Niagara Particles",
+   "status": "im Projekt",
+   "pfad": "/Game/FreeParticle_SoftTofu/Niagara/* (NS_Sparkling*, NS_leaf, NS_feather)",
+   "netze": 0,
+   "nanite": null,
+   "hinweis": "14 Systeme, Lizenz CC BY 4.0 → Credits „SoftTofuVFX“. Nutzbar: NS_Sparkling, _Glow, _Noise, NS_leaf, NS_feather; nicht nutzen: _Heart, _Skull, _Note, _Star, _Moon.",
+   "fuer": [
+    "elfenwald_01, _03, _06, _07",
+    "aue_02, _03, _08",
+    "bergwald_07",
+    "frost_04",
+    "sumpf_08 Irrlichter (vorläufig)"
+   ]
+  },
+  {
+   "name": "Free City & Nature Sounds",
+   "status": "im Projekt",
+   "pfad": "/Game/City_Nature_Sounds/WAV/*, /Game/City_Nature_Sounds/CUE/*",
+   "netze": 0,
+   "nanite": null,
+   "hinweis": "46 Cues; Natur nutzen (CUE_Water_Stream_I–X, CUE_Wind_Autumn_wind_with_leaves_rustling, CUE_Rain_Dropping_on_various_textures, CUE_Ice_Walking_on_ice_I–V, CUE_Nature_Birds_…_lovebirds nur Dschungel). Stadt, Menge, Feuerwerk, Motorrad, Aufzug NICHT nutzen. Brandung/Möwen/Frösche fehlen.",
+   "fuer": [
+    "alle 8 fertigen Biome (Cue je Ort in asset_bedarf.json)"
+   ]
+  }
+ ],
+ "laeuft": [
   {
    "name": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+   "status": "läuft bei Ferat",
    "fab_link": "https://www.fab.com/listings/154cf0a8-207c-4c5d-a667-60e80e32cfe1",
-   "anbieter": "NatureManufacture",
-   "preis": "kostenlos (schon gekauft)",
-   "groesse_gb": 6.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "5.6–5.8",
-   "nanite": true,
-   "wofuer": [
-    "lava:Glutauge",
-    "lava:Schwefelgrund",
-    "lava:Kraterkinder",
-    "lava:Röhrenfenster",
-    "lava:Obsidianstrom",
-    "oedland:Höllentor",
-    "oedland:Schlammvulkane",
-    "sumpf:Ewige Flamme"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "SM_lava_wall_02 / SM_lava_b_rock_01 (nur Netze, ohne Effekte und Lava-Material)",
-   "pruefen_bibliothek": true,
-   "quelle": "https://www.fab.com/listings/154cf0a8-207c-4c5d-a667-60e80e32cfe1",
-   "bemerkung": "Laut Fab: 20 Niagara-Effekte (Wasserfälle, Blasen/Spritzer, Rauch/Verzerrung, Ausbrüche), 7 Decals mit Emission, Lava-Flüsse/-Seen über das Water-Plugin, 20 Bodensets. Im Projekt sind nur 29 Netze übrig (Niagara 0). Braucht Water + Water Extras + Water Advanced. In ein Zwischenprojekt laden und nur Effekte/Decals/Materialien migrieren.",
-   "art": "Niagara + Decals (Re-Import)"
-  },
-  {
-   "name": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
-   "fab_link": "https://www.fab.com/listings/9ec7df30-3347-4056-8933-6156d983b0cf",
-   "anbieter": "NatureManufacture",
-   "preis": "kostenlos (schon gekauft)",
-   "groesse_gb": 8.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "4.21–5.8",
-   "nanite": true,
-   "wofuer": [
-    "bergwald:Schleierfall",
-    "bergwald:Klemmblock-Klamm",
-    "canyon:Smaragdgumpe",
-    "dschungel:Turmquelle",
-    "kueste:Seefall",
-    "elfenwald:Farnschlucht",
-    "frost:Eisvorhang (Vorlage)"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "keiner als Netz; Material MI_EL_Wasserfall / MI_EL_Wasserfall_Aufprall (eigen)",
-   "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Laut früherer Bewertung: Fluss-Material mit Auto-Wasserfällen, Fluss-Splines, Hintergrund-Berge. Im Projekt nur 90 Netze, kein Fluss-Material. Nur Material, Texturen (Schaum/Flowmaps) und ggf. Hintergrund-Berge migrieren.",
-   "art": "Wasser-/Wasserfall-Hilfe (Re-Import)"
+   "hinweis": "heute 25 Netze in /Game/Lava_Volcano_Environment_Set (neu: 5 Hintergrundberge). Achtung: SM_lava_wall_01–09 fehlen in netze.csv – bitte beim Nachladen mitnehmen. Effekte, Glut-Decals und Lava-Material folgen (13d).",
+   "fuer": [
+    "lava_02, _06, _08"
+   ]
   },
   {
    "name": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+   "status": "läuft bei Ferat",
    "fab_link": "https://www.fab.com/listings/15697157-fccc-45dc-8e23-2897ece19c99",
-   "anbieter": "NatureManufacture",
-   "preis": "kostenlos (schon gekauft)",
-   "groesse_gb": 8.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "5.5–5.8",
-   "nanite": true,
-   "wofuer": [
-    "kueste:Felstor im Meer",
-    "kueste:Die Alten",
-    "kueste:Blasloch",
-    "kueste:Grotte",
-    "kueste:Kugelstrand",
-    "fjord:Diamantstrand",
-    "wueste:Große Sterndüne",
-    "aue:Schwalbenwand",
-    "alle Wasserorte: Nassband-Decal"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "MI_Leakage_01…13 / MI_TileableMossPatches_01…03 (Megascans-Decals); SM_beach_driftwood_01",
-   "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Laut Fab/Bewertung: 14 Decals (Nassufer, Lehm, Fels, Kiesel, Sand), Seetang/Muscheln, 17 Spline-Klippen, 20 Stempel, Meer-/Fluss-Material. Im Projekt gibt es nur FT_SM_seaweed_01_C…E ohne Netz und keine Coast-Decals. Braucht Water-Plugin und Mesh Distance Fields.",
-   "art": "Decals + Küstenpflanzen (Re-Import)"
+   "hinweis": "heute 131 Netze (neu: 15 Landschafts-Spline-Klippen SM_LS_beach_cliff_*/SM_LS_beach_escarpment_*, schon eingeplant für aue_03 und fjord_08). Decals, Seetang, Stempel folgen.",
+   "fuer": [
+    "aue_03, _04",
+    "fjord_05, _07",
+    "frost_06",
+    "lava_03, _05",
+    "kueste (vorläufig, 7 Orte)"
+   ]
   },
   {
-   "name": "Free City & Nature Sounds",
-   "fab_link": "https://www.fab.com/listings/15f8225f-057b-4536-af62-7a43ec328632",
-   "anbieter": "Gregor Quendel",
-   "preis": "kostenlos (laut Titel; ungeprüft)",
-   "groesse_gb": 0.6,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "Audio (WAV, engine-unabhängig)",
-   "nanite": null,
-   "wofuer": [
-    "alle Biome: Grundklang Wald/Wind/Wasser",
-    "aue:Blautopf",
-    "bergwald:Säulenhain",
-    "heide:Ginstergold"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "keiner (nur Foley_* SoundWaves, keine Umgebungsklänge)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/15f8225f-057b-4536-af62-7a43ec328632",
-   "bemerkung": "46 Feldaufnahmen 16 bit/44,1 kHz: 9 Stadt, 14 Menschenmenge (nicht nutzen), 23 Natur. Welche Naturklänge genau (Bach, Wind, Wald) ist ungeprüft – Lizenz auf der Fab-Seite ansehen.",
-   "art": "Umgebungsklänge"
-  },
-  {
-   "name": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
-   "fab_link": "https://www.fab.com/listings/198d6561-73ca-4d4e-adc5-efe457f5c793",
-   "anbieter": "Quixel Megascans",
-   "preis": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-   "groesse_gb": 1.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "alle UE5 (Fab-Plugin)",
-   "nanite": true,
-   "wofuer": [
-    "gletscher:Gletschertor",
-    "gletscher:Gletschertisch",
-    "gletscher:Büßereis",
-    "gletscher:Schmelzsee",
-    "frost:Eisvorhang",
-    "frost:Blasenbucht",
-    "fjord:Diamantstrand",
-    "tundra:Pingo"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "SM_EISZAPFEN_1…9 (eigen, max. 4 m); Material M_EL_Eis4",
-   "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Weitere Links: Ice Cliff auch https://www.fab.com/listings/3697046b-9768-4bb6-a117-4dbc8a67eb61 und https://www.fab.com/listings/339fd6af-6ca3-4f12-84e2-73e010f26360; Snow Embankment https://www.fab.com/listings/7b805548-e3d7-4cd5-a4ab-17f3ce2ec315; Huge Snow Hill https://www.fab.com/listings/b77dce3d-44e8-4d32-9fc5-fe712db2f18c; Rocky Snow Pile https://www.fab.com/listings/0c6bddcc-8949-4e2d-bb42-0fb27c00121d. Ice Cliff laut Fab ca. 1,8 × 6,9 × 4,5 m, offenes Netz. Megascans sind seit 2025 meist kostenpflichtig; was Ferat 2024 beansprucht hat, bleibt kostenlos.",
-   "art": "Riesenformen Eis"
-  },
-  {
-   "name": "Megascans Rembrandt Water Lily",
-   "fab_link": "https://www.fab.com/listings/96391dd8-2556-47cf-a3ff-de5634adf19d",
-   "anbieter": "Quixel Megascans",
-   "preis": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
-   "groesse_gb": 0.2,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "alle UE5 (Fab-Plugin)",
-   "nanite": true,
-   "wofuer": [
-    "sumpf:Tellerweiher",
-    "sumpf:Irrlichtweiher",
-    "aue:Erdfall-Weiher",
-    "heide:Moorauge",
-    "elfenwald:Silberhain"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "SM_WaterPlant01…04 (CityPark, nicht Nanite); SM_lily_01_1 (Forest_Environment_Set, prüfen ob Seerose); SM_Rohrkolben_Horst_1…6",
-   "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Aus der Bewertung vom 10.10. übernommen; eine neue Websuche fand das Listing nicht – vor dem Laden auf Fab prüfen. Für die Riesenseerosen (Victoria) 5–8-fach skalieren und eigenes Material mit Randwulst.",
-   "art": "Wasserpflanzen"
-  },
-  {
-   "name": "Swamp Cypress Roots – Nanite Ready (Free)",
-   "fab_link": "https://www.fab.com/listings/770f0ddb-2e52-4bd7-9fa8-deaf33466765",
-   "anbieter": "EntropyArchives",
-   "preis": "kostenlos",
-   "groesse_gb": 0.3,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "UE5 (ungeprüft)",
-   "nanite": true,
-   "wofuer": [
-    "sumpf:Geisterwald",
-    "sumpf:Weidendom",
-    "sumpf:Mooraugen"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "SM_Dead_Tree_01…03 (Graveyard); SM_DeadTree_01/02 (Megascans); SM_EuropeanBeech_Dead_XL_01",
-   "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Aus der Bewertung vom 10.10.; Größe und UE-Version ungeprüft.",
-   "art": "Sumpf-Riesenformen"
-  },
-  {
-   "name": "Basalt Columns and Rocks 21 Types – AssetKit PBR",
-   "fab_link": "https://www.fab.com/listings/7d3af75b-0525-4d00-9f0d-a4bd90dce816",
-   "anbieter": "AssetKit",
-   "preis": "ca. 11 € (ab 11,99 USD laut Verkäuferseite, ungeprüft)",
-   "groesse_gb": 1.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": null,
-   "wofuer": [
-    "lava:Basaltorgel",
-    "lava:Dunkle Burgen",
-    "kueste:Grotte (Säulenhöhle wie Fingal's Cave)",
-    "fjord:Blockufer (Basalt)"
-   ],
-   "prioritaet": "A",
-   "ersatz_bestand": "SM_IcelandicLavaSpire_01…03 (AncientContent) – Türme, aber keine Säulen",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/7d3af75b-0525-4d00-9f0d-a4bd90dce816",
-   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. Begründung: Sechseckige Säulen lassen sich aus unseren Felsen nicht bauen; die Basaltorgel ist ein Leuchtfeuer im Lava-Biom. 21 Teile, Bewertung 4,6 (14). Nanite nicht belegt – Netze ggf. selbst auf Nanite umstellen.",
-   "art": "Riesenformen Fels"
-  },
-  {
-   "name": "Free Niagara Particles",
-   "fab_link": "https://www.fab.com/listings/183732bc-c2fb-465c-9453-f70a1ce7ba2c",
-   "anbieter": "SoftTofuVFX",
-   "preis": "kostenlos (Lizenz CC BY 4.0)",
-   "groesse_gb": 0.2,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": null,
-   "wofuer": [
-    "elfenwald:Glühwürmchen-Lichtung",
-    "elfenwald:Mutterbaum",
-    "elfenwald:Rotlaubhain",
-    "sumpf:Irrlichtweiher"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/183732bc-c2fb-465c-9453-f70a1ce7ba2c",
-   "bemerkung": "Mehrere Funkel-Partikel, später ergänzt um Feder- und Blatt-Partikel. CC BY 4.0 → Namensnennung „SoftTofuVFX“ in den Credits.",
-   "art": "Niagara"
-  },
-  {
-   "name": "Megascans Limestone Rocks",
-   "fab_link": "https://www.fab.com/listings/796fb016-84b1-4920-82b1-ebde6dd40910",
-   "anbieter": "Quixel Megascans",
-   "preis": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
-   "groesse_gb": 0.3,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "alle UE5 (Fab-Plugin)",
-   "nanite": true,
-   "wofuer": [
-    "dschungel:Steinwald",
-    "dschungel:Mondtor",
-    "dschungel:Verborgene Lagune",
-    "heide:Karrenfeld",
-    "aue:Erdfall-Weiher"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "SM_LimestoneRocks2/3 (AncientContent); SM_Cliff_01a…e (AsianTemple, Kalk, bis 75 m)",
-   "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Kein Karstturm-Paket auf Fab gefunden (auch früher nicht). Türme = AsianTemple-Klippen + Kalkstein-Blöcke + Geländestempel.",
-   "art": "Riesenformen Fels"
+   "name": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+   "status": "läuft bei Ferat",
+   "fab_link": "https://www.fab.com/listings/9ec7df30-3347-4056-8933-6156d983b0cf",
+   "hinweis": "heute 103 Netze (neu: Hintergrundberge, Stammstücke SM_Forest_pine_04_0x_log, Fische SM_Fish_Trout/Perch, Ameisenhaufen). Fluss-/Wasserfall-Material folgt.",
+   "fuer": [
+    "bergwald_05, _06",
+    "dschungel_02",
+    "fjord_02, _04",
+    "elfenwald_04, _05",
+    "gletscher_06",
+    "kueste_04, heide_06 (vorläufig)"
+   ]
   },
   {
    "name": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+   "status": "wird geladen",
    "fab_link": "https://www.fab.com/listings/23639c4c-ca70-49f1-b462-afaa454252b2",
-   "anbieter": "Quixel Megascans",
-   "preis": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
-   "groesse_gb": 0.8,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "alle UE5 (Fab-Plugin)",
+   "preis": "kostenlos (2024 beansprucht)",
+   "hinweis": "Ferat lädt als Nächstes. Für lava nicht mehr nötig (Regenbogenhang entfällt dort).",
+   "fuer": [
+    "oedland, canyon (Katalog v1, Biome laufen noch)"
+   ]
+  },
+  {
+   "name": "Weitere Megascans-Limestone-Assets (große Kalkfelsen, Karst)",
+   "status": "wird geladen",
+   "fab_link": null,
+   "preis": "kostenlos (2024 beansprucht)",
+   "hinweis": "Ferat wählt die Assets selbst; Netznamen folgen mit dem neuen Inventar. Schließt voraussichtlich die Lücke „Karsttürme“.",
+   "fuer": [
+    "dschungel_01, _03, _05, _06",
+    "aue_07"
+   ]
+  },
+  {
+   "name": "Limestone Rock Set (Ancraite)",
+   "status": "wird geladen",
+   "fab_link": null,
+   "preis": "kostenlos (laut Ferat)",
+   "hinweis": "Nur der Name ist belegt; einen Link konnte ich per Suche nicht finden, deshalb steht hier keiner.",
+   "fuer": [
+    "dschungel_01, _03, _05, _06",
+    "aue_07"
+   ]
+  }
+ ],
+ "erneut_versuchen": [
+  {
+   "asset_id": "61882812-0d2e-4b2a-a43b-9f2d019973a1",
+   "name": null,
+   "hinweis": "Megascans-Download im Fab-Fenster fehlgeschlagen (13b). Aus unserer Liste nicht eindeutig zuzuordnen (die Liste führt Listing-IDs, keine Asset-IDs)."
+  },
+  {
+   "asset_id": "6676d940-e165-47b0-9471-50a68115315c",
+   "name": null,
+   "hinweis": "wie oben"
+  }
+ ],
+ "entfernt": [
+  {
+   "name": "Basalt Columns and Rocks 21 Types – AssetKit PBR",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Megascans Rembrandt Water Lily",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Swamp Cypress Roots – Nanite Ready (Free)",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Megascans Limestone Rocks",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Niagara Examples Pack",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Free Niagara Particles",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Free City & Nature Sounds",
+   "grund": "erledigt – im Projekt (siehe „Erledigt“)"
+  },
+  {
+   "name": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
+   "grund": "bewusst nicht aufgenommen: laut Ferat teuer und sehr schlecht bewertet. Riesenbäume bleiben Bestand plus Skalierung (13c: Nicht-Nanite-Nadelbäume ×2,2–2,5, SM_beech_tree_05 ×2,5)."
+  },
+  {
+   "name": "Realistic Starter VFX Pack Vol 2",
+   "grund": "entfällt: Dampf/Rauch jetzt mit NS_Smoke_Plume/NS_Chimney_Smoke aus dem Niagara Examples Pack; Cascade-Paket war nur Texturquelle."
+  }
+ ],
+ "entfallene_wuensche": [
+  "gletscher: Der Atem, Gletschertisch, Büßereis, Schmelzsee (ersetzt durch gletscher_01–08)",
+  "fjord: Diamantstrand, Basalt-Blockufer",
+  "dschungel: Tausendfuß (13c; ersetzt durch dschungel_08_sinterhalle)",
+  "lava: Regenbogenhang (Dopplung mit oedland)",
+  "heide: Karrenfeld, Der Rachen, Moorauge (vorläufig, heide läuft)",
+  "tundra: Warme Quelle (vorläufig, tundra läuft)",
+  "aue: Hexenring (Pilze nur noch C)"
+ ],
+ "pakete": [
+  {
+   "name": "Nanite Driftwood Props",
+   "fab_link": "https://www.fab.com/listings/0e9cba47-33ee-4a64-a1e1-88611efbee3b",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 2.0,
+   "ue_version": "UE5 (ungeprüft)",
    "nanite": true,
-   "wofuer": [
-    "oedland:Bemalte Hügel",
-    "canyon:Die Welle",
-    "canyon:Flüsterschlucht",
-    "canyon:Naturbrücke",
-    "lava:Regenbogenhang"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "SM_MassiveSandstoneCliff_01…05 (Megascans); vmnmbhv_tier_0 (Fab/Megascans/3D)",
+   "ersatz_bestand": "SM_beach_driftwood_01, SM_LargeFallenTree_01/02, SM_OldFallenTree_01/02, SM_BrokenTreeAssembly_01, SM_trunk_01/02",
    "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Large 03: https://www.fab.com/listings/b4a34fb2-7b1f-411b-be85-26b8735306c2. Geschichteter Sandstein mit Farbbändern – das fehlt dem Bestand.",
-   "art": "Riesenformen Fels (Farbbänder)"
+   "quelle": "WebSearch 11.10.2026 (Fab-Listing-Auszug, Seite selbst aus der Umgebung nicht abrufbar)",
+   "bemerkung": "Die Verklausung am Werder ist ein Leuchtfeuer aus gebleichtem Treibholz; im Bestand gibt es nur ein 3,6-m-Treibholz und Waldstämme mit Rinde/Moos.",
+   "prioritaet": "A",
+   "status": "fehlt",
+   "wofuer": [
+    "aue_04_treibholzwerder",
+    "aue_05_lilienrinne",
+    "kueste_07_der_duenenkamm (vorläufig)"
+   ],
+   "warum_prioritaet": "Held des Leuchtfeuers aue_04 (Treibholzburg); Bestand hat nur 1 Treibholz von 3,6 m."
   },
   {
    "name": "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
@@ -385,158 +338,36 @@
    "ue_version": "5.2+ (5.8 ungeprüft)",
    "nanite": true,
    "wofuer": [
-    "dschungel:Tausendfuß",
-    "dschungel:Garten der Riesen",
-    "dschungel:Blaues Auge",
-    "dschungel:Verborgene Lagune",
-    "dschungel:Schluckhöhle",
-    "alle Biome: Soundscape-Vorlage"
+    "dschungel_04_blaues_auge",
+    "dschungel_07_garten_der_riesen"
    ],
    "prioritaet": "B",
    "ersatz_bestand": "SM_Tree_Big_01a/b (AsianTemple, bis 54 m); SM_Fern_01a (AsianTemple); SM_Palm_01_01_G…12_G",
    "pruefen_bibliothek": true,
    "quelle": "https://www.unrealengine.com/electric-dreams-environment",
    "bemerkung": "Dschungel-Umgebung aus Quixel-Assets, 7 PCG-Level; demonstriert Lumen, Nanite und Soundscape. Ob echte Klangdateien dabei sind, ist ungeprüft. Nur für UE-Produkte lizenziert. Laut Bewertung schon in der Bibliothek (Teile übernommen).",
-   "art": "Dschungel-Pflanzen + Klänge (Re-Import)"
+   "status": "fehlt",
+   "warum_prioritaet": "kostenlos; laut 13c sind nur Reste im Projekt. Tausendfuß entfällt."
   },
   {
-   "name": "Travertine Hot Spring Terraces – Modular Environment Pack",
-   "fab_link": null,
+   "name": "Quercus Robur (Stieleiche) – Nanite & Impostor",
+   "fab_link": "https://www.fab.com/listings/453443d0-2015-4d94-9997-81de633b1941",
    "anbieter": "ungeprüft",
-   "preis": "Preis ungeprüft (vermutlich kostenpflichtig)",
-   "groesse_gb": 2.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 3.0,
    "ue_version": "UE5 (ungeprüft)",
    "nanite": true,
-   "wofuer": [
-    "elfenwald:Elfentreppe",
-    "gletscher:Der Atem (Sinterrand)",
-    "tundra:Warme Quelle",
-    "canyon:Hängender Garten (Kalktuff)"
-   ],
+   "ersatz_bestand": "SM_Poplar_tree_06_Optimised ×1,3 (dann Schwarzpappel statt Eiche); Jungeichen SM_dry_oak_01_B/D",
+   "pruefen_bibliothek": true,
+   "quelle": "WebSearch 11.10.2026 (Fab-Listing-Auszug, Seite nicht abrufbar)",
+   "bemerkung": "Im Bestand gibt es keine große Eiche (nur SM_dry_oak bis 9 m). Die Alte ist als Solitär-Stieleiche gedacht; die Schwarzpappel ist ein guter Auen-Ersatz.",
    "prioritaet": "B",
-   "ersatz_bestand": "keiner (Sinterterrassen fehlen ganz)",
-   "pruefen_bibliothek": false,
-   "quelle": "WebSearch-Auszug 11.10.2026 (Fab-Listing ‚Travertine Hot Spring Terraces – Modular Environment Pack‘)",
-   "bemerkung": "KOSTENPFLICHTIG vermutet – Ferat entscheidet. Laut Auszug 26 modulare Teile nach Pamukkale/Mammoth Hot Springs, Farbsteuerung im Material, Nanite + Lumen. Link nicht sicher zuzuordnen (Suchtreffer-IDs d55e2477-c3e6-4557-9f60-4beb64ed636f oder 3960dde2-40d3-467d-b972-409d044d10a5) – auf Fab nach dem Titel suchen. Begründung: drei Orte hängen an Sinterterrassen.",
-   "art": "Riesenformen Sinter"
-  },
-  {
-   "name": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
-   "fab_link": "https://www.fab.com/listings/c34e8871-3585-4381-b21f-1b895814472b",
-   "anbieter": "SHOGUN GAMES (laut Auftrag-12-Recherche, ungeprüft)",
-   "preis": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)",
-   "groesse_gb": 0.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": null,
+   "status": "fehlt",
    "wofuer": [
-    "gletscher:Der Atem (Geysir)",
-    "bergwald:Schleierfall",
-    "kueste:Seefall",
-    "dschungel:Turmquelle",
-    "aue:Blautopf",
-    "kueste:Blasloch"
+    "aue_02_die_alte",
+    "aue_08_lianenhalle"
    ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner (nur Material MI_EL_Wasserfall_Aufprall; SM_Splash aus CityPark)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/c34e8871-3585-4381-b21f-1b895814472b",
-   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. Begründung: einziges gefundenes Paket mit Geysir (3×) + Wasserfall (3×) + Bach (3×) + Fontäne (5×) als Niagara; Aufprall und Wellen getrennt steuerbar. Siehe auch antworten/12-recherche-wasser-gpu-schatten.md.",
-   "art": "Niagara Wasser/Geysir"
-  },
-  {
-   "name": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
-   "fab_link": "https://www.fab.com/listings/9414ee6b-ea8d-4de3-a469-18570f50129b",
-   "anbieter": "Fateloom (laut Seitentext, ungeprüft)",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 0.3,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "5.7+",
-   "nanite": null,
-   "wofuer": [
-    "tundra:Warme Quelle (Dampf)",
-    "elfenwald:Rotlaubhain (Laub)",
-    "bergwald:Windwurf (Laub)",
-    "elfenwald:Glühwürmchen-Lichtung",
-    "gletscher:Büßereis (Schneetreiben)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/9414ee6b-ea8d-4de3-a469-18570f50129b",
-   "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. 5 GPU-Niagara-Systeme: leichter Schneefall, Kirschblüten (nicht nutzen), Herbstlaub, Glühwürmchen, Dampf/Bodennebel. Begründung: deckt Dampf, Laub, Schnee und Glühwürmchen in einem Paket.",
-   "art": "Niagara Atmosphäre"
-  },
-  {
-   "name": "Ultimate Niagara Environmental VFX",
-   "fab_link": "https://www.fab.com/listings/e25c0150-ec47-4e9f-a818-8aa9f501c481",
-   "anbieter": "ungeprüft",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 1.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": null,
-   "wofuer": [
-    "lava:Glutauge (Glut, Asche)",
-    "oedland:Höllentor",
-    "wueste:Große Sterndüne (Sandfahnen)",
-    "bergwald:Windwurf",
-    "kueste:Blasloch (Gischt)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/e25c0150-ec47-4e9f-a818-8aa9f501c481",
-   "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. 39 Niagara-Effekte: Wetter, Feuer & Glut (Flame Dust, Smoke Spark), Wasser, Rauch, fallendes Laub. Link-Zuordnung aus Suchtreffern (ungeprüft); es gibt auch eine V2 mit 44 Effekten.",
-   "art": "Niagara Umwelt"
-  },
-  {
-   "name": "Fantasy Ambiences (Lava, Höhle, Wind …)",
-   "fab_link": "https://www.fab.com/listings/25aa5e05-aa98-4f79-b7a8-b1b739e8cdb8",
-   "anbieter": "David Dumais Audio",
-   "preis": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)",
-   "groesse_gb": 3.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "Audio (WAV)",
-   "nanite": null,
-   "wofuer": [
-    "lava:Glutauge",
-    "lava:Schwefelgrund",
-    "oedland:Höllentor",
-    "lava:Röhrenfenster",
-    "gletscher:Gletschertor",
-    "tundra:Pingo (Wind)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://daviddumaisaudio.itch.io/fantasy-ambiences",
-   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 130+ Loops, darunter Lava (4 Ambiences, 17 Dateien), Höhle, Wind. Begründung: Lava- und Höhlenklang gibt es kostenlos nicht. Vorher die kostenlosen Hörproben anhören (laut Listing verlinkt).",
-   "art": "Umgebungsklänge"
-  },
-  {
-   "name": "Cave Ambience",
-   "fab_link": "https://www.fab.com/listings/0cdc50ee-2c20-45d1-b35d-c158fb9fa013",
-   "anbieter": "Gravity Sound",
-   "preis": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)",
-   "groesse_gb": 0.3,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "Audio (WAV)",
-   "nanite": null,
-   "wofuer": [
-    "dschungel:Schluckhöhle",
-    "kueste:Grotte",
-    "lava:Röhrenfenster",
-    "gletscher:Gletschertor",
-    "heide:Der Rachen"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://gravity-sound.itch.io/cave-ambience",
-   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 27 Höhlen-Loops je ca. 1 min (Tropfen, Fledermäuse, Wind, Bach). Begründung: günstig, fünf Höhlen-/Schlundorte.",
-   "art": "Umgebungsklänge"
+   "warum_prioritaet": "13c: in B aufnehmen, nicht abwarten – Die Alte startet mit Schwarzpappel ×1,3."
   },
   {
    "name": "Forest Fungi – Mushroom Pack",
@@ -548,147 +379,21 @@
    "ue_version": "UE5 (Nanite-Pflicht)",
    "nanite": true,
    "wofuer": [
-    "aue:Hexenring (Pilzring)",
-    "elfenwald:Mutterbaum (Wurzelraum)",
-    "elfenwald:Wurzelbrücke",
-    "bergwald:Windwurf (Totholz)",
-    "bergwald:Säulenhain"
+    "aue_02_die_alte",
+    "aue_08_lianenhalle",
+    "bergwald_03_saeulenhain",
+    "bergwald_07_windwurf",
+    "elfenwald_01_mutterbaum",
+    "elfenwald_07_schwammgrund",
+    "elfenwald_08_wurzelbruecke"
    ],
    "prioritaet": "B",
    "ersatz_bestand": "SM_mushroom_01/02 (Meadow_Environment_Set, 0,3 m)",
    "pruefen_bibliothek": false,
    "quelle": "https://www.fab.com/listings/72270a2e-6de7-4230-a757-f0143a14d261",
    "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 12 realistische Arten × 4 = 48 Netze, Bewertung 5,0 (4). Begründung: echter Hexenring aus Pilzen und Pilze an Totholz – Bestand hat nur zwei kleine Pilze.",
-   "art": "Pilze/Myzel"
-  },
-  {
-   "name": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
-   "fab_link": "https://www.fab.com/listings/79a9eff3-e874-42dc-a11f-f1f4f4555d9a",
-   "anbieter": "ungeprüft (evtl. Galidar Studio)",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 8.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "UE5 (5.4+ Hinweis im Listing)",
-   "nanite": true,
-   "wofuer": [
-    "bergwald:Säulenhain",
-    "bergwald:Blitzbaum",
-    "elfenwald:Wurzelbrücke (Riesenstamm)",
-    "elfenwald:Mutterbaum (Stammfuß)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "SM_Tree_Big_01a/b (AsianTemple); SM_beech_tree_06 (Forest_Environment_Set, 24 m); Big_Tree_Willow_02",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/79a9eff3-e874-42dc-a11f-f1f4f4555d9a",
-   "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. 33 Netze, 199 Texturen bis 8K, Nanite + Lumen, World-Partition-Demo, Farne und Stämme dabei. Begründung: einzige gefundene Riesenbäume mit Nanite in echtem Maßstab.",
-   "art": "Riesenbäume"
-  },
-  {
-   "name": "Arctic Cliffs",
-   "fab_link": "https://www.fab.com/listings/6ec8744b-3fec-4ca3-9717-573dd2ee0202",
-   "anbieter": "ungeprüft",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 4.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "UE5 (ungeprüft)",
-   "nanite": true,
-   "wofuer": [
-    "gletscher:Gletschertor",
-    "frost:Eisvorhang",
-    "frost:Blasenbucht",
-    "fjord:Diamantstrand",
-    "gletscher:Schmelzsee"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "SM_EISZAPFEN_1…9 (eigen); Material M_EL_Eis4",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/6ec8744b-3fec-4ca3-9717-573dd2ee0202",
-   "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. Nanite-Eisplatten, Felsen, Eisstücke, Treibeis-Blueprint (Water-Plugin), Schnee- und Eisfall-Partikel; braucht Water + Volumetrics. Begründung: große Eisformen gibt es im Bestand nicht.",
-   "art": "Riesenformen Eis"
-  },
-  {
-   "name": "Realistic Starter VFX Pack Vol 2",
-   "fab_link": null,
-   "anbieter": "FX Cat UA",
-   "preis": "kostenlos („From Free“ auf der Fab-Kategorieseite)",
-   "groesse_gb": 0.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": null,
-   "wofuer": [
-    "lava:Schwefelgrund (Dampf)",
-    "sumpf:Ewige Flamme",
-    "kueste:Blasloch (Wasser)"
-   ],
-   "prioritaet": "C",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": true,
-   "quelle": "https://www.fab.com/category/vfx/variety",
-   "bemerkung": "56 Effekte (Feuer, Rauch, Dampf, Funken, Wasser), aber in Cascade (altes System) – nur als Texturquelle. Listing-ID nicht sicher zuzuordnen; auf Fab nach dem Titel suchen.",
-   "art": "Effekte (Cascade, alt)"
-  },
-  {
-   "name": "Megascans Icelandic Sand With Pebbles",
-   "fab_link": "https://www.fab.com/listings/43dee764-0072-448f-8c4d-9aff7d899445",
-   "anbieter": "Quixel Megascans",
-   "preis": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
-   "groesse_gb": 0.3,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "alle UE5",
-   "nanite": null,
-   "wofuer": [
-    "fjord:Diamantstrand (schwarzer Kies)",
-    "lava:Kraterkinder"
-   ],
-   "prioritaet": "C",
-   "ersatz_bestand": "SM_BeachSandWithPebbles (Megascans); SM_NordicBeachRockyGround",
-   "pruefen_bibliothek": true,
-   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
-   "bemerkung": "Schwarzer Sand/Kies als Boden-/Decal-Quelle.",
-   "art": "Boden"
-  },
-  {
-   "name": "Hollowstone Canyon (Porous Rocks Desert)",
-   "fab_link": "https://www.fab.com/listings/67f820de-2119-4948-8acb-5f36ec31d1d5",
-   "anbieter": "ungeprüft",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 1.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "UE5",
-   "nanite": true,
-   "wofuer": [
-    "canyon:Hoodoo-Kessel",
-    "wueste:Die Wächter",
-    "oedland:Feenkamine"
-   ],
-   "prioritaet": "C",
-   "ersatz_bestand": "SM_MassiveSandstoneCliff_03 (Megascans); SM_RockSandstone_040 (AncientContent)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/67f820de-2119-4948-8acb-5f36ec31d1d5",
-   "bemerkung": "23 Felsen (Formationen, Rücken, Terrassen), 7K–70K Dreiecke, Nanite. Löchriger Wüstenfels – nur nach Bild-Check.",
-   "art": "Riesenformen Fels"
-  },
-  {
-   "name": "Wadi Rum Sandstone Rock 01–04",
-   "fab_link": "https://www.fab.com/listings/29e64d9a-d8b4-42e0-b4f3-f12c955f6431",
-   "anbieter": "ungeprüft",
-   "preis": "Preis ungeprüft (Einzel-Assets)",
-   "groesse_gb": 1.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "UE5",
-   "nanite": true,
-   "wofuer": [
-    "wueste:Sonnentor (Bogen-Komposition)",
-    "wueste:Guelta",
-    "canyon:Der Wäger",
-    "wueste:Yardang-Flotte"
-   ],
-   "prioritaet": "C",
-   "ersatz_bestand": "SM_MassiveSandstoneCliff_01…05; SM_HugeSandstoneCliff_05 (Megascans)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/29e64d9a-d8b4-42e0-b4f3-f12c955f6431",
-   "bemerkung": "Fotogrammetrie aus Jordanien: 01 Block, 02 langer Abbruch (https://www.fab.com/listings/b4060b59-ed68-4df9-b0b2-0cd2a3ecab10), 03 große Formation (https://www.fab.com/listings/316beb22-e87b-47f9-87b5-47bfcef58c33), 04 breite Wand (https://www.fab.com/listings/708af586-110d-44e2-9c79-2f246980b7d1).",
-   "art": "Riesenformen Fels"
+   "status": "fehlt",
+   "warum_prioritaet": "7 Orte in aue, bergwald, elfenwald; Bestand hat zwei 0,3-m-Pilze."
   },
   {
    "name": "CryoGen: Native Procedural Ice Architecture",
@@ -700,15 +405,377 @@
    "ue_version": "ungeprüft",
    "nanite": true,
    "wofuer": [
-    "frost:Eisvorhang",
-    "gletscher:Gletschertor (Zapfen am Rand)"
+    "frost_01_der_eisfall",
+    "frost_03_eisvorhang",
+    "frost_07_frostblumen",
+    "frost_08_glockenbach"
    ],
-   "prioritaet": "C",
+   "prioritaet": "B",
    "ersatz_bestand": "SM_EISZAPFEN_1…9 (eigen)",
    "pruefen_bibliothek": false,
    "quelle": "https://www.fab.com/listings/1758130d-aa4e-4b26-ae97-fb5f43a2c22b",
    "bemerkung": "C++-Werkzeug: lässt Eiszapfen und Tropfeis auf beliebigen Netzen wachsen, Nanite-fähig. Kein Houdini. Nur falls der Eisvorhang aus Eiszapfen + Material nicht reicht.",
-   "art": "Eis-Werkzeug"
+   "status": "fehlt",
+   "warum_prioritaet": "hochgestuft (C → B): 4 Frost-Orte (Eisfall, Eisvorhang, Frostblumen, Glockenbach); Megascans-Eis deckt kleine Kristalle und Zapfen nicht ab."
+  },
+  {
+   "name": "Arctic Cliffs",
+   "fab_link": "https://www.fab.com/listings/6ec8744b-3fec-4ca3-9717-573dd2ee0202",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 4.0,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "UE5 (ungeprüft)",
+   "nanite": true,
+   "wofuer": [
+    "frost_02_frostsee",
+    "gletscher_01_gletschertor",
+    "tundra_03_die_eiswand (vorläufig)",
+    "tundra_06_das_aufeis (vorläufig)"
+   ],
+   "prioritaet": "B",
+   "ersatz_bestand": "SM_EISZAPFEN_1…9 (eigen); Material M_EL_Eis4",
+   "pruefen_bibliothek": false,
+   "quelle": "https://www.fab.com/listings/6ec8744b-3fec-4ca3-9717-573dd2ee0202",
+   "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. Nanite-Eisplatten, Felsen, Eisstücke, Treibeis-Blueprint (Water-Plugin), Schnee- und Eisfall-Partikel; braucht Water + Volumetrics. Begründung: große Eisformen gibt es im Bestand nicht.",
+   "status": "fehlt",
+   "warum_prioritaet": "große Eisplatten/Treibeis; Megascans-Eis ist bis 6,7 m groß, reicht nur mit ×2,5–4."
+  },
+  {
+   "name": "Cave Ambience",
+   "fab_link": "https://www.fab.com/listings/0cdc50ee-2c20-45d1-b35d-c158fb9fa013",
+   "anbieter": "Gravity Sound",
+   "preis": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)",
+   "groesse_gb": 0.3,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "Audio (WAV)",
+   "nanite": null,
+   "wofuer": [
+    "dschungel_06_schluckhoehle",
+    "dschungel_08_sinterhalle",
+    "fjord_07_brandungsgrotte",
+    "gletscher_01_gletschertor",
+    "lava_04_roehrenfenster"
+   ],
+   "prioritaet": "B",
+   "ersatz_bestand": "keiner",
+   "pruefen_bibliothek": false,
+   "quelle": "https://gravity-sound.itch.io/cave-ambience",
+   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 27 Höhlen-Loops je ca. 1 min (Tropfen, Fledermäuse, Wind, Bach). Begründung: günstig, fünf Höhlen-/Schlundorte.",
+   "status": "fehlt",
+   "warum_prioritaet": "5 Höhlen-/Grottenorte; günstig."
+  },
+  {
+   "name": "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack",
+   "fab_link": "https://www.fab.com/listings/6d72a075-8a87-4add-b1df-a6e5664bd4c8",
+   "anbieter": "ungeprüft",
+   "preis": "ungeprüft (vermutlich kostenpflichtig) – Ferat entscheidet",
+   "groesse_gb": null,
+   "ue_version": "ungeprüft",
+   "nanite": true,
+   "ersatz_bestand": "",
+   "pruefen_bibliothek": true,
+   "quelle": "Fab-Listing (Suchmaschinen-Auszug 11.10.2026): 23 Assets, Stalaktiten/Stalagmiten + modulare Wandsegmente, 4K/2K PBR, Nanite + Lumen, UE 5.0+; auch im 'Alien & Organic Environment Bundle (3-in-1)'",
+   "bemerkung": "",
+   "prioritaet": "B",
+   "status": "fehlt",
+   "wofuer": [
+    "dschungel_06_schluckhoehle",
+    "dschungel_08_sinterhalle"
+   ],
+   "warum_prioritaet": "neu aus dschungel: Sinterfahnen der Sinterhalle (Ersatz für Tausendfuß)."
+  },
+  {
+   "name": "Nanite Tropical Plant Pack 2",
+   "fab_link": "https://www.fab.com/listings/70db06c9-ad22-4ae0-bfe4-dd77976cfa78",
+   "anbieter": "Seborn3D",
+   "preis": "ungeprüft – Ferat entscheidet",
+   "groesse_gb": null,
+   "ue_version": "ungeprüft",
+   "nanite": true,
+   "ersatz_bestand": "",
+   "pruefen_bibliothek": true,
+   "quelle": "Fab-Listing (Suchmaschinen-Auszug 11.10.2026): 59 tropische Pflanzennetze für UE5 mit Nanite und Lumen, u. a. Taro (Colocasia esculenta)",
+   "bemerkung": "",
+   "prioritaet": "B",
+   "status": "fehlt",
+   "wofuer": [
+    "dschungel_07_garten_der_riesen"
+   ],
+   "warum_prioritaet": "neu aus dschungel: Riesenblätter (Held) im Garten der Riesen."
+  },
+  {
+   "name": "Travertine Hot Spring Terraces – Modular Environment Pack",
+   "fab_link": null,
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft (vermutlich kostenpflichtig)",
+   "groesse_gb": 2.0,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "UE5 (ungeprüft)",
+   "nanite": true,
+   "wofuer": [
+    "dschungel_08_sinterhalle",
+    "elfenwald_04_elfentreppe",
+    "canyon:Hängender Garten (Kalktuff) (Katalog v1)"
+   ],
+   "prioritaet": "B",
+   "ersatz_bestand": "keiner (Sinterterrassen fehlen ganz)",
+   "pruefen_bibliothek": false,
+   "quelle": "WebSearch-Auszug 11.10.2026 (Fab-Listing ‚Travertine Hot Spring Terraces – Modular Environment Pack‘)",
+   "bemerkung": "KOSTENPFLICHTIG vermutet – Ferat entscheidet. Laut Auszug 26 modulare Teile nach Pamukkale/Mammoth Hot Springs, Farbsteuerung im Material, Nanite + Lumen. Link nicht sicher zuzuordnen (Suchtreffer-IDs d55e2477-c3e6-4557-9f60-4beb64ed636f oder 3960dde2-40d3-467d-b972-409d044d10a5) – auf Fab nach dem Titel suchen. Begründung: drei Orte hängen an Sinterterrassen.",
+   "status": "fehlt",
+   "warum_prioritaet": "elfenwald_04 (Held); gletscher/tundra-Wünsche entfallen."
+  },
+  {
+   "name": "Ultimate Niagara Environmental VFX",
+   "fab_link": "https://www.fab.com/listings/e25c0150-ec47-4e9f-a818-8aa9f501c481",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 1.5,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "ungeprüft",
+   "nanite": null,
+   "wofuer": [
+    "bergwald_07_windwurf",
+    "lava_08_glutauge",
+    "kueste_01_die_alten (vorläufig)",
+    "kueste_03_das_nadeltor (vorläufig)",
+    "kueste_08_das_blasloch (vorläufig)",
+    "oedland:Höllentor (Katalog v1)",
+    "wueste:Große Sterndüne (Sandfahnen) (Katalog v1)"
+   ],
+   "prioritaet": "B",
+   "ersatz_bestand": "keiner",
+   "pruefen_bibliothek": false,
+   "quelle": "https://www.fab.com/listings/e25c0150-ec47-4e9f-a818-8aa9f501c481",
+   "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. 39 Niagara-Effekte: Wetter, Feuer & Glut (Flame Dust, Smoke Spark), Wasser, Rauch, fallendes Laub. Link-Zuordnung aus Suchtreffern (ungeprüft); es gibt auch eine V2 mit 44 Effekten.",
+   "status": "fehlt",
+   "warum_prioritaet": "deckt die Lücken im Niagara-Bestand: Schnee/Schneefahnen, Gischt, Glut/Asche."
+  },
+  {
+   "name": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+   "fab_link": "https://www.fab.com/listings/c34e8871-3585-4381-b21f-1b895814472b",
+   "anbieter": "SHOGUN GAMES (laut Auftrag-12-Recherche, ungeprüft)",
+   "preis": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)",
+   "groesse_gb": 0.5,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "ungeprüft",
+   "nanite": null,
+   "wofuer": [
+    "aue_07_blautopf",
+    "bergwald_05_klemmblock_klamm",
+    "dschungel_02_turmquelle",
+    "kueste_04_der_seefall (vorläufig)",
+    "kueste_08_das_blasloch (vorläufig)"
+   ],
+   "prioritaet": "B",
+   "ersatz_bestand": "keiner (nur Material MI_EL_Wasserfall_Aufprall; SM_Splash aus CityPark)",
+   "pruefen_bibliothek": false,
+   "quelle": "https://www.fab.com/listings/c34e8871-3585-4381-b21f-1b895814472b",
+   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. Begründung: einziges gefundenes Paket mit Geysir (3×) + Wasserfall (3×) + Bach (3×) + Fontäne (5×) als Niagara; Aufprall und Wellen getrennt steuerbar. Siehe auch antworten/12-recherche-wasser-gpu-schatten.md.",
+   "status": "fehlt",
+   "warum_prioritaet": "Geysir/Fontäne für kueste_08 Blasloch (vorläufig A), Gischt an Fällen; kein Bestand."
+  },
+  {
+   "name": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+   "fab_link": "https://www.fab.com/listings/25aa5e05-aa98-4f79-b7a8-b1b739e8cdb8",
+   "anbieter": "David Dumais Audio",
+   "preis": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)",
+   "groesse_gb": 3.0,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "Audio (WAV)",
+   "nanite": null,
+   "wofuer": [
+    "fjord_03_trollzunge",
+    "gletscher_05_die_waechte",
+    "lava_02_schwefelgrund",
+    "lava_06_kraterreihe",
+    "lava_08_glutauge",
+    "tundra_01_der_pingo (vorläufig)",
+    "oedland:Höllentor (Katalog v1)"
+   ],
+   "prioritaet": "B",
+   "ersatz_bestand": "keiner",
+   "pruefen_bibliothek": false,
+   "quelle": "https://daviddumaisaudio.itch.io/fantasy-ambiences",
+   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 130+ Loops, darunter Lava (4 Ambiences, 17 Dateien), Höhle, Wind. Begründung: Lava- und Höhlenklang gibt es kostenlos nicht. Vorher die kostenlosen Hörproben anhören (laut Listing verlinkt).",
+   "status": "fehlt",
+   "warum_prioritaet": "Lava-/Windklänge gibt es im Bestand nicht."
+  },
+  {
+   "name": "Brushify – Moorlands Pack",
+   "fab_link": "https://www.fab.com/listings/d0b8065d-0ef1-42b2-915e-4810ee19f44e",
+   "anbieter": "Brushify (Joe Garth)",
+   "preis": "ungeprueft (vermutlich kostenpflichtig; Brushify-Pakete waren zeitweise Gratis-Monatsassets - prüfen: evtl. schon in Bibliothek)",
+   "groesse_gb": null,
+   "ue_version": "laut Listing aktualisiert fuer UE 5.4+",
+   "nanite": null,
+   "ersatz_bestand": "SM_forest_heather_01, SM_heath_A_01/B_01/cross_01 (Tint), Granit pjEr1/pjtsT/pkeeM_tier_0, SM_big_rock_wall_*",
+   "pruefen_bibliothek": false,
+   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug: 'Brushify - Moorlands Pack', Heather vegetation, 3 photogrammetry rocks scanned in the UK, Nanite/Lumen, UE 5.4+)",
+   "bemerkung": "Einziges gefundenes Heide-/Moorland-Paket: 4 Heidekraut-Foliagetypen (gruen, braun, purpur, Farn) + 3 in Grossbritannien gescannte Felsen - genau Dartmoor-Granit und Besenheide. Bestand hat nur SM_heath_A/B (0,3 m) und SM_forest_heather_01.",
+   "prioritaet": "B",
+   "status": "fehlt",
+   "wofuer": [
+    "heide_01_die_graue_burg (vorläufig)",
+    "heide_02_ginstergold (vorläufig)",
+    "heide_03_die_wacholderprozession (vorläufig)",
+    "heide_04_der_kolk (vorläufig)",
+    "heide_05_der_wackelstein (vorläufig)",
+    "heide_07_der_totengrund (vorläufig)"
+   ],
+   "warum_prioritaet": "vorläufig (heide läuft noch): Besenheide + UK-Granit für 6 Heide-Orte."
+  },
+  {
+   "name": "Taxodium Distichum (Bald Cypress) Tree Pack",
+   "fab_link": "https://www.fab.com/listings/749dc94a-9b33-4f22-b6d1-b9376e64a5f6",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": null,
+   "ue_version": "UE5 (ungeprüft)",
+   "nanite": true,
+   "ersatz_bestand": "SM_SwampCypress_A (Wurzelstock) + Weiden Big_Tree_Willow_01/02",
+   "pruefen_bibliothek": false,
+   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug: „Nanite & Animated Bald Cypress Pack“ mit Impostoren; Preis/Formate nicht im Auszug)",
+   "bemerkung": "Ganze Sumpfzypressen für den ertrunkenen Wald/Weidendom. Animierte Skeletal-Teile nicht nötig.",
+   "prioritaet": "B",
+   "status": "fehlt",
+   "wofuer": [
+    "sumpf_01_der_ertrunkene_wald (vorläufig)",
+    "sumpf_02_der_weidendom (vorläufig)"
+   ],
+   "warum_prioritaet": "vorläufig (sumpf läuft noch): ganze Sumpfzypressen – im Bestand nur 1 Wurzelstock."
+  },
+  {
+   "name": "Megascans Icelandic Sand With Pebbles",
+   "fab_link": "https://www.fab.com/listings/43dee764-0072-448f-8c4d-9aff7d899445",
+   "anbieter": "Quixel Megascans",
+   "preis": "kostenlos (2024 beansprucht)",
+   "groesse_gb": 0.3,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "alle UE5",
+   "nanite": null,
+   "wofuer": [
+    "fjord_05_fjordkopf",
+    "fjord_08_strandterrassen",
+    "gletscher_03_moraenensee",
+    "lava_01_schwarze_mauer",
+    "lava_03_kraterkinder",
+    "tundra_07_die_steinringe (vorläufig)"
+   ],
+   "prioritaet": "C",
+   "ersatz_bestand": "SM_BeachSandWithPebbles (Megascans); SM_NordicBeachRockyGround",
+   "pruefen_bibliothek": true,
+   "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
+   "bemerkung": "Schwarzer Sand/Kies als Boden-/Decal-Quelle.",
+   "status": "fehlt",
+   "warum_prioritaet": "Kies/Schlackensand in 5 Orten; Bestand reicht notfalls."
+  },
+  {
+   "name": "Megascans Trees: European Black Alder",
+   "fab_link": null,
+   "anbieter": "Quixel Megascans",
+   "preis": "kostenlos (2024 beansprucht) bzw. kostenlos (Early Access, laut UE-Marketplace-Seite)",
+   "groesse_gb": 3.0,
+   "ue_version": "UE5 (Megascans Trees)",
+   "nanite": null,
+   "ersatz_bestand": "Big_Tree_Willow_01/02, SM_Poplar_tree_03/04, SM_EuropeanHornbeam_Forest_* (Override nötig)",
+   "pruefen_bibliothek": true,
+   "quelle": "https://docs.unrealengine.com/marketplace/en-US/product/megascans-trees-european-black-alder-early-access",
+   "bemerkung": "Die Erle ist der Baum der Ufer und Bruchwälder – heute gibt es keinen einzigen Ufer-Laubbaum außer zwei Trauerweiden. Schwesterpaket der vorhandenen Megascans-Hainbuchen, daher evtl. schon in der Bibliothek.",
+   "prioritaet": "C",
+   "status": "fehlt",
+   "wofuer": [
+    "aue_01_biberstau",
+    "aue_04_treibholzwerder",
+    "aue_06_mondarm",
+    "sumpf_05_der_erlenbruch (vorläufig)"
+   ],
+   "warum_prioritaet": "13c: nicht im Bestand; Ersatz Weiden/Pappeln/Birken ist Bestand – Erlen nur noch optional (sumpf_05 Erlenbruch würde profitieren)."
+  },
+  {
+   "name": "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
+   "fab_link": "https://www.fab.com/listings/de7a1a4a-8a51-48cd-b57e-abcb12aafdb2",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 2.0,
+   "ue_version": "UE5 (ungeprüft)",
+   "nanite": true,
+   "ersatz_bestand": "SM_EuropeanBeech_Dead_XL_01, SM_Forest_pine_10_dead",
+   "pruefen_bibliothek": false,
+   "quelle": "WebSearch 11.10.2026 (Fab-Listing-Auszug, Seite nicht abrufbar)",
+   "bemerkung": "Toter Altbaum (Biotopbaum) in der Lianenhalle, abgebrochener Starkast an der Alten.",
+   "prioritaet": "C",
+   "status": "fehlt",
+   "wofuer": [
+    "aue_08_lianenhalle"
+   ],
+   "warum_prioritaet": "toter Biotopbaum aue_08; Ersatz SM_EuropeanBeech_Dead_XL_01."
+  },
+  {
+   "name": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+   "fab_link": "https://www.fab.com/listings/11fe6037-b5c1-4bde-baf8-72c1c6018298",
+   "anbieter": "ungeprüft",
+   "preis": "kostenlos (2024 beansprucht)",
+   "groesse_gb": null,
+   "ue_version": "ungeprüft",
+   "nanite": null,
+   "ersatz_bestand": "SM_lava_m_rock_* / SM_lava_s_rock_* mit MI_EL_SW_Lava_Moos (M_EL_Fels_Auflage) + SM_MossyRocks_01/02",
+   "pruefen_bibliothek": false,
+   "quelle": "Websuche 11.10.2026 (Fab-Listing, Titel und Masse aus dem Listing-Auszug)",
+   "bemerkung": "Gescannte moosbewachsene Islandbloecke (1,35 x 1,39 x 0,62 m, geschlossenes Netz) - genau die Kontaktzone Moospolster/Lavablock; unsere SM_IcelandicBoulder_* sind gesperrt (netz_sperre.json).",
+   "prioritaet": "C",
+   "status": "fehlt",
+   "wofuer": [
+    "tundra_02_der_wanderer (vorläufig)"
+   ],
+   "warum_prioritaet": "bemooste Islandblöcke (lava, tundra); SM_IcelandicBoulder_* sind gesperrt."
+  },
+  {
+   "name": "Moss & Lichen Forest Ground Rock Materials",
+   "fab_link": "https://www.fab.com/listings/9b959f11-7924-4b90-ad28-b13348aaced9",
+   "anbieter": "ungeprueft",
+   "preis": "ungeprueft",
+   "groesse_gb": null,
+   "ue_version": "laut Listing UE 5.8 Material Instances",
+   "nanite": null,
+   "ersatz_bestand": "Lage Moos + MI_TileableMossPatches_01 mit blassem Tint (MI_EL_SW_Flechte_Decal), Fels-Auflage MI_EL_SW_Landkartenflechte",
+   "pruefen_bibliothek": false,
+   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug, 10 Moss & Lichen PBR-Materialien, 4K)",
+   "bemerkung": "Enthaelt 'Pale Reindeer Lichen Mat' - Rentierflechte als Boden-/Decal-Material; im Bestand gibt es keine Flechte.",
+   "prioritaet": "C",
+   "status": "fehlt",
+   "wofuer": [
+    "tundra_02_der_wanderer (vorläufig)",
+    "tundra_07_die_steinringe (vorläufig)"
+   ],
+   "warum_prioritaet": "vorläufig (tundra): Rentierflechte."
+  },
+  {
+   "name": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+   "fab_link": "https://www.fab.com/listings/9414ee6b-ea8d-4de3-a469-18570f50129b",
+   "anbieter": "Fateloom (laut Seitentext, ungeprüft)",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 0.3,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "5.7+",
+   "nanite": null,
+   "wofuer": [
+    "aue_08_lianenhalle",
+    "bergwald_07_windwurf",
+    "elfenwald_03_rotlaubhain",
+    "frost_04_raureifhain",
+    "gletscher_05_die_waechte",
+    "gletscher_07_der_nunatak",
+    "tundra_04_die_fliesstreppe (vorläufig)"
+   ],
+   "prioritaet": "C",
+   "ersatz_bestand": "keiner",
+   "pruefen_bibliothek": false,
+   "quelle": "https://www.fab.com/listings/9414ee6b-ea8d-4de3-a469-18570f50129b",
+   "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. 5 GPU-Niagara-Systeme: leichter Schneefall, Kirschblüten (nicht nutzen), Herbstlaub, Glühwürmchen, Dampf/Bodennebel. Begründung: deckt Dampf, Laub, Schnee und Glühwürmchen in einem Paket.",
+   "status": "fehlt",
+   "warum_prioritaet": "herabgestuft (B → C): Laub = NS_leaf, Dampf = NS_Smoke_Plume im Bestand; bleibt nur Schnee."
   },
   {
    "name": "Giant Fantasy Nanite Mushrooms",
@@ -720,55 +787,60 @@
    "ue_version": "5.0+",
    "nanite": true,
    "wofuer": [
-    "elfenwald:Riesenpilz-Ort (neu, falls gewünscht)"
+    "elfenwald_07_schwammgrund"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "SM_mushroom_01/02 (Meadow_Environment_Set) skaliert",
    "pruefen_bibliothek": false,
    "quelle": "https://www.fab.com/listings/04b70a68-9be2-4197-a783-a7c0fbd211bd",
    "bemerkung": "85 Pilzvarianten, Schlagworte ‚Realistic‘ und ‚Stylized‘ – Stilrisiko für ‚realistisch, aber wunderschön‘. Alternative: ‚Fantasy Giant Mushrooms Procedural Ecosystem‘ https://www.fab.com/listings/858823dd-48bd-43a7-9d74-445396d14a2c (nur 5.1–5.4).",
-   "art": "Riesenpilze"
+   "status": "fehlt",
+   "warum_prioritaet": "elfenwald_07 (Held, B für diesen Ort), Stilrisiko „stylized“ – erst Bild prüfen."
   },
   {
-   "name": "Tropical Vegetation Assets",
-   "fab_link": "https://www.fab.com/listings/5eee4638-6c25-489c-9b93-4fc720e2085f",
-   "anbieter": "LUZ Studio",
+   "name": "Hollowstone Canyon (Porous Rocks Desert)",
+   "fab_link": "https://www.fab.com/listings/67f820de-2119-4948-8acb-5f36ec31d1d5",
+   "anbieter": "ungeprüft",
    "preis": "Preis ungeprüft",
    "groesse_gb": 1.5,
    "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": false,
-   "wofuer": [
-    "dschungel:Garten der Riesen",
-    "dschungel:Blaues Auge (Uferpflanzen)"
-   ],
-   "prioritaet": "C",
-   "ersatz_bestand": "SM_Fern_01a/02a, SM_Vines_01a (AsianTemple); SM_Palm_01_01_G…12_G (Palms_Pack_01)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/5eee4638-6c25-489c-9b93-4fc720e2085f",
-   "bemerkung": "12 Pflanzenarten × 3 (Banane, Wasserpalme …), 3 Bäume, Felsen; LODs + Billboards, also kein Nanite.",
-   "art": "Dschungel-Pflanzen"
-  },
-  {
-   "name": "Rain Forest Pack",
-   "fab_link": "https://www.fab.com/listings/03b628b4-955a-447e-b25f-daffaf94327d",
-   "anbieter": "Kaizen Digital Interactive",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 5.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "5.1+",
+   "ue_version": "UE5",
    "nanite": true,
    "wofuer": [
-    "dschungel:Tausendfuß",
-    "dschungel:Garten der Riesen",
-    "dschungel:Verborgene Lagune"
+    "canyon:Hoodoo-Kessel (Katalog v1)",
+    "wueste:Die Wächter (Katalog v1)",
+    "oedland:Feenkamine (Katalog v1)"
    ],
    "prioritaet": "C",
-   "ersatz_bestand": "SM_Tree_Big_01a/b (AsianTemple)",
+   "ersatz_bestand": "SM_MassiveSandstoneCliff_03 (Megascans); SM_RockSandstone_040 (AncientContent)",
    "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/03b628b4-955a-447e-b25f-daffaf94327d",
-   "bemerkung": "Fotogrammetrie-Regenwald, 94+ Assets, 1-km²-Demo. Eine kostenlose Demo gibt es auf Gumroad (https://kaizendigital.gumroad.com/l/bkllx) – zuerst die testen.",
-   "art": "Dschungel-Pflanzen"
+   "quelle": "https://www.fab.com/listings/67f820de-2119-4948-8acb-5f36ec31d1d5",
+   "bemerkung": "23 Felsen (Formationen, Rücken, Terrassen), 7K–70K Dreiecke, Nanite. Löchriger Wüstenfels – nur nach Bild-Check.",
+   "status": "fehlt",
+   "warum_prioritaet": "canyon/wueste/oedland (Biome laufen noch)."
+  },
+  {
+   "name": "Wadi Rum Sandstone Rock 01–04",
+   "fab_link": "https://www.fab.com/listings/29e64d9a-d8b4-42e0-b4f3-f12c955f6431",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft (Einzel-Assets)",
+   "groesse_gb": 1.0,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "UE5",
+   "nanite": true,
+   "wofuer": [
+    "wueste:Sonnentor (Bogen-Komposition) (Katalog v1)",
+    "wueste:Guelta (Katalog v1)",
+    "canyon:Der Wäger (Katalog v1)",
+    "wueste:Yardang-Flotte (Katalog v1)"
+   ],
+   "prioritaet": "C",
+   "ersatz_bestand": "SM_MassiveSandstoneCliff_01…05; SM_HugeSandstoneCliff_05 (Megascans)",
+   "pruefen_bibliothek": false,
+   "quelle": "https://www.fab.com/listings/29e64d9a-d8b4-42e0-b4f3-f12c955f6431",
+   "bemerkung": "Fotogrammetrie aus Jordanien: 01 Block, 02 langer Abbruch (https://www.fab.com/listings/b4060b59-ed68-4df9-b0b2-0cd2a3ecab10), 03 große Formation (https://www.fab.com/listings/316beb22-e87b-47f9-87b5-47bfcef58c33), 04 breite Wand (https://www.fab.com/listings/708af586-110d-44e2-9c79-2f246980b7d1).",
+   "status": "fehlt",
+   "warum_prioritaet": "wueste/canyon (Biome laufen noch)."
   },
   {
    "name": "Procedural Rocks Generator",
@@ -780,16 +852,60 @@
    "ue_version": "bis 5.7, Update 5.8 angekündigt",
    "nanite": true,
    "wofuer": [
-    "canyon:Hoodoo-Kessel",
-    "wueste:Die Wächter",
-    "oedland:Feenkamine"
+    "dschungel_03_steinwald",
+    "canyon:Hoodoo-Kessel (Katalog v1)",
+    "wueste:Die Wächter (Katalog v1)",
+    "oedland:Feenkamine (Katalog v1)"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "keiner",
    "pruefen_bibliothek": false,
    "quelle": "https://www.fab.com/listings/b9e8f6fa-17e9-453d-8f3c-b8046f00b21c",
    "bemerkung": "Erzeugt Klippen, Blöcke, Wüstenpfeiler, Kristallformationen als Nanite im Editor (kein Houdini). Nur falls Hoodoos aus Bestandsfelsen nicht überzeugen.",
-   "art": "Fels-Werkzeug"
+   "status": "fehlt",
+   "warum_prioritaet": "nur falls Kalknadeln/Hoodoos aus Bestand nicht überzeugen."
+  },
+  {
+   "name": "Tropical Vegetation Assets",
+   "fab_link": "https://www.fab.com/listings/5eee4638-6c25-489c-9b93-4fc720e2085f",
+   "anbieter": "LUZ Studio",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 1.5,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "ungeprüft",
+   "nanite": false,
+   "wofuer": [
+    "dschungel_04_blaues_auge",
+    "dschungel_07_garten_der_riesen"
+   ],
+   "prioritaet": "C",
+   "ersatz_bestand": "SM_Fern_01a/02a, SM_Vines_01a (AsianTemple); SM_Palm_01_01_G…12_G (Palms_Pack_01)",
+   "pruefen_bibliothek": false,
+   "quelle": "https://www.fab.com/listings/5eee4638-6c25-489c-9b93-4fc720e2085f",
+   "bemerkung": "12 Pflanzenarten × 3 (Banane, Wasserpalme …), 3 Bäume, Felsen; LODs + Billboards, also kein Nanite.",
+   "status": "fehlt",
+   "warum_prioritaet": "dschungel_04, _07 (Ergänzung)."
+  },
+  {
+   "name": "Rain Forest Pack",
+   "fab_link": "https://www.fab.com/listings/03b628b4-955a-447e-b25f-daffaf94327d",
+   "anbieter": "Kaizen Digital Interactive",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 5.0,
+   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
+   "ue_version": "5.1+",
+   "nanite": true,
+   "wofuer": [
+    "dschungel_05_verborgene_lagune",
+    "dschungel_07_garten_der_riesen"
+   ],
+   "prioritaet": "C",
+   "ersatz_bestand": "SM_Tree_Big_01a/b (AsianTemple)",
+   "pruefen_bibliothek": false,
+   "quelle": "https://www.fab.com/listings/03b628b4-955a-447e-b25f-daffaf94327d",
+   "bemerkung": "Fotogrammetrie-Regenwald, 94+ Assets, 1-km²-Demo. Eine kostenlose Demo gibt es auf Gumroad (https://kaizendigital.gumroad.com/l/bkllx) – zuerst die testen.",
+   "status": "fehlt",
+   "warum_prioritaet": "dschungel_05, _07; Tausendfuß entfällt."
   },
   {
    "name": "Wilderness Nature Loops",
@@ -801,14 +917,15 @@
    "ue_version": "Audio (WAV)",
    "nanite": null,
    "wofuer": [
-    "alle Biome: Wald, Fluss, Bach"
+    "bergwald_07_windwurf"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "keiner",
    "pruefen_bibliothek": false,
    "quelle": "https://www.fab.com/listings/1b83c6fa-42f3-4459-9ea7-7c004792e03f",
    "bemerkung": "200 Natur-Loops 44,1 kHz/16 bit (Wald, Flüsse, Bäche). Nur falls die kostenlosen Klänge nicht reichen.",
-   "art": "Umgebungsklänge"
+   "status": "fehlt",
+   "warum_prioritaet": "nur falls die kostenlosen Klänge nicht reichen (Brandung, Frösche fehlen)."
   },
   {
    "name": "Realistic Waterfall and Water VFX",
@@ -820,15 +937,16 @@
    "ue_version": "ungeprüft (UE4 auf Anfrage)",
    "nanite": null,
    "wofuer": [
-    "bergwald:Schleierfall",
-    "kueste:Seefall"
+    "bergwald_05_klemmblock_klamm",
+    "fjord_02_schleierwand"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "Material MI_EL_Wasserfall (eigen)",
    "pruefen_bibliothek": false,
    "quelle": "https://fab.com/s/2963561bcd7f",
    "bemerkung": "12 Partikelsysteme, 19+ Texturen, 13 Blueprints, 9 Loop-Klänge. Alternative zu Nature Water FX, wenn kein Geysir gebraucht wird.",
-   "art": "Niagara Wasserfall"
+   "status": "fehlt",
+   "warum_prioritaet": "nur falls der eigene Wasserfall-Vorhang zu glatt wirkt."
   },
   {
    "name": "Waterfall Pro",
@@ -840,16 +958,93 @@
    "ue_version": "ungeprüft",
    "nanite": null,
    "wofuer": [
-    "bergwald:Schleierfall",
-    "kueste:Seefall",
-    "dschungel:Turmquelle"
+    "bergwald_05_klemmblock_klamm"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "Material MI_EL_Wasserfall (eigen)",
    "pruefen_bibliothek": false,
    "quelle": "https://www.fab.com/listings/024c679f-c9b7-453b-bd6b-2416acd5c4fc",
    "bemerkung": "Interaktives Niagara-Wasserfallsystem (CPU/GPU), 4 Klänge. Teuer für das, was wir selbst bauen können (Auftrag 12).",
-   "art": "Niagara Wasserfall"
+   "status": "fehlt",
+   "warum_prioritaet": "teuer für das, was wir selbst bauen."
+  }
+ ],
+ "luecken_ohne_paket": [
+  {
+   "luecke": "Große Kalkfelsen/Karsttürme",
+   "orte": "dschungel_01, _03, _05, _06; aue_07",
+   "loesung": "Limestone Rocks ist nur ein 0,6-m-Haufen. Ferat lädt weitere Megascans-Limestone-Assets und das Ancraite-Set („wird geladen“) → Lücke voraussichtlich geschlossen. Bis dahin SM_Cliff_01a–e skaliert."
+  },
+  {
+   "luecke": "Ganze Sumpfzypressen",
+   "orte": "sumpf_01, _02 (vorläufig)",
+   "loesung": "nur 1 Wurzelstock SM_SwampCypress_A; Kandidat Bald Cypress Tree Pack (B). Bis dahin Weiden auf Zypressen-Wurzelfuß."
+  },
+  {
+   "luecke": "Raureif-/Schneebäume",
+   "orte": "frost_04_raureifhain",
+   "loesung": "kein Paket gefunden (Websuche 11.10.: nur Szene „Windy Winter Forest“, nicht empfohlen) → MI_EL_SW_Raureif auf SM_Forest_pine_06/07 + Schneehaufen (Megascans)."
+  },
+  {
+   "luecke": "Felsnadel/Spire",
+   "orte": "bergwald_01_der_moench",
+   "loesung": "veqnci0db_tier_2 hochkant + Basalt-/Klippen-Sockel (13c)."
+  },
+  {
+   "luecke": "Riesen-Nadelbäume/Riesenstämme",
+   "orte": "bergwald_03, elfenwald_01, _08",
+   "loesung": "Forest Cretaceous gestrichen → Fir_07_Forest/Fir_04_Standalone ×2,2–2,5, SM_beech_tree_05 ×2,5, SM_LargeFallenTree_02 ×3."
+  },
+  {
+   "luecke": "Lavaröhre, Pseudokrater, Stricklava, Hornito",
+   "orte": "lava_01, _03, _04, _06, _08",
+   "loesung": "Geländestempel + Basalt/Lava-Netze; SM_lava_wall_* kommen hoffentlich mit der Lava-Nachladung zurück."
+  },
+  {
+   "luecke": "Schwefel-, Ruß-, Kalk-Decals",
+   "orte": "lava_02, bergwald_02",
+   "loesung": "eigene Instanzen auf M_MS_Decal (Tönung über Leakage-Masken)."
+  },
+  {
+   "luecke": "Schnee-, Gischt-, Tropfen-, Fontänen-Niagara",
+   "orte": "gletscher_01, _05, _07; frost_04, _06; Wasserfälle",
+   "loesung": "im Bestand kein System → NS_Smoke_Plume als Gischt-Vorlage, sonst lokaler_nebel; Paket: Ultimate Niagara Environmental VFX (B)."
+  },
+  {
+   "luecke": "Eisglocken, Frostblumen, Blasen im Schwarzeis",
+   "orte": "frost_02, _07, _08",
+   "loesung": "CryoGen (B) bzw. MI_EL_SW_Schwarzeis + Decal."
+  },
+  {
+   "luecke": "Brutröhren der Uferschwalben",
+   "orte": "aue_03_schwalbenwand",
+   "loesung": "**gelöst:** eigene Decal-Textur sehens/aue/decal_brutroehren.png + _n.png."
+  },
+  {
+   "luecke": "Schwertlilie/Blutweiderich, Silberweide, Bärlauch, Biberburg",
+   "orte": "aue_01, _05, _08",
+   "loesung": "Ersatz aus Bestand + MI (siehe aue/asset_bedarf.json)."
+  },
+  {
+   "luecke": "Bartflechten, Rotlaub, Leuchten",
+   "orte": "elfenwald_02, _03, _01/_07",
+   "loesung": "MI_EL_SW_Bartflechte, MI_EL_SW_Rotlaub (Kopie), Punktlichter + NS_Sparkling_Glow."
+  },
+  {
+   "luecke": "Gletschermühle, Wächte/Sérac",
+   "orte": "gletscher_01, _05",
+   "loesung": "Megascans-Eis ×2,5–4 + Gelände; Mühle als Ring aus Eiszapfen + Decal."
+  },
+  {
+   "luecke": "Brandung, Möwen, Frösche (Klang)",
+   "orte": "fjord, frost_06, aue_05/_06, kueste",
+   "loesung": "nicht im Bestand; Wilderness Nature Loops (C) prüfen."
+  }
+ ],
+ "bewusst_nicht": [
+  {
+   "name": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
+   "grund": "laut Ferat teuer und sehr schlecht bewertet; Riesenbäume bleiben Bestand plus Skalierung."
   }
  ]
 }

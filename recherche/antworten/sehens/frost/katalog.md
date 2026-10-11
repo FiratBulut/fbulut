@@ -268,7 +268,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen) | läuft bei Ferat | 06, 07 |
 | CryoGen: Native Procedural Ice Architecture | fehlt (Download-Liste) | 01, 03, 07, 08 |
 | Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 02, 06, 08 |
-| Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile | im Projekt (32 Netze, /Game/Fab/Megascans/3D) | 01, 02, 03, 04, 05, 06 |
+| Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile | im Projekt (31 Netze in netze.csv, /Game/Fab/Megascans/3D) | 01, 02, 03, 04, 05, 06 |
 | Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 01 |
 | Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 06 |
 | Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 04 |

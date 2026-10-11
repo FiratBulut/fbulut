@@ -7,17 +7,22 @@
    "art": "serpentine",
    "breite_cm": 150,
    "punkte_cm": [
-    [-55100, 110900],
-    [-63100, 118900],
-    [-63900, 120900],
-    [-67100, 124100],
-    [-67100, 125300],
+    [-61500, 107300],
+    [-61900, 108100],
+    [-61500, 108900],
+    [-62300, 108900],
+    [-63100, 109700],
+    [-63100, 112100],
+    [-65100, 114500],
+    [-65500, 120500],
+    [-67500, 123700],
+    [-67500, 125300],
     [-68300, 126500],
     [-67900, 127700],
     [-69100, 128100],
     [-68300, 128500],
     [-69100, 128900],
-    [-69100, 130500],
+    [-68700, 131700],
     [-68300, 132100],
     [-67900, 131700],
     [-64700, 131700],
@@ -26,11 +31,11 @@
     [-55100, 131300],
     [-50700, 134500]
    ],
-   "anschluss": "Wegende am Westrand von ROMAN_LOC_020 (X -552 / Y 1110 m)",
-   "fuer": [],
-   "laenge_m": 497.5,
-   "max_steigung_grad": 19.2,
-   "mittel_steigung_grad": 8.1,
+   "anschluss": "Burgweg nach Aethelburg (ROMAN_LOC_020), Abzweig ausserhalb des Burgradius (X -616 / Y 1074 m)",
+   "fuer": ["oedland_03_hoellentor", "oedland_06_schlammvulkaene", "oedland_07_totenpfanne", "oedland_08_erdroehren"],
+   "laenge_m": 520.6,
+   "max_steigung_grad": 19.8,
+   "mittel_steigung_grad": 7.7,
    "bodenlage": "Erde/Kies als Band 1,5 m; im Abstieg Kehren mit Trittstufen aus SM_RockSandstone_021/034"
   },
   {
@@ -52,9 +57,9 @@
     [-29900, 150100],
     [-29100, 149300],
     [-29900, 148500],
-    [-28300, 150100],
-    [-25500, 150900],
-    [-21100, 154900],
+    [-23900, 154100],
+    [-22700, 154100],
+    [-21900, 154900],
     [-17500, 154900],
     [-15900, 154500],
     [-13500, 152100],
@@ -103,7 +108,7 @@
     [-89900, 158500]
    ],
    "anschluss": "Fuss des Abstiegs (X -505 / Y 1345 m), Ende von oedland_pfad_oedlandpfad_abstieg",
-   "fuer": ["oedland_07_totenpfanne", "oedland_08_kugelsteine"],
+   "fuer": ["oedland_07_totenpfanne", "oedland_08_erdroehren"],
    "laenge_m": 566.6,
    "max_steigung_grad": 7.9,
    "mittel_steigung_grad": 0.9,
@@ -119,30 +124,30 @@
    "radius_m": 120.0,
    "felder": ["E6"],
    "kameras": [
-    ["E6", 3887, 139159, 2000, 121000, 6938, "oedland_01_rippenland_anmarsch", -170],
+    ["E6", 3900, 139140, 2000, 121000, 6938, "oedland_01_rippenland_anmarsch", -170],
     ["E6", -9818, 118916, 2000, 121000, 6988, "oedland_01_rippenland_held", 170],
     ["E6", 1015, 120826, 2000, 121000, 6888, "oedland_01_rippenland_nah", -170],
-    ["E6", -14200, 154200, 2000, 121000, 234, "oedland_01_rippenland_fern", 170]
+    ["E6", -12200, 152000, 2000, 121000, 322, "oedland_01_rippenland_fern", 170]
    ],
    "ziel_hoehe_m": 15,
    "sicht": {
     "naechster_weg_m": 251.0,
     "sichtbar_ab_m": 571,
-    "wegpunkte_sichtbar": 29,
-    "wegpunkte_ring_300_800": 156,
+    "wegpunkte_sichtbar": 27,
+    "wegpunkte_ring_300_800": 155,
     "mittel_anteil": 0.1
    },
    "erreichbar": {
     "erreichbar": false,
     "modus": "weich",
-    "laenge_m": 558.9,
-    "luftlinie_m": 262.2,
+    "laenge_m": 550.6,
+    "luftlinie_m": 261.0,
     "max_steigung_grad": 35.2,
-    "mittel_steigung_grad": 7.8,
+    "mittel_steigung_grad": 8.0,
     "steil_laenge_m": 17.0,
     "quer_steil_laenge_m": 21.0,
     "wasser_laenge_m": 0.0,
-    "weg_punkt_m": [45.0, 1471.0],
+    "weg_punkt_m": [25.0, 1471.0],
     "pfad_noetig": true
    },
    "pfad_cm": [
@@ -174,8 +179,7 @@
     [4500, 137900, 2277],
     [4500, 138300, 2277],
     [2500, 141100, 1450],
-    [2500, 145100, 838],
-    [4500, 147100, 567]
+    [2500, 147100, 508]
    ],
    "draufsicht": "oedland_01_rippenland.png",
    "standort_begruendung": "",
@@ -197,7 +201,7 @@
     ["D6", -87529, 113729, -88000, 116000, 5609, "oedland_02_regenbogenhang_anmarsch", -170],
     ["D6", -85046, 116521, -88000, 116000, 5659, "oedland_02_regenbogenhang_held", 170],
     ["D6", -87015, 116174, -88000, 116000, 5559, "oedland_02_regenbogenhang_nah", -170],
-    ["D6", -76400, 160000, -88000, 116000, 229, "oedland_02_regenbogenhang_fern", 170]
+    ["D6", -76800, 160000, -88000, 116000, 226, "oedland_02_regenbogenhang_fern", 170]
    ],
    "ziel_hoehe_m": 15,
    "sicht": {
@@ -262,9 +266,9 @@
    "ziel_hoehe_m": 30,
    "sicht": {
     "naechster_weg_m": 132.6,
-    "sichtbar_ab_m": 408,
+    "sichtbar_ab_m": 398,
     "wegpunkte_sichtbar": 7,
-    "wegpunkte_ring_300_800": 62,
+    "wegpunkte_ring_300_800": 63,
     "mittel_anteil": 0.1,
     "bezug": "Abstand/Sicht gegen Wege + oedland_pfad_oedlandpfad_ost"
    },
@@ -360,45 +364,47 @@
    }
   },
   {
-   "id": "oedland_05_geroellfaecher",
-   "name": "Der Geröllfächer",
+   "id": "oedland_05_kugelsteine",
+   "name": "Die Kugelsteine",
    "art": "fundstueck",
    "mitte_cm": [-60000, 140000, 666],
-   "radius_m": 80.0,
+   "radius_m": 70.0,
    "felder": ["E6"],
    "kameras": [
-    ["E6", -50700, 140100, -60000, 140000, 766, "oedland_05_geroellfaecher_anmarsch", -170],
-    ["E6", -57916, 128182, -60000, 140000, 756, "oedland_05_geroellfaecher_held", 170],
-    ["E6", -59826, 139015, -60000, 140000, 716, "oedland_05_geroellfaecher_nah", -170]
+    ["E6", -50700, 139500, -60000, 140000, 766, "oedland_05_kugelsteine_anmarsch", -170],
+    ["E6", -57916, 128182, -60000, 140000, 756, "oedland_05_kugelsteine_held", 170],
+    ["E6", -59826, 139015, -60000, 140000, 716, "oedland_05_kugelsteine_nah", -170]
    ],
    "ziel_hoehe_m": 2,
    "sicht": {
-    "naechster_weg_m": 94.0,
+    "naechster_weg_m": 94.2,
     "sichtbar_ab_m": 0,
     "verdeckt_heute": false,
     "max_anteil_heute": 1.0,
-    "verdeckt_mit_stempel": null,
-    "max_anteil_mit_stempel": null,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
     "wegpunkte_bis_400_m": 98
    },
    "erreichbar": {
     "erreichbar": true,
     "modus": "streng",
-    "laenge_m": 93.1,
-    "luftlinie_m": 93.0,
-    "max_steigung_grad": 4.4,
-    "mittel_steigung_grad": 1.8,
+    "laenge_m": 94.8,
+    "luftlinie_m": 93.1,
+    "max_steigung_grad": 3.9,
+    "mittel_steigung_grad": 1.7,
     "steil_laenge_m": 0.0,
     "quer_steil_laenge_m": 0.0,
     "wasser_laenge_m": 0.0,
-    "weg_punkt_m": [-507.0, 1401.0],
+    "weg_punkt_m": [-507.0, 1395.0],
     "pfad_noetig": false
    },
    "pfad_cm": [
-    [-60000, 140000, 660],
-    [-50700, 140100, 405]
+    [-60000, 140000, 662],
+    [-58700, 139900, 586],
+    [-58300, 139500, 557],
+    [-50700, 139500, 394]
    ],
-   "draufsicht": "oedland_05_geroellfaecher.png",
+   "draufsicht": "oedland_05_kugelsteine.png",
    "standort_begruendung": "",
    "zugang": {
     "art": "trampelpfad",
@@ -421,13 +427,13 @@
    ],
    "ziel_hoehe_m": 2,
    "sicht": {
-    "naechster_weg_m": 111.2,
+    "naechster_weg_m": 112.4,
     "sichtbar_ab_m": 0,
     "verdeckt_heute": true,
-    "max_anteil_heute": 0.0,
+    "max_anteil_heute": 0.1,
     "verdeckt_mit_stempel": true,
     "max_anteil_mit_stempel": 0.0,
-    "wegpunkte_bis_400_m": 62,
+    "wegpunkte_bis_400_m": 63,
     "bezug": "Abstand/Sicht gegen Wege + oedland_pfad_oedlandpfad_ost"
    },
    "erreichbar": {
@@ -514,16 +520,16 @@
    "bedingung": "gilt mit dem neuen Oedlandpfad (pfade[]); heute 665 m vom naechsten Weg"
   },
   {
-   "id": "oedland_08_kugelsteine",
-   "name": "Die Kugelsteine",
+   "id": "oedland_08_erdroehren",
+   "name": "Die Erdröhren",
    "art": "fundstueck",
    "mitte_cm": [-108000, 146000, 1377],
    "radius_m": 60.0,
    "felder": ["D6"],
    "kameras": [
-    ["D6", -89900, 158500, -108000, 146000, 1477, "oedland_08_kugelsteine_anmarsch", -170],
-    ["D6", -103896, 157276, -108000, 146000, 1467, "oedland_08_kugelsteine_held", 170],
-    ["D6", -107658, 146940, -108000, 146000, 1427, "oedland_08_kugelsteine_nah", -170]
+    ["D6", -89900, 158500, -108000, 146000, 1477, "oedland_08_erdroehren_anmarsch", -170],
+    ["D6", -103896, 157276, -108000, 146000, 1467, "oedland_08_erdroehren_held", 170],
+    ["D6", -107658, 146940, -108000, 146000, 1427, "oedland_08_erdroehren_nah", -170]
    ],
    "ziel_hoehe_m": 2,
    "sicht": {
@@ -533,7 +539,7 @@
     "max_anteil_heute": 1.0,
     "verdeckt_mit_stempel": true,
     "max_anteil_mit_stempel": 0.0,
-    "wegpunkte_bis_400_m": 14,
+    "wegpunkte_bis_400_m": 13,
     "bezug": "Abstand/Sicht gegen Wege + oedland_pfad_oedlandpfad_west"
    },
    "erreichbar": {
@@ -562,7 +568,7 @@
     [-93900, 154500, 463],
     [-89900, 158500, 384]
    ],
-   "draufsicht": "oedland_08_kugelsteine.png",
+   "draufsicht": "oedland_08_erdroehren.png",
    "standort_begruendung": "",
    "zugang": {
     "art": "trampelpfad",
