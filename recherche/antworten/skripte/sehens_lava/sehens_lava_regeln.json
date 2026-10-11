@@ -1316,8 +1316,14 @@
     {
      "typ": "bach",
      "id": "sinterrinne",
-     "abfluss_von": "quelle_w",
-     "laenge_m": 50,
+     "punkte": [
+      "quelle_w_auslass",
+      [
+       -8,
+       -30
+      ],
+      "rinne_ende"
+     ],
      "breite_m": 0.7,
      "tiefe_cm": 6,
      "farbe": "thermal",
@@ -6239,8 +6245,8 @@
       "b_m": 24,
       "richtung": 290,
       "zentren": [
-       45,
-       55
+       75,
+       90
       ],
       "je": [
        8,

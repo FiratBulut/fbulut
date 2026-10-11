@@ -47,6 +47,7 @@
    "gelaende": {
     "fenster_m": [92, 92],
     "rand_m": 10,
+    "senke_begruendung": "Verwitterungsschuesseln im Granit der Kuppe (Opferkessel, Regenwasser) - natuerlich",
     "ops": [
      {"op": "kuppe", "bei": [2, -1], "radius_m": 20, "hoehe_m": 2.0, "rand_m": 10, "plateau": 0.35, "warum": "Kuppe +2 m: Sockel der Felsburg"}
     ]
