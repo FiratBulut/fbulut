@@ -33,6 +33,7 @@ Bodenlagen:
   Namen exakt wie FORMAT.md §2; weiche Raender >= 3 m, 'flecken' 0..1 macht das Muster fleckig statt kreisrund.
 """
 
+import math
 import os
 import zlib
 
@@ -598,6 +599,67 @@ class Stempel:
         self.max_aenderung_m = float(np.abs(self.delta).max()) if self.delta.size else 0.0
         self.ist_fertig = True
         return self
+
+    def boeschung(self, max_grad=38.0, fest=None, max_auftrag_m=3.0, max_abtrag_m=3.0, max_iter=400):
+        """13h: neue Steilflaechen flacher stempeln (Schutthalde statt Erdwand). Kein Nachbarpaar darf durch den
+        Stempel steiler als max_grad werden (bestehende Steilheit bleibt erlaubt): zuerst am Fuss AUFFUELLEN
+        (Schuttkegel, hoechstens max_auftrag_m), dann an der Oberkante ABTRAGEN (hoechstens max_abtrag_m). fest: Zellen,
+        die bleiben (Wasser, Bachprofil, Uferring, Schutz, Rand). Laeuft nach fertig(); setzt self.halde (geaenderte
+        Zellen) und max_aenderung_m neu. Rueckgabe (m2 aufgefuellt, m2 abgetragen)."""
+        h0 = self.h0
+        h = h0 + self.delta
+        frei = np.ones(h.shape, bool) if fest is None else ~np.asarray(fest, bool)
+        t = math.tan(math.radians(float(max_grad)))
+        z = float(self.z)
+        nach = [(di, dj, z * math.hypot(di, dj)) for di in (-1, 0, 1) for dj in (-1, 0, 1) if di or dj]
+
+        def verschiebe(a, di, dj, leer):
+            out = np.full(a.shape, leer)
+            hs, ws = a.shape
+            out[max(di, 0):hs + min(di, 0), max(dj, 0):ws + min(dj, 0)] = \
+                a[max(-di, 0):hs + min(-di, 0), max(-dj, 0):ws + min(-dj, 0)]
+            return out
+
+        # erlaubter Anstieg/Abfall je Nachbar n -> Zelle c: max(t * d, Hoehenunterschied im Bestand) - nur NEUE
+        # Steilheit wird begrenzt (verschiebe(a, di, dj)[i, j] = a[i - di, j - dj] = Wert am Nachbarn)
+        anstieg, abfall = [], []
+        for di, dj, d in nach:
+            n0 = verschiebe(h0, di, dj, np.nan)
+            anstieg.append(np.maximum(t * d, np.nan_to_num(h0 - n0, nan=t * d)))
+            abfall.append(np.maximum(t * d, np.nan_to_num(n0 - h0, nan=t * d)))
+        h_auf = h.copy()
+        if max_auftrag_m > 0:
+            ober = h + float(max_auftrag_m)
+            for _ in range(max_iter):
+                kand = h_auf
+                for (di, dj, d), e in zip(nach, abfall):
+                    kand = np.maximum(kand, verschiebe(h_auf, di, dj, -np.inf) - e)
+                neu_h = np.where(frei, np.minimum(kand, ober), h)
+                fertig_ = np.abs(neu_h - h_auf).max() < 1e-4
+                h_auf = neu_h
+                if fertig_:
+                    break
+        h_ab = h_auf.copy()
+        if max_abtrag_m > 0:
+            unter = h_auf - float(max_abtrag_m)
+            for _ in range(max_iter):
+                kand = h_ab
+                for (di, dj, d), e in zip(nach, anstieg):
+                    kand = np.minimum(kand, verschiebe(h_ab, di, dj, np.inf) + e)
+                neu_h = np.where(frei, np.maximum(kand, unter), h_auf)
+                fertig_ = np.abs(neu_h - h_ab).max() < 1e-4
+                h_ab = neu_h
+                if fertig_:
+                    break
+        auf = (h_auf - h) > 0.02
+        ab = (h_auf - h_ab) > 0.02
+        self.delta = h_ab - h0
+        self.delta[np.abs(self.delta) < 0.005] = 0.0
+        self.halde = auf | ab
+        self.max_aenderung_m = float(np.abs(self.delta).max()) if self.delta.size else 0.0
+        if self.halde.any():
+            self.protokoll.append("boeschung")
+        return float(auf.sum()) * z * z, float(ab.sum()) * z * z
 
     def leer(self):
         return self.max_aenderung_m < 0.01
