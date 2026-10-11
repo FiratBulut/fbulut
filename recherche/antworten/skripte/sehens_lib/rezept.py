@@ -338,8 +338,10 @@ class OrtKontext:
                        % st.max_aenderung_m)
         sk = st.senken(wasser=self._wasser_maske_fenster(st.fe))
         if sk["flaeche_m2"] > 0:
-            self.melde(WARNUNG, "geschlossene Senke ohne Wasser/Abfluss: %.0f m2, bis %.1f m tief"
-                       % (sk["flaeche_m2"], sk["max_tiefe_m"]))
+            # "senke_begruendung" (optional): gewollte Hohlform ohne Wasser (Gaskrater, Schluckloch, Endpfanne) -> HINWEIS
+            sb = g.get("senke_begruendung")
+            self.melde(HINWEIS if sb else WARNUNG, "geschlossene Senke ohne Wasser/Abfluss: %.0f m2, bis %.1f m tief%s"
+                       % (sk["flaeche_m2"], sk["max_tiefe_m"], (" - gewollt: %s" % sb) if sb else ""))
 
     def _z_spec(self, spec, x, y):
         """Hoehenangabe: Zahl (absolut m) | 'boden' | 'boden+1.5' | 'boden-2' | 'see:<id>' | 'see:<id>+0.5'."""
@@ -1357,6 +1359,10 @@ class OrtKontext:
                         self.melde(st, txt)
                     if e.get("optional"):
                         d["optional"] = True
+                    # eigene Decal-Textur (Wunsch, PNG im Repo) und Hinweise durchreichen (optional)
+                    for k in ("textur", "textur_normal", "hinweis", "wunsch_paket"):
+                        if e.get(k):
+                            d[k] = e[k]
                 else:
                     self.melde(FEHLER, "effekt.typ %r" % t)
                     continue
@@ -1556,7 +1562,7 @@ def materialien_verteilen(kontexte, materialwuensche, inv):
         for st, txt in inv.material_pruefen(mw):
             kontexte[0].melde(st, txt)
         ziel = next((c for c in kontexte if mw["name"] in c.mat_benutzt), kontexte[0])
-        out[ziel.id].append({k: mw[k] for k in ("name", "basis", "parameter", "fuer") if k in mw})
+        out[ziel.id].append({k: mw[k] for k in ("name", "basis", "parameter", "fuer", "texturen", "hinweis") if k in mw})
     if len(materialwuensche) > 6:
         kontexte[0].melde(FEHLER, "%d Materialwuensche > 6 je Biom (§7)" % len(materialwuensche))
     return out

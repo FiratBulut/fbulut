@@ -132,6 +132,8 @@ z. B. Klammachse) · `{"quer": ref, "richtung": rspec, "laenge_m": L}`. Jede Lin
 ≤ 3 m an Wegen und am Bestandswasser – außer `ist_wasser: true` (der Ort IST dieses Wasser, im Radius
 `ist_wasser_r_m`). |Δ| > 40 m ist erlaubt (Ferat 11.10.), braucht aber `begruendung`. Der Planer warnt bei geschlossenen
 Senken ohne Wasser.
+Gewollte Hohlformen ohne Wasser (Gaskrater, Schluckloch, Endpfanne) bekommen `"senke_begruendung": "<Grund>"` im
+`gelaende`-Block – dann meldet der Planer die Senke nur als HINWEIS (Erweiterung, optional).
 
 ### 3.5 Wasser (`wasser`, §5)
 
@@ -250,6 +252,9 @@ Kehren aus Ferats Serpentinen-Werkzeug).
   "credits": "..."}` – ≤ 3 je Ort.
 - `{"typ": "decal", "material": "MI_...", "anzahl", "verteilung", "groesse_m": [tief, b, h], "ausrichtung": "boden"|"wand",
   "blick": rspec}` – ≤ 12 je Ort; Material aus `inventar_extra.json["decal_materialien"]`.
+  Eigene Decal-Textur (Ferat erlaubt, wenn der Katalog sie nennt): Materialwunsch `MI_EL_SW_<Name>` auf `M_MS_Decal`
+  mit `"texturen": {"BaseColorTexture": "<png im Repo>", "NormalTexture": "<..._n.png>"}` (wird nach `orte.json`
+  durchgereicht), Decal mit diesem Material, `"optional": true` (bis Ferat es anlegt) und `"textur"`/`"textur_normal"`.
 - `klaenge`: `{"asset": "CUE_...", "bei", "radius_m", "lautstaerke", "zweck"}` – nur Naturklänge.
 - `freiraeume`: `{"form": "kreis"|"rechteck", "bei", "r_m" | "laenge_m"/"breite_m"/"richtung", "ebenen", "rollen", "grund"}`
   → Hinweis an den Setzer, dort Bestand (Bäume, Sträucher) zu entfernen.
