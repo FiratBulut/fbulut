@@ -126,9 +126,15 @@ class Inventar:
         k = self._name.get(s.lower())
         if k and len(set(k)) == 1:
             return k[0]
+        if k:   # mehrdeutig ohne Gross/Klein (z. B. SM_Big_Rock_01 / SM_Big_rock_01, Inventar 13d): exakter Name zaehlt
+            exakt = sorted({p for p in k if self.netze[p]["name"] == s or _letzter(p) == s})
+            if len(exakt) == 1:
+                return exakt[0]
         return None
 
     def mehrdeutig(self, s):
+        if self.netz_pfad(s) is not None:
+            return False
         k = self._name.get(_letzter(s).lower()) or []
         return len(set(k)) > 1
 
