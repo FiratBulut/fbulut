@@ -25,7 +25,12 @@
     "heute_wegpunkte_sichtbar": 110,
     "ziel_hoehe_m": 22.0,
     "bester_wegpunkt_m": [-1242, -1796],
-    "bester_abstand_m": 496
+    "bester_abstand_m": 496,
+    "mit_pfaden": {
+     "wegpunkte_sichtbar": 143,
+     "wegpunkte_ring_300_800": 180,
+     "naechster_weg_m": 91.8
+    }
    },
    "erreichbar": {
     "erreichbar": false,
@@ -89,7 +94,12 @@
     "heute_wegpunkte_sichtbar": 95,
     "ziel_hoehe_m": 8.0,
     "bester_wegpunkt_m": [-522, -2386],
-    "bester_abstand_m": 501
+    "bester_abstand_m": 501,
+    "mit_pfaden": {
+     "wegpunkte_sichtbar": 172,
+     "wegpunkte_ring_300_800": 350,
+     "naechster_weg_m": 129.3
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -155,7 +165,12 @@
     "heute_wegpunkte_sichtbar": 92,
     "ziel_hoehe_m": 10.0,
     "bester_wegpunkt_m": [-578, -2340],
-    "bester_abstand_m": 497
+    "bester_abstand_m": 497,
+    "mit_pfaden": {
+     "wegpunkte_sichtbar": 113,
+     "wegpunkte_ring_300_800": 246,
+     "naechster_weg_m": 93.1
+    }
    },
    "erreichbar": {
     "erreichbar": false,
@@ -217,7 +232,12 @@
     "heute_wegpunkte_sichtbar": 61,
     "ziel_hoehe_m": 12.0,
     "bester_wegpunkt_m": [-842, -1892],
-    "bester_abstand_m": 495
+    "bester_abstand_m": 495,
+    "mit_pfaden": {
+     "wegpunkte_sichtbar": 74,
+     "wegpunkte_ring_300_800": 267,
+     "naechster_weg_m": 144.8
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -278,7 +298,17 @@
     "verdeckt_heute": true,
     "max_anteil_heute": 0.0,
     "wegpunkte_mit_sicht_heute": 0,
-    "naechste_sicht_heute_m": 0
+    "naechste_sicht_heute_m": 0,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [0, 0.0, 79],
+      [0, 0.0, 78],
+      [0, 0.0, 81],
+      [0, 0.0, 79],
+      [0, 0.0, 79]
+     ],
+     "naechster_weg_m": 184.8
+    }
    },
    "erreichbar": {
     "erreichbar": false,
@@ -360,7 +390,17 @@
     "verdeckt_heute": true,
     "max_anteil_heute": 0.0,
     "wegpunkte_mit_sicht_heute": 0,
-    "naechste_sicht_heute_m": 0
+    "naechste_sicht_heute_m": 0,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [0, 0.0, 86],
+      [0, 0.0, 92],
+      [0, 0.0, 76],
+      [0, 0.0, 89],
+      [0, 0.0, 81]
+     ],
+     "naechster_weg_m": 88.8
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -421,7 +461,17 @@
     "verdeckt_heute": false,
     "max_anteil_heute": 1.0,
     "wegpunkte_mit_sicht_heute": 35,
-    "naechste_sicht_heute_m": 82.3
+    "naechste_sicht_heute_m": 82.3,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [18, 1.0, 87],
+      [28, 1.0, 86],
+      [6, 1.0, 88],
+      [32, 1.0, 86],
+      [1, 0.56, 88]
+     ],
+     "naechster_weg_m": 93.4
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -481,7 +531,17 @@
     "verdeckt_heute": false,
     "max_anteil_heute": 0.7,
     "wegpunkte_mit_sicht_heute": 19,
-    "naechste_sicht_heute_m": 101.1
+    "naechste_sicht_heute_m": 101.1,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [5, 0.82, 86],
+      [15, 1.0, 90],
+      [0, 0.0, 85],
+      [26, 1.0, 81],
+      [0, 0.0, 92]
+     ],
+     "naechster_weg_m": 103.8
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -577,15 +637,12 @@
     [-131500, -219300],
     [-137500, -225300],
     [-137100, -225300],
-    [-138700, -226900],
-    [-137100, -229700],
-    [-143100, -235700],
-    [-141089, -237710]
+    [-138562, -226762]
    ],
    "anschluss": "Weg westlich von Kharad-Vor (X -1419 / Y -2165, ausserhalb des Stadtrands); quert den Ruecken nach Norden",
    "fuer": ["tundra_05_der_trunkene_grund"],
-   "laenge_m": 454.4,
-   "rest_trampelspur_m": 92.0,
+   "laenge_m": 306.9,
+   "rest_trampelspur_m": 185.0,
    "max_steigung_grad": 26.3,
    "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug",
    "bodenlage": "Erde/Kies-Band 1,2-2 m"

@@ -1,7 +1,7 @@
 # Tundra – 8 Sehenswürdigkeiten (Auftrag 13, Phase 1, Biom-Agent B5)
 
 Stand 11.10.2026 · Daten: `vorlagen/daten/sehens` (2 m) · Werkzeuge: `antworten/skripte/sehens_lib` (Cache, `sicht.py`, `kandidaten.py`)
-· Dateien: `standorte.json` (8 Orte + 4 Pfade, Prüfer **0 FEHLER**), `asset_bedarf.json`, `<id>.png` je Ort (Draufsicht 2 m mit
+· Dateien: `standorte.json` (8 Orte + 4 Pfade im 13c-Schema, Prüfer **0 FEHLER** für tundra; einzige Warnung: Pfad 05 streift den Rand von Kharad-Vor), `asset_bedarf.json`, `<id>.png` je Ort (Draufsicht 2 m mit
 geplantem Geländestempel, Elementen, Zugang, Kameras). Inventar: Stand 13b (1 692 Netze, Megascans Eis/Schnee vorhanden).
 
 ## Das Biom in Zahlen – und was daraus folgt
@@ -35,18 +35,18 @@ Schichteis aus Grundwasser im Talboden) – **Ferat bitte bestätigen**.
 **Sichtmessung:** `sicht.py`, Wegpunkte alle 20 m, Gelände + `baumhoehe_4m`, **mit dem geplanten Stempel** (Kopie der Höhe; geplante
 Gebüsch-Säume als 4-m-Baumzellen). Leuchtfeuer: Wegpunkte im Ring 300–800 m, die ≥ 30 % der Silhouette sehen. Fundstück: Kern +
 4 Proben im Abstand r/3, Ziel 0,6–1,5 m, alle Wegpunkte ≤ 400 m, verdeckt = Anteil ≤ 0,15. Kameras nach §8 (13:00): `_anmarsch`/`_nah`
-Hoch −170, echtes Ziel; Kameras im Wasser automatisch ans Ufer verschoben.
+Hoch −170, echtes Ziel; Kameras im Wasser automatisch ans Ufer verschoben. Zweiter Durchgang **mit allen Pfaden als Wege** (wie der Prüfer): Leuchtfeuer sehen dann mehr Wegpunkte (Pingo 143/189, Wanderer 172/359, Eiswand 113/246, Fließtreppe 74/267); Werte in `standorte.json → sicht.mit_pfaden`.
 
 ## Übersicht
 
 | ID | Name | Art | Form | Feld | X / Y (m) | Weg | Sicht/Verdeckung (mit Stempel) | Pfad |
 |---|---|---|---|---|---|---|---|---|
-| tundra_01_der_pingo | Der Eisbuckel | Leuchtfeuer | Pingo mit Gipfelkrater und Eislinse | C3 | −1736 / −1842 | 153 m | 110 von 129 Wegpunkten, bis 798 m | Trittsteine 173 m |
+| tundra_01_der_pingo | Der Eisbuckel | Leuchtfeuer | Pingo mit Gipfelkrater und Eislinse | C3 | −1736 / −1842 | 153 m | 110 von 129 Wegpunkten, bis 798 m | Trittsteine 63 m |
 | tundra_02_der_wanderer | Der Wanderer | Leuchtfeuer | Findling (Erratiker) auf Rundhöcker im Flechtenteppich | D2 | −968 / −2158 | 129 m | 95 von 175, bis 796 m | – |
-| tundra_03_die_eiswand | Die Eiswand | Leuchtfeuer | Auftaurutschung mit Grundeis-Kopfwand | E3 | −530 / −1845 | 195 m | 87 von 159, bis 699 m | Trampelpfad 209 m |
+| tundra_03_die_eiswand | Die Eiswand | Leuchtfeuer | Auftaurutschung mit Grundeis-Kopfwand | E3 | −530 / −1845 | 195 m | 87 von 159, bis 699 m | Trampelpfad 110 m |
 | tundra_04_die_fliesstreppe | Die Fließtreppe | Leuchtfeuer | Solifluktionsloben + Schneeflecken | E2 | −450 / −2195 | 145 m | 62 von 100, bis 625 m | – |
-| tundra_05_der_trunkene_grund | Der Trunkene Grund | Fundstück | Thermokarstsee, Palsen, kippender Wald | D2 | −1355 / −2450 | 280 m | verdeckt (5/5 Proben, 0 von 15–17) | Serpentine 449 m |
-| tundra_06_das_aufeis | Das Aufeis | Fundstück | geschichtetes Aufeis im Schluchtboden | C2 | −1760 / −2235 | 296 m | verdeckt (5/5 Proben, 0 von 22–32) | Serpentine 379 m |
+| tundra_05_der_trunkene_grund | Der Trunkene Grund | Fundstück | Thermokarstsee, Palsen, kippender Wald | D2 | −1355 / −2450 | 280 m | verdeckt (5/5 Proben, 0 von 15–17; mit Pfad 0 von 78–81) | Serpentine 307 m |
+| tundra_06_das_aufeis | Das Aufeis | Fundstück | geschichtetes Aufeis im Schluchtboden | C2 | −1760 / −2235 | 296 m | verdeckt (5/5 Proben, 0 von 22–32; mit Pfad 0 von 82–101) | Serpentine 281 m |
 | tundra_07_die_steinringe | Die Steinringe | Fundstück | sortierte Steinringe im Flechtenteppich, Eisschubwall | D3 | −1412 / −1630 | 93 m | teilweise (s. u.) | – |
 | tundra_08_das_wabenmoor | Das Wabenmoor | Fundstück | Eiskeil-Polygonmoor an der Flussmündung | D3 | −924 / −1738 | 104 m | Kern 3 von 80 (Anteil 0,25), 2/5 Proben verdeckt | – |
 
@@ -68,7 +68,7 @@ Stadtrand Aufstiegsweg 205 m, 278 m im Biom.
 **Sicht:** Silhouette 22 m: **110 von 129** Wegpunkten im Ring 300–800 m sehen ≥ 30 % (Mittel 0,79), lesbar bis 798 m; heute schon 110.
 `_fern` vom Küstenweg bei X −1242 / Y −1796 (496 m).
 **Komposition und Anmarsch:** Vom Weg östlich des Zopfstroms steht der Buckel als glatte Halbkugel vor dem Meer. Zugang 173 m, quert die
-Flussrinnen (10 m Wasser) → **Pfad `tundra_pfad_der_pingo` (Trittsteine)**, max. 24,3° am Hügelfuß → kurze Kehren. `_held` vom
+Flussrinnen (10 m Wasser) → **Pfad `tundra_pfad_der_pingo` (Trittsteine, 63 m inkl. Furt; letzte 92 m Trampelspur)**, max. 24,3° am Hügelfuß → kurze Kehren. `_held` vom
 Ostufer: Vordergrund Kiesbank und Flussarme, Mitte der Buckel, Blickziel der Eisriss gegen den Himmel.
 **Detail-Ebenen:** Held 1 – der Hügel selbst (Gelände) + Eislinse im Nordriss (`vd4hbizcb_tier_0`, `vd5leh0ga_tier_0` aus Megascans
 Eis/Schnee, 40 % eingegraben, quer liegend). Begleiter 3–5 – abgerutschte Torfschollen am Kraterrand (`SM_MossyEmbankment_01/02`,
@@ -128,8 +128,8 @@ Abbruchkanten der Sturmküste (DA:I), Velen-Lehmufer (The Witcher 3).
 Hang bis 72° an der Seeseite; Wiese 48 %, Heide 27 %; Meer 34 m, Weg 195 m (Küstenweg Ost), 34 m innerhalb der Biomgrenze (Rechteck).
 **Sicht:** Ziel 10 m: **87 von 159** Wegpunkten (Mittel 0,55), bis 699 m; `_fern` vom Gletscherweg X −578 / Y −2340 (497 m) – man blickt
 von oben in die helle Wand.
-**Komposition und Anmarsch:** Zugang 209 m über die Wiese, quert 8 m Rinnsal → **Pfad `tundra_pfad_die_eiswand` (Trampelpfad,
-Trittsteine am Bach)**. `_held` 40 m südwestlich im Kessel, Blick nach Nordosten auf die Wand, Schlammzungen im Vordergrund.
+**Komposition und Anmarsch:** Zugang 209 m über die Wiese, quert 8 m Rinnsal → **Pfad `tundra_pfad_die_eiswand` (Trampelpfad 110 m,
+Trittsteine am Bach; letzte 92 m Trampelspur)**. `_held` 40 m südwestlich im Kessel, Blick nach Nordosten auf die Wand, Schlammzungen im Vordergrund.
 **Detail-Ebenen:** Held – Kopfwand aus `uhprdg2fa_tier_0`, `veipbcmcb_tier_0`, `vdsrdd0fa_tier_0` (Ice Cliff, vorhanden) in Bändern,
 dazwischen Torflagen `SM_beach_escarpment_01_A/B/C` mit `MI_EL_SW_Grundeis` im unteren Drittel. Begleiter 6–8 – Eiskeile als senkrechte
 Keile (`uhpocesfa_tier_0`, `vd4hbizcb_tier_0`), abgekippte Sodenblöcke (`SM_MossyEmbankment_01/02`, `SM_GrassyEmbankment_01/02`).
@@ -183,7 +183,8 @@ stehen schief, als wären sie betrunken – manche lehnen 30° zur Seite, einige
 **Standort:** D2, X −1355 / Y −2450 m, Boden 161,9 m. Nordschulter, flache Dellung (TPI100 −6,5 m, Relief 14 m), Wiese/Trockengras/Heide
 je ~ ⅓, **193 Baumzellen** im 40-m-Radius (vorhandener Saum). Weg 280 m (Weg um Kharad-Vor, südlich über den Rücken), Stadtrand 234 m.
 **Verdeckung:** Kern + 4 Proben (r 18 m), Ziel 1,5 m: **alle verdeckt**, 0 von 15–17 Wegpunkten ≤ 400 m sehen etwas (Rücken dazwischen).
-**Komposition und Anmarsch:** **Pfad `tundra_pfad_der_trunkene_grund` (Serpentine, 449 m, max. 26° → Kehren)** vom Weg über den Rücken;
+**Komposition und Anmarsch:** **Pfad `tundra_pfad_der_trunkene_grund` (Serpentine 307 m, max. 26° → Kehren)** vom Weg westlich Kharad-Vor über
+den Rücken; er endet 185 m vor dem See hinter der Kuppe (mit Pfad weiter 0 Sichtpunkte), die letzte Strecke ist Trampelspur –
 der See öffnet sich erst an der Kante (Kamera `_anmarsch`). `_held` vom Westufer, Blick nach Osten durch zwei schiefe Stämme.
 **Detail-Ebenen:** Held – See + Baumgruppe: `Fir_02_Small`, `Fir_03_Medium`, `SM_Forest_pine_01` mit Neigung 10–35° (Akteure, Richtung
 zum See), tot im Wasser `Fir_08_Dead_NoBillboard`, `SM_Forest_pine_10_dead`, `SM_DeadTree_01`. Begleiter 3 – Palsen (Gelände) mit
@@ -208,7 +209,7 @@ gefriert Schicht um Schicht. Unterhalb ein Kiesfächer, auf dem das Eis in Schol
 **Standort:** C2, X −1760 / Y −2235 m (Ostflanke; Talboden 20 m westlich bei 42–44 m, dort 25 m breit). Schlucht/Kessel, TPI100 −20 m,
 Relief 52 m, Geröll 25 %. Weg 296 m (Weg Ost), Stadtrand 359 m.
 **Verdeckung:** 5/5 Proben verdeckt, 0 von 22–32 Wegpunkten (Schluchtwände).
-**Komposition und Anmarsch:** Zugang 379 m (max. 24,7°) → **Pfad `tundra_pfad_das_aufeis` (Serpentine, Kehren hinab in die Schlucht)**.
+**Komposition und Anmarsch:** Zugang 379 m (max. 24,7°) → **Pfad `tundra_pfad_das_aufeis` (Serpentine 281 m bis zur Schluchtkante, dann 92 m Trampelspur mit Kehren hinab)**.
 `_anmarsch` an der Schluchtkante: Blick hinunter auf das weiße Band. `_held` vom Westhang talab, `_nah` an der Eisstufe.
 **Detail-Ebenen:** Held – Eisdecke aus `vd5leh0ga_tier_0`, `uhpocesfa_tier_0`, `vdsrdd0fa_tier_0` (Ice Cliff, vorhanden) flach gelegt,
 Stufenkanten `SM_SmoothRockShelf_01`/`SM_ForestRockSlab_01`/`SM_ForestRockShelf_01` mit `MI_EL_SW_Aufeis`. Begleiter 4–6 – Eisschollen
@@ -259,8 +260,8 @@ ein Bienenwabenmuster – vom Rand aus sieht man Spiegel neben Spiegel.
 **Vorbild:** Eiskeil-Polygone im Lena-Delta und bei Barrow (Alaska); Spiel: keines.
 **Standort:** D3, X −924 / Y −1738 m, Boden 5,0 m. Uferterrasse an der Flussmündung (Wasser 30 m, Meer 35 m), Wiese 41 %, Heide 24 %,
 Kies 17 %. Weg 104 m (Küstenweg), 36 m im Biom.
-**Verdeckung:** Kern **3 von 80** Wegpunkten (max. Anteil 0,25), West- und Nordprobe verdeckt, Ost/Süd-Proben vom höheren Küstenweg
-sichtbar (9 bzw. 20, nächster 127 m). Rahmen: Uferweiden-Saum 2,5 m auf der Böschungskante (geplant, als 4-m-Baumzellen gerechnet).
+**Verdeckung:** ohne Pfade Kern **3 von 80** Wegpunkten (max. Anteil 0,25), West- und Nordprobe verdeckt, Ost/Süd-Proben vom höheren
+Küstenweg sichtbar (9 bzw. 20, nächster 127 m); mit Pfaden Kern 5 von 86 (0,82), Ost 15, Süd 26. Rahmen: Uferweiden-Saum 2,5 m auf der Böschungskante (geplant, als 4-m-Baumzellen gerechnet).
 **Komposition und Anmarsch:** Zugang 108 m ohne Pfadbau (max. 23°) durch die Böschung; die Waben zeigen sich erst von der Kante.
 `_held` auf der Böschung Nordost, Blick schräg über die Waben zur Mündung.
 **Detail-Ebenen:** Held – Wabenfeld (Phase 2: Voronoi auf 1 m, Rand +0,4 m, Mitte −0,3 m). Begleiter – 9 Tümpel. Schutt –
@@ -277,17 +278,18 @@ Budget: ~6 000 Instanzen (200 Kollision), 0 Akteure, 0 Lichter, 0 Niagara, 9 Was
 
 ---
 
-## Pfade (`standorte.json → pfade`)
+## Pfade (`standorte.json → pfade`, Schema 13c)
 
-| ID | Art | Länge | max. Steigung | Anschluss | Hinweis |
-|---|---|---|---|---|---|
-| tundra_pfad_der_pingo | Trittsteine | 173 m | 24,3° | Weg westlich des Zopfstroms | 10 m Furt → Trittsteine; am Hügelfuß Kehren |
-| tundra_pfad_die_eiswand | Trampelpfad | 209 m | 18,3° | Küstenweg Ost | 8 m Bach → Trittsteine |
-| tundra_pfad_der_trunkene_grund | Serpentine | 449 m | 26,3° | Weg um Kharad-Vor | über den Rücken, Kehren nötig |
-| tundra_pfad_das_aufeis | Serpentine | 379 m | 24,7° | Weg Ost | Kehren hinab in die Schlucht |
+| ID | Art | Länge (gebaut) | Rest als Trampelspur | max. Steigung (ganze Route) | Anschluss | Hinweis |
+|---|---|---|---|---|---|---|
+| tundra_pfad_der_pingo | Trittsteine | 63 m | 92 m | 24,3° | Weg westlich des Zopfstroms (X −1583 / Y −1859) | Furt 10 m → Trittsteine; am Hügelfuß Kehren |
+| tundra_pfad_die_eiswand | Trampelpfad | 110 m | 92 m | 18,3° | Küstenweg Ost (X −697 / Y −1941) | 8 m Bach → Trittsteine |
+| tundra_pfad_der_trunkene_grund | Serpentine | 307 m | 185 m | 26,3° | Weg westlich Kharad-Vor (X −1419 / Y −2165, außerhalb des Stadtrands) | streift den Stadtkreis (Prüfer-WARNUNG); Kehren |
+| tundra_pfad_das_aufeis | Serpentine | 281 m | 92 m | 24,7° | Weg Ost (X −1547 / Y −1967) | Kehren hinab in die Schlucht |
 
-Alle als Erde/Kies-Band 1,5 m; Punktliste = Rohlinie aus `kandidaten.erreichbarkeit` (4-m-Raster) – Kehren und ≤ 15 % rechnet euer
-Serpentinen-Werkzeug.
+Pfade zählen beim Prüfer als Wege. Deshalb **endet jeder Pfad vor dem Ort** (92 m bzw. beim Trunkenen Grund 185 m hinter der Kuppe, damit
+der See verdeckt bleibt); die Reststrecke ist eine Trampelspur (Bodenlage Erde, kein Weg). Band 1,5 m Erde/Kies; Punktliste = Rohlinie aus
+`kandidaten.erreichbarkeit` (4-m-Raster, Wege in Städten ausgeblendet) – Kehren und ≤ 15 % rechnet euer Serpentinen-Werkzeug.
 
 ## Offene Fragen an Ferat
 

@@ -25,7 +25,12 @@
     "heute_wegpunkte_sichtbar": 116,
     "ziel_hoehe_m": 12.0,
     "bester_wegpunkt_m": [1598, 56],
-    "bester_abstand_m": 501
+    "bester_abstand_m": 501,
+    "mit_pfaden": {
+     "wegpunkte_sichtbar": 119,
+     "wegpunkte_ring_300_800": 183,
+     "naechster_weg_m": 84.1
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -84,7 +89,12 @@
     "heute_wegpunkte_sichtbar": 38,
     "ziel_hoehe_m": 4.0,
     "bester_wegpunkt_m": [2086, 156],
-    "bester_abstand_m": 500
+    "bester_abstand_m": 500,
+    "mit_pfaden": {
+     "wegpunkte_sichtbar": 38,
+     "wegpunkte_ring_300_800": 252,
+     "naechster_weg_m": 155.2
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -134,7 +144,12 @@
     "heute_wegpunkte_sichtbar": 70,
     "ziel_hoehe_m": 6.0,
     "bester_wegpunkt_m": [1986, 340],
-    "bester_abstand_m": 431
+    "bester_abstand_m": 431,
+    "mit_pfaden": {
+     "wegpunkte_sichtbar": 82,
+     "wegpunkte_ring_300_800": 328,
+     "naechster_weg_m": 197.9
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -196,7 +211,17 @@
     "verdeckt_heute": false,
     "max_anteil_heute": 1.0,
     "wegpunkte_mit_sicht_heute": 4,
-    "naechste_sicht_heute_m": 282.6
+    "naechste_sicht_heute_m": 282.6,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [0, 0.0, 115],
+      [0, 0.13, 117],
+      [0, 0.06, 121],
+      [0, 0.0, 116],
+      [0, 0.0, 122]
+     ],
+     "naechster_weg_m": 204.9
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -262,7 +287,17 @@
     "verdeckt_heute": false,
     "max_anteil_heute": 1.0,
     "wegpunkte_mit_sicht_heute": 18,
-    "naechste_sicht_heute_m": 85.2
+    "naechste_sicht_heute_m": 85.2,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [0, 0.0, 109],
+      [14, 0.6, 109],
+      [0, 0.0, 109],
+      [0, 0.0, 108],
+      [0, 0.0, 108]
+     ],
+     "naechster_weg_m": 92.6
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -323,7 +358,17 @@
     "verdeckt_heute": false,
     "max_anteil_heute": 1.0,
     "wegpunkte_mit_sicht_heute": 59,
-    "naechste_sicht_heute_m": 102.0
+    "naechste_sicht_heute_m": 102.0,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [0, 0.0, 124],
+      [40, 1.0, 124],
+      [1, 0.28, 127],
+      [0, 0.0, 125],
+      [0, 0.0, 125]
+     ],
+     "naechster_weg_m": 115.2
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -385,7 +430,17 @@
     "verdeckt_heute": false,
     "max_anteil_heute": 1.0,
     "wegpunkte_mit_sicht_heute": 13,
-    "naechste_sicht_heute_m": 99.8
+    "naechste_sicht_heute_m": 99.8,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [0, 0.0, 46],
+      [3, 0.62, 47],
+      [0, 0.0, 45],
+      [0, 0.0, 47],
+      [7, 1.0, 45]
+     ],
+     "naechster_weg_m": 84.9
+    }
    },
    "erreichbar": {
     "erreichbar": true,
@@ -446,7 +501,17 @@
     "verdeckt_heute": false,
     "max_anteil_heute": 1.0,
     "wegpunkte_mit_sicht_heute": 40,
-    "naechste_sicht_heute_m": 98.2
+    "naechste_sicht_heute_m": 98.2,
+    "mit_pfaden": {
+     "probe_kern_ost_west_sued_nord": [
+      [0, 0.0, 72],
+      [0, 0.0, 75],
+      [1, 0.28, 70],
+      [0, 0.0, 74],
+      [0, 0.0, 69]
+     ],
+     "naechster_weg_m": 111.1
+    }
    },
    "erreichbar": {
     "erreichbar": true,

@@ -1,7 +1,7 @@
 # Heide – 8 Sehenswürdigkeiten (Auftrag 13, Phase 1, Biom-Agent B5)
 
 Stand 11.10.2026 · Daten: `vorlagen/daten/sehens` (2 m) · Werkzeuge: `antworten/skripte/sehens_lib` · Dateien: `standorte.json`
-(8 Orte + 1 Pfad, Prüfer **0 FEHLER**), `asset_bedarf.json`, `<id>.png` je Ort (Draufsicht mit geplantem Stempel, Elementen, Kameras).
+(8 Orte, keine Pfade nötig, Prüfer **0 FEHLER** für heide), `asset_bedarf.json`, `<id>.png` je Ort (Draufsicht mit geplantem Stempel, Elementen, Kameras).
 Inventar: Stand 13b (1 692 Netze).
 
 ## Das Biom in Zahlen – und was daraus folgt
@@ -173,8 +173,8 @@ Wollsäcken fällt er insgesamt 4 m in eine klare Gumpe; Gischt netzt Farne und 
 (Gefälle 19 → 13 m auf 130 m), Weg 115 m.
 **Verdeckung:** Klamm −3,5 m + Wollsack-Ufer West +1,8 m + Ebereschen am Klammkopf, Erlen am Ausgang: **Kern, Süd- und Nordprobe
 verdeckt**, Westprobe 1 Wegpunkt (0,28); Ostprobe auf der Rippenkante 40 Wegpunkte (die Rippe selbst ist heute schon sichtbar).
-**Komposition und Anmarsch:** **Pfad `heide_pfad_der_wollsackfall` (Trittsteine, 130 m, max. 31,7° auf 4 m → Steinstufen)** vom Weg Nord in
-die Klamm. `_held` von unten auf der Kiesbank, Blick bachauf auf die drei Stufen.
+**Komposition und Anmarsch:** Zugang 130 m vom Weg Nord ohne Pfadbau (max. 31,7° nur auf 4 m am Klammrand → 5–6 Steinstufen
+`SM_flat_rock_03` als Instanzen, kein Pfad nötig). `_held` von unten auf der Kiesbank, Blick bachauf auf die drei Stufen.
 **Detail-Ebenen:** Held – Fallstufen aus `SM_mountain_rock_big_02_1/_6`, `SM_Big_Rock_03` quer im Bett. Begleiter 5–8 – Wollsäcke
 `SM_Middle_Rock_01`, `SM_Rock_01/05`, `SM_MossyForestBoulder_04`, `SM_MossyForestRock_02`. Schutt 60–100 – Bachkiesel `SM_stones_01_2/_4`,
 `SM_DryRiverBed_01`. Kleinzeug – Laub `SM_detail_leaves_02`, Wurzeln `SM_Pine_roots_02`. Bewuchs nach Ursache – Spritzzone: Farne
@@ -235,13 +235,10 @@ Budget: ~6 000 Instanzen (200 Kollision), 15 Akteure, 0 Lichter, 0 Niagara, 4 De
 
 ---
 
-## Pfade (`standorte.json → pfade`)
+## Pfade
 
-| ID | Art | Länge | max. Steigung | Anschluss | Hinweis |
-|---|---|---|---|---|---|
-| heide_pfad_der_wollsackfall | Trittsteine | 130 m | 31,7° (4 m) | Weg Nord (X 1511 / Y 45) | Steinstufen in die Klamm |
-
-Alle anderen Heide-Orte sind ohne Pfad erreichbar (max. 11–25°, `erreichbar.modus = streng`).
+Keine. Alle Heide-Orte liegen 84–205 m von bestehenden Wegen und sind ohne Pfadbau erreichbar (`erreichbar.modus = streng`, max. 11–25°;
+Wollsackfall nur 4 m mit 31,7° → Steinstufen als Instanzen). `standorte.json` enthält `"pfade": []`.
 
 ## Offene Fragen an Ferat
 
