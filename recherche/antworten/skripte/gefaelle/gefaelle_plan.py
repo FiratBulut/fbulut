@@ -1398,8 +1398,10 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
                     Bw[m] = np.maximum(Bw[m], z["sohle"])
                     winkel[m] = np.maximum(winkel[m], 85.0)
                 else:
-                    winkel[m] = np.maximum(winkel[m], 0.5 * sum(wv["neigung"]) if z["grund"].startswith("Ufer")
-                                           else 0.5 * sum(gr.formel("0", ) or [70.0, 90.0]) if False else 80.0)
+                    wn = rw.r["faelle"].get("wand_neigung") or {"min": 70, "max": 90}
+                    w_ = 0.5 * sum(wv["neigung"]) if z["grund"].startswith("Ufer") else \
+                        0.5 * (float(wn["min"]) + float(wn["max"]))
+                    winkel[m] = np.maximum(winkel[m], min(w_, 85.0))
                 wandzonen.append(dict(z, a=c0b, b=c1, z_wasser=float(spiegel_bei(sp, c0b + 0.5)),
                                       nr=len(wandzonen)))
     # Breite glatt (Uebergaenge 3 m), dann Versatz der Waende
@@ -1584,3 +1586,209 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
 def hash_stabil(*teile):
     import zlib
     return zlib.crc32("|".join(str(t) for t in teile).encode("utf-8"))
+
+
+# ======================================================================================================================
+# Testbild: Draufsicht (sehens_lib.vorschau) + Laengsprofil vorher/nachher
+# ======================================================================================================================
+def testbild(kx, K, pr, sp, plan, pfad):
+    from PIL import Image, ImageDraw
+    from sehens_lib import vorschau, zeichnen as zz
+    ctx = kx["ctx"]
+    sid = kx["strecke"]
+    # Wasser fuer die Draufsicht: neue Flussstuecke als Linien, Effekte, Kameras der Strecke
+    ctx.wasser = [{"typ": "bach", "punkte_cm": [p_[:4] for p_ in fs["punkte"]]} for fs in plan["flussstuecke"]]
+    ctx.effekte = [e for e in plan["effekte"] if e["stufe"] in {s_["id"] for s_ in kx["stufen"]}]
+    ctx.st["kameras"] = [k for k in plan["kameras"] if k[6].startswith(sid + "_") and "nachher" in k[6]]
+    ab = next(a for a in plan["abschnitte"] if a["id"] == kx["id"])
+    ctx.eintrag = {"budget": ab["budget"], "detail_ebenen": {k: {"anzahl": v, "netze": {}} for k, v in ab["detail_ebenen"].items()}}
+    x0, y0, x1, y1 = ctx.stempel.fe.grenzen_m()
+    ctx.mx, ctx.my = 0.5 * (x0 + x1), 0.5 * (y0 + y1)
+    tmp = pfad + ".draufsicht.png"
+    vorschau.vorschau(ctx, tmp, groesse_m=min(600.0, max(x1 - x0, y1 - y0)), breite_px=900)
+    top = Image.open(tmp).convert("RGB")
+    os.remove(tmp)
+    # Laengsprofil
+    W = top.size[0]
+    H = 360
+    img = Image.new("RGB", (W, H), (22, 22, 26))
+    dr = ImageDraw.Draw(img)
+    a = min(sg[0] for sg in kx["segs"]) - 15.0
+    b = max(sg[1] for sg in kx["segs"]) + 15.0
+    a, b = max(0.0, a), min(pr.s[-1], b)
+    ss = np.arange(a, b, 0.5)
+    xs, ys = np.interp(ss, pr.s, pr.x), np.interp(ss, pr.s, pr.y)
+    g_alt = K["welt"].hoehe_bei_m(xs, ys)
+    g_neu = ctx.stempel.hoehe_bei_m(xs, ys)
+    z_alt = np.interp(ss, pr.s, pr.z0)
+    z_neu = spiegel_bei(sp, ss)
+    zmin, zmax = float(min(g_neu.min(), z_neu.min())) - 2, float(max(g_alt.max(), z_alt.max())) + 2
+    L, R, T, Bm = 60, W - 20, 30, H - 40
+
+    def P(s_, z_):
+        return L + (s_ - a) / max(b - a, 1e-6) * (R - L), Bm - (z_ - zmin) / max(zmax - zmin, 1e-6) * (Bm - T)
+    f = zz._font(12)
+    for zl in np.arange(math.ceil(zmin / 5) * 5, zmax, 5 if zmax - zmin < 80 else 20):
+        dr.line([P(a, zl), P(b, zl)], fill=(50, 50, 56))
+        dr.text((4, P(a, zl)[1] - 7), "%.0f m" % zl, fill=(150, 150, 150), font=f)
+    dr.line([P(s_, z_) for s_, z_ in zip(ss, g_alt)], fill=(140, 110, 80), width=1)
+    dr.line([P(s_, z_) for s_, z_ in zip(ss, g_neu)], fill=(200, 160, 110), width=2)
+    dr.line([P(s_, z_) for s_, z_ in zip(ss, z_alt)], fill=(150, 150, 150), width=2)
+    dr.line([P(s_, z_) for s_, z_ in zip(ss, z_neu)], fill=(60, 150, 255), width=3)
+    for e in kx["stufen"]:
+        px, py = P(e["p"], e["u"])
+        c = {"fall": (255, 80, 80), "kaskade": (255, 170, 40), "stufe": (250, 230, 60), "schnelle": (120, 220, 255)}[e["art"]]
+        dr.line([(px, py - 4), (px, py - 14)], fill=c, width=2)
+        if e["D"] >= 2.0:
+            dr.text((px + 2, py - 28), "%.1f" % e["D"], fill=c, font=f)
+    for fs in plan["flussstuecke"]:
+        s_a = fs["s_m"][0]
+        if a <= s_a <= b:
+            px, py = P(s_a, fs["spiegel_m"][0])
+            dr.line([(px, Bm + 4), (px, Bm + 12)], fill=(60, 150, 255), width=2)
+    leg = [("Gelaende alt", (140, 110, 80)), ("Gelaende neu", (200, 160, 110)), ("Spiegel alt", (150, 150, 150)),
+           ("Spiegel neu", (60, 150, 255)), ("Fall", (255, 80, 80)), ("Kaskade", (255, 170, 40)),
+           ("Blockstufe", (250, 230, 60)), ("Schnelle", (120, 220, 255))]
+    xl = L
+    for t, c in leg:
+        dr.rectangle([xl, 8, xl + 10, 18], fill=c)
+        dr.text((xl + 14, 6), t, fill=(220, 220, 220), font=f)
+        xl += 14 + 8 * len(t) + 14
+    st = next(x for x in plan["strecken"] if x["id"] == sid)
+    dr.text((L, H - 22), "%s  Laengsprofil s %.0f-%.0f m  |  %s  |  Fall %.1f m, gestuft %.1f m  |  Arten %s" % (
+        kx["id"], a, b, st["status"], st["fall_m"], st.get("fall_gestuft_m", 0),
+        ", ".join("%s %d" % (k, v) for k, v in (st.get("arten") or {}).items() if v)), fill=(230, 230, 230), font=f)
+    out = Image.new("RGB", (W, top.size[1] + H), (22, 22, 26))
+    out.paste(top, (0, 0))
+    out.paste(img, (0, top.size[1]))
+    os.makedirs(os.path.dirname(os.path.abspath(pfad)), exist_ok=True)
+    out.save(pfad, optimize=True)
+    return pfad
+
+
+# ======================================================================================================================
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="Planer steile Strecken (Auftrag 15)")
+    ap.add_argument("--laeufe", nargs="+", default=None, help="Lauf-IDs (Bach/Fluss), alle ihre Strecken")
+    ap.add_argument("--strecken", nargs="+", default=None, help="Strecken-IDs <lauf>_s<k> (nur diese)")
+    ap.add_argument("--alle", action="store_true", help="alle 161 Strecken")
+    ap.add_argument("--aus", default=None, help="Ausgabeordner (Standard <basis>/export/unreal/welt/gefaelle)")
+    ap.add_argument("--basis", default=".", help="production-Wurzel (1-m-Daten in export/unreal/welt)")
+    ap.add_argument("--regeln", default=gr.REGELN_STANDARD)
+    ap.add_argument("--prioritaet", default=os.path.join(gd.ANTWORTEN, "gefaelle", "prioritaet.json"))
+    ap.add_argument("--strecken-datei", default=gd.STRECKEN_STANDARD)
+    ap.add_argument("--sehens", default=gd.SEHENS_STANDARD)
+    ap.add_argument("--p2", default=gd.P2_STANDARD, help="Sehens-Planausgaben (<p2>/<biom>/orte.json)")
+    ap.add_argument("--baeche", default=None, help="baeche_alle.json (Standard: Daten-Ordner bzw. vorlagen/daten/sehens)")
+    ap.add_argument("--inventar", default=None)
+    ap.add_argument("--bild", action="store_true", help="test_<strecke>.png je Pilot-Strecke")
+    ap.add_argument("--bild-ordner", default=None, help="Standard: <aus>/<lauf>/")
+    ap.add_argument("--ohne-pruefung", action="store_true")
+    from sehens_lib import daten
+    daten.argumente_hinzufuegen(ap)
+    a = ap.parse_args(argv)
+    T0 = time.perf_counter()
+    from sehens_lib import gelaende, inventar, sicht
+    try:
+        rw = gr.Regelwerk.lade(a.regeln)
+    except (FileNotFoundError, gr.RegelFehler) as ex:
+        _log("FEHLER:", ex)
+        return 2
+    try:
+        inv = inventar.Inventar.lade(a.inventar)
+    except FileNotFoundError as ex:
+        _log("FEHLER:", ex)
+        return 2
+    daten1m = a.daten1m
+    if not a.daten2m and not daten1m:
+        daten1m = os.path.join(a.basis, "export", "unreal", "welt")
+        if not os.path.isdir(daten1m):
+            _log("FEHLER: weder --daten2m noch 1-m-Daten (%s)" % daten1m)
+            return 2
+    try:
+        welt = daten.lade(a.daten2m, daten1m, pfade=a.sehens)
+    except (FileNotFoundError, ValueError) as ex:
+        _log("FEHLER: Daten:", ex)
+        return 2
+    gel = gelaende.Gelaende(welt, cache=a.cache)
+    _log(welt.info(), "| Regelwerk v%s (%s)" % (rw.version, rw.stand))
+    # Baeche: baeche_alle.json (R1+R2+R3, IDs wie steile_strecken.json)
+    bpfad = a.baeche
+    if not bpfad:
+        for c in ([os.path.join(daten1m, "baeche", "baeche_alle.json")] if daten1m else []) + \
+                [os.path.join(a.daten2m or gd.DATEN2M_STANDARD, "baeche_alle.json"), os.path.join(gd.DATEN2M_STANDARD, "baeche_alle.json")]:
+            if os.path.exists(c):
+                bpfad = c
+                break
+    baeche = gd.lese_json(bpfad)["baeche"] if bpfad else welt.baeche
+    aus = os.path.abspath(a.aus or os.path.join(a.basis, "export", "unreal", "welt", "gefaelle"))
+    prio = {}
+    pilot = []
+    if os.path.exists(a.prioritaet):
+        pd_ = gd.lese_json(a.prioritaet)
+        prio = {e["id"]: e for e in pd_["strecken"]}
+        pilot = pd_.get("pilot", [])
+    else:
+        _log("WARNUNG: Prioritaetenliste fehlt (%s) - alle Strecken 'offen', keine Pilot-Kameras" % a.prioritaet)
+    strecken, _ = gd.lade_strecken(a.strecken_datei, welt, baeche, welt.wasser_welt)
+    if a.strecken:
+        ziel = [x for x in strecken if x["id"] in a.strecken]
+    elif a.laeufe:
+        ziel = [x for x in strecken if x["lauf"] in a.laeufe]
+    elif a.alle:
+        ziel = strecken
+    else:
+        ziel = [x for x in strecken if x["id"] in pilot]
+    if not ziel:
+        _log("FEHLER: keine Strecken gewaehlt")
+        return 2
+    laeufe = []
+    for x in ziel:
+        if x["lauf"] not in laeufe:
+            laeufe.append(x["lauf"])
+    umbau = gd.sehens_umbau(a.p2)
+    if not umbau:
+        _log("HINWEIS: keine Sehens-Planausgaben in %s - Umbau-Zonen nur aus der Prioritaetenliste" % a.p2)
+    K = {"welt": welt, "gel": gel, "inv": inv, "rw": rw, "prio": prio, "strecken": strecken,
+         "orte": gd.sehens_orte(a.sehens), "umbau": umbau, "baeche": baeche, "wasser_welt": welt.wasser_welt,
+         "aus": aus, "wp": sicht.Wegpunkte(welt, 20.0), "klamm": gr.klamm_werte(rw, 4.0)}
+    rc = 0
+    alle_meld = []
+    zusammen = []
+    for lid in laeufe:
+        t0 = time.perf_counter()
+        ids = None if (a.laeufe or a.alle) and not a.strecken else {x["id"] for x in ziel if x["lauf"] == lid}
+        plan, kontexte, meld, pr, sp = plane_lauf(lid, K, ids)
+        alle_meld += meld
+        ns = len(plan.get("stufen", []))
+        _log("%-26s %3d Stufen, %2d Stuecke, %5d Inst, %3d Akt, %2d FX  %.1f s" % (
+            lid, ns, len(plan.get("flussstuecke", [])), plan.get("instanzen", {}).get("anzahl", 0),
+            plan.get("akteure", 0), len(plan.get("effekte", [])), time.perf_counter() - t0))
+        zusammen.append(plan)
+        if a.bild and kontexte:
+            for kx in kontexte:
+                st = next(x for x in plan["strecken"] if x["id"] == kx["strecke"])
+                if st.get("pilot") or a.strecken:
+                    ziel_b = os.path.join(a.bild_ordner or os.path.join(aus, lid), "test_%s.png" % kx["id"])
+                    _log("Bild:", testbild(kx, K, pr, sp, plan, ziel_b))
+        if not a.ohne_pruefung and plan.get("stufen"):
+            import gefaelle_pruefen
+            bef = gefaelle_pruefen.pruefe_lauf(os.path.join(aus, lid), welt=welt, inv=inv, rw=rw, gel=gel)
+            z = gefaelle_pruefen.melde(bef, lid)
+            if z["FEHLER"]:
+                rc = 1
+    for st_ in ("FEHLER", "WARNUNG"):
+        for s_, oid, t_ in alle_meld:
+            if s_ == st_:
+                _log("  %-7s %-24s %s" % (s_, oid[:24], t_))
+    n = {s_: sum(1 for m in alle_meld if m[0] == s_) for s_ in ("FEHLER", "WARNUNG", "HINWEIS")}
+    _log("Planer: %d FEHLER, %d WARNUNG, %d HINWEIS | %d Laeufe, %d Stufen | %.0f s" % (
+        n["FEHLER"], n["WARNUNG"], n["HINWEIS"], len(laeufe), sum(len(p.get("stufen", [])) for p in zusammen),
+        time.perf_counter() - T0))
+    if n["FEHLER"]:
+        rc = 1
+    return rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())
