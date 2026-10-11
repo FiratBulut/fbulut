@@ -83,5 +83,7 @@ Alle Orte unter §9. Je Feld: B6 3 208, C5 5 900, C6 8 694, D6 617 Instanzen. Ma
   und Cliff-Netz verschiedene Textursätze, gilt das MI nur für die Pillars-Netze.
 - **E17:** Der Gipfelsteig (`lava_pfad_gipfelsteig`) wird neu aus Ferats Serpentinen-Werkzeug gerechnet (`status` in
   `pfade_zusatz`); das Bodenband folgt bis dahin den Phase-1-Kehren. E40 (`SM_lava_disc`-Material) nur bei Befund.
+- **13f:** lava_03: das Rinnsal folgt als `punkte` der Tiefenlinie von der Kegelflanke in die Lavasand-Senke (~28 m,
+  versickert; der steilste Abstieg stockte nach 21–24 m in den flachen Buckeln).
 - **13f:** lava_01: Senke hinter der Stirn war keine Absicht (Kerben sollen zur Front hin fallen) → `senken_fuellen` bis
   400 m²/1,5 m.

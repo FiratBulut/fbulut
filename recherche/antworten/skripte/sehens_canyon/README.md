@@ -45,4 +45,5 @@ Je Feld: C4 4 690, D4 12 397 Instanzen. Verdeckung (Fundstücke 04–08): alle *
 - Gewollte Hohlformen (Spalt-Kolk 04, Kesselkolke 05, Tinajas 06, Alkovenkolke 07, Simsmulden 03) tragen `senke_begruendung`.
 - `uldubik_tier_0`/`uk5ebcp_tier_0` (13d unvollständig) werden nicht gesetzt (Lib meldet sie jetzt als FEHLER).
 - Hollowstone Canyon (Kauf offen) und Wadi Rum/Procedural Rocks stehen weiter in `assets_wunsch`.
-- **13f:** `ranken` mit `z_frei` (A6).
+- **13f:** `ranken` mit `z_frei` (A6). canyon_07: der Abfluss der Gumpe folgt der geplanten `abflusslinie` und versickert
+  nach ~30 m vor der Weg-Schutzzone (vorher lief der steilste Abstieg in den Alkoven zurück und versickerte nach 12 m).

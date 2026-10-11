@@ -372,6 +372,19 @@ def _test_13f(welt2, ort, a):
                "A8 Becken zwischen den Stufen >= 3 m (min %.1f m) und <= 3 %% (max %.1f %%)"
                % (min([b1 - b0 for b0, b1 in becken] or [0]), 100 * max(gef or [0])))
 
+            # Koordinator 13f (Regelwerk 15): ab 60 % gebuendelte Fallkette statt einer Stufe alle 3,5 m -
+            # Einzelfall >= 4 m, hoechstens 25 m, dazwischen Becken >= 3 m (auf einer 70-%-Flanke, 60 m)
+            from . import bach as _bk
+            s_t = np.arange(0.0, 60.01, 0.5)
+            g_t = 100.0 - 0.7 * s_t
+            W_t, st_t = _bk.treppe(s_t, g_t, 1.5, W0=float(g_t[0] - _bk.EINBETTUNG_M), start_fest=True)
+            fa = [a - b for _, _, a, b in st_t]
+            bk = [st_t[k + 1][0] - st_t[k][1] for k in range(len(st_t) - 1)]
+            ok(len(st_t) >= 2 and min(fa) >= 4.0 - 1e-6 and max(fa) <= 25.0 + 1e-6 and min(bk) >= 3.0 - 1e-6
+               and len(st_t) < 60.0 / 3.5,
+               "Fallkette 70 %%: %d Faelle %.1f-%.1f m, Becken >= %.1f m (statt ~%d Stufen)"
+               % (len(st_t), min(fa or [0]), max(fa or [0]), min(bk or [0]), int(60.0 / 3.5)))
+
             class _Boden:
                 def hoehe(self, x, y):
                     return ctx.boden(x, y)

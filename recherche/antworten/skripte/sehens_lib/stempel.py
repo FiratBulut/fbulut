@@ -396,7 +396,7 @@ class Stempel:
     def bach_profil(self, punkte_m, s_k, W_k, breite_m, tiefe_m, ring_aus=None, tiefe_max_m=2.0, name="bach_profil",
                     tief_aus=None):
         """Querprofil eines Bachs (Auftrag 15b/13f A12): Wasserkante innen, Bett = Spiegel - Tiefe, Boeschung 35 Grad,
-        Ufer beidseits >= Spiegel + 5 cm, Uferring Spiegel + 0,15 m (hebt <= 1 m). s_k/W_k: Spiegel entlang der
+        Ufer beidseits >= Spiegel + 5 cm, Uferring Spiegel + 0,2 m (hebt <= 1,5 m). s_k/W_k: Spiegel entlang der
         Bogenlaenge (Treppe mit Stufen). ring_aus: bool-Maske im Fenster ohne Uferring (Seen, Muendung)."""
         from . import bach as _b
         if self.ist_fertig:
@@ -427,6 +427,13 @@ class Stempel:
         if ring_aus is not None:
             rm &= ~ring_aus[box]
         neu = np.where(rm, np.maximum(neu, np.minimum(Rr, cur + _b.WULST_MAX_M)), neu)
+        # Wasserkante (letzte Zelle innen, Bach am Hang/auf Damm): liegt das Gelaende dort tiefer als die Boeschung,
+        # bis zur Boeschung auffuellen - sonst zieht die bilineare Abfrage am Netzrand das Ufer unter den Spiegel
+        wk = _b.wasserkante(breite_m, self.z)
+        km = innen & ~ring & (d >= wk - 0.75 * self.z)
+        if ring_aus is not None:
+            km &= ~ring_aus[box]
+        neu = np.where(km, np.maximum(neu, np.minimum(T, cur + _b.WULST_MAX_M)), neu)
         dl = self.delta[box]
         dl += neu - cur
         self.delta[box] = dl

@@ -181,6 +181,7 @@ Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorie
 | A11 | `stempel.Lagen` | Ränder ≥ 3 m, Pfadband 1 m Übergang, Ausblenden am Fensterrand |
 | A13 | `stempel.schutz_faktor`, `rezept._klein_see`, Prüfer | Schutzzone hart (Wege + Orte), Seen < 10 m² → Lage/Decal, Seeufer-FEHLER |
 | B | `rezept._houdini_ausblenden` | `bestand_ausblenden` mit `art: houdini` |
+| Koordinator | `bach.treppe`, `rezept.gelaende_bauen`/`_bach_ziel`/`_verlaengern`, `stempel.bach_profil` | Fallketten ab 60 % (Glieder ~8 m, 4–25 m, Becken ≥ 3 m), Mündungskorridor ± 0,5 m weich, `muendung: <Epic-Id>` mit Anschluss unterhalb, Uferring + 0,2 m / hebt ≤ 1,5 m, Schleifen-Kappung mit Weiterverlängerung |
 
 Neue Prüferregeln (`sehens_pruefen.pruefe_baeche`): Bachende am eigenen See unter dem Spiegel / Punkte im See (FEHLER),
 Abfluss unter dem Seespiegel (FEHLER), Bachende unter dem Spiegel des Epic-Ziels (FEHLER), `suesswasser_bestand`
@@ -212,7 +213,8 @@ Fälle (Uhrzeigersinn, fehlendes Niagara, Budget ≠ Ebene, falsche Anzahl, unbe
 synthetischer 1-m-Ordner für den Lader (A1 Kennzahl, A2 `baeche_alle.json`), Feldgrenze (A10), Baumfuß am Hang (A3),
 kleine synthetische 1-m-Welt mit Kerbtal, See, Zulauf und Abfluss (A4 Ende/Anfang am Seespiegel, A8 Stufen/Becken,
 A12 Querprofil 0 FEHLER + absichtlich kaputte Fälle, A13 Furt mit Trittsteinen und harte Schutzzone am Weg) und
-kleine/große Senke (A5). Laufzeit ~40 s mit Cache.
+kleine/große Senke (A5), Fallkette auf einer 70-%-Flanke (Koordinator: Einzelfall 4–25 m, Becken ≥ 3 m).
+Laufzeit ~40 s mit Cache.
 
 ## Bekannte Grenzen
 

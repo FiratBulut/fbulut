@@ -21,7 +21,6 @@ Richtungen ("rspec", Kompassgrad 0 = Nord, 90 = Ost): Zahl | "hangab" | "hangauf
 """
 
 import math
-import os as _os
 
 import numpy as np
 
@@ -536,7 +535,7 @@ class OrtKontext:
                 # 13f: nie neben den eigenen Lauf zurueck (Kehre/Schleife) - Abstand zu allen frueheren Punkten
                 Pa = np.asarray(alt + pts[:-1], np.float64)
                 dmin = np.min(np.hypot(kx[:, None] - Pa[None, :, 0], ky[:, None] - Pa[None, :, 1]), axis=1)
-                kz = np.where(dmin < 0.9 * schritt_m + 1.0, np.inf, kz)
+                kz = np.where(dmin < 0.9 * schritt_m + 1.5, np.inf, kz)
             if self.see:
                 # 13f A4: ein Bach laeuft nicht zurueck in ein geplantes Seebecken und nicht am Ufer entlang (Puffer
                 # 2 Zellen + 1 m um den Umriss) - der Abfluss fuehrt vom Auslass weg
@@ -727,6 +726,11 @@ class OrtKontext:
         nx_, ny_ = ty / tn, -tx / tn
         g_l = np.asarray(self.boden(xa + nx_ * du, ya + ny_ * du), np.float64)
         g_r = np.asarray(self.boden(xa - nx_ * du, ya - ny_ * du), np.float64)
+        # Reserve (Koordinator 13f): die Pruefstelle mischt bilinear die Zelle dahinter - auch dort muss der Ring
+        # (hoechstens WULST_MAX_M) den Spiegel erreichen
+        du2 = du + 0.75 * self.welt.zelle_m
+        g_l = np.minimum(g_l, np.asarray(self.boden(xa + nx_ * du2, ya + ny_ * du2), np.float64))
+        g_r = np.minimum(g_r, np.asarray(self.boden(xa - nx_ * du2, ya - ny_ * du2), np.float64))
         g_eff = np.minimum(g, np.minimum(g_l, g_r) + _bach.WULST_MAX_M - _bach.RING_UEBER_M - 0.05 +
                            _bach.EINBETTUNG_M)
         g_eff = np.maximum(g_eff, g - 2.0)      # hoechstens 2 m tiefer als die Mitte (Bach am Abbruch: Pruefer meldet)
@@ -740,6 +744,14 @@ class OrtKontext:
         # Furten/Schutz (A13): wo der Weg-/Ortsschutz den Stempel aufhebt, laeuft das Wasser flach ueber den Boden
         fs = self._schutz_faktor_bei(xa, ya)
         furt = fs < 0.98
+        # ebenso im Wasserschutz (Bestandswasser, z. B. Houdini-Gerinne ohne Netznamen): der Stempel ist dort
+        # aufgehoben, das Wasser laeuft flach ueber dem bestehenden Gerinne (nicht im Muendungskorridor)
+        fw = self._wasserschutz_bei(xa, ya)
+        im_bestand = (fw < 0.98) & ~furt
+        if ziel["art"] in ("bach", "fluss", "see", "teich"):
+            im_bestand &= sa < float(sa[-1]) - 8.0
+        furt_grund = np.where(furt, 0, np.where(im_bestand, 1, -1))
+        furt = furt | im_bestand
         boden_arr = np.where(furt, g + 0.03, -np.inf)
         W_boden = None
         if ziel.get("spiegel_m") is not None and ziel["art"] != "see_eigen":
@@ -798,6 +810,7 @@ class OrtKontext:
             self.stempel.bach_profil(np.stack([xa, ya], 1), sa, W, B, tiefe, ring_aus=ring_aus,
                                      tiefe_max_m=float(np.max(g - W)) + tiefe, tief_aus=tief_aus)
         furten = []
+        furt_gr = []
         if furt.any():
             k = 0
             while k < len(furt):
@@ -806,17 +819,31 @@ class OrtKontext:
                     while j + 1 < len(furt) and furt[j + 1]:
                         j += 1
                     furten.append((float(sa[k]), float(sa[j])))
+                    furt_gr.append("bestand" if furt_grund[k] == 1 else "weg")
                     k = j + 1
                 else:
                     k += 1
-            hinweise.append("%d Furt(en) im Weg-/Ortsschutz (Wasser flach ueber dem Boden)" % len(furten))
+            nb = furt_gr.count("bestand")
+            if len(furten) - nb:
+                hinweise.append("%d Furt(en) im Weg-/Ortsschutz (Wasser flach ueber dem Boden)" % (len(furten) - nb))
+            if nb:
+                hinweise.append("%d Stueck(e) im Wasserschutz des Bestands (flach ueber dem bestehenden Gerinne)" % nb)
         self.anker["bach_%s_anfang" % wid] = (float(pts[0][0]), float(pts[0][1]))
         self.anker["bach_%s_ende" % wid] = (float(pts[-1][0]), float(pts[-1][1]))
         self.bach_plan[wid] = {"pts": pts, "s": sa, "x": xa, "y": ya, "W": W, "stufen": stufen, "ziel": ziel,
                                "B": B, "tiefe": tiefe, "start_see": start_see, "end_see": end_see, "furten": furten,
-                               "offen_s": offen_s, "g_vor": g}
+                               "offen_s": offen_s, "g_vor": g, "furt_grund": furt_gr}
         for h in hinweise:
             self.melde(HINWEIS, "bach %s: %s" % (wid, h))
+
+    def _wasserschutz_bei(self, x, y):
+        """Wasserschutz-Faktor (0 = Bestandswasser hebt den Stempel auf) an Weltpunkten; ist_wasser/Korridore frei."""
+        g = self.r.get("gelaende") or {}
+        if not g.get("schutz", True) or g.get("wasser_frei", False):
+            return np.ones(np.shape(x))
+        aus = self._ausnahme_maske(wasser_ausnahmen=True)
+        f = self.stempel.schutz_faktor(float(g.get("schutz_weg_m", 3.0)), True, 4.0, aus, nur_wasser=True)
+        return _st._bilinear_fenster(f, self.stempel.fe, self.welt, x, y, 1.0)
 
     def _schutz_faktor_bei(self, x, y):
         """Schutzfaktor (0 = Weg-/Ortsschutz hebt den Stempel auf, 1 = frei) an Weltpunkten."""
@@ -938,11 +965,16 @@ class OrtKontext:
             Ln = _st.polylinie_laenge([[x, y]] + neu) if neu else 0.0
         if Ln < mehr_m - 1.0:
             ax, ay = (neu[-1] if neu else (x, y))
-            alt = np.asarray(pts + neu, np.float64)
+            alle = [list(map(float, q_[:2])) for q_ in pts + neu]
+            kum_ = list(_bach.bogen(np.asarray(alle, np.float64)))
             for q in self._tiefenlinie(ax, ay, mehr_m - Ln):
-                if np.min(np.hypot(alt[:, 0] - q[0], alt[:, 1] - q[1])) < 3.0:
-                    break           # Tiefenlinie laeuft zurueck an den eigenen Lauf
+                sq = kum_[-1] + math.hypot(q[0] - alle[-1][0], q[1] - alle[-1][1])
+                A_ = np.asarray(alle, np.float64)[np.asarray(kum_) < sq - 6.0]   # fruehere Stuecke, nicht die letzten 6 m
+                if len(A_) and np.min(np.hypot(A_[:, 0] - q[0], A_[:, 1] - q[1])) < 3.3:
+                    break           # Tiefenlinie laeuft zurueck an den eigenen Lauf (Kehre)
                 neu.append(q)
+                alle.append([float(q[0]), float(q[1])])
+                kum_.append(sq)
         out = [list(p) for p in pts]
         for p in neu:
             out.append([float(p[0]), float(p[1])])
@@ -1067,7 +1099,7 @@ class OrtKontext:
                 e = self._bach_eintrag(w)
                 if e is not None:
                     self.wasser.append(e)
-                    if w.get("furt") and (self.bach_plan.get(w.get("id")) or {}).get("furten"):
+                    if w.get("furt") and "weg" in ((self.bach_plan.get(w.get("id")) or {}).get("furt_grund") or []):
                         self._furt_steine(w)
             elif t == "wasserfall":
                 kante = self.linie(w["kante"])
@@ -1108,7 +1140,10 @@ class OrtKontext:
         kum = _bach.bogen(P)
         punkte = []
         ab = float(fr.get("abstand_m", 0.9))
-        for a_, b_ in pl["furten"]:
+        gruende = pl.get("furt_grund") or ["weg"] * len(pl["furten"])
+        for (a_, b_), gr_ in zip(pl["furten"], gruende):
+            if gr_ != "weg":
+                continue            # Trittsteine nur an Wegen/Orten, nicht im Bestandsgerinne
             sm = 0.5 * (a_ + b_)
             x, y = _bach.punkt_bei(P, kum, sm)
             x2, y2 = _bach.punkt_bei(P, kum, min(sm + 0.5, kum[-1]))
@@ -1175,9 +1210,6 @@ class OrtKontext:
         zz = float(self.welt.zelle_m)
         tol_ = 0.02 if zz <= 1.0 else 0.02 + 0.2 * (zz - 1.0)
         ueber = (bett - z > tol_) & frei
-        if ueber.any() and _os.environ.get("SEHENS_DBG_UEBER"):
-            for k_ in np.nonzero(ueber)[0]:
-                print("UEBER", wid, "s %.1f bett %.2f z %.2f" % (sk[k_], bett[k_], z[k_]), file=__import__("sys").stderr)
         if ueber.any():
             self.melde(WARNUNG, "bach %s: Bett an %d von %d Punkten ueber dem Spiegel (bis %.2f m) - Stempel geschwaecht?"
                        % (wid, int(ueber.sum()), len(sk), float((bett - z)[ueber].max())))
@@ -1207,12 +1239,15 @@ class OrtKontext:
                             "(Regelwerk Auftrag 15), groesste %.1f m" % (len(pl["stufen"]), mx))
         if pl["furten"]:
             e["furten"] = []
-            for a_, b_ in pl["furten"]:
+            gruende = pl.get("furt_grund") or ["weg"] * len(pl["furten"])
+            for (a_, b_), gr_ in zip(pl["furten"], gruende):
                 xa_, ya_ = _bach.punkt_bei(P, kum, a_)
                 xb_, yb_ = _bach.punkt_bei(P, kum, b_)
                 e["furten"].append({"von_cm": [round(float(xa_) * 100), round(float(ya_) * 100)],
                                     "bis_cm": [round(float(xb_) * 100), round(float(yb_) * 100)],
-                                    "grund": "Weg-/Ortsschutz (3 m): Wasser laeuft flach ueber den Boden (Furt)"})
+                                    "grund": "Weg-/Ortsschutz (3 m): Wasser laeuft flach ueber den Boden (Furt)"
+                                    if gr_ == "weg" else
+                                    "Wasserschutz des Bestands: Wasser laeuft flach ueber dem bestehenden Gerinne"})
         if pl["offen_s"] is not None:
             xo, yo = _bach.punkt_bei(P, kum, pl["offen_s"])
             e["muendung_offen_ab_cm"] = [round(float(xo) * 100), round(float(yo) * 100)]

@@ -7,12 +7,14 @@ Ein Bach (Regel "wasser" mit typ "bach") wird in drei Schritten gebaut:
      Tiefenlinie weiter, bis ein Epic-Gewaesser erreicht ist, oder 'versickert' mit mindestens 25 m Laenge.
      Ein Bachende liegt nie unter dem Spiegel des Zielgewaessers.
   2. Spiegel als Treppe (A8, Regelwerk Auftrag 15 'gefaelle_regeln.json'): Becken (<= 3 % Gefaelle, >= 3 m lang,
-     Laenge nach stufen.abstand_L / becken.laenge_min) und Stufen (Lippe -> Fuss <= 1 m). Die Stufen stehen
-     explizit im Bach ("stufen": [{"lippe_cm", "fuss_cm", "fall_m", "art"}]) - keine Vorhaenge aus vielen kleinen
-     Faellen.
+     Laenge nach stufen.abstand_L / becken.laenge_min) und Stufen (Lippe -> Fuss <= 1 m). Ab 60 % Gefaelle eine
+     gebuendelte Fallkette (Koordinator 13f): Glieder ~8 m (kette_glied), Einzelfall >= 4 m, hoechstens 25 m, der
+     Fall folgt zwischen Lippe und Fuss der Flanke, dazwischen Becken >= 3 m. Die Stufen stehen explizit im Bach
+     ("stufen": [{"lippe_cm", "fuss_cm", "fall_m", "art"}]) - keine Vorhaenge aus vielen kleinen Faellen.
   3. Querprofil wie Auftrag 15b (A12): Wasserkante innen (0,3-0,5 m innerhalb der halben Breite, mind. 0,75 Zellen
      von der Mitte), Bett = Spiegel - Tiefe, Boeschung 35 Grad, Ufer beidseits >= Spiegel + 5 cm, Uferring auf
-     Spiegel + 0,15 m bis Netzrand + 1,5 m (hebt hoechstens 1 m). Neben dem Fuss einer Stufe gilt 1,5 m lang der
+     Spiegel + 0,2 m bis Netzrand + 1,5 m (hebt hoechstens 1,5 m; Koordinator 13f: Reserve); die letzte Zelle innen
+     an der Wasserkante wird bis zur Boeschung aufgefuellt. Neben dem Fuss einer Stufe gilt 1,5 m lang der
      Oberwasser-Spiegel (Seitenwand des Falls).
 Der Spiegel im Plan IST das gestempelte Bett + Tiefe (nicht das Bestandsgelaende).
 
@@ -249,7 +251,7 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False, boden_
             # Fall ueber die steile Flanke: Fuss dort, wo die Huelle das Ziel (Lippe - Dg) erreicht; zwischen Lippe
             # und Fuss folgt der Spiegel der Huelle (Wasser faellt an der Flanke, kein Graben in die Wand); danach
             # Becken >= 3 m unter der Huelle
-            ziel = W[k - 1] - Dg
+            ziel = W[k - 1] - max(Dg - S_lok * BECKEN_MIN_M, 0.0)     # + Becken (3 m unter der Huelle) = Dg
             if W_boden is not None:
                 ziel = max(ziel, float(W_boden))
             unter = np.nonzero(M[k:] <= ziel + 1e-6)[0]

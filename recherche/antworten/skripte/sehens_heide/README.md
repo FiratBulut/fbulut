@@ -43,6 +43,10 @@ Norden und Süden/Südwesten; Klammtore aus Riesen-Wollsäcken und dichte Gehöl
 - Wollsackfall ersetzt den Bestandsbach `B_R2_R_P3_P0_01` (Ort IST dieses Wasser): **E11** Feld `ersetzt_bestandsbach`
   (p0 → p3) → `orte.json` `bestand_ausblenden`. Sohle in drei Stufen (absolute Höhen aus den 2-m-Daten – im 1-m-Lauf
   prüfen, E41: jede Stufe > 0,8 m), Wassermaterial nur als `material_hinweis` (E43: Pfad nicht belegt).
+- **13f (Koordinator, Frage 5):** der `auslauf` läuft von der Gumpe entlang der Tiefenlinie und schließt an
+  `B_R2_R_P3_P0_01` unterhalb des ersetzten Abschnitts an (`muendung: "B_R2_R_P3_P0_01"`, ~87 m, Bachende nie unter
+  dessen Spiegel); `ersetzt_bestandsbach` reicht von der Gumpe bis `bach_auslauf_ende`. Fall 3 misst über dem
+  Wasserspiegel des Klammbachs 0,8 m (WARNUNG bleibt; Sohle 1,1 m wie geplant).
 - Tor-Stapel und Wackelstein ruhen per `z_bezug` aufeinander (z_frei) – Fugen im Editorbild prüfen.
 - `senke_begruendung`: Burg (Verwitterungsschüsseln), Wacholder (Schlatts), Kolk (Regenmoor), Wackelstein (Felsenkessel),
   Totengrund (Nivationsmulde), Windkante (Deflationsmulde).
