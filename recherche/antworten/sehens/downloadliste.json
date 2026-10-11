@@ -201,7 +201,7 @@
    "name": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
    "status": "läuft bei Ferat",
    "fab_link": "https://www.fab.com/listings/9ec7df30-3347-4056-8933-6156d983b0cf",
-   "hinweis": "heute 103 Netze (neu: Hintergrundberge, Stammstücke SM_Forest_pine_04_0x_log, Fische SM_Fish_Trout/Perch, Ameisenhaufen). Fluss-/Wasserfall-Material folgt.",
+   "hinweis": "heute 103 Netze (neu: Hintergrundberge, Stammstücke SM_Forest_pine_04_01/02/03_log, Fische SM_Fish_Trout/Perch, Ameisenhaufen). Fluss-/Wasserfall-Material folgt.",
    "fuer": [
     "bergwald_05, _06",
     "dschungel_02",
