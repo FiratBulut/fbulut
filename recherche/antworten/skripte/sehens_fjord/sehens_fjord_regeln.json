@@ -30,7 +30,7 @@
  },
  "materialwuensche": [
   {"name": "MI_EL_SW_Klippe_Fjordnass", "basis": "M_EL_Klippe_RVT", "parameter": {"Moos_Farbe": [0.55, 0.75, 0.45, 1.0], "Moos_Menge": 0.85, "Blend_Hoehe": 600.0, "Toenung": [0.7, 0.72, 0.75, 1.0]}, "fuer": ["vdssailfa_tier_2", "vfmjadufa_tier_2", "SM_HugeNordicCoastalCliff_01", "SM_HugeNordicCoastalCliff_02", "SM_MassiveNordicCoastalCliff_01"]},
-  {"name": "MI_EL_SW_Schleierfall", "basis": "M_EL_Wasserfall2", "parameter": {"Deckkraft": 0.55, "Straehnen_Staerke": 0.9, "Schaum_Menge": 1.6, "V_Skala": 0.4}, "fuer": ["Fallbaender der Schleierwand (falls der eigene Vorhang statt M_River_Water_Translucent genommen wird)"]},
+  {"name": "MI_EL_SW_Schleierfall", "basis": "M_EL_Wasserfall2", "parameter": {"Deckkraft": 0.55, "Straehnen_Staerke": 0.9, "Schaum_Menge": 1.6, "V_Skala": 0.4}, "fuer": [], "zweck": "Fallbaender der Schleierwand (wasserfall-Eintraege von fjord_02), nur falls der eigene Vorhang statt M_River_Water_Translucent genommen wird"},
   {"name": "MI_EL_SW_Fels_Flechte", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Farbe": [0.6, 0.65, 0.5, 1.0], "Auflage_Menge": 0.45, "Auflage_Flecken": 0.8, "Toenung": [0.8, 0.8, 0.8, 1.0]}, "fuer": ["SM_NordicBoulder_01", "SM_TundraMossyBoulder_01", "SM_MassiveTundraRockFormation_01", "SM_MassiveTundraRockFormation_02"]}
  ],
  "orte": {
@@ -363,7 +363,7 @@
      "anzahl": 11, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 130, "start_m": 15, "oeffnung_grad": 50, "t": [0.6, 1.0]}, "abstand_m": 8,
      "groesse_m": [5.0, 9.0], "gradient": {"von": 0.75, "bis": 1.2}, "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "mindestens": 8},
     {"name": "schichtfels", "ebene": "begleiter", "warum": "geschichtete Felsscholle im Kegel", "netz": "ukjhcamga_tier_0",
-     "verteilung": {"typ": "punkt", "bei": {"pos_m": [-1858.0, -3178.0]}}, "skala": 0.4, "yaw": 92, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true},
+     "verteilung": {"typ": "punkt", "bei": {"pos_m": [-1820.0, -3182.0]}}, "skala": 0.4, "yaw": 92, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true},
     {"name": "abrisswand", "ebene": "begleiter", "warum": "die helle, frische Abrissnische (ohne Moos)", "netz": "vdssailfa_tier_2",
      "verteilung": {"typ": "punkt", "bei": {"pos_m": [-1922.0, -3170.0]}}, "skala": 0.85, "yaw": 92, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
     {"name": "kegelschutt", "ebene": "schutt", "warum": "sortierter Schutt: oben fein, unten grob", "palette": ["SM_mountain_rock_big_02_1", "SM_mountain_rock_big_02_4", "SM_mountain_rock_big_02_6", "SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_5", "xf3odif_tier_0"],

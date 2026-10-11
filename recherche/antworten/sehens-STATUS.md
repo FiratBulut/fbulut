@@ -79,7 +79,11 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 - **Grundsatz (Ferat, 11.10. abends): kein Geld ausgeben, solange es Besseres bei Megascans gibt.** Treibholz: Ferat lädt Megascans-Driftwood statt Nanite Driftwood Props.
 - **Megascans:** größtenteils 2024 beansprucht, also kostenlos. Desert Western Cliff Layered, weitere Megascans-Limestone und das kostenlose „Limestone Rock Set“ (Ancraite) werden geladen. **Forest Cretaceous gestrichen** (teuer, schlecht bewertet).
 
-## Noch offen (kompakt, Stand Phase-1-Abschluss)
+## Entscheidungen Koordinator (Ferat: „du entscheidest, sei kreativ“, 11.10. abends)
+
+**Alle offenen Fragen unten sind entschieden** – siehe [`13-entscheidungen-koordinator.md`](13-entscheidungen-koordinator.md) und `sehens/entscheidungen.json` (45 Einträge: 25 Gestaltung entschieden mit Vorbildern aus realen Orten/Witcher/Dragon Age Inquisition/RDR2, 15 Editor-Fragen mit Arbeitsannahme + Prüfschritt für Claude lokal, 5 Geldfragen → ohne Kauf gebaut). Umsetzung in den Planern läuft. Kaufempfehlungen (Ferat entscheidet): Cave Ambience (~10 USD), Hollowstone nur falls die Wabenwand-Probe im Bild nicht trägt, Fantasy Ambiences nach Hörprobe, CryoGen nur falls Eiszapfen nicht reichen.
+
+## Noch offen (kompakt, Stand Phase-1-Abschluss) – entschieden, siehe oben
 
 1. **Hollowstone Canyon kaufen?** (Wabenwand wueste_08, Hoodoos canyon_05; sonst Ersatz aus Sandstein + Tafoni-Material.) **Megascans Desert Pack / Megascans Sandstone** schon in der Bibliothek?
 2. **Inventar:** Kommen `SM_lava_wall_01…09` mit der Lava-Nachladung zurück? Behalten die Eis-Netze `M_MS_Base_Trm`? Dürfen Basalt-Instanzen eigene Texturen bekommen? Welche Assets stecken hinter den zwei fehlgeschlagenen Megascans-IDs?
