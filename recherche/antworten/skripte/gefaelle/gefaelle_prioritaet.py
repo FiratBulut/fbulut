@@ -180,6 +180,8 @@ def begruendung(e):
         t.append("im Bild von %d Sehens-Kamera(s) (%s)" % (len(k["kameras"]), ", ".join(orte)))
     if k["naehe"]["abstand_rand_m"] <= 150:
         t.append("%.0f m vom Rand von %s" % (k["naehe"]["abstand_rand_m"], k["naehe"]["ort"]))
+    if e.get("vorgabe"):
+        t.insert(0, e["vorgabe"] + (" - 14b: zurueckgestellt, A15 ersetzt A14" if e["lauf"] in gd.ZURUECKGESTELLT else ""))
     t.append("%.1f m Fall auf %.0f m (Mittel %.0f %%, max %.0f %%)" % (e["fall_m"], e["laenge_m"],
                                                                         100 * e["gefaelle_mittel"], 100 * e["gefaelle_max"]))
     if e["status"] == "gebaut_stufen":
@@ -261,7 +263,13 @@ def main(argv=None):
         liste.append(e)
         if (n + 1) % 20 == 0:
             _log("%d/%d  %.0f s" % (n + 1, len(strecken), time.perf_counter() - T0))
-    liste.sort(key=lambda e: (-e["score"]["gesamt"], e["id"]))
+    for e in liste:                                   # Vorgabe Koordinator: C2 Pilot Rang 1
+        if e["id"] in gd.PILOT_VORGABE:
+            e["vorgabe"] = gd.PILOT_VORGABE[e["id"]]
+            if e["status"] not in ("offen", "teilweise_sehens", "gebaut_teilweise"):
+                e["status_vorher"] = e["status"]
+                e["status"] = "offen"
+    liste.sort(key=lambda e: (0 if e["id"] in gd.PILOT_VORGABE else 1, -e["score"]["gesamt"], e["id"]))
     rang = 0
     pilot = []
     for e in liste:

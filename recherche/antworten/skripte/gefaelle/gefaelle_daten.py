@@ -239,6 +239,30 @@ def umbau_ueberlappung(proben, umbau, abstand_m=15.0):
     return out
 
 
+# 14b (11.10.): C2 auf einen durchgehenden Fluss zurueckgestellt, Stufen-Akteure entfernt -> nicht mehr "gebaut";
+# A15 plant C2 vollstaendig (Kaskadennetz) und ersetzt die A14-Eintraege (Koordinator 11.10.)
+ZURUECKGESTELLT = {"F_ERLENBACH_1V_C2": "14b: durchgehender Fluss, Stufen-Akteure entfernt; A15 ersetzt A14 (C2_A-C2_E)"}
+PILOT_VORGABE = {"F_ERLENBACH_1V_C2_s1": "Koordinator 11.10.: C2 als Pilot Rang 1 (Ferat schaut dort hin)"}
+
+
+def vorgabe_stufen(lauf_id):
+    """Gebaute/geplante Stufenlagen aus vorlagen/daten/wasser_fx/stufen.json (Vorgabe fuer C2/H4)."""
+    if not os.path.exists(STUFEN_FX):
+        return []
+    return [s for s in lese_json(STUFEN_FX).get("stufen", []) if s.get("fluss") == lauf_id]
+
+
+def a14_gruppen(lauf_id):
+    """Effekt-Gruppen aus antworten/wasser_fx/plan.json fuer einen Lauf: {gruppe: [effekt-ziele]}."""
+    if not os.path.exists(WASSER_FX_PLAN):
+        return {}
+    out = {}
+    for e in lese_json(WASSER_FX_PLAN).get("effekte", []):
+        if str(e.get("ziel", "")).startswith(lauf_id):
+            out.setdefault(e.get("gruppe"), []).append("%s:%s" % (e.get("ziel"), str(e.get("asset", "")).rsplit("/", 1)[-1]))
+    return out
+
+
 def gebaute_stufen():
     """Schon mit Stufen gebaute Laeufe (vorlagen/daten/wasser_fx/stufen.json) + Wasser-FX-Gruppen aus Auftrag 14
     (antworten/wasser_fx/plan.json). Rueckgabe dict lauf -> {stufen, fx_gruppen, fx_effekte}."""
@@ -246,6 +270,8 @@ def gebaute_stufen():
     if os.path.exists(STUFEN_FX):
         d = lese_json(STUFEN_FX)
         for s in d.get("stufen", []):
+            if s["fluss"] in ZURUECKGESTELLT:
+                continue
             e = out.setdefault(s["fluss"], {"stufen": [], "fx_gruppen": set(), "fx_effekte": 0})
             e["stufen"].append(s["id"])
     if os.path.exists(WASSER_FX_PLAN):

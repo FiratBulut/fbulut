@@ -182,10 +182,13 @@ def pruefe_wasser(p, ordner, welt, b, tag):
         if not any(w["s_m"][0] - 1e-3 <= e["s_m"] <= w["s_m"][1] + 1e-3 for w in kn):
             b.append((FEHLER, tag, "%s liegt in keinem Kaskadennetz" % e["id"]))
     # (d) Niagara oder Vorhang je Stufe
+    from gefaelle_plan import NIAGARA
     fx = {e["stufe"] for e in p.get("effekte") or []}
-    ohne = [sid for w in kn for sid in w.get("stufen", []) if sid not in fx and sid not in (w.get("vorhang_an_stufen") or [])]
+    hoch = {e["id"] for e in p.get("stufen") or [] if e["fall_m"] >= NIAGARA["D_min_m"]}
+    ohne = [sid for w in kn for sid in w.get("stufen", []) if sid in hoch and sid not in fx
+            and sid not in (w.get("vorhang_an_stufen") or [])]
     if ohne:
-        b.append((WARNUNG, tag, "%d Stufen ohne Niagara und ohne Vorhang (Grenze <= 6 gleichzeitig; Schaum nur im Netz): %s"
+        b.append((WARNUNG, tag, "%d Stufen >= 1 m ohne Niagara und ohne Vorhang (Grenze gleichzeitig; Schaum nur im Netz): %s"
                   % (len(ohne), ", ".join(x_[-3:] for x_ in ohne[:12]))))
     # (a) Bett >= 0,2 m unter dem Spiegel, (b) Ufer am Netzrand >= 0,1 m ueber dem Spiegel - Gelaende NACH dem Stempel
     if welt is None:
@@ -193,11 +196,18 @@ def pruefe_wasser(p, ordner, welt, b, tag):
     orte = [{"id": a["id"], "gelaende": a.get("gelaende")} for a in p.get("abschnitte") or []]
     from gefaelle_plan import nahe_stufe
     boden = BodenNachStempel(welt, orte, ordner)
+    alt = np.asarray(p["spiegel_alt_cm"], np.float64)
+    s_alt = _s_entlang(p["spiegel_alt_cm"])
+    alt_m = np.minimum.accumulate(alt[:, 2])
     for w in kn:
         M = np.asarray(w["mittellinie"], np.float64)
         kn_ = w["knick"]
         n_bett = n_ufer = n_b = 0
         nah = nahe_stufe(w["mittellinie"], kn_, max(welt.zelle_m - 1.0, 0.0))
+        s_kn = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(M[:, :2] / 100.0, axis=0).T))])
+        n_bestand = 0
+        from gefaelle_plan import muendung_maske
+        mund = muendung_maske(w["mittellinie"], w["s_m"][0], w.get("muendungen_s_m") or [])
         for k in range(len(M)):
             if kn_[k] != "becken" or nah[k]:
                 continue
@@ -215,11 +225,22 @@ def pruefe_wasser(p, ordner, welt, b, tag):
             if zs - bett < KN["bett_unter_spiegel_min_m"] - 0.005:
                 n_bett += 1
             r_ = br / 2.0 + w.get("rand_ueberstand_m", 0.4) + zus
-            hz = boden.hoehe(np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_]))
+            if mund[k]:
+                continue                                    # Zufluss-Muendung: Ufer dort offen
+            px_, py_ = np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_])
+            hz = boden.hoehe(px_, py_)
             if float(np.min(hz)) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - 0.005:
-                n_ufer += 1
+                # Bestand: Ufer lag schon unter dem alten Spiegel (Epic-Wasser ueber dem Gelaende) -> WARNUNG
+                z_alt = float(np.interp(w["s_m"][0] + s_kn[k], s_alt, alt_m)) / 100.0
+                if float(np.min(welt.bilinear(welt.hoehe, px_, py_))) < z_alt + KN["ufer_ueber_spiegel_am_rand_m"]:
+                    n_bestand += 1
+                else:
+                    n_ufer += 1
         from gefaelle_plan import raster_stufe, raster_text
         zus = max(welt.zelle_m - 1.0, 0.0)
+        if n_bestand:
+            b.append((WARNUNG, tag, "%s: Ufer am Netzrand an %d Beckenpunkten schon im Bestand unter dem alten Spiegel"
+                      % (w["id"], n_bestand)))
         if n_bett:
             b.append((raster_stufe(n_bett, n_b, zus), tag, "%s: Bett an %d von %d Beckenpunkten < 0,2 m unter dem Spiegel%s"
                       % (w["id"], n_bett, n_b, raster_text(n_bett, n_b, zus))))
@@ -229,6 +250,7 @@ def pruefe_wasser(p, ordner, welt, b, tag):
 
 
 def pruefe_effekte(p, rw, inv, b, tag):
+    from gefaelle_plan import NIAGARA
     ef = p.get("effekte") or []
     gz = gr.effekt_grenzen(rw)
     je = {}
@@ -237,7 +259,8 @@ def pruefe_effekte(p, rw, inv, b, tag):
         if inv is not None:
             for st, t in inv.asset_pruefen("niagara", e["asset"], bool(e.get("optional"))):
                 b.append((st, tag, "Effekt %s: %s" % (e["stufe"], t)))
-        if not (gz["cull_klein"] - TOL <= e["cull_m"] <= max(gz["cull_held"]) + TOL):
+        cull_min = NIAGARA["zusatz_cull_m"] if e.get("effekt_art") == "zusatz_aufprall" else gz["cull_klein"]
+        if not (cull_min - TOL <= e["cull_m"] <= max(gz["cull_held"]) + TOL):
             b.append((FEHLER, tag, "Effekt %s: cull %.0f m ausserhalb %.0f-%.0f m" % (e["stufe"], e["cull_m"], gz["cull_klein"],
                                                                                      max(gz["cull_held"]))))
         if e.get("typ") != "niagara" or len(e.get("rot_q", [])) != 4 or len(e.get("pos_cm", [])) != 3:
@@ -252,10 +275,16 @@ def pruefe_effekte(p, rw, inv, b, tag):
         ps = np.arange(0, s[-1], 2.0)
         px, py = np.interp(ps, s, P[:, 0]), np.interp(ps, s, P[:, 1])
         zahl = np.zeros(len(ps), int)
+        alle = np.zeros(len(ps), int)
         for e in ef:
-            zahl += (np.hypot(px - e["pos_cm"][0] / 100.0, py - e["pos_cm"][1] / 100.0) <= e["cull_m"]).astype(int)
+            m = (np.hypot(px - e["pos_cm"][0] / 100.0, py - e["pos_cm"][1] / 100.0) <= e["cull_m"]).astype(int)
+            alle += m
+            if e["cull_m"] >= 30.0 - TOL:
+                zahl += m
         if zahl.max() > gz["gleichzeitig"]:
-            b.append((FEHLER, tag, "bis %d Effekte gleichzeitig aktiv (> %d)" % (zahl.max(), gz["gleichzeitig"])))
+            b.append((FEHLER, tag, "bis %d Effekte (Cull >= 30 m) gleichzeitig aktiv (> %d)" % (zahl.max(), gz["gleichzeitig"])))
+        if alle.max() > NIAGARA["gleichzeitig_hart"]:
+            b.append((FEHLER, tag, "bis %d Effekte insgesamt gleichzeitig aktiv (> %d)" % (alle.max(), NIAGARA["gleichzeitig_hart"])))
 
 
 def pruefe_kameras(p, b, tag):
