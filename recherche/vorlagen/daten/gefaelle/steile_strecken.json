@@ -1,0 +1,3247 @@
+{
+ "stand": "2026-10-11",
+ "schwellen": {
+  "fluss": 0.04,
+  "bach": 0.1
+ },
+ "statistik_m": {
+  "fluss": {
+   "gesamt": 11478.409102904712,
+   ">2%": 3302.4830150479056,
+   ">5%": 1767.4585629980425,
+   ">10%": 1052.428532708398,
+   ">20%": 234.86330050933003,
+   ">30%": 72.07383829607666
+  },
+  "bach": {
+   "gesamt": 32816.34497571427,
+   ">2%": 24676.434317252202,
+   ">5%": 17899.921375111935,
+   ">10%": 11050.639476353486,
+   ">20%": 3494.8244989341574,
+   ">30%": 1178.38862442918
+  }
+ },
+ "strecken": [
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M2_04",
+   "feld": "H3",
+   "von_cm": [
+    295350,
+    -127650,
+    17296
+   ],
+   "bis_cm": [
+    241850,
+    -124950,
+    3946
+   ],
+   "laenge_m": 573.0,
+   "hoehe_m": 133.5,
+   "gefaelle_mittel": 0.233,
+   "gefaelle_max": 0.63,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K8_ELFENFALL_01",
+   "feld": "H3",
+   "von_cm": [
+    301250,
+    -107850,
+    17867
+   ],
+   "bis_cm": [
+    263450,
+    -85750,
+    6379
+   ],
+   "laenge_m": 447.6,
+   "hoehe_m": 114.9,
+   "gefaelle_mittel": 0.257,
+   "gefaelle_max": 0.628,
+   "breite_m": 5.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P4_M2_01",
+   "feld": "H3",
+   "von_cm": [
+    296150,
+    -149350,
+    16091
+   ],
+   "bis_cm": [
+    254550,
+    -135650,
+    5707
+   ],
+   "laenge_m": 476.3,
+   "hoehe_m": 103.8,
+   "gefaelle_mittel": 0.218,
+   "gefaelle_max": 0.554,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_M2_03",
+   "feld": "D2",
+   "von_cm": [
+    -107350,
+    -207950,
+    7703
+   ],
+   "bis_cm": [
+    -95850,
+    -173150,
+    477
+   ],
+   "laenge_m": 395.3,
+   "hoehe_m": 72.3,
+   "gefaelle_mittel": 0.183,
+   "gefaelle_max": 0.452,
+   "breite_m": 4.2
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ERLENBACH_1V_C2",
+   "feld": "C2",
+   "von_cm": [
+    -172182,
+    -239417,
+    10206
+   ],
+   "bis_cm": [
+    -178259,
+    -222588,
+    4510
+   ],
+   "laenge_m": 181.4,
+   "hoehe_m": 57.0,
+   "gefaelle_mittel": 0.314,
+   "gefaelle_max": 1.023,
+   "breite_m": 11.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M3_M2_01",
+   "feld": "B3",
+   "von_cm": [
+    -369450,
+    -128650,
+    5189
+   ],
+   "bis_cm": [
+    -387150,
+    -135950,
+    100
+   ],
+   "laenge_m": 193.5,
+   "hoehe_m": 50.9,
+   "gefaelle_mittel": 0.263,
+   "gefaelle_max": 0.561,
+   "breite_m": 4.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_M2_02",
+   "feld": "D2",
+   "von_cm": [
+    -83250,
+    -218550,
+    6933
+   ],
+   "bis_cm": [
+    -65750,
+    -203550,
+    1951
+   ],
+   "laenge_m": 239.5,
+   "hoehe_m": 49.8,
+   "gefaelle_mittel": 0.208,
+   "gefaelle_max": 0.426,
+   "breite_m": 4.3
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K1_WASSERFALL_WEST_01",
+   "feld": "B4",
+   "von_cm": [
+    -291850,
+    -84250,
+    9522
+   ],
+   "bis_cm": [
+    -264950,
+    -86450,
+    4710
+   ],
+   "laenge_m": 279.2,
+   "hoehe_m": 48.1,
+   "gefaelle_mittel": 0.172,
+   "gefaelle_max": 0.285,
+   "breite_m": 5.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M2_01",
+   "feld": "G3",
+   "von_cm": [
+    194650,
+    -153050,
+    5121
+   ],
+   "bis_cm": [
+    165350,
+    -175250,
+    434
+   ],
+   "laenge_m": 386.2,
+   "hoehe_m": 46.9,
+   "gefaelle_mittel": 0.121,
+   "gefaelle_max": 0.292,
+   "breite_m": 4.1
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ELFENFLUSS_3_H4",
+   "feld": "H4",
+   "von_cm": [
+    271141,
+    -54715,
+    6721
+   ],
+   "bis_cm": [
+    230591,
+    -54949,
+    2224
+   ],
+   "laenge_m": 418.0,
+   "hoehe_m": 45.0,
+   "gefaelle_mittel": 0.108,
+   "gefaelle_max": 0.17,
+   "breite_m": 33.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_P1_02",
+   "feld": "B6",
+   "von_cm": [
+    -355950,
+    110650,
+    5056
+   ],
+   "bis_cm": [
+    -364550,
+    126750,
+    782
+   ],
+   "laenge_m": 191.7,
+   "hoehe_m": 42.7,
+   "gefaelle_mittel": 0.223,
+   "gefaelle_max": 0.646,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P1_M2_01",
+   "feld": "E2",
+   "von_cm": [
+    -54850,
+    -224050,
+    5184
+   ],
+   "bis_cm": [
+    -64950,
+    -195150,
+    1053
+   ],
+   "laenge_m": 331.8,
+   "hoehe_m": 41.3,
+   "gefaelle_mittel": 0.125,
+   "gefaelle_max": 0.196,
+   "breite_m": 4.5
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ELFENFLUSS_2_H4",
+   "feld": "H4",
+   "von_cm": [
+    291420,
+    -63485,
+    10845
+   ],
+   "bis_cm": [
+    272179,
+    -55392,
+    6721
+   ],
+   "laenge_m": 214.8,
+   "hoehe_m": 41.2,
+   "gefaelle_mittel": 0.192,
+   "gefaelle_max": 0.567,
+   "breite_m": 14.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M3_P1_01",
+   "feld": "B6",
+   "von_cm": [
+    -364950,
+    107450,
+    4490
+   ],
+   "bis_cm": [
+    -367950,
+    128150,
+    497
+   ],
+   "laenge_m": 230.5,
+   "hoehe_m": 39.9,
+   "gefaelle_mittel": 0.173,
+   "gefaelle_max": 0.373,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M1_03",
+   "feld": "H4",
+   "von_cm": [
+    258650,
+    -93150,
+    5856
+   ],
+   "bis_cm": [
+    235050,
+    -99650,
+    1909
+   ],
+   "laenge_m": 250.6,
+   "hoehe_m": 39.5,
+   "gefaelle_mittel": 0.158,
+   "gefaelle_max": 0.28,
+   "breite_m": 4.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P1_M2_02",
+   "feld": "E2",
+   "von_cm": [
+    -25250,
+    -220350,
+    6844
+   ],
+   "bis_cm": [
+    -33550,
+    -207150,
+    2999
+   ],
+   "laenge_m": 172.6,
+   "hoehe_m": 38.4,
+   "gefaelle_mittel": 0.223,
+   "gefaelle_max": 0.372,
+   "breite_m": 5.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R3_R_M2_P0_01",
+   "feld": "B5",
+   "von_cm": [
+    -281850,
+    9150,
+    8696
+   ],
+   "bis_cm": [
+    -265150,
+    11750,
+    4870
+   ],
+   "laenge_m": 182.3,
+   "hoehe_m": 38.3,
+   "gefaelle_mittel": 0.21,
+   "gefaelle_max": 0.286,
+   "breite_m": 4.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K1_WASSERFALL_WEST_02",
+   "feld": "B4",
+   "von_cm": [
+    -283850,
+    -67850,
+    8545
+   ],
+   "bis_cm": [
+    -264950,
+    -76550,
+    4731
+   ],
+   "laenge_m": 215.1,
+   "hoehe_m": 38.1,
+   "gefaelle_mittel": 0.177,
+   "gefaelle_max": 0.265,
+   "breite_m": 5.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_05",
+   "feld": "I6",
+   "von_cm": [
+    370350,
+    154550,
+    3788
+   ],
+   "bis_cm": [
+    386650,
+    150050,
+    56
+   ],
+   "laenge_m": 181.5,
+   "hoehe_m": 37.3,
+   "gefaelle_mittel": 0.206,
+   "gefaelle_max": 0.403,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K8_ELFENFALL_04",
+   "feld": "H4",
+   "von_cm": [
+    297950,
+    -36450,
+    5736
+   ],
+   "bis_cm": [
+    281750,
+    -19950,
+    2105
+   ],
+   "laenge_m": 232.1,
+   "hoehe_m": 36.3,
+   "gefaelle_mittel": 0.156,
+   "gefaelle_max": 0.225,
+   "breite_m": 5.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K1_WASSERFALL_WEST_03",
+   "feld": "B4",
+   "von_cm": [
+    -281450,
+    -55050,
+    9203
+   ],
+   "bis_cm": [
+    -264950,
+    -60650,
+    5620
+   ],
+   "laenge_m": 175.9,
+   "hoehe_m": 35.8,
+   "gefaelle_mittel": 0.204,
+   "gefaelle_max": 0.239,
+   "breite_m": 5.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_05",
+   "feld": "D7",
+   "von_cm": [
+    -138750,
+    219250,
+    4443
+   ],
+   "bis_cm": [
+    -127650,
+    230250,
+    1084
+   ],
+   "laenge_m": 156.8,
+   "hoehe_m": 33.6,
+   "gefaelle_mittel": 0.214,
+   "gefaelle_max": 0.349,
+   "breite_m": 3.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M2_03",
+   "feld": "G3",
+   "von_cm": [
+    218250,
+    -145750,
+    4734
+   ],
+   "bis_cm": [
+    235050,
+    -156350,
+    1650
+   ],
+   "laenge_m": 226.0,
+   "hoehe_m": 30.8,
+   "gefaelle_mittel": 0.136,
+   "gefaelle_max": 0.239,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_M3_02",
+   "feld": "F2",
+   "von_cm": [
+    46550,
+    -293650,
+    2999
+   ],
+   "bis_cm": [
+    54750,
+    -301150,
+    96
+   ],
+   "laenge_m": 116.2,
+   "hoehe_m": 29.0,
+   "gefaelle_mittel": 0.25,
+   "gefaelle_max": 0.961,
+   "breite_m": 4.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M1_02",
+   "feld": "H3",
+   "von_cm": [
+    258750,
+    -111650,
+    5462
+   ],
+   "bis_cm": [
+    241450,
+    -109850,
+    2592
+   ],
+   "laenge_m": 174.7,
+   "hoehe_m": 28.7,
+   "gefaelle_mittel": 0.164,
+   "gefaelle_max": 0.306,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_P1_01",
+   "feld": "B6",
+   "von_cm": [
+    -342750,
+    118550,
+    3200
+   ],
+   "bis_cm": [
+    -340550,
+    142250,
+    389
+   ],
+   "laenge_m": 267.1,
+   "hoehe_m": 28.1,
+   "gefaelle_mittel": 0.105,
+   "gefaelle_max": 0.241,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M2_01",
+   "feld": "H3",
+   "von_cm": [
+    259050,
+    -159550,
+    2840
+   ],
+   "bis_cm": [
+    254350,
+    -170350,
+    126
+   ],
+   "laenge_m": 123.7,
+   "hoehe_m": 27.1,
+   "gefaelle_mittel": 0.219,
+   "gefaelle_max": 0.477,
+   "breite_m": 3.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_06",
+   "feld": "D7",
+   "von_cm": [
+    -155450,
+    233350,
+    2726
+   ],
+   "bis_cm": [
+    -157850,
+    243250,
+    76
+   ],
+   "laenge_m": 105.3,
+   "hoehe_m": 26.5,
+   "gefaelle_mittel": 0.252,
+   "gefaelle_max": 0.444,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_03",
+   "feld": "I6",
+   "von_cm": [
+    371950,
+    146150,
+    2586
+   ],
+   "bis_cm": [
+    387150,
+    144650,
+    54
+   ],
+   "laenge_m": 156.0,
+   "hoehe_m": 25.3,
+   "gefaelle_mittel": 0.162,
+   "gefaelle_max": 0.284,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P0_P2_03",
+   "feld": "D7",
+   "von_cm": [
+    -138050,
+    227550,
+    3051
+   ],
+   "bis_cm": [
+    -130750,
+    238450,
+    557
+   ],
+   "laenge_m": 134.1,
+   "hoehe_m": 24.9,
+   "gefaelle_mittel": 0.186,
+   "gefaelle_max": 0.438,
+   "breite_m": 3.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_02",
+   "feld": "D6",
+   "von_cm": [
+    -124150,
+    175850,
+    3074
+   ],
+   "bis_cm": [
+    -113550,
+    187350,
+    602
+   ],
+   "laenge_m": 156.9,
+   "hoehe_m": 24.7,
+   "gefaelle_mittel": 0.158,
+   "gefaelle_max": 0.241,
+   "breite_m": 3.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M3_M2_02",
+   "feld": "A3",
+   "von_cm": [
+    -382250,
+    -124950,
+    2455
+   ],
+   "bis_cm": [
+    -391150,
+    -130950,
+    86
+   ],
+   "laenge_m": 109.1,
+   "hoehe_m": 23.7,
+   "gefaelle_mittel": 0.217,
+   "gefaelle_max": 0.853,
+   "breite_m": 3.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_P1_01",
+   "feld": "B6",
+   "von_cm": [
+    -337450,
+    109850,
+    5604
+   ],
+   "bis_cm": [
+    -341850,
+    116950,
+    3289
+   ],
+   "laenge_m": 85.7,
+   "hoehe_m": 23.2,
+   "gefaelle_mittel": 0.27,
+   "gefaelle_max": 0.512,
+   "breite_m": 3.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_M1_06",
+   "feld": "C4",
+   "von_cm": [
+    -249750,
+    -48050,
+    5098
+   ],
+   "bis_cm": [
+    -241250,
+    -51150,
+    2825
+   ],
+   "laenge_m": 94.2,
+   "hoehe_m": 22.7,
+   "gefaelle_mittel": 0.241,
+   "gefaelle_max": 0.412,
+   "breite_m": 4.1
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ERLENBACH_2V_D3",
+   "feld": "D3",
+   "von_cm": [
+    -165999,
+    -185186,
+    3333
+   ],
+   "bis_cm": [
+    -164216,
+    -170119,
+    1122
+   ],
+   "laenge_m": 155.7,
+   "hoehe_m": 22.1,
+   "gefaelle_mittel": 0.142,
+   "gefaelle_max": 0.282,
+   "breite_m": 21.3
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_01",
+   "feld": "I6",
+   "von_cm": [
+    361550,
+    126750,
+    3066
+   ],
+   "bis_cm": [
+    368250,
+    110050,
+    870
+   ],
+   "laenge_m": 193.8,
+   "hoehe_m": 22.0,
+   "gefaelle_mittel": 0.113,
+   "gefaelle_max": 0.301,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_P0_01",
+   "feld": "B5",
+   "von_cm": [
+    -277850,
+    19050,
+    6626
+   ],
+   "bis_cm": [
+    -265150,
+    20150,
+    4537
+   ],
+   "laenge_m": 128.4,
+   "hoehe_m": 20.9,
+   "gefaelle_mittel": 0.163,
+   "gefaelle_max": 0.286,
+   "breite_m": 4.7
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ELFENFLUSS_1_H4",
+   "feld": "H4",
+   "von_cm": [
+    308456,
+    -69544,
+    12772
+   ],
+   "bis_cm": [
+    290324,
+    -62996,
+    10733
+   ],
+   "laenge_m": 194.1,
+   "hoehe_m": 20.4,
+   "gefaelle_mittel": 0.105,
+   "gefaelle_max": 0.138,
+   "breite_m": 34.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_04",
+   "feld": "D7",
+   "von_cm": [
+    -128850,
+    212650,
+    3097
+   ],
+   "bis_cm": [
+    -118750,
+    213550,
+    1052
+   ],
+   "laenge_m": 105.9,
+   "hoehe_m": 20.4,
+   "gefaelle_mittel": 0.193,
+   "gefaelle_max": 0.275,
+   "breite_m": 3.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_02",
+   "feld": "I6",
+   "von_cm": [
+    368050,
+    135050,
+    2474
+   ],
+   "bis_cm": [
+    379550,
+    123250,
+    432
+   ],
+   "laenge_m": 171.5,
+   "hoehe_m": 20.4,
+   "gefaelle_mittel": 0.119,
+   "gefaelle_max": 0.213,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P1_M2_01",
+   "feld": "E2",
+   "von_cm": [
+    -40250,
+    -213550,
+    4961
+   ],
+   "bis_cm": [
+    -54350,
+    -209050,
+    3019
+   ],
+   "laenge_m": 163.0,
+   "hoehe_m": 19.4,
+   "gefaelle_mittel": 0.119,
+   "gefaelle_max": 0.206,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M2_02",
+   "feld": "G3",
+   "von_cm": [
+    217350,
+    -158850,
+    4028
+   ],
+   "bis_cm": [
+    225950,
+    -159850,
+    2104
+   ],
+   "laenge_m": 86.9,
+   "hoehe_m": 19.2,
+   "gefaelle_mittel": 0.221,
+   "gefaelle_max": 0.296,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_M1_02",
+   "feld": "C4",
+   "von_cm": [
+    -261450,
+    -62550,
+    5247
+   ],
+   "bis_cm": [
+    -250150,
+    -58850,
+    3340
+   ],
+   "laenge_m": 134.1,
+   "hoehe_m": 19.1,
+   "gefaelle_mittel": 0.142,
+   "gefaelle_max": 0.178,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M2_04",
+   "feld": "G3",
+   "von_cm": [
+    187350,
+    -136150,
+    4775
+   ],
+   "bis_cm": [
+    180650,
+    -130850,
+    2904
+   ],
+   "laenge_m": 86.8,
+   "hoehe_m": 18.7,
+   "gefaelle_mittel": 0.216,
+   "gefaelle_max": 0.536,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P3_M2_02",
+   "feld": "G3",
+   "von_cm": [
+    220650,
+    -165050,
+    3851
+   ],
+   "bis_cm": [
+    228650,
+    -162450,
+    1976
+   ],
+   "laenge_m": 84.5,
+   "hoehe_m": 18.7,
+   "gefaelle_mittel": 0.222,
+   "gefaelle_max": 0.326,
+   "breite_m": 3.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K8_ELFENFALL_06",
+   "feld": "H4",
+   "von_cm": [
+    306650,
+    -24650,
+    6073
+   ],
+   "bis_cm": [
+    299650,
+    -19950,
+    4226
+   ],
+   "laenge_m": 84.7,
+   "hoehe_m": 18.5,
+   "gefaelle_mittel": 0.218,
+   "gefaelle_max": 0.261,
+   "breite_m": 5.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_03",
+   "feld": "D6",
+   "von_cm": [
+    -120950,
+    189650,
+    2135
+   ],
+   "bis_cm": [
+    -112050,
+    193250,
+    284
+   ],
+   "laenge_m": 104.8,
+   "hoehe_m": 18.5,
+   "gefaelle_mittel": 0.177,
+   "gefaelle_max": 0.402,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_M2_04",
+   "feld": "D3",
+   "von_cm": [
+    -78350,
+    -199050,
+    2334
+   ],
+   "bis_cm": [
+    -73150,
+    -188150,
+    557
+   ],
+   "laenge_m": 125.7,
+   "hoehe_m": 17.8,
+   "gefaelle_mittel": 0.141,
+   "gefaelle_max": 0.247,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_M1_03",
+   "feld": "C4",
+   "von_cm": [
+    -253650,
+    -29550,
+    4928
+   ],
+   "bis_cm": [
+    -242850,
+    -26850,
+    3181
+   ],
+   "laenge_m": 116.3,
+   "hoehe_m": 17.5,
+   "gefaelle_mittel": 0.15,
+   "gefaelle_max": 0.321,
+   "breite_m": 3.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M1_01",
+   "feld": "H3",
+   "von_cm": [
+    241950,
+    -124950,
+    3945
+   ],
+   "bis_cm": [
+    235050,
+    -117750,
+    2191
+   ],
+   "laenge_m": 104.2,
+   "hoehe_m": 17.5,
+   "gefaelle_mittel": 0.168,
+   "gefaelle_max": 0.29,
+   "breite_m": 4.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_P0_04",
+   "feld": "C5",
+   "von_cm": [
+    -262950,
+    40750,
+    4439
+   ],
+   "bis_cm": [
+    -247850,
+    40850,
+    2690
+   ],
+   "laenge_m": 153.5,
+   "hoehe_m": 17.5,
+   "gefaelle_mittel": 0.114,
+   "gefaelle_max": 0.16,
+   "breite_m": 3.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P4_M1_02",
+   "feld": "H3",
+   "von_cm": [
+    253550,
+    -117950,
+    4510
+   ],
+   "bis_cm": [
+    243750,
+    -112350,
+    2825
+   ],
+   "laenge_m": 114.4,
+   "hoehe_m": 16.9,
+   "gefaelle_mittel": 0.147,
+   "gefaelle_max": 0.214,
+   "breite_m": 3.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P3_M2_01",
+   "feld": "G3",
+   "von_cm": [
+    184750,
+    -174150,
+    3597
+   ],
+   "bis_cm": [
+    178450,
+    -171950,
+    1930
+   ],
+   "laenge_m": 73.1,
+   "hoehe_m": 16.7,
+   "gefaelle_mittel": 0.228,
+   "gefaelle_max": 0.563,
+   "breite_m": 3.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_M2_01",
+   "feld": "D2",
+   "von_cm": [
+    -73150,
+    -224950,
+    4872
+   ],
+   "bis_cm": [
+    -64950,
+    -214850,
+    3215
+   ],
+   "laenge_m": 135.2,
+   "hoehe_m": 16.6,
+   "gefaelle_mittel": 0.123,
+   "gefaelle_max": 0.148,
+   "breite_m": 6.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M2_02",
+   "feld": "H3",
+   "von_cm": [
+    236550,
+    -156550,
+    1740
+   ],
+   "bis_cm": [
+    236950,
+    -167750,
+    86
+   ],
+   "laenge_m": 115.3,
+   "hoehe_m": 16.5,
+   "gefaelle_mittel": 0.144,
+   "gefaelle_max": 0.289,
+   "breite_m": 4.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P5_P1_01",
+   "feld": "I6",
+   "von_cm": [
+    352050,
+    117850,
+    2773
+   ],
+   "bis_cm": [
+    360350,
+    109150,
+    1122
+   ],
+   "laenge_m": 132.9,
+   "hoehe_m": 16.5,
+   "gefaelle_mittel": 0.124,
+   "gefaelle_max": 0.248,
+   "breite_m": 3.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R3_R_M2_P0_02",
+   "feld": "B5",
+   "von_cm": [
+    -274850,
+    37450,
+    6294
+   ],
+   "bis_cm": [
+    -265350,
+    41050,
+    4661
+   ],
+   "laenge_m": 106.7,
+   "hoehe_m": 16.3,
+   "gefaelle_mittel": 0.153,
+   "gefaelle_max": 0.206,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_M1_01",
+   "feld": "F4",
+   "von_cm": [
+    116650,
+    -82850,
+    2792
+   ],
+   "bis_cm": [
+    114150,
+    -92350,
+    1167
+   ],
+   "laenge_m": 105.6,
+   "hoehe_m": 16.2,
+   "gefaelle_mittel": 0.154,
+   "gefaelle_max": 0.234,
+   "breite_m": 3.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_04",
+   "feld": "I6",
+   "von_cm": [
+    363350,
+    147650,
+    4794
+   ],
+   "bis_cm": [
+    369050,
+    146850,
+    3176
+   ],
+   "laenge_m": 58.0,
+   "hoehe_m": 16.2,
+   "gefaelle_mittel": 0.279,
+   "gefaelle_max": 0.405,
+   "breite_m": 4.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M3_M2_03",
+   "feld": "A3",
+   "von_cm": [
+    -388450,
+    -124950,
+    1635
+   ],
+   "bis_cm": [
+    -392950,
+    -129850,
+    85
+   ],
+   "laenge_m": 66.8,
+   "hoehe_m": 15.5,
+   "gefaelle_mittel": 0.232,
+   "gefaelle_max": 0.385,
+   "breite_m": 4.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P0_P2_02",
+   "feld": "D7",
+   "von_cm": [
+    -119850,
+    204650,
+    1849
+   ],
+   "bis_cm": [
+    -112950,
+    209250,
+    309
+   ],
+   "laenge_m": 85.2,
+   "hoehe_m": 15.4,
+   "gefaelle_mittel": 0.181,
+   "gefaelle_max": 0.326,
+   "breite_m": 3.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P0_P2_01",
+   "feld": "D6",
+   "von_cm": [
+    -118750,
+    196550,
+    1775
+   ],
+   "bis_cm": [
+    -112150,
+    193450,
+    284
+   ],
+   "laenge_m": 79.4,
+   "hoehe_m": 14.9,
+   "gefaelle_mittel": 0.188,
+   "gefaelle_max": 0.377,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_P1_01",
+   "feld": "G6",
+   "von_cm": [
+    217450,
+    127750,
+    4803
+   ],
+   "bis_cm": [
+    214750,
+    120750,
+    3337
+   ],
+   "laenge_m": 75.6,
+   "hoehe_m": 14.7,
+   "gefaelle_mittel": 0.194,
+   "gefaelle_max": 0.421,
+   "breite_m": 3.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P1_M2_02",
+   "feld": "E2",
+   "von_cm": [
+    -33950,
+    -206350,
+    2950
+   ],
+   "bis_cm": [
+    -37350,
+    -199750,
+    1556
+   ],
+   "laenge_m": 75.1,
+   "hoehe_m": 13.9,
+   "gefaelle_mittel": 0.186,
+   "gefaelle_max": 0.289,
+   "breite_m": 5.2
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_HAUPTFLUSS_3_C4",
+   "feld": "C4",
+   "von_cm": [
+    -261465,
+    -6367,
+    4280
+   ],
+   "bis_cm": [
+    -248666,
+    -2081,
+    2910
+   ],
+   "laenge_m": 135.1,
+   "hoehe_m": 13.7,
+   "gefaelle_mittel": 0.101,
+   "gefaelle_max": 0.182,
+   "breite_m": 44.3
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_M2_02",
+   "feld": "B3",
+   "von_cm": [
+    -284550,
+    -127450,
+    1602
+   ],
+   "bis_cm": [
+    -280150,
+    -131550,
+    242
+   ],
+   "laenge_m": 60.9,
+   "hoehe_m": 13.6,
+   "gefaelle_mittel": 0.223,
+   "gefaelle_max": 0.996,
+   "breite_m": 3.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_M3_01",
+   "feld": "F1",
+   "von_cm": [
+    38550,
+    -306650,
+    2470
+   ],
+   "bis_cm": [
+    41950,
+    -309850,
+    1132
+   ],
+   "laenge_m": 46.8,
+   "hoehe_m": 13.4,
+   "gefaelle_mittel": 0.286,
+   "gefaelle_max": 0.474,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K8_ELFENFALL_03",
+   "feld": "H4",
+   "von_cm": [
+    269850,
+    -37350,
+    3347
+   ],
+   "bis_cm": [
+    262050,
+    -27150,
+    2066
+   ],
+   "laenge_m": 133.5,
+   "hoehe_m": 12.8,
+   "gefaelle_mittel": 0.096,
+   "gefaelle_max": 0.142,
+   "breite_m": 5.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M2_03",
+   "feld": "H3",
+   "von_cm": [
+    240550,
+    -145750,
+    4135
+   ],
+   "bis_cm": [
+    235050,
+    -149950,
+    2857
+   ],
+   "laenge_m": 71.5,
+   "hoehe_m": 12.8,
+   "gefaelle_mittel": 0.179,
+   "gefaelle_max": 0.201,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K8_ELFENFALL_02",
+   "feld": "H4",
+   "von_cm": [
+    286750,
+    -70450,
+    9398
+   ],
+   "bis_cm": [
+    280650,
+    -68250,
+    8166
+   ],
+   "laenge_m": 65.2,
+   "hoehe_m": 12.3,
+   "gefaelle_mittel": 0.189,
+   "gefaelle_max": 0.257,
+   "breite_m": 4.9
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ELFENFLUSS_3_F4",
+   "feld": "G4",
+   "von_cm": [
+    132114,
+    -40303,
+    1224
+   ],
+   "bis_cm": [
+    113438,
+    -23517,
+    9
+   ],
+   "laenge_m": 268.0,
+   "hoehe_m": 12.1,
+   "gefaelle_mittel": 0.045,
+   "gefaelle_max": 0.057,
+   "breite_m": 62.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_M2_01",
+   "feld": "B3",
+   "von_cm": [
+    -341750,
+    -150650,
+    4591
+   ],
+   "bis_cm": [
+    -340050,
+    -154050,
+    3407
+   ],
+   "laenge_m": 38.2,
+   "hoehe_m": 11.8,
+   "gefaelle_mittel": 0.31,
+   "gefaelle_max": 0.332,
+   "breite_m": 3.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_P0_03",
+   "feld": "C5",
+   "von_cm": [
+    -264950,
+    11650,
+    4836
+   ],
+   "bis_cm": [
+    -260050,
+    12650,
+    3720
+   ],
+   "laenge_m": 56.4,
+   "hoehe_m": 11.2,
+   "gefaelle_mittel": 0.198,
+   "gefaelle_max": 0.232,
+   "breite_m": 4.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_M1_01",
+   "feld": "F4",
+   "von_cm": [
+    113450,
+    -93050,
+    1125
+   ],
+   "bis_cm": [
+    109150,
+    -99450,
+    64
+   ],
+   "laenge_m": 79.3,
+   "hoehe_m": 10.6,
+   "gefaelle_mittel": 0.134,
+   "gefaelle_max": 0.244,
+   "breite_m": 4.3
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M1_01",
+   "feld": "G3",
+   "von_cm": [
+    178550,
+    -124950,
+    2235
+   ],
+   "bis_cm": [
+    176850,
+    -116650,
+    1183
+   ],
+   "laenge_m": 85.5,
+   "hoehe_m": 10.5,
+   "gefaelle_mittel": 0.123,
+   "gefaelle_max": 0.172,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_M2_01",
+   "feld": "C3",
+   "von_cm": [
+    -256350,
+    -132750,
+    1179
+   ],
+   "bis_cm": [
+    -259150,
+    -138350,
+    161
+   ],
+   "laenge_m": 68.3,
+   "hoehe_m": 10.2,
+   "gefaelle_mittel": 0.149,
+   "gefaelle_max": 0.196,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_M1_03",
+   "feld": "C4",
+   "von_cm": [
+    -260550,
+    -80150,
+    4183
+   ],
+   "bis_cm": [
+    -251450,
+    -77850,
+    3202
+   ],
+   "laenge_m": 96.0,
+   "hoehe_m": 9.8,
+   "gefaelle_mittel": 0.102,
+   "gefaelle_max": 0.125,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_M2_03",
+   "feld": "B3",
+   "von_cm": [
+    -278450,
+    -124950,
+    1210
+   ],
+   "bis_cm": [
+    -277350,
+    -130050,
+    260
+   ],
+   "laenge_m": 55.9,
+   "hoehe_m": 9.5,
+   "gefaelle_mittel": 0.17,
+   "gefaelle_max": 0.356,
+   "breite_m": 5.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P1_M2_04",
+   "feld": "E3",
+   "von_cm": [
+    -24650,
+    -190250,
+    1027
+   ],
+   "bis_cm": [
+    -29150,
+    -182450,
+    72
+   ],
+   "laenge_m": 92.6,
+   "hoehe_m": 9.5,
+   "gefaelle_mittel": 0.103,
+   "gefaelle_max": 0.272,
+   "breite_m": 4.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K8_ELFENFALL_02",
+   "feld": "H4",
+   "von_cm": [
+    279650,
+    -68050,
+    8139
+   ],
+   "bis_cm": [
+    276050,
+    -64750,
+    7194
+   ],
+   "laenge_m": 48.9,
+   "hoehe_m": 9.4,
+   "gefaelle_mittel": 0.193,
+   "gefaelle_max": 0.327,
+   "breite_m": 4.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_M1_02",
+   "feld": "F4",
+   "von_cm": [
+    102750,
+    -60350,
+    1767
+   ],
+   "bis_cm": [
+    96050,
+    -57050,
+    858
+   ],
+   "laenge_m": 76.9,
+   "hoehe_m": 9.1,
+   "gefaelle_mittel": 0.118,
+   "gefaelle_max": 0.172,
+   "breite_m": 3.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P1_M2_02",
+   "feld": "E3",
+   "von_cm": [
+    -38950,
+    -196350,
+    1289
+   ],
+   "bis_cm": [
+    -40250,
+    -186550,
+    413
+   ],
+   "laenge_m": 102.8,
+   "hoehe_m": 8.8,
+   "gefaelle_mittel": 0.085,
+   "gefaelle_max": 0.114,
+   "breite_m": 5.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P1_M2_03",
+   "feld": "E2",
+   "von_cm": [
+    -64450,
+    -214250,
+    3136
+   ],
+   "bis_cm": [
+    -64950,
+    -207350,
+    2274
+   ],
+   "laenge_m": 71.7,
+   "hoehe_m": 8.6,
+   "gefaelle_mittel": 0.12,
+   "gefaelle_max": 0.149,
+   "breite_m": 6.3
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_M1_01",
+   "feld": "C3",
+   "von_cm": [
+    -226750,
+    -121250,
+    895
+   ],
+   "bis_cm": [
+    -226250,
+    -124250,
+    68
+   ],
+   "laenge_m": 30.9,
+   "hoehe_m": 8.3,
+   "gefaelle_mittel": 0.268,
+   "gefaelle_max": 0.375,
+   "breite_m": 4.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_P0_03",
+   "feld": "C5",
+   "von_cm": [
+    -264850,
+    19850,
+    4519
+   ],
+   "bis_cm": [
+    -259950,
+    15650,
+    3705
+   ],
+   "laenge_m": 70.1,
+   "hoehe_m": 8.1,
+   "gefaelle_mittel": 0.116,
+   "gefaelle_max": 0.194,
+   "breite_m": 3.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_M2_02",
+   "feld": "E3",
+   "von_cm": [
+    -67050,
+    -199050,
+    1677
+   ],
+   "bis_cm": [
+    -65750,
+    -193850,
+    922
+   ],
+   "laenge_m": 56.9,
+   "hoehe_m": 7.6,
+   "gefaelle_mittel": 0.133,
+   "gefaelle_max": 0.184,
+   "breite_m": 5.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_K8_ELFENFALL_01",
+   "feld": "H3",
+   "von_cm": [
+    263850,
+    -112350,
+    6224
+   ],
+   "bis_cm": [
+    258450,
+    -111750,
+    5462
+   ],
+   "laenge_m": 54.8,
+   "hoehe_m": 7.6,
+   "gefaelle_mittel": 0.139,
+   "gefaelle_max": 0.17,
+   "breite_m": 5.3
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ERLENBACH_3_D3",
+   "feld": "D3",
+   "von_cm": [
+    -164586,
+    -171261,
+    1237
+   ],
+   "bis_cm": [
+    -159060,
+    -160777,
+    484
+   ],
+   "laenge_m": 122.2,
+   "hoehe_m": 7.5,
+   "gefaelle_mittel": 0.062,
+   "gefaelle_max": 0.096,
+   "breite_m": 64.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_M1_02",
+   "feld": "C3",
+   "von_cm": [
+    -221450,
+    -120850,
+    784
+   ],
+   "bis_cm": [
+    -221250,
+    -123850,
+    63
+   ],
+   "laenge_m": 30.5,
+   "hoehe_m": 7.2,
+   "gefaelle_mittel": 0.236,
+   "gefaelle_max": 0.294,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P0_M2_01",
+   "feld": "E2",
+   "von_cm": [
+    -64950,
+    -224150,
+    4663
+   ],
+   "bis_cm": [
+    -67050,
+    -219950,
+    3947
+   ],
+   "laenge_m": 47.1,
+   "hoehe_m": 7.2,
+   "gefaelle_mittel": 0.152,
+   "gefaelle_max": 0.175,
+   "breite_m": 4.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_04",
+   "feld": "D7",
+   "von_cm": [
+    -118050,
+    213150,
+    1010
+   ],
+   "bis_cm": [
+    -113350,
+    209950,
+    309
+   ],
+   "laenge_m": 57.3,
+   "hoehe_m": 7.0,
+   "gefaelle_mittel": 0.122,
+   "gefaelle_max": 0.168,
+   "breite_m": 3.6
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_HAUPTFLUSS_3_C5",
+   "feld": "C4",
+   "von_cm": [
+    -251518,
+    -3011,
+    3079
+   ],
+   "bis_cm": [
+    -240533,
+    3128,
+    2403
+   ],
+   "laenge_m": 131.2,
+   "hoehe_m": 6.8,
+   "gefaelle_mittel": 0.052,
+   "gefaelle_max": 0.086,
+   "breite_m": 54.1
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ELFENFLUSS_3_G4",
+   "feld": "H4",
+   "von_cm": [
+    233377,
+    -53826,
+    2398
+   ],
+   "bis_cm": [
+    219390,
+    -59159,
+    1719
+   ],
+   "laenge_m": 149.8,
+   "hoehe_m": 6.8,
+   "gefaelle_mittel": 0.045,
+   "gefaelle_max": 0.059,
+   "breite_m": 43.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M1_06",
+   "feld": "H4",
+   "von_cm": [
+    233450,
+    -74050,
+    2695
+   ],
+   "bis_cm": [
+    227850,
+    -75050,
+    2011
+   ],
+   "laenge_m": 57.1,
+   "hoehe_m": 6.8,
+   "gefaelle_mittel": 0.12,
+   "gefaelle_max": 0.176,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M1_04",
+   "feld": "H4",
+   "von_cm": [
+    239750,
+    -85850,
+    2751
+   ],
+   "bis_cm": [
+    235050,
+    -89650,
+    2086
+   ],
+   "laenge_m": 60.6,
+   "hoehe_m": 6.7,
+   "gefaelle_mittel": 0.11,
+   "gefaelle_max": 0.129,
+   "breite_m": 4.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M2_02",
+   "feld": "G3",
+   "von_cm": [
+    230550,
+    -160950,
+    1797
+   ],
+   "bis_cm": [
+    234950,
+    -162050,
+    1143
+   ],
+   "laenge_m": 47.1,
+   "hoehe_m": 6.5,
+   "gefaelle_mittel": 0.139,
+   "gefaelle_max": 0.213,
+   "breite_m": 5.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_02",
+   "feld": "I6",
+   "von_cm": [
+    360950,
+    137150,
+    3786
+   ],
+   "bis_cm": [
+    363950,
+    137150,
+    3141
+   ],
+   "laenge_m": 30.1,
+   "hoehe_m": 6.5,
+   "gefaelle_mittel": 0.214,
+   "gefaelle_max": 0.401,
+   "breite_m": 3.3
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M2_04",
+   "feld": "G3",
+   "von_cm": [
+    179950,
+    -130150,
+    2870
+   ],
+   "bis_cm": [
+    178550,
+    -124950,
+    2240
+   ],
+   "laenge_m": 55.4,
+   "hoehe_m": 6.3,
+   "gefaelle_mittel": 0.114,
+   "gefaelle_max": 0.12,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_M1_04",
+   "feld": "C4",
+   "von_cm": [
+    -260550,
+    -86350,
+    4107
+   ],
+   "bis_cm": [
+    -253450,
+    -84150,
+    3478
+   ],
+   "laenge_m": 75.6,
+   "hoehe_m": 6.3,
+   "gefaelle_mittel": 0.083,
+   "gefaelle_max": 0.108,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P4_M1_02",
+   "feld": "H3",
+   "von_cm": [
+    240650,
+    -109450,
+    2550
+   ],
+   "bis_cm": [
+    235450,
+    -107550,
+    1942
+   ],
+   "laenge_m": 56.5,
+   "hoehe_m": 6.1,
+   "gefaelle_mittel": 0.108,
+   "gefaelle_max": 0.155,
+   "breite_m": 4.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P2_M1_01",
+   "feld": "F4",
+   "von_cm": [
+    96750,
+    -62750,
+    1286
+   ],
+   "bis_cm": [
+    93650,
+    -57050,
+    703
+   ],
+   "laenge_m": 67.3,
+   "hoehe_m": 5.8,
+   "gefaelle_mittel": 0.087,
+   "gefaelle_max": 0.146,
+   "breite_m": 3.3
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_02",
+   "feld": "I6",
+   "von_cm": [
+    364750,
+    136650,
+    3087
+   ],
+   "bis_cm": [
+    367250,
+    135450,
+    2526
+   ],
+   "laenge_m": 27.7,
+   "hoehe_m": 5.6,
+   "gefaelle_mittel": 0.202,
+   "gefaelle_max": 0.242,
+   "breite_m": 3.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P4_P1_01",
+   "feld": "I6",
+   "von_cm": [
+    333450,
+    98250,
+    1218
+   ],
+   "bis_cm": [
+    330450,
+    97750,
+    654
+   ],
+   "laenge_m": 31.4,
+   "hoehe_m": 5.6,
+   "gefaelle_mittel": 0.179,
+   "gefaelle_max": 0.504,
+   "breite_m": 5.7
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_HAUPTFLUSS_1_B4",
+   "feld": "B4",
+   "von_cm": [
+    -318990,
+    -69011,
+    28815
+   ],
+   "bis_cm": [
+    -316871,
+    -66887,
+    28288
+   ],
+   "laenge_m": 30.0,
+   "hoehe_m": 5.3,
+   "gefaelle_mittel": 0.176,
+   "gefaelle_max": 0.179,
+   "breite_m": 21.0
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ERLENBACH_2_C2",
+   "feld": "C2",
+   "von_cm": [
+    -178388,
+    -221615,
+    4510
+   ],
+   "bis_cm": [
+    -178565,
+    -214513,
+    3978
+   ],
+   "laenge_m": 71.5,
+   "hoehe_m": 5.3,
+   "gefaelle_mittel": 0.074,
+   "gefaelle_max": 0.14,
+   "breite_m": 28.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P3_M2_03",
+   "feld": "G3",
+   "von_cm": [
+    190150,
+    -163750,
+    3620
+   ],
+   "bis_cm": [
+    186150,
+    -163750,
+    3093
+   ],
+   "laenge_m": 41.6,
+   "hoehe_m": 5.3,
+   "gefaelle_mittel": 0.127,
+   "gefaelle_max": 0.239,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_P0_03",
+   "feld": "C5",
+   "von_cm": [
+    -252650,
+    22050,
+    3237
+   ],
+   "bis_cm": [
+    -248350,
+    23650,
+    2739
+   ],
+   "laenge_m": 46.2,
+   "hoehe_m": 5.0,
+   "gefaelle_mittel": 0.108,
+   "gefaelle_max": 0.186,
+   "breite_m": 5.1
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_M2_01",
+   "feld": "B3",
+   "von_cm": [
+    -339950,
+    -154950,
+    3357
+   ],
+   "bis_cm": [
+    -339650,
+    -156850,
+    2874
+   ],
+   "laenge_m": 19.3,
+   "hoehe_m": 4.8,
+   "gefaelle_mittel": 0.251,
+   "gefaelle_max": 0.266,
+   "breite_m": 2.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P3_M1_01",
+   "feld": "G3",
+   "von_cm": [
+    180550,
+    -115850,
+    1468
+   ],
+   "bis_cm": [
+    176350,
+    -111450,
+    988
+   ],
+   "laenge_m": 60.9,
+   "hoehe_m": 4.8,
+   "gefaelle_mittel": 0.079,
+   "gefaelle_max": 0.102,
+   "breite_m": 3.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_M1_02",
+   "feld": "C3",
+   "von_cm": [
+    -223150,
+    -110650,
+    1550
+   ],
+   "bis_cm": [
+    -222050,
+    -116150,
+    1085
+   ],
+   "laenge_m": 57.0,
+   "hoehe_m": 4.6,
+   "gefaelle_mittel": 0.081,
+   "gefaelle_max": 0.113,
+   "breite_m": 3.8
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_HAUPTFLUSS_2_B4",
+   "feld": "B4",
+   "von_cm": [
+    -302464,
+    -48042,
+    20289
+   ],
+   "bis_cm": [
+    -301698,
+    -46761,
+    19842
+   ],
+   "laenge_m": 14.9,
+   "hoehe_m": 4.5,
+   "gefaelle_mittel": 0.299,
+   "gefaelle_max": 0.299,
+   "breite_m": 56.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P4_M1_01",
+   "feld": "H3",
+   "von_cm": [
+    237650,
+    -124950,
+    3310
+   ],
+   "bis_cm": [
+    237150,
+    -122050,
+    2857
+   ],
+   "laenge_m": 29.9,
+   "hoehe_m": 4.5,
+   "gefaelle_mittel": 0.151,
+   "gefaelle_max": 0.199,
+   "breite_m": 3.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_P0_02",
+   "feld": "C4",
+   "von_cm": [
+    -230250,
+    -9150,
+    2382
+   ],
+   "bis_cm": [
+    -229050,
+    -7650,
+    1959
+   ],
+   "laenge_m": 19.6,
+   "hoehe_m": 4.2,
+   "gefaelle_mittel": 0.216,
+   "gefaelle_max": 0.226,
+   "breite_m": 3.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_04",
+   "feld": "I6",
+   "von_cm": [
+    369950,
+    146650,
+    3124
+   ],
+   "bis_cm": [
+    371250,
+    146350,
+    2718
+   ],
+   "laenge_m": 13.4,
+   "hoehe_m": 4.1,
+   "gefaelle_mittel": 0.304,
+   "gefaelle_max": 0.374,
+   "breite_m": 4.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_05",
+   "feld": "I6",
+   "von_cm": [
+    368650,
+    155350,
+    4245
+   ],
+   "bis_cm": [
+    369550,
+    155050,
+    3844
+   ],
+   "laenge_m": 9.5,
+   "hoehe_m": 4.0,
+   "gefaelle_mittel": 0.422,
+   "gefaelle_max": 0.422,
+   "breite_m": 4.0
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ERLENBACH_1_C2",
+   "feld": "C2",
+   "von_cm": [
+    -171944,
+    -241122,
+    10395
+   ],
+   "bis_cm": [
+    -172565,
+    -238307,
+    10014
+   ],
+   "laenge_m": 29.0,
+   "hoehe_m": 3.8,
+   "gefaelle_mittel": 0.132,
+   "gefaelle_max": 0.16,
+   "breite_m": 31.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P4_M2_01",
+   "feld": "H3",
+   "von_cm": [
+    254250,
+    -134750,
+    5651
+   ],
+   "bis_cm": [
+    252050,
+    -132350,
+    5280
+   ],
+   "laenge_m": 33.2,
+   "hoehe_m": 3.7,
+   "gefaelle_mittel": 0.112,
+   "gefaelle_max": 0.142,
+   "breite_m": 4.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M2_M2_01",
+   "feld": "C3",
+   "von_cm": [
+    -265850,
+    -125150,
+    776
+   ],
+   "bis_cm": [
+    -265250,
+    -128850,
+    432
+   ],
+   "laenge_m": 37.7,
+   "hoehe_m": 3.4,
+   "gefaelle_mittel": 0.091,
+   "gefaelle_max": 0.105,
+   "breite_m": 5.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P3_M1_02",
+   "feld": "H4",
+   "von_cm": [
+    235350,
+    -99550,
+    1958
+   ],
+   "bis_cm": [
+    232350,
+    -101150,
+    1620
+   ],
+   "laenge_m": 38.6,
+   "hoehe_m": 3.4,
+   "gefaelle_mittel": 0.088,
+   "gefaelle_max": 0.118,
+   "breite_m": 2.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M1_04",
+   "feld": "H4",
+   "von_cm": [
+    235050,
+    -89650,
+    2075
+   ],
+   "bis_cm": [
+    232550,
+    -91150,
+    1756
+   ],
+   "laenge_m": 29.3,
+   "hoehe_m": 3.2,
+   "gefaelle_mittel": 0.109,
+   "gefaelle_max": 0.138,
+   "breite_m": 4.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M2_01",
+   "feld": "G3",
+   "von_cm": [
+    163550,
+    -175350,
+    378
+   ],
+   "bis_cm": [
+    161550,
+    -175650,
+    73
+   ],
+   "laenge_m": 20.9,
+   "hoehe_m": 3.0,
+   "gefaelle_mittel": 0.146,
+   "gefaelle_max": 0.154,
+   "breite_m": 4.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_P0_01",
+   "feld": "C4",
+   "von_cm": [
+    -207450,
+    -14950,
+    2262
+   ],
+   "bis_cm": [
+    -207650,
+    -13050,
+    1984
+   ],
+   "laenge_m": 19.5,
+   "hoehe_m": 2.8,
+   "gefaelle_mittel": 0.143,
+   "gefaelle_max": 0.168,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_P0_04",
+   "feld": "C5",
+   "von_cm": [
+    -197650,
+    25150,
+    2162
+   ],
+   "bis_cm": [
+    -198950,
+    26350,
+    1884
+   ],
+   "laenge_m": 18.4,
+   "hoehe_m": 2.8,
+   "gefaelle_mittel": 0.151,
+   "gefaelle_max": 0.182,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_M2_02",
+   "feld": "E3",
+   "von_cm": [
+    -65750,
+    -185150,
+    354
+   ],
+   "bis_cm": [
+    -65650,
+    -183150,
+    72
+   ],
+   "laenge_m": 20.1,
+   "hoehe_m": 2.8,
+   "gefaelle_mittel": 0.141,
+   "gefaelle_max": 0.154,
+   "breite_m": 5.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M1_02",
+   "feld": "H3",
+   "von_cm": [
+    233450,
+    -114750,
+    2012
+   ],
+   "bis_cm": [
+    232150,
+    -112750,
+    1729
+   ],
+   "laenge_m": 23.9,
+   "hoehe_m": 2.8,
+   "gefaelle_mittel": 0.118,
+   "gefaelle_max": 0.171,
+   "breite_m": 4.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M1_07",
+   "feld": "G4",
+   "von_cm": [
+    232050,
+    -60650,
+    2432
+   ],
+   "bis_cm": [
+    229350,
+    -60150,
+    2171
+   ],
+   "laenge_m": 28.0,
+   "hoehe_m": 2.6,
+   "gefaelle_mittel": 0.093,
+   "gefaelle_max": 0.119,
+   "breite_m": 3.6
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_M2_03",
+   "feld": "D3",
+   "von_cm": [
+    -95850,
+    -171350,
+    333
+   ],
+   "bis_cm": [
+    -95550,
+    -170450,
+    82
+   ],
+   "laenge_m": 9.5,
+   "hoehe_m": 2.5,
+   "gefaelle_mittel": 0.265,
+   "gefaelle_max": 0.265,
+   "breite_m": 4.0
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ELFENFLUSS_3_G4",
+   "feld": "G4",
+   "von_cm": [
+    133586,
+    -39994,
+    1300
+   ],
+   "bis_cm": [
+    129210,
+    -40508,
+    1058
+   ],
+   "laenge_m": 44.3,
+   "hoehe_m": 2.4,
+   "gefaelle_mittel": 0.054,
+   "gefaelle_max": 0.057,
+   "breite_m": 72.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_M1_02",
+   "feld": "B3",
+   "von_cm": [
+    -282350,
+    -120450,
+    5286
+   ],
+   "bis_cm": [
+    -281250,
+    -121650,
+    5046
+   ],
+   "laenge_m": 16.3,
+   "hoehe_m": 2.4,
+   "gefaelle_mittel": 0.147,
+   "gefaelle_max": 0.17,
+   "breite_m": 3.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_M1_02",
+   "feld": "C4",
+   "von_cm": [
+    -265350,
+    -60850,
+    5620
+   ],
+   "bis_cm": [
+    -263750,
+    -60950,
+    5380
+   ],
+   "laenge_m": 16.0,
+   "hoehe_m": 2.4,
+   "gefaelle_mittel": 0.15,
+   "gefaelle_max": 0.17,
+   "breite_m": 2.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_P1_04",
+   "feld": "G6",
+   "von_cm": [
+    157350,
+    121650,
+    1143
+   ],
+   "bis_cm": [
+    157950,
+    123150,
+    915
+   ],
+   "laenge_m": 17.8,
+   "hoehe_m": 2.3,
+   "gefaelle_mittel": 0.128,
+   "gefaelle_max": 0.205,
+   "breite_m": 6.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R3_R_P2_M1_01",
+   "feld": "G4",
+   "von_cm": [
+    133450,
+    -92950,
+    941
+   ],
+   "bis_cm": [
+    134450,
+    -94550,
+    720
+   ],
+   "laenge_m": 18.9,
+   "hoehe_m": 2.2,
+   "gefaelle_mittel": 0.117,
+   "gefaelle_max": 0.141,
+   "breite_m": 3.2
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_M1_04",
+   "feld": "C4",
+   "von_cm": [
+    -252550,
+    -84050,
+    3430
+   ],
+   "bis_cm": [
+    -251050,
+    -84350,
+    3219
+   ],
+   "laenge_m": 19.1,
+   "hoehe_m": 2.1,
+   "gefaelle_mittel": 0.11,
+   "gefaelle_max": 0.126,
+   "breite_m": 4.0
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ERLENBACH_3_D3",
+   "feld": "D3",
+   "von_cm": [
+    -154930,
+    -151195,
+    360
+   ],
+   "bis_cm": [
+    -154268,
+    -149865,
+    158
+   ],
+   "laenge_m": 14.9,
+   "hoehe_m": 2.0,
+   "gefaelle_mittel": 0.136,
+   "gefaelle_max": 0.136,
+   "breite_m": 77.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_M1_02",
+   "feld": "F4",
+   "von_cm": [
+    95050,
+    -57050,
+    810
+   ],
+   "bis_cm": [
+    93450,
+    -56050,
+    608
+   ],
+   "laenge_m": 18.9,
+   "hoehe_m": 2.0,
+   "gefaelle_mittel": 0.107,
+   "gefaelle_max": 0.107,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_M1_02",
+   "feld": "F4",
+   "von_cm": [
+    89650,
+    -53150,
+    279
+   ],
+   "bis_cm": [
+    88750,
+    -52350,
+    82
+   ],
+   "laenge_m": 12.0,
+   "hoehe_m": 2.0,
+   "gefaelle_mittel": 0.163,
+   "gefaelle_max": 0.169,
+   "breite_m": 3.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P2_P1_02",
+   "feld": "F5",
+   "von_cm": [
+    43650,
+    95750,
+    566
+   ],
+   "bis_cm": [
+    44950,
+    94550,
+    362
+   ],
+   "laenge_m": 18.8,
+   "hoehe_m": 2.0,
+   "gefaelle_mittel": 0.109,
+   "gefaelle_max": 0.142,
+   "breite_m": 3.4
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ELFENFLUSS_2_H4",
+   "feld": "H4",
+   "von_cm": [
+    271141,
+    -54715,
+    6721
+   ],
+   "bis_cm": [
+    270012,
+    -54259,
+    6531
+   ],
+   "laenge_m": 12.2,
+   "hoehe_m": 1.9,
+   "gefaelle_mittel": 0.156,
+   "gefaelle_max": 0.158,
+   "breite_m": 41.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_M2_03",
+   "feld": "B3",
+   "von_cm": [
+    -278150,
+    -130550,
+    260
+   ],
+   "bis_cm": [
+    -279050,
+    -131050,
+    67
+   ],
+   "laenge_m": 10.4,
+   "hoehe_m": 1.9,
+   "gefaelle_mittel": 0.186,
+   "gefaelle_max": 0.201,
+   "breite_m": 2.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M1_03",
+   "feld": "G4",
+   "von_cm": [
+    139750,
+    -86750,
+    1251
+   ],
+   "bis_cm": [
+    139250,
+    -88550,
+    1058
+   ],
+   "laenge_m": 18.7,
+   "hoehe_m": 1.9,
+   "gefaelle_mittel": 0.103,
+   "gefaelle_max": 0.11,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_M1_08",
+   "feld": "G4",
+   "von_cm": [
+    143050,
+    -59650,
+    2122
+   ],
+   "bis_cm": [
+    141850,
+    -58050,
+    1929
+   ],
+   "laenge_m": 20.0,
+   "hoehe_m": 1.9,
+   "gefaelle_mittel": 0.096,
+   "gefaelle_max": 0.108,
+   "breite_m": 2.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_P1_03",
+   "feld": "G6",
+   "von_cm": [
+    149050,
+    118350,
+    1143
+   ],
+   "bis_cm": [
+    148550,
+    117850,
+    950
+   ],
+   "laenge_m": 7.1,
+   "hoehe_m": 1.9,
+   "gefaelle_mittel": 0.273,
+   "gefaelle_max": 0.273,
+   "breite_m": 4.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M3_P1_01",
+   "feld": "B6",
+   "von_cm": [
+    -365850,
+    128350,
+    642
+   ],
+   "bis_cm": [
+    -367750,
+    128750,
+    456
+   ],
+   "laenge_m": 19.6,
+   "hoehe_m": 1.9,
+   "gefaelle_mittel": 0.095,
+   "gefaelle_max": 0.109,
+   "breite_m": 3.9
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R3_R_M1_P0_01",
+   "feld": "C5",
+   "von_cm": [
+    -190150,
+    12350,
+    2180
+   ],
+   "bis_cm": [
+    -191150,
+    12150,
+    1989
+   ],
+   "laenge_m": 10.2,
+   "hoehe_m": 1.9,
+   "gefaelle_mittel": 0.188,
+   "gefaelle_max": 0.188,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P3_P0_01",
+   "feld": "G4",
+   "von_cm": [
+    219850,
+    -9150,
+    1702
+   ],
+   "bis_cm": [
+    220750,
+    -7550,
+    1523
+   ],
+   "laenge_m": 18.4,
+   "hoehe_m": 1.8,
+   "gefaelle_mittel": 0.098,
+   "gefaelle_max": 0.124,
+   "breite_m": 4.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R3_R_M2_P2_01",
+   "feld": "B6",
+   "von_cm": [
+    -293750,
+    175050,
+    587
+   ],
+   "bis_cm": [
+    -295750,
+    175150,
+    406
+   ],
+   "laenge_m": 20.0,
+   "hoehe_m": 1.8,
+   "gefaelle_mittel": 0.09,
+   "gefaelle_max": 0.113,
+   "breite_m": 4.5
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_ERLENBACH_1V_C2",
+   "feld": "C2",
+   "von_cm": [
+    -178388,
+    -221615,
+    4510
+   ],
+   "bis_cm": [
+    -178548,
+    -220434,
+    4341
+   ],
+   "laenge_m": 11.9,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.142,
+   "gefaelle_max": 0.145,
+   "breite_m": 26.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_P0_04",
+   "feld": "C5",
+   "von_cm": [
+    -209850,
+    22150,
+    1533
+   ],
+   "bis_cm": [
+    -210950,
+    20950,
+    1359
+   ],
+   "laenge_m": 18.0,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.096,
+   "gefaelle_max": 0.102,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P1_M2_02",
+   "feld": "E2",
+   "von_cm": [
+    -25850,
+    -224950,
+    7200
+   ],
+   "bis_cm": [
+    -25950,
+    -224050,
+    7027
+   ],
+   "laenge_m": 9.1,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.192,
+   "gefaelle_max": 0.192,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P5_P1_02",
+   "feld": "I6",
+   "von_cm": [
+    382250,
+    122550,
+    233
+   ],
+   "bis_cm": [
+    382950,
+    122050,
+    64
+   ],
+   "laenge_m": 8.6,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.197,
+   "gefaelle_max": 0.197,
+   "breite_m": 5.7
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_P0_02",
+   "feld": "C5",
+   "von_cm": [
+    -246150,
+    5150,
+    2802
+   ],
+   "bis_cm": [
+    -245250,
+    5450,
+    2634
+   ],
+   "laenge_m": 9.5,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.178,
+   "gefaelle_max": 0.178,
+   "breite_m": 2.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_P0_02",
+   "feld": "C5",
+   "von_cm": [
+    -243550,
+    4950,
+    2569
+   ],
+   "bis_cm": [
+    -243550,
+    4450,
+    2403
+   ],
+   "laenge_m": 5.0,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.333,
+   "gefaelle_max": 0.333,
+   "breite_m": 2.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_P2_P1_02",
+   "feld": "F5",
+   "von_cm": [
+    48650,
+    95950,
+    430
+   ],
+   "bis_cm": [
+    48750,
+    95150,
+    264
+   ],
+   "laenge_m": 8.1,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.206,
+   "gefaelle_max": 0.206,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R3_R_P3_P0_02",
+   "feld": "G5",
+   "von_cm": [
+    231350,
+    7850,
+    350
+   ],
+   "bis_cm": [
+    232250,
+    8350,
+    182
+   ],
+   "laenge_m": 10.3,
+   "hoehe_m": 1.7,
+   "gefaelle_mittel": 0.163,
+   "gefaelle_max": 0.163,
+   "breite_m": 3.5
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M2_P1_01",
+   "feld": "B6",
+   "von_cm": [
+    -338750,
+    144550,
+    219
+   ],
+   "bis_cm": [
+    -338550,
+    145350,
+    63
+   ],
+   "laenge_m": 8.2,
+   "hoehe_m": 1.6,
+   "gefaelle_mittel": 0.189,
+   "gefaelle_max": 0.189,
+   "breite_m": 4.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_01",
+   "feld": "D6",
+   "von_cm": [
+    -110750,
+    184950,
+    405
+   ],
+   "bis_cm": [
+    -109550,
+    186350,
+    246
+   ],
+   "laenge_m": 18.9,
+   "hoehe_m": 1.6,
+   "gefaelle_mittel": 0.084,
+   "gefaelle_max": 0.104,
+   "breite_m": 4.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_P0_P2_03",
+   "feld": "D6",
+   "von_cm": [
+    -109850,
+    196150,
+    222
+   ],
+   "bis_cm": [
+    -108750,
+    196650,
+    67
+   ],
+   "laenge_m": 12.3,
+   "hoehe_m": 1.6,
+   "gefaelle_mittel": 0.126,
+   "gefaelle_max": 0.133,
+   "breite_m": 4.4
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R2_R_M1_P0_04",
+   "feld": "C5",
+   "von_cm": [
+    -246250,
+    39950,
+    2577
+   ],
+   "bis_cm": [
+    -244550,
+    39450,
+    2419
+   ],
+   "laenge_m": 17.8,
+   "hoehe_m": 1.6,
+   "gefaelle_mittel": 0.089,
+   "gefaelle_max": 0.108,
+   "breite_m": 4.0
+  },
+  {
+   "art": "fluss",
+   "lauf": "F_DSCHUNGELFLUSS_H7",
+   "feld": "H7",
+   "von_cm": [
+    248486,
+    252112,
+    158
+   ],
+   "bis_cm": [
+    246644,
+    255907,
+    5
+   ],
+   "laenge_m": 42.8,
+   "hoehe_m": 1.5,
+   "gefaelle_mittel": 0.036,
+   "gefaelle_max": 0.042,
+   "breite_m": 62.0
+  },
+  {
+   "art": "bach",
+   "lauf": "B_K8_ELFENFALL_02",
+   "feld": "H4",
+   "von_cm": [
+    264750,
+    -56050,
+    6421
+   ],
+   "bis_cm": [
+    264550,
+    -55150,
+    6269
+   ],
+   "laenge_m": 9.2,
+   "hoehe_m": 1.5,
+   "gefaelle_mittel": 0.165,
+   "gefaelle_max": 0.165,
+   "breite_m": 4.8
+  },
+  {
+   "art": "bach",
+   "lauf": "B_R_M1_M2_02",
+   "feld": "C3",
+   "von_cm": [
+    -263850,
+    -133850,
+    225
+   ],
+   "bis_cm": [
+    -264550,
+    -134750,
+    74
+   ],
+   "laenge_m": 11.4,
+   "hoehe_m": 1.5,
+   "gefaelle_mittel": 0.132,
+   "gefaelle_max": 0.201,
+   "breite_m": 5.7
+  }
+ ]
+}
