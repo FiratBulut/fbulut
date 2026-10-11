@@ -229,3 +229,135 @@ class Regelwerk:
             return name, b[name]
         e = self.ERSATZ.get(name, "bergwald")
         return e, b[e]
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Zugriffe auf Eintraege, die das Regelwerk ab Version 2 fuehrt (mit Ersatzwerten, falls sie fehlen)
+# ----------------------------------------------------------------------------------------------------------------------
+def _get(d, *pfad, standard=None):
+    for p in pfad:
+        if not isinstance(d, dict) or p not in d:
+            return standard
+        d = d[p]
+    return d
+
+
+def abstand_L_fluss(rw, S, B, klasse_id):
+    e = _get(rw.r, "stufen", "abstand_L_fluss")
+    if not e:
+        return rw.abstand_L(S, B)
+    dz = float((e.get("D_ziel") or {}).get(klasse_id, 2.0))
+    return rw.zahl(e, e, D_ziel=dz, S=max(S, 1e-3), B=B)
+
+
+def L_kaskade_min(rw, B):
+    e = _get(rw.r, "stufen", "abstand_L_kaskade") or {}
+    return float(formel(e["min_formel"], B=B)) if "min_formel" in e else max(0.5 * B, 1.5)
+
+
+def min_abstand_stufen(rw, B):
+    e = _get(rw.r, "stufen", "min_abstand_stufen")
+    return rw.zahl(e, B=B) if e else max(2.5, 0.8 * B)
+
+
+def holzstufe(rw):
+    e = _get(rw.r, "stufen", "holzstufe") or {}
+    return {"D_max": float(e.get("D_max", 1.0)), "B_max": float(e.get("B_max", 6.0)), "anteil": dict(e.get("anteil") or {})}
+
+
+def lippe_punkte(rw):
+    e = _get(rw.r, "stufen", "lippe", "polylinie_punkte") or {}
+    return int(e.get("min", 3)), int(e.get("max", 7))
+
+
+def fluss_becken_tiefe(rw, B):
+    e = _get(rw.r, "becken", "fluss_becken_tiefe")
+    return rw.zahl(e, B=B) if e else max(1.5, 0.1 * B)
+
+
+def stufenblock(rw, H, B, lippe_breite):
+    s = rw.r["schutt"]
+    d = rw.zahl(s["stufenblock_D"], s, H=H, B=B, D=H)
+    n = rw.zahl(s["stufenbloecke_je_lippe"], s, lippe_breite=lippe_breite, stufenblock_D=max(d, 0.1)) \
+        if "stufenbloecke_je_lippe" in s else max(2.0, round(lippe_breite / max(d, 0.1)) + 1)
+    return d, int(n)
+
+
+def unter_fall(rw, D):
+    s = rw.r["schutt"]["unter_fall"]
+    return rw.zahl(s, D=D), int(round(float(formel(s.get("anzahl", "clamp(D, 3, 15)"), D=D))))
+
+
+def kegel(rw, wandhoehe):
+    s = rw.r["schutt"]
+    return rw.zahl(s["kegel_laenge"], wandhoehe=wandhoehe), float(_get(s, "wandfuss_kegel_neigung", "wert", standard=35))
+
+
+def becken_korn(rw):
+    s = rw.r["schutt"]["becken_korn"]
+    return float(s["min"]), float(s["max"])
+
+
+def wand(rw, D=None, eintiefung=None, D_klamm=None):
+    u = rw.r["ufer_klippen"]
+    out = {"S_min": float(u["wann"]["S_min"]), "eintiefung_min": float(u["wann"]["eintiefung_min"]),
+           "neigung": (float(u["neigung"]["min"]), float(u["neigung"]["max"])),
+           "abstand": (float(u["abstand_zum_wasser"]["min"]), float(u["abstand_zum_wasser"]["max"])),
+           "einbinden": float(_get(u, "einbinden", "wert", standard=0.3))}
+    if D is not None:
+        out["hoehe_an_fall"] = rw.zahl(u["wandhoehe_an_fall"], u, D=D)
+        out["laenge_unterhalb"] = rw.zahl(u["wand_laenge_unterhalb"], u, D=D)
+    if eintiefung is not None:
+        e = u.get("wandhoehe_entlang")
+        out["hoehe_entlang"] = rw.zahl(e, u, eintiefung=eintiefung, D_klamm=D_klamm if D_klamm else eintiefung) \
+            if e else eintiefung
+    return out
+
+
+def klamm_werte(rw, B, D=None):
+    k = rw.r["klamm"]
+    out = {"S_min": float(k["wann"]["S_min"]), "eintiefung_min": float(k["wann"]["eintiefung_min"]),
+           "sohlbreite": rw.zahl(k["sohlbreite"], k, B=B),
+           "ueberlappung": tuple(_get(k, "wand_form", "ueberlappung", standard=[0.1, 0.3]))}
+    if D is not None:
+        out["laenge"] = rw.zahl(k["laenge"], k, D=D)
+        out["tiefe"] = rw.zahl(k["tiefe_zu_fall"], k, D=D)
+    return out
+
+
+def lagen_zone(rw, zone, biom_lagen, standard=None):
+    """(gewicht, [Lagennamen]) einer Zone; Namen aus biome.<biom>.lagen.<zone>, Gewicht aus lagen.zonen."""
+    z = _get(rw.r, "lagen", "zonen", zone) or {}
+    g = z.get("gewicht")
+    if g is None:                                         # Schema v1: {"lagen": {"Kies": 200}}
+        lv = z.get("lagen") or {}
+        g = max(lv.values()) if lv else 180
+    namen = biom_lagen.get(zone) if biom_lagen else None
+    if namen is None:
+        namen = list((z.get("lagen") or {}).keys()) or ([standard] if standard else [])
+    if isinstance(namen, str):
+        namen = [namen]
+    return float(g), list(namen)
+
+
+def rand_weich(rw):
+    return float(_get(rw.r, "lagen", "rand_weich", "wert", standard=3.0))
+
+
+def effekt_grenzen(rw):
+    g = rw.r["effekte"]["grenzen"]
+    return {"je_stufe": int(g.get("je_stufe_max", 3)), "gleichzeitig": int(g.get("gleichzeitig_max", 6)),
+            "cull": tuple(g.get("cull_m", [40, 60])), "cull_klein": float(g.get("cull_klein_m", 30)),
+            "cull_held": tuple(g.get("cull_held_m", [100, 150])), "je_ort": g.get("je_ort_max")}
+
+
+def effekt_art(rw, art, D):
+    """Eintrag aus effekte.je_art fuer eine Stufe (Faelle nach D: fall_klein/mittel/gross)."""
+    for e in rw.r["effekte"]["je_art"]:
+        a = e["art"]
+        lo, hi = e.get("D", [0, 999])
+        if art == "fall" and a.startswith("fall") and lo <= D < hi:
+            return e
+        if a == art:
+            return e
+    return None
