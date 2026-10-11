@@ -2308,6 +2308,7 @@ class OrtKontext:
         _sw.auto_verkleiden(self)                         # 13h: restliche neue Steilflaechen mit Wandnetzen des Bioms
         if getattr(self, "_halde_gruppe", None):
             self.gruppe(self._halde_gruppe)              # 13h: Bloecke auf der Schutthalde (Boeschung)
+        _sb.korrigieren(self)                            # 13h Nachtrag: Bloecke im See nie knapp unter dem Spiegel
         if hooks.get("gruppen"):
             hooks["gruppen"](self)
         self.pfad_bauen()
@@ -2393,7 +2394,6 @@ class OrtKontext:
             e["freiraeume"] = self.freiraeume
         if self.bestand_ausblenden:
             e["bestand_ausblenden"] = self.bestand_ausblenden
-        _sb.korrigieren(self)                            # 13h Nachtrag: Bloecke im See nie knapp unter dem Spiegel
         e["detail_ebenen"] = self.detail_ebenen(z)
         e["hinweise"] = [ascii_text(t) for s, _, t in self.meldungen if s == HINWEIS][:30]
         self.eintrag = e
