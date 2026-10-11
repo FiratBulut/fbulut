@@ -5,7 +5,7 @@
 
 Schritte: Laden -> Ganze-Welt-Raster (Cache) -> Hang/Abfluss fuer ein Feld -> 10 Kandidaten im Biom ->
 Sicht/Verdeckung/Blickposition fuer 3 -> Erreichbarkeit -> Kameras + standorte.json + Pruefer ->
-1 Draufsicht + Biom-Uebersicht. Ausgaben NUR nach --aus (Standard: Scratchpad a13/), nie ins Repo.
+1 Draufsicht + Biom-Uebersicht -> Pfade (Testpfad rastern, Abstaende, Pfad-Pruefer, Ruecksetzen). Ausgaben NUR nach --aus (Standard: Scratchpad a13/), nie ins Repo.
 """
 
 import os
@@ -43,6 +43,7 @@ def _pfad_test(welt, gel, c, e, a):
     if len(pm) < 2:   # kein Fussweg -> gerade Linie vom naechsten Wegpunkt aus
         wx, wy = welt.flat_zu_m(int(gel.weg_naechst[welt.m_zu_ij(c["x_m"], c["y_m"])]))
         pm = [[float(wx), float(wy)], [float(wx + 0.5 * (c["x_m"] - wx)), float(wy + 0.5 * (c["y_m"] - wy))]]
+    n_wp0 = sicht.Wegpunkte(welt, 20).n
     p = sfmt.pfad("%s_pfad_selbsttest" % a.biom, "trampelpfad", pm, welt=welt, anschluss="Selbsttest",
                   fuer=["%s_01_test_ort_1" % a.biom])
     log("  Testpfad %d Punkte, %.0f m, max %.1f Grad" % (len(pm), p["laenge_m"], p["max_steigung_grad"]))
@@ -51,13 +52,12 @@ def _pfad_test(welt, gel, c, e, a):
     ok(gel2.cache == gel.cache, "Pfade aendern den Cache-Ordner nicht (nur abstand_weg_p<Kennung>)")
     xm, ym = pm[-1]
     i, j = welt.m_zu_ij(xm, ym)
-    ok(welt.weg[i, j] > 0 and welt.weg_basis[i, j] == 0 or gel.abstand_weg[i, j] < 3,
-       "Pfadende ist Weg (weg > 0), weg_basis unveraendert")
+    ok(welt.weg[i, j] > 0 and welt.pfade_aktiv(), "Pfadende ist Weg (welt.weg > 0, Pfade aktiv)")
     ok(float(gel2.abstand_weg[i, j]) < 3.0, "abstand_weg am Pfadende %.1f m (mit Pfaden)" % gel2.abstand_weg[i, j])
-    ok(abs(float(gel2.abstand_weg_basis[i, j]) - float(gel.abstand_weg_basis[i, j])) < 0.01,
-       "abstand_weg_basis ohne Pfade %.0f m" % gel2.abstand_weg_basis[i, j])
+    ok(float(gel2.abstand_weg_basis[i, j]) >= 60.0,
+       "abstand_weg_basis (ohne Pfade) am Pfadende %.0f m" % gel2.abstand_weg_basis[i, j])
     wp2 = sicht.Wegpunkte(welt, 20)
-    ok(wp2.n >= sicht.Wegpunkte(welt, 20).n, "Wegpunkte mit Pfaden: %d" % wp2.n)
+    ok(wp2.n > n_wp0, "Wegpunkte fuer Sicht: %d -> %d mit Testpfad" % (n_wp0, wp2.n))
     bef = sehens_pruefen.pruefe_pfad(p, a.biom, welt, gel2, welt.pfade)
     ok(not any(s == sehens_pruefen.FEHLER for s, _, _ in bef), "gueltiger Testpfad ohne FEHLER")
     kaputt = dict(p, id="falsch", art="strasse", breite_cm=300,
@@ -214,8 +214,6 @@ def main(argv=None):
     with schritt("9 Pfade (rastern, Abstand, Pruefer)"):
         z9 = _pfad_test(welt, gel, drei[0], err[0], a)
     z["FEHLER"] += z9
-    for u in zeiten:
-        pass
     log("-" * 60)
     for u in zeiten:
         log("%-44s %7.2f s" % (u.name, u.sek))

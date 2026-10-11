@@ -42,11 +42,44 @@ zeichnen.draufsicht(welt, k["x_m"], k["y_m"], "antworten/sehens/aue/%s.png" % oi
                     kameras=kams, titel=oid)
 ```
 
+## Pfade (Auftrag 13c)
+
+Pfade stehen in der `standorte.json` ihres Bioms auf oberster Ebene (die alten `standorte_*.json` sind abgelöst):
+
+```json
+"pfade": [{"id": "lava_pfad_kratersteig_west", "art": "trampelpfad|serpentine|trittsteine", "breite_cm": 150,
+           "punkte_cm": [[x, y], ...], "anschluss": "Archivpfad vor Zalas Archiv ...", "fuer": ["lava_07_basaltorgel"],
+           "laenge_m": 916.0, "max_steigung_grad": 10.1}]
+```
+Orte, die nur über einen Pfad gelten, tragen `"pfad_id": "<id>"`. Ferats Werkzeug rechnet Serpentinen und den Geländeanschnitt.
+
+- `daten.lade()` liest die Pfade **aller** Biome (`antworten/sehens/*/standorte.json`) und rastert sie zusätzlich zum Wegenetz
+  als Weg: `welt.weg` = Wege + Pfade, `welt.weg_basis` = Wegenetz allein, `welt.pfade` (normiert, `punkte_m`),
+  `welt.pfad_maske`, `welt.setze_pfade(liste)`. `daten.lade(pfade=False)` = altes Verhalten; `pfade="<sehens-Ordner>"` oder
+  eine Liste geht auch. Ohne `"pfade"` in den Dateien ist alles wie bisher.
+- Damit gelten Pfade überall als Weg: `gel.abstand_weg`/`weg_naechst` (Regel 80–300 m, Kandidatensuche `filter_maske`),
+  `sicht.Wegpunkte` (Leuchtfeuer 300–800 m sichtbar, Fundstücke verdeckt), `kandidaten.erreichbarkeit` (Fußweg zum nächsten
+  Weg oder Pfad). `gel.abstand_weg_basis` misst nur zum Wegenetz. Der Cache-Ordner bleibt gleich; der Abstand mit Pfaden liegt
+  als `abstand_weg_p<Kennung>.npy` daneben (einmal ~12 s je Pfadstand, die 6 neuesten bleiben).
+- `format.pfad(id, art, punkte_m, welt=welt, anschluss=..., fuer=[...])` baut einen Eintrag (Länge, max. Steigung aus der Höhe);
+  `format.schreibe_standorte(..., pfade=[...])`, `format.alle_pfade(ordner)`; `belegte_punkte` liefert auch `pfad_id`;
+  `alle_standorte` zählt Orte aus `standorte_*.json` nicht doppelt, wenn ihre id schon in einer `standorte.json` steht.
+- `gelaende.pfad_profil(welt, punkte_m)` → Länge, Steigung je Segment (Fenster 10 m entlang des Pfads), max/mittel,
+  Länge > 15 % und > 25°; `gelaende.abstand_zu_polylinien(x, y, linien)`.
+- `zeichnen.draufsicht` zeichnet die Pfade aus `welt.pfade` automatisch (Farbe je `art`, Kennung, Legende; `pfade=False` aus).
+- Prüfer: Schema (id `<biom>_pfad_<name>`, ≥ 2 Punkte, `breite_cm` 120–200, `art`), Anschluss (erster Punkt ≤ 30 m vom
+  Wegenetz oder von einem anderen Pfad, sonst FEHLER), Steigung je Segment > 15 % → HINWEIS „Kehren nötig“ (bei `serpentine`
+  erlaubt), schneidet Stadt (Radius aus `standorte.json`) oder Meer → WARNUNG, quert Süßwasser → HINWEIS, `pfad_id` muss
+  existieren (FEHLER), doppelte Pfad-ids über alle Biome (FEHLER). `--sicht`: Leuchtfeuer von Weg/Pfad aus 300–800 m sichtbar,
+  Fundstücke verdeckt.
+- Ein Pfad soll **am Ort vorbei** (80–300 m) oder bis 80–300 m vor den Ort führen; den Rest geht man über den Fußweg
+  (`pfad_cm` des Orts, `erreichbarkeit`). Endet ein Pfad direkt am Ort, ist der Wegabstand 0 m → FEHLER.
+
 ## Module und Kernfunktionen
 
 **daten.py** – Laden, Legende, Koordinaten
-- `lade(daten2m=None, daten1m=None)` → `Welt`; Raster `hoehe` (m), `biom` (0–14, 255 = Meer), `boden` (0–21, 255),
-  `weg`, `ort`, `wasser`, `meer` (Höhe < 0 und kein Süßwasser), `baeume4`/`baumhoehe4` (4 m), `baumhoehe_nativ`;
+- `lade(daten2m=None, daten1m=None, pfade=True)` → `Welt`; Raster `hoehe` (m), `biom` (0–14, 255 = Meer), `boden` (0–21, 255),
+  `weg` (Wege + Pfade), `weg_basis` (nur Wege), `ort`, `wasser`, `meer` (Höhe < 0 und kein Süßwasser), `baeume4`/`baumhoehe4` (4 m), `baumhoehe_nativ`;
   Vektoren `baeche`, `teiche`, `wasser_welt`, `staedte` (x_m, y_m, radius_m).
 - Koordinaten: `welt.m_zu_ij(x_m, y_m)`, `welt.ij_zu_m(i, j)`, `welt.cm_zu_ij`, `welt.ij_zu_cm`, Modul:
   `pixel_zu_m(i, j, zelle_m)`, `m_zu_pixel(x, y, zelle_m)`. Formel: `X_cm = (z·j + (z−1)/2 − 4730,5)·100`,
@@ -93,11 +126,12 @@ zeichnen.draufsicht(welt, k["x_m"], k["y_m"], "antworten/sehens/aue/%s.png" % oi
 **zeichnen.py** – `draufsicht(welt, x, y, pfad, groesse_m=500, skala=2, elemente=[...], kameras=[...], titel=...)`
 (Elemente: `punkt`, `kreis`, `linie`, `polygon`, `text`, Koordinaten `*_m` oder `*_cm`), `uebersicht(welt, pfad, biom, punkte)`.
 
-**format.py** – `ort_id`, `kamera`, `standort`, `schreibe_standorte`, `lade_standorte`, `alle_standorte`,
-`belegte_punkte`, `mindestabstand_m`, Phase 2: `ort_phase2`, `schreibe_orte`, `schreibe_f32` (Gelände-Δ), `schreibe_r8` (Lagen).
+**format.py** – `ort_id`, `kamera`, `standort`, `pfad`, `schreibe_standorte`, `lade_standorte`, `alle_standorte`,
+`alle_pfade`, `belegte_punkte`, `mindestabstand_m`, Phase 2: `ort_phase2`, `schreibe_orte`, `schreibe_f32` (Gelände-Δ), `schreibe_r8` (Lagen).
 
-**sehens_pruefen.py** – `python -I antworten/skripte/sehens_lib/sehens_pruefen.py` prüft alle
-`antworten/sehens/*/standorte.json` (Format, Kameras, Geländeregeln mit Daten, globale Abstände über alle Biome – dabei zählen auch die Steig-Varianten `*/standorte_*.json` mit, deren Räume reserviert sind);
+**sehens_pruefen.py** – `python -I antworten/skripte/sehens_lib/sehens_pruefen.py [--sicht]` prüft alle
+`antworten/sehens/*/standorte.json` (Format, Kameras, Pfade, Geländeregeln mit Daten gegen Wege + Pfade aller Biome, globale
+Abstände über alle Biome – noch vorhandene Varianten `*/standorte_*.json` zählen ohne Doppelzählung mit);
 `--datei X/orte.json` prüft Phase 2 (Felder §2–§9, Budget, Dateigrößen, Rand Δ = 0, Umriss gegen Uhrzeigersinn =
 Fläche > 0 in X/Y wie `wasser_welt.json`). Exit 1 bei FEHLER.
 
@@ -108,13 +142,13 @@ Fläche > 0 in X/Y wie `wasser_welt.json`). Exit 1 bei FEHLER.
   (Fingerabdruck aus Daten + Version; neue Daten → neuer Unterordner). Arrays werden per Memory-Map geladen.
 - Füllen: `python -I antworten/skripte/sehens_lib/gelaende.py --biome --kruemmung` (einmalig ~3,5 min).
 - Erstberechnung: Abfluss ~23 s, je Distanz ~7–14 s, TPI ~4 s, Krümmung ~11 s je σ, Biomabstand 1–18 s.
-  Aus dem Cache: ~0,3–0,6 s je Raster. Selbsttest mit Cache ~17 s.
+  Aus dem Cache: ~0,3–0,6 s je Raster. Selbsttest mit Cache ~20 s (davon ~12 s Wegabstand mit Testpfad).
 - Speicher: ~70 MB je float32-Raster; die 1-m-Welt ist 4× größer.
 
 ## Selbsttest
 
 `python -I antworten/skripte/sehens_lib/selbsttest.py [--biom bergwald] [--aus <Ordner>]` – schreibt nur nach
-`--aus` (Standard Scratchpad `a13/`, nie ins Repo).
+`--aus` (Standard Scratchpad `a13/`, nie ins Repo). Schritt 9 prüft die Pfade (Testpfad rastern, Abstände, Prüfer, Rücksetzen).
 
 ## Bekannte Grenzen
 

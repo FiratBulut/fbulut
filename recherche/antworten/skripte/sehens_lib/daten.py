@@ -8,8 +8,10 @@ Koordinaten (vorlagen/FORMAT.md 1 und legende.json):
   Norden = kleine i = negatives Y. Meeresspiegel Z = 0.
 
 Hauptfunktionen:
-  welt = lade(daten2m=None, daten1m=None)      # Standard: vorlagen/daten/sehens (2 m)
+  welt = lade(daten2m=None, daten1m=None, pfade=True)   # Standard: vorlagen/daten/sehens (2 m)
   welt.hoehe, welt.biom, welt.boden, welt.weg, welt.ort, welt.wasser, welt.meer   (NY x NX, native Zelle)
+  Pfade (Auftrag 13c, "pfade" in antworten/sehens/*/standorte.json, alle Biome): welt.weg = Wege + Pfade,
+  welt.weg_basis = nur Wege, welt.pfade, welt.pfad_maske, welt.setze_pfade(liste); lade_pfade(ordner)
   welt.baeume4, welt.baumhoehe4  (4 m), welt.baumhoehe_nativ (auf native Zelle hochgerechnet)
   welt.m_zu_ij(x_m, y_m), welt.ij_zu_m(i, j), welt.cm_zu_ij, welt.ij_zu_cm
   welt.hoehe_bei_m(x_m, y_m) (bilinear), welt.baumhoehe_bei_m(x_m, y_m)
