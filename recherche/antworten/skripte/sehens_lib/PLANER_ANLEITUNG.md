@@ -172,6 +172,7 @@ Gewollte Hohlformen ohne Wasser (Gaskrater, Schluckloch, Endpfanne) bekommen `"s
  "eingraben": [0.3, 0.45] | "eingraben_m": [0.2, 0.4], "bezug": "min"|"mitte", "zentrieren": true,
  "z_bezug": "oberkante:<gruppe>" | "oben:<gruppe>" | "see:<id>" | "boden+6", "z_versatz_m": -0.4, "oberkante_ueber_m": 2,
  "im_wasser": "nein"|"erlaubt"|"nur"|"egal", "weg_abstand_m": 4, "hang_grad": [0, 35], "hoehe_rel_m": [-5, 5],
+ "boden_min_m": -0.3,   # Mindest-Bodenhoehe (Meer); an Kueste/Prielen 0.0, damit Rundung kein 'im Meer' ausloest
  "akteur": true, "kollision": true, "sichtweite": [0, 45000], "schatten": true, "material": "MI_EL_SW_...",
  "mindestens": 10, "aktiv": true, "grund": "warum abgeschaltet"}
 ```

@@ -935,7 +935,9 @@ class OrtKontext:
         i, j = self.welt.m_zu_ij(xs, ys)
         ok &= self.welt.ort[i, j] == 0
         hz = np.asarray(self.boden(xs, ys))
-        ok &= hz > -0.3
+        # boden_min_m: Mindesthoehe ueber dem Meer (Standard -0,3 wie der Pruefer); an Kuesten/Prielen etwas hoeher
+        # setzen (z. B. 0,0), damit Rundungen zwischen Stempel- und Prueferboden kein 'im Meer' ausloesen
+        ok &= hz > float(g.get("boden_min_m", -0.3))
         iw = g.get("im_wasser", "nein")
         if iw != "egal":
             w = self.im_wasser(xs, ys)
