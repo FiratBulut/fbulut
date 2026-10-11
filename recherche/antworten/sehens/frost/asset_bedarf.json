@@ -1,0 +1,481 @@
+{
+ "stand": "2026-10-11",
+ "biom": "frost",
+ "hinweis": "Paketnamen exakt wie antworten/sehens/downloadliste.json; Bestand = Netznamen aus vorlagen/daten/netze.csv (keiner gesperrt, SM_IcelandicBoulder_* gesperrt und nicht verwendet; keine SW_*/Houdini-Netze). Orte mit 'bedingung' gelten nur mit dem Steig.",
+ "orte": [
+  {
+   "id": "frost_01_der_eisfall",
+   "name": "Der Eisfall",
+   "art": "fundstueck",
+   "bedingung": "Steig froststeig",
+   "bestand": [
+    "SM_EISZAPFEN_4",
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9",
+    "SM_big_rock_wall_02",
+    "rcygn_tier_0",
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_2",
+    "SM_EISZAPFEN_5",
+    "SM_NordicBeachRock_01",
+    "SM_dwarf_pine_small_01",
+    "SM_dwarf_pine_small_02"
+   ],
+   "decals": [
+    "MI_Leakage_02"
+   ],
+   "material": [
+    "M_EL_Eis4",
+    "MI_EL_Wasserfall_Kaskade"
+   ],
+   "pakete": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "prioritaet": "B",
+     "wofuer": "Eissäulen/Tropfeis auf Fels",
+     "ersatz_bestand": "SM_EISZAPFEN_4/8/9 bis 3x skaliert",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "B",
+     "wofuer": "Eiskegel am Fuß (Rocky Snow Pile)",
+     "ersatz_bestand": "Geländekegel + Lage Eis",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "C",
+     "wofuer": "Restwasser hinter den Säulen",
+     "ersatz_bestand": "MI_EL_Wasserfall_Kaskade",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    }
+   ]
+  },
+  {
+   "id": "frost_02_frostsee",
+   "name": "Der Frostsee",
+   "art": "leuchtfeuer",
+   "bedingung": "Steig froststeig_sued",
+   "bestand": [
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9",
+    "SM_rough_horsetail_01",
+    "SM_rough_horsetail_02",
+    "SM_rough_horsetail_03"
+   ],
+   "decals": [],
+   "material": [
+    "M_EL_Eis4"
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "A",
+     "wofuer": "Presseisplatten (Ice Cliff zerschnitten)",
+     "ersatz_bestand": "SM_EISZAPFEN_8/9 flach + Material M_EL_Eis4",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Arctic Cliffs",
+     "prioritaet": "B",
+     "wofuer": "Eisplatten, Treibeis-Blueprint",
+     "ersatz_bestand": "wie oben",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Eisknacken, Wind",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "frost_03_eisvorhang",
+   "name": "Der Eisvorhang",
+   "art": "fundstueck",
+   "bedingung": "Steig froststeig",
+   "bestand": [
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_2",
+    "SM_EISZAPFEN_3",
+    "SM_EISZAPFEN_4",
+    "SM_EISZAPFEN_5",
+    "SM_EISZAPFEN_6",
+    "SM_EISZAPFEN_7",
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9",
+    "SM_big_rock_wall_01",
+    "SM_big_rock_wall_03",
+    "vfmjadufa_tier_2"
+   ],
+   "decals": [
+    "MI_Leakage_09"
+   ],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "prioritaet": "B",
+     "wofuer": "dichter Zapfenvorhang",
+     "ersatz_bestand": "SM_EISZAPFEN_1…9 (300–500 Instanzen)",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "C",
+     "wofuer": "Eisglasur am Fels",
+     "ersatz_bestand": "Material M_EL_Eis4",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "frost_04_raureifhain",
+   "name": "Der Raureifhain",
+   "art": "leuchtfeuer",
+   "bedingung": "Steig froststeig",
+   "bestand": [
+    "SM_Forest_pine_06",
+    "SM_Forest_pine_07",
+    "SM_dwarf_pine_big_01",
+    "SM_dwarf_pine_big_02",
+    "SM_Forest_pine_10_dead",
+    "SM_Pine_broken_branch_01",
+    "SM_Pine_broken_branch_02"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "B",
+     "wofuer": "Schneekappen/Wehen (Snow Embankment klein)",
+     "ersatz_bestand": "Lage Schnee + Raureif-Material",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "prioritaet": "B",
+     "wofuer": "Glitzernder Schneefall, Eisnebel",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "Preis ungeprüft"
+    }
+   ]
+  },
+  {
+   "id": "frost_05_blockgletscher",
+   "name": "Der Blockgletscher",
+   "art": "fundstueck",
+   "bedingung": "Steig froststeig",
+   "bestand": [
+    "SM_NordicBoulder_01",
+    "SM_TundraMossyBoulder_01",
+    "SM_MassiveTundraRockFormation_02",
+    "SM_TundraRockyGround_01",
+    "SM_mountain_rock_big_01_1",
+    "SM_mountain_rock_big_01_2",
+    "SM_mountain_rock_big_01_3",
+    "SM_mountain_rock_big_01_4",
+    "SM_mountain_rock_big_01_5",
+    "SM_mountain_rock_big_02_1",
+    "SM_mountain_rock_big_02_2",
+    "SM_mountain_rock_big_02_3",
+    "SM_mountain_rock_big_02_4",
+    "SM_mountain_rock_big_02_5",
+    "SM_mountain_rock_big_02_6",
+    "SM_mountain_rock_big_02_7",
+    "SM_mountain_rock_big_02_8",
+    "xf3odif_tier_0",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_5"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "C",
+     "wofuer": "Eis in den Stirnlücken",
+     "ersatz_bestand": "SM_EISZAPFEN_1/5 liegend",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "frost_06_eiskueste",
+   "name": "Die Eisküste",
+   "art": "leuchtfeuer",
+   "bedingung": "Steig froststeig",
+   "bestand": [
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBoulder_01",
+    "SM_BeachSandWithPebbles_01",
+    "SM_BeachSandWithPebbles_02"
+   ],
+   "decals": [
+    "MI_Leakage_11"
+   ],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "A",
+     "wofuer": "Eiskegel und Eiskappen (Rocky Snow Pile, Ice Cliff)",
+     "ersatz_bestand": "Lage Eis + SM_EISZAPFEN_8/9",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "B",
+     "wofuer": "Fontänen der Eisvulkane, Gischt",
+     "ersatz_bestand": "Decal statt Bewegung",
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "B",
+     "wofuer": "Nassband-Decals, Spülsaum",
+     "ersatz_bestand": "MI_Leakage_11",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Brandung",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "frost_07_frostblumen",
+   "name": "Die Frostblumen",
+   "art": "fundstueck",
+   "bedingung": "Steig froststeig_sued",
+   "bestand": [
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_5",
+    "SM_NordicBeachRockyGround_02",
+    "SM_beach_driftwood_01",
+    "SM_beach_grass_01_1",
+    "SM_beach_grass_01_2"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "prioritaet": "B",
+     "wofuer": "kleine Eiskristalle (Frostblumen)",
+     "ersatz_bestand": "SM_EISZAPFEN_1/5 0,05–0,1x",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "C",
+     "wofuer": "Treibholz/Spülsaum",
+     "ersatz_bestand": "SM_beach_driftwood_01",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    }
+   ]
+  },
+  {
+   "id": "frost_08_glockenbach",
+   "name": "Der Glockenbach",
+   "art": "fundstueck",
+   "bedingung": "Steig froststeig_sued",
+   "bestand": [
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_2",
+    "SM_EISZAPFEN_3",
+    "SM_EISZAPFEN_4",
+    "SM_EISZAPFEN_5",
+    "SM_EISZAPFEN_6",
+    "SM_EISZAPFEN_7",
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9",
+    "SM_NordicBeachRock_01",
+    "SM_NordicBeachRocks_01",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_BeachSandWithPebbles_02",
+    "SM_wk2oaeyqx_VarB"
+   ],
+   "decals": [
+    "MI_Leakage_01"
+   ],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "prioritaet": "B",
+     "wofuer": "Eisglocken auf Steinen",
+     "ersatz_bestand": "halbe Eisschalen aus SM_EISZAPFEN_* + Material Eis4",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Bachklang",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  }
+ ],
+ "neue_paketwuensche": [],
+ "luecken_ohne_asset": [
+  {
+   "was": "Raureif-/Schneebäume (Schneegespenster)",
+   "loesung_ohne_asset": "MI_EL_SW_Raureif auf SM_Forest_pine_06/07 + Schneewehe als Gelände",
+   "paket_falls_vorhanden": null
+  },
+  {
+   "was": "Eisglocken und Frostblumen (kleine Eiskristalle)",
+   "loesung_ohne_asset": "SM_EISZAPFEN_1/5 stark verkleinert + MI_EL_SW_Spritzeis",
+   "paket_falls_vorhanden": "CryoGen: Native Procedural Ice Architecture"
+  },
+  {
+   "was": "Blasen im Schwarzeis",
+   "loesung_ohne_asset": "Materialwunsch MI_EL_SW_Schwarzeis + weiße Decal-Flecken unter der Eisfläche (Parallax wäre neuer Master – nur wenn Ferat will)",
+   "paket_falls_vorhanden": null
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Raureif",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.86,
+     0.91,
+     0.97,
+     1.0
+    ],
+    "Helligkeit": 1.45,
+    "Wind_Staerke": 0.05
+   },
+   "fuer": [
+    "SM_Forest_pine_06",
+    "SM_Forest_pine_07",
+    "SM_dwarf_pine_big_01",
+    "SM_dwarf_pine_small_01",
+    "SM_rough_horsetail_01",
+    "SM_wk2oaeyqx_VarB"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schwarzeis",
+   "basis": "M_EL_Eis4",
+   "parameter": {
+    "Eis_Farbe": [
+     0.06,
+     0.12,
+     0.2,
+     1.0
+    ],
+    "Eis_Tief_Farbe": [
+     0.01,
+     0.02,
+     0.05,
+     1.0
+    ],
+    "Schnee_Menge": 0.05,
+    "Eis_Spekular": 0.8
+   },
+   "fuer": [
+    "Frostsee-Blasenbucht",
+    "Blasensee am Blockgletscher",
+    "Frostblumen-Lagune"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Spritzeis",
+   "basis": "M_EL_Eis4",
+   "parameter": {
+    "Eis_Farbe": [
+     0.7,
+     0.85,
+     0.97,
+     1.0
+    ],
+    "Schnee_Menge": 0.45,
+    "Eis_Rau_Max": 0.3
+   },
+   "fuer": [
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_4",
+    "SM_EISZAPFEN_9",
+    "Eisvorhang, Eisglocken, Eisvulkane"
+   ]
+  }
+ ],
+ "steige": {
+  "froststeig": {
+   "biom": "frost",
+   "start": "Strassenende oestlich des Frostlagers (X -520, Y -2434)",
+   "laenge_m": 1290.3,
+   "max_steigung_grad": 25.0,
+   "mittel_steigung_grad": 10.3,
+   "laenge_ueber_25_grad_m": 0.0,
+   "hoehe_min_m": 11.4,
+   "hoehe_max_m": 134.3
+  },
+  "froststeig_sued": {
+   "biom": "frost",
+   "start": "Abzweig vom Froststeig bei X 0, Y -2530",
+   "laenge_m": 707.8,
+   "max_steigung_grad": 24.2,
+   "mittel_steigung_grad": 8.1,
+   "laenge_ueber_25_grad_m": 0.0,
+   "hoehe_min_m": 4.0,
+   "hoehe_max_m": 71.4
+  }
+ },
+ "download_liste_korrekturen": [
+  "frost:Blasenbucht ist jetzt frost_02_frostsee; frost:Eisvorhang = frost_03_eisvorhang; neu: frost_01, frost_06, frost_07, frost_08"
+ ],
+ "bildwuensche": [
+  {
+   "id": "frost_02_frostsee",
+   "kamera": "frost_02_frostsee_held",
+   "grund": "Frostsee mit Houdini-Resten am Nordufer – was muss weg?"
+  },
+  {
+   "id": "frost_04_raureifhain",
+   "kamera": "frost_04_raureifhain_fern",
+   "grund": "Hangschulter vom Steig aus"
+  }
+ ]
+}

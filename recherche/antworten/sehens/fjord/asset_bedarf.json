@@ -1,0 +1,421 @@
+{
+ "stand": "2026-10-11",
+ "biom": "fjord",
+ "hinweis": "Paketnamen exakt wie antworten/sehens/downloadliste.json; Bestand = Netznamen aus vorlagen/daten/netze.csv (keiner gesperrt, SM_IcelandicBoulder_* gesperrt und nicht verwendet; keine SW_*/Houdini-Netze). Orte mit 'bedingung' gelten nur mit dem Steig.",
+ "orte": [
+  {
+   "id": "fjord_01_die_kanzel",
+   "name": "Die Kanzel",
+   "art": "leuchtfeuer",
+   "bedingung": "Steig fjordsteig_kanzel",
+   "bestand": [
+    "SM_MassiveTundraRockFormation_01",
+    "veqnci0db_tier_2",
+    "vmnmbhv_tier_0",
+    "SM_NordicBoulder_01",
+    "SM_flat_rock_02",
+    "SM_flat_rock_03",
+    "SM_flat_rock_04",
+    "SM_heath_A_01",
+    "SM_pine_beach_crooked_01"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Wind, Möwen",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "fjord_02_schleierwand",
+   "name": "Die Schleierwand",
+   "art": "leuchtfeuer",
+   "bedingung": "Steig fjordsteig",
+   "bestand": [
+    "vdssailfa_tier_2",
+    "vfmjadufa_tier_2",
+    "SM_mountain_rock_big_01_1",
+    "SM_mountain_rock_big_01_2",
+    "SM_mountain_rock_big_01_3",
+    "SM_mountain_rock_big_01_4",
+    "SM_mountain_rock_big_01_5",
+    "SM_ground_rock_01",
+    "SM_ground_rock_02",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_EagleFern_S_01",
+    "SM_EagleFern_S_02"
+   ],
+   "decals": [
+    "MI_Leakage_04",
+    "MI_Leakage_06"
+   ],
+   "material": [
+    "M_EL_Wasserfall2"
+   ],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Fluss-/Wasserfall-Material für 6 dünne Fallbänder",
+     "ersatz_bestand": "MI_EL_Wasserfall (Deckkraft 0,5)",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "B",
+     "wofuer": "Sprühnebel am Wandfuß",
+     "ersatz_bestand": "lokaler_nebel",
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Realistic Waterfall and Water VFX",
+     "prioritaet": "C",
+     "wofuer": "verwehende Fallfäden",
+     "ersatz_bestand": "Material allein",
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Kategorie-Auszug, ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "fjord_03_trollzunge",
+   "name": "Die Trollzunge",
+   "art": "leuchtfeuer",
+   "bedingung": "Steig fjordsteig",
+   "bestand": [
+    "uchoab3fa_tier_0",
+    "rcygn_tier_0",
+    "SM_NordicBoulder_01",
+    "SM_TundraRockyGround_01"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+     "prioritaet": "C",
+     "wofuer": "Wind am Grat",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "fjord_04_haengetal",
+   "name": "Das Hängetal",
+   "art": "fundstueck",
+   "bedingung": "Steig fjordsteig",
+   "bestand": [
+    "SM_big_rock_wall_01",
+    "SM_big_rock_wall_02",
+    "SM_NordicBoulder_01",
+    "SM_DryRiverBed_01",
+    "SM_DryRiverBed_02",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_wk2oaeyqx_VarA",
+    "SM_wk2oaeyqx_VarB",
+    "SM_wk2oaeyqx_VarC",
+    "SM_wk2oaeyqx_VarD",
+    "SM_wk2oaeyqx_VarE",
+    "SM_wk2oaeyqx_VarF",
+    "SM_wk2oaeyqx_VarG",
+    "SM_wk2oaeyqx_VarH",
+    "SM_wk2oaeyqx_VarI",
+    "SM_EagleFern_S_04"
+   ],
+   "decals": [],
+   "material": [
+    "M_EL_Wasserfall2"
+   ],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Fall 40 m an der Lippe",
+     "ersatz_bestand": "MI_EL_Wasserfall + MI_EL_Wasserfall_Aufprall",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Rauschen",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "fjord_05_fjordkopf",
+   "name": "Der Fjordkopf",
+   "art": "fundstueck",
+   "bedingung": "Steig fjordsteig",
+   "bestand": [
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBoulder_01",
+    "SM_NordicBeachRockyGround_01",
+    "SM_NordicBeachRockyGround_02",
+    "SM_NordicBeach_02",
+    "SM_BeachSandWithPebbles_01",
+    "SM_BeachSandWithPebbles_02",
+    "SM_beach_driftwood_01",
+    "SM_beach_grass_01_1",
+    "SM_beach_grass_01_2",
+    "SM_beach_grass_01_3",
+    "SM_beach_grass_01_4",
+    "SM_beach_grass_01_hp_1",
+    "SM_beach_grass_01_hp_2",
+    "SM_sea_buckthorn_01",
+    "SM_sea_buckthorn_02"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Seetang, Spülsaum-Decals, nasser Sand",
+     "ersatz_bestand": "SM_beach_driftwood_01, MI_Leakage_*",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Megascans Icelandic Sand With Pebbles",
+     "prioritaet": "C",
+     "wofuer": "dunkler Kies im Fächer",
+     "ersatz_bestand": "SM_BeachSandWithPebbles_01/02",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "fjord_06_bergsturz",
+   "name": "Der Bergsturzkegel",
+   "art": "fundstueck",
+   "bedingung": "Steig fjordsteig",
+   "bestand": [
+    "SM_NordicBoulder_01",
+    "SM_MassiveTundraRockFormation_02",
+    "ukjhcamga_tier_0",
+    "vdssailfa_tier_2",
+    "SM_mountain_rock_big_01_1",
+    "SM_mountain_rock_big_01_2",
+    "SM_mountain_rock_big_01_3",
+    "SM_mountain_rock_big_01_4",
+    "SM_mountain_rock_big_01_5",
+    "SM_mountain_rock_big_02_1",
+    "SM_mountain_rock_big_02_2",
+    "SM_mountain_rock_big_02_3",
+    "SM_mountain_rock_big_02_4",
+    "SM_mountain_rock_big_02_5",
+    "SM_mountain_rock_big_02_6",
+    "SM_mountain_rock_big_02_7",
+    "SM_mountain_rock_big_02_8",
+    "SM_stone_03",
+    "SM_stone_04",
+    "SM_stone_05",
+    "SM_stone_06",
+    "SM_stone_07",
+    "SM_stone_08",
+    "Big_Tree_Birch_01"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Steinschlag/Wind",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "fjord_07_brandungsgrotte",
+   "name": "Die Brandungsgrotte",
+   "art": "fundstueck",
+   "bedingung": "Steig fjordsteig",
+   "bestand": [
+    "SM_HugeNordicCoastalCliff_01",
+    "SM_HugeNordicCoastalCliff_02",
+    "SM_MassiveNordicCoastalCliff_01",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBeachRockyGround_01",
+    "SM_NordicBeachRockyGround_02"
+   ],
+   "decals": [
+    "MI_Leakage_10"
+   ],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Seetang-Band und Nässe",
+     "ersatz_bestand": "MI_Leakage_10",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "B",
+     "wofuer": "Gischt im Spalt",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Cave Ambience",
+     "prioritaet": "B",
+     "wofuer": "Grottenklang",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "fjord_08_strandterrassen",
+   "name": "Die alten Ufer",
+   "art": "fundstueck",
+   "bedingung": "Steig fjordsteig",
+   "bestand": [
+    "SM_BeachSandWithPebbles_01",
+    "SM_BeachSandWithPebbles_02",
+    "SM_NordicBeachRock_01",
+    "SM_wk2oaeyqx_VarA",
+    "SM_wk2oaeyqx_VarB",
+    "SM_wk2oaeyqx_VarC",
+    "SM_wk2oaeyqx_VarD",
+    "SM_wk2oaeyqx_VarE",
+    "SM_wk2oaeyqx_VarF",
+    "SM_wk2oaeyqx_VarG",
+    "SM_wk2oaeyqx_VarH",
+    "SM_wk2oaeyqx_VarI",
+    "SM_heath_A_01"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Megascans Icelandic Sand With Pebbles",
+     "prioritaet": "C",
+     "wofuer": "gerundete Strandkiesel",
+     "ersatz_bestand": "SM_BeachSandWithPebbles_01/02, SM_NordicBeachRock_01",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+    }
+   ]
+  }
+ ],
+ "neue_paketwuensche": [],
+ "luecken_ohne_asset": [
+  {
+   "was": "Seetang/Seepocken-Band",
+   "loesung_ohne_asset": "dunkles Nassband MI_Leakage_10 + Moosfarbe dunkel im Klippen-Material",
+   "paket_falls_vorhanden": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)"
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Klippe_Fjordnass",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Moos_Farbe": [
+     0.55,
+     0.75,
+     0.45,
+     1.0
+    ],
+    "Moos_Menge": 0.85,
+    "Blend_Hoehe": 600.0,
+    "Toenung": [
+     0.7,
+     0.72,
+     0.75,
+     1.0
+    ]
+   },
+   "fuer": [
+    "vdssailfa_tier_2",
+    "vfmjadufa_tier_2",
+    "SM_HugeNordicCoastalCliff_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schleierfall",
+   "basis": "M_EL_Wasserfall2",
+   "parameter": {
+    "Deckkraft": 0.55,
+    "Straehnen_Staerke": 0.9,
+    "Schaum_Menge": 1.6,
+    "V_Skala": 0.4
+   },
+   "fuer": [
+    "Fallbänder Schleierwand"
+   ]
+  }
+ ],
+ "steige": {
+  "fjordsteig": {
+   "biom": "fjord",
+   "start": "Weg am Erlenbach (X -1458, Y -2150)",
+   "laenge_m": 2351.7,
+   "max_steigung_grad": 34.9,
+   "mittel_steigung_grad": 18.8,
+   "laenge_ueber_25_grad_m": 566.3,
+   "hoehe_min_m": 22.7,
+   "hoehe_max_m": 397.6
+  },
+  "fjordsteig_kanzel": {
+   "biom": "fjord",
+   "start": "Abzweig vom Fjordsteig am Grat (X -1610, Y -2950)",
+   "laenge_m": 319.6,
+   "max_steigung_grad": 27.4,
+   "mittel_steigung_grad": 18.8,
+   "laenge_ueber_25_grad_m": 8.2,
+   "hoehe_min_m": 287.3,
+   "hoehe_max_m": 397.6
+  }
+ },
+ "download_liste_korrekturen": [
+  "fjord:Diamantstrand und fjord:Blockufer (Basalt) entfallen; Mountain-Set-Material jetzt für fjord_02/fjord_04 (A)"
+ ],
+ "bildwuensche": [
+  {
+   "id": "fjord_02_schleierwand",
+   "kamera": "fjord_02_schleierwand_held",
+   "grund": "Talschluss vom Fjordboden"
+  },
+  {
+   "id": "fjord_01_die_kanzel",
+   "kamera": "fjord_01_die_kanzel_anmarsch",
+   "grund": "Ostwand von der Sohle: wo genau die Kante ist"
+  }
+ ]
+}

@@ -121,10 +121,14 @@ def lade_standorte(pfad):
         return json.load(f)
 
 
-def alle_standorte(sehens_ordner):
-    """Alle Orte aus <sehens_ordner>/*/standorte.json -> Liste (biom, ort, pfad)."""
+def alle_standorte(sehens_ordner, mit_varianten=True):
+    """Alle Orte aus <sehens_ordner>/*/standorte.json -> Liste (biom, ort, pfad).
+    mit_varianten: auch */standorte_*.json (Orte, die an vorgeschlagenen Steigen haengen,
+    z. B. standorte_steige.json, standorte_kratersteig.json) - deren Raeume sind reserviert."""
     out = []
-    for p in sorted(glob.glob(os.path.join(sehens_ordner, "*", "standorte.json"))):
+    muster = ["standorte.json"] + (["standorte_*.json"] if mit_varianten else [])
+    pfade = sorted(set(q for m in muster for q in glob.glob(os.path.join(sehens_ordner, "*", m))))
+    for p in pfade:
         try:
             d = lade_standorte(p)
         except Exception as ex:  # defekte Datei -> melden, weiter

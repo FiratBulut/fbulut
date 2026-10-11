@@ -1,0 +1,7 @@
+{
+ "stand": "2026-10-11",
+ "biom": "fjord",
+ "orte": [],
+ "hinweis": "Orte, die heute die Regeln erfuellen (Weg 80-300 m). Die uebrigen Orte des Bioms stehen in standorte_steige.json und gelten nur, wenn Ferat die dort beschriebenen Steige baut.",
+ "bedingte_orte_datei": "standorte_steige.json"
+}

@@ -97,7 +97,7 @@ zeichnen.draufsicht(welt, k["x_m"], k["y_m"], "antworten/sehens/aue/%s.png" % oi
 `belegte_punkte`, `mindestabstand_m`, Phase 2: `ort_phase2`, `schreibe_orte`, `schreibe_f32` (Gelände-Δ), `schreibe_r8` (Lagen).
 
 **sehens_pruefen.py** – `python -I antworten/skripte/sehens_lib/sehens_pruefen.py` prüft alle
-`antworten/sehens/*/standorte.json` (Format, Kameras, Geländeregeln mit Daten, globale Abstände über alle Biome);
+`antworten/sehens/*/standorte.json` (Format, Kameras, Geländeregeln mit Daten, globale Abstände über alle Biome – dabei zählen auch die Steig-Varianten `*/standorte_*.json` mit, deren Räume reserviert sind);
 `--datei X/orte.json` prüft Phase 2 (Felder §2–§9, Budget, Dateigrößen, Rand Δ = 0, Umriss gegen Uhrzeigersinn =
 Fläche > 0 in X/Y wie `wasser_welt.json`). Exit 1 bei FEHLER.
 

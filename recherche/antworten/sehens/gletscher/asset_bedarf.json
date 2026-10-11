@@ -1,0 +1,585 @@
+{
+ "stand": "2026-10-11",
+ "biom": "gletscher",
+ "hinweis": "Paketnamen exakt wie antworten/sehens/downloadliste.json; Bestand = Netznamen aus vorlagen/daten/netze.csv (keiner gesperrt, SM_IcelandicBoulder_* gesperrt und nicht verwendet; keine SW_*/Houdini-Netze). Orte mit 'bedingung' gelten nur mit dem Steig.",
+ "orte": [
+  {
+   "id": "gletscher_01_gletschertor",
+   "name": "Das Gletschertor",
+   "art": "leuchtfeuer",
+   "bedingung": null,
+   "bestand": [
+    "SM_EISZAPFEN_9",
+    "SM_NordicBoulder_01",
+    "SM_TundraMossyBoulder_01",
+    "SM_TundraRockyGround_01",
+    "SM_NordicBeachRockyGround_01",
+    "SM_NordicBeachRockyGround_02",
+    "SM_mountain_rock_big_01_1",
+    "SM_mountain_rock_big_01_2",
+    "SM_mountain_rock_big_01_3",
+    "SM_mountain_rock_big_01_4",
+    "SM_mountain_rock_big_01_5",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_NordicBeachRock_01",
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_5",
+    "SM_wk2oaeyqx_VarA",
+    "SM_wk2oaeyqx_VarB",
+    "SM_wk2oaeyqx_VarC",
+    "SM_wk2oaeyqx_VarD",
+    "SM_wk2oaeyqx_VarE",
+    "SM_wk2oaeyqx_VarF",
+    "SM_wk2oaeyqx_VarG",
+    "SM_wk2oaeyqx_VarH",
+    "SM_wk2oaeyqx_VarI",
+    "SM_heath_B_01"
+   ],
+   "decals": [
+    "MI_Leakage_03"
+   ],
+   "material": [
+    "M_EL_Eis4"
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "A",
+     "wofuer": "Séracwand und Portal aus echtem Eis (Ice Cliff), Kalbungsbrocken (Rocky Snow Pile)",
+     "ersatz_bestand": "SM_EISZAPFEN_8/9 gebündelt + Geländestufe, Material M_EL_Eis4",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Arctic Cliffs",
+     "prioritaet": "B",
+     "wofuer": "große Eisplatten/Eisstücke für die Séracs",
+     "ersatz_bestand": "wie oben",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "B",
+     "wofuer": "kalter Nebel im Portal, Tropfwasser",
+     "ersatz_bestand": "lokaler_nebel ohne Niagara",
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Cave Ambience",
+     "prioritaet": "C",
+     "wofuer": "Klang in der Eishöhle",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)"
+    },
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "C",
+     "wofuer": "Gletscherbach-Schaum am Portal",
+     "ersatz_bestand": "MI_EL_Wasserfall_Aufprall",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    }
+   ]
+  },
+  {
+   "id": "gletscher_02_lawinenkegel",
+   "name": "Der Lawinenkegel",
+   "art": "leuchtfeuer",
+   "bedingung": null,
+   "bestand": [
+    "SM_FallenSpruceTree_01",
+    "SM_BrokenTreeAssembly_01",
+    "SM_Forest_pine_10_dead",
+    "SM_Pine_roots_01",
+    "SM_Pine_roots_03",
+    "SM_mountain_rock_big_01_1",
+    "SM_mountain_rock_big_01_2",
+    "SM_mountain_rock_big_01_3",
+    "SM_mountain_rock_big_01_4",
+    "SM_mountain_rock_big_01_5",
+    "SM_ground_rock_01",
+    "SM_Pine_broken_branch_01",
+    "SM_Pine_broken_branch_02",
+    "SM_mountain_branch_01_01",
+    "SM_mountain_branch_01_02",
+    "SM_DryBranches_01",
+    "SM_DryBranches_02",
+    "SM_DryBranches_03",
+    "SM_DryBranches_04",
+    "SM_DryBranches_05",
+    "SM_DryBranches_06",
+    "SM_DryBranches_07",
+    "SM_DryBranches_08",
+    "Fir_01_Plant",
+    "SM_Forest_pine_plant_01",
+    "SM_Forest_pine_plant_02",
+    "SM_Forest_pine_plant_03",
+    "SM_grey_willow_01",
+    "SM_grey_willow_02",
+    "SM_grey_willow_03",
+    "SM_grey_willow_04"
+   ],
+   "decals": [
+    "MI_ScatteredSticksAndTwigs_01",
+    "MI_Leakage_05"
+   ],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "A",
+     "wofuer": "Altschnee-Kegel (Snow Embankment, Huge Snow Hill)",
+     "ersatz_bestand": "Geländekegel + Lage Schnee",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Wind, Tropfen",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "gletscher_03_moraenensee",
+   "name": "Der Moränensee",
+   "art": "fundstueck",
+   "bedingung": "Steig gletschersteig_west",
+   "bestand": [
+    "SM_LichenedForestBoulder_01",
+    "SM_TundraMossyBoulder_01",
+    "xf3odif_tier_0",
+    "xisgcic_tier_0",
+    "SM_TundraRockyGround_01",
+    "SM_NordicBeachRockyGround_01",
+    "SM_NordicBeachRockyGround_02",
+    "skjsL_tier_0",
+    "pkeeM_tier_0",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_MossClump_01",
+    "SM_MossClump_02",
+    "SM_MossClump_03",
+    "SM_MossClump_04",
+    "SM_MossClump_05",
+    "SM_wk2oaeyqx_VarB",
+    "SM_wk2oaeyqx_VarF",
+    "SM_dwarf_pine_small_01"
+   ],
+   "decals": [
+    "MI_TileableMossPatches_02"
+   ],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Megascans Icelandic Sand With Pebbles",
+     "prioritaet": "C",
+     "wofuer": "Uferkies hell",
+     "ersatz_bestand": "SM_BeachSandWithPebbles_01/02",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Wind, Wasser",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "gletscher_04_toteisloch",
+   "name": "Das Toteisloch",
+   "art": "fundstueck",
+   "bedingung": null,
+   "bestand": [
+    "Big_Tree_Birch_01",
+    "SM_BirchTreeStump_01",
+    "SM_Forest_pine_04_log",
+    "SM_MossyRocks_02",
+    "texndcpda_tier_0",
+    "xjijdiz_tier_0",
+    "SM_DryBranches_01",
+    "SM_DryBranches_02",
+    "SM_DryBranches_03",
+    "SM_DryBranches_04",
+    "SM_DryBranches_05",
+    "SM_DryBranches_06",
+    "SM_DryBranches_07",
+    "SM_DryBranches_08",
+    "SM_MossClump_01",
+    "SM_MossClump_02",
+    "SM_MossClump_03",
+    "SM_MossClump_04",
+    "SM_MossClump_05",
+    "SM_rough_horsetail_01",
+    "SM_rough_horsetail_02",
+    "SM_rough_horsetail_03",
+    "SM_heath_A_01",
+    "SM_lingonberry_01",
+    "SM_lingonberry_02"
+   ],
+   "decals": [],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Stille/Wind in der Senke",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "gletscher_05_die_waechte",
+   "name": "Die Wächte",
+   "art": "leuchtfeuer",
+   "bedingung": "Steig gletschersteig_west",
+   "bestand": [
+    "SM_EISZAPFEN_6",
+    "SM_EISZAPFEN_9",
+    "SM_NordicBoulder_01",
+    "rcygn_tier_0",
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_2",
+    "SM_EISZAPFEN_3",
+    "SM_EISZAPFEN_4",
+    "SM_EISZAPFEN_5",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_NordicBeachRock_01"
+   ],
+   "decals": [],
+   "material": [
+    "M_EL_Fels_Auflage",
+    "MI_EL_Wasserfall_Kaskade"
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "A",
+     "wofuer": "Wächte (Snow Embankment gekippt), Wächtenbruch (Rocky Snow Pile)",
+     "ersatz_bestand": "Geländewulst + Lage Schnee + SM_EISZAPFEN_6/9",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "prioritaet": "B",
+     "wofuer": "Schneefahne an der Wächte",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+     "prioritaet": "C",
+     "wofuer": "Wind am Grat",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "gletscher_06_gletschertoepfe",
+   "name": "Die Gletschertöpfe",
+   "art": "fundstueck",
+   "bedingung": "Steig gletschersteig_ost",
+   "bestand": [
+    "SM_big_rock_wall_01",
+    "SM_big_rock_wall_02",
+    "SM_big_rock_wall_03",
+    "SM_SmoothRockShelf_01",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBeachRock_01",
+    "SM_BeachSandWithPebbles_01",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_02",
+    "SM_SmallStonesPack_03",
+    "SM_SmallStonesPack_04",
+    "SM_SmallStonesPack_05",
+    "SM_SmallStonesPack_06",
+    "SM_SmallStonesPack_07",
+    "SM_SmallStonesPack_08",
+    "SM_SmallStonesPack_09",
+    "SM_SmallStonesPack_10",
+    "SM_SmallStonesPack_11",
+    "SM_SmallStonesPack_12",
+    "SM_SmallStonesPack_13",
+    "SM_SmallStonesPack_14",
+    "SM_MossClump_01",
+    "SM_MossClump_02",
+    "SM_MossClump_03",
+    "SM_MossClump_04",
+    "SM_MossClump_05",
+    "SM_BeechFern_04",
+    "SM_EagleFern_S_01"
+   ],
+   "decals": [
+    "MI_Leakage_07",
+    "MI_Leakage_08"
+   ],
+   "material": [
+    "M_EL_Klippe_RVT"
+   ],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "B",
+     "wofuer": "Kaskaden zwischen den Töpfen",
+     "ersatz_bestand": "MI_EL_Wasserfall_Kaskade",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "B",
+     "wofuer": "Rauschen in der Klamm",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "gletscher_07_der_nunatak",
+   "name": "Der Nunatak",
+   "art": "fundstueck",
+   "bedingung": "Steig gletschersteig_ost",
+   "bestand": [
+    "veqnci0db_tier_2",
+    "ukjhcamga_tier_0",
+    "SM_MassiveTundraRockFormation_02",
+    "SM_NordicBoulder_01",
+    "SM_TundraRockyGround_01",
+    "xjijdiz_tier_0",
+    "texndcpda_tier_0",
+    "SM_mountain_rock_big_02_1",
+    "SM_mountain_rock_big_02_2",
+    "SM_mountain_rock_big_02_3",
+    "SM_mountain_rock_big_02_4",
+    "SM_mountain_rock_big_02_5",
+    "SM_mountain_rock_big_02_6",
+    "SM_mountain_rock_big_02_7",
+    "SM_mountain_rock_big_02_8",
+    "SM_ground_rock_03_01",
+    "SM_MossClump_01",
+    "SM_MossClump_02",
+    "SM_MossClump_03",
+    "SM_MossClump_04",
+    "SM_MossClump_05",
+    "SM_dwarf_pine_medium_02"
+   ],
+   "decals": [],
+   "material": [
+    "M_EL_Fels_Auflage"
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile",
+     "prioritaet": "B",
+     "wofuer": "Firnfeld-Ränder, Schnee am Fels (Rocky Snow Pile)",
+     "ersatz_bestand": "Lage Schnee + M_EL_Fels_Auflage",
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+    },
+    {
+     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "prioritaet": "C",
+     "wofuer": "Schneefahne",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "Preis ungeprüft"
+    }
+   ]
+  },
+  {
+   "id": "gletscher_08_gletscherschliff",
+   "name": "Der Gletscherschliff",
+   "art": "fundstueck",
+   "bedingung": "Steig gletschersteig_nordhang",
+   "bestand": [
+    "SM_NordicBoulder_01",
+    "skjsL_tier_0",
+    "SM_SmoothRockShelf_01",
+    "SM_ForestRockSlab_01",
+    "SM_MassiveTundraRockFormation_02",
+    "SM_ErodedRockyGround_01",
+    "SM_ErodedRockyGround_02",
+    "SM_ErodedRockyGround_03",
+    "SM_heath_A_01",
+    "SM_heath_cross_01",
+    "SM_lingonberry_01"
+   ],
+   "decals": [
+    "MI_TileableLeakage_02"
+   ],
+   "material": [],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "C",
+     "wofuer": "Decals für Schrammen/Flechten",
+     "ersatz_bestand": "MI_TileableLeakage_02 gestreckt",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    }
+   ]
+  }
+ ],
+ "neue_paketwuensche": [],
+ "luecken_ohne_asset": [
+  {
+   "was": "Überhängende Wächte / Séracwand als echtes Eisnetz",
+   "loesung_ohne_asset": "Geländewulst + Lage Schnee/Eis + SM_EISZAPFEN_6/8/9 gebündelt, Material MI_EL_SW_Gletschereis_Tief",
+   "paket_falls_vorhanden": "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile"
+  },
+  {
+   "was": "Gletschermühle (runder Schacht im Eis)",
+   "loesung_ohne_asset": "Ring aus SM_EISZAPFEN liegend + dunkles Decal MI_Leakage_12 im Schacht + Wasserfall-Material 3 m",
+   "paket_falls_vorhanden": null
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Gletschereis_Tief",
+   "basis": "M_EL_Eis4",
+   "parameter": {
+    "Eis_Farbe": [
+     0.25,
+     0.55,
+     0.92,
+     1.0
+    ],
+    "Eis_Tief_Farbe": [
+     0.02,
+     0.12,
+     0.35,
+     1.0
+    ],
+    "Schnee_Menge": 0.25,
+    "Eis_Rau_Max": 0.22
+   },
+   "fuer": [
+    "Séracs, Gletschertor, Bergschrund",
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Fels_Schneekappe",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.95,
+     0.97,
+     1.0,
+     1.0
+    ],
+    "Auflage_Menge": 0.65,
+    "Auflage_Schwelle": 0.6,
+    "Toenung": [
+     0.75,
+     0.76,
+     0.8,
+     1.0
+    ]
+   },
+   "fuer": [
+    "veqnci0db_tier_2",
+    "SM_NordicBoulder_01",
+    "rcygn_tier_0"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Klippe_Gletscherschliff",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Moos_Menge": 0.15,
+    "Fels_Saettigung": 0.5,
+    "Helligkeit": 1.1
+   },
+   "fuer": [
+    "SM_SmoothRockShelf_01",
+    "SM_MassiveTundraRockFormation_02"
+   ]
+  }
+ ],
+ "steige": {
+  "gletschersteig_west": {
+   "biom": "gletscher",
+   "start": "Strasse am Frostlager (X -652, Y -2460)",
+   "laenge_m": 1573.1,
+   "max_steigung_grad": 30.0,
+   "mittel_steigung_grad": 14.6,
+   "laenge_ueber_25_grad_m": 113.9,
+   "hoehe_min_m": 90.6,
+   "hoehe_max_m": 382.3
+  },
+  "gletschersteig_nordhang": {
+   "biom": "gletscher",
+   "start": "Abzweig vom Gletschersteig West am Westgrat (X -930, Y -3000)",
+   "laenge_m": 767.9,
+   "max_steigung_grad": 24.8,
+   "mittel_steigung_grad": 18.7,
+   "laenge_ueber_25_grad_m": 0.0,
+   "hoehe_min_m": 143.6,
+   "hoehe_max_m": 367.1
+  },
+  "gletschersteig_ost": {
+   "biom": "gletscher",
+   "start": "Strassenende oestlich des Frostlagers (X -520, Y -2434)",
+   "laenge_m": 1383.1,
+   "max_steigung_grad": 25.0,
+   "mittel_steigung_grad": 16.6,
+   "laenge_ueber_25_grad_m": 0.0,
+   "hoehe_min_m": 127.0,
+   "hoehe_max_m": 338.0
+  }
+ },
+ "download_liste_korrekturen": [
+  "gletscher:Der Atem, Gletschertisch, Büßereis, Schmelzsee entfallen; neu gletscher_01…08 (Gletschertor, Wächte, Lawinenkegel, Nunatak ...)"
+ ],
+ "bildwuensche": [
+  {
+   "id": "gletscher_01_gletschertor",
+   "kamera": "gletscher_01_gletschertor_held",
+   "grund": "Sander und Zunge heute – wie leer ist das Vorfeld?"
+  },
+  {
+   "id": "gletscher_05_die_waechte",
+   "kamera": "gletscher_05_die_waechte_fern",
+   "grund": "Grat vom Frostlager aus: liest sich die Kante?"
+  }
+ ]
+}
