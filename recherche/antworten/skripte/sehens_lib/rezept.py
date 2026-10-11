@@ -1207,7 +1207,7 @@ class OrtKontext:
           "abschnitt": "naechster" - bei geteilten Pfaden (mehrere Orte in "fuer") nur der Abschnitt, der diesem Ort
                        entlang der Bogenlaenge am naechsten liegt (Grenze = Mitte zwischen den Projektionen der Orte;
                        braucht orte_mitten). Jeder Pfadmeter gehoert so genau einem Ort (keine doppelten Stufen).
-          "zugang": true | {"breite_cm", "lagen", "trittsteine"} - zusaetzlich der Fussweg pfad_cm des Orts
+          "zugang": true | {"breite_cm", "lagen", "trittsteine", "vor_wasser_m"} - zusaetzlich der Fussweg pfad_cm des Orts
                        (Pfad -> Ort) als eigenes Bodenband + Trittsteine/Stufen (orte.json "pfad_zugang").
           trittsteine.stufen_bis_grad - Felsstufen nur bis zu dieser Steigung (steiler: Kehren, Ferats Werkzeug).
           "pfad_id": "<id>" - genau diesen Pfad aus pfade nehmen (statt des ersten mit fuer/pfad_id);
@@ -1250,6 +1250,8 @@ class OrtKontext:
         if zg and pfad_eintrag is not None and self.st.get("pfad_cm"):
             zr = dict(pr, **zg) if isinstance(zg, dict) else dict(pr)
             Pz = [[q[0] / 100.0, q[1] / 100.0] for q in self.st["pfad_cm"]][::-1]      # Pfad -> Ort
+            if zr.get("vor_wasser_m") is not None:
+                Pz = self._bis_vor_wasser(Pz, float(zr["vor_wasser_m"]))
             self.zugang = self._pfad_eintrag(Pz, zr, None, "pfad_cm (Fussweg vom %s zum Ort)" % pfad_eintrag["id"])
             if zr.get("trittsteine"):
                 self._pfad_steine(self.zugang, zr["trittsteine"], "zugang")
@@ -1269,6 +1271,22 @@ class OrtKontext:
             if ar.get("trittsteine"):
                 self._pfad_steine(e, ar["trittsteine"], "abschnitt%d" % (k + 1))
             self.pfad_abschnitte.append(e)
+
+    def _bis_vor_wasser(self, P, vor_m):
+        """pfad.zugang.vor_wasser_m: Fussweg endet vor_m vor dem ersten (geplanten oder bestehenden) Wasser, z. B. wenn
+        die Ortsmitte jetzt im geplanten See liegt."""
+        x, y, s = _gel.polylinie_proben(P, 0.5)
+        nass = np.asarray(self.im_wasser(x, y), bool)
+        if not nass.any() or nass[0]:
+            return P
+        k = int(np.argmax(nass))
+        s_end = max(float(s[k]) - vor_m, 1.0)
+        A = np.asarray(P, np.float64)
+        kum = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(A, axis=0).T))])
+        j = int(np.clip(np.searchsorted(kum, s_end, side="right") - 1, 0, len(A) - 2))
+        f = (s_end - kum[j]) / max(kum[j + 1] - kum[j], 1e-9)
+        ende = (A[j] + (A[j + 1] - A[j]) * f).tolist()
+        return [list(map(float, q)) for q in A[:j + 1]] + [ende]
 
     def _pfad_eintrag(self, P, pr, art, quelle):
         P = _vereinfachen(P, float(pr.get("vereinfachen_m", 1.5)))
