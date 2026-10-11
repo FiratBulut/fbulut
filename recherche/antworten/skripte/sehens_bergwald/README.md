@@ -14,24 +14,41 @@ Ausgabe: `<aus>/orte.json`, `gelaende/`, `lagen/`, `sw_bergwald/<Feld>/` (plan.j
 `test_<id>.png`. Eigener Code nur im Hook `hook_windwurf_anker` (Stammfüße, Wurzelteller, Wurzellöcher, Pfützen);
 alles andere sind Regeln.
 
-## Testlauf 2 m (11.10.2026, 57 s, deterministisch)
+## Testlauf 2 m (Inventar 13d, 11.10.2026, 84 s, deterministisch)
 
-Planer 0 FEHLER / 0 WARNUNG; Prüfer (`orte.json` + `sw_bergwald`, mit Daten und Inventar) **0 FEHLER, 0 WARNUNG**,
-1 HINWEIS (2 Kiesel am Karsee im Bestandswasser).
+Planer 0 FEHLER / 0 WARNUNG; Prüfer (`orte.json` + `sw_bergwald`, mit Daten und Inventar 13d) **0 FEHLER, 0 WARNUNG**,
+2 HINWEISE (2 Kiesel am Karsee im Bestandswasser, 1 Stein in der Klamm ganz im Boden).
 
-| Ort | Instanzen | Kollision | Akteure | Held / Begl. / Schutt / Kleinzeug / Bewuchs / Kontakt | Wasser | Effekte | Stempel |
-|---|---|---|---|---|---|---|---|
-| 01 Mönch | 1 751 | 275 | 9 | 2 / 7 / 162 / 928 / 40 / 504 (+117 Pfadstufen) | – | Nebel, 4 Decals | 1,9 m |
-| 02 Brandkiefer | 780 | 53 | 6 | 1 / 5 / 60 / 540 / 115 / 61 | – | Niagara opt., 8 Decals | – |
-| 03 Säulenhain | 2 889 | 104 | 22 | 12 / 10 / 90 / 1 968 / 294 / 523 | Bach bleibt | Spot, Nebel, 4 Decals | – |
-| 04 Felsenmeer | 2 513 | 214 | 11 | 3 / 8 / 173 / 1 895 / 69 / 345 | – | Nebel, 4 Decals | 1,7 m |
-| 05 Klemmblock-Klamm | 667 | 138 | 18 | 1 / 17 / 66 / 350 / 41 / 111 (+40 Gumpengeröll) | Gumpe, Bach, Schleierfall 30 m | Licht, Nebel, Niagara opt., 5 Decals | 9,6 m |
-| 06 Karsee | 1 845 | 287 | 7 | 2 / 5 / 154 / 1 106 / 321 / 123 | See + Abfluss + 2 Zuläufe | Nebel, 3 Decals | 9,1 m |
-| 07 Windwurf | 2 782 | 160 | 41 | 14 / 27 / 160 / 2 209 / 280 / 133 | 4 Pfützen | Niagara opt., 6 Decals | 1,6 m |
-| 08 Wurzelstein | 1 243 | 140 | 13 | 2 / 11 / 45 / 900 / 55 / 148 (+95 Pfadstufen) | – | Spot, 3 Decals | 4,4 m |
+| Ort | Instanzen | Kollision | Akteure | Wasser | Effekte | Stempel |
+|---|---|---|---|---|---|---|
+| 01 Mönch | 1 788 | 274 | 9 | – | Nebel, 4 Decals | 1,9 m |
+| 02 Brandkiefer | 786 | 80 | 6 | – | Niagara opt., 8 Decals | – |
+| 03 Säulenhain | 3 289 | 104 | 22 | Bach bleibt | Spot, Nebel, 4 Decals | – |
+| 04 Felsenmeer | 2 507 | 212 | 11 | – | Nebel, 4 Decals | 1,7 m |
+| 05 Klemmblock-Klamm | 667 | 138 | 18 | Gumpe, Bach, Schleierfall 30 m | `NS_Waterfall_Medium`, `NS_Impact_Medium`, `NS_Stream_Small`, Licht, Nebel, 8 Decals (3 × `MI_Deca_Wet`) | 9,6 m |
+| 06 Karsee | 1 845 | 287 | 7 | See + Abfluss + 2 Zuläufe | `NS_Stream_Small` am Auslass, Nebel, 8 Decals (5 × `MI_Deca_Wet_Flat`) | 9,1 m |
+| 07 Windwurf | 2 792 | 168 | 41 | 4 Pfützen | Niagara opt., 6 Decals | 1,6 m |
+| 08 Wurzelstein | 1 254 | 140 | 15 | – | Spot, 3 Decals | 4,4 m |
 
-Alle Orte unter §9 (≤ 15 000 / 1 500 / 80). Je Feld: B3 1 749, B4 4 538, B5 4 724, C5 10, I4 3 449 Instanzen.
+Alle Orte unter §9 (≤ 15 000 / 1 500 / 80, ≤ 3 Niagara). Je Feld: B3 1 786, B4 4 549, B5 5 124, C5 10, I4 3 459 Instanzen.
+Jeder Ort hat alle sechs Witcher-Detailebenen (`orte.json["detail_ebenen"]`).
 Material-Instanzen 5 von 6: `MI_EL_SW_Verkohlt`, `_Klammfels_Nass`, `_Granit_Moos`, `_Block_Moos`, `_Stamm_Windstill`.
+
+## Umstellung auf Inventar 13d
+
+- **Nature Water FX** statt Ersatz: Schleierfall `NS_Waterfall_Medium` an der Kante, `NS_Impact_Medium` an der Gumpe,
+  `NS_Stream_Small` im Klammbach und am Karsee-Auslass (nicht mehr `optional`).
+- **Mountain-Fluss-/Wasserfallmaterial:** `inventar.json` nennt nur Materialnamen ohne Pfad (`M_River_Water_Translucent`) →
+  als `material_hinweis` an Bach/Wasserfall von Klamm und Karsee, kein erfundener Pfad.
+- **Mountain-Netze (+243):** Hangwurzeln `SM_roots_slope_02/03_*` und `SM_Pine_roots_04` am Wurzelstein,
+  freigespülte Wurzeln `SM_Pine_roots_05/06` an der Fallkante, Wurzelteller `SM_stones_roots_04/05` im Windwurf,
+  Zapfen `SM_Pine_cone_*` (Mönch, Säulenhain, Wurzelstein), 7 Pilzarten `SM_mushroom_*` (Säulenhain, Windwurf),
+  Bruchäste `SM_Pine_broken_branch_04–10`, Steine `SM_stone_09–12`, Beeren/Heide/Latschen-Varianten,
+  Jungbäume `SM_Forest_pine_tree_00_A/B`, Platte `SM_flat_rock_01`.
+- **Coast & Dunes:** Nassband-Decals `MI_Deca_Wet` (Klamm) und `MI_Deca_Wet_Flat` (Karsee-Ufer, Verteilung `ufer`).
+- `assets_wunsch` bereinigt: Nature Water FX und Mountain entfernt; übrig sind nur noch fehlende Pakete
+  (Forest Fungi – jetzt optional –, Niagara VFX Pack Autumn Leaves, Wilderness Nature Loops).
+- `SM_Forest_pine_06` gibt es seit 13d zweimal (Foliage und Roots) → voller Pfad in den Regeln.
 
 ## Abgleich 13b/13c umgesetzt
 
@@ -44,9 +61,8 @@ Material-Instanzen 5 von 6: `MI_EL_SW_Verkohlt`, `_Klammfels_Nass`, `_Granit_Moo
 - **Karsee:** eigener `see` (`schwarz_spiegel`), Becken automatisch eingepasst, Schwelle als Lippe am Abfluss.
   Stempel 9,1 m statt der ±6 m aus 13c, weil der Karboden in den 2-m-Daten 18–27° geneigt ist (Begründung in `gelaende`);
   Ferat hat am 11.10. „Gelände frei“ gegeben – bitte im 1-m-Lauf prüfen.
-- **Klemmblock-Klamm:** `wasserfall` (Kante aus der Stufe, Fuß = Gumpe), Gumpe `smaragd`, Bach zum Bestandsgerinne;
-  **Nature Water FX** ist gekauft, aber noch nicht im Inventar → `niagara` `NS_Smoke_Plume` (Kopie, weiß) mit
-  `"optional": true`, `wunsch_paket` und `assets_wunsch`; Gischt sonst über `lokaler_nebel`.
+- **Klemmblock-Klamm:** `wasserfall` (Kante aus der Stufe, Fuß = Gumpe), Gumpe `smaragd`, Bach zum Bestandsgerinne,
+  Effekte aus Nature Water FX (siehe oben).
 
 ## Grenzen und offene Punkte
 

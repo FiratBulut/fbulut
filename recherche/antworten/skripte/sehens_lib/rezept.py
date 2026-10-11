@@ -517,6 +517,17 @@ class OrtKontext:
 
     # ------------------------------------------------------------------ Wasser (§5)
     def wasser_bauen(self):
+        n0 = len(self.wasser)
+        self._wasser_bauen()
+        regeln = [w for w in (self.r.get("wasser") or []) if w.get("typ") in ("see", "bach", "wasserfall")]
+        nach_id = {w.get("id"): w for w in regeln}
+        for e in self.wasser[n0:]:
+            w = nach_id.get(e.get("id"), {})
+            for k in ("material_hinweis", "hinweis_wasser"):     # z. B. Mountain-Fluss-/Wasserfall-Material (13d)
+                if w.get(k):
+                    e[k] = w[k]
+
+    def _wasser_bauen(self):
         for w in self.r.get("wasser") or []:
             t = w.get("typ")
             if t == "see":
@@ -1347,8 +1358,13 @@ class OrtKontext:
             orte = [self.punkt(e.get("bei", "mitte"))]
             if n > 1 or e.get("verteilung"):
                 form = self._form(e.get("verteilung") or {"typ": "kreis", "bei": e.get("bei", "mitte"), "r_m": 6.0}, rng)
-                xs, ys, _ = _ins.streue(rng, form, n, float(e.get("abstand_m", 1.5)),
-                                        filter_fn=(lambda a, b, c: ~self.im_wasser(a, b)) if t == "decal" else None)
+                def _filt(a, b, c, form=form):
+                    ok = ~self.im_wasser(a, b) if t == "decal" else np.ones(len(a), bool)
+                    if "_ufer" in form:     # Verteilung "ufer": nur im Band band_m an der Wasserkante (Nassband-Decals)
+                        dd = self.wasser_abstand(a, b)
+                        ok &= (dd >= form["_ufer"][0]) & (dd <= form["_ufer"][1])
+                    return ok
+                xs, ys, _ = _ins.streue(rng, form, n, float(e.get("abstand_m", 1.5)), filter_fn=_filt, versuche=30)
                 orte = list(zip(xs, ys))
             for (x, y) in orte:
                 z = float(self.boden(x, y)) + float(e.get("hoehe_m", 0.0))
@@ -1370,8 +1386,9 @@ class OrtKontext:
                 elif t == "niagara":
                     asset = e.get("asset")
                     pfad = self.inv.niagara_pfad(asset) if asset else None
+                    yaw_n = self.richtung(e["yaw"], e.get("bei", "mitte")) if "yaw" in e else float(e.get("yaw_grad", 0.0))
                     d = {"typ": t, "asset": pfad or asset, "pos_cm": pos,
-                         "rot_q": [round(v, 5) for v in _ins.q_yaw_kompass(float(e.get("yaw_grad", 0.0)))],
+                         "rot_q": [round(v, 5) for v in _ins.q_yaw_kompass(yaw_n)],
                          "skala": float(e.get("skala", 1.0)), "optional": bool(e.get("optional", True))}
                     for k in ("wunsch_paket", "hinweis", "credits"):
                         if e.get(k):
