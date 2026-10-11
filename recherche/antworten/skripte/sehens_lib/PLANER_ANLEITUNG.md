@@ -289,6 +289,11 @@ Verzweigte Pfade (Erweiterung, optional): `"pfad_id": "<id>"` wählt genau diese
 - **Bedingungen/optional:** `effekte` (Decal, Niagara) und `klaenge` reichen `bedingung` durch (z. B. E13 „sobald das MI
   angelegt ist“, E18 „nur wenn das Laub leise ist“); `klaenge` reichen außerdem `optional`, `hinweis`, `ersatz`,
   `wunsch_paket` durch; `freiraeume` reichen `netze` (Netznamen-Muster, z. B. Houdini-Kacheln, E23) und `hinweis` durch.
+- **Decal mit eigener MI fest einplanen (E13):** `{"typ": "decal", "material": "MI_EL_SW_<Name>", "optional": false,
+  "bedingung": "MI wird angelegt"}` – steht das Material in den `materialwuenschen` des Bioms, meldet Planer/Prüfer nur
+  HINWEIS (statt FEHLER „nicht in inventar_extra.json“).
+- **Pfad-Warnung akzeptieren (E19):** Pfad in `standorte.json` mit `"warnung_akzeptiert": "<Begründung>"` → der Prüfer meldet
+  „schneidet die geplante Stadt“ als HINWEIS.
 - **Wassermaterial (E43):** `M_River_Water_Translucent` steht im Inventar nur als Name (Mountain-Set, `inventar.json`);
   ein voller Pfad ist nicht belegt → weiter `material_hinweis`. `inventar.wasser_material_pfad(name)` findet einen Pfad,
   sobald er in `inventar_extra.json["wasser_materialien"]` steht.
