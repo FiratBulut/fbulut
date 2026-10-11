@@ -1,0 +1,636 @@
+{
+ "_doku": "Auftrag 13 – Entscheidungen des Koordinator-Agenten zu allen offenen Fragen (Stand 11.10.2026). Je Eintrag: id, biom, ort, gruppe (a = Gestaltung, entschieden; b = Editor-Faktenfrage, Arbeitsannahme + Pruefschritt; c = Geld, ohne Kauf gebaut), frage, entscheidung, planer_aenderung {datei, was}, prioritaet (1 = vor dem naechsten Planerlauf, 2 = vor dem Setzen im Editor, 3 = Feinschliff/Doku), pruefschritt (nur Gruppe b, sonst null). Dateipfade relativ zu recherche/antworten/. Begruendung und Vorbilder: 13-entscheidungen-koordinator.md.",
+ "stand": "2026-10-11",
+ "eintraege": [
+  {
+   "id": "E01",
+   "biom": "wueste",
+   "ort": "wueste_03_die_waechter",
+   "gruppe": "a",
+   "frage": "Pilzfelsen weiss wie im Katalog (Material-Override) oder Fab-Farbbaender behalten?",
+   "entscheidung": "Hell gebleicht (Kreide), Baender nur gedaempft sichtbar, die dunklen Kappen bleiben. Abgrenzung zu den gebaenderten Hoodoos canyon_05. Fuesse nur noch aus der gedrungenen Spire_Large_05 (ulbwebv_tier_0).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_wueste/sehens_wueste_regeln.json",
+    "was": "materialwuensche += {name: MI_EL_SW_Waechter_Kreide, basis: M_MS_Base, parameter: {Saturation: 0.25, Brightness: 1.35, Contrast: 0.9, 'BaseColor Tint': [0.97, 0.95, 0.90, 1.0]}, texturen: Fab-Texturen von ulbwebv_tier_0 (Namen lokal ablesen), fuer: [ulbwebv_tier_0]} (Wueste dann 5/6 MI); orte.wueste_03_die_waechter.gruppen[fuesse].palette = [ulbwebv_tier_0] (vepoda2_tier_0 raus), material = MI_EL_SW_Waechter_Kreide; Hinweis 'kein Override' in _doku fuer diese Gruppe aufheben"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E02",
+   "biom": "kueste",
+   "ort": "kueste_02_die_vogelinsel",
+   "gruppe": "a",
+   "frage": "Darf die Guano-Wand an der Ostseite liegen (Katalog sagte West)?",
+   "entscheidung": "Ja, Ostflanke bleibt. Guano folgt den Brutsimsen, nicht der Himmelsrichtung; die Kameras stehen im Osten.",
+   "planer_aenderung": {
+    "datei": "sehens/kueste/katalog.md",
+    "was": "Ortsabschnitt Vogelinsel: 'West' -> 'Ost' (Planer bleibt unveraendert)"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E03",
+   "biom": "kueste",
+   "ort": "kueste_02_die_vogelinsel",
+   "gruppe": "a",
+   "frage": "Vogelwolke ueber der Vogelinsel (NS_feather) behalten?",
+   "entscheidung": "Ja, als ferne Punkte: dunkle/weisse Sprites kreisen 35-60 m ueber der Brutwand, nie in Spielernaehe. Keine Vogel-Modelle.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_kueste/sehens_kueste_regeln.json",
+    "was": "orte.kueste_02_die_vogelinsel.effekte[NS_feather]: optional false; hoehe_m 35 -> 45; hinweis 'Tiere sind offene Frage 8 - sonst weglassen' ersetzen durch 'entschieden E03: nur ferne Punkte, Cull 400 m'"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E04",
+   "biom": "alle",
+   "ort": "bergwald_08_der_wurzelstein",
+   "gruppe": "a",
+   "frage": "Optionale Tiere (Fische, Ameisen, Voegel) mit 'nur Landschaft' vereinbar?",
+   "entscheidung": "Keine Tier-Modelle mit Bewegung im Raum (keine Fische, keine Voegel nah). Erlaubt: Ameisen auf dem Ameisenhaufen (Bestandsnetz, Teil des Bodens) und die ferne Vogelwolke (E03).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_bergwald/sehens_bergwald_regeln.json",
+    "was": "orte.bergwald_08_der_wurzelstein.gruppen[ameisen]: aktiv true, grund entfernen; _doku der Planer aue/sumpf ('Tiere bleiben aus, offene Frage 8') auf 'E04: keine Tiere ausser Ameisen am Haufen' aendern"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E05",
+   "biom": "sumpf",
+   "ort": "sumpf_03_der_reiherhorst",
+   "gruppe": "a",
+   "frage": "Katalog nennt Fischgraeten unter den Horsten - vereinbar mit 'keine Knochen'?",
+   "entscheidung": "Nein, Fischgraeten streichen (Knochen-Regel). Federn (NS_feather, sehr spaerlich) und gekalkter Boden bleiben.",
+   "planer_aenderung": {
+    "datei": "sehens/sumpf/katalog.md",
+    "was": "Ortsabschnitt Reiherhorst: 'und Fischgraeten' streichen (Planer enthaelt keine)"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E06",
+   "biom": "alle",
+   "ort": null,
+   "gruppe": "a",
+   "frage": "Nebel: BP_FogBankCard/BP_FogBankVolume als Akteure setzen oder nur lokaler_nebel?",
+   "entscheidung": "Nur lokaler_nebel (Local Fog Volume, <= 2 je Ort). Keine Blueprint-Akteure: SEHENS_FORMAT kennt keinen Blueprint-Typ, und die FogBanks stammen aus einem Effekt-Demo-Paket. Bewegte Fetzen, wo noetig, als Niagara-Kopie (E07).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_elfenwald/sehens_elfenwald_regeln.json",
+    "was": "orte.elfenwald_02_nebelhain.effekte[0].zweck: Teil 'bewegte Fetzen: BP_FogBankCard ... falls Ferat Blueprints setzt' entfernen"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E07",
+   "biom": "elfenwald",
+   "ort": "elfenwald_02_nebelhain",
+   "gruppe": "a",
+   "frage": "Nebelhain: BP_FogBankCard setzen oder 2 lokale Nebel?",
+   "entscheidung": "2 lokale Nebel bleiben (Kronenwolke + Gratkrone). Dazu optional 1 Niagara-Kopie NS_EL_SW_Nebelfetzen (aus NS_Smoke_Plume: kein Auftrieb, Drift 0,3 m/s, Sprites 6-10 m, Alpha 0,15, Farbe 0,90/0,92/0,93, Lebensdauer 20 s, Cull 120 m).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_elfenwald/sehens_elfenwald_regeln.json",
+    "was": "orte.elfenwald_02_nebelhain.effekte += {typ: niagara, asset: NS_EL_SW_Nebelfetzen, kopie_von: /Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume, optional: true, bei: hain, hoehe_m: 12, skala: 1.0, zweck: 'langsam ziehende Nebelfetzen in den Kronen'}"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E08",
+   "biom": "sumpf",
+   "ort": "sumpf_08_die_irrlichtsenke",
+   "gruppe": "a",
+   "frage": "Irrlichter mit 2 schwachen Punktlichtern oder nur Nebel?",
+   "entscheidung": "Mit Lichtern, aber sichtbar: 2 Punktlichter 40 cd und 30 cd (statt 2/1,5 cd, die tagsueber unsichtbar sind), Radius 5 m, kein Schatten, gelbgruen. NS_Sparkling_Glow und die Nebelbank bleiben. Unter den Leuchtpilzen des Elfenwalds (180-300 cd).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_sumpf/sehens_sumpf_regeln.json",
+    "was": "orte.sumpf_08_die_irrlichtsenke.effekte[punktlicht glimm_a]: intensitaet_cd 2.0 -> 40, radius_m 4 -> 5; [glimm_b]: 1.5 -> 30, radius_m 4 -> 5"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E09",
+   "biom": "sumpf",
+   "ort": null,
+   "gruppe": "a",
+   "frage": "Sumpf-See stellenweise eigene Farbe schwarz_spiegel?",
+   "entscheidung": "Nein. Der Epic-See T_2954_391 bleibt einheitlich (ein Wasserkoerper = ein Material; Teilfaerbung braeuchte ueberlappende Koerper). Schwarzspiegel gibt es dort, wo eigene Koerper liegen: sumpf_04 (3 Augen), heide_04 Kolk, dschungel_06 Strudeltopf.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_sumpf/README.md",
+    "was": "Satz ergaenzen: 'Hauptsee bleibt Bestandsfarbe (E09); schwarz_spiegel nur fuer eigene see-Koerper'"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E10",
+   "biom": "elfenwald",
+   "ort": "elfenwald_04_elfentreppe",
+   "gruppe": "a",
+   "frage": "Elfentreppe: bestehendes Bachwasser zwischen den Becken durch die Stufenbecken ersetzen?",
+   "entscheidung": "Ja. Der Bestandsbach B_R_P4_M1_01 wird auf dem Treppenabschnitt (Linie treppe, s 0-72 m) ausgeblendet; die 5 Tuffbecken mit ihren Stufenbaechen ersetzen ihn. Ober- und unterhalb bleibt der Bestand und schliesst an Zulauf bzw. Abfluss an.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_elfenwald/sehens_elfenwald_regeln.json",
+    "was": "orte.elfenwald_04_elfentreppe.wasser: neues Feld ersetzt_bestandsbach = {id: B_R_P4_M1_01, von: {auf_linie: treppe, s_m: 0}, bis: {auf_linie: treppe, s_m: 72}}; Lib (sehens_lib/rezept.py) schreibt daraus einen Eintrag 'bestand_ausblenden' in orte.json (Koordinator definiert Feld einmal fuer elfenwald_04 und heide_06)"
+   },
+   "prioritaet": 1,
+   "pruefschritt": null
+  },
+  {
+   "id": "E11",
+   "biom": "heide",
+   "ort": "heide_06_der_wollsackfall",
+   "gruppe": "a",
+   "frage": "Wollsackfall vom Tal aus teilweise sichtbar (15/124 Wegpunkte) - Fundstueck lassen oder Leuchtfeuer?",
+   "entscheidung": "Fundstueck bleibt. Die 15 Punkte zeigen nur Glanz und Gischt zwischen Baeumen; das ist der Lockruf, der Marker-Text arbeitet ohnehin mit dem Rauschen. Den ersetzten Bestandsbach bekommt dasselbe Feld wie E10.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_heide/sehens_heide_regeln.json",
+    "was": "orte.heide_06_der_wollsackfall.wasser[klammbach]: Feld ersetzt_bestandsbach = {id: B_R2_R_P3_P0_01, von: p0, bis: p3} statt nur 'hinweis'"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E12",
+   "biom": "heide",
+   "ort": "heide_02_ginstergold",
+   "gruppe": "a",
+   "frage": "Gelb getoenter Sanddorn als 'bluehender Ginster' in Ordnung?",
+   "entscheidung": "Ja. Silhouette (dorniger, dichter Busch 1-2 m) passt; MI_EL_SW_Ginstergold traegt die Farbe. Brushify bleibt gestrichen.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_heide/sehens_heide_regeln.json",
+    "was": "keine Aenderung; offene Frage im README streichen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E13",
+   "biom": "heide",
+   "ort": "heide_02_ginstergold",
+   "gruppe": "a",
+   "frage": "MI_EL_SW_Russ_Decal aus decal_russ.png anlegen?",
+   "entscheidung": "Ja, wie Brutroehren (aue) und Salzkruste (wueste). Der Heidebrand ist ein natuerlicher Brand, aus dem der Ginster neu austreibt.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_heide/sehens_heide_regeln.json",
+    "was": "orte.heide_02_ginstergold.effekte[decal MI_EL_SW_Russ_Decal]: optional true -> false, sobald Claude lokal die Instanz angelegt hat"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E14",
+   "biom": "lava",
+   "ort": "lava_02_schwefelgrund",
+   "gruppe": "a",
+   "frage": "FX_Smoke_Volcano_01 als weisse Kopie halber Dichte fuer die Dampfsaeule?",
+   "entscheidung": "Ja. Kopie NS_EL_SW_Dampfsaeule: Farbe 0,95/0,94/0,90, Deckkraft x0,5, Spawnrate x0,5, Auftrieb unveraendert. Die zwei Fumarolen bekommen dieselbe Behandlung als NS_EL_SW_Fumarole (aus FX_Lava_Smoke_03, weiss-grau, duenn); FX_Lava_Smoke_02 bleibt original.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lava/sehens_lava_regeln.json",
+    "was": "orte.lava_02_schwefelgrund.effekte[FX_Smoke_Volcano_01]: asset -> NS_EL_SW_Dampfsaeule, kopie_von: FX_Smoke_Volcano_01; [FX_Lava_Smoke_03]: asset -> NS_EL_SW_Fumarole, kopie_von: FX_Lava_Smoke_03 (gilt auch fuer lava_06_kraterreihe)"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E15",
+   "biom": "oedland",
+   "ort": "oedland_03_hoellentor",
+   "gruppe": "a",
+   "frage": "Kopien von NS_Fire und NS_Bubble_Burst mit kleinen, langsamen Partikeln anlegen?",
+   "entscheidung": "Ja. NS_EL_SW_Gasflammen (aus NS_Fire: Flammen 0,3-0,8 m, viele Quellen auf r 12 m, Lebensdauer x1,5, keine Funken) fuer oedland_03; NS_EL_SW_Schlammblasen (aus NS_Bubble_Burst: Farbe schlammgrau 0,35/0,32/0,28, Groesse x0,5, Spawn x0,4) fuer oedland_06.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_oedland/sehens_oedland_regeln.json",
+    "was": "orte.oedland_03_hoellentor.effekte[NS_Fire]: asset -> NS_EL_SW_Gasflammen, kopie_von NS_Fire; orte.oedland_06_schlammvulkaene.effekte[NS_Bubble_Burst] (2x): asset -> NS_EL_SW_Schlammblasen, kopie_von NS_Bubble_Burst"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E16",
+   "biom": "lava",
+   "ort": "lava_07_basaltorgel",
+   "gruppe": "a",
+   "frage": "Darf MI_EL_SW_Basalt_Saeule die Basalt-Texturen nutzen (sonst Nordklippen-Textur ueber M_EL_Klippe_RVT)?",
+   "entscheidung": "Ja, die Basalt-Texturen aus /Game/Basalt (gekauftes Paket, Projektlizenz) gehoeren in die Instanz. Die Nordklippen-Textur waere grau-granitisch und zerstoert die Saeulenkanten.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lava/sehens_lava_regeln.json",
+    "was": "materialwuensche[MI_EL_SW_Basalt_Saeule]: texturen = {Albedo, Normal, ORM aus /Game/Basalt}; falls die Pillars- und Cliff-Netze verschiedene Textursaetze haben: fuer nur die Pillars-Netze, Basalt_Basalt_Cliff_SM behaelt sein Original"
+   },
+   "prioritaet": 2,
+   "pruefschritt": "Claude lokal: Material-Slots von Basalt_Basalt_Pillars_Wall_SM und Basalt_Basalt_Cliff_SM auslesen (StaticMesh.get_material(0) -> Texturparameter); gleiche Textursaetze -> eine Instanz fuer alle 5, sonst nur Pillars."
+  },
+  {
+   "id": "E17",
+   "biom": "lava",
+   "ort": "lava_08_glutauge",
+   "gruppe": "a",
+   "frage": "Gipfelsteig-Band mit Ferats Serpentinen-Werkzeug neu erzeugen?",
+   "entscheidung": "Ja. Kehren und Anschnitt rechnet das Werkzeug; das Bodenband aus den Phase-1-Kehren ist nur Platzhalter.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lava/sehens_lava_regeln.json",
+    "was": "pfad lava_pfad_gipfelsteig: hinweis -> 'Kehren aus Serpentinen-Werkzeug (E17)'; Planer liest danach die neue Punktliste aus sehens/lava/standorte.json"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E18",
+   "biom": "lava",
+   "ort": null,
+   "gruppe": "c",
+   "frage": "Lava: bis zu einem Klangpaket Wind/Laub oder stumm?",
+   "entscheidung": "Ohne Kauf. CUE_Wind_Autumn_wind_with_leaves_rustling_Cue bleibt an lava_01/06/07 (0,3-0,4), aber nur wenn das Laub kaum hoerbar ist; sonst dort stumm. Kein Lava-Paket.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lava/sehens_lava_regeln.json",
+    "was": "klaenge[CUE_Wind_Autumn...] an lava_01/06/07: Feld bedingung = 'nur wenn Laubanteil leise (Hoerprobe)'; sonst Eintrag entfernen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Claude lokal: Cue einmal anhoeren; Laub deutlich -> in den drei Lava-Orten streichen (Lava hat keine Baeume)."
+  },
+  {
+   "id": "E19",
+   "biom": "tundra",
+   "ort": "tundra_05_der_trunkene_grund",
+   "gruppe": "a",
+   "frage": "Darf der Pfad zum Trunkenen Grund den Rand von ROMAN_LOC_018 streifen?",
+   "entscheidung": "Ja. Die 150-m-Regel gilt fuer Orte, nicht fuer Pfade; ein Trampelpfad, der am Stadtrand beginnt, ist plausibel. Die Pruefer-WARNUNG wird als akzeptiert markiert.",
+   "planer_aenderung": {
+    "datei": "sehens/tundra/standorte.json",
+    "was": "pfade[tundra_pfad_der_trunkene_grund]: Feld warnung_akzeptiert = 'E19: streift 150-m-Puffer ROMAN_LOC_018, Stadtflaeche nicht'"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Nach dem Bau von ROMAN_LOC_018: im Editor pruefen, dass der Pfadanfang keine Gebaeude schneidet; sonst Startpunkt 30-40 m nach Westen ziehen."
+  },
+  {
+   "id": "E20",
+   "biom": "tundra",
+   "ort": "tundra_06_das_schneetaelchen",
+   "gruppe": "a",
+   "frage": "Aufeis (tundra_06) und Thermokarstsee (tundra_05) neben Frost/Gletscher in Ordnung? (dazu A14-Rueckfrage 1)",
+   "entscheidung": "Aufeis entfaellt (Koordinator: C2-Kaskade hat Vorrang; neuer Ort Schneetaelchen ist in Arbeit). Thermokarstsee bleibt: tauender Boden mit kippenden Baeumen ist klar anders als Toteisloch und Frostsee.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_tundra/sehens_tundra_regeln.json",
+    "was": "keine weitere Aenderung ausser der laufenden Verlegung; offene Frage 1 im Tundra-Katalog streichen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E21",
+   "biom": "tundra",
+   "ort": "tundra_07_die_steinringe",
+   "gruppe": "a",
+   "frage": "Steinringe Fundstueck lassen (vom Kuestenweg teils sichtbar) oder Leuchtfeuer? 4/4-Mischung ok?",
+   "entscheidung": "Fundstueck bleibt; 4 Leuchtfeuer / 4 Fundstuecke in der Tundra bleibt. Steinringe sind flach (0,5-5 m, Raender <= 0,5 m) und lesen sich nur von oben; der Teilblick vom hoeheren Weg ist ein Hinweis, kein Leuchtfeuer.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_tundra/sehens_tundra_regeln.json",
+    "was": "keine; offene Fragen 2/3 im Tundra-Katalog streichen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E22",
+   "biom": "gletscher",
+   "ort": "gletscher_05_die_waechte",
+   "gruppe": "a",
+   "frage": "Darf ein Steig ueber Gletschereis fuehren (Karboden unter der Waechte)?",
+   "entscheidung": "Ja, aber nur ueber flaches Eis (<= 12 Grad) und als Spur ohne Bauwerk: Bodenband Schnee/Kies (Schmutzband, Mittelmoraene), keine Stufen, keine Seile. Spalten und Bergschrund bleiben abseits der Spur.",
+   "planer_aenderung": {
+    "datei": "sehens/gletscher/standorte.json + skripte/sehens_gletscher/sehens_gletscher_regeln.json",
+    "was": "pfade[gletscher_pfad_nordhang]: Abschnitte auf Eis (Karboden unter der Waechte) -> bodenband {lagen: [Schnee 0.6, Kies 0.4]}, max_hang_grad 12, keine trittsteine/stufen; Planer: Pfadpunkte >= 15 m vom Bergschrund"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E23",
+   "biom": "gletscher",
+   "ort": null,
+   "gruppe": "b",
+   "frage": "Houdini-Reste SM_K7_GLETSCHER__EIS, SM_K13_FROSTSEE__* und alte Klippenkacheln K9 (Kueste) ausblenden?",
+   "entscheidung": "Ja, alle drei in den Ortsfenstern ausblenden (K7 und K13 sind schon als freiraeume geplant). K9 nur dort, wo neue Felsen stehen (kueste_01, kueste_03).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_kueste/sehens_kueste_regeln.json",
+    "was": "orte.kueste_01_die_alten und kueste_03_das_nadeltor: freiraeume += {form: kreis, bei: mitte, r_m: Ortsradius, rollen: [houdini], netze: ['SM_K9_*'], grund: 'E23: Houdini-Steilkueste K9 unter den neuen Pfeilern ausblenden'} - genaue Netznamen nach Pruefschritt"
+   },
+   "prioritaet": 2,
+   "pruefschritt": "Claude lokal: im Outliner nach 'K9' und 'K13' filtern; Netznamen und Lage notieren; Bild kueste_01_die_alten_fern und frost_02_frostsee_held mit und ohne die Kacheln."
+  },
+  {
+   "id": "E24",
+   "biom": "fjord",
+   "ort": "fjord_02_schleierwand",
+   "gruppe": "a",
+   "frage": "Wasserfaelle mit mehr als 150 m Fallhoehe in Ordnung?",
+   "entscheidung": "Ja (steht schon so im Fjord-Planer). Der Vorhang traegt die Hoehe, Niagara nur an Lippe und Fuss.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_fjord/sehens_fjord_regeln.json",
+    "was": "keine; STATUS-Frage 5 als erledigt markieren"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E25",
+   "biom": "canyon",
+   "ort": null,
+   "gruppe": "a",
+   "frage": "Spaeter einen 'Canyonsteig' bauen (Nordhaelfte heute nur ueber Wasser, +2-3 Orte moeglich)?",
+   "entscheidung": "Nicht jetzt. Der Canyon hat 8 Orte bei 0 Fehlern. Der Steig ist die Reserve: faellt ein Canyon-Ort im Editorbild durch, ersetzt ihn ein Ort am Muendungsfall (X -1610 / Y -1090), erreichbar ueber einen Randsteig vom Burgweg ROMAN_LOC_003.",
+   "planer_aenderung": {
+    "datei": "sehens/canyon/katalog.md",
+    "was": "Abschnitt offene Fragen: Canyonsteig als 'Reserve (E25)' vermerken; Planer unveraendert"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E26",
+   "biom": "fjord",
+   "ort": "fjord_07_brandungsgrotte",
+   "gruppe": "a",
+   "frage": "Brandungsgrotte als Tauschkandidat, falls die Kueste eine Grotte hat?",
+   "entscheidung": "Bleibt im Fjord. Die Kueste hat keine Grotte (Pfeiler, Tor, Kreidewand, Blasloch), also keine Doppelung.",
+   "planer_aenderung": {
+    "datei": "sehens/fjord/katalog.md",
+    "was": "Vermerk 'Tauschkandidat' streichen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E27",
+   "biom": "wasser_fx",
+   "ort": "WF_K1, WF_K8",
+   "gruppe": "b",
+   "frage": "Cull der Heldenfaelle 150/100 m statt 40-60 m - einverstanden oder erst messen?",
+   "entscheidung": "Freigegeben mit Messschranke: Fall 150 m, Impact 100 m, Wake 60 m. Liegt die Wasser-FX-GPU-Zeit im Blick WASSER3_H4_WF_K8_weit ueber 0,5 ms, gilt die Rueckfallstufe 100/60/40 m.",
+   "planer_aenderung": {
+    "datei": "wasser_fx/plan.json",
+    "was": "einstellungen_alle += rueckfall_cull_m {Waterfall_Large: 100, Impact_Large: 60, Wake_Large: 40}, bedingung 'GPU Wasser-FX > 0.5 ms'; die Sehens-Faelle kueste_04/dschungel_02 uebernehmen dieselbe Klasse"
+   },
+   "prioritaet": 2,
+   "pruefschritt": "Claude lokal: stat Niagara + profilegpu an K8 (Kamera WASSER3_H4_WF_K8_weit) und kueste_04_der_seefall_held; Wert in plan.json → messung eintragen."
+  },
+  {
+   "id": "E28",
+   "biom": "wasser_fx",
+   "ort": "C2 S02",
+   "gruppe": "b",
+   "frage": "S02 ohne Niagara wegen Budget <= 6 gleichzeitig - ist das Budget weich genug fuer einen 7. Impact?",
+   "entscheidung": "Budget bleibt 6. S02 bekommt NS_Impact_Small nur, wenn er mit Cull 20 m (statt 30) das Budget haelt; sonst bleibt S02 bei Vorhang + Schaumscheibe.",
+   "planer_aenderung": {
+    "datei": "wasser_fx/plan_erzeugen.py",
+    "was": "Gruppe C2_B += S02 NS_Impact_Small (gischt_cm S02, Cull 20 m, optional true); plan_pruefen.py ueber die ~590 Betrachterpunkte laufen lassen, bei > 6 Eintrag wieder entfernen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Cloud oder lokal: plan_pruefen.py nach dem Eintrag; Ergebnis 'max gleichzeitig' im Kurzfazit von Antwort 14 nachtragen."
+  },
+  {
+   "id": "E29",
+   "biom": "alle",
+   "ort": null,
+   "gruppe": "c",
+   "frage": "Klangpakete (Wasserfall-Tosen, Brandung, Seevoegel, Hoehle) auf die Download-Liste?",
+   "entscheidung": "Ohne Kauf bauen: Wasserfall-Tosen aus zwei geschichteten Bestands-Cues (IX + IV, Pitch 0,6-0,7, zeitversetzt); Brandung zuerst mit dem kostenlosen MetaSound 'Procedural Sea Waves' testen (Fab, laut Listing ohne Audiodateien, prozedural; Preis 'free' laut Kategorieauszug [ungeprueft]); Hoehlen mit CUE_Rain_Dropping leise. Seevoegel bleiben eine Luecke.",
+   "planer_aenderung": {
+    "datei": "sehens-downloadliste.md",
+    "was": "C-Liste += 'Procedural Sea Waves (MetaSound) - kostenlos [ungeprueft] - Claude laedt auf Wunsch' fuer kueste_01/02/03/05, fjord_07; Planer kueste: klaenge Brandung als optional zweite Quelle 'MS_Procedural_Sea_Waves' eintragen, Cue IV bleibt Ersatz"
+   },
+   "prioritaet": 3,
+   "pruefschritt": null
+  },
+  {
+   "id": "E30",
+   "biom": "wueste",
+   "ort": "wueste_08_wabenwand",
+   "gruppe": "c",
+   "frage": "Hollowstone Canyon kaufen (echte Waben fuer die Wabenwand)?",
+   "entscheidung": "Jetzt nicht kaufen. Wabenwand ohne Kauf: Decals wie geplant + Probe mit Lavawand-Modulen (SM_lava_wall_04, 3,1 x 3,3 x 4,4 m; SM_lava_wall_09) in Sandstein-Toenung als Wabennischen im Schattenteil der Wand. Kauf erst, wenn die Probe im Editorbild nicht traegt.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_wueste/sehens_wueste_regeln.json",
+    "was": "materialwuensche += {name: MI_EL_SW_Wabenfels, basis: M_EL_Fels_MS, parameter: {Toenung: [0.78, 0.60, 0.45, 1.0], Helligkeit: 0.9, Variation: 0.5}, fuer: [SM_lava_wall_04, SM_lava_wall_09]} (Wueste dann 6/6); orte.wueste_08_wabenwand.gruppen += {name: wabennischen, ebene: held, palette: [SM_lava_wall_04, SM_lava_wall_09], anzahl: 4, groesse_m: [3, 5], material: MI_EL_SW_Wabenfels, optional: true, akteur: true}"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  },
+  {
+   "id": "E31",
+   "biom": "dschungel",
+   "ort": "dschungel_01_mondtor",
+   "gruppe": "c",
+   "frage": "Limestone: Megascans-Limestone-Assets und Ancraite 'Limestone Rock Set' laden? Link zum Ancraite-Set?",
+   "entscheidung": "Megascans Limestone Quarry (5 Quarry Cliffs + Limestone Rocks/Rubble/Slab) laden - kostenlos, Ferat laedt. Ancraite-Set streichen (kein Treffer, Quarry Cliffs decken die Rolle).",
+   "planer_aenderung": {
+    "datei": "sehens-downloadliste.md",
+    "was": "Ancraite 'Limestone Rock Set' nach 'bewusst nicht aufgenommen'; dschungel-Planer: Paletten mit Quarry-Cliff-Netzen als optional (Ersatz SM_Cliff_01*) bis zum Inventar nach dem Laden"
+   },
+   "prioritaet": 1,
+   "pruefschritt": null
+  },
+  {
+   "id": "E32",
+   "biom": "alle",
+   "ort": null,
+   "gruppe": "c",
+   "frage": "Die 6 kostenlosen Pakete (Electric Dreams, European Black Alder, Icelandic Sand, Tundra Icelandic Rock Cluster, Megascans Desert Pack, Megascans Sandstone) gleich mitladen?",
+   "entscheidung": "Ja, alle sechs. Kostet kein Geld. Electric Dreams laedt Claude lokal; die Megascans laedt Ferat (sein 2024 beanspruchtes Konto), vorher Besitz in der Fab-Bibliothek pruefen.",
+   "planer_aenderung": {
+    "datei": "sehens-downloadliste.md",
+    "was": "Status der 6 Pakete -> 'entschieden: laden (E32)'; nach dem Laden Inventar neu ziehen und asset_bedarf.json abgleichen"
+   },
+   "prioritaet": 1,
+   "pruefschritt": null
+  },
+  {
+   "id": "E33",
+   "biom": "canyon",
+   "ort": "canyon_06_die_kolke",
+   "gruppe": "b",
+   "frage": "uldubik/uk5ebcp neu laden und dabei die zwei fehlgeschlagenen IDs aus 13b pruefen?",
+   "entscheidung": "Ja, neu laden. Bis dahin bleiben die Ersatznetze (uk4pehu_tier_0, vbvqbbofa_tier_0, vbzmdd1ga_tier_0) in den Planern.",
+   "planer_aenderung": {
+    "datei": "sehens-downloadliste.md",
+    "was": "nach dem Neuladen: Abschnitt 'Erneut versuchen' mit den echten Namen der beiden IDs fuellen; netz_sperre fuer uldubik/uk5ebcp aufheben, wenn 5/5 Dateien da sind"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Claude lokal: Fab-Fenster -> Desert_Western_Cluster_Rock_Medium_05 und Ledge_Rock_Small_07 neu laden; Ordner zaehlen (5 Dateien je Netz); Download-Log nach 61882812-... und 6676d940-... durchsuchen."
+  },
+  {
+   "id": "E34",
+   "biom": "gletscher",
+   "ort": null,
+   "gruppe": "b",
+   "frage": "Behalten die Eis-Netze M_MS_Base_Trm? (Material-Fix fuer sw_*)",
+   "entscheidung": "Arbeitsannahme: ja, Eis/Schnee-Megascans behalten M_MS_Base_Trm (Durchscheinen). Der Material-Fix fuer die Ebenen sw_* muss diese 33 Netze auslassen.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lib/inventar.py",
+    "was": "Liste material_fix_ausnahmen (alle Netze unter /Game/Fab/Megascans/3D/{Ice_Cliff_*, Large_Ice_Cliff_*, Snow_*, Rocky_Snow_Pile_*, Snowy_Rocks_Pile_*, Huge_Snow_Hill_*}) in orte.json mitschreiben"
+   },
+   "prioritaet": 1,
+   "pruefschritt": "Claude lokal: im Material-Fix-Skript pruefen, ob Netze mit Elternmaterial M_MS_Base_Trm uebersprungen werden; danach ein Eisnetz in gletscher_01 setzen und mit dem Original vergleichen (Durchscheinen sichtbar?)."
+  },
+  {
+   "id": "E35",
+   "biom": "alle",
+   "ort": null,
+   "gruppe": "b",
+   "frage": "Pivot und Schauseite: Klippenschalen, Basalt, Mountain-Netze, SM_lava_wall_*, Desert-Western-Netze, Eisklippen, SM_Cliff_01*, SM_HugeMossyForestCliff_01, SM_stones_roots_01, Lehm-/Kalkwand (front_achse +y)",
+   "entscheidung": "Arbeitsannahme: Pivot unten Mitte, Schauseite +Y (wie heute in den Planern). Pruefen per Skript statt Augenmass; Ergebnis in netze_masse.json, danach alle Planer einmal neu laufen lassen.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lib/inventar.py",
+    "was": "netze_masse.json um Felder pivot_z_anteil, pivot_xy_versatz_m, front_achse erweitern; Planer lesen front_achse aus netze_masse statt aus der Regel, wenn vorhanden"
+   },
+   "prioritaet": 1,
+   "pruefschritt": "Claude lokal: Unreal-Python ueber die Netzliste (alle mit front_achse oder 'Pivot angenommen' in den Regeln): StaticMesh.get_bounding_box() -> min.z ~ 0 und Mitte xy ~ 0 = 'unten Mitte'; sonst Versatz eintragen. Schauseite: je Netz ein 4-Seiten-Bild (+X/-X/+Y/-Y) in einer Testkarte; zuerst Mondtor _fern (dschungel_01), dann Sonnenfenster (canyon_01), Schwarze Mauer (lava_01), Eiswand (tundra_03)."
+  },
+  {
+   "id": "E36",
+   "biom": "kueste",
+   "ort": "kueste_03_das_nadeltor",
+   "gruppe": "b",
+   "frage": "Schauseite der Klippenschalen und Unterseite des Nadeltor-Sturzes im Editorbild",
+   "entscheidung": "Arbeitsannahme: der Sturz zeigt eine geschlossene Unterseite. Hat er ein Loch oder eine offene Rueckseite, dreht der Planer ihn um 180 Grad um die Laengsachse oder legt eine zweite Schale darunter.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_kueste/sehens_kueste_regeln.json",
+    "was": "nur bei Befund: Gruppe 'sturz' kipp_grad 180 bzw. Gruppe 'sturz_unterseite' (gleiche Palette, Skala 0.9) ergaenzen"
+   },
+   "prioritaet": 2,
+   "pruefschritt": "Claude lokal: Kamera unter dem Tor (Augenhoehe im Torgang, Blick nach oben) rendern; Loch/offene Flaeche -> Befund melden."
+  },
+  {
+   "id": "E37",
+   "biom": "aue",
+   "ort": "aue_06_mondarm",
+   "gruppe": "b",
+   "frage": "Stimmt der Mondarm-Spiegel ~14,2 m (teiche.json kennt nur den Westarm 13,22 m)?",
+   "entscheidung": "Arbeitsannahme 14,2 m bleibt. Weicht der Editorwert um mehr als 0,3 m ab, wird er in den Planer eingetragen.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_aue/sehens_aue_regeln.json",
+    "was": "nur bei Befund: orte.aue_06_mondarm Spiegelwert ersetzen, Planer neu laufen lassen"
+   },
+   "prioritaet": 2,
+   "pruefschritt": "Claude lokal: WaterBody des Mondarms waehlen, Z der Wasseroberflaeche ablesen (oder Linienspur ueber die Wasserflaeche)."
+  },
+  {
+   "id": "E38",
+   "biom": "sumpf",
+   "ort": "sumpf_03_der_reiherhorst",
+   "gruppe": "b",
+   "frage": "Reiherhorste und Blattkarten der Graveyard-Totbaeume im Editorbild pruefen",
+   "entscheidung": "Arbeitsannahme: Totbaeume ohne Blattkarten. Zeigen sie gruene Karten, bekommen sie MI_EL_SW_Silberholz ohne Blattslot oder werden durch SM_EuropeanBeech_Dead_XL_01 ersetzt.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_sumpf/sehens_sumpf_regeln.json",
+    "was": "nur bei Befund: Palette der Totbaeume tauschen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Claude lokal: Bild sumpf_03_der_reiherhorst_nah; Material-Slots der Graveyard-Totbaeume auflisten."
+  },
+  {
+   "id": "E39",
+   "biom": "dschungel",
+   "ort": "dschungel_06_schluckhoehle",
+   "gruppe": "b",
+   "frage": "Laeuft am Portal der Schluckhoehle heute sichtbar Wasser nach Sueden weiter?",
+   "entscheidung": "Arbeitsannahme: nein (Bachvektoren enden). Sieht man doch Wasser, wird der Bestand hinter dem Portal ausgeblendet (Feld ersetzt_bestandsbach wie E10).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_dschungel/sehens_dschungel_regeln.json",
+    "was": "nur bei Befund: orte.dschungel_06_schluckhoehle.wasser[schwinde] += ersetzt_bestandsbach"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Claude lokal: Bild dschungel_06_schluckhoehle_nah und eine Kamera 30 m suedlich des Portals."
+  },
+  {
+   "id": "E40",
+   "biom": "lava",
+   "ort": "lava_08_glutauge",
+   "gruppe": "b",
+   "frage": "Hat SM_lava_disc das Glut-Material? Pivot von SM_lava_wall_*?",
+   "entscheidung": "Arbeitsannahme: SM_lava_disc traegt eine Instanz von M_NM_Master_Lava_Material (Glut). Wenn nicht, setzt der Planer das Material des Sets explizit. Pivot lava_wall: unten Mitte (pruefen ueber E35).",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lava/sehens_lava_regeln.json",
+    "was": "nur bei Befund: gruppen[glut].material = <Lava-MI aus /Game/Lava_Volcano_Environment_Set>"
+   },
+   "prioritaet": 2,
+   "pruefschritt": "Claude lokal: SM_lava_disc oeffnen, Slot 0 ablesen; leuchtet es im Schatten des Schachts?"
+  },
+  {
+   "id": "E41",
+   "biom": "heide",
+   "ort": "heide_06_der_wollsackfall",
+   "gruppe": "b",
+   "frage": "Stufenhoehen des Wollsackfalls im 1-m-Lauf",
+   "entscheidung": "Arbeitsannahme: 2 Stufen je ~1,1 m + Fall3. Im 1-m-Lauf muss jede Stufe > 0,8 m bleiben (sonst kein kleiner Fall nach SEHENS_FORMAT); fehlt Hoehe, vertieft der Stempel die Gumpe.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_heide/sehens_heide_regeln.json",
+    "was": "nur bei Befund: Stempeltiefe an p2/p3 um die Differenz erhoehen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Claude lokal: Planer mit 1-m-Daten laufen lassen, Stufenhoehen aus orte.json ablesen."
+  },
+  {
+   "id": "E42",
+   "biom": "bergwald",
+   "ort": "bergwald_06_karsee",
+   "gruppe": "b",
+   "frage": "Karsee braucht ~+-9 m Erdbau - im 1-m-Lauf pruefen",
+   "entscheidung": "Arbeitsannahme +-9 m bleibt (Gelaende frei). Ufer muss rundum ueber dem Spiegel liegen; der 1-m-Lauf entscheidet.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_bergwald/sehens_bergwald_regeln.json",
+    "was": "nur bei Befund: Stempel nachziehen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Claude lokal: 1-m-Lauf bergwald; Pruefer-Meldung 'Ufer unter Spiegel' muss 0 sein."
+  },
+  {
+   "id": "E43",
+   "biom": "alle",
+   "ort": null,
+   "gruppe": "b",
+   "frage": "Name/Pfad des Mountain-Wasserfall-Materials (M_River_Water_Translucent ohne Pfad)? Wo liegen die Coast-&-Dunes-'Stempel'?",
+   "entscheidung": "Arbeitsannahme: Vorhaenge immer M_EL_Wasserfall2 (Format); Baeche M_River_Water_Translucent unter /Game/Mountain_Environment_Set/... Duenen entstehen aus unseren Gelaendestempeln, nicht aus Paket-Stempeln.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lib/inventar.py",
+    "was": "Pfad von M_River_Water_Translucent nach Befund eintragen; 'material_hinweis' in elfenwald/heide/kueste auf den vollen Pfad umstellen"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Claude lokal: Content Browser nach M_River_Water_Translucent und 'Stamp'/'Brush' im Coast_Dunes-Ordner suchen; Pfade melden."
+  },
+  {
+   "id": "E44",
+   "biom": "lava",
+   "ort": null,
+   "gruppe": "b",
+   "frage": "Kommen SM_lava_wall_01-09 mit der Lava-Nachladung zurueck?",
+   "entscheidung": "Erledigt: laut Inventar 13d wieder im Projekt (1,7-6,8 m). Keine Aenderung.",
+   "planer_aenderung": {
+    "datei": "sehens-STATUS.md",
+    "was": "Punkt 2 'lava_wall' als erledigt markieren (Koordinator)"
+   },
+   "prioritaet": 3,
+   "pruefschritt": "Pivot ueber E35."
+  },
+  {
+   "id": "E45",
+   "biom": "alle",
+   "ort": null,
+   "gruppe": "a",
+   "frage": "Niagara-Kopien (E07, E14, E15): Namen und Ablage",
+   "entscheidung": "Alle Kopien unter /Game/Eldarien/Welt/FX/Sehens/ als NS_EL_SW_<Name>; Original-Systeme bleiben unangetastet. Planer schreiben 'kopie_von' mit, damit der Setzer die Kopie bei Bedarf anlegt.",
+   "planer_aenderung": {
+    "datei": "skripte/sehens_lib/rezept.py",
+    "was": "Effektfeld kopie_von in orte.json durchreichen; Pruefer: asset mit Praefix NS_EL_SW_ verlangt kopie_von"
+   },
+   "prioritaet": 2,
+   "pruefschritt": null
+  }
+ ]
+}

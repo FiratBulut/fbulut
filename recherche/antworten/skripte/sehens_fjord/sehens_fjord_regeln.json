@@ -48,7 +48,7 @@
    },
    "linien": {"risslinie": {"quer": "riss", "richtung": 43, "laenge_m": 16}},
    "gelaende": {"schutz_weg_m": 5, "fenster_m": [110, 110], "bei": "platte", "rand_m": 12, "ops": [
-    {"op": "terrasse", "bei": "platte", "radius_m": 11, "ziel_z": "boden+1.5", "streckung": [1.5, 1.0], "richtung": 313, "rand_m": 5, "modus": "max", "warum": "Plattenrand ebnen (+3 m)"},
+    {"op": "terrasse", "bei": "platte", "radius_m": 6, "ziel_z": "boden+0.5", "streckung": [1.5, 1.0], "richtung": 313, "rand_m": 4, "modus": "max", "warum": "Plattenoberseite ebnen (die Platte selbst ist das Netz)"},
     {"op": "rinne", "punkte": "risslinie", "breite_m": 2.0, "tiefe_m": 2.5, "rand_m": 1.5, "warum": "der Riss zwischen Platte und Wand"}
    ], "senke_begruendung": "der Riss hinter der Kanzel (schmale Kluft, gewollt)"},
    "gruppen": [
@@ -220,21 +220,20 @@
    "budget": {"instanzen": 4000, "kollision": 400, "akteure": 25, "lichter": 0, "niagara": 3, "decals": 4},
    "assets_wunsch": [],
    "anker": {
-    "hochtal": {"pos_m": [-1690.0, -2806.0]},
-    "lippe_a": {"pos_m": [-1692.0, -2786.0]},
-    "lippe_b": {"pos_m": [-1685.0, -2785.0]},
-    "lippe": {"pos_m": [-1688.5, -2785.5]},
-    "gumpe": {"pos_m": [-1688.0, -2752.0]},
-    "quelle": {"pos_m": [-1700.0, -2840.0]}
+    "hochtal": {"pos_m": [-1681.0, -2799.0]},
+    "lippe_a": {"pos_m": [-1682.5, -2785.0]},
+    "lippe_b": {"pos_m": [-1679.5, -2785.0]},
+    "lippe": {"pos_m": [-1681.0, -2785.0]},
+    "gumpe": {"pos_m": [-1680.0, -2757.0]},
+    "quelle": {"pos_m": [-1683.0, -2816.0]}
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [150, 110], "bei": {"pos_m": [-1688.0, -2790.0]}, "rand_m": 12, "ist_wasser": true, "ist_wasser_r_m": 50,
-    "begruendung": "Der Bach (Bestand) ist der Ort: Hochtalboden geglaettet, Lippe +1 m, Gumpe am Fuss",
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [120, 110], "bei": {"pos_m": [-1681.0, -2785.0]}, "rand_m": 12, "ist_wasser": true, "ist_wasser_r_m": 50,
+    "begruendung": "Der Bach (Bestand) ist der Ort. Das Gelaende ist hier eine gleichmaessige V-Rinne (40-50 Grad): der Hochtalboden wird als ebene Stufe auf 214 m eingesetzt (oben bis -11 m abgetragen, an der Lippe bis +11 m aufgefuellt), darunter faellt die Lippe zur Gumpe",
     "ops": [
-     {"op": "terrasse", "bei": "hochtal", "radius_m": 16, "ziel_z": "boden+0.0", "streckung": [1.6, 1.0], "richtung": 0, "rand_m": 10, "modus": "setzen", "warum": "Hochtalboden flach (Wollgras, maeandrierender Bach)"},
-     {"op": "abbruch", "punkte": [{"pos_m": [-1712.0, -2788.0]}, "lippe", {"pos_m": [-1665.0, -2787.0]}], "hoehe_m": 2.0, "breite_m": 4, "reichweite_m": 14, "seite": "links", "verteilung": "oben", "warum": "Lippe +1...+2 m (Stufe betonen)"}
-    ], "senke_begruendung": "flache Mulden im Hochtalboden (nass, Wollgras)"},
+     {"op": "terrasse", "bei": "hochtal", "radius_m": 10, "ziel_z": "boden-1.0", "streckung": [1.5, 1.0], "richtung": 0, "rand_m": 8, "modus": "setzen", "warum": "Hochtalboden flach (Wollgras, maeandrierender Bach); Kante zur Lippe"}
+    ], "senke_begruendung": "flache Mulden im Hochtalboden (nass, Wollgras) und die Gumpe"},
    "wasser": [
-    {"typ": "bach", "id": "hochtalbach", "punkte": ["quelle", {"pos_m": [-1694.0, -2826.0]}, {"pos_m": [-1699.0, -2812.0]}, {"pos_m": [-1690.0, -2800.0]}, "lippe"], "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": true, "muendung": "gumpe",
+    {"typ": "bach", "id": "hochtalbach", "punkte": ["quelle", {"pos_m": [-1678.0, -2809.0]}, {"pos_m": [-1685.0, -2801.0]}, {"pos_m": [-1678.0, -2793.0]}, "lippe"], "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": true, "muendung": "gumpe",
      "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
     {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 4.5, "spiegel_rand_min": -0.2, "tiefe_m": 2.0, "farbe": "klar", "becken": {"ufer_m": 4, "freibord_m": 0.4, "boden": 0.35, "auslass": 170}},
     {"typ": "wasserfall", "id": "lippenfall", "kante": ["lippe_a", "lippe_b"], "becken": "gumpe", "breite_m": 2.5, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - Wasserfall"}
@@ -242,7 +241,7 @@
    "sicht_kern": "lippe", "sicht_probe_m": 10,
    "gruppen": [
     {"name": "lippenwand", "ebene": "held", "warum": "die Lippe des Haengetals als Felsstufe", "palette": ["SM_big_rock_wall_01", "SM_big_rock_wall_02"],
-     "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [-1697.0, -2784.0]}, {"pos_m": [-1680.0, -2784.0]}, {"pos_m": [-1705.0, -2782.0]}]}, "skala": [1.5, 1.9], "yaw": 175, "front_achse": "+y",
+     "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [-1689.5, -2783.0]}, {"pos_m": [-1672.5, -2783.0]}]}, "skala": [1.5, 1.9], "yaw": 180, "front_achse": "+y",
      "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "meide": null, "im_wasser": "egal"},
     {"name": "lippenbloecke", "ebene": "begleiter", "warum": "Bloecke an der Lippe", "palette": "nordfels",
      "anzahl": 5, "verteilung": {"typ": "ring", "bei": "lippe", "r_m": [6, 14]}, "abstand_m": 5, "groesse_m": [2.0, 3.6], "eingraben": [0.3, 0.4], "akteur": true, "material": "MI_EL_SW_Fels_Flechte"},
@@ -255,20 +254,20 @@
     {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies im Bach und am Ufer", "palette": "kiesel", "anzahl": 700,
      "verteilung": {"typ": "band", "punkte": "bach_hochtalbach", "breite_m": 6}, "abstand_m": 0.3, "rolle": "stein", "im_wasser": "egal"},
     {"name": "wollgras", "ebene": "bewuchs", "warum": "Wollgras und Seggen im nassen Hochtalboden", "palette": ["SM_wk2oaeyqx_VarB", "SM_wk2oaeyqx_VarF", "SM_wk2oaeyqx_VarC", "SM_wk2oaeyqx_VarI"],
-     "anzahl": 500, "verteilung": {"typ": "ellipse", "bei": "hochtal", "a_m": 26, "b_m": 16, "richtung": 0}, "abstand_m": 0.5, "rolle": "pflanze"},
+     "anzahl": 500, "verteilung": {"typ": "ellipse", "bei": "hochtal", "a_m": 18, "b_m": 11, "richtung": 0}, "abstand_m": 0.5, "rolle": "pflanze"},
     {"name": "moor_moos", "ebene": "bewuchs", "warum": "Moos im flachen, nassen Boden", "palette": "moos", "anzahl": 300,
-     "verteilung": {"typ": "ellipse", "bei": "hochtal", "a_m": 24, "b_m": 14, "richtung": 0}, "abstand_m": 0.4, "rolle": "streu"},
+     "verteilung": {"typ": "ellipse", "bei": "hochtal", "a_m": 17, "b_m": 10, "richtung": 0}, "abstand_m": 0.4, "rolle": "streu"},
     {"name": "gischtfarn", "ebene": "bewuchs", "warum": "Farn unten in der Gischt", "palette": "farn_nass", "anzahl": 90,
      "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 16}, "abstand_m": 0.8, "rolle": "pflanze"},
     {"name": "schluchtbirken", "ebene": "bewuchs", "warum": "Birken in der Schlucht (windgeschuetzt, feucht)", "netz": "Big_Tree_Birch_01",
      "anzahl": 7, "verteilung": {"typ": "ring", "bei": "gumpe", "r_m": [10, 30]}, "abstand_m": 6, "skala": [0.45, 0.7], "rolle": "baum"},
     {"name": "altschnee", "ebene": "kleinzeug", "warum": "Altschneerest im Schatten der Lippe", "netz": "xemmbh2qx_tier_0",
-     "anzahl": 2, "verteilung": {"typ": "kreis", "bei": {"pos_m": [-1705.0, -2790.0]}, "r_m": 5}, "skala": [1.0, 1.5], "eingraben": [0.3, 0.4]},
+     "anzahl": 2, "verteilung": {"typ": "kreis", "bei": {"pos_m": [-1692.0, -2790.0]}, "r_m": 4}, "skala": [1.0, 1.5], "eingraben": [0.3, 0.4]},
     {"name": "nassband", "ebene": "kontakt", "warum": "Moos und Steine an der nassen Lippe", "palette": ["SM_MossClump_01", "SM_MossClump_03", "SM_SmallStonesPack_07"],
      "verteilung": {"typ": "um_gruppe", "gruppe": ["lippenwand", "lippenbloecke"], "ring": [0.7, 1.2], "je": [10, 16]}, "rolle": "streu", "im_wasser": "egal"}
    ],
    "lagen": [
-    {"lage": "Moos", "form": "kreis", "bei": "hochtal", "r_m": 24, "streckung": [1.6, 1.0], "richtung": 0, "wert": 210, "flecken": 0.4},
+    {"lage": "Moos", "form": "kreis", "bei": "hochtal", "r_m": 14, "streckung": [1.5, 1.0], "richtung": 0, "wert": 210, "flecken": 0.4},
     {"lage": "Kies", "form": "band", "punkte": "bach_hochtalbach", "breite_m": 5, "wert": 190},
     {"lage": "Fels", "form": "hang", "bei": "lippe", "r_m": 30, "hang_grad": [40, 90], "wert": 210},
     {"lage": "Moos", "form": "kreis", "bei": "gumpe", "r_m": 12, "wert": 180, "flecken": 0.5}
@@ -276,9 +275,9 @@
    "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 190, "Kies": 140}, "zugang": {"breite_cm": 120, "lagen": {"Erde": 180, "Kies": 130}},
             "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Waterfall_Medium", "optional": false, "zweck": "Fall an der Lippe (Nature Water FX, Vorbild Bergwald-Klamm)", "bei": "lippe", "hoehe_m": 0.0, "yaw": 175},
+    {"typ": "niagara", "asset": "NS_Waterfall_Medium", "optional": false, "zweck": "Fall an der Lippe (Nature Water FX, Vorbild Bergwald-Klamm)", "bei": "lippe", "hoehe_m": 0.0, "yaw": 180},
     {"typ": "niagara", "asset": "NS_Impact_Medium", "optional": false, "zweck": "Aufprall in der Gumpe", "bei": "gumpe", "hoehe_m": 0.2},
-    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Stroemung im Hochtalbach vor der Lippe", "bei": {"pos_m": [-1690.0, -2800.0]}, "hoehe_m": 0.1, "yaw": 175},
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Stroemung im Hochtalbach vor der Lippe", "bei": {"pos_m": [-1679.0, -2791.0]}, "hoehe_m": 0.1, "yaw": 180},
     {"typ": "lokaler_nebel", "zweck": "Gischt in der Schlucht", "bei": "gumpe", "hoehe_m": 2, "radius_m": 12, "dichte": 0.07, "farbe": [0.88, 0.92, 0.94], "hoehenabfall": 0.8},
     {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an Bach und Gumpe (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 40, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 2.5, 2.5]}
    ],
@@ -303,7 +302,6 @@
      {"op": "rinne", "punkte": [{"pos_m": [-1760.0, -3350.0]}, "rinne_w"], "breite_m": 2.5, "tiefe_m": 0.5, "rand_m": 2, "warum": "Rinne im Faecher (West)"},
      {"op": "rinne", "punkte": [{"pos_m": [-1748.0, -3350.0]}, "rinne_o"], "breite_m": 2.5, "tiefe_m": 0.5, "rand_m": 2, "warum": "Rinne im Faecher (Ost)"}
     ], "senke_begruendung": "Priele im Schwemmfaecher (bei Ebbe nass)"},
-   "rahmen": [{"name": "sued", "bei": "faecher", "ziel_hoehe_m": 3.0, "richtung_bereich": [170, 200], "abstand_m": 24, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 6.0, "rand_grad": 10, "bogen_grad": 40}],
    "sicht_probe_m": 10,
    "gruppen": [
     {"name": "fjordbloecke", "ebene": "held", "warum": "zwei grosse Bloecke im Watt (vom Gletscher, der den Fjord schuf)", "palette": ["SM_NordicBoulder_01", "SM_NordicBeachRocks_01"],
@@ -359,22 +357,21 @@
     {"op": "kuppe", "bei": "kegelfuss", "radius_m": 22, "hoehe_m": 4.0, "plateau": 0.2, "streckung": [1.3, 1.0], "richtung": 0, "rand_m": 10, "warum": "Sturzkegel +4 m am Fuss"},
     {"op": "buckel", "bei": "kegelmitte", "radius_m": 40, "amplitude_m": 1.2, "wellenlaenge_m": 8, "warum": "Blockkegel buckelig"}
    ], "senke_begruendung": "Hohlraeume zwischen den Sturzbloecken"},
-   "rahmen": [{"name": "ost", "bei": "kegelmitte", "ziel_hoehe_m": 3.0, "richtung_bereich": [40, 110], "abstand_m": 30, "breite_m": 14, "hoehe_min_m": 2.0, "hoehe_max_m": 7.0, "rand_grad": 10, "bogen_grad": 50}],
    "sicht_probe_m": 12,
    "gruppen": [
     {"name": "sturzbloecke", "ebene": "held", "warum": "hausgrosse Bloecke des Sturzes, die groessten rollten am weitesten (unten)", "palette": ["SM_NordicBoulder_01", "SM_Big_Rock_01", "SM_Big_Rock_02", "SM_MassiveTundraRockFormation_02"], "gewichte": [3, 2, 2, 1],
-     "anzahl": 11, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 105, "start_m": 15, "oeffnung_grad": 40, "t": [0.35, 1.0]}, "abstand_m": 8,
+     "anzahl": 11, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 130, "start_m": 15, "oeffnung_grad": 50, "t": [0.6, 1.0]}, "abstand_m": 8,
      "groesse_m": [5.0, 9.0], "gradient": {"von": 0.75, "bis": 1.2}, "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "mindestens": 8},
     {"name": "schichtfels", "ebene": "begleiter", "warum": "geschichtete Felsscholle im Kegel", "netz": "ukjhcamga_tier_0",
      "verteilung": {"typ": "punkt", "bei": {"pos_m": [-1858.0, -3178.0]}}, "skala": 0.4, "yaw": 92, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true},
     {"name": "abrisswand", "ebene": "begleiter", "warum": "die helle, frische Abrissnische (ohne Moos)", "netz": "vdssailfa_tier_2",
      "verteilung": {"typ": "punkt", "bei": {"pos_m": [-1922.0, -3170.0]}}, "skala": 0.85, "yaw": 92, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
     {"name": "kegelschutt", "ebene": "schutt", "warum": "sortierter Schutt: oben fein, unten grob", "palette": ["SM_mountain_rock_big_02_1", "SM_mountain_rock_big_02_4", "SM_mountain_rock_big_02_6", "SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_5", "xf3odif_tier_0"],
-     "anzahl": 200, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 110, "start_m": 10, "oeffnung_grad": 45}, "abstand_m": 1.8, "groesse_m": [0.7, 2.2], "gradient": {"von": 0.6, "bis": 1.5}},
+     "anzahl": 220, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 130, "start_m": 10, "oeffnung_grad": 50}, "abstand_m": 1.8, "groesse_m": [0.7, 2.2], "gradient": {"von": 0.6, "bis": 1.5}},
     {"name": "splitter", "ebene": "kleinzeug", "warum": "Splitter und Steine (scharfkantig, der Sturz ist jung)", "palette": "steine", "anzahl": 800,
      "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 110, "start_m": 8, "oeffnung_grad": 50}, "abstand_m": 0.45, "rolle": "stein"},
     {"name": "pionierbirken", "ebene": "bewuchs", "warum": "junge Birken zwischen den unteren, aelteren Bloecken", "netz": "Big_Tree_Birch_01",
-     "anzahl": 9, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 110, "oeffnung_grad": 45, "t": [0.55, 1.0]}, "abstand_m": 6, "skala": [0.4, 0.6], "rolle": "baum"},
+     "anzahl": 9, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 130, "oeffnung_grad": 50, "t": [0.65, 1.0]}, "abstand_m": 6, "skala": [0.4, 0.6], "rolle": "baum"},
     {"name": "farn_beeren", "ebene": "bewuchs", "warum": "Farn und Beeren in den Fugen unten", "palette": ["SM_EagleFern_S_01", "SM_EagleFern_S_04", "SM_lingonberry_01", "SM_billberry_01"],
      "verteilung": {"typ": "um_gruppe", "gruppe": "sturzbloecke", "ring": [0.9, 1.3], "je": [4, 8], "seite": "nord"}, "rolle": "pflanze"},
     {"name": "altmoos", "ebene": "kontakt", "warum": "Moos und Flechten nur auf den alten, unteren Bloecken", "palette": "moos",
@@ -454,11 +451,11 @@
    "marker": {"titel": "Die alten Ufer", "text": "Das Meer stand einmal hier oben. Es hat seine Kiesel liegen lassen, als es ging, und die Muscheln, die es nicht mehr brauchte.", "entdeckung_m": 20},
    "budget": {"instanzen": 3500, "kollision": 200, "akteure": 15, "lichter": 0, "niagara": 0, "decals": 4},
    "assets_wunsch": [{"paket": "Megascans Icelandic Sand With Pebbles", "statt_jetzt": "SM_BeachSandWithPebbles_01/02, SM_NordicBeachRock_01, MI_Decal_Rocks_Small"}],
-   "anker": {"t2": {"pos_m": [-1908.0, -3482.0]}},
+   "anker": {"t2": {"pos_m": [-1912.0, -3497.0]}},
    "linien": {
-    "stufe20": {"punkte": [{"pos_m": [-1884.0, -3530.0]}, {"pos_m": [-1882.0, -3500.0]}, {"pos_m": [-1886.0, -3470.0]}, {"pos_m": [-1890.0, -3440.0]}]},
-    "stufe45": {"punkte": [{"pos_m": [-1906.0, -3532.0]}, {"pos_m": [-1905.0, -3502.0]}, {"pos_m": [-1908.0, -3472.0]}, {"pos_m": [-1912.0, -3442.0]}]},
-    "stufe70": {"punkte": [{"pos_m": [-1928.0, -3532.0]}, {"pos_m": [-1928.0, -3502.0]}, {"pos_m": [-1931.0, -3472.0]}, {"pos_m": [-1935.0, -3442.0]}]}
+    "stufe20": {"punkte": [{"pos_m": [-1903.0, -3535.0]}, {"pos_m": [-1898.0, -3520.0]}, {"pos_m": [-1893.0, -3505.0]}, {"pos_m": [-1889.0, -3490.0]}, {"pos_m": [-1886.0, -3475.0]}], "_hinweis": "Hoehenlinie 31 m (heute), Stufe ~20 m ueber dem alten Spiegel"},
+    "stufe45": {"punkte": [{"pos_m": [-1922.0, -3535.0]}, {"pos_m": [-1919.0, -3520.0]}, {"pos_m": [-1913.0, -3505.0]}, {"pos_m": [-1910.0, -3490.0]}, {"pos_m": [-1904.0, -3475.0]}, {"pos_m": [-1900.0, -3462.0]}], "_hinweis": "Hoehenlinie 51 m"},
+    "stufe70": {"punkte": [{"pos_m": [-1947.0, -3535.0]}, {"pos_m": [-1941.0, -3518.0]}, {"pos_m": [-1936.0, -3502.0]}, {"pos_m": [-1932.0, -3487.0]}, {"pos_m": [-1924.0, -3472.0]}, {"pos_m": [-1916.0, -3458.0]}, {"pos_m": [-1916.0, -3445.0]}], "_hinweis": "Hoehenlinie 73 m"}
    },
    "gelaende": {"schutz_weg_m": 5, "fenster_m": [140, 120], "bei": "t2", "rand_m": 12, "ops": [],
     "nach_ops": [
@@ -490,6 +487,8 @@
      "anzahl": 700, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 14}, "abstand_m": 0.5, "rolle": "pflanze"},
     {"name": "stufengras_b", "ebene": "bewuchs", "warum": "Gras auf der 20- und 70-m-Stufe", "palette": "tundragras",
      "anzahl": 500, "verteilung": {"typ": "band", "punkte": "stufe70", "breite_m": 14}, "abstand_m": 0.5, "rolle": "pflanze"},
+    {"name": "hangbirken", "ebene": "bewuchs", "warum": "Birkengehoelz auf den steilen Hangstuecken zwischen den Stufen (Gehoelz-Rahmen gegen den Blick vom Oststeig)", "netz": "Big_Tree_Birch_01",
+     "anzahl": 16, "verteilung": {"typ": "kreis", "bei": "t2", "r_m": 48}, "abstand_m": 7, "skala": [0.5, 0.75], "rolle": "baum", "hang_grad": [22, 60]},
     {"name": "heide_hang", "ebene": "bewuchs", "warum": "Heide auf den steilen Hangstuecken zwischen den Stufen", "palette": "heide",
      "anzahl": 300, "verteilung": {"typ": "kreis", "bei": "t2", "r_m": 45}, "abstand_m": 0.7, "rolle": "pflanze", "hang_grad": [25, 60]},
     {"name": "kantenkies", "ebene": "kontakt", "warum": "Kiesbaender an den Stufenkanten", "palette": "kiesel",
