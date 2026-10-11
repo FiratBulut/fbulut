@@ -192,3 +192,20 @@ A + B sind etwa 19 GB, soweit eine Größe bekannt ist.
 7. **Für den Koordinator (Hinweise, keine Rückfrage an Ferat):**
    - `uldubik_tier_0`/`uk5ebcp_tier_0` stehen auch außerhalb der Sehenswürdigkeiten: `skripte/felsgruppen_regeln.json`, `skripte/wueste_ergaenzung_regeln.json`, `assets-taxonomie.*`, `verteilung-*.md`. Die habe ich nicht angefasst.
    - Die Lib sollte bei `SM_Forest_pine_06` den vollen Pfad verlangen: Der Name ist exakt doppelt, nicht nur in der Groß-/Kleinschreibung.
+
+## Nachtrag: Ferats Grundsatz: Megascans vor Kauf
+
+Ferat hat einen neuen Grundsatz: „Kein Geld ausgeben, solange man Besseres von Megascans holen kann.“ Die Megascans hat er 2024 beansprucht, für ihn sind sie also kostenlos. Er lädt sie selbst.
+
+Daraufhin habe ich am 11.10. abends jedes kostenpflichtige oder preislich ungeprüfte Paket und jede Lücke gegen Megascans und Megaplants geprüft. Geprüft wurde nur per Websuche, denn fab.com, quixel.com und die UE-Foren sind aus der Cloud nicht abrufbar. Nicht Belegtes ist in der Liste als [ungeprüft] markiert.
+
+- **Drei Käufe entfallen:**
+  - Nanite Driftwood Props → Megascans-Driftwood: Driftwood Trunk, Driftwood, Driftwood Piece, Driftwood Plank, Small Driftwood Piece, dazu „Dead Tree“ als Burgkern.
+  - Quercus Robur → „Megaplants: English Oak“. Das Asset ist kostenlos, aber experimentell: Es braucht den Procedural Vegetation Editor und Nanite Foliage.
+  - Forest Fungi → Mountain-Pilze und Megascans Forest Undergrowth aus dem Vault.
+- **Limestone ist konkret:** Die Sammlung „Limestone Quarry“ bringt Quarry Cliff (5 Fab-Listings, bis 8,8 m) sowie Limestone Rocks, Rubble und Slab. Damit lässt sich die Karst-Lücke schließen, sobald Ferat lädt. Das Ancraite-Set hat die Websuche nicht gefunden.
+- **Nur teilweise ersetzt:** Arctic Cliffs (neu: Frozen Lake + Frost), Wadi Rum, die tote Stieleiche, Procedural Rocks und die Tropen-Pakete. Beide Einträge bleiben.
+- **Nicht ersetzbar:** Klänge, Niagara-Effekte, CryoGen, Sumpfzypressen, Tropfsteine, Sinterterrassen und Tafoni (Hollowstone).
+- **Neuer Stand:** A 1, B 12, C 16, zusammen 29 Pakete. Davon sind **10 kostenlos**: 9 lädt Ferat aus Megascans, 1 lädt Claude. **19 sind kostenpflichtig oder ungeprüft**, vorher waren es 22.
+
+Ferats Ladeliste steht in `antworten/sehens-downloadliste.md` unter „Megascans zum Laden (kostenlos)“. Sie ist nach Wirkung sortiert und nennt je Asset die Ort-IDs. Maschinenlesbar steht sie in `antworten/sehens/downloadliste.json` → `megascans_ladeliste`. Damit sind die Rückfragen 1, 3 und 4 oben überholt, soweit es um Megascans geht.
