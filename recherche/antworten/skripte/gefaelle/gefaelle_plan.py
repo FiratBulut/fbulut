@@ -525,11 +525,12 @@ class Stufenleger:
                         del st[0]
                         geaendert = True
                         break
-                if e["art"] != "fall" and e["D"] > e["D_max"] + 1e-6 and e["q"] - e["p"] > 2 * e["L_min"]:
+                lmin_t = 5.0 if e["art"] == "schnelle" else e["L_min"]     # Schnelle: Rampe 4 m + 1 m Becken
+                if e["art"] != "fall" and e["D"] > e["D_max"] + 1e-6 and e["q"] - e["p"] > 2 * lmin_t:
                     # zu gross fuer die Art: Einheit an der Haelfte des Spiegelfalls teilen
                     zm = 0.5 * (pr.zi(e["p"]) + pr.zi(e["q"]))
                     sm = float(np.interp(-zm, -pr.z0, pr.s))
-                    sm = float(np.clip(sm, e["p"] + e["L_min"], e["q"] - e["L_min"]))
+                    sm = float(np.clip(sm, e["p"] + lmin_t, e["q"] - lmin_t))
                     sm = self.aus_verbot(sm, e["p"] + 1.0, e["q"] - 1.0)
                     neu = {"p": sm, "q": e["q"], "erzwungen": False, "fels": e["fels"], "klasse": e.get("klasse")}
                     e["q"] = sm
