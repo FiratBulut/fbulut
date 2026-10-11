@@ -15,6 +15,8 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 
 ### Phase 2 – Planer je Biom
 
+**Stand:** Alle 15 Planer fertig; die Entscheidungen E01–E49 sind umgesetzt (außer E36–E42 = nur bei Editor-Befund, E43 = Pfad von `M_River_Water_Translucent` nicht belegt). Alle Biome Prüfer 0 FEHLER, je zwei Läufe identisch; Wasser-FX-Plan (Auftrag 14) 302 OK / 0 FEHLER. Neue Lib-Felder: `kopie_von` (Niagara-Kopien `NS_EL_SW_*` unter `/Game/Eldarien/Welt/FX/Sehens/`), `ersetzt_bestandsbach` → `bestand_ausblenden`, `material_fix_ausnahmen`, Pivot/Front-Felder je Akteur (bis zur Messung mit `annahme`), `warnung_akzeptiert`.
+
 | Biom | Planer | Stand | Anmerkungen |
 |---|---|---|---|
 | bergwald | `skripte/sehens_bergwald/` | **fertig** (Inventar 13d; Planer + Prüfer 0 FEHLER/0 WARNUNG; deterministisch) | Klamm mit NS_Waterfall_Medium/NS_Impact_Medium/NS_Stream_Small; Mountain-Wurzeln/Pilze; Nassband-Decals; Karsee ±9 m |
@@ -95,7 +97,7 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 ## Noch offen (kompakt, Stand Phase-1-Abschluss) – entschieden, siehe oben
 
 1. **Hollowstone Canyon kaufen?** (Wabenwand wueste_08, Hoodoos canyon_05; sonst Ersatz aus Sandstein + Tafoni-Material.) **Megascans Desert Pack / Megascans Sandstone** schon in der Bibliothek?
-2. **Inventar:** Kommen `SM_lava_wall_01…09` mit der Lava-Nachladung zurück? Behalten die Eis-Netze `M_MS_Base_Trm`? Dürfen Basalt-Instanzen eigene Texturen bekommen? Welche Assets stecken hinter den zwei fehlgeschlagenen Megascans-IDs?
+2. **Inventar:** ~~Kommen `SM_lava_wall_01…09` mit der Lava-Nachladung zurück?~~ Erledigt (13d, E44). Behalten die Eis-Netze `M_MS_Base_Trm`? Dürfen Basalt-Instanzen eigene Texturen bekommen? Welche Assets stecken hinter den zwei fehlgeschlagenen Megascans-IDs?
 3. **Nebel:** `BP_FogBankCard`/`BP_FogBankVolume` als Akteure setzen, oder nur `lokaler_nebel`? Irrlichter (Sumpf) mit 2 schwachen Punktlichtern oder nur Nebel?
 4. **Tundra:** Darf der Pfad zum Trunkenen Grund den Rand von ROMAN_LOC_018 streifen? Aufeis/Thermokarstsee neben Frost/Gletscher in Ordnung? Steinringe Fundstück lassen (vom Küstenweg teils sichtbar) oder Leuchtfeuer?
 5. **Eis:** Darf ein Steig über Gletschereis führen? Houdini-Reste `SM_K7_GLETSCHER__EIS`, `SM_K13_FROSTSEE__*` und die alten Klippenkacheln der Steilküste (K9) ausblenden? Wasserfälle > 150 m Fallhöhe in Ordnung?
