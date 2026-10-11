@@ -433,6 +433,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 ### Entscheidungen aus 13c
 
+- **Nature Water FX gekauft** (bergwald_05_klemmblock_klamm (Schleierfall)): Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen.
 - **Mönch: erster Wurf mit Bestand** (bergwald_01_der_moench): Ja: Granit-Schale `veqnci0db_tier_2` hochkant, 6–8 m eingegraben, Kappe `rcygn_tier_0`. Neu: Sockel und Schutt aus Basalt- und Klippenstücken (`Basalt_Basalt_Cliff_Rock_A_SM` ×2–3, `Basalt_Basalt_Rock_C_SM`/`_D_SM` ×2–4, dazu `vdssailfa_tier_2` als Rückseite). Damit Basalt nicht als Fremdgestein liest, bekommt er `MI_EL_SW_Granit_Moos`. Das Prüfbild entscheidet.
 - **Windwurf und Säulenhain mit Nicht-Nanite-Nadelbäumen** (bergwald_03_saeulenhain, bergwald_07_windwurf): Ja. Forest Cretaceous ist gestrichen (Ferat: teuer, sehr schlecht bewertet); Riesenbäume bleiben Bestand plus Skalierung: `Fir_07_Forest`/`Fir_04_Standalone` ×2,2–2,5 stehend (Säulenhain) und `SM_Forest_pine_01–09` liegend (Windwurf). Neu im Inventar: kurze Stammstücke `SM_Forest_pine_04_01/02/03_log` als Kleinzeug.
 - **Karsee-Stempel ±6 m** (bergwald_06_karsee): Ja, wie geplant (Seespiegel und Karschwelle).
@@ -470,12 +471,12 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | Forest Fungi – Mushroom Pack | fehlt (Download-Liste) | 03, 07 |
 | Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 01, 03, 04, 05, 06, 07, 08 |
 | Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 05, 06 |
-| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | fehlt (Download-Liste) | 05 |
+| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | gekauft, Import ausstehend – Inventar folgt (Systemnamen danach) | 05 |
 | Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02, 05 |
 | Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 07 |
-| Realistic Waterfall and Water VFX | fehlt (Download-Liste) | 05 |
+| Realistic Waterfall and Water VFX | gestrichen (Nature Water FX gekauft) | 05 |
 | Ultimate Niagara Environmental VFX | fehlt (Download-Liste) | 07 |
-| Waterfall Pro | fehlt (Download-Liste) | 05 |
+| Waterfall Pro | gestrichen (Nature Water FX gekauft) | 05 |
 | Wilderness Nature Loops | fehlt (Download-Liste) | 07 |
 
 ### Material-Instanzen (4 von höchstens 6)

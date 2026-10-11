@@ -448,6 +448,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 ### Entscheidungen aus 13c
 
+- **Nature Water FX gekauft** (elfenwald_04_elfentreppe, elfenwald_05_farnschlucht): Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen.
 - **Serpentinenpfad zum Nebelhain (0,9 km)** (elfenwald_02_nebelhain): Ja (13c). Der Pfad kommt als `pfade` nach `standorte.json` (anderer Agent, Schema in `skripte/sehens_lib/README.md`).
 - **Rotlaub-Instanz** (elfenwald_03_rotlaubhain): Ja, als **Kopie**: `MI_EL_SW_Rotlaub` und `MI_EL_SW_Rotlaub_Boden` sind neue Instanzen. Die Original-Buchenblatt-Materialien bleiben unverändert; nur die Instanzen im Hain bekommen die Kopie.
 - **Leuchten und Laub mit Bestand** (elfenwald_01, _03, _06, _07): Free Niagara Particles (SoftTofu, CC BY 4.0) ist im Projekt. Die Effekte unten ersetzen die bisherigen Wünsche.

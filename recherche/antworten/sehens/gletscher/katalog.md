@@ -235,6 +235,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 ### Entscheidungen aus 13c
 
+- **Nature Water FX gekauft** (gletscher_06_gletschertoepfe): Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen.
 - **Steige** (gletscher_03, _05–_08): Die Steige (West, Nordhang, Ost) überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator in `sehens-STATUS.md` nach.
 - **Eis/Schnee im Bestand** (alle): 31 Megascans-Netze stehen in netze.csv (13b nennt 32; Nanite, Material `M_MS_Base_Trm` mit Durchscheinen). Größtes Eis: `uhprdg2fa_tier_0` 6,7 × 1,7 × 6,2 m; Séracwand 15–30 m also mit ×2,5–4 und Gruppen. Größter Schnee: `vdspdazqa_tier_0` (Huge Snow Hill) 15,2 × 7,4 × 1,8 m.
 

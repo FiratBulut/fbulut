@@ -78,7 +78,7 @@
      "wofuer": "Gischt am Fuss",
      "ersatz_bestand": "lokaler Nebel",
      "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)",
-     "status_13b": "fehlt (Download-Liste)"
+     "status_13b": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)"
     },
     {
      "paket": "Niagara Examples Pack",
@@ -601,7 +601,7 @@
    "Megascans Rembrandt Water Lily": "im Projekt (7 Varianten)",
    "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
    "Nanite Tropical Plant Pack 2": "fehlt (Download-Liste)",
-   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "fehlt (Download-Liste)",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)",
    "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
    "Procedural Rocks Generator": "fehlt (Download-Liste)",
    "Rain Forest Pack": "fehlt (Download-Liste)",
@@ -609,6 +609,11 @@
    "Tropical Vegetation Assets": "fehlt (Download-Liste)"
   },
   "entscheidungen_13c": [
+   {
+    "thema": "Nature Water FX gekauft",
+    "orte": "dschungel_02_turmquelle",
+    "umsetzung": "Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen."
+   },
    {
     "thema": "Mondtor-Bogen aus SM_Cliff_01*",
     "orte": "dschungel_01_mondtor",

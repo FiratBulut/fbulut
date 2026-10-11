@@ -495,8 +495,9 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 ### Entscheidungen aus 13c
 
+- **Nature Water FX gekauft** (aue_07_blautopf (Quellaufwallung, optional)): Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen.
 - **Die Alte mit Bestand** (aue_02_die_alte): Held jetzt `SM_Poplar_tree_06_Optimised` ×1,3 (≈ 34,5 m) als Schwarzpappel. `SM_dry_oak_0*` (Coast & Dunes) sind im Inventar, aber nur 3,9–9,0 m hoch und windgeformt; für den Held bräuchten sie ×3 und mehr (Texel-Dichte, keine Nanite-Netze). Sie bleiben Begleiter/Jungeichen. Stieleichen-Paket steht in der Download-Liste unter B; Austausch später ohne neue Standortsuche.
-- **Erlen-Ersatz** (aue_01_biberstau, aue_04_treibholzwerder, aue_06_mondarm): Megascans-Erlen sind nicht im Bestand. Ersatz: Pappeln `SM_Poplar_tree_02/03_Optimised/04_Optimised`, Birke `Big_Tree_Birch_01`, Weiden `Big_Tree_Willow_01/02` und Strauchweiden `SM_grey_willow_01–04`. Erlen bleiben ein optionaler Wunsch (C).
+- **Erlen-Ersatz** (aue_01_biberstau, aue_04_treibholzwerder, aue_06_mondarm): Megascans-Erlen sind nicht im Bestand. Ersatz: Pappeln `SM_Poplar_tree_02/03_Optimised/04_Optimised`, Birke `Big_Tree_Birch_01`, Weiden `Big_Tree_Willow_01/02` und Strauchweiden `SM_grey_willow_01–04`. Die Erlen bleiben in der Download-Liste unter B (Rückmeldung B8), es wird aber nicht auf sie gewartet.
 - **Mondarm-Ufergehölz** (aue_06_mondarm): Ja: 220 m neuer Gehölzgürtel am Südufer. Er besteht aus `Big_Tree_Willow_01/02`, `SM_Poplar_tree_03_Optimised`, `Big_Tree_Birch_01` und dem Strauchsaum `SM_grey_willow_01–04`. Er verdeckt den Spiegel vom Weg aus und macht den Ort zum echten Fundstück.
 - **Seerosen im Bestand** (aue_06_mondarm): `Rembrandt_Water_Lily_uc2kajgia_*_VarA–G_LOD0` (7 Varianten, 1,2–1,7 m Blattgruppen) ersetzen `SM_WaterPlant01–04` als Held des Seerosenfelds.
 - **Decal Brutröhren** (aue_03_schwalbenwand): Ja: eigene Textur `sehens/aue/decal_brutroehren.png` + `_n.png` (Beschreibung unten). Das Decal-Material legt Ferat an.
@@ -551,9 +552,9 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor | fehlt (Download-Liste) | 08 |
 | Megascans Limestone Rocks | im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen | 07 |
 | Megascans Rembrandt Water Lily | im Projekt (7 Varianten) | 06 |
-| Megascans Trees: European Black Alder | nicht im Bestand – optionaler Wunsch (C); Ersatz Weiden/Pappeln/Birken | 01, 04, 06 |
+| Megascans Trees: European Black Alder | nicht im Bestand – Wunsch B (B8); bis dahin Birken/Pappeln/Weiden, nicht abwarten | 01, 04, 06 |
 | Nanite Driftwood Props | fehlt (Download-Liste) | 04, 05 |
-| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | fehlt (Download-Liste) | 07 |
+| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | gekauft, Import ausstehend – Inventar folgt (Systemnamen danach) | 07 |
 | Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 05, 06 |
 | Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 08 |
 | Quercus Robur (Stieleiche) – Nanite & Impostor | fehlt (Download-Liste) | 02, 08 |

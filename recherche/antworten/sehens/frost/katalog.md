@@ -231,6 +231,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 ### Entscheidungen aus 13c
 
+- **Nature Water FX gekauft** (frost_01_der_eisfall): Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen.
 - **Steige** (alle 8 Orte): Froststeig und Südast überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator nach.
 - **Eis/Schnee im Bestand** (frost_01–_06): Presseis, Eiskegel und Schneekappen jetzt mit Megascans Ice Cliff/Rocky Snow Pile/Snow Embankment statt Eiszapfen-Bündeln. Eiszapfen `SM_EISZAPFEN_*` bleiben für Vorhang und Glocken.
 

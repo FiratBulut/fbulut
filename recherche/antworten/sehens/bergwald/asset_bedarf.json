@@ -218,7 +218,7 @@
      "wofuer": "Wasserfall-/Gischt-Effekte",
      "ersatz_bestand": "MI_EL_Wasserfall_Aufprall",
      "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)",
-     "status_13b": "fehlt (Download-Liste)"
+     "status_13b": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)"
     },
     {
      "paket": "Free City & Nature Sounds",
@@ -234,7 +234,7 @@
      "wofuer": "nur falls der eigene Vorhang zu glatt wirkt",
      "ersatz_bestand": "MI_EL_Wasserfall",
      "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Kategorie-Auszug, ungeprüft)",
-     "status_13b": "fehlt (Download-Liste)"
+     "status_13b": "gestrichen (Nature Water FX gekauft)"
     },
     {
      "paket": "Waterfall Pro",
@@ -242,7 +242,7 @@
      "wofuer": "nur falls der eigene Vorhang zu glatt wirkt",
      "ersatz_bestand": "MI_EL_Wasserfall",
      "preis_laut_liste": "ca. 45 € (ab 49,99 USD laut Kategorie-Auszug, ungeprüft)",
-     "status_13b": "fehlt (Download-Liste)"
+     "status_13b": "gestrichen (Nature Water FX gekauft)"
     }
    ]
   },
@@ -429,7 +429,7 @@
    "orte": [
     "bergwald_05_klemmblock_klamm"
    ],
-   "status_13b": "fehlt (Download-Liste)"
+   "status_13b": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)"
   },
   {
    "paket": "Niagara Examples Pack",
@@ -454,7 +454,7 @@
    "orte": [
     "bergwald_05_klemmblock_klamm"
    ],
-   "status_13b": "fehlt (Download-Liste)"
+   "status_13b": "gestrichen (Nature Water FX gekauft)"
   },
   {
    "paket": "Ultimate Niagara Environmental VFX",
@@ -470,7 +470,7 @@
    "orte": [
     "bergwald_05_klemmblock_klamm"
    ],
-   "status_13b": "fehlt (Download-Liste)"
+   "status_13b": "gestrichen (Nature Water FX gekauft)"
   },
   {
    "paket": "Wilderness Nature Loops",
@@ -831,15 +831,20 @@
    "Forest Fungi – Mushroom Pack": "fehlt (Download-Liste)",
    "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
    "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
-   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "fehlt (Download-Liste)",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)",
    "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt (Download-Liste)",
-   "Realistic Waterfall and Water VFX": "fehlt (Download-Liste)",
+   "Realistic Waterfall and Water VFX": "gestrichen (Nature Water FX gekauft)",
    "Ultimate Niagara Environmental VFX": "fehlt (Download-Liste)",
-   "Waterfall Pro": "fehlt (Download-Liste)",
+   "Waterfall Pro": "gestrichen (Nature Water FX gekauft)",
    "Wilderness Nature Loops": "fehlt (Download-Liste)"
   },
   "entscheidungen_13c": [
+   {
+    "thema": "Nature Water FX gekauft",
+    "orte": "bergwald_05_klemmblock_klamm (Schleierfall)",
+    "umsetzung": "Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen."
+   },
    {
     "thema": "Mönch: erster Wurf mit Bestand",
     "orte": "bergwald_01_der_moench",

@@ -5,21 +5,21 @@
   "fab.com ist aus der Cloud nicht erreichbar. Preise, Größen und UE-Versionen sind deshalb ungeprüft (Suchmaschinen-Auszüge, Bewertung 10.10.).",
   "Megascans: Ferat hat 2024 die meisten beansprucht → „kostenlos (2024 beansprucht)“.",
   "Bestand = vorlagen/daten/netze.csv (1 692 Netze, Stand 11.10. 13:25) und inventar_extra.json (73 Niagara, 44 Decals, 316 Klänge + 46 Cues).",
-  "wofuer: Ort-IDs der fertigen Biome (aue, bergwald, lava, elfenwald, dschungel, gletscher, frost, fjord); „(vorläufig)“ = Biom läuft noch; „(Katalog v1)“ = Biom ohne Asset-Bedarf.",
+  "wofuer: Ort-IDs aus asset_bedarf.json der 12 fertigen Biome (aue, bergwald, lava, elfenwald, dschungel, gletscher, frost, fjord, tundra, heide, kueste, sumpf); „(Katalog v1)“ = canyon/wueste/oedland laufen noch, Ort aus dem alten Katalog.",
   "Credits: Free Niagara Particles steht unter CC BY 4.0 → Namensnennung „SoftTofuVFX“."
  ],
  "summe": {
   "anzahl": {
    "A": 1,
    "B": 14,
-   "C": 15
+   "C": 12
   },
   "gb_schaetzung": {
    "A": 2.0,
-   "B": 16.0,
-   "C": 21.6
+   "B": 18.5,
+   "C": 17.6
   },
-  "gb_a_plus_b": 18.0,
+  "gb_a_plus_b": 20.5,
   "ohne_groesse": [
    "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
    "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack",
@@ -34,7 +34,7 @@
   {
    "nr": 1,
    "name": "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
-   "warum": "kostenlos; tropische Uferpflanzen und Luftwurzeln für Blaues Auge und Garten der Riesen.",
+   "warum": "tropische Uferpflanzen und Luftwurzeln für Blaues Auge und Garten der Riesen.",
    "fab_link": "https://www.fab.com/listings/d79688f5-29be-4fb2-a650-2d4a813f5306",
    "preis": "kostenlos"
   },
@@ -92,7 +92,7 @@
     "gletscher_01, _02, _03, _04, _05, _07",
     "frost_01–_06, _08",
     "fjord_04",
-    "tundra (vorläufig)"
+    "tundra_01, _03 (Pingo, Eiswand)"
    ]
   },
   {
@@ -105,7 +105,7 @@
    "fuer": [
     "aue_06_mondarm (Held)",
     "dschungel_05 (optional)",
-    "sumpf_07, _02, _04 (vorläufig)"
+    "sumpf_07 (Held, Riesenseerosen), _02, _04"
    ]
   },
   {
@@ -116,7 +116,7 @@
    "nanite": true,
    "hinweis": "nur 1 Wurzelstock 2,1 × 1,7 × 1,6 m – ganze Bäume fehlen (siehe B: Bald Cypress Tree Pack).",
    "fuer": [
-    "sumpf_01, _02 (vorläufig)"
+    "sumpf_01, _02"
    ]
   },
   {
@@ -158,7 +158,7 @@
     "aue_02, _03, _08",
     "bergwald_07",
     "frost_04",
-    "sumpf_08 Irrlichter (vorläufig)"
+    "sumpf_08 Irrlichter, sumpf_03/kueste_02 (NS_feather)"
    ]
   },
   {
@@ -167,9 +167,9 @@
    "pfad": "/Game/City_Nature_Sounds/WAV/*, /Game/City_Nature_Sounds/CUE/*",
    "netze": 0,
    "nanite": null,
-   "hinweis": "46 Cues; Natur nutzen (CUE_Water_Stream_I–X, CUE_Wind_Autumn_wind_with_leaves_rustling, CUE_Rain_Dropping_on_various_textures, CUE_Ice_Walking_on_ice_I–V, CUE_Nature_Birds_…_lovebirds nur Dschungel). Stadt, Menge, Feuerwerk, Motorrad, Aufzug NICHT nutzen. Brandung/Möwen/Frösche fehlen.",
+   "hinweis": "46 Cues; Natur nutzen (CUE_Water_Stream_I–X, CUE_Wind_Autumn_wind_with_leaves_rustling, CUE_Rain_Dropping_on_various_textures, CUE_Ice_Walking_on_ice_I–V, CUE_Nature_Birds_…_lovebirds nur Dschungel). Stadt, Menge, Feuerwerk, Motorrad, Aufzug NICHT nutzen. Brandung, Seevögel/Möwen und Frösche fehlen (B8).",
    "fuer": [
-    "alle 8 fertigen Biome (Cue je Ort in asset_bedarf.json)"
+    "alle fertigen Biome (Cue je Ort in asset_bedarf.json)"
    ]
   }
  ],
@@ -193,7 +193,8 @@
     "fjord_05, _07",
     "frost_06",
     "lava_03, _05",
-    "kueste (vorläufig, 7 Orte)"
+    "kueste_01–_03, _05–_08",
+    "heide_08, tundra_03, _08"
    ]
   },
   {
@@ -207,7 +208,7 @@
     "fjord_02, _04",
     "elfenwald_04, _05",
     "gletscher_06",
-    "kueste_04, heide_06 (vorläufig)"
+    "kueste_04 Seefall, heide_06"
    ]
   },
   {
@@ -240,6 +241,21 @@
    "fuer": [
     "dschungel_01, _03, _05, _06",
     "aue_07"
+   ]
+  },
+  {
+   "name": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+   "status": "gekauft, Import ausstehend – Inventar folgt",
+   "fab_link": "https://www.fab.com/listings/c34e8871-3585-4381-b21f-1b895814472b",
+   "preis": "gekauft",
+   "hinweis": "Ferat hat das Paket gekauft. Echte Systemnamen erst nach dem nächsten Inventar. Damit entfallen Realistic Waterfall and Water VFX und Waterfall Pro.",
+   "fuer": [
+    "kueste_08 Blasloch (Fontäne)",
+    "kueste_04 Seefall",
+    "bergwald_05 Schleierfall (Klemmblock-Klamm)",
+    "fjord_02 Schleierwand",
+    "frost_01 Eisfall",
+    "weitere Wasserfälle: dschungel_02, fjord_04, gletscher_06, elfenwald_04/_05, heide_06, aue_07 (Quellaufwallung, optional)"
    ]
   }
  ],
@@ -293,6 +309,14 @@
    "grund": "bewusst nicht aufgenommen: laut Ferat teuer und sehr schlecht bewertet. Riesenbäume bleiben Bestand plus Skalierung (13c: Nicht-Nanite-Nadelbäume ×2,2–2,5, SM_beech_tree_05 ×2,5)."
   },
   {
+   "name": "Realistic Waterfall and Water VFX",
+   "grund": "bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft."
+  },
+  {
+   "name": "Waterfall Pro",
+   "grund": "bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft."
+  },
+  {
    "name": "Realistic Starter VFX Pack Vol 2",
    "grund": "entfällt: Dampf/Rauch jetzt mit NS_Smoke_Plume/NS_Chimney_Smoke aus dem Niagara Examples Pack; Cascade-Paket war nur Texturquelle."
   }
@@ -302,8 +326,8 @@
   "fjord: Diamantstrand, Basalt-Blockufer",
   "dschungel: Tausendfuß (13c; ersetzt durch dschungel_08_sinterhalle)",
   "lava: Regenbogenhang (Dopplung mit oedland)",
-  "heide: Karrenfeld, Der Rachen, Moorauge (vorläufig, heide läuft)",
-  "tundra: Warme Quelle (vorläufig, tundra läuft)",
+  "heide: Karrenfeld, Der Rachen, Moorauge",
+  "tundra: Warme Quelle",
   "aue: Hexenring (Pilze nur noch C)"
  ],
  "pakete": [
@@ -324,7 +348,7 @@
    "wofuer": [
     "aue_04_treibholzwerder",
     "aue_05_lilienrinne",
-    "kueste_07_der_duenenkamm (vorläufig)"
+    "kueste_07_der_duenenkamm"
    ],
    "warum_prioritaet": "Held des Leuchtfeuers aue_04 (Treibholzburg); Bestand hat nur 1 Treibholz von 3,6 m."
   },
@@ -430,8 +454,8 @@
    "wofuer": [
     "frost_02_frostsee",
     "gletscher_01_gletschertor",
-    "tundra_03_die_eiswand (vorläufig)",
-    "tundra_06_das_aufeis (vorläufig)"
+    "tundra_03_die_eiswand",
+    "tundra_06_das_aufeis"
    ],
    "prioritaet": "B",
    "ersatz_bestand": "SM_EISZAPFEN_1…9 (eigen); Material M_EL_Eis4",
@@ -537,10 +561,10 @@
    "nanite": null,
    "wofuer": [
     "bergwald_07_windwurf",
+    "kueste_01_die_alten",
+    "kueste_03_das_nadeltor",
+    "kueste_08_das_blasloch",
     "lava_08_glutauge",
-    "kueste_01_die_alten (vorläufig)",
-    "kueste_03_das_nadeltor (vorläufig)",
-    "kueste_08_das_blasloch (vorläufig)",
     "oedland:Höllentor (Katalog v1)",
     "wueste:Große Sterndüne (Sandfahnen) (Katalog v1)"
    ],
@@ -551,30 +575,6 @@
    "bemerkung": "Kostenpflichtig vermutet – Ferat entscheidet. 39 Niagara-Effekte: Wetter, Feuer & Glut (Flame Dust, Smoke Spark), Wasser, Rauch, fallendes Laub. Link-Zuordnung aus Suchtreffern (ungeprüft); es gibt auch eine V2 mit 44 Effekten.",
    "status": "fehlt",
    "warum_prioritaet": "deckt die Lücken im Niagara-Bestand: Schnee/Schneefahnen, Gischt, Glut/Asche."
-  },
-  {
-   "name": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
-   "fab_link": "https://www.fab.com/listings/c34e8871-3585-4381-b21f-1b895814472b",
-   "anbieter": "SHOGUN GAMES (laut Auftrag-12-Recherche, ungeprüft)",
-   "preis": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)",
-   "groesse_gb": 0.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": null,
-   "wofuer": [
-    "aue_07_blautopf",
-    "bergwald_05_klemmblock_klamm",
-    "dschungel_02_turmquelle",
-    "kueste_04_der_seefall (vorläufig)",
-    "kueste_08_das_blasloch (vorläufig)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner (nur Material MI_EL_Wasserfall_Aufprall; SM_Splash aus CityPark)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/c34e8871-3585-4381-b21f-1b895814472b",
-   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. Begründung: einziges gefundenes Paket mit Geysir (3×) + Wasserfall (3×) + Bach (3×) + Fontäne (5×) als Niagara; Aufprall und Wellen getrennt steuerbar. Siehe auch antworten/12-recherche-wasser-gpu-schatten.md.",
-   "status": "fehlt",
-   "warum_prioritaet": "Geysir/Fontäne für kueste_08 Blasloch (vorläufig A), Gischt an Fällen; kein Bestand."
   },
   {
    "name": "Fantasy Ambiences (Lava, Höhle, Wind …)",
@@ -591,7 +591,7 @@
     "lava_02_schwefelgrund",
     "lava_06_kraterreihe",
     "lava_08_glutauge",
-    "tundra_01_der_pingo (vorläufig)",
+    "tundra_01_der_pingo",
     "oedland:Höllentor (Katalog v1)"
    ],
    "prioritaet": "B",
@@ -617,14 +617,14 @@
    "prioritaet": "B",
    "status": "fehlt",
    "wofuer": [
-    "heide_01_die_graue_burg (vorläufig)",
-    "heide_02_ginstergold (vorläufig)",
-    "heide_03_die_wacholderprozession (vorläufig)",
-    "heide_04_der_kolk (vorläufig)",
-    "heide_05_der_wackelstein (vorläufig)",
-    "heide_07_der_totengrund (vorläufig)"
+    "heide_01_die_graue_burg",
+    "heide_02_ginstergold",
+    "heide_03_die_wacholderprozession",
+    "heide_04_der_kolk",
+    "heide_05_der_wackelstein",
+    "heide_07_der_totengrund"
    ],
-   "warum_prioritaet": "vorläufig (heide läuft noch): Besenheide + UK-Granit für 6 Heide-Orte."
+   "warum_prioritaet": "neu aus B5 (heide): Besenheide + UK-Granit für 6 Heide-Orte."
   },
   {
    "name": "Taxodium Distichum (Bald Cypress) Tree Pack",
@@ -641,10 +641,10 @@
    "prioritaet": "B",
    "status": "fehlt",
    "wofuer": [
-    "sumpf_01_der_ertrunkene_wald (vorläufig)",
-    "sumpf_02_der_weidendom (vorläufig)"
+    "sumpf_01_der_ertrunkene_wald",
+    "sumpf_02_der_weidendom"
    ],
-   "warum_prioritaet": "vorläufig (sumpf läuft noch): ganze Sumpfzypressen – im Bestand nur 1 Wurzelstock."
+   "warum_prioritaet": "ganze Sumpfzypressen – im Bestand nur 1 Wurzelstock (Kandidat aus der Websuche 11.10.; B8 plant bis dahin Weiden auf Wurzelfuß)."
   },
   {
    "name": "Megascans Icelandic Sand With Pebbles",
@@ -661,7 +661,7 @@
     "gletscher_03_moraenensee",
     "lava_01_schwarze_mauer",
     "lava_03_kraterkinder",
-    "tundra_07_die_steinringe (vorläufig)"
+    "tundra_07_die_steinringe"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "SM_BeachSandWithPebbles (Megascans); SM_NordicBeachRockyGround",
@@ -683,15 +683,15 @@
    "pruefen_bibliothek": true,
    "quelle": "https://docs.unrealengine.com/marketplace/en-US/product/megascans-trees-european-black-alder-early-access",
    "bemerkung": "Die Erle ist der Baum der Ufer und Bruchwälder – heute gibt es keinen einzigen Ufer-Laubbaum außer zwei Trauerweiden. Schwesterpaket der vorhandenen Megascans-Hainbuchen, daher evtl. schon in der Bibliothek.",
-   "prioritaet": "C",
+   "prioritaet": "B",
    "status": "fehlt",
    "wofuer": [
     "aue_01_biberstau",
     "aue_04_treibholzwerder",
     "aue_06_mondarm",
-    "sumpf_05_der_erlenbruch (vorläufig)"
+    "sumpf_05_der_erlenbruch"
    ],
-   "warum_prioritaet": "13c: nicht im Bestand; Ersatz Weiden/Pappeln/Birken ist Bestand – Erlen nur noch optional (sumpf_05 Erlenbruch würde profitieren)."
+   "warum_prioritaet": "nicht im Bestand (13c); laut B8 bleibt der Wunsch B (Held von sumpf_05 Erlenbruch). Bis dahin Birken/Pappeln/Weiden – nicht abwarten."
   },
   {
    "name": "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
@@ -727,7 +727,7 @@
    "prioritaet": "C",
    "status": "fehlt",
    "wofuer": [
-    "tundra_02_der_wanderer (vorläufig)"
+    "tundra_02_der_wanderer"
    ],
    "warum_prioritaet": "bemooste Islandblöcke (lava, tundra); SM_IcelandicBoulder_* sind gesperrt."
   },
@@ -746,10 +746,10 @@
    "prioritaet": "C",
    "status": "fehlt",
    "wofuer": [
-    "tundra_02_der_wanderer (vorläufig)",
-    "tundra_07_die_steinringe (vorläufig)"
+    "tundra_02_der_wanderer",
+    "tundra_07_die_steinringe"
    ],
-   "warum_prioritaet": "vorläufig (tundra): Rentierflechte."
+   "warum_prioritaet": "neu aus B5 (tundra): Rentierflechte."
   },
   {
    "name": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
@@ -767,7 +767,7 @@
     "frost_04_raureifhain",
     "gletscher_05_die_waechte",
     "gletscher_07_der_nunatak",
-    "tundra_04_die_fliesstreppe (vorläufig)"
+    "tundra_04_die_fliesstreppe"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "keiner",
@@ -926,47 +926,6 @@
    "bemerkung": "200 Natur-Loops 44,1 kHz/16 bit (Wald, Flüsse, Bäche). Nur falls die kostenlosen Klänge nicht reichen.",
    "status": "fehlt",
    "warum_prioritaet": "nur falls die kostenlosen Klänge nicht reichen (Brandung, Frösche fehlen)."
-  },
-  {
-   "name": "Realistic Waterfall and Water VFX",
-   "fab_link": null,
-   "anbieter": "Dr.Game",
-   "preis": "ca. 18 € (ab 19,99 USD laut Kategorie-Auszug, ungeprüft)",
-   "groesse_gb": 0.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft (UE4 auf Anfrage)",
-   "nanite": null,
-   "wofuer": [
-    "bergwald_05_klemmblock_klamm",
-    "fjord_02_schleierwand"
-   ],
-   "prioritaet": "C",
-   "ersatz_bestand": "Material MI_EL_Wasserfall (eigen)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://fab.com/s/2963561bcd7f",
-   "bemerkung": "12 Partikelsysteme, 19+ Texturen, 13 Blueprints, 9 Loop-Klänge. Alternative zu Nature Water FX, wenn kein Geysir gebraucht wird.",
-   "status": "fehlt",
-   "warum_prioritaet": "nur falls der eigene Wasserfall-Vorhang zu glatt wirkt."
-  },
-  {
-   "name": "Waterfall Pro",
-   "fab_link": "https://www.fab.com/listings/024c679f-c9b7-453b-bd6b-2416acd5c4fc",
-   "anbieter": "JVAD3D Models",
-   "preis": "ca. 45 € (ab 49,99 USD laut Kategorie-Auszug, ungeprüft)",
-   "groesse_gb": 0.5,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": null,
-   "wofuer": [
-    "bergwald_05_klemmblock_klamm"
-   ],
-   "prioritaet": "C",
-   "ersatz_bestand": "Material MI_EL_Wasserfall (eigen)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/024c679f-c9b7-453b-bd6b-2416acd5c4fc",
-   "bemerkung": "Interaktives Niagara-Wasserfallsystem (CPU/GPU), 4 Klänge. Teuer für das, was wir selbst bauen können (Auftrag 12).",
-   "status": "fehlt",
-   "warum_prioritaet": "teuer für das, was wir selbst bauen."
   }
  ],
  "luecken_ohne_paket": [
@@ -977,7 +936,7 @@
   },
   {
    "luecke": "Ganze Sumpfzypressen",
-   "orte": "sumpf_01, _02 (vorläufig)",
+   "orte": "sumpf_01, _02",
    "loesung": "nur 1 Wurzelstock SM_SwampCypress_A; Kandidat Bald Cypress Tree Pack (B). Bis dahin Weiden auf Zypressen-Wurzelfuß."
   },
   {
@@ -1006,9 +965,14 @@
    "loesung": "eigene Instanzen auf M_MS_Decal (Tönung über Leakage-Masken)."
   },
   {
-   "luecke": "Schnee-, Gischt-, Tropfen-, Fontänen-Niagara",
-   "orte": "gletscher_01, _05, _07; frost_04, _06; Wasserfälle",
-   "loesung": "im Bestand kein System → NS_Smoke_Plume als Gischt-Vorlage, sonst lokaler_nebel; Paket: Ultimate Niagara Environmental VFX (B)."
+   "luecke": "Schnee-, Tropfen-Niagara",
+   "orte": "gletscher_01, _05, _07; frost_04",
+   "loesung": "kein System im Bestand → Ultimate Niagara Environmental VFX (B)."
+  },
+  {
+   "luecke": "Gischt, Fontänen, Wasserfall-Effekte",
+   "orte": "kueste_04, _08; bergwald_05; fjord_02; frost_01; weitere Fälle",
+   "loesung": "Nature Water FX ist gekauft, Import ausstehend – Systemnamen nach dem nächsten Inventar. Bis dahin NS_Smoke_Plume als Gischt-Vorlage bzw. lokaler_nebel."
   },
   {
    "luecke": "Eisglocken, Frostblumen, Blasen im Schwarzeis",
@@ -1036,15 +1000,33 @@
    "loesung": "Megascans-Eis ×2,5–4 + Gelände; Mühle als Ring aus Eiszapfen + Decal."
   },
   {
-   "luecke": "Brandung, Möwen, Frösche (Klang)",
-   "orte": "fjord, frost_06, aue_05/_06, kueste",
-   "loesung": "nicht im Bestand; Wilderness Nature Loops (C) prüfen."
+   "luecke": "Brandungs- und Seevogelklang, Frösche",
+   "orte": "kueste (alle), fjord, frost_06, aue_05/_06",
+   "loesung": "nicht im Bestand (B8); kueste plant CUE_Water_Stream_IV tief gepitcht als Brandungsersatz; Wilderness Nature Loops (C) prüfen."
+  },
+  {
+   "luecke": "Ginster, Wacholder, Wollgras",
+   "orte": "heide_02, _03, _04, _07; tundra_05, _08",
+   "loesung": "nicht auf Fab (B5). Ersatz: Sanddorn SM_sea_buckthorn_* (Ginster), gestauchte Jungkiefern SM_Forest_pine_plant_*/Fir_01_Plant (Wacholder), Binsen SM_ToadRush_* (Wollgras)."
+  },
+  {
+   "luecke": "Nebel als Niagara",
+   "orte": "heide_04, sumpf_01/_08, aue_05/_06, elfenwald_02",
+   "loesung": "kein Nebel-System im Niagara Examples Pack (B5) → lokaler_nebel (§6); die Blueprints BP_FogBankCard/BP_FogBankVolume (FX_Fog) sind Option, falls Ferat Blueprints setzen mag."
   }
  ],
  "bewusst_nicht": [
   {
    "name": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
    "grund": "laut Ferat teuer und sehr schlecht bewertet; Riesenbäume bleiben Bestand plus Skalierung."
+  },
+  {
+   "name": "Realistic Waterfall and Water VFX",
+   "grund": "überflüssig: Nature Water FX ist gekauft."
+  },
+  {
+   "name": "Waterfall Pro",
+   "grund": "überflüssig: Nature Water FX ist gekauft."
   }
  ]
 }

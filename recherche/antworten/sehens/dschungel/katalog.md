@@ -416,6 +416,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 ### Entscheidungen aus 13c
 
+- **Nature Water FX gekauft** (dschungel_02_turmquelle): Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen.
 - **Mondtor-Bogen aus SM_Cliff_01*** (dschungel_01_mondtor): Ja: Sturz `SM_Cliff_01b`, Pfeiler `SM_Cliff_01c`. Die Fugen werden mit Geröll, Moos und Decal geschlossen, der Sockel per Geländestempel. Das Prüfbild entscheidet. Neu: Kalkschutt `Limestone_Rocks_ubqwdheda_High` (0,6 m) unter dem Tor.
 - **Cenote als eigener `see`** (dschungel_04_blaues_auge): Ja: eigener `see` mit **`farbe: tuerkis`**, Spiegel unabhängig vom Meer. Das Meerwasser im Schacht nimmt Ferat als Bildwunsch auf.
 - **Tausendfuß gestrichen** (–): Ja (13c): ersetzt durch `dschungel_08_sinterhalle`. Riesenbäume gibt es nur im Elfenwald.
@@ -448,7 +449,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | Megascans Rembrandt Water Lily | im Projekt (7 Varianten) | 05 |
 | Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 02 |
 | Nanite Tropical Plant Pack 2 | fehlt (Download-Liste) | 07 |
-| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | fehlt (Download-Liste) | 02 |
+| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | gekauft, Import ausstehend – Inventar folgt (Systemnamen danach) | 02 |
 | Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02 |
 | Procedural Rocks Generator | fehlt (Download-Liste) | 03 |
 | Rain Forest Pack | fehlt (Download-Liste) | 05, 07 |

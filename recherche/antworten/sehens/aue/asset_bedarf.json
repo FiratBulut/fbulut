@@ -63,7 +63,7 @@
      "ersatz_bestand": "SM_Poplar_tree_02 (Espe-Ersatz)",
      "in_downloadliste": false,
      "preis_laut_liste": "kostenlos (Early Access, laut UE-Marketplace-Seite)",
-     "status_13b": "nicht im Bestand – optionaler Wunsch (C); Ersatz Weiden/Pappeln/Birken"
+     "status_13b": "nicht im Bestand – Wunsch B (B8); bis dahin Birken/Pappeln/Weiden, nicht abwarten"
     }
    ]
   },
@@ -274,7 +274,7 @@
      "ersatz_bestand": "SM_grey_willow_*",
      "in_downloadliste": false,
      "preis_laut_liste": "kostenlos (Early Access, laut UE-Marketplace-Seite)",
-     "status_13b": "nicht im Bestand – optionaler Wunsch (C); Ersatz Weiden/Pappeln/Birken"
+     "status_13b": "nicht im Bestand – Wunsch B (B8); bis dahin Birken/Pappeln/Weiden, nicht abwarten"
     },
     {
      "paket": "Free City & Nature Sounds",
@@ -403,7 +403,7 @@
      "ersatz_bestand": "SM_grey_willow_* + Big_Tree_Willow_01",
      "in_downloadliste": false,
      "preis_laut_liste": "kostenlos (Early Access, laut UE-Marketplace-Seite)",
-     "status_13b": "nicht im Bestand – optionaler Wunsch (C); Ersatz Weiden/Pappeln/Birken"
+     "status_13b": "nicht im Bestand – Wunsch B (B8); bis dahin Birken/Pappeln/Weiden, nicht abwarten"
     },
     {
      "paket": "Niagara Examples Pack",
@@ -476,7 +476,7 @@
      "ersatz_bestand": "ohne Effekt; nur Wasserfarbe tiefblau",
      "in_downloadliste": true,
      "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)",
-     "status_13b": "fehlt (Download-Liste)"
+     "status_13b": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)"
     },
     {
      "paket": "Free City & Nature Sounds",
@@ -638,7 +638,7 @@
     "aue_06_mondarm"
    ],
    "in_downloadliste": false,
-   "status_13b": "nicht im Bestand – optionaler Wunsch (C); Ersatz Weiden/Pappeln/Birken"
+   "status_13b": "nicht im Bestand – Wunsch B (B8); bis dahin Birken/Pappeln/Weiden, nicht abwarten"
   },
   {
    "paket": "Quercus Robur (Stieleiche) – Nanite & Impostor",
@@ -676,7 +676,7 @@
     "aue_07_blautopf"
    ],
    "in_downloadliste": true,
-   "status_13b": "fehlt (Download-Liste)"
+   "status_13b": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)"
   },
   {
    "paket": "Niagara Examples Pack",
@@ -1383,14 +1383,19 @@
    "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor": "fehlt (Download-Liste)",
    "Megascans Limestone Rocks": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen",
    "Megascans Rembrandt Water Lily": "im Projekt (7 Varianten)",
-   "Megascans Trees: European Black Alder": "nicht im Bestand – optionaler Wunsch (C); Ersatz Weiden/Pappeln/Birken",
+   "Megascans Trees: European Black Alder": "nicht im Bestand – Wunsch B (B8); bis dahin Birken/Pappeln/Weiden, nicht abwarten",
    "Nanite Driftwood Props": "fehlt (Download-Liste)",
-   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "fehlt (Download-Liste)",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "gekauft, Import ausstehend – Inventar folgt (Systemnamen danach)",
    "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt (Download-Liste)",
    "Quercus Robur (Stieleiche) – Nanite & Impostor": "fehlt (Download-Liste)"
   },
   "entscheidungen_13c": [
+   {
+    "thema": "Nature Water FX gekauft",
+    "orte": "aue_07_blautopf (Quellaufwallung, optional)",
+    "umsetzung": "Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen."
+   },
    {
     "thema": "Die Alte mit Bestand",
     "orte": "aue_02_die_alte",
@@ -1399,7 +1404,7 @@
    {
     "thema": "Erlen-Ersatz",
     "orte": "aue_01_biberstau, aue_04_treibholzwerder, aue_06_mondarm",
-    "umsetzung": "Megascans-Erlen sind nicht im Bestand. Ersatz: Pappeln `SM_Poplar_tree_02/03_Optimised/04_Optimised`, Birke `Big_Tree_Birch_01`, Weiden `Big_Tree_Willow_01/02` und Strauchweiden `SM_grey_willow_01–04`. Erlen bleiben ein optionaler Wunsch (C)."
+    "umsetzung": "Megascans-Erlen sind nicht im Bestand. Ersatz: Pappeln `SM_Poplar_tree_02/03_Optimised/04_Optimised`, Birke `Big_Tree_Birch_01`, Weiden `Big_Tree_Willow_01/02` und Strauchweiden `SM_grey_willow_01–04`. Die Erlen bleiben in der Download-Liste unter B (Rückmeldung B8), es wird aber nicht auf sie gewartet."
    },
    {
     "thema": "Mondarm-Ufergehölz",

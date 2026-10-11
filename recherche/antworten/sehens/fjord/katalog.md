@@ -229,6 +229,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 ### Entscheidungen aus 13c
 
+- **Nature Water FX gekauft** (fjord_02_schleierwand, fjord_04_haengetal): Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen.
 - **Steige** (alle 8 Orte): Fjordsteig und Kanzel-Ast überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator nach.
 - **Entfallen** (–): Diamantstrand und Basalt-Blockufer sind aus der Download-Liste gestrichen (merge B4).
 
@@ -256,7 +257,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | Megascans Icelandic Sand With Pebbles | fehlt (Download-Liste) | 05, 08 |
 | Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 02, 04 |
 | Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02, 07 |
-| Realistic Waterfall and Water VFX | fehlt (Download-Liste) | 02 |
+| Realistic Waterfall and Water VFX | gestrichen (Nature Water FX gekauft) | 02 |
 
 ### Fehlt weiterhin
 

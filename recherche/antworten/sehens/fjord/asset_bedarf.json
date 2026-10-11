@@ -94,7 +94,7 @@
      "wofuer": "verwehende Fallfäden",
      "ersatz_bestand": "Material allein",
      "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Kategorie-Auszug, ungeprüft)",
-     "status_13b": "fehlt (Download-Liste)"
+     "status_13b": "gestrichen (Nature Water FX gekauft)"
     }
    ]
   },
@@ -525,9 +525,14 @@
    "Megascans Icelandic Sand With Pebbles": "fehlt (Download-Liste)",
    "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
    "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
-   "Realistic Waterfall and Water VFX": "fehlt (Download-Liste)"
+   "Realistic Waterfall and Water VFX": "gestrichen (Nature Water FX gekauft)"
   },
   "entscheidungen_13c": [
+   {
+    "thema": "Nature Water FX gekauft",
+    "orte": "fjord_02_schleierwand, fjord_04_haengetal",
+    "umsetzung": "Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen."
+   },
    {
     "thema": "Steige",
     "orte": "alle 8 Orte",

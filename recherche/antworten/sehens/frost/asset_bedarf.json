@@ -761,6 +761,11 @@
   },
   "entscheidungen_13c": [
    {
+    "thema": "Nature Water FX gekauft",
+    "orte": "frost_01_der_eisfall",
+    "umsetzung": "Ferat hat Nature Water FX gekauft; der Import steht aus. Die echten Systemnamen folgen mit dem nächsten Inventar, bis dahin gilt der Ersatz (lokaler_nebel bzw. NS_Smoke_Plume als Gischt-Vorlage). Realistic Waterfall VFX und Waterfall Pro sind damit gestrichen."
+   },
+   {
     "thema": "Steige",
     "orte": "alle 8 Orte",
     "umsetzung": "Froststeig und Südast überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator nach."
