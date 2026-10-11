@@ -139,7 +139,7 @@ def pruefe_stufen(p, rw, b, tag):
             break
 
 
-def pruefe_wasser(p, ordner, welt, b, tag):
+def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
     """Variante A (14b): River + Kaskadennetz. Monotonie, Ueberlappung nur 0,5 m, Bett/Ufer am Netz, jede Stufe im Netz."""
     from gefaelle_plan import ueberlappungen, KN
     from sehens_lib.sehens_pruefen import BodenNachStempel
@@ -195,7 +195,14 @@ def pruefe_wasser(p, ordner, welt, b, tag):
         return
     orte = [{"id": a["id"], "gelaende": a.get("gelaende")} for a in p.get("abschnitte") or []]
     from gefaelle_plan import nahe_stufe
-    boden = BodenNachStempel(welt, orte, ordner)
+    if h1m is not None:                                   # 15b: altes Gelaende aus den 1-m-Fenstern, exakt
+        boden = gd.BodenNachStempel1m(welt, orte, ordner, h1m)
+        alt_hoehe = h1m.hoehe
+        zelle = 1.0
+    else:
+        boden = BodenNachStempel(welt, orte, ordner)
+        alt_hoehe = lambda x_, y_: welt.bilinear(welt.hoehe, x_, y_)  # noqa: E731
+        zelle = welt.zelle_m
     alt = np.asarray(p["spiegel_alt_cm"], np.float64)
     s_alt = _s_entlang(p["spiegel_alt_cm"])
     alt_m = np.minimum.accumulate(alt[:, 2])
@@ -203,7 +210,7 @@ def pruefe_wasser(p, ordner, welt, b, tag):
         M = np.asarray(w["mittellinie"], np.float64)
         kn_ = w["knick"]
         n_bett = n_ufer = n_b = 0
-        nah = nahe_stufe(w["mittellinie"], kn_, max(welt.zelle_m - 1.0, 0.0))
+        nah = nahe_stufe(w["mittellinie"], kn_, max(zelle - 1.0, 0.0))
         s_kn = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(M[:, :2] / 100.0, axis=0).T))])
         n_bestand = 0
         from gefaelle_plan import muendung_maske
@@ -219,7 +226,7 @@ def pruefe_wasser(p, ordner, welt, b, tag):
             L = max(float(np.hypot(*t)), 1e-6)
             tx, ty = t / L
             x, y, zs, br = M[k, 0] / 100.0, M[k, 1] / 100.0, M[k, 2] / 100.0, M[k, 3] / 100.0
-            zus = max(welt.zelle_m - 1.0, 0.0)          # 2-m-Naeherung (siehe gefaelle_plan.RASTER_ZUSCHLAG)
+            zus = max(zelle - 1.0, 0.0)                 # 2-m-Naeherung (siehe gefaelle_plan.RASTER_ZUSCHLAG)
             off = np.linspace(-1, 1, 7) * max(0.45 * br - zus, 0.15 * br)
             bett = float(np.mean(boden.hoehe(x + ty * off, y - tx * off)))
             if zs - bett < KN["bett_unter_spiegel_min_m"] - 0.005:
@@ -230,14 +237,14 @@ def pruefe_wasser(p, ordner, welt, b, tag):
             px_, py_ = np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_])
             hz = boden.hoehe(px_, py_)
             if float(np.min(hz)) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - 0.005:
-                # Bestand: Ufer lag schon unter dem alten Spiegel (Epic-Wasser ueber dem Gelaende) -> WARNUNG
-                z_alt = float(np.interp(w["s_m"][0] + s_kn[k], s_alt, alt_m)) / 100.0
-                if float(np.min(welt.bilinear(welt.hoehe, px_, py_))) < z_alt + KN["ufer_ueber_spiegel_am_rand_m"]:
+                # Bestand (15b): nur wenn das ALTE Ufer an derselben Stelle unter dem Spiegel + 0,1 m liegt und auch
+                # der Uferring (<= 1 m Anheben) es nicht erreicht -> WARNUNG; sonst hat der Stempel es gesenkt -> FEHLER
+                if float(np.min(alt_hoehe(px_, py_))) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - KN["wulst_max_m"]:
                     n_bestand += 1
                 else:
                     n_ufer += 1
         from gefaelle_plan import raster_stufe, raster_text
-        zus = max(welt.zelle_m - 1.0, 0.0)
+        zus = max(zelle - 1.0, 0.0)
         if n_bestand:
             b.append((WARNUNG, tag, "%s: Ufer am Netzrand an %d Beckenpunkten schon im Bestand unter dem alten Spiegel"
                       % (w["id"], n_bestand)))
@@ -392,7 +399,7 @@ def pruefe_instanzen(p, ordner, welt, inv, b, tag):
         b.append((FEHLER, tag, "%d Instanzen/Akteure auf Ortsflaechen" % n_ort))
 
 
-def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None):
+def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None, h1m=None):
     pj = os.path.join(ordner, "plan.json")
     tag = os.path.basename(os.path.normpath(ordner))
     b = []
@@ -409,7 +416,7 @@ def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None):
         return b
     pruefe_spiegel(p, rw, b, tag)
     pruefe_stufen(p, rw, b, tag)
-    pruefe_wasser(p, ordner, welt, b, tag)
+    pruefe_wasser(p, ordner, welt, b, tag, h1m)
     pruefe_effekte(p, rw, inv, b, tag)
     pruefe_kameras(p, b, tag)
     pruefe_gelaende(p, ordner, welt, orte if orte is not None else gd.sehens_orte(), b, tag)
@@ -440,6 +447,8 @@ def main(argv=None):
     ap.add_argument("--regeln", default=gr.REGELN_STANDARD)
     ap.add_argument("--ohne-daten", action="store_true")
     ap.add_argument("--sehens", default=gd.SEHENS_STANDARD)
+    ap.add_argument("--hoehe1m-fenster", default=None, metavar="DIR",
+                    help="1-m-Hoehenfenster (15b): Bett-/Uferpruefung exakt auf 1 m (altes Gelaende + 1-m-Delta)")
     from sehens_lib import daten, inventar
     daten.argumente_hinzufuegen(ap)
     a = ap.parse_args(argv)
@@ -449,6 +458,9 @@ def main(argv=None):
     if not a.ohne_daten:
         welt = daten.lade(a.daten2m or (None if a.daten1m else gd.DATEN2M_STANDARD), a.daten1m, pfade=a.sehens)
     orte = gd.sehens_orte(a.sehens)
+    h1m = None
+    if a.hoehe1m_fenster and welt is not None:
+        h1m = gd.Hoehe1m(a.hoehe1m_fenster, lambda x_, y_: welt.bilinear(welt.hoehe, x_, y_))
     laeufe = []
     for o in a.ordner:
         if os.path.exists(os.path.join(o, "plan.json")):
@@ -457,7 +469,7 @@ def main(argv=None):
             laeufe += sorted(os.path.join(o, d) for d in os.listdir(o) if os.path.exists(os.path.join(o, d, "plan.json")))
     gesamt = {FEHLER: 0, WARNUNG: 0, HINWEIS: 0}
     for o in laeufe:
-        z = melde(pruefe_lauf(o, welt=welt, inv=inv, rw=rw, orte=orte), os.path.basename(o))
+        z = melde(pruefe_lauf(o, welt=welt, inv=inv, rw=rw, orte=orte, h1m=h1m), os.path.basename(o))
         for k in gesamt:
             gesamt[k] += z[k]
     sys.stdout.write("[gefaelle_pruefen] GESAMT %d Laeufe: %d FEHLER, %d WARNUNG, %d HINWEIS\n"

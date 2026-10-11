@@ -285,3 +285,89 @@ def gebaute_stufen():
     for v in out.values():
         v["fx_gruppen"] = sorted(g for g in v["fx_gruppen"] if g)
     return out
+
+
+# ======================================================================================================================
+# 1-m-Hoehenfenster (Auftrag 15b): heutiges Gelaende in 1 m um die Pilotlaeufe, fuer exakte Bett-/Uferpruefung
+# ======================================================================================================================
+HOEHE1M_STANDARD = os.path.join(RECHERCHE, "vorlagen", "daten", "gefaelle", "hoehe_1m_fenster")
+OFF_J_1M, OFF_I_1M = 4730.5, 4060.5          # Zelle (j, i) -> X = j - 4730,5 m, Y = i - 4060,5 m
+
+
+class Hoehe1m:
+    """Hoehenfenster in 1 m (uint16-PNG, H = 300 + (v - 32768) / 64 m) aus fenster.json. hoehe(x, y) bilinear in den
+    Fenstern, ausserhalb Rueckfall (z. B. welt 2 m bilinear). Fenster ueberlappen nicht oder sind dort gleich."""
+
+    def __init__(self, ordner, rueckfall=None):
+        from PIL import Image
+        with open(os.path.join(ordner, "fenster.json"), "r", encoding="utf-8") as f:
+            meta = json.load(f)
+        self.ordner = ordner
+        self.rueckfall = rueckfall
+        self.fenster = []
+        for fid, w in sorted(meta["fenster"].items()):
+            a = np.asarray(Image.open(os.path.join(ordner, w["datei"])), dtype=np.float64)
+            a = 300.0 + (a - 32768.0) / 64.0
+            if a.shape != (w["ni"], w["nj"]):
+                raise ValueError("%s: Groesse %s != %s" % (w["datei"], a.shape, (w["ni"], w["nj"])))
+            self.fenster.append((fid, int(w["i0"]), int(w["j0"]), a))
+
+    def ids(self):
+        return [f[0] for f in self.fenster]
+
+    def deckt(self, x_m, y_m):
+        x = np.asarray(x_m, np.float64)
+        y = np.asarray(y_m, np.float64)
+        m = np.zeros(np.broadcast(x, y).shape, bool)
+        for _, i0, j0, a in self.fenster:
+            fi, fj = y + OFF_I_1M - i0, x + OFF_J_1M - j0
+            m |= (fi >= 0) & (fi <= a.shape[0] - 1) & (fj >= 0) & (fj <= a.shape[1] - 1)
+        return m
+
+    def hoehe(self, x_m, y_m):
+        x = np.asarray(x_m, np.float64)
+        y = np.asarray(y_m, np.float64)
+        shp = np.broadcast(x, y).shape
+        x, y = np.broadcast_to(x, shp), np.broadcast_to(y, shp)
+        out = np.full(shp, np.nan)
+        for _, i0, j0, a in self.fenster:
+            fi, fj = y + OFF_I_1M - i0, x + OFF_J_1M - j0
+            innen = (fi >= 0) & (fi <= a.shape[0] - 1) & (fj >= 0) & (fj <= a.shape[1] - 1) & np.isnan(out)
+            if not innen.any():
+                continue
+            i = np.clip(np.floor(fi[innen]).astype(np.int64), 0, a.shape[0] - 2)
+            j = np.clip(np.floor(fj[innen]).astype(np.int64), 0, a.shape[1] - 2)
+            di = np.clip(fi[innen] - i, 0, 1)
+            dj = np.clip(fj[innen] - j, 0, 1)
+            out[innen] = (a[i, j] * (1 - di) * (1 - dj) + a[i, j + 1] * (1 - di) * dj + a[i + 1, j] * di * (1 - dj) +
+                          a[i + 1, j + 1] * di * dj)
+        rest = np.isnan(out)
+        if rest.any():
+            if self.rueckfall is None:
+                raise ValueError("Punkt ausserhalb der 1-m-Fenster und kein Rueckfall")
+            out[rest] = self.rueckfall(x[rest], y[rest])
+        return out
+
+    def raster(self, i0, j0, ni, nj):
+        """1-m-Raster (ni x nj) ab globaler 1-m-Zelle (i0, j0): Zellmitten X = j - 4730,5, Y = i - 4060,5."""
+        jj, ii = np.meshgrid(np.arange(j0, j0 + nj, dtype=np.float64), np.arange(i0, i0 + ni, dtype=np.float64))
+        return self.hoehe(jj - OFF_J_1M, ii - OFF_I_1M)
+
+
+class BodenNachStempel1m:
+    """Wie sehens_lib.sehens_pruefen.BodenNachStempel (Gelaende + 1-m-Deltas aus gelaende/*.f32), nur mit den
+    1-m-Hoehenfenstern als altem Gelaende (Auftrag 15b: exakte Bett-/Uferpruefung auf 1 m)."""
+
+    def __init__(self, welt, abschnitte, basis, h1m):
+        from sehens_lib.sehens_pruefen import BodenNachStempel
+        self._b = BodenNachStempel(welt, abschnitte, basis)
+        self.h1m = h1m
+
+    def delta(self, x_m, y_m):
+        return self._b.delta(x_m, y_m)
+
+    def alt(self, x_m, y_m):
+        return self.h1m.hoehe(x_m, y_m)
+
+    def hoehe(self, x_m, y_m):
+        return self.h1m.hoehe(x_m, y_m) + self._b.delta(x_m, y_m)

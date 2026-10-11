@@ -289,9 +289,15 @@ def zufluesse_finden(lauf_id, pr, wasser_welt, baeche):
             k = int(np.argmin(np.hypot(pr.x - P[ende, 0], pr.y - P[ende, 1])))
             if d <= pr.B[k] / 2.0 + 8.0:
                 QQ = Q if ende == -1 else Q[::-1]
-                out.append({"id": oid, "P": QQ[:, :2] / 100.0, "z": QQ[:, 2] / 100.0, "B": max(float(QQ[-1, 3]) / 100.0, 1.0),
+                B_z = max(float(QQ[-1, 3]) / 100.0, 1.0)
+                # 15b: Fortsetzung desselben Gewaessers (Vorgaenger endet an unserem Anfang, Nachfolger beginnt an
+                # unserem Ende, z. B. F_ERLENBACH_3_D3 75 m breit) ist kein Zufluss: kein Endstueck/keine Rinne
+                rand = max(float(pr.B[k]), B_z) / 2.0 + 15.0
+                fort = (ende == -1 and pr.s[k] <= rand) or (ende == 0 and pr.s[-1] - pr.s[k] <= rand) or ende == 0
+                out.append({"id": oid, "P": QQ[:, :2] / 100.0, "z": QQ[:, 2] / 100.0, "B": B_z,
                             "tiefe": max(float(QQ[-1, 4]) / 100.0, 0.2) if QQ.shape[1] > 4 else 0.3,
-                            "s_m": float(pr.s[k]), "richtung": "ende" if ende == -1 else "anfang"})
+                            "s_m": float(pr.s[k]), "richtung": "ende" if ende == -1 else "anfang",
+                            "fortsetzung": bool(fort)})
                 break
     return out
 
@@ -746,6 +752,66 @@ def spiegel_bei(sp, s):
 # ======================================================================================================================
 # Gelaende
 # ======================================================================================================================
+RING = {"vorlauf_m": 1.5, "ueber_spiegel_m": 0.15, "breite_m": 1.5, "auslauf": 0.5, "breite_aenderung": 0.2}   # 15b: Uferring am Netzrand
+
+
+def ufer_z(sp, s):
+    """Spiegel fuer das Ufer: Maximum ueber [s - 1,5 m, s] (Spiegel faellt monoton -> Spiegel bei s - 1,5 m). Neben
+    dem Fuss einer Stufe bleibt das Ufer so 1,5 m lang auf Oberwasserhoehe (Seitenwand des Falls), und die
+    naechste-Punkt-Projektion an der Fallkante schneidet das Ufer des Oberbeckens nicht an (15b)."""
+    s = np.asarray(s, np.float64)
+    return spiegel_bei(sp, np.maximum(s - RING["vorlauf_m"], 0.0))
+
+
+def profil_T(d, half, bett, z_sp, z_ufer, winkel):
+    """Querprofil (15b): Bett flach, Boeschung 35 deg steigt INNERHALB der Wasserbreite bis zum Spiegel an der
+    Wasserkante (Bettbreite = Breite - 2 Tiefe / tan 35 deg), aussen weiter mit dem Uferwinkel (35 deg, Uferklippe/
+    Fall/Klamm steiler) ab Ufer-Spiegel + 0,05 m. Kolke und Bett sind so nie breiter als das Wasser bzw. das Netz."""
+    # unter Wasser immer 35 deg (Schutthalde unter der Wand): eine steile Innenwand neben niedrigem Altufer liesse das
+    # 1-m-Gelaende am Netzrand (bilinear zwischen Zellen 1 m auseinander) unter den Spiegel sinken (15b)
+    tb = np.tan(np.radians(BOESCHUNG_GRAD))
+    innen = np.maximum(bett, z_sp - (half - d) * tb)
+    aussen = np.maximum(z_ufer, z_sp) + 0.05 + (d - half) * np.tan(np.radians(winkel))
+    return np.where(d <= half, innen, aussen)
+
+
+def ring_ziel(d, half, z_ufer, cur):
+    """Uferring (15b): Spiegel + 0,15 m von der Wasserkante bis Netzrand + 1,5 m, dann 1:2 auslaufen; hoechstens
+    1 m ueber dem bisherigen Gelaende."""
+    plateau = half + KN["rand_ueberstand_m"] + RING["breite_m"]
+    z = z_ufer + RING["ueber_spiegel_m"] - np.maximum(d - plateau, 0.0) * RING["auslauf"]
+    return np.minimum(z, cur + KN["wulst_max_m"])
+
+
+def bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp):
+    """Betthoehe entlang s (ohne Querprofil): Spiegel - max(Tiefe; 0,5 m), hinter dem Kaskadennetz zum Segmentende
+    ausgeblendet, Lippen-Krone 0,15 m unter der Lippe, Kolke unter den Stufen."""
+    bett = z_sp - np.maximum(np.interp(s, pr.s, pr.tiefe), KN["bett_min_tiefe_m"])   # 14b: Bett >= 0,2 m im Mittel
+    # Bett-Tiefe hinter dem Kaskadennetz bis zum Segmentende ausblenden (kein Absatz unter Wasser am Anschluss)
+    st_seg = [e for e in stufen if seg_a - 1e-6 <= e["p"] <= seg_b + 1e-6]
+    if st_seg:
+        kn_ende = max((e.get("teil") or [e])[-1]["p"] + (e.get("teil") or [e])[-1]["l"] for e in st_seg) + \
+            KN["nach_unten_m"] + KN["ueberlapp_m"] + 0.5
+        lang = max(seg_b - kn_ende, 0.5)
+        bett = np.where(s > kn_ende, z_sp - (z_sp - bett) * glatt01((seg_b - s) / lang), bett)
+    # Lippen-Krone und Kolke
+    for e in stufen:
+        teile = e.get("teil") or [{"p": e["p"], "u": e["u"], "d": e["d"], "D": e["D"], "l": e["l"]}]
+        for t in teile:
+            krone = (s >= t["p"] - 1.0) & (s <= t["p"] + 0.05)
+            bett = np.where(krone, np.minimum(bett, t["u"] - 0.15), bett)
+        if e["art"] == "schnelle":
+            continue
+        ko = e["kolk"]
+        k0 = e["p"] + e["l"]
+        rel = (s - k0) / max(ko["laenge"], 0.5)
+        form = np.where(rel < 0.2, glatt01(rel / 0.2), np.where(rel < 0.6, 1.0, 1.0 - glatt01((rel - 0.6) / 0.4)))
+        form = np.where((rel >= 0) & (rel <= 1), form, 0.0)
+        kolk = e["d"] - ko["tiefe"] * form
+        bett = np.where(form > 0, np.minimum(bett, kolk), bett)
+    return bett
+
+
 def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn, rw, welt, gel, orte):
     """Delta-Hoehe (nur absenken) im Fenster: Bett/Kolk/Lippe/Boeschung/Klippe entlang [seg_a, seg_b]."""
     from sehens_lib import stempel as stm, gelaende as gel_mod
@@ -770,42 +836,14 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     innen = (s > seg_a + 0.01) & (s < seg_b - 0.01)
     Bw = breite_fn(s)
     half = Bw / 2.0
-    core = 0.5 * Bw
     z_sp = spiegel_bei(sp, s)
-    bett = z_sp - np.maximum(np.interp(s, pr.s, pr.tiefe), KN["bett_min_tiefe_m"])   # 14b: Bett >= 0,2 m im Mittel
-    # Bett-Tiefe hinter dem Kaskadennetz bis zum Segmentende ausblenden (kein Absatz unter Wasser am Anschluss)
-    st_seg = [e for e in stufen if seg_a - 1e-6 <= e["p"] <= seg_b + 1e-6]
-    if st_seg:
-        kn_ende = max((e.get("teil") or [e])[-1]["p"] + (e.get("teil") or [e])[-1]["l"] for e in st_seg) + \
-            KN["nach_unten_m"] + KN["ueberlapp_m"] + 0.5
-        lang = max(seg_b - kn_ende, 0.5)
-        bett = np.where(s > kn_ende, z_sp - (z_sp - bett) * glatt01((seg_b - s) / lang), bett)
-    # Lippen-Krone und Kolke
-    for e in stufen:
-        teile = e.get("teil") or [{"p": e["p"], "u": e["u"], "d": e["d"], "D": e["D"], "l": e["l"]}]
-        for t in teile:
-            krone = (s >= t["p"] - 1.0) & (s <= t["p"] + 0.05)
-            bett = np.where(krone, np.minimum(bett, t["u"] - 0.15), bett)
-        if e["art"] == "schnelle":
-            continue
-        ko = e["kolk"]
-        k0 = e["p"] + e["l"]
-        rel = (s - k0) / max(ko["laenge"], 0.5)
-        form = np.where(rel < 0.2, glatt01(rel / 0.2), np.where(rel < 0.6, 1.0, 1.0 - glatt01((rel - 0.6) / 0.4)))
-        form = np.where((rel >= 0) & (rel <= 1), form, 0.0)
-        kolk = e["d"] - ko["tiefe"] * form
-        bett = np.where(form > 0, np.minimum(bett, kolk), bett)
-    t = np.tan(np.radians(winkel_fn(s)))
-    T = np.where(d <= core, bett,
-                 np.where(d <= half, bett + (z_sp + 0.05 - bett) * glatt01((d - core) / np.maximum(half - core, 0.1)),
-                          z_sp + 0.05 + (d - half) * t))
+    bett = bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp)
+    T = profil_T(d, half, bett, z_sp, ufer_z(sp, s), winkel_fn(s))
     cur = h0[band]
     neu = np.where(innen, np.minimum(cur, T), cur)
-    # Uferwulst (14b, Pruefung 'Ufer am Rand ueber Spiegel'): ausserhalb der Wasserbreite mindestens Spiegel + 0,15 m
-    # bis Netzrand + 0,6 m, dann 1:2 auslaufen - hebt nur, wo das alte Ufer zu niedrig ist
-    wulst = z_sp + 0.15 - np.maximum(d - (half + KN["rand_ueberstand_m"] + 0.6), 0.0) * 0.5
-    wulst = np.minimum(wulst, cur + KN["wulst_max_m"])          # hoechstens 1 m anheben (kein Damm ueber Rinnen)
-    neu = np.where(innen & (d >= half), np.maximum(neu, wulst), neu)
+    # Uferring (15b): ausserhalb der Wasserbreite bis Netzrand + 1,5 m mindestens Spiegel + 0,15 m, dann 1:2 auslaufen;
+    # hebt nur, wo das Ufer zu niedrig ist, hoechstens 1 m (kein Damm ueber Rinnen)
+    neu = np.where(innen & (d >= half), np.maximum(neu, ring_ziel(d, half, ufer_z(sp, s), cur)), neu)
     alt = st.delta[band]
     dn = neu - cur
     # mehrere Segmente im Fenster: Absenken - tiefster Wert gilt; Wulst - hoechster Wert, wo nichts abgesenkt wird
@@ -836,14 +874,106 @@ def schutz_orte(st, welt, gel, orte):
     """Kein Eingriff an Orten (karte_ort, 5 m + 4 m Uebergang) und in Sehenswuerdigkeiten (Radius + 10 m)."""
     from sehens_lib import gelaende as gel_mod
     fe = st.fe
+    f = np.ones(st.delta.shape)
     m = fe.get("ort") > 0
     if m.any():
         d = gel_mod.abstand(m, welt.zelle_m, 20.0)
-        st.delta *= glatt01((d - 5.0 - welt.zelle_m) / 4.0)       # 5 m + Reserve fuer die 1-m-Interpolation
+        f *= glatt01((d - 5.0 - welt.zelle_m) / 4.0)              # 5 m + Reserve fuer die 1-m-Interpolation
     for o in orte:
         d = np.hypot(st.X - o["x_m"], st.Y - o["y_m"]) - (o["radius_m"] + 10.0)
         if (d < 8.0).any():
-            st.delta *= glatt01(d / 8.0)
+            f *= glatt01(d / 8.0)
+    st.delta *= f
+    return f
+
+
+def alt_1m(K, fij):
+    """Altes Gelaende auf dem 1-m-Raster fij = [i0, j0, ni, nj]: 1-m-Welt direkt, sonst 1-m-Hoehenfenster
+    (--hoehe1m-fenster, Rueckfall 2 m bilinear), sonst 2 m bilinear an den 1-m-Zellmitten."""
+    welt = K["welt"]
+    i0, j0, ni, nj = [int(v) for v in fij]
+    if int(round(welt.zelle_m)) == 1:
+        return np.asarray(welt.hoehe[i0:i0 + ni, j0:j0 + nj], np.float64)
+    if K.get("h1m") is not None:
+        return K["h1m"].raster(i0, j0, ni, nj)
+    jj, ii = np.meshgrid(np.arange(j0, j0 + nj, dtype=np.float64), np.arange(i0, i0 + ni, dtype=np.float64))
+    return welt.bilinear(welt.hoehe, jj - gd.OFF_J_1M, ii - gd.OFF_I_1M)
+
+
+def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, zufl_aus):
+    """15b: Gelaende-Delta auf dem 1-m-Ausgaberaster nachziehen, gegen das alte 1-m-Gelaende (lokal: die 1-m-Welt
+    selbst; Cloud: --hoehe1m-fenster). Im Wasser (wo der Stempel abgesenkt hat) hoechstens das Querprofil, im
+    Uferring (Wasserkante bis Netzrand + 1,5 m) mindestens Spiegel + 0,15 m (<= 1 m Anheben). Schutzfaktoren
+    (Orte, Wege, fremdes Wasser, Fensterrand) gelten weiter; Zufluss-Muendungen bleiben offen.
+    Ergebnis st.delta_1m (1 m, fenster_ij_1m), st.alt_1m."""
+    from sehens_lib import stempel as stm
+    fij = [int(v) for v in st.fe.fenster_ij_1m()]
+    i0, j0, ni, nj = fij
+    alt = alt_1m(K, fij)
+    d1 = stm.nach_1m(st.delta, st.z)
+    fs = np.clip(stm.nach_1m(st._schutz, st.z), 0.0, 1.0) if getattr(st, "_schutz", None) is not None else \
+        np.ones(d1.shape)
+    jj, ii = np.meshgrid(np.arange(j0, j0 + nj, dtype=np.float64), np.arange(i0, i0 + ni, dtype=np.float64))
+    X, Y = jj - gd.OFF_J_1M, ii - gd.OFF_I_1M
+    F = alt + d1
+    Ft = F.copy()
+    wz = np.full(F.shape, np.inf)                 # Wasser: Querprofil exakt auf 1 m (min ueber die Segmente)
+    ringe = []
+    plateau = KN["rand_ueberstand_m"] + RING["breite_m"]
+    for a, b in segs:
+        linie = np.asarray(pr.polylinie(a, b, 1.0))
+        bmax = float(np.max(breite_fn(np.linspace(a, b, 50)))) / 2.0 + plateau + 4.0
+        box = (X >= linie[:, 0].min() - bmax) & (X <= linie[:, 0].max() + bmax) & \
+              (Y >= linie[:, 1].min() - bmax) & (Y <= linie[:, 1].max() + bmax)
+        if not box.any():
+            continue
+        xs, ys = X[box], Y[box]
+        d, s_loc, _ = stm.polylinie_abstand(xs, ys, linie)
+        s = a + s_loc
+        innen = (s > a + 0.01) & (s < b - 0.01) & (d <= bmax)
+        half = breite_fn(s) / 2.0
+        z_sp = spiegel_bei(sp, s)
+        zu = ufer_z(sp, s)
+        bett = bett_profil(pr, sp, stufen_ab, a, b, s, z_sp)
+        T = profil_T(d, half, bett, z_sp, zu, winkel_fn(s))
+        wasser = innen & (d < half)
+        w_ = wz[box]
+        wz[box] = np.where(wasser, np.minimum(w_, np.minimum(alt[box], T)), w_)
+        ringe.append((box, innen & (d >= half), d, half, zu))
+    Ft = np.where(np.isfinite(wz), wz, Ft)
+    for box, ring, d, half, zu in ringe:
+        f_ = Ft[box]
+        Ft[box] = np.where(ring, np.maximum(f_, ring_ziel(d, half, zu, alt[box])), f_)
+    offen = np.zeros(F.shape, bool)
+    for za in zufl_aus:
+        T_ = np.asarray(za["_tail_m"])[:, :2]
+        dzu, _, _ = stm.polylinie_abstand(X, Y, T_)
+        offen |= dzu <= za["_B"] / 2.0 + 3.0
+    Ft = np.where(offen, F, Ft)
+    Fn = F + fs * (Ft - F)
+    st.alt_1m = alt
+    st.delta_1m = Fn - alt
+    st.delta_1m[np.abs(st.delta_1m) < 0.005] = 0.0
+    return st.delta_1m
+
+
+def schreibe_1m(st, ordner, ort_id):
+    """Wie Stempel.schreibe, aber mit st.delta_1m (Feinschliff 15b)."""
+    a = np.asarray(st.delta_1m, "<f4")
+    if float(np.abs(a).max()) < 0.01:
+        return None
+    rel = "gelaende/%s.f32" % ort_id
+    pf = os.path.join(ordner, rel)
+    os.makedirs(os.path.dirname(pf), exist_ok=True)
+    np.ascontiguousarray(a).tofile(pf)
+    blk = {"datei": rel, "fenster_ij": [int(v) for v in st.fe.fenster_ij_1m()],
+           "max_aenderung_m": round(float(np.abs(a).max()), 2)}
+    if st.begruendung:
+        blk["begruendung"] = st.begruendung
+    if st.ist_wasser:
+        blk["ist_wasser"] = True
+    blk["werkzeuge"] = sorted(set(st.protokoll))
+    return blk
 
 
 # ======================================================================================================================
@@ -1363,7 +1493,7 @@ KN = {"material": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Kaskade_SLW", "ra
       "abstand_bett_wand_cm": 20, "fuss_unter_spiegel_m": 0.3, "bett_unter_spiegel_min_m": 0.2,
       "ufer_ueber_spiegel_am_rand_m": 0.1, "tempo": {"becken": 80, "lippe": 240, "bogen": 300, "wand": 300, "fuss": 150,
                                                        "rampe": 300},
-      "vorhang_ab_m": 3.0, "nach_unten_m": 1.0, "bett_min_tiefe_m": 0.5, "wulst_max_m": 1.0,
+      "vorhang_ab_m": 3.0, "nach_unten_m": 1.0, "bett_min_tiefe_m": 0.5, "wulst_max_m": 1.0, "becken_abstand_m": 2.0,
       "quelle": "antworten/14b-befund-geteilte-baeche.md Abschnitt 3 (Empfehlung A) und 4, Entscheidungen Koordinator"}
 
 
@@ -1522,6 +1652,17 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
         pkt = [(s_, z_, k_) for s_, z_, k_ in sp if a - 1e-6 <= s_ <= b + 1e-6]
         if not pkt or pkt[-1][0] < b - 0.05:
             pkt.append((b, float(spiegel_bei(sp, b)), "becken"))
+        # 15b: Becken dicht beschreiben (<= 2 m), damit Netzrand und Ufer-/Bettpruefung das ganze Becken erfassen
+        dicht = []
+        for k, q in enumerate(pkt):
+            if dicht and q[2] in ("alt", "becken", "lippe") and dicht[-1][2] in ("alt", "becken", "fuss"):
+                s_v = dicht[-1][0]
+                n_ = int(math.ceil((q[0] - s_v) / KN["becken_abstand_m"])) if q[0] - s_v > KN["becken_abstand_m"] else 1
+                for m_ in range(1, n_):
+                    s_i = s_v + (q[0] - s_v) * m_ / n_
+                    dicht.append((s_i, float(spiegel_bei(sp, s_i)), "becken"))
+            dicht.append(q)
+        pkt = dicht
         auf = []                                                   # (s_aufprall, radius) fuer den Schaum
         for e in st:
             if e["art"] == "schnelle":
@@ -1595,9 +1736,10 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
             hz = boden_fn(np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_]))
             if float(np.min(hz)) < q[2] / 100.0 + KN["ufer_ueber_spiegel_am_rand_m"] - 5e-3:
                 # schon im Bestand lag das Ufer unter dem alten Spiegel (Epic-Wasser ueber dem Gelaende): kein FEHLER
+                # 15b: nur wenn das ALTE Ufer an derselben Stelle unter dem (neuen) Spiegel + 0,1 m liegt und auch
+                # der Uferring (<= 1 m Anheben) es nicht erreicht
                 hz_alt = welt_hoehe(np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_]))
-                s_q, _ = pr.lauf.s_von_m(x, y)
-                if float(np.min(hz_alt)) < pr.zi(s_q) + KN["ufer_ueber_spiegel_am_rand_m"] - 1.0 + KN["wulst_max_m"]:
+                if float(np.min(hz_alt)) < q[2] / 100.0 + KN["ufer_ueber_spiegel_am_rand_m"] - KN["wulst_max_m"]:
                     n_ufer_bestand += 1
                 else:
                     n_ufer += 1
@@ -1885,7 +2027,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         plan["hinweis"] = "keine planbaren Stufen (alle Strecken gebaut, umgebaut oder in festen Zonen)"
         return plan, [], meldungen, pr, None
     sp = spiegel_punkte(pr, alle_stufen, segmente)
-    zufl_aus = zufluesse_anpassen(pr, sp, zufl, segmente)
+    zufl_aus = zufluesse_anpassen(pr, sp, [z_ for z_ in zufl if not z_.get("fortsetzung")], segmente)
     # Breite, Boeschungswinkel, Wandzonen
     Bw = pr.B.copy()
     winkel = np.full(pr.n, BOESCHUNG_GRAD)
@@ -1981,12 +2123,19 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     # Breite glatt (Uebergaenge 3 m), dann Versatz der Waende
     kern = np.ones(int(3.0 / DS) * 2 + 1)
     Bw = np.maximum(pr.B, np.convolve(np.pad(Bw, len(kern) // 2, mode="edge"), kern / kern.sum(), mode="valid"))
+    # 15b: Breite aendert sich hoechstens 0,2 m je m (nur verbreitern): Netzpunkt, Bett und Uferring sehen auf 1-2 m
+    # Laengsabstand dieselbe Wasserbreite, sonst laege der Netzrand neben einer breiteren Absenkung
+    for k in range(1, pr.n):
+        Bw[k] = max(Bw[k], Bw[k - 1] - RING["breite_aenderung"] * DS)
+    for k in range(pr.n - 2, -1, -1):
+        Bw[k] = max(Bw[k], Bw[k + 1] - RING["breite_aenderung"] * DS)
 
     def breite_fn(s):
         return np.interp(s, pr.s, Bw)
 
     def winkel_fn(s):
         return np.interp(s, pr.s, winkel)
+    breite_gel_fn = breite_fn
     for wz in wandzonen:
         wz["versatz"] = float(np.max(breite_fn(np.linspace(wz["a"], wz["b"], 8)))) / 2.0 + 0.5 * sum(wv["abstand"])
     # Abschnitte (Fenster) je Strecke und Abschnittsnummer
@@ -2015,7 +2164,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             st = stm.Stempel(welt, x0, y0, x1, y1, rand_m=8.0, seed=SEED)
             korr = np.zeros(st.X.shape, bool)
             for a, b, _ in segs:
-                korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_fn, winkel_fn, rw, welt, gel, orte_nah)
+                korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_gel_fn, winkel_fn, rw, welt, gel, orte_nah)
             for za in zufl_aus:                                    # Zufluss-Endstueck an den neuen Spiegel
                 x0w, y0w, x1w, y1w = st.fe.grenzen_m()
                 T_ = np.asarray(za["_tail_m"])
@@ -2025,17 +2174,22 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
                                                                          za["_z_neu"] - za["_tiefe"]))
                 dzu, _, _ = stm.polylinie_abstand(st.X, st.Y, T_[:, :2])
                 korr |= dzu <= za["_B"] / 2.0 + 3.0
-            schutz_orte(st, welt, gel, orte_nah)
+            fs = schutz_orte(st, welt, gel, orte_nah)
             # anderes Wasser und Wege/Pfade: SEHENS_FORMAT §3 - keine Aenderung <= 3 m (+ 2 m Uebergang)
             from sehens_lib import gelaende as gel_mod
             wm = (st.fe.get("wasser") > 0) & ~korr
             if wm.any():
                 dw = gel_mod.abstand(wm, welt.zelle_m, 12.0)
-                st.delta *= glatt01((dw - 3.0 - 0.5 * welt.zelle_m) / 2.0)
+                f_ = glatt01((dw - 3.0 - 0.5 * welt.zelle_m) / 2.0)
+                st.delta *= f_
+                fs = fs * f_
             mw = st.fe.get("weg") > 0                            # Wege/Pfade: 3 m keine Aenderung + 2 m Uebergang
             if mw.any():
                 dweg = gel_mod.abstand(mw, welt.zelle_m, 12.0)
-                st.delta *= glatt01((dweg - WEG_SCHUTZ_M - 0.5 * welt.zelle_m) / WEG_UEBERGANG_M)
+                f_ = glatt01((dweg - WEG_SCHUTZ_M - 0.5 * welt.zelle_m) / WEG_UEBERGANG_M)
+                st.delta *= f_
+                fs = fs * f_
+            st._schutz = fs * st.randfaktor()                   # fuer den 1-m-Feinschliff (15b)
             st.fertig(schutz=False)
             st.protokoll = ["Bett"] + (["Kolk"] if any(e["art"] != "schnelle" for e in st_ab) else []) + \
                 (["Felsstufe"] if any(e["art"] == "fall" for e in st_ab) else []) + \
@@ -2076,20 +2230,28 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             for s_, oid, t_ in ctx.meldungen:
                 meldungen.append((s_, oid, t_))
             kontexte.append({"ctx": ctx, "id": aid, "strecke": x["id"], "stufen": st_ab, "segs": segs, "biom": biom_ab})
+    # 15b: Gelaende-Delta auf 1 m nachziehen (Wasser hoechstens Querprofil, Uferring >= Spiegel + 0,15 m)
+    for kx in kontexte:
+        feinschliff_1m(K, kx["ctx"].stempel, pr, sp, kx["stufen"], [(a, b) for a, b, _ in kx["segs"]], breite_gel_fn,
+                       winkel_fn, zufl_aus)
     # Effekte, Kameras, Flussstuecke
     effekte, eff_weg = bauen_effekte(K, pr, alle_stufen, breite_fn)
-    from sehens_lib.stempel import _bilinear_fenster
+    from sehens_lib.sehens_pruefen import BodenNachStempel
 
-    def boden_fn(x, y):
+    def alt_fn(x, y):
         x = np.asarray(x, np.float64)
         y = np.asarray(y, np.float64)
-        h = welt.bilinear(welt.hoehe, x, y)
-        for st_ in stempel_liste:
-            h = h + _bilinear_fenster(st_.delta, st_.fe, welt, x, y, 0.0)
-        return h
+        if K.get("h1m") is not None:
+            return K["h1m"].hoehe(x, y)
+        return welt.bilinear(welt.hoehe, x, y)
+    deltas_1m = BodenNachStempel(welt, [], None)
+    deltas_1m.deltas = [([int(v) for v in st_.fe.fenster_ij_1m()], st_.delta_1m) for st_ in stempel_liste
+                        if getattr(st_, "delta_1m", None) is not None]
+
+    def boden_fn(x, y):
+        return alt_fn(x, y) + deltas_1m.delta(x, y)
     wasser_koerper = bauen_wasser_A(pr, sp, alle_stufen, segmente, breite_fn, lauf_id, boden_fn, melde,
-                                    [(z_["s_m"], z_["B"]) for z_ in zufl],
-                                    lambda x_, y_: welt.bilinear(welt.hoehe, np.asarray(x_, np.float64), np.asarray(y_, np.float64)))
+                                    [(z_["s_m"], z_["B"]) for z_ in zufl if not z_.get("fortsetzung")], alt_fn)
     kameras = []
     for x in strecken_out:
         if x.get("pilot") and x.get("_segs") and any(e["strecke"] == x["id"] for e in alle_stufen):
@@ -2107,7 +2269,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     ab_out = []
     for kx in kontexte:
         ctx = kx["ctx"]
-        blk = ctx.stempel.schreibe(aus_lauf, kx["id"])
+        blk = schreibe_1m(ctx.stempel, aus_lauf, kx["id"])
         lblk = ctx.lagen.schreibe(aus_lauf, kx["id"])
         z = ebene.zaehle(kx["id"])
         ab_out.append({"id": kx["id"], "strecke": kx["strecke"], "biom": kx["biom"],
@@ -2328,6 +2490,9 @@ def main(argv=None):
     ap.add_argument("--bild", action="store_true", help="test_<strecke>.png je Pilot-Strecke")
     ap.add_argument("--bild-ordner", default=None, help="Standard: <aus>/<lauf>/")
     ap.add_argument("--ohne-pruefung", action="store_true")
+    ap.add_argument("--hoehe1m-fenster", default=None, metavar="DIR",
+                    help="1-m-Hoehenfenster (fenster.json + PNG, 15b): altes Gelaende fuer den 1-m-Feinschliff und die "
+                         "exakte Bett-/Uferpruefung, z. B. recherche/vorlagen/daten/gefaelle/hoehe_1m_fenster")
     ap.add_argument("--variante", choices=["A", "C"], default="A",
                     help="A = River + Kaskadennetz (Standard, 14b); C = zusaetzlich gestufter Spline + Bach-Zone")
     from sehens_lib import daten
@@ -2358,6 +2523,15 @@ def main(argv=None):
         return 2
     gel = gelaende.Gelaende(welt, cache=a.cache)
     _ZELLE[0] = welt.zelle_m
+    h1m = None
+    if a.hoehe1m_fenster:
+        try:
+            h1m = gd.Hoehe1m(a.hoehe1m_fenster, lambda x_, y_: welt.bilinear(welt.hoehe, x_, y_))
+        except (FileNotFoundError, ValueError) as ex:
+            _log("FEHLER: 1-m-Hoehenfenster:", ex)
+            return 2
+        _ZELLE[0] = 1.0                                   # Bett-/Uferpruefung exakt auf 1 m (kein 2-m-Zuschlag)
+        _log("1-m-Hoehenfenster: %d (%s)" % (len(h1m.ids()), a.hoehe1m_fenster))
     _log(welt.info(), "| Regelwerk v%s (%s)" % (rw.version, rw.stand))
     # Baeche: baeche_alle.json (R1+R2+R3, IDs wie steile_strecken.json)
     bpfad = a.baeche
@@ -2398,7 +2572,8 @@ def main(argv=None):
         _log("HINWEIS: keine Sehens-Planausgaben in %s - Umbau-Zonen nur aus der Prioritaetenliste" % a.p2)
     K = {"welt": welt, "gel": gel, "inv": inv, "rw": rw, "prio": prio, "strecken": strecken,
          "orte": gd.sehens_orte(a.sehens), "umbau": umbau, "baeche": baeche, "wasser_welt": welt.wasser_welt,
-         "aus": aus, "wp": sicht.Wegpunkte(welt, 20.0), "klamm": gr.klamm_werte(rw, 4.0), "variante": a.variante}
+         "aus": aus, "wp": sicht.Wegpunkte(welt, 20.0), "klamm": gr.klamm_werte(rw, 4.0), "variante": a.variante,
+         "h1m": h1m}
     rc = 0
     alle_meld = []
     zusammen = []
@@ -2422,7 +2597,7 @@ def main(argv=None):
                     _log("Bild:", testbild(kx, K, pr, sp, plan, ziel_b))
         if not a.ohne_pruefung and plan.get("stufen"):
             import gefaelle_pruefen
-            bef = gefaelle_pruefen.pruefe_lauf(os.path.join(aus, lid), welt=welt, inv=inv, rw=rw, gel=gel)
+            bef = gefaelle_pruefen.pruefe_lauf(os.path.join(aus, lid), welt=welt, inv=inv, rw=rw, gel=gel, h1m=h1m)
             z = gefaelle_pruefen.melde(bef, lid)
             if z["FEHLER"]:
                 rc = 1
