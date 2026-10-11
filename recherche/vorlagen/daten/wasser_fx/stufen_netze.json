@@ -1,0 +1,1642 @@
+{
+ "stand": "11.10.2026 14:04",
+ "quelle": "scripts/wasser/stufen_wasserfall.py (Fassung 2)",
+ "asset_ordner": "/Game/Eldarien/Welt/Wasser/Stufenfall",
+ "master": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
+ "material": {
+  "Vorhang": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Vorhang",
+  "Aufprall": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum",
+  "Kaskade": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle"
+ },
+ "material_ersatz": {
+  "Vorhang": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall",
+  "Aufprall": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall",
+  "Kaskade": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade"
+ },
+ "regel_stufen": {
+  "steil_gefaelle": 0.3,
+  "fall_min_m": 0.5
+ },
+ "fall_teil": {
+  "segment_gefaelle_min": 0.6,
+  "fall_min_m": 0.8
+ },
+ "vorhang": {
+  "zunge_vor_kante_m": 0.4,
+  "ueber_spiegel_m": 0.03,
+  "abstand_bett_m": 0.2,
+  "fuss_unter_spiegel_m": 0.3,
+  "v_kante_m_s": 2.4,
+  "schuerze_nach_stueckanfang_m": 0.3,
+  "breite_max_anteil": 1.05
+ },
+ "schaum": {
+  "scheibe_ueber_spiegel_m": 0.035,
+  "ueber_stueckanfang_m": 1.3,
+  "schaumkarte": {
+   "quelle": "export/unreal/welt/ue_texturen/T_Eldarien_Schaum.png",
+   "fluesse": {
+    "F_ERLENBACH_1V_C2": {
+     "korridor_zellen": 2123,
+     "alte_schaumzellen_ersetzt": 183,
+     "alter_wert_max": 91,
+     "neue_schaumzellen_ueber_20": 520,
+     "neu_max": 224,
+     "fenster_1m": [
+      2920,
+      1641,
+      3034,
+      1882
+     ]
+    },
+    "F_ELFENFLUSS_2_H4": {
+     "korridor_zellen": 3481,
+     "alte_schaumzellen_ersetzt": 408,
+     "alter_wert_max": 150,
+     "neue_schaumzellen_ueber_20": 158,
+     "neu_max": 159,
+     "fenster_1m": [
+      7405,
+      3400,
+      7670,
+      3543
+     ]
+    }
+   },
+   "datei_1m": "T_Eldarien_Schaum_stufen.png",
+   "datei_8k": "T_Eldarien_Schaum_8k_stufen.png",
+   "bisherige_8k_gleich_lanczos_der_1m": true,
+   "geaenderte_8k_pixel": 1415
+  }
+ },
+ "texel_m": 1.1797,
+ "ohne_stufen": [
+  "F_ERLENBACH_2V_D3"
+ ],
+ "teilstuecke": "fluss_teile.json",
+ "verzeichnis": {
+  "SF_F_ERLENBACH_1V_C2_Vorhang": {
+   "dateien": {
+    "pos": "SF_F_ERLENBACH_1V_C2_Vorhang.pos.f32",
+    "tri": "SF_F_ERLENBACH_1V_C2_Vorhang.tri.i32",
+    "nrm": "SF_F_ERLENBACH_1V_C2_Vorhang.nrm.f32",
+    "col": "SF_F_ERLENBACH_1V_C2_Vorhang.col.u8",
+    "mat": "SF_F_ERLENBACH_1V_C2_Vorhang.mat.u16"
+   },
+   "punkte": 4635,
+   "dreiecke": 8372,
+   "drehpunkt_cm": [
+    -176339.0,
+    -229681.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -2195.8,
+    -4756.3,
+    5078.1,
+    2510.1,
+    4330.0,
+    8813.4
+   ],
+   "materialien": [
+    "Vorhang"
+   ],
+   "material_assets": {
+    "Vorhang": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Vorhang"
+   },
+   "material_ersatz": {
+    "Vorhang": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall"
+   },
+   "material_dreiecke": {
+    "Vorhang": 8372
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "uv": [
+    {
+     "datei": "SF_F_ERLENBACH_1V_C2_Vorhang.uv0.f32",
+     "inhalt": [
+      "quer_m/6",
+      "reisezeit_s"
+     ]
+    },
+    {
+     "datei": "SF_F_ERLENBACH_1V_C2_Vorhang.uv1.f32",
+     "inhalt": [
+      "quer_01",
+      "laengs_01"
+     ]
+    }
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Stufenfall/SM_SF_F_ERLENBACH_1V_C2_Vorhang_f3aa96",
+   "akteur_label": "SF_F_ERLENBACH_1V_C2_Vorhang",
+   "ordner": "Kacheln/C2/Wasser",
+   "feld": "C2",
+   "felder": [
+    "C2"
+   ],
+   "art": "STUFENFALL_VORHANG",
+   "etikett": "EL_Stufenfall",
+   "sortierung": 0,
+   "stand": "11.10.2026 14:04",
+   "entartete_dreiecke_weg": 0,
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_quelle": "export/unreal/welt/kaskade_k10a/fluss.json",
+   "fluss_punkte_sha1": "d81cd05635b6",
+   "teilstuecke": "fluss_teile.json",
+   "pruefung": {
+    "punkte": 4635,
+    "dreiecke": 8372,
+    "abstand_gelaende_min_m": 0.103,
+    "punkte_unter_10cm": 0,
+    "punkte_im_gelaende": 0,
+    "dreiecksmitten_im_gelaende": 0,
+    "dreiecksmitten_unter_5cm": 0,
+    "abstand_gelaende_median_m": 0.65,
+    "dreiecke_Vorhang": 8372
+   },
+   "stufen": [
+    {
+     "id": "F_ERLENBACH_1V_C2_S00",
+     "index": 0,
+     "art": "schnelle",
+     "fall_m": 3.26,
+     "breite_m": 19.02,
+     "feld": "C2",
+     "lippe_cm": [
+      -172990.5,
+      -237388.1,
+      9737.5
+     ],
+     "fuss_cm": [
+      -173394.0,
+      -236408.7,
+      9411.6
+     ],
+     "s_lippe_m": 21.88,
+     "s_fuss_m": 32.47,
+     "schnelle": {
+      "laenge_m": 12.39,
+      "reihen": 51,
+      "spalten": 13,
+      "ueber_spline_cm": [
+       5.0,
+       5.2
+      ],
+      "ueber_gezeichnet_cm": [
+       5.0,
+       5.0
+      ],
+      "breite_mittel_m": 12.95,
+      "flussbreite_mittel_m": 15.27,
+      "deckkraft_max": 0.49,
+      "punkte_zur_mitte_gezogen": 0
+     },
+     "schaum": {
+      "laenge_m": [
+       1.5,
+       1.5
+      ],
+      "ueber_spiegel_cm": [
+       3.0,
+       6.0
+      ],
+      "breite_m": [
+       10.34,
+       11.03
+      ],
+      "deckkraft_max": 0.6,
+      "punkte_zur_mitte_gezogen": 0,
+      "ueber_gezeichnet_cm": [
+       3.0,
+       6.0
+      ]
+     }
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S01",
+     "index": 1,
+     "art": "fall",
+     "fall_m": 4.09,
+     "breite_m": 8.0,
+     "feld": "C2",
+     "lippe_cm": [
+      -174147.1,
+      -234539.2,
+      8885.2
+     ],
+     "fuss_cm": [
+      -174360.4,
+      -233960.6,
+      8476.0
+     ],
+     "s_lippe_m": 52.65,
+     "s_fuss_m": 58.83,
+     "fall_teil": {
+      "punkte": [
+       22,
+       23
+      ],
+      "fall_m": 3.26,
+      "oberes_stueck": "F_ERLENBACH_1V_T00_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T01_C2",
+      "eintauchlinie_s_m": 58.73
+     },
+     "schnelle": {
+      "laenge_m": 3.39,
+      "reihen": 15,
+      "spalten": 13,
+      "ueber_spline_cm": [
+       4.6,
+       9.6
+      ],
+      "ueber_gezeichnet_cm": [
+       5.0,
+       5.4
+      ],
+      "breite_mittel_m": 6.93,
+      "flussbreite_mittel_m": 8.0,
+      "deckkraft_max": 0.53,
+      "punkte_zur_mitte_gezogen": 0
+     },
+     "vorhang": {
+      "reihen": 40,
+      "spalten": 15,
+      "kante_s_m": 55.24,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 2.01,
+      "bett_beruehrt_nach_m": 1.54,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.46,
+       -0.1,
+       0.46
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 3.09,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.109,
+      "abstand_bett_median_fall_m": 0.54,
+      "breite_kante_m": 7.94,
+      "flussbreite_m": 8.0,
+      "nasse_breite_kante_m": 8.6,
+      "breite_unten_m": 5.7,
+      "punkte_zur_mitte_gezogen": 3,
+      "breite_anteil_fluss": 0.99,
+      "breite_anteil_nass": 0.92
+     },
+     "schaum": {
+      "laenge_m": [
+       2.95,
+       2.95
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       2.72,
+       6.56
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 2.74
+     },
+     "gischt_cm": [
+      -174381.7,
+      -233915.2,
+      8517.3
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S02",
+     "index": 2,
+     "art": "fall",
+     "fall_m": 3.22,
+     "breite_m": 8.19,
+     "feld": "C2",
+     "lippe_cm": [
+      -174583.8,
+      -233556.5,
+      8400.6
+     ],
+     "fuss_cm": [
+      -174769.7,
+      -233248.6,
+      8078.9
+     ],
+     "s_lippe_m": 63.45,
+     "s_fuss_m": 67.04,
+     "fall_teil": {
+      "punkte": [
+       25,
+       26
+      ],
+      "fall_m": 3.22,
+      "oberes_stueck": "F_ERLENBACH_1V_T01_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T02_C2",
+      "eintauchlinie_s_m": 66.84
+     },
+     "vorhang": {
+      "reihen": 39,
+      "spalten": 15,
+      "kante_s_m": 63.45,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 2.14,
+      "bett_beruehrt_nach_m": 1.59,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.26,
+       -0.21,
+       0.31
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 3.1,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.136,
+      "abstand_bett_median_fall_m": 0.56,
+      "breite_kante_m": 8.22,
+      "flussbreite_m": 8.19,
+      "nasse_breite_kante_m": 9.6,
+      "breite_unten_m": 6.37,
+      "punkte_zur_mitte_gezogen": 0,
+      "breite_anteil_fluss": 1.0,
+      "breite_anteil_nass": 0.86
+     },
+     "schaum": {
+      "laenge_m": [
+       2.93,
+       2.93
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       2.23,
+       7.33
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 2.62
+     },
+     "gischt_cm": [
+      -174790.5,
+      -233215.2,
+      8124.2
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S03",
+     "index": 3,
+     "art": "fall",
+     "fall_m": 3.36,
+     "breite_m": 8.0,
+     "feld": "C2",
+     "lippe_cm": [
+      -175645.9,
+      -231344.5,
+      7667.1
+     ],
+     "fuss_cm": [
+      -175844.9,
+      -230866.8,
+      7330.8
+     ],
+     "s_lippe_m": 88.2,
+     "s_fuss_m": 93.38,
+     "fall_teil": {
+      "punkte": [
+       36,
+       37
+      ],
+      "fall_m": 2.44,
+      "oberes_stueck": "F_ERLENBACH_1V_T02_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T03_C2",
+      "eintauchlinie_s_m": 93.27
+     },
+     "schnelle": {
+      "laenge_m": 3.39,
+      "reihen": 15,
+      "spalten": 13,
+      "ueber_spline_cm": [
+       4.5,
+       10.0
+      ],
+      "ueber_gezeichnet_cm": [
+       5.0,
+       5.5
+      ],
+      "breite_mittel_m": 6.98,
+      "flussbreite_mittel_m": 8.0,
+      "deckkraft_max": 0.57,
+      "punkte_zur_mitte_gezogen": 0
+     },
+     "vorhang": {
+      "reihen": 30,
+      "spalten": 15,
+      "kante_s_m": 90.79,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 2.14,
+      "bett_beruehrt_nach_m": 1.59,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.4,
+       -0.11,
+       0.41
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 2.09,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.103,
+      "abstand_bett_median_fall_m": 0.75,
+      "breite_kante_m": 8.22,
+      "flussbreite_m": 8.0,
+      "nasse_breite_kante_m": 9.0,
+      "breite_unten_m": 5.23,
+      "punkte_zur_mitte_gezogen": 1,
+      "breite_anteil_fluss": 1.03,
+      "breite_anteil_nass": 0.91
+     },
+     "schaum": {
+      "laenge_m": [
+       2.46,
+       2.46
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       2.42,
+       6.01
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 2.31
+     },
+     "gischt_cm": [
+      -175864.8,
+      -230821.8,
+      7374.9
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S04",
+     "index": 4,
+     "art": "fall",
+     "fall_m": 2.18,
+     "breite_m": 8.0,
+     "feld": "C2",
+     "lippe_cm": [
+      -176042.9,
+      -230445.6,
+      7275.0
+     ],
+     "fuss_cm": [
+      -176163.5,
+      -230216.9,
+      7056.9
+     ],
+     "s_lippe_m": 98.03,
+     "s_fuss_m": 100.62,
+     "fall_teil": {
+      "punkte": [
+       39,
+       40
+      ],
+      "fall_m": 2.18,
+      "oberes_stueck": "F_ERLENBACH_1V_T03_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T04_C2",
+      "eintauchlinie_s_m": 100.24
+     },
+     "vorhang": {
+      "reihen": 29,
+      "spalten": 15,
+      "kante_s_m": 98.03,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 2.06,
+      "bett_beruehrt_nach_m": 1.56,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.07,
+       -0.38,
+       0.06
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 2.09,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.109,
+      "abstand_bett_median_fall_m": 0.79,
+      "breite_kante_m": 8.18,
+      "flussbreite_m": 8.0,
+      "nasse_breite_kante_m": 8.9,
+      "breite_unten_m": 6.11,
+      "punkte_zur_mitte_gezogen": 2,
+      "breite_anteil_fluss": 1.02,
+      "breite_anteil_nass": 0.92
+     },
+     "schaum": {
+      "laenge_m": [
+       2.31,
+       2.31
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       1.75,
+       7.02
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 1.91
+     },
+     "gischt_cm": [
+      -176174.1,
+      -230197.1,
+      7104.2
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S05",
+     "index": 5,
+     "art": "fall",
+     "fall_m": 2.29,
+     "breite_m": 8.0,
+     "feld": "C2",
+     "lippe_cm": [
+      -176360.5,
+      -229852.7,
+      7007.2
+     ],
+     "fuss_cm": [
+      -176477.4,
+      -229622.1,
+      6778.0
+     ],
+     "s_lippe_m": 104.76,
+     "s_fuss_m": 107.34,
+     "fall_teil": {
+      "punkte": [
+       42,
+       43
+      ],
+      "fall_m": 2.29,
+      "oberes_stueck": "F_ERLENBACH_1V_T04_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T05_C2",
+      "eintauchlinie_s_m": 107.12
+     },
+     "vorhang": {
+      "reihen": 29,
+      "spalten": 15,
+      "kante_s_m": 104.76,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 2.04,
+      "bett_beruehrt_nach_m": 1.55,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.3,
+       -0.23,
+       0.32
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 2.09,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.137,
+      "abstand_bett_median_fall_m": 0.78,
+      "breite_kante_m": 8.18,
+      "flussbreite_m": 8.0,
+      "nasse_breite_kante_m": 8.9,
+      "breite_unten_m": 6.09,
+      "punkte_zur_mitte_gezogen": 2,
+      "breite_anteil_fluss": 1.02,
+      "breite_anteil_nass": 0.92
+     },
+     "schaum": {
+      "laenge_m": [
+       2.38,
+       2.38
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       3.59,
+       7.01
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 2.12
+     },
+     "gischt_cm": [
+      -176494.1,
+      -229588.6,
+      6820.3
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S06",
+     "index": 6,
+     "art": "fall",
+     "fall_m": 2.07,
+     "breite_m": 8.0,
+     "feld": "C2",
+     "lippe_cm": [
+      -176681.4,
+      -229203.3,
+      6700.9
+     ],
+     "fuss_cm": [
+      -176789.3,
+      -228968.3,
+      6494.0
+     ],
+     "s_lippe_m": 112.0,
+     "s_fuss_m": 114.59,
+     "fall_teil": {
+      "punkte": [
+       45,
+       46
+      ],
+      "fall_m": 2.07,
+      "oberes_stueck": "F_ERLENBACH_1V_T05_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T06_C2",
+      "eintauchlinie_s_m": 114.21
+     },
+     "vorhang": {
+      "reihen": 28,
+      "spalten": 15,
+      "kante_s_m": 112.0,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 1.94,
+      "bett_beruehrt_nach_m": 1.51,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.1,
+       -0.38,
+       0.1
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 2.09,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.121,
+      "abstand_bett_median_fall_m": 0.69,
+      "breite_kante_m": 8.23,
+      "flussbreite_m": 8.0,
+      "nasse_breite_kante_m": 10.0,
+      "breite_unten_m": 5.3,
+      "punkte_zur_mitte_gezogen": 3,
+      "breite_anteil_fluss": 1.03,
+      "breite_anteil_nass": 0.82
+     },
+     "schaum": {
+      "laenge_m": [
+       2.24,
+       2.24
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       1.36,
+       6.09
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 1.87
+     },
+     "gischt_cm": [
+      -176798.4,
+      -228947.8,
+      6540.6
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S07",
+     "index": 7,
+     "art": "fall",
+     "fall_m": 5.33,
+     "breite_m": 8.0,
+     "feld": "C2",
+     "lippe_cm": [
+      -176970.5,
+      -228539.9,
+      6430.0
+     ],
+     "fuss_cm": [
+      -177287.6,
+      -227397.6,
+      5897.3
+     ],
+     "s_lippe_m": 119.24,
+     "s_fuss_m": 131.14,
+     "fall_teil": {
+      "punkte": [
+       52,
+       53
+      ],
+      "fall_m": 2.14,
+      "oberes_stueck": "F_ERLENBACH_1V_T06_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T07_C2",
+      "eintauchlinie_s_m": 131.15
+     },
+     "schnelle": {
+      "laenge_m": 10.62,
+      "reihen": 44,
+      "spalten": 13,
+      "ueber_spline_cm": [
+       4.0,
+       9.4
+      ],
+      "ueber_gezeichnet_cm": [
+       5.0,
+       6.0
+      ],
+      "breite_mittel_m": 6.98,
+      "flussbreite_mittel_m": 8.0,
+      "deckkraft_max": 0.54,
+      "punkte_zur_mitte_gezogen": 0
+     },
+     "vorhang": {
+      "reihen": 28,
+      "spalten": 15,
+      "kante_s_m": 129.06,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 2.14,
+      "bett_beruehrt_nach_m": null,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.56,
+       0.0,
+       0.58
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 1.59,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.166,
+      "abstand_bett_median_fall_m": 0.91,
+      "breite_kante_m": 8.21,
+      "flussbreite_m": 8.0,
+      "nasse_breite_kante_m": 9.1,
+      "breite_unten_m": 5.39,
+      "punkte_zur_mitte_gezogen": 0,
+      "breite_anteil_fluss": 1.03,
+      "breite_anteil_nass": 0.9
+     },
+     "schaum": {
+      "laenge_m": [
+       2.28,
+       2.28
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       3.59,
+       6.2
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 2.24
+     },
+     "gischt_cm": [
+      -177297.0,
+      -227338.1,
+      5935.7
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S08",
+     "index": 8,
+     "art": "fall",
+     "fall_m": 2.03,
+     "breite_m": 8.24,
+     "feld": "C2",
+     "lippe_cm": [
+      -177418.8,
+      -226905.6,
+      5818.5
+     ],
+     "fuss_cm": [
+      -177527.1,
+      -226731.2,
+      5615.9
+     ],
+     "s_lippe_m": 136.26,
+     "s_fuss_m": 138.31,
+     "fall_teil": {
+      "punkte": [
+       55,
+       56
+      ],
+      "fall_m": 2.03,
+      "oberes_stueck": "F_ERLENBACH_1V_T07_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T08_C2",
+      "eintauchlinie_s_m": 138.35
+     },
+     "vorhang": {
+      "reihen": 30,
+      "spalten": 15,
+      "kante_s_m": 136.26,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 2.14,
+      "bett_beruehrt_nach_m": null,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.42,
+       0.03,
+       0.5
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.75,
+      "luecke_entlang_m": 2.31,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.115,
+      "abstand_bett_median_fall_m": 0.94,
+      "breite_kante_m": 8.43,
+      "flussbreite_m": 8.24,
+      "nasse_breite_kante_m": 10.0,
+      "breite_unten_m": 6.86,
+      "punkte_zur_mitte_gezogen": 0,
+      "breite_anteil_fluss": 1.02,
+      "breite_anteil_nass": 0.84
+     },
+     "schaum": {
+      "laenge_m": [
+       2.22,
+       2.22
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       3.4,
+       7.87
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 1.42
+     },
+     "gischt_cm": [
+      -177565.3,
+      -226680.7,
+      5654.4
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S09",
+     "index": 9,
+     "art": "fall",
+     "fall_m": 1.84,
+     "breite_m": 8.25,
+     "feld": "C2",
+     "lippe_cm": [
+      -177822.0,
+      -226360.3,
+      5550.2
+     ],
+     "fuss_cm": [
+      -177951.4,
+      -226140.8,
+      5366.0
+     ],
+     "s_lippe_m": 143.05,
+     "s_fuss_m": 145.6,
+     "fall_teil": {
+      "punkte": [
+       58,
+       59
+      ],
+      "fall_m": 1.84,
+      "oberes_stueck": "F_ERLENBACH_1V_T08_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T09_C2",
+      "eintauchlinie_s_m": 145.19
+     },
+     "vorhang": {
+      "reihen": 28,
+      "spalten": 15,
+      "kante_s_m": 143.05,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 1.75,
+      "bett_beruehrt_nach_m": 1.44,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.12,
+       -0.41,
+       0.03
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.25,
+      "luecke_entlang_m": 2.3,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.119,
+      "abstand_bett_median_fall_m": 0.69,
+      "breite_kante_m": 8.43,
+      "flussbreite_m": 8.25,
+      "nasse_breite_kante_m": 9.7,
+      "breite_unten_m": 5.49,
+      "punkte_zur_mitte_gezogen": 0,
+      "breite_anteil_fluss": 1.02,
+      "breite_anteil_nass": 0.87
+     },
+     "schaum": {
+      "laenge_m": [
+       2.11,
+       2.11
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       2.72,
+       6.59
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 1.35
+     },
+     "gischt_cm": [
+      -177959.1,
+      -226123.5,
+      5413.0
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S10",
+     "index": 10,
+     "art": "fall",
+     "fall_m": 1.95,
+     "breite_m": 8.74,
+     "feld": "C2",
+     "lippe_cm": [
+      -178080.5,
+      -225702.7,
+      5311.1
+     ],
+     "fuss_cm": [
+      -178121.0,
+      -225448.0,
+      5116.3
+     ],
+     "s_lippe_m": 150.18,
+     "s_fuss_m": 152.76,
+     "fall_teil": {
+      "punkte": [
+       61,
+       62
+      ],
+      "fall_m": 1.95,
+      "oberes_stueck": "F_ERLENBACH_1V_T09_C2",
+      "unteres_stueck": "F_ERLENBACH_1V_T10_C2",
+      "eintauchlinie_s_m": 152.53
+     },
+     "vorhang": {
+      "reihen": 28,
+      "spalten": 15,
+      "kante_s_m": 150.18,
+      "zunge_vor_kante_m": 0.4,
+      "kantenstueck_m": 0.5,
+      "oben_ueber_spiegel_cm": 3.0,
+      "lippe_ueber_spiegel_cm": 3.0,
+      "freier_fall_m": 1.67,
+      "bett_beruehrt_nach_m": 1.4,
+      "eintauchen_hinter_fusspunkt_m": [
+       0.37,
+       -0.23,
+       0.35
+      ],
+      "unteres_stueck_ab_fusspunkt_m": 0.0,
+      "luecke_entlang_m": 2.08,
+      "unten_unter_spiegel_cm": [
+       -30.0,
+       -30.0,
+       -30.0
+      ],
+      "abstand_bett_min_m": 0.103,
+      "abstand_bett_median_fall_m": 0.61,
+      "breite_kante_m": 8.71,
+      "flussbreite_m": 8.74,
+      "nasse_breite_kante_m": 9.4,
+      "breite_unten_m": 5.72,
+      "punkte_zur_mitte_gezogen": 1,
+      "breite_anteil_fluss": 1.0,
+      "breite_anteil_nass": 0.93
+     },
+     "schaum": {
+      "laenge_m": [
+       2.17,
+       2.17
+      ],
+      "ueber_spiegel_cm": [
+       3.5,
+       7.5
+      ],
+      "breite_m": [
+       3.2,
+       6.58
+      ],
+      "deckkraft_max": 1.0,
+      "punkte_zur_mitte_gezogen": 0,
+      "reicht_ueber_stueckanfang_m": 1.84
+     },
+     "gischt_cm": [
+      -178126.0,
+      -225411.3,
+      5161.9
+     ]
+    },
+    {
+     "id": "F_ERLENBACH_1V_C2_S11",
+     "index": 11,
+     "art": "schnelle",
+     "fall_m": 1.62,
+     "breite_m": 8.48,
+     "feld": "C2",
+     "lippe_cm": [
+      -178162.7,
+      -224987.8,
+      5060.8
+     ],
+     "fuss_cm": [
+      -178155.3,
+      -224521.1,
+      4898.7
+     ],
+     "s_lippe_m": 157.38,
+     "s_fuss_m": 162.05,
+     "schnelle": {
+      "laenge_m": 6.47,
+      "reihen": 27,
+      "spalten": 13,
+      "ueber_spline_cm": [
+       3.9,
+       5.9
+      ],
+      "ueber_gezeichnet_cm": [
+       5.0,
+       6.1
+      ],
+      "breite_mittel_m": 7.08,
+      "flussbreite_mittel_m": 8.26,
+      "deckkraft_max": 0.59,
+      "punkte_zur_mitte_gezogen": 0
+     },
+     "schaum": {
+      "laenge_m": [
+       1.5,
+       1.5
+      ],
+      "ueber_spiegel_cm": [
+       3.0,
+       6.0
+      ],
+      "breite_m": [
+       5.59,
+       6.4
+      ],
+      "deckkraft_max": 0.6,
+      "punkte_zur_mitte_gezogen": 0,
+      "ueber_gezeichnet_cm": [
+       3.0,
+       6.0
+      ]
+     }
+    }
+   ],
+   "anzahl_stufen": 12,
+   "anzahl_fall": 10,
+   "anzahl_schnelle": 2
+  },
+  "SF_F_ERLENBACH_1V_C2_Schaum": {
+   "dateien": {
+    "pos": "SF_F_ERLENBACH_1V_C2_Schaum.pos.f32",
+    "tri": "SF_F_ERLENBACH_1V_C2_Schaum.tri.i32",
+    "nrm": "SF_F_ERLENBACH_1V_C2_Schaum.nrm.f32",
+    "col": "SF_F_ERLENBACH_1V_C2_Schaum.col.u8",
+    "mat": "SF_F_ERLENBACH_1V_C2_Schaum.mat.u16"
+   },
+   "punkte": 1080,
+   "dreiecke": 1680,
+   "drehpunkt_cm": [
+    -176429.0,
+    -229393.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -2106.1,
+    -7210.6,
+    4858.3,
+    3513.9,
+    5067.2,
+    9417.7
+   ],
+   "materialien": [
+    "Aufprall"
+   ],
+   "material_assets": {
+    "Aufprall": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum"
+   },
+   "material_ersatz": {
+    "Aufprall": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall"
+   },
+   "material_dreiecke": {
+    "Aufprall": 1680
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "uv": [
+    {
+     "datei": "SF_F_ERLENBACH_1V_C2_Schaum.uv0.f32",
+     "inhalt": [
+      "quer_m/6",
+      "reisezeit_s"
+     ]
+    },
+    {
+     "datei": "SF_F_ERLENBACH_1V_C2_Schaum.uv1.f32",
+     "inhalt": [
+      "quer_01",
+      "laengs_01"
+     ]
+    }
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Stufenfall/SM_SF_F_ERLENBACH_1V_C2_Schaum_3c374a",
+   "akteur_label": "SF_F_ERLENBACH_1V_C2_Schaum",
+   "ordner": "Kacheln/C2/Wasser",
+   "feld": "C2",
+   "felder": [
+    "C2"
+   ],
+   "art": "STUFENFALL_SCHAUM",
+   "etikett": "EL_Stufenfall",
+   "sortierung": 1,
+   "stand": "11.10.2026 14:04",
+   "entartete_dreiecke_weg": 0,
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_quelle": "export/unreal/welt/kaskade_k10a/fluss.json",
+   "fluss_punkte_sha1": "d81cd05635b6",
+   "teilstuecke": "fluss_teile.json",
+   "pruefung": {
+    "punkte": 1080,
+    "dreiecke": 1680,
+    "abstand_gelaende_min_m": 0.122,
+    "punkte_unter_10cm": 0,
+    "punkte_im_gelaende": 0,
+    "dreiecksmitten_im_gelaende": 0,
+    "dreiecksmitten_unter_5cm": 0,
+    "abstand_gelaende_median_m": 0.6,
+    "dreiecke_Aufprall": 1680
+   },
+   "anzahl_stufen": 12,
+   "anzahl_fall": 10,
+   "anzahl_schnelle": 2
+  },
+  "SF_F_ERLENBACH_1V_C2_Schnellen": {
+   "dateien": {
+    "pos": "SF_F_ERLENBACH_1V_C2_Schnellen.pos.f32",
+    "tri": "SF_F_ERLENBACH_1V_C2_Schnellen.tri.i32",
+    "nrm": "SF_F_ERLENBACH_1V_C2_Schnellen.nrm.f32",
+    "col": "SF_F_ERLENBACH_1V_C2_Schnellen.col.u8",
+    "mat": "SF_F_ERLENBACH_1V_C2_Schnellen.mat.u16"
+   },
+   "punkte": 1976,
+   "dreiecke": 3528,
+   "drehpunkt_cm": [
+    -175550.0,
+    -231415.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -2978.3,
+    -6389.4,
+    4884.5,
+    3371.0,
+    6983.8,
+    9772.4
+   ],
+   "materialien": [
+    "Kaskade"
+   ],
+   "material_assets": {
+    "Kaskade": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle"
+   },
+   "material_ersatz": {
+    "Kaskade": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade"
+   },
+   "material_dreiecke": {
+    "Kaskade": 3528
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "uv": [
+    {
+     "datei": "SF_F_ERLENBACH_1V_C2_Schnellen.uv0.f32",
+     "inhalt": [
+      "quer_m/6",
+      "reisezeit_s"
+     ]
+    },
+    {
+     "datei": "SF_F_ERLENBACH_1V_C2_Schnellen.uv1.f32",
+     "inhalt": [
+      "quer_01",
+      "laengs_01"
+     ]
+    }
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Stufenfall/SM_SF_F_ERLENBACH_1V_C2_Schnellen_1cd417",
+   "akteur_label": "SF_F_ERLENBACH_1V_C2_Schnellen",
+   "ordner": "Kacheln/C2/Wasser",
+   "feld": "C2",
+   "felder": [
+    "C2"
+   ],
+   "art": "STUFENFALL_SCHNELLEN",
+   "etikett": "EL_Stufenfall",
+   "sortierung": 0,
+   "stand": "11.10.2026 14:04",
+   "entartete_dreiecke_weg": 0,
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_quelle": "export/unreal/welt/kaskade_k10a/fluss.json",
+   "fluss_punkte_sha1": "d81cd05635b6",
+   "teilstuecke": "fluss_teile.json",
+   "pruefung": {
+    "punkte": 1976,
+    "dreiecke": 3528,
+    "abstand_gelaende_min_m": 0.14,
+    "punkte_unter_10cm": 0,
+    "punkte_im_gelaende": 0,
+    "dreiecksmitten_im_gelaende": 0,
+    "dreiecksmitten_unter_5cm": 0,
+    "abstand_gelaende_median_m": 0.77,
+    "dreiecke_Kaskade": 3528
+   },
+   "anzahl_stufen": 12,
+   "anzahl_fall": 10,
+   "anzahl_schnelle": 2
+  },
+  "SF_F_ELFENFLUSS_2_H4_Schaum": {
+   "dateien": {
+    "pos": "SF_F_ELFENFLUSS_2_H4_Schaum.pos.f32",
+    "tri": "SF_F_ELFENFLUSS_2_H4_Schaum.tri.i32",
+    "nrm": "SF_F_ELFENFLUSS_2_H4_Schaum.nrm.f32",
+    "col": "SF_F_ELFENFLUSS_2_H4_Schaum.col.u8",
+    "mat": "SF_F_ELFENFLUSS_2_H4_Schaum.mat.u16"
+   },
+   "punkte": 180,
+   "dreiecke": 280,
+   "drehpunkt_cm": [
+    283090.0,
+    -60380.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -1931.8,
+    -819.9,
+    8554.6,
+    1983.0,
+    879.6,
+    9465.2
+   ],
+   "materialien": [
+    "Aufprall"
+   ],
+   "material_assets": {
+    "Aufprall": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum"
+   },
+   "material_ersatz": {
+    "Aufprall": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall"
+   },
+   "material_dreiecke": {
+    "Aufprall": 280
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "uv": [
+    {
+     "datei": "SF_F_ELFENFLUSS_2_H4_Schaum.uv0.f32",
+     "inhalt": [
+      "quer_m/6",
+      "reisezeit_s"
+     ]
+    },
+    {
+     "datei": "SF_F_ELFENFLUSS_2_H4_Schaum.uv1.f32",
+     "inhalt": [
+      "quer_01",
+      "laengs_01"
+     ]
+    }
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Stufenfall/SM_SF_F_ELFENFLUSS_2_H4_Schaum_0f855d",
+   "akteur_label": "SF_F_ELFENFLUSS_2_H4_Schaum",
+   "ordner": "Kacheln/H4/Wasser",
+   "feld": "H4",
+   "felder": [
+    "H4"
+   ],
+   "art": "STUFENFALL_SCHAUM",
+   "etikett": "EL_Stufenfall",
+   "sortierung": 1,
+   "stand": "11.10.2026 14:04",
+   "entartete_dreiecke_weg": 0,
+   "fluss": "F_ELFENFLUSS_2_H4",
+   "fluss_quelle": "export/unreal/welt/kaskade_k8/fluss.json",
+   "fluss_punkte_sha1": "bb1ed95adc91",
+   "teilstuecke": null,
+   "pruefung": {
+    "punkte": 180,
+    "dreiecke": 280,
+    "abstand_gelaende_min_m": 0.142,
+    "punkte_unter_10cm": 0,
+    "punkte_im_gelaende": 0,
+    "dreiecksmitten_im_gelaende": 0,
+    "dreiecksmitten_unter_5cm": 0,
+    "abstand_gelaende_median_m": 0.94,
+    "dreiecke_Aufprall": 280
+   },
+   "anzahl_stufen": 2,
+   "anzahl_fall": 0,
+   "anzahl_schnelle": 2
+  },
+  "SF_F_ELFENFLUSS_2_H4_Schnellen": {
+   "dateien": {
+    "pos": "SF_F_ELFENFLUSS_2_H4_Schnellen.pos.f32",
+    "tri": "SF_F_ELFENFLUSS_2_H4_Schnellen.tri.i32",
+    "nrm": "SF_F_ELFENFLUSS_2_H4_Schnellen.nrm.f32",
+    "col": "SF_F_ELFENFLUSS_2_H4_Schnellen.col.u8",
+    "mat": "SF_F_ELFENFLUSS_2_H4_Schnellen.mat.u16"
+   },
+   "punkte": 1014,
+   "dreiecke": 1824,
+   "drehpunkt_cm": [
+    283126.0,
+    -60380.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -1850.1,
+    -1292.3,
+    8580.4,
+    2381.9,
+    909.1,
+    9653.3
+   ],
+   "materialien": [
+    "Kaskade"
+   ],
+   "material_assets": {
+    "Kaskade": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle"
+   },
+   "material_ersatz": {
+    "Kaskade": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade"
+   },
+   "material_dreiecke": {
+    "Kaskade": 1824
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "uv": [
+    {
+     "datei": "SF_F_ELFENFLUSS_2_H4_Schnellen.uv0.f32",
+     "inhalt": [
+      "quer_m/6",
+      "reisezeit_s"
+     ]
+    },
+    {
+     "datei": "SF_F_ELFENFLUSS_2_H4_Schnellen.uv1.f32",
+     "inhalt": [
+      "quer_01",
+      "laengs_01"
+     ]
+    }
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Stufenfall/SM_SF_F_ELFENFLUSS_2_H4_Schnellen_5f5e2d",
+   "akteur_label": "SF_F_ELFENFLUSS_2_H4_Schnellen",
+   "ordner": "Kacheln/H4/Wasser",
+   "feld": "H4",
+   "felder": [
+    "H4"
+   ],
+   "art": "STUFENFALL_SCHNELLEN",
+   "etikett": "EL_Stufenfall",
+   "sortierung": 0,
+   "stand": "11.10.2026 14:04",
+   "entartete_dreiecke_weg": 0,
+   "fluss": "F_ELFENFLUSS_2_H4",
+   "fluss_quelle": "export/unreal/welt/kaskade_k8/fluss.json",
+   "fluss_punkte_sha1": "bb1ed95adc91",
+   "teilstuecke": null,
+   "pruefung": {
+    "punkte": 1014,
+    "dreiecke": 1824,
+    "abstand_gelaende_min_m": 0.142,
+    "punkte_unter_10cm": 0,
+    "punkte_im_gelaende": 0,
+    "dreiecksmitten_im_gelaende": 0,
+    "dreiecksmitten_unter_5cm": 0,
+    "abstand_gelaende_median_m": 0.79,
+    "dreiecke_Kaskade": 1824
+   },
+   "stufen": [
+    {
+     "id": "F_ELFENFLUSS_2_H4_S00",
+     "index": 0,
+     "art": "schnelle",
+     "fall_m": 1.62,
+     "breite_m": 11.08,
+     "feld": "H4",
+     "lippe_cm": [
+      285225.7,
+      -61195.0,
+      9620.7
+     ],
+     "fuss_cm": [
+      284810.2,
+      -60909.2,
+      9458.5
+     ],
+     "s_lippe_m": 67.25,
+     "s_fuss_m": 72.32,
+     "schnelle": {
+      "laenge_m": 6.87,
+      "reihen": 29,
+      "spalten": 13,
+      "ueber_spline_cm": [
+       4.7,
+       5.7
+      ],
+      "ueber_gezeichnet_cm": [
+       5.0,
+       5.3
+      ],
+      "breite_mittel_m": 9.76,
+      "flussbreite_mittel_m": 11.51,
+      "deckkraft_max": 0.52,
+      "punkte_zur_mitte_gezogen": 0
+     },
+     "schaum": {
+      "laenge_m": [
+       1.5,
+       1.5
+      ],
+      "ueber_spiegel_cm": [
+       3.0,
+       6.0
+      ],
+      "breite_m": [
+       7.84,
+       9.01
+      ],
+      "deckkraft_max": 0.6,
+      "punkte_zur_mitte_gezogen": 0,
+      "ueber_gezeichnet_cm": [
+       3.0,
+       6.0
+      ]
+     }
+    },
+    {
+     "id": "F_ELFENFLUSS_2_H4_S01",
+     "index": 1,
+     "art": "schnelle",
+     "fall_m": 4.15,
+     "breite_m": 11.07,
+     "feld": "H4",
+     "lippe_cm": [
+      282493.6,
+      -59959.7,
+      9011.6
+     ],
+     "fuss_cm": [
+      281501.8,
+      -59932.8,
+      8596.2
+     ],
+     "s_lippe_m": 99.6,
+     "s_fuss_m": 109.57,
+     "schnelle": {
+      "laenge_m": 11.77,
+      "reihen": 49,
+      "spalten": 13,
+      "ueber_spline_cm": [
+       4.1,
+       6.9
+      ],
+      "ueber_gezeichnet_cm": [
+       5.0,
+       5.9
+      ],
+      "breite_mittel_m": 8.69,
+      "flussbreite_mittel_m": 10.34,
+      "deckkraft_max": 0.79,
+      "punkte_zur_mitte_gezogen": 0
+     },
+     "schaum": {
+      "laenge_m": [
+       1.5,
+       1.5
+      ],
+      "ueber_spiegel_cm": [
+       3.0,
+       6.0
+      ],
+      "breite_m": [
+       6.98,
+       8.03
+      ],
+      "deckkraft_max": 0.6,
+      "punkte_zur_mitte_gezogen": 0,
+      "ueber_gezeichnet_cm": [
+       3.0,
+       6.0
+      ]
+     }
+    }
+   ],
+   "anzahl_stufen": 2,
+   "anzahl_fall": 0,
+   "anzahl_schnelle": 2
+  }
+ }
+}

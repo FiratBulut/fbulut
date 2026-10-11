@@ -1,0 +1,446 @@
+{
+ "stand": "11.10.2026 14:04",
+ "quelle": "scripts/wasser/stufen_wasserfall.py",
+ "regel": "entlang der Fluss-Punkte (fluss.json, Spalte 2 = Spiegel cm): Segment i->i+1 steil, wenn Gefälle > 30 %; aufeinanderfolgende steile Segmente = EINE Stufe; zählt, wenn Gesamtfall >= 0,5 m. Lippe = oberer Punkt des ersten, Fuß = unterer Punkt des letzten steilen Segments.",
+ "felder_erklaerung": {
+  "fluss": "Abschnitt-ID (= Epic-Akteur <Feld>_Fluss_<fluss_name>)",
+  "lippe_cm/fuss_cm": "[x, y, Spiegel z] in cm (Welt)",
+  "fall_m": "Spiegel Lippe - Spiegel Fuß",
+  "breite_m": "Flussbreite an der Lippe (Punktspalte 3)",
+  "richtung": "waagrechter Einheitsvektor Lippe -> Fuß",
+  "index": "laufende Nummer je Fluss, 0 = oberste Stufe",
+  "punkt_lippe/punkt_fuss": "Punktindex in fluss.json (Abschnitt)"
+ },
+ "quellen": {
+  "F_ERLENBACH_1V_C2": {
+   "datei": "export/unreal/welt/kaskade_k10a/fluss.json",
+   "punkte": 84,
+   "punkte_sha1": "d81cd05635b6",
+   "stufen": 12,
+   "gefaelle_max": 1.023
+  },
+  "F_ELFENFLUSS_2_H4": {
+   "datei": "export/unreal/welt/kaskade_k8/fluss.json",
+   "punkte": 97,
+   "punkte_sha1": "bb1ed95adc91",
+   "stufen": 2,
+   "gefaelle_max": 0.567
+  },
+  "F_ERLENBACH_2V_D3": {
+   "datei": "export/unreal/welt/k10_verbindung/fluss.json",
+   "punkte": 16,
+   "punkte_sha1": "9c26d836ef81",
+   "stufen": 0,
+   "gefaelle_max": 0.282
+  }
+ },
+ "anzahl": 14,
+ "stufen": [
+  {
+   "id": "F_ERLENBACH_1V_C2_S00",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 0,
+   "lippe_cm": [
+    -172990.5,
+    -237388.1,
+    9737.5
+   ],
+   "fuss_cm": [
+    -173394.0,
+    -236408.7,
+    9411.6
+   ],
+   "fall_m": 3.26,
+   "breite_m": 19.02,
+   "richtung": [
+    -0.3809,
+    0.9246
+   ],
+   "punkt_lippe": 9,
+   "punkt_fuss": 13,
+   "laenge_m": 10.6,
+   "gefaelle_mittel": 0.307,
+   "gefaelle_max": 0.318,
+   "segmente": 4
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S01",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 1,
+   "lippe_cm": [
+    -174147.1,
+    -234539.2,
+    8885.2
+   ],
+   "fuss_cm": [
+    -174360.4,
+    -233960.6,
+    8476.0
+   ],
+   "fall_m": 4.09,
+   "breite_m": 8.0,
+   "richtung": [
+    -0.3459,
+    0.9383
+   ],
+   "punkt_lippe": 21,
+   "punkt_fuss": 23,
+   "laenge_m": 6.18,
+   "gefaelle_mittel": 0.662,
+   "gefaelle_max": 0.908,
+   "segmente": 2
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S02",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 2,
+   "lippe_cm": [
+    -174583.8,
+    -233556.5,
+    8400.6
+   ],
+   "fuss_cm": [
+    -174769.7,
+    -233248.6,
+    8078.9
+   ],
+   "fall_m": 3.22,
+   "breite_m": 8.19,
+   "richtung": [
+    -0.5169,
+    0.8561
+   ],
+   "punkt_lippe": 25,
+   "punkt_fuss": 26,
+   "laenge_m": 3.6,
+   "gefaelle_mittel": 0.894,
+   "gefaelle_max": 0.894,
+   "segmente": 1
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S03",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 3,
+   "lippe_cm": [
+    -175645.9,
+    -231344.5,
+    7667.1
+   ],
+   "fuss_cm": [
+    -175844.9,
+    -230866.8,
+    7330.8
+   ],
+   "fall_m": 3.36,
+   "breite_m": 8.0,
+   "richtung": [
+    -0.3845,
+    0.9231
+   ],
+   "punkt_lippe": 35,
+   "punkt_fuss": 37,
+   "laenge_m": 5.18,
+   "gefaelle_mittel": 0.649,
+   "gefaelle_max": 0.943,
+   "segmente": 2
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S04",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 4,
+   "lippe_cm": [
+    -176042.9,
+    -230445.6,
+    7275.0
+   ],
+   "fuss_cm": [
+    -176163.5,
+    -230216.9,
+    7056.9
+   ],
+   "fall_m": 2.18,
+   "breite_m": 8.0,
+   "richtung": [
+    -0.4664,
+    0.8845
+   ],
+   "punkt_lippe": 39,
+   "punkt_fuss": 40,
+   "laenge_m": 2.59,
+   "gefaelle_mittel": 0.842,
+   "gefaelle_max": 0.844,
+   "segmente": 1
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S05",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 5,
+   "lippe_cm": [
+    -176360.5,
+    -229852.7,
+    7007.2
+   ],
+   "fuss_cm": [
+    -176477.4,
+    -229622.1,
+    6778.0
+   ],
+   "fall_m": 2.29,
+   "breite_m": 8.0,
+   "richtung": [
+    -0.4522,
+    0.8919
+   ],
+   "punkt_lippe": 42,
+   "punkt_fuss": 43,
+   "laenge_m": 2.59,
+   "gefaelle_mittel": 0.885,
+   "gefaelle_max": 0.887,
+   "segmente": 1
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S06",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 6,
+   "lippe_cm": [
+    -176681.4,
+    -229203.3,
+    6700.9
+   ],
+   "fuss_cm": [
+    -176789.3,
+    -228968.3,
+    6494.0
+   ],
+   "fall_m": 2.07,
+   "breite_m": 8.0,
+   "richtung": [
+    -0.4173,
+    0.9088
+   ],
+   "punkt_lippe": 45,
+   "punkt_fuss": 46,
+   "laenge_m": 2.59,
+   "gefaelle_mittel": 0.799,
+   "gefaelle_max": 0.8,
+   "segmente": 1
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S07",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 7,
+   "lippe_cm": [
+    -176970.5,
+    -228539.9,
+    6430.0
+   ],
+   "fuss_cm": [
+    -177287.6,
+    -227397.6,
+    5897.3
+   ],
+   "fall_m": 5.33,
+   "breite_m": 8.0,
+   "richtung": [
+    -0.2675,
+    0.9636
+   ],
+   "punkt_lippe": 48,
+   "punkt_fuss": 53,
+   "laenge_m": 11.91,
+   "gefaelle_mittel": 0.447,
+   "gefaelle_max": 1.023,
+   "segmente": 5
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S08",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 8,
+   "lippe_cm": [
+    -177418.8,
+    -226905.6,
+    5818.5
+   ],
+   "fuss_cm": [
+    -177527.1,
+    -226731.2,
+    5615.9
+   ],
+   "fall_m": 2.03,
+   "breite_m": 8.24,
+   "richtung": [
+    -0.5275,
+    0.8495
+   ],
+   "punkt_lippe": 55,
+   "punkt_fuss": 56,
+   "laenge_m": 2.05,
+   "gefaelle_mittel": 0.988,
+   "gefaelle_max": 0.987,
+   "segmente": 1
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S09",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 9,
+   "lippe_cm": [
+    -177822.0,
+    -226360.3,
+    5550.2
+   ],
+   "fuss_cm": [
+    -177951.4,
+    -226140.8,
+    5366.0
+   ],
+   "fall_m": 1.84,
+   "breite_m": 8.25,
+   "richtung": [
+    -0.5078,
+    0.8614
+   ],
+   "punkt_lippe": 58,
+   "punkt_fuss": 59,
+   "laenge_m": 2.55,
+   "gefaelle_mittel": 0.722,
+   "gefaelle_max": 0.723,
+   "segmente": 1
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S10",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 10,
+   "lippe_cm": [
+    -178080.5,
+    -225702.7,
+    5311.1
+   ],
+   "fuss_cm": [
+    -178121.0,
+    -225448.0,
+    5116.3
+   ],
+   "fall_m": 1.95,
+   "breite_m": 8.74,
+   "richtung": [
+    -0.157,
+    0.9876
+   ],
+   "punkt_lippe": 61,
+   "punkt_fuss": 62,
+   "laenge_m": 2.58,
+   "gefaelle_mittel": 0.755,
+   "gefaelle_max": 0.755,
+   "segmente": 1
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_S11",
+   "fluss": "F_ERLENBACH_1V_C2",
+   "fluss_name": "F_ERLENBACH_1V",
+   "feld": "C2",
+   "index": 11,
+   "lippe_cm": [
+    -178162.7,
+    -224987.8,
+    5060.8
+   ],
+   "fuss_cm": [
+    -178155.3,
+    -224521.1,
+    4898.7
+   ],
+   "fall_m": 1.62,
+   "breite_m": 8.48,
+   "richtung": [
+    0.0159,
+    0.9999
+   ],
+   "punkt_lippe": 64,
+   "punkt_fuss": 66,
+   "laenge_m": 4.67,
+   "gefaelle_mittel": 0.347,
+   "gefaelle_max": 0.366,
+   "segmente": 2
+  },
+  {
+   "id": "F_ELFENFLUSS_2_H4_S00",
+   "fluss": "F_ELFENFLUSS_2_H4",
+   "fluss_name": "F_ELFENFLUSS_2",
+   "feld": "H4",
+   "index": 0,
+   "lippe_cm": [
+    285225.7,
+    -61195.0,
+    9620.7
+   ],
+   "fuss_cm": [
+    284810.2,
+    -60909.2,
+    9458.5
+   ],
+   "fall_m": 1.62,
+   "breite_m": 11.08,
+   "richtung": [
+    -0.8239,
+    0.5667
+   ],
+   "punkt_lippe": 27,
+   "punkt_fuss": 29,
+   "laenge_m": 5.06,
+   "gefaelle_mittel": 0.321,
+   "gefaelle_max": 0.336,
+   "segmente": 2
+  },
+  {
+   "id": "F_ELFENFLUSS_2_H4_S01",
+   "fluss": "F_ELFENFLUSS_2_H4",
+   "fluss_name": "F_ELFENFLUSS_2",
+   "feld": "H4",
+   "index": 1,
+   "lippe_cm": [
+    282493.6,
+    -59959.7,
+    9011.6
+   ],
+   "fuss_cm": [
+    281501.8,
+    -59932.8,
+    8596.2
+   ],
+   "fall_m": 4.15,
+   "breite_m": 11.07,
+   "richtung": [
+    -0.9996,
+    0.0271
+   ],
+   "punkt_lippe": 40,
+   "punkt_fuss": 44,
+   "laenge_m": 9.96,
+   "gefaelle_mittel": 0.417,
+   "gefaelle_max": 0.567,
+   "segmente": 4
+  }
+ ]
+}

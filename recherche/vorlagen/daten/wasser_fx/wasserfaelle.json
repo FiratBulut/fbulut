@@ -1,0 +1,627 @@
+{
+ "stand": "10.10.2026 22:56",
+ "material": {
+  "Vorhang": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall",
+  "Zulauf": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Zulauf",
+  "Aufprall": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall",
+  "Kaskade": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade"
+ },
+ "wasserfaelle": {
+  "WF_K1": {
+   "dateien": {
+    "pos": "WF_K1.pos.f32",
+    "tri": "WF_K1.tri.i32",
+    "nrm": "WF_K1.nrm.f32",
+    "col": "WF_K1.col.u8",
+    "mat": "WF_K1.mat.u16"
+   },
+   "drehpunkt_cm": [
+    -311731.0,
+    -62444.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -6125.9,
+    -5436.5,
+    20611.0,
+    1650.4,
+    1868.2,
+    28290.1
+   ],
+   "materialien": [
+    "Vorhang",
+    "Zulauf",
+    "Aufprall"
+   ],
+   "material_assets": {
+    "Vorhang": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall",
+    "Zulauf": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Zulauf",
+    "Aufprall": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall"
+   },
+   "material_dreiecke": {
+    "Vorhang": 4335,
+    "Zulauf": 3744,
+    "Aufprall": 150
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/SM_WF_K1_a65dcf",
+   "akteur_label": "WF2_WF_K1",
+   "ordner": "Kacheln/B4/Wasser",
+   "feld": "B4",
+   "felder": [
+    "B4"
+   ],
+   "art": "wasserfall",
+   "stand": "10.10.2026 22:56",
+   "entartete_dreiecke_weg": 345,
+   "netz_alt": "K1_WASSERFALL_WEST__WASSER",
+   "name": "Wasserfall West",
+   "netz": "K1_WASSERFALL_WEST__WASSER",
+   "unten": {
+    "art": "fluss",
+    "id": "F_HAUPTFLUSS_2_B4",
+    "x": -308151.8,
+    "y": -56871.2,
+    "z": 206.56,
+    "breite": 37.0,
+    "index": 0,
+    "index_soll": 0,
+    "gelaende_m": 205.7
+   },
+   "oben": {
+    "art": "fluss",
+    "id": "F_HAUPTFLUSS_1_B4",
+    "x": -316870.9,
+    "y": -66886.7,
+    "z": 282.881,
+    "breite": 21.0,
+    "d": [
+     0.712,
+     0.702
+    ],
+    "index": 2,
+    "index_soll": 2,
+    "gelaende_m": 282.12
+   },
+   "lippe": {
+    "x_cm": -311731.0,
+    "y_cm": -62443.6,
+    "spiegel_m": 263.41,
+    "gelaende_m": 262.77,
+    "breite_m": 14.9,
+    "richtung_zulauf": [
+     0.806,
+     0.592
+    ],
+    "richtung_wand": [
+     0.694,
+     0.72
+    ],
+    "richtung_fall": [
+     0.753,
+     0.658
+    ],
+    "winkel_zulauf_wand_grad": 9.7,
+    "abstand_alte_kante_m": 9.9,
+    "alte_kante_spiegel_m": 266.22,
+    "alte_fallhoehe_m": 55.0
+   },
+   "zulauf": {
+    "laenge_m": 71.0,
+    "spiegel_oben_m": 282.9,
+    "gefaelle_mittel": 0.274,
+    "breite_min_m": 8.8,
+    "breite_max_m": 22.0
+   },
+   "vorhang": {
+    "spalten": 27,
+    "spalten_bis_becken": 14,
+    "spalten_setzen_vorher_auf": {
+     "anzahl": 13,
+     "hoehe_m": [
+      213.9,
+      213.4,
+      213.2,
+      212.7,
+      215.7,
+      211.9,
+      208.2
+     ],
+     "seite": "links"
+    },
+    "spalten_ohne_wand": 12,
+    "wandabstand_min_m": 0.35,
+    "wandabstand_median_m": 1.22,
+    "wandabstand_mitte_median_m": 1.55,
+    "wandabstand_rand_median_m": 0.58,
+    "abstand_unter_min_m": 0.03,
+    "kante_t_m": [
+     2.0,
+     0.0,
+     1.4
+    ],
+    "auslage_unten_m": 12.04,
+    "fallhoehe_m": 56.87
+   },
+   "aufprall": [
+    {
+     "art": "gelaende",
+     "spalten": [
+      0,
+      12
+     ],
+     "trocken_anteil": 0.0
+    },
+    {
+     "art": "becken",
+     "spalten": [
+      13,
+      26
+     ],
+     "trocken_anteil": 0.16
+    }
+   ],
+   "fuss": {
+    "x_cm": -310793.9,
+    "y_cm": -61623.9,
+    "spiegel_m": 206.54,
+    "gelaende_m": 206.05
+   },
+   "gischt": {
+    "x_cm": -310605.7,
+    "y_cm": -61459.3,
+    "z_cm": 20804.0,
+    "alt_x_cm": -309854.0,
+    "alt_y_cm": -60663.6,
+    "alt_z_cm": 20872.0
+   },
+   "band": {
+    "reihen": 72,
+    "rand_ueber_gelaende_max_m": -0.06,
+    "rand_ueber_gelaende_anteil_10cm": 0.0,
+    "tiefe_mitte_min_m": 0.19,
+    "tiefe_mitte_max_m": 0.65,
+    "tiefe_mitte_median_m": 0.45
+   },
+   "felsen_nahe": {
+    "anzahl": 6,
+    "naechste": [
+     {
+      "art": "foliage",
+      "netz": "SM_MassiveNordicCoastalCliff_01__bergwald",
+      "ort_cm": [
+       -311968,
+       -63090,
+       25286
+      ],
+      "skala": 0.86,
+      "abstand_m": 0.1
+     },
+     {
+      "art": "foliage",
+      "netz": "SM_mountain_rock_big_02_7__bergwald",
+      "ort_cm": [
+       -311067,
+       -61740,
+       20773
+      ],
+      "skala": 2.57,
+      "abstand_m": 0.2
+     },
+     {
+      "art": "foliage",
+      "netz": "SM_mountain_rock_big_02_8__bergwald",
+      "ort_cm": [
+       -311453,
+       -62934,
+       24330
+      ],
+      "skala": 3.84,
+      "abstand_m": 0.2
+     },
+     {
+      "art": "foliage",
+      "netz": "SM_mountain_rock_big_02_7__bergwald",
+      "ort_cm": [
+       -310225,
+       -62483,
+       21724
+      ],
+      "skala": 2.53,
+      "abstand_m": 3.6
+     },
+     {
+      "art": "akteur B4_j1628_i3452_k0",
+      "netz": "SM_big_rock_wall_03",
+      "ort_cm": [
+       -310016,
+       -60731,
+       19646
+      ],
+      "skala": 9.0,
+      "abstand_m": 5.6
+     },
+     {
+      "art": "akteur B4_j1608_i3448_k1",
+      "netz": "SM_big_rock_wall_02",
+      "ort_cm": [
+       -312610,
+       -61319,
+       25354
+      ],
+      "skala": 4.51,
+      "abstand_m": 5.8
+     }
+    ]
+   },
+   "altes_wasser": {
+    "sichtbar_im_fenster_m2": 6612,
+    "davon_unter_band_m2": 2468,
+    "band_zellen_2m": 947,
+    "band_datei": "band_WF_K1_2m.png"
+   },
+   "becken": {
+    "id": "T_WF_K1_BECKEN",
+    "flaeche_m2": 1321,
+    "spiegel_cm": 20654.0,
+    "tiefe_max_m": 4.9,
+    "anschluss": {
+     "fluss": "F_HAUPTFLUSS_2_B4",
+     "fluss_start_cm": [
+      -308151.8,
+      -56871.2,
+      20656.0
+     ],
+     "fluss_breite_m": 37.0,
+     "spiegel_differenz_cm": 2.0,
+     "flussanfang_im_see": true,
+     "abstand_umriss_flussanfang_m": -11.8,
+     "ueberlappung_mit_fluss_m2": 270.7,
+     "ueberlappt_andere": []
+    }
+   }
+  },
+  "WF_K8": {
+   "dateien": {
+    "pos": "WF_K8.pos.f32",
+    "tri": "WF_K8.tri.i32",
+    "nrm": "WF_K8.nrm.f32",
+    "col": "WF_K8.col.u8",
+    "mat": "WF_K8.mat.u16"
+   },
+   "drehpunkt_cm": [
+    313631.0,
+    -71477.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -2075.3,
+    -5592.7,
+    12734.2,
+    7890.8,
+    2121.7,
+    20929.5
+   ],
+   "materialien": [
+    "Vorhang",
+    "Zulauf",
+    "Aufprall"
+   ],
+   "material_assets": {
+    "Vorhang": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall",
+    "Zulauf": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Zulauf",
+    "Aufprall": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall"
+   },
+   "material_dreiecke": {
+    "Vorhang": 4056,
+    "Zulauf": 5148,
+    "Aufprall": 156
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/SM_WF_K8_c41420",
+   "akteur_label": "WF2_WF_K8",
+   "ordner": "Kacheln/H4/Wasser",
+   "feld": "H4",
+   "felder": [
+    "H4"
+   ],
+   "art": "wasserfall",
+   "stand": "10.10.2026 22:56",
+   "entartete_dreiecke_weg": 0,
+   "netz_alt": "K8_ELFENFALL__WASSER",
+   "name": "Elfenfall",
+   "netz": "K8_ELFENFALL__WASSER",
+   "unten": {
+    "art": "fluss",
+    "id": "F_ELFENFLUSS_1_H4",
+    "x": 308456.1,
+    "y": -69543.5,
+    "z": 127.72200000000001,
+    "breite": 32.0,
+    "index": 0,
+    "index_soll": 0,
+    "gelaende_m": 126.94
+   },
+   "oben": {
+    "art": "houdini_kopf",
+    "id": "K8_ELFENFALL__WASSER",
+    "x": 321250.0,
+    "y": -77050.0,
+    "z": 209.47813415527344,
+    "breite": null,
+    "d": [
+     -0.822,
+     0.569
+    ]
+   },
+   "lippe": {
+    "x_cm": 313631.4,
+    "y_cm": -71476.6,
+    "spiegel_m": 181.59,
+    "gelaende_m": 181.01,
+    "breite_m": 16.6,
+    "richtung_zulauf": [
+     -0.766,
+     0.643
+    ],
+    "richtung_wand": [
+     -0.893,
+     0.451
+    ],
+    "richtung_fall": [
+     -0.835,
+     0.551
+    ],
+    "winkel_zulauf_wand_grad": 13.3,
+    "abstand_alte_kante_m": 8.8,
+    "alte_kante_spiegel_m": 182.9,
+    "alte_fallhoehe_m": 52.0
+   },
+   "zulauf": {
+    "laenge_m": 98.0,
+    "spiegel_oben_m": 209.3,
+    "gefaelle_mittel": 0.283,
+    "breite_min_m": 1.5,
+    "breite_max_m": 16.6
+   },
+   "vorhang": {
+    "spalten": 27,
+    "spalten_bis_becken": 27,
+    "spalten_setzen_vorher_auf": {
+     "anzahl": 0,
+     "hoehe_m": [],
+     "seite": "-"
+    },
+    "spalten_ohne_wand": 0,
+    "wandabstand_min_m": 0.35,
+    "wandabstand_median_m": 1.24,
+    "wandabstand_mitte_median_m": 1.54,
+    "wandabstand_rand_median_m": 0.53,
+    "abstand_unter_min_m": 0.11,
+    "kante_t_m": [
+     2.6,
+     0.2,
+     0.4
+    ],
+    "auslage_unten_m": 11.86,
+    "fallhoehe_m": 53.89
+   },
+   "aufprall": [
+    {
+     "art": "becken",
+     "spalten": [
+      0,
+      26
+     ],
+     "trocken_anteil": 0.0
+    }
+   ],
+   "fuss": {
+    "x_cm": 312666.6,
+    "y_cm": -70840.1,
+    "spiegel_m": 127.7,
+    "gelaende_m": 127.43
+   },
+   "gischt": {
+    "x_cm": 312457.9,
+    "y_cm": -70702.4,
+    "z_cm": 12920.2,
+    "alt_x_cm": 311411.2,
+    "alt_y_cm": -70406.4,
+    "alt_z_cm": 12989.0
+   },
+   "band": {
+    "reihen": 99,
+    "rand_ueber_gelaende_max_m": 0.05,
+    "rand_ueber_gelaende_anteil_10cm": 0.0,
+    "tiefe_mitte_min_m": 0.06,
+    "tiefe_mitte_max_m": 0.58,
+    "tiefe_mitte_median_m": 0.4
+   },
+   "felsen_nahe": {
+    "anzahl": 1,
+    "naechste": [
+     {
+      "art": "akteur H4_j7856_i3344_k0",
+      "netz": "SM_MassiveNordicCoastalCliff_01",
+      "ort_cm": [
+       313366,
+       -72339,
+       13514
+      ],
+      "skala": 0.99,
+      "abstand_m": 1.4
+     }
+    ]
+   },
+   "altes_wasser": {
+    "sichtbar_im_fenster_m2": 5199,
+    "davon_unter_band_m2": 3288,
+    "band_zellen_2m": 1120,
+    "band_datei": "band_WF_K8_2m.png"
+   },
+   "becken": {
+    "id": "T_WF_K8_BECKEN",
+    "flaeche_m2": 1851,
+    "spiegel_cm": 12770.2,
+    "tiefe_max_m": 4.68,
+    "anschluss": {
+     "fluss": "F_ELFENFLUSS_1_H4",
+     "fluss_start_cm": [
+      308456.1,
+      -69543.5,
+      12772.2
+     ],
+     "fluss_breite_m": 32.0,
+     "spiegel_differenz_cm": 2.0,
+     "flussanfang_im_see": true,
+     "abstand_umriss_flussanfang_m": -12.7,
+     "ueberlappung_mit_fluss_m2": 266.6,
+     "ueberlappt_andere": []
+    }
+   }
+  },
+  "KA_K1": {
+   "dateien": {
+    "pos": "KA_K1.pos.f32",
+    "tri": "KA_K1.tri.i32",
+    "nrm": "KA_K1.nrm.f32",
+    "col": "KA_K1.col.u8",
+    "mat": "KA_K1.mat.u16"
+   },
+   "drehpunkt_cm": [
+    -284577.0,
+    -23932.0,
+    0.0
+   ],
+   "kasten_cm": [
+    -19169.1,
+    -25413.9,
+    3966.0,
+    24610.4,
+    18221.4,
+    20290.8
+   ],
+   "materialien": [
+    "Kaskade"
+   ],
+   "material_assets": {
+    "Kaskade": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade"
+   },
+   "material_dreiecke": {
+    "Kaskade": 39420
+   },
+   "farbe": [
+    "R Tempo/14 m/s",
+    "G Fallanteil",
+    "B Randfaktor",
+    "A Dicke/Schaum"
+   ],
+   "asset": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/SM_KA_K1_17c992",
+   "akteur_label": "WF2_KA_K1",
+   "ordner": "Kacheln/B4/Wasser",
+   "feld": "B4",
+   "felder": [
+    "B4",
+    "C4"
+   ],
+   "art": "kaskade",
+   "stand": "10.10.2026 22:56",
+   "entartete_dreiecke_weg": 0,
+   "netz_alt": "K1_WASSERFALL_WEST__WASSER",
+   "name": "Kaskade unter dem Westfall (Hauptfluss 2 -> 3)",
+   "netz": "K1_WASSERFALL_WEST__WASSER",
+   "unten": {
+    "art": "fluss",
+    "id": "F_HAUPTFLUSS_3_C4",
+    "x": -261465.2,
+    "y": -6366.6,
+    "z": 42.803000000000004,
+    "breite": 47.0,
+    "index": 0,
+    "index_soll": 0,
+    "gelaende_m": 41.67
+   },
+   "oben": {
+    "art": "fluss",
+    "id": "F_HAUPTFLUSS_2_B4",
+    "x": -302463.7,
+    "y": -48042.5,
+    "z": 202.888,
+    "breite": 56.7,
+    "d": [
+     0.6,
+     0.8
+    ],
+    "index": 7,
+    "index_soll": 8,
+    "gelaende_m": 201.47
+   },
+   "startbecken": {
+    "schwelle_bei_m": 116.0,
+    "spiegel_m": 202.48,
+    "flussende_ueber_becken_m": 0.41,
+    "tiefe_max_m": 8.68
+   },
+   "kaskade": {
+    "laenge_m": 657.1,
+    "spiegel_oben_m": 202.91,
+    "spiegel_unten_m": 42.73,
+    "fall_m": 160.2,
+    "gefaelle_mittel": 0.244,
+    "gefaelle_max": 0.65,
+    "anstieg_ueber_schwelle_m": 0.0,
+    "breite_min_m": 8.9,
+    "breite_max_m": 31.0
+   },
+   "band": {
+    "reihen": 658,
+    "rand_ueber_gelaende_max_m": 0.05,
+    "rand_ueber_gelaende_anteil_10cm": 0.0,
+    "tiefe_mitte_min_m": 0.12,
+    "tiefe_mitte_max_m": 8.68,
+    "tiefe_mitte_median_m": 0.4
+   },
+   "felsen_nahe": {
+    "anzahl": 0,
+    "naechste": []
+   },
+   "altes_wasser": {
+    "sichtbar_im_fenster_m2": 17831,
+    "davon_unter_band_m2": 11552,
+    "band_zellen_2m": 5018,
+    "band_datei": "band_KA_K1_2m.png"
+   },
+   "becken": {
+    "id": "T_KA_K1_BECKEN",
+    "flaeche_m2": 2680,
+    "spiegel_cm": 20247.5,
+    "tiefe_max_m": 11.98,
+    "anschluss": {
+     "fluss": "F_HAUPTFLUSS_2_B4",
+     "fluss_start_cm": [
+      -302463.7,
+      -48042.5,
+      20288.8
+     ],
+     "fluss_breite_m": 56.7,
+     "spiegel_differenz_cm": 41.3,
+     "flussanfang_im_see": false,
+     "abstand_umriss_flussanfang_m": 13.7,
+     "ueberlappung_mit_fluss_m2": 37.3,
+     "ueberlappt_andere": []
+    }
+   }
+  }
+ }
+}
