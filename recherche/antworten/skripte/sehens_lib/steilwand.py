@@ -497,7 +497,7 @@ def halde_lage(ctx, lg):
     return np.clip(_stm._bilinear_fenster(w, st.fe, ctx.welt, lg.X, lg.Y, 0.0) * 1.6, 0.0, 1.0)
 
 
-PLANER_GRENZE_GRAD = 41.0   # Planer rechnet im nativen Raster (2 m): Reserve fuer die 1-m-Interpolation des Pruefers
+PLANER_GRENZE_GRAD = 40.0   # Planer rechnet im nativen Raster (2 m): Reserve fuer die 1-m-Interpolation des Pruefers
 
 
 def _steil_im_stempel(ctx, grenze_grad=PLANER_GRENZE_GRAD):
@@ -586,23 +586,27 @@ def verkleiden(ctx, g):
         x, y = x + ux * vers, y + uy * vers
         if not ctx._filter(g2, np.array([x]), np.array([y]), "steilwand")[0]:
             continue
-        netz = namen[int(rng.choice(len(namen), p=gew))]
-        info = ctx.inv.netz(netz)
-        stk = ctx._ein_stueck(g2, info, x, y, 0.0, rng, yaw)
-        if stk is None:
-            continue
-        a = abdruck(info, stk["q"], stk["s"], stk["x"], stk["y"], stk["z"])
-        neu_ged = deckung(st.X, st.Y, h1, [a], rand_m=0.0, z_tol_m=Z_TOL_M, nur=offen) & offen
-        if neu_ged.sum() < 2 and a["zmin"] < h1[i, j] - 0.5 * (a["zmax"] - a["zmin"]):
-            # hohe Wand: das Netz sackt bis zum Wandfuss ab und deckt den oberen Teil nicht - hoeher ansetzen
-            # (gestapelt, Unterkante 35 % der Netzhoehe unter der Zelle; ruht auf dem Netz darunter -> z_frei)
-            g3 = dict(g2, z_bezug="z:%.3f" % (h1[i, j] - 0.35 * (a["zmax"] - a["zmin"])))
-            stk = ctx._ein_stueck(g3, info, x, y, 0.0, rng, yaw)
+        stk, neu_ged, info, netz = None, None, None, None
+        for versuch, dyaw in enumerate((0.0, 25.0, -25.0)):
+            netz = namen[int(rng.choice(len(namen), p=gew))]
+            info = ctx.inv.netz(netz)
+            stk = ctx._ein_stueck(g2, info, x, y, 0.0, rng, yaw + dyaw)
             if stk is None:
                 continue
             a = abdruck(info, stk["q"], stk["s"], stk["x"], stk["y"], stk["z"])
             neu_ged = deckung(st.X, st.Y, h1, [a], rand_m=0.0, z_tol_m=Z_TOL_M, nur=offen) & offen
-        if neu_ged.sum() < 2:
+            if neu_ged.sum() < 2 and a["zmin"] < h1[i, j] - 0.5 * (a["zmax"] - a["zmin"]):
+                # hohe Wand: das Netz sackt bis zum Wandfuss ab und deckt den oberen Teil nicht - hoeher ansetzen
+                # (gestapelt, Unterkante 35 % der Netzhoehe unter der Zelle; ruht auf dem Netz darunter -> z_frei)
+                g3 = dict(g2, z_bezug="z:%.3f" % (h1[i, j] - 0.35 * (a["zmax"] - a["zmin"])))
+                stk = ctx._ein_stueck(g3, info, x, y, 0.0, rng, yaw + dyaw)
+                if stk is None:
+                    continue
+                a = abdruck(info, stk["q"], stk["s"], stk["x"], stk["y"], stk["z"])
+                neu_ged = deckung(st.X, st.Y, h1, [a], rand_m=0.0, z_tol_m=Z_TOL_M, nur=offen) & offen
+            if neu_ged.sum() >= 2:
+                break
+        if stk is None or neu_ged is None or neu_ged.sum() < 2:
             continue
         offen &= ~neu_ged
         stk["netz"] = info["name"]

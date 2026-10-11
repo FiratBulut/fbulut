@@ -773,6 +773,8 @@ def pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None):
         from . import kamera_frei as _kf
         b += _sw.pruefe_orte_steil(d, basis, welt, sw_ordner, inv)
         b += _kf.pruefe_orte_kameras(d, basis, welt, sw_ordner, inv)
+        from . import see_bloecke as _sb
+        b += _sb.pruefe_orte_see_bloecke(d, welt, sw_ordner, inv)
     mw = sum(len(o.get("materialwuensche", []) or []) for o in orte)
     if mw > 6:
         b.append((FEHLER, biom, "%d Materialwuensche > 6 je Biom" % mw))

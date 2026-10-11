@@ -597,7 +597,11 @@
     {"typ": "decal", "material": "MI_Leakage_06", "zweck": "Erde hinter den Wurzeltellern", "anzahl": 2, "verteilung": {"typ": "rechteck", "bei": "mitte", "laenge_m": 90, "breite_m": 16, "richtung": "wind"}, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf", "optional": true, "zweck": "fliegende Nadeln/Blaetter in der Gasse", "credits": "SoftTofuVFX (CC BY 4.0)", "bei": "mitte", "hoehe_m": 4}
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 60, "lautstaerke": 0.7, "zweck": "Wind (Brandung fehlt)"}]
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 60, "lautstaerke": 0.7, "zweck": "Wind (Brandung fehlt)"}],
+   "kameras": {
+    "nah": {"ziel_gruppe": "wurzelteller", "ziel_richtung": "wind", "ziel_hoehe_m": 1.8, "abstand_m": [6, 15], "richtung": "wind",
+            "grund": "13h: _nah stand in einer liegenden Fichte - jetzt von der Seeseite auf den vordersten Wurzelteller (Steine im Wurzelwerk)"}
+   }
   },
 
   "bergwald_08_der_wurzelstein": {

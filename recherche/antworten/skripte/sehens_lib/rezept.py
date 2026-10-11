@@ -34,6 +34,7 @@ from . import inventar as _inv
 from . import bach as _bach
 from . import steilwand as _sw
 from . import kamera_frei as _kf
+from . import see_bloecke as _sb
 
 FEHLER, WARNUNG, HINWEIS = "FEHLER", "WARNUNG", "HINWEIS"
 BUDGET_9 = {"instanzen": 15000, "kollision": 1500, "akteure": 80, "lichter": 4, "niagara": 3, "nebel": 2,
@@ -2357,8 +2358,8 @@ class OrtKontext:
         return de
 
     def eintrag_bauen(self, mat_liste):
-        bud, z = self.budget()
-        # 13h: Kameras gegen eigene Netze, Bestandskronen und Gelaende pruefen, blockierte versetzen (Regel "kameras")
+        # 13h: Kameras gegen eigene Netze, Bestandskronen und Gelaende pruefen, blockierte versetzen (Regel "kameras");
+        # vor dem Budget, weil ein freigeraeumter Standplatz Instanzen entfernt
         kam_neu = _kf.kameras_bauen(self)
         if kam_neu is not None:
             self.st = dict(self.st, kameras=kam_neu)
@@ -2391,6 +2392,7 @@ class OrtKontext:
             e["freiraeume"] = self.freiraeume
         if self.bestand_ausblenden:
             e["bestand_ausblenden"] = self.bestand_ausblenden
+        _sb.korrigieren(self)                            # 13h Nachtrag: Bloecke im See nie knapp unter dem Spiegel
         e["detail_ebenen"] = self.detail_ebenen(z)
         e["hinweise"] = [ascii_text(t) for s, _, t in self.meldungen if s == HINWEIS][:30]
         self.eintrag = e

@@ -39,6 +39,8 @@ LEUCHT_FAKTOR = 1.5           # Ferat 13h: Riesen >= 1,5 x Nachbarhoehe
 
 BAUM_MUSTER = re.compile(r"(tree|pine|fir_|spruce|birch|oak|beech|palm|cedar|larch|willow|maple|acacia|baobab|"
                          r"cypress|sequoia|redwood|mangrove|alder|ash_|elm|poplar)", re.I)
+LAUB_MUSTER = re.compile(r"(fallen|log|_plant|fern|bush|shrub|petasites|grass|reed|rush|rohrkolben|vine|ivy|liana|"
+                         r"buckthorn|juniper|heath|broom|ginster|leaf|foliage|kelp|cattail|bamboo)", re.I)
 KEIN_BAUM_MUSTER = re.compile(r"(log|branch|root|stump|cone|needle|leaf|bark|fallen|trunk|_plant)", re.I)
 
 
@@ -50,6 +52,13 @@ def ist_baum(name):
 # ============================================================================================
 # Hindernisse
 # ============================================================================================
+def _q_matrix(q):
+    x, y, z, w = [float(v) for v in q]
+    return np.array([[1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+                     [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+                     [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)]])
+
+
 def _hindernis(info, pfad, x_cm, y_cm, z_cm, q, s, ort=None, gruppe=None, ebene=None):
     from . import instanzen as _ins
     bmin, bmax = info["bounds_cm"]
@@ -71,32 +80,46 @@ def _hindernis(info, pfad, x_cm, y_cm, z_cm, q, s, ort=None, gruppe=None, ebene=
     else:
         qi = (-q[0], -q[1], -q[2], q[3])
         b0, b1 = np.asarray(bmin, np.float64), np.asarray(bmax, np.float64)
-        if ist_baum(pfad) or re.search(r"(fallen|log|_plant)", str(pfad), re.I):
+        if ist_baum(pfad) or LAUB_MUSTER.search(str(pfad).rsplit("/", 1)[-1]):
             # Laub/Nadeln fuellen die Box nicht: liegende Baeume, Jungbaeume -> Kern 80 % der Box
             m_, r_ = 0.5 * (b0 + b1), 0.4 * (b1 - b0)
             b0, b1 = m_ - r_, m_ + r_
-        h.update(typ="box", qi=qi, s=s, bmin=b0, bmax=b1, pz=z_cm / 100.0)
+        h.update(typ="box", M=_q_matrix(qi), s=s, bmin=b0, bmax=b1, pz=z_cm / 100.0)
     return h
 
 
-def hindernisse_aus_stuecken(stuecke, inv, min_hoehe_m=1.0):
-    """Planer: Hindernisse aus Ebene.stuecke (alle Orte des Laufs)."""
+_CACHE = {}
+MIN_HOEHE_M = 2.0             # Instanzen kleiner als 2 m (Farn, Gras, Kiesel) sperren keinen Blick in Augenhoehe
+
+
+def hindernisse_aus_stuecken(stuecke, inv, min_hoehe_m=MIN_HOEHE_M):
+    """Planer: Hindernisse aus Ebene.stuecke (alle Orte des Laufs); Akteure immer, Instanzen ab min_hoehe_m."""
     out = []
     for e in stuecke:
+        c = _CACHE.get(id(e))
+        if c is not None and c[0] is e:
+            if c[1] is not None:
+                out.append(c[1])
+            continue
+        h = None
         try:
             info = inv.netz(e["pfad"])
         except KeyError:
-            continue
-        gr = info["groesse_m"]
-        if max(gr) * max(e["s"]) < min_hoehe_m:
-            continue
-        h = _hindernis(info, e["pfad"], e["x"], e["y"], e["z"], e["q"], e["s"], e["ort"], e["gruppe"], e["ebene"])
-        if h["H"] >= min_hoehe_m or h["typ"] == "baum":
+            info = None
+        grenze = 1.0 if e.get("akteur") else min_hoehe_m
+        if info is not None and max(info["groesse_m"]) * max(e["s"]) >= grenze:
+            h = _hindernis(info, e["pfad"], e["x"], e["y"], e["z"], e["q"], e["s"], e["ort"], e["gruppe"], e["ebene"])
+            if not (h["H"] >= grenze or h["typ"] == "baum"):
+                h = None
+            else:
+                h["stueck"] = e
+        _CACHE[id(e)] = (e, h)
+        if h is not None:
             out.append(h)
     return out
 
 
-def hindernisse_aus_ebene(sw_ordner, inv, min_hoehe_m=1.0):
+def hindernisse_aus_ebene(sw_ordner, inv, min_hoehe_m=MIN_HOEHE_M):
     """Pruefer: Hindernisse aus sw_<biom>/<Feld>/plan.json (Akteure) und den f32-Dateien (Instanzen)."""
     from . import instanzen as _ins
     out = []
@@ -109,7 +132,7 @@ def hindernisse_aus_ebene(sw_ordner, inv, min_hoehe_m=1.0):
             q = (e["qx"], e["qy"], e["qz"], e["qw"])
             h = _hindernis(info, e.get("pfad"), e["x"], e["y"], e["z"], q, (e["sx"], e["sy"], e["sz"]),
                            ort=None, gruppe=e.get("klasse"), ebene=e.get("ebene"))
-            if h["H"] >= min_hoehe_m:
+            if h["H"] >= 1.0:
                 out.append(h)
         for key, d in (plan.get("dateien") or {}).items():
             a = arr.get(key)
@@ -140,9 +163,8 @@ def _in_hindernis(h, X, Y, Z, rand_m=0.0):
         krone = (d <= 0.8 * h["r_krone"] + rand_m) & (Z >= h["z_krone"] - rand_m) & (Z <= h["z1"] + rand_m)
         stamm = (d <= h["r_stamm"] + rand_m) & (Z >= h["z0"]) & (Z <= h["z1"])
         return krone | stamm
-    from . import instanzen as _ins
     v = np.stack([X * 100.0 - h["x"] * 100.0, Y * 100.0 - h["y"] * 100.0, Z * 100.0 - h["pz"] * 100.0], -1)
-    lok = _ins.q_drehe(h["qi"], v) / np.maximum(h["s"], 1e-6)
+    lok = (v @ h["M"].T) / np.maximum(h["s"], 1e-6)
     r = rand_m * 100.0 / np.maximum(h["s"], 1e-6)
     return np.all((lok >= h["bmin"] - r) & (lok <= h["bmax"] + r), axis=-1)
 
@@ -182,6 +204,19 @@ def _bestand(welt, X, Y, freiraeume):
 # ============================================================================================
 # Kamera
 # ============================================================================================
+_BB = {}
+
+
+def _bb_array(hind):
+    c = _BB.get(id(hind))
+    if c is not None and c[0] is hind and c[1] == len(hind):
+        return c[2]
+    a = np.array([h["bb"] for h in hind], np.float64).reshape(-1, 4)
+    _BB.clear()
+    _BB[id(hind)] = (hind, len(hind), a)
+    return a
+
+
 def kamera_auge(kam, boden_fn):
     kx, ky = kam[1] / 100.0, kam[2] / 100.0
     b = float(boden_fn(kx, ky))
@@ -223,7 +258,9 @@ def pruefe_kamera(kam, ort, welt, boden_fn, hind, freiraeume=None, bestand=True,
     # Kandidaten (Box um den Strahl + 25 m)
     x0, x1 = min(ex, tx) - 25.0, max(ex, tx) + 25.0
     y0, y1 = min(ey, ty) - 25.0, max(ey, ty) + 25.0
-    nahe = [h for h in hind if not (h["bb"][2] < x0 or h["bb"][0] > x1 or h["bb"][3] < y0 or h["bb"][1] > y1)]
+    bb = _bb_array(hind)
+    sel_ = np.flatnonzero(~((bb[:, 2] < x0) | (bb[:, 0] > x1) | (bb[:, 3] < y0) | (bb[:, 1] > y1))) if len(hind) else []
+    nahe = [hind[k] for k in sel_]
     for h in nahe:
         if h["typ"] == "baum":
             dh = math.hypot(ex - h["x"], ey - h["y"])
@@ -231,7 +268,7 @@ def pruefe_kamera(kam, ort, welt, boden_fn, hind, freiraeume=None, bestand=True,
                 b.append(("FEHLER", "Kamera %s %.1f m vom Stamm %s (Kronenradius %.1f m + 2 m noetig, 13h)"
                           % (name, dh, str(h["pfad"]).rsplit("/", 1)[-1], h["r_krone"])))
                 break
-        elif _in_hindernis(h, np.array([ex]), np.array([ey]), np.array([ez]), 0.3 + rand_m)[0]:
+        elif _in_hindernis(h, np.array([ex]), np.array([ey]), np.array([ez]), 0.3)[0]:
             b.append(("FEHLER", "Kamera %s steht in %s" % (name, str(h["pfad"]).rsplit("/", 1)[-1])))
             break
     # Strahl (neue Netze)
@@ -400,7 +437,7 @@ def _ziel_aus_gruppe(ctx, r):
     st = ctx.gruppen.get(r["ziel_gruppe"]) or []
     if not st:
         return None
-    ux, uy = _stm.kompass_vektor(float(r.get("ziel_richtung", 0.0)))
+    ux, uy = _stm.kompass_vektor(float(ctx.richtung(r.get("ziel_richtung", 0.0))))
     best = max(st, key=lambda s_: (s_["stueck"]["x"] / 100.0 - ctx.mx) * ux + (s_["stueck"]["y"] / 100.0 - ctx.my) * uy)
     return best["stueck"]["x"] / 100.0, best["stueck"]["y"] / 100.0
 
@@ -450,6 +487,7 @@ def kameras_bauen(ctx):
     neu = []
     geaendert = False
     for kam in alt:
+        kand = []
         name = str(kam[6])
         art = name.rsplit("_", 1)[-1]
         r = regel.get(art) or {}
@@ -460,6 +498,12 @@ def kameras_bauen(ctx):
             if abs(zb1 - zb0) > 0.3:
                 kam[5] = int(round((zb1 + max(kam[5] / 100.0 - zb0, 0.5)) * 100))
                 geaendert = True
+        zb_t = float(ctx.boden(kam[3] / 100.0, kam[4] / 100.0))
+        if kam[5] / 100.0 < zb_t + 0.3:
+            kam[5] = int(round((zb_t + (1.0 if art == "nah" else 2.0)) * 100))
+            geaendert = True
+            ctx.melde("HINWEIS", "Kamera %s: Ziel lag unter dem Boden - auf Boden + %.0f m gehoben (13h)"
+                      % (name, 1.0 if art == "nah" else 2.0))
         if r:
             ziel = None
             if r.get("ziel_gruppe"):
@@ -508,7 +552,8 @@ def kameras_bauen(ctx):
             from . import steilwand as _sw
             ausgeblendet = [e["umriss_cm"] for e in ctx.bestand_ausblenden if e.get("art") == "houdini" and e.get("umriss_cm")]
             kand = []
-            for kosten, x, y in _kandidaten(kam, art, abstand_m=r.get("abstand_m"), richtung=r.get("richtung")):
+            rr_ = ctx.richtung(r["richtung"]) if r.get("richtung") is not None else None
+            for kosten, x, y in _kandidaten(kam, art, abstand_m=r.get("abstand_m"), richtung=rr_):
                 if not ctx.welt.im_raster_m(x, y):
                     continue
                 i, j = ctx.welt.m_zu_ij(x, y)
@@ -534,6 +579,27 @@ def kameras_bauen(ctx):
                     bef = []
                     geaendert = True
                     break
+        if bef and [x for x in bef if x[0] == "FEHLER"] and regel.get("standplatz_freiraeumen", True) and art != "fern":
+            # Standplatz freiraeumen: eigene Pflanzen-Instanzen (Farn, Strauch, Jungwuchs; keine Akteure) am Standplatz
+            # und auf dem Strahl entfernen, wenn die Kamera dann frei ist (alte Position zuerst, dann die Kandidaten)
+            weich = [h for h in hind if h.get("stueck") is not None and not h["stueck"].get("akteur")
+                     and h["stueck"].get("ort") == ctx.id and h["stueck"].get("ebene") in ("bewuchs", "kleinzeug", "kontakt")]
+            hart = [h for h in hind if all(h is not w_ for w_ in weich)]
+            for x, y in [(kam[1] / 100.0, kam[2] / 100.0)] + [(c[1], c[2]) for c in kand[:80]]:
+                k2 = list(kam)
+                k2[0], k2[1], k2[2] = _daten.feld_von_m(x, y), int(round(x * 100)), int(round(y * 100))
+                if pruefe_kamera(k2, ort, ctx.welt, ctx.boden, hart, frei, rand_m=PLANER_RAND_M):
+                    continue
+                weg = [w_ for w_ in weich if pruefe_kamera(k2, ort, ctx.welt, ctx.boden, [w_], frei, bestand=False)]
+                ids = {id(w_["stueck"]) for w_ in weg}
+                ctx.ebene.stuecke = [e for e in ctx.ebene.stuecke if id(e) not in ids]
+                for gn in list(ctx.gruppen):
+                    ctx.gruppen[gn] = [s_ for s_ in ctx.gruppen[gn] if id(s_.get("stueck")) not in ids]
+                ctx.melde("HINWEIS", "Kamera %s: Standplatz freigeraeumt (13h) - %d Pflanzen entfernt, Kamera bei (%.0f, %.0f) m"
+                          % (name, len(weg), x, y))
+                kam, bef, geaendert = k2, [], True
+                hind = hart + [w_ for w_ in weich if id(w_["stueck"]) not in ids]
+                break
         for st_, t in bef:
             ctx.melde("WARNUNG" if st_ == "FEHLER" else st_, t)
         neu.append([kam[0], int(kam[1]), int(kam[2]), int(kam[3]), int(kam[4]), int(kam[5]), kam[6], int(kam[7])])
