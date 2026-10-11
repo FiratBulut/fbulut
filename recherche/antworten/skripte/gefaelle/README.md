@@ -21,7 +21,9 @@ Stufenstrecke, dazwischen ein Kaskadennetz.
 python -I recherche/antworten/skripte/gefaelle/gefaelle_prioritaet.py [--daten2m DIR | --daten1m DIR] [--p2 DIR]
 python -I recherche/antworten/skripte/gefaelle/gefaelle_plan.py [--laeufe ID …] [--strecken ID …] [--alle]
        [--daten2m DIR] [--aus DIR] [--bild [--bild-ordner DIR]] [--variante A|C] [--ohne-pruefung]
+       [--hoehe1m-fenster DIR]
 python -I recherche/antworten/skripte/gefaelle/gefaelle_pruefen.py <aus> [--daten2m DIR | --daten1m DIR]
+       [--hoehe1m-fenster DIR]
 ```
 
 - Ohne `--laeufe/--strecken/--alle` plant der Planer die Läufe der 20 Pilot-Strecken aus `prioritaet.json`.
@@ -69,9 +71,18 @@ python -I recherche/antworten/skripte/gefaelle/gefaelle_pruefen.py <aus> [--date
 4. **Arten:** Fall (nur an Fels oder als erzwungener Knick), Blockstufe 0,8–2 m, Kaskade (Teilstufen ≤ 1,5 m; kurze
    Becken werden zu Kaskaden mit 2–4 Teilstufen gebündelt, deren Teil-Lippen ebenfalls auf dem alten Spiegel liegen),
    Schnelle als Rampe. Holzstufen nach `stufen.holzstufe.anteil` je Biom.
-5. **Gelände** (1-m-Delta, Rand 0): Bett = Spiegel − max(Tiefe; 0,5 m), Krone 0,15 m unter der Lippe, Kolk nach `kolk`,
-   Böschung 35°, Uferklippe 60–90° (`ufer_klippen`), Klamm 85° mit `klamm.sohlbreite`, Uferwulst Spiegel + 0,15 m
-   (höchstens 1 m anheben).
+5. **Gelände** (1-m-Delta, Rand 0; Querprofil seit 15b):
+   - Bett = Spiegel − max(Tiefe; 0,5 m), Krone 0,15 m unter der Lippe, Kolk nach `kolk`.
+   - Wasserkante 0,3–0,5 m innerhalb der halben Breite, Böschung 35° durch die Wasserkante. Bett und Kolke sind so nie
+     breiter als das Wasser.
+   - Außerhalb der halben Breite die Uferwand mit dem Uferwinkel: 35°, Uferklippe 60–90° (`ufer_klippen`), Klamm 85°
+     mit `klamm.sohlbreite`. Neben dem Fuß einer Stufe bleibt das Ufer 1,5 m lang auf Oberwasserhöhe.
+   - Uferring: ab der Wasserkante mit 35° auf Spiegel + 0,15 m bis Netzrand + 1,5 m, dann 1:2 auslaufen, höchstens 1 m
+     anheben.
+   - Die Breite ändert sich höchstens um 0,2 m je m.
+   - **1-m-Feinschliff:** Das Delta wird auf dem 1-m-Ausgaberaster gegen das alte 1-m-Gelände nachgezogen (Wasser =
+     Querprofil, Uferring), mit denselben Schutzfaktoren. Lokal ist das die 1-m-Welt; in der Cloud kommt das alte
+     Gelände aus `--hoehe1m-fenster`, sonst aus dem 2-m-Raster.
 6. **Netze** je Biom am Stufenort (`biome.<biom>.netze`, gesperrte Netze werden übersprungen): Fallwand (held, Akteur),
    durchgehende Lippe aus Riegel-Netzen, Keystone + Stufenblöcke (`schutt.stufenblock_D`), Holz, Uferwände (Reihe beidseitig,
    hohe Wände in 2–3 Reihen übereinander), Sturzblöcke (`schutt.unter_fall`), Beckenblöcke, Wandschutt (`kegel_laenge`),
@@ -104,7 +115,14 @@ python -I recherche/antworten/skripte/gefaelle/gefaelle_pruefen.py <aus> [--date
 `gefaelle_pruefen.py` prüft:
 - Spiegel monoton, Anfang und Ende auf alter Höhe, nie über dem alten, Zwei-Punkt-Abstand, Becken ≤ 3 % (FEHLER) bzw. ≤ 2 % (WARNUNG), Rampen.
 - Stufenhöhen gegen `stufen.arten`, Dichte, Lippenform.
-- Wasserkörper: monoton, Überlappung genau 0,5 m, keine weitere Überlappung (auch in der Draufsicht), jede Stufe im Netz, Bett ≥ 0,2 m unter und Ufer am Netzrand über dem Spiegel, Niagara oder Vorhang je Stufe ≥ 1 m (sonst WARNUNG).
+- Wasserkörper: monoton, Überlappung genau 0,5 m, keine weitere Überlappung (auch in der Draufsicht), jede Stufe im Netz, Niagara oder Vorhang je Stufe ≥ 1 m (sonst WARNUNG).
+- Bett und Ufer an jedem Beckenpunkt des Netzes (Becken seit 15b alle ≤ 2 m beschrieben), gegen das Gelände nach dem
+  Stempel:
+  - Bett ≥ 0,2 m unter dem Spiegel, gemittelt über die mittleren 60 % der Breite.
+  - Ufer am Netzrand (halbe Breite + 0,4 m) ≥ 0,1 m über dem Spiegel.
+  - „Bestand“ (WARNUNG) nur, wenn das alte Ufer dort tiefer liegt als Spiegel + 0,1 m − 1 m, der Uferring es also nicht
+    erreichen kann.
+  - Mit `--hoehe1m-fenster` rechnet die Prüfung exakt auf 1 m: altes Gelände aus den Fenstern + 1-m-Delta, bilinear.
 - Effekte: Inventar, ≤ 3 je Stufe, ≤ 6 gleichzeitig mit Cull ≥ 30 m, ≤ 8 gesamt, Cull ≥ 20 m nur für `zusatz_aufprall`.
 - Kameras.
 - Gelände: Rand 0, |Δ| > 40 m, nicht ≤ 2 m an Weg/Pfad, ≤ 5 m an Ort, nicht in Sehenswürdigkeiten, Anheben > 1 m.
@@ -127,6 +145,13 @@ Auf 2-m-Daten zählt eine Bett- oder Uferabweichung an höchstens 1 Punkt bzw. 1
   `instanzen.Ebene(…, ebene_name, ft_praefix)`).
 - Testbilder: `antworten/gefaelle/test_<strecke>.png` (lange Strecken `_a1`, `_a2`), oben die Draufsicht, unten das
   Längsprofil vorher und nachher.
+
+## Korrektur 15b (1-m-Test)
+
+Ergebnis und Vorher-Nachher-Tabelle stehen in `antworten/15b-korrektur-1m-ufer-netzrand.md`.
+
+- **Pilotläufe auf den 1-m-Fenstern:** 19 Läufe, 0 FEHLER (vorher 29), zwei Läufe identisch.
+- **Alle 161 auf 2 m:** 0 FEHLER.
 
 ## Grenzen
 
