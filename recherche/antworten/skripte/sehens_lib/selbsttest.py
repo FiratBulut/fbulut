@@ -624,6 +624,11 @@ def main(argv=None):
     with schritt("11 Auftrag 13f/13g (A1-A5, A8, A10, A12, A13, wasser_koerper)"):
         z11 = _test_13f(welt, orte[0], a)
     z["FEHLER"] += z11
+    # 12 Auftrag 13h: Steilflaechen-Regel, Boeschung/Halde, Kameras (Krone, Strahl), Leuchtfeuer, Bloecke im See
+    with schritt("12 Auftrag 13h (Steilflaechen, Kameras, Leuchtfeuer, See-Bloecke)"):
+        from .selbsttest_13h import test_13h
+        z12 = test_13h(welt)
+    z["FEHLER"] += z12
     log("-" * 60)
     for u in zeiten:
         log("%-44s %7.2f s" % (u.name, u.sek))

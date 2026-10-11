@@ -355,7 +355,7 @@
      ]
     }
    },
-   "gelaende": {
+   "gelaende": {"verkleiden": {"groesse_m": [8.0, 14.0], "groesse_achse": "z", "grund": "13h: Felsstufe unter den Seracs (8 m) mit grossen Wand-/Eisklippen verkleiden - wenige grosse Netze statt vieler kleiner (Akteur-Budget)"}, "rauschen": {"anteil": 0.3, "wellenlaenge_m": 18, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
     "schutz_weg_m": 5,
     "fenster_m": [
      380,
@@ -1971,7 +1971,7 @@
      ]
     }
    },
-   "gelaende": {
+   "gelaende": {"verkleiden": {"palette": ["rcygn_tier_0", "SM_HugeNordicCoastalCliff_01", "SM_MassiveNordicCoastalCliff_01", "vdssailfa_tier_2", "vfmjadufa_tier_2"], "groesse_m": [12.0, 22.0], "groesse_achse": "z", "grund": "13h: Karrueckwand ueber der Karbank (bis ~40 m) mit massiven Klippenschalen verkleiden"}, "rauschen": {"anteil": 0.25, "wellenlaenge_m": 16, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
     "schutz_weg_m": 5,
     "fenster_m": [
      140,
@@ -1979,21 +1979,21 @@
     ],
     "bei": "see",
     "rand_m": 14,
-    "begruendung": "Hang 45-56 Grad: der See braucht eine Karbank (Abtrag hangseitig bis ~18 m, Auftrag talseitig = Moraenenriegel bis ~15 m). Ferat 11.10.: Gelaende frei.",
+    "begruendung": "Hang 45-56 Grad: der See braucht eine Karbank (13i K9 verkleinert: Abtrag hangseitig bis ~20 m, Auftrag talseitig = Moraenenriegel bis ~15 m). Ferat 11.10.: Gelaende frei.",
     "ops": [
      {
       "op": "terrasse",
       "bei": "see",
-      "radius_m": 24,
+      "radius_m": 18,
       "ziel_z": 190.0,
       "streckung": [
-       1.45,
+       1.3,
        1.0
       ],
       "richtung": 70,
-      "rand_m": 14,
+      "rand_m": 10,
       "modus": "setzen",
-      "warum": "Karbank fuer den See"
+      "warum": "Karbank fuer den See - 13i K9: kleiner (r 18 x 1,3 statt 24 x 1,45, Rand 10 m), damit der Abtrag am 45-56-Grad-Hang begrenzt bleibt; die steile Rueckwand darueber verkleidet die Lib mit Fels (13h)"
      },
      {
       "op": "abbruch",
@@ -2695,7 +2695,7 @@
      ]
     }
    },
-   "gelaende": {
+   "gelaende": {"rauschen": {"anteil": 0.3, "wellenlaenge_m": 14, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
     "schutz_weg_m": 5,
     "fenster_m": [
      120,
@@ -3293,7 +3293,7 @@
      ]
     }
    },
-   "gelaende": {
+   "gelaende": {"rauschen": {"anteil": 0.3, "wellenlaenge_m": 22, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform (Waechte nicht mehr als gerades Band)"}, 
     "schutz_weg_m": 5,
     "fenster_m": [
      220,
@@ -5259,7 +5259,7 @@
      ]
     }
    },
-   "gelaende": {
+   "gelaende": {"rauschen": {"anteil": 0.25, "wellenlaenge_m": 14, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
     "schutz_weg_m": 5,
     "fenster_m": [
      140,

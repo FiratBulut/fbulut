@@ -3787,7 +3787,7 @@
      ]
     }
    },
-   "gelaende": {
+   "gelaende": {"rauschen": {"anteil": 0.15, "wellenlaenge_m": 8, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform (Spaltwaende nicht mehr gerade; klein, damit das Ufer des Spaltwassers haelt)"}, 
     "fenster_m": [
      150,
      140

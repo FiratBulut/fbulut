@@ -653,6 +653,10 @@ class Stempel:
         dist = _gel.abstand(geaendert, z, max_m=float(reichweite_m) + 2.0 * z).astype(np.float64)
         anteil = np.clip(1.0 - dist / max(float(reichweite_m), 1e-6), 0.0, 1.0)
         frei &= anteil > 0
+        # nur dort ausgleichen, wo der Bestand flacher als max_grad ist (dort konvergiert Halde/Abtrag); auf natuerlich
+        # steilen Haengen liefe der Ausgleich sonst den Hang hinauf und schuefe am Auslauf neue Steilheit -> Verkleidung
+        gy0, gx0 = np.gradient(h0, z)
+        frei &= np.degrees(np.arctan(np.hypot(gx0, gy0))) <= float(max_grad) + 3.0
         nach = [(di, dj, z * math.hypot(di, dj)) for di in (-1, 0, 1) for dj in (-1, 0, 1) if di or dj]
 
         def verschiebe(a, di, dj, leer):

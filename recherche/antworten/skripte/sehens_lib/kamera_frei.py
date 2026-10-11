@@ -376,7 +376,8 @@ def pruefe_leuchtfeuer(ort, welt, boden_fn, hind, freiraeume=None):
             # Mindesthoehe (Gelaende + Bestand ohne Freiraeume) genuegt ebenfalls ("Ziel ueber dem Bestand")
             zx, zy = kam[3] / 100.0, kam[4] / 100.0
             zb = float(boden_fn(zx, zy))
-            H = max(2.0 * (kam[5] / 100.0 - zb), max(h_["z1"] for h_ in held) - zb, 4.0)
+            zh_ = float((ort.get("sicht") or {}).get("ziel_hoehe_m") or 0.0)     # Silhouettenhoehe aus Phase 1
+            H = max(2.0 * (kam[5] / 100.0 - zb), max(h_["z1"] for h_ in held) - zb, zh_, 4.0)
             zm = _mindest_z(welt, boden_fn, ex, ey, ez, zx, zy, freiraeume)
             anteil = (zb + H - zm) / H
             info["fern_ort_anteil"] = round(float(anteil), 2)
@@ -506,7 +507,8 @@ def kameras_bauen(ctx):
         return None
     hind = hindernisse_aus_stuecken(ctx.ebene.stuecke, ctx.inv)
     ort = {"id": ctx.id, "wasser": ctx.wasser, "art": ctx.st["art"], "mitte_cm": ctx.st["mitte_cm"],
-           "radius_m": ctx.st["radius_m"]}
+           "radius_m": ctx.st["radius_m"],
+           "sicht": {"ziel_hoehe_m": ctx.st.get("ziel_hoehe_m") or (ctx.st.get("sicht") or {}).get("ziel_hoehe_m")}}
     frei = ctx.freiraeume
     neu = []
     geaendert = False

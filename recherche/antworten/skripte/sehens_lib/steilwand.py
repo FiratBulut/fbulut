@@ -422,6 +422,7 @@ def boeschung_anwenden(ctx):
     if mg is False or mg is None:
         return
     fest, min_h = _fest_maske(ctx)
+    min_h = np.where(st.h0 >= 0.0, np.maximum(min_h, 0.3), min_h)   # Land nie unter +0,3 m abtragen (Kueste)
     for z_ in g.get("steil_erlaubt") or []:
         if z_.get("punkte"):
             d, _, _ = _stm.polylinie_abstand(st.X, st.Y, ctx.linie(z_["punkte"]))
@@ -466,7 +467,7 @@ def boeschung_anwenden(ctx):
         ctx._halde_gruppe = {"name": "halde_bloecke", "ebene": "schutt", "rolle": "fels",
                              "warum": "13h: Schutthalde 30-35 Grad statt Erdwand - Bloecke auf der Halde",
                              "palette": bl, "dichte_je_m2": float(hc.get("dichte_je_m2", 0.06)),
-                             "verteilung": {"typ": "halde"}, "abstand_m": float(hc.get("abstand_m", 1.5)),
+                             "verteilung": {"typ": "halde"}, "abstand_m": float(hc.get("abstand_m", 1.5)), "boden_min_m": 0.3,
                              "groesse_m": hc.get("groesse_m", [0.5, 1.4]), "im_wasser": "nein"}
 
 
@@ -497,7 +498,7 @@ def halde_lage(ctx, lg):
     return np.clip(_stm._bilinear_fenster(w, st.fe, ctx.welt, lg.X, lg.Y, 0.0) * 1.6, 0.0, 1.0)
 
 
-PLANER_GRENZE_GRAD = 38.0   # Planer rechnet im nativen Raster (2 m): Reserve fuer die 1-m-Interpolation des Pruefers
+PLANER_GRENZE_GRAD = 42.0   # Planer rechnet im nativen Raster (2 m): Reserve fuer die 1-m-Interpolation des Pruefers
 
 
 def _steil_im_stempel(ctx, grenze_grad=PLANER_GRENZE_GRAD):
@@ -515,6 +516,27 @@ def _steil_im_stempel(ctx, grenze_grad=PLANER_GRENZE_GRAD):
         aus |= b["d"] <= _b.halbe_breite_eff(b["B"], st.z) + 1.0
     aus |= h1 < MEER_UNTER_M
     return neue_steil_maske(st.h0, h1, st.z, grenze_grad=grenze_grad, ausnahme=aus), h1
+
+
+def _raster_1m(ctx, grenze_grad=PLANER_GRENZE_GRAD):
+    """Stempelfenster im 1-m-Raster wie der Pruefer: X, Y, h0 (Welt bilinear), h1 (+ Delta bilinear), steil (neu > Grenze,
+    ohne Seegrund, Meeresboden und benetztes Bachbett)."""
+    from . import stempel as _stm
+    from . import rezept as _rz
+    from . import bach as _b
+    st = ctx.stempel
+    x0, y0, x1, y1 = st.fe.grenzen_m()
+    X, Y = np.meshgrid(np.arange(np.ceil(x0 - 0.5) + 0.5, x1, 1.0), np.arange(np.ceil(y0 - 0.5) + 0.5, y1, 1.0))
+    h0 = ctx.welt.bilinear(ctx.welt.hoehe, X, Y)
+    h1 = h0 + _stm._bilinear_fenster(st.delta, st.fe, ctx.welt, X, Y, 0.0)
+    aus = h1 < MEER_UNTER_M
+    for sid, sv in ctx.see.items():
+        if not sv.get("klein"):
+            aus |= _rz._in_polygon(X, Y, sv["umriss_m"]) & (h1 <= float(sv["spiegel_m"]) + 0.05)
+    for b in _bach_zonen(ctx, X, Y):
+        aus |= b["d"] <= _b.halbe_breite_eff(b["B"], st.z) + 1.0
+    return {"X": X, "Y": Y, "h0": h0, "h1": h1,
+            "steil": neue_steil_maske(h0, h1, 1.0, grenze_grad=grenze_grad, ausnahme=aus)}
 
 
 def verkleiden(ctx, g):
@@ -537,11 +559,14 @@ def verkleiden(ctx, g):
     if not namen:
         ctx.melde("FEHLER", "Gruppe %s: keine Wandnetze" % name)
         return []
-    steil, h1 = _steil_im_stempel(ctx)
+    # gerechnet wie der Pruefer: 1-m-Raster (Welt bilinear + Delta bilinear), damit nichts uebrig bleibt
+    G = _raster_1m(ctx)
+    steil, h1 = G["steil"], G["h1"]
+    GX, GY = G["X"], G["Y"]
     if v.get("bei") is not None or v.get("r_m") is not None:
         x, y = ctx.punkt(v.get("bei", "mitte"))
-        steil &= np.hypot(st.X - x, st.Y - y) <= float(v.get("r_m", 30.0))
-    z2 = st.z * st.z
+        steil &= np.hypot(GX - x, GY - y) <= float(v.get("r_m", 30.0))
+    z2 = 1.0
     lab, gr = komponenten(steil)
     mf = float(v.get("min_flaeche_m2", 4.0))
     for k, n in enumerate(gr, start=1):
@@ -567,7 +592,7 @@ def verkleiden(ctx, g):
             e_ = s_.get("stueck") or {}
             if e_.get("akteur") and (e_.get("rolle") in ("fels", "stein") or ist_fels(e_.get("pfad"))):
                 vorher.append(abdruck(ctx.inv.netz(e_["pfad"]), e_["q"], e_["s"], e_["x"], e_["y"], e_["z"]))
-    offen = steil & ~deckung(st.X, st.Y, h1, vorher, rand_m=0.0, z_tol_m=Z_TOL_M, nur=steil)
+    offen = steil & ~deckung(GX, GY, h1, vorher, rand_m=0.0, z_tol_m=Z_TOL_M, nur=steil)
     versucht = np.zeros(steil.shape, bool)
     out = []
     max_n = int(v.get("max_anzahl", 30))
@@ -580,7 +605,7 @@ def verkleiden(ctx, g):
         k = int(np.lexsort((jj, ii, h1[ii, jj]))[0])        # tiefste Zelle zuerst (deterministisch)
         i, j = int(ii[k]), int(jj[k])
         versucht[i, j] = True
-        x, y = float(st.X[i, j]), float(st.Y[i, j])
+        x, y = float(GX[i, j]), float(GY[i, j])
         yaw = float(st.hangab_grad_bei_m(x, y, max(2.0, 1.5 * st.z)))
         ux, uy = _stm.kompass_vektor(yaw)
         x, y = x + ux * vers, y + uy * vers
@@ -594,7 +619,7 @@ def verkleiden(ctx, g):
             if stk is None:
                 continue
             a = abdruck(info, stk["q"], stk["s"], stk["x"], stk["y"], stk["z"])
-            neu_ged = deckung(st.X, st.Y, h1, [a], rand_m=0.0, z_tol_m=Z_TOL_M, nur=offen) & offen
+            neu_ged = deckung(GX, GY, h1, [a], rand_m=0.0, z_tol_m=Z_TOL_M, nur=offen) & offen
             if neu_ged.sum() < 2 and a["zmin"] < h1[i, j] - 0.5 * (a["zmax"] - a["zmin"]):
                 # hohe Wand: das Netz sackt bis zum Wandfuss ab und deckt den oberen Teil nicht - hoeher ansetzen
                 # (gestapelt, Unterkante 35 % der Netzhoehe unter der Zelle; ruht auf dem Netz darunter -> z_frei)
@@ -603,7 +628,7 @@ def verkleiden(ctx, g):
                 if stk is None:
                     continue
                 a = abdruck(info, stk["q"], stk["s"], stk["x"], stk["y"], stk["z"])
-                neu_ged = deckung(st.X, st.Y, h1, [a], rand_m=0.0, z_tol_m=Z_TOL_M, nur=offen) & offen
+                neu_ged = deckung(GX, GY, h1, [a], rand_m=0.0, z_tol_m=Z_TOL_M, nur=offen) & offen
             if neu_ged.sum() >= 2:
                 break
         if stk is None or neu_ged is None or neu_ged.sum() < 2:
@@ -655,12 +680,11 @@ def auto_verkleiden(ctx):
     if v is False or ctx.stempel is None:
         return []
     v = v if isinstance(v, dict) else {}
-    steil, _ = _steil_im_stempel(ctx)
-    if steil.sum() * ctx.stempel.z ** 2 < 4.0:
+    if _raster_1m(ctx)["steil"].sum() < 4.0:
         return []
     # Akteur-Budget (§9: 80 je Ort) - Wandnetze sind Akteure
     akt = sum(1 for e in ctx.ebene.stuecke if e.get("ort") == ctx.id and e.get("akteur"))
-    max_n = max(0, min(50, 78 - akt))
+    max_n = max(0, min(60, 78 - akt))
     if max_n == 0:
         ctx.melde("WARNUNG", "Verkleidung (13h): Akteur-Budget erschoepft - neue Steilflaechen bleiben offen")
         return []
@@ -668,11 +692,17 @@ def auto_verkleiden(ctx):
            "warum": "13h: neue Steilflaeche > 45 Grad nur mit Fels - automatische Verkleidung mit Wandnetzen des Bioms (A15)",
            "verteilung": {"typ": "steilwand", "max_anzahl": int(v.get("max_anzahl", max_n)), "versatz_m": 0.3,
                           "min_flaeche_m2": float(v.get("min_flaeche_m2", 2.0))},
-           "groesse_m": v.get("groesse_m", [3.0, 7.0]), "groesse_achse": v.get("groesse_achse", "z"),
+           "groesse_m": v.get("groesse_m", [5.0, 10.0]), "groesse_achse": v.get("groesse_achse", "z"),
            "front_achse": v.get("front_achse", "+y"), "im_wasser": "egal",
            "hinweis": "Schauseite +Y angenommen (E35) - im Editorbild pruefen"}
     if v.get("palette"):
         grp["palette"] = v["palette"]
+    else:
+        # flache Uferboeschungen (Aue/Sumpf: Embankments < 2 m hoch) nach der laengsten Achse skalieren, nicht nach Z
+        pal = biom_netze(ctx.biom).get("wand") or []
+        hz = [ctx.inv.netz(n)["groesse_m"][2] for n in pal if not ctx.inv.netz_pruefen(n)]
+        if hz and float(np.median(hz)) < 2.0 and not v.get("groesse_m"):
+            grp["groesse_m"], grp["groesse_achse"] = [4.0, 7.0], "max"
     if v.get("material"):
         grp["material"] = v["material"]
     return ctx.gruppe(grp)
