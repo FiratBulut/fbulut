@@ -143,7 +143,7 @@ Kronenlücke ergibt sich aus der festen Sonne – kein Licht nötig.
 
 **Was man sieht.** Auf einer flachen Moosinsel mitten im offenen Sumpf stehen drei abgestorbene Baumriesen, weiß und kahl – und in ihren
 Kronen sitzen **große Reisighorste**, ein Dutzend, manche bewohnt: Graureiher stehen darin wie Statuen. Der Boden darunter ist weiß
-gekalkt, Federn und Fischgräten liegen herum, das Gras ist überdüngt und hoch.
+gekalkt, (sehr spärlich) Federn liegen herum, das Gras ist überdüngt und hoch. *(Entscheidung E05: Fischgräten gestrichen – Knochen-Regel.)*
 
 **Leuchtfeuer.** 20 m: 65 von 204 Punkten (300–800 m), bis 746 m; vom Westweg und vom Südweg sichtbar.
 
@@ -158,7 +158,7 @@ ringsum (Nässe 40 m: 47 %). 50 m im Biom; Weg 272 m. Zugang 270 m streng, 60 m 
 
 **Detail-Ebenen.** Held: 3 tote Riesen `SM_Dead_Tree_01/02` (×1,4) und `SM_EuropeanBeech_Dead_XL_01`. Begleiter: 12–15 Horste aus
 `SM_detail_branches_01/02`, `SM_OldTreeBranch_03/05`, `Branch_Goat_Willow_Decaying_01` in Astgabeln. Schutt (80): heruntergefallene Äste.
-Kleinzeug: Federn (`NS_feather`, 13b), Gräten (nicht im Bestand – weggelassen). Bewuchs nach Ursache: überdüngtes Hochgras
+Kleinzeug: Federn (`NS_feather`, 13b), keine Gräten (Entscheidung E05). Bewuchs nach Ursache: überdüngtes Hochgras
 (`SM_KikuyuGrass_01`), Rohrkolben `SM_Rohrkolben_Horst_3`, `SM_ToadRush_010`, `SM_dead_grass_01`. Kontaktzone: Kotflecken `MI_Leakage_08`
 weiß getönt, `MI_ScatteredSticksAndTwigs_01`.
 

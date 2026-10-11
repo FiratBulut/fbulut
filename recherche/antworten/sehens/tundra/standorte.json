@@ -613,6 +613,7 @@
   {
    "id": "tundra_pfad_der_trunkene_grund",
    "art": "serpentine",
+   "warnung_akzeptiert": "E19: streift den 150-m-Puffer von ROMAN_LOC_018, die Stadtflaeche nicht (die 150-m-Regel gilt fuer Orte, nicht fuer Pfade)",
    "breite_cm": 150,
    "punkte_cm": [
     [-141900, -216500],

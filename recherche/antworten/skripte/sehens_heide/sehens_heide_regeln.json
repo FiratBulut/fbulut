@@ -131,7 +131,7 @@
    ],
    "pfad": {"breite_cm": 130, "lagen": {"Erde": 195, "Trockengras": 120}, "ende_r_m": 8},
    "effekte": [
-    {"typ": "decal", "material": "MI_EL_SW_Russ_Decal", "optional": true, "textur": "recherche/antworten/sehens/heide/decal_russ.png", "textur_normal": "recherche/antworten/sehens/heide/decal_russ_n.png", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "brand", "r_m": 6}, "groesse_m": [1.0, 3.5, 3.5], "zweck": "Russ und Asche des alten Heidebrands (eigene prozedurale Decal-Textur)", "hinweis": "Materialwunsch MI_EL_SW_Russ_Decal (M_MS_Decal + decal_russ.png); bis Ferat es anlegt: MI_ScatteredBark_01"}
+    {"typ": "decal", "material": "MI_EL_SW_Russ_Decal", "optional": false, "bedingung": "MI_EL_SW_Russ_Decal wird angelegt (E13: fest eingeplant)", "textur": "recherche/antworten/sehens/heide/decal_russ.png", "textur_normal": "recherche/antworten/sehens/heide/decal_russ_n.png", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "brand", "r_m": 6}, "groesse_m": [1.0, 3.5, 3.5], "zweck": "Russ und Asche des alten Heidebrands (eigene prozedurale Decal-Textur)", "hinweis": "Materialwunsch MI_EL_SW_Russ_Decal (M_MS_Decal + decal_russ.png), fest eingeplant (E13); Claude legt die Instanz lokal an"}
    ],
    "klaenge": [
     {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 70, "lautstaerke": 0.5, "zweck": "Wind im Ginster (Insektensummen fehlt im Bestand)"}
@@ -341,7 +341,7 @@
    },
    "wasser": [
     {"typ": "see", "id": "gumpe", "bei": "gumpe", "spiegel": 11.8, "tiefe_m": 1.6, "farbe": "klar", "becken": {"a_m": 5.5, "b_m": 4.2, "richtung": 60, "ufer_m": 3, "freibord_m": 0.3, "boden": 0.4, "auslass": "auto"}},
-    {"typ": "bach", "id": "klammbach", "punkte": ["p0", "p1", "p1b", "p2", "p2b", "p3"], "breite_m": 2.6, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "gumpe", "bis_see": "gumpe", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)", "hinweis": "ersetzt auf diesem Abschnitt den Bestandsbach B_R2_R_P3_P0_01; Stufen 1 und 2 (je ~1,1 m) werden kleine Faelle"},
+    {"typ": "bach", "id": "klammbach", "punkte": ["p0", "p1", "p1b", "p2", "p2b", "p3"], "breite_m": 2.6, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "gumpe", "bis_see": "gumpe", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)", "hinweis": "Stufen 1 und 2 (je ~1,1 m) werden kleine Faelle", "ersetzt_bestandsbach": {"id": "B_R2_R_P3_P0_01", "von": "p0", "bis": "p3", "grund": "E11: der Klammbach ersetzt den Bestandsbach von p0 bis p3 (Gumpe und Auslauf liegen im Bestandsbach)"}},
     {"typ": "wasserfall", "id": "fall3", "kante": [{"anker": "p3", "versatz_m": [-2, -1]}, {"anker": "p3", "versatz_m": [2, 1]}], "becken": "gumpe", "breite_m": 3.0, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) / M_EL_Wasserfall2"},
     {"typ": "bach", "id": "auslauf", "abfluss_von": "gumpe", "laenge_m": 70, "breite_m": 3.0, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "auto", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"}
    ],

@@ -135,7 +135,7 @@ Schalen Rücken an Rücken. Prüfen, ob unter den Inselchen Reste der Houdini-Ka
 
 ## 2 · Die Vogelinsel (`kueste_02_die_vogelinsel`) – Leuchtfeuer · Klippensteig
 
-**Was man sieht.** Eine Insel wie ein Schiffsrumpf, 45 m hoch, die Westwand **weiß gekalkt** von tausenden Brutplätzen, auf jedem Sims ein
+**Was man sieht.** Eine Insel wie ein Schiffsrumpf, 45 m hoch, die Ostwand **weiß gekalkt** von tausenden Brutplätzen (Entscheidung E02: Ostflanke – Guano folgt den Brutsimsen, alle Kameras stehen im Osten), auf jedem Sims ein
 weißer Punkt, in der Luft ein langsamer Wirbel aus Vögeln. Oben kurzes, vom Kot überdüngtes Grün, die Ostseite grasig mit krummen
 Kiefern. Bei Westwind zieht ein Geruch nach Fisch und Salz bis aufs Kliff.
 
@@ -150,7 +150,7 @@ Ostseite (bis 25 m), Flanken bis 77°. 70 m im Biom. Klippensteig 231 m (Aussich
 von links auf die weiße Wand. Kameras: `_anmarsch` (X −3952 / Y 386, 230 m), `_held` (X −4064 / Y 281, 180 m – vom Klippenvorsprung),
 `_nah` auf der Insel (10 m), `_fern` vom Kliffweg (X −3744 / Y 630, 484 m). **Zugang:** keiner (Insel); Aussicht am Pfadende.
 
-**Detail-Ebenen.** Held: Westwand aus `vfmjadufa_tier_2` + `vdssailfa_tier_2` (je 2, ×1,4) vor die Inselflanke gesetzt, mit
+**Detail-Ebenen.** Held: Ostwand (E02) aus `vfmjadufa_tier_2` + `vdssailfa_tier_2` (je 2, ×1,4) vor die Inselflanke gesetzt, mit
 Materialwunsch `MI_EL_SW_Guano` (Auflage weiß, Kante 5 → Kot auf Simsen). Begleiter (4): vorgelagerte Klippe `SM_HugeNordicCoastalCliff_01`,
 2 Brandungsblöcke `SM_NordicBoulder_01`. Schutt (80): `SM_NordicBeachRocks_01` am Fuß. Kleinzeug: Federn (`NS_feather`, optional).
 Bewuchs: oben überdüngt – `SM_beach_grass_02_1/2`, `SM_sea_wormwood_01`, `SM_kidney_vetch_01` dicht; Ostseite vorhandene Kiefern.

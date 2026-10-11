@@ -4,8 +4,8 @@
   "auftrag": "13 Phase 2 - Planer Wueste (Biom-Agent B6). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md",
   "quellen": "sehens/wueste/katalog.md, sehens/wueste/asset_bedarf.json, standorte.json, sehens-STATUS.md (Entscheidungen Ferat), Auftrag 13b/13c/13d",
   "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
-  "hinweis": "Die Wuestenfelder C3/C4/D3/D4/D5/E3/E4/E5 sind gebaut (Namaqualand-Planer, Palmental): hier wird NUR ergaenzt - keine freiraeume, kein 'entfernen'. Helden aus Megascans Desert Western (Fab-Materialien, kein Override). Netze nur aus netze.csv (13d); uldubik/uk5ebcp (unvollstaendig) nicht verwendet. front_achse '+y' ist eine Annahme.",
-  "materialien": "4 von 6: Wuestenlack, Salzkruste, Wueste_Sandauflage, Salz_Decal (eigene Textur sehens/wueste/decal_salzkruste.png)"
+  "hinweis": "Die Wuestenfelder C3/C4/D3/D4/D5/E3/E4/E5 sind gebaut (Namaqualand-Planer, Palmental): hier wird NUR ergaenzt - keine freiraeume, kein 'entfernen'. Helden aus Megascans Desert Western (Fab-Materialien, kein Override) - Ausnahme E01: Waechter-Fuesse (ulbwebv_tier_0) mit MI_EL_SW_Waechter_Kreide. Netze nur aus netze.csv (13d); uldubik/uk5ebcp (unvollstaendig) nicht verwendet. front_achse '+y' ist eine Annahme.",
+  "materialien": "6 von 6: Wuestenlack, Salzkruste, Wueste_Sandauflage, Salz_Decal (eigene Textur sehens/wueste/decal_salzkruste.png), Waechter_Kreide (E01), Wabenfels (E30)"
  },
  "biom": "wueste",
  "seed": 1307,
@@ -37,7 +37,9 @@
   {"name": "MI_EL_SW_Wuestenlack", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.24, 0.18, 0.15, 1.0], "Helligkeit": 0.75, "Specular": 0.6, "Rauheit": 0.55}, "fuer": ["SM_SandstoneBoulder_05", "SM_SandstoneBoulder_04", "SM_namaqualand_boulder_03_NN", "SM_namaqualand_boulder_04_NN", "SM_namaqualand_boulder_05_NN"], "hinweis": "blauschwarz glaenzender Wuestenlack (Windkanter, Wabenwand)"},
   {"name": "MI_EL_SW_Salzkruste", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Menge": 0.9, "Auflage_Farbe": [0.97, 0.96, 0.92, 1.0], "Auflage_Schwelle": 0.4, "Helligkeit": 0.95}, "fuer": ["SM_namaqualand_boulder_02_NN", "SM_namaqualand_boulder_05_NN", "SM_stones_01_3", "SM_beach_driftwood_01"], "hinweis": "salzverkrustete Steine und Treibholz (Salzpfanne)"},
   {"name": "MI_EL_SW_Wueste_Sandauflage", "basis": "M_EL_Fels_Sand", "parameter": {"Sand_Menge": 0.8, "Sand_Fuss": 1.0, "Sand_Farbe": [0.9, 0.72, 0.5, 1.0]}, "fuer": ["SM_SandstoneBoulder_05", "SM_SandstoneBoulder_04", "SM_RockSandstone_040", "SM_namaqualand_boulder_03_NN"], "hinweis": "Sand in Fugen und am Fuss (Wind lagert Sand ab)"},
-  {"name": "MI_EL_SW_Salz_Decal", "basis": "M_MS_Decal", "parameter": {"Opacity Intensity": 0.9, "Brightness": 0.8, "Saturation": 0.9, "Tiling": 1.0}, "texturen": {"BaseColorTexture": "antworten/sehens/wueste/decal_salzkruste.png", "NormalTexture": "antworten/sehens/wueste/decal_salzkruste_n.png"}, "fuer": ["Decal wueste_05_salzpfanne: Salzpolygone/Wabenmuster (eigene prozedurale Textur, Koordinator: ja)"], "hinweis": "Helligkeit 0,8 gegen Ueberstrahlen (Katalog-Risiko)"}
+  {"name": "MI_EL_SW_Salz_Decal", "basis": "M_MS_Decal", "parameter": {"Opacity Intensity": 0.9, "Brightness": 0.8, "Saturation": 0.9, "Tiling": 1.0}, "texturen": {"BaseColorTexture": "antworten/sehens/wueste/decal_salzkruste.png", "NormalTexture": "antworten/sehens/wueste/decal_salzkruste_n.png"}, "fuer": ["Decal wueste_05_salzpfanne: Salzpolygone/Wabenmuster (eigene prozedurale Textur, Koordinator: ja)"], "hinweis": "Helligkeit 0,8 gegen Ueberstrahlen (Katalog-Risiko)"},
+  {"name": "MI_EL_SW_Waechter_Kreide", "basis": "M_MS_Base", "parameter": {"Saturation": 0.25, "Brightness": 1.35, "Contrast": 0.9, "BaseColor Tint": [0.97, 0.95, 0.9, 1.0]}, "fuer": ["ulbwebv_tier_0"], "hinweis": "E01: kreidehell, Baender nur gedaempft, dunkle Kappen bleiben (Vorbild Weisse Wueste, Farafra). Kopie mit den Fab-Texturen von ulbwebv_tier_0 (Texturnamen liest Claude lokal ab)"},
+  {"name": "MI_EL_SW_Wabenfels", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.78, 0.6, 0.45, 1.0], "Helligkeit": 0.9, "Variation": 0.5}, "fuer": ["SM_lava_wall_04", "SM_lava_wall_09"], "hinweis": "E30: Lavawand-Module in Sandsteintoenung als Wabennischen-Probe (Kopie mit den Texturen des Netzes); Hollowstone erst nach dem Editorbild"}
  ],
  "orte": {
 
@@ -164,7 +166,7 @@
    "marker": {"titel": "Die Waechter", "text": "Sieben stehen sie da und schauen ins Tal, als warteten sie auf jemanden, der nie kam. Der Sand hat ihnen die Fuesse abgeschliffen, gewichen sind sie nicht.", "entdeckung_m": 80},
    "budget": {"instanzen": 3000, "kollision": 300, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 2},
    "assets_wunsch": [
-    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Pilzfelsen aus Desert Western Spire Large 05/03 (gedrungen) + Kappen SM_RockSandstone_040"},
+    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Pilzfelsen aus Desert Western Spire Large 05 (ulbwebv, gedrungen, E01) + Kappen SM_RockSandstone_040"},
     {"paket": "Procedural Rocks Generator", "statt_jetzt": "wie oben, je Stueck anders skaliert"}
    ],
    "anker": {
@@ -183,7 +185,7 @@
     ]
    },
    "gruppen": [
-    {"name": "fuesse", "ebene": "held", "warum": "Pilzfelsen-Fuss: der sandbeladene Wind schleift unten am staerksten (Hohlkehle)", "palette": ["ulbwebv_tier_0", "vepoda2_tier_0"], "verteilung": {"typ": "punkte", "punkte": ["w1", "w2", "w3", "w4", "w5", "w6", "w7"]}, "groesse_m": [5.0, 8.0], "groesse_achse": "z", "skala_xyz": [0.55, 0.55, 1.0], "skala_streuung": 0.12, "yaw": "zufall", "eingraben": [0.2, 0.25], "akteur": true, "kollision": true, "meide": null, "hinweis": "w1 bekommt die groesste Skalierung nicht automatisch - Groesse zufaellig 5-8 m + Kappe; der Groesste ~10 m"},
+    {"name": "fuesse", "ebene": "held", "warum": "Pilzfelsen-Fuss: der sandbeladene Wind schleift unten am staerksten (Hohlkehle)", "palette": ["ulbwebv_tier_0"], "material": "MI_EL_SW_Waechter_Kreide", "verteilung": {"typ": "punkte", "punkte": ["w1", "w2", "w3", "w4", "w5", "w6", "w7"]}, "groesse_m": [5.0, 8.0], "groesse_achse": "z", "skala_xyz": [0.55, 0.55, 1.0], "skala_streuung": 0.12, "yaw": "zufall", "eingraben": [0.2, 0.25], "akteur": true, "kollision": true, "meide": null, "hinweis": "w1 bekommt die groesste Skalierung nicht automatisch - Groesse zufaellig 5-8 m + Kappe; der Groesste ~10 m"},
     {"name": "kappen", "ebene": "held", "warum": "die haertere, dunklere Kappe haengt ueber", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "auf_gruppe", "gruppe": "fuesse", "je": [1, 1], "anteil": [0.5, 0.5]}, "groesse_m": [4.5, 6.0], "skala_xyz": [1.0, 1.0, 0.7], "yaw": "zufall", "z_bezug": "oben:fuesse", "z_versatz_m": -0.4, "akteur": true, "kollision": true, "material": "MI_EL_SW_Wuestenlack", "meide": null},
     {"name": "abgefallene", "ebene": "begleiter", "warum": "abgefallene Kappen liegen neben ihren Waechtern", "palette": ["SM_SandstoneBoulder_05", "SM_namaqualand_boulder_03_NN"], "anzahl": 6, "verteilung": {"typ": "ring", "bei": [0, 4], "r_m": [6, 34]}, "groesse_m": [2.2, 3.5], "kipp_grad": [10, 35], "eingraben": [0.3, 0.42], "abstand_m": 5, "material": "MI_EL_SW_Wueste_Sandauflage"},
     {"name": "schutt", "ebene": "schutt", "warum": "Bruchstuecke der Kappen", "palette": ["SM_namaqualand_boulder_04_NN", "SM_SandstoneBoulder_03", "SM_RockSandstone_021", "uk5pbhv_tier_0"], "anzahl": 70, "verteilung": {"typ": "kreis", "bei": [0, 4], "r_m": 40}, "groesse_m": [0.4, 1.4], "abstand_m": 1.5},
@@ -396,9 +398,9 @@
   "wueste_08_wabenwand": {
    "kurz": "Die Nordwand einer Kuestenrippe ist von Waben durchloechert - Hunderte Hoehlungen bis zu einer 6-m-Nische, dazwischen blauschwarz glaenzende Streifen von Wuestenlack; in der Nische ein Koecherbaum.",
    "marker": {"titel": "Die Wabenwand", "text": "Das Salz der Gischt frisst den Stein Korn um Korn, bis die Wand aussieht wie ein verlassener Bienenstock. In der groessten Wabe hat ein Koecherbaum Schutz gefunden.", "entdeckung_m": 25},
-   "budget": {"instanzen": 2000, "kollision": 200, "akteure": 8, "lichter": 0, "niagara": 0, "decals": 12},
+   "budget": {"instanzen": 2000, "kollision": 200, "akteure": 12, "lichter": 0, "niagara": 0, "decals": 12},
    "assets_wunsch": [
-    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Desert Western Cliff Layered + Red Sandstone Cliff, Waben nur ueber Decals (Leakage/Clay) - echte Waben erst mit Hollowstone"}
+    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Desert Western Cliff Layered + Red Sandstone Cliff, Waben ueber Decals (Leakage/Clay) + Probe Wabennischen aus SM_lava_wall_04/_09 mit MI_EL_SW_Wabenfels (E30) - Hollowstone erst nach dem Editorbild"}
    ],
    "anker": {
     "nische": [0, -6],
@@ -416,6 +418,7 @@
     {"name": "begleiter", "ebene": "begleiter", "warum": "abgeloeste Bloecke mit Wuestenlack am Wandfuss", "palette": ["SM_RockSandstone_040", "SM_SandstoneBoulder_05"], "anzahl": 3, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 8, "versatz_m": 6}, "groesse_m": [2.5, 4.0], "eingraben": [0.3, 0.4], "abstand_m": 8, "material": "MI_EL_SW_Wuestenlack"},
     {"name": "wandschutt", "ebene": "schutt", "warum": "abgegruster Sandstein unter den Waben", "palette": ["SM_SandstoneBoulder_03", "SM_RockSandstone_021", "uk4pehu_tier_0", "vmjjfhh_tier_0"], "anzahl": 60, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 10, "versatz_m": 5}, "groesse_m": [0.3, 1.0], "abstand_m": 1.0},
     {"name": "grus", "ebene": "kleinzeug", "warum": "Sandsteingrus, der aus den Waben rieselt", "palette": "steinchen", "anzahl": 700, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 12, "versatz_m": 4}, "abstand_m": 0.25, "rolle": "stein"},
+    {"name": "wabennischen", "ebene": "held", "warum": "E30: Tafoni-Probe - Salz hoehlt den Sandstein im Schattenteil; Blasenhohlraeume der Lavawand-Module in Sandsteintoenung ahmen die Waben nach", "palette": ["SM_lava_wall_04", "SM_lava_wall_09"], "anzahl": 4, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 2, "versatz_m": 0.5, "t": [0.15, 0.85]}, "groesse_m": [3.0, 5.0], "abstand_m": 6, "yaw": 0, "yaw_streuung_grad": 20, "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.25, 0.35], "material": "MI_EL_SW_Wabenfels", "akteur": true, "kollision": true, "meide": null, "optional": true, "hinweis": "Probe (E30): traegt sie im Editorbild nicht, entscheidet Ferat ueber Hollowstone; Schauseite +y = Annahme (E35)"},
     {"name": "koecherbaum", "ebene": "bewuchs", "warum": "Koecherbaum im Schatten der grossen Nische", "netz": "SM_quiver_tree_01_NN", "verteilung": {"typ": "punkt", "bei": "nische"}, "skala": 1.5, "rolle": "baum", "akteur": true},
     {"name": "polster", "ebene": "bewuchs", "warum": "Stonecrop/Eispflanze in den Hoehlungen am Fuss", "palette": ["SM_stonecrop_01", "SM_crystalline_iceplant_a_NN", "SM_crystalline_iceplant_c_NN"], "verteilung": {"typ": "um_gruppe", "gruppe": "wand", "ring": [0.85, 1.1], "je": [6, 10], "seite": "nord", "seite_staerke": 0.8}, "rolle": "pflanze", "meide": null},
     {"name": "salzsaum", "ebene": "kontakt", "warum": "Sand- und Salzsaum am Wandfuss", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["wand", "begleiter"], "ring": [0.9, 1.2], "je": [15, 25]}, "rolle": "stein"}

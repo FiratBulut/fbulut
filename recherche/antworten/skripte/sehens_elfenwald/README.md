@@ -39,11 +39,13 @@ Material-Instanzen 5 von 6: `MI_EL_SW_Rotlaub` (rot getönte **Kopie** der Buche
   `SM_stones_roots_01` hochkant und Wurzelsträngen `SM_roots_04_A/B`, Lichtung als Freiraum r 25 m.
 - **Nebelhain:** Serpentinenpfad 0,9 km (`pfad_cm` aus `standorte.json`, Ferat 13c: ja) mit Felsstufen; 9 windgebeugte
   Altbäume (kipp 6–12° nach W), Bartflechten `SM_Ivy_11/21` (Pivot oben, hängen) mit `MI_EL_SW_Bartflechte`, Felsrippen,
-  Moosbett mit ausgefranstem Rand, Mountain-Hangwurzeln über Fels; 2 lokale Nebel in 14/20 m Höhe (Hinweis auf
-  `BP_FogBankCard`, offene Frage 3).
+  Moosbett mit ausgefranstem Rand, Mountain-Hangwurzeln über Fels; 2 lokale Nebel in 14/20 m Höhe, keine FogBank-Blueprints
+  (E06); bewegte Fetzen optional als Niagara-Kopie `NS_EL_SW_Nebelfetzen` (kopie_von `NS_Smoke_Plume`, 12 m, Cull 120 m, E07).
 - **Rotlaubhain:** Altbuche + Hain in Gruppen (Cluster statt Raster), Laubzunge 90 m hangab, Rand fleckig.
 - **Elfentreppe:** der Bach `B_R_P4_M1_01` wird zu 5 Tuffbecken (Seen mit Uferring = Sinterdamm) und 4 Stufen mit Fällen
   > 0,8 m; Tuffkanten-Akteure seitlich der Überläufe (Hook). `ist_wasser`: der Ort IST dieser Bach.
+  **E10:** `ersetzt_bestandsbach` (s 0–72 m der Linie `treppe`) → `orte.json` `bestand_ausblenden`: der Setzer blendet
+  `B_R_P4_M1_01` auf diesem Abschnitt aus, oben und unten schließt der Bestand an.
 - **Farnschlucht:** Tobellinie aus dem Wasserraster, Rinne + Wände nachgeschärft, Quellwand `SM_HugeMossyForestCliff_01`
   hochkant, Farnwände in drei Dichten (kein Rechteck-Rand), Tropfwand-Decals `MI_Leakage_05–08`.
 - **Blauer Grund:** Teppich aus `SM_Periwinkle_*` ×0,35–0,5 mit `MI_EL_SW_Blaugrund`, dichter im Lichtschacht, fleckiger

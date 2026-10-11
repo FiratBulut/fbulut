@@ -72,5 +72,14 @@ Alle Orte unter §9. Je Feld: B6 3 208, C5 5 900, C6 8 694, D6 617 Instanzen. Ma
 - Spaltensee: Breite 11 m in der Mitte (Katalog 4–9 m), sonst hält der Prüfer-Ufertest auf 2 m nicht; lokal auf 1 m enger möglich.
 - Rinnsal der Kraterkinder versickert in der Senke (sie liegt 2–4 m unter dem Aue-Bach, ein Abfluss nach Norden ist
   ohne tiefen Einschnitt nicht möglich).
-- Niagara-Systeme sind Vorlagen (Farbe/Dichte als Kopie anpassen, Hinweis je Effekt); Klänge nur Wind/Wasser/Tropfen aus
-  Free City & Nature Sounds (Fantasy Ambiences, Cave Ambience fehlen).
+- Niagara-Systeme sind Vorlagen (Farbe/Dichte als Kopie anpassen, Hinweis je Effekt). **E14:** Dampfsäule (lava_02) als
+  Kopie `NS_EL_SW_Dampfsaeule` (kopie_von `FX_Smoke_Volcano_01`, weiß 0,95/0,94/0,90, Deckkraft und Spawn ×0,5),
+  Fumarolenfahne (lava_02, lava_06) als `NS_EL_SW_Fumarole` (kopie_von `FX_Lava_Smoke_03`); Ablage
+  `/Game/Eldarien/Welt/FX/Sehens/` (E45).
+- Klänge nur Wind/Wasser/Tropfen aus Free City & Nature Sounds als Platzhalter (Ferat erzeugt Klänge per KI, Klangpakete
+  nicht geladen). **E18:** Wind-Cue an lava_01/06/07 mit `bedingung` – nur wenn der Laubanteil leise ist (Hörprobe), sonst
+  dort stumm.
+- **E16:** `MI_EL_SW_Basalt_Saeule` bekommt Albedo/Normal/ORM aus `/Game/Basalt` (Texturnamen lokal ablesen); haben Pillars-
+  und Cliff-Netz verschiedene Textursätze, gilt das MI nur für die Pillars-Netze.
+- **E17:** Der Gipfelsteig (`lava_pfad_gipfelsteig`) wird neu aus Ferats Serpentinen-Werkzeug gerechnet (`status` in
+  `pfade_zusatz`); das Bodenband folgt bis dahin den Phase-1-Kehren. E40 (`SM_lava_disc`-Material) nur bei Befund.

@@ -137,10 +137,11 @@
    ],
    "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 110}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.1], "stufen_ab_grad": 24, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.5], "stufen_abstand_m": 3.5}},
    "effekte": [
-    {"typ": "lokaler_nebel", "zweck": "Wolke IN den Kronen (nicht am Boden); bewegte Fetzen: BP_FogBankCard (NiagaraExamples/FX_Fog) als Akteur, falls Ferat Blueprints setzt", "bei": "hain", "hoehe_m": 14, "radius_m": 40, "dichte": 0.12, "farbe": [0.9, 0.92, 0.93], "hoehenabfall": 0.15},
+    {"typ": "lokaler_nebel", "zweck": "Wolke IN den Kronen (nicht am Boden); nur lokaler_nebel, keine FogBank-Blueprints (E06)", "bei": "hain", "hoehe_m": 14, "radius_m": 40, "dichte": 0.12, "farbe": [0.9, 0.92, 0.93], "hoehenabfall": 0.15},
     {"typ": "lokaler_nebel", "zweck": "Nebelkrone am Grat, von der Oststrasse (_fern) lesbar - Dichte im Editor auf _fern einstellen", "bei": "kopfnebel", "hoehe_m": 20, "radius_m": 34, "dichte": 0.1, "farbe": [0.92, 0.93, 0.95], "hoehenabfall": 0.2},
     {"typ": "decal", "material": "MI_Leakage_02", "zweck": "Tropfnaesse unter den Aesten", "anzahl": 6, "verteilung": {"typ": "ellipse", "bei": "hain", "a_m": 26, "b_m": 16, "richtung": 0}, "abstand_m": 5, "groesse_m": [1.0, 2.5, 2.5]},
-    {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Flechten auf den Felsrippen", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "hain", "r_m": 20}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Flechten auf den Felsrippen", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "hain", "r_m": 20}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "niagara", "asset": "NS_EL_SW_Nebelfetzen", "kopie_von": "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume", "optional": true, "bei": "hain", "hoehe_m": 12, "skala": 1.0, "zweck": "langsam ziehende Nebelfetzen in den Kronen (E07)", "cull_m": 120, "kopie_aenderungen": {"auftrieb": 0, "drift_m_s": 0.3, "sprite_groesse_m": [6, 10], "alpha": 0.15, "farbe": [0.90, 0.92, 0.93], "lebensdauer_s": 20, "cull_m": 120}, "hinweis": "Kopie anlegen, Original NS_Smoke_Plume bleibt unberuehrt (E45)"}
    ],
    "klaenge": [
     {"asset": "CUE_Rain_Dropping_on_various_textures_Cue", "bei": "hain", "radius_m": 40, "lautstaerke": 0.35, "zweck": "Tropfen aus dem Nebel (im Editor pruefen, ob es nicht nach Dach klingt)"},
@@ -204,6 +205,7 @@
    "anker": {
     "senke": [-2.0, 4.0]
    },
+   "ersetzt_bestandsbach": {"id": "B_R_P4_M1_01", "von": {"auf_linie": "treppe", "s_m": 0}, "bis": {"auf_linie": "treppe", "s_m": 72}, "ersetzt_durch": ["zulauf", "becken_1", "stufe_1", "becken_2", "stufe_2", "becken_3", "stufe_3", "becken_4", "stufe_4", "becken_5"], "grund": "E10: die 5 Tuffbecken mit ihren Stufenbaechen ersetzen den Bestandsbach auf 72 m; oben und unten schliesst der Bestand an"},
    "gelaende": {"fenster_m": [110, 110], "rand_m": 10, "ist_wasser": true, "ist_wasser_r_m": 45, "begruendung": "Der Ort IST dieser Bach (B_R_P4_M1_01): Becken und Tuffstufen werden ins Bachbett gestempelt (13: Ausnahme Wasserregel)", "ops": []},
    "wasser": [
     {"typ": "see", "id": "becken_1", "bei": {"auf_linie": "treppe", "s_m": 9}, "spiegel": "boden", "tiefe_m": 1.1, "farbe": "tuerkis", "becken": {"a_m": 4.5, "b_m": 3.4, "richtung": "treppe", "ufer_m": 3.0, "freibord_m": 0.3, "boden": 0.4, "lippe_m": 2.0, "auslass_sektor_grad": 22}},

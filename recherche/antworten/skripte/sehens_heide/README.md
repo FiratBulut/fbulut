@@ -16,7 +16,8 @@ bzw. am Ufer (`pfad.ende_r_m`), Verdeckungsprüfung der Fundstücke (`sehens_lib
 **Ferat (Brushify abgelehnt):** Ginster = Sanddorn (`MI_EL_SW_Ginster` grün, `MI_EL_SW_Ginstergold` **gelb getönt** – auch
 auf weißen Windröschen als Blütenköpfe), Wacholder = schlank skalierte Jungkiefern (`MI_EL_SW_Wacholder`), Wollgras =
 Binsen + weiße Windröschen ×0,4. Eigene Decal-Textur `sehens/heide/decal_russ.png` (+ `_n`) für den alten Heidebrand
-(Materialwunsch `MI_EL_SW_Russ_Decal`, Decal `optional` bis Ferat es anlegt).
+(Materialwunsch `MI_EL_SW_Russ_Decal`). **E13:** Ruß-Decal fest eingeplant (`optional: false`, `bedingung` „MI wird
+angelegt“; Claude legt die Instanz lokal an). **E12:** Sanddorn als Ginster ist entschieden (keine offene Frage mehr).
 
 ## Testlauf 2 m (11.10.2026, ~75 s, zwei Läufe byteidentisch)
 
@@ -39,8 +40,9 @@ Norden und Süden/Südwesten; Klammtore aus Riesen-Wollsäcken und dichte Gehöl
 
 ## Grenzen und offene Punkte
 
-- Wollsackfall ersetzt auf ~100 m den Bestandsbach `B_R2_R_P3_P0_01` (Ort IST dieses Wasser): Sohle in drei Stufen
-  (absolute Höhen aus den 2-m-Daten – im 1-m-Lauf prüfen), Wassermaterial nur als `material_hinweis`.
+- Wollsackfall ersetzt den Bestandsbach `B_R2_R_P3_P0_01` (Ort IST dieses Wasser): **E11** Feld `ersetzt_bestandsbach`
+  (p0 → p3) → `orte.json` `bestand_ausblenden`. Sohle in drei Stufen (absolute Höhen aus den 2-m-Daten – im 1-m-Lauf
+  prüfen, E41: jede Stufe > 0,8 m), Wassermaterial nur als `material_hinweis` (E43: Pfad nicht belegt).
 - Tor-Stapel und Wackelstein ruhen per `z_bezug` aufeinander (z_frei) – Fugen im Editorbild prüfen.
 - `senke_begruendung`: Burg (Verwitterungsschüsseln), Wacholder (Schlatts), Kolk (Regenmoor), Wackelstein (Felsenkessel),
   Totengrund (Nivationsmulde), Windkante (Deflationsmulde).

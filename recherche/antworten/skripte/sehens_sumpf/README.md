@@ -14,7 +14,9 @@ python -I sehens_sumpf.py --basis <production>      # lokal: 1 m aus export/unre
 steht in `karte_wasser`. Jede Regel lädt sie mit `"bestandswasser": {"seen": "auto"}` (Lib-Erweiterung: nass nur, wo das
 Gelände nach dem Stempel unter dem Spiegel liegt). Damit funktionieren `im_wasser`, Ufer-Verteilungen, Nassband und
 `z_bezug: "spiegel:T_2954_391"` (treibendes Holz, Seerosen, Riesenblätter). Kein Ort schreibt einen eigenen `see` in den
-Epic-See (sonst doppelte Wasserflächen); Farbwünsche (`schwarz_spiegel`, `smaragd`) stehen als Hinweis (offene Frage 6).
+Epic-See (sonst doppelte Wasserflächen). **Hauptsee bleibt Bestandsfarbe (E09); `schwarz_spiegel` nur für eigene
+`see`-Körper** (z. B. die drei Augen in sumpf_04) – ein Wasserkörper hat ein Material, Teilfärbung bräuchte überlappende
+Körper. Die alten Farbwünsche stehen nur noch als Hinweis in den Regeln.
 
 Eigener Code (alles andere sind Regeln):
 - Hook `zugang` (alle Orte): `standorte.json` hat für den Sumpf weder `pfade` noch `pfad_cm`; der Planer rechnet den
@@ -48,7 +50,7 @@ Je Feld: H4 2 001, H5 17 782, I5 1 931 Instanzen (weit unter 60 000).
 | 05 Erlenbruch | 22 Bäume auf Wurzelsockeln (0,6–0,9 m hochgesetzt) | Schlenke `moorbraun` + Rinnsal vom Hang, Torbaum mit Wurzelteller, Farn auf jedem Sockel, **Gehölzring r 31–46 m → verdeckt** |
 | 06 Bultenfeld | ~300 Seggenbulten in Gruppen | Bulten-Höcker (Stempel), 3 Schlenken `moorbraun`, Grauweiden, Altholz, Samenflug |
 | 07 Tellerweiher | 22 Riesenblätter (VarB ×4,0 → 2,5, vorn groß) + Blüten | normale Seerosen hinten, Rohrkolbengürtel, Trauerweide, Treibholz |
-| 08 Irrlichtsenke | Nebelbank + Glimmen (NS_Sparkling_Glow ×2, 2 Punktlichter ≤ 2 cd) | Mulde −0,4 m + Schlammtümpel, tote Bäume als Rahmen, Stümpfe, Pilze |
+| 08 Irrlichtsenke | Nebelbank + Glimmen (NS_Sparkling_Glow ×2, 2 Punktlichter 40/30 cd, E08) | Mulde −0,4 m + Schlammtümpel, tote Bäume als Rahmen, Stümpfe, Pilze |
 
 Material-Instanzen 4 von 6: `MI_EL_SW_Silberholz`, `_Torfmoos`, `_Weide_Grau`, `_Birke_Dunkel`.
 
@@ -57,5 +59,7 @@ Material-Instanzen 4 von 6: `MI_EL_SW_Silberholz`, `_Torfmoos`, `_Weide_Grau`, `
 - Graveyard-Totbäume (`SM_Dead_Tree_*`) haben Blattkarten – Blätter-Slot im Editor ausblenden; Kotflecken
   (`MI_Leakage_08`) im Editor weiß tönen (Hinweise im Ort).
 - Reiherhorste sitzen auf fester Höhe neben den Stämmen (Astgabeln sind nicht bekannt) – im Editor an die Gabeln schieben.
-- Irrlicht-Punktlichter hängen an offener Frage 3; ohne Licht bleiben Nebel und Glimmen.
+- Irrlicht-Punktlichter entschieden (E08): 40 und 30 cd, Radius 5 m, ohne Schatten, gelbgrün – sichtbar bei fester
+  Tagsonne, bleiben unter den Leuchtpilzen des Elfenwalds (180–300 cd).
+- Tiere (E04): keine; Reiherhorst ohne Fischgräten (E05, Knochen-Regel – der Planer setzt keine).
 - Erlen fehlen weiter (Birke/Pappel, 13c); Pfadbänder werden auf das Lagenfenster gekappt.

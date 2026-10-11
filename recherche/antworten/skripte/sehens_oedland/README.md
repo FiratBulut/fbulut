@@ -28,10 +28,10 @@ Planer 0 FEHLER / 0 WARNUNG; Prüfer **0 FEHLER, 0 WARNUNG**, 1 HINWEIS.
 |---|---|---|---|---|---|
 | 01 Rippenland | 2 798 | 78 | 12 | 5,3 m | 8 Rinnen radial vom Grat (verschieden lang/tief), 7 Messerrücken (Formation Layered), Schwemmkegel aus Mound/Slope Mud, toter Baum auf dem Grat |
 | 02 Regenbogenhang | 2 275 | 60 | 27 | 3,4 m | Bänder: Cliff Layered + `SM_big_rock_wall_*` in Rot/Violett, farbige Schwemmkegel, Ödlandpfad-Abstieg 0–160 m |
-| 03 Höllentor | 1 247 | 69 | 24 | 4,5 m | Krater (Boden +0,3 m, Auswurfwall +4,5 m → ~8 m tief), verrußte Wand, NS_Fire + FX_Lava_Smoke_02 + FX_Distortion_Big, 2 Glutlichter, Glut-/Ruß-Decals |
+| 03 Höllentor | 1 247 | 69 | 24 | 4,5 m | Krater (Boden +0,3 m, Auswurfwall +4,5 m → ~8 m tief), verrußte Wand, NS_EL_SW_Gasflammen (Kopie von NS_Fire, E15) + FX_Lava_Smoke_02 + FX_Distortion_Big, 2 Glutlichter, Glut-/Ruß-Decals |
 | 04 Dornbusch-Senke | 1 632 | 31 | 1 | 3,2 m | Senke −1,5 m mit Abflussrinne, toter Baum `SM_Dead_Tree_02`, Dornriegel, Nebel |
 | 05 Kugelsteine | 1 908 | 94 | 11 | 6,4 m | Fächer +1,5 m, Kolk bis +0,4 m, Konkretionen halb in der Wand, Pfad-Knoten (3 Abschnitte) |
-| 06 Schlammvulkänchen | 799 | 16 | 0 | 3,5 m | 7 Kegel mit Krater-`see` (moorbraun), Mud-Mound-Mäntel, Ringwall, 2× NS_Bubble_Burst + NS_SmokePuffLight |
+| 06 Schlammvulkänchen | 799 | 16 | 0 | 3,5 m | 7 Kegel mit Krater-`see` (moorbraun), Mud-Mound-Mäntel, Ringwall, 2× NS_EL_SW_Schlammblasen (Kopie von NS_Bubble_Burst, E15) + NS_SmokePuffLight |
 | 07 Totenpfanne | 866 | 26 | 11 | 3,7 m | Pfanne −3,5 m + Uferwall Nord, 11 schwarze tote Bäume, Riss-Decals |
 | 08 Erdröhren | 933 | 12 | 5 | 8,0 m | 3 Schlucklöcher (−7/−5/−4 m), Einbruchrinne, Erdbrücke über dem Hauptschacht, Nebel im Schacht |
 
@@ -42,5 +42,7 @@ Materialwünsche 6/6: `Oedland_Ton`, `_Rot`, `_Violett`, `Russ`, `Konkretion`, `
 
 - Meeresniveau: Krater (03), Kolk (05) und Salsenmulde (06) liegen im Flachland bei 4–7 m; Sohlen bleiben ≥ +0,3 m, die
   Tiefe kommt zum Teil aus Wällen. Gewollte Hohlformen tragen `senke_begruendung`.
-- Niagara-Beispielsysteme (NS_Fire, NS_Bubble_Burst) brauchen Kopien mit kleinen, langsamen Partikeln (Hinweis im Effekt).
+- Niagara-Kopien entschieden (E15/E45): `NS_EL_SW_Gasflammen` (Flammen 0,3–0,8 m, viele Quellen auf r 12 m, ohne Funken)
+  und `NS_EL_SW_Schlammblasen` (schlammgrau 0,35/0,32/0,28, Größe ×0,5, Spawn ×0,4) unter `/Game/Eldarien/Welt/FX/Sehens/`,
+  jeweils mit `kopie_von` und `kopie_aenderungen` in `orte.json`; die Originale bleiben unberührt.
 - Ein Feuerklang fehlt im Bestand (Wunsch Fantasy Ambiences).

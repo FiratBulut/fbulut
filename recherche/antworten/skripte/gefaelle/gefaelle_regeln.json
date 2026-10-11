@@ -1,7 +1,7 @@
 {
  "_schema": {
   "zweck": "Regelwerk Auftrag 15 (Gefaelle, Felsstufen, Klippen, Faelle) fuer gefaelle_plan.py. Prosa + Quellen: antworten/15-gefaelle-regelwerk.md.",
-  "version": 1,
+  "version": 2,
   "einheiten": "Gefaelle S in m/m (0.10 = 10 %). Laengen/Hoehen in m, Winkel in Grad, Cull in m, Welt-Koordinaten im Plan in cm.",
   "variablen": {
    "S": "mittleres Wasserspiegelgefaelle im Klassen-Fenster (m/m), gemessen ueber 'klassen.fenster'",
@@ -29,8 +29,9 @@
    "schutt": "Block- und Schuttgroessen in Stufe, Becken, unter Faellen und Waenden.",
    "lagen": "Bodenlagen (Namen exakt FORMAT.md §2) je Zone (bett_becken, bett_stufe, kolk, ufer_nah, ufer_gischt, wandfuss) mit Zielgewicht 0-255 und Breite.",
    "effekte": "Nature-Water-FX je Stufenart und -hoehe: System, Ort, Skala-Referenz, Cull, Grenzen (<= 3 je Stufe, <= 6 gleichzeitig aktiv).",
-   "biome": "Je Biom: felstyp, vorbild, netze {lippe, riegel, bloecke, wand, schutt, kies, holz, extra} (nur Namen aus daten/netze.csv), lagen {bett, ufer, wand_fuss}, besonderheiten.",
-   "vorbilder": "Reale Orte und Spiele mit Link (fuer Kameras/Optik)."
+   "biome": "Je Biom: felstyp, vorbild, netze {lippe, riegel, bloecke, wand, schutt, kies, holz, extra} (nur Namen/Pfade aus daten/netze.csv), lagen {bett_becken, bett_stufe, bett_fels, kolk, ufer_nah, ufer_gischt, wandfuss} je Liste von Lagennamen (Gewichte aus lagen.zonen), besonderheiten.",
+   "ablauf": "Empfohlene Planer-Reihenfolge + Regel 'fels_anstehend' + Biom am Ort.",
+   "vorbilder": "{natur: [...], spiele: [...]} mit name, art, biome, lehre, link."
   },
   "regeln_hart": [
    "Wasserspiegel nie steigend: z[i+1] <= z[i] fuer alle Punkte von spiegel_neu_cm (Toleranz 0).",
@@ -54,30 +55,38 @@
    "titel": "Channel-reach morphology in mountain drainage basins",
    "ort": "GSA Bulletin 109(5): 596-611",
    "link": "https://www.fs.usda.gov/rm/boise/publications/watershed/rmrs_1997_montomeryr001.pdf",
-   "gelesen": "auszug+wissen"
+   "gelesen": "auszug+wissen (Poolabstaende 1-4 B / <1 B / 5-7 B aus Tabelle 1, nicht online nachgeprueft)"
+  },
+  "IP2004": {
+   "autor": "Interpraevent-Beitrag (Tabelle nach Montgomery & Buffington 1997)",
+   "jahr": 2004,
+   "titel": "Gefaelleklassen: riffle-pool < 0.015, plane-bed 0.015-0.030, step-pool 0.030-0.065, cascade > 0.065",
+   "ort": "Interpraevent 2004, Band 1, III-343",
+   "link": "https://www.interpraevent.at/reference/media/1636/download/2004_1_III-343.pdf?v=1",
+   "gelesen": "auszug"
+  },
+  "GRANT1990": {
+   "autor": "Grant, G.E.; Swanson, F.J.; Wolman, M.G.",
+   "jahr": 1990,
+   "titel": "Pattern and origin of stepped-bed morphology in high-gradient streams, Western Cascades, Oregon",
+   "ort": "GSA Bulletin 102: 340-352 (mittlere Gefaelle: Pool 0.005, Riffle 0.011, Rapid 0.029, Cascade 0.055, Step 0.173)",
+   "link": "https://wpg.forestry.oregonstate.edu/node/729",
+   "gelesen": "auszug"
   },
   "ABR1995": {
    "autor": "Abrahams, A.D.; Li, G.; Atkinson, J.F.",
    "jahr": 1995,
    "titel": "Step-pool streams: Adjustment to maximum flow resistance",
-   "ort": "Water Resources Research 31(10): 2593-2602, doi:10.1029/95WR01957",
+   "ort": "Water Resources Research 31(10): 2593-2602 ((H/L)/S zwischen 1 und 2; 18 Feldbaeche)",
    "link": "https://doi.org/10.1029/95WR01957",
    "gelesen": "auszug"
-  },
-  "CHIN1989": {
-   "autor": "Chin, A.",
-   "jahr": 1989,
-   "titel": "Step pools in stream channels",
-   "ort": "Progress in Physical Geography 13: 391-407",
-   "link": "https://doi.org/10.1177/030913338901300304",
-   "gelesen": "wissen"
   },
   "CHIN1999": {
    "autor": "Chin, A.",
    "jahr": 1999,
-   "titel": "The morphologic structure of step-pools in mountain streams",
-   "ort": "Geomorphology 27: 191-204",
-   "link": "https://doi.org/10.1016/S0169-555X(98)00083-X",
+   "titel": "Step-pool periodicities (Santa Monica Mountains): 0.43-2.40 Gerinnebreiten; dazu 'The morphologic structure of step-pools in mountain streams', Geomorphology 27: 191-204",
+   "ort": "American Journal of Science / Geomorphology",
+   "link": "https://ajsonline.org/article/61660.pdf",
    "gelesen": "auszug"
   },
   "CW2005": {
@@ -88,42 +97,194 @@
    "link": "https://doi.org/10.1191/0309133305pp449ra",
    "gelesen": "wissen"
   },
-  "GRANT1990": {
-   "autor": "Grant, G.E.; Swanson, F.J.; Wolman, M.G.",
-   "jahr": 1990,
-   "titel": "Pattern and origin of stepped-bed morphology in high-gradient streams, Western Cascades, Oregon",
-   "ort": "GSA Bulletin 102: 340-352",
-   "link": "https://andrewsforest.oregonstate.edu/pubs/pdf/pub1029.pdf",
-   "gelesen": "auszug"
-  },
   "CZ2007": {
    "autor": "Church, M.; Zimmermann, A.",
    "jahr": 2007,
-   "titel": "Form and stability of step-pool channels: Research progress",
+   "titel": "Form and stability of step-pool channels: Research progress (Klemmverhaeltnis Breite/Blockgroesse)",
    "ort": "Water Resources Research 43, W03415",
    "link": "https://doi.org/10.1029/2006WR005037",
+   "gelesen": "auszug"
+  },
+  "RC2021": {
+   "autor": "Richardson, K.; Carling, P.A.",
+   "jahr": 2021,
+   "titel": "Step-pool-Experimente: Stufenhoehe H ~ D100 der groessten bewegten Koerner; Abstand skaliert mit Grenztiefe",
+   "ort": "Univ. Southampton ePrints 452478",
+   "link": "https://eprints.soton.ac.uk/452478",
+   "gelesen": "auszug"
+  },
+  "CURWOHL2003": {
+   "autor": "Curran, J.H.; Wohl, E.E.",
+   "jahr": 2003,
+   "titel": "Large woody debris and flow resistance in step-pool channels, Cascade Range, Washington",
+   "ort": "Geomorphology 51: 141-157 (Stufen aus Holz, Fels, Wurzeln oder Bloecken; Holz erhoeht die Stufenhoehe)",
+   "link": "https://pubs.usgs.gov/publication/70182597",
    "gelesen": "auszug"
   },
   "LEO1969": {
    "autor": "Leopold, L.B.",
    "jahr": 1969,
    "titel": "The rapids and the pools - Grand Canyon",
-   "ort": "USGS Professional Paper 669-D: 131-145",
-   "link": "https://pubs.usgs.gov/pp/0669d/report.pdf",
-   "gelesen": "wissen"
+   "ort": "USGS Professional Paper 669-D (Grossteil des Falls in Schnellen auf ~10 % der Strecke; regelmaessiger Wechsel tiefer Pools und Schnellen)",
+   "link": "https://pubs.usgs.gov/publication/pp669D",
+   "gelesen": "auszug"
   },
   "SL2016": {
    "autor": "Scheingross, J.S.; Lamb, M.P.",
    "jahr": 2016,
    "titel": "Sediment transport through self-adjusting, bedrock-walled waterfall plunge pools",
-   "ort": "JGR Earth Surface 121: 939-963",
+   "ort": "JGR Earth Surface 121 (75 Faelle; Kolktiefe steigt mit Fallhoehe und Abfluss, sinkt mit Geschiebezufuhr)",
    "link": "https://lamb.caltech.edu/documents/19661/Scheingross_and_Lamb_2016_with_supp.pdf",
+   "gelesen": "auszug"
+  },
+  "EGU2025": {
+   "autor": "EGU Geomorphology Blog",
+   "jahr": 2025,
+   "titel": "Highlighting waterfalls (Kolke bis ~10 m Tiefe gemessen)",
+   "ort": "blogs.egu.eu",
+   "link": "https://blogs.egu.eu/divisions/gm/2025/09/29/highlighting-waterfalls/",
+   "gelesen": "auszug"
+  },
+  "DAS2022": {
+   "autor": "Das, B.",
+   "jahr": 2022,
+   "titel": "Data on plunge pool morphology and hydraulics of seven waterfalls in Eastern India (Breite, mittlere/max. Tiefe, Fallhoehe, Aufprallabstand)",
+   "ort": "Mendeley Data, doi:10.17632/ws933yrxtw.1",
+   "link": "https://data.mendeley.com/datasets/ws933yrxtw/1",
+   "gelesen": "auszug (Zahlen nicht gelesen)"
+  },
+  "NIAGARA": {
+   "autor": "Wikipedia / Encyclopaedia-Texte zu Niagara Falls",
+   "jahr": 2024,
+   "titel": "Lockport-Dolomit als Deckschicht ueber weichem Rochester-Schiefer; Unterschneidung; Rueckschreiten Horseshoe Falls 1,16 m/a (1842-1905), 0,70 m/a (1906-1927)",
+   "ort": "Wikipedia 'Niagara Falls'",
+   "link": "https://en.wikipedia.org/wiki/Niagara_Falls",
+   "gelesen": "auszug"
+  },
+  "HM2009": {
+   "autor": "Hayakawa, Y.S.; Matsukura, Y.",
+   "jahr": 2009,
+   "titel": "Stability analysis of waterfall cliff face at Niagara Falls (Unterschneidungskehle real bis ~10 m)",
+   "ort": "Engineering Geology 116 / Univ. Tsukuba",
+   "link": "https://tsukuba.repo.nii.ac.jp/record/21252/files/EG_116-1.pdf",
+   "gelesen": "auszug"
+  },
+  "PEL2015": {
+   "autor": "Pelletier, J.D. u. a.",
+   "jahr": 2015,
+   "titel": "Controls on the geometry of potholes in bedrock channels (haeufigstes Tiefe/Radius-Verhaeltnis 2, > 3 selten)",
+   "ort": "Geophysical Research Letters",
+   "link": "https://experts.arizona.edu/en/publications/controls-on-the-geometry-of-potholes-in-bedrock-channels/",
+   "gelesen": "auszug"
+  },
+  "JI2018": {
+   "autor": "Ji, S. u. a.",
+   "jahr": 2018,
+   "titel": "Relationship between diameter and depth of potholes (3930 Strudelloecher, linear)",
+   "ort": "Polytechnique Montreal",
+   "link": "https://publications.polymtl.ca/4957/1/2018_Ji_Relationship_between_diameter_depth_potholes.pdf",
+   "gelesen": "auszug"
+  },
+  "RC2005": {
+   "autor": "Richardson, K.; Carling, P.A.",
+   "jahr": 2005,
+   "titel": "A typology of sculpted forms in open bedrock channels",
+   "ort": "GSA Special Paper 392",
+   "link": "https://doi.org/10.1130/0-8137-2392-2.1",
+   "gelesen": "auszug (Titel)"
+  },
+  "SCREE": {
+   "autor": "Francou, B.; Mante, C. / Wikipedia 'Scree'",
+   "jahr": 1990,
+   "titel": "Schutthalden nahe 35 Grad; meist flacher und konkav",
+   "ort": "Wikipedia 'Scree' + IRD-PDF",
+   "link": "https://en.wikipedia.org/wiki/Scree",
+   "gelesen": "auszug"
+  },
+  "KLAMMEN": {
+   "autor": "Tourismus-/Reiseseiten (Aareschlucht, Breitachklamm, Partnachklamm)",
+   "jahr": 2025,
+   "titel": "Aareschlucht 1,4 km lang, bis 200 m tief (Kalk); Breitachklamm 'Zwing' 2 m breit, ~100-150 m tief; Partnachklamm 702 m lang, ~80 m tief",
+   "ort": "indenbergen.de / wandernundmehr.at / ergo-Blog",
+   "link": "https://www.indenbergen.de/weblog/ueberblick-uber-die-schoensten-klammen-in-den-alpen/",
+   "gelesen": "auszug"
+  },
+  "SVARTI": {
+   "autor": "Wikipedia",
+   "jahr": 2024,
+   "titel": "Svartifoss: 20 m, Amphitheater aus Basaltsaeulen 15-20 m hoch, 30 m breit",
+   "ort": "Wikipedia 'Svartifoss'",
+   "link": "https://en.wikipedia.org/wiki/Svartifoss",
+   "gelesen": "auszug"
+  },
+  "IGUAZU": {
+   "autor": "IUGS Geoheritage",
+   "jahr": 2022,
+   "titel": "Iguazu: gestufte Faelle ueber gestapelte Basaltstroeme (Serra Geral), ~80 m",
+   "ort": "iugs-geoheritage.org",
+   "link": "https://iugs-geoheritage.org/geoheritage_sites/iguazu-iguacu-waterfalls/",
+   "gelesen": "auszug"
+  },
+  "PLITVICE": {
+   "autor": "NP Plitvicka jezera / Uni Zagreb Poster",
+   "jahr": 2019,
+   "titel": "16 Seen, Kalktuff-Barrieren wachsen ~1 cm/a; 636 -> 503 m auf ~8 km",
+   "ort": "pmf.unizg.hr",
+   "link": "https://www.pmf.unizg.hr/images/50025872/2019_7.%20PLITVICE%20LAKES%20poster.pdf",
+   "gelesen": "auszug"
+  },
+  "KRKA": {
+   "autor": "NP Krka",
+   "jahr": 2024,
+   "titel": "Skradinski buk: 17 Kalktuffstufen auf 800 m, 45,7 m Fall, Kaskaden 200-400 m breit",
+   "ort": "npkrka.hr",
+   "link": "https://npkrka.hr/en_us/en_US/posjeti/sadrzaji/skradinski-buk/",
+   "gelesen": "auszug"
+  },
+  "HAVASU": {
+   "autor": "Earth Magazine",
+   "jahr": 2015,
+   "titel": "Havasu Canyon: Havasu Falls 30 m ueber Travertin, Mooney Falls 60 m; Travertin-Terrassenbecken",
+   "ort": "earthmagazine.org",
+   "link": "https://www.earthmagazine.org/article/travels-geology-havasu-canyon-land-blue-green-water/",
+   "gelesen": "auszug"
+  },
+  "LM1985": {
+   "autor": "Laity, J.E.; Malin, M.C.",
+   "jahr": 1985,
+   "titel": "Sapping processes and the development of theater-headed valley networks on the Colorado Plateau",
+   "ort": "GSA Bulletin 96(2): 203-217",
+   "link": "https://doi.org/10.1130/0016-7606(1985)96%3C203:SPATDO%3E2.0.CO;2",
+   "gelesen": "auszug"
+  },
+  "NPS_NAVAJO": {
+   "autor": "National Park Service",
+   "jahr": 2020,
+   "titel": "Geodiversity Atlas Navajo NM: Quellaustritt an der Navajo/Kayenta-Grenze unterhoehlt die Wand -> Alkoven",
+   "ort": "nps.gov",
+   "link": "https://www.nps.gov/articles/nps-geodiversity-atlas-navajo-national-monument-arizona.htm",
+   "gelesen": "auszug"
+  },
+  "YOSEMITE": {
+   "autor": "Matthes, F.E. (USGS)",
+   "jahr": 1930,
+   "titel": "Geologic history of the Yosemite Valley (Haengetaeler, Gletschertreppe Vernal/Nevada Fall, Kluefte)",
+   "ort": "USGS Professional Paper 160",
+   "link": "https://www.nps.gov/parkhistory/online_books/geology/publications/pp/160/contents.htm",
+   "gelesen": "auszug"
+  },
+  "SPRAY_BC": {
+   "autor": "Coxson, D. / Goward, T.; Bjork, C.",
+   "jahr": 2025,
+   "titel": "Wells Gray Waterfall Report: Kryptogamen in Spruehzonen 4,4x vielfaeltiger; Einfluss reicht ueber die Spruehzone hinaus",
+   "ort": "nrs.objectstore.gov.bc.ca / geog.ubc.ca",
+   "link": "https://www.geog.ubc.ca/biodiversity/WaterfallsandBiodiversityinBC.html",
    "gelesen": "auszug"
   },
   "PHYS": {
    "autor": "Grundphysik",
    "jahr": null,
-   "titel": "Freier Fall / Wurfparabel: t = sqrt(2h/g), x = v*t, v = sqrt(2 g h)",
+   "titel": "Freier Fall / Wurfparabel: t = sqrt(2h/g), x = v0*t, v = sqrt(2 g h)",
    "ort": "-",
    "link": "https://de.wikipedia.org/wiki/Wurfparabel",
    "gelesen": "wissen"
@@ -144,6 +305,14 @@
    "link": "../../14-wasser-fx.md",
    "gelesen": "repo"
   },
+  "A5": {
+   "autor": "Eldarien-Recherche",
+   "jahr": 2026,
+   "titel": "Klippennetze A5 (Eingraben, Gruppen, Schichtneigung)",
+   "ort": "recherche/antworten/klippennetze-a5.md",
+   "link": "../../klippennetze-a5.md",
+   "gelesen": "repo"
+  },
   "FORMAT": {
    "autor": "Eldarien",
    "jahr": 2026,
@@ -153,6 +322,28 @@
    "gelesen": "repo"
   }
  },
+ "ablauf": {
+  "text": "Empfohlene Reihenfolge je Strecke",
+  "schritte": [
+   "1. Mittellinie + Spiegel + Breite aus wasser_welt.json/baeche_alle.json; Strecke um 2 B ueber Anfang/Ende hinaus verlaengern (Anschluesse fix).",
+   "2. S im Fenster klassen.fenster, S_lok in klassen.fenster_lokal; Klasse je Punkt.",
+   "3. Knickpunkte suchen: Fenster mit faelle.einzelfall_statt_kette erfuellt -> Fall (ein Fall buendelt den ganzen steilen Abschnitt).",
+   "4. Restliche Abschnitte: Stufen nach stufen.abstand_L legen, D = S*L, Zufall nach stufen.zufall, D-Summe auf D_ges normieren.",
+   "5. Spiegel: Becken mit becken.gefaelle, Stufe als zwei Punkte (stufen.zwei_punkte), Schnelle als Rampe; danach Monotonie pruefen (nie steigend).",
+   "6. Gelaende: Bett auf Spiegel - Tiefe, Kolk je Stufe (kolk), Lippe/Riegel als Felsband, Klamm/Uferwand wo klamm.wann / ufer_klippen.wann.",
+   "7. Netze je Biom (biome.<biom>.netze): Lippe -> Riegel -> Bloecke -> Wand -> Schutt -> Kies -> Holz; Groessen nach schutt.",
+   "8. Lagen nach lagen.zonen und biome.<biom>.lagen; Effekte nach effekte, Budget pruefen."
+  ],
+  "fels_anstehend": {
+   "annahme": true,
+   "text": "Fels gilt als anstehend, wenn im Umkreis 10 m eine der Lagen Fels/Felsplatte/Sandstein/Lavafels >= 128 ist ODER Hangneigung quer > 45 Grad ODER Biom in [bergwald, gletscher, frost, fjord, canyon, lava] und S >= 0.30",
+   "radius": 10,
+   "lage_min": 128,
+   "hang_grad": 45,
+   "S_fels": 0.3
+  },
+  "biom_am_ort": "Biomkarte am Stufenort; sonst Hauptbiom des Feldes aus vorlagen/daten/biome_je_feld.json"
+ },
  "klassen": {
   "fenster": {
    "quelle": [
@@ -161,7 +352,7 @@
    "annahme": true,
    "formel": "clamp(10 * B, 20, 100)",
    "einheit": "m",
-   "notiz": "MB1997: Reach-Massstab 10-20 Gerinnebreiten; Grenzen 20/100 m fuer das 1-m-Raster angenommen"
+   "notiz": "MB1997: Reach-Massstab >= 10-20 Gerinnebreiten; Grenzen 20/100 m angenommen"
   },
   "fenster_lokal": {
    "annahme": true,
@@ -172,7 +363,7 @@
   "art_regel": {
    "annahme": true,
    "formel": "'fluss' if B >= 10 else 'bach'",
-   "notiz": "Art aus Daten ('art'); B >= 10 m behandelt wie Fluss (keine Blockstufen ueber volle Breite)"
+   "notiz": "Art aus Daten ('art'); ab 10 m Breite keine Blockstufen ueber volle Breite (Klemmverhaeltnis, CZ2007), sondern Schnellen/Katarakte"
   },
   "bach": [
    {
@@ -183,6 +374,7 @@
     "darstellung": "glatter Spiegel, Kiesbaenke im Innenbogen, Kolke 5-7 B auseinander",
     "stufenarten": [],
     "quelle": [
+     "IP2004",
      "MB1997"
     ]
    },
@@ -191,52 +383,54 @@
     "von": 0.015,
     "bis": 0.03,
     "natur": "plane-bed",
-    "darstellung": "glatter Spiegel mit Kraeuselstrecken, vereinzelt Blocke, keine Becken",
+    "darstellung": "glatter Spiegel mit Kraeuselstrecken, einzelne Bloecke, keine Becken",
     "stufenarten": [
      "schnelle"
     ],
     "quelle": [
+     "IP2004",
      "MB1997"
     ]
    },
    {
     "id": "step_pool",
     "von": 0.03,
-    "bis": 0.08,
+    "bis": 0.065,
     "natur": "step-pool",
-    "darstellung": "Blockstufen 0.3-1 m quer ueber das Bett, flache Becken dazwischen",
+    "darstellung": "Blockstufen 0.3-1 m quer ueber das Bett, flache Becken 1-4 B lang",
     "stufenarten": [
      "schnelle",
      "stufe"
     ],
     "quelle": [
+     "IP2004",
      "MB1997",
      "GRANT1990"
     ]
    },
    {
     "id": "kaskade_stufen",
-    "von": 0.08,
+    "von": 0.065,
     "bis": 0.3,
-    "natur": "cascade / steiler step-pool",
-    "darstellung": "dichte Blockstufen 0.5-2 m, Becken < 1-2 B, Wasser springt von Block zu Block; an anstehendem Fels einzelne Faelle",
+    "natur": "cascade + steiler step-pool (Grant 'steps', Mittel 17 %)",
+    "darstellung": "dichte Blockstufen 0.5-2 m, Becken 0.8-2 B, Wasser springt von Block zu Block; an anstehendem Fels einzelne Faelle",
     "stufenarten": [
      "stufe",
      "kaskade",
      "fall"
     ],
     "quelle": [
-     "MB1997",
+     "IP2004",
      "GRANT1990"
     ],
     "annahme": true,
-    "notiz": "MB1997 cascade ~0.08-0.30; Ferats Vorschlag 8-30 % step-pool deckt sich mit Grant 1990 'steps' (Mittel 17 %)"
+    "notiz": "Literatur: cascade > 0.065; Grant 1990 'steps' im Mittel 0.173. Obergrenze 0.30 = Ferats Vorschlag"
    },
    {
     "id": "fallkette",
     "von": 0.3,
     "bis": 0.6,
-    "natur": "bedrock / colluvial, Fallkette",
+    "natur": "Fels-/Hangschuttgerinne, Fallkette",
     "darstellung": "Felsstufen 2-6 m mit Gumpen, dazwischen kurze Blockkaskaden",
     "stufenarten": [
      "kaskade",
@@ -246,7 +440,7 @@
      "MB1997"
     ],
     "annahme": true,
-    "notiz": "Literatur: ueber ~0.20-0.30 ueberwiegen Fels- und Hangschuttgerinne; Grenze 0.60 Spielentscheidung"
+    "notiz": "Ueber ~0.20-0.30 ueberwiegen Fels- und Hangschuttgerinne (MB1997, qualitativ); Grenze 0.60 Spielentscheidung"
    },
    {
     "id": "fall_klamm",
@@ -270,8 +464,10 @@
     "darstellung": "glatt",
     "stufenarten": [],
     "quelle": [
-     "MB1997"
-    ]
+     "GRANT1990"
+    ],
+    "annahme": true,
+    "notiz": "Grant: Pools im Mittel 0.005"
    },
    {
     "id": "riffel",
@@ -283,16 +479,17 @@
      "schnelle"
     ],
     "quelle": [
-     "MB1997",
-     "GRANT1990"
+     "GRANT1990",
+     "IP2004"
     ],
-    "annahme": true
+    "annahme": true,
+    "notiz": "Grant: Riffles im Mittel 0.011"
    },
    {
     "id": "schnellen",
     "von": 0.02,
     "bis": 0.04,
-    "natur": "plane-bed / rapids",
+    "natur": "rapids",
     "darstellung": "kurze Schnellen ueber Blockfelder, Fall 0.3-1 m je Schnelle",
     "stufenarten": [
      "schnelle"
@@ -300,14 +497,15 @@
     "quelle": [
      "GRANT1990"
     ],
-    "annahme": true
+    "annahme": true,
+    "notiz": "Grant: Rapids im Mittel 0.029"
    },
    {
     "id": "pool_rapid",
     "von": 0.04,
     "bis": 0.15,
     "natur": "Pool-Stromschnellen-Folge, Katarakt",
-    "darstellung": "Fall auf Stromschnellen konzentriert (ca. halber Fall auf ~1/10 der Laenge), dazwischen ruhige Becken",
+    "darstellung": "Fall auf Schnellen konzentriert (~10 % der Laenge), dazwischen ruhige, tiefe Becken",
     "stufenarten": [
      "schnelle",
      "stufe",
@@ -316,14 +514,15 @@
     "quelle": [
      "LEO1969"
     ],
-    "annahme": true
+    "annahme": true,
+    "notiz": "Fluesse mit > 4 % sind in der Natur selten; Darstellung nach Grand-Canyon-Muster"
    },
    {
     "id": "katarakt_fels",
     "von": 0.15,
     "bis": 0.4,
     "natur": "Felskatarakt",
-    "darstellung": "Felsriegel quer, Stufen 1-4 m, Blockinseln",
+    "darstellung": "Felsriegel quer, Stufen 1-4 m, Blockinseln, Wasser in mehreren Armen",
     "stufenarten": [
      "kaskade",
      "fall"
@@ -335,7 +534,7 @@
     "von": 0.4,
     "bis": 99.0,
     "natur": "Wasserfall ueber volle Breite + Schlucht",
-    "darstellung": "ein oder zwei breite Faelle, Schlucht unterhalb",
+    "darstellung": "ein oder zwei breite Faelle (Hufeisen-/Vorhangform), Schlucht unterhalb",
     "stufenarten": [
      "fall"
     ],
@@ -344,7 +543,7 @@
   ]
  },
  "stufen": {
-  "text": "Stufenkette wird so gelegt, dass der ganze Fall D_ges auf Stufen faellt und die Becken fast flach sind.",
+  "text": "Der ganze Fall D_ges liegt auf Stufen, Becken sind fast flach. Nie eine lange gleichmaessige Schraege.",
   "abstand_L": {
    "quelle": [
     "MB1997",
@@ -353,16 +552,37 @@
    "annahme": true,
    "formel": "B * clamp(0.4 * S**-0.7, 0.8, 4.0)",
    "einheit": "m",
-   "notiz": "Bereich 1-4 B (MB1997 step-pool), 0.43-2.4 B (Chin); Abnahme mit S und Exponent angenommen. S=0.05->3.3B, 0.10->2.0B, 0.20->1.2B, 0.30->0.9B"
+   "notiz": "Bereich 1-4 B (MB1997 step-pool), 0.43-2.4 B (Chin), Poolabstand nimmt mit S ab. Exponent -0.7 und Faktor 0.4 angenommen: S=0.05->3.3B, 0.10->2.0B, 0.20->1.2B, 0.30->0.9B"
   },
   "abstand_L_kaskade": {
    "quelle": [
     "MB1997"
    ],
    "annahme": true,
-   "formel": "B * clamp(0.6, 0.5, 1.0)",
+   "formel": "B * 0.6",
+   "min_formel": "max(B * 0.5, 1.5)",
    "einheit": "m",
    "notiz": "cascade: Becken < 1 B"
+  },
+  "abstand_L_fluss": {
+   "annahme": true,
+   "formel": "clamp(D_ziel / S, 1.0 * B, 6.0 * B)",
+   "D_ziel": {
+    "schnellen": 0.6,
+    "pool_rapid": 2.0,
+    "katarakt_fels": 3.5
+   },
+   "einheit": "m",
+   "notiz": "Fluss: Schnellen-Abstand aus Ziel-Fall je Schnelle"
+  },
+  "schnellen_laenge_fluss": {
+   "quelle": [
+    "LEO1969"
+   ],
+   "annahme": true,
+   "formel": "clamp(0.1 * L, 3.0, 0.3 * L)",
+   "einheit": "m",
+   "notiz": "Schnellen ~10 % der Strecke"
   },
   "fall_D": {
    "quelle": [
@@ -370,7 +590,7 @@
    ],
    "formel": "S * L",
    "einheit": "m",
-   "notiz": "Wasserspiegel: Krone-Krone-Fall = S*L (Geometrie)"
+   "notiz": "Krone-Krone-Fall = S*L (Geometrie); am Spiegel siehe becken.fall_ausgleich"
   },
   "c": {
    "quelle": [
@@ -397,32 +617,50 @@
     "einheit": "m",
     "rampe_laenge": "clamp(3 * D, 1.5, 4.0)",
     "rampe_gefaelle_max": 0.35,
-    "notiz": "D < 0.8 m: kein Vorhang (FORMAT: Stufen > 0.8 m werden Wasserfaelle); kurze Rampe statt Zwei-Punkt-Stufe"
+    "notiz": "D < 0.8 m: kein Vorhang (FORMAT: Stufen > 0.8 m werden kleine Wasserfaelle); kurze Rampe statt Zwei-Punkt-Stufe"
    },
    "stufe": {
     "quelle": [
-     "FORMAT"
+     "FORMAT",
+     "RC2021"
     ],
     "annahme": true,
     "D_min": 0.8,
     "D_max": 2.0,
     "einheit": "m",
-    "notiz": "Blockstufe; obere Grenze = Groesse der Stufenbloecke (Annahme)"
+    "notiz": "Blockstufe; Hoehe ~ Groesse der Stufenbloecke (RC2021: H ~ D100), daher Obergrenze ~ groesste Bloecke im Netzbestand (2-3 m) -> 2 m"
    },
    "kaskade": {
     "annahme": true,
     "D_min": 0.4,
     "D_max": 1.5,
     "einheit": "m",
-    "notiz": "mehrere Stufen mit L < 1 B, Becken klein; als eine 'kaskade' im Plan zusammenfassen, je Teilstufe zwei Punkte"
+    "notiz": "mehrere Teilstufen mit L < 1 B, kleine Becken; im Plan eine 'kaskade' mit je zwei Punkten pro Teilstufe"
    },
    "fall": {
     "annahme": true,
     "D_min": 2.0,
     "D_max": null,
     "einheit": "m",
-    "notiz": "nur an anstehendem Fels (Felsriegel/Wand); siehe 'faelle'"
+    "notiz": "nur an anstehendem Fels (ablauf.fels_anstehend) oder als Felsriegel-Netz; siehe faelle"
    }
+  },
+  "holzstufe": {
+   "quelle": [
+    "CURWOHL2003"
+   ],
+   "annahme": true,
+   "D_max": 1.0,
+   "anteil": {
+    "bergwald": 0.15,
+    "elfenwald": 0.3,
+    "aue": 0.4,
+    "sumpf": 0.8,
+    "dschungel": 0.1
+   },
+   "B_max": 6.0,
+   "einheit": "m",
+   "notiz": "Stufen aus Stamm/Wurzeln sind in Waldbaechen normal (CURWOHL2003); Anteile und Grenzen angenommen"
   },
   "zwei_punkte": {
    "quelle": [
@@ -432,7 +670,7 @@
    "abstand_max": 1.0,
    "abstand_ziel": 0.5,
    "einheit": "m",
-   "notiz": "oberer Punkt auf der Lippe (z_oben), unterer 0.3-1.0 m stromab (z_oben - D). Fluss-Teilstuecke an der Stufe trennen, Luecke >= 1.2 m"
+   "notiz": "oberer Punkt auf der Lippe (z_oben), unterer 0.3-1.0 m stromab (z_oben - D). Flussstuecke an der Stufe trennen: Ende 0.5-1 m hinter der Kante, naechster Anfang 1-2 m stromab des Fusses, Luecke >= 1.2 m (A12)"
   },
   "lippe": {
    "winkel_zur_fliessrichtung": {
@@ -447,11 +685,11 @@
     "annahme": true,
     "formel": "B + 2 * clamp(0.25 * B, 0.5, 2.0)",
     "einheit": "m",
-    "notiz": "Lippe/Riegel bindet 0.5-2 m je Seite ins Ufer ein, sonst laeuft Wasser seitlich vorbei"
+    "notiz": "Lippe/Riegel bindet je Seite 0.5-2 m ins Ufer ein, sonst laeuft das Wasser seitlich vorbei"
    },
    "form": {
     "annahme": true,
-    "text": "flacher Bogen, Scheitel stromab, Pfeilhoehe 0.1 * B; tiefste Stelle (Ueberfall) aus der Mitte versetzt",
+    "text": "flacher Bogen, Scheitel stromab, Pfeilhoehe 0.1 B; Hauptueberfall aus der Mitte versetzt",
     "pfeil": 0.1,
     "einheit": "B"
    },
@@ -459,31 +697,44 @@
     "annahme": true,
     "formel": "clamp(0.5 * B, 1.0, B)",
     "einheit": "m",
-    "notiz": "Hauptstrahl bei Niedrigwasser; Rest der Lippe trocken bis feucht"
+    "notiz": "Hauptstrahl; Rest der Lippe nass, duenne Straehnen"
+   },
+   "polylinie_punkte": {
+    "annahme": true,
+    "min": 3,
+    "max": 7,
+    "notiz": "lippe_cm quer ueber den Bach, links -> rechts mit Blick talwaerts (FORMAT wasserfall.kante_cm)"
    }
   },
   "zufall": {
    "annahme": true,
    "L_streuung": 0.25,
    "D_streuung": 0.3,
-   "notiz": "+-25 % L und +-30 % D je Stufe, damit keine Treppe entsteht; Summe von D wird danach auf D_ges normiert"
+   "notiz": "+-25 % L und +-30 % D je Stufe gegen Treppenmuster; danach D-Summe auf D_ges normieren"
   },
   "max_stufen_je_100m": {
    "annahme": true,
    "wert": 20,
-   "notiz": "Kosten/Lesbarkeit; bei mehr -> Kaskade zusammenfassen"
+   "notiz": "Lesbarkeit/Kosten; mehr -> als Kaskade zusammenfassen"
+  },
+  "min_abstand_stufen": {
+   "annahme": true,
+   "formel": "max(2.5, 0.8 * B)",
+   "einheit": "m",
+   "notiz": "sonst Kaskade"
   }
  },
  "becken": {
   "gefaelle": {
    "quelle": [
-    "CW2005"
+    "CW2005",
+    "ABR1995"
    ],
    "annahme": true,
    "wert": 0.01,
    "max": 0.02,
    "absolut_max": 0.03,
-   "notiz": "Becken sind Rueckstau, Spiegel fast waagrecht; 2 % Ziel-Max, 3 % hart"
+   "notiz": "Becken sind Rueckstau hinter der naechsten Stufe, Spiegel fast waagrecht; Zahlen angenommen (Ferat: <= 2-3 %)"
   },
   "gefaelle_formel": {
    "annahme": true,
@@ -513,8 +764,17 @@
    "quelle": [
     "ABR1995"
    ],
-   "formel": "D = S * L - becken_gefaelle * laenge",
+   "formel": "D = S * L - becken_gefaelle * (L - laenge_stufe)",
    "notiz": "Spiegelfall an der Stufe = Kronenfall minus Beckenfall"
+  },
+  "fluss_becken_tiefe": {
+   "quelle": [
+    "LEO1969"
+   ],
+   "annahme": true,
+   "formel": "clamp(0.1 * B, 1.5, 6.0)",
+   "einheit": "m",
+   "notiz": "tiefe Pools zwischen Schnellen (Leopold); Zahl angenommen"
   }
  },
  "kolk": {
@@ -525,7 +785,7 @@
    "annahme": true,
    "formel": "clamp((c - 1) * S * L, 0.3, 2.0)",
    "einheit": "m",
-   "notiz": "Resttiefe unter dem Spiegel des Beckens; Grenzen angenommen"
+   "notiz": "Resttiefe unter dem Beckenspiegel aus (H/L)/S = c; Grenzen angenommen"
   },
   "stufe_laenge": {
    "annahme": true,
@@ -534,10 +794,14 @@
    "notiz": "tiefster Punkt 0.5-1 D unterhalb der Lippe"
   },
   "fall_tiefe": {
+   "quelle": [
+    "SL2016",
+    "EGU2025"
+   ],
    "annahme": true,
    "formel": "clamp(0.3 * D + 0.5, 1.0, 8.0)",
    "einheit": "m",
-   "notiz": "Kolktiefe waechst mit Fallhoehe und Abfluss, sinkt mit Geschiebe (SL2016); Faktor angenommen"
+   "notiz": "steigt mit Fallhoehe und Abfluss, sinkt mit Geschiebe (SL2016); gemessene Kolke bis ~10 m (EGU2025). Faktor 0.3 angenommen; im Geschiebe-reichen Bergbach eher unteres Ende"
   },
   "fall_radius": {
    "quelle": [
@@ -553,66 +817,110 @@
     "PHYS"
    ],
    "formel": "v0 * sqrt(2 * D / 9.81)",
-   "v0": {
-    "annahme": true,
-    "wert": 1.5,
-    "min": 0.5,
-    "max": 3.0,
-    "einheit": "m/s"
-   },
-   "einheit": "m"
+   "einheit": "m",
+   "notiz": "Wurfweite ab Lippe"
+  },
+  "v0": {
+   "annahme": true,
+   "wert": 1.5,
+   "min": 0.5,
+   "max": 3.0,
+   "einheit": "m/s",
+   "notiz": "Fliessgeschwindigkeit an der Lippe (Becken 0.5-1, Schnelle 2-4 m/s, A12)"
   },
   "form": {
    "annahme": true,
-   "text": "rund bis oval (Laenge 1.2-1.5 x Breite), Rand zur Lippe hin steil, stromab flach auslaufend; Ausgang = naechste Lippe"
+   "text": "rund bis oval (Laenge 1.2-1.5 x Breite), zur Wand hin steil, stromab flach auslaufend; Ausgang = naechste Lippe",
+   "laenge_zu_breite": [
+    1.2,
+    1.5
+   ]
+  },
+  "hohlkehle_ueber_kolk": {
+   "quelle": [
+    "NIAGARA",
+    "HM2009",
+    "SVARTI"
+   ],
+   "annahme": true,
+   "text": "unter harter Deckschicht weicht die Wand zurueck (Niagara: Kehle bis ~10 m; Svartifoss: Amphitheater). Nur als Netz mit Ueberhang, Landschaft kann keine Ueberhaenge.",
+   "tiefe_max_zu_D": 0.3
   }
  },
  "faelle": {
+  "grundsatz": {
+   "quelle": [
+    "NIAGARA",
+    "YOSEMITE",
+    "IGUAZU",
+    "SVARTI"
+   ],
+   "annahme": true,
+   "text": "Faelle sitzen an einer harten Schicht/Kluftflaeche quer zum Tal (Deckschicht ueber weicherem Gestein: Niagara; Kluefte im Granit: Yosemite; Basaltstrom-Oberkante: Iguazu, Svartifoss). Die Lippe ist eine durchgehende Kante, kein Haufen Steine."
+  },
   "einzelfall_statt_kette": {
    "S_lok_min": {
     "annahme": true,
     "wert": 0.6,
-    "notiz": "lokales Gefaelle ueber fenster_lokal"
+    "notiz": "lokales Gefaelle ueber klassen.fenster_lokal"
    },
    "D_min": {
     "annahme": true,
     "wert": 4.0,
     "einheit": "m",
-    "notiz": "Fall auf kurzer Strecke >= 4 m"
+    "notiz": "Fall auf kurzer Strecke >= 4 m -> ein Fall"
    },
    "D_min_bei_fels": {
     "annahme": true,
     "wert": 2.0,
     "einheit": "m",
-    "notiz": "Fels anstehend (Lage Fels/Felsplatte/Sandstein/Lavafels >= 128 oder Hang > 50 Grad)"
+    "notiz": "bei anstehendem Fels (ablauf.fels_anstehend) reicht 2 m"
    },
-   "text": "Steile Fenster mit D >= D_min werden zu EINEM Fall gebuendelt (Knickpunkt), das Gefaelle darueber und darunter wird flacher."
+   "buendeln": {
+    "annahme": true,
+    "formel": "L_buendel = clamp(3 * B, 10, 40)",
+    "einheit": "m",
+    "notiz": "Steilstuecke innerhalb dieses Abstands zu EINEM Fall zusammenziehen, Gefaelle davor/danach wird flacher (Knickpunkt)"
+   },
+   "text": "Ein Fall statt Stufenkette, wenn S_lok >= S_lok_min und D_fenster >= D_min (D_min_bei_fels bei Fels)."
   },
-  "hoehe_max_bach": {
+  "hoehe_max_einzeln": {
    "annahme": true,
    "wert": 25.0,
    "einheit": "m",
-   "notiz": "hoeher -> zwei Faelle mit Zwischengumpe (Kette); Ausnahme Heldenfall"
+   "notiz": "hoeher -> zwei Faelle mit Zwischengumpe; Ausnahme Heldenfall (WF_K1/K8)"
   },
-  "kette_teilung": {
+  "kette_glied": {
+   "quelle": [
+    "YOSEMITE"
+   ],
    "annahme": true,
-   "formel": "clamp(D_ges / 3, 2.0, 12.0)",
+   "formel": "clamp(D_ges / max(1, round(D_ges / 8)), 2.0, 12.0)",
    "einheit": "m",
-   "notiz": "Fallhoehe je Glied in Fallketten"
+   "notiz": "Gletschertreppe/Fallkette: Glieder ~8 m, dazwischen flache Tritte mit Gumpe (Vernal/Nevada Fall); Zahl angenommen"
+  },
+  "tritt_laenge": {
+   "annahme": true,
+   "formel": "max(2 * kolk_radius, 1.5 * B)",
+   "einheit": "m",
+   "notiz": "flacher Abschnitt zwischen zwei Faellen"
   },
   "lippe_ueberstand": {
+   "quelle": [
+    "HM2009"
+   ],
    "annahme": true,
    "wert": 0.5,
    "min": 0.2,
    "max": 1.5,
    "einheit": "m",
-   "notiz": "Deckschicht steht ueber, darunter Hohlkehle (Unterschneidung) – nur als Netz, Landschaft kann keine Ueberhaenge"
+   "notiz": "Deckschicht steht ueber (Niagara bis ~10 m, im Spielmassstab 0.2-1.5 m); nur Netz"
   },
   "riegel_dicke": {
    "annahme": true,
    "formel": "clamp(0.3 * D, 1.0, 4.0)",
    "einheit": "m",
-   "notiz": "harte Schicht der Lippe"
+   "notiz": "harte Schicht der Lippe, quer durchgehend + seitlich in die Wand"
   },
   "wand_neigung": {
    "annahme": true,
@@ -621,7 +929,32 @@
    "einheit": "grad",
    "notiz": "Fallwand unter der Lippe"
   },
-  "rueckschreiten_text": "Faelle wandern stromauf und hinterlassen eine Schlucht mit Waenden etwa so hoch wie der Fall (siehe klamm)."
+  "form_fluss": {
+   "annahme": true,
+   "text": "breite Faelle (Fluss): Lippe leicht hufeisenfoermig stromauf eingebuchtet, Wasser in 2-5 Straehnen/Armen, dazwischen nasse Felsrippen",
+   "straehnen": [
+    2,
+    5
+   ]
+  },
+  "rueckschreiten": {
+   "quelle": [
+    "NIAGARA"
+   ],
+   "annahme": true,
+   "rate_m_je_jahr": [
+    0.7,
+    1.16
+   ],
+   "text": "Faelle wandern stromauf und hinterlassen eine Schlucht (Niagara). Darum: unterhalb jedes Falls >= 4 m Schlucht/Uferwaende (klamm, ufer_klippen)."
+  },
+  "vorhang": {
+   "quelle": [
+    "A12",
+    "A14"
+   ],
+   "text": "Vorhang-Netz (Translucent) + Schaumscheibe an jeder Stufe >= 0.8 m bleiben Pflicht; Becken-Flussstuecke getrennt"
+  }
  },
  "klamm": {
   "wann": {
@@ -629,24 +962,43 @@
    "S_min": 0.3,
    "eintiefung_min": 3.0,
    "einheit": "m",
-   "notiz": "Klamm, wenn S >= 0.30 UND (Fall vorhanden ODER Bett >= 3 m unter den Ufern)"
+   "notiz": "Klamm, wenn S >= 0.30 UND (Fall >= 4 m vorhanden ODER Bett >= 3 m unter beiden Ufern in 1 B Abstand)"
   },
   "sohlbreite": {
+   "quelle": [
+    "KLAMMEN"
+   ],
    "annahme": true,
    "formel": "clamp(1.2 * B, 2.0, 2.0 * B)",
-   "einheit": "m"
+   "einheit": "m",
+   "notiz": "Natur: Engstellen 1-2 m bei 100-200 m Tiefe (Breitach 'Zwing' 2 m); im Spiel Sohle >= Wasserbreite"
   },
   "tiefe_zu_fall": {
+   "quelle": [
+    "NIAGARA"
+   ],
    "annahme": true,
    "formel": "clamp(D, 3.0, 40.0)",
    "einheit": "m",
-   "notiz": "Wand unterhalb eines Falls ~ Fallhoehe (Rueckschreiten)"
+   "notiz": "Wand unterhalb eines Falls ~ Fallhoehe (Schlucht durch Rueckschreiten); Faktor 1 abgeleitet"
+  },
+  "tiefe_zu_breite": {
+   "quelle": [
+    "KLAMMEN"
+   ],
+   "annahme": true,
+   "min": 3,
+   "max": 50,
+   "notiz": "Natur: Partnach ~80 m tief, Aareschlucht 200 m, Breitach 100-150 m bei 1-10 m Breite; Spiel: mind. 3:1 damit es Klamm liest"
   },
   "laenge": {
+   "quelle": [
+    "KLAMMEN"
+   ],
    "annahme": true,
    "formel": "clamp(4 * D, 15, 150)",
    "einheit": "m",
-   "notiz": "unterhalb des Falls; danach Waende ausklingen lassen"
+   "notiz": "Natur 0.7-2.5 km; im Spiel unterhalb des Falls 4 D, danach Waende ausklingen lassen (Annahme)"
   },
   "verkeilte_bloecke": {
    "annahme": true,
@@ -659,9 +1011,14 @@
     1.0,
     6.0
    ],
-   "notiz": "Klemmblock: Durchmesser 1.0-1.4 x Sohlbreite, keilt zwischen den Waenden"
+   "notiz": "Klemmblock: Durchmesser 1.0-1.4 x Sohlbreite, keilt zwischen den Waenden; keine Zahl in der Literatur gefunden"
   },
   "strudelloecher": {
+   "quelle": [
+    "PEL2015",
+    "JI2018",
+    "RC2005"
+   ],
    "annahme": true,
    "je_100m": 4,
    "durchmesser": [
@@ -672,12 +1029,24 @@
     0.5,
     1.5
    ],
+   "tiefe_zu_durchmesser_typisch": 1.0,
    "einheit": "m",
-   "notiz": "auf Felsplatten im Bett und an der Wand bis 2 m ueber Spiegel"
+   "notiz": "Tiefe/Radius meist ~2 (= Tiefe ~ Durchmesser), > 3 selten (PEL2015). Dichte und Groessen angenommen; auf Felsplatten im Bett und an der Wand bis 2 m ueber Spiegel"
   },
   "gumpen": {
    "annahme": true,
    "text": "jede Stufe >= 2 m bekommt eine Gumpe (kolk.fall_*)"
+  },
+  "wand_form": {
+   "quelle": [
+    "A5"
+   ],
+   "annahme": true,
+   "text": "Waende aus 2-5 Netzen je Gruppe, ueberlappend, eine Schichtneigung je Wand (5-15 Grad), 25-40 % eingraben (A5); Fuss mit Schutt",
+   "ueberlappung": [
+    0.1,
+    0.3
+   ]
   }
  },
  "ufer_klippen": {
@@ -686,13 +1055,22 @@
    "S_min": 0.2,
    "eintiefung_min": 2.0,
    "einheit": "m",
-   "notiz": "Uferwand, wenn S >= 0.20 und Gelaende quer zum Bach bis 2 B Abstand >= 2 m ueber dem Spiegel; oder an jedem Fall >= 2 m"
+   "notiz": "Uferwand, wenn S >= 0.20 und das Gelaende quer zum Bach bis 2 B Abstand >= 2 m ueber dem Spiegel liegt; ausserdem an jedem Fall >= 2 m"
   },
   "wandhoehe_an_fall": {
+   "quelle": [
+    "NIAGARA"
+   ],
    "annahme": true,
    "formel": "clamp(D + 1.0, 2.0, D + 5.0)",
    "einheit": "m",
-   "notiz": "Wand steht seitlich der Lippe so hoch wie der Fall + Kronenrest"
+   "notiz": "seitlich der Lippe so hoch wie der Fall + Kronenrest (Felsriegel laeuft quer durchs Tal)"
+  },
+  "wandhoehe_entlang": {
+   "annahme": true,
+   "formel": "min(eintiefung, 1.0 * D_klamm)",
+   "einheit": "m",
+   "notiz": "nur dort Wand, wo das Gelaende ohnehin steil ist (> 35 Grad); sonst Schutt-/Blockufer"
   },
   "wand_laenge_unterhalb": {
    "annahme": true,
@@ -713,108 +1091,123 @@
    "einheit": "grad"
   },
   "einbinden": {
+   "quelle": [
+    "A5"
+   ],
    "annahme": true,
    "wert": 0.3,
-   "notiz": "Netze 25-40 % der Hoehe eingraben (klippennetze-a5.md)"
+   "min": 0.25,
+   "max": 0.4,
+   "notiz": "Netze 25-40 % der Hoehe eingraben"
   },
   "talseite": {
    "annahme": true,
    "text": "Prallhang (Aussenbogen) bekommt die hoehere Wand, Gleithang Schutt/Kies"
+  },
+  "kein_ueberhang_gelaende": {
+   "quelle": [
+    "FORMAT"
+   ],
+   "text": "Landschaft kann keine Ueberhaenge: Gelaende bis 70 Grad formen, Rest mit Netzen"
   }
  },
  "schutt": {
   "stufenblock_D": {
    "quelle": [
+    "RC2021",
     "CZ2007"
    ],
    "annahme": true,
-   "formel": "max(1.2 * D, B / 6)",
+   "formel": "max(1.0 * H, B / 6)",
    "einheit": "m",
-   "notiz": "Stufenbloecke so gross wie die Stufe; B/D84 klein (Klemmverhaeltnis) - Faktor 6 angenommen"
+   "notiz": "Stufenhoehe ~ groesste Bloecke (RC2021); Bloecke muessen sich quer verkeilen (kleines Breite/Block-Verhaeltnis, CZ2007), Faktor 6 angenommen"
+  },
+  "stufenbloecke_je_lippe": {
+   "annahme": true,
+   "formel": "clamp(round(lippe_breite / stufenblock_D) + 1, 2, 9)",
+   "notiz": "Keystone in der Mitte, Nachbarn abfallend"
   },
   "becken_korn": {
    "annahme": true,
    "min": 0.05,
    "max": 0.3,
    "einheit": "m",
-   "notiz": "Kies/Steine im Becken"
+   "notiz": "Kies/Steine im Becken, feiner als die Stufe"
   },
   "unter_fall": {
    "annahme": true,
    "formel": "clamp(0.15 * D, 0.5, 3.0)",
    "einheit": "m",
    "anzahl": "clamp(D, 3, 15)",
-   "notiz": "Sturzbloecke in und neben der Gumpe"
+   "notiz": "Sturzbloecke in und neben der Gumpe (von der Lippe gebrochen)"
   },
   "wandfuss_kegel_neigung": {
+   "quelle": [
+    "SCREE"
+   ],
    "annahme": true,
-   "min": 32,
-   "max": 38,
+   "wert": 35,
+   "min": 30,
+   "max": 37,
    "einheit": "grad",
-   "notiz": "Schuttkegel am Wandfuss"
+   "notiz": "Schutthalden nahe 35 Grad, oft flacher und konkav"
   },
   "kegel_laenge": {
    "annahme": true,
    "formel": "0.6 * wandhoehe",
    "einheit": "m"
+  },
+  "sortierung": {
+   "annahme": true,
+   "text": "grob unten am Kegelfuss, fein oben; im Bach: grob an Stufen und Prallhang, fein im Becken und am Gleithang"
   }
  },
  "lagen": {
-  "namen": "exakt FORMAT.md §2",
+  "namen": "exakt FORMAT.md §2: Wiese, Gras, Trockengras, Laub, Nadeln, Moos, Heide, Kraut, Erde, Lehm, Schlamm, Sand, Kies, Geroell, Fels, Felsplatte, Sandstein, Schnee, Eis, Lavafels, Lavasand, Algen",
   "zonen": {
    "bett_becken": {
     "annahme": true,
-    "lagen": {
-     "Kies": 200
-    },
-    "breite": "B"
+    "gewicht": 200,
+    "breite": "B",
+    "notiz": "Lagen aus biome.<biom>.lagen.bett_becken"
    },
    "bett_stufe": {
     "annahme": true,
-    "lagen": {
-     "Geroell": 220
-    },
-    "breite": "B + 2"
+    "gewicht": 220,
+    "breite": "B + 2",
+    "einheit": "m"
    },
    "bett_fels": {
     "annahme": true,
-    "lagen": {
-     "Felsplatte": 230
-    },
+    "gewicht": 230,
     "breite": "B + 2",
+    "einheit": "m",
     "notiz": "Lippe/Felsstufe, Klamm-Sohle"
    },
    "kolk": {
     "annahme": true,
-    "lagen": {
-     "Kies": 150,
-     "Geroell": 120
-    },
+    "gewicht": 150,
     "radius": "kolk.fall_radius"
    },
    "ufer_nah": {
     "annahme": true,
-    "lagen": {
-     "Geroell": 160
-    },
+    "gewicht": 160,
     "breite": 2.0,
     "einheit": "m"
    },
    "ufer_gischt": {
+    "quelle": [
+     "SPRAY_BC"
+    ],
     "annahme": true,
-    "lagen": {
-     "Moos": 200
-    },
+    "gewicht": 200,
     "radius_formel": "clamp(1.5 * D, 3, 25)",
     "einheit": "m",
-    "notiz": "Spruehzone an Faellen >= 2 m"
+    "notiz": "Spruehzone an Faellen >= 2 m: Moose/Flechten deutlich reicher (4.4x, SPRAY_BC); Radius angenommen"
    },
    "wandfuss": {
     "annahme": true,
-    "lagen": {
-     "Geroell": 220,
-     "Fels": 120
-    },
+    "gewicht": 220,
     "breite_formel": "0.6 * wandhoehe"
    }
   },
@@ -823,17 +1216,20 @@
     "FORMAT"
    ],
    "wert": 3.0,
-   "einheit": "m"
+   "einheit": "m",
+   "notiz": "weiche Raender >= 3 m, fleckig"
   }
  },
  "effekte": {
   "grenzen": {
    "quelle": [
     "A12",
-    "A14"
+    "A14",
+    "FORMAT"
    ],
    "je_stufe_max": 3,
    "gleichzeitig_max": 6,
+   "je_ort_max": 3,
    "cull_m": [
     40,
     60
@@ -843,7 +1239,7 @@
     100,
     150
    ],
-   "notiz": "Cull 40-60 m (A12), kleine Systeme 30 m damit <= 6 gleichzeitig (A14), Heldenfaelle >= 20 m bis 150 m"
+   "notiz": "Cull 40-60 m (A12), kleine Systeme 30 m damit an jedem Standort <= 6 aktiv (A14), Heldenfaelle >= 20 m bis 150 m; SEHENS_FORMAT: <= 3 Niagara je Ort"
   },
   "pflicht": {
    "quelle": [
@@ -889,7 +1285,7 @@
      20
     ]
    },
-   "notiz": "Breite x Hoehe bzw. Breite x Laenge bei Skala 1, ungeprueft"
+   "notiz": "Breite x Hoehe bzw. Breite x Laenge bei Skala 1, ungeprueft (A14); skala = Zielmass / Referenz"
   },
   "je_art": [
    {
@@ -901,13 +1297,13 @@
     "systeme": [
      "/Game/NatureWaterFX/FX/NS_Stream_Small"
     ],
-    "wenn_B_ab": {
+    "nach_breite": {
      "6": "/Game/NatureWaterFX/FX/NS_Stream_Medium",
      "15": "/Game/NatureWaterFX/FX/NS_Stream_Large"
     },
     "ort": "Mitte Rampe, Spiegel + 10 cm",
     "cull": 30,
-    "haeufigkeit": "jede 2.",
+    "haeufigkeit": "jede 2. Schnelle",
     "quelle": [
      "A14"
     ],
@@ -925,9 +1321,9 @@
     "optional": [
      "/Game/NatureWaterFX/FX/NS_Stream_Small"
     ],
-    "ort": "Impact am Fuss (unterer Punkt + 0.3 m), Spiegel unten + 10 cm",
+    "ort": "Impact am Aufprall (unterer Punkt + 0.2-0.6 m), Spiegel unten + 10 cm; Stream 1 m stromauf der Lippe",
     "cull": 30,
-    "haeufigkeit": "abwechselnd Impact/Stream, jede 2. Stufe leer",
+    "haeufigkeit": "abwechselnd Impact / Stream / leer (A14 C2-Muster)",
     "quelle": [
      "A14"
     ],
@@ -945,7 +1341,7 @@
     "optional": [
      "/Game/NatureWaterFX/FX/NS_Impact_Small"
     ],
-    "ort": "Mitte der Kaskade",
+    "ort": "Mitte der Kaskade, Spiegel + 10 cm",
     "cull": 45,
     "haeufigkeit": "1 je Kaskade",
     "quelle": [
@@ -966,8 +1362,9 @@
     "optional": [
      "/Game/NatureWaterFX/FX/NS_Wake_Small"
     ],
-    "ort": "Waterfall Lippe + 0.2 m / Spiegel + 5 cm; Impact am Aufprall; Wake Aufprall + 2 m",
+    "ort": "Waterfall Lippe + 0.2 m, Spiegel + 5 cm; Impact am Aufprall (x_strahl), Spiegel + 10 cm; Wake Aufprall + 2 m, + 3 cm",
     "cull": 45,
+    "haeufigkeit": "Waterfall nur an jeder 2. Stufe, wenn Stufen < 15 m auseinander",
     "quelle": [
      "A14"
     ],
@@ -986,6 +1383,7 @@
     ],
     "ort": "wie fall_klein, Wake Aufprall + 4 m",
     "cull": 60,
+    "haeufigkeit": "jeder Fall",
     "quelle": [
      "A14"
     ],
@@ -1008,12 +1406,19 @@
      100,
      60
     ],
+    "haeufigkeit": "jeder Fall (Heldenfall)",
     "quelle": [
      "A14"
     ],
     "annahme": true
    }
   ],
+  "fluss_breit": {
+   "annahme": true,
+   "text": "bei B > 12 m mehrere Systeme quer verteilen ist teuer: lieber 1 System in der Hauptstraehne + Skala nach Breite, Rest Vorhang/Schaumkarte",
+   "B_ab": 12,
+   "einheit": "m"
+  },
   "einstellungen": {
    "quelle": [
     "A12",
@@ -1025,7 +1430,20 @@
    "pivot_ueber_spiegel_cm": [
     3,
     10
-   ]
+   ],
+   "drehung": "lokale +X = Fliessrichtung (A14, yaw_korrektur pruefen)"
+  },
+  "klang": {
+   "quelle": [
+    "A14"
+   ],
+   "annahme": true,
+   "text": "CUE_Water_Stream_I..X (City_Nature_Sounds); I-III Rieseln/Schnelle, IV-VI Stufe, VII-X Fall; je Stufengruppe 1 Cue, Radius 25-35 m (Faelle >= 20 m: 90 m)",
+   "radius_m": [
+    25,
+    35
+   ],
+   "radius_held_m": 90
   }
  },
  "biome": {
@@ -1110,21 +1528,36 @@
     "bett_becken": [
      "Kies"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Geroell",
      "Nadeln",
      "Moos"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Fels"
     ]
    },
    "besonderheiten": "Holzstufen aus Nadelstaemmen in Baechen < 4 m Breite moeglich (15 % der Stufen)",
-   "annahme": true
+   "quelle": [
+    "YOSEMITE",
+    "CURWOHL2003"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "elfenwald": {
    "felstyp": "bemooster Fels (Gneis/Schiefer) mit Wurzeln: Stufen aus Moosbloecken und Felsbaenken, Holzstufen",
@@ -1209,20 +1642,35 @@
      "Kies",
      "Moos"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Moos",
      "Laub"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Moos",
      "Geroell"
     ]
    },
    "besonderheiten": "viel Moos bis an die Lippe; Spruehzone moosgruen; Holz- und Wurzelstufen haeufig (30 %)",
-   "annahme": true
+   "quelle": [
+    "CURWOHL2003",
+    "PLITVICE"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "aue": {
    "felstyp": "Kies/Geroell, kaum anstehender Fels; Stufen aus Holz und Geroell",
@@ -1286,21 +1734,35 @@
     "bett_becken": [
      "Kies"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Geroell",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Geroell"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Kies",
      "Gras",
      "Schlamm"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Erde",
      "Geroell"
     ]
    },
    "besonderheiten": "Steile Aue-Strecken sind selten echt: Stufen eher als Holz-/Geroellschwellen 0.3-1 m; Uferanrisse aus Erde statt Felswand",
-   "annahme": true
+   "quelle": [
+    "CURWOHL2003"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "dschungel": {
    "felstyp": "Kalk/Karst mit Kalktuff (Travertin): Sinterbarrieren und Becken (Plitvice/Krka/Kuang Si/Agua Azul)",
@@ -1370,20 +1832,36 @@
      "Kies",
      "Algen"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Moos",
      "Schlamm"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Fels"
     ]
    },
    "besonderheiten": "Sinterbarrieren: viele niedrige, breite Stufen (0.5-3 m), Lippe bewachsen, Wasser tuerkis ('tuerkis'), Vorhang in vielen Straehnen ueber die ganze Lippe",
-   "annahme": true
+   "quelle": [
+    "PLITVICE",
+    "KRKA",
+    "HAVASU"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "lava": {
    "felstyp": "Basalt: Saeulenstufen (Svartifoss), Lavastufen an Stromkanten, schwarze Schlacke",
@@ -1465,20 +1943,35 @@
      "Lavasand",
      "Kies"
     ],
-    "bett_stufe": "Lavafels",
-    "bett_fels": "Lavafels",
+    "bett_stufe": [
+     "Lavafels"
+    ],
+    "bett_fels": [
+     "Lavafels"
+    ],
+    "kolk": [
+     "Lavasand",
+     "Lavafels"
+    ],
     "ufer_nah": [
      "Lavafels",
      "Moos"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Lavafels",
      "Geroell"
     ]
    },
    "besonderheiten": "Saeulen stehen senkrecht in der Wand, Saeulenstuempfe als Lippe und als Schutt (abgebrochene Saeulen) im Becken",
-   "annahme": true
+   "quelle": [
+    "SVARTI",
+    "IGUAZU"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "gletscher": {
    "felstyp": "Granit/Gneis, glazial geschliffen (Rundhoecker, Trogwand), Moraenenschutt; Wasser milchig",
@@ -1552,20 +2045,34 @@
      "Kies",
      "Geroell"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Geroell",
      "Fels"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Fels"
     ]
    },
    "besonderheiten": "Farbe 'gletschermilch'; Faelle aus Haengetaelern ueber Trogwaende (hoch, schmal); Eis/Schnee am Wandfuss nur oberhalb der Schneegrenze",
-   "annahme": true
+   "quelle": [
+    "YOSEMITE"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "frost": {
    "felstyp": "Granit + Eis: Felsstufen mit Eiszapfen und Eisbaerten an der Lippe",
@@ -1638,20 +2145,34 @@
     "bett_becken": [
      "Kies"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Schnee",
      "Eis"
     ],
-    "ufer_gischt": "Eis",
+    "ufer_gischt": [
+     "Eis"
+    ],
     "wandfuss": [
      "Schnee",
      "Geroell"
     ]
    },
    "besonderheiten": "Spruehzone vereist (Lage Eis statt Moos), Eiszapfen an Lippe und Wand",
-   "annahme": true
+   "quelle": [
+    "YOSEMITE"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "fjord": {
    "felstyp": "Gneis, glazial uebersteilt: Haengetal-Faelle ueber Trogwaende (Geirangerfjord, Sieben Schwestern)",
@@ -1723,21 +2244,35 @@
      "Kies",
      "Geroell"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Fels",
      "Moos",
      "Heide"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Fels"
     ]
    },
    "besonderheiten": "lange, schmale Faelle in Straehnen; Wand dunkel und nass",
-   "annahme": true
+   "quelle": [
+    "YOSEMITE"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "tundra": {
    "felstyp": "Frostschutt auf Gneis/Basalt; flache Felsbaenke, Torfufer",
@@ -1804,21 +2339,35 @@
     "bett_becken": [
      "Kies"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Moos",
      "Trockengras",
      "Geroell"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Fels"
     ]
    },
    "besonderheiten": "Uferanrisse aus Torf (Embankment-Netze) neben Felsstufen",
-   "annahme": true
+   "quelle": [
+    "SVARTI"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "heide": {
    "felstyp": "Granit (Tors, Wollsackverwitterung): rundliche Bloecke, flache Granitplatten",
@@ -1887,20 +2436,34 @@
     "bett_becken": [
      "Kies"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Heide",
      "Moos"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Fels"
     ]
    },
    "besonderheiten": "kaum Steilstrecken; Stufen aus Wollsackbloecken",
-   "annahme": true
+   "quelle": [
+    "PEL2015"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "kueste": {
    "felstyp": "Gneis/Basalt an der Steilkueste: Faelle direkt ins Meer oder auf den Strand",
@@ -1957,20 +2520,34 @@
     "bett_becken": [
      "Kies"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Fels",
      "Gras"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Fels"
     ]
    },
    "besonderheiten": "Fall endet auf Strand/Meer: kein Kolk im Meer, Kolk nur auf Land",
-   "annahme": true
+   "quelle": [
+    "SVARTI"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "sumpf": {
    "felstyp": "kein anstehender Fels; Torf, Wurzeln, Holz",
@@ -2016,19 +2593,32 @@
     "bett_becken": [
      "Schlamm"
     ],
-    "bett_stufe": "Schlamm",
-    "bett_fels": "Erde",
+    "bett_stufe": [
+     "Schlamm"
+    ],
+    "bett_fels": [
+     "Erde"
+    ],
+    "kolk": [
+     "Schlamm"
+    ],
     "ufer_nah": [
      "Moos",
      "Schlamm"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Erde"
     ]
    },
    "besonderheiten": "steile Strecken nur am Rand; Stufen = Holz-/Wurzelschwellen <= 0.8 m",
-   "annahme": true
+   "quelle": [
+    "CURWOHL2003"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "canyon": {
    "felstyp": "geschichteter Sandstein: Stufenkanten an harten Baenken, Alkoven/Hohlkehlen unter der Lippe, Kolk tief, Waende senkrecht",
@@ -2105,20 +2695,36 @@
      "Sand",
      "Kies"
     ],
-    "bett_stufe": "Sandstein",
-    "bett_fels": "Sandstein",
+    "bett_stufe": [
+     "Sandstein"
+    ],
+    "bett_fels": [
+     "Sandstein"
+    ],
+    "kolk": [
+     "Sand",
+     "Sandstein"
+    ],
     "ufer_nah": [
      "Sandstein",
      "Sand"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Sand",
      "Geroell"
     ]
    },
    "besonderheiten": "Lippe = harte Bank (eine Schicht, waagrecht durchgezogen); unter der Lippe Alkove (Netz mit Ueberhang); Moos/Farn nur im Spruehschatten ('hanging garden')",
-   "annahme": true
+   "quelle": [
+    "LM1985",
+    "NPS_NAVAJO",
+    "HAVASU"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "wueste": {
    "felstyp": "Sandstein und Granitbloecke (Namaqualand); Trockental, Faelle nur bei Wasser",
@@ -2189,20 +2795,35 @@
      "Sand",
      "Kies"
     ],
-    "bett_stufe": "Sandstein",
-    "bett_fels": "Sandstein",
+    "bett_stufe": [
+     "Sandstein"
+    ],
+    "bett_fels": [
+     "Sandstein"
+    ],
+    "kolk": [
+     "Sand",
+     "Sandstein"
+    ],
     "ufer_nah": [
      "Sand",
      "Sandstein"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Sand",
      "Geroell"
     ]
    },
    "besonderheiten": "Oase-Effekt: Gruen nur in der Spruehzone",
-   "annahme": true
+   "quelle": [
+    "LM1985",
+    "HAVASU"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   },
   "oedland": {
    "felstyp": "Schiefer/Tonstein mit harten Baenken; brüchig, viel Schichtschutt",
@@ -2263,21 +2884,282 @@
      "Kies",
      "Schlamm"
     ],
-    "bett_stufe": "Geroell",
-    "bett_fels": "Felsplatte",
+    "bett_stufe": [
+     "Geroell"
+    ],
+    "bett_fels": [
+     "Felsplatte"
+    ],
+    "kolk": [
+     "Kies",
+     "Geroell"
+    ],
     "ufer_nah": [
      "Erde",
      "Geroell"
     ],
-    "ufer_gischt": "Moos",
+    "ufer_gischt": [
+     "Moos"
+    ],
     "wandfuss": [
      "Geroell",
      "Erde"
     ]
    },
    "besonderheiten": "Wasser 'rostrot' moeglich; Waende geschichtet, viel Schutt",
-   "annahme": true
+   "quelle": [
+    "NIAGARA"
+   ],
+   "annahme": true,
+   "notiz": "Felstyp/Form aus den Quellen; Netzwahl und Anteile Annahme"
   }
  },
- "vorbilder": {}
+ "vorbilder": {
+  "natur": [
+   {
+    "name": "Svartifoss (Island)",
+    "art": "Fall 20 m in Basaltsaeulen-Amphitheater (15-20 m hoch, 30 m breit)",
+    "biome": [
+     "lava",
+     "kueste"
+    ],
+    "lehre": "Saeulen haengen ueber der Lippe, abgebrochene Saeulenstuecke liegen als Schutt in der Gumpe",
+    "link": "https://en.wikipedia.org/wiki/Svartifoss",
+    "quelle": [
+     "SVARTI"
+    ]
+   },
+   {
+    "name": "Aldeyjarfoss / Hraunfossar (Island)",
+    "art": "Basalt-Fall mit Saeulen / Quellfaelle aus Lavastrom",
+    "biome": [
+     "lava",
+     "tundra"
+    ],
+    "lehre": "Wasser kommt auch seitlich aus der Wand (Hraunfossar); schwarze Waende, weisses Wasser",
+    "link": "https://en.wikipedia.org/wiki/Hraunfossar",
+    "annahme": true,
+    "notiz": "Link nach Wiki-Schema, nicht geoeffnet"
+   },
+   {
+    "name": "Iguazu (Argentinien/Brasilien)",
+    "art": "breite Fallfront ueber gestapelte Basaltstroeme, ~80 m in Stufen",
+    "biome": [
+     "lava",
+     "dschungel"
+    ],
+    "lehre": "Fluss: viele Straehnen nebeneinander, zwei Etagen (je Basaltstrom eine), Vegetation auf den Inseln dazwischen",
+    "link": "https://iugs-geoheritage.org/geoheritage_sites/iguazu-iguacu-waterfalls/",
+    "quelle": [
+     "IGUAZU"
+    ]
+   },
+   {
+    "name": "Plitvicer Seen (Kroatien)",
+    "art": "16 Seen hinter Kalktuff-Barrieren, 636 -> 503 m auf ~8 km",
+    "biome": [
+     "dschungel",
+     "elfenwald"
+    ],
+    "lehre": "Stufen = bewachsene Sinterbarrieren mit vielen duennen Straehnen; tuerkise Becken; Barrieren wachsen ~1 cm/a",
+    "link": "https://www.pmf.unizg.hr/images/50025872/2019_7.%20PLITVICE%20LAKES%20poster.pdf",
+    "quelle": [
+     "PLITVICE"
+    ]
+   },
+   {
+    "name": "Krka, Skradinski buk (Kroatien)",
+    "art": "17 Kalktuffstufen auf 800 m, 45,7 m, 200-400 m breit",
+    "biome": [
+     "dschungel",
+     "aue"
+    ],
+    "lehre": "Fluss-Vorbild fuer Sinterkaskade: Mittel ~2.7 m je Stufe, Stufen ~47 m auseinander, breit verzweigt",
+    "link": "https://npkrka.hr/en_us/en_US/posjeti/sadrzaji/skradinski-buk/",
+    "quelle": [
+     "KRKA"
+    ]
+   },
+   {
+    "name": "Havasu / Mooney Falls (Arizona)",
+    "art": "Travertin-Faelle 30 m / 60 m im roten Canyon, Terrassenbecken",
+    "biome": [
+     "canyon",
+     "wueste"
+    ],
+    "lehre": "tuerkises Wasser vor rotem Fels; Travertin-Vorhaenge an der Wand; flache Terrassenbecken",
+    "link": "https://www.earthmagazine.org/article/travels-geology-havasu-canyon-land-blue-green-water/",
+    "quelle": [
+     "HAVASU"
+    ]
+   },
+   {
+    "name": "Zion, Emerald Pools / Weeping Rock (Utah)",
+    "art": "Sandstein-Alkoven mit Tropfwand und 'hanging gardens'",
+    "biome": [
+     "canyon",
+     "wueste"
+    ],
+    "lehre": "Lippe = harte Bank, darunter tiefe Hohlkehle; Gruen nur im Spruehschatten",
+    "link": "https://www.nps.gov/articles/nps-geodiversity-atlas-navajo-national-monument-arizona.htm",
+    "quelle": [
+     "NPS_NAVAJO",
+     "LM1985"
+    ]
+   },
+   {
+    "name": "Yosemite: Vernal / Nevada Fall, Yosemite Falls",
+    "art": "Granit, Gletschertreppe; Haengetal-Fall in drei Stufen an Klueften",
+    "biome": [
+     "bergwald",
+     "gletscher"
+    ],
+    "lehre": "Fallkette mit flachen Tritten; Lippe folgt Kluftflaechen (gerade, kantig)",
+    "link": "https://www.nps.gov/parkhistory/online_books/geology/publications/pp/160/contents.htm",
+    "quelle": [
+     "YOSEMITE"
+    ]
+   },
+   {
+    "name": "Niagara Falls",
+    "art": "Deckschicht-Fall, Rueckschreiten, Schlucht unterhalb",
+    "biome": [
+     "fluss allgemein"
+    ],
+    "lehre": "harte Lippe, unterspuelte Wand, Sturzbloecke am Fuss, Schlucht so tief wie der Fall",
+    "link": "https://en.wikipedia.org/wiki/Niagara_Falls",
+    "quelle": [
+     "NIAGARA",
+     "HM2009"
+    ]
+   },
+   {
+    "name": "Aareschlucht / Breitachklamm / Partnachklamm",
+    "art": "Kalk-Klammen 80-200 m tief, Engstellen 1-2 m",
+    "biome": [
+     "bergwald",
+     "gletscher",
+     "elfenwald"
+    ],
+    "lehre": "senkrechte, glattgeschliffene Waende, Strudelloecher, Gumpen, verkeilte Bloecke, Licht von oben",
+    "link": "https://www.indenbergen.de/weblog/ueberblick-uber-die-schoensten-klammen-in-den-alpen/",
+    "quelle": [
+     "KLAMMEN"
+    ]
+   },
+   {
+    "name": "Geirangerfjord, Sieben Schwestern (Norwegen)",
+    "art": "Haengetal-Faelle in Straehnen ueber Trogwand",
+    "biome": [
+     "fjord",
+     "gletscher"
+    ],
+    "lehre": "lange, schmale, aufgefaecherte Faelle, dunkle nasse Wand",
+    "link": "https://en.wikipedia.org/wiki/Seven_Sisters_(waterfall)",
+    "annahme": true,
+    "notiz": "Link nach Wiki-Schema, nicht geoeffnet"
+   },
+   {
+    "name": "Lydford Gorge (Dartmoor)",
+    "art": "Granit-/Schieferschlucht mit Strudelloechern (Devil's Cauldron)",
+    "biome": [
+     "heide"
+    ],
+    "lehre": "kleiner Massstab, Strudelloecher, bemooste Waende",
+    "link": "https://en.wikipedia.org/wiki/Lydford_Gorge",
+    "annahme": true,
+    "notiz": "Link nach Wiki-Schema, nicht geoeffnet"
+   }
+  ],
+  "spiele": [
+   {
+    "name": "The Witcher 3 – Skellige (Ard Skellig)",
+    "art": "Spiel",
+    "biome": [
+     "fjord",
+     "kueste",
+     "bergwald",
+     "frost"
+    ],
+    "lehre": "geschichtete, halb vergrabene Felsen mit Moos obenauf; Felsen als Klippen wiederverwendet (CDPR); Waende mit einer Schichtneigung",
+    "link": "https://80.lv/articles/world-building-of-witcher-3",
+    "extra_link": "https://witcher.fandom.com/wiki/Skellige",
+    "quelle": [
+     "A5"
+    ]
+   },
+   {
+    "name": "The Witcher 3 – Velen",
+    "art": "Spiel",
+    "biome": [
+     "aue",
+     "elfenwald",
+     "sumpf"
+    ],
+    "lehre": "flache Waldbaeche mit Holzstufen, Wurzeln, Schlamm; Steilheit nur kurz",
+    "link": "https://witcher.fandom.com/wiki/Velen",
+    "annahme": true,
+    "notiz": "Link nach Wiki-Schema, nicht geoeffnet"
+   },
+   {
+    "name": "Dragon Age: Inquisition – Emerald Graves",
+    "art": "Spiel",
+    "biome": [
+     "elfenwald"
+    ],
+    "lehre": "Riesenbaeume, Elfenruinen, Fall an Ruine (Fall + Bauwerk kombinieren)",
+    "link": "https://gameinformer.com/games/dragon_age_inquisition/b/playstation4/archive/2014/05/13/history-of-the-elves-explored-in-new-screens.aspx",
+    "extra_link": "https://dragonage.fandom.com/wiki/Emerald_Graves",
+    "annahme": true,
+    "notiz": "Umgebungs-Beschreibung (Game Informer 2014); Fall noerdlich der Elfenruinen laut Spielfuehrern"
+   },
+   {
+    "name": "Dragon Age: Inquisition – Hinterlands",
+    "art": "Spiel",
+    "biome": [
+     "bergwald",
+     "aue"
+    ],
+    "lehre": "Huegelwald mit Felsriegeln und kleinen Faellen",
+    "link": "https://dragonage.fandom.com/wiki/The_Hinterlands",
+    "annahme": true,
+    "notiz": "Link nach Wiki-Schema, nicht geoeffnet"
+   },
+   {
+    "name": "Red Dead Redemption 2 – Brandywine Drop (Grizzlies)",
+    "art": "Spiel",
+    "biome": [
+     "bergwald",
+     "gletscher"
+    ],
+    "lehre": "Fall unter einer Bruecke, Raum hinter dem Vorhang, nasser Fels an der Lippe",
+    "link": "https://gameskeys.net/brandywine-drop-treasure-location-guide-red-dead-online/",
+    "annahme": true,
+    "notiz": "nur Spielfuehrer-Auszug"
+   },
+   {
+    "name": "Red Dead Redemption 2 – Elysian Pool (Van Horn)",
+    "art": "Spiel",
+    "biome": [
+     "kueste",
+     "bergwald"
+    ],
+    "lehre": "Fall in ein Becken mit Hoehle dahinter – Fall als Sehenswuerdigkeit",
+    "link": "https://rankedboost.com/red-dead-redemption-2/elysian-pool/",
+    "annahme": true,
+    "notiz": "nur Spielfuehrer-Auszug"
+   },
+   {
+    "name": "Red Dead Redemption 2 – Donner Falls, Strawberry",
+    "art": "Spiel",
+    "biome": [
+     "bergwald"
+    ],
+    "lehre": "Fall noerdlich der Bacchus Bridge; Fall mitten im Ort Strawberry – Wasser als Ortsmotiv",
+    "link": "https://www.sideshow.com/blog/best-views-destinations-red-dead-redemption-2",
+    "annahme": true,
+    "notiz": "nur Spielfuehrer-Auszug"
+   }
+  ]
+ }
 }

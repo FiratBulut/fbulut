@@ -281,7 +281,7 @@
     "Basalt_Basalt_Pillars_Cluster_High_SM",
     "Basalt_Basalt_Cliff_SM"
    ],
-   "hinweis": "Albedo/Normal/ORM aus /Game/Basalt in die Instanz uebernehmen (sonst zeigt M_EL_Klippe_RVT die Nordklippen-Textur); nur Fussblend + Moos sind gewollt."
+   "hinweis": "E16: Albedo/Normal/ORM aus /Game/Basalt in die Instanz uebernehmen (Textursatz der Basalt-Instanz Basalt_Natural_Inst, Texturnamen liest Claude lokal ab; sonst zeigt M_EL_Klippe_RVT die Nordklippen-Textur); nur Fussblend + Moos sind gewollt. Pruefschritt: Material-Slots von Basalt_Basalt_Pillars_Wall_SM und Basalt_Basalt_Cliff_SM auslesen - ein Textursatz: MI fuer alle 5; zwei: MI nur fuer die Pillars-Netze, Basalt_Basalt_Cliff_SM behaelt sein Original."
   },
   {
    "name": "MI_EL_SW_Lava_Glasur",
@@ -1102,7 +1102,8 @@
      "bei": "turm",
      "radius_m": 70,
      "lautstaerke": 0.4,
-     "zweck": "Wind ueber dem offenen Lavafeld (Laubanteil pruefen; spaeter Fantasy Ambiences)"
+     "zweck": "Wind ueber dem offenen Lavafeld (Laubanteil pruefen)",
+     "bedingung": "E18: nur wenn der Laubanteil leise ist (Hoerprobe); sonst an diesem Ort stumm (Eintrag entfernen)"
     }
    ]
   },
@@ -1739,23 +1740,43 @@
    "effekte": [
     {
      "typ": "niagara",
-     "asset": "FX_Smoke_Volcano_01",
+     "asset": "NS_EL_SW_Dampfsaeule",
      "optional": false,
      "bei": "schlot",
      "hoehe_m": 1.0,
      "skala": 0.45,
      "zweck": "Dampfsaeule 20-30 m ueber dem Schlot - zieht vom Weg (Leuchtfeuer)",
-     "hinweis": "Lava & Volcano (13d): als Kopie weiss-gelblich und halb so dicht (Dampf, keine Asche)"
+     "hinweis": "E14: weisse Kopie (Dampf, keine Asche), Deckkraft x0,5, Spawn x0,5; Original bleibt unberuehrt (E45)",
+     "kopie_von": "FX_Smoke_Volcano_01",
+     "kopie_aenderungen": {
+      "farbe": [
+       0.95,
+       0.94,
+       0.9
+      ],
+      "deckkraft_faktor": 0.5,
+      "spawn_faktor": 0.5
+     }
     },
     {
      "typ": "niagara",
-     "asset": "FX_Lava_Smoke_03",
+     "asset": "NS_EL_SW_Fumarole",
      "optional": false,
      "bei": "f3",
      "hoehe_m": 0.3,
      "skala": 0.4,
      "zweck": "kleine Fumarolenfahne am Riss",
-     "hinweis": "Kopie weiss-grau, duenn"
+     "hinweis": "E14: Fumarolenfahne als Kopie, weiss-grau, duenn; Original bleibt unberuehrt (E45)",
+     "kopie_von": "FX_Lava_Smoke_03",
+     "kopie_aenderungen": {
+      "farbe": [
+       0.92,
+       0.92,
+       0.9
+      ],
+      "deckkraft_faktor": 0.5,
+      "hinweis": "duenn, weiss-grau, langsam"
+     }
     },
     {
      "typ": "niagara",
@@ -5108,13 +5129,23 @@
    "effekte": [
     {
      "typ": "niagara",
-     "asset": "FX_Lava_Smoke_03",
+     "asset": "NS_EL_SW_Fumarole",
      "optional": false,
      "bei": "haupt",
      "hoehe_m": 0.5,
      "skala": 0.5,
      "zweck": "Restdampf im Hauptkrater",
-     "hinweis": "Lava & Volcano (13d): Kopie duenn, weiss-grau, langsam"
+     "hinweis": "E14: Fumarolenfahne als Kopie, weiss-grau, duenn; Original bleibt unberuehrt (E45)",
+     "kopie_von": "FX_Lava_Smoke_03",
+     "kopie_aenderungen": {
+      "farbe": [
+       0.92,
+       0.92,
+       0.9
+      ],
+      "deckkraft_faktor": 0.5,
+      "hinweis": "duenn, weiss-grau, langsam"
+     }
     },
     {
      "typ": "lokaler_nebel",
@@ -5175,7 +5206,8 @@
      "bei": "haupt",
      "radius_m": 60,
      "lautstaerke": 0.35,
-     "zweck": "Wind auf dem Kegel (Laubanteil pruefen; spaeter Fantasy Ambiences)"
+     "zweck": "Wind auf dem Kegel (Laubanteil pruefen)",
+     "bedingung": "E18: nur wenn der Laubanteil leise ist (Hoerprobe); sonst an diesem Ort stumm (Eintrag entfernen)"
     }
    ]
   },
@@ -5938,7 +5970,8 @@
      "bei": "schlucht",
      "radius_m": 50,
      "lautstaerke": 0.3,
-     "zweck": "Wind ueber der Kante (Laubanteil pruefen)"
+     "zweck": "Wind ueber der Kante (Laubanteil pruefen)",
+     "bedingung": "E18: nur wenn der Laubanteil leise ist (Hoerprobe); sonst an diesem Ort stumm (Eintrag entfernen)"
     }
    ],
    "verdeckung": [
@@ -6456,7 +6489,8 @@
       "Lavasand": 210,
       "Kies": 110
      },
-     "hinweis": "Gipfelsteig (fuer = []): Serpentine, Bodenband entlang der Phase-1-Kehren; die endgueltigen Kehren und den Anschnitt rechnet Ferats Serpentinen-Werkzeug"
+     "hinweis": "Kehren aus Serpentinen-Werkzeug (E17): der Gipfelsteig wird NEU aus Ferats Serpentinen-Werkzeug gerechnet; das Bodenband hier folgt nur den Phase-1-Kehren (Platzhalter). Der Planer liest die neue Punktliste aus sehens/lava/standorte.json, sobald sie dort steht.",
+     "status": "neu aus Ferats Serpentinen-Werkzeug (E17)"
     }
    ],
    "effekte": [

@@ -27,10 +27,13 @@ Planer 0 FEHLER / 0 WARNUNG; Prüfer **0 FEHLER, 0 WARNUNG**, 12 HINWEIS (eigene
 | 08 Wabenwand | 961 | 36 | 10 | – | Nordwand aus Cliff Layered, Nische mit Köcherbaum, 12 Decals (Lack + Waben-Ersatz Clay) |
 
 Je Feld: D3 2 640, E3 3 786, E4 12 661 Instanzen. Verdeckung (Fundstücke 04–08): alle verdeckt.
-Materialwünsche 4/6: `Wuestenlack`, `Salzkruste`, `Wueste_Sandauflage`, `Salz_Decal` (M_MS_Decal + PNG).
+Materialwünsche 6/6: `Wuestenlack`, `Salzkruste`, `Wueste_Sandauflage`, `Salz_Decal` (M_MS_Decal + PNG),
+`Waechter_Kreide` (E01: M_MS_Base, kreidehell, Füße der Wächter nur `ulbwebv_tier_0`, `vepoda2_tier_0` entfällt) und
+`Wabenfels` (E30: M_EL_Fels_MS in Sandsteintönung für die Wabennischen).
 
 ## Grenzen und offene Punkte
 
 - Wadi (07): der 2-m-Talgrund ist schon eine geschlossene Hohlform → `senke_begruendung`; im 1-m-Lauf prüfen.
 - Pilzfelsen (03) sind gebändert statt kreideweiß (Desert-Western-Spires laut 13d); weiße Kappen nur per Material möglich.
-- Echte Tafoni-Waben (08) erst mit Hollowstone Canyon (Kauf offen) – bis dahin Decals.
+- Wabenwand (08): Decals + Probe `wabennischen` (4 Akteure `SM_lava_wall_04`/`_09`, 3–5 m, `MI_EL_SW_Wabenfels`, E30).
+  Hollowstone Canyon entscheidet Ferat nach dem Editorbild der Probe.

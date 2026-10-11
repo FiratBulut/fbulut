@@ -120,6 +120,9 @@
    "klaenge": [
     {"asset": "CUE_Water_Stream_IV_Cue", "bei": {"von": "mitte", "richtung": "zu:blick", "abstand_m": 20}, "radius_m": 160, "lautstaerke": 0.8, "zweck": "Brandung (Ersatz: tief gepitcht, langsam); Seevoegel fehlen"},
     {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "kante", "radius_m": 45, "lautstaerke": 0.35, "zweck": "Wind an der Kliffkante (Laubanteil im Editor pruefen)"}
+   ],
+   "freiraeume": [
+    {"form": "kreis", "bei": "mitte", "r_m": 150, "ebenen": ["houdini"], "rollen": ["SM_K9_STEILKUESTE__FELS", "SM_K9_STEILKUESTE__SEHENS", "SM_K9_STEILKUESTE__SEHENS_DECKE"], "netze": ["/Game/Eldarien/Welt/Netze/K9_STEILKUESTE/SM_K9_STEILKUESTE__FELS", "/Game/Eldarien/Welt/Netze/K9_STEILKUESTE/SM_K9_STEILKUESTE__SEHENS", "/Game/Eldarien/Welt/Netze/K9_STEILKUESTE/SM_K9_STEILKUESTE__SEHENS_DECKE"], "grund": "E23: Houdini-Steilkueste K9 unter den neuen Pfeilern ausblenden", "hinweis": "nur die Kachelteile, die unter/zwischen den neuen Pfeilern stehen (Pruefschritt E23: Outliner nach K9 filtern, Bild kueste_01_die_alten_fern mit/ohne); SM_K9_STEILKUESTE__WASSER bleibt"}
    ]
   },
 
@@ -175,7 +178,7 @@
     {"typ": "decal", "material": "MI_Leakage_07", "zweck": "Kotbahnen (zweites Muster)", "bei": "wand_b", "hoehe_m": 11, "ausrichtung": "wand", "blick": "zu:blick", "groesse_m": [8.0, 5.0, 9.0]},
     {"typ": "decal", "material": "MI_Leakage_07", "zweck": "Kotbahnen (zweites Muster)", "bei": "wand_d", "hoehe_m": 11, "ausrichtung": "wand", "blick": "zu:blick", "groesse_m": [8.0, 5.0, 9.0]},
     {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserlinie (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "fuss", "r_m": 14}, "groesse_m": [1.0, 4.0, 4.0]},
-    {"typ": "niagara", "asset": "NS_feather", "optional": true, "zweck": "Vogelwirbel ueber der Brutwand (ferne Punkte)", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "umgebaut: Sprite klein, dunkel/weiss, langsam kreisend; Tiere sind offene Frage 8 - sonst weglassen", "bei": "wand_b", "hoehe_m": 35},
+    {"typ": "niagara", "asset": "NS_feather", "optional": false, "zweck": "Vogelwirbel ueber der Brutwand (ferne Punkte)", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "umgebaut: Sprite klein, dunkel/weiss, langsam kreisend; entschieden E03: nur ferne Punkte 35-60 m ueber der Brutwand, nie in Spielernaehe, Cull 400 m", "cull_m": 400, "bei": "wand_b", "hoehe_m": 45},
     {"typ": "decal", "material": "MI_Decal_Rocks_Small", "zweck": "Kiesel/Geroell auf dem Blockstrand", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "fuss", "r_m": 12}, "groesse_m": [1.0, 4.0, 4.0]}
    ],
    "klaenge": [
@@ -251,6 +254,9 @@
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_IX_Cue", "bei": "tor", "radius_m": 120, "lautstaerke": 0.8, "zweck": "Brandung im Torgang (Ersatz); Seevoegel fehlen"}
+   ],
+   "freiraeume": [
+    {"form": "kreis", "bei": "mitte", "r_m": 90, "ebenen": ["houdini"], "rollen": ["SM_K9_STEILKUESTE__FELS", "SM_K9_STEILKUESTE__SEHENS", "SM_K9_STEILKUESTE__SEHENS_DECKE"], "netze": ["/Game/Eldarien/Welt/Netze/K9_STEILKUESTE/SM_K9_STEILKUESTE__FELS", "/Game/Eldarien/Welt/Netze/K9_STEILKUESTE/SM_K9_STEILKUESTE__SEHENS", "/Game/Eldarien/Welt/Netze/K9_STEILKUESTE/SM_K9_STEILKUESTE__SEHENS_DECKE"], "grund": "E23: Houdini-Steilkueste K9 unter den neuen Pfeilern ausblenden", "hinweis": "nur die Kachelteile, die unter/zwischen den neuen Pfeilern stehen (Pruefschritt E23: Outliner nach K9 filtern, Bild kueste_01_die_alten_fern mit/ohne); SM_K9_STEILKUESTE__WASSER bleibt"}
    ]
   },
 

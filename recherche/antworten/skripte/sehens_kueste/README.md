@@ -32,7 +32,7 @@ Planer 0 FEHLER / 0 WARNUNG. Prüfer (`orte.json` + `sw_kueste`, mit Daten und I
 | Ort | Inst. | Koll. | Akteure | Held / Begl. / Schutt / Kleinzeug / Bewuchs / Kontakt | Wasser | Effekte | Stempel |
 |---|---|---|---|---|---|---|---|
 | 01 Die Alten | 881 | 45 | 35 | 3 / 6 / 39 / 650 / 50 / 136 | Meer | 3 Niagara (Impact, Wake), Nebel, 7 Decals | 13,4 m |
-| 02 Vogelinsel | 1 452 | 146 | 11 | 4 / 7 / 90 / 930 / 122 / 242 | Meer | NS_feather opt., 9 Decals | 17,0 m |
+| 02 Vogelinsel | 1 452 | 146 | 11 | 4 / 7 / 90 / 930 / 122 / 242 | Meer | NS_feather (fest, E03), 9 Decals | 17,0 m |
 | 03 Nadeltor | 704 | 38 | 30 | 4 / 4 / 22 / 420 / 40 / 206 | Meer, Torgang | Impact + Wake, Nebel, 5 Decals | 49,2 m (begr.) |
 | 04 Seefall | 978 | 133 | 14 | 2 / 6 / 81 / 500 / 106 / 228 (+8 Bachsteine) | Wasserfall 54 m | Waterfall_Large, Impact_Large, Stream_Small, Nebel, 8 Decals | 17,9 m |
 | 05 Gezeitenbank | 1 645 | 229 | 11 | 4 / 7 / 94 / 910 / 45 / 345 (+90 Tümpelsteine) | 11 Tümpel (see) | 12 Decals | 7,1 m |
@@ -76,5 +76,10 @@ zwischen 22° und 40°; steiler werden es Kehren aus Ferats Werkzeug.
   (`front_achse`) ist eine Annahme, das Editorbild entscheidet. Die Unterseite des Tor-Sturzes ist ungeprüft.
 - Bei Die Alten, Vogelinsel und Blasloch liegt der eigene Pfadabschnitt außerhalb des Lagenfensters. Ein Pfadband gibt es
   dort nicht; der Abschnitt steht nur in `orte.json["pfad"]` (HINWEIS).
-- Klänge: Brandung und Seevögel fehlen. Als Ersatz laufen `CUE_Water_Stream_*`; der Wunsch steht in
-  `assets_wunsch` (Wilderness Nature Loops). Die Vogelwolke (`NS_feather`) ist optional (Tiere: offene Frage 8).
+- Klänge: Brandung und Seevögel fehlen. Als Platzhalter laufen `CUE_Water_Stream_*` (Ferat 11.10.: er erzeugt die Klänge
+  selbst per KI, Klangpakete nicht geladen; die zweite Brandungsquelle aus E29 entfällt deshalb – ein Asset-Name für
+  „Procedural Sea Waves“ ist im Inventar nicht belegt). `assets_wunsch` nennt Wilderness Nature Loops nur noch historisch.
+- Vogelwolke `NS_feather` fest (E03): ferne Punkte über der Brutwand in 45 m Höhe, Cull 400 m. Brutwand = Ostflanke (E02).
+- Houdini-Steilküste K9 (E23): `freiraeume` mit Rolle `houdini` und den Netzen `SM_K9_STEILKUESTE__FELS/__SEHENS/
+  __SEHENS_DECKE` an kueste_01 (r 150 m) und kueste_03 (r 90 m) – nur Kachelteile unter den neuen Pfeilern ausblenden
+  (Prüfschritt im Outliner); `__WASSER` bleibt.

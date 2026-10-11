@@ -71,5 +71,5 @@ Material-Instanzen 5 von 6: `MI_EL_SW_Verkohlt`, `_Klammfels_Nass`, `_Granit_Moo
   (`front_achse`) ist eine Annahme – Prüfbild `_held`/`_fern` entscheidet.
 - 2-m-Daten: Klamm (2 m Raster, ~20 m breit) wird mit Wänden auf ~8 m verengt; Stempelkanten sind 2 Zellen breit.
   Lokal auf 1 m laufen lassen und Fallkante/Fuß der Klamm prüfen.
-- Ameisen (`SM_anthill_ants_anim_random`) und Forellen sind abgeschaltet (offene Frage 8: Tiere).
+- Ameisen (`SM_anthill_ants_anim_random`) am Ameisenhaufen sind aktiv (E04); andere Tiere (Forellen) bleiben aus.
 - Pfadbänder werden auf das Lagenfenster (400/600 m) gekappt; der volle Pfad steht in `orte.json["pfad"]`.

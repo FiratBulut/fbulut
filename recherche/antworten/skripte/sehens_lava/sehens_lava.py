@@ -156,8 +156,9 @@ def _pfade_zusatz(ctx):
         pf = _pfad_dict(ctx, P, regel, pz.get("art", p.get("art", "trampelpfad")), "pfade:%s (ganzer Pfad)" % pid)
         pf["id"] = pid
         pf["fuer"] = list(p.get("fuer") or [])
-        if pz.get("hinweis"):
-            pf["hinweis"] = pz["hinweis"]
+        for k in ("hinweis", "status"):          # status: z. B. "neu aus Ferats Serpentinen-Werkzeug (E17)"
+            if pz.get(k):
+                pf[k] = pz[k]
         kachel = min(400.0, float(pz.get("kachel_m", 400.0))) - 4.0
         A = np.asarray(pf["punkte_m"])
         x0, y0 = A.min(axis=0) - 6.0
@@ -373,14 +374,15 @@ def nachtrag(d, kontexte, aus):
             liste = []
             for pf in pzl:
                 ein = {k: pf[k] for k in ("id", "punkte_cm", "breite_cm", "art", "quelle", "laenge_m",
-                                          "max_steigung_grad", "fuer", "hinweis") if k in pf}
+                                          "max_steigung_grad", "fuer", "hinweis", "status") if k in pf}
                 ein["bodenband"] = [b for b in (lg.schreibe(aus, "%s__%s_%d" % (ctx.id, pf["kurz"], k))
                                                 for k, lg in enumerate(pf["_kacheln"])) if b]
                 liste.append(ein)
             e["pfade_zusatz"] = liste
             geaendert = True
     if geaendert:
-        sfmt.schreibe_orte(os.path.join(aus, "orte.json"), d["biom"], d["orte"], stand=d.get("stand"), pruefen=False)
+        sfmt.schreibe_orte(os.path.join(aus, "orte.json"), d["biom"], d["orte"], stand=d.get("stand"), pruefen=False,
+                           zusatz={k: v for k, v in d.items() if k not in ("stand", "biom", "orte")})
     return geaendert
 
 

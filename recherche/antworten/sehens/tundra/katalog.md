@@ -297,9 +297,9 @@ der See verdeckt bleibt); die Reststrecke ist eine Trampelspur (Bodenlage Erde, 
 
 ## Offene Fragen an Ferat
 
-1. tundra_06 **Aufeis** gestrichen (C2-Kaskade, Auftrag 14 → Schneetälchen); tundra_05 **Thermokarstsee** neben frost/gletscher – so in Ordnung?
-2. tundra_07 **Steinringe**: vom höheren Küstenweg teilweise einsehbar – als Fundstück lassen oder zum Leuchtfeuer machen?
-3. Mischung **4 Leuchtfeuer / 4 Fundstücke** statt 3/5 (die offene Küstenebene gibt kaum Verstecke her).
+1. ~~tundra_06 Aufeis / tundra_05 Thermokarstsee~~ – entschieden (E20): Aufeis entfällt, Thermokarstsee bleibt.
+2. ~~tundra_07 Steinringe Fundstück oder Leuchtfeuer~~ – entschieden (E21): Fundstück bleibt.
+3. ~~Mischung 4 Leuchtfeuer / 4 Fundstücke~~ – entschieden (E21): 4/4 bleibt.
 4. Bildwünsche (leer): Pingo-Hügel, Hufeisen-Mulde der Eiswand, Aufeis-Schlucht entfällt (Kameras in `asset_bedarf.json`).
 
 ## Abgleich Inventar 13d (Stand 11.10.2026, abends)

@@ -37,7 +37,7 @@
    "marker": {"titel": "Das Mondtor", "text": "Von unten sieht es aus, als haette jemand ein Stueck Himmel in den Fels gesetzt. Oben pfeift der Wind durch das Tor und traegt den Geruch des Meeres heran.", "entdeckung_m": 80},
    "budget": {"instanzen": 3000, "kollision": 200, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 4},
    "assets_wunsch": [
-    {"paket": "Megascans Limestone Rocks", "statt_jetzt": "Bogen aus SM_Cliff_01c (Pfeiler) + SM_Cliff_01b (Sturz); Kalkschutt SM_LimestoneRocks2/3 + Limestone_Rocks_ubqwdheda_High (grosse Limestone-Assets werden geladen)"}
+    {"paket": "Megascans Limestone Quarry", "statt_jetzt": "E31: Ferat laedt Limestone Quarry; Quarry-Cliff-Paletten erst nach dem neuen Inventar, bis dahin: Bogen aus SM_Cliff_01c (Pfeiler) + SM_Cliff_01b (Sturz); Kalkschutt SM_LimestoneRocks2/3 + Limestone_Rocks_ubqwdheda_High (grosse Limestone-Assets werden geladen)"}
    ],
    "anker": {
     "tor": [-18.0, 11.0],
@@ -146,7 +146,7 @@
    "marker": {"titel": "Der Steinwald", "text": "Wie ein Wald, den der Regen in Stein verwandelt hat - nur dass der Regen es umgekehrt gemacht hat. Zwischen den Nadeln wachsen die echten Baeume klein und vorsichtig.", "entdeckung_m": 60},
    "budget": {"instanzen": 4000, "kollision": 600, "akteure": 70, "lichter": 0, "niagara": 0, "decals": 6},
    "assets_wunsch": [
-    {"paket": "Megascans Limestone Rocks", "statt_jetzt": "Kalknadeln aus SM_Cliff_01b/c/e aufrecht, schmal skaliert; Karren SM_LimestoneRocks2/3, Limestone_Rocks_ubqwdheda_High (grosse Limestone-Assets werden geladen)"},
+    {"paket": "Megascans Limestone Quarry", "statt_jetzt": "E31: Ferat laedt Limestone Quarry; Quarry-Cliff-Paletten erst nach dem neuen Inventar, bis dahin: Kalknadeln aus SM_Cliff_01b/c/e aufrecht, schmal skaliert; Karren SM_LimestoneRocks2/3, Limestone_Rocks_ubqwdheda_High (grosse Limestone-Assets werden geladen)"},
     {"paket": "Procedural Rocks Generator", "statt_jetzt": "SM_Cliff_01* gedreht und verschieden skaliert"}
    ],
    "anker": {
@@ -192,7 +192,7 @@
    "budget": {"instanzen": 3000, "kollision": 200, "akteure": 30, "lichter": 1, "niagara": 0, "decals": 4},
    "assets_wunsch": [
     {"paket": "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)", "statt_jetzt": "SM_Vines_01a / SM_Ivy_11/17/25 als Luftwurzeln, Pestwurz x2,5 mit MI_EL_SW_Riesenblatt"},
-    {"paket": "Megascans Limestone Rocks", "statt_jetzt": "Schachtwaende aus SM_Cliff_01d + SM_HugeMossyForestCliff_01 (grosse Limestone-Assets werden geladen)"}
+    {"paket": "Megascans Limestone Quarry", "statt_jetzt": "E31: Ferat laedt Limestone Quarry; Quarry-Cliff-Paletten erst nach dem neuen Inventar, bis dahin: Schachtwaende aus SM_Cliff_01d + SM_HugeMossyForestCliff_01 (grosse Limestone-Assets werden geladen)"}
    ],
    "anker": {
     "schacht": [-44.0, 8.0],
@@ -242,7 +242,7 @@
    "marker": {"titel": "Die Verborgene Lagune", "text": "Man zwaengt sich durch den Stein und steht ploetzlich am Wasser. Ueber einem bleibt nur ein Streifen Himmel, und es ist so still, dass man die Tropfen zaehlt.", "entdeckung_m": 25},
    "budget": {"instanzen": 4000, "kollision": 300, "akteure": 25, "lichter": 0, "niagara": 0, "decals": 4},
    "assets_wunsch": [
-    {"paket": "Megascans Limestone Rocks", "statt_jetzt": "Gassenwaende/Ueberhaenge aus SM_Cliff_01b x0,2 und SM_Cliff_01a; Kalkschutt SM_LimestoneRocks2/3 + Limestone_Rocks_ubqwdheda_High (grosse Limestone-Assets werden geladen)"},
+    {"paket": "Megascans Limestone Quarry", "statt_jetzt": "E31: Ferat laedt Limestone Quarry; Quarry-Cliff-Paletten erst nach dem neuen Inventar, bis dahin: Gassenwaende/Ueberhaenge aus SM_Cliff_01b x0,2 und SM_Cliff_01a; Kalkschutt SM_LimestoneRocks2/3 + Limestone_Rocks_ubqwdheda_High (grosse Limestone-Assets werden geladen)"},
     {"paket": "Rain Forest Pack", "statt_jetzt": "SM_Vines_01a / SM_Ivy_* als Lianen, Rembrandt-Seerosen"}
    ],
    "linien": {
@@ -304,7 +304,7 @@
    "assets_wunsch": [
     {"paket": "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack", "statt_jetzt": "Portal aus ForestRockShelf-Dach + LimestoneRocks3-Laibung, Inneres als dunkles Decal"},
     {"paket": "Cave Ambience", "statt_jetzt": "CUE_Water_Stream_IV_Cue (Gurgeln), sonst stumm"},
-    {"paket": "Megascans Limestone Rocks", "statt_jetzt": "Kalkbank aus SM_LimestoneRocks3 x3,5 (grosse Limestone-Assets werden geladen)"}
+    {"paket": "Megascans Limestone Quarry", "statt_jetzt": "E31: Ferat laedt Limestone Quarry; Quarry-Cliff-Paletten erst nach dem neuen Inventar, bis dahin: Kalkbank aus SM_LimestoneRocks3 x3,5 (grosse Limestone-Assets werden geladen)"}
    ],
    "anker": {
     "portal": [8.0, -7.0],
@@ -414,7 +414,7 @@
    "assets_wunsch": [
     {"paket": "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack", "statt_jetzt": "Sinterfahnen als Leakage-Decals, Tropfstein-Stummel aus SM_LimestoneRocks2 hochkant"},
     {"paket": "Travertine Hot Spring Terraces – Modular Environment Pack", "statt_jetzt": "Sinterrand aus SM_SmoothRockShelf_01 / SM_LimestoneRocks2 mit MI_EL_SW_Sinter"},
-    {"paket": "Megascans Limestone Rocks", "statt_jetzt": "Felsdach SM_Cliff_01b x0,35; Talus SM_LimestoneRocks3 (grosse Limestone-Assets werden geladen)"}
+    {"paket": "Megascans Limestone Quarry", "statt_jetzt": "E31: Ferat laedt Limestone Quarry; Quarry-Cliff-Paletten erst nach dem neuen Inventar, bis dahin: Felsdach SM_Cliff_01b x0,35; Talus SM_LimestoneRocks3 (grosse Limestone-Assets werden geladen)"}
    ],
    "anker": {
     "halle": [-40.0, 2.0],

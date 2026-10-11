@@ -6,7 +6,7 @@
   "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
   "leitidee": "Jeder Ort zeigt, wie der Sumpf lebt und stirbt: er ertraenkt den Wald, baut schwimmende Matten, waechst in Bulten, naehrt Riesenblaetter, traegt Vogelhorste, stellt Baeume auf Stelzen und atmet Nebel aus. Farben: schwarzes Wasser, rostrotes Torfmoos, silbernes Totholz, giftgruene Saeume.",
   "wasser": "Epic-See T_2954_391 und Teiche mit Spiegel 1,58 m stehen nicht in karte_wasser - jede Regel laedt sie mit 'bestandswasser' (nass nur unter dem Spiegel). Kein Ort schreibt einen eigenen see in den Epic-See (doppelte Wasserflaechen); Farbwunsch schwarz_spiegel steht als Hinweis (offene Frage 6).",
-  "hinweis": "Jede Gruppe hat eine Ursache ('warum'). Netze nur aus netze.csv; Material MI_EL_SW_* nur aus 'materialwuensche'. Erlen fehlen -> Birke/Pappel (13c). Tiere bleiben aus (offene Frage 8)."
+  "hinweis": "Jede Gruppe hat eine Ursache ('warum'). Netze nur aus netze.csv; Material MI_EL_SW_* nur aus 'materialwuensche'. Erlen fehlen -> Birke/Pappel (13c). E04: keine Tiere ausser Ameisen am Haufen (bergwald_08); keine Fischgraeten (E05, Knochen-Regel)."
  },
  "biom": "sumpf",
  "seed": 1314,
@@ -417,7 +417,7 @@
    "marker": {"titel": "Die Irrlichtsenke", "text": "Sumpfgas, sagen die einen. Die anderen sagen nichts und gehen einen anderen Weg.", "entdeckung_m": 25},
    "budget": {"instanzen": 3000, "kollision": 150, "akteure": 20, "lichter": 2, "niagara": 2, "decals": 4},
    "assets_wunsch": [],
-   "hinweise": ["Irrlichter: 2 sehr schwache Punktlichter (<= 2 cd) + NS_Sparkling_Glow - offene Frage 3 (Licht oder nur Nebel); ohne Licht bleiben Nebel und Glimmen"],
+   "hinweise": ["Irrlichter: 2 Punktlichter 40/30 cd, Radius 5 m, ohne Schatten + NS_Sparkling_Glow x2 + Nebelbank (entschieden E08)"],
    "bestandswasser": {"seen": "auto", "r_m": 300},
    "zugang": {"frei_r_m": 20},
    "anker": {"tuempel": [0.0, -2.0], "glimm_a": [-6.0, 4.0], "glimm_b": [7.0, -7.0]},
@@ -456,8 +456,8 @@
     {"typ": "lokaler_nebel", "zweck": "Nebelbank, die auch mittags bleibt (der Held des Orts)", "bei": "mitte", "hoehe_m": 1.2, "radius_m": 30, "dichte": 0.12, "farbe": [0.72, 0.76, 0.72], "hoehenabfall": 1.2},
     {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow", "optional": false, "zweck": "Irrlicht-Glimmen im Schatten der Staemme: gelbgruen, 1-3 s an, nie mehr als 3 gleichzeitig", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "Kopie, gelbgruen, sehr langsam und spaerlich", "bei": "glimm_a", "hoehe_m": 0.4},
     {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow", "optional": false, "zweck": "zweites Glimmen", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "wie oben, versetzt", "bei": "glimm_b", "hoehe_m": 0.4},
-    {"typ": "punktlicht", "zweck": "schwaches Faulgas-Glimmen (wirkt nur im Schatten)", "bei": "glimm_a", "hoehe_m": 0.5, "intensitaet_cd": 2.0, "radius_m": 4, "farbe": [0.75, 1.0, 0.45]},
-    {"typ": "punktlicht", "zweck": "zweites Glimmen", "bei": "glimm_b", "hoehe_m": 0.5, "intensitaet_cd": 1.5, "radius_m": 4, "farbe": [0.75, 1.0, 0.45]},
+    {"typ": "punktlicht", "zweck": "Faulgas-Glimmen, sichtbar auch bei Tagsonne (E08: 40 cd, unter den Leuchtpilzen des Elfenwalds)", "bei": "glimm_a", "hoehe_m": 0.5, "intensitaet_cd": 40.0, "radius_m": 5, "farbe": [0.75, 1.0, 0.45]},
+    {"typ": "punktlicht", "zweck": "zweites Glimmen (E08: 30 cd)", "bei": "glimm_b", "hoehe_m": 0.5, "intensitaet_cd": 30.0, "radius_m": 5, "farbe": [0.75, 1.0, 0.45]},
     {"typ": "decal", "material": "MI_ScatteredBark_01", "zweck": "Rinde im Schlamm", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 14}, "groesse_m": [1.0, 2.5, 2.5]},
     {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Moos am Senkenrand", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [16, 24]}, "groesse_m": [1.0, 3.0, 3.0]}
    ],

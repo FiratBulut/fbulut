@@ -202,7 +202,7 @@
    ],
    "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_ost", "abschnitt": [608, 827]},
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Fire", "optional": false, "zweck": "Flammen in den Rissen des Kratergrunds (klein skaliert, viele)", "hinweis": "Kopie: Flammen klein, Spawn-Flaeche r 12 m, keine Kampf-Optik", "bei": "krater", "hoehe_m": 0.2, "skala": 2.5},
+    {"typ": "niagara", "asset": "NS_EL_SW_Gasflammen", "kopie_von": "NS_Fire", "kopie_aenderungen": {"flammen_m": [0.3, 0.8], "spawn_flaeche_r_m": 12, "viele_quellen": true, "funken": false}, "optional": false, "zweck": "Flammen in den Rissen des Kratergrunds (klein skaliert, viele)", "hinweis": "E15: Kopie (Vorbild Yanartas): Flammen 0,3-0,8 m, viele Quellen auf r 12 m, ohne Funken, keine Kampf-Optik; Original NS_Fire bleibt unberuehrt (E45)", "bei": "krater", "hoehe_m": 0.2, "skala": 2.5},
     {"typ": "niagara", "asset": "FX_Lava_Smoke_02", "optional": false, "zweck": "Rauchsaeule ~30 m (Lava & Volcano)", "bei": "krater", "hoehe_m": 1.0, "skala": 1.5},
     {"typ": "niagara", "asset": "FX_Distortion_Big", "optional": false, "zweck": "Hitzeflimmern ueber dem Krater", "bei": "krater", "hoehe_m": 3.0},
     {"typ": "punktlicht", "zweck": "Glut im Kratergrund (wirkt auch am Tag in der Tiefe)", "bei": [-5, 3], "hoehe_m": 1.5, "intensitaet_cd": 12000, "radius_m": 25, "farbe": [1.0, 0.45, 0.12]},
@@ -364,8 +364,8 @@
    "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_ost", "abschnitt": [230, 608], "zugang": true},
    "verdeckung": {"kern": "mulde", "probe_r_m": 10, "ziel_hoehe_m": 2},
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Bubble_Burst", "optional": false, "zweck": "Schlammblasen im groessten Krater (Kopie, braun, langsam)", "bei": "k0", "hoehe_m": 0.05},
-    {"typ": "niagara", "asset": "NS_Bubble_Burst", "optional": false, "zweck": "Schlammblasen im zweiten Krater", "bei": "k5", "hoehe_m": 0.05},
+    {"typ": "niagara", "asset": "NS_EL_SW_Schlammblasen", "kopie_von": "NS_Bubble_Burst", "kopie_aenderungen": {"farbe": [0.35, 0.32, 0.28], "groesse_faktor": 0.5, "spawn_faktor": 0.4}, "hinweis": "E15: Kopie schlammgrau, Groesse x0,5, Spawn x0,4; Original bleibt unberuehrt (E45)", "optional": false, "zweck": "Schlammblasen im groessten Krater (Kopie, braun, langsam)", "bei": "k0", "hoehe_m": 0.05},
+    {"typ": "niagara", "asset": "NS_EL_SW_Schlammblasen", "kopie_von": "NS_Bubble_Burst", "kopie_aenderungen": {"farbe": [0.35, 0.32, 0.28], "groesse_faktor": 0.5, "spawn_faktor": 0.4}, "hinweis": "E15: Kopie schlammgrau, Groesse x0,5, Spawn x0,4; Original bleibt unberuehrt (E45)", "optional": false, "zweck": "Schlammblasen im zweiten Krater", "bei": "k5", "hoehe_m": 0.05},
     {"typ": "niagara", "asset": "NS_SmokePuffLight", "optional": false, "zweck": "Gasaustritt, sehr duenn", "bei": "k2", "hoehe_m": 0.3},
     {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "nasse Schlammraender", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "mulde", "r_m": 30, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 4.0, 4.0]},
     {"typ": "decal", "material": "MI_Decal_Clay_02", "zweck": "getrocknete Schlammflaechen", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mulde", "r_m": 26}, "abstand_m": 12, "groesse_m": [1.0, 10.0, 10.0]}

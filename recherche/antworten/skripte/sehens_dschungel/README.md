@@ -57,7 +57,9 @@ Material-Instanzen 3 von 6: `MI_EL_SW_Kalk_Nass`, `MI_EL_SW_Sinter`, `MI_EL_SW_R
 - **13d:** Nature Water FX (Fall, Aufprall, Strom) statt der optionalen Platzhalter, Nassband `MI_Deca_Wet(_Flat)`
   (Verteilung `ufer`) an allen Wasserorten, Mountain-Wurzeln, `material_hinweis` Mountain-Wassermaterial.
   **Große Kalkfelsen fehlen laut `netze.csv` weiter** (nur `SM_LimestoneRocks2/3`, `Limestone_Rocks_ubqwdheda_High`)
-  → Ersatz `SM_Cliff_01a–e` bleibt, „Megascans Limestone Rocks“ steht in `assets_wunsch`.
+  → Ersatz `SM_Cliff_01a–e` bleibt. **E31:** Ferat lädt „Megascans Limestone Quarry“ (steht in `assets_wunsch`); die
+  Quarry-Cliff-Netze kommen erst nach dem neuen Inventar in die Paletten (Instanzen können nicht optional sein).
+  E39 (Schluckhöhle): Arbeitsannahme „kein Weiterlauf nach Süden“ – `ersetzt_bestandsbach` nur bei Befund.
 
 ## Warnungen (begründet)
 
