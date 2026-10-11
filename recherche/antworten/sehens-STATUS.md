@@ -68,6 +68,7 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 - **Brushify – Moorlands Pack:** nicht im Bestand, zu teuer → nicht kaufen. Ginster/Wacholder/Wollgras mit Ersatz aus dem Bestand (Sanddorn, gestauchte Jungkiefern, Binsen).
 - **Klippensteig (Küste):** Entscheidung beim Koordinator, Maßstab Witcher-Qualität nach unseren Referenzbildern. **Entschieden: voller Klippensteig (4,35 km) + Kap-Pfad bauen** – ein Steig an der Steilküste mit Kehren und Felsstufen, Blick auf Pfeiler, Vogelinsel und Nadeltor, ist genau die Skellige-Art Weg, die die Referenzen zeigen; die Kurzvariante würde Vogelinsel und Nadeltor (zwei der vier Küsten-Leuchtfeuer) kosten.
 - **Nature Water FX: gekauft** (Import und Inventar folgen) → Gischt/Wasserfälle für Seefall, Blasloch, Schleierfall, Schleierwand, Eisfall.
+- **Grundsatz (Ferat, 11.10. abends): kein Geld ausgeben, solange es Besseres bei Megascans gibt.** Treibholz: Ferat lädt Megascans-Driftwood statt Nanite Driftwood Props.
 - **Megascans:** größtenteils 2024 beansprucht, also kostenlos. Desert Western Cliff Layered, weitere Megascans-Limestone und das kostenlose „Limestone Rock Set“ (Ancraite) werden geladen. **Forest Cretaceous gestrichen** (teuer, schlecht bewertet).
 
 ## Noch offen (kompakt, Stand Phase-1-Abschluss)
