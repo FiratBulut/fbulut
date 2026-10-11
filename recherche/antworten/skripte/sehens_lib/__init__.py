@@ -12,7 +12,13 @@ Module:
   kandidaten  Kandidatensuche je Biom, Merkmale, Abstandsauswahl, Erreichbarkeit (Dijkstra)
   zeichnen    Draufsicht-PNG je Ort
   format      Schreiber standorte.json (Phase 1) und orte.json (Phase 2), Kameras
-  sehens_pruefen  Pruefer gegen SEHENS_FORMAT (+ globale Abstaende ueber alle Biome)
+  sehens_pruefen  Pruefer gegen SEHENS_FORMAT (+ globale Abstaende ueber alle Biome; Phase 2: orte.json + sw_<biom>)
+  Phase 2 (Auftrag 13, PLANER_ANLEITUNG.md):
+  inventar    Asset-Inventar (netze.csv, Bounds, Sperre, Niagara/Decals/Klaenge, Material-Parameter), Asset-Pruefung
+  stempel     Gelaendestempel (Mulde, Kuppe, Rinne, Terrasse, Abbruch, Seebecken) + Bodenlagen, 1-m-Dateien
+  instanzen   Quaternionen, Platzierung (Eingraben, Hangnormale), Streuung/Cluster/Kontaktzonen, Ebene sw_<biom>
+  rezept      Ort aus Regel-Block bauen (Anker, Gelaende, Wasser, Gruppen, Lagen, Pfad, Effekte, Budget) + schreiben
+  vorschau    Testbild test_<id>.png
 
 Einbinden (auch mit python -I, das den Skriptordner NICHT in sys.path setzt):
     import sys, os
@@ -24,7 +30,7 @@ Einbinden (auch mit python -I, das den Skriptordner NICHT in sys.path setzt):
 import sys as _sys
 import time as _time
 
-__version__ = "1.0"
+__version__ = "1.0"   # Cache-Fingerabdruck (gelaende.py) - nur bei geaenderter Gelaende-Rechnung erhoehen
 
 _UML = {"ä": "ae", "ö": "oe", "ü": "ue", "Ä": "Ae", "Ö": "Oe", "Ü": "Ue", "ß": "ss",
         "–": "-", "—": "-", "→": "->", "≤": "<=", "≥": ">=", "×": "x", "°": " Grad",

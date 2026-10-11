@@ -707,6 +707,15 @@ class OrtKontext:
             ts = np.linspace(0, 1, max(len(namen_a), 1))[:len(namen_a)]
             if all(k in self.richtungen for k in namen_a) and namen_a:
                 yaws = np.array([self.richtungen[k] + float(v.get("yaw_plus", 0.0)) for k in namen_a])
+        elif t == "cluster":
+            # Gruppen: Zentren gleichverteilt in der Grundform (kreis/ring/ellipse/faecher/...), je Zentrum je [a, b]
+            # Punkte im radius_m (zur Mitte dichter) - Farnhorste, Blueteninseln, Pilzgruppen
+            grund = self._form(dict(v, typ=v.get("form", "kreis")), rng)
+            nz = _anzahl(v.get("zentren", [3, 6]), rng)
+            cx, cy, _ = _ins.streue(rng, grund, nz, float(v.get("zentren_abstand_m", 2.0 * float(v.get("radius_m", 3.0)))),
+                                    filter_fn=lambda a_, b_, c_: ~self.im_wasser(a_, b_))
+            xs, ys = _ins.cluster(rng, list(zip(cx, cy)), tuple(v.get("je", [4, 9])), float(v.get("radius_m", 3.0)))
+            ts = np.zeros(len(xs))
         elif t == "auf_gruppe":
             xs, ys, ts = self._auf_gruppe(v, rng)
             if len(xs) == 0:
@@ -738,7 +747,7 @@ class OrtKontext:
                 ok = (d >= form["_ufer"][0]) & (d <= form["_ufer"][1])
                 xs, ys, ts = xs[ok], ys[ok], ts[ok]
             ziel_n = n
-        if t in ("punkt", "punkte", "reihe", "um_gruppe", "anker", "auf_gruppe"):
+        if t in ("punkt", "punkte", "reihe", "um_gruppe", "anker", "auf_gruppe", "cluster"):
             ziel_n = len(xs) if "anzahl" not in g or t in ("um_gruppe", "auf_gruppe") else \
                 min(len(xs), _anzahl(g["anzahl"], rng))
         # Filter

@@ -129,11 +129,34 @@ Orte, die nur über einen Pfad gelten, tragen `"pfad_id": "<id>"`. Ferats Werkze
 **format.py** – `ort_id`, `kamera`, `standort`, `pfad`, `schreibe_standorte`, `lade_standorte`, `alle_standorte`,
 `alle_pfade`, `belegte_punkte`, `mindestabstand_m`, Phase 2: `ort_phase2`, `schreibe_orte`, `schreibe_f32` (Gelände-Δ), `schreibe_r8` (Lagen).
 
+**Phase 2** (Auftrag 13, Lieferformat `vorlagen/SEHENS_FORMAT.md`) – siehe Abschnitt „Phase 2“ unten und
+[`PLANER_ANLEITUNG.md`](PLANER_ANLEITUNG.md): `inventar.py`, `stempel.py`, `instanzen.py`, `rezept.py`, `vorschau.py`.
+
 **sehens_pruefen.py** – `python -I antworten/skripte/sehens_lib/sehens_pruefen.py [--sicht]` prüft alle
 `antworten/sehens/*/standorte.json` (Format, Kameras, Pfade, Geländeregeln mit Daten gegen Wege + Pfade aller Biome, globale
 Abstände über alle Biome – noch vorhandene Varianten `*/standorte_*.json` zählen ohne Doppelzählung mit);
-`--datei X/orte.json` prüft Phase 2 (Felder §2–§9, Budget, Dateigrößen, Rand Δ = 0, Umriss gegen Uhrzeigersinn =
-Fläche > 0 in X/Y wie `wasser_welt.json`). Exit 1 bei FEHLER.
+`--datei X/orte.json` prüft Phase 2: orte.json (§2–§9), Gelände/Lagen-Dateien, mit Daten Weg-/Wasserschutz und
+Seeufer, Assets gegen das Inventar und – falls `X/sw_<biom>/` existiert oder `--ebene` angegeben ist – die
+Instanz-Ebene (Format, Anzahlen, Assets, Feldrechteck, Akteure, Budget je Ort, Schweben/Versinken). Exit 1 bei FEHLER.
+
+## Phase 2 – Planer-Bausteine (Auftrag 13)
+
+Lieferformat: `vorlagen/SEHENS_FORMAT.md` (+ `FORMAT.md` §3). Muster-Planer: `skripte/sehens_bergwald/`.
+Anleitung für neue Biom-Planer (Aufbau, Regel-Schema, Bausteine, fehlende Assets, Prüfschritte):
+**[`PLANER_ANLEITUNG.md`](PLANER_ANLEITUNG.md)**.
+
+| Modul | Inhalt |
+|---|---|
+| `inventar.py` | `Inventar.lade()` – `netze.csv`, `netze_masse.json` (Bounds/Pivot), `netz_sperre.json`, `netz_check_ergebnis.json`, `inventar_extra.json` (Niagara, Decals, Klänge), `material_parameter.json`. `netz(name\|pfad)`, `netz_pruefen`, `asset_pruefen(art, pfad, optional)` (fehlend → FEHLER, `optional` → HINWEIS; Houdini `SW_*` → FEHLER; Stadt-/Menschenklänge → FEHLER), `material_pruefen` (Master + Parameternamen). |
+| `stempel.py` | `Stempel` (Gelände-Δ in m, gerechnet im nativen Raster, geschrieben IMMER 1 m): `mulde`, `kuppe`, `rinne` (auch absolute fallende Sohle), `terrasse`, `abbruch`, `glaetten`, `buckel`, `see_becken` (Becken + Uferring über dem Spiegel + Auslass-Lippe). `modus` add/min/max/setzen = Blending mit dem Bestand. `fertig()`: Rand Δ = 0 (≥ 8 m weich), Schutz ≤ 3 m an Wegen/Wasser (außer `ist_wasser`). `hoehe_bei_m`/`normale_bei_m` = Boden NACH dem Stempel. `senken()` findet geschlossene Senken. `Lagen`: `kreis`/Ring, `band`, `maske`, max-Kombination, fleckig (`flecken`). |
+| `instanzen.py` | Quaternionen (`q_mul`, `q_yaw_kompass`, `q_kippen`, …), `orientierung(aufrecht\|hochkant\|liegend, yaw, normale, anteil, kippen)`, `platziere(...)` (Kontaktpunkte der Unterseite gegen das Gelände, Pivot aus Bounds, Eingraben), Streuung (`form_punkte`, `streue` mit Mindestabstand, `cluster`, `um_stuecke` = Kontaktzone um Fuß-Ellipsen), `Ebene` (sammelt, `ausduennen` nach §9, schreibt `sw_<biom>/<Feld>/plan.json` + f32 mit 10 float32 je Instanz, Akteure in `plan["akteure"]`), `lies_ebene`. |
+| `rezept.py` | `OrtKontext(...).baue(hooks)` – baut einen Ort aus dem Regel-Block: Anker/Linien, Gelände, Wasser (§5), Gruppen je Detail-Ebene, Pfad (13c), Lagen, Effekte (§6), Klänge, Freiräume, Budget (§9), orte.json-Eintrag. `schreibe_biom(...)` schreibt orte.json, gelaende/, lagen/ und die Ebene. |
+| `vorschau.py` | `vorschau(ctx, pfad)` → `test_<id>.png`: Gelände nach dem Stempel (rot/blau = Δ), geplante Lagen, Wasser, Instanzen je Detail-Ebene, Akteur-Grundrisse, Effekte, Pfad, Freiräume, Kameras, Legende mit Zahlen und Budget. |
+
+Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorierbar): `pfad` (13c), `klaenge`,
+`freiraeume` (Bestand entfernen), `detail_ebenen` (Witcher-Größenstufen), `hinweise`, `gelaende.begruendung`,
+`gelaende.ist_wasser`, `see.auslass_cm`, `see.freibord_min_m`. In `plan.json`: `orte_budget`, `dateien[*].orte`,
+`dateien[*].material_wunsch`, `dateien[*].z_frei_anzahl`, Akteure mit `hoehe_m`, `boden_z`, `unterkante_z`, `pivot`.
 
 ## Cache und Laufzeiten (2 m, 4789 × 3529, ohne SciPy)
 
@@ -149,6 +172,9 @@ Fläche > 0 in X/Y wie `wasser_welt.json`). Exit 1 bei FEHLER.
 
 `python -I antworten/skripte/sehens_lib/selbsttest.py [--biom bergwald] [--aus <Ordner>]` – schreibt nur nach
 `--aus` (Standard Scratchpad `a13/`, nie ins Repo). Schritt 9 prüft die Pfade (Testpfad rastern, Abstände, Prüfer, Rücksetzen).
+Schritt 10 prüft Phase 2: Inventar-/Asset-Prüfung, Quaternionen, Stempel mit allen Werkzeugen (Rand 0, 1-m-Datei),
+einen Ort aus einem Rezept zweimal (byteidentisch), orte.json + Ebene, Vorschau, Prüfer 0 FEHLER und absichtlich kaputte
+Fälle (Uhrzeigersinn, fehlendes Niagara, Budget ≠ Ebene, falsche Anzahl, unbekanntes Netz). Laufzeit ~30 s mit Cache.
 
 ## Bekannte Grenzen
 
@@ -158,3 +184,6 @@ Fläche > 0 in X/Y wie `wasser_welt.json`). Exit 1 bei FEHLER.
 - `erreichbarkeit` rechnet auf 4 m gemittelten Höhen (kleine Stufen < 4 m verschwinden).
 - §8: Die Kamera schaut immer leicht abwärts (`ZZ + 300` ≤ Kamerahöhe); sehr hoch liegende Ziele hebt die Regel an
   (Prüfer-HINWEIS).
+- Phase 2: Pivot und Front-Achse sind nur für die 451 Netze in `netze_masse.json` bekannt; sonst gilt „Pivot unten Mitte“
+  (`pivot: angenommen_unten_mitte` im Akteur). Welche Seite einer Klippenschale die Schauseite ist, weiß nur das Editorbild
+  (`front_achse` in den Regeln). Auf 2-m-Daten sind Kanten (Stempel, Lippen) 2 Zellen breit; der 1-m-Lauf lokal schärft sie.
