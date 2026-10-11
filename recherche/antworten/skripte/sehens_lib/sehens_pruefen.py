@@ -359,8 +359,9 @@ def pruefe_sicht(liste, welt, abstand_m=20.0):
         elif o.get("art") == "fundstueck":
             v = _sicht.verdeckt_vom_weg(welt, wp, x, y, min(H or 3.0, 3.0))
             if not v["verdeckt"]:
+                ns = v.get("naechste_sicht_m")
                 b.append((HINWEIS, oid, "Fundstueck: vom Weg/Pfad aus sichtbar (max. Anteil %.2f, naechste Sicht %s m) "
-                                        "- Rahmen/Stempel noetig" % (v["max_anteil"], v["naechste_sicht_m"])))
+                                        "- Rahmen/Stempel noetig" % (v["max_anteil"], "%.0f" % ns if ns is not None else "?")))
     return b
 
 
