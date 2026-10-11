@@ -654,6 +654,17 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None, mi_geplant=None):
         else:
             b.append((FEHLER, oid, "effekte.typ %r" % t))
     for k, ba in enumerate(o.get("bestand_ausblenden", []) or []):
+        if ba.get("art") == "houdini":
+            # 13f B: Houdini-Wassernetz im Umriss ausblenden (Abdeckungsmaske beim Setzen)
+            u = ba.get("umriss_cm") or []
+            if not ba.get("netz") or len(u) < 3 or not all(_pkt(p, 2) for p in u):
+                b.append((FEHLER, oid, "bestand_ausblenden[%d] houdini: netz und umriss_cm (>= 3 Punkte) noetig" % k))
+            elif _flaeche(u) <= 0:
+                b.append((FEHLER, oid, "bestand_ausblenden[%d] houdini: umriss_cm im Uhrzeigersinn" % k))
+            else:
+                b.append((HINWEIS, oid, "bestand_ausblenden houdini %s: %.0f m2 ausblenden (ersetzt durch %s)"
+                          % (ba["netz"], abs(_flaeche(u)) / 1e4, ba.get("ersetzt_durch"))))
+            continue
         # E10/E11: Bestandsbach-Abschnitt, den geplantes Wasser ersetzt
         if ba.get("art") != "bach" or not ba.get("id") or not _pkt(ba.get("von_cm"), 2) or not _pkt(ba.get("bis_cm"), 2):
             b.append((FEHLER, oid, "bestand_ausblenden[%d]: art 'bach', id, von_cm, bis_cm noetig" % k))
@@ -727,6 +738,22 @@ def pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None):
         b.append((FEHLER, "-", "biom %r unbekannt" % biom))
     orte = d.get("orte") or []
     mi_geplant = {str(m.get("name")) for o in orte for m in (o.get("materialwuensche") or [])}
+    # 13f A7: biomweite Liste oben in orte.json
+    mwb = d.get("materialwuensche_biom")
+    if mwb is not None:
+        if not isinstance(mwb, list):
+            b.append((FEHLER, biom, "materialwuensche_biom muss eine Liste sein (13f A7)"))
+        else:
+            namen_b = {str(m.get("name")) for m in mwb}
+            fehlen = sorted(mi_geplant - namen_b)
+            if fehlen:
+                b.append((FEHLER, biom, "materialwuensche_biom: es fehlen %s (13f A7)" % ", ".join(fehlen)))
+            if len(mwb) > 6:
+                b.append((FEHLER, biom, "%d Materialwuensche > 6 je Biom (materialwuensche_biom)" % len(mwb)))
+            mi_geplant |= namen_b
+            if inv is not None:
+                for mw in mwb:
+                    b += [(st, biom, "materialwuensche_biom: %s" % tx) for st, tx in inv.material_pruefen(mw)]
     for o in orte:
         b += pruefe_ort(o, biom or "?", basis, inv, welt, mi_geplant=mi_geplant)
     if sw_ordner is not None:
@@ -809,35 +836,209 @@ def pruefe_ort_gelaende(o, basis, welt):
         ii = np.clip(((np.arange(i0, i0 + hh)) // int(z)).astype(np.int64), 0, welt.ny - 1)
         jj = np.clip(((np.arange(j0, j0 + ww)) // int(z)).astype(np.int64), 0, welt.nx - 1)
         weg = welt.weg[ii][:, jj] > 0
+        ort = welt.ort[ii][:, jj] > 0
         wasser = welt.wasser[ii][:, jj] > 0
         from . import gelaende as _g
         geaendert = np.abs(a) > 0.05
-        for name, m in (("Weg", weg), ("bestehendem Wasser", wasser)):
-            if name != "Weg" and g.get("ist_wasser"):
+        # 13f A13: Schutzzone 3 m um Wege und Orte hart 0 (FEHLER), Bestandswasser ohne ist_wasser (WARNUNG);
+        # offene Muendungen der Baeche (muendung_offen_ab_cm) sind am Wasser ausgenommen
+        offen = np.zeros(a.shape, bool)
+        for w in o.get("wasser", []) or []:
+            if w.get("typ") == "bach" and w.get("muendung_offen_ab_cm") and w.get("punkte_cm"):
+                from . import stempel as _stm
+                from . import bach as _b
+                P = np.asarray(w["punkte_cm"], np.float64)[:, :2] / 100.0
+                q = np.asarray(w["muendung_offen_ab_cm"], np.float64) / 100.0
+                k0 = int(np.argmin(np.hypot(P[:, 0] - q[0], P[:, 1] - q[1])))
+                Pm = P[max(k0 - 1, 0):]
+                if len(Pm) >= 2:
+                    jx, iy = np.meshgrid(np.arange(j0, j0 + ww) - _daten.OFF_J, np.arange(i0, i0 + hh) - _daten.OFF_I)
+                    dd, _, _ = _stm.polylinie_abstand(jx, iy, Pm)
+                    offen |= dd <= _b.halbe_breite_eff(float(w["punkte_cm"][0][3]) / 100.0, z) + 1.0 + z
+        for name, m in (("Weg", weg), ("Ort", ort), ("bestehendem Wasser", wasser)):
+            if name == "bestehendem Wasser" and g.get("ist_wasser"):
                 continue
             if not m.any() or not geaendert.any():
                 continue
             d = _g.abstand(m, 1.0, 10.0)
-            n = int((geaendert & (d <= 2.0)).sum())
+            nah = geaendert & (d <= 3.0)
+            if name == "bestehendem Wasser":
+                nah &= ~offen
+            n = int(nah.sum())
             if n:
-                b.append((WARNUNG if name != "Weg" else FEHLER, oid,
-                          "Gelaende aendert sich %d m2 naeher als 2 m an %s (Soll: keine Aenderung <= 3 m, §3)" % (n, name)))
+                b.append((WARNUNG if name == "bestehendem Wasser" else FEHLER, oid,
+                          "Gelaende aendert sich %d m2 naeher als 3 m an %s (bis %.2f m; Soll: keine Aenderung <= 3 m, "
+                          "§3/A13)" % (n, name, float(np.abs(a[nah]).max()))))
     # Seeufer
     boden = BodenNachStempel(welt, [o], basis)
     for w in o.get("wasser", []) or []:
         if w.get("typ") != "see" or not w.get("umriss_cm") or not _zahl(w.get("spiegel_cm")):
             continue
         from .rezept import ufer_freibord
+        from . import bach as _b
         u = np.asarray(w["umriss_cm"], np.float64) / 100.0
-        tief = -ufer_freibord(boden.hoehe, u, float(w["spiegel_cm"]) / 100.0, welt.zelle_m)
+        # Zu-/Abfluesse dieses Sees: Ufer dort offen
+        offen = []
+        for q in o.get("wasser", []) or []:
+            if q.get("typ") != "bach" or not q.get("punkte_cm"):
+                continue
+            r = _b.halbe_breite_eff(float(q["punkte_cm"][0][3]) / 100.0, welt.zelle_m) + 1.0
+            Pq = np.asarray(q["punkte_cm"], np.float64)[:, :2] / 100.0
+            Lq = float(_b.bogen(Pq)[-1])
+            if q.get("abfluss_von") == w.get("id"):
+                offen.append((_b.linien_stueck(Pq, 0.0, 6.0), r))
+            if q.get("muendung") == w.get("id"):
+                offen.append((_b.linien_stueck(Pq, Lq - 6.0, Lq), r))
+        tief = -ufer_freibord(boden.hoehe, u, float(w["spiegel_cm"]) / 100.0, welt.zelle_m, offen=offen)
         if tief > 0.05:
-            b.append((WARNUNG, oid, "see %s: Ufer haelt nicht - auf einem Strahl 0,5-3 m hinter dem Umriss bis %.2f m "
-                                    "UNTER dem Spiegel (Gelaende nach Stempel)" % (w.get("id"), tief)))
+            # 13f A13: Seeufer >= Spiegel
+            b.append((FEHLER, oid, "see %s: Ufer haelt nicht - auf einem Strahl 0,5-3 m hinter dem Umriss bis %.2f m "
+                                   "UNTER dem Spiegel (Gelaende nach Stempel, A13)" % (w.get("id"), tief)))
+    b += pruefe_baeche(o, welt, boden)
     m = o.get("mitte_cm")
     if _pkt(m, 2) and welt.im_raster_m(m[0] / 100.0, m[1] / 100.0):
         i, j = welt.cm_zu_ij(m[0], m[1])
         if welt.meer[i, j]:
             b.append((FEHLER, oid, "Mitte liegt im Meer"))
+    return b
+
+
+def _abstand_umriss(U, x, y):
+    best = 1e18
+    n = len(U)
+    for k in range(n):
+        a, c = U[k], U[(k + 1) % n]
+        ab = c - a
+        t = float(np.clip(((x - a[0]) * ab[0] + (y - a[1]) * ab[1]) / max(float((ab ** 2).sum()), 1e-12), 0, 1))
+        best = min(best, math.hypot(a[0] + t * ab[0] - x, a[1] + t * ab[1] - y))
+    return best
+
+
+def pruefe_baeche(o, welt, boden=None):
+    """13f A4/A9/A12/A13 - Baeche gegen Seen, Zielgewaesser und das Gelaende NACH dem Stempel:
+    - Bachende am eigenen See auf dem Umriss, Spiegel >= Seespiegel (FEHLER darunter), nicht in den See hinein;
+    - Abfluss beginnt auf dem Seespiegel (FEHLER darunter);
+    - Bachende nie unter dem Spiegel des Zielgewaessers (Epic: baeche_alle, Fluesse, Seen, Teiche) - FEHLER;
+    - Muendung nur Epic/eigener See/versickert (A9); versickert >= 25 m (WARNUNG);
+    - Querprofil (A12): Ufer beidseits am Netzrand unter dem Spiegel = FEHLER, Gelaende in der Mitte ueber dem
+      Spiegel = FEHLER (ohne Furten, Stufenzonen, offene Muendung, Seen)."""
+    from . import bach as _b
+    from .rezept import _in_polygon
+    b = []
+    oid = o.get("id", "?")
+    seen = {}
+    for w in o.get("wasser", []) or []:
+        if w.get("typ") == "see" and w.get("umriss_cm") and _zahl(w.get("spiegel_cm")):
+            seen[w.get("id")] = (np.asarray(w["umriss_cm"], np.float64)[:, :2] / 100.0, float(w["spiegel_cm"]) / 100.0)
+    epic = _b.epic_ziele(welt)
+    z = welt.zelle_m
+    for w in o.get("wasser", []) or []:
+        if w.get("typ") != "bach":
+            continue
+        p = w.get("punkte_cm") or []
+        if len(p) < 2 or not all(_pkt(q, 4) for q in p):
+            continue
+        wid = w.get("id")
+        A = np.asarray(p, np.float64)
+        X, Y, W, Bm = A[:, 0] / 100.0, A[:, 1] / 100.0, A[:, 2] / 100.0, float(np.median(A[:, 3])) / 100.0
+        kum = np.concatenate([[0.0], np.cumsum(np.hypot(np.diff(X), np.diff(Y)))])
+        L = float(kum[-1])
+        mu = w.get("muendung")
+        frei_s = np.ones(0)
+        # --- A4: eigener See am Ende
+        if mu in seen:
+            U, sp = seen[mu]
+            if W[-1] < sp - 0.01:
+                b.append((FEHLER, oid, "bach %s: endet %.2f m unter dem Spiegel von %s (A4)" % (wid, sp - W[-1], mu)))
+            d_end = _abstand_umriss(U, X[-1], Y[-1])
+            if d_end > max(1.0, z):
+                b.append((WARNUNG, oid, "bach %s: Endpunkt %.1f m neben dem Umriss von %s (A4: auf dem Umriss)"
+                          % (wid, d_end, mu)))
+            innen = _in_polygon(X[:-1], Y[:-1], U)
+            tief_drin = [k for k in np.nonzero(innen)[0] if _abstand_umriss(U, X[k], Y[k]) > 1.0]
+            if tief_drin:
+                b.append((FEHLER, oid, "bach %s: %d Punkte liegen im See %s (A4: am Umriss abschneiden)"
+                          % (wid, len(tief_drin), mu)))
+        # --- A4: Abfluss beginnt auf dem Seespiegel
+        av = w.get("abfluss_von")
+        if av in seen:
+            sp = seen[av][1]
+            if W[0] < sp - 0.01:
+                b.append((FEHLER, oid, "bach %s: Abfluss beginnt %.2f m unter dem Spiegel von %s (A4)" % (wid, sp - W[0], av)))
+            elif W[0] > sp + 0.05:
+                b.append((WARNUNG, oid, "bach %s: Abfluss beginnt %.2f m ueber dem Spiegel von %s" % (wid, W[0] - sp, av)))
+        # --- A9/A13: Muendung
+        if mu == "suesswasser_bestand":
+            b.append((FEHLER, oid, "bach %s: muendung 'suesswasser_bestand' - nur Epic-Gewaesser zaehlen (A9)" % wid))
+        elif mu == "versickert":
+            if L < _b.VERSICKERT_MIN_M - 0.5:
+                b.append((WARNUNG, oid, "bach %s: versickert nach %.0f m (< 25 m, A9)" % (wid, L)))
+        elif mu not in seen and mu:
+            if w.get("muendung_art") == "houdini":
+                b.append((HINWEIS, oid, "bach %s: muendet in das Houdini-Netz %s (Spiegel lokal pruefen)" % (wid, mu)))
+            elif epic.kennt(mu):
+                spz = epic.spiegel(mu, X[-1], Y[-1])
+                if spz is not None and W[-1] < spz - 0.01:
+                    b.append((FEHLER, oid, "bach %s: endet %.2f m unter dem Spiegel von %s (%.2f m, A13)"
+                              % (wid, spz - W[-1], mu, spz)))
+            else:
+                b.append((WARNUNG, oid, "bach %s: muendung %r ist weder Epic-Gewaesser noch eigener See (A9)" % (wid, mu)))
+        # --- A12: Querprofil gegen das Gelaende nach dem Stempel
+        if boden is None or L < 3.0:
+            continue
+        s = np.arange(1.5, L - 1.4, 1.0)
+        if not len(s):
+            continue
+        ok = np.ones(len(s), bool)
+        for f in w.get("furten") or []:
+            fa = np.asarray(f["von_cm"], np.float64) / 100.0
+            fb = np.asarray(f["bis_cm"], np.float64) / 100.0
+            sa_ = kum[int(np.argmin(np.hypot(X - fa[0], Y - fa[1])))]
+            sb_ = kum[int(np.argmin(np.hypot(X - fb[0], Y - fb[1])))]
+            ok &= ~((s >= min(sa_, sb_) - 1.5) & (s <= max(sa_, sb_) + 1.5))
+        for st_ in w.get("stufen") or []:
+            # Stufenzone (Fallkante/Fuss): Lippe - (0,5 + 0,75 Zellen) ... Fuss + (0,5 + 0,75 Zellen)
+            q = np.asarray(st_["lippe_cm"], np.float64)[:2] / 100.0
+            sl = kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
+            q = np.asarray(st_["fuss_cm"], np.float64)[:2] / 100.0
+            sf = kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
+            rz = 0.5 + 0.75 * z
+            ok &= ~((s >= min(sl, sf) - rz) & (s <= max(sl, sf) + rz))
+        if w.get("muendung_offen_ab_cm"):
+            q = np.asarray(w["muendung_offen_ab_cm"], np.float64) / 100.0
+            ok &= s < kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
+        xs = np.interp(s, kum, X)
+        ys = np.interp(s, kum, Y)
+        ws = np.interp(s, kum, W)
+        for sid, (U, sp) in seen.items():
+            if sid in (mu, av):
+                ok &= ~_in_polygon(xs, ys, U)
+                for k in np.nonzero(ok)[0]:
+                    if _abstand_umriss(U, xs[k], ys[k]) < 1.5:
+                        ok[k] = False
+        if not ok.any():
+            continue
+        xs, ys, ws, ss = xs[ok], ys[ok], ws[ok], s[ok]
+        tx = np.interp(ss + 0.5, kum, X) - np.interp(ss - 0.5, kum, X)
+        ty = np.interp(ss + 0.5, kum, Y) - np.interp(ss - 0.5, kum, Y)
+        tn = np.maximum(np.hypot(tx, ty), 1e-9)
+        nx_, ny_ = ty / tn, -tx / tn
+        du = _b.ufer_abstand(Bm, z)
+        hc = np.asarray(boden.hoehe(xs, ys), np.float64)
+        hl = np.asarray(boden.hoehe(xs + nx_ * du, ys + ny_ * du), np.float64)
+        hr = np.asarray(boden.hoehe(xs - nx_ * du, ys - ny_ * du), np.float64)
+        tol = 0.01
+        n_mitte = int((hc > ws + tol).sum())
+        n_ufer = int(((hl < ws - tol) | (hr < ws - tol)).sum())
+        if n_mitte:
+            b.append((FEHLER, oid, "bach %s: Gelaende ueber dem Spiegel im Wasser an %d von %d m (bis %.2f m, A12)"
+                      % (wid, n_mitte, len(ss), float((hc - ws).max()))))
+        if n_ufer:
+            b.append((FEHLER, oid, "bach %s: Ufer unter dem Spiegel an %d von %d m (Netzrand %.1f m, bis %.2f m, A12)"
+                      % (wid, n_ufer, len(ss), du, float(np.maximum(ws - hl, ws - hr).max()))))
+        n_knapp = int((((hl < ws + _b.UFER_MIN_M - tol) | (hr < ws + _b.UFER_MIN_M - tol))).sum()) - n_ufer
+        if n_knapp > 0:
+            b.append((HINWEIS, oid, "bach %s: Ufer an %d m nur 0-5 cm ueber dem Spiegel" % (wid, n_knapp)))
     return b
 
 
@@ -930,11 +1131,20 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
                 gx = (boden.hoehe(xm + 1.0, ym) - boden.hoehe(xm - 1.0, ym)) / 2.0
                 gy = (boden.hoehe(xm, ym + 1.0) - boden.hoehe(xm, ym - 1.0)) / 2.0
                 tol = 0.35 + 0.5 * welt.zelle_m + np.hypot(gx, gy) * welt.zelle_m
-                n_schwebt += max(0, int((unter - bz > tol).sum()) - int(d.get("z_frei_anzahl", 0)))
+                # 13f A6: Stuecke ohne Bodenkontakt (z_frei: Wand, Kante, auf anderen Stuecken) zaehlen weder als
+                # "schwebt" noch als "im Meer"
+                kontakt = np.ones(len(a), bool)
+                zfi = d.get("z_frei_index")
+                if isinstance(zfi, list):
+                    kontakt[[k for k in zfi if 0 <= k < len(a)]] = False
+                    n_schwebt += int(((unter - bz > tol) & kontakt).sum())
+                else:
+                    n_schwebt += max(0, int((unter - bz > tol).sum()) - int(d.get("z_frei_anzahl", 0)))
                 n_vers += int((ober < bz - 0.5 - np.hypot(gx, gy) * welt.zelle_m).sum())
                 i, j = welt.m_zu_ij(xm, ym)
-                if (bz < -0.3).any():
-                    b.append((FEHLER, ft, "%s: %d Instanzen im Meer (Boden < -0,3 m)" % (key, int((bz < -0.3).sum()))))
+                im_meer = (bz < -0.3) & kontakt
+                if im_meer.any():
+                    b.append((FEHLER, ft, "%s: %d Instanzen im Meer (Boden < -0,3 m)" % (key, int(im_meer.sum()))))
                 n_weg += int((welt.weg_basis[i, j] > 0).sum()) if "pfad" not in str(d.get("gruppe")) else 0
                 if not any(t in str(d.get("gruppe", "")) for t in ("wasser", "pfad")):
                     nass = welt.wasser[i, j] > 0

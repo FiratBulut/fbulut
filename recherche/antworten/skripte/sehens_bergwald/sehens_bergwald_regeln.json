@@ -386,21 +386,29 @@
    "budget": {"instanzen": 4000, "kollision": 500, "akteure": 25, "lichter": 0, "niagara": 0, "decals": 4},
    "assets_wunsch": [],
    "anker": {"kar": [0.0, -9.0]},
-   "gelaende": {"fenster_m": [140, 140], "rand_m": 10, "ist_wasser": true, "ist_wasser_r_m": 45,
-                "begruendung": "Karsee braucht Becken und Schwelle (13c: Stempel +-6 m freigegeben, Ferat 11.10.: Gelaende frei); Ufer rundum ueber dem Spiegel",
+   "gelaende": {"fenster_m": [140, 140], "rand_m": 10, "ist_wasser": true, "ist_wasser_r_m": 68,
+                "begruendung": "Karsee braucht Becken und Schwelle (13c: Stempel +-6 m freigegeben, Ferat 11.10.: Gelaende frei); Ufer rundum ueber dem Spiegel. 13f: der Karsee ersetzt hier den alten Houdini-Wasserlauf R_M2_P0__WASSER (Zulauf West und Abfluss liegen in dessen Lauf, ist_wasser_r_m 68 = ganzes Fenster)",
                 "ops": []},
    "wasser": [
     {"typ": "see", "id": "karsee", "bei": "kar", "tiefe_m": 3.5, "farbe": "schwarz_spiegel",
      "becken": {"a_m": 17, "b_m": 11, "richtung": 60, "ufer_m": 6, "freibord_m": 0.5, "einpassen": {"r_such_m": 10, "schritt_m": 2, "richtungen": [0, 20, 40, 60, 80, 100, 120, 140, 160]}}},
     {"typ": "bach", "id": "abfluss", "abfluss_von": "karsee", "laenge_m": 55, "breite_m": 2.5, "tiefe_cm": 30, "farbe": "klar", "quelle": false,
-     "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent; Kaskade ueber die Schwelle (Stufen > 0,8 m)"},
+     "muendung_houdini": "R_M2_P0__WASSER",
+     "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent; Kaskade ueber die Schwelle (Stufen explizit in 'stufen')",
+     "hinweis_wasser": "13f B: laeuft im alten Houdini-Lauf R_M2_P0__WASSER nach Osten und geht am Ende in ihn ueber (Houdini im Korridor ausgeblendet)"},
     {"typ": "bach", "id": "zulauf_sued", "von": {"anker": "rinne_s"}, "bis_see": "karsee", "laenge_m": 70, "breite_m": 1.2, "tiefe_cm": 15, "farbe": "klar", "quelle": true, "muendung": "karsee"},
-    {"typ": "bach", "id": "zulauf_west", "von": {"anker": "rinne_w"}, "bis_see": "karsee", "laenge_m": 70, "breite_m": 1.2, "tiefe_cm": 15, "farbe": "klar", "quelle": true, "muendung": "karsee"}
+    {"typ": "bach", "id": "zulauf_west", "von": {"anker": "rinne_w"}, "bis_see": "karsee", "laenge_m": 70, "breite_m": 1.2, "tiefe_cm": 15, "farbe": "klar", "quelle": false, "muendung": "karsee",
+     "hinweis_wasser": "13f B: beginnt im alten Houdini-Lauf R_M2_P0__WASSER (West) und fuehrt ihn bis ans Ufer; Houdini im Korridor ausgeblendet"}
    ],
    "anker_danach": {
     "rinne_s": {"suche": "rinne", "bei": "kar", "r_m": [32, 55], "sektor": [140, 220]},
-    "rinne_w": {"suche": "rinne", "bei": "kar", "r_m": [32, 55], "sektor": [230, 300]}
+    "rinne_w": {"suche": "rinne", "bei": "kar", "r_m": [32, 50], "sektor": [240, 300], "ohne_wasser": false}
    },
+   "houdini_ausblenden": [
+    {"netz": "R_M2_P0__WASSER", "see": "karsee", "puffer_m": 2.0, "grund": "13f B: Karsee ersetzt den alten Wasserlauf; Houdini-Netz lag im Umriss 251-261 m (bis 4,8 m ueber dem Spiegel)"},
+    {"netz": "R_M2_P0__WASSER", "bach": "zulauf_west", "breite_m": 8.0, "grund": "13f B: Zulauf West fuehrt den alten Lauf als Epic-Bach zum See"},
+    {"netz": "R_M2_P0__WASSER", "bach": "abfluss", "breite_m": 9.0, "grund": "13f B: Abfluss fuehrt den alten Lauf als Epic-Bach (Stufen) weiter"}
+   ],
    "gruppen": [
     {"name": "insel", "ebene": "held", "warum": "Felsinsel im See (Rundbuckel, vom Eis geschliffen)", "netz": "SM_NordicBoulder_01",
      "verteilung": {"typ": "punkt", "bei": {"anker": "karsee_mitte", "versatz_m": [-3, 2]}}, "skala": 1.1, "z_bezug": "see:karsee", "oberkante_ueber_m": 2.2,

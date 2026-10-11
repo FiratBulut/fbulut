@@ -174,16 +174,19 @@ def huelle(g, W0=None, e=EINBETTUNG_M):
     return M
 
 
-def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False):
+def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False, boden_arr=None, flach_bis_m=0.0):
     """Wasserspiegel W(s) als Treppe aus Becken (<= 3 %, >= becken_laenge) und Stufen (Lippe -> Fuss STUFE_L_M).
     s: Bogenlaenge (aufsteigend, ~0,5 m), g: Gelaende entlang der Linie (nach den bisherigen Stempeln),
     W0: Startspiegel (Abfluss: Seespiegel; start_fest -> genau dieser Wert), W_boden: Spiegel nie darunter
     (Zielgewaesser + 2 cm), W_ende: Endpunkt genau auf diesen Wert (eigener See: Spiegel + 2 cm).
+    boden_arr: Spiegel je Probe nie darunter (Furt: Gelaende + 3 cm; muss stromab nicht steigend sein).
     Rueckgabe (W, stufen) mit stufen = [(s_lippe, s_fuss, W_oben, W_unten)]."""
     s = np.asarray(s, np.float64)
     g = np.asarray(g, np.float64)
     n = len(s)
     M = huelle(g, W0)
+    if boden_arr is not None:
+        M = np.maximum(M, np.maximum.accumulate(np.asarray(boden_arr, np.float64)[::-1])[::-1])
     if start_fest and W0 is not None:
         M[0] = float(W0)
     sb = becken_gefaelle()
@@ -195,6 +198,11 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False):
     fen = min(max(2.0 * B, 8.0), 20.0)
     while k < n:
         ds = s[k] - s[k - 1]
+        if s[k] <= flach_bis_m:
+            # Auslass eines Sees: Spiegel bleibt bis hinter die Lippe auf dem Seespiegel (keine Stufe in der Lippe)
+            W[k] = W[k - 1]
+            k += 1
+            continue
         if M[k] >= W[k - 1] - sb * ds:
             # Huelle faellt flacher als das Becken: Spiegel folgt ihr (Riffel <= 3 %) bzw. bleibt flach darunter
             W[k] = min(W[k - 1], max(M[k], W[k - 1] - sb * ds))
@@ -226,12 +234,16 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False):
     if W_boden is not None:
         W = np.maximum(W, float(W_boden))
         W = np.minimum.accumulate(W)
+    if boden_arr is not None:
+        W = np.maximum(W, np.maximum.accumulate(np.asarray(boden_arr, np.float64)[::-1])[::-1])
     if W_ende is not None and n > 1:
         we = float(W_ende)
         if W[-1] > we + STUFE_MIN_M:
-            # letzte Stufe am Ende (z. B. vom Uferring des Sees auf den Seespiegel)
+            # letzte Stufe am Ende (z. B. vom Uferring des Sees auf den Seespiegel); eine Stufe, die schon in diesem
+            # Stueck liegt, geht darin auf
             kl = int(np.searchsorted(s, s[-1] - STUFE_L_M))
             kl = min(max(kl, 0), n - 2)
+            stufen = [e for e in stufen if e[1] <= s[kl] + 1e-6]
             stufen.append((float(s[kl]), float(s[-1]), float(W[kl]), we))
             W[kl + 1:] = we
         W[-1] = we
@@ -267,6 +279,17 @@ def punkt_bei(P, kum, sd):
     seg = np.maximum(kum[j + 1] - kum[j], 1e-9)
     f = (sd - kum[j]) / seg
     return P[j, 0] + (P[j + 1, 0] - P[j, 0]) * f, P[j, 1] + (P[j + 1, 1] - P[j, 1]) * f
+
+
+def linien_stueck(P, a_m, b_m):
+    """Teil der Polylinie zwischen den Bogenlaengen a_m und b_m (geklemmt) als Array n x 2."""
+    P = np.asarray(P, np.float64)[:, :2]
+    kum = bogen(P)
+    a = float(np.clip(a_m, 0.0, kum[-1]))
+    b = float(np.clip(b_m, a, kum[-1]))
+    s = np.concatenate([[a], kum[(kum > a) & (kum < b)], [b]])
+    x, y = punkt_bei(P, kum, s)
+    return np.stack([x, y], 1)
 
 
 def abtasten(P, schritt_m):

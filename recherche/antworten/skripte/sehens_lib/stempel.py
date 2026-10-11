@@ -392,20 +392,93 @@ class Stempel:
             um = um[::-1]
         return um
 
+    # -- Bach (13f A12) --
+    def bach_profil(self, punkte_m, s_k, W_k, breite_m, tiefe_m, ring_aus=None, tiefe_max_m=2.0, name="bach_profil"):
+        """Querprofil eines Bachs (Auftrag 15b/13f A12): Wasserkante innen, Bett = Spiegel - Tiefe, Boeschung 35 Grad,
+        Ufer beidseits >= Spiegel + 5 cm, Uferring Spiegel + 0,15 m (hebt <= 1 m). s_k/W_k: Spiegel entlang der
+        Bogenlaenge (Treppe mit Stufen). ring_aus: bool-Maske im Fenster ohne Uferring (Seen, Muendung)."""
+        from . import bach as _b
+        if self.ist_fertig:
+            raise RuntimeError("Stempel ist schon fertig() - keine Werkzeuge mehr")
+        P = np.asarray(punkte_m, np.float64)[:, :2]
+        if len(P) < 2:
+            return
+        L = polylinie_laenge(P)
+        R = _b.reichweite(breite_m, self.z, max(float(tiefe_max_m), 0.5))
+        x0, y0 = P.min(0) - R - self.z
+        x1, y1 = P.max(0) + R + self.z
+        box = (self.X >= x0) & (self.X <= x1) & (self.Y >= y0) & (self.Y <= y1)
+        if not box.any():
+            return
+        X, Y = self.X[box], self.Y[box]
+        d, sp, _ = polylinie_abstand(X, Y, P)
+        s_k = np.asarray(s_k, np.float64)
+        W_k = np.asarray(W_k, np.float64)
+        W = np.interp(sp, s_k, W_k)
+        Wu = np.interp(np.maximum(sp - 1.5, 0.0), s_k, W_k)
+        T, Rr, ring = _b.profil(d, W, Wu, breite_m, tiefe_m, self.z)
+        innen = (sp > 0.01) & (sp < L - 0.01) & (d <= R)
+        cur = (self.h0 + self.delta)[box]
+        neu = np.where(innen, np.minimum(cur, T), cur)
+        rm = innen & ring
+        if ring_aus is not None:
+            rm &= ~ring_aus[box]
+        neu = np.where(rm, np.maximum(neu, np.minimum(Rr, cur + _b.WULST_MAX_M)), neu)
+        dl = self.delta[box]
+        dl += neu - cur
+        self.delta[box] = dl
+        self.protokoll.append(name)
+
     # -- Schutz / Abschluss --
-    def schuetzen(self, weg_m=3.0, wasser=True, uebergang_m=4.0, ausnahme_maske=None):
-        """Keine Aenderung <= weg_m an Wegen (welt.weg inkl. Pfade) und an bestehendem Suesswasser (wasser=True),
-        ausser in ausnahme_maske (der Ort IST dieses Wasser)."""
+    def schutz_maske(self, wasser=True, ort=True):
+        """Geschuetzte Zellen: Wege (welt.weg inkl. Pfade), Orte (karte_ort, 13f A13) und Bestandswasser."""
         m = self.fe.get("weg") > 0
+        if ort:
+            m = m | (self.fe.get("ort") > 0)
         if wasser:
             m = m | (self.fe.get("wasser") > 0)
-        if ausnahme_maske is not None:
-            m = m & ~ausnahme_maske
-        if not m.any():
+        return m
+
+    def schutz_faktor(self, weg_m=3.0, wasser=True, uebergang_m=4.0, ausnahme_maske=None):
+        """Faktor 0..1 je Zelle: 0 bis weg_m vom RAND der geschuetzten Zelle (hart, 13f A13), Uebergang erst danach.
+        ausnahme_maske gilt nur fuer den Wasserschutz (Ort IST das Wasser, offene Muendung)."""
+        key = (round(float(weg_m), 3), bool(wasser), round(float(uebergang_m), 3),
+               None if ausnahme_maske is None else int(ausnahme_maske.sum()))
+        cache = getattr(self, "_schutz_cache", {})
+        if key in cache and ausnahme_maske is None:
+            return cache[key]
+        f = np.ones(self.delta.shape)
+        for teil, an in (("weg", True), ("wasser", wasser)):
+            if not an:
+                continue
+            if teil == "weg":
+                m = self.schutz_maske(wasser=False, ort=True)
+            else:
+                m = self.fe.get("wasser") > 0
+                if ausnahme_maske is not None:
+                    m = m & ~ausnahme_maske
+            if not m.any():
+                continue
+            d = _gel.abstand(m, self.z, max_m=weg_m + uebergang_m + 5.0) - 0.5 * self.z   # Abstand zum Zellrand
+            w = glatt01((d - weg_m) / max(uebergang_m, 1e-6))
+            w[d <= weg_m] = 0.0
+            if teil == "wasser" and ausnahme_maske is not None:
+                w = np.where(ausnahme_maske, 1.0, w)
+            f = np.minimum(f, w)
+        if ausnahme_maske is None:
+            cache[key] = f
+            self._schutz_cache = cache
+        return f
+
+    def schuetzen(self, weg_m=3.0, wasser=True, uebergang_m=4.0, ausnahme_maske=None):
+        """Keine Aenderung <= weg_m an Wegen (welt.weg inkl. Pfade), Orten (karte_ort) und - mit wasser=True - an
+        bestehendem Suesswasser; innerhalb weg_m hart 0 (gemessen bis zum Rand der geschuetzten Zelle), Uebergang
+        erst ausserhalb (13f A13). ausnahme_maske: dort gilt der Wasserschutz nicht (der Ort IST dieses Wasser)."""
+        f = self.schutz_faktor(weg_m, wasser, uebergang_m, ausnahme_maske)
+        if (f >= 1.0).all():
             return
-        d = _gel.abstand(m, self.z, max_m=weg_m + uebergang_m + 5.0)
-        w = glatt01((d - weg_m) / max(uebergang_m, 1e-6))
-        self.delta *= w
+        self.delta *= f
+        self._schutz_f = f
         self.protokoll.append("schutz")
 
     def randfaktor(self):
@@ -416,12 +489,74 @@ class Stempel:
         dz = np.minimum(np.minimum(ii, h - 1 - ii), np.minimum(jj, w - 1 - jj)).astype(np.float64) * self.z
         return glatt01((dz - 2 * self.z) / max(self.rand_m, 8.0))
 
-    def fertig(self, schutz=True, weg_m=3.0, wasser=True, ausnahme_maske=None):
+    def senken_fuellen(self, wasser=None, max_flaeche_m2=50.0, max_tiefe_m=0.5, frei=None):
+        """13f A5: geschlossene Senken < max_flaeche_m2 und < max_tiefe_m, die der Stempel erzeugt/vertieft hat,
+        auf den Ueberlaufpegel anheben (Priority-Flood im Fenster, nur anheben). wasser: geplantes/bestehendes
+        Wasser (bleibt), frei: Zellen, die geaendert werden duerfen (Schutz/Rand). Rueckgabe (m2, max m)."""
+        cur = (self.h0 + self.delta).astype(np.float32)
+        r = _gel.abfluss(cur, self.z, np.zeros(cur.shape, bool))
+        tief = r["gefuellt"].astype(np.float64) - cur
+        m = tief > 0.005
+        if not m.any():
+            return 0.0, 0.0
+        stempel_nah = _gel.max_filter(np.abs(self.delta).astype(np.float32), 3) > 0.05
+        h, w = m.shape
+        lab = -np.ones(m.shape, np.int64)
+        flaeche_sum, max_hub = 0.0, 0.0
+        z2 = self.z * self.z
+        from collections import deque
+        for i0, j0 in zip(*np.nonzero(m)):
+            if lab[i0, j0] >= 0:
+                continue
+            q = deque([(i0, j0)])
+            lab[i0, j0] = 1
+            zellen = []
+            while q:
+                i, j = q.popleft()
+                zellen.append((i, j))
+                for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)):
+                    a, b = i + di, j + dj
+                    if 0 <= a < h and 0 <= b < w and m[a, b] and lab[a, b] < 0:
+                        lab[a, b] = 1
+                        q.append((a, b))
+            ii = np.array([c[0] for c in zellen])
+            jj = np.array([c[1] for c in zellen])
+            fl = len(zellen) * z2
+            tmax = float(tief[ii, jj].max())
+            if fl >= max_flaeche_m2 or tmax >= max_tiefe_m:
+                continue
+            if wasser is not None and wasser[ii, jj].any():
+                continue
+            if not stempel_nah[ii, jj].any():
+                continue          # natuerliche Senke im Bestand - nicht anfassen
+            if frei is not None and not frei[ii, jj].all():
+                continue
+            self.delta[ii, jj] += tief[ii, jj]
+            flaeche_sum += fl
+            max_hub = max(max_hub, tmax)
+        if flaeche_sum > 0:
+            self.protokoll.append("senken_gefuellt")
+        return flaeche_sum, max_hub
+
+    def fertig(self, schutz=True, weg_m=3.0, wasser=True, ausnahme_maske=None, wasser_maske=None,
+               senken_fuellen=False):
         if self.ist_fertig:
             return self
         if schutz:
             self.schuetzen(weg_m=weg_m, wasser=wasser, ausnahme_maske=ausnahme_maske)
-        self.delta *= self.randfaktor()
+        rf = self.randfaktor()
+        self.delta *= rf
+        self.gefuellt_m2, self.gefuellt_max_m = 0.0, 0.0
+        if senken_fuellen:
+            frei = rf >= 0.999
+            if schutz:
+                frei &= self.schutz_faktor(weg_m, wasser, 4.0, ausnahme_maske) >= 0.999
+            self.gefuellt_m2, self.gefuellt_max_m = self.senken_fuellen(wasser=wasser_maske, frei=frei)
+        if schutz:
+            # A13: innerhalb weg_m hart 0 (auch nach dem Fuellen)
+            f = self.schutz_faktor(weg_m, wasser, 4.0, ausnahme_maske)
+            self.delta[f <= 0.0] = 0.0
+            self._schutz_null = f <= 0.0
         self.delta[np.abs(self.delta) < 0.005] = 0.0
         self.max_aenderung_m = float(np.abs(self.delta).max()) if self.delta.size else 0.0
         self.ist_fertig = True
@@ -453,7 +588,13 @@ class Stempel:
             self.fertig()
         if self.leer():
             return None
-        a = nach_1m(self.delta, self.z).astype("<f4")
+        a = nach_1m(self.delta, self.z)
+        if getattr(self, "_schutz_null", None) is not None and int(round(self.z)) > 1:
+            # A13: Schutzzone auch im 1-m-Raster hart 0 (Zellen, deren naechste native Zelle geschuetzt ist)
+            zz = int(round(self.z))
+            nul = np.repeat(np.repeat(self._schutz_null, zz, axis=0), zz, axis=1)[:a.shape[0], :a.shape[1]]
+            a = np.where(nul, 0.0, a)
+        a = a.astype("<f4")
         rel = "gelaende/%s.f32" % ort_id
         pf = os.path.join(ordner, rel)
         os.makedirs(os.path.dirname(pf), exist_ok=True)
@@ -520,10 +661,26 @@ class Lagen:
             w = w * (1.0 - abfall(d, max(innen_r_m - max(rand_m, 3.0), 0.0), innen_r_m))
         self.maske(name, w, wert, flecken, flecken_m)
 
-    def band(self, name, punkte_m, breite_m, wert, rand_m=1.0, flecken=0.0, flecken_m=4.0):
+    def band(self, name, punkte_m, breite_m, wert, rand_m=3.0, flecken=0.0, flecken_m=4.0, rand_min=3.0,
+             innen_rand_m=0.0, fenster_aus_m=0.0):
+        """Band entlang einer Polylinie. Rand weich >= rand_min (13f A11: 3 m; Pfad-Bodenband: 1 m beidseits =
+        innen_rand_m 0,5 + rand_m 1). fenster_aus_m > 0: zum Fensterrand hin auf dieser Laenge ausblenden statt
+        hart abschneiden (Pfadband)."""
         d, _, _ = polylinie_abstand(self.X, self.Y, punkte_m)
-        w = abfall(d, breite_m / 2.0, breite_m / 2.0 + rand_m)
+        r = max(float(rand_m), float(rand_min))
+        kern = max(breite_m / 2.0 - float(innen_rand_m), 0.0)
+        w = abfall(d, kern, breite_m / 2.0 + r)
+        if fenster_aus_m > 0:
+            w = w * self.randfaktor(fenster_aus_m)
         self.maske(name, w, wert, flecken, flecken_m)
+
+    def randfaktor(self, rand_m=3.0):
+        """0 am Fensterrand (1 Zelle), weich auf 1 nach rand_m (13f A11: Lagen enden nicht hart am Fenster)."""
+        h, w = self.X.shape
+        ii = np.arange(h)[:, None]
+        jj = np.arange(w)[None, :]
+        dz = np.minimum(np.minimum(ii, h - 1 - ii), np.minimum(jj, w - 1 - jj)).astype(np.float64) * self.z
+        return glatt01((dz - self.z) / max(float(rand_m), 1e-6))
 
     def namen(self):
         return [n for n in LAGEN if n in self.ziel and float(self.ziel[n].max()) >= 1.0]
@@ -534,8 +691,9 @@ class Lagen:
         if not namen:
             return None
         rel = "lagen/%s_" % ort_id
+        rf = self.randfaktor(3.0)          # 13f A11: am Fensterrand weich auf 0
         for n in namen:
-            a = nach_1m(self.ziel[n], self.z)
+            a = nach_1m(self.ziel[n] * rf, self.z)
             pf = os.path.join(ordner, rel + n + ".r8")
             os.makedirs(os.path.dirname(pf), exist_ok=True)
             np.ascontiguousarray(np.clip(np.rint(a), 0, 255).astype(np.uint8)).tofile(pf)

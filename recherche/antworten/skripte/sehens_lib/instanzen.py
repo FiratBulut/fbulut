@@ -170,6 +170,9 @@ def gedrehte_box(info, q, s):
     return q_drehe(q, p)
 
 
+FUSS_PIVOT_AB_M = 1.5       # 13f A3: ab diesem Fussradius gilt bei bezug 'mitte' der Boden am Pivot
+
+
 def platziere(info, x_m, y_m, q, s, boden_fn, eingraben_m=0.0, bezug="min", z_unterkante_m=None, kontakt="welt",
               zentrieren=True):
     """Pivot-Position (cm) so, dass die Unterseite eingraben_m im Gelaende steckt.
@@ -213,6 +216,12 @@ def platziere(info, x_m, y_m, q, s, boden_fn, eingraben_m=0.0, bezug="min", z_un
         kand = bz - eingraben_m * 100.0 - unten[:, 2]
         z = float(kand.min()) if bezug == "min" else float(np.median(kand))
         b = float(boden_fn(x_m, y_m))
+        if bezug == "mitte" and fuss_r >= FUSS_PIVOT_AB_M:
+            # 13f A3: grosse Baeume/Pflanzen stehen auf dem Boden am Pivot (Stammfuss), nicht auf dem Median der
+            # Kronen-Box: z = Boden(Pivot) - eingraben - max(0, bmin_z * sz)
+            bp = float(boden_fn(px / 100.0, py / 100.0)) * 100.0
+            z = bp - eingraben_m * 100.0 - max(0.0, float(info["bounds_cm"][0][2]) * float(s[2]))
+            b = bp / 100.0
     return {"x": px, "y": py, "z": z, "hoehe_m": H / 100.0, "fuss_r_m": fuss_r, "boden_z_m": b,
             "unterkante_z_m": (z + zmin) / 100.0, "oberkante_z_m": (z + zmax) / 100.0,
             "mx_m": (px + P[:, 0].mean()) / 100.0, "my_m": (py + P[:, 1].mean()) / 100.0,
@@ -582,6 +591,8 @@ class Ebene:
                 nz = sum(1 for e in g if e.get("z_frei"))
                 if nz:
                     dateien[key]["z_frei_anzahl"] = nz
+                    # 13f A6: welche Eintraege der Datei frei haengen (Pruefer: Meer/Schweben nur mit Bodenkontakt)
+                    dateien[key]["z_frei_index"] = [k for k, e in enumerate(g) if e.get("z_frei")]
             n = sum(d["anzahl"] for d in dateien.values())
             kol = sum(d["anzahl"] for d in dateien.values() if d["kollision"])
             orte_feld = sorted({e["ort"] for e in st})
