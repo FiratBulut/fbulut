@@ -73,6 +73,8 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
     farbe = np.where(d[..., None] > 0, np.array([230, 60, 40]), np.array([40, 90, 230]))
     rgb = rgb * (1 - a) + farbe * a
     wa = fe.get("wasser") > 0
+    if getattr(ctx, "bestand_seen", None):
+        wa = wa | np.asarray(ctx._bestand_nass(X, Y))      # Bestands-Seen ausserhalb karte_wasser (Epic-See)
     rgb[wa] = rgb[wa] * 0.3 + np.array(_z.FARBEN["wasser"]) * 0.7
     me = fe.get("meer")
     rgb[me] = np.array(_z.FARBEN["meer"])

@@ -90,6 +90,10 @@ class OrtKontext:
         self.pfade_biom = pfade_biom or []
         self._massiv = _ins.Abstandsgitter(4.0)
         self.eintrag = None
+        # Bestandswasser, das NICHT in karte_wasser steht (z. B. Epic-Seen wie T_2954_391 im Sumpf): Liste
+        # {"id", "umriss_m", "spiegel_m"}; nass ist es nur, wo das Gelaende unter dem Spiegel liegt (Regel
+        # "bestandswasser"). Wird nicht als Wasser geschrieben, zaehlt aber fuer im_wasser, ufer, z_bezug spiegel:<id>.
+        self.bestand_seen = []
 
     # ------------------------------------------------------------------ Meldungen
     def melde(self, stufe, text):
@@ -598,6 +602,8 @@ class OrtKontext:
         """Bool-Maske im Fenster: bestehendes Suesswasser + geplante Seen + Bachlaeufe."""
         X, Y = fe.gitter_m()
         m = fe.get("wasser") > 0
+        if self.bestand_seen:
+            m |= self._bestand_nass(X, Y)
         for s in self.see.values():
             m |= _in_polygon(X, Y, s["umriss_m"])
         for k, pts in self.linien.items():
@@ -606,12 +612,65 @@ class OrtKontext:
                 m |= d <= 1.5
         return m
 
+    def bestandswasser_laden(self, spec):
+        """Regel "bestandswasser": {"seen": ["T_2954_391", ...] | "auto", "r_m": 200, "spiegel_m": optional} -
+        Seen/Teiche aus wasser_welt.json["seen"], die nicht in karte_wasser stehen (Epic-Seen), als Bestand
+        registrieren. "auto": alle Seen, deren Umriss naeher als r_m an der Ortsmitte liegt."""
+        if not spec:
+            return
+        ids = spec.get("seen", "auto")
+        r = float(spec.get("r_m", 200.0))
+        for s in (self.welt.wasser_welt or {}).get("seen", []) or []:
+            if not s.get("umriss") or len(s["umriss"]) < 3 or s.get("eis"):
+                continue
+            if ids != "auto" and s.get("id") not in ids:
+                continue
+            P = np.asarray(s["umriss"], np.float64)[:, :2] / 100.0
+            if ids == "auto" and _gel.abstand_zu_polylinien(self.mx, self.my, [np.vstack([P, P[:1]])]) > r and \
+                    not bool(_in_polygon(self.mx, self.my, P)):
+                continue
+            sp = float(spec.get("spiegel_m", float(s.get("spiegel_cm", 0.0)) / 100.0))
+            self.bestand_seen.append({"id": s.get("id"), "umriss_m": P.tolist(), "spiegel_m": sp,
+                                      "box": (P[:, 0].min(), P[:, 1].min(), P[:, 0].max(), P[:, 1].max())})
+        if self.bestand_seen:
+            self.melde(HINWEIS, "Bestandswasser (nicht in karte_wasser): %s" % ", ".join(
+                "%s (Spiegel %.2f m)" % (s["id"], s["spiegel_m"]) for s in self.bestand_seen))
+
+    def _bestand_nass(self, x, y):
+        """True, wo ein Bestands-See (bestand_seen) liegt UND das Gelaende (nach Stempel) unter seinem Spiegel."""
+        x = np.asarray(x, np.float64)
+        y = np.asarray(y, np.float64)
+        m = np.zeros(np.broadcast(x, y).shape, bool)
+        if not self.bestand_seen or m.size == 0:
+            return m
+        z = None
+        for s in self.bestand_seen:
+            x0, y0, x1, y1 = s["box"]
+            inb = (x >= x0) & (x <= x1) & (y >= y0) & (y <= y1)
+            if not inb.any():
+                continue
+            if z is None:
+                z = np.asarray(self.boden(x, y), np.float64)
+            m |= inb & (z < s["spiegel_m"] - 0.03) & _in_polygon(x, y, s["umriss_m"])
+        return m
+
+    def spiegel_von(self, sid):
+        """Wasserspiegel (m) eines geplanten Sees oder eines Bestands-Sees (bestand_seen)."""
+        if sid in self.see:
+            return float(self.see[sid]["spiegel_m"])
+        for s in self.bestand_seen:
+            if s["id"] == sid:
+                return float(s["spiegel_m"])
+        raise KeyError("%s: See %r unbekannt (weder wasser noch bestandswasser)" % (self.id, sid))
+
     def im_wasser(self, x, y, rand_m=0.0):
         """True, wo bestehendes Suesswasser/Meer oder geplantes Wasser liegt."""
         x = np.asarray(x, np.float64)
         y = np.asarray(y, np.float64)
         i, j = self.welt.m_zu_ij(x, y)
         m = (self.welt.wasser[i, j] > 0) | self.welt.meer[i, j]
+        if self.bestand_seen:
+            m |= self._bestand_nass(x, y)
         for s in self.see.values():
             m |= _in_polygon(x, y, s["umriss_m"])
         for k, pts in self.linien.items():
@@ -990,6 +1049,12 @@ class OrtKontext:
             elif zb.startswith("boden+"):
                 z_unter = float(self.boden(x, y)) + float(zb.split("+", 1)[1])
                 e_m = 0.0
+            elif zb.startswith("spiegel:") or zb.startswith("z:"):
+                # Unterkante auf einer festen Hoehe: Wasserspiegel eines Sees/Bestands-Sees (Seerosen, Treibgut)
+                # oder absolut in m - plus z_versatz_m (Standard 0)
+                zz = self.spiegel_von(zb.split(":", 1)[1]) if zb.startswith("spiegel:") else float(zb.split(":", 1)[1])
+                z_unter = zz + float(g.get("z_versatz_m", 0.0))
+                e_m = 0.0
             elif zb.startswith("oben:"):
                 # Unterkante = Oberkante des naechsten Stuecks der Gruppe an dieser Stelle (Kippblock auf Unterlage)
                 ziel = self.gruppen.get(zb.split(":", 1)[1]) or []
@@ -1252,6 +1317,8 @@ class OrtKontext:
     def baue(self, hooks=None):
         hooks = hooks or {}
         self.anker_aufloesen()
+        if self.r.get("bestandswasser"):
+            self.bestandswasser_laden(self.r["bestandswasser"])
         if hooks.get("anker"):
             hooks["anker"](self)
         self.gelaende_bauen(hooks)
