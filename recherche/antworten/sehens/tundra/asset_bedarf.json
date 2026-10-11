@@ -1,0 +1,856 @@
+{
+ "stand": "2026-10-11",
+ "biom": "tundra",
+ "quelle_downloadliste": "antworten/sehens/downloadliste.json",
+ "hinweis": "Stand Inventar 13b (1 692 Netze): Megascans Eis/Schnee, Niagara Examples, Free City & Nature Sounds sind vorhanden -> 'vorhanden' mit Pfad; 'orte' enthaelt nur noch fehlende Downloads.",
+ "orte": {
+  "tundra_01_der_pingo": [
+   {
+    "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+    "prioritaet": "C",
+    "wofuer": "Wind-Ambience fuer die Kuppe",
+    "ersatz_bestand": "MetaSound aus gefiltertem Rauschen"
+   }
+  ],
+  "tundra_02_der_wanderer": [
+   {
+    "paket": "Moss & Lichen Forest Ground Rock Materials",
+    "prioritaet": "C",
+    "wofuer": "Rentierflechten-Matte als Bodentextur/Decal-Quelle um den Findling",
+    "ersatz_bestand": "Lage Moos + MI_TileableMossPatches_01 mit blassem Tint (MI_EL_SW_Flechte_Decal)"
+   },
+   {
+    "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+    "prioritaet": "C",
+    "wofuer": "bemooste Begleitbloecke im Flechtenteppich",
+    "ersatz_bestand": "SM_TundraMossyBoulder_01, texndcpda_tier_0"
+   }
+  ],
+  "tundra_03_die_eiswand": [
+   {
+    "paket": "Arctic Cliffs",
+    "prioritaet": "B",
+    "wofuer": "groessere Eisplatten fuer die 8-10 m hohe Wand",
+    "ersatz_bestand": "wie oben"
+   },
+   {
+    "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+    "prioritaet": "B",
+    "wofuer": "Nass-/Lehm-Decals fuer Schlammstrom und Tropfspuren",
+    "ersatz_bestand": "MI_Leakage_01…13"
+   }
+  ],
+  "tundra_04_die_fliesstreppe": [
+   {
+    "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+    "prioritaet": "C",
+    "wofuer": "Schneefahnen von der Nische (dezent)",
+    "ersatz_bestand": "keiner"
+   }
+  ],
+  "tundra_05_der_trunkene_grund": [],
+  "tundra_06_das_aufeis": [
+   {
+    "paket": "Arctic Cliffs",
+    "prioritaet": "B",
+    "wofuer": "grosse Eisplatten (Treibeis-Platten als Aufeis-Schollen)",
+    "ersatz_bestand": "wie oben"
+   }
+  ],
+  "tundra_07_die_steinringe": [
+   {
+    "paket": "Megascans Icelandic Sand With Pebbles",
+    "prioritaet": "C",
+    "wofuer": "Kiesmatrix zwischen den Ringen",
+    "ersatz_bestand": "SM_BeachSandWithPebbles_01/02 + Lage Kies"
+   },
+   {
+    "paket": "Moss & Lichen Forest Ground Rock Materials",
+    "prioritaet": "C",
+    "wofuer": "Rentierflechten-Kranz in den Ringmitten",
+    "ersatz_bestand": "Lage Moos + MI_EL_SW_Flechte_Decal"
+   }
+  ],
+  "tundra_08_das_wabenmoor": [
+   {
+    "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+    "prioritaet": "B",
+    "wofuer": "Nassband-Decals an den Tuempelraendern",
+    "ersatz_bestand": "MI_Leakage_*"
+   }
+  ]
+ },
+ "vorhanden": {
+  "tundra_01_der_pingo": [
+   {
+    "name": "vd4hbizcb_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vd4hbizcb/Raw/vd4hbizcb_tier_0/StaticMeshes/vd4hbizcb_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     3.83,
+     0.55,
+     1.59
+    ]
+   },
+   {
+    "name": "vd5leh0ga_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vd5leh0ga/Raw/vd5leh0ga_tier_0/StaticMeshes/vd5leh0ga_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     8.02,
+     2.06,
+     2.09
+    ]
+   },
+   {
+    "name": "uhuldcyfa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhuldcyfa/Raw/uhuldcyfa_tier_0/StaticMeshes/uhuldcyfa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     5.48,
+     1.12,
+     0.61
+    ]
+   },
+   {
+    "name": "xftjadtab_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Pile_xftjadtab/Raw/xftjadtab_tier_0/StaticMeshes/xftjadtab_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     1.78,
+     1.52,
+     0.47
+    ]
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "tundra_02_der_wanderer": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "tundra_03_die_eiswand": [
+   {
+    "name": "uhprdg2fa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_uhprdg2fa/Raw/uhprdg2fa_tier_0/StaticMeshes/uhprdg2fa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     6.71,
+     1.66,
+     6.15
+    ]
+   },
+   {
+    "name": "veipbcmcb_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_veipbcmcb/Raw/veipbcmcb_tier_0/StaticMeshes/veipbcmcb_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     6.82,
+     2.7,
+     5.25
+    ]
+   },
+   {
+    "name": "vdsrdd0fa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Large_Ice_Cliff_vdsrdd0fa/Raw/vdsrdd0fa_tier_0/StaticMeshes/vdsrdd0fa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     5.02,
+     2.51,
+     4.15
+    ]
+   },
+   {
+    "name": "uhpocesfa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_uhpocesfa/Raw/uhpocesfa_tier_0/StaticMeshes/uhpocesfa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     6.89,
+     1.79,
+     4.46
+    ]
+   },
+   {
+    "name": "vd4hbizcb_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vd4hbizcb/Raw/vd4hbizcb_tier_0/StaticMeshes/vd4hbizcb_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     3.83,
+     0.55,
+     1.59
+    ]
+   },
+   {
+    "name": "xemmbh2qx_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Pile_xemmbh2qx/Raw/xemmbh2qx_tier_0/StaticMeshes/xemmbh2qx_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     1.3,
+     0.88,
+     0.49
+    ]
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Rain_Dropping_on_various_textures_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "niagara": "kein Nebel-/Dunstsystem im Niagara Examples Pack (nur NS_Smoke_Plume, NS_SmokePuffLight, NS_Chimney_Smoke)",
+    "loesung": "lokaler_nebel (Local Fog Volume); NS_SmokePuffLight nur als Vorlage fuer eigenes Dunst-System",
+    "paket": "Niagara Examples Pack (13b, vorhanden)"
+   }
+  ],
+  "tundra_04_die_fliesstreppe": [
+   {
+    "name": "vdspdazqa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Huge_Snow_Hill_vdspdazqa/Raw/vdspdazqa_tier_0/StaticMeshes/vdspdazqa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     15.24,
+     7.35,
+     1.76
+    ]
+   },
+   {
+    "name": "uhqffeyfa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhqffeyfa/Raw/uhqffeyfa_tier_0/StaticMeshes/uhqffeyfa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     4.66,
+     2.13,
+     0.98
+    ]
+   },
+   {
+    "name": "vctldcnfa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_vctldcnfa/Raw/vctldcnfa_tier_0/StaticMeshes/vctldcnfa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     6.28,
+     2.21,
+     0.88
+    ]
+   },
+   {
+    "name": "xgxhcjxqx_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Pile_xgxhcjxqx/Raw/xgxhcjxqx_tier_0/StaticMeshes/xgxhcjxqx_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     7.17,
+     6.5,
+     2.13
+    ]
+   },
+   {
+    "name": "vcytca0fa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Rocky_Snow_Pile_vcytca0fa/Raw/vcytca0fa_tier_0/StaticMeshes/vcytca0fa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     4.07,
+     2.51,
+     0.85
+    ]
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_III_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "tundra_05_der_trunkene_grund": [
+   {
+    "name": "vd4hbizcb_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vd4hbizcb/Raw/vd4hbizcb_tier_0/StaticMeshes/vd4hbizcb_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     3.83,
+     0.55,
+     1.59
+    ]
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_V_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "niagara": "kein Nebel-/Dunstsystem im Niagara Examples Pack (nur NS_Smoke_Plume, NS_SmokePuffLight, NS_Chimney_Smoke)",
+    "loesung": "lokaler_nebel (Local Fog Volume); NS_SmokePuffLight nur als Vorlage fuer eigenes Dunst-System",
+    "paket": "Niagara Examples Pack (13b, vorhanden)"
+   }
+  ],
+  "tundra_06_das_aufeis": [
+   {
+    "name": "vd5leh0ga_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vd5leh0ga/Raw/vd5leh0ga_tier_0/StaticMeshes/vd5leh0ga_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     8.02,
+     2.06,
+     2.09
+    ]
+   },
+   {
+    "name": "uhpocesfa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_uhpocesfa/Raw/uhpocesfa_tier_0/StaticMeshes/uhpocesfa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     6.89,
+     1.79,
+     4.46
+    ]
+   },
+   {
+    "name": "vdsrdd0fa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Large_Ice_Cliff_vdsrdd0fa/Raw/vdsrdd0fa_tier_0/StaticMeshes/vdsrdd0fa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     5.02,
+     2.51,
+     4.15
+    ]
+   },
+   {
+    "name": "xelnbaeqx_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_xelnbaeqx/Raw/xelnbaeqx_tier_0/StaticMeshes/xelnbaeqx_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     9.05,
+     0.32,
+     1.23
+    ]
+   },
+   {
+    "name": "vcyiedgfa_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_vcyiedgfa/Raw/vcyiedgfa_tier_0/StaticMeshes/vcyiedgfa_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     6.83,
+     1.53,
+     0.47
+    ]
+   },
+   {
+    "name": "xfwhcfnqx_tier_0",
+    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_xfwhcfnqx/Raw/xfwhcfnqx_tier_0/StaticMeshes/xfwhcfnqx_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
+    "masse_m": [
+     8.16,
+     1.77,
+     0.44
+    ]
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_I_Cue (nur Knack-Anteile, als Zufallsimpuls)",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "tundra_07_die_steinringe": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "tundra_08_das_wabenmoor": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "niagara": "kein Nebel-/Dunstsystem im Niagara Examples Pack (nur NS_Smoke_Plume, NS_SmokePuffLight, NS_Chimney_Smoke)",
+    "loesung": "lokaler_nebel (Local Fog Volume); NS_SmokePuffLight nur als Vorlage fuer eigenes Dunst-System",
+    "paket": "Niagara Examples Pack (13b, vorhanden)"
+   }
+  ]
+ },
+ "bestand_netze": {
+  "tundra_01_der_pingo": [
+   "SM_TundraRockyGround_01",
+   "SM_ForestRockFormation_05",
+   "SM_NordicBeachRockyGround_02",
+   "SM_MossyEmbankment_01",
+   "SM_MossyEmbankment_02",
+   "SM_GrassyEmbankment_01",
+   "SM_EISZAPFEN_6",
+   "SM_EISZAPFEN_8",
+   "SM_EISZAPFEN_9",
+   "SM_TundraMossyBoulder_01",
+   "SM_wk2oaeyqx_VarB",
+   "SM_wk2oaeyqx_VarC",
+   "SM_wk2oaeyqx_VarG",
+   "SM_lingonberry_01",
+   "SM_lingonberry_02",
+   "SM_billberry_dry_01",
+   "SM_heath_A_01",
+   "SM_grey_willow_01",
+   "SM_grey_willow_03",
+   "SM_dwarf_pine_small_01",
+   "SM_ToadRush_010",
+   "SM_MossClump_01",
+   "SM_MossClump_03",
+   "SM_SmallStonesPack_08",
+   "vd4hbizcb_tier_0",
+   "vd5leh0ga_tier_0",
+   "uhuldcyfa_tier_0",
+   "xftjadtab_tier_0"
+  ],
+  "tundra_02_der_wanderer": [
+   "SM_NordicBoulder_01",
+   "SM_MassiveTundraRockFormation_02",
+   "SM_SmoothRockShelf_01",
+   "SM_ForestRockSlab_01",
+   "xisgcic_tier_0",
+   "skjsL_tier_0",
+   "texndcpda_tier_0",
+   "SM_TundraMossyBoulder_01",
+   "SM_LichenedForestBoulder_01",
+   "SM_mountain_rock_small_01_1",
+   "SM_mountain_rock_small_01_4",
+   "SM_SmallStonesPack_10",
+   "SM_wk2oaeyqx_VarA",
+   "SM_wk2oaeyqx_VarE",
+   "SM_heath_B_01",
+   "SM_heath_cross_01",
+   "SM_billberry_01",
+   "SM_dwarf_pine_small_02",
+   "SM_MossClump_02",
+   "SM_MossClump_05"
+  ],
+  "tundra_03_die_eiswand": [
+   "SM_beach_escarpment_01_A",
+   "SM_beach_escarpment_01_B",
+   "SM_beach_escarpment_01_C",
+   "SM_MossyEmbankment_01",
+   "SM_MossyEmbankment_02",
+   "SM_GrassyEmbankment_01",
+   "SM_GrassyEmbankment_02",
+   "SM_EISZAPFEN_3",
+   "SM_EISZAPFEN_4",
+   "SM_EISZAPFEN_7",
+   "SM_EISZAPFEN_9",
+   "SM_ForestRockFormation_06",
+   "SM_DryRiverBed_01",
+   "SM_DryRiverBed_02",
+   "SM_TundraRockyGround_01",
+   "SM_FallenSpruceTree_01",
+   "SM_OldTreeBranch_02",
+   "SM_wk2oaeyqx_VarD",
+   "SM_wk2oaeyqx_VarH",
+   "SM_grey_willow_02",
+   "SM_SmallStonesPack_03",
+   "uhprdg2fa_tier_0",
+   "veipbcmcb_tier_0",
+   "vdsrdd0fa_tier_0",
+   "uhpocesfa_tier_0",
+   "vd4hbizcb_tier_0",
+   "xemmbh2qx_tier_0"
+  ],
+  "tundra_04_die_fliesstreppe": [
+   "SM_GrassyEmbankment_01",
+   "SM_GrassyEmbankment_02",
+   "SM_MossyEmbankment_01",
+   "SM_mountain_rock_big_01_1",
+   "SM_mountain_rock_big_01_5",
+   "SM_mountain_rock_small_01_2",
+   "SM_mountain_rock_small_01_3",
+   "SM_ground_rock_02",
+   "SM_TundraRockyGround_01",
+   "SM_wk2oaeyqx_VarC",
+   "SM_wk2oaeyqx_VarF",
+   "SM_heath_A_01",
+   "SM_lingonberry_01",
+   "SM_billberry_02",
+   "SM_grey_willow_04",
+   "SM_dwarf_pine_medium_01",
+   "SM_SmallStonesPack_12",
+   "vdspdazqa_tier_0",
+   "uhqffeyfa_tier_0",
+   "vctldcnfa_tier_0",
+   "xgxhcjxqx_tier_0",
+   "vcytca0fa_tier_0"
+  ],
+  "tundra_05_der_trunkene_grund": [
+   "Fir_01_Plant",
+   "Fir_02_Small",
+   "Fir_03_Medium",
+   "Fir_08_Dead_NoBillboard",
+   "SM_Forest_pine_01",
+   "SM_Forest_pine_10_dead",
+   "SM_Forest_pine_04_log",
+   "SM_FallenSpruceTree_01",
+   "SM_DeadTree_01",
+   "SM_BirchTreeStump_01",
+   "SM_MossyEmbankment_01",
+   "SM_MossyEmbankment_02",
+   "SM_MossyForestRoots_01",
+   "SM_Pine_roots_01",
+   "SM_Pine_roots_03",
+   "SM_ToadRush_00",
+   "SM_ToadRush_010",
+   "SM_ToadRush_014",
+   "SM_grey_willow_02",
+   "SM_billberry_01",
+   "SM_lingonberry_02",
+   "SM_MossClump_01",
+   "SM_MossClump_04",
+   "SM_moss_01",
+   "SM_OldTreeBranch_03",
+   "SM_branch_01_1",
+   "vd4hbizcb_tier_0"
+  ],
+  "tundra_06_das_aufeis": [
+   "SM_SmoothRockShelf_01",
+   "SM_ForestRockSlab_01",
+   "SM_ForestRockShelf_01",
+   "SM_EISZAPFEN_1",
+   "SM_EISZAPFEN_2",
+   "SM_EISZAPFEN_5",
+   "SM_EISZAPFEN_8",
+   "SM_DryRiverBed_01",
+   "SM_DryRiverBed_02",
+   "SM_NordicBeachRockyGround_01",
+   "SM_NordicBeachRockyGround_02",
+   "SM_stones_01_2",
+   "SM_stones_01_5",
+   "SM_SmallStonesPack_05",
+   "SM_grey_willow_01",
+   "SM_grey_willow_04",
+   "SM_wk2oaeyqx_VarB",
+   "SM_MossClump_03",
+   "vd5leh0ga_tier_0",
+   "uhpocesfa_tier_0",
+   "vdsrdd0fa_tier_0",
+   "xelnbaeqx_tier_0",
+   "vcyiedgfa_tier_0",
+   "xfwhcfnqx_tier_0"
+  ],
+  "tundra_07_die_steinringe": [
+   "SM_NordicBeachRock_01",
+   "SM_NordicBeachRocks_01",
+   "SM_NordicBeachRockyGround_01",
+   "SM_BeachSandWithPebbles_01",
+   "SM_BeachSandWithPebbles_02",
+   "SM_mountain_rock_small_01_1",
+   "SM_mountain_rock_small_01_2",
+   "SM_mountain_rock_small_01_5",
+   "SM_stones_01_1",
+   "SM_stones_01_3",
+   "SM_stones_01_6",
+   "SM_SmallStonesPack_01",
+   "SM_SmallStonesPack_07",
+   "SM_SmallStonesPack_14",
+   "SM_NordicBoulder_01",
+   "SM_TundraMossyBoulder_01",
+   "pjEr1_tier_0",
+   "pkeeM_tier_0",
+   "SM_wk2oaeyqx_VarA",
+   "SM_wk2oaeyqx_VarI",
+   "SM_heath_cross_01",
+   "SM_MossClump_02",
+   "SM_MossClump_05"
+  ],
+  "tundra_08_das_wabenmoor": [
+   "SM_MossyEmbankment_01",
+   "SM_MossyEmbankment_02",
+   "SM_GrassyEmbankment_01",
+   "SM_ToadRush_00",
+   "SM_ToadRush_01",
+   "SM_ToadRush_010",
+   "SM_ToadRush_013",
+   "SM_ToadRush_015",
+   "SM_grey_willow_01",
+   "SM_grey_willow_02",
+   "SM_grey_willow_03",
+   "SM_grey_willow_04",
+   "SM_wk2oaeyqx_VarD",
+   "SM_wk2oaeyqx_VarH",
+   "SM_wk2oaeyqx_VarI",
+   "SM_MossClump_01",
+   "SM_MossClump_04",
+   "SM_moss_02",
+   "SM_branch_01_1"
+  ]
+ },
+ "neue_paketwuensche": [
+  {
+   "paket": "Moss & Lichen Forest Ground Rock Materials",
+   "link": "https://www.fab.com/listings/9b959f11-7924-4b90-ad28-b13348aaced9",
+   "anbieter": "ungeprueft",
+   "preis": "ungeprueft",
+   "groesse_gb": "ca. 0,5 (Schaetzung, 10 Materialien 4K)",
+   "ue_version": "laut Listing UE 5.8 Material Instances",
+   "nanite": "nein (Materialien)",
+   "prioritaet": "C",
+   "wofuer": [
+    "tundra_02_der_wanderer",
+    "tundra_07_die_steinringe"
+   ],
+   "begruendung": "Enthaelt 'Pale Reindeer Lichen Mat' - Rentierflechte als Boden-/Decal-Material; im Bestand gibt es keine Flechte.",
+   "ersatz_bestand": "Lage Moos + MI_TileableMossPatches_01 mit blassem Tint (MI_EL_SW_Flechte_Decal), Fels-Auflage MI_EL_SW_Landkartenflechte",
+   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug, 10 Moss & Lichen PBR-Materialien, 4K)"
+  },
+  {
+   "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+   "link": "https://www.fab.com/listings/11fe6037-b5c1-4bde-baf8-72c1c6018298",
+   "anbieter": "Quixel Megascans",
+   "preis": "ungeprueft (Megascans: kostenlos, falls 2024 beansprucht)",
+   "groesse_gb": "ca. 0,1",
+   "ue_version": "alle UE5",
+   "nanite": "ja (ungeprueft)",
+   "prioritaet": "C",
+   "wofuer": [
+    "tundra_02_der_wanderer"
+   ],
+   "begruendung": "Schon vom Lava-Agenten gewuenscht (asset_bedarf lava); bemooste Islandbloecke passen auch als Begleitsteine im Flechtenteppich.",
+   "ersatz_bestand": "SM_TundraMossyBoulder_01, texndcpda_tier_0",
+   "quelle": "antworten/sehens/lava/asset_bedarf.json"
+  }
+ ],
+ "luecken_ohne_asset": [
+  {
+   "luecke": "Wollgras (Eriophorum), Moosbeere, Sonnentau",
+   "orte": [
+    "heide_04_der_kolk",
+    "tundra_08_das_wabenmoor",
+    "tundra_05_der_trunkene_grund"
+   ],
+   "loesung": "Kein Fab-Listing (nur RenderHub/CGTrader). Ersatz: SM_ToadRush_* (Binsen) + SM_wk2oaeyqx_* (Tundragras) mit weissen Fruchtstaenden aus SM_WhiteWindflower_* (Blueten, 0,4 skaliert) - Bild-Check; Sonnentau/Moosbeere entfallen (zu klein)."
+  },
+  {
+   "luecke": "Rentierflechte / Landkartenflechte",
+   "orte": [
+    "tundra_02_der_wanderer",
+    "tundra_07_die_steinringe"
+   ],
+   "loesung": "Boden: Lage Moos + Decal MI_EL_SW_Flechte_Decal (Basis M_MS_Decal, Maske MI_TileableMossPatches_01, BaseColor Tint blass grau-gruen 0,82/0,86/0,72). Fels: MI_EL_SW_Landkartenflechte (M_EL_Fels_Auflage, Auflage gelbgruen fleckig). Optional C-Paket 'Moss & Lichen Forest Ground Rock Materials'."
+  },
+  {
+   "luecke": "Grundeis/Eiskeile in Erdwand (Thaw Slump), Aufeis-Decke",
+   "orte": [
+    "tundra_03_die_eiswand",
+    "tundra_06_das_aufeis",
+    "tundra_01_der_pingo"
+   ],
+   "loesung": "Bis Megascans Eis/Schnee (A) da ist: flache Felsplatten/Uferkanten (SM_SmoothRockShelf_01, SM_ForestRockSlab_01, SM_beach_escarpment_01_*) mit MI_EL_SW_Aufeis/MI_EL_SW_Grundeis auf M_EL_Eis4, Eiszapfen SM_EISZAPFEN_* an Kanten. Eiskeile als senkrechte Keile aus SM_EISZAPFEN_8/9 im Torf."
+  },
+  {
+   "luecke": "Palsen, Eiskeilpolygone, Fliesserdeloben, Steinringe, Pingo",
+   "orte": [
+    "tundra_01_der_pingo",
+    "tundra_04_die_fliesstreppe",
+    "tundra_05_der_trunkene_grund",
+    "tundra_07_die_steinringe",
+    "tundra_08_das_wabenmoor"
+   ],
+   "loesung": "Reine Gelaendeform (Stempel, siehe gelaende_plan in standorte.json) + Bodenlagen; Polygone/Ringe in Phase 2 per Skript (Voronoi auf 1 m: Randwulst +0,3-0,5 m, Mitte -0,3 m, Steine auf den Raendern sortiert gross->klein)."
+  },
+  {
+   "luecke": "Umgebungsklaenge",
+   "orte": [
+    "alle"
+   ],
+   "loesung": "Free City & Nature Sounds (A); sonst stumm bzw. MetaSound-Wind aus gefiltertem Rauschen."
+  }
+ ],
+ "nicht_mehr_noetig": [
+  {
+   "paket": "Travertine Hot Spring Terraces – Modular Environment Pack",
+   "hinweis": "tundra:Warme Quelle aus Katalog v1 entfaellt (Dopplung mit gletscher/Geysir 'Der Atem'); fuer tundra nicht mehr noetig."
+  },
+  {
+   "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+   "hinweis": "Dampf fuer tundra:Warme Quelle entfaellt; nur noch optional C fuer Schneefahnen tundra_04."
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Grundeis",
+   "basis": "M_EL_Eis4",
+   "parameter": {
+    "Eis_Farbe": [
+     0.62,
+     0.78,
+     0.9,
+     1.0
+    ],
+    "Eis_Tief_Farbe": [
+     0.18,
+     0.3,
+     0.42,
+     1.0
+    ],
+    "Schnee_Menge": 0.25,
+    "Eis_Rau_Max": 0.3,
+    "Seite_Farbe": [
+     0.35,
+     0.45,
+     0.52,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_beach_escarpment_01_A",
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Aufeis",
+   "basis": "M_EL_Eis4",
+   "parameter": {
+    "Eis_Farbe": [
+     0.55,
+     0.8,
+     0.97,
+     1.0
+    ],
+    "Eis_Tief_Farbe": [
+     0.08,
+     0.28,
+     0.5,
+     1.0
+    ],
+    "Schnee_Menge": 0.45,
+    "Schnee_Schwelle": 0.72,
+    "Eis_Spekular": 0.7
+   },
+   "fuer": [
+    "SM_SmoothRockShelf_01",
+    "SM_ForestRockSlab_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Landkartenflechte",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.78,
+     0.82,
+     0.38,
+     1.0
+    ],
+    "Auflage_Menge": 0.45,
+    "Auflage_Flecken": 0.9,
+    "Auflage_Schwelle": 0.45,
+    "Toenung": [
+     0.62,
+     0.62,
+     0.6,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_NordicBoulder_01",
+    "SM_MassiveTundraRockFormation_02",
+    "SM_NordicBeachRocks_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Flechte_Decal",
+   "basis": "M_MS_Decal",
+   "parameter": {
+    "BaseColor Tint": [
+     0.82,
+     0.86,
+     0.72,
+     1.0
+    ],
+    "Saturation": 0.6,
+    "Brightness": 1.25,
+    "Min Roughness": 0.85
+   },
+   "fuer": [
+    "Decal (Maske aus MI_TileableMossPatches_01)"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Altschnee",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.9,
+     0.92,
+     0.95,
+     1.0
+    ],
+    "Auflage_Menge": 0.85,
+    "Auflage_Schwelle": 0.4,
+    "Auflage_Rauheit": 0.75
+   },
+   "fuer": [
+    "SM_TundraRockyGround_01"
+   ]
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "tundra_01_der_pingo",
+   "zweck": "Wirkt der vorhandene Rundhuegel (20 m) schon als Pingo? Blick vom Weg ueber den Zopfstrom",
+   "kamera": [
+    "C3",
+    -158300,
+    -185900,
+    -173600,
+    -184200,
+    5000,
+    "tundra_01_leer_anmarsch",
+    -170
+   ]
+  },
+  {
+   "ort": "tundra_03_die_eiswand",
+   "zweck": "Wie sieht die vorhandene Hufeisen-Mulde am Strand heute aus (alte Kachel?)",
+   "kamera": [
+    "E3",
+    -57100,
+    -195800,
+    -53000,
+    -184500,
+    500,
+    "tundra_03_leer_held",
+    -170
+   ]
+  },
+  {
+   "ort": "tundra_06_das_aufeis",
+   "zweck": "Schlucht: Breite und Bachbett heute",
+   "kamera": [
+    "C2",
+    -182200,
+    -224600,
+    -178500,
+    -222000,
+    4400,
+    "tundra_06_leer_held",
+    -170
+   ]
+  }
+ ],
+ "zusammenfassung": {
+  "B": [
+   "Arctic Cliffs",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)"
+  ],
+  "C": [
+   "Fantasy Ambiences (Lava, Höhle, Wind …)",
+   "Megascans Icelandic Sand With Pebbles",
+   "Moss & Lichen Forest Ground Rock Materials",
+   "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+   "Tundra Icelandic Rock Cluster (Quixel Megascans)"
+  ]
+ }
+}

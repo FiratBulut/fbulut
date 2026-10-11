@@ -1,0 +1,327 @@
+{
+ "stand": "2026-10-11",
+ "biom": "sumpf",
+ "orte": [
+  {
+   "id": "sumpf_01_der_ertrunkene_wald",
+   "name": "Der Ertrunkene Wald",
+   "art": "leuchtfeuer",
+   "mitte_cm": [261000, 16000, 97],
+   "radius_m": 70.0,
+   "felder": ["H5"],
+   "kameras": [
+    ["H5", 245900, 18500, 261000, 16000, 197, "sumpf_01_der_ertrunkene_wald_anmarsch", -170],
+    ["H5", 252491, 17500, 261000, 16000, 35, "sumpf_01_der_ertrunkene_wald_held", 170],
+    ["H5", 260015, 16174, 261000, 16000, 147, "sumpf_01_der_ertrunkene_wald_nah", -170],
+    ["H5", 210800, 18200, 261000, 16000, 197, "sumpf_01_der_ertrunkene_wald_fern", 170]
+   ],
+   "ziel_hoehe_m": 18,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 154.0,
+    "sichtbar_ab_m": 731.0,
+    "wegpunkte_sichtbar": 50,
+    "wegpunkte_ring_300_800": 154,
+    "mittel_anteil": 0.3
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 162.1,
+    "luftlinie_m": 153.1,
+    "umweg_faktor": 1.1,
+    "max_steigung_grad": 4.1,
+    "mittel_steigung_grad": 1.0,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [2459.0, 185.0],
+    "nass_laenge_m": 94.0
+   },
+   "draufsicht": "sumpf_01_der_ertrunkene_wald.png"
+  },
+  {
+   "id": "sumpf_02_der_weidendom",
+   "name": "Der Weidendom",
+   "art": "leuchtfeuer",
+   "mitte_cm": [335000, 58000, 45],
+   "radius_m": 55.0,
+   "felder": ["H5", "I5"],
+   "kameras": [
+    ["I5", 347900, 43100, 335000, 58000, 145, "sumpf_02_der_weidendom_anmarsch", -170],
+    ["I5", 337828, 54629, 335000, 58000, 63, "sumpf_02_der_weidendom_held", 170],
+    ["I5", 335643, 57234, 335000, 58000, 95, "sumpf_02_der_weidendom_nah", -170],
+    ["I5", 365800, 10800, 335000, 58000, 145, "sumpf_02_der_weidendom_fern", 170]
+   ],
+   "ziel_hoehe_m": 22,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 198.0,
+    "sichtbar_ab_m": 635.0,
+    "wegpunkte_sichtbar": 9,
+    "wegpunkte_ring_300_800": 120,
+    "mittel_anteil": 0.1
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 202.1,
+    "luftlinie_m": 197.1,
+    "umweg_faktor": 1.0,
+    "max_steigung_grad": 8.3,
+    "mittel_steigung_grad": 1.7,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [3479.0, 431.0],
+    "nass_laenge_m": 40.0
+   },
+   "draufsicht": "sumpf_02_der_weidendom.png"
+  },
+  {
+   "id": "sumpf_03_der_reiherhorst",
+   "name": "Der Reiherhorst",
+   "art": "leuchtfeuer",
+   "mitte_cm": [265000, 38000, 197],
+   "radius_m": 50.0,
+   "felder": ["H5"],
+   "kameras": [
+    ["H5", 245900, 18900, 265000, 38000, 297, "sumpf_03_der_reiherhorst_anmarsch", -170],
+    ["H5", 261936, 35429, 265000, 38000, 88, "sumpf_03_der_reiherhorst_held", 170],
+    ["H5", 264234, 37357, 265000, 38000, 247, "sumpf_03_der_reiherhorst_nah", -170],
+    ["H5", 218000, 22600, 265000, 38000, 297, "sumpf_03_der_reiherhorst_fern", 170]
+   ],
+   "ziel_hoehe_m": 20,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 272.0,
+    "sichtbar_ab_m": 746.0,
+    "wegpunkte_sichtbar": 65,
+    "wegpunkte_ring_300_800": 204,
+    "mittel_anteil": 0.3
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 270.1,
+    "luftlinie_m": 270.1,
+    "umweg_faktor": 1.0,
+    "max_steigung_grad": 11.4,
+    "mittel_steigung_grad": 2.3,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [2459.0, 189.0],
+    "nass_laenge_m": 60.0
+   },
+   "draufsicht": "sumpf_03_der_reiherhorst.png"
+  },
+  {
+   "id": "sumpf_04_der_schwingrasen",
+   "name": "Der Schwingrasen",
+   "art": "fundstueck",
+   "mitte_cm": [269000, 70000, 220],
+   "radius_m": 50.0,
+   "felder": ["H5"],
+   "kameras": [
+    ["H5", 269900, 84484, 269000, 70000, 320, "sumpf_04_der_schwingrasen_anmarsch", -170],
+    ["H5", 269000, 82000, 269000, 70000, 280, "sumpf_04_der_schwingrasen_held", 170],
+    ["H5", 269000, 71000, 269000, 70000, 270, "sumpf_04_der_schwingrasen_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 286.0,
+    "sichtbar_ab_m": 0,
+    "verdeckt": true,
+    "max_anteil": 0.0,
+    "wegpunkte_400": 30,
+    "probe_3x3_verdeckt": 9
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 288.4,
+    "luftlinie_m": 285.1,
+    "umweg_faktor": 1.0,
+    "max_steigung_grad": 13.5,
+    "mittel_steigung_grad": 5.9,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [2699.0, 985.0],
+    "nass_laenge_m": 0.0
+   },
+   "draufsicht": "sumpf_04_der_schwingrasen.png"
+  },
+  {
+   "id": "sumpf_05_der_erlenbruch",
+   "name": "Der Erlenbruch",
+   "art": "fundstueck",
+   "mitte_cm": [256000, -11000, 1311],
+   "radius_m": 50.0,
+   "felder": ["H4"],
+   "kameras": [
+    ["H4", 255597, -4797, 256000, -11000, 1411, "sumpf_05_der_erlenbruch_anmarsch", -170],
+    ["H4", 244182, -13084, 256000, -11000, 1401, "sumpf_05_der_erlenbruch_held", 170],
+    ["H4", 255015, -11174, 256000, -11000, 1361, "sumpf_05_der_erlenbruch_nah", -170]
+   ],
+   "ziel_hoehe_m": 3,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 286.0,
+    "sichtbar_ab_m": 0,
+    "verdeckt": true,
+    "max_anteil": 0.0,
+    "wegpunkte_400": 39,
+    "probe_3x3_verdeckt": 9,
+    "hinweis": "verdeckt mit geplantem Erlenring (Teil des Ortes)"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 310.8,
+    "luftlinie_m": 286.8,
+    "umweg_faktor": 1.1,
+    "max_steigung_grad": 11.3,
+    "mittel_steigung_grad": 3.2,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [2441.0, 151.0],
+    "nass_laenge_m": 0.0
+   },
+   "draufsicht": "sumpf_05_der_erlenbruch.png"
+  },
+  {
+   "id": "sumpf_06_das_bultenfeld",
+   "name": "Das Bultenfeld",
+   "art": "fundstueck",
+   "mitte_cm": [329000, 78000, 247],
+   "radius_m": 45.0,
+   "felder": ["H5", "I5"],
+   "kameras": [
+    ["H5", 315865, 93935, 329000, 78000, 347, "sumpf_06_das_bultenfeld_anmarsch", -170],
+    ["H5", 325546, 87491, 329000, 78000, 307, "sumpf_06_das_bultenfeld_held", 170],
+    ["H5", 328658, 78940, 329000, 78000, 297, "sumpf_06_das_bultenfeld_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 273.0,
+    "sichtbar_ab_m": 0,
+    "verdeckt": true,
+    "max_anteil": 0.0,
+    "wegpunkte_400": 36,
+    "probe_3x3_verdeckt": 9
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 282.3,
+    "luftlinie_m": 273.9,
+    "umweg_faktor": 1.0,
+    "max_steigung_grad": 8.5,
+    "mittel_steigung_grad": 2.9,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [3113.0, 989.0],
+    "nass_laenge_m": 0.0
+   },
+   "draufsicht": "sumpf_06_das_bultenfeld.png"
+  },
+  {
+   "id": "sumpf_07_der_tellerweiher",
+   "name": "Der Tellerweiher",
+   "art": "fundstueck",
+   "mitte_cm": [289000, 72500, 48],
+   "radius_m": 50.0,
+   "felder": ["H5"],
+   "kameras": [
+    ["H5", 292100, 89184, 289000, 72500, 148, "sumpf_07_der_tellerweiher_anmarsch", -170],
+    ["H5", 289000, 84500, 289000, 72500, 108, "sumpf_07_der_tellerweiher_held", 170],
+    ["H5", 289000, 73500, 289000, 72500, 98, "sumpf_07_der_tellerweiher_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 259.0,
+    "sichtbar_ab_m": 0,
+    "verdeckt": true,
+    "max_anteil": 0.0,
+    "wegpunkte_400": 42,
+    "probe_3x3_verdeckt": 9
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 292.3,
+    "luftlinie_m": 264.0,
+    "umweg_faktor": 1.1,
+    "max_steigung_grad": 17.7,
+    "mittel_steigung_grad": 4.6,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [2885.0, 989.0],
+    "nass_laenge_m": 34.0
+   },
+   "draufsicht": "sumpf_07_der_tellerweiher.png"
+  },
+  {
+   "id": "sumpf_08_die_irrlichtsenke",
+   "name": "Die Irrlichtsenke",
+   "art": "fundstueck",
+   "mitte_cm": [308500, 79500, 232],
+   "radius_m": 50.0,
+   "felder": ["H5"],
+   "kameras": [
+    ["H5", 309100, 88634, 308500, 79500, 332, "sumpf_08_die_irrlichtsenke_anmarsch", -170],
+    ["H5", 308500, 87700, 308500, 79500, 322, "sumpf_08_die_irrlichtsenke_held", 170],
+    ["H5", 308500, 80500, 308500, 79500, 282, "sumpf_08_die_irrlichtsenke_nah", -170]
+   ],
+   "ziel_hoehe_m": 3,
+   "standort_begruendung": "",
+   "sicht": {
+    "naechster_weg_m": 178.0,
+    "sichtbar_ab_m": 0,
+    "verdeckt": true,
+    "max_anteil": 0.0,
+    "wegpunkte_400": 46,
+    "probe_3x3_verdeckt": 9
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 185.0,
+    "luftlinie_m": 178.0,
+    "umweg_faktor": 1.0,
+    "max_steigung_grad": 24.4,
+    "mittel_steigung_grad": 11.0,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [3087.0, 973.0],
+    "nass_laenge_m": 0.0
+   },
+   "draufsicht": "sumpf_08_die_irrlichtsenke.png"
+  }
+ ]
+}

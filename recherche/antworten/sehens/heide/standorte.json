@@ -36,7 +36,8 @@
     "mittel_steigung_grad": 10.2,
     "steil_laenge_m": 0.0,
     "weg_punkt_m": [1259.0, 399.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [131000, 46600, 2401],
@@ -94,7 +95,8 @@
     "mittel_steigung_grad": 4.8,
     "steil_laenge_m": 0.0,
     "weg_punkt_m": [2177.0, 711.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [229500, 61000, 1995],
@@ -143,7 +145,8 @@
     "mittel_steigung_grad": 4.6,
     "steil_laenge_m": 0.0,
     "weg_punkt_m": [2087.0, -43.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [189000, -8000, 2651],
@@ -204,7 +207,8 @@
     "mittel_steigung_grad": 6.2,
     "steil_laenge_m": 0.0,
     "weg_punkt_m": [1725.0, 789.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [179000, 59500, 1620],
@@ -269,7 +273,8 @@
     "mittel_steigung_grad": 4.0,
     "steil_laenge_m": 0.0,
     "weg_punkt_m": [2017.0, 369.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [209500, 32000, 2114],
@@ -303,7 +308,7 @@
    "kameras": [
     ["G5", 149100, 11191, 147600, 16000, 1095, "heide_06_der_wollsackfall_anmarsch", -170],
     ["G5", 146745, 13651, 147600, 16000, 1040, "heide_06_der_wollsackfall_held", 170],
-    ["G5", 147258, 15060, 147600, 16000, 1045, "heide_06_der_wollsackfall_nah", -170]
+    ["G5", 147774, 15016, 147600, 16000, 1045, "heide_06_der_wollsackfall_nah", -170]
    ],
    "ziel_hoehe_m": 1.5,
    "sicht": {
@@ -329,7 +334,8 @@
     "mittel_steigung_grad": 7.3,
     "steil_laenge_m": 4.2,
     "weg_punkt_m": [1511.0, 45.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [147600, 16000, 1025],
@@ -352,7 +358,8 @@
     "rand_max_m": 0.0,
     "primitive": 6
    },
-   "draufsicht": "heide_06_der_wollsackfall.png"
+   "draufsicht": "heide_06_der_wollsackfall.png",
+   "pfad_id": "heide_pfad_der_wollsackfall"
   },
   {
    "id": "heide_07_der_totengrund",
@@ -390,7 +397,8 @@
     "mittel_steigung_grad": 6.9,
     "steil_laenge_m": 0.0,
     "weg_punkt_m": [1277.0, -59.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [131000, -13500, 1694],
@@ -450,7 +458,8 @@
     "mittel_steigung_grad": 2.4,
     "steil_laenge_m": 0.0,
     "weg_punkt_m": [963.0, 217.0],
-    "pfad_noetig": false
+    "pfad_noetig": false,
+    "wasser_laenge_m": 0.0
    },
    "pfad_cm": [
     [98500, 33000, 159],
@@ -471,6 +480,29 @@
     "primitive": 1
    },
    "draufsicht": "heide_08_die_windkante.png"
+  }
+ ],
+ "pfade": [
+  {
+   "id": "heide_pfad_der_wollsackfall",
+   "art": "trittsteine",
+   "breite_cm": 150,
+   "punkte_cm": [
+    [151100, 4500],
+    [150300, 5300],
+    [149900, 8900],
+    [149100, 10500],
+    [149100, 11700],
+    [148700, 12100],
+    [148700, 13700],
+    [147600, 16000]
+   ],
+   "anschluss": "Weg Nord (X 1511 / Y 45), Trittsteine in die Klamm",
+   "fuer": ["heide_06_der_wollsackfall"],
+   "laenge_m": 129.5,
+   "max_steigung_grad": 31.7,
+   "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug",
+   "bodenlage": "Erde/Kies-Band 1,2-2 m, Trittsteine SM_stones_01_2/_5, SM_flat_rock_03"
   }
  ]
 }

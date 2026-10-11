@@ -1,0 +1,528 @@
+{
+ "stand": "2026-10-11",
+ "biom": "heide",
+ "quelle_downloadliste": "antworten/sehens/downloadliste.json",
+ "hinweis": "Stand Inventar 13b (1 692 Netze): Megascans Eis/Schnee, Niagara Examples, Free City & Nature Sounds sind vorhanden -> 'vorhanden' mit Pfad; 'orte' enthaelt nur noch fehlende Downloads.",
+ "orte": {
+  "heide_01_die_graue_burg": [
+   {
+    "paket": "Brushify – Moorlands Pack",
+    "prioritaet": "B",
+    "wofuer": "UK-Fotogrammetrie-Granit fuer Tor-Stapel + Heidekraut-Foliage",
+    "ersatz_bestand": "SM_big_rock_wall_* / SM_flat_rock_* gestapelt + pjEr1/pjtsT/pkeeM_tier_0"
+   }
+  ],
+  "heide_02_ginstergold": [
+   {
+    "paket": "Brushify – Moorlands Pack",
+    "prioritaet": "B",
+    "wofuer": "Heidekraut-Foliage (gruen/braun/purpur) fuer den Erika-Saum",
+    "ersatz_bestand": "SM_forest_heather_01 + SM_heath_A/B_01 mit MI-Tint purpur"
+   }
+  ],
+  "heide_03_die_wacholderprozession": [
+   {
+    "paket": "Brushify – Moorlands Pack",
+    "prioritaet": "B",
+    "wofuer": "Heide-Bodendecker zwischen den Wacholdern",
+    "ersatz_bestand": "SM_forest_heather_01"
+   }
+  ],
+  "heide_04_der_kolk": [
+   {
+    "paket": "Brushify – Moorlands Pack",
+    "prioritaet": "B",
+    "wofuer": "Heidekraut auf den Bulten",
+    "ersatz_bestand": "SM_heath_*"
+   },
+   {
+    "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+    "prioritaet": "C",
+    "wofuer": "Nassband-Decal am Kolkrand",
+    "ersatz_bestand": "MI_Leakage_*"
+   }
+  ],
+  "heide_05_der_wackelstein": [
+   {
+    "paket": "Brushify – Moorlands Pack",
+    "prioritaet": "B",
+    "wofuer": "UK-Granitbloecke fuer den Wollsack-Kranz",
+    "ersatz_bestand": "SM_mountain_rock_big_02_* + SM_Big_Rock_*"
+   }
+  ],
+  "heide_06_der_wollsackfall": [
+   {
+    "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+    "prioritaet": "A",
+    "wofuer": "Wasserfall-/Kaskadenmaterial fuer die 3 Stufen",
+    "ersatz_bestand": "M_EL_Wasserfall2 / MI_EL_Wasserfall_Aufprall (eigen)"
+   }
+  ],
+  "heide_07_der_totengrund": [
+   {
+    "paket": "Brushify – Moorlands Pack",
+    "prioritaet": "B",
+    "wofuer": "Besenheide-Teppich in Bluete (purpur) auf den Kesselhaengen",
+    "ersatz_bestand": "SM_forest_heather_01 + SM_heath_* mit purpurnem Tint"
+   }
+  ],
+  "heide_08_die_windkante": [
+   {
+    "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+    "prioritaet": "A",
+    "wofuer": "Duenen-Stempel, Sand-/Kiesel-Decals fuer Anriss und Rippelmarken",
+    "ersatz_bestand": "Lage Sand + SM_sandy_slope_* + MI_Leakage_* (nur als Feuchte)"
+   }
+  ]
+ },
+ "vorhanden": {
+  "heide_01_die_graue_burg": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "heide_02_ginstergold": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue (leise, nur Voegel-Anteil pruefen)",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "heide_03_die_wacholderprozession": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "heide_04_der_kolk": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue (sehr leise)",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "niagara": "kein Nebel-/Dunstsystem im Niagara Examples Pack (nur NS_Smoke_Plume, NS_SmokePuffLight, NS_Chimney_Smoke)",
+    "loesung": "lokaler_nebel (Local Fog Volume); NS_SmokePuffLight nur als Vorlage fuer eigenes Dunst-System",
+    "paket": "Niagara Examples Pack (13b, vorhanden)"
+   }
+  ],
+  "heide_05_der_wackelstein": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "heide_06_der_wollsackfall": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   },
+   {
+    "niagara": "kein Nebel-/Dunstsystem im Niagara Examples Pack (nur NS_Smoke_Plume, NS_SmokePuffLight, NS_Chimney_Smoke)",
+    "loesung": "lokaler_nebel (Local Fog Volume); NS_SmokePuffLight nur als Vorlage fuer eigenes Dunst-System",
+    "paket": "Niagara Examples Pack (13b, vorhanden)"
+   }
+  ],
+  "heide_07_der_totengrund": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue (gedaempft)",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ],
+  "heide_08_die_windkante": [
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
+   }
+  ]
+ },
+ "bestand_netze": {
+  "heide_01_die_graue_burg": [
+   "SM_big_rock_wall_01",
+   "SM_big_rock_wall_02",
+   "SM_big_rock_wall_03",
+   "SM_flat_rock_02",
+   "SM_flat_rock_03",
+   "SM_flat_rock_04",
+   "SM_mountain_rock_big_02_1",
+   "SM_mountain_rock_big_02_4",
+   "SM_mountain_rock_big_02_6",
+   "SM_mountain_rock_big_02_8",
+   "SM_Big_Rock_01",
+   "SM_Big_Rock_02",
+   "SM_Big_Rock_03",
+   "SM_Middle_Rock_01",
+   "pjEr1_tier_0",
+   "pjtsT_tier_0",
+   "pkeeM_tier_0",
+   "xf3odif_tier_0",
+   "xfplcbf_tier_0",
+   "SM_Rock_01",
+   "SM_Rock_03",
+   "SM_Rock_05",
+   "SM_s_rock_01",
+   "SM_s_rock_02",
+   "SM_forest_heather_01",
+   "SM_forest_heather_simple_01",
+   "SM_billberry_01",
+   "SM_billberry_03",
+   "SM_EagleFern_M_01",
+   "SM_EagleFern_S_02",
+   "SM_dwarf_pine_medium_02",
+   "SM_pine_beach_crooked_02",
+   "Big_Tree_Birch_01",
+   "SM_MossClump_03"
+  ],
+  "heide_02_ginstergold": [
+   "SM_sea_buckthorn_01",
+   "SM_sea_buckthorn_02",
+   "SM_sea_buckthorn_03",
+   "SM_sea_buckthorn_05",
+   "SM_flower_goldenrod_01",
+   "SM_flower_goldenrod_02",
+   "SM_flower_common_Saint_John_s_wort_01",
+   "SM_YellowArchangel_04",
+   "SM_YellowArchangel_08",
+   "SM_Crownbeard_03",
+   "SM_Crownbeard_07",
+   "SM_forest_heather_01",
+   "SM_heath_A_01",
+   "SM_heath_B_01",
+   "SM_dead_grass_01",
+   "SM_dead_grass_02",
+   "SM_grass_bush_02",
+   "SM_mountain_rock_big_02_3",
+   "pkeeM_tier_0",
+   "SM_BirchTreeStump_01",
+   "SM_branch_01_1"
+  ],
+  "heide_03_die_wacholderprozession": [
+   "SM_Forest_pine_plant_01",
+   "SM_Forest_pine_plant_02",
+   "SM_Forest_pine_plant_03",
+   "Fir_01_Plant",
+   "Fir_02_Small",
+   "SM_dwarf_pine_big_01",
+   "SM_dwarf_pine_big_02",
+   "SM_DeadTree_02",
+   "SM_Forest_pine_10_dead",
+   "SM_forest_heather_01",
+   "SM_heath_cross_01",
+   "SM_dead_grass_03",
+   "SM_grass_bush_01",
+   "SM_NordicBoulder_01",
+   "SM_Rock_02",
+   "SM_EagleFern_S_01",
+   "SM_branch_01_1"
+  ],
+  "heide_04_der_kolk": [
+   "SM_dwarf_pine_small_01",
+   "SM_dwarf_pine_small_02",
+   "SM_dwarf_pine_medium_01",
+   "SM_dwarf_pine_medium_03",
+   "SM_pine_beach_short_01",
+   "SM_pine_beach_short_02",
+   "SM_DeadTree_01",
+   "SM_BirchTreeStump_01",
+   "SM_ToadRush_00",
+   "SM_ToadRush_010",
+   "SM_ToadRush_014",
+   "SM_heath_A_01",
+   "SM_lingonberry_01",
+   "SM_billberry_dry_01",
+   "SM_MossClump_01",
+   "SM_MossClump_02",
+   "SM_MossClump_05",
+   "SM_moss_01",
+   "SM_moss_02",
+   "SM_MossyRocks_01",
+   "SM_flat_rock_03",
+   "SM_branch_01_1"
+  ],
+  "heide_05_der_wackelstein": [
+   "SM_mountain_rock_big_02_2",
+   "SM_mountain_rock_big_02_5",
+   "SM_mountain_rock_big_02_7",
+   "SM_Big_Rock_01",
+   "SM_Big_Rock_02",
+   "SM_flat_rock_02",
+   "SM_flat_rock_04",
+   "SM_ground_rock_03_03",
+   "SM_Rock_04",
+   "SM_Rock_06",
+   "SM_Rock_07",
+   "pjEr1_tier_0",
+   "pjtsT_tier_0",
+   "SM_s_rock_03",
+   "SM_forest_heather_simple_01",
+   "SM_billberry_02",
+   "SM_EagleFern_S_04",
+   "SM_MossClump_04",
+   "SM_grey_willow_03"
+  ],
+  "heide_06_der_wollsackfall": [
+   "SM_mountain_rock_big_02_1",
+   "SM_mountain_rock_big_02_6",
+   "SM_Big_Rock_03",
+   "SM_Middle_Rock_01",
+   "SM_Rock_01",
+   "SM_Rock_05",
+   "SM_stones_01_2",
+   "SM_stones_01_4",
+   "SM_DryRiverBed_01",
+   "SM_MossyForestRock_02",
+   "SM_MossyForestBoulder_04",
+   "SM_Fern_02",
+   "SM_SilverLadyFern_01",
+   "SM_EagleFern_M_01",
+   "Big_Tree_Birch_01",
+   "SM_beech_tree_00_B",
+   "SM_MossClump_01",
+   "SM_MossClump_03",
+   "SM_Pine_roots_02",
+   "SM_detail_leaves_02"
+  ],
+  "heide_07_der_totengrund": [
+   "SM_forest_heather_01",
+   "SM_forest_heather_simple_01",
+   "SM_heath_A_01",
+   "SM_heath_B_01",
+   "SM_heath_cross_01",
+   "SM_Forest_pine_plant_02",
+   "SM_Forest_pine_plant_03",
+   "Big_Tree_Birch_01",
+   "SM_DeadTree_02",
+   "SM_sandy_slope_01",
+   "SM_sandy_slope_03",
+   "SM_dead_grass_01",
+   "SM_beach_grass_02_1",
+   "SM_beach_grass_02_3",
+   "SM_Rock_02",
+   "SM_s_rock_02",
+   "SM_billberry_03",
+   "SM_branch_01_1"
+  ],
+  "heide_08_die_windkante": [
+   "SM_pine_beach_crooked_01",
+   "SM_pine_beach_crooked_02",
+   "SM_pine_beach_medium_01",
+   "SM_pine_beach_medium_03",
+   "SM_pine_beach_small_04",
+   "SM_stones_roots_01",
+   "SM_stones_roots_03",
+   "SM_Pine_roots_01",
+   "SM_crooked_root_01",
+   "SM_sandy_slope_02",
+   "SM_sandy_slope_04",
+   "SM_sandy_slope_05",
+   "SM_scarp_01",
+   "SM_beach_grass_01_1",
+   "SM_beach_grass_01_hp_1",
+   "SM_beach_grass_03_2",
+   "SM_sea_holly_01",
+   "SM_forest_heather_simple_01",
+   "SM_BeachSandWithPebbles_01",
+   "SM_namaqualand_rocks_01_a_NN",
+   "SM_branch_01_1"
+  ]
+ },
+ "neue_paketwuensche": [
+  {
+   "paket": "Brushify – Moorlands Pack",
+   "link": "https://www.fab.com/listings/d0b8065d-0ef1-42b2-915e-4810ee19f44e",
+   "anbieter": "Brushify (Joe Garth)",
+   "preis": "ungeprueft (vermutlich kostenpflichtig; Brushify-Pakete waren zeitweise Gratis-Monatsassets - prüfen: evtl. schon in Bibliothek)",
+   "groesse_gb": "ungeprueft (Schaetzung 3-5)",
+   "ue_version": "laut Listing aktualisiert fuer UE 5.4+",
+   "nanite": "ja (laut Listing Nanite + Lumen)",
+   "prioritaet": "B",
+   "wofuer": [
+    "heide_01_die_graue_burg",
+    "heide_02_ginstergold",
+    "heide_03_die_wacholderprozession",
+    "heide_04_der_kolk",
+    "heide_05_der_wackelstein",
+    "heide_07_der_totengrund"
+   ],
+   "begruendung": "Einziges gefundenes Heide-/Moorland-Paket: 4 Heidekraut-Foliagetypen (gruen, braun, purpur, Farn) + 3 in Grossbritannien gescannte Felsen - genau Dartmoor-Granit und Besenheide. Bestand hat nur SM_heath_A/B (0,3 m) und SM_forest_heather_01.",
+   "ersatz_bestand": "SM_forest_heather_01, SM_heath_A_01/B_01/cross_01 (Tint), Granit pjEr1/pjtsT/pkeeM_tier_0, SM_big_rock_wall_*",
+   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug: 'Brushify - Moorlands Pack', Heather vegetation, 3 photogrammetry rocks scanned in the UK, Nanite/Lumen, UE 5.4+)"
+  }
+ ],
+ "luecken_ohne_asset": [
+  {
+   "luecke": "Wacholder (Juniperus communis, Saeulenform)",
+   "orte": [
+    "heide_03_die_wacholderprozession",
+    "heide_07_der_totengrund"
+   ],
+   "loesung": "Kein Fab-Listing gefunden (Websuche 11.10.: nur Gumroad/Flippednormals 'Juniper Bushes', CGTrader - nicht Fab, nicht empfohlen). Ersatz: SM_Forest_pine_plant_01/02/03 und Fir_01_Plant nicht-uniform skaliert (sx = sy 0,45-0,6, sz 1,1-1,5) -> schlanke Saeulen 3-7 m; Material-Tint dunkel blaugruen (MI_EL_SW_Wacholder auf M_EL_Pflanze, Farbe 0,55/0,68/0,62). Bild-Check im Editor."
+  },
+  {
+   "luecke": "Stechginster/Besenginster in Bluete",
+   "orte": [
+    "heide_02_ginstergold"
+   ],
+   "loesung": "Kein Fab-Listing gefunden (nur CGTrader 'Ulex europaeus'/'Cytisus scoparius'). Ersatz: SM_sea_buckthorn_01/02/03/05 (1-2,3 m, dichte Straeucher) mit MI_EL_SW_Ginster (dunkelgruen) + eingesetzte Bluetenkoepfe SM_flower_goldenrod_01/02 und SM_flower_common_Saint_John_s_wort_01 in Clustern (8-15 je Strauch, 0,6-0,9 skaliert). Gelb als Masse ueber GPU-Gras (Kraut-Lage) ergaenzen."
+  },
+  {
+   "luecke": "Wollgras (Eriophorum), Moosbeere, Sonnentau",
+   "orte": [
+    "heide_04_der_kolk",
+    "tundra_08_das_wabenmoor",
+    "tundra_05_der_trunkene_grund"
+   ],
+   "loesung": "Kein Fab-Listing (nur RenderHub/CGTrader). Ersatz: SM_ToadRush_* (Binsen) + SM_wk2oaeyqx_* (Tundragras) mit weissen Fruchtstaenden aus SM_WhiteWindflower_* (Blueten, 0,4 skaliert) - Bild-Check; Sonnentau/Moosbeere entfallen (zu klein)."
+  },
+  {
+   "luecke": "Umgebungsklaenge",
+   "orte": [
+    "alle"
+   ],
+   "loesung": "Free City & Nature Sounds (A); sonst stumm bzw. MetaSound-Wind aus gefiltertem Rauschen."
+  }
+ ],
+ "nicht_mehr_noetig": [
+  {
+   "paket": "Megascans Limestone Rocks",
+   "hinweis": "heide:Karrenfeld (Kalk) passt nicht zur Granit-Heide; fuer heide nicht noetig."
+  },
+  {
+   "paket": "Cave Ambience",
+   "hinweis": "heide:Der Rachen (Schluckloch, Kalk) entfaellt - Granit verkarstet nicht."
+  },
+  {
+   "paket": "Megascans Rembrandt Water Lily",
+   "hinweis": "heide:Moorauge -> heide_04_der_kolk ist ein Hochmoor-Kolk (naehrstoffarm, keine Seerosen); fuer heide nicht noetig."
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Granit_Heide",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Toenung": [
+     0.78,
+     0.76,
+     0.72,
+     1.0
+    ],
+    "Auflage_Farbe": [
+     0.62,
+     0.7,
+     0.45,
+     1.0
+    ],
+    "Auflage_Menge": 0.35,
+    "Auflage_Flecken": 0.8
+   },
+   "fuer": [
+    "SM_big_rock_wall_01",
+    "SM_flat_rock_02",
+    "SM_mountain_rock_big_02_1",
+    "SM_Big_Rock_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Wacholder",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.55,
+     0.68,
+     0.62,
+     1.0
+    ],
+    "Variation": 0.4
+   },
+   "fuer": [
+    "SM_Forest_pine_plant_01",
+    "SM_Forest_pine_plant_02",
+    "SM_Forest_pine_plant_03",
+    "Fir_01_Plant"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Ginster",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.55,
+     0.7,
+     0.4,
+     1.0
+    ],
+    "Variation": 0.3
+   },
+   "fuer": [
+    "SM_sea_buckthorn_01",
+    "SM_sea_buckthorn_02",
+    "SM_sea_buckthorn_03",
+    "SM_sea_buckthorn_05"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Erika_Bluete",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.95,
+     0.62,
+     0.9,
+     1.0
+    ],
+    "Variation": 0.5
+   },
+   "fuer": [
+    "SM_forest_heather_01",
+    "SM_heath_A_01",
+    "SM_heath_B_01"
+   ]
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "heide_01_die_graue_burg",
+   "zweck": "Vorhandene Felsplatten auf der Kuppe - Massstab fuer die Tor-Stapel",
+   "kamera": [
+    "F5",
+    125700,
+    40300,
+    131000,
+    46600,
+    2300,
+    "heide_01_leer_held",
+    -170
+   ]
+  },
+  {
+   "ort": "heide_04_der_kolk",
+   "zweck": "Ovale Mulde mit Felsrahmen (alte Kachel?) - Grundlage fuer die Moorkuppe",
+   "kamera": [
+    "G5",
+    177300,
+    66900,
+    179000,
+    59500,
+    1700,
+    "heide_04_leer_anmarsch",
+    -170
+   ]
+  }
+ ],
+ "zusammenfassung": {
+  "A": [
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)"
+  ],
+  "B": [
+   "Brushify – Moorlands Pack"
+  ],
+  "C": [
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)"
+  ]
+ }
+}
