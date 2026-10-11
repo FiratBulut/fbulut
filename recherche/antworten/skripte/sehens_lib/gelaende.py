@@ -6,7 +6,7 @@ Reine Array-Funktionen (h = Hoehe in m, z = Zellgroesse in m):
   kruemmung(h, z, sigma_m) -> (profil, plan) [1/m]; > 0 konvex (Kante/Ruecken), < 0 konkav (Hangfuss/Rinne)
   tpi(h, z, radius_m) [m] = h - Mittel im Quadrat 2r
   abfluss(h, z, auslass) -> dict(gefuellt, empfaenger, akkumulation_m2, becken_zahl, ...)  (D8, Senken gefuellt)
-  abstand(maske, z, max_m) -> (Abstand m, naechster Index)   (exakt mit SciPy, sonst Jump-Flooding)
+  abstand(maske, z, max_m) -> (Abstand m, naechster Index)   (exakt; SciPy falls vorhanden, sonst Felzenszwalb)
   landformen(tpi_klein, tpi_gross, neigung) -> Klassen 1..10 (Weiss 2001, LANDFORMEN)
 
 Klasse Gelaende(welt, cache=...) rechnet Ganze-Welt-Raster einmal und legt sie als .npy ab:
@@ -53,19 +53,38 @@ def _paar(di, dj, ny, nx):
 
 
 def _box1d(a, r, achse):
-    """Normiertes Kastenmittel (Fenster am Rand gekappt) entlang einer Achse."""
+    """Normiertes Kastenmittel (Fenster am Rand gekappt) entlang einer Achse (ohne Umkopieren der Achse)."""
     if r <= 0:
         return a.astype(np.float32, copy=True)
-    a = np.moveaxis(a, achse, 0)
-    n = a.shape[0]
-    c = np.zeros((n + 1,) + a.shape[1:], np.float64)
-    np.cumsum(a, axis=0, dtype=np.float64, out=c[1:])
-    i = np.arange(n)
-    hi = np.minimum(i + r, n - 1) + 1
-    lo = np.maximum(i - r, 0)
-    cnt = (hi - lo).astype(np.float64).reshape((n,) + (1,) * (a.ndim - 1))
-    out = ((c[hi] - c[lo]) / cnt).astype(np.float32)
-    return np.moveaxis(out, 0, achse)
+    n = a.shape[achse]
+    nd = a.ndim
+
+    def S(start, stop):
+        t = [slice(None)] * nd
+        t[achse] = slice(start, stop)
+        return tuple(t)
+
+    def I(idx):
+        t = [slice(None)] * nd
+        t[achse] = idx
+        return tuple(t)
+
+    form = [1] * nd
+    form[achse] = -1
+    cs = np.cumsum(a, axis=achse, dtype=np.float64)
+    pad = [(0, 0)] * nd
+    pad[achse] = (1, 0)
+    c = np.pad(cs, pad)
+    del cs
+    out = np.empty(a.shape, np.float32)
+    if n - 2 * r > 0:
+        out[S(r, n - r)] = (c[S(2 * r + 1, n + 1)] - c[S(0, n - 2 * r)]) / float(2 * r + 1)
+    rand = np.unique(np.concatenate([np.arange(min(r, n)), np.arange(max(n - r, 0), n)]))
+    if rand.size:
+        hi = np.minimum(rand + r, n - 1) + 1
+        lo = np.maximum(rand - r, 0)
+        out[I(rand)] = (c[I(hi)] - c[I(lo)]) / (hi - lo).astype(np.float64).reshape(form)
+    return out
 
 
 def box_mittel(a, r_px):
@@ -209,50 +228,82 @@ def landformen(tpi_klein, tpi_gross, neigung, std_klein=None, std_gross=None, fl
 # ============================================================================================
 # Distanzen
 # ============================================================================================
-def _jfa(maske, max_px):
-    """Jump-Flooding: naechster Saatpunkt je Zelle (Zeile, Spalte). Saat = maske True."""
+def _edt(maske):
+    """Exakte euklidische Distanztransformation (Felzenszwalb & Huttenlocher), vektorisiert ueber Zeilen.
+
+    Rueckgabe: (d2 in Zellen^2 als float64, naechste Zeile, naechste Spalte) - ohne Saat: d2 >= 1e12.
+    """
     ny, nx = maske.shape
-    S = -20000
-    si = np.full((ny, nx), S, np.int32)
-    sj = np.full((ny, nx), S, np.int32)
-    ii, jj = np.nonzero(maske)
-    si[ii, jj] = ii
-    sj[ii, jj] = jj
-    I = np.arange(ny, dtype=np.int32)[:, None]
-    J = np.arange(nx, dtype=np.int32)[None, :]
-    best = (I - si) ** 2 + (J - sj) ** 2
-    k = 1
-    while k * 2 <= max(max_px, 1):
-        k *= 2
-    schritte = []
-    while k >= 1:
-        schritte.append(k)
-        k //= 2
-    schritte += [2, 1]
-    for k in schritte:
-        for di in (-k, 0, k):
-            for dj in (-k, 0, k):
-                if di == 0 and dj == 0:
-                    continue
-                d, s = _paar(di, dj, ny, nx)  # d: Zielzellen, s = d + (di, dj): deren Saat wird geprueft
-                csi = si[s]
-                csj = sj[s]
-                dd = (I[d[0]] - csi) ** 2 + (J[:, d[1]] - csj) ** 2
-                bd = best[d]
-                m = dd < bd
-                if not m.any():
-                    continue
-                np.putmask(bd, m, dd)
-                np.putmask(si[d], m, csi)
-                np.putmask(sj[d], m, csj)
-    return si, sj, best
+    BIG = 1e7
+    # Phase 1: je Spalte Abstand zur naechsten Saat in derselben Spalte
+    g = np.empty((ny, nx), np.float64)
+    fr = np.empty((ny, nx), np.int32)
+    gp = np.full(nx, BIG)
+    rp = np.full(nx, -1, np.int32)
+    for i in range(ny):
+        m = maske[i]
+        gp = np.where(m, 0.0, gp + 1.0)
+        rp = np.where(m, i, rp)
+        g[i] = gp
+        fr[i] = rp
+    gp = np.full(nx, BIG)
+    rp = np.full(nx, -1, np.int32)
+    for i in range(ny - 1, -1, -1):
+        m = maske[i]
+        gp = np.where(m, 0.0, gp + 1.0)
+        rp = np.where(m, i, rp)
+        b = gp < g[i]
+        g[i] = np.where(b, gp, g[i])
+        fr[i] = np.where(b, rp, fr[i])
+    f = np.minimum(g, BIG) ** 2
+    del g
+    # Phase 2: je Zeile untere Einhuellende der Parabeln f(q) + (x - q)^2 (transponiert = zusammenhaengend)
+    fT = np.ascontiguousarray(f.T)
+    del f
+    R = np.arange(ny)
+    v = np.zeros((nx, ny), np.int32)
+    zz = np.empty((nx + 1, ny), np.float64)
+    zz[0] = -np.inf
+    zz[1] = np.inf
+    k = np.zeros(ny, np.int64)
+    for q in range(1, nx):
+        fq = fT[q] + q * q
+        while True:
+            vk = v[k, R]
+            s = (fq - (fT[vk, R] + vk.astype(np.float64) ** 2)) / (2.0 * (q - vk))
+            m = s <= zz[k, R]
+            if not m.any():
+                break
+            k = np.where(m, k - 1, k)
+        k = k + 1
+        v[k, R] = q
+        zz[k, R] = s
+        zz[k + 1, R] = np.inf
+    d2T = np.empty((nx, ny), np.float64)
+    ncT = np.empty((nx, ny), np.int32)
+    k = np.zeros(ny, np.int64)
+    for q in range(nx):
+        while True:
+            m = zz[k + 1, R] < q
+            if not m.any():
+                break
+            k = np.where(m, k + 1, k)
+        vk = v[k, R]
+        d2T[q] = (q - vk).astype(np.float64) ** 2 + fT[vk, R]
+        ncT[q] = vk
+    del v, zz, fT
+    d2 = np.ascontiguousarray(d2T.T)
+    nc = np.ascontiguousarray(ncT.T)
+    del d2T, ncT
+    nr = np.take_along_axis(fr, nc.astype(np.int64), axis=1)
+    return d2, nr, nc
 
 
 def abstand(maske, z, max_m=2000.0, indizes=False):
     """Euklidischer Abstand (m) jeder Zelle zur naechsten True-Zelle der Maske.
 
     Rueckgabe: abstand (float32, > max_m gekappt auf max_m) [, naechster flacher Index (int32, -1 = keiner)].
-    Mit SciPy exakt, sonst Jump-Flooding (JFA+2, Fehler selten und < 1 Zelle).
+    Exakt: SciPy distance_transform_edt falls vorhanden, sonst eigene Felzenszwalb-Transformation.
     """
     ny, nx = maske.shape
     if not maske.any():
@@ -265,13 +316,12 @@ def abstand(maske, z, max_m=2000.0, indizes=False):
             return np.minimum(d, max_m).astype(np.float32), idx
         d = _ndi.distance_transform_edt(~maske, sampling=z)
         return np.minimum(d, max_m).astype(np.float32)
-    si, sj, best = _jfa(maske, int(np.ceil(max_m / z)) + 2)
-    d = np.sqrt(best.astype(np.float64)) * z
-    gueltig = si >= 0
-    d = np.where(gueltig, np.minimum(d, max_m), max_m).astype(np.float32)
+    d2, nr, nc = _edt(maske)
+    gueltig = (d2 < 1e11) & (nr >= 0)
+    d = np.where(gueltig, np.minimum(np.sqrt(d2) * z, max_m), max_m).astype(np.float32)
     if not indizes:
         return d
-    idx = np.where(gueltig, si.astype(np.int64) * nx + sj, -1).astype(np.int32)
+    idx = np.where(gueltig, nr.astype(np.int64) * nx + nc, -1).astype(np.int32)
     return d, idx
 
 
@@ -574,6 +624,14 @@ class Gelaende:
         self._mem[name] = a
         return a
 
+    def _speichern(self, name, a):
+        self._mem[name] = a
+        if self.cache:
+            pf = os.path.join(self.cache, name + ".npy")
+            tmp = pf + ".tmp.npy"
+            np.save(tmp, a)
+            os.replace(tmp, pf)
+
     def vorrechnen(self, alles=True):
         """Rechnet die Standard-Raster (fuer den Cache) einmal durch."""
         _ = self.neigung, self.akkumulation, self.abstand_weg, self.abstand_ort
@@ -626,8 +684,7 @@ class Gelaende:
             % (r["becken_zahl"], r["offene_rest"], r["flaechen_runden"]))
         for n, a in (("gefuellt", r["gefuellt"]), ("empfaenger", r["empfaenger"]),
                      ("akkumulation", r["akkumulation_m2"])):
-            self._mem.pop(n, None)
-            self._get(n, lambda a=a: a)
+            self._speichern(n, a)
 
     @property
     def gefuellt(self):
@@ -764,8 +821,8 @@ class Gelaende:
             return
         with Uhr("berechne abstand_weg (+ naechster Wegpunkt)"):
             d, i = abstand(self.welt.weg > 0, self.z, 2000.0, indizes=True)
-        self._get("abstand_weg", lambda: d)
-        self._get("weg_naechst", lambda: i)
+        self._speichern("abstand_weg", d)
+        self._speichern("weg_naechst", i)
 
     @property
     def abstand_ort(self):
