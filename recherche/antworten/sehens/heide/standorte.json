@@ -301,9 +301,9 @@
    "radius_m": 32.0,
    "felder": ["G5"],
    "kameras": [
-    ["G5", 150700, 12896, 149800, 16500, 1992, "heide_06_der_wollsackfall_anmarsch", -170],
-    ["G5", 150234, 14038, 149800, 16500, 1937, "heide_06_der_wollsackfall_held", 170],
-    ["G5", 149974, 15515, 149800, 16500, 1942, "heide_06_der_wollsackfall_nah", -170]
+    ["G5", 149100, 11191, 147600, 16000, 1095, "heide_06_der_wollsackfall_anmarsch", -170],
+    ["G5", 146745, 13651, 147600, 16000, 1040, "heide_06_der_wollsackfall_held", 170],
+    ["G5", 147258, 15060, 147600, 16000, 1045, "heide_06_der_wollsackfall_nah", -170]
    ],
    "ziel_hoehe_m": 1.5,
    "sicht": {
@@ -323,21 +323,23 @@
    "erreichbar": {
     "erreichbar": true,
     "modus": "streng",
-    "laenge_m": 125.3,
-    "luftlinie_m": 115.5,
-    "max_steigung_grad": 12.7,
-    "mittel_steigung_grad": 2.7,
-    "steil_laenge_m": 0.0,
-    "weg_punkt_m": [1539.0, 57.0],
+    "laenge_m": 129.5,
+    "luftlinie_m": 120.2,
+    "max_steigung_grad": 31.7,
+    "mittel_steigung_grad": 7.3,
+    "steil_laenge_m": 4.2,
+    "weg_punkt_m": [1511.0, 45.0],
     "pfad_noetig": false
    },
    "pfad_cm": [
-    [149800, 16500, 1889],
-    [150700, 15700, 1839],
-    [150700, 10100, 1736],
-    [151900, 8900, 1730],
-    [151900, 8100, 1739],
-    [153900, 5700, 1804]
+    [147600, 16000, 1025],
+    [148700, 13700, 1830],
+    [148700, 12100, 2041],
+    [149100, 11700, 2126],
+    [149100, 10500, 2202],
+    [149900, 8900, 2037],
+    [150300, 5300, 1844],
+    [151100, 4500, 1876]
    ],
    "gelaende_plan": {
     "fenster_m": [1438.0, 94.0, 1514.0, 228.0],
