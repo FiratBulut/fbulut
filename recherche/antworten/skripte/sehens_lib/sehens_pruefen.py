@@ -520,7 +520,7 @@ def _pruefe_fenster(oid, name, g, art, basis, suffixe=None, typ="f32"):
     return b
 
 
-def pruefe_ort(o, biom, basis=None, inv=None, welt=None):
+def pruefe_ort(o, biom, basis=None, inv=None, welt=None, mi_geplant=None):
     """Ein orte.json-Eintrag (Phase 2). inv: inventar.Inventar (Asset-Pruefung), welt: Kameras/Gelaende-Regeln."""
     b = []
     oid = o.get("id", "?")
@@ -642,7 +642,12 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None):
                 if f not in e:
                     b.append((FEHLER, oid, "decal.%s fehlt" % f))
             if inv is not None and e.get("material"):
-                b += [(st, oid, tx) for st, tx in inv.asset_pruefen("decal", e["material"], bool(e.get("optional")))]
+                if (not e.get("optional") and mi_geplant and e["material"] in mi_geplant
+                        and inv.decal_pfad(e["material"]) is None):
+                    # E13: eigene Decal-Instanz aus den materialwuenschen des Bioms (wird angelegt)
+                    b.append((HINWEIS, oid, "decal %s: Materialwunsch des Bioms, wird angelegt" % e["material"]))
+                else:
+                    b += [(st, oid, tx) for st, tx in inv.asset_pruefen("decal", e["material"], bool(e.get("optional")))]
         else:
             b.append((FEHLER, oid, "effekte.typ %r" % t))
     for k, ba in enumerate(o.get("bestand_ausblenden", []) or []):
@@ -718,8 +723,9 @@ def pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None):
     if biom not in _daten.BIOME:
         b.append((FEHLER, "-", "biom %r unbekannt" % biom))
     orte = d.get("orte") or []
+    mi_geplant = {str(m.get("name")) for o in orte for m in (o.get("materialwuensche") or [])}
     for o in orte:
-        b += pruefe_ort(o, biom or "?", basis, inv, welt)
+        b += pruefe_ort(o, biom or "?", basis, inv, welt, mi_geplant=mi_geplant)
     if sw_ordner is not None:
         b += pruefe_ebene(sw_ordner, biom, inv, orte, welt, basis)
     mw = sum(len(o.get("materialwuensche", []) or []) for o in orte)

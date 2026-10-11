@@ -1491,8 +1491,13 @@ class OrtKontext:
                     d = {"typ": t, "material": mat, "pos_cm": pos,
                          "groesse_cm": [round(gr[0] * 100), round(gr[1] * 100 * gs), round(gr[2] * 100 * gs)],
                          "rot_q": [round(v, 5) for v in _ins.q_norm(q)]}
-                    for st, txt in self.inv.asset_pruefen("decal", mat, bool(e.get("optional", False))):
-                        self.melde(st, txt)
+                    if not e.get("optional") and e["material"] in self.materialien and not self.inv.decal_pfad(mat):
+                        # E13: fest eingeplantes Decal mit eigener Material-Instanz (materialwuensche), wird angelegt
+                        self.melde(HINWEIS, "decal %s: eigene Material-Instanz aus materialwuensche, wird angelegt%s"
+                                   % (mat, (" (%s)" % e["bedingung"]) if e.get("bedingung") else ""))
+                    else:
+                        for st, txt in self.inv.asset_pruefen("decal", mat, bool(e.get("optional", False))):
+                            self.melde(st, txt)
                     if e.get("optional"):
                         d["optional"] = True
                     # eigene Decal-Textur (Wunsch, PNG im Repo) und Hinweise durchreichen (optional)
