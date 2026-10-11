@@ -646,8 +646,8 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None):
             b.append((FEHLER, oid, "klaenge: asset und pos_cm [x, y, z] noetig"))
         elif inv is not None:
             b += [(st, oid, tx) for st, tx in inv.asset_pruefen("klang", k["asset"], bool(k.get("optional")))]
-    for pk in ("pfad", "pfad_zugang"):
-        pf = o.get(pk)
+    for pk, pf in [("pfad", o.get("pfad")), ("pfad_zugang", o.get("pfad_zugang"))] + \
+            [("pfad_abschnitte[%d]" % k, q) for k, q in enumerate(o.get("pfad_abschnitte") or [])]:
         if not pf:
             continue
         pts = pf.get("punkte_cm") or []

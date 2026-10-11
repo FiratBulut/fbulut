@@ -243,6 +243,11 @@ zusätzlich den Fußweg `pfad_cm` des Orts (Pfad → Ort) als eigenes Bodenband 
 er als `"pfad_zugang"` (gleiches Schema wie `pfad`). `trittsteine.stufen_bis_grad` begrenzt Felsstufen nach oben (steiler:
 Kehren aus Ferats Serpentinen-Werkzeug).
 
+Verzweigte Pfade (Erweiterung, optional): `"pfad_id": "<id>"` wählt genau diesen Pfad aus `pfade` (statt des ersten mit
+`fuer`/`pfad_id`), `"abschnitt": [von_m, bis_m]` nimmt nur diesen Bogenabschnitt, `"abschnitte": [{"pfad_id", "von_m",
+"bis_m"}, ...]` legt weitere Abschnitte (auch anderer Äste) als eigene Bänder mit Stufen an (`orte.json` →
+`"pfad_abschnitte"`). So liegt ein verzweigter Pfad Meter für Meter in genau einem Lagenfenster (Beispiel: Ödlandpfad).
+
 ### 3.9 Effekte, Klänge, Freiräume
 
 - `{"typ": "punktlicht"|"spotlicht", "bei", "hoehe_m", "intensitaet_cd", "radius_m", "farbe", "kompass", "neigung_grad",

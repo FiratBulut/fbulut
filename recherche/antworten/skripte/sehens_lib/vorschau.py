@@ -105,7 +105,7 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
             q = [P(f["mitte_cm"][0] / 100.0 + a, f["mitte_cm"][1] / 100.0 + b) for a, b in ecken]
             dr.line(q + [q[0]], fill=(255, 0, 200, 230), width=2)
     # Pfad
-    for pf in (ctx.pfad, getattr(ctx, "zugang", None)):
+    for pf in [ctx.pfad, getattr(ctx, "zugang", None)] + list(getattr(ctx, "pfad_abschnitte", None) or []):
         if not pf:
             continue
         q = [P(p[0], p[1]) for p in pf["punkte_m"]]

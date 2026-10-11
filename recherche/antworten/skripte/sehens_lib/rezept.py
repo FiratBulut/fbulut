@@ -90,6 +90,7 @@ class OrtKontext:
         self.pfade_biom = pfade_biom or []
         self.orte_mitten = dict(orte_mitten or {})     # ort_id -> (x_m, y_m), fuer pfad.abschnitt (geteilte Pfade)
         self.zugang = None                              # pfad.zugang: Fussweg pfad_cm zusaetzlich zum Pfad aus pfade
+        self.pfad_abschnitte = []                       # pfad.abschnitte: weitere Abschnitte aus pfade (eigene Baender)
         self._massiv = _ins.Abstandsgitter(4.0)
         self.eintrag = None
         # Bestandswasser, das NICHT in karte_wasser steht (z. B. Epic-Seen wie T_2954_391 im Sumpf): Liste
@@ -1111,6 +1112,8 @@ class OrtKontext:
             P = np.asarray(self.pfad["punkte_m"])
             if self.zugang:
                 P = np.concatenate([P, np.asarray(self.zugang["punkte_m"])])
+            for pa in self.pfad_abschnitte:
+                P = np.concatenate([P, np.asarray(pa["punkte_m"])])
             grenze = 600.0 if self.st["art"] == "leuchtfeuer" else 400.0
             x0 = max(min(x0, P[:, 0].min() - 6), self.mx - grenze / 2 + 1)
             x1 = min(max(x1, P[:, 0].max() + 6), self.mx + grenze / 2 - 1)
@@ -1171,6 +1174,11 @@ class OrtKontext:
                     br = self.zugang["breite_cm"] / 100.0
                     lg.band(name, self.zugang["punkte_m"], br * (1.0 if wert >= 180 else 0.7), float(wert),
                             rand_m=0.8, flecken=0.15, flecken_m=3.0)
+            for pa in self.pfad_abschnitte:
+                for name, wert in (pa.get("lagen") or pfad_regel.get("lagen") or {"Erde": 220, "Kies": 110}).items():
+                    br = pa["breite_cm"] / 100.0
+                    lg.band(name, pa["punkte_m"], br * (1.0 if wert >= 180 else 0.7), float(wert),
+                            rand_m=0.8, flecken=0.15, flecken_m=3.0)
             P = np.asarray(self.pfad["punkte_m"])
             x0, y0, x1, y1 = lg.fe.grenzen_m()
             aus = ~((P[:, 0] >= x0) & (P[:, 0] <= x1) & (P[:, 1] >= y0) & (P[:, 1] <= y1))
@@ -1188,14 +1196,21 @@ class OrtKontext:
                        braucht orte_mitten). Jeder Pfadmeter gehoert so genau einem Ort (keine doppelten Stufen).
           "zugang": true | {"breite_cm", "lagen", "trittsteine"} - zusaetzlich der Fussweg pfad_cm des Orts
                        (Pfad -> Ort) als eigenes Bodenband + Trittsteine/Stufen (orte.json "pfad_zugang").
-          trittsteine.stufen_bis_grad - Felsstufen nur bis zu dieser Steigung (steiler: Kehren, Ferats Werkzeug)."""
+          trittsteine.stufen_bis_grad - Felsstufen nur bis zu dieser Steigung (steiler: Kehren, Ferats Werkzeug).
+          "pfad_id": "<id>" - genau diesen Pfad aus pfade nehmen (statt des ersten mit fuer/pfad_id);
+          "abschnitt": [von_m, bis_m] - nur diesen Bogenabschnitt (m ab Pfadanfang);
+          "abschnitte": [{"pfad_id", "von_m", "bis_m", (breite_cm, lagen, trittsteine)}, ...] - weitere Abschnitte
+                       (auch anderer Aeste) als eigene Baender + Stufen (orte.json "pfad_abschnitte"), damit ein
+                       verzweigter Pfad ganz in den Lagenfenstern der Orte liegt."""
         pr = self.r.get("pfad")
         if not pr:
             return
+        self._pfad_abschnitte_bauen(pr)
         quelle, P = None, None
         pfad_eintrag = None
+        wahl = pr.get("pfad_id")
         for p in self.pfade_biom:
-            if self.id in (p.get("fuer") or []) or self.st.get("pfad_id") == p.get("id"):
+            if (p.get("id") == wahl) if wahl else (self.id in (p.get("fuer") or []) or self.st.get("pfad_id") == p.get("id")):
                 P = [[q[0] / 100.0, q[1] / 100.0] for q in p["punkte_cm"]]
                 quelle = "pfade:%s" % p["id"]
                 art = p.get("art", "trampelpfad")
@@ -1203,6 +1218,9 @@ class OrtKontext:
                 break
         if P is not None and pr.get("abschnitt") == "naechster":
             P, a_m, b_m = self._pfad_abschnitt(pfad_eintrag, P)
+            quelle += " (Abschnitt %.0f-%.0f m)" % (a_m, b_m)
+        elif P is not None and isinstance(pr.get("abschnitt"), (list, tuple)):
+            P, a_m, b_m = bogen_abschnitt(P, float(pr["abschnitt"][0]), float(pr["abschnitt"][1]))
             quelle += " (Abschnitt %.0f-%.0f m)" % (a_m, b_m)
         if P is None and self.st.get("pfad_cm") and pr.get("quelle", "auto") in ("auto", "pfad_cm"):
             P = [[q[0] / 100.0, q[1] / 100.0] for q in self.st["pfad_cm"]][::-1]    # Weg -> Ort
@@ -1222,6 +1240,22 @@ class OrtKontext:
             self.zugang = self._pfad_eintrag(Pz, zr, None, "pfad_cm (Fussweg vom %s zum Ort)" % pfad_eintrag["id"])
             if zr.get("trittsteine"):
                 self._pfad_steine(self.zugang, zr["trittsteine"], "zugang")
+
+    def _pfad_abschnitte_bauen(self, pr):
+        """pfad.abschnitte: weitere Bogenabschnitte von Pfaden aus pfade als eigene Baender (+ Stufen/Trittsteine)."""
+        for k, a in enumerate(pr.get("abschnitte") or []):
+            p = next((q for q in self.pfade_biom if q.get("id") == a.get("pfad_id")), None)
+            if p is None:
+                self.melde(FEHLER, "pfad.abschnitte: Pfad %r nicht in standorte.json[pfade]" % a.get("pfad_id"))
+                continue
+            Pa = [[q[0] / 100.0, q[1] / 100.0] for q in p["punkte_cm"]]
+            Pa, von, bis = bogen_abschnitt(Pa, float(a.get("von_m", 0.0)), float(a.get("bis_m", 1e12)))
+            ar = dict(pr, **{kk: vv for kk, vv in a.items() if kk in ("breite_cm", "lagen", "trittsteine", "vereinfachen_m")})
+            e = self._pfad_eintrag(Pa, ar, p.get("art", "trampelpfad"), "pfade:%s (Abschnitt %.0f-%.0f m)" % (p["id"], von, bis))
+            e.update(pfad_id=p["id"], von_m=round(von, 1), bis_m=round(bis, 1))
+            if ar.get("trittsteine"):
+                self._pfad_steine(e, ar["trittsteine"], "abschnitt%d" % (k + 1))
+            self.pfad_abschnitte.append(e)
 
     def _pfad_eintrag(self, P, pr, art, quelle):
         P = _vereinfachen(P, float(pr.get("vereinfachen_m", 1.5)))
@@ -1473,6 +1507,10 @@ class OrtKontext:
         if self.zugang:
             e["pfad_zugang"] = {k: self.zugang[k] for k in ("punkte_cm", "breite_cm", "art", "quelle", "laenge_m",
                                                             "max_steigung_grad", "trittsteine", "stufen") if k in self.zugang}
+        if self.pfad_abschnitte:
+            e["pfad_abschnitte"] = [{k: pa[k] for k in ("pfad_id", "von_m", "bis_m", "punkte_cm", "breite_cm", "art", "quelle",
+                                                        "laenge_m", "max_steigung_grad", "trittsteine", "stufen") if k in pa}
+                                    for pa in self.pfad_abschnitte]
         if self.klaenge:
             e["klaenge"] = self.klaenge
         if self.freiraeume:
@@ -1481,6 +1519,23 @@ class OrtKontext:
         e["hinweise"] = [ascii_text(t) for s, _, t in self.meldungen if s == HINWEIS][:30]
         self.eintrag = e
         return e
+
+
+def bogen_abschnitt(P, a_m, b_m):
+    """Teil einer Polylinie zwischen den Bogenlaengen a_m und b_m (m ab Anfang, geklemmt) -> (punkte, a, b)."""
+    A = np.asarray(P, np.float64)[:, :2]
+    seg = np.hypot(*np.diff(A, axis=0).T)
+    kum = np.concatenate([[0.0], np.cumsum(seg)])
+    a = float(np.clip(a_m, 0.0, kum[-1]))
+    b = float(np.clip(b_m, a, kum[-1]))
+
+    def punkt(sd):
+        j = int(np.clip(np.searchsorted(kum, sd, side="right") - 1, 0, len(seg) - 1))
+        f = (sd - kum[j]) / max(seg[j], 1e-9)
+        return [float(A[j, 0] + (A[j + 1, 0] - A[j, 0]) * f), float(A[j, 1] + (A[j + 1, 1] - A[j, 1]) * f)]
+
+    innen = [[float(q[0]), float(q[1])] for q, sk in zip(A, kum) if a < sk < b]
+    return [punkt(a)] + innen + [punkt(b)], a, b
 
 
 def ufer_freibord(boden_fn, umriss_m, spiegel_m, zelle_m=1.0):
