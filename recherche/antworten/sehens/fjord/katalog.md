@@ -1,5 +1,10 @@
 # Fjord – 8 Sehenswürdigkeiten (Auftrag 13, Phase 1)
 
+> **Nachtrag 13c (Pfade, 11.10.2026):** Ferat will Pfade ausdrücklich („lieber ein Pfad mehr als ein Ort weniger“). Alle 8 Orte stehen jetzt in `standorte.json`; die Steige sind dort unter `pfade` eingetragen (`fjord_pfad_kanzel`, `fjord_pfad_fjordsteig`), die Orte tragen `pfad_id`. Die früheren Variantendateien `standorte_*.json` gibt es nicht mehr – Erwähnungen unten sind historisch, „nur mit Steig“ heißt jetzt „am Pfad“. Prüfer über alle Biome: 0 FEHLER.
+>
+> Der Fjordsteig (2,2 km) läuft vom Weg am Erlenbach über den Grat hinunter an den Fjord und erschließt sieben Orte; Serpentine, weil die Linie bis über 50° steigt. Am Grat zweigt der Kanzelsteig (310 m, Serpentine) zur Kanzel ab.
+
+
 Stand 11.10.2026 · Agent B4 · Dateien: `standorte.json` (heute gültige Orte), `standorte_steige.json` (Orte, die einen neuen Steig brauchen, mit Steig-Polylinien), je Ort `<id>.png` (Draufsicht 2 m, Steige orange, Zugangspfad gelb), `asset_bedarf.json`. Alle Zahlen aus den 2-m-Daten mit `antworten/skripte/sehens_lib` (Cache, Sichtlinien Gelände + `baumhoehe_4m`, Wegpunkte 20 m); eigene Scores/Skripte im Scratchpad `a13/b4_eis_fjord/` (`kand_gl.py`, `kand_fr.py`, `kand_fj.py`, `opt_gl*.py`, `steig.py`, `build.py`).
 
 ## Das Biom in den Daten

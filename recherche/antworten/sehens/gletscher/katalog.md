@@ -1,5 +1,10 @@
 # Gletscher – 8 Sehenswürdigkeiten (Auftrag 13, Phase 1)
 
+> **Nachtrag 13c (Pfade, 11.10.2026):** Ferat will Pfade ausdrücklich („lieber ein Pfad mehr als ein Ort weniger“). Alle 8 Orte stehen jetzt in `standorte.json`; die Steige sind dort unter `pfade` eingetragen (`gletscher_pfad_weststeig`, `gletscher_pfad_oststeig`, `gletscher_pfad_nordhang`), die Orte tragen `pfad_id`. Die früheren Variantendateien `standorte_*.json` gibt es nicht mehr – Erwähnungen unten sind historisch, „nur mit Steig“ heißt jetzt „am Pfad“. Prüfer über alle Biome: 0 FEHLER.
+>
+> Drei Serpentinen erschließen den Gletscherkessel: der Weststeig (1,5 km) von der Straße am Frostlager zu Moränensee und Wächte, der Oststeig (1,3 km) vom östlichen Straßenende zu Gletschertöpfen und Nunatak, und der Nordhang (730 m) als Abzweig vom Weststeig zum Gletscherschliff. Die Linien steigen bis 34–40°; Kehren und Felsstufen rechnet Ferats Serpentinen-Werkzeug.
+
+
 Stand 11.10.2026 · Agent B4 · Dateien: `standorte.json` (heute gültige Orte), `standorte_steige.json` (Orte, die einen neuen Steig brauchen, mit Steig-Polylinien), je Ort `<id>.png` (Draufsicht 2 m, Steige orange, Zugangspfad gelb), `asset_bedarf.json`. Alle Zahlen aus den 2-m-Daten mit `antworten/skripte/sehens_lib` (Cache, Sichtlinien Gelände + `baumhoehe_4m`, Wegpunkte 20 m); eigene Scores/Skripte im Scratchpad `a13/b4_eis_fjord/` (`kand_gl.py`, `kand_fr.py`, `kand_fj.py`, `opt_gl*.py`, `steig.py`, `build.py`).
 
 ## Das Biom in den Daten

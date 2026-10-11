@@ -1,5 +1,10 @@
 # Lava – 8 Sehenswürdigkeiten (Auftrag 13, Phase 1, Biom-Agent B7)
 
+> **Nachtrag 13c (Pfade, 11.10.2026):** Ferat will Pfade ausdrücklich („lieber ein Pfad mehr als ein Ort weniger“). Alle 8 Orte stehen jetzt in `standorte.json`; die Steige sind dort unter `pfade` eingetragen (`lava_pfad_kratersteig_west`, `lava_pfad_kratersteig_ost`, `lava_pfad_gipfelsteig`), die Orte tragen `pfad_id`. Die früheren Variantendateien `standorte_*.json` gibt es nicht mehr – Erwähnungen unten sind historisch, „nur mit Steig“ heißt jetzt „am Pfad“. Prüfer über alle Biome: 0 FEHLER.
+>
+> Der Kratersteig beginnt am Archivpfad vor Zalas Archiv (außerhalb des 45-m-Radius) und umgeht das Archivgelände im Westen. Der Westast (916 m, flach bis 10°) führt zur Basaltorgel und zum Glutauge, der Ostast (600 m, bis 20°, kurze Kehren) zur Kraterreihe; durch ihn liegt jetzt auch die Schwarze Mauer im Bereich 80–300 m. Vom Ende des Westasts steigt der Gipfelsteig in 20 Kehren über 2,4 km mit höchstens 15 % zum Westrand des Gipfelkraters (370 m) – ihn hat Ferat in 13c ausdrücklich angefordert; er dient keinem Ort (`fuer: []`).
+
+
 Stand 11.10.2026 · Daten: `vorlagen/daten/sehens` (2 m) · Werkzeuge: `antworten/skripte/sehens_lib` · Dateien in diesem Ordner:
 `standorte.json` (5 Orte, Prüfer 0 FEHLER), `standorte_kratersteig.json` (3 Orte + Pfadvorschlag), `asset_bedarf.json`, `<id>.png` je Ort.
 
