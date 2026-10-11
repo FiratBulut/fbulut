@@ -1041,6 +1041,7 @@ def _gefaelle_pruefen():
 def _netz_ausnahmen(w, X, Y, kum, seen, zelle_m=1.0):
     """Bogenlaengen-Bereiche des Bachs, in denen Bett/Ufer nicht gelten (wie A12): Furten +- 1,5 m, offene Muendung,
     Stufenzonen Lippe - (0,5 + 0,75 Zellen) ... Fuss + (0,5 + 0,75 Zellen), 1,5 m um eigene Seen (Zu-/Abfluss)."""
+    from . import bach as _b
     aus = []
     for f in w.get("furten") or []:
         fa = np.asarray(f["von_cm"], np.float64) / 100.0
@@ -1058,7 +1059,7 @@ def _netz_ausnahmen(w, X, Y, kum, seen, zelle_m=1.0):
         sl = kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
         q = np.asarray(st_["fuss_cm"], np.float64)[:2] / 100.0
         sf = kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
-        aus.append((min(sl, sf) - rz, max(sl, sf) + rz))
+        aus.append((min(sl, sf) - rz, max(sl, sf) + rz + _b.STUFE_L_M))
     for sid in (w.get("muendung"), w.get("abfluss_von")):
         if sid in seen:
             U = seen[sid][0]
@@ -1255,7 +1256,9 @@ def pruefe_baeche(o, welt, boden=None):
             q = np.asarray(st_["fuss_cm"], np.float64)[:2] / 100.0
             sf = kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
             rz = 0.5 + 0.75 * z
-            ok &= ~((s >= min(sl, sf) - rz) & (s <= max(sl, sf) + rz))
+            # 13i K5: der Fuss liegt jetzt 0,5 m hinter der Lippe; der Spiegel springt wie in 13f auf der Probe danach
+            # -> Zone unterhalb um STUFE_L_M (0,5 m) laenger, wie bisher
+            ok &= ~((s >= min(sl, sf) - rz) & (s <= max(sl, sf) + rz + _b.STUFE_L_M))
         if w.get("muendung_offen_ab_cm"):
             q = np.asarray(w["muendung_offen_ab_cm"], np.float64) / 100.0
             ok &= s < kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]

@@ -293,6 +293,7 @@ class OrtKontext:
                                    rand_m=float(g.get("rand_m", 8.0)), seed=self.seed)
         st = self.stempel
         for op in g.get("ops") or []:
+            st.rauschen_spec = op.get("rauschen", g.get("rauschen"))   # 13h/13i K9: organische Raender
             o = op["op"]
             modus = op.get("modus", "add")
             if o in ("mulde", "kuppe", "terrasse", "glaetten", "buckel"):
@@ -328,12 +329,17 @@ class OrtKontext:
                                op.get("seite", "links"), op.get("verteilung", "oben"), modus)
             else:
                 self.melde(FEHLER, "gelaende.op %r unbekannt" % o)
+        st.rauschen_spec = g.get("rauschen")     # gilt auch fuer Hook-Werkzeuge (nach_gelaende), nicht fuer Seebecken
         # Seebecken (Wasser mit "becken")
+        rs_ = st.rauschen_spec
+        st.rauschen_spec = None
         for w in self.r.get("wasser") or []:
             if w.get("typ") == "see":
                 self._see_becken(w)
+        st.rauschen_spec = rs_
         if hooks and hooks.get("nach_gelaende"):
             hooks["nach_gelaende"](self)
+        st.rauschen_spec = None
         # Baeche (Linien, Enden, Spiegel-Treppe, Querprofil) vor dem Abschluss (13f A4/A8/A9/A12/A13)
         self._ist_wasser_maske = None
         if g.get("ist_wasser"):
@@ -1322,7 +1328,7 @@ class OrtKontext:
         for e in pl["stufen"]:
             # Stufenzone wie im Pruefer: Lippe - (0,5 + 0,75 Zellen) ... Fuss + (0,5 + 0,75 Zellen)
             rz_ = 0.5 + 0.75 * float(self.welt.zelle_m)
-            frei &= ~((sk >= e["s_lippe"] - rz_) & (sk <= e["s_fuss"] + rz_))
+            frei &= ~((sk >= e["s_lippe"] - rz_) & (sk <= e["s_fuss"] + rz_ + _bach.STUFE_L_M))
         frei[0] = frei[-1] = False
         # Toleranz wie im Pruefer (A12): 2 cm auf 1 m; auf 2 m verschmiert die bilineare Abfrage Bett und Boeschung
         zz = float(self.welt.zelle_m)
@@ -1771,7 +1777,7 @@ class OrtKontext:
         hz = np.asarray(self.boden(xs, ys))
         # boden_min_m: Mindesthoehe ueber dem Meer (Standard -0,3 wie der Pruefer); an Kuesten/Prielen etwas hoeher
         # setzen (z. B. 0,0), damit Rundungen zwischen Stempel- und Prueferboden kein 'im Meer' ausloesen
-        ok &= hz > float(g.get("boden_min_m", -0.3))
+        ok &= hz > float(g.get("boden_min_m", -0.2))      # 13h: 0,1 m Reserve gegen den 1-m-Boden des Pruefers (-0,3)
         iw = g.get("im_wasser", "nein")
         if iw != "egal":
             w = self.im_wasser(xs, ys)
@@ -1936,6 +1942,8 @@ class OrtKontext:
         # z_frei: ruht nicht auf dem Gelaende (auf einem Stueck, verkeilt) - 13f A6: auch Gruppen an Wand/Kante
         # (Efeu, Luftwurzeln, Lianen, Wandmoos) mit "z_frei": true
         p["z_frei"] = (bool(zb) and not zb.startswith("see:")) or bool(g.get("z_frei"))
+        if not p["z_frei"] and float(self.boden(p["x"] / 100.0, p["y"] / 100.0)) < float(g.get("boden_min_m", -0.2)):
+            return None      # 13i: am Pivot (nach Zentrieren) im Meer - Pruefer misst dort, nicht am Zielpunkt
         p["_x"], p["_y"] = x, y
         groesse = max(gr) * max(s)
         std = _ins.STANDARD_EBENE[ebene]
@@ -2450,6 +2458,9 @@ class OrtKontext:
         if kam_neu is not None:
             self.st = dict(self.st, kameras=kam_neu)
         e = _fmt.ort_phase2(self.st, kurz=self.r.get("kurz", ""))
+        zh_ = self.st.get("ziel_hoehe_m") or (self.st.get("sicht") or {}).get("ziel_hoehe_m")
+        if zh_ and self.st.get("art") == "leuchtfeuer":
+            e["sicht"]["ziel_hoehe_m"] = zh_                 # 13h: Silhouettenhoehe aus Phase 1 (Leuchtfeuer-Pruefung)
         if kam_neu is not None:
             e["kameras_13h"] = "Kameras gegenueber standorte.json geaendert (13h: freie Sicht, Abstand zu Kronen)"
         if self.stempel is not None:
@@ -2478,6 +2489,8 @@ class OrtKontext:
             e["freiraeume"] = self.freiraeume
         if self.bestand_ausblenden:
             e["bestand_ausblenden"] = self.bestand_ausblenden
+        if getattr(self, "teilweise_ueberflutet", None):
+            e["teilweise_ueberflutet"] = list(self.teilweise_ueberflutet)    # 13h Nachtrag: Gruppen durch den Spiegel
         e["detail_ebenen"] = self.detail_ebenen(z)
         e["hinweise"] = [ascii_text(t) for s, _, t in self.meldungen if s == HINWEIS][:30]
         self.eintrag = e

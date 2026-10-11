@@ -249,6 +249,20 @@ class Stempel:
         x0, y0, x1, y1 = self.fe.grenzen_m()
         return (x0 <= x_m <= x1) and (y0 <= y_m <= y1)
 
+    # -- 13h/13i K9: organische Raender --
+    rauschen_spec = None
+
+    def _org(self, d, skala_m):
+        """Verschiebt einen Abstand (m) um +- anteil * skala_m mit Wert-Rauschen (Wellenlaenge wellenlaenge_m):
+        Ellipsen, Baender und Kanten bekommen einen unregelmaessigen, natuerlichen Rand statt Geometrie-Grundform.
+        Aktiv, wenn self.rauschen_spec = {"anteil": 0.25, "wellenlaenge_m": 18} gesetzt ist (Rezept: op/gelaende
+        "rauschen")."""
+        r = self.rauschen_spec
+        if not r:
+            return d
+        n = rauschen(self.X, self.Y, float(r.get("wellenlaenge_m", 16.0)), self.seed + 7 * len(self.protokoll), 2)
+        return d + float(r.get("anteil", 0.25)) * float(skala_m) * n
+
     # -- Kern --
     def _anwenden(self, w, rel=None, ziel=None, modus="add", name=""):
         if modus not in self.MODI:
@@ -271,7 +285,7 @@ class Stempel:
     def mulde(self, x, y, radius_m, tiefe_m, rand_m=6.0, boden=0.4, streckung=(1.0, 1.0), richtung_grad=0.0,
               modus="add", ziel_z=None):
         """Mulde: tiefe_m relativ (add) oder bis auf absolute Sohle ziel_z (modus min). boden: Anteil flacher Sohle."""
-        d = ellipsen_abstand(self.X, self.Y, x, y, radius_m, streckung, richtung_grad)
+        d = self._org(ellipsen_abstand(self.X, self.Y, x, y, radius_m, streckung, richtung_grad), radius_m)
         w = abfall(d, boden * radius_m, radius_m + rand_m)
         if ziel_z is not None:
             self._anwenden(w, ziel=float(ziel_z), modus="min" if modus == "add" else modus, name="mulde")
@@ -280,7 +294,7 @@ class Stempel:
 
     def kuppe(self, x, y, radius_m, hoehe_m, rand_m=6.0, plateau=0.2, streckung=(1.0, 1.0), richtung_grad=0.0,
               modus="add"):
-        d = ellipsen_abstand(self.X, self.Y, x, y, radius_m, streckung, richtung_grad)
+        d = self._org(ellipsen_abstand(self.X, self.Y, x, y, radius_m, streckung, richtung_grad), radius_m)
         w = abfall(d, plateau * radius_m, radius_m + rand_m)
         self._anwenden(w, rel=abs(hoehe_m), modus=modus, name="kuppe")
 
@@ -288,6 +302,7 @@ class Stempel:
         """Rinne entlang Polylinie: Querprofil flach auf breite/2, weicher Rand. sohle_z=(z0, z1): Sohle absolut,
         linear entlang der Linie (nur absenken)."""
         d, s, _ = polylinie_abstand(self.X, self.Y, punkte_m)
+        d = self._org(d, breite_m / 2.0)
         w = abfall(d, breite_m / 2.0, breite_m / 2.0 + rand_m)
         if sohle_z is not None:
             L = max(polylinie_laenge(punkte_m), 1e-6)
@@ -297,7 +312,7 @@ class Stempel:
             self._anwenden(w, rel=-abs(tiefe_m), modus=modus, name="rinne")
 
     def terrasse(self, x, y, radius_m, ziel_z, rand_m=6.0, streckung=(1.0, 1.0), richtung_grad=0.0, modus="setzen"):
-        d = ellipsen_abstand(self.X, self.Y, x, y, radius_m, streckung, richtung_grad)
+        d = self._org(ellipsen_abstand(self.X, self.Y, x, y, radius_m, streckung, richtung_grad), radius_m)
         w = abfall(d, radius_m, radius_m + rand_m)
         self._anwenden(w, ziel=float(ziel_z), modus=modus, name="terrasse")
 
@@ -307,6 +322,7 @@ class Stempel:
         hoeher. verteilung: 'oben' (nur anheben), 'unten' (nur absenken), 'beide' (+-hoehe/2).
         Steile Zone breite_m, Wirkung klingt bis reichweite_m ab."""
         d, _, sd = polylinie_abstand(self.X, self.Y, kante_m)
+        sd = self._org(sd, max(breite_m, 4.0))
         if seite == "rechts":
             sd = -sd
         t = glatt01((sd + breite_m / 2.0) / max(breite_m, 1e-6))
@@ -327,6 +343,7 @@ class Stempel:
         if geschlossen and P and P[0] != P[-1]:
             P = P + [P[0]]
         d, s, _ = polylinie_abstand(self.X, self.Y, P)
+        d = self._org(d, breite_m / 2.0)
         w = abfall(d, max(0.0, float(krone)) * breite_m / 2.0, breite_m / 2.0)
         if not geschlossen:
             L = max(polylinie_laenge(P), 1e-6)
