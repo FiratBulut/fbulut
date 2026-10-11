@@ -463,7 +463,9 @@ class Ebene:
              "rolle": rolle,
              "prio": float(prioritaet if prioritaet is not None else zlib.crc32(
                  ("%s|%s|%d" % (ort, gruppe, len(self.stuecke))).encode()) / 4294967296.0)}
-        e["feld"] = _daten.feld_von_cm(e["x"], e["y"])
+        # Feld aus der geschriebenen Genauigkeit (float32 bzw. 0,1 cm), sonst kann ein Stueck genau auf der Feldgrenze
+        # nach dem Runden im Nachbarfeld liegen (Pruefer: "ausserhalb des Feldrechtecks")
+        e["feld"] = _daten.feld_von_cm(round(float(np.float32(e["x"])), 1), round(float(np.float32(e["y"])), 1))
         self.stuecke.append(e)
         return e
 
