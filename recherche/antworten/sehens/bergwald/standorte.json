@@ -10,10 +10,10 @@
    "radius_m": 40.0,
    "felder": ["B3"],
    "kameras": [
-    ["B3", -328626, -104026, -340800, -110200, 31017, "bergwald_01_der_moench_anmarsch", 170],
-    ["B3", -333301, -101263, -340800, -110200, 34933, "bergwald_01_der_moench_held", 170],
-    ["B3", -340157, -109434, -340800, -110200, 34833, "bergwald_01_der_moench_nah", 170],
-    ["B3", -278000, -105200, -340800, -110200, 5465, "bergwald_01_der_moench_fern", 170]
+    ["B3", -328626, -104026, -340800, -110200, 36383, "bergwald_01_der_moench_anmarsch", -170],
+    ["B3", -333301, -101263, -340800, -110200, 36383, "bergwald_01_der_moench_held", -170],
+    ["B3", -340157, -109434, -340800, -110200, 34883, "bergwald_01_der_moench_nah", -170],
+    ["B3", -278000, -105200, -340800, -110200, 36383, "bergwald_01_der_moench_fern", -170]
    ],
    "ziel_hoehe_m": 32,
    "standort_begruendung": "Kuppe/Gipfel, B3; Boden Fels; Hang 52 Grad (max 65), Exposition 25 Grad, TPI25 5.6 m, TPI100 35.5 m, Relief 106 m im Radius; Weg 296 m, Wasser 74 m, Einzugsflaeche max 1180 m2; 488 m innerhalb der Biomgrenze; ",
@@ -126,10 +126,10 @@
    "radius_m": 35.0,
    "felder": ["B4"],
    "kameras": [
-    ["B4", -300600, -106600, -299000, -92000, 12676, "bergwald_02_die_brandkiefer_anmarsch", 170],
-    ["B4", -304638, -89948, -299000, -92000, 16578, "bergwald_02_die_brandkiefer_held", 170],
-    ["B4", -299940, -91658, -299000, -92000, 16478, "bergwald_02_die_brandkiefer_nah", 170],
-    ["B4", -250800, -40400, -299000, -92000, 5162, "bergwald_02_die_brandkiefer_fern", 170]
+    ["B4", -300600, -106600, -299000, -92000, 18028, "bergwald_02_die_brandkiefer_anmarsch", -170],
+    ["B4", -304638, -89948, -299000, -92000, 18028, "bergwald_02_die_brandkiefer_held", -170],
+    ["B4", -299940, -91658, -299000, -92000, 16528, "bergwald_02_die_brandkiefer_nah", -170],
+    ["B4", -250800, -40400, -299000, -92000, 18028, "bergwald_02_die_brandkiefer_fern", -170]
    ],
    "ziel_hoehe_m": 32,
    "standort_begruendung": "Kuppe/Gipfel, B4; Boden Nadeln; Hang 26 Grad (max 58), Exposition 62 Grad, TPI25 3.8 m, TPI100 20.4 m, Relief 40 m im Radius; Weg 101 m, Wasser 70 m, Einzugsflaeche max 316 m2; 342 m innerhalb der Biomgrenze; ",
@@ -202,10 +202,10 @@
    "radius_m": 45.0,
    "felder": ["B5"],
    "kameras": [
-    ["B5", -282200, 600, -276400, 10400, 8188, "bergwald_03_saeulenhain_anmarsch", 170],
-    ["B5", -276400, 5900, -276400, 10400, 7537, "bergwald_03_saeulenhain_held", 170],
-    ["B5", -276400, 9400, -276400, 10400, 7654, "bergwald_03_saeulenhain_nah", 170],
-    ["B5", -216600, -24600, -276400, 10400, 2379, "bergwald_03_saeulenhain_fern", 170]
+    ["B5", -282200, 600, -276400, 10400, 10588, "bergwald_03_saeulenhain_anmarsch", -170],
+    ["B5", -276400, 5900, -276400, 10400, 10588, "bergwald_03_saeulenhain_held", -170],
+    ["B5", -276400, 9400, -276400, 10400, 8188, "bergwald_03_saeulenhain_nah", -170],
+    ["B5", -216600, -24600, -276400, 10400, 10588, "bergwald_03_saeulenhain_fern", -170]
    ],
    "ziel_hoehe_m": 50,
    "standort_begruendung": "offener Hang, B5; Boden Nadeln; Hang 15 Grad (max 50), Exposition 50 Grad, TPI25 1.2 m, TPI100 0.4 m, Relief 35 m im Radius; Weg 104 m, Wasser 26 m, Einzugsflaeche max 163024 m2; 116 m innerhalb der Biomgrenze; ",
@@ -257,9 +257,9 @@
    "radius_m": 50.0,
    "felder": ["B4"],
    "kameras": [
-    ["B4", -287745, -52500, -293800, -51000, 10731, "bergwald_04_felsenmeer_anmarsch", 170],
-    ["B4", -291133, -51000, -293800, -51000, 11989, "bergwald_04_felsenmeer_held", 170],
-    ["B4", -292800, -51000, -293800, -51000, 12476, "bergwald_04_felsenmeer_nah", 170]
+    ["B4", -287745, -52500, -293800, -51000, 13202, "bergwald_04_felsenmeer_anmarsch", -170],
+    ["B4", -291133, -51000, -293800, -51000, 13202, "bergwald_04_felsenmeer_held", -170],
+    ["B4", -292800, -51000, -293800, -51000, 13142, "bergwald_04_felsenmeer_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "Schlucht/Kessel, B4; Boden Geroell; Hang 27 Grad (max 69), Exposition 84 Grad, TPI25 -11.6 m, TPI100 -41.2 m, Relief 88 m im Radius; Weg 84 m, Wasser 70 m, Einzugsflaeche max 12004 m2; 290 m innerhalb der Biomgrenze; ",
@@ -352,9 +352,9 @@
    "radius_m": 40.0,
    "felder": ["I4"],
    "kameras": [
-    ["I4", 375866, -95734, 373000, -96600, 9707, "bergwald_05_klemmblock_klamm_anmarsch", 170],
-    ["I4", 375200, -96000, 373000, -96600, 9579, "bergwald_05_klemmblock_klamm_held", 170],
-    ["I4", 373965, -96337, 373000, -96600, 9182, "bergwald_05_klemmblock_klamm_nah", 170]
+    ["I4", 375866, -95734, 373000, -96600, 10086, "bergwald_05_klemmblock_klamm_anmarsch", -170],
+    ["I4", 375200, -96000, 373000, -96600, 10086, "bergwald_05_klemmblock_klamm_held", -170],
+    ["I4", 373965, -96337, 373000, -96600, 9986, "bergwald_05_klemmblock_klamm_nah", -170]
    ],
    "ziel_hoehe_m": 6,
    "standort_begruendung": "Schlucht/Kessel, I4; Boden Fels; Hang 62 Grad (max 74), Exposition 113 Grad, TPI25 -17.7 m, TPI100 -22.7 m, Relief 88 m im Radius; Weg 203 m, Wasser 13 m, Einzugsflaeche max 7144 m2; 140 m innerhalb der Biomgrenze; ",
@@ -427,9 +427,9 @@
    "radius_m": 50.0,
    "felder": ["B5"],
    "kameras": [
-    ["B5", -318557, 6443, -321000, 7200, 24580, "bergwald_06_karsee_anmarsch", 170],
-    ["B5", -319200, 4200, -321000, 7200, 24792, "bergwald_06_karsee_held", 170],
-    ["B5", -320150, 8050, -321000, 7200, 25920, "bergwald_06_karsee_nah", 170]
+    ["B5", -318557, 6443, -321000, 7200, 26030, "bergwald_06_karsee_anmarsch", -170],
+    ["B5", -319200, 4200, -321000, 7200, 26030, "bergwald_06_karsee_held", -170],
+    ["B5", -320150, 8050, -321000, 7200, 25970, "bergwald_06_karsee_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "Schlucht/Kessel, B5; Boden Geroell; Hang 18 Grad (max 73), Exposition 39 Grad, TPI25 -10.0 m, TPI100 -39.3 m, Relief 98 m im Radius; Weg 285 m, Wasser 8 m, Einzugsflaeche max 64124 m2; 290 m innerhalb der Biomgrenze; ",
@@ -513,9 +513,9 @@
    "radius_m": 55.0,
    "felder": ["I4"],
    "kameras": [
-    ["I4", 394825, -64100, 398500, -65000, 2236, "bergwald_07_windwurf_anmarsch", 170],
-    ["I4", 399184, -66879, 398500, -65000, 1695, "bergwald_07_windwurf_held", 170],
-    ["I4", 398842, -65940, 398500, -65000, 1839, "bergwald_07_windwurf_nah", 170]
+    ["I4", 394825, -64100, 398500, -65000, 2296, "bergwald_07_windwurf_anmarsch", -170],
+    ["I4", 399184, -66879, 398500, -65000, 2296, "bergwald_07_windwurf_held", -170],
+    ["I4", 398842, -65940, 398500, -65000, 2236, "bergwald_07_windwurf_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "offener Hang, I4; Boden Nadeln; Hang 16 Grad (max 31), Exposition 81 Grad, TPI25 1.0 m, TPI100 2.7 m, Relief 35 m im Radius; Weg 132 m, Wasser 39 m, Einzugsflaeche max 62960 m2; 67 m innerhalb der Biomgrenze; ",
@@ -567,9 +567,9 @@
    "radius_m": 30.0,
    "felder": ["B4"],
    "kameras": [
-    ["B4", -318185, -21900, -326200, -29600, 31069, "bergwald_08_der_wurzelstein_anmarsch", 170],
-    ["B4", -323350, -21769, -326200, -29600, 33128, "bergwald_08_der_wurzelstein_held", 170],
-    ["B4", -325858, -28660, -326200, -29600, 34944, "bergwald_08_der_wurzelstein_nah", 170]
+    ["B4", -318185, -21900, -326200, -29600, 35914, "bergwald_08_der_wurzelstein_anmarsch", -170],
+    ["B4", -323350, -21769, -326200, -29600, 35914, "bergwald_08_der_wurzelstein_held", -170],
+    ["B4", -325858, -28660, -326200, -29600, 35814, "bergwald_08_der_wurzelstein_nah", -170]
    ],
    "ziel_hoehe_m": 6,
    "standort_begruendung": "Kuppe/Gipfel, B4; Boden Nadeln; Hang 33 Grad (max 60), Exposition 95 Grad, TPI25 3.8 m, TPI100 13.6 m, Relief 61 m im Radius; Weg 275 m, Wasser 62 m, Einzugsflaeche max 704 m2; 381 m innerhalb der Biomgrenze; ",

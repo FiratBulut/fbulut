@@ -1,6 +1,6 @@
 # Bergwald – 8 Sehenswürdigkeiten (Auftrag 13, Phase 1)
 
-Stand 11.10.2026 · Agent B2 · Dateien: `standorte.json` (Prüfer: **0 FEHLER, 0 WARNUNG, 0 HINWEIS**), je Ort `<id>.png` (Draufsicht 2 m),
+Stand 11.10.2026 · Agent B2 · Dateien: `standorte.json` (Prüfer: **0 FEHLER, 0 WARNUNG**; Gesamtprüfung aller Biome nur Pfad-Hinweise), je Ort `<id>.png` (Draufsicht 2 m),
 `asset_bedarf.json`. Alle Zahlen stammen aus den 2-m-Daten (`vorlagen/daten/sehens`) und aus `antworten/skripte/sehens_lib`
 (Cache, Sichtlinien mit Gelände + `baumhoehe_4m`, Wegpunkte im 20-m-Raster).
 
@@ -49,9 +49,10 @@ Umbenennungen gegenüber Katalog v1/Download-Liste: „Blitzbaum“ → **Die Br
 **Klemmblock-Klamm** (der Fall schließt die Klamm ab – im Gelände liegen beide an derselben Stufe); „Karsee“ übernommen,
 **Der Wurzelstein** ist neu (ersetzt die Reserve „Schleierfall“ als eigenen Ort).
 
-Gemeinsame Kameras: alle nach §8 auf Augenhöhe (Prüfer ohne Hinweis). Weil eine Kamera nach §8 nicht nach oben schauen kann,
-sind `_anmarsch`, `_held`, `_fern` so gewählt, dass die **Oberkante** des Ziels höchstens 27° über dem Horizont liegt
-(halber Bildwinkel ~29,5°).
+Gemeinsame Kameras: alle nach §8 in der Fassung vom 11.10. 13:00 mit **Hoch = −170** (genau Augenhöhe, ohne 3-m-Regel) und
+echtem Ziel: Leuchtfeuer auf die Silhouettenmitte (Boden + halbe Zielhöhe), Fundstücke auf Boden + 1,6–2 m, `_nah` auf
+Boden + 1 m. Positionen so gewählt, dass die Oberkante des Ziels höchstens 27° über der Augenhöhe liegt (bleibt im Bild).
+Prüfer: 0 FEHLER, 0 WARNUNG; nur Hinweise „_anmarsch x m vom Weg“ – diese Kameras stehen bewusst auf dem Zugangspfad.
 
 ---
 

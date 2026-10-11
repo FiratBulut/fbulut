@@ -11,7 +11,7 @@
    "felder": ["C4"],
    "kameras": [
     ["C4", -256768, -83500, -253000, -84000, 3531, "aue_01_biberstau_anmarsch", -170],
-    ["C4", -257400, -84000, -253000, -84000, 3521, "aue_01_biberstau_held", 170],
+    ["C4", -250200, -82400, -252100, -84700, 3421, "aue_01_biberstau_held", -170],
     ["C4", -254256, -83664, -253000, -84000, 3481, "aue_01_biberstau_nah", -170]
    ],
    "ziel_hoehe_m": 3.0,
@@ -53,10 +53,10 @@
    "radius_m": 40.0,
    "felder": ["C4"],
    "kameras": [
-    ["C4", -237653, -36147, -228200, -55200, 2522, "aue_02_die_alte_anmarsch", -170],
-    ["C4", -241989, -43630, -228200, -55200, 2572, "aue_02_die_alte_held", 170],
+    ["C4", -237653, -36147, -228200, -55200, 3922, "aue_02_die_alte_anmarsch", -170],
+    ["C4", -221400, -60600, -228200, -55200, 3622, "aue_02_die_alte_held", -170],
     ["C4", -228966, -54557, -228200, -55200, 2472, "aue_02_die_alte_nah", -170],
-    ["C4", -198600, -15000, -228200, -55200, 2489, "aue_02_die_alte_fern", 170]
+    ["C4", -198600, -15000, -228200, -55200, 3922, "aue_02_die_alte_fern", -170]
    ],
    "ziel_hoehe_m": 30.0,
    "standort_begruendung": "Offene Wiese im Bachdelta von C4 (Hang < 3 Grad, Baumdichte 1 %), beste Fernsicht im Umkreis von 90 m; Bach 3-8 m entfernt (Wurzeln am Ufer).",
@@ -107,10 +107,10 @@
    "radius_m": 80.0,
    "felder": ["C5"],
    "kameras": [
-    ["C5", -248700, 27500, -216000, 8200, 1481, "aue_03_schwalbenwand_anmarsch", -170],
-    ["C5", -227818, 6116, -216000, 8200, 1531, "aue_03_schwalbenwand_held", 170],
+    ["C5", -248700, 27500, -216000, 8200, 1981, "aue_03_schwalbenwand_anmarsch", -170],
+    ["C5", -218800, 15800, -216600, 7600, 2192, "aue_03_schwalbenwand_held", -170],
     ["C5", -216985, 8026, -216000, 8200, 1431, "aue_03_schwalbenwand_nah", -170],
-    ["C5", -265600, 600, -216000, 8200, 1481, "aue_03_schwalbenwand_fern", 170]
+    ["C5", -265600, 600, -216000, 8200, 1981, "aue_03_schwalbenwand_fern", -170]
    ],
    "ziel_hoehe_m": 12.0,
    "standort_begruendung": "Natuerliche 9-10-m-Gelaendestufe (22,7 -> 13,9 m, bis 63 Grad, Boden Fels/Wiese) suedlich des Flussbogens: verlassener Prallhang; Fuss = alte Rinne.",
@@ -164,10 +164,10 @@
    "radius_m": 60.0,
    "felder": ["D5", "E5"],
    "kameras": [
-    ["D5", -86286, 32714, -73000, 49400, 2069, "aue_04_treibholzwerder_anmarsch", -170],
-    ["D5", -80713, 40207, -73000, 49400, 1978, "aue_04_treibholzwerder_held", 170],
+    ["D5", -86286, 32714, -73000, 49400, 2569, "aue_04_treibholzwerder_anmarsch", -170],
+    ["D5", -80713, 40207, -73000, 49400, 2369, "aue_04_treibholzwerder_held", -170],
     ["D5", -73643, 48634, -73000, 49400, 2019, "aue_04_treibholzwerder_nah", -170],
-    ["D5", -66200, 98800, -73000, 49400, 2069, "aue_04_treibholzwerder_fern", 170]
+    ["D5", -66200, 98800, -73000, 49400, 2569, "aue_04_treibholzwerder_fern", -170]
    ],
    "ziel_hoehe_m": 12.0,
    "standort_begruendung": "Kiesinsel (Sand/Geroell, 100 x 30 m) zwischen Hauptstrom und Altarm F_ALTARM_FLUSSAUE_D5; Inselkopf flussauf (West) faengt Treibgut.",
@@ -214,7 +214,7 @@
    "felder": ["E5"],
    "kameras": [
     ["E5", -43555, 20245, -42000, 21400, 1392, "aue_05_lilienrinne_anmarsch", -170],
-    ["E5", -49705, 24205, -42000, 21400, 1382, "aue_05_lilienrinne_held", 170],
+    ["E5", -49705, 24205, -42000, 21400, 1392, "aue_05_lilienrinne_held", -170],
     ["E5", -42940, 21742, -42000, 21400, 1342, "aue_05_lilienrinne_nah", -170]
    ],
    "ziel_hoehe_m": 3.0,
@@ -257,7 +257,7 @@
    "felder": ["E5"],
    "kameras": [
     ["E5", -25300, 77990, -24000, 74000, 2017, "aue_06_mondarm_anmarsch", -170],
-    ["E5", -28104, 85276, -24000, 74000, 2007, "aue_06_mondarm_held", 170],
+    ["E5", -23600, 74800, -30000, 72200, 1417, "aue_06_mondarm_held", -170],
     ["E5", -24342, 74940, -24000, 74000, 1967, "aue_06_mondarm_nah", -170]
    ],
    "ziel_hoehe_m": 3.0,
@@ -306,7 +306,7 @@
    "felder": ["F4"],
    "kameras": [
     ["F4", 117500, -78021, 116600, -83400, 2808, "aue_07_blautopf_anmarsch", -170],
-    ["F4", 115506, -77196, 116600, -83400, 2798, "aue_07_blautopf_held", 170],
+    ["F4", 115800, -85800, 116600, -82400, 2939, "aue_07_blautopf_held", -170],
     ["F4", 116177, -82494, 116600, -83400, 2758, "aue_07_blautopf_nah", -170]
    ],
    "ziel_hoehe_m": 3.0,
@@ -351,7 +351,7 @@
    "felder": ["F4"],
    "kameras": [
     ["F4", 115861, -50662, 119600, -47000, 1792, "aue_08_lianenhalle_anmarsch", -170],
-    ["F4", 114329, -53282, 119600, -47000, 1782, "aue_08_lianenhalle_held", 170],
+    ["F4", 117400, -49200, 119800, -46600, 2158, "aue_08_lianenhalle_held", -170],
     ["F4", 118957, -47766, 119600, -47000, 1742, "aue_08_lianenhalle_nah", -170]
    ],
    "ziel_hoehe_m": 3.0,

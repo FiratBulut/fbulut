@@ -299,22 +299,22 @@
  "bildwuensche": [
   {
    "ort": "bergwald_01_der_moench",
-   "kamera": ["B3", -278000, -105200, -340800, -110200, 5465, "bergwald_01_der_moench_fern", 170],
+   "kamera": ["B3", -278000, -105200, -340800, -110200, 36383, "bergwald_01_der_moench_fern", -170],
    "zweck": "Silhouette der Rippennase vom Talweg (Nadel noch nicht gebaut)"
   },
   {
    "ort": "bergwald_03_saeulenhain",
-   "kamera": ["B5", -216600, -24600, -276400, 10400, 2379, "bergwald_03_saeulenhain_fern", 170],
+   "kamera": ["B5", -216600, -24600, -276400, 10400, 10588, "bergwald_03_saeulenhain_fern", -170],
    "zweck": "Kronenlinie ueber dem Talboden heute"
   },
   {
    "ort": "bergwald_05_klemmblock_klamm",
-   "kamera": ["I4", 375200, -96000, 373000, -96600, 9579, "bergwald_05_klemmblock_klamm_held", 170],
+   "kamera": ["I4", 375200, -96000, 373000, -96600, 10086, "bergwald_05_klemmblock_klamm_held", -170],
    "zweck": "Klamm und Stufe heute (Breite, Wandhoehe)"
   },
   {
    "ort": "bergwald_06_karsee",
-   "kamera": ["B5", -319200, 4200, -321000, 7200, 24792, "bergwald_06_karsee_held", 170],
+   "kamera": ["B5", -319200, 4200, -321000, 7200, 26030, "bergwald_06_karsee_held", -170],
    "zweck": "Karboden und Karwand heute (Seeflaeche, Schwelle)"
   }
  ]

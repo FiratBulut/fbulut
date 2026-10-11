@@ -10,10 +10,10 @@
    "radius_m": 55.0,
    "felder": ["G3"],
    "kameras": [
-    ["G3", 164788, -131612, 173600, -130200, 4158, "elfenwald_01_mutterbaum_anmarsch", 170],
+    ["G3", 164788, -131612, 173600, -130200, 4158, "elfenwald_01_mutterbaum_anmarsch", -170],
     ["G3", 148832, -115900, 173600, -130200, -89, "elfenwald_01_mutterbaum_held", 170],
-    ["G3", 172734, -129700, 173600, -130200, 4108, "elfenwald_01_mutterbaum_nah", 170],
-    ["G3", 168000, -161200, 173600, -130200, 1072, "elfenwald_01_mutterbaum_fern", 170]
+    ["G3", 172734, -129700, 173600, -130200, 4108, "elfenwald_01_mutterbaum_nah", -170],
+    ["G3", 168000, -161200, 173600, -130200, 6808, "elfenwald_01_mutterbaum_fern", -170]
    ],
    "ziel_hoehe_m": 55,
    "standort_begruendung": "Oberhang/Plateaukante, Boden Laub, Hang 6 Grad, TPI100 +14 m, Laub 97 %, Moos 2 %, Gras 0 %; Weg 94 m, Wasser 53 m, Baeume bis 23 m",
@@ -63,10 +63,10 @@
    "radius_m": 55.0,
    "felder": ["I4"],
    "kameras": [
-    ["I4", 382900, -63499, 346000, -70800, 39367, "elfenwald_02_nebelhain_anmarsch", 170],
+    ["I4", 382900, -63499, 346000, -70800, 39367, "elfenwald_02_nebelhain_anmarsch", -170],
     ["I4", 346972, -65285, 346000, -70800, 37628, "elfenwald_02_nebelhain_held", 170],
-    ["I4", 346174, -69815, 346000, -70800, 39317, "elfenwald_02_nebelhain_nah", 170],
-    ["I4", 383000, -73200, 346000, -70800, 39367, "elfenwald_02_nebelhain_fern", 170]
+    ["I4", 346174, -69815, 346000, -70800, 39317, "elfenwald_02_nebelhain_nah", -170],
+    ["I4", 383000, -73200, 346000, -70800, 40667, "elfenwald_02_nebelhain_fern", -170]
    ],
    "ziel_hoehe_m": 28,
    "standort_begruendung": "Oberhang/Plateaukante, Boden Laub, Hang 44 Grad, TPI100 +35 m, Laub 55 %, Fels 25 %, Erde 19 %, Moos 0 %; Weg 295 m, Wasser 132 m, Baeume bis 23 m",
@@ -213,10 +213,10 @@
    "radius_m": 50.0,
    "felder": ["H3", "H4"],
    "kameras": [
-    ["H4", 267620, -98900, 274400, -103000, 7833, "elfenwald_03_rotlaubhain_anmarsch", 170],
+    ["H4", 267620, -98900, 274400, -103000, 10406, "elfenwald_03_rotlaubhain_anmarsch", -170],
     ["H4", 270243, -105400, 274400, -103000, 8751, "elfenwald_03_rotlaubhain_held", 170],
-    ["H4", 273534, -103500, 274400, -103000, 10356, "elfenwald_03_rotlaubhain_nah", 170],
-    ["H4", 244200, -68800, 274400, -103000, 5276, "elfenwald_03_rotlaubhain_fern", 170]
+    ["H4", 273534, -103500, 274400, -103000, 10356, "elfenwald_03_rotlaubhain_nah", -170],
+    ["H4", 244200, -68800, 274400, -103000, 11506, "elfenwald_03_rotlaubhain_fern", -170]
    ],
    "ziel_hoehe_m": 24,
    "standort_begruendung": "offener Hang, Boden Laub, Hang 19 Grad, TPI100 +7 m, Laub 96 %, Moos 4 %; Weg 173 m, Wasser 52 m, Baeume bis 26 m",
@@ -267,9 +267,9 @@
    "radius_m": 45.0,
    "felder": ["H3"],
    "kameras": [
-    ["H3", 241300, -125731, 239000, -123000, 3256, "elfenwald_04_elfentreppe_anmarsch", 170],
+    ["H3", 241300, -125731, 239000, -123000, 3256, "elfenwald_04_elfentreppe_anmarsch", -170],
     ["H3", 243333, -123764, 239000, -123000, 3276, "elfenwald_04_elfentreppe_held", 170],
-    ["H3", 239985, -123174, 239000, -123000, 3206, "elfenwald_04_elfentreppe_nah", 170]
+    ["H3", 239174, -122015, 239000, -123000, 3206, "elfenwald_04_elfentreppe_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "offener Hang, Boden Kies, Hang 7 Grad, TPI100 -8 m, Laub 76 %, Kies 15 %, Moos 9 %; Weg 109 m, Wasser 0 m, Baeume bis 37 m",
@@ -317,9 +317,9 @@
    "radius_m": 45.0,
    "felder": ["H3"],
    "kameras": [
-    ["H3", 273975, -157175, 276200, -158800, 8819, "elfenwald_05_farnschlucht_anmarsch", 170],
+    ["H3", 273975, -157175, 276200, -158800, 8819, "elfenwald_05_farnschlucht_anmarsch", -170],
     ["H3", 274695, -154665, 276200, -158800, 8839, "elfenwald_05_farnschlucht_held", 170],
-    ["H3", 275858, -157860, 276200, -158800, 8769, "elfenwald_05_farnschlucht_nah", 170]
+    ["H3", 275858, -157860, 276200, -158800, 8769, "elfenwald_05_farnschlucht_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "Schlucht/Kessel, Boden Fels, Hang 55 Grad, TPI100 -15 m, Laub 35 %, Erde 31 %, Fels 26 %, Gras 4 %; Weg 208 m, Wasser 8 m, Baeume bis 23 m",
@@ -369,9 +369,9 @@
    "radius_m": 45.0,
    "felder": ["G4"],
    "kameras": [
-    ["G4", 212751, -37849, 211200, -39000, 2542, "elfenwald_06_blauer_grund_anmarsch", 170],
+    ["G4", 212751, -37849, 211200, -39000, 2542, "elfenwald_06_blauer_grund_anmarsch", -170],
     ["G4", 213365, -37750, 211200, -39000, 2532, "elfenwald_06_blauer_grund_held", 170],
-    ["G4", 212066, -38500, 211200, -39000, 2492, "elfenwald_06_blauer_grund_nah", 170]
+    ["G4", 212066, -38500, 211200, -39000, 2492, "elfenwald_06_blauer_grund_nah", -170]
    ],
    "ziel_hoehe_m": 3,
    "standort_begruendung": "Ebene, Boden Laub, Hang 3 Grad, TPI100 -7 m, Laub 92 %, Moos 8 %; Weg 153 m, Wasser 70 m, Baeume bis 23 m",
@@ -414,9 +414,9 @@
    "radius_m": 40.0,
    "felder": ["G4"],
    "kameras": [
-    ["G4", 181298, -62698, 180800, -60000, 1528, "elfenwald_07_schwammgrund_anmarsch", 170],
+    ["G4", 181298, -62698, 180800, -60000, 1823, "elfenwald_07_schwammgrund_anmarsch", -170],
     ["G4", 170700, -60000, 180800, -60000, 1843, "elfenwald_07_schwammgrund_held", 170],
-    ["G4", 179800, -60000, 180800, -60000, 1773, "elfenwald_07_schwammgrund_nah", 170]
+    ["G4", 179800, -60000, 180800, -60000, 1773, "elfenwald_07_schwammgrund_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "offener Hang, Boden Laub, Hang 7 Grad, TPI100 -0 m, Laub 99 %, Kies 1 %; Weg 100 m, Wasser 33 m, Baeume bis 24 m",
@@ -459,9 +459,9 @@
    "radius_m": 40.0,
    "felder": ["G3", "H3"],
    "kameras": [
-    ["H3", 240300, -165668, 236100, -162400, 1026, "elfenwald_08_wurzelbruecke_anmarsch", 170],
+    ["H3", 240300, -165668, 236100, -162400, 1026, "elfenwald_08_wurzelbruecke_anmarsch", -170],
     ["H3", 232050, -167226, 236100, -162400, 1046, "elfenwald_08_wurzelbruecke_held", 170],
-    ["H3", 235457, -163166, 236100, -162400, 976, "elfenwald_08_wurzelbruecke_nah", 170]
+    ["H3", 235457, -163166, 236100, -162400, 976, "elfenwald_08_wurzelbruecke_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "Schlucht/Kessel, Boden Kies, Hang 10 Grad, TPI100 -15 m, Laub 71 %, Kies 16 %, Moos 6 %, Gras 6 %; Weg 82 m, Wasser 0 m, Baeume bis 26 m",

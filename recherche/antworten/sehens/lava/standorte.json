@@ -10,9 +10,9 @@
    "radius_m": 75.0,
    "felder": ["C5", "C6"],
    "kameras": [
-    ["C6", -223819, 93500, -208400, 104500, 3696, "lava_01_schwarze_mauer_anmarsch", 170],
+    ["C6", -223819, 93500, -208400, 104500, 4830, "lava_01_schwarze_mauer_anmarsch", -170],
     ["C6", -210851, 102443, -208400, 104500, 4051, "lava_01_schwarze_mauer_held", 170],
-    ["C6", -209166, 103857, -208400, 104500, 4780, "lava_01_schwarze_mauer_nah", 170],
+    ["C6", -209166, 103857, -208400, 104500, 4780, "lava_01_schwarze_mauer_nah", -170],
     ["C6", -250600, 62400, -208400, 104500, 2578, "lava_01_schwarze_mauer_fern", 170]
    ],
    "ziel_hoehe_m": 16.0,
@@ -64,9 +64,9 @@
    "radius_m": 70.0,
    "felder": ["C6"],
    "kameras": [
-    ["C6", -236700, 88300, -239400, 127600, 2096, "lava_02_schwefelgrund_anmarsch", 170],
+    ["C6", -236700, 88300, -239400, 127600, 5073, "lava_02_schwefelgrund_anmarsch", -170],
     ["C6", -227909, 137242, -239400, 127600, 5123, "lava_02_schwefelgrund_held", 170],
-    ["C6", -238634, 128243, -239400, 127600, 5023, "lava_02_schwefelgrund_nah", 170],
+    ["C6", -238634, 128243, -239400, 127600, 5023, "lava_02_schwefelgrund_nah", -170],
     ["C6", -249600, 49000, -239400, 127600, 2603, "lava_02_schwefelgrund_fern", 170]
    ],
    "ziel_hoehe_m": 25.0,
@@ -114,9 +114,9 @@
    "radius_m": 85.0,
    "felder": ["C5"],
    "kameras": [
-    ["C5", -207195, 62195, -214000, 69000, 1922, "lava_03_kraterkinder_anmarsch", 170],
+    ["C5", -207195, 62195, -214000, 69000, 1922, "lava_03_kraterkinder_anmarsch", -170],
     ["C5", -206263, 62508, -214000, 69000, 1972, "lava_03_kraterkinder_held", 170],
-    ["C5", -213234, 68357, -214000, 69000, 1872, "lava_03_kraterkinder_nah", 170],
+    ["C5", -213234, 68357, -214000, 69000, 1872, "lava_03_kraterkinder_nah", -170],
     ["C5", -250600, 60800, -214000, 69000, 1922, "lava_03_kraterkinder_fern", 170]
    ],
    "ziel_hoehe_m": 8.0,
@@ -155,9 +155,9 @@
    "radius_m": 45.0,
    "felder": ["C5"],
    "kameras": [
-    ["C5", -188658, 50915, -179200, 78000, 2515, "lava_04_roehrenfenster_anmarsch", 170],
+    ["C5", -188658, 50915, -179200, 78000, 3784, "lava_04_roehrenfenster_anmarsch", -170],
     ["C5", -180055, 75651, -179200, 78000, 3076, "lava_04_roehrenfenster_held", 170],
-    ["C5", -179542, 77060, -179200, 78000, 3734, "lava_04_roehrenfenster_nah", 170]
+    ["C5", -179542, 77060, -179200, 78000, 3734, "lava_04_roehrenfenster_nah", -170]
    ],
    "ziel_hoehe_m": 1.0,
    "sicht": {
@@ -213,9 +213,9 @@
    "radius_m": 65.0,
    "felder": ["C5", "C6"],
    "kameras": [
-    ["C6", -242677, 82058, -260400, 98200, 2128, "lava_05_klare_spalte_anmarsch", 170],
+    ["C6", -242677, 82058, -260400, 98200, 3055, "lava_05_klare_spalte_anmarsch", -170],
     ["C6", -272218, 96116, -260400, 98200, 2985, "lava_05_klare_spalte_held", 170],
-    ["C6", -261385, 98026, -260400, 98200, 3005, "lava_05_klare_spalte_nah", 170]
+    ["C6", -261385, 98026, -260400, 98200, 3005, "lava_05_klare_spalte_nah", -170]
    ],
    "ziel_hoehe_m": 1.0,
    "sicht": {

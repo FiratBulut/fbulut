@@ -63,30 +63,30 @@
    "id": "lava_06_kraterreihe",
    "name": "Die Kraterreihe",
    "art": "leuchtfeuer",
-   "mitte_cm": [-183000, 136000, 5862],
-   "radius_m": 140.0,
+   "mitte_cm": [-179000, 134500, 5829],
+   "radius_m": 130.0,
    "felder": ["C6", "D6"],
    "kameras": [
-    ["C6", -190491, 129700, -183000, 136000, 5717, "lava_06_kraterreihe_anmarsch", 170],
-    ["C6", -189028, 132520, -183000, 136000, 6012, "lava_06_kraterreihe_held", 170],
-    ["C6", -183866, 135500, -183000, 136000, 5912, "lava_06_kraterreihe_nah", 170],
-    ["C6", -227000, 99600, -183000, 136000, 4106, "lava_06_kraterreihe_fern", 170]
+    ["C6", -191851, 128987, -179000, 134500, 5929, "lava_06_kraterreihe_anmarsch", -170],
+    ["C6", -191000, 134500, -179000, 134500, 5979, "lava_06_kraterreihe_held", 170],
+    ["C6", -180000, 134500, -179000, 134500, 5879, "lava_06_kraterreihe_nah", -170],
+    ["C6", -214000, 112800, -179000, 134500, 4017, "lava_06_kraterreihe_fern", 170]
    ],
    "ziel_hoehe_m": 18.0,
    "sicht": {
-    "naechster_weg_m": 121.0,
-    "sichtbar_ab_m": 571.0,
-    "wegpunkte_sichtbar": 25,
-    "wegpunkte_ring_300_800": 74,
+    "naechster_weg_m": 147.7,
+    "sichtbar_ab_m": 593.0,
+    "wegpunkte_sichtbar": 27,
+    "wegpunkte_ring_300_800": 69,
     "mittel_anteil": 0.2
    },
    "erreichbar": {
     "erreichbar": true,
     "modus": "streng",
-    "laenge_m": 126.1,
-    "luftlinie_m": 121.0,
-    "max_steigung_grad": 12.9,
-    "mittel_steigung_grad": 4.7,
+    "laenge_m": 159.9,
+    "luftlinie_m": 147.7,
+    "max_steigung_grad": 14.2,
+    "mittel_steigung_grad": 3.9,
     "steil_laenge_m": 0.0,
     "quer_steil_laenge_m": 0.0,
     "wasser_laenge_m": 0.0,
@@ -94,17 +94,22 @@
     "pfad_noetig": false
    },
    "pfad_cm": [
-    [-183000, 136000, 5873],
-    [-183700, 135700, 5817],
-    [-185700, 133700, 6097],
-    [-186100, 133700, 6119],
-    [-190100, 129700, 5865],
+    [-179000, 134500, 5883],
+    [-180500, 134500, 5709],
+    [-180900, 134100, 5678],
+    [-181700, 134100, 5789],
+    [-182900, 132900, 5841],
+    [-183700, 132500, 5855],
+    [-184900, 132500, 5922],
+    [-186900, 130500, 5974],
+    [-187700, 130500, 5936],
+    [-188500, 129700, 5879],
     [-190900, 129700, 5775],
     [-192500, 128500, 5564]
    ],
    "draufsicht": "lava_06_kraterreihe.png",
    "bedingung": "nur mit neuem Pfad 'Kratersteig' (standorte_kratersteig.json, Ferat entscheidet)",
-   "standort_begruendung": "Vorhandene Kegelkette auf einer NO-SW-Spalte am Nordostfuss (36-77 m); heute 717 m vom Weg -> nur mit Kratersteig."
+   "standort_begruendung": "Vorhandene Kegelkette auf einer NO-SW-Spalte am Nordostfuss: 4 Krater (Boden 36-66 m), Hauptkegel 82 m, Krater 16 m tief; heute ~700 m vom Weg -> nur mit Kratersteig."
   },
   {
    "id": "lava_07_basaltorgel",
@@ -114,9 +119,9 @@
    "radius_m": 60.0,
    "felder": ["B6"],
    "kameras": [
-    ["B6", -276741, 139500, -279500, 139000, 4280, "lava_07_basaltorgel_anmarsch", 170],
+    ["B6", -276741, 139500, -279500, 139000, 4280, "lava_07_basaltorgel_anmarsch", -170],
     ["B6", -277038, 139434, -279500, 139000, 4225, "lava_07_basaltorgel_held", 170],
-    ["B6", -278515, 139174, -279500, 139000, 4230, "lava_07_basaltorgel_nah", 170]
+    ["B6", -278515, 139174, -279500, 139000, 4230, "lava_07_basaltorgel_nah", -170]
    ],
    "ziel_hoehe_m": 1.5,
    "sicht": {
@@ -167,9 +172,9 @@
    "radius_m": 45.0,
    "felder": ["B6", "C6"],
    "kameras": [
-    ["B6", -269839, 165839, -274500, 174000, 6454, "lava_08_glutauge_anmarsch", 170],
+    ["B6", -269839, 165839, -274500, 174000, 6601, "lava_08_glutauge_anmarsch", -170],
     ["B6", -265753, 168950, -274500, 174000, 6531, "lava_08_glutauge_held", 170],
-    ["B6", -273634, 173500, -274500, 174000, 6551, "lava_08_glutauge_nah", 170]
+    ["B6", -273634, 173500, -274500, 174000, 6551, "lava_08_glutauge_nah", -170]
    ],
    "ziel_hoehe_m": 1.0,
    "sicht": {
