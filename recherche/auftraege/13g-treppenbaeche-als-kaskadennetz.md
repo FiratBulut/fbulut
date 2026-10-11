@@ -27,6 +27,12 @@ So gibt es nur noch **einen** Weg für gestuftes Wasser.
 
 Seen, Teiche und große Wasserfälle bleiben wie bisher (Lake, Vorhang, Niagara).
 
+## Wichtig (Ferat, 23:20)
+
+**Die Gestaltung bleibt genau wie in 13f:** Lage, Höhe, Anzahl und Abstand der Stufen, Beckenlängen, Querprofil, Effekte. Bitte nichts an euren
+Stufen ändern. 13g betrifft nur die technische Darstellung des Wassers, also das Datenformat (`wasser_koerper` mit river + kaskadennetz statt
+vieler kurzer River-Stücke). Die Werte für `mittellinie`/`knick` leitet ihr aus euren vorhandenen `stufen` und Becken ab.
+
 ## Sonst
 
 - Der laufende lokale Pilot (bergwald B5) rechnet noch mit dem Stand vor 13f, damit der Einbau im Editor erprobt wird. Danach stelle ich auf 13f um.
