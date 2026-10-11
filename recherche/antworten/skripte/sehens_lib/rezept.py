@@ -2361,6 +2361,7 @@ class OrtKontext:
         # 13h: Kameras gegen eigene Netze, Bestandskronen und Gelaende pruefen, blockierte versetzen (Regel "kameras");
         # vor dem Budget, weil ein freigeraeumter Standplatz Instanzen entfernt
         kam_neu = _kf.kameras_bauen(self)
+        bud, z = self.budget()
         if kam_neu is not None:
             self.st = dict(self.st, kameras=kam_neu)
         e = _fmt.ort_phase2(self.st, kurz=self.r.get("kurz", ""))
@@ -2445,7 +2446,6 @@ def bogen_abschnitt(P, a_m, b_m):
     return [punkt(a)] + innen + [punkt(b)], a, b
 
 
-        bud, z = self.budget()
 def ufer_freibord(boden_fn, umriss_m, spiegel_m, zelle_m=1.0, offen=None):
     """Je Umrisspunkt: max. Gelaende auf dem Strahl 0,5 ... max(3, 2 x Zelle) m nach aussen (von der Umrissmitte)
     minus Spiegel; Rueckgabe Minimum (m). Eine Lippe irgendwo auf dem Strahl genuegt - das Wasser bleibt drin.
