@@ -306,3 +306,7 @@ schreiben keine Cull-Werte, das setzt der Setzer.
 3. **S02 ohne Niagara** (3,22 m, zweithöchste Kante) wegen des Budgets ≤ 6 gleichzeitig. Ist das Budget weich genug für einen
    7. Impact an S02?
 4. Soll ein Wasserfall-Klangpaket (Tosen, Gischt) auf die Download-Liste? Im Inventar gibt es nur Bach-Cues.
+
+## Nachtrag Koordinator (Konflikt tundra_06)
+
+Entschieden: **Die C2-Kaskade hat Vorrang.** `tundra_06_das_aufeis` (Auftrag 13) wird verlegt, mindestens 60 m von allen Stufen- und Gischtpunkten entfernt. Bis zur Verlegung bitte die tundra_06-Effekte aus dem Sehenswürdigkeiten-Plan **nicht** setzen; `plan.json` dieses Auftrags gilt unverändert. Den neuen Standort trägt `sehens-STATUS.md` nach.

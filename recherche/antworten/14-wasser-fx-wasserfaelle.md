@@ -23,3 +23,7 @@ geprüft mit `wasser_fx/plan_pruefen.py`: 271 OK, 1 Warnung (Konflikt mit Auftra
   Das ist eine Rückfrage.
 - Die Geysir- und Quellorte aus Auftrag 13 (Blasloch, Blautopf, Seefall u. a., 26 Orte) stehen nur zur Übersicht unter `sehens13`.
   Sie werden nicht doppelt gesetzt, weil die Sehenswürdigkeiten-Planer sie selbst liefern.
+
+## Nachtrag Koordinator (Konflikt tundra_06)
+
+Entschieden: **Die C2-Kaskade hat Vorrang.** `tundra_06_das_aufeis` (Auftrag 13) wird verlegt, mindestens 60 m von allen Stufen- und Gischtpunkten entfernt. Bis zur Verlegung bitte die tundra_06-Effekte aus dem Sehenswürdigkeiten-Plan **nicht** setzen; `plan.json` dieses Auftrags gilt unverändert. Den neuen Standort trägt `sehens-STATUS.md` nach.

@@ -1,0 +1,517 @@
+{
+ "_doku": {
+  "stand": "2026-10-11",
+  "auftrag": "13 Phase 2 - Planer Fjord (Agent B4). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md, Muster sehens_bergwald",
+  "quellen": "sehens/fjord/katalog.md (Ortsabschnitte, 'Abgleich 13b/13c', 'Abgleich Inventar 13d'), sehens/fjord/asset_bedarf.json, standorte.json (pfade, pfad_cm)",
+  "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden), {pos_m} = Welt",
+  "hinweis": "Steilstes Biom (Hang Median 49 Grad): Platten, Zungen und Grotten sind Netze auf dem Gelaende, Ueberhaenge nur als Netz. Wasserfaelle ueber 150 m Fallhoehe sind erlaubt (Ferat), Material M_River_Water_Translucent aus dem Mountain-Set (13d) als material_hinweis, Effekte Nature Water FX. 'rahmen' = Sichtwall fuer Fundstuecke (Hook im Planer).",
+  "pfade": "Fjordsteig und Kanzel-Ast mit 'abschnitt: naechster' + 'zugang' (pfad_cm Steig -> Ort). Felsstufen nur 22-32 Grad; steiler rechnet Ferats Serpentinen-Werkzeug Kehren."
+ },
+ "biom": "fjord",
+ "seed": 1315,
+ "paletten": {
+  "nordfels": ["SM_NordicBoulder_01", "SM_TundraMossyBoulder_01", "SM_NordicBeachRocks_01"],
+  "bloecke": ["SM_mountain_rock_big_02_1", "SM_mountain_rock_big_02_2", "SM_mountain_rock_big_02_3", "SM_mountain_rock_big_02_4", "SM_mountain_rock_big_02_5", "SM_mountain_rock_big_02_6", "SM_mountain_rock_big_02_7", "SM_mountain_rock_big_02_8"],
+  "geroell": ["SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_2", "SM_mountain_rock_big_01_3", "SM_mountain_rock_big_01_4", "SM_mountain_rock_big_01_5", "SM_ground_rock_01", "SM_ground_rock_02"],
+  "steine": ["SM_mountain_rock_small_01_1", "SM_mountain_rock_small_01_2", "SM_mountain_rock_small_01_3", "SM_mountain_rock_small_01_4", "SM_mountain_rock_small_01_5", "SM_stone_03", "SM_stone_04", "SM_stone_06", "SM_stone_07"],
+  "kiesel": ["SM_SmallStonesPack_01", "SM_SmallStonesPack_03", "SM_SmallStonesPack_06", "SM_SmallStonesPack_07", "SM_SmallStonesPack_13", "SM_SmallStonesPack_14", "SM_NordicBeachRock_01", "SM_stone_05", "SM_stone_08"],
+  "strandkies": ["SM_BeachSandWithPebbles_01", "SM_BeachSandWithPebbles_02", "SM_NordicBeachRock_01", "SM_SmallStonesPack_06"],
+  "platten": ["SM_flat_rock_02", "SM_flat_rock_03", "SM_flat_rock_04"],
+  "moos": ["SM_MossClump_01", "SM_MossClump_02", "SM_MossClump_03", "SM_MossClump_04", "SM_MossClump_05", "SM_moss_01", "SM_moss_02"],
+  "heide": ["SM_heath_A_01", "SM_heath_B_01", "SM_heath_cross_01", "SM_lingonberry_01", "SM_lingonberry_02"],
+  "tundragras": ["SM_wk2oaeyqx_VarA", "SM_wk2oaeyqx_VarB", "SM_wk2oaeyqx_VarC", "SM_wk2oaeyqx_VarD", "SM_wk2oaeyqx_VarE", "SM_wk2oaeyqx_VarF", "SM_wk2oaeyqx_VarG", "SM_wk2oaeyqx_VarH", "SM_wk2oaeyqx_VarI"],
+  "farn_nass": ["SM_EagleFern_S_01", "SM_EagleFern_S_02", "SM_EagleFern_S_04", "SM_BeechFern_04"],
+  "strandgras": ["SM_beach_grass_01_1", "SM_beach_grass_01_2", "SM_beach_grass_01_3", "SM_beach_grass_01_4", "SM_beach_grass_01_hp_1", "SM_beach_grass_01_hp_2"],
+  "seetang": ["SM_seaweed_01_A", "SM_seaweed_01_C", "SM_seaweed_01_D", "SM_seaweed_01_E"],
+  "treibholz": ["SM_beach_driftwood_01", "SM_beach_driftwood_02", "SM_beach_driftwood_04", "SM_beach_driftwood_06", "SM_beach_driftwood_08"],
+  "zwergkiefer": ["SM_dwarf_pine_small_01", "SM_dwarf_pine_small_02", "SM_dwarf_pine_medium_02"],
+  "trittstein": ["SM_flat_rock_04", "SM_flat_rock_02"],
+  "felsstufe": ["SM_ground_rock_03_03", "SM_ground_rock_03_01", "SM_flat_rock_03"]
+ },
+ "materialwuensche": [
+  {"name": "MI_EL_SW_Klippe_Fjordnass", "basis": "M_EL_Klippe_RVT", "parameter": {"Moos_Farbe": [0.55, 0.75, 0.45, 1.0], "Moos_Menge": 0.85, "Blend_Hoehe": 600.0, "Toenung": [0.7, 0.72, 0.75, 1.0]}, "fuer": ["vdssailfa_tier_2", "vfmjadufa_tier_2", "SM_HugeNordicCoastalCliff_01", "SM_HugeNordicCoastalCliff_02", "SM_MassiveNordicCoastalCliff_01"]},
+  {"name": "MI_EL_SW_Schleierfall", "basis": "M_EL_Wasserfall2", "parameter": {"Deckkraft": 0.55, "Straehnen_Staerke": 0.9, "Schaum_Menge": 1.6, "V_Skala": 0.4}, "fuer": ["Fallbaender der Schleierwand (falls der eigene Vorhang statt M_River_Water_Translucent genommen wird)"]},
+  {"name": "MI_EL_SW_Fels_Flechte", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Farbe": [0.6, 0.65, 0.5, 1.0], "Auflage_Menge": 0.45, "Auflage_Flecken": 0.8, "Toenung": [0.8, 0.8, 0.8, 1.0]}, "fuer": ["SM_NordicBoulder_01", "SM_TundraMossyBoulder_01", "SM_MassiveTundraRockFormation_01", "SM_MassiveTundraRockFormation_02"]}
+ ],
+ "orte": {
+
+  "fjord_01_die_kanzel": {
+   "kurz": "Am Rand der Ostwand springt eine flache Felsplatte ueber den Fjord vor, eben wie ein Tisch und an drei Seiten senkrecht; ein Riss trennt sie fast von der Wand.",
+   "marker": {"titel": "Die Kanzel", "text": "Ein Tisch aus Stein, gedeckt fuer niemanden, zweihundert Mannslaengen ueber dem Wasser. Der Riss dahinter wird jedes Jahr ein wenig breiter.", "entdeckung_m": 120},
+   "budget": {"instanzen": 2500, "kollision": 300, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [],
+   "anker": {
+    "platte": {"von": "mitte", "richtung": 313, "abstand_m": 14},
+    "riss": {"von": "mitte", "richtung": 313, "abstand_m": 3},
+    "wand": {"von": "mitte", "richtung": 313, "abstand_m": 36},
+    "wand2": {"von": "mitte", "richtung": 285, "abstand_m": 30}
+   },
+   "linien": {"risslinie": {"quer": "riss", "richtung": 43, "laenge_m": 16}},
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [110, 110], "bei": "platte", "rand_m": 12, "ops": [
+    {"op": "terrasse", "bei": "platte", "radius_m": 11, "ziel_z": "boden+1.5", "streckung": [1.5, 1.0], "richtung": 313, "rand_m": 5, "modus": "max", "warum": "Plattenrand ebnen (+3 m)"},
+    {"op": "rinne", "punkte": "risslinie", "breite_m": 2.0, "tiefe_m": 2.5, "rand_m": 1.5, "warum": "der Riss zwischen Platte und Wand"}
+   ], "senke_begruendung": "der Riss hinter der Kanzel (schmale Kluft, gewollt)"},
+   "gruppen": [
+    {"name": "kanzelplatte", "ebene": "held", "warum": "die Platte: flache Felsbank, an drei Seiten frei (Netz, 70 % im Gelaende)", "netz": "SM_MassiveTundraRockFormation_01",
+     "verteilung": {"typ": "punkt", "bei": "platte"}, "skala": 0.42, "yaw": 313, "front_achse": "+x", "eingraben": [0.6, 0.7], "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Flechte", "meide": null},
+    {"name": "wand_unten", "ebene": "held", "warum": "die senkrechte Wand unter der Platte (Schale, Rueckseite im Hang)", "netz": "vmnmbhv_tier_0",
+     "verteilung": {"typ": "punkt", "bei": "wand"}, "skala": 0.55, "yaw": 313, "front_achse": "+y", "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Klippe_Fjordnass", "meide": null},
+    {"name": "wand_seite", "ebene": "begleiter", "warum": "Seitenwand der Kanzel", "netz": "veqnci0db_tier_2",
+     "verteilung": {"typ": "punkt", "bei": "wand2"}, "skala": 0.45, "yaw": 285, "front_achse": "+x", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Klippe_Fjordnass", "meide": null},
+    {"name": "rissbloecke", "ebene": "begleiter", "warum": "Bloecke am Riss (aus der Kluft gebrochen)", "palette": ["SM_NordicBoulder_01", "SM_mountain_rock_big_02_3", "SM_mountain_rock_big_02_7"],
+     "anzahl": 4, "verteilung": {"typ": "band", "punkte": "risslinie", "breite_m": 6}, "abstand_m": 4, "groesse_m": [2.0, 3.6], "eingraben": [0.3, 0.4], "akteur": true, "material": "MI_EL_SW_Fels_Flechte"},
+    {"name": "platten", "ebene": "schutt", "warum": "abgesprengte Platten auf der Kanzel und am Grat", "palette": "platten",
+     "anzahl": 45, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 26}, "abstand_m": 2.0, "skala": [0.3, 0.7], "eingraben": [0.4, 0.55]},
+    {"name": "steine", "ebene": "kleinzeug", "warum": "Steine und Flechtenkruste", "palette": "steine", "anzahl": 450,
+     "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 30}, "abstand_m": 0.5, "rolle": "stein"},
+    {"name": "ritzenheide", "ebene": "bewuchs", "warum": "Heide nur in den Ritzen", "palette": "heide", "anzahl": 140,
+     "verteilung": {"typ": "cluster", "form": "kreis", "bei": "mitte", "r_m": 30, "zentren": [10, 14], "je": [6, 12], "radius_m": 1.8}, "abstand_m": 0.5, "rolle": "pflanze"},
+    {"name": "windkiefer", "ebene": "bewuchs", "warum": "Krueppelkiefer am Plattenrand (Windfluechter, Krone landeinwaerts)", "palette": ["SM_pine_beach_crooked_01", "SM_pine_beach_crooked_02"],
+     "anzahl": 3, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [8, 18]}, "abstand_m": 6, "rolle": "baum", "kipp_grad": [6, 12], "kipp_richtung": 133},
+    {"name": "grasnarbe", "ebene": "bewuchs", "warum": "Grasnarbe endet am Riss", "palette": "tundragras", "anzahl": 200,
+     "verteilung": {"typ": "kreis", "bei": {"von": "mitte", "richtung": 133, "abstand_m": 14}, "r_m": 16}, "abstand_m": 0.6, "rolle": "pflanze"},
+    {"name": "rissmoos", "ebene": "kontakt", "warum": "Moos in der feuchten Kluft", "palette": "moos",
+     "dichte_je_m2": 1.2, "verteilung": {"typ": "band", "punkte": "risslinie", "breite_m": 2.5}, "abstand_m": 0.25, "rolle": "streu"},
+    {"name": "blocksaum", "ebene": "kontakt", "warum": "Kies und Flechten am Fuss der Bloecke", "palette": "kiesel",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["rissbloecke", "kanzelplatte"], "ring": [0.95, 1.15], "je": [12, 20]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Felsplatte", "form": "kreis", "bei": "platte", "r_m": 13, "streckung": [1.5, 1.0], "richtung": 313, "wert": 235, "flecken": 0.2},
+    {"lage": "Trockengras", "form": "kreis", "bei": {"von": "mitte", "richtung": 133, "abstand_m": 14}, "r_m": 18, "wert": 170, "flecken": 0.4},
+    {"lage": "Moos", "form": "band", "punkte": "risslinie", "breite_m": 3, "wert": 200}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 190, "Kies": 140}, "zugang": {"breite_cm": 120, "lagen": {"Erde": 180, "Kies": 130}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "lokaler_nebel", "zweck": "Dunst ueber dem Fjord unter der Kanzel (Tiefe)", "bei": "wand", "hoehe_m": -40, "radius_m": 40, "dichte": 0.035, "farbe": [0.8, 0.85, 0.88], "hoehenabfall": 0.5},
+    {"typ": "decal", "material": "MI_TileableMossPatches_01", "zweck": "Flechtenflecken auf der Platte", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "platte", "r_m": 8}, "groesse_m": [1.0, 3.0, 3.0]}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "platte", "radius_m": 50, "lautstaerke": 0.5, "zweck": "Wind an der Kante (Moewen/Brandung fehlen im Bestand)"}]
+  },
+
+  "fjord_02_schleierwand": {
+   "kurz": "Am Talschluss steht eine 250 m hohe, halbrunde Felswand; ueber ihre Kante fallen duenne Schmelzbaeche aus den Firnrinnen, so duenn, dass sie halb im Wind verwehen, bevor sie in Schuttkegel und Moos aufschlagen.",
+   "marker": {"titel": "Die Schleierwand", "text": "Die Wand weint aus sieben Augen. Was oben als Bach beginnt, kommt unten als Regen an.", "entdeckung_m": 200},
+   "budget": {"instanzen": 5000, "kollision": 500, "akteure": 40, "lichter": 0, "niagara": 3, "decals": 8},
+   "assets_wunsch": [],
+   "anker": {
+    "k1": {"pos_m": [-1817.0, -2966.0]}, "f1": {"pos_m": [-1812.0, -3072.0]},
+    "k2": {"pos_m": [-1793.0, -2964.0]}, "f2": {"pos_m": [-1790.0, -3070.0]},
+    "k3": {"pos_m": [-1772.0, -2966.0]}, "f3": {"pos_m": [-1770.0, -3072.0]},
+    "k4": {"pos_m": [-1750.0, -2964.0]}, "f4": {"pos_m": [-1748.0, -3074.0]},
+    "k5": {"pos_m": [-1728.0, -2966.0]}, "f5": {"pos_m": [-1730.0, -3078.0]},
+    "wandfuss": {"pos_m": [-1770.0, -3076.0]},
+    "wandmitte": {"pos_m": [-1772.0, -3010.0]}
+   },
+   "linien": {
+    "fusslinie": {"punkte": ["f1", "f2", "f3", "f4", "f5"]},
+    "kantenlinie": {"punkte": ["k1", "k2", "k3", "k4", "k5"]}
+   },
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [190, 160], "bei": "wandmitte", "rand_m": 14, "ops": [
+    {"op": "rinne", "punkte": [{"anker": "k1", "versatz_m": [0, 12]}, "k1"], "breite_m": 4, "tiefe_m": 1.0, "rand_m": 2, "warum": "Firnrinne als Quelle (Fall 1)"},
+    {"op": "rinne", "punkte": [{"anker": "k3", "versatz_m": [0, 12]}, "k3"], "breite_m": 4, "tiefe_m": 1.0, "rand_m": 2, "warum": "Firnrinne als Quelle (Fall 3)"},
+    {"op": "rinne", "punkte": [{"anker": "k4", "versatz_m": [0, 12]}, "k4"], "breite_m": 4, "tiefe_m": 1.0, "rand_m": 2, "warum": "Firnrinne als Quelle (Fall 4)"}
+   ], "senke_begruendung": "kleine Kolke am Wandfuss, wo die Faelle aufschlagen (Spruehzone)"},
+   "wasser": [
+    {"typ": "see", "id": "gumpe1", "bei": "f1", "r_m": 3.5, "spiegel_rand_min": -0.2, "tiefe_m": 1.5, "farbe": "klar", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
+    {"typ": "see", "id": "gumpe3", "bei": "f3", "r_m": 4.0, "spiegel_rand_min": -0.2, "tiefe_m": 1.8, "farbe": "klar", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
+    {"typ": "see", "id": "gumpe4", "bei": "f4", "r_m": 3.0, "spiegel_rand_min": -0.2, "tiefe_m": 1.4, "farbe": "klar", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
+    {"typ": "wasserfall", "id": "fall1", "kante": [{"anker": "k1", "versatz_m": [-0.5, 0]}, {"anker": "k1", "versatz_m": [0.5, 0]}], "becken": "gumpe1", "breite_m": 1.2, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), Deckkraft ~0,5 (verweht) - oder MI_EL_SW_Schleierfall"},
+    {"typ": "wasserfall", "id": "fall2", "kante": [{"anker": "k2", "versatz_m": [-0.4, 0]}, {"anker": "k2", "versatz_m": [0.4, 0]}], "fuss": "f2", "breite_m": 0.7, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), sehr duenn, versickert im Schuttkegel"},
+    {"typ": "wasserfall", "id": "fall3", "kante": [{"anker": "k3", "versatz_m": [-0.7, 0]}, {"anker": "k3", "versatz_m": [0.7, 0]}], "becken": "gumpe3", "breite_m": 1.5, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), Hauptfall"},
+    {"typ": "wasserfall", "id": "fall4", "kante": [{"anker": "k4", "versatz_m": [-0.5, 0]}, {"anker": "k4", "versatz_m": [0.5, 0]}], "becken": "gumpe4", "breite_m": 1.0, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
+    {"typ": "wasserfall", "id": "fall5", "kante": [{"anker": "k5", "versatz_m": [-0.3, 0]}, {"anker": "k5", "versatz_m": [0.3, 0]}], "fuss": "f5", "breite_m": 0.6, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), sehr duenn, versickert im Moos"},
+    {"typ": "bach", "id": "abfluss1", "abfluss_von": "gumpe1", "laenge_m": 70, "breite_m": 1.0, "tiefe_cm": 15, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
+    {"typ": "bach", "id": "abfluss3", "abfluss_von": "gumpe3", "laenge_m": 70, "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
+    {"typ": "bach", "id": "abfluss4", "abfluss_von": "gumpe4", "laenge_m": 70, "breite_m": 1.0, "tiefe_cm": 15, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"}
+   ],
+   "gruppen": [
+    {"name": "wandrippen", "ebene": "held", "warum": "Felsrippen zwischen den Fallbaendern (schwarz-gruen gestreifte Wand)", "palette": ["vdssailfa_tier_2", "vfmjadufa_tier_2"],
+     "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [-1805.0, -3030.0]}, {"pos_m": [-1781.0, -3036.0]}, {"pos_m": [-1760.0, -3030.0]}, {"pos_m": [-1739.0, -3040.0]}]},
+     "skala": [0.7, 0.9], "yaw": 0, "yaw_streuung_grad": 12, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Klippe_Fjordnass", "meide": null},
+    {"name": "kantenfels", "ebene": "begleiter", "warum": "Fallkanten als Felslippen", "palette": ["SM_big_rock_wall_01", "SM_big_rock_wall_02"],
+     "verteilung": {"typ": "punkte", "punkte": ["k1", "k3", "k4"]}, "skala": [1.2, 1.5], "yaw": 0, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Klippe_Fjordnass", "meide": null},
+    {"name": "sturzkegel", "ebene": "schutt", "warum": "Sturzkegel unter jedem Fall (Frostsprengung + Wasser)", "palette": "geroell",
+     "anzahl": 180, "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 22, "versatz_m": -6}, "abstand_m": 1.2, "groesse_m": [0.5, 1.4], "eingraben": [0.3, 0.45]},
+    {"name": "grosse_brocken", "ebene": "schutt", "warum": "grosse Brocken am Wandfuss (rollen am weitesten)", "palette": "bloecke",
+     "anzahl": 12, "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 30, "versatz_m": -14}, "abstand_m": 6, "groesse_m": [2.0, 3.5]},
+    {"name": "gumpensteine", "ebene": "wasser", "warum": "Steine in den Gumpen", "palette": "steine",
+     "anzahl": 30, "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 10}, "abstand_m": 0.6, "skala": [1.5, 3.0], "im_wasser": "nur", "rolle": "stein"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies und Grus am Wandfuss", "palette": "kiesel", "anzahl": 1200,
+     "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 26, "versatz_m": -6}, "abstand_m": 0.35, "rolle": "stein", "im_wasser": "egal"},
+    {"name": "spruehfarn", "ebene": "bewuchs", "warum": "Farn und Moos nur in der Spruehzone der Faelle", "palette": "farn_nass", "anzahl": 160,
+     "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 16}, "abstand_m": 0.8, "rolle": "pflanze"},
+    {"name": "kegelbirken", "ebene": "bewuchs", "warum": "Birken auf den aelteren Schuttkegeln", "netz": "Big_Tree_Birch_01",
+     "anzahl": 6, "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 30, "versatz_m": -22}, "abstand_m": 8, "skala": [0.45, 0.65], "rolle": "baum"},
+    {"name": "wandmoos", "ebene": "kontakt", "warum": "Moosstreifen am Fuss der nassen Rippen", "palette": "moos",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["wandrippen", "kantenfels"], "ring": [0.6, 1.0], "je": [12, 18]}, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "brockensaum", "ebene": "kontakt", "warum": "Steinchen um die Brocken", "palette": "kiesel",
+     "verteilung": {"typ": "um_gruppe", "gruppe": "grosse_brocken", "ring": [0.95, 1.3], "je": [10, 14]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Moos", "form": "band", "punkte": "fusslinie", "breite_m": 18, "wert": 200, "flecken": 0.4},
+    {"lage": "Geroell", "form": "band", "punkte": "fusslinie", "breite_m": 34, "versatz_m": -8, "wert": 190, "flecken": 0.4},
+    {"lage": "Schnee", "form": "band", "punkte": "kantenlinie", "breite_m": 12, "wert": 170, "flecken": 0.5},
+    {"lage": "Fels", "form": "hang", "bei": "wandmitte", "r_m": 70, "hang_grad": [45, 90], "wert": 220}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 190, "Kies": 140}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Erde": 140}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "niagara", "asset": "NS_Waterfall_Small", "optional": false, "zweck": "verwehendes Fallband (Hauptfall, Nature Water FX)", "bei": "k3", "hoehe_m": 0.0, "yaw": 0},
+    {"typ": "niagara", "asset": "NS_Waterfall_Small", "optional": false, "zweck": "zweites Fallband", "bei": "k1", "hoehe_m": 0.0, "yaw": 0, "skala": 0.8},
+    {"typ": "niagara", "asset": "NS_Impact_Small", "optional": false, "zweck": "Spruehnebel, wo der Hauptfall aufschlaegt", "bei": "f3", "hoehe_m": 0.3},
+    {"typ": "lokaler_nebel", "zweck": "Spruehdunst am ganzen Wandfuss", "bei": "wandfuss", "hoehe_m": 6, "radius_m": 45, "dichte": 0.06, "farbe": [0.86, 0.9, 0.92], "hoehenabfall": 0.6},
+    {"typ": "decal", "material": "MI_Leakage_04", "zweck": "Nassstreifen auf der Wand", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 4, "versatz_m": 4}, "ausrichtung": "wand", "blick": 0, "hoehe_m": 8, "groesse_m": [2.0, 3.0, 14.0]},
+    {"typ": "decal", "material": "MI_Leakage_06", "zweck": "Nassstreifen auf der Wand", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "fusslinie", "breite_m": 4, "versatz_m": 4}, "ausrichtung": "wand", "blick": 0, "hoehe_m": 14, "groesse_m": [2.0, 3.0, 14.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an den Gumpen (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "f3", "r_m": 60, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 2.5, 2.5]}
+   ],
+   "klaenge": [{"asset": "CUE_Water_Stream_X_Cue", "bei": "wandfuss", "radius_m": 80, "lautstaerke": 0.8, "zweck": "Fallbaender"}]
+  },
+
+  "fjord_03_trollzunge": {
+   "kurz": "Am Grat ueber dem Talschluss ragt eine schmale Felszunge frei ueber den Abgrund; darunter 300 m Luft bis zum Fjordboden, und man sieht den ganzen Fjord bis zum Meer.",
+   "marker": {"titel": "Die Trollzunge", "text": "Ein Troll, so erzaehlt man, streckte hier die Zunge nach dem Meer aus und wurde dabei zu Stein. Wer darauf steht, spuert, wie sie noch zittert.", "entdeckung_m": 100},
+   "budget": {"instanzen": 2000, "kollision": 300, "akteure": 15, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [{"paket": "Fantasy Ambiences (Lava, Höhle, Wind …)", "statt_jetzt": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue (leise)"}],
+   "anker": {
+    "wurzel": [0.0, 0.0],
+    "zunge": {"von": "wurzel", "richtung": "hangab", "abstand_m": 5.5},
+    "unterbau": {"von": "wurzel", "richtung": "hangab", "abstand_m": 3.0},
+    "grat": {"von": "wurzel", "richtung": "hangauf", "abstand_m": 18}
+   },
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [80, 80], "bei": "wurzel", "rand_m": 10, "ops": [
+    {"op": "mulde", "bei": {"von": "wurzel", "richtung": "hangauf", "abstand_m": 5}, "radius_m": 6, "tiefe_m": 1.0, "rand_m": 4, "boden": 0.5, "streckung": [1.6, 1.0], "richtung": {"basis": "hangab", "plus": 90}, "warum": "Sattel am Ansatz der Zunge (-1 m)"}
+   ], "senke_begruendung": "flacher Sattel am Ansatz der Zunge"},
+   "gruppen": [
+    {"name": "zunge", "ebene": "held", "warum": "die Felszunge ragt 15 m frei ueber den Abgrund (Netz mit Kollision, Fuss tief im Grat)", "netz": "uchoab3fa_tier_0",
+     "verteilung": {"typ": "punkt", "bei": "zunge"}, "skala": 1.1, "yaw": {"basis": "hangab", "plus": 90}, "front_achse": "+y", "kipp_grad": 4, "kipp_richtung": {"basis": "hangab", "plus": 180},
+     "z_bezug": "z:381.5", "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Flechte", "meide": null,
+     "hinweis": "lange Achse (13,5 m) zeigt hangab ueber den Abgrund (front +y quer); Unterkante absolut 381,5 m (Grat 385 m)"},
+    {"name": "unterbau", "ebene": "held", "warum": "Unterbau der Zunge, 8 m im Grat", "netz": "rcygn_tier_0",
+     "verteilung": {"typ": "punkt", "bei": "unterbau"}, "skala": 0.75, "yaw": {"basis": "hangab", "plus": 90}, "front_achse": "+x", "eingraben_m": 7.0, "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Flechte", "meide": null},
+    {"name": "gratfelsen", "ebene": "begleiter", "warum": "Gratfelsen", "palette": ["SM_NordicBoulder_01", "SM_mountain_rock_big_02_3", "SM_mountain_rock_big_02_8"],
+     "anzahl": 4, "verteilung": {"typ": "kreis", "bei": "grat", "r_m": 14}, "abstand_m": 6, "groesse_m": [2.5, 4.5], "eingraben": [0.35, 0.45], "akteur": true, "material": "MI_EL_SW_Fels_Flechte"},
+    {"name": "frostschutt", "ebene": "schutt", "warum": "Frostschutt am Grat", "palette": ["SM_TundraRockyGround_01", "xjijdiz_tier_0", "texndcpda_tier_0", "SM_mountain_rock_big_01_3"],
+     "anzahl": 60, "verteilung": {"typ": "kreis", "bei": "grat", "r_m": 24}, "abstand_m": 2.0, "groesse_m": [0.6, 1.8], "eingraben": [0.35, 0.5]},
+    {"name": "steine", "ebene": "kleinzeug", "warum": "Steine und Grus", "palette": "steine", "anzahl": 350,
+     "verteilung": {"typ": "kreis", "bei": "grat", "r_m": 26}, "abstand_m": 0.5, "rolle": "stein"},
+    {"name": "moospolster", "ebene": "bewuchs", "warum": "Moospolster und Heide, keine Baeume (Wind)", "palette": ["SM_moss_01", "SM_moss_02", "SM_heath_A_01", "SM_heath_B_01"],
+     "anzahl": 160, "verteilung": {"typ": "cluster", "form": "kreis", "bei": "grat", "r_m": 26, "zentren": [10, 14], "je": [6, 12], "radius_m": 2.0}, "abstand_m": 0.5, "rolle": "pflanze"},
+    {"name": "flechten", "ebene": "kontakt", "warum": "Flechten am Fuss der Gratfelsen und am Zungenansatz", "palette": "moos",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["gratfelsen", "unterbau"], "ring": [0.85, 1.2], "je": [8, 12], "seite": "nord"}, "rolle": "streu"},
+    {"name": "grus", "ebene": "kontakt", "warum": "Grus am Fuss der Felsen", "palette": "kiesel",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["gratfelsen", "unterbau"], "ring": [0.95, 1.3], "je": [12, 18]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Fels", "form": "kreis", "bei": "wurzel", "r_m": 14, "wert": 230},
+    {"lage": "Moos", "form": "kreis", "bei": "grat", "r_m": 24, "wert": 140, "flecken": 0.6}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 190, "Kies": 140}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Erde": 140}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "lokaler_nebel", "zweck": "Wolkenfetzen unter der Zunge (300 m Luft)", "bei": {"von": "wurzel", "richtung": "hangab", "abstand_m": 60}, "hoehe_m": -60, "radius_m": 50, "dichte": 0.03, "farbe": [0.85, 0.88, 0.9], "hoehenabfall": 0.4}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "wurzel", "radius_m": 50, "lautstaerke": 0.55, "zweck": "Wind am Grat (Laubanteil im Editor pruefen)"}]
+  },
+
+  "fjord_04_haengetal": {
+   "kurz": "Auf der Suedseite endet ein kleines, flaches Hochtal ploetzlich an einer Stufe: der Bach, der eben noch zwischen Wollgras maeandrierte, stuerzt in eine Schlucht. Oben ist es still und gruen, unten donnert es.",
+   "marker": {"titel": "Das Haengetal", "text": "Oben schlaengelt sich der Bach, als haette er alle Zeit der Welt. Zehn Schritte weiter faellt er, als haette er sie verloren.", "entdeckung_m": 25},
+   "budget": {"instanzen": 4000, "kollision": 400, "akteure": 25, "lichter": 0, "niagara": 3, "decals": 4},
+   "assets_wunsch": [],
+   "anker": {
+    "hochtal": {"pos_m": [-1690.0, -2806.0]},
+    "lippe_a": {"pos_m": [-1692.0, -2786.0]},
+    "lippe_b": {"pos_m": [-1685.0, -2785.0]},
+    "lippe": {"pos_m": [-1688.5, -2785.5]},
+    "gumpe": {"pos_m": [-1688.0, -2752.0]},
+    "quelle": {"pos_m": [-1700.0, -2840.0]}
+   },
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [150, 110], "bei": {"pos_m": [-1688.0, -2790.0]}, "rand_m": 12, "ist_wasser": true, "ist_wasser_r_m": 50,
+    "begruendung": "Der Bach (Bestand) ist der Ort: Hochtalboden geglaettet, Lippe +1 m, Gumpe am Fuss",
+    "ops": [
+     {"op": "terrasse", "bei": "hochtal", "radius_m": 16, "ziel_z": "boden+0.0", "streckung": [1.6, 1.0], "richtung": 0, "rand_m": 10, "modus": "setzen", "warum": "Hochtalboden flach (Wollgras, maeandrierender Bach)"},
+     {"op": "abbruch", "punkte": [{"pos_m": [-1712.0, -2788.0]}, "lippe", {"pos_m": [-1665.0, -2787.0]}], "hoehe_m": 2.0, "breite_m": 4, "reichweite_m": 14, "seite": "links", "verteilung": "oben", "warum": "Lippe +1...+2 m (Stufe betonen)"}
+    ], "senke_begruendung": "flache Mulden im Hochtalboden (nass, Wollgras)"},
+   "wasser": [
+    {"typ": "bach", "id": "hochtalbach", "punkte": ["quelle", {"pos_m": [-1694.0, -2826.0]}, {"pos_m": [-1699.0, -2812.0]}, {"pos_m": [-1690.0, -2800.0]}, "lippe"], "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": true, "muendung": "gumpe",
+     "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
+    {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 4.5, "spiegel_rand_min": -0.2, "tiefe_m": 2.0, "farbe": "klar", "becken": {"ufer_m": 4, "freibord_m": 0.4, "boden": 0.35, "auslass": 170}},
+    {"typ": "wasserfall", "id": "lippenfall", "kante": ["lippe_a", "lippe_b"], "becken": "gumpe", "breite_m": 2.5, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - Wasserfall"}
+   ],
+   "rahmen": [{"name": "sued", "bei": "gumpe", "ziel_hoehe_m": 3.0, "richtung_bereich": [160, 195], "abstand_m": 22, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 6.0, "rand_grad": 10, "bogen_grad": 40}],
+   "sicht_kern": "lippe", "sicht_probe_m": 10,
+   "gruppen": [
+    {"name": "lippenwand", "ebene": "held", "warum": "die Lippe des Haengetals als Felsstufe", "palette": ["SM_big_rock_wall_01", "SM_big_rock_wall_02"],
+     "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [-1697.0, -2784.0]}, {"pos_m": [-1680.0, -2784.0]}, {"pos_m": [-1705.0, -2782.0]}]}, "skala": [1.5, 1.9], "yaw": 175, "front_achse": "+y",
+     "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "meide": null, "im_wasser": "egal"},
+    {"name": "lippenbloecke", "ebene": "begleiter", "warum": "Bloecke an der Lippe", "palette": "nordfels",
+     "anzahl": 5, "verteilung": {"typ": "ring", "bei": "lippe", "r_m": [6, 14]}, "abstand_m": 5, "groesse_m": [2.0, 3.6], "eingraben": [0.3, 0.4], "akteur": true, "material": "MI_EL_SW_Fels_Flechte"},
+    {"name": "bachbett", "ebene": "schutt", "warum": "Bachbett im Hochtal und unter dem Fall", "palette": ["SM_DryRiverBed_01", "SM_DryRiverBed_02", "SM_mountain_rock_big_01_2", "SM_mountain_rock_big_01_4"],
+     "anzahl": 110, "verteilung": {"typ": "band", "punkte": "bach_hochtalbach", "breite_m": 4}, "abstand_m": 0.8, "skala": [0.8, 1.3], "im_wasser": "egal", "meide": "kern"},
+    {"name": "gumpengeroell", "ebene": "schutt", "warum": "Geroell um die Gumpe (vom Fall ausgeworfen)", "palette": "geroell",
+     "anzahl": 60, "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 14}, "abstand_m": 1.1, "groesse_m": [0.4, 1.2], "im_wasser": "egal"},
+    {"name": "gumpensteine", "ebene": "wasser", "warum": "Steine in der Gumpe", "palette": "steine",
+     "anzahl": 25, "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 5}, "abstand_m": 0.6, "skala": [1.5, 3.0], "im_wasser": "nur", "rolle": "stein"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies im Bach und am Ufer", "palette": "kiesel", "anzahl": 700,
+     "verteilung": {"typ": "band", "punkte": "bach_hochtalbach", "breite_m": 6}, "abstand_m": 0.3, "rolle": "stein", "im_wasser": "egal"},
+    {"name": "wollgras", "ebene": "bewuchs", "warum": "Wollgras und Seggen im nassen Hochtalboden", "palette": ["SM_wk2oaeyqx_VarB", "SM_wk2oaeyqx_VarF", "SM_wk2oaeyqx_VarC", "SM_wk2oaeyqx_VarI"],
+     "anzahl": 500, "verteilung": {"typ": "ellipse", "bei": "hochtal", "a_m": 26, "b_m": 16, "richtung": 0}, "abstand_m": 0.5, "rolle": "pflanze"},
+    {"name": "moor_moos", "ebene": "bewuchs", "warum": "Moos im flachen, nassen Boden", "palette": "moos", "anzahl": 300,
+     "verteilung": {"typ": "ellipse", "bei": "hochtal", "a_m": 24, "b_m": 14, "richtung": 0}, "abstand_m": 0.4, "rolle": "streu"},
+    {"name": "gischtfarn", "ebene": "bewuchs", "warum": "Farn unten in der Gischt", "palette": "farn_nass", "anzahl": 90,
+     "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 16}, "abstand_m": 0.8, "rolle": "pflanze"},
+    {"name": "schluchtbirken", "ebene": "bewuchs", "warum": "Birken in der Schlucht (windgeschuetzt, feucht)", "netz": "Big_Tree_Birch_01",
+     "anzahl": 7, "verteilung": {"typ": "ring", "bei": "gumpe", "r_m": [10, 30]}, "abstand_m": 6, "skala": [0.45, 0.7], "rolle": "baum"},
+    {"name": "altschnee", "ebene": "kleinzeug", "warum": "Altschneerest im Schatten der Lippe", "netz": "xemmbh2qx_tier_0",
+     "anzahl": 2, "verteilung": {"typ": "kreis", "bei": {"pos_m": [-1705.0, -2790.0]}, "r_m": 5}, "skala": [1.0, 1.5], "eingraben": [0.3, 0.4]},
+    {"name": "nassband", "ebene": "kontakt", "warum": "Moos und Steine an der nassen Lippe", "palette": ["SM_MossClump_01", "SM_MossClump_03", "SM_SmallStonesPack_07"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["lippenwand", "lippenbloecke"], "ring": [0.7, 1.2], "je": [10, 16]}, "rolle": "streu", "im_wasser": "egal"}
+   ],
+   "lagen": [
+    {"lage": "Moos", "form": "kreis", "bei": "hochtal", "r_m": 24, "streckung": [1.6, 1.0], "richtung": 0, "wert": 210, "flecken": 0.4},
+    {"lage": "Kies", "form": "band", "punkte": "bach_hochtalbach", "breite_m": 5, "wert": 190},
+    {"lage": "Fels", "form": "hang", "bei": "lippe", "r_m": 30, "hang_grad": [40, 90], "wert": 210},
+    {"lage": "Moos", "form": "kreis", "bei": "gumpe", "r_m": 12, "wert": 180, "flecken": 0.5}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 190, "Kies": 140}, "zugang": {"breite_cm": 120, "lagen": {"Erde": 180, "Kies": 130}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "niagara", "asset": "NS_Waterfall_Medium", "optional": false, "zweck": "Fall an der Lippe (Nature Water FX, Vorbild Bergwald-Klamm)", "bei": "lippe", "hoehe_m": 0.0, "yaw": 175},
+    {"typ": "niagara", "asset": "NS_Impact_Medium", "optional": false, "zweck": "Aufprall in der Gumpe", "bei": "gumpe", "hoehe_m": 0.2},
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Stroemung im Hochtalbach vor der Lippe", "bei": {"pos_m": [-1690.0, -2800.0]}, "hoehe_m": 0.1, "yaw": 175},
+    {"typ": "lokaler_nebel", "zweck": "Gischt in der Schlucht", "bei": "gumpe", "hoehe_m": 2, "radius_m": 12, "dichte": 0.07, "farbe": [0.88, 0.92, 0.94], "hoehenabfall": 0.8},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an Bach und Gumpe (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 40, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 2.5, 2.5]}
+   ],
+   "klaenge": [{"asset": "CUE_Water_Stream_IX_Cue", "bei": "gumpe", "radius_m": 45, "lautstaerke": 0.8, "zweck": "Fall an der Lippe"}]
+  },
+
+  "fjord_05_fjordkopf": {
+   "kurz": "Wo der Fjordbach ins Meer laeuft, hat er einen flachen Faecher aus Kies und Sand geschuettet: Rinnen, in denen das Suesswasser milchig ins gruene Salzwasser zieht, Tang auf den Steinen, ringsum 300 m hohe Waende.",
+   "marker": {"titel": "Der Fjordkopf", "text": "Hier trifft das Wasser der Berge auf das Wasser der Welt. Eine Weile laufen sie nebeneinander her, als koennten sie sich nicht entscheiden.", "entdeckung_m": 30},
+   "budget": {"instanzen": 4500, "kollision": 400, "akteure": 20, "lichter": 0, "niagara": 1, "decals": 6},
+   "assets_wunsch": [{"paket": "Megascans Icelandic Sand With Pebbles", "statt_jetzt": "SM_BeachSandWithPebbles_01/02, SM_NordicBeachRockyGround_01/02 als dunkler Kies"}],
+   "anker": {
+    "faecher": [0.0, -6.0],
+    "muendung": {"pos_m": [-1754.0, -3368.0]},
+    "rinne_w": {"pos_m": [-1772.0, -3376.0]},
+    "rinne_o": {"pos_m": [-1736.0, -3376.0]}
+   },
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [140, 120], "bei": "faecher", "rand_m": 12, "ist_wasser": true, "ist_wasser_r_m": 55,
+    "begruendung": "Der Ort ist die Muendung des Fjordbachs: Faecher +0,5 m, Rinnen -0,5 m im Bestandswasser",
+    "ops": [
+     {"op": "kuppe", "bei": "faecher", "radius_m": 26, "hoehe_m": 0.5, "plateau": 0.4, "streckung": [1.4, 1.0], "richtung": 90, "rand_m": 10, "warum": "Schwemmfaecher +0,5 m"},
+     {"op": "rinne", "punkte": [{"pos_m": [-1760.0, -3350.0]}, "rinne_w"], "breite_m": 2.5, "tiefe_m": 0.5, "rand_m": 2, "warum": "Rinne im Faecher (West)"},
+     {"op": "rinne", "punkte": [{"pos_m": [-1748.0, -3350.0]}, "rinne_o"], "breite_m": 2.5, "tiefe_m": 0.5, "rand_m": 2, "warum": "Rinne im Faecher (Ost)"}
+    ], "senke_begruendung": "Priele im Schwemmfaecher (bei Ebbe nass)"},
+   "rahmen": [{"name": "sued", "bei": "faecher", "ziel_hoehe_m": 3.0, "richtung_bereich": [170, 200], "abstand_m": 24, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 6.0, "rand_grad": 10, "bogen_grad": 40}],
+   "sicht_probe_m": 10,
+   "gruppen": [
+    {"name": "fjordbloecke", "ebene": "held", "warum": "zwei grosse Bloecke im Watt (vom Gletscher, der den Fjord schuf)", "palette": ["SM_NordicBoulder_01", "SM_NordicBeachRocks_01"],
+     "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [-1765.0, -3380.0]}, {"pos_m": [-1742.0, -3388.0]}]}, "skala": [0.7, 0.9], "eingraben": [0.35, 0.45], "im_wasser": "egal", "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Flechte"},
+    {"name": "wattbloecke", "ebene": "begleiter", "warum": "weitere Bloecke im Watt", "palette": "nordfels",
+     "anzahl": 6, "verteilung": {"typ": "ellipse", "bei": "faecher", "a_m": 34, "b_m": 22, "richtung": 90}, "abstand_m": 8, "groesse_m": [1.8, 3.2], "eingraben": [0.3, 0.45], "im_wasser": "egal", "akteur": true},
+    {"name": "faecherkies", "ebene": "schutt", "warum": "Kies und Steine des Schwemmfaechers", "palette": ["SM_NordicBeachRockyGround_01", "SM_NordicBeachRockyGround_02", "SM_NordicBeach_02", "SM_BeachSandWithPebbles_02"],
+     "anzahl": 170, "verteilung": {"typ": "faecher", "bei": {"pos_m": [-1754.0, -3330.0]}, "richtung": 0, "laenge_m": 55, "oeffnung_grad": 90}, "abstand_m": 1.6, "skala": [0.7, 1.2], "im_wasser": "egal", "eingraben": [0.4, 0.6]},
+    {"name": "treibholz", "ebene": "schutt", "warum": "Treibholz an der Hochwasserlinie", "palette": "treibholz",
+     "anzahl": 16, "verteilung": {"typ": "ellipse", "bei": "faecher", "a_m": 38, "b_m": 26, "richtung": 90}, "abstand_m": 3, "rolle": "stamm", "im_wasser": "egal"},
+    {"name": "strandkiesel", "ebene": "kleinzeug", "warum": "Kiesel und Sand", "palette": "strandkies", "anzahl": 1500,
+     "verteilung": {"typ": "ellipse", "bei": "faecher", "a_m": 38, "b_m": 28, "richtung": 90}, "abstand_m": 0.35, "rolle": "stein", "im_wasser": "egal"},
+    {"name": "seetang", "ebene": "kleinzeug", "warum": "Tang auf den Steinen im Gezeitenbereich", "palette": "seetang", "anzahl": 60,
+     "verteilung": {"typ": "ellipse", "bei": "muendung", "a_m": 34, "b_m": 14, "richtung": 90}, "abstand_m": 1.2, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "strandgras", "ebene": "bewuchs", "warum": "Strandgras am Rand des Faechers (ueber der Flutlinie)", "palette": "strandgras", "anzahl": 220,
+     "verteilung": {"typ": "ring", "bei": "faecher", "r_m": [26, 44]}, "abstand_m": 0.8, "rolle": "pflanze", "hoehe_rel_m": [1.0, 30.0]},
+    {"name": "sanddorn", "ebene": "bewuchs", "warum": "Sanddorn am trockenen Rand", "palette": ["SM_sea_buckthorn_01", "SM_sea_buckthorn_02"],
+     "anzahl": 10, "verteilung": {"typ": "ring", "bei": "faecher", "r_m": [30, 46]}, "abstand_m": 4, "rolle": "pflanze", "hoehe_rel_m": [1.5, 30.0]},
+    {"name": "tangsaum", "ebene": "kontakt", "warum": "Tang am Fuss der Bloecke", "palette": ["SM_seaweed_01_D", "SM_seaweed_01_A"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["fjordbloecke", "wattbloecke"], "ring": [0.85, 1.2], "je": [2, 4]}, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "blockkies", "ebene": "kontakt", "warum": "Kies am Blockfuss", "palette": "kiesel",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["fjordbloecke", "wattbloecke"], "ring": [0.95, 1.3], "je": [10, 16]}, "rolle": "stein", "im_wasser": "egal"}
+   ],
+   "lagen": [
+    {"lage": "Kies", "form": "kreis", "bei": "faecher", "r_m": 34, "streckung": [1.4, 1.0], "richtung": 90, "wert": 220, "flecken": 0.35},
+    {"lage": "Sand", "form": "kreis", "bei": "muendung", "r_m": 26, "streckung": [1.5, 1.0], "richtung": 90, "wert": 180, "flecken": 0.45},
+    {"lage": "Algen", "form": "kreis", "bei": "muendung", "r_m": 18, "streckung": [1.6, 1.0], "richtung": 90, "wert": 150, "flecken": 0.6}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 190, "Sand": 120}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Suesswasser stroemt ueber den Faecher ins Salzwasser (Nature Water FX)", "bei": "muendung", "hoehe_m": 0.1, "yaw": 0},
+    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algenband im Gezeitenbereich", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "muendung", "r_m": 16}, "groesse_m": [1.0, 4.0, 4.0]},
+    {"typ": "decal", "material": "MI_Decal_Sand_Wet", "zweck": "nasser Sand", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "muendung", "r_m": 20}, "groesse_m": [1.0, 5.0, 5.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "Spuelsaum (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "muendung", "r_m": 24}, "groesse_m": [1.0, 4.0, 4.0]},
+    {"typ": "lokaler_nebel", "zweck": "Dunst zwischen den Fjordwaenden", "bei": "muendung", "hoehe_m": 4, "radius_m": 40, "dichte": 0.04, "farbe": [0.82, 0.86, 0.88], "hoehenabfall": 0.5}
+   ],
+   "klaenge": [{"asset": "CUE_Water_Stream_VI_Cue", "bei": "muendung", "radius_m": 30, "lautstaerke": 0.4, "zweck": "Bach in den Rinnen (Brandung fehlt im Bestand)"}]
+  },
+
+  "fjord_06_bergsturz": {
+   "kurz": "Aus der Westwand ist ein Stueck Berg ausgebrochen: oben eine helle Abrissnische, darunter ein Kegel aus hausgrossen Bloecken bis zum Talboden; zwischen den Bloecken wachsen schon junge Birken.",
+   "marker": {"titel": "Der Bergsturzkegel", "text": "Der Berg hat hier einmal ausgeatmet. Die Birken zwischen den Bloecken sind juenger als der Laerm, den es gemacht hat - aber nicht viel.", "entdeckung_m": 30},
+   "budget": {"instanzen": 4000, "kollision": 900, "akteure": 40, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [],
+   "anker": {
+    "nische": {"pos_m": [-1912.0, -3170.0]},
+    "kegelfuss": {"pos_m": [-1815.0, -3166.0]},
+    "kegelmitte": {"pos_m": [-1850.0, -3168.0]}
+   },
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [130, 170], "bei": "kegelmitte", "rand_m": 12, "ops": [
+    {"op": "mulde", "bei": "nische", "radius_m": 14, "tiefe_m": 3.0, "rand_m": 6, "boden": 0.3, "streckung": [1.0, 1.5], "richtung": 0, "warum": "Abrissnische -3 m (offen hangab)"},
+    {"op": "kuppe", "bei": "kegelfuss", "radius_m": 22, "hoehe_m": 4.0, "plateau": 0.2, "streckung": [1.3, 1.0], "richtung": 0, "rand_m": 10, "warum": "Sturzkegel +4 m am Fuss"},
+    {"op": "buckel", "bei": "kegelmitte", "radius_m": 40, "amplitude_m": 1.2, "wellenlaenge_m": 8, "warum": "Blockkegel buckelig"}
+   ], "senke_begruendung": "Hohlraeume zwischen den Sturzbloecken"},
+   "rahmen": [{"name": "ost", "bei": "kegelmitte", "ziel_hoehe_m": 3.0, "richtung_bereich": [40, 110], "abstand_m": 30, "breite_m": 14, "hoehe_min_m": 2.0, "hoehe_max_m": 7.0, "rand_grad": 10, "bogen_grad": 50}],
+   "sicht_probe_m": 12,
+   "gruppen": [
+    {"name": "sturzbloecke", "ebene": "held", "warum": "hausgrosse Bloecke des Sturzes, die groessten rollten am weitesten (unten)", "palette": ["SM_NordicBoulder_01", "SM_Big_Rock_01", "SM_Big_Rock_02", "SM_MassiveTundraRockFormation_02"], "gewichte": [3, 2, 2, 1],
+     "anzahl": 11, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 105, "start_m": 15, "oeffnung_grad": 40, "t": [0.35, 1.0]}, "abstand_m": 8,
+     "groesse_m": [5.0, 9.0], "gradient": {"von": 0.75, "bis": 1.2}, "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "mindestens": 8},
+    {"name": "schichtfels", "ebene": "begleiter", "warum": "geschichtete Felsscholle im Kegel", "netz": "ukjhcamga_tier_0",
+     "verteilung": {"typ": "punkt", "bei": {"pos_m": [-1858.0, -3178.0]}}, "skala": 0.4, "yaw": 92, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true},
+    {"name": "abrisswand", "ebene": "begleiter", "warum": "die helle, frische Abrissnische (ohne Moos)", "netz": "vdssailfa_tier_2",
+     "verteilung": {"typ": "punkt", "bei": {"pos_m": [-1922.0, -3170.0]}}, "skala": 0.85, "yaw": 92, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
+    {"name": "kegelschutt", "ebene": "schutt", "warum": "sortierter Schutt: oben fein, unten grob", "palette": ["SM_mountain_rock_big_02_1", "SM_mountain_rock_big_02_4", "SM_mountain_rock_big_02_6", "SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_5", "xf3odif_tier_0"],
+     "anzahl": 200, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 110, "start_m": 10, "oeffnung_grad": 45}, "abstand_m": 1.8, "groesse_m": [0.7, 2.2], "gradient": {"von": 0.6, "bis": 1.5}},
+    {"name": "splitter", "ebene": "kleinzeug", "warum": "Splitter und Steine (scharfkantig, der Sturz ist jung)", "palette": "steine", "anzahl": 800,
+     "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 110, "start_m": 8, "oeffnung_grad": 50}, "abstand_m": 0.45, "rolle": "stein"},
+    {"name": "pionierbirken", "ebene": "bewuchs", "warum": "junge Birken zwischen den unteren, aelteren Bloecken", "netz": "Big_Tree_Birch_01",
+     "anzahl": 9, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 110, "oeffnung_grad": 45, "t": [0.55, 1.0]}, "abstand_m": 6, "skala": [0.4, 0.6], "rolle": "baum"},
+    {"name": "farn_beeren", "ebene": "bewuchs", "warum": "Farn und Beeren in den Fugen unten", "palette": ["SM_EagleFern_S_01", "SM_EagleFern_S_04", "SM_lingonberry_01", "SM_billberry_01"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": "sturzbloecke", "ring": [0.9, 1.3], "je": [4, 8], "seite": "nord"}, "rolle": "pflanze"},
+    {"name": "altmoos", "ebene": "kontakt", "warum": "Moos und Flechten nur auf den alten, unteren Bloecken", "palette": "moos",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["sturzbloecke", "schichtfels"], "ring": [0.8, 1.15], "je": [8, 12], "seite": "nord", "seite_staerke": 0.5}, "rolle": "streu"},
+    {"name": "fugenkies", "ebene": "kontakt", "warum": "Kies in den Fugen", "palette": "kiesel",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["sturzbloecke", "schichtfels"], "ring": [0.9, 1.25], "je": [14, 22]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Geroell", "form": "kreis", "bei": "kegelmitte", "r_m": 50, "streckung": [1.4, 1.0], "richtung": 92, "wert": 230, "flecken": 0.3},
+    {"lage": "Fels", "form": "kreis", "bei": "nische", "r_m": 16, "wert": 240}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 190, "Kies": 140}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Erde": 140}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_mountain_decals_01", "zweck": "Steinstaub/Flechten auf den Bloecken (Mountain-Set)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "kegelmitte", "r_m": 30}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "lokaler_nebel", "zweck": "Dunst vor der Wand (Tiefe)", "bei": "kegelfuss", "hoehe_m": 10, "radius_m": 40, "dichte": 0.03, "farbe": [0.82, 0.85, 0.88], "hoehenabfall": 0.5}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "kegelmitte", "radius_m": 50, "lautstaerke": 0.35, "zweck": "Wind in den Birken"}]
+  },
+
+  "fjord_07_brandungsgrotte": {
+   "kurz": "An der Ostspitze der Fjordmuendung hat die Duenung einen schmalen Spalt ins Gestein gearbeitet: eine hohe, enge Grotte mit gruenem Wasser, in dem Tang wogt; bei jeder Welle atmet sie.",
+   "marker": {"titel": "Die Brandungsgrotte", "text": "Der Fels atmet. Mit jeder Welle zieht er das Meer ein und stoesst es schaeumend wieder aus.", "entdeckung_m": 20},
+   "budget": {"instanzen": 2500, "kollision": 300, "akteure": 20, "lichter": 1, "niagara": 2, "decals": 5},
+   "assets_wunsch": [{"paket": "Cave Ambience", "statt_jetzt": "CUE_Water_Stream_VII_Cue (Wasser im Spalt)"}],
+   "anker": {
+    "mund": {"pos_m": [-1649.0, -3546.0]},
+    "spalt_innen": {"pos_m": [-1630.0, -3527.0]},
+    "spalt_mitte": {"pos_m": [-1639.0, -3536.0]}
+   },
+   "linien": {"spalt": {"punkte": [{"pos_m": [-1656.0, -3553.0]}, "mund", "spalt_mitte", "spalt_innen"]}},
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [90, 90], "bei": "spalt_mitte", "rand_m": 12, "ops": [
+    {"op": "rinne", "punkte": "spalt", "breite_m": 4, "sohle": [-1.5, -0.6], "rand_m": 2, "warum": "Spalt ins Gestein, Sohle unter dem Meeresspiegel (Meer laeuft hinein)"}
+   ]},
+   "gruppen": [
+    {"name": "grottenwand_w", "ebene": "held", "warum": "Westwand des Spalts (hoch und eng)", "netz": "SM_HugeNordicCoastalCliff_01",
+     "verteilung": {"typ": "reihe", "punkte": [{"pos_m": [-1652.0, -3550.0]}, "spalt_innen"], "abstand_m": 13, "versatz_m": 3.2, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true},
+     "skala": [0.85, 1.0], "front_achse": "+y", "eingraben": [0.25, 0.35], "akteur": true, "kollision": true, "material": "MI_EL_SW_Klippe_Fjordnass", "meide": null, "im_wasser": "egal"},
+    {"name": "grottenwand_o", "ebene": "held", "warum": "Ostwand des Spalts", "netz": "SM_HugeNordicCoastalCliff_02",
+     "verteilung": {"typ": "reihe", "punkte": [{"pos_m": [-1652.0, -3550.0]}, "spalt_innen"], "abstand_m": 12, "versatz_m": 3.2, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true},
+     "skala": [0.9, 1.05], "front_achse": "+y", "eingraben": [0.25, 0.35], "akteur": true, "kollision": true, "material": "MI_EL_SW_Klippe_Fjordnass", "meide": null, "im_wasser": "egal"},
+    {"name": "grottendach", "ebene": "begleiter", "warum": "Ueberhang/Dach ueber dem inneren Spalt (Gelaende kann keine Hoehle)", "netz": "SM_MassiveNordicCoastalCliff_01",
+     "verteilung": {"typ": "punkt", "bei": {"anker": "spalt_innen", "versatz_m": [4.0, 4.0]}}, "skala": 0.6, "yaw": 225, "front_achse": "+y", "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "material": "MI_EL_SW_Klippe_Fjordnass", "meide": null},
+    {"name": "uferbloecke", "ebene": "begleiter", "warum": "Uferbloecke an der Ecke (ueber die man hineinklettert)", "palette": ["SM_NordicBeachRocks_01", "SM_NordicBoulder_01"],
+     "anzahl": 5, "verteilung": {"typ": "ring", "bei": "mund", "r_m": [8, 18]}, "abstand_m": 5, "groesse_m": [2.0, 3.5], "eingraben": [0.3, 0.45], "akteur": true, "im_wasser": "egal", "material": "MI_EL_SW_Fels_Flechte"},
+    {"name": "spaltschutt", "ebene": "schutt", "warum": "Brandungsgeroell im Spalt", "palette": ["SM_NordicBeachRockyGround_01", "SM_NordicBeachRockyGround_02", "SM_mountain_rock_big_01_2"],
+     "anzahl": 50, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 10}, "abstand_m": 1.4, "skala": [0.5, 1.0], "im_wasser": "egal", "meide": "kern"},
+    {"name": "tang", "ebene": "kleinzeug", "warum": "Tang- und Seepockenband im Gezeitenbereich", "palette": "seetang", "anzahl": 70,
+     "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 9}, "abstand_m": 0.8, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "runde Kiesel, von der Brandung gedreht", "palette": "strandkies", "anzahl": 450,
+     "verteilung": {"typ": "kreis", "bei": "mund", "r_m": 20}, "abstand_m": 0.4, "rolle": "stein", "im_wasser": "egal"},
+    {"name": "strandgras", "ebene": "bewuchs", "warum": "Strandgras oben auf der Kante", "palette": "strandgras", "anzahl": 120,
+     "verteilung": {"typ": "ring", "bei": "spalt_mitte", "r_m": [12, 26]}, "abstand_m": 0.8, "rolle": "pflanze", "hoehe_rel_m": [3.0, 40.0]},
+    {"name": "nassmoos", "ebene": "kontakt", "warum": "Nassband: Moos/Tang am Wandfuss", "palette": ["SM_seaweed_01_D", "SM_MossClump_02", "SM_MossClump_04"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["grottenwand_w", "grottenwand_o", "uferbloecke"], "ring": [0.7, 1.1], "je": [6, 10]}, "rolle": "streu", "im_wasser": "egal"}
+   ],
+   "lagen": [
+    {"lage": "Fels", "form": "kreis", "bei": "spalt_mitte", "r_m": 18, "wert": 230},
+    {"lage": "Kies", "form": "band", "punkte": "spalt", "breite_m": 8, "wert": 200},
+    {"lage": "Algen", "form": "band", "punkte": "spalt", "breite_m": 6, "wert": 160, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 190, "Erde": 130}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "niagara", "asset": "NS_Impact_Small", "optional": false, "zweck": "Gischt, wo die Welle im Spalt bricht (Nature Water FX)", "bei": "spalt_mitte", "hoehe_m": 0.2},
+    {"typ": "niagara", "asset": "NS_Wake_Small", "optional": false, "zweck": "Schaumspur der einlaufenden Duenung im Mund", "bei": "mund", "hoehe_m": 0.0, "yaw": 135},
+    {"typ": "punktlicht", "zweck": "gruenes Schimmern im Spalt", "bei": "spalt_mitte", "hoehe_m": 1.0, "intensitaet_cd": 250, "radius_m": 10, "farbe": [0.45, 0.85, 0.75]},
+    {"typ": "lokaler_nebel", "zweck": "Gischtdunst im Spalt", "bei": "spalt_mitte", "hoehe_m": 2, "radius_m": 10, "dichte": 0.06, "farbe": [0.86, 0.9, 0.92], "hoehenabfall": 0.8},
+    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algenband an den Waenden", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 6}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 9}, "groesse_m": [1.0, 3.0, 3.0]}
+   ],
+   "klaenge": [{"asset": "CUE_Water_Stream_VII_Cue", "bei": "spalt_mitte", "radius_m": 30, "lautstaerke": 0.6, "zweck": "Wasser im Spalt (Cave Ambience/Brandung fehlen)"}]
+  },
+
+  "fjord_08_strandterrassen": {
+   "kurz": "Am Westhang der Fjordmuendung ziehen sich drei gruene Stufen parallel zum Wasser den Berg hinauf - alte Strandlinien, 20, 45 und 70 m ueber dem heutigen Meer; auf jeder liegen gerundete Strandkiesel und Muschelschill im Gras.",
+   "marker": {"titel": "Die alten Ufer", "text": "Das Meer stand einmal hier oben. Es hat seine Kiesel liegen lassen, als es ging, und die Muscheln, die es nicht mehr brauchte.", "entdeckung_m": 20},
+   "budget": {"instanzen": 3500, "kollision": 200, "akteure": 15, "lichter": 0, "niagara": 0, "decals": 4},
+   "assets_wunsch": [{"paket": "Megascans Icelandic Sand With Pebbles", "statt_jetzt": "SM_BeachSandWithPebbles_01/02, SM_NordicBeachRock_01, MI_Decal_Rocks_Small"}],
+   "anker": {"t2": {"pos_m": [-1908.0, -3482.0]}},
+   "linien": {
+    "stufe20": {"punkte": [{"pos_m": [-1884.0, -3530.0]}, {"pos_m": [-1882.0, -3500.0]}, {"pos_m": [-1886.0, -3470.0]}, {"pos_m": [-1890.0, -3440.0]}]},
+    "stufe45": {"punkte": [{"pos_m": [-1906.0, -3532.0]}, {"pos_m": [-1905.0, -3502.0]}, {"pos_m": [-1908.0, -3472.0]}, {"pos_m": [-1912.0, -3442.0]}]},
+    "stufe70": {"punkte": [{"pos_m": [-1928.0, -3532.0]}, {"pos_m": [-1928.0, -3502.0]}, {"pos_m": [-1931.0, -3472.0]}, {"pos_m": [-1935.0, -3442.0]}]}
+   },
+   "gelaende": {"schutz_weg_m": 5, "fenster_m": [140, 120], "bei": "t2", "rand_m": 12, "ops": [],
+    "nach_ops": [
+     {"op": "damm", "punkte": "stufe20", "breite_m": 12, "hoehe_m": 1.6, "krone": 0.65, "warum": "Strandterrasse 20 m (Kante)"},
+     {"op": "damm", "punkte": "stufe45", "breite_m": 12, "hoehe_m": 1.8, "krone": 0.65, "warum": "Strandterrasse 45 m"},
+     {"op": "damm", "punkte": "stufe70", "breite_m": 12, "hoehe_m": 1.6, "krone": 0.65, "warum": "Strandterrasse 70 m"}
+    ], "senke_begruendung": "flache Mulden hinter den Strandwaellen (alte Strandseen)"},
+   "rahmen": [{"name": "ost", "bei": "t2", "ziel_hoehe_m": 3.0, "richtung_bereich": [95, 130], "abstand_m": 26, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 6.0, "rand_grad": 10, "bogen_grad": 40}],
+   "sicht_probe_m": 12,
+   "gruppen": [
+    {"name": "strandwall_bloecke", "ebene": "held", "warum": "gerundete Bloecke auf der mittleren Strandlinie (das alte Brandungsufer)", "palette": ["SM_NordicBeachRocks_01", "SM_TundraMossyBoulder_01"],
+     "anzahl": 3, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 4}, "abstand_m": 18, "groesse_m": [2.4, 3.6], "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Flechte"},
+    {"name": "terrassenkante", "ebene": "begleiter", "warum": "Abbruchkanten der alten Ufer (Coast-&-Dunes-Spline-Kanten)", "palette": ["SM_LS_beach_escarpment_02_A", "SM_LS_beach_escarpment_02_B", "SM_LS_beach_escarpment_01_C"],
+     "verteilung": {"typ": "reihe", "punkte": "stufe45", "abstand_m": 10, "versatz_m": 4.0, "versatz_streuung_m": 0.8, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.9, 1.1], "front_achse": "+y", "eingraben": [0.35, 0.45], "meide": null},
+    {"name": "terrassenkante20", "ebene": "begleiter", "warum": "Kante der unteren Strandlinie", "palette": ["SM_LS_beach_escarpment_01_C", "SM_LS_beach_escarpment_02_A"],
+     "verteilung": {"typ": "reihe", "punkte": "stufe20", "abstand_m": 12, "versatz_m": 4.0, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.8, 1.0], "front_achse": "+y", "eingraben": [0.35, 0.45], "meide": null},
+    {"name": "begleitbloecke", "ebene": "begleiter", "warum": "Blocksaum der oberen und unteren Strandlinie", "palette": "nordfels",
+     "anzahl": 4, "verteilung": {"typ": "band", "punkte": "stufe70", "breite_m": 6}, "abstand_m": 12, "groesse_m": [1.8, 3.0], "eingraben": [0.4, 0.5], "akteur": true},
+    {"name": "rundkiesel20", "ebene": "schutt", "warum": "gerundete Strandkiesel auf der 20-m-Stufe", "palette": ["SM_BeachSandWithPebbles_01", "SM_BeachSandWithPebbles_02", "SM_NordicBeach_02"],
+     "anzahl": 60, "verteilung": {"typ": "band", "punkte": "stufe20", "breite_m": 8}, "abstand_m": 1.8, "skala": [0.7, 1.2], "eingraben": [0.4, 0.6]},
+    {"name": "rundkiesel45", "ebene": "schutt", "warum": "Strandkiesel auf der 45-m-Stufe", "palette": ["SM_BeachSandWithPebbles_01", "SM_BeachSandWithPebbles_02", "SM_NordicBeach_02"],
+     "anzahl": 60, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 8}, "abstand_m": 1.8, "skala": [0.7, 1.2], "eingraben": [0.4, 0.6]},
+    {"name": "rundkiesel70", "ebene": "schutt", "warum": "Strandkiesel auf der 70-m-Stufe", "palette": ["SM_BeachSandWithPebbles_01", "SM_BeachSandWithPebbles_02"],
+     "anzahl": 50, "verteilung": {"typ": "band", "punkte": "stufe70", "breite_m": 8}, "abstand_m": 1.8, "skala": [0.7, 1.2], "eingraben": [0.4, 0.6]},
+    {"name": "muschelschill", "ebene": "kleinzeug", "warum": "Muschelschill mitten im Gras (Zeugnis des alten Meeres)", "palette": ["SM_shells_01_A", "SM_shells_01_B", "SM_NordicBeachRock_01", "SM_SmallStonesPack_06"],
+     "anzahl": 700, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 9}, "abstand_m": 0.4, "rolle": "streu"},
+    {"name": "muschelschill_b", "ebene": "kleinzeug", "warum": "Muscheln und Kiesel auf den anderen Stufen", "palette": ["SM_shells_01_A", "SM_shells_01_B", "SM_NordicBeachRock_01"],
+     "anzahl": 500, "verteilung": {"typ": "band", "punkte": "stufe20", "breite_m": 9}, "abstand_m": 0.4, "rolle": "streu"},
+    {"name": "stufengras", "ebene": "bewuchs", "warum": "Gras auf den flachen, feuchten Stufen (gruene Baender)", "palette": "tundragras",
+     "anzahl": 700, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 14}, "abstand_m": 0.5, "rolle": "pflanze"},
+    {"name": "stufengras_b", "ebene": "bewuchs", "warum": "Gras auf der 20- und 70-m-Stufe", "palette": "tundragras",
+     "anzahl": 500, "verteilung": {"typ": "band", "punkte": "stufe70", "breite_m": 14}, "abstand_m": 0.5, "rolle": "pflanze"},
+    {"name": "heide_hang", "ebene": "bewuchs", "warum": "Heide auf den steilen Hangstuecken zwischen den Stufen", "palette": "heide",
+     "anzahl": 300, "verteilung": {"typ": "kreis", "bei": "t2", "r_m": 45}, "abstand_m": 0.7, "rolle": "pflanze", "hang_grad": [25, 60]},
+    {"name": "kantenkies", "ebene": "kontakt", "warum": "Kiesbaender an den Stufenkanten", "palette": "kiesel",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["terrassenkante", "terrassenkante20", "strandwall_bloecke", "begleitbloecke"], "ring": [0.9, 1.3], "je": [12, 18]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Kies", "form": "band", "punkte": "stufe20", "breite_m": 6, "wert": 200, "flecken": 0.4},
+    {"lage": "Kies", "form": "band", "punkte": "stufe45", "breite_m": 6, "wert": 210, "flecken": 0.4},
+    {"lage": "Kies", "form": "band", "punkte": "stufe70", "breite_m": 6, "wert": 190, "flecken": 0.4},
+    {"lage": "Wiese", "form": "band", "punkte": "stufe45", "breite_m": 16, "wert": 180, "flecken": 0.4},
+    {"lage": "Wiese", "form": "band", "punkte": "stufe20", "breite_m": 16, "wert": 170, "flecken": 0.4},
+    {"lage": "Wiese", "form": "band", "punkte": "stufe70", "breite_m": 16, "wert": 170, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Erde": 180, "Kies": 130}},
+            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Rocks_Small", "zweck": "Kiesel-Decal auf den Stufen (Coast & Dunes)", "anzahl": 4, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 6}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "lokaler_nebel", "zweck": "Seedunst unter den Stufen", "bei": {"pos_m": [-1870.0, -3480.0]}, "hoehe_m": 4, "radius_m": 30, "dichte": 0.03, "farbe": [0.82, 0.86, 0.88], "hoehenabfall": 0.6}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "t2", "radius_m": 50, "lautstaerke": 0.35, "zweck": "Wind ueber dem Gras"}]
+  }
+ }
+}
