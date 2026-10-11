@@ -232,7 +232,13 @@ def hook_ende(ctx):
                                     probe_r_m=float(ctx.r.get("sicht_probe_m", 0.0)) or None, kern_m=kern,
                                     r_max_m=float(ctx.r.get("sicht_r_max_m", 800.0)))
         ctx.sicht_ergebnis = res
-        ctx.melde("HINWEIS", res["text"])
+        walls = []
+        for n_, P_ in ctx.linien.items():
+            if n_.startswith("rahmen_"):
+                import numpy as _np
+                dl = [float(_np.asarray(ctx.stempel.hoehe_bei_m(px, py)) - ctx.welt.hoehe_bei_m(px, py)) for px, py in P_]
+                walls.append("%s +%.1f m" % (n_[7:], max(dl) if dl else 0.0))
+        ctx.melde("HINWEIS", res["text"] + ((" | Wall gebaut: " + ", ".join(walls)) if walls else ""))
         if not res["verdeckt"]:
             # wer sieht den Kern noch? (Richtung, Abstand, Hoehe ueber dem Ziel) - fuer Nacharbeit und Bericht
             import numpy as np

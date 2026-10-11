@@ -20,6 +20,8 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 | bergwald | `skripte/sehens_bergwald/` | **fertig** (Inventar 13d; Planer + Prüfer 0 FEHLER/0 WARNUNG; deterministisch) | Klamm mit NS_Waterfall_Medium/NS_Impact_Medium/NS_Stream_Small; Mountain-Wurzeln/Pilze; Nassband-Decals; Karsee ±9 m |
 | aue | `skripte/sehens_aue/` | **fertig** (Inventar 13d; 0 FEHLER/0 WARNUNG; byteidentisch) | Biberstau-Teich mit Dammbogen; Die Alte = Schwarzpappel ×1,3; Schwalbenwand mit eigener Brutröhren-Decal-Textur; Mondarm-Gürtel 220 m (Verdeckung bestanden); Blautopf-Trichter 9 m (Stempel 10,4 m, begründet). Mondarm-Spiegel aus Gelände geschätzt ~14,2 m (teiche.json kennt nur Westarm 13,22 m) |
 | sumpf | `skripte/sehens_sumpf/` | **fertig** (Inventar 13d; 0 FEHLER/0 WARNUNG; byteidentisch) | Epic-See als `bestandswasser`; 47 tote Fichten im Ertrunkenen Wald; Weidendom auf `SM_SwampCypress_A`; Riesenseerosen ×2,5–4; Erlenbruch-Gehölzring (Verdeckung bestanden); Irrlichtsenke mit Nebel, NS_Sparkling_Glow und 2 Punktlichtern ≤ 2 cd |
+| elfenwald | `skripte/sehens_elfenwald/` | **fertig** (Inventar 13d; 0 FEHLER/0 WARNUNG; byteidentisch) | Mutterbaum Buche ×2,5 (54 m) mit Brettwurzeln; Serpentinenpfad 0,9 km zum Nebelhain; Rotlaub als Kopie `MI_EL_SW_Rotlaub`; Elfentreppe mit 5 Tuffbecken + NS_Stream/NS_Impact; Wurzelbrücke 34 m über die Kerbe |
+| dschungel | `skripte/sehens_dschungel/` | **fertig** (Inventar 13d; Prüfer 0 FEHLER/0 WARNUNG; 2 Planer-Warnungen begründet: natürliche Senken Lagune/Schluckhöhle) | Mondtor aus 2× `SM_Cliff_01c` + Sturz `SM_Cliff_01b` (Öffnung ~16 × 14 m); Turmquelle 60 m mit NS_Waterfall_Large; Steinwald aus 58 Kalknadeln; Cenote als eigener türkiser See; Lagune durch 43-m-Gasse. Große Kalkfelsen weiter Ersatz (`SM_Cliff_01*` + Limestone-Bestand) bis Megascans-Limestone geladen ist |
 | kueste | `skripte/sehens_kueste/` | **fertig** (Inventar 13d; 0 FEHLER/0 WARNUNG; byteidentisch) | Brandungspfeiler aus 3 Stücken (Kopf ~49 m); Nadeltor-Stempel −49 m (begründet); Seefall 54 m mit NS_Waterfall_Large; Blasloch mit NS_Geyser_Large; alle 4 Fundstücke verdeckt. Korrekturen: Guano-Wand der Vogelinsel an der Ostflanke (Kameras stehen im Osten), Kreidewand-Hauptwand nach Süden; Klang-Ersatz für Brandung/Seevögel |
 
 
@@ -87,6 +89,8 @@ Beantwortet (13c bzw. Chat, siehe „Entscheidungen Ferat“ und `13c-antworten-
 **Neu aus Phase 2 (Küste):** Darf die Guano-Wand der Vogelinsel an der Ostseite liegen (Katalog sagte West, alle Kameras stehen im Osten)? Editorbild für Schauseite der Klippenschalen und die Unterseite des Nadeltor-Sturzes. Vogelwolke über der Vogelinsel (`NS_feather`) behalten (Frage Tiere)?
 
 **Neu aus Phase 2 (Aue/Sumpf):** Stimmt der Mondarm-Spiegel ~14,2 m? Schauseiten von Lehm- und Kalkwand (`front_achse +y`), Reiherhorste und die Blattkarten der Graveyard-Totbäume bitte im Editorbild prüfen.
+
+**Neu aus Phase 2 (Elfenwald/Dschungel):** Elfentreppe – bestehendes Bachwasser zwischen den Becken durch die Stufenbecken ersetzen? Nebelhain – `BP_FogBankCard` setzen oder 2 lokale Nebel? Schauseiten `SM_Cliff_01*`, `SM_HugeMossyForestCliff_01`, `SM_stones_roots_01` im Editorbild prüfen (zuerst Mondtor `_fern`). Schluckhöhle – läuft am Portal heute sichtbar Wasser nach Süden weiter (Wasserraster ja, Bachvektoren nein)?
 
 **Neu aus 13d:**
 9. **Limestone:** nicht im Inventar 13d – soll Claude (lokal) die Megascans-Limestone-Assets und das Ancraite „Limestone Rock Set“ laden? Link zum Ancraite-Set?

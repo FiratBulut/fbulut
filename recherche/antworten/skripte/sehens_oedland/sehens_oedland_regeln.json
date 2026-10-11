@@ -1,0 +1,455 @@
+{
+ "_doku": {
+  "stand": "2026-10-11",
+  "auftrag": "13 Phase 2 - Planer Oedland (Biom-Agent B6). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md",
+  "quellen": "sehens/oedland/katalog.md, sehens/oedland/asset_bedarf.json, standorte.json (inkl. pfade: Oedlandpfad, 3 Aeste), sehens-STATUS.md, Auftrag 13b/13c/13d",
+  "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
+  "hinweis": "Badlands aus Megascans Desert Western (Formation/Cliff Layered, Mound/Slope Mud; Fab-Materialien, kein Override) + getoente Bestandsfelsen. Oedlandpfad: jeder Meter der 3 Aeste liegt in genau einem Lagenfenster (pfad.pfad_id/abschnitt/abschnitte, siehe README). Netze nur aus netze.csv (13d).",
+  "materialien": "6 von 6: Oedland_Ton, Oedland_Rot, Oedland_Violett, Russ, Konkretion, Totholz_Schwarz"
+ },
+ "biom": "oedland",
+ "seed": 1308,
+ "paletten": {
+  "felsen": ["SM_Rock_01", "SM_Rock_03", "SM_Rock_05", "SM_Rock_06"],
+  "felsen_klein": ["SM_Rock_04", "SM_Rock_07", "SM_s_rock_01", "SM_s_rock_02", "SM_s_rock_03"],
+  "steine": ["SM_stones_01_1", "SM_stones_01_4", "SM_stones_01_5", "SM_s_rock_02"],
+  "kiesel": ["SM_SmallStonesPack_01", "SM_SmallStonesPack_03", "SM_SmallStonesPack_04", "SM_SmallStonesPack_06", "SM_SmallStonesPack_08", "SM_SmallStonesPack_10"],
+  "schlamm": ["ulnfeaq_tier_0", "vepoadh_tier_0", "ulbdbfg_tier_0"],
+  "schichtgeroell": ["ul4lehiga_tier_0", "ulnfeaw_tier_0", "ulcceh3_tier_0"],
+  "trockengras": ["SM_dead_grass_01", "SM_dead_grass_02", "SM_dead_grass_03"],
+  "sanddorn": ["SM_sea_buckthorn_05", "SM_sea_buckthorn_06", "SM_sea_buckthorn_04"],
+  "dorn": ["SM_didelta_spinosa_large_NN", "SM_searsia_burchellii_large_NN", "SM_sea_buckthorn_02", "SM_didelta_spinosa_medium_NN"],
+  "totholz_klein": ["SM_dead_log_01", "SM_dead_log_02", "SM_dead_log_03", "SM_dead_log_04"],
+  "rinde": ["SM_bark_debris_01_b_NN", "SM_bark_debris_01_d_NN", "SM_dead_quiver_branch_02_NN"],
+  "lavabrocken": ["SM_lava_s_rock_01", "SM_lava_s_rock_03", "SM_lava_s_rock_05", "SM_lava_s_rock_06"],
+  "felsstufe": ["SM_Rock_02", "SM_Rock_04", "ulerccg_tier_0"]
+ },
+ "materialwuensche": [
+  {"name": "MI_EL_SW_Oedland_Ton", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.62, 0.6, 0.62, 1.0], "Helligkeit": 0.9, "Rauheit": 1.0}, "fuer": ["SM_big_rock_wall_01", "SM_big_rock_wall_02", "SM_HugeSandstoneCliff_07", "SM_Rock_05", "SM_Rock_02"], "hinweis": "grauer Badland-Ton (Popcorn-Ton)"},
+  {"name": "MI_EL_SW_Oedland_Rot", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.85, 0.42, 0.3, 1.0], "Variation": 0.8}, "fuer": ["SM_big_rock_wall_01", "SM_big_rock_wall_02", "SM_Rock_02", "SM_Rock_06"], "hinweis": "Ziegelrot (Regenbogenhang-Baender)"},
+  {"name": "MI_EL_SW_Oedland_Violett", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.6, 0.5, 0.62, 1.0], "Variation": 0.8}, "fuer": ["SM_big_rock_wall_02", "SM_big_rock_wall_03", "SM_Rock_02"], "hinweis": "Violettgrau (Regenbogenhang-Baender)"},
+  {"name": "MI_EL_SW_Russ", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.2, 0.18, 0.17, 1.0], "Helligkeit": 0.6, "Rauheit": 1.0}, "fuer": ["SM_big_rock_wall_03", "SM_Big_Rock_01", "SM_Big_Rock_02", "SM_Rock_01", "SM_Rock_04", "SM_Rock_07"], "hinweis": "verrusste Kraterwand (Hoellentor)"},
+  {"name": "MI_EL_SW_Konkretion", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.32, 0.24, 0.2, 1.0], "Specular": 0.5, "Rauheit": 0.7}, "fuer": ["SM_SandstoneBoulder_04", "SM_namaqualand_boulder_04_NN"], "hinweis": "dunkle, glatte Konkretionen (Kugelsteine)"},
+  {"name": "MI_EL_SW_Totholz_Schwarz", "basis": "M_EL_Pflanze", "parameter": {"Farbe": [0.2, 0.18, 0.17, 1.0], "Wind_Staerke": 0.0, "Helligkeit": 0.7}, "fuer": ["SM_Dead_Tree_01", "SM_Dead_Tree_03", "qlEtl_tier_0", "SM_DeadTree_01", "SM_DeadTree_02", "SM_EuropeanBeech_Dead_M_01"], "hinweis": "schwarze, nie verrottete Baeume (Totenpfanne, verbrannter Baum am Hoellentor), windstill"}
+ ],
+ "orte": {
+
+  "oedland_01_rippenland": {
+   "kurz": "Ueber dem Wiesenrand steigt eine graue Badland-Kuppe auf, zerschnitten von parallelen Rinnen; dazwischen Messerruecken, die Haenge bis 78 Grad steil und nackt. Auf dem hoechsten Grat ein abgestorbener Baum.",
+   "marker": {"titel": "Das Rippenland", "text": "Das Land hat hier seine Rippen freigelegt wie ein verhungertes Tier. Kein Halm haelt sich am Hang, nur oben auf dem Grat steht ein Baum, der laengst aufgegeben hat.", "entdeckung_m": 80},
+   "budget": {"instanzen": 6000, "kollision": 500, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 4},
+   "assets_wunsch": [
+    {"paket": "Wilderness Nature Loops", "statt_jetzt": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue (nur Natur)"}
+   ],
+   "anker": {
+    "grat": {"suche": "hoechster", "r_m": 14},
+    "blick": {"pos_m": [-100.0, 1210.0]},
+    "rippe0": [-39, 22],
+    "rippe1": [-21, 22],
+    "rippe2": [-3, 22],
+    "rippe3": [15, 22],
+    "rippe4": [33, 22],
+    "kegel0": [-48, 52],
+    "kegel1": [-30, 52],
+    "kegel2": [-12, 52],
+    "kegel3": [6, 52],
+    "kegel4": [24, 52],
+    "kegel5": [42, 52]
+   },
+   "gelaende": {"fenster_m": [160, 130], "rand_m": 12, "bei": [0, 30], "senke_begruendung": "Badland-Rinnen: kleine Kolke am Rinnenfuss (Popcorn-Ton schluckt das Wasser)",
+    "ops": [
+     {"op": "rinne", "punkte": [[-48, 6], [-47, 30], [-49, 55]], "breite_m": 3.0, "tiefe_m": 2.6, "rand_m": 3.0, "warum": "Badland-Rinne 0 (Kerbenmuster, 18 m Abstand)"},
+     {"op": "rinne", "punkte": [[-30, 6], [-29, 30], [-31, 55]], "breite_m": 3.0, "tiefe_m": 2.6, "rand_m": 3.0, "warum": "Badland-Rinne 1 (Kerbenmuster, 18 m Abstand)"},
+     {"op": "rinne", "punkte": [[-12, 6], [-11, 30], [-13, 55]], "breite_m": 3.0, "tiefe_m": 2.6, "rand_m": 3.0, "warum": "Badland-Rinne 2 (Kerbenmuster, 18 m Abstand)"},
+     {"op": "rinne", "punkte": [[6, 6], [7, 30], [5, 55]], "breite_m": 3.0, "tiefe_m": 2.6, "rand_m": 3.0, "warum": "Badland-Rinne 3 (Kerbenmuster, 18 m Abstand)"},
+     {"op": "rinne", "punkte": [[24, 6], [25, 30], [23, 55]], "breite_m": 3.0, "tiefe_m": 2.6, "rand_m": 3.0, "warum": "Badland-Rinne 4 (Kerbenmuster, 18 m Abstand)"},
+     {"op": "rinne", "punkte": [[42, 6], [43, 30], [41, 55]], "breite_m": 3.0, "tiefe_m": 2.6, "rand_m": 3.0, "warum": "Badland-Rinne 5 (Kerbenmuster, 18 m Abstand)"},
+     {"op": "buckel", "bei": [0, 34], "radius_m": 50, "amplitude_m": 0.6, "wellenlaenge_m": 5, "warum": "Popcorn-Ton, rau"}
+    ]
+   },
+   "gruppen": [
+    {"name": "messerruecken", "ebene": "held", "warum": "Messerruecken zwischen den Rinnen: was die Rinnen stehen lassen (Desert Western Formation Layered, gebaendert)", "palette": ["vjqiaa2qx_tier_0", "vepnfcr_tier_0"], "verteilung": {"typ": "punkte", "punkte": ["rippe0", "rippe1", "rippe2", "rippe3", "rippe4"]}, "yaw": 180, "yaw_streuung_grad": 6, "ausrichtung": "aufrecht", "normale_anteil": 0.3, "groesse_m": [16, 20], "groesse_achse": "max", "skala_xyz": [1.0, 0.35, 0.8], "eingraben": [0.4, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "gratbloecke", "ebene": "begleiter", "warum": "Gratkoepfe oben auf der Kuppe (Ton-Toenung)", "palette": ["SM_big_rock_wall_02", "SM_HugeSandstoneCliff_07"], "anzahl": 4, "verteilung": {"typ": "ring", "bei": "grat", "r_m": [4, 16]}, "groesse_m": [5, 8], "eingraben": [0.35, 0.45], "abstand_m": 6, "akteur": true, "kollision": true, "material": "MI_EL_SW_Oedland_Ton"},
+    {"name": "toter_baum", "ebene": "begleiter", "warum": "abgestorbener Baum auf dem hoechsten Grat (Blitz und Trockenheit)", "netz": "SM_DeadTree_02", "verteilung": {"typ": "punkt", "bei": "grat"}, "skala": 1.2, "rolle": "baum", "akteur": true, "kollision": true, "material": "MI_EL_SW_Totholz_Schwarz"},
+    {"name": "schwemmkegel", "ebene": "schutt", "warum": "in jeder Rinne ein Schwemmkegel am Fuss (Schlamm, Desert Western Mound/Slope Mud)", "palette": "schlamm", "verteilung": {"typ": "punkte", "punkte": ["kegel0", "kegel1", "kegel2", "kegel3", "kegel4", "kegel5"]}, "skala": [1.4, 2.0], "yaw": 180, "rolle": "streu", "ausrichtung": "normale"},
+    {"name": "kegelschutt", "ebene": "schutt", "warum": "Geroell in den Kegeln, unten groeber", "palette": "felsen_klein", "anzahl": 120, "verteilung": {"typ": "band", "punkte": [[-55, 50], [0, 54], [50, 50]], "breite_m": 14}, "groesse_m": [0.3, 1.0], "abstand_m": 1.2, "material": "MI_EL_SW_Oedland_Ton"},
+    {"name": "rinnengeroell", "ebene": "schutt", "warum": "Steine in den Rinnen", "palette": "steine", "anzahl": 12, "verteilung": {"typ": "band", "punkte": [[-48, 10], [-48, 52]], "breite_m": 2}, "groesse_m": [0.3, 0.8], "abstand_m": 1.0, "aktiv": true},
+    {"name": "rinnengeroell1", "ebene": "schutt", "warum": "Steine in Rinne 1", "palette": "steine", "anzahl": 12, "verteilung": {"typ": "band", "punkte": [[-30, 10], [-30, 52]], "breite_m": 2}, "groesse_m": [0.3, 0.8], "abstand_m": 1.2},
+    {"name": "rinnengeroell2", "ebene": "schutt", "warum": "Steine in Rinne 2", "palette": "steine", "anzahl": 12, "verteilung": {"typ": "band", "punkte": [[-12, 10], [-12, 52]], "breite_m": 2}, "groesse_m": [0.3, 0.8], "abstand_m": 1.2},
+    {"name": "rinnengeroell3", "ebene": "schutt", "warum": "Steine in Rinne 3", "palette": "steine", "anzahl": 12, "verteilung": {"typ": "band", "punkte": [[6, 10], [6, 52]], "breite_m": 2}, "groesse_m": [0.3, 0.8], "abstand_m": 1.2},
+    {"name": "rinnengeroell4", "ebene": "schutt", "warum": "Steine in Rinne 4", "palette": "steine", "anzahl": 12, "verteilung": {"typ": "band", "punkte": [[24, 10], [24, 52]], "breite_m": 2}, "groesse_m": [0.3, 0.8], "abstand_m": 1.2},
+    {"name": "rinnengeroell5", "ebene": "schutt", "warum": "Steine in Rinne 5", "palette": "steine", "anzahl": 12, "verteilung": {"typ": "band", "punkte": [[42, 10], [42, 52]], "breite_m": 2}, "groesse_m": [0.3, 0.8], "abstand_m": 1.2},
+    {"name": "halden", "ebene": "schutt", "warum": "flache Schutthaufen am Fuss der Messerruecken", "palette": "schichtgeroell", "verteilung": {"typ": "um_gruppe", "gruppe": "messerruecken", "ring": [1.0, 1.4], "je": [2, 3]}, "skala": [0.8, 1.2], "rolle": "stein"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies und Tonbroeckchen auf der ganzen Flanke", "palette": "kiesel", "anzahl": 2200, "verteilung": {"typ": "rechteck", "bei": [0, 32], "laenge_m": 110, "breite_m": 50, "richtung": 90}, "abstand_m": 0.4, "rolle": "stein"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Bewuchs NUR auf den Rueckenkronen (in den Rinnen spuelt jeder Regen alles weg)", "palette": "trockengras", "anzahl": 60, "verteilung": {"typ": "ring", "bei": "grat", "r_m": [6, 30]}, "abstand_m": 2.0, "rolle": "pflanze", "hang_grad": [0, 18]},
+    {"name": "sanddorn", "ebene": "bewuchs", "warum": "Sanddorn auf der Kuppe, im Windschatten", "palette": "sanddorn", "verteilung": {"typ": "cluster", "form": "ring", "bei": "grat", "r_m": [8, 32], "zentren": [3, 5], "je": [2, 4], "radius_m": 3}, "abstand_m": 1.5, "rolle": "pflanze", "hang_grad": [0, 20]},
+    {"name": "tonsaum", "ebene": "kontakt", "warum": "Popcorn-Ton und Kies am Fuss jedes Rueckens", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": ["messerruecken", "gratbloecke"], "ring": [0.9, 1.25], "je": [20, 30]}, "rolle": "stein"},
+    {"name": "wurzeln", "ebene": "kontakt", "warum": "Rinde und Aeste unter dem toten Baum", "palette": "rinde", "verteilung": {"typ": "um_gruppe", "gruppe": "toter_baum", "ring_m": [0.5, 4.0], "je": [8, 12]}, "rolle": "streu"}
+   ],
+   "lagen": [
+    {"lage": "Lehm", "form": "kreis", "bei": [0, 32], "r_m": 60, "wert": 220, "flecken": 0.3, "streckung": [1.4, 1.0], "richtung": 90},
+    {"lage": "Kies", "form": "band", "punkte": [[-55, 50], [0, 54], [50, 50]], "breite_m": 16, "wert": 190, "flecken": 0.4},
+    {"lage": "Trockengras", "form": "kreis", "bei": "grat", "r_m": 30, "wert": 170, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "fenster_max_m": 390},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Clay_01", "zweck": "Popcorn-Ton (Coast & Dunes Lehm-Decal)", "anzahl": 3, "verteilung": {"typ": "rechteck", "bei": [0, 30], "laenge_m": 90, "breite_m": 30, "richtung": 90}, "abstand_m": 15, "groesse_m": [1.0, 8.0, 8.0]},
+    {"typ": "decal", "material": "MI_Leakage_05", "zweck": "dunkle Spuelspuren in den Rinnen", "bei": [6, 30], "groesse_m": [1.0, 3.0, 20.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "grat", "radius_m": 70, "lautstaerke": 0.5, "zweck": "Wind ueber dem Rippenland (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "oedland_02_regenbogenhang": {
+   "kurz": "Eine steile Tonflanke in Baendern: Ziegelrot, Ocker, Violettgrau, Kreideweiss, wieder Rot - wie gestrichen; im Wind rieselt Popcorn-Ton in die Rinnen.",
+   "marker": {"titel": "Der Regenbogenhang", "text": "Als haette ein Maler den Hang in Streifen angestrichen und dann vergessen, warum. Nach Regen leuchten die Farben, als waeren sie frisch.", "entdeckung_m": 90},
+   "budget": {"instanzen": 4000, "kollision": 400, "akteure": 24, "lichter": 0, "niagara": 0, "decals": 4},
+   "assets_wunsch": [],
+   "anker": {
+    "fuss": [0, 40],
+    "toter_baum": [-14, 44],
+    "blick": {"pos_m": [-850.0, 1160.0]}
+   },
+   "linien": {
+    "band_oben": {"punkte": [[-34, 2], [-12, 3], [6, 4], [30, 12], [60, 22]]},
+    "band_mitte": {"punkte": [[-38, 10], [-16, 12], [2, 13], [26, 30], [46, 44]]},
+    "band_unten": {"punkte": [[-40, 18], [-20, 19], [-4, 24], [12, 40]]}
+   },
+   "gelaende": {"fenster_m": [180, 160], "rand_m": 14, "bei": [0, 20], "senke_begruendung": "kleine Mulde am Hangfuss zwischen zwei Schwemmkegeln (versickert im Lehm)",
+    "ops": [
+     {"op": "glaetten", "bei": [0, 18], "radius_m": 40, "staerke": 0.4, "sigma_m": 3, "warum": "Flanke +/-2 m geglaettet fuer die Bandfolge"},
+     {"op": "abbruch", "punkte": "band_mitte", "hoehe_m": 2.5, "breite_m": 4.5, "reichweite_m": 10, "seite": "links", "verteilung": "oben", "warum": "Bandkante (haertere Schicht steht vor)"}
+    ]
+   },
+   "gruppen": [
+    {"name": "band_oben", "ebene": "held", "warum": "oberstes Band: Desert Western Cliff Layered (Ocker/Weiss)", "palette": ["uk5oded_tier_0", "vjqhcapga_tier_0"], "verteilung": {"typ": "reihe", "punkte": "band_oben", "abstand_m": 22, "versatz_m": 2.0, "versatz_streuung_m": 0.6, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "groesse_m": [20, 26], "groesse_achse": "max", "skala_xyz": [1.0, 0.6, 0.7], "front_achse": "+y", "eingraben": [0.4, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "band_mitte", "ebene": "held", "warum": "mittleres Band: Ziegelrot und Violettgrau im Wechsel", "palette": ["veoneio_tier_0", "vceoferfa_tier_0", "vb1mbdega_tier_0"], "verteilung": {"typ": "reihe", "punkte": "band_mitte", "abstand_m": 16, "versatz_m": 1.5, "versatz_streuung_m": 0.5, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "groesse_m": [14, 20], "groesse_achse": "max", "front_achse": "+y", "eingraben": [0.4, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "band_rot", "ebene": "begleiter", "warum": "rote Tonbank zwischen den Felsbaendern", "palette": ["SM_big_rock_wall_01", "SM_big_rock_wall_02"], "verteilung": {"typ": "reihe", "punkte": "band_unten", "abstand_m": 9, "versatz_m": 1.0, "versatz_streuung_m": 0.5, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [1.2, 1.6], "front_achse": "+y", "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Oedland_Rot", "meide": null},
+    {"name": "band_violett", "ebene": "begleiter", "warum": "violettgraue Bank (Bentonit) ueber dem roten Band", "netz": "SM_big_rock_wall_03", "verteilung": {"typ": "reihe", "punkte": "band_mitte", "abstand_m": 10, "versatz_m": -2.5, "versatz_streuung_m": 0.5, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": false}, "skala": [1.3, 1.7], "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Oedland_Violett", "meide": null},
+    {"name": "toter_baum", "ebene": "begleiter", "warum": "toter Baum am Fuss (Ton quillt, Wurzeln reissen)", "netz": "qlEtl_tier_0", "verteilung": {"typ": "punkt", "bei": "toter_baum"}, "skala": 1.2, "rolle": "baum", "akteur": true, "kollision": true, "material": "MI_EL_SW_Totholz_Schwarz"},
+    {"name": "schwemmkegel", "ebene": "schutt", "warum": "Schwemmkegel am Fuss, farbig sortiert (rotes Material unten)", "palette": "schlamm", "anzahl": 10, "verteilung": {"typ": "band", "punkte": [[-40, 30], [0, 40], [30, 55]], "breite_m": 10}, "skala": [1.2, 1.8], "rolle": "streu", "ausrichtung": "normale", "abstand_m": 5},
+    {"name": "kegelschutt", "ebene": "schutt", "warum": "rote und violette Brocken im Kegel", "palette": ["SM_Rock_02", "SM_Rock_06", "SM_s_rock_03"], "anzahl": 90, "verteilung": {"typ": "band", "punkte": [[-42, 28], [0, 40], [32, 56]], "breite_m": 16}, "groesse_m": [0.3, 1.1], "abstand_m": 1.2, "material": "MI_EL_SW_Oedland_Rot"},
+    {"name": "hangschutt", "ebene": "schutt", "warum": "violette Broeckchen auf den Simsen", "palette": ["SM_Rock_02", "SM_s_rock_01"], "anzahl": 50, "verteilung": {"typ": "band", "punkte": "band_mitte", "breite_m": 8, "versatz_m": -4}, "groesse_m": [0.3, 0.8], "abstand_m": 1.2, "material": "MI_EL_SW_Oedland_Violett"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Popcorn-Ton rieselt in die Rinnen", "palette": "kiesel", "anzahl": 1600, "verteilung": {"typ": "band", "punkte": "band_mitte", "breite_m": 40, "versatz_m": -6}, "abstand_m": 0.35, "rolle": "stein"},
+    {"name": "trockengras_oben", "ebene": "bewuchs", "warum": "nichts im Hang (Ton quillt) - Trockengras und Sanddorn erst oben auf der Kante", "palette": ["SM_dead_grass_01", "SM_dead_grass_02", "SM_sea_buckthorn_05"], "anzahl": 50, "verteilung": {"typ": "band", "punkte": [[-40, -10], [0, -8], [40, 4]], "breite_m": 16}, "abstand_m": 2.0, "rolle": "pflanze", "hang_grad": [0, 20]},
+    {"name": "fussgras", "ebene": "bewuchs", "warum": "Trockengras am Fuss, wo der Schwemmkegel ausfaellt", "palette": "trockengras", "anzahl": 40, "verteilung": {"typ": "band", "punkte": [[-50, 50], [0, 60], [40, 70]], "breite_m": 18}, "abstand_m": 2.5, "rolle": "pflanze"},
+    {"name": "bandsaum", "ebene": "kontakt", "warum": "Baender laufen in Lehm/Erde aus (Kontaktzone)", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": ["band_oben", "band_mitte", "band_rot", "band_violett"], "ring": [0.9, 1.25], "je": [12, 20]}, "rolle": "stein"},
+    {"name": "baumsaum", "ebene": "kontakt", "warum": "Rinde und Aeste am toten Baum", "palette": "rinde", "verteilung": {"typ": "um_gruppe", "gruppe": "toter_baum", "ring_m": [0.5, 3.5], "je": [6, 10]}, "rolle": "streu"}
+   ],
+   "lagen": [
+    {"lage": "Lehm", "form": "band", "punkte": "band_mitte", "breite_m": 34, "wert": 230, "flecken": 0.3},
+    {"lage": "Erde", "form": "band", "punkte": [[-42, 30], [0, 42], [32, 58]], "breite_m": 18, "wert": 200, "flecken": 0.4},
+    {"lage": "Fels", "form": "hang", "bei": [0, 14], "r_m": 50, "hang_grad": [40, 90], "wert": 210}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "abschnitte": [{"pfad_id": "oedland_pfad_oedlandpfad_abstieg", "von_m": 0, "bis_m": 152}]},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Clay_02", "zweck": "Popcorn-Ton am Fuss", "anzahl": 2, "verteilung": {"typ": "band", "punkte": [[-40, 30], [0, 40], [30, 55]], "breite_m": 10}, "abstand_m": 15, "groesse_m": [1.0, 8.0, 8.0]},
+    {"typ": "decal", "material": "MI_Leakage_07", "zweck": "Spuelrinnen in den Baendern", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "band_mitte", "breite_m": 4}, "abstand_m": 15, "hoehe_m": 3, "ausrichtung": "wand", "blick": 180, "groesse_m": [1.0, 2.0, 10.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "fuss", "radius_m": 70, "lautstaerke": 0.45, "zweck": "Wind am Hang (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "oedland_03_hoellentor": {
+   "kurz": "Mitten im grauen Ton-Flachland klafft ein kreisrunder Krater, 40 m breit, 9 m tief; sein Grund brennt in Rissen, die Waende sind russig, darueber eine Hitzesaeule mit Rauch. Ringsum verbrannte Erde.",
+   "marker": {"titel": "Das Hoellentor", "text": "Man sieht den Rauch, dann spuert man die Waerme, dann steht man am Rand. Unten brennt die Erde selbst, und niemand weiss, seit wann.", "entdeckung_m": 150},
+   "budget": {"instanzen": 1500, "kollision": 200, "akteure": 12, "lichter": 2, "niagara": 3, "decals": 4},
+   "assets_wunsch": [
+    {"paket": "Fantasy Ambiences (Lava, Höhle, Wind …)", "statt_jetzt": "kein Feuerklang im Bestand - Wind am Rand; Fauchen wuenschenswert"}
+   ],
+   "anker": {
+    "krater": [0, 0],
+    "baum": [-30, 22],
+    "blick": {"pos_m": [180.0, 1380.0]}
+   },
+   "linien": {
+    "rand": {"punkte": [[0.0, -25.0], [12.499999999999998, -21.65063509461097], [21.650635094610966, -12.500000000000004], [25.0, -1.5308084989341915e-15], [21.65063509461097, 12.499999999999995], [12.499999999999998, 21.65063509461097], [3.061616997868383e-15, 25.0], [-12.500000000000004, 21.650635094610966], [-21.65063509461096, 12.50000000000001], [-25.0, 4.592425496802574e-15], [-21.650635094610966, -12.500000000000004], [-12.50000000000001, -21.65063509461096], [-6.123233995736766e-15, -25.0]]},
+    "wandlinie": {"punkte": [[0.0, -19.0], [9.499999999999998, -16.454482671904337], [16.454482671904334, -9.500000000000002], [19.0, -1.1634144591899855e-15], [16.454482671904337, 9.499999999999996], [9.499999999999998, 16.454482671904337], [2.326828918379971e-15, 19.0], [-9.500000000000002, 16.454482671904334], [-16.45448267190433, 9.500000000000009], [-19.0, 3.4902433775699565e-15], [-16.454482671904334, -9.500000000000002], [-9.500000000000009, -16.45448267190433], [-4.653657836759942e-15, -19.0]]}
+   },
+   "gelaende": {"fenster_m": [100, 100], "rand_m": 12, "senke_begruendung": "Gaskrater (Darvaza): der Kraterboden ist abflusslos - das Feuer ist der Inhalt, es regnet nicht", "begruendung": "Kraterboden bleibt ueber Meeresniveau (Flachland 3-4 m): -3,6 m Absenkung + 4,5 m Auswurfwall ergeben ~8 m Kratertiefe", "daemme": [{"punkte": "rand", "breite_m": 16, "hoehe_m": 4.5, "krone": 0.25, "geschlossen": true}],
+    "ops": [
+     {"op": "mulde", "bei": "krater", "radius_m": 17, "ziel_z": 0.3, "rand_m": 4, "boden": 0.55, "warum": "Kraterboden auf +0,3 m (nicht unter das Meer), steile Wand"}
+    ]
+   },
+   "gruppen": [
+    {"name": "kraterwand", "ebene": "held", "warum": "verrusste, abgebrochene Kraterwand (Ton ist zu Stein gebacken)", "palette": ["SM_big_rock_wall_03", "SM_big_rock_wall_01"], "verteilung": {"typ": "reihe", "punkte": "wandlinie", "abstand_m": 7, "versatz_m": 1.0, "versatz_streuung_m": 0.8, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "skala": [1.4, 1.9], "front_achse": "+y", "eingraben": [0.3, 0.4], "kipp_grad": [10, 20], "kipp_richtung": "zu:krater", "akteur": true, "kollision": true, "material": "MI_EL_SW_Russ", "meide": null, "hinweis": "rechts der Ringlinie (im Uhrzeigersinn N-O-S-W) = innen; Schauseite zur Mitte"},
+    {"name": "randbloecke", "ebene": "begleiter", "warum": "aufgebrochene Schollen am Kraterrand", "palette": ["SM_Big_Rock_02", "SM_Big_Rock_01", "SM_Rock_01"], "anzahl": 6, "verteilung": {"typ": "ring", "bei": "krater", "r_m": [26, 34]}, "groesse_m": [2.0, 4.0], "eingraben": [0.3, 0.42], "abstand_m": 7, "material": "MI_EL_SW_Russ"},
+    {"name": "toter_baum", "ebene": "begleiter", "warum": "ein verbrannter Baum am Saum (die Hitze hat ihn getoetet)", "netz": "SM_DeadTree_01", "verteilung": {"typ": "punkt", "bei": "baum"}, "skala": 1.15, "rolle": "baum", "akteur": true, "kollision": true, "material": "MI_EL_SW_Totholz_Schwarz"},
+    {"name": "schollen", "ebene": "schutt", "warum": "abgebrochene, gebackene Schollen am Kratergrund", "palette": "lavabrocken", "anzahl": 60, "verteilung": {"typ": "kreis", "bei": "krater", "r_m": 14}, "groesse_m": [0.5, 1.6], "abstand_m": 1.2},
+    {"name": "wandschutt", "ebene": "schutt", "warum": "Schutt am Fuss der Kraterwand", "palette": ["SM_Rock_04", "SM_Rock_07", "SM_s_rock_01"], "anzahl": 60, "verteilung": {"typ": "ring", "bei": "krater", "r_m": [12, 19]}, "groesse_m": [0.4, 1.2], "abstand_m": 1.0, "material": "MI_EL_SW_Russ"},
+    {"name": "asche", "ebene": "kleinzeug", "warum": "Russige Broeckchen auf dem verbrannten Saum", "palette": "kiesel", "anzahl": 700, "verteilung": {"typ": "ring", "bei": "krater", "r_m": [20, 45]}, "abstand_m": 0.5, "rolle": "stein"},
+    {"name": "grundgrus", "ebene": "kleinzeug", "warum": "Grus am Kratergrund", "palette": "felsen_klein", "anzahl": 200, "verteilung": {"typ": "kreis", "bei": "krater", "r_m": 15}, "groesse_m": [0.15, 0.4], "abstand_m": 0.6, "rolle": "stein"},
+    {"name": "tote_halme", "ebene": "bewuchs", "warum": "kein Halm im Saum (Hitze) - tote Halme erst ab 45 m", "palette": "trockengras", "anzahl": 60, "verteilung": {"typ": "ring", "bei": "krater", "r_m": [42, 55]}, "abstand_m": 2.5, "rolle": "pflanze"},
+    {"name": "russsaum", "ebene": "kontakt", "warum": "Asche und Schutt an den Randbloecken", "palette": "felsen_klein", "verteilung": {"typ": "um_gruppe", "gruppe": ["randbloecke", "kraterwand"], "ring": [0.9, 1.3], "je": [6, 10]}, "groesse_m": [0.15, 0.35], "rolle": "stein"},
+    {"name": "baumsaum", "ebene": "kontakt", "warum": "verkohlte Aeste unter dem Baum", "palette": "rinde", "verteilung": {"typ": "um_gruppe", "gruppe": "toter_baum", "ring_m": [0.5, 3.0], "je": [6, 9]}, "rolle": "streu"}
+   ],
+   "lagen": [
+    {"lage": "Lavasand", "form": "kreis", "bei": "krater", "r_m": 42, "wert": 220, "rand_m": 6, "flecken": 0.35},
+    {"lage": "Lavafels", "form": "hang", "bei": "krater", "r_m": 24, "hang_grad": [35, 90], "wert": 230},
+    {"lage": "Lehm", "form": "ring", "bei": "krater", "r_m": [40, 55], "wert": 200, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_ost", "abschnitt": [608, 827], "zugang": true},
+   "effekte": [
+    {"typ": "niagara", "asset": "NS_Fire", "optional": false, "zweck": "Flammen in den Rissen des Kratergrunds (klein skaliert, viele)", "hinweis": "Kopie: Flammen klein, Spawn-Flaeche r 12 m, keine Kampf-Optik", "bei": "krater", "hoehe_m": 0.2, "skala": 2.5},
+    {"typ": "niagara", "asset": "FX_Lava_Smoke_02", "optional": false, "zweck": "Rauchsaeule ~30 m (Lava & Volcano)", "bei": "krater", "hoehe_m": 1.0, "skala": 1.5},
+    {"typ": "niagara", "asset": "FX_Distortion_Big", "optional": false, "zweck": "Hitzeflimmern ueber dem Krater", "bei": "krater", "hoehe_m": 3.0},
+    {"typ": "punktlicht", "zweck": "Glut im Kratergrund (wirkt auch am Tag in der Tiefe)", "bei": [-5, 3], "hoehe_m": 1.5, "intensitaet_cd": 12000, "radius_m": 25, "farbe": [1.0, 0.45, 0.12]},
+    {"typ": "punktlicht", "zweck": "Glut, zweiter Herd", "bei": [6, -4], "hoehe_m": 1.5, "intensitaet_cd": 9000, "radius_m": 22, "farbe": [1.0, 0.5, 0.15]},
+    {"typ": "decal", "material": "MI_NM_Decal_Lava_NoAlbedo_02", "zweck": "Glutrisse im Kratergrund (Lava & Volcano)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "krater", "r_m": 10}, "abstand_m": 6, "groesse_m": [1.0, 10.0, 10.0]},
+    {"typ": "decal", "material": "MI_Explosion_Decal", "zweck": "Russ und verbrannte Erde am Rand", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "krater", "r_m": [24, 34]}, "abstand_m": 15, "groesse_m": [1.0, 12.0, 12.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "krater", "radius_m": 60, "lautstaerke": 0.35, "zweck": "Wind am Kraterrand (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "oedland_04_dornbusch_senke": {
+   "kurz": "Am Westrand der Kante, wo ein Bach unter die Wiese taucht, eine Senke voller grauer Dornbuesche, dazwischen umgestuerzte Staemme und ein toter Baum, dessen Aeste wie Finger aus dem Gestruepp ragen.",
+   "marker": {"titel": "Die Dornbusch-Senke", "text": "Das Gestruepp ist so dicht, dass der Wind darin haengen bleibt. Mitten darin greift ein toter Baum nach dem Himmel, als wollte er heraus.", "entdeckung_m": 30},
+   "budget": {"instanzen": 5000, "kollision": 300, "akteure": 6, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [],
+   "anker": {
+    "baum": [-4, -2],
+    "blick": {"pos_m": [-1242.0, 1008.0]}
+   },
+   "linien": {
+    "abfluss": {"abwaerts_von": [0, 8], "laenge_m": 60, "stop_wasser": true}
+   },
+   "gelaende": {"fenster_m": [110, 110], "rand_m": 12, "senke_begruendung": "Feuchtsenke: das Grundwasser des Bachs steht knapp unter der Oberflaeche (darum der Dornriegel); Abfluss ueber die Rinne",
+    "ops": [
+     {"op": "mulde", "bei": "mitte", "radius_m": 26, "tiefe_m": 1.5, "rand_m": 10, "boden": 0.4, "warum": "Senke -1,5 m"},
+     {"op": "rinne", "punkte": "abfluss", "breite_m": 3, "sohle": ["boden-1.6", "boden-0.2"], "rand_m": 3, "warum": "Abfluss zum Bach (keine geschlossene Senke)"}
+    ]
+   },
+   "gruppen": [
+    {"name": "toter_baum", "ebene": "held", "warum": "toter Baum mitten im Gestruepp (Grundwasser sank, er nicht)", "netz": "SM_Dead_Tree_02", "verteilung": {"typ": "punkt", "bei": "baum"}, "skala": 1.0, "rolle": "baum", "akteur": true, "kollision": true, "material": "MI_EL_SW_Totholz_Schwarz"},
+    {"name": "dornbuesche", "ebene": "begleiter", "warum": "dichter Dornriegel am Rand der Senke (Grundwasser des Bachs)", "palette": "dorn", "anzahl": 26, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [8, 28]}, "abstand_m": 2.6, "skala": [0.9, 1.3], "rolle": "pflanze", "akteur": false},
+    {"name": "staemme", "ebene": "schutt", "warum": "umgestuerzte Staemme im Gestruepp", "palette": ["SM_dead_log_01", "SM_dead_log_03", "SM_EuropeanBeech_Dead_M_01"], "gewichte": [3, 3, 1], "anzahl": 14, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 24}, "skala": [1.4, 2.2], "rolle": "stamm", "ausrichtung": "liegend", "zentrieren": true, "abstand_m": 3, "material": "MI_EL_SW_Totholz_Schwarz"},
+    {"name": "steine", "ebene": "schutt", "warum": "Steine vom Hang", "palette": ["SM_Rock_03", "SM_Rock_06", "SM_s_rock_02"], "anzahl": 30, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 34}, "groesse_m": [0.4, 1.4], "abstand_m": 2.0},
+    {"name": "rinde", "ebene": "kleinzeug", "warum": "Rinde, Aeste, Dornenzweige", "palette": "rinde", "anzahl": 900, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 30}, "abstand_m": 0.4, "rolle": "streu"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kiesel im Abfluss", "palette": "kiesel", "anzahl": 300, "verteilung": {"typ": "band", "punkte": "abfluss", "breite_m": 3}, "abstand_m": 0.3, "rolle": "stein"},
+    {"name": "dorn_klein", "ebene": "bewuchs", "warum": "junges Dorngestruepp zwischen den grossen Bueschen", "palette": ["SM_didelta_spinosa_medium_NN", "SM_sea_buckthorn_04", "SM_sea_buckthorn_06"], "anzahl": 60, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 30}, "abstand_m": 1.6, "rolle": "pflanze"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras in der Senke", "palette": "trockengras", "anzahl": 120, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 36}, "abstand_m": 1.8, "rolle": "pflanze"},
+    {"name": "wildwechsel_saum", "ebene": "kontakt", "warum": "Aeste und Laub am Fuss der Buesche", "palette": "totholz_klein", "verteilung": {"typ": "um_gruppe", "gruppe": ["dornbuesche", "toter_baum"], "ring": [0.6, 1.2], "je": [2, 4]}, "rolle": "stamm"},
+    {"name": "stammsaum", "ebene": "kontakt", "warum": "Erde und Steinchen an den liegenden Staemmen", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": "staemme", "ring": [0.9, 1.2], "je": [5, 9]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Erde", "form": "kreis", "bei": "mitte", "r_m": 30, "wert": 200, "flecken": 0.4},
+    {"lage": "Trockengras", "form": "ring", "bei": "mitte", "r_m": [20, 40], "wert": 180, "flecken": 0.5},
+    {"lage": "Kies", "form": "band", "punkte": "abfluss", "breite_m": 3, "wert": 180}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "fenster_max_m": 390},
+   "verdeckung": {"kern": "baum", "probe_r_m": 10, "ziel_hoehe_m": 3},
+   "effekte": [
+    {"typ": "lokaler_nebel", "zweck": "kuehle Luft in der Senke", "bei": "mitte", "hoehe_m": 1.5, "radius_m": 28, "dichte": 0.04, "farbe": [0.8, 0.8, 0.78], "hoehenabfall": 0.8},
+    {"typ": "decal", "material": "MI_ScatteredSticksAndTwigs_01", "zweck": "Reisig unter den Bueschen", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 16}, "abstand_m": 10, "groesse_m": [1.0, 4.0, 4.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 45, "lautstaerke": 0.4, "zweck": "Wind im Gestruepp (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "oedland_05_kugelsteine": {
+   "kurz": "Wo eine Badland-Rinne auf das Flachland muendet, hat die Flut einen Geroellfaecher geschuettet und darin einen 9 m tiefen Kolk gerissen; in seinen Tonwaenden stecken dunkle, fast perfekte Steinkugeln.",
+   "marker": {"titel": "Die Kugelsteine", "text": "Als haette ein Riese hier gekegelt und die Kugeln liegen lassen. Manche stecken noch halb in der Wand und warten, bis der naechste Regen sie freigibt.", "entdeckung_m": 25},
+   "budget": {"instanzen": 3000, "kollision": 300, "akteure": 14, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [
+    {"paket": "Wadi Rum Sandstone Rock 01–04", "statt_jetzt": "SM_SandstoneBoulder_04 / SM_namaqualand_boulder_04_NN mit MI_EL_SW_Konkretion"}
+   ],
+   "anker": {
+    "kolk": [0, 0],
+    "scheitel": [0, -45],
+    "blick": {"pos_m": [-600.0, 1280.0]}
+   },
+   "gelaende": {"fenster_m": [130, 130], "rand_m": 12, "senke_begruendung": "Kolk (Strudelloch der Sturzflut) im Geroellfaecher - fuellt sich nur bei Flut, versickert im Faecher",
+    "ops": [
+     {"op": "kuppe", "bei": [0, -10], "radius_m": 46, "hoehe_m": 1.5, "plateau": 0.3, "streckung": [1.0, 1.2], "rand_m": 10, "warum": "Geroellfaecher +1,5 m"},
+     {"op": "mulde", "bei": "kolk", "radius_m": 16, "ziel_z": 0.4, "rand_m": 7, "boden": 0.45, "warum": "Kolk bis +0,4 m (unter dem 1,5-m-Faecher ~8 m tief; nicht unter das Meer)"},
+     {"op": "rinne", "punkte": ["scheitel", [0, -14]], "breite_m": 6, "sohle": ["boden-1.5", 2.0], "rand_m": 4, "warum": "Flutrinne vom Scheitel in den Kolk"}
+    ]
+   },
+   "gruppen": [
+    {"name": "kugeln_wand", "ebene": "held", "warum": "Konkretionen, halb aus der Tonwand gewittert", "palette": ["SM_SandstoneBoulder_04", "SM_namaqualand_boulder_04_NN"], "anzahl": 7, "verteilung": {"typ": "ring", "bei": "kolk", "r_m": [10, 19]}, "groesse_m": [1.2, 3.2], "skala_xyz": [1.0, 1.0, 0.95], "eingraben": [0.45, 0.6], "hang_grad": [20, 70], "abstand_m": 3.5, "akteur": true, "kollision": true, "material": "MI_EL_SW_Konkretion", "mindestens": 5},
+    {"name": "kugel_grund", "ebene": "held", "warum": "die grosse Kugel liegt frei am Kolkgrund", "netz": "SM_SandstoneBoulder_04", "verteilung": {"typ": "punkt", "bei": [2, 3]}, "skala": 1.5, "eingraben": [0.15, 0.2], "akteur": true, "kollision": true, "material": "MI_EL_SW_Konkretion", "meide": null},
+    {"name": "kugeln_frei", "ebene": "begleiter", "warum": "weitere freigespuelte Kugeln im Faecher", "palette": ["SM_SandstoneBoulder_04", "SM_namaqualand_boulder_04_NN"], "anzahl": 6, "verteilung": {"typ": "ring", "bei": "kolk", "r_m": [22, 40]}, "groesse_m": [0.8, 2.2], "eingraben": [0.25, 0.4], "abstand_m": 5, "material": "MI_EL_SW_Konkretion"},
+    {"name": "kolkfels", "ebene": "begleiter", "warum": "Tonwand-Reste als Felsblock am Kolkrand", "palette": ["SM_Big_Rock_02", "SM_Middle_Rock_01"], "anzahl": 3, "verteilung": {"typ": "ring", "bei": "kolk", "r_m": [18, 24]}, "groesse_m": [2.5, 4.0], "eingraben": [0.35, 0.45], "abstand_m": 8, "material": "MI_EL_SW_Oedland_Ton"},
+    {"name": "faecher", "ebene": "schutt", "warum": "Geroellfaecher: grob am Scheitel, fein am Rand", "palette": ["SM_Rock_07", "SM_s_rock_02", "SM_stones_01_1", "SM_Rock_04"], "anzahl": 200, "verteilung": {"typ": "faecher", "bei": "scheitel", "richtung": 180, "laenge_m": 80, "oeffnung_grad": 80}, "groesse_m": [0.3, 1.1], "gradient": {"von": 1.6, "bis": 0.6}, "abstand_m": 1.0},
+    {"name": "kolkschutt", "ebene": "schutt", "warum": "Tonbrocken am Kolkgrund", "palette": "felsen_klein", "anzahl": 50, "verteilung": {"typ": "kreis", "bei": "kolk", "r_m": 12}, "groesse_m": [0.3, 0.9], "abstand_m": 1.0},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Feinkies im Faecher", "palette": "kiesel", "anzahl": 1300, "verteilung": {"typ": "faecher", "bei": "scheitel", "richtung": 180, "laenge_m": 85, "oeffnung_grad": 85}, "abstand_m": 0.35, "rolle": "stein"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras nur am Faecherrand", "palette": "trockengras", "anzahl": 70, "verteilung": {"typ": "ring", "bei": [0, -5], "r_m": [44, 60]}, "abstand_m": 2.0, "rolle": "pflanze"},
+    {"name": "sanddorn", "ebene": "bewuchs", "warum": "einzelner Sanddorn am Faecherrand", "palette": "sanddorn", "anzahl": 8, "verteilung": {"typ": "ring", "bei": [0, -5], "r_m": [46, 58]}, "abstand_m": 6, "rolle": "pflanze"},
+    {"name": "kugelsaum", "ebene": "kontakt", "warum": "Tonkruemel um jede Kugel (sie stecken im Ton)", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": ["kugeln_wand", "kugel_grund", "kugeln_frei", "kolkfels"], "ring": [0.9, 1.3], "je": [12, 18]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Geroell", "form": "kreis", "bei": [0, -5], "r_m": 50, "wert": 210, "flecken": 0.4, "streckung": [1.0, 1.2]},
+    {"lage": "Lehm", "form": "kreis", "bei": "kolk", "r_m": 22, "wert": 230, "flecken": 0.2},
+    {"lage": "Kies", "form": "band", "punkte": ["scheitel", "kolk"], "breite_m": 6, "wert": 200}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "abschnitte": [{"pfad_id": "oedland_pfad_oedlandpfad_abstieg", "von_m": 152, "bis_m": 490}, {"pfad_id": "oedland_pfad_oedlandpfad_ost", "von_m": 0, "bis_m": 230}, {"pfad_id": "oedland_pfad_oedlandpfad_west", "von_m": 0, "bis_m": 410}]},
+   "verdeckung": {"kern": "kolk", "probe_r_m": 6, "ziel_hoehe_m": 2},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Clay_03", "zweck": "rissiger Ton am Kolkgrund", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "kolk", "r_m": 8}, "abstand_m": 6, "groesse_m": [1.0, 8.0, 8.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "kolk", "radius_m": 40, "lautstaerke": 0.3, "zweck": "Wind ueber dem Faecher (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "oedland_06_schlammvulkaene": {
+   "kurz": "In einer flachen Mulde neben dem alten Kraterring ein Feld grauer Kegel, 1-3 m hoch, jeder mit nassem Krater, in dem Schlamm blubbert und ueber den Rand quillt; Schlammzungen laufen aus.",
+   "marker": {"titel": "Die Schlammvulkaenchen", "text": "Die Erde atmet hier in dicken Blasen. Es riecht nach Oel und alter Faeulnis, und jeder Kegel murmelt in seiner eigenen Sprache.", "entdeckung_m": 30},
+   "budget": {"instanzen": 1500, "kollision": 150, "akteure": 6, "lichter": 0, "niagara": 3, "decals": 4},
+   "assets_wunsch": [],
+   "anker": {
+    "mulde": [0, 4],
+    "blick": {"pos_m": [-266.0, 1618.0]},
+    "k0": [0, 0],
+    "k1": [14, -10],
+    "k2": [-12, 12],
+    "k3": [24, 16],
+    "k4": [-22, -14],
+    "k5": [6, 26],
+    "k6": [-28, 4]
+   },
+   "gelaende": {"fenster_m": [130, 130], "rand_m": 12, "senke_begruendung": "Salsenfeld: die Mulde ist vom ausgeflossenen Schlamm gefuellt (Schlammzungen), kleine Restsenken zwischen den Kegeln",
+    "ops": [
+     {"op": "mulde", "bei": "mulde", "radius_m": 34, "tiefe_m": 3.5, "rand_m": 10, "boden": 0.6, "warum": "flache Mulde -3,5 m (verdeckt das Feld)"},
+     {"op": "terrasse", "bei": "mulde", "radius_m": 44, "ziel_z": 1.0, "rand_m": 4, "modus": "max", "warum": "Muldenboden nie unter +1,0 m (Meeresniveau)"},
+     {"op": "kuppe", "bei": "k0", "radius_m": 6.1, "hoehe_m": 2.6, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 1 (+2.6 m)"},
+     {"op": "kuppe", "bei": "k1", "radius_m": 5.3, "hoehe_m": 1.8, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 2 (+1.8 m)"},
+     {"op": "kuppe", "bei": "k2", "radius_m": 5.7, "hoehe_m": 2.2, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 3 (+2.2 m)"},
+     {"op": "kuppe", "bei": "k3", "radius_m": 4.7, "hoehe_m": 1.2, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 4 (+1.2 m)"},
+     {"op": "kuppe", "bei": "k4", "radius_m": 5.1, "hoehe_m": 1.6, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 5 (+1.6 m)"},
+     {"op": "kuppe", "bei": "k5", "radius_m": 6.3, "hoehe_m": 2.8, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 6 (+2.8 m)"},
+     {"op": "kuppe", "bei": "k6", "radius_m": 4.5, "hoehe_m": 1.0, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 7 (+1.0 m)"}
+    ]
+   },
+   "wasser": [
+    {"typ": "see", "id": "salse_1", "bei": "k0", "r_m": 1.5, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "salse_2", "bei": "k1", "r_m": 1.1, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "salse_3", "bei": "k2", "r_m": 1.5, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "salse_4", "bei": "k3", "r_m": 1.1, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "salse_5", "bei": "k4", "r_m": 1.1, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "salse_6", "bei": "k5", "r_m": 1.5, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "salse_7", "bei": "k6", "r_m": 1.1, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}}
+   ],
+   "gruppen": [
+    {"name": "kegelmantel", "ebene": "held", "warum": "Schlammkegel-Mantel: Mud Mound an jeder Kegelflanke (Held = Gelaendestempel + Mantel + Krater mit Schlamm)", "palette": ["ulnfeaq_tier_0", "vepoadh_tier_0"], "verteilung": {"typ": "punkte", "punkte": [[3.0, 1.0], [-2.5, -2.0], [17.0, -9.0], [11.5, -12.0], [-9.0, 13.0], [-14.5, 10.0], [27.0, 17.0], [21.5, 14.0], [-19.0, -13.0], [-24.5, -16.0], [9.0, 27.0], [3.5, 24.0], [-25.0, 5.0], [-30.5, 2.0]]}, "skala": [1.0, 1.5], "yaw": "zufall", "rolle": "streu", "ausrichtung": "normale", "akteur": false, "kollision": false, "meide": null, "im_wasser": "nein"},
+    {"name": "schlammzungen", "ebene": "begleiter", "warum": "Schlammzungen laufen wie Lava aus den Kegeln", "palette": "schlamm", "verteilung": {"typ": "um_gruppe", "gruppe": "kegelmantel", "ring_m": [3.0, 7.0], "je": [2, 4]}, "skala": [1.2, 1.8], "rolle": "streu", "ausrichtung": "normale"},
+    {"name": "steine_schlamm", "ebene": "schutt", "warum": "mitgerissene Steine im Schlamm", "palette": ["SM_Rock_02", "SM_s_rock_03", "SM_stones_01_4"], "anzahl": 40, "verteilung": {"typ": "kreis", "bei": "mulde", "r_m": 30}, "groesse_m": [0.3, 0.9], "abstand_m": 2.0, "eingraben": [0.4, 0.6], "material": "MI_EL_SW_Oedland_Ton"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Steinchen am Muldenrand", "palette": ["SM_stones_01_4", "SM_SmallStonesPack_01", "SM_SmallStonesPack_03"], "anzahl": 500, "verteilung": {"typ": "ring", "bei": "mulde", "r_m": [20, 44]}, "abstand_m": 0.5, "rolle": "stein"},
+    {"name": "trockengras_rand", "ebene": "bewuchs", "warum": "nichts im Feld (Gas, Schlamm) - Trockengras erst am Rand", "palette": "trockengras", "anzahl": 70, "verteilung": {"typ": "ring", "bei": "mulde", "r_m": [36, 50]}, "abstand_m": 2.2, "rolle": "pflanze"},
+    {"name": "sanddorn_rand", "ebene": "bewuchs", "warum": "kuemmernder Sanddorn ausserhalb des Gasfelds", "palette": "sanddorn", "anzahl": 6, "verteilung": {"typ": "ring", "bei": "mulde", "r_m": [40, 52]}, "abstand_m": 6, "rolle": "pflanze"},
+    {"name": "kratersaum", "ebene": "kontakt", "warum": "nasse Steinchen am Kraterrand jedes Kegels", "palette": "kiesel", "verteilung": {"typ": "ufer", "bei": "mulde", "r_m": 34, "band_m": [0.0, 2.5]}, "anzahl": 120, "versuche": 60, "abstand_m": 0.25, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Schlamm", "form": "kreis", "bei": "mulde", "r_m": 30, "wert": 230, "flecken": 0.45},
+    {"lage": "Lehm", "form": "ring", "bei": "mulde", "r_m": [26, 44], "wert": 200, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_ost", "abschnitt": [230, 608], "zugang": true},
+   "verdeckung": {"kern": "mulde", "probe_r_m": 10, "ziel_hoehe_m": 2},
+   "effekte": [
+    {"typ": "niagara", "asset": "NS_Bubble_Burst", "optional": false, "zweck": "Schlammblasen im groessten Krater (Kopie, braun, langsam)", "bei": "k0", "hoehe_m": 0.05},
+    {"typ": "niagara", "asset": "NS_Bubble_Burst", "optional": false, "zweck": "Schlammblasen im zweiten Krater", "bei": "k5", "hoehe_m": 0.05},
+    {"typ": "niagara", "asset": "NS_SmokePuffLight", "optional": false, "zweck": "Gasaustritt, sehr duenn", "bei": "k2", "hoehe_m": 0.3},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "nasse Schlammraender", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "mulde", "r_m": 30, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 4.0, 4.0]},
+    {"typ": "decal", "material": "MI_Decal_Clay_02", "zweck": "getrocknete Schlammflaechen", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mulde", "r_m": 26}, "abstand_m": 12, "groesse_m": [1.0, 10.0, 10.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mulde", "radius_m": 50, "lautstaerke": 0.3, "zweck": "Wind; Blubbern kommt aus dem Niagara (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "oedland_07_totenpfanne": {
+   "kurz": "Der Badland-Bach endet in einer weissen, gerissenen Tonpfanne; darin stehen schwarze, tote Baeume - vor Jahrhunderten ertrunken, dann verdorrt, nie verrottet.",
+   "marker": {"titel": "Die Totenpfanne", "text": "Sie sind ertrunken, als hier noch Wasser stand, und verdurstet, als es ging. Seitdem stehen sie schwarz im Weiss und warten, dass einer von beiden zurueckkommt.", "entdeckung_m": 40},
+   "budget": {"instanzen": 1000, "kollision": 100, "akteure": 12, "lichter": 0, "niagara": 0, "decals": 8},
+   "assets_wunsch": [],
+   "anker": {
+    "pfanne": [0, 0],
+    "blick": {"pos_m": [-900.0, 1720.0]}
+   },
+   "gelaende": {"fenster_m": [150, 150], "rand_m": 14, "senke_begruendung": "Endpfanne (Playa) des Badland-Bachs: das Wasser verdunstet, Ueberlauf nur bei Hochwasser - abflusslos wie im Deadvlei",
+    "ops": [
+     {"op": "mulde", "bei": "pfanne", "radius_m": 40, "tiefe_m": 3.5, "rand_m": 12, "boden": 0.75, "warum": "Pfanne -3,5 m (r 50 m), flacher Boden"},
+     {"op": "glaetten", "bei": "pfanne", "radius_m": 40, "staerke": 0.8, "sigma_m": 5, "warum": "Tonboden glatt"}
+    ]
+   },
+   "gruppen": [
+    {"name": "tote_baeume", "ebene": "held", "warum": "schwarze tote Baeume in der Pfanne (ertrunken, dann verdorrt)", "palette": ["SM_Dead_Tree_01", "SM_Dead_Tree_03"], "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "pfanne", "r_m": 26}, "abstand_m": 14, "skala": [0.75, 0.95], "rolle": "baum", "akteur": true, "kollision": true, "material": "MI_EL_SW_Totholz_Schwarz", "eingraben_m": [0.3, 0.5]},
+    {"name": "tote_klein", "ebene": "begleiter", "warum": "kleinere tote Baeume", "palette": ["qlEtl_tier_0", "SM_DeadTree_01", "SM_DeadTree_02", "SM_EuropeanBeech_Dead_M_01"], "anzahl": 8, "verteilung": {"typ": "kreis", "bei": "pfanne", "r_m": 36}, "abstand_m": 8, "skala": [0.9, 1.2], "rolle": "baum", "akteur": true, "kollision": true, "material": "MI_EL_SW_Totholz_Schwarz"},
+    {"name": "liegende", "ebene": "schutt", "warum": "umgestuerzte Staemme und Aeste", "palette": ["SM_dead_log_02", "SM_dead_log_04", "SM_dead_log_01"], "anzahl": 26, "verteilung": {"typ": "kreis", "bei": "pfanne", "r_m": 38}, "skala": [1.2, 2.0], "rolle": "stamm", "abstand_m": 3, "material": "MI_EL_SW_Totholz_Schwarz"},
+    {"name": "aeste", "ebene": "kleinzeug", "warum": "schwarze Aststuecke unter den Baeumen", "palette": "rinde", "verteilung": {"typ": "um_gruppe", "gruppe": ["tote_baeume", "tote_klein"], "ring_m": [0.5, 6.0], "je": [10, 18]}, "rolle": "streu"},
+    {"name": "tonbrocken", "ebene": "kleinzeug", "warum": "aufgewoelbte Tonschollen am Pfannenrand", "palette": ["SM_SmallStonesPack_04", "SM_SmallStonesPack_08", "SM_s_rock_02"], "anzahl": 300, "verteilung": {"typ": "ring", "bei": "pfanne", "r_m": [36, 52]}, "abstand_m": 0.8, "rolle": "stein"},
+    {"name": "randgras", "ebene": "bewuchs", "warum": "keiner in der Pfanne (Salz, Ton) - Trockengras nur am Rand", "palette": "trockengras", "anzahl": 80, "verteilung": {"typ": "ring", "bei": "pfanne", "r_m": [46, 62]}, "abstand_m": 2.2, "rolle": "pflanze"},
+    {"name": "wurzelsaum", "ebene": "kontakt", "warum": "Risse und Kruemel am Stammfuss (nichts steht auf)", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": ["tote_baeume", "tote_klein", "liegende"], "ring_m": [0.3, 1.5], "je": [6, 10]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Lehm", "form": "kreis", "bei": "pfanne", "r_m": 46, "wert": 255, "rand_m": 6, "flecken": 0.1},
+    {"lage": "Trockengras", "form": "ring", "bei": "pfanne", "r_m": [46, 64], "wert": 170, "flecken": 0.5}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_west", "abschnitt": [410, 530]},
+   "verdeckung": {"kern": "pfanne", "probe_r_m": 12, "ziel_hoehe_m": 2},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Clay_01", "zweck": "Trockenrisse (hell) in der Pfanne", "anzahl": 4, "verteilung": {"typ": "kreis", "bei": "pfanne", "r_m": 30}, "abstand_m": 14, "groesse_m": [1.0, 14.0, 14.0]},
+    {"typ": "decal", "material": "MI_Decal_Clay_03", "zweck": "feine Risse", "anzahl": 4, "verteilung": {"typ": "kreis", "bei": "pfanne", "r_m": 36}, "abstand_m": 12, "groesse_m": [1.0, 10.0, 10.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "pfanne", "radius_m": 60, "lautstaerke": 0.35, "zweck": "kein Laut ausser Wind (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "oedland_08_erdroehren": {
+   "kurz": "Am Lehmhang ueber dem Westbach ist der Boden durchloechert: drei Schluckloecher bis 7 m tief, durch Tunnel verbunden; eine schmale Erdbruecke spannt ueber den groessten Schacht.",
+   "marker": {"titel": "Die Erdroehren", "text": "Der Boden ist hier hohl wie ein Kaese. Unten hoert man Wasser tropfen, und ueber dem tiefsten Loch haelt eine Bruecke aus Erde, von der niemand weiss, wie lange noch.", "entdeckung_m": 25},
+   "budget": {"instanzen": 1500, "kollision": 200, "akteure": 10, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [
+    {"paket": "Cave Ambience", "statt_jetzt": "CUE_Water_Stream_VII_Cue leise im Schacht (Tropfen)"}
+   ],
+   "anker": {
+    "schacht1": [0, 0],
+    "schacht2": [24, -14],
+    "schacht3": [-20, 16],
+    "blick": {"pos_m": [-1080.0, 1580.0]}
+   },
+   "linien": {
+    "tunnel": {"punkte": ["schacht3", "schacht1", "schacht2"]}
+   },
+   "gelaende": {"fenster_m": [100, 100], "rand_m": 12, "senke_begruendung": "Schluckloecher (Piping): das Wasser fliesst unterirdisch durch die Roehren zum Westbach",
+    "ops": [
+     {"op": "mulde", "bei": "schacht1", "radius_m": 6.5, "ziel_z": "boden-7", "rand_m": 4, "boden": 0.65, "warum": "Hauptschacht -7 m"},
+     {"op": "mulde", "bei": "schacht2", "radius_m": 4.5, "ziel_z": "boden-5", "rand_m": 3, "boden": 0.6, "warum": "Nebenloch -5 m"},
+     {"op": "mulde", "bei": "schacht3", "radius_m": 4, "ziel_z": "boden-4", "rand_m": 3, "boden": 0.6, "warum": "Nebenloch -4 m"},
+     {"op": "rinne", "punkte": "tunnel", "breite_m": 1.5, "tiefe_m": 0.6, "rand_m": 1.5, "warum": "Einbruchrinne ueber dem Tunnel"}
+    ]
+   },
+   "gruppen": [
+    {"name": "erdbruecke", "ebene": "held", "warum": "Erdbruecke: die Decke des Tunnels ist ueber dem Hauptschacht stehen geblieben", "netz": "SM_big_rock_wall_01", "verteilung": {"typ": "punkt", "bei": "schacht1"}, "skala_xyz": [1.6, 0.45, 0.8], "yaw": "tunnel", "z_bezug": "boden+4.2", "akteur": true, "kollision": true, "material": "MI_EL_SW_Oedland_Ton", "meide": null, "hinweis": "Bruecke 12,5 m lang ueber dem 7-m-Schacht, Oberkante etwa auf Hangniveau (z_bezug vom Schachtgrund aus)"},
+    {"name": "schachtwand", "ebene": "begleiter", "warum": "abbrechende Lehmwaende an den Schachtraendern", "palette": ["SM_Rock_05", "SM_Rock_03"], "verteilung": {"typ": "um_gruppe", "gruppe": "erdbruecke", "ring_m": [6.0, 9.0], "je": [4, 5]}, "groesse_m": [2.0, 3.2], "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Oedland_Ton", "meide": null},
+    {"name": "einbruch", "ebene": "schutt", "warum": "eingebrochene Lehmschollen am Schachtgrund", "palette": ["SM_s_rock_01", "SM_stones_01_5", "SM_Rock_04"], "anzahl": 40, "verteilung": {"typ": "kreis", "bei": "schacht1", "r_m": 5}, "groesse_m": [0.3, 0.9], "abstand_m": 0.8},
+    {"name": "einbruch2", "ebene": "schutt", "warum": "Schollen in den Nebenloechern", "palette": ["SM_s_rock_01", "SM_stones_01_5"], "anzahl": 30, "verteilung": {"typ": "band", "punkte": "tunnel", "breite_m": 6}, "groesse_m": [0.3, 0.8], "abstand_m": 1.0},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Lehmkruemel am Hang", "palette": "kiesel", "anzahl": 700, "verteilung": {"typ": "kreis", "bei": "schacht1", "r_m": 40}, "abstand_m": 0.5, "rolle": "stein"},
+    {"name": "sanddorn", "ebene": "bewuchs", "warum": "Sanddorn ueber den Roehren (Feuchte aus dem Untergrund)", "palette": "sanddorn", "anzahl": 14, "verteilung": {"typ": "band", "punkte": "tunnel", "breite_m": 16}, "abstand_m": 3, "rolle": "pflanze"},
+    {"name": "farn_schacht", "ebene": "bewuchs", "warum": "Farn nur im feuchten Schacht", "netz": "SM_Fern_01a", "anzahl": 6, "verteilung": {"typ": "kreis", "bei": "schacht1", "r_m": 5}, "skala": [0.6, 0.9], "abstand_m": 1.5, "rolle": "pflanze"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras am Lehmhang", "palette": "trockengras", "anzahl": 80, "verteilung": {"typ": "ring", "bei": "schacht1", "r_m": [12, 40]}, "abstand_m": 2.2, "rolle": "pflanze"},
+    {"name": "randsaum", "ebene": "kontakt", "warum": "Kruemel und Steinchen an der Bruecke und den Waenden", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": ["schachtwand", "erdbruecke"], "ring": [0.9, 1.2], "je": [10, 16]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Lehm", "form": "kreis", "bei": "schacht1", "r_m": 34, "wert": 220, "flecken": 0.35},
+    {"lage": "Erde", "form": "band", "punkte": "tunnel", "breite_m": 8, "wert": 200}
+   ],
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_west", "abschnitt": [530, 550], "zugang": true},
+   "verdeckung": {"kern": "schacht1", "probe_r_m": 6, "ziel_hoehe_m": 2},
+   "effekte": [
+    {"typ": "lokaler_nebel", "zweck": "kuehle, feuchte Luft im Hauptschacht", "bei": "schacht1", "hoehe_m": -3, "radius_m": 9, "dichte": 0.06, "farbe": [0.78, 0.78, 0.76], "hoehenabfall": 1.0},
+    {"typ": "decal", "material": "MI_Leakage_09", "zweck": "Sickerspuren an den Schachtwaenden", "bei": "schacht1", "hoehe_m": -2, "ausrichtung": "wand", "blick": 0, "groesse_m": [1.0, 3.0, 5.0]},
+    {"typ": "decal", "material": "MI_Decal_Clay_02", "zweck": "rissiger Lehm ueber dem Tunnel", "bei": "schacht2", "groesse_m": [1.0, 8.0, 8.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Water_Stream_VII_Cue", "bei": "schacht1", "radius_m": 15, "lautstaerke": 0.25, "zweck": "unten hoert man Wasser tropfen (leise)"}
+   ]
+  }
+ }
+}

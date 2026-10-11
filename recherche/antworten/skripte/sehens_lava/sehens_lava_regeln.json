@@ -1834,12 +1834,12 @@
     {
      "typ": "decal",
      "material": "MI_Deca_Wet",
-     "anzahl": 3,
-     "zweck": "Nassband an den Schwefelquellen (Coast & Dunes)",
+     "anzahl": 2,
+     "zweck": "Nassband an der grossen Schwefelquelle (Coast & Dunes)",
      "verteilung": {
       "typ": "ufer",
-      "bei": "mitte",
-      "r_m": 50,
+      "bei": "quelle_w",
+      "r_m": 8,
       "band_m": [
        0.0,
        1.5
@@ -1850,7 +1850,27 @@
       3.0,
       3.0
      ],
-     "abstand_m": 4
+     "abstand_m": 3
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "anzahl": 1,
+     "zweck": "Nassband an der kleinen Schwefelquelle",
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "quelle_o",
+      "r_m": 6,
+      "band_m": [
+       0.0,
+       1.5
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
     },
     {
      "typ": "decal",
@@ -2785,12 +2805,33 @@
     {
      "typ": "decal",
      "material": "MI_Deca_Wet",
-     "anzahl": 6,
-     "zweck": "Nassband an beiden Kraterteichen (Coast & Dunes)",
+     "anzahl": 3,
+     "zweck": "Nassband am grossen Kraterteich (Coast & Dunes)",
      "verteilung": {
       "typ": "ufer",
-      "bei": "senke",
-      "r_m": 75,
+      "bei": "k1",
+      "r_m": 9,
+      "band_m": [
+       0.0,
+       1.2
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      2.5,
+      2.5
+     ],
+     "abstand_m": 3
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "anzahl": 3,
+     "zweck": "Nassband am zweiten Kraterteich",
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "k3",
+      "r_m": 9,
       "band_m": [
        0.0,
        1.2
@@ -4372,12 +4413,13 @@
      "anzahl": 4,
      "zweck": "Nassband an der Wasserlinie (Coast & Dunes)",
      "verteilung": {
-      "typ": "ufer",
-      "bei": "wasser",
-      "r_m": 60,
-      "band_m": [
-       0.0,
-       1.5
+      "typ": "band",
+      "punkte": "spalte",
+      "versatz_m": 6.2,
+      "breite_m": 1.2,
+      "t": [
+       0.1,
+       0.9
       ]
      },
      "groesse_m": [
@@ -4385,7 +4427,29 @@
       3.0,
       3.0
      ],
-     "abstand_m": 6
+     "abstand_m": 8
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet_Flat",
+     "anzahl": 3,
+     "zweck": "Nassband, Gegenseite",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "versatz_m": -6.2,
+      "breite_m": 1.2,
+      "t": [
+       0.1,
+       0.9
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ],
+     "abstand_m": 8
     },
     {
      "typ": "decal",
@@ -5461,15 +5525,15 @@
       "Basalt_Basalt_Pillar_Variance_B_SM",
       "Basalt_Basalt_Pillar_Variance_C_SM"
      ],
-     "anzahl": 70,
+     "anzahl": 90,
      "verteilung": {
       "typ": "cluster",
       "form": "band",
       "punkte": "halde",
       "breite_m": 9,
       "zentren": [
-       7,
-       9
+       10,
+       12
       ],
       "je": [
        6,
@@ -5502,8 +5566,8 @@
       "punkte": "halde",
       "breite_m": 12,
       "zentren": [
-       8,
-       10
+       10,
+       13
       ],
       "je": [
        6,
@@ -5552,12 +5616,12 @@
       "punkte": "halde",
       "breite_m": 22,
       "zentren": [
-       70,
-       90
+       120,
+       150
       ],
       "je": [
-       10,
-       22
+       12,
+       24
       ],
       "radius_m": 2.8
      },

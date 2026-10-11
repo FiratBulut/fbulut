@@ -11,573 +11,4967 @@
  "biom": "frost",
  "seed": 1313,
  "paletten": {
-  "eisplatte": ["uhpocesfa_tier_0", "vd5leh0ga_tier_0", "veipbcmcb_tier_0", "uhprdg2fa_tier_0"],
-  "eissplitter": ["vd4hbizcb_tier_0", "vcyiccyga_tier_0", "vcytca0fa_tier_0"],
-  "zapfen_gross": ["SM_EISZAPFEN_4", "SM_EISZAPFEN_6", "SM_EISZAPFEN_8", "SM_EISZAPFEN_9"],
-  "zapfen_alle": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_2", "SM_EISZAPFEN_3", "SM_EISZAPFEN_4", "SM_EISZAPFEN_5", "SM_EISZAPFEN_6", "SM_EISZAPFEN_7", "SM_EISZAPFEN_8", "SM_EISZAPFEN_9"],
-  "zapfen_klein": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_2", "SM_EISZAPFEN_5"],
-  "schneewehe": ["vcwjeh2fa_tier_0", "Snow_Embankment_uhvifcgfa_High", "uhwifglfa_tier_0", "vcyiedgfa_tier_0", "xfwhcfnqx_tier_0"],
-  "schneehaufen": ["xemmbh2qx_tier_0", "xftjadtab_tier_0", "xe2obbqqx_tier_0"],
-  "bloecke": ["SM_mountain_rock_big_02_1", "SM_mountain_rock_big_02_3", "SM_mountain_rock_big_02_5", "SM_mountain_rock_big_02_6", "SM_mountain_rock_big_02_7", "xf3odif_tier_0", "xisgcic_tier_0"],
-  "geroell": ["SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_2", "SM_mountain_rock_big_01_3", "SM_mountain_rock_big_01_4", "SM_mountain_rock_big_01_5", "SM_ground_rock_01", "SM_ground_rock_02", "pkeeM_tier_0"],
-  "steine": ["SM_mountain_rock_small_01_1", "SM_mountain_rock_small_01_2", "SM_mountain_rock_small_01_3", "SM_mountain_rock_small_01_4", "SM_mountain_rock_small_01_5", "SM_stone_04", "SM_stone_06"],
-  "kiesel": ["SM_SmallStonesPack_01", "SM_SmallStonesPack_03", "SM_SmallStonesPack_06", "SM_SmallStonesPack_07", "SM_SmallStonesPack_13", "SM_SmallStonesPack_14", "SM_NordicBeachRock_01", "SM_stone_05"],
-  "moos": ["SM_MossClump_01", "SM_MossClump_02", "SM_MossClump_03", "SM_moss_01", "SM_moss_02"],
-  "raureifkiefer": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_06", "SM_Forest_pine_07"],
-  "zwergkiefer": ["SM_dwarf_pine_small_01", "SM_dwarf_pine_small_02", "SM_dwarf_pine_medium_02", "SM_dwarf_pine_big_01"],
-  "seggen": ["SM_wk2oaeyqx_VarB", "SM_wk2oaeyqx_VarF", "SM_wk2oaeyqx_VarC"],
-  "strandgras": ["SM_beach_grass_01_1", "SM_beach_grass_01_2", "SM_beach_grass_01_3", "SM_beach_grass_02_2"],
-  "treibholz": ["SM_beach_driftwood_02", "SM_beach_driftwood_06", "SM_beach_driftwood_03", "SM_beach_driftwood_08"],
-  "trittstein": ["SM_flat_rock_04", "SM_flat_rock_02"],
-  "felsstufe": ["SM_ground_rock_03_03", "SM_ground_rock_03_01", "SM_flat_rock_03"]
+  "eisplatte": [
+   "uhpocesfa_tier_0",
+   "vd5leh0ga_tier_0",
+   "veipbcmcb_tier_0",
+   "uhprdg2fa_tier_0"
+  ],
+  "eissplitter": [
+   "vd4hbizcb_tier_0",
+   "vcyiccyga_tier_0",
+   "vcytca0fa_tier_0"
+  ],
+  "zapfen_gross": [
+   "SM_EISZAPFEN_4",
+   "SM_EISZAPFEN_6",
+   "SM_EISZAPFEN_8",
+   "SM_EISZAPFEN_9"
+  ],
+  "zapfen_alle": [
+   "SM_EISZAPFEN_1",
+   "SM_EISZAPFEN_2",
+   "SM_EISZAPFEN_3",
+   "SM_EISZAPFEN_4",
+   "SM_EISZAPFEN_5",
+   "SM_EISZAPFEN_6",
+   "SM_EISZAPFEN_7",
+   "SM_EISZAPFEN_8",
+   "SM_EISZAPFEN_9"
+  ],
+  "zapfen_klein": [
+   "SM_EISZAPFEN_1",
+   "SM_EISZAPFEN_2",
+   "SM_EISZAPFEN_5"
+  ],
+  "schneewehe": [
+   "vcwjeh2fa_tier_0",
+   "Snow_Embankment_uhvifcgfa_High",
+   "uhwifglfa_tier_0",
+   "vcyiedgfa_tier_0",
+   "xfwhcfnqx_tier_0"
+  ],
+  "schneehaufen": [
+   "xemmbh2qx_tier_0",
+   "xftjadtab_tier_0",
+   "xe2obbqqx_tier_0"
+  ],
+  "bloecke": [
+   "SM_mountain_rock_big_02_1",
+   "SM_mountain_rock_big_02_3",
+   "SM_mountain_rock_big_02_5",
+   "SM_mountain_rock_big_02_6",
+   "SM_mountain_rock_big_02_7",
+   "xf3odif_tier_0",
+   "xisgcic_tier_0"
+  ],
+  "geroell": [
+   "SM_mountain_rock_big_01_1",
+   "SM_mountain_rock_big_01_2",
+   "SM_mountain_rock_big_01_3",
+   "SM_mountain_rock_big_01_4",
+   "SM_mountain_rock_big_01_5",
+   "SM_ground_rock_01",
+   "SM_ground_rock_02",
+   "pkeeM_tier_0"
+  ],
+  "steine": [
+   "SM_mountain_rock_small_01_1",
+   "SM_mountain_rock_small_01_2",
+   "SM_mountain_rock_small_01_3",
+   "SM_mountain_rock_small_01_4",
+   "SM_mountain_rock_small_01_5",
+   "SM_stone_04",
+   "SM_stone_06"
+  ],
+  "kiesel": [
+   "SM_SmallStonesPack_01",
+   "SM_SmallStonesPack_03",
+   "SM_SmallStonesPack_06",
+   "SM_SmallStonesPack_07",
+   "SM_SmallStonesPack_13",
+   "SM_SmallStonesPack_14",
+   "SM_NordicBeachRock_01",
+   "SM_stone_05"
+  ],
+  "moos": [
+   "SM_MossClump_01",
+   "SM_MossClump_02",
+   "SM_MossClump_03",
+   "SM_moss_01",
+   "SM_moss_02"
+  ],
+  "raureifkiefer": [
+   "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_06",
+   "SM_Forest_pine_07"
+  ],
+  "zwergkiefer": [
+   "SM_dwarf_pine_small_01",
+   "SM_dwarf_pine_small_02",
+   "SM_dwarf_pine_medium_02",
+   "SM_dwarf_pine_big_01"
+  ],
+  "seggen": [
+   "SM_wk2oaeyqx_VarB",
+   "SM_wk2oaeyqx_VarF",
+   "SM_wk2oaeyqx_VarC"
+  ],
+  "strandgras": [
+   "SM_beach_grass_01_1",
+   "SM_beach_grass_01_2",
+   "SM_beach_grass_01_3",
+   "SM_beach_grass_02_2"
+  ],
+  "treibholz": [
+   "SM_beach_driftwood_02",
+   "SM_beach_driftwood_06",
+   "SM_beach_driftwood_03",
+   "SM_beach_driftwood_08"
+  ],
+  "trittstein": [
+   "SM_flat_rock_04",
+   "SM_flat_rock_02"
+  ],
+  "felsstufe": [
+   "SM_ground_rock_03_03",
+   "SM_ground_rock_03_01",
+   "SM_flat_rock_03"
+  ]
  },
  "materialwuensche": [
-  {"name": "MI_EL_SW_Raureif", "basis": "M_EL_Pflanze", "parameter": {"Farbe": [0.86, 0.91, 0.97, 1.0], "Helligkeit": 1.45, "Wind_Staerke": 0.05}, "fuer": ["SM_Forest_pine_06 (Foliage)", "SM_Forest_pine_07", "SM_dwarf_pine_big_01", "SM_dwarf_pine_small_01", "SM_dwarf_pine_small_02", "SM_dwarf_pine_medium_02", "SM_wk2oaeyqx_VarB", "SM_beach_grass_01_1"]},
-  {"name": "MI_EL_SW_Schwarzeis", "basis": "M_EL_Eis4", "parameter": {"Eis_Farbe": [0.06, 0.12, 0.2, 1.0], "Eis_Tief_Farbe": [0.01, 0.02, 0.05, 1.0], "Schnee_Menge": 0.05, "Eis_Spekular": 0.8}, "fuer": ["Frostsee (see frostsee, eis)", "Blasensee am Blockgletscher", "Frostblumen-Lagune"]},
-  {"name": "MI_EL_SW_Spritzeis", "basis": "M_EL_Eis4", "parameter": {"Eis_Farbe": [0.7, 0.85, 0.97, 1.0], "Schnee_Menge": 0.45, "Eis_Rau_Max": 0.3}, "fuer": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_2", "SM_EISZAPFEN_3", "SM_EISZAPFEN_4", "SM_EISZAPFEN_5", "SM_EISZAPFEN_6", "SM_EISZAPFEN_7", "SM_EISZAPFEN_8", "SM_EISZAPFEN_9"]},
-  {"name": "MI_EL_SW_Fels_Eisglasur", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Farbe": [0.82, 0.9, 0.98, 1.0], "Auflage_Menge": 0.7, "Auflage_Schwelle": 0.5, "Auflage_Rauheit": 0.25, "Toenung": [0.78, 0.8, 0.84, 1.0]}, "fuer": ["SM_big_rock_wall_01", "SM_big_rock_wall_02", "SM_big_rock_wall_03", "rcygn_tier_0", "SM_NordicBeachRocks_01", "SM_NordicBoulder_01"]},
-  {"name": "MI_EL_SW_Eisblasen", "basis": "M_MS_Decal", "parameter": {"Opacity Intensity": 0.8, "Brightness": 1.1}, "fuer": ["Decal Blasen im Schwarzeis (Frostsee, Blockgletscher-See)"],
-   "texturen": {"BaseColorTexture": "recherche/antworten/sehens/frost/decal_eisblasen.png"}, "hinweis": "eigene prozedurale Textur (Katalog: Blasen als Decal unter der Eisflaeche), Alpha = Deckkraft"},
-  {"name": "MI_EL_SW_Eisrisse", "basis": "M_MS_Decal", "parameter": {"Opacity Intensity": 0.7, "Brightness": 1.2}, "fuer": ["Decal Risse im Ufereis / Presseis"],
-   "texturen": {"BaseColorTexture": "recherche/antworten/sehens/frost/decal_eisrisse.png"}, "hinweis": "eigene prozedurale Textur (Katalog: Risse als Decal), Alpha = Deckkraft"}
+  {
+   "name": "MI_EL_SW_Raureif",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.86,
+     0.91,
+     0.97,
+     1.0
+    ],
+    "Helligkeit": 1.45,
+    "Wind_Staerke": 0.05
+   },
+   "fuer": [
+    "SM_Forest_pine_06 (Foliage)",
+    "SM_Forest_pine_07",
+    "SM_dwarf_pine_big_01",
+    "SM_dwarf_pine_small_01",
+    "SM_dwarf_pine_small_02",
+    "SM_dwarf_pine_medium_02",
+    "SM_wk2oaeyqx_VarB",
+    "SM_beach_grass_01_1"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schwarzeis",
+   "basis": "M_EL_Eis4",
+   "parameter": {
+    "Eis_Farbe": [
+     0.06,
+     0.12,
+     0.2,
+     1.0
+    ],
+    "Eis_Tief_Farbe": [
+     0.01,
+     0.02,
+     0.05,
+     1.0
+    ],
+    "Schnee_Menge": 0.05,
+    "Eis_Spekular": 0.8
+   },
+   "fuer": [
+    "Frostsee (see frostsee, eis)",
+    "Blasensee am Blockgletscher",
+    "Frostblumen-Lagune"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Spritzeis",
+   "basis": "M_EL_Eis4",
+   "parameter": {
+    "Eis_Farbe": [
+     0.7,
+     0.85,
+     0.97,
+     1.0
+    ],
+    "Schnee_Menge": 0.45,
+    "Eis_Rau_Max": 0.3
+   },
+   "fuer": [
+    "SM_EISZAPFEN_1",
+    "SM_EISZAPFEN_2",
+    "SM_EISZAPFEN_3",
+    "SM_EISZAPFEN_4",
+    "SM_EISZAPFEN_5",
+    "SM_EISZAPFEN_6",
+    "SM_EISZAPFEN_7",
+    "SM_EISZAPFEN_8",
+    "SM_EISZAPFEN_9"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Fels_Eisglasur",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.82,
+     0.9,
+     0.98,
+     1.0
+    ],
+    "Auflage_Menge": 0.7,
+    "Auflage_Schwelle": 0.5,
+    "Auflage_Rauheit": 0.25,
+    "Toenung": [
+     0.78,
+     0.8,
+     0.84,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_big_rock_wall_01",
+    "SM_big_rock_wall_02",
+    "SM_big_rock_wall_03",
+    "rcygn_tier_0",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBoulder_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Eisblasen",
+   "basis": "M_MS_Decal",
+   "parameter": {
+    "Opacity Intensity": 0.8,
+    "Brightness": 1.1
+   },
+   "fuer": [
+    "Decal Blasen im Schwarzeis (Frostsee, Blockgletscher-See)"
+   ],
+   "texturen": {
+    "BaseColorTexture": "recherche/antworten/sehens/frost/decal_eisblasen.png"
+   },
+   "hinweis": "eigene prozedurale Textur (Katalog: Blasen als Decal unter der Eisflaeche), Alpha = Deckkraft"
+  },
+  {
+   "name": "MI_EL_SW_Eisrisse",
+   "basis": "M_MS_Decal",
+   "parameter": {
+    "Opacity Intensity": 0.7,
+    "Brightness": 1.2
+   },
+   "fuer": [
+    "Decal Risse im Ufereis / Presseis"
+   ],
+   "texturen": {
+    "BaseColorTexture": "recherche/antworten/sehens/frost/decal_eisrisse.png"
+   },
+   "hinweis": "eigene prozedurale Textur (Katalog: Risse als Decal), Alpha = Deckkraft"
+  }
  ],
  "orte": {
-
   "frost_01_der_eisfall": {
    "kurz": "Wo der Nordbach ueber eine 12-m-Stufe zum Frostsee faellt, ist er mitten im Sturz erstarrt: ein Buendel milchig-blauer Eissaeulen, dahinter rinnt noch Wasser; am Fuss ein Kegel aus gefrorener Gischt.",
-   "marker": {"titel": "Der Eisfall", "text": "Der Bach ist im Fallen stehen geblieben. Man hoert ihn noch hinter dem Eis, wie jemanden, der in einem verschlossenen Raum spricht.", "entdeckung_m": 25},
-   "budget": {"instanzen": 3500, "kollision": 400, "akteure": 30, "lichter": 1, "niagara": 1, "decals": 4},
-   "assets_wunsch": [{"paket": "CryoGen: Native Procedural Ice Architecture", "statt_jetzt": "Megascans Ice Cliff vctiegmfa/uhprdg2fa als Saeulen + SM_EISZAPFEN_4/8/9 bis 3x (MI_EL_SW_Spritzeis)"}],
+   "marker": {
+    "titel": "Der Eisfall",
+    "text": "Der Bach ist im Fallen stehen geblieben. Man hoert ihn noch hinter dem Eis, wie jemanden, der in einem verschlossenen Raum spricht.",
+    "entdeckung_m": 25
+   },
+   "budget": {
+    "instanzen": 3500,
+    "kollision": 400,
+    "akteure": 30,
+    "lichter": 1,
+    "niagara": 1,
+    "decals": 4
+   },
+   "assets_wunsch": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "statt_jetzt": "Megascans Ice Cliff vctiegmfa/uhprdg2fa als Saeulen + SM_EISZAPFEN_4/8/9 bis 3x (MI_EL_SW_Spritzeis)"
+    }
+   ],
    "anker": {
-    "kante_a": {"pos_m": [84.0, -2416.0]},
-    "kante_b": {"pos_m": [88.0, -2405.0]},
-    "fuss": {"pos_m": [99.0, -2401.0]},
-    "oben": {"pos_m": [72.0, -2414.0]}
+    "kante_a": {
+     "pos_m": [
+      84.0,
+      -2416.0
+     ]
+    },
+    "kante_b": {
+     "pos_m": [
+      88.0,
+      -2405.0
+     ]
+    },
+    "fuss": {
+     "pos_m": [
+      99.0,
+      -2401.0
+     ]
+    },
+    "oben": {
+     "pos_m": [
+      72.0,
+      -2414.0
+     ]
+    }
    },
    "linien": {
-    "stufe": {"punkte": [{"pos_m": [91.0, -2462.0]}, {"pos_m": [88.0, -2432.0]}, {"pos_m": [86.0, -2410.0]}, {"pos_m": [90.0, -2388.0]}]},
-    "saeulenreihe": {"punkte": [{"pos_m": [87.0, -2424.0]}, {"pos_m": [87.5, -2412.0]}, {"pos_m": [90.0, -2398.0]}]}
+    "stufe": {
+     "punkte": [
+      {
+       "pos_m": [
+        91.0,
+        -2462.0
+       ]
+      },
+      {
+       "pos_m": [
+        88.0,
+        -2432.0
+       ]
+      },
+      {
+       "pos_m": [
+        86.0,
+        -2410.0
+       ]
+      },
+      {
+       "pos_m": [
+        90.0,
+        -2388.0
+       ]
+      }
+     ]
+    },
+    "saeulenreihe": {
+     "punkte": [
+      {
+       "pos_m": [
+        87.0,
+        -2424.0
+       ]
+      },
+      {
+       "pos_m": [
+        87.5,
+        -2412.0
+       ]
+      },
+      {
+       "pos_m": [
+        90.0,
+        -2398.0
+       ]
+      }
+     ]
+    }
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [130, 110], "bei": {"pos_m": [88.0, -2412.0]}, "rand_m": 12, "ist_wasser": true, "ist_wasser_r_m": 40,
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     130,
+     110
+    ],
+    "bei": {
+     "pos_m": [
+      88.0,
+      -2412.0
+     ]
+    },
+    "rand_m": 12,
+    "ist_wasser": true,
+    "ist_wasser_r_m": 40,
     "begruendung": "Der Eisfall IST der Nordbach an der Stufe: Kante und Fuss duerfen am Bestandswasser geaendert werden",
     "ops": [
-     {"op": "abbruch", "punkte": "stufe", "hoehe_m": 2.5, "breite_m": 4, "reichweite_m": 14, "seite": "rechts", "verteilung": "oben", "warum": "Stufe versteilen (+2 m Kante, 70-80 Grad)"},
-     {"op": "kuppe", "bei": "fuss", "radius_m": 7, "hoehe_m": 1.5, "plateau": 0.25, "rand_m": 5, "warum": "Kegel aus gefrorener Gischt am Fuss"}
-    ]},
+     {
+      "op": "abbruch",
+      "punkte": "stufe",
+      "hoehe_m": 2.5,
+      "breite_m": 4,
+      "reichweite_m": 14,
+      "seite": "rechts",
+      "verteilung": "oben",
+      "warum": "Stufe versteilen (+2 m Kante, 70-80 Grad)"
+     },
+     {
+      "op": "kuppe",
+      "bei": "fuss",
+      "radius_m": 7,
+      "hoehe_m": 1.5,
+      "plateau": 0.25,
+      "rand_m": 5,
+      "warum": "Kegel aus gefrorener Gischt am Fuss"
+     }
+    ],
+    "senke_begruendung": "kleine Nische am Fuss der Stufe (Spritzeis fuellt sie)"
+   },
    "wasser": [
-    {"typ": "wasserfall", "id": "restwasser", "kante": ["kante_a", "kante_b"], "fuss": "fuss", "breite_m": 0.6, "farbe": "klar",
-     "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - nur ein schmaler Streifen hinter den Eissaeulen, Deckkraft niedrig"}
+    {
+     "typ": "wasserfall",
+     "id": "restwasser",
+     "kante": [
+      "kante_a",
+      "kante_b"
+     ],
+     "fuss": "fuss",
+     "breite_m": 0.6,
+     "farbe": "klar",
+     "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - nur ein schmaler Streifen hinter den Eissaeulen, Deckkraft niedrig"
+    }
    ],
    "rahmen": [
-    {"name": "sued", "bei": "fuss", "ziel_hoehe_m": 3.0, "richtung_bereich": [150, 210], "abstand_m": 22, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 6.0, "rand_grad": 12, "bogen_grad": 40},
-    {"name": "nordwest", "bei": "fuss", "ziel_hoehe_m": 3.0, "richtung_bereich": [270, 355], "abstand_m": 22, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 7.0, "rand_grad": 10, "bogen_grad": 50}
+    {
+     "name": "sued",
+     "bei": "fuss",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      150,
+      210
+     ],
+     "abstand_m": 22,
+     "breite_m": 12,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 6.0,
+     "rand_grad": 12,
+     "bogen_grad": 40
+    },
+    {
+     "name": "nordwest",
+     "bei": "fuss",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      270,
+      355
+     ],
+     "abstand_m": 22,
+     "breite_m": 12,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 7.0,
+     "rand_grad": 10,
+     "bogen_grad": 50
+    },
+    {
+     "name": "nordost",
+     "bei": "fuss",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      30,
+      70
+     ],
+     "abstand_m": 20,
+     "breite_m": 12,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 8.0,
+     "rand_grad": 10,
+     "bogen_grad": 40
+    }
    ],
-   "sicht_kern": "fuss", "sicht_probe_m": 6,
+   "sicht_kern": "fuss",
+   "sicht_probe_m": 6,
    "gruppen": [
-    {"name": "eissaeulen", "ebene": "held", "warum": "der erstarrte Fall: Buendel aus Eissaeulen an der Stufe", "palette": ["vctiegmfa_tier_0"],
-     "anzahl": 6, "verteilung": {"typ": "band", "punkte": "saeulenreihe", "breite_m": 2.5}, "abstand_m": 2.3, "groesse_m": [9.0, 13.0], "groesse_achse": "z",
-     "ausrichtung": "aufrecht", "yaw": 105, "yaw_streuung_grad": 20, "front_achse": "+y", "eingraben": [0.15, 0.22], "akteur": true, "kollision": true, "meide": null, "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "eisvorhang", "ebene": "held", "warum": "die Eisflaeche hinter den Saeulen (dort rinnt das Restwasser)", "netz": "uhprdg2fa_tier_0",
-     "verteilung": {"typ": "punkt", "bei": {"pos_m": [85.0, -2411.0]}}, "groesse_m": [11.0, 11.0], "groesse_achse": "z", "ausrichtung": "aufrecht", "yaw": 105, "front_achse": "+y",
-     "eingraben": [0.12, 0.15], "akteur": true, "kollision": true, "meide": null, "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "zapfenschleier", "ebene": "begleiter", "warum": "Zapfenbuendel vor den Saeulen (Spritzwasser gefriert)", "palette": "zapfen_gross",
-     "anzahl": 18, "verteilung": {"typ": "band", "punkte": "saeulenreihe", "breite_m": 3, "versatz_m": 2.5}, "abstand_m": 1.2, "skala": [1.5, 2.6],
-     "ausrichtung": "aufrecht", "yaw": 105, "yaw_streuung_grad": 25, "front_achse": "+y", "eingraben": [0.05, 0.1], "akteur": false, "kollision": false, "meide": null, "im_wasser": "egal", "material": "MI_EL_SW_Spritzeis", "weg_abstand_m": 0},
-    {"name": "felskoepfe", "ebene": "begleiter", "warum": "Felskoepfe an der Stufe, mit Eisglasur", "palette": ["SM_big_rock_wall_02", "rcygn_tier_0", "SM_big_rock_wall_01"], "gewichte": [2, 1, 2],
-     "anzahl": 4, "verteilung": {"typ": "band", "punkte": "stufe", "breite_m": 6, "t": [0.0, 0.35]}, "abstand_m": 6, "groesse_m": [4.0, 7.0], "yaw": 100, "front_achse": "+y",
-     "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Eisglasur", "meide": null},
-    {"name": "felskoepfe_sued", "ebene": "begleiter", "warum": "Felskoepfe an der Stufe suedlich des Falls", "palette": ["SM_big_rock_wall_02", "SM_big_rock_wall_03"],
-     "anzahl": 2, "verteilung": {"typ": "band", "punkte": "stufe", "breite_m": 6, "t": [0.8, 1.0]}, "abstand_m": 6, "groesse_m": [3.5, 5.5], "yaw": 100, "front_achse": "+y",
-     "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Eisglasur", "meide": null},
-    {"name": "eiskegel", "ebene": "begleiter", "warum": "Kegel aus gefrorener Gischt am Fuss", "palette": ["xfroec0qx_tier_0", "vcytca0fa_tier_0"],
-     "verteilung": {"typ": "punkte", "punkte": ["fuss", {"anker": "fuss", "versatz_m": [4.0, 3.0]}]}, "skala": [1.2, 1.5], "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "meide": null, "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "bruchzapfen", "ebene": "schutt", "warum": "gebrochene Zapfen am Fuss (fallen bei Tauwetter)", "palette": "zapfen_klein",
-     "anzahl": 80, "verteilung": {"typ": "faecher", "bei": "fuss", "richtung": 105, "laenge_m": 18, "oeffnung_grad": 110}, "abstand_m": 0.6, "skala": [0.5, 1.1],
-     "ausrichtung": "liegend", "rolle": "stein", "eingraben_m": [0.05, 0.15], "material": "MI_EL_SW_Spritzeis", "im_wasser": "egal"},
-    {"name": "fallsteine", "ebene": "schutt", "warum": "vom Bach mitgebrachte Steine am Fuss", "palette": "geroell",
-     "anzahl": 40, "verteilung": {"typ": "faecher", "bei": "fuss", "richtung": 110, "laenge_m": 22, "oeffnung_grad": 90}, "abstand_m": 1.2, "groesse_m": [0.4, 1.0], "im_wasser": "egal"},
-    {"name": "eiskruemel", "ebene": "kleinzeug", "warum": "Eiskruemel und Splitter um den Kegel", "palette": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_5"],
-     "anzahl": 450, "verteilung": {"typ": "kreis", "bei": "fuss", "r_m": 14}, "abstand_m": 0.35, "skala": [0.12, 0.3], "ausrichtung": "liegend", "rolle": "stein", "eingraben_m": [0.0, 0.04], "material": "MI_EL_SW_Spritzeis", "im_wasser": "egal"},
-    {"name": "steinchen", "ebene": "kleinzeug", "warum": "Kies am Fallfuss", "palette": "kiesel", "anzahl": 300,
-     "verteilung": {"typ": "kreis", "bei": "fuss", "r_m": 16}, "abstand_m": 0.4, "rolle": "stein", "im_wasser": "egal"},
-    {"name": "vereiste_kiefern", "ebene": "bewuchs", "warum": "vereiste Zwergkiefern am Rand der Spritzzone", "palette": "zwergkiefer",
-     "anzahl": 12, "verteilung": {"typ": "ring", "bei": "fuss", "r_m": [10, 26]}, "abstand_m": 3.5, "rolle": "pflanze", "hang_grad": [0, 40], "material": "MI_EL_SW_Raureif"},
-    {"name": "rahmenkiefern", "ebene": "bewuchs", "warum": "Raureif-Kiefern auf dem Sichtwall (Kerbe: der Fall oeffnet sich erst im Einschnitt)", "palette": "raureifkiefer",
-     "anzahl": 8, "verteilung": {"typ": "band", "punkte": "rahmen_nordwest", "breite_m": 10}, "abstand_m": 5, "skala": [0.55, 0.75], "rolle": "baum", "material": "MI_EL_SW_Raureif"},
-    {"name": "rahmenbloecke", "ebene": "schutt", "warum": "Bloecke auf dem Suedwall", "palette": "bloecke",
-     "anzahl": 6, "verteilung": {"typ": "band", "punkte": "rahmen_sued", "breite_m": 7}, "abstand_m": 5, "groesse_m": [1.8, 3.2], "material": "MI_EL_SW_Fels_Eisglasur"},
-    {"name": "gischteis", "ebene": "kontakt", "warum": "Gischteis ueberzieht Fels und Kegel", "palette": ["vcyiccyga_tier_0", "SM_EISZAPFEN_1"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["felskoepfe", "felskoepfe_sued", "eiskegel"], "ring": [0.85, 1.25], "je": [6, 10]}, "skala": [0.2, 0.45], "rolle": "stein", "material": "MI_EL_SW_Spritzeis", "im_wasser": "egal"},
-    {"name": "saeulenfuss", "ebene": "kontakt", "warum": "Kies und Eis am Fuss der Saeulen", "palette": "kiesel",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["eissaeulen", "rahmenbloecke"], "ring": [0.9, 1.3], "je": [10, 16]}, "rolle": "stein", "im_wasser": "egal"},
-    {"name": "felsmoos", "ebene": "kontakt", "warum": "Moos unter dem Eis an der Nordseite der Felsen", "palette": "moos",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["felskoepfe", "felskoepfe_sued"], "ring": [0.85, 1.15], "je": [5, 8], "seite": "nord"}, "rolle": "streu"}
+    {
+     "name": "eissaeulen",
+     "ebene": "held",
+     "warum": "der erstarrte Fall: Buendel aus Eissaeulen an der Stufe",
+     "palette": [
+      "vctiegmfa_tier_0"
+     ],
+     "anzahl": 6,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "saeulenreihe",
+      "breite_m": 2.5
+     },
+     "abstand_m": 2.3,
+     "groesse_m": [
+      9.0,
+      13.0
+     ],
+     "groesse_achse": "z",
+     "ausrichtung": "aufrecht",
+     "yaw": 105,
+     "yaw_streuung_grad": 20,
+     "front_achse": "+y",
+     "eingraben": [
+      0.15,
+      0.22
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null,
+     "im_wasser": "egal",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "eisvorhang",
+     "ebene": "held",
+     "warum": "die Eisflaeche hinter den Saeulen (dort rinnt das Restwasser)",
+     "netz": "uhprdg2fa_tier_0",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": {
+       "pos_m": [
+        85.0,
+        -2411.0
+       ]
+      }
+     },
+     "groesse_m": [
+      11.0,
+      11.0
+     ],
+     "groesse_achse": "z",
+     "ausrichtung": "aufrecht",
+     "yaw": 105,
+     "front_achse": "+y",
+     "eingraben": [
+      0.12,
+      0.15
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null,
+     "im_wasser": "egal",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "zapfenschleier",
+     "ebene": "begleiter",
+     "warum": "Zapfenbuendel vor den Saeulen (Spritzwasser gefriert)",
+     "palette": "zapfen_gross",
+     "anzahl": 18,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "saeulenreihe",
+      "breite_m": 3,
+      "versatz_m": 2.5
+     },
+     "abstand_m": 1.2,
+     "skala": [
+      1.5,
+      2.6
+     ],
+     "ausrichtung": "aufrecht",
+     "yaw": 105,
+     "yaw_streuung_grad": 25,
+     "front_achse": "+y",
+     "eingraben": [
+      0.05,
+      0.1
+     ],
+     "akteur": false,
+     "kollision": false,
+     "meide": null,
+     "im_wasser": "egal",
+     "material": "MI_EL_SW_Spritzeis",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "felskoepfe",
+     "ebene": "begleiter",
+     "warum": "Felskoepfe an der Stufe, mit Eisglasur",
+     "palette": [
+      "SM_big_rock_wall_02",
+      "rcygn_tier_0",
+      "SM_big_rock_wall_01"
+     ],
+     "gewichte": [
+      2,
+      1,
+      2
+     ],
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "stufe",
+      "breite_m": 6,
+      "t": [
+       0.0,
+       0.35
+      ]
+     },
+     "abstand_m": 6,
+     "groesse_m": [
+      4.0,
+      7.0
+     ],
+     "yaw": 100,
+     "front_achse": "+y",
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Fels_Eisglasur",
+     "meide": null
+    },
+    {
+     "name": "felskoepfe_sued",
+     "ebene": "begleiter",
+     "warum": "Felskoepfe an der Stufe suedlich des Falls",
+     "palette": [
+      "SM_big_rock_wall_02",
+      "SM_big_rock_wall_03"
+     ],
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "stufe",
+      "breite_m": 6,
+      "t": [
+       0.8,
+       1.0
+      ]
+     },
+     "abstand_m": 6,
+     "groesse_m": [
+      3.5,
+      5.5
+     ],
+     "yaw": 100,
+     "front_achse": "+y",
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Fels_Eisglasur",
+     "meide": null
+    },
+    {
+     "name": "eiskegel",
+     "ebene": "begleiter",
+     "warum": "Kegel aus gefrorener Gischt am Fuss",
+     "palette": [
+      "xfroec0qx_tier_0",
+      "vcytca0fa_tier_0"
+     ],
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       "fuss",
+       {
+        "anker": "fuss",
+        "versatz_m": [
+         4.0,
+         3.0
+        ]
+       }
+      ]
+     },
+     "skala": [
+      1.2,
+      1.5
+     ],
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null,
+     "im_wasser": "egal",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "bruchzapfen",
+     "ebene": "schutt",
+     "warum": "gebrochene Zapfen am Fuss (fallen bei Tauwetter)",
+     "palette": "zapfen_klein",
+     "anzahl": 80,
+     "verteilung": {
+      "typ": "faecher",
+      "bei": "fuss",
+      "richtung": 105,
+      "laenge_m": 18,
+      "oeffnung_grad": 110
+     },
+     "abstand_m": 0.6,
+     "skala": [
+      0.5,
+      1.1
+     ],
+     "ausrichtung": "liegend",
+     "rolle": "stein",
+     "eingraben_m": [
+      0.05,
+      0.15
+     ],
+     "material": "MI_EL_SW_Spritzeis",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "fallsteine",
+     "ebene": "schutt",
+     "warum": "vom Bach mitgebrachte Steine am Fuss",
+     "palette": "geroell",
+     "anzahl": 40,
+     "verteilung": {
+      "typ": "faecher",
+      "bei": "fuss",
+      "richtung": 110,
+      "laenge_m": 22,
+      "oeffnung_grad": 90
+     },
+     "abstand_m": 1.2,
+     "groesse_m": [
+      0.4,
+      1.0
+     ],
+     "im_wasser": "egal"
+    },
+    {
+     "name": "eiskruemel",
+     "ebene": "kleinzeug",
+     "warum": "Eiskruemel und Splitter um den Kegel",
+     "palette": [
+      "SM_EISZAPFEN_1",
+      "SM_EISZAPFEN_5"
+     ],
+     "anzahl": 450,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "fuss",
+      "r_m": 14
+     },
+     "abstand_m": 0.35,
+     "skala": [
+      0.12,
+      0.3
+     ],
+     "ausrichtung": "liegend",
+     "rolle": "stein",
+     "eingraben_m": [
+      0.0,
+      0.04
+     ],
+     "material": "MI_EL_SW_Spritzeis",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "steinchen",
+     "ebene": "kleinzeug",
+     "warum": "Kies am Fallfuss",
+     "palette": "kiesel",
+     "anzahl": 300,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "fuss",
+      "r_m": 16
+     },
+     "abstand_m": 0.4,
+     "rolle": "stein",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "vereiste_kiefern",
+     "ebene": "bewuchs",
+     "warum": "vereiste Zwergkiefern am Rand der Spritzzone",
+     "palette": "zwergkiefer",
+     "anzahl": 12,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "fuss",
+      "r_m": [
+       10,
+       26
+      ]
+     },
+     "abstand_m": 3.5,
+     "rolle": "pflanze",
+     "hang_grad": [
+      0,
+      40
+     ],
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "rahmenkiefern",
+     "ebene": "bewuchs",
+     "warum": "Raureif-Kiefern auf dem Sichtwall (Kerbe: der Fall oeffnet sich erst im Einschnitt)",
+     "palette": "raureifkiefer",
+     "anzahl": 8,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordwest",
+      "breite_m": 10
+     },
+     "abstand_m": 5,
+     "skala": [
+      0.55,
+      0.75
+     ],
+     "rolle": "baum",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "rahmenbloecke",
+     "ebene": "schutt",
+     "warum": "Bloecke auf dem Suedwall",
+     "palette": "bloecke",
+     "anzahl": 10,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_sued",
+      "breite_m": 7
+     },
+     "abstand_m": 5,
+     "groesse_m": [
+      1.8,
+      3.2
+     ],
+     "material": "MI_EL_SW_Fels_Eisglasur"
+    },
+    {
+     "name": "nordostbloecke",
+     "ebene": "schutt",
+     "warum": "Bloecke auf dem Nordostwall (Kerbe, Sicht vom Steig)",
+     "palette": "bloecke",
+     "anzahl": 6,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordost",
+      "breite_m": 7
+     },
+     "abstand_m": 5,
+     "groesse_m": [
+      1.8,
+      3.2
+     ],
+     "material": "MI_EL_SW_Fels_Eisglasur"
+    },
+    {
+     "name": "gischteis",
+     "ebene": "kontakt",
+     "warum": "Gischteis ueberzieht Fels und Kegel",
+     "palette": [
+      "vcyiccyga_tier_0",
+      "SM_EISZAPFEN_1"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "felskoepfe",
+       "felskoepfe_sued",
+       "eiskegel"
+      ],
+      "ring": [
+       0.85,
+       1.25
+      ],
+      "je": [
+       6,
+       10
+      ]
+     },
+     "skala": [
+      0.2,
+      0.45
+     ],
+     "rolle": "stein",
+     "material": "MI_EL_SW_Spritzeis",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "saeulenfuss",
+     "ebene": "kontakt",
+     "warum": "Kies und Eis am Fuss der Saeulen",
+     "palette": "kiesel",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "eissaeulen",
+       "rahmenbloecke"
+      ],
+      "ring": [
+       0.9,
+       1.3
+      ],
+      "je": [
+       10,
+       16
+      ]
+     },
+     "rolle": "stein",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "felsmoos",
+     "ebene": "kontakt",
+     "warum": "Moos unter dem Eis an der Nordseite der Felsen",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "felskoepfe",
+       "felskoepfe_sued"
+      ],
+      "ring": [
+       0.85,
+       1.15
+      ],
+      "je": [
+       5,
+       8
+      ],
+      "seite": "nord"
+     },
+     "rolle": "streu"
+    }
    ],
    "lagen": [
-    {"lage": "Eis", "form": "kreis", "bei": "fuss", "r_m": 13, "wert": 235, "flecken": 0.3},
-    {"lage": "Eis", "form": "band", "punkte": "saeulenreihe", "breite_m": 8, "wert": 220},
-    {"lage": "Fels", "form": "hang", "bei": "kante_a", "r_m": 30, "hang_grad": [40, 90], "wert": 200},
-    {"lage": "Schnee", "form": "ring", "bei": "fuss", "r_m": [13, 30], "wert": 200, "flecken": 0.4}
+    {
+     "lage": "Eis",
+     "form": "kreis",
+     "bei": "fuss",
+     "r_m": 13,
+     "wert": 235,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Eis",
+     "form": "band",
+     "punkte": "saeulenreihe",
+     "breite_m": 8,
+     "wert": 220
+    },
+    {
+     "lage": "Fels",
+     "form": "hang",
+     "bei": "kante_a",
+     "r_m": 30,
+     "hang_grad": [
+      40,
+      90
+     ],
+     "wert": 200
+    },
+    {
+     "lage": "Schnee",
+     "form": "ring",
+     "bei": "fuss",
+     "r_m": [
+      13,
+      30
+     ],
+     "wert": 200,
+     "flecken": 0.4
+    }
    ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 190, "Kies": 140}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Schnee": 120}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 190,
+     "Kies": 140
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "lagen": {
+      "Kies": 180,
+      "Schnee": 120
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.0
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Restwasser rinnt hinter den Saeulen (Nature Water FX, 13d)", "bei": "kante_b", "hoehe_m": -4.0, "yaw": 105, "skala": 0.5},
-    {"typ": "lokaler_nebel", "zweck": "kalter Dunst am Fallfuss", "bei": "fuss", "hoehe_m": 2, "radius_m": 12, "dichte": 0.04, "farbe": [0.84, 0.9, 0.96], "hoehenabfall": 0.8},
-    {"typ": "punktlicht", "zweck": "kuehles Leuchten in den Saeulen (Schattenseite)", "bei": {"anker": "fuss", "versatz_m": [-4.0, -2.0]}, "hoehe_m": 4, "intensitaet_cd": 250, "radius_m": 10, "farbe": [0.7, 0.85, 1.0]},
-    {"typ": "decal", "material": "MI_Leakage_02", "zweck": "nasser Fels an der Stufe", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "stufe", "breite_m": 4, "t": [0.2, 0.7]}, "ausrichtung": "wand", "blick": 100, "hoehe_m": 4, "groesse_m": [1.0, 2.5, 6.0]},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Fallfuss (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "fuss", "r_m": 8}, "groesse_m": [1.0, 3.0, 3.0]}
+    {
+     "typ": "niagara",
+     "asset": "NS_Stream_Small",
+     "optional": false,
+     "zweck": "Restwasser rinnt hinter den Saeulen (Nature Water FX, 13d)",
+     "bei": "kante_b",
+     "hoehe_m": -4.0,
+     "yaw": 105,
+     "skala": 0.5
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "kalter Dunst am Fallfuss",
+     "bei": "fuss",
+     "hoehe_m": 2,
+     "radius_m": 12,
+     "dichte": 0.04,
+     "farbe": [
+      0.84,
+      0.9,
+      0.96
+     ],
+     "hoehenabfall": 0.8
+    },
+    {
+     "typ": "punktlicht",
+     "zweck": "kuehles Leuchten in den Saeulen (Schattenseite)",
+     "bei": {
+      "anker": "fuss",
+      "versatz_m": [
+       -4.0,
+       -2.0
+      ]
+     },
+     "hoehe_m": 4,
+     "intensitaet_cd": 250,
+     "radius_m": 10,
+     "farbe": [
+      0.7,
+      0.85,
+      1.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_02",
+     "zweck": "nasser Fels an der Stufe",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "stufe",
+      "breite_m": 4,
+      "t": [
+       0.2,
+       0.7
+      ]
+     },
+     "ausrichtung": "wand",
+     "blick": 100,
+     "hoehe_m": 4,
+     "groesse_m": [
+      1.0,
+      2.5,
+      6.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "zweck": "Nassband am Fallfuss (Coast & Dunes)",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "fuss",
+      "r_m": 8
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
    ],
-   "klaenge": [{"asset": "CUE_Water_Stream_IV_Cue", "bei": "kante_b", "radius_m": 25, "lautstaerke": 0.35, "zweck": "Wasser hinter dem Eis, gedaempft"}]
+   "klaenge": [
+    {
+     "asset": "CUE_Water_Stream_IV_Cue",
+     "bei": "kante_b",
+     "radius_m": 25,
+     "lautstaerke": 0.35,
+     "zweck": "Wasser hinter dem Eis, gedaempft"
+    }
+   ]
   },
-
   "frost_02_frostsee": {
    "kurz": "Der Frostsee ist ganz zugefroren, aber nicht weiss: durch schwarzes, klares Eis sieht man in die Tiefe; quer ueber den See laeuft ein Ruecken aus hochkant gestellten, blauen Schollen, in der Westbucht stehen Blasen im Eis.",
-   "marker": {"titel": "Der Frostsee", "text": "Das Eis ist so klar, dass man meint, auf dem Wasser zu stehen. Wo der See sich selbst zusammengeschoben hat, ragen Schollen auf wie die Zaehne eines grossen Tiers.", "entdeckung_m": 150},
-   "budget": {"instanzen": 4500, "kollision": 500, "akteure": 45, "lichter": 0, "niagara": 0, "decals": 10},
-   "assets_wunsch": [{"paket": "Arctic Cliffs", "statt_jetzt": "Megascans Ice Cliff (uhpocesfa, vd5leh0ga, veipbcmcb, uhprdg2fa) als Presseisplatten, schraeg, im Eis versenkt"}],
+   "marker": {
+    "titel": "Der Frostsee",
+    "text": "Das Eis ist so klar, dass man meint, auf dem Wasser zu stehen. Wo der See sich selbst zusammengeschoben hat, ragen Schollen auf wie die Zaehne eines grossen Tiers.",
+    "entdeckung_m": 150
+   },
+   "budget": {
+    "instanzen": 4500,
+    "kollision": 500,
+    "akteure": 45,
+    "lichter": 0,
+    "niagara": 0,
+    "decals": 10
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Arctic Cliffs",
+     "statt_jetzt": "Megascans Ice Cliff (uhpocesfa, vd5leh0ga, veipbcmcb, uhprdg2fa) als Presseisplatten, schraeg, im Eis versenkt"
+    }
+   ],
    "anker": {
-    "see": {"pos_m": [178.0, -2326.0]},
-    "blasenbucht": {"pos_m": [128.0, -2318.0]},
-    "nordufer": {"pos_m": [175.0, -2405.0]}
+    "see": {
+     "pos_m": [
+      178.0,
+      -2326.0
+     ]
+    },
+    "blasenbucht": {
+     "pos_m": [
+      128.0,
+      -2318.0
+     ]
+    },
+    "nordufer": {
+     "pos_m": [
+      175.0,
+      -2405.0
+     ]
+    }
    },
    "linien": {
-    "presseis": {"punkte": [{"pos_m": [112.0, -2384.0]}, {"pos_m": [150.0, -2346.0]}, {"pos_m": [192.0, -2312.0]}, {"pos_m": [236.0, -2282.0]}, {"pos_m": [258.0, -2266.0]}]}
+    "presseis": {
+     "punkte": [
+      {
+       "pos_m": [
+        112.0,
+        -2384.0
+       ]
+      },
+      {
+       "pos_m": [
+        150.0,
+        -2346.0
+       ]
+      },
+      {
+       "pos_m": [
+        192.0,
+        -2312.0
+       ]
+      },
+      {
+       "pos_m": [
+        236.0,
+        -2282.0
+       ]
+      },
+      {
+       "pos_m": [
+        258.0,
+        -2266.0
+       ]
+      }
+     ]
+    }
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [250, 250], "bei": "see", "rand_m": 14, "ist_wasser": true, "ist_wasser_r_m": 130,
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     250,
+     250
+    ],
+    "bei": "see",
+    "rand_m": 14,
+    "ist_wasser": true,
+    "ist_wasser_r_m": 130,
     "begruendung": "Der Ort IST der See: die Houdini-Flaeche K13 (flach auf 20 m) wird ein zugefrorener Epic-See; Becken 1,5 m, Bestandsbach quert ihn",
-    "ops": []},
+    "ops": []
+   },
    "wasser": [
-    {"typ": "see", "id": "frostsee", "bei": "see", "spiegel": "boden+0.15", "tiefe_m": 1.5, "farbe": "schwarz_spiegel", "eis": true, "material_wunsch": "MI_EL_SW_Schwarzeis",
+    {
+     "typ": "see",
+     "id": "frostsee",
+     "bei": "see",
+     "spiegel": "boden-0.25",
+     "tiefe_m": 1.5,
+     "farbe": "schwarz_spiegel",
+     "eis": true,
+     "material_wunsch": "MI_EL_SW_Schwarzeis",
      "hinweis": "zugefroren: Eisdecke statt Wasseroberflaeche (Schwarzeis, Blasen-Decals darunter); Bestandsbach laeuft unter dem Eis",
-     "becken": {"a_m": 88, "b_m": 76, "richtung": 90, "ufer_m": 6, "freibord_m": 0.25, "boden": 0.5, "auslass": 135, "lippe_m": 2.0}}
+     "becken": {
+      "a_m": 88,
+      "b_m": 76,
+      "richtung": 90,
+      "ufer_m": 6,
+      "freibord_m": 0.2,
+      "boden": 0.5,
+      "auslass": 135,
+      "lippe_m": 2.0
+     }
+    }
    ],
    "freiraeume": [
-    {"form": "kreis", "bei": "see", "r_m": 150, "ebenen": ["houdini"], "rollen": ["SM_K13_FROSTSEE__WASSER", "SM_K13_FROSTSEE__SEHENS", "SM_K13_FROSTSEE__SEHENS_DECKE", "SM_K13_FROSTSEE__RUINEN", "SM_K13_FROSTSEE__LICHTER"], "grund": "Houdini-Reste K13 Frostsee ausblenden (Katalog: werden ausgeblendet; Ruinen widersprechen 'nur Landschaft')"}
+    {
+     "form": "kreis",
+     "bei": "see",
+     "r_m": 150,
+     "ebenen": [
+      "houdini"
+     ],
+     "rollen": [
+      "SM_K13_FROSTSEE__WASSER",
+      "SM_K13_FROSTSEE__SEHENS",
+      "SM_K13_FROSTSEE__SEHENS_DECKE",
+      "SM_K13_FROSTSEE__RUINEN",
+      "SM_K13_FROSTSEE__LICHTER"
+     ],
+     "grund": "Houdini-Reste K13 Frostsee ausblenden (Katalog: werden ausgeblendet; Ruinen widersprechen 'nur Landschaft')"
+    }
    ],
    "gruppen": [
-    {"name": "presseiskamm", "ebene": "held", "warum": "Presseisruecken: die Eisdecke hat sich zusammengeschoben, Schollen stehen hochkant", "palette": "eisplatte", "gewichte": [3, 3, 2, 1],
-     "verteilung": {"typ": "reihe", "punkte": "presseis", "abstand_m": 6.5, "versatz_m": 1.2, "versatz_streuung_m": 1.0, "seiten": ["links", "rechts"], "blick": "zur_linie"},
-     "groesse_m": [3.5, 5.5], "groesse_achse": "z", "ausrichtung": "aufrecht", "front_achse": "+y", "yaw_streuung_grad": 25, "kipp_grad": [15, 35], "kipp_richtung": "zufall",
-     "z_bezug": "spiegel:frostsee", "z_versatz_m": -1.2, "im_wasser": "nur", "akteur": true, "kollision": true, "meide": null},
-    {"name": "schollen", "ebene": "begleiter", "warum": "grosse, schief aufgestellte Schollen neben dem Kamm", "palette": ["veipbcmcb_tier_0", "uhpocesfa_tier_0"],
-     "anzahl": 8, "verteilung": {"typ": "band", "punkte": "presseis", "breite_m": 16}, "abstand_m": 9, "groesse_m": [4.0, 6.5], "groesse_achse": "max",
-     "ausrichtung": "aufrecht", "front_achse": "+y", "kipp_grad": [30, 55], "kipp_richtung": "zufall", "z_bezug": "spiegel:frostsee", "z_versatz_m": -1.0, "im_wasser": "nur", "akteur": true, "kollision": true, "meide": null},
-    {"name": "eissplitter", "ebene": "schutt", "warum": "Eissplitter und kleine Schollen um den Ruecken", "palette": "eissplitter",
-     "anzahl": 170, "verteilung": {"typ": "band", "punkte": "presseis", "breite_m": 20}, "abstand_m": 1.0, "groesse_m": [0.5, 1.6], "kipp_grad": [5, 40], "kipp_richtung": "zufall",
-     "z_bezug": "spiegel:frostsee", "z_versatz_m": -0.25, "im_wasser": "nur", "meide": "kern"},
-    {"name": "eiskruemel", "ebene": "kleinzeug", "warum": "Eiskruemel und Schneereste in den Fugen des Rueckens", "palette": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_5", "xemmbh2qx_tier_0"],
-     "anzahl": 700, "verteilung": {"typ": "band", "punkte": "presseis", "breite_m": 10}, "abstand_m": 0.35, "skala": [0.12, 0.35], "ausrichtung": "liegend", "rolle": "stein",
-     "z_bezug": "spiegel:frostsee", "z_versatz_m": -0.08, "im_wasser": "nur", "material": "MI_EL_SW_Spritzeis"},
-    {"name": "uferwehen", "ebene": "schutt", "warum": "Schneewehen am Ufereis (Wind fegt den See frei und lagert am Ufer ab)", "palette": "schneewehe",
-     "dichte_je_m2": 0.012, "verteilung": {"typ": "ufer", "bei": "see", "r_m": 110, "band_m": [-4.0, 3.0]}, "abstand_m": 4, "skala": [1.0, 1.6], "im_wasser": "egal", "eingraben": [0.3, 0.45]},
-    {"name": "ufersteine", "ebene": "kleinzeug", "warum": "Steine am Ufer, vom Eis geschoben", "palette": "steine",
-     "dichte_je_m2": 0.12, "verteilung": {"typ": "ufer", "bei": "see", "r_m": 110, "band_m": [0.0, 2.5]}, "abstand_m": 0.5, "rolle": "stein"},
-    {"name": "schilf_eingefroren", "ebene": "bewuchs", "warum": "Schachtelhalm und Seggen eingefroren am Ufer, mit Raureif", "palette": ["SM_rough_horsetail_01", "SM_rough_horsetail_02", "SM_rough_horsetail_03", "SM_wk2oaeyqx_VarB"],
-     "dichte_je_m2": 0.06, "verteilung": {"typ": "ufer", "bei": "see", "r_m": 110, "band_m": [-1.5, 1.5]}, "abstand_m": 0.6, "rolle": "pflanze", "im_wasser": "egal", "material": "MI_EL_SW_Raureif"},
-    {"name": "uferkiefern", "ebene": "bewuchs", "warum": "einzelne verschneite Kiefern am Suedufer", "palette": "raureifkiefer",
-     "anzahl": 6, "verteilung": {"typ": "ufer", "bei": "see", "r_m": 110, "band_m": [8.0, 20.0]}, "abstand_m": 12, "skala": [0.55, 0.8], "rolle": "baum", "material": "MI_EL_SW_Raureif"},
-    {"name": "kammsaum", "ebene": "kontakt", "warum": "Schnee und Splitter am Fuss der Schollen", "palette": ["xemmbh2qx_tier_0", "xftjadtab_tier_0", "vcyiccyga_tier_0"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["presseiskamm", "schollen"], "ring": [0.9, 1.3], "je": [2, 4]}, "skala": [0.3, 0.6],
-     "z_bezug": "spiegel:frostsee", "z_versatz_m": -0.2, "im_wasser": "nur", "meide": "kern"}
+    {
+     "name": "presseiskamm",
+     "ebene": "held",
+     "warum": "Presseisruecken: die Eisdecke hat sich zusammengeschoben, Schollen stehen hochkant",
+     "palette": "eisplatte",
+     "gewichte": [
+      3,
+      3,
+      2,
+      1
+     ],
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "presseis",
+      "abstand_m": 6.5,
+      "versatz_m": 1.2,
+      "versatz_streuung_m": 1.0,
+      "seiten": [
+       "links",
+       "rechts"
+      ],
+      "blick": "zur_linie"
+     },
+     "groesse_m": [
+      3.5,
+      5.5
+     ],
+     "groesse_achse": "z",
+     "ausrichtung": "aufrecht",
+     "front_achse": "+y",
+     "yaw_streuung_grad": 25,
+     "kipp_grad": [
+      15,
+      35
+     ],
+     "kipp_richtung": "zufall",
+     "z_bezug": "spiegel:frostsee",
+     "z_versatz_m": -1.2,
+     "im_wasser": "nur",
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "schollen",
+     "ebene": "begleiter",
+     "warum": "grosse, schief aufgestellte Schollen neben dem Kamm",
+     "palette": [
+      "veipbcmcb_tier_0",
+      "uhpocesfa_tier_0"
+     ],
+     "anzahl": 8,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "presseis",
+      "breite_m": 16
+     },
+     "abstand_m": 9,
+     "groesse_m": [
+      4.0,
+      6.5
+     ],
+     "groesse_achse": "max",
+     "ausrichtung": "aufrecht",
+     "front_achse": "+y",
+     "kipp_grad": [
+      30,
+      55
+     ],
+     "kipp_richtung": "zufall",
+     "z_bezug": "spiegel:frostsee",
+     "z_versatz_m": -1.0,
+     "im_wasser": "nur",
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "eissplitter",
+     "ebene": "schutt",
+     "warum": "Eissplitter und kleine Schollen um den Ruecken",
+     "palette": "eissplitter",
+     "anzahl": 170,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "presseis",
+      "breite_m": 20
+     },
+     "abstand_m": 1.0,
+     "groesse_m": [
+      0.5,
+      1.6
+     ],
+     "kipp_grad": [
+      5,
+      40
+     ],
+     "kipp_richtung": "zufall",
+     "z_bezug": "spiegel:frostsee",
+     "z_versatz_m": -0.25,
+     "im_wasser": "nur",
+     "meide": "kern"
+    },
+    {
+     "name": "eiskruemel",
+     "ebene": "kleinzeug",
+     "warum": "Eiskruemel und Schneereste in den Fugen des Rueckens",
+     "palette": [
+      "SM_EISZAPFEN_1",
+      "SM_EISZAPFEN_5",
+      "xemmbh2qx_tier_0"
+     ],
+     "anzahl": 700,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "presseis",
+      "breite_m": 10
+     },
+     "abstand_m": 0.35,
+     "skala": [
+      0.12,
+      0.35
+     ],
+     "ausrichtung": "liegend",
+     "rolle": "stein",
+     "z_bezug": "spiegel:frostsee",
+     "z_versatz_m": -0.08,
+     "im_wasser": "nur",
+     "material": "MI_EL_SW_Spritzeis"
+    },
+    {
+     "name": "uferwehen",
+     "ebene": "schutt",
+     "warum": "Schneewehen am Ufereis (Wind fegt den See frei und lagert am Ufer ab)",
+     "palette": "schneewehe",
+     "dichte_je_m2": 0.012,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "see",
+      "r_m": 110,
+      "band_m": [
+       -4.0,
+       3.0
+      ]
+     },
+     "abstand_m": 4,
+     "skala": [
+      1.0,
+      1.6
+     ],
+     "im_wasser": "egal",
+     "eingraben": [
+      0.3,
+      0.45
+     ]
+    },
+    {
+     "name": "ufersteine",
+     "ebene": "kleinzeug",
+     "warum": "Steine am Ufer, vom Eis geschoben",
+     "palette": "steine",
+     "dichte_je_m2": 0.12,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "see",
+      "r_m": 110,
+      "band_m": [
+       0.0,
+       2.5
+      ]
+     },
+     "abstand_m": 0.5,
+     "rolle": "stein"
+    },
+    {
+     "name": "schilf_eingefroren",
+     "ebene": "bewuchs",
+     "warum": "Schachtelhalm und Seggen eingefroren am Ufer, mit Raureif",
+     "palette": [
+      "SM_rough_horsetail_01",
+      "SM_rough_horsetail_02",
+      "SM_rough_horsetail_03",
+      "SM_wk2oaeyqx_VarB"
+     ],
+     "dichte_je_m2": 0.06,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "see",
+      "r_m": 110,
+      "band_m": [
+       -1.5,
+       1.5
+      ]
+     },
+     "abstand_m": 0.6,
+     "rolle": "pflanze",
+     "im_wasser": "egal",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "uferkiefern",
+     "ebene": "bewuchs",
+     "warum": "einzelne verschneite Kiefern am Suedufer",
+     "palette": "raureifkiefer",
+     "anzahl": 6,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "see",
+      "r_m": 110,
+      "band_m": [
+       8.0,
+       20.0
+      ]
+     },
+     "abstand_m": 12,
+     "skala": [
+      0.55,
+      0.8
+     ],
+     "rolle": "baum",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "kammsaum",
+     "ebene": "kontakt",
+     "warum": "Schnee und Splitter am Fuss der Schollen",
+     "palette": [
+      "xemmbh2qx_tier_0",
+      "xftjadtab_tier_0",
+      "vcyiccyga_tier_0"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "presseiskamm",
+       "schollen"
+      ],
+      "ring": [
+       0.9,
+       1.3
+      ],
+      "je": [
+       2,
+       4
+      ]
+     },
+     "skala": [
+      0.3,
+      0.6
+     ],
+     "z_bezug": "spiegel:frostsee",
+     "z_versatz_m": -0.2,
+     "im_wasser": "nur",
+     "meide": "kern"
+    }
    ],
    "lagen": [
-    {"lage": "Eis", "form": "ufer", "bei": "see", "r_m": 120, "band_m": [-120.0, 0.5], "wert": 255},
-    {"lage": "Schnee", "form": "ufer", "bei": "see", "r_m": 120, "band_m": [0.0, 8.0], "wert": 230, "flecken": 0.4},
-    {"lage": "Eis", "form": "ufer", "bei": "see", "r_m": 120, "band_m": [0.0, 3.0], "wert": 170, "flecken": 0.5}
+    {
+     "lage": "Eis",
+     "form": "ufer",
+     "bei": "see",
+     "r_m": 120,
+     "band_m": [
+      -120.0,
+      0.5
+     ],
+     "wert": 255
+    },
+    {
+     "lage": "Schnee",
+     "form": "ufer",
+     "bei": "see",
+     "r_m": 120,
+     "band_m": [
+      0.0,
+      8.0
+     ],
+     "wert": 230,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Eis",
+     "form": "ufer",
+     "bei": "see",
+     "r_m": 120,
+     "band_m": [
+      0.0,
+      3.0
+     ],
+     "wert": 170,
+     "flecken": 0.5
+    }
    ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Schnee": 120}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.1], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 180,
+     "Kies": 150
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "lagen": {
+      "Kies": 180,
+      "Schnee": 120
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.1
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
    "effekte": [
-    {"typ": "decal", "material": "MI_EL_SW_Eisblasen", "optional": true, "textur": "recherche/antworten/sehens/frost/decal_eisblasen.png", "zweck": "Methanblasen im Schwarzeis (Westbucht)", "anzahl": 6, "verteilung": {"typ": "kreis", "bei": "blasenbucht", "r_m": 22}, "groesse_m": [1.5, 6.0, 6.0], "hinweis": "Decal knapp unter der Eisoberflaeche projizieren"},
-    {"typ": "decal", "material": "MI_EL_SW_Eisrisse", "optional": true, "textur": "recherche/antworten/sehens/frost/decal_eisrisse.png", "zweck": "Spannungsrisse im Ufereis und am Presseisruecken", "anzahl": 4, "verteilung": {"typ": "band", "punkte": "presseis", "breite_m": 30}, "groesse_m": [1.5, 8.0, 8.0]}
+    {
+     "typ": "decal",
+     "material": "MI_EL_SW_Eisblasen",
+     "optional": true,
+     "textur": "recherche/antworten/sehens/frost/decal_eisblasen.png",
+     "zweck": "Methanblasen im Schwarzeis (Westbucht)",
+     "anzahl": 6,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "blasenbucht",
+      "r_m": 22
+     },
+     "groesse_m": [
+      1.5,
+      6.0,
+      6.0
+     ],
+     "hinweis": "Decal knapp unter der Eisoberflaeche projizieren"
+    },
+    {
+     "typ": "decal",
+     "material": "MI_EL_SW_Eisrisse",
+     "optional": true,
+     "textur": "recherche/antworten/sehens/frost/decal_eisrisse.png",
+     "zweck": "Spannungsrisse im Ufereis und am Presseisruecken",
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "presseis",
+      "breite_m": 30
+     },
+     "groesse_m": [
+      1.5,
+      8.0,
+      8.0
+     ]
+    }
    ],
-   "klaenge": [{"asset": "CUE_Ice_Walking_on_ice_II_Cue", "bei": "see", "radius_m": 80, "lautstaerke": 0.2, "zweck": "Eisknacken (nur falls ohne Schrittgeraeusch - im Editor pruefen)"}]
+   "klaenge": [
+    {
+     "asset": "CUE_Ice_Walking_on_ice_II_Cue",
+     "bei": "see",
+     "radius_m": 80,
+     "lautstaerke": 0.2,
+     "zweck": "Eisknacken (nur falls ohne Schrittgeraeusch - im Editor pruefen)"
+    }
+   ]
   },
-
   "frost_03_eisvorhang": {
    "kurz": "Unter dem Nordufer tritt Sickerwasser aus einer ueberhaengenden Felsbank und ist zu einem 40 m langen Vorhang gefroren: Hunderte Zapfen, unten zu Orgelpfeifen verwachsen, dahinter eine blau daemmernde Nische.",
-   "marker": {"titel": "Der Eisvorhang", "text": "Hinter dem Vorhang ist es blau und still, als haette der Winter hier ein Zimmer fuer sich. Wer genau hinhoert, hoert das Wasser im Eis weiterwachsen.", "entdeckung_m": 20},
-   "budget": {"instanzen": 3500, "kollision": 300, "akteure": 30, "lichter": 1, "niagara": 0, "decals": 4},
-   "assets_wunsch": [{"paket": "CryoGen: Native Procedural Ice Architecture", "statt_jetzt": "SM_EISZAPFEN_1...9 dicht (MI_EL_SW_Spritzeis), Ice Cliff uhprdg2fa als Eisglasur"}],
+   "marker": {
+    "titel": "Der Eisvorhang",
+    "text": "Hinter dem Vorhang ist es blau und still, als haette der Winter hier ein Zimmer fuer sich. Wer genau hinhoert, hoert das Wasser im Eis weiterwachsen.",
+    "entdeckung_m": 20
+   },
+   "budget": {
+    "instanzen": 3500,
+    "kollision": 300,
+    "akteure": 30,
+    "lichter": 1,
+    "niagara": 0,
+    "decals": 4
+   },
+   "assets_wunsch": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "statt_jetzt": "SM_EISZAPFEN_1...9 dicht (MI_EL_SW_Spritzeis), Ice Cliff uhprdg2fa als Eisglasur"
+    }
+   ],
    "anker": {
-    "vorhang": {"pos_m": [300.0, -2463.0]},
-    "nische": {"pos_m": [300.0, -2467.0]},
-    "rinnsal": {"pos_m": [298.0, -2492.0]}
+    "vorhang": {
+     "pos_m": [
+      300.0,
+      -2463.0
+     ]
+    },
+    "nische": {
+     "pos_m": [
+      300.0,
+      -2467.0
+     ]
+    },
+    "rinnsal": {
+     "pos_m": [
+      298.0,
+      -2492.0
+     ]
+    }
    },
    "linien": {
-    "bank": {"punkte": [{"pos_m": [272.0, -2462.0]}, {"pos_m": [287.0, -2465.0]}, {"pos_m": [300.0, -2466.0]}, {"pos_m": [314.0, -2465.0]}, {"pos_m": [328.0, -2461.0]}]}
+    "bank": {
+     "punkte": [
+      {
+       "pos_m": [
+        272.0,
+        -2462.0
+       ]
+      },
+      {
+       "pos_m": [
+        287.0,
+        -2465.0
+       ]
+      },
+      {
+       "pos_m": [
+        300.0,
+        -2466.0
+       ]
+      },
+      {
+       "pos_m": [
+        314.0,
+        -2465.0
+       ]
+      },
+      {
+       "pos_m": [
+        328.0,
+        -2461.0
+       ]
+      }
+     ]
+    }
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [100, 110], "bei": "vorhang", "rand_m": 12, "ops": [
-    {"op": "abbruch", "punkte": "bank", "hoehe_m": 3.5, "breite_m": 4, "reichweite_m": 14, "seite": "links", "verteilung": "oben", "warum": "Felsbank betonen (+2...+3,5 m)"},
-    {"op": "mulde", "bei": "nische", "radius_m": 5, "tiefe_m": 1.0, "rand_m": 4, "boden": 0.4, "streckung": [3.0, 1.0], "richtung": 90, "warum": "flache Nische am Fuss (offen nach Sueden)"}
-   ]},
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     100,
+     110
+    ],
+    "bei": "vorhang",
+    "rand_m": 12,
+    "ops": [
+     {
+      "op": "abbruch",
+      "punkte": "bank",
+      "hoehe_m": 3.0,
+      "breite_m": 4,
+      "reichweite_m": 26,
+      "seite": "links",
+      "verteilung": "oben",
+      "warum": "Felsbank betonen (+2...+3,5 m)"
+     },
+     {
+      "op": "mulde",
+      "bei": "nische",
+      "radius_m": 5,
+      "tiefe_m": 1.0,
+      "rand_m": 4,
+      "boden": 0.4,
+      "streckung": [
+       3.0,
+       1.0
+      ],
+      "richtung": 90,
+      "warum": "flache Nische am Fuss (offen nach Sueden)"
+     }
+    ],
+    "senke_begruendung": "flache Mulde hinter der Felsbank, in der das Sickerwasser sich sammelt (Quelle des Vorhangs)"
+   },
    "wasser": [
-    {"typ": "bach", "id": "sickerlinie", "punkte": ["rinnsal", {"pos_m": [300.0, -2478.0]}, {"pos_m": [300.5, -2468.0]}], "breite_m": 0.3, "tiefe_cm": 4, "farbe": "klar", "quelle": true, "muendung": "versickert"}
+    {
+     "typ": "bach",
+     "id": "sickerlinie",
+     "punkte": [
+      "rinnsal",
+      {
+       "pos_m": [
+        300.0,
+        -2478.0
+       ]
+      },
+      {
+       "pos_m": [
+        300.5,
+        -2468.0
+       ]
+      }
+     ],
+     "breite_m": 0.3,
+     "tiefe_cm": 4,
+     "farbe": "klar",
+     "quelle": true,
+     "muendung": "versickert"
+    }
    ],
    "rahmen": [
-    {"name": "suedwest", "bei": "vorhang", "ziel_hoehe_m": 3.0, "richtung_bereich": [200, 245], "abstand_m": 22, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 6.0, "rand_grad": 10, "bogen_grad": 40},
-    {"name": "west", "bei": "vorhang", "ziel_hoehe_m": 3.0, "richtung_bereich": [250, 295], "abstand_m": 22, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 7.0, "rand_grad": 10, "bogen_grad": 40}
+    {
+     "name": "suedwest",
+     "bei": "vorhang",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      200,
+      245
+     ],
+     "abstand_m": 22,
+     "breite_m": 18,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 11.0,
+     "rand_grad": 10,
+     "bogen_grad": 40
+    },
+    {
+     "name": "west",
+     "bei": "vorhang",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      250,
+      295
+     ],
+     "abstand_m": 22,
+     "breite_m": 18,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 11.0,
+     "rand_grad": 10,
+     "bogen_grad": 40
+    }
    ],
    "sicht_probe_m": 8,
-   "senke_begruendung_hinweis": "Nische unter der Bank ist nach Sueden offen",
    "gruppen": [
-    {"name": "felsbank", "ebene": "held", "warum": "ueberhaengende Felsbank (Netz: Gelaende kann keinen Ueberhang)", "palette": ["SM_big_rock_wall_01", "SM_big_rock_wall_03"],
-     "verteilung": {"typ": "reihe", "punkte": "bank", "abstand_m": 7, "versatz_m": 1.5, "versatz_streuung_m": 0.4, "seiten": ["links"], "blick": "von_linie"},
-     "skala": [1.4, 1.8], "front_achse": "-y", "kipp_grad": [8, 14], "kipp_richtung": 180, "eingraben": [0.25, 0.3], "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Eisglasur", "meide": null},
-    {"name": "ueberhang", "ebene": "held", "warum": "Ueberhang ueber der Nische", "netz": "vfmjadufa_tier_2",
-     "verteilung": {"typ": "punkt", "bei": {"anker": "vorhang", "versatz_m": [0.0, -7.0]}}, "skala": 0.45, "yaw": 180, "front_achse": "+y", "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Eisglasur", "meide": null},
-    {"name": "eisglasur", "ebene": "begleiter", "warum": "Eisglasur hinter den Zapfen (Sickerwasser gefriert flaechig)", "netz": "uhprdg2fa_tier_0",
-     "verteilung": {"typ": "reihe", "punkte": "bank", "abstand_m": 12, "versatz_m": 0.5, "seiten": ["rechts"], "blick": "von_linie"}, "skala": [0.75, 0.95], "front_achse": "+y", "eingraben": [0.15, 0.2], "akteur": true, "kollision": false, "meide": null},
-    {"name": "vorhang", "ebene": "begleiter", "warum": "der Vorhang: Hunderte Zapfen nebeneinander, Laenge nach Unterkante gestaffelt", "palette": "zapfen_alle",
-     "anzahl": 420, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 2.2, "versatz_m": 2.2, "t": [0.1, 0.9]}, "abstand_m": 0.22, "skala": [0.9, 2.0],
-     "ausrichtung": "aufrecht", "yaw": 180, "yaw_streuung_grad": 18, "front_achse": "+y", "eingraben_m": [0.0, 0.15], "akteur": false, "kollision": false, "meide": null, "material": "MI_EL_SW_Spritzeis", "rolle": "stein"},
-    {"name": "eissaeulen", "ebene": "begleiter", "warum": "Saeulen, wo die Zapfen bis zum Boden gewachsen sind", "netz": "vctiegmfa_tier_0",
-     "anzahl": 4, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 1.5, "versatz_m": 2.8, "t": [0.2, 0.8]}, "abstand_m": 6, "groesse_m": [5.0, 6.5], "groesse_achse": "z", "yaw": 180, "front_achse": "+y", "eingraben": [0.1, 0.15], "akteur": true, "kollision": true, "meide": null},
-    {"name": "bruchzapfen", "ebene": "schutt", "warum": "abgebrochene Zapfen vor dem Vorhang", "palette": "zapfen_klein",
-     "anzahl": 110, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 6, "versatz_m": 5.5}, "abstand_m": 0.5, "skala": [0.5, 1.2], "ausrichtung": "liegend", "rolle": "stein", "eingraben_m": [0.03, 0.1], "material": "MI_EL_SW_Spritzeis"},
-    {"name": "bankschutt", "ebene": "schutt", "warum": "Frostschutt von der Bank", "palette": "geroell",
-     "anzahl": 40, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 8, "versatz_m": 7}, "abstand_m": 1.3, "groesse_m": [0.4, 1.1]},
-    {"name": "rahmenbloecke", "ebene": "schutt", "warum": "Bloecke auf dem Sichtwall (Kerbe verdeckt den Vorhang)", "palette": "bloecke",
-     "anzahl": 10, "verteilung": {"typ": "band", "punkte": "rahmen_west", "breite_m": 7}, "abstand_m": 4.5, "groesse_m": [1.8, 3.2]},
-    {"name": "kruemel", "ebene": "kleinzeug", "warum": "Eiskruemel und Steinchen", "palette": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_5", "SM_SmallStonesPack_03", "SM_NordicBeachRock_01"],
-     "anzahl": 500, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 10, "versatz_m": 5}, "abstand_m": 0.3, "skala": [0.2, 0.8], "rolle": "stein", "eingraben_m": [0.0, 0.04]},
-    {"name": "moos_unter_eis", "ebene": "bewuchs", "warum": "gruenes Moos unter dem Eis am Fuss (Sickerwasser)", "palette": "moos",
-     "anzahl": 90, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 3, "versatz_m": 3}, "abstand_m": 0.4, "rolle": "streu"},
-    {"name": "kiefern_oben", "ebene": "bewuchs", "warum": "verschneite Zwergkiefern auf der Bank", "palette": "zwergkiefer",
-     "anzahl": 8, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 12, "versatz_m": -9}, "abstand_m": 4, "rolle": "pflanze", "material": "MI_EL_SW_Raureif"},
-    {"name": "wallkiefern", "ebene": "bewuchs", "warum": "Raureif-Kiefern auf dem Westwall", "palette": "raureifkiefer",
-     "anzahl": 5, "verteilung": {"typ": "band", "punkte": "rahmen_west", "breite_m": 10}, "abstand_m": 6, "skala": [0.5, 0.7], "rolle": "baum", "material": "MI_EL_SW_Raureif"},
-    {"name": "fusssaum", "ebene": "kontakt", "warum": "Eis und Kies am Fuss der Bank", "palette": ["vcyiccyga_tier_0", "SM_SmallStonesPack_07"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["felsbank", "eissaeulen", "rahmenbloecke"], "ring": [0.9, 1.3], "je": [6, 10]}, "skala": [0.2, 0.9], "rolle": "stein"},
-    {"name": "felsmoos", "ebene": "kontakt", "warum": "Moos auf der Nordseite der Bankfelsen", "palette": "moos",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "felsbank", "ring": [0.8, 1.15], "je": [5, 8], "seite": "nord"}, "rolle": "streu"}
+    {
+     "name": "felsbank",
+     "ebene": "held",
+     "warum": "ueberhaengende Felsbank (Netz: Gelaende kann keinen Ueberhang)",
+     "palette": [
+      "SM_big_rock_wall_01",
+      "SM_big_rock_wall_03"
+     ],
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "bank",
+      "abstand_m": 7,
+      "versatz_m": 1.5,
+      "versatz_streuung_m": 0.4,
+      "seiten": [
+       "links"
+      ],
+      "blick": "von_linie"
+     },
+     "skala": [
+      1.4,
+      1.8
+     ],
+     "front_achse": "-y",
+     "kipp_grad": [
+      8,
+      14
+     ],
+     "kipp_richtung": 180,
+     "eingraben": [
+      0.25,
+      0.3
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Fels_Eisglasur",
+     "meide": null
+    },
+    {
+     "name": "ueberhang",
+     "ebene": "held",
+     "warum": "Ueberhang ueber der Nische",
+     "netz": "vfmjadufa_tier_2",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": {
+       "anker": "vorhang",
+       "versatz_m": [
+        0.0,
+        -7.0
+       ]
+      }
+     },
+     "skala": 0.45,
+     "yaw": 180,
+     "front_achse": "+y",
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Fels_Eisglasur",
+     "meide": null
+    },
+    {
+     "name": "eisglasur",
+     "ebene": "begleiter",
+     "warum": "Eisglasur hinter den Zapfen (Sickerwasser gefriert flaechig)",
+     "netz": "uhprdg2fa_tier_0",
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "bank",
+      "abstand_m": 12,
+      "versatz_m": 0.5,
+      "seiten": [
+       "rechts"
+      ],
+      "blick": "von_linie"
+     },
+     "skala": [
+      0.75,
+      0.95
+     ],
+     "front_achse": "+y",
+     "eingraben": [
+      0.15,
+      0.2
+     ],
+     "akteur": true,
+     "kollision": false,
+     "meide": null
+    },
+    {
+     "name": "vorhang",
+     "ebene": "begleiter",
+     "warum": "der Vorhang: Hunderte Zapfen nebeneinander, Laenge nach Unterkante gestaffelt",
+     "palette": "zapfen_alle",
+     "anzahl": 420,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 2.2,
+      "versatz_m": 2.2,
+      "t": [
+       0.1,
+       0.9
+      ]
+     },
+     "abstand_m": 0.22,
+     "skala": [
+      0.9,
+      2.0
+     ],
+     "ausrichtung": "aufrecht",
+     "yaw": 180,
+     "yaw_streuung_grad": 18,
+     "front_achse": "+y",
+     "eingraben_m": [
+      0.0,
+      0.15
+     ],
+     "akteur": false,
+     "kollision": false,
+     "meide": null,
+     "material": "MI_EL_SW_Spritzeis",
+     "rolle": "stein"
+    },
+    {
+     "name": "eissaeulen",
+     "ebene": "begleiter",
+     "warum": "Saeulen, wo die Zapfen bis zum Boden gewachsen sind",
+     "netz": "vctiegmfa_tier_0",
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 1.5,
+      "versatz_m": 2.8,
+      "t": [
+       0.2,
+       0.8
+      ]
+     },
+     "abstand_m": 6,
+     "groesse_m": [
+      5.0,
+      6.5
+     ],
+     "groesse_achse": "z",
+     "yaw": 180,
+     "front_achse": "+y",
+     "eingraben": [
+      0.1,
+      0.15
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "bruchzapfen",
+     "ebene": "schutt",
+     "warum": "abgebrochene Zapfen vor dem Vorhang",
+     "palette": "zapfen_klein",
+     "anzahl": 110,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 6,
+      "versatz_m": 5.5
+     },
+     "abstand_m": 0.5,
+     "skala": [
+      0.5,
+      1.2
+     ],
+     "ausrichtung": "liegend",
+     "rolle": "stein",
+     "eingraben_m": [
+      0.03,
+      0.1
+     ],
+     "material": "MI_EL_SW_Spritzeis"
+    },
+    {
+     "name": "bankschutt",
+     "ebene": "schutt",
+     "warum": "Frostschutt von der Bank",
+     "palette": "geroell",
+     "anzahl": 40,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 8,
+      "versatz_m": 7
+     },
+     "abstand_m": 1.3,
+     "groesse_m": [
+      0.4,
+      1.1
+     ]
+    },
+    {
+     "name": "rahmenbloecke",
+     "ebene": "schutt",
+     "warum": "Bloecke auf dem Sichtwall (Kerbe verdeckt den Vorhang)",
+     "palette": "bloecke",
+     "anzahl": 10,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_west",
+      "breite_m": 7
+     },
+     "abstand_m": 4.5,
+     "groesse_m": [
+      1.8,
+      3.2
+     ]
+    },
+    {
+     "name": "suedwestrippe",
+     "ebene": "schutt",
+     "warum": "Felsrippe am Westrand der Kerbe (verdeckt den Vorhang vom Gegenufer)",
+     "palette": "bloecke",
+     "anzahl": 10,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_suedwest",
+      "breite_m": 8
+     },
+     "abstand_m": 4.5,
+     "groesse_m": [
+      2.0,
+      3.6
+     ],
+     "material": "MI_EL_SW_Fels_Eisglasur"
+    },
+    {
+     "name": "kruemel",
+     "ebene": "kleinzeug",
+     "warum": "Eiskruemel und Steinchen",
+     "palette": [
+      "SM_EISZAPFEN_1",
+      "SM_EISZAPFEN_5",
+      "SM_SmallStonesPack_03",
+      "SM_NordicBeachRock_01"
+     ],
+     "anzahl": 500,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 10,
+      "versatz_m": 5
+     },
+     "abstand_m": 0.3,
+     "skala": [
+      0.2,
+      0.8
+     ],
+     "rolle": "stein",
+     "eingraben_m": [
+      0.0,
+      0.04
+     ]
+    },
+    {
+     "name": "moos_unter_eis",
+     "ebene": "bewuchs",
+     "warum": "gruenes Moos unter dem Eis am Fuss (Sickerwasser)",
+     "palette": "moos",
+     "anzahl": 90,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 3,
+      "versatz_m": 3
+     },
+     "abstand_m": 0.4,
+     "rolle": "streu"
+    },
+    {
+     "name": "kiefern_oben",
+     "ebene": "bewuchs",
+     "warum": "verschneite Zwergkiefern auf der Bank",
+     "palette": "zwergkiefer",
+     "anzahl": 8,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 12,
+      "versatz_m": -9
+     },
+     "abstand_m": 4,
+     "rolle": "pflanze",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "wallkiefern",
+     "ebene": "bewuchs",
+     "warum": "Raureif-Kiefern auf dem Westwall",
+     "palette": "raureifkiefer",
+     "anzahl": 5,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_west",
+      "breite_m": 10
+     },
+     "abstand_m": 6,
+     "skala": [
+      0.5,
+      0.7
+     ],
+     "rolle": "baum",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "fusssaum",
+     "ebene": "kontakt",
+     "warum": "Eis und Kies am Fuss der Bank",
+     "palette": [
+      "vcyiccyga_tier_0",
+      "SM_SmallStonesPack_07"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "felsbank",
+       "eissaeulen",
+       "rahmenbloecke"
+      ],
+      "ring": [
+       0.9,
+       1.3
+      ],
+      "je": [
+       6,
+       10
+      ]
+     },
+     "skala": [
+      0.2,
+      0.9
+     ],
+     "rolle": "stein"
+    },
+    {
+     "name": "felsmoos",
+     "ebene": "kontakt",
+     "warum": "Moos auf der Nordseite der Bankfelsen",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "felsbank",
+      "ring": [
+       0.8,
+       1.15
+      ],
+      "je": [
+       5,
+       8
+      ],
+      "seite": "nord"
+     },
+     "rolle": "streu"
+    }
    ],
    "lagen": [
-    {"lage": "Eis", "form": "band", "punkte": "bank", "breite_m": 9, "wert": 230},
-    {"lage": "Fels", "form": "hang", "bei": "vorhang", "r_m": 30, "hang_grad": [35, 90], "wert": 210},
-    {"lage": "Moos", "form": "band", "punkte": "bank", "breite_m": 4, "wert": 120, "flecken": 0.5}
+    {
+     "lage": "Eis",
+     "form": "band",
+     "punkte": "bank",
+     "breite_m": 9,
+     "wert": 230
+    },
+    {
+     "lage": "Fels",
+     "form": "hang",
+     "bei": "vorhang",
+     "r_m": 30,
+     "hang_grad": [
+      35,
+      90
+     ],
+     "wert": 210
+    },
+    {
+     "lage": "Moos",
+     "form": "band",
+     "punkte": "bank",
+     "breite_m": 4,
+     "wert": 120,
+     "flecken": 0.5
+    }
    ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Schnee": 120}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 180,
+     "Kies": 150
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "lagen": {
+      "Kies": 180,
+      "Schnee": 120
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.0
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
    "effekte": [
-    {"typ": "punktlicht", "zweck": "blaue Daemmerung in der Nische hinter dem Vorhang", "bei": "nische", "hoehe_m": 1.5, "intensitaet_cd": 300, "radius_m": 9, "farbe": [0.45, 0.7, 1.0]},
-    {"typ": "lokaler_nebel", "zweck": "kalte Luft in der Nische", "bei": "nische", "hoehe_m": 1.5, "radius_m": 9, "dichte": 0.05, "farbe": [0.8, 0.88, 0.96], "hoehenabfall": 0.9},
-    {"typ": "decal", "material": "MI_Leakage_09", "zweck": "nasser Fels oberhalb (Sickerwasser)", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "bank", "breite_m": 2, "versatz_m": -1}, "ausrichtung": "wand", "blick": 180, "hoehe_m": 3, "groesse_m": [1.0, 3.0, 4.0]}
+    {
+     "typ": "punktlicht",
+     "zweck": "blaue Daemmerung in der Nische hinter dem Vorhang",
+     "bei": "nische",
+     "hoehe_m": 1.5,
+     "intensitaet_cd": 300,
+     "radius_m": 9,
+     "farbe": [
+      0.45,
+      0.7,
+      1.0
+     ]
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "kalte Luft in der Nische",
+     "bei": "nische",
+     "hoehe_m": 1.5,
+     "radius_m": 9,
+     "dichte": 0.05,
+     "farbe": [
+      0.8,
+      0.88,
+      0.96
+     ],
+     "hoehenabfall": 0.9
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_09",
+     "zweck": "nasser Fels oberhalb (Sickerwasser)",
+     "anzahl": 3,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bank",
+      "breite_m": 2,
+      "versatz_m": -1
+     },
+     "ausrichtung": "wand",
+     "blick": 180,
+     "hoehe_m": 3,
+     "groesse_m": [
+      1.0,
+      3.0,
+      4.0
+     ]
+    }
    ],
-   "klaenge": [{"asset": "CUE_Water_Stream_I_Cue", "bei": "nische", "radius_m": 18, "lautstaerke": 0.2, "zweck": "Tropfen hinter dem Vorhang"}]
+   "klaenge": [
+    {
+     "asset": "CUE_Water_Stream_I_Cue",
+     "bei": "nische",
+     "radius_m": 18,
+     "lautstaerke": 0.2,
+     "zweck": "Tropfen hinter dem Vorhang"
+    }
+   ]
   },
-
   "frost_04_raureifhain": {
    "kurz": "Auf einer Hangschulter ueber dem Frostsee stehen dreissig Kiefern in dicken Panzern aus Raureif und Schnee - weisse, gebeugte Gestalten, die alle nach Osten schauen, weil der Wind von Westen kommt.",
-   "marker": {"titel": "Der Raureifhain", "text": "Von weitem eine Prozession, von nahem Baeume unter Eis. Der Westwind hat sie alle in dieselbe Richtung gekaemmt.", "entdeckung_m": 120},
-   "budget": {"instanzen": 4000, "kollision": 300, "akteure": 45, "lichter": 0, "niagara": 1, "decals": 2},
-   "assets_wunsch": [{"paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam", "statt_jetzt": "NS_Sparkling (Free Niagara Particles, Kopie weiss, sehr klein) als Glitzern"}],
-   "anker": {
-    "schulter": {"pos_m": [305.0, -2712.0]},
-    "kante": {"pos_m": [330.0, -2690.0]}
+   "marker": {
+    "titel": "Der Raureifhain",
+    "text": "Von weitem eine Prozession, von nahem Baeume unter Eis. Der Westwind hat sie alle in dieselbe Richtung gekaemmt.",
+    "entdeckung_m": 120
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [130, 130], "bei": "schulter", "rand_m": 12, "ops": [
-    {"op": "buckel", "bei": "schulter", "radius_m": 40, "amplitude_m": 0.5, "wellenlaenge_m": 7, "streckung": [1.4, 1.0], "richtung": 90, "warum": "Schneewehen-Muster (Wind aus Westen)"}
-   ]},
+   "budget": {
+    "instanzen": 4000,
+    "kollision": 300,
+    "akteure": 45,
+    "lichter": 0,
+    "niagara": 1,
+    "decals": 2
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "statt_jetzt": "NS_Sparkling (Free Niagara Particles, Kopie weiss, sehr klein) als Glitzern"
+    }
+   ],
+   "anker": {
+    "schulter": {
+     "pos_m": [
+      305.0,
+      -2712.0
+     ]
+    },
+    "kante": {
+     "pos_m": [
+      330.0,
+      -2690.0
+     ]
+    }
+   },
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     130,
+     130
+    ],
+    "bei": "schulter",
+    "rand_m": 12,
+    "ops": [
+     {
+      "op": "buckel",
+      "bei": "schulter",
+      "radius_m": 40,
+      "amplitude_m": 0.5,
+      "wellenlaenge_m": 7,
+      "streckung": [
+       1.4,
+       1.0
+      ],
+      "richtung": 90,
+      "warum": "Schneewehen-Muster (Wind aus Westen)"
+     }
+    ]
+   },
    "gruppen": [
-    {"name": "schneegespenster", "ebene": "held", "warum": "Kiefern unter Raureifpanzern, Kronen nach Osten gekaemmt (Westwind)", "palette": "raureifkiefer",
-     "anzahl": 28, "verteilung": {"typ": "ellipse", "bei": "schulter", "a_m": 48, "b_m": 30, "richtung": 80}, "abstand_m": 5.5, "skala": [0.55, 0.85], "skala_xyz": [1.0, 1.0, 0.85],
-     "rolle": "baum", "hang_grad": [0, 42], "kipp_grad": [5, 11], "kipp_richtung": 90, "akteur": true, "kollision": true, "material": "MI_EL_SW_Raureif", "mindestens": 20},
-    {"name": "krueppel", "ebene": "begleiter", "warum": "gestauchte Kiefern am windzugewandten Westrand (Windfluechter)", "palette": ["SM_dwarf_pine_big_01", "SM_dwarf_pine_big_02"],
-     "anzahl": 8, "verteilung": {"typ": "ellipse", "bei": {"anker": "schulter", "versatz_m": [-30.0, 0.0]}, "a_m": 14, "b_m": 24, "richtung": 0}, "abstand_m": 4, "skala": [0.9, 1.3], "rolle": "baum", "kipp_grad": [8, 15], "kipp_richtung": 90, "material": "MI_EL_SW_Raureif"},
-    {"name": "tote_staemme", "ebene": "begleiter", "warum": "drei tote, ganz eingepackte Staemme", "netz": "SM_Forest_pine_10_dead",
-     "anzahl": 3, "verteilung": {"typ": "ellipse", "bei": "schulter", "a_m": 40, "b_m": 24, "richtung": 80}, "abstand_m": 10, "skala": [0.55, 0.7], "rolle": "baum", "hang_grad": [0, 40], "kipp_grad": [4, 9], "kipp_richtung": 90, "akteur": true, "kollision": true, "material": "MI_EL_SW_Raureif"},
-    {"name": "astbruch", "ebene": "schutt", "warum": "unter der Eislast abgebrochene Aeste", "palette": ["SM_Pine_broken_branch_01", "SM_Pine_broken_branch_02", "SM_mountain_branch_01_01"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["schneegespenster", "tote_staemme"], "ring_m": [1.0, 5.0], "je": [2, 4]}, "rolle": "stamm"},
-    {"name": "felsbuckel", "ebene": "schutt", "warum": "Felsbuckel der Schulter (Geroell 15 %)", "palette": "geroell",
-     "anzahl": 40, "verteilung": {"typ": "ellipse", "bei": "schulter", "a_m": 50, "b_m": 34, "richtung": 80}, "abstand_m": 2.5, "groesse_m": [0.6, 1.6], "eingraben": [0.4, 0.55]},
-    {"name": "eisnadeln", "ebene": "kleinzeug", "warum": "Eisnadeln und kleine Zweige im Schnee", "palette": ["SM_EISZAPFEN_1", "SM_DryBranches_01", "SM_DryBranches_05"],
-     "anzahl": 900, "verteilung": {"typ": "ellipse", "bei": "schulter", "a_m": 50, "b_m": 32, "richtung": 80}, "abstand_m": 0.4, "skala": [0.15, 0.6], "rolle": "streu"},
-    {"name": "lee_wehen", "ebene": "kontakt", "warum": "Schneewehe hinter (oestlich) jedem Baum", "palette": ["vcwjeh2fa_tier_0", "Snow_Embankment_uhvifcgfa_High", "xftjadtab_tier_0"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["schneegespenster", "krueppel"], "ring_m": [1.0, 3.5], "je": [1, 2], "seite": "ost", "seite_staerke": 0.85}, "skala": [0.7, 1.2], "rolle": "streu", "yaw": 90, "front_achse": "+x", "eingraben": [0.3, 0.45]},
-    {"name": "luv_schnee", "ebene": "kontakt", "warum": "Schneehaufen an der Westseite der Stammfuesse", "palette": "schneehaufen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "schneegespenster", "ring_m": [0.4, 1.4], "je": [1, 2], "seite": "west", "seite_staerke": 0.8}, "skala": [0.6, 1.0], "eingraben": [0.3, 0.45]},
-    {"name": "zwerggestraeuch", "ebene": "bewuchs", "warum": "Krummholz und vereiste Gruppen am Rand der Schulter", "palette": "zwergkiefer",
-     "anzahl": 30, "verteilung": {"typ": "ring", "bei": "schulter", "r_m": [30, 55]}, "abstand_m": 3, "rolle": "pflanze", "hang_grad": [0, 45], "material": "MI_EL_SW_Raureif"}
+    {
+     "name": "schneegespenster",
+     "ebene": "held",
+     "warum": "Kiefern unter Raureifpanzern, Kronen nach Osten gekaemmt (Westwind)",
+     "palette": "raureifkiefer",
+     "anzahl": 28,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "schulter",
+      "a_m": 48,
+      "b_m": 30,
+      "richtung": 80
+     },
+     "abstand_m": 5.5,
+     "skala": [
+      0.55,
+      0.85
+     ],
+     "skala_xyz": [
+      1.0,
+      1.0,
+      0.85
+     ],
+     "rolle": "baum",
+     "hang_grad": [
+      0,
+      42
+     ],
+     "kipp_grad": [
+      5,
+      11
+     ],
+     "kipp_richtung": 90,
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Raureif",
+     "mindestens": 20
+    },
+    {
+     "name": "krueppel",
+     "ebene": "begleiter",
+     "warum": "gestauchte Kiefern am windzugewandten Westrand (Windfluechter)",
+     "palette": [
+      "SM_dwarf_pine_big_01",
+      "SM_dwarf_pine_big_02"
+     ],
+     "anzahl": 8,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": {
+       "anker": "schulter",
+       "versatz_m": [
+        -30.0,
+        0.0
+       ]
+      },
+      "a_m": 14,
+      "b_m": 24,
+      "richtung": 0
+     },
+     "abstand_m": 4,
+     "skala": [
+      0.9,
+      1.3
+     ],
+     "rolle": "baum",
+     "kipp_grad": [
+      8,
+      15
+     ],
+     "kipp_richtung": 90,
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "tote_staemme",
+     "ebene": "begleiter",
+     "warum": "drei tote, ganz eingepackte Staemme",
+     "netz": "SM_Forest_pine_10_dead",
+     "anzahl": 3,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "schulter",
+      "a_m": 40,
+      "b_m": 24,
+      "richtung": 80
+     },
+     "abstand_m": 10,
+     "skala": [
+      0.55,
+      0.7
+     ],
+     "rolle": "baum",
+     "hang_grad": [
+      0,
+      40
+     ],
+     "kipp_grad": [
+      4,
+      9
+     ],
+     "kipp_richtung": 90,
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "astbruch",
+     "ebene": "schutt",
+     "warum": "unter der Eislast abgebrochene Aeste",
+     "palette": [
+      "SM_Pine_broken_branch_01",
+      "SM_Pine_broken_branch_02",
+      "SM_mountain_branch_01_01"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "schneegespenster",
+       "tote_staemme"
+      ],
+      "ring_m": [
+       1.0,
+       5.0
+      ],
+      "je": [
+       2,
+       4
+      ]
+     },
+     "rolle": "stamm"
+    },
+    {
+     "name": "felsbuckel",
+     "ebene": "schutt",
+     "warum": "Felsbuckel der Schulter (Geroell 15 %)",
+     "palette": "geroell",
+     "anzahl": 40,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "schulter",
+      "a_m": 50,
+      "b_m": 34,
+      "richtung": 80
+     },
+     "abstand_m": 2.5,
+     "groesse_m": [
+      0.6,
+      1.6
+     ],
+     "eingraben": [
+      0.4,
+      0.55
+     ]
+    },
+    {
+     "name": "eisnadeln",
+     "ebene": "kleinzeug",
+     "warum": "Eisnadeln und kleine Zweige im Schnee",
+     "palette": [
+      "SM_EISZAPFEN_1",
+      "SM_DryBranches_01",
+      "SM_DryBranches_05"
+     ],
+     "anzahl": 900,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "schulter",
+      "a_m": 50,
+      "b_m": 32,
+      "richtung": 80
+     },
+     "abstand_m": 0.4,
+     "skala": [
+      0.15,
+      0.6
+     ],
+     "rolle": "streu"
+    },
+    {
+     "name": "lee_wehen",
+     "ebene": "kontakt",
+     "warum": "Schneewehe hinter (oestlich) jedem Baum",
+     "palette": [
+      "vcwjeh2fa_tier_0",
+      "Snow_Embankment_uhvifcgfa_High",
+      "xftjadtab_tier_0"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "schneegespenster",
+       "krueppel"
+      ],
+      "ring_m": [
+       1.0,
+       3.5
+      ],
+      "je": [
+       1,
+       2
+      ],
+      "seite": "ost",
+      "seite_staerke": 0.85
+     },
+     "skala": [
+      0.7,
+      1.2
+     ],
+     "rolle": "streu",
+     "yaw": 90,
+     "front_achse": "+x",
+     "eingraben": [
+      0.3,
+      0.45
+     ]
+    },
+    {
+     "name": "luv_schnee",
+     "ebene": "kontakt",
+     "warum": "Schneehaufen an der Westseite der Stammfuesse",
+     "palette": "schneehaufen",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "schneegespenster",
+      "ring_m": [
+       0.4,
+       1.4
+      ],
+      "je": [
+       1,
+       2
+      ],
+      "seite": "west",
+      "seite_staerke": 0.8
+     },
+     "skala": [
+      0.6,
+      1.0
+     ],
+     "eingraben": [
+      0.3,
+      0.45
+     ]
+    },
+    {
+     "name": "zwerggestraeuch",
+     "ebene": "bewuchs",
+     "warum": "Krummholz und vereiste Gruppen am Rand der Schulter",
+     "palette": "zwergkiefer",
+     "anzahl": 30,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "schulter",
+      "r_m": [
+       30,
+       55
+      ]
+     },
+     "abstand_m": 3,
+     "rolle": "pflanze",
+     "hang_grad": [
+      0,
+      45
+     ],
+     "material": "MI_EL_SW_Raureif"
+    }
    ],
    "lagen": [
-    {"lage": "Schnee", "form": "kreis", "bei": "schulter", "r_m": 55, "streckung": [1.4, 1.0], "richtung": 80, "wert": 255, "flecken": 0.15},
-    {"lage": "Geroell", "form": "hang", "bei": "kante", "r_m": 40, "hang_grad": [38, 90], "wert": 170}
+    {
+     "lage": "Schnee",
+     "form": "kreis",
+     "bei": "schulter",
+     "r_m": 55,
+     "streckung": [
+      1.4,
+      1.0
+     ],
+     "richtung": 80,
+     "wert": 255,
+     "flecken": 0.15
+    },
+    {
+     "lage": "Geroell",
+     "form": "hang",
+     "bei": "kante",
+     "r_m": 40,
+     "hang_grad": [
+      38,
+      90
+     ],
+     "wert": 170
+    }
    ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Schnee": 200, "Kies": 140}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 180,
+     "Kies": 150
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "lagen": {
+      "Schnee": 200,
+      "Kies": 140
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.0
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Sparkling", "optional": true, "zweck": "feines Glitzern der Eiskristalle", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "Kopie, weiss, sehr klein, sehr wenige Partikel; sonst weglassen", "wunsch_paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam", "bei": "schulter", "hoehe_m": 3},
-    {"typ": "lokaler_nebel", "zweck": "Eisnebel zwischen den Gestalten", "bei": "schulter", "hoehe_m": 3, "radius_m": 35, "dichte": 0.03, "farbe": [0.88, 0.92, 0.97], "hoehenabfall": 0.6}
+    {
+     "typ": "niagara",
+     "asset": "NS_Sparkling",
+     "optional": true,
+     "zweck": "feines Glitzern der Eiskristalle",
+     "credits": "SoftTofuVFX (CC BY 4.0)",
+     "hinweis": "Kopie, weiss, sehr klein, sehr wenige Partikel; sonst weglassen",
+     "wunsch_paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "bei": "schulter",
+     "hoehe_m": 3
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Eisnebel zwischen den Gestalten",
+     "bei": "schulter",
+     "hoehe_m": 3,
+     "radius_m": 35,
+     "dichte": 0.03,
+     "farbe": [
+      0.88,
+      0.92,
+      0.97
+     ],
+     "hoehenabfall": 0.6
+    }
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "schulter", "radius_m": 60, "lautstaerke": 0.45, "zweck": "Westwind (Laubanteil im Editor pruefen)"}]
+   "klaenge": [
+    {
+     "asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+     "bei": "schulter",
+     "radius_m": 60,
+     "lautstaerke": 0.45,
+     "zweck": "Westwind (Laubanteil im Editor pruefen)"
+    }
+   ]
   },
-
   "frost_05_blockgletscher": {
    "kurz": "Am Osthang zieht eine graue Zunge aus Bloecken wie ein Lavastrom ins Tal - unter dem Schutt steckt ein Eiskern. Die Stirn ist 6 m hoch, an ihrem Fuss hat eiskaltes Wasser einen schwarz zugefrorenen Blasensee gestaut.",
-   "marker": {"titel": "Der Blockgletscher", "text": "Ein Strom aus Stein, der kriecht, wenn niemand hinsieht. Unter den Bloecken liegt das Eis, das ihn traegt, und an seiner Stirn blutet es schwarzes Wasser.", "entdeckung_m": 30},
-   "budget": {"instanzen": 4000, "kollision": 600, "akteure": 40, "lichter": 0, "niagara": 0, "decals": 4},
+   "marker": {
+    "titel": "Der Blockgletscher",
+    "text": "Ein Strom aus Stein, der kriecht, wenn niemand hinsieht. Unter den Bloecken liegt das Eis, das ihn traegt, und an seiner Stirn blutet es schwarzes Wasser.",
+    "entdeckung_m": 30
+   },
+   "budget": {
+    "instanzen": 4000,
+    "kollision": 600,
+    "akteure": 40,
+    "lichter": 0,
+    "niagara": 0,
+    "decals": 4
+   },
    "assets_wunsch": [],
    "anker": {
-    "zunge": {"pos_m": [515.0, -2805.0]},
-    "stirnmitte": {"pos_m": [515.0, -2852.0]},
-    "blasensee": {"pos_m": [512.0, -2870.0]}
+    "zunge": {
+     "pos_m": [
+      515.0,
+      -2805.0
+     ]
+    },
+    "stirnmitte": {
+     "pos_m": [
+      515.0,
+      -2852.0
+     ]
+    },
+    "blasensee": {
+     "pos_m": [
+      512.0,
+      -2870.0
+     ]
+    }
    },
    "linien": {
-    "stirn": {"punkte": [{"pos_m": [470.0, -2846.0]}, {"pos_m": [495.0, -2853.0]}, {"pos_m": [520.0, -2855.0]}, {"pos_m": [545.0, -2852.0]}, {"pos_m": [565.0, -2844.0]}]},
-    "wulst1": {"punkte": [{"pos_m": [478.0, -2826.0]}, {"pos_m": [515.0, -2836.0]}, {"pos_m": [555.0, -2826.0]}]},
-    "wulst2": {"punkte": [{"pos_m": [482.0, -2806.0]}, {"pos_m": [516.0, -2816.0]}, {"pos_m": [552.0, -2806.0]}]},
-    "wulst3": {"punkte": [{"pos_m": [486.0, -2786.0]}, {"pos_m": [517.0, -2795.0]}, {"pos_m": [548.0, -2786.0]}]}
+    "stirn": {
+     "punkte": [
+      {
+       "pos_m": [
+        470.0,
+        -2846.0
+       ]
+      },
+      {
+       "pos_m": [
+        495.0,
+        -2853.0
+       ]
+      },
+      {
+       "pos_m": [
+        520.0,
+        -2855.0
+       ]
+      },
+      {
+       "pos_m": [
+        545.0,
+        -2852.0
+       ]
+      },
+      {
+       "pos_m": [
+        565.0,
+        -2844.0
+       ]
+      }
+     ]
+    },
+    "wulst1": {
+     "punkte": [
+      {
+       "pos_m": [
+        478.0,
+        -2826.0
+       ]
+      },
+      {
+       "pos_m": [
+        515.0,
+        -2836.0
+       ]
+      },
+      {
+       "pos_m": [
+        555.0,
+        -2826.0
+       ]
+      }
+     ]
+    },
+    "wulst2": {
+     "punkte": [
+      {
+       "pos_m": [
+        482.0,
+        -2806.0
+       ]
+      },
+      {
+       "pos_m": [
+        516.0,
+        -2816.0
+       ]
+      },
+      {
+       "pos_m": [
+        552.0,
+        -2806.0
+       ]
+      }
+     ]
+    },
+    "wulst3": {
+     "punkte": [
+      {
+       "pos_m": [
+        486.0,
+        -2786.0
+       ]
+      },
+      {
+       "pos_m": [
+        517.0,
+        -2795.0
+       ]
+      },
+      {
+       "pos_m": [
+        548.0,
+        -2786.0
+       ]
+      }
+     ]
+    }
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [170, 150], "bei": "zunge", "rand_m": 14, "ops": [
-    {"op": "abbruch", "punkte": "stirn", "hoehe_m": 4.0, "breite_m": 5, "reichweite_m": 22, "seite": "rechts", "verteilung": "oben", "warum": "Stirn +4 m steil (die Bloecke tragen die Steilheit)"}
-   ],
-    "nach_ops": [
-     {"op": "damm", "punkte": "wulst1", "breite_m": 9, "hoehe_m": 1.6, "krone": 0.3, "warum": "Fliesswulst 1"},
-     {"op": "damm", "punkte": "wulst2", "breite_m": 9, "hoehe_m": 1.4, "krone": 0.3, "warum": "Fliesswulst 2"},
-     {"op": "damm", "punkte": "wulst3", "breite_m": 9, "hoehe_m": 1.2, "krone": 0.3, "warum": "Fliesswulst 3"}
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     170,
+     150
     ],
-    "senke_begruendung": "flache Mulden zwischen den Fliesswuelsten des Blockgletschers (typisch, im Bloeckwerk versickert das Wasser)"},
+    "bei": "zunge",
+    "rand_m": 14,
+    "ops": [
+     {
+      "op": "abbruch",
+      "punkte": "stirn",
+      "hoehe_m": 4.0,
+      "breite_m": 5,
+      "reichweite_m": 22,
+      "seite": "rechts",
+      "verteilung": "oben",
+      "warum": "Stirn +4 m steil (die Bloecke tragen die Steilheit)"
+     }
+    ],
+    "nach_ops": [
+     {
+      "op": "damm",
+      "punkte": "wulst1",
+      "breite_m": 9,
+      "hoehe_m": 1.6,
+      "krone": 0.3,
+      "warum": "Fliesswulst 1"
+     },
+     {
+      "op": "damm",
+      "punkte": "wulst2",
+      "breite_m": 9,
+      "hoehe_m": 1.4,
+      "krone": 0.3,
+      "warum": "Fliesswulst 2"
+     },
+     {
+      "op": "damm",
+      "punkte": "wulst3",
+      "breite_m": 9,
+      "hoehe_m": 1.2,
+      "krone": 0.3,
+      "warum": "Fliesswulst 3"
+     }
+    ],
+    "senke_begruendung": "flache Mulden zwischen den Fliesswuelsten des Blockgletschers (typisch, im Bloeckwerk versickert das Wasser)"
+   },
    "wasser": [
-    {"typ": "see", "id": "blasensee", "bei": "blasensee", "r_m": 8, "spiegel": "boden+0.0", "tiefe_m": 1.2, "farbe": "schwarz_spiegel", "eis": true, "material_wunsch": "MI_EL_SW_Schwarzeis",
-     "hinweis": "zugefroren (Schwarzeis mit Blasen-Decal)", "becken": {"a_m": 9, "b_m": 6.5, "richtung": 90, "ufer_m": 4, "freibord_m": 0.3, "boden": 0.4}}
-   ],
-   "rahmen": [{"name": "west", "bei": "stirnmitte", "ziel_hoehe_m": 3.0, "richtung_bereich": [260, 300], "abstand_m": 24, "breite_m": 12, "hoehe_min_m": 2.0, "hoehe_max_m": 8.0, "rand_grad": 10, "bogen_grad": 40}],
-   "sicht_kern": "stirnmitte", "sicht_probe_m": 10,
-   "gruppen": [
-    {"name": "stirnbloecke", "ebene": "held", "warum": "die aktive Stirn: grosse, frische Bloecke stuerzen ueber die Front", "palette": ["SM_NordicBoulder_01", "SM_Big_Rock_01", "SM_Big_Rock_02", "SM_MassiveTundraRockFormation_02", "SM_TundraMossyBoulder_01"], "gewichte": [3, 2, 2, 1, 2],
-     "anzahl": 22, "verteilung": {"typ": "band", "punkte": "stirn", "breite_m": 10}, "abstand_m": 4.0, "groesse_m": [2.8, 5.5], "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "mindestens": 15},
-    {"name": "wulstbloecke", "ebene": "begleiter", "warum": "Bloecke auf den Fliesswuelsten (aelter, mit Flechten)", "palette": "bloecke",
-     "anzahl": 12, "verteilung": {"typ": "band", "punkte": "wulst2", "breite_m": 8}, "abstand_m": 5, "groesse_m": [2.0, 3.5], "akteur": true, "material": "MI_EL_SW_Fels_Eisglasur"},
-    {"name": "blockfeld", "ebene": "schutt", "warum": "Blockfeld der Zunge (unsortiert, grob)", "palette": ["SM_TundraRockyGround_01", "SM_mountain_rock_big_02_2", "SM_mountain_rock_big_02_4", "SM_mountain_rock_big_02_8", "xf3odif_tier_0", "SM_mountain_rock_big_01_5"],
-     "anzahl": 190, "verteilung": {"typ": "ellipse", "bei": "zunge", "a_m": 48, "b_m": 40, "richtung": 0}, "abstand_m": 2.2, "groesse_m": [0.8, 2.6], "eingraben": [0.3, 0.45]},
-    {"name": "stirnfuss", "ebene": "kleinzeug", "warum": "feines Material rieselt nur an der Stirnbasis heraus", "palette": "kiesel",
-     "anzahl": 600, "verteilung": {"typ": "band", "punkte": "stirn", "breite_m": 10, "versatz_m": -9}, "abstand_m": 0.3, "rolle": "stein", "im_wasser": "egal"},
-    {"name": "stirnsteine", "ebene": "kleinzeug", "warum": "Steine am Stirnfuss", "palette": "steine",
-     "anzahl": 300, "verteilung": {"typ": "band", "punkte": "stirn", "breite_m": 14, "versatz_m": -10}, "abstand_m": 0.5, "rolle": "stein"},
-    {"name": "eis_in_luecken", "ebene": "kontakt", "warum": "Eiskern blitzt in den Luecken der Stirn hervor", "palette": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_5", "xe2obbqqx_tier_0", "vcyiccyga_tier_0"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": "stirnbloecke", "ring": [0.8, 1.15], "je": [2, 4]}, "skala": [0.3, 0.8], "ausrichtung": "liegend", "rolle": "stein", "material": "MI_EL_SW_Spritzeis"},
-    {"name": "schnee_zwischen", "ebene": "kontakt", "warum": "Schnee zwischen den Bloecken", "palette": ["vcykbjsva_tier_0", "xe2obbqqx_tier_0", "xftjadtab_tier_0"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["wulstbloecke", "stirnbloecke"], "ring": [0.9, 1.3], "je": [1, 2], "seite": "nord", "seite_staerke": 0.6}, "skala": [0.5, 0.9], "eingraben": [0.3, 0.45]},
-    {"name": "flechten", "ebene": "bewuchs", "warum": "Flechten nur auf alten Bloecken der Wuelste, nichts auf der aktiven Stirn", "palette": "moos",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "wulstbloecke", "ring": [0.7, 1.1], "je": [8, 12], "seite": "nord", "seite_staerke": 0.5}, "rolle": "streu"},
-    {"name": "randkiefern", "ebene": "bewuchs", "warum": "Kiefern am Rand der Zunge (rahmen den Ort gegen den Steig)", "palette": "raureifkiefer",
-     "anzahl": 7, "verteilung": {"typ": "band", "punkte": "rahmen_west", "breite_m": 12}, "abstand_m": 6, "skala": [0.6, 0.8], "rolle": "baum", "material": "MI_EL_SW_Raureif"},
-    {"name": "randgestruepp", "ebene": "bewuchs", "warum": "Zwergkiefern auf dem alten Teil der Zunge", "palette": "zwergkiefer",
-     "anzahl": 14, "verteilung": {"typ": "ellipse", "bei": {"anker": "zunge", "versatz_m": [0.0, 25.0]}, "a_m": 40, "b_m": 20, "richtung": 90}, "abstand_m": 4, "rolle": "pflanze", "material": "MI_EL_SW_Raureif"},
-    {"name": "uferkies", "ebene": "kleinzeug", "warum": "Kies am Blasensee", "palette": "kiesel", "dichte_je_m2": 0.5,
-     "verteilung": {"typ": "ufer", "bei": "blasensee", "r_m": 20, "band_m": [-0.3, 2.0]}, "abstand_m": 0.3, "rolle": "stein", "im_wasser": "egal"}
-   ],
-   "lagen": [
-    {"lage": "Geroell", "form": "kreis", "bei": "zunge", "r_m": 50, "streckung": [1.2, 1.0], "richtung": 0, "wert": 235, "flecken": 0.3},
-    {"lage": "Eis", "form": "ufer", "bei": "blasensee", "r_m": 18, "band_m": [0.0, 1.5], "wert": 200},
-    {"lage": "Schnee", "form": "ring", "bei": "zunge", "r_m": [45, 65], "wert": 200, "flecken": 0.4}
-   ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 190, "Schnee": 120}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
-   "effekte": [
-    {"typ": "decal", "material": "MI_EL_SW_Eisblasen", "optional": true, "textur": "recherche/antworten/sehens/frost/decal_eisblasen.png", "zweck": "Blasen im Schwarzeis des Stirnsees", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "blasensee", "r_m": 4}, "groesse_m": [1.0, 4.0, 4.0]},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Stirnbasis (Schmelzwasser tritt aus)", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "stirn", "breite_m": 4, "versatz_m": -7}, "groesse_m": [1.0, 3.0, 3.0]},
-    {"typ": "lokaler_nebel", "zweck": "kalte Luft fliesst aus dem Blockwerk", "bei": "stirnmitte", "hoehe_m": 1.5, "radius_m": 18, "dichte": 0.04, "farbe": [0.84, 0.88, 0.92], "hoehenabfall": 1.0}
-   ],
-   "klaenge": [{"asset": "CUE_Water_Stream_V_Cue", "bei": "stirnmitte", "radius_m": 20, "lautstaerke": 0.2, "zweck": "Wasser unter den Bloecken, kaum hoerbar"}]
-  },
-
-  "frost_06_eiskueste": {
-   "kurz": "An der Ostkueste friert die Brandung an: ein Eisfuss aus geschichtetem Spritzeis saeumt den Strand, darauf stehen Eisvulkane, aus deren Spitze bei jeder Welle Wasser und Eisbrei schiessen.",
-   "marker": {"titel": "Die Eiskueste", "text": "Das Meer friert hier nicht still, es friert schreiend. Jede Welle baut die Kegel ein wenig hoeher, bis sie selbst Wasser spucken.", "entdeckung_m": 120},
-   "budget": {"instanzen": 3500, "kollision": 400, "akteure": 35, "lichter": 0, "niagara": 3, "decals": 6},
-   "assets_wunsch": [],
-   "anker": {
-    "vulkan1": {"pos_m": [652.0, -2500.0]},
-    "vulkan2": {"pos_m": [658.0, -2534.0]},
-    "vulkan3": {"pos_m": [646.0, -2478.0]},
-    "strand": {"pos_m": [650.0, -2515.0]},
-    "see_seite": {"pos_m": [690.0, -2515.0]}
-   },
-   "linien": {
-    "eisfuss": {"punkte": [{"pos_m": [640.0, -2462.0]}, {"pos_m": [648.0, -2490.0]}, {"pos_m": [656.0, -2520.0]}, {"pos_m": [664.0, -2548.0]}, {"pos_m": [672.0, -2574.0]}]}
-   },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [150, 110], "bei": "strand", "rand_m": 12, "ops": [
-    {"op": "kuppe", "bei": "vulkan1", "radius_m": 6, "hoehe_m": 3.0, "plateau": 0.15, "rand_m": 4, "warum": "Eisvulkan 1"},
-    {"op": "kuppe", "bei": "vulkan2", "radius_m": 5, "hoehe_m": 2.4, "plateau": 0.15, "rand_m": 4, "warum": "Eisvulkan 2"},
-    {"op": "kuppe", "bei": "vulkan3", "radius_m": 4, "hoehe_m": 1.8, "plateau": 0.15, "rand_m": 3, "warum": "Eisvulkan 3 (jung)"}
-   ],
-    "nach_ops": [{"op": "damm", "punkte": "eisfuss", "breite_m": 7, "hoehe_m": 1.0, "krone": 0.5, "warum": "Eisfuss aus Spritzeis (+1 m Band)"}]},
-   "gruppen": [
-    {"name": "eiskegel", "ebene": "held", "warum": "Eisvulkane: Spritzeis um ein Loch im Eisfuss, durch das die Welle schiesst", "palette": ["xemjafmqx_tier_0", "xfroec0qx_tier_0"],
-     "verteilung": {"typ": "punkte", "punkte": ["vulkan1", "vulkan2", "vulkan3"]}, "skala": [0.7, 0.95], "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "meide": null},
-    {"name": "kraterrand", "ebene": "begleiter", "warum": "Kraterrand aus Eisschalen (Spritzeis wird geschichtet)", "netz": "vd4hbizcb_tier_0",
-     "verteilung": {"typ": "punkte", "punkte": [{"anker": "vulkan1", "versatz_m": [1.5, 0.0]}, {"anker": "vulkan1", "versatz_m": [-1.2, 1.0]}, {"anker": "vulkan1", "versatz_m": [-0.5, -1.4]}, {"anker": "vulkan2", "versatz_m": [1.2, 0.5]}, {"anker": "vulkan2", "versatz_m": [-1.0, -0.8]}]},
-     "skala": [0.55, 0.75], "yaw": "zufall", "kipp_grad": [20, 35], "kipp_richtung": "zufall", "z_bezug": "oben:eiskegel", "z_versatz_m": -0.8, "akteur": true, "kollision": false, "meide": null},
-    {"name": "eiskante", "ebene": "begleiter", "warum": "Schichtkante des Eisfusses zum Meer", "netz": "veipbcmcb_tier_0",
-     "verteilung": {"typ": "reihe", "punkte": "eisfuss", "abstand_m": 12, "versatz_m": 3.0, "versatz_streuung_m": 0.6, "seiten": ["links"], "blick": "von_linie", "front_an_linie": true},
-     "skala": [0.6, 0.8], "front_achse": "+y", "eingraben": [0.4, 0.55], "akteur": true, "kollision": true, "meide": null},
-    {"name": "eisfelsen", "ebene": "begleiter", "warum": "Felsen am Strand mit Eiskappen wie Zuckerhuete", "palette": ["SM_NordicBeachRocks_01", "SM_NordicBoulder_01"],
-     "anzahl": 6, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 10, "versatz_m": 4}, "abstand_m": 8, "groesse_m": [2.2, 4.0], "eingraben": [0.3, 0.4], "akteur": true, "material": "MI_EL_SW_Fels_Eisglasur", "weg_abstand_m": 3},
-    {"name": "eiskappen", "ebene": "begleiter", "warum": "Eiskappe auf jedem Strandfelsen", "palette": ["vcyiccyga_tier_0", "xe2obbqqx_tier_0"],
-     "verteilung": {"typ": "auf_gruppe", "gruppe": "eisfelsen", "je": [1, 1], "anteil": [0.5, 0.5]}, "skala": [0.45, 0.7], "z_bezug": "oben:eisfelsen", "z_versatz_m": -0.4, "meide": null},
-    {"name": "schollen", "ebene": "schutt", "warum": "Eisschollen, von der Brandung auf den Strand geworfen", "palette": "eissplitter",
-     "anzahl": 130, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 18, "versatz_m": 2}, "abstand_m": 1.2, "groesse_m": [0.5, 2.0], "kipp_grad": [5, 30], "kipp_richtung": "zufall", "eingraben": [0.2, 0.35]},
-    {"name": "treibholz", "ebene": "schutt", "warum": "Treibholz im Eis eingefroren", "palette": "treibholz",
-     "anzahl": 10, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 12, "versatz_m": -4}, "abstand_m": 4, "rolle": "stamm"},
-    {"name": "strandkies", "ebene": "kleinzeug", "warum": "Kies und Eiskruemel am Strand", "palette": ["SM_BeachSandWithPebbles_01", "SM_BeachSandWithPebbles_02", "SM_EISZAPFEN_1", "SM_SmallStonesPack_06"],
-     "anzahl": 900, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 22}, "abstand_m": 0.4, "skala": [0.3, 1.0], "rolle": "stein"},
-    {"name": "seetang", "ebene": "kleinzeug", "warum": "Seetang im Spuelsaum (gefroren)", "palette": ["SM_seaweed_01_A", "SM_seaweed_01_C", "SM_seaweed_01_E"],
-     "anzahl": 30, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 6, "versatz_m": -6}, "abstand_m": 1.5, "rolle": "streu"},
-    {"name": "strandgras", "ebene": "bewuchs", "warum": "Strandgras mit Raureif hinter dem Eisfuss", "palette": "strandgras",
-     "anzahl": 120, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 18, "versatz_m": 22}, "abstand_m": 0.9, "rolle": "pflanze", "material": "MI_EL_SW_Raureif"},
-    {"name": "kegelsaum", "ebene": "kontakt", "warum": "Eisbrei und Splitter am Fuss der Kegel", "palette": ["vcyiccyga_tier_0", "SM_EISZAPFEN_5"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["eiskegel", "eisfelsen"], "ring": [0.85, 1.25], "je": [8, 14]}, "skala": [0.15, 0.4], "ausrichtung": "liegend", "rolle": "stein", "material": "MI_EL_SW_Spritzeis"},
-    {"name": "felsmoos", "ebene": "kontakt", "warum": "Flechten an der Landseite der Strandfelsen", "palette": "moos",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "eisfelsen", "ring": [0.85, 1.15], "je": [4, 7], "seite": "west"}, "rolle": "streu"}
-   ],
-   "lagen": [
-    {"lage": "Eis", "form": "band", "punkte": "eisfuss", "breite_m": 12, "wert": 240, "flecken": 0.2},
-    {"lage": "Kies", "form": "band", "punkte": "eisfuss", "breite_m": 24, "wert": 150, "flecken": 0.5},
-    {"lage": "Eis", "form": "kreis", "bei": "vulkan1", "r_m": 9, "wert": 255},
-    {"lage": "Eis", "form": "kreis", "bei": "vulkan2", "r_m": 8, "wert": 255}
-   ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Schnee": 120}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
-   "effekte": [
-    {"typ": "niagara", "asset": "NS_Geyser_Small", "optional": false, "zweck": "Fontaene aus dem Eisvulkan bei jeder Welle (Nature Water FX)", "bei": "vulkan1", "hoehe_m": 2.6, "skala": 0.6},
-    {"typ": "niagara", "asset": "NS_Geyser_Small", "optional": false, "zweck": "Fontaene des zweiten Eisvulkans (zeitversetzt)", "bei": "vulkan2", "hoehe_m": 2.0, "skala": 0.45},
-    {"typ": "niagara", "asset": "NS_Impact_Small", "optional": false, "zweck": "Brandung schlaegt an den Eisfuss", "bei": "see_seite", "hoehe_m": 0.3, "yaw": 270},
-    {"typ": "lokaler_nebel", "zweck": "Seerauch ueber dem kalten Wasser", "bei": "see_seite", "hoehe_m": 1.5, "radius_m": 30, "dichte": 0.05, "farbe": [0.85, 0.88, 0.92], "hoehenabfall": 0.9},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Eisfuss (Coast & Dunes)", "anzahl": 4, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 6, "versatz_m": -3}, "groesse_m": [1.0, 3.5, 3.5]},
-    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algenband im Spuelsaum", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "eisfuss", "breite_m": 4, "versatz_m": -5}, "groesse_m": [1.0, 3.0, 3.0]}
-   ],
-   "klaenge": [{"asset": "CUE_Water_Stream_VIII_Cue", "bei": "strand", "radius_m": 50, "lautstaerke": 0.5, "zweck": "Wasser im Eis (Brandung fehlt im Bestand)"}]
-  },
-
-  "frost_07_frostblumen": {
-   "kurz": "Wo der Abfluss des Frostsees ins Meer muendet, liegt hinter einem Uferwall eine flache Lagune mit hauchduennem, jungem Eis - darauf wachsen Tausende Frostblumen, fingergrosse Kristalle wie Federn.",
-   "marker": {"titel": "Die Frostblumen", "text": "Auf dem jungen Eis waechst ein Garten, den es nur in den kaeltesten Naechten gibt. Ein Atemzug zu nah, und er schmilzt.", "entdeckung_m": 15},
-   "budget": {"instanzen": 8000, "kollision": 200, "akteure": 15, "lichter": 0, "niagara": 0, "decals": 3},
-   "assets_wunsch": [{"paket": "CryoGen: Native Procedural Ice Architecture", "statt_jetzt": "SM_EISZAPFEN_1/5 sehr klein (0,05-0,12x) als Kristalle, MI_EL_SW_Spritzeis"}],
-   "anker": {
-    "lagune": {"pos_m": [452.0, -2274.0]},
-    "wall": {"pos_m": [480.0, -2272.0]}
-   },
-   "linien": {
-    "uferwall": {"punkte": [{"pos_m": [470.0, -2310.0]}, {"pos_m": [480.0, -2290.0]}, {"pos_m": [483.0, -2268.0]}, {"pos_m": [478.0, -2244.0]}]}
-   },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [130, 120], "bei": "lagune", "rand_m": 12, "ist_wasser": true, "ist_wasser_r_m": 45,
-    "begruendung": "Lagune an der Muendung des Seeabflusses (Bestandsbach): flaches Becken -0,5 m, Uferwall +1 m",
-    "ops": [],
-    "nach_ops": [{"op": "damm", "punkte": "uferwall", "breite_m": 10, "hoehe_m": 1.2, "krone": 0.4, "warum": "Uferwall aus Kies zum Meer"}]},
-   "wasser": [
-    {"typ": "see", "id": "lagune", "bei": "lagune", "spiegel": "boden+0.05", "tiefe_m": 0.5, "farbe": "schwarz_spiegel", "eis": true, "material_wunsch": "MI_EL_SW_Schwarzeis",
-     "hinweis": "junges, duennes Eis (Schwarzeis, glatt), Frostblumen darauf", "becken": {"a_m": 20, "b_m": 14, "richtung": 20, "ufer_m": 5, "freibord_m": 0.2, "boden": 0.5, "auslass": 70}}
+    {
+     "typ": "see",
+     "id": "blasensee",
+     "bei": "blasensee",
+     "r_m": 8,
+     "spiegel": "boden+0.0",
+     "tiefe_m": 1.2,
+     "farbe": "schwarz_spiegel",
+     "eis": true,
+     "material_wunsch": "MI_EL_SW_Schwarzeis",
+     "hinweis": "zugefroren (Schwarzeis mit Blasen-Decal)",
+     "becken": {
+      "a_m": 9,
+      "b_m": 6.5,
+      "richtung": 90,
+      "ufer_m": 4,
+      "freibord_m": 0.45,
+      "boden": 0.4,
+      "einpassen": {
+       "r_such_m": 5,
+       "schritt_m": 1.5,
+       "richtungen": [
+        60,
+        90,
+        120
+       ]
+      }
+     }
+    }
    ],
    "rahmen": [
-    {"name": "nordwest", "bei": "lagune", "ziel_hoehe_m": 3.0, "richtung_bereich": [270, 360], "abstand_m": 26, "breite_m": 14, "hoehe_min_m": 1.5, "hoehe_max_m": 7.0, "rand_grad": 10, "bogen_grad": 50},
-    {"name": "suedwest", "bei": "lagune", "ziel_hoehe_m": 3.0, "richtung_bereich": [220, 250], "abstand_m": 26, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 5.0, "rand_grad": 10, "bogen_grad": 30}
+    {
+     "name": "west",
+     "bei": "stirnmitte",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      260,
+      300
+     ],
+     "abstand_m": 24,
+     "breite_m": 12,
+     "hoehe_min_m": 2.0,
+     "hoehe_max_m": 8.0,
+     "rand_grad": 10,
+     "bogen_grad": 40
+    }
+   ],
+   "sicht_kern": "stirnmitte",
+   "sicht_probe_m": 10,
+   "gruppen": [
+    {
+     "name": "stirnbloecke",
+     "ebene": "held",
+     "warum": "die aktive Stirn: grosse, frische Bloecke stuerzen ueber die Front",
+     "palette": [
+      "SM_NordicBoulder_01",
+      "SM_Big_Rock_01",
+      "SM_Big_Rock_02",
+      "SM_MassiveTundraRockFormation_02",
+      "SM_TundraMossyBoulder_01"
+     ],
+     "gewichte": [
+      3,
+      2,
+      2,
+      1,
+      2
+     ],
+     "anzahl": 22,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "stirn",
+      "breite_m": 10
+     },
+     "abstand_m": 4.0,
+     "groesse_m": [
+      2.8,
+      5.5
+     ],
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "kollision": true,
+     "mindestens": 15
+    },
+    {
+     "name": "wulstbloecke",
+     "ebene": "begleiter",
+     "warum": "Bloecke auf den Fliesswuelsten (aelter, mit Flechten)",
+     "palette": "bloecke",
+     "anzahl": 12,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "wulst2",
+      "breite_m": 8
+     },
+     "abstand_m": 5,
+     "groesse_m": [
+      2.0,
+      3.5
+     ],
+     "akteur": true,
+     "material": "MI_EL_SW_Fels_Eisglasur"
+    },
+    {
+     "name": "blockfeld",
+     "ebene": "schutt",
+     "warum": "Blockfeld der Zunge (unsortiert, grob)",
+     "palette": [
+      "SM_TundraRockyGround_01",
+      "SM_mountain_rock_big_02_2",
+      "SM_mountain_rock_big_02_4",
+      "SM_mountain_rock_big_02_8",
+      "xf3odif_tier_0",
+      "SM_mountain_rock_big_01_5"
+     ],
+     "anzahl": 190,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "zunge",
+      "a_m": 48,
+      "b_m": 40,
+      "richtung": 0
+     },
+     "abstand_m": 2.2,
+     "groesse_m": [
+      0.8,
+      2.6
+     ],
+     "eingraben": [
+      0.3,
+      0.45
+     ]
+    },
+    {
+     "name": "stirnfuss",
+     "ebene": "kleinzeug",
+     "warum": "feines Material rieselt nur an der Stirnbasis heraus",
+     "palette": "kiesel",
+     "anzahl": 600,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "stirn",
+      "breite_m": 10,
+      "versatz_m": -9
+     },
+     "abstand_m": 0.3,
+     "rolle": "stein",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "stirnsteine",
+     "ebene": "kleinzeug",
+     "warum": "Steine am Stirnfuss",
+     "palette": "steine",
+     "anzahl": 300,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "stirn",
+      "breite_m": 14,
+      "versatz_m": -10
+     },
+     "abstand_m": 0.5,
+     "rolle": "stein"
+    },
+    {
+     "name": "eis_in_luecken",
+     "ebene": "kontakt",
+     "warum": "Eiskern blitzt in den Luecken der Stirn hervor",
+     "palette": [
+      "SM_EISZAPFEN_1",
+      "SM_EISZAPFEN_5",
+      "xe2obbqqx_tier_0",
+      "vcyiccyga_tier_0"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "stirnbloecke",
+      "ring": [
+       0.8,
+       1.15
+      ],
+      "je": [
+       2,
+       4
+      ]
+     },
+     "skala": [
+      0.3,
+      0.8
+     ],
+     "ausrichtung": "liegend",
+     "rolle": "stein",
+     "material": "MI_EL_SW_Spritzeis"
+    },
+    {
+     "name": "schnee_zwischen",
+     "ebene": "kontakt",
+     "warum": "Schnee zwischen den Bloecken",
+     "palette": [
+      "vcykbjsva_tier_0",
+      "xe2obbqqx_tier_0",
+      "xftjadtab_tier_0"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "wulstbloecke",
+       "stirnbloecke"
+      ],
+      "ring": [
+       0.9,
+       1.3
+      ],
+      "je": [
+       1,
+       2
+      ],
+      "seite": "nord",
+      "seite_staerke": 0.6
+     },
+     "skala": [
+      0.5,
+      0.9
+     ],
+     "eingraben": [
+      0.3,
+      0.45
+     ]
+    },
+    {
+     "name": "flechten",
+     "ebene": "bewuchs",
+     "warum": "Flechten nur auf alten Bloecken der Wuelste, nichts auf der aktiven Stirn",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "wulstbloecke",
+      "ring": [
+       0.7,
+       1.1
+      ],
+      "je": [
+       8,
+       12
+      ],
+      "seite": "nord",
+      "seite_staerke": 0.5
+     },
+     "rolle": "streu"
+    },
+    {
+     "name": "randkiefern",
+     "ebene": "bewuchs",
+     "warum": "Kiefern am Rand der Zunge (rahmen den Ort gegen den Steig)",
+     "palette": "raureifkiefer",
+     "anzahl": 7,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_west",
+      "breite_m": 12
+     },
+     "abstand_m": 6,
+     "skala": [
+      0.6,
+      0.8
+     ],
+     "rolle": "baum",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "randgestruepp",
+     "ebene": "bewuchs",
+     "warum": "Zwergkiefern auf dem alten Teil der Zunge",
+     "palette": "zwergkiefer",
+     "anzahl": 14,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": {
+       "anker": "zunge",
+       "versatz_m": [
+        0.0,
+        25.0
+       ]
+      },
+      "a_m": 40,
+      "b_m": 20,
+      "richtung": 90
+     },
+     "abstand_m": 4,
+     "rolle": "pflanze",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "uferkies",
+     "ebene": "kleinzeug",
+     "warum": "Kies am Blasensee",
+     "palette": "kiesel",
+     "dichte_je_m2": 0.5,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "blasensee",
+      "r_m": 20,
+      "band_m": [
+       -0.3,
+       2.0
+      ]
+     },
+     "abstand_m": 0.3,
+     "rolle": "stein",
+     "im_wasser": "egal"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Geroell",
+     "form": "kreis",
+     "bei": "zunge",
+     "r_m": 50,
+     "streckung": [
+      1.2,
+      1.0
+     ],
+     "richtung": 0,
+     "wert": 235,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Eis",
+     "form": "ufer",
+     "bei": "blasensee",
+     "r_m": 18,
+     "band_m": [
+      0.0,
+      1.5
+     ],
+     "wert": 200
+    },
+    {
+     "lage": "Schnee",
+     "form": "ring",
+     "bei": "zunge",
+     "r_m": [
+      45,
+      65
+     ],
+     "wert": 200,
+     "flecken": 0.4
+    }
+   ],
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 180,
+     "Kies": 150
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "lagen": {
+      "Kies": 190,
+      "Schnee": 120
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.0
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
+   "effekte": [
+    {
+     "typ": "decal",
+     "material": "MI_EL_SW_Eisblasen",
+     "optional": true,
+     "textur": "recherche/antworten/sehens/frost/decal_eisblasen.png",
+     "zweck": "Blasen im Schwarzeis des Stirnsees",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "blasensee",
+      "r_m": 4
+     },
+     "groesse_m": [
+      1.0,
+      4.0,
+      4.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "zweck": "Nassband an der Stirnbasis (Schmelzwasser tritt aus)",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "stirn",
+      "breite_m": 4,
+      "versatz_m": -7
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "kalte Luft fliesst aus dem Blockwerk",
+     "bei": "stirnmitte",
+     "hoehe_m": 1.5,
+     "radius_m": 18,
+     "dichte": 0.04,
+     "farbe": [
+      0.84,
+      0.88,
+      0.92
+     ],
+     "hoehenabfall": 1.0
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Water_Stream_V_Cue",
+     "bei": "stirnmitte",
+     "radius_m": 20,
+     "lautstaerke": 0.2,
+     "zweck": "Wasser unter den Bloecken, kaum hoerbar"
+    }
+   ]
+  },
+  "frost_06_eiskueste": {
+   "kurz": "An der Ostkueste friert die Brandung an: ein Eisfuss aus geschichtetem Spritzeis saeumt den Strand, darauf stehen Eisvulkane, aus deren Spitze bei jeder Welle Wasser und Eisbrei schiessen.",
+   "marker": {
+    "titel": "Die Eiskueste",
+    "text": "Das Meer friert hier nicht still, es friert schreiend. Jede Welle baut die Kegel ein wenig hoeher, bis sie selbst Wasser spucken.",
+    "entdeckung_m": 120
+   },
+   "budget": {
+    "instanzen": 3500,
+    "kollision": 400,
+    "akteure": 35,
+    "lichter": 0,
+    "niagara": 3,
+    "decals": 6
+   },
+   "assets_wunsch": [],
+   "anker": {
+    "vulkan1": {
+     "pos_m": [
+      652.0,
+      -2500.0
+     ]
+    },
+    "vulkan2": {
+     "pos_m": [
+      658.0,
+      -2534.0
+     ]
+    },
+    "vulkan3": {
+     "pos_m": [
+      646.0,
+      -2478.0
+     ]
+    },
+    "strand": {
+     "pos_m": [
+      650.0,
+      -2515.0
+     ]
+    },
+    "see_seite": {
+     "pos_m": [
+      690.0,
+      -2515.0
+     ]
+    }
+   },
+   "linien": {
+    "eisfuss": {
+     "punkte": [
+      {
+       "pos_m": [
+        640.0,
+        -2462.0
+       ]
+      },
+      {
+       "pos_m": [
+        648.0,
+        -2490.0
+       ]
+      },
+      {
+       "pos_m": [
+        656.0,
+        -2520.0
+       ]
+      },
+      {
+       "pos_m": [
+        664.0,
+        -2548.0
+       ]
+      },
+      {
+       "pos_m": [
+        672.0,
+        -2574.0
+       ]
+      }
+     ]
+    }
+   },
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     150,
+     110
+    ],
+    "bei": "strand",
+    "rand_m": 12,
+    "ops": [
+     {
+      "op": "kuppe",
+      "bei": "vulkan1",
+      "radius_m": 6,
+      "hoehe_m": 3.0,
+      "plateau": 0.15,
+      "rand_m": 4,
+      "warum": "Eisvulkan 1"
+     },
+     {
+      "op": "kuppe",
+      "bei": "vulkan2",
+      "radius_m": 5,
+      "hoehe_m": 2.4,
+      "plateau": 0.15,
+      "rand_m": 4,
+      "warum": "Eisvulkan 2"
+     },
+     {
+      "op": "kuppe",
+      "bei": "vulkan3",
+      "radius_m": 4,
+      "hoehe_m": 1.8,
+      "plateau": 0.15,
+      "rand_m": 3,
+      "warum": "Eisvulkan 3 (jung)"
+     }
+    ],
+    "nach_ops": [
+     {
+      "op": "damm",
+      "punkte": "eisfuss",
+      "breite_m": 7,
+      "hoehe_m": 1.0,
+      "krone": 0.5,
+      "warum": "Eisfuss aus Spritzeis (+1 m Band)"
+     }
+    ],
+    "senke_begruendung": "Mulde hinter dem Eisfuss: Spritzwasser gefriert dort zu Eis (gewollt)"
+   },
+   "gruppen": [
+    {
+     "name": "eiskegel",
+     "ebene": "held",
+     "warum": "Eisvulkane: Spritzeis um ein Loch im Eisfuss, durch das die Welle schiesst",
+     "palette": [
+      "xemjafmqx_tier_0",
+      "xfroec0qx_tier_0"
+     ],
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       "vulkan1",
+       "vulkan2",
+       "vulkan3"
+      ]
+     },
+     "skala": [
+      0.7,
+      0.95
+     ],
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "kraterrand",
+     "ebene": "begleiter",
+     "warum": "Kraterrand aus Eisschalen (Spritzeis wird geschichtet)",
+     "netz": "vd4hbizcb_tier_0",
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       {
+        "anker": "vulkan1",
+        "versatz_m": [
+         1.5,
+         0.0
+        ]
+       },
+       {
+        "anker": "vulkan1",
+        "versatz_m": [
+         -1.2,
+         1.0
+        ]
+       },
+       {
+        "anker": "vulkan1",
+        "versatz_m": [
+         -0.5,
+         -1.4
+        ]
+       },
+       {
+        "anker": "vulkan2",
+        "versatz_m": [
+         1.2,
+         0.5
+        ]
+       },
+       {
+        "anker": "vulkan2",
+        "versatz_m": [
+         -1.0,
+         -0.8
+        ]
+       }
+      ]
+     },
+     "skala": [
+      0.55,
+      0.75
+     ],
+     "yaw": "zufall",
+     "kipp_grad": [
+      20,
+      35
+     ],
+     "kipp_richtung": "zufall",
+     "z_bezug": "oben:eiskegel",
+     "z_versatz_m": -0.8,
+     "akteur": true,
+     "kollision": false,
+     "meide": null
+    },
+    {
+     "name": "eiskante",
+     "ebene": "begleiter",
+     "warum": "Schichtkante des Eisfusses zum Meer",
+     "netz": "veipbcmcb_tier_0",
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "eisfuss",
+      "abstand_m": 12,
+      "versatz_m": 3.0,
+      "versatz_streuung_m": 0.6,
+      "seiten": [
+       "links"
+      ],
+      "blick": "von_linie",
+      "front_an_linie": true
+     },
+     "skala": [
+      0.6,
+      0.8
+     ],
+     "front_achse": "+y",
+     "eingraben": [
+      0.4,
+      0.55
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "eisfelsen",
+     "ebene": "begleiter",
+     "warum": "Felsen am Strand mit Eiskappen wie Zuckerhuete",
+     "palette": [
+      "SM_NordicBeachRocks_01",
+      "SM_NordicBoulder_01"
+     ],
+     "anzahl": 6,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 10,
+      "versatz_m": 4
+     },
+     "abstand_m": 8,
+     "groesse_m": [
+      2.2,
+      4.0
+     ],
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "material": "MI_EL_SW_Fels_Eisglasur",
+     "weg_abstand_m": 3
+    },
+    {
+     "name": "eiskappen",
+     "ebene": "begleiter",
+     "warum": "Eiskappe auf jedem Strandfelsen",
+     "palette": [
+      "vcyiccyga_tier_0",
+      "xe2obbqqx_tier_0"
+     ],
+     "verteilung": {
+      "typ": "auf_gruppe",
+      "gruppe": "eisfelsen",
+      "je": [
+       1,
+       1
+      ],
+      "anteil": [
+       0.5,
+       0.5
+      ]
+     },
+     "skala": [
+      0.45,
+      0.7
+     ],
+     "z_bezug": "oben:eisfelsen",
+     "z_versatz_m": -0.4,
+     "meide": null
+    },
+    {
+     "name": "schollen",
+     "ebene": "schutt",
+     "warum": "Eisschollen, von der Brandung auf den Strand geworfen",
+     "palette": "eissplitter",
+     "anzahl": 130,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 18,
+      "versatz_m": 2
+     },
+     "abstand_m": 1.2,
+     "groesse_m": [
+      0.5,
+      2.0
+     ],
+     "kipp_grad": [
+      5,
+      30
+     ],
+     "kipp_richtung": "zufall",
+     "eingraben": [
+      0.2,
+      0.35
+     ]
+    },
+    {
+     "name": "treibholz",
+     "ebene": "schutt",
+     "warum": "Treibholz im Eis eingefroren",
+     "palette": "treibholz",
+     "anzahl": 10,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 12,
+      "versatz_m": -4
+     },
+     "abstand_m": 4,
+     "rolle": "stamm"
+    },
+    {
+     "name": "strandkies",
+     "ebene": "kleinzeug",
+     "warum": "Kies und Eiskruemel am Strand",
+     "palette": [
+      "SM_BeachSandWithPebbles_01",
+      "SM_BeachSandWithPebbles_02",
+      "SM_EISZAPFEN_1",
+      "SM_SmallStonesPack_06"
+     ],
+     "anzahl": 900,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 22
+     },
+     "abstand_m": 0.4,
+     "skala": [
+      0.3,
+      1.0
+     ],
+     "rolle": "stein"
+    },
+    {
+     "name": "seetang",
+     "ebene": "kleinzeug",
+     "warum": "Seetang im Spuelsaum (gefroren)",
+     "palette": [
+      "SM_seaweed_01_A",
+      "SM_seaweed_01_C",
+      "SM_seaweed_01_E"
+     ],
+     "anzahl": 30,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 6,
+      "versatz_m": -6
+     },
+     "abstand_m": 1.5,
+     "rolle": "streu"
+    },
+    {
+     "name": "strandgras",
+     "ebene": "bewuchs",
+     "warum": "Strandgras mit Raureif hinter dem Eisfuss",
+     "palette": "strandgras",
+     "anzahl": 120,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 18,
+      "versatz_m": 22
+     },
+     "abstand_m": 0.9,
+     "rolle": "pflanze",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "kegelsaum",
+     "ebene": "kontakt",
+     "warum": "Eisbrei und Splitter am Fuss der Kegel",
+     "palette": [
+      "vcyiccyga_tier_0",
+      "SM_EISZAPFEN_5"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "eiskegel",
+       "eisfelsen"
+      ],
+      "ring": [
+       0.85,
+       1.25
+      ],
+      "je": [
+       8,
+       14
+      ]
+     },
+     "skala": [
+      0.15,
+      0.4
+     ],
+     "ausrichtung": "liegend",
+     "rolle": "stein",
+     "material": "MI_EL_SW_Spritzeis"
+    },
+    {
+     "name": "felsmoos",
+     "ebene": "kontakt",
+     "warum": "Flechten an der Landseite der Strandfelsen",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "eisfelsen",
+      "ring": [
+       0.85,
+       1.15
+      ],
+      "je": [
+       4,
+       7
+      ],
+      "seite": "west"
+     },
+     "rolle": "streu"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Eis",
+     "form": "band",
+     "punkte": "eisfuss",
+     "breite_m": 12,
+     "wert": 240,
+     "flecken": 0.2
+    },
+    {
+     "lage": "Kies",
+     "form": "band",
+     "punkte": "eisfuss",
+     "breite_m": 24,
+     "wert": 150,
+     "flecken": 0.5
+    },
+    {
+     "lage": "Eis",
+     "form": "kreis",
+     "bei": "vulkan1",
+     "r_m": 9,
+     "wert": 255
+    },
+    {
+     "lage": "Eis",
+     "form": "kreis",
+     "bei": "vulkan2",
+     "r_m": 8,
+     "wert": 255
+    }
+   ],
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 180,
+     "Kies": 150
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "lagen": {
+      "Kies": 180,
+      "Schnee": 120
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.0
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
+   "effekte": [
+    {
+     "typ": "niagara",
+     "asset": "NS_Geyser_Small",
+     "optional": false,
+     "zweck": "Fontaene aus dem Eisvulkan bei jeder Welle (Nature Water FX)",
+     "bei": "vulkan1",
+     "hoehe_m": 2.6,
+     "skala": 0.6
+    },
+    {
+     "typ": "niagara",
+     "asset": "NS_Geyser_Small",
+     "optional": false,
+     "zweck": "Fontaene des zweiten Eisvulkans (zeitversetzt)",
+     "bei": "vulkan2",
+     "hoehe_m": 2.0,
+     "skala": 0.45
+    },
+    {
+     "typ": "niagara",
+     "asset": "NS_Impact_Small",
+     "optional": false,
+     "zweck": "Brandung schlaegt an den Eisfuss",
+     "bei": "see_seite",
+     "hoehe_m": 0.3,
+     "yaw": 270
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Seerauch ueber dem kalten Wasser",
+     "bei": "see_seite",
+     "hoehe_m": 1.5,
+     "radius_m": 30,
+     "dichte": 0.05,
+     "farbe": [
+      0.85,
+      0.88,
+      0.92
+     ],
+     "hoehenabfall": 0.9
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "zweck": "Nassband am Eisfuss (Coast & Dunes)",
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 6,
+      "versatz_m": -3
+     },
+     "groesse_m": [
+      1.0,
+      3.5,
+      3.5
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Decal_Algae",
+     "zweck": "Algenband im Spuelsaum",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "eisfuss",
+      "breite_m": 4,
+      "versatz_m": -5
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Water_Stream_VIII_Cue",
+     "bei": "strand",
+     "radius_m": 50,
+     "lautstaerke": 0.5,
+     "zweck": "Wasser im Eis (Brandung fehlt im Bestand)"
+    }
+   ]
+  },
+  "frost_07_frostblumen": {
+   "kurz": "Wo der Abfluss des Frostsees ins Meer muendet, liegt hinter einem Uferwall eine flache Lagune mit hauchduennem, jungem Eis - darauf wachsen Tausende Frostblumen, fingergrosse Kristalle wie Federn.",
+   "marker": {
+    "titel": "Die Frostblumen",
+    "text": "Auf dem jungen Eis waechst ein Garten, den es nur in den kaeltesten Naechten gibt. Ein Atemzug zu nah, und er schmilzt.",
+    "entdeckung_m": 15
+   },
+   "budget": {
+    "instanzen": 8000,
+    "kollision": 200,
+    "akteure": 15,
+    "lichter": 0,
+    "niagara": 0,
+    "decals": 3
+   },
+   "assets_wunsch": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "statt_jetzt": "SM_EISZAPFEN_1/5 sehr klein (0,05-0,12x) als Kristalle, MI_EL_SW_Spritzeis"
+    }
+   ],
+   "anker": {
+    "lagune": {
+     "pos_m": [
+      452.0,
+      -2274.0
+     ]
+    },
+    "wall": {
+     "pos_m": [
+      480.0,
+      -2272.0
+     ]
+    }
+   },
+   "linien": {
+    "uferwall": {
+     "punkte": [
+      {
+       "pos_m": [
+        470.0,
+        -2310.0
+       ]
+      },
+      {
+       "pos_m": [
+        480.0,
+        -2290.0
+       ]
+      },
+      {
+       "pos_m": [
+        483.0,
+        -2268.0
+       ]
+      },
+      {
+       "pos_m": [
+        478.0,
+        -2244.0
+       ]
+      }
+     ]
+    }
+   },
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     130,
+     120
+    ],
+    "bei": "lagune",
+    "rand_m": 12,
+    "ist_wasser": true,
+    "ist_wasser_r_m": 45,
+    "begruendung": "Lagune an der Muendung des Seeabflusses (Bestandsbach): flaches Becken -0,5 m, Uferwall +1 m",
+    "ops": [],
+    "nach_ops": [
+     {
+      "op": "damm",
+      "punkte": "uferwall",
+      "breite_m": 10,
+      "hoehe_m": 1.2,
+      "krone": 0.4,
+      "warum": "Uferwall aus Kies zum Meer"
+     }
+    ]
+   },
+   "wasser": [
+    {
+     "typ": "see",
+     "id": "lagune",
+     "bei": "lagune",
+     "spiegel": "boden+0.05",
+     "tiefe_m": 0.5,
+     "farbe": "schwarz_spiegel",
+     "eis": true,
+     "material_wunsch": "MI_EL_SW_Schwarzeis",
+     "hinweis": "junges, duennes Eis (Schwarzeis, glatt), Frostblumen darauf",
+     "becken": {
+      "a_m": 20,
+      "b_m": 14,
+      "richtung": 20,
+      "ufer_m": 5,
+      "freibord_m": 0.2,
+      "boden": 0.5,
+      "auslass": 70
+     }
+    }
+   ],
+   "rahmen": [
+    {
+     "name": "nordwest",
+     "bei": "lagune",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      270,
+      360
+     ],
+     "abstand_m": 26,
+     "breite_m": 14,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 7.0,
+     "rand_grad": 10,
+     "bogen_grad": 50
+    },
+    {
+     "name": "suedwest",
+     "bei": "lagune",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      220,
+      250
+     ],
+     "abstand_m": 26,
+     "breite_m": 12,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 5.0,
+     "rand_grad": 10,
+     "bogen_grad": 30
+    }
    ],
    "sicht_probe_m": 10,
    "gruppen": [
-    {"name": "eingefrorener_stamm", "ebene": "held", "warum": "ein Treibholzstamm im jungen Eis - Blickpunkt im Kristallfeld", "netz": "SM_beach_driftwood_01",
-     "verteilung": {"typ": "punkt", "bei": {"anker": "lagune", "versatz_m": [-3.0, 2.0]}}, "skala": 1.6, "yaw": 40, "rolle": "stamm", "z_bezug": "spiegel:lagune", "z_versatz_m": -0.2, "im_wasser": "nur", "akteur": true, "kollision": true, "meide": null},
-    {"name": "uferplatten", "ebene": "begleiter", "warum": "flache Felsplatten am Lagunenrand", "palette": ["SM_NordicBeachRockyGround_02", "SM_NordicBeach_02"],
-     "anzahl": 4, "verteilung": {"typ": "ufer", "bei": "lagune", "r_m": 30, "band_m": [0.3, 3.0]}, "abstand_m": 6, "skala": [0.9, 1.3], "eingraben": [0.4, 0.55], "akteur": false},
-    {"name": "frostblumen", "ebene": "kleinzeug", "warum": "Frostblumen: Tausende Kristalle auf dem jungen Eis (Feuchte + Kaelte ueber glattem Eis)", "palette": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_5", "SM_EISZAPFEN_2"],
-     "dichte_je_m2": 6.0, "verteilung": {"typ": "kreis", "bei": "lagune", "r_m": 21}, "abstand_m": 0.12, "skala": [0.05, 0.12], "yaw": "zufall", "ausrichtung": "aufrecht",
-     "z_bezug": "spiegel:lagune", "z_versatz_m": -0.01, "im_wasser": "nur", "akteur": false, "kollision": false, "material": "MI_EL_SW_Spritzeis", "rolle": "pflanze", "sichtweite": [0, 3500]},
-    {"name": "treibholz", "ebene": "schutt", "warum": "Treibholz, eingefroren am Rand", "palette": "treibholz",
-     "anzahl": 14, "verteilung": {"typ": "ufer", "bei": "lagune", "r_m": 30, "band_m": [-1.0, 3.0]}, "abstand_m": 2.5, "rolle": "stamm", "im_wasser": "egal"},
-    {"name": "wallkies", "ebene": "schutt", "warum": "Kiesbloecke des Uferwalls", "palette": "geroell",
-     "anzahl": 40, "verteilung": {"typ": "band", "punkte": "uferwall", "breite_m": 10}, "abstand_m": 1.4, "groesse_m": [0.4, 1.0]},
-    {"name": "rahmenbloecke", "ebene": "schutt", "warum": "Bloecke auf dem Nordwestwall (verdeckt die Lagune vom Suedsteig)", "palette": "bloecke",
-     "anzahl": 9, "verteilung": {"typ": "band", "punkte": "rahmen_nordwest", "breite_m": 8}, "abstand_m": 5, "groesse_m": [1.8, 3.0]},
-    {"name": "seetang", "ebene": "kleinzeug", "warum": "Seetang auf dem Wall (Sturmflut)", "palette": ["SM_seaweed_01_E", "SM_seaweed_01_B", "SM_shells_01_A"],
-     "anzahl": 30, "verteilung": {"typ": "band", "punkte": "uferwall", "breite_m": 8}, "abstand_m": 1.5, "rolle": "streu"},
-    {"name": "spuelsaum", "ebene": "kontakt", "warum": "Spuelsaum aus Eiskruemeln am Lagunenrand", "palette": ["vcyiccyga_tier_0", "SM_EISZAPFEN_1"],
-     "dichte_je_m2": 0.5, "verteilung": {"typ": "ufer", "bei": "lagune", "r_m": 30, "band_m": [-0.5, 1.0]}, "abstand_m": 0.4, "skala": [0.1, 0.25], "ausrichtung": "liegend", "rolle": "stein", "im_wasser": "egal", "material": "MI_EL_SW_Spritzeis"},
-    {"name": "strandgras", "ebene": "bewuchs", "warum": "Strandgras mit Raureif auf dem Wall", "palette": "strandgras",
-     "anzahl": 160, "verteilung": {"typ": "band", "punkte": "uferwall", "breite_m": 12}, "abstand_m": 0.8, "rolle": "pflanze", "material": "MI_EL_SW_Raureif"},
-    {"name": "wallgras", "ebene": "bewuchs", "warum": "Strandgras auf dem Nordwestwall", "palette": "strandgras",
-     "anzahl": 120, "verteilung": {"typ": "band", "punkte": "rahmen_nordwest", "breite_m": 14}, "abstand_m": 0.9, "rolle": "pflanze", "material": "MI_EL_SW_Raureif"},
-    {"name": "krummkiefern", "ebene": "bewuchs", "warum": "windschiefe Strandkiefern auf dem Wall", "palette": ["SM_pine_beach_crooked_01", "SM_pine_beach_crooked_02"],
-     "anzahl": 5, "verteilung": {"typ": "band", "punkte": "rahmen_nordwest", "breite_m": 10}, "abstand_m": 7, "skala": [0.9, 1.2], "rolle": "baum", "material": "MI_EL_SW_Raureif"},
-    {"name": "blocksaum", "ebene": "kontakt", "warum": "Kies am Fuss der Bloecke und Platten", "palette": "kiesel",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["uferplatten", "rahmenbloecke"], "ring": [0.9, 1.3], "je": [8, 12]}, "rolle": "stein"}
+    {
+     "name": "eingefrorener_stamm",
+     "ebene": "held",
+     "warum": "ein Treibholzstamm im jungen Eis - Blickpunkt im Kristallfeld",
+     "netz": "SM_beach_driftwood_01",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": {
+       "anker": "lagune",
+       "versatz_m": [
+        -3.0,
+        2.0
+       ]
+      }
+     },
+     "skala": 1.6,
+     "yaw": 40,
+     "rolle": "stamm",
+     "z_bezug": "spiegel:lagune",
+     "z_versatz_m": -0.2,
+     "im_wasser": "nur",
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "uferplatten",
+     "ebene": "begleiter",
+     "warum": "flache Felsplatten am Lagunenrand",
+     "palette": [
+      "SM_NordicBeachRockyGround_02",
+      "SM_NordicBeach_02"
+     ],
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "lagune",
+      "r_m": 30,
+      "band_m": [
+       0.3,
+       3.0
+      ]
+     },
+     "abstand_m": 6,
+     "skala": [
+      0.9,
+      1.3
+     ],
+     "eingraben": [
+      0.4,
+      0.55
+     ],
+     "akteur": false
+    },
+    {
+     "name": "frostblumen",
+     "ebene": "kleinzeug",
+     "warum": "Frostblumen: Tausende Kristalle auf dem jungen Eis (Feuchte + Kaelte ueber glattem Eis)",
+     "palette": [
+      "SM_EISZAPFEN_1",
+      "SM_EISZAPFEN_5",
+      "SM_EISZAPFEN_2"
+     ],
+     "dichte_je_m2": 6.0,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "lagune",
+      "r_m": 21
+     },
+     "abstand_m": 0.12,
+     "skala": [
+      0.05,
+      0.12
+     ],
+     "yaw": "zufall",
+     "ausrichtung": "aufrecht",
+     "z_bezug": "spiegel:lagune",
+     "z_versatz_m": -0.01,
+     "im_wasser": "nur",
+     "akteur": false,
+     "kollision": false,
+     "material": "MI_EL_SW_Spritzeis",
+     "rolle": "pflanze",
+     "sichtweite": [
+      0,
+      3500
+     ]
+    },
+    {
+     "name": "treibholz",
+     "ebene": "schutt",
+     "warum": "Treibholz, eingefroren am Rand",
+     "palette": "treibholz",
+     "anzahl": 14,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "lagune",
+      "r_m": 30,
+      "band_m": [
+       -1.0,
+       3.0
+      ]
+     },
+     "abstand_m": 2.5,
+     "rolle": "stamm",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "wallkies",
+     "ebene": "schutt",
+     "warum": "Kiesbloecke des Uferwalls",
+     "palette": "geroell",
+     "anzahl": 40,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "uferwall",
+      "breite_m": 10
+     },
+     "abstand_m": 1.4,
+     "groesse_m": [
+      0.4,
+      1.0
+     ]
+    },
+    {
+     "name": "rahmenbloecke",
+     "ebene": "schutt",
+     "warum": "Bloecke auf dem Nordwestwall (verdeckt die Lagune vom Suedsteig)",
+     "palette": "bloecke",
+     "anzahl": 9,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordwest",
+      "breite_m": 8
+     },
+     "abstand_m": 5,
+     "groesse_m": [
+      1.8,
+      3.0
+     ]
+    },
+    {
+     "name": "seetang",
+     "ebene": "kleinzeug",
+     "warum": "Seetang auf dem Wall (Sturmflut)",
+     "palette": [
+      "SM_seaweed_01_E",
+      "SM_seaweed_01_B",
+      "SM_shells_01_A"
+     ],
+     "anzahl": 30,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "uferwall",
+      "breite_m": 8
+     },
+     "abstand_m": 1.5,
+     "rolle": "streu"
+    },
+    {
+     "name": "spuelsaum",
+     "ebene": "kontakt",
+     "warum": "Spuelsaum aus Eiskruemeln am Lagunenrand",
+     "palette": [
+      "vcyiccyga_tier_0",
+      "SM_EISZAPFEN_1"
+     ],
+     "dichte_je_m2": 0.5,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "lagune",
+      "r_m": 30,
+      "band_m": [
+       -0.5,
+       1.0
+      ]
+     },
+     "abstand_m": 0.4,
+     "skala": [
+      0.1,
+      0.25
+     ],
+     "ausrichtung": "liegend",
+     "rolle": "stein",
+     "im_wasser": "egal",
+     "material": "MI_EL_SW_Spritzeis"
+    },
+    {
+     "name": "strandgras",
+     "ebene": "bewuchs",
+     "warum": "Strandgras mit Raureif auf dem Wall",
+     "palette": "strandgras",
+     "anzahl": 160,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "uferwall",
+      "breite_m": 12
+     },
+     "abstand_m": 0.8,
+     "rolle": "pflanze",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "wallgras",
+     "ebene": "bewuchs",
+     "warum": "Strandgras auf dem Nordwestwall",
+     "palette": "strandgras",
+     "anzahl": 120,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordwest",
+      "breite_m": 14
+     },
+     "abstand_m": 0.9,
+     "rolle": "pflanze",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "krummkiefern",
+     "ebene": "bewuchs",
+     "warum": "windschiefe Strandkiefern auf dem Wall",
+     "palette": [
+      "SM_pine_beach_crooked_01",
+      "SM_pine_beach_crooked_02"
+     ],
+     "anzahl": 5,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordwest",
+      "breite_m": 10
+     },
+     "abstand_m": 7,
+     "skala": [
+      0.9,
+      1.2
+     ],
+     "rolle": "baum",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "blocksaum",
+     "ebene": "kontakt",
+     "warum": "Kies am Fuss der Bloecke und Platten",
+     "palette": "kiesel",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "uferplatten",
+       "rahmenbloecke"
+      ],
+      "ring": [
+       0.9,
+       1.3
+      ],
+      "je": [
+       8,
+       12
+      ]
+     },
+     "rolle": "stein"
+    }
    ],
    "lagen": [
-    {"lage": "Eis", "form": "ufer", "bei": "lagune", "r_m": 30, "band_m": [0.0, 1.5], "wert": 220},
-    {"lage": "Kies", "form": "band", "punkte": "uferwall", "breite_m": 12, "wert": 210, "flecken": 0.3},
-    {"lage": "Sand", "form": "ring", "bei": "lagune", "r_m": [18, 34], "wert": 150, "flecken": 0.5}
+    {
+     "lage": "Eis",
+     "form": "ufer",
+     "bei": "lagune",
+     "r_m": 30,
+     "band_m": [
+      0.0,
+      1.5
+     ],
+     "wert": 220
+    },
+    {
+     "lage": "Kies",
+     "form": "band",
+     "punkte": "uferwall",
+     "breite_m": 12,
+     "wert": 210,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Sand",
+     "form": "ring",
+     "bei": "lagune",
+     "r_m": [
+      18,
+      34
+     ],
+     "wert": 150,
+     "flecken": 0.5
+    }
    ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "vor_wasser_m": 2.5, "lagen": {"Kies": 180, "Sand": 130}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 180,
+     "Kies": 150
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "vor_wasser_m": 2.5,
+     "lagen": {
+      "Kies": 180,
+      "Sand": 130
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.0
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
    "effekte": [
-    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "nasser Sand am Lagunenrand (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "lagune", "r_m": 30, "band_m": [0.2, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]},
-    {"typ": "decal", "material": "MI_EL_SW_Eisrisse", "optional": true, "textur": "recherche/antworten/sehens/frost/decal_eisrisse.png", "zweck": "feine Risse im jungen Eis", "bei": "lagune", "groesse_m": [1.0, 10.0, 10.0]},
-    {"typ": "lokaler_nebel", "zweck": "Frostrauch ueber dem jungen Eis (macht das Glitzern weich)", "bei": "lagune", "hoehe_m": 0.8, "radius_m": 22, "dichte": 0.04, "farbe": [0.9, 0.93, 0.97], "hoehenabfall": 1.2}
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet_Flat",
+     "zweck": "nasser Sand am Lagunenrand (Coast & Dunes)",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "lagune",
+      "r_m": 30,
+      "band_m": [
+       0.2,
+       2.0
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_EL_SW_Eisrisse",
+     "optional": true,
+     "textur": "recherche/antworten/sehens/frost/decal_eisrisse.png",
+     "zweck": "feine Risse im jungen Eis",
+     "bei": "lagune",
+     "groesse_m": [
+      1.0,
+      10.0,
+      10.0
+     ]
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Frostrauch ueber dem jungen Eis (macht das Glitzern weich)",
+     "bei": "lagune",
+     "hoehe_m": 0.8,
+     "radius_m": 22,
+     "dichte": 0.04,
+     "farbe": [
+      0.9,
+      0.93,
+      0.97
+     ],
+     "hoehenabfall": 1.2
+    }
    ],
-   "klaenge": [{"asset": "CUE_Ice_Walking_on_ice_I_Cue", "bei": "lagune", "radius_m": 25, "lautstaerke": 0.15, "zweck": "feines Knistern (im Editor pruefen, ob es wie Schritte klingt)"}]
+   "klaenge": [
+    {
+     "asset": "CUE_Ice_Walking_on_ice_I_Cue",
+     "bei": "lagune",
+     "radius_m": 25,
+     "lautstaerke": 0.15,
+     "zweck": "feines Knistern (im Editor pruefen, ob es wie Schritte klingt)"
+    }
+   ]
   },
-
   "frost_08_glockenbach": {
    "kurz": "Ein flacher Bach rauscht ueber Steine zum Meer - jeder Stein, den die Spritzer treffen, traegt eine Glocke aus Eis; an den Ufern haengen Eiskragen ueber dem Wasser.",
-   "marker": {"titel": "Der Glockenbach", "text": "Unter jeder Eisglocke klingelt das Wasser ein wenig anders. Wer lange genug zuhoert, glaubt eine Melodie zu erkennen.", "entdeckung_m": 15},
-   "budget": {"instanzen": 3000, "kollision": 200, "akteure": 20, "lichter": 0, "niagara": 1, "decals": 4},
-   "assets_wunsch": [{"paket": "CryoGen: Native Procedural Ice Architecture", "statt_jetzt": "Eisglocken aus Rocky Snow Pile vcyiccyga (0,15-0,3x) auf Bachsteinen, MI_EL_SW_Spritzeis"}],
+   "marker": {
+    "titel": "Der Glockenbach",
+    "text": "Unter jeder Eisglocke klingelt das Wasser ein wenig anders. Wer lange genug zuhoert, glaubt eine Melodie zu erkennen.",
+    "entdeckung_m": 15
+   },
+   "budget": {
+    "instanzen": 3000,
+    "kollision": 200,
+    "akteure": 20,
+    "lichter": 0,
+    "niagara": 1,
+    "decals": 4
+   },
+   "assets_wunsch": [
+    {
+     "paket": "CryoGen: Native Procedural Ice Architecture",
+     "statt_jetzt": "Eisglocken aus Rocky Snow Pile vcyiccyga (0,15-0,3x) auf Bachsteinen, MI_EL_SW_Spritzeis"
+    }
+   ],
    "anker": {
-    "glockenstein": {"pos_m": [231.0, -2059.0]},
-    "nord": {"pos_m": [214.0, -2096.0]}
+    "glockenstein": {
+     "pos_m": [
+      231.0,
+      -2059.0
+     ]
+    },
+    "nord": {
+     "pos_m": [
+      214.0,
+      -2096.0
+     ]
+    }
    },
    "linien": {
-    "bach": {"punkte": [{"pos_m": [199.0, -2122.0]}, {"pos_m": [214.0, -2093.0]}, {"pos_m": [222.0, -2076.0]}, {"pos_m": [230.0, -2061.0]}, {"pos_m": [239.0, -2048.0]}, {"pos_m": [250.0, -2034.0]}, {"pos_m": [262.0, -2021.0]}, {"pos_m": [277.0, -2012.0]}]}
+    "bach": {
+     "punkte": [
+      {
+       "pos_m": [
+        199.0,
+        -2122.0
+       ]
+      },
+      {
+       "pos_m": [
+        214.0,
+        -2093.0
+       ]
+      },
+      {
+       "pos_m": [
+        222.0,
+        -2076.0
+       ]
+      },
+      {
+       "pos_m": [
+        230.0,
+        -2061.0
+       ]
+      },
+      {
+       "pos_m": [
+        239.0,
+        -2048.0
+       ]
+      },
+      {
+       "pos_m": [
+        250.0,
+        -2034.0
+       ]
+      },
+      {
+       "pos_m": [
+        262.0,
+        -2021.0
+       ]
+      },
+      {
+       "pos_m": [
+        277.0,
+        -2012.0
+       ]
+      }
+     ]
+    }
    },
-   "gelaende": {"schutz_weg_m": 5, "fenster_m": [140, 110], "bei": "glockenstein", "rand_m": 12, "ist_wasser": true, "ist_wasser_r_m": 70,
+   "gelaende": {
+    "schutz_weg_m": 5,
+    "fenster_m": [
+     140,
+     110
+    ],
+    "bei": "glockenstein",
+    "rand_m": 12,
+    "ist_wasser": true,
+    "ist_wasser_r_m": 70,
     "begruendung": "Der Ort IST der Bach: Rinne -0,8 m geschaerft, Nordufer +Wall als Rahmen gegen den Suedsteig",
-    "ops": [{"op": "rinne", "punkte": "bach", "breite_m": 5, "tiefe_m": 0.8, "rand_m": 3, "warum": "flache Rinne schaerfen"}]},
-   "rahmen": [{"name": "nordufer", "bei": "glockenstein", "ziel_hoehe_m": 3.0, "richtung_bereich": [290, 45], "abstand_m": 18, "breite_m": 12, "hoehe_min_m": 1.5, "hoehe_max_m": 6.0, "rand_grad": 10, "bogen_grad": 50}],
+    "ops": [
+     {
+      "op": "rinne",
+      "punkte": "bach",
+      "breite_m": 5,
+      "tiefe_m": 0.8,
+      "rand_m": 3,
+      "warum": "flache Rinne schaerfen"
+     }
+    ]
+   },
+   "rahmen": [
+    {
+     "name": "nordufer",
+     "bei": "glockenstein",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      290,
+      45
+     ],
+     "abstand_m": 18,
+     "breite_m": 12,
+     "hoehe_min_m": 1.5,
+     "hoehe_max_m": 6.0,
+     "rand_grad": 10,
+     "bogen_grad": 50
+    }
+   ],
    "sicht_probe_m": 8,
    "gruppen": [
-    {"name": "glockenstein", "ebene": "held", "warum": "der grosse Stein mitten im Bach mit der groessten Glocke", "netz": "SM_NordicBeachRocks_01",
-     "verteilung": {"typ": "punkt", "bei": "glockenstein"}, "skala": 0.32, "eingraben": [0.35, 0.45], "im_wasser": "egal", "akteur": true, "kollision": true, "meide": null, "material": "MI_EL_SW_Fels_Eisglasur", "weg_abstand_m": 0},
-    {"name": "grosse_glocke", "ebene": "held", "warum": "Eisglocke: Spritzer gefrieren schichtweise um den Stein, unten offen", "netz": "vcyiccyga_tier_0",
-     "verteilung": {"typ": "auf_gruppe", "gruppe": "glockenstein", "je": [1, 1], "anteil": [0.5, 0.5]}, "skala": 0.55, "z_bezug": "oben:glockenstein", "z_versatz_m": -0.55, "im_wasser": "egal", "akteur": true, "kollision": false, "meide": null, "weg_abstand_m": 0},
-    {"name": "bachsteine", "ebene": "wasser", "warum": "Steine im Bach, auf denen die Glocken wachsen", "palette": ["SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_3", "SM_mountain_rock_big_01_5", "pkeeM_tier_0"],
-     "anzahl": 45, "verteilung": {"typ": "band", "punkte": "bach", "breite_m": 3, "t": [0.1, 0.95]}, "abstand_m": 1.6, "groesse_m": [0.5, 1.0], "im_wasser": "egal", "rolle": "stein", "weg_abstand_m": 0},
-    {"name": "eisglocken", "ebene": "begleiter", "warum": "auf jedem Stein, den die Spritzer treffen, eine Glocke aus Eis", "palette": ["vcyiccyga_tier_0", "xe2obbqqx_tier_0"],
-     "verteilung": {"typ": "auf_gruppe", "gruppe": "bachsteine", "je": [1, 1], "anteil": [0.5, 0.5]}, "skala": [0.15, 0.28], "z_bezug": "oben:bachsteine", "z_versatz_m": -0.25,
-     "im_wasser": "egal", "akteur": false, "kollision": false, "meide": null, "weg_abstand_m": 0},
-    {"name": "eiskragen", "ebene": "begleiter", "warum": "Eiskragen haengen an beiden Ufern ueber dem Wasser", "netz": "vcsibaiga_tier_0",
-     "verteilung": {"typ": "reihe", "punkte": "bach", "abstand_m": 6, "versatz_m": 1.6, "versatz_streuung_m": 0.4, "seiten": ["links", "rechts"], "blick": "zur_linie", "front_an_linie": true},
-     "skala": [0.6, 0.85], "front_achse": "+y", "eingraben": [0.3, 0.4], "im_wasser": "egal", "akteur": false, "kollision": false, "meide": null, "weg_abstand_m": 0},
-    {"name": "bachkies", "ebene": "schutt", "warum": "Bachgeroell an den Ufern", "palette": ["SM_mountain_rock_big_01_2", "SM_mountain_rock_big_01_4", "SM_BeachSandWithPebbles_02"],
-     "anzahl": 120, "verteilung": {"typ": "band", "punkte": "bach", "breite_m": 7}, "abstand_m": 0.8, "groesse_m": [0.3, 0.8], "im_wasser": "egal", "meide": "kern"},
-    {"name": "rahmenbloecke", "ebene": "schutt", "warum": "Bloecke auf dem Nordufer-Wall (verdeckt den Bach vom Steig)", "palette": "bloecke",
-     "anzahl": 8, "verteilung": {"typ": "band", "punkte": "rahmen_nordufer", "breite_m": 7}, "abstand_m": 4.5, "groesse_m": [1.6, 2.8]},
-    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kiesel und Eiskruemel am Bach", "palette": ["SM_SmallStonesPack_01", "SM_SmallStonesPack_06", "SM_SmallStonesPack_13", "SM_EISZAPFEN_1"],
-     "anzahl": 700, "verteilung": {"typ": "band", "punkte": "bach", "breite_m": 9}, "abstand_m": 0.3, "skala": [0.3, 1.0], "rolle": "stein", "im_wasser": "egal"},
-    {"name": "raureif_seggen", "ebene": "bewuchs", "warum": "Seggen mit Raureif am Ufer (Spritzwasser friert an)", "palette": "seggen",
-     "anzahl": 160, "verteilung": {"typ": "band", "punkte": "bach", "breite_m": 12}, "abstand_m": 0.6, "rolle": "pflanze", "material": "MI_EL_SW_Raureif"},
-    {"name": "uferweiden", "ebene": "bewuchs", "warum": "Weidengebuesch und Kiefern auf dem Nordwall", "palette": ["SM_grey_willow_01", "SM_grey_willow_03", "SM_dwarf_pine_medium_02"],
-     "anzahl": 12, "verteilung": {"typ": "band", "punkte": "rahmen_nordufer", "breite_m": 10}, "abstand_m": 3, "skala": [1.0, 1.5], "rolle": "pflanze", "material": "MI_EL_SW_Raureif"},
-    {"name": "wallkiefern", "ebene": "bewuchs", "warum": "Raureif-Kiefern auf dem Nordwall", "palette": "raureifkiefer",
-     "anzahl": 4, "verteilung": {"typ": "band", "punkte": "rahmen_nordufer", "breite_m": 10}, "abstand_m": 8, "skala": [0.45, 0.6], "rolle": "baum", "material": "MI_EL_SW_Raureif"},
-    {"name": "steinsaum", "ebene": "kontakt", "warum": "Eiskruste und Kies um die Bachsteine", "palette": ["SM_SmallStonesPack_03", "SM_EISZAPFEN_5"],
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["bachsteine", "glockenstein", "rahmenbloecke"], "ring": [0.9, 1.4], "je": [3, 6]}, "skala": [0.3, 0.8], "rolle": "stein", "im_wasser": "egal"}
+    {
+     "name": "glockenstein",
+     "ebene": "held",
+     "warum": "der grosse Stein mitten im Bach mit der groessten Glocke",
+     "netz": "SM_NordicBeachRocks_01",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": "glockenstein"
+     },
+     "skala": 0.32,
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "im_wasser": "egal",
+     "akteur": true,
+     "kollision": true,
+     "meide": null,
+     "material": "MI_EL_SW_Fels_Eisglasur",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "grosse_glocke",
+     "ebene": "held",
+     "warum": "Eisglocke: Spritzer gefrieren schichtweise um den Stein, unten offen",
+     "netz": "vcyiccyga_tier_0",
+     "verteilung": {
+      "typ": "auf_gruppe",
+      "gruppe": "glockenstein",
+      "je": [
+       1,
+       1
+      ],
+      "anteil": [
+       0.5,
+       0.5
+      ]
+     },
+     "skala": 0.55,
+     "z_bezug": "oben:glockenstein",
+     "z_versatz_m": -0.55,
+     "im_wasser": "egal",
+     "akteur": true,
+     "kollision": false,
+     "meide": null,
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "bachsteine",
+     "ebene": "wasser",
+     "warum": "Steine im Bach, auf denen die Glocken wachsen",
+     "palette": [
+      "SM_mountain_rock_big_01_1",
+      "SM_mountain_rock_big_01_3",
+      "SM_mountain_rock_big_01_5",
+      "pkeeM_tier_0"
+     ],
+     "anzahl": 45,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bach",
+      "breite_m": 3,
+      "t": [
+       0.1,
+       0.95
+      ]
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      0.5,
+      1.0
+     ],
+     "im_wasser": "egal",
+     "rolle": "stein",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "eisglocken",
+     "ebene": "begleiter",
+     "warum": "auf jedem Stein, den die Spritzer treffen, eine Glocke aus Eis",
+     "palette": [
+      "vcyiccyga_tier_0",
+      "xe2obbqqx_tier_0"
+     ],
+     "verteilung": {
+      "typ": "auf_gruppe",
+      "gruppe": "bachsteine",
+      "je": [
+       1,
+       1
+      ],
+      "anteil": [
+       0.5,
+       0.5
+      ]
+     },
+     "skala": [
+      0.15,
+      0.28
+     ],
+     "z_bezug": "oben:bachsteine",
+     "z_versatz_m": -0.25,
+     "im_wasser": "egal",
+     "akteur": false,
+     "kollision": false,
+     "meide": null,
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "eiskragen",
+     "ebene": "begleiter",
+     "warum": "Eiskragen haengen an beiden Ufern ueber dem Wasser",
+     "netz": "vcsibaiga_tier_0",
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "bach",
+      "abstand_m": 6,
+      "versatz_m": 1.6,
+      "versatz_streuung_m": 0.4,
+      "seiten": [
+       "links",
+       "rechts"
+      ],
+      "blick": "zur_linie",
+      "front_an_linie": true
+     },
+     "skala": [
+      0.6,
+      0.85
+     ],
+     "front_achse": "+y",
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "im_wasser": "egal",
+     "akteur": false,
+     "kollision": false,
+     "meide": null,
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "bachkies",
+     "ebene": "schutt",
+     "warum": "Bachgeroell an den Ufern",
+     "palette": [
+      "SM_mountain_rock_big_01_2",
+      "SM_mountain_rock_big_01_4",
+      "SM_BeachSandWithPebbles_02"
+     ],
+     "anzahl": 120,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bach",
+      "breite_m": 7
+     },
+     "abstand_m": 0.8,
+     "groesse_m": [
+      0.3,
+      0.8
+     ],
+     "im_wasser": "egal",
+     "meide": "kern"
+    },
+    {
+     "name": "rahmenbloecke",
+     "ebene": "schutt",
+     "warum": "Bloecke auf dem Nordufer-Wall (verdeckt den Bach vom Steig)",
+     "palette": "bloecke",
+     "anzahl": 8,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordufer",
+      "breite_m": 7
+     },
+     "abstand_m": 4.5,
+     "groesse_m": [
+      1.6,
+      2.8
+     ]
+    },
+    {
+     "name": "kiesel",
+     "ebene": "kleinzeug",
+     "warum": "Kiesel und Eiskruemel am Bach",
+     "palette": [
+      "SM_SmallStonesPack_01",
+      "SM_SmallStonesPack_06",
+      "SM_SmallStonesPack_13",
+      "SM_EISZAPFEN_1"
+     ],
+     "anzahl": 700,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bach",
+      "breite_m": 9
+     },
+     "abstand_m": 0.3,
+     "skala": [
+      0.3,
+      1.0
+     ],
+     "rolle": "stein",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "raureif_seggen",
+     "ebene": "bewuchs",
+     "warum": "Seggen mit Raureif am Ufer (Spritzwasser friert an)",
+     "palette": "seggen",
+     "anzahl": 160,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bach",
+      "breite_m": 12
+     },
+     "abstand_m": 0.6,
+     "rolle": "pflanze",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "uferweiden",
+     "ebene": "bewuchs",
+     "warum": "Weidengebuesch und Kiefern auf dem Nordwall",
+     "palette": [
+      "SM_grey_willow_01",
+      "SM_grey_willow_03",
+      "SM_dwarf_pine_medium_02"
+     ],
+     "anzahl": 12,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordufer",
+      "breite_m": 10
+     },
+     "abstand_m": 3,
+     "skala": [
+      1.0,
+      1.5
+     ],
+     "rolle": "pflanze",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "wallkiefern",
+     "ebene": "bewuchs",
+     "warum": "Raureif-Kiefern auf dem Nordwall",
+     "palette": "raureifkiefer",
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_nordufer",
+      "breite_m": 10
+     },
+     "abstand_m": 8,
+     "skala": [
+      0.45,
+      0.6
+     ],
+     "rolle": "baum",
+     "material": "MI_EL_SW_Raureif"
+    },
+    {
+     "name": "steinsaum",
+     "ebene": "kontakt",
+     "warum": "Eiskruste und Kies um die Bachsteine",
+     "palette": [
+      "SM_SmallStonesPack_03",
+      "SM_EISZAPFEN_5"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "bachsteine",
+       "glockenstein",
+       "rahmenbloecke"
+      ],
+      "ring": [
+       0.9,
+       1.4
+      ],
+      "je": [
+       3,
+       6
+      ]
+     },
+     "skala": [
+      0.3,
+      0.8
+     ],
+     "rolle": "stein",
+     "im_wasser": "egal"
+    }
    ],
    "lagen": [
-    {"lage": "Kies", "form": "band", "punkte": "bach", "breite_m": 8, "wert": 210, "flecken": 0.3},
-    {"lage": "Eis", "form": "band", "punkte": "bach", "breite_m": 5, "wert": 160, "flecken": 0.5},
-    {"lage": "Schnee", "form": "band", "punkte": "bach", "breite_m": 22, "wert": 200, "flecken": 0.3}
+    {
+     "lage": "Kies",
+     "form": "band",
+     "punkte": "bach",
+     "breite_m": 8,
+     "wert": 210,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Eis",
+     "form": "band",
+     "punkte": "bach",
+     "breite_m": 5,
+     "wert": 160,
+     "flecken": 0.5
+    },
+    {
+     "lage": "Schnee",
+     "form": "band",
+     "punkte": "bach",
+     "breite_m": 22,
+     "wert": 200,
+     "flecken": 0.3
+    }
    ],
-   "pfad": {"breite_cm": 150, "abschnitt": "naechster", "lagen": {"Erde": 180, "Kies": 150}, "zugang": {"breite_cm": 120, "lagen": {"Kies": 180, "Schnee": 120},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32}},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_bis_grad": 32, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4]}},
+   "pfad": {
+    "breite_cm": 150,
+    "abschnitt": "naechster",
+    "lagen": {
+     "Erde": 180,
+     "Kies": 150
+    },
+    "zugang": {
+     "breite_cm": 120,
+     "lagen": {
+      "Kies": 180,
+      "Schnee": 120
+     },
+     "trittsteine": {
+      "palette": "trittstein",
+      "groesse_m": [
+       0.7,
+       1.0
+      ],
+      "stufen_ab_grad": 22,
+      "stufen_bis_grad": 32
+     }
+    },
+    "trittsteine": {
+     "palette": "trittstein",
+     "groesse_m": [
+      0.7,
+      1.0
+     ],
+     "stufen_ab_grad": 22,
+     "stufen_bis_grad": 32,
+     "stufen_palette": "felsstufe",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Spritzer ueber den Steinen (die Glocken wachsen davon)", "bei": "glockenstein", "hoehe_m": 0.1, "yaw": 150, "skala": 0.6},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "nasse, glaenzende Steine am Ufer (Coast & Dunes)", "anzahl": 4, "verteilung": {"typ": "band", "punkte": "bach", "breite_m": 6}, "groesse_m": [1.0, 2.5, 2.5]},
-    {"typ": "lokaler_nebel", "zweck": "Dampf des offenen Wassers in der Kaelte", "bei": "glockenstein", "hoehe_m": 0.8, "radius_m": 16, "dichte": 0.035, "farbe": [0.88, 0.92, 0.96], "hoehenabfall": 1.2}
+    {
+     "typ": "niagara",
+     "asset": "NS_Stream_Small",
+     "optional": false,
+     "zweck": "Spritzer ueber den Steinen (die Glocken wachsen davon)",
+     "bei": "glockenstein",
+     "hoehe_m": 0.1,
+     "yaw": 150,
+     "skala": 0.6
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "zweck": "nasse, glaenzende Steine am Ufer (Coast & Dunes)",
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "bach",
+      "breite_m": 6
+     },
+     "groesse_m": [
+      1.0,
+      2.5,
+      2.5
+     ]
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Dampf des offenen Wassers in der Kaelte",
+     "bei": "glockenstein",
+     "hoehe_m": 0.8,
+     "radius_m": 16,
+     "dichte": 0.035,
+     "farbe": [
+      0.88,
+      0.92,
+      0.96
+     ],
+     "hoehenabfall": 1.2
+    }
    ],
-   "klaenge": [{"asset": "CUE_Water_Stream_I_Cue", "bei": "glockenstein", "radius_m": 30, "lautstaerke": 0.6, "zweck": "Bachklang unter dem Eis"}]
+   "klaenge": [
+    {
+     "asset": "CUE_Water_Stream_I_Cue",
+     "bei": "glockenstein",
+     "radius_m": 30,
+     "lautstaerke": 0.6,
+     "zweck": "Bachklang unter dem Eis"
+    }
+   ]
   }
  }
 }
