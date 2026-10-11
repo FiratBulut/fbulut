@@ -7,14 +7,19 @@ Phase 1 - antworten/sehens/<biom>/standorte.json:
      "kameras": [[Feld, KX, KY, ZX, ZY, ZZ, Name, Hoch], ...],          # SEHENS_FORMAT §8
      "ziel_hoehe_m": 18,                                                # Silhouettenhoehe (Sichtpruefung)
      "standort_begruendung": "...", "sicht": {...}, "erreichbar": {...},
-     "pfad_cm": [[x, y, z], ...] (optional), "draufsicht": "aue_01_blautopf.png" (optional)}]}
+     "pfad_cm": [[x, y, z], ...] (optional, Fussweg Ort -> Weg), "draufsicht": "aue_01_blautopf.png" (optional),
+     "pfad_id": "aue_pfad_<name>" (optional: Ort gilt nur ueber diesen Pfad)}],
+   "pfade": [{"id": "aue_pfad_<name>", "art": "trampelpfad|serpentine|trittsteine", "breite_cm": 150,
+              "punkte_cm": [[x, y], ...], "anschluss": "...", "fuer": ["<ort-id>"], "laenge_m": .., "max_steigung_grad": ..}]}
+     (optional, Auftrag 13c; daten.lade() rastert die Pfade ALLER Biome als Wege)
 
 API:
   ort_id(biom, nr, kurz)                      -> "aue_01_blautopf"
   kamera(feld, kx, ky, zx, zy, zz, name, hoch=170)  (cm) -> Liste §8; hoch=-170 = Augenhoehe ohne 3-m-Regel
   standort(id, name, art, x_m, y_m, radius_m, kameras, welt=None, z_m=None, **extra) -> dict
-  schreibe_standorte(pfad, biom, orte, stand=None, pruefen=True)
-  lade_standorte(pfad), alle_standorte(sehens_ordner) -> Liste (biom, ort)
+  pfad(id, art, punkte_m, welt=None, breite_cm=150, anschluss="", fuer=None) -> dict ("pfade"-Eintrag)
+  schreibe_standorte(pfad, biom, orte, stand=None, pruefen=True, welt=None, pfade=None)
+  lade_standorte(pfad), alle_standorte(sehens_ordner) -> Liste (biom, ort, datei), alle_pfade(sehens_ordner)
   belegte_punkte(sehens_ordner, ausser_biom=None) -> Liste dict (x_m, y_m, biom, id) fuer Abstandsregeln
   ort_phase2(standort, **felder) -> Grundgeruest eines orte.json-Eintrags; schreibe_orte(pfad, biom, orte)
   schreibe_f32(pfad, array), schreibe_r8(pfad, array)  (Gelaende-Delta / Bodenlagen, Phase 2)
@@ -104,14 +109,17 @@ def _dump(daten_, pfad):
         f.write(txt + "\n")
 
 
-def schreibe_standorte(pfad, biom, orte, stand=None, pruefen=True, welt=None):
-    """Schreibt standorte.json (Phase 1). pruefen=True: Pruefer laufen lassen und Befunde loggen."""
+def schreibe_standorte(pfad, biom, orte, stand=None, pruefen=True, welt=None, pfade=None, gel=None):
+    """Schreibt standorte.json (Phase 1). pfade: Liste aus format.pfad(...) -> Schluessel "pfade"
+    (ohne pfade wie bisher). pruefen=True: Pruefer laufen lassen und Befunde loggen."""
     d = {"stand": stand or heute(), "biom": biom, "orte": orte}
+    if pfade:
+        d["pfade"] = pfade
     _dump(d, pfad)
     log("geschrieben: %s (%d Orte)" % (pfad, len(orte)))
     if pruefen:
         from . import sehens_pruefen as sp
-        bef = sp.pruefe_standorte(d, welt=welt)
+        bef = sp.pruefe_standorte(d, welt=welt, gel=gel)
         sp.melde(bef, titel=os.path.basename(pfad))
     return d
 
@@ -123,25 +131,40 @@ def lade_standorte(pfad):
 
 def alle_standorte(sehens_ordner, mit_varianten=True):
     """Alle Orte aus <sehens_ordner>/*/standorte.json -> Liste (biom, ort, pfad).
-    mit_varianten: auch */standorte_*.json (Orte, die an vorgeschlagenen Steigen haengen,
-    z. B. standorte_steige.json, standorte_kratersteig.json) - deren Raeume sind reserviert."""
+    mit_varianten: auch */standorte_*.json (alte Steig-Varianten, z. B. standorte_steige.json) - deren Raeume
+    sind reserviert. Keine Doppelzaehlung: Ein Ort, dessen id schon in einer standorte.json steht (z. B. nach
+    Uebernahme mit "pfad_id"), wird aus den Varianten nicht noch einmal gezaehlt."""
     out = []
-    muster = ["standorte.json"] + (["standorte_*.json"] if mit_varianten else [])
-    pfade = sorted(set(q for m in muster for q in glob.glob(os.path.join(sehens_ordner, "*", m))))
-    for p in pfade:
+    haupt = sorted(glob.glob(os.path.join(sehens_ordner, "*", "standorte.json")))
+    var = sorted(glob.glob(os.path.join(sehens_ordner, "*", "standorte_*.json"))) if mit_varianten else []
+    gesehen = set()
+    for p in haupt + [q for q in var if q not in haupt]:
         try:
             d = lade_standorte(p)
         except Exception as ex:  # defekte Datei -> melden, weiter
             log("FEHLER beim Lesen %s: %s" % (p, ex))
             continue
         b = d.get("biom") or os.path.basename(os.path.dirname(p))
+        ist_var = p not in haupt
         for o in d.get("orte", []):
+            oid = o.get("id") if isinstance(o, dict) else None
+            if ist_var and oid in gesehen:
+                continue
+            if oid:
+                gesehen.add(oid)
             out.append((b, o, p))
     return out
 
 
+def alle_pfade(sehens_ordner):
+    """Alle Pfade ("pfade" in */standorte.json) -> Liste normierter dicts (id, biom, art, breite_cm,
+    punkte_m, fuer, anschluss, quelle). Gleich daten.lade_pfade."""
+    return _daten.lade_pfade(sehens_ordner)
+
+
 def belegte_punkte(sehens_ordner, ausser_biom=None):
-    """Bereits geplante Orte anderer Biome (fuer Mindestabstaende): Liste dict(x_m, y_m, biom, id)."""
+    """Bereits geplante Orte anderer Biome (fuer Mindestabstaende): Liste dict(x_m, y_m, biom, id, pfad_id).
+    Orte an Pfaden (standorte.json mit "pfad_id") zaehlen wie alle anderen, Varianten ohne Doppelzaehlung."""
     out = []
     for b, o, _ in alle_standorte(sehens_ordner):
         if ausser_biom and b == ausser_biom:
@@ -149,8 +172,27 @@ def belegte_punkte(sehens_ordner, ausser_biom=None):
         m = o.get("mitte_cm")
         if not m:
             continue
-        out.append({"x_m": m[0] / 100.0, "y_m": m[1] / 100.0, "biom": b, "id": o.get("id")})
+        out.append({"x_m": m[0] / 100.0, "y_m": m[1] / 100.0, "biom": b, "id": o.get("id"),
+                    "pfad_id": o.get("pfad_id")})
     return out
+
+
+def pfad(id, art, punkte_m, welt=None, breite_cm=150, anschluss="", fuer=None, **extra):
+    """Eintrag fuer standorte.json "pfade" (Auftrag 13c): punkte_cm [[x, y], ...], breite_cm, art,
+    anschluss, fuer; mit welt zusaetzlich laenge_m und max_steigung_grad (gelaende.pfad_profil)."""
+    if art not in _daten.PFAD_ARTEN:
+        raise ValueError("art muss %s sein, nicht %r" % ("/".join(_daten.PFAD_ARTEN), art))
+    e = {"id": id, "art": art, "breite_cm": int(round(breite_cm)),
+         "punkte_cm": [[int(round(p[0] * 100)), int(round(p[1] * 100))] for p in punkte_m],
+         "anschluss": anschluss, "fuer": list(fuer or [])}
+    if welt is not None:
+        from .gelaende import pfad_profil
+        pr = pfad_profil(welt, [[q[0] / 100.0, q[1] / 100.0] for q in e["punkte_cm"]])
+        e["laenge_m"] = pr["laenge_m"]
+        e["max_steigung_grad"] = pr["max_steigung_grad"]
+    for k, v in extra.items():
+        e[k] = _rund(v)
+    return e
 
 
 def mindestabstand_m(biom_a, biom_b):

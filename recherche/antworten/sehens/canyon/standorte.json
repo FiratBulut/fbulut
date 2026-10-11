@@ -1,0 +1,479 @@
+{
+ "stand": "2026-10-11",
+ "biom": "canyon",
+ "orte": [
+  {
+   "id": "canyon_01_sonnenfenster",
+   "name": "Das Sonnenfenster",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-143000, -46000, 8245],
+   "radius_m": 45.0,
+   "felder": ["D4"],
+   "kameras": [
+    ["D4", -151388, -42524, -143000, -46000, 8345, "canyon_01_sonnenfenster_anmarsch", -170],
+    ["D4", -145631, -45042, -143000, -46000, 8084, "canyon_01_sonnenfenster_held", 170],
+    ["D4", -143940, -45658, -143000, -46000, 8295, "canyon_01_sonnenfenster_nah", -170],
+    ["D4", -96200, -63200, -143000, -46000, 8151, "canyon_01_sonnenfenster_fern", 170]
+   ],
+   "ziel_hoehe_m": 14,
+   "sicht": {
+    "naechster_weg_m": 113.0,
+    "sichtbar_ab_m": 797,
+    "wegpunkte_sichtbar": 174,
+    "wegpunkte_ring_300_800": 300,
+    "mittel_anteil": 0.4
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 308.5,
+    "luftlinie_m": 119.2,
+    "max_steigung_grad": 28.3,
+    "mittel_steigung_grad": 8.2,
+    "steil_laenge_m": 11.3,
+    "quer_steil_laenge_m": 15.3,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1453.0, -343.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-143000, -46000, 8238],
+    [-146900, -42700, 8101],
+    [-151300, -42700, 7762],
+    [-151700, -41900, 7330],
+    [-150500, -40700, 7234],
+    [-150100, -39900, 6979],
+    [-150500, -39900, 6889],
+    [-150100, -39500, 6639],
+    [-151300, -39500, 6504],
+    [-152100, -40300, 6443],
+    [-152900, -40700, 6293],
+    [-153300, -40300, 6021],
+    [-153700, -40700, 5857],
+    [-153700, -40300, 5775],
+    [-151300, -37900, 5660],
+    [-150100, -37900, 5678],
+    [-148500, -36300, 5090],
+    [-147700, -35900, 4913],
+    [-146100, -35900, 4728],
+    [-146500, -35500, 4478],
+    [-145300, -34300, 3957]
+   ],
+   "draufsicht": "canyon_01_sonnenfenster.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": true,
+    "bemerkung": "Pfad noetig: heute nur 'weich' erreichbar (max 28 Grad, 27 m steil) -> Kehren/Trittstufen"
+   }
+  },
+  {
+   "id": "canyon_02_der_waeger",
+   "name": "Der Wäger",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-104900, -41500, 6767],
+   "radius_m": 40.0,
+   "felder": ["D4"],
+   "kameras": [
+    ["D4", -103854, -50009, -104900, -41500, 6867, "canyon_02_der_waeger_anmarsch", -170],
+    ["D4", -106828, -43798, -104900, -41500, 6917, "canyon_02_der_waeger_held", 170],
+    ["D4", -105543, -42266, -104900, -41500, 6817, "canyon_02_der_waeger_nah", -170],
+    ["D4", -100000, 10800, -104900, -41500, 2179, "canyon_02_der_waeger_fern", 170]
+   ],
+   "ziel_hoehe_m": 15,
+   "sicht": {
+    "naechster_weg_m": 118.2,
+    "sichtbar_ab_m": 789,
+    "wegpunkte_sichtbar": 126,
+    "wegpunkte_ring_300_800": 345,
+    "mittel_anteil": 0.3
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 127.5,
+    "luftlinie_m": 118.3,
+    "max_steigung_grad": 24.5,
+    "mittel_steigung_grad": 8.6,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1041.0, -533.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-104900, -41500, 6909],
+    [-104500, -42100, 6931],
+    [-104500, -48900, 7620],
+    [-103700, -49700, 7931],
+    [-104100, -50500, 7673],
+    [-104100, -52500, 7545],
+    [-104500, -52900, 7319],
+    [-104100, -53300, 7061]
+   ],
+   "draufsicht": "canyon_02_der_waeger.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 24 Grad)"
+   }
+  },
+  {
+   "id": "canyon_03_rote_stufe",
+   "name": "Die Rote Stufe",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-191000, -46000, 2834],
+   "radius_m": 90.0,
+   "felder": ["C4"],
+   "kameras": [
+    ["C4", -199500, -15900, -191000, -46000, 2934, "canyon_03_rote_stufe_anmarsch", -170],
+    ["C4", -176228, -48605, -191000, -46000, 2984, "canyon_03_rote_stufe_held", 170],
+    ["C4", -190015, -46174, -191000, -46000, 2884, "canyon_03_rote_stufe_nah", -170],
+    ["C4", -233400, -20800, -191000, -46000, 2608, "canyon_03_rote_stufe_fern", 170]
+   ],
+   "ziel_hoehe_m": 25,
+   "sicht": {
+    "naechster_weg_m": 299.6,
+    "sichtbar_ab_m": 798,
+    "wegpunkte_sichtbar": 106,
+    "wegpunkte_ring_300_800": 268,
+    "mittel_anteil": 0.3
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 368.1,
+    "luftlinie_m": 312.8,
+    "max_steigung_grad": 7.2,
+    "mittel_steigung_grad": 0.8,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 4.0,
+    "weg_punkt_m": [-1995.0, -159.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-191000, -46000, 2828],
+    [-190700, -45100, 2812],
+    [-189100, -43100, 2775],
+    [-189100, -38700, 2712],
+    [-188700, -38300, 2711],
+    [-188700, -37100, 2700],
+    [-187900, -36300, 2700],
+    [-187900, -32300, 2652],
+    [-187500, -31900, 2649],
+    [-187500, -30700, 2654],
+    [-187100, -29900, 2584],
+    [-192700, -24300, 2570],
+    [-192700, -22700, 2550],
+    [-199500, -15900, 2611]
+   ],
+   "draufsicht": "canyon_03_rote_stufe.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": true,
+    "bemerkung": "Pfad noetig: heute nur 'weich' erreichbar (max 7 Grad, 0 m steil) -> Kehren/Trittstufen"
+   }
+  },
+  {
+   "id": "canyon_04_fluesterschlucht",
+   "name": "Die Flüsterschlucht",
+   "art": "fundstueck",
+   "mitte_cm": [-123500, -84800, 8154],
+   "radius_m": 70.0,
+   "felder": ["D4"],
+   "kameras": [
+    ["D4", -112552, -63552, -123500, -84800, 8254, "canyon_04_fluesterschlucht_anmarsch", -170],
+    ["D4", -117500, -74408, -123500, -84800, 8066, "canyon_04_fluesterschlucht_held", 170],
+    ["D4", -123000, -83934, -123500, -84800, 8204, "canyon_04_fluesterschlucht_nah", -170]
+   ],
+   "ziel_hoehe_m": 3,
+   "sicht": {
+    "naechster_weg_m": 258.1,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 0.6,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_bis_400_m": 42
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 393.8,
+    "luftlinie_m": 271.9,
+    "max_steigung_grad": 22.0,
+    "mittel_steigung_grad": 2.6,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1117.0, -603.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-123500, -84800, 8142],
+    [-118500, -89500, 8238],
+    [-117700, -89500, 8240],
+    [-117300, -89100, 8235],
+    [-117300, -80700, 8368],
+    [-116100, -79500, 8337],
+    [-115700, -78300, 8294],
+    [-114500, -77100, 8265],
+    [-114500, -75500, 8233],
+    [-114100, -75100, 8237],
+    [-114100, -73900, 8232],
+    [-113700, -73500, 8233],
+    [-113700, -70300, 8228],
+    [-113300, -69900, 8224],
+    [-113300, -65500, 8240],
+    [-112900, -65100, 8240],
+    [-112900, -63900, 8187],
+    [-111700, -62700, 7788],
+    [-111700, -60300, 7009]
+   ],
+   "draufsicht": "canyon_04_fluesterschlucht.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 22 Grad)"
+   }
+  },
+  {
+   "id": "canyon_05_hoodoo_kessel",
+   "name": "Der Hoodoo-Kessel",
+   "art": "fundstueck",
+   "mitte_cm": [-138000, -70000, 7819],
+   "radius_m": 60.0,
+   "felder": ["D4"],
+   "kameras": [
+    ["D4", -137983, -67982, -138000, -70000, 7919, "canyon_05_hoodoo_kessel_anmarsch", -170],
+    ["D4", -136750, -67835, -138000, -70000, 7756, "canyon_05_hoodoo_kessel_held", 170],
+    ["D4", -137500, -69134, -138000, -70000, 7869, "canyon_05_hoodoo_kessel_nah", -170]
+   ],
+   "ziel_hoehe_m": 3,
+   "sicht": {
+    "naechster_weg_m": 221.1,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_bis_400_m": 55
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 314.9,
+    "luftlinie_m": 228.8,
+    "max_steigung_grad": 23.6,
+    "mittel_steigung_grad": 8.4,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 5.7,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1251.0, -511.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-138000, -70000, 7818],
+    [-137900, -57900, 7159],
+    [-137100, -57100, 7173],
+    [-137100, -55500, 7433],
+    [-133900, -52300, 7876],
+    [-129500, -52300, 7975],
+    [-128700, -51500, 7818],
+    [-127500, -52700, 7193],
+    [-127500, -51500, 6848],
+    [-127100, -51900, 6756],
+    [-127100, -51100, 6495],
+    [-125900, -51100, 6110],
+    [-125500, -50700, 5986],
+    [-125100, -51100, 5768]
+   ],
+   "draufsicht": "canyon_05_hoodoo_kessel.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": true,
+    "bemerkung": "Pfad noetig: heute nur 'weich' erreichbar (max 24 Grad, 6 m steil) -> Kehren/Trittstufen"
+   }
+  },
+  {
+   "id": "canyon_06_die_kolke",
+   "name": "Die Kolke",
+   "art": "fundstueck",
+   "mitte_cm": [-157000, -62000, 8231],
+   "radius_m": 50.0,
+   "felder": ["D4"],
+   "kameras": [
+    ["D4", -160900, -47386, -157000, -62000, 8331, "canyon_06_die_kolke_anmarsch", -170],
+    ["D4", -157764, -57667, -157000, -62000, 8110, "canyon_06_die_kolke_held", 170],
+    ["D4", -157174, -61015, -157000, -62000, 8281, "canyon_06_die_kolke_nah", -170]
+   ],
+   "ziel_hoehe_m": 1,
+   "sicht": {
+    "naechster_weg_m": 299.4,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "verdeckt_mit_stempel": null,
+    "max_anteil_mit_stempel": null,
+    "wegpunkte_bis_400_m": 45
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 391.8,
+    "luftlinie_m": 299.1,
+    "max_steigung_grad": 34.4,
+    "mittel_steigung_grad": 7.1,
+    "steil_laenge_m": 4.0,
+    "quer_steil_laenge_m": 13.7,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1493.0, -331.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-157000, -62000, 8227],
+    [-157700, -59500, 8215],
+    [-158900, -58300, 8212],
+    [-158900, -57500, 8211],
+    [-159700, -56700, 8205],
+    [-159700, -55900, 8208],
+    [-160100, -55500, 8204],
+    [-160100, -53500, 8191],
+    [-160900, -52700, 8181],
+    [-160900, -45100, 7631],
+    [-161300, -45100, 7456],
+    [-158100, -41900, 6280],
+    [-157300, -42300, 5962],
+    [-157300, -41900, 5852],
+    [-156900, -42300, 5771],
+    [-155700, -42300, 5374],
+    [-155300, -41900, 5111],
+    [-155300, -41100, 4940],
+    [-155700, -40700, 4679],
+    [-155300, -39900, 4476],
+    [-155300, -38300, 4424],
+    [-151300, -34300, 4075],
+    [-150500, -34300, 3960],
+    [-149300, -33100, 3654]
+   ],
+   "draufsicht": "canyon_06_die_kolke.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": true,
+    "bemerkung": "Pfad noetig: heute nur 'weich' erreichbar (max 34 Grad, 18 m steil) -> Kehren/Trittstufen"
+   }
+  },
+  {
+   "id": "canyon_07_smaragdgumpe",
+   "name": "Die Smaragdgumpe",
+   "art": "fundstueck",
+   "mitte_cm": [-167200, -43800, 3741],
+   "radius_m": 45.0,
+   "felder": ["C4", "D4"],
+   "kameras": [
+    ["D4", -166041, -41041, -167200, -43800, 3841, "canyon_07_smaragdgumpe_anmarsch", -170],
+    ["D4", -164738, -43366, -167200, -43800, 3831, "canyon_07_smaragdgumpe_held", 170],
+    ["D4", -166215, -43626, -167200, -43800, 3791, "canyon_07_smaragdgumpe_nah", -170]
+   ],
+   "ziel_hoehe_m": 3,
+   "sicht": {
+    "naechster_weg_m": 193.8,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.1,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_bis_400_m": 43
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 198.4,
+    "luftlinie_m": 194.1,
+    "max_steigung_grad": 11.6,
+    "mittel_steigung_grad": 3.2,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1543.0, -293.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-167200, -43800, 3752],
+    [-166700, -43300, 3874],
+    [-166700, -41700, 3861],
+    [-154300, -29300, 3234]
+   ],
+   "draufsicht": "canyon_07_smaragdgumpe.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "trampelpfad",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 12 Grad)"
+   }
+  },
+  {
+   "id": "canyon_08_die_welle",
+   "name": "Die Welle",
+   "art": "fundstueck",
+   "mitte_cm": [-87600, -28800, 5509],
+   "radius_m": 50.0,
+   "felder": ["D4"],
+   "kameras": [
+    ["D4", -80657, -29543, -87600, -28800, 5609, "canyon_08_die_welle_anmarsch", -170],
+    ["D4", -83267, -29564, -87600, -28800, 5599, "canyon_08_die_welle_held", 170],
+    ["D4", -86615, -28974, -87600, -28800, 5559, "canyon_08_die_welle_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "sicht": {
+    "naechster_weg_m": 135.8,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 0.5,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_bis_400_m": 177
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 157.3,
+    "luftlinie_m": 145.4,
+    "max_steigung_grad": 19.4,
+    "mittel_steigung_grad": 11.1,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-747.0, -355.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-87600, -28800, 5504],
+    [-81900, -28700, 6991],
+    [-81100, -29100, 7261],
+    [-74700, -35500, 7702]
+   ],
+   "draufsicht": "canyon_08_die_welle.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 19 Grad)"
+   }
+  }
+ ]
+}

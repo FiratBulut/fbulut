@@ -1,0 +1,577 @@
+{
+ "stand": "2026-10-11",
+ "biom": "oedland",
+ "pfade": [
+  {
+   "id": "oedland_pfad_oedlandpfad_abstieg",
+   "art": "serpentine",
+   "breite_cm": 150,
+   "punkte_cm": [
+    [-55100, 110900],
+    [-63100, 118900],
+    [-63900, 120900],
+    [-67100, 124100],
+    [-67100, 125300],
+    [-68300, 126500],
+    [-67900, 127700],
+    [-69100, 128100],
+    [-68300, 128500],
+    [-69100, 128900],
+    [-69100, 130500],
+    [-68300, 132100],
+    [-67900, 131700],
+    [-64700, 131700],
+    [-62700, 130500],
+    [-57500, 130500],
+    [-55100, 131300],
+    [-50700, 134500]
+   ],
+   "anschluss": "Wegende am Westrand von ROMAN_LOC_020 (X -552 / Y 1110 m)",
+   "fuer": [],
+   "laenge_m": 497.5,
+   "max_steigung_grad": 19.2,
+   "mittel_steigung_grad": 8.1,
+   "bodenlage": "Erde/Kies als Band 1,5 m; im Abstieg Kehren mit Trittstufen aus SM_RockSandstone_021/034"
+  },
+  {
+   "id": "oedland_pfad_oedlandpfad_ost",
+   "art": "trampelpfad",
+   "breite_cm": 150,
+   "punkte_cm": [
+    [-50700, 134500],
+    [-50300, 144500],
+    [-49100, 146500],
+    [-49100, 147300],
+    [-46700, 150100],
+    [-42300, 150500],
+    [-41500, 151300],
+    [-40300, 150100],
+    [-38700, 150900],
+    [-34300, 150900],
+    [-33500, 150100],
+    [-29900, 150100],
+    [-29100, 149300],
+    [-29900, 148500],
+    [-28300, 150100],
+    [-25500, 150900],
+    [-21100, 154900],
+    [-17500, 154900],
+    [-15900, 154500],
+    [-13500, 152100],
+    [-9900, 151700],
+    [-7500, 148900],
+    [-5100, 148900],
+    [-4700, 148500],
+    [-5100, 148100],
+    [-4300, 148900],
+    [-3100, 148900],
+    [-1500, 150100],
+    [-1100, 148900],
+    [100, 147700],
+    [900, 147300],
+    [4500, 147300],
+    [6900, 145700]
+   ],
+   "anschluss": "Fuss des Abstiegs (X -505 / Y 1345 m), Ende von oedland_pfad_oedlandpfad_abstieg",
+   "fuer": ["oedland_03_hoellentor", "oedland_06_schlammvulkaene"],
+   "laenge_m": 844.0,
+   "max_steigung_grad": 7.9,
+   "mittel_steigung_grad": 1.8,
+   "bodenlage": "Erde/Kies als Band 1,5 m; im Abstieg Kehren mit Trittstufen aus SM_RockSandstone_021/034"
+  },
+  {
+   "id": "oedland_pfad_oedlandpfad_west",
+   "art": "trampelpfad",
+   "breite_cm": 150,
+   "punkte_cm": [
+    [-50700, 134500],
+    [-50300, 142900],
+    [-50700, 144100],
+    [-52700, 146500],
+    [-55500, 148900],
+    [-57900, 149700],
+    [-60300, 149700],
+    [-61100, 150500],
+    [-62300, 150500],
+    [-70300, 157300],
+    [-72700, 157300],
+    [-77100, 160100],
+    [-78700, 160100],
+    [-80300, 159300],
+    [-82700, 159300],
+    [-83900, 158500],
+    [-89900, 158500]
+   ],
+   "anschluss": "Fuss des Abstiegs (X -505 / Y 1345 m), Ende von oedland_pfad_oedlandpfad_abstieg",
+   "fuer": ["oedland_07_totenpfanne", "oedland_08_kugelsteine"],
+   "laenge_m": 566.6,
+   "max_steigung_grad": 7.9,
+   "mittel_steigung_grad": 0.9,
+   "bodenlage": "Erde/Kies als Band 1,5 m; im Abstieg Kehren mit Trittstufen aus SM_RockSandstone_021/034"
+  }
+ ],
+ "orte": [
+  {
+   "id": "oedland_01_rippenland",
+   "name": "Das Rippenland",
+   "art": "leuchtfeuer",
+   "mitte_cm": [2000, 121000, 6838],
+   "radius_m": 120.0,
+   "felder": ["E6"],
+   "kameras": [
+    ["E6", 3887, 139159, 2000, 121000, 6938, "oedland_01_rippenland_anmarsch", -170],
+    ["E6", -9818, 118916, 2000, 121000, 6988, "oedland_01_rippenland_held", 170],
+    ["E6", 1015, 120826, 2000, 121000, 6888, "oedland_01_rippenland_nah", -170],
+    ["E6", -14200, 154200, 2000, 121000, 234, "oedland_01_rippenland_fern", 170]
+   ],
+   "ziel_hoehe_m": 15,
+   "sicht": {
+    "naechster_weg_m": 251.0,
+    "sichtbar_ab_m": 571,
+    "wegpunkte_sichtbar": 29,
+    "wegpunkte_ring_300_800": 156,
+    "mittel_anteil": 0.1
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 558.9,
+    "luftlinie_m": 262.2,
+    "max_steigung_grad": 35.2,
+    "mittel_steigung_grad": 7.8,
+    "steil_laenge_m": 17.0,
+    "quer_steil_laenge_m": 21.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [45.0, 1471.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [2000, 121000, 6776],
+    [2900, 121900, 6555],
+    [4500, 122300, 6606],
+    [6100, 120700, 6402],
+    [6100, 120300, 6418],
+    [7700, 118300, 6380],
+    [9700, 118300, 6327],
+    [12100, 115900, 5521],
+    [12900, 116700, 5257],
+    [12900, 117900, 5120],
+    [13700, 118700, 4888],
+    [13700, 120700, 4491],
+    [14500, 121900, 4593],
+    [14500, 122700, 4596],
+    [15300, 123500, 4291],
+    [15300, 123900, 4224],
+    [14500, 124700, 4335],
+    [14500, 125900, 4432],
+    [11300, 129500, 4069],
+    [11300, 134300, 3879],
+    [9700, 135900, 3789],
+    [8500, 135900, 3664],
+    [7700, 136700, 3665],
+    [4100, 136700, 3264],
+    [3700, 137100, 2864],
+    [4500, 137900, 2277],
+    [4500, 138300, 2277],
+    [2500, 141100, 1450],
+    [2500, 145100, 838],
+    [4500, 147100, 567]
+   ],
+   "draufsicht": "oedland_01_rippenland.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": true,
+    "bemerkung": "Pfad noetig: heute nur 'weich' erreichbar (max 35 Grad, 38 m steil) -> Kehren/Trittstufen"
+   }
+  },
+  {
+   "id": "oedland_02_regenbogenhang",
+   "name": "Der Regenbogenhang",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-88000, 116000, 5509],
+   "radius_m": 90.0,
+   "felder": ["D6"],
+   "kameras": [
+    ["D6", -87529, 113729, -88000, 116000, 5609, "oedland_02_regenbogenhang_anmarsch", -170],
+    ["D6", -85046, 116521, -88000, 116000, 5659, "oedland_02_regenbogenhang_held", 170],
+    ["D6", -87015, 116174, -88000, 116000, 5559, "oedland_02_regenbogenhang_nah", -170],
+    ["D6", -76400, 160000, -88000, 116000, 229, "oedland_02_regenbogenhang_fern", 170]
+   ],
+   "ziel_hoehe_m": 15,
+   "sicht": {
+    "naechster_weg_m": 223.7,
+    "sichtbar_ab_m": 786,
+    "wegpunkte_sichtbar": 29,
+    "wegpunkte_ring_300_800": 212,
+    "mittel_anteil": 0.1
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 284.9,
+    "luftlinie_m": 237.0,
+    "max_steigung_grad": 21.8,
+    "mittel_steigung_grad": 7.9,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 7.2,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-675.0, 1041.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-88000, 116000, 5314],
+    [-88700, 116100, 5432],
+    [-89500, 115300, 5812],
+    [-89100, 115300, 5913],
+    [-85500, 111700, 6489],
+    [-84700, 111700, 6642],
+    [-81900, 108900, 6994],
+    [-79500, 108900, 7209],
+    [-79100, 108500, 7237],
+    [-78300, 108500, 7227],
+    [-76700, 107300, 7370],
+    [-73900, 107300, 7181],
+    [-71100, 104500, 7287],
+    [-67900, 104500, 6306],
+    [-67500, 104100, 6110]
+   ],
+   "draufsicht": "oedland_02_regenbogenhang.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": true,
+    "bemerkung": "Pfad noetig: heute nur 'weich' erreichbar (max 22 Grad, 7 m steil) -> Kehren/Trittstufen"
+   }
+  },
+  {
+   "id": "oedland_03_hoellentor",
+   "name": "Das Höllentor",
+   "art": "leuchtfeuer",
+   "mitte_cm": [18000, 153000, 383],
+   "radius_m": 50.0,
+   "felder": ["E6"],
+   "kameras": [
+    ["E6", 7100, 145700, 18000, 153000, 483, "oedland_03_hoellentor_anmarsch", -170],
+    ["E6", 6050, 142973, 18000, 153000, 533, "oedland_03_hoellentor_held", 170],
+    ["E6", 17234, 152357, 18000, 153000, 433, "oedland_03_hoellentor_nah", -170],
+    ["E6", -20200, 154800, 18000, 153000, 258, "oedland_03_hoellentor_fern", 170]
+   ],
+   "ziel_hoehe_m": 30,
+   "sicht": {
+    "naechster_weg_m": 132.6,
+    "sichtbar_ab_m": 408,
+    "wegpunkte_sichtbar": 7,
+    "wegpunkte_ring_300_800": 62,
+    "mittel_anteil": 0.1,
+    "bezug": "Abstand/Sicht gegen Wege + oedland_pfad_oedlandpfad_ost"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 138.9,
+    "luftlinie_m": 131.2,
+    "max_steigung_grad": 3.2,
+    "mittel_steigung_grad": 1.2,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [71.0, 1457.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [18000, 153000, 389],
+    [16700, 152900, 428],
+    [11100, 147300, 524],
+    [9500, 147300, 597],
+    [7500, 145700, 552],
+    [7100, 145700, 548]
+   ],
+   "draufsicht": "oedland_03_hoellentor.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "trampelpfad",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 3 Grad)"
+   },
+   "pfad_id": "oedland_pfad_oedlandpfad_ost",
+   "bedingung": "gilt mit dem neuen Oedlandpfad (pfade[]); heute 625 m vom naechsten Weg"
+  },
+  {
+   "id": "oedland_04_dornbusch_senke",
+   "name": "Die Dornbusch-Senke",
+   "art": "fundstueck",
+   "mitte_cm": [-121000, 104000, 4731],
+   "radius_m": 60.0,
+   "felder": ["D6"],
+   "kameras": [
+    ["D6", -124100, 99694, -121000, 104000, 4831, "oedland_04_dornbusch_senke_anmarsch", -170],
+    ["D6", -123828, 100629, -121000, 104000, 4821, "oedland_04_dornbusch_senke_held", 170],
+    ["D6", -121643, 103234, -121000, 104000, 4781, "oedland_04_dornbusch_senke_nah", -170]
+   ],
+   "ziel_hoehe_m": 3,
+   "sicht": {
+    "naechster_weg_m": 290.3,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "verdeckt_mit_stempel": null,
+    "max_anteil_mit_stempel": null,
+    "wegpunkte_bis_400_m": 41
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 342.8,
+    "luftlinie_m": 289.0,
+    "max_steigung_grad": 22.4,
+    "mittel_steigung_grad": 5.1,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1121.0, 765.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-121000, 104000, 4720],
+    [-121300, 104100, 4720],
+    [-124100, 101700, 4759],
+    [-124100, 99300, 5175],
+    [-122500, 97700, 5100],
+    [-122500, 95700, 5126],
+    [-122100, 95300, 5058],
+    [-122100, 88900, 5020],
+    [-117700, 84500, 4391],
+    [-117700, 83300, 4319],
+    [-113300, 78900, 3757],
+    [-112900, 77300, 3611],
+    [-112100, 76500, 3504]
+   ],
+   "draufsicht": "oedland_04_dornbusch_senke.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 22 Grad)"
+   }
+  },
+  {
+   "id": "oedland_05_geroellfaecher",
+   "name": "Der Geröllfächer",
+   "art": "fundstueck",
+   "mitte_cm": [-60000, 140000, 666],
+   "radius_m": 80.0,
+   "felder": ["E6"],
+   "kameras": [
+    ["E6", -50700, 140100, -60000, 140000, 766, "oedland_05_geroellfaecher_anmarsch", -170],
+    ["E6", -57916, 128182, -60000, 140000, 756, "oedland_05_geroellfaecher_held", 170],
+    ["E6", -59826, 139015, -60000, 140000, 716, "oedland_05_geroellfaecher_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "sicht": {
+    "naechster_weg_m": 94.0,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "verdeckt_mit_stempel": null,
+    "max_anteil_mit_stempel": null,
+    "wegpunkte_bis_400_m": 98
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 93.1,
+    "luftlinie_m": 93.0,
+    "max_steigung_grad": 4.4,
+    "mittel_steigung_grad": 1.8,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-507.0, 1401.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-60000, 140000, 660],
+    [-50700, 140100, 405]
+   ],
+   "draufsicht": "oedland_05_geroellfaecher.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "trampelpfad",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 4 Grad)"
+   }
+  },
+  {
+   "id": "oedland_06_schlammvulkaene",
+   "name": "Die Schlammvulkänchen",
+   "art": "fundstueck",
+   "mitte_cm": [-28400, 163600, 445],
+   "radius_m": 90.0,
+   "felder": ["E6"],
+   "kameras": [
+    ["E6", -26300, 161326, -28400, 163600, 545, "oedland_06_schlammvulkaene_anmarsch", -170],
+    ["E6", -27545, 161251, -28400, 163600, 535, "oedland_06_schlammvulkaene_held", 170],
+    ["E6", -28058, 162660, -28400, 163600, 495, "oedland_06_schlammvulkaene_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "sicht": {
+    "naechster_weg_m": 111.2,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_bis_400_m": 62,
+    "bezug": "Abstand/Sicht gegen Wege + oedland_pfad_oedlandpfad_ost"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 116.3,
+    "luftlinie_m": 111.0,
+    "max_steigung_grad": 15.6,
+    "mittel_steigung_grad": 4.2,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-215.0, 1549.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-28400, 163600, 422],
+    [-26300, 161700, 735],
+    [-26300, 160500, 768],
+    [-24300, 158500, 409],
+    [-24300, 157700, 430],
+    [-21500, 154900, 377]
+   ],
+   "draufsicht": "oedland_06_schlammvulkaene.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "serpentine",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 16 Grad)"
+   },
+   "pfad_id": "oedland_pfad_oedlandpfad_ost",
+   "bedingung": "gilt mit dem neuen Oedlandpfad (pfade[]); heute 589 m vom naechsten Weg"
+  },
+  {
+   "id": "oedland_07_totenpfanne",
+   "name": "Die Totenpfanne",
+   "art": "fundstueck",
+   "mitte_cm": [-82000, 172000, 405],
+   "radius_m": 80.0,
+   "felder": ["D6"],
+   "kameras": [
+    ["D6", -81900, 159300, -82000, 172000, 505, "oedland_07_totenpfanne_anmarsch", -170],
+    ["D6", -89705, 169195, -82000, 172000, 495, "oedland_07_totenpfanne_held", 170],
+    ["D6", -82940, 171658, -82000, 172000, 455, "oedland_07_totenpfanne_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "sicht": {
+    "naechster_weg_m": 123.7,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_bis_400_m": 27,
+    "bezug": "Abstand/Sicht gegen Wege + oedland_pfad_oedlandpfad_west"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 127.2,
+    "luftlinie_m": 127.0,
+    "max_steigung_grad": 3.2,
+    "mittel_steigung_grad": 1.4,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-819.0, 1593.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-82000, 172000, 401],
+    [-81900, 159300, 381]
+   ],
+   "draufsicht": "oedland_07_totenpfanne.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "trampelpfad",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 3 Grad)"
+   },
+   "pfad_id": "oedland_pfad_oedlandpfad_west",
+   "bedingung": "gilt mit dem neuen Oedlandpfad (pfade[]); heute 665 m vom naechsten Weg"
+  },
+  {
+   "id": "oedland_08_kugelsteine",
+   "name": "Die Kugelsteine",
+   "art": "fundstueck",
+   "mitte_cm": [-108000, 146000, 1377],
+   "radius_m": 60.0,
+   "felder": ["D6"],
+   "kameras": [
+    ["D6", -89900, 158500, -108000, 146000, 1477, "oedland_08_kugelsteine_anmarsch", -170],
+    ["D6", -103896, 157276, -108000, 146000, 1467, "oedland_08_kugelsteine_held", 170],
+    ["D6", -107658, 146940, -108000, 146000, 1427, "oedland_08_kugelsteine_nah", -170]
+   ],
+   "ziel_hoehe_m": 2,
+   "sicht": {
+    "naechster_weg_m": 220.2,
+    "sichtbar_ab_m": 0,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_bis_400_m": 14,
+    "bezug": "Abstand/Sicht gegen Wege + oedland_pfad_oedlandpfad_west"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 232.5,
+    "luftlinie_m": 220.0,
+    "max_steigung_grad": 5.7,
+    "mittel_steigung_grad": 2.6,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-899.0, 1585.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-108000, 146000, 1373],
+    [-107500, 146100, 1331],
+    [-105100, 148500, 1169],
+    [-103900, 148500, 1117],
+    [-103100, 148900, 1060],
+    [-100300, 151700, 813],
+    [-97900, 152100, 727],
+    [-97100, 152500, 687],
+    [-95100, 154500, 542],
+    [-93900, 154500, 463],
+    [-89900, 158500, 384]
+   ],
+   "draufsicht": "oedland_08_kugelsteine.png",
+   "standort_begruendung": "",
+   "zugang": {
+    "art": "trampelpfad",
+    "breite_cm": 120,
+    "noetig": false,
+    "bemerkung": "Trampelpfad als Fuehrung (begehbar, max 6 Grad)"
+   },
+   "pfad_id": "oedland_pfad_oedlandpfad_west",
+   "bedingung": "gilt mit dem neuen Oedlandpfad (pfade[]); heute 581 m vom naechsten Weg"
+  }
+ ]
+}

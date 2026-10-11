@@ -2,7 +2,8 @@
 
 draufsicht(welt, x_m, y_m, pfad, groesse_m=500, skala=2, elemente=None, kameras=None, titel="", gel=None)
   Grund: Bodenlage-Farben x Schummerung (Licht NW), Hoehenlinien (fein/grob, automatisch), Suesswasser, Meer,
-  Wege, Orte, Baeume (4 m), Biomgrenze, Massstab, Nordpfeil, Legende rechts.
+  Wege, geplante Pfade (welt.pfade, Farbe je art, mit Kennung; pfade=False schaltet ab), Orte, Baeume (4 m),
+  Biomgrenze, Massstab, Nordpfeil, Legende rechts.
   elemente: Liste dict, je Element eins von
      {"typ": "punkt",   "pos_m": [x, y],             "farbe": "#d33", "name": "Quelltopf", "groesse": 6}
      {"typ": "kreis",   "pos_m": [x, y], "radius_m": 45, "farbe": ..., "name": ..., "fuellen": False}
@@ -31,6 +32,7 @@ BODEN_FARBEN = {
     "Lavasand": (84, 76, 74), "Algen": (64, 116, 104)}
 FARBEN = {"weg": (226, 196, 120), "wasser": (58, 120, 200), "meer": (30, 58, 102), "ort": (190, 60, 60),
           "baum": (28, 70, 34), "biomgrenze": (230, 40, 200), "linie_fein": (40, 34, 30),
+          "pfad": {"trampelpfad": (255, 255, 255), "serpentine": (255, 120, 200), "trittsteine": (150, 255, 150)},
           "kamera": {"anmarsch": (255, 140, 0), "held": (255, 40, 40), "nah": (250, 230, 40),
                      "fern": (40, 220, 255)}}
 _FONT_PFADE = ["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "C:/Windows/Fonts/arial.ttf",
@@ -120,8 +122,12 @@ def _grundbild(welt, fe, skala, schritt=1):
         rgb[m] = rgb[m] * (1 - a) + np.array(c) * a
     og = _blockmax(fe.get("ort"), schritt) > 0
     rgb[og] = rgb[og] * 0.5 + np.array(FARBEN["ort"]) * 0.5
-    wg = _blockmax(fe.get("weg"), schritt) > 0
+    pfade_an = callable(getattr(welt, "pfade_aktiv", None)) and welt.pfade_aktiv()
+    wg = _blockmax(fe.get("weg_basis" if pfade_an else "weg"), schritt) > 0
     rgb[wg] = FARBEN["weg"]
+    if pfade_an and welt.pfad_maske is not None:
+        pg = _blockmax(fe.get(welt.pfad_maske).astype(np.uint8), schritt) > 0
+        rgb[pg & ~wg] = FARBEN["pfad"]["trampelpfad"]
     bg = _grenzen(fe.get("biom")[q])
     rgb[bg] = FARBEN["biomgrenze"]
     img = Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8))
@@ -162,9 +168,36 @@ def _pfeil(dr, p0, p1, farbe, breite=3, spitze=12):
     dr.polygon([p1, a, b], fill=farbe)
 
 
+def _pfade_zeichnen(dr, welt, fe, abb, skala, W, H, f_klein):
+    """Geplante Pfade (welt.pfade) als Linie mit dunklem Saum + Kennung; Rueckgabe Legenden-Eintraege."""
+    leg = []
+    x0, y0, x1, y1 = fe.grenzen_m()
+    for p in getattr(welt, "pfade", None) or []:
+        P = np.asarray(p["punkte_m"], np.float64)
+        if not ((P[:, 0] >= x0 - 50) & (P[:, 0] <= x1 + 50) & (P[:, 1] >= y0 - 50) & (P[:, 1] <= y1 + 50)).any():
+            continue
+        art = p.get("art") if p.get("art") in FARBEN["pfad"] else "trampelpfad"
+        c = FARBEN["pfad"][art]
+        q = [abb(a, b) for a, b in P]
+        dr.line(q, fill=(0, 0, 0, 230), width=3 + 2 * skala, joint="curve")
+        dr.line(q, fill=c + (255,), width=1 + skala, joint="curve")
+        # Kennung an der laengsten sichtbaren Stelle
+        innen = [k for k, (u, v) in enumerate(q) if 20 <= u < W - 120 and 20 <= v < H - 20]
+        if innen:
+            u, v = q[innen[len(innen) // 2]]
+            kurz = p["id"].split("_pfad_", 1)[-1]
+            dr.text((u + 6, v - 8), ascii_text(kurz), fill=c + (255,), font=f_klein, stroke_width=2,
+                    stroke_fill=(0, 0, 0))
+        e = ("linie", c, "Pfad: %s" % art)
+        if e not in leg:
+            leg.append(e)
+    return leg
+
+
 def draufsicht(welt, x_m, y_m, pfad, groesse_m=500.0, skala=2, elemente=None, kameras=None, titel="",
-               gel=None, baeume=True, untertitel=None):
-    """Schreibt eine Draufsicht (PNG) um (x_m, y_m). Rueckgabe: Pfad."""
+               gel=None, baeume=True, untertitel=None, pfade=True):
+    """Schreibt eine Draufsicht (PNG) um (x_m, y_m). Rueckgabe: Pfad.
+    pfade=True: geplante Pfade aus welt.pfade (standorte.json "pfade", alle Biome) mitzeichnen."""
     fe = welt.fenster(x_m, y_m, groesse_m / 2.0)
     img, (fein, grob) = _grundbild(welt, fe, skala)
     W, H = img.size
@@ -188,6 +221,8 @@ def draufsicht(welt, x_m, y_m, pfad, groesse_m=500.0, skala=2, elemente=None, ka
             dr.ellipse([px - r, py - r, px + r, py + r], fill=FARBEN["baum"] + (200,))
     leg = []
     f_klein = _font(11 + 2 * (skala > 1))
+    if pfade:
+        leg += _pfade_zeichnen(dr, welt, fe, abb, skala, W, H, f_klein)
     # Elemente
     for e in elemente or []:
         typ = e.get("typ", "punkt")

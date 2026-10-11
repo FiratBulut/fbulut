@@ -1,0 +1,607 @@
+{
+ "stand": "2026-10-11",
+ "biom": "kueste",
+ "hinweis": "Paketnamen exakt wie in antworten/sehens/downloadliste.json; Bestand = Netznamen aus vorlagen/daten/netze.csv (Stand 13b, 1 692 Netze, alle geprüft, keins gesperrt, keine Houdini-Netze). Pakete, die seit 13b im Projekt sind, stehen mit status 'vorhanden (13b)' und echten Pfaden.",
+ "orte": [
+  {
+   "id": "kueste_01_die_alten",
+   "name": "Die Alten",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "veqnci0db_tier_2",
+    "vdssailfa_tier_2",
+    "vfmjadufa_tier_2",
+    "SM_MassiveNordicCoastalCliff_01",
+    "SM_HugeNordicCoastalCliff_01",
+    "SM_HugeNordicCoastalCliff_02",
+    "SM_NordicBoulder_01",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBeachRockyGround_01",
+    "SM_NordicBeachRockyGround_02",
+    "SM_stonecrop_01",
+    "SM_stonecrop_02",
+    "SM_sea_pea_01"
+   ],
+   "decals": [
+    "MI_Leakage_04",
+    "MI_Leakage_10",
+    "MI_TileableLeakage_02"
+   ],
+   "effekte_vorhanden": [
+    "NS_Smoke_Plume (Gischtdunst, optional)"
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Seetang-/Seepockenband am Fuß, Nass-Decals, Brandungsschaum",
+     "ersatz_bestand": "MI_Leakage_10 + Fels_Auflage-Ton dunkel",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "prioritaet": "C",
+     "wofuer": "Gischt an den Pfeilerfüßen",
+     "ersatz_bestand": "NS_Smoke_Plume weiß, flach (vorhanden)",
+     "in_downloadliste": true,
+     "preis_laut_liste": "Preis ungeprüft"
+    }
+   ]
+  },
+  {
+   "id": "kueste_02_die_vogelinsel",
+   "name": "Die Vogelinsel",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "vfmjadufa_tier_2",
+    "vdssailfa_tier_2",
+    "SM_HugeNordicCoastalCliff_01",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBoulder_01",
+    "SM_beach_grass_02_1",
+    "SM_beach_grass_02_2",
+    "SM_sea_wormwood_01",
+    "SM_stonecrop_01",
+    "SM_kidney_vetch_01"
+   ],
+   "decals": [
+    "MI_Leakage_02",
+    "MI_Leakage_07"
+   ],
+   "effekte_vorhanden": [
+    "NS_feather (umgebaut zu Vogelschwarm, optional)"
+   ],
+   "pakete": [
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "B",
+     "wofuer": "kreisende Vögel als ferne Punkte (NS_feather umgebaut, Sprite klein, langsam)",
+     "ersatz_bestand": "ohne Vögel",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_feather",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf"
+     ]
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Nass-/Tangband, Spritzzone",
+     "ersatz_bestand": "MI_Leakage_*",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    }
+   ]
+  },
+  {
+   "id": "kueste_03_das_nadeltor",
+   "name": "Das Nadeltor",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "veqnci0db_tier_2",
+    "vdssailfa_tier_2",
+    "SM_MassiveNordicCoastalCliff_01",
+    "SM_HugeNordicCoastalCliff_02",
+    "SM_NordicBoulder_01",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBeachRockyGround_01"
+   ],
+   "decals": [
+    "MI_Leakage_10",
+    "MI_TileableLeakage_01"
+   ],
+   "effekte_vorhanden": [
+    "NS_Smoke_Plume (optional)"
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Tangband, Schaum im Durchbruch",
+     "ersatz_bestand": "MI_Leakage_10",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "prioritaet": "C",
+     "wofuer": "Gischt im Tor",
+     "ersatz_bestand": "NS_Smoke_Plume (vorhanden)",
+     "in_downloadliste": true,
+     "preis_laut_liste": "Preis ungeprüft"
+    }
+   ]
+  },
+  {
+   "id": "kueste_04_der_seefall",
+   "name": "Der Seefall",
+   "art": "fundstueck",
+   "bestand": [
+    "vdssailfa_tier_2",
+    "SM_HugeNordicCoastalCliff_01",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBoulder_01",
+    "SM_mountain_rock_big_02_1",
+    "SM_mountain_rock_big_02_5",
+    "SM_ground_rock_01",
+    "SM_SmallStonesPack_03",
+    "SM_EagleFern_S_01",
+    "SM_SilverLadyFern_01",
+    "SM_MossyRocks_01",
+    "SM_flat_rock_04"
+   ],
+   "decals": [
+    "MI_Leakage_04",
+    "MI_Leakage_06",
+    "MI_TileableMossPatches_01"
+   ],
+   "effekte_vorhanden": [
+    "BP_FogBankCard (Sprühnebel)",
+    "CUE_Water_Stream_IV_Cue"
+   ],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Fall-/Schaummaterial für 57 m Vorhang",
+     "ersatz_bestand": "M_EL_Wasserfall2 / MI_EL_Wasserfall_Aufprall (eigen)",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+     "prioritaet": "B",
+     "wofuer": "Gischt am Aufschlag, Sprühnebel",
+     "ersatz_bestand": "NS_Smoke_Plume weiß (vorhanden)",
+     "in_downloadliste": true,
+     "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Rauschen (CUE_Water_Stream_IV_Cue)",
+     "ersatz_bestand": "–",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kueste_05_die_gezeitenbank",
+   "name": "Die Gezeitenbank",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_SmoothRockShelf_01",
+    "SM_ForestRockSlab_01",
+    "SM_NordicBeachRockyGround_01",
+    "SM_NordicBeachRockyGround_02",
+    "SM_NordicBeachRock_01",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_07",
+    "SM_BeachSandWithPebbles_01",
+    "SM_HugeNordicCoastalCliff_02",
+    "SM_sea_pea_01",
+    "SM_stonecrop_02"
+   ],
+   "decals": [
+    "MI_Leakage_10",
+    "MI_Leakage_12",
+    "MI_TileableLeakage_03"
+   ],
+   "effekte_vorhanden": [],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Seetang, Muscheln, Seepocken-/Algen-Decals in den Tümpeln",
+     "ersatz_bestand": "Wasserpflanzen SM_WaterPlant03 grün getönt unter Wasser, MI_Leakage",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Megascans Rembrandt Water Lily",
+     "prioritaet": "C",
+     "wofuer": "– (nicht nötig)",
+     "ersatz_bestand": "–",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarD_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarE_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarG_LOD0"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kueste_06_die_kreidewand",
+   "name": "Die Kreidewand",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "vmnmbhv_tier_0",
+    "uchoab3fa_tier_0",
+    "SM_MassiveSandstoneCliff_05",
+    "SM_beach_cliff_02_B",
+    "SM_beach_escarpment_01_A",
+    "SM_beech_tree_05",
+    "SM_beech_tree_08",
+    "SM_EuropeanBeech_Dead_XL_01",
+    "SM_FallenSpruceTree_01",
+    "SM_BrokenTreeAssembly_01",
+    "SM_RottenTreeStump_01",
+    "SM_BeachSandWithPebbles_02",
+    "SM_NordicBeachRock_01",
+    "SM_SmallStonesPack_05",
+    "SM_Ivy_11",
+    "SM_petasites_spurius_01"
+   ],
+   "decals": [
+    "MI_Leakage_01",
+    "MI_Leakage_09"
+   ],
+   "effekte_vorhanden": [
+    "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue"
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "B",
+     "wofuer": "Kreide-/Kiesel-Decals, Spülsaum",
+     "ersatz_bestand": "MI_Leakage",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "B",
+     "wofuer": "Wind im Buchenhang (CUE_Wind_Autumn_wind_with_leaves_rustling_Cue)",
+     "ersatz_bestand": "–",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kueste_07_der_duenenkamm",
+   "name": "Der Dünenkamm",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_beach_grass_01_1",
+    "SM_beach_grass_01_2",
+    "SM_beach_grass_01_3",
+    "SM_beach_grass_01_hp_1",
+    "SM_beach_grass_03_1",
+    "SM_beach_grass_03_2",
+    "SM_sea_holly_01",
+    "SM_sea_holly_03",
+    "SM_sea_buckthorn_01_fruits",
+    "SM_sea_buckthorn_03",
+    "SM_beach_rose_02_with_pink_flowers",
+    "SM_beach_rose_04_white_flowers",
+    "SM_pine_beach_crooked_01",
+    "SM_pine_beach_crooked_02",
+    "SM_pine_beach_medium_02",
+    "SM_beach_driftwood_01",
+    "SM_BeachSandWithPebbles_01",
+    "SM_sea_pea_01"
+   ],
+   "decals": [
+    "MI_Sticks_01"
+   ],
+   "effekte_vorhanden": [
+    "NS_leaf (Sandfahnen am Kamm, umgefärbt, optional)"
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Sand-/Spülsaum-Decals, Seetang im Spülsaum",
+     "ersatz_bestand": "SM_dead_grass_01 als Spülsaum",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Nanite Driftwood Props",
+     "prioritaet": "B",
+     "wofuer": "gebleichte Treibholzstämme im Spülsaum",
+     "ersatz_bestand": "SM_beach_driftwood_01",
+     "in_downloadliste": false
+    }
+   ]
+  },
+  {
+   "id": "kueste_08_das_blasloch",
+   "name": "Das Blasloch",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_HugeNordicCoastalCliff_01",
+    "SM_MassiveNordicCoastalCliff_01",
+    "Basalt_Basalt_Cliff_Rock_A_SM",
+    "SM_SmoothRockShelf_01",
+    "SM_NordicBeachRocks_01",
+    "SM_NordicBeachRockyGround_02",
+    "SM_SmallStonesPack_11",
+    "SM_pine_beach_crooked_01",
+    "SM_sea_buckthorn_04",
+    "SM_stonecrop_01"
+   ],
+   "decals": [
+    "MI_Leakage_10",
+    "MI_Leakage_11"
+   ],
+   "effekte_vorhanden": [
+    "NS_Smoke_Plume (Ersatz-Fontäne)"
+   ],
+   "pakete": [
+    {
+     "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+     "prioritaet": "A",
+     "wofuer": "Fontäne aus dem Loch (Geysir-System, 8-14 m, alle 9-14 s)",
+     "ersatz_bestand": "NS_Smoke_Plume weiß + Bewegung (vorhanden), schwach",
+     "in_downloadliste": true,
+     "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "prioritaet": "B",
+     "wofuer": "Gischt/Spray",
+     "ersatz_bestand": "NS_Smoke_Plume",
+     "in_downloadliste": true,
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Nassband, Tang",
+     "ersatz_bestand": "MI_Leakage_10",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    }
+   ]
+  }
+ ],
+ "pakete_gesamt": [
+  {
+   "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+   "prioritaet": "A",
+   "orte": [
+    "kueste_01_die_alten",
+    "kueste_02_die_vogelinsel",
+    "kueste_03_das_nadeltor",
+    "kueste_05_die_gezeitenbank",
+    "kueste_06_die_kreidewand",
+    "kueste_07_der_duenenkamm",
+    "kueste_08_das_blasloch"
+   ],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Free City & Nature Sounds",
+   "prioritaet": "A",
+   "orte": [
+    "kueste_04_der_seefall",
+    "kueste_06_die_kreidewand"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  },
+  {
+   "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+   "prioritaet": "A",
+   "orte": [
+    "kueste_04_der_seefall"
+   ],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+   "prioritaet": "A",
+   "orte": [
+    "kueste_04_der_seefall",
+    "kueste_08_das_blasloch"
+   ],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Free Niagara Particles",
+   "prioritaet": "B",
+   "orte": [
+    "kueste_02_die_vogelinsel"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  },
+  {
+   "paket": "Nanite Driftwood Props",
+   "prioritaet": "B",
+   "orte": [
+    "kueste_07_der_duenenkamm"
+   ],
+   "in_downloadliste": false
+  },
+  {
+   "paket": "Ultimate Niagara Environmental VFX",
+   "prioritaet": "B",
+   "orte": [
+    "kueste_01_die_alten",
+    "kueste_03_das_nadeltor",
+    "kueste_08_das_blasloch"
+   ],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Megascans Rembrandt Water Lily",
+   "prioritaet": "C",
+   "orte": [
+    "kueste_05_die_gezeitenbank"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  }
+ ],
+ "neue_paketwuensche": [
+  {
+   "name": "Nanite Driftwood Props",
+   "verweis": "Wunsch aus antworten/sehens/aue/asset_bedarf.json (Fab-Link dort)",
+   "prioritaet": "B",
+   "wofuer": [
+    "kueste_07_der_duenenkamm"
+   ],
+   "ersatz_bestand": "SM_beach_driftwood_01"
+  }
+ ],
+ "luecken": [
+  {
+   "was": "Brandungs-/Meeresklang (Wellen, Gischt, Möwen, Basstölpel)",
+   "loesung_ohne_asset": "CUE_Water_Stream_IV_Cue tief gepitcht als Brandungsersatz; Vögel: CUE_Nature_Birds_* passt nicht (Papageien) → ohne",
+   "quelle_gesucht": "nicht belegt (kein Fab-Link geprüft); Kandidat: 'Wilderness Nature Loops' aus der Liste, Inhalt ungeprüft"
+  },
+  {
+   "was": "Brandungsschaum/Gischt an Felsen (Niagara)",
+   "loesung_ohne_asset": "NS_Smoke_Plume (vorhanden) weiß, flach, langsam + Schaum-Decal aus Coast & Dunes, sobald 13d da ist",
+   "quelle_gesucht": "Ultimate Niagara Environmental VFX (Liste, C)"
+  },
+  {
+   "was": "Seevögel auf der Vogelinsel (Basstölpel)",
+   "loesung_ohne_asset": "Guano als Material (Auflage weiß) + Kot-Streifen-Decals MI_Leakage_02/07 weiß getönt; Vögel nur als ferne Partikelpunkte (NS_feather umgebaut)",
+   "quelle_gesucht": "kein Tier-Asset gesucht (Figuren nicht Teil des Auftrags)"
+  },
+  {
+   "was": "Kreide-Feuersteinknollen",
+   "loesung_ohne_asset": "SM_SmallStonesPack_* dunkel getönt (Instanzfarbe)",
+   "quelle_gesucht": "nicht nötig"
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Kreide",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Toenung": [
+     1.45,
+     1.42,
+     1.36,
+     1.0
+    ],
+    "Fels_Saettigung": 0.25,
+    "Helligkeit": 1.25,
+    "Moos_Menge_Akteur": 0.25,
+    "Moos_Farbe": [
+     0.55,
+     0.7,
+     0.45,
+     1.0
+    ]
+   },
+   "fuer": [
+    "vmnmbhv_tier_0",
+    "uchoab3fa_tier_0",
+    "SM_MassiveSandstoneCliff_05",
+    "SM_beach_cliff_02_B"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Guano",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.95,
+     0.94,
+     0.88,
+     1.0
+    ],
+    "Auflage_Menge": 0.75,
+    "Auflage_Schwelle": 0.45,
+    "Auflage_Flecken": 0.8,
+    "Auflage_Kante": 5.0
+   },
+   "fuer": [
+    "vfmjadufa_tier_2",
+    "vdssailfa_tier_2",
+    "SM_HugeNordicCoastalCliff_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Brandungsfels",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Toenung": [
+     0.62,
+     0.64,
+     0.66,
+     1.0
+    ],
+    "Blend_Hoehe": 350.0,
+    "Moos_Farbe": [
+     0.35,
+     0.42,
+     0.2,
+     1.0
+    ],
+    "Moos_Ab": 0.0,
+    "Moos_Band": 250.0,
+    "Moos_Menge_Akteur": 0.9
+   },
+   "fuer": [
+    "veqnci0db_tier_2",
+    "vdssailfa_tier_2",
+    "SM_MassiveNordicCoastalCliff_01"
+   ],
+   "hinweis": "dunkles Tang-/Seepockenband bis 2,5-3,5 m über dem Spiegel"
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "kueste_04_der_seefall",
+   "kamera": "kueste_04_der_seefall_held",
+   "zweck": "heutige Kliffkante am Bach (gibt es den Wasserstreifen am Kliff schon? Höhe der Wand)"
+  },
+  {
+   "ort": "kueste_01_die_alten",
+   "kamera": "kueste_01_die_alten_fern",
+   "zweck": "Inselchen heute (Heightfield-Pfeiler, Houdini-Reste K9?)"
+  },
+  {
+   "ort": "kueste_06_die_kreidewand",
+   "kamera": "kueste_06_die_kreidewand_fern",
+   "zweck": "Westflanke des Kaps von der Bucht aus – Hanglage für den Abbruch"
+  }
+ ]
+}

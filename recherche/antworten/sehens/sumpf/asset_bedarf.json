@@ -1,0 +1,561 @@
+{
+ "stand": "2026-10-11",
+ "biom": "sumpf",
+ "hinweis": "Paketnamen exakt wie in antworten/sehens/downloadliste.json; Bestand = Netznamen aus vorlagen/daten/netze.csv (Stand 13b, 1 692 Netze, alle geprüft, keins gesperrt, keine Houdini-Netze). Pakete, die seit 13b im Projekt sind, stehen mit status 'vorhanden (13b)' und echten Pfaden.",
+ "orte": [
+  {
+   "id": "sumpf_01_der_ertrunkene_wald",
+   "name": "Der Ertrunkene Wald",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "Fir_08_Dead_NoBillboard",
+    "Fir_08_Dead_Forest",
+    "SM_Forest_pine_10_dead",
+    "qlEtl_tier_0",
+    "SM_DeadTree_01",
+    "SM_DeadTree_02",
+    "SM_LargeFallenTree_01",
+    "SM_dead_log_01",
+    "SM_dead_log_03",
+    "SM_OldTreeBranch_01",
+    "SM_Rohrkolben_Horst_1",
+    "SM_Rohrkolben_Horst_4",
+    "SM_Rohrkolben_Jung_2",
+    "SM_ToadRush_013",
+    "SM_ToadRush_014",
+    "SM_dead_grass_02",
+    "SM_MossClump_01"
+   ],
+   "decals": [
+    "MI_ScatteredBark_01",
+    "MI_Leakage_05"
+   ],
+   "effekte_vorhanden": [
+    "BP_FogBankVolume",
+    "BP_FogBankCard"
+   ],
+   "pakete": [
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "A",
+     "wofuer": "Bodennebel über dem Wasser (BP_FogBankVolume)",
+     "ersatz_bestand": "lokaler_nebel (Local Fog Volume)",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume",
+      "/Game/NiagaraExamples/FX_Fog/BP_FogBankCard",
+      "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+      "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight"
+     ]
+    },
+    {
+     "paket": "Swamp Cypress Roots – Nanite Ready (Free)",
+     "prioritaet": "B",
+     "wofuer": "Wurzelstöcke an den toten Stämmen",
+     "ersatz_bestand": "SM_RottenTreeStump_01",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/Downloads/SwampCypress/StaticMeshes/SM_SwampCypress_A"
+     ]
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "–",
+     "ersatz_bestand": "–",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sumpf_02_der_weidendom",
+   "name": "Der Weidendom",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "Big_Tree_Willow_02",
+    "Big_Tree_Willow_01",
+    "SM_SwampCypress_A",
+    "SM_grey_willow_04",
+    "SM_grey_willow_03",
+    "Branch_Goat_Willow_Decaying_02",
+    "SM_Rohrkolben_Horst_2",
+    "SM_Rohrkolben_Horst_5",
+    "SM_ToadRush_010",
+    "SM_dead_log_02",
+    "SM_MossyTree_01",
+    "SM_MossClump_03",
+    "SM_CustomMoss_02"
+   ],
+   "decals": [
+    "MI_TileableMossPatches_02"
+   ],
+   "effekte_vorhanden": [
+    "BP_FogBankCard"
+   ],
+   "pakete": [
+    {
+     "paket": "Swamp Cypress Roots – Nanite Ready (Free)",
+     "prioritaet": "A",
+     "wofuer": "Wurzelfüße der Weiden im Wasser (Stelzwurzeln)",
+     "ersatz_bestand": "SM_beech_old_roots_01",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/Downloads/SwampCypress/StaticMeshes/SM_SwampCypress_A"
+     ]
+    },
+    {
+     "paket": "Megascans Rembrandt Water Lily",
+     "prioritaet": "B",
+     "wofuer": "Seerosen im Schwarzspiegel (normal groß)",
+     "ersatz_bestand": "SM_WaterPlant01-04",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarD_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarE_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarG_LOD0"
+     ]
+    },
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "B",
+     "wofuer": "Dunst im Dom",
+     "ersatz_bestand": "lokaler_nebel",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume",
+      "/Game/NiagaraExamples/FX_Fog/BP_FogBankCard",
+      "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+      "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sumpf_03_der_reiherhorst",
+   "name": "Der Reiherhorst",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "SM_Dead_Tree_01",
+    "SM_Dead_Tree_02",
+    "SM_EuropeanBeech_Dead_XL_01",
+    "SM_detail_branches_01",
+    "SM_detail_branches_02",
+    "SM_OldTreeBranch_03",
+    "SM_OldTreeBranch_05",
+    "Branch_Goat_Willow_Decaying_01",
+    "SM_Rohrkolben_Horst_3",
+    "SM_ToadRush_010",
+    "SM_KikuyuGrass_01",
+    "SM_dead_grass_01"
+   ],
+   "decals": [
+    "MI_Leakage_08",
+    "MI_ScatteredSticksAndTwigs_01"
+   ],
+   "effekte_vorhanden": [
+    "NS_feather"
+   ],
+   "pakete": [
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "B",
+     "wofuer": "Federn (NS_feather), kreisende Reiher als Punkte",
+     "ersatz_bestand": "ohne Vögel",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_feather",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sumpf_04_der_schwingrasen",
+   "name": "Der Schwingrasen",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_MossClump_01",
+    "SM_MossClump_04",
+    "SM_CustomMoss_01",
+    "SM_CustomMoss_04",
+    "SM_moss_01",
+    "SM_ToadRush_013",
+    "SM_ToadRush_015",
+    "SM_dead_grass_03",
+    "Big_Tree_Birch_01",
+    "SM_BirchTreeStump_01",
+    "SM_rough_horsetail_02",
+    "SM_forest_heather_01"
+   ],
+   "decals": [
+    "MI_TileableMossPatches_03"
+   ],
+   "effekte_vorhanden": [
+    "BP_FogBankCard (Dunst über den Augen, sehr dünn)"
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Rembrandt Water Lily",
+     "prioritaet": "C",
+     "wofuer": "einzelne Seerosenblätter am Rand der Augen",
+     "ersatz_bestand": "SM_WaterPlant02",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarD_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarE_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarG_LOD0"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sumpf_05_der_erlenbruch",
+   "name": "Der Erlenbruch",
+   "art": "fundstueck",
+   "bestand": [
+    "Big_Tree_Birch_01",
+    "SM_Poplar_tree_02",
+    "SM_Poplar_tree_03",
+    "SM_beech_old_roots_01",
+    "SM_MossyForestRoots_02",
+    "SM_crooked_root_01",
+    "SM_EagleFern_M_01",
+    "SM_SilverLadyFern_01",
+    "SM_SilverLadyFern_03",
+    "SM_petasites_spurius_02",
+    "SM_YellowArchangel_01",
+    "SM_Crownbeard_01",
+    "SM_MossyTree_01",
+    "SM_dead_log_04"
+   ],
+   "decals": [
+    "MI_TileableMossPatches_01",
+    "MI_Leakage_03"
+   ],
+   "effekte_vorhanden": [
+    "CUE_Water_Stream_I_Cue"
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Trees: European Black Alder",
+     "prioritaet": "B",
+     "wofuer": "die Schwarzerlen selbst (Held)",
+     "ersatz_bestand": "Big_Tree_Birch_01 + SM_Poplar_tree_02/03 (13c: Erlen nicht im Bestand)",
+     "in_downloadliste": false
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Rinnsal (CUE_Water_Stream_I_Cue)",
+     "ersatz_bestand": "–",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sumpf_06_das_bultenfeld",
+   "name": "Das Bultenfeld",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_KikuyuGrass_01",
+    "SM_KikuyuGrass_04",
+    "SM_ToadRush_00",
+    "SM_ToadRush_010",
+    "SM_ToadRush_02",
+    "SM_grass_bush_02",
+    "SM_dead_grass_01",
+    "SM_rough_horsetail_01",
+    "SM_grey_willow_01",
+    "SM_grey_willow_02",
+    "SM_MossClump_02",
+    "SM_Rohrkolben_Jung_1"
+   ],
+   "decals": [
+    "MI_Leakage_13"
+   ],
+   "effekte_vorhanden": [
+    "NS_leaf (optional)"
+   ],
+   "pakete": [
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "C",
+     "wofuer": "Samenflug über den Bulten (NS_leaf klein, hell)",
+     "ersatz_bestand": "ohne",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_feather",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sumpf_07_der_tellerweiher",
+   "name": "Der Tellerweiher",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_Rohrkolben_Horst_6",
+    "SM_Rohrkolben_Jung_3",
+    "SM_ToadRush_014",
+    "SM_grey_willow_04",
+    "Big_Tree_Willow_01",
+    "SM_dead_log_03",
+    "SM_MossClump_05"
+   ],
+   "decals": [
+    "MI_Leakage_05"
+   ],
+   "effekte_vorhanden": [],
+   "pakete": [
+    {
+     "paket": "Megascans Rembrandt Water Lily",
+     "prioritaet": "A",
+     "wofuer": "Held: Riesenseerosen (Rembrandt Water Lily 2,5-4-fach = 3-5 m Teller) + normale Seerosen",
+     "ersatz_bestand": "SM_WaterPlant01-04 (flach, schwächer)",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarD_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarE_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0",
+      "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarG_LOD0"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sumpf_08_die_irrlichtsenke",
+   "name": "Die Irrlichtsenke",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_Dead_Tree_03",
+    "SM_DeadTree_02",
+    "SM_RottenTreeStump_01",
+    "SM_RottenTreeStump_02",
+    "SM_TreeStump_01",
+    "SM_LargeFallenTree_02",
+    "SM_dead_log_01",
+    "SM_mushroom_01",
+    "SM_mushroom_02",
+    "SM_MossClump_01",
+    "SM_ToadRush_012",
+    "SM_Rohrkolben_Jung_2"
+   ],
+   "decals": [
+    "MI_ScatteredBark_01",
+    "MI_TileableMossPatches_02"
+   ],
+   "effekte_vorhanden": [
+    "BP_FogBankVolume",
+    "NS_Sparkling_Glow"
+   ],
+   "pakete": [
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "A",
+     "wofuer": "Nebelbank in der Senke (BP_FogBankVolume)",
+     "ersatz_bestand": "lokaler_nebel",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume",
+      "/Game/NiagaraExamples/FX_Fog/BP_FogBankCard",
+      "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+      "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight"
+     ]
+    },
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "A",
+     "wofuer": "Irrlichter: 3-5 dezente Glimmpunkte (NS_Sparkling_Glow, gelbgrün, langsam)",
+     "ersatz_bestand": "punktlicht schwach",
+     "in_downloadliste": true,
+     "status": "vorhanden (13b)",
+     "pfade_vorhanden": [
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_feather",
+      "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf"
+     ]
+    }
+   ]
+  }
+ ],
+ "pakete_gesamt": [
+  {
+   "paket": "Free City & Nature Sounds",
+   "prioritaet": "A",
+   "orte": [
+    "sumpf_01_der_ertrunkene_wald",
+    "sumpf_05_der_erlenbruch"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  },
+  {
+   "paket": "Free Niagara Particles",
+   "prioritaet": "A",
+   "orte": [
+    "sumpf_03_der_reiherhorst",
+    "sumpf_06_das_bultenfeld",
+    "sumpf_08_die_irrlichtsenke"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  },
+  {
+   "paket": "Megascans Rembrandt Water Lily",
+   "prioritaet": "A",
+   "orte": [
+    "sumpf_02_der_weidendom",
+    "sumpf_04_der_schwingrasen",
+    "sumpf_07_der_tellerweiher"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  },
+  {
+   "paket": "Niagara Examples Pack",
+   "prioritaet": "A",
+   "orte": [
+    "sumpf_01_der_ertrunkene_wald",
+    "sumpf_02_der_weidendom",
+    "sumpf_08_die_irrlichtsenke"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  },
+  {
+   "paket": "Swamp Cypress Roots – Nanite Ready (Free)",
+   "prioritaet": "A",
+   "orte": [
+    "sumpf_01_der_ertrunkene_wald",
+    "sumpf_02_der_weidendom"
+   ],
+   "in_downloadliste": true,
+   "status": "vorhanden (13b)"
+  },
+  {
+   "paket": "Megascans Trees: European Black Alder",
+   "prioritaet": "B",
+   "orte": [
+    "sumpf_05_der_erlenbruch"
+   ],
+   "in_downloadliste": false
+  }
+ ],
+ "neue_paketwuensche": [
+  {
+   "name": "Megascans Trees: European Black Alder",
+   "verweis": "Wunsch aus antworten/sehens/aue/asset_bedarf.json (Quelle dort: https://docs.unrealengine.com/marketplace/en-US/product/megascans-trees-european-black-alder-early-access)",
+   "prioritaet": "B",
+   "wofuer": [
+    "sumpf_05_der_erlenbruch",
+    "sumpf_02_der_weidendom (Saum)"
+   ],
+   "ersatz_bestand": "Big_Tree_Birch_01, SM_Poplar_tree_02/03"
+  }
+ ],
+ "luecken": [
+  {
+   "was": "Schwarzerle (Erlenbruch, Stelzwurzeln)",
+   "loesung_ohne_asset": "Big_Tree_Birch_01 und SM_Poplar_tree_02/03 auf Wurzelstöcken (SM_beech_old_roots_01, SM_SwampCypress_A) 0,6-0,9 m hochgesetzt = Stelzwurzel-Bild",
+   "quelle_gesucht": "Megascans Trees: European Black Alder (B)"
+  },
+  {
+   "was": "Torfmoos-Teppich (Sphagnum rot/grün) für den Schwingrasen",
+   "loesung_ohne_asset": "Bodenlage Moos + MossClump/CustomMoss dicht; Materialwunsch MI_EL_SW_Torfmoos (M_EL_Pflanze, Farbe rötlich) auf SM_MossClump_*",
+   "quelle_gesucht": "nicht gesucht"
+  },
+  {
+   "was": "Sumpfzypresse als ganzer Baum (nur Wurzelstock vorhanden)",
+   "loesung_ohne_asset": "Weidendom mit Weiden statt Zypressen; SM_SwampCypress_A nur als Wurzelfuß",
+   "quelle_gesucht": "nicht nötig"
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Silberholz",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     1.35,
+     1.32,
+     1.28,
+     1.0
+    ],
+    "Helligkeit": 1.2
+   },
+   "fuer": [
+    "Fir_08_Dead_NoBillboard",
+    "SM_Dead_Tree_01",
+    "SM_Dead_Tree_02",
+    "SM_DeadTree_01"
+   ],
+   "hinweis": "nur falls Totholz über die Megascans-Überschreibung läuft; sonst Instanzfarbe"
+  },
+  {
+   "name": "MI_EL_SW_Torfmoos",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     1.05,
+     0.62,
+     0.45,
+     1.0
+    ],
+    "Variation": 0.5
+   },
+   "fuer": [
+    "SM_MossClump_01",
+    "SM_MossClump_04",
+    "SM_CustomMoss_01"
+   ]
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "sumpf_01_der_ertrunkene_wald",
+   "kamera": "sumpf_01_der_ertrunkene_wald_fern",
+   "zweck": "offenes Wasser heute (Epic-See 1,58 m) vom Westweg"
+  },
+  {
+   "ort": "sumpf_07_der_tellerweiher",
+   "kamera": "sumpf_07_der_tellerweiher_held",
+   "zweck": "Weiher T_2884_725 heute: Ufer, Röhricht"
+  }
+ ]
+}

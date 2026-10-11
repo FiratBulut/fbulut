@@ -358,8 +358,7 @@
     "rand_max_m": 0.0,
     "primitive": 6
    },
-   "draufsicht": "heide_06_der_wollsackfall.png",
-   "pfad_id": "heide_pfad_der_wollsackfall"
+   "draufsicht": "heide_06_der_wollsackfall.png"
   },
   {
    "id": "heide_07_der_totengrund",
@@ -482,27 +481,5 @@
    "draufsicht": "heide_08_die_windkante.png"
   }
  ],
- "pfade": [
-  {
-   "id": "heide_pfad_der_wollsackfall",
-   "art": "trittsteine",
-   "breite_cm": 150,
-   "punkte_cm": [
-    [151100, 4500],
-    [150300, 5300],
-    [149900, 8900],
-    [149100, 10500],
-    [149100, 11700],
-    [148700, 12100],
-    [148700, 13700],
-    [147600, 16000]
-   ],
-   "anschluss": "Weg Nord (X 1511 / Y 45), Trittsteine in die Klamm",
-   "fuer": ["heide_06_der_wollsackfall"],
-   "laenge_m": 129.5,
-   "max_steigung_grad": 31.7,
-   "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug",
-   "bodenlage": "Erde/Kies-Band 1,2-2 m, Trittsteine SM_stones_01_2/_5, SM_flat_rock_03"
-  }
- ]
+ "pfade": []
 }

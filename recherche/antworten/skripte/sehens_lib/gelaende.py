@@ -8,10 +8,12 @@ Reine Array-Funktionen (h = Hoehe in m, z = Zellgroesse in m):
   abfluss(h, z, auslass) -> dict(gefuellt, empfaenger, akkumulation_m2, becken_zahl, ...)  (D8, Senken gefuellt)
   abstand(maske, z, max_m) -> (Abstand m, naechster Index)   (exakt; SciPy falls vorhanden, sonst Felzenszwalb)
   landformen(tpi_klein, tpi_gross, neigung) -> Klassen 1..10 (Weiss 2001, LANDFORMEN)
+  pfad_profil(welt, punkte_m) -> Laenge, Steigung je Segment (Fenster 10 m), max/mittel; abstand_zu_polylinien
 
 Klasse Gelaende(welt, cache=...) rechnet Ganze-Welt-Raster einmal und legt sie als .npy ab:
   gel.neigung, gel.exposition, gel.gefuellt, gel.senkentiefe, gel.empfaenger, gel.akkumulation (m2),
-  gel.haupt_zufluss, gel.abstand_weg, gel.weg_naechst, gel.abstand_ort, gel.abstand_wasser,
+  gel.haupt_zufluss, gel.abstand_weg, gel.weg_naechst (Wege + Pfade aus welt.pfade), gel.abstand_weg_basis
+  (nur Wegenetz), gel.abstand_ort, gel.abstand_wasser,
   gel.abstand_meer, gel.abstand_stadt (zum Stadtrand), gel.tpi(r), gel.kruemmung(sigma),
   gel.landformen(), gel.tiefenlinien(min_m2), gel.gerinne_anfaenge(min_m2), gel.stufen(...),
   gel.kuppen(...), gel.kessel(...), gel.biom_abstand(name)  (> 0 innen, < 0 aussen)
@@ -584,6 +586,12 @@ def punkte_nms(x, y, wert, abstand_m, n_max=None):
 # ============================================================================================
 # Ganze-Welt-Klasse mit Cache
 # ============================================================================================
+def _pfade_aktiv(welt):
+    """True, wenn welt.weg die Pfade (daten.Welt.setze_pfade) enthaelt."""
+    f = getattr(welt, "pfade_aktiv", None)
+    return bool(f()) if callable(f) else False
+
+
 def cache_ordner_standard():
     return os.environ.get("SEHENS_CACHE") or STANDARD_CACHE
 
@@ -610,7 +618,8 @@ class Gelaende:
         w = self.welt
         hsh = hashlib.sha1()
         hsh.update(("v%s|%s|%s" % (__version__, w.zelle_m, w.hoehe.shape)).encode())
-        for a in (w.hoehe, w.weg, w.ort, w.wasser, w.biom):
+        weg = w.weg_basis if _pfade_aktiv(w) else w.weg   # Pfade aendern nur abstand_weg, nicht den Ordner
+        for a in (w.hoehe, weg, w.ort, w.wasser, w.biom):
             hsh.update(np.ascontiguousarray(a.reshape(-1)[::97]).tobytes())
         st = json.dumps([(s["x_m"], s["y_m"], s["radius_m"]) for s in w.staedte]).encode()
         hsh.update(st)
@@ -818,28 +827,55 @@ class Gelaende:
     # -- Distanzen --
     @property
     def abstand_weg(self):
-        """Abstand zum naechsten Weg (m, gekappt bei 2000)."""
-        self._weg()
-        return self._mem["abstand_weg"]
+        """Abstand zum naechsten Weg (m, gekappt bei 2000). Mit Pfaden (welt.pfade): Wege + Pfade."""
+        return self._weg()[0]
 
     @property
     def weg_naechst(self):
-        """Flacher Index der naechsten Wegzelle (int32, -1 = keine)."""
-        self._weg()
-        return self._mem["weg_naechst"]
+        """Flacher Index der naechsten Weg- oder Pfadzelle (int32, -1 = keine)."""
+        return self._weg()[1]
 
-    def _weg(self):
-        if "abstand_weg" in self._mem and "weg_naechst" in self._mem:
+    @property
+    def abstand_weg_basis(self):
+        """Abstand zum Wegenetz OHNE Pfade (m) - z. B. fuer die Anschlusspruefung der Pfade."""
+        return self._weg(basis=True)[0]
+
+    @property
+    def weg_naechst_basis(self):
+        return self._weg(basis=True)[1]
+
+    def _weg(self, basis=False):
+        w = self.welt
+        mit = _pfade_aktiv(w) and not basis
+        suffix = ("_p" + w.pfade_kennung) if mit else ""
+        na, ni = "abstand_weg" + suffix, "weg_naechst" + suffix
+        if na in self._mem and ni in self._mem:
+            return self._mem[na], self._mem[ni]
+        if self.cache and all(os.path.exists(os.path.join(self.cache, n + ".npy")) for n in (na, ni)):
+            return self._get(na, None), self._get(ni, None)
+        quelle = w.weg if mit else (w.weg_basis if _pfade_aktiv(w) else w.weg)
+        with Uhr("berechne %s (+ naechster Wegpunkt)" % na):
+            d, i = abstand(quelle > 0, self.z, 2000.0, indizes=True)
+        self._speichern(na, d)
+        self._speichern(ni, i)
+        if mit:
+            self._pfad_cache_aufraeumen()
+        return d, i
+
+    def _pfad_cache_aufraeumen(self, behalten=6):
+        """Alte abstand_weg_p*/weg_naechst_p*-Dateien (andere Pfadstaende) loeschen, die neuesten behalten."""
+        if not self.cache:
             return
-        if self.cache and all(os.path.exists(os.path.join(self.cache, n + ".npy"))
-                              for n in ("abstand_weg", "weg_naechst")):
-            self._get("abstand_weg", None)
-            self._get("weg_naechst", None)
-            return
-        with Uhr("berechne abstand_weg (+ naechster Wegpunkt)"):
-            d, i = abstand(self.welt.weg > 0, self.z, 2000.0, indizes=True)
-        self._speichern("abstand_weg", d)
-        self._speichern("weg_naechst", i)
+        import glob
+        dateien = sorted(glob.glob(os.path.join(self.cache, "abstand_weg_p*.npy")), key=os.path.getmtime,
+                         reverse=True)
+        for pf in dateien[behalten:]:
+            k = os.path.basename(pf)[len("abstand_weg"):]
+            for q in (pf, os.path.join(self.cache, "weg_naechst" + k)):
+                try:
+                    os.remove(q)
+                except OSError:
+                    pass
 
     @property
     def abstand_ort(self):
@@ -915,6 +951,72 @@ def polylinie_proben(punkte_m, schritt_m=2.0):
     n = max(2, int(s[-1] / schritt_m) + 1)
     ss = np.linspace(0, s[-1], n)
     return np.interp(ss, s, p[:, 0]), np.interp(ss, s, p[:, 1]), ss
+
+
+def pfad_profil(welt, punkte_m, fenster_m=10.0, schritt_m=None):
+    """Laengsprofil eines Pfads (Polylinie [[x, y], ...] in m) auf der Hoehe.
+
+    Steigung an jeder Probe (Abstand schritt_m, Standard = Zelle) ueber ein Fenster von fenster_m Pfadlaenge
+    (zentriert); Steigung eines Segments (zwischen zwei gegebenen Punkten) = Maximum seiner Proben.
+    Rueckgabe dict: laenge_m (Grundriss), hoehe_min_m, hoehe_max_m, max_steigung_prozent, max_steigung_grad,
+      mittel_steigung_grad, laenge_ueber_15_prozent_m, laenge_ueber_25_grad_m,
+      segmente [{nr, von_m, nach_m, laenge_m, max_prozent}]."""
+    P = np.asarray(punkte_m, np.float64)[:, :2]
+    seg_l = np.hypot(*(P[1:] - P[:-1]).T) if len(P) > 1 else np.zeros(0)
+    gesamt = float(seg_l.sum())
+    schritt = float(schritt_m or welt.zelle_m)
+    out = {"laenge_m": round(gesamt, 1), "segmente": []}
+    if len(P) < 2 or gesamt <= 0:
+        out.update({"hoehe_min_m": None, "hoehe_max_m": None, "max_steigung_prozent": 0.0,
+                    "max_steigung_grad": 0.0, "mittel_steigung_grad": 0.0, "laenge_ueber_15_prozent_m": 0.0,
+                    "laenge_ueber_25_grad_m": 0.0})
+        return out
+    kum = np.concatenate([[0.0], np.cumsum(seg_l)])
+    s = np.unique(np.concatenate([np.arange(0.0, gesamt, schritt), kum]))
+    k = np.clip(np.searchsorted(kum, s, side="right") - 1, 0, len(seg_l) - 1)
+    t = np.where(seg_l[k] > 0, (s - kum[k]) / np.maximum(seg_l[k], 1e-9), 0.0)
+    x = P[k, 0] + (P[k + 1, 0] - P[k, 0]) * t
+    y = P[k, 1] + (P[k + 1, 1] - P[k, 1]) * t
+    z = np.asarray(welt.hoehe_bei_m(x, y), np.float64)
+    h = fenster_m / 2.0
+    s0 = np.clip(s - h, 0, gesamt)
+    s1 = np.clip(s + h, 0, gesamt)
+    z0 = np.interp(s0, s, z)
+    z1 = np.interp(s1, s, z)
+    gr = np.abs(z1 - z0) / np.maximum(s1 - s0, 1e-6) * 100.0
+    ds = np.gradient(s) if s.size > 1 else np.ones(1)
+    for n in range(len(seg_l)):
+        sel = (s >= kum[n]) & (s <= kum[n + 1])
+        mx = float(gr[sel].max()) if sel.any() else 0.0
+        out["segmente"].append({"nr": n, "von_m": [round(float(P[n, 0]), 1), round(float(P[n, 1]), 1)],
+                                "nach_m": [round(float(P[n + 1, 0]), 1), round(float(P[n + 1, 1]), 1)],
+                                "laenge_m": round(float(seg_l[n]), 1), "max_prozent": round(mx, 1)})
+    gmax = float(gr.max())
+    out.update({"hoehe_min_m": round(float(z.min()), 1), "hoehe_max_m": round(float(z.max()), 1),
+                "max_steigung_prozent": round(gmax, 1),
+                "max_steigung_grad": round(float(np.degrees(np.arctan(gmax / 100.0))), 1),
+                "mittel_steigung_grad": round(float(np.degrees(np.arctan((gr * ds).sum() / max(ds.sum(), 1e-9)
+                                                                           / 100.0))), 1),
+                "laenge_ueber_15_prozent_m": round(float(ds[gr > 15.0].sum()), 1),
+                "laenge_ueber_25_grad_m": round(float(ds[gr > np.tan(np.radians(25.0)) * 100.0].sum()), 1)})
+    return out
+
+
+def abstand_zu_polylinien(x_m, y_m, linien):
+    """Kleinster Abstand (m) eines Punkts zu einer Liste von Polylinien [[x, y], ...] (m). Leer -> inf."""
+    best = float("inf")
+    for L in linien:
+        P = np.asarray(L, np.float64)[:, :2]
+        if len(P) == 1:
+            best = min(best, float(np.hypot(x_m - P[0, 0], y_m - P[0, 1])))
+            continue
+        a, b = P[:-1], P[1:]
+        ab = b - a
+        tt = np.clip(((x_m - a[:, 0]) * ab[:, 0] + (y_m - a[:, 1]) * ab[:, 1]) /
+                     np.maximum((ab ** 2).sum(1), 1e-9), 0, 1)
+        d = np.hypot(x_m - (a[:, 0] + tt * ab[:, 0]), y_m - (a[:, 1] + tt * ab[:, 1]))
+        best = min(best, float(d.min()))
+    return best
 
 
 def stufen_entlang_linie(welt, punkte_m, kurz_m=10.0, lang_m=50.0, min_fall_m=2.0, faktor=2.5,

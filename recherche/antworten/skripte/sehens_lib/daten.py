@@ -174,6 +174,36 @@ class Welt:
         self._baumhoehe_nativ = None
         self._baeume_nativ = None
         self._boden_lader = None
+        # Pfade (standorte.json "pfade", alle Biome): weg_basis = Wegenetz ohne Pfade; weg = Wege + Pfade
+        self.weg_basis = weg
+        self.pfade = []
+        self.pfad_maske = None
+        self.pfade_kennung = ""
+        self._weg_mit_pfaden = None
+
+    # -- Pfade --
+    def setze_pfade(self, pfade):
+        """Rastert Pfade (Liste dict mit punkte_m/punkte_cm, breite_cm) zusaetzlich zum Wegenetz als Weg.
+        weg_basis bleibt unveraendert; weg = weg_basis + Pfadzellen (Wert PFAD_WERT). Leere Liste -> Ursprung."""
+        self.pfade = [normiere_pfad(p) for p in (pfade or [])]
+        self.pfade = [p for p in self.pfade if p is not None]
+        if not self.pfade:
+            self.weg = self.weg_basis
+            self.pfad_maske = None
+            self.pfade_kennung = ""
+            self._weg_mit_pfaden = None
+            return self
+        self.pfad_maske = pfad_maske(self, self.pfade)
+        w = np.array(self.weg_basis, copy=True)
+        w[self.pfad_maske & (w == 0)] = PFAD_WERT
+        self.weg = w
+        self._weg_mit_pfaden = w
+        self.pfade_kennung = pfade_kennung(self.pfade)
+        return self
+
+    def pfade_aktiv(self):
+        """True, wenn weg die gerasterten Pfade enthaelt (und nicht nachtraeglich ersetzt wurde)."""
+        return bool(self.pfade) and self.weg is self._weg_mit_pfaden
 
     # -- abgeleitete Raster --
     @property
@@ -542,11 +572,122 @@ def _boden_1m(ordner, ny, nx, block=512):
     return out
 
 
-def lade(daten2m=None, daten1m=None, **kw):
-    """Einheitlicher Einstieg: daten1m gesetzt -> 1-m-Originale, sonst 2-m-PNGs (Standardordner)."""
+def lade(daten2m=None, daten1m=None, pfade=True, **kw):
+    """Einheitlicher Einstieg: daten1m gesetzt -> 1-m-Originale, sonst 2-m-PNGs (Standardordner).
+
+    pfade: True (Standard) = Pfade aller Biome aus antworten/sehens/*/standorte.json ("pfade") als Wege
+    rastern; Ordnername = Pfade aus diesem sehens-Ordner; Liste = diese Pfade; False/None = ohne Pfade
+    (altes Verhalten). Ohne Pfade in den Dateien ist das Ergebnis identisch zum alten Verhalten."""
     if daten1m:
-        return lade_1m(daten1m, daten2m=daten2m, **kw)
-    return lade_2m(daten2m)
+        w = lade_1m(daten1m, daten2m=daten2m, **kw)
+    else:
+        w = lade_2m(daten2m)
+    if pfade:
+        liste = pfade if isinstance(pfade, (list, tuple)) else lade_pfade(
+            pfade if isinstance(pfade, str) else None)
+        w.setze_pfade(liste)
+        if w.pfade:
+            log("Pfade als Wege gerastert: %d (%s)" % (len(w.pfade), ", ".join(p["id"] for p in w.pfade)))
+    return w
+
+
+# --- Pfade (Auftrag 13c: standorte.json "pfade") ------------------------------------------------
+PFAD_ARTEN = ("trampelpfad", "serpentine", "trittsteine")
+PFAD_WERT = 255           # Rasterwert der Pfadzellen in welt.weg (> 0 = Weg)
+
+
+def standard_pfad_sehens():
+    """antworten/sehens relativ zu dieser Datei."""
+    hier = os.path.dirname(os.path.abspath(__file__))
+    return os.path.normpath(os.path.join(hier, "..", "..", "sehens"))
+
+
+def normiere_pfad(p, biom=None, quelle=""):
+    """Pfad-Eintrag -> dict mit id, biom, art, breite_cm, punkte_m [[x, y], ...] (+ Originalfelder).
+    Ungueltige Eintraege (keine id, < 2 Punkte) -> None."""
+    if not isinstance(p, dict):
+        return None
+    if "punkte_m" in p and p.get("_normiert"):
+        return p
+    pts = p.get("punkte_cm")
+    if pts is not None:
+        try:
+            pm = [[float(q[0]) / 100.0, float(q[1]) / 100.0] for q in pts]
+        except (TypeError, ValueError, IndexError):
+            return None
+    else:
+        try:
+            pm = [[float(q[0]), float(q[1])] for q in (p.get("punkte_m") or [])]
+        except (TypeError, ValueError, IndexError):
+            return None
+    if not isinstance(p.get("id"), str) or len(pm) < 2:
+        return None
+    out = dict(p)
+    out.update({"id": p["id"], "biom": p.get("biom") or biom, "art": p.get("art"),
+                "breite_cm": p.get("breite_cm", 150), "punkte_m": pm, "quelle": quelle or p.get("quelle", ""),
+                "_normiert": True})
+    return out
+
+
+def lade_pfade(sehens_ordner=None):
+    """Alle Pfade aus <sehens_ordner>/*/standorte.json (Schluessel "pfade" auf oberster Ebene).
+    Rueckgabe Liste normierter dicts (id, biom, art, breite_cm, punkte_m, fuer, anschluss, quelle)."""
+    import glob
+    ordner = sehens_ordner or standard_pfad_sehens()
+    out = []
+    for pf in sorted(glob.glob(os.path.join(ordner, "*", "standorte.json"))):
+        try:
+            with open(pf, "r", encoding="utf-8") as f:
+                d = json.load(f)
+        except Exception as ex:  # defekte Datei -> Pruefer meldet; hier weiter
+            log("Hinweis: %s nicht lesbar (%s) - Pfade daraus fehlen" % (pf, ex))
+            continue
+        biom = d.get("biom") or os.path.basename(os.path.dirname(pf))
+        for p in d.get("pfade") or []:
+            n = normiere_pfad(p, biom=biom, quelle=pf)
+            if n is None:
+                log("Hinweis: ungueltiger Pfad in %s uebersprungen" % pf)
+                continue
+            out.append(n)
+    return out
+
+
+def pfade_kennung(pfade):
+    """Kurzer Hash ueber Geometrie und Breite aller Pfade (Cache-Schluessel)."""
+    import hashlib
+    h = hashlib.sha1()
+    for p in sorted(pfade, key=lambda q: q["id"]):
+        h.update(json.dumps([p["id"], p.get("breite_cm"), [[round(a, 2), round(b, 2)] for a, b in p["punkte_m"]]])
+                 .encode())
+    return h.hexdigest()[:10]
+
+
+def polylinie_dichte(punkte_m, schritt_m):
+    """Gleichmaessige Proben entlang einer Polylinie (inkl. Ecken) -> (x, y) Arrays."""
+    P = np.asarray(punkte_m, np.float64)[:, :2]
+    xs, ys = [P[0, 0]], [P[0, 1]]
+    for a, b in zip(P[:-1], P[1:]):
+        L = float(np.hypot(*(b - a)))
+        n = max(1, int(np.ceil(L / schritt_m)))
+        t = np.arange(1, n + 1) / n
+        xs.extend(a[0] + (b[0] - a[0]) * t)
+        ys.extend(a[1] + (b[1] - a[1]) * t)
+    return np.asarray(xs), np.asarray(ys)
+
+
+def pfad_maske(welt, pfade):
+    """Bool-Raster (native Zelle) aller Pfadzellen: Mittellinie dicht abgetastet, Band breite_cm."""
+    m = np.zeros((welt.ny, welt.nx), bool)
+    z = welt.zelle_m
+    for p in pfade:
+        x, y = polylinie_dichte(p["punkte_m"], z / 2.0)
+        r = max(0, int(np.floor((float(p.get("breite_cm") or 150) / 200.0) / z)))
+        i, j = welt.m_zu_ij(x, y)
+        for di in range(-r, r + 1):
+            for dj in range(-r, r + 1):
+                if di * di + dj * dj <= r * r:
+                    m[np.clip(i + di, 0, welt.ny - 1), np.clip(j + dj, 0, welt.nx - 1)] = True
+    return m
 
 
 def argumente_hinzufuegen(parser):

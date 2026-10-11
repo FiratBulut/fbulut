@@ -261,7 +261,7 @@
    "radius_m": 55.0,
    "felder": ["D2"],
    "kameras": [
-    ["D2", -137700, -228650, -135500, -245000, 16039, "tundra_05_der_trunkene_grund_anmarsch", -170],
+    ["D2", -137687, -228673, -135500, -245000, 16039, "tundra_05_der_trunkene_grund_anmarsch", -170],
     ["D2", -136924, -236925, -135500, -245000, 15984, "tundra_05_der_trunkene_grund_held", 170],
     ["D2", -135674, -244015, -135500, -245000, 15989, "tundra_05_der_trunkene_grund_nah", -170]
    ],
@@ -283,12 +283,12 @@
    "erreichbar": {
     "erreichbar": false,
     "modus": "weich",
-    "laenge_m": 448.7,
-    "luftlinie_m": 313.0,
+    "laenge_m": 555.6,
+    "luftlinie_m": 292.1,
     "max_steigung_grad": 26.3,
-    "mittel_steigung_grad": 16.5,
+    "mittel_steigung_grad": 16.2,
     "steil_laenge_m": 5.7,
-    "weg_punkt_m": [-1351.0, -2137.0],
+    "weg_punkt_m": [-1419.0, -2165.0],
     "pfad_noetig": true,
     "wasser_laenge_m": 0.0
    },
@@ -311,7 +311,15 @@
     [-131500, -217700, 17399],
     [-131500, -216900, 17190],
     [-135100, -213300, 15563],
-    [-135100, -213700, 15460]
+    [-135100, -213700, 15460],
+    [-135500, -213300, 15341],
+    [-135900, -213700, 15091],
+    [-135500, -215700, 14497],
+    [-136300, -216500, 14194],
+    [-137100, -216500, 13869],
+    [-138300, -215700, 13563],
+    [-140700, -215700, 12943],
+    [-141900, -216500, 12627]
    ],
    "gelaende_plan": {
     "fenster_m": [-1416.0, -2498.0, -1272.0, -2402.0],
@@ -514,20 +522,12 @@
    "breite_cm": 150,
    "punkte_cm": [
     [-158300, -185900],
-    [-165100, -185900],
-    [-165900, -186700],
-    [-166700, -186700],
-    [-169100, -184300],
-    [-170300, -184300],
-    [-170700, -183900],
-    [-171100, -184300],
-    [-171500, -183900],
-    [-172300, -184300],
-    [-173600, -184200]
+    [-164562, -185900]
    ],
    "anschluss": "Weg West des Zopfstroms (Aufstiegsweg-Abzweig); Furt mit Trittsteinen durch die Rinnen",
    "fuer": ["tundra_01_der_pingo"],
-   "laenge_m": 173.0,
+   "laenge_m": 62.6,
+   "rest_trampelspur_m": 92.0,
    "max_steigung_grad": 24.3,
    "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug; 10 m durch Wasser -> Trittsteine",
    "bodenlage": "Erde/Kies-Band 1,2-2 m, Trittsteine SM_stones_01_2/_5, SM_flat_rock_03"
@@ -543,13 +543,12 @@
     [-65300, -190100],
     [-64500, -189300],
     [-61700, -189300],
-    [-57300, -184900],
-    [-56500, -184500],
-    [-53000, -184500]
+    [-61123, -188723]
    ],
    "anschluss": "Kuestenweg Ost (X -697 / Y -1941) hinab zur Mulde",
    "fuer": ["tundra_03_die_eiswand"],
-   "laenge_m": 209.1,
+   "laenge_m": 110.4,
+   "rest_trampelspur_m": 92.0,
    "max_steigung_grad": 18.3,
    "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug; 8 m durch Wasser -> Trittsteine",
    "bodenlage": "Erde/Kies-Band 1,2-2 m"
@@ -559,6 +558,14 @@
    "art": "serpentine",
    "breite_cm": 150,
    "punkte_cm": [
+    [-141900, -216500],
+    [-140700, -215700],
+    [-138300, -215700],
+    [-137100, -216500],
+    [-136300, -216500],
+    [-135500, -215700],
+    [-135900, -213700],
+    [-135500, -213300],
     [-135100, -213700],
     [-135100, -213300],
     [-131500, -216900],
@@ -573,15 +580,12 @@
     [-138700, -226900],
     [-137100, -229700],
     [-143100, -235700],
-    [-138300, -240500],
-    [-138300, -240900],
-    [-136700, -242500],
-    [-136700, -243700],
-    [-135500, -245000]
+    [-141089, -237710]
    ],
-   "anschluss": "Weg um Kharad-Vor (X -1351 / Y -2137) ueber den Ruecken nach Norden",
+   "anschluss": "Weg westlich von Kharad-Vor (X -1419 / Y -2165, ausserhalb des Stadtrands); quert den Ruecken nach Norden",
    "fuer": ["tundra_05_der_trunkene_grund"],
-   "laenge_m": 448.7,
+   "laenge_m": 454.4,
+   "rest_trampelspur_m": 92.0,
    "max_steigung_grad": 26.3,
    "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug",
    "bodenlage": "Erde/Kies-Band 1,2-2 m"
@@ -597,16 +601,12 @@
     [-156700, -197900],
     [-158700, -199900],
     [-159500, -199900],
-    [-176700, -216700],
-    [-176700, -219900],
-    [-176300, -220300],
-    [-176300, -221900],
-    [-175900, -222300],
-    [-176000, -223500]
+    [-174848, -214891]
    ],
    "anschluss": "Weg Ost (X -1547 / Y -1967) bis zur Schluchtkante, Kehren hinab zum Talboden",
    "fuer": ["tundra_06_das_aufeis"],
-   "laenge_m": 379.0,
+   "laenge_m": 280.5,
+   "rest_trampelspur_m": 92.0,
    "max_steigung_grad": 24.7,
    "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug",
    "bodenlage": "Erde/Kies-Band 1,2-2 m"

@@ -1,6 +1,7 @@
 {
  "stand": "2026-10-11",
  "biom": "lava",
+ "hinweis": "Orte mit 'pfad_id' liegen am geplanten Pfad (Auftrag 13c: Pfade erwuenscht, Kratersteig/Steige werden gebaut); Abstand, Sicht und Erreichbarkeit gegen Wege + Pfade aller Biome.",
  "orte": [
   {
    "id": "lava_01_schwarze_mauer",
@@ -251,6 +252,227 @@
    ],
    "draufsicht": "lava_05_klare_spalte.png",
    "standort_begruendung": "Moos-Lavaebene im Westen (29-30 m, Hang 12 Grad), parallel zur Spaltenrichtung der Kraterreihe (NO-SW); Weg 242 m."
+  },
+  {
+   "id": "lava_06_kraterreihe",
+   "name": "Die Kraterreihe",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-179000, 134500, 5829],
+   "radius_m": 130.0,
+   "felder": ["C6", "D6"],
+   "kameras": [
+    ["C6", -191851, 128987, -179000, 134500, 5929, "lava_06_kraterreihe_anmarsch", -170],
+    ["C6", -193500, 129000, -183000, 139500, 7704, "lava_06_kraterreihe_held", -170],
+    ["C6", -183600, 142000, -184400, 143200, 6661, "lava_06_kraterreihe_nah", -170],
+    ["C6", -214000, 112800, -179000, 134500, 4017, "lava_06_kraterreihe_fern", 170]
+   ],
+   "ziel_hoehe_m": 18.0,
+   "sicht": {
+    "naechster_weg_m": 147.7,
+    "sichtbar_ab_m": 593.0,
+    "wegpunkte_sichtbar": 27,
+    "wegpunkte_ring_300_800": 69,
+    "mittel_anteil": 0.2
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 159.9,
+    "luftlinie_m": 147.7,
+    "max_steigung_grad": 14.2,
+    "mittel_steigung_grad": 3.9,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1925.0, 1285.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-179000, 134500, 5883],
+    [-180500, 134500, 5709],
+    [-180900, 134100, 5678],
+    [-181700, 134100, 5789],
+    [-182900, 132900, 5841],
+    [-183700, 132500, 5855],
+    [-184900, 132500, 5922],
+    [-186900, 130500, 5974],
+    [-187700, 130500, 5936],
+    [-188500, 129700, 5879],
+    [-190900, 129700, 5775],
+    [-192500, 128500, 5564]
+   ],
+   "draufsicht": "lava_06_kraterreihe.png",
+   "standort_begruendung": "Vorhandene Kegelkette auf einer NO-SW-Spalte am Nordostfuss: 4 Krater (Boden 36-66 m), Hauptkegel 82 m, Krater 16 m tief; heute ~700 m vom Weg -> nur mit Kratersteig.",
+   "pfad_id": "lava_pfad_kratersteig_ost"
+  },
+  {
+   "id": "lava_07_basaltorgel",
+   "name": "Die Basaltorgel",
+   "art": "fundstueck",
+   "mitte_cm": [-279500, 139000, 4180],
+   "radius_m": 60.0,
+   "felder": ["B6"],
+   "kameras": [
+    ["B6", -276741, 139500, -279500, 139000, 4280, "lava_07_basaltorgel_anmarsch", -170],
+    ["B6", -281800, 140200, -278600, 138600, 5472, "lava_07_basaltorgel_held", -170],
+    ["B6", -279700, 138800, -278700, 138600, 4912, "lava_07_basaltorgel_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 106.6,
+    "sichtbar_ab_m": 0,
+    "wegpunkte_sichtbar": 0,
+    "wegpunkte_ring_300_800": 80,
+    "mittel_anteil": 0.0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "einblick_grund_max": null
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 116.1,
+    "luftlinie_m": 106.4,
+    "max_steigung_grad": 24.5,
+    "mittel_steigung_grad": 9.4,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-2689.0, 1399.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-279500, 139000, 4273],
+    [-278900, 139500, 4462],
+    [-278500, 139100, 4682],
+    [-278100, 139500, 4940],
+    [-277700, 139100, 5154],
+    [-277300, 139500, 5346],
+    [-272100, 139500, 5899],
+    [-271700, 139900, 5846],
+    [-268900, 139900, 5578]
+   ],
+   "draufsicht": "lava_07_basaltorgel.png",
+   "standort_begruendung": "Westrand des Aschenplateaus: Schlucht zwischen Plateau (55 m) und Westhuegel, Plateaukante 10-14 m bei 30-35 Grad; heute 714 m vom Weg.",
+   "pfad_id": "lava_pfad_kratersteig_west"
+  },
+  {
+   "id": "lava_08_glutauge",
+   "name": "Das Glutauge",
+   "art": "fundstueck",
+   "mitte_cm": [-274500, 174000, 6501],
+   "radius_m": 45.0,
+   "felder": ["B6", "C6"],
+   "kameras": [
+    ["B6", -269839, 165839, -274500, 174000, 6601, "lava_08_glutauge_anmarsch", -170],
+    ["B6", -273000, 172900, -274500, 174000, 6301, "lava_08_glutauge_held", 170],
+    ["B6", -274000, 173400, -274500, 174000, 6201, "lava_08_glutauge_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.0,
+   "sicht": {
+    "naechster_weg_m": 117.9,
+    "sichtbar_ab_m": 0,
+    "wegpunkte_sichtbar": 9,
+    "wegpunkte_ring_300_800": 38,
+    "mittel_anteil": 0.2,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 1.0,
+    "einblick_grund_max": 0.0
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 125.5,
+    "luftlinie_m": 117.9,
+    "max_steigung_grad": 6.8,
+    "mittel_steigung_grad": 3.1,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-2681.0, 1641.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-274500, 174000, 6513],
+    [-274100, 171700, 6371],
+    [-271700, 169300, 6566],
+    [-271300, 167300, 6562],
+    [-268100, 164100, 6645]
+   ],
+   "draufsicht": "lava_08_glutauge.png",
+   "standort_begruendung": "Junger Lavastrom (Lavafels-Band) auf dem Westplateau, flacher Abschnitt 64-70 m (Hang 8-13 Grad); heute >870 m vom Weg.",
+   "pfad_id": "lava_pfad_kratersteig_west"
+  }
+ ],
+ "pfade": [
+  {
+   "id": "lava_pfad_kratersteig_west",
+   "art": "trampelpfad",
+   "breite_cm": 150,
+   "punkte_cm": [
+    [-239800, 85200],
+    [-241300, 87800],
+    [-241600, 90500],
+    [-241000, 93500],
+    [-240000, 95500],
+    [-239300, 96100],
+    [-248900, 105700],
+    [-251300, 108500],
+    [-251300, 110100],
+    [-252100, 111300],
+    [-256500, 116500],
+    [-264500, 124500],
+    [-265700, 126500],
+    [-266500, 136100],
+    [-267300, 136900],
+    [-267300, 138500],
+    [-268900, 140100],
+    [-268500, 140900],
+    [-268500, 162100],
+    [-268100, 162500],
+    [-268100, 164100]
+   ],
+   "anschluss": "Archivpfad vor Zalas Archiv (X -2398, Y 852 m; 23 m vor dem Archiv-Radius), westlich um das Archiv",
+   "fuer": ["lava_07_basaltorgel", "lava_08_glutauge"],
+   "laenge_m": 915.9,
+   "max_steigung_grad": 10.1,
+   "mittel_steigung_grad": 3.5,
+   "laenge_ueber_15_prozent_m": 25.5,
+   "hoehe_m": [21.3, 66.5],
+   "bodenlage": "Band Erde/Kies 1,5 m; Trittsteine auf Lavafels"
+  },
+  {
+   "id": "lava_pfad_kratersteig_ost",
+   "art": "trampelpfad",
+   "breite_cm": 150,
+   "punkte_cm": [
+    [-239300, 96100],
+    [-236000, 97200],
+    [-232500, 97000],
+    [-230100, 96500],
+    [-226100, 100900],
+    [-222500, 104500],
+    [-220500, 105700],
+    [-212500, 114100],
+    [-209700, 114100],
+    [-208500, 115300],
+    [-207700, 115300],
+    [-200500, 122500],
+    [-198500, 123300],
+    [-192500, 128500]
+   ],
+   "anschluss": "Abzweig vom Kratersteig West suedlich des Archivs (X -2393, Y 961 m)",
+   "fuer": ["lava_06_kraterreihe"],
+   "laenge_m": 599.8,
+   "max_steigung_grad": 20.2,
+   "mittel_steigung_grad": 4.4,
+   "laenge_ueber_15_prozent_m": 85.7,
+   "hoehe_m": [23.8, 55.7],
+   "bodenlage": "Band Erde/Kies 1,5 m; Trittsteine auf Lavafels"
   }
  ]
 }

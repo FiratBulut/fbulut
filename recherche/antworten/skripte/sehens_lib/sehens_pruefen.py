@@ -12,13 +12,20 @@ Geprueft:
     (>= 3: _anmarsch/_held/_nah, Leuchtfeuer + _fern; 8 Felder; Abstaende _nah 5-15 m, _fern 300-800 m),
     mit Daten: Weg 80-300 m, nicht im Ort, >= 150 m vom Stadtrand, im Biom (kleine Biome <= 150 m ausserhalb),
     nicht im Meer, Mitte-z ~ Boden; je Biom 8 Orte, ~3 Leuchtfeuer.
-  Global ueber alle Biome: Mindestabstand 350 m (beide in kleinen Biomen: 200 m), doppelte IDs.
+  Pfade ("pfade", Auftrag 13c): Schema, >= 2 Punkte, breite_cm 120-200, art trampelpfad/serpentine/trittsteine,
+    Anschluss (erster Punkt <= 30 m vom Wegenetz oder einem anderen Pfad, FEHLER), Steigung je Segment > 15 %
+    (HINWEIS "Kehren noetig", bei serpentine erlaubt), schneidet Stadt/Meer (WARNUNG), quert Wasser (HINWEIS);
+    Orte mit "pfad_id": Pfad muss existieren (alle Biome). Die Pfade ALLER Biome zaehlen als Wege
+    (daten.lade rastert sie) - fuer Weg 80-300 m, Sicht und Erreichbarkeit.
+  Global ueber alle Biome: Mindestabstand 350 m (beide in kleinen Biomen: 200 m), doppelte IDs (Orte, Pfade).
+  --sicht: Leuchtfeuer aus 300-800 m von Weg/Pfad sichtbar (WARNUNG sonst), Fundstueck verdeckt (HINWEIS sonst).
   Phase 2 orte.json: Pflichtfelder §2, Gelaende/Lagen §3 (Fenster, max_aenderung, Dateigroessen, Rand = 0),
     Wasser §5 (Umriss gegen Uhrzeigersinn = Flaeche > 0 in X/Y wie wasser_welt.json, Farben, Bachgefaelle),
     Effekte §6, Materialwuensche §7 (<= 6 je Biom), Kameras §8, Budget §9.
 
 API: pruefe_standorte(d, welt=None, gel=None), pruefe_orte(d, basis=None), pruefe_global(liste),
-     pruefe_alle(sehens_ordner, welt=None, gel=None), melde(befunde, titel)
+     pruefe_alle(sehens_ordner, welt=None, gel=None, sicht=False), pruefe_pfad(...), pruefe_pfade_datei(...),
+     pruefe_sicht(liste, welt), melde(befunde, titel)
 Befund = (stufe, ort_id, text) mit stufe in FEHLER / WARNUNG / HINWEIS.
 """
 
@@ -26,6 +33,8 @@ import math
 import os
 import re
 import sys
+
+import numpy as np
 
 if __name__ == "__main__" and __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -181,8 +190,183 @@ def pruefe_standort(o, biom, welt=None, gel=None):
     return b
 
 
-def pruefe_standorte(d, welt=None, gel=None, biom=None, global_pruefen=True):
-    """Prueft eine standorte.json (dict). global_pruefen: Abstaende/IDs innerhalb der Datei."""
+# ============================================================================================
+# Pfade (Auftrag 13c: "pfade" in standorte.json)
+# ============================================================================================
+PFAD_BREITE_CM = (120, 200)
+PFAD_ANSCHLUSS_M = 30.0
+PFAD_KEHREN_PROZENT = 15.0
+
+
+def _pfad_linien(pfade, ausser=None):
+    return [p["punkte_m"] for p in pfade if p.get("id") != ausser]
+
+
+def pruefe_pfad(p, biom, welt=None, gel=None, alle_pfade=(), orte_ids=None):
+    """Prueft einen Pfad-Eintrag. alle_pfade: normierte Pfade aller Biome (Anschluss an andere Pfade)."""
+    b = []
+    if not isinstance(p, dict):
+        return [(FEHLER, biom, "pfade: Eintrag muss ein Objekt sein")]
+    pid = p.get("id")
+    if not isinstance(pid, str) or not pid:
+        return [(FEHLER, biom, "Pfad ohne id")]
+    if not re.match(r"^%s_pfad_[a-z0-9_]+$" % re.escape(biom), pid):
+        b.append((FEHLER, pid, "Pfad-id muss '%s_pfad_<name>' sein (klein, ASCII)" % biom))
+    art = p.get("art")
+    if art not in _daten.PFAD_ARTEN:
+        b.append((FEHLER, pid, "art %r (%s)" % (art, "/".join(_daten.PFAD_ARTEN))))
+    br = p.get("breite_cm")
+    if not _zahl(br):
+        b.append((FEHLER, pid, "breite_cm fehlt"))
+    elif not (PFAD_BREITE_CM[0] <= br <= PFAD_BREITE_CM[1]):
+        b.append((FEHLER, pid, "breite_cm %s (Soll %d-%d cm)" % (br, PFAD_BREITE_CM[0], PFAD_BREITE_CM[1])))
+    pts = p.get("punkte_cm")
+    if not isinstance(pts, list) or len(pts) < 2 or not all(_pkt(q, 2) for q in pts):
+        b.append((FEHLER, pid, "punkte_cm: mindestens 2 Punkte [x, y] in cm"))
+        return b
+    if not isinstance(p.get("anschluss"), str) or not p.get("anschluss"):
+        b.append((WARNUNG, pid, "anschluss fehlt (welcher Weg/Ort, Startpunkt)"))
+    fuer = p.get("fuer")
+    if not isinstance(fuer, list):
+        b.append((WARNUNG, pid, "fuer muss eine Liste von Ort-ids sein"))
+    elif not fuer:
+        b.append((HINWEIS, pid, "fuer ist leer (Pfad ohne Ort)"))
+    elif orte_ids is not None:
+        for oid in fuer:
+            if oid not in orte_ids:
+                b.append((WARNUNG, pid, "fuer: Ort %r gibt es nicht" % oid))
+    for f in ("laenge_m", "max_steigung_grad"):
+        if not _zahl(p.get(f)):
+            b.append((WARNUNG, pid, "%s fehlt" % f))
+    pm = [[q[0] / 100.0, q[1] / 100.0] for q in pts]
+    if welt is None:
+        return b
+    from . import gelaende as _gel
+    if not all(welt.im_raster_m(x, y) for x, y in pm):
+        b.append((FEHLER, pid, "Punkte ausserhalb der Welt"))
+        return b
+    # Anschluss: erster Punkt <= 30 m vom Wegenetz (ohne Pfade) oder von einem anderen Pfad
+    x0, y0 = pm[0]
+    d_netz = float("inf")
+    if gel is not None:
+        i, j = welt.m_zu_ij(x0, y0)
+        d_netz = float(gel.abstand_weg_basis[i, j])
+    d_pfad = _gel.abstand_zu_polylinien(x0, y0, _pfad_linien(alle_pfade, ausser=pid))
+    if gel is None and not alle_pfade:
+        b.append((HINWEIS, pid, "Anschluss nicht geprueft (keine Gelaendedaten)"))
+    elif min(d_netz, d_pfad) > PFAD_ANSCHLUSS_M:
+        b.append((FEHLER, pid, "schliesst nicht an: erster Punkt %.0f m vom Wegenetz, %.0f m vom naechsten Pfad "
+                               "(Soll <= %.0f m)" % (d_netz, d_pfad, PFAD_ANSCHLUSS_M)))
+    # Steigung je Segment
+    pr = _gel.pfad_profil(welt, pm)
+    steil = [sg for sg in pr["segmente"] if sg["max_prozent"] > PFAD_KEHREN_PROZENT]
+    if steil and art != "serpentine":
+        b.append((HINWEIS, pid, "%d von %d Segmenten > %.0f %% (max %.0f %% = %.0f Grad, %.0f m steil): Kehren noetig"
+                  % (len(steil), len(pr["segmente"]), PFAD_KEHREN_PROZENT, pr["max_steigung_prozent"],
+                     pr["max_steigung_grad"], pr["laenge_ueber_15_prozent_m"])))
+    if _zahl(p.get("laenge_m")) and abs(p["laenge_m"] - pr["laenge_m"]) > max(5.0, 0.1 * pr["laenge_m"]):
+        b.append((HINWEIS, pid, "laenge_m %.0f, aus punkte_cm %.0f m" % (p["laenge_m"], pr["laenge_m"])))
+    # Stadt / Meer / Suesswasser entlang der Linie
+    x, y = _daten.polylinie_dichte(pm, welt.zelle_m)
+    i, j = welt.m_zu_ij(x, y)
+    n_meer = int(welt.meer[i, j].sum())
+    if n_meer:
+        b.append((WARNUNG, pid, "schneidet das Meer auf ca. %.0f m" % (n_meer * welt.zelle_m)))
+    xs, ys, rs = welt.staedte_m()
+    if xs.size:
+        dd = np.hypot(x[:, None] - xs[None, :], y[:, None] - ys[None, :]) - rs[None, :]
+        innen = dd.min(axis=0) < 0
+        if innen.any():
+            namen = [str(welt.staedte[k].get("id")) for k in np.flatnonzero(innen)]
+            b.append((WARNUNG, pid, "schneidet die geplante Stadt %s" % ", ".join(namen)))
+    n_w = int((welt.wasser[i, j] > 0).sum())
+    if n_w and art != "trittsteine":
+        b.append((HINWEIS, pid, "quert Suesswasser auf ca. %.0f m (Trittsteine/Furt)" % (n_w * welt.zelle_m)))
+    return b
+
+
+def _pfade_der_datei(d, biom):
+    out = []
+    for p in d.get("pfade") or []:
+        n = _daten.normiere_pfad(p, biom=biom)
+        if n is not None:
+            out.append(n)
+    return out
+
+
+def _pfade_vereinigt(eigene, welt):
+    """Pfade dieser Datei + uebrige Pfade der Welt (andere Biome), eigene haben Vorrang."""
+    ids = {p["id"] for p in eigene}
+    return list(eigene) + [p for p in (getattr(welt, "pfade", None) or []) if p["id"] not in ids]
+
+
+def pruefe_pfade_datei(d, biom, welt=None, gel=None, alle_pfade=None, orte_ids=None):
+    """Pfade einer standorte.json + pfad_id der Orte. alle_pfade/orte_ids: global (alle Biome)."""
+    b = []
+    pfade = d.get("pfade")
+    orte = [o for o in (d.get("orte") or []) if isinstance(o, dict)]
+    if pfade is not None and not isinstance(pfade, list):
+        return [(FEHLER, biom, "'pfade' muss eine Liste sein")]
+    pfade = pfade or []
+    eigene = _pfade_der_datei(d, biom)
+    if alle_pfade is None:
+        alle_pfade = _pfade_vereinigt(eigene, welt)
+        if welt is not None and eigene and _daten.pfade_kennung(alle_pfade) != getattr(welt, "pfade_kennung", ""):
+            b.append((HINWEIS, biom, "Welt ohne den aktuellen Pfadstand geladen - Wegabstaende gegen alten Stand "
+                                     "(daten.lade() neu aufrufen)"))
+    if orte_ids is None:
+        orte_ids = {o.get("id") for o in orte}
+    gesehen = set()
+    for p in pfade:
+        pid = p.get("id") if isinstance(p, dict) else None
+        if pid in gesehen:
+            b.append((FEHLER, pid, "doppelte Pfad-id"))
+        gesehen.add(pid)
+        b += pruefe_pfad(p, biom, welt, gel, alle_pfade, orte_ids)
+    alle_ids = {p["id"]: p for p in alle_pfade}
+    for o in orte:
+        pid = o.get("pfad_id")
+        if pid is None:
+            continue
+        if not isinstance(pid, str) or pid not in alle_ids:
+            b.append((FEHLER, o.get("id", "?"), "pfad_id %r: diesen Pfad gibt es nicht" % (pid,)))
+        elif isinstance(alle_ids[pid].get("fuer"), list) and o.get("id") not in alle_ids[pid]["fuer"]:
+            b.append((HINWEIS, o.get("id", "?"), "pfad_id %s: Ort fehlt in dessen 'fuer'" % pid))
+    return b
+
+
+def pruefe_sicht(liste, welt, abstand_m=20.0):
+    """Sicht vom Weg/Pfad (welt.weg inkl. Pfade): Leuchtfeuer aus 300-800 m sichtbar (WARNUNG sonst),
+    Fundstueck vom Weg/Pfad aus verdeckt (HINWEIS sonst). liste: [(biom, ort, datei), ...]."""
+    from . import sicht as _sicht
+    b = []
+    wp = _sicht.Wegpunkte(welt, abstand_m)
+    for _, o, _ in liste:
+        m = o.get("mitte_cm")
+        if not _pkt(m, 2):
+            continue
+        x, y = m[0] / 100.0, m[1] / 100.0
+        oid = o.get("id", "?")
+        H = o.get("ziel_hoehe_m") if _zahl(o.get("ziel_hoehe_m")) else None
+        if o.get("art") == "leuchtfeuer":
+            s = _sicht.sicht_von_wegen(welt, wp, x, y, H or 15.0)
+            if s["n_sichtbar"] == 0:
+                b.append((WARNUNG, oid, "Leuchtfeuer: von keinem Weg/Pfad aus 300-800 m sichtbar (Ziel %.0f m)"
+                          % (H or 15.0)))
+            else:
+                b.append((HINWEIS, oid, "Leuchtfeuer: %d Weg-/Pfadpunkte sehen es (300-800 m), ab %.0f m"
+                          % (s["n_sichtbar"], s["sichtbar_ab_m"] or 0)))
+        elif o.get("art") == "fundstueck":
+            v = _sicht.verdeckt_vom_weg(welt, wp, x, y, min(H or 3.0, 3.0))
+            if not v["verdeckt"]:
+                b.append((HINWEIS, oid, "Fundstueck: vom Weg/Pfad aus sichtbar (max. Anteil %.2f, naechste Sicht %s m) "
+                                        "- Rahmen/Stempel noetig" % (v["max_anteil"], v["naechste_sicht_m"])))
+    return b
+
+
+def pruefe_standorte(d, welt=None, gel=None, biom=None, global_pruefen=True, alle_pfade=None, orte_ids=None):
+    """Prueft eine standorte.json (dict). global_pruefen: Abstaende/IDs innerhalb der Datei.
+    alle_pfade/orte_ids: Pfade und Ort-ids aller Biome (sonst: diese Datei + welt.pfade)."""
     b = []
     biom = biom or d.get("biom")
     if biom not in _daten.BIOME:
@@ -194,6 +378,7 @@ def pruefe_standorte(d, welt=None, gel=None, biom=None, global_pruefen=True):
         return b + [(FEHLER, "-", "'orte' muss eine Liste sein")]
     for o in orte:
         b += pruefe_standort(o, biom or "?", welt, gel)
+    b += pruefe_pfade_datei(d, biom or "?", welt, gel, alle_pfade, orte_ids)
     if len(orte) != 8:
         b.append((WARNUNG, biom, "%d Orte (Soll 8 je Biom)" % len(orte)))
     nl = sum(1 for o in orte if isinstance(o, dict) and o.get("art") == "leuchtfeuer")
@@ -229,11 +414,13 @@ def pruefe_global(liste):
     return b
 
 
-def pruefe_alle(sehens_ordner, welt=None, gel=None):
-    """Alle <sehens_ordner>/*/standorte.json einzeln + global. Rueckgabe Befunde."""
+def pruefe_alle(sehens_ordner, welt=None, gel=None, sicht=False):
+    """Alle <sehens_ordner>/*/standorte.json einzeln + global (Abstaende, ids, Pfade aller Biome).
+    sicht=True: zusaetzlich Sicht vom Weg/Pfad (pruefe_sicht, braucht welt). Rueckgabe Befunde."""
     from .format import alle_standorte, lade_standorte
     import glob
     b = []
+    dateien = []
     for p in sorted(glob.glob(os.path.join(sehens_ordner, "*", "standorte.json"))):
         try:
             d = lade_standorte(p)
@@ -243,8 +430,24 @@ def pruefe_alle(sehens_ordner, welt=None, gel=None):
         biom = d.get("biom") or os.path.basename(os.path.dirname(p))
         if biom != os.path.basename(os.path.dirname(p)):
             b.append((WARNUNG, biom, "biom %r passt nicht zum Ordner %s" % (biom, p)))
-        b += pruefe_standorte(d, welt, gel, biom, global_pruefen=False)
-    b += pruefe_global(alle_standorte(sehens_ordner))
+        dateien.append((p, d, biom))
+    alle_pfade, pfad_biom = [], {}
+    for p, d, biom in dateien:
+        for q in _pfade_der_datei(d, biom):
+            if q["id"] in pfad_biom:
+                b.append((FEHLER, q["id"], "doppelte Pfad-id (auch in %s)" % pfad_biom[q["id"]]))
+                continue
+            pfad_biom[q["id"]] = biom
+            alle_pfade.append(q)
+    if welt is not None and alle_pfade and _daten.pfade_kennung(alle_pfade) != getattr(welt, "pfade_kennung", ""):
+        b.append((HINWEIS, "-", "Welt ohne den aktuellen Pfadstand geladen (daten.lade(pfade=<sehens>))"))
+    liste = alle_standorte(sehens_ordner)
+    orte_ids = {o.get("id") for _, o, _ in liste if isinstance(o, dict)}
+    for p, d, biom in dateien:
+        b += pruefe_standorte(d, welt, gel, biom, global_pruefen=False, alle_pfade=alle_pfade, orte_ids=orte_ids)
+    b += pruefe_global(liste)
+    if sicht and welt is not None:
+        b += pruefe_sicht([(bb, o, q) for bb, o, q in liste if q.endswith("standorte.json")], welt)
     return b
 
 
@@ -472,13 +675,14 @@ def main(argv=None):
     ap.add_argument("--sehens", default=os.path.join(repo, "antworten", "sehens"))
     ap.add_argument("--datei", nargs="*", default=None, help="einzelne standorte.json / orte.json")
     ap.add_argument("--ohne-daten", action="store_true", help="nur Format, keine Gelaende-Regeln")
+    ap.add_argument("--sicht", action="store_true", help="auch Sicht vom Weg/Pfad (Leuchtfeuer/Fundstueck)")
     _daten.argumente_hinzufuegen(ap)
     a = ap.parse_args(argv)
     welt = gel = None
     if not a.ohne_daten:
         try:
             from . import gelaende
-            welt = _daten.lade(a.daten2m, a.daten1m)
+            welt = _daten.lade(a.daten2m, a.daten1m, pfade=a.sehens)
             gel = gelaende.Gelaende(welt, cache=a.cache)
         except Exception as ex:
             log("Daten nicht geladen (%s) - nur Formatpruefung" % ex)
@@ -494,7 +698,7 @@ def main(argv=None):
             melde(bb, os.path.basename(p))
             alle += bb
     else:
-        alle = pruefe_alle(a.sehens, welt, gel)
+        alle = pruefe_alle(a.sehens, welt, gel, sicht=a.sicht)
         melde(alle, a.sehens)
     return 1 if any(s == FEHLER for s, _, _ in alle) else 0
 

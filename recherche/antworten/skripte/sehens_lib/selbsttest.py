@@ -26,6 +26,54 @@ from . import format as sfmt  # noqa: E402
 STANDARD_AUS = os.path.join(os.path.dirname(gelaende.STANDARD_CACHE), "")
 
 
+def _pfad_test(welt, gel, c, e, a):
+    """Testpfad: Fussweg des Testorts umgedreht (Weg -> Ort), die letzten 100 m vor dem Ort weggelassen.
+    Prueft Rastern (welt.weg / weg_basis), Abstaende, pruefe_pfad (gueltig + absichtlich kaputt), Ruecksetzen.
+    Rueckgabe: Zahl der fehlgeschlagenen Pruefungen."""
+    fehl = 0
+
+    def ok(bed, text):
+        nonlocal fehl
+        log("  %s %s" % ("ok  " if bed else "FEHLT", text))
+        fehl += 0 if bed else 1
+
+    alt_pfade = list(welt.pfade)
+    pm = [p[:2] for p in (e.get("pfad_m") or [])][::-1]
+    pm = [p for p in pm if np.hypot(p[0] - c["x_m"], p[1] - c["y_m"]) >= 100.0] or pm[:2]
+    if len(pm) < 2:   # kein Fussweg -> gerade Linie vom naechsten Wegpunkt aus
+        wx, wy = welt.flat_zu_m(int(gel.weg_naechst[welt.m_zu_ij(c["x_m"], c["y_m"])]))
+        pm = [[float(wx), float(wy)], [float(wx + 0.5 * (c["x_m"] - wx)), float(wy + 0.5 * (c["y_m"] - wy))]]
+    p = sfmt.pfad("%s_pfad_selbsttest" % a.biom, "trampelpfad", pm, welt=welt, anschluss="Selbsttest",
+                  fuer=["%s_01_test_ort_1" % a.biom])
+    log("  Testpfad %d Punkte, %.0f m, max %.1f Grad" % (len(pm), p["laenge_m"], p["max_steigung_grad"]))
+    welt.setze_pfade(alt_pfade + [p])
+    gel2 = gelaende.Gelaende(welt, cache=a.cache)
+    ok(gel2.cache == gel.cache, "Pfade aendern den Cache-Ordner nicht (nur abstand_weg_p<Kennung>)")
+    xm, ym = pm[-1]
+    i, j = welt.m_zu_ij(xm, ym)
+    ok(welt.weg[i, j] > 0 and welt.weg_basis[i, j] == 0 or gel.abstand_weg[i, j] < 3,
+       "Pfadende ist Weg (weg > 0), weg_basis unveraendert")
+    ok(float(gel2.abstand_weg[i, j]) < 3.0, "abstand_weg am Pfadende %.1f m (mit Pfaden)" % gel2.abstand_weg[i, j])
+    ok(abs(float(gel2.abstand_weg_basis[i, j]) - float(gel.abstand_weg_basis[i, j])) < 0.01,
+       "abstand_weg_basis ohne Pfade %.0f m" % gel2.abstand_weg_basis[i, j])
+    wp2 = sicht.Wegpunkte(welt, 20)
+    ok(wp2.n >= sicht.Wegpunkte(welt, 20).n, "Wegpunkte mit Pfaden: %d" % wp2.n)
+    bef = sehens_pruefen.pruefe_pfad(p, a.biom, welt, gel2, welt.pfade)
+    ok(not any(s == sehens_pruefen.FEHLER for s, _, _ in bef), "gueltiger Testpfad ohne FEHLER")
+    kaputt = dict(p, id="falsch", art="strasse", breite_cm=300,
+                  punkte_cm=[[q[0] + 20000, q[1]] for q in p["punkte_cm"]])
+    bk = [t for s, _, t in sehens_pruefen.pruefe_pfad(kaputt, a.biom, welt, gel2, welt.pfade)
+          if s == sehens_pruefen.FEHLER]
+    ok(len(bk) >= 4, "kaputter Pfad: %d FEHLER (id, art, breite, Anschluss)" % len(bk))
+    d = {"biom": a.biom, "orte": [{"id": "%s_01_x" % a.biom, "pfad_id": "%s_pfad_gibtsnicht" % a.biom}],
+         "pfade": [p]}
+    bo = sehens_pruefen.pruefe_pfade_datei(d, a.biom, welt, gel2)
+    ok(any(s == sehens_pruefen.FEHLER and "pfad_id" in t for s, _, t in bo), "unbekannte pfad_id -> FEHLER")
+    welt.setze_pfade(alt_pfade)
+    ok((welt.weg is welt.weg_basis) == (not alt_pfade), "Ruecksetzen auf den alten Pfadstand")
+    return fehl
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Selbsttest sehens_lib")
@@ -161,6 +209,13 @@ def main(argv=None):
                                           for n, cc in enumerate(liste, 1)])
     log("Draufsicht:", bild)
     log("Uebersicht:", ueb)
+
+    # 9 Pfade (Auftrag 13c): Testpfad vom Weg Richtung Ort 1 rastern, Abstaende, Pruefer
+    with schritt("9 Pfade (rastern, Abstand, Pruefer)"):
+        z9 = _pfad_test(welt, gel, drei[0], err[0], a)
+    z["FEHLER"] += z9
+    for u in zeiten:
+        pass
     log("-" * 60)
     for u in zeiten:
         log("%-44s %7.2f s" % (u.name, u.sek))
