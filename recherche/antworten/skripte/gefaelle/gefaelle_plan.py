@@ -10,8 +10,9 @@ Quellen in antworten/15-gefaelle-regelwerk.md); dieses Skript enthaelt nur den A
 
 Ablauf je Strecke (Regelwerk 'ablauf'):
   1. Mittellinie, Spiegel (monoton), Breite B aus den Laufpunkten; feste Zonen, in denen der Spiegel bleibt:
-     Wege/Pfade (+ Uebergang), Orte, Staedte, Sehenswuerdigkeiten (Radius + 10 m), Umbau durch Sehens-Planer,
-     andere Gewaesser (Zufluesse), Abschnittsgrenzen langer Strecken.
+     Wege/Pfade nur als Furt (ruhiges Becken, max(3 + 2 m + B/2; 6 m) um die Querung), Orte, Staedte,
+     Sehenswuerdigkeiten (Radius + 18 m), Umbau durch Sehens-Planer, fremdes Wasser und Seen, Abschnittsgrenzen.
+     Zufluesse werden mit umgebaut (Endstueck an den neuen Spiegel angepasst; Koordinator 11.10.).
   2. S im Fenster klassen.fenster, S_lok in klassen.fenster_lokal, Klasse je Punkt.
   3. Knickpunkte: Fenster mit faelle.einzelfall_statt_kette -> EIN Fall (gebuendelt ueber faelle.einzelfall.buendeln).
   4. Uebrige Abschnitte: Stufen nach stufen.abstand_L (Fluss: abstand_L_fluss), Zufall stufen.zufall, Lippe am
@@ -21,11 +22,12 @@ Ablauf je Strecke (Regelwerk 'ablauf'):
   5. Spiegel: Stufe/Fall = zwei Punkte (stufen.zwei_punkte), Schnelle = Rampe, kurze Becken -> Kaskade (Teilstufen).
   6. Gelaende (Delta): Bett = Spiegel - max(Tiefe, 0,5 m), Lippe als Krone, Kolk je Stufe, Uferboeschung; steil
      (Uferklippe/Klamm) wo ufer_klippen.wann / klamm.wann; Uferwulst (Spiegel + 0,15 m, hoechstens 1 m anheben) fuer
-     die 14b-Pruefung 'Ufer am Netzrand'; Schutz an Wegen (4 + 4 m), Orten, anderem Wasser (3 m), Rand 0.
+     die 14b-Pruefung 'Ufer am Netzrand'; Schutz an Wegen (3 + 2 m), Orten, anderem Wasser (3 m), Rand 0.
   7. Netze je Biom am Stufenort (biome.<biom>.netze): Riegel/Lippe/Holz, Fallwand, Uferwaende, Sturzbloecke,
      Beckenbloecke, Wandschutt, Kies, Moos (Kontakt).
-  8. Lagen (lagen.zonen + biome.<biom>.lagen), Effekte (effekte, <= 3 je Stufe, <= 6 gleichzeitig; unter 3 m nur
-     NS_Waterfall_Small + NS_Impact_Small, Koordinator/14b), Kameras _vorher/_nachher (+ _weg_vorher/_nachher,
+  8. Lagen (lagen.zonen + biome.<biom>.lagen), Effekte (effekte, <= 3 je Stufe, nur Stufen >= 1 m; <= 6 gleichzeitig
+     mit Cull >= 30 m + je Stufe NS_Impact_Small Cull 20 m, hart <= 8; unter 3 m NS_Waterfall_Small + NS_Impact_Small,
+     Koordinator 11.10./14b), Kameras _vorher/_nachher (+ _weg_vorher/_nachher,
      Augenhoehe -170) fuer Pilot-Strecken.
   9. Wasser (Befund 14b, Variante A verbindlich): wasser_koerper = Epic-River ober-/unterhalb jeder Stufenstrecke
      + Kaskadennetz (statisches SLW-Netz) dazwischen, 0,5 m Ueberlappung; keine Flussstuecke mit Luecken, keine
@@ -1490,6 +1492,11 @@ def kn_bereiche(pr, stufen, segmente):
     return bereiche
 
 
+def _hat_vorhang(e):
+    """Vorhang-Netz (14b): nur an einem einzelnen Absturz >= 3 m; Kaskaden fallen in Teilstufen <= 1,5 m (Niagara)."""
+    return e["art"] != "schnelle" and e["D"] >= KN["vorhang_ab_m"] and not e.get("teil")
+
+
 def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde, muendungen=(), welt_hoehe=None):
     """Variante A (14b, verbindlich): je Stufenstrecke ein Kaskadennetz (statisches SLW-Netz) von der ersten Lippe bis
     1,5 m hinter den Fuss der letzten Stufe; Epic-River nur ober- und unterhalb, 0,5 m Ueberlappung, Netz 2 cm unter
@@ -1594,7 +1601,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
                     n_ufer_bestand += 1
                 else:
                     n_ufer += 1
-        vorhang = [e["id"] for e in st if e["art"] != "schnelle" and e["D"] >= KN["vorhang_ab_m"] and not e.get("teil")]
+        vorhang = [e["id"] for e in st if _hat_vorhang(e)]
         kn = {"id": "%s_KN%d" % (lauf_id, n), "typ": "kaskadennetz", "s_m": [_r(a, 2), _r(b, 2)],
               "mittellinie": mitte, "mittellinie_felder": ["x_cm", "y_cm", "z_cm", "breite_cm", "tempo_cm_s", "fallanteil",
                                                           "schaum", "abstand_bett_cm"],
@@ -2128,8 +2135,9 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
              "felstyp": rw.biom(e["biom"])[1].get("felstyp", ""), "fels_anstehend": bool(e["fels"]),
              "erzwungen_knickpunkt": bool(e.get("erzwungen")), "holzstufe": bool(e.get("holz")),
              "vorgabe_stufen_json": e.get("vorgabe"), "a14_effekte_bleiben": bool(e.get("a14_bleibt")),
-             "vorhang": e["art"] != "schnelle" and e["D"] >= NIAGARA_KLEIN["D_max"],
-             "vorhang_niagara": e["art"] != "schnelle" and NIAGARA_KLEIN["D_min"] <= e["D"] < NIAGARA_KLEIN["D_max"]}
+             # wie kaskadennetz.vorhang_an_stufen: Vorhang nur an einem Absturz >= 3 m (Kaskaden: Teilstufen <= 1,5 m)
+             "vorhang": _hat_vorhang(e),
+             "vorhang_niagara": e["art"] != "schnelle" and not _hat_vorhang(e) and e["D"] >= NIAGARA_KLEIN["D_min"]}
         if e["art"] != "schnelle":
             ko = e["kolk"]
             kx_, ky_ = pr.xy(e["p"] + e["l"] + (ko["x_strahl"] if e["art"] == "fall" else 0.4 * ko["laenge"]))
