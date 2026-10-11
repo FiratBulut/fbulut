@@ -83,6 +83,12 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 
 **Alle offenen Fragen unten sind entschieden** – siehe [`13-entscheidungen-koordinator.md`](13-entscheidungen-koordinator.md) und `sehens/entscheidungen.json` (45 Einträge: 25 Gestaltung entschieden mit Vorbildern aus realen Orten/Witcher/Dragon Age Inquisition/RDR2, 15 Editor-Fragen mit Arbeitsannahme + Prüfschritt für Claude lokal, 5 Geldfragen → ohne Kauf gebaut). Umsetzung in den Planern läuft. Kaufempfehlungen (Ferat entscheidet): Cave Ambience (~10 USD), Hollowstone nur falls die Wabenwand-Probe im Bild nicht trägt, Fantasy Ambiences nach Hörprobe, CryoGen nur falls Eiszapfen nicht reichen.
 
+**Ferats Antworten auf die Kaufempfehlungen (11.10. abends):**
+- **Klänge:** Ferat erzeugt die meisten Klänge selbst mit KI-Sound-Generatoren → keine Klangpakete kaufen (Cave Ambience, Fantasy Ambiences u. a. entfallen). **To-do Cloud:** wenn die Planer stehen, je Ort einen Klang-Prompt liefern (Datei `sehens-klang-prompts.md`); Ferat schickt die Ergebnisse, wir setzen sie ein. Bis dahin Ersatz-Cues als Platzhalter.
+- **Soul: Cave** (Epic, kostenlos): enthält laut Epic Fels-/Wasser-Props für Höhlen, aber keinen Ton → als kostenloser Ersatz für Höhlen-/Tropfstein-Props prüfen ([Epic-Blog](https://www.unrealengine.com/en-US/blog/soul-city-soul-cave-assets-released-for-free)); mobil-optimiert, UE5 ungeprüft.
+- **Hollowstone:** Entscheidung nach dem Editorbild der Ersatz-Wabenwand (wueste_08).
+- **CryoGen:** zu teuer → nicht kaufen, Eiszapfen aus dem Bestand.
+
 ## Noch offen (kompakt, Stand Phase-1-Abschluss) – entschieden, siehe oben
 
 1. **Hollowstone Canyon kaufen?** (Wabenwand wueste_08, Hoodoos canyon_05; sonst Ersatz aus Sandstein + Tafoni-Material.) **Megascans Desert Pack / Megascans Sandstone** schon in der Bibliothek?
