@@ -66,7 +66,7 @@
     [-59900, -115100, 8524]
    ],
    "draufsicht": "wueste_01_yardang_flotte.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Nordenden der NW-SO-Rippen an der Kueste (Rueckengrat, Relief 36 m, Wind von NW); Weg 299 m, 110 von 214 Wegpunkten sehen die 15-m-Ruecken (mittl. Anteil 0,48).",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -118,7 +118,7 @@
     [-29100, -33100, 1587]
    ],
    "draufsicht": "wueste_02_sternduene.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Sandhang (88 % Sand) zwischen Rippen suedlich des Wuestenbachs; Weg 131 m, Stadtrand ROMAN_LOC_004 174 m; Duenen-Stempel +22 m, 11 Wegpunkte sehen den Gipfel.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -182,7 +182,7 @@
     [14900, -57900, -277]
    ],
    "draufsicht": "wueste_03_die_waechter.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Hangverflachung ueber dem oestlichen Trockental (35 m, Sandstein/Geroell 92 %); Weg 149 m, 14 Wegpunkte sehen die 10-m-Pilzfelsen.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -265,7 +265,7 @@
     [-59500, -114900, 8581]
    ],
    "draufsicht": "wueste_04_quelloase.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Talgrund nahe der Nordkueste (16,8 m, Einzugsflaeche 65 000 m2) - Quellaustritt am Fuss der Rippen; Weg 231 m, verdeckt (0,00).",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -321,7 +321,7 @@
     [-11700, -29900, 749]
    ],
    "draufsicht": "wueste_05_salzpfanne.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Abflusslose Kuestenebene (1,9 m, Hang 2 Grad, TPI -4,3 m) hinter dem Strandsaum; Weg 144 m, verdeckt; Duenenriegel +6 m auf der Wegseite.",
    "zugang": {
     "art": "trampelpfad",
     "breite_cm": 120,
@@ -401,7 +401,7 @@
     [-54500, -108300, 9759]
    ],
    "draufsicht": "wueste_06_windkanterfeld.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Windoffene Verflachung auf dem Rippenkamm (107 m, Hang 8 Grad) noerdlich ROMAN_LOC_005; Weg 108 m, Stadtrand 154 m, verdeckt.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -464,7 +464,7 @@
     [9100, -109100, 2614]
    ],
    "draufsicht": "wueste_07_trockenes_wadi.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Kerbtal (TPI -15 m, Relief 45 m, Geroell 39 %) kurz vor der Muendung in den Ostbach; Weg 96 m, verdeckt.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -525,7 +525,7 @@
     [-20500, -121300, 7045]
    ],
    "draufsicht": "wueste_08_wabenwand.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Nordwand einer Kuestenrippe (44 m, Waende bis 71 Grad, 240 m bis zum Meer); Weg 139 m, verdeckt.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,

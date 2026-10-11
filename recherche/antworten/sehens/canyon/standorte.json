@@ -60,7 +60,7 @@
     [-145300, -34300, 3957]
    ],
    "draufsicht": "canyon_01_sonnenfenster.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Oberkante der suedlichen Schichtstufe (Plateau 82 m, Stufe faellt 40-45 m auf das Vorland 35-40 m); flache Felsrippe am Rand, Weg 113 m, 174 von 300 Wegpunkten im Ring 300-800 m sehen >= 30 % der 14-m-Silhouette.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -113,7 +113,7 @@
     [-104100, -53300, 7061]
    ],
    "draufsicht": "canyon_02_der_waeger.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Kuppe einer NO-streichenden Schichtrippe am Canyonausgang (z 68,7 m, Hang bis 66 Grad, Relief 33 m); Weg 118 m, Stadtrand ROMAN_LOC_003 156 m, 126 Wegpunkte sehen den 15-m-Waeger.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -172,7 +172,7 @@
     [-199500, -15900, 2611]
    ],
    "draufsicht": "canyon_03_rote_stufe.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Fuss der westlichen Schichtstufe unter dem Ringruecken (111 m) - Stufe 28 -> 106 m; Vorland Trockengras, Weg 300 m (Grenze), 40 m im Canyon-Rechteck; 106 Wegpunkte sehen die 25-m-Silhouette.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -237,7 +237,7 @@
     [-111700, -60300, 7009]
    ],
    "draufsicht": "canyon_04_fluesterschlucht.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Seitenbach auf dem Plateau (82 m, Einzugsflaeche 41 000 m2) 90 m vor seinem Sturz in den Hauptcanyon (46 m); Weg 258 m; heute einsehbar (0,59), mit Kerbe 2-6 m breit / 18 m tief verdeckt (0,00).",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -297,7 +297,7 @@
     [-125100, -51100, 5768]
    ],
    "draufsicht": "canyon_05_hoodoo_kessel.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Canyonrand in der Mäanderschleife (78 m, Wand bis 72 Grad zum Fluss 40 m); Weg 221 m, verdeckt heute und mit Kessel-Stempel (-14 m, r 45 m).",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -367,7 +367,7 @@
     [-149300, -33100, 3654]
    ],
    "draufsicht": "canyon_06_die_kolke.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Ebenes Plateau (82 m, Hang 0-5 Grad) 90 m oberhalb des Bachanfangs, der ueber die Suedstufe faellt; Weg 299 m; vom tiefer liegenden Weg aus verdeckt (0,00).",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -417,7 +417,7 @@
     [-154300, -29300, 3234]
    ],
    "draufsicht": "canyon_07_smaragdgumpe.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Fuss der Suedstufe, wo der Plateaubach 38 m (75 -> 37 m) ueber die Baender faellt; Einzugsflaeche 65 000 m2, Weg 194 m; mit Alkoven -6 m und Felsriegel +8 m verdeckt (heute 0,13).",
    "zugang": {
     "art": "trampelpfad",
     "breite_cm": 120,
@@ -467,7 +467,7 @@
     [-74700, -35500, 7702]
    ],
    "draufsicht": "canyon_08_die_welle.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Muldenhang zwischen Schichtrippen am Canyon-Ostrand (55 m), 131 m ausserhalb des Canyon-Rechtecks (Form gehoert dazu); Weg 136 m, mit Mulde -5 m verdeckt (heute 0,45).",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,

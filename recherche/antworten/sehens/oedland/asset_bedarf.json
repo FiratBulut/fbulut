@@ -1,0 +1,817 @@
+{
+ "stand": "2026-10-11",
+ "biom": "oedland",
+ "quelle_downloadliste": "antworten/sehens/downloadliste.json",
+ "hinweis": "Bestand Stand 13b (netze.csv 1 692 Netze, 73 Niagara). 'vorhanden' = im Projekt (echter Pfad), 'pakete' = Download-Liste (Name exakt) mit Ersatz.",
+ "orte": {
+  "oedland_01_rippenland": {
+   "vorhanden": [
+    {
+     "netz": "ukjhcamga_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_07",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_big_rock_wall_02",
+     "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Rock_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_02",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_Rock_05",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_05",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_s_rock_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_sandy_slope_03",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_sandy_slope_03",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_03",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_s_rock_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_grass_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_DeadTree_02",
+     "pfad": "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_sea_buckthorn_05",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_05",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Gebaenderte Wandstuecke fuer Messerruecken",
+     "ersatz_bestand": "ukjhcamga_tier_0 + MI_EL_SW_Oedland_Ton"
+    },
+    {
+     "paket": "Wilderness Nature Loops",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Wind",
+     "ersatz_bestand": "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+    }
+   ]
+  },
+  "oedland_02_regenbogenhang": {
+   "vorhanden": [
+    {
+     "netz": "ukjhcamga_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_07",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_big_rock_wall_01",
+     "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Rock_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_02",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_Rock_06",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_06",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_s_rock_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_03",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_sandy_slope_01",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_sandy_slope_01",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_04",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_grass_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "qlEtl_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_sea_buckthorn_06",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_06",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Farbbaender (XL 14) fuer den bunten Hang",
+     "ersatz_bestand": "ukjhcamga_tier_0 x4 Toenungen (MI_EL_SW_Oedland_Rot/_Ocker/_Violett)"
+    }
+   ]
+  },
+  "oedland_03_hoellentor": {
+   "vorhanden": [
+    {
+     "netz": "SM_big_rock_wall_03",
+     "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_03",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Big_Rock_01",
+     "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_01",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Big_Rock_02",
+     "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Rock_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Rock_04",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_Rock_07",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_07",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_s_rock_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_10",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_DeadTree_01",
+     "pfad": "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+     "rolle": "bewuchs"
+    },
+    {
+     "niagara": "/Game/NiagaraExamples/FX_Misc/NS_Fire",
+     "rolle": "effekt"
+    },
+    {
+     "niagara": "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+     "rolle": "effekt"
+    },
+    {
+     "niagara": "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous",
+     "rolle": "effekt"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Glut-Decals mit Emission, Hitzeflimmern",
+     "ersatz_bestand": "M_Eldarien_Glut auf SM_Rock_* + Punktlicht"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Flame Dust/Smoke Spark",
+     "ersatz_bestand": "NS_Fire + NS_Spark_Continuous (vorhanden)"
+    },
+    {
+     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Brausen/Fauchen des Gaskraters",
+     "ersatz_bestand": "MetaSound"
+    }
+   ]
+  },
+  "oedland_04_dornbusch_senke": {
+   "vorhanden": [
+    {
+     "netz": "SM_Dead_Tree_02",
+     "pfad": "/Game/Graveyard/trees/SM_Dead_Tree_02",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_didelta_spinosa_large_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_large_NN",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_searsia_burchellii_large_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_burchellii_large_NN",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_sea_buckthorn_02",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_dead_log_01",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_dead_log_03",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_Rock_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_03",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_bark_debris_01_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_b_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_quiver_branch_02_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_02_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_didelta_spinosa_medium_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_medium_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_searsia_lucida_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_b_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_sea_buckthorn_03",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_03",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "status": "im Projekt",
+     "prioritaet": "vorhanden",
+     "wofuer": "Grillen, Wind",
+     "ersatz_bestand": "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+    }
+   ]
+  },
+  "oedland_05_kugelsteine": {
+   "vorhanden": [
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_04_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_04_NN",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Big_Rock_02",
+     "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Middle_Rock_01",
+     "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Middle_Rock_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Rock_07",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_07",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_s_rock_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_stones_01_1",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_1",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_06",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_grass_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Wadi Rum Sandstone Rock 01–04",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Runde Konkretionen (Block 01 rund)",
+     "ersatz_bestand": "SM_SandstoneBoulder_04 / SM_namaqualand_boulder_04_NN, dunkle Toenung"
+    }
+   ]
+  },
+  "oedland_06_schlammvulkaene": {
+   "vorhanden": [
+    {
+     "netz": "SM_Rock_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_s_rock_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_03",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_stones_01_4",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_4",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_01",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_grass_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+     "rolle": "bewuchs"
+    },
+    {
+     "niagara": "/Game/NiagaraExamples/FX_Misc/NS_Bubble_Burst",
+     "rolle": "effekt"
+    },
+    {
+     "niagara": "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight",
+     "rolle": "effekt"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Blasen/Spritzer + Schlamm-Decals (Bodensets)",
+     "ersatz_bestand": "NS_Bubble_Burst (vorhanden) + Bodenlage Schlamm"
+    }
+   ]
+  },
+  "oedland_07_totenpfanne": {
+   "vorhanden": [
+    {
+     "netz": "SM_Dead_Tree_01",
+     "pfad": "/Game/Graveyard/trees/SM_Dead_Tree_01",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Dead_Tree_03",
+     "pfad": "/Game/Graveyard/trees/SM_Dead_Tree_03",
+     "rolle": "held"
+    },
+    {
+     "netz": "qlEtl_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_DeadTree_01",
+     "pfad": "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_DeadTree_02",
+     "pfad": "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_EuropeanBeech_Dead_M_01",
+     "pfad": "/Game/MedievalFantasyVillage/Props/Scanned_Foliage/Objects/Foliage/EuropeanBeech/SM_EuropeanBeech_Dead_M_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_dead_log_02",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_dead_log_04",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_bark_debris_01_d_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_d_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_grass_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Ton-/Riss-Decals",
+     "ersatz_bestand": "Bodenlage Lehm + MI_TileableLeakage hell"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "status": "im Projekt",
+     "prioritaet": "vorhanden",
+     "wofuer": "Stille, Wind",
+     "ersatz_bestand": "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+    }
+   ]
+  },
+  "oedland_08_erdroehren": {
+   "vorhanden": [
+    {
+     "netz": "SM_big_rock_wall_01",
+     "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Rock_05",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Rock_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_Rock_03",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_s_rock_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_stones_01_5",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_5",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_08",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_grass_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_sea_buckthorn_04",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_04",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_Fern_01a",
+     "pfad": "/Game/AsianTemple/Environment/Mesh/SM_Fern_01a",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Cave Ambience",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Hall/Tropfen in den Roehren",
+     "ersatz_bestand": "MetaSound"
+    },
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "C",
+     "wofuer": "Bodensets (Ton, Kies)",
+     "ersatz_bestand": "Bodenlage Lehm/Erde"
+    }
+   ]
+  }
+ },
+ "pakete_gesamt": [
+  {
+   "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "A",
+   "orte": [
+    "oedland_03_hoellentor",
+    "oedland_06_schlammvulkaene",
+    "oedland_08_erdroehren"
+   ]
+  },
+  {
+   "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "A",
+   "orte": [
+    "oedland_01_rippenland",
+    "oedland_02_regenbogenhang"
+   ]
+  },
+  {
+   "paket": "Cave Ambience",
+   "status": "fehlt",
+   "prioritaet": "B",
+   "orte": [
+    "oedland_08_erdroehren"
+   ]
+  },
+  {
+   "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "B",
+   "orte": [
+    "oedland_07_totenpfanne"
+   ]
+  },
+  {
+   "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+   "status": "fehlt",
+   "prioritaet": "B",
+   "orte": [
+    "oedland_03_hoellentor"
+   ]
+  },
+  {
+   "paket": "Ultimate Niagara Environmental VFX",
+   "status": "fehlt",
+   "prioritaet": "B",
+   "orte": [
+    "oedland_03_hoellentor"
+   ]
+  },
+  {
+   "paket": "Wadi Rum Sandstone Rock 01–04",
+   "status": "fehlt",
+   "prioritaet": "C",
+   "orte": [
+    "oedland_05_kugelsteine"
+   ]
+  },
+  {
+   "paket": "Wilderness Nature Loops",
+   "status": "fehlt",
+   "prioritaet": "C",
+   "orte": [
+    "oedland_01_rippenland"
+   ]
+  }
+ ],
+ "vorhanden_neu_genutzt": [
+  {
+   "paket": "Niagara Examples Pack",
+   "pfade": [
+    "/Game/NiagaraExamples/FX_Misc/NS_Fire",
+    "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+    "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous",
+    "/Game/NiagaraExamples/FX_Misc/NS_Bubble_Burst",
+    "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight"
+   ]
+  },
+  {
+   "paket": "Free City & Nature Sounds",
+   "pfade": [
+    "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+   ]
+  }
+ ],
+ "neue_paketwuensche": [],
+ "luecken": [
+  {
+   "was": "Schlammkegel",
+   "orte": [
+    "oedland_06_schlammvulkaene"
+   ],
+   "loesung": "Geländestempel (Kegel 1-3 m mit Krater), Bodenlage Schlamm, Wasser 'see' farbe moorbraun im Krater, NS_Bubble_Burst."
+  },
+  {
+   "was": "Gas-Glut am Kratergrund",
+   "orte": [
+    "oedland_03_hoellentor"
+   ],
+   "loesung": "M_Eldarien_Glut (vorhanden) auf SM_Rock_*-Splittern im Kratergrund + 2 Punktlichter orange + NS_Fire/NS_Smoke_Plume (vorhanden)."
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Oedland_Rot",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.85,
+     0.42,
+     0.32,
+     1.0
+    ]
+   },
+   "fuer": [
+    "ukjhcamga_tier_0"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Oedland_Ocker",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.95,
+     0.75,
+     0.45,
+     1.0
+    ]
+   },
+   "fuer": [
+    "ukjhcamga_tier_0"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Oedland_Violett",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.6,
+     0.48,
+     0.58,
+     1.0
+    ]
+   },
+   "fuer": [
+    "ukjhcamga_tier_0"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Oedland_Ton",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.85,
+     0.82,
+     0.76,
+     1.0
+    ],
+    "Rauheit": 1.0
+   },
+   "fuer": [
+    "SM_HugeSandstoneCliff_05",
+    "SM_big_rock_wall_02"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Konkretion",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.35,
+     0.28,
+     0.24,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_SandstoneBoulder_04",
+    "SM_namaqualand_boulder_04_NN"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Russ",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.08,
+     0.07,
+     0.07,
+     1.0
+    ],
+    "Auflage_Menge": 0.7
+   },
+   "fuer": [
+    "SM_big_rock_wall_03",
+    "SM_Big_Rock_01"
+   ]
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "oedland_02_regenbogenhang",
+   "kamera": [
+    "D6",
+    -76800,
+    160000,
+    -88000,
+    116000,
+    226,
+    "oedland_02_regenbogenhang_fern",
+    170
+   ],
+   "zweck": "Westsporn der Abbruchkante vom Flachland (heute ohne Weg)"
+  },
+  {
+   "ort": "oedland_01_rippenland",
+   "kamera": [
+    "E6",
+    -9818,
+    118916,
+    2000,
+    121000,
+    6988,
+    "oedland_01_rippenland_held",
+    170
+   ],
+   "zweck": "Badland-Kuppe von Westen"
+  },
+  {
+   "ort": "oedland_03_hoellentor",
+   "kamera": [
+    "E6",
+    -20200,
+    154800,
+    18000,
+    153000,
+    258,
+    "oedland_03_hoellentor_fern",
+    170
+   ],
+   "zweck": "Ton-Flachland vom kuenftigen Oedlandpfad"
+  }
+ ]
+}

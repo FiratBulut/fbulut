@@ -35,6 +35,14 @@ Stand: 2026-10-11 12:16 UTC. Koordinator: Cloud-Session. Wird bei jedem Push akt
 - bergwald: Mönch und Säulenhain `_fern`, Klamm und Karsee `_held` (Kameras in `sehens/bergwald/standorte.json`)
 - gletscher/frost/fjord: `gletscher_01_gletschertor_held`, `gletscher_05_die_waechte_fern`, `frost_02_frostsee_held` (welche Houdini-Reste müssen weg?), `frost_04_raureifhain_fern`, `fjord_02_schleierwand_held`, `fjord_01_die_kanzel_anmarsch` (Kameras in den jeweiligen `standorte*.json`)
 
+## Entscheidungen Ferat (Chat, 11.10. nachmittags)
+
+- **Gelände darf frei angepasst werden** – die Landschaftsform ist keine feste Regel; Geländestempel auch über 40 m (z. B. −48 m unter dem Nadeltor, kueste_03) sind erlaubt.
+- **Brushify – Moorlands Pack:** nicht im Bestand, zu teuer → nicht kaufen. Ginster/Wacholder/Wollgras mit Ersatz aus dem Bestand (Sanddorn, gestauchte Jungkiefern, Binsen).
+- **Klippensteig (Küste):** Entscheidung beim Koordinator, Maßstab Witcher-Qualität nach unseren Referenzbildern. **Entschieden: voller Klippensteig (4,35 km) + Kap-Pfad bauen** – ein Steig an der Steilküste mit Kehren und Felsstufen, Blick auf Pfeiler, Vogelinsel und Nadeltor, ist genau die Skellige-Art Weg, die die Referenzen zeigen; die Kurzvariante würde Vogelinsel und Nadeltor (zwei der vier Küsten-Leuchtfeuer) kosten.
+- **Nature Water FX: gekauft** (Import und Inventar folgen) → Gischt/Wasserfälle für Seefall, Blasloch, Schleierfall, Schleierwand, Eisfall.
+- **Megascans:** größtenteils 2024 beansprucht, also kostenlos. Desert Western Cliff Layered, weitere Megascans-Limestone und das kostenlose „Limestone Rock Set“ (Ancraite) werden geladen. **Forest Cretaceous gestrichen** (teuer, schlecht bewertet).
+
 ## Offene Fragen
 
 - elfenwald/dschungel: Ist der 0,9-km-Serpentinenpfad zum Nebelhain akzeptabel? Mondtor-Bogen aus `SM_Cliff_01*` zusammengesetzt in Ordnung? Darf die Buchenblatt-Material-Instanz rot getönt werden (Rotlaubhain)? Ist im Cenote-Schacht heute Meerwasser zu sehen (Bildwunsch)? Welches Tropenpflanzen-Paket ist schon vorhanden? Einverstanden mit Streichen von „Tausendfuß“ (ersetzt durch Sinterhalle)?

@@ -1,0 +1,794 @@
+{
+ "stand": "2026-10-11",
+ "biom": "wueste",
+ "quelle_downloadliste": "antworten/sehens/downloadliste.json",
+ "hinweis": "Bestand Stand 13b (netze.csv 1 692 Netze, 73 Niagara). 'vorhanden' = im Projekt (echter Pfad), 'pakete' = Download-Liste (Name exakt) mit Ersatz.",
+ "orte": {
+  "wueste_01_yardang_flotte": {
+   "vorhanden": [
+    {
+     "netz": "vmnmbhv_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Massive_Sandstone_Cliff_vmnmbhv/Raw/vmnmbhv_tier_0/StaticMeshes/vmnmbhv_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_05",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_07",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "uchoab3fa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Quarry_Cliff_uchoab3fa/Raw/uchoab3fa_tier_0/StaticMeshes/uchoab3fa_tier_0",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_03_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_03_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_034",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_sandy_slope_05",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_sandy_slope_05",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_e_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_e_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_grass_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_othonna_cerarioides_f_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_f_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Wadi Rum Sandstone Rock 01–04",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Lange Abbrueche (02) als Rumpfflanken",
+     "ersatz_bestand": "vmnmbhv_tier_0, SM_HugeSandstoneCliff_05"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Sandfahnen am Heck",
+     "ersatz_bestand": "keiner (statisch: Bodenlage Sand-Schleppen)"
+    }
+   ]
+  },
+  "wueste_02_sternduene": {
+   "vorhanden": [
+    {
+     "netz": "SM_sandy_slope_04",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_sandy_slope_04",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_sandy_slope_05",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_sandy_slope_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_05_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_05_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_b_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_quiver_trunk_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_trunk_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_wild_rooibos_bush_e_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_wild_rooibos_bush_e_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Duenen-Stempel/Rippel-Decals, Strandhafer-Ersatz",
+     "ersatz_bestand": "Geländestempel + Bodenlage Sand, SM_sandy_slope_*"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Sandfahne vom Kamm",
+     "ersatz_bestand": "keiner"
+    }
+   ]
+  },
+  "wueste_03_die_waechter": {
+   "vorhanden": [
+    {
+     "netz": "SM_RockSandstone_040",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_03",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_03",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_03_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_03_NN",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_04_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_04_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_03",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_03",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "uldubik_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_05_uldubik/Raw/uldubik_tier_0/StaticMeshes/uldubik_tier_0",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_boulders_01_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_b_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_c_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_cheiridopsis_succulent_g_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_g_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_didelta_spinosa_medium_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_medium_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Wadi Rum Sandstone Rock 01–04",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Block 01 als Pilzkappe",
+     "ersatz_bestand": "SM_RockSandstone_040"
+    },
+    {
+     "paket": "Hollowstone Canyon (Porous Rocks Desert)",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Loechrige Pilzfuesse",
+     "ersatz_bestand": "SM_MassiveSandstoneCliff_03 schmal skaliert"
+    },
+    {
+     "paket": "Procedural Rocks Generator",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Pilzfelsen-Variationen",
+     "ersatz_bestand": "wie oben"
+    }
+   ]
+  },
+  "wueste_04_quelloase": {
+   "vorhanden": [
+    {
+     "netz": "SM_Palm_01_03_G",
+     "pfad": "/Game/Palms_Pack_01/Meshes/SM_Palm_01_03_G",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Palm_01_04_G",
+     "pfad": "/Game/Palms_Pack_01/Meshes/SM_Palm_01_04_G",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Palm_01_02_G",
+     "pfad": "/Game/Palms_Pack_01/Meshes/SM_Palm_01_02_G",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_Palm_01_07_G",
+     "pfad": "/Game/Palms_Pack_01/Meshes/SM_Palm_01_07_G",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_Palm_01_09_G",
+     "pfad": "/Game/Palms_Pack_01/Meshes/SM_Palm_01_09_G",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_stones_01_3",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_3",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_06_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_06_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_07",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dry_quiver_leaf_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_dry_quiver_leaf_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_Rohrkolben_Horst_2",
+     "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Horst_2",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_Rohrkolben_Jung_1",
+     "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_1",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_ToadRush_010",
+     "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_010",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_Fern_02a",
+     "pfad": "/Game/AsianTemple/Environment/Mesh/SM_Fern_02a",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_searsia_lucida_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_a_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Nassband-Decals am Quelltopf",
+     "ersatz_bestand": "MI_Leakage_*"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "status": "im Projekt",
+     "prioritaet": "vorhanden",
+     "wofuer": "Wasser/Insekten",
+     "ersatz_bestand": "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+    }
+   ]
+  },
+  "wueste_05_salzpfanne": {
+   "vorhanden": [
+    {
+     "netz": "SM_namaqualand_boulder_02_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_02_NN",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_beach_driftwood_01",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_b_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_crystalline_iceplant_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_crystalline_iceplant_a_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_crystalline_iceplant_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_crystalline_iceplant_c_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_leipoldtia_schultzei_small_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_leipoldtia_schultzei_small_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Duenenriegel-Stempel, Strand-/Kiesel-Decals",
+     "ersatz_bestand": "Stempel + Bodenlage Sand"
+    }
+   ]
+  },
+  "wueste_06_windkanterfeld": {
+   "vorhanden": [
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_03_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_03_NN",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_04_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_04_NN",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_05_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_05_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_06_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_06_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_c_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_d_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_d_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_leipoldtia_schultzei_large_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_leipoldtia_schultzei_large_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_cheiridopsis_succulent_h_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_h_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Wadi Rum Sandstone Rock 01–04",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Kleine Bloecke mit Schliff als Dreikanter",
+     "ersatz_bestand": "SM_namaqualand_boulder_* + MI_EL_SW_Wuestenlack"
+    }
+   ]
+  },
+  "wueste_07_trockenes_wadi": {
+   "vorhanden": [
+    {
+     "netz": "SM_searsia_burchellii_large_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_burchellii_large_NN",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_dry_oak_01_D",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_D",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_searsia_burchellii_medium_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_burchellii_medium_NN",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_07",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_beach_driftwood_01",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_DryRiverBed_01",
+     "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_01",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_DryRiverBed_02",
+     "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_02",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_stones_01_6",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_04_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_04_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_bark_debris_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_dead_quiver_branch_01_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_dead_quiver_branch_01_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_SmallStonesPack_13",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_didelta_spinosa_large_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_large_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_othonna_cerarioides_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_b_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Treibholz/Spuelsaum-Decals",
+     "ersatz_bestand": "SM_beach_driftwood_01, MI_TileableLeakage_*"
+    }
+   ]
+  },
+  "wueste_08_wabenwand": {
+   "vorhanden": [
+    {
+     "netz": "SM_MassiveSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_RockSandstone_040",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_03",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_03",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_e_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_e_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_quiver_tree_01_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_quiver_tree_01_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_stonecrop_01",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_crystalline_iceplant_e_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_crystalline_iceplant_e_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Hollowstone Canyon (Porous Rocks Desert)",
+     "status": "fehlt",
+     "prioritaet": "A",
+     "wofuer": "Poroeser Wuestenfels = Tafoni-Waben",
+     "ersatz_bestand": "SM_MassiveSandstoneCliff_02 + Decal MI_TileableLeakage (dunkle Lackstreifen)"
+    },
+    {
+     "paket": "Wadi Rum Sandstone Rock 01–04",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Breite Wand (04)",
+     "ersatz_bestand": "SM_HugeSandstoneCliff_05"
+    }
+   ]
+  }
+ },
+ "pakete_gesamt": [
+  {
+   "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "A",
+   "orte": [
+    "wueste_02_sternduene",
+    "wueste_04_quelloase",
+    "wueste_05_salzpfanne",
+    "wueste_07_trockenes_wadi"
+   ]
+  },
+  {
+   "paket": "Hollowstone Canyon (Porous Rocks Desert)",
+   "status": "fehlt",
+   "prioritaet": "A",
+   "orte": [
+    "wueste_03_die_waechter",
+    "wueste_08_wabenwand"
+   ]
+  },
+  {
+   "paket": "Ultimate Niagara Environmental VFX",
+   "status": "fehlt",
+   "prioritaet": "B",
+   "orte": [
+    "wueste_01_yardang_flotte",
+    "wueste_02_sternduene"
+   ]
+  },
+  {
+   "paket": "Wadi Rum Sandstone Rock 01–04",
+   "status": "fehlt",
+   "prioritaet": "B",
+   "orte": [
+    "wueste_01_yardang_flotte",
+    "wueste_03_die_waechter",
+    "wueste_06_windkanterfeld",
+    "wueste_08_wabenwand"
+   ]
+  },
+  {
+   "paket": "Procedural Rocks Generator",
+   "status": "fehlt",
+   "prioritaet": "C",
+   "orte": [
+    "wueste_03_die_waechter"
+   ]
+  }
+ ],
+ "vorhanden_neu_genutzt": [
+  {
+   "paket": "Niagara Examples Pack",
+   "pfade": [
+    "/Game/NiagaraExamples/FX_Misc/NS_Fire",
+    "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+    "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous",
+    "/Game/NiagaraExamples/FX_Misc/NS_Bubble_Burst",
+    "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight"
+   ]
+  },
+  {
+   "paket": "Free City & Nature Sounds",
+   "pfade": [
+    "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+   ]
+  }
+ ],
+ "neue_paketwuensche": [
+  {
+   "paket": "Megascans Desert Pack (Vault, nicht auf Fab migriert)",
+   "link": "https://www.unrealengine.com/marketplace/en-US/product/megascans-desert-pack",
+   "preis": "pruefen: evtl. schon in Bibliothek (Launcher-Vault)",
+   "groesse_gb": "unbekannt",
+   "nanite": "ungeprueft",
+   "prioritaet": "C",
+   "wofuer": [
+    "wueste_03_die_waechter",
+    "wueste_06_windkanterfeld",
+    "wueste_07_trockenes_wadi"
+   ],
+   "begruendung": "Sand-, Kies-, Steinflaechen, Felsformationen, Aeste (laut Listing) - Steinpflaster und Wadi-Schutt; nur wenn im Vault vorhanden."
+  }
+ ],
+ "luecken": [
+  {
+   "was": "Hoodoo-/Pilzfelsen-Netz (Schaft mit Taille + Deckstein)",
+   "orte": [
+    "canyon_05_hoodoo_kessel",
+    "wueste_03_die_waechter"
+   ],
+   "loesung": "Schaft aus SM_MassiveSandstoneCliff_03 (x0,35 breit, x1,2 hoch, 40 % eingegraben), Kappe SM_RockSandstone_040; Taille durch zweiten, schmaleren Schaft; Fuge mit Decal MI_TileableLeakage. Hoodoo (Canyon) = schlank, gebaendert, im Kessel; Pilzfelsen (Wueste) = gedrungen, weisser Fuss mit Sandschliff (MI_EL_SW_Wueste_Sandauflage)."
+  },
+  {
+   "was": "Akazie / Schirmbaum",
+   "orte": [
+    "wueste_07_trockenes_wadi"
+   ],
+   "loesung": "SM_searsia_burchellii_large_NN x1,4 + SM_dry_oak_01_D (Krone flach, Wind von NW)."
+  },
+  {
+   "was": "Salzkruste mit Wabenmuster",
+   "orte": [
+    "wueste_05_salzpfanne"
+   ],
+   "loesung": "Wasser 'see' farbe salzweiss (Restsole) + Bodenlage Sand mit MI_EL_SW_Salzkruste auf Kieseln; Wabenmuster als eigene Decal-Textur (prozedural, wie Brutroehren aue_03) - Wunsch an Claude lokal."
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Wuestenlack",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.45,
+     0.32,
+     0.26,
+     1.0
+    ],
+    "Specular": 0.55
+   },
+   "fuer": [
+    "SM_namaqualand_boulder_03_NN",
+    "SM_SandstoneBoulder_05"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Salzkruste",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     1.0,
+     1.0,
+     0.97,
+     1.0
+    ],
+    "Auflage_Menge": 0.9
+   },
+   "fuer": [
+    "SM_namaqualand_rocks_01_b_NN",
+    "SM_beach_driftwood_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Wueste_Sandauflage",
+   "basis": "M_EL_Fels_Sand",
+   "parameter": {
+    "Sand_Menge": 0.75
+   },
+   "fuer": [
+    "vmnmbhv_tier_0",
+    "SM_RockSandstone_040"
+   ]
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "wueste_01_yardang_flotte",
+   "kamera": [
+    "D3",
+    -75400,
+    -192800,
+    -83600,
+    -133600,
+    1129,
+    "wueste_01_yardang_flotte_fern",
+    170
+   ],
+   "zweck": "Rippen-Enden an der Nordkueste ueber die Bucht"
+  },
+  {
+   "ort": "wueste_02_sternduene",
+   "kamera": [
+    "E4",
+    -43910,
+    -20167,
+    -42000,
+    -31000,
+    2939,
+    "wueste_02_sternduene_held",
+    170
+   ],
+   "zweck": "Sandhang suedlich des Wuestenbachs - Platz fuer 22-m-Duene"
+  }
+ ]
+}

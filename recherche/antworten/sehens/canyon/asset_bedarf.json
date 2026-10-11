@@ -1,0 +1,974 @@
+{
+ "stand": "2026-10-11",
+ "biom": "canyon",
+ "quelle_downloadliste": "antworten/sehens/downloadliste.json",
+ "hinweis": "Bestand Stand 13b (netze.csv 1 692 Netze, 73 Niagara). 'vorhanden' = im Projekt (echter Pfad), 'pakete' = Download-Liste (Name exakt) mit Ersatz.",
+ "orte": {
+  "canyon_01_sonnenfenster": {
+   "vorhanden": [
+    {
+     "netz": "SM_MassiveSandstoneCliff_03",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_03",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_07",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_RockSandstone_040",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_RockSandstone_034",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "uldubik_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_05_uldubik/Raw/uldubik_tier_0/StaticMeshes/uldubik_tier_0",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_c_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_SmallStonesPack_09",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_searsia_lucida_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_c_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_didelta_spinosa_small_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_didelta_spinosa_small_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_cheiridopsis_succulent_e_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_e_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_02",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Geschichtete Bogenfinne mit Farbbaendern",
+     "ersatz_bestand": "SM_MassiveSandstoneCliff_02/03 + MI_EL_SW_Canyon_Rotband (Toenung)"
+    },
+    {
+     "paket": "Wadi Rum Sandstone Rock 01–04",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Fotogrammetrie-Formation als Bogenpfeiler",
+     "ersatz_bestand": "SM_MassiveSandstoneCliff_03"
+    }
+   ]
+  },
+  "canyon_02_der_waeger": {
+   "vorhanden": [
+    {
+     "netz": "SM_RockSandstone_040",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_01",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_01",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_034",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "uk5ebcp_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Small_07_uk5ebcp/Raw/uk5ebcp_tier_0/StaticMeshes/uk5ebcp_tier_0",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_b_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_quiver_tree_02_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_quiver_tree_02_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_othonna_cerarioides_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_othonna_cerarioides_c_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Wadi Rum Sandstone Rock 01–04",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Block 01 als Waeger-Kopf (geschlossene Rueckseite)",
+     "ersatz_bestand": "SM_RockSandstone_040 x1,6"
+    },
+    {
+     "paket": "Procedural Rocks Generator",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Sockelsaeule mit Taille",
+     "ersatz_bestand": "SM_MassiveSandstoneCliff_01 hochkant, 40 % eingegraben"
+    }
+   ]
+  },
+  "canyon_03_rote_stufe": {
+   "vorhanden": [
+    {
+     "netz": "vmnmbhv_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Massive_Sandstone_Cliff_vmnmbhv/Raw/vmnmbhv_tier_0/StaticMeshes/vmnmbhv_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "ukjhcamga_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_034",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_04_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_04_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_boulders_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_c_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_SmallStonesPack_11",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_searsia_burchellii_medium_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_burchellii_medium_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dry_oak_02_B",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_B",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_01",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_wild_rooibos_bush_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_wild_rooibos_bush_b_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "XL 14 als Stufenwand mit Baendern (Hauptform)",
+     "ersatz_bestand": "vmnmbhv_tier_0 + ukjhcamga_tier_0 + MI_EL_SW_Canyon_Rotband"
+    },
+    {
+     "paket": "Wilderness Nature Loops",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Wind/Voegel am Stufenfuss",
+     "ersatz_bestand": "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+    }
+   ]
+  },
+  "canyon_04_fluesterschlucht": {
+   "vorhanden": [
+    {
+     "netz": "SM_MassiveSandstoneCliff_01",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_01",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_05",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_RockSandstone_040",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_DryRiverBed_01",
+     "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_01",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_DryRiverBed_02",
+     "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_02",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_stones_01_2",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_2",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_e_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_e_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_SmallStonesPack_05",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_bark_debris_01_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_bark_debris_01_c_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_fern_01_1",
+     "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_MossClump_03",
+     "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_Vines_01a",
+     "pfad": "/Game/AsianTemple/Environment/Mesh/SM_Vines_01a",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_ToadRush_02",
+     "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_02",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Glatt gewaschene, geschwungene Schluchtwaende",
+     "ersatz_bestand": "SM_MassiveSandstoneCliff_01/02 gespiegelt, M_EL_Fels_Sand"
+    },
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Fall-Material fuer den Austritt in den Canyon",
+     "ersatz_bestand": "M_EL_Wasserfall2 / MI_EL_Wasserfall"
+    },
+    {
+     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Wind-Fluestern in der Kerbe",
+     "ersatz_bestand": "MetaSound Rauschen"
+    }
+   ]
+  },
+  "canyon_05_hoodoo_kessel": {
+   "vorhanden": [
+    {
+     "netz": "SM_MassiveSandstoneCliff_03",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_03",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_02",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_RockSandstone_040",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "uchoab3fa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Quarry_Cliff_uchoab3fa/Raw/uchoab3fa_tier_0/StaticMeshes/uchoab3fa_tier_0",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_034",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_sandy_slope_04",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_sandy_slope_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_rocks_01_d_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_rocks_01_d_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_b_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_quiver_tree_01_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_quiver_tree_01_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_searsia_lucida_e_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_searsia_lucida_e_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_leipoldtia_schultzei_medium_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_leipoldtia_schultzei_medium_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Hollowstone Canyon (Porous Rocks Desert)",
+     "status": "fehlt",
+     "prioritaet": "B",
+     "wofuer": "Ausgehoehlte Saeulen/Pfeiler (Hoodoo-Schaefte)",
+     "ersatz_bestand": "SM_MassiveSandstoneCliff_03 + SM_RockSandstone_040 als Kappe"
+    },
+    {
+     "paket": "Procedural Rocks Generator",
+     "status": "fehlt",
+     "prioritaet": "C",
+     "wofuer": "Hoodoo-Schaefte in Serie (falls Bestand nicht traegt)",
+     "ersatz_bestand": "wie oben"
+    },
+    {
+     "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Kesselwand mit Baendern",
+     "ersatz_bestand": "SM_HugeSandstoneCliff_02"
+    }
+   ]
+  },
+  "canyon_06_die_kolke": {
+   "vorhanden": [
+    {
+     "netz": "uk5ebcp_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Small_07_uk5ebcp/Raw/uk5ebcp_tier_0/StaticMeshes/uk5ebcp_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "uldubik_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_05_uldubik/Raw/uldubik_tier_0/StaticMeshes/uldubik_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_DryRiverBed_01",
+     "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_01",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_DryRiverBed_02",
+     "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/SM_DryRiverBed_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_boulder_06_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_06_NN",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_c_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_SmallStonesPack_02",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_ToadRush_013",
+     "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_013",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_crystalline_iceplant_b_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_crystalline_iceplant_b_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_cheiridopsis_succulent_c_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_cheiridopsis_succulent_c_NN",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Nass-/Kiesel-Decals am Kolkrand",
+     "ersatz_bestand": "MI_TileableLeakage_01..04, MI_Leakage_*"
+    }
+   ]
+  },
+  "canyon_07_smaragdgumpe": {
+   "vorhanden": [
+    {
+     "netz": "SM_MassiveSandstoneCliff_05",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_05",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_MassiveSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/MassiveSandstoneCliff/SM_MassiveSandstoneCliff_02",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_07",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_05",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_05",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_RockSandstone_040",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_040",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_SandstoneBoulder_04",
+     "pfad": "/Game/Megascans/3D_Assets/SandstoneBoulder/SM_SandstoneBoulder_04",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_RockSandstone_034",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_stones_01_6",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_SmallStonesPack_12",
+     "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_d_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_d_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_fern_01_0",
+     "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_foliage_fern_01_2",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_foliage_fern_01_2",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_MossClump_01",
+     "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_moss_01",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_Vines_01a",
+     "pfad": "/Game/AsianTemple/Environment/Mesh/SM_Vines_01a",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_Rohrkolben_Jung_2",
+     "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_2",
+     "rolle": "bewuchs"
+    },
+    {
+     "niagara": "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight",
+     "rolle": "effekt"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Wasserfall-/Fluss-Material mit Schaum fuer 38-m-Fall",
+     "ersatz_bestand": "M_EL_Wasserfall2 (MI_EL_Wasserfall, MI_EL_Wasserfall_Aufprall)"
+    },
+    {
+     "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "C",
+     "wofuer": "Spruehnebel/Gischt am Fuss",
+     "ersatz_bestand": "lokaler_nebel + NS_SmokePuffLight weiss"
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "B",
+     "wofuer": "Nassband-Decals an der Gumpe",
+     "ersatz_bestand": "MI_Leakage_*"
+    }
+   ]
+  },
+  "canyon_08_die_welle": {
+   "vorhanden": [
+    {
+     "netz": "uk5ebcp_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Small_07_uk5ebcp/Raw/uk5ebcp_tier_0/StaticMeshes/uk5ebcp_tier_0",
+     "rolle": "held"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_07",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_07",
+     "rolle": "held"
+    },
+    {
+     "netz": "uldubik_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_05_uldubik/Raw/uldubik_tier_0/StaticMeshes/uldubik_tier_0",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_HugeSandstoneCliff_02",
+     "pfad": "/Game/Megascans/3D_Assets/HugeSandstoneCliff/SM_HugeSandstoneCliff_02",
+     "rolle": "begleiter"
+    },
+    {
+     "netz": "SM_RockSandstone_021",
+     "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_021",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_sandy_slope_02",
+     "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_sandy_slope_02",
+     "rolle": "schutt"
+    },
+    {
+     "netz": "SM_namaqualand_stones_01_a_NN",
+     "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_stones_01_a_NN",
+     "rolle": "klein"
+    },
+    {
+     "netz": "SM_crystalline_iceplant_d_NN",
+     "pfad": "/Game/Namaqualand/Meshes/Foliage/NN/SM_crystalline_iceplant_d_NN",
+     "rolle": "bewuchs"
+    },
+    {
+     "netz": "SM_dead_grass_03",
+     "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+     "rolle": "bewuchs"
+    }
+   ],
+   "pakete": [
+    {
+     "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+     "status": "laeuft bei Ferat (wird geladen)",
+     "prioritaet": "A",
+     "wofuer": "Kreuzgeschichteter Sandstein (Large 03) als Wellenplatte",
+     "ersatz_bestand": "uk5ebcp_tier_0 + MI_EL_SW_Welle (Toenung Ocker/Rot)"
+    }
+   ]
+  }
+ },
+ "pakete_gesamt": [
+  {
+   "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "A",
+   "orte": [
+    "canyon_01_sonnenfenster",
+    "canyon_03_rote_stufe",
+    "canyon_04_fluesterschlucht",
+    "canyon_05_hoodoo_kessel",
+    "canyon_08_die_welle"
+   ]
+  },
+  {
+   "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "A",
+   "orte": [
+    "canyon_04_fluesterschlucht",
+    "canyon_07_smaragdgumpe"
+   ]
+  },
+  {
+   "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "B",
+   "orte": [
+    "canyon_06_die_kolke",
+    "canyon_07_smaragdgumpe"
+   ]
+  },
+  {
+   "paket": "Hollowstone Canyon (Porous Rocks Desert)",
+   "status": "fehlt",
+   "prioritaet": "B",
+   "orte": [
+    "canyon_05_hoodoo_kessel"
+   ]
+  },
+  {
+   "paket": "Wadi Rum Sandstone Rock 01–04",
+   "status": "fehlt",
+   "prioritaet": "B",
+   "orte": [
+    "canyon_01_sonnenfenster",
+    "canyon_02_der_waeger"
+   ]
+  },
+  {
+   "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+   "status": "fehlt",
+   "prioritaet": "C",
+   "orte": [
+    "canyon_04_fluesterschlucht"
+   ]
+  },
+  {
+   "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+   "status": "laeuft bei Ferat (wird geladen)",
+   "prioritaet": "C",
+   "orte": [
+    "canyon_07_smaragdgumpe"
+   ]
+  },
+  {
+   "paket": "Procedural Rocks Generator",
+   "status": "fehlt",
+   "prioritaet": "C",
+   "orte": [
+    "canyon_02_der_waeger",
+    "canyon_05_hoodoo_kessel"
+   ]
+  },
+  {
+   "paket": "Wilderness Nature Loops",
+   "status": "fehlt",
+   "prioritaet": "C",
+   "orte": [
+    "canyon_03_rote_stufe"
+   ]
+  }
+ ],
+ "vorhanden_neu_genutzt": [
+  {
+   "paket": "Niagara Examples Pack",
+   "pfade": [
+    "/Game/NiagaraExamples/FX_Misc/NS_Fire",
+    "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+    "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous",
+    "/Game/NiagaraExamples/FX_Misc/NS_Bubble_Burst",
+    "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight"
+   ]
+  },
+  {
+   "paket": "Free City & Nature Sounds",
+   "pfade": [
+    "/Game/City_Nature_Sounds/WAV/* (nur Naturklaenge: Wind, Wasser, Voegel, Insekten)"
+   ]
+  }
+ ],
+ "neue_paketwuensche": [
+  {
+   "paket": "Megascans Sandstone (Vault, nicht auf Fab migriert)",
+   "link": "https://www.unrealengine.com/marketplace/en-US/product/megascans-sandstone",
+   "preis": "pruefen: evtl. schon in Bibliothek (Launcher-Vault)",
+   "groesse_gb": "unbekannt",
+   "nanite": "ungeprueft",
+   "prioritaet": "C",
+   "wofuer": [
+    "canyon_03_rote_stufe",
+    "canyon_05_hoodoo_kessel",
+    "canyon_01_sonnenfenster"
+   ],
+   "begruendung": "Klippen, Felsformationen und Streuschutt aus Sandstein - ergaenzt die fuenf MassiveSandstoneCliff-Teile (zu wenig Variation fuer 8 Canyon-Orte)."
+  }
+ ],
+ "luecken": [
+  {
+   "was": "Hoodoo-/Pilzfelsen-Netz (Schaft mit Taille + Deckstein)",
+   "orte": [
+    "canyon_05_hoodoo_kessel",
+    "wueste_03_die_waechter"
+   ],
+   "loesung": "Schaft aus SM_MassiveSandstoneCliff_03 (x0,35 breit, x1,2 hoch, 40 % eingegraben), Kappe SM_RockSandstone_040; Taille durch zweiten, schmaleren Schaft; Fuge mit Decal MI_TileableLeakage. Hoodoo (Canyon) = schlank, gebaendert, im Kessel; Pilzfelsen (Wueste) = gedrungen, weisser Fuss mit Sandschliff (MI_EL_SW_Wueste_Sandauflage)."
+  },
+  {
+   "was": "Naturbogen-Netz",
+   "orte": [
+    "canyon_01_sonnenfenster"
+   ],
+   "loesung": "Zwei Pfeiler SM_MassiveSandstoneCliff_03 + Sturz SM_HugeSandstoneCliff_07 quer (Akteure), Fugen mit Schutt; Gelaende kann keine Ueberhaenge (SEHENS_FORMAT §3)."
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Canyon_Rotband",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     1.0,
+     0.62,
+     0.45,
+     1.0
+    ],
+    "Variation": 0.8
+   },
+   "fuer": [
+    "vmnmbhv_tier_0",
+    "ukjhcamga_tier_0",
+    "SM_MassiveSandstoneCliff_02"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Canyon_Sandauflage",
+   "basis": "M_EL_Fels_Sand",
+   "parameter": {
+    "Sand_Menge": 0.8,
+    "Sand_Farbe": [
+     1.0,
+     0.82,
+     0.6,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_MassiveSandstoneCliff_01",
+    "SM_RockSandstone_040"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Canyon_Gumpenmoos",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Moos_Menge": 0.9,
+    "Moos_Farbe": [
+     0.7,
+     1.0,
+     0.55,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_MassiveSandstoneCliff_05"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Welle",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     1.0,
+     0.7,
+     0.5,
+     1.0
+    ]
+   },
+   "fuer": [
+    "uk5ebcp_tier_0"
+   ]
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "canyon_03_rote_stufe",
+   "kamera": [
+    "C4",
+    -233400,
+    -20800,
+    -191000,
+    -46000,
+    2608,
+    "canyon_03_rote_stufe_fern",
+    170
+   ],
+   "zweck": "Westliche Schichtstufe vom Aue-Weg: wie hoch steht der Ringruecken ueber dem Vorland?"
+  },
+  {
+   "ort": "canyon_07_smaragdgumpe",
+   "kamera": [
+    "D4",
+    -164738,
+    -43366,
+    -167200,
+    -43800,
+    3831,
+    "canyon_07_smaragdgumpe_held",
+    170
+   ],
+   "zweck": "Bachrinne an der Suedstufe heute: Wandhoehe, Wasser auf dem Hang"
+  },
+  {
+   "ort": "canyon_04_fluesterschlucht",
+   "kamera": [
+    "D4",
+    -117500,
+    -74408,
+    -123500,
+    -84800,
+    8066,
+    "canyon_04_fluesterschlucht_held",
+    170
+   ],
+   "zweck": "Seitenbach am Canyonrand: Fallkante in den Hauptcanyon"
+  }
+ ]
+}

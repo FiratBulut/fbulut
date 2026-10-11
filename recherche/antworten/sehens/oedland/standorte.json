@@ -182,7 +182,7 @@
     [2500, 147100, 508]
    ],
    "draufsicht": "oedland_01_rippenland.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Badland-Kuppe (68 m, Sandstein 54 %, Hang 38-78 Grad, Relief 57 m) ueber dem Ton-Flachland; Weg 251 m, 27 Weg-/Pfadpunkte sehen sie.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -242,7 +242,7 @@
     [-67500, 104100, 6110]
    ],
    "draufsicht": "oedland_02_regenbogenhang.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Steile Badland-Flanke (Hang 61 Grad, Relief 64 m) am Westsporn der Abbruchkante; Weg 224 m, 29 Wegpunkte sehen sie aus bis 786 m.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -294,7 +294,7 @@
     [7100, 145700, 548]
    ],
    "draufsicht": "oedland_03_hoellentor.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Ton-Flachland (Lehm 98 %, 3,8 m) suedlich der Badlands; heute 625 m vom Weg -> Oedlandpfad (Ast Ost) 133 m; 7 Pfadpunkte sehen die 30-m-Rauchsaeule.",
    "zugang": {
     "art": "trampelpfad",
     "breite_cm": 120,
@@ -355,7 +355,7 @@
     [-112100, 76500, 3504]
    ],
    "draufsicht": "oedland_04_dornbusch_senke.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Verebnung am Westrand der Abbruchkante (47 m), Bach 44 m; Weg 290 m, verdeckt.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -405,7 +405,7 @@
     [-50700, 139500, 394]
    ],
    "draufsicht": "oedland_05_kugelsteine.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Ton-Flachland am Fuss einer Badland-Rinne (Einzugsflaeche 71 000 m2); Weg 294 m (Burgweg), Oedlandpfad 94 m; mit Auskolkung -9 m verdeckt.",
    "zugang": {
     "art": "trampelpfad",
     "breite_cm": 120,
@@ -458,7 +458,7 @@
     [-21500, 154900, 377]
    ],
    "draufsicht": "oedland_06_schlammvulkaene.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Geroell-/Tonflaeche 86 m suedoestlich des bestehenden Kraterrings; heute 589 m vom Weg -> Oedlandpfad 112 m; mit Mulde -3,5 m verdeckt.",
    "zugang": {
     "art": "serpentine",
     "breite_cm": 120,
@@ -509,7 +509,7 @@
     [-81900, 159300, 381]
    ],
    "draufsicht": "oedland_07_totenpfanne.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Endpfanne des Badland-Bachs (Einzugsflaeche 1,25 km2, Lehm/Erde, 4 m); heute 665 m vom Weg -> Oedlandpfad (Ast West) 124 m; mit Pfanne -3,5 m verdeckt.",
    "zugang": {
     "art": "trampelpfad",
     "breite_cm": 120,
@@ -569,7 +569,7 @@
     [-89900, 158500, 384]
    ],
    "draufsicht": "oedland_08_erdroehren.png",
-   "standort_begruendung": "",
+   "standort_begruendung": "Lehm-/Trockengrashang ueber dem Westbach (13,8 m, Bach 94 m); heute 581 m vom Weg -> Oedlandpfad 220 m; Schluckloecher -4 bis -7 m verdeckt.",
    "zugang": {
     "art": "trampelpfad",
     "breite_cm": 120,
