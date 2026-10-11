@@ -693,7 +693,7 @@ class OrtKontext:
                 L_ = _st.polylinie_laenge(pts)
                 if ziel.get("art") == "versickert" and L_ < _bach.VERSICKERT_MIN_M:
                     # Koordinator 13f: zu kurz versickernd -> ab der Kappung ohne Kehre weiter (>= 25 m)
-                    p2 = self._verlaengern(pts, _bach.VERSICKERT_MIN_M - L_ + 1.0, epic=None, robust=True)
+                    p2 = self._verlaengern_sinnvoll(pts, _bach.VERSICKERT_MIN_M - L_ + 1.0)
                     p2 = pts + _verdichten(_vereinfachen(p2[len(pts) - 1:], 1.0), float(w.get("max_segment_m", 2.0)))[1:]
                     if _st.polylinie_laenge(p2) > L_ + 0.5:
                         pts = p2
@@ -898,7 +898,7 @@ class OrtKontext:
                 if laenge(pts) < _bach.VERSICKERT_MIN_M:
                     # Koordinator 13f: noch zu kurz -> ab dem Ende von 13f ohne Kehre weiter (Lauf davor unveraendert)
                     n_alt = len(pts)
-                    pts = self._verlaengern(pts, _bach.VERSICKERT_MIN_M - laenge(pts) + 1.0, epic=None, robust=True)
+                    pts = self._verlaengern_sinnvoll(pts, _bach.VERSICKERT_MIN_M - laenge(pts) + 1.0)
                 hinweise.append("versickert: auf %.0f m verlaengert (>= 25 m, A9)" % laenge(pts))
             return {"art": "versickert", "id": "versickert", "_pts": pts, "_n_alt": n_alt}
         # auto (A9): Epic-Gewaesser am Ende? sonst weiter entlang der Tiefenlinie
@@ -923,8 +923,7 @@ class OrtKontext:
                         pts = self._verlaengern(pts, _bach.VERSICKERT_MIN_M - laenge(pts) + 1.0, epic=None)
                         if laenge(pts) < _bach.VERSICKERT_MIN_M:
                             n_alt = len(pts)
-                            pts = self._verlaengern(pts, _bach.VERSICKERT_MIN_M - laenge(pts) + 1.0, epic=None,
-                                                    robust=True)
+                            pts = self._verlaengern_sinnvoll(pts, _bach.VERSICKERT_MIN_M - laenge(pts) + 1.0)
                     hinweise.append("versickert: auf %.0f m verlaengert (>= 25 m, A9)" % laenge(pts))
                 if laenge(pts) < _bach.VERSICKERT_MIN_M:
                     self.melde(WARNUNG, "bach %s: versickert nach %.0f m (< 25 m, Gelaende steigt)" % (wid, laenge(pts)))
@@ -955,6 +954,30 @@ class OrtKontext:
             out.append([qx, qy])
             px, py = qx, qy
         return out
+
+    def _verlaengern_sinnvoll(self, pts, mehr_m):
+        """Koordinator 13f: zu kurz versickernder Lauf ohne Kehre weiter - nur, wenn die Verlaengerung nicht bergauf in
+        Gelaende fuehrt, das der Stempel nicht freilegen darf (Gegenanstieg <= 0,5 m ueber dem bisherigen Ende, ausserhalb
+        der Weg-/Ortsschutzzone); sonst bleibt der Lauf wie 13f."""
+        p2 = self._verlaengern(pts, mehr_m, epic=None, robust=True)
+        if len(p2) <= len(pts):
+            return pts
+        neu = np.asarray(p2[len(pts):], np.float64)
+        z_ende = float(self.boden(*pts[-1]))
+        if float(np.max(self.boden(neu[:, 0], neu[:, 1]))) > z_ende + 0.5:
+            return pts
+        if float(np.min(self._schutz_faktor_bei(neu[:, 0], neu[:, 1]))) < 0.98:
+            return pts
+        for sv in self.see.values():
+            if not sv.get("klein") and self._im_see_puffer(neu[:, 0], neu[:, 1], sv, 3.0 + 2.0 * self.welt.zelle_m).any():
+                return pts          # liefe zurueck an einen geplanten See (Uferring/Becken wird nicht angeschnitten)
+        g = self.r.get("gelaende") or {}
+        if g.get("schutz", True) and not g.get("wasser_frei", False):
+            fw = self.stempel.schutz_faktor(float(g.get("schutz_weg_m", 3.0)), True, 4.0,
+                                            self._ausnahme_maske(wasser_ausnahmen=True), nur_wasser=True)
+            if float(np.min(_st._bilinear_fenster(fw, self.stempel.fe, self.welt, neu[:, 0], neu[:, 1], 1.0))) < 0.98:
+                return pts          # liefe in den Wasserschutz des Bestands (dort kein Stempel)
+        return p2
 
     def _verlaengern(self, pts, mehr_m, epic=None, r=3.0, W0=None, robust=False):
         """Linie entlang der Tiefenlinie um bis mehr_m verlaengern (A9): erst steilster Abstieg auf dem gestempelten

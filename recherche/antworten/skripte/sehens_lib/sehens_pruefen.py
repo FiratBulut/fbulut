@@ -946,9 +946,9 @@ def _gefaelle_pruefen():
     return _GPR["mod"]
 
 
-def _netz_ausnahmen(w, X, Y, kum, seen):
+def _netz_ausnahmen(w, X, Y, kum, seen, zelle_m=1.0):
     """Bogenlaengen-Bereiche des Bachs, in denen Bett/Ufer nicht gelten (wie A12): Furten +- 1,5 m, offene Muendung,
-    1,5 m um eigene Seen (Zu-/Abfluss)."""
+    Stufenzonen Lippe - (0,5 + 0,75 Zellen) ... Fuss + (0,5 + 0,75 Zellen), 1,5 m um eigene Seen (Zu-/Abfluss)."""
     aus = []
     for f in w.get("furten") or []:
         fa = np.asarray(f["von_cm"], np.float64) / 100.0
@@ -959,6 +959,14 @@ def _netz_ausnahmen(w, X, Y, kum, seen):
     if w.get("muendung_offen_ab_cm"):
         q = np.asarray(w["muendung_offen_ab_cm"], np.float64) / 100.0
         aus.append((kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))], float(kum[-1]) + 1.0))
+    rz = 0.5 + 0.75 * float(zelle_m)
+    for st_ in w.get("stufen") or []:
+        # Stufenzone wie A12 (auch Stufen < 0,5 m, die nicht im Netz liegen)
+        q = np.asarray(st_["lippe_cm"], np.float64)[:2] / 100.0
+        sl = kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
+        q = np.asarray(st_["fuss_cm"], np.float64)[:2] / 100.0
+        sf = kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]
+        aus.append((min(sl, sf) - rz, max(sl, sf) + rz))
     for sid in (w.get("muendung"), w.get("abfluss_von")):
         if sid in seen:
             U = seen[sid][0]
@@ -1023,7 +1031,7 @@ def pruefe_wasser_koerper(w, oid, welt, boden, X, Y, kum, seen=None):
         return b
     zus = max(welt.zelle_m - 1.0, 0.0)
     alt_hoehe = lambda x_, y_: welt.bilinear(welt.hoehe, x_, y_)  # noqa: E731
-    aus = _netz_ausnahmen(w, X, Y, kum, seen or {})
+    aus = _netz_ausnahmen(w, X, Y, kum, seen or {}, welt.zelle_m)
     for kb in wk:
         if kb["typ"] != "kaskadennetz":
             continue
