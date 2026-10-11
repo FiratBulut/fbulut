@@ -1114,6 +1114,10 @@ def pruefe_baeche(o, welt, boden=None):
         kum = np.concatenate([[0.0], np.cumsum(np.hypot(np.diff(X), np.diff(Y)))])
         L = float(kum[-1])
         b += pruefe_wasser_koerper(w, oid, welt, boden, X, Y, kum, seen)
+        pa = w.get("profil_absenkung_aussen") or {}
+        if float(pa.get("flaeche_m2", 0) or 0) > 0:
+            b.append((FEHLER, oid, "bach %s: Querprofil senkt %.0f m2 abseits des Bachs > 0,3 m ab (bis %.2f m; nur "
+                      "Netzrand + Uferring + Boeschung, 13i K1/15e)" % (wid, pa["flaeche_m2"], pa.get("max_m", 0))))
         mu = w.get("muendung")
         frei_s = np.ones(0)
         # --- A4: eigener See am Ende

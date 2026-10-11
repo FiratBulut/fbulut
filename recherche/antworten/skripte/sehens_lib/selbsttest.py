@@ -324,6 +324,24 @@ def _test_13f(welt2, ort, a):
     soll = bp - 50.0 - max(0.0, info["bounds_cm"][0][2] * sk[2])
     ok(p["fuss_r_m"] >= instanzen.FUSS_PIVOT_AB_M and abs(p["z"] - soll) < 1e-6 and p["unterkante_z_m"] <= bp / 100.0,
        "A3 Baum am Hang: z = Boden(Pivot) - eingraben - max(0, bmin_z*sz) (Fuss %.1f m)" % p["fuss_r_m"])
+    # --- 13i K2: Pivot in der Netzmitte (wie SM_Fern_02a: bmin_z -25,8 cm bei 52,4 cm Hoehe) -> Unterkante auf den Boden
+    info_m = copy.deepcopy(info)
+    hz = info["bounds_cm"][1][2] - info["bounds_cm"][0][2]
+    info_m["bounds_cm"] = [[info["bounds_cm"][0][0], info["bounds_cm"][0][1], -0.49 * hz],
+                           [info["bounds_cm"][1][0], info["bounds_cm"][1][1], 0.51 * hz]]
+    pm = instanzen.platziere(info_m, 10.0, 5.0, q, sk, hang, 0.1, "mitte")
+    bpm = float(hang(pm["x"] / 100.0, pm["y"] / 100.0)) * 100.0
+    ok(abs(pm["unterkante_z_m"] * 100.0 - (bpm - 10.0)) < 1.0,
+       "13i K2 Pivot in der Netzmitte: Unterkante = Boden(Pivot) - eingraben (%.2f m statt halb im Boden)"
+       % (pm["unterkante_z_m"] - bpm / 100.0))
+    # --- 13i K3: Stueck genau auf der Feldgrenze -> 1 cm ins Feld, Feld aus dem float32-Wert
+    eb3 = instanzen.Ebene(a.biom, inv, stand="selbsttest")
+    y_g = 97949.992
+    e3 = eb3.neu("syn", "g", "kleinzeug", "Fir_07_Forest", -100000.0, y_g, 0.0, (0.0, 0.0, 0.0, 1.0), (1.0, 1.0, 1.0))
+    if e3 is not None:
+        x0_, y0_, x1_, y1_ = daten.feld_grenzen_m(e3["feld"])
+        ok(y0_ * 100.0 + 0.99 <= float(np.float32(e3["y"])) <= y1_ * 100.0 - 0.99,
+           "13i K3 Stueck auf der Feldgrenze: %s, y %.2f cm (>= 1 cm im Feld)" % (e3["feld"], e3["y"]))
 
     # --- A4/A8/A12/A13 auf der synthetischen 1-m-Welt
     welt, cx, cy = _syn_welt_1m(weg_x=None)
@@ -398,6 +416,11 @@ def _test_13f(welt2, ort, a):
                         q_[2] -= 60
             bk3 = [t for s_, _, t in sehens_pruefen.pruefe_baeche(o3, wl, _Boden()) if s_ == "FEHLER"]
             ok(any("Gelaende ueber dem Spiegel" in t for t in bk3), "A12 kaputt: Gelaende ueber dem Spiegel -> FEHLER")
+            # 13i K1: Querprofil senkt abseits des Bachs (Netzrand + Uferring + Boeschung + 1 m) nichts > 0,3 m ab
+            pa_ = getattr(ctx.stempel, "profil_aussen", {})
+            ok(bool(pa_) and all(v_[0] == 0 for v_ in pa_.values()) and
+               all((w_.get("profil_absenkung_aussen") or {}).get("flaeche_m2", 0) == 0 for w_ in ctx.wasser),
+               "13i K1 Querprofil: keine Absenkung > 0,3 m abseits des Bachs (%d Baeche)" % len(pa_))
             # 13g: Treppenbach (Stufe >= 0,5 m) mit wasser_koerper (river + kaskadennetz, A15/14b), Stufen unveraendert
             wk = zu.get("wasser_koerper") or []
             kn = [k_ for k_ in wk if k_["typ"] == "kaskadennetz"]

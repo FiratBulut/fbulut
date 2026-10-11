@@ -166,6 +166,19 @@ def profil(d, W, Wu, B, tiefe_m, zelle_m):
     return T, R, ring
 
 
+def absenk_grenze(d, B, tiefe_m, zelle_m):
+    """13i K1: wie tief das Querprofil im Abstand d (m) von der Mitte hoechstens unter das bisherige Gelaende absenkt:
+    innerhalb der Wasserkante (+ 0,5 Zellen) unbegrenzt (Bett), ausserhalb tiefe + 0,5 m bis Netzrand + Uferring (ufer_abstand +
+    RING_BREITE_M), danach weich (2 m) auf 0 - die Boeschung laeuft in den Hang aus, statt ihn abzutragen."""
+    d = np.asarray(d, np.float64)
+    wk = wasserkante(B, zelle_m)
+    rand = ufer_abstand(B, zelle_m) + RING_BREITE_M
+    t = np.clip((d - rand) / 2.0, 0.0, 1.0)
+    g = (float(tiefe_m) + 0.5) * (1.0 - t * t * (3.0 - 2.0 * t))
+    # eine halbe Zelle Reserve: die bilineare Abfrage in der Bachmitte mischt die Zellen bis 0,7 Zellen daneben
+    return np.where(d <= wk + 0.5 * float(zelle_m), np.inf, g)
+
+
 def reichweite(B, zelle_m, tiefe_max_m):
     """Wie weit (m von der Mitte) das Profil wirken kann: Uferring + Auslauf, Boeschung bis zur groessten Eintiefung."""
     return halbe_breite_eff(B, zelle_m) + max(RING_BREITE_M + NETZRAND_M + WULST_MAX_M / RING_AUSLAUF + 0.5,

@@ -220,7 +220,13 @@ def platziere(info, x_m, y_m, q, s, boden_fn, eingraben_m=0.0, bezug="min", z_un
             # 13f A3: grosse Baeume/Pflanzen stehen auf dem Boden am Pivot (Stammfuss), nicht auf dem Median der
             # Kronen-Box: z = Boden(Pivot) - eingraben - max(0, bmin_z * sz)
             bp = float(boden_fn(px / 100.0, py / 100.0)) * 100.0
-            z = bp - eingraben_m * 100.0 - max(0.0, float(info["bounds_cm"][0][2]) * float(s[2]))
+            bmz = float(info["bounds_cm"][0][2]) * float(s[2])
+            if bmz < -0.25 * H:
+                # 13i K2: Pivot in der Netzmitte (z. B. SM_Fern_02a, bmin_z -25,8 cm bei 52,4 cm Hoehe) - sonst steckt die
+                # Pflanze halb im Boden: Netz-Unterkante auf den Boden (fuer Netze mit Pivot unten unveraendert)
+                z = bp - eingraben_m * 100.0 - bmz
+            else:
+                z = bp - eingraben_m * 100.0 - max(0.0, bmz)
             b = bp / 100.0
     return {"x": px, "y": py, "z": z, "hoehe_m": H / 100.0, "fuss_r_m": fuss_r, "boden_z_m": b,
             "unterkante_z_m": (z + zmin) / 100.0, "oberkante_z_m": (z + zmax) / 100.0,
@@ -478,7 +484,15 @@ class Ebene:
                  ("%s|%s|%d" % (ort, gruppe, len(self.stuecke))).encode()) / 4294967296.0)}
         # Feld aus der geschriebenen Genauigkeit (float32 bzw. 0,1 cm), sonst kann ein Stueck genau auf der Feldgrenze
         # nach dem Runden im Nachbarfeld liegen (Pruefer: "ausserhalb des Feldrechtecks")
-        e["feld"] = _daten.feld_von_cm(round(float(np.float32(e["x"])), 1), round(float(np.float32(e["y"])), 1))
+        # 13i K3: Stuecke bis 1 cm an einer Feldgrenze 1 cm ins Feld schieben, Feld aus dem float32-Wert (ohne Runden) -
+        # dann ordnen Setzer und Pruefer gleich zu
+        for k_, off_ in (("x", 473050.0), ("y", 406050.0)):
+            r_ = (float(e[k_]) + off_) % 100800.0
+            if r_ < 1.0:
+                e[k_] = float(e[k_]) + (1.0 - r_)
+            elif r_ > 100800.0 - 1.0:
+                e[k_] = float(e[k_]) - (r_ - (100800.0 - 1.0))
+        e["feld"] = _daten.feld_von_cm(float(np.float32(e["x"])), float(np.float32(e["y"])))
         self.stuecke.append(e)
         return e
 

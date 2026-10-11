@@ -8,7 +8,7 @@ Pruefer-Regel (sehens_pruefen, FEHLER):
   Nach dem Stempel > 20 m2 zusammenhaengend (8er-Nachbarschaft, 1-m-Raster) mit > 45 Grad Neigung, die der Stempel
   neu geschaffen hat (|Delta| > 0,25 m und Neigung um > 5 Grad steiler als vorher), ohne Fels-Akteur, der die Zellen
   deckt (XY-Huelle seiner gedrehten Bounds, Bodenhoehe der Zelle zwischen Unter- und Oberkante +- 1 m).
-  Ausgenommen: unter dem Spiegel eigener Seen (Seegrund) und das benetzte Bett der Baeche (halbe Breite + 1 m;
+  Ausgenommen: Meeresboden (< -0,5 m), unter dem Spiegel eigener Seen (Seegrund) und das benetzte Bett der Baeche (halbe Breite + 1 m;
   Stufen bleiben wie 13f, Ferat 13g).
 
 Werkzeuge (Planer):
@@ -41,6 +41,7 @@ GRENZE_GRAD = 45.0          # Ferat 13h: "steiler als ~45 Grad"
 MIN_FLAECHE_M2 = 20.0       # zusammenhaengend > 20 m2 -> FEHLER
 MIN_DELTA_M = 0.25          # nur Zellen, die der Stempel merklich geaendert hat
 MEHR_GRAD = 5.0             # ... und die dadurch steiler geworden sind (bestehende Felswaende zaehlen nicht)
+MEER_UNTER_M = -0.5         # Zellen unter dem Meeresspiegel (Meeresboden) zaehlen nicht
 RAND_M = 0.5                # Abdruck-Toleranz (Netze ragen ueber die Box-Huelle hinaus, Interpolation)
 Z_TOL_M = 1.0
 
@@ -262,6 +263,7 @@ def steil_befund(o, basis, welt, abdruecke):
     h0 = welt.bilinear(welt.hoehe, X, Y)
     h1 = h0 + a
     aus = ausnahme_wasser(o, X, Y, h1, welt.zelle_m)
+    aus |= h1 < MEER_UNTER_M                      # Meeresboden (unter dem Meeresspiegel nicht sichtbar)
     neu = neue_steil_maske(h0, h1, 1.0, ausnahme=aus)
     ged = deckung(X, Y, h1, abdruecke, nur=neu) & neu
     lab, gr = komponenten(neu & ~ged)
@@ -385,6 +387,7 @@ def _fest_maske(ctx):
     st = ctx.stempel
     g = ctx.r.get("gelaende") or {}
     fest = st.randfaktor() < 0.999
+    fest |= st.h0 < 0.0                              # Meeresboden bleibt (Kueste)
     if g.get("schutz", True):
         aus = ctx._ausnahme_maske(wasser_ausnahmen=True)
         fest |= st.schutz_faktor(float(g.get("schutz_weg_m", 3.0)), not g.get("wasser_frei", False), 4.0, aus) < 0.999
@@ -429,8 +432,18 @@ def boeschung_anwenden(ctx):
     if not (np.abs(st.delta) > MIN_DELTA_M).any():
         return
     h_vor = st.h0 + st.delta
+    wm = ctx._wasser_maske_fenster(st.fe)
+    senke_vor = st.senken(wasser=wm)["maske"]
     auf, ab = st.boeschung(float(mg), fest=fest, max_auftrag_m=float(g.get("max_auftrag_m", 3.0)),
                            max_abtrag_m=float(g.get("max_abtrag_m", 3.0)))
+    # keine neuen geschlossenen Senken durch die Halde (Schuttkegel duerfen keine Mulde abriegeln)
+    senke_neu = st.senken(wasser=wm)["maske"] & ~senke_vor
+    if senke_neu.any():
+        from . import gelaende as _g
+        zone = _g.abstand(senke_neu, st.z, 30.0) <= float(g.get("max_auftrag_m", 3.0)) / 0.7 + 3.0 * st.z
+        st.delta = np.where(zone, h_vor - st.h0, st.delta)
+        st.halde &= ~zone
+        st.max_aenderung_m = float(np.abs(st.delta).max())
     # Uferring: nie unter Spiegel + 0,3 m abtragen (ausser es lag schon vorher tiefer)
     grenze = np.minimum(min_h, h_vor)
     unten = (st.h0 + st.delta) < grenze
@@ -500,6 +513,7 @@ def _steil_im_stempel(ctx, grenze_grad=PLANER_GRENZE_GRAD):
     from . import bach as _b
     for b in _bach_zonen(ctx, st.X, st.Y):
         aus |= b["d"] <= _b.halbe_breite_eff(b["B"], st.z) + 1.0
+    aus |= h1 < MEER_UNTER_M
     return neue_steil_maske(st.h0, h1, st.z, grenze_grad=grenze_grad, ausnahme=aus), h1
 
 
@@ -626,3 +640,29 @@ def pruefe_orte_steil(d, basis, welt, sw_ordner, inv):
     for o in d.get("orte") or []:
         b += pruefe_ort_steil(o, basis, welt, fels_abdruecke(akteure, inv, o.get("id")))
     return b
+
+
+def auto_verkleiden(ctx):
+    """13h: nach allen Gruppen - verbliebene neue Steilflaechen (> 45 Grad) automatisch mit den Wandnetzen des Bioms
+    (Regelwerk A15, gefaelle_regeln.json biome.<biom>.netze.wand) verkleiden. Regel im gelaende-Block:
+    "verkleiden": false (aus) | {"palette": [...], "groesse_m": [a, b], "groesse_achse": "z", "max_anzahl": 30}."""
+    g = ctx.r.get("gelaende") or {}
+    v = g.get("verkleiden", {})
+    if v is False or ctx.stempel is None:
+        return []
+    v = v if isinstance(v, dict) else {}
+    steil, _ = _steil_im_stempel(ctx)
+    if steil.sum() * ctx.stempel.z ** 2 < 4.0:
+        return []
+    grp = {"name": v.get("name", "wandverkleidung"), "ebene": "begleiter", "rolle": "fels",
+           "warum": "13h: neue Steilflaeche > 45 Grad nur mit Fels - automatische Verkleidung mit Wandnetzen des Bioms (A15)",
+           "verteilung": {"typ": "steilwand", "max_anzahl": int(v.get("max_anzahl", 30)), "versatz_m": 0.3,
+                          "min_flaeche_m2": float(v.get("min_flaeche_m2", 4.0))},
+           "groesse_m": v.get("groesse_m", [3.0, 7.0]), "groesse_achse": v.get("groesse_achse", "z"),
+           "front_achse": v.get("front_achse", "+y"), "im_wasser": "egal",
+           "hinweis": "Schauseite +Y angenommen (E35) - im Editorbild pruefen"}
+    if v.get("palette"):
+        grp["palette"] = v["palette"]
+    if v.get("material"):
+        grp["material"] = v["material"]
+    return ctx.gruppe(grp)

@@ -39,7 +39,7 @@ LEUCHT_FAKTOR = 1.5           # Ferat 13h: Riesen >= 1,5 x Nachbarhoehe
 
 BAUM_MUSTER = re.compile(r"(tree|pine|fir_|spruce|birch|oak|beech|palm|cedar|larch|willow|maple|acacia|baobab|"
                          r"cypress|sequoia|redwood|mangrove|alder|ash_|elm|poplar)", re.I)
-KEIN_BAUM_MUSTER = re.compile(r"(log|branch|root|stump|cone|needle|leaf|bark|fallen|dead_|trunk|_plant)", re.I)
+KEIN_BAUM_MUSTER = re.compile(r"(log|branch|root|stump|cone|needle|leaf|bark|fallen|trunk|_plant)", re.I)
 
 
 def ist_baum(name):
@@ -60,7 +60,8 @@ def _hindernis(info, pfad, x_cm, y_cm, z_cm, q, s, ort=None, gruppe=None, ebene=
     h = {"pfad": pfad, "ort": ort, "gruppe": gruppe, "ebene": ebene, "x": x_cm / 100.0, "y": y_cm / 100.0,
          "z0": float(zs.min()), "z1": float(zs.max()), "H": H,
          "bb": (float(xs.min()), float(ys.min()), float(xs.max()), float(ys.max()))}
-    if ist_baum(pfad) and H >= BAUM_AB_M:
+    breite = max(float(xs.max() - xs.min()), float(ys.max() - ys.min()))
+    if ist_baum(pfad) and H >= BAUM_AB_M and H >= 0.8 * breite:      # stehender Baum (liegende Staemme: Box)
         Q = np.stack([xs - xs.mean(), ys - ys.mean()], 1)
         w, V = np.linalg.eigh(Q.T @ Q)
         pr = Q @ V
@@ -69,8 +70,12 @@ def _hindernis(info, pfad, x_cm, y_cm, z_cm, q, s, ort=None, gruppe=None, ebene=
                  r_stamm=float(max(0.25, 0.012 * H)), z_krone=float(zs.min() + 0.15 * H))
     else:
         qi = (-q[0], -q[1], -q[2], q[3])
-        h.update(typ="box", qi=qi, s=s, bmin=np.asarray(bmin, np.float64), bmax=np.asarray(bmax, np.float64),
-                 pz=z_cm / 100.0)
+        b0, b1 = np.asarray(bmin, np.float64), np.asarray(bmax, np.float64)
+        if ist_baum(pfad) or re.search(r"(fallen|log|_plant)", str(pfad), re.I):
+            # Laub/Nadeln fuellen die Box nicht: liegende Baeume, Jungbaeume -> Kern 80 % der Box
+            m_, r_ = 0.5 * (b0 + b1), 0.4 * (b1 - b0)
+            b0, b1 = m_ - r_, m_ + r_
+        h.update(typ="box", qi=qi, s=s, bmin=b0, bmax=b1, pz=z_cm / 100.0)
     return h
 
 
@@ -236,7 +241,12 @@ def pruefe_kamera(kam, ort, welt, boden_fn, hind, freiraeume=None, bestand=True,
     Y = ey + (ty - ey) * t
     Z = ez + (tz - ez) * t
     s = t * d3
-    gueltig = (s >= 0.3) & (s <= d3 - 1.0)
+    # Motivradius: was naeher als r_motiv am Ziel steht, ist Teil des Bildes (Szene), nicht Verdeckung
+    if art == "nah":
+        r_motiv = ZIEL_FREI_M
+    else:
+        r_motiv = min(0.35 * d3, 0.6 * float(ort.get("radius_m", 30.0)))
+    gueltig = (s >= 0.3) & (s <= d3 - max(1.0, r_motiv))
     eigen_held = {id(h) for h in _held_hindernisse(ort, nahe)} if art != "nah" else set()
     for h in nahe:
         # das Ziel selbst (Netz am Zielpunkt, bei Fern-/Uebersichtskameras die Held-Netze des Orts) sperrt nicht
@@ -253,10 +263,10 @@ def pruefe_kamera(kam, ort, welt, boden_fn, hind, freiraeume=None, bestand=True,
             b.append(("FEHLER", "Kamera %s: Sicht nach %.0f m durch %s verdeckt (13h: freie Sichtlinie)"
                       % (name, float(s[sel][k]), str(h["pfad"]).rsplit("/", 1)[-1])))
             break
-    # Gelaende (nach dem Stempel)
+    # Gelaende (nach dem Stempel) - bei _fern entscheidet die Silhouetten-Regel (pruefe_leuchtfeuer)
     g = np.asarray(boden_fn(X, Y), np.float64)
     unter = gueltig & (s >= 1.0) & (Z < g - 0.2 + rand_m)
-    if unter.any():
+    if unter.any() and art != "fern":
         b.append(("FEHLER", "Kamera %s: Gelaende verdeckt die Sicht nach %.0f m" % (name, float(s[unter][0]))))
     # Bestandskronen
     if bestand and art != "fern":
@@ -326,12 +336,12 @@ def pruefe_leuchtfeuer(ort, welt, boden_fn, hind, freiraeume=None):
             zm = max(float(z_min[0]), zb, zg)
             sicht = h["z1"] - zm
             best = max(best, sicht / max(h["H"], 1.0) if sicht > 0 else 0.0)
-            if sicht >= max(LEUCHT_MIN_M, LEUCHT_ANTEIL * h["H"]):
+            if sicht >= LEUCHT_ANTEIL * h["H"] and (sicht >= LEUCHT_MIN_M or sicht >= 0.9 * h["H"]):
                 info["fern_sichtbar_m"] = round(float(sicht), 1)
                 break
         else:
             b.append(("FEHLER", "Leuchtfeuer: aus %s ist die Silhouette nicht lesbar (bester Held %.0f %% sichtbar, "
-                                "Soll >= max(10 m, 30 %%); 13h: Freiraum in der Achse, hoeher oder Kamera versetzen)"
+                                "Soll >= 30 %% und >= 10 m oder ganz; 13h: Freiraum in der Achse, hoeher oder Kamera versetzen)"
                       % (kam[6], 100.0 * best)))
         info["fern_anteil"] = round(best, 2)
         info["fern_himmel"] = himmel_hinter(welt, ex, ey, ez, held)
@@ -443,6 +453,13 @@ def kameras_bauen(ctx):
         name = str(kam[6])
         art = name.rsplit("_", 1)[-1]
         r = regel.get(art) or {}
+        # Ziel folgt dem Gelaende nach dem Stempel (gleiche Hoehe ueber Grund wie in standorte.json)
+        if ctx.stempel is not None and ctx.stempel.enthaelt(kam[3] / 100.0, kam[4] / 100.0):
+            zb0 = float(ctx.welt.hoehe_bei_m(kam[3] / 100.0, kam[4] / 100.0))
+            zb1 = float(ctx.boden(kam[3] / 100.0, kam[4] / 100.0))
+            if abs(zb1 - zb0) > 0.3:
+                kam[5] = int(round((zb1 + max(kam[5] / 100.0 - zb0, 0.5)) * 100))
+                geaendert = True
         if r:
             ziel = None
             if r.get("ziel_gruppe"):
@@ -470,6 +487,23 @@ def kameras_bauen(ctx):
                                                          "vor dem Himmel" if b_[2].get("fern_himmel") else "vor Gelaende",
                                                          b_[2].get("fern_anteil", 0.0)))
         bef = pruefe_kamera(kam, ort, ctx.welt, ctx.boden, hind, frei, rand_m=PLANER_RAND_M)
+        if art == "fern" and ctx.st["art"] == "leuchtfeuer" and regel.get("versetzen", True) and r.get("suche") != "wegpunkte":
+            lb, _ = pruefe_leuchtfeuer(dict(ort, kameras=[kam]), ctx.welt, ctx.boden, hind, frei)
+            if bef or [x for x in lb if "_fern" in x[1]]:
+                b_ = _fern_suchen(ctx, kam, ort, hind)
+                if b_ is not None:
+                    ctx.melde("HINWEIS", "Kamera %s versetzt (13h): Wegpunkt (%.0f, %.0f) m, %.0f m vom Ort, Silhouette %s, "
+                                         "Anteil %.2f - vorher: %s" % (name, b_[1][1] / 100.0, b_[1][2] / 100.0,
+                                                                      math.hypot(b_[1][1] / 100.0 - ctx.mx, b_[1][2] / 100.0 - ctx.my),
+                                                                      "vor dem Himmel" if b_[2].get("fern_himmel") else "vor Gelaende",
+                                                                      b_[2].get("fern_anteil", 0.0), (bef or lb)[0][1]))
+                    kam = b_[1]
+                    geaendert = True
+                    bef = pruefe_kamera(kam, ort, ctx.welt, ctx.boden, hind, frei, rand_m=PLANER_RAND_M)
+        if r.get("abstand_m") and not bef and art != "fern":
+            d_ = math.hypot(kam[1] / 100.0 - kam[3] / 100.0, kam[2] / 100.0 - kam[4] / 100.0)
+            if not (float(r["abstand_m"][0]) - 0.5 <= d_ <= float(r["abstand_m"][1]) + 0.5):
+                bef = [("HINWEIS", "Kamera %s %.0f m vom Ziel, Regel %s m" % (name, d_, r["abstand_m"]))]
         if bef and regel.get("versetzen", True) and art != "fern":
             from . import steilwand as _sw
             ausgeblendet = [e["umriss_cm"] for e in ctx.bestand_ausblenden if e.get("art") == "houdini" and e.get("umriss_cm")]

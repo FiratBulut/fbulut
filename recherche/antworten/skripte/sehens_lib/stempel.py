@@ -420,9 +420,16 @@ class Stempel:
         Wu = np.interp(np.maximum(sp - 1.5, 0.0), s_k, W_k)
         T, Rr, ring = _b.profil(d, W, Wu, breite_m, tiefe_m, self.z)
         innen = (sp > 0.01) & (sp < L - 0.01) & (d <= R)
+        # 13i K1: ausserhalb der Wasserkante hoechstens tiefe + 0,5 m unter das bisherige Gelaende, ab Netzrand +
+        # Uferring weich auf 0 (bach.absenk_grenze); zu den Linienenden hin laeuft diese Absenkung auf den letzten 2 m
+        # weich aus (keine Radialkante) - keine Boeschung, die 10-30 m in steile Haenge schneidet, keine Wand bei R
         if tief_aus is not None:
             innen &= ~tief_aus[box]          # z. B. fremde Seebecken samt Uferring nicht anschneiden
         cur = (self.h0 + self.delta)[box]
+        grenze = _b.absenk_grenze(d, breite_m, tiefe_m, self.z)
+        t_end = np.clip(np.minimum(sp, L - sp) / 2.0, 0.0, 1.0)
+        grenze = np.where(np.isfinite(grenze), grenze * t_end * t_end * (3.0 - 2.0 * t_end), grenze)
+        T = np.maximum(T, cur - grenze)
         neu = np.where(innen, np.minimum(cur, T), cur)
         rm = innen & ring
         if ring_aus is not None:
@@ -438,6 +445,13 @@ class Stempel:
         dl = self.delta[box]
         dl += neu - cur
         self.delta[box] = dl
+        # 13i K1 / 15e: Absenkung > 0,3 m nur innerhalb Netzrand + Uferring + Boeschung (+ 1 m) - Kontrolle je Bach
+        aussen = (cur - neu > 0.3) & (d > _b.ufer_abstand(breite_m, self.z) + _b.RING_BREITE_M +
+                                       0.5 / _b.TAN_B + 1.0)
+        if not hasattr(self, "profil_aussen"):
+            self.profil_aussen = {}
+        self.profil_aussen[name] = (int(aussen.sum()) * self.z * self.z,
+                                    float((cur - neu)[aussen].max()) if aussen.any() else 0.0)
         # Gruben ausserhalb des Wassers, die nur durch den Sprung der Projektion an Knicken/Stufen entstehen (einzelne
         # Zellen neben dem Bach), auf den Ueberlaufpegel zuruecksetzen (nie hoeher als vorher)
         abges = np.zeros(self.delta.shape, bool)

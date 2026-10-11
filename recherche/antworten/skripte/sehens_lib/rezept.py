@@ -786,7 +786,13 @@ class OrtKontext:
         boden_arr = np.maximum.accumulate(boden_arr[::-1])[::-1]      # Spiegel davor nie tiefer
         W_ende = float(ziel["spiegel_m"]) + _bach.MUENDUNG_SEE_M if ziel["art"] == "see_eigen" else None
         if W0 is not None and W_boden is not None and W_boden > W0:
-            self.melde(WARNUNG, "bach %s: Zielgewaesser %s liegt %.2f m ueber dem Seespiegel" % (wid, ziel["id"], W_boden - W0))
+            # 13i K4: ein Abfluss beginnt immer auf dem Seespiegel - Ziel ueber W0 wird verworfen (versickert)
+            self.melde(WARNUNG, "bach %s: Zielgewaesser %s liegt %.2f m ueber dem Seespiegel - verworfen, versickert"
+                       % (wid, ziel["id"], W_boden - W0))
+            ziel = {"art": "versickert", "id": "versickert"}
+            W_boden = None
+            boden_arr = np.where(furt, g + 0.03, -np.inf)
+            boden_arr = np.maximum.accumulate(boden_arr[::-1])[::-1]
         # Abfluss: die Seelippe bleibt auf dem Seespiegel (erste Stufe erst hinter der Lippe)
         lippe = max(float(self.see[start_see].get("lippe_m", 1.5)), 2.0 * self.welt.zelle_m + 0.5) + 1.0 \
             if start_see else 0.0
@@ -841,7 +847,8 @@ class OrtKontext:
             if offen_s is not None:
                 ring_aus |= self.stempel.fe.get("wasser") > 0
             self.stempel.bach_profil(np.stack([xa, ya], 1), sa, W, B, tiefe, ring_aus=ring_aus,
-                                     tiefe_max_m=float(np.max(g - W)) + tiefe, tief_aus=tief_aus)
+                                     tiefe_max_m=float(np.max(g - W)) + tiefe, tief_aus=tief_aus,
+                                     name="bach_profil_%s" % wid)
         furten = []
         if furt.any():
             k = 0
@@ -908,9 +915,13 @@ class OrtKontext:
                         pts = p2[:k + 1]
                         break
                 else:
-                    self.melde(WARNUNG, "bach %s: Muendung %s nicht erreichbar (Spiegel ueber dem Lauf)" % (wid, mu))
-                sp = epic.spiegel(mu, *pts[-1])
-                return {"art": "bach", "id": mu, "spiegel_m": sp, "_pts": pts}
+                    # 13i K4: unerreichbares Ziel verwerfen (Tiefenlinie bzw. versickert >= 25 m), nie den Lauf heben
+                    hinweise.append("Muendung %s nicht erreichbar (Spiegel ueber dem Lauf) - Ziel verworfen, "
+                                    "automatisch gesucht (13i K4)" % mu)
+                    mu = "auto"
+                if mu != "auto":
+                    sp = epic.spiegel(mu, *pts[-1])
+                    return {"art": "bach", "id": mu, "spiegel_m": sp, "_pts": pts}
             self.melde(WARNUNG, "bach %s: Muendung %r ist kein Epic-Gewaesser (A9) - automatisch gesucht" % (wid, mu))
             mu = "auto"
         if mu == "versickert":
@@ -1315,6 +1326,13 @@ class OrtKontext:
         if pl["offen_s"] is not None:
             xo, yo = _bach.punkt_bei(P, kum, pl["offen_s"])
             e["muendung_offen_ab_cm"] = [round(float(xo) * 100), round(float(yo) * 100)]
+        pa = (getattr(self.stempel, "profil_aussen", None) or {}).get("bach_profil_%s" % wid)
+        if pa is not None:
+            # 13i K1 / 15e: Absenkung > 0,3 m abseits des Bachs (ausserhalb Netzrand + Uferring + Boeschung + 1 m)
+            e["profil_absenkung_aussen"] = {"flaeche_m2": round(pa[0], 1), "max_m": round(pa[1], 2)}
+            if pa[0] > 0:
+                self.melde(FEHLER, "bach %s: Querprofil senkt %.0f m2 abseits des Bachs > 0,3 m ab (bis %.2f m, 13i K1)"
+                           % (wid, pa[0], pa[1]))
         if w.get("im_bestand_stempeln"):
             e["im_bestand_stempeln"] = True
             e["im_bestand_grund"] = w.get("im_bestand_grund") or "Bach IST das unbenannte Bestandsgerinne"
@@ -2286,6 +2304,7 @@ class OrtKontext:
                 self.gruppe(g)
             except (KeyError, ValueError) as ex:
                 self.melde(FEHLER, "Gruppe %s: %s" % (g.get("name"), ex))
+        _sw.auto_verkleiden(self)                         # 13h: restliche neue Steilflaechen mit Wandnetzen des Bioms
         if getattr(self, "_halde_gruppe", None):
             self.gruppe(self._halde_gruppe)              # 13h: Bloecke auf der Schutthalde (Boeschung)
         if hooks.get("gruppen"):
