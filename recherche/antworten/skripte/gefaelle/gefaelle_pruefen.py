@@ -227,7 +227,7 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
             tx, ty = t / L
             x, y, zs, br = M[k, 0] / 100.0, M[k, 1] / 100.0, M[k, 2] / 100.0, M[k, 3] / 100.0
             zus = max(zelle - 1.0, 0.0)                 # 2-m-Naeherung (siehe gefaelle_plan.RASTER_ZUSCHLAG)
-            off = np.linspace(-1, 1, 7) * max(0.45 * br - zus, 0.15 * br)
+            off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - zus, 0.15 * br)   # 15b: nasses Bett (mittlere 60 %)
             bett = float(np.mean(boden.hoehe(x + ty * off, y - tx * off)))
             if zs - bett < KN["bett_unter_spiegel_min_m"] - 0.005:
                 n_bett += 1

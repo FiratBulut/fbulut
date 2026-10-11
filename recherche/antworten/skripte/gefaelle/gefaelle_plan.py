@@ -752,7 +752,8 @@ def spiegel_bei(sp, s):
 # ======================================================================================================================
 # Gelaende
 # ======================================================================================================================
-RING = {"vorlauf_m": 1.5, "ueber_spiegel_m": 0.15, "breite_m": 1.5, "auslauf": 0.5, "breite_aenderung": 0.2}   # 15b: Uferring am Netzrand
+RING = {"vorlauf_m": 1.5, "ueber_spiegel_m": 0.15, "breite_m": 1.5, "auslauf": 0.5, "breite_aenderung": 0.2,
+        "kante_m": 0.5}   # 15b: Uferring am Netzrand
 
 
 def ufer_z(sp, s):
@@ -763,23 +764,34 @@ def ufer_z(sp, s):
     return spiegel_bei(sp, np.maximum(s - RING["vorlauf_m"], 0.0))
 
 
+def wasserkante(half):
+    """15b: Wasserkante (Gelaende = Spiegel) 0,3-0,5 m innerhalb der halben Breite. Das 1-m-Gelaende ist bilinear;
+    der Netzrand (halbe Breite + 0,4 m) liegt so >= 0,7 m hinter der Wasserkante, und auch die Zellen bis 1 m
+    innerhalb des Netzrands liegen auf der Boeschung ueber dem Spiegel (sonst zieht die Interpolation das Ufer am
+    Netzrand unter Spiegel + 0,1 m)."""
+    half = np.asarray(half, np.float64)
+    return half - np.minimum(RING["kante_m"], np.maximum(0.3, 0.3 * half))
+
+
 def profil_T(d, half, bett, z_sp, z_ufer, winkel):
-    """Querprofil (15b): Bett flach, Boeschung 35 deg steigt INNERHALB der Wasserbreite bis zum Spiegel an der
-    Wasserkante (Bettbreite = Breite - 2 Tiefe / tan 35 deg), aussen weiter mit dem Uferwinkel (35 deg, Uferklippe/
-    Fall/Klamm steiler) ab Ufer-Spiegel + 0,05 m. Kolke und Bett sind so nie breiter als das Wasser bzw. das Netz."""
-    # unter Wasser immer 35 deg (Schutthalde unter der Wand): eine steile Innenwand neben niedrigem Altufer liesse das
-    # 1-m-Gelaende am Netzrand (bilinear zwischen Zellen 1 m auseinander) unter den Spiegel sinken (15b)
+    """Querprofil (15b): Bett flach; Boeschung 35 deg durch die Wasserkante (wasserkante(half)) steigt unter Wasser
+    bis zum Spiegel und darueber weiter; ausserhalb der halben Breite mindestens die Uferwand mit dem Uferwinkel
+    (35 deg, Uferklippe/Fall/Klamm steiler) ab Ufer-Spiegel + 0,05 m. Bett und Kolke sind so nie breiter als das
+    Wasser, und das Netz (halbe Breite + 0,4 m) endet immer auf der Boeschung ueber dem Spiegel."""
     tb = np.tan(np.radians(BOESCHUNG_GRAD))
-    innen = np.maximum(bett, z_sp - (half - d) * tb)
-    aussen = np.maximum(z_ufer, z_sp) + 0.05 + (d - half) * np.tan(np.radians(winkel))
+    boesch = z_sp + (d - wasserkante(half)) * tb
+    innen = np.maximum(bett, boesch)
+    aussen = np.maximum(boesch, np.maximum(z_ufer, z_sp) + 0.05 + (d - half) * np.tan(np.radians(winkel)))
     return np.where(d <= half, innen, aussen)
 
 
-def ring_ziel(d, half, z_ufer, cur):
-    """Uferring (15b): Spiegel + 0,15 m von der Wasserkante bis Netzrand + 1,5 m, dann 1:2 auslaufen; hoechstens
-    1 m ueber dem bisherigen Gelaende."""
+def ring_ziel(d, half, z_sp, z_ufer, cur):
+    """Uferring (15b): ab der Wasserkante mit 35 deg auf Spiegel + 0,15 m, so bis Netzrand + 1,5 m, dann 1:2
+    auslaufen; hoechstens 1 m ueber dem bisherigen Gelaende. Gilt fuer d >= wasserkante(half). Innerhalb der halben
+    Breite zaehlt der Spiegel an der Stelle, ausserhalb der Ufer-Spiegel (Oberwasser neben dem Fuss einer Stufe)."""
     plateau = half + KN["rand_ueberstand_m"] + RING["breite_m"]
-    z = z_ufer + RING["ueber_spiegel_m"] - np.maximum(d - plateau, 0.0) * RING["auslauf"]
+    anstieg = np.minimum((d - wasserkante(half)) * np.tan(np.radians(BOESCHUNG_GRAD)), RING["ueber_spiegel_m"])
+    z = np.where(d < half, z_sp, np.maximum(z_ufer, z_sp)) + anstieg - np.maximum(d - plateau, 0.0) * RING["auslauf"]
     return np.minimum(z, cur + KN["wulst_max_m"])
 
 
@@ -843,7 +855,7 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     neu = np.where(innen, np.minimum(cur, T), cur)
     # Uferring (15b): ausserhalb der Wasserbreite bis Netzrand + 1,5 m mindestens Spiegel + 0,15 m, dann 1:2 auslaufen;
     # hebt nur, wo das Ufer zu niedrig ist, hoechstens 1 m (kein Damm ueber Rinnen)
-    neu = np.where(innen & (d >= half), np.maximum(neu, ring_ziel(d, half, ufer_z(sp, s), cur)), neu)
+    neu = np.where(innen & (d >= wasserkante(half)), np.maximum(neu, ring_ziel(d, half, z_sp, ufer_z(sp, s), cur)), neu)
     alt = st.delta[band]
     dn = neu - cur
     # mehrere Segmente im Fenster: Absenken - tiefster Wert gilt; Wulst - hoechster Wert, wo nichts abgesenkt wird
@@ -939,11 +951,11 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, zufl_au
         wasser = innen & (d < half)
         w_ = wz[box]
         wz[box] = np.where(wasser, np.minimum(w_, np.minimum(alt[box], T)), w_)
-        ringe.append((box, innen & (d >= half), d, half, zu))
+        ringe.append((box, innen & (d >= wasserkante(half)), d, half, z_sp, zu))
     Ft = np.where(np.isfinite(wz), wz, Ft)
-    for box, ring, d, half, zu in ringe:
+    for box, ring, d, half, z_sp, zu in ringe:
         f_ = Ft[box]
-        Ft[box] = np.where(ring, np.maximum(f_, ring_ziel(d, half, zu, alt[box])), f_)
+        Ft[box] = np.where(ring, np.maximum(f_, ring_ziel(d, half, z_sp, zu, alt[box])), f_)
     offen = np.zeros(F.shape, bool)
     for za in zufl_aus:
         T_ = np.asarray(za["_tail_m"])[:, :2]
@@ -1494,6 +1506,7 @@ KN = {"material": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Kaskade_SLW", "ra
       "ufer_ueber_spiegel_am_rand_m": 0.1, "tempo": {"becken": 80, "lippe": 240, "bogen": 300, "wand": 300, "fuss": 150,
                                                        "rampe": 300},
       "vorhang_ab_m": 3.0, "nach_unten_m": 1.0, "bett_min_tiefe_m": 0.5, "wulst_max_m": 1.0, "becken_abstand_m": 2.0,
+      "bett_proben_anteil": 0.3,
       "quelle": "antworten/14b-befund-geteilte-baeche.md Abschnitt 3 (Empfehlung A) und 4, Entscheidungen Koordinator"}
 
 
@@ -1687,7 +1700,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
             br = float(breite_fn(s_))
             if abstand_bett_cm is None:
                 tx, ty = pr.tang(s_)
-                off = np.linspace(-1, 1, 7) * max(0.45 * br - RASTER_ZUSCHLAG(), 0.15 * br)
+                off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - RASTER_ZUSCHLAG(), 0.15 * br)
                 bett = float(np.mean(boden_fn(x + ty * off, y - tx * off)))
                 abstand_bett_cm = (z_ - bett) * 100.0
             mitte.append([round(x * 100, 1), round(y * 100, 1), round(z_ * 100, 1), round(br * 100, 1),
