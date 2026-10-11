@@ -1,6 +1,6 @@
 # Auftrag 13 – Sehenswürdigkeiten (8 je Biom): Status
 
-Stand: 2026-10-11 12:16 UTC. Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-11 12:25 UTC. Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
 
 ## Phase 1
 
@@ -8,7 +8,7 @@ Stand: 2026-10-11 12:16 UTC. Koordinator: Cloud-Session. Wird bei jedem Push akt
 |---|---|---|
 | A | Download-Liste für Ferat (`sehens-downloadliste.md`, `sehens/downloadliste.json`) | **Vorfassung gepusht**: 34 Pakete (A 9, B 13, C 12), A+B ca. 49,5 GB geschätzt; Top-10 kostenlos bzw. schon gekauft. Preise/Größen/Versionen ungeprüft (fab.com aus der Cloud nicht erreichbar). Wird nach den Biom-Entwürfen nachgeschärft (Ort-IDs, fehlende Formen). |
 | Baukasten | `skripte/sehens_lib/` (Laden 2 m, Hang/Krümmung/Abfluss, Sichtbarkeit vom Weg, Kandidatensuche, Draufsicht-PNG, Format-Prüfer `sehens_pruefen.py`) | fertig, gepusht (Selbsttest auf echten 2-m-Daten ohne Fehler; Grenzen: Bäume nur 4-m-Näherung, 1-m-Lader nur synthetisch getestet) |
-| B/C | Katalog + `sehens/<biom>/standorte.json` + Draufsichten je Ort | Welle 1: B1 aue (fertig) · B2 bergwald (fertig) · B3 elfenwald+dschungel (fertig) · B7 lava (fertig). Welle 2: B4 gletscher+frost+fjord (fertig, mit Steig-Vorschlägen) · B5 tundra+heide (fertig) · B6 canyon+wueste+oedland (läuft) · B8 kueste+sumpf (fertig) |
+| B/C | Katalog + `sehens/<biom>/standorte.json` + Draufsichten je Ort | Welle 1: B1 aue (fertig) · B2 bergwald (fertig) · B3 elfenwald+dschungel (fertig) · B7 lava (fertig). Welle 2: B4 gletscher+frost+fjord (fertig, mit Steig-Vorschlägen) · B5 tundra+heide (fertig) · B6 canyon+wueste+oedland (fertig) · B8 kueste+sumpf (fertig) |
 | D | diese Datei | laufend |
 
 ## Biome
@@ -27,6 +27,9 @@ Stand: 2026-10-11 12:16 UTC. Koordinator: Cloud-Session. Wird bei jedem Push akt
 | heide | fertig (Prüfer 0 Fehler/0 Warnungen); keine Pfade nötig (Wege überall 80–150 m entfernt); Fundstücke durch geplante Senken/Ränder verdeckt (Kern überall verdeckt) | Leuchtfeuer: 01 Die Graue Burg (Granit-Tor), 02 Ginstergold (schwach, wirkt nur über Farbe), 03 Die Wacholderprozession; Fundstücke: 04 Der Kolk (Moorauge), 05 Der Wackelstein, 06 Der Wollsackfall, 07 Der Totengrund (Heidekessel), 08 Die Windkante (Parabeldüne) |
 | kueste | fertig (Prüfer 0 Fehler/0 Warnungen). Heute kein Weg (nächster 543 m entfernt) → zwei neue Pfade in `pfade`: Klippensteig 4,35 km (max. 33°, 114 m als Kehren mit Felsstufen; Start am Weg südlich von Zalas verborgener Stadt, außerhalb des Stadtkreises) und Kap-Pfad 1,93 km (max. 27°). 4 Leuchtfeuer/4 Fundstücke, weil vom Pfad aus kein Uferpunkt verdeckt ist | Leuchtfeuer: 01 Die Alten (Granitpfeiler), 02 Die Vogelinsel, 03 Das Nadeltor, 06 Die Kreidewand; Fundstücke: 04 Der Seefall (57 m ins Meer), 05 Die Gezeitenbank, 07 Der Dünenkamm, 08 Das Blasloch |
 | sumpf | fertig (Prüfer 0 Fehler/0 Warnungen); alle Orte 154–286 m vom Weg, keine Pfade nötig. Wasser = Epic-See `T_2954_391` (Spiegel 1,58 m, 22 % des Bioms) | Leuchtfeuer: 01 Der Ertrunkene Wald, 02 Der Weidendom, 03 Der Reiherhorst; Fundstücke: 04 Der Schwingrasen, 05 Der Erlenbruch (voll verdeckt nur mit geplantem Erlenring), 06 Das Bultenfeld, 07 Der Tellerweiher (Riesenseerose), 08 Die Irrlichtsenke |
+| canyon | fertig (Prüfer 0 Fehler/0 Warnungen); 5 Zugänge mit Kehren als `pfad_cm` am Ort; Flüsterschlucht und Welle erst mit Geländestempel verdeckt | Leuchtfeuer: 01 Sonnenfenster (Felsbogen), 02 Der Wäger (Balancierfels), 03 Rote Stufe (Tafelberg-Abbruch); Fundstücke: 04 Flüsterschlucht (Slot-Canyon), 05 Hoodoo-Kessel, 06 Die Kolke (Potholes), 07 Smaragdgumpe (Wasserfall + hängender Garten), 08 Die Welle |
+| wueste | fertig (Prüfer 0 Fehler/0 Warnungen); gebaute Wüstenfelder werden nur ergänzt | Leuchtfeuer: 01 Yardang-Flotte, 02 Sterndüne (22 m), 03 Die Wächter (Pilzfelsen); Fundstücke: 04 Quelloase, 05 Salzpfanne, 06 Windkanter-Feld, 07 Trockenes Wadi, 08 Wabenwand (Tafoni, Wüstenlack) |
+| oedland | fertig (Prüfer 0 Fehler/0 Warnungen); nur 0,064 km² Ödland-Boden 80–300 m vom Weg → **„Ödlandpfad“** in `pfade` (3 Äste, 1,93 km, Abstieg mit Kehren max. 19,8°) – **Koordinator: wird gebaut** (Ferats Linie „lieber ein Pfad mehr als ein Ort weniger“); 03/06/07/08 hängen daran | Leuchtfeuer: 01 Rippenland (Badlands), 02 Regenbogenhang, 03 Höllentor (brennender Gaskrater); Fundstücke: 04 Dornbusch-Senke, 05 Kugelsteine, 06 Schlammvulkänchen, 07 Totenpfanne, 08 Erdröhren |
 
 ## bildwuensche
 
@@ -34,6 +37,7 @@ Stand: 2026-10-11 12:16 UTC. Koordinator: Cloud-Session. Wird bei jedem Push akt
 - lava: Kraterreihe (heutige Kachel), Westschlucht, Stromfront, Kraterkinder-Senke (Kameras in `sehens/lava/asset_bedarf.json`)
 - bergwald: Mönch und Säulenhain `_fern`, Klamm und Karsee `_held` (Kameras in `sehens/bergwald/standorte.json`)
 - gletscher/frost/fjord: `gletscher_01_gletschertor_held`, `gletscher_05_die_waechte_fern`, `frost_02_frostsee_held` (welche Houdini-Reste müssen weg?), `frost_04_raureifhain_fern`, `fjord_02_schleierwand_held`, `fjord_01_die_kanzel_anmarsch` (Kameras in den jeweiligen `standorte*.json`)
+- canyon/wueste/oedland: Bildwünsche mit Kameras in den jeweiligen `asset_bedarf.json`
 
 ## Entscheidungen Ferat (Chat, 11.10. nachmittags)
 
@@ -53,3 +57,4 @@ Stand: 2026-10-11 12:16 UTC. Koordinator: Cloud-Session. Wird bei jedem Push akt
 - tundra/heide: Aufeis (tundra_06) und Thermokarstsee (tundra_05) neben Frost/Gletscher in Ordnung? Steinringe Fundstück lassen oder zum Leuchtfeuer machen (vom Küstenweg teils sichtbar)? 4/4-Mischung in der Tundra in Ordnung? Ginster/Wacholder/Wollgras fehlen auf Fab → Ersatz (Sanddorn, gestauchte Jungkiefern, Binsen) oder Modelle außerhalb von Fab suchen? „Brushify – Moorlands Pack“ (Heidekraut, britischer Granit) schon in der Bibliothek? Darf der Pfad zum Trunkenen Grund den Rand von ROMAN_LOC_018 streifen?
 - kueste/sumpf: Klippensteig (4,35 km) und Kap-Pfad bauen? (Kurzvariante nur bis zum Seefall → Vogelinsel und Nadeltor fallen weg.) Gelände unter dem Nadeltor bis −48 m absenken (über der 40-m-Grenze), sonst Bogen außen an den Pfeiler? Bleiben die alten Houdini-Klippenkacheln der Steilküste (K9)? Sumpf-See stellenweise eigene Farbe `schwarz_spiegel`? Irrlichter mit 2 schwachen Punktlichtern oder nur Nebel?
 - **Inventar 13b (Abgleich):** `SM_lava_wall_01…09` fehlen im neuen `netze.csv` – bitte bei der Lava-&-Volcano-Nachladung mitnehmen (bis dahin Ersatz aus `/Game/Basalt`). Im Inventar stehen 31 statt 32 Eis/Schnee-Netze. Behalten die Eis-Netze `M_MS_Base_Trm`, und dürfen Basalt-Instanzen eigene Texturen bekommen? Dürfen `BP_FogBankCard`/`BP_FogBankVolume` als Akteure gesetzt werden, oder bleibt Nebel bei `lokaler_nebel`? Welche Assets stecken hinter den zwei fehlgeschlagenen Megascans-IDs?
+- canyon/wueste/oedland: **Hollowstone Canyon kaufen?** (Preis ungeprüft; nötig für die Wabenwand, sonst Ersatz aus Sandstein-Netzen + Tafoni-Material). Megascans Desert Pack und Megascans Sandstone (Launcher-Vault) – schon in deiner Bibliothek? Ist die 22-m-Sterndüne direkt neben dem gebauten Palmental in Ordnung (Koordinator: ja, Prüfbild entscheidet)? Eigene prozedurale Decal-Texturen für Welle und Salzpfanne (Koordinator: ja, wie bei der Schwalbenwand)? Später einen „Canyonsteig“ bauen (Nordhälfte heute nur über Wasser erreichbar; +2–3 Orte möglich)?
