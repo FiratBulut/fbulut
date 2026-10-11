@@ -1234,6 +1234,7 @@
      "grund": "Houdini-Reste K13 Frostsee ausblenden (Katalog: werden ausgeblendet; Ruinen widersprechen 'nur Landschaft')"
     }
    ],
+   "houdini_ausblenden": [{"netz": "K13_FROSTSEE__WASSER", "see": "frostsee", "puffer_m": 3.0, "grund": "13f B: das Houdini-Netz liegt flach auf 20,03 m, 0,57 m ueber dem geplanten Spiegel - im Seeumriss ausblenden (bevorzugt statt Spiegel anheben)"}],
    "gruppen": [
     {
      "name": "presseiskamm",

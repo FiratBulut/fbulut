@@ -227,6 +227,203 @@ def _phase2_test(welt, gel, ort, a):
     return fehl
 
 
+def _syn_welt_1m(n=420, weg_x=None, eben=False):
+    """Kleine synthetische 1-m-Welt in der NW-Ecke der Welt (Zellen 0..n): Kerbtal nach Osten mit Steilstufe,
+    flacher Mulde fuer einen See und flachem Unterlauf; optional ein Weg (Nord-Sued) bei x = weg_x (m)."""
+    i = np.arange(n, dtype=np.float64)[:, None]
+    j = np.arange(n, dtype=np.float64)[None, :]
+    X, Y = np.broadcast_arrays(j - daten.OFF_J, i - daten.OFF_I)
+    cx, cy = daten.X_MIN_M + n / 2.0, daten.Y_MIN_M + n / 2.0
+    dx, dy = X - cx, Y - cy
+    # Talboden: flach (5 %) - Steilstufe 60 % (dx -45..-15) - Seemulde (dx 0..35, flach) - Unterlauf 4 %
+    boden = np.where(dx < -45, 300.0 - 0.05 * (dx + 45),
+                     np.where(dx < -15, 300.0 - 0.6 * (dx + 45),
+                              np.where(dx < 40, 282.0 - 0.01 * (dx + 15), 281.45 - 0.04 * (dx - 40))))
+    h = (boden + 0.18 * np.abs(dy) + 0.4 * np.sin(dx / 7.0) * np.cos(dy / 9.0)).astype(np.float32)
+    if eben:
+        h = (200.0 - 0.01 * dx).astype(np.float32)       # schiefe Ebene 1 % (keine natuerlichen Senken)
+    z8 = np.zeros((n, n), np.uint8)
+    weg = z8.copy()
+    if weg_x is not None:
+        weg[(np.abs(X - weg_x) <= 1.0)] = 1
+    b4 = np.zeros(((n + 3) // 4, (n + 3) // 4), np.uint8)
+    w = daten.Welt(1.0, h, np.full((n, n), 1, np.uint8), np.full((n, n), 1, np.uint8), weg, z8.copy(), z8.copy(),
+                   b4, b4.copy(), [], [], {}, [], quelle="selbsttest_syn1m")
+    return w, cx, cy
+
+
+def _test_13f(welt2, ort, a):
+    """Auftrag 13f: neue Faelle fuer A1/A2 (1-m-Lader), A3 (Baumfuss), A4/A8/A12/A13 (Baeche an Seen, Stufen,
+    Querprofil, Furt, Schutzzone) auf einer synthetischen 1-m-Welt, A5 (kleine Senken fuellen), A10 (Feldgrenze).
+    Rueckgabe: Zahl der fehlgeschlagenen Pruefungen."""
+    import copy
+    import json as _json
+    from . import inventar, instanzen, rezept, stempel, bach
+    fehl = 0
+
+    def ok(bed, text):
+        nonlocal fehl
+        log("  %s %s" % ("ok  " if bed else "FEHLT", text))
+        fehl += 0 if bed else 1
+
+    # --- A1/A2: synthetischer 1-m-Ordner (Biom ueber die Kennzahl, baeche_alle.json bevorzugt)
+    d = os.path.join(a.aus, "syn1m_lader")
+    os.makedirs(os.path.join(d, "baeche"), exist_ok=True)
+    os.makedirs(os.path.join(d, "teiche"), exist_ok=True)
+    ny, nx = 16, 24
+    (np.arange(ny * nx, dtype="<f4") * 0.01 + 10.0).tofile(os.path.join(d, "hoehe.f32"))
+    for k in ("weg", "ort", "wasser"):
+        np.zeros(ny * nx, np.uint8).tofile(os.path.join(d, "karte_%s.r8" % k))
+    eig = np.zeros((ny, nx), np.uint8)
+    eig[:, : nx // 2] = 3
+    eig[:, nx // 2:] = 5
+    eig.tofile(os.path.join(d, "eigner.r8"))
+    kach = [{"kennzahl": 1, "rezept": "aue"}, {"kennzahl": 2, "rezept": "heide"}, {"kennzahl": 3, "rezept": "fjord"},
+            {"kennzahl": 4, "rezept": "tundra"}, {"kennzahl": 5, "rezept": None, "name": "VULKAN_REGION"}]
+    with open(os.path.join(d, "welt.json"), "w", encoding="utf-8") as f:
+        _json.dump({"nx": nx, "ny": ny, "kacheln": kach}, f)
+    with open(os.path.join(d, "baeche", "baeche_alle.json"), "w", encoding="utf-8") as f:
+        _json.dump({"baeche": [{"id": "B_R2_TEST_01", "punkte": [[0, 0, 1000, 100], [500, 0, 990, 100]]}]}, f)
+    with open(os.path.join(d, "baeche", "baeche.json"), "w", encoding="utf-8") as f:
+        _json.dump({"baeche": [{"id": "B2_ALT_01", "punkte": [[0, 0, 1000, 100], [500, 0, 990, 100]]}]}, f)
+    with open(os.path.join(d, "teiche", "teiche.json"), "w", encoding="utf-8") as f:
+        _json.dump({"teiche": []}, f)
+    w1 = daten.lade_1m(d, daten2m=a.daten2m, boden=False)
+    ok(daten.biom_name(int(w1.biom[0, 0])) == "fjord" and daten.biom_name(int(w1.biom[0, -1])) == "lava",
+       "A1 1-m-Lader: Biom ueber die Kennzahl (3 = fjord, 5 ohne Rezept = lava)")
+    ok([b["id"] for b in w1.baeche] == ["B_R2_TEST_01"], "A2 1-m-Lader: baeche_alle.json bevorzugt")
+
+    # --- A10: Feldgrenze = Mitte der 1-m-Zelle j = 1008 s (Setzer/Landschaftskomponenten)
+    xg = 1008.0 - daten.OFF_J
+    yg = 3 * 1008.0 - daten.OFF_I
+    ok(daten.feld_von_m(xg - 0.3, 0.0)[0] == "A" and daten.feld_von_m(xg + 0.01, 0.0)[0] == "B"
+       and daten.feld_von_cm(round((xg - 0.3) * 100), 0)[0] == "A",
+       "A10 Feldgrenze: x = %.1f m (s = floor((x_cm + 473050)/100800))" % xg)
+    ok(daten.feld_von_m(0.0, yg - 0.3)[1:] == "3" and daten.feld_von_m(0.0, yg + 0.01)[1:] == "4",
+       "A10 Feldgrenze in y: r = floor((y_cm + 406050)/100800) + 1")
+    rng = np.random.default_rng(13)
+    gut = True
+    for _ in range(300):
+        x, y = rng.uniform(daten.X_MIN_M, daten.X_MAX_M), rng.uniform(daten.Y_MIN_M, daten.Y_MAX_M)
+        f = daten.feld_von_m(x, y)
+        x0, y0, x1, y1 = daten.feld_grenzen_m(f)
+        gut &= (x0 <= x < x1) and (y0 <= y < y1)
+    ok(gut, "A10 feld_grenzen_m passt zu feld_von_m (300 Zufallspunkte; Pruefer nutzt dieselbe Grenze)")
+
+    # --- A3: grosse Baeume (bezug mitte, Fuss >= 1,5 m) am Boden des Pivots
+    inv = inventar.Inventar.lade()
+    info = inv.netz("Fir_07_Forest")
+    q = instanzen.orientierung("aufrecht", 30.0)
+    sk = (2.3, 2.3, 2.3)
+
+    def hang(x, y):
+        return 100.0 + 0.6 * np.asarray(x, np.float64)
+
+    p = instanzen.platziere(info, 10.0, 5.0, q, sk, hang, 0.5, "mitte")
+    bp = float(hang(p["x"] / 100.0, p["y"] / 100.0)) * 100.0
+    soll = bp - 50.0 - max(0.0, info["bounds_cm"][0][2] * sk[2])
+    ok(p["fuss_r_m"] >= instanzen.FUSS_PIVOT_AB_M and abs(p["z"] - soll) < 1e-6 and p["unterkante_z_m"] <= bp / 100.0,
+       "A3 Baum am Hang: z = Boden(Pivot) - eingraben - max(0, bmin_z*sz) (Fuss %.1f m)" % p["fuss_r_m"])
+
+    # --- A4/A8/A12/A13 auf der synthetischen 1-m-Welt
+    welt, cx, cy = _syn_welt_1m(weg_x=None)
+    welt_w, _, _ = _syn_welt_1m(weg_x=daten.X_MIN_M + 210.0 + 62.0)
+    gel = gelaende.Gelaende(welt, cache=False)
+    st_ort = {"id": "%s_01_syn_bach" % a.biom, "name": "Syn", "art": "fundstueck", "radius_m": 40,
+              "mitte_cm": [round(cx * 100), round(cy * 100), 28000], "felder": ["A1"], "kameras": []}
+    regel = {"kurz": "Selbsttest 13f", "gelaende": {"fenster_m": [140, 200], "bei": [0, 0], "rand_m": 10},
+             "wasser": [{"typ": "see", "id": "see", "bei": [18, 0], "spiegel": "boden-0.2", "tiefe_m": 1.5, "farbe": "klar",
+                         "becken": {"a_m": 9, "b_m": 6, "richtung": 90, "ufer_m": 4, "freibord_m": 0.4, "auslass": 90}},
+                        {"typ": "bach", "id": "zulauf", "von": [-70, 0], "bis_see": "see", "laenge_m": 80, "breite_m": 1.2,
+                         "tiefe_cm": 15, "farbe": "klar", "quelle": True},
+                        {"typ": "bach", "id": "abfluss", "abfluss_von": "see", "laenge_m": 45, "breite_m": 1.6,
+                         "tiefe_cm": 20, "farbe": "klar", "muendung": "versickert",
+                         "furt": {"palette": ["SM_flat_rock_04"], "groesse_m": [0.7, 0.9]}}]}
+    for name, wl in (("ohne Weg", welt), ("mit Weg (Furt)", welt_w)):
+        eb = instanzen.Ebene(a.biom, inv, stand="selbsttest")
+        ctx = rezept.OrtKontext(wl, gelaende.Gelaende(wl, cache=False), inv, eb, st_ort, copy.deepcopy(regel), a.biom, seed=3)
+        ctx.anker_aufloesen()
+        ctx.gelaende_bauen()
+        ctx.wasser_bauen()
+        ws = {w["id"]: w for w in ctx.wasser}
+        see, zu, ab = ws["see"], ws["zulauf"], ws["abfluss"]
+        sp = see["spiegel_cm"]
+        U = np.asarray(see["umriss_cm"], np.float64) / 100.0
+        if name == "ohne Weg":
+            ende = zu["punkte_cm"][-1]
+            d_um = sehens_pruefen._abstand_umriss(U, ende[0] / 100.0, ende[1] / 100.0)
+            drin = rezept._in_polygon(np.array([q_[0] for q_ in zu["punkte_cm"][:-1]]) / 100.0,
+                                      np.array([q_[1] for q_ in zu["punkte_cm"][:-1]]) / 100.0, U)
+            ok(d_um < 0.5 and ende[2] == sp + 2 and not drin.any(),
+               "A4 Zulauf endet auf dem Umriss (%.2f m), Spiegel = See + 2 cm, kein Punkt im See" % d_um)
+            ok(ab["punkte_cm"][0][2] == sp and ab.get("abfluss_von") == "see", "A4 Abfluss beginnt auf dem Seespiegel")
+            st_ = zu.get("stufen") or []
+            ok(len(st_) >= 3 and all(s_["fall_m"] > 0 for s_ in st_), "A8 Zulauf: %d Stufen explizit (Lippe/Fuss)" % len(st_))
+            # Becken zwischen den Stufen >= 3 m und <= 3 %
+            P = np.asarray(zu["punkte_cm"], np.float64) / 100.0
+            kum = np.concatenate([[0.0], np.cumsum(np.hypot(np.diff(P[:, 0]), np.diff(P[:, 1])))])
+            lip = [kum[int(np.argmin(np.hypot(P[:, 0] - s_["lippe_cm"][0] / 100.0, P[:, 1] - s_["lippe_cm"][1] / 100.0)))]
+                   for s_ in st_]
+            fus = [kum[int(np.argmin(np.hypot(P[:, 0] - s_["fuss_cm"][0] / 100.0, P[:, 1] - s_["fuss_cm"][1] / 100.0)))]
+                   for s_ in st_]
+            becken = [(fus[k], lip[k + 1]) for k in range(len(st_) - 1)]
+            gef = [(np.interp(b0, kum, P[:, 2]) - np.interp(b1, kum, P[:, 2])) / max(b1 - b0, 1e-6) for b0, b1 in becken]
+            ok(all(b1 - b0 >= 3.0 - 1e-6 for b0, b1 in becken) and all(g_ <= 0.03 + 1e-6 for g_ in gef),
+               "A8 Becken zwischen den Stufen >= 3 m (min %.1f m) und <= 3 %% (max %.1f %%)"
+               % (min([b1 - b0 for b0, b1 in becken] or [0]), 100 * max(gef or [0])))
+
+            class _Boden:
+                def hoehe(self, x, y):
+                    return ctx.boden(x, y)
+
+            o = {"id": st_ort["id"], "wasser": ctx.wasser}
+            bef = sehens_pruefen.pruefe_baeche(o, wl, _Boden())
+            ok(not [b_ for b_ in bef if b_[0] == "FEHLER"], "A12 Querprofil (1 m): Pruefer 0 FEHLER (%s)"
+               % "; ".join(t for s_, _, t in bef if s_ != "HINWEIS")[:160])
+            o2 = copy.deepcopy(o)
+            for w_ in o2["wasser"]:
+                if w_["id"] == "abfluss":
+                    for q_ in w_["punkte_cm"][4:]:
+                        q_[2] += 60
+                    w_["punkte_cm"] = [q_ for q_ in w_["punkte_cm"]]
+                if w_["id"] == "zulauf":
+                    w_["punkte_cm"][-1][2] = sp - 30
+            bk = [t for s_, _, t in sehens_pruefen.pruefe_baeche(o2, wl, _Boden()) if s_ == "FEHLER"]
+            ok(any("Ufer unter dem Spiegel" in t for t in bk) and any("unter dem Spiegel von see" in t for t in bk),
+               "A12/A4 kaputt: Ufer unter Spiegel + Muendung unter Seespiegel -> FEHLER (%d)" % len(bk))
+            o3 = copy.deepcopy(o)
+            for w_ in o3["wasser"]:
+                if w_["id"] == "abfluss":
+                    for q_ in w_["punkte_cm"][4:]:
+                        q_[2] -= 60
+            bk3 = [t for s_, _, t in sehens_pruefen.pruefe_baeche(o3, wl, _Boden()) if s_ == "FEHLER"]
+            ok(any("Gelaende ueber dem Spiegel" in t for t in bk3), "A12 kaputt: Gelaende ueber dem Spiegel -> FEHLER")
+        else:
+            fu = ab.get("furten") or []
+            n_st = len([e for e in eb.stuecke if e["gruppe"].startswith("furt_")])
+            st = ctx.stempel
+            schutz = (st.fe.get("weg") > 0)
+            dd = gelaende.abstand(schutz, 1.0, 10.0) - 0.5
+            ok(len(fu) >= 1 and n_st >= 2, "A13 Furt: Abfluss quert den Weg (%d Furt, %d Trittsteine)" % (len(fu), n_st))
+            ok(float(np.abs(st.delta[dd <= 3.0]).max()) == 0.0,
+               "A13 Schutzzone 3 m am Weg hart 0 (bis %.2f m ausserhalb)" % float(np.abs(st.delta[(dd > 3.0) & (dd < 4.0)]).max()))
+
+    # --- A5: kleine Senken fuellen (< 50 m2 und < 0,5 m), grosse bleiben
+    welt_e, _, _ = _syn_welt_1m(eben=True)
+    st = stempel.Stempel.um(welt_e, cx + 18, cy, 80, rand_m=10)
+    st.mulde(cx + 5, cy, 2.5, 0.35, rand_m=1.0, boden=0.6)
+    st.mulde(cx + 30, cy, 6.0, 1.2, rand_m=2.0, boden=0.6)
+    st.fertig(schutz=False, senken_fuellen=True)
+    sk = st.senken(min_tiefe_m=0.05)
+    m = sk["maske"]
+    klein = np.hypot(st.X - (cx + 5), st.Y - cy) < 4.0
+    gross = np.hypot(st.X - (cx + 30), st.Y - cy) < 7.0
+    ok(st.gefuellt_m2 > 0 and not (m & klein).any() and (m & gross).any(),
+       "A5 kleine Senke aufgefuellt (%.0f m2, bis %.2f m), grosse bleibt (Begruendung/Rinne noetig)"
+       % (st.gefuellt_m2, st.gefuellt_max_m))
+    return fehl
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Selbsttest sehens_lib")
@@ -372,6 +569,11 @@ def main(argv=None):
     with schritt("10 Phase 2 (Stempel, Instanzen, Pruefer)"):
         z10 = _phase2_test(welt, gel, orte[0], a)
     z["FEHLER"] += z10
+
+    # 11 Auftrag 13f: 1-m-Lader, Feldgrenze, Baumfuss, Baeche an Seen/Stufen/Querprofil/Furt, Senken
+    with schritt("11 Auftrag 13f (A1-A5, A8, A10, A12, A13)"):
+        z11 = _test_13f(welt, orte[0], a)
+    z["FEHLER"] += z11
     log("-" * 60)
     for u in zeiten:
         log("%-44s %7.2f s" % (u.name, u.sek))

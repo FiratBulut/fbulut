@@ -555,6 +555,9 @@ class Stempel:
 
     def fertig(self, schutz=True, weg_m=3.0, wasser=True, ausnahme_maske=None, wasser_maske=None,
                senken_fuellen=False):
+        """Abschluss: Schutz (Wege/Orte/Wasser), Rand Delta = 0, optional kleine Senken fuellen (13f A5:
+        senken_fuellen True = < 50 m2 und < 0,5 m; dict {"max_flaeche_m2", "max_tiefe_m"} = eigene Grenzen),
+        Schutzzone hart 0."""
         if self.ist_fertig:
             return self
         if schutz:
@@ -566,7 +569,10 @@ class Stempel:
             frei = rf >= 0.999
             if schutz:
                 frei &= self.schutz_faktor(weg_m, wasser, 4.0, ausnahme_maske) >= 0.999
-            self.gefuellt_m2, self.gefuellt_max_m = self.senken_fuellen(wasser=wasser_maske, frei=frei)
+            gr = senken_fuellen if isinstance(senken_fuellen, dict) else {}
+            self.gefuellt_m2, self.gefuellt_max_m = self.senken_fuellen(
+                wasser=wasser_maske, frei=frei, max_flaeche_m2=float(gr.get("max_flaeche_m2", 50.0)),
+                max_tiefe_m=float(gr.get("max_tiefe_m", 0.5)))
         if schutz:
             # A13: innerhalb weg_m hart 0 (auch nach dem Fuellen)
             f = self.schutz_faktor(weg_m, wasser, 4.0, ausnahme_maske)

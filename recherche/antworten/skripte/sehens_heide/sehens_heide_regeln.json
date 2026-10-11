@@ -131,7 +131,7 @@
    ],
    "pfad": {"breite_cm": 130, "lagen": {"Erde": 195, "Trockengras": 120}, "ende_r_m": 8},
    "effekte": [
-    {"typ": "decal", "material": "MI_EL_SW_Russ_Decal", "optional": false, "bedingung": "MI_EL_SW_Russ_Decal wird angelegt (E13: fest eingeplant)", "textur": "recherche/antworten/sehens/heide/decal_russ.png", "textur_normal": "recherche/antworten/sehens/heide/decal_russ_n.png", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "brand", "r_m": 6}, "groesse_m": [1.0, 3.5, 3.5], "zweck": "Russ und Asche des alten Heidebrands (eigene prozedurale Decal-Textur)", "hinweis": "Materialwunsch MI_EL_SW_Russ_Decal (M_MS_Decal + decal_russ.png), fest eingeplant (E13); Claude legt die Instanz lokal an"}
+    {"typ": "decal", "material": "MI_EL_SW_Russ_Decal", "optional": true, "bedingung": "MI_EL_SW_Russ_Decal braucht eine eigene Textur (decal_russ.png) - optional, bis der Textur-Import lokal moeglich ist (13f B; vorher E13 fest eingeplant)", "textur": "recherche/antworten/sehens/heide/decal_russ.png", "textur_normal": "recherche/antworten/sehens/heide/decal_russ_n.png", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "brand", "r_m": 6}, "groesse_m": [1.0, 3.5, 3.5], "zweck": "Russ und Asche des alten Heidebrands (eigene prozedurale Decal-Textur)", "hinweis": "Materialwunsch MI_EL_SW_Russ_Decal (M_MS_Decal + decal_russ.png), fest eingeplant (E13); Claude legt die Instanz lokal an"}
    ],
    "klaenge": [
     {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 70, "lautstaerke": 0.5, "zweck": "Wind im Ginster (Insektensummen fehlt im Bestand)"}

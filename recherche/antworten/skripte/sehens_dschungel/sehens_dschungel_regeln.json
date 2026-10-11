@@ -98,10 +98,11 @@
     "quellmund": {"suche": "hangauf_bis", "bei": [10.0, 14.0], "hoehe_m": 45, "max_m": 40},
     "absatz": {"suche": "hangauf_bis", "bei": [10.0, 14.0], "hoehe_m": 22, "max_m": 30}
    },
-   "gelaende": {"fenster_m": [130, 130], "rand_m": 10, "begruendung": "Tosbecken (Kolk) bis -10 m in den Wandfuss gegraben, Spiegel = tiefster Uferpunkt, Abfluss ueber eine Lippe in den Bestand", "ops": []},
+   "gelaende": {"fenster_m": [130, 210], "bei": [-55, -22], "rand_m": 10, "begruendung": "Tosbecken (Kolk) bis -10 m in den Wandfuss gegraben, Spiegel = tiefster Uferpunkt, Abfluss ueber eine Lippe in den Bestand", "ops": []},
    "wasser": [
     {"typ": "see", "id": "tosbecken", "bei": "wandfuss", "tiefe_m": 3.0, "farbe": "tuerkis", "becken": {"a_m": 11, "b_m": 8.5, "richtung": 100, "ufer_m": 5, "freibord_m": 0.3, "boden": 0.4}, "spiegel_rand_min": -0.2},
-    {"typ": "bach", "id": "quellbach", "abfluss_von": "tosbecken", "breite_m": 2.2, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial", "punkte": ["tosbecken_auslass", [-14, -6], [-30, -10], [-50, -17], [-70, -25], [-88, -34], [-105, -45], [-122, -58]], "muendung": "auto", "hinweis": "Quellbach vom Tosbecken nach WNW in den Bestandsbach B_R2_R_P3_P1_01 (Gefaelle stetig 35 -> 24,6 m)"},
+    {"typ": "bach", "id": "quellbach", "abfluss_von": "tosbecken", "breite_m": 2.2, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial", "punkte": ["tosbecken_auslass", [-14, -6], [-30, -10], [-50, -17], [-70, -25], [-88, -34], [-105, -45], [-122, -58]], "muendung": "auto", "hinweis": "Quellbach vom Tosbecken nach WNW in den Bestandsbach B_R2_R_P3_P1_01 (Gefaelle stetig 35 -> 24,6 m)",
+     "furt": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "abstand_m": 0.9, "warum": "13f A13: der Quellbach kreuzt den Weg - Furt mit Trittsteinen"}},
     {"typ": "wasserfall", "id": "turmquelle", "kante": [{"anker": "quellmund", "versatz_m": [-3, 0]}, {"anker": "quellmund", "versatz_m": [3, 0]}], "becken": "tosbecken", "breite_m": 6, "farbe": "klar", "material_hinweis": "Mountain-Set (13d): Wasserfall-/Flussmaterial des Sets statt MI_EL_Wasserfall; Vorhang + NS_Waterfall_*"}
    ],
    "gruppen": [

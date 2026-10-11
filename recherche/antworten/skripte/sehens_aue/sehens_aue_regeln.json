@@ -67,9 +67,11 @@
    ]},
    "wasser": [
     {"typ": "see", "id": "stau", "bei": "teich", "spiegel": 35.9, "tiefe_m": 1.6, "farbe": "moorbraun",
+     "ersetzt_bestandsbach": {"id": "B_R2_R_M1_M1_04", "von": "einlauf", "bis": "ueberlauf", "grund": "13f B: der Biberteich staut genau diesen Bach - der Abschnitt im Teich wird ausgeblendet"},
      "becken": {"a_m": 18, "b_m": 11, "richtung": 99, "ufer_m": 4, "freibord_m": 0.3, "boden": 0.5, "auslass": 99, "lippe_m": 1.6}},
     {"typ": "bach", "id": "ueberlauf", "abfluss_von": "stau", "laenge_m": 26, "breite_m": 1.6, "tiefe_cm": 20, "farbe": "klar", "quelle": false, "material_hinweis": "M_River_Water_Translucent (Mountain Environment Set, 13d; Pfad nur als Name im Inventar)"}
    ],
+   "houdini_ausblenden": [{"netz": "R_M1_M1__WASSER", "see": "stau", "puffer_m": 2.0, "grund": "13f B: Houdini-Netz liegt im Teich auf 34,3-36,7 m (Spiegel 35,90 m) - im Teich ausblenden"}],
    "gruppen": [
     {"name": "dammstaemme", "ebene": "held", "warum": "Traggeruest des Damms: quer liegende Knueppel und Staemme im Bogen (flussab gewoelbt)", "palette": ["SM_trunk_01", "SM_trunk_02", "SM_LargeFallenTree_01", "SM_OldFallenTree_01"],
      "verteilung": {"typ": "reihe", "punkte": "dammbogen", "abstand_m": 3.0, "versatz_m": 0.4, "versatz_streuung_m": 0.6, "seiten": ["links"], "blick": "zur_linie"},

@@ -36,7 +36,7 @@ NETZRAND_M = 0.4                         # Netzrand = halbe Breite + 0,4 m (15b)
 RING_BREITE_M = 1.5
 RING_AUSLAUF = 0.5                       # 1:2
 WULST_MAX_M = 1.0                        # Uferring hebt hoechstens 1 m
-EINBETTUNG_M = 0.05                      # Spiegel liegt so weit unter dem Gelaende (Huellkurve)
+EINBETTUNG_M = 0.30                      # Spiegel liegt so weit unter dem Gelaende (Huellkurve): Bach eingetieft
 BECKEN_MIN_M = 3.0                       # A8: Becken >= 3 m
 BECKEN_GEF_MAX = 0.03                    # A8: Becken <= 3 %
 STUFE_MIN_M = 0.15                       # kleinere Spruenge bleiben Gefaelle
@@ -150,8 +150,12 @@ def profil(d, W, Wu, B, tiefe_m, zelle_m):
     innen = np.maximum(bett, boesch)
     aussen = np.maximum(boesch, np.maximum(Wu, W) + UFER_MIN_M + (d - he) * TAN_B)
     T = np.where(d <= he, innen, aussen)
-    plateau = ufer_abstand(B, zelle_m) + RING_BREITE_M
-    anstieg = np.minimum(np.maximum(d - wk, 0.0) * TAN_B, RING_UEBER_M)
+    du = ufer_abstand(B, zelle_m)
+    plateau = du + RING_BREITE_M
+    # Boeschung bis eine halbe Zelle hinter die Pruefstelle (Netzrand) durchgehend 35 Grad (konvexes Profil: die
+    # bilineare Abfrage am Netzrand liegt dann nie unter dem Profil), danach Ring auf Spiegel + 0,15 ... 0,5 m
+    r_max = max(RING_UEBER_M, min((du + 0.5 * float(zelle_m) - wk) * TAN_B, 0.5))
+    anstieg = np.minimum(np.maximum(d - wk, 0.0) * TAN_B, r_max)
     R = np.where(d < he, W, np.maximum(Wu, W)) + anstieg - np.maximum(d - plateau, 0.0) * RING_AUSLAUF
     ring = d >= wk
     return T, R, ring
@@ -249,6 +253,14 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False, boden_
         W[-1] = we
         W = np.maximum(W, we)
         W = np.minimum.accumulate(W)
+    # Stufen nach dem Anheben (Zielspiegel, Furten) aus dem endgueltigen W neu ablesen
+    neu_st = []
+    for a, b, wo, wu in stufen:
+        ka = int(np.clip(np.searchsorted(s, a - 1e-6), 0, n - 1))
+        kb = int(np.clip(np.searchsorted(s, b - 1e-6), 0, n - 1))
+        if W[ka] - W[kb] >= STUFE_MIN_M:
+            neu_st.append((float(s[ka]), float(s[kb]), float(W[ka]), float(W[kb])))
+    stufen = neu_st
     return W, stufen
 
 

@@ -502,13 +502,16 @@ class OrtKontext:
         self.melde(HINWEIS, "see %s: %.1f m2 < 10 m2 -> Lage %s%s statt Epic-See (A13)"
                    % (w["id"], math.pi * a_m * b_m, lage, (" + Decal %s" % k["decal"]) if k.get("decal") else ""))
 
-    def _abwaerts(self, x, y, max_m, schritt_m=2.0, stop_wasser=True, z_start=None):
-        """Steilster Abstieg auf dem (gestempelten) Gelaende -> Polylinie [[x, y], ...]."""
+    def _abwaerts(self, x, y, max_m, schritt_m=2.0, stop_wasser=True, z_start=None, ziel_see=None, vorher=None,
+                  richtung0=None):
+        """Steilster Abstieg auf dem (gestempelten) Gelaende -> Polylinie [[x, y], ...]. Geplante Seen (mit Puffer)
+        werden umgangen - ausser ziel_see: erreicht der Abstieg dessen Puffer, endet er dort."""
         pts = [[x, y]]
         zc = self.boden(x, y) if z_start is None else z_start
         L = 0.0
         winkel = np.radians(np.arange(0, 360, 15))
-        letzte = None
+        letzte = None if richtung0 is None else math.radians(float(richtung0))
+        alt = [list(map(float, q[:2])) for q in (vorher or [])]
         while L < max_m:
             kx = x + schritt_m * np.sin(winkel)
             ky = y - schritt_m * np.cos(winkel)
@@ -516,12 +519,25 @@ class OrtKontext:
             if letzte is not None:   # nicht zurueck
                 ok = np.cos(winkel - letzte) > -0.2
                 kz = np.where(ok, kz, np.inf)
+            if len(pts) + len(alt) > 2:
+                # 13f: nie neben den eigenen Lauf zurueck (Kehre/Schleife) - Abstand zu allen frueheren Punkten
+                Pa = np.asarray(alt + pts[:-1], np.float64)
+                dmin = np.min(np.hypot(kx[:, None] - Pa[None, :, 0], ky[:, None] - Pa[None, :, 1]), axis=1)
+                kz = np.where(dmin < 0.9 * schritt_m + 1.0, np.inf, kz)
             if self.see:
                 # 13f A4: ein Bach laeuft nicht zurueck in ein geplantes Seebecken und nicht am Ufer entlang (Puffer
                 # 2 Zellen + 1 m um den Umriss) - der Abfluss fuehrt vom Auslass weg
-                for sv in self.see.values():
-                    if not sv.get("klein"):
-                        kz = np.where(self._im_see_puffer(kx, ky, sv), np.inf, kz)
+                for sid_, sv in self.see.items():
+                    if sv.get("klein"):
+                        continue
+                    drin = self._im_see_puffer(kx, ky, sv)
+                    if sid_ == ziel_see and drin.any():
+                        kz_z = np.where(drin, kz, np.inf)
+                        kk = int(np.argmin(kz_z))
+                        if np.isfinite(kz_z[kk]) and kz_z[kk] <= zc + 0.5:
+                            pts.append([float(kx[kk]), float(ky[kk])])
+                            return pts
+                    kz = np.where(drin, np.inf, kz)
             k = int(np.argmin(kz))
             if not np.isfinite(kz[k]):
                 break
@@ -594,10 +610,12 @@ class OrtKontext:
             n = max(math.hypot(vx, vy), 1e-6)
             aus_m = self._see_puffer_m() + 0.5
             sx, sy = um[k, 0] + vx / n * aus_m, um[k, 1] + vy / n * aus_m
-            pts = [[float(um[k, 0]), float(um[k, 1])]] + self._abwaerts(sx, sy, float(w.get("laenge_m", 60.0)))
+            vor = [[float(um[k, 0] + vx / n * t_), float(um[k, 1] + vy / n * t_)] for t_ in np.arange(0.0, aus_m - 0.4, 1.0)]
+            pts = [[float(um[k, 0]), float(um[k, 1])]] + self._abwaerts(
+                sx, sy, float(w.get("laenge_m", 60.0)), vorher=vor, richtung0=_st.vektor_kompass(vx, vy))
         elif "von" in w:
             x, y = self.punkt(w["von"])
-            pts = self._abwaerts(x, y, float(w.get("laenge_m", 60.0)))
+            pts = self._abwaerts(x, y, float(w.get("laenge_m", 60.0)), ziel_see=end_see)
         else:
             self.melde(FEHLER, "bach %s: punkte, von oder abfluss_von fehlt" % wid)
             return
@@ -652,6 +670,11 @@ class OrtKontext:
                     self.melde(WARNUNG, "bach %s: Muendung %s ausserhalb des Gelaendefensters - endet 'versickert' am "
                                         "Fensterrand (fenster_m vergroessern)" % (wid, ziel.get("id")))
                 ziel = {"art": "versickert", "id": "versickert"}
+        if ziel.get("art") in ("bach", "fluss", "see", "teich") and ziel.get("id"):
+            # Zielspiegel am endgueltigen Endpunkt (die Linie wurde gekappt/verdichtet; Fluesse haben Gefaelle)
+            sp_ = epic.spiegel(ziel["id"], *pts[-1])
+            if sp_ is not None:
+                ziel["spiegel_m"] = float(sp_)
         self.linien["bach_" + wid] = pts
         if w.get("rinne"):
             rn = w["rinne"]
@@ -663,6 +686,23 @@ class OrtKontext:
         ds = 0.5
         sa, xa, ya = _bach.abtasten(pts, ds)
         g = np.asarray(self.boden(xa, ya), np.float64)
+        # Ufer beidseits (Pruefstelle): der Uferring hebt hoechstens WULST_MAX_M - liegt eine Seite tiefer (Bach am
+        # Hang), muss der Spiegel so tief liegen, dass das Ufer dort noch >= Spiegel + 0,15 m werden kann
+        du = _bach.ufer_abstand(B, self.welt.zelle_m)
+        tx = np.gradient(xa)
+        ty = np.gradient(ya)
+        tn = np.maximum(np.hypot(tx, ty), 1e-9)
+        nx_, ny_ = ty / tn, -tx / tn
+        g_l = np.asarray(self.boden(xa + nx_ * du, ya + ny_ * du), np.float64)
+        g_r = np.asarray(self.boden(xa - nx_ * du, ya - ny_ * du), np.float64)
+        g_eff = np.minimum(g, np.minimum(g_l, g_r) + _bach.WULST_MAX_M - _bach.RING_UEBER_M - 0.05 +
+                           _bach.EINBETTUNG_M)
+        if start_see or end_see:
+            # am eigenen See (Auslass-Lippe, Muendung) bestimmt der See den Spiegel
+            for sid_ in (start_see, end_see):
+                if sid_:
+                    nahe = self._im_see_puffer(xa, ya, self.see[sid_], self._see_puffer_m() + 1.0)
+                    g_eff = np.where(nahe, g, g_eff)
         W0 = float(self.see[start_see]["spiegel_m"]) if start_see else None
         # Furten/Schutz (A13): wo der Weg-/Ortsschutz den Stempel aufhebt, laeuft das Wasser flach ueber den Boden
         fs = self._schutz_faktor_bei(xa, ya)
@@ -679,7 +719,7 @@ class OrtKontext:
         # Abfluss: die Seelippe bleibt auf dem Seespiegel (erste Stufe erst hinter der Lippe)
         lippe = max(float(self.see[start_see].get("lippe_m", 1.5)), 2.0 * self.welt.zelle_m + 0.5) + 1.0 \
             if start_see else 0.0
-        W, stufen = _bach.treppe(sa, g, B, W0=W0, W_boden=None, W_ende=W_ende, start_fest=start_see is not None,
+        W, stufen = _bach.treppe(sa, g_eff, B, W0=W0, W_boden=None, W_ende=W_ende, start_fest=start_see is not None,
                                  boden_arr=boden_arr, flach_bis_m=lippe)
         stufen = _bach.stufen_zusammenfassen(stufen)
         fmax = _bach.fall_max()
@@ -948,6 +988,8 @@ class OrtKontext:
                 e = self._bach_eintrag(w)
                 if e is not None:
                     self.wasser.append(e)
+                    if w.get("furt") and (self.bach_plan.get(w.get("id")) or {}).get("furten"):
+                        self._furt_steine(w)
             elif t == "wasserfall":
                 kante = self.linie(w["kante"])
                 zk = np.asarray(self.boden(np.array([p[0] for p in kante]), np.array([p[1] for p in kante])))
@@ -970,6 +1012,37 @@ class OrtKontext:
                 self.wasser.append(e)
             else:
                 self.melde(FEHLER, "wasser.typ %r" % t)
+
+    def _furt_steine(self, w):
+        """13f A13: Furt (Bach quert Weg/Pfad im Schutzstreifen) mit Trittsteinen quer zum Bach; Regel
+        bach.furt = {"palette", "groesse_m", "abstand_m", ...} (Gruppe der Ebene 'pfad')."""
+        pl = self.bach_plan[w["id"]]
+        fr = dict(w["furt"])
+        P = pl["pts"]
+        kum = _bach.bogen(P)
+        punkte = []
+        ab = float(fr.get("abstand_m", 0.9))
+        for a_, b_ in pl["furten"]:
+            sm = 0.5 * (a_ + b_)
+            x, y = _bach.punkt_bei(P, kum, sm)
+            x2, y2 = _bach.punkt_bei(P, kum, min(sm + 0.5, kum[-1]))
+            x1, y1 = _bach.punkt_bei(P, kum, max(sm - 0.5, 0.0))
+            tx, ty = float(x2 - x1), float(y2 - y1)
+            n = max(math.hypot(tx, ty), 1e-9)
+            nx_, ny_ = ty / n, -tx / n
+            h = 0.5 * pl["B"] + 0.6
+            k = -h
+            while k <= h + 1e-6:
+                punkte.append({"pos_m": [float(x + nx_ * k), float(y + ny_ * k)]})
+                k += ab
+        g = {"name": "furt_" + w["id"], "ebene": "pfad", "rolle": "stein", "warum": fr.get("warum", "Furt mit Trittsteinen"),
+             "palette": fr.get("palette", "trittstein"), "verteilung": {"typ": "punkte", "punkte": punkte},
+             "groesse_m": fr.get("groesse_m", [0.7, 1.0]), "eingraben": fr.get("eingraben", [0.35, 0.5]),
+             "im_wasser": "egal", "weg_abstand_m": 0, "meide": None, "akteur": False}
+        try:
+            self.gruppe(g)
+        except (KeyError, ValueError) as ex:
+            self.melde(FEHLER, "Furt %s: %s" % (w["id"], ex))
 
     def _bach_eintrag(self, w):
         """orte.json-Eintrag eines Bachs aus self.bach_plan (13f): Spiegel = gestempeltes Bett + Tiefe (Treppe),

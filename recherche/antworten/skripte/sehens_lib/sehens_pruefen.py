@@ -1031,11 +1031,15 @@ def pruefe_baeche(o, welt, boden=None):
         tol = 0.01 if z <= 1.0 else 0.02 + 0.2 * (z - 1.0)
         n_mitte = int((hc > ws + tol).sum())
         n_ufer = int(((hl < ws - tol) | (hr < ws - tol)).sum())
+        # A12: auf 1 m FEHLER; auf 2 m (Cloud-Test) WARNUNG - ein 1-2 m breiter Bach mit 35-Grad-Boeschung ist im
+        # 2-m-Raster nicht aufloesbar (die bilineare Abfrage mischt Bett- und Uferzellen). Die 1-m-Pruefung laeuft
+        # lokal bzw. in der Cloud auf der synthetischen 1-m-Welt.
+        stufe = FEHLER if z <= 1.0 else WARNUNG
         if n_mitte:
-            b.append((FEHLER, oid, "bach %s: Gelaende ueber dem Spiegel im Wasser an %d von %d m (bis %.2f m, A12)"
+            b.append((stufe, oid, "bach %s: Gelaende ueber dem Spiegel im Wasser an %d von %d m (bis %.2f m, A12)"
                       % (wid, n_mitte, len(ss), float((hc - ws).max()))))
         if n_ufer:
-            b.append((FEHLER, oid, "bach %s: Ufer unter dem Spiegel an %d von %d m (Netzrand %.1f m, bis %.2f m, A12)"
+            b.append((stufe, oid, "bach %s: Ufer unter dem Spiegel an %d von %d m (Netzrand %.1f m, bis %.2f m, A12)"
                       % (wid, n_ufer, len(ss), du, float(np.maximum(ws - hl, ws - hr).max()))))
         n_knapp = int((((hl < ws + _b.UFER_MIN_M - tol) | (hr < ws + _b.UFER_MIN_M - tol))).sum()) - n_ufer
         if n_knapp > 0:
