@@ -9,7 +9,8 @@
     "paket": "Brushify – Moorlands Pack",
     "prioritaet": "B",
     "wofuer": "UK-Fotogrammetrie-Granit fuer Tor-Stapel + Heidekraut-Foliage",
-    "ersatz_bestand": "SM_big_rock_wall_* / SM_flat_rock_* gestapelt + pjEr1/pjtsT/pkeeM_tier_0"
+    "ersatz_bestand": "SM_big_rock_wall_* / SM_flat_rock_* gestapelt + pjEr1/pjtsT/pkeeM_tier_0",
+    "status_13b": "gestrichen (Ferat: zu teuer)"
    }
   ],
   "heide_02_ginstergold": [
@@ -17,7 +18,8 @@
     "paket": "Brushify – Moorlands Pack",
     "prioritaet": "B",
     "wofuer": "Heidekraut-Foliage (gruen/braun/purpur) fuer den Erika-Saum",
-    "ersatz_bestand": "SM_forest_heather_01 + SM_heath_A/B_01 mit MI-Tint purpur"
+    "ersatz_bestand": "SM_forest_heather_01 + SM_heath_A/B_01 mit MI-Tint purpur",
+    "status_13b": "gestrichen (Ferat: zu teuer)"
    }
   ],
   "heide_03_die_wacholderprozession": [
@@ -25,7 +27,8 @@
     "paket": "Brushify – Moorlands Pack",
     "prioritaet": "B",
     "wofuer": "Heide-Bodendecker zwischen den Wacholdern",
-    "ersatz_bestand": "SM_forest_heather_01"
+    "ersatz_bestand": "SM_forest_heather_01",
+    "status_13b": "gestrichen (Ferat: zu teuer)"
    }
   ],
   "heide_04_der_kolk": [
@@ -33,7 +36,8 @@
     "paket": "Brushify – Moorlands Pack",
     "prioritaet": "B",
     "wofuer": "Heidekraut auf den Bulten",
-    "ersatz_bestand": "SM_heath_*"
+    "ersatz_bestand": "SM_heath_*",
+    "status_13b": "gestrichen (Ferat: zu teuer)"
    },
    {
     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
@@ -47,7 +51,8 @@
     "paket": "Brushify – Moorlands Pack",
     "prioritaet": "B",
     "wofuer": "UK-Granitbloecke fuer den Wollsack-Kranz",
-    "ersatz_bestand": "SM_mountain_rock_big_02_* + SM_Big_Rock_*"
+    "ersatz_bestand": "SM_mountain_rock_big_02_* + SM_Big_Rock_*",
+    "status_13b": "gestrichen (Ferat: zu teuer)"
    }
   ],
   "heide_06_der_wollsackfall": [
@@ -63,7 +68,8 @@
     "paket": "Brushify – Moorlands Pack",
     "prioritaet": "B",
     "wofuer": "Besenheide-Teppich in Bluete (purpur) auf den Kesselhaengen",
-    "ersatz_bestand": "SM_forest_heather_01 + SM_heath_* mit purpurnem Tint"
+    "ersatz_bestand": "SM_forest_heather_01 + SM_heath_* mit purpurnem Tint",
+    "status_13b": "gestrichen (Ferat: zu teuer)"
    }
   ],
   "heide_08_die_windkante": [
@@ -349,7 +355,8 @@
    ],
    "begruendung": "Einziges gefundenes Heide-/Moorland-Paket: 4 Heidekraut-Foliagetypen (gruen, braun, purpur, Farn) + 3 in Grossbritannien gescannte Felsen - genau Dartmoor-Granit und Besenheide. Bestand hat nur SM_heath_A/B (0,3 m) und SM_forest_heather_01.",
    "ersatz_bestand": "SM_forest_heather_01, SM_heath_A_01/B_01/cross_01 (Tint), Granit pjEr1/pjtsT/pkeeM_tier_0, SM_big_rock_wall_*",
-   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug: 'Brushify - Moorlands Pack', Heather vegetation, 3 photogrammetry rocks scanned in the UK, Nanite/Lumen, UE 5.4+)"
+   "quelle": "Websuche 11.10.2026 (Fab-Listing-Auszug: 'Brushify - Moorlands Pack', Heather vegetation, 3 photogrammetry rocks scanned in the UK, Nanite/Lumen, UE 5.4+)",
+   "status_13b": "gestrichen (Ferat: zu teuer)"
   }
  ],
  "luecken_ohne_asset": [
