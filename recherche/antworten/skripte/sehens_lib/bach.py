@@ -31,11 +31,11 @@ from . import log
 HIER = os.path.dirname(os.path.abspath(__file__))
 TAN_B = math.tan(math.radians(35.0))     # Boeschung 35 Grad (15b)
 UFER_MIN_M = 0.05                        # Ufer >= Spiegel + 5 cm (A12)
-RING_UEBER_M = 0.15                      # Uferring Spiegel + 0,15 m (15b)
+RING_UEBER_M = 0.20                      # Uferring Spiegel + 0,2 m (15b/15e, Koordinator 13f: mit Reserve)
 NETZRAND_M = 0.4                         # Netzrand = halbe Breite + 0,4 m (15b)
 RING_BREITE_M = 1.5
 RING_AUSLAUF = 0.5                       # 1:2
-WULST_MAX_M = 1.0                        # Uferring hebt hoechstens 1 m
+WULST_MAX_M = 1.5                        # Uferring hebt hoechstens 1,5 m (Koordinator 13f: Reserve)
 EINBETTUNG_M = 0.30                      # Spiegel liegt so weit unter dem Gelaende (Huellkurve): Bach eingetieft
 BECKEN_MIN_M = 3.0                       # A8: Becken >= 3 m
 BECKEN_GEF_MAX = 0.03                    # A8: Becken <= 3 %
@@ -90,6 +90,20 @@ def becken_gefaelle():
         return float(min(rw.becken_gefaelle_hart(), BECKEN_GEF_MAX)) if rw is not None else BECKEN_GEF_MAX
     except Exception:            # noqa: BLE001
         return BECKEN_GEF_MAX
+
+
+KETTE_S_MIN = 0.6         # Regelwerk faelle.einzelfall_statt_kette.S_lok_min
+KETTE_D_MIN = 4.0         # Regelwerk faelle.einzelfall_statt_kette.D_min
+
+
+def kette_glied(D_ges, B):
+    """Kettenglied (m) nach Regelwerk faelle.kette_glied (~8 m), Ersatz clamp(D/round(D/8), 2, 12)."""
+    rw = regelwerk()
+    try:
+        return float(rw.kette_glied(D_ges, B)) if rw is not None else \
+            min(max(D_ges / max(1, round(D_ges / 8.0)), 2.0), 12.0)
+    except Exception:     # noqa: BLE001
+        return min(max(D_ges / max(1, round(D_ges / 8.0)), 2.0), 12.0)
 
 
 def stufen_art(D):
@@ -217,11 +231,49 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False, boden_
         j1 = int(np.searchsorted(s, s[k - 1] + fen))
         S_lok = max((M[k - 1] - M[min(j1, n - 1)]) / max(s[min(j1, n - 1)] - s[k - 1], 1e-6), 0.0)
         Lb = becken_laenge(S_lok, B)
+        ketten = S_lok >= KETTE_S_MIN
+        if ketten:
+            # Koordinator 13f / Regelwerk 15 faelle: ab 60 % eine Fallkette - Glieder ~8 m (kette_glied), Einzelfall
+            # >= 4 m, hoechstens 25 m je Fall, dazwischen Becken >= 3 m (statt einer Stufe alle 3,5 m)
+            je = j1
+            while je < n - 1:
+                j2 = int(np.searchsorted(s, s[je] + fen))
+                j2 = min(j2, n - 1)
+                if j2 <= je or (M[je] - M[j2]) / max(s[j2] - s[je], 1e-6) < KETTE_S_MIN:
+                    break
+                je = j2
+            D_ges = float(M[k - 1] - M[min(je, n - 1)])
+            Dg = min(max(kette_glied(D_ges, B), KETTE_D_MIN), fall_max())
+            Lb = max(BECKEN_MIN_M, Dg / max(S_lok, 1e-3) - STUFE_L_M)
+        if ketten:
+            # Fall ueber die steile Flanke: Fuss dort, wo die Huelle das Ziel (Lippe - Dg) erreicht; zwischen Lippe
+            # und Fuss folgt der Spiegel der Huelle (Wasser faellt an der Flanke, kein Graben in die Wand); danach
+            # Becken >= 3 m unter der Huelle
+            ziel = W[k - 1] - Dg
+            if W_boden is not None:
+                ziel = max(ziel, float(W_boden))
+            unter = np.nonzero(M[k:] <= ziel + 1e-6)[0]
+            kf = k + int(unter[0]) if len(unter) else n - 1
+            jb = int(np.searchsorted(s, s[kf] + BECKEN_MIN_M, side="right"))
+            jb = min(max(jb, kf + 1), n)
+            neu = float(M[kf:jb].min())
+            if W_boden is not None:
+                neu = max(neu, float(W_boden))
+            neu = min(max(neu, W[k - 1] - fall_max()), W[k - 1])
+            if W[k - 1] - neu >= STUFE_MIN_M and kf > k:
+                for q in range(k, kf):
+                    W[q] = min(W[q - 1], max(float(M[q]), neu))
+                W[kf] = neu
+                stufen.append((float(s[k - 1]), float(s[kf]), float(W[k - 1]), float(neu)))
+                k = kf + 1
+                continue
         j = int(np.searchsorted(s, s[k - 1] + STUFE_L_M + Lb, side="right"))
         j = min(max(j, k + 1), n)
         neu = float(M[k:j].min())
         if W_boden is not None:
             neu = max(neu, float(W_boden))
+        if ketten:
+            neu = max(neu, W[k - 1] - fall_max())          # hoechstens 25 m je Fall
         D = W[k - 1] - neu
         if D < STUFE_MIN_M:
             W[k] = max(M[k], neu)

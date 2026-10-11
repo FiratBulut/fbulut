@@ -21,6 +21,7 @@ Richtungen ("rspec", Kompassgrad 0 = Nord, 90 = Ost): Zahl | "hangab" | "hangauf
 """
 
 import math
+import os as _os
 
 import numpy as np
 
@@ -104,6 +105,7 @@ class OrtKontext:
         # 13f: Bachplanung (A4/A8/A9/A12/A13): id -> Linie, Spiegel-Treppe, Stufen, Ziel, Furten, offene Muendung
         self.bach_plan = {}
         self._ausnahmen = []        # Masken im Stempelfenster: Schutz gilt dort nicht (offene Muendung, ersetztes Houdini)
+        self._korridore = []        # weiche Gewichte 0..1 der Muendungskorridore (Begrenzung auf 0,5 m am Bestandswasser)
         self.klein_seen = {}        # A13: Seen < 10 m2 -> Lage/Decal statt Epic-See
 
     # ------------------------------------------------------------------ Meldungen
@@ -342,6 +344,16 @@ class OrtKontext:
                   wasser=not g.get("wasser_frei", False), ausnahme_maske=ausnahme,
                   wasser_maske=self._wasser_maske_fenster(st.fe),
                   senken_fuellen=g.get("senken_fuellen", True))
+        if self._korridore and g.get("schutz", True) and not g.get("wasser_frei", False):
+            # Muendungskorridor (Koordinator 13f): am Bestandswasser (Wasserschutz-Zone) hoechstens 0,5 m, weich
+            fw = st.schutz_faktor(float(g.get("schutz_weg_m", 3.0)), True, 4.0, self._ist_wasser_maske, nur_wasser=True)
+            c = np.zeros(st.delta.shape)
+            for k_ in self._korridore:
+                c = np.maximum(c, k_)
+            fweg = st.schutz_faktor(float(g.get("schutz_weg_m", 3.0)), False, 4.0, None)
+            st.delta = fweg * (st.delta * fw + (1.0 - fw) * c * np.clip(st.delta, -0.5, 0.5))
+            st.delta[np.abs(st.delta) < 0.005] = 0.0
+            st.max_aenderung_m = float(np.abs(st.delta).max()) if st.delta.size else 0.0
         if st.gefuellt_m2 > 0:
             self.melde(HINWEIS, "kleine Senken aufgefuellt (A5): %.0f m2, bis %.2f m angehoben"
                        % (st.gefuellt_m2, st.gefuellt_max_m))
@@ -504,7 +516,7 @@ class OrtKontext:
                    % (w["id"], math.pi * a_m * b_m, lage, (" + Decal %s" % k["decal"]) if k.get("decal") else ""))
 
     def _abwaerts(self, x, y, max_m, schritt_m=2.0, stop_wasser=True, z_start=None, ziel_see=None, vorher=None,
-                  richtung0=None):
+                  richtung0=None, anstieg_m=0.05):
         """Steilster Abstieg auf dem (gestempelten) Gelaende -> Polylinie [[x, y], ...]. Geplante Seen (mit Puffer)
         werden umgangen - ausser ziel_see: erreicht der Abstieg dessen Puffer, endet er dort."""
         pts = [[x, y]]
@@ -551,7 +563,7 @@ class OrtKontext:
             k = int(np.argmin(kz))
             if not np.isfinite(kz[k]):
                 break
-            if kz[k] > zc + 0.05 and len(pts) > 2:
+            if kz[k] > zc + anstieg_m and len(pts) > 2:
                 break
             x, y, zc = float(kx[k]), float(ky[k]), min(zc, float(kz[k]))
             letzte = winkel[k]
@@ -632,8 +644,9 @@ class OrtKontext:
             return
         if "punkte" not in w and not end_see and _st.polylinie_laenge(pts) < float(w.get("laenge_m", 60.0)) - 2.0:
             # A9: steilster Abstieg stockt an einer Gegensteigung -> weiter entlang der Tiefenlinie (D8, gefuellt)
+            W0_ = float(self.see[start_see]["spiegel_m"]) if start_see else float(self.boden(*pts[0]))
             pts = self._verlaengern(pts, float(w.get("laenge_m", 60.0)) - _st.polylinie_laenge(pts), epic=epic,
-                                    r=0.5 * B + _bach.ZIEL_SUCHE_M)
+                                    r=0.5 * B + _bach.ZIEL_SUCHE_M, W0=W0_)
         pts = [list(map(float, p[:2])) for p in pts]
         if start_see and "punkte" in w:
             # A4: erster Punkt auf den Umriss (Auslass) setzen
@@ -665,7 +678,7 @@ class OrtKontext:
         if "punkte" not in w:
             # keine Schleife: kommt der Lauf an ein frueheres Stueck (Kehre in flachem Gelaende), endet er dort
             n0 = len(pts)
-            pts = _ohne_schleife(pts, 2.0 * _bach.halbe_breite_eff(B, self.welt.zelle_m) + 1.5)
+            pts = _ohne_schleife(pts, 2.0 * _bach.wasserkante(B, self.welt.zelle_m) + 0.5)
             if len(pts) < n0:
                 hinweise.append("Schleife abgeschnitten nach %.0f m" % _st.polylinie_laenge(pts))
                 if ziel.get("art") not in ("versickert", "see_eigen", "houdini"):
@@ -755,7 +768,11 @@ class OrtKontext:
             Pm = np.stack([xa[kk], ya[kk]], 1)
             if len(Pm) >= 2:
                 d, _, _ = _st.polylinie_abstand(self.stempel.X, self.stempel.Y, Pm)
-                self._ausnahmen.append(d <= _bach.halbe_breite_eff(B, self.welt.zelle_m) + 1.0)
+                # Koordinator 13f: im Muendungskorridor darf das Gelaende am Bestandswasser hoechstens 0,5 m
+                # geaendert werden, weich auslaufend (Kern halbe Breite + 1 m, Auslauf 2 m), nie in Weg-/Ortszonen
+                he_ = _bach.halbe_breite_eff(B, self.welt.zelle_m)
+                self._ausnahmen.append(d <= he_ + 3.0)
+                self._korridore.append(1.0 - _st.glatt01((d - (he_ + 1.0)) / 2.0))
         # ---- Querprofil (A12)
         if w.get("profil", True):
             X_, Y_ = self.stempel.X, self.stempel.Y
@@ -793,6 +810,8 @@ class OrtKontext:
                 else:
                     k += 1
             hinweise.append("%d Furt(en) im Weg-/Ortsschutz (Wasser flach ueber dem Boden)" % len(furten))
+        self.anker["bach_%s_anfang" % wid] = (float(pts[0][0]), float(pts[0][1]))
+        self.anker["bach_%s_ende" % wid] = (float(pts[-1][0]), float(pts[-1][1]))
         self.bach_plan[wid] = {"pts": pts, "s": sa, "x": xa, "y": ya, "W": W, "stufen": stufen, "ziel": ziel,
                                "B": B, "tiefe": tiefe, "start_see": start_see, "end_see": end_see, "furten": furten,
                                "offen_s": offen_s, "g_vor": g}
@@ -828,9 +847,24 @@ class OrtKontext:
             return {"art": "houdini", "id": hid, "_pts": pts}
         if isinstance(mu, str) and mu not in ("auto", "versickert", "suesswasser_bestand") and mu not in self.see:
             if epic.kennt(mu):
+                # Koordinator 13f: erste Stelle am Ziel, an der dessen Spiegel erreichbar ist (nicht ueber dem Gelaende
+                # des Laufs bzw. dem Anfang) - dort enden; sonst entlang der Tiefenlinie weiter suchen
+                p2 = self._verlaengern(pts, float(w.get("verlaengern_m", 40.0)), epic=None)
+                for k in range(1, len(p2)):
+                    zk = epic.bei(p2[k][0], p2[k][1], r)
+                    if zk is None or zk["id"] != mu:
+                        continue
+                    if zk["spiegel_m"] + _bach.MUENDUNG_SEE_M <= min(W0, float(self.boden(*p2[k])) + 0.3):
+                        if k + 1 < len(pts):
+                            hinweise.append("an %s angeschlossen nach %.0f m" % (mu, _st.polylinie_laenge(p2[:k + 1])))
+                        elif k + 1 > len(pts):
+                            hinweise.append("bis %s verlaengert (+%.0f m)" % (mu, _st.polylinie_laenge(p2[:k + 1])
+                                                                            - _st.polylinie_laenge(pts)))
+                        pts = p2[:k + 1]
+                        break
+                else:
+                    self.melde(WARNUNG, "bach %s: Muendung %s nicht erreichbar (Spiegel ueber dem Lauf)" % (wid, mu))
                 sp = epic.spiegel(mu, *pts[-1])
-                if sp is not None and sp > W0 + 0.05:
-                    self.melde(WARNUNG, "bach %s: Muendung %s liegt %.2f m ueber dem Bachanfang" % (wid, mu, sp - W0))
                 return {"art": "bach", "id": mu, "spiegel_m": sp, "_pts": pts}
             self.melde(WARNUNG, "bach %s: Muendung %r ist kein Epic-Gewaesser (A9) - automatisch gesucht" % (wid, mu))
             mu = "auto"
@@ -893,11 +927,22 @@ class OrtKontext:
         if mehr_m <= 0.5:
             return pts
         x, y = pts[-1]
-        neu = self._abwaerts(x, y, mehr_m, stop_wasser=False)[1:]
+        neu = self._abwaerts(x, y, mehr_m, stop_wasser=False, vorher=pts[:-1])[1:]
         Ln = _st.polylinie_laenge([[x, y]] + neu) if neu else 0.0
         if Ln < mehr_m - 1.0:
+            # aus kleinen Mulden heraus: Abstieg mit erlaubtem Gegenanstieg (0,5 m), nie neben den eigenen Lauf;
+            # erst danach die D8-Tiefenlinie der Welt
             ax, ay = (neu[-1] if neu else (x, y))
-            neu += self._tiefenlinie(ax, ay, mehr_m - Ln)
+            weiter = self._abwaerts(ax, ay, mehr_m - Ln, stop_wasser=False, vorher=pts + neu[:-1], anstieg_m=0.5)[1:]
+            neu += weiter
+            Ln = _st.polylinie_laenge([[x, y]] + neu) if neu else 0.0
+        if Ln < mehr_m - 1.0:
+            ax, ay = (neu[-1] if neu else (x, y))
+            alt = np.asarray(pts + neu, np.float64)
+            for q in self._tiefenlinie(ax, ay, mehr_m - Ln):
+                if np.min(np.hypot(alt[:, 0] - q[0], alt[:, 1] - q[1])) < 3.0:
+                    break           # Tiefenlinie laeuft zurueck an den eigenen Lauf
+                neu.append(q)
         out = [list(p) for p in pts]
         for p in neu:
             out.append([float(p[0]), float(p[1])])
@@ -1028,6 +1073,13 @@ class OrtKontext:
                 kante = self.linie(w["kante"])
                 zk = np.asarray(self.boden(np.array([p[0] for p in kante]), np.array([p[1] for p in kante])))
                 zk = float(np.max(zk)) + float(w.get("kante_versatz_m", 0.0))
+                # 13f: laeuft ein geplanter Bach ueber die Kante, gilt dessen Spiegel (sein Bett ist eingetieft)
+                km = np.mean(np.asarray(kante, np.float64), axis=0)
+                for pl in self.bach_plan.values():
+                    dd_ = np.hypot(pl["x"] - km[0], pl["y"] - km[1])
+                    k_ = int(np.argmin(dd_))
+                    if dd_[k_] <= max(1.5, 0.5 * pl["B"] + 1.0):
+                        zk = max(zk, float(np.max(pl["W"][max(k_ - 2, 0):k_ + 1])))
                 if w.get("becken"):
                     fuss = self.see[w["becken"]]["spiegel_m"]
                 elif w.get("fuss"):
@@ -1115,9 +1167,17 @@ class OrtKontext:
         if pl["offen_s"] is not None:
             frei &= sk < pl["offen_s"]
         for e in pl["stufen"]:
-            frei &= np.abs(sk - 0.5 * (e["s_lippe"] + e["s_fuss"])) > 1.5
+            # Stufenzone wie im Pruefer: Lippe - (0,5 + 0,75 Zellen) ... Fuss + (0,5 + 0,75 Zellen)
+            rz_ = 0.5 + 0.75 * float(self.welt.zelle_m)
+            frei &= ~((sk >= e["s_lippe"] - rz_) & (sk <= e["s_fuss"] + rz_))
         frei[0] = frei[-1] = False
-        ueber = (bett - z > 0.02) & frei
+        # Toleranz wie im Pruefer (A12): 2 cm auf 1 m; auf 2 m verschmiert die bilineare Abfrage Bett und Boeschung
+        zz = float(self.welt.zelle_m)
+        tol_ = 0.02 if zz <= 1.0 else 0.02 + 0.2 * (zz - 1.0)
+        ueber = (bett - z > tol_) & frei
+        if ueber.any() and _os.environ.get("SEHENS_DBG_UEBER"):
+            for k_ in np.nonzero(ueber)[0]:
+                print("UEBER", wid, "s %.1f bett %.2f z %.2f" % (sk[k_], bett[k_], z[k_]), file=__import__("sys").stderr)
         if ueber.any():
             self.melde(WARNUNG, "bach %s: Bett an %d von %d Punkten ueber dem Spiegel (bis %.2f m) - Stempel geschwaecht?"
                        % (wid, int(ueber.sum()), len(sk), float((bett - z)[ueber].max())))

@@ -854,7 +854,7 @@ def pruefe_ort_gelaende(o, basis, welt):
                 if len(Pm) >= 2:
                     jx, iy = np.meshgrid(np.arange(j0, j0 + ww) - _daten.OFF_J, np.arange(i0, i0 + hh) - _daten.OFF_I)
                     dd, _, _ = _stm.polylinie_abstand(jx, iy, Pm)
-                    offen |= dd <= _b.halbe_breite_eff(float(w["punkte_cm"][0][3]) / 100.0, z) + 1.0 + z
+                    offen |= dd <= _b.halbe_breite_eff(float(w["punkte_cm"][0][3]) / 100.0, z) + 3.0 + z
         for name, m in (("Weg", weg), ("Ort", ort), ("bestehendem Wasser", wasser)):
             if name == "bestehendem Wasser" and g.get("ist_wasser"):
                 continue
@@ -863,7 +863,8 @@ def pruefe_ort_gelaende(o, basis, welt):
             d = _g.abstand(m, 1.0, 10.0)
             nah = geaendert & (d <= 3.0)
             if name == "bestehendem Wasser":
-                nah &= ~offen
+                # Muendungskorridor (Koordinator 13f): dort bis 0,5 m erlaubt
+                nah &= ~(offen & (np.abs(a) <= 0.55))
             n = int(nah.sum())
             if n:
                 b.append((WARNUNG if name == "bestehendem Wasser" else FEHLER, oid,

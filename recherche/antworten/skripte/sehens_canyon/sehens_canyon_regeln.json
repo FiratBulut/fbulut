@@ -454,7 +454,7 @@
    },
    "wasser": [
     {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 8.5, "spiegel_rand_min": -0.1, "tiefe_m": 2.5, "farbe": "smaragd", "becken": {"ufer_m": 4, "freibord_m": 0.25, "auslass": "auto"}},
-    {"typ": "bach", "id": "abfluss", "abfluss_von": "gumpe", "laenge_m": 40, "breite_m": 2.5, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "material_hinweis": "Mountain Set (13d): M_River_Water_Translucent fuer Bach/Fall; sonst M_EL_Wasserfall2"},
+    {"typ": "bach", "id": "abfluss", "abfluss_von": "gumpe", "punkte": [[-4, 12], [-12, 24], [-19, 31]], "muendung": "versickert", "laenge_m": 40, "breite_m": 2.5, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "material_hinweis": "Mountain Set (13d): M_River_Water_Translucent fuer Bach/Fall; sonst M_EL_Wasserfall2"},
     {"typ": "wasserfall", "id": "fadenfall", "kante": [{"anker": "fall_oben", "versatz_m": [-3, 0]}, {"anker": "fall_oben", "versatz_m": [3, 0]}], "becken": "gumpe", "breite_m": 5.0, "farbe": "klar", "material_hinweis": "Mountain Set (13d): M_River_Water_Translucent fuer Bach/Fall; sonst M_EL_Wasserfall2"}
    ],
    "gruppen": [

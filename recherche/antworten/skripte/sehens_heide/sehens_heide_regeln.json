@@ -322,11 +322,11 @@
     "stufe3": {"quer": "p3", "richtung": 110, "laenge_m": 5}
    },
    "gelaende": {
-    "fenster_m": [150, 92],
-    "bei": [-26, 0],
+    "fenster_m": [210, 110],
+    "bei": [-30, 18],
     "rand_m": 9,
     "ist_wasser": true,
-    "ist_wasser_r_m": 80,
+    "ist_wasser_r_m": 110,
     "begruendung": "Der Wollsackfall IST der Heidebach (B_R2_R_P3_P0_01): Klammsohle in drei Stufen, Gumpe und Auslauf liegen im Bestandsbach",
     "ops": [
      {"op": "rinne", "punkte": ["p0", "p1"], "breite_m": 5, "rand_m": 4, "sohle": [15.8, 15.4], "warum": "Klammsohle oberhalb Stufe 1"},
@@ -343,7 +343,7 @@
     {"typ": "see", "id": "gumpe", "bei": "gumpe", "spiegel": 11.8, "tiefe_m": 1.6, "farbe": "klar", "becken": {"a_m": 5.5, "b_m": 4.2, "richtung": 60, "ufer_m": 3, "freibord_m": 0.3, "boden": 0.4, "auslass": "auto"}},
     {"typ": "bach", "id": "klammbach", "punkte": ["p0", "p1", "p1b", "p2", "p2b", "p3"], "breite_m": 2.6, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "gumpe", "bis_see": "gumpe", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)", "hinweis": "Stufen 1 und 2 (je ~1,1 m) werden kleine Faelle", "ersetzt_bestandsbach": {"id": "B_R2_R_P3_P0_01", "von": "p0", "bis": "p3", "grund": "E11: der Klammbach ersetzt den Bestandsbach von p0 bis p3 (Gumpe und Auslauf liegen im Bestandsbach)"}},
     {"typ": "wasserfall", "id": "fall3", "kante": [{"anker": "p3", "versatz_m": [-2, -1]}, {"anker": "p3", "versatz_m": [2, 1]}], "becken": "gumpe", "breite_m": 3.0, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) / M_EL_Wasserfall2"},
-    {"typ": "bach", "id": "auslauf", "abfluss_von": "gumpe", "laenge_m": 70, "breite_m": 3.0, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "auto", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"}
+    {"typ": "bach", "id": "auslauf", "abfluss_von": "gumpe", "laenge_m": 100, "ersetzt_bestandsbach": {"id": "B_R2_R_P3_P0_01", "von": "gumpe", "bis": "bach_auslauf_ende", "grund": "Koordinator 13f: der Auslauf fuehrt den Bestandsbach von der Gumpe bis zum Anschluss"}, "breite_m": 3.0, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "muendung": "B_R2_R_P3_P0_01", "hinweis_wasser": "Koordinator 13f: an den Bestandsbach unterhalb des ersetzten Abschnitts angeschlossen; Bachende nie unter dessen Spiegel", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"}
    ],
    "sicht": {"ziel_hoehe_m": 1.5, "kern_m": [1476.0, 160.0]},
    "gruppen": [

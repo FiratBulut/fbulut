@@ -457,16 +457,16 @@ class Stempel:
             m = m | (self.fe.get("wasser") > 0)
         return m
 
-    def schutz_faktor(self, weg_m=3.0, wasser=True, uebergang_m=4.0, ausnahme_maske=None):
+    def schutz_faktor(self, weg_m=3.0, wasser=True, uebergang_m=4.0, ausnahme_maske=None, nur_wasser=False):
         """Faktor 0..1 je Zelle: 0 bis weg_m vom RAND der geschuetzten Zelle (hart, 13f A13), Uebergang erst danach.
         ausnahme_maske gilt nur fuer den Wasserschutz (Ort IST das Wasser, offene Muendung)."""
         key = (round(float(weg_m), 3), bool(wasser), round(float(uebergang_m), 3),
-               None if ausnahme_maske is None else int(ausnahme_maske.sum()))
+               None if ausnahme_maske is None else int(ausnahme_maske.sum()), bool(nur_wasser))
         cache = getattr(self, "_schutz_cache", {})
         if key in cache and ausnahme_maske is None:
             return cache[key]
         f = np.ones(self.delta.shape)
-        for teil, an in (("weg", True), ("wasser", wasser)):
+        for teil, an in (("weg", not nur_wasser), ("wasser", wasser)):
             if not an:
                 continue
             if teil == "weg":

@@ -2185,6 +2185,7 @@
      "typ": "bach",
      "id": "rinnsal",
      "von": "k1_flanke",
+     "punkte": ["k1_flanke", [-5.5, 16.5], [-1, 19], [4, 20], [2, 22], [0, 24], [-2, 28]],
      "laenge_m": 45,
      "breite_m": 0.6,
      "tiefe_cm": 8,
