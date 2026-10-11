@@ -266,6 +266,31 @@ Verzweigte Pfade (Erweiterung, optional): `"pfad_id": "<id>"` wählt genau diese
 - `freiraeume`: `{"form": "kreis"|"rechteck", "bei", "r_m" | "laenge_m"/"breite_m"/"richtung", "ebenen", "rollen", "grund"}`
   → Hinweis an den Setzer, dort Bestand (Bäume, Sträucher) zu entfernen.
 
+### 3.10 Erweiterungen aus den Koordinator-Entscheidungen (Auftrag 13, `13-entscheidungen-koordinator.md`)
+
+- **Niagara-Kopien (E45):** `{"typ": "niagara", "asset": "NS_EL_SW_<Name>", "kopie_von": "<vorhandenes System>",
+  "kopie_aenderungen": {...}, "optional": true}`. Die Lib schreibt `asset` als `/Game/Eldarien/Welt/FX/Sehens/NS_EL_SW_<Name>`
+  und `kopie_von` als vollen Pfad des Originals (Original bleibt unberührt). Prüfer: Präfix `NS_EL_SW_` verlangt `kopie_von`
+  (FEHLER), `kopie_von` muss im Inventar stehen (FEHLER, mit `optional` HINWEIS). Durchgereicht werden außerdem `bedingung`, `cull_m`.
+- **Bestandsbach ersetzen (E10/E11/E39):** `"ersetzt_bestandsbach": {"id": "<Bach-Kennung>", "von": ref, "bis": ref,
+  "grund": "..."}` an einem Wasser-Eintrag (`bach`/`see`/`wasserfall`) oder auf Ortsebene (dann mit `"ersetzt_durch"`).
+  Die Lib projiziert von/bis auf den Bach aus `baeche_alle.json` und schreibt in `orte.json` je Ort
+  `"bestand_ausblenden": [{"art": "bach", "id", "ersetzt_durch", "von_cm", "bis_cm", "von_s_m", "bis_s_m", "laenge_m",
+  "bach_laenge_m", "abstand_m", "grund"}]` → Hinweis an den Setzer, diesen Abschnitt des Bestandsbachs auszublenden.
+  WARNUNG, wenn der Bach unbekannt ist oder von/bis > 15 m neben dem Bach liegt.
+- **Material-Fix-Ausnahmen (E34):** Benutzt ein Biom Eis-/Schnee-Megascans (`/Game/Fab/Megascans/3D/{Ice_Cliff_*,
+  Large_Ice_Cliff_*, Snow_*, Rocky_Snow_Pile_*, Snowy_Rocks_Pile_*, Huge_Snow_Hill_*}`, 33 Netze), steht in `orte.json`
+  oben `"material_fix_ausnahmen": {"grund", "netze": [...]}` – diese Netze behalten `M_MS_Base_Trm`.
+- **Pivot/Front (E35):** Akteure tragen `pivot_z_anteil`, `pivot_xy_versatz_m`, `front_achse`, `front_quelle`
+  (`netze_masse` | `regel` | `standard`) und, solange nicht gemessen, `annahme`. Ein `front_achse` in `netze_masse.json`
+  hat Vorrang vor dem Wert in der Regel (heute hat noch kein Netz einen Messwert → Pläne unverändert).
+- **Bedingungen/optional:** `effekte` (Decal, Niagara) und `klaenge` reichen `bedingung` durch (z. B. E13 „sobald das MI
+  angelegt ist“, E18 „nur wenn das Laub leise ist“); `klaenge` reichen außerdem `optional`, `hinweis`, `ersatz`,
+  `wunsch_paket` durch; `freiraeume` reichen `netze` (Netznamen-Muster, z. B. Houdini-Kacheln, E23) und `hinweis` durch.
+- **Wassermaterial (E43):** `M_River_Water_Translucent` steht im Inventar nur als Name (Mountain-Set, `inventar.json`);
+  ein voller Pfad ist nicht belegt → weiter `material_hinweis`. `inventar.wasser_material_pfad(name)` findet einen Pfad,
+  sobald er in `inventar_extra.json["wasser_materialien"]` steht.
+
 ## 4. Bausteine der Bibliothek (für Hooks und Sonderfälle)
 
 ```python
@@ -299,7 +324,7 @@ Beispiel: `hook_windwurf_anker` im Bergwald-Planer setzt die Stammfüße einer S
   meldet der Prüfer WARNUNG statt FEHLER. Stadt-/Menschenklänge (Crowd, City, Fireworks …) sind verboten.
 - **Material-Instanzen** statt neuer Netze: Tönung, Nässe, Moos-/Schnee-Auflage, Wind aus (`M_EL_Pflanze` `Wind_Staerke`
   0 für liegende Bäume) – ≤ 6 je Biom, nur vorhandene Parameter.
-- **Pivot/Front unbekannt**: Netze ohne Eintrag in `netze_masse.json` gelten als „Pivot unten Mitte“
+- **Pivot/Front unbekannt** (E35, siehe 3.10): Netze ohne Eintrag in `netze_masse.json` gelten als „Pivot unten Mitte“
   (`"pivot": "angenommen_unten_mitte"` im Akteur). Welche Seite einer Schale die Schauseite ist (`front_achse`), steht in
   keiner Datei – Annahme im Rezept dokumentieren (`hinweis`), das Editorbild entscheidet.
 

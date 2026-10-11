@@ -153,6 +153,13 @@ Anleitung für neue Biom-Planer (Aufbau, Regel-Schema, Bausteine, fehlende Asset
 | `rezept.py` | `OrtKontext(...).baue(hooks)` – baut einen Ort aus dem Regel-Block: Anker/Linien, Gelände, Wasser (§5), Gruppen je Detail-Ebene, Pfad (13c), Lagen, Effekte (§6), Klänge, Freiräume, Budget (§9), orte.json-Eintrag. `schreibe_biom(...)` schreibt orte.json, gelaende/, lagen/ und die Ebene. |
 | `vorschau.py` | `vorschau(ctx, pfad)` → `test_<id>.png`: Gelände nach dem Stempel (rot/blau = Δ), geplante Lagen, Wasser, Instanzen je Detail-Ebene, Akteur-Grundrisse, Effekte, Pfad, Freiräume, Kameras, Legende mit Zahlen und Budget. |
 
+Entscheidungen 13 (Koordinator, `antworten/13-entscheidungen-koordinator.md`), additiv: Niagara-Kopien `NS_EL_SW_*` mit
+`kopie_von` (E45, Prüfer), `ersetzt_bestandsbach` → `bestand_ausblenden` (E10/E11), `material_fix_ausnahmen` oben in
+`orte.json` (E34, `inventar.material_fix_ausnahme`), Pivot-/Front-Felder je Akteur aus `netze_masse.json` bzw. Annahme (E35),
+`bedingung`/`optional` an Effekten und Klängen, `netze` an Freiräumen, Pfadfeld `warnung_akzeptiert` (E19: Prüfer meldet
+„schneidet die Stadt“ dann als HINWEIS). `M_River_Water_Translucent` bleibt `material_hinweis` (E43: Pfad nicht belegt).
+Details: `PLANER_ANLEITUNG.md` §3.10.
+
 Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorierbar): `pfad` (13c), `pfad_zugang` (Fußweg
 `pfad_cm` zusätzlich zu einem Pfad aus `pfade`, Regel `pfad.zugang`), `klaenge`,
 `freiraeume` (Bestand entfernen), `detail_ebenen` (Witcher-Größenstufen), `hinweise`, `gelaende.begruendung`,
