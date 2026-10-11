@@ -269,9 +269,9 @@ def kameras_vorschlagen(welt, wp, ort_id, x_m, y_m, art, ziel_hoehe_m, gel=None,
         if ax is None:
             k, _ = wp.naechster(x_m, y_m)
             ax, ay = float(wp.x_m[k]), float(wp.y_m[k])
-    zz = zz_augenhoehe(welt, ax, ay, x_m, y_m, zt + 1.0)
-    kams.append(_fmt.kamera(feld, ax * 100, ay * 100, x_m * 100, y_m * 100, zz * 100,
-                            ort_id + "_anmarsch", 170))
+    # §8 (Stand 11.10. 13:00): Hoch negativ = genau |Hoch| ueber Boden, ohne 3-m-Regel -> echtes Ziel, Augenhoehe
+    kams.append(_fmt.kamera(feld, ax * 100, ay * 100, x_m * 100, y_m * 100, (zt + 1.0) * 100,
+                            ort_id + "_anmarsch", -170))
     # _held
     if held is None:
         bev = richtung_grad(ax, ay, x_m, y_m)
@@ -286,7 +286,7 @@ def kameras_vorschlagen(welt, wp, ort_id, x_m, y_m, art, ziel_hoehe_m, gel=None,
     L = max(np.hypot(dx, dy), 1e-6)
     nx_, ny_ = x_m + dx / L * nah_abstand_m, y_m + dy / L * nah_abstand_m
     kams.append(_fmt.kamera(feld, nx_ * 100, ny_ * 100, x_m * 100, y_m * 100, (zt + 0.5) * 100,
-                            ort_id + "_nah", 170))
+                            ort_id + "_nah", -170))
     # _fern
     if art == "leuchtfeuer":
         if sicht is None:

@@ -11,7 +11,7 @@ Phase 1 - antworten/sehens/<biom>/standorte.json:
 
 API:
   ort_id(biom, nr, kurz)                      -> "aue_01_blautopf"
-  kamera(feld, kx, ky, zx, zy, zz, name, hoch=170)  (cm) -> Liste §8
+  kamera(feld, kx, ky, zx, zy, zz, name, hoch=170)  (cm) -> Liste §8; hoch=-170 = Augenhoehe ohne 3-m-Regel
   standort(id, name, art, x_m, y_m, radius_m, kameras, welt=None, z_m=None, **extra) -> dict
   schreibe_standorte(pfad, biom, orte, stand=None, pruefen=True)
   lade_standorte(pfad), alle_standorte(sehens_ordner) -> Liste (biom, ort)
@@ -55,8 +55,11 @@ def kamera(feld, kx_cm, ky_cm, zx_cm, zy_cm, zz_cm, name, hoch=170):
 
 
 def kamera_hoehe_cm(welt, kam):
-    """Tatsaechliche Kamerahoehe nach §8: max(Boden_an_Kamera + Hoch, ZZ + 300)."""
+    """Tatsaechliche Kamerahoehe nach §8: Hoch > 0: max(Boden_an_Kamera + Hoch, ZZ + 300);
+    Hoch < 0: genau |Hoch| ueber dem Boden (Augenhoehe -170, Stand 11.10. 13:00)."""
     b = welt.hoehe_bei_cm(kam[1], kam[2])
+    if kam[7] < 0:
+        return b - kam[7]
     return max(b + kam[7], kam[5] + 300)
 
 

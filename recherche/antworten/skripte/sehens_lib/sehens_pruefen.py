@@ -77,8 +77,8 @@ def pruefe_kameras(oid, art, kams, mitte_cm, welt=None, gel=None):
             continue
         art_k = name[len(oid) + 1:]
         namen[art_k] = k
-        if hoch <= 0 or hoch > 5000:
-            b.append((WARNUNG, oid, "Kamera %s: Hoch %s cm ungewoehnlich (Augenhoehe 170)" % (name, hoch)))
+        if hoch == 0 or abs(hoch) > 5000:
+            b.append((WARNUNG, oid, "Kamera %s: Hoch %s cm ungewoehnlich (Augenhoehe -170 oder 170)" % (name, hoch)))
         if mitte_cm and _pkt(mitte_cm, 2):
             dz = math.hypot(zx - mitte_cm[0], zy - mitte_cm[1]) / 100.0
             if dz > 120:
@@ -96,8 +96,8 @@ def pruefe_kameras(oid, art, kams, mitte_cm, welt=None, gel=None):
             if welt.meer[i, j] or welt.wasser[i, j] > 0:
                 b.append((WARNUNG, oid, "Kamera %s steht im Wasser/Meer" % name))
             boden = welt.hoehe_bei_cm(kx, ky)
-            hk = max(boden + hoch, zz + 300)
-            if art_k in ("anmarsch", "fern") and hk - (boden + hoch) > 500:
+            hk = (boden - hoch) if hoch < 0 else max(boden + hoch, zz + 300)
+            if hoch > 0 and art_k in ("anmarsch", "fern") and hk - (boden + hoch) > 500:
                 b.append((HINWEIS, oid, "Kamera %s: ZZ + 300 hebt die Kamera %.0f m ueber Augenhoehe "
                                         "(Ziel tiefer legen)" % (name, (hk - boden - hoch) / 100.0)))
             if art_k == "anmarsch" and gel is not None and gel.abstand_weg[i, j] > 30:
