@@ -753,7 +753,7 @@ def spiegel_bei(sp, s):
 # Gelaende
 # ======================================================================================================================
 RING = {"vorlauf_m": 1.5, "ueber_spiegel_m": 0.15, "breite_m": 1.5, "auslauf": 0.5, "breite_aenderung": 0.2,
-        "kante_m": 0.5}   # 15b: Uferring am Netzrand
+        "kante_m": 0.5, "abtrag_zuschlag_m": 0.5}   # 15b: Uferring am Netzrand
 
 
 def ufer_z(sp, s):
@@ -771,6 +771,22 @@ def wasserkante(half):
     Netzrand unter Spiegel + 0,1 m)."""
     half = np.asarray(half, np.float64)
     return half - np.minimum(RING["kante_m"], np.maximum(0.3, 0.3 * half))
+
+
+def abtrag_grenze(pr, sp, s):
+    """15e: Absenkung (Eintiefung) des Spiegels an s = alter Spiegel - neuer Spiegel (>= 0). Ausserhalb der
+    Wasserbreite darf das Ufer nur so weit abgetragen werden, wie diese Eintiefung es verlangt."""
+    s = np.asarray(s, np.float64)
+    return np.maximum(np.interp(s, pr.s, pr.z0) - spiegel_bei(sp, s), 0.0)
+
+
+def aussen_begrenzen(T, d, half, cur, eint):
+    """15e: Abtrag ausserhalb der halben Breite hoechstens (Eintiefung + 0,5 m) - (d - halbe Breite) * tan 35 deg.
+    Ohne diese Grenze schnitt die 35-deg-Boeschung jeden steileren Hang bis 60 m neben dem Bach an (C2: Quadrat am
+    Osthang, Baender bei s 150-160, bis 12,7 m). Nie tiefer als das Querprofil (Ufer am Netzrand bleibt sicher)."""
+    erlaubt = np.maximum(eint + RING["abtrag_zuschlag_m"] - np.maximum(d - half, 0.0) * np.tan(np.radians(
+        BOESCHUNG_GRAD)), 0.0)
+    return np.where(d > half, np.maximum(T, cur - erlaubt), T)
 
 
 def profil_T(d, half, bett, z_sp, z_ufer, winkel):
@@ -850,8 +866,9 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     half = Bw / 2.0
     z_sp = spiegel_bei(sp, s)
     bett = bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp)
-    T = profil_T(d, half, bett, z_sp, ufer_z(sp, s), winkel_fn(s))
     cur = h0[band]
+    T = aussen_begrenzen(profil_T(d, half, bett, z_sp, ufer_z(sp, s), winkel_fn(s)), d, half, cur,
+                         abtrag_grenze(pr, sp, s))
     neu = np.where(innen, np.minimum(cur, T), cur)
     # Uferring (15b): ausserhalb der Wasserbreite bis Netzrand + 1,5 m mindestens Spiegel + 0,15 m, dann 1:2 auslaufen;
     # hebt nur, wo das Ufer zu niedrig ist, hoechstens 1 m (kein Damm ueber Rinnen)
@@ -947,7 +964,8 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendun
         z_sp = spiegel_bei(sp, s)
         zu = ufer_z(sp, s)
         bett = bett_profil(pr, sp, stufen_ab, a, b, s, z_sp)
-        T = profil_T(d, half, bett, z_sp, zu, winkel_fn(s))
+        T = aussen_begrenzen(profil_T(d, half, bett, z_sp, zu, winkel_fn(s)), d, half, alt[box],
+                             abtrag_grenze(pr, sp, s))
         wasser = innen & (d < half)
         w_ = wz[box]
         wz[box] = np.where(wasser, np.minimum(w_, np.minimum(alt[box], T)), w_)
@@ -967,6 +985,38 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendun
     st.delta_1m = Fn - alt
     st.delta_1m[np.abs(st.delta_1m) < 0.005] = 0.0
     return st.delta_1m
+
+
+def schreibe_lagen_1m(lg, st, ordner, ort_id, ersatz):
+    """Wie Lagen.schreibe (1 m), dazu 15e: jede Zelle mit |Delta| > 0,3 m bekommt eine Lage - wo keine Zone sie
+    abdeckt (auch jenseits einer Feldgrenze), die erste Lage der Zone 'ufer_nah' des Bioms."""
+    from sehens_lib import stempel as stm
+    fl = [int(v) for v in lg.fe.fenster_ij_1m()]
+    li0, lj0, lh, lw = fl
+    arr = {n: stm.nach_1m(lg.ziel[n], lg.z) for n in lg.ziel}
+    summe = np.zeros((lh, lw))
+    for a in arr.values():
+        summe += np.clip(np.rint(a), 0, 255)
+    d1 = getattr(st, "delta_1m", None)
+    if d1 is not None:
+        si0, sj0, sh, sw = [int(v) for v in st.fe.fenster_ij_1m()]
+        stark = np.zeros((lh, lw), bool)
+        i_a, i_b = max(si0, li0), min(si0 + sh, li0 + lh)
+        j_a, j_b = max(sj0, lj0), min(sj0 + sw, lj0 + lw)
+        if i_b > i_a and j_b > j_a:
+            stark[i_a - li0:i_b - li0, j_a - lj0:j_b - lj0] = np.abs(d1[i_a - si0:i_b - si0, j_a - sj0:j_b - sj0]) > 0.3
+        leer = stark & (summe < 1.0)
+        if leer.any():
+            arr[ersatz] = np.where(leer, 200.0, arr.get(ersatz, np.zeros((lh, lw))))
+    namen = [n for n in stm.LAGEN if n in arr and float(arr[n].max()) >= 1.0]
+    if not namen:
+        return None
+    rel = "lagen/%s_" % ort_id
+    for n in namen:
+        pf = os.path.join(ordner, rel + n + ".r8")
+        os.makedirs(os.path.dirname(pf), exist_ok=True)
+        np.ascontiguousarray(np.clip(np.rint(arr[n]), 0, 255).astype(np.uint8)).tofile(pf)
+    return {"datei_praefix": rel, "fenster_ij": fl, "lagen": namen}
 
 
 def schreibe_1m(st, ordner, ort_id):
@@ -2349,7 +2399,9 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     for kx in kontexte:
         ctx = kx["ctx"]
         blk = schreibe_1m(ctx.stempel, aus_lauf, kx["id"])
-        lblk = ctx.lagen.schreibe(aus_lauf, kx["id"])
+        lblk = schreibe_lagen_1m(ctx.lagen, ctx.stempel, aus_lauf, kx["id"],
+                                 (gr.lagen_zone(K["rw"], "ufer_nah", K["rw"].biom(kx["biom"])[1]["lagen"], None)[1]
+                                  or ["Geroell"])[0])
         z = ebene.zaehle(kx["id"])
         ab_out.append({"id": kx["id"], "strecke": kx["strecke"], "biom": kx["biom"],
                        "felder": ctx.st["felder"], "segmente_m": [[_r(a, 2), _r(b, 2)] for a, b, _ in kx["segs"]],

@@ -299,8 +299,57 @@ def pruefe_kameras(p, b, tag):
             b.append((WARNUNG, tag, "Pilot-Strecke %s ohne Kamera _vorher/_nachher" % st["id"]))
 
 
+def _lagen_summe(p, ordner):
+    """Alle Lagen aller Abschnitte als Liste (fenster_ij, Summe 0..255*n)."""
+    out = []
+    for ab in p.get("abschnitte") or []:
+        lg = ab.get("lagen")
+        if not lg:
+            continue
+        li0, lj0, lh, lw = lg["fenster_ij"]
+        s_ = np.zeros((lh, lw), np.float64)
+        for n in lg["lagen"]:
+            q = os.path.join(ordner, lg["datei_praefix"] + n + ".r8")
+            if os.path.exists(q) and os.path.getsize(q) == lh * lw:
+                s_ += np.fromfile(q, dtype=np.uint8).reshape(lh, lw)
+        out.append(((li0, lj0, lh, lw), s_))
+    return out
+
+
+def _erlaubte_zone(p, X, Y):
+    """15e: Abstand d zur neuen Wasserlinie und erlaubte Breite je Zelle: halbe Breite + Netzrand 0,4 + Uferring 1,5
+    + Boeschung fuer die Eintiefung ((alter - neuer Spiegel + 0,5 m) / tan 35 deg) + 1 m Rasterreserve; dazu die
+    Zufluss-Endstuecke (Breite/2 + 4 m). Klamm/Wandzonen stecken in der Breite."""
+    from gefaelle_plan import KN, RING, BOESCHUNG_GRAD
+    from sehens_lib import stempel as stm
+    N = np.asarray(p["spiegel_neu_cm"], np.float64)
+    P = N[:, :2] / 100.0
+    s_neu = np.asarray(p["spiegel_neu_s_m"], np.float64)
+    cum = _s_entlang(p["spiegel_neu_cm"])
+    d, s_p, _ = stm.polylinie_abstand(X, Y, P)
+    s = np.interp(s_p, cum, s_neu)
+    half = np.interp(s, s_neu, N[:, 3] / 200.0)
+    A = np.asarray(p["spiegel_alt_cm"], np.float64)
+    s_alt = _s_entlang(p["spiegel_alt_cm"])
+    z_alt = np.minimum.accumulate(A[:, 2]) / 100.0
+    eint = np.maximum(np.interp(s, s_alt, z_alt) - np.interp(s, s_neu, N[:, 2] / 100.0), 0.0)
+    # Eintiefung im Umkreis +-3 m (Fallkanten) als Maximum
+    eint = np.maximum.reduce([np.maximum(np.interp(s + ds, s_alt, z_alt) - np.interp(s + ds, s_neu, N[:, 2] / 100.0), 0.0)
+                              for ds in (-3.0, -1.5, 0.0, 1.5, 3.0)])
+    breite = half + KN["rand_ueberstand_m"] + RING["breite_m"] + (eint + RING["abtrag_zuschlag_m"]) / np.tan(
+        np.radians(BOESCHUNG_GRAD)) + 1.0
+    ok = d <= breite
+    for z_ in p.get("zufluesse") or []:
+        T_ = np.asarray(z_["punkte_neu_cm"], np.float64)
+        if len(T_) >= 2:
+            dz, _, _ = stm.polylinie_abstand(X, Y, T_[:, :2] / 100.0)
+            ok |= dz <= T_[0, 3] / 200.0 + 4.0
+    return ok, d
+
+
 def pruefe_gelaende(p, ordner, welt, orte, b, tag):
     from sehens_lib import gelaende as gel_mod
+    lagen_alle = _lagen_summe(p, ordner)
     for ab in p.get("abschnitte") or []:
         g = ab.get("gelaende")
         if not g:
@@ -330,6 +379,24 @@ def pruefe_gelaende(p, ordner, welt, orte, b, tag):
                 q = os.path.join(ordner, lg["datei_praefix"] + n + ".r8")
                 if not os.path.exists(q) or os.path.getsize(q) != lh * lw:
                     b.append((FEHLER, ab["id"], "Lagen-Datei fehlt/falsch: %s" % n))
+        # 15e: |Delta| > 0,3 m nur am Bach (Netzrand + Uferring + Boeschung der Eintiefung) und nie ohne Lage
+        stark = np.abs(a) > 0.3
+        if stark.any() and p.get("spiegel_neu_cm"):
+            ii_, jj_ = np.nonzero(stark)
+            Xs, Ys = (jj_ + j0) - 4730.5, (ii_ + i0) - 4060.5
+            ok, d_ = _erlaubte_zone(p, Xs, Ys)
+            if (~ok).any():
+                b.append((FEHLER, ab["id"], "Gelaende aendert sich um > 0,3 m abseits des Bachs: %d m2, bis %.1f m tief, "
+                          "%.0f m von der Wasserlinie (erlaubt: Netzrand + Uferring + Boeschung der Eintiefung)"
+                          % (int((~ok).sum()), float(np.abs(a[stark][~ok]).max()), float(d_[~ok].max()))))
+            gi, gj = ii_ + i0, jj_ + j0
+            hat = np.zeros(len(gi), bool)
+            for (li0, lj0, lh, lw), s_ in lagen_alle:
+                inn = (gi >= li0) & (gi < li0 + lh) & (gj >= lj0) & (gj < lj0 + lw)
+                hat[inn] |= s_[gi[inn] - li0, gj[inn] - lj0] > 0
+            if (~hat).any():
+                b.append((FEHLER, ab["id"], "%d Zellen mit |Delta| > 0,3 m ohne Lagenzuweisung (z. B. X %.0f Y %.0f)"
+                          % (int((~hat).sum()), float(Xs[~hat][0]), float(Ys[~hat][0]))))
         if welt is None:
             continue
         z = welt.zelle_m
