@@ -1,6 +1,6 @@
 # Antwort Auftrag 15d / 13e – Biom-Fehler im 1-m-Lader
 
-Stand 11.10.2026. Der Fehler ist in `skripte/sehens_lib/daten.py` behoben; Commit-Hinweis siehe unten (Commit „Auftrag 15d: 1-m-Lader …“).
+Stand 11.10.2026. Der Fehler ist in `skripte/sehens_lib/daten.py` behoben; Commit **f04230b**.
 
 ## Kurzfazit
 
