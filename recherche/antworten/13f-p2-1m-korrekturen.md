@@ -238,7 +238,7 @@ Kürzel der Dateien: `lib/` = `recherche/antworten/skripte/sehens_lib/`.
 Ferat hat die Entscheidungen an den Koordinator übertragen. Danach kam Ferats Vorgabe (23:20, Auftrag 13g): **die
 Stufen bleiben genau wie in 13f**. Ich habe deshalb jeden Punkt daran gemessen, ob sich die `stufen` gegenüber
 `c945f93` ändern. Prüfskript: `sehens_lib/stufen_vergleich.py`. Ergebnis auf 2 m: alle 42 Bäche haben identische
-Stufen. Code-Stand: Commit **`8175f8f`** (mit den Zwischenständen `88a66ec`, `0d40e67`).
+Stufen. Code-Stand: Commit **`45e22e5`** (mit den Zwischenständen `88a66ec`, `0d40e67`).
 
 | Frage / Punkt | Entscheidung | Umsetzung |
 |---|---|---|
@@ -251,7 +251,7 @@ Stufen. Code-Stand: Commit **`8175f8f`** (mit den Zwischenständen `88a66ec`, `0
 | „versickert < 25 m“ (canyon_07, lava_03, wueste_04) | bis 25 m verlängern oder sinnvoll anschließen | **Code umgesetzt, greift bei diesen drei nicht.** Ein zu kurzer Lauf wird ab seinem 13f-Ende ohne Kehre weitergeführt; der Lauf davor bleibt Punkt für Punkt gleich. Die Verlängerung zählt nur, wenn sie sinnvoll ist: höchstens 0,5 m Gegenanstieg, nicht in Weg-/Ortsschutz, Bestandswasser oder den Ring eines geplanten Sees. Bei canyon_07 (zurück zur Gumpe bzw. ins Bestandsgerinne), lava_03 (Kehre) und wueste_04 (geschlossene Mulde) gibt es keine solche Fortsetzung. Andere Linien (`punkte`) würden die Stufen ändern. Die WARNUNG bleibt wie in 13f. |
 | „Bett über Spiegel“ | beheben, wo vertretbar | fjord_02: die Abflüsse laufen im unbenannten Houdini-Gerinne unter den Gumpen. Neues Feld `im_bestand_stempeln`: Dort gilt der Wasserschutz im eigenen Korridor nicht, und das Bett wird gestempelt. Spiegel und Stufen sind unverändert. Die Planer-Prüfung „Bett über Spiegel“ nutzt jetzt dieselbe Toleranz und Stufenzone wie der Prüfer. gletscher_03 und gletscher_06 sind ohne Meldung. |
 
-**Prüfergebnis mit diesem Stand (`8175f8f`):**
+**Prüfergebnis mit diesem Stand (`45e22e5`):**
 - 2 m, alle 15 Planer: Planer und Prüfer 0 FEHLER; zwei Läufe byteidentisch.
 - Synthetisch 1 m: 0 FEHLER in allen 15 Biomen.
 - Selbsttest: 0 FEHLER (52 Prüfungen).
