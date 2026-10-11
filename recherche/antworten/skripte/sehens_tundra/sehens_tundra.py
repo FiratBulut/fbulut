@@ -71,6 +71,32 @@ def hook_daemme(ctx):
                          d.get("verjuengung_m"), bool(d.get("geschlossen", False)), d.get("modus", "add"))
 
 
+def hook_zugang(ctx):
+    """Fussweg pfad_cm (Phase 1, endet in der Ortsmitte) fuer das Bodenband kuerzen: nicht ins Wasser (See,
+    Bach) und nicht ueber den Held - er endet am Ufer bzw. pfad.ende_r_m vor der Mitte (Regel pfad.ende_r_m)."""
+    import numpy as np
+    pr = ctx.r.get("pfad") or {}
+    P = ctx.st.get("pfad_cm")
+    if not pr or not P or len(P) < 2:
+        return
+    Q = np.asarray([[p[0] / 100.0, p[1] / 100.0] for p in P])      # Ort -> Weg
+    seg = np.hypot(*np.diff(Q, axis=0).T)
+    s = np.concatenate([[0.0], np.cumsum(seg)])
+    t = np.arange(0.0, s[-1] + 1e-6, 1.0)
+    x = np.interp(t, s, Q[:, 0])
+    y = np.interp(t, s, Q[:, 1])
+    weg = (np.hypot(x - ctx.mx, y - ctx.my) < float(pr.get("ende_r_m", 0.0))) | np.asarray(ctx.im_wasser(x, y, 1.5))
+    k = 0
+    while k < len(t) - 2 and (weg[k] or weg[k + 1]):
+        k += 1
+    if k == 0:
+        return
+    neu = [[round(x[k] * 100), round(y[k] * 100)]] + [list(p[:2]) for p, sp in zip(P, s) if sp > t[k] + 0.5]
+    if len(neu) >= 2:
+        ctx.st = dict(ctx.st, pfad_cm=neu)
+        ctx.melde("HINWEIS", "Zugang (pfad_cm) %.0f m vor der Mitte beendet (Ufer/Held frei)" % t[k])
+
+
 def hook_sicht(ctx):
     """Fundstuecke: Verdeckung vom Weg (Wege + Pfade) mit Stempel und geplanten Stuecken (nur Meldung)."""
     if ctx.st.get("art") != "fundstueck" or _WP.get("aus"):
@@ -252,7 +278,7 @@ HOOKS = {
 
 
 def _hooks(oid):
-    h = {"anker": [], "nach_gelaende": [hook_daemme], "ende": [hook_sicht]}
+    h = {"anker": [], "nach_gelaende": [hook_daemme], "gruppen": [hook_zugang], "ende": [hook_sicht]}
     for k, f in (HOOKS.get(oid) or {}).items():
         h.setdefault(k, []).insert(0 if k != "nach_gelaende" else len(h[k]), f)
     return {k: (lambda ctx, fs=fs: [f(ctx) for f in fs]) for k, fs in h.items() if fs}

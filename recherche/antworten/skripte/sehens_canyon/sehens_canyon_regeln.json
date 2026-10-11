@@ -4,16 +4,16 @@
   "auftrag": "13 Phase 2 - Planer Canyon (Biom-Agent B6). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md",
   "quellen": "sehens/canyon/katalog.md, sehens/canyon/asset_bedarf.json, standorte.json, sehens-STATUS.md (Entscheidungen Ferat), Auftrag 13b/13c",
   "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
-  "hinweis": "Jede Gruppe hat eine Ursache ('warum'). Netze nur aus netze.csv; fehlende Pakete (Desert Western Cliff Layered, Hollowstone Canyon, Wadi Rum, Mountain-Fallmaterial, Nature Water FX) mit Ersatz aus dem Bestand + assets_wunsch. front_achse '+y' der Megascans-Klippen ist eine Annahme (Schauseite) - Editorbild entscheidet.",
-  "materialien": "6 von 6: Canyon_Rotband, Canyon_Gumpenmoos, Canyon_Sandfuss, Canyon_Deckstein, Welle, Welle_Streifen (Decal, eigene Textur sehens/canyon/decal_welle.png)"
+  "hinweis": "Jede Gruppe hat eine Ursache ('warum'). Netze nur aus netze.csv (Stand 13d). Helden/Begleiter aus Megascans Desert Western (Farbbaender-Sandstein, Fab-Materialien - KEIN Material-Override); Massive/Huge Sandstone nur noch als Sockel/Schutt. Nicht verwendet: uldubik/uk5ebcp (unvollstaendig, 13d). front_achse '+y' der Klippen ist eine Annahme (Schauseite) - Editorbild entscheidet.",
+  "materialien": "5 von 6: Canyon_Rotband, Canyon_Gumpenmoos, Canyon_Sandfuss, Canyon_Deckstein, Welle_Streifen (Decal, eigene Textur sehens/canyon/decal_welle.png)"
  },
  "biom": "canyon",
  "seed": 1306,
  "paletten": {
   "sandstein_gross": ["SM_SandstoneBoulder_05", "SM_RockSandstone_040", "SM_SandstoneBoulder_04"],
-  "sandstein_schutt": ["SM_SandstoneBoulder_04", "SM_RockSandstone_034", "SM_RockSandstone_021", "SM_namaqualand_boulder_04_NN", "uldubik_tier_0"],
-  "platten": ["uk5ebcp_tier_0", "uldubik_tier_0", "SM_RockSandstone_034"],
-  "brocken": ["SM_RockSandstone_021", "SM_namaqualand_boulder_06_NN", "SM_namaqualand_boulders_01_a_NN", "SM_SandstoneBoulder_03"],
+  "sandstein_schutt": ["SM_SandstoneBoulder_04", "SM_RockSandstone_034", "SM_RockSandstone_021", "SM_namaqualand_boulder_04_NN", "uk5pbhv_tier_0", "uk4pehu_tier_0"],
+  "platten": ["ulerccg_tier_0", "ulksbcz_tier_0", "uk4qcgx_tier_0", "SM_RockSandstone_034"],
+  "brocken": ["SM_RockSandstone_021", "SM_namaqualand_boulder_06_NN", "SM_namaqualand_boulders_01_a_NN", "SM_SandstoneBoulder_03", "vmjjfhh_tier_0"],
   "kies": ["SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_rocks_01_b_NN", "SM_namaqualand_rocks_01_c_NN", "SM_namaqualand_rocks_01_d_NN", "SM_namaqualand_boulders_01_a_NN"],
   "steinchen": ["SM_namaqualand_stones_01_a_NN", "SM_namaqualand_stones_01_b_NN", "SM_namaqualand_stones_01_c_NN", "SM_namaqualand_stones_01_d_NN", "SM_namaqualand_stones_01_e_NN", "SM_SmallStonesPack_09", "SM_SmallStonesPack_11"],
   "pioniere": ["SM_searsia_lucida_c_NN", "SM_searsia_lucida_e_NN", "SM_didelta_spinosa_small_NN", "SM_othonna_cerarioides_c_NN"],
@@ -26,15 +26,15 @@
   "sandschleppe": ["SM_sandy_slope_02", "SM_sandy_slope_04"],
   "bachgeroell": ["SM_DryRiverBed_01", "SM_stones_01_2", "SM_stones_01_6", "SM_RockSandstone_021"],
   "treibholz": ["SM_bark_debris_01_c_NN", "SM_dead_log_03", "SM_dead_log_04"],
-  "felsstufe": ["SM_RockSandstone_034", "SM_RockSandstone_021", "uk5ebcp_tier_0"],
-  "trittstein": ["uk5ebcp_tier_0", "SM_RockSandstone_034"]
+  "felsstufe": ["SM_RockSandstone_034", "SM_RockSandstone_021", "uk5pbhv_tier_0"],
+  "trittstein": ["ulerccg_tier_0", "SM_RockSandstone_034"],
+  "schichtgeroell": ["ul4lehiga_tier_0", "ulnfeaw_tier_0", "ulcceh3_tier_0"]
  },
  "materialwuensche": [
-  {"name": "MI_EL_SW_Canyon_Rotband", "basis": "M_EL_Klippe_RVT", "parameter": {"Toenung": [1.0, 0.7, 0.56, 1.0], "Fels_Saettigung": 1.0, "Moos_Menge_Akteur": 0.0, "Blend_Hoehe": 120.0}, "fuer": ["SM_MassiveSandstoneCliff_01", "SM_MassiveSandstoneCliff_02", "SM_MassiveSandstoneCliff_03", "SM_MassiveSandstoneCliff_05", "SM_HugeSandstoneCliff_02", "SM_HugeSandstoneCliff_05", "SM_HugeSandstoneCliff_07", "vmnmbhv_tier_0", "ukjhcamga_tier_0", "SM_IcelandicLavaSpire_02"], "hinweis": "rostrot gebaenderter Sandstein; Ersatz fuer Desert Western Cliff Layered (wird geladen)"},
-  {"name": "MI_EL_SW_Canyon_Gumpenmoos", "basis": "M_EL_Klippe_RVT", "parameter": {"Toenung": [0.9, 0.74, 0.64, 1.0], "Moos_Menge_Akteur": 1.0, "Moos_Band": 350.0, "Moos_Farbe": [0.5, 0.72, 0.32, 1.0], "Moos_Flecken": 0.9}, "fuer": ["SM_MassiveSandstoneCliff_02", "SM_MassiveSandstoneCliff_05", "SM_MassiveSandstoneCliff_01"], "hinweis": "Sickerwand mit Moos im Band (Alkoven, Spaltgrund)"},
+  {"name": "MI_EL_SW_Canyon_Rotband", "basis": "M_EL_Klippe_RVT", "parameter": {"Toenung": [1.0, 0.7, 0.56, 1.0], "Fels_Saettigung": 1.0, "Moos_Menge_Akteur": 0.0, "Blend_Hoehe": 120.0}, "fuer": ["SM_MassiveSandstoneCliff_01", "SM_MassiveSandstoneCliff_02", "SM_MassiveSandstoneCliff_03", "SM_HugeSandstoneCliff_07"], "hinweis": "rostrot fuer die aelteren Massive/Huge-Sandstone-Netze, damit sie zu den Desert-Western-Baendern passen"},
+  {"name": "MI_EL_SW_Canyon_Gumpenmoos", "basis": "M_EL_Klippe_RVT", "parameter": {"Toenung": [0.9, 0.74, 0.64, 1.0], "Moos_Menge_Akteur": 1.0, "Moos_Band": 350.0, "Moos_Farbe": [0.5, 0.72, 0.32, 1.0], "Moos_Flecken": 0.9}, "fuer": ["SM_MassiveSandstoneCliff_02", "SM_SandstoneBoulder_05", "SM_SandstoneBoulder_04"], "hinweis": "Sickerwand mit Moos im Band (Alkoven, Spaltgrund)"},
   {"name": "MI_EL_SW_Canyon_Sandfuss", "basis": "M_EL_Fels_Sand", "parameter": {"Sand_Menge": 0.65, "Sand_Fuss": 1.0, "Sand_Farbe": [0.86, 0.62, 0.42, 1.0], "Toenung": [1.0, 0.82, 0.7, 1.0]}, "fuer": ["SM_SandstoneBoulder_05", "SM_SandstoneBoulder_04", "SM_RockSandstone_040", "SM_RockSandstone_034"], "hinweis": "Sandsaum am Fuss der Bloecke (Kontaktzone)"},
   {"name": "MI_EL_SW_Canyon_Deckstein", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.42, 0.33, 0.28, 1.0], "Helligkeit": 0.8}, "fuer": ["SM_RockSandstone_040", "SM_SandstoneBoulder_04"], "hinweis": "dunkle, haerteren Decksteine der Hoodoos und Kopf des Waegers"},
-  {"name": "MI_EL_SW_Welle", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [1.0, 0.66, 0.48, 1.0], "Variation": 0.9}, "fuer": ["uk5ebcp_tier_0", "uldubik_tier_0", "SM_HugeSandstoneCliff_07", "SM_HugeSandstoneCliff_02"], "hinweis": "Ocker-Rot der versteinerten Duene (Welle)"},
   {"name": "MI_EL_SW_Welle_Streifen", "basis": "M_MS_Decal", "parameter": {"Opacity Intensity": 0.85, "Brightness": 0.9, "Saturation": 1.1, "Tiling": 1.0, "BaseColor Tint": [1.0, 0.9, 0.82, 1.0]}, "texturen": {"BaseColorTexture": "antworten/sehens/canyon/decal_welle.png", "NormalTexture": "antworten/sehens/canyon/decal_welle_n.png"}, "fuer": ["Decal canyon_08_die_welle: Kreuzschichtungs-Linien (eigene prozedurale Textur, Ferat 13c/Koordinator: ja)"]}
  ],
  "orte": {
@@ -44,8 +44,7 @@
    "marker": {"titel": "Das Sonnenfenster", "text": "Ein Loch im Grat, durch das die Abendsonne faellt wie durch ein Schluesselloch. Wer darunter steht, hoert den Wind im Stein singen.", "entdeckung_m": 70},
    "budget": {"instanzen": 4000, "kollision": 500, "akteure": 18, "lichter": 0, "niagara": 0, "decals": 3},
    "assets_wunsch": [
-    {"paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03", "statt_jetzt": "SM_MassiveSandstoneCliff_02/03 + SM_HugeSandstoneCliff_07 mit MI_EL_SW_Canyon_Rotband (Bogen aus Pfeilern + Sturz)"},
-    {"paket": "Wadi Rum Sandstone Rock 01–04", "statt_jetzt": "SM_MassiveSandstoneCliff_03 (Pfeiler)"}
+    {"paket": "Wadi Rum Sandstone Rock 01–04", "statt_jetzt": "vjqiaa2qx_tier_0 (Desert Western Formation Layered XL 05) als Pfeiler"}
    ],
    "anker": {
     "finne": {"richtung_von": 165},
@@ -58,51 +57,29 @@
     "kante": [0, 66],
     "blick": {"pos_m": [-1456.3, -450.4]}
    },
-   "gelaende": {
-    "fenster_m": [120, 120], "rand_m": 10,
+   "gelaende": {"fenster_m": [120, 120], "rand_m": 10,
     "ops": [
      {"op": "kuppe", "bei": "fenster", "radius_m": 14, "hoehe_m": 1.4, "plateau": 0.3, "streckung": [2.6, 1.0], "richtung": "finne", "rand_m": 8, "warum": "Felsrippe unter der Finne (der haertere Kern bleibt stehen)"},
-     {"op": "buckel", "bei": "fenster", "radius_m": 30, "amplitude_m": 0.5, "wellenlaenge_m": 7, "warum": "Slickrock leicht wellig statt brettflach"}
+     {"op": "buckel", "bei": "fenster", "radius_m": 30, "amplitude_m": 0.25, "wellenlaenge_m": 7, "warum": "Slickrock leicht wellig statt brettflach"}
     ]
    },
    "gruppen": [
-    {"name": "pfeiler", "ebene": "held", "warum": "Bogenpfeiler: zwei Reste der Finne, zwischen denen der weichere Sandstein ausgewittert ist", "netz": "SM_MassiveSandstoneCliff_03",
-     "verteilung": {"typ": "punkte", "punkte": ["pfeiler_n", "pfeiler_s"]}, "ausrichtung": "aufrecht", "yaw": "finne", "yaw_streuung_grad": 4,
-     "skala_xyz": [0.42, 0.3, 0.5], "eingraben": [0.33, 0.37], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null},
-    {"name": "sturz", "ebene": "held", "warum": "Bogensturz: die harte Bank liegt quer ueber beiden Pfeilern (Unterseite 6,5 m, abplatzend)", "netz": "SM_MassiveSandstoneCliff_02",
-     "verteilung": {"typ": "punkt", "bei": "fenster"}, "ausrichtung": "liegend", "yaw": "finne", "yaw_streuung_grad": 2,
-     "skala_xyz": [0.28, 0.2, 0.74], "z_bezug": "boden+6.5", "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null,
-     "hinweis": "liegend: lokale Z-Achse (26 m x 0,74 = 19 m) laeuft entlang der Finne und liegt auf beiden Pfeilern auf"},
-    {"name": "finne", "ebene": "begleiter", "warum": "Finnenfortsetzung nach N und S: die Rippe, aus der der Bogen geschnitten ist", "netz": "SM_HugeSandstoneCliff_07",
-     "verteilung": {"typ": "punkte", "punkte": ["finne_n", "finne_s"]}, "ausrichtung": "aufrecht", "yaw": "finne", "yaw_streuung_grad": 6,
-     "skala_xyz": [0.75, 0.55, 1.25], "eingraben": [0.3, 0.35], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null},
-    {"name": "finnenkopf", "ebene": "begleiter", "warum": "abgerundete Enden der Finne (Frost rundet die Kanten)", "netz": "SM_RockSandstone_040",
-     "verteilung": {"typ": "punkte", "punkte": [{"von": "fenster", "richtung": 345, "abstand_m": 34}, {"von": "fenster", "richtung": 165, "abstand_m": 33}]},
-     "skala": [0.85, 1.0], "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "sockel", "ebene": "begleiter", "warum": "abgestuerzte Bloecke der Finne liegen am Fuss", "palette": "sandstein_gross",
-     "anzahl": 5, "verteilung": {"typ": "ring", "bei": "fenster", "r_m": [6, 16]}, "groesse_m": [2.2, 4.0], "eingraben": [0.3, 0.42], "abstand_m": 4.5, "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "bogenschutt", "ebene": "schutt", "warum": "Platten von der Bogenunterseite: die Oeffnung waechst durch Abplatzen", "palette": "platten",
-     "anzahl": 70, "verteilung": {"typ": "ellipse", "bei": "fenster", "a_m": 13, "b_m": 6, "richtung": {"basis": "finne", "plus": 90}}, "groesse_m": [0.5, 1.6], "abstand_m": 0.9, "material": "MI_EL_SW_Canyon_Rotband"},
-    {"name": "finnenschutt", "ebene": "schutt", "warum": "Steinschlag entlang beider Finnenflanken", "palette": "sandstein_schutt",
-     "anzahl": 60, "verteilung": {"typ": "band", "punkte": ["finne_n", "fenster", "finne_s"], "breite_m": 16}, "groesse_m": [0.4, 1.3], "abstand_m": 1.0},
-    {"name": "kegel", "ebene": "schutt", "warum": "Schuttkegel unter der Stufenkante: was die Finne verliert, rollt hier hinab - unten groeber", "palette": "sandstein_schutt",
-     "anzahl": 90, "verteilung": {"typ": "faecher", "bei": "kante", "richtung": "hangab", "laenge_m": 34, "start_m": 2, "oeffnung_grad": 55}, "groesse_m": [0.5, 1.3], "gradient": {"von": 0.7, "bis": 1.8}, "abstand_m": 1.1},
-    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus und Kies um die Finne (Verwitterung)", "palette": "kies", "anzahl": 1100,
-     "verteilung": {"typ": "ellipse", "bei": "fenster", "a_m": 34, "b_m": 16, "richtung": "finne"}, "abstand_m": 0.35, "rolle": "stein"},
-    {"name": "kegelgrus", "ebene": "kleinzeug", "warum": "Feinkies im Kegel", "palette": "steinchen", "anzahl": 450,
-     "verteilung": {"typ": "faecher", "bei": "kante", "richtung": "hangab", "laenge_m": 34, "oeffnung_grad": 60}, "abstand_m": 0.3, "rolle": "stein"},
-    {"name": "pioniere", "ebene": "bewuchs", "warum": "Searsia/Didelta wurzeln in den Fugen des Slickrocks (Feuchte sammelt sich am Fels)", "palette": "pioniere",
-     "verteilung": {"typ": "cluster", "form": "ring", "bei": "fenster", "r_m": [8, 32], "zentren": [5, 7], "je": [2, 4], "radius_m": 3.0}, "abstand_m": 1.2, "rolle": "pflanze"},
-    {"name": "sukkulenten_lee", "ebene": "bewuchs", "warum": "Sukkulentenpolster im Windschatten (Lee, OSO) der Finne", "palette": "sukkulenten",
-     "verteilung": {"typ": "cluster", "form": "kreis", "bei": "lee", "r_m": 9, "zentren": [4, 6], "je": [5, 9], "radius_m": 2.0}, "abstand_m": 0.4, "rolle": "pflanze"},
-    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras nur dort, wo Sand liegen bleibt", "palette": "trockengras",
-     "anzahl": 70, "verteilung": {"typ": "ring", "bei": "fenster", "r_m": [14, 45]}, "abstand_m": 2.2, "rolle": "pflanze"},
-    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand und Steinchen sammeln sich am Fuss (nichts steht auf)", "palette": "steinchen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["pfeiler", "finne", "finnenkopf", "sockel"], "ring": [0.9, 1.3], "je": [18, 30]}, "rolle": "stein"},
-    {"name": "fugenkies", "ebene": "kontakt", "warum": "Kies in den Fugen um die Sockelbloecke", "palette": "kies",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["sockel", "bogenschutt"], "ring": [0.85, 1.25], "je": [3, 6]}, "rolle": "stein"},
-    {"name": "fugenpflanzen", "ebene": "kontakt", "warum": "Eispflanzen kriechen am schattigen Fuss hoch", "palette": "eispflanzen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["pfeiler", "finne"], "ring": [0.95, 1.15], "je": [3, 6], "seite": "ost", "seite_staerke": 0.7}, "rolle": "pflanze"}
+    {"name": "pfeiler", "ebene": "held", "warum": "Bogenpfeiler (Desert Western Formation, gebaendert): Reste der Finne, zwischen denen der weichere Sandstein ausgewittert ist", "netz": "vjqiaa2qx_tier_0", "verteilung": {"typ": "punkte", "punkte": ["pfeiler_n", "pfeiler_s"]}, "ausrichtung": "aufrecht", "yaw": "finne", "yaw_streuung_grad": 4, "skala_xyz": [0.45, 0.42, 0.48], "eingraben": [0.18, 0.22], "akteur": true, "kollision": true, "meide": null},
+    {"name": "sturz", "ebene": "held", "warum": "Bogensturz: die harte Bank (Desert Western Cliff Layered XL 03, 19 m lang) liegt quer ueber beiden Pfeilern, Unterseite 6,5 m", "netz": "vceoferfa_tier_0", "verteilung": {"typ": "punkt", "bei": "fenster"}, "ausrichtung": "aufrecht", "yaw": "finne", "yaw_streuung_grad": 2, "skala_xyz": [0.8, 0.75, 0.95], "z_bezug": "boden+6.5", "akteur": true, "kollision": true, "meide": null},
+    {"name": "finne", "ebene": "begleiter", "warum": "Finnenfortsetzung nach N und S: die Rippe, aus der der Bogen geschnitten ist", "netz": "vb1mbdega_tier_0", "verteilung": {"typ": "punkte", "punkte": ["finne_n", "finne_s"]}, "ausrichtung": "aufrecht", "yaw": "finne", "yaw_streuung_grad": 6, "skala_xyz": [0.75, 0.55, 1.4], "eingraben": [0.3, 0.35], "akteur": true, "kollision": true, "meide": null},
+    {"name": "finnenkopf", "ebene": "begleiter", "warum": "abgerundete Enden der Finne (Frost rundet die Kanten)", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "punkte", "punkte": [{"von": "fenster", "richtung": 345, "abstand_m": 34}, {"von": "fenster", "richtung": 165, "abstand_m": 33}]}, "skala": [0.85, 1.0], "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Sandfuss"},
+    {"name": "sockel", "ebene": "begleiter", "warum": "abgestuerzte Bloecke der Finne liegen am Fuss", "palette": "sandstein_gross", "anzahl": 5, "verteilung": {"typ": "ring", "bei": "fenster", "r_m": [6, 16]}, "groesse_m": [2.2, 4.0], "eingraben": [0.3, 0.42], "abstand_m": 4.5, "material": "MI_EL_SW_Canyon_Sandfuss"},
+    {"name": "bogenschutt", "ebene": "schutt", "warum": "Platten von der Bogenunterseite: die Oeffnung waechst durch Abplatzen", "palette": "platten", "anzahl": 70, "verteilung": {"typ": "ellipse", "bei": "fenster", "a_m": 13, "b_m": 6, "richtung": {"basis": "finne", "plus": 90}}, "groesse_m": [0.5, 1.6], "abstand_m": 0.9, "material": "MI_EL_SW_Canyon_Rotband"},
+    {"name": "finnenschutt", "ebene": "schutt", "warum": "Steinschlag entlang beider Finnenflanken", "palette": "sandstein_schutt", "anzahl": 60, "verteilung": {"typ": "band", "punkte": ["finne_n", "fenster", "finne_s"], "breite_m": 16}, "groesse_m": [0.4, 1.3], "abstand_m": 1.0},
+    {"name": "kegel", "ebene": "schutt", "warum": "Schuttkegel unter der Stufenkante: was die Finne verliert, rollt hier hinab - unten groeber", "palette": "sandstein_schutt", "anzahl": 90, "verteilung": {"typ": "faecher", "bei": "kante", "richtung": "hangab", "laenge_m": 34, "start_m": 2, "oeffnung_grad": 55}, "groesse_m": [0.5, 1.3], "gradient": {"von": 0.7, "bis": 1.8}, "abstand_m": 1.1},
+    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus und Kies um die Finne (Verwitterung)", "palette": "kies", "anzahl": 1100, "verteilung": {"typ": "ellipse", "bei": "fenster", "a_m": 34, "b_m": 16, "richtung": "finne"}, "abstand_m": 0.35, "rolle": "stein"},
+    {"name": "kegelgrus", "ebene": "kleinzeug", "warum": "Feinkies im Kegel", "palette": "steinchen", "anzahl": 450, "verteilung": {"typ": "faecher", "bei": "kante", "richtung": "hangab", "laenge_m": 34, "oeffnung_grad": 60}, "abstand_m": 0.3, "rolle": "stein"},
+    {"name": "pioniere", "ebene": "bewuchs", "warum": "Searsia/Didelta wurzeln in den Fugen des Slickrocks (Feuchte sammelt sich am Fels)", "palette": "pioniere", "verteilung": {"typ": "cluster", "form": "ring", "bei": "fenster", "r_m": [8, 32], "zentren": [5, 7], "je": [2, 4], "radius_m": 3.0}, "abstand_m": 1.2, "rolle": "pflanze"},
+    {"name": "sukkulenten_lee", "ebene": "bewuchs", "warum": "Sukkulentenpolster im Windschatten (Lee, OSO) der Finne", "palette": "sukkulenten", "verteilung": {"typ": "cluster", "form": "kreis", "bei": "lee", "r_m": 9, "zentren": [4, 6], "je": [5, 9], "radius_m": 2.0}, "abstand_m": 0.4, "rolle": "pflanze"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras nur dort, wo Sand liegen bleibt", "palette": "trockengras", "anzahl": 70, "verteilung": {"typ": "ring", "bei": "fenster", "r_m": [14, 45]}, "abstand_m": 2.2, "rolle": "pflanze"},
+    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand und Steinchen sammeln sich am Fuss (nichts steht auf)", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["pfeiler", "finne", "finnenkopf", "sockel"], "ring": [0.9, 1.3], "je": [18, 30]}, "rolle": "stein"},
+    {"name": "fugenkies", "ebene": "kontakt", "warum": "Kies in den Fugen um die Sockelbloecke", "palette": "kies", "verteilung": {"typ": "um_gruppe", "gruppe": ["sockel", "bogenschutt"], "ring": [0.85, 1.25], "je": [3, 6]}, "rolle": "stein"},
+    {"name": "fugenpflanzen", "ebene": "kontakt", "warum": "Eispflanzen kriechen am schattigen Fuss hoch", "palette": "eispflanzen", "verteilung": {"typ": "um_gruppe", "gruppe": ["pfeiler", "finne"], "ring": [0.95, 1.15], "je": [3, 6], "seite": "ost", "seite_staerke": 0.7}, "rolle": "pflanze"}
    ],
    "lagen": [
     {"lage": "Felsplatte", "form": "kreis", "bei": "fenster", "r_m": 26, "wert": 210, "flecken": 0.4, "streckung": [1.6, 1.0], "richtung": "finne"},
@@ -110,13 +87,14 @@
     {"lage": "Sand", "form": "um_gruppe", "gruppe": ["pfeiler", "finne", "sockel"], "ring": [0.9, 1.6], "wert": 180},
     {"lage": "Geroell", "form": "kreis", "bei": "kante", "r_m": 18, "streckung": [1.6, 1.0], "richtung": "hangab", "wert": 205, "flecken": 0.45}
    ],
-   "pfad": {"breite_cm": 120, "lagen": {"Erde": 205, "Kies": 130},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.4], "stufen_abstand_m": 2.6}},
+   "pfad": {"breite_cm": 120, "lagen": {"Erde": 205, "Kies": 130}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.4], "stufen_abstand_m": 2.6}},
    "effekte": [
     {"typ": "decal", "material": "MI_TileableLeakage_02", "zweck": "dunkle Sickerspur unter dem Sturz (Wasser laeuft an der Bogenunterseite ab)", "bei": {"anker": "fenster", "versatz_m": [0, 0]}, "hoehe_m": 5.5, "ausrichtung": "wand", "blick": "zu:blick", "groesse_m": [2.0, 3.0, 6.0]},
     {"typ": "decal", "material": "MI_Leakage_04", "zweck": "Wuestenlack-Streifen an den Pfeilern", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "fenster", "r_m": 9}, "hoehe_m": 4, "ausrichtung": "wand", "blick": "zu:blick", "groesse_m": [1.5, 2.0, 5.0]}
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "fenster", "radius_m": 60, "lautstaerke": 0.45, "zweck": "Wind im Bogen (Laubanteil im Editor pruefen; Wunsch Fantasy Ambiences)"}]
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "fenster", "radius_m": 60, "lautstaerke": 0.45, "zweck": "Wind im Bogen (Laubanteil im Editor pruefen; Wunsch Fantasy Ambiences)"}
+   ]
   },
 
   "canyon_02_der_waeger": {
@@ -124,8 +102,8 @@
    "marker": {"titel": "Der Waeger", "text": "Seit Menschengedenken wiegt er sich auf seinem Hals und faellt doch nicht. Unten liegt sein Bruder, der es nicht geschafft hat.", "entdeckung_m": 60},
    "budget": {"instanzen": 2500, "kollision": 300, "akteure": 8, "lichter": 0, "niagara": 0, "decals": 2},
    "assets_wunsch": [
-    {"paket": "Wadi Rum Sandstone Rock 01–04", "statt_jetzt": "SM_RockSandstone_040 x1,6 (Kopf, Rueckseite pruefen)"},
-    {"paket": "Procedural Rocks Generator", "statt_jetzt": "SM_MassiveSandstoneCliff_01 schmal skaliert, 40 % eingegraben (Sockel mit Taille)"}
+    {"paket": "Wadi Rum Sandstone Rock 01–04", "statt_jetzt": "SM_RockSandstone_040 x1,35 (Kopf)"},
+    {"paket": "Procedural Rocks Generator", "statt_jetzt": "ulbwebv_tier_0 (Desert Western Spire Large 05) schmal skaliert als Sockel mit Taille"}
    ],
    "anker": {
     "kopf": {"suche": "hoechster", "r_m": 6},
@@ -134,49 +112,29 @@
     "sturz": {"von": "kopf", "richtung": "hangab", "abstand_m": 26},
     "blick": {"pos_m": [-1068.3, -437.9]}
    },
-   "gelaende": {
-    "fenster_m": [90, 90], "rand_m": 10,
+   "gelaende": {"fenster_m": [90, 90], "rand_m": 10,
     "ops": [
      {"op": "terrasse", "bei": "kopf", "radius_m": 4.5, "ziel_z": "boden+0.3", "rand_m": 4, "modus": "setzen", "warum": "kleine Standflaeche unter dem Sockel (Kuppe gekappt)"},
      {"op": "rinne", "punkte": ["kopf", "sturz"], "breite_m": 2.5, "tiefe_m": 0.4, "rand_m": 1.5, "warum": "Schleifspur des gefallenen Blocks"}
     ]
    },
    "gruppen": [
-    {"name": "sockel", "ebene": "held", "warum": "Sockel mit Taille: weicher Schluffstein unter der harten Kappe wittert schneller zurueck", "netz": "SM_MassiveSandstoneCliff_01",
-     "verteilung": {"typ": "punkt", "bei": "kopf"}, "ausrichtung": "aufrecht", "yaw": "zu:blick", "skala_xyz": [0.15, 0.17, 0.48], "eingraben": [0.38, 0.42],
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null},
-    {"name": "kopf", "ebene": "held", "warum": "der rundgeschliffene Kopf (harte Bank), 20 cm in die Auflage eingesunken", "netz": "SM_RockSandstone_040",
-     "verteilung": {"typ": "auf_gruppe", "gruppe": "sockel", "je": [1, 1], "anteil": [0.5, 0.5]}, "skala": 1.35, "ausrichtung": "aufrecht", "yaw": {"basis": "zu:blick", "plus": 35},
-     "z_bezug": "oberkante:sockel", "z_versatz_m": -0.6, "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein", "meide": null},
-    {"name": "nadeln", "ebene": "begleiter", "warum": "zwei kleinere Nadeln derselben Rippe (fruehere Waeger, Kopf verloren)", "palette": ["SM_SandstoneBoulder_05", "SM_HugeSandstoneCliff_02"],
-     "verteilung": {"typ": "punkte", "punkte": ["nadel_w", "nadel_o"]}, "ausrichtung": "hochkant", "hochkant_achse": "x", "skala_xyz": [1.1, 0.75, 0.8], "groesse_m": [6, 8], "groesse_achse": "max",
-     "eingraben": [0.3, 0.38], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null},
-    {"name": "gefallener", "ebene": "begleiter", "warum": "der Bruder, der fiel: Kopf hangab mit Schleifspur", "netz": "SM_RockSandstone_040",
-     "verteilung": {"typ": "punkt", "bei": "sturz"}, "skala": 1.15, "kipp_grad": 18, "kipp_richtung": "hangab", "eingraben": [0.3, 0.38], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein"},
-    {"name": "rippenbloecke", "ebene": "begleiter", "warum": "Bloecke der zerfallenden Rippe am Hang", "palette": "sandstein_gross",
-     "anzahl": 4, "verteilung": {"typ": "ring", "bei": "kopf", "r_m": [7, 20]}, "groesse_m": [2.0, 3.5], "eingraben": [0.32, 0.42], "abstand_m": 5, "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "schutt", "ebene": "schutt", "warum": "Schutt der Rippe hangab, gefaechert, unten groeber", "palette": "sandstein_schutt",
-     "anzahl": 70, "verteilung": {"typ": "faecher", "bei": "kopf", "richtung": "hangab", "laenge_m": 34, "start_m": 4, "oeffnung_grad": 70}, "groesse_m": [0.4, 1.2], "gradient": {"von": 0.7, "bis": 1.8}, "abstand_m": 1.0},
-    {"name": "platten", "ebene": "schutt", "warum": "Platten der Schichtbank liegen am Rippenkamm", "palette": "platten",
-     "anzahl": 18, "verteilung": {"typ": "ring", "bei": "kopf", "r_m": [3, 12]}, "groesse_m": [0.8, 2.0], "abstand_m": 1.5},
-    {"name": "schleifspur", "ebene": "schutt", "warum": "Kies und Brocken in der Schleifspur des Gefallenen", "palette": "brocken",
-     "anzahl": 25, "verteilung": {"typ": "band", "punkte": ["kopf", "sturz"], "breite_m": 3.0, "t": [0.25, 0.95]}, "groesse_m": [0.3, 0.7], "abstand_m": 0.7},
-    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus auf der Rippe", "palette": "kies", "anzahl": 700,
-     "verteilung": {"typ": "kreis", "bei": "kopf", "r_m": 26}, "abstand_m": 0.35, "rolle": "stein"},
-    {"name": "kegelgrus", "ebene": "kleinzeug", "warum": "Feinkies hangab", "palette": "steinchen", "anzahl": 300,
-     "verteilung": {"typ": "faecher", "bei": "kopf", "richtung": "hangab", "laenge_m": 34, "oeffnung_grad": 70}, "abstand_m": 0.3, "rolle": "stein"},
-    {"name": "koecherbaum", "ebene": "bewuchs", "warum": "ein Koecherbaum im Windschatten der Rippe (Leeseite SO)", "netz": "SM_quiver_tree_02_NN",
-     "verteilung": {"typ": "punkt", "bei": {"von": "kopf", "richtung": 135, "abstand_m": 11}}, "skala": 1.6, "rolle": "baum", "hang_grad": [0, 40]},
-    {"name": "dornpolster", "ebene": "bewuchs", "warum": "Othonna und Didelta in Felsfugen auf dem Kamm", "palette": ["SM_othonna_cerarioides_c_NN", "SM_didelta_spinosa_small_NN", "SM_searsia_lucida_e_NN"],
-     "verteilung": {"typ": "cluster", "form": "ring", "bei": "kopf", "r_m": [6, 24], "zentren": [4, 6], "je": [2, 4], "radius_m": 2.5}, "abstand_m": 1.0, "rolle": "pflanze"},
-    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras in Sandflecken", "palette": "trockengras",
-     "anzahl": 40, "verteilung": {"typ": "ring", "bei": "kopf", "r_m": [10, 32]}, "abstand_m": 2.0, "rolle": "pflanze"},
-    {"name": "sandkehle", "ebene": "kontakt", "warum": "Sandkehle am Sockelfuss (der Wind schleift die Taille)", "palette": "steinchen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["sockel", "nadeln", "rippenbloecke", "gefallener"], "ring": [0.9, 1.35], "je": [16, 26]}, "rolle": "stein"},
-    {"name": "fugenkies", "ebene": "kontakt", "warum": "Kies um die Platten", "palette": "kies",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["platten", "rippenbloecke"], "ring": [0.85, 1.25], "je": [3, 6]}, "rolle": "stein"},
-    {"name": "fugenpflanzen", "ebene": "kontakt", "warum": "Eispflanze auf der Schattenseite des Sockels", "palette": "eispflanzen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["sockel", "nadeln"], "ring": [0.95, 1.2], "je": [3, 5], "seite": "nord", "seite_staerke": 0.7}, "rolle": "pflanze"}
+    {"name": "sockel", "ebene": "held", "warum": "Sockel mit Taille (Desert Western Spire, gebaendert): weicher Schluffstein unter der harten Kappe wittert schneller zurueck", "netz": "ulbwebv_tier_0", "verteilung": {"typ": "punkt", "bei": "kopf"}, "ausrichtung": "aufrecht", "yaw": "zu:blick", "skala_xyz": [0.5, 0.45, 1.15], "eingraben": [0.36, 0.4], "akteur": true, "kollision": true, "meide": null},
+    {"name": "kopf", "ebene": "held", "warum": "der rundgeschliffene Kopf (harte Bank), 20 cm in die Auflage eingesunken", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "auf_gruppe", "gruppe": "sockel", "je": [1, 1], "anteil": [0.5, 0.5]}, "skala": 1.35, "ausrichtung": "aufrecht", "yaw": {"basis": "zu:blick", "plus": 35}, "z_bezug": "oberkante:sockel", "z_versatz_m": -0.6, "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein", "meide": null},
+    {"name": "nadeln", "ebene": "begleiter", "warum": "zwei kleinere Nadeln derselben Rippe (fruehere Waeger, Kopf verloren)", "palette": ["vijmaacqx_tier_0", "vepoda2_tier_0"], "verteilung": {"typ": "punkte", "punkte": ["nadel_w", "nadel_o"]}, "ausrichtung": "aufrecht", "skala_xyz": [0.6, 0.6, 1.0], "groesse_m": [7, 10], "groesse_achse": "z", "eingraben": [0.3, 0.38], "akteur": true, "kollision": true, "meide": null},
+    {"name": "gefallener", "ebene": "begleiter", "warum": "der Bruder, der fiel: Kopf hangab mit Schleifspur", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "punkt", "bei": "sturz"}, "skala": 1.15, "kipp_grad": 18, "kipp_richtung": "hangab", "eingraben": [0.3, 0.38], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein"},
+    {"name": "rippenbloecke", "ebene": "begleiter", "warum": "Bloecke der zerfallenden Rippe am Hang", "palette": "sandstein_gross", "anzahl": 4, "verteilung": {"typ": "ring", "bei": "kopf", "r_m": [7, 20]}, "groesse_m": [2.0, 3.5], "eingraben": [0.32, 0.42], "abstand_m": 5, "material": "MI_EL_SW_Canyon_Sandfuss"},
+    {"name": "schutt", "ebene": "schutt", "warum": "Schutt der Rippe hangab, gefaechert, unten groeber", "palette": "sandstein_schutt", "anzahl": 70, "verteilung": {"typ": "faecher", "bei": "kopf", "richtung": "hangab", "laenge_m": 34, "start_m": 4, "oeffnung_grad": 70}, "groesse_m": [0.4, 1.2], "gradient": {"von": 0.7, "bis": 1.8}, "abstand_m": 1.0},
+    {"name": "platten", "ebene": "schutt", "warum": "Platten der Schichtbank liegen am Rippenkamm", "palette": "platten", "anzahl": 18, "verteilung": {"typ": "ring", "bei": "kopf", "r_m": [3, 12]}, "groesse_m": [0.8, 2.0], "abstand_m": 1.5},
+    {"name": "schleifspur", "ebene": "schutt", "warum": "Kies und Brocken in der Schleifspur des Gefallenen", "palette": "brocken", "anzahl": 25, "verteilung": {"typ": "band", "punkte": ["kopf", "sturz"], "breite_m": 3.0, "t": [0.25, 0.95]}, "groesse_m": [0.3, 0.7], "abstand_m": 0.7},
+    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus auf der Rippe", "palette": "kies", "anzahl": 700, "verteilung": {"typ": "kreis", "bei": "kopf", "r_m": 26}, "abstand_m": 0.35, "rolle": "stein"},
+    {"name": "kegelgrus", "ebene": "kleinzeug", "warum": "Feinkies hangab", "palette": "steinchen", "anzahl": 300, "verteilung": {"typ": "faecher", "bei": "kopf", "richtung": "hangab", "laenge_m": 34, "oeffnung_grad": 70}, "abstand_m": 0.3, "rolle": "stein"},
+    {"name": "koecherbaum", "ebene": "bewuchs", "warum": "ein Koecherbaum im Windschatten der Rippe (Leeseite SO)", "netz": "SM_quiver_tree_02_NN", "verteilung": {"typ": "punkt", "bei": {"von": "kopf", "richtung": 135, "abstand_m": 11}}, "skala": 1.6, "rolle": "baum", "hang_grad": [0, 40]},
+    {"name": "dornpolster", "ebene": "bewuchs", "warum": "Othonna und Didelta in Felsfugen auf dem Kamm", "palette": ["SM_othonna_cerarioides_c_NN", "SM_didelta_spinosa_small_NN", "SM_searsia_lucida_e_NN"], "verteilung": {"typ": "cluster", "form": "ring", "bei": "kopf", "r_m": [6, 24], "zentren": [4, 6], "je": [2, 4], "radius_m": 2.5}, "abstand_m": 1.0, "rolle": "pflanze"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras in Sandflecken", "palette": "trockengras", "anzahl": 40, "verteilung": {"typ": "ring", "bei": "kopf", "r_m": [10, 32]}, "abstand_m": 2.0, "rolle": "pflanze"},
+    {"name": "sandkehle", "ebene": "kontakt", "warum": "Sandkehle am Sockelfuss (der Wind schleift die Taille)", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["sockel", "nadeln", "rippenbloecke", "gefallener"], "ring": [0.9, 1.35], "je": [16, 26]}, "rolle": "stein"},
+    {"name": "fugenkies", "ebene": "kontakt", "warum": "Kies um die Platten", "palette": "kies", "verteilung": {"typ": "um_gruppe", "gruppe": ["platten", "rippenbloecke"], "ring": [0.85, 1.25], "je": [3, 6]}, "rolle": "stein"},
+    {"name": "fugenpflanzen", "ebene": "kontakt", "warum": "Eispflanze auf der Schattenseite des Sockels", "palette": "eispflanzen", "verteilung": {"typ": "um_gruppe", "gruppe": ["sockel", "nadeln"], "ring": [0.95, 1.2], "je": [3, 5], "seite": "nord", "seite_staerke": 0.7}, "rolle": "pflanze"}
    ],
    "lagen": [
     {"lage": "Sandstein", "form": "kreis", "bei": "kopf", "r_m": 14, "wert": 200, "flecken": 0.4},
@@ -184,13 +142,14 @@
     {"lage": "Geroell", "form": "kreis", "bei": "sturz", "r_m": 16, "streckung": [1.6, 1.0], "richtung": "hangab", "wert": 200, "flecken": 0.45},
     {"lage": "Kies", "form": "band", "punkte": ["kopf", "sturz"], "breite_m": 3, "wert": 190, "flecken": 0.2}
    ],
-   "pfad": {"breite_cm": 120, "lagen": {"Erde": 205, "Kies": 130},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.4], "stufen_abstand_m": 2.6}},
+   "pfad": {"breite_cm": 120, "lagen": {"Erde": 205, "Kies": 130}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.4], "stufen_abstand_m": 2.6}},
    "effekte": [
     {"typ": "decal", "material": "MI_Leakage_06", "zweck": "dunkle Wasserspur unter dem Kopf", "bei": "kopf", "hoehe_m": 4, "ausrichtung": "wand", "blick": "zu:blick", "groesse_m": [1.2, 2.0, 4.0]},
     {"typ": "decal", "material": "MI_TileableLeakage_04", "zweck": "Schleifspur auf dem Fels", "bei": {"von": "kopf", "richtung": "hangab", "abstand_m": 12}, "groesse_m": [1.0, 3.0, 9.0]}
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "kopf", "radius_m": 45, "lautstaerke": 0.4, "zweck": "Wind an der Rippe"}]
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "kopf", "radius_m": 45, "lautstaerke": 0.4, "zweck": "Wind an der Rippe"}
+   ]
   },
 
   "canyon_03_rote_stufe": {
@@ -198,7 +157,6 @@
    "marker": {"titel": "Die Rote Stufe", "text": "Stufe um Stufe steigt der Fels aus der Aue, als haetten Riesen eine Treppe begonnen und nie vollendet. Abends brennt sie rot bis in die Ebene.", "entdeckung_m": 120},
    "budget": {"instanzen": 9000, "kollision": 900, "akteure": 30, "lichter": 0, "niagara": 0, "decals": 2},
    "assets_wunsch": [
-    {"paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03", "statt_jetzt": "vmnmbhv_tier_0 + ukjhcamga_tier_0 + SM_MassiveSandstoneCliff_05/02 mit MI_EL_SW_Canyon_Rotband (Etagenwaende)"},
     {"paket": "Wilderness Nature Loops", "statt_jetzt": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue (City & Nature Sounds, nur Natur)"}
    ],
    "anker": {
@@ -216,60 +174,35 @@
     "wand_mitte": {"punkte": [[-38, -150], [0, -124], [30, -110], [60, -94], [92, -74], [125, -60]]},
     "wand_oben": {"punkte": [[-20, -178], [10, -160], [45, -146], [78, -124], [100, -104], [140, -86]]}
    },
-   "gelaende": {
-    "fenster_m": [220, 240], "rand_m": 14, "bei": [45, -95],
+   "gelaende": {"fenster_m": [220, 240], "rand_m": 14, "bei": [45, -95], "senke_begruendung": "flache Mulden auf den Simsen hinter den harten Baenken (Regen versickert im Sandstein)",
     "ops": [
-     {"op": "abbruch", "punkte": "wand_unten", "hoehe_m": 5, "breite_m": 5, "reichweite_m": 18, "seite": "links", "verteilung": "beide", "warum": "unterste Etage: Wandfuss nachschaerfen (rote Wand)"},
-     {"op": "abbruch", "punkte": "wand_mitte", "hoehe_m": 5, "breite_m": 5, "reichweite_m": 16, "seite": "links", "verteilung": "beide", "warum": "zweite Etage"},
-     {"op": "abbruch", "punkte": "wand_oben", "hoehe_m": 4, "breite_m": 5, "reichweite_m": 14, "seite": "links", "verteilung": "beide", "warum": "dritte Etage unter dem Sporn"},
+     {"op": "abbruch", "punkte": "wand_unten", "hoehe_m": 5, "breite_m": 5, "reichweite_m": 18, "seite": "links", "verteilung": "oben", "warum": "unterste Etage: Wandfuss nachschaerfen (rote Wand)"},
+     {"op": "abbruch", "punkte": "wand_mitte", "hoehe_m": 5, "breite_m": 5, "reichweite_m": 16, "seite": "links", "verteilung": "oben", "warum": "zweite Etage"},
+     {"op": "abbruch", "punkte": "wand_oben", "hoehe_m": 4, "breite_m": 5, "reichweite_m": 14, "seite": "links", "verteilung": "oben", "warum": "dritte Etage unter dem Sporn"},
      {"op": "buckel", "bei": [40, -70], "radius_m": 60, "amplitude_m": 0.7, "wellenlaenge_m": 9, "warum": "Schuttkegel buckelig"}
     ]
    },
    "gruppen": [
-    {"name": "etage_unten", "ebene": "held", "warum": "rote Etagenwand (geschichtet) entlang der untersten Kante", "palette": ["vmnmbhv_tier_0", "ukjhcamga_tier_0"],
-     "verteilung": {"typ": "reihe", "punkte": "wand_unten", "abstand_m": 30, "versatz_m": 3.0, "versatz_streuung_m": 1.0, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true},
-     "skala": [0.75, 0.95], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.35, 0.42], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null,
-     "hinweis": "Schalen gemischt und gedreht gegen Kachelmuster aus 300 m (Katalog-Risiko)"},
-    {"name": "etage_mitte", "ebene": "begleiter", "warum": "zweite Etage: Waende aus Massive Sandstone, heller", "palette": ["SM_MassiveSandstoneCliff_05", "SM_MassiveSandstoneCliff_02", "ukjhcamga_tier_0"],
-     "verteilung": {"typ": "reihe", "punkte": "wand_mitte", "abstand_m": 24, "versatz_m": 3.0, "versatz_streuung_m": 1.0, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true},
-     "skala": [0.45, 0.6], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.38, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null},
-    {"name": "etage_oben", "ebene": "begleiter", "warum": "dritte Etage unter dem Tafelberg-Sporn", "palette": ["SM_HugeSandstoneCliff_05", "SM_MassiveSandstoneCliff_02"],
-     "verteilung": {"typ": "reihe", "punkte": "wand_oben", "abstand_m": 26, "versatz_m": 3.0, "versatz_streuung_m": 1.0, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true},
-     "skala": [0.55, 0.7], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.38, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null},
-    {"name": "simskanten", "ebene": "begleiter", "warum": "helle Gesimse: harte Baenke stehen als Kante vor", "netz": "SM_HugeSandstoneCliff_07",
-     "verteilung": {"typ": "reihe", "punkte": "wand_mitte", "abstand_m": 30, "versatz_m": -5.0, "versatz_streuung_m": 1.5, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": false},
-     "skala": [0.6, 0.8], "skala_xyz": [1.0, 1.0, 0.6], "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
-    {"name": "ueberhang", "ebene": "begleiter", "warum": "Ueberhang, wo eine weiche Bank fehlt (darunter die Trockenrinne)", "netz": "SM_MassiveSandstoneCliff_02",
-     "verteilung": {"typ": "punkt", "bei": "ueberhang"}, "skala": 0.45, "yaw": 215, "front_achse": "+y", "kipp_grad": 8, "kipp_richtung": 215, "eingraben": [0.3, 0.35],
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null},
-    {"name": "kegelbloecke", "ebene": "schutt", "warum": "grosse Bloecke rollen am weitesten (Fuss der Kegel)", "palette": ["SM_SandstoneBoulder_04", "SM_SandstoneBoulder_05", "SM_namaqualand_boulder_04_NN"],
-     "anzahl": 26, "verteilung": {"typ": "band", "punkte": [[-30, -100], [10, -78], [50, -55], [90, -34], [125, -18]], "breite_m": 14}, "groesse_m": [1.8, 3.4], "abstand_m": 3.5, "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "kegel_unten", "ebene": "schutt", "warum": "Schuttkegel unter der untersten Kante, unten groeber", "palette": "sandstein_schutt",
-     "anzahl": 80, "verteilung": {"typ": "faecher", "bei": "kegel2", "richtung": 215, "laenge_m": 30, "oeffnung_grad": 60}, "groesse_m": [0.5, 1.4], "gradient": {"von": 0.7, "bis": 1.8}, "abstand_m": 1.1},
-    {"name": "kegel_west", "ebene": "schutt", "warum": "zweiter Kegel aus der Kerbe im Westen", "palette": "sandstein_schutt",
-     "anzahl": 60, "verteilung": {"typ": "faecher", "bei": "kegel1", "richtung": 215, "laenge_m": 26, "oeffnung_grad": 55}, "groesse_m": [0.5, 1.3], "gradient": {"von": 0.7, "bis": 1.7}, "abstand_m": 1.1},
-    {"name": "kegel_ost", "ebene": "schutt", "warum": "dritter Kegel unter dem Ueberhang", "palette": "sandstein_schutt",
-     "anzahl": 50, "verteilung": {"typ": "faecher", "bei": "kegel3", "richtung": 215, "laenge_m": 24, "oeffnung_grad": 55}, "groesse_m": [0.5, 1.3], "gradient": {"von": 0.7, "bis": 1.7}, "abstand_m": 1.1},
-    {"name": "simsschutt", "ebene": "schutt", "warum": "auf jedem Sims ein kleiner Kegel", "palette": "sandstein_schutt",
-     "anzahl": 60, "verteilung": {"typ": "band", "punkte": "wand_mitte", "breite_m": 10, "versatz_m": -6}, "groesse_m": [0.4, 1.0], "abstand_m": 1.2},
-    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus auf den Kegeln", "palette": "kies", "anzahl": 2200,
-     "verteilung": {"typ": "band", "punkte": [[-40, -110], [0, -88], [45, -65], [90, -42], [130, -22]], "breite_m": 34}, "abstand_m": 0.4, "rolle": "stein"},
-    {"name": "simsgrus", "ebene": "kleinzeug", "warum": "Feinkies auf den Simsen", "palette": "steinchen", "anzahl": 900,
-     "verteilung": {"typ": "band", "punkte": "wand_mitte", "breite_m": 12, "versatz_m": -5}, "abstand_m": 0.3, "rolle": "stein"},
-    {"name": "searsia_fuss", "ebene": "bewuchs", "warum": "Searsia-Gebuesch am Fuss, wo Hangwasser austritt", "palette": ["SM_searsia_burchellii_medium_NN", "SM_searsia_lucida_c_NN", "SM_searsia_lucida_e_NN"],
-     "verteilung": {"typ": "cluster", "form": "band", "punkte": [[-40, -95], [10, -68], [60, -44], [110, -20]], "breite_m": 18, "zentren": [6, 8], "je": [2, 4], "radius_m": 4}, "abstand_m": 2.0, "rolle": "pflanze"},
-    {"name": "trockeneiche", "ebene": "bewuchs", "warum": "eine alte Trockeneiche am Fuss (Massstab)", "netz": "SM_dry_oak_02_B",
-     "verteilung": {"typ": "punkt", "bei": "fuss_busch"}, "skala": 1.3, "rolle": "baum"},
-    {"name": "rooibos", "ebene": "bewuchs", "warum": "Rooibos-Polster auf dem Vorland", "palette": ["SM_wild_rooibos_bush_b_NN", "SM_wild_rooibos_bush_a_NN", "SM_wild_rooibos_bush_c_NN"],
-     "verteilung": {"typ": "cluster", "form": "ring", "bei": "mitte", "r_m": [10, 60], "zentren": [6, 8], "je": [3, 6], "radius_m": 3}, "abstand_m": 0.8, "rolle": "pflanze"},
-    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras auf Vorland und Simsen", "palette": "trockengras",
-     "anzahl": 160, "verteilung": {"typ": "band", "punkte": [[-60, -70], [0, -40], [60, -20], [130, 0]], "breite_m": 60}, "abstand_m": 2.5, "rolle": "pflanze"},
-    {"name": "sukkulenten_sims", "ebene": "bewuchs", "warum": "Sukkulenten in den Simsfugen", "palette": "sukkulenten",
-     "verteilung": {"typ": "cluster", "form": "band", "punkte": "wand_mitte", "breite_m": 8, "zentren": [5, 7], "je": [3, 6], "radius_m": 1.8}, "abstand_m": 0.4, "rolle": "pflanze"},
-    {"name": "kegelsaum", "ebene": "kontakt", "warum": "Kies um die grossen Kegelbloecke", "palette": "kies",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["kegelbloecke", "etage_unten", "etage_mitte", "etage_oben"], "ring": [0.9, 1.25], "je": [10, 18]}, "rolle": "stein"},
-    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand am Wandfuss", "palette": "steinchen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["etage_unten", "simskanten", "ueberhang"], "ring": [0.95, 1.2], "je": [20, 30]}, "rolle": "stein"}
+    {"name": "etage_unten", "ebene": "held", "warum": "rote Etagenwand: Desert Western Cliff Layered XL (Farbbaender) entlang der untersten Kante", "palette": ["uk5oded_tier_0", "venuafk_tier_0", "vjqhcapga_tier_0"], "verteilung": {"typ": "reihe", "punkte": "wand_unten", "abstand_m": 30, "versatz_m": 3.0, "versatz_streuung_m": 1.0, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.55, 0.75], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.35, 0.42], "akteur": true, "kollision": true, "meide": null, "hinweis": "Schalen gemischt und gedreht gegen Kachelmuster aus 300 m (Katalog-Risiko)"},
+    {"name": "etage_mitte", "ebene": "begleiter", "warum": "zweite Etage: Desert Western Formation/Cliff Layered, heller", "palette": ["veonegs_tier_0", "vjqhcapga_tier_0", "umsocbyfa_tier_0"], "verteilung": {"typ": "reihe", "punkte": "wand_mitte", "abstand_m": 24, "versatz_m": 3.0, "versatz_streuung_m": 1.0, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.5, 0.7], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.38, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "etage_oben", "ebene": "begleiter", "warum": "dritte Etage unter dem Tafelberg-Sporn (Formation Layered XL)", "palette": ["vepnfcr_tier_0", "uk4paip_tier_0"], "verteilung": {"typ": "reihe", "punkte": "wand_oben", "abstand_m": 26, "versatz_m": 3.0, "versatz_streuung_m": 1.0, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.4, 0.55], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.38, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "simskanten", "ebene": "begleiter", "warum": "helle Gesimse: harte Baenke stehen als Kante vor (Desert Western Ledge Rock Large)", "netz": "vbvqbbofa_tier_0", "verteilung": {"typ": "reihe", "punkte": "wand_mitte", "abstand_m": 30, "versatz_m": -5.0, "versatz_streuung_m": 1.5, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": false}, "skala": [0.8, 1.0], "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
+    {"name": "ueberhang", "ebene": "begleiter", "warum": "Ueberhang, wo eine weiche Bank fehlt (darunter die Trockenrinne)", "netz": "vceldhvfa_tier_0", "verteilung": {"typ": "punkt", "bei": "ueberhang"}, "skala": 1.3, "yaw": 215, "front_achse": "+y", "kipp_grad": 8, "kipp_richtung": 215, "eingraben": [0.3, 0.35], "akteur": true, "kollision": true, "meide": null},
+    {"name": "kegelbloecke", "ebene": "schutt", "warum": "grosse Bloecke rollen am weitesten (Fuss der Kegel)", "palette": ["SM_SandstoneBoulder_04", "SM_SandstoneBoulder_05", "SM_namaqualand_boulder_04_NN", "venpeg2_tier_0"], "anzahl": 26, "verteilung": {"typ": "band", "punkte": [[-30, -100], [10, -78], [50, -55], [90, -34], [125, -18]], "breite_m": 14}, "groesse_m": [1.8, 3.4], "abstand_m": 3.5, "material": "MI_EL_SW_Canyon_Sandfuss"},
+    {"name": "kegel_unten", "ebene": "schutt", "warum": "Schuttkegel unter der untersten Kante, unten groeber", "palette": "sandstein_schutt", "anzahl": 80, "verteilung": {"typ": "faecher", "bei": "kegel2", "richtung": 215, "laenge_m": 30, "oeffnung_grad": 60}, "groesse_m": [0.5, 1.4], "gradient": {"von": 0.7, "bis": 1.8}, "abstand_m": 1.1},
+    {"name": "kegel_west", "ebene": "schutt", "warum": "zweiter Kegel aus der Kerbe im Westen", "palette": "sandstein_schutt", "anzahl": 60, "verteilung": {"typ": "faecher", "bei": "kegel1", "richtung": 215, "laenge_m": 26, "oeffnung_grad": 55}, "groesse_m": [0.5, 1.3], "gradient": {"von": 0.7, "bis": 1.7}, "abstand_m": 1.1},
+    {"name": "kegel_ost", "ebene": "schutt", "warum": "dritter Kegel unter dem Ueberhang", "palette": "sandstein_schutt", "anzahl": 50, "verteilung": {"typ": "faecher", "bei": "kegel3", "richtung": 215, "laenge_m": 24, "oeffnung_grad": 55}, "groesse_m": [0.5, 1.3], "gradient": {"von": 0.7, "bis": 1.7}, "abstand_m": 1.1},
+    {"name": "simsschutt", "ebene": "schutt", "warum": "auf jedem Sims ein kleiner Kegel", "palette": "sandstein_schutt", "anzahl": 60, "verteilung": {"typ": "band", "punkte": "wand_mitte", "breite_m": 10, "versatz_m": -6}, "groesse_m": [0.4, 1.0], "abstand_m": 1.2},
+    {"name": "halden", "ebene": "schutt", "warum": "flache Schutthaufen (Desert Western Pile Rock) am Fuss jeder Etage", "palette": "schichtgeroell", "anzahl": 40, "verteilung": {"typ": "band", "punkte": [[-40, -110], [0, -88], [45, -65], [90, -42], [130, -22]], "breite_m": 26}, "skala": [0.8, 1.3], "abstand_m": 3.0, "rolle": "stein"},
+    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus auf den Kegeln", "palette": "kies", "anzahl": 2200, "verteilung": {"typ": "band", "punkte": [[-40, -110], [0, -88], [45, -65], [90, -42], [130, -22]], "breite_m": 34}, "abstand_m": 0.4, "rolle": "stein"},
+    {"name": "simsgrus", "ebene": "kleinzeug", "warum": "Feinkies auf den Simsen", "palette": "steinchen", "anzahl": 900, "verteilung": {"typ": "band", "punkte": "wand_mitte", "breite_m": 12, "versatz_m": -5}, "abstand_m": 0.3, "rolle": "stein"},
+    {"name": "searsia_fuss", "ebene": "bewuchs", "warum": "Searsia-Gebuesch am Fuss, wo Hangwasser austritt", "palette": ["SM_searsia_burchellii_medium_NN", "SM_searsia_lucida_c_NN", "SM_searsia_lucida_e_NN"], "verteilung": {"typ": "cluster", "form": "band", "punkte": [[-40, -95], [10, -68], [60, -44], [110, -20]], "breite_m": 18, "zentren": [6, 8], "je": [2, 4], "radius_m": 4}, "abstand_m": 2.0, "rolle": "pflanze"},
+    {"name": "trockeneiche", "ebene": "bewuchs", "warum": "eine alte Trockeneiche am Fuss (Massstab)", "netz": "SM_dry_oak_02_B", "verteilung": {"typ": "punkt", "bei": "fuss_busch"}, "skala": 1.3, "rolle": "baum"},
+    {"name": "rooibos", "ebene": "bewuchs", "warum": "Rooibos-Polster auf dem Vorland", "palette": ["SM_wild_rooibos_bush_b_NN", "SM_wild_rooibos_bush_a_NN", "SM_wild_rooibos_bush_c_NN"], "verteilung": {"typ": "cluster", "form": "ring", "bei": "mitte", "r_m": [10, 60], "zentren": [6, 8], "je": [3, 6], "radius_m": 3}, "abstand_m": 0.8, "rolle": "pflanze"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras auf Vorland und Simsen", "palette": "trockengras", "anzahl": 160, "verteilung": {"typ": "band", "punkte": [[-60, -70], [0, -40], [60, -20], [130, 0]], "breite_m": 60}, "abstand_m": 2.5, "rolle": "pflanze"},
+    {"name": "sukkulenten_sims", "ebene": "bewuchs", "warum": "Sukkulenten in den Simsfugen", "palette": "sukkulenten", "verteilung": {"typ": "cluster", "form": "band", "punkte": "wand_mitte", "breite_m": 8, "zentren": [5, 7], "je": [3, 6], "radius_m": 1.8}, "abstand_m": 0.4, "rolle": "pflanze"},
+    {"name": "kegelsaum", "ebene": "kontakt", "warum": "Kies um die grossen Kegelbloecke", "palette": "kies", "verteilung": {"typ": "um_gruppe", "gruppe": ["kegelbloecke", "etage_unten", "etage_mitte", "etage_oben"], "ring": [0.9, 1.25], "je": [10, 18]}, "rolle": "stein"},
+    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand am Wandfuss", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["etage_unten", "simskanten", "ueberhang"], "ring": [0.95, 1.2], "je": [20, 30]}, "rolle": "stein"}
    ],
    "lagen": [
     {"lage": "Sandstein", "form": "hang", "bei": [40, -90], "r_m": 110, "hang_grad": [28, 90], "wert": 220},
@@ -277,26 +210,32 @@
     {"lage": "Kies", "form": "band", "punkte": "wand_mitte", "breite_m": 10, "wert": 170, "flecken": 0.4},
     {"lage": "Trockengras", "form": "kreis", "bei": "mitte", "r_m": 70, "wert": 160, "flecken": 0.5}
    ],
-   "pfad": {"breite_cm": 130, "lagen": {"Erde": 200, "Kies": 120},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_palette": "felsstufe"}},
+   "pfad": {"breite_cm": 130, "lagen": {"Erde": 200, "Kies": 120}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_palette": "felsstufe"}, "fenster_max_m": 390},
    "effekte": [
     {"typ": "decal", "material": "MI_Leakage_02", "zweck": "Trockenrinne unter dem Ueberhang (Nassband, schwarzgrau)", "bei": "ueberhang", "hoehe_m": 6, "ausrichtung": "wand", "blick": 215, "groesse_m": [2.0, 3.0, 10.0]},
     {"typ": "decal", "material": "MI_TileableLeakage_01", "zweck": "Wuestenlack-Streifen an der untersten Wand", "bei": "kegel2", "hoehe_m": 8, "ausrichtung": "wand", "blick": 215, "groesse_m": [2.0, 4.0, 12.0]}
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "stufe_mitte", "radius_m": 90, "lautstaerke": 0.45, "zweck": "Wind an der Stufe"}]
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "stufe_mitte", "radius_m": 90, "lautstaerke": 0.45, "zweck": "Wind an der Stufe"}
+   ]
   },
 
   "canyon_04_fluesterschlucht": {
    "kurz": "Der Plateaubach verschwindet in einem 2-6 m breiten, bis 17 m tiefen Spalt mit glattgewaschenen Waenden; ein Klemmblock haengt ueber dem Wasser, am Ende faellt der Bach in den Hauptcanyon.",
    "marker": {"titel": "Die Fluesterschlucht", "text": "Von oben nur eine dunkle Fuge im Sand. Unten fluestert das Wasser, und das Licht faellt in Streifen, als waere die Welt nur einen Spalt breit offen.", "entdeckung_m": 20},
-   "budget": {"instanzen": 5000, "kollision": 600, "akteure": 40, "lichter": 0, "niagara": 0, "decals": 4},
+   "budget": {"instanzen": 5000, "kollision": 600, "akteure": 40, "lichter": 0, "niagara": 2, "decals": 4},
    "assets_wunsch": [
-    {"paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)", "statt_jetzt": "M_EL_Wasserfall2-Vorhang (Ferats Wasserfall) + lokaler_nebel"},
-    {"paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03", "statt_jetzt": "SM_MassiveSandstoneCliff_01/02 schmal skaliert als Spaltwaende (MI_EL_SW_Canyon_Gumpenmoos)"},
     {"paket": "Fantasy Ambiences (Lava, Höhle, Wind …)", "statt_jetzt": "CUE_Water_Stream_II_Cue (Fluestern = Wasser im Spalt)"}
    ],
    "anker": {
-    "s0": [58, -40], "s1": [35, -25], "s2": [12, -6], "s2b": [1, 3], "s3": [-9, 12], "s4": [-25, 17], "s5": [-41, 17], "lippe": [-52, 18],
+    "s0": [58, -40],
+    "s1": [35, -25],
+    "s2": [12, -6],
+    "s2b": [1, 3],
+    "s3": [-9, 12],
+    "s4": [-25, 17],
+    "s5": [-41, 17],
+    "lippe": [-52, 18],
     "fuss": [-67, 28],
     "spaltachse": [-9, 12],
     "blick": {"pos_m": [-1175.0, -744.1]}
@@ -305,14 +244,9 @@
     "spalt": {"punkte": ["s0", "s1", "s2", "s2b", "s3", "s4", "s5", "lippe"]},
     "spalt_tief": {"punkte": ["s2", "s2b", "s3", "s4", "s5", "lippe"]}
    },
-   "gelaende": {
-    "fenster_m": [130, 170], "rand_m": 10, "bei": [0, -6],
-    "ist_wasser": true, "ist_wasser_r_m": 80,
-    "begruendung": "Die Schlucht IST der Plateaubach: der Spalt wird entlang des bestehenden Gerinnes 12-17 m eingetieft, der Bach fliesst neu im Spalt (wasser 'spaltbach'); der alte Bachabschnitt im Fenster entfaellt.",
+   "gelaende": {"fenster_m": [130, 170], "rand_m": 10, "bei": [0, -6], "ist_wasser": true, "ist_wasser_r_m": 80, "begruendung": "Die Schlucht IST der Plateaubach: der Spalt wird entlang des bestehenden Gerinnes 12-17 m eingetieft, der Bach fliesst neu im Spalt (wasser 'spaltbach'); der alte Bachabschnitt im Fenster entfaellt.",
     "ops": [
-     {"op": "rinne", "punkte": "spalt", "breite_m": 4.5, "sohle": [80.4, 63.5], "rand_m": 2.0, "warum": "Kerbe 2-6 m breit: Sohle faellt stetig von 80,4 auf 63,5 m (bis -17 m)"},
-     {"op": "rinne", "punkte": ["s4", "s5", "lippe"], "breite_m": 6.5, "tiefe_m": 1.0, "rand_m": 2.0, "modus": "min", "warum": "Kehle vor der Fallkante etwas weiter (Sandbank, Kolk)"},
-     {"op": "mulde", "bei": "s0", "radius_m": 6, "tiefe_m": 1.0, "rand_m": 5, "boden": 0.4, "warum": "Eintritt: der Bach sammelt sich vor dem Spalt (Sandbank)"}
+     {"op": "rinne", "punkte": "spalt", "breite_m": 4.5, "sohle": [80.4, 63.5], "rand_m": 2.0, "warum": "Kerbe 2-6 m breit: Sohle faellt stetig von 80,4 auf 63,5 m (bis -17 m)"}
     ]
    },
    "wasser": [
@@ -320,49 +254,24 @@
     {"typ": "wasserfall", "id": "spaltfall", "kante": [{"anker": "lippe", "versatz_m": [0, -2]}, {"anker": "lippe", "versatz_m": [0, 2]}], "fuss": "fuss", "breite_m": 2.5, "farbe": "klar"}
    ],
    "gruppen": [
-    {"name": "wand_nord", "ebene": "held", "warum": "Nordwand des Spalts (sonnig, rot): glattgewaschener Sandstein, oben ueberkragend (Landschaft kann keine Ueberhaenge)", "palette": ["SM_MassiveSandstoneCliff_01", "SM_MassiveSandstoneCliff_02"],
-     "verteilung": {"typ": "reihe", "punkte": "spalt_tief", "abstand_m": 8, "versatz_m": 2.2, "versatz_streuung_m": 0.4, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true},
-     "groesse_m": 19, "groesse_achse": "z", "skala_xyz": [0.5, 0.32, 1.0], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben_m": [0.4, 0.8],
-     "kipp_grad": [4, 8], "kipp_richtung": "zu:spaltachse", "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
-    {"name": "wand_sued", "ebene": "held", "warum": "Suedwand (Schattenseite, Moos im Band), gespiegelt", "palette": ["SM_MassiveSandstoneCliff_02", "SM_HugeSandstoneCliff_05"],
-     "verteilung": {"typ": "reihe", "punkte": "spalt_tief", "abstand_m": 8, "versatz_m": 2.2, "versatz_streuung_m": 0.4, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true},
-     "groesse_m": 18, "groesse_achse": "z", "skala_xyz": [0.5, 0.32, 1.0], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben_m": [0.4, 0.8],
-     "kipp_grad": [4, 8], "kipp_richtung": "zu:spaltachse", "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Gumpenmoos", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
-    {"name": "klemmblock", "ebene": "begleiter", "warum": "Hochwasser hat einen Block der Kappe zwischen die Waende gekeilt", "netz": "SM_RockSandstone_040",
-     "verteilung": {"typ": "punkt", "bei": "s4"}, "skala": 0.72, "ausrichtung": "aufrecht", "yaw": {"basis": "spalt", "plus": 90}, "z_bezug": "boden+7.0",
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Sandfuss", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
-    {"name": "klemmblock2", "ebene": "begleiter", "warum": "zweiter, kleinerer Block tiefer im Spalt", "netz": "SM_SandstoneBoulder_05",
-     "verteilung": {"typ": "punkt", "bei": "s5"}, "skala": 0.9, "ausrichtung": "aufrecht", "z_bezug": "boden+4.0",
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Sandfuss", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
-    {"name": "eintrittsbloecke", "ebene": "begleiter", "warum": "Randbloecke am Eintritt, der Spalt beginnt zwischen zwei Platten", "palette": ["SM_SandstoneBoulder_05", "SM_HugeSandstoneCliff_07"],
-     "verteilung": {"typ": "reihe", "punkte": ["s1", "s2"], "abstand_m": 10, "versatz_m": 3.0, "seiten": ["links", "rechts"], "blick": "zur_linie", "front_an_linie": true},
-     "groesse_m": [4, 6], "skala_xyz": [1.0, 0.7, 0.6], "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null},
-    {"name": "bachgeroell", "ebene": "schutt", "warum": "Geroell im Bachbett, vom Spalt zerrieben", "palette": "bachgeroell",
-     "anzahl": 60, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 3.5}, "groesse_m": [0.35, 1.0], "abstand_m": 0.7, "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "wandschutt", "ebene": "schutt", "warum": "abgeloeste Schalen der Waende am Spaltgrund", "palette": "brocken",
-     "anzahl": 40, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 5.5}, "groesse_m": [0.4, 1.1], "abstand_m": 1.0, "im_wasser": "egal", "meide": "kern", "weg_abstand_m": 0},
-    {"name": "randplatten", "ebene": "schutt", "warum": "Plattenrand des Plateaus beiderseits des Spalts", "palette": "platten",
-     "anzahl": 40, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 22}, "groesse_m": [0.8, 2.0], "abstand_m": 2.0, "hoehe_rel_m": [-2, 6]},
-    {"name": "bachsteine", "ebene": "wasser", "warum": "Steine im Wasser (klar, Grund sichtbar)", "palette": ["SM_stones_01_2", "SM_stones_01_6", "SM_namaqualand_boulder_06_NN"],
-     "anzahl": 30, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 1.6}, "groesse_m": [0.3, 0.7], "abstand_m": 0.8, "im_wasser": "nur", "rolle": "stein"},
-    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies in Kehren und auf Sandbaenken", "palette": "steinchen", "anzahl": 600,
-     "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 4.5}, "abstand_m": 0.25, "rolle": "stein", "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "treibholz", "ebene": "kleinzeug", "warum": "verkeiltes Treibholz der letzten Flut", "palette": "treibholz", "anzahl": 30,
-     "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 4.0}, "abstand_m": 1.2, "rolle": "stamm", "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "plateaugrus", "ebene": "kleinzeug", "warum": "Grus auf dem Plateau neben der Fuge", "palette": "kies", "anzahl": 600,
-     "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 30}, "abstand_m": 0.4, "rolle": "stein"},
-    {"name": "spaltfarn", "ebene": "bewuchs", "warum": "Farn nur im feuchten Schatten des Spaltgrunds", "palette": "farn",
-     "anzahl": 45, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 5.0}, "abstand_m": 0.9, "rolle": "pflanze", "im_wasser": "nein", "weg_abstand_m": 0},
-    {"name": "ranken", "ebene": "bewuchs", "warum": "Ranken haengen an der schattigen Suedwand (Schauseite nach Norden)", "netz": "SM_Vines_01a",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "wand_sued", "ring": [0.45, 0.7], "je": [0, 2], "seite": "nord", "seite_staerke": 0.9}, "rolle": "pflanze", "meide": null, "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "binsen", "ebene": "bewuchs", "warum": "Binsen am Eintritt, wo der Bach noch flach steht", "palette": "binsen",
-     "verteilung": {"typ": "cluster", "form": "band", "punkte": ["s0", "s1", "s2"], "breite_m": 9, "zentren": [5, 7], "je": [4, 8], "radius_m": 1.6}, "abstand_m": 0.35, "rolle": "pflanze", "im_wasser": "egal"},
-    {"name": "plateaubewuchs", "ebene": "bewuchs", "warum": "Pioniere am Plateaurand (Sickerwasser zur Fuge)", "palette": "pioniere",
-     "verteilung": {"typ": "cluster", "form": "band", "punkte": "spalt", "breite_m": 26, "zentren": [6, 8], "je": [2, 4], "radius_m": 3}, "abstand_m": 1.2, "rolle": "pflanze", "hoehe_rel_m": [-1, 6]},
-    {"name": "moos", "ebene": "kontakt", "warum": "Nassband: Moos am Wandfuss bis 0,5 m ueber dem Wasser", "palette": "moos",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["wand_nord", "wand_sued"], "ring": [0.55, 0.95], "je": [5, 9]}, "rolle": "streu", "im_wasser": "egal", "weg_abstand_m": 0},
-    {"name": "randsaum", "ebene": "kontakt", "warum": "Sand und Kies an den Randbloecken", "palette": "steinchen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["eintrittsbloecke", "randplatten"], "ring": [0.9, 1.3], "je": [6, 12]}, "rolle": "stein"}
+    {"name": "wand_nord", "ebene": "held", "warum": "Nordwand des Spalts (sonnig): Desert Western Cliff Layered XL 11, glattgewaschene Baender, oben ueberkragend (Landschaft kann keine Ueberhaenge)", "palette": ["venuafk_tier_0"], "verteilung": {"typ": "reihe", "punkte": "spalt_tief", "abstand_m": 8, "versatz_m": 2.2, "versatz_streuung_m": 0.4, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "groesse_m": 19, "groesse_achse": "z", "skala_xyz": [0.46, 0.28, 1.0], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben_m": [0.4, 0.8], "kipp_grad": [4, 8], "kipp_richtung": "zu:spaltachse", "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
+    {"name": "wand_sued", "ebene": "held", "warum": "Suedwand (Schattenseite, Moos ueber Kontaktzone und Decals), gespiegelt", "palette": ["venuafk_tier_0"], "verteilung": {"typ": "reihe", "punkte": "spalt_tief", "abstand_m": 8, "versatz_m": 2.2, "versatz_streuung_m": 0.4, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "groesse_m": 18, "groesse_achse": "z", "skala_xyz": [0.46, 0.28, 1.0], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben_m": [0.4, 0.8], "kipp_grad": [4, 8], "kipp_richtung": "zu:spaltachse", "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
+    {"name": "klemmblock", "ebene": "begleiter", "warum": "Hochwasser hat einen Block der Kappe zwischen die Waende gekeilt", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "punkt", "bei": "s4"}, "skala": 0.72, "ausrichtung": "aufrecht", "yaw": {"basis": "spalt", "plus": 90}, "z_bezug": "boden+7.0", "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Sandfuss", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
+    {"name": "klemmblock2", "ebene": "begleiter", "warum": "zweiter, kleinerer Block tiefer im Spalt", "netz": "SM_SandstoneBoulder_05", "verteilung": {"typ": "punkt", "bei": "s5"}, "skala": 0.9, "ausrichtung": "aufrecht", "z_bezug": "boden+4.0", "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Sandfuss", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
+    {"name": "eintrittsbloecke", "ebene": "begleiter", "warum": "Randbloecke am Eintritt, der Spalt beginnt zwischen zwei Platten", "palette": ["sfEby_tier_0", "SM_SandstoneBoulder_05"], "verteilung": {"typ": "reihe", "punkte": ["s1", "s2"], "abstand_m": 10, "versatz_m": 3.0, "seiten": ["links", "rechts"], "blick": "zur_linie", "front_an_linie": true}, "groesse_m": [4, 7], "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null},
+    {"name": "bachgeroell", "ebene": "schutt", "warum": "Geroell im Bachbett, vom Spalt zerrieben", "palette": "bachgeroell", "anzahl": 60, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 3.5}, "groesse_m": [0.35, 1.0], "abstand_m": 0.7, "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "wandschutt", "ebene": "schutt", "warum": "abgeloeste Schalen der Waende am Spaltgrund", "palette": "brocken", "anzahl": 40, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 5.5}, "groesse_m": [0.4, 1.1], "abstand_m": 1.0, "im_wasser": "egal", "meide": "kern", "weg_abstand_m": 0},
+    {"name": "randplatten", "ebene": "schutt", "warum": "Plattenrand des Plateaus beiderseits des Spalts", "palette": "platten", "anzahl": 40, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 22}, "groesse_m": [0.8, 2.0], "abstand_m": 2.0, "hoehe_rel_m": [-2, 6]},
+    {"name": "bachsteine", "ebene": "wasser", "warum": "Steine im Wasser (klar, Grund sichtbar)", "palette": ["SM_stones_01_2", "SM_stones_01_6", "SM_namaqualand_boulder_06_NN"], "anzahl": 30, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 1.6}, "groesse_m": [0.3, 0.7], "abstand_m": 0.8, "im_wasser": "nur", "rolle": "stein"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies in Kehren und auf Sandbaenken", "palette": "steinchen", "anzahl": 600, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 4.5}, "abstand_m": 0.25, "rolle": "stein", "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "treibholz", "ebene": "kleinzeug", "warum": "verkeiltes Treibholz der letzten Flut", "palette": "treibholz", "anzahl": 30, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 4.0}, "abstand_m": 1.2, "rolle": "stamm", "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "plateaugrus", "ebene": "kleinzeug", "warum": "Grus auf dem Plateau neben der Fuge", "palette": "kies", "anzahl": 600, "verteilung": {"typ": "band", "punkte": "spalt", "breite_m": 30}, "abstand_m": 0.4, "rolle": "stein"},
+    {"name": "spaltfarn", "ebene": "bewuchs", "warum": "Farn nur im feuchten Schatten des Spaltgrunds", "palette": "farn", "anzahl": 45, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 5.0}, "abstand_m": 0.9, "rolle": "pflanze", "im_wasser": "nein", "weg_abstand_m": 0},
+    {"name": "ranken", "ebene": "bewuchs", "warum": "Ranken haengen an der schattigen Suedwand (Schauseite nach Norden)", "netz": "SM_Vines_01a", "verteilung": {"typ": "um_gruppe", "gruppe": "wand_sued", "ring": [0.45, 0.7], "je": [0, 2], "seite": "nord", "seite_staerke": 0.9}, "rolle": "pflanze", "meide": null, "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "binsen", "ebene": "bewuchs", "warum": "Binsen am Eintritt, wo der Bach noch flach steht", "palette": "binsen", "verteilung": {"typ": "cluster", "form": "band", "punkte": ["s0", "s1", "s2"], "breite_m": 9, "zentren": [5, 7], "je": [4, 8], "radius_m": 1.6}, "abstand_m": 0.35, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "plateaubewuchs", "ebene": "bewuchs", "warum": "Pioniere am Plateaurand (Sickerwasser zur Fuge)", "palette": "pioniere", "verteilung": {"typ": "cluster", "form": "band", "punkte": "spalt", "breite_m": 26, "zentren": [6, 8], "je": [2, 4], "radius_m": 3}, "abstand_m": 1.2, "rolle": "pflanze", "hoehe_rel_m": [-1, 6]},
+    {"name": "moos", "ebene": "kontakt", "warum": "Nassband: Moos am Wandfuss bis 0,5 m ueber dem Wasser", "palette": "moos", "verteilung": {"typ": "um_gruppe", "gruppe": ["wand_nord", "wand_sued"], "ring": [0.55, 0.95], "je": [5, 9]}, "rolle": "streu", "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "randsaum", "ebene": "kontakt", "warum": "Sand und Kies an den Randbloecken", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["eintrittsbloecke", "randplatten"], "ring": [0.9, 1.3], "je": [6, 12]}, "rolle": "stein"}
    ],
    "lagen": [
     {"lage": "Sand", "form": "band", "punkte": "spalt", "breite_m": 5, "wert": 190, "flecken": 0.4},
@@ -371,17 +280,20 @@
     {"lage": "Sandstein", "form": "hang", "bei": "s3", "r_m": 60, "hang_grad": [40, 90], "wert": 220},
     {"lage": "Felsplatte", "form": "band", "punkte": "spalt", "breite_m": 26, "wert": 170, "flecken": 0.5}
    ],
-   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
+   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
    "verdeckung": {"kern": "s4", "probe_r_m": 2.5, "ziel_hoehe_m": 3},
    "effekte": [
     {"typ": "lokaler_nebel", "zweck": "kuehle Luft im Spaltgrund, Lichtstreifen lesbar", "bei": "s4", "hoehe_m": 3, "radius_m": 20, "dichte": 0.05, "farbe": [0.86, 0.82, 0.78], "hoehenabfall": 0.7},
     {"typ": "lokaler_nebel", "zweck": "Gischt am Fallfuss im Hauptcanyon", "bei": "fuss", "hoehe_m": 2, "radius_m": 10, "dichte": 0.07, "farbe": [0.9, 0.92, 0.94], "hoehenabfall": 0.8},
     {"typ": "decal", "material": "MI_TileableLeakage_03", "zweck": "glattgewaschene Nassstreifen an den Waenden", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 4}, "hoehe_m": 3, "ausrichtung": "wand", "blick": "zu:s0", "groesse_m": [1.0, 2.0, 6.0]},
-    {"typ": "decal", "material": "MI_TileableMossPatches_01", "zweck": "Moosflecken im Spaltgrund", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 6}, "groesse_m": [1.0, 2.0, 2.0]}
+    {"typ": "decal", "material": "MI_TileableMossPatches_01", "zweck": "Moosflecken im Spaltgrund", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "spalt_tief", "breite_m": 6}, "groesse_m": [1.0, 2.0, 2.0]},
+    {"typ": "niagara", "asset": "NS_Waterfall_Small", "zweck": "Fall in den Hauptcanyon (Nature Water FX)", "bei": "lippe", "hoehe_m": 0.2, "yaw_grad": 250},
+    {"typ": "niagara", "asset": "NS_Impact_Small", "zweck": "Gischt am Aufprall", "bei": "fuss", "hoehe_m": 0.1}
    ],
-   "klaenge": [{"asset": "CUE_Water_Stream_II_Cue", "bei": "s4", "radius_m": 35, "lautstaerke": 0.6, "zweck": "Wasser im Spalt (das Fluestern)"},
-               {"asset": "CUE_Water_Stream_IX_Cue", "bei": "fuss", "radius_m": 50, "lautstaerke": 0.8, "zweck": "Fall in den Hauptcanyon"}]
+   "klaenge": [
+    {"asset": "CUE_Water_Stream_II_Cue", "bei": "s4", "radius_m": 35, "lautstaerke": 0.6, "zweck": "Wasser im Spalt (das Fluestern)"},
+    {"asset": "CUE_Water_Stream_IX_Cue", "bei": "fuss", "radius_m": 50, "lautstaerke": 0.8, "zweck": "Fall in den Hauptcanyon"}
+   ]
   },
 
   "canyon_05_hoodoo_kessel": {
@@ -389,9 +301,8 @@
    "marker": {"titel": "Der Hoodoo-Kessel", "text": "Man geht ueber flaches Land und steht ploetzlich am Rand: unten wartet ein Heer aus Stein, jeder Krieger mit dunklem Helm, alle zum Fluss gewandt.", "entdeckung_m": 30},
    "budget": {"instanzen": 6000, "kollision": 600, "akteure": 45, "lichter": 0, "niagara": 0, "decals": 2},
    "assets_wunsch": [
-    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Hoodoo-Schaefte aus SM_MassiveSandstoneCliff_03 schmal skaliert + SM_IcelandicLavaSpire_02 hochkant (MI_EL_SW_Canyon_Rotband), Decksteine SM_RockSandstone_040 (MI_EL_SW_Canyon_Deckstein)"},
-    {"paket": "Procedural Rocks Generator", "statt_jetzt": "wie oben (Saeulen je Stueck anders skaliert/gedreht)"},
-    {"paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03", "statt_jetzt": "uchoab3fa_tier_0 + SM_HugeSandstoneCliff_02 als Kesselwand"}
+    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Hoodoos aus Desert Western Spire Large 03/05 und Spire Layered XL 03 (je Stueck anders skaliert/gedreht), Decksteine SM_RockSandstone_040"},
+    {"paket": "Procedural Rocks Generator", "statt_jetzt": "wie oben"}
    ],
    "anker": {
     "kessel": [0, 0],
@@ -402,60 +313,32 @@
    "linien": {
     "kesselrand": {"punkte": [[6, -30], [-12, -26], [-24, -12], [-27, 2], [-23, 16], [-11, 27], [6, 31]]}
    },
-   "gelaende": {
-    "fenster_m": [130, 120], "rand_m": 12, "bei": [-4, 0],
-    "senke_begruendung": "Kessel ist zum Canyon hin offen; Restsenken sind flache Kolke im Kesselboden (Regenwasser versickert im Sandstein)",
+   "gelaende": {"fenster_m": [130, 120], "rand_m": 12, "bei": [-4, 0], "senke_begruendung": "Kessel ist zum Canyon hin offen; Restsenken sind flache Kolke im Kesselboden (Regenwasser versickert im Sandstein)",
     "ops": [
      {"op": "mulde", "bei": "kessel", "radius_m": 24, "tiefe_m": 13, "rand_m": 9, "boden": 0.35, "streckung": [1.35, 1.0], "richtung": 0, "warum": "Erosionskessel -13 m, halbrund, Achse N-S am Canyonrand"},
-     {"op": "rinne", "punkte": ["boden", "oeffnung", [34, 8]], "breite_m": 10, "tiefe_m": 6, "rand_m": 6, "modus": "min", "warum": "Oeffnung zum Canyon (keine geschlossene Senke)"},
+     {"op": "rinne", "punkte": ["boden", "oeffnung", [30, 6]], "breite_m": 10, "tiefe_m": 6, "rand_m": 4, "modus": "min", "warum": "Oeffnung zum Canyon (keine geschlossene Senke)"},
      {"op": "buckel", "bei": "kessel", "radius_m": 26, "amplitude_m": 1.2, "wellenlaenge_m": 6, "warum": "Rippen und Rinnen zwischen den Saeulen"}
     ]
    },
    "gruppen": [
-    {"name": "hoodoos", "ebene": "held", "warum": "Hoodoos: Saeulen aus weichem Sandstein, die nur unter einem harten Deckstein stehen bleiben", "netz": "SM_MassiveSandstoneCliff_03",
-     "anzahl": 11, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 22, "b_m": 14, "richtung": 0}, "abstand_m": 5.0, "groesse_m": [8.0, 14.0], "groesse_achse": "z",
-     "skala_xyz": [0.4, 0.7, 1.0], "skala_streuung": 0.15, "ausrichtung": "aufrecht", "yaw": "zufall", "eingraben": [0.28, 0.32],
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": "massiv", "mindestens": 8,
-     "hinweis": "je Saeule andere Skalierung/Drehung (Katalog-Risiko 'geklont')"},
-    {"name": "hoodoos_spire", "ebene": "held", "warum": "schlankere, zerklueftete Saeulen (Lava-Spire hochkant als Ersatz, Toenung rot)", "netz": "SM_IcelandicLavaSpire_02",
-     "anzahl": 5, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 24, "b_m": 15, "richtung": 0}, "abstand_m": 5.0, "groesse_m": [7.0, 11.0], "groesse_achse": "max",
-     "ausrichtung": "hochkant", "hochkant_achse": "x", "skala_xyz": [1.0, 0.7, 0.7], "yaw": "zufall", "eingraben": [0.25, 0.3],
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": "massiv",
-     "hinweis": "Annahme: SM_IcelandicLavaSpire_02 liegt im Netz entlang X (15 m) - hochkant mit X nach oben; Editorbild pruefen"},
-    {"name": "decksteine", "ebene": "begleiter", "warum": "harte, dunkle Decksteine schuetzen die Saeulen", "netz": "SM_RockSandstone_040",
-     "verteilung": {"typ": "auf_gruppe", "gruppe": "hoodoos", "je": [1, 1], "anteil": [0.5, 0.5]}, "groesse_m": [2.6, 3.6], "ausrichtung": "aufrecht", "yaw": "zufall",
-     "z_bezug": "oben:hoodoos", "z_versatz_m": -0.35, "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein", "meide": null},
-    {"name": "decksteine_spire", "ebene": "begleiter", "warum": "Decksteine auch auf den schlanken Saeulen", "netz": "SM_RockSandstone_040",
-     "verteilung": {"typ": "auf_gruppe", "gruppe": "hoodoos_spire", "je": [1, 1], "anteil": [0.5, 0.5]}, "groesse_m": [2.0, 2.8], "ausrichtung": "aufrecht", "yaw": "zufall",
-     "z_bezug": "oben:hoodoos_spire", "z_versatz_m": -0.3, "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein", "meide": null},
-    {"name": "kesselwand", "ebene": "begleiter", "warum": "Kesselwand: der zurueckweichende Rand, gebaendert", "palette": ["uchoab3fa_tier_0", "SM_HugeSandstoneCliff_02"],
-     "verteilung": {"typ": "reihe", "punkte": "kesselrand", "abstand_m": 13, "versatz_m": 1.0, "versatz_streuung_m": 1.0, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true},
-     "skala": [0.75, 0.95], "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband", "meide": null,
-     "hinweis": "rechts der Linie (N -> W -> S) = aussen auf dem Rand; Schauseite (+y angenommen) zum Kessel"},
-    {"name": "gefallene", "ebene": "begleiter", "warum": "eingestuerzte Saeulen ohne Deckstein liegen im Kessel", "netz": "SM_SandstoneBoulder_05",
-     "anzahl": 4, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 20, "b_m": 12, "richtung": 0}, "groesse_m": [2.5, 3.6], "kipp_grad": [20, 45], "eingraben": [0.3, 0.4], "abstand_m": 4, "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "kesselschutt", "ebene": "schutt", "warum": "Schutt um die Saeulen und am Fuss der Kesselwand", "palette": "sandstein_schutt",
-     "anzahl": 120, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 26, "b_m": 17, "richtung": 0}, "groesse_m": [0.4, 1.3], "abstand_m": 1.0},
-    {"name": "sandschleppen", "ebene": "schutt", "warum": "Sandschleppen zwischen den Schaeften (Leeseite)", "palette": "sandschleppe",
-     "anzahl": 18, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 22, "b_m": 14, "richtung": 0}, "skala": [0.8, 1.2], "yaw": 120, "yaw_streuung_grad": 30, "abstand_m": 3, "rolle": "streu", "ausrichtung": "normale"},
-    {"name": "abflussschutt", "ebene": "schutt", "warum": "was der Kessel verliert, rutscht durch die Oeffnung zum Fluss", "palette": "sandstein_schutt",
-     "anzahl": 40, "verteilung": {"typ": "faecher", "bei": "oeffnung", "richtung": 95, "laenge_m": 24, "oeffnung_grad": 50}, "groesse_m": [0.6, 1.6], "gradient": {"von": 0.8, "bis": 1.6}, "abstand_m": 1.3},
-    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus im Kesselboden", "palette": "kies", "anzahl": 1400,
-     "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 28, "b_m": 19, "richtung": 0}, "abstand_m": 0.35, "rolle": "stein"},
-    {"name": "randgrus", "ebene": "kleinzeug", "warum": "Feinkies am Kesselrand", "palette": "steinchen", "anzahl": 400,
-     "verteilung": {"typ": "band", "punkte": "kesselrand", "breite_m": 10}, "abstand_m": 0.3, "rolle": "stein"},
-    {"name": "koecherbaum", "ebene": "bewuchs", "warum": "ein Koecherbaum auf einem Absatz (Feuchte im Kesselschatten)", "netz": "SM_quiver_tree_01_NN",
-     "verteilung": {"typ": "punkt", "bei": [-14, 14]}, "skala": 1.5, "rolle": "baum"},
-    {"name": "searsia", "ebene": "bewuchs", "warum": "Searsia in Rinnen zwischen den Saeulen", "palette": ["SM_searsia_lucida_e_NN", "SM_searsia_lucida_c_NN"],
-     "verteilung": {"typ": "cluster", "form": "ellipse", "bei": "boden", "a_m": 24, "b_m": 15, "richtung": 0, "zentren": [4, 6], "je": [1, 3], "radius_m": 3}, "abstand_m": 1.5, "rolle": "pflanze"},
-    {"name": "leipoldtia", "ebene": "bewuchs", "warum": "Leipoldtia-Polster auf Sandflecken", "palette": ["SM_leipoldtia_schultzei_medium_NN", "SM_cheiridopsis_succulent_c_NN"],
-     "verteilung": {"typ": "cluster", "form": "ellipse", "bei": "boden", "a_m": 26, "b_m": 17, "richtung": 0, "zentren": [5, 8], "je": [3, 6], "radius_m": 1.8}, "abstand_m": 0.4, "rolle": "pflanze"},
-    {"name": "trockengras_rand", "ebene": "bewuchs", "warum": "Trockengras oben am Kesselrand", "palette": "trockengras",
-     "anzahl": 50, "verteilung": {"typ": "band", "punkte": "kesselrand", "breite_m": 18, "versatz_m": 8}, "abstand_m": 2.2, "rolle": "pflanze"},
-    {"name": "schuttsaum", "ebene": "kontakt", "warum": "Schuttsaum am Saeulenfuss (30 % eingegraben, nichts steht auf)", "palette": "kies",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["hoodoos", "hoodoos_spire", "gefallene"], "ring": [0.9, 1.5], "je": [8, 14]}, "rolle": "stein"},
-    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand am Fuss der Kesselwand", "palette": "steinchen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["kesselwand", "hoodoos"], "ring": [0.95, 1.25], "je": [14, 22]}, "rolle": "stein"}
+    {"name": "hoodoos", "ebene": "held", "warum": "Hoodoos (Desert Western Spires, gebaendert): weiche Saeulen, die nur unter einem harten Deckstein stehen bleiben", "anzahl": 12, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 22, "b_m": 14, "richtung": 0}, "abstand_m": 5.0, "groesse_m": [8.0, 14.0], "groesse_achse": "z", "skala_xyz": [0.45, 0.45, 1.0], "skala_streuung": 0.15, "ausrichtung": "aufrecht", "yaw": "zufall", "eingraben": [0.28, 0.32], "akteur": true, "kollision": true, "meide": "massiv", "mindestens": 9, "hinweis": "je Saeule andere Skalierung/Drehung (Katalog-Risiko 'geklont')", "palette": ["ulbwebv_tier_0", "vepoda2_tier_0"]},
+    {"name": "hoodoos_spire", "ebene": "held", "warum": "die drei Riesen des Kessels (Desert Western Spire Layered XL 03)", "netz": "vh3oagiga_tier_0", "anzahl": 3, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 24, "b_m": 15, "richtung": 0}, "abstand_m": 5.0, "groesse_m": [12.0, 17.0], "groesse_achse": "z", "ausrichtung": "aufrecht", "skala_xyz": [0.5, 0.5, 1.0], "yaw": "zufall", "eingraben": [0.25, 0.3], "akteur": true, "kollision": true, "meide": "massiv"},
+    {"name": "decksteine", "ebene": "begleiter", "warum": "harte, dunkle Decksteine schuetzen die Saeulen", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "auf_gruppe", "gruppe": "hoodoos", "je": [1, 1], "anteil": [0.5, 0.5]}, "groesse_m": [2.6, 3.6], "ausrichtung": "aufrecht", "yaw": "zufall", "z_bezug": "oben:hoodoos", "z_versatz_m": -0.35, "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein", "meide": null},
+    {"name": "decksteine_spire", "ebene": "begleiter", "warum": "Decksteine auch auf den schlanken Saeulen", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "auf_gruppe", "gruppe": "hoodoos_spire", "je": [1, 1], "anteil": [0.5, 0.5]}, "groesse_m": [2.0, 2.8], "ausrichtung": "aufrecht", "yaw": "zufall", "z_bezug": "oben:hoodoos_spire", "z_versatz_m": -0.3, "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Deckstein", "meide": null},
+    {"name": "kesselwand", "ebene": "begleiter", "warum": "Kesselwand: der zurueckweichende Rand, gebaendert", "palette": ["vjqhcapga_tier_0", "vceoferfa_tier_0"], "verteilung": {"typ": "reihe", "punkte": "kesselrand", "abstand_m": 13, "versatz_m": 1.0, "versatz_streuung_m": 1.0, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.6, 0.8], "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null, "hinweis": "rechts der Linie (N -> W -> S) = aussen auf dem Rand; Schauseite (+y angenommen) zum Kessel"},
+    {"name": "gefallene", "ebene": "begleiter", "warum": "eingestuerzte Saeulen ohne Deckstein liegen im Kessel", "netz": "vijmaacqx_tier_0", "anzahl": 4, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 20, "b_m": 12, "richtung": 0}, "groesse_m": [4.0, 6.0], "kipp_grad": [20, 45], "eingraben": [0.3, 0.4], "abstand_m": 4},
+    {"name": "kesselschutt", "ebene": "schutt", "warum": "Schutt um die Saeulen und am Fuss der Kesselwand", "palette": "sandstein_schutt", "anzahl": 120, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 26, "b_m": 17, "richtung": 0}, "groesse_m": [0.4, 1.3], "abstand_m": 1.0},
+    {"name": "halden", "ebene": "schutt", "warum": "Schutthaufen am Fuss der Kesselwand", "palette": "schichtgeroell", "anzahl": 16, "verteilung": {"typ": "band", "punkte": "kesselrand", "breite_m": 8, "versatz_m": -5}, "skala": [0.8, 1.2], "abstand_m": 3.0, "rolle": "stein"},
+    {"name": "sandschleppen", "ebene": "schutt", "warum": "Sandschleppen zwischen den Schaeften (Leeseite)", "palette": "sandschleppe", "anzahl": 18, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 22, "b_m": 14, "richtung": 0}, "skala": [0.8, 1.2], "yaw": 120, "yaw_streuung_grad": 30, "abstand_m": 3, "rolle": "streu", "ausrichtung": "normale"},
+    {"name": "abflussschutt", "ebene": "schutt", "warum": "was der Kessel verliert, rutscht durch die Oeffnung zum Fluss", "palette": "sandstein_schutt", "anzahl": 40, "verteilung": {"typ": "faecher", "bei": "oeffnung", "richtung": 95, "laenge_m": 24, "oeffnung_grad": 50}, "groesse_m": [0.6, 1.6], "gradient": {"von": 0.8, "bis": 1.6}, "abstand_m": 1.3},
+    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus im Kesselboden", "palette": "kies", "anzahl": 1400, "verteilung": {"typ": "ellipse", "bei": "boden", "a_m": 28, "b_m": 19, "richtung": 0}, "abstand_m": 0.35, "rolle": "stein"},
+    {"name": "randgrus", "ebene": "kleinzeug", "warum": "Feinkies am Kesselrand", "palette": "steinchen", "anzahl": 400, "verteilung": {"typ": "band", "punkte": "kesselrand", "breite_m": 10}, "abstand_m": 0.3, "rolle": "stein"},
+    {"name": "koecherbaum", "ebene": "bewuchs", "warum": "ein Koecherbaum auf einem Absatz (Feuchte im Kesselschatten)", "netz": "SM_quiver_tree_01_NN", "verteilung": {"typ": "punkt", "bei": [-14, 14]}, "skala": 1.5, "rolle": "baum"},
+    {"name": "searsia", "ebene": "bewuchs", "warum": "Searsia in Rinnen zwischen den Saeulen", "palette": ["SM_searsia_lucida_e_NN", "SM_searsia_lucida_c_NN"], "verteilung": {"typ": "cluster", "form": "ellipse", "bei": "boden", "a_m": 24, "b_m": 15, "richtung": 0, "zentren": [4, 6], "je": [1, 3], "radius_m": 3}, "abstand_m": 1.5, "rolle": "pflanze"},
+    {"name": "leipoldtia", "ebene": "bewuchs", "warum": "Leipoldtia-Polster auf Sandflecken", "palette": ["SM_leipoldtia_schultzei_medium_NN", "SM_cheiridopsis_succulent_c_NN"], "verteilung": {"typ": "cluster", "form": "ellipse", "bei": "boden", "a_m": 26, "b_m": 17, "richtung": 0, "zentren": [5, 8], "je": [3, 6], "radius_m": 1.8}, "abstand_m": 0.4, "rolle": "pflanze"},
+    {"name": "trockengras_rand", "ebene": "bewuchs", "warum": "Trockengras oben am Kesselrand", "palette": "trockengras", "anzahl": 50, "verteilung": {"typ": "band", "punkte": "kesselrand", "breite_m": 18, "versatz_m": 8}, "abstand_m": 2.2, "rolle": "pflanze"},
+    {"name": "schuttsaum", "ebene": "kontakt", "warum": "Schuttsaum am Saeulenfuss (30 % eingegraben, nichts steht auf)", "palette": "kies", "verteilung": {"typ": "um_gruppe", "gruppe": ["hoodoos", "hoodoos_spire", "gefallene"], "ring": [0.9, 1.5], "je": [8, 14]}, "rolle": "stein"},
+    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand am Fuss der Kesselwand", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["kesselwand", "hoodoos"], "ring": [0.95, 1.25], "je": [14, 22]}, "rolle": "stein"}
    ],
    "lagen": [
     {"lage": "Sandstein", "form": "kreis", "bei": "boden", "r_m": 30, "wert": 210, "flecken": 0.4, "streckung": [1.35, 1.0]},
@@ -463,26 +346,30 @@
     {"lage": "Geroell", "form": "kreis", "bei": "oeffnung", "r_m": 14, "wert": 200, "flecken": 0.4},
     {"lage": "Kies", "form": "band", "punkte": "kesselrand", "breite_m": 8, "wert": 170, "flecken": 0.4}
    ],
-   "pfad": {"breite_cm": 120, "lagen": {"Erde": 205, "Kies": 130},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
+   "pfad": {"breite_cm": 120, "lagen": {"Erde": 205, "Kies": 130}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
    "verdeckung": {"kern": "boden", "probe_r_m": 10},
    "effekte": [
     {"typ": "decal", "material": "MI_Leakage_09", "zweck": "Baenderung/Sickerstreifen an der Kesselwand", "bei": "rand_w", "hoehe_m": 5, "ausrichtung": "wand", "blick": 90, "groesse_m": [2.0, 6.0, 8.0]},
     {"typ": "decal", "material": "MI_TileableLeakage_04", "zweck": "dunkle Abflussspur durch die Oeffnung", "bei": "oeffnung", "groesse_m": [1.0, 3.0, 8.0]}
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "boden", "radius_m": 50, "lautstaerke": 0.35, "zweck": "Wind zwischen den Saeulen"},
-               {"asset": "CUE_Water_Stream_VI_Cue", "bei": "oeffnung", "radius_m": 60, "lautstaerke": 0.4, "zweck": "der Fluss unten"}]
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "boden", "radius_m": 50, "lautstaerke": 0.35, "zweck": "Wind zwischen den Saeulen"},
+    {"asset": "CUE_Water_Stream_VI_Cue", "bei": "oeffnung", "radius_m": 60, "lautstaerke": 0.4, "zweck": "der Fluss unten"}
+   ]
   },
 
   "canyon_06_die_kolke": {
    "kurz": "Eine Bank aus hellem Slickrock mit sechs runden, wassergefuellten Kolken (1-4 m), verbunden durch Rinnen; der Ueberlauf rinnt Richtung Suedstufe.",
    "marker": {"titel": "Die Kolke", "text": "Sechs Augen im Fels, jedes hielt den Himmel fest. Wer hier trinkt, teilt das Wasser mit allem, was in der Ebene durstig ist.", "entdeckung_m": 25},
    "budget": {"instanzen": 2500, "kollision": 300, "akteure": 10, "lichter": 0, "niagara": 0, "decals": 6},
-   "assets_wunsch": [
-    {"paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)", "statt_jetzt": "MI_TileableLeakage_*/MI_Leakage_* als Nassraender"}
-   ],
+   "assets_wunsch": [],
    "anker": {
-    "k1": [-10, 0], "k2": [8, -12], "k3": [16, 10], "k4": [-20, 15], "k5": [0, 22], "k6": [24, -6],
+    "k1": [-10, 0],
+    "k2": [8, -12],
+    "k3": [16, 10],
+    "k4": [-20, 15],
+    "k5": [0, 22],
+    "k6": [24, -6],
     "ueberlauf": [-30, 34],
     "blick": {"pos_m": [-1577.6, -576.7]}
    },
@@ -490,8 +377,7 @@
     "rinnen": {"punkte": ["k2", "k6", "k3", "k5", "k4", "ueberlauf"]},
     "rinne_a": {"punkte": ["k2", "k1", "k4"]}
    },
-   "gelaende": {
-    "fenster_m": [100, 100], "rand_m": 10, "bei": [0, 8],
+   "gelaende": {"fenster_m": [100, 100], "rand_m": 10, "bei": [0, 8], "senke_begruendung": "Rinnen zwischen den Kolken (Tinajas) fuellen sich nur bei Regen bis zum Ueberlauf - gewollte Felswannen",
     "ops": [
      {"op": "glaetten", "bei": [0, 8], "radius_m": 30, "staerke": 0.5, "sigma_m": 4, "warum": "Slickrock-Bank glaetten"},
      {"op": "rinne", "punkte": "rinnen", "breite_m": 0.8, "tiefe_m": 0.35, "rand_m": 0.8, "warum": "Verbindungsrinnen der Kolke"},
@@ -508,31 +394,18 @@
     {"typ": "see", "id": "kolk_6", "bei": "k6", "r_m": 1.6, "spiegel": "boden-0.1", "tiefe_m": 0.4, "farbe": "klar", "becken": {"ufer_m": 1.8, "freibord_m": 0.12, "boden": 0.5, "auslass": null}}
    ],
    "gruppen": [
-    {"name": "slickrock", "ebene": "held", "warum": "Slickrock-Platten: die glatte, fast flache Bank, 70 % eingegraben", "palette": ["uk5ebcp_tier_0", "uldubik_tier_0"],
-     "anzahl": 26, "verteilung": {"typ": "kreis", "bei": [0, 8], "r_m": 30}, "abstand_m": 4.5, "groesse_m": [4.5, 7.0], "eingraben": [0.65, 0.75], "skala_xyz": [1.0, 1.0, 0.7],
-     "akteur": false, "kollision": true, "im_wasser": "nein", "meide": "kern", "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "randbloecke", "ebene": "begleiter", "warum": "Sandsteinbloecke am Rand der Bank (Massstab, Schatten)", "palette": ["SM_SandstoneBoulder_04", "SM_SandstoneBoulder_05", "SM_RockSandstone_040"],
-     "anzahl": 6, "verteilung": {"typ": "ring", "bei": [0, 8], "r_m": [26, 38]}, "groesse_m": [2.2, 4.0], "eingraben": [0.3, 0.42], "abstand_m": 7, "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "rinnenplatten", "ebene": "begleiter", "warum": "trockene Rinnenplatten zwischen den Kolken", "netz": "SM_DryRiverBed_01",
-     "anzahl": 10, "verteilung": {"typ": "band", "punkte": "rinnen", "breite_m": 1.2}, "skala": [1.4, 2.0], "abstand_m": 2.5, "rolle": "streu", "ausrichtung": "normale", "im_wasser": "nein"},
-    {"name": "schutt", "ebene": "schutt", "warum": "Brocken der Bank, vom Frost geloest", "palette": "brocken",
-     "anzahl": 60, "verteilung": {"typ": "ring", "bei": [0, 8], "r_m": [10, 34]}, "groesse_m": [0.3, 1.0], "abstand_m": 1.2},
-    {"name": "kolkgrund", "ebene": "wasser", "warum": "Kiesel im Kolkgrund (durch das klare Wasser sichtbar)", "palette": ["SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_rocks_01_c_NN", "SM_namaqualand_boulders_01_a_NN"],
-     "anzahl": 90, "verteilung": {"typ": "kreis", "bei": [5, 6], "r_m": 26}, "abstand_m": 0.3, "im_wasser": "nur", "rolle": "stein"},
-    {"name": "kies", "ebene": "kleinzeug", "warum": "Kies in Fugen und Rinnen", "palette": "kies", "anzahl": 700,
-     "verteilung": {"typ": "kreis", "bei": [0, 8], "r_m": 34}, "abstand_m": 0.4, "rolle": "stein"},
-    {"name": "steinchen", "ebene": "kleinzeug", "warum": "Feinkies, von den Rinnen sortiert", "palette": "steinchen", "anzahl": 500,
-     "verteilung": {"typ": "band", "punkte": "rinnen", "breite_m": 3.0}, "abstand_m": 0.25, "rolle": "stein"},
-    {"name": "binsenkranz", "ebene": "bewuchs", "warum": "Binsenkraenze NUR an den Kolken (einziges Wasser weit und breit)", "palette": "binsen",
-     "verteilung": {"typ": "ufer", "bei": [5, 6], "r_m": 28, "band_m": [0.0, 1.0]}, "anzahl": 70, "abstand_m": 0.35, "rolle": "pflanze"},
-    {"name": "eispflanzen", "ebene": "bewuchs", "warum": "Eispflanzen-Polster in feuchten Fugen", "palette": "eispflanzen",
-     "verteilung": {"typ": "cluster", "form": "kreis", "bei": [0, 8], "r_m": 30, "zentren": [6, 9], "je": [3, 6], "radius_m": 1.5}, "abstand_m": 0.3, "rolle": "pflanze"},
-    {"name": "pioniere", "ebene": "bewuchs", "warum": "Searsia am Bankrand, wo der Ueberlauf versickert", "palette": "pioniere",
-     "verteilung": {"typ": "cluster", "form": "kreis", "bei": "ueberlauf", "r_m": 14, "zentren": [3, 4], "je": [2, 4], "radius_m": 3}, "abstand_m": 1.2, "rolle": "pflanze"},
-    {"name": "nassband", "ebene": "kontakt", "warum": "Moos/Algenring nur im Nassband der Kolke", "palette": ["SM_MossClump_01", "SM_MossClump_03"],
-     "verteilung": {"typ": "ufer", "bei": [5, 6], "r_m": 28, "band_m": [-0.2, 0.5]}, "anzahl": 90, "abstand_m": 0.25, "rolle": "streu", "im_wasser": "egal"},
-    {"name": "plattensaum", "ebene": "kontakt", "warum": "Kies an den Plattenkanten", "palette": "steinchen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["randbloecke", "slickrock"], "ring": [0.9, 1.15], "je": [3, 8]}, "rolle": "stein"}
+    {"name": "slickrock", "ebene": "held", "warum": "Slickrock-Platten (Desert Western Ground/Ledge Patches): die glatte, fast flache Bank", "palette": ["ulksbcz_tier_0", "ulerccg_tier_0", "uk4qcgx_tier_0", "venodhb_tier_0"], "anzahl": 26, "verteilung": {"typ": "kreis", "bei": [0, 8], "r_m": 30}, "abstand_m": 4.5, "groesse_m": [3.0, 4.5], "eingraben": [0.45, 0.6], "akteur": false, "kollision": true, "im_wasser": "nein", "meide": "kern"},
+    {"name": "randbloecke", "ebene": "begleiter", "warum": "Sandsteinbloecke am Rand der Bank (Massstab, Schatten)", "palette": ["SM_SandstoneBoulder_04", "SM_SandstoneBoulder_05", "SM_RockSandstone_040"], "anzahl": 6, "verteilung": {"typ": "ring", "bei": [0, 8], "r_m": [26, 38]}, "groesse_m": [2.2, 4.0], "eingraben": [0.3, 0.42], "abstand_m": 7, "material": "MI_EL_SW_Canyon_Sandfuss"},
+    {"name": "rinnenplatten", "ebene": "begleiter", "warum": "trockene Rinnenplatten zwischen den Kolken", "netz": "SM_DryRiverBed_01", "anzahl": 10, "verteilung": {"typ": "band", "punkte": "rinnen", "breite_m": 1.2}, "skala": [1.4, 2.0], "abstand_m": 2.5, "rolle": "streu", "ausrichtung": "normale", "im_wasser": "nein"},
+    {"name": "schutt", "ebene": "schutt", "warum": "Brocken der Bank, vom Frost geloest", "palette": "brocken", "anzahl": 60, "verteilung": {"typ": "ring", "bei": [0, 8], "r_m": [10, 34]}, "groesse_m": [0.3, 1.0], "abstand_m": 1.2},
+    {"name": "kolkgrund", "ebene": "wasser", "warum": "Kiesel im Kolkgrund (durch das klare Wasser sichtbar)", "palette": ["SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_rocks_01_c_NN", "SM_namaqualand_boulders_01_a_NN"], "anzahl": 90, "verteilung": {"typ": "kreis", "bei": [5, 6], "r_m": 26}, "abstand_m": 0.3, "im_wasser": "nur", "rolle": "stein"},
+    {"name": "kies", "ebene": "kleinzeug", "warum": "Kies in Fugen und Rinnen", "palette": "kies", "anzahl": 700, "verteilung": {"typ": "kreis", "bei": [0, 8], "r_m": 34}, "abstand_m": 0.4, "rolle": "stein"},
+    {"name": "steinchen", "ebene": "kleinzeug", "warum": "Feinkies, von den Rinnen sortiert", "palette": "steinchen", "anzahl": 500, "verteilung": {"typ": "band", "punkte": "rinnen", "breite_m": 3.0}, "abstand_m": 0.25, "rolle": "stein"},
+    {"name": "binsenkranz", "ebene": "bewuchs", "warum": "Binsenkraenze NUR an den Kolken (einziges Wasser weit und breit)", "palette": "binsen", "verteilung": {"typ": "ufer", "bei": [5, 6], "r_m": 28, "band_m": [0.0, 1.0]}, "anzahl": 70, "abstand_m": 0.35, "rolle": "pflanze"},
+    {"name": "eispflanzen", "ebene": "bewuchs", "warum": "Eispflanzen-Polster in feuchten Fugen", "palette": "eispflanzen", "verteilung": {"typ": "cluster", "form": "kreis", "bei": [0, 8], "r_m": 30, "zentren": [6, 9], "je": [3, 6], "radius_m": 1.5}, "abstand_m": 0.3, "rolle": "pflanze"},
+    {"name": "pioniere", "ebene": "bewuchs", "warum": "Searsia am Bankrand, wo der Ueberlauf versickert", "palette": "pioniere", "verteilung": {"typ": "cluster", "form": "kreis", "bei": "ueberlauf", "r_m": 14, "zentren": [3, 4], "je": [2, 4], "radius_m": 3}, "abstand_m": 1.2, "rolle": "pflanze"},
+    {"name": "nassband", "ebene": "kontakt", "warum": "Moos/Algenring nur im Nassband der Kolke", "palette": ["SM_MossClump_01", "SM_MossClump_03"], "verteilung": {"typ": "ufer", "bei": [5, 6], "r_m": 28, "band_m": [-0.2, 0.5]}, "anzahl": 90, "abstand_m": 0.25, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "plattensaum", "ebene": "kontakt", "warum": "Kies an den Plattenkanten", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["randbloecke", "slickrock"], "ring": [0.9, 1.15], "je": [3, 8]}, "rolle": "stein"}
    ],
    "lagen": [
     {"lage": "Felsplatte", "form": "kreis", "bei": [0, 8], "r_m": 32, "wert": 225, "flecken": 0.3},
@@ -540,26 +413,23 @@
     {"lage": "Kies", "form": "band", "punkte": "rinnen", "breite_m": 1.5, "wert": 180, "flecken": 0.2},
     {"lage": "Sand", "form": "ring", "bei": [0, 8], "r_m": [28, 42], "wert": 170, "flecken": 0.5}
    ],
-   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3]}},
+   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3]}},
    "verdeckung": {"kern": [0, 8], "probe_r_m": 12, "ziel_hoehe_m": 1},
    "effekte": [
-    {"typ": "decal", "material": "MI_TileableLeakage_01", "zweck": "dunkle Nassraender um die Kolke", "anzahl": 4, "verteilung": {"typ": "kreis", "bei": [5, 6], "r_m": 24}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "dunkle Nassraender um die Kolke", "anzahl": 4, "verteilung": {"typ": "kreis", "bei": [5, 6], "r_m": 24}, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "decal", "material": "MI_Leakage_05", "zweck": "Ueberlaufspur zur Stufe", "bei": "ueberlauf", "groesse_m": [1.0, 2.0, 6.0]},
-    {"typ": "decal", "material": "MI_TileableMossPatches_03", "zweck": "Algenflecken im groessten Kolk", "bei": "k5", "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algenflecken im groessten Kolk", "bei": "k5", "groesse_m": [1.0, 3.0, 3.0]}
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": [0, 8], "radius_m": 50, "lautstaerke": 0.3, "zweck": "Wind ueber der Bank"}]
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": [0, 8], "radius_m": 50, "lautstaerke": 0.3, "zweck": "Wind ueber der Bank"}
+   ]
   },
 
   "canyon_07_smaragdgumpe": {
    "kurz": "In einem Alkoven der Suedstufe faellt der Plateaubach in Faeden ueber die Baender in eine smaragdgruene Gumpe; die Rueckwand ist ein haengender Garten, ein Felsriegel verdeckt den Blick vom Weg.",
    "marker": {"titel": "Die Smaragdgumpe", "text": "Hinter dem Riegel wird es kuehl. Das Wasser faellt in Faeden, und aus jeder Fuge der Wand haengt ein Garten, den niemand gepflanzt hat.", "entdeckung_m": 25},
-   "budget": {"instanzen": 6000, "kollision": 600, "akteure": 25, "lichter": 0, "niagara": 1, "decals": 5},
-   "assets_wunsch": [
-    {"paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)", "statt_jetzt": "M_EL_Wasserfall2-Vorhang (Ferats Wasserfall)"},
-    {"paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)", "statt_jetzt": "NS_SmokePuffLight (Kopie, weiss, langsam) + lokaler_nebel als Gischt"},
-    {"paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03", "statt_jetzt": "SM_MassiveSandstoneCliff_05/02 mit MI_EL_SW_Canyon_Gumpenmoos als Alkovenwand"}
-   ],
+   "budget": {"instanzen": 6000, "kollision": 600, "akteure": 25, "lichter": 0, "niagara": 2, "decals": 5},
+   "assets_wunsch": [],
    "anker": {
     "gumpe": [1, -1],
     "fall_oben": [9, -38],
@@ -573,12 +443,9 @@
     "alkovenwand": {"punkte": [[-24, -6], [-18, -20], [-6, -28], [10, -30], [22, -22], [27, -8]]},
     "abflusslinie": {"punkte": ["gumpe", [-4, 12], [-12, 24], [-23, 36], [-36, 48]]}
    },
-   "gelaende": {
-    "fenster_m": [120, 120], "rand_m": 10, "bei": [0, 0],
-    "ist_wasser": true, "ist_wasser_r_m": 40,
-    "begruendung": "Gumpe, Fall und Alkoven SIND der Plateaubach am Stufenfuss (Becken und Fallkante im bestehenden Gerinne, 40 m um die Mitte); der Riegel liegt oestlich des Abflusses und staut ihn nicht.",
+   "gelaende": {"fenster_m": [120, 120], "rand_m": 10, "bei": [0, 0], "ist_wasser": true, "ist_wasser_r_m": 40, "begruendung": "Gumpe, Fall und Alkoven SIND der Plateaubach am Stufenfuss (Becken und Fallkante im bestehenden Gerinne, 40 m um die Mitte); der Riegel liegt oestlich des Abflusses und staut ihn nicht.", "senke_begruendung": "kleine Kolke im Alkovenboden, vom Spruehwasser des Falls gespeist",
     "ops": [
-     {"op": "mulde", "bei": "alkoven", "radius_m": 18, "tiefe_m": 6, "rand_m": 8, "boden": 0.35, "streckung": [1.3, 1.0], "richtung": 90, "warum": "Alkoven -6 m in den Stufenfuss (Rueckwand wird steil)"},
+     {"op": "mulde", "bei": "alkoven", "radius_m": 18, "tiefe_m": 5, "rand_m": 8, "boden": 0.15, "streckung": [1.3, 1.0], "richtung": 90, "warum": "Alkoven -6 m in den Stufenfuss (Rueckwand wird steil)"},
      {"op": "abbruch", "punkte": "alkovenwand", "hoehe_m": 6, "breite_m": 4.5, "reichweite_m": 14, "seite": "links", "verteilung": "oben", "warum": "Rueckwand des Alkovens nachschaerfen (Fall frei statt auf Stufen)"},
      {"op": "kuppe", "bei": "riegel", "radius_m": 12, "hoehe_m": 8, "plateau": 0.3, "streckung": [1.4, 1.0], "richtung": 110, "rand_m": 6, "warum": "Felsriegel +8 m vor dem Alkoven: verdeckt die Gumpe vom Weg (Pflicht-Verdeckung)"}
     ]
@@ -586,47 +453,26 @@
    "wasser": [
     {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 8.5, "spiegel_rand_min": -0.1, "tiefe_m": 2.5, "farbe": "smaragd", "becken": {"ufer_m": 4, "freibord_m": 0.25, "auslass": "auto"}},
     {"typ": "bach", "id": "abfluss", "abfluss_von": "gumpe", "laenge_m": 40, "breite_m": 2.5, "tiefe_cm": 30, "farbe": "klar", "quelle": false},
-    {"typ": "wasserfall", "id": "fadenfall", "kante": [{"anker": "fall_oben", "versatz_m": [-3, 0]}, {"anker": "fall_oben", "versatz_m": [3, 0]}], "becken": "gumpe", "breite_m": 5.0, "farbe": "klar"}
+    {"typ": "wasserfall", "id": "fadenfall", "kante": [{"anker": "fall_oben", "versatz_m": [-3, 0]}, {"anker": "fall_oben", "versatz_m": [3, 0]}], "becken": "gumpe", "breite_m": 5.0, "farbe": "klar", "hinweis": "Material: Fluss-/Wasserfall-Material aus dem Mountain Set (13d) oder M_EL_Wasserfall2"}
    ],
    "gruppen": [
-    {"name": "alkovenwand", "ebene": "held", "warum": "Alkovenwand: Sickerwasser hat den Stufenfuss ausgehoehlt; schwarz-gruen gestreift", "palette": ["SM_MassiveSandstoneCliff_05", "SM_MassiveSandstoneCliff_02"],
-     "verteilung": {"typ": "reihe", "punkte": "alkovenwand", "abstand_m": 13, "versatz_m": 1.5, "versatz_streuung_m": 0.8, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true},
-     "skala": [0.48, 0.6], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.3, 0.38], "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Gumpenmoos", "im_wasser": "egal", "meide": null,
-     "hinweis": "links der Linie (W -> O) = aussen/Stufe; Schauseite zur Gumpe"},
-    {"name": "fallkante", "ebene": "held", "warum": "ueberkragende Fallkante: der Bach springt frei statt ueber Stufen (Katalog-Risiko)", "netz": "SM_HugeSandstoneCliff_07",
-     "verteilung": {"typ": "punkt", "bei": {"anker": "fall_oben", "versatz_m": [0, -3]}}, "skala": 0.55, "yaw": 90, "front_achse": "+y", "eingraben": [0.4, 0.5],
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Gumpenmoos", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
-    {"name": "riegel", "ebene": "begleiter", "warum": "Felsriegel aus abgestuerzten Wandteilen schliesst den Alkoven nach Sueden", "palette": ["SM_HugeSandstoneCliff_07", "SM_SandstoneBoulder_05", "SM_RockSandstone_040"],
-     "anzahl": 5, "verteilung": {"typ": "ellipse", "bei": "riegel", "a_m": 16, "b_m": 6, "richtung": 100}, "groesse_m": [3.5, 8.0], "eingraben": [0.3, 0.42], "abstand_m": 5,
-     "akteur": true, "kollision": true, "material": "MI_EL_SW_Canyon_Rotband"},
-    {"name": "gumpenbloecke", "ebene": "begleiter", "warum": "Sturzbloecke am Gumpenrand (vom Fall unterspuelt)", "palette": ["SM_SandstoneBoulder_04", "SM_SandstoneBoulder_05"],
-     "anzahl": 4, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 14, "band_m": [0.2, 3.0]}, "groesse_m": [1.8, 3.0], "eingraben": [0.3, 0.42], "abstand_m": 3.5, "material": "MI_EL_SW_Canyon_Sandfuss"},
-    {"name": "gumpensteine", "ebene": "wasser", "warum": "Steine im Wasser, Grund smaragd durchscheinend", "palette": ["SM_stones_01_6", "SM_stones_01_2", "SM_SandstoneBoulder_04"],
-     "anzahl": 14, "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 8}, "groesse_m": [0.5, 1.4], "abstand_m": 1.2, "im_wasser": "nur", "z_bezug": "see:gumpe", "oberkante_ueber_m": 0.25, "rolle": "stein"},
-    {"name": "gumpengrund", "ebene": "wasser", "warum": "Kiesgrund der Gumpe", "palette": ["SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_boulders_01_a_NN", "SM_stones_01_3"],
-     "anzahl": 50, "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 8}, "abstand_m": 0.5, "im_wasser": "nur", "rolle": "stein"},
-    {"name": "fallschutt", "ebene": "schutt", "warum": "Schutt am Alkovenfuss, vom Fall abgeschlagen", "palette": "sandstein_schutt",
-     "anzahl": 50, "verteilung": {"typ": "band", "punkte": "alkovenwand", "breite_m": 9, "versatz_m": -5}, "groesse_m": [0.4, 1.2], "abstand_m": 1.0, "im_wasser": "nein"},
-    {"name": "abflussgeroell", "ebene": "schutt", "warum": "Geroell im Abfluss durch den Riegel", "palette": "bachgeroell",
-     "anzahl": 30, "verteilung": {"typ": "band", "punkte": "abflusslinie", "breite_m": 4}, "groesse_m": [0.3, 0.8], "abstand_m": 0.8, "im_wasser": "egal"},
-    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies am Ufer", "palette": "steinchen", "anzahl": 500,
-     "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 30, "band_m": [-0.3, 3.0]}, "abstand_m": 0.25, "rolle": "stein", "im_wasser": "egal"},
-    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus im Alkoven", "palette": "kies", "anzahl": 500,
-     "verteilung": {"typ": "kreis", "bei": "alkoven", "r_m": 24}, "abstand_m": 0.35, "rolle": "stein"},
-    {"name": "haengender_garten", "ebene": "bewuchs", "warum": "Sickerlinie: Farne haengen aus den Fugen der Rueckwand", "palette": "farn",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "alkovenwand", "ring": [0.55, 0.9], "je": [6, 10], "seite": "sued", "seite_staerke": 0.6}, "rolle": "pflanze", "meide": null, "im_wasser": "nein"},
-    {"name": "ranken", "ebene": "bewuchs", "warum": "Ranken an der nassen Rueckwand", "netz": "SM_Vines_01a",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "alkovenwand", "ring": [0.45, 0.65], "je": [1, 3], "seite": "sued", "seite_staerke": 0.8}, "rolle": "pflanze", "meide": null, "im_wasser": "egal"},
-    {"name": "rohrkolben", "ebene": "bewuchs", "warum": "Rohrkolben nur am ruhigen Abfluss", "palette": ["SM_Rohrkolben_Jung_2", "SM_Rohrkolben_Jung_1", "SM_ToadRush_010"],
-     "verteilung": {"typ": "cluster", "form": "band", "punkte": "abflusslinie", "breite_m": 6, "zentren": [3, 5], "je": [3, 6], "radius_m": 1.5}, "abstand_m": 0.5, "rolle": "pflanze", "im_wasser": "egal"},
-    {"name": "uferfarn", "ebene": "bewuchs", "warum": "Feuchtring: Farn im Spruehnebel", "palette": "farn",
-     "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 26, "band_m": [0.5, 5.0]}, "anzahl": 45, "abstand_m": 0.9, "rolle": "pflanze"},
-    {"name": "riegelbewuchs", "ebene": "bewuchs", "warum": "Searsia auf dem trockenen Riegel (Kontrast zum Garten)", "palette": "pioniere",
-     "verteilung": {"typ": "cluster", "form": "kreis", "bei": "riegel", "r_m": 16, "zentren": [3, 5], "je": [2, 3], "radius_m": 2.5}, "abstand_m": 1.2, "rolle": "pflanze"},
-    {"name": "moos_nass", "ebene": "kontakt", "warum": "Nassband und Moos bis 2 m am Wandfuss", "palette": "moos",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["alkovenwand", "gumpenbloecke", "fallkante"], "ring": [0.55, 1.0], "je": [8, 14]}, "rolle": "streu", "im_wasser": "egal"},
-    {"name": "uferkies", "ebene": "kontakt", "warum": "Kiessaum um die Bloecke", "palette": "kies",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["gumpenbloecke", "riegel"], "ring": [0.9, 1.25], "je": [6, 10]}, "rolle": "stein"}
+    {"name": "alkovenwand", "ebene": "held", "warum": "Alkovenwand (Desert Western Cliff Layered): Sickerwasser hat den Stufenfuss ausgehoehlt; schwarz-gruene Streifen ueber Decals", "palette": ["venuafk_tier_0", "uk5oded_tier_0"], "verteilung": {"typ": "reihe", "punkte": "alkovenwand", "abstand_m": 13, "versatz_m": 1.5, "versatz_streuung_m": 0.8, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.36, 0.46], "front_achse": "+y", "ausrichtung": "aufrecht", "eingraben": [0.3, 0.38], "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "hinweis": "links der Linie (W -> O) = aussen/Stufe; Schauseite zur Gumpe"},
+    {"name": "fallkante", "ebene": "held", "warum": "ueberkragende Fallkante (Ledge Rock Large): der Bach springt frei statt ueber Stufen", "netz": "vbvqbbofa_tier_0", "verteilung": {"typ": "punkt", "bei": {"anker": "fall_oben", "versatz_m": [0, -3]}}, "skala": 0.5, "yaw": 90, "front_achse": "+y", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
+    {"name": "riegel", "ebene": "begleiter", "warum": "Felsriegel aus abgestuerzten Wandteilen schliesst den Alkoven nach Sueden", "palette": ["vceldhvfa_tier_0", "umsocbyfa_tier_0", "SM_SandstoneBoulder_05"], "anzahl": 5, "verteilung": {"typ": "ellipse", "bei": [24, 30], "a_m": 12, "b_m": 6, "richtung": 110}, "groesse_m": [3.5, 8.0], "eingraben": [0.3, 0.42], "abstand_m": 5, "akteur": true, "kollision": true},
+    {"name": "gumpenbloecke", "ebene": "begleiter", "warum": "Sturzbloecke am Gumpenrand (vom Fall unterspuelt)", "palette": ["SM_SandstoneBoulder_04", "SM_SandstoneBoulder_05"], "anzahl": 4, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 14, "band_m": [0.2, 3.0]}, "groesse_m": [1.8, 3.0], "eingraben": [0.3, 0.42], "abstand_m": 3.5, "material": "MI_EL_SW_Canyon_Gumpenmoos"},
+    {"name": "gumpensteine", "ebene": "wasser", "warum": "Steine im Wasser, Grund smaragd durchscheinend", "palette": ["SM_stones_01_6", "SM_stones_01_2", "SM_SandstoneBoulder_04"], "anzahl": 14, "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 8}, "groesse_m": [0.5, 1.4], "abstand_m": 1.2, "im_wasser": "nur", "z_bezug": "see:gumpe", "oberkante_ueber_m": 0.25, "rolle": "stein"},
+    {"name": "gumpengrund", "ebene": "wasser", "warum": "Kiesgrund der Gumpe", "palette": ["SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_boulders_01_a_NN", "SM_stones_01_3"], "anzahl": 50, "verteilung": {"typ": "kreis", "bei": "gumpe", "r_m": 8}, "abstand_m": 0.5, "im_wasser": "nur", "rolle": "stein"},
+    {"name": "fallschutt", "ebene": "schutt", "warum": "Schutt am Alkovenfuss, vom Fall abgeschlagen", "palette": "sandstein_schutt", "anzahl": 50, "verteilung": {"typ": "band", "punkte": "alkovenwand", "breite_m": 9, "versatz_m": -5}, "groesse_m": [0.4, 1.2], "abstand_m": 1.0, "im_wasser": "nein"},
+    {"name": "abflussgeroell", "ebene": "schutt", "warum": "Geroell im Abfluss durch den Riegel", "palette": "bachgeroell", "anzahl": 30, "verteilung": {"typ": "band", "punkte": "abflusslinie", "breite_m": 4}, "groesse_m": [0.3, 0.8], "abstand_m": 0.8, "im_wasser": "egal"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies am Ufer", "palette": "steinchen", "anzahl": 500, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 30, "band_m": [-0.3, 3.0]}, "abstand_m": 0.25, "rolle": "stein", "im_wasser": "egal"},
+    {"name": "grus", "ebene": "kleinzeug", "warum": "Grus im Alkoven", "palette": "kies", "anzahl": 500, "verteilung": {"typ": "kreis", "bei": "alkoven", "r_m": 24}, "abstand_m": 0.35, "rolle": "stein"},
+    {"name": "haengender_garten", "ebene": "bewuchs", "warum": "Sickerlinie: Farne haengen aus den Fugen der Rueckwand", "palette": "farn", "verteilung": {"typ": "um_gruppe", "gruppe": "alkovenwand", "ring": [0.55, 0.9], "je": [6, 10], "seite": "sued", "seite_staerke": 0.6}, "rolle": "pflanze", "meide": null, "im_wasser": "nein"},
+    {"name": "ranken", "ebene": "bewuchs", "warum": "Ranken an der nassen Rueckwand", "netz": "SM_Vines_01a", "verteilung": {"typ": "um_gruppe", "gruppe": "alkovenwand", "ring": [0.45, 0.65], "je": [1, 3], "seite": "sued", "seite_staerke": 0.8}, "rolle": "pflanze", "meide": null, "im_wasser": "egal"},
+    {"name": "rohrkolben", "ebene": "bewuchs", "warum": "Rohrkolben nur am ruhigen Abfluss", "palette": ["SM_Rohrkolben_Jung_2", "SM_Rohrkolben_Jung_1", "SM_ToadRush_010"], "verteilung": {"typ": "cluster", "form": "band", "punkte": "abflusslinie", "breite_m": 6, "zentren": [3, 5], "je": [3, 6], "radius_m": 1.5}, "abstand_m": 0.5, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "uferfarn", "ebene": "bewuchs", "warum": "Feuchtring: Farn im Spruehnebel", "palette": "farn", "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 26, "band_m": [0.5, 5.0]}, "anzahl": 45, "abstand_m": 0.9, "rolle": "pflanze"},
+    {"name": "riegelbewuchs", "ebene": "bewuchs", "warum": "Searsia auf dem trockenen Riegel (Kontrast zum Garten)", "palette": "pioniere", "verteilung": {"typ": "cluster", "form": "kreis", "bei": "riegel", "r_m": 16, "zentren": [3, 5], "je": [2, 3], "radius_m": 2.5}, "abstand_m": 1.2, "rolle": "pflanze"},
+    {"name": "moos_nass", "ebene": "kontakt", "warum": "Nassband und Moos bis 2 m am Wandfuss", "palette": "moos", "verteilung": {"typ": "um_gruppe", "gruppe": ["alkovenwand", "gumpenbloecke", "fallkante"], "ring": [0.55, 1.0], "je": [8, 14]}, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "uferkies", "ebene": "kontakt", "warum": "Kiessaum um die Bloecke", "palette": "kies", "verteilung": {"typ": "um_gruppe", "gruppe": ["gumpenbloecke", "riegel"], "ring": [0.9, 1.25], "je": [6, 10]}, "rolle": "stein"}
    ],
    "lagen": [
     {"lage": "Moos", "form": "ufer", "bei": "gumpe", "r_m": 30, "band_m": [0.0, 3.0], "wert": 200},
@@ -634,68 +480,53 @@
     {"lage": "Sandstein", "form": "hang", "bei": "alkoven", "r_m": 40, "hang_grad": [40, 90], "wert": 220},
     {"lage": "Geroell", "form": "kreis", "bei": "riegel", "r_m": 16, "wert": 190, "flecken": 0.45, "streckung": [1.6, 1.0], "richtung": 100}
    ],
-   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
+   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
    "verdeckung": {"kern": "gumpe", "probe_r_m": 6, "ziel_hoehe_m": 3},
    "effekte": [
     {"typ": "lokaler_nebel", "zweck": "Spruehnebel am Fallfuss", "bei": "gumpe", "hoehe_m": 2, "radius_m": 12, "dichte": 0.08, "farbe": [0.88, 0.94, 0.92], "hoehenabfall": 0.8},
-    {"typ": "niagara", "asset": "NS_SmokePuffLight", "optional": true, "zweck": "Gischt-Vorlage am Fallfuss (Kopie, weiss, sehr langsam)", "wunsch_paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)", "hinweis": "Systemname aus Nature Water FX nach Inventar 13d einsetzen", "bei": "gumpe", "hoehe_m": 0.5},
     {"typ": "decal", "material": "MI_Leakage_01", "zweck": "schwarz-gruene Sickerstreifen an der Rueckwand", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "alkovenwand", "breite_m": 4, "versatz_m": -2}, "hoehe_m": 6, "ausrichtung": "wand", "blick": "zu:gumpe", "groesse_m": [1.5, 3.0, 10.0]},
-    {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Moospolster am Fuss der Wand", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "alkovenwand", "breite_m": 6, "versatz_m": -4}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Moospolster am Fuss der Wand", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "alkovenwand", "breite_m": 6, "versatz_m": -4}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "niagara", "asset": "NS_Waterfall_Medium", "zweck": "Fadenfall ueber die Baender (Nature Water FX)", "bei": "fall_oben", "hoehe_m": 0.2, "yaw_grad": 190},
+    {"typ": "niagara", "asset": "NS_Impact_Medium", "zweck": "Gischt am Aufprall in die Gumpe", "bei": "gumpe", "hoehe_m": 0.1},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband rund um die Gumpe (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "gumpe", "r_m": 14, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]}
    ],
-   "klaenge": [{"asset": "CUE_Water_Stream_IX_Cue", "bei": "gumpe", "radius_m": 45, "lautstaerke": 0.85, "zweck": "Fallrauschen"}]
+   "klaenge": [
+    {"asset": "CUE_Water_Stream_IX_Cue", "bei": "gumpe", "radius_m": 45, "lautstaerke": 0.85, "zweck": "Fallrauschen"}
+   ]
   },
 
   "canyon_08_die_welle": {
    "kurz": "In einer Mulde zwischen Schichtrippen liegt eine Platte aus versteinerter Duene: feine Linien in Rot, Ocker und Weiss schwingen wie gefrorene Wellen, an einer Kante steigt die Kreuzschichtung als Wand auf.",
    "marker": {"titel": "Die Welle", "text": "Ein Meer, das zu Stein wurde, bevor es den Strand erreichte. Im Streiflicht bewegen sich die Linien, wenn man den Kopf neigt.", "entdeckung_m": 30},
    "budget": {"instanzen": 1500, "kollision": 200, "akteure": 6, "lichter": 0, "niagara": 0, "decals": 6},
-   "assets_wunsch": [
-    {"paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03", "statt_jetzt": "uk5ebcp_tier_0/uldubik_tier_0 + SM_HugeSandstoneCliff_07/02 mit MI_EL_SW_Welle + Decal MI_EL_SW_Welle_Streifen (eigene prozedurale Textur)"}
-   ],
+   "assets_wunsch": [],
    "anker": {
     "welle": [0, 4],
     "wand": [20, -16],
     "abfluss": [-26, 26],
     "blick": {"pos_m": [-832.7, -295.6]}
    },
-   "gelaende": {
-    "fenster_m": [120, 120], "rand_m": 12, "bei": [0, 0],
+   "gelaende": {"fenster_m": [120, 120], "rand_m": 12, "bei": [0, 0],
     "ops": [
      {"op": "mulde", "bei": "welle", "radius_m": 24, "tiefe_m": 5.5, "rand_m": 10, "boden": 0.45, "streckung": [1.2, 1.0], "richtung": 120, "warum": "Mulde -5 m: verdeckt die Welle vom Weg (Pflicht-Verdeckung)"},
-     {"op": "rinne", "punkte": ["welle", "abfluss", [-40, 40]], "breite_m": 5, "tiefe_m": 3.5, "rand_m": 5, "modus": "min", "warum": "Abfluss nach SW (keine geschlossene Senke)"},
+     {"op": "rinne", "punkte": ["welle", "abfluss"], "breite_m": 5, "rand_m": 5, "modus": "min", "warum": "Abfluss nach SW (keine geschlossene Senke)", "sohle": ["boden-1.0", "boden+0.0"]},
      {"op": "glaetten", "bei": "welle", "radius_m": 18, "staerke": 0.6, "sigma_m": 4, "warum": "Plattenboden glatt (Slickrock)"}
     ]
    },
    "gruppen": [
-    {"name": "wellenplatte", "ebene": "held", "warum": "die Welle: flache, kreuzgeschichtete Platten, dicht an dicht wie ein Boden aus Stein", "palette": ["uk5ebcp_tier_0", "uldubik_tier_0"],
-     "anzahl": 34, "verteilung": {"typ": "ellipse", "bei": "welle", "a_m": 18, "b_m": 13, "richtung": 120}, "abstand_m": 3.6, "groesse_m": [4.5, 6.5], "skala_xyz": [1.0, 1.0, 0.6],
-     "eingraben": [0.6, 0.7], "yaw": 120, "yaw_streuung_grad": 25, "akteur": false, "kollision": true, "material": "MI_EL_SW_Welle", "meide": "kern", "mindestens": 20,
-     "hinweis": "Ausrichtung entlang der Kreuzschichtung (120 Grad), damit die Linien der Decals durchlaufen"},
-    {"name": "schichtwand", "ebene": "held", "warum": "an der Muldenkante steigt die Kreuzschichtung als Wand auf", "netz": "SM_HugeSandstoneCliff_07",
-     "verteilung": {"typ": "punkt", "bei": "wand"}, "skala": 0.8, "yaw": 210, "front_achse": "+y", "eingraben": [0.35, 0.42], "akteur": true, "kollision": true, "material": "MI_EL_SW_Welle", "meide": null},
-    {"name": "begleitwand", "ebene": "begleiter", "warum": "zweite, kleinere Schichtwand (gleiche Kreuzschichtung)", "netz": "SM_HugeSandstoneCliff_02",
-     "verteilung": {"typ": "punkt", "bei": {"von": "wand", "richtung": 300, "abstand_m": 16}}, "skala": 0.45, "yaw": 210, "front_achse": "+y", "eingraben": [0.38, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Welle", "meide": null},
-    {"name": "randplatten", "ebene": "begleiter", "warum": "aufgestellte Schichtplatten am Muldenrand", "netz": "uldubik_tier_0",
-     "anzahl": 6, "verteilung": {"typ": "ring", "bei": "welle", "r_m": [19, 26]}, "groesse_m": [3.5, 5.0], "kipp_grad": [15, 30], "kipp_richtung": "zu:welle", "eingraben": [0.35, 0.45], "abstand_m": 5, "material": "MI_EL_SW_Welle", "akteur": false, "kollision": true},
-    {"name": "schutt", "ebene": "schutt", "warum": "Brocken von den Rippen am Muldenrand", "palette": ["SM_RockSandstone_021", "SM_RockSandstone_034", "SM_namaqualand_boulder_06_NN"],
-     "anzahl": 40, "verteilung": {"typ": "ring", "bei": "welle", "r_m": [16, 30]}, "groesse_m": [0.4, 1.2], "abstand_m": 1.4},
-    {"name": "sandschleppen", "ebene": "schutt", "warum": "Sandschleppen im Lee der Schichtwand", "palette": "sandschleppe",
-     "anzahl": 10, "verteilung": {"typ": "faecher", "bei": "wand", "richtung": 140, "laenge_m": 18, "oeffnung_grad": 60}, "skala": [0.8, 1.1], "yaw": 140, "abstand_m": 3, "rolle": "streu", "ausrichtung": "normale"},
-    {"name": "abflusskies", "ebene": "schutt", "warum": "Kies in der Abflussrinne nach SW", "palette": "brocken",
-     "anzahl": 25, "verteilung": {"typ": "band", "punkte": ["welle", "abfluss", [-40, 40]], "breite_m": 3.5, "t": [0.35, 1.0]}, "groesse_m": [0.25, 0.6], "abstand_m": 0.8},
-    {"name": "sand", "ebene": "kleinzeug", "warum": "Feinkies in den Fugen der Platten", "palette": "steinchen", "anzahl": 500,
-     "verteilung": {"typ": "ellipse", "bei": "welle", "a_m": 24, "b_m": 18, "richtung": 120}, "abstand_m": 0.3, "rolle": "stein"},
-    {"name": "kies", "ebene": "kleinzeug", "warum": "Kies am Muldenrand", "palette": "kies", "anzahl": 300,
-     "verteilung": {"typ": "ring", "bei": "welle", "r_m": [16, 32]}, "abstand_m": 0.4, "rolle": "stein"},
-    {"name": "eispflanze", "ebene": "bewuchs", "warum": "fast kein Bewuchs (blanker Fels) - nur Eispflanzen in Rissen", "palette": "eispflanzen",
-     "verteilung": {"typ": "cluster", "form": "ellipse", "bei": "welle", "a_m": 20, "b_m": 15, "richtung": 120, "zentren": [4, 6], "je": [2, 5], "radius_m": 1.2}, "abstand_m": 0.3, "rolle": "pflanze"},
-    {"name": "randbewuchs", "ebene": "bewuchs", "warum": "Trockengras und Didelta erst am Muldenrand", "palette": ["SM_dead_grass_03", "SM_didelta_spinosa_small_NN", "SM_dead_grass_02"],
-     "anzahl": 30, "verteilung": {"typ": "ring", "bei": "welle", "r_m": [24, 40]}, "abstand_m": 2.2, "rolle": "pflanze"},
-    {"name": "fugensaum", "ebene": "kontakt", "warum": "Sandsaum an Wand und Randplatten", "palette": "steinchen",
-     "verteilung": {"typ": "um_gruppe", "gruppe": ["schichtwand", "begleitwand", "randplatten"], "ring": [0.9, 1.25], "je": [12, 20]}, "rolle": "stein"},
-    {"name": "plattenfugen", "ebene": "kontakt", "warum": "Kies in den Plattenfugen (nichts liegt auf)", "palette": "kies",
-     "verteilung": {"typ": "um_gruppe", "gruppe": "wellenplatte", "ring": [0.95, 1.1], "je": [2, 4]}, "rolle": "stein"}
+    {"name": "wellenplatte", "ebene": "held", "warum": "die Welle: flache, kreuzgeschichtete Platten (Desert Western Ground/Slate Patches), dicht an dicht wie ein Boden aus Stein", "palette": ["ulksbcz_tier_0", "venodhb_tier_0", "uk4qcgx_tier_0", "ulerccg_tier_0"], "anzahl": 34, "verteilung": {"typ": "ellipse", "bei": "welle", "a_m": 18, "b_m": 13, "richtung": 120}, "abstand_m": 3.6, "groesse_m": [3.5, 5.0], "eingraben": [0.4, 0.55], "yaw": 120, "yaw_streuung_grad": 25, "akteur": false, "kollision": true, "meide": "kern", "mindestens": 20, "hinweis": "Ausrichtung entlang der Kreuzschichtung (120 Grad), damit die Linien der Decals durchlaufen"},
+    {"name": "schichtwand", "ebene": "held", "warum": "an der Muldenkante steigt die Kreuzschichtung als Wand auf (Desert Western Cliff Layered Large 02)", "netz": "vb1mbdega_tier_0", "verteilung": {"typ": "punkt", "bei": "wand"}, "skala": 0.8, "yaw": 210, "front_achse": "+y", "eingraben": [0.35, 0.42], "akteur": true, "kollision": true, "meide": null},
+    {"name": "begleitwand", "ebene": "begleiter", "warum": "zweite, kleinere Schichtwand (gleiche Kreuzschichtung)", "netz": "vbzmdd1ga_tier_0", "verteilung": {"typ": "punkt", "bei": {"von": "wand", "richtung": 300, "abstand_m": 16}}, "skala": 0.6, "yaw": 210, "front_achse": "+y", "eingraben": [0.38, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "randplatten", "ebene": "begleiter", "warum": "aufgestellte Schichtplatten am Muldenrand", "netz": "vifkfelqx_tier_0", "anzahl": 6, "verteilung": {"typ": "ring", "bei": "welle", "r_m": [19, 26]}, "groesse_m": [3.5, 5.0], "kipp_grad": [15, 30], "kipp_richtung": "zu:welle", "eingraben": [0.35, 0.45], "abstand_m": 5, "akteur": false, "kollision": true},
+    {"name": "schutt", "ebene": "schutt", "warum": "Brocken von den Rippen am Muldenrand", "palette": ["SM_RockSandstone_021", "SM_RockSandstone_034", "SM_namaqualand_boulder_06_NN"], "anzahl": 40, "verteilung": {"typ": "ring", "bei": "welle", "r_m": [16, 30]}, "groesse_m": [0.4, 1.2], "abstand_m": 1.4},
+    {"name": "sandschleppen", "ebene": "schutt", "warum": "Sandschleppen im Lee der Schichtwand", "palette": "sandschleppe", "anzahl": 10, "verteilung": {"typ": "faecher", "bei": "wand", "richtung": 140, "laenge_m": 18, "oeffnung_grad": 60}, "skala": [0.8, 1.1], "yaw": 140, "abstand_m": 3, "rolle": "streu", "ausrichtung": "normale"},
+    {"name": "abflusskies", "ebene": "schutt", "warum": "Kies in der Abflussrinne nach SW", "palette": "brocken", "anzahl": 25, "verteilung": {"typ": "band", "punkte": ["welle", "abfluss", [-40, 40]], "breite_m": 3.5, "t": [0.35, 1.0]}, "groesse_m": [0.25, 0.6], "abstand_m": 0.8},
+    {"name": "sand", "ebene": "kleinzeug", "warum": "Feinkies in den Fugen der Platten", "palette": "steinchen", "anzahl": 500, "verteilung": {"typ": "ellipse", "bei": "welle", "a_m": 24, "b_m": 18, "richtung": 120}, "abstand_m": 0.3, "rolle": "stein"},
+    {"name": "kies", "ebene": "kleinzeug", "warum": "Kies am Muldenrand", "palette": "kies", "anzahl": 300, "verteilung": {"typ": "ring", "bei": "welle", "r_m": [16, 32]}, "abstand_m": 0.4, "rolle": "stein"},
+    {"name": "eispflanze", "ebene": "bewuchs", "warum": "fast kein Bewuchs (blanker Fels) - nur Eispflanzen in Rissen", "palette": "eispflanzen", "verteilung": {"typ": "cluster", "form": "ellipse", "bei": "welle", "a_m": 20, "b_m": 15, "richtung": 120, "zentren": [4, 6], "je": [2, 5], "radius_m": 1.2}, "abstand_m": 0.3, "rolle": "pflanze"},
+    {"name": "randbewuchs", "ebene": "bewuchs", "warum": "Trockengras und Didelta erst am Muldenrand", "palette": ["SM_dead_grass_03", "SM_didelta_spinosa_small_NN", "SM_dead_grass_02"], "anzahl": 30, "verteilung": {"typ": "ring", "bei": "welle", "r_m": [24, 40]}, "abstand_m": 2.2, "rolle": "pflanze"},
+    {"name": "fugensaum", "ebene": "kontakt", "warum": "Sandsaum an Wand und Randplatten", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["schichtwand", "begleitwand", "randplatten"], "ring": [0.9, 1.25], "je": [12, 20]}, "rolle": "stein"},
+    {"name": "plattenfugen", "ebene": "kontakt", "warum": "Kies in den Plattenfugen (nichts liegt auf)", "palette": "kies", "verteilung": {"typ": "um_gruppe", "gruppe": "wellenplatte", "ring": [0.95, 1.1], "je": [2, 4]}, "rolle": "stein"}
    ],
    "lagen": [
     {"lage": "Sandstein", "form": "kreis", "bei": "welle", "r_m": 26, "wert": 230, "flecken": 0.25, "streckung": [1.3, 1.0], "richtung": 120},
@@ -703,16 +534,15 @@
     {"lage": "Sand", "form": "um_gruppe", "gruppe": ["schichtwand", "begleitwand"], "ring": [0.9, 1.8], "wert": 190},
     {"lage": "Kies", "form": "band", "punkte": ["welle", "abfluss", [-40, 40]], "breite_m": 3, "wert": 180, "flecken": 0.3}
    ],
-   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130},
-            "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
+   "pfad": {"breite_cm": 120, "lagen": {"Erde": 200, "Kies": 130}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe"}},
    "verdeckung": {"kern": "welle", "probe_r_m": 8, "ziel_hoehe_m": 2},
    "effekte": [
-    {"typ": "decal", "material": "MI_EL_SW_Welle_Streifen", "optional": true, "textur": "antworten/sehens/canyon/decal_welle.png", "textur_normal": "antworten/sehens/canyon/decal_welle_n.png",
-     "zweck": "Kreuzschichtungs-Linien (Rot/Ocker/Weiss) ueber die Platten - eigene prozedurale Decal-Textur", "hinweis": "Materialwunsch MI_EL_SW_Welle_Streifen (M_MS_Decal) mit decal_welle.png anlegen; optional bis dahin",
-     "anzahl": 5, "verteilung": {"typ": "ellipse", "bei": "welle", "a_m": 14, "b_m": 10, "richtung": 120}, "abstand_m": 6, "groesse_m": [2.0, 9.0, 9.0]},
+    {"typ": "decal", "material": "MI_EL_SW_Welle_Streifen", "optional": true, "textur": "antworten/sehens/canyon/decal_welle.png", "textur_normal": "antworten/sehens/canyon/decal_welle_n.png", "zweck": "Kreuzschichtungs-Linien (Rot/Ocker/Weiss) ueber die Platten - eigene prozedurale Decal-Textur", "hinweis": "Materialwunsch MI_EL_SW_Welle_Streifen (M_MS_Decal) mit decal_welle.png anlegen; optional bis dahin", "anzahl": 5, "verteilung": {"typ": "ellipse", "bei": "welle", "a_m": 14, "b_m": 10, "richtung": 120}, "abstand_m": 6, "groesse_m": [2.0, 9.0, 9.0]},
     {"typ": "decal", "material": "MI_Leakage_08", "zweck": "dunkle Wuestenlack-Streifen an der Schichtwand", "bei": "wand", "hoehe_m": 3, "ausrichtung": "wand", "blick": 30, "groesse_m": [1.0, 3.0, 5.0]}
    ],
-   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "welle", "radius_m": 40, "lautstaerke": 0.3, "zweck": "leiser Wind in der Mulde"}]
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "welle", "radius_m": 40, "lautstaerke": 0.3, "zweck": "leiser Wind in der Mulde"}
+   ]
   }
  }
 }

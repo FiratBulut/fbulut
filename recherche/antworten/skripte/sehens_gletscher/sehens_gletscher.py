@@ -25,7 +25,9 @@ Eigener Code (alles andere steht in den Regeln), fuer alle Orte gleich:
     wie die Sichtlinien es verlangen (begrenzt auf hoehe_max_m), und setzt die Linie 'rahmen_<name>' fuer Gruppen
     (Felsen, Gehoelz auf dem Wall). Zufall deterministisch aus Seed + Ort-ID.
   - Hook 'nach_ops' (nach_gelaende): Werkzeuge, die rezept.py nicht als Regel kennt (damm = Stempel.damm).
-  - Hook 'ende': Seen mit "eis": true bekommen in orte.json "eis": true + Materialwunsch (zugefrorene Flaeche);
+  - Hook 'see_fuellen' (anker): See fuellt eine bestehende geschlossene Senke bis knapp unter den Ueberlauf.
+  - Hook 'ende': Wasser-Regeln mit "eis": true / "material_wunsch" / "hinweis" werden in orte.json uebernommen
+    (zugefrorene Flaechen, Mountain-Fluss-/Wasserfallmaterial);
     Fundstuecke: Verdeckungspruefung mit Stempel + geplanten Stuecken (sehens_lib/verdeckung.py) als HINWEIS.
 Quellen: vorlagen/SEHENS_FORMAT.md, vorlagen/FORMAT.md §3, auftraege/13-, 13b-, 13c-*.md,
 antworten/skripte/sehens_lib/ (README.md, PLANER_ANLEITUNG.md).
@@ -69,10 +71,12 @@ def _wegpunkte(welt):
 # ----------------------------------------------------------------------------------------------------------------------
 def hook_rahmen(ctx):
     """Sichtrahmen (Fundstueck): Wall in Richtung der Weg-/Steigpunkte, die den Ort heute sehen.
-    Regel "rahmen": [{"name", "bei", "ziel_hoehe_m" (3), "r_max_m" (800), "abstand_m", "breite_m", "hoehe_min_m",
-    "hoehe_max_m", "rand_grad" (Zugabe an den Bogenenden), "richtung" (falls heute schon verdeckt: Bogenmitte),
-    "bogen_grad" (Mindestbogen), "krone"}]. Ergebnis: gelaende.nach_ops += damm, Linie rahmen_<name>, Anker
-    rahmen_<name>_mitte, Meldung mit Hoehenbedarf."""
+    Regel "rahmen": [{"name", "bei", "ziel_hoehe_m" (3), "r_min_m" (0), "r_max_m" (800), "richtung_bereich" [g0, g1]
+    (nur Blicke aus diesem Sektor), "abstand_m", "breite_m", "hoehe_min_m", "hoehe_max_m", "rand_grad" (Zugabe an den
+    Bogenenden), "richtung" + "bogen_grad" (Bogen, falls heute niemand den Ort sieht), "krone"}].
+    Je Blickpunkt wird die Wallhoehe berechnet, die seine Sichtlinie zur Zieloberkante im Abstand abstand_m schneidet;
+    der Wall folgt den Blickrichtungen, die mit hoehe_max_m sperrbar sind. Ergebnis: gelaende.nach_ops += damm,
+    Linie rahmen_<name>, Anker rahmen_<name>_mitte, Meldung (wie viele Blicke der Wall sperrt, Rest fuer Gehoelz/Felsen)."""
     import numpy as np
     from sehens_lib import sicht, stempel as stm
     for k, rr in enumerate(ctx.r.get("rahmen") or []):
@@ -88,11 +92,24 @@ def hook_rahmen(ctx):
             a, _, dd = sicht.sichtanteil(ctx.welt, wp.x_m[idx], wp.y_m[idx], x, y, H)
             sel = np.flatnonzero(a > 0.15)
         g_v = np.array([stm.vektor_kompass(wp.x_m[idx[i]] - x, wp.y_m[idx[i]] - y) for i in sel])
-        if len(sel):
-            # Mitte des Bogens = Kreismittel der Blickrichtungen, Breite = groesste Abweichung + Rand
-            mx_, my_ = np.mean(np.sin(np.radians(g_v))), np.mean(-np.cos(np.radians(g_v)))
+        if rr.get("richtung_bereich") and len(sel):
+            g0_, g1_ = rr["richtung_bereich"]
+            innen = ((g_v - g0_) % 360.0) <= ((g1_ - g0_) % 360.0)
+            sel, g_v = sel[innen], g_v[innen]
+        h_max, h_min = float(rr.get("hoehe_max_m", 7.0)), float(rr.get("hoehe_min_m", 2.0))
+        bedarf = []
+        for i, gv in zip(sel, g_v):
+            px, py = x + r * math.sin(math.radians(gv)), y - r * math.cos(math.radians(gv))
+            D = max(float(d[idx[i]]), r + 1.0)
+            z_e = float(wp.z_m[idx[i]]) + 1.7
+            bedarf.append(z_t + (z_e - z_t) * r / D + 0.5 - float(ctx.welt.hoehe_bei_m(px, py)))
+        bedarf = np.asarray(bedarf)
+        sperrbar = bedarf <= h_max
+        g_s = g_v[sperrbar] if sperrbar.any() else g_v
+        if len(g_s):
+            mx_, my_ = np.mean(np.sin(np.radians(g_s))), np.mean(-np.cos(np.radians(g_s)))
             g0 = stm.vektor_kompass(mx_, my_)
-            dev = np.abs((g_v - g0 + 180.0) % 360.0 - 180.0)
+            dev = np.abs((g_s - g0 + 180.0) % 360.0 - 180.0)
             halb = min(180.0, float(dev.max()) + float(rr.get("rand_grad", 15.0)))
         else:
             g0 = ctx.richtung(rr.get("richtung", 0.0), rr.get("bei", "mitte"))
@@ -101,21 +118,7 @@ def hook_rahmen(ctx):
         n = max(3, int(math.ceil(2 * halb * math.pi / 180.0 * r / 3.0)) + 1)
         gg = np.linspace(g0 - halb, g0 + halb, n) if halb < 180.0 else np.linspace(0, 360, n)
         P = [[x + r * math.sin(math.radians(g)), y - r * math.cos(math.radians(g))] for g in gg]
-        # Hoehenbedarf je Bogenpunkt: Sichtlinie Auge -> Zieloberkante bei Abstand r
-        bedarf = []
-        for (px, py), g in zip(P, gg):
-            zb = float(ctx.welt.hoehe_bei_m(px, py))
-            h = 0.0
-            for i, gv in zip(sel, g_v):
-                if abs((gv - g + 180.0) % 360.0 - 180.0) > 14.0:
-                    continue
-                j = idx[i]
-                D = max(float(d[i]), r + 1.0)
-                z_e = float(wp.z_m[j]) + 1.7
-                h = max(h, z_t + (z_e - z_t) * r / D + 0.5 - zb)
-            bedarf.append(h)
-        h_req = float(np.max(bedarf)) if bedarf else 0.0
-        h_min, h_max = float(rr.get("hoehe_min_m", 2.0)), float(rr.get("hoehe_max_m", 7.0))
+        h_req = float(bedarf[sperrbar].max()) if sperrbar.any() else 0.0
         hoehe = float(np.clip(h_req, h_min, h_max))
         ops = ctx.r.setdefault("gelaende", {}).setdefault("nach_ops", [])
         ops.append({"op": "damm", "punkte": [{"pos_m": p} for p in P], "breite_m": float(rr.get("breite_m", 14.0)),
@@ -124,10 +127,46 @@ def hook_rahmen(ctx):
         ctx.linien["rahmen_" + name] = P
         ctx.anker["rahmen_%s_mitte" % name] = (x + r * math.sin(math.radians(g0)), y - r * math.cos(math.radians(g0)))
         ctx.richtungen["rahmen_" + name] = g0
-        ctx.melde("HINWEIS", "Rahmen %s: %d Weg-/Steigpunkte sehen den Ort heute (Richtung %.0f +-%.0f Grad); Wall %.1f m "
-                             "(Bedarf %.1f m) in %.0f m Abstand%s" % (name, len(sel), g0, halb, hoehe, h_req, r,
-                                                                       "; Rest decken Felsen/Gehoelz auf dem Wall"
-                                                                       if h_req > hoehe + 0.2 else ""))
+        rest = "" if sperrbar.all() else "; %d Blicke steiler (Wall muesste bis %.0f m hoch sein) - Gehoelz/Felsen auf " \
+                                         "dem Wall, Rest siehe Verdeckung" % (int((~sperrbar).sum()), float(bedarf.max()))
+        ctx.melde("HINWEIS", "Rahmen %s: %d Weg-/Steigpunkte sehen den Ort heute; Wall %.1f m in %.0f m Abstand, Richtung "
+                             "%.0f +-%.0f Grad, sperrt %d%s" % (name, len(sel), hoehe, r, g0, halb, int(sperrbar.sum()), rest))
+
+
+def hook_see_fuellen(ctx):
+    """Seen mit "fuellen": {"r_such_m", "unter_rand_m"} fuellen eine bestehende geschlossene Senke bis knapp unter
+    ihren Ueberlauf (Toteisloch): Mitte, Radius (flaechengleich) und Spiegel aus dem Bestand (gefuellt - Boden)."""
+    import numpy as np
+    from sehens_lib import gelaende as _g
+    for w in ctx.r.get("wasser") or []:
+        f = w.get("fuellen")
+        if w.get("typ") != "see" or not f:
+            continue
+        x, y = ctx.punkt(w.get("bei", "mitte"))
+        fe = ctx.welt.fenster(x, y, float(f.get("r_such_m", 40.0)))
+        h = fe.get("hoehe").astype(np.float32)
+        r_ = _g.abfluss(h, ctx.welt.zelle_m, np.zeros(h.shape, bool))
+        tief = r_["gefuellt"] - h
+        X, Y = fe.gitter_m()
+        m = (tief > 0.2) & (np.hypot(X - x, Y - y) <= float(f.get("r_such_m", 40.0)) * 0.8)
+        if not m.any():
+            ctx.melde("HINWEIS", "see %s: keine Senke zum Fuellen gefunden" % w["id"])
+            continue
+        ueberlauf = float(r_["gefuellt"][m].max())
+        spiegel = ueberlauf - float(f.get("unter_rand_m", 0.4))
+        nass = m & (h < spiegel)
+        if not nass.any():
+            nass = m
+        cx, cy = float(X[nass].mean()), float(Y[nass].mean())
+        rad = max(3.0, math.sqrt(nass.sum() * ctx.welt.zelle_m ** 2 / math.pi) + 0.5)
+        w["bei"] = {"pos_m": [cx, cy]}
+        w["spiegel"] = round(spiegel, 2)
+        w.pop("spiegel_rand_min", None)
+        b = w.setdefault("becken", {})
+        b["a_m"] = b["b_m"] = round(rad, 1)
+        w.pop("r_m", None)
+        ctx.melde("HINWEIS", "see %s gefuellt: Ueberlauf %.2f m, Spiegel %.2f m, Mitte %.0f/%.0f, r %.1f m"
+                  % (w["id"], ueberlauf, spiegel, cx, cy, rad))
 
 
 def hook_nach_ops(ctx):
@@ -175,26 +214,40 @@ def _senken_ort(ctx):
 def hook_ende(ctx):
     """Eisflaechen markieren, Verdeckung der Fundstuecke pruefen (nur Meldung)."""
     _senken_ort(ctx)
-    eis = {w["id"]: w for w in (ctx.r.get("wasser") or []) if w.get("eis")}
+    regeln = {w.get("id"): w for w in (ctx.r.get("wasser") or [])}
     for e in ctx.wasser:
-        w = eis.get(e.get("id"))
-        if w:
+        w = regeln.get(e.get("id")) or {}
+        if w.get("eis"):
             e["eis"] = True
-            if w.get("material_wunsch"):
-                e["material_wunsch"] = w["material_wunsch"]
-            if w.get("hinweis"):
-                e["hinweis"] = w["hinweis"]
+        for k in ("material_wunsch", "hinweis"):
+            if w.get(k):
+                e[k] = (e[k] + "; " + w[k]) if (k == "hinweis" and e.get(k)) else w[k]
     if ctx.st.get("art") == "fundstueck" and not ctx.r.get("_ohne_sicht"):
         from sehens_lib import verdeckung
+        kern = ctx.punkt(ctx.r["sicht_kern"]) if ctx.r.get("sicht_kern") else None
         res = verdeckung.pruefe_ort(ctx, _wegpunkte(ctx.welt), ziel_hoehe_m=float(ctx.r.get("sicht_ziel_m", 3.0)),
-                                    probe_r_m=float(ctx.r.get("sicht_probe_m", 0.0)) or None,
+                                    probe_r_m=float(ctx.r.get("sicht_probe_m", 0.0)) or None, kern_m=kern,
                                     r_max_m=float(ctx.r.get("sicht_r_max_m", 800.0)))
         ctx.sicht_ergebnis = res
         ctx.melde("HINWEIS", res["text"])
+        if not res["verdeckt"]:
+            # wer sieht den Kern noch? (Richtung, Abstand, Hoehe ueber dem Ziel) - fuer Nacharbeit und Bericht
+            import numpy as np
+            from sehens_lib import sicht, stempel as stm
+            wp = _wegpunkte(ctx.welt)
+            x, y = res["kern_m"]
+            w2 = verdeckung.welt_mit_plan(ctx.welt, ctx.stempel, verdeckung.stuecke_aus_ctx(ctx))
+            idx, d = wp.im_ring(x, y, 0.0, float(ctx.r.get("sicht_r_max_m", 800.0)))
+            a, _, _ = sicht.sichtanteil(w2, wp.x_m[idx], wp.y_m[idx], x, y, res["ziel_hoehe_m"])
+            zt = float(w2.hoehe_bei_m(x, y))
+            sel = np.flatnonzero(a > 0.15)
+            liste = sorted((round(stm.vektor_kompass(wp.x_m[idx[k]] - x, wp.y_m[idx[k]] - y)), round(float(d[idx[k]])),
+                            round(float(wp.z_m[idx[k]]) - zt)) for k in sel)
+            ctx.melde("HINWEIS", "Verdeckung Rest (Richtung/Abstand/dz): %s" % ", ".join("%d/%d/%+d" % t for t in liste[:12]))
 
 
 def _hooks(oid, R):
-    h = {"anker": [hook_rahmen], "nach_gelaende": [hook_nach_ops], "ende": [hook_ende]}
+    h = {"anker": [hook_see_fuellen, hook_rahmen], "nach_gelaende": [hook_nach_ops], "ende": [hook_ende]}
     for k, f in (HOOKS.get(oid) or {}).items():
         h.setdefault(k, []).insert(0, f)
     return {k: (lambda ctx, fs=fs: [f(ctx) for f in fs]) for k, fs in h.items()}
@@ -318,7 +371,7 @@ def main(argv=None):
                 _log("  %-7s %-28s %s" % (s, oid[:28], t))
     for c in kontexte:
         for s, oid, t in c.meldungen:
-            if s == "HINWEIS" and (t.startswith("Rahmen") or t.startswith("Verdeckung") or t.startswith("Senke")):
+            if s == "HINWEIS" and (t.startswith("Rahmen") or t.startswith("Verdeckung") or t.startswith("Senke") or t.startswith("see ")):
                 _log("  %-7s %-28s %s" % (s, oid[:28], t))
     _log("Planer: %d FEHLER, %d WARNUNG, %d HINWEIS" % tuple(sum(1 for m in meld if m[0] == s)
                                                          for s in ("FEHLER", "WARNUNG", "HINWEIS")))

@@ -28,6 +28,11 @@
    "SM_lava_m_rock_08",
    "SM_lava_s_rock_03"
   ],
+  "spatter": [
+   "SM_lava_wall_06",
+   "SM_lava_wall_07",
+   "SM_lava_wall_08"
+  ],
   "lava_klein": [
    "SM_lava_s_rock_01",
    "SM_lava_s_rock_02",
@@ -180,11 +185,14 @@
     ]
    },
    "fuer": [
+    "SM_lava_wall_01",
+    "SM_lava_wall_02",
+    "SM_lava_wall_03",
+    "SM_lava_wall_09",
     "Basalt_Basalt_Cliff_Rock_A_SM",
     "SM_lava_b_rock_01",
     "SM_lava_b_rock_02",
-    "SM_lava_m_rock_01",
-    "SM_lava_m_rock_04"
+    "SM_lava_m_rock_01"
    ]
   },
   {
@@ -201,6 +209,8 @@
     "Variation": 0.7
    },
    "fuer": [
+    "SM_lava_wall_07",
+    "SM_lava_wall_08",
     "SM_lava_m_rock_02",
     "SM_lava_m_rock_07",
     "SM_lava_m_rock_08",
@@ -288,7 +298,9 @@
     ]
    },
    "fuer": [
-    "Basalt_Basalt_Cliff_Rock_B_SM",
+    "SM_lava_wall_06",
+    "SM_lava_wall_07",
+    "SM_lava_wall_08",
     "SM_lava_s_rock_05",
     "SM_lava_m_rock_08"
    ]
@@ -311,10 +323,6 @@
     "decals": 3
    },
    "assets_wunsch": [
-    {
-     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "statt_jetzt": "SM_lava_wall_01/02/03/09 fehlen in netze.csv (13b): Wandschollen aus Basalt_Basalt_Cliff_Rock_A_SM + SM_lava_b_rock_01/02 mit MI_EL_SW_Lava_Moos"
-    },
     {
      "paket": "Megascans Icelandic Sand With Pebbles",
      "statt_jetzt": "SM_SmallStonesPack_08-14 + SM_lava_s_rock_06-08 + Lage Lavasand"
@@ -470,22 +478,6 @@
       "tiefe_m": 1.4,
       "rand_m": 2.5,
       "warum": "zweite Kerbe zwischen zwei Stromlappen"
-     },
-     {
-      "op": "buckel",
-      "bei": [
-       10,
-       -10
-      ],
-      "radius_m": 34,
-      "amplitude_m": 0.7,
-      "wellenlaenge_m": 7,
-      "streckung": [
-       1.8,
-       1.0
-      ],
-      "richtung": 10,
-      "warum": "Blocklava-Oberflaeche schollig, nicht glatt"
      }
     ]
    },
@@ -548,23 +540,19 @@
     {
      "name": "wandschollen",
      "ebene": "begleiter",
-     "warum": "erstarrte Stirnschollen bilden die Wand (Ersatz fuer SM_lava_wall_01/02/03/09)",
+     "warum": "erstarrte Stirnschollen bilden die Wand (SM_lava_wall_01/02/03/09, Katalog)",
      "palette": [
-      "Basalt_Basalt_Cliff_Rock_A_SM",
-      "SM_lava_b_rock_01",
-      "SM_lava_b_rock_02"
-     ],
-     "gewichte": [
-      2,
-      1,
-      1
+      "SM_lava_wall_01",
+      "SM_lava_wall_02",
+      "SM_lava_wall_03",
+      "SM_lava_wall_09"
      ],
      "verteilung": {
       "typ": "reihe",
       "punkte": "front",
-      "abstand_m": 17,
-      "versatz_m": 1.5,
-      "versatz_streuung_m": 2.5,
+      "abstand_m": 11,
+      "versatz_m": 1.0,
+      "versatz_streuung_m": 3.0,
       "seiten": [
        "links"
       ],
@@ -572,14 +560,52 @@
       "front_an_linie": true
      },
      "groesse_m": [
-      7.0,
-      10.0
+      10.0,
+      15.0
      ],
      "front_achse": "+y",
-     "yaw_streuung_grad": 25,
+     "yaw_streuung_grad": 30,
      "kipp_grad": [
-      0,
-      10
+      2,
+      12
+     ],
+     "eingraben": [
+      0.25,
+      0.4
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Lava_Moos",
+     "meide": null,
+     "hinweis": "Pivot von SM_lava_wall_* unbekannt (kein Eintrag in netze_masse.json) - unten Mitte angenommen; die SM_lava_b/m/s_rock desselben Pakets haben den Pivot in der Mitte: im Editor pruefen"
+    },
+    {
+     "name": "lappen",
+     "ebene": "begleiter",
+     "warum": "vorspringende Stromlappen brechen die Linie (nie gerade)",
+     "palette": [
+      "Basalt_Basalt_Cliff_Rock_A_SM",
+      "SM_lava_b_rock_02"
+     ],
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "front",
+      "versatz_m": 1.5,
+      "breite_m": 4,
+      "t": [
+       0.08,
+       0.92
+      ]
+     },
+     "abstand_m": 24,
+     "groesse_m": [
+      6.5,
+      9.0
+     ],
+     "kipp_grad": [
+      4,
+      14
      ],
      "eingraben": [
       0.3,
@@ -588,8 +614,7 @@
      "akteur": true,
      "kollision": true,
      "material": "MI_EL_SW_Lava_Moos",
-     "meide": null,
-     "hinweis": "Schauseite der Schollen unbekannt (front_achse +y angenommen)"
+     "meide": null
     },
     {
      "name": "abgesackt",
@@ -687,14 +712,23 @@
      "ebene": "kleinzeug",
      "warum": "Grus und schwarzer Kies im Schuttsaum",
      "palette": "grus",
-     "anzahl": 1400,
      "verteilung": {
-      "typ": "band",
+      "typ": "cluster",
+      "form": "band",
       "punkte": "front",
       "versatz_m": 8,
-      "breite_m": 18
+      "breite_m": 18,
+      "zentren": [
+       70,
+       90
+      ],
+      "je": [
+       10,
+       22
+      ],
+      "radius_m": 2.4
      },
-     "abstand_m": 0.35,
+     "abstand_m": 0.3,
      "rolle": "stein"
     },
     {
@@ -702,14 +736,23 @@
      "ebene": "kleinzeug",
      "warum": "Krustensplitter auf dem Strom",
      "palette": "grus",
-     "anzahl": 700,
      "verteilung": {
-      "typ": "band",
+      "typ": "cluster",
+      "form": "band",
       "punkte": "front",
       "versatz_m": -11,
-      "breite_m": 18
+      "breite_m": 18,
+      "zentren": [
+       40,
+       50
+      ],
+      "je": [
+       8,
+       16
+      ],
+      "radius_m": 2.2
      },
-     "abstand_m": 0.45,
+     "abstand_m": 0.4,
      "rolle": "stein"
     },
     {
@@ -795,19 +838,19 @@
      "palette": "tundragras",
      "verteilung": {
       "typ": "cluster",
-      "form": "ring",
-      "bei": "mitte",
-      "r_m": [
-       18,
-       66
+      "form": "kreis",
+      "bei": [
+       -44,
+       0
       ],
+      "r_m": 42,
       "zentren": [
-       16,
-       22
+       34,
+       42
       ],
       "je": [
-       5,
-       10
+       6,
+       12
       ],
       "radius_m": 3.0
      },
@@ -816,7 +859,8 @@
      "hoehe_rel_m": [
       -12,
       -2.5
-     ]
+     ],
+     "hoehe_bezug": "turm"
     },
     {
      "name": "pioniere",
@@ -840,8 +884,8 @@
       "bei": "pioniere",
       "r_m": 30,
       "zentren": [
-       5,
-       7
+       9,
+       12
       ],
       "je": [
        1,
@@ -856,9 +900,10 @@
      ],
      "rolle": "pflanze",
      "hoehe_rel_m": [
-      0.5,
+      -1.5,
       9
-     ]
+     ],
+     "hoehe_bezug": "turm"
     },
     {
      "name": "moos_nord",
@@ -869,6 +914,7 @@
       "typ": "um_gruppe",
       "gruppe": [
        "wandschollen",
+       "lappen",
        "abgesackt",
        "saum_grob"
       ],
@@ -894,6 +940,7 @@
       "typ": "um_gruppe",
       "gruppe": [
        "wandschollen",
+       "lappen",
        "abgesackt",
        "hornito",
        "zwilling"
@@ -1063,10 +1110,6 @@
    },
    "assets_wunsch": [
     {
-     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "statt_jetzt": "Dampf: NS_Smoke_Plume / NS_Chimney_Smoke (Niagara Examples, optional, Kopie weiss-grau, langsam) + 2 lokaler_nebel; Schwefel-Decals aus MI_Leakage_04 + MI_EL_SW_Schwefel_Decal"
-    },
-    {
      "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
      "statt_jetzt": "CUE_Water_Stream_I_Cue leise als Brodeln (kein Zischen im Bestand)"
     }
@@ -1190,22 +1233,6 @@
       ],
       "richtung": 130,
       "warum": "Mulde -1,6 m: zersetzter Boden sackt nach (Katalog)"
-     },
-     {
-      "op": "rinne",
-      "punkte": "riss1",
-      "breite_m": 2.0,
-      "tiefe_m": 0.6,
-      "rand_m": 1.5,
-      "warum": "Dampfspalte 1 (NO-SW, parallel zur Kraterreihe)"
-     },
-     {
-      "op": "rinne",
-      "punkte": "riss2",
-      "breite_m": 1.6,
-      "tiefe_m": 0.5,
-      "rand_m": 1.5,
-      "warum": "Dampfspalte 2"
      },
      {
       "op": "kuppe",
@@ -1410,15 +1437,45 @@
      "ebene": "kleinzeug",
      "warum": "gebleichter, zerfallener Grus in der Mulde",
      "palette": "steinchen",
-     "anzahl": 900,
      "verteilung": {
-      "typ": "ellipse",
-      "bei": "mitte",
-      "a_m": 26,
-      "b_m": 18,
-      "richtung": 130
+      "typ": "cluster",
+      "form": "band",
+      "punkte": "riss1",
+      "breite_m": 22,
+      "zentren": [
+       30,
+       40
+      ],
+      "je": [
+       10,
+       20
+      ],
+      "radius_m": 2.5
      },
-     "abstand_m": 0.45,
+     "abstand_m": 0.35,
+     "rolle": "stein"
+    },
+    {
+     "name": "bleichgrus2",
+     "ebene": "kleinzeug",
+     "warum": "dasselbe am zweiten Riss",
+     "palette": "steinchen",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "band",
+      "punkte": "riss2",
+      "breite_m": 14,
+      "zentren": [
+       14,
+       18
+      ],
+      "je": [
+       8,
+       16
+      ],
+      "radius_m": 2.2
+     },
+     "abstand_m": 0.35,
      "rolle": "stein"
     },
     {
@@ -1454,8 +1511,8 @@
        40
       ],
       "zentren": [
-       14,
-       18
+       26,
+       32
       ],
       "je": [
        3,
@@ -1463,7 +1520,7 @@
       ],
       "radius_m": 3.5
      },
-     "abstand_m": 1.4,
+     "abstand_m": 1.2,
      "rolle": "pflanze",
      "skala": [
       0.7,
@@ -1481,15 +1538,15 @@
       "bei": "mitte",
       "r_m": [
        38,
-       62
+       64
       ],
       "zentren": [
-       12,
-       16
+       26,
+       32
       ],
       "je": [
-       5,
-       9
+       6,
+       11
       ],
       "radius_m": 3.0
      },
@@ -1639,34 +1696,33 @@
    "effekte": [
     {
      "typ": "niagara",
-     "asset": "NS_Smoke_Plume",
-     "optional": true,
+     "asset": "FX_Smoke_Volcano_01",
+     "optional": false,
      "bei": "schlot",
      "hoehe_m": 1.0,
-     "skala": 1.5,
-     "zweck": "Dampfsaeule 20-30 m (Kopie, weiss, langsam, kein Rauchschwarz) - zieht vom Weg",
-     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "hinweis": "Dampf aus Lava & Volcano einsetzen, sobald nachgeladen"
+     "skala": 0.45,
+     "zweck": "Dampfsaeule 20-30 m ueber dem Schlot - zieht vom Weg (Leuchtfeuer)",
+     "hinweis": "Lava & Volcano (13d): als Kopie weiss-gelblich und halb so dicht (Dampf, keine Asche)"
     },
     {
      "typ": "niagara",
-     "asset": "NS_Chimney_Smoke",
-     "optional": true,
+     "asset": "FX_Lava_Smoke_03",
+     "optional": false,
      "bei": "f3",
-     "hoehe_m": 0.4,
-     "skala": 0.5,
-     "zweck": "kleine Fumarolenfahne (Kopie, weiss-grau, duenn)",
-     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)"
+     "hoehe_m": 0.3,
+     "skala": 0.4,
+     "zweck": "kleine Fumarolenfahne am Riss",
+     "hinweis": "Kopie weiss-grau, duenn"
     },
     {
      "typ": "niagara",
-     "asset": "NS_Chimney_Smoke",
-     "optional": true,
+     "asset": "FX_Lava_Smoke_02",
+     "optional": false,
      "bei": "quelle_w",
      "hoehe_m": 0.2,
-     "skala": 0.6,
-     "zweck": "Dampf ueber der Schwefelquelle (Kopie, weiss, flach)",
-     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)"
+     "skala": 0.35,
+     "zweck": "Dampf ueber der Schwefelquelle",
+     "hinweis": "Kopie weiss, flach, langsam"
     },
     {
      "typ": "lokaler_nebel",
@@ -1700,8 +1756,8 @@
      "typ": "decal",
      "material": "MI_EL_SW_Schwefel_Decal",
      "optional": true,
-     "anzahl": 5,
-     "zweck": "Schwefelkruste gelb an den Muendungen (Materialwunsch, Maske MI_Leakage_04)",
+     "anzahl": 3,
+     "zweck": "Schwefelkruste gelb an den Muendungen (Materialwunsch auf M_MS_Decal, Maske MI_Leakage_04 - legt Ferat an)",
      "verteilung": {
       "typ": "band",
       "punkte": "riss1",
@@ -1715,9 +1771,47 @@
     },
     {
      "typ": "decal",
+     "material": "MI_Decal_Clay_02",
+     "anzahl": 4,
+     "zweck": "Ocker/Lehm: zersetzter Boden (Coast & Dunes)",
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "mitte",
+      "a_m": 20,
+      "b_m": 13,
+      "richtung": 130
+     },
+     "groesse_m": [
+      1.0,
+      5.0,
+      5.0
+     ],
+     "abstand_m": 6
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "anzahl": 2,
+     "zweck": "Nassrand an den Quellen (Coast & Dunes)",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "quelle_w",
+      "r_m": [
+       5.0,
+       6.0
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    },
+    {
+     "typ": "decal",
      "material": "MI_Leakage_04",
-     "anzahl": 3,
-     "zweck": "Ocker/Weiss-Flecken (getoent im Editor)",
+     "anzahl": 2,
+     "zweck": "gebleichte Flecken am zweiten Riss",
      "verteilung": {
       "typ": "band",
       "punkte": "riss2",
@@ -1727,25 +1821,6 @@
       1.0,
       3.5,
       3.5
-     ]
-    },
-    {
-     "typ": "decal",
-     "material": "MI_Leakage_09",
-     "anzahl": 2,
-     "zweck": "Nassrand/gelber Rand an den Quellen",
-     "verteilung": {
-      "typ": "ring",
-      "bei": "quelle_w",
-      "r_m": [
-       5.2,
-       6.5
-      ]
-     },
-     "groesse_m": [
-      1.0,
-      2.5,
-      2.5
      ]
     }
    ],
@@ -1783,16 +1858,8 @@
      "statt_jetzt": "Lage Lavasand + SM_SmallStonesPack_* / SM_stone_05-07"
     },
     {
-     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
-     "statt_jetzt": "Nassband am Kraterteich aus MI_Leakage_* / MI_TileableLeakage_*"
-    },
-    {
      "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
      "statt_jetzt": "SM_MossyRocks_01/02 + SM_lava_s_rock_* mit MI_EL_SW_Lava_Moos"
-    },
-    {
-     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "statt_jetzt": "Schweissschlacke SM_lava_wall_06/07/08 fehlt: SM_lava_m_rock_08 + Basalt_Basalt_Cliff_Rock_B_SM (flach) mit MI_EL_SW_Schlacke_Rot"
     }
    ],
    "anker": {
@@ -1988,6 +2055,13 @@
       "rand_m": 2.0,
       "warum": "Krater k5 nach aussen gebrochen: kein abflussloses Loch, Hufeisenform"
      }
+    ],
+    "senken_erlaubt": [
+     {
+      "bei": "senke",
+      "r_m": 78,
+      "grund": "Bestand: geschlossene Lavasand-Senke (Senkentiefe 3,9 m, Phase 1); Regen versickert im Lavasand, die kleinen Krater sind nach aussen gebrochen"
+     }
     ]
    },
    "wasser": [
@@ -2113,10 +2187,7 @@
      "name": "spatter",
      "ebene": "begleiter",
      "warum": "Spatterfladen: flach gelandete Lavafetzen an den kleinen Kegeln",
-     "palette": [
-      "Basalt_Basalt_Cliff_Rock_B_SM",
-      "SM_lava_m_rock_08"
-     ],
+     "palette": "spatter",
      "anzahl": 4,
      "verteilung": {
       "typ": "punkte",
@@ -2297,15 +2368,24 @@
      "ebene": "kleinzeug",
      "warum": "Lapilli und Kiesel in der Aschensenke",
      "palette": "grus",
-     "anzahl": 1700,
      "verteilung": {
-      "typ": "ellipse",
+      "typ": "cluster",
+      "form": "ellipse",
       "bei": "senke",
       "a_m": 70,
       "b_m": 52,
-      "richtung": 80
+      "richtung": 80,
+      "zentren": [
+       80,
+       100
+      ],
+      "je": [
+       8,
+       20
+      ],
+      "radius_m": 2.8
      },
-     "abstand_m": 0.5,
+     "abstand_m": 0.4,
      "rolle": "stein"
     },
     {
@@ -2321,8 +2401,8 @@
       "b_m": 50,
       "richtung": 80,
       "zentren": [
-       30,
-       38
+       55,
+       65
       ],
       "je": [
        6,
@@ -2438,11 +2518,11 @@
       "bei": "k3",
       "r_m": 12,
       "band_m": [
-       -0.6,
-       0.4
+       -1.0,
+       1.0
       ]
      },
-     "abstand_m": 1.8,
+     "abstand_m": 1.6,
      "rolle": "pflanze",
      "im_wasser": "egal",
      "skala": [
@@ -2659,9 +2739,9 @@
     },
     {
      "typ": "decal",
-     "material": "MI_TileableLeakage_01",
+     "material": "MI_Deca_Wet",
      "anzahl": 2,
-     "zweck": "Nassband am Kraterteich",
+     "zweck": "Nassband am Kraterteich (Coast & Dunes)",
      "verteilung": {
       "typ": "ring",
       "bei": "k1",
@@ -2672,14 +2752,14 @@
      },
      "groesse_m": [
       1.0,
-      2.0,
-      2.0
+      2.5,
+      2.5
      ]
     },
     {
      "typ": "decal",
-     "material": "MI_TileableLeakage_01",
-     "anzahl": 1,
+     "material": "MI_Deca_Wet",
+     "anzahl": 2,
      "zweck": "Nassband am zweiten Teich",
      "verteilung": {
       "typ": "ring",
@@ -2691,8 +2771,8 @@
      },
      "groesse_m": [
       1.0,
-      2.0,
-      2.0
+      2.5,
+      2.5
      ]
     },
     {
@@ -2742,10 +2822,6 @@
    },
    "assets_wunsch": [
     {
-     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "statt_jetzt": "Deckenlippen SM_lava_wall_01/02/09 fehlen: Basalt_Basalt_Cliff_Rock_B_SM als Deckenplatte ueber den Roehrenmaeulern + Basalt_Basalt_Pillars_WallOverhang_SM kopfueber; Roehre selbst = Gelaendekerbe unter der Platte"
-    },
-    {
      "paket": "Cave Ambience",
      "statt_jetzt": "CUE_Rain_Dropping_on_various_textures_Cue leise (Tropfen)"
     },
@@ -2776,8 +2852,16 @@
      "abstand_m": 20
     },
     "ruecken": [
-     -4,
-     -21
+     -5,
+     -16
+    ],
+    "plateau": [
+     -12,
+     16
+    ],
+    "rueckenblick": [
+     -8,
+     -19
     ],
     "dolin_no": [
      28,
@@ -2862,10 +2946,10 @@
       "plateau": 0.3,
       "rand_m": 6,
       "streckung": [
-       4.0,
+       3.6,
        1.0
       ],
-      "richtung": 100,
+      "richtung": 95,
       "warum": "Druckruecken +3,5 m zwischen Weg und Fenster: verdeckt die Grube vom Weg (Phase 1: Einblick 0 %)"
      },
      {
@@ -2945,7 +3029,7 @@
      "name": "deckenplatte_sw",
      "ebene": "held",
      "warum": "Roehrendecke: die erhaltene Kruste ueberspannt das SW-Maul",
-     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "netz": "SM_lava_wall_02",
      "verteilung": {
       "typ": "punkt",
       "bei": {
@@ -2954,7 +3038,7 @@
        "abstand_m": 17.5
       }
      },
-     "skala": 0.95,
+     "skala": 1.0,
      "ausrichtung": "aufrecht",
      "front_achse": "+x",
      "yaw": {
@@ -2962,19 +3046,19 @@
       "plus": 90
      },
      "yaw_streuung_grad": 6,
-     "z_bezug": "boden+6.8",
+     "z_bezug": "boden+6.0",
      "akteur": true,
      "kollision": true,
      "material": "MI_EL_SW_Lava_Moos",
      "meide": null,
      "weg_abstand_m": 0,
-     "hinweis": "Unterkante 6,8 m ueber der Kerbensohle = Roehrenmaul; Oberkante ~buendig mit dem Plateau"
+     "hinweis": "Unterkante 6 m ueber der Kerbensohle = Roehrenmaul; Platte 6,8 m quer ueber der 6,4 m breiten Kerbe; Pivot SM_lava_wall_* unbekannt (unten Mitte angenommen)"
     },
     {
      "name": "deckenplatte_no",
      "ebene": "held",
      "warum": "Roehrendecke ueber dem NO-Maul (Hang faellt nach NO: Maul niedriger)",
-     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "netz": "SM_lava_wall_02",
      "verteilung": {
       "typ": "punkt",
       "bei": {
@@ -2983,7 +3067,7 @@
        "abstand_m": 17.5
       }
      },
-     "skala": 0.95,
+     "skala": 1.0,
      "ausrichtung": "aufrecht",
      "front_achse": "+x",
      "yaw": {
@@ -2991,7 +3075,7 @@
       "plus": 90
      },
      "yaw_streuung_grad": 6,
-     "z_bezug": "boden+3.4",
+     "z_bezug": "boden+3.0",
      "akteur": true,
      "kollision": true,
      "material": "MI_EL_SW_Lava_Moos",
@@ -3002,7 +3086,7 @@
      "name": "deckenlippe",
      "ebene": "held",
      "warum": "abgerissene Deckenlippe haengt ins SW-Maul (kopfueber)",
-     "netz": "Basalt_Basalt_Pillars_WallOverhang_SM",
+     "netz": "SM_lava_wall_09",
      "verteilung": {
       "typ": "punkt",
       "bei": {
@@ -3011,7 +3095,7 @@
        "abstand_m": 14.9
       }
      },
-     "skala": 1.6,
+     "skala": 0.75,
      "ausrichtung": "aufrecht",
      "kipp_grad": 180,
      "kipp_richtung": {
@@ -3022,7 +3106,7 @@
       "basis": "achse",
       "plus": 90
      },
-     "z_bezug": "boden+2.9",
+     "z_bezug": "boden+3.9",
      "akteur": true,
      "kollision": true,
      "material": "MI_EL_SW_Lava_Moos",
@@ -3060,7 +3144,8 @@
      "hoehe_rel_m": [
       -12,
       -4.5
-     ]
+     ],
+     "hoehe_bezug": "plateau"
     },
     {
      "name": "bruchkegel",
@@ -3084,6 +3169,7 @@
       -12,
       -3.5
      ],
+     "hoehe_bezug": "plateau",
      "meide": "kern"
     },
     {
@@ -3108,6 +3194,7 @@
       -12,
       -4.0
      ],
+     "hoehe_bezug": "plateau",
      "meide": "kern"
     },
     {
@@ -3130,9 +3217,10 @@
       1.2
      ],
      "hoehe_rel_m": [
-      -2,
+      -6,
       3
      ],
+     "hoehe_bezug": "plateau",
      "material": "MI_EL_SW_Lava_Moos"
     },
     {
@@ -3153,7 +3241,8 @@
      "hoehe_rel_m": [
       -12,
       -3.0
-     ]
+     ],
+     "hoehe_bezug": "plateau"
     },
     {
      "name": "plateaugrus",
@@ -3199,7 +3288,8 @@
      "hoehe_rel_m": [
       -12,
       -4.5
-     ]
+     ],
+     "hoehe_bezug": "plateau"
     },
     {
      "name": "wandmoos",
@@ -3247,9 +3337,10 @@
      "abstand_m": 0.6,
      "rolle": "pflanze",
      "hoehe_rel_m": [
-      -2.5,
+      -7,
       4
-     ]
+     ],
+     "hoehe_bezug": "plateau"
     },
     {
      "name": "kantenmoos",
@@ -3391,6 +3482,12 @@
      "Erde": 190,
      "Kies": 100
     },
+    "ende": {
+     "ab_m": 30,
+     "punkte": [
+      "rueckenblick"
+     ]
+    },
     "trittsteine": {
      "palette": "trittstein_lava",
      "groesse_m": [
@@ -3511,14 +3608,6 @@
    },
    "assets_wunsch": [
     {
-     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "statt_jetzt": "Spaltenwaende SM_lava_wall_04/05 fehlen: Basalt_Basalt_Pillars_Wall_SM / _WallSlope_SM senkrecht gereiht (MI_EL_SW_Basalt_Saeule)"
-    },
-    {
-     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
-     "statt_jetzt": "Nassband an der Wasserlinie aus MI_TileableLeakage_* / MI_Leakage_*"
-    },
-    {
      "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
      "statt_jetzt": "SM_MossyRocks_01/02 + SM_lava_* mit MI_EL_SW_Lava_Moos"
     }
@@ -3619,7 +3708,7 @@
       "breite_m": 4.5,
       "sohle": [
        "boden-0.4",
-       "boden+3.0"
+       "mitte-5.9"
       ],
       "rand_m": 3.0,
       "warum": "Schuttrampe am Suedwestende: Abstieg zum Wasser"
@@ -3645,9 +3734,10 @@
      "typ": "see",
      "id": "spaltwasser",
      "bei": "wasser",
-     "spiegel": "boden+5.5",
+     "spiegel": "mitte-5.5",
      "tiefe_m": 6.0,
      "farbe": "tuerkis",
+     "ufer_erzwingen_m": 3.0,
      "becken": {
       "a_m": 50,
       "b_m": 2.9,
@@ -3691,9 +3781,9 @@
      "hinweis": "laengste Achse (y, 5 m x 1,25) quer zur Spalte"
     },
     {
-     "name": "waende",
+     "name": "waende_basalt",
      "ebene": "begleiter",
-     "warum": "senkrecht geklueftete Basaltwaende der Spalte (Ersatz fuer SM_lava_wall_04/05)",
+     "warum": "senkrecht geklueftete Basaltwaende der Spalte (Saeulenklueftung)",
      "palette": [
       "Basalt_Basalt_Pillars_Wall_SM",
       "Basalt_Basalt_Pillars_WallSlope_SM"
@@ -3705,9 +3795,9 @@
      "verteilung": {
       "typ": "reihe",
       "punkte": "spalte",
-      "abstand_m": 7.5,
+      "abstand_m": 11.0,
       "versatz_m": 3.2,
-      "versatz_streuung_m": 0.6,
+      "versatz_streuung_m": 1.2,
       "seiten": [
        "links",
        "rechts"
@@ -3715,15 +3805,17 @@
       "blick": "zur_linie",
       "front_an_linie": true
      },
-     "skala": [
-      3.6,
-      4.2
+     "groesse_m": [
+      8.5,
+      11.0
      ],
+     "groesse_achse": "z",
      "front_achse": "+y",
      "ausrichtung": "aufrecht",
+     "yaw_streuung_grad": 12,
      "eingraben": [
       0.04,
-      0.08
+      0.1
      ],
      "akteur": true,
      "kollision": true,
@@ -3732,6 +3824,50 @@
      "meide": null,
      "weg_abstand_m": 0,
      "hinweis": "Schauseite der Wandmodule (+y) angenommen; Fuss im Spaltengrund unter Wasser"
+    },
+    {
+     "name": "waende_lava",
+     "ebene": "begleiter",
+     "warum": "Spaltenwaende aus Lavafels (SM_lava_wall_04/05 senkrecht, Katalog) zwischen den Saeulen",
+     "palette": [
+      "SM_lava_wall_04",
+      "SM_lava_wall_05"
+     ],
+     "gewichte": [
+      2,
+      1
+     ],
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "spalte",
+      "abstand_m": 8.5,
+      "versatz_m": 3.0,
+      "versatz_streuung_m": 1.4,
+      "seiten": [
+       "rechts",
+       "links"
+      ],
+      "blick": "zur_linie",
+      "front_an_linie": true
+     },
+     "groesse_m": [
+      8.0,
+      11.0
+     ],
+     "groesse_achse": "z",
+     "front_achse": "+y",
+     "ausrichtung": "aufrecht",
+     "yaw_streuung_grad": 20,
+     "eingraben": [
+      0.04,
+      0.1
+     ],
+     "akteur": true,
+     "kollision": true,
+     "im_wasser": "egal",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "hinweis": "Pivot SM_lava_wall_* unbekannt (unten Mitte angenommen)"
     },
     {
      "name": "wasserbloecke",
@@ -4019,7 +4155,8 @@
      "verteilung": {
       "typ": "um_gruppe",
       "gruppe": [
-       "waende",
+       "waende_basalt",
+       "waende_lava",
        "klemmscholle"
       ],
       "ring": [
@@ -4130,24 +4267,24 @@
        -31
       ],
       [
-       22,
-       -14
+       25,
+       -13
       ],
       [
-       7,
-       6
+       9,
+       8
       ],
       [
-       -9,
-       25
+       -7,
+       27
       ],
       [
-       -27,
-       47
+       -26,
+       50
       ],
       [
-       -46,
-       70
+       -43,
+       67
       ],
       "rampe_oben",
       "rampe_unten"
@@ -4171,9 +4308,9 @@
    "effekte": [
     {
      "typ": "decal",
-     "material": "MI_TileableLeakage_02",
+     "material": "MI_Deca_Wet",
      "anzahl": 4,
-     "zweck": "Nassband/Sickerstreifen an den Waenden",
+     "zweck": "Nassband an der Wasserlinie (Coast & Dunes)",
      "verteilung": {
       "typ": "band",
       "punkte": "spalte",
@@ -4259,10 +4396,6 @@
    },
    "assets_wunsch": [
     {
-     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "statt_jetzt": "Restdampf NS_Chimney_Smoke (optional, Kopie, duenn); Spatterfladen SM_lava_wall_06/07/08 fehlen: SM_lava_m_rock_08 + Basalt_Basalt_Cliff_Rock_B_SM (flach) mit MI_EL_SW_Schlacke_Rot"
-    },
-    {
      "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
      "statt_jetzt": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue leise (Laubanteil pruefen)"
     }
@@ -4340,8 +4473,8 @@
     "senken_erlaubt": [
      {
       "bei": "haupt",
-      "r_m": 16,
-      "grund": "Krater des Hauptkegels (Bestand, geschaerft)"
+      "r_m": 32,
+      "grund": "Krater des Hauptkegels (Bestand, Hufeisen, geschaerft)"
      },
      {
       "bei": "k_mitte",
@@ -4490,10 +4623,7 @@
      "name": "spatter",
      "ebene": "begleiter",
      "warum": "Spatterfladen an der Spalte (flache Fetzen)",
-     "palette": [
-      "Basalt_Basalt_Cliff_Rock_B_SM",
-      "SM_lava_m_rock_08"
-     ],
+     "palette": "spatter",
      "anzahl": 8,
      "verteilung": {
       "typ": "band",
@@ -4588,13 +4718,22 @@
      "ebene": "kleinzeug",
      "warum": "Lapilli auf den Flanken (Lage Lavasand + Kiesel)",
      "palette": "grus",
-     "anzahl": 1800,
      "verteilung": {
-      "typ": "band",
+      "typ": "cluster",
+      "form": "band",
       "punkte": "spalte",
-      "breite_m": 50
+      "breite_m": 50,
+      "zentren": [
+       80,
+       100
+      ],
+      "je": [
+       10,
+       22
+      ],
+      "radius_m": 3.0
      },
-     "abstand_m": 0.6,
+     "abstand_m": 0.5,
      "rolle": "stein"
     },
     {
@@ -4815,14 +4954,13 @@
    "effekte": [
     {
      "typ": "niagara",
-     "asset": "NS_Chimney_Smoke",
-     "optional": true,
+     "asset": "FX_Lava_Smoke_03",
+     "optional": false,
      "bei": "haupt",
      "hoehe_m": 0.5,
-     "skala": 0.6,
-     "zweck": "Restdampf im Hauptkrater (Kopie, duenn, weiss)",
-     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "hinweis": "Dampf aus Lava & Volcano einsetzen, sobald nachgeladen"
+     "skala": 0.5,
+     "zweck": "Restdampf im Hauptkrater",
+     "hinweis": "Lava & Volcano (13d): Kopie duenn, weiss-grau, langsam"
     },
     {
      "typ": "lokaler_nebel",
@@ -4913,12 +5051,8 @@
      12
     ],
     "nordende": [
-     12,
-     -66
-    ],
-    "suedende": [
-     2,
-     42
+     17,
+     -70
     ],
     "farnfuge": [
      4,
@@ -4991,14 +5125,6 @@
       "seite": "links",
       "verteilung": "oben",
       "warum": "Plateaukante +4 m -> Wand 16-20 m (Katalog)"
-     },
-     {
-      "op": "glaetten",
-      "bei": "schlucht",
-      "radius_m": 14,
-      "staerke": 0.5,
-      "sigma_m": 3,
-      "warum": "Schluchtboden beruhigen (Halde, Gras)"
      }
     ]
    },
@@ -5087,23 +5213,17 @@
     {
      "name": "kante",
      "ebene": "begleiter",
-     "warum": "Plateaukante ueber beiden Wandenden (Basalt_Basalt_Cliff_SM x3, wenige grosse Stuecke)",
+     "warum": "Nordende der Orgel: Basalt_Basalt_Cliff_SM schliesst die Wand an den Hang an",
      "netz": "Basalt_Basalt_Cliff_SM",
      "verteilung": {
-      "typ": "punkte",
-      "punkte": [
-       "nordende",
-       "suedende"
-      ]
+      "typ": "punkt",
+      "bei": "nordende"
      },
-     "skala": [
-      2.6,
-      2.9
-     ],
+     "skala": 2.0,
      "front_achse": "+y",
      "yaw": "zu:schlucht",
      "eingraben": [
-      0.4,
+      0.42,
       0.48
      ],
      "akteur": true,
@@ -5111,7 +5231,7 @@
      "material": "MI_EL_SW_Basalt_Saeule",
      "meide": null,
      "weg_abstand_m": 0,
-     "hinweis": "193 000 Dreiecke, kein Nanite: nur 2 Stueck"
+     "hinweis": "193 000 Dreiecke, kein Nanite: nur 1 Stueck; das Suedende bleibt frei fuer den Abstieg"
     },
     {
      "name": "saeulengruppen",
@@ -5607,16 +5727,8 @@
    },
    "assets_wunsch": [
     {
-     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "statt_jetzt": "Lava-Material und 7 Glut-Decals fehlen: punktlicht orange im Schacht + M_Decal_Glow (optional, Kopie orange) + NS_Fire/NS_Spark_Continuous (optional); Krustenplatten SM_lava_wall_06/07/08 -> Basalt_Basalt_Cliff_Rock_B_SM"
-    },
-    {
-     "paket": "Ultimate Niagara Environmental VFX",
-     "statt_jetzt": "NS_Spark_Continuous (Kopie, wenige, langsam, orange), Hitzeflimmern fehlt"
-    },
-    {
      "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
-     "statt_jetzt": "stumm"
+     "statt_jetzt": "stumm (kein Lava-Brodeln im Bestand)"
     }
    ],
    "anker": {
@@ -5714,10 +5826,42 @@
    },
    "gruppen": [
     {
+     "name": "glutspiegel",
+     "ebene": "held",
+     "warum": "Glut am Schachtgrund: flache Lavaflaeche (SM_lava_disc mit Lava-Material des Sets)",
+     "netz": "SM_lava_disc",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": "grund"
+     },
+     "skala": [
+      1.9,
+      1.9
+     ],
+     "skala_xyz": [
+      1.0,
+      0.75,
+      1.0
+     ],
+     "ausrichtung": "aufrecht",
+     "yaw": 20,
+     "yaw_streuung_grad": 0,
+     "z_bezug": "boden+0.12",
+     "akteur": true,
+     "kollision": false,
+     "rolle": "streu",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "hinweis": "Lava & Volcano (13d): Netz mit Lava-Material; Emissive dezent (feste Sonne), Fliessen langsam"
+    },
+    {
      "name": "lider",
      "ebene": "held",
      "warum": "Krustenlider: die erstarrte Decke kragt ueber den Schacht (Ueberhang = Netz)",
-     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "palette": [
+      "SM_lava_wall_06",
+      "SM_lava_wall_07"
+     ],
      "anzahl": 3,
      "verteilung": {
       "typ": "ring",
@@ -5729,8 +5873,8 @@
      },
      "abstand_m": 4.0,
      "skala": [
-      0.48,
-      0.58
+      0.95,
+      1.15
      ],
      "ausrichtung": "aufrecht",
      "yaw": "von:mitte",
@@ -5740,18 +5884,21 @@
       12
      ],
      "kipp_richtung": "zu:mitte",
-     "z_bezug": "boden+-0.45",
+     "z_bezug": "boden+-0.7",
      "akteur": true,
      "kollision": true,
      "material": "MI_EL_SW_Lava_Glasur",
      "meide": null,
-     "hinweis": "Unterkante 0,45 m unter dem Gelaende am Lidmittelpunkt, Innenkante ragt ueber den Schacht"
+     "hinweis": "Unterkante 0,7 m unter dem Gelaende am Lidmittelpunkt, Innenkante ragt ueber den Schacht; Pivot SM_lava_wall_* unbekannt"
     },
     {
      "name": "tumulusschollen",
      "ebene": "begleiter",
      "warum": "aufgewoelbte, gerissene Schollen auf den Tumuli",
-     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "palette": [
+      "SM_lava_wall_07",
+      "SM_lava_wall_08"
+     ],
      "verteilung": {
       "typ": "punkte",
       "punkte": [
@@ -5778,8 +5925,8 @@
       ]
      },
      "skala": [
-      0.6,
-      0.8
+      1.0,
+      1.3
      ],
      "kipp_grad": [
       10,
@@ -5800,22 +5947,41 @@
      "ebene": "schutt",
      "warum": "Krustenplatten der jungen Stricklava, gekippt und uebereinander geschoben",
      "palette": [
-      "Basalt_Basalt_Cliff_Rock_B_SM",
+      "SM_lava_wall_06",
+      "SM_lava_wall_07",
+      "SM_lava_wall_08",
       "SM_lava_m_rock_08"
      ],
-     "anzahl": 55,
+     "gewichte": [
+      2,
+      2,
+      2,
+      1
+     ],
      "verteilung": {
-      "typ": "ring",
-      "bei": "mitte",
-      "r_m": [
-       6.5,
-       30
-      ]
+      "typ": "cluster",
+      "form": "ellipse",
+      "bei": [
+       -3,
+       2
+      ],
+      "a_m": 34,
+      "b_m": 22,
+      "richtung": 290,
+      "zentren": [
+       9,
+       12
+      ],
+      "je": [
+       4,
+       7
+      ],
+      "radius_m": 4.5
      },
      "abstand_m": 2.0,
      "groesse_m": [
-      1.2,
-      2.8
+      1.4,
+      3.0
      ],
      "kipp_grad": [
       5,
@@ -5834,14 +6000,25 @@
      "palette": [
       "SM_lava_s_rock_05"
      ],
-     "anzahl": 45,
      "verteilung": {
-      "typ": "ring",
-      "bei": "mitte",
-      "r_m": [
+      "typ": "cluster",
+      "form": "ellipse",
+      "bei": [
+       -6,
+       4
+      ],
+      "a_m": 36,
+      "b_m": 22,
+      "richtung": 290,
+      "zentren": [
        8,
-       34
-      ]
+       11
+      ],
+      "je": [
+       4,
+       7
+      ],
+      "radius_m": 3.0
      },
      "abstand_m": 1.6,
      "groesse_m": [
@@ -5864,14 +6041,25 @@
      "ebene": "kleinzeug",
      "warum": "Glassplitter und Kruste (Kante bleibt unter 0,5 m frei)",
      "palette": "lava_kiesel",
-     "anzahl": 800,
      "verteilung": {
-      "typ": "ring",
-      "bei": "mitte",
-      "r_m": [
-       5,
-       34
-      ]
+      "typ": "cluster",
+      "form": "ellipse",
+      "bei": [
+       -3,
+       2
+      ],
+      "a_m": 36,
+      "b_m": 24,
+      "richtung": 290,
+      "zentren": [
+       45,
+       55
+      ],
+      "je": [
+       8,
+       18
+      ],
+      "radius_m": 2.6
      },
      "abstand_m": 0.6,
      "skala": [
@@ -5940,7 +6128,8 @@
       "gruppe": [
        "lider",
        "tumulusschollen",
-       "krustenplatten"
+       "krustenplatten",
+       "zehen"
       ],
       "ring": [
        0.9,
@@ -6009,6 +6198,12 @@
     "lagen": {
      "Lavasand": 190,
      "Kies": 110
+    },
+    "ende": {
+     "ab_m": 22,
+     "punkte": [
+      "blick_held"
+     ]
     }
    },
    "pfade_zusatz": [
@@ -6040,24 +6235,32 @@
     },
     {
      "typ": "niagara",
-     "asset": "NS_Spark_Continuous",
-     "optional": true,
+     "asset": "FX_Lava_Bubble",
+     "optional": false,
      "bei": "grund",
-     "hoehe_m": 0.5,
-     "skala": 0.4,
-     "zweck": "Glutfunken ueber dem Fenster (Kopie: wenige, langsam, orange)",
-     "wunsch_paket": "Ultimate Niagara Environmental VFX"
+     "hoehe_m": 0.1,
+     "skala": 0.5,
+     "zweck": "Glut blubbert dumpf am Schachtgrund",
+     "hinweis": "Lava & Volcano (13d): wenige, langsam"
     },
     {
      "typ": "niagara",
-     "asset": "NS_SmokePuffLight",
-     "optional": true,
+     "asset": "FX_Distortion_Small",
+     "optional": false,
+     "bei": "grund",
+     "hoehe_m": 3.0,
+     "skala": 0.6,
+     "zweck": "Hitzeflimmern ueber dem Fenster (nur vom Rand sichtbar)"
+    },
+    {
+     "typ": "niagara",
+     "asset": "FX_Lava_Smoke_1",
+     "optional": false,
      "bei": "grund",
      "hoehe_m": 2.0,
-     "skala": 0.5,
-     "zweck": "duenner Dampf zieht aus dem Schacht (Kopie, hell, transparent)",
-     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
-     "hinweis": "Hitzeflimmern kommt mit Lava & Volcano"
+     "skala": 0.3,
+     "zweck": "duenner Dampf zieht aus dem Schacht",
+     "hinweis": "Kopie hell, transparent"
     },
     {
      "typ": "lokaler_nebel",
@@ -6075,10 +6278,9 @@
     },
     {
      "typ": "decal",
-     "material": "M_Decal_Glow",
-     "optional": true,
-     "anzahl": 3,
-     "zweck": "Glut in Haarrissen um das Fenster (Kopie orange, schwach; Ersatz bis Lava-Decals)",
+     "material": "MI_NM_Decal_Lava_NoAlbedoNoNormals_02",
+     "anzahl": 4,
+     "zweck": "Glut in Haarrissen um das Fenster (Lava & Volcano, Emissive dezent)",
      "verteilung": {
       "typ": "ring",
       "bei": "mitte",
@@ -6089,10 +6291,32 @@
      },
      "groesse_m": [
       0.5,
-      2.5,
-      0.6
+      3.0,
+      1.0
      ],
-     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)"
+     "abstand_m": 3
+    },
+    {
+     "typ": "decal",
+     "material": "MI_NM_Decal_Lava_Normals_04",
+     "anzahl": 2,
+     "zweck": "Stricklava: Seile und Zehen im Relief (nur Normalen)",
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": [
+       -3,
+       2
+      ],
+      "a_m": 26,
+      "b_m": 16,
+      "richtung": 290
+     },
+     "groesse_m": [
+      1.0,
+      6.0,
+      6.0
+     ],
+     "abstand_m": 10
     },
     {
      "typ": "decal",

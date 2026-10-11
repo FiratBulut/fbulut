@@ -125,6 +125,11 @@ def _zugang(ctx):
     else:
         P = [[q[0] / 100.0, q[1] / 100.0] for q in ctx.st["pfad_cm"]][::-1]
         quelle = "pfad_cm (Fussweg vom %s zum Ort)" % ctx.pfad["quelle"][6:]
+        if zr.get("ende"):                         # nicht bis in die Hohlform, sondern zum Blickpunkt
+            ab = float(zr["ende"].get("ab_m", 20.0))
+            k = next((i for i, (x, y) in enumerate(P) if math.hypot(x - ctx.mx, y - ctx.my) <= ab), len(P))
+            P = P[:k] + [list(ctx.punkt(r)) for r in zr["ende"]["punkte"]]
+            quelle += ", Ende zum Blickpunkt"
     pf = _pfad_dict(ctx, P, zr, zr.get("art", "auto"), quelle)
     if ctx.lagen is not None:
         _band(ctx.lagen, pf, zr.get("lagen"))
@@ -214,6 +219,9 @@ def _mitte_hoehen(ctx):
         if isinstance(v, str) and v.startswith("mitte"):
             return z0 + (float(v[5:]) if len(v) > 5 else 0.0)
         return v
+    for w in ctx.r.get("wasser") or []:
+        if "spiegel" in w:
+            w["spiegel"] = wandle(w["spiegel"])
     for op in (ctx.r.get("gelaende") or {}).get("ops") or []:
         if "ziel_z" in op:
             op["ziel_z"] = wandle(op["ziel_z"])
@@ -240,6 +248,30 @@ def _pfad_ende(ctx):
     ctx.pfad_angepasst = "pfad_cm (Phase 1) bis %.0f m vor dem Ort, dann %d Planerpunkte" % (ab, len(pe["punkte"]))
 
 
+def _ufer_erzwingen(ctx):
+    """see.ufer_erzwingen_m: Uferring metrisch (nicht radial) bis u m hinter der Uferlinie auf >= Spiegel + Freibord.
+    Noetig fuer sehr lange, schmale Seen (Spalte 100 x 6 m): der radiale Uferring der Lib erreicht die Flanken nahe
+    den Spitzen nicht."""
+    import numpy as np
+    from sehens_lib import stempel as stm, rezept
+    st = ctx.stempel
+    for w in ctx.r.get("wasser") or []:
+        u = w.get("ufer_erzwingen_m")
+        if w.get("typ") != "see" or not u or w.get("id") not in ctx.see:
+            continue
+        s = ctx.see[w["id"]]
+        um = [list(p) for p in s["umriss_m"]]
+        d, _, _ = stm.polylinie_abstand(st.X, st.Y, um + [um[0]])
+        innen = rezept._in_polygon(st.X, st.Y, um)
+        ring = (~innen) & (d <= float(u))
+        ziel = s["spiegel_m"] + float((w.get("becken") or {}).get("freibord_m", 0.3))
+        st._anwenden(ring.astype(np.float64), ziel=np.full(st.X.shape, ziel), modus="max", name="ufer_erzwingen")
+
+
+def hook_nach_gelaende(ctx):
+    _ufer_erzwingen(ctx)
+
+
 def hook_anker(ctx):
     _mitte_hoehen(ctx)
 
@@ -256,7 +288,7 @@ def hook_ende(ctx):
         ctx.mat_benutzt.add(m)
 
 
-HOOKS_ALLE = {"anker": hook_anker, "gruppen": hook_gruppen, "ende": hook_ende}
+HOOKS_ALLE = {"anker": hook_anker, "nach_gelaende": hook_nach_gelaende, "gruppen": hook_gruppen, "ende": hook_ende}
 HOOKS = {}
 
 

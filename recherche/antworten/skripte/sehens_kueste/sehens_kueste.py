@@ -68,7 +68,25 @@ def kontext_klasse():
         Pfeilerfuesse, Stuempfe und Brandungsbloecke stehen aber auf der Brandungsplattform (-1 ... -3 m). Akteure
         prueft der Pruefer nicht auf 'Meer' (nur Foliage-Dateien); Foliage bleibt bei der Lib-Regel."""
 
+        def _wasser_maske_fenster(self, fe):
+            """Wie die Lib, zusaetzlich das Meer (Gelaende nach dem Stempel < 0 m): Mulden unter dem Meeresspiegel
+            (Brandungsplattform, Torgang, Gang des Blaslochs) sind keine 'geschlossenen Senken ohne Wasser'."""
+            m = super()._wasser_maske_fenster(fe)
+            st = self.stempel
+            if st is not None and getattr(st, "delta", None) is not None and st.delta.shape == m.shape:
+                m = m | ((st.h0 + st.delta) < 0.0)
+            else:
+                m = m | (np.asarray(fe.get(self.welt.hoehe)) < 0.0)
+            return m
+
         def _filter(self, g, xs, ys, typ):
+            ok = self._filter_meer(g, xs, ys, typ)
+            ab = g.get("boden_ab_m")                  # Foliage am Wasser: Sicherheitsabstand zum Meeresspiegel
+            if ab is not None and len(xs):
+                ok &= np.asarray(self.boden(xs, ys), np.float64) > float(ab)
+            return ok
+
+        def _filter_meer(self, g, xs, ys, typ):
             bm = g.get("boden_min_m")
             if bm is None or not g.get("akteur"):
                 return super()._filter(g, xs, ys, typ)
@@ -182,6 +200,7 @@ def main(argv=None):
     ap.add_argument("--sehens", default=None, help="Ordner antworten/sehens (standorte.json aller Biome)")
     ap.add_argument("--ohne-pruefung", action="store_true")
     ap.add_argument("--ohne-verdeckung", action="store_true", help="Verdeckungspruefung der Fundstuecke auslassen")
+    ap.add_argument("--gruppen", action="store_true", help="je Ort die gesetzten Stuecke je Gruppe ausgeben")
     ap.add_argument("--daten2m", default=None, help="2-m-PNGs (Cloud-Test): recherche/vorlagen/daten/sehens")
     ap.add_argument("--daten1m", default=None, help="1-m-Originale (Standard <basis>/export/unreal/welt)")
     ap.add_argument("--cache", default=None)
@@ -256,6 +275,8 @@ def main(argv=None):
         z = ebene.zaehle(oid)
         _log("%-30s %5d Instanzen (%4d Kollision), %3d Akteure, Stempel %.1f m  %.1f s"
              % (oid, z["instanzen"], z["kollision"], z["akteure"], ctx.stempel.max_aenderung_m, time.perf_counter() - t0))
+        if a.gruppen:
+            _log("   " + ", ".join("%s %d" % (n, len(s)) for n, s in ctx.gruppen.items()))
 
     # --- Fundstuecke: Verdeckung mit Stempel + geplanten Stuecken (Katalog: verdeckt durch Kliffkante/Schulter)
     if not a.ohne_verdeckung:
@@ -266,7 +287,8 @@ def main(argv=None):
                 continue
             wp = wp or sicht.Wegpunkte(welt, 20)
             vk = (ctx.r.get("verdeckung") or {})
-            res = verdeckung.pruefe_ort(ctx, wp, kern_m=ctx.punkt(vk["kern"]) if vk.get("kern") else None)
+            res = verdeckung.pruefe_ort(ctx, wp, kern_m=ctx.punkt(vk["kern"]) if vk.get("kern") else None,
+                                        probe_r_m=vk.get("probe_r_m"))
             _log("%-30s %s" % (ctx.id, res["text"]))
             ctx.melde("HINWEIS" if res["verdeckt"] else "WARNUNG", res["text"])
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-sehens_dschungel.py - Sehenswuerdigkeiten-Planer Dschungel (Auftrag 13, Phase 2, Referenzplaner fuer alle Biome).
+sehens_dschungel.py - Sehenswuerdigkeiten-Planer Dschungel (Auftrag 13, Phase 2, Agent B3).
 
 Baut die 8 Dschungel-Orte aus sehens/dschungel/standorte.json nach den Rezepten in sehens_dschungel_regeln.json
 (Katalog sehens/dschungel/katalog.md inkl. 'Abgleich 13b/13c', asset_bedarf.json) und schreibt das Lieferformat
@@ -19,8 +19,9 @@ Optionen: --orte/--ort ID ... (nur diese Orte; Orte in denselben Feldern werden 
   --sehens (Ordner mit <biom>/standorte.json), --cache, --ohne-pruefung.
 Exit-Code: 0 ok, 1 Pruefer meldet FEHLER, 2 Pflichtdatei fehlt.
 
-Ort-spezifischer Code (alles andere steht in den Regeln): Hook 'windwurf' setzt Stammfuesse, Wurzelteller,
-Wurzelloecher und Pfuetzen der Windwurf-Gasse (Zufall deterministisch aus Seed + Ort-ID).
+Ort-spezifischer Code (alles andere steht in den Regeln): Hook 'cenote_umriss' (Blaues Auge) beschneidet das
+Seebecken auf die echte Schachtkontur (Umriss sternfoermig aus dem Gelaende, Vertiefung nur im Schacht), damit der
+Stempel die Schachtwaende nicht anschneidet.
 Quellen: vorlagen/SEHENS_FORMAT.md, vorlagen/FORMAT.md §3, antworten/verteilung-KONVENTIONEN.md,
 auftraege/13-, 13b-, 13c-*.md, antworten/skripte/sehens_lib/ (README.md, PLANER_ANLEITUNG.md).
 """
@@ -50,7 +51,79 @@ def abbruch(text, code=2):
     sys.exit(code)
 
 
-@@HOOKS@@
+# ----------------------------------------------------------------------------------------------------------------------
+# Hooks (Formen, die sich nicht als Regel ausdruecken lassen)
+# ----------------------------------------------------------------------------------------------------------------------
+def _zusammenhang(m, i0, j0):
+    """Zusammenhaengende Zellen von m ab (i0, j0) (4er-Nachbarschaft, ohne SciPy)."""
+    import numpy as np
+    out = np.zeros_like(m)
+    if not m[i0, j0]:
+        return out
+    stapel = [(i0, j0)]
+    out[i0, j0] = True
+    H, W = m.shape
+    while stapel:
+        i, j = stapel.pop()
+        for a, b in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
+            if 0 <= a < H and 0 <= b < W and m[a, b] and not out[a, b]:
+                out[a, b] = True
+                stapel.append((a, b))
+    return out
+
+
+def _erodiere(m, n):
+    import numpy as np
+    r = m.copy()
+    for _ in range(int(n)):
+        q = r.copy()
+        q[1:, :] &= r[:-1, :]
+        q[:-1, :] &= r[1:, :]
+        q[:, 1:] &= r[:, :-1]
+        q[:, :-1] &= r[:, 1:]
+        r = q
+    return r
+
+
+def hook_cenote_umriss(ctx):
+    """Blaues Auge: der Schacht ist kein Ellipsenbecken. Nach dem Seebecken (Ellipse, die den Schacht ganz
+    abdeckt) wird der Stempel auf den echten Schacht beschnitten: Seeumriss = Kontur des Schachts (Gelaende
+    < schacht.kante_m, zusammenhaengend ab der Schachtmitte), Vertiefung nur im Schacht und mind. rand_zellen
+    Zellen von seiner Wand entfernt (dort bleibt der Bestandsgrund als Uferstufe), ausserhalb kein Delta.
+    So schneidet das Becken die Schachtwaende nicht an, und es entsteht keine neue geschlossene Senke."""
+    import numpy as np
+    from sehens_lib import stempel as stm
+    c = ctx.r.get("schacht") or {}
+    sid = c.get("see", "auge")
+    s = ctx.see[sid]
+    st = ctx.stempel
+    i0, j0 = np.unravel_index(int(np.argmin(np.hypot(st.X - s["x"], st.Y - s["y"]))), st.X.shape)
+    m0 = _zusammenhang(st.h0 < float(c.get("kante_m", 0.8)), i0, j0)
+    m_in = _erodiere(m0, int(c.get("rand_zellen", 3)))
+    st.delta = np.where(m_in, st.delta, 0.0)
+    # Umriss: sternfoermig von der Schachtmitte (Strahlen alle 5 Grad, letzte Schachtzelle)
+    cx, cy = float(st.X[m0].mean()), float(st.Y[m0].mean())
+    pts = []
+    for g in np.arange(0.0, 360.0, 5.0):
+        ux, uy = stm.kompass_vektor(float(g))
+        r_last = 0.0
+        for r in np.arange(0.0, 80.0, 0.5):
+            x, y = cx + ux * r, cy + uy * r
+            i, j = int(round((y - st.Y[0, 0]) / st.z)), int(round((x - st.X[0, 0]) / st.z))
+            if not (0 <= i < m0.shape[0] and 0 <= j < m0.shape[1]) or not m0[i, j]:
+                break
+            r_last = r
+        pts.append([cx + ux * max(r_last - 0.5, 1.0), cy + uy * max(r_last - 0.5, 1.0)])
+    if stm.flaeche(pts) < 0:
+        pts = pts[::-1]
+    s.update(umriss_m=pts, x=cx, y=cy)
+    ctx.linien["ufer_" + sid] = pts + [pts[0]]
+    ctx.anker[sid + "_mitte"] = (cx, cy)
+    ctx.melde("HINWEIS", "see %s: Umriss = Schachtkontur (%d Punkte, %.0f m2), Vertiefung nur im Schacht"
+              % (sid, len(pts), float(m0.sum()) * st.z * st.z))
+
+
+HOOKS = {"dschungel_04_blaues_auge": {"nach_gelaende": hook_cenote_umriss}}
 
 
 # ----------------------------------------------------------------------------------------------------------------------
