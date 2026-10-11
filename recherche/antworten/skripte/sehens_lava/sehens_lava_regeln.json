@@ -1293,7 +1293,7 @@
        "boden-0.3"
       ],
       "rand_m": 2.0,
-      "warum": "Sinterrinne: die Quelle laeuft ueber, die Mulde entwaessert nach Norden (keine abflusslose Senke)"
+      "warum": "Sinterrinne (meist trocken, Sinterkruste): die Mulde entwaessert nach Norden"
      }
     ]
    },
@@ -1310,25 +1310,8 @@
       "ufer_m": 3.0,
       "freibord_m": 0.15,
       "boden": 0.4,
-      "auslass": 355
+      "auslass": null
      }
-    },
-    {
-     "typ": "bach",
-     "id": "sinterrinne",
-     "punkte": [
-      "quelle_w_auslass",
-      [
-       -8,
-       -30
-      ],
-      "rinne_ende"
-     ],
-     "breite_m": 0.7,
-     "tiefe_cm": 6,
-     "farbe": "thermal",
-     "quelle": false,
-     "muendung": "versickert"
     },
     {
      "typ": "see",
@@ -1852,7 +1835,7 @@
      "typ": "decal",
      "material": "MI_Deca_Wet",
      "anzahl": 3,
-     "zweck": "Nassband an Quellen und Sinterrinne (Coast & Dunes)",
+     "zweck": "Nassband an den Schwefelquellen (Coast & Dunes)",
      "verteilung": {
       "typ": "ufer",
       "bei": "mitte",
