@@ -832,16 +832,16 @@
    "pfad_id": "tundra_pfad_der_trunkene_grund"
   },
   {
-   "id": "tundra_06_das_aufeis",
+   "id": "tundra_06_das_schneetaelchen",
    "biom": "tundra",
-   "name": "Das Aufeis",
+   "name": "Das Schneetaelchen",
    "art": "fundstueck",
-   "x_cm": -176000,
-   "y_cm": -223500,
-   "z_cm": 5377,
-   "radius_m": 55.0,
-   "weg_abstand_m": 89.0,
-   "pfad_id": "tundra_pfad_das_aufeis"
+   "x_cm": -18200,
+   "y_cm": -196200,
+   "z_cm": 2358,
+   "radius_m": 40.0,
+   "weg_abstand_m": 283.0,
+   "pfad_id": null
   },
   {
    "id": "tundra_07_die_steinringe",

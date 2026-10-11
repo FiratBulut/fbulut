@@ -173,7 +173,7 @@
     "tundra_03_die_eiswand (Die Eiswand)",
     "tundra_04_die_fliesstreppe (Die Fliesstreppe)",
     "tundra_05_der_trunkene_grund (Der Trunkene Grund)",
-    "tundra_06_das_aufeis (Das Aufeis)"
+    "tundra_06_das_schneetaelchen (Das Aufeis)"
    ],
    "systeme": null
   },
@@ -355,7 +355,7 @@
     "tundra_03_die_eiswand (Die Eiswand)",
     "tundra_04_die_fliesstreppe (Die Fliesstreppe)",
     "tundra_05_der_trunkene_grund (Der Trunkene Grund)",
-    "tundra_06_das_aufeis (Das Aufeis)",
+    "tundra_06_das_schneetaelchen (Das Aufeis)",
     "tundra_07_die_steinringe (Die Steinringe)",
     "tundra_08_das_wabenmoor (Das Wabenmoor)",
     "wueste_04_quelloase (Die Quelloase)"
@@ -888,7 +888,7 @@
     "frost_02_frostsee (Der Frostsee)",
     "gletscher_01_gletschertor (Das Gletschertor)",
     "tundra_03_die_eiswand (Die Eiswand)",
-    "tundra_06_das_aufeis (Das Aufeis)"
+    "tundra_06_das_schneetaelchen (Das Aufeis)"
    ],
    "prioritaet": "B",
    "ersatz_bestand": "SM_EISZAPFEN_1…9 (eigen); Material M_EL_Eis4",
@@ -927,7 +927,7 @@
     "frost_02_frostsee (Der Frostsee)",
     "frost_04_raureifhain (Der Raureifhain)",
     "frost_07_frostblumen (Die Frostblumen)",
-    "tundra_06_das_aufeis (Das Aufeis)"
+    "tundra_06_das_schneetaelchen (Das Aufeis)"
    ],
    "prioritaet": "C",
    "ersatz_bestand": "M_EL_Eis4, MI_EL_SW_Schwarzeis, MI_EL_SW_Raureif (eigen)",
@@ -1692,7 +1692,7 @@
     "name": "Frozen Lake + Frost (Oberflächen)",
     "orte": [
      "frost_02_frostsee",
-     "tundra_06_das_aufeis",
+     "tundra_06_das_schneetaelchen",
      "frost_04_raureifhain",
      "frost_07_frostblumen"
     ],

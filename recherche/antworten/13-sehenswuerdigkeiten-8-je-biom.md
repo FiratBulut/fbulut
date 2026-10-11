@@ -8,7 +8,7 @@ Stand: 11.10.2026, abends. Bearbeitet von der Cloud-Session (Koordinator + 8 Bio
   - Fast überall gilt die Aufteilung 3 Leuchtfeuer / 5 Fundstücke.
   - Ausnahmen mit 4 / 4: Lava, Tundra und Küste. Begründung in `sehens-katalog.md`.
 - **Nur Landschaft:** Fels, Wasser, Eis, Feuer und Pflanzen. Keine Bauten, Ruinen, Knochen oder Menschenspuren und keine Houdini-`SW_*`-Assets.
-- **Alle 120 Orte liegen 80–300 m vom nächsten Weg oder Pfad.** Dafür braucht es **19 neue Pfade, zusammen 20,9 km.**
+- **Alle 120 Orte liegen 80–300 m vom nächsten Weg oder Pfad.** Dafür braucht es **18 neue Pfade, zusammen 20,6 km.**
   - Pfade gibt es in Lava, Gletscher, Frost, Fjord, Tundra, Küste und Ödland.
   - Das folgt Ferats Linie aus 13c: „lieber ein Pfad mehr als ein Ort weniger“.
   - Die Pfade stehen als `pfade` in den `standorte.json`, im Schema aus 13c.
@@ -47,7 +47,7 @@ Die vollständigen Namen und Beschreibungen stehen in `sehens-katalog.md`.
 - **gletscher:** Gletschertor mit Séracbruch, Lawinenkegel und Wächte; Toteisloch, Moränensee, Gletschertöpfe, Nunatak und Gletscherschliff.
 - **frost:** Frostsee mit Presseis, Raureifhain und Eisküste; Eisfall, Eisvorhang, Blockgletscher, Frostblumen und Glockenbach.
 - **fjord:** Kanzel, Schleierwand und Trollzunge; Hängetal, Fjordkopf, Bergsturzkegel, Brandungsgrotte und alte Strandterrassen.
-- **tundra:** Pingo, Findling auf Rundhöcker, Eiswand und Fließtreppe; Trunkener Grund (Thermokarst), Aufeis, Steinringe und Wabenmoor.
+- **tundra:** Pingo, Findling auf Rundhöcker, Eiswand und Fließtreppe; Trunkener Grund (Thermokarst), Schneetälchen, Steinringe und Wabenmoor.
 - **heide:** Granit-Tor „Graue Burg“, Ginstergold und Wacholderprozession; Kolk, Wackelstein, Wollsackfall, Totengrund und Windkante.
 - **kueste:** Granitpfeiler „Die Alten“, Vogelinsel, Nadeltor und Kreidewand; Seefall ins Meer, Gezeitenbank, Dünenkamm und Blasloch.
 - **sumpf:** Ertrunkener Wald, Weidendom und Reiherhorst; Schwingrasen, Erlenbruch, Bultenfeld, Tellerweiher (Riesenseerose) und Irrlichtsenke.
@@ -57,7 +57,7 @@ Die vollständigen Namen und Beschreibungen stehen in `sehens-katalog.md`.
 
 ## Wichtige Entscheidungen (aus 13c und dem Chat mit Ferat)
 
-- **Pfade sind erwünscht.** Zusammen 19 Stück: Kratersteig mit Gipfelsteig, drei Gletschersteige, Frost- und Südsteig, Fjord- und Kanzelsteig, vier Tundra-Pfade, Klippensteig und Kap-Pfad an der Küste, dazu der Ödlandpfad mit drei Ästen.
+- **Pfade sind erwünscht.** Zusammen 18 Stück: Kratersteig mit Gipfelsteig, drei Gletschersteige, Frost- und Südsteig, Fjord- und Kanzelsteig, drei Tundra-Pfade, Klippensteig und Kap-Pfad an der Küste, dazu der Ödlandpfad mit drei Ästen.
   - Den vollen Klippensteig hat der Koordinator entschieden. Ein Steilküstensteig mit Blick auf Pfeiler, Vogelinsel und Nadeltor entspricht den Skellige-Referenzen.
   - Beim Ödlandpfad gilt Ferats Linie.
 - **Gelände darf frei angepasst werden**, Stempel auch über 40 m (z. B. −48 m am Nadeltor).

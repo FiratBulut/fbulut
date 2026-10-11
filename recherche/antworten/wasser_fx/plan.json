@@ -1960,6 +1960,277 @@
     ]
    },
    {
+    "biom": "fjord",
+    "ort": "fjord_02_schleierwand",
+    "name": "Die Schleierwand",
+    "felder": [
+     "C1",
+     "C2",
+     "D1",
+     "D2"
+    ],
+    "datei_sha1": "71e9c49c350c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+      "pos_cm": [
+       -177200,
+       -296600,
+       34678
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "verwehendes Fallband (Hauptfall, Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+      "pos_cm": [
+       -181700,
+       -296600,
+       36101
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 0.8,
+      "optional": false,
+      "zweck": "zweites Fallband"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -177000,
+       -307200,
+       11836
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Spruehnebel, wo der Hauptfall aufschlaegt"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+      "pos_cm": [
+       -177000,
+       -307600,
+       12272
+      ],
+      "radius_cm": 8000,
+      "lautstaerke": 0.8,
+      "zweck": "Fallbaender"
+     }
+    ]
+   },
+   {
+    "biom": "fjord",
+    "ort": "fjord_04_haengetal",
+    "name": "Das Hängetal",
+    "felder": [
+     "C2",
+     "D2"
+    ],
+    "datei_sha1": "71e9c49c350c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium",
+      "pos_cm": [
+       -168850,
+       -278550,
+       22740
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.67559,
+       0.73728
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Fall an der Lippe (Nature Water FX, Vorbild Bergwald-Klamm)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Medium",
+      "pos_cm": [
+       -168800,
+       -275200,
+       17643
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Aufprall in der Gumpe"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -169000,
+       -280000,
+       22649
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.67559,
+       0.73728
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Stroemung im Hochtalbach vor der Lippe"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       -168800,
+       -275200,
+       17773
+      ],
+      "radius_cm": 4500,
+      "lautstaerke": 0.8,
+      "zweck": "Fall an der Lippe"
+     }
+    ]
+   },
+   {
+    "biom": "fjord",
+    "ort": "fjord_05_fjordkopf",
+    "name": "Der Fjordkopf",
+    "felder": [
+     "C1",
+     "D1"
+    ],
+    "datei_sha1": "71e9c49c350c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -175400,
+       -336800,
+       -73
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Suesswasser stroemt ueber den Faecher ins Salzwasser (Nature Water FX)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VI_Cue",
+      "pos_cm": [
+       -175400,
+       -336800,
+       67
+      ],
+      "radius_cm": 3000,
+      "lautstaerke": 0.4,
+      "zweck": "Bach in den Rinnen (Brandung fehlt im Bestand)"
+     }
+    ]
+   },
+   {
+    "biom": "fjord",
+    "ort": "fjord_07_brandungsgrotte",
+    "name": "Die Brandungsgrotte",
+    "felder": [
+     "D1"
+    ],
+    "datei_sha1": "71e9c49c350c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -163900,
+       -353600,
+       -71
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Gischt, wo die Welle im Spalt bricht (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Wake_Small",
+      "pos_cm": [
+       -164900,
+       -354600,
+       -314
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.38268,
+       0.92388
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schaumspur der einlaufenden Duenung im Mund"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
+      "pos_cm": [
+       -163900,
+       -353600,
+       59
+      ],
+      "radius_cm": 3000,
+      "lautstaerke": 0.6,
+      "zweck": "Wasser im Spalt (Cave Ambience/Brandung fehlen)"
+     }
+    ]
+   },
+   {
     "biom": "frost",
     "ort": "frost_01_der_eisfall",
     "name": "Der Eisfall",
@@ -2694,52 +2965,6 @@
       "radius_cm": 6000,
       "lautstaerke": 0.6,
       "zweck": "Brandung am Gangmund (Ersatz)"
-     }
-    ]
-   },
-   {
-    "biom": "tundra",
-    "ort": "tundra_06_das_aufeis",
-    "name": "Das Aufeis",
-    "felder": [
-     "C2",
-     "D2"
-    ],
-    "datei_sha1": "4327e4674649",
-    "datei_stand": "2026-10-11",
-    "niagara_gesamt": 1,
-    "effekte": [
-     {
-      "typ": "niagara",
-      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
-      "pos_cm": [
-       -177200,
-       -227300,
-       5836
-      ],
-      "rot_q": [
-       0.0,
-       0.0,
-       0.99905,
-       0.04362
-      ],
-      "skala": 0.4,
-      "optional": false,
-      "zweck": "Quellaustritt am Hangfuss (Nature Water FX, 13d)",
-      "konflikt": "1.3 m neben A14 F_ERLENBACH_1V_C2_S07 (aufprall, NS_Impact_Small). A14 behaelt den Platz; der A13-Planer sollte diesen Effekt streichen oder verlegen - Rueckfrage im Bericht."
-     }
-    ],
-    "klaenge": [
-     {
-      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
-      "pos_cm": [
-       -177200,
-       -227300,
-       5966
-      ],
-      "radius_cm": 3000,
-      "lautstaerke": 0.5,
-      "zweck": "Quelle und Bach unter dem Eis"
      }
     ]
    },

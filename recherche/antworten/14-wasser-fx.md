@@ -307,6 +307,6 @@ schreiben keine Cull-Werte, das setzt der Setzer.
    7. Impact an S02?
 4. Soll ein Wasserfall-Klangpaket (Tosen, Gischt) auf die Download-Liste? Im Inventar gibt es nur Bach-Cues.
 
-## Nachtrag Koordinator (Konflikt tundra_06)
+## Nachtrag Koordinator (Konflikt tundra_06) – erledigt
 
-Entschieden: **Die C2-Kaskade hat Vorrang.** `tundra_06_das_aufeis` (Auftrag 13) wird verlegt, mindestens 60 m von allen Stufen- und Gischtpunkten entfernt. Bis zur Verlegung bitte die tundra_06-Effekte aus dem Sehenswürdigkeiten-Plan **nicht** setzen; `plan.json` dieses Auftrags gilt unverändert. Den neuen Standort trägt `sehens-STATUS.md` nach.
+Entschieden: **Die C2-Kaskade hat Vorrang.** Für das Aufeis gab es in der Tundra keinen regelkonformen Ersatzstandort (unterhalb der Kaskade öffnet sich die Schlucht zur Ebene, die Straße ist 59–70 m entfernt). Deshalb wurde `tundra_06_das_aufeis` durch **`tundra_06_das_schneetaelchen`** ersetzt (Altschneefeld mit Blutschnee-Algen in einer Hangmulde, Feld E3, ~1,55 km von der Kaskade, ohne Niagara). `plan.json` ist neu erzeugt: kein Konflikt mehr, Prüfung 291 OK / 0 WARNUNG / 0 FEHLER.

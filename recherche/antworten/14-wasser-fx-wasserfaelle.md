@@ -3,7 +3,7 @@
 Stand 11.10.2026. Die ausführliche Antwort steht in [`14-wasser-fx.md`](14-wasser-fx.md), der maschinenlesbare Plan in
 [`wasser_fx/plan.json`](wasser_fx/plan.json) (Format SEHENS_FORMAT §6, `typ: niagara`, plus `cull_m`, `sort_priority`,
 `user_parameter`, `ziel`, `optional`, Blöcke `material`, `klang`, `sehens13`). Erzeugt wird er mit `wasser_fx/plan_erzeugen.py`,
-geprüft mit `wasser_fx/plan_pruefen.py`: 271 OK, 1 Warnung (Konflikt mit Auftrag 13), 0 Fehler.
+geprüft mit `wasser_fx/plan_pruefen.py`: 291 OK, 0 Warnungen, 0 Fehler (Stand nach Auflösung des tundra_06-Konflikts).
 
 ## Kurzfazit
 
@@ -19,11 +19,10 @@ geprüft mit `wasser_fx/plan_pruefen.py`: 271 OK, 1 Warnung (Konflikt mit Auftra
 - **Klang:** `CUE_Water_Stream_I…X` an 11 Orten. Ein echtes Wasserfall-Tosen fehlt im Inventar.
 - **Ungeprüft:** die Namen der User-Parameter, die Größe der Systeme bei Skala 1 und ihre lokale Fließachse. Die Prüfliste steht in
   14-wasser-fx.md §9.
-- **Konflikt:** `tundra_06_das_aufeis` (Auftrag 13) liegt auf der C2-Kaskade, sein `NS_Stream_Small` 1,3 m neben dem S07-Aufprall.
-  Das ist eine Rückfrage.
+- **Konflikt (erledigt):** `tundra_06_das_aufeis` (Auftrag 13) lag auf der C2-Kaskade; ersetzt durch `tundra_06_das_schneetaelchen`, siehe Nachtrag.
 - Die Geysir- und Quellorte aus Auftrag 13 (Blasloch, Blautopf, Seefall u. a., 26 Orte) stehen nur zur Übersicht unter `sehens13`.
   Sie werden nicht doppelt gesetzt, weil die Sehenswürdigkeiten-Planer sie selbst liefern.
 
-## Nachtrag Koordinator (Konflikt tundra_06)
+## Nachtrag Koordinator (Konflikt tundra_06) – erledigt
 
-Entschieden: **Die C2-Kaskade hat Vorrang.** `tundra_06_das_aufeis` (Auftrag 13) wird verlegt, mindestens 60 m von allen Stufen- und Gischtpunkten entfernt. Bis zur Verlegung bitte die tundra_06-Effekte aus dem Sehenswürdigkeiten-Plan **nicht** setzen; `plan.json` dieses Auftrags gilt unverändert. Den neuen Standort trägt `sehens-STATUS.md` nach.
+Entschieden: **Die C2-Kaskade hat Vorrang.** Für das Aufeis gab es in der Tundra keinen regelkonformen Ersatzstandort (unterhalb der Kaskade öffnet sich die Schlucht zur Ebene, die Straße ist 59–70 m entfernt). Deshalb wurde `tundra_06_das_aufeis` durch **`tundra_06_das_schneetaelchen`** ersetzt (Altschneefeld mit Blutschnee-Algen in einer Hangmulde, Feld E3, ~1,55 km von der Kaskade, ohne Niagara). `plan.json` ist neu erzeugt: kein Konflikt mehr, Prüfung 291 OK / 0 WARNUNG / 0 FEHLER.
