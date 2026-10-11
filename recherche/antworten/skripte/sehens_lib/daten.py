@@ -499,25 +499,30 @@ def lade_1m(ordner, daten2m=None, standorte_pfad=None, boden=True):
     weg = _r8(p("karte_weg.r8"), ny, nx)
     ort = _r8(p("karte_ort.r8"), ny, nx)
     wasser = _r8(p("karte_wasser.r8"), ny, nx)
-    # Biom aus eigner.r8 + welt.json["kacheln"][k]["rezept"]
+    # Biom aus eigner.r8 + welt.json["kacheln"]. eigner.r8 enthaelt die KENNZAHL der Kachel (0 = Weltgelaende = aue).
+    # welt.json["kacheln"] ist eine Liste mit Kennzahl = Listenindex + 1 (Feld "kennzahl"); NICHT der Listenindex selbst
+    # (Auftrag 15d: frueher um eine Kachel verschoben). Kachel ohne Rezept (VULKAN_REGION) = lava wie in sehens_daten.py.
     eig = _r8(p("eigner.r8"), ny, nx, pflicht=False)
     lut = np.zeros(256, np.uint8)  # 0 = aue (Weltgelaende)
     kach = wj.get("kacheln", {})
-    items = kach.items() if isinstance(kach, dict) else enumerate(kach)
+    if isinstance(kach, dict):
+        items = [(k, v) for k, v in kach.items()]
+    else:
+        items = [(i + 1, v) for i, v in enumerate(kach)]
     for k, v in items:
-        try:
-            k = int(k)
-        except (TypeError, ValueError):
-            k = int(v.get("id", -1)) if isinstance(v, dict) else -1
-        if not (0 <= k < 256) or not isinstance(v, dict):
+        if not isinstance(v, dict):
             continue
-        rz = str(v.get("rezept", "aue")).lower()
+        try:
+            k = int(v.get("kennzahl", v.get("id", k)))
+        except (TypeError, ValueError):
+            continue
+        if not (0 < k < 256):
+            continue
+        rz = str(v.get("rezept") or "").lower()
         if rz in BIOME:
             lut[k] = BIOME.index(rz)
-        elif "vulkan" in rz or "lava" in rz:
-            lut[k] = BIOME.index("lava")
         else:
-            lut[k] = 0
+            lut[k] = BIOME.index("lava")
     biom = lut[eig] if eig is not None else np.zeros((ny, nx), np.uint8)
     meer = (hoehe < 0) & (wasser == 0)
     biom[meer] = BIOM_MEER
