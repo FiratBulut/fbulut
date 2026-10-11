@@ -5768,8 +5768,8 @@
     "breite_cm": 150,
     "abschnitt": "naechster",
     "lagen": {
-     "Erde": 200,
-     "Kies": 140
+     "Schnee": 200,
+     "Kies": 135
     },
     "zugang": {
      "breite_cm": 120,
@@ -5791,7 +5791,8 @@
       1.0,
       1.4
      ]
-    }
+    },
+    "_e22": "E22: Gletscher-/Nordhangsteig als Schnee/Kies-Band (Schmutzband, ~60/40), kein Bauwerk; Felsstufen nur auf Fels-Abschnitten 22-32 Grad"
    },
    "effekte": [
     {
@@ -5840,7 +5841,21 @@
      "zweck": "Wind ueber der Flanke (Brandung fehlt)"
     }
    ],
-   "sicht_probe_m": 12
+   "sicht_probe_m": 12,
+   "pfad_regel": {
+    "e": "E22",
+    "eis_boden": [
+     "Schnee",
+     "Eis"
+    ],
+    "eis_max_grad": 12,
+    "abstand_zu": [
+     {
+      "linie": "gletscher_05_die_waechte/bergschrund",
+      "min_m": 15
+     }
+    ]
+   }
   }
  }
 }

@@ -18,6 +18,12 @@ API:
   inv.asset_pruefen(art, name_oder_pfad, optional=False) -> Liste Befunde   (art: netz | niagara | decal | klang)
   inv.material_pruefen(mw)                -> Befunde fuer einen materialwunsch (§7: Master + Parameternamen + fuer)
   houdini(name_oder_pfad)                 -> True fuer Houdini-SW_*-Assets (verboten, Auftrag 13)
+  inv.material_fix_ausnahme(pfad)         -> True fuer die 33 Eis-/Schnee-Megascans, die M_MS_Base_Trm behalten (E34)
+  inv.kopie_pruefen(asset, kopie_von, optional) -> Befunde fuer Niagara-Kopien NS_EL_SW_* (E45)
+  inv.wasser_material_pfad(name)          -> voller Pfad eines Wassermaterials, wenn belegt (E43), sonst None
+Pivot/Front (E35): netz() liefert zusaetzlich pivot_z_anteil (0 = Pivot an der Unterkante), pivot_xy_versatz_m
+  (Mitte der Bounds relativ zum Pivot), pivot_quelle, front_achse (nur aus netze_masse.json, sonst None) und
+  front_quelle. Felder pivot_z_anteil/pivot_xy_versatz_m/front_achse in netze_masse.json haben Vorrang.
 Fehlende Assets: FEHLER; mit optional=True nur HINWEIS (SEHENS_FORMAT §6 "optional": true).
 """
 
@@ -42,6 +48,26 @@ def standard_ordner():
 # Auftrag 13d: unvollstaendig geladene Netze (nur 1 von 5 Dateien) - nicht verwenden (FEHLER)
 UNVOLLSTAENDIG = {"uldubik_tier_0": "Desert_Western_Cluster_Rock_Medium_05_uldubik",
                   "uk5ebcp_tier_0": "Desert_Western_Ledge_Rock_Small_07_uk5ebcp"}
+
+
+# E34 (Koordinator 11.10.2026): der Material-Fix fuer sw_* laesst die Eis-/Schnee-Megascans aus (behalten M_MS_Base_Trm)
+MATERIAL_FIX_AUSNAHMEN_MUSTER = re.compile(
+    r"^/Game/Fab/Megascans/3D/(Ice_Cliff_|Large_Ice_Cliff_|Snow_|Rocky_Snow_Pile_|Snowy_Rocks_Pile_|Huge_Snow_Hill_)")
+MATERIAL_FIX_GRUND = "E34: Eis-/Schnee-Megascans behalten M_MS_Base_Trm - der Material-Fix fuer sw_* laesst sie aus"
+
+# E45: Niagara-Kopien (Originale bleiben unberuehrt)
+KOPIE_PRAEFIX = "NS_EL_SW_"
+KOPIE_ORDNER = "/Game/Eldarien/Welt/FX/Sehens"
+
+# E35: Arbeitsannahme fuer Netze ohne Messung (Pruefung per Skript, Ergebnis nach netze_masse.json)
+ANNAHME_E35 = "E35: Pivot unten Mitte, Schauseite +Y (Arbeitsannahme, per Skript pruefen)"
+FRONT_ACHSEN = ("+x", "-x", "+y", "-y", "+z", "-z")
+
+# E43: Wassermaterialien, die nur als Name im Inventar stehen (inventar.json "materialien", ohne Pfad).
+# Ein voller Pfad wird erst eingetragen, wenn er belegt ist (inventar_extra.json "wasser_materialien").
+WASSER_MATERIAL_NUR_NAME = {
+    "M_River_Water_Translucent": "Mountain_Environment_Set (vorlagen/daten/inventar.json materialien, nur Name)",
+}
 
 
 def houdini(s):
@@ -158,7 +184,47 @@ class Inventar:
             gx, gy, gz = (v * 100.0 for v in e["groesse_m"])
             e["bounds_cm"] = ((-gx / 2, -gy / 2, 0.0), (gx / 2, gy / 2, gz))
             e["pivot"] = "angenommen_unten_mitte"
+        e.update(self._pivot_front(m or {}, e["bounds_cm"], e["pivot"]))
         return e
+
+    @staticmethod
+    def _pivot_front(m, bounds_cm, pivot):
+        """E35: Pivot-/Front-Felder. Eintraege in netze_masse.json (pivot_z_anteil, pivot_xy_versatz_m, front_achse)
+        haben Vorrang; sonst Pivot aus den Bounds bzw. Annahme 'unten Mitte'; front_achse nur aus netze_masse.json."""
+        (x0, y0, z0), (x1, y1, z1) = bounds_cm
+        out = {}
+        if "pivot_z_anteil" in m:
+            out["pivot_z_anteil"] = float(m["pivot_z_anteil"])
+            out["pivot_quelle"] = "netze_masse"
+        else:
+            out["pivot_z_anteil"] = (-z0 / (z1 - z0) + 0.0) if z1 - z0 > 1e-6 else 0.0
+            out["pivot_quelle"] = "bounds" if pivot == "bounds" else "annahme_e35"
+        if "pivot_xy_versatz_m" in m:
+            out["pivot_xy_versatz_m"] = [float(v) for v in m["pivot_xy_versatz_m"]][:2]
+        else:
+            out["pivot_xy_versatz_m"] = [0.5 * (x0 + x1) / 100.0, 0.5 * (y0 + y1) / 100.0]
+        fa = m.get("front_achse")
+        if fa in FRONT_ACHSEN:
+            out["front_achse"], out["front_quelle"] = fa, "netze_masse"
+        else:
+            out["front_achse"], out["front_quelle"] = None, "annahme_e35"
+        return out
+
+    # ------------------------------------------------------------------ E34 Material-Fix-Ausnahmen
+    def material_fix_ausnahme(self, s):
+        """True, wenn das Netz zu den Eis-/Schnee-Megascans gehoert, die M_MS_Base_Trm behalten (E34)."""
+        p = self.netz_pfad(s) or str(s)
+        return bool(MATERIAL_FIX_AUSNAHMEN_MUSTER.match(p))
+
+    def material_fix_ausnahmen(self):
+        """Alle Netze des Inventars, die der Material-Fix auslaesst (E34; Stand Inventar 13d: 33)."""
+        return sorted(p for p in self.netze if MATERIAL_FIX_AUSNAHMEN_MUSTER.match(p))
+
+    # ------------------------------------------------------------------ E43 Wassermaterial
+    def wasser_material_pfad(self, s):
+        """Voller Pfad eines Wassermaterials aus inventar_extra.json["wasser_materialien"], sonst None
+        (z. B. M_River_Water_Translucent: nur Name belegt, siehe WASSER_MATERIAL_NUR_NAME)."""
+        return self._suche(self.wasser_mat, s)
 
     def netz_pruefen(self, s, optional=False):
         b = []
@@ -220,6 +286,19 @@ class Inventar:
             return [(HINWEIS if optional else WARNUNG,
                      "Klang nicht in den Inventar-Beispielen (%d von %d gelistet): %s" % (len(self.klaenge), n, s))]
         return [(HINWEIS if optional else FEHLER, "%s nicht in inventar_extra.json: %s" % (art, s))]
+
+    def kopie_pruefen(self, asset, kopie_von, optional=False):
+        """E45: Niagara-Kopie. asset muss NS_EL_SW_<Name> heissen (Ablage KOPIE_ORDNER), kopie_von muss ein
+        vorhandenes Niagara-System sein (fehlend -> FEHLER, optional -> HINWEIS)."""
+        b = []
+        n = _letzter(asset or "")
+        if not n.startswith(KOPIE_PRAEFIX):
+            b.append((FEHLER, "kopie_von nur fuer Kopien %s<Name> (E45): %s" % (KOPIE_PRAEFIX, asset)))
+        if not kopie_von:
+            b.append((FEHLER, "%s ohne kopie_von (E45)" % asset))
+        elif self.niagara_pfad(kopie_von) is None:
+            b.append((HINWEIS if optional else FEHLER, "kopie_von %s nicht in inventar_extra.json (Niagara)" % kopie_von))
+        return b
 
     def material_pruefen(self, mw, alle_namen=False):
         """materialwunsch §7: name MI_EL_SW_*, basis erlaubter Master, Parameter existieren im Master,

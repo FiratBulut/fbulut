@@ -255,8 +255,51 @@ def hook_ende(ctx):
             ctx.melde("HINWEIS", "Verdeckung Rest (Richtung/Abstand/dz): %s" % ", ".join("%d/%d/%+d" % t for t in liste[:12]))
 
 
+def hook_pfad_regel(ctx, R):
+    """Regel 'pfad_regel' (z. B. E22: Steig ueber Eis): Abschnitte auf Eis/Schnee duerfen hoechstens eis_max_grad steil
+    sein; Pfadpunkte halten min_m Abstand zu Linien (auch anderer Orte, 'ort/linie'). Nur Meldung, aendert nichts."""
+    pr = ctx.r.get("pfad_regel")
+    if not pr or ctx.pfad is None:
+        return
+    import numpy as np
+    from sehens_lib import daten as _d, gelaende as _g
+    teile = [("pfad", ctx.pfad)] + ([("zugang", ctx.zugang)] if ctx.zugang else [])
+    for name, e in teile:
+        x, y, s = _g.polylinie_proben(e["punkte_m"], 2.0)
+        if len(x) < 2:
+            continue
+        z = np.asarray(ctx.boden(x, y), np.float64)
+        steig = np.degrees(np.arctan2(np.abs(np.gradient(z)), np.maximum(np.gradient(s), 1e-6)))
+        i, j = ctx.welt.m_zu_ij(x, y)
+        bn = np.array([_d.boden_name(int(v)) for v in ctx.welt.boden[i, j]])
+        eis = np.isin(bn, pr.get("eis_boden", ["Eis"]))
+        gmax = float(pr.get("eis_max_grad", 12.0))
+        zu_steil = eis & (steig > gmax)
+        txt = "%s: %.0f m auf %s, davon %.0f m steiler als %.0f Grad" % (
+            name, 2.0 * eis.sum(), "/".join(pr.get("eis_boden", ["Eis"])), 2.0 * zu_steil.sum(), gmax)
+        for ab in pr.get("abstand_zu") or []:
+            oid, ln = ab["linie"].split("/") if "/" in ab["linie"] else (ctx.id, ab["linie"])
+            if oid == ctx.id:
+                L = ctx.linien.get(ln)
+            else:
+                lr = ((R.get("orte") or {}).get(oid) or {}).get("linien", {}).get(ln) or {}
+                L = [q["pos_m"] for q in lr.get("punkte", []) if isinstance(q, dict) and "pos_m" in q]
+            if not L or len(L) < 2:
+                ctx.melde("WARNUNG", "pfad_regel: Linie %s nicht gefunden" % ab["linie"])
+                continue
+            lx, ly, _ = _g.polylinie_proben(L, 1.0)
+            dmin = float(np.sqrt(((x[:, None] - lx[None, :]) ** 2 + (y[:, None] - ly[None, :]) ** 2).min()))
+            ok = dmin >= float(ab.get("min_m", 15.0))
+            txt += "; Abstand zu %s min %.0f m (Soll >= %.0f m)" % (ab["linie"], dmin, float(ab.get("min_m", 15.0)))
+            if not ok:
+                ctx.melde("WARNUNG", "pfad_regel %s: %s naeher als %.0f m an %s" % (pr.get("e", ""), name,
+                                                                                   float(ab.get("min_m", 15.0)), ab["linie"]))
+        ctx.melde("HINWEIS", "pfad_regel %s %s" % (pr.get("e", ""), txt))
+
+
 def _hooks(oid, R):
-    h = {"anker": [hook_see_fuellen], "nach_gelaende": [hook_rahmen, hook_nach_ops], "ende": [hook_ende]}
+    h = {"anker": [hook_see_fuellen], "nach_gelaende": [hook_rahmen, hook_nach_ops],
+         "ende": [hook_ende, lambda ctx: hook_pfad_regel(ctx, R)]}
     for k, f in (HOOKS.get(oid) or {}).items():
         h.setdefault(k, []).insert(0, f)
     return {k: (lambda ctx, fs=fs: [f(ctx) for f in fs]) for k, fs in h.items()}

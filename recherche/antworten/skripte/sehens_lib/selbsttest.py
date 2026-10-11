@@ -101,6 +101,18 @@ def _phase2_test(welt, gel, ort, a):
     ok(any(t == "FEHLER" for t, _ in inv.netz_pruefen("SW_Houdini_Test")), "Houdini SW_* -> FEHLER")
     ok(any(t == "FEHLER" for t, _ in inv.material_pruefen({"name": "MI_EL_SW_X", "basis": "M_EL_Fels_MS",
                                                          "parameter": {"GibtEsNicht": 1}})), "Materialparameter unbekannt -> FEHLER")
+    # Entscheidungen 13 (E34, E35, E45): Material-Fix-Ausnahmen, Pivot/Front, Niagara-Kopien
+    fa = inv.material_fix_ausnahmen()
+    ok(len(fa) > 0 and all(inv.material_fix_ausnahme(p_) for p_ in fa) and not inv.material_fix_ausnahme(
+        "SM_NordicBoulder_01"), "E34: %d Eis-/Schnee-Netze ohne Material-Fix" % len(fa))
+    nb = inv.netz("SM_NordicBoulder_01")
+    ok(all(k in nb for k in ("pivot_z_anteil", "pivot_xy_versatz_m", "front_achse", "front_quelle")),
+       "E35: Pivot/Front-Felder (pivot_z_anteil %.2f, front %s/%s)" % (nb["pivot_z_anteil"], nb["front_achse"],
+                                                                      nb["front_quelle"]))
+    ok(not inv.kopie_pruefen("NS_EL_SW_Test", "NS_Smoke_Plume") and
+       any(t == "FEHLER" for t, _ in inv.kopie_pruefen("NS_EL_SW_Test", "/Game/X/NS_Fehlt")) and
+       any(t == "FEHLER" for t, _ in inv.kopie_pruefen("NS_Smoke_Plume", "NS_Smoke_Plume")),
+       "E45: Niagara-Kopie NS_EL_SW_* mit kopie_von geprueft")
     # Quaternion-Selbstpruefung: liegend legt die Z-Achse in Kompassrichtung 90 (Ost = +X)
     q = instanzen.orientierung("liegend", 90.0)
     v = instanzen.q_drehe(q, [0, 0, 1])
@@ -196,8 +208,11 @@ def _phase2_test(welt, gel, ort, a):
     see["umriss_cm"] = see["umriss_cm"][::-1]
     o2["effekte"].append({"typ": "niagara", "asset": "/Game/X/NS_Fehlt", "pos_cm": [0, 0, 0]})
     o2["budget"]["instanzen"] += 5
+    o2["effekte"].append({"typ": "niagara", "asset": "/Game/Eldarien/Welt/FX/Sehens/NS_EL_SW_Test", "pos_cm": [0, 0, 0]})
+    o2["bestand_ausblenden"] = [{"art": "bach", "id": "B_Test"}]
     bk = [t for s_, _, t in sehens_pruefen.pruefe_orte(d2, basis=aus, inv=inv, welt=welt, sw_ordner=sw) if s_ == "FEHLER"]
-    ok(len(bk) >= 3, "kaputte orte.json: %d FEHLER (Uhrzeigersinn, Niagara fehlt, Budget != Ebene)" % len(bk))
+    ok(len(bk) >= 5, "kaputte orte.json: %d FEHLER (Uhrzeigersinn, Niagara fehlt, Budget != Ebene, NS_EL_SW_ ohne "
+                     "kopie_von, bestand_ausblenden ohne von/bis)" % len(bk))
     feld = sorted(os.listdir(sw))[0]
     pj = os.path.join(sw, feld, "plan.json")
     with open(pj, "r", encoding="utf-8") as f:

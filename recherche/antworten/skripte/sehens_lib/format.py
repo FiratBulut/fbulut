@@ -216,8 +216,10 @@ def ort_phase2(st, kurz="", standort_begruendung=None, **felder):
     return e
 
 
-def schreibe_orte(pfad, biom, orte, stand=None, pruefen=True):
+def schreibe_orte(pfad, biom, orte, stand=None, pruefen=True, zusatz=None):
+    """zusatz: weitere Schluessel auf oberster Ebene (z. B. material_fix_ausnahmen, E34)."""
     d = {"stand": stand or heute(), "biom": biom, "orte": orte}
+    d.update(zusatz or {})
     _dump(d, pfad)
     log("geschrieben: %s (%d Orte)" % (pfad, len(orte)))
     if pruefen:

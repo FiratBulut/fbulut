@@ -287,7 +287,12 @@ def pruefe_pfad(p, biom, welt=None, gel=None, alle_pfade=(), orte_ids=None):
         innen = dd.min(axis=0) < 0
         if innen.any():
             namen = [str(welt.staedte[k].get("id")) for k in np.flatnonzero(innen)]
-            b.append((WARNUNG, pid, "schneidet die geplante Stadt %s" % ", ".join(namen)))
+            if p.get("warnung_akzeptiert"):
+                # E19: bewusst akzeptiert (Begruendung im Pfad) -> nur HINWEIS
+                b.append((HINWEIS, pid, "schneidet die geplante Stadt %s (akzeptiert: %s)"
+                          % (", ".join(namen), p["warnung_akzeptiert"])))
+            else:
+                b.append((WARNUNG, pid, "schneidet die geplante Stadt %s" % ", ".join(namen)))
     n_w = int((welt.wasser[i, j] > 0).sum())
     if n_w and art != "trittsteine":
         b.append((HINWEIS, pid, "quert Suesswasser auf ca. %.0f m (Trittsteine/Furt)" % (n_w * welt.zelle_m)))
@@ -617,7 +622,17 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None):
             for f in ("asset", "pos_cm"):
                 if f not in e:
                     b.append((FEHLER, oid, "niagara.%s fehlt" % f))
-            if inv is not None:
+            kopie = str(e.get("asset") or "").rsplit("/", 1)[-1].startswith("NS_EL_SW_") or e.get("kopie_von")
+            if kopie:
+                # E45: Kopie NS_EL_SW_* verlangt kopie_von (vorhandenes Original); die Kopie selbst legt Claude lokal an
+                if not e.get("kopie_von"):
+                    b.append((FEHLER, oid, "niagara %s: Praefix NS_EL_SW_ verlangt kopie_von (E45)" % e.get("asset")))
+                elif inv is not None:
+                    b += [(st, oid, tx) for st, tx in inv.kopie_pruefen(e.get("asset"), e["kopie_von"],
+                                                                        bool(e.get("optional")))]
+                elif not str(e.get("asset") or "").rsplit("/", 1)[-1].startswith("NS_EL_SW_"):
+                    b.append((FEHLER, oid, "niagara %s: kopie_von nur fuer NS_EL_SW_* (E45)" % e.get("asset")))
+            elif inv is not None:
                 b += [(st, oid, tx) for st, tx in inv.asset_pruefen("niagara", e.get("asset"), bool(e.get("optional")))]
             elif not e.get("optional"):
                 b.append((HINWEIS, oid, "niagara %s: ohne Inventar nicht pruefbar" % e.get("asset")))
@@ -630,6 +645,18 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None):
                 b += [(st, oid, tx) for st, tx in inv.asset_pruefen("decal", e["material"], bool(e.get("optional")))]
         else:
             b.append((FEHLER, oid, "effekte.typ %r" % t))
+    for k, ba in enumerate(o.get("bestand_ausblenden", []) or []):
+        # E10/E11: Bestandsbach-Abschnitt, den geplantes Wasser ersetzt
+        if ba.get("art") != "bach" or not ba.get("id") or not _pkt(ba.get("von_cm"), 2) or not _pkt(ba.get("bis_cm"), 2):
+            b.append((FEHLER, oid, "bestand_ausblenden[%d]: art 'bach', id, von_cm, bis_cm noetig" % k))
+            continue
+        if welt is not None and not any(ba["id"] in (q.get("id"), q.get("id_r2")) for q in welt.baeche):
+            b.append((WARNUNG, oid, "bestand_ausblenden: Bach %s nicht in den Bachdaten" % ba["id"]))
+        elif _zahl(ba.get("laenge_m")) and ba["laenge_m"] < 1.0:
+            b.append((WARNUNG, oid, "bestand_ausblenden %s: Abschnitt nur %.1f m" % (ba["id"], ba["laenge_m"])))
+        else:
+            b.append((HINWEIS, oid, "bestand_ausblenden %s: %s m ausblenden (ersetzt durch %s)"
+                      % (ba["id"], ba.get("laenge_m", "?"), ba.get("ersetzt_durch"))))
     for n, mx in (("licht", 4), ("nebel", 2), ("niagara", 3), ("decal", 12)):
         if zahl[n] > mx:
             b.append((FEHLER, oid, "%d %s-Effekte > %d" % (zahl[n], n, mx)))
@@ -698,6 +725,16 @@ def pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None):
     mw = sum(len(o.get("materialwuensche", []) or []) for o in orte)
     if mw > 6:
         b.append((FEHLER, biom, "%d Materialwuensche > 6 je Biom" % mw))
+    fa = d.get("material_fix_ausnahmen")
+    if fa is not None:
+        # E34: nur Eis-/Schnee-Megascans duerfen den Material-Fix auslassen
+        netze = fa.get("netze") if isinstance(fa, dict) else None
+        if not isinstance(netze, list):
+            b.append((FEHLER, biom, "material_fix_ausnahmen: {grund, netze: [...]} erwartet (E34)"))
+        elif inv is not None:
+            for n in netze:
+                if not inv.material_fix_ausnahme(n):
+                    b.append((WARNUNG, biom, "material_fix_ausnahmen: %s ist kein Eis-/Schnee-Megascan (E34)" % n))
     b += pruefe_global([(biom, o, "") for o in orte])
     return b
 

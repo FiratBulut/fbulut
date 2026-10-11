@@ -30,6 +30,7 @@ from . import gelaende as _gel
 from . import format as _fmt
 from . import stempel as _st
 from . import instanzen as _ins
+from . import inventar as _inv
 
 FEHLER, WARNUNG, HINWEIS = "FEHLER", "WARNUNG", "HINWEIS"
 BUDGET_9 = {"instanzen": 15000, "kollision": 1500, "akteure": 80, "lichter": 4, "niagara": 3, "nebel": 2,
@@ -97,6 +98,8 @@ class OrtKontext:
         # {"id", "umriss_m", "spiegel_m"}; nass ist es nur, wo das Gelaende unter dem Spiegel liegt (Regel
         # "bestandswasser"). Wird nicht als Wasser geschrieben, zaehlt aber fuer im_wasser, ufer, z_bezug spiegel:<id>.
         self.bestand_seen = []
+        # E10/E11: Bestandsbach-Abschnitte, die geplantes Wasser ersetzt (orte.json "bestand_ausblenden")
+        self.bestand_ausblenden = []
 
     # ------------------------------------------------------------------ Meldungen
     def melde(self, stufe, text):
@@ -526,6 +529,44 @@ class OrtKontext:
             for k in ("material_hinweis", "hinweis_wasser"):     # z. B. Mountain-Fluss-/Wasserfall-Material (13d)
                 if w.get(k):
                     e[k] = w[k]
+            if w.get("ersetzt_bestandsbach"):
+                e["ersetzt_bestandsbach"] = w["ersetzt_bestandsbach"].get("id")
+        # E10/E11: "ersetzt_bestandsbach" an einem Wasser-Eintrag oder auf Ortsebene -> bestand_ausblenden
+        quellen = [(w.get("id"), w["ersetzt_bestandsbach"]) for w in regeln if w.get("ersetzt_bestandsbach")]
+        quellen += [(x.get("ersetzt_durch"), x) for x in _liste(self.r.get("ersetzt_bestandsbach") or [])]
+        for wid, eb in quellen:
+            self._bestand_ausblenden(wid, eb)
+
+    def _bestand_ausblenden(self, wid, eb):
+        """Ein Abschnitt eines Bestandsbachs (baeche_alle.json), den geplantes Wasser ersetzt: von/bis sind
+        Punkt-Referenzen; die Lib projiziert sie auf den Bach (Bogenlaenge s) - der Setzer blendet das Stueck aus."""
+        bid = eb.get("id")
+        try:
+            von, bis = self.punkt(eb["von"]), self.punkt(eb["bis"])
+        except (KeyError, ValueError, TypeError) as ex:
+            self.melde(FEHLER, "ersetzt_bestandsbach %s: von/bis nicht aufloesbar (%s)" % (bid, ex))
+            return
+        d = {"art": "bach", "id": bid, "ersetzt_durch": wid,
+             "von_cm": [round(von[0] * 100), round(von[1] * 100)], "bis_cm": [round(bis[0] * 100), round(bis[1] * 100)],
+             "grund": eb.get("grund", "geplantes Wasser ersetzt diesen Abschnitt des Bestandsbachs")}
+        bach = next((b for b in self.welt.baeche if bid in (b.get("id"), b.get("id_r2"))), None)
+        if bach is None or len(bach.get("punkte") or []) < 2:
+            self.melde(WARNUNG, "ersetzt_bestandsbach: Bach %s nicht in den Bachdaten (Abschnitt nicht projiziert)" % bid)
+        else:
+            P = np.asarray(bach["punkte"], np.float64)[:, :2] / 100.0
+            (s0, d0), (s1, d1) = _projektion(P, *von), _projektion(P, *bis)
+            if s1 < s0:
+                s0, s1, d0, d1 = s1, s0, d1, d0
+            seg = np.hypot(np.diff(P[:, 0]), np.diff(P[:, 1]))
+            d.update(von_s_m=round(s0, 1), bis_s_m=round(s1, 1), laenge_m=round(s1 - s0, 1),
+                     bach_laenge_m=round(float(seg.sum()), 1), abstand_m=[round(d0, 1), round(d1, 1)])
+            if max(d0, d1) > 15.0:
+                self.melde(WARNUNG, "ersetzt_bestandsbach %s: von/bis liegt %.0f m neben dem Bach" % (bid, max(d0, d1)))
+            if s1 - s0 < 1.0:
+                self.melde(WARNUNG, "ersetzt_bestandsbach %s: Abschnitt %.1f m lang" % (bid, s1 - s0))
+        if eb.get("hinweis"):
+            d["hinweis"] = eb["hinweis"]
+        self.bestand_ausblenden.append(d)
 
     def _wasser_bauen(self):
         for w in self.r.get("wasser") or []:
@@ -856,8 +897,9 @@ class OrtKontext:
                                kollision=stk["kollision"], akteur=stk["akteur"], sichtweite=g.get("sichtweite"),
                                schatten=g.get("schatten"), material=self._material(g), z_frei=stk.get("z_frei", False),
                                rolle=g.get("rolle", "fels"),
-                               extra={"hoehe_m": round(stk["hoehe_m"], 2), "boden_z": round(stk["boden_z_m"] * 100, 1),
-                                      "unterkante_z": round(stk["unterkante_z_m"] * 100, 1)} if stk["akteur"] else None)
+                               extra=dict({"hoehe_m": round(stk["hoehe_m"], 2), "boden_z": round(stk["boden_z_m"] * 100, 1),
+                                           "unterkante_z": round(stk["unterkante_z_m"] * 100, 1)},
+                                          **_pivot_front_extra(info, stk)) if stk["akteur"] else None)
             stk["stueck"] = e
             stk["x_m"], stk["y_m"] = x, y
             out.append(stk)
@@ -1021,9 +1063,16 @@ class OrtKontext:
             else:
                 self.anker["_hier"] = (x, y)
                 kipp_r = self.richtung(kr, "_hier") + rng.uniform(-15, 15)
+        # E35: front_achse aus netze_masse.json hat Vorrang vor der Regel (sonst Regel, sonst Standard +x)
+        if info.get("front_quelle") == "netze_masse" and info.get("front_achse"):
+            front, front_q = info["front_achse"], "netze_masse"
+        elif g.get("front_achse"):
+            front, front_q = g["front_achse"], "regel"
+        else:
+            front, front_q = "+x", "standard"
         q = _ins.orientierung("aufrecht" if art == "normale" else art, yaw, n, na, kipp_r, kipp,
                               g.get("hochkant_achse", "y"), float(rng.uniform(0, 360)) if art == "liegend" else 0.0,
-                              g.get("front_achse", "+x"))
+                              front)
         # Eingraben: Anteil der Dicke senkrecht zum Hang (aufrecht/normale: lokale Z-Hoehe x sz; hochkant/liegend:
         # gedrehte Welt-Hoehe), lotrecht umgerechnet mit der Hangnormalen
         kontakt = "lokal" if art in ("aufrecht", "normale") else "welt"
@@ -1111,7 +1160,8 @@ class OrtKontext:
             kern = 0.3 * min(p["fuss_a_m"], p["fuss_b_m"])
         else:
             kern = 0.75 * min(p["fuss_a_m"], p["fuss_b_m"])
-        p.update({"q": q, "s": s, "kollision": kol, "akteur": akteur, "massiv": massiv, "kern_r_m": kern, "yaw": yaw})
+        p.update({"q": q, "s": s, "kollision": kol, "akteur": akteur, "massiv": massiv, "kern_r_m": kern, "yaw": yaw,
+                  "front_achse": front, "front_quelle": front_q})
         return p
 
     # ------------------------------------------------------------------ Lagen (§3)
@@ -1407,15 +1457,26 @@ class OrtKontext:
                          "hoehenabfall": float(e.get("hoehenabfall", 0.5))}
                 elif t == "niagara":
                     asset = e.get("asset")
-                    pfad = self.inv.niagara_pfad(asset) if asset else None
+                    kopie = e.get("kopie_von")
+                    if kopie:
+                        # E45: Kopie NS_EL_SW_<Name> unter /Game/Eldarien/Welt/FX/Sehens, Original bleibt unberuehrt
+                        pfad = asset if "/" in str(asset) else "%s/%s" % (_inv.KOPIE_ORDNER, asset)
+                    else:
+                        pfad = self.inv.niagara_pfad(asset) if asset else None
                     yaw_n = self.richtung(e["yaw"], e.get("bei", "mitte")) if "yaw" in e else float(e.get("yaw_grad", 0.0))
                     d = {"typ": t, "asset": pfad or asset, "pos_cm": pos,
                          "rot_q": [round(v, 5) for v in _ins.q_yaw_kompass(yaw_n)],
                          "skala": float(e.get("skala", 1.0)), "optional": bool(e.get("optional", True))}
-                    for k in ("wunsch_paket", "hinweis", "credits"):
+                    if kopie:
+                        d["kopie_von"] = self.inv.niagara_pfad(kopie) or kopie
+                        if e.get("kopie_aenderungen"):
+                            d["kopie_aenderungen"] = e["kopie_aenderungen"]
+                    for k in ("wunsch_paket", "hinweis", "credits", "bedingung", "cull_m"):
                         if e.get(k):
                             d[k] = e[k]
-                    for st, txt in self.inv.asset_pruefen("niagara", d["asset"], d["optional"]):
+                    befunde = (self.inv.kopie_pruefen(d["asset"], kopie, d["optional"]) if kopie else
+                               self.inv.asset_pruefen("niagara", d["asset"], d["optional"]))
+                    for st, txt in befunde:
                         self.melde(st, txt)
                 elif t == "decal":
                     mat = self.inv.decal_pfad(e["material"]) or e["material"]
@@ -1435,7 +1496,7 @@ class OrtKontext:
                     if e.get("optional"):
                         d["optional"] = True
                     # eigene Decal-Textur (Wunsch, PNG im Repo) und Hinweise durchreichen (optional)
-                    for k in ("textur", "textur_normal", "hinweis", "wunsch_paket"):
+                    for k in ("textur", "textur_normal", "hinweis", "wunsch_paket", "bedingung"):
                         if e.get(k):
                             d[k] = e[k]
                 else:
@@ -1449,15 +1510,22 @@ class OrtKontext:
             pf = self.inv.klang_pfad(k["asset"]) or k["asset"]
             for st, txt in self.inv.asset_pruefen("klang", pf, bool(k.get("optional", False))):
                 self.melde(st, txt)
-            self.klaenge.append({"asset": pf, "pos_cm": [round(x * 100), round(y * 100),
-                                                         round((float(self.boden(x, y)) + float(k.get("hoehe_m", 1.5))) * 100)],
-                                 "radius_cm": round(float(k.get("radius_m", 30.0)) * 100),
-                                 "lautstaerke": float(k.get("lautstaerke", 0.7)), "zweck": k.get("zweck", "")})
+            kl = {"asset": pf, "pos_cm": [round(x * 100), round(y * 100),
+                                          round((float(self.boden(x, y)) + float(k.get("hoehe_m", 1.5))) * 100)],
+                  "radius_cm": round(float(k.get("radius_m", 30.0)) * 100),
+                  "lautstaerke": float(k.get("lautstaerke", 0.7)), "zweck": k.get("zweck", "")}
+            for f in ("optional", "bedingung", "hinweis", "ersatz", "wunsch_paket"):     # E18/E29 (nur wenn gesetzt)
+                if k.get(f):
+                    kl[f] = k[f]
+            self.klaenge.append(kl)
         for f in self.r.get("freiraeume") or []:
             x, y = self.punkt(f.get("bei", "mitte"))
             d = {"ort": self.id, "form": f.get("form", "kreis"), "mitte_cm": [round(x * 100), round(y * 100)],
                  "ebenen": f.get("ebenen", ["bestand", "witcher", "mittelschicht"]), "rollen": f.get("rollen", ["baum", "strauch"]),
                  "grund": f.get("grund", "")}
+            for k in ("netze", "hinweis"):          # E23: Netznamen-Muster des auszublendenden Bestands
+                if f.get(k):
+                    d[k] = f[k]
             if d["form"] == "kreis":
                 d["radius_cm"] = round(float(f.get("r_m", 10.0)) * 100)
             else:
@@ -1556,10 +1624,41 @@ class OrtKontext:
             e["klaenge"] = self.klaenge
         if self.freiraeume:
             e["freiraeume"] = self.freiraeume
+        if self.bestand_ausblenden:
+            e["bestand_ausblenden"] = self.bestand_ausblenden
         e["detail_ebenen"] = self.detail_ebenen(z)
         e["hinweise"] = [ascii_text(t) for s, _, t in self.meldungen if s == HINWEIS][:30]
         self.eintrag = e
         return e
+
+
+def _projektion(P, x, y):
+    """Projektion eines Punkts auf eine Polylinie P (n x 2, m) -> (Bogenlaenge s_m, Abstand_m)."""
+    A, B = P[:-1], P[1:]
+    AB = B - A
+    L = np.maximum((AB ** 2).sum(1), 1e-12)
+    t = np.clip(((x - A[:, 0]) * AB[:, 0] + (y - A[:, 1]) * AB[:, 1]) / L, 0.0, 1.0)
+    Q = A + AB * t[:, None]
+    dd = np.hypot(Q[:, 0] - x, Q[:, 1] - y)
+    k = int(np.argmin(dd))
+    seg = np.sqrt(L)
+    return float(seg[:k].sum() + t[k] * seg[k]), float(dd[k])
+
+
+def _pivot_front_extra(info, stk):
+    """E35: Pivot-/Front-Angaben je Akteur (netze_masse.json, sonst Arbeitsannahme vermerkt)."""
+    d = {"pivot_z_anteil": round(float(info.get("pivot_z_anteil", 0.0)), 2),
+         "pivot_xy_versatz_m": [round(float(v), 2) + 0.0 for v in info.get("pivot_xy_versatz_m", (0.0, 0.0))],
+         "front_achse": stk.get("front_achse", "+x"), "front_quelle": stk.get("front_quelle", "standard")}
+    teile = []
+    if info.get("pivot_quelle") == "annahme_e35":
+        teile.append("Pivot unten Mitte angenommen")
+    if d["front_quelle"] != "netze_masse":
+        teile.append("Schauseite nicht gemessen (Annahme +Y), gesetzt mit front_achse %s (%s)"
+                     % (d["front_achse"], d["front_quelle"]))
+    if teile:
+        d["annahme"] = "E35: " + "; ".join(teile) + " - per Skript pruefen"
+    return d
 
 
 def bogen_abschnitt(P, a_m, b_m):
@@ -1687,6 +1786,9 @@ def schreibe_biom(aus_ordner, sw_ordner, biom, kontexte, ebene, materialwuensche
         ids = {o["id"] for o in orte}
         orte = [o for o in alte_orte if o["id"] not in ids] + orte
         orte.sort(key=lambda o: o["id"])
-    d = _fmt.schreibe_orte(os.path.join(aus_ordner, "orte.json"), biom, orte, stand=stand, pruefen=False)
+    # E34: im Biom benutzte Eis-/Schnee-Megascans, die der Material-Fix fuer sw_* auslaesst
+    fix_aus = sorted({e["pfad"] for e in ebene.stuecke if inv.material_fix_ausnahme(e["pfad"])})
+    zusatz = {"material_fix_ausnahmen": {"grund": _inv.MATERIAL_FIX_GRUND, "netze": fix_aus}} if fix_aus else None
+    d = _fmt.schreibe_orte(os.path.join(aus_ordner, "orte.json"), biom, orte, stand=stand, pruefen=False, zusatz=zusatz)
     info = ebene.schreibe(sw_ordner, orte_info={o["id"]: o for o in orte})
     return d, info

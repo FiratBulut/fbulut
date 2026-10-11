@@ -2725,8 +2725,8 @@
     },
     "blasensee": {
      "pos_m": [
-      512.0,
-      -2870.0
+      509.0,
+      -2865.0
      ]
     }
    },
@@ -2896,8 +2896,8 @@
       "a_m": 9,
       "b_m": 6.5,
       "richtung": 90,
-      "ufer_m": 5,
-      "freibord_m": 0.7,
+      "ufer_m": 6,
+      "freibord_m": 1.0,
       "boden": 0.4,
       "einpassen": {
        "r_such_m": 5,

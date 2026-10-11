@@ -1,0 +1,2283 @@
+{
+ "_schema": {
+  "zweck": "Regelwerk Auftrag 15 (Gefaelle, Felsstufen, Klippen, Faelle) fuer gefaelle_plan.py. Prosa + Quellen: antworten/15-gefaelle-regelwerk.md.",
+  "version": 1,
+  "einheiten": "Gefaelle S in m/m (0.10 = 10 %). Laengen/Hoehen in m, Winkel in Grad, Cull in m, Welt-Koordinaten im Plan in cm.",
+  "variablen": {
+   "S": "mittleres Wasserspiegelgefaelle im Klassen-Fenster (m/m), gemessen ueber 'klassen.fenster'",
+   "S_lok": "lokales Gefaelle ueber 'klassen.fenster_lokal' (fuer Fall-Erkennung)",
+   "B": "Wasserbreite in m (breite_m bzw. breite_cm/100 am Punkt)",
+   "L": "Stufenabstand Krone-Krone, horizontal entlang der Mittellinie (m)",
+   "D": "Wasserspiegel-Fall einer Stufe/eines Falls (m) = z_oben - z_unten",
+   "H": "Bett-Stufenhoehe: Krone bis tiefster Kolkpunkt darunter (m)",
+   "D_ges": "Fall der ganzen Strecke (m)",
+   "L_ges": "Laenge der ganzen Strecke (m)",
+   "c": "Abrahams-Faktor (H/L)/S",
+   "x_strahl": "horizontale Wurfweite des Strahls (m)"
+  },
+  "funktionen": "Formeln sind Python-Ausdruecke. Erlaubt: + - * / **, min, max, sqrt, clamp(x, lo, hi) = min(max(x, lo), hi). Nur die Variablen oben.",
+  "zahl": "Jede Zahl steht in einem Objekt mit 'wert' | 'min'/'max' | 'formel' (+ 'einheit') und Beleg: 'quelle': [IDs aus 'quellen'] und/oder 'annahme': true. Beides zusammen = an Quelle angelehnt, fuer das Spiel angepasst (Notiz sagt was). Texte ('text', 'notiz', 'warum') sind keine Zahlen.",
+  "schluessel": {
+   "quellen": "ID -> {autor, jahr, titel, ort, link, gelesen}. gelesen = 'auszug' (nur Suchmaschinen-Auszug) | 'wissen' (Standardliteratur, Zahl nicht online nachgeprueft).",
+   "klassen": "{fenster, fenster_lokal, art_regel, bach: [Klasse], fluss: [Klasse]}. Klasse = {id, von, bis (S), natur, darstellung, stufenarten, beleg}",
+   "stufen": "Step-Pool-Geometrie: abstand_L, fall_D, bett_H, c, Grenzen je Stufenart (schnelle|stufe|kaskade|fall), lippe, zwei-Punkt-Darstellung.",
+   "becken": "Beckenlaenge, Beckengefaelle, Mindestlaenge, Breite.",
+   "kolk": "Kolktiefe/-laenge je Stufenart (Formeln).",
+   "faelle": "Wann ein einzelner Fall statt Stufenkette, Fallhoehen, Strahl-Wurfweite, Lippe, Riegel, Rueckschreiten.",
+   "klamm": "Wann Klamm/Schlucht, Breite/Tiefe, verkeilte Bloecke, Strudelloecher, Gumpen.",
+   "ufer_klippen": "Ab wann Uferwaende, Wandhoehe zur Fallhoehe, Laenge, Abstand vom Wasser, Neigung.",
+   "schutt": "Block- und Schuttgroessen in Stufe, Becken, unter Faellen und Waenden.",
+   "lagen": "Bodenlagen (Namen exakt FORMAT.md §2) je Zone (bett_becken, bett_stufe, kolk, ufer_nah, ufer_gischt, wandfuss) mit Zielgewicht 0-255 und Breite.",
+   "effekte": "Nature-Water-FX je Stufenart und -hoehe: System, Ort, Skala-Referenz, Cull, Grenzen (<= 3 je Stufe, <= 6 gleichzeitig aktiv).",
+   "biome": "Je Biom: felstyp, vorbild, netze {lippe, riegel, bloecke, wand, schutt, kies, holz, extra} (nur Namen aus daten/netze.csv), lagen {bett, ufer, wand_fuss}, besonderheiten.",
+   "vorbilder": "Reale Orte und Spiele mit Link (fuer Kameras/Optik)."
+  },
+  "regeln_hart": [
+   "Wasserspiegel nie steigend: z[i+1] <= z[i] fuer alle Punkte von spiegel_neu_cm (Toleranz 0).",
+   "Stufe = zwei Spiegelpunkte im Abstand <= 1 m (horizontal), oben an der Lippe, unten am Fuss.",
+   "Becken flach: Spiegelgefaelle im Becken <= becken.gefaelle.max.",
+   "Anfang und Ende der Strecke behalten ihre Hoehe (Anschluss an vorhandenes Wasser).",
+   "Teilstuecke in der Draufsicht nicht ueberlappend, Luecke an der Stufe >= 1.2 m (Antwort 12).",
+   "Netze nur aus daten/netze.csv, nicht aus daten/netz_sperre.json."
+  ]
+ },
+ "_doku": {
+  "stand": "2026-10-11",
+  "auftrag": "15 – Regelwerk-Agent (Natur + Quellen). Planer/Prioritaeten: zweiter Agent.",
+  "lesart": "Werte mit 'annahme': true sind Spielentscheidungen oder nicht online pruefbar; vor dem Pilot im Bild pruefen.",
+  "hinweis_quellenlage": "WebFetch war in der Umgebung gesperrt (DNS). Alle Online-Belege sind Suchmaschinen-Auszuege (gelesen: 'auszug'); Standardwerte aus Lehrbuch-Literatur sind 'wissen'."
+ },
+ "quellen": {
+  "MB1997": {
+   "autor": "Montgomery, D.R.; Buffington, J.M.",
+   "jahr": 1997,
+   "titel": "Channel-reach morphology in mountain drainage basins",
+   "ort": "GSA Bulletin 109(5): 596-611",
+   "link": "https://www.fs.usda.gov/rm/boise/publications/watershed/rmrs_1997_montomeryr001.pdf",
+   "gelesen": "auszug+wissen"
+  },
+  "ABR1995": {
+   "autor": "Abrahams, A.D.; Li, G.; Atkinson, J.F.",
+   "jahr": 1995,
+   "titel": "Step-pool streams: Adjustment to maximum flow resistance",
+   "ort": "Water Resources Research 31(10): 2593-2602, doi:10.1029/95WR01957",
+   "link": "https://doi.org/10.1029/95WR01957",
+   "gelesen": "auszug"
+  },
+  "CHIN1989": {
+   "autor": "Chin, A.",
+   "jahr": 1989,
+   "titel": "Step pools in stream channels",
+   "ort": "Progress in Physical Geography 13: 391-407",
+   "link": "https://doi.org/10.1177/030913338901300304",
+   "gelesen": "wissen"
+  },
+  "CHIN1999": {
+   "autor": "Chin, A.",
+   "jahr": 1999,
+   "titel": "The morphologic structure of step-pools in mountain streams",
+   "ort": "Geomorphology 27: 191-204",
+   "link": "https://doi.org/10.1016/S0169-555X(98)00083-X",
+   "gelesen": "auszug"
+  },
+  "CW2005": {
+   "autor": "Chin, A.; Wohl, E.",
+   "jahr": 2005,
+   "titel": "Toward a theory for step pools in stream channels",
+   "ort": "Progress in Physical Geography 29(3): 275-296",
+   "link": "https://doi.org/10.1191/0309133305pp449ra",
+   "gelesen": "wissen"
+  },
+  "GRANT1990": {
+   "autor": "Grant, G.E.; Swanson, F.J.; Wolman, M.G.",
+   "jahr": 1990,
+   "titel": "Pattern and origin of stepped-bed morphology in high-gradient streams, Western Cascades, Oregon",
+   "ort": "GSA Bulletin 102: 340-352",
+   "link": "https://andrewsforest.oregonstate.edu/pubs/pdf/pub1029.pdf",
+   "gelesen": "auszug"
+  },
+  "CZ2007": {
+   "autor": "Church, M.; Zimmermann, A.",
+   "jahr": 2007,
+   "titel": "Form and stability of step-pool channels: Research progress",
+   "ort": "Water Resources Research 43, W03415",
+   "link": "https://doi.org/10.1029/2006WR005037",
+   "gelesen": "auszug"
+  },
+  "LEO1969": {
+   "autor": "Leopold, L.B.",
+   "jahr": 1969,
+   "titel": "The rapids and the pools - Grand Canyon",
+   "ort": "USGS Professional Paper 669-D: 131-145",
+   "link": "https://pubs.usgs.gov/pp/0669d/report.pdf",
+   "gelesen": "wissen"
+  },
+  "SL2016": {
+   "autor": "Scheingross, J.S.; Lamb, M.P.",
+   "jahr": 2016,
+   "titel": "Sediment transport through self-adjusting, bedrock-walled waterfall plunge pools",
+   "ort": "JGR Earth Surface 121: 939-963",
+   "link": "https://lamb.caltech.edu/documents/19661/Scheingross_and_Lamb_2016_with_supp.pdf",
+   "gelesen": "auszug"
+  },
+  "PHYS": {
+   "autor": "Grundphysik",
+   "jahr": null,
+   "titel": "Freier Fall / Wurfparabel: t = sqrt(2h/g), x = v*t, v = sqrt(2 g h)",
+   "ort": "-",
+   "link": "https://de.wikipedia.org/wiki/Wurfparabel",
+   "gelesen": "wissen"
+  },
+  "A12": {
+   "autor": "Eldarien-Recherche",
+   "jahr": 2026,
+   "titel": "Antwort 12 Teil A (Stufen-Wasserfaelle, Epic Water)",
+   "ort": "recherche/antworten/12-recherche-wasser-gpu-schatten.md",
+   "link": "../../12-recherche-wasser-gpu-schatten.md",
+   "gelesen": "repo"
+  },
+  "A14": {
+   "autor": "Eldarien-Recherche",
+   "jahr": 2026,
+   "titel": "Antwort 14 (Nature Water FX)",
+   "ort": "recherche/antworten/14-wasser-fx.md",
+   "link": "../../14-wasser-fx.md",
+   "gelesen": "repo"
+  },
+  "FORMAT": {
+   "autor": "Eldarien",
+   "jahr": 2026,
+   "titel": "SEHENS_FORMAT.md / FORMAT.md",
+   "ort": "recherche/vorlagen/",
+   "link": "../../../vorlagen/SEHENS_FORMAT.md",
+   "gelesen": "repo"
+  }
+ },
+ "klassen": {
+  "fenster": {
+   "quelle": [
+    "MB1997"
+   ],
+   "annahme": true,
+   "formel": "clamp(10 * B, 20, 100)",
+   "einheit": "m",
+   "notiz": "MB1997: Reach-Massstab 10-20 Gerinnebreiten; Grenzen 20/100 m fuer das 1-m-Raster angenommen"
+  },
+  "fenster_lokal": {
+   "annahme": true,
+   "formel": "clamp(2 * B, 8, 20)",
+   "einheit": "m",
+   "notiz": "fuer Fall-Erkennung (steile Knicke)"
+  },
+  "art_regel": {
+   "annahme": true,
+   "formel": "'fluss' if B >= 10 else 'bach'",
+   "notiz": "Art aus Daten ('art'); B >= 10 m behandelt wie Fluss (keine Blockstufen ueber volle Breite)"
+  },
+  "bach": [
+   {
+    "id": "ruhig",
+    "von": 0.0,
+    "bis": 0.015,
+    "natur": "pool-riffle",
+    "darstellung": "glatter Spiegel, Kiesbaenke im Innenbogen, Kolke 5-7 B auseinander",
+    "stufenarten": [],
+    "quelle": [
+     "MB1997"
+    ]
+   },
+   {
+    "id": "riffel",
+    "von": 0.015,
+    "bis": 0.03,
+    "natur": "plane-bed",
+    "darstellung": "glatter Spiegel mit Kraeuselstrecken, vereinzelt Blocke, keine Becken",
+    "stufenarten": [
+     "schnelle"
+    ],
+    "quelle": [
+     "MB1997"
+    ]
+   },
+   {
+    "id": "step_pool",
+    "von": 0.03,
+    "bis": 0.08,
+    "natur": "step-pool",
+    "darstellung": "Blockstufen 0.3-1 m quer ueber das Bett, flache Becken dazwischen",
+    "stufenarten": [
+     "schnelle",
+     "stufe"
+    ],
+    "quelle": [
+     "MB1997",
+     "GRANT1990"
+    ]
+   },
+   {
+    "id": "kaskade_stufen",
+    "von": 0.08,
+    "bis": 0.3,
+    "natur": "cascade / steiler step-pool",
+    "darstellung": "dichte Blockstufen 0.5-2 m, Becken < 1-2 B, Wasser springt von Block zu Block; an anstehendem Fels einzelne Faelle",
+    "stufenarten": [
+     "stufe",
+     "kaskade",
+     "fall"
+    ],
+    "quelle": [
+     "MB1997",
+     "GRANT1990"
+    ],
+    "annahme": true,
+    "notiz": "MB1997 cascade ~0.08-0.30; Ferats Vorschlag 8-30 % step-pool deckt sich mit Grant 1990 'steps' (Mittel 17 %)"
+   },
+   {
+    "id": "fallkette",
+    "von": 0.3,
+    "bis": 0.6,
+    "natur": "bedrock / colluvial, Fallkette",
+    "darstellung": "Felsstufen 2-6 m mit Gumpen, dazwischen kurze Blockkaskaden",
+    "stufenarten": [
+     "kaskade",
+     "fall"
+    ],
+    "quelle": [
+     "MB1997"
+    ],
+    "annahme": true,
+    "notiz": "Literatur: ueber ~0.20-0.30 ueberwiegen Fels- und Hangschuttgerinne; Grenze 0.60 Spielentscheidung"
+   },
+   {
+    "id": "fall_klamm",
+    "von": 0.6,
+    "bis": 99.0,
+    "natur": "Wasserfall / Klamm",
+    "darstellung": "einzelne Faelle >= 4 m an Felsriegel, Klammwaende, Gumpe darunter",
+    "stufenarten": [
+     "fall"
+    ],
+    "annahme": true,
+    "notiz": "Grenze 60 % Spielentscheidung (Ferat)"
+   }
+  ],
+  "fluss": [
+   {
+    "id": "ruhig",
+    "von": 0.0,
+    "bis": 0.005,
+    "natur": "pool-riffle / dune-ripple",
+    "darstellung": "glatt",
+    "stufenarten": [],
+    "quelle": [
+     "MB1997"
+    ]
+   },
+   {
+    "id": "riffel",
+    "von": 0.005,
+    "bis": 0.02,
+    "natur": "pool-riffle",
+    "darstellung": "Riffel ueber Kiesbaenke, sonst glatt",
+    "stufenarten": [
+     "schnelle"
+    ],
+    "quelle": [
+     "MB1997",
+     "GRANT1990"
+    ],
+    "annahme": true
+   },
+   {
+    "id": "schnellen",
+    "von": 0.02,
+    "bis": 0.04,
+    "natur": "plane-bed / rapids",
+    "darstellung": "kurze Schnellen ueber Blockfelder, Fall 0.3-1 m je Schnelle",
+    "stufenarten": [
+     "schnelle"
+    ],
+    "quelle": [
+     "GRANT1990"
+    ],
+    "annahme": true
+   },
+   {
+    "id": "pool_rapid",
+    "von": 0.04,
+    "bis": 0.15,
+    "natur": "Pool-Stromschnellen-Folge, Katarakt",
+    "darstellung": "Fall auf Stromschnellen konzentriert (ca. halber Fall auf ~1/10 der Laenge), dazwischen ruhige Becken",
+    "stufenarten": [
+     "schnelle",
+     "stufe",
+     "kaskade"
+    ],
+    "quelle": [
+     "LEO1969"
+    ],
+    "annahme": true
+   },
+   {
+    "id": "katarakt_fels",
+    "von": 0.15,
+    "bis": 0.4,
+    "natur": "Felskatarakt",
+    "darstellung": "Felsriegel quer, Stufen 1-4 m, Blockinseln",
+    "stufenarten": [
+     "kaskade",
+     "fall"
+    ],
+    "annahme": true
+   },
+   {
+    "id": "fall_schlucht",
+    "von": 0.4,
+    "bis": 99.0,
+    "natur": "Wasserfall ueber volle Breite + Schlucht",
+    "darstellung": "ein oder zwei breite Faelle, Schlucht unterhalb",
+    "stufenarten": [
+     "fall"
+    ],
+    "annahme": true
+   }
+  ]
+ },
+ "stufen": {
+  "text": "Stufenkette wird so gelegt, dass der ganze Fall D_ges auf Stufen faellt und die Becken fast flach sind.",
+  "abstand_L": {
+   "quelle": [
+    "MB1997",
+    "CHIN1999"
+   ],
+   "annahme": true,
+   "formel": "B * clamp(0.4 * S**-0.7, 0.8, 4.0)",
+   "einheit": "m",
+   "notiz": "Bereich 1-4 B (MB1997 step-pool), 0.43-2.4 B (Chin); Abnahme mit S und Exponent angenommen. S=0.05->3.3B, 0.10->2.0B, 0.20->1.2B, 0.30->0.9B"
+  },
+  "abstand_L_kaskade": {
+   "quelle": [
+    "MB1997"
+   ],
+   "annahme": true,
+   "formel": "B * clamp(0.6, 0.5, 1.0)",
+   "einheit": "m",
+   "notiz": "cascade: Becken < 1 B"
+  },
+  "fall_D": {
+   "quelle": [
+    "ABR1995"
+   ],
+   "formel": "S * L",
+   "einheit": "m",
+   "notiz": "Wasserspiegel: Krone-Krone-Fall = S*L (Geometrie)"
+  },
+  "c": {
+   "quelle": [
+    "ABR1995"
+   ],
+   "wert": 1.5,
+   "min": 1.0,
+   "max": 2.0,
+   "notiz": "(H/L)/S zwischen 1 und 2 bei maximalem Fliesswiderstand; 18 natuerliche Baeche erfuellen das"
+  },
+  "bett_H": {
+   "quelle": [
+    "ABR1995"
+   ],
+   "formel": "c * S * L",
+   "einheit": "m",
+   "notiz": "Krone bis Kolkgrund; Kolk-Resttiefe = (c-1)*S*L"
+  },
+  "arten": {
+   "schnelle": {
+    "annahme": true,
+    "D_min": 0.15,
+    "D_max": 0.8,
+    "einheit": "m",
+    "rampe_laenge": "clamp(3 * D, 1.5, 4.0)",
+    "rampe_gefaelle_max": 0.35,
+    "notiz": "D < 0.8 m: kein Vorhang (FORMAT: Stufen > 0.8 m werden Wasserfaelle); kurze Rampe statt Zwei-Punkt-Stufe"
+   },
+   "stufe": {
+    "quelle": [
+     "FORMAT"
+    ],
+    "annahme": true,
+    "D_min": 0.8,
+    "D_max": 2.0,
+    "einheit": "m",
+    "notiz": "Blockstufe; obere Grenze = Groesse der Stufenbloecke (Annahme)"
+   },
+   "kaskade": {
+    "annahme": true,
+    "D_min": 0.4,
+    "D_max": 1.5,
+    "einheit": "m",
+    "notiz": "mehrere Stufen mit L < 1 B, Becken klein; als eine 'kaskade' im Plan zusammenfassen, je Teilstufe zwei Punkte"
+   },
+   "fall": {
+    "annahme": true,
+    "D_min": 2.0,
+    "D_max": null,
+    "einheit": "m",
+    "notiz": "nur an anstehendem Fels (Felsriegel/Wand); siehe 'faelle'"
+   }
+  },
+  "zwei_punkte": {
+   "quelle": [
+    "A12",
+    "FORMAT"
+   ],
+   "abstand_max": 1.0,
+   "abstand_ziel": 0.5,
+   "einheit": "m",
+   "notiz": "oberer Punkt auf der Lippe (z_oben), unterer 0.3-1.0 m stromab (z_oben - D). Fluss-Teilstuecke an der Stufe trennen, Luecke >= 1.2 m"
+  },
+  "lippe": {
+   "winkel_zur_fliessrichtung": {
+    "annahme": true,
+    "wert": 90,
+    "min": 75,
+    "max": 105,
+    "einheit": "grad",
+    "notiz": "quer zum Bach, leicht schraeg erlaubt"
+   },
+   "breite": {
+    "annahme": true,
+    "formel": "B + 2 * clamp(0.25 * B, 0.5, 2.0)",
+    "einheit": "m",
+    "notiz": "Lippe/Riegel bindet 0.5-2 m je Seite ins Ufer ein, sonst laeuft Wasser seitlich vorbei"
+   },
+   "form": {
+    "annahme": true,
+    "text": "flacher Bogen, Scheitel stromab, Pfeilhoehe 0.1 * B; tiefste Stelle (Ueberfall) aus der Mitte versetzt",
+    "pfeil": 0.1,
+    "einheit": "B"
+   },
+   "ueberfall_breite": {
+    "annahme": true,
+    "formel": "clamp(0.5 * B, 1.0, B)",
+    "einheit": "m",
+    "notiz": "Hauptstrahl bei Niedrigwasser; Rest der Lippe trocken bis feucht"
+   }
+  },
+  "zufall": {
+   "annahme": true,
+   "L_streuung": 0.25,
+   "D_streuung": 0.3,
+   "notiz": "+-25 % L und +-30 % D je Stufe, damit keine Treppe entsteht; Summe von D wird danach auf D_ges normiert"
+  },
+  "max_stufen_je_100m": {
+   "annahme": true,
+   "wert": 20,
+   "notiz": "Kosten/Lesbarkeit; bei mehr -> Kaskade zusammenfassen"
+  }
+ },
+ "becken": {
+  "gefaelle": {
+   "quelle": [
+    "CW2005"
+   ],
+   "annahme": true,
+   "wert": 0.01,
+   "max": 0.02,
+   "absolut_max": 0.03,
+   "notiz": "Becken sind Rueckstau, Spiegel fast waagrecht; 2 % Ziel-Max, 3 % hart"
+  },
+  "gefaelle_formel": {
+   "annahme": true,
+   "formel": "min(0.02, 0.15 * S)"
+  },
+  "laenge": {
+   "quelle": [
+    "ABR1995"
+   ],
+   "formel": "L - laenge_stufe",
+   "einheit": "m",
+   "notiz": "laenge_stufe = Abstand der zwei Punkte (<= 1 m) bzw. Rampenlaenge"
+  },
+  "laenge_min": {
+   "annahme": true,
+   "formel": "max(0.8 * B, 2.0)",
+   "einheit": "m",
+   "notiz": "kuerzer -> Kaskade statt Stufe-Becken"
+  },
+  "breite": {
+   "annahme": true,
+   "formel": "B * 1.2",
+   "einheit": "m",
+   "notiz": "Becken etwas breiter als der Lauf (Kolk weitet aus)"
+  },
+  "fall_ausgleich": {
+   "quelle": [
+    "ABR1995"
+   ],
+   "formel": "D = S * L - becken_gefaelle * laenge",
+   "notiz": "Spiegelfall an der Stufe = Kronenfall minus Beckenfall"
+  }
+ },
+ "kolk": {
+  "stufe_tiefe": {
+   "quelle": [
+    "ABR1995"
+   ],
+   "annahme": true,
+   "formel": "clamp((c - 1) * S * L, 0.3, 2.0)",
+   "einheit": "m",
+   "notiz": "Resttiefe unter dem Spiegel des Beckens; Grenzen angenommen"
+  },
+  "stufe_laenge": {
+   "annahme": true,
+   "formel": "clamp(1.5 * D + 1.0, 1.5, 0.6 * L)",
+   "einheit": "m",
+   "notiz": "tiefster Punkt 0.5-1 D unterhalb der Lippe"
+  },
+  "fall_tiefe": {
+   "annahme": true,
+   "formel": "clamp(0.3 * D + 0.5, 1.0, 8.0)",
+   "einheit": "m",
+   "notiz": "Kolktiefe waechst mit Fallhoehe und Abfluss, sinkt mit Geschiebe (SL2016); Faktor angenommen"
+  },
+  "fall_radius": {
+   "quelle": [
+    "PHYS"
+   ],
+   "annahme": true,
+   "formel": "max(0.75 * B, x_strahl + 0.5 * B, 2.0)",
+   "einheit": "m",
+   "notiz": "Gumpe muss den Aufprall fassen"
+  },
+  "x_strahl": {
+   "quelle": [
+    "PHYS"
+   ],
+   "formel": "v0 * sqrt(2 * D / 9.81)",
+   "v0": {
+    "annahme": true,
+    "wert": 1.5,
+    "min": 0.5,
+    "max": 3.0,
+    "einheit": "m/s"
+   },
+   "einheit": "m"
+  },
+  "form": {
+   "annahme": true,
+   "text": "rund bis oval (Laenge 1.2-1.5 x Breite), Rand zur Lippe hin steil, stromab flach auslaufend; Ausgang = naechste Lippe"
+  }
+ },
+ "faelle": {
+  "einzelfall_statt_kette": {
+   "S_lok_min": {
+    "annahme": true,
+    "wert": 0.6,
+    "notiz": "lokales Gefaelle ueber fenster_lokal"
+   },
+   "D_min": {
+    "annahme": true,
+    "wert": 4.0,
+    "einheit": "m",
+    "notiz": "Fall auf kurzer Strecke >= 4 m"
+   },
+   "D_min_bei_fels": {
+    "annahme": true,
+    "wert": 2.0,
+    "einheit": "m",
+    "notiz": "Fels anstehend (Lage Fels/Felsplatte/Sandstein/Lavafels >= 128 oder Hang > 50 Grad)"
+   },
+   "text": "Steile Fenster mit D >= D_min werden zu EINEM Fall gebuendelt (Knickpunkt), das Gefaelle darueber und darunter wird flacher."
+  },
+  "hoehe_max_bach": {
+   "annahme": true,
+   "wert": 25.0,
+   "einheit": "m",
+   "notiz": "hoeher -> zwei Faelle mit Zwischengumpe (Kette); Ausnahme Heldenfall"
+  },
+  "kette_teilung": {
+   "annahme": true,
+   "formel": "clamp(D_ges / 3, 2.0, 12.0)",
+   "einheit": "m",
+   "notiz": "Fallhoehe je Glied in Fallketten"
+  },
+  "lippe_ueberstand": {
+   "annahme": true,
+   "wert": 0.5,
+   "min": 0.2,
+   "max": 1.5,
+   "einheit": "m",
+   "notiz": "Deckschicht steht ueber, darunter Hohlkehle (Unterschneidung) – nur als Netz, Landschaft kann keine Ueberhaenge"
+  },
+  "riegel_dicke": {
+   "annahme": true,
+   "formel": "clamp(0.3 * D, 1.0, 4.0)",
+   "einheit": "m",
+   "notiz": "harte Schicht der Lippe"
+  },
+  "wand_neigung": {
+   "annahme": true,
+   "min": 70,
+   "max": 90,
+   "einheit": "grad",
+   "notiz": "Fallwand unter der Lippe"
+  },
+  "rueckschreiten_text": "Faelle wandern stromauf und hinterlassen eine Schlucht mit Waenden etwa so hoch wie der Fall (siehe klamm)."
+ },
+ "klamm": {
+  "wann": {
+   "annahme": true,
+   "S_min": 0.3,
+   "eintiefung_min": 3.0,
+   "einheit": "m",
+   "notiz": "Klamm, wenn S >= 0.30 UND (Fall vorhanden ODER Bett >= 3 m unter den Ufern)"
+  },
+  "sohlbreite": {
+   "annahme": true,
+   "formel": "clamp(1.2 * B, 2.0, 2.0 * B)",
+   "einheit": "m"
+  },
+  "tiefe_zu_fall": {
+   "annahme": true,
+   "formel": "clamp(D, 3.0, 40.0)",
+   "einheit": "m",
+   "notiz": "Wand unterhalb eines Falls ~ Fallhoehe (Rueckschreiten)"
+  },
+  "laenge": {
+   "annahme": true,
+   "formel": "clamp(4 * D, 15, 150)",
+   "einheit": "m",
+   "notiz": "unterhalb des Falls; danach Waende ausklingen lassen"
+  },
+  "verkeilte_bloecke": {
+   "annahme": true,
+   "je_100m": 2,
+   "groesse_zu_sohle": [
+    1.0,
+    1.4
+   ],
+   "hoehe_ueber_sohle": [
+    1.0,
+    6.0
+   ],
+   "notiz": "Klemmblock: Durchmesser 1.0-1.4 x Sohlbreite, keilt zwischen den Waenden"
+  },
+  "strudelloecher": {
+   "annahme": true,
+   "je_100m": 4,
+   "durchmesser": [
+    0.5,
+    3.0
+   ],
+   "tiefe_zu_durchmesser": [
+    0.5,
+    1.5
+   ],
+   "einheit": "m",
+   "notiz": "auf Felsplatten im Bett und an der Wand bis 2 m ueber Spiegel"
+  },
+  "gumpen": {
+   "annahme": true,
+   "text": "jede Stufe >= 2 m bekommt eine Gumpe (kolk.fall_*)"
+  }
+ },
+ "ufer_klippen": {
+  "wann": {
+   "annahme": true,
+   "S_min": 0.2,
+   "eintiefung_min": 2.0,
+   "einheit": "m",
+   "notiz": "Uferwand, wenn S >= 0.20 und Gelaende quer zum Bach bis 2 B Abstand >= 2 m ueber dem Spiegel; oder an jedem Fall >= 2 m"
+  },
+  "wandhoehe_an_fall": {
+   "annahme": true,
+   "formel": "clamp(D + 1.0, 2.0, D + 5.0)",
+   "einheit": "m",
+   "notiz": "Wand steht seitlich der Lippe so hoch wie der Fall + Kronenrest"
+  },
+  "wand_laenge_unterhalb": {
+   "annahme": true,
+   "formel": "clamp(3 * D, 6, 60)",
+   "einheit": "m"
+  },
+  "abstand_zum_wasser": {
+   "annahme": true,
+   "min": 0.0,
+   "max": 1.5,
+   "einheit": "m",
+   "notiz": "Wandfuss am Wasser oder hinter schmalem Blocksaum"
+  },
+  "neigung": {
+   "annahme": true,
+   "min": 60,
+   "max": 90,
+   "einheit": "grad"
+  },
+  "einbinden": {
+   "annahme": true,
+   "wert": 0.3,
+   "notiz": "Netze 25-40 % der Hoehe eingraben (klippennetze-a5.md)"
+  },
+  "talseite": {
+   "annahme": true,
+   "text": "Prallhang (Aussenbogen) bekommt die hoehere Wand, Gleithang Schutt/Kies"
+  }
+ },
+ "schutt": {
+  "stufenblock_D": {
+   "quelle": [
+    "CZ2007"
+   ],
+   "annahme": true,
+   "formel": "max(1.2 * D, B / 6)",
+   "einheit": "m",
+   "notiz": "Stufenbloecke so gross wie die Stufe; B/D84 klein (Klemmverhaeltnis) - Faktor 6 angenommen"
+  },
+  "becken_korn": {
+   "annahme": true,
+   "min": 0.05,
+   "max": 0.3,
+   "einheit": "m",
+   "notiz": "Kies/Steine im Becken"
+  },
+  "unter_fall": {
+   "annahme": true,
+   "formel": "clamp(0.15 * D, 0.5, 3.0)",
+   "einheit": "m",
+   "anzahl": "clamp(D, 3, 15)",
+   "notiz": "Sturzbloecke in und neben der Gumpe"
+  },
+  "wandfuss_kegel_neigung": {
+   "annahme": true,
+   "min": 32,
+   "max": 38,
+   "einheit": "grad",
+   "notiz": "Schuttkegel am Wandfuss"
+  },
+  "kegel_laenge": {
+   "annahme": true,
+   "formel": "0.6 * wandhoehe",
+   "einheit": "m"
+  }
+ },
+ "lagen": {
+  "namen": "exakt FORMAT.md §2",
+  "zonen": {
+   "bett_becken": {
+    "annahme": true,
+    "lagen": {
+     "Kies": 200
+    },
+    "breite": "B"
+   },
+   "bett_stufe": {
+    "annahme": true,
+    "lagen": {
+     "Geroell": 220
+    },
+    "breite": "B + 2"
+   },
+   "bett_fels": {
+    "annahme": true,
+    "lagen": {
+     "Felsplatte": 230
+    },
+    "breite": "B + 2",
+    "notiz": "Lippe/Felsstufe, Klamm-Sohle"
+   },
+   "kolk": {
+    "annahme": true,
+    "lagen": {
+     "Kies": 150,
+     "Geroell": 120
+    },
+    "radius": "kolk.fall_radius"
+   },
+   "ufer_nah": {
+    "annahme": true,
+    "lagen": {
+     "Geroell": 160
+    },
+    "breite": 2.0,
+    "einheit": "m"
+   },
+   "ufer_gischt": {
+    "annahme": true,
+    "lagen": {
+     "Moos": 200
+    },
+    "radius_formel": "clamp(1.5 * D, 3, 25)",
+    "einheit": "m",
+    "notiz": "Spruehzone an Faellen >= 2 m"
+   },
+   "wandfuss": {
+    "annahme": true,
+    "lagen": {
+     "Geroell": 220,
+     "Fels": 120
+    },
+    "breite_formel": "0.6 * wandhoehe"
+   }
+  },
+  "rand_weich": {
+   "quelle": [
+    "FORMAT"
+   ],
+   "wert": 3.0,
+   "einheit": "m"
+  }
+ },
+ "effekte": {
+  "grenzen": {
+   "quelle": [
+    "A12",
+    "A14"
+   ],
+   "je_stufe_max": 3,
+   "gleichzeitig_max": 6,
+   "cull_m": [
+    40,
+    60
+   ],
+   "cull_klein_m": 30,
+   "cull_held_m": [
+    100,
+    150
+   ],
+   "notiz": "Cull 40-60 m (A12), kleine Systeme 30 m damit <= 6 gleichzeitig (A14), Heldenfaelle >= 20 m bis 150 m"
+  },
+  "pflicht": {
+   "quelle": [
+    "A14"
+   ],
+   "text": "Vorhang-Netz + Schaumscheibe bleiben an jeder Stufe >= 0.8 m; Niagara ergaenzt nur"
+  },
+  "skala_referenz_m": {
+   "quelle": [
+    "A14"
+   ],
+   "annahme": true,
+   "waterfall": {
+    "Small": [
+     3,
+     5
+    ],
+    "Medium": [
+     6,
+     15
+    ],
+    "Large": [
+     12,
+     30
+    ]
+   },
+   "impact_wake_durchmesser": {
+    "Small": 3,
+    "Medium": 6,
+    "Large": 12
+   },
+   "stream": {
+    "Small": [
+     2,
+     5
+    ],
+    "Medium": [
+     4,
+     10
+    ],
+    "Large": [
+     8,
+     20
+    ]
+   },
+   "notiz": "Breite x Hoehe bzw. Breite x Laenge bei Skala 1, ungeprueft"
+  },
+  "je_art": [
+   {
+    "art": "schnelle",
+    "D": [
+     0.15,
+     0.8
+    ],
+    "systeme": [
+     "/Game/NatureWaterFX/FX/NS_Stream_Small"
+    ],
+    "wenn_B_ab": {
+     "6": "/Game/NatureWaterFX/FX/NS_Stream_Medium",
+     "15": "/Game/NatureWaterFX/FX/NS_Stream_Large"
+    },
+    "ort": "Mitte Rampe, Spiegel + 10 cm",
+    "cull": 30,
+    "haeufigkeit": "jede 2.",
+    "quelle": [
+     "A14"
+    ],
+    "annahme": true
+   },
+   {
+    "art": "stufe",
+    "D": [
+     0.8,
+     2.0
+    ],
+    "systeme": [
+     "/Game/NatureWaterFX/FX/NS_Impact_Small"
+    ],
+    "optional": [
+     "/Game/NatureWaterFX/FX/NS_Stream_Small"
+    ],
+    "ort": "Impact am Fuss (unterer Punkt + 0.3 m), Spiegel unten + 10 cm",
+    "cull": 30,
+    "haeufigkeit": "abwechselnd Impact/Stream, jede 2. Stufe leer",
+    "quelle": [
+     "A14"
+    ],
+    "annahme": true
+   },
+   {
+    "art": "kaskade",
+    "D": [
+     0.4,
+     1.5
+    ],
+    "systeme": [
+     "/Game/NatureWaterFX/FX/NS_Stream_Medium"
+    ],
+    "optional": [
+     "/Game/NatureWaterFX/FX/NS_Impact_Small"
+    ],
+    "ort": "Mitte der Kaskade",
+    "cull": 45,
+    "haeufigkeit": "1 je Kaskade",
+    "quelle": [
+     "A14"
+    ],
+    "annahme": true
+   },
+   {
+    "art": "fall_klein",
+    "D": [
+     2.0,
+     6.0
+    ],
+    "systeme": [
+     "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+     "/Game/NatureWaterFX/FX/NS_Impact_Small"
+    ],
+    "optional": [
+     "/Game/NatureWaterFX/FX/NS_Wake_Small"
+    ],
+    "ort": "Waterfall Lippe + 0.2 m / Spiegel + 5 cm; Impact am Aufprall; Wake Aufprall + 2 m",
+    "cull": 45,
+    "quelle": [
+     "A14"
+    ],
+    "annahme": true
+   },
+   {
+    "art": "fall_mittel",
+    "D": [
+     6.0,
+     20.0
+    ],
+    "systeme": [
+     "/Game/NatureWaterFX/FX/NS_Waterfall_Medium",
+     "/Game/NatureWaterFX/FX/NS_Impact_Medium",
+     "/Game/NatureWaterFX/FX/NS_Wake_Medium"
+    ],
+    "ort": "wie fall_klein, Wake Aufprall + 4 m",
+    "cull": 60,
+    "quelle": [
+     "A14"
+    ],
+    "annahme": true
+   },
+   {
+    "art": "fall_gross",
+    "D": [
+     20.0,
+     999.0
+    ],
+    "systeme": [
+     "/Game/NatureWaterFX/FX/NS_Waterfall_Large",
+     "/Game/NatureWaterFX/FX/NS_Impact_Large",
+     "/Game/NatureWaterFX/FX/NS_Wake_Large"
+    ],
+    "ort": "wie A14 WF_K1/K8",
+    "cull": [
+     150,
+     100,
+     60
+    ],
+    "quelle": [
+     "A14"
+    ],
+    "annahme": true
+   }
+  ],
+  "einstellungen": {
+   "quelle": [
+    "A12",
+    "A14"
+   ],
+   "cast_shadow": false,
+   "sort_priority": 2,
+   "gpu": true,
+   "pivot_ueber_spiegel_cm": [
+    3,
+    10
+   ]
+  }
+ },
+ "biome": {
+  "bergwald": {
+   "felstyp": "Granit/Gneis (Kristallin): Blockstufen aus gerundeten Bloecken, Felsriegel an Kluftflaechen, glatte Platten",
+   "vorbild": "Yosemite/Vernal Fall, Lauterbrunnen, Witcher 3 Skellige",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_01",
+     "SM_flat_rock_02",
+     "SM_flat_rock_03",
+     "SM_flat_rock_04",
+     "SM_ground_rock_03_03",
+     "SM_ground_rock_03_01"
+    ],
+    "riegel": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5",
+     "SM_mountain_rock_big_02_6"
+    ],
+    "bloecke": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5",
+     "SM_mountain_rock_big_02_6",
+     "SM_mountain_rock_big_02_7",
+     "SM_mountain_rock_big_02_8",
+     "SM_Big_rock_01"
+    ],
+    "wand": [
+     "SM_big_rock_wall_01",
+     "SM_big_rock_wall_02",
+     "SM_big_rock_wall_03",
+     "SM_Big_rock_01",
+     "SM_Big_rock_02",
+     "rcygn_tier_0",
+     "SM_HugeNordicCoastalCliff_01",
+     "SM_HugeNordicCoastalCliff_02"
+    ],
+    "schutt": [
+     "SM_mountain_rock_big_01_1",
+     "SM_mountain_rock_big_01_2",
+     "SM_mountain_rock_big_01_3",
+     "SM_mountain_rock_big_01_4",
+     "SM_mountain_rock_big_01_5",
+     "SM_ground_rock_01",
+     "SM_ground_rock_02"
+    ],
+    "kies": [
+     "SM_mountain_rock_small_01_1",
+     "SM_mountain_rock_small_01_2",
+     "SM_mountain_rock_small_01_3",
+     "SM_mountain_rock_small_01_4",
+     "SM_mountain_rock_small_01_5",
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13",
+     "SM_SmallStonesPack_14"
+    ],
+    "holz": [
+     "SM_Forest_pine_04_01_log",
+     "SM_Forest_pine_04_02_log",
+     "SM_Forest_pine_04_03_log",
+     "SM_FallenSpruceTree_01"
+    ],
+    "extra": [
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Geroell",
+     "Nadeln",
+     "Moos"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Fels"
+    ]
+   },
+   "besonderheiten": "Holzstufen aus Nadelstaemmen in Baechen < 4 m Breite moeglich (15 % der Stufen)",
+   "annahme": true
+  },
+  "elfenwald": {
+   "felstyp": "bemooster Fels (Gneis/Schiefer) mit Wurzeln: Stufen aus Moosbloecken und Felsbaenken, Holzstufen",
+   "vorbild": "Plitvice-Wald, Elfenfall; DA:I Emerald Graves; Witcher 3 Velen-Wald",
+   "netze": {
+    "lippe": [
+     "SM_ForestRockShelf_01",
+     "SM_ForestRockShelf_02",
+     "SM_ForestRockShelf_03",
+     "SM_ForestRockSlab_01",
+     "SM_SmoothRockShelf_01",
+     "SM_MossyRocks_01",
+     "SM_MossyRocks_02"
+    ],
+    "riegel": [
+     "SM_MossyForestBoulder_01",
+     "SM_MossyForestBoulder_03",
+     "SM_MossyForestBoulder_04",
+     "SM_MossyForestBoulder_05",
+     "SM_MossyForestBoulder_06",
+     "SM_MossyForestRock_02"
+    ],
+    "bloecke": [
+     "SM_MossyForestBoulder_01",
+     "SM_MossyForestBoulder_03",
+     "SM_MossyForestBoulder_04",
+     "SM_MossyForestBoulder_05",
+     "SM_MossyForestBoulder_06",
+     "SM_MossyForestRock_02",
+     "SM_MossyForestBoulder_02",
+     "SM_MossyForestBoulder_07"
+    ],
+    "wand": [
+     "SM_HugeMossyForestCliff_01",
+     "SM_MossyRockFace_02",
+     "plFhY_tier_0",
+     "SM_big_rock_wall_01",
+     "SM_big_rock_wall_02",
+     "SM_big_rock_wall_03"
+    ],
+    "schutt": [
+     "SM_MossyForestRock_01",
+     "SM_MossyForestRock_03",
+     "SM_stones_01_2",
+     "SM_stones_01_6"
+    ],
+    "kies": [
+     "SM_MossyForestRock_01",
+     "SM_DryRiverBed_01",
+     "SM_stone_04",
+     "SM_stone_06",
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06"
+    ],
+    "holz": [
+     "SM_dead_log_01",
+     "SM_dead_log_02",
+     "SM_dead_log_03",
+     "SM_dead_log_04",
+     "SM_OldTreeBranch_01",
+     "SM_OldTreeBranch_04",
+     "SM_MossyForestRoots_01",
+     "SM_MossyForestRoots_02",
+     "SM_MossyForestRoots_03"
+    ],
+    "extra": [
+     "SM_ForestRoots_01",
+     "SM_ForestRoots_02",
+     "SM_roots_slope_01",
+     "SM_CustomMoss_01",
+     "SM_CustomMoss_05",
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies",
+     "Moos"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Moos",
+     "Laub"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Moos",
+     "Geroell"
+    ]
+   },
+   "besonderheiten": "viel Moos bis an die Lippe; Spruehzone moosgruen; Holz- und Wurzelstufen haeufig (30 %)",
+   "annahme": true
+  },
+  "aue": {
+   "felstyp": "Kies/Geroell, kaum anstehender Fels; Stufen aus Holz und Geroell",
+   "vorbild": "Witcher 3 Velen/White Orchard Baeche; RDR2 Lemoyne",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_02",
+     "SM_flat_rock_03"
+    ],
+    "riegel": [
+     "SM_stones_01_2",
+     "SM_stones_01_6",
+     "SM_ground_rock_02",
+     "SM_Rock_04",
+     "SM_Rock_07"
+    ],
+    "bloecke": [
+     "SM_Rock_01",
+     "SM_Rock_03",
+     "SM_Rock_06",
+     "SM_ground_rock_01"
+    ],
+    "wand": [
+     "SM_MossyEmbankment_01",
+     "SM_MossyEmbankment_02",
+     "SM_GrassyEmbankment_01",
+     "SM_GrassyEmbankment_02"
+    ],
+    "schutt": [
+     "SM_stones_01_1",
+     "SM_stones_01_4",
+     "SM_stones_01_5"
+    ],
+    "kies": [
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13",
+     "SM_SmallStonesPack_14",
+     "SM_NordicBeachRock_01"
+    ],
+    "holz": [
+     "SM_dead_log_01",
+     "SM_dead_log_02",
+     "SM_dead_log_03",
+     "SM_dead_log_04",
+     "SM_OldTreeBranch_01",
+     "SM_OldTreeBranch_04",
+     "Branch_Goat_Willow_Decaying_01"
+    ],
+    "extra": [
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Geroell",
+    "ufer_nah": [
+     "Kies",
+     "Gras",
+     "Schlamm"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Erde",
+     "Geroell"
+    ]
+   },
+   "besonderheiten": "Steile Aue-Strecken sind selten echt: Stufen eher als Holz-/Geroellschwellen 0.3-1 m; Uferanrisse aus Erde statt Felswand",
+   "annahme": true
+  },
+  "dschungel": {
+   "felstyp": "Kalk/Karst mit Kalktuff (Travertin): Sinterbarrieren und Becken (Plitvice/Krka/Kuang Si/Agua Azul)",
+   "vorbild": "Plitvice, Krka Skradinski buk, Kuang Si (Laos), Agua Azul (Mexiko)",
+   "netze": {
+    "lippe": [
+     "SM_LimestoneRocks2",
+     "SM_LimestoneRocks3",
+     "SM_ForestRockShelf_02",
+     "SM_flat_rock_02",
+     "SM_flat_rock_03",
+     "SM_flat_rock_04",
+     "SM_SmoothRockShelf_01"
+    ],
+    "riegel": [
+     "SM_LimestoneRocks2",
+     "SM_LimestoneRocks3",
+     "SM_ForestRockShelf_01",
+     "SM_ForestRockShelf_02"
+    ],
+    "bloecke": [
+     "SM_Big_Rock_01",
+     "SM_Big_Rock_02",
+     "SM_Big_Rock_03",
+     "SM_Middle_Rock_01"
+    ],
+    "wand": [
+     "ukjhcamga_tier_0",
+     "uchoab3fa_tier_0",
+     "SM_Big_Rock_03",
+     "SM_big_rock_wall_01"
+    ],
+    "schutt": [
+     "SM_ground_rock_01",
+     "SM_ground_rock_02",
+     "Limestone_Rocks_ubqwdheda_High",
+     "SM_ground_rock_03_01"
+    ],
+    "kies": [
+     "Limestone_Rocks_ubqwdheda_High",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_14",
+     "SM_stone_05"
+    ],
+    "holz": [
+     "SM_dead_log_01",
+     "SM_dead_log_02",
+     "SM_dead_log_03",
+     "SM_dead_log_04",
+     "SM_OldTreeBranch_01",
+     "SM_OldTreeBranch_04"
+    ],
+    "extra": [
+     "SM_Vines_01a",
+     "SM_Ivy_11",
+     "SM_Ivy_17",
+     "SM_CustomMoss_01",
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies",
+     "Algen"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Moos",
+     "Schlamm"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Fels"
+    ]
+   },
+   "besonderheiten": "Sinterbarrieren: viele niedrige, breite Stufen (0.5-3 m), Lippe bewachsen, Wasser tuerkis ('tuerkis'), Vorhang in vielen Straehnen ueber die ganze Lippe",
+   "annahme": true
+  },
+  "lava": {
+   "felstyp": "Basalt: Saeulenstufen (Svartifoss), Lavastufen an Stromkanten, schwarze Schlacke",
+   "vorbild": "Svartifoss, Aldeyjarfoss, Hraunfossar (Island)",
+   "netze": {
+    "lippe": [
+     "Basalt_Basalt_Pillars_Cluster_Low_SM",
+     "Basalt_Basalt_Pillar_A_SM",
+     "Basalt_Basalt_Pillar_Variance_A_SM",
+     "Basalt_Basalt_Cliff_Rock_B_SM",
+     "SM_lava_m_rock_08",
+     "SM_lava_s_rock_05"
+    ],
+    "riegel": [
+     "Basalt_Basalt_Pillars_Cluster_Low_SM",
+     "Basalt_Basalt_Pillar_A_SM",
+     "SM_lava_m_rock_01",
+     "SM_lava_m_rock_03",
+     "SM_lava_m_rock_04"
+    ],
+    "bloecke": [
+     "Basalt_Basalt_Rock_A_SM",
+     "Basalt_Basalt_Rock_B_SM",
+     "Basalt_Basalt_Rock_C_SM",
+     "Basalt_Basalt_Rock_D_SM",
+     "Basalt_Basalt_Cluster_A_Rocks_SM",
+     "SM_lava_b_rock_01",
+     "SM_lava_b_rock_02",
+     "SM_lava_b_rock_03",
+     "SM_lava_b_rock_04"
+    ],
+    "wand": [
+     "Basalt_Basalt_Pillars_Wall_SM",
+     "Basalt_Basalt_Pillars_WallOverhang_SM",
+     "Basalt_Basalt_Pillars_WallSlope_SM",
+     "Basalt_Basalt_Pillars_Cluster_High_SM",
+     "Basalt_Basalt_Cliff_SM",
+     "Basalt_Basalt_Cliff_Rock_A_SM",
+     "Basalt_Basalt_Pillar_D_SM",
+     "Basalt_Basalt_Pillar_Variance_D_SM",
+     "SM_lava_wall_01",
+     "SM_lava_wall_02",
+     "SM_lava_wall_03",
+     "SM_lava_wall_04",
+     "SM_lava_wall_05",
+     "SM_lava_wall_09"
+    ],
+    "schutt": [
+     "Basalt_Basalt_Pillar_B_SM",
+     "Basalt_Basalt_Pillar_C_SM",
+     "Basalt_Basalt_Pillar_Variance_B_SM",
+     "Basalt_Basalt_Pillar_Variance_C_SM",
+     "SM_lava_s_rock_01",
+     "SM_lava_s_rock_02",
+     "SM_lava_s_rock_03",
+     "SM_lava_s_rock_04",
+     "SM_lava_s_rock_05"
+    ],
+    "kies": [
+     "SM_lava_s_rock_06",
+     "SM_lava_s_rock_07",
+     "SM_lava_s_rock_08",
+     "SM_SmallStonesPack_08",
+     "SM_SmallStonesPack_11"
+    ],
+    "holz": [],
+    "extra": [
+     "SM_MossyRocks_01",
+     "SM_MossyRocks_02",
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Lavasand",
+     "Kies"
+    ],
+    "bett_stufe": "Lavafels",
+    "bett_fels": "Lavafels",
+    "ufer_nah": [
+     "Lavafels",
+     "Moos"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Lavafels",
+     "Geroell"
+    ]
+   },
+   "besonderheiten": "Saeulen stehen senkrecht in der Wand, Saeulenstuempfe als Lippe und als Schutt (abgebrochene Saeulen) im Becken",
+   "annahme": true
+  },
+  "gletscher": {
+   "felstyp": "Granit/Gneis, glazial geschliffen (Rundhoecker, Trogwand), Moraenenschutt; Wasser milchig",
+   "vorbild": "Lauterbrunnental, Stuibenfall, Yosemite (Haengetal)",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_01",
+     "SM_flat_rock_04",
+     "SM_ground_rock_03_03",
+     "SM_SmoothRockShelf_01"
+    ],
+    "riegel": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5"
+    ],
+    "bloecke": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5",
+     "SM_mountain_rock_big_02_6",
+     "SM_mountain_rock_big_02_7",
+     "SM_mountain_rock_big_02_8",
+     "SM_NordicBoulder_01",
+     "xf3odif_tier_0",
+     "xisgcic_tier_0"
+    ],
+    "wand": [
+     "SM_big_rock_wall_01",
+     "SM_big_rock_wall_02",
+     "SM_big_rock_wall_03",
+     "rcygn_tier_0",
+     "SM_HugeNordicCoastalCliff_01",
+     "uhprdg2fa_tier_0",
+     "veipbcmcb_tier_0"
+    ],
+    "schutt": [
+     "SM_mountain_rock_big_01_1",
+     "SM_mountain_rock_big_01_2",
+     "SM_mountain_rock_big_01_3",
+     "SM_mountain_rock_big_01_4",
+     "SM_mountain_rock_big_01_5",
+     "SM_ground_rock_01",
+     "SM_ground_rock_02",
+     "pkeeM_tier_0",
+     "skjsL_tier_0"
+    ],
+    "kies": [
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13",
+     "SM_SmallStonesPack_14",
+     "SM_NordicBeachRock_01"
+    ],
+    "holz": [],
+    "extra": [
+     "SM_TundraRockyGround_01",
+     "SM_NordicBeachRockyGround_01",
+     "SM_EISZAPFEN_1",
+     "SM_EISZAPFEN_2"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies",
+     "Geroell"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Geroell",
+     "Fels"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Fels"
+    ]
+   },
+   "besonderheiten": "Farbe 'gletschermilch'; Faelle aus Haengetaelern ueber Trogwaende (hoch, schmal); Eis/Schnee am Wandfuss nur oberhalb der Schneegrenze",
+   "annahme": true
+  },
+  "frost": {
+   "felstyp": "Granit + Eis: Felsstufen mit Eiszapfen und Eisbaerten an der Lippe",
+   "vorbild": "Gefrorene Faelle (Island im Winter), Witcher 3 Skellige-Hochland",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_01",
+     "SM_flat_rock_02",
+     "SM_flat_rock_03",
+     "SM_flat_rock_04"
+    ],
+    "riegel": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5"
+    ],
+    "bloecke": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5",
+     "SM_mountain_rock_big_02_6",
+     "xf3odif_tier_0",
+     "xisgcic_tier_0"
+    ],
+    "wand": [
+     "SM_big_rock_wall_01",
+     "SM_big_rock_wall_02",
+     "SM_big_rock_wall_03",
+     "SM_Big_rock_01",
+     "uhprdg2fa_tier_0",
+     "veipbcmcb_tier_0",
+     "uhpocesfa_tier_0",
+     "vdsrdd0fa_tier_0"
+    ],
+    "schutt": [
+     "SM_mountain_rock_big_01_1",
+     "SM_mountain_rock_big_01_2",
+     "SM_mountain_rock_big_01_3",
+     "SM_mountain_rock_big_01_4",
+     "SM_mountain_rock_big_01_5",
+     "SM_ground_rock_01",
+     "SM_ground_rock_02",
+     "vd4hbizcb_tier_0",
+     "vcyiccyga_tier_0"
+    ],
+    "kies": [
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13",
+     "SM_SmallStonesPack_14"
+    ],
+    "holz": [],
+    "extra": [
+     "SM_EISZAPFEN_1",
+     "SM_EISZAPFEN_2",
+     "SM_EISZAPFEN_4",
+     "SM_EISZAPFEN_6",
+     "SM_EISZAPFEN_8",
+     "xemmbh2qx_tier_0",
+     "xftjadtab_tier_0"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Schnee",
+     "Eis"
+    ],
+    "ufer_gischt": "Eis",
+    "wandfuss": [
+     "Schnee",
+     "Geroell"
+    ]
+   },
+   "besonderheiten": "Spruehzone vereist (Lage Eis statt Moos), Eiszapfen an Lippe und Wand",
+   "annahme": true
+  },
+  "fjord": {
+   "felstyp": "Gneis, glazial uebersteilt: Haengetal-Faelle ueber Trogwaende (Geirangerfjord, Sieben Schwestern)",
+   "vorbild": "Geirangerfjord, Voeringsfossen, Witcher 3 Skellige-Kueste",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_02",
+     "SM_flat_rock_03",
+     "SM_flat_rock_04",
+     "SM_ground_rock_03_03"
+    ],
+    "riegel": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5",
+     "SM_mountain_rock_big_02_6"
+    ],
+    "bloecke": [
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4",
+     "SM_mountain_rock_big_02_5",
+     "SM_mountain_rock_big_02_6",
+     "SM_mountain_rock_big_02_7",
+     "SM_mountain_rock_big_02_8",
+     "SM_NordicBoulder_01",
+     "SM_TundraMossyBoulder_01"
+    ],
+    "wand": [
+     "SM_MassiveNordicCoastalCliff_01",
+     "vdssailfa_tier_2",
+     "vfmjadufa_tier_2",
+     "veqnci0db_tier_2",
+     "SM_HugeNordicCoastalCliff_01",
+     "SM_HugeNordicCoastalCliff_02"
+    ],
+    "schutt": [
+     "SM_mountain_rock_big_01_1",
+     "SM_mountain_rock_big_01_2",
+     "SM_mountain_rock_big_01_3",
+     "SM_mountain_rock_big_01_4",
+     "SM_mountain_rock_big_01_5",
+     "SM_ground_rock_01",
+     "SM_ground_rock_02"
+    ],
+    "kies": [
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13",
+     "SM_SmallStonesPack_14",
+     "SM_NordicBeachRock_01"
+    ],
+    "holz": [],
+    "extra": [
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies",
+     "Geroell"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Fels",
+     "Moos",
+     "Heide"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Fels"
+    ]
+   },
+   "besonderheiten": "lange, schmale Faelle in Straehnen; Wand dunkel und nass",
+   "annahme": true
+  },
+  "tundra": {
+   "felstyp": "Frostschutt auf Gneis/Basalt; flache Felsbaenke, Torfufer",
+   "vorbild": "Island Hochland (Haifoss), Witcher 3 Skellige-Hochebene",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_03",
+     "SM_ground_rock_03_01",
+     "SM_SmoothRockShelf_01",
+     "SM_ForestRockFormation_05"
+    ],
+    "riegel": [
+     "SM_TundraMossyBoulder_01",
+     "SM_NordicBoulder_01",
+     "skjsL_tier_0",
+     "texndcpda_tier_0",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_4"
+    ],
+    "bloecke": [
+     "SM_TundraMossyBoulder_01",
+     "SM_NordicBoulder_01",
+     "skjsL_tier_0",
+     "texndcpda_tier_0",
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3"
+    ],
+    "wand": [
+     "SM_MassiveTundraRockFormation_02",
+     "SM_HugeNordicCoastalCliff_02",
+     "rcygn_tier_0"
+    ],
+    "schutt": [
+     "SM_TundraRockyGround_01",
+     "SM_NordicBeachRockyGround_02",
+     "SM_mountain_rock_small_01_1",
+     "SM_mountain_rock_small_01_2",
+     "SM_mountain_rock_small_01_3",
+     "SM_mountain_rock_small_01_4",
+     "SM_mountain_rock_small_01_5"
+    ],
+    "kies": [
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13",
+     "SM_SmallStonesPack_14"
+    ],
+    "holz": [],
+    "extra": [
+     "SM_MossyEmbankment_01",
+     "SM_MossyEmbankment_02",
+     "SM_GrassyEmbankment_01",
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Moos",
+     "Trockengras",
+     "Geroell"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Fels"
+    ]
+   },
+   "besonderheiten": "Uferanrisse aus Torf (Embankment-Netze) neben Felsstufen",
+   "annahme": true
+  },
+  "heide": {
+   "felstyp": "Granit (Tors, Wollsackverwitterung): rundliche Bloecke, flache Granitplatten",
+   "vorbild": "Dartmoor/Lydford Gorge, Bretagne",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_03",
+     "SM_ground_rock_03_01",
+     "SM_SmoothRockShelf_01"
+    ],
+    "riegel": [
+     "SM_Rock_01",
+     "SM_Rock_03",
+     "SM_Rock_05",
+     "SM_Rock_06",
+     "SM_Rock_07"
+    ],
+    "bloecke": [
+     "SM_Rock_01",
+     "SM_Rock_03",
+     "SM_Rock_05",
+     "SM_Rock_06",
+     "SM_Rock_07",
+     "pjEr1_tier_0",
+     "pjtsT_tier_0",
+     "pkeeM_tier_0",
+     "xf3odif_tier_0",
+     "xfplcbf_tier_0",
+     "SM_Middle_Rock_01"
+    ],
+    "wand": [
+     "SM_big_rock_wall_01",
+     "SM_big_rock_wall_02",
+     "SM_big_rock_wall_03",
+     "SM_Big_Rock_01"
+    ],
+    "schutt": [
+     "pjEr1_tier_0",
+     "pjtsT_tier_0",
+     "pkeeM_tier_0",
+     "xf3odif_tier_0",
+     "xfplcbf_tier_0",
+     "SM_Middle_Rock_01",
+     "SM_s_rock_01",
+     "SM_s_rock_02",
+     "SM_s_rock_03"
+    ],
+    "kies": [
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13",
+     "SM_SmallStonesPack_14"
+    ],
+    "holz": [],
+    "extra": [
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Heide",
+     "Moos"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Fels"
+    ]
+   },
+   "besonderheiten": "kaum Steilstrecken; Stufen aus Wollsackbloecken",
+   "annahme": true
+  },
+  "kueste": {
+   "felstyp": "Gneis/Basalt an der Steilkueste: Faelle direkt ins Meer oder auf den Strand",
+   "vorbild": "Seljalandsfoss/Skogafoss, Witcher 3 Skellige",
+   "netze": {
+    "lippe": [
+     "SM_flat_rock_04",
+     "Basalt_Basalt_Rock_B_SM",
+     "SM_flat_rock_02"
+    ],
+    "riegel": [
+     "SM_NordicBeachRocks_01",
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_5"
+    ],
+    "bloecke": [
+     "SM_NordicBoulder_01",
+     "SM_NordicBeachRocks_01",
+     "SM_mountain_rock_big_02_1",
+     "SM_mountain_rock_big_02_2",
+     "SM_mountain_rock_big_02_3",
+     "SM_mountain_rock_big_02_4"
+    ],
+    "wand": [
+     "SM_HugeNordicCoastalCliff_01",
+     "SM_HugeNordicCoastalCliff_02",
+     "SM_MassiveNordicCoastalCliff_01",
+     "Basalt_Basalt_Cliff_SM"
+    ],
+    "schutt": [
+     "SM_NordicBeachRockyGround_01",
+     "SM_NordicBeachRockyGround_02",
+     "SM_ground_rock_01"
+    ],
+    "kies": [
+     "SM_NordicBeachRock_01",
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_07",
+     "SM_SmallStonesPack_13"
+    ],
+    "holz": [
+     "SM_beach_driftwood_02",
+     "SM_beach_driftwood_06"
+    ],
+    "extra": [
+     "SM_MossClump_01",
+     "SM_MossClump_03",
+     "SM_MossClump_05",
+     "SM_moss_01",
+     "SM_moss_02"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Fels",
+     "Gras"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Fels"
+    ]
+   },
+   "besonderheiten": "Fall endet auf Strand/Meer: kein Kolk im Meer, Kolk nur auf Land",
+   "annahme": true
+  },
+  "sumpf": {
+   "felstyp": "kein anstehender Fels; Torf, Wurzeln, Holz",
+   "vorbild": "Sumpf-Abfluesse (kaum steil)",
+   "netze": {
+    "lippe": [
+     "SM_MossyForestRoots_01",
+     "SM_MossyForestRoots_02"
+    ],
+    "riegel": [
+     "SM_dead_log_01",
+     "SM_dead_log_02",
+     "SM_dead_log_03",
+     "SM_dead_log_04"
+    ],
+    "bloecke": [
+     "SM_MossyForestBoulder_02",
+     "SM_MossyForestRock_01"
+    ],
+    "wand": [
+     "SM_MossyEmbankment_01",
+     "SM_MossyEmbankment_02"
+    ],
+    "schutt": [
+     "SM_OldTreeBranch_01",
+     "SM_OldTreeBranch_04"
+    ],
+    "kies": [],
+    "holz": [
+     "SM_dead_log_01",
+     "SM_dead_log_02",
+     "SM_dead_log_03",
+     "SM_dead_log_04",
+     "Branch_Goat_Willow_Decaying_01",
+     "Branch_Goat_Willow_Decaying_02"
+    ],
+    "extra": [
+     "SM_CustomMoss_01",
+     "SM_CustomMoss_04"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Schlamm"
+    ],
+    "bett_stufe": "Schlamm",
+    "bett_fels": "Erde",
+    "ufer_nah": [
+     "Moos",
+     "Schlamm"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Erde"
+    ]
+   },
+   "besonderheiten": "steile Strecken nur am Rand; Stufen = Holz-/Wurzelschwellen <= 0.8 m",
+   "annahme": true
+  },
+  "canyon": {
+   "felstyp": "geschichteter Sandstein: Stufenkanten an harten Baenken, Alkoven/Hohlkehlen unter der Lippe, Kolk tief, Waende senkrecht",
+   "vorbild": "Zion (Emerald Pools), Havasu (Travertin auf Kalk), Antelope Canyon (Slot), Valley of Fire",
+   "netze": {
+    "lippe": [
+     "vbvqbbofa_tier_0",
+     "uk5pbhv_tier_0",
+     "ulerccg_tier_0",
+     "uk5ebcp_tier_0",
+     "SM_RockSandstone_034"
+    ],
+    "riegel": [
+     "vbvqbbofa_tier_0",
+     "uk5pbhv_tier_0",
+     "SM_RockSandstone_034",
+     "SM_RockSandstone_040"
+    ],
+    "bloecke": [
+     "SM_SandstoneBoulder_03",
+     "SM_SandstoneBoulder_04",
+     "SM_SandstoneBoulder_05",
+     "SM_RockSandstone_021",
+     "SM_RockSandstone_040",
+     "vmjjfhh_tier_0"
+    ],
+    "wand": [
+     "vb1mbdega_tier_0",
+     "vbzmdd1ga_tier_0",
+     "veoneio_tier_0",
+     "vceoferfa_tier_0",
+     "umsocbyfa_tier_0",
+     "vceldhvfa_tier_0",
+     "SM_HugeSandstoneCliff_02",
+     "SM_HugeSandstoneCliff_07",
+     "sfEby_tier_0",
+     "SM_MassiveSandstoneCliff_01",
+     "SM_MassiveSandstoneCliff_02",
+     "SM_MassiveSandstoneCliff_03",
+     "SM_HugeSandstoneCliff_05",
+     "vjqhcapga_tier_0",
+     "vmnmbhv_tier_0"
+    ],
+    "schutt": [
+     "ul4lehiga_tier_0",
+     "ulnfeaw_tier_0",
+     "ulcceh3_tier_0",
+     "SM_RockSandstone_021",
+     "uk4pehu_tier_0",
+     "SM_namaqualand_boulder_04_NN"
+    ],
+    "kies": [
+     "SM_DryRiverBed_01",
+     "SM_stones_01_2",
+     "SM_stones_01_6",
+     "SM_namaqualand_rocks_01_a_NN",
+     "SM_namaqualand_rocks_01_b_NN",
+     "SM_namaqualand_rocks_01_c_NN"
+    ],
+    "holz": [
+     "SM_dead_log_03",
+     "SM_dead_log_04",
+     "SM_bark_debris_01_c_NN"
+    ],
+    "extra": [
+     "SM_sandy_slope_02",
+     "SM_sandy_slope_04",
+     "SM_fern_01_0",
+     "SM_fern_01_1"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Sand",
+     "Kies"
+    ],
+    "bett_stufe": "Sandstein",
+    "bett_fels": "Sandstein",
+    "ufer_nah": [
+     "Sandstein",
+     "Sand"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Sand",
+     "Geroell"
+    ]
+   },
+   "besonderheiten": "Lippe = harte Bank (eine Schicht, waagrecht durchgezogen); unter der Lippe Alkove (Netz mit Ueberhang); Moos/Farn nur im Spruehschatten ('hanging garden')",
+   "annahme": true
+  },
+  "wueste": {
+   "felstyp": "Sandstein und Granitbloecke (Namaqualand); Trockental, Faelle nur bei Wasser",
+   "vorbild": "Wadi Mujib, Ein Gedi, Havasu",
+   "netze": {
+    "lippe": [
+     "vbvqbbofa_tier_0",
+     "uk5pbhv_tier_0",
+     "ulerccg_tier_0",
+     "uk5ebcp_tier_0",
+     "SM_RockSandstone_034"
+    ],
+    "riegel": [
+     "vbvqbbofa_tier_0",
+     "uk5pbhv_tier_0",
+     "SM_namaqualand_boulder_03_NN",
+     "SM_namaqualand_boulder_04_NN"
+    ],
+    "bloecke": [
+     "SM_namaqualand_boulder_02_NN",
+     "SM_namaqualand_boulder_03_NN",
+     "SM_namaqualand_boulder_04_NN",
+     "SM_namaqualand_boulder_05_NN",
+     "SM_namaqualand_boulder_06_NN",
+     "SM_SandstoneBoulder_03",
+     "SM_SandstoneBoulder_04",
+     "SM_SandstoneBoulder_05"
+    ],
+    "wand": [
+     "vb1mbdega_tier_0",
+     "vbzmdd1ga_tier_0",
+     "veoneio_tier_0",
+     "vceoferfa_tier_0",
+     "umsocbyfa_tier_0",
+     "vceldhvfa_tier_0",
+     "SM_HugeSandstoneCliff_02",
+     "SM_HugeSandstoneCliff_07",
+     "sfEby_tier_0"
+    ],
+    "schutt": [
+     "ul4lehiga_tier_0",
+     "ulnfeaw_tier_0",
+     "ulcceh3_tier_0",
+     "SM_namaqualand_boulder_05_NN",
+     "SM_namaqualand_boulder_06_NN"
+    ],
+    "kies": [
+     "SM_namaqualand_rocks_01_a_NN",
+     "SM_namaqualand_rocks_01_b_NN",
+     "SM_namaqualand_rocks_01_c_NN",
+     "SM_namaqualand_rocks_01_d_NN",
+     "SM_namaqualand_stones_01_a_NN",
+     "SM_namaqualand_stones_01_c_NN"
+    ],
+    "holz": [
+     "SM_bark_debris_01_a_NN",
+     "SM_dead_quiver_branch_01_NN"
+    ],
+    "extra": [
+     "SM_sandy_slope_04",
+     "SM_sandy_slope_05",
+     "SM_Rohrkolben_Horst_2",
+     "SM_ToadRush_010"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Sand",
+     "Kies"
+    ],
+    "bett_stufe": "Sandstein",
+    "bett_fels": "Sandstein",
+    "ufer_nah": [
+     "Sand",
+     "Sandstein"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Sand",
+     "Geroell"
+    ]
+   },
+   "besonderheiten": "Oase-Effekt: Gruen nur in der Spruehzone",
+   "annahme": true
+  },
+  "oedland": {
+   "felstyp": "Schiefer/Tonstein mit harten Baenken; brüchig, viel Schichtschutt",
+   "vorbild": "Badlands-Faelle, Quarry-Klippen",
+   "netze": {
+    "lippe": [
+     "SM_Rock_02",
+     "SM_Rock_04",
+     "ulerccg_tier_0",
+     "SM_flat_rock_03"
+    ],
+    "riegel": [
+     "SM_Rock_01",
+     "SM_Rock_03",
+     "SM_Rock_05",
+     "SM_Rock_06"
+    ],
+    "bloecke": [
+     "SM_Rock_01",
+     "SM_Rock_03",
+     "SM_Rock_05",
+     "SM_Rock_06",
+     "SM_Rock_07"
+    ],
+    "wand": [
+     "uchoab3fa_tier_0",
+     "ukjhcamga_tier_0",
+     "SM_big_rock_wall_02",
+     "SM_big_rock_wall_03"
+    ],
+    "schutt": [
+     "ul4lehiga_tier_0",
+     "ulnfeaw_tier_0",
+     "ulcceh3_tier_0",
+     "SM_s_rock_01",
+     "SM_s_rock_02",
+     "SM_s_rock_03"
+    ],
+    "kies": [
+     "SM_stones_01_1",
+     "SM_stones_01_4",
+     "SM_stones_01_5",
+     "SM_SmallStonesPack_01",
+     "SM_SmallStonesPack_03",
+     "SM_SmallStonesPack_06"
+    ],
+    "holz": [
+     "SM_dead_log_01",
+     "SM_dead_log_02"
+    ],
+    "extra": [
+     "ulnfeaq_tier_0",
+     "vepoadh_tier_0"
+    ]
+   },
+   "lagen": {
+    "bett_becken": [
+     "Kies",
+     "Schlamm"
+    ],
+    "bett_stufe": "Geroell",
+    "bett_fels": "Felsplatte",
+    "ufer_nah": [
+     "Erde",
+     "Geroell"
+    ],
+    "ufer_gischt": "Moos",
+    "wandfuss": [
+     "Geroell",
+     "Erde"
+    ]
+   },
+   "besonderheiten": "Wasser 'rostrot' moeglich; Waende geschichtet, viel Schutt",
+   "annahme": true
+  }
+ },
+ "vorbilder": {}
+}
