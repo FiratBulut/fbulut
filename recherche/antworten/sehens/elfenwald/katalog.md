@@ -439,3 +439,57 @@ Alle Felder bleiben weit unter 60 000 neuen Instanzen (G3: 3 Orte ≈ 13 000, H3
 2. Nebelhain braucht einen 0,9-km-Serpentinenpfad am Osthang – ist ein Pfad dieser Länge für dich in Ordnung, oder soll ich den
    Ort auf eine niedrigere, schlechter sichtbare Kuppe legen?
 3. Mutterbaum/Wurzelbrücke: Forest Cretaceous (Riesenstämme) ist auch für den Bergwald gewünscht – lohnt der Download (8 GB)?
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Serpentinenpfad zum Nebelhain (0,9 km)** (elfenwald_02_nebelhain): Ja (13c). Der Pfad kommt als `pfade` nach `standorte.json` (anderer Agent, Schema in `skripte/sehens_lib/README.md`).
+- **Rotlaub-Instanz** (elfenwald_03_rotlaubhain): Ja, als **Kopie**: `MI_EL_SW_Rotlaub` und `MI_EL_SW_Rotlaub_Boden` sind neue Instanzen. Die Original-Buchenblatt-Materialien bleiben unverändert; nur die Instanzen im Hain bekommen die Kopie.
+- **Leuchten und Laub mit Bestand** (elfenwald_01, _03, _06, _07): Free Niagara Particles (SoftTofu, CC BY 4.0) ist im Projekt. Die Effekte unten ersetzen die bisherigen Wünsche.
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| elfenwald_01_mutterbaum | `NS_Sparkling_Glow` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow` | – | Leuchtsporen im Kronenschatten – Kopie, grünlich-weiß, langsam, wenige |
+| elfenwald_01_mutterbaum | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Wind in der Krone |
+| elfenwald_02_nebelhain | `BP_FogBankCard` (Blueprint) | `/Game/NiagaraExamples/FX_Fog/BP_FogBankCard` | – | bewegte Nebelfetzen in den Kronen (Blueprint aus NiagaraExamples/FX_Fog) |
+| elfenwald_02_nebelhain | `CUE_Rain_Dropping_on_various_textures_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Rain_Dropping_on_various_textures_Cue` | – | Tropfen aus dem Nebel (prüfen) |
+| elfenwald_03_rotlaubhain | `NS_leaf` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_leaf` | – | fallendes Laub – Kopie, rot getönt |
+| elfenwald_04_elfentreppe | `CUE_Water_Stream_VIII_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VIII_Cue` | – | Bachrauschen über die Stufen |
+| elfenwald_05_farnschlucht | `CUE_Water_Stream_X_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue` | – | Rauschen im Tobel |
+| elfenwald_06_blauer_grund | `NS_Sparkling_Noise` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Noise` | – | Pollen im Lichtschacht – Kopie, klein, warmweiß |
+| elfenwald_07_schwammgrund | `NS_Sparkling` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling` | – | Sporenstaub unter dem Stamm – Kopie, sehr klein, grünlich |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie) | gestrichen (Ferat: teuer, sehr schlecht bewertet) – Bestand plus Skalierung | 01, 08 |
+| Forest Fungi – Mushroom Pack | fehlt (Download-Liste) | 01, 07, 08 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 01, 02, 04, 05 |
+| Free Niagara Particles | im Projekt (/Game/FreeParticle_SoftTofu, CC BY 4.0 → Credits SoftTofuVFX) | 01, 03, 06, 07 |
+| Giant Fantasy Nanite Mushrooms | fehlt (Download-Liste) | 07 |
+| Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 04, 05 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02 |
+| Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 03 |
+| Travertine Hot Spring Terraces – Modular Environment Pack | fehlt (Download-Liste) | 04 |
+
+### Fehlt weiterhin
+
+- Riesenpilze (elfenwald_07) fehlen weiter (Giant Fantasy Nanite Mushrooms, C). Riesenstamm (elfenwald_01/_08): Forest Cretaceous ist gestrichen (Ferat: teuer, sehr schlecht bewertet) → Bestand plus Skalierung (`SM_beech_tree_05` ×2,5, `SM_LargeFallenTree_02` ×3), wie im Katalog.
+
+### Material-Instanzen (5 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|
+| `MI_EL_SW_Rotlaub` | `M_EL_Pflanze` | `Farbe` [0,78, 0,16, 0,1, 1], `Variation` 0,4 | `SM_beech_tree_03`, `SM_beech_tree_05`, `SM_beech_tree_07`, `SM_beech_tree_09` – neue Instanz als Kopie (13c); Original-Buchenblatt-Materialien bleiben unverändert |
+| `MI_EL_SW_Rotlaub_Boden` | `M_EL_Pflanze` | `Farbe` [0,55, 0,18, 0,09, 1] | `SM_DeadLeaves_01`, `SM_DeadLeaves_08`, `SM_detail_leaves_01` – neue Instanz als Kopie (13c); Original-Buchenblatt-Materialien bleiben unverändert |
+| `MI_EL_SW_Bartflechte` | `M_EL_Pflanze` | `Farbe` [0,72, 0,78, 0,62, 1], `Wind_Staerke` 0,5 | `SM_Ivy_11`, `SM_Ivy_21` |
+| `MI_EL_SW_Kalktuff` | `M_EL_Fels_Auflage` | `Toenung` [1, 0,97, 0,88, 1], `Auflage_Menge` 0,7, `Auflage_Farbe` [0,55, 0,7, 0,35, 1] | `SM_ForestRockShelf_01`, `SM_SmoothRockShelf_01` |
+| `MI_EL_SW_Blaugrund` | `M_EL_Pflanze` | `Farbe` [0,55, 0,6, 1, 1] | `SM_Periwinkle_01`, `SM_Periwinkle_02`, `SM_Periwinkle_03`, `SM_Periwinkle_04` |

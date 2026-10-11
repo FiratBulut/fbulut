@@ -35,7 +35,8 @@
      "prioritaet": "B",
      "wofuer": "Kalkschutt unter dem Tor",
      "ersatz_bestand": "SM_LimestoneRocks2/3",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen"
     }
    ]
   },
@@ -68,28 +69,32 @@
      "prioritaet": "A",
      "wofuer": "Wasserfall aus der Wand + Abflussbach",
      "ersatz_bestand": "M_EL_Wasserfall2",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
      "prioritaet": "B",
      "wofuer": "Gischt am Fuss",
      "ersatz_bestand": "lokaler Nebel",
-     "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)"
+     "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Niagara Examples Pack",
      "prioritaet": "B",
      "wofuer": "Spruehnebel",
      "ersatz_bestand": "lokaler Nebel",
-     "preis_laut_liste": "kostenlos"
+     "preis_laut_liste": "kostenlos",
+     "status_13b": "im Projekt (/Game/NiagaraExamples)"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "B",
      "wofuer": "Rauschen des Falls",
      "ersatz_bestand": "stumm",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -124,14 +129,16 @@
      "prioritaet": "B",
      "wofuer": "Kalkplatten, Karren",
      "ersatz_bestand": "SM_LimestoneRocks2/3",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen"
     },
     {
      "paket": "Procedural Rocks Generator",
      "prioritaet": "C",
      "wofuer": "eigene Kalknadeln",
      "ersatz_bestand": "skalierte SM_Cliff_01b/01c/01e",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -163,14 +170,16 @@
      "prioritaet": "B",
      "wofuer": "tropische Uferpflanzen, Luftwurzeln",
      "ersatz_bestand": "SM_Vines_01a, SM_Ivy_*",
-     "preis_laut_liste": "kostenlos"
+     "preis_laut_liste": "kostenlos",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Tropical Vegetation Assets",
      "prioritaet": "C",
      "wofuer": "Rand-Bewuchs",
      "ersatz_bestand": "SM_petasites_spurius_*",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -207,21 +216,24 @@
      "prioritaet": "C",
      "wofuer": "Lianen, Schwimmpflanzen",
      "ersatz_bestand": "SM_Vines_01a, SM_WaterPlant01-04",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Megascans Limestone Rocks",
      "prioritaet": "C",
      "wofuer": "Kalkschutt in der Gasse",
      "ersatz_bestand": "SM_LimestoneRocks3",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen"
     },
     {
      "paket": "Megascans Rembrandt Water Lily",
      "prioritaet": "C",
      "wofuer": "Seerosen (optional)",
      "ersatz_bestand": "SM_WaterPlant01-04",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "im Projekt (7 Varianten)"
     }
    ]
   },
@@ -253,21 +265,24 @@
      "prioritaet": "B",
      "wofuer": "Klang aus dem Portal",
      "ersatz_bestand": "stumm",
-     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)"
+     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack",
      "prioritaet": "C",
      "wofuer": "Tropfsteine in der Portallaibung",
      "ersatz_bestand": "SM_Cliff_01e + Decals",
-     "neu_nicht_in_liste": true
+     "neu_nicht_in_liste": true,
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Megascans Limestone Rocks",
      "prioritaet": "C",
      "wofuer": "Kalkbank",
      "ersatz_bestand": "SM_LimestoneRocks3",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen"
     }
    ]
   },
@@ -300,28 +315,32 @@
      "prioritaet": "B",
      "wofuer": "Riesenblaetter (Taro/Colocasia u. a.) = Held",
      "ersatz_bestand": "SM_petasites_spurius_01-03 x3-4",
-     "neu_nicht_in_liste": true
+     "neu_nicht_in_liste": true,
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
      "prioritaet": "B",
      "wofuer": "Dschungelpflanzen, Bluetenstauden",
      "ersatz_bestand": "SM_Fern_01a, SM_Crownbeard_*",
-     "preis_laut_liste": "kostenlos"
+     "preis_laut_liste": "kostenlos",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Tropical Vegetation Assets",
      "prioritaet": "C",
      "wofuer": "weitere Grossblattpflanzen",
      "ersatz_bestand": "SM_petasites_spurius_*",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Rain Forest Pack",
      "prioritaet": "C",
      "wofuer": "Unterwuchs",
      "ersatz_bestand": "SM_Bush_01a",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -355,21 +374,24 @@
      "prioritaet": "B",
      "wofuer": "Sinterfahnen/Stalaktiten an der Dachkante",
      "ersatz_bestand": "Decals MI_Leakage_*",
-     "neu_nicht_in_liste": true
+     "neu_nicht_in_liste": true,
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Travertine Hot Spring Terraces – Modular Environment Pack",
      "prioritaet": "C",
      "wofuer": "Sinterbecken unter dem Tropfvorhang",
      "ersatz_bestand": "Felsplatten + Kalk-MI",
-     "preis_laut_liste": "Preis ungeprüft (vermutlich kostenpflichtig)"
+     "preis_laut_liste": "Preis ungeprüft (vermutlich kostenpflichtig)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Cave Ambience",
      "prioritaet": "C",
      "wofuer": "Hallenklang",
      "ersatz_bestand": "stumm",
-     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)"
+     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   }
@@ -456,5 +478,161 @@
    "warum": "Turmsilhouette fuer den zusammengesetzten Bogen",
    "hinweis": "Standort leer (heutiger Zustand) fotografieren -> bilder/sehens13_standorte/"
   }
- ]
+ ],
+ "abgleich_13b_13c": {
+  "stand": "2026-10-11",
+  "quelle": "vorlagen/daten/netze.csv (1 692 Netze), inventar_extra.json (73 Niagara, 15 Effekt-Blueprints, 46 Cues); auftraege/13b, 13c",
+  "vorhanden": {
+   "dschungel_01_mondtor": [
+    {
+     "netz": "Limestone_Rocks_ubqwdheda_High",
+     "pfad": "/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      0.6,
+      0.65,
+      0.09
+     ],
+     "nanite": true,
+     "einsatz": "Kalkschutt unter dem Tor (0,6 m, Kleinzeug)"
+    }
+   ],
+   "dschungel_02_turmquelle": [
+    {
+     "effekt": "NS_Smoke_Plume",
+     "pfad": "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+     "typ": "niagara",
+     "einsatz": "Vorlage für Sprühnebel am Fuß – Kopie, weiß, langsam (optional; sonst lokaler_nebel)",
+     "optional": true
+    },
+    {
+     "klang": "CUE_Water_Stream_IX_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+     "einsatz": "Rauschen des Falls"
+    }
+   ],
+   "dschungel_03_steinwald": [
+    {
+     "netz": "Limestone_Rocks_ubqwdheda_High",
+     "pfad": "/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      0.6,
+      0.65,
+      0.09
+     ],
+     "nanite": true,
+     "einsatz": "Karrenschutt zwischen den Nadeln"
+    }
+   ],
+   "dschungel_04_blaues_auge": [
+    {
+     "klang": "CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue",
+     "einsatz": "Papageien am Schachtrand (leise; passt nur hier)"
+    }
+   ],
+   "dschungel_05_verborgene_lagune": [
+    {
+     "netz": "Limestone_Rocks_ubqwdheda_High",
+     "pfad": "/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      0.6,
+      0.65,
+      0.09
+     ],
+     "nanite": true,
+     "einsatz": "Kalkschutt in der Gasse"
+    },
+    {
+     "netz": "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0",
+     "pfad": "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0",
+     "paket": "Fab/Megascans/Plants",
+     "masse_m": [
+      1.39,
+      1.32,
+      0.72
+     ],
+     "nanite": true,
+     "einsatz": "Seerosen am Rand (optional)"
+    },
+    {
+     "netz": "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0",
+     "pfad": "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0",
+     "paket": "Fab/Megascans/Plants",
+     "masse_m": [
+      1.48,
+      1.48,
+      0.85
+     ],
+     "nanite": true,
+     "einsatz": "Seerosen (optional)"
+    }
+   ],
+   "dschungel_06_schluckhoehle": [
+    {
+     "netz": "Limestone_Rocks_ubqwdheda_High",
+     "pfad": "/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      0.6,
+      0.65,
+      0.09
+     ],
+     "nanite": true,
+     "einsatz": "Kalkbank"
+    }
+   ],
+   "dschungel_07_garten_der_riesen": [
+    {
+     "klang": "CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue",
+     "einsatz": "Vögel im Garten (leise)"
+    }
+   ]
+  },
+  "pakete_status": {
+   "Cave Ambience": "fehlt (Download-Liste)",
+   "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack": "fehlt (Download-Liste)",
+   "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)": "fehlt (Download-Liste)",
+   "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
+   "Megascans Limestone Rocks": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen",
+   "Megascans Rembrandt Water Lily": "im Projekt (7 Varianten)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
+   "Nanite Tropical Plant Pack 2": "fehlt (Download-Liste)",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "fehlt (Download-Liste)",
+   "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
+   "Procedural Rocks Generator": "fehlt (Download-Liste)",
+   "Rain Forest Pack": "fehlt (Download-Liste)",
+   "Travertine Hot Spring Terraces – Modular Environment Pack": "fehlt (Download-Liste)",
+   "Tropical Vegetation Assets": "fehlt (Download-Liste)"
+  },
+  "entscheidungen_13c": [
+   {
+    "thema": "Mondtor-Bogen aus SM_Cliff_01*",
+    "orte": "dschungel_01_mondtor",
+    "umsetzung": "Ja: Sturz `SM_Cliff_01b`, Pfeiler `SM_Cliff_01c`. Die Fugen werden mit Geröll, Moos und Decal geschlossen, der Sockel per Geländestempel. Das Prüfbild entscheidet. Neu: Kalkschutt `Limestone_Rocks_ubqwdheda_High` (0,6 m) unter dem Tor."
+   },
+   {
+    "thema": "Cenote als eigener `see`",
+    "orte": "dschungel_04_blaues_auge",
+    "umsetzung": "Ja: eigener `see` mit **`farbe: tuerkis`**, Spiegel unabhängig vom Meer. Das Meerwasser im Schacht nimmt Ferat als Bildwunsch auf."
+   },
+   {
+    "thema": "Tausendfuß gestrichen",
+    "orte": "–",
+    "umsetzung": "Ja (13c): ersetzt durch `dschungel_08_sinterhalle`. Riesenbäume gibt es nur im Elfenwald."
+   },
+   {
+    "thema": "Tropenpflanzen im Bestand",
+    "orte": "dschungel_04, _05, _07",
+    "umsetzung": "AsianTemple (`SM_Fern_01a/02a`, `SM_Vines_01a`, `SM_Tree_Big_01a/b`), `SM_Tree_Palm_01`, Palms_Pack, Electric-Dreams-Reste und Megaplants (122 Netze) – mehr ist nicht da. Electric Dreams bleibt in der Download-Liste (B, kostenlos)."
+   }
+  ],
+  "fehlt_weiter": [
+   "Große Kalkfelsen/Karsttürme: Das vorhandene Limestone Rocks ist nur ein 0,6-m-Haufen. Ferat lädt gerade weitere Megascans-Limestone-Assets und das kostenlose „Limestone Rock Set“ von Ancraite („wird geladen“). Damit ist die Lücke voraussichtlich geschlossen; Netznamen folgen mit dem neuen Inventar. Bis dahin gelten `SM_Cliff_01a–e` (bis 75 m, skaliert) und `SM_LimestoneRocks2/3`."
+  ],
+  "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ }
 }

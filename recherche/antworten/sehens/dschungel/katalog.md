@@ -222,7 +222,7 @@ Schutt (40–60): Kalkplatten an einem schmalen Uferband `SM_flat_rock_02`, Äst
 (`SM_petasites_spurius_*` ×2,5) und Palmen `SM_Palm_01_04_G`; im Wasser nichts (tief, klar). Kontakt: Moos-Nassband 1 m über
 dem Spiegel (`MI_TileableLeakage_01`).
 
-**Wasser, Effekte, Licht.** `see` mit eigenem Spiegel +0,3 m (Umriss aus den Meer-Zellen, `tiefblau`, Tiefe 18 m), damit der
+**Wasser, Effekte, Licht.** `see` mit eigenem Spiegel +0,3 m (Umriss aus den Meer-Zellen, **`tuerkis`** – 13c: eigener See, unabhängig vom Meer, Tiefe 18 m), damit der
 Ozean nicht durchscheint. Lichtkegel: 1 Spotlicht von oben (weiß, schwach, ohne Schatten) + lokaler Nebel 0,03 im Schacht.
 
 **Geländeänderung.** Keine (Schacht vorhanden); Rand im Osten +2 m angehoben, damit das Ufer rundum über dem Spiegel liegt
@@ -407,3 +407,59 @@ mit Moos/Decals verstecken.
 2. Mondtor: Es gibt keinen Kalk-Felsbogen – ist ein aus `SM_Cliff_01b/01c` zusammengesetzter Bogen für dich in Ordnung?
 3. Garten der Riesen braucht ein Tropenpflanzen-Paket (Nanite Tropical Plant Pack 2 oder Electric Dreams) – welches hast du schon?
 4. Tausendfuß (Banyan) aus Katalog v1 ist gestrichen (Riesenbäume nur im Elfenwald) – einverstanden?
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Mondtor-Bogen aus SM_Cliff_01*** (dschungel_01_mondtor): Ja: Sturz `SM_Cliff_01b`, Pfeiler `SM_Cliff_01c`. Die Fugen werden mit Geröll, Moos und Decal geschlossen, der Sockel per Geländestempel. Das Prüfbild entscheidet. Neu: Kalkschutt `Limestone_Rocks_ubqwdheda_High` (0,6 m) unter dem Tor.
+- **Cenote als eigener `see`** (dschungel_04_blaues_auge): Ja: eigener `see` mit **`farbe: tuerkis`**, Spiegel unabhängig vom Meer. Das Meerwasser im Schacht nimmt Ferat als Bildwunsch auf.
+- **Tausendfuß gestrichen** (–): Ja (13c): ersetzt durch `dschungel_08_sinterhalle`. Riesenbäume gibt es nur im Elfenwald.
+- **Tropenpflanzen im Bestand** (dschungel_04, _05, _07): AsianTemple (`SM_Fern_01a/02a`, `SM_Vines_01a`, `SM_Tree_Big_01a/b`), `SM_Tree_Palm_01`, Palms_Pack, Electric-Dreams-Reste und Megaplants (122 Netze) – mehr ist nicht da. Electric Dreams bleibt in der Download-Liste (B, kostenlos).
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| dschungel_01_mondtor | `Limestone_Rocks_ubqwdheda_High` | `/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High` | 0,6 × 0,65 × 0,09 | Kalkschutt unter dem Tor (0,6 m, Kleinzeug) |
+| dschungel_02_turmquelle | `NS_Smoke_Plume` (Niagara) | `/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume` | – | Vorlage für Sprühnebel am Fuß – Kopie, weiß, langsam (optional; sonst lokaler_nebel) |
+| dschungel_02_turmquelle | `CUE_Water_Stream_IX_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue` | – | Rauschen des Falls |
+| dschungel_03_steinwald | `Limestone_Rocks_ubqwdheda_High` | `/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High` | 0,6 × 0,65 × 0,09 | Karrenschutt zwischen den Nadeln |
+| dschungel_04_blaues_auge | `CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue` | – | Papageien am Schachtrand (leise; passt nur hier) |
+| dschungel_05_verborgene_lagune | `Limestone_Rocks_ubqwdheda_High` | `/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High` | 0,6 × 0,65 × 0,09 | Kalkschutt in der Gasse |
+| dschungel_05_verborgene_lagune | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0` | 1,39 × 1,32 × 0,72 | Seerosen am Rand (optional) |
+| dschungel_05_verborgene_lagune | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0` | 1,48 × 1,48 × 0,85 | Seerosen (optional) |
+| dschungel_06_schluckhoehle | `Limestone_Rocks_ubqwdheda_High` | `/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High` | 0,6 × 0,65 × 0,09 | Kalkbank |
+| dschungel_07_garten_der_riesen | `CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue` | – | Vögel im Garten (leise) |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Cave Ambience | fehlt (Download-Liste) | 06, 08 |
+| Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack | fehlt (Download-Liste) | 06, 08 |
+| Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge) | fehlt (Download-Liste) | 04, 07 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 02 |
+| Megascans Limestone Rocks | im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen | 01, 03, 05, 06 |
+| Megascans Rembrandt Water Lily | im Projekt (7 Varianten) | 05 |
+| Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 02 |
+| Nanite Tropical Plant Pack 2 | fehlt (Download-Liste) | 07 |
+| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | fehlt (Download-Liste) | 02 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02 |
+| Procedural Rocks Generator | fehlt (Download-Liste) | 03 |
+| Rain Forest Pack | fehlt (Download-Liste) | 05, 07 |
+| Travertine Hot Spring Terraces – Modular Environment Pack | fehlt (Download-Liste) | 08 |
+| Tropical Vegetation Assets | fehlt (Download-Liste) | 04, 07 |
+
+### Fehlt weiterhin
+
+- Große Kalkfelsen/Karsttürme: Das vorhandene Limestone Rocks ist nur ein 0,6-m-Haufen. Ferat lädt gerade weitere Megascans-Limestone-Assets und das kostenlose „Limestone Rock Set“ von Ancraite („wird geladen“). Damit ist die Lücke voraussichtlich geschlossen; Netznamen folgen mit dem neuen Inventar. Bis dahin gelten `SM_Cliff_01a–e` (bis 75 m, skaliert) und `SM_LimestoneRocks2/3`.
+
+### Material-Instanzen (0 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|

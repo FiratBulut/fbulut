@@ -424,3 +424,65 @@ Materialwünsche (≤ 6): `MI_EL_SW_Verkohlt` (`M_EL_Fels_MS`, `Toenung` [0,16, 
 3. **Karsee-Stempel:** Seespiegel und Schwelle brauchen bis ±6 m Gelände – ist das am Kamm in B5 in Ordnung (Feld-Neubau)?
 4. **Bildwünsche** (leere Standorte, Kameras in `asset_bedarf.json`): Mönch `_fern`, Säulenhain `_fern`, Klamm `_held`,
    Karsee `_held` – damit wir die Silhouetten vor dem Bau prüfen können.
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Mönch: erster Wurf mit Bestand** (bergwald_01_der_moench): Ja: Granit-Schale `veqnci0db_tier_2` hochkant, 6–8 m eingegraben, Kappe `rcygn_tier_0`. Neu: Sockel und Schutt aus Basalt- und Klippenstücken (`Basalt_Basalt_Cliff_Rock_A_SM` ×2–3, `Basalt_Basalt_Rock_C_SM`/`_D_SM` ×2–4, dazu `vdssailfa_tier_2` als Rückseite). Damit Basalt nicht als Fremdgestein liest, bekommt er `MI_EL_SW_Granit_Moos`. Das Prüfbild entscheidet.
+- **Windwurf und Säulenhain mit Nicht-Nanite-Nadelbäumen** (bergwald_03_saeulenhain, bergwald_07_windwurf): Ja. Forest Cretaceous ist gestrichen (Ferat: teuer, sehr schlecht bewertet); Riesenbäume bleiben Bestand plus Skalierung: `Fir_07_Forest`/`Fir_04_Standalone` ×2,2–2,5 stehend (Säulenhain) und `SM_Forest_pine_01–09` liegend (Windwurf). Neu im Inventar: kurze Stammstücke `SM_Forest_pine_04_01/02/03_log` als Kleinzeug.
+- **Karsee-Stempel ±6 m** (bergwald_06_karsee): Ja, wie geplant (Seespiegel und Karschwelle).
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| bergwald_01_der_moench | `Basalt_Basalt_Cliff_Rock_A_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_A_SM` | 8,34 × 5,07 × 5,63 | Sockelblock ×2–3 (13c), MI_EL_SW_Granit_Moos |
+| bergwald_01_der_moench | `Basalt_Basalt_Rock_C_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Rock_C_SM` | 1,31 × 1,19 × 1,67 | Sockelschutt ×2–4 |
+| bergwald_01_der_moench | `Basalt_Basalt_Rock_D_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Rock_D_SM` | 2,1 × 2,29 × 1,36 | Sockelschutt ×2–4 |
+| bergwald_01_der_moench | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Wind am Grat (Laubanteil prüfen) |
+| bergwald_03_saeulenhain | `SM_Forest_pine_04_01_log` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_01_log` | 0,26 × 1,26 × 0,24 | Stammstücke am Boden (Kleinzeug) |
+| bergwald_03_saeulenhain | `SM_Forest_pine_04_02_log` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_02_log` | 0,23 × 1,25 × 0,22 | Stammstücke |
+| bergwald_03_saeulenhain | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Waldhalle |
+| bergwald_04_felsenmeer | `CUE_Water_Stream_V_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_V_Cue` | – | verborgener Bach unter den Blöcken, gedämpft |
+| bergwald_05_klemmblock_klamm | `SM_Fish_Trout` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Fish_Trout` | 0,06 × 0,38 × 0,13 | 1–2 Forellen in der Gumpe (optional) |
+| bergwald_05_klemmblock_klamm | `NS_Smoke_Plume` (Niagara) | `/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume` | – | Vorlage für Gischt am Fallfuß – Kopie, weiß, langsam (optional; sonst lokaler_nebel) |
+| bergwald_05_klemmblock_klamm | `CUE_Water_Stream_IX_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue` | – | Fallrauschen |
+| bergwald_06_karsee | `SM_Fish_Trout` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Fish_Trout` | 0,06 × 0,38 × 0,13 | Forellen im klaren Uferwasser (optional) |
+| bergwald_06_karsee | `CUE_Water_Stream_VII_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue` | – | Zulauf/Kaskade |
+| bergwald_07_windwurf | `SM_Forest_pine_04_01_log` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_01_log` | 0,26 × 1,26 × 0,24 | Bruchstücke |
+| bergwald_07_windwurf | `SM_Forest_pine_04_03_log` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_pine_04_03_log` | 0,22 × 1,24 × 0,21 | Bruchstücke |
+| bergwald_07_windwurf | `NS_leaf` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_leaf` | – | fliegende Nadeln/Blätter in der Gasse (optional) |
+| bergwald_07_windwurf | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Wind (Brandung fehlt) |
+| bergwald_08_der_wurzelstein | `SM_Anthill` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Anthill` | 1,18 × 1,15 × 0,25 | Ameisenhaufen am Stammfuß (Natur erzählt) |
+| bergwald_08_der_wurzelstein | `SM_anthill_ants_anim_random` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_anthill_ants_anim_random` | 1,12 × 1,12 × 0,26 | Ameisen auf dem Haufen |
+| bergwald_08_der_wurzelstein | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Waldklang |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie) | gestrichen (Ferat: teuer, sehr schlecht bewertet) – Bestand plus Skalierung | 02, 03 |
+| Forest Fungi – Mushroom Pack | fehlt (Download-Liste) | 03, 07 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 01, 03, 04, 05, 06, 07, 08 |
+| Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 05, 06 |
+| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | fehlt (Download-Liste) | 05 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02, 05 |
+| Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 07 |
+| Realistic Waterfall and Water VFX | fehlt (Download-Liste) | 05 |
+| Ultimate Niagara Environmental VFX | fehlt (Download-Liste) | 07 |
+| Waterfall Pro | fehlt (Download-Liste) | 05 |
+| Wilderness Nature Loops | fehlt (Download-Liste) | 07 |
+
+### Material-Instanzen (4 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|
+| `MI_EL_SW_Verkohlt` | `M_EL_Fels_MS` | `Toenung` [0,16, 0,14, 0,13, 1], `Helligkeit` 0,6 | SM_Forest_pine_10_dead (Stümpfe/Äste), SM_OldTreeBranch_* |
+| `MI_EL_SW_Klammfels_Nass` | `M_EL_Fels_MS` | `Nass_Dunkel` 0,75 | `Klamm`, Karsee-Ufer |
+| `MI_EL_SW_Granit_Moos` | `M_EL_Klippe_RVT` | `Moos_Menge_Akteur` 1, `Moos_Farbe` [0,75, 0,9, 0,55, 1] | `veqnci0db_tier_2`, `vdssailfa_tier_2`, `Basalt_Basalt_Cliff_Rock_A_SM`, `Basalt_Basalt_Rock_C_SM`, `Basalt_Basalt_Rock_D_SM` |
+| `MI_EL_SW_Block_Moos` | `M_EL_Fels_Auflage` | `Auflage_Menge` 0,8, `Auflage_Farbe` [0,45, 0,6, 0,3, 1] | `Felsenmeer`, `Wurzelstein` |

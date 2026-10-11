@@ -302,3 +302,87 @@ Budget: ~2 500 Instanzen (300 Kollision), 20 Akteure, 1 Licht, 2 Niagara, 0 Nebe
 2. **Basalt Columns (ca. 11 €)** – nur nötig, wenn lava_07 kommt.
 3. **Bildwünsche** (leere Standorte, Kameras in `asset_bedarf.json`): Kraterreihe (alte Kachel heute), Westschlucht, Stromfront,
    Kraterkinder-Senke.
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Kratersteig bauen** (lava_06_kraterreihe, lava_07_basaltorgel, lava_08_glutauge): Ja (13c), damit hat das Lava-Biom 8 Orte. Den Pfadverlauf überführt ein anderer Agent nach `standorte.json` (`pfade`, Schema in `skripte/sehens_lib/README.md`).
+- **Basaltorgel mit /Game/Basalt** (lava_07_basaltorgel): Das Paket ist gekauft und im Projekt (22 Netze, **kein Nanite**). Säulen haben 0,29 m Querschnitt und 0,15–2,6 m Höhe. Orgelwand aus `Basalt_Basalt_Pillars_Wall_SM`/`_WallSlope_SM`/`_WallOverhang_SM` und `Basalt_Basalt_Pillars_Cluster_High_SM` in Gruppen, Skalierung 3–8× (Säulen dann 0,9–2,3 m). Davor Säulenstümpfe `Basalt_Basalt_Pillar_A–D_SM`/`_Variance_A–D_SM` und Blöcke `Basalt_Basalt_Rock_A–D_SM`. Die Kante bildet `Basalt_Basalt_Cliff_SM` (8,6 × 5,3 × 6,0 m, ×3–4). Weil die Netze nicht Nanite sind, die Akteure zählen (≤ 80) und lieber wenige große Stücke setzen.
+- **Wegabstand 324/393 m** (lava_04_roehrenfenster, lava_05_klare_spalte): In Ordnung (13c).
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| lava_01_schwarze_mauer | `Basalt_Basalt_Cliff_Rock_A_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_A_SM` | 8,34 × 5,07 × 5,63 | Wandschollen-Ersatz für SM_lava_wall_01/02/03/09 (bis 13d) |
+| lava_01_schwarze_mauer | `Basalt_Basalt_Rock_B_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Rock_B_SM` | 1,17 × 1,52 × 0,78 | Schuttsaum |
+| lava_02_schwefelgrund | `NS_Smoke_Plume` (Niagara) | `/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume` | – | Dampfsäule am Dampfschlot |
+| lava_02_schwefelgrund | `NS_Chimney_Smoke` (Niagara) | `/Game/NiagaraExamples/FX_Smoke/NS_Chimney_Smoke` | – | 6–9 kleine Fumarolenfahnen (Kopie, weiß-grau, dünn) |
+| lava_03_kraterkinder | `CUE_Water_Stream_II_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue` | – | Aue-Bach dahinter (Grundklang) |
+| lava_04_roehrenfenster | `Basalt_Basalt_Pillars_WallOverhang_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallOverhang_SM` | 1,62 × 0,98 × 2,55 | Deckenlippe kopfüber (Ersatz für SM_lava_wall_01/02/09 bis 13d) |
+| lava_04_roehrenfenster | `Basalt_Basalt_Cliff_Rock_B_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_B_SM` | 7,49 × 5,41 × 1,52 | flache Deckenplatte kopfüber |
+| lava_04_roehrenfenster | `BP_FogBankCard` (Blueprint) | `/Game/NiagaraExamples/FX_Fog/BP_FogBankCard` | – | Kaltluftdunst im Schacht (Mist Card, Blueprint) |
+| lava_04_roehrenfenster | `CUE_Rain_Dropping_on_various_textures_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Rain_Dropping_on_various_textures_Cue` | – | Tropfen im Röhrenmaul (prüfen, ob es nach Tropfen und nicht nach Regen klingt) |
+| lava_05_klare_spalte | `Basalt_Basalt_Pillars_Wall_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_Wall_SM` | 1,61 × 0,76 × 2,55 | Spaltenwände senkrecht gereiht (statt SM_lava_wall_04/05) |
+| lava_05_klare_spalte | `Basalt_Basalt_Pillars_WallSlope_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallSlope_SM` | 2,44 × 1,55 × 3,02 | Spaltenwand schräg |
+| lava_06_kraterreihe | `NS_Chimney_Smoke` (Niagara) | `/Game/NiagaraExamples/FX_Smoke/NS_Chimney_Smoke` | – | Restdampf im Hauptkrater, dezent |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillars_Wall_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_Wall_SM` | 1,61 × 0,76 × 2,55 | Orgelwand-Modul ×3–8 |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillars_WallSlope_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallSlope_SM` | 2,44 × 1,55 × 3,02 | Orgelwand schräg |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillars_WallOverhang_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallOverhang_SM` | 1,62 × 0,98 × 2,55 | Orgelwand mit Überhang |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillars_Cluster_High_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_Cluster_High_SM` | 0,76 × 0,79 × 2,62 | Säulenbündel hoch |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillars_Cluster_Low_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillars_Cluster_Low_SM` | 1,09 × 0,93 × 0,62 | Säulenbündel niedrig (Stümpfe) |
+| lava_07_basaltorgel | `Basalt_Basalt_Cliff_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cliff_SM` | 8,61 × 5,31 × 6,02 | Plateaukante ×3–4 |
+| lava_07_basaltorgel | `Basalt_Basalt_Cluster_A_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cluster_A_SM` | 3,43 × 3,83 × 3,21 | Felsgruppe am Fuß |
+| lava_07_basaltorgel | `Basalt_Basalt_Cluster_A_Rocks_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cluster_A_Rocks_SM` | 3,4 × 3,2 × 3,09 | Felsgruppe, Schutt |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_A_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_A_SM` | 0,29 × 0,25 × 0,15 | Säulenstumpf |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_B_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_B_SM` | 0,29 × 0,26 × 0,74 | Säule |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_C_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_C_SM` | 0,29 × 0,26 × 0,91 | Säule |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_D_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_D_SM` | 0,29 × 0,26 × 2,63 | Säule lang (2,6 m → ×8 = 21 m) |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_Variance_A_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_A_SM` | 0,28 × 0,27 × 0,22 | Säulenstumpf |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_Variance_B_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_B_SM` | 0,3 × 0,32 × 0,64 | Säule |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_Variance_C_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_C_SM` | 0,24 × 0,27 × 1,31 | Säule |
+| lava_07_basaltorgel | `Basalt_Basalt_Pillar_Variance_D_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_D_SM` | 0,26 × 0,29 × 2,28 | Säule lang |
+| lava_07_basaltorgel | `Basalt_Basalt_Rock_A_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Rock_A_SM` | 0,81 × 0,86 × 0,67 | Block |
+| lava_07_basaltorgel | `Basalt_Basalt_Rock_B_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Rock_B_SM` | 1,17 × 1,52 × 0,78 | Block |
+| lava_07_basaltorgel | `Basalt_Basalt_Rock_C_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Rock_C_SM` | 1,31 × 1,19 × 1,67 | Block |
+| lava_07_basaltorgel | `Basalt_Basalt_Rock_D_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Rock_D_SM` | 2,1 × 2,29 × 1,36 | Block |
+| lava_07_basaltorgel | `Basalt_Basalt_Cliff_Rock_A_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_A_SM` | 8,34 × 5,07 × 5,63 | Wandblock |
+| lava_07_basaltorgel | `Basalt_Basalt_Cliff_Rock_B_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_B_SM` | 7,49 × 5,41 × 1,52 | Platte |
+| lava_08_glutauge | `Basalt_Basalt_Cliff_Rock_B_SM` (kein Nanite) | `/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_B_SM` | 7,49 × 5,41 × 1,52 | Krustenplatten liegend (statt SM_lava_wall_06/07/08 bis 13d) |
+| lava_08_glutauge | `NS_Spark_Continuous` (Niagara) | `/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous` | – | Glutfunken über dem Fenster – Kopie, wenige, langsam, orange (optional) |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Basalt Columns and Rocks 21 Types – AssetKit PBR | im Projekt (/Game/Basalt/meshes, 22 Netze, kein Nanite) | 07 |
+| Cave Ambience | fehlt (Download-Liste) | 04 |
+| Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen) | läuft bei Ferat | 03, 05 |
+| Fantasy Ambiences (Lava, Höhle, Wind …) | fehlt (Download-Liste) | 02, 06, 08 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 01, 03, 05 |
+| Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen) | läuft bei Ferat | 02, 06, 08 |
+| Megascans Icelandic Sand With Pebbles | fehlt (Download-Liste) | 01, 03 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02, 04 |
+| Realistic Starter VFX Pack Vol 2 | gestrichen (Dampf jetzt NS_Smoke_Plume/NS_Chimney_Smoke) | 02 |
+| Ultimate Niagara Environmental VFX | fehlt (Download-Liste) | 08 |
+
+### Fehlt weiterhin
+
+- SM_lava_wall_01 … SM_lava_wall_09 (Lava & Volcano) stehen **nicht mehr in netze.csv** (1 692 Netze, Stand 13:25). Vermutlich hängt das an der laufenden Nachladung von Lava & Volcano. Der Katalog nennt sie weiter, bis das Inventar 13d da ist. Bis dahin gilt im Plan der Ersatz aus `/Game/Basalt` (siehe Tabelle) bzw. `SM_lava_b_rock_*`/`SM_lava_m_rock_*`.
+- Hitzeflimmern, Lava-Material, 7 Glut-Decals: kommen mit Lava & Volcano (läuft bei Ferat).
+
+### Material-Instanzen (6 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|
+| `MI_EL_SW_Lava_Moos` | `M_EL_Fels_Auflage` | `Auflage_Farbe` [0,55, 0,66, 0,36, 1], `Auflage_Menge` 0,75, `Auflage_Schwelle` 0,55, `Auflage_Flecken` 0,7, `Toenung` [0,42, 0,4, 0,4, 1] | SM_lava_wall_01 (nach 13d), SM_lava_wall_02 (nach 13d), `SM_lava_b_rock_01`, `SM_lava_m_rock_01`, `Basalt_Basalt_Cliff_Rock_A_SM` |
+| `MI_EL_SW_Schlacke_Rot` | `M_EL_Fels_MS` | `Toenung` [0,62, 0,3, 0,22, 1], `Helligkeit` 0,9, `Variation` 0,7 | `SM_lava_m_rock_02`, `SM_lava_s_rock_03`, SM_lava_wall_07 (nach 13d) |
+| `MI_EL_SW_Schwefelkruste` | `M_EL_Fels_Auflage` | `Auflage_Farbe` [0,95, 0,82, 0,25, 1], `Auflage_Menge` 0,6, `Auflage_Hohl` 0,85, `Auflage_Rauheit` 0,95 | `SM_lava_m_rock_05`, `SM_lava_s_rock_01`, `SM_lava_b_rock_04` |
+| `MI_EL_SW_Schwefel_Decal` | `M_MS_Decal` | `BaseColor Tint` [1, 0,84, 0,3, 1], `Saturation` 1,3, `Min Roughness` 0,7 | Decal (Maske aus MI_Leakage_04) |
+| `MI_EL_SW_Basalt_Saeule` | `M_EL_Klippe_RVT` | `Toenung` [0,55, 0,55, 0,58, 1], `Fels_Saettigung` 0,4, `Moos_Menge` 0,35, `Moos_Farbe` [0,6, 0,72, 0,4, 1] | `Basalt_Basalt_Pillars_Wall_SM`, `Basalt_Basalt_Pillars_WallSlope_SM`, `Basalt_Basalt_Pillars_WallOverhang_SM`, `Basalt_Basalt_Pillars_Cluster_High_SM`, `Basalt_Basalt_Cliff_SM` – MI_EL_SW_Basalt_Saeule nur, falls das Basalt-Originalmaterial zu frisch/glatt wirkt; dann Albedo/Normal/ORM aus /Game/Basalt in die Instanz übernehmen (sonst zeigt M_EL_Klippe_RVT die Nordklippen-Textur). |
+| `MI_EL_SW_Lava_Glasur` | `M_EL_Fels_MS` | `Rauheit` 0,35, `Specular` 0,6, `Toenung` [0,5, 0,48, 0,52, 1] | `Basalt_Basalt_Cliff_Rock_B_SM`, SM_lava_wall_06/07/08 (nach 13d) |

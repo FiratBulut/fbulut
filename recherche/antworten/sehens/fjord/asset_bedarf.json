@@ -27,7 +27,8 @@
      "prioritaet": "C",
      "wofuer": "Wind, Möwen",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -76,21 +77,24 @@
      "prioritaet": "A",
      "wofuer": "Fluss-/Wasserfall-Material für 6 dünne Fallbänder",
      "ersatz_bestand": "MI_EL_Wasserfall (Deckkraft 0,5)",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Niagara Examples Pack",
      "prioritaet": "B",
      "wofuer": "Sprühnebel am Wandfuß",
      "ersatz_bestand": "lokaler_nebel",
-     "preis_laut_liste": "kostenlos"
+     "preis_laut_liste": "kostenlos",
+     "status_13b": "im Projekt (/Game/NiagaraExamples)"
     },
     {
      "paket": "Realistic Waterfall and Water VFX",
      "prioritaet": "C",
      "wofuer": "verwehende Fallfäden",
      "ersatz_bestand": "Material allein",
-     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Kategorie-Auszug, ungeprüft)"
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Kategorie-Auszug, ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -113,7 +117,8 @@
      "prioritaet": "C",
      "wofuer": "Wind am Grat",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)"
+     "preis_laut_liste": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -163,14 +168,16 @@
      "prioritaet": "A",
      "wofuer": "Fall 40 m an der Lippe",
      "ersatz_bestand": "MI_EL_Wasserfall + MI_EL_Wasserfall_Aufprall",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "C",
      "wofuer": "Rauschen",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -205,14 +212,16 @@
      "prioritaet": "A",
      "wofuer": "Seetang, Spülsaum-Decals, nasser Sand",
      "ersatz_bestand": "SM_beach_driftwood_01, MI_Leakage_*",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Megascans Icelandic Sand With Pebbles",
      "prioritaet": "C",
      "wofuer": "dunkler Kies im Fächer",
      "ersatz_bestand": "SM_BeachSandWithPebbles_01/02",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -255,7 +264,8 @@
      "prioritaet": "C",
      "wofuer": "Steinschlag/Wind",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -282,21 +292,24 @@
      "prioritaet": "A",
      "wofuer": "Seetang-Band und Nässe",
      "ersatz_bestand": "MI_Leakage_10",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Niagara Examples Pack",
      "prioritaet": "B",
      "wofuer": "Gischt im Spalt",
      "ersatz_bestand": "ohne Effekt",
-     "preis_laut_liste": "kostenlos"
+     "preis_laut_liste": "kostenlos",
+     "status_13b": "im Projekt (/Game/NiagaraExamples)"
     },
     {
      "paket": "Cave Ambience",
      "prioritaet": "B",
      "wofuer": "Grottenklang",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)"
+     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -328,7 +341,8 @@
      "prioritaet": "C",
      "wofuer": "gerundete Strandkiesel",
      "ersatz_bestand": "SM_BeachSandWithPebbles_01/02, SM_NordicBeachRock_01",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   }
@@ -417,5 +431,117 @@
    "kamera": "fjord_01_die_kanzel_anmarsch",
    "grund": "Ostwand von der Sohle: wo genau die Kante ist"
   }
- ]
+ ],
+ "abgleich_13b_13c": {
+  "stand": "2026-10-11",
+  "quelle": "vorlagen/daten/netze.csv (1 692 Netze), inventar_extra.json (73 Niagara, 15 Effekt-Blueprints, 46 Cues); auftraege/13b, 13c",
+  "vorhanden": {
+   "fjord_02_schleierwand": [
+    {
+     "effekt": "NS_Smoke_Plume",
+     "pfad": "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+     "typ": "niagara",
+     "einsatz": "Vorlage für Sprühnebel am Wandfuß – Kopie, weiß (optional; sonst lokaler_nebel)",
+     "optional": true
+    },
+    {
+     "klang": "CUE_Water_Stream_X_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+     "einsatz": "Fallbänder"
+    }
+   ],
+   "fjord_04_haengetal": [
+    {
+     "netz": "xemmbh2qx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Pile_xemmbh2qx/Raw/xemmbh2qx_tier_0/StaticMeshes/xemmbh2qx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      1.3,
+      0.88,
+      0.49
+     ],
+     "nanite": true,
+     "einsatz": "Altschneerest im Hängetal (optional)"
+    },
+    {
+     "klang": "CUE_Water_Stream_IX_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+     "einsatz": "Fall an der Lippe"
+    }
+   ],
+   "fjord_07_brandungsgrotte": [
+    {
+     "effekt": "NS_Smoke_Plume",
+     "pfad": "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+     "typ": "niagara",
+     "einsatz": "Vorlage für Gischt im Spalt (optional)",
+     "optional": true
+    }
+   ],
+   "fjord_08_strandterrassen": [
+    {
+     "netz": "SM_LS_beach_escarpment_02_A",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_escarpment_02_A",
+     "paket": "Coast_Dunes_Environment_Set",
+     "masse_m": [
+      9.0,
+      2.89,
+      1.86
+     ],
+     "nanite": false,
+     "einsatz": "Terrassenkante (9 × 1,9 m, neu aus Coast & Dunes)"
+    },
+    {
+     "netz": "SM_LS_beach_escarpment_02_B",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_escarpment_02_B",
+     "paket": "Coast_Dunes_Environment_Set",
+     "masse_m": [
+      11.16,
+      2.71,
+      1.83
+     ],
+     "nanite": false,
+     "einsatz": "Terrassenkante (11,2 m)"
+    },
+    {
+     "netz": "SM_LS_beach_escarpment_01_C",
+     "pfad": "/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_escarpment_01_C",
+     "paket": "Coast_Dunes_Environment_Set",
+     "masse_m": [
+      8.63,
+      1.57,
+      1.03
+     ],
+     "nanite": false,
+     "einsatz": "niedrige Kante (1 m)"
+    }
+   ]
+  },
+  "pakete_status": {
+   "Cave Ambience": "fehlt (Download-Liste)",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "läuft bei Ferat",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt (Download-Liste)",
+   "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
+   "Megascans Icelandic Sand With Pebbles": "fehlt (Download-Liste)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
+   "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
+   "Realistic Waterfall and Water VFX": "fehlt (Download-Liste)"
+  },
+  "entscheidungen_13c": [
+   {
+    "thema": "Steige",
+    "orte": "alle 8 Orte",
+    "umsetzung": "Fjordsteig und Kanzel-Ast überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator nach."
+   },
+   {
+    "thema": "Entfallen",
+    "orte": "–",
+    "umsetzung": "Diamantstrand und Basalt-Blockufer sind aus der Download-Liste gestrichen (merge B4)."
+   }
+  ],
+  "fehlt_weiter": [
+   "Seetang/Seepocken-Band: Coast & Dunes läuft bei Ferat (Decals, Seetang); bis dahin MI_Leakage_10."
+  ],
+  "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ }
 }

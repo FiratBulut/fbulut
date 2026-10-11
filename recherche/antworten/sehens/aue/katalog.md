@@ -486,3 +486,93 @@ Neue Textur (eigener Punkt): Brutröhren-Maske für ein Decal aus `M_MS_Decal` (
 4. **Schwalbenwand:** Darf ich eine kleine eigene Decal-Maske (Brutröhren) erzeugen, oder lieber ohne Löcher?
 5. **Bildwünsche** (leere Standorte, Kameras in `asset_bedarf.json`): Die Alte `_fern`, Schwalbenwand `_held`, Treibholzwerder `_fern`,
    Mondarm `_held`, Blautopf `_held` – vor allem Uferhöhen und Wandhöhe vor dem Bau.
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Die Alte mit Bestand** (aue_02_die_alte): Held jetzt `SM_Poplar_tree_06_Optimised` ×1,3 (≈ 34,5 m) als Schwarzpappel. `SM_dry_oak_0*` (Coast & Dunes) sind im Inventar, aber nur 3,9–9,0 m hoch und windgeformt; für den Held bräuchten sie ×3 und mehr (Texel-Dichte, keine Nanite-Netze). Sie bleiben Begleiter/Jungeichen. Stieleichen-Paket steht in der Download-Liste unter B; Austausch später ohne neue Standortsuche.
+- **Erlen-Ersatz** (aue_01_biberstau, aue_04_treibholzwerder, aue_06_mondarm): Megascans-Erlen sind nicht im Bestand. Ersatz: Pappeln `SM_Poplar_tree_02/03_Optimised/04_Optimised`, Birke `Big_Tree_Birch_01`, Weiden `Big_Tree_Willow_01/02` und Strauchweiden `SM_grey_willow_01–04`. Erlen bleiben ein optionaler Wunsch (C).
+- **Mondarm-Ufergehölz** (aue_06_mondarm): Ja: 220 m neuer Gehölzgürtel am Südufer. Er besteht aus `Big_Tree_Willow_01/02`, `SM_Poplar_tree_03_Optimised`, `Big_Tree_Birch_01` und dem Strauchsaum `SM_grey_willow_01–04`. Er verdeckt den Spiegel vom Weg aus und macht den Ort zum echten Fundstück.
+- **Seerosen im Bestand** (aue_06_mondarm): `Rembrandt_Water_Lily_uc2kajgia_*_VarA–G_LOD0` (7 Varianten, 1,2–1,7 m Blattgruppen) ersetzen `SM_WaterPlant01–04` als Held des Seerosenfelds.
+- **Decal Brutröhren** (aue_03_schwalbenwand): Ja: eigene Textur `sehens/aue/decal_brutroehren.png` + `_n.png` (Beschreibung unten). Das Decal-Material legt Ferat an.
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| aue_01_biberstau | `SM_Poplar_tree_02` (kein Nanite) | `/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_tree_02` | 6,59 × 7,13 × 13,2 | Erlen-Ersatz am Teichrand (13,2 m, 2–3×) |
+| aue_01_biberstau | `Big_Tree_Birch_01` (kein Nanite) | `/Game/Nature_Set/Meshes/Big_Tree_birch_01` | 8,08 × 7,88 × 11,51 | Erlen-Ersatz, 1× |
+| aue_01_biberstau | `CUE_Water_Stream_I_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue` | – | Plätschern am Überlauf, leise |
+| aue_02_die_alte | `SM_Poplar_tree_06_Optimised` (kein Nanite) | `/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_tree_06_optimised` | 13,85 × 15,52 × 26,56 | Held ×1,3 (Schwarzpappel, 13c) |
+| aue_02_die_alte | `SM_dry_oak_01_D` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_01_D` | 5,3 × 3,97 × 8,99 | Jungeiche/Begleiter (9 m) |
+| aue_02_die_alte | `SM_dry_oak_02_A` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_dry_oak_02_A` | 3,56 × 2,67 × 7,6 | Jungeiche/Begleiter (7,6 m) |
+| aue_02_die_alte | `NS_Sparkling_Noise` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Noise` | – | Pollen im Gegenlicht – Kopie, warmweiß, sehr klein (optional) |
+| aue_02_die_alte | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Wind in der Krone |
+| aue_03_schwalbenwand | `SM_LS_beach_cliff_02_A` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_cliff_02_A` | 16,42 × 6,17 × 6,59 | Lehmwand-Segment 16,4 × 6,6 m (neu aus Coast & Dunes), mit MI_EL_SW_Lehmwand |
+| aue_03_schwalbenwand | `SM_LS_beach_cliff_02_B` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_cliff_02_B` | 23,04 × 8,31 × 6,62 | Lehmwand-Segment 23,0 × 6,6 m |
+| aue_03_schwalbenwand | `SM_LS_beach_cliff_02_C` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_cliff_02_C` | 15,63 × 6,19 × 6,82 | Lehmwand-Segment 15,6 × 6,8 m |
+| aue_03_schwalbenwand | `SM_LS_beach_escarpment_02_B` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_escarpment_02_B` | 11,16 × 2,71 × 1,83 | Abbruchkante oben (11,2 m) |
+| aue_03_schwalbenwand | `NS_feather` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_feather` | – | einzelne Federn am Wandfuß (optional, sehr spärlich) |
+| aue_03_schwalbenwand | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Wind über der Kante (Vogelstimmen fehlen) |
+| aue_04_treibholzwerder | `SM_Poplar_plant_A_00` (kein Nanite) | `/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_A_00` | 2,16 × 1,76 × 3,18 | Weichholz-Jungwuchs (Erlen-Ersatz) |
+| aue_04_treibholzwerder | `SM_Poplar_plant_C_00` (kein Nanite) | `/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_plant_C_00` | 3,24 × 3,1 × 4,18 | Weichholz-Jungwuchs |
+| aue_04_treibholzwerder | `CUE_Water_Stream_VI_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VI_Cue` | – | Rauschen an der Verklausung |
+| aue_05_lilienrinne | `BP_FogBankVolume` (Blueprint) | `/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume` | – | Bodendunst über dem Tümpel (Blueprint aus NiagaraExamples/FX_Fog, kein Niagara-System; optional) |
+| aue_06_mondarm | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0` | 1,19 × 1,26 × 0,29 | Seerosenfeld (Held) |
+| aue_06_mondarm | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0` | 1,28 × 1,34 × 0,01 | flaches Blatt |
+| aue_06_mondarm | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0` | 1,39 × 1,32 × 0,72 | mit Blüte |
+| aue_06_mondarm | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarD_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarD_LOD0` | 1,28 × 1,59 × 0,44 | Seerose |
+| aue_06_mondarm | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarE_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarE_LOD0` | 1,7 × 1,33 × 0,45 | Seerose |
+| aue_06_mondarm | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0` | 1,48 × 1,48 × 0,85 | Seerose, dicht |
+| aue_06_mondarm | `Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarG_LOD0` | `/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarG_LOD0` | 1,26 × 1,11 × 0,68 | Seerose |
+| aue_06_mondarm | `Big_Tree_Willow_02` (kein Nanite) | `/Game/Nature_Set/Meshes/Big_Tree_willow_02` | 21,4 × 21,12 × 21,25 | Ufergehölz-Gürtel 220 m (13c) |
+| aue_06_mondarm | `SM_Poplar_tree_03_Optimised` (kein Nanite) | `/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_Poplar_tree_03_Optimised` | 11,04 × 12,04 × 18,34 | Ufergehölz-Gürtel |
+| aue_06_mondarm | `Big_Tree_Birch_01` (kein Nanite) | `/Game/Nature_Set/Meshes/Big_Tree_birch_01` | 8,08 × 7,88 × 11,51 | Ufergehölz-Gürtel, Erlen-Ersatz |
+| aue_06_mondarm | `BP_FogBankVolume` (Blueprint) | `/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume` | – | Dunst über dem Spiegel (Blueprint, optional) |
+| aue_07_blautopf | `Limestone_Rocks_ubqwdheda_High` | `/Game/Fab/Megascans/3D/Limestone_Rocks_ubqwdheda/StaticMeshes/Limestone_Rocks_ubqwdheda_High` | 0,6 × 0,65 × 0,09 | Kalkschutt am Ufer (nur 0,6 m – Kleinzeug, keine Wand) |
+| aue_07_blautopf | `SM_Fish_Trout` (kein Nanite) | `/Game/Mountain_Environment_Set/Details/Meshes/SM_Fish_Trout` | 0,06 × 0,38 × 0,13 | 2–4 Forellen im klaren Wasser (optional, statisch) |
+| aue_07_blautopf | `CUE_Water_Stream_III_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_III_Cue` | – | Quellrauschen |
+| aue_08_lianenhalle | `NS_leaf` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_leaf` | – | fallende Blätter im Lichtschacht (optional) |
+| aue_08_lianenhalle | `CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue` | – | Wind im Kronendach |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen) | läuft bei Ferat | 03, 04 |
+| Forest Fungi – Mushroom Pack | fehlt (Download-Liste) | 02, 08 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 01, 02, 03, 04, 05, 06, 07, 08 |
+| Free Niagara Particles | im Projekt (/Game/FreeParticle_SoftTofu, CC BY 4.0 → Credits SoftTofuVFX) | 02 |
+| Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor | fehlt (Download-Liste) | 08 |
+| Megascans Limestone Rocks | im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone-Assets + Ancraite „Limestone Rock Set“ werden geladen | 07 |
+| Megascans Rembrandt Water Lily | im Projekt (7 Varianten) | 06 |
+| Megascans Trees: European Black Alder | nicht im Bestand – optionaler Wunsch (C); Ersatz Weiden/Pappeln/Birken | 01, 04, 06 |
+| Nanite Driftwood Props | fehlt (Download-Liste) | 04, 05 |
+| Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle) | fehlt (Download-Liste) | 07 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 05, 06 |
+| Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 08 |
+| Quercus Robur (Stieleiche) – Nanite & Impostor | fehlt (Download-Liste) | 02, 08 |
+
+### Material-Instanzen (6 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|
+| `MI_EL_SW_Lehmwand` | `M_EL_Fels_Sand` | `Toenung` [0,8, 0,64, 0,47, 1], `Sand_Farbe` [0,86, 0,74, 0,56, 1], `Sand_Menge` 0,8, `Sand_Fuss_Weich` 120 | `SM_beach_cliff_02_A`, `SM_beach_cliff_02_B`, `SM_beach_cliff_02_C`, `SM_sandy_slope_01`, `SM_scarp_01`, `SM_LS_beach_cliff_02_A`, `SM_LS_beach_cliff_02_B`, `SM_LS_beach_cliff_02_C` |
+| `MI_EL_SW_Kalk_Moos` | `M_EL_Klippe_RVT` | `Toenung` [0,96, 0,94, 0,87, 1], `Moos_Menge_Akteur` 0,9, `Moos_Farbe` [0,7, 0,88, 0,5, 1] | `SM_big_rock_wall_01`, `SM_big_rock_wall_02`, `SM_big_rock_wall_03`, `SM_HugeMossyForestCliff_01` |
+| `MI_EL_SW_Ufer_Nass` | `M_EL_Fels_MS` | `Nass_Dunkel` 0,75, `Nass_Weich` 25 | SM_SmallStonesPack_*, `SM_flat_rock_02`, `SM_NordicBeachRock_01`, `SM_MossyForestRock_02` |
+| `MI_EL_SW_Weiderich` | `M_EL_Pflanze` | `Farbe` [0,95, 0,45, 0,85, 1], `Variation` 0,4 | `SM_flower_brownray_knapweed_01`, `SM_flower_brownray_knapweed_02` |
+| `MI_EL_SW_Treibholz` | `M_EL_Fels_MS` | `Toenung` [1,3, 1,25, 1,18, 1], `Helligkeit` 1,25 | `SM_LargeFallenTree_01`, `SM_LargeFallenTree_02`, `SM_OldFallenTree_02`, `SM_trunk_01` – nur falls die automatische Megascans-Überschreibung auch Holz über M_EL_Fels_MS führt; sonst entfällt er (Driftwood-Paket ist schon hell) |
+| `MI_EL_SW_Brutroehren` | `M_MS_Decal` | `Opacity Intensity` 1, `Normal Intensity` 1, `Min Roughness` 0,75, `Brightness` 1 | Decal Brutröhren aue_03_schwalbenwand – Texturen: BaseColorTexture = sehens/aue/decal_brutroehren.png (RGBA, Alpha = Deckkraft), NormalTexture = decal_brutroehren_n.png (DirectX/UE). Material legt Ferat an (13c). |
+
+### Decal-Textur Brutröhren (aue_03_schwalbenwand)
+
+- Dateien: `sehens/aue/decal_brutroehren.png` (RGBA 1024², Farbe + Deckkraft im Alpha) und `decal_brutroehren_n.png` (Normal-Map, DirectX-/UE-Konvention, Grün = −dH/dy). Beide sind prozedural erzeugt und nahtlos in X.
+- Inhalt: 52 dunkle, leicht ovale Röhren mit 6–9 cm Breite (Höhe 72–90 % der Breite) in sechs unregelmäßigen, gewellten Reihen. Dazu ausgetretene, hellere Lehmlippen (unten stärker abgenutzt), ein verschmutzter Halo und bei 18 Röhren leichte weiß-graue Kotspuren mit Spritzern nach unten. Außerhalb ist das Decal transparent; die Lehmwand kommt vom Netz.
+- Maßstab: **1 Kachel = 200 × 200 cm** (5,12 px/cm). Decal-Größe `groesse_cm` [30, 200, 200] (Tiefe × Breite × Höhe), für längere Wandstücke mehrere Decals nebeneinander (nahtlos in X) oder Kachelung über `Tiling`.
+- Projektion: senkrecht auf die Wand (Decal-X = Wandnormale), nur im oberen Wanddrittel unter der Abbruchkante; 6–8 Decals je Wand, Abstände unregelmäßig. Projektionstiefe 30 cm, damit die Unebenheiten der Wand mitgenommen werden, aber der Wandfuß darunter frei bleibt.
+- Material: `MI_EL_SW_Brutroehren` auf `M_MS_Decal` (Tabelle oben; Ferat legt es an).

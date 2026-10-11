@@ -222,3 +222,67 @@ Gerechnet mit eigener Dijkstra-Suche (4-m-Raster, 16 Nachbarn, Kante ≤ 25°, n
 
 - Baust du den **Froststeig** (1,3 km + 0,7 km, flach)? Er ist der Schlüssel für alle 8 Frost-Orte.
 - Die Houdini-Reste am Frostsee-Nordufer (`SM_K13_FROSTSEE__*`) werden ausgeblendet?
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Steige** (alle 8 Orte): Froststeig und Südast überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator nach.
+- **Eis/Schnee im Bestand** (frost_01–_06): Presseis, Eiskegel und Schneekappen jetzt mit Megascans Ice Cliff/Rocky Snow Pile/Snow Embankment statt Eiszapfen-Bündeln. Eiszapfen `SM_EISZAPFEN_*` bleiben für Vorhang und Glocken.
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| frost_01_der_eisfall | `vctiegmfa_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_vctiegmfa/Raw/vctiegmfa_tier_0/StaticMeshes/vctiegmfa_tier_0` | 2,51 × 1,95 × 6,42 | Eissäule (Ice Cliff, 6,4 m hoch, ×1,5–3) |
+| frost_01_der_eisfall | `uhprdg2fa_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_uhprdg2fa/Raw/uhprdg2fa_tier_0/StaticMeshes/uhprdg2fa_tier_0` | 6,71 × 1,66 × 6,15 | Eisfall-Fläche |
+| frost_01_der_eisfall | `xfroec0qx_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xfroec0qx/Raw/xfroec0qx_tier_0/StaticMeshes/xfroec0qx_tier_0` | 4,7 × 3,83 × 2,17 | Eiskegel am Fuß (Rocky Snow Pile) |
+| frost_02_frostsee | `uhpocesfa_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_uhpocesfa/Raw/uhpocesfa_tier_0/StaticMeshes/uhpocesfa_tier_0` | 6,89 × 1,79 × 4,46 | Presseisplatten, schräg, 60–80 % versenkt |
+| frost_02_frostsee | `vd5leh0ga_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_vd5leh0ga/Raw/vd5leh0ga_tier_0/StaticMeshes/vd5leh0ga_tier_0` | 8,02 × 2,06 × 2,09 | Presseisrücken (8 m lang) |
+| frost_02_frostsee | `veipbcmcb_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_veipbcmcb/Raw/veipbcmcb_tier_0/StaticMeshes/veipbcmcb_tier_0` | 6,82 × 2,7 × 5,25 | Presseisplatte |
+| frost_02_frostsee | `vd4hbizcb_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_vd4hbizcb/Raw/vd4hbizcb_tier_0/StaticMeshes/vd4hbizcb_tier_0` | 3,83 × 0,55 × 1,59 | kleine Scholle |
+| frost_02_frostsee | `CUE_Ice_Walking_on_ice_I_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_I_Cue` | – | Eisknacken – nur falls ohne Schrittgeräusch (prüfen) |
+| frost_03_eisvorhang | `uhprdg2fa_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_uhprdg2fa/Raw/uhprdg2fa_tier_0/StaticMeshes/uhprdg2fa_tier_0` | 6,71 × 1,66 × 6,15 | Eisglasur hinter den Zapfen |
+| frost_04_raureifhain | `vcwjeh2fa_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_vcwjeh2fa/Raw/vcwjeh2fa_tier_0/StaticMeshes/vcwjeh2fa_tier_0` | 1,68 × 1,04 × 0,28 | kleine Schneewehe (1,7 m) |
+| frost_04_raureifhain | `xemmbh2qx_tier_0` | `/Game/Fab/Megascans/3D/Snow_Pile_xemmbh2qx/Raw/xemmbh2qx_tier_0/StaticMeshes/xemmbh2qx_tier_0` | 1,3 × 0,88 × 0,49 | Schneehaufen |
+| frost_04_raureifhain | `xftjadtab_tier_0` | `/Game/Fab/Megascans/3D/Snow_Pile_xftjadtab/Raw/xftjadtab_tier_0/StaticMeshes/xftjadtab_tier_0` | 1,78 × 1,52 × 0,47 | Schneehaufen |
+| frost_04_raureifhain | `uhwifglfa_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_uhwifglfa/Raw/uhwifglfa_tier_0/StaticMeshes/uhwifglfa_tier_0` | 6,01 × 1,77 × 0,92 | Schneewehe lang |
+| frost_04_raureifhain | `NS_Sparkling` (Niagara) | `/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling` | – | feines Glitzern – Kopie, weiß, sehr klein (optional) |
+| frost_05_blockgletscher | `vcykbjsva_tier_0` | `/Game/Fab/Megascans/3D/Snowy_Rocks_Pile_vcykbjsva/Raw/vcykbjsva_tier_0/StaticMeshes/vcykbjsva_tier_0` | 6,49 × 3,15 × 1,5 | Schnee zwischen Blöcken |
+| frost_05_blockgletscher | `xe2obbqqx_tier_0` | `/Game/Fab/Megascans/3D/Snow_Pile_xe2obbqqx/Raw/xe2obbqqx_tier_0/StaticMeshes/xe2obbqqx_tier_0` | 2,08 × 2,07 × 0,52 | Eis/Schnee in Stirnlücken |
+| frost_06_eiskueste | `xemjafmqx_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xemjafmqx/Raw/xemjafmqx_tier_0/StaticMeshes/xemjafmqx_tier_0` | 8,66 × 7,96 × 2,56 | Eiskegel (Rocky Snow Pile 8,7 m) |
+| frost_06_eiskueste | `xfwgbg0qx_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xfwgbg0qx/Raw/xfwgbg0qx_tier_0/StaticMeshes/xfwgbg0qx_tier_0` | 7,32 × 4,25 × 1,04 | Eiskappe |
+| frost_06_eiskueste | `veipbcmcb_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_veipbcmcb/Raw/veipbcmcb_tier_0/StaticMeshes/veipbcmcb_tier_0` | 6,82 × 2,7 × 5,25 | Eiskante am Ufer |
+| frost_08_glockenbach | `vcsibaiga_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_vcsibaiga/Raw/vcsibaiga_tier_0/StaticMeshes/vcsibaiga_tier_0` | 4,62 × 2,79 × 0,54 | Schneekragen am Ufer |
+| frost_08_glockenbach | `CUE_Water_Stream_I_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue` | – | Bachklang unter dem Eis |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Arctic Cliffs | fehlt (Download-Liste) | 02 |
+| Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen) | läuft bei Ferat | 06, 07 |
+| CryoGen: Native Procedural Ice Architecture | fehlt (Download-Liste) | 01, 03, 07, 08 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 02, 06, 08 |
+| Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile | im Projekt (32 Netze, /Game/Fab/Megascans/3D) | 01, 02, 03, 04, 05, 06 |
+| Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 01 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 06 |
+| Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 04 |
+
+### Fehlt weiterhin
+
+- Raureif-/Schneebäume: kein Paket gefunden (Websuche 11.10.: nur die Szene „Windy Winter Forest“, nicht empfohlen) → `MI_EL_SW_Raureif` auf `SM_Forest_pine_06/07` bleibt.
+- Fontänen der Eisvulkane (frost_06), Schneefall (frost_04): kein System im Bestand.
+- Eisglocken/Frostblumen: CryoGen (B) oder Eiszapfen verkleinert.
+
+### Material-Instanzen (3 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|
+| `MI_EL_SW_Raureif` | `M_EL_Pflanze` | `Farbe` [0,86, 0,91, 0,97, 1], `Helligkeit` 1,45, `Wind_Staerke` 0,05 | `SM_Forest_pine_06`, `SM_Forest_pine_07`, `SM_dwarf_pine_big_01`, `SM_dwarf_pine_small_01`, `SM_rough_horsetail_01`, `SM_wk2oaeyqx_VarB` |
+| `MI_EL_SW_Schwarzeis` | `M_EL_Eis4` | `Eis_Farbe` [0,06, 0,12, 0,2, 1], `Eis_Tief_Farbe` [0,01, 0,02, 0,05, 1], `Schnee_Menge` 0,05, `Eis_Spekular` 0,8 | Frostsee-Blasenbucht, Blasensee am Blockgletscher, Frostblumen-Lagune |
+| `MI_EL_SW_Spritzeis` | `M_EL_Eis4` | `Eis_Farbe` [0,7, 0,85, 0,97, 1], `Schnee_Menge` 0,45, `Eis_Rau_Max` 0,3 | `SM_EISZAPFEN_1`, `SM_EISZAPFEN_4`, `SM_EISZAPFEN_9`, Eisvorhang, Eisglocken, Eisvulkane |

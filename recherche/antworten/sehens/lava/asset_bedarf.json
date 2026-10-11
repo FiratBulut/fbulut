@@ -8,13 +8,15 @@
     "paket": "Free City & Nature Sounds",
     "prioritaet": "C",
     "wofuer": "Windgrundklang offenes Lavafeld",
-    "ersatz_bestand": "kein Klang (stumm)"
+    "ersatz_bestand": "kein Klang (stumm)",
+    "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
    },
    {
     "paket": "Megascans Icelandic Sand With Pebbles",
     "prioritaet": "C",
     "wofuer": "Schwarzer Kies im Schuttsaum der Front",
-    "ersatz_bestand": "SM_SmallStonesPack_08…14 + Lage Lavasand"
+    "ersatz_bestand": "SM_SmallStonesPack_08…14 + Lage Lavasand",
+    "status_13b": "fehlt (Download-Liste)"
    }
   ],
   "lava_02_schwefelgrund": [
@@ -22,25 +24,29 @@
     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
     "prioritaet": "A",
     "wofuer": "Dampf-/Rauch-Niagara fuer Dampfschlot und Fumarolen, Hitzeflimmern",
-    "ersatz_bestand": "lokaler_nebel (2x) + MI_TileableLeakage als Krusten"
+    "ersatz_bestand": "lokaler_nebel (2x) + MI_TileableLeakage als Krusten",
+    "status_13b": "läuft bei Ferat"
    },
    {
     "paket": "Niagara Examples Pack",
     "prioritaet": "A",
     "wofuer": "Dampfsaeule (Vorlage Smoke/Steam), falls Lava-Set-Effekte zu 'vulkanisch' sind",
-    "ersatz_bestand": "lokaler_nebel"
+    "ersatz_bestand": "lokaler_nebel",
+    "status_13b": "im Projekt (/Game/NiagaraExamples)"
    },
    {
     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
     "prioritaet": "B",
     "wofuer": "Zischen/Brodeln der Fumarolen und Schwefelquellen",
-    "ersatz_bestand": "MetaSound aus Rauschen + Blubberimpulsen"
+    "ersatz_bestand": "MetaSound aus Rauschen + Blubberimpulsen",
+    "status_13b": "fehlt (Download-Liste)"
    },
    {
     "paket": "Realistic Starter VFX Pack Vol 2",
     "prioritaet": "C",
     "wofuer": "Dampf-Texturen (Cascade, nur Texturquelle)",
-    "ersatz_bestand": "-"
+    "ersatz_bestand": "-",
+    "status_13b": "gestrichen (Dampf jetzt NS_Smoke_Plume/NS_Chimney_Smoke)"
    }
   ],
   "lava_03_kraterkinder": [
@@ -48,19 +54,22 @@
     "paket": "Megascans Icelandic Sand With Pebbles",
     "prioritaet": "C",
     "wofuer": "Schlackensand/Kiesel an den Kegelflanken und am Teichufer",
-    "ersatz_bestand": "Lage Lavasand + SM_SmallStonesPack_*"
+    "ersatz_bestand": "Lage Lavasand + SM_SmallStonesPack_*",
+    "status_13b": "fehlt (Download-Liste)"
    },
    {
     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
     "prioritaet": "B",
     "wofuer": "Nassband-/Kiesel-Decals am Kraterteich",
-    "ersatz_bestand": "MI_Leakage_01…13"
+    "ersatz_bestand": "MI_Leakage_01…13",
+    "status_13b": "läuft bei Ferat"
    },
    {
     "paket": "Free City & Nature Sounds",
     "prioritaet": "C",
     "wofuer": "Wasser/Voegel an der Aue (Grundklang)",
-    "ersatz_bestand": "-"
+    "ersatz_bestand": "-",
+    "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
    }
   ],
   "lava_04_roehrenfenster": [
@@ -68,13 +77,15 @@
     "paket": "Cave Ambience",
     "prioritaet": "B",
     "wofuer": "Tropfen/Hall im Roehrenmaul",
-    "ersatz_bestand": "MetaSound Tropfen"
+    "ersatz_bestand": "MetaSound Tropfen",
+    "status_13b": "fehlt (Download-Liste)"
    },
    {
     "paket": "Niagara Examples Pack",
     "prioritaet": "A",
     "wofuer": "Kaltluft-Dunst im Schacht (Mist Card)",
-    "ersatz_bestand": "lokaler_nebel"
+    "ersatz_bestand": "lokaler_nebel",
+    "status_13b": "im Projekt (/Game/NiagaraExamples)"
    }
   ],
   "lava_05_klare_spalte": [
@@ -82,13 +93,15 @@
     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
     "prioritaet": "B",
     "wofuer": "Nass-/Kieseldecals an der Wasserlinie in der Spalte",
-    "ersatz_bestand": "MI_Leakage_*, MI_TileableLeakage_*"
+    "ersatz_bestand": "MI_Leakage_*, MI_TileableLeakage_*",
+    "status_13b": "läuft bei Ferat"
    },
    {
     "paket": "Free City & Nature Sounds",
     "prioritaet": "C",
     "wofuer": "Wind ueber der Spalte, Tropfen",
-    "ersatz_bestand": "-"
+    "ersatz_bestand": "-",
+    "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
    }
   ],
   "lava_06_kraterreihe": [
@@ -96,13 +109,15 @@
     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
     "prioritaet": "A",
     "wofuer": "Restdampf im Hauptkrater (dezent), Hitzeflimmern",
-    "ersatz_bestand": "lokaler_nebel klein"
+    "ersatz_bestand": "lokaler_nebel klein",
+    "status_13b": "läuft bei Ferat"
    },
    {
     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
     "prioritaet": "B",
     "wofuer": "Wind/Grollen am Kraterrand",
-    "ersatz_bestand": "-"
+    "ersatz_bestand": "-",
+    "status_13b": "fehlt (Download-Liste)"
    }
   ],
   "lava_07_basaltorgel": [
@@ -110,7 +125,8 @@
     "paket": "Basalt Columns and Rocks 21 Types – AssetKit PBR",
     "prioritaet": "A",
     "wofuer": "Saeulen, Saeulenstuempfe und Truemmer fuer die Orgelwand (21 Teile)",
-    "ersatz_bestand": "SM_lava_wall_04/05 senkrecht gereiht + SM_IcelandicLavaSpire_01/03 (keine echten Sechsecke, deutlich schwaecher)"
+    "ersatz_bestand": "SM_lava_wall_04/05 senkrecht gereiht + SM_IcelandicLavaSpire_01/03 (keine echten Sechsecke, deutlich schwaecher)",
+    "status_13b": "im Projekt (/Game/Basalt/meshes, 22 Netze, kein Nanite)"
    }
   ],
   "lava_08_glutauge": [
@@ -118,19 +134,22 @@
     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
     "prioritaet": "A",
     "wofuer": "Lava-Material (Water-Plugin) fuer die Glut im Schacht, 7 Glut-Decals mit Emission, Blasen/Hitzeflimmern",
-    "ersatz_bestand": "Punktlicht orange + emissive MI auf SM_lava_s_rock_* im Schacht (schwach)"
+    "ersatz_bestand": "Punktlicht orange + emissive MI auf SM_lava_s_rock_* im Schacht (schwach)",
+    "status_13b": "läuft bei Ferat"
    },
    {
     "paket": "Ultimate Niagara Environmental VFX",
     "prioritaet": "B",
     "wofuer": "Glutfunken/Asche ueber dem Fenster (Flame Dust)",
-    "ersatz_bestand": "keiner"
+    "ersatz_bestand": "keiner",
+    "status_13b": "fehlt (Download-Liste)"
    },
    {
     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
     "prioritaet": "B",
     "wofuer": "Lava-Brodeln (Lava-Ambiences)",
-    "ersatz_bestand": "MetaSound"
+    "ersatz_bestand": "MetaSound",
+    "status_13b": "fehlt (Download-Liste)"
    }
   ]
  },
@@ -229,10 +248,11 @@
     ]
    },
    "fuer": [
-    "SM_lava_wall_01",
-    "SM_lava_wall_02",
+    "SM_lava_wall_01 (nach 13d)",
+    "SM_lava_wall_02 (nach 13d)",
     "SM_lava_b_rock_01",
-    "SM_lava_m_rock_01"
+    "SM_lava_m_rock_01",
+    "Basalt_Basalt_Cliff_Rock_A_SM"
    ]
   },
   {
@@ -251,7 +271,7 @@
    "fuer": [
     "SM_lava_m_rock_02",
     "SM_lava_s_rock_03",
-    "SM_lava_wall_07"
+    "SM_lava_wall_07 (nach 13d)"
    ]
   },
   {
@@ -311,10 +331,13 @@
     ]
    },
    "fuer": [
-    "SM_lava_wall_04",
-    "SM_lava_wall_05",
-    "Basalt Columns (nach Download)"
-   ]
+    "Basalt_Basalt_Pillars_Wall_SM",
+    "Basalt_Basalt_Pillars_WallSlope_SM",
+    "Basalt_Basalt_Pillars_WallOverhang_SM",
+    "Basalt_Basalt_Pillars_Cluster_High_SM",
+    "Basalt_Basalt_Cliff_SM"
+   ],
+   "hinweis": "MI_EL_SW_Basalt_Saeule nur, falls das Basalt-Originalmaterial zu frisch/glatt wirkt; dann Albedo/Normal/ORM aus /Game/Basalt in die Instanz übernehmen (sonst zeigt M_EL_Klippe_RVT die Nordklippen-Textur)."
   },
   {
    "name": "MI_EL_SW_Lava_Glasur",
@@ -330,9 +353,8 @@
     ]
    },
    "fuer": [
-    "SM_lava_wall_06",
-    "SM_lava_wall_07",
-    "SM_lava_wall_08"
+    "Basalt_Basalt_Cliff_Rock_B_SM",
+    "SM_lava_wall_06/07/08 (nach 13d)"
    ]
   }
  ],
@@ -413,5 +435,454 @@
    "Tundra Icelandic Rock Cluster (Quixel Megascans)"
   ],
   "hinweis": "lava_06-08 brauchen ihre Pakete nur, wenn der Kratersteig gebaut wird; Basalt Columns (ca. 11 €) dann A, sonst entbehrlich."
+ },
+ "abgleich_13b_13c": {
+  "stand": "2026-10-11",
+  "quelle": "vorlagen/daten/netze.csv (1 692 Netze), inventar_extra.json (73 Niagara, 15 Effekt-Blueprints, 46 Cues); auftraege/13b, 13c",
+  "vorhanden": {
+   "lava_01_schwarze_mauer": [
+    {
+     "netz": "Basalt_Basalt_Cliff_Rock_A_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_A_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      8.34,
+      5.07,
+      5.63
+     ],
+     "nanite": false,
+     "einsatz": "Wandschollen-Ersatz für SM_lava_wall_01/02/03/09 (bis 13d)"
+    },
+    {
+     "netz": "Basalt_Basalt_Rock_B_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_B_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.17,
+      1.52,
+      0.78
+     ],
+     "nanite": false,
+     "einsatz": "Schuttsaum"
+    }
+   ],
+   "lava_02_schwefelgrund": [
+    {
+     "effekt": "NS_Smoke_Plume",
+     "pfad": "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
+     "typ": "niagara",
+     "einsatz": "Dampfsäule am Dampfschlot",
+     "optional": true
+    },
+    {
+     "effekt": "NS_Chimney_Smoke",
+     "pfad": "/Game/NiagaraExamples/FX_Smoke/NS_Chimney_Smoke",
+     "typ": "niagara",
+     "einsatz": "6–9 kleine Fumarolenfahnen (Kopie, weiß-grau, dünn)",
+     "optional": true
+    }
+   ],
+   "lava_03_kraterkinder": [
+    {
+     "klang": "CUE_Water_Stream_II_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
+     "einsatz": "Aue-Bach dahinter (Grundklang)"
+    }
+   ],
+   "lava_04_roehrenfenster": [
+    {
+     "netz": "Basalt_Basalt_Pillars_WallOverhang_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallOverhang_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.62,
+      0.98,
+      2.55
+     ],
+     "nanite": false,
+     "einsatz": "Deckenlippe kopfüber (Ersatz für SM_lava_wall_01/02/09 bis 13d)"
+    },
+    {
+     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_B_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      7.49,
+      5.41,
+      1.52
+     ],
+     "nanite": false,
+     "einsatz": "flache Deckenplatte kopfüber"
+    },
+    {
+     "effekt": "BP_FogBankCard",
+     "pfad": "/Game/NiagaraExamples/FX_Fog/BP_FogBankCard",
+     "typ": "blueprint (kein Niagara-System)",
+     "einsatz": "Kaltluftdunst im Schacht (Mist Card, Blueprint)",
+     "optional": true
+    },
+    {
+     "klang": "CUE_Rain_Dropping_on_various_textures_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Rain_Dropping_on_various_textures_Cue",
+     "einsatz": "Tropfen im Röhrenmaul (prüfen, ob es nach Tropfen und nicht nach Regen klingt)"
+    }
+   ],
+   "lava_05_klare_spalte": [
+    {
+     "netz": "Basalt_Basalt_Pillars_Wall_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_Wall_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.61,
+      0.76,
+      2.55
+     ],
+     "nanite": false,
+     "einsatz": "Spaltenwände senkrecht gereiht (statt SM_lava_wall_04/05)"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillars_WallSlope_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallSlope_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      2.44,
+      1.55,
+      3.02
+     ],
+     "nanite": false,
+     "einsatz": "Spaltenwand schräg"
+    }
+   ],
+   "lava_06_kraterreihe": [
+    {
+     "effekt": "NS_Chimney_Smoke",
+     "pfad": "/Game/NiagaraExamples/FX_Smoke/NS_Chimney_Smoke",
+     "typ": "niagara",
+     "einsatz": "Restdampf im Hauptkrater, dezent",
+     "optional": true
+    }
+   ],
+   "lava_07_basaltorgel": [
+    {
+     "netz": "Basalt_Basalt_Pillars_Wall_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_Wall_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.61,
+      0.76,
+      2.55
+     ],
+     "nanite": false,
+     "einsatz": "Orgelwand-Modul ×3–8"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillars_WallSlope_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallSlope_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      2.44,
+      1.55,
+      3.02
+     ],
+     "nanite": false,
+     "einsatz": "Orgelwand schräg"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillars_WallOverhang_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallOverhang_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.62,
+      0.98,
+      2.55
+     ],
+     "nanite": false,
+     "einsatz": "Orgelwand mit Überhang"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillars_Cluster_High_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_Cluster_High_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.76,
+      0.79,
+      2.62
+     ],
+     "nanite": false,
+     "einsatz": "Säulenbündel hoch"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillars_Cluster_Low_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_Cluster_Low_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.09,
+      0.93,
+      0.62
+     ],
+     "nanite": false,
+     "einsatz": "Säulenbündel niedrig (Stümpfe)"
+    },
+    {
+     "netz": "Basalt_Basalt_Cliff_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      8.61,
+      5.31,
+      6.02
+     ],
+     "nanite": false,
+     "einsatz": "Plateaukante ×3–4"
+    },
+    {
+     "netz": "Basalt_Basalt_Cluster_A_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cluster_A_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      3.43,
+      3.83,
+      3.21
+     ],
+     "nanite": false,
+     "einsatz": "Felsgruppe am Fuß"
+    },
+    {
+     "netz": "Basalt_Basalt_Cluster_A_Rocks_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cluster_A_Rocks_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      3.4,
+      3.2,
+      3.09
+     ],
+     "nanite": false,
+     "einsatz": "Felsgruppe, Schutt"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_A_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_A_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.29,
+      0.25,
+      0.15
+     ],
+     "nanite": false,
+     "einsatz": "Säulenstumpf"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_B_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_B_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.29,
+      0.26,
+      0.74
+     ],
+     "nanite": false,
+     "einsatz": "Säule"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_C_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_C_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.29,
+      0.26,
+      0.91
+     ],
+     "nanite": false,
+     "einsatz": "Säule"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_D_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_D_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.29,
+      0.26,
+      2.63
+     ],
+     "nanite": false,
+     "einsatz": "Säule lang (2,6 m → ×8 = 21 m)"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_Variance_A_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_A_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.28,
+      0.27,
+      0.22
+     ],
+     "nanite": false,
+     "einsatz": "Säulenstumpf"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_Variance_B_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_B_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.3,
+      0.32,
+      0.64
+     ],
+     "nanite": false,
+     "einsatz": "Säule"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_Variance_C_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_C_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.24,
+      0.27,
+      1.31
+     ],
+     "nanite": false,
+     "einsatz": "Säule"
+    },
+    {
+     "netz": "Basalt_Basalt_Pillar_Variance_D_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_D_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.26,
+      0.29,
+      2.28
+     ],
+     "nanite": false,
+     "einsatz": "Säule lang"
+    },
+    {
+     "netz": "Basalt_Basalt_Rock_A_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_A_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      0.81,
+      0.86,
+      0.67
+     ],
+     "nanite": false,
+     "einsatz": "Block"
+    },
+    {
+     "netz": "Basalt_Basalt_Rock_B_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_B_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.17,
+      1.52,
+      0.78
+     ],
+     "nanite": false,
+     "einsatz": "Block"
+    },
+    {
+     "netz": "Basalt_Basalt_Rock_C_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_C_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      1.31,
+      1.19,
+      1.67
+     ],
+     "nanite": false,
+     "einsatz": "Block"
+    },
+    {
+     "netz": "Basalt_Basalt_Rock_D_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_D_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      2.1,
+      2.29,
+      1.36
+     ],
+     "nanite": false,
+     "einsatz": "Block"
+    },
+    {
+     "netz": "Basalt_Basalt_Cliff_Rock_A_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_A_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      8.34,
+      5.07,
+      5.63
+     ],
+     "nanite": false,
+     "einsatz": "Wandblock"
+    },
+    {
+     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_B_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      7.49,
+      5.41,
+      1.52
+     ],
+     "nanite": false,
+     "einsatz": "Platte"
+    }
+   ],
+   "lava_08_glutauge": [
+    {
+     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_B_SM",
+     "paket": "Basalt",
+     "masse_m": [
+      7.49,
+      5.41,
+      1.52
+     ],
+     "nanite": false,
+     "einsatz": "Krustenplatten liegend (statt SM_lava_wall_06/07/08 bis 13d)"
+    },
+    {
+     "effekt": "NS_Spark_Continuous",
+     "pfad": "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous",
+     "typ": "niagara",
+     "einsatz": "Glutfunken über dem Fenster – Kopie, wenige, langsam, orange (optional)",
+     "optional": true
+    }
+   ]
+  },
+  "pakete_status": {
+   "Basalt Columns and Rocks 21 Types – AssetKit PBR": "im Projekt (/Game/Basalt/meshes, 22 Netze, kein Nanite)",
+   "Cave Ambience": "fehlt (Download-Liste)",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "läuft bei Ferat",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt (Download-Liste)",
+   "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
+   "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)": "läuft bei Ferat",
+   "Megascans Icelandic Sand With Pebbles": "fehlt (Download-Liste)",
+   "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
+   "Realistic Starter VFX Pack Vol 2": "gestrichen (Dampf jetzt NS_Smoke_Plume/NS_Chimney_Smoke)",
+   "Ultimate Niagara Environmental VFX": "fehlt (Download-Liste)"
+  },
+  "entscheidungen_13c": [
+   {
+    "thema": "Kratersteig bauen",
+    "orte": "lava_06_kraterreihe, lava_07_basaltorgel, lava_08_glutauge",
+    "umsetzung": "Ja (13c), damit hat das Lava-Biom 8 Orte. Den Pfadverlauf überführt ein anderer Agent nach `standorte.json` (`pfade`, Schema in `skripte/sehens_lib/README.md`)."
+   },
+   {
+    "thema": "Basaltorgel mit /Game/Basalt",
+    "orte": "lava_07_basaltorgel",
+    "umsetzung": "Das Paket ist gekauft und im Projekt (22 Netze, **kein Nanite**). Säulen haben 0,29 m Querschnitt und 0,15–2,6 m Höhe. Orgelwand aus `Basalt_Basalt_Pillars_Wall_SM`/`_WallSlope_SM`/`_WallOverhang_SM` und `Basalt_Basalt_Pillars_Cluster_High_SM` in Gruppen, Skalierung 3–8× (Säulen dann 0,9–2,3 m). Davor Säulenstümpfe `Basalt_Basalt_Pillar_A–D_SM`/`_Variance_A–D_SM` und Blöcke `Basalt_Basalt_Rock_A–D_SM`. Die Kante bildet `Basalt_Basalt_Cliff_SM` (8,6 × 5,3 × 6,0 m, ×3–4). Weil die Netze nicht Nanite sind, die Akteure zählen (≤ 80) und lieber wenige große Stücke setzen."
+   },
+   {
+    "thema": "Wegabstand 324/393 m",
+    "orte": "lava_04_roehrenfenster, lava_05_klare_spalte",
+    "umsetzung": "In Ordnung (13c)."
+   }
+  ],
+  "fehlt_weiter": [
+   "SM_lava_wall_01 … SM_lava_wall_09 (Lava & Volcano) stehen **nicht mehr in netze.csv** (1 692 Netze, Stand 13:25). Vermutlich hängt das an der laufenden Nachladung von Lava & Volcano. Der Katalog nennt sie weiter, bis das Inventar 13d da ist. Bis dahin gilt im Plan der Ersatz aus `/Game/Basalt` (siehe Tabelle) bzw. `SM_lava_b_rock_*`/`SM_lava_m_rock_*`.",
+   "Hitzeflimmern, Lava-Material, 7 Glut-Decals: kommen mit Lava & Volcano (läuft bei Ferat)."
+  ],
+  "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
  }
 }

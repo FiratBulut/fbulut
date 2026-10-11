@@ -60,35 +60,40 @@
      "prioritaet": "A",
      "wofuer": "Séracwand und Portal aus echtem Eis (Ice Cliff), Kalbungsbrocken (Rocky Snow Pile)",
      "ersatz_bestand": "SM_EISZAPFEN_8/9 gebündelt + Geländestufe, Material M_EL_Eis4",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
+     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Arctic Cliffs",
      "prioritaet": "B",
      "wofuer": "große Eisplatten/Eisstücke für die Séracs",
      "ersatz_bestand": "wie oben",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Niagara Examples Pack",
      "prioritaet": "B",
      "wofuer": "kalter Nebel im Portal, Tropfwasser",
      "ersatz_bestand": "lokaler_nebel ohne Niagara",
-     "preis_laut_liste": "kostenlos"
+     "preis_laut_liste": "kostenlos",
+     "status_13b": "im Projekt (/Game/NiagaraExamples)"
     },
     {
      "paket": "Cave Ambience",
      "prioritaet": "C",
      "wofuer": "Klang in der Eishöhle",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)"
+     "preis_laut_liste": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
      "prioritaet": "C",
      "wofuer": "Gletscherbach-Schaum am Portal",
      "ersatz_bestand": "MI_EL_Wasserfall_Aufprall",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     }
    ]
   },
@@ -141,14 +146,16 @@
      "prioritaet": "A",
      "wofuer": "Altschnee-Kegel (Snow Embankment, Huge Snow Hill)",
      "ersatz_bestand": "Geländekegel + Lage Schnee",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
+     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "C",
      "wofuer": "Wind, Tropfen",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -200,14 +207,16 @@
      "prioritaet": "C",
      "wofuer": "Uferkies hell",
      "ersatz_bestand": "SM_BeachSandWithPebbles_01/02",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "C",
      "wofuer": "Wind, Wasser",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -251,7 +260,8 @@
      "prioritaet": "C",
      "wofuer": "Stille/Wind in der Senke",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -297,21 +307,24 @@
      "prioritaet": "A",
      "wofuer": "Wächte (Snow Embankment gekippt), Wächtenbruch (Rocky Snow Pile)",
      "ersatz_bestand": "Geländewulst + Lage Schnee + SM_EISZAPFEN_6/9",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
+     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
      "prioritaet": "B",
      "wofuer": "Schneefahne an der Wächte",
      "ersatz_bestand": "ohne Effekt",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
      "prioritaet": "C",
      "wofuer": "Wind am Grat",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)"
+     "preis_laut_liste": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -363,14 +376,16 @@
      "prioritaet": "B",
      "wofuer": "Kaskaden zwischen den Töpfen",
      "ersatz_bestand": "MI_EL_Wasserfall_Kaskade",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "B",
      "wofuer": "Rauschen in der Klamm",
      "ersatz_bestand": "kein Klang",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -413,14 +428,16 @@
      "prioritaet": "B",
      "wofuer": "Firnfeld-Ränder, Schnee am Fels (Rocky Snow Pile)",
      "ersatz_bestand": "Lage Schnee + M_EL_Fels_Auflage",
-     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)"
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € je Asset (ungeprüft)",
+     "status_13b": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)"
     },
     {
      "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
      "prioritaet": "C",
      "wofuer": "Schneefahne",
      "ersatz_bestand": "ohne Effekt",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   },
@@ -452,7 +469,8 @@
      "prioritaet": "C",
      "wofuer": "Decals für Schrammen/Flechten",
      "ersatz_bestand": "MI_TileableLeakage_02 gestreckt",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     }
    ]
   }
@@ -581,5 +599,335 @@
    "kamera": "gletscher_05_die_waechte_fern",
    "grund": "Grat vom Frostlager aus: liest sich die Kante?"
   }
- ]
+ ],
+ "abgleich_13b_13c": {
+  "stand": "2026-10-11",
+  "quelle": "vorlagen/daten/netze.csv (1 692 Netze), inventar_extra.json (73 Niagara, 15 Effekt-Blueprints, 46 Cues); auftraege/13b, 13c",
+  "vorhanden": {
+   "gletscher_01_gletschertor": [
+    {
+     "netz": "uhprdg2fa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_uhprdg2fa/Raw/uhprdg2fa_tier_0/StaticMeshes/uhprdg2fa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.71,
+      1.66,
+      6.15
+     ],
+     "nanite": true,
+     "einsatz": "Séracwand (Ice Cliff, 6,2 m hoch, ×2,5–4)"
+    },
+    {
+     "netz": "veipbcmcb_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_veipbcmcb/Raw/veipbcmcb_tier_0/StaticMeshes/veipbcmcb_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.82,
+      2.7,
+      5.25
+     ],
+     "nanite": true,
+     "einsatz": "Séracwand"
+    },
+    {
+     "netz": "uhpocesfa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_uhpocesfa/Raw/uhpocesfa_tier_0/StaticMeshes/uhpocesfa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.89,
+      1.79,
+      4.46
+     ],
+     "nanite": true,
+     "einsatz": "Séracwand, Portal-Laibung"
+    },
+    {
+     "netz": "vdsrdd0fa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Large_Ice_Cliff_vdsrdd0fa/Raw/vdsrdd0fa_tier_0/StaticMeshes/vdsrdd0fa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      5.02,
+      2.51,
+      4.15
+     ],
+     "nanite": true,
+     "einsatz": "Large Ice Cliff, Portalgewölbe"
+    },
+    {
+     "netz": "vctiegmfa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vctiegmfa/Raw/vctiegmfa_tier_0/StaticMeshes/vctiegmfa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      2.51,
+      1.95,
+      6.42
+     ],
+     "nanite": true,
+     "einsatz": "Eispfeiler am Portal (6,4 m hoch)"
+    },
+    {
+     "netz": "xfroec0qx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xfroec0qx/Raw/xfroec0qx_tier_0/StaticMeshes/xfroec0qx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      4.7,
+      3.83,
+      2.17
+     ],
+     "nanite": true,
+     "einsatz": "Kalbungsbrocken (Rocky Snow Pile)"
+    },
+    {
+     "netz": "vcytca0fa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Rocky_Snow_Pile_vcytca0fa/Raw/vcytca0fa_tier_0/StaticMeshes/vcytca0fa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      4.07,
+      2.51,
+      0.85
+     ],
+     "nanite": true,
+     "einsatz": "Kalbungsbrocken"
+    },
+    {
+     "effekt": "BP_FogBankVolume",
+     "pfad": "/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume",
+     "typ": "blueprint (kein Niagara-System)",
+     "einsatz": "kalter Nebel im Portal (Blueprint, optional)",
+     "optional": true
+    }
+   ],
+   "gletscher_02_lawinenkegel": [
+    {
+     "netz": "vdspdazqa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Huge_Snow_Hill_vdspdazqa/Raw/vdspdazqa_tier_0/StaticMeshes/vdspdazqa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      15.24,
+      7.35,
+      1.76
+     ],
+     "nanite": true,
+     "einsatz": "Altschnee-Kegel (Huge Snow Hill 15 m)"
+    },
+    {
+     "netz": "uhvjae0fa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhvjae0fa/Raw/uhvjae0fa_tier_0/StaticMeshes/uhvjae0fa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.61,
+      4.52,
+      0.65
+     ],
+     "nanite": true,
+     "einsatz": "Schneezunge (Snow Embankment)"
+    },
+    {
+     "netz": "uhuldf3fa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhuldf3fa/Raw/uhuldf3fa_tier_0/StaticMeshes/uhuldf3fa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.72,
+      2.21,
+      1.05
+     ],
+     "nanite": true,
+     "einsatz": "Schneezunge"
+    },
+    {
+     "netz": "vcykbjsva_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snowy_Rocks_Pile_vcykbjsva/Raw/vcykbjsva_tier_0/StaticMeshes/vcykbjsva_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.49,
+      3.15,
+      1.5
+     ],
+     "nanite": true,
+     "einsatz": "Schnee mit Steinen (Snowy Rocks Pile)"
+    },
+    {
+     "netz": "xgxhcjxqx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Pile_xgxhcjxqx/Raw/xgxhcjxqx_tier_0/StaticMeshes/xgxhcjxqx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      7.17,
+      6.5,
+      2.13
+     ],
+     "nanite": true,
+     "einsatz": "Schneehaufen (Snow Pile 7 m)"
+    }
+   ],
+   "gletscher_03_moraenensee": [
+    {
+     "netz": "xemmbh2qx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Pile_xemmbh2qx/Raw/xemmbh2qx_tier_0/StaticMeshes/xemmbh2qx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      1.3,
+      0.88,
+      0.49
+     ],
+     "nanite": true,
+     "einsatz": "Altschneerest am Ufer (optional)"
+    },
+    {
+     "klang": "CUE_Water_Stream_II_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
+     "einsatz": "Zufluss, leise"
+    }
+   ],
+   "gletscher_04_toteisloch": [
+    {
+     "netz": "vd4hbizcb_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vd4hbizcb/Raw/vd4hbizcb_tier_0/StaticMeshes/vd4hbizcb_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      3.83,
+      0.55,
+      1.59
+     ],
+     "nanite": true,
+     "einsatz": "freigelegte Toteiskante (Ice Cliff klein, optional)"
+    }
+   ],
+   "gletscher_05_die_waechte": [
+    {
+     "netz": "xelnbaeqx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_xelnbaeqx/Raw/xelnbaeqx_tier_0/StaticMeshes/xelnbaeqx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      9.05,
+      0.32,
+      1.23
+     ],
+     "nanite": true,
+     "einsatz": "Wächtenlippe (Snow Embankment 9,1 × 0,3 m, gekippt)"
+    },
+    {
+     "netz": "uhqffeyfa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhqffeyfa/Raw/uhqffeyfa_tier_0/StaticMeshes/uhqffeyfa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      4.66,
+      2.13,
+      0.98
+     ],
+     "nanite": true,
+     "einsatz": "Wächte"
+    },
+    {
+     "netz": "vctldcnfa_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_vctldcnfa/Raw/vctldcnfa_tier_0/StaticMeshes/vctldcnfa_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.28,
+      2.21,
+      0.88
+     ],
+     "nanite": true,
+     "einsatz": "Wächte"
+    },
+    {
+     "netz": "xemjafmqx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xemjafmqx/Raw/xemjafmqx_tier_0/StaticMeshes/xemjafmqx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      8.66,
+      7.96,
+      2.56
+     ],
+     "nanite": true,
+     "einsatz": "Wächtenbruch (Rocky Snow Pile 8,7 m)"
+    },
+    {
+     "netz": "xfwgbg0qx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xfwgbg0qx/Raw/xfwgbg0qx_tier_0/StaticMeshes/xfwgbg0qx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      7.32,
+      4.25,
+      1.04
+     ],
+     "nanite": true,
+     "einsatz": "Wächtenbruch"
+    }
+   ],
+   "gletscher_06_gletschertoepfe": [
+    {
+     "klang": "CUE_Water_Stream_X_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+     "einsatz": "Rauschen in der Klamm"
+    }
+   ],
+   "gletscher_07_der_nunatak": [
+    {
+     "netz": "vcykbjsva_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snowy_Rocks_Pile_vcykbjsva/Raw/vcykbjsva_tier_0/StaticMeshes/vcykbjsva_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      6.49,
+      3.15,
+      1.5
+     ],
+     "nanite": true,
+     "einsatz": "Schnee am Fels (Snowy Rocks Pile)"
+    },
+    {
+     "netz": "vcyiccyga_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Rocky_Snow_Pile_vcyiccyga/Raw/vcyiccyga_tier_0/StaticMeshes/vcyiccyga_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      3.01,
+      2.45,
+      0.82
+     ],
+     "nanite": true,
+     "einsatz": "Firnrand (Rocky Snow Pile)"
+    },
+    {
+     "netz": "xe2obbqqx_tier_0",
+     "pfad": "/Game/Fab/Megascans/3D/Snow_Pile_xe2obbqqx/Raw/xe2obbqqx_tier_0/StaticMeshes/xe2obbqqx_tier_0",
+     "paket": "Fab/Megascans/3D",
+     "masse_m": [
+      2.08,
+      2.07,
+      0.52
+     ],
+     "nanite": true,
+     "einsatz": "Schneerest"
+    }
+   ]
+  },
+  "pakete_status": {
+   "Arctic Cliffs": "fehlt (Download-Liste)",
+   "Cave Ambience": "fehlt (Download-Liste)",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "läuft bei Ferat",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt (Download-Liste)",
+   "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
+   "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile": "im Projekt (32 Netze, /Game/Fab/Megascans/3D)",
+   "Megascans Icelandic Sand With Pebbles": "fehlt (Download-Liste)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
+   "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
+   "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt (Download-Liste)"
+  },
+  "entscheidungen_13c": [
+   {
+    "thema": "Steige",
+    "orte": "gletscher_03, _05–_08",
+    "umsetzung": "Die Steige (West, Nordhang, Ost) überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator in `sehens-STATUS.md` nach."
+   },
+   {
+    "thema": "Eis/Schnee im Bestand",
+    "orte": "alle",
+    "umsetzung": "32 Megascans-Netze sind da (Nanite, Material `M_MS_Base_Trm` mit Durchscheinen). Größtes Eis: `uhprdg2fa_tier_0` 6,7 × 1,7 × 6,2 m; Séracwand 15–30 m also mit ×2,5–4 und Gruppen. Größter Schnee: `vdspdazqa_tier_0` (Huge Snow Hill) 15,2 × 7,4 × 1,8 m."
+   }
+  ],
+  "fehlt_weiter": [
+   "Schneefahne (Wächte, Nunatak): kein Schnee-Niagara im Bestand → Wunsch bleibt (Ultimate Niagara Environmental VFX B, Niagara VFX Pack Snow C).",
+   "Tropfwasser im Portal: kein System im Bestand."
+  ],
+  "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ }
 }

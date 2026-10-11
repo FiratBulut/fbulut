@@ -220,3 +220,51 @@ Gerechnet mit eigener Dijkstra-Suche (4-m-Raster, 16 Nachbarn, Kante ≤ 25°, n
 
 - Baust du den **Fjordsteig** (2,35 km, 566 m davon als Kehren/Stufen) und den Kanzel-Ast? Alternativ: ein richtiger Weg vom Erlenbach in den Fjord.
 - Sollen Wasserfälle über 150 m Fallhöhe mit dem Mountain-Set-Material gebaut werden oder lieber kürzer?
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Steige** (alle 8 Orte): Fjordsteig und Kanzel-Ast überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator nach.
+- **Entfallen** (–): Diamantstrand und Basalt-Blockufer sind aus der Download-Liste gestrichen (merge B4).
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| fjord_02_schleierwand | `NS_Smoke_Plume` (Niagara) | `/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume` | – | Vorlage für Sprühnebel am Wandfuß – Kopie, weiß (optional; sonst lokaler_nebel) |
+| fjord_02_schleierwand | `CUE_Water_Stream_X_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue` | – | Fallbänder |
+| fjord_04_haengetal | `xemmbh2qx_tier_0` | `/Game/Fab/Megascans/3D/Snow_Pile_xemmbh2qx/Raw/xemmbh2qx_tier_0/StaticMeshes/xemmbh2qx_tier_0` | 1,3 × 0,88 × 0,49 | Altschneerest im Hängetal (optional) |
+| fjord_04_haengetal | `CUE_Water_Stream_IX_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue` | – | Fall an der Lippe |
+| fjord_07_brandungsgrotte | `NS_Smoke_Plume` (Niagara) | `/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume` | – | Vorlage für Gischt im Spalt (optional) |
+| fjord_08_strandterrassen | `SM_LS_beach_escarpment_02_A` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_escarpment_02_A` | 9 × 2,89 × 1,86 | Terrassenkante (9 × 1,9 m, neu aus Coast & Dunes) |
+| fjord_08_strandterrassen | `SM_LS_beach_escarpment_02_B` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_escarpment_02_B` | 11,16 × 2,71 × 1,83 | Terrassenkante (11,2 m) |
+| fjord_08_strandterrassen | `SM_LS_beach_escarpment_01_C` (kein Nanite) | `/Game/Coast_Dunes_Environment_Set/Cliffs/Landscape_Spline_Meshes/SM_LS_beach_escarpment_01_C` | 8,63 × 1,57 × 1,03 | niedrige Kante (1 m) |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Cave Ambience | fehlt (Download-Liste) | 07 |
+| Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen) | läuft bei Ferat | 05, 07 |
+| Fantasy Ambiences (Lava, Höhle, Wind …) | fehlt (Download-Liste) | 03 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 01, 04, 06 |
+| Megascans Icelandic Sand With Pebbles | fehlt (Download-Liste) | 05, 08 |
+| Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 02, 04 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 02, 07 |
+| Realistic Waterfall and Water VFX | fehlt (Download-Liste) | 02 |
+
+### Fehlt weiterhin
+
+- Seetang/Seepocken-Band: Coast & Dunes läuft bei Ferat (Decals, Seetang); bis dahin MI_Leakage_10.
+
+### Material-Instanzen (2 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|
+| `MI_EL_SW_Klippe_Fjordnass` | `M_EL_Klippe_RVT` | `Moos_Farbe` [0,55, 0,75, 0,45, 1], `Moos_Menge` 0,85, `Blend_Hoehe` 600, `Toenung` [0,7, 0,72, 0,75, 1] | `vdssailfa_tier_2`, `vfmjadufa_tier_2`, `SM_HugeNordicCoastalCliff_01` |
+| `MI_EL_SW_Schleierfall` | `M_EL_Wasserfall2` | `Deckkraft` 0,55, `Straehnen_Staerke` 0,9, `Schaum_Menge` 1,6, `V_Skala` 0,4 | Fallbänder Schleierwand |

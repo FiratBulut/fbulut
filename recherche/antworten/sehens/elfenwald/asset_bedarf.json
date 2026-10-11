@@ -40,28 +40,32 @@
      "prioritaet": "B",
      "wofuer": "Riesenstamm mit echter Rinde (55 m)",
      "ersatz_bestand": "SM_beech_tree_05 x2,5",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "gestrichen (Ferat: teuer, sehr schlecht bewertet) – Bestand plus Skalierung"
     },
     {
      "paket": "Forest Fungi – Mushroom Pack",
      "prioritaet": "B",
      "wofuer": "Pilze in den Wurzelnischen",
      "ersatz_bestand": "SM_mushroom_01/02",
-     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Free Niagara Particles",
      "prioritaet": "B",
      "wofuer": "Leuchtsporen im Kronenschatten",
      "ersatz_bestand": "nur Punktlicht",
-     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)",
+     "status_13b": "im Projekt (/Game/FreeParticle_SoftTofu, CC BY 4.0 → Credits SoftTofuVFX)"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "C",
      "wofuer": "Wind in der Krone",
      "ersatz_bestand": "stumm",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -97,14 +101,16 @@
      "prioritaet": "B",
      "wofuer": "bewegte Nebelfetzen in den Kronen",
      "ersatz_bestand": "2 statische lokale Nebel",
-     "preis_laut_liste": "kostenlos"
+     "preis_laut_liste": "kostenlos",
+     "status_13b": "im Projekt (/Game/NiagaraExamples)"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "C",
      "wofuer": "Tropfen und Wind",
      "ersatz_bestand": "stumm",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -134,14 +140,16 @@
      "prioritaet": "C",
      "wofuer": "fallendes rotes Laub",
      "ersatz_bestand": "ohne Effekt",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Free Niagara Particles",
      "prioritaet": "C",
      "wofuer": "Alternative fuer fallendes Laub",
      "ersatz_bestand": "ohne Effekt",
-     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)",
+     "status_13b": "im Projekt (/Game/FreeParticle_SoftTofu, CC BY 4.0 → Credits SoftTofuVFX)"
     }
    ]
   },
@@ -174,21 +182,24 @@
      "prioritaet": "B",
      "wofuer": "echte Sinter-/Tuffkanten",
      "ersatz_bestand": "SM_ForestRockShelf_01 + MI_EL_SW_Kalktuff",
-     "preis_laut_liste": "Preis ungeprüft (vermutlich kostenpflichtig)"
+     "preis_laut_liste": "Preis ungeprüft (vermutlich kostenpflichtig)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
      "prioritaet": "B",
      "wofuer": "Kaskadenwasser ueber die Stufen",
      "ersatz_bestand": "M_EL_Wasserfall2",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "C",
      "wofuer": "Bachrauschen",
      "ersatz_bestand": "stumm",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -233,14 +244,16 @@
      "prioritaet": "B",
      "wofuer": "Kaskaden im Tobel",
      "ersatz_bestand": "M_EL_Wasserfall2",
-     "preis_laut_liste": "kostenlos (schon gekauft)"
+     "preis_laut_liste": "kostenlos (schon gekauft)",
+     "status_13b": "läuft bei Ferat"
     },
     {
      "paket": "Free City & Nature Sounds",
      "prioritaet": "C",
      "wofuer": "Rauschen",
      "ersatz_bestand": "stumm",
-     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)",
+     "status_13b": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)"
     }
    ]
   },
@@ -272,7 +285,8 @@
      "prioritaet": "C",
      "wofuer": "Pollen im Lichtschacht",
      "ersatz_bestand": "ohne Effekt",
-     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)",
+     "status_13b": "im Projekt (/Game/FreeParticle_SoftTofu, CC BY 4.0 → Credits SoftTofuVFX)"
     }
    ]
   },
@@ -304,21 +318,24 @@
      "prioritaet": "B",
      "wofuer": "Riesenschirmlinge 2-4 m (Held)",
      "ersatz_bestand": "SM_mushroom_01/02 x6-12 (grob)",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Forest Fungi – Mushroom Pack",
      "prioritaet": "B",
      "wofuer": "Baumschwamm-Konsolen, Hallimasch",
      "ersatz_bestand": "SM_mushroom_01/02",
-     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     },
     {
      "paket": "Free Niagara Particles",
      "prioritaet": "C",
      "wofuer": "Sporenstaub",
      "ersatz_bestand": "ohne Effekt",
-     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)",
+     "status_13b": "im Projekt (/Game/FreeParticle_SoftTofu, CC BY 4.0 → Credits SoftTofuVFX)"
     }
    ]
   },
@@ -346,14 +363,16 @@
      "prioritaet": "B",
      "wofuer": "Riesenstamm (44 m) und Wurzelteller",
      "ersatz_bestand": "SM_LargeFallenTree_02 x3",
-     "preis_laut_liste": "Preis ungeprüft"
+     "preis_laut_liste": "Preis ungeprüft",
+     "status_13b": "gestrichen (Ferat: teuer, sehr schlecht bewertet) – Bestand plus Skalierung"
     },
     {
      "paket": "Forest Fungi – Mushroom Pack",
      "prioritaet": "C",
      "wofuer": "Pilze am Stamm",
      "ersatz_bestand": "SM_mushroom_01/02",
-     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)",
+     "status_13b": "fehlt (Download-Liste)"
     }
    ]
   }
@@ -391,7 +410,8 @@
     "SM_beech_tree_05",
     "SM_beech_tree_07",
     "SM_beech_tree_09"
-   ]
+   ],
+   "hinweis": "neue Instanz als Kopie (13c); Original-Buchenblatt-Materialien bleiben unverändert"
   },
   {
    "name": "MI_EL_SW_Rotlaub_Boden",
@@ -408,7 +428,8 @@
     "SM_DeadLeaves_01",
     "SM_DeadLeaves_08",
     "SM_detail_leaves_01"
-   ]
+   ],
+   "hinweis": "neue Instanz als Kopie (13c); Original-Buchenblatt-Materialien bleiben unverändert"
   },
   {
    "name": "MI_EL_SW_Bartflechte",
@@ -516,5 +537,112 @@
    "warum": "Gerinne steht nur im Wasserraster - gibt es dort heute sichtbares Wasser?",
    "hinweis": "Standort leer (heutiger Zustand) fotografieren -> bilder/sehens13_standorte/"
   }
- ]
+ ],
+ "abgleich_13b_13c": {
+  "stand": "2026-10-11",
+  "quelle": "vorlagen/daten/netze.csv (1 692 Netze), inventar_extra.json (73 Niagara, 15 Effekt-Blueprints, 46 Cues); auftraege/13b, 13c",
+  "vorhanden": {
+   "elfenwald_01_mutterbaum": [
+    {
+     "effekt": "NS_Sparkling_Glow",
+     "pfad": "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow",
+     "typ": "niagara",
+     "einsatz": "Leuchtsporen im Kronenschatten – Kopie, grünlich-weiß, langsam, wenige",
+     "optional": true
+    },
+    {
+     "klang": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+     "einsatz": "Wind in der Krone"
+    }
+   ],
+   "elfenwald_02_nebelhain": [
+    {
+     "effekt": "BP_FogBankCard",
+     "pfad": "/Game/NiagaraExamples/FX_Fog/BP_FogBankCard",
+     "typ": "blueprint (kein Niagara-System)",
+     "einsatz": "bewegte Nebelfetzen in den Kronen (Blueprint aus NiagaraExamples/FX_Fog)",
+     "optional": true
+    },
+    {
+     "klang": "CUE_Rain_Dropping_on_various_textures_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Rain_Dropping_on_various_textures_Cue",
+     "einsatz": "Tropfen aus dem Nebel (prüfen)"
+    }
+   ],
+   "elfenwald_03_rotlaubhain": [
+    {
+     "effekt": "NS_leaf",
+     "pfad": "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf",
+     "typ": "niagara",
+     "einsatz": "fallendes Laub – Kopie, rot getönt",
+     "optional": true
+    }
+   ],
+   "elfenwald_04_elfentreppe": [
+    {
+     "klang": "CUE_Water_Stream_VIII_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VIII_Cue",
+     "einsatz": "Bachrauschen über die Stufen"
+    }
+   ],
+   "elfenwald_05_farnschlucht": [
+    {
+     "klang": "CUE_Water_Stream_X_Cue",
+     "pfad": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+     "einsatz": "Rauschen im Tobel"
+    }
+   ],
+   "elfenwald_06_blauer_grund": [
+    {
+     "effekt": "NS_Sparkling_Noise",
+     "pfad": "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Noise",
+     "typ": "niagara",
+     "einsatz": "Pollen im Lichtschacht – Kopie, klein, warmweiß",
+     "optional": true
+    }
+   ],
+   "elfenwald_07_schwammgrund": [
+    {
+     "effekt": "NS_Sparkling",
+     "pfad": "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling",
+     "typ": "niagara",
+     "einsatz": "Sporenstaub unter dem Stamm – Kopie, sehr klein, grünlich",
+     "optional": true
+    }
+   ]
+  },
+  "pakete_status": {
+   "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)": "gestrichen (Ferat: teuer, sehr schlecht bewertet) – Bestand plus Skalierung",
+   "Forest Fungi – Mushroom Pack": "fehlt (Download-Liste)",
+   "Free City & Nature Sounds": "im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen)",
+   "Free Niagara Particles": "im Projekt (/Game/FreeParticle_SoftTofu, CC BY 4.0 → Credits SoftTofuVFX)",
+   "Giant Fantasy Nanite Mushrooms": "fehlt (Download-Liste)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "läuft bei Ferat",
+   "Niagara Examples Pack": "im Projekt (/Game/NiagaraExamples)",
+   "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt (Download-Liste)",
+   "Travertine Hot Spring Terraces – Modular Environment Pack": "fehlt (Download-Liste)"
+  },
+  "entscheidungen_13c": [
+   {
+    "thema": "Serpentinenpfad zum Nebelhain (0,9 km)",
+    "orte": "elfenwald_02_nebelhain",
+    "umsetzung": "Ja (13c). Der Pfad kommt als `pfade` nach `standorte.json` (anderer Agent, Schema in `skripte/sehens_lib/README.md`)."
+   },
+   {
+    "thema": "Rotlaub-Instanz",
+    "orte": "elfenwald_03_rotlaubhain",
+    "umsetzung": "Ja, als **Kopie**: `MI_EL_SW_Rotlaub` und `MI_EL_SW_Rotlaub_Boden` sind neue Instanzen. Die Original-Buchenblatt-Materialien bleiben unverändert; nur die Instanzen im Hain bekommen die Kopie."
+   },
+   {
+    "thema": "Leuchten und Laub mit Bestand",
+    "orte": "elfenwald_01, _03, _06, _07",
+    "umsetzung": "Free Niagara Particles (SoftTofu, CC BY 4.0) ist im Projekt. Die Effekte unten ersetzen die bisherigen Wünsche."
+   }
+  ],
+  "fehlt_weiter": [
+   "Riesenpilze (elfenwald_07) fehlen weiter (Giant Fantasy Nanite Mushrooms, C). Riesenstamm (elfenwald_01/_08): Forest Cretaceous ist gestrichen (Ferat: teuer, sehr schlecht bewertet) → Bestand plus Skalierung (`SM_beech_tree_05` ×2,5, `SM_LargeFallenTree_02` ×3), wie im Katalog."
+  ],
+  "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ }
 }

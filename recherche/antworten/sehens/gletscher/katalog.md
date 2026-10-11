@@ -226,3 +226,72 @@ Gerechnet mit eigener Dijkstra-Suche (4-m-Raster, 16 Nachbarn, Kante ≤ 25°, n
 - Baust du **Gletschersteig West/Nordhang/Ost** (zusammen 3,7 km)? Ohne sie bleiben im Gletscher 3 Orte.
 - Darf ein Steig über Gletschereis (Karboden unter der Wächte) führen?
 - Alte Netze `SM_K7_GLETSCHER__EIS` (Houdini-Gletscher) bleiben aus – richtig?
+
+<!-- abgleich-13b13c -->
+
+## Abgleich mit Inventar 13b und Entscheidungen 13c (Stand 11.10.2026)
+
+Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niagara-Systemen, 15 Effekt-Blueprints und 46 Klang-Cues. Maschinenlesbar steht alles in `asset_bedarf.json` → `abgleich_13b_13c`. Der Abschnitt ergänzt die Ortsbeschreibungen oben; wo er abweicht, gilt er.
+
+### Entscheidungen aus 13c
+
+- **Steige** (gletscher_03, _05–_08): Die Steige (West, Nordhang, Ost) überführt ein anderer Agent als `pfade` nach `standorte.json` (Schema in `skripte/sehens_lib/README.md`). Den Stand trägt der Koordinator in `sehens-STATUS.md` nach.
+- **Eis/Schnee im Bestand** (alle): 32 Megascans-Netze sind da (Nanite, Material `M_MS_Base_Trm` mit Durchscheinen). Größtes Eis: `uhprdg2fa_tier_0` 6,7 × 1,7 × 6,2 m; Séracwand 15–30 m also mit ×2,5–4 und Gruppen. Größter Schnee: `vdspdazqa_tier_0` (Huge Snow Hill) 15,2 × 7,4 × 1,8 m.
+
+### Neu im Bestand – je Ort
+
+| Ort | Asset | Pfad | Maße (m) | Einsatz |
+|---|---|---|---|---|
+| gletscher_01_gletschertor | `uhprdg2fa_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_uhprdg2fa/Raw/uhprdg2fa_tier_0/StaticMeshes/uhprdg2fa_tier_0` | 6,71 × 1,66 × 6,15 | Séracwand (Ice Cliff, 6,2 m hoch, ×2,5–4) |
+| gletscher_01_gletschertor | `veipbcmcb_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_veipbcmcb/Raw/veipbcmcb_tier_0/StaticMeshes/veipbcmcb_tier_0` | 6,82 × 2,7 × 5,25 | Séracwand |
+| gletscher_01_gletschertor | `uhpocesfa_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_uhpocesfa/Raw/uhpocesfa_tier_0/StaticMeshes/uhpocesfa_tier_0` | 6,89 × 1,79 × 4,46 | Séracwand, Portal-Laibung |
+| gletscher_01_gletschertor | `vdsrdd0fa_tier_0` | `/Game/Fab/Megascans/3D/Large_Ice_Cliff_vdsrdd0fa/Raw/vdsrdd0fa_tier_0/StaticMeshes/vdsrdd0fa_tier_0` | 5,02 × 2,51 × 4,15 | Large Ice Cliff, Portalgewölbe |
+| gletscher_01_gletschertor | `vctiegmfa_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_vctiegmfa/Raw/vctiegmfa_tier_0/StaticMeshes/vctiegmfa_tier_0` | 2,51 × 1,95 × 6,42 | Eispfeiler am Portal (6,4 m hoch) |
+| gletscher_01_gletschertor | `xfroec0qx_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xfroec0qx/Raw/xfroec0qx_tier_0/StaticMeshes/xfroec0qx_tier_0` | 4,7 × 3,83 × 2,17 | Kalbungsbrocken (Rocky Snow Pile) |
+| gletscher_01_gletschertor | `vcytca0fa_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_vcytca0fa/Raw/vcytca0fa_tier_0/StaticMeshes/vcytca0fa_tier_0` | 4,07 × 2,51 × 0,85 | Kalbungsbrocken |
+| gletscher_01_gletschertor | `BP_FogBankVolume` (Blueprint) | `/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume` | – | kalter Nebel im Portal (Blueprint, optional) |
+| gletscher_02_lawinenkegel | `vdspdazqa_tier_0` | `/Game/Fab/Megascans/3D/Huge_Snow_Hill_vdspdazqa/Raw/vdspdazqa_tier_0/StaticMeshes/vdspdazqa_tier_0` | 15,24 × 7,35 × 1,76 | Altschnee-Kegel (Huge Snow Hill 15 m) |
+| gletscher_02_lawinenkegel | `uhvjae0fa_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_uhvjae0fa/Raw/uhvjae0fa_tier_0/StaticMeshes/uhvjae0fa_tier_0` | 6,61 × 4,52 × 0,65 | Schneezunge (Snow Embankment) |
+| gletscher_02_lawinenkegel | `uhuldf3fa_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_uhuldf3fa/Raw/uhuldf3fa_tier_0/StaticMeshes/uhuldf3fa_tier_0` | 6,72 × 2,21 × 1,05 | Schneezunge |
+| gletscher_02_lawinenkegel | `vcykbjsva_tier_0` | `/Game/Fab/Megascans/3D/Snowy_Rocks_Pile_vcykbjsva/Raw/vcykbjsva_tier_0/StaticMeshes/vcykbjsva_tier_0` | 6,49 × 3,15 × 1,5 | Schnee mit Steinen (Snowy Rocks Pile) |
+| gletscher_02_lawinenkegel | `xgxhcjxqx_tier_0` | `/Game/Fab/Megascans/3D/Snow_Pile_xgxhcjxqx/Raw/xgxhcjxqx_tier_0/StaticMeshes/xgxhcjxqx_tier_0` | 7,17 × 6,5 × 2,13 | Schneehaufen (Snow Pile 7 m) |
+| gletscher_03_moraenensee | `xemmbh2qx_tier_0` | `/Game/Fab/Megascans/3D/Snow_Pile_xemmbh2qx/Raw/xemmbh2qx_tier_0/StaticMeshes/xemmbh2qx_tier_0` | 1,3 × 0,88 × 0,49 | Altschneerest am Ufer (optional) |
+| gletscher_03_moraenensee | `CUE_Water_Stream_II_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue` | – | Zufluss, leise |
+| gletscher_04_toteisloch | `vd4hbizcb_tier_0` | `/Game/Fab/Megascans/3D/Ice_Cliff_vd4hbizcb/Raw/vd4hbizcb_tier_0/StaticMeshes/vd4hbizcb_tier_0` | 3,83 × 0,55 × 1,59 | freigelegte Toteiskante (Ice Cliff klein, optional) |
+| gletscher_05_die_waechte | `xelnbaeqx_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_xelnbaeqx/Raw/xelnbaeqx_tier_0/StaticMeshes/xelnbaeqx_tier_0` | 9,05 × 0,32 × 1,23 | Wächtenlippe (Snow Embankment 9,1 × 0,3 m, gekippt) |
+| gletscher_05_die_waechte | `uhqffeyfa_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_uhqffeyfa/Raw/uhqffeyfa_tier_0/StaticMeshes/uhqffeyfa_tier_0` | 4,66 × 2,13 × 0,98 | Wächte |
+| gletscher_05_die_waechte | `vctldcnfa_tier_0` | `/Game/Fab/Megascans/3D/Snow_Embankment_vctldcnfa/Raw/vctldcnfa_tier_0/StaticMeshes/vctldcnfa_tier_0` | 6,28 × 2,21 × 0,88 | Wächte |
+| gletscher_05_die_waechte | `xemjafmqx_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xemjafmqx/Raw/xemjafmqx_tier_0/StaticMeshes/xemjafmqx_tier_0` | 8,66 × 7,96 × 2,56 | Wächtenbruch (Rocky Snow Pile 8,7 m) |
+| gletscher_05_die_waechte | `xfwgbg0qx_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_xfwgbg0qx/Raw/xfwgbg0qx_tier_0/StaticMeshes/xfwgbg0qx_tier_0` | 7,32 × 4,25 × 1,04 | Wächtenbruch |
+| gletscher_06_gletschertoepfe | `CUE_Water_Stream_X_Cue` (Klang) | `/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue` | – | Rauschen in der Klamm |
+| gletscher_07_der_nunatak | `vcykbjsva_tier_0` | `/Game/Fab/Megascans/3D/Snowy_Rocks_Pile_vcykbjsva/Raw/vcykbjsva_tier_0/StaticMeshes/vcykbjsva_tier_0` | 6,49 × 3,15 × 1,5 | Schnee am Fels (Snowy Rocks Pile) |
+| gletscher_07_der_nunatak | `vcyiccyga_tier_0` | `/Game/Fab/Megascans/3D/Rocky_Snow_Pile_vcyiccyga/Raw/vcyiccyga_tier_0/StaticMeshes/vcyiccyga_tier_0` | 3,01 × 2,45 × 0,82 | Firnrand (Rocky Snow Pile) |
+| gletscher_07_der_nunatak | `xe2obbqqx_tier_0` | `/Game/Fab/Megascans/3D/Snow_Pile_xe2obbqqx/Raw/xe2obbqqx_tier_0/StaticMeshes/xe2obbqqx_tier_0` | 2,08 × 2,07 × 0,52 | Schneerest |
+
+### Paketstatus der Wünsche dieses Bioms
+
+| Paket | Status | Orte |
+|---|---|---|
+| Arctic Cliffs | fehlt (Download-Liste) | 01 |
+| Cave Ambience | fehlt (Download-Liste) | 01 |
+| Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen) | läuft bei Ferat | 08 |
+| Fantasy Ambiences (Lava, Höhle, Wind …) | fehlt (Download-Liste) | 05 |
+| Free City & Nature Sounds | im Projekt (/Game/City_Nature_Sounds, nur Naturklänge nutzen) | 02, 03, 04, 06 |
+| Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile | im Projekt (32 Netze, /Game/Fab/Megascans/3D) | 01, 02, 05, 07 |
+| Megascans Icelandic Sand With Pebbles | fehlt (Download-Liste) | 03 |
+| Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen) | läuft bei Ferat | 01, 06 |
+| Niagara Examples Pack | im Projekt (/Game/NiagaraExamples) | 01 |
+| Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam | fehlt (Download-Liste) | 05, 07 |
+
+### Fehlt weiterhin
+
+- Schneefahne (Wächte, Nunatak): kein Schnee-Niagara im Bestand → Wunsch bleibt (Ultimate Niagara Environmental VFX B, Niagara VFX Pack Snow C).
+- Tropfwasser im Portal: kein System im Bestand.
+
+### Material-Instanzen (3 von höchstens 6)
+
+| Name | Basis | Parameter | für |
+|---|---|---|---|
+| `MI_EL_SW_Gletschereis_Tief` | `M_EL_Eis4` | `Eis_Farbe` [0,25, 0,55, 0,92, 1], `Eis_Tief_Farbe` [0,02, 0,12, 0,35, 1], `Schnee_Menge` 0,25, `Eis_Rau_Max` 0,22 | Séracs, Gletschertor, Bergschrund, `SM_EISZAPFEN_8`, `SM_EISZAPFEN_9` |
+| `MI_EL_SW_Fels_Schneekappe` | `M_EL_Fels_Auflage` | `Auflage_Farbe` [0,95, 0,97, 1, 1], `Auflage_Menge` 0,65, `Auflage_Schwelle` 0,6, `Toenung` [0,75, 0,76, 0,8, 1] | `veqnci0db_tier_2`, `SM_NordicBoulder_01`, `rcygn_tier_0` |
+| `MI_EL_SW_Klippe_Gletscherschliff` | `M_EL_Klippe_RVT` | `Moos_Menge` 0,15, `Fels_Saettigung` 0,5, `Helligkeit` 1,1 | `SM_SmoothRockShelf_01`, `SM_MassiveTundraRockFormation_02` |
