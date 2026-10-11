@@ -7,8 +7,8 @@ Stand 11.10.2026, nachmittags · Download-Liste: `antworten/sehens-downloadliste
 - **Übernommen.** Das neue Inventar ist die Grundlage für die Planung: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit
   73 Niagara-Systemen, 44 Decals, 316 Klängen und 46 Cues.
 - **Download-Liste neu.** Sie hat jetzt die Abschnitte „Erledigt / im Projekt“ (8 Pakete mit echtem Pfad und Netzzahl), „Läuft bei Ferat /
-  wird geladen / Import ausstehend“ (7), „Erneut versuchen“ (2 Asset-IDs) und die noch fehlenden Pakete: A 1, B 13, C 12.
-  A + B sind etwa 20,5 GB, soweit eine Größe bekannt ist. Preise bleiben ungeprüft, weil fab.com aus der Cloud nicht erreichbar ist.
+  wird geladen / Import ausstehend“ (7), „Erneut versuchen“ (2 Asset-IDs) und die noch fehlenden Pakete: A 1, B 15, C 12 (Stand nach dem Abgleich mit allen 15 Biomen).
+  A + B sind etwa 23 GB, soweit eine Größe bekannt ist. Preise bleiben ungeprüft, weil fab.com aus der Cloud nicht erreichbar ist.
 - **Die nächsten 5:** Electric Dreams (kostenlos), Nanite Driftwood Props, Quercus Robur (Stieleiche), Forest Fungi, CryoGen.
 - **Kataloge und Asset-Bedarf** der 8 Biome aus der ersten Welle (aue, bergwald, lava, elfenwald, dschungel, gletscher, frost, fjord)
   sind mit dem Inventar abgeglichen. Je Ort stehen dort vorhandene Netze, Niagara-Systeme und Klänge mit echtem Pfad, dazu der Paketstatus.
@@ -74,9 +74,9 @@ Liste nicht eindeutig einem Paket zuordnen, weil die Liste Listing-IDs führt un
 
 | Prio | Pakete |
 |---|---|
-| A (1) | Nanite Driftwood Props (Held von aue_04) |
-| B (13) | Electric Dreams (kostenlos); Quercus Robur (neu, 13c); Forest Fungi; CryoGen (C → B); Arctic Cliffs; Cave Ambience; Cave Stalactites & Wall Kit (neu); Nanite Tropical Plant Pack 2 (neu); Travertine Terraces; Ultimate Niagara Environmental VFX; Fantasy Ambiences; Taxodium Distichum (Bald Cypress) Tree Pack (neu, ganze Sumpfzypressen); Megascans Trees: European Black Alder (bleibt B laut B8, nicht abwarten) |
-| C (12) | Icelandic Sand, tote Stieleiche, Tundra Icelandic Rock Cluster, Moss & Lichen (B5), Niagara VFX Pack Snow (B → C, nur noch Schnee), Giant Fantasy Mushrooms, Hollowstone, Wadi Rum, Procedural Rocks Generator, Tropical Vegetation, Rain Forest Pack, Wilderness Nature Loops |
+| A (1) | Nanite Driftwood Props (Held von aue_04). Desert Western Cliff ist ebenfalls A, wird aber schon geladen. |
+| B (15) | Electric Dreams (kostenlos); Quercus Robur (neu, 13c); Forest Fungi; CryoGen (C → B); Arctic Cliffs; Cave Ambience; Cave Stalactites & Wall Kit (neu); Nanite Tropical Plant Pack 2 (neu); Travertine Terraces; Ultimate Niagara Environmental VFX; Fantasy Ambiences; Taxodium Distichum (Bald Cypress) Tree Pack (neu, ganze Sumpfzypressen); Megascans Trees: European Black Alder (bleibt B laut B8, nicht abwarten); Hollowstone Canyon (C → B, B6: Wabenwand wueste_08 und Hoodoos; Kauf: Ferat entscheidet); Wadi Rum Sandstone (C → B, 7 Orte) |
+| C (12) | Icelandic Sand, tote Stieleiche, Tundra Icelandic Rock Cluster, Moss & Lichen (B5), Niagara VFX Pack Snow (B → C, nur noch Schnee), Giant Fantasy Mushrooms, Procedural Rocks Generator, Tropical Vegetation, Rain Forest Pack, Wilderness Nature Loops; Megascans Desert Pack und Megascans Sandstone (neu, B6, Launcher-Vault: Besitz prüfen, wahrscheinlich vorhanden) |
 
 **Top 5 der noch fehlenden Pakete:**
 
