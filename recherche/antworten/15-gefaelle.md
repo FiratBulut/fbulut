@@ -259,3 +259,11 @@ dann die anderen Piloten in Rangfolge. Je Lauf:
 4. **Uferwulst:** Ist das Anheben des Ufers um bis zu 1 m für die Prüfung „Ufer über dem Spiegel“ in Ordnung, oder
    soll stattdessen das Bett tiefer gelegt werden?
 5. **Reihenfolge lokal:** zuerst C2 allein bauen und abnehmen lassen, danach die anderen 19 Piloten, dann alle?
+
+## Entscheidungen Koordinator zu den Rückfragen (Ferat: „du entscheidest“)
+
+1. **Absorption/Scattering:** Ja – `MI_EL_Kaskade_SLW` übernimmt die Werte aus `MI_Eldarien_Wasser_Fluss` (Claude lokal liest sie im Editor aus), damit Kaskadennetz und Epic-Fluss gleich aussehen.
+2. **Niagara-Grenze:** Bleibt bei 8 gleichzeitig. An dichten Kaskaden reicht der Schaum im Netz – echte Step-Pool-Bäche schäumen auch nicht an jeder Stufe gleich stark; Leistung geht vor.
+3. **30 kurze, kaum planbare Strecken:** Keine Handarbeit jetzt. Nur wer vom Weg aus sichtbar ist, bekommt später eine einzelne Blockstufe (Nachrunde nach der C2-Abnahme).
+4. **Uferwulst bis 1 m:** In Ordnung – natürliche Uferwälle (Levées) sind an Bergbächen üblich.
+5. **Reihenfolge lokal:** **Zuerst nur C2 bauen** (Gelände-Delta, Kaskadennetz, River kürzen, Effekte, Kameras `_vorher`/`_nachher`), Bilder an Ferat; erst nach seinem OK die übrigen 19 Piloten.
