@@ -187,6 +187,7 @@
    "gelaende": {
     "fenster_m": [140, 132],
     "rand_m": 10,
+    "senke_begruendung": "Auftaurutschung: flache Setzungsmulden im Schlammkessel und hinter der Abrisskante (tauendes Bodeneis, Schmelzpfuetzen) - gewollt",
     "ops": [
      {"op": "abbruch", "punkte": [[-50, -21], [-27, -42], [0, -49], [27, -42], [50, -21]], "hoehe_m": 2.8, "breite_m": 5, "reichweite_m": 34, "seite": "links", "verteilung": "oben", "warum": "Kopfwand ansteilen: die Tundra oberhalb bleibt stehen"},
      {"op": "mulde", "bei": "kessel", "radius_m": 26, "streckung": [1.45, 1.0], "richtung": 90, "tiefe_m": 2.5, "rand_m": 10, "boden": 0.5, "warum": "Kesselboden (Schlamm) -2,5 m, bleibt ueber dem Meer"},
@@ -197,7 +198,7 @@
     {"typ": "bach", "id": "rinnsal", "punkte": "rinnsal", "breite_m": 0.8, "tiefe_cm": 10, "farbe": "klar", "quelle": true, "muendung": "versickert", "hinweis": "Schmelzwasser aus dem Grundeis, versickert im Schlammfaecher am Strand"}
    ],
    "gruppen": [
-    {"name": "eiswand", "ebene": "held", "warum": "Grundeis der Kopfwand in Baendern (13b: Megascans Eis vorhanden)", "palette": "eiswand", "verteilung": {"typ": "reihe", "punkte": "kopfwand", "abstand_m": 6.5, "versatz_m": 1.2, "versatz_streuung_m": 0.6, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [1.3, 1.6], "front_achse": "+y", "eingraben": [0.15, 0.25], "akteur": true, "kollision": true, "meide": null, "hinweis": "Schauseite der Ice-Cliff-Schalen als +y angenommen - Prueffbild _held entscheidet"},
+    {"name": "eiswand", "ebene": "held", "warum": "Grundeis der Kopfwand in Baendern (13b: Megascans Eis vorhanden)", "palette": "eiswand", "verteilung": {"typ": "reihe", "punkte": "kopfwand", "abstand_m": 6.0, "versatz_m": 1.4, "versatz_streuung_m": 1.6, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [1.1, 1.75], "yaw_streuung_grad": 14, "front_achse": "+y", "eingraben": [0.15, 0.25], "akteur": true, "kollision": true, "meide": null, "hinweis": "Schauseite der Ice-Cliff-Schalen als +y angenommen - Prueffbild _held entscheidet"},
     {"name": "eiskeile", "ebene": "begleiter", "warum": "Eiskeile: senkrechte Keile quer in der Wand", "netz": "uhpocesfa_tier_0", "anzahl": 3, "verteilung": {"typ": "reihe", "punkte": "kopfwand", "abstand_m": 34, "versatz_m": 2.5, "seiten": ["links"], "blick": "zur_linie"}, "skala": [0.9, 1.1], "front_achse": "+x", "eingraben": [0.2, 0.3], "akteur": true, "kollision": true, "material": "MI_EL_SW_Grundeis", "meide": null},
     {"name": "torfdach", "ebene": "begleiter", "warum": "Grasnarbe haengt als Vordach ueber dem Eis (13d: escarpment_02 dazu)", "palette": ["SM_beach_escarpment_01_B", "SM_beach_escarpment_01_C", "SM_beach_escarpment_02_A", "SM_beach_escarpment_02_B", "SM_beach_escarpment_02_D"], "verteilung": {"typ": "reihe", "punkte": "oberkante", "abstand_m": 8.0, "versatz_m": 0.5, "versatz_streuung_m": 0.5, "seiten": ["rechts"], "blick": "von_linie"}, "skala": [1.0, 1.2], "front_achse": "+y", "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "material": "MI_EL_SW_Torf", "meide": null},
     {"name": "torfband", "ebene": "begleiter", "warum": "Torflage mit Grundeis im unteren Drittel", "netz": "SM_beach_escarpment_01_A", "anzahl": 5, "verteilung": {"typ": "reihe", "punkte": "kopfwand", "abstand_m": 22, "versatz_m": 3.0, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [1.1, 1.3], "front_achse": "+y", "eingraben": [0.2, 0.3], "akteur": true, "kollision": true, "material": "MI_EL_SW_Grundeis", "meide": null},
@@ -312,7 +313,7 @@
    },
    "wasser": [
     {"typ": "see", "id": "trunkensee", "bei": "see", "tiefe_m": 2.5, "farbe": "moorbraun", "becken": {"a_m": 25, "b_m": 15, "richtung": 95, "ufer_m": 8, "freibord_m": 0.5, "boden": 0.4, "einpassen": {"r_such_m": 12, "schritt_m": 3, "richtungen": [60, 75, 90, 105, 120, 135]}}},
-    {"typ": "bach", "id": "abfluss", "abfluss_von": "trunkensee", "laenge_m": 45, "breite_m": 1.0, "tiefe_cm": 15, "farbe": "moorbraun", "quelle": false, "muendung": "versickert", "rinne": {"tiefe_m": 0.5, "breite_m": 2.5}}
+    {"typ": "bach", "id": "abfluss", "abfluss_von": "trunkensee", "laenge_m": 45, "breite_m": 1.0, "tiefe_cm": 15, "farbe": "moorbraun", "quelle": false, "muendung": "versickert"}
    ],
    "gruppen": [
     {"name": "trunkene_fichten", "ebene": "held", "warum": "Thermokarst: der tauende Boden kippt die Baeume zum See", "palette": ["Fir_02_Small", "Fir_03_Medium", "SM_Forest_pine_01"], "gewichte": [3, 2, 1], "anzahl": 12, "verteilung": {"typ": "ufer", "bei": "trunkensee_mitte", "r_m": 45, "band_m": [1.5, 9.0]}, "skala": [0.55, 0.85], "kipp_grad": [12, 32], "kipp_richtung": "zu:trunkensee_mitte", "abstand_m": 4.5, "rolle": "baum", "akteur": true, "kollision": true},
@@ -347,7 +348,7 @@
    "pfad": {"breite_cm": 150, "lagen": {"Erde": 205, "Nadeln": 150}, "zugang": true, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 22, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4], "stufen_abstand_m": 3.0}},
    "effekte": [
     {"typ": "lokaler_nebel", "zweck": "Morgendunst nur ueber dem Wasser", "bei": "trunkensee_mitte", "hoehe_m": 1.5, "radius_m": 24, "dichte": 0.08, "farbe": [0.82, 0.84, 0.86], "hoehenabfall": 0.9},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "nasser Torf am Ufer (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "trunkensee_mitte", "r_m": [26, 32]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband: nasser Torf am Ufer (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "trunkensee_mitte", "r_m": 45, "band_m": [-0.3, 1.5]}, "abstand_m": 8, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "decal", "material": "MI_ScatteredBark_01", "zweck": "Rinde unter den toten Baeumen", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "trunkensee_mitte", "r_m": [28, 36]}, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
@@ -399,7 +400,7 @@
    "pfad": {"breite_cm": 150, "lagen": {"Erde": 205, "Kies": 140}, "zugang": true, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.1], "stufen_ab_grad": 22, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.5], "stufen_abstand_m": 3.0}},
    "effekte": [
     {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Quellaustritt am Hangfuss (Nature Water FX, 13d)", "bei": "quelle", "hoehe_m": 0.2, "skala": 0.4, "yaw_grad": 265, "hinweis": "klein und flach halten - nur der austretende Quellstrahl"},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am tauenden Eisrand (Coast & Dunes, 13d)", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "eisband", "breite_m": 20}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am tauenden Eisrand (Coast & Dunes, 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": [-25, 0], "r_m": 40, "band_m": [0.0, 3.5]}, "abstand_m": 10, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_VII_Cue", "bei": "quelle", "radius_m": 30, "lautstaerke": 0.5, "zweck": "Quelle und Bach unter dem Eis"},
@@ -478,8 +479,8 @@
    "anker": {},
    "linien": {
     "saum_nord": {"punkte": [[-34, -29], [-22, -27], [-10, -26], [4, -25], [18, -23]]},
-    "saum_ost": {"punkte": [[22, -20], [29, -8], [31, 6], [27, 18]]},
-    "saum_west": {"punkte": [[-22, -28], [-26, -14], [-27, 0], [-26, 14], [-22, 24]]}
+    "saum_ost": {"punkte": [[22, -20], [29, -8], [31, 6], [28, 18], [22, 28]]},
+    "saum_west": {"punkte": [[-19, -28], [-22, -14], [-23, 0], [-22, 14], [-18, 24]]}
    },
    "gelaende": {
     "fenster_m": [100, 96],
@@ -489,13 +490,14 @@
     ],
     "senke_begruendung": "Polygonmitten ohne Tuempel: flache nasse Mulden (low-centred polygons) - gewollt",
     "daemme": [
-     {"punkte": "saum_ost", "breite_m": 10, "hoehe_m": 1.7, "krone": 0.3, "verjuengung_m": 6, "warum": "Uferwall Ost (Sturmflutsaum): Rahmen gegen den hoeheren Kuestenweg Ost (Ferat: verbessern, wo es geht)"},
-     {"punkte": "saum_west", "breite_m": 9, "hoehe_m": 1.5, "krone": 0.3, "verjuengung_m": 6, "warum": "natuerlicher Uferwall (Levee) am Fluss: Rahmen gegen den hoeheren Weg im Nordwesten"}
+     {"punkte": "saum_ost", "breite_m": 11, "hoehe_m": 2.4, "krone": 0.3, "verjuengung_m": 6, "warum": "Uferwall Ost (Sturmflutsaum): Rahmen gegen den hoeheren Kuestenweg Ost (Ferat: verbessern, wo es geht)"},
+     {"punkte": "saum_west", "breite_m": 8, "hoehe_m": 1.5, "krone": 0.3, "verjuengung_m": 6, "warum": "natuerlicher Uferwall (Levee) am Fluss: Rahmen gegen den hoeheren Weg im Nordwesten"}
     ]
    },
    "sicht": {"ziel_hoehe_m": 0.6},
    "gruppen": [
     {"name": "torfkanten", "ebene": "held", "warum": "die Wabenraender: Torfkanten an jedem Tuempel (das Muster ist der Held)", "palette": ["SM_GrassyEmbankment_01", "SM_GrassyEmbankment_02", "SM_MossyEmbankment_02"], "gewichte": [3, 3, 1], "anzahl": 50, "verteilung": {"typ": "ufer", "bei": [2, 0], "r_m": 22, "band_m": [0.3, 1.1]}, "skala": [0.7, 1.0], "kipp_grad": [5, 15], "rolle": "fels", "akteur": false, "kollision": false, "material": "MI_EL_SW_Torf", "abstand_m": 1.4, "meide": null},
+    {"name": "eiskeil", "ebene": "begleiter", "warum": "Eiskeil im Prallhang zum Fluss angeschnitten (das Eis unter den Graeben)", "netz": "vd4hbizcb_tier_0", "anzahl": 2, "verteilung": {"typ": "punkte", "punkte": [[-17, -6], [-16, 9]]}, "ausrichtung": "hochkant", "hochkant_achse": "x", "skala": [0.9, 1.1], "yaw": 270, "yaw_streuung_grad": 10, "eingraben": [0.45, 0.55], "akteur": true, "kollision": true, "material": "MI_EL_SW_Grundeis", "meide": null},
     {"name": "weidensaum_nord", "ebene": "bewuchs", "warum": "Uferweiden-Saum auf der Boeschungskante (Rahmen: Fundstueck erst von der Kante)", "palette": ["SM_grey_willow_03", "SM_grey_willow_04"], "anzahl": 45, "verteilung": {"typ": "band", "punkte": "saum_nord", "breite_m": 9}, "skala": [1.6, 2.1], "abstand_m": 1.6, "rolle": "pflanze"},
     {"name": "weidensaum_ost", "ebene": "bewuchs", "warum": "Weiden auf dem Uferwall Ost (Rahmen gegen den Kuestenweg)", "palette": ["SM_grey_willow_03", "SM_grey_willow_04"], "anzahl": 40, "verteilung": {"typ": "band", "punkte": "saum_ost", "breite_m": 9}, "skala": [1.6, 2.1], "abstand_m": 1.5, "rolle": "pflanze"},
     {"name": "weidensaum_west", "ebene": "bewuchs", "warum": "Weidengebuesch auf dem Uferwall am Fluss (Rahmen gegen den Weg im Nordwesten)", "palette": ["SM_grey_willow_03", "SM_grey_willow_04"], "anzahl": 55, "verteilung": {"typ": "band", "punkte": "saum_west", "breite_m": 10}, "skala": [1.8, 2.3], "abstand_m": 1.5, "rolle": "pflanze"},
@@ -517,7 +519,7 @@
    ],
    "pfad": {"breite_cm": 120, "lagen": {"Erde": 190, "Kies": 110}, "ende_r_m": 16, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.8, 1.2], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.4], "stufen_abstand_m": 2.8}},
    "effekte": [
-    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "nasse Graeben (Coast & Dunes, 13d)", "anzahl": 4, "verteilung": {"typ": "kreis", "bei": [2, 0], "r_m": 18}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "Nassband an den Tuempeln (Coast & Dunes, 13d)", "anzahl": 4, "verteilung": {"typ": "ufer", "bei": [2, 0], "r_m": 22, "band_m": [-0.3, 1.2]}, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "decal", "material": "MI_TileableMossPatches_03", "zweck": "Moosflecken auf den Raendern", "anzahl": 4, "verteilung": {"typ": "kreis", "bei": [2, 0], "r_m": 20}, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [

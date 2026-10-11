@@ -40,7 +40,7 @@
     {"paket": "Megascans Limestone Rocks", "statt_jetzt": "Bogen aus SM_Cliff_01c (Pfeiler) + SM_Cliff_01b (Sturz); Kalkschutt SM_LimestoneRocks2/3 + Limestone_Rocks_ubqwdheda_High (grosse Limestone-Assets werden geladen)"}
    ],
    "anker": {
-    "tor": [-14.0, 14.0],
+    "tor": [-18.0, 11.0],
     "pfeiler_a": {"von": "tor", "richtung": 30, "abstand_m": 13},
     "pfeiler_b": {"von": "tor", "richtung": 210, "abstand_m": 13},
     "zwickel_a": {"von": "tor", "richtung": 30, "abstand_m": 7.6},
@@ -49,12 +49,12 @@
     "kluftrand": {"von": "tor", "richtung": 120, "abstand_m": 14}
    },
    "gelaende": {"fenster_m": [110, 110], "rand_m": 10, "ops": [
-    {"op": "kuppe", "bei": "pfeiler_a", "radius_m": 10, "hoehe_m": 2.5, "plateau": 0.45, "streckung": [1.0, 1.4], "richtung": 30, "rand_m": 6, "warum": "Sockel des Pfeilers A (Ferat: Sockel per Gelaendestempel)"},
-    {"op": "kuppe", "bei": "pfeiler_b", "radius_m": 10, "hoehe_m": 2.5, "plateau": 0.45, "streckung": [1.0, 1.4], "richtung": 30, "rand_m": 6, "warum": "Sockel des Pfeilers B"},
-    {"op": "rinne", "punkte": [{"von": "tor", "richtung": 300, "abstand_m": 12}, {"von": "tor", "richtung": 120, "abstand_m": 10}], "breite_m": 9, "sohle": [97.0, 95.0], "rand_m": 5, "warum": "Torsohle: Kerbe -4 ... -6 m quer durch das Tor, nach beiden Seiten offen (W-Plateau, O-Kluft)"}
+    {"op": "kuppe", "bei": "pfeiler_a", "radius_m": 6.5, "hoehe_m": 2.5, "plateau": 0.5, "streckung": [1.0, 1.25], "richtung": 30, "rand_m": 2.5, "warum": "Sockel des Pfeilers A (Ferat: Sockel per Gelaendestempel)"},
+    {"op": "kuppe", "bei": "pfeiler_b", "radius_m": 6.5, "hoehe_m": 2.5, "plateau": 0.5, "streckung": [1.0, 1.25], "richtung": 30, "rand_m": 2.5, "warum": "Sockel des Pfeilers B"},
+    {"op": "rinne", "punkte": [{"von": "tor", "richtung": 300, "abstand_m": 12}, {"von": "tor", "richtung": 120, "abstand_m": 4.5}], "breite_m": 8, "sohle": [97.0, 95.5], "rand_m": 2, "warum": "Torsohle: Kerbe -4 ... -6 m quer durch das Tor, nach beiden Seiten offen (W-Plateau, O-Kluft)", "modus": "min"}
    ]},
    "gruppen": [
-    {"name": "pfeiler", "ebene": "held", "warum": "zwei Pfeiler aus Turmkalk; das Tor folgt der Kluft (30 Grad), die den Turm spaltet", "netz": "SM_Cliff_01c", "verteilung": {"typ": "punkte", "punkte": ["pfeiler_a", "pfeiler_b"]}, "skala": 0.35, "ausrichtung": "aufrecht", "front_achse": "+x", "yaw": 30, "yaw_streuung_grad": 6, "eingraben_m": 2.5, "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 0, "hinweis": "lokal X (10 m) entlang der Torachse, Y (16 m) = Tiefe des Bogens; Felsfarbe wie die Tuerme (kein MI)"},
+    {"name": "pfeiler", "ebene": "held", "warum": "zwei Pfeiler aus Turmkalk; das Tor folgt der Kluft (30 Grad), die den Turm spaltet", "netz": "SM_Cliff_01c", "verteilung": {"typ": "punkte", "punkte": ["pfeiler_a", "pfeiler_b"]}, "skala": 0.35, "ausrichtung": "aufrecht", "front_achse": "+x", "yaw": 30, "yaw_streuung_grad": 6, "eingraben_m": 3.0, "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 0, "hinweis": "lokal X (10 m) entlang der Torachse, Y (16 m) = Tiefe des Bogens; Felsfarbe wie die Tuerme (kein MI)", "bezug": "mitte"},
     {"name": "sturz", "ebene": "held", "warum": "liegender Sturz ueber beiden Pfeilern = Bogen; 4 m in die Pfeilerkoepfe eingesenkt", "netz": "SM_Cliff_01b", "verteilung": {"typ": "punkt", "bei": "tor"}, "skala_xyz": [0.7, 0.33, 0.32], "ausrichtung": "aufrecht", "front_achse": "+x", "yaw": 30, "yaw_streuung_grad": 0, "z_bezug": "oberkante:pfeiler", "z_versatz_m": -4.0, "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 0},
     {"name": "zwickel", "ebene": "begleiter", "warum": "Fugen zwischen Sturz und Pfeilern mit Kalkbloecken geschlossen (Zwickel innen)", "netz": "SM_LimestoneRocks3", "verteilung": {"typ": "punkte", "punkte": [{"anker": "zwickel_a", "versatz_m": [-2.0, -3.5]}, {"anker": "zwickel_a", "versatz_m": [2.0, 3.5]}, {"anker": "zwickel_b", "versatz_m": [-2.0, -3.5]}, {"anker": "zwickel_b", "versatz_m": [2.0, 3.5]}]}, "skala": [2.2, 2.6], "skala_xyz": [1.0, 1.0, 2.2], "ausrichtung": "aufrecht", "kipp_grad": [20, 35], "z_bezug": "oberkante:pfeiler", "z_versatz_m": -7.0, "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 0},
     {"name": "bogenstuecke", "ebene": "begleiter", "warum": "abgebrochene Bogenstuecke am Rampenfuss (das Tor war einmal breiter)", "palette": "sturzbloecke", "anzahl": 5, "verteilung": {"typ": "faecher", "bei": "tor", "richtung": 290, "laenge_m": 46, "start_m": 18, "oeffnung_grad": 50, "t": [0.4, 1.0]}, "abstand_m": 7, "skala": [1.1, 1.6], "eingraben": [0.3, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Kalk_Nass"},
@@ -94,18 +94,18 @@
    "budget": {"instanzen": 5000, "kollision": 300, "akteure": 15, "lichter": 0, "niagara": 3, "decals": 4},
    "assets_wunsch": [],
    "anker": {
-    "wandfuss": [10.0, 12.0],
+    "wandfuss": [10.0, 10.0],
     "quellmund": {"suche": "hangauf_bis", "bei": [10.0, 14.0], "hoehe_m": 45, "max_m": 40},
     "absatz": {"suche": "hangauf_bis", "bei": [10.0, 14.0], "hoehe_m": 22, "max_m": 30}
    },
-   "gelaende": {"fenster_m": [130, 130], "rand_m": 10, "begruendung": "Tosbecken -3 m mit Rand und Bachrinne zum Bestandsgerinne", "ops": []},
+   "gelaende": {"fenster_m": [130, 130], "rand_m": 10, "begruendung": "Tosbecken (Kolk) bis -10 m in den Wandfuss gegraben, Spiegel = tiefster Uferpunkt, Abfluss ueber eine Lippe in den Bestand", "ops": []},
    "wasser": [
-    {"typ": "see", "id": "tosbecken", "bei": "wandfuss", "tiefe_m": 2.5, "farbe": "tuerkis", "becken": {"a_m": 11, "b_m": 9, "richtung": 100, "ufer_m": 6, "freibord_m": 0.4, "boden": 0.4, "einpassen": {"r_such_m": 6, "schritt_m": 2, "richtungen": [80, 100, 120, 140]}}},
-    {"typ": "bach", "id": "quellbach", "abfluss_von": "tosbecken", "laenge_m": 110, "breite_m": 2.2, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "rinne": {"tiefe_m": 0.8, "breite_m": 3.0}},
-    {"typ": "wasserfall", "id": "turmquelle", "kante": [{"anker": "quellmund", "versatz_m": [-3, 0]}, {"anker": "quellmund", "versatz_m": [3, 0]}], "becken": "tosbecken", "breite_m": 6, "farbe": "klar"}
+    {"typ": "see", "id": "tosbecken", "bei": "wandfuss", "tiefe_m": 3.0, "farbe": "tuerkis", "becken": {"a_m": 11, "b_m": 8.5, "richtung": 100, "ufer_m": 5, "freibord_m": 0.3, "boden": 0.4}, "spiegel_rand_min": -0.2},
+    {"typ": "bach", "id": "quellbach", "abfluss_von": "tosbecken", "laenge_m": 110, "breite_m": 2.2, "tiefe_cm": 30, "farbe": "klar", "quelle": false, "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "wasserfall", "id": "turmquelle", "kante": [{"anker": "quellmund", "versatz_m": [-3, 0]}, {"anker": "quellmund", "versatz_m": [3, 0]}], "becken": "tosbecken", "breite_m": 6, "farbe": "klar", "material_hinweis": "Mountain-Set (13d): Wasserfall-/Flussmaterial des Sets statt MI_EL_Wasserfall; Vorhang + NS_Waterfall_*"}
    ],
    "gruppen": [
-    {"name": "quellnische", "ebene": "held", "warum": "dunkle Quellnische als sichtbare Ursache (sonst wirkt der Fall wie ein Rohr)", "netz": "SM_Cliff_01e", "verteilung": {"typ": "punkt", "bei": {"anker": "quellmund", "versatz_m": [0, 3]}}, "skala": 0.25, "front_achse": "+y", "yaw": 340, "yaw_streuung_grad": 0, "ausrichtung": "aufrecht", "z_bezug": "boden+0.0", "z_versatz_m": 0, "eingraben_m": 0, "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 0, "hinweis": "Lippe des Quellmunds: Fuss am Quellpunkt, Rest im Turm; Schauseite nach NNW angenommen"},
+    {"name": "quellnische", "ebene": "held", "warum": "dunkle Quellnische als sichtbare Ursache (sonst wirkt der Fall wie ein Rohr)", "netz": "SM_Cliff_01e", "verteilung": {"typ": "punkt", "bei": {"anker": "quellmund", "versatz_m": [0, 1.5]}}, "skala": 0.25, "front_achse": "+y", "yaw": 340, "yaw_streuung_grad": 0, "ausrichtung": "aufrecht", "eingraben_m": 1.0, "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 0, "hinweis": "Lippe des Quellmunds: Unterkante am Wandfuss der Nische, ragt aus der Wand; Schauseite nach NNW angenommen", "bezug": "min"},
     {"name": "absatz", "ebene": "begleiter", "warum": "Absatz mit Kolk auf halber Hoehe - hier zerstaeubt der Strahl", "netz": "/Game/Meshes/_GENERATED/RockFormation/SM_ForestRockShelf_02", "verteilung": {"typ": "punkt", "bei": "absatz"}, "skala": 3.0, "yaw": 340, "yaw_streuung_grad": 5, "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "meide": null, "material": "MI_EL_SW_Kalk_Nass"},
     {"name": "sturzbloecke", "ebene": "begleiter", "warum": "aus der Wand gebrochene Bloecke im und am Tosbecken", "palette": ["SM_Big_Rock_01", "SM_Big_Rock_03", "SM_LimestoneRocks3"], "anzahl": 6, "verteilung": {"typ": "ufer", "bei": "tosbecken_mitte", "r_m": 22, "band_m": [-1.5, 3.0]}, "abstand_m": 5, "skala": [0.9, 1.4], "akteur": true, "kollision": true, "im_wasser": "egal", "material": "MI_EL_SW_Kalk_Nass"},
     {"name": "wandfussgeroell", "ebene": "schutt", "warum": "Kalkgeroell am Wandfuss (Steinschlag)", "palette": "kalkschutt", "anzahl": 120, "verteilung": {"typ": "faecher", "bei": {"anker": "quellmund", "versatz_m": [0, 6]}, "richtung": 340, "laenge_m": 34, "start_m": 6, "oeffnung_grad": 90}, "abstand_m": 1.0, "groesse_m": [0.5, 1.6], "gradient": {"von": 1.4, "bis": 0.8}, "im_wasser": "nein"},
@@ -131,10 +131,10 @@
     {"typ": "lokaler_nebel", "zweck": "Gischt und Dunst am Fallfuss (von der Strasse als heller Hauch lesbar)", "bei": "tosbecken_mitte", "hoehe_m": 4, "radius_m": 18, "dichte": 0.06, "farbe": [0.9, 0.93, 0.95], "hoehenabfall": 0.6},
     {"typ": "decal", "material": "MI_TileableLeakage_03", "zweck": "Nassband/Sinterfahne in der Wand unter dem Quellmund", "bei": {"anker": "quellmund", "versatz_m": [0, -1.5]}, "hoehe_m": -8, "ausrichtung": "wand", "blick": 340, "groesse_m": [2.0, 7.0, 20.0]},
     {"typ": "decal", "material": "MI_Leakage_01", "zweck": "dunkle Quellnische", "bei": {"anker": "quellmund", "versatz_m": [0, -1.0]}, "hoehe_m": 1.5, "ausrichtung": "wand", "blick": 340, "groesse_m": [2.0, 5.0, 5.0]},
-    {"typ": "niagara", "asset": "NS_Waterfall_Large", "optional": false, "zweck": "Fallstrahl aus dem Quellmund, 45 m (Nature Water FX, 13d; ergaenzt den M_EL_Wasserfall2-Vorhang)", "bei": "quellmund", "hoehe_m": 0.0, "yaw_grad": 340},
+    {"typ": "niagara", "asset": "NS_Waterfall_Large", "optional": false, "zweck": "Fallstrahl aus dem Quellmund, 45 m (Nature Water FX, 13d; ergaenzt den M_EL_Wasserfall2-Vorhang)", "bei": "quellmund", "hoehe_m": 0.0, "yaw": 340},
     {"typ": "niagara", "asset": "NS_Impact_Large", "optional": false, "zweck": "Gischt am Aufprall im Tosbecken", "bei": "tosbecken_mitte", "hoehe_m": 0.2},
-    {"typ": "niagara", "asset": "NS_Impact_Small", "optional": false, "zweck": "Zerstaeuben am Absatz auf halber Hoehe", "bei": "absatz", "hoehe_m": 0.5},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "tosbecken_mitte", "r_m": 24, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "tosbecken_mitte", "r_m": 26, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Stroemung am Beckenauslass in den Quellbach", "bei": "tosbecken_auslass", "hoehe_m": 0.1, "yaw": "tosbecken_auslass"}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_IX_Cue", "bei": "tosbecken_mitte", "radius_m": 60, "lautstaerke": 0.9, "zweck": "Rauschen des Falls"}
@@ -209,8 +209,8 @@
     {"name": "riesenbaum", "ebene": "begleiter", "warum": "Urwaldriese am Westrand, seine Luftwurzeln suchen das Wasser", "netz": "SM_Tree_Big_01a", "verteilung": {"typ": "punkt", "bei": "riesenbaum"}, "skala": 1.0, "rolle": "baum", "akteur": true, "kollision": true, "weg_abstand_m": 0},
     {"name": "uferplatten", "ebene": "begleiter", "warum": "Sturzbloecke und Platten am schmalen Uferband (vom Rand gebrochen)", "palette": ["SM_MossyForestBoulder_04", "SM_LimestoneRocks3", "SM_flat_rock_02"], "anzahl": 5, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 48, "band_m": [0.0, 2.0]}, "abstand_m": 6, "skala": [1.0, 1.6], "akteur": true, "kollision": true, "im_wasser": "egal", "material": "MI_EL_SW_Kalk_Nass"},
     {"name": "randschutt", "ebene": "schutt", "warum": "Kalkschutt und Aeste an der Kante", "palette": ["SM_LimestoneRocks2", "SM_ground_rock_01", "SM_OldTreeBranch_04", "SM_OldTreeBranch_06"], "anzahl": 50, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 54, "band_m": [1.0, 9.0]}, "abstand_m": 1.5, "groesse_m": [0.6, 1.8], "eingraben": [0.3, 0.45]},
-    {"name": "luftwurzeln", "ebene": "bewuchs", "warum": "Luftwurzeln und Lianen haengen von der Kante bis zum Spiegel", "palette": "lianen", "anzahl": 40, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 52, "band_m": [0.0, 1.5]}, "abstand_m": 1.6, "skala": [1.2, 2.0], "skala_xyz": [1.0, 1.0, 1.6], "z_bezug": "see:auge", "oberkante_ueber_m": 9.0, "rolle": "pflanze", "im_wasser": "egal", "meide": null, "akteur": false, "weg_abstand_m": 0},
-    {"name": "wurzelstraenge", "ebene": "bewuchs", "warum": "lange Luftwurzelstraenge des Riesen haengen am Westrand bis zum Wasser (Mountain-Wurzeln 13d, hochkant)", "palette": ["SM_roots_04_A", "SM_roots_04_B", "SM_roots_05_B"], "anzahl": 10, "verteilung": {"typ": "ufer", "bei": "riesenbaum", "r_m": 30, "band_m": [0.0, 2.0]}, "abstand_m": 2.0, "skala": [1.6, 2.2], "ausrichtung": "hochkant", "hochkant_achse": "x", "yaw": "zu:schacht", "z_bezug": "see:auge", "oberkante_ueber_m": 9.0, "rolle": "wurzel", "im_wasser": "egal", "meide": null, "akteur": false, "kollision": false, "weg_abstand_m": 0},
+    {"name": "luftwurzeln", "ebene": "bewuchs", "warum": "Luftwurzeln und Lianen haengen von der Kante bis zum Spiegel", "palette": "lianen", "anzahl": 40, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 52, "band_m": [0.8, 2.2]}, "abstand_m": 1.6, "skala": [1.2, 2.0], "skala_xyz": [1.0, 1.0, 1.6], "z_bezug": "see:auge", "oberkante_ueber_m": 9.0, "rolle": "pflanze", "im_wasser": "egal", "meide": null, "akteur": false, "weg_abstand_m": 0},
+    {"name": "wurzelstraenge", "ebene": "bewuchs", "warum": "lange Luftwurzelstraenge des Riesen haengen am Westrand bis zum Wasser (Mountain-Wurzeln 13d, hochkant)", "palette": ["SM_roots_04_A", "SM_roots_04_B", "SM_roots_05_B"], "anzahl": 10, "verteilung": {"typ": "ufer", "bei": "riesenbaum", "r_m": 30, "band_m": [0.8, 2.2]}, "abstand_m": 2.0, "skala": [1.6, 2.2], "ausrichtung": "hochkant", "hochkant_achse": "x", "yaw": "zu:schacht", "z_bezug": "see:auge", "oberkante_ueber_m": 9.0, "rolle": "wurzel", "im_wasser": "egal", "meide": null, "akteur": false, "kollision": false, "weg_abstand_m": 0},
     {"name": "wandfarn", "ebene": "bewuchs", "warum": "feuchte Wand: Moos und Farn in Baendern an der Kante", "palette": "tropenfarn", "dichte_je_m2": 0.25, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 54, "band_m": [0.5, 5.0]}, "abstand_m": 1.1, "rolle": "pflanze"},
     {"name": "randblaetter", "ebene": "bewuchs", "warum": "Riesenblaetter am Rand (Feuchte aus dem Schacht)", "palette": "riesenblatt", "dichte_je_m2": 0.18, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 56, "band_m": [3.0, 10.0]}, "abstand_m": 1.2, "skala": [2.2, 2.8], "rolle": "pflanze", "material": "MI_EL_SW_Riesenblatt"},
     {"name": "randpalmen", "ebene": "bewuchs", "warum": "Palmen am Ostrand", "palette": ["SM_Palm_01_04_G", "SM_Palm_01_02_G"], "anzahl": 4, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 56, "band_m": [4.0, 12.0]}, "abstand_m": 6, "rolle": "baum", "hoehe_rel_m": [-40, 0]},
@@ -230,7 +230,7 @@
     {"typ": "lokaler_nebel", "zweck": "Dunst im Schacht macht den Lichtkegel sichtbar", "bei": "schacht", "hoehe_m": 3, "radius_m": 26, "dichte": 0.03, "farbe": [0.82, 0.9, 0.92], "hoehenabfall": 0.5},
     {"typ": "decal", "material": "MI_TileableLeakage_01", "zweck": "Moos-Nassband 1 m ueber dem Spiegel (Ostwand)", "bei": {"anker": "schacht", "versatz_m": [21, 2]}, "hoehe_m": 1.0, "ausrichtung": "wand", "blick": 270, "groesse_m": [2.0, 10.0, 2.5]},
     {"typ": "decal", "material": "MI_TileableLeakage_01", "zweck": "Nassband Nordwand", "bei": {"anker": "schacht", "versatz_m": [2, -22]}, "hoehe_m": 1.0, "ausrichtung": "wand", "blick": 180, "groesse_m": [2.0, 10.0, 2.5]},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am schmalen Uferband (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 40, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "schacht", "r_m": 52, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue", "bei": "rand_ost", "radius_m": 40, "lautstaerke": 0.25, "zweck": "Papageien am Schachtrand (leise)"}
@@ -291,7 +291,7 @@
     {"typ": "decal", "material": "MI_TileableLeakage_04", "zweck": "Nassband und Kalksinter am Spiegel (Nordwand)", "bei": {"anker": "lagune", "versatz_m": [4, -8]}, "hoehe_m": 0.8, "ausrichtung": "wand", "blick": 210, "groesse_m": [2.0, 12.0, 2.0]},
     {"typ": "decal", "material": "MI_TileableLeakage_04", "zweck": "Nassband Suedwand", "bei": {"anker": "lagune", "versatz_m": [-4, 8]}, "hoehe_m": 0.8, "ausrichtung": "wand", "blick": 30, "groesse_m": [2.0, 12.0, 2.0]},
     {"typ": "decal", "material": "MI_Leakage_11", "zweck": "Tropfspuren in der Gasse", "bei": {"auf_linie": "gasse", "t": 0.4}, "hoehe_m": 3, "ausrichtung": "wand", "blick": 290, "groesse_m": [1.5, 3.0, 6.0]},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "ufer", "r_m": 20, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "lagune", "r_m": 34, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Rain_Dropping_on_various_textures_Cue", "bei": "lagune", "radius_m": 35, "lautstaerke": 0.25, "zweck": "Tropfen von den Waenden (leise; im Editor pruefen)"}
@@ -321,7 +321,7 @@
     {"op": "rinne", "punkte": "zulauf", "breite_m": 3, "tiefe_m": 0.6, "rand_m": 2, "warum": "Bachende an den Trichter anschliessen"}
    ]},
    "wasser": [
-    {"typ": "bach", "id": "schwinde", "punkte": "zulauf", "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "muendung": "versickert", "hinweis": "beide Baeche enden heute hier; letzte 6 m steil ins Portal (Strudel, Schaum)"},
+    {"typ": "bach", "id": "schwinde", "punkte": "zulauf", "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "muendung": "versickert", "hinweis": "beide Baeche enden heute hier; letzte 6 m steil ins Portal (Strudel, Schaum)", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
     {"typ": "see", "id": "strudeltopf", "bei": "portal", "r_m": 2.6, "spiegel": "boden+0.2", "tiefe_m": 0.8, "farbe": "schwarz_spiegel", "becken": {"ufer_m": 2.0, "freibord_m": 0.1, "boden": 0.3}}
    ],
    "gruppen": [
@@ -351,7 +351,7 @@
     {"typ": "decal", "material": "MI_Leakage_08", "zweck": "Hochwasserlinie an der Kalkbank", "bei": {"anker": "portal", "versatz_m": [-2.5, 8]}, "hoehe_m": 1.5, "ausrichtung": "wand", "blick": 90, "groesse_m": [1.5, 10.0, 1.5]},
     {"typ": "decal", "material": "MI_Leakage_12", "zweck": "Portalinneres schwarz", "bei": {"anker": "portal", "versatz_m": [-2.0, 0.5]}, "hoehe_m": 1.2, "ausrichtung": "wand", "blick": 90, "groesse_m": [2.0, 5.0, 3.0]},
     {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Strudel und Schaum, wo das Wasser in das Portal faellt (Nature Water FX, 13d)", "bei": {"anker": "portal", "versatz_m": [2.0, 0.0]}, "hoehe_m": 0.1, "yaw_grad": 280},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband/Schlammsaum am Bachende (Coast & Dunes, 13d)", "anzahl": 1, "verteilung": {"typ": "band", "punkte": "zulauf", "breite_m": 4}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 1, "verteilung": {"typ": "ufer", "bei": "trichter", "r_m": 20, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_IV_Cue", "bei": "portal", "radius_m": 30, "lautstaerke": 0.6, "zweck": "Gurgeln an der Schwinde"}
@@ -463,7 +463,7 @@
     {"typ": "decal", "material": "MI_TileableLeakage_04", "bei": {"anker": "dach", "versatz_m": [-3, 7]}, "hoehe_m": 3, "ausrichtung": "wand", "blick": 90, "groesse_m": [2.0, 6.0, 5.0]},
     {"typ": "niagara", "asset": "NS_Waterfall_Small", "optional": false, "zweck": "Tropfvorhang von der Dachkante ins Becken (Kopie, sehr duenn, wenige Faeden; Nature Water FX 13d)", "bei": "tropfbecken", "hoehe_m": 11.0, "yaw_grad": 90},
     {"typ": "niagara", "asset": "NS_Impact_Small", "optional": false, "zweck": "Spritzer im Tropfbecken", "bei": "tropfbecken", "hoehe_m": 0.1},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Tropfnaesse am Hallenboden (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "tropfbecken", "r_m": 7}, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "tropfbecken", "r_m": 9, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Rain_Dropping_on_various_textures_Cue", "bei": "tropfbecken", "radius_m": 25, "lautstaerke": 0.3, "zweck": "Tropfvorhang (im Editor pruefen)"}

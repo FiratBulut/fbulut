@@ -19,9 +19,9 @@ Optionen: --orte/--ort ID ... (nur diese Orte; Orte in denselben Feldern werden 
   --sehens (Ordner mit <biom>/standorte.json), --cache, --ohne-pruefung.
 Exit-Code: 0 ok, 1 Pruefer meldet FEHLER, 2 Pflichtdatei fehlt.
 
-Ort-spezifischer Code (alles andere steht in den Regeln): Hook 'cenote_umriss' (Blaues Auge) beschneidet das
-Seebecken auf die echte Schachtkontur (Umriss sternfoermig aus dem Gelaende, Vertiefung nur im Schacht), damit der
-Stempel die Schachtwaende nicht anschneidet.
+Ort-spezifischer Code (alles andere steht in den Regeln): Hook 'see_kontur' (Blaues Auge, Verborgene Lagune) legt
+Seen in natuerliche Kessel, die keine Ellipse sind: Umriss = Kesselkontur aus dem Gelaende, Grund nur vertieft, Kessel-
+waende unveraendert (Regel-Schluessel 'see_kontur').
 Quellen: vorlagen/SEHENS_FORMAT.md, vorlagen/FORMAT.md §3, antworten/verteilung-KONVENTIONEN.md,
 auftraege/13-, 13b-, 13c-*.md, antworten/skripte/sehens_lib/ (README.md, PLANER_ANLEITUNG.md).
 """
@@ -85,45 +85,61 @@ def _erodiere(m, n):
     return r
 
 
-def hook_cenote_umriss(ctx):
-    """Blaues Auge: der Schacht ist kein Ellipsenbecken. Nach dem Seebecken (Ellipse, die den Schacht ganz
-    abdeckt) wird der Stempel auf den echten Schacht beschnitten: Seeumriss = Kontur des Schachts (Gelaende
-    < schacht.kante_m, zusammenhaengend ab der Schachtmitte), Vertiefung nur im Schacht und mind. rand_zellen
-    Zellen von seiner Wand entfernt (dort bleibt der Bestandsgrund als Uferstufe), ausserhalb kein Delta.
-    So schneidet das Becken die Schachtwaende nicht an, und es entsteht keine neue geschlossene Senke."""
+def hook_see_kontur(ctx):
+    """Seen in natuerlichen Kesseln (Cenote, Lagune), die keine Ellipse sind. Fuer jeden Eintrag in
+    ctx.r["see_kontur"]: Seeflaeche = zusammenhaengende Zellen mit Gelaende < kante_m ab 'bei' (im Radius r_max_m);
+    Umriss sternfoermig aus dieser Flaeche; der Seegrund wird nur dort vertieft, wo er mind. rand_m von der Kesselwand
+    entfernt ist (Stufe am Ufer bleibt Bestand), nie angehoben. Der Kessel selbst und seine Waende bleiben unveraendert,
+    deshalb schneidet der Stempel keine Waende an und erzeugt keine neue Senke. Der See wird an ctx.r["wasser"]
+    angehaengt (ohne 'becken', also ohne Ellipsen-Stempel) und als ctx.see[id] samt Ankern <id>_mitte,
+    <id>_auslass (= Mitte; kein Abfluss) und Linie ufer_<id> eingetragen."""
     import numpy as np
-    from sehens_lib import stempel as stm
-    c = ctx.r.get("schacht") or {}
-    sid = c.get("see", "auge")
-    s = ctx.see[sid]
+    from sehens_lib import stempel as stm, gelaende as gl
     st = ctx.stempel
-    i0, j0 = np.unravel_index(int(np.argmin(np.hypot(st.X - s["x"], st.Y - s["y"]))), st.X.shape)
-    m0 = _zusammenhang(st.h0 < float(c.get("kante_m", 0.8)), i0, j0)
-    m_in = _erodiere(m0, int(c.get("rand_zellen", 3)))
-    st.delta = np.where(m_in, st.delta, 0.0)
-    # Umriss: sternfoermig von der Schachtmitte (Strahlen alle 5 Grad, letzte Schachtzelle)
-    cx, cy = float(st.X[m0].mean()), float(st.Y[m0].mean())
-    pts = []
-    for g in np.arange(0.0, 360.0, 5.0):
-        ux, uy = stm.kompass_vektor(float(g))
-        r_last = 0.0
-        for r in np.arange(0.0, 80.0, 0.5):
-            x, y = cx + ux * r, cy + uy * r
-            i, j = int(round((y - st.Y[0, 0]) / st.z)), int(round((x - st.X[0, 0]) / st.z))
-            if not (0 <= i < m0.shape[0] and 0 <= j < m0.shape[1]) or not m0[i, j]:
-                break
-            r_last = r
-        pts.append([cx + ux * max(r_last + 0.5, 1.0), cy + uy * max(r_last + 0.5, 1.0)])
-    if stm.flaeche(pts) < 0:
-        pts = pts[::-1]
-    s.update(umriss_m=pts, x=cx, y=cy)
-    ctx.linien["ufer_" + sid] = pts + [pts[0]]
-    ctx.anker[sid + "_mitte"] = (cx, cy)
-    ctx.melde("HINWEIS", "see %s: Umriss = Schachtkontur (%d Punkte, %.0f m2), Vertiefung nur im Schacht"
-              % (sid, len(pts), float(m0.sum()) * st.z * st.z))
+    for c in ctx.r.get("see_kontur") or []:
+        sid = c["id"]
+        bx, by = ctx.punkt(c.get("bei", "mitte"))
+        spiegel = float(c["spiegel"])
+        kante = float(c.get("kante_m", spiegel + 0.5))
+        nah = np.hypot(st.X - bx, st.Y - by) <= float(c.get("r_max_m", 60.0))
+        i0, j0 = np.unravel_index(int(np.argmin(np.where(nah, st.h0, np.inf))), st.X.shape)
+        m0 = _zusammenhang((st.h0 < kante) & nah, i0, j0)
+        d_rand = gl.abstand(~m0, st.z, 200.0)                        # Abstand zur Kesselwand (m)
+        rand = float(c.get("rand_m", 8.0))
+        rampe = float(c.get("rampe_m", 8.0))
+        t = np.clip((d_rand - rand) / max(rampe, 1e-6), 0.0, 1.0)
+        sohle = spiegel - float(c["tiefe_m"]) * t
+        cur = st.h0 + st.delta
+        neu = np.where(m0 & (t > 0.0), np.minimum(cur, sohle), cur)
+        st.delta = neu - st.h0
+        cx, cy = float(st.X[m0].mean()), float(st.Y[m0].mean())
+        pts = []
+        for g in np.arange(0.0, 360.0, 5.0):
+            ux, uy = stm.kompass_vektor(float(g))
+            r_last = 0.0
+            for r in np.arange(0.0, 120.0, 0.5):
+                i = int(round((cy + uy * r - st.Y[0, 0]) / st.z))
+                j = int(round((cx + ux * r - st.X[0, 0]) / st.z))
+                if not (0 <= i < m0.shape[0] and 0 <= j < m0.shape[1]) or not m0[i, j]:
+                    break
+                r_last = r
+            pts.append([cx + ux * max(r_last + 0.5, 1.0), cy + uy * max(r_last + 0.5, 1.0)])
+        if stm.flaeche(pts) < 0:
+            pts = pts[::-1]
+        ctx.see[sid] = {"umriss_m": pts, "spiegel_m": spiegel, "x": cx, "y": cy, "a_m": 0.0, "b_m": 0.0,
+                        "richtung": 0.0, "auslass_grad": None}
+        ctx.linien["ufer_" + sid] = pts + [pts[0]]
+        ctx.anker[sid + "_mitte"] = (cx, cy)
+        ctx.anker[sid + "_auslass"] = (cx, cy)
+        w = {k: v for k, v in c.items() if k not in ("bei", "kante_m", "r_max_m", "rand_m", "rampe_m", "warum")}
+        w["typ"] = "see"
+        ctx.r.setdefault("wasser", []).append(w)
+        ctx.melde("HINWEIS", "see %s: Umriss = Kesselkontur < %.1f m (%d Punkte, %.0f m2), Grund nur vertieft"
+                  % (sid, kante, len(pts), float(m0.sum()) * st.z * st.z))
 
 
-HOOKS = {"dschungel_04_blaues_auge": {"nach_gelaende": hook_cenote_umriss}}
+HOOKS = {"dschungel_04_blaues_auge": {"nach_gelaende": hook_see_kontur},
+         "dschungel_05_verborgene_lagune": {"nach_gelaende": hook_see_kontur}}
 
 
 # ----------------------------------------------------------------------------------------------------------------------

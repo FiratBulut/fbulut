@@ -210,12 +210,12 @@
     {"typ": "see", "id": "becken_3", "bei": {"auf_linie": "treppe", "s_m": 38}, "spiegel": "boden", "tiefe_m": 1.5, "farbe": "tuerkis", "becken": {"a_m": 5.5, "b_m": 4.2, "richtung": "treppe", "ufer_m": 3.0, "freibord_m": 0.3, "boden": 0.4, "lippe_m": 2.0, "auslass_sektor_grad": 22}},
     {"typ": "see", "id": "becken_4", "bei": {"auf_linie": "treppe", "s_m": 53}, "spiegel": "boden", "tiefe_m": 1.2, "farbe": "tuerkis", "becken": {"a_m": 4.8, "b_m": 3.6, "richtung": "treppe", "ufer_m": 3.0, "freibord_m": 0.3, "boden": 0.4, "lippe_m": 2.0, "auslass_sektor_grad": 22}},
     {"typ": "see", "id": "becken_5", "bei": {"auf_linie": "treppe", "s_m": 67}, "spiegel": "boden", "tiefe_m": 0.9, "farbe": "tuerkis", "becken": {"a_m": 4.2, "b_m": 3.2, "richtung": "treppe", "ufer_m": 3.0, "freibord_m": 0.3, "boden": 0.4, "lippe_m": 2.0, "auslass_sektor_grad": 22}},
-    {"typ": "bach", "id": "zulauf", "punkte": [{"auf_linie": "treppe", "s_m": 0}, {"auf_linie": "treppe", "s_m": 4.2}], "bis_see": "becken_1", "breite_m": 1.6, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "muendung": "becken_1"},
-    {"typ": "bach", "id": "stufe_1", "punkte": [{"anker": "becken_1_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 17.6}], "abfluss_von": "becken_1", "bis_see": "becken_2", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_2"},
-    {"typ": "bach", "id": "stufe_2", "punkte": [{"anker": "becken_2_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 32.2}], "abfluss_von": "becken_2", "bis_see": "becken_3", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_3"},
-    {"typ": "bach", "id": "stufe_3", "punkte": [{"anker": "becken_3_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 47.9}], "abfluss_von": "becken_3", "bis_see": "becken_4", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_4"},
-    {"typ": "bach", "id": "stufe_4", "punkte": [{"anker": "becken_4_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 62.5}], "abfluss_von": "becken_4", "bis_see": "becken_5", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_5"},
-    {"typ": "bach", "id": "abfluss", "abfluss_von": "becken_5", "laenge_m": 22, "breite_m": 1.6, "tiefe_cm": 25, "farbe": "klar", "quelle": false}
+    {"typ": "bach", "id": "zulauf", "punkte": [{"auf_linie": "treppe", "s_m": 0}, {"auf_linie": "treppe", "s_m": 4.2}], "bis_see": "becken_1", "breite_m": 1.6, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "muendung": "becken_1", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "bach", "id": "stufe_1", "punkte": [{"anker": "becken_1_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 17.6}], "abfluss_von": "becken_1", "bis_see": "becken_2", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_2", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "bach", "id": "stufe_2", "punkte": [{"anker": "becken_2_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 32.2}], "abfluss_von": "becken_2", "bis_see": "becken_3", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_3", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "bach", "id": "stufe_3", "punkte": [{"anker": "becken_3_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 47.9}], "abfluss_von": "becken_3", "bis_see": "becken_4", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_4", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "bach", "id": "stufe_4", "punkte": [{"anker": "becken_4_auslass", "versatz_m": [0, 0]}, {"auf_linie": "treppe", "s_m": 62.5}], "abfluss_von": "becken_4", "bis_see": "becken_5", "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "muendung": "becken_5", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "bach", "id": "abfluss", "abfluss_von": "becken_5", "laenge_m": 22, "breite_m": 1.6, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"}
    ],
    "gruppen": [
     {"name": "tuffkanten", "ebene": "held", "warum": "Kalktuff-Stufenkanten: Kalk faellt am Ueberlauf aus (Plitvice-Prinzip), Wasser faellt zwischen ihnen", "palette": ["/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01", "SM_SmoothRockShelf_01"], "gewichte": [3, 2], "verteilung": {"typ": "anker", "praefix": "kante_"}, "groesse_m": [3.4, 4.4], "groesse_achse": "max", "front_achse": "+x", "yaw_streuung_grad": 10, "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Kalktuff", "im_wasser": "egal", "meide": null, "weg_abstand_m": 0},
@@ -249,10 +249,10 @@
     {"typ": "decal", "material": "MI_TileableLeakage_02", "zweck": "Nassband/Kalkkruste an der Stufe 3", "bei": "fall_3", "hoehe_m": 0.2, "groesse_m": [1.0, 3.2, 1.4], "ausrichtung": "wand", "blick": "treppe"},
     {"typ": "decal", "material": "MI_TileableLeakage_02", "zweck": "Nassband/Kalkkruste an der Stufe 4", "bei": "fall_4", "hoehe_m": 0.2, "groesse_m": [1.0, 3.2, 1.4], "ausrichtung": "wand", "blick": "treppe"},
     {"typ": "decal", "material": "MI_TileableLeakage_02", "zweck": "Nassband/Kalkkruste an der Stufe 5", "bei": "fall_5", "hoehe_m": 0.2, "groesse_m": [1.0, 3.2, 1.4], "ausrichtung": "wand", "blick": "treppe"},
-    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Wasserfaeden ueber die zweite Tuffstufe (Nature Water FX, 13d)", "bei": "fall_2", "hoehe_m": 0.2, "yaw_grad": 225},
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Wasserfaeden ueber die zweite Tuffstufe (Nature Water FX, 13d)", "bei": "fall_2", "hoehe_m": 0.2, "yaw": "treppe"},
     {"typ": "niagara", "asset": "NS_Impact_Small", "optional": false, "zweck": "Schaum am Fuss der hoechsten Stufe", "bei": "fall_3", "hoehe_m": -0.8},
-    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Wasserfaeden ueber die vierte Stufe", "bei": "fall_4", "hoehe_m": 0.2, "yaw_grad": 225},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "groesse_m": [1.0, 3.0, 3.0], "anzahl": 2, "verteilung": {"typ": "band", "punkte": "treppe", "breite_m": 12}}
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Wasserfaeden ueber die vierte Stufe", "bei": "fall_4", "hoehe_m": 0.2, "yaw": "treppe"},
+    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "senke", "r_m": 45, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_VIII_Cue", "bei": "senke", "radius_m": 45, "lautstaerke": 0.8, "zweck": "Rauschen ueber die Stufen"}
@@ -280,8 +280,8 @@
     {"op": "abbruch", "punkte": [{"auf_linie": "tobel", "s_m": 4, "seite_m": -7}, {"auf_linie": "tobel", "s_m": 62, "seite_m": -8}], "hoehe_m": 2.0, "breite_m": 5, "reichweite_m": 9, "seite": "rechts", "verteilung": "oben", "warum": "Nordwand nachschaerfen"}
    ]},
    "wasser": [
-    {"typ": "bach", "id": "tobelbach", "punkte": "tobel", "breite_m": 1.6, "tiefe_cm": 20, "farbe": "klar", "quelle": true, "hinweis": "Kaskaden: Stufen > 0,8 m werden kleine Faelle"},
-    {"typ": "wasserfall", "id": "tropfwand", "kante": [{"auf_linie": "tobel", "s_m": 0, "seite_m": 1.2}, {"auf_linie": "tobel", "s_m": 0, "seite_m": -1.2}], "fuss": "fallfuss", "breite_m": 2.2, "farbe": "klar"}
+    {"typ": "bach", "id": "tobelbach", "punkte": "tobel", "breite_m": 1.6, "tiefe_cm": 20, "farbe": "klar", "quelle": true, "hinweis": "Kaskaden: Stufen > 0,8 m werden kleine Faelle", "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Bach-/Flussmaterial"},
+    {"typ": "wasserfall", "id": "tropfwand", "kante": [{"auf_linie": "tobel", "s_m": 0, "seite_m": 1.2}, {"auf_linie": "tobel", "s_m": 0, "seite_m": -1.2}], "fuss": "fallfuss", "breite_m": 2.2, "farbe": "klar", "material_hinweis": "Mountain-Set (13d): Wasserfall-/Flussmaterial des Sets statt MI_EL_Wasserfall; Vorhang + NS_Waterfall_*"}
    ],
    "gruppen": [
     {"name": "quellwand", "ebene": "held", "warum": "Tropfende Quellwand am Schluchtkopf - Ursache des Bachs (Schichtquelle)", "netz": "SM_HugeMossyForestCliff_01", "verteilung": {"typ": "punkt", "bei": {"auf_linie": "tobel", "s_m": -3}}, "skala": 1.1, "ausrichtung": "hochkant", "hochkant_achse": "x", "front_achse": "+z", "yaw": {"basis": "tobel", "plus": 0}, "yaw_streuung_grad": 0, "eingraben": [0.3, 0.35], "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0, "hinweis": "Schale hochkant (lokal X nach oben), Moosseite talwaerts angenommen - Editorbild _held entscheidet"},
@@ -312,10 +312,10 @@
     {"typ": "decal", "material": "MI_Leakage_07", "bei": {"auf_linie": "tobel", "s_m": -1, "seite_m": -3}, "hoehe_m": 2.0, "ausrichtung": "wand", "blick": {"basis": "tobel", "plus": 180}, "groesse_m": [1.5, 2.5, 3.5]},
     {"typ": "decal", "material": "MI_Leakage_08", "bei": {"auf_linie": "tobel", "s_m": 14, "seite_m": 6}, "hoehe_m": 1.5, "ausrichtung": "wand", "blick": {"basis": "tobel", "plus": 270}, "groesse_m": [1.5, 2.5, 3.0]},
     {"typ": "lokaler_nebel", "zweck": "feuchter Dunst im Tobel, gruener Schimmer", "bei": "tobelmitte", "hoehe_m": 4, "radius_m": 36, "dichte": 0.04, "farbe": [0.8, 0.88, 0.82], "hoehenabfall": 0.5},
-    {"typ": "niagara", "asset": "NS_Waterfall_Small", "optional": false, "zweck": "Schleier der Tropfwand am Schluchtkopf (Nature Water FX, 13d)", "bei": {"auf_linie": "tobel", "s_m": 0.5}, "hoehe_m": 3.0, "yaw_grad": 270},
+    {"typ": "niagara", "asset": "NS_Waterfall_Small", "optional": false, "zweck": "Schleier der Tropfwand am Schluchtkopf (Nature Water FX, 13d)", "bei": {"auf_linie": "tobel", "s_m": 0.5}, "hoehe_m": 3.0, "yaw": "tobel"},
     {"typ": "niagara", "asset": "NS_Impact_Small", "optional": false, "zweck": "Spritzer am Fuss der Tropfwand", "bei": "fallfuss", "hoehe_m": 0.1},
-    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Kaskade in der Tobelmitte", "bei": "tobelmitte", "hoehe_m": 0.1, "yaw_grad": 250},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "groesse_m": [1.0, 3.0, 3.0], "anzahl": 2, "verteilung": {"typ": "band", "punkte": "tobel", "breite_m": 6, "t": [0.3, 0.9]}}
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Kaskade in der Tobelmitte", "bei": "tobelmitte", "hoehe_m": 0.1, "yaw": "tobel"},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "tobelmitte", "r_m": 40, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_X_Cue", "bei": "tobelmitte", "radius_m": 45, "lautstaerke": 0.8, "zweck": "Rauschen im Tobel"}
@@ -487,7 +487,7 @@
     {"typ": "decal", "material": "MI_TileableMossPatches_01", "zweck": "Moos an der Kerbe", "anzahl": 1, "bei": {"von": "kerbe", "richtung": 270, "abstand_m": 8}, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "decal", "material": "MI_Leakage_06", "zweck": "Erde hinter dem Wurzelteller", "bei": "wurzelloch", "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "niagara", "asset": "NS_Wake_Small", "optional": false, "zweck": "Schaum am Treibholzstau unter dem Stamm (Nature Water FX, 13d)", "bei": "kerbe", "hoehe_m": 0.0, "yaw_grad": 0},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "groesse_m": [1.0, 3.0, 3.0], "anzahl": 2, "verteilung": {"typ": "band", "punkte": "bachlauf", "breite_m": 7, "t": [0.3, 0.8]}}
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserkante (Coast & Dunes, 13d)", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "kerbe", "r_m": 34, "band_m": [-0.3, 1.5]}, "abstand_m": 4, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_V_Cue", "bei": "kerbe", "radius_m": 35, "lautstaerke": 0.6, "zweck": "Bach in der Kerbe"}

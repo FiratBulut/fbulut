@@ -1,12 +1,12 @@
 # Auftrag 13 – Sehenswürdigkeiten (8 je Biom): Status
 
-Stand: 2026-10-11 13:33 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
 
 ## Phase 1
 
 | Teil | Inhalt | Stand |
 |---|---|---|
-| A | Download-Liste für Ferat (`sehens-downloadliste.md`, `sehens/downloadliste.json`) | **aktualisiert auf Inventar 13b + Ferats Nachträge** (erledigt/läuft/erneut versuchen/fehlend A·B·C/Lücken/bewusst nicht); abgeglichen mit den endgültigen Ort-IDs aller 15 Biome; noch offen: A 1, B 15, C 12 (A+B ca. 23 GB, ungeprüft) |
+| A | Download-Liste für Ferat (`sehens-downloadliste.md`, `sehens/downloadliste.json`) | **Stand Inventar 13d** (Antwort `13d-sehens-bestand-komplett.md`): 13 Pakete erledigt; noch fehlend 28 (A 1 Driftwood, B 12, C 15) – 6 kostenlos (Claude lädt auf Wunsch), 22 nur nach Ferats OK; Limestone nicht im Inventar |
 | Baukasten | `skripte/sehens_lib/` (Laden 2 m, Hang/Krümmung/Abfluss, Sichtbarkeit vom Weg, Kandidatensuche, Draufsicht-PNG, Format-Prüfer `sehens_pruefen.py`) | fertig, gepusht (Selbsttest auf echten 2-m-Daten ohne Fehler; Grenzen: Bäume nur 4-m-Näherung, 1-m-Lader nur synthetisch getestet) |
 | B/C | Katalog + `sehens/<biom>/standorte.json` + Draufsichten je Ort | **fertig**: 120 Orte (48 Leuchtfeuer/72 Fundstücke), 19 Pfade (20,9 km) in `pfade`; Gesamtkatalog `sehens-katalog.md` mit allen Ortsabschnitten; `sehens/marker.json`; Prüfer über alle Biome 0 FEHLER, 1 WARNUNG (Tundra-Pfad streift ROMAN_LOC_018) |
 | D | diese Datei | aktuell |
@@ -19,6 +19,12 @@ Stand: 2026-10-11 13:33 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 - **Mönch (bergwald_01):** Sockelplateau entfällt (Hang 52°); die Nadel steckt hangseitig tiefer im Boden.
 - **Pivot/Schauseite:** Für Klippenschalen, Basalt und viele Mountain-Netze fehlen Maße in `netze_masse.json` → Annahme „Pivot unten Mitte“, Schauseite angenommen; das Prüfbild im Editor entscheidet.
 - **1-m-Daten:** Planer noch nicht mit 1 m getestet (lokal bei Claude).
+
+### Inventar 13d (komplett nach Ferats Downloads)
+
+- Nature Water FX, Lava & Volcano (inkl. `SM_lava_wall_*`), Coast & Dunes, Mountain, Desert Western sind im Projekt; alle 15 `asset_bedarf.json` haben einen Block `abgleich_13d` (85 Wünsche erfüllt, 49 Ersatzlösungen → echte Assets, 60 Punkte fehlen weiter). Planer werden gerade umgestellt; Bergwald ist umgestellt (0 FEHLER).
+- **Nicht verwenden** (unvollständig): `Desert_Western_Cluster_Rock_Medium_05_uldubik`, `Desert_Western_Ledge_Rock_Small_07_uk5ebcp`. Hinweis an Claude lokal: beide stehen auch in Auftrag-11-Dateien (`skripte/felsgruppen_regeln.json`, `skripte/wueste_ergaenzung_regeln.json`, `assets-taxonomie.*`, `verteilung-*.md`) – dort bitte vorerst ausfiltern oder nach dem Neuladen prüfen.
+- Doppelnamen brauchen den vollen Pfad: `SM_Forest_pine_06` (Baum 25 m vs. Wurzel 2,5 m); `SM_Big_rock_01/02` ≠ `SM_Big_Rock_01/02`; `SM_pine_roots_01` (Coast) ≠ `SM_Pine_roots_01` (Mountain).
 
 ## Biome
 
@@ -68,6 +74,13 @@ Stand: 2026-10-11 13:33 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 8. Optionale Tiere (Fische, Ameisen) mit „nur Landschaft“ vereinbar?
 
 Beantwortet (13c bzw. Chat, siehe „Entscheidungen Ferat“ und `13c-antworten-offene-fragen.md`): Pfade/Steige (alle gebaut), Kratersteig + Gipfelsteig, Basalt, Mondtor, Rotlaub, Cenote-See, Tausendfuß, Die Alte, Erlen-Ersatz, Mondarm-Gehölz, Schwalbenwand-Decal, Mönch, Windwurf/Säulenhain, Karsee-Stempel, Gelände frei, Klippensteig, Brushify, Forest Cretaceous, Nature Water FX. Die Einträge unten sind der Verlauf.
+
+**Neu aus 13d:**
+9. **Limestone:** nicht im Inventar 13d – soll Claude (lokal) die Megascans-Limestone-Assets und das Ancraite „Limestone Rock Set“ laden? Link zum Ancraite-Set?
+10. `uldubik`/`uk5ebcp` neu laden und dabei die zwei fehlgeschlagenen IDs aus 13b prüfen?
+11. Die 6 kostenlosen Pakete (Electric Dreams, European Black Alder, Icelandic Sand, Tundra Icelandic Rock Cluster, Megascans Desert Pack, Megascans Sandstone) gleich mitladen?
+12. **Kostenpflichtig – welche?** Empfehlung nach Wirkung: Nanite Driftwood Props (einziges A: Treibholzburg aue_04), Quercus Robur (Die Alte), CryoGen (Frost), Hollowstone Canyon (Wabenwand), Arctic Cliffs.
+13. Name/Pfad des Mountain-Wasserfall-Materials (`M_River_Water_Translucent` hat im Inventar keinen Pfad)? Wo liegen die Coast-&-Dunes-„Stempel“ (nicht in `netze.csv`)?
 
 ## Offene Fragen – Verlauf
 

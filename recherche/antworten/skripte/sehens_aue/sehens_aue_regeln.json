@@ -68,7 +68,7 @@
    "wasser": [
     {"typ": "see", "id": "stau", "bei": "teich", "spiegel": 35.9, "tiefe_m": 1.6, "farbe": "moorbraun",
      "becken": {"a_m": 18, "b_m": 11, "richtung": 99, "ufer_m": 4, "freibord_m": 0.3, "boden": 0.5, "auslass": 99, "lippe_m": 1.6}},
-    {"typ": "bach", "id": "ueberlauf", "abfluss_von": "stau", "laenge_m": 26, "breite_m": 1.6, "tiefe_cm": 20, "farbe": "klar", "quelle": false}
+    {"typ": "bach", "id": "ueberlauf", "abfluss_von": "stau", "laenge_m": 26, "breite_m": 1.6, "tiefe_cm": 20, "farbe": "klar", "quelle": false, "material_hinweis": "M_River_Water_Translucent (Mountain Environment Set, 13d; Pfad nur als Name im Inventar)"}
    ],
    "gruppen": [
     {"name": "dammstaemme", "ebene": "held", "warum": "Traggeruest des Damms: quer liegende Knueppel und Staemme im Bogen (flussab gewoelbt)", "palette": ["SM_trunk_01", "SM_trunk_02", "SM_LargeFallenTree_01", "SM_OldFallenTree_01"],
@@ -361,7 +361,7 @@
    "pfad": {"breite_cm": 130, "lagen": {"Erde": 195, "Kies": 160},
             "trittsteine": {"palette": ["SM_flat_rock_02", "SM_flat_rock_03", "SM_SmoothRockShelf_01"], "groesse_m": [1.0, 1.6], "abstand_m": 1.1}},
    "effekte": [
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserlinie unter dem Treibholz (Coast & Dunes 13d)", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "verhau", "r_m": 8}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wasserlinie unter dem Treibholz (Coast & Dunes 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "verhau", "r_m": 14, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "decal", "material": "MI_Decal_Rocks_Small", "zweck": "Kiesstreu auf der Fahne", "anzahl": 2, "verteilung": {"typ": "ellipse", "bei": "fahne", "a_m": 20, "b_m": 6, "richtung": 98}, "groesse_m": [1.0, 4.0, 4.0]},
     {"typ": "niagara", "asset": "NS_Wake_Medium", "optional": false, "zweck": "Schaum und Wirbel, wo der Strom gegen den Verhau drueckt (Nature Water FX, 13d)", "bei": [-34.0, -24.0], "hoehe_m": 0.6, "yaw_grad": 98},
     {"typ": "decal", "material": "MI_SticksAndTwigs_01", "zweck": "Spuelsaum", "anzahl": 3, "verteilung": {"typ": "band", "punkte": [[-20.0, 10.0], [20.0, 16.0], [60.0, 10.0]], "breite_m": 4}, "groesse_m": [1.0, 3.0, 3.0]},
@@ -520,7 +520,7 @@
    ],
    "pfad": {"breite_cm": 120, "lagen": {"Erde": 210, "Laub": 140}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.2]}},
    "effekte": [
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Uferabbruch (Coast & Dunes 13d)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "einlauf", "r_m": 10}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Uferabbruch (Coast & Dunes 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": [-20.0, -10.0], "r_m": 45, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "decal", "material": "MI_TileableMossPatches_01", "zweck": "Moos an den Wurzeln", "anzahl": 3, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [6, 18]}, "groesse_m": [1.0, 3.0, 3.0]},
     {"typ": "lokaler_nebel", "zweck": "sehr flacher Dunst ueber dem Spiegel", "bei": "blick", "hoehe_m": 1.0, "radius_m": 34, "dichte": 0.03, "farbe": [0.84, 0.86, 0.86], "hoehenabfall": 1.0}
    ],
@@ -550,7 +550,7 @@
    "wasser": [
     {"typ": "see", "id": "topf", "bei": "topf", "spiegel": 28.0, "tiefe_m": 9.0, "farbe": "tiefblau",
      "becken": {"a_m": 10.0, "b_m": 9.0, "richtung": 0, "ufer_m": 4, "freibord_m": 0.35, "boden": 0.18, "auslass": 0, "lippe_m": 1.4}},
-    {"typ": "bach", "id": "quellbach", "abfluss_von": "topf", "laenge_m": 22, "breite_m": 2.0, "tiefe_cm": 25, "farbe": "klar", "quelle": false}
+    {"typ": "bach", "id": "quellbach", "abfluss_von": "topf", "laenge_m": 22, "breite_m": 2.0, "tiefe_cm": 25, "farbe": "klar", "quelle": false, "material_hinweis": "M_River_Water_Translucent (Mountain Environment Set, 13d; Pfad nur als Name im Inventar)"}
    ],
    "gruppen": [
     {"name": "kalkwand", "ebene": "held", "warum": "halbrunde Kalkwand hinter dem Topf (Quellnische)", "palette": ["SM_big_rock_wall_01", "SM_big_rock_wall_02", "SM_big_rock_wall_03"],

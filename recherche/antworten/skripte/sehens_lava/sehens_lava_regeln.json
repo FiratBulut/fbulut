@@ -449,33 +449,47 @@
       "op": "rinne",
       "punkte": [
        [
-        -7,
-        -37
+        11,
+        -43
        ],
        [
-        9,
-        -42
+        -1,
+        -38
+       ],
+       [
+        -7,
+        -36
        ]
       ],
       "breite_m": 4,
-      "tiefe_m": 1.6,
+      "sohle": [
+       "boden-1.4",
+       "boden-0.3"
+      ],
       "rand_m": 2.5,
-      "warum": "Kerbe: Front in Lappen brechen (nie gerade)"
+      "warum": "Kerbe: Front in Lappen brechen (nie gerade), faellt zur Front hin ab (kein Loch)"
      },
      {
       "op": "rinne",
       "punkte": [
        [
-        6,
+        23,
+        13
+       ],
+       [
+        8,
         16
        ],
        [
-        22,
-        13
+        -4,
+        18
        ]
       ],
       "breite_m": 4,
-      "tiefe_m": 1.4,
+      "sohle": [
+       "boden-1.2",
+       "boden-0.3"
+      ],
       "rand_m": 2.5,
       "warum": "zweite Kerbe zwischen zwei Stromlappen"
      }
@@ -1120,8 +1134,12 @@
      -8
     ],
     "quelle_w": [
-     -16,
-     14
+     -10,
+     -12
+    ],
+    "rinne_ende": [
+     -4,
+     -48
     ],
     "quelle_o": [
      22,
@@ -1215,8 +1233,16 @@
     "senken_erlaubt": [
      {
       "bei": "schlot",
-      "r_m": 4,
+      "r_m": 6,
       "grund": "Schlotmuendung: hier steigt Dampf, keine Pfuetze"
+     },
+     {
+      "bei": [
+       -6,
+       -8
+      ],
+      "r_m": 26,
+      "grund": "Quellmulde: Wasser sammelt sich in der Schwefelquelle, Ueberlauf ueber die Sinterrinne nach Norden"
      }
     ],
     "ops": [
@@ -1251,6 +1277,24 @@
       "rand_m": 1.2,
       "boden": 0.3,
       "warum": "Schlotkrater"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       "quelle_w",
+       [
+        -8,
+        -30
+       ],
+       "rinne_ende"
+      ],
+      "breite_m": 1.6,
+      "sohle": [
+       "boden-0.2",
+       "boden-0.3"
+      ],
+      "rand_m": 2.0,
+      "warum": "Sinterrinne: die Quelle laeuft ueber, die Mulde entwaessert nach Norden (keine abflusslose Senke)"
      }
     ]
    },
@@ -1267,8 +1311,19 @@
       "ufer_m": 3.0,
       "freibord_m": 0.15,
       "boden": 0.4,
-      "auslass": null
+      "auslass": 355
      }
+    },
+    {
+     "typ": "bach",
+     "id": "sinterrinne",
+     "abfluss_von": "quelle_w",
+     "laenge_m": 50,
+     "breite_m": 0.7,
+     "tiefe_cm": 6,
+     "farbe": "thermal",
+     "quelle": false,
+     "muendung": "versickert"
     },
     {
      "typ": "see",
@@ -1791,21 +1846,23 @@
     {
      "typ": "decal",
      "material": "MI_Deca_Wet",
-     "anzahl": 2,
-     "zweck": "Nassrand an den Quellen (Coast & Dunes)",
+     "anzahl": 3,
+     "zweck": "Nassband an Quellen und Sinterrinne (Coast & Dunes)",
      "verteilung": {
-      "typ": "ring",
-      "bei": "quelle_w",
-      "r_m": [
-       5.0,
-       6.0
+      "typ": "ufer",
+      "bei": "mitte",
+      "r_m": 50,
+      "band_m": [
+       0.0,
+       1.5
       ]
      },
      "groesse_m": [
       1.0,
       3.0,
       3.0
-     ]
+     ],
+     "abstand_m": 4
     },
     {
      "typ": "decal",
@@ -2740,40 +2797,23 @@
     {
      "typ": "decal",
      "material": "MI_Deca_Wet",
-     "anzahl": 2,
-     "zweck": "Nassband am Kraterteich (Coast & Dunes)",
+     "anzahl": 6,
+     "zweck": "Nassband an beiden Kraterteichen (Coast & Dunes)",
      "verteilung": {
-      "typ": "ring",
-      "bei": "k1",
-      "r_m": [
-       4.8,
-       5.6
+      "typ": "ufer",
+      "bei": "senke",
+      "r_m": 75,
+      "band_m": [
+       0.0,
+       1.2
       ]
      },
      "groesse_m": [
       1.0,
       2.5,
       2.5
-     ]
-    },
-    {
-     "typ": "decal",
-     "material": "MI_Deca_Wet",
-     "anzahl": 2,
-     "zweck": "Nassband am zweiten Teich",
-     "verteilung": {
-      "typ": "ring",
-      "bei": "k3",
-      "r_m": [
-       5.4,
-       6.2
-      ]
-     },
-     "groesse_m": [
-      1.0,
-      2.5,
-      2.5
-     ]
+     ],
+     "abstand_m": 3
     },
     {
      "typ": "decal",
@@ -3618,16 +3658,16 @@
      -16
     ],
     "birke": [
-     -24,
-     34
+     -31,
+     24
     ],
     "tumulus": [
      26,
      -26
     ],
     "wasser": [
-     -1,
-     1
+     -2,
+     2.5
     ],
     "rampe_oben": [
      -52,
@@ -3650,16 +3690,16 @@
        43
       ],
       [
-       -16,
-       19
+       -19,
+       22.75
       ],
       [
-       0,
-       0
+       -2,
+       2.5
       ],
       [
-       16,
-       -20
+       15,
+       -17.75
       ],
       [
        32,
@@ -3690,6 +3730,13 @@
      10
     ],
     "rand_m": 10,
+    "senken_erlaubt": [
+     {
+      "bei": "mitte",
+      "r_m": 66,
+      "grund": "Riftspalte: Grundwasser fuellt sie bis 5 m unter die Kante, Leisten und Rampe ueber dem Spiegel sind Fels"
+     }
+    ],
     "ops": [
      {
       "op": "rinne",
@@ -3699,7 +3746,7 @@
        "boden-11",
        "boden-11"
       ],
-      "rand_m": 2.5,
+      "rand_m": 1.2,
       "warum": "Riftspalte 11 m tief (Dehnung NO-SW wie die Kraterreihe)"
      },
      {
@@ -3708,7 +3755,7 @@
       "breite_m": 4.5,
       "sohle": [
        "boden-0.4",
-       "mitte-5.9"
+       "mitte-4.6"
       ],
       "rand_m": 3.0,
       "warum": "Schuttrampe am Suedwestende: Abstieg zum Wasser"
@@ -3737,10 +3784,10 @@
      "spiegel": "mitte-5.5",
      "tiefe_m": 6.0,
      "farbe": "tuerkis",
-     "ufer_erzwingen_m": 3.0,
+     "ufer_erzwingen_m": 4.0,
      "becken": {
-      "a_m": 50,
-      "b_m": 2.9,
+      "a_m": 53,
+      "b_m": 5.5,
       "richtung": 40,
       "ufer_m": 2.0,
       "freibord_m": 0.8,
@@ -3796,8 +3843,8 @@
       "typ": "reihe",
       "punkte": "spalte",
       "abstand_m": 11.0,
-      "versatz_m": 3.2,
-      "versatz_streuung_m": 1.2,
+      "versatz_m": 4.8,
+      "versatz_streuung_m": 1.0,
       "seiten": [
        "links",
        "rechts"
@@ -3841,8 +3888,8 @@
       "typ": "reihe",
       "punkte": "spalte",
       "abstand_m": 8.5,
-      "versatz_m": 3.0,
-      "versatz_streuung_m": 1.4,
+      "versatz_m": 4.6,
+      "versatz_streuung_m": 1.2,
       "seiten": [
        "rechts",
        "links"
@@ -4312,6 +4359,27 @@
      "anzahl": 4,
      "zweck": "Nassband an der Wasserlinie (Coast & Dunes)",
      "verteilung": {
+      "typ": "ufer",
+      "bei": "wasser",
+      "r_m": 60,
+      "band_m": [
+       0.0,
+       1.5
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ],
+     "abstand_m": 6
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableLeakage_02",
+     "anzahl": 2,
+     "zweck": "Sickerstreifen an der Nordwestwand",
+     "verteilung": {
       "typ": "band",
       "punkte": "spalte",
       "breite_m": 6,
@@ -4332,7 +4400,7 @@
     {
      "typ": "decal",
      "material": "MI_TileableLeakage_02",
-     "anzahl": 2,
+     "anzahl": 1,
      "zweck": "dasselbe, Gegenwand",
      "verteilung": {
       "typ": "band",
@@ -4355,7 +4423,7 @@
     {
      "typ": "decal",
      "material": "MI_TileableMossPatches_02",
-     "anzahl": 2,
+     "anzahl": 1,
      "zweck": "Moos ueber der Kante",
      "verteilung": {
       "typ": "band",
@@ -4908,6 +4976,7 @@
      "Erde": 210,
      "Kies": 120
     },
+    "fenster_max_m": 400,
     "trittsteine": {
      "palette": "trittstein_lava",
      "groesse_m": [
@@ -5052,7 +5121,7 @@
     ],
     "nordende": [
      17,
-     -70
+     -42
     ],
     "farnfuge": [
      4,
@@ -5067,40 +5136,48 @@
     "wand": {
      "punkte": [
       [
-       11,
-       -60
+       12,
+       -36
       ],
       [
-       12,
-       -30
+       11,
+       -15
       ],
       [
        10,
-       0
+       5
       ],
       [
-       5,
-       35
+       9,
+       25
+      ],
+      [
+       6,
+       46
       ]
      ]
     },
     "halde": {
      "punkte": [
       [
-       3,
-       -60
+       4,
+       -36
       ],
       [
-       4,
-       -30
+       3,
+       -15
       ],
       [
        2,
-       0
+       5
       ],
       [
-       -3,
-       35
+       1,
+       25
+      ],
+      [
+       -2,
+       46
       ]
      ]
     }
@@ -5118,13 +5195,54 @@
     "ops": [
      {
       "op": "abbruch",
-      "punkte": "wand",
+      "punkte": [
+       [
+        11,
+        -24
+       ],
+       [
+        10,
+        5
+       ],
+       [
+        9,
+        25
+       ],
+       [
+        7,
+        40
+       ]
+      ],
       "hoehe_m": 4.0,
       "breite_m": 4.5,
       "reichweite_m": 13,
       "seite": "links",
       "verteilung": "oben",
       "warum": "Plateaukante +4 m -> Wand 16-20 m (Katalog)"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       [
+        30,
+        31
+       ],
+       [
+        17,
+        30
+       ],
+       [
+        3,
+        32
+       ]
+      ],
+      "breite_m": 2.0,
+      "sohle": [
+       "boden-0.3",
+       "boden-0.5"
+      ],
+      "rand_m": 2.0,
+      "warum": "Sickerrinne: Plateauwasser laeuft ueber die Kante (dunkle Sickerstreifen), kein Tuempel hinter der Kante"
      }
     ]
    },
@@ -5573,6 +5691,7 @@
    ],
    "pfad": {
     "breite_cm": 150,
+    "abschnitt": "naechster",
     "lagen": {
      "Erde": 210,
      "Kies": 120
@@ -6175,6 +6294,7 @@
    ],
    "pfad": {
     "breite_cm": 150,
+    "abschnitt": "naechster",
     "lagen": {
      "Lavasand": 200,
      "Kies": 120

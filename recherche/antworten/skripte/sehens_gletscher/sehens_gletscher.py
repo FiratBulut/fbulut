@@ -20,7 +20,7 @@ Optionen: --orte/--ort ID ... (nur diese Orte; Orte in denselben Feldern werden 
 Exit-Code: 0 ok, 1 Pruefer meldet FEHLER, 2 Pflichtdatei fehlt.
 
 Eigener Code (alles andere steht in den Regeln), fuer alle Orte gleich:
-  - Hook 'rahmen' (anker): Sichtrahmen fuer Fundstuecke. Sucht die Weg-/Steigpunkte (<= r_max_m), die den Ort heute
+  - Hook 'rahmen' (nach_gelaende, vor nach_ops): Sichtrahmen fuer Fundstuecke. Sucht die Weg-/Steigpunkte (<= r_max_m), die den Ort heute
     sehen, legt in ihrer Richtung einen Wall (Moraene, Schneewall, Felsriegel) im Abstand abstand_m um den Ort, so hoch,
     wie die Sichtlinien es verlangen (begrenzt auf hoehe_max_m), und setzt die Linie 'rahmen_<name>' fuer Gruppen
     (Felsen, Gehoelz auf dem Wall). Zufall deterministisch aus Seed + Ort-ID.
@@ -78,7 +78,10 @@ def hook_rahmen(ctx):
     der Wall folgt den Blickrichtungen, die mit hoehe_max_m sperrbar sind. Ergebnis: gelaende.nach_ops += damm,
     Linie rahmen_<name>, Anker rahmen_<name>_mitte, Meldung (wie viele Blicke der Wall sperrt, Rest fuer Gehoelz/Felsen)."""
     import numpy as np
-    from sehens_lib import sicht, stempel as stm
+    from sehens_lib import sicht, verdeckung, stempel as stm
+    if not ctx.r.get("rahmen"):
+        return
+    w_plan = verdeckung.welt_mit_plan(ctx.welt, ctx.stempel)     # Gelaende mit den bisherigen Stempeln (Terrasse, See)
     for k, rr in enumerate(ctx.r.get("rahmen") or []):
         name = rr.get("name", "r%d" % k)
         x, y = ctx.punkt(rr.get("bei", "mitte"))
@@ -86,10 +89,10 @@ def hook_rahmen(ctx):
         wp = _wegpunkte(ctx.welt)
         idx, d = wp.im_ring(x, y, float(rr.get("r_min_m", 0.0)), float(rr.get("r_max_m", 800.0)))
         r = float(rr.get("abstand_m", 20.0))
-        z_t = float(ctx.welt.hoehe_bei_m(x, y)) + H
+        z_t = float(ctx.boden(x, y)) + H
         sel = np.zeros(0, int)
         if idx.size:
-            a, _, dd = sicht.sichtanteil(ctx.welt, wp.x_m[idx], wp.y_m[idx], x, y, H)
+            a, _, dd = sicht.sichtanteil(w_plan, wp.x_m[idx], wp.y_m[idx], x, y, H)
             sel = np.flatnonzero(a > 0.15)
         g_v = np.array([stm.vektor_kompass(wp.x_m[idx[i]] - x, wp.y_m[idx[i]] - y) for i in sel])
         if rr.get("richtung_bereich") and len(sel):
@@ -102,7 +105,7 @@ def hook_rahmen(ctx):
             px, py = x + r * math.sin(math.radians(gv)), y - r * math.cos(math.radians(gv))
             D = max(float(d[idx[i]]), r + 1.0)
             z_e = float(wp.z_m[idx[i]]) + 1.7
-            bedarf.append(z_t + (z_e - z_t) * r / D + 0.5 - float(ctx.welt.hoehe_bei_m(px, py)))
+            bedarf.append(z_t + (z_e - z_t) * r / D + 0.5 - float(ctx.boden(px, py)))
         bedarf = np.asarray(bedarf)
         sperrbar = bedarf <= h_max
         g_s = g_v[sperrbar] if sperrbar.any() else g_v
@@ -121,7 +124,7 @@ def hook_rahmen(ctx):
         h_req = float(bedarf[sperrbar].max()) if sperrbar.any() else 0.0
         hoehe = float(np.clip(h_req, h_min, h_max))
         ops = ctx.r.setdefault("gelaende", {}).setdefault("nach_ops", [])
-        ops.append({"op": "damm", "punkte": [{"pos_m": p} for p in P], "breite_m": float(rr.get("breite_m", 14.0)),
+        ops.insert(0, {"op": "damm", "punkte": [{"pos_m": p} for p in P], "breite_m": float(rr.get("breite_m", 14.0)),
                     "hoehe_m": hoehe, "krone": float(rr.get("krone", 0.3)), "modus": rr.get("modus", "add"),
                     "warum": "Sichtrahmen %s (Fundstueck)" % name})
         ctx.linien["rahmen_" + name] = P
@@ -247,7 +250,7 @@ def hook_ende(ctx):
 
 
 def _hooks(oid, R):
-    h = {"anker": [hook_see_fuellen, hook_rahmen], "nach_gelaende": [hook_nach_ops], "ende": [hook_ende]}
+    h = {"anker": [hook_see_fuellen], "nach_gelaende": [hook_rahmen, hook_nach_ops], "ende": [hook_ende]}
     for k, f in (HOOKS.get(oid) or {}).items():
         h.setdefault(k, []).insert(0, f)
     return {k: (lambda ctx, fs=fs: [f(ctx) for f in fs]) for k, fs in h.items()}
@@ -360,7 +363,7 @@ def main(argv=None):
         bo = a.bild_ordner or aus
         for ctx in kontexte:
             if ctx.id in gewaehlt:
-                p = vorschau.vorschau(ctx, os.path.join(bo, "test_%s.png" % ctx.id))
+                p = vorschau.vorschau(ctx, os.path.join(bo, "test_%s.png" % ctx.id), groesse_m=ctx.r.get("bild_groesse_m"))
                 _log("Bild:", p)
 
     # --- Meldungen der Orte

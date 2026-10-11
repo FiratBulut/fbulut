@@ -1,0 +1,465 @@
+{
+ "_doku": {
+  "stand": "2026-10-11",
+  "auftrag": "13 Phase 2 - Planer Sumpf (Muster: skripte/sehens_bergwald). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md",
+  "quellen": "sehens/sumpf/katalog.md, sehens/sumpf/asset_bedarf.json, standorte.json, auftraege/13b, 13c, 13d",
+  "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
+  "leitidee": "Jeder Ort zeigt, wie der Sumpf lebt und stirbt: er ertraenkt den Wald, baut schwimmende Matten, waechst in Bulten, naehrt Riesenblaetter, traegt Vogelhorste, stellt Baeume auf Stelzen und atmet Nebel aus. Farben: schwarzes Wasser, rostrotes Torfmoos, silbernes Totholz, giftgruene Saeume.",
+  "wasser": "Epic-See T_2954_391 und Teiche mit Spiegel 1,58 m stehen nicht in karte_wasser - jede Regel laedt sie mit 'bestandswasser' (nass nur unter dem Spiegel). Kein Ort schreibt einen eigenen see in den Epic-See (doppelte Wasserflaechen); Farbwunsch schwarz_spiegel steht als Hinweis (offene Frage 6).",
+  "hinweis": "Jede Gruppe hat eine Ursache ('warum'). Netze nur aus netze.csv; Material MI_EL_SW_* nur aus 'materialwuensche'. Erlen fehlen -> Birke/Pappel (13c). Tiere bleiben aus (offene Frage 8)."
+ },
+ "biom": "sumpf",
+ "seed": 1314,
+ "paletten": {
+  "totholz_ast": ["SM_OldTreeBranch_01", "SM_dead_log_01", "SM_dead_log_02", "SM_dead_log_03", "SM_dead_log_04"],
+  "weidenast": ["Branch_Goat_Willow_Decaying_01", "Branch_Goat_Willow_Decaying_02", "Branch_Goat_Willow_Decaying_03"],
+  "roehricht": ["SM_Rohrkolben_Horst_1", "SM_Rohrkolben_Horst_2", "SM_Rohrkolben_Horst_4", "SM_Rohrkolben_Horst_5", "SM_Rohrkolben_Jung_2", "SM_Rohrkolben_Jung_3"],
+  "seggen": ["SM_ToadRush_013", "SM_ToadRush_014", "SM_ToadRush_015", "SM_ToadRush_00", "SM_ToadRush_010", "SM_dead_grass_02"],
+  "moos": ["SM_MossClump_01", "SM_MossClump_03", "SM_MossClump_04", "SM_CustomMoss_01", "SM_CustomMoss_02"],
+  "torfmoos": ["SM_MossClump_01", "SM_MossClump_04", "SM_CustomMoss_01", "SM_CustomMoss_04", "SM_moss_01"],
+  "bulten": ["SM_KikuyuGrass_01", "SM_KikuyuGrass_04"],
+  "seerose": ["Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0", "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarD_LOD0", "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarE_LOD0", "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarG_LOD0"],
+  "stuempfe": ["SM_RottenTreeStump_01", "SM_RottenTreeStump_02", "SM_TreeStump_01", "SM_BirchTreeStump_01"],
+  "farn": ["SM_EagleFern_M_01", "SM_SilverLadyFern_01", "SM_SilverLadyFern_03"]
+ },
+ "materialwuensche": [
+  {"name": "MI_EL_SW_Silberholz", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [1.35, 1.32, 1.28, 1.0], "Helligkeit": 1.2}, "fuer": ["qlEtl_tier_0", "SM_DeadTree_01", "SM_DeadTree_02", "SM_LargeFallenTree_01", "SM_LargeFallenTree_02"], "hinweis": "silbern gebleichtes Totholz (Megascans laufen ueber die Material-Ueberschreibung)"},
+  {"name": "MI_EL_SW_Torfmoos", "basis": "M_EL_Pflanze", "parameter": {"Farbe": [1.05, 0.62, 0.45, 1.0], "Variation": 0.5}, "fuer": ["SM_MossClump_01", "SM_MossClump_04", "SM_CustomMoss_01", "SM_CustomMoss_04", "SM_moss_01"]},
+  {"name": "MI_EL_SW_Weide_Grau", "basis": "M_EL_Pflanze", "parameter": {"Farbe": [0.86, 0.93, 0.84, 1.0], "Variation": 0.3}, "fuer": ["Big_Tree_Willow_01", "Big_Tree_Willow_02"], "hinweis": "Kronen leicht grau-gruen (Katalog-Risiko: Trauerweiden wirken sonst nach Park)"},
+  {"name": "MI_EL_SW_Birke_Dunkel", "basis": "M_EL_Pflanze", "parameter": {"Farbe": [0.72, 0.72, 0.68, 1.0], "Variation": 0.35}, "fuer": ["Big_Tree_Birch_01"], "hinweis": "Erlen-Ersatz: Birkenrinde dunkler, damit der Bruchwald nicht hell liest"}
+ ],
+ "orte": {
+
+  "sumpf_01_der_ertrunkene_wald": {
+   "kurz": "Dutzende silberne, tote Fichten stehen in schwarzem, spiegelglattem Wasser - ein ganzer ertrunkener Wald, Stuempfe, gekippte Staemme, Roehricht nur am flachen Rand, duenner Nebel.",
+   "marker": {"titel": "Der Ertrunkene Wald", "text": "Das Wasser kam langsam, und die Fichten haben nicht verstanden, dass sie sterben. Jetzt stehen sie da wie Gaeste, die zu lange geblieben sind.", "entdeckung_m": 70},
+   "budget": {"instanzen": 6000, "kollision": 400, "akteure": 60, "lichter": 0, "niagara": 0, "decals": 6},
+   "assets_wunsch": [],
+   "hinweise": ["Wasserfarbe: Wunsch schwarz_spiegel fuer den Epic-See T_2954_391 im Umkreis 70 m (offene Frage 6) - kein eigener see, um keine zweite Wasserflaeche zu erzeugen"],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "zugang": {"frei_r_m": 45, "breite_m": 2.2, "ueber_spiegel_m": 0.22},
+   "anker": {"riese": [10.0, -6.0], "hain": [0.0, 4.0]},
+   "gelaende": {"fenster_m": [160, 170], "rand_m": 10, "ops": []},
+   "gruppen": [
+    {"name": "weisser_riese", "ebene": "held", "warum": "der hoechste Tote, weiss gebleicht - Blickziel des Leuchtfeuers", "netz": "SM_Forest_pine_10_dead",
+     "verteilung": {"typ": "punkt", "bei": "riese"}, "skala": 1.35, "rolle": "baum", "kipp_grad": 3, "kipp_richtung": 250, "im_wasser": "egal", "eingraben_m": 0.9, "akteur": true, "kollision": true},
+    {"name": "tote_fichten", "ebene": "held", "warum": "der gestiegene Spiegel (1,58 m) hat den Fichtenhain ertraenkt: Stamm neben Stamm, manche gekippt", "palette": ["Fir_08_Dead_NoBillboard", "Fir_08_Dead_Forest", "SM_Forest_pine_10_dead"],
+     "gewichte": [3, 2, 2], "anzahl": 46, "verteilung": {"typ": "ellipse", "bei": "hain", "a_m": 58, "b_m": 40, "richtung": 75}, "abstand_m": 5.0, "skala": [0.75, 1.15],
+     "kipp_grad": [0, 12], "rolle": "baum", "im_wasser": "nur", "eingraben_m": [0.6, 1.0], "akteur": false, "kollision": true, "mindestens": 30,
+     "hinweis": "Fir_08_* sind Nicht-Nanite - NoBillboard-Variante bevorzugt"},
+    {"name": "bruchstaemme", "ebene": "begleiter", "warum": "zu Stuempfen gebrochene Staemme (silbern)", "palette": ["qlEtl_tier_0", "SM_DeadTree_01", "SM_DeadTree_02"],
+     "anzahl": 8, "verteilung": {"typ": "ellipse", "bei": "hain", "a_m": 55, "b_m": 38, "richtung": 75}, "abstand_m": 6.0, "skala": [0.85, 1.15], "rolle": "baum", "im_wasser": "egal", "eingraben_m": [0.5, 0.8],
+     "akteur": true, "kollision": true, "material": "MI_EL_SW_Silberholz"},
+    {"name": "liegende", "ebene": "begleiter", "warum": "umgestuerzte Staemme, halb im Wasser", "palette": ["SM_LargeFallenTree_01", "SM_LargeFallenTree_02"],
+     "anzahl": 4, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 65, "band_m": [-4.0, 2.0]}, "abstand_m": 10, "skala": [2.0, 2.6], "rolle": "stamm", "im_wasser": "egal", "akteur": true, "kollision": true, "material": "MI_EL_SW_Silberholz", "versuche": 20},
+    {"name": "zypressenfuesse", "ebene": "kontakt", "warum": "Wurzelstoecke unter einzelnen Staemmen (Sumpfzypresse, 13b)", "netz": "SM_SwampCypress_A",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["tote_fichten", "weisser_riese"], "ring_m": [0.0, 0.4], "je": [0, 1]}, "skala": [0.9, 1.3], "rolle": "wurzel", "eingraben": [0.35, 0.5], "im_wasser": "egal", "meide": null},
+    {"name": "treibholz", "ebene": "schutt", "warum": "Aeste und Knueppel treiben auf dem schwarzen Wasser", "palette": "totholz_ast",
+     "anzahl": 150, "verteilung": {"typ": "ellipse", "bei": "hain", "a_m": 60, "b_m": 42, "richtung": 75}, "abstand_m": 1.6, "skala": [0.8, 1.4], "rolle": "stamm",
+     "ausrichtung": "aufrecht", "z_bezug": "spiegel:T_2954_391", "z_versatz_m": -0.07, "im_wasser": "nur"},
+    {"name": "uferholz", "ebene": "schutt", "warum": "angetriebenes Holz am Rand", "palette": ["SM_OldTreeBranch_03", "SM_OldTreeBranch_05", "SM_dead_log_01"],
+     "anzahl": 30, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 70, "band_m": [-0.5, 2.0]}, "abstand_m": 2.0, "rolle": "stamm", "im_wasser": "egal", "versuche": 12},
+    {"name": "fussmoos", "ebene": "kleinzeug", "warum": "Moos und Flechtenreste am Stammfuss ueber der Wasserlinie", "palette": "moos",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["liegende", "uferholz"], "ring": [0.6, 1.2], "je": [8, 14]}, "skala": [1.0, 2.2], "rolle": "streu", "im_wasser": "egal"},
+    {"name": "uferzweige", "ebene": "kleinzeug", "warum": "Zweige und Grashalme im Spuelsaum", "palette": ["SM_detail_branches_01", "SM_detail_branches_02", "SM_dead_grass_02"],
+     "dichte_je_m2": 0.25, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 75, "band_m": [0.0, 4.0]}, "abstand_m": 0.6, "rolle": "streu"},
+    {"name": "randroehricht", "ebene": "bewuchs", "warum": "Rohrkolben und Seggen nur am flachen Rand - im tiefen Teil nichts Lebendes", "palette": ["SM_Rohrkolben_Horst_1", "SM_Rohrkolben_Horst_4", "SM_Rohrkolben_Jung_2", "SM_ToadRush_013", "SM_ToadRush_014", "SM_dead_grass_02"],
+     "gewichte": [3, 3, 2, 2, 2, 1], "dichte_je_m2": 0.22, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 80, "band_m": [-2.5, 1.5]}, "abstand_m": 0.8, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "nasssaum", "ebene": "kontakt", "warum": "Nassband: Seggen und Moos genau an der Wasserlinie", "palette": ["SM_ToadRush_014", "SM_ToadRush_015", "SM_MossClump_01"],
+     "dichte_je_m2": 0.6, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 75, "band_m": [-0.3, 0.8]}, "abstand_m": 0.3, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "bulten_l", "ebene": "kontakt", "warum": "Seggenbulten saeumen den Bultenruecken des Zugangs (links)", "palette": "bulten",
+     "dichte_je_m2": 0.9, "verteilung": {"typ": "band", "punkte": "zugang", "breite_m": 1.4, "versatz_m": 1.7}, "abstand_m": 0.7, "skala": [1.1, 1.6], "rolle": "pflanze", "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "bulten_r", "ebene": "kontakt", "warum": "Seggenbulten (rechts)", "palette": "bulten",
+     "dichte_je_m2": 0.9, "verteilung": {"typ": "band", "punkte": "zugang", "breite_m": 1.4, "versatz_m": -1.7}, "abstand_m": 0.7, "skala": [1.1, 1.6], "rolle": "pflanze", "im_wasser": "egal", "weg_abstand_m": 0}
+   ],
+   "lagen": [
+    {"lage": "Schlamm", "form": "ufer", "bei": "hain", "r_m": 80, "band_m": [0.0, 2.5], "wert": 210, "flecken": 0.35},
+    {"lage": "Moos", "form": "ufer", "bei": "hain", "r_m": 80, "band_m": [2.0, 6.0], "wert": 180, "flecken": 0.45},
+    {"lage": "Algen", "form": "ufer", "bei": "hain", "r_m": 80, "band_m": [0.0, 1.0], "wert": 160, "flecken": 0.5}
+   ],
+   "pfad": {"breite_cm": 140, "lagen": {"Moos": 200, "Schlamm": 140}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Ufer (Coast & Dunes 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 70, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algenschleier am flachen Rand", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 70, "band_m": [0.0, 1.0]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_ScatteredBark_01", "zweck": "Rindenreste am Ufer", "anzahl": 1, "verteilung": {"typ": "ufer", "bei": "hain", "r_m": 70, "band_m": [1.0, 4.0]}, "groesse_m": [1.0, 2.5, 2.5]},
+    {"typ": "lokaler_nebel", "zweck": "duenner Nebel, in dem die Staemme sich doppelt spiegeln", "bei": "hain", "hoehe_m": 1.2, "radius_m": 50, "dichte": 0.06, "farbe": [0.78, 0.8, 0.8], "hoehenabfall": 1.0}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "hain", "radius_m": 60, "lautstaerke": 0.3, "zweck": "leiser Wind in toten Kronen (Sumpfklaenge fehlen)"}]
+  },
+
+  "sumpf_02_der_weidendom": {
+   "kurz": "Neun Riesenweiden im Kreis im Wasser, die Kronen zu einem Dach verflochten; darunter schwarzes, stilles Wasser, Kniewurzeln, Zweigvorhaenge, aussen ein Roehrichtguertel.",
+   "marker": {"titel": "Der Weidendom", "text": "Von aussen ein gruener Huegel, von innen eine Halle aus Wasser. Wer hineinwatet, spricht leiser, ohne zu wissen warum.", "entdeckung_m": 60},
+   "budget": {"instanzen": 5000, "kollision": 300, "akteure": 40, "lichter": 0, "niagara": 0, "decals": 4},
+   "assets_wunsch": [{"paket": "Megascans Trees: European Black Alder", "statt_jetzt": "SM_grey_willow_03/04 als Saum (Erlen fehlen, 13c)"}],
+   "hinweise": ["Wasserfarbe: Wunsch schwarz_spiegel im Dom (r 24 m) fuer den Epic-See T_2954_391 (offene Frage 6)"],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "zugang": {"frei_r_m": 30},
+   "anker": {
+    "w0": [2.7, -22.2], "w1": [18.9, -14.8], "w2": [25.4, 3.1], "w3": [18.5, 14.0], "w4": [3.5, 24.6], "w5": [-13.5, 17.9], "w6": [-22.1, 9.4], "w7": [-23.7, -9.6], "w8": [-9.1, -21.4],
+    "tor": {"von": "mitte", "richtung": 34, "abstand_m": 26}
+   },
+   "gelaende": {"fenster_m": [120, 120], "rand_m": 12, "ops": [
+    {"op": "mulde", "bei": "mitte", "radius_m": 30, "ziel_z": 1.22, "boden": 0.75, "rand_m": 8, "warum": "Dom im Wasser: Wanne bis 0,36 m unter den Spiegel (die Weiden stehen im Wasser)"},
+    {"op": "mulde", "bei": "mitte", "radius_m": 13, "ziel_z": 0.9, "boden": 0.6, "rand_m": 5, "warum": "Innenmulde -0,4 m fuer tieferes, schwaerzeres Wasser (Katalog)"}
+   ]},
+   "gruppen": [
+    {"name": "kniewurzeln", "ebene": "begleiter", "warum": "Stelz- und Kniewurzeln: jede Weide steht auf einem Wurzelstock (Sumpfzypresse, 13b)", "netz": "SM_SwampCypress_A",
+     "verteilung": {"typ": "punkte", "punkte": ["w0", "w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8"]}, "skala": [1.4, 1.7], "rolle": "wurzel", "eingraben": [0.3, 0.4], "im_wasser": "egal", "akteur": true, "kollision": true, "meide": null},
+    {"name": "riesenweiden", "ebene": "held", "warum": "neun Riesenweiden im Ring r 24 m, Kronen zum Dach verflochten", "palette": ["Big_Tree_Willow_02", "Big_Tree_Willow_01"],
+     "gewichte": [2, 1], "verteilung": {"typ": "punkte", "punkte": ["w0", "w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8"]}, "skala": [1.3, 1.5], "rolle": "baum",
+     "z_bezug": "oben:kniewurzeln", "z_versatz_m": -0.6, "im_wasser": "egal", "akteur": true, "kollision": true, "material": "MI_EL_SW_Weide_Grau", "meide": null},
+    {"name": "torweide", "ebene": "begleiter", "warum": "gestuerzte Weide als Tor in die Halle (Held-Blick)", "netz": "SM_MossyTree_01",
+     "verteilung": {"typ": "punkt", "bei": "tor"}, "skala": 1.6, "yaw": 124, "rolle": "stamm", "im_wasser": "egal", "akteur": true, "kollision": true, "meide": null},
+    {"name": "jungweiden", "ebene": "begleiter", "warum": "Jungweiden am Rand des Doms", "palette": ["SM_grey_willow_03", "SM_grey_willow_04"],
+     "anzahl": 10, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [28, 38]}, "abstand_m": 5, "skala": [2.2, 3.0], "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "treibende_aeste", "ebene": "schutt", "warum": "abgeworfene Weidenzweige treiben im Dom", "palette": ["Branch_Goat_Willow_Decaying_02", "Branch_Goat_Willow_Decaying_01", "SM_dead_log_02"],
+     "anzahl": 100, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 30}, "abstand_m": 1.2, "skala": [1.0, 1.6], "rolle": "stamm", "ausrichtung": "liegend", "zentrieren": true,
+     "z_bezug": "spiegel:T_2954_391", "z_versatz_m": -0.1, "im_wasser": "nur"},
+    {"name": "wurzelmoos", "ebene": "kleinzeug", "warum": "Moos auf den Kniewurzeln", "palette": ["SM_MossClump_03", "SM_CustomMoss_02"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": "kniewurzeln", "ring": [0.4, 1.1], "je": [24, 34]}, "skala": [1.0, 2.0], "rolle": "streu", "im_wasser": "egal", "meide": null},
+    {"name": "wasserlinsen_flaechen", "ebene": "kleinzeug", "warum": "Wasserlinsen-Teppiche im Schatten der Kronen", "palette": ["SM_WaterPlant01", "SM_WaterPlant02"],
+     "dichte_je_m2": 0.06, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 22}, "abstand_m": 1.4, "skala": [0.6, 1.0], "rolle": "pflanze",
+     "ausrichtung": "aufrecht", "z_bezug": "spiegel:T_2954_391", "z_versatz_m": -0.01, "im_wasser": "nur"},
+    {"name": "seerosen", "ebene": "bewuchs", "warum": "einzelne Seerosen im Schwarzspiegel (normal gross)", "palette": "seerose",
+     "anzahl": 18, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [4, 20]}, "abstand_m": 1.5, "skala": [0.8, 1.1], "rolle": "pflanze",
+     "ausrichtung": "aufrecht", "z_bezug": "spiegel:T_2954_391", "z_versatz_m": -0.04, "im_wasser": "nur"},
+    {"name": "roehrichtguertel", "ebene": "bewuchs", "warum": "Roehrichtguertel aussen (Licht), innen im Schatten keiner", "palette": ["SM_Rohrkolben_Horst_2", "SM_Rohrkolben_Horst_5", "SM_ToadRush_010", "SM_Rohrkolben_Jung_3"],
+     "dichte_je_m2": 0.3, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [33, 48]}, "abstand_m": 0.8, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "nasssaum", "ebene": "kontakt", "warum": "Seggen und Moos an der Wasserlinie aussen", "palette": ["SM_ToadRush_014", "SM_MossClump_01", "SM_ToadRush_013"],
+     "dichte_je_m2": 0.5, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 55, "band_m": [-0.3, 1.0]}, "abstand_m": 0.35, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "bulten_l", "ebene": "kontakt", "warum": "Seggenbulten am Bultenruecken des Zugangs", "palette": "bulten",
+     "dichte_je_m2": 0.9, "verteilung": {"typ": "band", "punkte": "zugang", "breite_m": 1.4, "versatz_m": 1.7}, "abstand_m": 0.7, "skala": [1.1, 1.6], "rolle": "pflanze", "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "bulten_r", "ebene": "kontakt", "warum": "Seggenbulten (rechts)", "palette": "bulten",
+     "dichte_je_m2": 0.9, "verteilung": {"typ": "band", "punkte": "zugang", "breite_m": 1.4, "versatz_m": -1.7}, "abstand_m": 0.7, "skala": [1.1, 1.6], "rolle": "pflanze", "im_wasser": "egal", "weg_abstand_m": 0}
+   ],
+   "lagen": [
+    {"lage": "Schlamm", "form": "ufer", "bei": "mitte", "r_m": 60, "band_m": [0.0, 2.0], "wert": 200},
+    {"lage": "Moos", "form": "ufer", "bei": "mitte", "r_m": 60, "band_m": [1.5, 5.0], "wert": 175, "flecken": 0.4},
+    {"lage": "Algen", "form": "ring", "bei": "mitte", "r_m": [30, 46], "wert": 150, "flecken": 0.5}
+   ],
+   "pfad": {"breite_cm": 140, "lagen": {"Moos": 200, "Schlamm": 140}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Wanne", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 50, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Moospelz am Rand", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 50, "band_m": [1.0, 4.0]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "lokaler_nebel", "zweck": "Dunst unter dem Dach (Lichtschaecht der festen Sonne werden sichtbar)", "bei": "mitte", "hoehe_m": 2.0, "radius_m": 22, "dichte": 0.05, "farbe": [0.8, 0.84, 0.82], "hoehenabfall": 0.7}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 45, "lautstaerke": 0.35, "zweck": "Rascheln im Weidendach"}]
+  },
+
+  "sumpf_03_der_reiherhorst": {
+   "kurz": "Drei kahle, weisse Baumriesen auf einer Moosinsel im offenen Sumpf, in ihren Kronen ein Dutzend Reisighorste; darunter gekalkter Boden, Federn und ueberduengtes Hochgras.",
+   "marker": {"titel": "Der Reiherhorst", "text": "Die toten Baeume tragen mehr Leben als je zuvor. Wer darunter steht, sollte nicht nach oben schauen.", "entdeckung_m": 60},
+   "budget": {"instanzen": 3000, "kollision": 200, "akteure": 30, "lichter": 0, "niagara": 1, "decals": 6},
+   "assets_wunsch": [],
+   "hinweise": ["Graveyard-Totbaeume (SM_Dead_Tree_*) haben Blattkarten (M_Dead_Tree_Leaves): Blaetter-Slot im Editor ausblenden (Katalog-Risiko)", "Kotflecken MI_Leakage_08: im Editor weiss toenen (kein Materialwunsch moeglich, Decal-Textur fest)"],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "zugang": {"frei_r_m": 20},
+   "anker": {"baum_a": [0.0, 0.0], "baum_b": [10.0, -7.0], "baum_c": [-7.0, 9.0]},
+   "gelaende": {"fenster_m": [70, 70], "rand_m": 10, "ops": [
+    {"op": "kuppe", "bei": "mitte", "radius_m": 16, "hoehe_m": 0.3, "plateau": 0.5, "rand_m": 6, "warum": "Insel +0,3 m, damit sie trocken bleibt"}
+   ]},
+   "gruppen": [
+    {"name": "riesen", "ebene": "held", "warum": "drei abgestorbene Baumriesen, weiss und kahl - Horstbaeume der Kolonie", "palette": ["SM_Dead_Tree_01", "SM_Dead_Tree_02", "SM_EuropeanBeech_Dead_XL_01"],
+     "verteilung": {"typ": "punkte", "punkte": ["baum_a", "baum_b", "baum_c"]}, "skala": [1.15, 1.35], "rolle": "baum", "akteur": true, "kollision": true, "eingraben_m": [0.4, 0.6]},
+    {"name": "horste_tief", "ebene": "begleiter", "warum": "Reisighorste in den unteren Astgabeln (9-11 m)", "palette": ["SM_detail_branches_01", "SM_detail_branches_02", "Branch_Goat_Willow_Decaying_01"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": "riesen", "ring_m": [1.0, 3.0], "je": [4, 5]}, "skala": [0.7, 1.0], "rolle": "streu", "z_bezug": "boden+9.5", "meide": null, "akteur": false},
+    {"name": "horste_hoch", "ebene": "begleiter", "warum": "Horste in den hohen Gabeln (12-14 m)", "palette": ["SM_detail_branches_01", "SM_detail_branches_02", "SM_OldTreeBranch_05"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": "riesen", "ring_m": [1.0, 3.5], "je": [3, 4]}, "skala": [0.6, 0.9], "rolle": "streu", "z_bezug": "boden+12.5", "meide": null, "akteur": false},
+    {"name": "fallholz", "ebene": "schutt", "warum": "heruntergefallene Aeste unter den Horsten", "palette": ["SM_OldTreeBranch_03", "SM_OldTreeBranch_05", "SM_detail_branches_01", "SM_OldTreeBranch_01"],
+     "anzahl": 80, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 16}, "abstand_m": 0.9, "skala": [0.5, 1.0], "rolle": "stamm"},
+    {"name": "zweige", "ebene": "kleinzeug", "warum": "Reisig und Zweige unter der Kolonie", "palette": ["SM_detail_branches_01", "SM_detail_branches_02", "SM_dead_grass_01"],
+     "anzahl": 500, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 17}, "abstand_m": 0.4, "rolle": "streu"},
+    {"name": "hochgras", "ebene": "bewuchs", "warum": "Vogelkot duengt: hohes, fettes Gras unter den Horsten", "palette": ["SM_KikuyuGrass_01", "SM_KikuyuGrass_04", "SM_grass_bush_02"],
+     "gewichte": [3, 2, 1], "anzahl": 260, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [3, 18]}, "abstand_m": 0.7, "skala": [1.2, 1.7], "rolle": "pflanze"},
+    {"name": "inselsaum", "ebene": "bewuchs", "warum": "Rohrkolben und Binsen am Inselrand", "palette": ["SM_Rohrkolben_Horst_3", "SM_ToadRush_010", "SM_dead_grass_01"],
+     "dichte_je_m2": 0.3, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 45, "band_m": [-2.0, 1.5]}, "abstand_m": 0.8, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "wurzelmoos", "ebene": "kontakt", "warum": "Moos und Wurzelanlaeufe an den Stammfuessen", "palette": ["SM_MossClump_01", "SM_MossClump_03", "SM_crooked_root_01"],
+     "gewichte": [4, 4, 1], "verteilung": {"typ": "um_gruppe", "gruppe": "riesen", "ring_m": [0.5, 2.5], "je": [16, 22], "seite": "nord", "seite_staerke": 0.4}, "skala": [1.0, 2.0], "rolle": "streu", "meide": null},
+    {"name": "nasssaum", "ebene": "kontakt", "warum": "Seggen an der Wasserlinie der Insel", "palette": ["SM_ToadRush_014", "SM_ToadRush_015"],
+     "dichte_je_m2": 0.6, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 45, "band_m": [-0.3, 0.7]}, "abstand_m": 0.35, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "bulten_l", "ebene": "kontakt", "warum": "Seggenbulten am Bultenruecken des Zugangs", "palette": "bulten",
+     "dichte_je_m2": 0.9, "verteilung": {"typ": "band", "punkte": "zugang", "breite_m": 1.4, "versatz_m": 1.7}, "abstand_m": 0.7, "skala": [1.1, 1.6], "rolle": "pflanze", "im_wasser": "egal", "weg_abstand_m": 0},
+    {"name": "bulten_r", "ebene": "kontakt", "warum": "Seggenbulten (rechts)", "palette": "bulten",
+     "dichte_je_m2": 0.9, "verteilung": {"typ": "band", "punkte": "zugang", "breite_m": 1.4, "versatz_m": -1.7}, "abstand_m": 0.7, "skala": [1.1, 1.6], "rolle": "pflanze", "im_wasser": "egal", "weg_abstand_m": 0}
+   ],
+   "lagen": [
+    {"lage": "Gras", "form": "kreis", "bei": "mitte", "r_m": 18, "wert": 200, "flecken": 0.35},
+    {"lage": "Erde", "form": "um_gruppe", "gruppe": "riesen", "ring": [0.0, 0.5], "wert": 200, "flecken": 0.4, "warum": "gekalkter, zertretener Boden unter den Horsten"},
+    {"lage": "Moos", "form": "ring", "bei": "mitte", "r_m": [14, 24], "wert": 180, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 140, "lagen": {"Moos": 200, "Schlamm": 140}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Leakage_08", "zweck": "Kotflecken unter den Horsten (im Editor weiss toenen)", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 8}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_ScatteredSticksAndTwigs_01", "zweck": "Reisig vom Horstbau", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 12}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Inselrand", "anzahl": 1, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 40, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_feather", "optional": false, "zweck": "einzelne Federn unter den Horsten (sehr spaerlich, langsam)", "credits": "SoftTofuVFX (CC BY 4.0)", "bei": "mitte", "hoehe_m": 10}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 50, "lautstaerke": 0.35, "zweck": "Wind in den kahlen Kronen (Vogelstimmen fehlen im Bestand)"}]
+  },
+
+  "sumpf_04_der_schwingrasen": {
+   "kurz": "Hinter einem Birkensaum ein schwankender Teppich aus rostrotem und gruenem Torfmoos, darin drei tintenschwarze Mooraugen mit ueberhaengendem Rand und ein Birkenstamm, der im groessten versinkt.",
+   "marker": {"titel": "Der Schwingrasen", "text": "Der Boden traegt dich, aber er ueberlegt es sich bei jedem Schritt. In den schwarzen Augen sieht man nichts, nicht einmal sich selbst.", "entdeckung_m": 25},
+   "budget": {"instanzen": 5000, "kollision": 150, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 6},
+   "assets_wunsch": [],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "zugang": {"frei_r_m": 20},
+   "anker": {"auge_a": [0.0, 0.0], "auge_b": [-13.0, 6.0], "auge_c": [9.0, 10.0]},
+   "gelaende": {"fenster_m": [80, 80], "rand_m": 10, "ops": []},
+   "wasser": [
+    {"typ": "see", "id": "auge_a", "bei": "auge_a", "spiegel": 1.7, "tiefe_m": 3.0, "farbe": "schwarz_spiegel", "becken": {"a_m": 5.0, "b_m": 4.6, "richtung": 30, "ufer_m": 2.5, "freibord_m": 0.25, "boden": 0.2, "auslass": null}},
+    {"typ": "see", "id": "auge_b", "bei": "auge_b", "spiegel": 1.7, "tiefe_m": 2.5, "farbe": "schwarz_spiegel", "becken": {"a_m": 3.5, "b_m": 3.2, "richtung": 80, "ufer_m": 2.0, "freibord_m": 0.25, "boden": 0.2, "auslass": null}},
+    {"typ": "see", "id": "auge_c", "bei": "auge_c", "spiegel": 1.7, "tiefe_m": 2.0, "farbe": "schwarz_spiegel", "becken": {"a_m": 2.5, "b_m": 2.3, "richtung": 0, "ufer_m": 2.0, "freibord_m": 0.25, "boden": 0.2, "auslass": null}}
+   ],
+   "gruppen": [
+    {"name": "versunkener_stamm", "ebene": "held", "warum": "ein Birkenstamm versinkt halb im groessten Auge (Blickachse)", "netz": "SM_LargeFallenTree_01",
+     "verteilung": {"typ": "punkt", "bei": [3.0, 3.0]}, "skala": 1.6, "yaw": 210, "rolle": "stamm", "kipp_grad": 10, "kipp_richtung": 210, "im_wasser": "egal", "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
+    {"name": "moorbirken", "ebene": "begleiter", "warum": "krumme Moorbirken am Rand des Schwingrasens", "netz": "Big_Tree_Birch_01",
+     "anzahl": 6, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [16, 28]}, "abstand_m": 6, "skala": [0.6, 0.8], "kipp_grad": [3, 10], "rolle": "baum", "akteur": true, "kollision": true},
+    {"name": "birkenstumpf", "ebene": "begleiter", "warum": "Stumpf der versunkenen Birke", "netz": "SM_BirchTreeStump_01",
+     "verteilung": {"typ": "punkt", "bei": [-5.0, -5.0]}, "skala": 1.3, "rolle": "stamm", "eingraben": [0.3, 0.4], "akteur": false, "meide": null},
+    {"name": "torfmoospolster", "ebene": "schutt", "warum": "Torfmoos waechst in Polstern - rostrot und gruen (MI_EL_SW_Torfmoos)", "palette": "torfmoos",
+     "anzahl": 320, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 22}, "abstand_m": 0.7, "skala": [2.5, 4.5], "rolle": "streu", "material": "MI_EL_SW_Torfmoos"},
+    {"name": "seggen", "ebene": "bewuchs", "warum": "Seggen, Schachtelhalm und Wollgras-Ersatz auf dem Teppich", "palette": ["SM_ToadRush_013", "SM_ToadRush_015", "SM_dead_grass_03", "SM_rough_horsetail_02"],
+     "gewichte": [3, 3, 2, 1], "anzahl": 900, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 26}, "abstand_m": 0.35, "rolle": "pflanze"},
+    {"name": "heide", "ebene": "kleinzeug", "warum": "Heide auf trockeneren Bulten", "netz": "SM_forest_heather_01",
+     "verteilung": {"typ": "cluster", "form": "ring", "bei": "mitte", "r_m": [10, 26], "zentren": [8, 11], "je": [6, 10], "radius_m": 1.6}, "abstand_m": 0.35, "rolle": "pflanze"},
+    {"name": "birkensaum", "ebene": "bewuchs", "warum": "Moorbirken-Saum schirmt den Ort ab (Fundstueck)", "netz": "Big_Tree_Birch_01",
+     "anzahl": 22, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [30, 46]}, "abstand_m": 5, "skala": [0.65, 0.85], "rolle": "baum", "kollision": true, "material": "MI_EL_SW_Birke_Dunkel"},
+    {"name": "augenrand", "ebene": "kontakt", "warum": "ueberhaengende Moosraender an den Augen", "palette": "torfmoos",
+     "dichte_je_m2": 2.5, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 20, "band_m": [-0.4, 1.0]}, "abstand_m": 0.2, "skala": [2.0, 3.5], "rolle": "streu", "im_wasser": "egal", "material": "MI_EL_SW_Torfmoos"},
+    {"name": "randblaetter", "ebene": "kontakt", "warum": "zwei, drei Seerosenblaetter am Rand des grossen Auges", "palette": ["Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0", "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarA_LOD0"],
+     "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "auge_a", "r_m": 8, "band_m": [-1.6, -0.5]}, "abstand_m": 1.2, "rolle": "pflanze", "ausrichtung": "aufrecht", "z_bezug": "spiegel:auge_a", "z_versatz_m": -0.02, "im_wasser": "nur", "versuche": 30},
+    {"name": "stammmoos", "ebene": "kontakt", "warum": "Moos am Stammfuss der Birken", "palette": "moos",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["moorbirken", "birkenstumpf", "versunkener_stamm"], "ring": [0.6, 1.3], "je": [10, 16], "seite": "nord", "seite_staerke": 0.4}, "skala": [1.0, 2.0], "rolle": "streu", "im_wasser": "egal"}
+   ],
+   "lagen": [
+    {"lage": "Moos", "form": "kreis", "bei": "mitte", "r_m": 26, "wert": 255, "flecken": 0.25},
+    {"lage": "Schlamm", "form": "ufer", "bei": "mitte", "r_m": 20, "band_m": [0.0, 0.8], "wert": 200},
+    {"lage": "Laub", "form": "ring", "bei": "mitte", "r_m": [28, 46], "wert": 160, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 130, "lagen": {"Erde": 190, "Moos": 160}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_TileableMossPatches_03", "zweck": "Torfmoos-Flecken", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 18}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an den Augen", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 18, "band_m": [0.0, 1.2]}, "groesse_m": [1.0, 2.5, 2.5]},
+    {"typ": "lokaler_nebel", "zweck": "ein Hauch Dunst ueber den Augen", "bei": "mitte", "hoehe_m": 0.8, "radius_m": 16, "dichte": 0.03, "farbe": [0.82, 0.84, 0.82], "hoehenabfall": 1.2}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 40, "lautstaerke": 0.25, "zweck": "Wind im Birkensaum"}]
+  },
+
+  "sumpf_05_der_erlenbruch": {
+   "kurz": "Am Fuss des Nordhangs ein dichter Bruchwald auf Stelzwurzeln: jeder Stamm auf einem Wurzelsockel, darunter Schwarzwasser, Farne auf den Sockeln, ein Rinnsal, ein gestuerzter Baum mit Wurzelteller.",
+   "marker": {"titel": "Der Erlenbruch", "text": "Die Baeume stehen auf Zehenspitzen, als wollten sie das Wasser nicht beruehren. Darunter rinnt es leise, Tag und Nacht.", "entdeckung_m": 25},
+   "budget": {"instanzen": 6000, "kollision": 500, "akteure": 50, "lichter": 0, "niagara": 0, "decals": 5},
+   "assets_wunsch": [{"paket": "Megascans Trees: European Black Alder", "statt_jetzt": "Big_Tree_Birch_01 (MI_EL_SW_Birke_Dunkel), SM_Poplar_tree_02/03 auf Wurzelsockeln (13c)"}],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "verdeckung": {"probe_r_m": 8, "ziel_hoehe_m": 3.0},
+   "zugang": {},
+   "anker": {
+    "schlenke": [2.0, 5.0],
+    "tor": [-14.0, -6.0]
+   },
+   "anker_danach": {
+    "quelle": {"suche": "rinne", "bei": "mitte", "r_m": [24, 44], "sektor": [290, 40]}
+   },
+   "gelaende": {"fenster_m": [110, 110], "rand_m": 10, "ops": []},
+   "wasser": [
+    {"typ": "see", "id": "schlenke", "bei": "schlenke", "spiegel": "boden+0.15", "tiefe_m": 0.6, "farbe": "moorbraun", "becken": {"a_m": 9.0, "b_m": 6.0, "richtung": 110, "ufer_m": 3, "freibord_m": 0.15, "boden": 0.5}},
+    {"typ": "bach", "id": "rinnsal", "von": {"anker": "quelle"}, "bis_see": "schlenke", "laenge_m": 60, "breite_m": 0.7, "tiefe_cm": 10, "farbe": "klar", "quelle": true, "muendung": "schlenke",
+     "rinne": {"tiefe_m": 0.3, "breite_m": 1.2}, "material_hinweis": "M_River_Water_Translucent (Mountain, 13d)"}
+   ],
+   "gruppen": [
+    {"name": "wurzelsockel", "ebene": "begleiter", "warum": "Stelzwurzeln: jeder Baum steht auf einem Wurzelsockel ueber dem Schwarzwasser", "palette": ["SM_beech_old_roots_01", "SM_SwampCypress_A", "SM_MossyForestRoots_02"],
+     "gewichte": [3, 3, 1], "anzahl": 22, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 26}, "abstand_m": 5.0, "skala": [1.0, 1.3], "rolle": "wurzel", "eingraben": [0.15, 0.25], "im_wasser": "egal", "akteur": false, "kollision": true, "mindestens": 16},
+    {"name": "bruchbaeume", "ebene": "held", "warum": "Bruchwald-Baeume (Erlen-Ersatz) 0,6-0,9 m hochgesetzt auf ihren Sockeln", "palette": ["Big_Tree_Birch_01", "SM_Poplar_tree_02", "SM_Poplar_tree_03"],
+     "gewichte": [3, 2, 1], "verteilung": {"typ": "auf_gruppe", "gruppe": "wurzelsockel", "je": [1, 1], "anteil": [0.5, 0.5]}, "skala": [0.85, 1.05], "rolle": "baum",
+     "z_bezug": "oben:wurzelsockel", "z_versatz_m": -0.3, "im_wasser": "egal", "akteur": true, "kollision": true, "material": "MI_EL_SW_Birke_Dunkel", "meide": null},
+    {"name": "torbaum", "ebene": "begleiter", "warum": "gestuerzter Baum hat seinen Wurzelteller mit Schlamm hochgerissen (Tor zum Bruch)", "netz": "SM_MossyTree_01",
+     "verteilung": {"typ": "punkt", "bei": "tor"}, "skala": 1.7, "yaw": 250, "rolle": "stamm", "akteur": true, "kollision": true, "meide": null},
+    {"name": "wurzelteller", "ebene": "begleiter", "warum": "hochgestellter Wurzelteller mit Schlamm", "netz": "SM_stones_roots_02",
+     "verteilung": {"typ": "punkt", "bei": {"anker": "tor", "versatz_m": [6.0, 2.0]}}, "ausrichtung": "hochkant", "hochkant_achse": "x", "front_achse": "-z", "yaw": 250, "skala": 0.42, "eingraben_m": 0.6, "akteur": true, "kollision": true, "meide": null},
+    {"name": "totholz", "ebene": "schutt", "warum": "Totholz im Bruch", "palette": ["SM_dead_log_04", "SM_dead_log_01", "SM_OldTreeBranch_04", "SM_OldTreeBranch_06"],
+     "anzahl": 150, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 30}, "abstand_m": 1.2, "rolle": "stamm", "im_wasser": "egal"},
+    {"name": "zweige", "ebene": "kleinzeug", "warum": "Zweige und Laub", "palette": ["SM_detail_branches_01", "SM_detail_branches_02", "SM_detail_leaves_01"],
+     "anzahl": 700, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 30}, "abstand_m": 0.5, "rolle": "streu"},
+    {"name": "sockelfarn", "ebene": "bewuchs", "warum": "auf jedem Wurzelsockel Farn (feucht, schattig)", "palette": "farn",
+     "verteilung": {"typ": "um_gruppe", "gruppe": "wurzelsockel", "ring": [0.4, 1.1], "je": [2, 3]}, "skala": [0.8, 1.2], "rolle": "pflanze", "im_wasser": "egal", "meide": null},
+    {"name": "pestwurz", "ebene": "bewuchs", "warum": "Pestwurz am Rinnsal", "netz": "SM_petasites_spurius_02",
+     "anzahl": 30, "verteilung": {"typ": "band", "punkte": "bach_rinnsal", "breite_m": 5}, "abstand_m": 0.9, "rolle": "pflanze"},
+    {"name": "sumpfgelb", "ebene": "bewuchs", "warum": "Sumpfdotterblumen-Gelb an der Schlenke", "palette": ["SM_YellowArchangel_01", "SM_Crownbeard_03"],
+     "verteilung": {"typ": "ufer", "bei": "schlenke_mitte", "r_m": 16, "band_m": [0.2, 2.5]}, "dichte_je_m2": 0.8, "abstand_m": 0.3, "skala": [1.0, 3.5], "rolle": "pflanze"},
+    {"name": "erlenring", "ebene": "bewuchs", "warum": "der Bruchwald-Ring IST der Ort und verdeckt ihn vom Weg (Katalog: r 38 m, 16 m breit, 14 m hoch)", "palette": ["Big_Tree_Birch_01", "SM_Poplar_tree_02", "SM_Poplar_tree_03"],
+     "gewichte": [3, 3, 1], "anzahl": 260, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [31, 46]}, "abstand_m": 3.8, "skala": [1.0, 1.15], "rolle": "baum", "kollision": true, "akteur": false, "material": "MI_EL_SW_Birke_Dunkel", "weg_abstand_m": 3},
+    {"name": "ringstrauch", "ebene": "bewuchs", "warum": "Strauchschicht im Ring (Weidenbuesche)", "palette": ["SM_grey_willow_03", "SM_grey_willow_04", "SM_Elderberry_05"],
+     "anzahl": 120, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [28, 44]}, "abstand_m": 2.2, "skala": [1.6, 2.4], "rolle": "pflanze"},
+    {"name": "sockelmoos", "ebene": "kontakt", "warum": "Moos auf den Wurzelsockeln und am Wasser", "palette": "moos",
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["wurzelsockel", "torbaum"], "ring": [0.6, 1.2], "je": [10, 14]}, "skala": [1.0, 2.0], "rolle": "streu", "im_wasser": "egal", "meide": null},
+    {"name": "schlenkenrand", "ebene": "kontakt", "warum": "Seggen und Schlamm am Schlenkenrand", "palette": ["SM_ToadRush_014", "SM_ToadRush_00", "SM_MossClump_01"],
+     "dichte_je_m2": 1.0, "verteilung": {"typ": "ufer", "bei": "schlenke_mitte", "r_m": 16, "band_m": [-0.3, 1.0]}, "abstand_m": 0.25, "rolle": "pflanze", "im_wasser": "egal"}
+   ],
+   "lagen": [
+    {"lage": "Schlamm", "form": "kreis", "bei": "mitte", "r_m": 24, "wert": 210, "flecken": 0.4},
+    {"lage": "Laub", "form": "ring", "bei": "mitte", "r_m": [20, 46], "wert": 180, "flecken": 0.35},
+    {"lage": "Moos", "form": "um_gruppe", "gruppe": "wurzelsockel", "ring": [0.6, 1.6], "wert": 190}
+   ],
+   "pfad": {"breite_cm": 130, "lagen": {"Erde": 200, "Laub": 150}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_TileableMossPatches_01", "zweck": "Moos auf dem Bruchboden", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 20}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "nasser Schlamm an Schlenke und Rinnsal", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "schlenke_mitte", "r_m": 22, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "lokaler_nebel", "zweck": "feuchte, stille Luft im Bruch", "bei": "mitte", "hoehe_m": 1.5, "radius_m": 24, "dichte": 0.04, "farbe": [0.8, 0.84, 0.8], "hoehenabfall": 0.8}
+   ],
+   "klaenge": [{"asset": "CUE_Water_Stream_I_Cue", "bei": "schlenke", "radius_m": 30, "lautstaerke": 0.35, "zweck": "Rinnsal zwischen den Bulten"}]
+  },
+
+  "sumpf_06_das_bultenfeld": {
+   "kurz": "Eine Wiese, die keine ist: hunderte kniehohe Seggenbulten auf Sockeln aus alten Blattresten, dazwischen schmale Schlenken mit schwarzem Wasser, Grauweiden, goldene Halmspitzen.",
+   "marker": {"titel": "Das Bultenfeld", "text": "Hier geht niemand, hier springt man. Wer zwischen die Bulten tritt, verliert den Stiefel und vielleicht mehr.", "entdeckung_m": 25},
+   "budget": {"instanzen": 6000, "kollision": 50, "akteure": 10, "lichter": 0, "niagara": 1, "decals": 4},
+   "assets_wunsch": [],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "zugang": {"frei_r_m": 20},
+   "anker": {"s1": [-12.0, -6.0], "s2": [8.0, 4.0], "s3": [-4.0, 16.0]},
+   "gelaende": {"fenster_m": [90, 90], "rand_m": 10, "senke_begruendung": "Bultenfeld: zwischen den Hoeckern bleiben flache Mulden (Schlenken), die im Fruehjahr Wasser fuehren - gewolltes Bulten-Relief",
+                "ops": [
+    {"op": "buckel", "bei": "mitte", "radius_m": 34, "amplitude_m": 0.22, "wellenlaenge_m": 3, "rand_m": 6, "warum": "Bulten-Hoecker +0,2 ... +0,4 m"}
+   ]},
+   "wasser": [
+    {"typ": "see", "id": "schlenke_1", "bei": "s1", "spiegel": "boden+0.05", "tiefe_m": 0.4, "farbe": "moorbraun", "becken": {"a_m": 9.0, "b_m": 1.6, "richtung": 120, "ufer_m": 1.6, "freibord_m": 0.08, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "schlenke_2", "bei": "s2", "spiegel": "boden+0.05", "tiefe_m": 0.4, "farbe": "moorbraun", "becken": {"a_m": 7.0, "b_m": 1.4, "richtung": 70, "ufer_m": 1.6, "freibord_m": 0.08, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "schlenke_3", "bei": "s3", "spiegel": "boden+0.05", "tiefe_m": 0.35, "farbe": "moorbraun", "becken": {"a_m": 6.0, "b_m": 1.3, "richtung": 150, "ufer_m": 1.6, "freibord_m": 0.08, "boden": 0.4, "auslass": null}}
+   ],
+   "gruppen": [
+    {"name": "bulten", "ebene": "held", "warum": "Seggenbulten: Schopf auf einem Sockel aus Blattresten - im Spaetsommer goldene Spitzen", "palette": "bulten",
+     "verteilung": {"typ": "cluster", "form": "kreis", "bei": "mitte", "r_m": 36, "zentren": [34, 42], "je": [3, 6], "radius_m": 2.6, "zentren_abstand_m": 3}, "abstand_m": 1.1, "skala": [1.1, 1.6], "rolle": "pflanze", "akteur": false},
+    {"name": "bultsockel", "ebene": "kontakt", "warum": "alte Blattreste unter jedem Bult", "palette": ["SM_dead_grass_01", "SM_dead_grass_03"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": "bulten", "ring_m": [0.0, 0.3], "je": [1, 1]}, "skala": [0.5, 0.8], "rolle": "streu", "meide": null},
+    {"name": "grauweiden", "ebene": "begleiter", "warum": "Grauweiden-Buesche zwischen den Bulten", "palette": ["SM_grey_willow_01", "SM_grey_willow_02"],
+     "anzahl": 8, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [12, 36]}, "abstand_m": 8, "skala": [2.2, 3.0], "rolle": "pflanze", "akteur": false},
+    {"name": "schlenkenroehricht", "ebene": "bewuchs", "warum": "Rohrkolben-Jungpflanzen nur in den Schlenken", "netz": "SM_Rohrkolben_Jung_1",
+     "dichte_je_m2": 0.15, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 30, "band_m": [-1.0, 0.3]}, "abstand_m": 0.5, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "altholz", "ebene": "schutt", "warum": "vom Fruehjahrshochwasser angetriebenes Altholz zwischen den Bulten", "palette": ["SM_dead_log_02", "SM_dead_log_03", "SM_OldTreeBranch_01", "Branch_Goat_Willow_Decaying_03"],
+     "anzahl": 40, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 34}, "abstand_m": 2.0, "rolle": "stamm", "im_wasser": "egal"},
+    {"name": "halme", "ebene": "kleinzeug", "warum": "Binsen, Halme, Schachtelhalm zwischen den Bulten", "palette": ["SM_ToadRush_00", "SM_ToadRush_010", "SM_ToadRush_02", "SM_grass_bush_02", "SM_dead_grass_01", "SM_rough_horsetail_01"],
+     "gewichte": [3, 3, 3, 1, 2, 1], "anzahl": 1400, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 38}, "abstand_m": 0.4, "rolle": "pflanze"},
+    {"name": "moos", "ebene": "kleinzeug", "warum": "Moos in den feuchten Fugen", "palette": ["SM_MossClump_02", "SM_MossClump_01"],
+     "anzahl": 500, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 34}, "abstand_m": 0.3, "skala": [1.0, 2.0], "rolle": "streu"},
+    {"name": "randgras", "ebene": "bewuchs", "warum": "Feuchtwiese am Rand des Feldes", "palette": ["SM_grass_meadow_01", "SM_grass_meadow_03", "SM_KikuyuGrass_04"],
+     "anzahl": 600, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [34, 46]}, "abstand_m": 0.8, "rolle": "pflanze"},
+    {"name": "schlenkenrand", "ebene": "kontakt", "warum": "Nassband an den Schlenken", "palette": ["SM_ToadRush_014", "SM_MossClump_01"],
+     "dichte_je_m2": 1.2, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 30, "band_m": [-0.2, 0.6]}, "abstand_m": 0.25, "rolle": "pflanze", "im_wasser": "egal"}
+   ],
+   "lagen": [
+    {"lage": "Gras", "form": "kreis", "bei": "mitte", "r_m": 40, "wert": 190, "flecken": 0.4},
+    {"lage": "Schlamm", "form": "ufer", "bei": "mitte", "r_m": 30, "band_m": [0.0, 0.8], "wert": 210},
+    {"lage": "Algen", "form": "ufer", "bei": "mitte", "r_m": 30, "band_m": [0.0, 0.4], "wert": 170}
+   ],
+   "pfad": {"breite_cm": 130, "lagen": {"Erde": 190, "Gras": 160}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_TileableMossPatches_03", "zweck": "Moos zwischen den Bulten", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 26}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "nasser Rand der Schlenken", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 26, "band_m": [0.0, 1.0]}, "groesse_m": [1.0, 2.5, 2.5]},
+    {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf", "optional": false, "zweck": "Samenflug ueber dem Feld (Kopie: klein, hell, langsam)", "credits": "SoftTofuVFX (CC BY 4.0)", "bei": "mitte", "hoehe_m": 2}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 45, "lautstaerke": 0.3, "zweck": "Wind in den Seggen"}]
+  },
+
+  "sumpf_07_der_tellerweiher": {
+   "kurz": "Ein stiller Weiher hinter Rohrkolben, darauf Seerosenblaetter so gross wie Wagenraeder (3-5 m), vorn gross, hinten klein, dazwischen weisse und rosa Blueten.",
+   "marker": {"titel": "Der Tellerweiher", "text": "Die Blaetter tragen Regenwasser wie Schalen, und manche wohl auch einen Menschen, wenn er leicht genug ist. Niemand hat es versucht.", "entdeckung_m": 25},
+   "budget": {"instanzen": 3000, "kollision": 60, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 3},
+   "assets_wunsch": [],
+   "hinweise": ["Wasserfarbe: Wunsch smaragd (dunkel-klar) fuer Teich T_2884_725 (offene Frage 6)"],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "zugang": {"frei_r_m": 40},
+   "anker": {"vorn": [0.0, 12.0]},
+   "gelaende": {"fenster_m": [80, 80], "rand_m": 10, "ops": []},
+   "gruppen": [
+    {"name": "riesenblaetter", "ebene": "held", "warum": "Riesenseerose: flache Blaetter x2,5-4 (13c), vorn gross, hinten klein (Staffelung zur Held-Kamera)", "netz": "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarB_LOD0",
+     "anzahl": 22, "verteilung": {"typ": "faecher", "bei": "vorn", "richtung": 0, "laenge_m": 34, "start_m": 0, "oeffnung_grad": 90}, "abstand_m": 3.6, "skala": 1.0, "gradient": {"von": 4.0, "bis": 2.5},
+     "rolle": "pflanze", "ausrichtung": "aufrecht", "z_bezug": "spiegel:T_2884_725", "z_versatz_m": -0.02, "im_wasser": "nur", "akteur": false, "kollision": false, "weg_abstand_m": 0, "versuche": 20, "mindestens": 14},
+    {"name": "riesenblueten", "ebene": "held", "warum": "weisse und rosa Blueten zwischen den Tellern", "palette": ["Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarC_LOD0", "Rembrandt_Water_Lily_uc2kajgia_Raw_uc2kajgia_VarF_LOD0"],
+     "anzahl": 8, "verteilung": {"typ": "faecher", "bei": "vorn", "richtung": 0, "laenge_m": 30, "start_m": 2, "oeffnung_grad": 80}, "abstand_m": 2.0, "skala": [1.4, 1.6],
+     "rolle": "pflanze", "ausrichtung": "aufrecht", "z_bezug": "spiegel:T_2884_725", "z_versatz_m": -0.05, "im_wasser": "nur", "akteur": false, "weg_abstand_m": 0, "versuche": 20},
+    {"name": "seerosen", "ebene": "begleiter", "warum": "normale Seerosen im Hintergrund (Massstab)", "palette": "seerose",
+     "anzahl": 45, "verteilung": {"typ": "faecher", "bei": "vorn", "richtung": 0, "laenge_m": 26, "start_m": 26, "oeffnung_grad": 90}, "abstand_m": 1.1, "skala": [0.9, 1.1],
+     "rolle": "pflanze", "ausrichtung": "aufrecht", "z_bezug": "spiegel:T_2884_725", "z_versatz_m": -0.04, "im_wasser": "nur", "akteur": false, "weg_abstand_m": 0, "versuche": 10},
+    {"name": "trauerweide", "ebene": "begleiter", "warum": "eine Trauerweide am Ufer haengt ueber den Weiher", "netz": "Big_Tree_Willow_01",
+     "anzahl": 1, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 40, "band_m": [2.0, 6.0]}, "skala": 0.75, "rolle": "baum", "akteur": true, "kollision": true, "material": "MI_EL_SW_Weide_Grau", "versuche": 40},
+    {"name": "treibholz", "ebene": "schutt", "warum": "treibende Aeste zwischen den Tellern", "palette": ["SM_dead_log_03", "SM_dead_log_02"],
+     "anzahl": 24, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 34}, "abstand_m": 2.0, "rolle": "stamm", "ausrichtung": "aufrecht", "z_bezug": "spiegel:T_2884_725", "z_versatz_m": -0.06, "im_wasser": "nur"},
+    {"name": "uferholz", "ebene": "schutt", "warum": "angetriebene Aeste am Ufer", "palette": ["SM_OldTreeBranch_01", "SM_dead_log_01"],
+     "anzahl": 20, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 40, "band_m": [-0.5, 2.0]}, "abstand_m": 1.5, "rolle": "stamm", "im_wasser": "egal", "versuche": 12},
+    {"name": "uferkleinholz", "ebene": "kleinzeug", "warum": "Zweige und Halme im Spuelsaum", "palette": ["SM_detail_branches_02", "SM_dead_grass_02", "SM_ToadRush_012"],
+     "dichte_je_m2": 0.6, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 45, "band_m": [0.0, 4.0]}, "abstand_m": 0.4, "rolle": "streu"},
+    {"name": "rohrkolbenguertel", "ebene": "bewuchs", "warum": "Rohrkolbenguertel verdeckt den Weiher (Fundstueck), Luecke am Zugang", "palette": ["SM_Rohrkolben_Horst_6", "SM_Rohrkolben_Jung_3", "SM_Rohrkolben_Horst_1"],
+     "dichte_je_m2": 0.45, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 48, "band_m": [-3.0, 1.5]}, "abstand_m": 0.7, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "seggen", "ebene": "bewuchs", "warum": "Seggen und Grauweiden am Ufer", "palette": ["SM_ToadRush_014", "SM_grey_willow_04"],
+     "gewichte": [5, 1], "dichte_je_m2": 0.15, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 48, "band_m": [1.0, 6.0]}, "abstand_m": 0.8, "skala": [1.0, 2.2], "rolle": "pflanze"},
+    {"name": "ufermoos", "ebene": "kontakt", "warum": "Moos am Ufer", "palette": ["SM_MossClump_05", "SM_MossClump_01"],
+     "dichte_je_m2": 1.0, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 45, "band_m": [-0.2, 1.0]}, "abstand_m": 0.25, "skala": [1.0, 2.0], "rolle": "streu", "im_wasser": "egal"}
+   ],
+   "lagen": [
+    {"lage": "Schlamm", "form": "ufer", "bei": "mitte", "r_m": 50, "band_m": [0.0, 1.5], "wert": 210},
+    {"lage": "Moos", "form": "ufer", "bei": "mitte", "r_m": 50, "band_m": [1.0, 4.0], "wert": 180, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 130, "lagen": {"Moos": 190, "Schlamm": 140}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Ufer", "anzahl": 2, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 40, "band_m": [0.0, 1.5]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algen in der Flachwasserbucht", "anzahl": 1, "verteilung": {"typ": "ufer", "bei": "mitte", "r_m": 40, "band_m": [0.0, 1.0]}, "groesse_m": [1.0, 3.0, 3.0]}
+   ],
+   "klaenge": [{"asset": "CUE_Water_Stream_I_Cue", "bei": "mitte", "radius_m": 30, "lautstaerke": 0.2, "zweck": "sehr leises Glucksen (still)"}]
+  },
+
+  "sumpf_08_die_irrlichtsenke": {
+   "kurz": "Senke voller Totholz, in der der Nebel auch mittags nicht weicht; schwarzer Faulschlamm, ein Schlammtuempel, und im Schatten der Staemme glimmen schwache gelbgruene Lichter auf.",
+   "marker": {"titel": "Die Irrlichtsenke", "text": "Sumpfgas, sagen die einen. Die anderen sagen nichts und gehen einen anderen Weg.", "entdeckung_m": 25},
+   "budget": {"instanzen": 3000, "kollision": 150, "akteure": 20, "lichter": 2, "niagara": 2, "decals": 4},
+   "assets_wunsch": [],
+   "hinweise": ["Irrlichter: 2 sehr schwache Punktlichter (<= 2 cd) + NS_Sparkling_Glow - offene Frage 3 (Licht oder nur Nebel); ohne Licht bleiben Nebel und Glimmen"],
+   "bestandswasser": {"seen": "auto", "r_m": 300},
+   "zugang": {"frei_r_m": 20},
+   "anker": {"tuempel": [0.0, -2.0], "glimm_a": [-6.0, 4.0], "glimm_b": [7.0, -7.0]},
+   "gelaende": {"fenster_m": [80, 80], "rand_m": 10, "senke_begruendung": "Faulschlamm-Senke (Muldenlage im Bestand, TPI100 -2,5 m): das Tiefste fuellt der Schlammtuempel, der Rest ist Schlamm",
+                "ops": [
+    {"op": "mulde", "bei": "mitte", "radius_m": 14, "tiefe_m": 0.4, "boden": 0.5, "rand_m": 6, "warum": "Mulde -0,4 m (Katalog)"}
+   ]},
+   "wasser": [
+    {"typ": "see", "id": "schlammtuempel", "bei": "tuempel", "spiegel": "boden+0.1", "tiefe_m": 0.6, "farbe": "moorbraun", "becken": {"a_m": 8.0, "b_m": 6.0, "richtung": 60, "ufer_m": 2.5, "freibord_m": 0.1, "boden": 0.5, "auslass": null}}
+   ],
+   "gruppen": [
+    {"name": "tote_baeume", "ebene": "held", "warum": "tote Baeume rahmen die Senke dunkel", "palette": ["SM_Dead_Tree_03", "SM_DeadTree_02", "SM_Dead_Tree_01"],
+     "anzahl": 5, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [10, 20]}, "abstand_m": 7, "skala": [0.9, 1.2], "rolle": "baum", "kipp_grad": [2, 9], "akteur": true, "kollision": true},
+    {"name": "liegende", "ebene": "begleiter", "warum": "umgestuerzte Staemme - in ihrem Schatten glimmt es", "palette": ["SM_LargeFallenTree_02", "SM_LargeFallenTree_01"],
+     "anzahl": 4, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [6, 14]}, "abstand_m": 6, "skala": [1.8, 2.3], "rolle": "stamm", "akteur": true, "kollision": true, "im_wasser": "egal", "material": "MI_EL_SW_Silberholz"},
+    {"name": "stuempfe", "ebene": "schutt", "warum": "Stuempfe und Totholz im Faulschlamm", "palette": ["SM_RottenTreeStump_01", "SM_RottenTreeStump_02", "SM_TreeStump_01", "SM_dead_log_01", "SM_dead_log_04"],
+     "gewichte": [1, 2, 1, 3, 3], "anzahl": 150, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 24}, "abstand_m": 1.2, "rolle": "stamm", "im_wasser": "egal"},
+    {"name": "pilze", "ebene": "kleinzeug", "warum": "Pilze am Totholz", "palette": ["SM_mushroom_01", "SM_mushroom_02"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["liegende", "stuempfe"], "ring": [0.8, 1.2], "je": [1, 3]}, "skala": [0.8, 1.4], "rolle": "pflanze"},
+    {"name": "moos", "ebene": "kleinzeug", "warum": "Moos auf dem Totholz", "palette": ["SM_MossClump_01", "SM_MossClump_03"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": ["liegende", "tote_baeume"], "ring": [0.6, 1.2], "je": [8, 12]}, "skala": [1.0, 2.0], "rolle": "streu", "im_wasser": "egal"},
+    {"name": "randbinsen", "ebene": "bewuchs", "warum": "Bewuchs nur am Rand der Senke (Faulschlamm ist kahl)", "palette": ["SM_ToadRush_012", "SM_Rohrkolben_Jung_2", "SM_ToadRush_010"],
+     "anzahl": 240, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [17, 28]}, "abstand_m": 0.6, "rolle": "pflanze"},
+    {"name": "tuempelrand", "ebene": "kontakt", "warum": "Seggen und Moos am Schlammtuempel", "palette": ["SM_ToadRush_014", "SM_MossClump_01"],
+     "dichte_je_m2": 1.0, "verteilung": {"typ": "ufer", "bei": "schlammtuempel_mitte", "r_m": 14, "band_m": [-0.2, 0.8]}, "abstand_m": 0.25, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "stammfuss", "ebene": "kontakt", "warum": "Rinde und Moos am Fuss der toten Baeume", "palette": ["SM_MossClump_01", "SM_detail_branches_01"],
+     "verteilung": {"typ": "um_gruppe", "gruppe": "tote_baeume", "ring_m": [0.4, 2.0], "je": [8, 12], "seite": "nord", "seite_staerke": 0.4}, "rolle": "streu", "meide": null}
+   ],
+   "lagen": [
+    {"lage": "Schlamm", "form": "kreis", "bei": "mitte", "r_m": 16, "wert": 255, "flecken": 0.2},
+    {"lage": "Laub", "form": "ring", "bei": "mitte", "r_m": [14, 30], "wert": 170, "flecken": 0.4},
+    {"lage": "Moos", "form": "ring", "bei": "mitte", "r_m": [18, 30], "wert": 160, "flecken": 0.45}
+   ],
+   "pfad": {"breite_cm": 130, "lagen": {"Erde": 190, "Laub": 150}},
+   "effekte": [
+    {"typ": "lokaler_nebel", "zweck": "Nebelbank, die auch mittags bleibt (der Held des Orts)", "bei": "mitte", "hoehe_m": 1.2, "radius_m": 30, "dichte": 0.12, "farbe": [0.72, 0.76, 0.72], "hoehenabfall": 1.2},
+    {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow", "optional": false, "zweck": "Irrlicht-Glimmen im Schatten der Staemme: gelbgruen, 1-3 s an, nie mehr als 3 gleichzeitig", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "Kopie, gelbgruen, sehr langsam und spaerlich", "bei": "glimm_a", "hoehe_m": 0.4},
+    {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow", "optional": false, "zweck": "zweites Glimmen", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "wie oben, versetzt", "bei": "glimm_b", "hoehe_m": 0.4},
+    {"typ": "punktlicht", "zweck": "schwaches Faulgas-Glimmen (wirkt nur im Schatten)", "bei": "glimm_a", "hoehe_m": 0.5, "intensitaet_cd": 2.0, "radius_m": 4, "farbe": [0.75, 1.0, 0.45]},
+    {"typ": "punktlicht", "zweck": "zweites Glimmen", "bei": "glimm_b", "hoehe_m": 0.5, "intensitaet_cd": 1.5, "radius_m": 4, "farbe": [0.75, 1.0, 0.45]},
+    {"typ": "decal", "material": "MI_ScatteredBark_01", "zweck": "Rinde im Schlamm", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 14}, "groesse_m": [1.0, 2.5, 2.5]},
+    {"typ": "decal", "material": "MI_TileableMossPatches_02", "zweck": "Moos am Senkenrand", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [16, 24]}, "groesse_m": [1.0, 3.0, 3.0]}
+   ],
+   "klaenge": [{"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 35, "lautstaerke": 0.2, "zweck": "fast Stille"}]
+  }
+ }
+}

@@ -223,6 +223,7 @@
     "Helligkeit": 1.1
    },
    "fuer": [
+    "SM_flat_rock_01",
     "SM_SmoothRockShelf_01",
     "SM_MassiveTundraRockFormation_02",
     "SM_ForestRockSlab_01"
@@ -420,7 +421,8 @@
       "krone": 0.3,
       "warum": "Stirnmoraene (Toteisbuckel davor)"
      }
-    ]
+    ],
+    "senke_begruendung": "kleine Spalten und Toteismulden im zerrissenen Eisbruch und hinter der Stirnmoraene (Gletscher-Hohlformen, gewollt)"
    },
    "wasser": [
     {
@@ -457,7 +459,7 @@
      "tiefe_cm": 35,
      "farbe": "gletschermilch",
      "quelle": true,
-     "hinweis": "Material: Fluss-Material aus dem Mountain-Set (13d), milchig getoent"
+     "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - Fluss; Fluss-Material aus dem Mountain-Set (13d), milchig getoent"
     }
    ],
    "freiraeume": [
@@ -1046,6 +1048,14 @@
    },
    "effekte": [
     {
+     "typ": "niagara",
+     "asset": "NS_Impact_Small",
+     "optional": false,
+     "zweck": "Schaum, wo der Bach aus dem Tor ueber die Schwelle faellt (Nature Water FX)",
+     "bei": "tor_mund",
+     "hoehe_m": 0.1
+    },
+    {
      "typ": "lokaler_nebel",
      "zweck": "kalter Atem im Tor",
      "bei": "tor_innen",
@@ -1078,7 +1088,8 @@
      "zweck": "Stroemung, wo der Bach aus dem Tor schiesst (Nature Water FX)",
      "bei": "tor_mund",
      "hoehe_m": 0.2,
-     "yaw_grad": 200
+     "yaw_grad": 200,
+     "optional": false
     },
     {
      "typ": "lokaler_nebel",
@@ -1112,19 +1123,22 @@
     },
     {
      "typ": "decal",
-     "material": "MI_Leakage_05",
-     "zweck": "Schmelzrand am Fuss der Seracs",
-     "anzahl": 2,
+     "material": "MI_Deca_Wet",
+     "zweck": "Nassband am Gletscherbach (Coast & Dunes)",
+     "anzahl": 3,
      "verteilung": {
-      "typ": "band",
-      "punkte": "bruchkante",
-      "breite_m": 10,
-      "versatz_m": 14
+      "typ": "ufer",
+      "bei": "sander",
+      "r_m": 60,
+      "band_m": [
+       0.2,
+       2.0
+      ]
      },
      "groesse_m": [
       1.0,
-      4.0,
-      4.0
+      3.0,
+      3.0
      ]
     }
    ],
@@ -1136,7 +1150,8 @@
      "lautstaerke": 0.6,
      "zweck": "Schmelzwasser aus dem Tor"
     }
-   ]
+   ],
+   "bild_groesse_m": 420
   },
   "gletscher_02_lawinenkegel": {
    "kurz": "Aus einer engen Rinne zieht ein schmutzig-weisser Kegel aus Altschnee in den Waldhang; Fichten liegen wie Streichhoelzer in Fallrichtung, oben haengt noch Schnee.",
@@ -1169,8 +1184,8 @@
     },
     "kegel": {
      "pos_m": [
-      -930.0,
-      -2650.0
+      -924.0,
+      -2643.0
      ]
     },
     "kegelfuss": {
@@ -1213,7 +1228,7 @@
      {
       "op": "kuppe",
       "bei": "kegel",
-      "radius_m": 30,
+      "radius_m": 26,
       "hoehe_m": 4.5,
       "plateau": 0.1,
       "streckung": [
@@ -1221,13 +1236,13 @@
        1.0
       ],
       "richtung": 160,
-      "rand_m": 10,
+      "rand_m": 8,
       "warum": "Altschneekegel +3...+6 m"
      },
      {
       "op": "buckel",
       "bei": "kegel",
-      "radius_m": 34,
+      "radius_m": 28,
       "amplitude_m": 0.7,
       "wellenlaenge_m": 6,
       "streckung": [
@@ -1236,33 +1251,10 @@
       ],
       "richtung": 160,
       "warum": "Lawinenschnee knollig"
-     },
-     {
-      "op": "rinne",
-      "punkte": [
-       {
-        "pos_m": [
-         -973.0,
-         -2710.0
-        ]
-       },
-       "rinne_mund",
-       {
-        "pos_m": [
-         -944.0,
-         -2676.0
-        ]
-       }
-      ],
-      "breite_m": 6,
-      "sohle": [
-       180.0,
-       174.5
-      ],
-      "rand_m": 3,
-      "warum": "Rinnenmund: der Lawinengang hat die Schwelle durchgeschliffen (kein abflussloser Kolk)"
      }
-    ]
+    ],
+    "hinweis": "Der natuerliche Kolk unter dem Rinnenmund (-962/-2710, ~20 m tief in den 2-m-Daten) bleibt unberuehrt",
+    "senke_begruendung": "natuerlicher Kolk unter dem Rinnenmund (Bestand, vom Lawinenkegel nur am Rand beruehrt)"
    },
    "wasser": [
     {
@@ -1328,12 +1320,14 @@
     {
      "name": "kegel_schnee",
      "ebene": "held",
-     "warum": "der Altschneekegel selbst (Huge Snow Hill gestaffelt in Fallrichtung)",
+     "warum": "der Altschneekegel selbst (Snow Hill 20 m + Huge Snow Hill gestaffelt in Fallrichtung)",
      "palette": [
+      "Snow_Hill_vdbmabvva_High",
       "vdspdazqa_tier_0",
       "xgxhcjxqx_tier_0"
      ],
      "gewichte": [
+      1,
       2,
       1
      ],
@@ -1361,8 +1355,8 @@
       ]
      },
      "skala": [
-      1.4,
-      1.7
+      1.0,
+      1.4
      ],
      "yaw": 160,
      "yaw_streuung_grad": 15,
@@ -1383,6 +1377,7 @@
      "palette": [
       "uhvjae0fa_tier_0",
       "uhuldf3fa_tier_0",
+      "Snow_Embankment_uhvifcgfa_High",
       "vcykbjsva_tier_0",
       "xgxhcjxqx_tier_0"
      ],
@@ -2037,7 +2032,8 @@
       "krone": 0.35,
       "warum": "Moraenenriegel (Krone, ueber die man den See zuerst sieht)"
      }
-    ]
+    ],
+    "senke_begruendung": "feuchte Toteismulde hinter dem Moraenenriegel (Moos, gewollt)"
    },
    "wasser": [
     {
@@ -2099,12 +2095,31 @@
      "name": "riegel",
      "bei": "see",
      "ziel_hoehe_m": 3.0,
-     "abstand_m": 28,
+     "richtung_bereich": [
+      25,
+      60
+     ],
+     "abstand_m": 24,
      "breite_m": 14,
      "hoehe_min_m": 2.0,
-     "hoehe_max_m": 6.0,
+     "hoehe_max_m": 10.0,
      "rand_grad": 14,
      "bogen_grad": 60
+    },
+    {
+     "name": "westriegel",
+     "bei": "see",
+     "ziel_hoehe_m": 3.0,
+     "richtung_bereich": [
+      280,
+      310
+     ],
+     "abstand_m": 26,
+     "breite_m": 14,
+     "hoehe_min_m": 2.0,
+     "hoehe_max_m": 10.0,
+     "rand_grad": 14,
+     "bogen_grad": 40
     }
    ],
    "gruppen": [
@@ -2142,7 +2157,7 @@
       "SM_mountain_rock_big_02_2",
       "SM_mountain_rock_big_02_5"
      ],
-     "anzahl": 5,
+     "anzahl": 7,
      "verteilung": {
       "typ": "ufer",
       "bei": "see",
@@ -2152,7 +2167,7 @@
        2.0
       ]
      },
-     "abstand_m": 6,
+     "abstand_m": 4.5,
      "groesse_m": [
       1.6,
       2.8
@@ -2215,7 +2230,7 @@
      "ebene": "schutt",
      "warum": "Bloecke auf dem Sichtwall (Moraenenwall verdeckt den See vom Steig)",
      "palette": "bloecke",
-     "anzahl": 10,
+     "anzahl": 8,
      "verteilung": {
       "typ": "band",
       "punkte": "rahmen_riegel",
@@ -2225,6 +2240,27 @@
      "groesse_m": [
       2.0,
       3.6
+     ],
+     "eingraben": [
+      0.3,
+      0.4
+     ]
+    },
+    {
+     "name": "westbloecke",
+     "ebene": "schutt",
+     "warum": "Bloecke auf dem Westriegel (Seitenmoraene, Sicht vom Steig)",
+     "palette": "bloecke",
+     "anzahl": 7,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rahmen_westriegel",
+      "breite_m": 8
+     },
+     "abstand_m": 4.5,
+     "groesse_m": [
+      2.0,
+      3.4
      ],
      "eingraben": [
       0.3,
@@ -2399,7 +2435,8 @@
       "gruppe": [
        "riegelblock",
        "uferbloecke",
-       "rahmenbloecke"
+       "rahmenbloecke",
+       "westbloecke"
       ],
       "ring": [
        0.85,
@@ -2424,7 +2461,8 @@
        "riegelblock",
        "uferbloecke",
        "schliffplatten",
-       "rahmenbloecke"
+       "rahmenbloecke",
+       "westbloecke"
       ],
       "ring": [
        0.95,
@@ -2503,7 +2541,8 @@
      "lagen": {
       "Kies": 190,
       "Erde": 140
-     }
+     },
+     "vor_wasser_m": 2.5
     },
     "trittsteine": {
      "palette": "trittstein",
@@ -2568,6 +2607,46 @@
       3.0,
       8.0
      ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet_Flat",
+     "zweck": "Nassband an der Wasserlinie (Coast & Dunes)",
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "see",
+      "r_m": 30,
+      "band_m": [
+       0.0,
+       1.5
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Decal_Rocks_Small",
+     "zweck": "Kiesel am flachen Ufer",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "see",
+      "r_m": 30,
+      "band_m": [
+       1.0,
+       3.0
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
     }
    ],
    "klaenge": [
@@ -2622,7 +2701,8 @@
     ],
     "bei": "kessel",
     "rand_m": 12,
-    "ops": []
+    "ops": [],
+    "senke_begruendung": "Nachsackungen am Kesselrand (Toteis taut nach, gewollt)"
    },
    "wasser": [
     {
@@ -3048,6 +3128,26 @@
       2.5,
       2.5
      ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Deca_Wet",
+     "zweck": "Nassband am schwarzen Wasser",
+     "anzahl": 3,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "kessel",
+      "r_m": 25,
+      "band_m": [
+       0.0,
+       1.2
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      2.5,
+      2.5
+     ]
     }
    ],
    "klaenge": [
@@ -3246,7 +3346,8 @@
       "krone": 0.45,
       "warum": "Waechtenwulst auf dem Grat"
      }
-    ]
+    ],
+    "senke_begruendung": "Gletschermuehle: der Schacht schluckt den Schmelzbach; flache Firnmulden (gewollt)"
    },
    "wasser": [
     {
@@ -3295,7 +3396,7 @@
      "fuss": "muehle",
      "breite_m": 1.0,
      "farbe": "tuerkis",
-     "hinweis": "Material: Wasserfall-Material aus dem Mountain-Set (13d), tuerkis getoent"
+     "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - Wasserfall; Wasserfall-Material aus dem Mountain-Set (13d), tuerkis getoent"
     }
    ],
    "freiraeume": [
@@ -3320,7 +3421,8 @@
      "palette": [
       "uhuldf3fa_tier_0",
       "vctldcnfa_tier_0",
-      "uhqffeyfa_tier_0"
+      "uhqffeyfa_tier_0",
+      "Snow_Embankment_uhvifcgfa_High"
      ],
      "anzahl": 14,
      "verteilung": {
@@ -3768,7 +3870,8 @@
      "asset": "NS_Impact_Small",
      "zweck": "Gischt im Schacht der Gletschermuehle (Nature Water FX)",
      "bei": "muehle",
-     "hoehe_m": -1.5
+     "hoehe_m": -1.5,
+     "optional": false
     },
     {
      "typ": "lokaler_nebel",
@@ -3988,7 +4091,8 @@
       "verteilung": "oben",
       "warum": "Ostwand der Klamm hoeher (Rahmen gegen den Oststeig)"
      }
-    ]
+    ],
+    "senke_begruendung": "Strudeltoepfe/Kolke in der Klammsohle, die bei Niedrigwasser trocken fallen (das Thema des Orts)"
    },
    "wasser": [
     {
@@ -4081,7 +4185,7 @@
      "becken": "topf1",
      "breite_m": 1.6,
      "farbe": "klar",
-     "hinweis": "Material: Wasserfall-Material aus dem Mountain-Set (13d) statt MI_EL_Wasserfall_Kaskade"
+     "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - Wasserfall; Wasserfall-Material aus dem Mountain-Set (13d) statt MI_EL_Wasserfall_Kaskade"
     },
     {
      "typ": "bach",
@@ -4527,7 +4631,8 @@
      "asset": "NS_Impact_Small",
      "zweck": "Aufprall-Gischt im grossen Topf",
      "bei": "topf1",
-     "hoehe_m": 0.2
+     "hoehe_m": 0.2,
+     "optional": false
     },
     {
      "typ": "spotlicht",
@@ -4551,7 +4656,8 @@
      "zweck": "Fallband vom oberen Klammbach in den grossen Topf (Nature Water FX)",
      "bei": "stufe_oben",
      "hoehe_m": 0.0,
-     "yaw_grad": 170
+     "yaw_grad": 170,
+     "optional": false
     },
     {
      "typ": "decal",
@@ -4574,13 +4680,17 @@
     },
     {
      "typ": "decal",
-     "material": "MI_Leakage_08",
-     "zweck": "Nassband an den Topfraendern",
-     "anzahl": 2,
+     "material": "MI_Deca_Wet",
+     "zweck": "Nassband an den Topfraendern (Coast & Dunes)",
+     "anzahl": 3,
      "verteilung": {
-      "typ": "kreis",
+      "typ": "ufer",
       "bei": "topf2",
-      "r_m": 5
+      "r_m": 30,
+      "band_m": [
+       0.0,
+       1.2
+      ]
      },
      "groesse_m": [
       1.0,
@@ -5315,12 +5425,14 @@
      "ebene": "begleiter",
      "warum": "polierte Felsbuckel, 40-60 % im Boden (Schliffseite zum Eisstrom)",
      "palette": [
+      "SM_flat_rock_01",
       "SM_SmoothRockShelf_01",
       "SM_ForestRockSlab_01",
       "SM_MassiveTundraRockFormation_02"
      ],
      "gewichte": [
       3,
+      2,
       2,
       1
      ],
