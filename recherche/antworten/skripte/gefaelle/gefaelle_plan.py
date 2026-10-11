@@ -1927,7 +1927,13 @@ def testbild(kx, K, pr, sp, plan, pfad):
     ctx = kx["ctx"]
     sid = kx["strecke"]
     # Wasser fuer die Draufsicht: neue Flussstuecke als Linien, Effekte, Kameras der Strecke
-    ctx.wasser = [{"typ": "bach", "punkte_cm": [p_[:4] for p_ in (wk.get("punkte") or wk.get("mittellinie"))]}
+    def ausgeduennt(P):
+        out = [P[0][:4]]
+        for q in P[1:]:
+            if math.hypot(q[0] - out[-1][0], q[1] - out[-1][1]) >= 150.0:     # Zeichnung: Punkte >= 1,5 m auseinander
+                out.append(q[:4])
+        return out if len(out) > 1 else [P[0][:4], P[-1][:4]]
+    ctx.wasser = [{"typ": "bach", "punkte_cm": ausgeduennt(wk.get("punkte") or wk.get("mittellinie"))}
                   for wk in plan["wasser_koerper"]]
     ctx.effekte = [e for e in plan["effekte"] if e["stufe"] in {s_["id"] for s_ in kx["stufen"]}]
     ctx.st["kameras"] = [k for k in plan["kameras"] if k[6].startswith(sid + "_") and "nachher" in k[6]]
