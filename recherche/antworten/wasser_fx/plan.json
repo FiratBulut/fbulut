@@ -18,7 +18,8 @@
   "effect_type_vorschlag": {
    "NET_EL_Wasser_Held": {
     "max_distance_m": 150,
-    "fuer": "WF_K1/WF_K8"
+    "rueckfall_max_distance_m": 100,
+    "fuer": "WF_K1/WF_K8 (+ kueste_04, dschungel_02, E27)"
    },
    "NET_EL_Wasser_Nah": {
     "max_distance_m": 50,
@@ -72,7 +73,31 @@
     "breite": 8.0,
     "laenge": 20.0
    }
+  },
+  "cull_rueckfall_m": {
+   "NS_Waterfall_Large": 100,
+   "NS_Impact_Large": 60,
+   "NS_Wake_Large": 40,
+   "bedingung": "GPU fuer Wasser-FX > 0,5 ms (stat Niagara + profilegpu bei WASSER3_H4_WF_K8_weit und kueste_04_der_seefall_held; Messwert nach plan.json -> messung)",
+   "gilt_auch": [
+    "kueste_04_der_seefall",
+    "dschungel_02_turmquelle"
+   ],
+   "entscheidung": "E27: Cull 150/100/60 m freigegeben, Rueckfallstufe 100/60/40 m"
   }
+ },
+ "messung": {
+  "gpu_wasser_fx_ms": null,
+  "orte": [
+   "WASSER3_H4_WF_K8_weit",
+   "kueste_04_der_seefall_held"
+  ],
+  "hinweis": "E27/E28: Claude lokal traegt stat Niagara + profilegpu ein; > 0,5 ms -> cull_rueckfall_m"
+ },
+ "e28_s02": {
+  "s02_impact": "gesetzt (optional, Cull 20 m)",
+  "gleichzeitig_max_mit_s02": 6,
+  "gleichzeitig_max": 6
  },
  "effekte": [
   {
@@ -113,7 +138,8 @@
    "rolle": "fall",
    "bezug": "lippe + 0,3 m in Fallrichtung, Spiegel + 5 cm",
    "optional": false,
-   "zweck": "Fallstraehnen und Schleier vor dem Vorhang, 14.9 m breit, 56.9 m Fall"
+   "zweck": "Fallstraehnen und Schleier vor dem Vorhang, 14.9 m breit, 56.9 m Fall",
+   "cull_rueckfall_m": 100
   },
   {
    "typ": "niagara",
@@ -153,7 +179,8 @@
    "rolle": "aufprall",
    "bezug": "gischt_cm (x, y), Beckenspiegel + 10 cm",
    "optional": false,
-   "zweck": "Aufprall-Gischt im Becken (7.7 m der Vorhangbreite treffen das Becken)"
+   "zweck": "Aufprall-Gischt im Becken (7.7 m der Vorhangbreite treffen das Becken)",
+   "cull_rueckfall_m": 60
   },
   {
    "typ": "niagara",
@@ -191,7 +218,8 @@
    "rolle": "wake",
    "bezug": "gischt_cm + 5 m in Fallrichtung, Beckenspiegel + 3 cm",
    "optional": false,
-   "zweck": "Schaumringe und Wirbel auf dem Becken (laut Hersteller eigenes System zum Fall)"
+   "zweck": "Schaumringe und Wirbel auf dem Becken (laut Hersteller eigenes System zum Fall)",
+   "cull_rueckfall_m": 40
   },
   {
    "typ": "niagara",
@@ -231,7 +259,8 @@
    "rolle": "fall",
    "bezug": "lippe + 0,3 m in Fallrichtung, Spiegel + 5 cm",
    "optional": false,
-   "zweck": "Fallstraehnen und Schleier vor dem Vorhang, 16.6 m breit, 53.9 m Fall"
+   "zweck": "Fallstraehnen und Schleier vor dem Vorhang, 16.6 m breit, 53.9 m Fall",
+   "cull_rueckfall_m": 100
   },
   {
    "typ": "niagara",
@@ -271,7 +300,8 @@
    "rolle": "aufprall",
    "bezug": "gischt_cm (x, y), Beckenspiegel + 10 cm",
    "optional": false,
-   "zweck": "Aufprall-Gischt im Becken (16.6 m der Vorhangbreite treffen das Becken)"
+   "zweck": "Aufprall-Gischt im Becken (16.6 m der Vorhangbreite treffen das Becken)",
+   "cull_rueckfall_m": 60
   },
   {
    "typ": "niagara",
@@ -309,7 +339,8 @@
    "rolle": "wake",
    "bezug": "gischt_cm + 5 m in Fallrichtung, Beckenspiegel + 3 cm",
    "optional": false,
-   "zweck": "Schaumringe und Wirbel auf dem Becken (laut Hersteller eigenes System zum Fall)"
+   "zweck": "Schaumringe und Wirbel auf dem Becken (laut Hersteller eigenes System zum Fall)",
+   "cull_rueckfall_m": 40
   },
   {
    "typ": "niagara",
@@ -428,6 +459,45 @@
    "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
    "optional": false,
    "zweck": "Gischt am Fuss von S01"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+   "pos_cm": [
+    -174790.5,
+    -233215.2,
+    8088.9
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.87088,
+    0.4915
+   ],
+   "yaw_ue_grad": 121.1,
+   "kompass_grad": 211.1,
+   "skala": 1.0,
+   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
+   "cull_m": 20,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S02",
+   "gruppe": "C2_B",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
+   "optional": true,
+   "zweck": "E28: Gischt am Fuss von S02 (optional, Cull 20 m; nur wenn <= 6 gleichzeitig)"
   },
   {
    "typ": "niagara",
@@ -838,7 +908,8 @@
   ],
   "C2_B": [
    "S01:NS_Waterfall_Small",
-   "S01:NS_Impact_Small"
+   "S01:NS_Impact_Small",
+   "S02:NS_Impact_Small"
   ],
   "C2_C": [
    "S03:NS_Impact_Small",
@@ -1139,7 +1210,7 @@
     "felder": [
      "C4"
     ],
-    "datei_sha1": "15916a4111fa",
+    "datei_sha1": "aee036d3e767",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -1202,7 +1273,7 @@
      "D5",
      "E5"
     ],
-    "datei_sha1": "15916a4111fa",
+    "datei_sha1": "aee036d3e767",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -1246,7 +1317,7 @@
     "felder": [
      "F4"
     ],
-    "datei_sha1": "15916a4111fa",
+    "datei_sha1": "aee036d3e767",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -1290,7 +1361,7 @@
     "felder": [
      "I4"
     ],
-    "datei_sha1": "98474ed00050",
+    "datei_sha1": "11f1fe8ff556",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -1370,7 +1441,7 @@
     "felder": [
      "B5"
     ],
-    "datei_sha1": "98474ed00050",
+    "datei_sha1": "11f1fe8ff556",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -1587,7 +1658,7 @@
      "G5",
      "G6"
     ],
-    "datei_sha1": "653dc1aee76c",
+    "datei_sha1": "f187ce41368b",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -1658,7 +1729,21 @@
       "lautstaerke": 0.9,
       "zweck": "Rauschen des Falls"
      }
-    ]
+    ],
+    "cull_klasse": {
+     "klasse": "held (E27)",
+     "cull_m": {
+      "fall": 150,
+      "aufprall": 100,
+      "wake": 60
+     },
+     "cull_rueckfall_m": {
+      "fall": 100,
+      "aufprall": 60,
+      "wake": 40
+     },
+     "bedingung_rueckfall": "GPU fuer Wasser-FX > 0,5 ms (stat Niagara + profilegpu bei WASSER3_H4_WF_K8_weit und kueste_04_der_seefall_held; Messwert nach plan.json -> messung)"
+    }
    },
    {
     "biom": "dschungel",
@@ -1667,7 +1752,7 @@
     "felder": [
      "G6"
     ],
-    "datei_sha1": "653dc1aee76c",
+    "datei_sha1": "f187ce41368b",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -1711,7 +1796,7 @@
     "felder": [
      "I7"
     ],
-    "datei_sha1": "653dc1aee76c",
+    "datei_sha1": "f187ce41368b",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -1761,7 +1846,7 @@
     "felder": [
      "H3"
     ],
-    "datei_sha1": "13066009f0a6",
+    "datei_sha1": "faf1f03e2e6f",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -1841,7 +1926,7 @@
     "felder": [
      "H3"
     ],
-    "datei_sha1": "13066009f0a6",
+    "datei_sha1": "faf1f03e2e6f",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -1922,7 +2007,7 @@
      "G3",
      "H3"
     ],
-    "datei_sha1": "13066009f0a6",
+    "datei_sha1": "faf1f03e2e6f",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -1969,7 +2054,7 @@
      "D1",
      "D2"
     ],
-    "datei_sha1": "71e9c49c350c",
+    "datei_sha1": "69a3b45e5a86",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -2050,7 +2135,7 @@
      "C2",
      "D2"
     ],
-    "datei_sha1": "71e9c49c350c",
+    "datei_sha1": "69a3b45e5a86",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -2058,15 +2143,15 @@
       "typ": "niagara",
       "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium",
       "pos_cm": [
-       -168850,
-       -278550,
-       22740
+       -168100,
+       -278500,
+       21427
       ],
       "rot_q": [
        0.0,
        0.0,
-       0.67559,
-       0.73728
+       0.70711,
+       0.70711
       ],
       "skala": 1.0,
       "optional": false,
@@ -2076,9 +2161,9 @@
       "typ": "niagara",
       "asset": "/Game/NatureWaterFX/FX/NS_Impact_Medium",
       "pos_cm": [
-       -168800,
-       -275200,
-       17643
+       -168000,
+       -275700,
+       17957
       ],
       "rot_q": [
        -0.0,
@@ -2094,15 +2179,15 @@
       "typ": "niagara",
       "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
       "pos_cm": [
-       -169000,
-       -280000,
-       22649
+       -167900,
+       -279100,
+       21437
       ],
       "rot_q": [
        0.0,
        0.0,
-       0.67559,
-       0.73728
+       0.70711,
+       0.70711
       ],
       "skala": 1.0,
       "optional": false,
@@ -2113,9 +2198,9 @@
      {
       "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
       "pos_cm": [
-       -168800,
-       -275200,
-       17773
+       -168000,
+       -275700,
+       18087
       ],
       "radius_cm": 4500,
       "lautstaerke": 0.8,
@@ -2131,7 +2216,7 @@
      "C1",
      "D1"
     ],
-    "datei_sha1": "71e9c49c350c",
+    "datei_sha1": "69a3b45e5a86",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -2175,7 +2260,7 @@
     "felder": [
      "D1"
     ],
-    "datei_sha1": "71e9c49c350c",
+    "datei_sha1": "69a3b45e5a86",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -2237,7 +2322,7 @@
     "felder": [
      "E2"
     ],
-    "datei_sha1": "f595a39755fd",
+    "datei_sha1": "dd041fd2c5cb",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -2281,7 +2366,7 @@
     "felder": [
      "F2"
     ],
-    "datei_sha1": "f595a39755fd",
+    "datei_sha1": "dd041fd2c5cb",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -2362,7 +2447,7 @@
      "E2",
      "E3"
     ],
-    "datei_sha1": "f595a39755fd",
+    "datei_sha1": "dd041fd2c5cb",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
@@ -2407,7 +2492,7 @@
      "D2",
      "E2"
     ],
-    "datei_sha1": "6d86ade5bf41",
+    "datei_sha1": "6bea7fb0dbcc",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -2470,7 +2555,7 @@
      "D1",
      "E1"
     ],
-    "datei_sha1": "6d86ade5bf41",
+    "datei_sha1": "6bea7fb0dbcc",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -2515,7 +2600,7 @@
      "E1",
      "E2"
     ],
-    "datei_sha1": "6d86ade5bf41",
+    "datei_sha1": "6bea7fb0dbcc",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -2577,7 +2662,7 @@
     "felder": [
      "G5"
     ],
-    "datei_sha1": "534e2fd8f10c",
+    "datei_sha1": "b8b90d6df9a7",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -2669,7 +2754,7 @@
      "A5",
      "A6"
     ],
-    "datei_sha1": "10592e349eb1",
+    "datei_sha1": "8c27a5ad6c44",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -2749,7 +2834,7 @@
     "felder": [
      "A5"
     ],
-    "datei_sha1": "10592e349eb1",
+    "datei_sha1": "8c27a5ad6c44",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -2811,7 +2896,7 @@
     "felder": [
      "A5"
     ],
-    "datei_sha1": "10592e349eb1",
+    "datei_sha1": "8c27a5ad6c44",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -2893,7 +2978,21 @@
       "lautstaerke": 0.45,
       "zweck": "Bach vor der Kante"
      }
-    ]
+    ],
+    "cull_klasse": {
+     "klasse": "held (E27)",
+     "cull_m": {
+      "fall": 150,
+      "aufprall": 100,
+      "wake": 60
+     },
+     "cull_rueckfall_m": {
+      "fall": 100,
+      "aufprall": 60,
+      "wake": 40
+     },
+     "bedingung_rueckfall": "GPU fuer Wasser-FX > 0,5 ms (stat Niagara + profilegpu bei WASSER3_H4_WF_K8_weit und kueste_04_der_seefall_held; Messwert nach plan.json -> messung)"
+    }
    },
    {
     "biom": "kueste",
@@ -2902,7 +3001,7 @@
     "felder": [
      "H2"
     ],
-    "datei_sha1": "10592e349eb1",
+    "datei_sha1": "8c27a5ad6c44",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 2,
     "effekte": [
@@ -2975,7 +3074,7 @@
     "felder": [
      "E3"
     ],
-    "datei_sha1": "d5132b1ddc9c",
+    "datei_sha1": "dcb5c32b5509",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 1,
     "effekte": [
