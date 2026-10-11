@@ -147,7 +147,7 @@ def _phase2_test(welt, gel, ort, a):
         "gelaende": {"fenster_m": [100, 100], "ops": [{"op": "mulde", "bei": "unten", "radius_m": 6, "tiefe_m": 1.0}]},
         "wasser": [{"typ": "see", "id": "teich", "bei": "unten", "r_m": 5, "spiegel": "boden", "tiefe_m": 1.2,
                     "farbe": "klar", "becken": {"ufer_m": 4}},
-                   {"typ": "bach", "id": "ablauf", "abfluss_von": "teich", "laenge_m": 20, "breite_m": 1.0}],
+                   {"typ": "bach", "id": "ablauf", "abfluss_von": "teich", "laenge_m": 35, "breite_m": 1.0}],
         "gruppen": [
             {"name": "held", "ebene": "held", "netz": "SM_NordicBoulder_01", "verteilung": {"typ": "punkt", "bei": "kopf"},
              "skala": 1.2},
