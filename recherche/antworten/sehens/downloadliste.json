@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-11 (nach Inventar 13d, 15:56; Megascans-Prüfung am Abend)",
+ "stand": "2026-10-11 (nach Inventar 13d; Entscheidungen des Koordinators E29–E33 und Ferats Antwort zu den Kaufempfehlungen, abends)",
  "auftrag": "13 Phase 1, Teil A – Download-Liste (Abgleich mit Inventar 13d)",
  "hinweise": [
   "fab.com ist aus der Cloud nicht erreichbar. Preise, Größen und UE-Versionen sind deshalb ungeprüft (Suchmaschinen-Auszüge, Bewertung 10.10.).",
@@ -10,20 +10,22 @@
   "beschaffung: „kostenlos/aus Bibliothek → Claude lädt auf Wunsch“ oder „kostenpflichtig → nur nach Ferats OK“ (Preis ungeprüft zählt wie kostenpflichtig).",
   "wofuer: endgültige Ort-IDs und Namen aus den standorte.json aller 15 Biome; Zuordnung aus den asset_bedarf.json (Wünsche und genutzter Bestand).",
   "Credits: Free Niagara Particles steht unter CC BY 4.0 → Namensnennung „SoftTofuVFX“.",
-  "beschaffung „Megascans (kostenlos, 2024 beansprucht – Ferat lädt)“: Ferat lädt selbst (Reihenfolge: megascans_ladeliste)."
+  "beschaffung „Megascans (kostenlos, 2024 beansprucht – Ferat lädt)“: Ferat lädt selbst (Reihenfolge: megascans_ladeliste).",
+  "Entscheidungen (13-entscheidungen-koordinator.md, 11.10.): Limestone Quarry und die 6 kostenlosen Pakete werden geladen (E31, E32), das Ancraite-Set ist gestrichen (E31), uldubik/uk5ebcp werden neu geladen (E33). Kaufempfehlungen sind nur Empfehlungen – Ferat entscheidet.",
+  "Ferat (11.10., abends): Klänge erzeugt er größtenteils selbst mit KI-Sound-Generatoren – alle Klangpakete stehen unter „bewusst nicht aufgenommen“; Claude liefert später die Prompts. In den Planern bleiben die bisherigen Ersatz-Cues als Platzhalter."
  ],
  "summe": {
   "anzahl": {
    "A": 1,
-   "B": 12,
+   "B": 9,
    "C": 16
   },
   "gb_schaetzung": {
-   "A": 0.0,
-   "B": 14.0,
-   "C": 17.6
+   "A": 0,
+   "B": 10.5,
+   "C": 13.9
   },
-  "gb_a_plus_b": 14.0,
+  "gb_a_plus_b": 10.5,
   "ohne_groesse": [
    "Megascans-Driftwood (Treibholz-Scans + Dead Tree als Burgkern)",
    "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
@@ -36,20 +38,19 @@
    "Tundra Icelandic Rock Cluster (Quixel Megascans)",
    "Moss & Lichen Forest Ground Rock Materials",
    "Megascans Desert Pack",
-   "Megascans Sandstone"
+   "Megascans Sandstone",
+   "Soul: Cave (Epic, 2018)"
   ],
   "kostenlos_claude_laedt": [
-   "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)"
+   "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
+   "Soul: Cave (Epic, 2018)"
   ],
   "nur_nach_ferats_ok": [
-   "CryoGen: Native Procedural Ice Architecture",
    "Arctic Cliffs",
-   "Cave Ambience",
    "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack",
    "Nanite Tropical Plant Pack 2",
    "Travertine Hot Spring Terraces – Modular Environment Pack",
    "Ultimate Niagara Environmental VFX",
-   "Fantasy Ambiences (Lava, Höhle, Wind …)",
    "Taxodium Distichum (Bald Cypress) Tree Pack",
    "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
    "Moss & Lichen Forest Ground Rock Materials",
@@ -59,12 +60,10 @@
    "Wadi Rum Sandstone Rock 01–04",
    "Procedural Rocks Generator",
    "Tropical Vegetation Assets",
-   "Rain Forest Pack",
-   "Wilderness Nature Loops"
+   "Rain Forest Pack"
   ],
   "noch_nicht_geladen": [
    "Weitere Megascans-Limestone-Assets (große Kalkfelsen, Karst)",
-   "Limestone Rock Set (Ancraite)",
    "Desert_Western_Cluster_Rock_Medium_05_uldubik (uldubik_tier_0)",
    "Desert_Western_Ledge_Rock_Small_07_uk5ebcp (uk5ebcp_tier_0)"
   ],
@@ -80,11 +79,20 @@
    "Megascans Sandstone"
   ],
   "zaehlung": {
-   "pakete": 29,
-   "kostenlos": 10,
+   "pakete": 26,
+   "kostenlos": 11,
    "davon_megascans_ferat": 9,
-   "kostenpflichtig_oder_ungeprueft": 19
-  }
+   "kostenpflichtig_oder_ungeprueft": 15
+  },
+  "entschieden_laden": [
+   "Megascans Limestone Quarry (E31)",
+   "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)",
+   "Megascans Icelandic Sand With Pebbles",
+   "Megascans Trees: European Black Alder",
+   "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+   "Megascans Desert Pack",
+   "Megascans Sandstone"
+  ]
  },
  "top5_fehlend": [
   {
@@ -101,7 +109,8 @@
    "fab_link": "https://www.fab.com/listings/1184ba2c-4fde-49a2-b770-ba5de21fe91a",
    "preis": "kostenlos (2024 beansprucht)",
    "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
-   "warum": "Kalkfelsen/Karsttürme für Mondtor, Steinwald, Lagune, Schluckhöhle und Blautopf (Lücke seit 13b)."
+   "warum": "Kalkfelsen/Karsttürme für Mondtor, Steinwald, Lagune, Schluckhöhle und Blautopf (Lücke seit 13b).",
+   "status": "laden (entschieden, E31)"
   },
   {
    "nr": 3,
@@ -117,7 +126,8 @@
    "fab_link": "https://www.fab.com/listings/9de7ce19-5813-42d2-a5f0-5e6447006f72",
    "preis": "kostenlos (Megascans)",
    "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
-   "warum": "Schwarzerle = Held des Erlenbruchs (sumpf_05) und Ufergehölz der Aue."
+   "warum": "Schwarzerle = Held des Erlenbruchs (sumpf_05) und Ufergehölz der Aue.",
+   "status": "laden (entschieden, E32)"
   },
   {
    "nr": 5,
@@ -125,7 +135,8 @@
    "fab_link": "https://www.fab.com/listings/d79688f5-29be-4fb2-a650-2d4a813f5306",
    "preis": "kostenlos",
    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
-   "warum": "tropische Uferpflanzen und Luftwurzeln für Blaues Auge und Garten der Riesen; vor jedem Tropen-Kauf prüfen."
+   "warum": "tropische Uferpflanzen und Luftwurzeln für Blaues Auge und Garten der Riesen; vor jedem Tropen-Kauf prüfen.",
+   "status": "laden (entschieden, E32)"
   }
  ],
  "erledigt": [
@@ -505,7 +516,7 @@
  "laeuft": [
   {
    "name": "Weitere Megascans-Limestone-Assets (große Kalkfelsen, Karst)",
-   "status": "noch nicht geladen – Ferat lädt (Megascans-Liste Nr. 2)",
+   "status": "laden (entschieden, E31) – Ferat lädt Megascans Limestone Quarry (Megascans-Liste Nr. 2)",
    "prioritaet": "B",
    "fab_link": null,
    "preis": "kostenlos (2024 beansprucht – Besitz prüfen)",
@@ -563,24 +574,8 @@
    ]
   },
   {
-   "name": "Limestone Rock Set (Ancraite)",
-   "status": "noch nicht geladen – Link fehlt",
-   "prioritaet": "B",
-   "fab_link": null,
-   "preis": "kostenlos (laut Ferat)",
-   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
-   "hinweis": "Nicht in netze.csv 13d. Link weiter nicht belegt – auf Fab nach „Limestone Rock Set“ (Ancraite) suchen. Websuche 11.10. nach „Limestone Rock Set“ Ancraite: kein Treffer. Kein Megascans-Paket – Ferat bitte Link nennen oder streichen; die Megascans-Quarry-Cliffs decken die Rolle.",
-   "fuer": [
-    "aue_07_blautopf (Blautopf)",
-    "dschungel_01_mondtor (Mondtor)",
-    "dschungel_03_steinwald (Steinwald)",
-    "dschungel_05_verborgene_lagune (Verborgene Lagune)",
-    "dschungel_06_schluckhoehle (Schluckhoehle)"
-   ]
-  },
-  {
    "name": "Desert_Western_Cluster_Rock_Medium_05_uldubik (uldubik_tier_0)",
-   "status": "erneut laden (unvollständig: 1 von 5 Dateien)",
+   "status": "neu laden (entschieden, E33) – unvollständig: 1 von 5 Dateien; Sperre in sehens_lib/inventar.py aufheben, sobald 5/5 Dateien da sind",
    "prioritaet": "C",
    "fab_link": null,
    "preis": "kostenlos (2024 beansprucht)",
@@ -594,7 +589,7 @@
   },
   {
    "name": "Desert_Western_Ledge_Rock_Small_07_uk5ebcp (uk5ebcp_tier_0)",
-   "status": "erneut laden (unvollständig: 1 von 5 Dateien)",
+   "status": "neu laden (entschieden, E33) – unvollständig: 1 von 5 Dateien; Sperre in sehens_lib/inventar.py aufheben, sobald 5/5 Dateien da sind",
    "prioritaet": "C",
    "fab_link": null,
    "preis": "kostenlos (2024 beansprucht)",
@@ -610,12 +605,12 @@
   {
    "asset_id": "61882812-0d2e-4b2a-a43b-9f2d019973a1",
    "name": null,
-   "hinweis": "Megascans-Download im Fab-Fenster fehlgeschlagen (13b). Aus unserer Liste nicht eindeutig zuzuordnen (die Liste führt Listing-IDs). Möglich, dass es die zwei unvollständigen Desert-Western-Netze sind (uldubik, uk5ebcp) – bitte beim Neuladen mit prüfen."
+   "hinweis": "Megascans-Download im Fab-Fenster fehlgeschlagen (13b). Aus unserer Liste nicht eindeutig zuzuordnen (die Liste führt Listing-IDs). Möglich, dass es die zwei unvollständigen Desert-Western-Netze sind (uldubik, uk5ebcp) – bitte beim Neuladen mit prüfen. E33: beide Desert-Western-Netze im Fab-Fenster neu laden, Dateien zählen, Log nach dieser ID durchsuchen; danach den echten Namen hier eintragen."
   },
   {
    "asset_id": "6676d940-e165-47b0-9471-50a68115315c",
    "name": null,
-   "hinweis": "Megascans-Download im Fab-Fenster fehlgeschlagen (13b). Aus unserer Liste nicht eindeutig zuzuordnen (die Liste führt Listing-IDs). Möglich, dass es die zwei unvollständigen Desert-Western-Netze sind (uldubik, uk5ebcp) – bitte beim Neuladen mit prüfen."
+   "hinweis": "Megascans-Download im Fab-Fenster fehlgeschlagen (13b). Aus unserer Liste nicht eindeutig zuzuordnen (die Liste führt Listing-IDs). Möglich, dass es die zwei unvollständigen Desert-Western-Netze sind (uldubik, uk5ebcp) – bitte beim Neuladen mit prüfen. E33: beide Desert-Western-Netze im Fab-Fenster neu laden, Dateien zählen, Log nach dieser ID durchsuchen; danach den echten Namen hier eintragen."
   }
  ],
  "entfernt": [
@@ -702,6 +697,30 @@
   {
    "name": "Forest Fungi – Mushroom Pack",
    "grund": "ersetzt durch Mountain-Pilze (30 Netze) + Megascans Forest Undergrowth (Vault) – Ferats Grundsatz (11.10.): „Kein Geld ausgeben, solange man Besseres von Megascans holen kann.“"
+  },
+  {
+   "name": "CryoGen: Native Procedural Ice Architecture",
+   "grund": "bewusst nicht aufgenommen: zu teuer; Eiszapfen aus Bestand (Ferat 11.10.: sieht gut aus, ist aber sehr teuer)"
+  },
+  {
+   "name": "Cave Ambience",
+   "grund": "bewusst nicht aufgenommen: Ferat erzeugt Klänge per KI; Claude liefert später die Prompts"
+  },
+  {
+   "name": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+   "grund": "bewusst nicht aufgenommen: Ferat erzeugt Klänge per KI; Claude liefert später die Prompts"
+  },
+  {
+   "name": "Wilderness Nature Loops",
+   "grund": "bewusst nicht aufgenommen: Ferat erzeugt Klänge per KI; Claude liefert später die Prompts"
+  },
+  {
+   "name": "Procedural Sea Waves (MetaSound)",
+   "grund": "bewusst nicht aufgenommen: Ferat erzeugt Klänge per KI; Claude liefert später die Prompts. (E29 hatte es als kostenlose Brandungsquelle vorgeschlagen – „kostenlos“ laut Fab-Kategorieauszug [ungeprüft]; prozedural, ohne Audiodateien.)"
+  },
+  {
+   "name": "Limestone Rock Set (Ancraite)",
+   "grund": "bewusst nicht aufgenommen: gestrichen (E31): kein Treffer bei der Websuche, kein Link; die Megascans-Quarry-Cliffs (Limestone Quarry) übernehmen die Rolle."
   }
  ],
  "entfallene_wuensche": [
@@ -796,9 +815,10 @@
    "pruefen_bibliothek": true,
    "quelle": "https://www.unrealengine.com/electric-dreams-environment",
    "bemerkung": "Dschungel-Umgebung aus Quixel-Assets, 7 PCG-Level; demonstriert Lumen, Nanite und Soundscape. Ob echte Klangdateien dabei sind, ist ungeprüft. Nur für UE-Produkte lizenziert. Laut Bewertung schon in der Bibliothek (Teile übernommen).",
-   "status": "fehlt",
+   "status": "laden (entschieden, E32)",
    "warum_prioritaet": "kostenlos; laut 13c sind nur Reste im Projekt. Tausendfuß entfällt.",
-   "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "entscheidung": "E32: alle sechs kostenlosen Pakete werden geladen – Electric Dreams lädt Claude lokal"
   },
   {
    "name": "Megaplants: English Oak (Stieleiche, Quercus robur)",
@@ -850,32 +870,6 @@
    "megascans_ersatz_fuer": "Forest Fungi – Mushroom Pack"
   },
   {
-   "name": "CryoGen: Native Procedural Ice Architecture",
-   "fab_link": "https://www.fab.com/listings/1758130d-aa4e-4b26-ae97-fb5f43a2c22b",
-   "anbieter": "Akram Kasravi Fard",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 0.2,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "ungeprüft",
-   "nanite": true,
-   "wofuer": [
-    "frost_01_der_eisfall (Der Eisfall)",
-    "frost_03_eisvorhang (Der Eisvorhang)",
-    "frost_07_frostblumen (Die Frostblumen)",
-    "frost_08_glockenbach (Der Glockenbach)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "SM_EISZAPFEN_1…9 (eigen)",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/1758130d-aa4e-4b26-ae97-fb5f43a2c22b",
-   "bemerkung": "C++-Werkzeug: lässt Eiszapfen und Tropfeis auf beliebigen Netzen wachsen, Nanite-fähig. Kein Houdini. Nur falls der Eisvorhang aus Eiszapfen + Material nicht reicht.",
-   "status": "fehlt",
-   "warum_prioritaet": "hochgestuft (C → B): 4 Frost-Orte (Eisfall, Eisvorhang, Frostblumen, Glockenbach); Megascans-Eis deckt kleine Kristalle und Zapfen nicht ab.",
-   "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
-   "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "keine Megascans-Eiszapfen/Tropfeis gefunden (Websuche 11.10.); Megascans-Eis = nur Ice Cliff/Large Ice Cliff (schon im Projekt)."
-  },
-  {
    "name": "Arctic Cliffs",
    "fab_link": "https://www.fab.com/listings/6ec8744b-3fec-4ca3-9717-573dd2ee0202",
    "anbieter": "ungeprüft",
@@ -899,7 +893,8 @@
    "warum_prioritaet": "große Eisplatten/Treibeis; Megascans-Eis ist bis 6,7 m groß, reicht nur mit ×2,5–4. Megascans ersetzt nur teilweise (11.10.) – beide Einträge bleiben.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "teilweise",
-   "megascans_hinweis": "Megascans Ice Cliff/Large Ice Cliff sind schon im Projekt (bis 6,9 m); neu: Oberfläche „Frozen Lake“ für Frostsee/Aufeis. Große Eisplatten, Treibeis-Blueprint und Eispartikel gibt es bei Megascans nicht."
+   "megascans_hinweis": "Megascans Ice Cliff/Large Ice Cliff sind schon im Projekt (bis 6,9 m); neu: Oberfläche „Frozen Lake“ für Frostsee/Aufeis. Große Eisplatten, Treibeis-Blueprint und Eispartikel gibt es bei Megascans nicht.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Megascans Frozen Lake + Frost (Oberflächen)",
@@ -940,34 +935,6 @@
    "megascans_teilersatz_fuer": "Arctic Cliffs"
   },
   {
-   "name": "Cave Ambience",
-   "fab_link": "https://www.fab.com/listings/0cdc50ee-2c20-45d1-b35d-c158fb9fa013",
-   "anbieter": "Gravity Sound",
-   "preis": "ca. 9 € (9,99 USD auf itch.io; Fab-Preis ungeprüft)",
-   "groesse_gb": 0.3,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "Audio (WAV)",
-   "nanite": null,
-   "wofuer": [
-    "dschungel_06_schluckhoehle (Schluckhoehle)",
-    "dschungel_08_sinterhalle (Sinterhalle)",
-    "fjord_07_brandungsgrotte (Die Brandungsgrotte)",
-    "gletscher_01_gletschertor (Das Gletschertor)",
-    "lava_04_roehrenfenster (Das Roehrenfenster)",
-    "oedland_08_erdroehren (Die Erdröhren)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://gravity-sound.itch.io/cave-ambience",
-   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 27 Höhlen-Loops je ca. 1 min (Tropfen, Fledermäuse, Wind, Bach). Begründung: günstig, fünf Höhlen-/Schlundorte.",
-   "status": "fehlt",
-   "warum_prioritaet": "5 Höhlen-/Grottenorte; günstig.",
-   "beschaffung": "kostenpflichtig → nur nach Ferats OK",
-   "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "Megascans hat keine Klänge."
-  },
-  {
    "name": "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack",
    "fab_link": "https://www.fab.com/listings/6d72a075-8a87-4add-b1df-a6e5664bd4c8",
    "anbieter": "ungeprüft",
@@ -978,7 +945,7 @@
    "ersatz_bestand": "",
    "pruefen_bibliothek": true,
    "quelle": "Fab-Listing (Suchmaschinen-Auszug 11.10.2026): 23 Assets, Stalaktiten/Stalagmiten + modulare Wandsegmente, 4K/2K PBR, Nanite + Lumen, UE 5.0+; auch im 'Alien & Organic Environment Bundle (3-in-1)'",
-   "bemerkung": "",
+   "bemerkung": " Vor einem Kauf zuerst „Soul: Cave“ (kostenlos) auf Eignung prüfen.",
    "prioritaet": "B",
    "status": "fehlt",
    "wofuer": [
@@ -1010,7 +977,8 @@
    "warum_prioritaet": "neu aus dschungel: Riesenblätter (Held) im Garten der Riesen.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht belegt",
-   "megascans_hinweis": "keine Megascans-Riesenblätter (Elefantenohr, Monstera, Banane) per Suche belegt; Electric Dreams (Quixel-Assets, kostenlos) zuerst laden und prüfen."
+   "megascans_hinweis": "keine Megascans-Riesenblätter (Elefantenohr, Monstera, Banane) per Suche belegt; Electric Dreams (Quixel-Assets, kostenlos) zuerst laden und prüfen.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Travertine Hot Spring Terraces – Modular Environment Pack",
@@ -1034,7 +1002,8 @@
    "warum_prioritaet": "elfenwald_04 (Held); gletscher/tundra-Wünsche entfallen.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "Megascans hat nur die Oberfläche „Travertine Marble“ (2 × 1 m Scan), keine Sinterterrassen-Netze."
+   "megascans_hinweis": "Megascans hat nur die Oberfläche „Travertine Marble“ (2 × 1 m Scan), keine Sinterterrassen-Netze.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Ultimate Niagara Environmental VFX",
@@ -1064,37 +1033,8 @@
    "warum_prioritaet": "herabgestuft (B → C, 13d): Gischt jetzt NS_Impact_*/NS_Wake_* (Nature Water FX), Glut/Asche FX_Lava_Particle_*/FX_Lava_Smoke_* (Lava-Set). Offen bleiben nur Sandfahnen und Schnee.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "Megascans hat keine Niagara-Effekte."
-  },
-  {
-   "name": "Fantasy Ambiences (Lava, Höhle, Wind …)",
-   "fab_link": "https://www.fab.com/listings/25aa5e05-aa98-4f79-b7a8-b1b739e8cdb8",
-   "anbieter": "David Dumais Audio",
-   "preis": "ca. 65 € (74,99 USD auf Gumroad/itch; Fab-Preis ungeprüft)",
-   "groesse_gb": 3.0,
-   "groesse_hinweis": "Schätzung Claude (nicht von Fab, ungeprüft)",
-   "ue_version": "Audio (WAV)",
-   "nanite": null,
-   "wofuer": [
-    "canyon_04_fluesterschlucht (Die Flüsterschlucht)",
-    "fjord_03_trollzunge (Die Trollzunge)",
-    "gletscher_05_die_waechte (Die Wächte)",
-    "lava_02_schwefelgrund (Schwefelgrund)",
-    "lava_06_kraterreihe (Die Kraterreihe)",
-    "lava_08_glutauge (Das Glutauge)",
-    "oedland_03_hoellentor (Das Höllentor)",
-    "tundra_01_der_pingo (Der Eisbuckel)"
-   ],
-   "prioritaet": "B",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://daviddumaisaudio.itch.io/fantasy-ambiences",
-   "bemerkung": "KOSTENPFLICHTIG – Ferat entscheidet. 130+ Loops, darunter Lava (4 Ambiences, 17 Dateien), Höhle, Wind. Begründung: Lava- und Höhlenklang gibt es kostenlos nicht. Vorher die kostenlosen Hörproben anhören (laut Listing verlinkt).",
-   "status": "fehlt",
-   "warum_prioritaet": "Lava-/Windklänge gibt es im Bestand nicht.",
-   "beschaffung": "kostenpflichtig → nur nach Ferats OK",
-   "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "Megascans hat keine Klänge."
+   "megascans_hinweis": "Megascans hat keine Niagara-Effekte.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Taxodium Distichum (Bald Cypress) Tree Pack",
@@ -1117,7 +1057,8 @@
    "warum_prioritaet": "ganze Sumpfzypressen – im Bestand nur 1 Wurzelstock (Kandidat aus der Websuche 11.10.; B8 plant bis dahin Weiden auf Wurzelfuß).",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "keine Sumpfzypresse bei Megascans/Megaplants gefunden (Websuche 11.10.)."
+   "megascans_hinweis": "keine Sumpfzypresse bei Megascans/Megaplants gefunden (Websuche 11.10.).",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Megascans Icelandic Sand With Pebbles",
@@ -1141,9 +1082,10 @@
    "pruefen_bibliothek": true,
    "quelle": "vorlagen/doku/fab_pakete_bewertung_2026-10-10.md",
    "bemerkung": "Schwarzer Sand/Kies als Boden-/Decal-Quelle.",
-   "status": "fehlt",
+   "status": "laden (entschieden, E32)",
    "warum_prioritaet": "Kies/Schlackensand in 5 Orten; Bestand reicht notfalls.",
-   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)"
+   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
+   "entscheidung": "E32: alle sechs kostenlosen Pakete werden geladen – Ferat lädt (vorher Besitz prüfen)"
   },
   {
    "name": "Megascans Trees: European Black Alder",
@@ -1158,7 +1100,7 @@
    "quelle": "https://docs.unrealengine.com/marketplace/en-US/product/megascans-trees-european-black-alder-early-access",
    "bemerkung": "Die Erle ist der Baum der Ufer und Bruchwälder – heute gibt es keinen einzigen Ufer-Laubbaum außer zwei Trauerweiden. Schwesterpaket der vorhandenen Megascans-Hainbuchen, daher evtl. schon in der Bibliothek. Fab-Listing „European Black Alder“ per Websuche 11.10. belegt. Alternative ohne Kauf: „Megaplants: Black Alder“ (https://www.fab.com/listings/9257b627-e37a-4112-82c7-4a99c1a8aec6, experimentell wie English Oak).",
    "prioritaet": "B",
-   "status": "fehlt",
+   "status": "laden (entschieden, E32)",
    "wofuer": [
     "aue_01_biberstau (Biberstau)",
     "aue_04_treibholzwerder (Treibholzwerder)",
@@ -1166,7 +1108,8 @@
     "sumpf_05_der_erlenbruch (Der Erlenbruch)"
    ],
    "warum_prioritaet": "nicht im Bestand (13c); laut B8 bleibt der Wunsch B (Held von sumpf_05 Erlenbruch). Bis dahin Birken/Pappeln/Weiden – nicht abwarten.",
-   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)"
+   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
+   "entscheidung": "E32: alle sechs kostenlosen Pakete werden geladen – Ferat lädt (vorher Besitz prüfen)"
   },
   {
    "name": "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
@@ -1188,7 +1131,8 @@
    "warum_prioritaet": "toter Biotopbaum aue_08; Ersatz SM_EuropeanBeech_Dead_XL_01. Megascans ersetzt nur teilweise (11.10.) – beide Einträge bleiben.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "teilweise",
-   "megascans_hinweis": "Megascans „Dead Tree“ (2,99 × 4,26 × 8,82 m laut Fab-Auszug) als toter Biotopbaum, keine tote Eiche; dazu Bestand SM_EuropeanBeech_Dead_XL_01."
+   "megascans_hinweis": "Megascans „Dead Tree“ (2,99 × 4,26 × 8,82 m laut Fab-Auszug) als toter Biotopbaum, keine tote Eiche; dazu Bestand SM_EuropeanBeech_Dead_XL_01.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
@@ -1203,12 +1147,13 @@
    "quelle": "Websuche 11.10.2026 (Fab-Listing, Titel und Masse aus dem Listing-Auszug)",
    "bemerkung": "Gescannte moosbewachsene Islandbloecke (1,35 x 1,39 x 0,62 m, geschlossenes Netz) - genau die Kontaktzone Moospolster/Lavablock; unsere SM_IcelandicBoulder_* sind gesperrt (netz_sperre.json).",
    "prioritaet": "C",
-   "status": "fehlt",
+   "status": "laden (entschieden, E32)",
    "wofuer": [
     "tundra_02_der_wanderer (Der Wanderer)"
    ],
    "warum_prioritaet": "bemooste Islandblöcke (lava, tundra); SM_IcelandicBoulder_* sind gesperrt.",
-   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)"
+   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
+   "entscheidung": "E32: alle sechs kostenlosen Pakete werden geladen – Ferat lädt (vorher Besitz prüfen)"
   },
   {
    "name": "Moss & Lichen Forest Ground Rock Materials",
@@ -1231,7 +1176,8 @@
    "warum_prioritaet": "neu aus B5 (tundra): Rentierflechte.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht belegt",
-   "megascans_hinweis": "keine Megascans-Flechte/Rentierflechte per Suche gefunden; Moos-Oberflächen gibt es reichlich."
+   "megascans_hinweis": "keine Megascans-Flechte/Rentierflechte per Suche gefunden; Moos-Oberflächen gibt es reichlich.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
@@ -1260,7 +1206,8 @@
    "warum_prioritaet": "C: Laub = NS_leaf, Dampf = NS_Smoke_Plume/FX_Lava_Smoke_*/NS_Geyser_Small im Bestand; bleibt nur Schnee.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "Megascans hat keine Niagara-Effekte."
+   "megascans_hinweis": "Megascans hat keine Niagara-Effekte.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Giant Fantasy Nanite Mushrooms",
@@ -1283,7 +1230,8 @@
    "warum_prioritaet": "elfenwald_07 (Held, B für diesen Ort), Stilrisiko „stylized“ – erst Bild prüfen.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "Megascans-Pilze sind klein (z. B. Gilled Mushroom 4 × 3 × 4 cm); Riesenpilze nur durch Skalierung aus Mountain."
+   "megascans_hinweis": "Megascans-Pilze sind klein (z. B. Gilled Mushroom 4 × 3 × 4 cm); Riesenpilze nur durch Skalierung aus Mountain.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Hollowstone Canyon (Porous Rocks Desert)",
@@ -1303,11 +1251,12 @@
    "pruefen_bibliothek": false,
    "quelle": "https://www.fab.com/listings/67f820de-2119-4948-8acb-5f36ec31d1d5",
    "bemerkung": "23 Felsen (Formationen, Rücken, Terrassen), 7K–70K Dreiecke, Nanite. Löchriger Wüstenfels – nur nach Bild-Check.",
-   "status": "fehlt",
+   "status": "nach Editorbild (Ferat entscheidet, nachdem er das Editorbild der Ersatz-Wabenwand gesehen hat)",
    "warum_prioritaet": "B nur noch für die Wabenwand wueste_08 (Tafoni, Held) und poröse Pilzfüße wueste_03; die Hoodoos canyon_05 kommen jetzt aus Desert_Western_Spire_Large_03/05 und Spire_Layered_XL_03–05 (13d). Kauf: Ferat entscheidet.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "keine Megascans-Tafoni/Wabenfelsen gefunden; nur kleine „Icelandic Porous Rock“ (0,24 × 0,35 × 0,18 m) und die Oberfläche „Icelandic Gravel Porous Rock“ – zu klein für die Wabenwand."
+   "megascans_hinweis": "keine Megascans-Tafoni/Wabenfelsen gefunden; nur kleine „Icelandic Porous Rock“ (0,24 × 0,35 × 0,18 m) und die Oberfläche „Icelandic Gravel Porous Rock“ – zu klein für die Wabenwand.",
+   "entscheidung": "E30: jetzt nicht kaufen; Probe Wabennischen aus SM_lava_wall_04/_09 mit MI_EL_SW_Wabenfels (wueste_08). Kaufempfehlung Nr. 2 des Koordinators – Empfehlung, Ferat entscheidet."
   },
   {
    "name": "Wadi Rum Sandstone Rock 01–04",
@@ -1336,7 +1285,8 @@
    "warum_prioritaet": "herabgestuft (B → C, 13d): Desert Western deckt Rumpfflanken (Ledge_Rock_Large_03, Cliff_Layered_XL_03), Pilzkappe (Red_Sandstone_Cliff_sfEby) und Dreikanter (Sharp_Sandstone_pjcxN). Bleibt für Wäger-Kopf, breite Wand, Konkretionen. Megascans ersetzt nur teilweise (11.10.) – beide Einträge bleiben.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "teilweise",
-   "megascans_hinweis": "Desert Western (Megascans, im Projekt) + Megascans Sandstone (Vault) + „Massive Sandstone Cliff“ (11,7 × 21,9 × 10,7 m) decken die meisten Formen; offen bleiben Wäger-Kopf und Konkretionen."
+   "megascans_hinweis": "Desert Western (Megascans, im Projekt) + Megascans Sandstone (Vault) + „Massive Sandstone Cliff“ (11,7 × 21,9 × 10,7 m) decken die meisten Formen; offen bleiben Wäger-Kopf und Konkretionen.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Megascans Desert Pack",
@@ -1351,14 +1301,15 @@
    "quelle": "antworten/sehens/wueste/asset_bedarf.json (B6)",
    "bemerkung": "Sand-, Kies-, Steinflächen, Felsformationen, Äste (laut Listing); nur nutzen, wenn im Vault vorhanden.",
    "prioritaet": "C",
-   "status": "Besitz prüfen (Megascans 2024 beansprucht → wahrscheinlich vorhanden)",
+   "status": "laden (entschieden, E32)",
    "wofuer": [
     "wueste_03_die_waechter (Die Wächter)",
     "wueste_06_windkanterfeld (Das Windkanter-Feld)",
     "wueste_07_trockenes_wadi (Das Trockene Wadi)"
    ],
    "warum_prioritaet": "teils gedeckt durch Desert_Western_Pile_Rock_*/Patch_Ground_* (13d); Sand-/Kiesflächen für Wüstenpflaster. Besitz prüfen (Vault).",
-   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)"
+   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
+   "entscheidung": "E32: alle sechs kostenlosen Pakete werden geladen – Ferat lädt (vorher Besitz prüfen)"
   },
   {
    "name": "Megascans Sandstone",
@@ -1373,14 +1324,15 @@
    "quelle": "antworten/sehens/canyon/asset_bedarf.json (B6)",
    "bemerkung": "Klippen, Formationen und Streuschutt aus Sandstein – mehr Variation als die fünf MassiveSandstoneCliff-Teile.",
    "prioritaet": "C",
-   "status": "Besitz prüfen (Megascans 2024 beansprucht → wahrscheinlich vorhanden)",
+   "status": "laden (entschieden, E32)",
    "wofuer": [
     "canyon_01_sonnenfenster (Das Sonnenfenster)",
     "canyon_03_rote_stufe (Die Rote Stufe)",
     "canyon_05_hoodoo_kessel (Der Hoodoo-Kessel)"
    ],
    "warum_prioritaet": "weitgehend gedeckt durch Desert Western (13d); nur falls mehr Variation gewünscht. Besitz prüfen (Vault).",
-   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)"
+   "beschaffung": "Megascans (kostenlos, 2024 beansprucht – Ferat lädt)",
+   "entscheidung": "E32: alle sechs kostenlosen Pakete werden geladen – Ferat lädt (vorher Besitz prüfen)"
   },
   {
    "name": "Procedural Rocks Generator",
@@ -1406,7 +1358,8 @@
    "warum_prioritaet": "kaum noch nötig (13d): Hoodoo-Schäfte und Sockelsäulen aus Desert-Western-Spires; nur falls Kalknadeln (dschungel_03) aus SM_Cliff_01* nicht überzeugen. Megascans ersetzt nur teilweise (11.10.) – beide Einträge bleiben.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "teilweise",
-   "megascans_hinweis": "für die Kalknadeln dschungel_03 jetzt Megascans Quarry Cliff (bis 8,8 m) hochkant; als Werkzeug ohne Megascans-Gegenstück."
+   "megascans_hinweis": "für die Kalknadeln dschungel_03 jetzt Megascans Quarry Cliff (bis 8,8 m) hochkant; als Werkzeug ohne Megascans-Gegenstück.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Tropical Vegetation Assets",
@@ -1430,7 +1383,8 @@
    "warum_prioritaet": "dschungel_04, _07 (Ergänzung). Megascans ersetzt nur teilweise (11.10.) – beide Einträge bleiben.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "teilweise",
-   "megascans_hinweis": "Electric Dreams (Quixel-Assets, kostenlos) deckt Dschungel-Unterwuchs teilweise; einzelne Megascans-Tropenpflanzen nicht belegt."
+   "megascans_hinweis": "Electric Dreams (Quixel-Assets, kostenlos) deckt Dschungel-Unterwuchs teilweise; einzelne Megascans-Tropenpflanzen nicht belegt.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
    "name": "Rain Forest Pack",
@@ -1454,32 +1408,35 @@
    "warum_prioritaet": "dschungel_05, _07; Tausendfuß entfällt. Megascans ersetzt nur teilweise (11.10.) – beide Einträge bleiben.",
    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "megascans_ersatz": "teilweise",
-   "megascans_hinweis": "Electric Dreams (Quixel-Assets, kostenlos) zuerst prüfen; einzelne Megascans-Regenwaldbäume nicht belegt."
+   "megascans_hinweis": "Electric Dreams (Quixel-Assets, kostenlos) zuerst prüfen; einzelne Megascans-Regenwaldbäume nicht belegt.",
+   "empfehlung": "Empfehlung des Koordinators: nicht kaufen – Ferat entscheidet"
   },
   {
-   "name": "Wilderness Nature Loops",
-   "fab_link": "https://www.fab.com/listings/1b83c6fa-42f3-4459-9ea7-7c004792e03f",
-   "anbieter": "ungeprüft",
-   "preis": "Preis ungeprüft",
-   "groesse_gb": 3.7,
-   "groesse_hinweis": "3,7 GB laut Listing-Auszug",
-   "ue_version": "Audio (WAV)",
+   "name": "Soul: Cave (Epic, 2018)",
+   "fab_link": null,
+   "anbieter": "Epic Games",
+   "preis": "kostenlos (Epic, 2018)",
+   "groesse_gb": null,
+   "groesse_hinweis": "unbekannt",
+   "ue_version": "UE4-Projekt (2018), für Mobile optimiert; UE5-Tauglichkeit [ungeprüft]",
    "nanite": null,
    "wofuer": [
-    "bergwald_07_windwurf (Windwurf)",
-    "canyon_03_rote_stufe (Die Rote Stufe)",
-    "oedland_01_rippenland (Das Rippenland)"
+    "dschungel_06_schluckhoehle (Schluckhoehle)",
+    "dschungel_08_sinterhalle (Sinterhalle)",
+    "lava_04_roehrenfenster (Das Roehrenfenster)",
+    "kueste_08_das_blasloch (Das Blasloch)",
+    "weitere Höhlen-/Tropfsteinorte"
    ],
    "prioritaet": "C",
-   "ersatz_bestand": "keiner",
-   "pruefen_bibliothek": false,
-   "quelle": "https://www.fab.com/listings/1b83c6fa-42f3-4459-9ea7-7c004792e03f",
-   "bemerkung": "200 Natur-Loops 44,1 kHz/16 bit (Wald, Flüsse, Bäche). Nur falls die kostenlosen Klänge nicht reichen.",
-   "status": "fehlt",
-   "warum_prioritaet": "nur falls die kostenlosen Klänge nicht reichen (Brandung, Frösche fehlen).",
-   "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "ersatz_bestand": "Tropfstein-Stummel aus SM_LimestoneRocks2 hochkant, Sinterfahnen als Leakage-Decals",
+   "pruefen_bibliothek": true,
+   "quelle": "https://www.unrealengine.com/en-US/blog/soul-city-soul-cave-assets-released-for-free",
+   "bemerkung": "Laut Epic-Blog Fels- und Wasser-Props, Materialien und Texturen für eine Höhle; laut Quellen KEIN Ton dabei. Mögliche Verwendung: Höhlen- und Tropfstein-Props als Ersatz für „Cave Stalactites & Wall Kit“. UE5-Tauglichkeit [ungeprüft].",
+   "status": "laden (kostenlos), Eignung prüfen",
+   "warum_prioritaet": "kostenlos; könnte das kostenpflichtige Cave Stalactites & Wall Kit ersetzen – erst Eignung (UE5, Maßstab, Mobile-Materialien) prüfen.",
+   "beschaffung": "kostenlos → Claude lädt auf Wunsch (Eignung prüfen)",
    "megascans_ersatz": "gar nicht",
-   "megascans_hinweis": "Megascans hat keine Klänge."
+   "megascans_hinweis": "Megascans hat keine Tropfsteine (siehe Cave Stalactites & Wall Kit)."
   }
  ],
  "luecken_ohne_paket": [
@@ -1632,6 +1589,31 @@
   {
    "name": "Forest Fungi – Mushroom Pack",
    "grund": "Mountain bringt 30 Pilz-Netze (inkl. Baumschwamm), Megascans Forest Undergrowth ergänzt; Hexenring entfallen. Ferats Grundsatz (11.10.): „Kein Geld ausgeben, solange man Besseres von Megascans holen kann.“"
+  },
+  {
+   "name": "CryoGen: Native Procedural Ice Architecture",
+   "grund": "zu teuer; Eiszapfen aus Bestand (Ferat 11.10.: sieht gut aus, ist aber sehr teuer)"
+  },
+  {
+   "name": "Cave Ambience",
+   "grund": "Ferat erzeugt Klänge per KI; Claude liefert später die Prompts"
+  },
+  {
+   "name": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+   "grund": "Ferat erzeugt Klänge per KI; Claude liefert später die Prompts"
+  },
+  {
+   "name": "Wilderness Nature Loops",
+   "grund": "Ferat erzeugt Klänge per KI; Claude liefert später die Prompts"
+  },
+  {
+   "name": "Procedural Sea Waves (MetaSound)",
+   "fab_link": "https://www.fab.com/listings/2b11f781-970a-4c37-9ab2-90d16137555f",
+   "grund": "Ferat erzeugt Klänge per KI; Claude liefert später die Prompts. (E29 hatte es als kostenlose Brandungsquelle vorgeschlagen – „kostenlos“ laut Fab-Kategorieauszug [ungeprüft]; prozedural, ohne Audiodateien.)"
+  },
+  {
+   "name": "Limestone Rock Set (Ancraite)",
+   "grund": "gestrichen (E31): kein Treffer bei der Websuche, kein Link; die Megascans-Quarry-Cliffs (Limestone Quarry) übernehmen die Rolle."
   }
  ],
  "hinweise_neue_netze": [
@@ -1764,5 +1746,54 @@
     "ersetzt": "Wadi Rum teilweise"
    }
   ]
+ },
+ "kaufempfehlungen": {
+  "hinweis": "Empfehlung des Koordinators (13-entscheidungen-koordinator.md, 11.10.), nach Nutzen je Euro – Ferat entscheidet. Alles in den Planern funktioniert ohne Kauf. Ferats Antworten (11.10., abends) stehen je Eintrag.",
+  "empfohlen": [
+   {
+    "nr": 1,
+    "name": "Cave Ambience",
+    "preis": "9,99 USD auf itch.io; Fab-Preis [ungeprüft]",
+    "grund": "6 Höhlen-/Schlundorte haben nur den Tropfen-Cue.",
+    "status": "Empfehlung, Ferat entscheidet → Ferat: bewusst nicht aufgenommen (Ferat erzeugt Klänge per KI; Claude liefert später die Prompts)"
+   },
+   {
+    "nr": 2,
+    "name": "Hollowstone Canyon (Porous Rocks Desert)",
+    "preis": "[ungeprüft]",
+    "grund": "Tafoni-Wabenwand (wueste_08); nur kaufen, wenn die Lavawand-Probe (E30) im Editorbild nicht trägt.",
+    "status": "Empfehlung, Ferat entscheidet → Ferat: nach Editorbild der Ersatz-Wabenwand"
+   },
+   {
+    "nr": 3,
+    "name": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+    "preis": "ca. 74,99 USD (Gumroad/itch); Fab-Preis [ungeprüft]",
+    "grund": "nur nach Hörproben, falls Lava-/Windorte nach E18/E29 zu still wirken.",
+    "status": "Empfehlung, Ferat entscheidet → Ferat: bewusst nicht aufgenommen (Ferat erzeugt Klänge per KI; Claude liefert später die Prompts)"
+   },
+   {
+    "nr": 4,
+    "name": "CryoGen: Native Procedural Ice Architecture",
+    "preis": "[ungeprüft]",
+    "grund": "nur, wenn Eisfall, Eisvorhang, Frostblumen und Glockenbach aus SM_EISZAPFEN_* + MI_EL_SW_Spritzeis nicht tragen.",
+    "status": "Empfehlung, Ferat entscheidet → Ferat: bewusst nicht aufgenommen (zu teuer; Eiszapfen aus Bestand)"
+   }
+  ],
+  "nicht_empfohlen": {
+   "status": "Empfehlung des Koordinators: nicht kaufen (Bestand oder Megascans gleichwertig) – Ferat entscheidet",
+   "pakete": [
+    "Arctic Cliffs",
+    "Wadi Rum Sandstone Rock 01–04",
+    "Procedural Rocks Generator",
+    "Ultimate Niagara Environmental VFX",
+    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+    "Giant Fantasy Nanite Mushrooms (Stilrisiko)",
+    "Travertine Hot Spring Terraces – Modular Environment Pack (die Elfentreppe trägt mit Tuff-Stempel + MI)",
+    "Tropical Vegetation Assets, Rain Forest Pack, Nanite Tropical Plant Pack 2 (erst Electric Dreams)",
+    "Taxodium Distichum (Bald Cypress) Tree Pack",
+    "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
+    "Moss & Lichen Forest Ground Rock Materials"
+   ]
+  }
  }
 }

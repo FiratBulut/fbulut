@@ -30,13 +30,14 @@
  },
  "materialwuensche": [
   {"name": "MI_EL_SW_Klippe_Fjordnass", "basis": "M_EL_Klippe_RVT", "parameter": {"Moos_Farbe": [0.55, 0.75, 0.45, 1.0], "Moos_Menge": 0.85, "Blend_Hoehe": 600.0, "Toenung": [0.7, 0.72, 0.75, 1.0]}, "fuer": ["vdssailfa_tier_2", "vfmjadufa_tier_2", "SM_HugeNordicCoastalCliff_01", "SM_HugeNordicCoastalCliff_02", "SM_MassiveNordicCoastalCliff_01"]},
-  {"name": "MI_EL_SW_Schleierfall", "basis": "M_EL_Wasserfall2", "parameter": {"Deckkraft": 0.55, "Straehnen_Staerke": 0.9, "Schaum_Menge": 1.6, "V_Skala": 0.4}, "fuer": [], "zweck": "Fallbaender der Schleierwand (wasserfall-Eintraege von fjord_02), nur falls der eigene Vorhang statt M_River_Water_Translucent genommen wird"},
+  {"name": "MI_EL_SW_Schleierfall", "basis": "M_EL_Wasserfall2", "parameter": {"Deckkraft": 0.55, "Straehnen_Staerke": 0.9, "Schaum_Menge": 1.6, "V_Skala": 0.4}, "fuer": [], "zweck": "E48: Vorhang der Fallbaender der Schleierwand (wasserfall-Eintraege fall1-fall5 von fjord_02, material_wunsch); M_River_Water_Translucent nur fuer Baeche und Gumpen"},
   {"name": "MI_EL_SW_Fels_Flechte", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Farbe": [0.6, 0.65, 0.5, 1.0], "Auflage_Menge": 0.45, "Auflage_Flecken": 0.8, "Toenung": [0.8, 0.8, 0.8, 1.0]}, "fuer": ["SM_NordicBoulder_01", "SM_TundraMossyBoulder_01", "SM_MassiveTundraRockFormation_01", "SM_MassiveTundraRockFormation_02"]}
  ],
  "orte": {
 
   "fjord_01_die_kanzel": {
    "kurz": "Am Rand der Ostwand springt eine flache Felsplatte ueber den Fjord vor, eben wie ein Tisch und an drei Seiten senkrecht; ein Riss trennt sie fast von der Wand.",
+   "warnung_akzeptiert": {"lagen_fenster": "E49 (Koordinator fuer Ferat, 11.10.2026): Leuchtfeuer; der Kanzel-Ast fjord_pfad_kanzel (410 m) gehoert ganz zu diesem Ort und liegt im Lagenfenster"},
    "marker": {"titel": "Die Kanzel", "text": "Ein Tisch aus Stein, gedeckt fuer niemanden, zweihundert Mannslaengen ueber dem Wasser. Der Riss dahinter wird jedes Jahr ein wenig breiter.", "entdeckung_m": 120},
    "budget": {"instanzen": 2500, "kollision": 300, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 2},
    "assets_wunsch": [],
@@ -113,14 +114,14 @@
     {"op": "rinne", "punkte": [{"anker": "k4", "versatz_m": [0, 12]}, "k4"], "breite_m": 4, "tiefe_m": 1.0, "rand_m": 2, "warum": "Firnrinne als Quelle (Fall 4)"}
    ], "senke_begruendung": "kleine Kolke am Wandfuss, wo die Faelle aufschlagen (Spruehzone)"},
    "wasser": [
-    {"typ": "see", "id": "gumpe1", "bei": "f1", "r_m": 3.5, "spiegel_rand_min": -0.2, "tiefe_m": 1.5, "farbe": "klar", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
-    {"typ": "see", "id": "gumpe3", "bei": "f3", "r_m": 4.0, "spiegel_rand_min": -0.2, "tiefe_m": 1.8, "farbe": "klar", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
-    {"typ": "see", "id": "gumpe4", "bei": "f4", "r_m": 3.0, "spiegel_rand_min": -0.2, "tiefe_m": 1.4, "farbe": "klar", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
-    {"typ": "wasserfall", "id": "fall1", "kante": [{"anker": "k1", "versatz_m": [-0.5, 0]}, {"anker": "k1", "versatz_m": [0.5, 0]}], "becken": "gumpe1", "breite_m": 1.2, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), Deckkraft ~0,5 (verweht) - oder MI_EL_SW_Schleierfall"},
-    {"typ": "wasserfall", "id": "fall2", "kante": [{"anker": "k2", "versatz_m": [-0.4, 0]}, {"anker": "k2", "versatz_m": [0.4, 0]}], "fuss": "f2", "breite_m": 0.7, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), sehr duenn, versickert im Schuttkegel"},
-    {"typ": "wasserfall", "id": "fall3", "kante": [{"anker": "k3", "versatz_m": [-0.7, 0]}, {"anker": "k3", "versatz_m": [0.7, 0]}], "becken": "gumpe3", "breite_m": 1.5, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), Hauptfall"},
-    {"typ": "wasserfall", "id": "fall4", "kante": [{"anker": "k4", "versatz_m": [-0.5, 0]}, {"anker": "k4", "versatz_m": [0.5, 0]}], "becken": "gumpe4", "breite_m": 1.0, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
-    {"typ": "wasserfall", "id": "fall5", "kante": [{"anker": "k5", "versatz_m": [-0.3, 0]}, {"anker": "k5", "versatz_m": [0.3, 0]}], "fuss": "f5", "breite_m": 0.6, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d), sehr duenn, versickert im Moos"},
+    {"typ": "see", "id": "gumpe1", "bei": "f1", "r_m": 3.5, "spiegel_rand_min": -0.2, "tiefe_m": 1.5, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
+    {"typ": "see", "id": "gumpe3", "bei": "f3", "r_m": 4.0, "spiegel_rand_min": -0.2, "tiefe_m": 1.8, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
+    {"typ": "see", "id": "gumpe4", "bei": "f4", "r_m": 3.0, "spiegel_rand_min": -0.2, "tiefe_m": 1.4, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)", "becken": {"ufer_m": 3, "freibord_m": 0.4, "boden": 0.35}},
+    {"typ": "wasserfall", "id": "fall1", "kante": [{"anker": "k1", "versatz_m": [-0.5, 0]}, {"anker": "k1", "versatz_m": [0.5, 0]}], "becken": "gumpe1", "breite_m": 1.2, "material_wunsch": "MI_EL_SW_Schleierfall", "hinweis": "E48: eigener Vorhang traegt die Fernsicht, Niagara nur an Lippe und Fuss"},
+    {"typ": "wasserfall", "id": "fall2", "kante": [{"anker": "k2", "versatz_m": [-0.4, 0]}, {"anker": "k2", "versatz_m": [0.4, 0]}], "fuss": "f2", "breite_m": 0.7, "material_wunsch": "MI_EL_SW_Schleierfall", "hinweis": "E48; sehr duenn, versickert im Schuttkegel"},
+    {"typ": "wasserfall", "id": "fall3", "kante": [{"anker": "k3", "versatz_m": [-0.7, 0]}, {"anker": "k3", "versatz_m": [0.7, 0]}], "becken": "gumpe3", "breite_m": 1.5, "material_wunsch": "MI_EL_SW_Schleierfall", "hinweis": "E48; Hauptfall"},
+    {"typ": "wasserfall", "id": "fall4", "kante": [{"anker": "k4", "versatz_m": [-0.5, 0]}, {"anker": "k4", "versatz_m": [0.5, 0]}], "becken": "gumpe4", "breite_m": 1.0, "material_wunsch": "MI_EL_SW_Schleierfall", "hinweis": "E48"},
+    {"typ": "wasserfall", "id": "fall5", "kante": [{"anker": "k5", "versatz_m": [-0.3, 0]}, {"anker": "k5", "versatz_m": [0.3, 0]}], "fuss": "f5", "breite_m": 0.6, "material_wunsch": "MI_EL_SW_Schleierfall", "hinweis": "E48; sehr duenn, versickert im Moos"},
     {"typ": "bach", "id": "abfluss1", "abfluss_von": "gumpe1", "laenge_m": 70, "breite_m": 1.0, "tiefe_cm": 15, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
     {"typ": "bach", "id": "abfluss3", "abfluss_von": "gumpe3", "laenge_m": 70, "breite_m": 1.4, "tiefe_cm": 20, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
     {"typ": "bach", "id": "abfluss4", "abfluss_von": "gumpe4", "laenge_m": 70, "breite_m": 1.0, "tiefe_cm": 15, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"}
@@ -216,7 +217,7 @@
 
   "fjord_04_haengetal": {
    "kurz": "Auf der Suedseite endet ein kleines, flaches Hochtal ploetzlich an einer Stufe: der Bach, der eben noch zwischen Wollgras maeandrierte, stuerzt in eine Schlucht. Oben ist es still und gruen, unten donnert es.",
-   "marker": {"titel": "Das Haengetal", "text": "Oben schlaengelt sich der Bach, als haette er alle Zeit der Welt. Zehn Schritte weiter faellt er, als haette er sie verloren.", "entdeckung_m": 25},
+   "marker": {"titel": "Das Haengetal", "text": "Oben schlaengelt sich der Bach, als haette er alle Zeit der Welt. Zehn Schritte weiter faellt er, als haette er sie verloren.", "entdeckung_m": 100},
    "budget": {"instanzen": 4000, "kollision": 400, "akteure": 25, "lichter": 0, "niagara": 3, "decals": 4},
    "assets_wunsch": [],
    "anker": {
@@ -235,10 +236,9 @@
    "wasser": [
     {"typ": "bach", "id": "hochtalbach", "punkte": ["quelle", {"pos_m": [-1678.0, -2809.0]}, {"pos_m": [-1685.0, -2801.0]}, {"pos_m": [-1678.0, -2793.0]}, "lippe"], "breite_m": 1.8, "tiefe_cm": 25, "farbe": "klar", "quelle": true, "muendung": "gumpe",
      "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)"},
-    {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 4.5, "spiegel_rand_min": -0.2, "tiefe_m": 2.0, "farbe": "klar", "becken": {"ufer_m": 4, "freibord_m": 0.4, "boden": 0.35, "auslass": 170}},
-    {"typ": "wasserfall", "id": "lippenfall", "kante": ["lippe_a", "lippe_b"], "becken": "gumpe", "breite_m": 2.5, "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d) - Wasserfall"}
+    {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 4.5, "spiegel_rand_min": -0.2, "tiefe_m": 2.0, "farbe": "klar", "material_hinweis": "M_River_Water_Translucent (Mountain-Set, 13d)", "becken": {"ufer_m": 4, "freibord_m": 0.4, "boden": 0.35, "auslass": 170}},
+    {"typ": "wasserfall", "id": "lippenfall", "kante": ["lippe_a", "lippe_b"], "becken": "gumpe", "breite_m": 2.5, "hinweis": "Fall 33 m; Vorhang Standard (M_EL_Wasserfall2), Niagara nach Klamm-Vorlage"}
    ],
-   "sicht_kern": "lippe", "sicht_probe_m": 10,
    "gruppen": [
     {"name": "lippenwand", "ebene": "held", "warum": "die Lippe des Haengetals als Felsstufe", "palette": ["SM_big_rock_wall_01", "SM_big_rock_wall_02"],
      "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [-1689.5, -2783.0]}, {"pos_m": [-1672.5, -2783.0]}]}, "skala": [1.5, 1.9], "yaw": 180, "front_achse": "+y",
@@ -286,7 +286,7 @@
 
   "fjord_05_fjordkopf": {
    "kurz": "Wo der Fjordbach ins Meer laeuft, hat er einen flachen Faecher aus Kies und Sand geschuettet: Rinnen, in denen das Suesswasser milchig ins gruene Salzwasser zieht, Tang auf den Steinen, ringsum 300 m hohe Waende.",
-   "marker": {"titel": "Der Fjordkopf", "text": "Hier trifft das Wasser der Berge auf das Wasser der Welt. Eine Weile laufen sie nebeneinander her, als koennten sie sich nicht entscheiden.", "entdeckung_m": 30},
+   "marker": {"titel": "Der Fjordkopf", "text": "Hier trifft das Wasser der Berge auf das Wasser der Welt. Eine Weile laufen sie nebeneinander her, als koennten sie sich nicht entscheiden.", "entdeckung_m": 100},
    "budget": {"instanzen": 4500, "kollision": 400, "akteure": 20, "lichter": 0, "niagara": 1, "decals": 6},
    "assets_wunsch": [{"paket": "Megascans Icelandic Sand With Pebbles", "statt_jetzt": "SM_BeachSandWithPebbles_01/02, SM_NordicBeachRockyGround_01/02 als dunkler Kies"}],
    "anker": {
@@ -302,7 +302,6 @@
      {"op": "rinne", "punkte": [{"pos_m": [-1760.0, -3350.0]}, "rinne_w"], "breite_m": 2.5, "tiefe_m": 0.5, "rand_m": 2, "warum": "Rinne im Faecher (West)"},
      {"op": "rinne", "punkte": [{"pos_m": [-1748.0, -3350.0]}, "rinne_o"], "breite_m": 2.5, "tiefe_m": 0.5, "rand_m": 2, "warum": "Rinne im Faecher (Ost)"}
     ], "senke_begruendung": "Priele im Schwemmfaecher (bei Ebbe nass)"},
-   "sicht_probe_m": 10,
    "gruppen": [
     {"name": "fjordbloecke", "ebene": "held", "warum": "zwei grosse Bloecke im Watt (vom Gletscher, der den Fjord schuf)", "palette": ["SM_NordicBoulder_01", "SM_NordicBeachRocks_01"],
      "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [-1770.0, -3358.0]}, {"pos_m": [-1736.0, -3363.0]}]}, "skala": [0.7, 0.9], "eingraben": [0.35, 0.45], "im_wasser": "egal", "boden_min_m": 0.0, "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Flechte"},
@@ -344,7 +343,7 @@
 
   "fjord_06_bergsturz": {
    "kurz": "Aus der Westwand ist ein Stueck Berg ausgebrochen: oben eine helle Abrissnische, darunter ein Kegel aus hausgrossen Bloecken bis zum Talboden; zwischen den Bloecken wachsen schon junge Birken.",
-   "marker": {"titel": "Der Bergsturzkegel", "text": "Der Berg hat hier einmal ausgeatmet. Die Birken zwischen den Bloecken sind juenger als der Laerm, den es gemacht hat - aber nicht viel.", "entdeckung_m": 30},
+   "marker": {"titel": "Der Bergsturzkegel", "text": "Der Berg hat hier einmal ausgeatmet. Die Birken zwischen den Bloecken sind juenger als der Laerm, den es gemacht hat - aber nicht viel.", "entdeckung_m": 100},
    "budget": {"instanzen": 4000, "kollision": 900, "akteure": 40, "lichter": 0, "niagara": 0, "decals": 2},
    "assets_wunsch": [],
    "anker": {
@@ -357,7 +356,6 @@
     {"op": "kuppe", "bei": "kegelfuss", "radius_m": 22, "hoehe_m": 4.0, "plateau": 0.2, "streckung": [1.3, 1.0], "richtung": 0, "rand_m": 10, "warum": "Sturzkegel +4 m am Fuss"},
     {"op": "buckel", "bei": "kegelmitte", "radius_m": 40, "amplitude_m": 1.2, "wellenlaenge_m": 8, "warum": "Blockkegel buckelig"}
    ], "senke_begruendung": "Hohlraeume zwischen den Sturzbloecken"},
-   "sicht_probe_m": 12,
    "gruppen": [
     {"name": "sturzbloecke", "ebene": "held", "warum": "hausgrosse Bloecke des Sturzes, die groessten rollten am weitesten (unten)", "palette": ["SM_NordicBoulder_01", "SM_Big_Rock_01", "SM_Big_Rock_02", "SM_MassiveTundraRockFormation_02"], "gewichte": [3, 2, 2, 1],
      "anzahl": 11, "verteilung": {"typ": "faecher", "bei": "nische", "richtung": 92, "laenge_m": 130, "start_m": 15, "oeffnung_grad": 50, "t": [0.6, 1.0]}, "abstand_m": 8,
@@ -448,7 +446,7 @@
 
   "fjord_08_strandterrassen": {
    "kurz": "Am Westhang der Fjordmuendung ziehen sich drei gruene Stufen parallel zum Wasser den Berg hinauf - alte Strandlinien, 20, 45 und 70 m ueber dem heutigen Meer; auf jeder liegen gerundete Strandkiesel und Muschelschill im Gras.",
-   "marker": {"titel": "Die alten Ufer", "text": "Das Meer stand einmal hier oben. Es hat seine Kiesel liegen lassen, als es ging, und die Muscheln, die es nicht mehr brauchte.", "entdeckung_m": 20},
+   "marker": {"titel": "Die alten Ufer", "text": "Das Meer stand einmal hier oben. Es hat seine Kiesel liegen lassen, als es ging, und die Muscheln, die es nicht mehr brauchte.", "entdeckung_m": 100},
    "budget": {"instanzen": 3500, "kollision": 200, "akteure": 15, "lichter": 0, "niagara": 0, "decals": 4},
    "assets_wunsch": [{"paket": "Megascans Icelandic Sand With Pebbles", "statt_jetzt": "SM_BeachSandWithPebbles_01/02, SM_NordicBeachRock_01, MI_Decal_Rocks_Small"}],
    "anker": {"t2": {"pos_m": [-1912.0, -3497.0]}},
@@ -463,7 +461,6 @@
      {"op": "damm", "punkte": "stufe45", "breite_m": 12, "hoehe_m": 1.8, "krone": 0.65, "warum": "Strandterrasse 45 m"},
      {"op": "damm", "punkte": "stufe70", "breite_m": 12, "hoehe_m": 1.6, "krone": 0.65, "warum": "Strandterrasse 70 m"}
     ], "senke_begruendung": "flache Mulden hinter den Strandwaellen (alte Strandseen)"},
-   "sicht_probe_m": 12,
    "gruppen": [
     {"name": "strandwall_bloecke", "ebene": "held", "warum": "gerundete Bloecke auf der mittleren Strandlinie (das alte Brandungsufer)", "palette": ["SM_NordicBeachRocks_01", "SM_TundraMossyBoulder_01"],
      "anzahl": 3, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 4}, "abstand_m": 18, "groesse_m": [2.4, 3.6], "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "material": "MI_EL_SW_Fels_Flechte"},
@@ -487,7 +484,7 @@
      "anzahl": 700, "verteilung": {"typ": "band", "punkte": "stufe45", "breite_m": 14}, "abstand_m": 0.5, "rolle": "pflanze"},
     {"name": "stufengras_b", "ebene": "bewuchs", "warum": "Gras auf der 20- und 70-m-Stufe", "palette": "tundragras",
      "anzahl": 500, "verteilung": {"typ": "band", "punkte": "stufe70", "breite_m": 14}, "abstand_m": 0.5, "rolle": "pflanze"},
-    {"name": "hangbirken", "ebene": "bewuchs", "warum": "Birkengehoelz auf den steilen Hangstuecken zwischen den Stufen (Gehoelz-Rahmen gegen den Blick vom Oststeig)", "netz": "Big_Tree_Birch_01",
+    {"name": "hangbirken", "ebene": "bewuchs", "warum": "Birkengehoelz auf den steilen Hangstuecken zwischen den Stufen", "netz": "Big_Tree_Birch_01",
      "anzahl": 16, "verteilung": {"typ": "kreis", "bei": "t2", "r_m": 48}, "abstand_m": 7, "skala": [0.5, 0.75], "rolle": "baum", "hang_grad": [22, 60]},
     {"name": "heide_hang", "ebene": "bewuchs", "warum": "Heide auf den steilen Hangstuecken zwischen den Stufen", "palette": "heide",
      "anzahl": 300, "verteilung": {"typ": "kreis", "bei": "t2", "r_m": 45}, "abstand_m": 0.7, "rolle": "pflanze", "hang_grad": [25, 60]},

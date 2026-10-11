@@ -51,6 +51,17 @@ CULL_M = {  # Ableitung aus Antwort 12 Teil A (40-60 m), Heldenfaelle begruendet
 }
 SORT = 2  # Antwort 12: Vorhang 0, Schaum 1, Gischt (Niagara) 2
 
+# E27 (Koordinator 11.10.): Cull der Heldenfaelle 150/100/60 m freigegeben mit Messschranke; ueber 0,5 ms GPU fuer
+# Wasser-FX gilt die Rueckfallstufe 100/60/40 m (Fall/Aufprall/Wake). Dieselbe Klasse gilt fuer kueste_04 und dschungel_02.
+CULL_RUECKFALL_M = {"held_fall": 100, "held_aufprall": 60, "held_wake": 40}
+RUECKFALL_BEDINGUNG = ("GPU fuer Wasser-FX > 0,5 ms (stat Niagara + profilegpu bei WASSER3_H4_WF_K8_weit und "
+                       "kueste_04_der_seefall_held; Messwert nach plan.json -> messung)")
+HELD_KLASSE_SEHENS13 = ("kueste_04_der_seefall", "dschungel_02_turmquelle")
+
+# E28: S02 (3,2 m) bekommt NS_Impact_Small mit Cull 20 m nur, wenn hoechstens 6 Systeme gleichzeitig aktiv bleiben
+# (gleiche Betrachterpunkte wie plan_pruefen.py); sonst bleiben Vorhang und Schaumscheibe.
+S02_IMPACT_CULL_M = 20
+
 
 def lade(name):
     with open(os.path.join(DATEN, name), encoding="utf-8") as f:
@@ -79,9 +90,10 @@ def quat_yaw(yaw_grad):
     return [0.0, 0.0, round(math.sin(a), 5), round(math.cos(a), 5)]
 
 
-def eintrag(ziel, gruppe, rolle, name, pos, d, skala, cull, optional, zweck, bezug, user=None, skala_grund=""):
+def eintrag(ziel, gruppe, rolle, name, pos, d, skala, cull, optional, zweck, bezug, user=None, skala_grund="",
+            cull_rueckfall=None):
     y = yaw_ue(d)
-    return {
+    e = {
         "typ": "niagara",
         "asset": FX + name,
         "pos_cm": [round(pos[0], 1), round(pos[1], 1), round(pos[2], 1)],
@@ -101,6 +113,9 @@ def eintrag(ziel, gruppe, rolle, name, pos, d, skala, cull, optional, zweck, bez
         "optional": optional,
         "zweck": zweck,
     }
+    if cull_rueckfall is not None:
+        e["cull_rueckfall_m"] = cull_rueckfall      # E27: gilt nur, wenn die Messschranke reisst
+    return e
 
 
 def klang(ziel, cue, pos, radius_m, laut, zweck, luecke=None):
@@ -135,7 +150,8 @@ def grosse_faelle(wf, eff, kl):
                            "lippe + 0,3 m in Fallrichtung, Spiegel + 5 cm",
                            {"ungeprueft": True, "wunsch": {"Farbe/Tint": farbe[fid], "Breite_m": breite,
                                                            "Lebensdauer": "so, dass Partikel bis %.0f m tief fallen (Fall %.1f m)" % (fall - 2, fall)}},
-                           "Breite %.1f m / Annahme 12 m bei Skala 1; Hoehe ergibt sich aus Schwerkraft x Lebensdauer, nicht aus der Skala" % breite))
+                           "Breite %.1f m / Annahme 12 m bei Skala 1; Hoehe ergibt sich aus Schwerkraft x Lebensdauer, nicht aus der Skala" % breite,
+                           CULL_RUECKFALL_M["held_fall"]))
         # 2) Aufprall an der Gischt-Stelle, auf dem Beckenspiegel
         pos = (G["x_cm"], G["y_cm"], z_becken + 10)
         ziel_d = max(8.0, min(breite_becken, 16.0))
@@ -145,14 +161,14 @@ def grosse_faelle(wf, eff, kl):
                            "gischt_cm (x, y), Beckenspiegel + 10 cm",
                            {"ungeprueft": True, "wunsch": {"Farbe/Tint": farbe[fid], "Spawnrate": "Standard",
                                                            "Nebelhoehe_m": "8-12 (Gischtwolke ueber dem Becken)"}},
-                           "Ziel-Durchmesser %.1f m / Annahme 12 m" % ziel_d))
+                           "Ziel-Durchmesser %.1f m / Annahme 12 m" % ziel_d, CULL_RUECKFALL_M["held_aufprall"]))
         # 3) Oberflaechen-Wellen (Wake) 5 m hinter der Gischt, Richtung Abfluss
         pos = (G["x_cm"] + 500 * d[0], G["y_cm"] + 500 * d[1], z_becken + 3)
         eff.append(eintrag(fid, g, "wake", "NS_Wake_Large", pos, d, 1.0, CULL_M["held_wake"], False,
                            "Schaumringe und Wirbel auf dem Becken (laut Hersteller eigenes System zum Fall)",
                            "gischt_cm + 5 m in Fallrichtung, Beckenspiegel + 3 cm",
                            {"ungeprueft": True, "wunsch": {"Farbe/Tint": farbe[fid]}},
-                           "Becken %d m2; Skala 1 als Start" % B["flaeche_m2"]))
+                           "Becken %d m2; Skala 1 als Start" % B["flaeche_m2"], CULL_RUECKFALL_M["held_wake"]))
         kl.append(klang(fid, "CUE_Water_Stream_IX_Cue", (G["x_cm"], G["y_cm"], z_becken + 150), 90, 1.0,
                         "Fallrauschen am Fuss (wie Bergwald-Klamm)",
                         "Kein echtes Wasserfall-Tosen im Inventar (nur Water_Stream I-X) -> Wunsch: Wasserfall-Klangpaket"))
@@ -213,11 +229,11 @@ def c2_h4(st, eff, kl):
                            "Kante (Ende oberes Flussstueck - 0,5 m) + 0,2 m, Spiegel oben + 5 cm", dict(nix),
                            "Skala 1: Breite ~3 m (Annahme) = Mittelstrang auf %.1f m Vorhang; zu hohe Partikel verschwinden unter dem Spiegel" % e["breite_kante_m"]))
 
-    def impact(i, grp, opt, zweck):
+    def impact(i, grp, opt, zweck, cull=None):
         e = S(i)
         g = e["gischt"]
         pos = (g[0], g[1], e["unten_anfang"][2] + 10)
-        eff.append(eintrag(e["id"], grp, "aufprall", "NS_Impact_Small", pos, e["d"], 1.0, CULL_M["NS_Impact_Small"], opt, zweck,
+        eff.append(eintrag(e["id"], grp, "aufprall", "NS_Impact_Small", pos, e["d"], 1.0, cull or CULL_M["NS_Impact_Small"], opt, zweck,
                            "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm", dict(nix),
                            "Ziel-Durchmesser ~3 m (Vorhang unten %.1f m breit, Schaumscheibe bleibt)" % e.get("breite_kante_m", 0)))
 
@@ -248,7 +264,10 @@ def c2_h4(st, eff, kl):
                     CULL_M["NS_Stream_Medium"])
     wf_small(1, "C2_B", False, "Probestufe: Fallstraehnen ueber dem Vorhang (3,3 m Fall, zweithoechste Kante)")
     impact(1, "C2_B", False, "Gischt am Fuss von S01")
-    # S02 (3,2 m) bewusst ohne Impact: 8 m neben S01, Budget gleichzeitig <= 6 (Schaumscheibe + Vorhang bleiben)
+    # S02 (3,2 m): 8 m neben S01. E28: NS_Impact_Small mit Cull 20 m, optional - main() entfernt ihn wieder, wenn
+    # damit mehr als 6 Systeme gleichzeitig aktiv waeren (dann bleiben Schaumscheibe + Vorhang)
+    impact(2, "C2_B", True, "E28: Gischt am Fuss von S02 (optional, Cull %d m; nur wenn <= 6 gleichzeitig)" % S02_IMPACT_CULL_M,
+           cull=S02_IMPACT_CULL_M)
     impact(3, "C2_C", False, "Gischt am Fuss von S03 (2,4 m Fall nach kurzer Schnelle)")
     stream_lippe(4, "C2_C", False, "Wasser zieht ueber die Lippe von S04 (abwechselnd Impact/Stream)")
     impact(5, "C2_C", False, "Gischt am Fuss von S05")
@@ -328,6 +347,27 @@ def material():
 
 
 # ---------------------------------------------------------------- Auftrag 13 (nur Uebersicht)
+def gleichzeitig_max(eff, netze, teile):
+    """Wie plan_pruefen.py: hoechste Zahl gleichzeitig aktiver Systeme (Betrachter auf Augenhoehe ueber jedem
+    Flusspunkt, 8 m seitlich, und an jeder Lippe/jedem Fuss; aktiv = Abstand <= cull_m)."""
+    stufen = {}
+    for v in netze["verzeichnis"].values():
+        for s in v.get("stufen", []):
+            stufen.setdefault(s["id"], s)
+    betrachter = []
+    for f in teile["fluesse"]:
+        for a in f["abschnitte"]:
+            for pt in a["punkte"]:
+                for off in (-800, 0, 800):
+                    betrachter.append((pt[0] + off, pt[1], pt[2] + 170))
+                    betrachter.append((pt[0], pt[1] + off, pt[2] + 170))
+    for s in stufen.values():
+        for q in (s["lippe_cm"], s["fuss_cm"]):
+            betrachter.append((q[0], q[1], q[2] + 170))
+    d3 = lambda a, b: math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(3)))
+    return max(sum(1 for e in eff if d3(b, e["pos_cm"]) <= e["cull_m"] * 100) for b in betrachter)
+
+
 def sehens13(ordner, eff):
     if not ordner or not os.path.isdir(ordner):
         return None
@@ -346,14 +386,22 @@ def sehens13(ordner, eff):
             fx = [e for e in o.get("effekte", []) if e.get("typ") == "niagara" and "/NatureWaterFX/" in e.get("asset", "")]
             if not fx:
                 continue
-            aus["orte"].append({
+            ein = {
                 "biom": biom, "ort": o["id"], "name": o["name"], "felder": o.get("felder"),
                 "datei_sha1": hashlib.sha1(roh).hexdigest()[:12], "datei_stand": d.get("stand"),
                 "niagara_gesamt": sum(1 for e in o.get("effekte", []) if e.get("typ") == "niagara"),
                 "effekte": [_konflikt({k: e[k] for k in ("typ", "asset", "pos_cm", "rot_q", "skala", "optional", "zweck") if k in e}, eff)
                             for e in fx],
                 "klaenge": [k for k in o.get("klaenge", []) if "Water" in k.get("asset", "")],
-            })
+            }
+            if o["id"] in HELD_KLASSE_SEHENS13:
+                ein["cull_klasse"] = {"klasse": "held (E27)", "cull_m": {"fall": CULL_M["held_fall"],
+                                      "aufprall": CULL_M["held_aufprall"], "wake": CULL_M["held_wake"]},
+                                      "cull_rueckfall_m": {"fall": CULL_RUECKFALL_M["held_fall"],
+                                                           "aufprall": CULL_RUECKFALL_M["held_aufprall"],
+                                                           "wake": CULL_RUECKFALL_M["held_wake"]},
+                                      "bedingung_rueckfall": RUECKFALL_BEDINGUNG}
+            aus["orte"].append(ein)
     return aus
 
 
@@ -379,6 +427,13 @@ def main():
     grosse_faelle(wf, eff, kl)
     st = stufen_daten(netze, teile)
     c2_h4(st, eff, kl)
+    # E28: S02-Impact nur behalten, wenn hoechstens 6 Systeme gleichzeitig aktiv sind
+    n_mit = gleichzeitig_max(eff, netze, teile)
+    e28 = {"s02_impact": "gesetzt (optional, Cull %d m)" % S02_IMPACT_CULL_M, "gleichzeitig_max_mit_s02": n_mit}
+    if n_mit > 6:
+        eff[:] = [e for e in eff if not (e["ziel"].endswith("_S02") and e["rolle"] == "aufprall")]
+        e28["s02_impact"] = "entfernt: mit S02 waeren %d Systeme gleichzeitig aktiv (> 6); Vorhang + Schaumscheibe bleiben" % n_mit
+    e28["gleichzeitig_max"] = gleichzeitig_max(eff, netze, teile)
     gruppen = {}
     for e in eff:
         gruppen.setdefault(e["gruppe"], []).append(e["ziel"].split("_")[-1] + ":" + e["asset"].split("/")[-1])
@@ -394,7 +449,8 @@ def main():
             "cast_shadow": False,
             "translucency_sort_priority": SORT,
             "max_draw_distance_cm": "= cull_m x 100 (Komponente: Max Draw Distance)",
-            "effect_type_vorschlag": {"NET_EL_Wasser_Held": {"max_distance_m": 150, "fuer": "WF_K1/WF_K8"},
+            "effect_type_vorschlag": {"NET_EL_Wasser_Held": {"max_distance_m": 150, "rueckfall_max_distance_m": 100,
+                                                             "fuer": "WF_K1/WF_K8 (+ kueste_04, dschungel_02, E27)"},
                                       "NET_EL_Wasser_Nah": {"max_distance_m": 50, "fuer": "Bachstufen"}},
             "hlod": "aus (Include in HLOD = false)",
             "pool": "nicht noetig (fest gesetzte Akteure); nur bei Laufzeit-Spawn PoolingMethod AutoRelease",
@@ -402,7 +458,16 @@ def main():
                               "Zeigt das Paket-System lokal anders (z. B. +Y), yaw_korrektur_grad einmal fuer alle setzen.",
             "yaw_korrektur_grad": 0,
             "skala_annahme_m": REF_M,
+            "cull_rueckfall_m": {"NS_Waterfall_Large": CULL_RUECKFALL_M["held_fall"],
+                                 "NS_Impact_Large": CULL_RUECKFALL_M["held_aufprall"],
+                                 "NS_Wake_Large": CULL_RUECKFALL_M["held_wake"],
+                                 "bedingung": RUECKFALL_BEDINGUNG,
+                                 "gilt_auch": list(HELD_KLASSE_SEHENS13),
+                                 "entscheidung": "E27: Cull 150/100/60 m freigegeben, Rueckfallstufe 100/60/40 m"},
         },
+        "messung": {"gpu_wasser_fx_ms": None, "orte": ["WASSER3_H4_WF_K8_weit", "kueste_04_der_seefall_held"],
+                    "hinweis": "E27/E28: Claude lokal traegt stat Niagara + profilegpu ein; > 0,5 ms -> cull_rueckfall_m"},
+        "e28_s02": e28,
         "effekte": eff,
         "gruppen": gruppen,
         "budget": {"je_ort_oder_gruppe_max": 3, "gleichzeitig_aktiv_ziel_max": 6},

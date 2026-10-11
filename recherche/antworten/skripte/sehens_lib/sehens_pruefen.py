@@ -485,6 +485,9 @@ def _pruefe_fenster(oid, name, g, art, basis, suffixe=None, typ="f32"):
     grenze = 600 if art == "leuchtfeuer" else 400
     if max(hh, ww) > grenze:
         b.append((FEHLER, oid, "%s-Fenster %dx%d m > %d m" % (name, hh, ww, grenze)))
+    elif max(hh, ww) > 400 and g.get("warnung_akzeptiert"):
+        # E49: begruendet akzeptiert (Regel warnung_akzeptiert.lagen_fenster) -> nur HINWEIS
+        b.append((HINWEIS, oid, "%s-Fenster %dx%d m > 400 m (akzeptiert: %s)" % (name, hh, ww, g["warnung_akzeptiert"])))
     elif max(hh, ww) > 400:
         b.append((WARNUNG, oid, "%s-Fenster %dx%d m > 400 m (nur grosse Leuchtfeuer, begruenden)" % (name, hh, ww)))
     if basis:

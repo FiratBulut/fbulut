@@ -226,20 +226,21 @@
   {
    "id": "fjord_04_haengetal",
    "name": "Das Hängetal",
-   "art": "fundstueck",
+   "art": "leuchtfeuer",
    "mitte_cm": [-168000, -277500, 19444],
    "radius_m": 60.0,
    "felder": ["C2", "D2"],
    "kameras": [
     ["D2", -165320, -274320, -168000, -277500, 19544, "fjord_04_haengetal_anmarsch", -170],
     ["D2", -173271, -271218, -168000, -277500, 19594, "fjord_04_haengetal_held", -170],
-    ["D2", -168643, -276734, -168000, -277500, 19544, "fjord_04_haengetal_nah", -170]
+    ["D2", -168643, -276734, -168000, -277500, 19544, "fjord_04_haengetal_nah", -170],
+    ["D2", -164200, -231200, -168000, -277500, 15436, "fjord_04_haengetal_fern", 170]
    ],
-   "ziel_hoehe_m": 4.0,
+   "ziel_hoehe_m": 12.0,
    "standort_begruendung": "Schlucht/Kessel, D2; Boden Moos; Hang 32 Grad (max 67), TPI25 -11.3 m, TPI100 -38.9 m, Relief 103 m; Weg 663 m (mit Steig 87 m), Wasser 0 m, Meer 585 m; Stadtrand 655 m; 148 m innerhalb fjord",
    "sicht": {
     "naechster_weg_m": 662.9,
-    "ziel_hoehe_m": 4.0,
+    "ziel_hoehe_m": 12.0,
     "verdeckt_vom_weg": true,
     "verdeckt_hoehe_m": 3,
     "verdeckt_max_anteil": 0.0,
@@ -248,7 +249,15 @@
     "max_sichtweite_weg_m_3m": 0.0,
     "verdeckt_vom_weg_oder_steig": false,
     "max_sichtweite_steig_m_3m": 465.0,
-    "steig_wegpunkte_mit_sicht": 16
+    "steig_wegpunkte_mit_sicht": 16,
+    "bezug": "Wege + Steige",
+    "wegpunkte_ring_300_800": 134,
+    "wegpunkte_sichtbar": 6,
+    "mittel_anteil": 0.04,
+    "sichtbar_ab_m": 464.6,
+    "bester_punkt_m": [-1642, -2312],
+    "nur_bestehende_wege_sichtbar": 0,
+    "entscheidung": "E46: Fundstueck -> Leuchtfeuer (Fjord = Aussichtslandschaft, Fjordsteig als Panoramaweg); Silhouette 12 m = Lippe mit Fallband"
    },
    "erreichbar": {
     "erreichbar": false,
@@ -287,20 +296,21 @@
   {
    "id": "fjord_05_fjordkopf",
    "name": "Der Fjordkopf",
-   "art": "fundstueck",
+   "art": "leuchtfeuer",
    "mitte_cm": [-175400, -335800, 61],
    "radius_m": 70.0,
    "felder": ["C1", "D1"],
    "kameras": [
     ["C1", -175700, -326300, -175400, -335800, 161, "fjord_05_fjordkopf_anmarsch", -170],
     ["C1", -175400, -327600, -175400, -335800, 211, "fjord_05_fjordkopf_held", -170],
-    ["C1", -175900, -334934, -175400, -335800, 161, "fjord_05_fjordkopf_nah", -170]
+    ["C1", -175900, -334934, -175400, -335800, 161, "fjord_05_fjordkopf_nah", -170],
+    ["C1", -161600, -294800, -175400, -335800, 161, "fjord_05_fjordkopf_fern", 170]
    ],
-   "ziel_hoehe_m": 3.0,
+   "ziel_hoehe_m": 4.0,
    "standort_begruendung": "Talboden (U-Tal), C1; Boden Geroell; Hang 0 Grad (max 71), TPI25 -0.9 m, TPI100 -26.1 m, Relief 84 m; Weg 1239 m (mit Steig 87 m), Wasser 0 m, Meer 4 m; Stadtrand 1217 m; 4 m innerhalb fjord",
    "sicht": {
     "naechster_weg_m": 1238.8,
-    "ziel_hoehe_m": 3.0,
+    "ziel_hoehe_m": 4.0,
     "verdeckt_vom_weg": true,
     "verdeckt_hoehe_m": 3,
     "verdeckt_max_anteil": 0.0,
@@ -309,7 +319,15 @@
     "max_sichtweite_weg_m_3m": 0.0,
     "verdeckt_vom_weg_oder_steig": false,
     "max_sichtweite_steig_m_3m": 433.0,
-    "steig_wegpunkte_mit_sicht": 45
+    "steig_wegpunkte_mit_sicht": 45,
+    "bezug": "Wege + Steige",
+    "wegpunkte_ring_300_800": 66,
+    "wegpunkte_sichtbar": 19,
+    "mittel_anteil": 0.29,
+    "sichtbar_ab_m": 432.6,
+    "bester_punkt_m": [-1616, -2948],
+    "nur_bestehende_wege_sichtbar": 0,
+    "entscheidung": "E46: Fundstueck -> Leuchtfeuer (Fjord = Aussichtslandschaft, Fjordsteig als Panoramaweg); Silhouette 4 m = Faecher mit Bloecken (flach, Lesbarkeit ueber die helle Flaeche)"
    },
    "erreichbar": {
     "erreichbar": true,
@@ -340,20 +358,21 @@
   {
    "id": "fjord_06_bergsturz",
    "name": "Der Bergsturzkegel",
-   "art": "fundstueck",
+   "art": "leuchtfeuer",
    "mitte_cm": [-185000, -317000, 11844],
    "radius_m": 70.0,
    "felder": ["C1"],
    "kameras": [
     ["C1", -175300, -315100, -185000, -317000, 11944, "fjord_06_bergsturz_anmarsch", -170],
     ["C1", -176925, -315576, -185000, -317000, 11994, "fjord_06_bergsturz_held", -170],
-    ["C1", -184015, -316826, -185000, -317000, 11944, "fjord_06_bergsturz_nah", -170]
+    ["C1", -184015, -316826, -185000, -317000, 11944, "fjord_06_bergsturz_nah", -170],
+    ["C1", -156200, -300800, -185000, -317000, 11944, "fjord_06_bergsturz_fern", 170]
    ],
-   "ziel_hoehe_m": 6.0,
+   "ziel_hoehe_m": 10.0,
    "standort_begruendung": "Schlucht/Kessel, C1; Boden Fels; Hang 70 Grad (max 73), TPI25 -11.2 m, TPI100 -34.1 m, Relief 219 m; Weg 1092 m (mit Steig 87 m), Wasser 100 m, Meer 207 m; Stadtrand 1083 m; 207 m innerhalb fjord",
    "sicht": {
     "naechster_weg_m": 1092.0,
-    "ziel_hoehe_m": 6.0,
+    "ziel_hoehe_m": 10.0,
     "verdeckt_vom_weg": true,
     "verdeckt_hoehe_m": 3,
     "verdeckt_max_anteil": 0.0,
@@ -362,7 +381,15 @@
     "max_sichtweite_weg_m_3m": 0.0,
     "verdeckt_vom_weg_oder_steig": false,
     "max_sichtweite_steig_m_3m": 330.0,
-    "steig_wegpunkte_mit_sicht": 53
+    "steig_wegpunkte_mit_sicht": 53,
+    "bezug": "Wege + Steige",
+    "wegpunkte_ring_300_800": 69,
+    "wegpunkte_sichtbar": 16,
+    "mittel_anteil": 0.22,
+    "sichtbar_ab_m": 330.4,
+    "bester_punkt_m": [-1562, -3008],
+    "nur_bestehende_wege_sichtbar": 0,
+    "entscheidung": "E46: Fundstueck -> Leuchtfeuer (Fjord = Aussichtslandschaft, Fjordsteig als Panoramaweg); Silhouette 10 m = Blockkegel (Bloecke 5-9 m) unter der hellen Nische"
    },
    "erreichbar": {
     "erreichbar": false,
@@ -459,14 +486,15 @@
   {
    "id": "fjord_08_strandterrassen",
    "name": "Die alten Ufer",
-   "art": "fundstueck",
+   "art": "leuchtfeuer",
    "mitte_cm": [-195000, -348000, 9323],
    "radius_m": 70.0,
    "felder": ["C1"],
    "kameras": [
     ["C1", -165300, -332700, -195000, -348000, 9423, "fjord_08_strandterrassen_anmarsch", -170],
     ["C1", -195434, -345538, -195000, -348000, 9473, "fjord_08_strandterrassen_held", -170],
-    ["C1", -195174, -347015, -195000, -348000, 9423, "fjord_08_strandterrassen_nah", -170]
+    ["C1", -195174, -347015, -195000, -348000, 9423, "fjord_08_strandterrassen_nah", -170],
+    ["C1", -166400, -307200, -195000, -348000, 9423, "fjord_08_strandterrassen_fern", 170]
    ],
    "ziel_hoehe_m": 4.0,
    "standort_begruendung": "offener Hang, C1; Boden Wiese; Hang 44 Grad (max 68), TPI25 -0.8 m, TPI100 11.4 m, Relief 135 m; Weg 1417 m (mit Steig 271 m), Wasser 228 m, Meer 89 m; Stadtrand 1405 m; 90 m innerhalb fjord",
@@ -481,7 +509,15 @@
     "max_sichtweite_weg_m_3m": 0.0,
     "verdeckt_vom_weg_oder_steig": false,
     "max_sichtweite_steig_m_3m": 638.0,
-    "steig_wegpunkte_mit_sicht": 45
+    "steig_wegpunkte_mit_sicht": 45,
+    "bezug": "Wege + Steige",
+    "wegpunkte_ring_300_800": 76,
+    "wegpunkte_sichtbar": 37,
+    "mittel_anteil": 0.49,
+    "sichtbar_ab_m": 628.2,
+    "bester_punkt_m": [-1664, -3072],
+    "nur_bestehende_wege_sichtbar": 0,
+    "entscheidung": "E46: Fundstueck -> Leuchtfeuer (Fjord = Aussichtslandschaft, Fjordsteig als Panoramaweg); Silhouette 4 m = gruene Stufenbaender am Hang"
    },
    "erreichbar": {
     "erreichbar": false,

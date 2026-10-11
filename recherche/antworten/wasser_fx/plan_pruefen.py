@@ -151,8 +151,14 @@ def main():
     je = {}
     for e in eff:
         je.setdefault(e["gruppe"], []).append(e)
-        pruef(e["sort_priority"] == 2 and e["cast_shadow"] is False and 30 <= e["cull_m"] <= 150,
+        # Cull 30-150 m; E28: optionaler S02-Impact mit Cull 20 m erlaubt
+        cmin = 20 if (e.get("optional") and e["asset"].endswith("NS_Impact_Small")) else 30
+        pruef(e["sort_priority"] == 2 and e["cast_shadow"] is False and cmin <= e["cull_m"] <= 150,
               "%s %s: Sort 2, kein Schatten, Cull %d m" % (e["ziel"], e["rolle"], e["cull_m"]))
+        if "cull_rueckfall_m" in e:
+            # E27: Rueckfallstufe kleiner als der Cull, nicht unter 30 m
+            pruef(30 <= e["cull_rueckfall_m"] < e["cull_m"], "%s %s: Rueckfall-Cull %d m < Cull %d m (E27)"
+                  % (e["ziel"], e["rolle"], e["cull_rueckfall_m"], e["cull_m"]))
     for g, l in je.items():
         pruef(len(l) <= 3, "Gruppe %s: %d Niagara (<= 3)" % (g, len(l)))
     # gleichzeitig aktiv: Betrachter auf Augenhoehe ueber jedem Flusspunkt und 8 m seitlich

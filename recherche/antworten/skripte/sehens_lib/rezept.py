@@ -1785,6 +1785,10 @@ def schreibe_biom(aus_ordner, sw_ordner, biom, kontexte, ebene, materialwuensche
         if c.lagen is not None:
             blk = c.lagen.schreibe(aus_ordner, c.id)
             if blk:
+                # E49: Regel warnung_akzeptiert.lagen_fenster -> Pruefer meldet das Fenster > 400 m nur als HINWEIS
+                wa = (c.r.get("warnung_akzeptiert") or {}).get("lagen_fenster")
+                if wa:
+                    blk["warnung_akzeptiert"] = str(wa)
                 e["lagen"] = blk
         orte.append(e)
     if alte_orte:

@@ -71,6 +71,8 @@ Schutt → Bewuchs → Kleinzeug → Kontakt.
   `M_EL_Klippe_RVT`, `M_EL_Pflanze`, `M_EL_Eis4`, `M_EL_Wasserfall2`, `M_MS_Decal`, `M_MS_Base`, nur deren Parameter
   (`vorlagen/daten/material_parameter.json`; der Planer prüft das). Jeder Wunsch landet in `orte.json` beim ersten Ort,
   der ihn benutzt; Gruppen verweisen mit `"material": "MI_EL_SW_…"` darauf.
+- Ort-Feld `warnung_akzeptiert: {"lagen_fenster": "<Begruendung>"}` (E49): das Lagenfenster > 400 m (nur Leuchtfeuer,
+  Grenze 600 m) meldet der Prüfer dann als HINWEIS mit Begründung statt als WARNUNG.
 
 ### 3.2 Rezept eines Orts
 

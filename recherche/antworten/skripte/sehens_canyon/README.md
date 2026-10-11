@@ -37,6 +37,9 @@ Je Feld: C4 4 690, D4 12 397 Instanzen. Verdeckung (Fundstücke 04–08): alle *
 
 ## Grenzen und offene Punkte
 
+- **E25:** Canyonsteig nur Reserve (Katalogvermerk); ersetzt einen Ort am Mündungsfall, falls einer im Editorbild durchfällt.
+  **E33:** uldubik/uk5ebcp werden neu geladen; bis 5/5 Dateien da sind, bleiben die Ersatznetze (Sperre in `inventar.py`).
+
 - Pivot/Schauseite der Desert-Western-Netze unbekannt (`netze_masse.json` hat sie nicht): Pivot unten Mitte, `front_achse +y`
   angenommen – Editorbild prüfen (besonders Bogen 01, Spaltwände 04, Alkoven 07).
 - Gewollte Hohlformen (Spalt-Kolk 04, Kesselkolke 05, Tinajas 06, Alkovenkolke 07, Simsmulden 03) tragen `senke_begruendung`.

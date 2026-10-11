@@ -49,3 +49,8 @@ Materialwünsche (6): `MI_EL_SW_Grundeis`, `_Blutschnee`, `_Landkartenflechte`, 
   → *Das Schneetälchen* (X −182 / Y −1962) am Schneefeldrand; `tundra_pfad_das_aufeis` entfällt.
 - Wollgras fehlt im Bestand → weiße Windröschen ×0,4 zwischen Binsen. Brandung fehlt (Wind-Cue).
 - `senke_begruendung` an Pingo (Kratersee), Eiswand, Trunkener Grund, Steinringe (Strandwall-Swale), Wabenmoor (Polygonmitten).
+- **E19:** `tundra_pfad_der_trunkene_grund` streift den 150-m-Puffer von ROMAN_LOC_018 (nicht die Stadtfläche) – Feld
+  `warnung_akzeptiert` in `standorte.json`, der Prüfer meldet es als HINWEIS. Nach dem Bau der Stadt prüfen, ob der
+  Pfadanfang ein Gebäude schneidet (sonst Start 30–40 m nach Westen).
+- **E34:** Die Ice-Cliff-Schalen der Eiswand behalten `M_MS_Base_Trm`; `orte.json` listet sie unter `material_fix_ausnahmen`.
+- **E20/E21:** Katalogfragen 1–3 entschieden (Aufeis entfällt, Thermokarstsee bleibt, Steinringe Fundstück, 4/4).

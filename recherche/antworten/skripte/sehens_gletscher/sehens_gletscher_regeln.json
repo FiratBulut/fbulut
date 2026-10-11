@@ -1895,7 +1895,10 @@
      "lautstaerke": 0.25,
      "zweck": "Tropfen und Rinnsale am Schmelzrand"
     }
-   ]
+   ],
+   "warnung_akzeptiert": {
+    "lagen_fenster": "E49 (Koordinator fuer Ferat, 11.10.2026): Leuchtfeuer; der Steigabschnitt, der dem Ort nach 'abschnitt: naechster' gehoert, liegt ganz im Lagenfenster"
+   }
   },
   "gletscher_03_moraenensee": {
    "kurz": "Hinter einem Riegel aus Moraenenschutt liegt unter dem Westgrat ein kleiner, milchig-tuerkiser See; Firnflecken an der Rueckwand speisen ihn.",
@@ -3932,7 +3935,10 @@
    ],
    "_entschieden": [
     "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam: Kaufliste: nicht empfohlen (Schneefahne nur als Kopie/ohne Effekt)"
-   ]
+   ],
+   "warnung_akzeptiert": {
+    "lagen_fenster": "E49 (Koordinator fuer Ferat, 11.10.2026): Leuchtfeuer; der Steigabschnitt, der dem Ort nach 'abschnitt: naechster' gehoert, liegt ganz im Lagenfenster"
+   }
   },
   "gletscher_06_gletschertoepfe": {
    "kurz": "In einer engen Felsklamm hat das Schmelzwasser des einstigen Gletschers runde Toepfe in den Fels gebohrt; der Klammbach faellt von Topf zu Topf, in jedem liegt noch der Mahlstein.",
@@ -5834,9 +5840,8 @@
    ],
    "sicht_probe_m": 12,
    "pfad_regel": {
-    "e": "E22",
+    "e": "E22/E47",
     "eis_boden": [
-     "Schnee",
      "Eis"
     ],
     "eis_max_grad": 12,
@@ -5845,7 +5850,8 @@
       "linie": "gletscher_05_die_waechte/bergschrund",
       "min_m": 15
      }
-    ]
+    ],
+    "_hinweis": "E47: Schneefelder am Nordhang sind kein Gletschereis; Serpentinen ueber Schnee 17-30 Grad erlaubt (Kehren). Linie bleibt."
    },
    "_entschieden": [
     "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen): 13d: Paket ist im Bestand; Leakage-Decal bleibt bewusst (gestreckte Schrammen)"

@@ -1615,7 +1615,10 @@
    ],
    "_entschieden": [
     "Arctic Cliffs: E31/Kaufliste: nicht empfohlen (Megascans Ice Cliff gleichwertig)"
-   ]
+   ],
+   "warnung_akzeptiert": {
+    "lagen_fenster": "E49 (Koordinator fuer Ferat, 11.10.2026): Leuchtfeuer; der Froststeig-Abschnitt am See, der dem Ort nach 'abschnitt: naechster' gehoert, liegt ganz im Lagenfenster"
+   }
   },
   "frost_03_eisvorhang": {
    "kurz": "Unter dem Nordufer tritt Sickerwasser aus einer ueberhaengenden Felsbank und ist zu einem 40 m langen Vorhang gefroren: Hunderte Zapfen, unten zu Orgelpfeifen verwachsen, dahinter eine blau daemmernde Nische.",

@@ -34,11 +34,11 @@ Stand 11.10.2026 · Agent B4 · Dateien: `standorte.json` (heute gültige Orte),
 | 1 | `fjord_01_die_kanzel` | Die Kanzel | Leuchtfeuer | D1 | −1555 / −3275 | 225 m | 50 m | 1120 m (102) | Steig | 12 m: 44/125 Punkte, bis 798 m |
 | 2 | `fjord_02_schleierwand` | Die Schleierwand | Leuchtfeuer | C2 | −1740 / −3000 | 264 m | 120 m | 894 m (91) | Steig | 40 m: 8/66 Punkte, bis 448 m |
 | 3 | `fjord_03_trollzunge` | Die Trollzunge | Leuchtfeuer | D2 | −1500 / −2930 | 385 m | 40 m | 770 m (91) | Steig | 8 m: 56/189 Punkte, bis 761 m |
-| 4 | `fjord_04_haengetal` | Das Hängetal | Fundstück | D2 | −1680 / −2775 | 195 m | 60 m | 663 m (87) | Steig | verdeckt vom Weg: ja (0/0 ≤ 400 m); Steig: ab ≤ 465 m |
-| 5 | `fjord_05_fjordkopf` | Der Fjordkopf | Fundstück | C1 | −1754 / −3358 | 1 m | 70 m | 1239 m (87) | Steig | verdeckt vom Weg: ja (0/0 ≤ 400 m); Steig: ab ≤ 433 m |
-| 6 | `fjord_06_bergsturz` | Der Bergsturzkegel | Fundstück | C1 | −1850 / −3170 | 118 m | 70 m | 1092 m (87) | Steig | verdeckt vom Weg: ja (0/0 ≤ 400 m); Steig: ab ≤ 330 m |
+| 4 | `fjord_04_haengetal` | Das Hängetal | Leuchtfeuer (E46) | D2 | −1680 / −2775 | 195 m | 60 m | 663 m (87) | Steig | 12 m: 6/134 Punkte, bis 465 m (Wege allein: 0) |
+| 5 | `fjord_05_fjordkopf` | Der Fjordkopf | Leuchtfeuer (E46) | C1 | −1754 / −3358 | 1 m | 70 m | 1239 m (87) | Steig | 4 m: 19/66 Punkte, bis 433 m (Wege allein: 0) |
+| 6 | `fjord_06_bergsturz` | Der Bergsturzkegel | Leuchtfeuer (E46) | C1 | −1850 / −3170 | 118 m | 70 m | 1092 m (87) | Steig | 10 m: 16/69 Punkte, bis 330 m (Wege allein: 0) |
 | 7 | `fjord_07_brandungsgrotte` | Die Brandungsgrotte | Fundstück | D1 | −1640 / −3540 | 6 m | 50 m | 1375 m (98) | Steig | verdeckt vom Weg: ja (0/0 ≤ 400 m); Steig: unsichtbar |
-| 8 | `fjord_08_strandterrassen` | Die alten Ufer | Fundstück | C1 | −1950 / −3480 | 93 m | 70 m | 1417 m (271) | Steig | verdeckt vom Weg: ja (0/0 ≤ 400 m); Steig: ab ≤ 638 m |
+| 8 | `fjord_08_strandterrassen` | Die alten Ufer | Leuchtfeuer (E46) | C1 | −1950 / −3480 | 93 m | 70 m | 1417 m (271) | Steig | 4 m: 37/76 Punkte, bis 628 m (Wege allein: 0) |
 
 ---
 
@@ -102,7 +102,9 @@ Stand 11.10.2026 · Agent B4 · Dateien: `standorte.json` (heute gültige Orte),
 
 **Aufwand und Risiko.** Niedrig–mittel. Risiko: Zunge muss frei schweben – Netz mit Kollision, Fuß tief im Grat.
 
-## 4 · Das Hängetal (`fjord_04_haengetal`) – Fundstück · nur mit Steig `fjordsteig`
+## 4 · Das Hängetal (`fjord_04_haengetal`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 12 m, Wege + Steige): 6 von 134 Punkten im Ring 300–800 m, lesbar bis 465 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 465 m (X −1642 / Y −2312). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Auf der Südseite des Fjordkamms endet ein kleines, flaches Hochtal plötzlich an einer Stufe: Der Bach, der eben noch zwischen Wollgras mäanderte, stürzt 40 m in eine Schlucht. Oben ist es still und grün, unten donnert es.
 
@@ -122,7 +124,9 @@ Stand 11.10.2026 · Agent B4 · Dateien: `standorte.json` (heute gültige Orte),
 
 **Aufwand und Risiko.** Mittel. Nur mit Fjordsteig.
 
-## 5 · Der Fjordkopf (`fjord_05_fjordkopf`) – Fundstück · nur mit Steig `fjordsteig`
+## 5 · Der Fjordkopf (`fjord_05_fjordkopf`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 4 m, Wege + Steige): 19 von 66 Punkten im Ring 300–800 m, lesbar bis 433 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 433 m (X −1616 / Y −2948). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Wo der Fjordbach ins Meer läuft, hat er einen flachen Fächer aus Kies und Sand geschüttet. Bei Ebbe liegt er frei: Rinnen, in denen das Süßwasser milchig ins grüne Salzwasser zieht, Tang auf den Steinen, und überall die Wände, die 300 m hochsteigen.
 
@@ -142,7 +146,9 @@ Stand 11.10.2026 · Agent B4 · Dateien: `standorte.json` (heute gültige Orte),
 
 **Aufwand und Risiko.** Niedrig–mittel.
 
-## 6 · Der Bergsturzkegel (`fjord_06_bergsturz`) – Fundstück · nur mit Steig `fjordsteig`
+## 6 · Der Bergsturzkegel (`fjord_06_bergsturz`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 10 m, Wege + Steige): 16 von 69 Punkten im Ring 300–800 m, lesbar bis 330 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 330 m (X −1562 / Y −3008). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Aus der Westwand ist ein Stück Berg ausgebrochen: oben eine helle, frische Abrissnische, darunter ein Kegel aus hausgroßen Blöcken, der bis an den Talboden reicht. Zwischen den Blöcken wachsen schon junge Birken – der Sturz ist alt genug für Bäume, jung genug für scharfe Kanten.
 
@@ -182,7 +188,9 @@ Stand 11.10.2026 · Agent B4 · Dateien: `standorte.json` (heute gültige Orte),
 
 **Aufwand und Risiko.** Mittel. Abgrenzung zu kueste „Grotte“ (Kliffhöhle mit türkisem Wasser): hier enger Spalt im Fjord mit Tang.
 
-## 8 · Die alten Ufer (`fjord_08_strandterrassen`) – Fundstück · nur mit Steig `fjordsteig`
+## 8 · Die alten Ufer (`fjord_08_strandterrassen`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 4 m, Wege + Steige): 37 von 76 Punkten im Ring 300–800 m, lesbar bis 628 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 498 m (X −1664 / Y −3072). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Am Westhang der Fjordmündung ziehen sich drei grüne Stufen parallel zum Wasser den Berg hinauf – alte Strandlinien, 20, 45 und 70 m über dem heutigen Meer. Auf jeder Stufe liegen gerundete Strandkiesel und Muschelschill, mitten im Gras.
 

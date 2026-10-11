@@ -440,12 +440,16 @@ def ft_kuerzel(biom):
 class Ebene:
     """Sammelt Instanzen und Akteure aller Orte eines Bioms und schreibt sw_<biom>/<Feld>/."""
 
-    def __init__(self, biom, inv, stand=""):
+    def __init__(self, biom, inv, stand="", ebene_name=None, ft_praefix=None):
+        """ebene_name/ft_praefix (optional, Auftrag 15): andere Ebene als sw_<biom> (z. B. 'gefaelle', 'FT_EL_GEF_');
+        Standard unveraendert sw_<biom> / FT_EL_SW<xx>_."""
         self.biom = biom
         self.inv = inv
         self.stand = stand
         self.stuecke = []          # dicts
         self.hinweise = []
+        self.ebene_name = ebene_name or ("sw_" + biom)
+        self.ft_praefix = ft_praefix or ("FT_EL_%s_" % ft_kuerzel(biom))
 
     def neu(self, ort, gruppe, ebene, netz, x_cm, y_cm, z_cm, q, s, kollision=False, akteur=False,
             sichtweite=None, schatten=None, material=None, extra=None, prioritaet=None, z_frei=False, rolle=None):
@@ -572,7 +576,7 @@ class Ebene:
                                 "rolle": "/".join(sorted({e["gruppe"] for e in g})),
                                 "sichtweite": sw, "schatten": any(e["schatten"] for e in g),
                                 "kollision": bool(g[0]["kollision"]), "nanite": bool(g[0]["nanite"]),
-                                "ebene": "sw_" + self.biom, "orte": orte}
+                                "ebene": self.ebene_name, "orte": orte}
                 if g[0].get("material"):
                     dateien[key]["material_wunsch"] = g[0]["material"]
                 nz = sum(1 for e in g if e.get("z_frei"))
@@ -581,15 +585,15 @@ class Ebene:
             n = sum(d["anzahl"] for d in dateien.values())
             kol = sum(d["anzahl"] for d in dateien.values() if d["kollision"])
             orte_feld = sorted({e["ort"] for e in st})
-            plan = {"stand": self.stand, "feld": feld, "ebene": "sw_" + self.biom, "biom": self.biom,
+            plan = {"stand": self.stand, "feld": feld, "ebene": self.ebene_name, "biom": self.biom,
                     "instanzen": n, "kollision_anzahl": kol, "akteure_anzahl": len(akteure),
                     "biome_eigen": [self.biom], "orte": orte_feld,
                     "orte_budget": {o: self._feld_budget(st, o) for o in orte_feld},
-                    "ft_praefix": "FT_EL_%s_" % ft_kuerzel(self.biom),
-                    "hinweis_setzer": ("Foliage-Typen FT_EL_%s_<Dateischluessel> (SEHENS_FORMAT §4); akteure als "
+                    "ft_praefix": self.ft_praefix,
+                    "hinweis_setzer": ("Foliage-Typen %s<Dateischluessel> (SEHENS_FORMAT §4); akteure als "
                                        "StaticMeshActor; z enthaelt das Eingraben; 'material_wunsch' = MI_EL_SW_* aus "
                                        "orte.json materialwuensche; pivot 'angenommen_unten_mitte' = Netz ohne Bounds in "
-                                       "netze_masse.json (bitte im Editor pruefen)." % ft_kuerzel(self.biom)),
+                                       "netze_masse.json (bitte im Editor pruefen)." % self.ft_praefix),
                     "dateien": dateien, "akteure": akteure}
             if orte_info:
                 fr = [f for o in orte_feld for f in (orte_info.get(o, {}).get("freiraeume") or [])]
