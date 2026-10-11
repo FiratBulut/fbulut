@@ -200,10 +200,7 @@
     "rand_ost": [-16.0, 8.0],
     "licht": [-40.0, 4.0]
    },
-   "gelaende": {"fenster_m": [130, 130], "rand_m": 10, "begruendung": "Cenote: eigener See (13c) mit Spiegel +0,3 m unabhaengig vom Meer; Schacht auf -17,7 m vertieft (Tiefe 18 m), Ostrand angehoben, damit das Ufer rundum ueber dem Spiegel liegt", "ops": [], "bei": "schacht"},
-   "wasser": [
-    {"typ": "see", "id": "auge", "bei": "schacht", "spiegel": 0.3, "tiefe_m": 18, "farbe": "tuerkis", "becken": {"a_m": 36.0, "b_m": 26.0, "richtung": 30, "ufer_m": 5, "freibord_m": 1.0, "boden": 0.25, "auslass": null}}
-   ],
+   "gelaende": {"fenster_m": [130, 130], "rand_m": 10, "begruendung": "Cenote: eigener See (13c), Spiegel +0,3 m unabhaengig vom Meer; Schachtgrund in der Mitte auf -17,7 m vertieft (Tiefe 18 m), Schachtwaende und Rand unveraendert", "ops": [], "bei": "schacht"},
    "gruppen": [
     {"name": "schachtwand", "ebene": "held", "warum": "senkrechte Schachtwand rundum: Kalkschalen, Fuss tief unter Wasser, Kopf knapp unter der Kante", "netz": "SM_Cliff_01d", "anzahl": 9, "verteilung": {"typ": "reihe", "punkte": "ufer_auge", "abstand_m": 15, "versatz_m": 1.0, "versatz_streuung_m": 0.8, "seiten": ["links"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.22, 0.27], "front_achse": "-x", "z_bezug": "see:auge", "oberkante_ueber_m": 9.0, "akteur": true, "kollision": true, "im_wasser": "egal", "meide": null, "weg_abstand_m": 0, "hinweis": "SM_Cliff_01d: Schauseite -x angenommen (Editorbild _held)"},
     {"name": "riesenbaum", "ebene": "begleiter", "warum": "Urwaldriese am Westrand, seine Luftwurzeln suchen das Wasser", "netz": "SM_Tree_Big_01a", "verteilung": {"typ": "punkt", "bei": "riesenbaum"}, "skala": 1.0, "rolle": "baum", "akteur": true, "kollision": true, "weg_abstand_m": 0},
@@ -235,7 +232,9 @@
    "klaenge": [
     {"asset": "CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue", "bei": "rand_ost", "radius_m": 40, "lautstaerke": 0.25, "zweck": "Papageien am Schachtrand (leise)"}
    ],
-   "schacht": {"see": "auge", "kante_m": 0.8, "rand_zellen": 5, "warum": "Hook cenote_umriss: Seeumriss = Schachtkontur, Vertiefung nur >= 10 m von der Schachtwand"}
+   "see_kontur": [
+    {"id": "auge", "bei": "schacht", "spiegel": 0.3, "tiefe_m": 18.0, "farbe": "tuerkis", "kante_m": 0.8, "rand_m": 8.0, "rampe_m": 10.0, "warum": "Cenote (13c): eigener See, Spiegel +0,3 m unabhaengig vom Meer; Umriss = Schachtkontur, Grund auf -17,7 m nur in der Schachtmitte vertieft (Hook see_kontur)"}
+   ]
   },
 
   "dschungel_05_verborgene_lagune": {
@@ -257,9 +256,6 @@
    "gelaende": {"fenster_m": [130, 120], "bei": [20, 20], "rand_m": 10, "begruendung": "Gasse durch die Suedostwand (Wand bis 55 m -> Sohle 24,5 ... 23,5 m, d. h. bis -31 m), leicht nach aussen fallend; das Becken selbst bleibt (natuerlicher geschlossener Karstkessel, Boden 9,5 m)", "ops": [
     {"op": "rinne", "punkte": "gasse", "breite_m": 7, "sohle": [24.5, 23.5], "rand_m": 4, "warum": "Gasse 43 x 6 m durch die Wand (Zugang)"}
    ]},
-   "wasser": [
-    {"typ": "see", "id": "lagune", "bei": "lagune", "spiegel": 19.0, "tiefe_m": 7.0, "farbe": "smaragd", "becken": {"a_m": 21, "b_m": 5.5, "richtung": 120, "ufer_m": 3, "freibord_m": 0.4, "boden": 0.4, "auslass": null}}
-   ],
    "gruppen": [
     {"name": "gassenueberhang", "ebene": "held", "warum": "Ueberhaenge ueber der Gasse brechen ihre gerade Rechteckform (Klemmbloecke oben)", "netz": "SM_Cliff_01b", "verteilung": {"typ": "reihe", "punkte": "gasse", "abstand_m": 13, "versatz_m": 5.5, "versatz_streuung_m": 1.0, "seiten": ["links", "rechts"], "blick": "zur_linie", "front_an_linie": true}, "skala": [0.18, 0.24], "front_achse": "+y", "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 0, "hinweis": "Schalen an den Gassenkanten, ragen bis 1 m ueber die Sohle; Schauseite +y angenommen"},
     {"name": "spaltwand", "ebene": "begleiter", "warum": "Wandstuecke am Seeufer brechen die geradlinige Spalte", "netz": "SM_Cliff_01a", "anzahl": 4, "verteilung": {"typ": "ufer", "bei": "lagune", "r_m": 30, "band_m": [3.0, 8.0]}, "abstand_m": 12, "hoehe_rel_m": [0, 30], "skala": [0.14, 0.2], "yaw": "zu:lagune", "front_achse": "+y", "eingraben": [0.3, 0.4], "akteur": true, "kollision": true, "meide": null},
@@ -295,6 +291,9 @@
    ],
    "klaenge": [
     {"asset": "CUE_Rain_Dropping_on_various_textures_Cue", "bei": "lagune", "radius_m": 35, "lautstaerke": 0.25, "zweck": "Tropfen von den Waenden (leise; im Editor pruefen)"}
+   ],
+   "see_kontur": [
+    {"id": "lagune", "bei": "lagune", "spiegel": 19.0, "tiefe_m": 7.0, "farbe": "smaragd", "kante_m": 19.0, "rand_m": 3.0, "rampe_m": 5.0, "warum": "Wasser fuellt den geschlossenen Karstkessel bis 19 m (Boden 9,5 m, Ueberlauf 38 m); Umriss = Kesselkontur (Hook see_kontur)"}
    ]
   },
 

@@ -72,19 +72,6 @@ def _zusammenhang(m, i0, j0):
     return out
 
 
-def _erodiere(m, n):
-    import numpy as np
-    r = m.copy()
-    for _ in range(int(n)):
-        q = r.copy()
-        q[1:, :] &= r[:-1, :]
-        q[:-1, :] &= r[1:, :]
-        q[:, 1:] &= r[:, :-1]
-        q[:, :-1] &= r[:, 1:]
-        r = q
-    return r
-
-
 def hook_see_kontur(ctx):
     """Seen in natuerlichen Kesseln (Cenote, Lagune), die keine Ellipse sind. Fuer jeden Eintrag in
     ctx.r["see_kontur"]: Seeflaeche = zusammenhaengende Zellen mit Gelaende < kante_m ab 'bei' (im Radius r_max_m);
