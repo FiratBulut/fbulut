@@ -19,7 +19,7 @@ import os
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-from . import ascii_text, log
+from . import ascii_text
 from . import daten as _daten
 
 BODEN_FARBEN = {

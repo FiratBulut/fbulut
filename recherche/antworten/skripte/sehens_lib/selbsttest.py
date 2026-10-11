@@ -111,9 +111,11 @@ def main(argv=None):
     with schritt("6 Erreichbarkeit fuer 3 (Dijkstra 4 m)"):
         err = [kandidaten.erreichbarkeit(welt, gel, c["x_m"], c["y_m"]) for c in drei]
     for c, e in zip(drei, err):
-        log("  (%.0f, %.0f): %s, Modus %s, Laenge %s m (Luftlinie %s), max %s Grad, %d Pfadpunkte"
+        log("  (%.0f, %.0f): %s, Modus %s, Laenge %s m (Luftlinie %s), max %s Grad, steil %s m, quer-steil %s m, "
+            "Wasser %s m, %d Pfadpunkte"
             % (c["x_m"], c["y_m"], "erreichbar" if e["erreichbar"] else "PFAD NOETIG", e["modus"],
-               e.get("laenge_m"), e.get("luftlinie_m"), e.get("max_steigung_grad"), len(e.get("pfad_m", []))))
+               e.get("laenge_m"), e.get("luftlinie_m"), e.get("max_steigung_grad"), e.get("steil_laenge_m"),
+               e.get("quer_steil_laenge_m"), e.get("wasser_laenge_m"), len(e.get("pfad_m", []))))
 
     # 7 Kameras + standorte.json + Pruefer
     with schritt("7 Kameras + standorte.json + Pruefer"):

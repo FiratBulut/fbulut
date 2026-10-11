@@ -219,15 +219,17 @@ def _block(a, b, fn):
 
 
 def erreichbarkeit(welt, gel, x_m, y_m, max_grad=25.0, raster_m=4.0, rand_m=120.0, max_quer_grad=38.0,
-                   ziel_m=None):
+                   ziel_m=None, furt_max_m=4.0):
     """Fussweg vom naechsten Weg zum Ort (Dijkstra auf grobem Raster).
 
     Kante erlaubt (streng), wenn Steigung der Kante <= max_grad, Hang am Knoten <= max_quer_grad, kein Wasser.
     Kosten = Laenge * (1 + (Steigung/max_grad)^2). Findet 'streng' keinen Weg, sucht 'weich' (Steiles x15,
     Wasser x30 erlaubt) -> Pfadvorschlag (pfad_noetig = True).
     ziel_m: optional (x, y) eines bestimmten Wegpunkts statt 'irgendeine Wegzelle'.
+    furt_max_m: Suesswasser bis zu dieser Breite gilt auch 'streng' als passierbar (Furt, furt_laenge_m).
     Rueckgabe dict: erreichbar, modus, laenge_m, luftlinie_m, umweg_faktor, max_steigung_grad,
-    steil_laenge_m, pfad_noetig, weg_punkt_m, pfad_m [[x, y, z], ...] (vereinfacht, vom Ort zum Weg), pfad_cm.
+    steil_laenge_m (Steigung > max_grad), quer_steil_laenge_m (Hang > max_quer_grad), wasser_laenge_m
+    (Trittsteine/Furt), pfad_noetig, weg_punkt_m, pfad_m [[x, y, z], ...] (vereinfacht, Ort -> Weg), pfad_cm.
     """
     z = welt.zelle_m
     b = max(1, int(round(raster_m / z)))
@@ -244,7 +246,14 @@ def erreichbarkeit(welt, gel, x_m, y_m, max_grad=25.0, raster_m=4.0, rand_m=120.
     fe = welt.fenster_box(x0, y0, x1, y1)
     h = _block(fe.get("hoehe").astype(np.float64), b, np.mean)
     weg = _block(fe.get("weg"), b, np.max) > 0
-    wa = _block(fe.get("wasser"), b, np.max) > 0
+    wn = fe.get("wasser") > 0
+    wa = _block(wn, b, np.max)
+    if wn.any() and furt_max_m > 0:
+        halb = _gel.abstand(~wn, z, 50.0)          # Abstand zum Ufer innerhalb des Wassers
+        furt = _block(np.where(wn, halb, 0.0), b, np.max) <= furt_max_m / 2.0 + 0.5 * z
+    else:
+        furt = np.ones_like(wa)
+    furt = furt & wa
     me = _block(fe.get("meer").astype(np.uint8), b, np.max) > 0
     ng = _block(fe.get(gel.neigung), b, np.mean)
     gy_, gx_ = h.shape
@@ -258,7 +267,8 @@ def erreichbarkeit(welt, gel, x_m, y_m, max_grad=25.0, raster_m=4.0, rand_m=120.
     tanmax = np.tan(np.radians(max_grad))
     hl = h.ravel().tolist()
     wegl = weg.ravel().tolist()
-    sperr = (wa | me).ravel().tolist()
+    sperr = ((wa & ~furt) | me).ravel().tolist()
+    furtl = furt.ravel().tolist()
     steil = (ng > max_quer_grad).ravel().tolist()
     nb = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     nbl = [(di, dj, cell * (1.4142135 if di and dj else 1.0)) for di, dj in nb]
@@ -321,6 +331,12 @@ def erreichbarkeit(welt, gel, x_m, y_m, max_grad=25.0, raster_m=4.0, rand_m=120.
     seg = np.hypot(np.diff(px), np.diff(py))
     gr = np.degrees(np.arctan(np.abs(np.diff(pz)) / np.maximum(seg, 1e-6)))
     steil_L = float(seg[gr > max_grad].sum()) if seg.size else 0.0
+    sp = np.array([sperr[q] and not wegl[q] for q in kette[1:]], bool)
+    qs = np.array([steil[q] for q in kette[1:]], bool)
+    wasser_L = float(seg[sp].sum()) if seg.size else 0.0
+    quer_L = float(seg[qs].sum()) if seg.size else 0.0
+    fu = np.array([furtl[q] for q in kette[1:]], bool)
+    furt_L = float(seg[fu].sum()) if seg.size else 0.0
     laenge = float(seg.sum())
     luft = float(np.hypot(px[-1] - x_m, py[-1] - y_m))
     P = np.stack([px, py], 1)
@@ -330,6 +346,8 @@ def erreichbarkeit(welt, gel, x_m, y_m, max_grad=25.0, raster_m=4.0, rand_m=120.
             "luftlinie_m": round(luft, 1), "umweg_faktor": round(laenge / max(luft, 1.0), 2),
             "max_steigung_grad": round(float(gr.max()) if gr.size else 0.0, 1),
             "mittel_steigung_grad": round(float(np.average(gr, weights=seg)) if seg.sum() > 0 else 0.0, 1),
-            "steil_laenge_m": round(steil_L, 1), "pfad_noetig": modus != "streng",
+            "steil_laenge_m": round(steil_L, 1), "quer_steil_laenge_m": round(quer_L, 1),
+            "wasser_laenge_m": round(wasser_L, 1), "furt_laenge_m": round(furt_L, 1),
+            "pfad_noetig": modus != "streng",
             "weg_punkt_m": [round(float(px[-1]), 1), round(float(py[-1]), 1)],
             "pfad_m": pfad, "pfad_cm": [[int(p[0] * 100), int(p[1] * 100), int(p[2] * 100)] for p in pfad]}

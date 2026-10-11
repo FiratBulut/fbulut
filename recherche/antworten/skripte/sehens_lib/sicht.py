@@ -219,10 +219,11 @@ def richtung_grad(von_x, von_y, nach_x, nach_y):
     return float(np.degrees(np.arctan2(nach_x - von_x, -(nach_y - von_y))) % 360.0)
 
 
-def zz_augenhoehe(welt, kx_m, ky_m, zx_m, zy_m, zz_m, hoch_cm=170, max_kipp_grad=12.0):
+def zz_augenhoehe(welt, kx_m, ky_m, zx_m, zy_m, zz_m, hoch_cm=170, max_kipp_grad=20.0):
     """§8: Kamerahoehe = max(Boden + Hoch, ZZ + 3 m). Liegt das Ziel hoeher als die Kamera, hebt die Regel die
     Kamera an. Diese Hilfe senkt ZZ auf Boden_Kamera + Hoch - 3 m, solange sich die Blickrichtung dadurch
-    hoechstens max_kipp_grad nach unten dreht (Ziel bleibt im Bild). Rueckgabe ZZ in m."""
+    hoechstens max_kipp_grad nach unten dreht (Ziel bleibt bei ~59 Grad vertikalem Bildwinkel im Bild).
+    Sonst bleibt ZZ (Kamera wird nach §8 angehoben, der Pruefer meldet einen HINWEIS). Rueckgabe ZZ in m."""
     boden = welt.hoehe_bei_m(kx_m, ky_m)
     grenze = boden + hoch_cm / 100.0 - 3.0
     if zz_m <= grenze:

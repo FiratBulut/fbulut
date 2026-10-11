@@ -17,6 +17,14 @@ Klasse Gelaende(welt, cache=...) rechnet Ganze-Welt-Raster einmal und legt sie a
   gel.kuppen(...), gel.kessel(...), gel.biom_abstand(name)  (> 0 innen, < 0 aussen)
 """
 
+import os as _os
+import sys as _sys
+
+if __name__ == "__main__" and __package__ in (None, ""):
+    _sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+    __package__ = "sehens_lib"
+    import sehens_lib  # noqa: F401
+
 import hashlib
 import heapq
 import json
@@ -469,43 +477,45 @@ def abfluss(h, z, auslass):
         us.append(np.minimum(aa, bb))
         vs.append(np.maximum(aa, bb))
         ws.append(np.maximum(h[s][m], h[n][m]))
-    u = np.concatenate(us).astype(np.int64)
-    v = np.concatenate(vs).astype(np.int64)
-    w = np.concatenate(ws)
-    key = u * B + v
-    o = np.lexsort((w, key))
-    key, u, v, w = key[o], u[o], v[o], w[o]
-    erst = np.ones(key.size, bool)
-    erst[1:] = key[1:] != key[:-1]
-    u, v, w = u[erst], v[erst], w[erst]
-    # 5) Prioritaetsflutung auf dem Becken-Graph
-    uu = np.concatenate([u, v])
-    vv = np.concatenate([v, u])
-    ww = np.concatenate([w, w]).astype(np.float64)
-    o = np.argsort(uu, kind="stable")
-    uu, vv, ww = uu[o], vv[o], ww[o]
-    ptr = np.searchsorted(uu, np.arange(B + 1)).tolist()
-    adj = vv.tolist()
-    wl = ww.tolist()
-    pegel = [float("inf")] * B
-    fertig = bytearray(B)
-    pegel[0] = float("-inf")
-    heap = [(float("-inf"), 0)]
-    while heap:
-        l, b = heapq.heappop(heap)
-        if fertig[b]:
-            continue
-        fertig[b] = 1
-        for k in range(ptr[b], ptr[b + 1]):
-            c = adj[k]
-            if fertig[c]:
+    peg = np.full(B, -1e9)
+    if us:
+        u = np.concatenate(us).astype(np.int64)
+        v = np.concatenate(vs).astype(np.int64)
+        w = np.concatenate(ws)
+        key = u * B + v
+        o = np.lexsort((w, key))
+        key, u, v, w = key[o], u[o], v[o], w[o]
+        erst = np.ones(key.size, bool)
+        erst[1:] = key[1:] != key[:-1]
+        u, v, w = u[erst], v[erst], w[erst]
+        # 5) Prioritaetsflutung auf dem Becken-Graph
+        uu = np.concatenate([u, v])
+        vv = np.concatenate([v, u])
+        ww = np.concatenate([w, w]).astype(np.float64)
+        o = np.argsort(uu, kind="stable")
+        uu, vv, ww = uu[o], vv[o], ww[o]
+        ptr = np.searchsorted(uu, np.arange(B + 1)).tolist()
+        adj = vv.tolist()
+        wl = ww.tolist()
+        pegel = [float("inf")] * B
+        fertig = bytearray(B)
+        pegel[0] = float("-inf")
+        heap = [(float("-inf"), 0)]
+        while heap:
+            l, b = heapq.heappop(heap)
+            if fertig[b]:
                 continue
-            nl = wl[k] if wl[k] > l else l
-            if nl < pegel[c]:
-                pegel[c] = nl
-                heapq.heappush(heap, (nl, c))
-    peg = np.array(pegel, np.float64)
-    peg[~np.isfinite(peg)] = -1e9
+            fertig[b] = 1
+            for k in range(ptr[b], ptr[b + 1]):
+                c = adj[k]
+                if fertig[c]:
+                    continue
+                nl = wl[k] if wl[k] > l else l
+                if nl < pegel[c]:
+                    pegel[c] = nl
+                    heapq.heappush(heap, (nl, c))
+        peg = np.array(pegel, np.float64)
+        peg[~np.isfinite(peg)] = -1e9
     gefuellt = np.maximum(h, peg[becken].astype(np.float32))
     del becken
     # 6) D8 auf gefuelltem Gelaende
@@ -612,7 +622,7 @@ class Gelaende:
         pf = os.path.join(self.cache, name + ".npy") if self.cache else None
         if pf and os.path.exists(pf):
             t0 = time.perf_counter()
-            a = np.load(pf)
+            a = np.load(pf, mmap_mode="r")  # Memory-Map: mehrere Prozesse teilen den Seiten-Cache
             log("Cache geladen: %s (%.2f s)" % (name, time.perf_counter() - t0))
         else:
             with Uhr("berechne " + name):
@@ -632,12 +642,19 @@ class Gelaende:
             np.save(tmp, a)
             os.replace(tmp, pf)
 
-    def vorrechnen(self, alles=True):
+    def vorrechnen(self, alles=True, biome=False, kruemmung=False):
         """Rechnet die Standard-Raster (fuer den Cache) einmal durch."""
         _ = self.neigung, self.akkumulation, self.abstand_weg, self.abstand_ort
         _ = self.abstand_wasser, self.abstand_meer, self.abstand_stadt
         if alles:
-            _ = self.tpi(25), self.tpi(100), self.haupt_zufluss, self.exposition
+            _ = self.tpi(25), self.tpi(50), self.tpi(60), self.tpi(100), self.haupt_zufluss, self.exposition
+            _ = self.senkentiefe, self.landformen()
+        if kruemmung:
+            for s in (10, 25, 50):
+                self.kruemmung(s)
+        if biome:
+            for b in _daten.BIOME:
+                self.biom_abstand(b)
 
     # -- Basis --
     @property
@@ -965,3 +982,25 @@ def bach_enden(welt, wasser_radius_m=6.0):
 
 def meer_maske(welt):
     return welt.meer
+
+
+def main(argv=None):
+    """Ganze-Welt-Cache fuellen: python -I gelaende.py [--daten2m ..] [--cache ..] [--biome] [--kruemmung]"""
+    import argparse
+    ap = argparse.ArgumentParser(description="Ganze-Welt-Raster vorrechnen (.npy-Cache)")
+    _daten.argumente_hinzufuegen(ap)
+    ap.add_argument("--biome", action="store_true", help="auch Biom-Abstaende aller 15 Biome")
+    ap.add_argument("--kruemmung", action="store_true", help="auch Kruemmung sigma 10/25/50 m")
+    a = ap.parse_args(argv)
+    with Uhr("Laden"):
+        welt = _daten.lade(a.daten2m, a.daten1m)
+    gel = Gelaende(welt, cache=a.cache)
+    with Uhr("Vorrechnen gesamt"):
+        gel.vorrechnen(True, biome=a.biome, kruemmung=a.kruemmung)
+    log("Cache:", gel.cache)
+    return 0
+
+
+if __name__ == "__main__":
+    import sys as _s
+    _s.exit(main())

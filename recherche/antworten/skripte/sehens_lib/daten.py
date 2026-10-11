@@ -521,12 +521,12 @@ def lade_1m(ordner, daten2m=None, standorte_pfad=None, boden=True):
 
 def _boden_1m(ordner, ny, nx, block=512):
     """Vorherrschende Lage = argmax ueber lage_<Name>.r8 (blockweise, speichersparend)."""
-    log("Boden 1 m: argmax ueber %d Lagen ..." % len(BODEN))
     maps = []
     for k, n in enumerate(BODEN):
         pf = os.path.join(ordner, "lage_%s.r8" % n)
         if os.path.exists(pf):
             maps.append((k, np.memmap(pf, dtype=np.uint8, mode="r", shape=(ny, nx))))
+    log("Boden 1 m: argmax ueber %d Lagen ..." % len(maps))
     out = np.full((ny, nx), BODEN_KEINE, np.uint8)
     if not maps:
         log("Hinweis: keine lage_*.r8 gefunden -> Boden 'keine'")
