@@ -1,0 +1,520 @@
+{
+ "stand": "2026-10-11",
+ "biom": "elfenwald",
+ "hinweis": "Paketnamen exakt wie in antworten/sehens/downloadliste.json; 'neu_nicht_in_liste' = neuer Wunsch mit Quelle unter 'neue_pakete'. Bestand = Netznamen aus vorlagen/daten/netze.csv (alle vorhanden, keiner gesperrt, keiner mit Netzfehler). Prioritaet je Ort: A noetig, B deutlich besser, C optional.",
+ "orte": [
+  {
+   "id": "elfenwald_01_mutterbaum",
+   "name": "Mutterbaum",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "SM_beech_tree_05",
+    "SM_beech_tree_09",
+    "SM_beech_old_roots_01",
+    "SM_MossyForestRoots_03",
+    "SM_ForestRoots_01",
+    "SM_EuropeanBeech_Dead_XL_01",
+    "SM_LargeFallenTree_02",
+    "SM_RottenTreeStump_01",
+    "SM_OldTreeBranch_05",
+    "SM_BrokenTreeBranch_01",
+    "SM_detail_branches_03",
+    "SM_detail_leaves_01",
+    "SM_DeadLeaves_01",
+    "SM_mushroom_01",
+    "SM_mushroom_02",
+    "SM_MossClump_01",
+    "SM_CustomMoss_01",
+    "SM_beech_tree_00_C",
+    "SM_beech_plant_02",
+    "SM_SilverLadyFern_01",
+    "SM_Ivy_17",
+    "SM_Ivy_25"
+   ],
+   "decals": [
+    "MI_ScatteredBark_01"
+   ],
+   "pakete": [
+    {
+     "paket": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
+     "prioritaet": "B",
+     "wofuer": "Riesenstamm mit echter Rinde (55 m)",
+     "ersatz_bestand": "SM_beech_tree_05 x2,5",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Forest Fungi – Mushroom Pack",
+     "prioritaet": "B",
+     "wofuer": "Pilze in den Wurzelnischen",
+     "ersatz_bestand": "SM_mushroom_01/02",
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+    },
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "B",
+     "wofuer": "Leuchtsporen im Kronenschatten",
+     "ersatz_bestand": "nur Punktlicht",
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Wind in der Krone",
+     "ersatz_bestand": "stumm",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "elfenwald_02_nebelhain",
+   "name": "Nebelhain",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "Big_Tree_Willow_02",
+    "SM_beech_tree_09",
+    "SM_MossyRockFace_02",
+    "SM_HugeMossyForestCliff_01",
+    "SM_MossyForestBoulder_04",
+    "SM_OldTreeBranch_05",
+    "SM_MossyTree_01",
+    "SM_MossyRocks_02",
+    "SM_MossClump_01",
+    "SM_MossClump_05",
+    "SM_CustomMoss_01",
+    "SM_Ivy_11",
+    "SM_Ivy_21",
+    "SM_SilverLadyFern_02",
+    "SM_Pine_roots_01",
+    "SM_flat_rock_02"
+   ],
+   "decals": [
+    "MI_TileableMossPatches_02",
+    "MI_Leakage_02"
+   ],
+   "pakete": [
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "B",
+     "wofuer": "bewegte Nebelfetzen in den Kronen",
+     "ersatz_bestand": "2 statische lokale Nebel",
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Tropfen und Wind",
+     "ersatz_bestand": "stumm",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "elfenwald_03_rotlaubhain",
+   "name": "Rotlaubhain",
+   "art": "leuchtfeuer",
+   "bestand": [
+    "SM_beech_tree_05",
+    "SM_beech_tree_03",
+    "SM_beech_tree_07",
+    "SM_beech_tree_09",
+    "SM_beech_tree_00_C",
+    "SM_detail_branches_03",
+    "SM_OldTreeBranch_05",
+    "SM_DeadLeaves_01",
+    "SM_DeadLeaves_08",
+    "SM_detail_leaves_01",
+    "SM_ivy_01_1",
+    "SM_CloverVarieties_01",
+    "SM_beech_old_roots_01"
+   ],
+   "decals": [],
+   "pakete": [
+    {
+     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "prioritaet": "C",
+     "wofuer": "fallendes rotes Laub",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "C",
+     "wofuer": "Alternative fuer fallendes Laub",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+    }
+   ]
+  },
+  {
+   "id": "elfenwald_04_elfentreppe",
+   "name": "Elfentreppe",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_ForestRockShelf_01",
+    "SM_SmoothRockShelf_01",
+    "SM_MossyForestBoulder_04",
+    "SM_OldFallenTree_01",
+    "SM_SmallStonesPack_01",
+    "SM_SmallStonesPack_08",
+    "SM_DryRiverBed_01",
+    "SM_petasites_spurius_01",
+    "SM_petasites_spurius_03",
+    "SM_rough_horsetail_01",
+    "SM_Fern_01",
+    "SM_SilverLadyFern_01",
+    "SM_MossClump_01",
+    "SM_YellowArchangel_01"
+   ],
+   "decals": [
+    "MI_TileableLeakage_02"
+   ],
+   "pakete": [
+    {
+     "paket": "Travertine Hot Spring Terraces – Modular Environment Pack",
+     "prioritaet": "B",
+     "wofuer": "echte Sinter-/Tuffkanten",
+     "ersatz_bestand": "SM_ForestRockShelf_01 + MI_EL_SW_Kalktuff",
+     "preis_laut_liste": "Preis ungeprüft (vermutlich kostenpflichtig)"
+    },
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "B",
+     "wofuer": "Kaskadenwasser ueber die Stufen",
+     "ersatz_bestand": "M_EL_Wasserfall2",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Bachrauschen",
+     "ersatz_bestand": "stumm",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "elfenwald_05_farnschlucht",
+   "name": "Farnschlucht",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_Fern_01",
+    "SM_Fern_02",
+    "SM_Fern_03",
+    "SM_Fern_04",
+    "SM_Fern_05",
+    "SM_Fern_06",
+    "SM_SilverLadyFern_01",
+    "SM_SilverLadyFern_02",
+    "SM_SilverLadyFern_03",
+    "SM_EagleFern_M_01",
+    "SM_BeechFern_04",
+    "SM_BeechFern_05",
+    "SM_ForestRockSlab_01",
+    "SM_MossyEmbankment_01",
+    "SM_MossyEmbankment_02",
+    "SM_FallenTreeAssembly_01",
+    "SM_SmallStonesPack_03",
+    "SM_MossyRocks_01",
+    "SM_MossyRocks_02",
+    "SM_MossyForestRoots_02",
+    "SM_flat_rock_02"
+   ],
+   "decals": [
+    "MI_Leakage_05",
+    "MI_Leakage_06",
+    "MI_Leakage_07",
+    "MI_Leakage_08",
+    "MI_Leakage_09",
+    "MI_Leakage_10"
+   ],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "B",
+     "wofuer": "Kaskaden im Tobel",
+     "ersatz_bestand": "M_EL_Wasserfall2",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Rauschen",
+     "ersatz_bestand": "stumm",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "elfenwald_06_blauer_grund",
+   "name": "Blauer Grund",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_Periwinkle_01",
+    "SM_Periwinkle_02",
+    "SM_Periwinkle_03",
+    "SM_Periwinkle_04",
+    "SM_WhiteWindflower_01",
+    "SM_WhiteWindflower_03",
+    "SM_LilyOfTheValley_01",
+    "SM_LilyOfTheValley_03",
+    "SM_beech_tree_06",
+    "SM_beech_tree_07",
+    "SM_LargeFallenTree_02",
+    "SM_DeadLeaves_02",
+    "SM_beech_old_roots_01"
+   ],
+   "decals": [
+    "MI_ScatteredBark_01"
+   ],
+   "pakete": [
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "C",
+     "wofuer": "Pollen im Lichtschacht",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+    }
+   ]
+  },
+  {
+   "id": "elfenwald_07_schwammgrund",
+   "name": "Schwammgrund",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_LargeFallenTree_02",
+    "SM_MossyTree_01",
+    "SM_Pine_roots_01",
+    "SM_mushroom_01",
+    "SM_mushroom_02",
+    "SM_OldFallenTree_02",
+    "SM_BrokenStump_01",
+    "SM_SilverLadyFern_01",
+    "SM_MossClump_02",
+    "SM_beech_plant_01",
+    "SM_beech_plant_02",
+    "SM_nettle_01_0_SM_nettle_01_0"
+   ],
+   "decals": [
+    "MI_ScatteredBark_01",
+    "MI_ScatteredTreeBark_01"
+   ],
+   "pakete": [
+    {
+     "paket": "Giant Fantasy Nanite Mushrooms",
+     "prioritaet": "B",
+     "wofuer": "Riesenschirmlinge 2-4 m (Held)",
+     "ersatz_bestand": "SM_mushroom_01/02 x6-12 (grob)",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Forest Fungi – Mushroom Pack",
+     "prioritaet": "B",
+     "wofuer": "Baumschwamm-Konsolen, Hallimasch",
+     "ersatz_bestand": "SM_mushroom_01/02",
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+    },
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "C",
+     "wofuer": "Sporenstaub",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+    }
+   ]
+  },
+  {
+   "id": "elfenwald_08_wurzelbruecke",
+   "name": "Wurzelbruecke",
+   "art": "fundstueck",
+   "bestand": [
+    "SM_LargeFallenTree_02",
+    "SM_stones_roots_01",
+    "SM_Pine_roots_01",
+    "SM_RottenTreeStump_01",
+    "SM_MossyForestBoulder_03",
+    "SM_ground_rock_01",
+    "SM_SmallStonesPack_05",
+    "SM_beech_plant_00",
+    "SM_beech_plant_02",
+    "SM_petasites_spurius_01",
+    "SM_Fern_02"
+   ],
+   "decals": [],
+   "pakete": [
+    {
+     "paket": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
+     "prioritaet": "B",
+     "wofuer": "Riesenstamm (44 m) und Wurzelteller",
+     "ersatz_bestand": "SM_LargeFallenTree_02 x3",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Forest Fungi – Mushroom Pack",
+     "prioritaet": "C",
+     "wofuer": "Pilze am Stamm",
+     "ersatz_bestand": "SM_mushroom_01/02",
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+    }
+   ]
+  }
+ ],
+ "neue_pakete": [],
+ "luecken_ohne_asset": [
+  {
+   "was": "rote Blatt-Toenung fuer Buchen (Rotlaubhain)",
+   "loesung": "Materialwunsch MI_EL_SW_Rotlaub (M_EL_Pflanze Farbe) bzw. Instanz der Buchenblatt-Materialien"
+  },
+  {
+   "was": "Bartflechten (Nebelhain)",
+   "loesung": "SM_Ivy_11/SM_Ivy_21 haengend mit MI_EL_SW_Bartflechte (grau-gruen)"
+  },
+  {
+   "was": "Leuchten (Pilze/Moos)",
+   "loesung": "keine Emissive-Parameter in den Mastern -> dezente Punktlichter im Schatten + optionale Niagara-Sporen"
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Rotlaub",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.78,
+     0.16,
+     0.1,
+     1.0
+    ],
+    "Variation": 0.4
+   },
+   "fuer": [
+    "SM_beech_tree_03",
+    "SM_beech_tree_05",
+    "SM_beech_tree_07",
+    "SM_beech_tree_09"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Rotlaub_Boden",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.55,
+     0.18,
+     0.09,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_DeadLeaves_01",
+    "SM_DeadLeaves_08",
+    "SM_detail_leaves_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Bartflechte",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.72,
+     0.78,
+     0.62,
+     1.0
+    ],
+    "Wind_Staerke": 0.5
+   },
+   "fuer": [
+    "SM_Ivy_11",
+    "SM_Ivy_21"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Kalktuff",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Toenung": [
+     1.0,
+     0.97,
+     0.88,
+     1.0
+    ],
+    "Auflage_Menge": 0.7,
+    "Auflage_Farbe": [
+     0.55,
+     0.7,
+     0.35,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_ForestRockShelf_01",
+    "SM_SmoothRockShelf_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Blaugrund",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [
+     0.55,
+     0.6,
+     1.0,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_Periwinkle_01",
+    "SM_Periwinkle_02",
+    "SM_Periwinkle_03",
+    "SM_Periwinkle_04"
+   ],
+   "nur_falls": "Original zu rosa"
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "elfenwald_01_mutterbaum",
+   "kamera": [
+    "G3",
+    168000,
+    -161200,
+    173600,
+    -130200,
+    6808,
+    "elfenwald_01_mutterbaum_fern",
+    -170
+   ],
+   "warum": "Wie hoch muss der Riese sein, damit er aus 315 m ueber den Wald ragt?",
+   "hinweis": "Standort leer (heutiger Zustand) fotografieren -> bilder/sehens13_standorte/"
+  },
+  {
+   "ort": "elfenwald_02_nebelhain",
+   "kamera": [
+    "I4",
+    383000,
+    -73200,
+    346000,
+    -70800,
+    40667,
+    "elfenwald_02_nebelhain_fern",
+    -170
+   ],
+   "warum": "Lesbarkeit des Grats von der Oststrasse (Nebel-Dichte festlegen)",
+   "hinweis": "Standort leer (heutiger Zustand) fotografieren -> bilder/sehens13_standorte/"
+  },
+  {
+   "ort": "elfenwald_05_farnschlucht",
+   "kamera": [
+    "H3",
+    274500,
+    -160500,
+    276200,
+    -158800,
+    8054,
+    "elfenwald_05_farnschlucht_held",
+    170
+   ],
+   "warum": "Gerinne steht nur im Wasserraster - gibt es dort heute sichtbares Wasser?",
+   "hinweis": "Standort leer (heutiger Zustand) fotografieren -> bilder/sehens13_standorte/"
+  }
+ ]
+}
