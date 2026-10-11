@@ -126,6 +126,7 @@ def hook_rahmen(ctx):
         ops = ctx.r.setdefault("gelaende", {}).setdefault("nach_ops", [])
         ops.insert(0, {"op": "damm", "punkte": [{"pos_m": p} for p in P], "breite_m": float(rr.get("breite_m", 14.0)),
                     "hoehe_m": hoehe, "krone": float(rr.get("krone", 0.3)), "modus": rr.get("modus", "add"),
+                    "verjuengung_m": float(rr.get("verjuengung_m", 5.0)),
                     "warum": "Sichtrahmen %s (Fundstueck)" % name})
         ctx.linien["rahmen_" + name] = P
         ctx.anker["rahmen_%s_mitte" % name] = (x + r * math.sin(math.radians(g0)), y - r * math.cos(math.radians(g0)))
@@ -232,7 +233,12 @@ def hook_ende(ctx):
                                     probe_r_m=float(ctx.r.get("sicht_probe_m", 0.0)) or None, kern_m=kern,
                                     r_max_m=float(ctx.r.get("sicht_r_max_m", 800.0)))
         ctx.sicht_ergebnis = res
-        ctx.melde("HINWEIS", res["text"])
+        walls = []
+        for n_, P_ in sorted(ctx.linien.items()):
+            if n_.startswith("rahmen_"):
+                dl = [float(ctx.stempel.hoehe_bei_m(px, py) - ctx.welt.hoehe_bei_m(px, py)) for px, py in P_]
+                walls.append("%s +%.1f m" % (n_[7:], max(dl) if dl else 0.0))
+        ctx.melde("HINWEIS", res["text"] + ((" | Wall gebaut: " + ", ".join(walls)) if walls else ""))
         if not res["verdeckt"]:
             # wer sieht den Kern noch? (Richtung, Abstand, Hoehe ueber dem Ziel) - fuer Nacharbeit und Bericht
             import numpy as np

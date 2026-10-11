@@ -1,0 +1,2831 @@
+{
+ "stand": "2026-10-11",
+ "auftrag": "14 - Nature Water FX an Wasserfaellen und Bachstufen",
+ "format": "vorlagen/SEHENS_FORMAT.md par. 6 (typ niagara) + cull_m, sort_priority, user_parameter, ziel, gruppe",
+ "erzeugt_von": "recherche/antworten/wasser_fx/plan_erzeugen.py",
+ "quellen_daten": {
+  "wasserfaelle.json": "10.10.2026 22:56",
+  "stufen.json": "11.10.2026 14:04",
+  "stufen_netze.json": "11.10.2026 14:04",
+  "stufen_fluss_teile.json": "11.10.2026 14:04"
+ },
+ "einstellungen_alle": {
+  "akteur": "NiagaraActor im Feld-Ordner Kacheln/<Feld>/Wasser, Label FX14_<ziel>_<rolle>",
+  "sim_target": "GPU (CPU-Emitter des Pakets nicht umbauen, nur messen)",
+  "cast_shadow": false,
+  "translucency_sort_priority": 2,
+  "max_draw_distance_cm": "= cull_m x 100 (Komponente: Max Draw Distance)",
+  "effect_type_vorschlag": {
+   "NET_EL_Wasser_Held": {
+    "max_distance_m": 150,
+    "fuer": "WF_K1/WF_K8"
+   },
+   "NET_EL_Wasser_Nah": {
+    "max_distance_m": 50,
+    "fuer": "Bachstufen"
+   }
+  },
+  "hlod": "aus (Include in HLOD = false)",
+  "pool": "nicht noetig (fest gesetzte Akteure); nur bei Laufzeit-Spawn PoolingMethod AutoRelease",
+  "yaw_konvention": "lokale +X-Achse des Systems = Fliessrichtung (wie Bergwald-Klamm, q_yaw_kompass). Zeigt das Paket-System lokal anders (z. B. +Y), yaw_korrektur_grad einmal fuer alle setzen.",
+  "yaw_korrektur_grad": 0,
+  "skala_annahme_m": {
+   "NS_Waterfall_Small": {
+    "breite": 3.0,
+    "hoehe": 5.0
+   },
+   "NS_Waterfall_Medium": {
+    "breite": 6.0,
+    "hoehe": 15.0
+   },
+   "NS_Waterfall_Large": {
+    "breite": 12.0,
+    "hoehe": 30.0
+   },
+   "NS_Impact_Small": {
+    "durchmesser": 3.0
+   },
+   "NS_Impact_Medium": {
+    "durchmesser": 6.0
+   },
+   "NS_Impact_Large": {
+    "durchmesser": 12.0
+   },
+   "NS_Wake_Small": {
+    "durchmesser": 3.0
+   },
+   "NS_Wake_Medium": {
+    "durchmesser": 6.0
+   },
+   "NS_Wake_Large": {
+    "durchmesser": 12.0
+   },
+   "NS_Stream_Small": {
+    "breite": 2.0,
+    "laenge": 5.0
+   },
+   "NS_Stream_Medium": {
+    "breite": 4.0,
+    "laenge": 10.0
+   },
+   "NS_Stream_Large": {
+    "breite": 8.0,
+    "laenge": 20.0
+   }
+  }
+ },
+ "effekte": [
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Large",
+   "pos_cm": [
+    -311708.4,
+    -62423.9,
+    26346.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.35142,
+    0.93622
+   ],
+   "yaw_ue_grad": 41.1,
+   "kompass_grad": 131.1,
+   "skala": 1.24,
+   "skala_grund": "Breite 14.9 m / Annahme 12 m bei Skala 1; Hoehe ergibt sich aus Schwerkraft x Lebensdauer, nicht aus der Skala",
+   "cull_m": 150,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.82,
+      0.86,
+      0.88
+     ],
+     "Breite_m": 14.9,
+     "Lebensdauer": "so, dass Partikel bis 55 m tief fallen (Fall 56.9 m)"
+    }
+   },
+   "ziel": "WF_K1",
+   "gruppe": "WF_K1",
+   "rolle": "fall",
+   "bezug": "lippe + 0,3 m in Fallrichtung, Spiegel + 5 cm",
+   "optional": false,
+   "zweck": "Fallstraehnen und Schleier vor dem Vorhang, 14.9 m breit, 56.9 m Fall"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Large",
+   "pos_cm": [
+    -310605.7,
+    -61459.3,
+    20664.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.35142,
+    0.93622
+   ],
+   "yaw_ue_grad": 41.1,
+   "kompass_grad": 131.1,
+   "skala": 0.67,
+   "skala_grund": "Ziel-Durchmesser 8.0 m / Annahme 12 m",
+   "cull_m": 100,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.82,
+      0.86,
+      0.88
+     ],
+     "Spawnrate": "Standard",
+     "Nebelhoehe_m": "8-12 (Gischtwolke ueber dem Becken)"
+    }
+   },
+   "ziel": "WF_K1",
+   "gruppe": "WF_K1",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Beckenspiegel + 10 cm",
+   "optional": false,
+   "zweck": "Aufprall-Gischt im Becken (7.7 m der Vorhangbreite treffen das Becken)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Wake_Large",
+   "pos_cm": [
+    -310229.2,
+    -61130.3,
+    20657.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.35142,
+    0.93622
+   ],
+   "yaw_ue_grad": 41.1,
+   "kompass_grad": 131.1,
+   "skala": 1.0,
+   "skala_grund": "Becken 1321 m2; Skala 1 als Start",
+   "cull_m": 60,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.82,
+      0.86,
+      0.88
+     ]
+    }
+   },
+   "ziel": "WF_K1",
+   "gruppe": "WF_K1",
+   "rolle": "wake",
+   "bezug": "gischt_cm + 5 m in Fallrichtung, Beckenspiegel + 3 cm",
+   "optional": false,
+   "zweck": "Schaumringe und Wirbel auf dem Becken (laut Hersteller eigenes System zum Fall)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Large",
+   "pos_cm": [
+    313606.4,
+    -71460.1,
+    18164.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.95777,
+    0.28753
+   ],
+   "yaw_ue_grad": 146.6,
+   "kompass_grad": 236.6,
+   "skala": 1.38,
+   "skala_grund": "Breite 16.6 m / Annahme 12 m bei Skala 1; Hoehe ergibt sich aus Schwerkraft x Lebensdauer, nicht aus der Skala",
+   "cull_m": 150,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.74,
+      0.79,
+      0.81
+     ],
+     "Breite_m": 16.6,
+     "Lebensdauer": "so, dass Partikel bis 52 m tief fallen (Fall 53.9 m)"
+    }
+   },
+   "ziel": "WF_K8",
+   "gruppe": "WF_K8",
+   "rolle": "fall",
+   "bezug": "lippe + 0,3 m in Fallrichtung, Spiegel + 5 cm",
+   "optional": false,
+   "zweck": "Fallstraehnen und Schleier vor dem Vorhang, 16.6 m breit, 53.9 m Fall"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Large",
+   "pos_cm": [
+    312457.9,
+    -70702.4,
+    12780.2
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.95777,
+    0.28753
+   ],
+   "yaw_ue_grad": 146.6,
+   "kompass_grad": 236.6,
+   "skala": 1.33,
+   "skala_grund": "Ziel-Durchmesser 16.0 m / Annahme 12 m",
+   "cull_m": 100,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.74,
+      0.79,
+      0.81
+     ],
+     "Spawnrate": "Standard",
+     "Nebelhoehe_m": "8-12 (Gischtwolke ueber dem Becken)"
+    }
+   },
+   "ziel": "WF_K8",
+   "gruppe": "WF_K8",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Beckenspiegel + 10 cm",
+   "optional": false,
+   "zweck": "Aufprall-Gischt im Becken (16.6 m der Vorhangbreite treffen das Becken)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Wake_Large",
+   "pos_cm": [
+    312040.6,
+    -70427.0,
+    12773.2
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.95777,
+    0.28753
+   ],
+   "yaw_ue_grad": 146.6,
+   "kompass_grad": 236.6,
+   "skala": 1.0,
+   "skala_grund": "Becken 1851 m2; Skala 1 als Start",
+   "cull_m": 60,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.74,
+      0.79,
+      0.81
+     ]
+    }
+   },
+   "ziel": "WF_K8",
+   "gruppe": "WF_K8",
+   "rolle": "wake",
+   "bezug": "gischt_cm + 5 m in Fallrichtung, Beckenspiegel + 3 cm",
+   "optional": false,
+   "zweck": "Schaumringe und Wirbel auf dem Becken (laut Hersteller eigenes System zum Fall)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Stream_Medium",
+   "pos_cm": [
+    -173192.2,
+    -236898.4,
+    9584.5
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.83094,
+    0.55636
+   ],
+   "yaw_ue_grad": 112.4,
+   "kompass_grad": 202.4,
+   "skala": 1.24,
+   "skala_grund": "Schnelle 12.9 m breit, 12.4 m lang; Annahme NS_Stream_Medium 4 x 10 m bei Skala 1 -> min(Breite, Laenge)",
+   "cull_m": 45,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Laenge_m": 12.39,
+     "Breite_m": 12.9
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S00",
+   "gruppe": "C2_A",
+   "rolle": "schnelle",
+   "bezug": "Mitte Lippe-Fuss der Schnelle, Spiegel + 10 cm",
+   "optional": false,
+   "zweck": "Schnelle S00 (3,3 m auf 10,6 m, Bach 15-19 m breit)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+   "pos_cm": [
+    -174230.2,
+    -234273.3,
+    8806.7
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.83198,
+    0.55481
+   ],
+   "yaw_ue_grad": 112.6,
+   "kompass_grad": 202.6,
+   "skala": 1.0,
+   "skala_grund": "Skala 1: Breite ~3 m (Annahme) = Mittelstrang auf 7.9 m Vorhang; zu hohe Partikel verschwinden unter dem Spiegel",
+   "cull_m": 50,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S01",
+   "gruppe": "C2_B",
+   "rolle": "fall",
+   "bezug": "Kante (Ende oberes Flussstueck - 0,5 m) + 0,2 m, Spiegel oben + 5 cm",
+   "optional": false,
+   "zweck": "Probestufe: Fallstraehnen ueber dem Vorhang (3,3 m Fall, zweithoechste Kante)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+   "pos_cm": [
+    -174381.7,
+    -233915.2,
+    8486.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.83198,
+    0.55481
+   ],
+   "yaw_ue_grad": 112.6,
+   "kompass_grad": 202.6,
+   "skala": 1.0,
+   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 7.9 m breit, Schaumscheibe bleibt)",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S01",
+   "gruppe": "C2_B",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
+   "optional": false,
+   "zweck": "Gischt am Fuss von S01"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+   "pos_cm": [
+    -174790.5,
+    -233215.2,
+    8088.9
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.87088,
+    0.4915
+   ],
+   "yaw_ue_grad": 121.1,
+   "kompass_grad": 211.1,
+   "skala": 1.0,
+   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S02",
+   "gruppe": "C2_B",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
+   "optional": false,
+   "zweck": "Gischt am Fuss von S02 (3,2 m Fall)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+   "pos_cm": [
+    -175864.8,
+    -230821.8,
+    7340.8
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.83536,
+    0.54971
+   ],
+   "yaw_ue_grad": 113.3,
+   "kompass_grad": 203.3,
+   "skala": 1.0,
+   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S03",
+   "gruppe": "C2_C",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
+   "optional": false,
+   "zweck": "Gischt am Fuss von S03 (2,4 m Fall nach kurzer Schnelle)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+   "pos_cm": [
+    -175996.3,
+    -230534.1,
+    7285.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.85628,
+    0.5165
+   ],
+   "yaw_ue_grad": 117.8,
+   "kompass_grad": 207.8,
+   "skala": 1.0,
+   "skala_grund": "Breite ~2 m (Annahme) = Zunge in der Bachmitte",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S04",
+   "gruppe": "C2_C",
+   "rolle": "stroemung",
+   "bezug": "Kante - 1,0 m (stromauf), Spiegel oben + 10 cm",
+   "optional": false,
+   "zweck": "Wasser zieht ueber die Lippe von S04 (abwechselnd Impact/Stream)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+   "pos_cm": [
+    -176494.1,
+    -229588.6,
+    6788.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.8521,
+    0.52337
+   ],
+   "yaw_ue_grad": 116.9,
+   "kompass_grad": 206.9,
+   "skala": 1.0,
+   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S05",
+   "gruppe": "C2_C",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
+   "optional": false,
+   "zweck": "Gischt am Fuss von S05"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+   "pos_cm": [
+    -177261.4,
+    -227584.5,
+    6115.9
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.75463,
+    0.65615
+   ],
+   "yaw_ue_grad": 98.0,
+   "kompass_grad": 188.0,
+   "skala": 1.0,
+   "skala_grund": "Skala 1: Breite ~3 m (Annahme) = Mittelstrang auf 8.2 m Vorhang; zu hohe Partikel verschwinden unter dem Spiegel",
+   "cull_m": 50,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S07",
+   "gruppe": "C2_D",
+   "rolle": "fall",
+   "bezug": "Kante (Ende oberes Flussstueck - 0,5 m) + 0,2 m, Spiegel oben + 5 cm",
+   "optional": true,
+   "zweck": "Fallstraehnen an S07 (groesste Stufe: 5,3 m mit Schnelle) - erst setzen, wenn die Probe an S01 ueberzeugt"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+   "pos_cm": [
+    -177297.0,
+    -227338.1,
+    5907.3
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.75463,
+    0.65615
+   ],
+   "yaw_ue_grad": 98.0,
+   "kompass_grad": 188.0,
+   "skala": 1.0,
+   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S07",
+   "gruppe": "C2_D",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
+   "optional": false,
+   "zweck": "Gischt am Fuss von S07"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+   "pos_cm": [
+    -177959.1,
+    -226123.5,
+    5373.0
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.86572,
+    0.50053
+   ],
+   "yaw_ue_grad": 119.9,
+   "kompass_grad": 209.9,
+   "skala": 1.0,
+   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.4 m breit, Schaumscheibe bleibt)",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S09",
+   "gruppe": "C2_E",
+   "rolle": "aufprall",
+   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
+   "optional": false,
+   "zweck": "Gischt am Fuss von S09"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+   "pos_cm": [
+    -178159.0,
+    -224754.5,
+    4989.8
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.70148,
+    0.71269
+   ],
+   "yaw_ue_grad": 89.1,
+   "kompass_grad": 179.1,
+   "skala": 1.29,
+   "skala_grund": "Schnelle 7.1 m breit, 6.5 m lang; Annahme NS_Stream_Small 2 x 5 m bei Skala 1 -> min(Breite, Laenge)",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Laenge_m": 6.47,
+     "Breite_m": 7.1
+    }
+   },
+   "ziel": "F_ERLENBACH_1V_C2_S11",
+   "gruppe": "C2_E",
+   "rolle": "schnelle",
+   "bezug": "Mitte Lippe-Fuss der Schnelle, Spiegel + 10 cm",
+   "optional": false,
+   "zweck": "Auslauf-Schnelle S11 (1,6 m auf 4,7 m)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Stream_Medium",
+   "pos_cm": [
+    285018.0,
+    -61052.1,
+    9549.6
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.95496,
+    0.29672
+   ],
+   "yaw_ue_grad": 145.5,
+   "kompass_grad": 235.5,
+   "skala": 0.69,
+   "skala_grund": "Schnelle 9.8 m breit, 6.9 m lang; Annahme NS_Stream_Medium 4 x 10 m bei Skala 1 -> min(Breite, Laenge)",
+   "cull_m": 45,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Laenge_m": 6.87,
+     "Breite_m": 9.8
+    }
+   },
+   "ziel": "F_ELFENFLUSS_2_H4_S00",
+   "gruppe": "H4_A",
+   "rolle": "schnelle",
+   "bezug": "Mitte Lippe-Fuss der Schnelle, Spiegel + 10 cm",
+   "optional": false,
+   "zweck": "Schnelle S00 (1,6 m auf 5 m, 11 m breit)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Stream_Medium",
+   "pos_cm": [
+    281997.7,
+    -59946.2,
+    8813.9
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.99991,
+    0.01356
+   ],
+   "yaw_ue_grad": 178.4,
+   "kompass_grad": 268.4,
+   "skala": 1.18,
+   "skala_grund": "Schnelle 8.7 m breit, 11.8 m lang; Annahme NS_Stream_Medium 4 x 10 m bei Skala 1 -> min(Breite, Laenge)",
+   "cull_m": 45,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "Laenge_m": 11.77,
+     "Breite_m": 8.7
+    }
+   },
+   "ziel": "F_ELFENFLUSS_2_H4_S01",
+   "gruppe": "H4_A",
+   "rolle": "schnelle",
+   "bezug": "Mitte Lippe-Fuss der Schnelle, Spiegel + 10 cm",
+   "optional": false,
+   "zweck": "Schnelle S01 (4,2 m auf 10 m, staerkste Schnelle)"
+  },
+  {
+   "typ": "niagara",
+   "asset": "/Game/NatureWaterFX/FX/NS_Wake_Small",
+   "pos_cm": [
+    281351.9,
+    -59928.7,
+    8599.2
+   ],
+   "rot_q": [
+    0.0,
+    0.0,
+    0.99991,
+    0.01356
+   ],
+   "yaw_ue_grad": 178.4,
+   "kompass_grad": 268.4,
+   "skala": 1.0,
+   "skala_grund": "Skala 1 als Start",
+   "cull_m": 35,
+   "sort_priority": 2,
+   "cast_shadow": false,
+   "user_parameter": {
+    "ungeprueft": true,
+    "wunsch": {
+     "Farbe/Tint": [
+      0.8,
+      0.84,
+      0.86
+     ]
+    }
+   },
+   "ziel": "F_ELFENFLUSS_2_H4_S01",
+   "gruppe": "H4_A",
+   "rolle": "wake",
+   "bezug": "fuss_cm + 1,5 m in Fliessrichtung, Spiegel + 3 cm",
+   "optional": true,
+   "zweck": "Schaumwirbel im Kehrwasser unter S01 (optional)"
+  }
+ ],
+ "gruppen": {
+  "WF_K1": [
+   "K1:NS_Waterfall_Large",
+   "K1:NS_Impact_Large",
+   "K1:NS_Wake_Large"
+  ],
+  "WF_K8": [
+   "K8:NS_Waterfall_Large",
+   "K8:NS_Impact_Large",
+   "K8:NS_Wake_Large"
+  ],
+  "C2_A": [
+   "S00:NS_Stream_Medium"
+  ],
+  "C2_B": [
+   "S01:NS_Waterfall_Small",
+   "S01:NS_Impact_Small",
+   "S02:NS_Impact_Small"
+  ],
+  "C2_C": [
+   "S03:NS_Impact_Small",
+   "S04:NS_Stream_Small",
+   "S05:NS_Impact_Small"
+  ],
+  "C2_D": [
+   "S07:NS_Waterfall_Small",
+   "S07:NS_Impact_Small"
+  ],
+  "C2_E": [
+   "S09:NS_Impact_Small",
+   "S11:NS_Stream_Small"
+  ],
+  "H4_A": [
+   "S00:NS_Stream_Medium",
+   "S01:NS_Stream_Medium",
+   "S01:NS_Wake_Small"
+  ]
+ },
+ "budget": {
+  "je_ort_oder_gruppe_max": 3,
+  "gleichzeitig_aktiv_ziel_max": 6
+ },
+ "material": {
+  "hinweis": "Nur Parameter aus material_parameter.json (Master M_EL_Wasserfall2). Ist-Werte der Instanzen stehen dort nicht; 'ist' nur, wo der Auftrag sie nennt. Ein MI gilt fuer ALLE Stufen eines Netzes (ein Vorhang-Netz fuer C2) - stufenweise Werte gehen nicht.",
+  "MI_EL_Wasserfall": {
+   "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall",
+   "master": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
+   "gilt_fuer": [
+    "WF_K1",
+    "WF_K8"
+   ],
+   "vorhang": "bleibt, NS ergaenzt",
+   "parameter": {
+    "Schaum_Menge": 0.9,
+    "Straehnen_Staerke": 0.8,
+    "Schaum_Leuchten": 0.0,
+    "Rand_Durchsicht": 0.8,
+    "Deckkraft": 0.9,
+    "Tiefenblende_cm": 60.0,
+    "Schaumfarbe": [
+     0.8,
+     0.84,
+     0.86,
+     1.0
+    ],
+    "Wasserfarbe": [
+     0.14,
+     0.22,
+     0.24,
+     1.0
+    ]
+   },
+   "grund": "K8 brennt in der Sonne weiss aus, K1 wirkt flach: weniger und dunklerer Schaum, mehr Straehnen; das Weiss am Fuss liefert jetzt NS_Impact_Large."
+  },
+  "MI_EL_Wasserfall_Aufprall": {
+   "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall",
+   "master": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
+   "gilt_fuer": [
+    "WF_K1",
+    "WF_K8"
+   ],
+   "parameter": {
+    "Deckkraft": 0.6,
+    "Schaum_Menge": 1.0,
+    "Schaum_Leuchten": 0.0,
+    "Tiefenblende_cm": 40.0
+   },
+   "grund": "Scheibe bleibt fuer die Ferne (jenseits Cull 100 m), nah traegt NS_Impact_Large."
+  },
+  "MI_EL_Stufenfall_Vorhang": {
+   "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Vorhang",
+   "master": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
+   "gilt_fuer": [
+    "F_ERLENBACH_1V_C2 S01-S10"
+   ],
+   "vorhang": "bleibt (deckt die 1,3-3 m Luecken der Flussstuecke, auch jenseits der Cull-Distanz)",
+   "ist": {
+    "Deckkraft": 0.55,
+    "Schaum_Menge": 0.45,
+    "quelle": "Auftrag 14 (Stand 16:04), Zuordnung 0,55/0,45 = Vorhang/Schaum angenommen"
+   },
+   "parameter": {
+    "Deckkraft": 0.5,
+    "Schaum_Menge": 0.3,
+    "Straehnen_Staerke": 0.85,
+    "Rand_Durchsicht": 0.85,
+    "Schaum_Leuchten": 0.0,
+    "Tiefenblende_cm": 30.0,
+    "Schaumfarbe": [
+     0.8,
+     0.84,
+     0.85,
+     1.0
+    ],
+    "Wasserfarbe": [
+     0.12,
+     0.2,
+     0.21,
+     1.0
+    ]
+   },
+   "falls_probe_S01_gut": {
+    "Deckkraft": 0.4,
+    "Schaum_Menge": 0.2
+   },
+   "grund": "Weisse Kacheln = gleichmaessiger Schaum ueber die ganze Flaeche + harte Raender: Schaum runter, Straehnen und Randdurchsicht rauf, Glanz statt Leuchten; Gischt/Weiss kommt nah aus NS_Impact_Small."
+  },
+  "MI_EL_Stufenfall_Schaum": {
+   "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum",
+   "master": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
+   "gilt_fuer": [
+    "F_ERLENBACH_1V_C2 alle Stufen",
+    "F_ELFENFLUSS_2_H4 Schnellen"
+   ],
+   "ist": {
+    "Deckkraft": 0.45,
+    "Schaum_Menge": 0.55,
+    "quelle": "Auftrag 14 (Stand 16:04), Zuordnung angenommen"
+   },
+   "parameter": {
+    "Deckkraft": 0.4,
+    "Schaum_Menge": 0.5,
+    "Schaum_Leuchten": 0.0,
+    "Tiefenblende_cm": 20.0,
+    "Schaumfarbe": [
+     0.82,
+     0.86,
+     0.87,
+     1.0
+    ]
+   },
+   "grund": "Scheibe bleibt an allen Stufen (auch ohne Impact), etwas leiser, weil nah NS darueberliegt."
+  },
+  "MI_EL_Stufenfall_Schnelle": {
+   "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle",
+   "master": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
+   "parameter": {},
+   "grund": "keine Aenderung; H4-Schnellen-Haut bleibt ausgeblendet, NS_Stream_Medium ersetzt sie."
+  }
+ },
+ "klang": [
+  {
+   "ziel": "WF_K1",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+   "pos_cm": [
+    -310605.7,
+    -61459.3,
+    20804.0
+   ],
+   "radius_cm": 9000,
+   "lautstaerke": 1.0,
+   "zweck": "Fallrauschen am Fuss (wie Bergwald-Klamm)",
+   "inhalt_ungeprueft": true,
+   "luecke": "Kein echtes Wasserfall-Tosen im Inventar (nur Water_Stream I-X) -> Wunsch: Wasserfall-Klangpaket"
+  },
+  {
+   "ziel": "WF_K1",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+   "pos_cm": [
+    -311731.0,
+    -62443.6,
+    26491.0
+   ],
+   "radius_cm": 3500,
+   "lautstaerke": 0.6,
+   "zweck": "Rauschen an der Kante (oben, fuer Spieler auf dem Zulauf)",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "WF_K8",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+   "pos_cm": [
+    312457.9,
+    -70702.4,
+    12920.2
+   ],
+   "radius_cm": 9000,
+   "lautstaerke": 1.0,
+   "zweck": "Fallrauschen am Fuss (wie Bergwald-Klamm)",
+   "inhalt_ungeprueft": true,
+   "luecke": "Kein echtes Wasserfall-Tosen im Inventar (nur Water_Stream I-X) -> Wunsch: Wasserfall-Klangpaket"
+  },
+  {
+   "ziel": "WF_K8",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+   "pos_cm": [
+    313631.4,
+    -71476.6,
+    18309.0
+   ],
+   "radius_cm": 3500,
+   "lautstaerke": 0.6,
+   "zweck": "Rauschen an der Kante (oben, fuer Spieler auf dem Zulauf)",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "F_ERLENBACH_1V_C2_S00",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
+   "pos_cm": [
+    -173192.2,
+    -236898.4,
+    9724.5
+   ],
+   "radius_cm": 3000,
+   "lautstaerke": 0.5,
+   "zweck": "Schnelle oben",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "F_ERLENBACH_1V_C2_S01",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VIII_Cue",
+   "pos_cm": [
+    -174381.7,
+    -233915.2,
+    8667.3
+   ],
+   "radius_cm": 3000,
+   "lautstaerke": 0.7,
+   "zweck": "Stufen S01/S02",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "F_ERLENBACH_1V_C2_S04",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+   "pos_cm": [
+    -176174.1,
+    -230197.1,
+    7254.2
+   ],
+   "radius_cm": 3000,
+   "lautstaerke": 0.7,
+   "zweck": "Stufen S03-S06",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "F_ERLENBACH_1V_C2_S07",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_V_Cue",
+   "pos_cm": [
+    -177297.0,
+    -227338.1,
+    6085.7
+   ],
+   "radius_cm": 3000,
+   "lautstaerke": 0.7,
+   "zweck": "Stufe S07/S08",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "F_ERLENBACH_1V_C2_S10",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+   "pos_cm": [
+    -178126.0,
+    -225411.3,
+    5311.9
+   ],
+   "radius_cm": 2500,
+   "lautstaerke": 0.5,
+   "zweck": "Stufen S09-S11, leiser Auslauf",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "F_ELFENFLUSS_2_H4_S00",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VI_Cue",
+   "pos_cm": [
+    285018.0,
+    -61052.1,
+    9689.6
+   ],
+   "radius_cm": 3500,
+   "lautstaerke": 0.7,
+   "zweck": "Schnelle S00",
+   "inhalt_ungeprueft": true
+  },
+  {
+   "ziel": "F_ELFENFLUSS_2_H4_S01",
+   "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
+   "pos_cm": [
+    281997.7,
+    -59946.2,
+    8953.9
+   ],
+   "radius_cm": 3500,
+   "lautstaerke": 0.7,
+   "zweck": "Schnelle S01",
+   "inhalt_ungeprueft": true
+  }
+ ],
+ "sehens13": {
+  "hinweis": "Nur Uebersicht, NICHT doppelt setzen: diese Effekte liefern die Sehenswuerdigkeiten-Planer (Auftrag 13, Phase 2) mit orte.json -> effekte selbst. Uebernommen ist nur, was dort steht (NatureWaterFX-Systeme). 'Der Atem' ist in Auftrag 13 gestrichen.",
+  "quelle": "scratchpad a13/p2/<biom>/orte.json (Cloud-Testlauf 2 m)",
+  "orte": [
+   {
+    "biom": "aue",
+    "ort": "aue_01_biberstau",
+    "name": "Biberstau",
+    "felder": [
+     "C4"
+    ],
+    "datei_sha1": "15916a4111fa",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -252700,
+       -84100,
+       3554
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.07846,
+       0.99692
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Ueberlauf rieselt ueber die Dammkrone (Nature Water FX, 13d)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -252100,
+       -84200,
+       3472
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schaum nur am Fuss der 1,6-m-Stufe"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "pos_cm": [
+       -252100,
+       -84200,
+       3612
+      ],
+      "radius_cm": 3000,
+      "lautstaerke": 0.45,
+      "zweck": "Rieseln ueber die Dammkante (nicht Rauschen)"
+     }
+    ]
+   },
+   {
+    "biom": "aue",
+    "ort": "aue_04_treibholzwerder",
+    "name": "Treibholzwerder",
+    "felder": [
+     "D5",
+     "E5"
+    ],
+    "datei_sha1": "15916a4111fa",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Wake_Medium",
+      "pos_cm": [
+       -76400,
+       47000,
+       2066
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.06976,
+       0.99756
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schaum und Wirbel, wo der Strom gegen den Verhau drueckt (Nature Water FX, 13d)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VI_Cue",
+      "pos_cm": [
+       -75200,
+       47600,
+       2227
+      ],
+      "radius_cm": 5000,
+      "lautstaerke": 0.7,
+      "zweck": "Rauschen an der Verklausung"
+     }
+    ]
+   },
+   {
+    "biom": "aue",
+    "ort": "aue_07_blautopf",
+    "name": "Blautopf",
+    "felder": [
+     "F4"
+    ],
+    "datei_sha1": "15916a4111fa",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Wake_Small",
+      "pos_cm": [
+       116700,
+       -82300,
+       1941
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Quellaufwallung: der Spiegel zittert ueber dem Quellmund (Nature Water FX, 13d; sehr dezent)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_III_Cue",
+      "pos_cm": [
+       117000,
+       -84400,
+       2614
+      ],
+      "radius_cm": 3500,
+      "lautstaerke": 0.5,
+      "zweck": "stilles Quellrauschen am Abfluss"
+     }
+    ]
+   },
+   {
+    "biom": "bergwald",
+    "ort": "bergwald_05_klemmblock_klamm",
+    "name": "Klemmblock-Klamm",
+    "felder": [
+     "I4"
+    ],
+    "datei_sha1": "98474ed00050",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium",
+      "pos_cm": [
+       372772,
+       -97718,
+       11982
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.16534,
+       0.98624
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schleierfall (Nature Water FX, 13d)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Medium",
+      "pos_cm": [
+       374097,
+       -96839,
+       8852
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.16534,
+       0.98624
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Aufprall-Gischt am Fallfuss"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       375412,
+       -97500,
+       8219
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.16534,
+       0.98624
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "stroemendes Wasser im Klammbach"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       374097,
+       -96839,
+       8982
+      ],
+      "radius_cm": 4500,
+      "lautstaerke": 0.9,
+      "zweck": "Fallrauschen"
+     }
+    ]
+   },
+   {
+    "biom": "bergwald",
+    "ort": "bergwald_06_karsee",
+    "name": "Karsee",
+    "felder": [
+     "B5"
+    ],
+    "datei_sha1": "98474ed00050",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -319417,
+       6264,
+       25632
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.15217,
+       0.98835
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Abfluss ueber die Schwelle (Nature Water FX, 13d)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
+      "pos_cm": [
+       -319417,
+       6264,
+       25772
+      ],
+      "radius_cm": 3000,
+      "lautstaerke": 0.6,
+      "zweck": "Abfluss ueber die Schwelle"
+     }
+    ]
+   },
+   {
+    "biom": "canyon",
+    "ort": "canyon_04_fluesterschlucht",
+    "name": "Die Flüsterschlucht",
+    "felder": [
+     "D4"
+    ],
+    "datei_sha1": "2dc8b4b65d32",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+      "pos_cm": [
+       -128700,
+       -83000,
+       6375
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.98481,
+       0.17365
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Fall in den Hauptcanyon (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -130200,
+       -82000,
+       5135
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Gischt am Aufprall"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -124400,
+       -83600,
+       6790
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.97071,
+       0.24024
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Stroemung im Spaltbach (Nature Water FX)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
+      "pos_cm": [
+       -126000,
+       -83100,
+       6767
+      ],
+      "radius_cm": 3500,
+      "lautstaerke": 0.6,
+      "zweck": "Wasser im Spalt (das Fluestern)"
+     },
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       -130200,
+       -82000,
+       5275
+      ],
+      "radius_cm": 5000,
+      "lautstaerke": 0.8,
+      "zweck": "Fall in den Hauptcanyon"
+     }
+    ]
+   },
+   {
+    "biom": "canyon",
+    "ort": "canyon_07_smaragdgumpe",
+    "name": "Die Smaragdgumpe",
+    "felder": [
+     "C4",
+     "D4"
+    ],
+    "datei_sha1": "2dc8b4b65d32",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium",
+      "pos_cm": [
+       -166300,
+       -47600,
+       6371
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.76604,
+       0.64279
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Fadenfall ueber die Baender (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Medium",
+      "pos_cm": [
+       -167100,
+       -43900,
+       3281
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Gischt am Aufprall in die Gumpe"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -168400,
+       -41400,
+       3594
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.88701,
+       0.46175
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Stroemung im Abfluss durch den Riegel"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       -167100,
+       -43900,
+       3421
+      ],
+      "radius_cm": 4500,
+      "lautstaerke": 0.85,
+      "zweck": "Fallrauschen"
+     }
+    ]
+   },
+   {
+    "biom": "dschungel",
+    "ort": "dschungel_02_turmquelle",
+    "name": "Turmquelle",
+    "felder": [
+     "G5",
+     "G6"
+    ],
+    "datei_sha1": "653dc1aee76c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Large",
+      "pos_cm": [
+       227007,
+       99553,
+       8884
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.81915,
+       0.57358
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Fallstrahl aus dem Quellmund, 45 m (Nature Water FX, 13d; ergaenzt den M_EL_Wasserfall2-Vorhang)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Large",
+      "pos_cm": [
+       226000,
+       97200,
+       3260
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Gischt am Aufprall im Tosbecken"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       225003,
+       96343,
+       3560
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.93769,
+       0.34747
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Stroemung am Beckenauslass in den Quellbach"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       226000,
+       97200,
+       3390
+      ],
+      "radius_cm": 6000,
+      "lautstaerke": 0.9,
+      "zweck": "Rauschen des Falls"
+     }
+    ]
+   },
+   {
+    "biom": "dschungel",
+    "ort": "dschungel_06_schluckhoehle",
+    "name": "Schluckhoehle",
+    "felder": [
+     "G6"
+    ],
+    "datei_sha1": "653dc1aee76c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       147800,
+       109900,
+       1101
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.99619,
+       0.08716
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Strudel und Schaum, wo das Wasser in das Portal faellt (Nature Water FX, 13d)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "pos_cm": [
+       147600,
+       109900,
+       1254
+      ],
+      "radius_cm": 3000,
+      "lautstaerke": 0.6,
+      "zweck": "Gurgeln an der Schwinde"
+     }
+    ]
+   },
+   {
+    "biom": "dschungel",
+    "ort": "dschungel_08_sinterhalle",
+    "name": "Sinterhalle",
+    "felder": [
+     "I7"
+    ],
+    "datei_sha1": "653dc1aee76c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+      "pos_cm": [
+       374000,
+       212300,
+       6034
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.0,
+       1.0
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Tropfvorhang von der Dachkante ins Becken (Kopie, sehr duenn, wenige Faeden; Nature Water FX 13d)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       374000,
+       212300,
+       4944
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Spritzer im Tropfbecken"
+     }
+    ],
+    "klaenge": []
+   },
+   {
+    "biom": "elfenwald",
+    "ort": "elfenwald_04_elfentreppe",
+    "name": "Elfentreppe",
+    "felder": [
+     "H3"
+    ],
+    "datei_sha1": "13066009f0a6",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       239800,
+       -123223,
+       3400
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.93362,
+       0.35826
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Wasserfaeden ueber die zweite Tuffstufe (Nature Water FX, 13d)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       238383,
+       -122602,
+       3067
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schaum am Fuss der hoechsten Stufe"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       237267,
+       -121809,
+       2942
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.93362,
+       0.35826
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Wasserfaeden ueber die vierte Stufe"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VIII_Cue",
+      "pos_cm": [
+       238800,
+       -122600,
+       3170
+      ],
+      "radius_cm": 4500,
+      "lautstaerke": 0.8,
+      "zweck": "Rauschen ueber die Stufen"
+     }
+    ]
+   },
+   {
+    "biom": "elfenwald",
+    "ort": "elfenwald_05_farnschlucht",
+    "name": "Farnschlucht",
+    "felder": [
+     "H3"
+    ],
+    "datei_sha1": "13066009f0a6",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+      "pos_cm": [
+       277750,
+       -158995,
+       11001
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.99473,
+       0.10252
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schleier der Tropfwand am Schluchtkopf (Nature Water FX, 13d)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       277402,
+       -158960,
+       10257
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Spritzer am Fuss der Tropfwand"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       274609,
+       -158800,
+       7931
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.99473,
+       0.10252
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Kaskade in der Tobelmitte"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+      "pos_cm": [
+       274609,
+       -158800,
+       8071
+      ],
+      "radius_cm": 4500,
+      "lautstaerke": 0.8,
+      "zweck": "Rauschen im Tobel"
+     }
+    ]
+   },
+   {
+    "biom": "elfenwald",
+    "ort": "elfenwald_08_wurzelbruecke",
+    "name": "Wurzelbruecke",
+    "felder": [
+     "G3",
+     "H3"
+    ],
+    "datei_sha1": "13066009f0a6",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Wake_Small",
+      "pos_cm": [
+       236100,
+       -163000,
+       725
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schaum am Treibholzstau unter dem Stamm (Nature Water FX, 13d)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_V_Cue",
+      "pos_cm": [
+       236100,
+       -163000,
+       875
+      ],
+      "radius_cm": 3500,
+      "lautstaerke": 0.6,
+      "zweck": "Bach in der Kerbe"
+     }
+    ]
+   },
+   {
+    "biom": "frost",
+    "ort": "frost_01_der_eisfall",
+    "name": "Der Eisfall",
+    "felder": [
+     "E2"
+    ],
+    "datei_sha1": "f595a39755fd",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       8800,
+       -240500,
+       2360
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.13053,
+       0.99144
+      ],
+      "skala": 0.5,
+      "optional": false,
+      "zweck": "Restwasser rinnt hinter den Saeulen (Nature Water FX, 13d)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "pos_cm": [
+       8800,
+       -240500,
+       2910
+      ],
+      "radius_cm": 2500,
+      "lautstaerke": 0.35,
+      "zweck": "Wasser hinter dem Eis, gedaempft"
+     }
+    ]
+   },
+   {
+    "biom": "frost",
+    "ort": "frost_06_eiskueste",
+    "name": "Die Eisküste",
+    "felder": [
+     "F2"
+    ],
+    "datei_sha1": "f595a39755fd",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Geyser_Small",
+      "pos_cm": [
+       65200,
+       -250000,
+       1060
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 0.6,
+      "optional": false,
+      "zweck": "Fontaene aus dem Eisvulkan bei jeder Welle (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Geyser_Small",
+      "pos_cm": [
+       65800,
+       -253400,
+       1008
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 0.45,
+      "optional": false,
+      "zweck": "Fontaene des zweiten Eisvulkans (zeitversetzt)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       69000,
+       -251500,
+       35
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       1.0,
+       0.0
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Brandung schlaegt an den Eisfuss"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VIII_Cue",
+      "pos_cm": [
+       65000,
+       -251500,
+       756
+      ],
+      "radius_cm": 5000,
+      "lautstaerke": 0.5,
+      "zweck": "Wasser im Eis (Brandung fehlt im Bestand)"
+     }
+    ]
+   },
+   {
+    "biom": "frost",
+    "ort": "frost_08_glockenbach",
+    "name": "Der Glockenbach",
+    "felder": [
+     "E2",
+     "E3"
+    ],
+    "datei_sha1": "f595a39755fd",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       23100,
+       -205900,
+       244
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.5,
+       0.86603
+      ],
+      "skala": 0.6,
+      "optional": false,
+      "zweck": "Spritzer ueber den Steinen (die Glocken wachsen davon)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "pos_cm": [
+       23100,
+       -205900,
+       384
+      ],
+      "radius_cm": 3000,
+      "lautstaerke": 0.6,
+      "zweck": "Bachklang unter dem Eis"
+     }
+    ]
+   },
+   {
+    "biom": "gletscher",
+    "ort": "gletscher_01_gletschertor",
+    "name": "Das Gletschertor",
+    "felder": [
+     "D2",
+     "E2"
+    ],
+    "datei_sha1": "6d86ade5bf41",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -76800,
+       -273500,
+       10475
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Schaum, wo der Bach aus dem Tor ueber die Schwelle faellt (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -76800,
+       -273500,
+       10485
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.81915,
+       0.57358
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Stroemung, wo der Bach aus dem Tor schiesst (Nature Water FX)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
+      "pos_cm": [
+       -76800,
+       -273500,
+       10615
+      ],
+      "radius_cm": 4500,
+      "lautstaerke": 0.6,
+      "zweck": "Schmelzwasser aus dem Tor"
+     }
+    ]
+   },
+   {
+    "biom": "gletscher",
+    "ort": "gletscher_05_die_waechte",
+    "name": "Die Wächte",
+    "felder": [
+     "D1",
+     "E1"
+    ],
+    "datei_sha1": "6d86ade5bf41",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -65000,
+       -306000,
+       29125
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Gischt im Schacht der Gletschermuehle (Nature Water FX)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_III_Cue",
+      "pos_cm": [
+       -65000,
+       -306000,
+       29425
+      ],
+      "radius_cm": 1800,
+      "lautstaerke": 0.5,
+      "zweck": "Gurgeln der Gletschermuehle"
+     }
+    ]
+   },
+   {
+    "biom": "gletscher",
+    "ort": "gletscher_06_gletschertoepfe",
+    "name": "Die Gletschertöpfe",
+    "felder": [
+     "E1",
+     "E2"
+    ],
+    "datei_sha1": "6d86ade5bf41",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -25000,
+       -306000,
+       12725
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Aufprall-Gischt im grossen Topf"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+      "pos_cm": [
+       -25250,
+       -304900,
+       15443
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.64279,
+       0.76604
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Fallband vom oberen Klammbach in den grossen Topf (Nature Water FX)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+      "pos_cm": [
+       -25000,
+       -306000,
+       12855
+      ],
+      "radius_cm": 4000,
+      "lautstaerke": 0.8,
+      "zweck": "Rauschen in der Klamm"
+     }
+    ]
+   },
+   {
+    "biom": "heide",
+    "ort": "heide_06_der_wollsackfall",
+    "name": "Der Wollsackfall",
+    "felder": [
+     "G5"
+    ],
+    "datei_sha1": "0e427b30a9ea",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+      "pos_cm": [
+       146900,
+       15600,
+       1340
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.85065,
+       0.52573
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Fall in die Gumpe (Nature Water FX, 13d)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       146600,
+       16200,
+       1015
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Gischt am Aufprall in der Gumpe (Nature Water FX, 13d)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       147400,
+       14300,
+       1304
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.82431,
+       0.56614
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Stroemung ueber Stufe 1 und 2 (Nature Water FX, 13d)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       146600,
+       16200,
+       1165
+      ],
+      "radius_cm": 4000,
+      "lautstaerke": 0.8,
+      "zweck": "Fall in die Gumpe"
+     },
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
+      "pos_cm": [
+       147600,
+       12400,
+       1580
+      ],
+      "radius_cm": 2500,
+      "lautstaerke": 0.5,
+      "zweck": "obere Stufen"
+     }
+    ]
+   },
+   {
+    "biom": "kueste",
+    "ort": "kueste_01_die_alten",
+    "name": "Die Alten",
+    "felder": [
+     "A5",
+     "A6"
+    ],
+    "datei_sha1": "10592e349eb1",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -399621,
+       86957,
+       1393
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Brandungsgischt am Pfeilerfuss (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
+      "pos_cm": [
+       -392988,
+       75587,
+       175
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Brandungsgischt am kleinen Pfeiler"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Wake_Medium",
+      "pos_cm": [
+       -401000,
+       87200,
+       4795
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Schaumring um den grossen Pfeilerfuss (Nature Water FX)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "pos_cm": [
+       -399030,
+       86853,
+       -224
+      ],
+      "radius_cm": 16000,
+      "lautstaerke": 0.8,
+      "zweck": "Brandung (Ersatz: tief gepitcht, langsam); Seevoegel fehlen"
+     }
+    ]
+   },
+   {
+    "biom": "kueste",
+    "ort": "kueste_03_das_nadeltor",
+    "name": "Das Nadeltor",
+    "felder": [
+     "A5"
+    ],
+    "datei_sha1": "10592e349eb1",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Medium",
+      "pos_cm": [
+       -410400,
+       9400,
+       60
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Gischt im Tor bei jeder Welle (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Wake_Small",
+      "pos_cm": [
+       -410400,
+       9400,
+       -240
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.35159,
+       0.93615
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Schaumspur, die durch den Torgang zieht"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       -410400,
+       9400,
+       -90
+      ],
+      "radius_cm": 12000,
+      "lautstaerke": 0.8,
+      "zweck": "Brandung im Torgang (Ersatz); Seevoegel fehlen"
+     }
+    ]
+   },
+   {
+    "biom": "kueste",
+    "ort": "kueste_04_der_seefall",
+    "name": "Der Seefall",
+    "felder": [
+     "A5"
+    ],
+    "datei_sha1": "10592e349eb1",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 3,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Large",
+      "pos_cm": [
+       -384150,
+       58000,
+       5159
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       1.0,
+       0.0
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Fallband 54 m frei an der Lippe (Nature Water FX, Vorbild Bergwald-Klamm) zum Vorhang M_EL_Wasserfall2"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Large",
+      "pos_cm": [
+       -384950,
+       58050,
+       -55
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Aufprall-Gischt im Schaumkessel (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -383550,
+       57950,
+       5738
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       1.0,
+       0.0
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Bach beschleunigt vor der Kante (Nature Water FX, wie Bergwald-Klamm)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "pos_cm": [
+       -384950,
+       58050,
+       45
+      ],
+      "radius_cm": 7000,
+      "lautstaerke": 0.9,
+      "zweck": "Fallrauschen (man hoert ihn vor der Kante)"
+     },
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "pos_cm": [
+       -382900,
+       57900,
+       6373
+      ],
+      "radius_cm": 2500,
+      "lautstaerke": 0.45,
+      "zweck": "Bach vor der Kante"
+     }
+    ]
+   },
+   {
+    "biom": "kueste",
+    "ort": "kueste_08_das_blasloch",
+    "name": "Das Blasloch",
+    "felder": [
+     "H2"
+    ],
+    "datei_sha1": "10592e349eb1",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 2,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Geyser_Large",
+      "pos_cm": [
+       318500,
+       -238500,
+       -32
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Fontaene aus dem Loch, 8-14 m, alle 9-14 s (Nature Water FX)"
+     },
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Impact_Medium",
+      "pos_cm": [
+       320775,
+       -237242,
+       -193
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.70711,
+       0.70711
+      ],
+      "skala": 1.0,
+      "optional": true,
+      "zweck": "Gischt am Gangmund, wenn die Welle hineindrueckt"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+      "pos_cm": [
+       318500,
+       -238500,
+       68
+      ],
+      "radius_cm": 5000,
+      "lautstaerke": 0.8,
+      "zweck": "Rauschen/Brodeln im Schacht (Ersatz; Grollen und Pfeifen fehlen)"
+     },
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+      "pos_cm": [
+       320775,
+       -237242,
+       -143
+      ],
+      "radius_cm": 6000,
+      "lautstaerke": 0.6,
+      "zweck": "Brandung am Gangmund (Ersatz)"
+     }
+    ]
+   },
+   {
+    "biom": "tundra",
+    "ort": "tundra_06_das_aufeis",
+    "name": "Das Aufeis",
+    "felder": [
+     "C2",
+     "D2"
+    ],
+    "datei_sha1": "4327e4674649",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -177200,
+       -227300,
+       5836
+      ],
+      "rot_q": [
+       0.0,
+       0.0,
+       0.99905,
+       0.04362
+      ],
+      "skala": 0.4,
+      "optional": false,
+      "zweck": "Quellaustritt am Hangfuss (Nature Water FX, 13d)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
+      "pos_cm": [
+       -177200,
+       -227300,
+       5966
+      ],
+      "radius_cm": 3000,
+      "lautstaerke": 0.5,
+      "zweck": "Quelle und Bach unter dem Eis"
+     }
+    ]
+   },
+   {
+    "biom": "wueste",
+    "ort": "wueste_04_quelloase",
+    "name": "Die Quelloase",
+    "felder": [
+     "E3"
+    ],
+    "datei_sha1": "d5132b1ddc9c",
+    "datei_stand": "2026-10-11",
+    "niagara_gesamt": 1,
+    "effekte": [
+     {
+      "typ": "niagara",
+      "asset": "/Game/NatureWaterFX/FX/NS_Stream_Small",
+      "pos_cm": [
+       -48636,
+       -135636,
+       1329
+      ],
+      "rot_q": [
+       -0.0,
+       -0.0,
+       -0.92388,
+       0.38268
+      ],
+      "skala": 1.0,
+      "optional": false,
+      "zweck": "Rinnsal am Auslass (Nature Water FX)"
+     }
+    ],
+    "klaenge": [
+     {
+      "asset": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+      "pos_cm": [
+       -48000,
+       -135000,
+       1167
+      ],
+      "radius_cm": 6000,
+      "lautstaerke": 0.5,
+      "zweck": "man hoert das Wasser, bevor man es sieht"
+     }
+    ]
+   }
+  ]
+ }
+}

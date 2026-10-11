@@ -318,7 +318,7 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 - **Kratersteig bauen** (lava_06_kraterreihe, lava_07_basaltorgel, lava_08_glutauge): Ja (13c), damit hat das Lava-Biom 8 Orte. Den Pfadverlauf überführt ein anderer Agent nach `standorte.json` (`pfade`, Schema in `skripte/sehens_lib/README.md`).
 - **Basaltorgel mit /Game/Basalt** (lava_07_basaltorgel): Das Paket ist gekauft und im Projekt (22 Netze, **kein Nanite**). Säulen haben 0,29 m Querschnitt und 0,15–2,6 m Höhe. Orgelwand aus `Basalt_Basalt_Pillars_Wall_SM`/`_WallSlope_SM`/`_WallOverhang_SM` und `Basalt_Basalt_Pillars_Cluster_High_SM` in Gruppen, Skalierung 3–8× (Säulen dann 0,9–2,3 m). Davor Säulenstümpfe `Basalt_Basalt_Pillar_A–D_SM`/`_Variance_A–D_SM` und Blöcke `Basalt_Basalt_Rock_A–D_SM`. Die Kante bildet `Basalt_Basalt_Cliff_SM` (8,6 × 5,3 × 6,0 m, ×3–4). Weil die Netze nicht Nanite sind, die Akteure zählen (≤ 80) und lieber wenige große Stücke setzen.
-- **Wegabstand 324/393 m** (lava_04_roehrenfenster, lava_05_klare_spalte): In Ordnung (13c).
+- **Wegabstand 324/393 m** (lava_01_schwarze_mauer, lava_02_schwefelgrund): In Ordnung (13c).
 
 ### Neu im Bestand – je Ort
 

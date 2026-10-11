@@ -480,7 +480,7 @@
    "linien": {
     "saum_nord": {"punkte": [[-34, -29], [-22, -27], [-10, -26], [4, -25], [18, -23]]},
     "saum_ost": {"punkte": [[22, -20], [29, -8], [31, 6], [28, 18], [22, 28]]},
-    "saum_west": {"punkte": [[-19, -28], [-22, -14], [-23, 0], [-22, 14], [-18, 24]]}
+    "saum_west": {"punkte": [[-18, -28], [-20, -14], [-21, 0], [-20, 14], [-17, 24]]}
    },
    "gelaende": {
     "fenster_m": [100, 96],
@@ -491,7 +491,7 @@
     "senke_begruendung": "Polygonmitten ohne Tuempel: flache nasse Mulden (low-centred polygons) - gewollt",
     "daemme": [
      {"punkte": "saum_ost", "breite_m": 11, "hoehe_m": 2.4, "krone": 0.3, "verjuengung_m": 6, "warum": "Uferwall Ost (Sturmflutsaum): Rahmen gegen den hoeheren Kuestenweg Ost (Ferat: verbessern, wo es geht)"},
-     {"punkte": "saum_west", "breite_m": 8, "hoehe_m": 1.5, "krone": 0.3, "verjuengung_m": 6, "warum": "natuerlicher Uferwall (Levee) am Fluss: Rahmen gegen den hoeheren Weg im Nordwesten"}
+     {"punkte": "saum_west", "breite_m": 7, "hoehe_m": 1.5, "krone": 0.3, "verjuengung_m": 6, "warum": "natuerlicher Uferwall (Levee) am Fluss: Rahmen gegen den hoeheren Weg im Nordwesten"}
     ]
    },
    "sicht": {"ziel_hoehe_m": 0.6},

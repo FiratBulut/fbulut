@@ -142,7 +142,7 @@
     {"lage": "Erde", "form": "band", "punkte": [[-42, 30], [0, 42], [32, 58]], "breite_m": 18, "wert": 200, "flecken": 0.4},
     {"lage": "Fels", "form": "hang", "bei": [0, 14], "r_m": 50, "hang_grad": [40, 90], "wert": 210}
    ],
-   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "abschnitte": [{"pfad_id": "oedland_pfad_oedlandpfad_abstieg", "von_m": 0, "bis_m": 152}]},
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "abschnitte": [{"pfad_id": "oedland_pfad_oedlandpfad_abstieg", "von_m": 0, "bis_m": 160}]},
    "effekte": [
     {"typ": "decal", "material": "MI_Decal_Clay_02", "zweck": "Popcorn-Ton am Fuss", "anzahl": 2, "verteilung": {"typ": "band", "punkte": [[-40, 30], [0, 40], [30, 55]], "breite_m": 10}, "abstand_m": 15, "groesse_m": [1.0, 8.0, 8.0]},
     {"typ": "decal", "material": "MI_Leakage_07", "zweck": "Spuelrinnen in den Baendern", "anzahl": 2, "verteilung": {"typ": "band", "punkte": "band_mitte", "breite_m": 4}, "abstand_m": 15, "hoehe_m": 3, "ausrichtung": "wand", "blick": 180, "groesse_m": [1.0, 2.0, 10.0]}
@@ -287,7 +287,7 @@
     {"lage": "Lehm", "form": "kreis", "bei": "kolk", "r_m": 22, "wert": 230, "flecken": 0.2},
     {"lage": "Kies", "form": "band", "punkte": ["scheitel", "kolk"], "breite_m": 6, "wert": 200}
    ],
-   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "abschnitte": [{"pfad_id": "oedland_pfad_oedlandpfad_abstieg", "von_m": 152, "bis_m": 490}, {"pfad_id": "oedland_pfad_oedlandpfad_ost", "von_m": 0, "bis_m": 230}, {"pfad_id": "oedland_pfad_oedlandpfad_west", "von_m": 0, "bis_m": 410}]},
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "fenster_max_m": 392, "abschnitte": [{"pfad_id": "oedland_pfad_oedlandpfad_abstieg", "von_m": 160, "bis_m": 490}, {"pfad_id": "oedland_pfad_oedlandpfad_ost", "von_m": 0, "bis_m": 230}, {"pfad_id": "oedland_pfad_oedlandpfad_west", "von_m": 0, "bis_m": 380}]},
    "verdeckung": {"kern": "kolk", "probe_r_m": 6, "ziel_hoehe_m": 2},
    "effekte": [
     {"typ": "decal", "material": "MI_Decal_Clay_03", "zweck": "rissiger Ton am Kolkgrund", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "kolk", "r_m": 8}, "abstand_m": 6, "groesse_m": [1.0, 8.0, 8.0]}
@@ -313,21 +313,24 @@
     "k5": [6, 26],
     "k6": [-28, 4]
    },
-   "gelaende": {"fenster_m": [130, 130], "rand_m": 12, "senke_begruendung": "Salsenfeld: die Mulde ist vom ausgeflossenen Schlamm gefuellt (Schlammzungen), kleine Restsenken zwischen den Kegeln",
+   "linien": {
+    "ringwall": {"punkte": [[0.0, -35.0], [19.499999999999996, -29.774990747593108], [33.77499074759311, -15.500000000000004], [39.0, 3.999999999999998], [33.77499074759311, 23.499999999999993], [19.499999999999996, 37.77499074759311], [4.776122516674678e-15, 43.0], [-19.500000000000004, 37.77499074759311], [-33.774990747593094, 23.500000000000018], [-39.0, 4.000000000000007], [-33.77499074759311, -15.500000000000004], [-19.500000000000018, -29.774990747593094]]}
+   },
+   "gelaende": {"fenster_m": [130, 130], "rand_m": 12, "daemme": [{"punkte": "ringwall", "breite_m": 16, "hoehe_m": 2.5, "krone": 0.2, "geschlossen": true}], "senke_begruendung": "Salsenfeld: die Mulde ist vom ausgeflossenen Schlamm gefuellt (Schlammzungen), kleine Restsenken zwischen den Kegeln",
     "ops": [
      {"op": "mulde", "bei": "mulde", "radius_m": 34, "tiefe_m": 3.5, "rand_m": 10, "boden": 0.6, "warum": "flache Mulde -3,5 m (verdeckt das Feld)"},
      {"op": "terrasse", "bei": "mulde", "radius_m": 44, "ziel_z": 1.0, "rand_m": 4, "modus": "max", "warum": "Muldenboden nie unter +1,0 m (Meeresniveau)"},
-     {"op": "kuppe", "bei": "k0", "radius_m": 6.1, "hoehe_m": 2.6, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 1 (+2.6 m)"},
-     {"op": "kuppe", "bei": "k1", "radius_m": 5.3, "hoehe_m": 1.8, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 2 (+1.8 m)"},
-     {"op": "kuppe", "bei": "k2", "radius_m": 5.7, "hoehe_m": 2.2, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 3 (+2.2 m)"},
+     {"op": "kuppe", "bei": "k0", "radius_m": 5.1, "hoehe_m": 1.6, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 1 (+1.6 m)"},
+     {"op": "kuppe", "bei": "k1", "radius_m": 4.9, "hoehe_m": 1.4, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 2 (+1.4 m)"},
+     {"op": "kuppe", "bei": "k2", "radius_m": 5.5, "hoehe_m": 2.0, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 3 (+2.0 m)"},
      {"op": "kuppe", "bei": "k3", "radius_m": 4.7, "hoehe_m": 1.2, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 4 (+1.2 m)"},
-     {"op": "kuppe", "bei": "k4", "radius_m": 5.1, "hoehe_m": 1.6, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 5 (+1.6 m)"},
-     {"op": "kuppe", "bei": "k5", "radius_m": 6.3, "hoehe_m": 2.8, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 6 (+2.8 m)"},
+     {"op": "kuppe", "bei": "k4", "radius_m": 5.0, "hoehe_m": 1.5, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 5 (+1.5 m)"},
+     {"op": "kuppe", "bei": "k5", "radius_m": 5.7, "hoehe_m": 2.2, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 6 (+2.2 m)"},
      {"op": "kuppe", "bei": "k6", "radius_m": 4.5, "hoehe_m": 1.0, "plateau": 0.15, "rand_m": 3, "warum": "Schlammkegel 7 (+1.0 m)"}
     ]
    },
    "wasser": [
-    {"typ": "see", "id": "salse_1", "bei": "k0", "r_m": 1.5, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
+    {"typ": "see", "id": "salse_1", "bei": "k0", "r_m": 1.1, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
     {"typ": "see", "id": "salse_2", "bei": "k1", "r_m": 1.1, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
     {"typ": "see", "id": "salse_3", "bei": "k2", "r_m": 1.5, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
     {"typ": "see", "id": "salse_4", "bei": "k3", "r_m": 1.1, "spiegel": "boden-0.15", "tiefe_m": 0.3, "farbe": "moorbraun", "becken": {"ufer_m": 1.5, "freibord_m": 0.1, "boden": 0.4, "auslass": null}},
@@ -337,7 +340,7 @@
    ],
    "gruppen": [
     {"name": "kegelmantel", "ebene": "held", "warum": "Schlammkegel-Mantel: Mud Mound an jeder Kegelflanke (Held = Gelaendestempel + Mantel + Krater mit Schlamm)", "palette": ["ulnfeaq_tier_0", "vepoadh_tier_0"], "verteilung": {"typ": "punkte", "punkte": [[3.0, 1.0], [-2.5, -2.0], [17.0, -9.0], [11.5, -12.0], [-9.0, 13.0], [-14.5, 10.0], [27.0, 17.0], [21.5, 14.0], [-19.0, -13.0], [-24.5, -16.0], [9.0, 27.0], [3.5, 24.0], [-25.0, 5.0], [-30.5, 2.0]]}, "skala": [1.0, 1.5], "yaw": "zufall", "rolle": "streu", "ausrichtung": "normale", "akteur": false, "kollision": false, "meide": null, "im_wasser": "nein"},
-    {"name": "schlammzungen", "ebene": "begleiter", "warum": "Schlammzungen laufen wie Lava aus den Kegeln", "palette": "schlamm", "verteilung": {"typ": "um_gruppe", "gruppe": "kegelmantel", "ring_m": [3.0, 7.0], "je": [2, 4]}, "skala": [1.2, 1.8], "rolle": "streu", "ausrichtung": "normale"},
+    {"name": "schlammzungen", "ebene": "begleiter", "warum": "Schlammzungen laufen wie Lava aus den Kegeln", "palette": "schlamm", "verteilung": {"typ": "um_gruppe", "gruppe": "kegelmantel", "ring_m": [3.0, 7.0], "je": [2, 4]}, "skala": [1.2, 1.8], "rolle": "streu", "ausrichtung": "normale", "akteur": false},
     {"name": "steine_schlamm", "ebene": "schutt", "warum": "mitgerissene Steine im Schlamm", "palette": ["SM_Rock_02", "SM_s_rock_03", "SM_stones_01_4"], "anzahl": 40, "verteilung": {"typ": "kreis", "bei": "mulde", "r_m": 30}, "groesse_m": [0.3, 0.9], "abstand_m": 2.0, "eingraben": [0.4, 0.6], "material": "MI_EL_SW_Oedland_Ton"},
     {"name": "kiesel", "ebene": "kleinzeug", "warum": "Steinchen am Muldenrand", "palette": ["SM_stones_01_4", "SM_SmallStonesPack_01", "SM_SmallStonesPack_03"], "anzahl": 500, "verteilung": {"typ": "ring", "bei": "mulde", "r_m": [20, 44]}, "abstand_m": 0.5, "rolle": "stein"},
     {"name": "trockengras_rand", "ebene": "bewuchs", "warum": "nichts im Feld (Gas, Schlamm) - Trockengras erst am Rand", "palette": "trockengras", "anzahl": 70, "verteilung": {"typ": "ring", "bei": "mulde", "r_m": [36, 50]}, "abstand_m": 2.2, "rolle": "pflanze"},
@@ -371,7 +374,7 @@
     "pfanne": [0, 0],
     "blick": {"pos_m": [-900.0, 1720.0]}
    },
-   "gelaende": {"fenster_m": [150, 150], "rand_m": 14, "senke_begruendung": "Endpfanne (Playa) des Badland-Bachs: das Wasser verdunstet, Ueberlauf nur bei Hochwasser - abflusslos wie im Deadvlei",
+   "gelaende": {"fenster_m": [150, 150], "rand_m": 14, "daemme": [{"punkte": [[-48.86401628086724, 17.785047452934766], [-52.0, 9.552245033349354e-15], [-48.86401628086723, -17.785047452934787], [-39.83431104218686, -33.42495570370004], [-26.00000000000002, -45.03332099679079], [-9.02970523868038, -51.21000315663482], [9.029705238680355, -51.210003156634826], [26.0, -45.033320996790806], [39.83431104218685, -33.42495570370006], [48.86401628086724, -17.78504745293477], [52.0, -1.592040838891559e-14], [48.86401628086725, 17.785047452934737]], "breite_m": 18, "hoehe_m": 2.5, "krone": 0.2, "verjuengung_m": 20}], "senke_begruendung": "Endpfanne (Playa) des Badland-Bachs: das Wasser verdunstet, Ueberlauf nur bei Hochwasser - abflusslos wie im Deadvlei",
     "ops": [
      {"op": "mulde", "bei": "pfanne", "radius_m": 40, "tiefe_m": 3.5, "rand_m": 12, "boden": 0.75, "warum": "Pfanne -3,5 m (r 50 m), flacher Boden"},
      {"op": "glaetten", "bei": "pfanne", "radius_m": 40, "staerke": 0.8, "sigma_m": 5, "warum": "Tonboden glatt"}
@@ -390,7 +393,7 @@
     {"lage": "Lehm", "form": "kreis", "bei": "pfanne", "r_m": 46, "wert": 255, "rand_m": 6, "flecken": 0.1},
     {"lage": "Trockengras", "form": "ring", "bei": "pfanne", "r_m": [46, 64], "wert": 170, "flecken": 0.5}
    ],
-   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_west", "abschnitt": [410, 530]},
+   "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_west", "abschnitt": [380, 530]},
    "verdeckung": {"kern": "pfanne", "probe_r_m": 12, "ziel_hoehe_m": 2},
    "effekte": [
     {"typ": "decal", "material": "MI_Decal_Clay_01", "zweck": "Trockenrisse (hell) in der Pfanne", "anzahl": 4, "verteilung": {"typ": "kreis", "bei": "pfanne", "r_m": 30}, "abstand_m": 14, "groesse_m": [1.0, 14.0, 14.0]},
@@ -419,7 +422,7 @@
    },
    "gelaende": {"fenster_m": [100, 100], "rand_m": 12, "senke_begruendung": "Schluckloecher (Piping): das Wasser fliesst unterirdisch durch die Roehren zum Westbach",
     "ops": [
-     {"op": "mulde", "bei": "schacht1", "radius_m": 6.5, "ziel_z": "boden-7", "rand_m": 4, "boden": 0.65, "warum": "Hauptschacht -7 m"},
+     {"op": "mulde", "bei": "schacht1", "radius_m": 6.5, "ziel_z": "boden-7", "rand_m": 9, "boden": 0.55, "warum": "Hauptschacht -7 m mit Einbruchtrichter"},
      {"op": "mulde", "bei": "schacht2", "radius_m": 4.5, "ziel_z": "boden-5", "rand_m": 3, "boden": 0.6, "warum": "Nebenloch -5 m"},
      {"op": "mulde", "bei": "schacht3", "radius_m": 4, "ziel_z": "boden-4", "rand_m": 3, "boden": 0.6, "warum": "Nebenloch -4 m"},
      {"op": "rinne", "punkte": "tunnel", "breite_m": 1.5, "tiefe_m": 0.6, "rand_m": 1.5, "warum": "Einbruchrinne ueber dem Tunnel"}
@@ -441,7 +444,7 @@
     {"lage": "Erde", "form": "band", "punkte": "tunnel", "breite_m": 8, "wert": 200}
    ],
    "pfad": {"breite_cm": 150, "lagen": {"Erde": 210, "Kies": 130}, "trittsteine": {"palette": "felsstufe", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 18, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}, "pfad_id": "oedland_pfad_oedlandpfad_west", "abschnitt": [530, 550], "zugang": true},
-   "verdeckung": {"kern": "schacht1", "probe_r_m": 6, "ziel_hoehe_m": 2},
+   "verdeckung": {"kern": {"anker": "schacht1", "versatz_m": [3, 4]}, "probe_r_m": 3, "ziel_hoehe_m": 2},
    "effekte": [
     {"typ": "lokaler_nebel", "zweck": "kuehle, feuchte Luft im Hauptschacht", "bei": "schacht1", "hoehe_m": -3, "radius_m": 9, "dichte": 0.06, "farbe": [0.78, 0.78, 0.76], "hoehenabfall": 1.0},
     {"typ": "decal", "material": "MI_Leakage_09", "zweck": "Sickerspuren an den Schachtwaenden", "bei": "schacht1", "hoehe_m": -2, "ausrichtung": "wand", "blick": 0, "groesse_m": [1.0, 3.0, 5.0]},
