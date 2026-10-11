@@ -369,7 +369,7 @@
    "kompass_grad": 202.6,
    "skala": 1.0,
    "skala_grund": "Skala 1: Breite ~3 m (Annahme) = Mittelstrang auf 7.9 m Vorhang; zu hohe Partikel verschwinden unter dem Spiegel",
-   "cull_m": 50,
+   "cull_m": 45,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -408,7 +408,7 @@
    "kompass_grad": 202.6,
    "skala": 1.0,
    "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 7.9 m breit, Schaumscheibe bleibt)",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -433,45 +433,6 @@
    "typ": "niagara",
    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
    "pos_cm": [
-    -174790.5,
-    -233215.2,
-    8088.9
-   ],
-   "rot_q": [
-    0.0,
-    0.0,
-    0.87088,
-    0.4915
-   ],
-   "yaw_ue_grad": 121.1,
-   "kompass_grad": 211.1,
-   "skala": 1.0,
-   "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
-   "cull_m": 35,
-   "sort_priority": 2,
-   "cast_shadow": false,
-   "user_parameter": {
-    "ungeprueft": true,
-    "wunsch": {
-     "Farbe/Tint": [
-      0.8,
-      0.84,
-      0.86
-     ],
-     "Spawnrate": "0,6-0,8 x Standard (dichte Kaskade)"
-    }
-   },
-   "ziel": "F_ERLENBACH_1V_C2_S02",
-   "gruppe": "C2_B",
-   "rolle": "aufprall",
-   "bezug": "gischt_cm (x, y), Spiegel unteres Flussstueck + 10 cm",
-   "optional": false,
-   "zweck": "Gischt am Fuss von S02 (3,2 m Fall)"
-  },
-  {
-   "typ": "niagara",
-   "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small",
-   "pos_cm": [
     -175864.8,
     -230821.8,
     7340.8
@@ -486,7 +447,7 @@
    "kompass_grad": 203.3,
    "skala": 1.0,
    "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -525,7 +486,7 @@
    "kompass_grad": 207.8,
    "skala": 1.0,
    "skala_grund": "Breite ~2 m (Annahme) = Zunge in der Bachmitte",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -564,7 +525,7 @@
    "kompass_grad": 206.9,
    "skala": 1.0,
    "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -603,7 +564,7 @@
    "kompass_grad": 188.0,
    "skala": 1.0,
    "skala_grund": "Skala 1: Breite ~3 m (Annahme) = Mittelstrang auf 8.2 m Vorhang; zu hohe Partikel verschwinden unter dem Spiegel",
-   "cull_m": 50,
+   "cull_m": 45,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -642,7 +603,7 @@
    "kompass_grad": 188.0,
    "skala": 1.0,
    "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.2 m breit, Schaumscheibe bleibt)",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -681,7 +642,7 @@
    "kompass_grad": 209.9,
    "skala": 1.0,
    "skala_grund": "Ziel-Durchmesser ~3 m (Vorhang unten 8.4 m breit, Schaumscheibe bleibt)",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -720,7 +681,7 @@
    "kompass_grad": 179.1,
    "skala": 1.29,
    "skala_grund": "Schnelle 7.1 m breit, 6.5 m lang; Annahme NS_Stream_Small 2 x 5 m bei Skala 1 -> min(Breite, Laenge)",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -840,7 +801,7 @@
    "kompass_grad": 268.4,
    "skala": 1.0,
    "skala_grund": "Skala 1 als Start",
-   "cull_m": 35,
+   "cull_m": 30,
    "sort_priority": 2,
    "cast_shadow": false,
    "user_parameter": {
@@ -877,8 +838,7 @@
   ],
   "C2_B": [
    "S01:NS_Waterfall_Small",
-   "S01:NS_Impact_Small",
-   "S02:NS_Impact_Small"
+   "S01:NS_Impact_Small"
   ],
   "C2_C": [
    "S03:NS_Impact_Small",
@@ -2346,7 +2306,7 @@
     "felder": [
      "G5"
     ],
-    "datei_sha1": "0e427b30a9ea",
+    "datei_sha1": "534e2fd8f10c",
     "datei_stand": "2026-10-11",
     "niagara_gesamt": 3,
     "effekte": [
@@ -2765,7 +2725,8 @@
       ],
       "skala": 0.4,
       "optional": false,
-      "zweck": "Quellaustritt am Hangfuss (Nature Water FX, 13d)"
+      "zweck": "Quellaustritt am Hangfuss (Nature Water FX, 13d)",
+      "konflikt": "1.3 m neben A14 F_ERLENBACH_1V_C2_S07 (aufprall, NS_Impact_Small). A14 behaelt den Platz; der A13-Planer sollte diesen Effekt streichen oder verlegen - Rueckfrage im Bericht."
      }
     ],
     "klaenge": [

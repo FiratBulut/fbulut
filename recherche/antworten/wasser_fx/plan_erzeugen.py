@@ -47,7 +47,7 @@ REF_M = {
 
 CULL_M = {  # Ableitung aus Antwort 12 Teil A (40-60 m), Heldenfaelle begruendet weiter
     "held_fall": 150, "held_aufprall": 100, "held_wake": 60,
-    "NS_Waterfall_Small": 50, "NS_Impact_Small": 35, "NS_Stream_Small": 35, "NS_Stream_Medium": 45, "NS_Wake_Small": 35,
+    "NS_Waterfall_Small": 45, "NS_Impact_Small": 30, "NS_Stream_Small": 30, "NS_Stream_Medium": 45, "NS_Wake_Small": 30,
 }
 SORT = 2  # Antwort 12: Vorhang 0, Schaum 1, Gischt (Niagara) 2
 
@@ -248,7 +248,7 @@ def c2_h4(st, eff, kl):
                     CULL_M["NS_Stream_Medium"])
     wf_small(1, "C2_B", False, "Probestufe: Fallstraehnen ueber dem Vorhang (3,3 m Fall, zweithoechste Kante)")
     impact(1, "C2_B", False, "Gischt am Fuss von S01")
-    impact(2, "C2_B", False, "Gischt am Fuss von S02 (3,2 m Fall)")
+    # S02 (3,2 m) bewusst ohne Impact: 8 m neben S01, Budget gleichzeitig <= 6 (Schaumscheibe + Vorhang bleiben)
     impact(3, "C2_C", False, "Gischt am Fuss von S03 (2,4 m Fall nach kurzer Schnelle)")
     stream_lippe(4, "C2_C", False, "Wasser zieht ueber die Lippe von S04 (abwechselnd Impact/Stream)")
     impact(5, "C2_C", False, "Gischt am Fuss von S05")
@@ -328,7 +328,7 @@ def material():
 
 
 # ---------------------------------------------------------------- Auftrag 13 (nur Uebersicht)
-def sehens13(ordner):
+def sehens13(ordner, eff):
     if not ordner or not os.path.isdir(ordner):
         return None
     aus = {"hinweis": "Nur Uebersicht, NICHT doppelt setzen: diese Effekte liefern die Sehenswuerdigkeiten-Planer (Auftrag 13, Phase 2) "
@@ -350,10 +350,21 @@ def sehens13(ordner):
                 "biom": biom, "ort": o["id"], "name": o["name"], "felder": o.get("felder"),
                 "datei_sha1": hashlib.sha1(roh).hexdigest()[:12], "datei_stand": d.get("stand"),
                 "niagara_gesamt": sum(1 for e in o.get("effekte", []) if e.get("typ") == "niagara"),
-                "effekte": [{k: e[k] for k in ("typ", "asset", "pos_cm", "rot_q", "skala", "optional", "zweck") if k in e} for e in fx],
+                "effekte": [_konflikt({k: e[k] for k in ("typ", "asset", "pos_cm", "rot_q", "skala", "optional", "zweck") if k in e}, eff)
+                            for e in fx],
                 "klaenge": [k for k in o.get("klaenge", []) if "Water" in k.get("asset", "")],
             })
     return aus
+
+
+def _konflikt(e, eff):
+    """Markiert A13-Effekte, die naeher als 150 m an einem A14-Effekt liegen (gleicher Bach = Doppelung)."""
+    nah = min(eff, key=lambda x: math.dist(x["pos_cm"], e["pos_cm"]))
+    a = math.dist(nah["pos_cm"], e["pos_cm"]) / 100.0
+    if a < 150:
+        e["konflikt"] = ("%.1f m neben A14 %s (%s, %s). A14 behaelt den Platz; der A13-Planer sollte diesen Effekt "
+                         "streichen oder verlegen - Rueckfrage im Bericht." % (a, nah["ziel"], nah["rolle"], nah["asset"].split("/")[-1]))
+    return e
 
 
 def main():
@@ -398,7 +409,7 @@ def main():
         "material": material(),
         "klang": kl,
     }
-    s13 = sehens13(a.sehens13)
+    s13 = sehens13(a.sehens13, eff)
     if s13:
         plan["sehens13"] = s13
     with open(a.aus, "w", encoding="utf-8") as f:
