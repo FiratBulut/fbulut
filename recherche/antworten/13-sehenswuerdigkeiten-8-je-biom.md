@@ -4,9 +4,9 @@ Stand: 11.10.2026, abends. Bearbeitet von der Cloud-Session (Koordinator + 8 Bio
 
 ## Kurzfazit
 
-- **120 Orte in 15 Biomen, je 8 Orte.** Davon sind 48 Leuchtfeuer und 72 Fundstücke.
+- **120 Orte in 15 Biomen, je 8 Orte.** Davon sind 52 Leuchtfeuer und 68 Fundstücke.
   - Fast überall gilt die Aufteilung 3 Leuchtfeuer / 5 Fundstücke.
-  - Ausnahmen mit 4 / 4: Lava, Tundra und Küste. Begründung in `sehens-katalog.md`.
+  - Ausnahmen: Lava, Tundra und Küste mit 4 / 4, Fjord mit 7 / 1 (Panoramaweg, E46). Begründung in `sehens-katalog.md`.
 - **Nur Landschaft:** Fels, Wasser, Eis, Feuer und Pflanzen. Keine Bauten, Ruinen, Knochen oder Menschenspuren und keine Houdini-`SW_*`-Assets.
 - **Alle 120 Orte liegen 80–300 m vom nächsten Weg oder Pfad.** Dafür braucht es **18 neue Pfade, zusammen 20,6 km.**
   - Pfade gibt es in Lava, Gletscher, Frost, Fjord, Tundra, Küste und Ödland.
@@ -46,7 +46,7 @@ Die vollständigen Namen und Beschreibungen stehen in `sehens-katalog.md`.
 - **lava:** Schwarze Mauer, Schwefelgrund, Kraterkinder und Kraterreihe; Röhrenfenster, Klare Spalte, Basaltorgel (`/Game/Basalt`) und Glutauge. Dazu der Kratersteig mit Gipfelsteig zum Krater.
 - **gletscher:** Gletschertor mit Séracbruch, Lawinenkegel und Wächte; Toteisloch, Moränensee, Gletschertöpfe, Nunatak und Gletscherschliff.
 - **frost:** Frostsee mit Presseis, Raureifhain und Eisküste; Eisfall, Eisvorhang, Blockgletscher, Frostblumen und Glockenbach.
-- **fjord:** Kanzel, Schleierwand und Trollzunge; Hängetal, Fjordkopf, Bergsturzkegel, Brandungsgrotte und alte Strandterrassen.
+- **fjord:** Kanzel, Schleierwand, Trollzunge, Hängetal, Fjordkopf, Bergsturzkegel und alte Strandterrassen als Leuchtfeuer (Panoramaweg, Entscheidung E46); Brandungsgrotte versteckt.
 - **tundra:** Pingo, Findling auf Rundhöcker, Eiswand und Fließtreppe; Trunkener Grund (Thermokarst), Schneetälchen, Steinringe und Wabenmoor.
 - **heide:** Granit-Tor „Graue Burg“, Ginstergold und Wacholderprozession; Kolk, Wackelstein, Wollsackfall, Totengrund und Windkante.
 - **kueste:** Granitpfeiler „Die Alten“, Vogelinsel, Nadeltor und Kreidewand; Seefall ins Meer, Gezeitenbank, Dünenkamm und Blasloch.

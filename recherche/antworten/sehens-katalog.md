@@ -1,6 +1,6 @@
 # Sehenswürdigkeiten – Gesamtkatalog (Auftrag 13, Phase 1, Teil B)
 
-Stand 11.10.2026. **120 Orte in 15 Biomen** (je 8): 48 Leuchtfeuer, 72 Fundstücke, 18 neue Pfade. Nur Landschaft (Fels, Wasser, Eis, Feuer, Pflanzen) – keine Bauten, Ruinen, Knochen oder Menschenspuren, keine Houdini-`SW_*`-Assets.
+Stand 11.10.2026. **120 Orte in 15 Biomen** (je 8): 52 Leuchtfeuer, 68 Fundstücke, 18 neue Pfade. Nur Landschaft (Fels, Wasser, Eis, Feuer, Pflanzen) – keine Bauten, Ruinen, Knochen oder Menschenspuren, keine Houdini-`SW_*`-Assets.
 
 Prüfer `skripte/sehens_lib/sehens_pruefen.py` über alle Biome (Wege + Pfade): **0 FEHLER**, 1 WARNUNG (Pfad zum Trunkenen Grund streift den Rand der geplanten Stadt ROMAN_LOC_018).
 
@@ -19,7 +19,7 @@ Alle 120 Orte liegen 80–300 m vom nächsten Weg oder neuen Pfad (Spalte „nä
 | lava | 8 | 4 | 4 | 3 | [katalog.md](sehens/lava/katalog.md) |
 | gletscher | 8 | 3 | 5 | 3 | [katalog.md](sehens/gletscher/katalog.md) |
 | frost | 8 | 3 | 5 | 2 | [katalog.md](sehens/frost/katalog.md) |
-| fjord | 8 | 3 | 5 | 2 | [katalog.md](sehens/fjord/katalog.md) |
+| fjord | 8 | 7 | 1 | 2 | [katalog.md](sehens/fjord/katalog.md) |
 | tundra | 8 | 4 | 4 | 3 | [katalog.md](sehens/tundra/katalog.md) |
 | heide | 8 | 3 | 5 | 0 | [katalog.md](sehens/heide/katalog.md) |
 | kueste | 8 | 4 | 4 | 2 | [katalog.md](sehens/kueste/katalog.md) |
@@ -28,7 +28,7 @@ Alle 120 Orte liegen 80–300 m vom nächsten Weg oder neuen Pfad (Spalte „nä
 | wueste | 8 | 3 | 5 | 0 | [katalog.md](sehens/wueste/katalog.md) |
 | oedland | 8 | 3 | 5 | 3 | [katalog.md](sehens/oedland/katalog.md) |
 
-Abweichungen von 3 Leuchtfeuern / 5 Fundstücken: lava 4/4, tundra 4/4, kueste 4/4. Tundra und Küste: auf der offenen Küstenebene bzw. vom Klippensteig aus lässt sich kein fünftes Fundstück verdecken. Lava: die Kraterreihe am Kratersteig ist ein natürliches Leuchtfeuer.
+Abweichungen von 3 Leuchtfeuern / 5 Fundstücken: lava 4/4, fjord 7/1, tundra 4/4, kueste 4/4. Tundra und Küste: auf der offenen Küstenebene bzw. vom Klippensteig aus lässt sich kein fünftes Fundstück verdecken. Lava: die Kraterreihe am Kratersteig ist ein natürliches Leuchtfeuer.
 
 ## Neue Pfade (13c: „lieber ein Pfad mehr als ein Ort weniger“)
 
@@ -2081,11 +2081,11 @@ Biom-Katalog mit Herleitung aus den Daten, Materialwünschen und Abgleich 13b/13
 | 01 | **Die Kanzel** | Leuchtfeuer | 103 m | `fjord_pfad_kanzel` | Am Rand der Ostwand springt eine flache Felsplatte über den Fjord vor – eben wie ein Tisch, an drei Seiten 220 m senkrecht. | [Bild](sehens/fjord/fjord_01_die_kanzel.png) |
 | 02 | **Die Schleierwand** | Leuchtfeuer | 91 m | `fjord_pfad_fjordsteig` | Am Talschluss des Fjords steht eine 250 m hohe, halbrunde Felswand. | [Bild](sehens/fjord/fjord_02_schleierwand.png) |
 | 03 | **Die Trollzunge** | Leuchtfeuer | 91 m | `fjord_pfad_fjordsteig` | Am Grat über dem Talschluss ragt eine schmale Felszunge 15 m frei über den Abgrund nach Norden – darunter 300 m Luft bis zum Fjordboden. | [Bild](sehens/fjord/fjord_03_trollzunge.png) |
-| 04 | **Das Hängetal** | Fundstück | 88 m | `fjord_pfad_fjordsteig` | Auf der Südseite des Fjordkamms endet ein kleines, flaches Hochtal plötzlich an einer Stufe: Der Bach, der eben noch zwischen Wollgras mäanderte, stürzt 40 m in eine … | [Bild](sehens/fjord/fjord_04_haengetal.png) |
-| 05 | **Der Fjordkopf** | Fundstück | 87 m | `fjord_pfad_fjordsteig` | Wo der Fjordbach ins Meer läuft, hat er einen flachen Fächer aus Kies und Sand geschüttet. | [Bild](sehens/fjord/fjord_05_fjordkopf.png) |
-| 06 | **Der Bergsturzkegel** | Fundstück | 87 m | `fjord_pfad_fjordsteig` | Aus der Westwand ist ein Stück Berg ausgebrochen: oben eine helle, frische Abrissnische, darunter ein Kegel aus hausgroßen Blöcken, der bis an den Talboden reicht. | [Bild](sehens/fjord/fjord_06_bergsturz.png) |
+| 04 | **Das Hängetal** | Leuchtfeuer | 88 m | `fjord_pfad_fjordsteig` | Auf der Südseite des Fjordkamms endet ein kleines, flaches Hochtal plötzlich an einer Stufe: Der Bach, der eben noch zwischen Wollgras mäanderte, stürzt 40 m in eine … | [Bild](sehens/fjord/fjord_04_haengetal.png) |
+| 05 | **Der Fjordkopf** | Leuchtfeuer | 87 m | `fjord_pfad_fjordsteig` | Wo der Fjordbach ins Meer läuft, hat er einen flachen Fächer aus Kies und Sand geschüttet. | [Bild](sehens/fjord/fjord_05_fjordkopf.png) |
+| 06 | **Der Bergsturzkegel** | Leuchtfeuer | 87 m | `fjord_pfad_fjordsteig` | Aus der Westwand ist ein Stück Berg ausgebrochen: oben eine helle, frische Abrissnische, darunter ein Kegel aus hausgroßen Blöcken, der bis an den Talboden reicht. | [Bild](sehens/fjord/fjord_06_bergsturz.png) |
 | 07 | **Die Brandungsgrotte** | Fundstück | 101 m | `fjord_pfad_fjordsteig` | An der Ostspitze der Fjordmündung, wo die Dünung hereinläuft, hat das Meer einen schmalen Spalt ins Gestein gearbeitet: eine Grotte, hoch und eng, mit grünem Wasser, in … | [Bild](sehens/fjord/fjord_07_brandungsgrotte.png) |
-| 08 | **Die alten Ufer** | Fundstück | 271 m | `fjord_pfad_fjordsteig` | Am Westhang der Fjordmündung ziehen sich drei grüne Stufen parallel zum Wasser den Berg hinauf – alte Strandlinien, 20, 45 und 70 m über dem heutigen Meer. | [Bild](sehens/fjord/fjord_08_strandterrassen.png) |
+| 08 | **Die alten Ufer** | Leuchtfeuer | 271 m | `fjord_pfad_fjordsteig` | Am Westhang der Fjordmündung ziehen sich drei grüne Stufen parallel zum Wasser den Berg hinauf – alte Strandlinien, 20, 45 und 70 m über dem heutigen Meer. | [Bild](sehens/fjord/fjord_08_strandterrassen.png) |
 
 Biom-Katalog mit Herleitung aus den Daten, Materialwünschen und Abgleich 13b/13c: [sehens/fjord/katalog.md](sehens/fjord/katalog.md)
 
@@ -2149,7 +2149,9 @@ Biom-Katalog mit Herleitung aus den Daten, Materialwünschen und Abgleich 13b/13
 
 **Aufwand und Risiko.** Niedrig–mittel. Risiko: Zunge muss frei schweben – Netz mit Kollision, Fuß tief im Grat.
 
-### 4 · Das Hängetal (`fjord_04_haengetal`) – Fundstück · nur mit Steig `fjordsteig`
+### 4 · Das Hängetal (`fjord_04_haengetal`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 12 m, Wege + Steige): 6 von 134 Punkten im Ring 300–800 m, lesbar bis 465 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 465 m (X −1642 / Y −2312). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Auf der Südseite des Fjordkamms endet ein kleines, flaches Hochtal plötzlich an einer Stufe: Der Bach, der eben noch zwischen Wollgras mäanderte, stürzt 40 m in eine Schlucht. Oben ist es still und grün, unten donnert es.
 
@@ -2169,7 +2171,9 @@ Biom-Katalog mit Herleitung aus den Daten, Materialwünschen und Abgleich 13b/13
 
 **Aufwand und Risiko.** Mittel. Nur mit Fjordsteig.
 
-### 5 · Der Fjordkopf (`fjord_05_fjordkopf`) – Fundstück · nur mit Steig `fjordsteig`
+### 5 · Der Fjordkopf (`fjord_05_fjordkopf`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 4 m, Wege + Steige): 19 von 66 Punkten im Ring 300–800 m, lesbar bis 433 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 433 m (X −1616 / Y −2948). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Wo der Fjordbach ins Meer läuft, hat er einen flachen Fächer aus Kies und Sand geschüttet. Bei Ebbe liegt er frei: Rinnen, in denen das Süßwasser milchig ins grüne Salzwasser zieht, Tang auf den Steinen, und überall die Wände, die 300 m hochsteigen.
 
@@ -2189,7 +2193,9 @@ Biom-Katalog mit Herleitung aus den Daten, Materialwünschen und Abgleich 13b/13
 
 **Aufwand und Risiko.** Niedrig–mittel.
 
-### 6 · Der Bergsturzkegel (`fjord_06_bergsturz`) – Fundstück · nur mit Steig `fjordsteig`
+### 6 · Der Bergsturzkegel (`fjord_06_bergsturz`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 10 m, Wege + Steige): 16 von 69 Punkten im Ring 300–800 m, lesbar bis 330 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 330 m (X −1562 / Y −3008). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Aus der Westwand ist ein Stück Berg ausgebrochen: oben eine helle, frische Abrissnische, darunter ein Kegel aus hausgroßen Blöcken, der bis an den Talboden reicht. Zwischen den Blöcken wachsen schon junge Birken – der Sturz ist alt genug für Bäume, jung genug für scharfe Kanten.
 
@@ -2229,7 +2235,9 @@ Biom-Katalog mit Herleitung aus den Daten, Materialwünschen und Abgleich 13b/13
 
 **Aufwand und Risiko.** Mittel. Abgrenzung zu kueste „Grotte“ (Kliffhöhle mit türkisem Wasser): hier enger Spalt im Fjord mit Tang.
 
-### 8 · Die alten Ufer (`fjord_08_strandterrassen`) – Fundstück · nur mit Steig `fjordsteig`
+### 8 · Die alten Ufer (`fjord_08_strandterrassen`) – Leuchtfeuer (E46) · nur mit Steig `fjordsteig`
+
+> **Entscheidung E46: Fundstück → Leuchtfeuer** (11.10.2026, Koordinator für Ferat). Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg; im offenen U-Tal lässt sich der Ort nicht verstecken (Phase 2: Wälle sperrten 0–3 Steigpunkte). Sicht (sicht.py, Silhouette 4 m, Wege + Steige): 37 von 76 Punkten im Ring 300–800 m, lesbar bis 628 m; von bestehenden Wegen allein 0. Neue Kamera `_fern` 498 m (X −1664 / Y −3072). Die Fundstück-Angaben unten sind der Stand vor E46.
 
 **Was man sieht.** Am Westhang der Fjordmündung ziehen sich drei grüne Stufen parallel zum Wasser den Berg hinauf – alte Strandlinien, 20, 45 und 70 m über dem heutigen Meer. Auf jeder Stufe liegen gerundete Strandkiesel und Muschelschill, mitten im Gras.
 
@@ -2705,7 +2713,7 @@ Budget: ~6 000 Instanzen (200 Kollision), 15 Akteure, 0 Lichter, 0 Niagara, 4 De
 | Nr | Name | Art | nächster Weg/Pfad | Pfad | Was man sieht | Draufsicht |
 |---|---|---|---|---|---|---|
 | 01 | **Die Alten** | Leuchtfeuer | 300 m | `kueste_pfad_klippensteig` | Vor dem Kliff stehen zwei Granitpfeiler im Meer, der größere 45 m hoch, schmal, oben mit einem Schopf aus Grasnelken | [Bild](sehens/kueste/kueste_01_die_alten.png) |
-| 02 | **Die Vogelinsel** | Leuchtfeuer | 232 m | `kueste_pfad_klippensteig` | Eine Insel wie ein Schiffsrumpf, 45 m hoch, die Westwand weiß gekalkt von tausenden Brutplätzen, auf jedem Sims ein | [Bild](sehens/kueste/kueste_02_die_vogelinsel.png) |
+| 02 | **Die Vogelinsel** | Leuchtfeuer | 232 m | `kueste_pfad_klippensteig` | Eine Insel wie ein Schiffsrumpf, 45 m hoch, die Ostwand weiß gekalkt von tausenden Brutplätzen (Entscheidung E02: Ostflanke – Guano folgt den Brutsimsen, alle Kameras … | [Bild](sehens/kueste/kueste_02_die_vogelinsel.png) |
 | 03 | **Das Nadeltor** | Leuchtfeuer | 167 m | `kueste_pfad_klippensteig` | Am Ende des Kliffwegs, 130 m vor der Küste: ein 46-m-Pfeiler, durch den das Meer ein Tor geschlagen hat – unten eine | [Bild](sehens/kueste/kueste_03_das_nadeltor.png) |
 | 04 | **Der Seefall** | Fundstück | 93 m | `kueste_pfad_klippensteig` | Man hört ihn, bevor man ihn sieht: ein Bach läuft durch Farn und Grasnelken auf die Kliffkante zu – und ist weg. | [Bild](sehens/kueste/kueste_04_der_seefall.png) |
 | 05 | **Die Gezeitenbank** | Fundstück | 106 m | `kueste_pfad_klippensteig` | Am Fuß der Kliffecke, wo die Strandebene ans Gebirge stößt, liegt eine flache, dunkle Felsbank knapp über dem Wasser, | [Bild](sehens/kueste/kueste_05_die_gezeitenbank.png) |
@@ -2759,7 +2767,7 @@ Schalen Rücken an Rücken. Prüfen, ob unter den Inselchen Reste der Houdini-Ka
 
 ### 2 · Die Vogelinsel (`kueste_02_die_vogelinsel`) – Leuchtfeuer · Klippensteig
 
-**Was man sieht.** Eine Insel wie ein Schiffsrumpf, 45 m hoch, die Westwand **weiß gekalkt** von tausenden Brutplätzen, auf jedem Sims ein
+**Was man sieht.** Eine Insel wie ein Schiffsrumpf, 45 m hoch, die Ostwand **weiß gekalkt** von tausenden Brutplätzen (Entscheidung E02: Ostflanke – Guano folgt den Brutsimsen, alle Kameras stehen im Osten), auf jedem Sims ein
 weißer Punkt, in der Luft ein langsamer Wirbel aus Vögeln. Oben kurzes, vom Kot überdüngtes Grün, die Ostseite grasig mit krummen
 Kiefern. Bei Westwind zieht ein Geruch nach Fisch und Salz bis aufs Kliff.
 
@@ -2774,7 +2782,7 @@ Ostseite (bis 25 m), Flanken bis 77°. 70 m im Biom. Klippensteig 231 m (Aussich
 von links auf die weiße Wand. Kameras: `_anmarsch` (X −3952 / Y 386, 230 m), `_held` (X −4064 / Y 281, 180 m – vom Klippenvorsprung),
 `_nah` auf der Insel (10 m), `_fern` vom Kliffweg (X −3744 / Y 630, 484 m). **Zugang:** keiner (Insel); Aussicht am Pfadende.
 
-**Detail-Ebenen.** Held: Westwand aus `vfmjadufa_tier_2` + `vdssailfa_tier_2` (je 2, ×1,4) vor die Inselflanke gesetzt, mit
+**Detail-Ebenen.** Held: Ostwand (E02) aus `vfmjadufa_tier_2` + `vdssailfa_tier_2` (je 2, ×1,4) vor die Inselflanke gesetzt, mit
 Materialwunsch `MI_EL_SW_Guano` (Auflage weiß, Kante 5 → Kot auf Simsen). Begleiter (4): vorgelagerte Klippe `SM_HugeNordicCoastalCliff_01`,
 2 Brandungsblöcke `SM_NordicBoulder_01`. Schutt (80): `SM_NordicBeachRocks_01` am Fuß. Kleinzeug: Federn (`NS_feather`, optional).
 Bewuchs: oben überdüngt – `SM_beach_grass_02_1/2`, `SM_sea_wormwood_01`, `SM_kidney_vetch_01` dicht; Ostseite vorhandene Kiefern.
@@ -3094,7 +3102,7 @@ Kronenlücke ergibt sich aus der festen Sonne – kein Licht nötig.
 
 **Was man sieht.** Auf einer flachen Moosinsel mitten im offenen Sumpf stehen drei abgestorbene Baumriesen, weiß und kahl – und in ihren
 Kronen sitzen **große Reisighorste**, ein Dutzend, manche bewohnt: Graureiher stehen darin wie Statuen. Der Boden darunter ist weiß
-gekalkt, Federn und Fischgräten liegen herum, das Gras ist überdüngt und hoch.
+gekalkt, (sehr spärlich) Federn liegen herum, das Gras ist überdüngt und hoch. *(Entscheidung E05: Fischgräten gestrichen – Knochen-Regel.)*
 
 **Leuchtfeuer.** 20 m: 65 von 204 Punkten (300–800 m), bis 746 m; vom Westweg und vom Südweg sichtbar.
 
@@ -3109,7 +3117,7 @@ ringsum (Nässe 40 m: 47 %). 50 m im Biom; Weg 272 m. Zugang 270 m streng, 60 m 
 
 **Detail-Ebenen.** Held: 3 tote Riesen `SM_Dead_Tree_01/02` (×1,4) und `SM_EuropeanBeech_Dead_XL_01`. Begleiter: 12–15 Horste aus
 `SM_detail_branches_01/02`, `SM_OldTreeBranch_03/05`, `Branch_Goat_Willow_Decaying_01` in Astgabeln. Schutt (80): heruntergefallene Äste.
-Kleinzeug: Federn (`NS_feather`, 13b), Gräten (nicht im Bestand – weggelassen). Bewuchs nach Ursache: überdüngtes Hochgras
+Kleinzeug: Federn (`NS_feather`, 13b), keine Gräten (Entscheidung E05). Bewuchs nach Ursache: überdüngtes Hochgras
 (`SM_KikuyuGrass_01`), Rohrkolben `SM_Rohrkolben_Horst_3`, `SM_ToadRush_010`, `SM_dead_grass_01`. Kontaktzone: Kotflecken `MI_Leakage_08`
 weiß getönt, `MI_ScatteredSticksAndTwigs_01`.
 
