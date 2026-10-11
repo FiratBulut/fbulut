@@ -180,8 +180,33 @@ def _pfade_zusatz(ctx):
     ctx.pfade_zusatz = out
 
 
+def _komponenten(m):
+    """8-Nachbar-Komponenten einer bool-Maske (ohne SciPy) -> (label-Array, Anzahl)."""
+    import numpy as np
+    lab = np.zeros(m.shape, np.int32)
+    n = 0
+    for i, j in zip(*np.nonzero(m)):
+        if lab[i, j]:
+            continue
+        n += 1
+        lab[i, j] = n
+        stapel = [(i, j)]
+        while stapel:
+            a, b = stapel.pop()
+            for da in (-1, 0, 1):
+                for db in (-1, 0, 1):
+                    x, y = a + da, b + db
+                    if 0 <= x < m.shape[0] and 0 <= y < m.shape[1] and m[x, y] and not lab[x, y]:
+                        lab[x, y] = n
+                        stapel.append((x, y))
+    return lab, n
+
+
 def _senken_begruendet(ctx):
-    """Gewollte geschlossene Senke (gelaende.senken_erlaubt: [{bei, r_m, grund}]) -> HINWEIS statt WARNUNG."""
+    """Geschlossene Senken nach dem Stempel einzeln bewerten:
+    - Bestandsmulden (|Delta| < 0,3 m in der ganzen Mulde; nur am Stempelrand mitgezaehlt) -> HINWEIS
+    - gewollte Hohlformen im Kreis gelaende.senken_erlaubt [{bei, r_m, grund}] -> HINWEIS mit Grund
+    Bleibt danach >= 8 m2 uebrig, bleibt die WARNUNG und ein HINWEIS nennt die Lage der Restsenke."""
     import numpy as np
     erl = (ctx.r.get("gelaende") or {}).get("senken_erlaubt") or []
     if ctx.stempel is None:
@@ -196,88 +221,29 @@ def _senken_begruendet(ctx):
     for e in erl:
         x, y = ctx.punkt(e.get("bei", "mitte"))
         ok |= np.hypot(X - x, Y - y) <= float(e.get("r_m", 10.0))
-    rest = sk["maske"] & ~ok
-    if rest.sum() * st.z * st.z >= 8.0:
-        ii, jj = np.nonzero(rest)                  # Senke ausserhalb des erlaubten Bereichs: WARNUNG bleibt, Lage melden
-        ctx.melde("HINWEIS", "Restsenke bei [%.0f, %.0f] (Box %.0f..%.0f / %.0f..%.0f m relativ)" % (
-            X[ii, jj].mean() - ctx.mx, Y[ii, jj].mean() - ctx.my, X[ii, jj].min() - ctx.mx, X[ii, jj].max() - ctx.mx,
-            Y[ii, jj].min() - ctx.my, Y[ii, jj].max() - ctx.my))
+    lab, n = _komponenten(sk["maske"])
+    rest = np.zeros(X.shape, bool)
+    bestand, gewollt = 0.0, 0.0
+    a2 = st.z * st.z
+    for k in range(1, n + 1):
+        m = lab == k
+        if float(np.abs(st.delta[m]).max()) < 0.3:
+            bestand += m.sum() * a2
+        elif (m & ~ok).sum() * a2 < 8.0:
+            gewollt += m.sum() * a2
+        else:
+            rest |= m & ~ok
+    if rest.sum() * a2 >= 8.0:
+        ii, jj = np.nonzero(rest)
+        ctx.melde("HINWEIS", "Restsenke %.0f m2 bei [%.0f, %.0f] (Box %.0f..%.0f / %.0f..%.0f m relativ)" % (
+            rest.sum() * a2, X[ii, jj].mean() - ctx.mx, Y[ii, jj].mean() - ctx.my, X[ii, jj].min() - ctx.mx,
+            X[ii, jj].max() - ctx.mx, Y[ii, jj].min() - ctx.my, Y[ii, jj].max() - ctx.my))
         return
     gruende = "; ".join(e.get("grund", "") for e in erl)
+    text = "geschlossene Senken begruendet: %.0f m2 gewollte Hohlform%s, %.0f m2 Bestandsmulden (|Delta| < 0,3 m, nur " \
+           "am Stempelrand beruehrt)" % (gewollt, (" (" + gruende + ")") if gewollt and gruende else "", bestand)
     for k in idx:
-        ctx.meldungen[k] = ("HINWEIS", ctx.id, ctx.meldungen[k][2].replace("geschlossene Senke ohne Wasser/Abfluss",
-                                                                          "geschlossene Senke (gewollt)")
-                            + " - " + gruende)
-
-
-def _mitte_hoehen(ctx):
-    """Hoehenangaben 'mitte+x' / 'mitte-x' in gelaende.ops (ziel_z, sohle) -> absolut (Boden an der Ortsmitte vor dem
-    Stempel + x). Damit liegen z. B. Grubensohle und Roehrenkerben auf derselben Hoehe."""
-    z0 = float(ctx.welt.hoehe_bei_m(ctx.mx, ctx.my))
-
-    def wandle(v):
-        if isinstance(v, str) and v.startswith("mitte"):
-            return z0 + (float(v[5:]) if len(v) > 5 else 0.0)
-        return v
-    for w in ctx.r.get("wasser") or []:
-        if "spiegel" in w:
-            w["spiegel"] = wandle(w["spiegel"])
-    for op in (ctx.r.get("gelaende") or {}).get("ops") or []:
-        if "ziel_z" in op:
-            op["ziel_z"] = wandle(op["ziel_z"])
-        if isinstance(op.get("sohle"), list):
-            op["sohle"] = [wandle(v) for v in op["sohle"]]
-
-
-def _pfad_ende(ctx):
-    """pfad.ende {ab_m, punkte}: Fussweg pfad_cm bis ab_m vor der Ortsmitte behalten, dann eigene Punkte (z. B. nicht
-    durch die Spalte, sondern am Rand entlang zur Rampe). Laeuft vor pfad_bauen (Hook 'gruppen')."""
-    pe = (ctx.r.get("pfad") or {}).get("ende")
-    if not pe or not ctx.st.get("pfad_cm") or any(ctx.id in (p.get("fuer") or []) or ctx.st.get("pfad_id") == p.get("id")
-                                                  for p in ctx.pfade_biom):
-        return
-    ab = float(pe.get("ab_m", 50.0))
-    weg_zu_ort = [[q[0] / 100.0, q[1] / 100.0] for q in ctx.st["pfad_cm"]][::-1]
-    behalten = []
-    for x, y in weg_zu_ort:
-        if math.hypot(x - ctx.mx, y - ctx.my) <= ab:
-            break
-        behalten.append([x, y])
-    neu = behalten + [list(ctx.punkt(r)) for r in pe["punkte"]]
-    ctx.st = dict(ctx.st, pfad_cm=[[round(x * 100), round(y * 100)] for x, y in neu[::-1]])
-    ctx.pfad_angepasst = "pfad_cm (Phase 1) bis %.0f m vor dem Ort, dann %d Planerpunkte" % (ab, len(pe["punkte"]))
-
-
-def _ufer_erzwingen(ctx):
-    """see.ufer_erzwingen_m: Uferring metrisch (nicht radial) bis u m hinter der Uferlinie auf >= Spiegel + Freibord.
-    Noetig fuer sehr lange, schmale Seen (Spalte 100 x 6 m): der radiale Uferring der Lib erreicht die Flanken nahe
-    den Spitzen nicht."""
-    import numpy as np
-    from sehens_lib import stempel as stm, rezept
-    st = ctx.stempel
-    for w in ctx.r.get("wasser") or []:
-        u = w.get("ufer_erzwingen_m")
-        if w.get("typ") != "see" or not u or w.get("id") not in ctx.see:
-            continue
-        s = ctx.see[w["id"]]
-        um = [list(p) for p in s["umriss_m"]]
-        d, _, _ = stm.polylinie_abstand(st.X, st.Y, um + [um[0]])
-        innen = rezept._in_polygon(st.X, st.Y, um)
-        ring = (~innen) & (d <= float(u))
-        ziel = s["spiegel_m"] + float((w.get("becken") or {}).get("freibord_m", 0.3))
-        st._anwenden(ring.astype(np.float64), ziel=np.full(st.X.shape, ziel), modus="max", name="ufer_erzwingen")
-
-
-def hook_nach_gelaende(ctx):
-    _ufer_erzwingen(ctx)
-
-
-def hook_anker(ctx):
-    _mitte_hoehen(ctx)
-
-
-def hook_gruppen(ctx):
-    _pfad_ende(ctx)
+        ctx.meldungen[k] = ("HINWEIS", ctx.id, text)
 
 
 def hook_ende(ctx):
