@@ -855,6 +855,16 @@ def pruefe_ort_gelaende(o, basis, welt):
                     jx, iy = np.meshgrid(np.arange(j0, j0 + ww) - _daten.OFF_J, np.arange(i0, i0 + hh) - _daten.OFF_I)
                     dd, _, _ = _stm.polylinie_abstand(jx, iy, Pm)
                     offen |= dd <= _b.halbe_breite_eff(float(w["punkte_cm"][0][3]) / 100.0, z) + 3.0 + z
+        # 13g: Bach IST das unbenannte Bestandsgerinne (im_bestand_stempeln) - sein ganzer Korridor ist ausgenommen
+        bestand = np.zeros(a.shape, bool)
+        for w in o.get("wasser", []) or []:
+            if w.get("typ") == "bach" and w.get("im_bestand_stempeln") and w.get("punkte_cm"):
+                from . import stempel as _stm
+                from . import bach as _b
+                P = np.asarray(w["punkte_cm"], np.float64)[:, :2] / 100.0
+                jx, iy = np.meshgrid(np.arange(j0, j0 + ww) - _daten.OFF_J, np.arange(i0, i0 + hh) - _daten.OFF_I)
+                dd, _, _ = _stm.polylinie_abstand(jx, iy, P)
+                bestand |= dd <= _b.halbe_breite_eff(float(w["punkte_cm"][0][3]) / 100.0, z) + 3.0 + z
         for name, m in (("Weg", weg), ("Ort", ort), ("bestehendem Wasser", wasser)):
             if name == "bestehendem Wasser" and g.get("ist_wasser"):
                 continue
@@ -865,6 +875,7 @@ def pruefe_ort_gelaende(o, basis, welt):
             if name == "bestehendem Wasser":
                 # Muendungskorridor (Koordinator 13f): dort bis 0,5 m erlaubt
                 nah &= ~(offen & (np.abs(a) <= 0.55))
+                nah &= ~bestand
             n = int(nah.sum())
             if n:
                 b.append((WARNUNG if name == "bestehendem Wasser" else FEHLER, oid,
@@ -915,6 +926,141 @@ def _abstand_umriss(U, x, y):
     return best
 
 
+_GPR = {"geladen": False, "mod": None}
+
+
+def _gefaelle_pruefen():
+    """recherche/antworten/skripte/gefaelle/gefaelle_pruefen.py (Auftrag 15, nur importiert) oder None."""
+    if not _GPR["geladen"]:
+        _GPR["geladen"] = True
+        import importlib.util as _iu
+        pf = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "gefaelle",
+                                           "gefaelle_pruefen.py"))
+        try:
+            spec = _iu.spec_from_file_location("_sehens_gefaelle_pruefen", pf)
+            mod = _iu.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            _GPR["mod"] = mod
+        except Exception:      # noqa: BLE001
+            _GPR["mod"] = None
+    return _GPR["mod"]
+
+
+def _netz_ausnahmen(w, X, Y, kum, seen):
+    """Bogenlaengen-Bereiche des Bachs, in denen Bett/Ufer nicht gelten (wie A12): Furten +- 1,5 m, offene Muendung,
+    1,5 m um eigene Seen (Zu-/Abfluss)."""
+    aus = []
+    for f in w.get("furten") or []:
+        fa = np.asarray(f["von_cm"], np.float64) / 100.0
+        fb = np.asarray(f["bis_cm"], np.float64) / 100.0
+        sa_ = kum[int(np.argmin(np.hypot(X - fa[0], Y - fa[1])))]
+        sb_ = kum[int(np.argmin(np.hypot(X - fb[0], Y - fb[1])))]
+        aus.append((min(sa_, sb_) - 1.5, max(sa_, sb_) + 1.5))
+    if w.get("muendung_offen_ab_cm"):
+        q = np.asarray(w["muendung_offen_ab_cm"], np.float64) / 100.0
+        aus.append((kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))], float(kum[-1]) + 1.0))
+    for sid in (w.get("muendung"), w.get("abfluss_von")):
+        if sid in seen:
+            U = seen[sid][0]
+            for k in range(len(X)):
+                if _abstand_umriss(U, X[k], Y[k]) < 1.5 or bool(_in_polygon_np(X[k], Y[k], U)):
+                    aus.append((kum[k] - 0.5, kum[k] + 0.5))
+    return aus
+
+
+def _in_polygon_np(x, y, U):
+    from .rezept import _in_polygon
+    return _in_polygon(np.array([x]), np.array([y]), U)[0]
+
+
+def pruefe_wasser_koerper(w, oid, welt, boden, X, Y, kum, seen=None):
+    """13g: wasser_koerper eines Treppenbachs (river + kaskadennetz, A15/14b) mit den Netzregeln aus
+    gefaelle_pruefen.py: Mittellinie/Spiegel monoton, knick passend, Nachbarn ueberlappen genau 0,5 m, kein River
+    < 15 m, River nicht ueberlappend, jede Stufe >= 0,5 m in einem Netz (gefaelle_pruefen.pruefe_wasser ohne Welt);
+    dazu Bett >= 0,2 m (flachere Baeche: Rezepttiefe) unter dem Spiegel und Ufer am Netzrand >= Spiegel + 0,1 m auf dem
+    Gelaende NACH dem Stempel (wie dort, 2-m-Zuschlag 1 m). Pflicht: Bach mit Stufe >= 0,5 m hat wasser_koerper."""
+    from . import bach as _b
+    b = []
+    wid = w.get("id")
+    tag = "%s" % oid
+    st_netz = [e for e in w.get("stufen") or [] if float(e.get("fall_m", 0)) >= _b.STUFE_NETZ_MIN_M]
+    wk = w.get("wasser_koerper")
+    if not st_netz:
+        if wk:
+            b.append((WARNUNG, tag, "bach %s: wasser_koerper ohne Stufe >= 0,5 m" % wid))
+        return b
+    if not wk:
+        b.append((FEHLER, tag, "bach %s: Stufen >= 0,5 m, aber kein wasser_koerper (13g)" % wid))
+        return b
+    gpr, gp = _gefaelle_pruefen(), _b.gefaelle_plan()
+    if gpr is None or gp is None:
+        b.append((WARNUNG, tag, "bach %s: gefaelle_pruefen/gefaelle_plan nicht ladbar - wasser_koerper ungeprueft" % wid))
+        return b
+    lauf = w.get("wasser_koerper_lauf") or ""
+    if lauf != "SW_%s_%s" % (oid, wid):
+        b.append((FEHLER, tag, "bach %s: Lauf-ID %r (soll SW_<ortid>_<bachid>)" % (wid, lauf)))
+    # Stufen (>= 0,5 m) mit Bogenlaenge der Lippe auf der Bachlinie
+    stufen = []
+    for k, e in enumerate(w.get("stufen") or []):
+        if float(e.get("fall_m", 0)) < _b.STUFE_NETZ_MIN_M:
+            continue
+        q = np.asarray(e["lippe_cm"], np.float64)[:2] / 100.0
+        stufen.append({"id": "%s_S%02d" % (lauf, k), "s_m": float(kum[int(np.argmin(np.hypot(X - q[0], Y - q[1])))]),
+                       "fall_m": float(e["fall_m"])})
+    fx = [{"stufe": f["stufe"]} for kb in wk for f in kb.get("effekte") or []]
+    bb = []
+    gpr.pruefe_wasser({"wasser_koerper": wk, "stufen": stufen, "effekte": fx}, None, None, bb, tag)
+    for st_, t_, txt in bb:
+        if "liegt in keinem Kaskadennetz" in txt:
+            # Lippe auf der Bachlinie gesucht (naechster Punkt): Toleranz 0,6 m
+            sid = txt.split()[0]
+            s_l = next((e["s_m"] for e in stufen if e["id"] == sid), None)
+            if s_l is not None and any(kb["s_m"][0] - 0.6 <= s_l <= kb["s_m"][1] + 0.6 for kb in wk
+                                       if kb["typ"] == "kaskadennetz"):
+                continue
+        b.append((st_, t_, "bach %s: %s" % (wid, txt)))
+    if boden is None:
+        return b
+    zus = max(welt.zelle_m - 1.0, 0.0)
+    alt_hoehe = lambda x_, y_: welt.bilinear(welt.hoehe, x_, y_)  # noqa: E731
+    aus = _netz_ausnahmen(w, X, Y, kum, seen or {})
+    for kb in wk:
+        if kb["typ"] != "kaskadennetz":
+            continue
+        M = np.asarray(kb["mittellinie"], np.float64)
+        kn_ = kb["knick"]
+        nah = gp.nahe_stufe(kb["mittellinie"], kn_, zus)
+        s_m = [float(kum[int(np.argmin(np.hypot(X - q[0] / 100.0, Y - q[1] / 100.0)))]) for q in M]
+        ix = [k for k in range(len(M)) if kn_[k] == "becken" and not nah[k]
+              and not any(a_ <= s_m[k] <= b_ for a_, b_ in aus)]
+        bmin = float((kb.get("pruefung") or {}).get("bett_unter_spiegel_min_m", gp.KN["bett_unter_spiegel_min_m"]))
+        n_bett = 0
+        for k in ix:
+            t = M[k + 1, :2] - M[k, :2] if k + 1 < len(M) else M[k, :2] - M[k - 1, :2]
+            tx, ty = t / max(float(np.hypot(*t)), 1e-6)
+            x, y, zs, br = M[k, 0] / 100.0, M[k, 1] / 100.0, M[k, 2] / 100.0, M[k, 3] / 100.0
+            off = np.linspace(-1, 1, 7) * max(gp.KN["bett_proben_anteil"] * br - zus, 0.15 * br)
+            # 13g: tiefster Bettpunkt quer (13f-Querprofil mit Wasserkante innen und 35-Grad-Boeschung; der Mittelwert
+            # aus gefaelle_pruefen mittelt dort die Boeschung mit); Regel bach.bett_min: min(0,2 m; halbe Rezepttiefe)
+            bett = float(np.min(boden.hoehe(x + ty * off, y - tx * off)))
+            if zs - bett < bmin - 0.005:
+                n_bett += 1
+        pr_ = gp.ufer_proben(kb["mittellinie"], ix, boden.hoehe, alt_hoehe, (), zus)
+        n_ufer = sum(1 for q in pr_ if q[6] == "fehl")
+        n_bestand = sum(1 for q in pr_ if q[6] == "bestand")
+        if n_bestand:
+            b.append((WARNUNG, tag, "bach %s: %s: Ufer am Netzrand an %d Proben schon im Bestand unter dem Spiegel"
+                      % (wid, kb["id"], n_bestand)))
+        if n_bett:
+            b.append((gp.raster_stufe(n_bett, len(ix), zus), tag, "bach %s: %s: Bett an %d von %d Beckenpunkten < %.2f m "
+                      "unter dem Spiegel%s" % (wid, kb["id"], n_bett, len(ix), bmin, gp.raster_text(n_bett, len(ix), zus))))
+        if n_ufer:
+            b.append((gp.raster_stufe(n_ufer, 2 * len(ix), zus), tag, "bach %s: %s: Ufer am Netzrand an %d von %d Proben "
+                      "< 0,1 m ueber dem Spiegel%s" % (wid, kb["id"], n_ufer, 2 * len(ix),
+                                                      gp.raster_text(n_ufer, 2 * len(ix), zus))))
+    return b
+
+
 def pruefe_baeche(o, welt, boden=None):
     """13f A4/A9/A12/A13 - Baeche gegen Seen, Zielgewaesser und das Gelaende NACH dem Stempel:
     - Bachende am eigenen See auf dem Umriss, Spiegel >= Seespiegel (FEHLER darunter), nicht in den See hinein;
@@ -944,6 +1090,7 @@ def pruefe_baeche(o, welt, boden=None):
         X, Y, W, Bm = A[:, 0] / 100.0, A[:, 1] / 100.0, A[:, 2] / 100.0, float(np.median(A[:, 3])) / 100.0
         kum = np.concatenate([[0.0], np.cumsum(np.hypot(np.diff(X), np.diff(Y)))])
         L = float(kum[-1])
+        b += pruefe_wasser_koerper(w, oid, welt, boden, X, Y, kum, seen)
         mu = w.get("muendung")
         frei_s = np.ones(0)
         # --- A4: eigener See am Ende

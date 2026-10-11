@@ -181,7 +181,7 @@ Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorie
 | A11 | `stempel.Lagen` | Ränder ≥ 3 m, Pfadband 1 m Übergang, Ausblenden am Fensterrand |
 | A13 | `stempel.schutz_faktor`, `rezept._klein_see`, Prüfer | Schutzzone hart (Wege + Orte), Seen < 10 m² → Lage/Decal, Seeufer-FEHLER |
 | B | `rezept._houdini_ausblenden` | `bestand_ausblenden` mit `art: houdini` |
-| Koordinator | `bach.treppe`, `rezept.gelaende_bauen`/`_bach_ziel`/`_verlaengern`, `stempel.bach_profil` | Fallketten ab 60 % (Glieder ~8 m, 4–25 m, Becken ≥ 3 m), Mündungskorridor ± 0,5 m weich, `muendung: <Epic-Id>` mit Anschluss unterhalb, Uferring + 0,2 m / hebt ≤ 1,5 m, Schleifen-Kappung mit Weiterverlängerung |
+| Koordinator 13f/13g | `rezept.gelaende_bauen`/`_bach_ziel`/`_verlaengern`, `stempel.bach_profil`, `bach.wasser_koerper`, `sehens_pruefen.pruefe_wasser_koerper`, `stufen_vergleich.py` | Mündungskorridor ± 0,5 m weich, `muendung: <Epic-Id>`, Uferring + 0,2 m / hebt ≤ 2 m nur im Stempel (Spiegelplanung wie 13f), zu kurz versickernde Bäche ohne Kehre weiter (Lauf davor unverändert), `im_bestand_stempeln`; 13g: `wasser_koerper` (river + kaskadennetz, A15/14b) für Bäche mit Stufe ≥ 0,5 m; Stufen unverändert gegenüber 13f (Vergleichsskript) |
 
 Neue Prüferregeln (`sehens_pruefen.pruefe_baeche`): Bachende am eigenen See unter dem Spiegel / Punkte im See (FEHLER),
 Abfluss unter dem Seespiegel (FEHLER), Bachende unter dem Spiegel des Epic-Ziels (FEHLER), `suesswasser_bestand`

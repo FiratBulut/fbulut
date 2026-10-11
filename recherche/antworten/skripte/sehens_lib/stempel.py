@@ -396,7 +396,7 @@ class Stempel:
     def bach_profil(self, punkte_m, s_k, W_k, breite_m, tiefe_m, ring_aus=None, tiefe_max_m=2.0, name="bach_profil",
                     tief_aus=None):
         """Querprofil eines Bachs (Auftrag 15b/13f A12): Wasserkante innen, Bett = Spiegel - Tiefe, Boeschung 35 Grad,
-        Ufer beidseits >= Spiegel + 5 cm, Uferring Spiegel + 0,2 m (hebt <= 1,5 m). s_k/W_k: Spiegel entlang der
+        Ufer beidseits >= Spiegel + 5 cm, Uferring Spiegel + 0,2 m (hebt <= 2 m). s_k/W_k: Spiegel entlang der
         Bogenlaenge (Treppe mit Stufen). ring_aus: bool-Maske im Fenster ohne Uferring (Seen, Muendung)."""
         from . import bach as _b
         if self.ist_fertig:

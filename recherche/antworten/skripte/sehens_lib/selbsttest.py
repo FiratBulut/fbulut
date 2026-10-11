@@ -372,19 +372,6 @@ def _test_13f(welt2, ort, a):
                "A8 Becken zwischen den Stufen >= 3 m (min %.1f m) und <= 3 %% (max %.1f %%)"
                % (min([b1 - b0 for b0, b1 in becken] or [0]), 100 * max(gef or [0])))
 
-            # Koordinator 13f (Regelwerk 15): ab 60 % gebuendelte Fallkette statt einer Stufe alle 3,5 m -
-            # Einzelfall >= 4 m, hoechstens 25 m, dazwischen Becken >= 3 m (auf einer 70-%-Flanke, 60 m)
-            from . import bach as _bk
-            s_t = np.arange(0.0, 60.01, 0.5)
-            g_t = 100.0 - 0.7 * s_t
-            W_t, st_t = _bk.treppe(s_t, g_t, 1.5, W0=float(g_t[0] - _bk.EINBETTUNG_M), start_fest=True)
-            fa = [a - b for _, _, a, b in st_t]
-            bk = [st_t[k + 1][0] - st_t[k][1] for k in range(len(st_t) - 1)]
-            ok(len(st_t) >= 2 and min(fa) >= 4.0 - 1e-6 and max(fa) <= 25.0 + 1e-6 and min(bk) >= 3.0 - 1e-6
-               and len(st_t) < 60.0 / 3.5,
-               "Fallkette 70 %%: %d Faelle %.1f-%.1f m, Becken >= %.1f m (statt ~%d Stufen)"
-               % (len(st_t), min(fa or [0]), max(fa or [0]), min(bk or [0]), int(60.0 / 3.5)))
-
             class _Boden:
                 def hoehe(self, x, y):
                     return ctx.boden(x, y)
@@ -411,6 +398,33 @@ def _test_13f(welt2, ort, a):
                         q_[2] -= 60
             bk3 = [t for s_, _, t in sehens_pruefen.pruefe_baeche(o3, wl, _Boden()) if s_ == "FEHLER"]
             ok(any("Gelaende ueber dem Spiegel" in t for t in bk3), "A12 kaputt: Gelaende ueber dem Spiegel -> FEHLER")
+            # 13g: Treppenbach (Stufe >= 0,5 m) mit wasser_koerper (river + kaskadennetz, A15/14b), Stufen unveraendert
+            wk = zu.get("wasser_koerper") or []
+            kn = [k_ for k_ in wk if k_["typ"] == "kaskadennetz"]
+            rv = [k_ for k_ in wk if k_["typ"] == "river"]
+            st5 = [s_ for s_ in st_ if s_["fall_m"] >= 0.5]
+            ok(bool(st5) and bool(kn) and zu.get("wasser_koerper_lauf") == "SW_%s_zulauf" % st_ort["id"]
+               and all(len(k_["knick"]) == len(k_["mittellinie"]) and len(k_["mittellinie"][0]) == 8 for k_ in kn)
+               and all(r_["s_m"][1] - r_["s_m"][0] >= 15.0 - 1e-3 for r_ in rv),
+               "13g wasser_koerper: %d Kaskadennetz(e), %d River >= 15 m, Lauf-ID, mittellinie 8 Felder"
+               % (len(kn), len(rv)))
+            lip_kn = all(any(k_["s_m"][0] - 0.6 <= lip[i] <= k_["s_m"][1] + 0.6 for k_ in kn)
+                         for i, s_ in enumerate(st_) if s_["fall_m"] >= 0.5)
+            ok(lip_kn and not [b_ for b_ in bef if b_[0] == "FEHLER" and "KN" in b_[2]],
+               "13g jede Stufe >= 0,5 m liegt in einem Netz; Netzregeln (Bett/Ufer/Ueberlappung) 0 FEHLER")
+            o4 = copy.deepcopy(o)
+            for w_ in o4["wasser"]:
+                if w_["id"] == "zulauf":
+                    m_ = w_["wasser_koerper"][0].get("mittellinie") or w_["wasser_koerper"][0]["punkte"]
+                    m_[-1][2] = m_[0][2] + 50          # Mittellinie steigt
+                    w_["wasser_koerper"].append({"id": "x_R9", "typ": "river", "s_m": [70.0, 75.0],
+                                                 "punkte": [[0, 0, 0, 100, 10, 80], [500, 0, 0, 100, 10, 80]]})
+                if w_["id"] == "abfluss" and w_.get("stufen"):
+                    w_["stufen"][0]["fall_m"] = 0.8
+                    w_.pop("wasser_koerper", None)
+            bk4 = [t for s_, _, t in sehens_pruefen.pruefe_baeche(o4, wl, _Boden()) if s_ == "FEHLER"]
+            ok(any("steigt" in t for t in bk4) and any("< 15 m" in t for t in bk4),
+               "13g kaputt: Netz-Mittellinie steigt, River < 15 m -> FEHLER (%d)" % len(bk4))
         else:
             fu = ab.get("furten") or []
             n_st = len([e for e in eb.stuecke if e["gruppe"].startswith("furt_")])
@@ -584,7 +598,7 @@ def main(argv=None):
     z["FEHLER"] += z10
 
     # 11 Auftrag 13f: 1-m-Lader, Feldgrenze, Baumfuss, Baeche an Seen/Stufen/Querprofil/Furt, Senken
-    with schritt("11 Auftrag 13f (A1-A5, A8, A10, A12, A13)"):
+    with schritt("11 Auftrag 13f/13g (A1-A5, A8, A10, A12, A13, wasser_koerper)"):
         z11 = _test_13f(welt, orte[0], a)
     z["FEHLER"] += z11
     log("-" * 60)

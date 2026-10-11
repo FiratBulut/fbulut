@@ -77,5 +77,4 @@ Material-Instanzen 5 von 6: `MI_EL_SW_Verkohlt`, `_Klammfels_Nass`, `_Granit_Moo
   Houdini-Lauf `R_M2_P0__WASSER` (Anker `rinne_w` ohne Wasserausschluss) und endet auf dem Umriss, der Abfluss läuft im
   alten Lauf nach Osten (`muendung_houdini`); das Houdini-Netz ist im See und in beiden Bachkorridoren ausgeblendet
   (`houdini_ausblenden` → `bestand_ausblenden` art `houdini`); `ist_wasser_r_m` 68; `tiefe_m` steht nach dem Stempel in
-  `orte.json`. Klemmblock-Klamm: Fenster 130 m; der Klammbach hat nach dem Koordinator-Entscheid (13f, Frage 1/3 offen) `muendung: auto`
-  – bis der Netzname des Houdini-Gerinnes lokal bekannt ist, endet er `versickert` (35 m, am Fenster) bzw. am nächsten Epic-Bach.
+  `orte.json`. Klemmblock-Klamm: Fenster 130 m, Klammbach endet im bestehenden Houdini-Gerinne (`muendung_houdini: true`).

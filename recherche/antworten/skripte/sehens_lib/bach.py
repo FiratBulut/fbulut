@@ -7,15 +7,14 @@ Ein Bach (Regel "wasser" mit typ "bach") wird in drei Schritten gebaut:
      Tiefenlinie weiter, bis ein Epic-Gewaesser erreicht ist, oder 'versickert' mit mindestens 25 m Laenge.
      Ein Bachende liegt nie unter dem Spiegel des Zielgewaessers.
   2. Spiegel als Treppe (A8, Regelwerk Auftrag 15 'gefaelle_regeln.json'): Becken (<= 3 % Gefaelle, >= 3 m lang,
-     Laenge nach stufen.abstand_L / becken.laenge_min) und Stufen (Lippe -> Fuss <= 1 m). Ab 60 % Gefaelle eine
-     gebuendelte Fallkette (Koordinator 13f): Glieder ~8 m (kette_glied), Einzelfall >= 4 m, hoechstens 25 m, der
-     Fall folgt zwischen Lippe und Fuss der Flanke, dazwischen Becken >= 3 m. Die Stufen stehen explizit im Bach
-     ("stufen": [{"lippe_cm", "fuss_cm", "fall_m", "art"}]) - keine Vorhaenge aus vielen kleinen Faellen.
+     Laenge nach stufen.abstand_L / becken.laenge_min) und Stufen (Lippe -> Fuss <= 1 m). Die Stufen stehen
+     explizit im Bach ("stufen": [{"lippe_cm", "fuss_cm", "fall_m", "art"}]) - keine Vorhaenge aus vielen kleinen
+     Faellen.
   3. Querprofil wie Auftrag 15b (A12): Wasserkante innen (0,3-0,5 m innerhalb der halben Breite, mind. 0,75 Zellen
      von der Mitte), Bett = Spiegel - Tiefe, Boeschung 35 Grad, Ufer beidseits >= Spiegel + 5 cm, Uferring auf
-     Spiegel + 0,2 m bis Netzrand + 1,5 m (hebt hoechstens 1,5 m; Koordinator 13f: Reserve); die letzte Zelle innen
-     an der Wasserkante wird bis zur Boeschung aufgefuellt. Neben dem Fuss einer Stufe gilt 1,5 m lang der
-     Oberwasser-Spiegel (Seitenwand des Falls).
+     Spiegel + 0,2 m bis Netzrand + 1,5 m (hebt hoechstens 2 m; Koordinator 13f: Reserve, die Spiegelplanung
+     rechnet unveraendert mit 0,15 m / 1 m); die letzte Zelle innen an der Wasserkante wird bis zur Boeschung
+     aufgefuellt. Neben dem Fuss einer Stufe gilt 1,5 m lang der Oberwasser-Spiegel (Seitenwand des Falls).
 Der Spiegel im Plan IST das gestempelte Bett + Tiefe (nicht das Bestandsgelaende).
 
 Die Zahlen fuer Becken/Stufen kommen aus recherche/antworten/skripte/gefaelle/gefaelle_regeln.json ueber
@@ -37,7 +36,11 @@ RING_UEBER_M = 0.20                      # Uferring Spiegel + 0,2 m (15b/15e, Ko
 NETZRAND_M = 0.4                         # Netzrand = halbe Breite + 0,4 m (15b)
 RING_BREITE_M = 1.5
 RING_AUSLAUF = 0.5                       # 1:2
-WULST_MAX_M = 1.5                        # Uferring hebt hoechstens 1,5 m (Koordinator 13f: Reserve)
+WULST_MAX_M = 2.0                        # Uferring hebt hoechstens 2 m (Koordinator 13f: Reserve)
+# Spiegelplanung (Treppe, Stufen) rechnet weiter mit den Werten von 13f (Ring + 0,15 m, hebt <= 1 m): Ferat 13g -
+# die Stufen bleiben genau wie in 13f; die Reserve wirkt nur im Stempel (Ufer hoeher, Spiegel und Stufen gleich)
+PLAN_RING_UEBER_M = 0.15
+PLAN_WULST_MAX_M = 1.0
 EINBETTUNG_M = 0.30                      # Spiegel liegt so weit unter dem Gelaende (Huellkurve): Bach eingetieft
 BECKEN_MIN_M = 3.0                       # A8: Becken >= 3 m
 BECKEN_GEF_MAX = 0.03                    # A8: Becken <= 3 %
@@ -92,20 +95,6 @@ def becken_gefaelle():
         return float(min(rw.becken_gefaelle_hart(), BECKEN_GEF_MAX)) if rw is not None else BECKEN_GEF_MAX
     except Exception:            # noqa: BLE001
         return BECKEN_GEF_MAX
-
-
-KETTE_S_MIN = 0.6         # Regelwerk faelle.einzelfall_statt_kette.S_lok_min
-KETTE_D_MIN = 4.0         # Regelwerk faelle.einzelfall_statt_kette.D_min
-
-
-def kette_glied(D_ges, B):
-    """Kettenglied (m) nach Regelwerk faelle.kette_glied (~8 m), Ersatz clamp(D/round(D/8), 2, 12)."""
-    rw = regelwerk()
-    try:
-        return float(rw.kette_glied(D_ges, B)) if rw is not None else \
-            min(max(D_ges / max(1, round(D_ges / 8.0)), 2.0), 12.0)
-    except Exception:     # noqa: BLE001
-        return min(max(D_ges / max(1, round(D_ges / 8.0)), 2.0), 12.0)
 
 
 def stufen_art(D):
@@ -233,49 +222,11 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False, boden_
         j1 = int(np.searchsorted(s, s[k - 1] + fen))
         S_lok = max((M[k - 1] - M[min(j1, n - 1)]) / max(s[min(j1, n - 1)] - s[k - 1], 1e-6), 0.0)
         Lb = becken_laenge(S_lok, B)
-        ketten = S_lok >= KETTE_S_MIN
-        if ketten:
-            # Koordinator 13f / Regelwerk 15 faelle: ab 60 % eine Fallkette - Glieder ~8 m (kette_glied), Einzelfall
-            # >= 4 m, hoechstens 25 m je Fall, dazwischen Becken >= 3 m (statt einer Stufe alle 3,5 m)
-            je = j1
-            while je < n - 1:
-                j2 = int(np.searchsorted(s, s[je] + fen))
-                j2 = min(j2, n - 1)
-                if j2 <= je or (M[je] - M[j2]) / max(s[j2] - s[je], 1e-6) < KETTE_S_MIN:
-                    break
-                je = j2
-            D_ges = float(M[k - 1] - M[min(je, n - 1)])
-            Dg = min(max(kette_glied(D_ges, B), KETTE_D_MIN), fall_max())
-            Lb = max(BECKEN_MIN_M, Dg / max(S_lok, 1e-3) - STUFE_L_M)
-        if ketten:
-            # Fall ueber die steile Flanke: Fuss dort, wo die Huelle das Ziel (Lippe - Dg) erreicht; zwischen Lippe
-            # und Fuss folgt der Spiegel der Huelle (Wasser faellt an der Flanke, kein Graben in die Wand); danach
-            # Becken >= 3 m unter der Huelle
-            ziel = W[k - 1] - max(Dg - S_lok * BECKEN_MIN_M, 0.0)     # + Becken (3 m unter der Huelle) = Dg
-            if W_boden is not None:
-                ziel = max(ziel, float(W_boden))
-            unter = np.nonzero(M[k:] <= ziel + 1e-6)[0]
-            kf = k + int(unter[0]) if len(unter) else n - 1
-            jb = int(np.searchsorted(s, s[kf] + BECKEN_MIN_M, side="right"))
-            jb = min(max(jb, kf + 1), n)
-            neu = float(M[kf:jb].min())
-            if W_boden is not None:
-                neu = max(neu, float(W_boden))
-            neu = min(max(neu, W[k - 1] - fall_max()), W[k - 1])
-            if W[k - 1] - neu >= STUFE_MIN_M and kf > k:
-                for q in range(k, kf):
-                    W[q] = min(W[q - 1], max(float(M[q]), neu))
-                W[kf] = neu
-                stufen.append((float(s[k - 1]), float(s[kf]), float(W[k - 1]), float(neu)))
-                k = kf + 1
-                continue
         j = int(np.searchsorted(s, s[k - 1] + STUFE_L_M + Lb, side="right"))
         j = min(max(j, k + 1), n)
         neu = float(M[k:j].min())
         if W_boden is not None:
             neu = max(neu, float(W_boden))
-        if ketten:
-            neu = max(neu, W[k - 1] - fall_max())          # hoechstens 25 m je Fall
         D = W[k - 1] - neu
         if D < STUFE_MIN_M:
             W[k] = max(M[k], neu)
@@ -529,3 +480,156 @@ def epic_ziele(welt):
         z = EpicZiele(welt)
         welt._epic_ziele = z
     return z
+
+
+# ============================================================================================
+# 13g: Wasserkoerper im A15/14b-Format (river + kaskadennetz) - Adapter auf gefaelle_plan.bauen_wasser_A
+# ============================================================================================
+STUFE_NETZ_MIN_M = 0.5          # 13g: Baeche mit Stufen ab 0,5 m Fall bekommen wasser_koerper
+_GP = {"geladen": False, "mod": None}
+
+
+def gefaelle_plan():
+    """recherche/antworten/skripte/gefaelle/gefaelle_plan.py (Auftrag 15, nur importiert, nicht geaendert) oder None."""
+    if _GP["geladen"]:
+        return _GP["mod"]
+    _GP["geladen"] = True
+    pf = os.path.normpath(os.path.join(HIER, "..", "gefaelle", "gefaelle_plan.py"))
+    try:
+        spec = importlib.util.spec_from_file_location("_sehens_gefaelle_plan", pf)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _GP["mod"] = mod
+    except Exception as ex:      # noqa: BLE001
+        log("Hinweis: gefaelle_plan (Auftrag 15) nicht geladen (%s) - keine wasser_koerper" % ex)
+        _GP["mod"] = None
+    return _GP["mod"]
+
+
+class _LaufProfil:
+    """Minimal-Profil fuer gefaelle_plan.bauen_wasser_A: Bachlinie auf dem Planraster (0,5 m), z0 = geplanter Spiegel
+    (die Stufen sind schon im Spiegel; 'alter Spiegel' = neuer -> River-Tempo aus v)."""
+
+    def __init__(self, s, x, y, W, tiefe_m, v_cm_s):
+        self.s = np.asarray(s, np.float64)
+        self.x = np.asarray(x, np.float64)
+        self.y = np.asarray(y, np.float64)
+        tx, ty = np.gradient(self.x), np.gradient(self.y)
+        n = np.maximum(np.hypot(tx, ty), 1e-9)
+        self.tx, self.ty = tx / n, ty / n
+        self.z0 = np.minimum.accumulate(np.asarray(W, np.float64))
+        self.n = len(self.s)
+        self.tiefe = np.full(self.n, float(tiefe_m))
+        self.v = np.full(self.n, float(v_cm_s))
+
+    def i(self, s):
+        return int(np.clip(np.searchsorted(self.s, s - 1e-9), 0, self.n - 1))
+
+    def xy(self, s):
+        return float(np.interp(s, self.s, self.x)), float(np.interp(s, self.s, self.y))
+
+    def tang(self, s):
+        k = self.i(s)
+        return float(self.tx[k]), float(self.ty[k])
+
+
+def netz_breite(B, zelle_m):
+    """Breite von River/Kaskadennetz (m): Bachbreite, mindestens die Wasserbreite im Gelaende (2 x Wasserkante),
+    so dass der Netzrand (halbe Breite + 0,4 m) an der Uferpruefstelle des Querprofils liegt (ufer_abstand)."""
+    return max(float(B), 2.0 * (ufer_abstand(B, zelle_m) - 0.4))
+
+
+def bett_min(tiefe_m):
+    """Bett-Regel der Netze (A15: >= 0,2 m unter dem Spiegel) fuer das unveraenderte 13f-Querprofil (Bett = Spiegel -
+    tiefe_cm, Wasserkante innen, 35-Grad-Boeschung): tiefster Bettpunkt >= min(0,2 m; halbe Rezepttiefe)."""
+    return round(min(0.2, 0.5 * float(tiefe_m)), 3)
+
+
+def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, zelle_m, melde, niagara_frei=8):
+    """13g: river + kaskadennetz (A15/14b Variante A) aus der fertigen 13f-Treppe - die Stufen werden NICHT neu
+    geplant: Lippe/Fuss/Spiegel kommen unveraendert aus 'stufen' (s_lippe, s_fuss, oben, unten, fall_m, art) und W(s).
+    Kaskadennetz je zusammenhaengender Stufenstrecke (Stufen >= 0,5 m), River >= 15 m dazwischen, kuerzere als Rampe
+    im Netz (15c), Ueberlappung 0,5 m, Netz 2 cm unter dem River. Effekte nach A15 2.9: NS_Impact_Small (Cull 20 m)
+    je Stufe >= 1 m, hoechstens niagara_frei; Vorhang nur an einem Einzelabsturz >= 3 m.
+    Rueckgabe (koerper, effekte) oder (None, []) ohne Stufe >= 0,5 m."""
+    gp = gefaelle_plan()
+    if gp is None:
+        return None, []
+    st_netz = [e for e in stufen if e["fall_m"] >= STUFE_NETZ_MIN_M]
+    if not st_netz:
+        return None, []
+    s = np.asarray(s, np.float64)
+    W = np.minimum.accumulate(np.asarray(W, np.float64))
+    pr = _LaufProfil(s, x, y, W, tiefe_m, gp.TEIL["velocity_becken_cm_s"])
+    L = float(s[-1])
+    # Spiegelpunkte (s, z, Rolle): Lippe/Fuss exakt aus den Stufen, dazwischen der geplante Spiegel alle ~2 m
+    sp = [(0.0, float(W[0]), "becken")]
+    spannen = []
+    for e in stufen:
+        sp.append((float(e["s_lippe"]), float(e["oben"]), "lippe"))
+        sp.append((float(e["s_fuss"]), float(e["unten"]), "rampe" if e["art"] == "schnelle" else "fuss"))
+        spannen.append((float(e["s_lippe"]), float(e["s_fuss"])))
+    for s_ in np.arange(2.0, L - 0.5, 2.0):
+        if any(a - 0.3 <= s_ <= b + 0.3 for a, b in spannen):
+            continue
+        sp.append((float(s_), float(np.interp(s_, s, W)), "becken"))
+    sp.append((L, float(W[-1]), "becken"))
+    sp.sort(key=lambda t: (t[0], -t[1]))
+    sp2 = []
+    for t in sp:
+        if sp2 and abs(t[0] - sp2[-1][0]) < 1e-4:
+            if t[2] in ("lippe", "fuss", "rampe"):
+                sp2[-1] = (t[0], min(t[1], sp2[-1][1]), t[2])
+            continue
+        sp2.append(t)
+    zs = np.minimum.accumulate([t[1] for t in sp2])
+    sp = [(t[0], float(z), t[2]) for t, z in zip(sp2, zs)]
+    # Stufen im A15-Format; Segmente nur aus Stufen >= 0,5 m (kn_bereiche fasst Luecken < 15 m zu Rampen zusammen)
+    st15 = []
+    for k, e in enumerate(stufen):
+        st15.append({"id": "%s_S%02d" % (lauf_id, k), "p": float(e["s_lippe"]),
+                     "l": max(float(e["s_fuss"]) - float(e["s_lippe"]), 0.01), "D": float(e["fall_m"]),
+                     "art": e["art"], "u": float(e["oben"]), "d": float(e["unten"]), "kolk": {"x_strahl": 0.0}})
+    netz_ids = {st15[k]["id"] for k, e in enumerate(stufen) if e["fall_m"] >= STUFE_NETZ_MIN_M}
+    segmente = [(e["p"], e["p"] + e["l"]) for e in st15 if e["id"] in netz_ids]
+    st_in = [e for e in st15 if e["id"] in netz_ids]
+    # Netzbreite = Wasserbreite im Gelaende (A12: Wasserkante mind. 0,75 Zellen von der Mitte) -> der Netzrand
+    # (halbe Breite + 0,4 m) liegt an der Uferpruefstelle des Querprofils; Bett-Regel mit der Rezepttiefe, wenn der Bach
+    # flacher als 0,2 m ist (Querprofil bleibt wie 13f)
+    br = netz_breite(B, zelle_m)
+    alt_z = gp._ZELLE[0]
+    gp._ZELLE[0] = float(zelle_m)
+
+    def melde_netz(st, txt):
+        # die Bett-Regel prueft sehens_pruefen am tiefsten Bettpunkt (13f-Querprofil: Wasserkante innen, 35-Grad-
+        # Boeschung - der A15-Mittelwert ueber 60 % der Breite misst dort die Boeschung mit)
+        if "Bett an" in txt:
+            return
+        melde(st, txt)
+    try:
+        koerper = gp.bauen_wasser_A(pr, sp, st_in, segmente, lambda s_: br, lauf_id,
+                                    lambda xx, yy: np.asarray(boden_fn(xx, yy), np.float64), melde_netz, (),
+                                    lambda xx, yy: np.asarray(alt_fn(xx, yy), np.float64))
+    finally:
+        gp._ZELLE[0] = alt_z
+    for kb in koerper:
+        kb["breite_bach_m"] = round(float(B), 2)
+        if kb["typ"] == "kaskadennetz":
+            kb["pruefung"]["bett_unter_spiegel_min_m"] = bett_min(tiefe_m)
+            kb["pruefung"]["bett_messung"] = "tiefster Bettpunkt quer (13f-Querprofil), Regel min(0,2 m; halbe Tiefe)"
+            kb["pruefung"].pop("bett_zu_flach", None)
+    # Effekte (A15 2.9): NS_Impact_Small am Fuss jeder Stufe >= 1 m, Cull 20 m, groesste zuerst, hoechstens niagara_frei
+    effekte = []
+    hoch = sorted([e for e in st_in if e["D"] >= gp.NIAGARA["D_min_m"]], key=lambda e: -e["D"])
+    for e in hoch[:max(int(niagara_frei), 0)]:
+        fx, fy = pr.xy(e["p"] + e["l"])
+        effekte.append({"typ": "niagara", "asset": gp.NIAGARA["zusatz_system"], "stufe": e["id"],
+                        "pos_cm": [round(fx * 100), round(fy * 100), round(e["d"] * 100)],
+                        "cull_m": gp.NIAGARA["zusatz_cull_m"], "zweck": "Aufprall am Fuss (A15 2.9)"})
+    if len(hoch) > len(effekte):
+        melde("HINWEIS", "%s: %d Stufen >= 1 m ohne NS_Impact_Small (Niagara-Grenze %d gleichzeitig)"
+              % (lauf_id, len(hoch) - len(effekte), gp.NIAGARA["gleichzeitig_hart"]))
+    for kb in koerper:
+        if kb["typ"] == "kaskadennetz":
+            kb["effekte"] = [f for f in effekte if f["stufe"] in kb["stufen"]]
+    return koerper, effekte

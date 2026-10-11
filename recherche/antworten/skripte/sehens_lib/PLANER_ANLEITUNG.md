@@ -312,18 +312,20 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
     höher als der Bachanfang, ist es keine Mündung. Ein Bachende liegt nie unter dem Spiegel des Ziels (+ 2 cm).
     `"muendung": "<Epic-Id>"` (z. B. ein Bestandsbach aus `baeche_alle.json`): der Lauf wird entlang der Tiefenlinie
     verlängert und endet an der ersten Stelle dieses Gewässers, deren Spiegel er erreicht (Bachende nie darunter);
-    sonst WARNUNG „nicht erreichbar“. Kehrt der Abstieg an den eigenen Lauf zurück (Schleife), wird gekappt und aus
-    der Mulde heraus weiter verlängert (Gegenanstieg ≤ 0,5 m, nie neben dem eigenen Lauf).
+    sonst WARNUNG „nicht erreichbar“. Bleibt ein `versickert`-Lauf unter 25 m, wird er ab seinem bisherigen Ende ohne
+    Kehre weiter verlängert (Gegenanstieg ≤ 0,5 m, nie neben dem eigenen Lauf); der Lauf davor bleibt Punkt für Punkt
+    gleich (Stufen unverändert, Ferat 13g).
     `"muendung_houdini": "<Netz>"` (oder `true` = Name lokal zuordnen) – explizit in einen sichtbaren Houdini-Lauf.
   - Spiegel als **Treppe** (Regelwerk Auftrag 15, `gefaelle_regeln.json`): Becken ≤ 3 %, ≥ 3 m (`becken.laenge_min`,
-    `stufen.abstand_L`), Stufen zwei Punkte (Lippe → Fuß 0,5 m). Ab 60 % Gefälle **gebündelt** (Koordinator 13f,
-    Regelwerk 15): Fallkette mit Gliedern ~8 m, Einzelfall ≥ 4 m, höchstens 25 m je Fall, dazwischen Becken ≥ 3 m;
-    zwischen Lippe und Fuß folgt der Spiegel der Flanke (kein Graben in die Wand). In `orte.json` stehen sie explizit:
+    `stufen.abstand_L`), Stufen zwei Punkte (Lippe → Fuß 0,5 m). Keine Bündelung zu Fallketten (Ferat 13g: die Stufen
+    bleiben wie 13f). In `orte.json` stehen sie explizit:
     `"stufen": [{"lippe_cm": [x, y, z], "fuss_cm": [x, y, z], "fall_m", "art": "schnelle|stufe|fall"}]`.
   - **Querprofil** (15b): Wasserkante innen, Bett = Spiegel − `tiefe_cm`, Böschung 35°, Ufer am Netzrand ≥ Spiegel
-    + 5 cm (Uferring Spiegel + 0,2 … 0,5 m, hebt ≤ 1,5 m; die letzte Zelle innen an der Wasserkante wird bis zur
-    Böschung aufgefüllt). Der Spiegel liegt 0,3 m unter dem Gelände (eingetieft); liegt eine Uferseite tiefer (an der
-    Prüfstelle oder eine Zelle dahinter), sinkt der Spiegel bis 2 m tiefer. Fremde Seen samt Uferring werden nicht angeschnitten.
+    + 5 cm (Uferring Spiegel + 0,2 … 0,5 m, hebt ≤ 2 m; die letzte Zelle innen an der Wasserkante wird bis zur
+    Böschung aufgefüllt – die Reserve wirkt nur im Stempel, die Spiegelplanung rechnet wie 13f mit + 0,15 m / ≤ 1 m).
+    Der Spiegel liegt 0,3 m unter dem Gelände (eingetieft); liegt eine Uferseite tiefer, sinkt der Spiegel bis 2 m
+    tiefer. `"im_bestand_stempeln": true`: der Bach IST ein unbenanntes Bestandsgerinne – der Wasserschutz gilt in
+    seinem Korridor (halbe Breite + 3 m) nicht. Fremde Seen samt Uferring werden nicht angeschnitten.
     `"profil": false` schaltet den Stempel für einen Bach ab (nur für Sonderfälle).
   - **Furt** (A13): Quert ein Bach die 3-m-Schutzzone eines Wegs/Orts, läuft er dort flach über den Boden
     (`"furten": [{"von_cm", "bis_cm"}]` im Eintrag); `"furt": {"palette", "groesse_m", "abstand_m"}` legt Trittsteine
@@ -333,6 +335,16 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
     auslaufend (2 m), nie in Weg-/Ortszonen (Koordinator 13f).
   - Neue Felder im Bach-Eintrag: `laenge_m`, `muendung_art` (`see_eigen|bach|fluss|see|teich|houdini|versickert`),
     `muendung_spiegel_cm`, `abfluss_von`, `stufen`, `furten`, `muendung_offen_ab_cm`.
+  - **13g – `wasser_koerper`** (nur Datenformat): Bäche mit einer Stufe ≥ 0,5 m bekommen zusätzlich
+    `wasser_koerper_lauf` (`SW_<ortid>_<bachid>`) und `wasser_koerper` im A15/14b-Format: `river` (≥ 15 m außerhalb der
+    Stufenstrecken) und `kaskadennetz` je zusammenhängender Stufenstrecke (`mittellinie` [x, y, z, breite, tempo,
+    fallanteil, schaum, abstand_bett], `knick`, `rand_ueberstand_m`, `vorhang_an_stufen`, 0,5 m Überlappung, Netz 2 cm
+    unter dem River; River < 15 m als Rampe im Netz). Gebaut mit `gefaelle_plan.bauen_wasser_A` (nur importiert) aus den
+    vorhandenen `stufen` und dem Spiegel – keine neue Planung. Netzbreite = Wasserbreite im Gelände (mind. Bachbreite).
+    Effekte im Netz (`effekte`): `NS_Impact_Small` (Cull 20 m) am Fuß jeder Stufe ≥ 1 m, größte zuerst, höchstens 8
+    Niagara je Ort samt Rezept-Niagara; Vorhang nur an einem Einzelabsturz ≥ 3 m. Prüfer: Netzregeln aus
+    `gefaelle_pruefen.pruefe_wasser` + Bett (tiefster Punkt ≥ min(0,2 m; halbe `tiefe_cm`)) und Ufer am Netzrand
+    ≥ Spiegel + 0,1 m.
 - **Seen**: `tiefe_m` = größte Tiefe nach dem Stempel (`tiefe_regel_m` = Rezept, falls abweichend). Seen < 10 m²
   (A13) werden **Lage/Decal** statt Epic-See: `"klein": {"lage": "Schlamm", "wert": 230, "decal": "MI_…"}`
   (Standard Lage Schlamm, kein Becken). Seeufer unter dem Spiegel ist jetzt FEHLER (Zu-/Abflüsse ausgenommen).
@@ -432,4 +444,4 @@ Beispiel: `hook_windwurf_anker` im Bergwald-Planer setzt die Stammfüße einer S
 - 13f: Ein Bach muss ganz im Geländefenster liegen (sonst gekappt, Mündung → `versickert`) – `fenster_m` groß genug
   wählen. Ketten von Töpfen mit `abfluss_von` + `bis_see` verbinden, nicht mit `von: "<see>_auslass"`.
 - 13f: Bäche nicht als `punkte` auf einen Grat oder an eine Abbruchkante legen – das Profil kann eine Uferseite nur
-  ≤ 1,5 m anheben; der Prüfer meldet „Ufer unter dem Spiegel“.
+  ≤ 2 m anheben; der Prüfer meldet „Ufer unter dem Spiegel“.
