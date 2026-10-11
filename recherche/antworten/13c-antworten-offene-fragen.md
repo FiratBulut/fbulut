@@ -82,13 +82,27 @@ Stand 11.10.2026, nachmittags
 - **Gestrichen:** Realistic Waterfall VFX und Waterfall Pro.
 - **Forest Cretaceous** steht unter „Bewusst nicht aufgenommen“.
 - **Megascans** gelten als „kostenlos (2024 beansprucht)“.
-- **Brushify – Moorlands Pack** ist nicht aufgenommen: Ferat besitzt es nicht und findet es zu teuer. Für Ginster, Wacholder und Wollgras bleibt
-  der Ersatz aus dem Bestand: Sanddorn, gestauchte Jungkiefern, Binsen.
-- **Landschaftsform frei:** Geländestempel sind keine feste Grenze, auch über 40 m hinaus.
 - **Wird geladen:** Desert Western Cliff, weitere Limestone-Assets und Ancraite „Limestone Rock Set“.
 - **Merge B4:**
   - Die entfallenen Gletscher- und Fjord-Wünsche sind aus der Liste genommen.
   - Brandungsgrotte fjord_07 gegen eine Küsten-Grotte: kueste hat keine Grotte (kueste_01–08 ohne Höhle) → keine Dopplung, fjord_07 bleibt.
+
+## Nachträge Ferat (Chat)
+
+Quelle: `sehens-STATUS.md`, Abschnitt „Entscheidungen Ferat (Chat, 11.10. nachmittags)“.
+
+- **Gelände darf frei angepasst werden.** Die Landschaftsform ist keine feste Regel; Geländestempel dürfen auch über 40 m gehen (Beispiel
+  −48 m unter dem Nadeltor, kueste_03). Die übrigen Regeln aus SEHENS_FORMAT §3 bleiben: weicher Rand, Wege und Wasser schonen, keine
+  Überhänge im Gelände.
+- **Klippensteig (Küste) voll bauen:** 4,35 km plus Kap-Pfad (Entscheid Koordinator).
+- **Nature Water FX ist gekauft.** Import und Inventar folgen. Eingeplant für Gischt und Wasserfälle an Seefall, Blasloch, Schleierfall,
+  Schleierwand und Eisfall.
+- **Megascans sind 2024 beansprucht** und damit kostenlos. Desert Western Cliff Layered, weitere Megascans-Limestone-Assets und das kostenlose
+  „Limestone Rock Set“ (Ancraite) werden geladen.
+- **Forest Cretaceous ist gestrichen** (teuer, schlecht bewertet). Riesenbäume bleiben Bestand plus Skalierung.
+- **Brushify – Moorlands Pack ist gestrichen:** Ferat besitzt es nicht und findet es zu teuer.
+  - Für Ginster, Wacholder und Wollgras bleibt der Ersatz aus dem Bestand: Sanddorn, gestauchte Jungkiefern, Binsen.
+  - In `sehens/heide/asset_bedarf.json` steht an jedem Brushify-Wunsch `status_13b`: „gestrichen (Ferat: zu teuer)“.
 
 ## Offene Restfragen
 

@@ -244,6 +244,6 @@ Wollsackfall nur 4 m mit 31,7° → Steinstufen als Instanzen). `standorte.json`
 
 1. **Ginster und Wacholder** gibt es auf Fab nicht (Websuche 11.10.) – Ersatz aus Sanddorn/Jungkiefern ok, oder soll ich Modelle außerhalb
    Fab (CGTrader „Ulex europaeus“, Gumroad „Juniper“) prüfen lassen?
-2. „Brushify – Moorlands Pack“ (Heidekraut + UK-Granit) – evtl. schon in deiner Bibliothek? Preis ungeprüft.
+2. „Brushify – Moorlands Pack“ (Heidekraut + UK-Granit) – evtl. schon in deiner Bibliothek? Preis ungeprüft. → **status_13b: gestrichen (Ferat: zu teuer)**; Ersatz aus dem Bestand bleibt.
 3. heide_02 Ginstergold liegt nach der Verschiebung an einer Waldrand-Lichtung (Laub 49 %) – Leuchtfeuer nur über die Farbe (38 Wegpunkte).
 4. Bildwünsche (leer): Graue Burg (Kuppe), Kolk-Mulde (Kameras in `asset_bedarf.json`).
