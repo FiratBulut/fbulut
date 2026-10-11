@@ -1,0 +1,7844 @@
+{
+ "stand": "2026-10-11",
+ "auftrag": "15 - steile Fluss-/Bachstrecken: Prioritaet",
+ "erzeugt_von": "recherche/antworten/skripte/gefaelle/gefaelle_prioritaet.py",
+ "daten": "2m",
+ "strecken_quelle": "vorlagen/daten/gefaelle/steile_strecken.json (2026-10-11)",
+ "kriterien": {
+  "gewichte": {
+   "sicht": 0.4,
+   "sehens": 0.3,
+   "physik": 0.3
+  },
+  "ziel_hoehe_m": 2.0,
+  "sicht_r_max_m": 300.0,
+  "probe_m": 10.0,
+  "kamera_kegel_grad": 35.0,
+  "umbau_min_anteil": 0.5,
+  "umbau_rest_min_m": 30.0,
+  "gestuft_min_anteil": 0.5,
+  "sicht": "0,45 min(1, Wegpunkte/15) + 0,35 exp(-naechste/120 m) + 0,2 Anteil sichtbar",
+  "sehens": "0,6 min(1, 0,45 Kameras) + 0,4 exp(-Abstand Ortsrand/150 m)",
+  "physik": "0,55 log(1+Fall)/log(61) + 0,3 min(1, Gefaelle/0,3) + 0,15 min(1, Laenge/300 m)"
+ },
+ "status_anzahl": {
+  "offen": 150,
+  "teilweise_sehens": 3,
+  "umgebaut_von_sehens": 6,
+  "gebaut_teilweise": 1,
+  "gebaut_stufen": 1
+ },
+ "pilot": [
+  "B_R_P0_M2_03_s1",
+  "B_R_P0_M2_02_s1",
+  "B_R2_R_P1_M2_01_s1",
+  "F_ERLENBACH_2V_D3_s1",
+  "B_R_P1_M2_01_s1",
+  "B_R_P0_M2_03_s2",
+  "B_R3_R_M2_P0_01_s1",
+  "B_R_P0_M2_02_s2",
+  "B_R_P0_M2_04_s1",
+  "B_R_M3_P1_01_s1",
+  "B_R_P0_M2_01_s1",
+  "B_R_M2_P1_02_s1",
+  "B_R_P4_M2_04_s1",
+  "B_R_P1_M2_03_s1",
+  "B_K8_ELFENFALL_01_s1",
+  "B_R_P5_P1_05_s2",
+  "F_ELFENFLUSS_3_H4_s1",
+  "B_R_P4_M1_03_s1",
+  "B_R2_R_P0_M2_01_s1",
+  "B_R_P3_M2_01_s1"
+ ],
+ "strecken": [
+  {
+   "id": "B_R_P0_M2_03_s1",
+   "lauf": "B_R_P0_M2_03",
+   "art": "bach",
+   "feld": "D2",
+   "biom": "tundra",
+   "laenge_m": 395.3,
+   "fall_m": 72.3,
+   "gefaelle_mittel": 0.183,
+   "gefaelle_max": 0.452,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 395.26,
+   "mitte_cm": [
+    -98202,
+    -191619
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 98,
+    "wegpunkte_sehen": 21,
+    "anteil_wegpunkte": 0.214,
+    "naechste_sicht_m": 19.9,
+    "anteil_strecke_sichtbar": 0.976,
+    "weg_abstand_min_m": 2.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_08_das_wabenmoor",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -6.4
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_08_das_wabenmoor_anmarsch",
+      "ort": "tundra_08_das_wabenmoor",
+      "abstand_m": 61.7
+     },
+     {
+      "kamera": "tundra_08_das_wabenmoor_held",
+      "ort": "tundra_08_das_wabenmoor",
+      "abstand_m": 70.9
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.942,
+    "sehens": 0.94,
+    "physik": 0.883,
+    "gesamt": 92.4
+   },
+   "rang": 1,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 21 Wegpunkte (naechster 20 m), 98 % der Strecke; im Bild von 2 Sehens-Kamera(s) (tundra_08_das_wabenmoor); 0 m vom Rand von tundra_08_das_wabenmoor; 72.3 m Fall auf 395 m (Mittel 18 %, max 45 %)"
+  },
+  {
+   "id": "B_R_P0_M2_02_s1",
+   "lauf": "B_R_P0_M2_02",
+   "art": "bach",
+   "feld": "D2",
+   "biom": "tundra",
+   "laenge_m": 239.5,
+   "fall_m": 49.8,
+   "gefaelle_mittel": 0.208,
+   "gefaelle_max": 0.426,
+   "breite_m": 4.3,
+   "s0_m": 0.0,
+   "s1_m": 239.54,
+   "mitte_cm": [
+    -73787,
+    -211760
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 108,
+    "wegpunkte_sehen": 57,
+    "anteil_wegpunkte": 0.528,
+    "naechste_sicht_m": 11.4,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_02_der_wanderer",
+     "abstand_rand_m": 93.3,
+     "abstand_rand_roh_m": 93.3
+    },
+    "kameras": [
+     {
+      "kamera": "gletscher_02_lawinenkegel_fern",
+      "ort": "gletscher_02_lawinenkegel",
+      "abstand_m": 44.3
+     },
+     {
+      "kamera": "tundra_02_der_wanderer_anmarsch",
+      "ort": "tundra_02_der_wanderer",
+      "abstand_m": 21.2
+     },
+     {
+      "kamera": "tundra_03_die_eiswand_fern",
+      "ort": "tundra_03_die_eiswand",
+      "abstand_m": 293.0
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.968,
+    "sehens": 0.815,
+    "physik": 0.853,
+    "gesamt": 88.8
+   },
+   "rang": 2,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 57 Wegpunkte (naechster 11 m), 100 % der Strecke; im Bild von 3 Sehens-Kamera(s) (gletscher_02_lawinenkegel, tundra_02_der_wanderer, tundra_03_die_eiswand); 93 m vom Rand von tundra_02_der_wanderer; 49.8 m Fall auf 240 m (Mittel 21 %, max 43 %)"
+  },
+  {
+   "id": "B_R2_R_P1_M2_01_s1",
+   "lauf": "B_R2_R_P1_M2_01",
+   "art": "bach",
+   "feld": "E2",
+   "biom": "tundra",
+   "laenge_m": 163.0,
+   "fall_m": 19.4,
+   "gefaelle_mittel": 0.119,
+   "gefaelle_max": 0.206,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 162.97,
+   "mitte_cm": [
+    -47810,
+    -212658
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 125,
+    "wegpunkte_sehen": 84,
+    "anteil_wegpunkte": 0.672,
+    "naechste_sicht_m": 196.1,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 128.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -27.3
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_03_die_eiswand_fern",
+      "ort": "tundra_03_die_eiswand",
+      "abstand_m": 227.8
+     },
+     {
+      "kamera": "tundra_04_die_fliesstreppe_anmarsch",
+      "ort": "tundra_04_die_fliesstreppe",
+      "abstand_m": 151.8
+     },
+     {
+      "kamera": "tundra_04_die_fliesstreppe_held",
+      "ort": "tundra_04_die_fliesstreppe",
+      "abstand_m": 134.3
+     },
+     {
+      "kamera": "tundra_04_die_fliesstreppe_nah",
+      "ort": "tundra_04_die_fliesstreppe",
+      "abstand_m": 69.3
+     }
+    ]
+   },
+   "umbau": [
+    {
+     "ort": "tundra_04_die_fliesstreppe",
+     "biom": "tundra",
+     "laenge_m": 37.8,
+     "anteil": 0.229,
+     "geo": [
+      "bach:schmelzfaden"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "teilweise_sehens",
+   "score": {
+    "sicht": 0.718,
+    "sehens": 1.0,
+    "physik": 0.604,
+    "gesamt": 76.9
+   },
+   "rang": 3,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 84 Wegpunkte (naechster 196 m), 100 % der Strecke; im Bild von 4 Sehens-Kamera(s) (tundra_03_die_eiswand, tundra_04_die_fliesstreppe); 0 m vom Rand von tundra_04_die_fliesstreppe; 19.4 m Fall auf 163 m (Mittel 12 %, max 21 %); beruehrt tundra_04_die_fliesstreppe (38 m) - Abschnitt aussparen"
+  },
+  {
+   "id": "F_ERLENBACH_2V_D3_s1",
+   "lauf": "F_ERLENBACH_2V_D3",
+   "art": "fluss",
+   "feld": "D3",
+   "biom": "tundra",
+   "laenge_m": 155.7,
+   "fall_m": 22.1,
+   "gefaelle_mittel": 0.142,
+   "gefaelle_max": 0.282,
+   "breite_m": 21.3,
+   "s0_m": 0.0,
+   "s1_m": 155.7,
+   "mitte_cm": [
+    -165584,
+    -177661
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 82,
+    "wegpunkte_sehen": 53,
+    "anteil_wegpunkte": 0.646,
+    "naechste_sicht_m": 19.7,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 16.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_01_der_pingo",
+     "abstand_rand_m": 11.2,
+     "abstand_rand_roh_m": 11.2
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_01_der_pingo_held",
+      "ort": "tundra_01_der_pingo",
+      "abstand_m": 55.5
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.947,
+    "sehens": 0.641,
+    "physik": 0.64,
+    "gesamt": 76.3
+   },
+   "rang": 4,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 53 Wegpunkte (naechster 20 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (tundra_01_der_pingo); 11 m vom Rand von tundra_01_der_pingo; 22.1 m Fall auf 156 m (Mittel 14 %, max 28 %)"
+  },
+  {
+   "id": "B_R_P1_M2_01_s1",
+   "lauf": "B_R_P1_M2_01",
+   "art": "bach",
+   "feld": "E2",
+   "biom": "tundra",
+   "laenge_m": 331.8,
+   "fall_m": 41.3,
+   "gefaelle_mittel": 0.125,
+   "gefaelle_max": 0.196,
+   "breite_m": 4.5,
+   "s0_m": 9.49,
+   "s1_m": 341.27,
+   "mitte_cm": [
+    -58079,
+    -209116
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 167,
+    "wegpunkte_sehen": 88,
+    "anteil_wegpunkte": 0.527,
+    "naechste_sicht_m": 60.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 43.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 25.5,
+     "abstand_rand_roh_m": 25.5
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_03_die_eiswand_fern",
+      "ort": "tundra_03_die_eiswand",
+      "abstand_m": 287.9
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.862,
+    "sehens": 0.607,
+    "physik": 0.776,
+    "gesamt": 76.0
+   },
+   "rang": 5,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 88 Wegpunkte (naechster 60 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (tundra_03_die_eiswand); 26 m vom Rand von tundra_04_die_fliesstreppe; 41.3 m Fall auf 332 m (Mittel 12 %, max 20 %)"
+  },
+  {
+   "id": "B_R_P0_M2_03_s2",
+   "lauf": "B_R_P0_M2_03",
+   "art": "bach",
+   "feld": "D3",
+   "biom": "tundra",
+   "laenge_m": 9.5,
+   "fall_m": 2.5,
+   "gefaelle_mittel": 0.265,
+   "gefaelle_max": 0.265,
+   "breite_m": 4.0,
+   "s0_m": 414.23,
+   "s1_m": 423.72,
+   "mitte_cm": [
+    -95700,
+    -170900
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 35,
+    "wegpunkte_sehen": 23,
+    "anteil_wegpunkte": 0.657,
+    "naechste_sicht_m": 122.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 121.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_08_das_wabenmoor",
+     "abstand_rand_m": 2.3,
+     "abstand_rand_roh_m": 2.3
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_08_das_wabenmoor_anmarsch",
+      "ort": "tundra_08_das_wabenmoor",
+      "abstand_m": 103.1
+     },
+     {
+      "kamera": "tundra_08_das_wabenmoor_held",
+      "ort": "tundra_08_das_wabenmoor",
+      "abstand_m": 100.7
+     },
+     {
+      "kamera": "tundra_08_das_wabenmoor_nah",
+      "ort": "tundra_08_das_wabenmoor",
+      "abstand_m": 50.9
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.776,
+    "sehens": 0.994,
+    "physik": 0.437,
+    "gesamt": 74.0
+   },
+   "rang": 6,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 23 Wegpunkte (naechster 122 m), 100 % der Strecke; im Bild von 3 Sehens-Kamera(s) (tundra_08_das_wabenmoor); 2 m vom Rand von tundra_08_das_wabenmoor; 2.5 m Fall auf 10 m (Mittel 26 %, max 26 %)"
+  },
+  {
+   "id": "B_R3_R_M2_P0_01_s1",
+   "lauf": "B_R3_R_M2_P0_01",
+   "art": "bach",
+   "feld": "B5",
+   "biom": "bergwald",
+   "laenge_m": 182.3,
+   "fall_m": 38.3,
+   "gefaelle_mittel": 0.21,
+   "gefaelle_max": 0.286,
+   "breite_m": 4.8,
+   "s0_m": 0.0,
+   "s1_m": 182.27,
+   "mitte_cm": [
+    -273400,
+    8974
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 100,
+    "wegpunkte_sehen": 26,
+    "anteil_wegpunkte": 0.26,
+    "naechste_sicht_m": 51.6,
+    "anteil_strecke_sichtbar": 0.25,
+    "weg_abstand_min_m": 52.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -13.7
+    },
+    "kameras": [
+     {
+      "kamera": "bergwald_03_saeulenhain_held",
+      "ort": "bergwald_03_saeulenhain",
+      "abstand_m": 13.5
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.728,
+    "sehens": 0.67,
+    "physik": 0.792,
+    "gesamt": 73.0
+   },
+   "rang": 7,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 26 Wegpunkte (naechster 52 m), 25 % der Strecke; im Bild von 1 Sehens-Kamera(s) (bergwald_03_saeulenhain); 0 m vom Rand von bergwald_03_saeulenhain; 38.3 m Fall auf 182 m (Mittel 21 %, max 29 %)"
+  },
+  {
+   "id": "B_R_P0_M2_02_s2",
+   "lauf": "B_R_P0_M2_02",
+   "art": "bach",
+   "feld": "E3",
+   "biom": "tundra",
+   "laenge_m": 56.9,
+   "fall_m": 7.6,
+   "gefaelle_mittel": 0.133,
+   "gefaelle_max": 0.184,
+   "breite_m": 5.4,
+   "s0_m": 286.67,
+   "s1_m": 343.61,
+   "mitte_cm": [
+    -66797,
+    -196336
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 79,
+    "wegpunkte_sehen": 38,
+    "anteil_wegpunkte": 0.481,
+    "naechste_sicht_m": 37.6,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 26.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_03_die_eiswand",
+     "abstand_rand_m": 103.1,
+     "abstand_rand_roh_m": 103.1
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_03_die_eiswand_anmarsch",
+      "ort": "tundra_03_die_eiswand",
+      "abstand_m": 39.6
+     },
+     {
+      "kamera": "tundra_03_die_eiswand_fern",
+      "ort": "tundra_03_die_eiswand",
+      "abstand_m": 361.5
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.906,
+    "sehens": 0.741,
+    "physik": 0.449,
+    "gesamt": 71.9
+   },
+   "rang": 8,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 38 Wegpunkte (naechster 38 m), 100 % der Strecke; im Bild von 2 Sehens-Kamera(s) (tundra_03_die_eiswand); 103 m vom Rand von tundra_03_die_eiswand; 7.6 m Fall auf 57 m (Mittel 13 %, max 18 %)"
+  },
+  {
+   "id": "B_R_P0_M2_04_s1",
+   "lauf": "B_R_P0_M2_04",
+   "art": "bach",
+   "feld": "D3",
+   "biom": "tundra",
+   "laenge_m": 125.7,
+   "fall_m": 17.8,
+   "gefaelle_mittel": 0.141,
+   "gefaelle_max": 0.247,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 125.75,
+   "mitte_cm": [
+    -75044,
+    -193931
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 84,
+    "wegpunkte_sehen": 31,
+    "anteil_wegpunkte": 0.369,
+    "naechste_sicht_m": 15.1,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_03_die_eiswand",
+     "abstand_rand_m": 149.8,
+     "abstand_rand_roh_m": 149.8
+    },
+    "kameras": [
+     {
+      "kamera": "wueste_01_yardang_flotte_fern",
+      "ort": "wueste_01_yardang_flotte",
+      "abstand_m": 51.7
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.959,
+    "sehens": 0.417,
+    "physik": 0.596,
+    "gesamt": 68.8
+   },
+   "rang": 9,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 31 Wegpunkte (naechster 15 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (wueste_01_yardang_flotte); 150 m vom Rand von tundra_03_die_eiswand; 17.8 m Fall auf 126 m (Mittel 14 %, max 25 %)"
+  },
+  {
+   "id": "B_R_M3_P1_01_s1",
+   "lauf": "B_R_M3_P1_01",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "aue",
+   "laenge_m": 230.5,
+   "fall_m": 39.9,
+   "gefaelle_mittel": 0.173,
+   "gefaelle_max": 0.373,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 230.52,
+   "mitte_cm": [
+    -368194,
+    117514
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 45,
+    "wegpunkte_sehen": 25,
+    "anteil_wegpunkte": 0.556,
+    "naechste_sicht_m": 47.6,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 40.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "kueste_05_die_gezeitenbank",
+     "abstand_rand_m": 60.0,
+     "abstand_rand_roh_m": 60.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.885,
+    "sehens": 0.268,
+    "physik": 0.785,
+    "gesamt": 67.0
+   },
+   "rang": 10,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 25 Wegpunkte (naechster 48 m), 100 % der Strecke; 60 m vom Rand von kueste_05_die_gezeitenbank; 39.9 m Fall auf 230 m (Mittel 17 %, max 37 %)"
+  },
+  {
+   "id": "B_R_P0_M2_01_s1",
+   "lauf": "B_R_P0_M2_01",
+   "art": "bach",
+   "feld": "D2",
+   "biom": "tundra",
+   "laenge_m": 135.2,
+   "fall_m": 16.6,
+   "gefaelle_mittel": 0.123,
+   "gefaelle_max": 0.148,
+   "breite_m": 6.1,
+   "s0_m": 0.0,
+   "s1_m": 135.23,
+   "mitte_cm": [
+    -68585,
+    -220376
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 143,
+    "wegpunkte_sehen": 41,
+    "anteil_wegpunkte": 0.287,
+    "naechste_sicht_m": 39.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 24.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 124.8,
+     "abstand_rand_roh_m": 124.8
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_02_der_wanderer_fern",
+      "ort": "tundra_02_der_wanderer",
+      "abstand_m": 244.5
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.902,
+    "sehens": 0.444,
+    "physik": 0.574,
+    "gesamt": 66.6
+   },
+   "rang": 11,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 41 Wegpunkte (naechster 40 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (tundra_02_der_wanderer); 125 m vom Rand von tundra_04_die_fliesstreppe; 16.6 m Fall auf 135 m (Mittel 12 %, max 15 %)"
+  },
+  {
+   "id": "B_R_M2_P1_02_s1",
+   "lauf": "B_R_M2_P1_02",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "bergwald",
+   "laenge_m": 191.7,
+   "fall_m": 42.7,
+   "gefaelle_mittel": 0.223,
+   "gefaelle_max": 0.646,
+   "breite_m": 4.1,
+   "s0_m": 0.0,
+   "s1_m": 191.72,
+   "mitte_cm": [
+    -360348,
+    118744
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 46,
+    "wegpunkte_sehen": 24,
+    "anteil_wegpunkte": 0.522,
+    "naechste_sicht_m": 33.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "kueste_05_die_gezeitenbank",
+     "abstand_rand_m": 156.8,
+     "abstand_rand_roh_m": 156.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.916,
+    "sehens": 0.141,
+    "physik": 0.824,
+    "gesamt": 65.6
+   },
+   "rang": 12,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 24 Wegpunkte (naechster 33 m), 100 % der Strecke; 42.7 m Fall auf 192 m (Mittel 22 %, max 65 %)"
+  },
+  {
+   "id": "B_R_P4_M2_04_s1",
+   "lauf": "B_R_P4_M2_04",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 573.0,
+   "fall_m": 133.5,
+   "gefaelle_mittel": 0.233,
+   "gefaelle_max": 0.63,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 573.0,
+   "mitte_cm": [
+    267757,
+    -130798
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 117,
+    "wegpunkte_sehen": 11,
+    "anteil_wegpunkte": 0.094,
+    "naechste_sicht_m": 28.1,
+    "anteil_strecke_sichtbar": 0.169,
+    "weg_abstand_min_m": 2.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -10.5
+    },
+    "kameras": []
+   },
+   "umbau": [
+    {
+     "ort": "elfenwald_04_elfentreppe",
+     "biom": "elfenwald",
+     "laenge_m": 18.0,
+     "anteil": 0.031,
+     "geo": [
+      "see:becken_1",
+      "bach:zulauf",
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "teilweise_sehens",
+   "score": {
+    "sicht": 0.641,
+    "sehens": 0.4,
+    "physik": 0.933,
+    "gesamt": 65.6
+   },
+   "rang": 13,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 28 m), 17 % der Strecke; 0 m vom Rand von elfenwald_04_elfentreppe; 133.5 m Fall auf 573 m (Mittel 23 %, max 63 %); beruehrt elfenwald_04_elfentreppe (18 m) - Abschnitt aussparen"
+  },
+  {
+   "id": "B_R_P1_M2_03_s1",
+   "lauf": "B_R_P1_M2_03",
+   "art": "bach",
+   "feld": "E2",
+   "biom": "tundra",
+   "laenge_m": 71.7,
+   "fall_m": 8.6,
+   "gefaelle_mittel": 0.12,
+   "gefaelle_max": 0.149,
+   "breite_m": 6.3,
+   "s0_m": 10.3,
+   "s1_m": 82.0,
+   "mitte_cm": [
+    -64460,
+    -210814
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 122,
+    "wegpunkte_sehen": 68,
+    "anteil_wegpunkte": 0.557,
+    "naechste_sicht_m": 34.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 24.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 120.9,
+     "abstand_rand_roh_m": 120.9
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_03_die_eiswand_fern",
+      "ort": "tundra_03_die_eiswand",
+      "abstand_m": 223.3
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.913,
+    "sehens": 0.449,
+    "physik": 0.458,
+    "gesamt": 63.7
+   },
+   "rang": 14,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 68 Wegpunkte (naechster 34 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (tundra_03_die_eiswand); 121 m vom Rand von tundra_04_die_fliesstreppe; 8.6 m Fall auf 72 m (Mittel 12 %, max 15 %)"
+  },
+  {
+   "id": "B_K8_ELFENFALL_01_s1",
+   "lauf": "B_K8_ELFENFALL_01",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 447.6,
+   "fall_m": 114.9,
+   "gefaelle_mittel": 0.257,
+   "gefaelle_max": 0.628,
+   "breite_m": 5.5,
+   "s0_m": 0.0,
+   "s1_m": 447.61,
+   "mitte_cm": [
+    281228,
+    -98830
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 28,
+    "wegpunkte_sehen": 5,
+    "anteil_wegpunkte": 0.179,
+    "naechste_sicht_m": 76.6,
+    "anteil_strecke_sichtbar": 0.152,
+    "weg_abstand_min_m": 68.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_03_rotlaubhain",
+     "abstand_rand_m": 7.1,
+     "abstand_rand_roh_m": 7.1
+    },
+    "kameras": [
+     {
+      "kamera": "elfenwald_03_rotlaubhain_fern",
+      "ort": "elfenwald_03_rotlaubhain",
+      "abstand_m": 256.5
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.365,
+    "sehens": 0.652,
+    "physik": 0.957,
+    "gesamt": 62.9
+   },
+   "rang": 15,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 5 Wegpunkte (naechster 77 m), 15 % der Strecke; im Bild von 1 Sehens-Kamera(s) (elfenwald_03_rotlaubhain); 7 m vom Rand von elfenwald_03_rotlaubhain; 114.9 m Fall auf 448 m (Mittel 26 %, max 63 %)"
+  },
+  {
+   "id": "B_R_P5_P1_05_s2",
+   "lauf": "B_R_P5_P1_05",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 181.5,
+   "fall_m": 37.3,
+   "gefaelle_mittel": 0.206,
+   "gefaelle_max": 0.403,
+   "breite_m": 4.1,
+   "s0_m": 18.92,
+   "s1_m": 200.42,
+   "mitte_cm": [
+    378250,
+    151156
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 53,
+    "wegpunkte_sehen": 24,
+    "anteil_wegpunkte": 0.453,
+    "naechste_sicht_m": 32.8,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 337.6,
+     "abstand_rand_roh_m": 337.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.916,
+    "sehens": 0.042,
+    "physik": 0.784,
+    "gesamt": 61.5
+   },
+   "rang": 16,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 24 Wegpunkte (naechster 33 m), 100 % der Strecke; 37.3 m Fall auf 182 m (Mittel 21 %, max 40 %)"
+  },
+  {
+   "id": "F_ELFENFLUSS_3_H4_s1",
+   "lauf": "F_ELFENFLUSS_3_H4",
+   "art": "fluss",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 418.0,
+   "fall_m": 45.0,
+   "gefaelle_mittel": 0.108,
+   "gefaelle_max": 0.17,
+   "breite_m": 33.9,
+   "s0_m": 0.0,
+   "s1_m": 417.97,
+   "mitte_cm": [
+    250826,
+    -52170
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 67,
+    "wegpunkte_sehen": 19,
+    "anteil_wegpunkte": 0.284,
+    "naechste_sicht_m": 51.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_06_blauer_grund",
+     "abstand_rand_m": 206.1,
+     "abstand_rand_roh_m": 206.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.879,
+    "sehens": 0.101,
+    "physik": 0.77,
+    "gesamt": 61.3
+   },
+   "rang": 17,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 19 Wegpunkte (naechster 51 m), 100 % der Strecke; 45.0 m Fall auf 418 m (Mittel 11 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P4_M1_03_s1",
+   "lauf": "B_R_P4_M1_03",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 250.6,
+   "fall_m": 39.5,
+   "gefaelle_mittel": 0.158,
+   "gefaelle_max": 0.28,
+   "breite_m": 4.4,
+   "s0_m": 0.0,
+   "s1_m": 250.58,
+   "mitte_cm": [
+    246795,
+    -95821
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 111,
+    "wegpunkte_sehen": 14,
+    "anteil_wegpunkte": 0.126,
+    "naechste_sicht_m": 10.7,
+    "anteil_strecke_sichtbar": 0.37,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_03_rotlaubhain",
+     "abstand_rand_m": 135.8,
+     "abstand_rand_roh_m": 135.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.814,
+    "sehens": 0.162,
+    "physik": 0.779,
+    "gesamt": 60.8
+   },
+   "rang": 18,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 11 m), 37 % der Strecke; 136 m vom Rand von elfenwald_03_rotlaubhain; 39.5 m Fall auf 251 m (Mittel 16 %, max 28 %)"
+  },
+  {
+   "id": "B_R_P4_M2_02_s1",
+   "lauf": "B_R_P4_M2_02",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 115.3,
+   "fall_m": 16.5,
+   "gefaelle_mittel": 0.144,
+   "gefaelle_max": 0.289,
+   "breite_m": 4.7,
+   "s0_m": 0.0,
+   "s1_m": 115.25,
+   "mitte_cm": [
+    236265,
+    -162075
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 108,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.028,
+    "naechste_sicht_m": 61.2,
+    "anteil_strecke_sichtbar": 0.154,
+    "weg_abstand_min_m": 58.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -36.7
+    },
+    "kameras": [
+     {
+      "kamera": "elfenwald_08_wurzelbruecke_anmarsch",
+      "ort": "elfenwald_08_wurzelbruecke",
+      "abstand_m": 55.7
+     },
+     {
+      "kamera": "elfenwald_08_wurzelbruecke_held",
+      "ort": "elfenwald_08_wurzelbruecke",
+      "abstand_m": 50.2
+     },
+     {
+      "kamera": "elfenwald_08_wurzelbruecke_nah",
+      "ort": "elfenwald_08_wurzelbruecke",
+      "abstand_m": 12.4
+     }
+    ]
+   },
+   "umbau": [
+    {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "biom": "elfenwald",
+     "laenge_m": 79.5,
+     "anteil": 0.678,
+     "geo": [
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "umgebaut_von_sehens",
+   "score": {
+    "sicht": 0.331,
+    "sehens": 1.0,
+    "physik": 0.585,
+    "gesamt": 60.8
+   },
+   "rang": 19,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 61 m), 15 % der Strecke; im Bild von 3 Sehens-Kamera(s) (elfenwald_08_wurzelbruecke); 0 m vom Rand von elfenwald_08_wurzelbruecke; 16.5 m Fall auf 115 m (Mittel 14 %, max 29 %); wird von elfenwald_08_wurzelbruecke umgebaut - nicht doppelt planen"
+  },
+  {
+   "id": "B_R2_R_P0_M2_01_s1",
+   "lauf": "B_R2_R_P0_M2_01",
+   "art": "bach",
+   "feld": "E2",
+   "biom": "tundra",
+   "laenge_m": 47.1,
+   "fall_m": 7.2,
+   "gefaelle_mittel": 0.152,
+   "gefaelle_max": 0.175,
+   "breite_m": 4.6,
+   "s0_m": 0.0,
+   "s1_m": 47.15,
+   "mitte_cm": [
+    -65928,
+    -222014
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 147,
+    "wegpunkte_sehen": 48,
+    "anteil_wegpunkte": 0.327,
+    "naechste_sicht_m": 71.6,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 60.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 124.8,
+     "abstand_rand_roh_m": 124.8
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_02_der_wanderer_fern",
+      "ort": "tundra_02_der_wanderer",
+      "abstand_m": 229.0
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.843,
+    "sehens": 0.444,
+    "physik": 0.457,
+    "gesamt": 60.7
+   },
+   "rang": 20,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 48 Wegpunkte (naechster 72 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (tundra_02_der_wanderer); 125 m vom Rand von tundra_04_die_fliesstreppe; 7.2 m Fall auf 47 m (Mittel 15 %, max 18 %)"
+  },
+  {
+   "id": "B_R_P3_M2_01_s1",
+   "lauf": "B_R_P3_M2_01",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 386.2,
+   "fall_m": 46.9,
+   "gefaelle_mittel": 0.121,
+   "gefaelle_max": 0.292,
+   "breite_m": 4.1,
+   "s0_m": 0.0,
+   "s1_m": 386.22,
+   "mitte_cm": [
+    181250,
+    -166265
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 101,
+    "wegpunkte_sehen": 17,
+    "anteil_wegpunkte": 0.168,
+    "naechste_sicht_m": 16.3,
+    "anteil_strecke_sichtbar": 0.525,
+    "weg_abstand_min_m": 2.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 255.7,
+     "abstand_rand_roh_m": 255.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.861,
+    "sehens": 0.073,
+    "physik": 0.789,
+    "gesamt": 60.3
+   },
+   "rang": 21,
+   "pilot": true,
+   "begruendung": "vom Weg/Pfad sichtbar: 17 Wegpunkte (naechster 16 m), 52 % der Strecke; 46.9 m Fall auf 386 m (Mittel 12 %, max 29 %)"
+  },
+  {
+   "id": "B_R_P5_P1_03_s1",
+   "lauf": "B_R_P5_P1_03",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 156.0,
+   "fall_m": 25.3,
+   "gefaelle_mittel": 0.162,
+   "gefaelle_max": 0.284,
+   "breite_m": 4.0,
+   "s0_m": 0.0,
+   "s1_m": 156.01,
+   "mitte_cm": [
+    379495,
+    145031
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 54,
+    "wegpunkte_sehen": 26,
+    "anteil_wegpunkte": 0.481,
+    "naechste_sicht_m": 12.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 6.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 340.0,
+     "abstand_rand_roh_m": 340.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.967,
+    "sehens": 0.041,
+    "physik": 0.677,
+    "gesamt": 60.2
+   },
+   "rang": 22,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 26 Wegpunkte (naechster 12 m), 100 % der Strecke; 25.3 m Fall auf 156 m (Mittel 16 %, max 28 %)"
+  },
+  {
+   "id": "B_R2_R_M1_M1_02_s2",
+   "lauf": "B_R2_R_M1_M1_02",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 134.1,
+   "fall_m": 19.1,
+   "gefaelle_mittel": 0.142,
+   "gefaelle_max": 0.178,
+   "breite_m": 4.1,
+   "s0_m": 44.66,
+   "s1_m": 178.73,
+   "mitte_cm": [
+    -255670,
+    -61973
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 63,
+    "wegpunkte_sehen": 14,
+    "anteil_wegpunkte": 0.222,
+    "naechste_sicht_m": 10.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 160.6,
+     "abstand_rand_roh_m": 160.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.941,
+    "sehens": 0.137,
+    "physik": 0.611,
+    "gesamt": 60.1
+   },
+   "rang": 23,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 10 m), 100 % der Strecke; 19.1 m Fall auf 134 m (Mittel 14 %, max 18 %)"
+  },
+  {
+   "id": "B_R_M1_P0_03_s1",
+   "lauf": "B_R_M1_P0_03",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 56.4,
+   "fall_m": 11.2,
+   "gefaelle_mittel": 0.198,
+   "gefaelle_max": 0.232,
+   "breite_m": 4.9,
+   "s0_m": 0.0,
+   "s1_m": 56.35,
+   "mitte_cm": [
+    -262289,
+    11647
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 80,
+    "wegpunkte_sehen": 27,
+    "anteil_wegpunkte": 0.338,
+    "naechste_sicht_m": 43.9,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 12.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 70.2,
+     "abstand_rand_roh_m": 70.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.893,
+    "sehens": 0.251,
+    "physik": 0.561,
+    "gesamt": 60.1
+   },
+   "rang": 24,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 27 Wegpunkte (naechster 44 m), 100 % der Strecke; 70 m vom Rand von bergwald_03_saeulenhain; 11.2 m Fall auf 56 m (Mittel 20 %, max 23 %)"
+  },
+  {
+   "id": "B_R_P4_M1_02_s1",
+   "lauf": "B_R_P4_M1_02",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 174.7,
+   "fall_m": 28.7,
+   "gefaelle_mittel": 0.164,
+   "gefaelle_max": 0.306,
+   "breite_m": 4.1,
+   "s0_m": 0.0,
+   "s1_m": 174.7,
+   "mitte_cm": [
+    250075,
+    -110930
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 83,
+    "wegpunkte_sehen": 11,
+    "anteil_wegpunkte": 0.133,
+    "naechste_sicht_m": 10.5,
+    "anteil_strecke_sichtbar": 0.684,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 87.8,
+     "abstand_rand_roh_m": 87.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.787,
+    "sehens": 0.223,
+    "physik": 0.705,
+    "gesamt": 59.3
+   },
+   "rang": 25,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 10 m), 68 % der Strecke; 88 m vom Rand von elfenwald_04_elfentreppe; 28.7 m Fall auf 175 m (Mittel 16 %, max 31 %)"
+  },
+  {
+   "id": "B_R_P1_M2_02_s2",
+   "lauf": "B_R_P1_M2_02",
+   "art": "bach",
+   "feld": "E2",
+   "biom": "tundra",
+   "laenge_m": 172.6,
+   "fall_m": 38.4,
+   "gefaelle_mittel": 0.223,
+   "gefaelle_max": 0.372,
+   "breite_m": 5.5,
+   "s0_m": 47.08,
+   "s1_m": 219.65,
+   "mitte_cm": [
+    -29446,
+    -213704
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 46,
+    "wegpunkte_sehen": 16,
+    "anteil_wegpunkte": 0.348,
+    "naechste_sicht_m": 202.9,
+    "anteil_strecke_sichtbar": 0.842,
+    "weg_abstand_min_m": 202.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 73.7,
+     "abstand_rand_roh_m": 73.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.683,
+    "sehens": 0.245,
+    "physik": 0.801,
+    "gesamt": 58.7
+   },
+   "rang": 26,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 16 Wegpunkte (naechster 203 m), 84 % der Strecke; 74 m vom Rand von tundra_04_die_fliesstreppe; 38.4 m Fall auf 173 m (Mittel 22 %, max 37 %)"
+  },
+  {
+   "id": "B_K1_WASSERFALL_WEST_01_s1",
+   "lauf": "B_K1_WASSERFALL_WEST_01",
+   "art": "bach",
+   "feld": "B4",
+   "biom": "bergwald",
+   "laenge_m": 279.2,
+   "fall_m": 48.1,
+   "gefaelle_mittel": 0.172,
+   "gefaelle_max": 0.285,
+   "breite_m": 5.8,
+   "s0_m": 0.0,
+   "s1_m": 279.22,
+   "mitte_cm": [
+    -278192,
+    -86238
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 110,
+    "wegpunkte_sehen": 7,
+    "anteil_wegpunkte": 0.064,
+    "naechste_sicht_m": 24.7,
+    "anteil_strecke_sichtbar": 0.793,
+    "weg_abstand_min_m": 10.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_02_die_brandkiefer",
+     "abstand_rand_m": 70.4,
+     "abstand_rand_roh_m": 70.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.653,
+    "sehens": 0.25,
+    "physik": 0.833,
+    "gesamt": 58.6
+   },
+   "rang": 27,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 25 m), 79 % der Strecke; 70 m vom Rand von bergwald_02_die_brandkiefer; 48.1 m Fall auf 279 m (Mittel 17 %, max 28 %)"
+  },
+  {
+   "id": "B_R_M1_M1_03_s1",
+   "lauf": "B_R_M1_M1_03",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 116.3,
+   "fall_m": 17.5,
+   "gefaelle_mittel": 0.15,
+   "gefaelle_max": 0.321,
+   "breite_m": 3.9,
+   "s0_m": 0.0,
+   "s1_m": 116.27,
+   "mitte_cm": [
+    -248368,
+    -27948
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 99,
+    "wegpunkte_sehen": 53,
+    "anteil_wegpunkte": 0.535,
+    "naechste_sicht_m": 10.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_02_die_alte",
+     "abstand_rand_m": 279.1,
+     "abstand_rand_roh_m": 279.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.971,
+    "sehens": 0.062,
+    "physik": 0.599,
+    "gesamt": 58.6
+   },
+   "rang": 28,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 53 Wegpunkte (naechster 10 m), 100 % der Strecke; 17.5 m Fall auf 116 m (Mittel 15 %, max 32 %)"
+  },
+  {
+   "id": "B_R2_R_M1_M1_06_s1",
+   "lauf": "B_R2_R_M1_M1_06",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 94.2,
+   "fall_m": 22.7,
+   "gefaelle_mittel": 0.241,
+   "gefaelle_max": 0.412,
+   "breite_m": 4.1,
+   "s0_m": 152.99,
+   "s1_m": 247.15,
+   "mitte_cm": [
+    -245326,
+    -49162
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 82,
+    "wegpunkte_sehen": 36,
+    "anteil_wegpunkte": 0.439,
+    "naechste_sicht_m": 72.7,
+    "anteil_strecke_sichtbar": 0.636,
+    "weg_abstand_min_m": 68.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_02_die_alte",
+     "abstand_rand_m": 96.6,
+     "abstand_rand_roh_m": 96.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.768,
+    "sehens": 0.21,
+    "physik": 0.712,
+    "gesamt": 58.4
+   },
+   "rang": 29,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 36 Wegpunkte (naechster 73 m), 64 % der Strecke; 97 m vom Rand von aue_02_die_alte; 22.7 m Fall auf 94 m (Mittel 24 %, max 41 %)"
+  },
+  {
+   "id": "B_R_M2_P1_01_s2",
+   "lauf": "B_R_M2_P1_01",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "bergwald",
+   "laenge_m": 267.1,
+   "fall_m": 28.1,
+   "gefaelle_mittel": 0.105,
+   "gefaelle_max": 0.241,
+   "breite_m": 4.0,
+   "s0_m": 104.23,
+   "s1_m": 371.3,
+   "mitte_cm": [
+    -344813,
+    130700
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 48,
+    "wegpunkte_sehen": 15,
+    "anteil_wegpunkte": 0.312,
+    "naechste_sicht_m": 44.7,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 4.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "kueste_05_die_gezeitenbank",
+     "abstand_rand_m": 304.2,
+     "abstand_rand_roh_m": 304.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.891,
+    "sehens": 0.053,
+    "physik": 0.69,
+    "gesamt": 57.9
+   },
+   "rang": 30,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 15 Wegpunkte (naechster 45 m), 100 % der Strecke; 28.1 m Fall auf 267 m (Mittel 10 %, max 24 %)"
+  },
+  {
+   "id": "B_R_P4_M1_01_s1",
+   "lauf": "B_R_P4_M1_01",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 104.2,
+   "fall_m": 17.5,
+   "gefaelle_mittel": 0.168,
+   "gefaelle_max": 0.29,
+   "breite_m": 4.6,
+   "s0_m": 0.0,
+   "s1_m": 104.15,
+   "mitte_cm": [
+    238125,
+    -121693
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 116,
+    "wegpunkte_sehen": 1,
+    "anteil_wegpunkte": 0.009,
+    "naechste_sicht_m": 64.4,
+    "anteil_strecke_sichtbar": 0.25,
+    "weg_abstand_min_m": 43.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -43.4
+    },
+    "kameras": [
+     {
+      "kamera": "elfenwald_04_elfentreppe_anmarsch",
+      "ort": "elfenwald_04_elfentreppe",
+      "abstand_m": 22.2
+     },
+     {
+      "kamera": "elfenwald_04_elfentreppe_held",
+      "ort": "elfenwald_04_elfentreppe",
+      "abstand_m": 20.0
+     }
+    ]
+   },
+   "umbau": [
+    {
+     "ort": "elfenwald_04_elfentreppe",
+     "biom": "elfenwald",
+     "laenge_m": 86.5,
+     "anteil": 0.815,
+     "geo": [
+      "see:becken_1",
+      "see:becken_2",
+      "see:becken_3",
+      "see:becken_4",
+      "see:becken_5",
+      "bach:zulauf",
+      "bach:stufe_1",
+      "bach:stufe_2",
+      "bach:stufe_3",
+      "bach:stufe_4",
+      "bach:abfluss",
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "umgebaut_von_sehens",
+   "score": {
+    "sicht": 0.285,
+    "sehens": 0.94,
+    "physik": 0.61,
+    "gesamt": 57.9
+   },
+   "rang": 31,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 1 Wegpunkte (naechster 64 m), 25 % der Strecke; im Bild von 2 Sehens-Kamera(s) (elfenwald_04_elfentreppe); 0 m vom Rand von elfenwald_04_elfentreppe; 17.5 m Fall auf 104 m (Mittel 17 %, max 29 %); wird von elfenwald_04_elfentreppe umgebaut - nicht doppelt planen"
+  },
+  {
+   "id": "B_R_P3_P1_01_s1",
+   "lauf": "B_R_P3_P1_01",
+   "art": "bach",
+   "feld": "G6",
+   "biom": "dschungel",
+   "laenge_m": 75.6,
+   "fall_m": 14.7,
+   "gefaelle_mittel": 0.194,
+   "gefaelle_max": 0.421,
+   "breite_m": 3.9,
+   "s0_m": 0.0,
+   "s1_m": 75.55,
+   "mitte_cm": [
+    216080,
+    124259
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 46,
+    "wegpunkte_sehen": 13,
+    "anteil_wegpunkte": 0.283,
+    "naechste_sicht_m": 15.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_04_blaues_auge",
+     "abstand_rand_m": 211.5,
+     "abstand_rand_roh_m": 211.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.899,
+    "sehens": 0.098,
+    "physik": 0.6,
+    "gesamt": 56.9
+   },
+   "rang": 32,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 13 Wegpunkte (naechster 15 m), 100 % der Strecke; 14.7 m Fall auf 76 m (Mittel 19 %, max 42 %)"
+  },
+  {
+   "id": "B_R_P3_M1_02_s1",
+   "lauf": "B_R_P3_M1_02",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 23.9,
+   "fall_m": 2.8,
+   "gefaelle_mittel": 0.118,
+   "gefaelle_max": 0.171,
+   "breite_m": 4.8,
+   "s0_m": 37.76,
+   "s1_m": 61.7,
+   "mitte_cm": [
+    232831,
+    -113731
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 110,
+    "wegpunkte_sehen": 27,
+    "anteil_wegpunkte": 0.245,
+    "naechste_sicht_m": 12.9,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 54.4,
+     "abstand_rand_roh_m": 54.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.964,
+    "sehens": 0.278,
+    "physik": 0.309,
+    "gesamt": 56.2
+   },
+   "rang": 33,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 27 Wegpunkte (naechster 13 m), 100 % der Strecke; 54 m vom Rand von elfenwald_04_elfentreppe; 2.8 m Fall auf 24 m (Mittel 12 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P4_M1_02_s2",
+   "lauf": "B_R_P4_M1_02",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 56.5,
+   "fall_m": 6.1,
+   "gefaelle_mittel": 0.108,
+   "gefaelle_max": 0.155,
+   "breite_m": 4.1,
+   "s0_m": 183.65,
+   "s1_m": 240.1,
+   "mitte_cm": [
+    237972,
+    -108664
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 92,
+    "wegpunkte_sehen": 20,
+    "anteil_wegpunkte": 0.217,
+    "naechste_sicht_m": 22.1,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 6.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 91.5,
+     "abstand_rand_roh_m": 91.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.941,
+    "sehens": 0.217,
+    "physik": 0.398,
+    "gesamt": 56.1
+   },
+   "rang": 34,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 20 Wegpunkte (naechster 22 m), 100 % der Strecke; 92 m vom Rand von elfenwald_04_elfentreppe; 6.1 m Fall auf 56 m (Mittel 11 %, max 16 %)"
+  },
+  {
+   "id": "B_R2_R_M1_P0_04_s1",
+   "lauf": "B_R2_R_M1_P0_04",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 153.5,
+   "fall_m": 17.5,
+   "gefaelle_mittel": 0.114,
+   "gefaelle_max": 0.16,
+   "breite_m": 3.7,
+   "s0_m": 20.2,
+   "s1_m": 173.71,
+   "mitte_cm": [
+    -255391,
+    41200
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 58,
+    "wegpunkte_sehen": 33,
+    "anteil_wegpunkte": 0.569,
+    "naechste_sicht_m": 41.6,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 10.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 287.0,
+     "abstand_rand_roh_m": 287.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.897,
+    "sehens": 0.059,
+    "physik": 0.581,
+    "gesamt": 55.1
+   },
+   "rang": 35,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 33 Wegpunkte (naechster 42 m), 100 % der Strecke; 17.5 m Fall auf 154 m (Mittel 11 %, max 16 %)"
+  },
+  {
+   "id": "B_R2_R_M1_P0_04_s2",
+   "lauf": "B_R2_R_M1_P0_04",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 17.8,
+   "fall_m": 1.6,
+   "gefaelle_mittel": 0.089,
+   "gefaelle_max": 0.108,
+   "breite_m": 4.0,
+   "s0_m": 192.16,
+   "s1_m": 209.92,
+   "mitte_cm": [
+    -245406,
+    39681
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 49,
+    "wegpunkte_sehen": 30,
+    "anteil_wegpunkte": 0.612,
+    "naechste_sicht_m": 11.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "lava_03_kraterkinder",
+     "abstand_rand_m": 340.0,
+     "abstand_rand_roh_m": 340.0
+    },
+    "kameras": [
+     {
+      "kamera": "aue_03_schwalbenwand_fern",
+      "ort": "aue_03_schwalbenwand",
+      "abstand_m": 71.2
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.968,
+    "sehens": 0.311,
+    "physik": 0.226,
+    "gesamt": 54.8
+   },
+   "rang": 36,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 30 Wegpunkte (naechster 12 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (aue_03_schwalbenwand); 1.6 m Fall auf 18 m (Mittel 9 %, max 11 %)"
+  },
+  {
+   "id": "B_K1_WASSERFALL_WEST_02_s1",
+   "lauf": "B_K1_WASSERFALL_WEST_02",
+   "art": "bach",
+   "feld": "B4",
+   "biom": "bergwald",
+   "laenge_m": 215.1,
+   "fall_m": 38.1,
+   "gefaelle_mittel": 0.177,
+   "gefaelle_max": 0.265,
+   "breite_m": 5.4,
+   "s0_m": 0.0,
+   "s1_m": 215.1,
+   "mitte_cm": [
+    -273819,
+    -71203
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 73,
+    "wegpunkte_sehen": 6,
+    "anteil_wegpunkte": 0.082,
+    "naechste_sicht_m": 30.7,
+    "anteil_strecke_sichtbar": 0.826,
+    "weg_abstand_min_m": 10.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 95.8,
+     "abstand_rand_roh_m": 95.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.616,
+    "sehens": 0.211,
+    "physik": 0.775,
+    "gesamt": 54.2
+   },
+   "rang": 37,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 31 m), 83 % der Strecke; 96 m vom Rand von aue_01_biberstau; 38.1 m Fall auf 215 m (Mittel 18 %, max 26 %)"
+  },
+  {
+   "id": "B_R2_R_M1_P0_03_s1",
+   "lauf": "B_R2_R_M1_P0_03",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 70.1,
+   "fall_m": 8.1,
+   "gefaelle_mittel": 0.116,
+   "gefaelle_max": 0.194,
+   "breite_m": 3.9,
+   "s0_m": 5.0,
+   "s1_m": 75.12,
+   "mitte_cm": [
+    -262215,
+    18019
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 64,
+    "wegpunkte_sehen": 16,
+    "anteil_wegpunkte": 0.25,
+    "naechste_sicht_m": 63.2,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 33.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 104.2,
+     "abstand_rand_roh_m": 104.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.857,
+    "sehens": 0.2,
+    "physik": 0.446,
+    "gesamt": 53.7
+   },
+   "rang": 38,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 16 Wegpunkte (naechster 63 m), 100 % der Strecke; 104 m vom Rand von bergwald_03_saeulenhain; 8.1 m Fall auf 70 m (Mittel 12 %, max 19 %)"
+  },
+  {
+   "id": "B_R_M2_P0_01_s1",
+   "lauf": "B_R_M2_P0_01",
+   "art": "bach",
+   "feld": "B5",
+   "biom": "bergwald",
+   "laenge_m": 128.4,
+   "fall_m": 20.9,
+   "gefaelle_mittel": 0.163,
+   "gefaelle_max": 0.286,
+   "breite_m": 4.7,
+   "s0_m": 0.0,
+   "s1_m": 128.43,
+   "mitte_cm": [
+    -271486,
+    19477
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 85,
+    "wegpunkte_sehen": 13,
+    "anteil_wegpunkte": 0.153,
+    "naechste_sicht_m": 104.0,
+    "anteil_strecke_sichtbar": 0.5,
+    "weg_abstand_min_m": 103.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 42.7,
+     "abstand_rand_roh_m": 42.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.637,
+    "sehens": 0.301,
+    "physik": 0.64,
+    "gesamt": 53.7
+   },
+   "rang": 39,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 13 Wegpunkte (naechster 104 m), 50 % der Strecke; 43 m vom Rand von bergwald_03_saeulenhain; 20.9 m Fall auf 128 m (Mittel 16 %, max 29 %)"
+  },
+  {
+   "id": "B_R_P0_M2_02_s3",
+   "lauf": "B_R_P0_M2_02",
+   "art": "bach",
+   "feld": "E3",
+   "biom": "tundra",
+   "laenge_m": 20.1,
+   "fall_m": 2.8,
+   "gefaelle_mittel": 0.141,
+   "gefaelle_max": 0.154,
+   "breite_m": 5.2,
+   "s0_m": 431.37,
+   "s1_m": 451.43,
+   "mitte_cm": [
+    -65716,
+    -184149
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 66,
+    "wegpunkte_sehen": 55,
+    "anteil_wegpunkte": 0.833,
+    "naechste_sicht_m": 43.4,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 41.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_03_die_eiswand",
+     "abstand_rand_m": 72.2,
+     "abstand_rand_roh_m": 72.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.894,
+    "sehens": 0.247,
+    "physik": 0.33,
+    "gesamt": 53.1
+   },
+   "rang": 40,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 55 Wegpunkte (naechster 43 m), 100 % der Strecke; 72 m vom Rand von tundra_03_die_eiswand; 2.8 m Fall auf 20 m (Mittel 14 %, max 15 %)"
+  },
+  {
+   "id": "B_R_P5_P1_02_s3",
+   "lauf": "B_R_P5_P1_02",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 171.5,
+   "fall_m": 20.4,
+   "gefaelle_mittel": 0.119,
+   "gefaelle_max": 0.213,
+   "breite_m": 4.0,
+   "s0_m": 76.22,
+   "s1_m": 247.76,
+   "mitte_cm": [
+    373887,
+    129261
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 51,
+    "wegpunkte_sehen": 14,
+    "anteil_wegpunkte": 0.275,
+    "naechste_sicht_m": 26.3,
+    "anteil_strecke_sichtbar": 0.632,
+    "weg_abstand_min_m": 25.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 312.3,
+     "abstand_rand_roh_m": 312.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.828,
+    "sehens": 0.05,
+    "physik": 0.615,
+    "gesamt": 53.0
+   },
+   "rang": 41,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 26 m), 63 % der Strecke; 20.4 m Fall auf 172 m (Mittel 12 %, max 21 %)"
+  },
+  {
+   "id": "B_R_M2_M2_02_s1",
+   "lauf": "B_R_M2_M2_02",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 60.9,
+   "fall_m": 13.6,
+   "gefaelle_mittel": 0.223,
+   "gefaelle_max": 0.996,
+   "breite_m": 3.5,
+   "s0_m": 0.0,
+   "s1_m": 60.92,
+   "mitte_cm": [
+    -282446,
+    -129626
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 127,
+    "wegpunkte_sehen": 11,
+    "anteil_wegpunkte": 0.087,
+    "naechste_sicht_m": 24.3,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_02_die_brandkiefer",
+     "abstand_rand_m": 347.8,
+     "abstand_rand_roh_m": 347.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.816,
+    "sehens": 0.039,
+    "physik": 0.612,
+    "gesamt": 52.2
+   },
+   "rang": 42,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 24 m), 100 % der Strecke; 13.6 m Fall auf 61 m (Mittel 22 %, max 100 %)"
+  },
+  {
+   "id": "F_HAUPTFLUSS_2_B4_s1",
+   "lauf": "F_HAUPTFLUSS_2_B4",
+   "art": "fluss",
+   "feld": "B4",
+   "biom": "bergwald",
+   "laenge_m": 14.9,
+   "fall_m": 4.5,
+   "gefaelle_mittel": 0.299,
+   "gefaelle_max": 0.299,
+   "breite_m": 56.7,
+   "s0_m": 105.26,
+   "s1_m": 120.18,
+   "mitte_cm": [
+    -302081,
+    -47402
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 47,
+    "wegpunkte_sehen": 6,
+    "anteil_wegpunkte": 0.128,
+    "naechste_sicht_m": 21.8,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 18.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_04_felsenmeer",
+     "abstand_rand_m": 39.6,
+     "abstand_rand_roh_m": 39.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.672,
+    "sehens": 0.307,
+    "physik": 0.535,
+    "gesamt": 52.1
+   },
+   "rang": 43,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 22 m), 100 % der Strecke; 40 m vom Rand von bergwald_04_felsenmeer; 4.5 m Fall auf 15 m (Mittel 30 %, max 30 %)"
+  },
+  {
+   "id": "B_R_M1_P0_03_s2",
+   "lauf": "B_R_M1_P0_03",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 46.2,
+   "fall_m": 5.0,
+   "gefaelle_mittel": 0.108,
+   "gefaelle_max": 0.186,
+   "breite_m": 5.1,
+   "s0_m": 191.43,
+   "s1_m": 237.64,
+   "mitte_cm": [
+    -250495,
+    22832
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 47,
+    "wegpunkte_sehen": 25,
+    "anteil_wegpunkte": 0.532,
+    "naechste_sicht_m": 17.1,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 10.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 219.5,
+     "abstand_rand_roh_m": 219.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.954,
+    "sehens": 0.093,
+    "physik": 0.371,
+    "gesamt": 52.0
+   },
+   "rang": 44,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 25 Wegpunkte (naechster 17 m), 100 % der Strecke; 5.0 m Fall auf 46 m (Mittel 11 %, max 19 %)"
+  },
+  {
+   "id": "B_R_M1_M2_01_s1",
+   "lauf": "B_R_M1_M2_01",
+   "art": "bach",
+   "feld": "C3",
+   "biom": "aue",
+   "laenge_m": 68.3,
+   "fall_m": 10.2,
+   "gefaelle_mittel": 0.149,
+   "gefaelle_max": 0.196,
+   "breite_m": 4.1,
+   "s0_m": 0.0,
+   "s1_m": 68.25,
+   "mitte_cm": [
+    -257170,
+    -135735
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 89,
+    "wegpunkte_sehen": 30,
+    "anteil_wegpunkte": 0.337,
+    "naechste_sicht_m": 44.3,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 39.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 443.6,
+     "abstand_rand_roh_m": 443.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.892,
+    "sehens": 0.021,
+    "physik": 0.506,
+    "gesamt": 51.5
+   },
+   "rang": 45,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 30 Wegpunkte (naechster 44 m), 100 % der Strecke; 10.2 m Fall auf 68 m (Mittel 15 %, max 20 %)"
+  },
+  {
+   "id": "B_R_M1_P0_02_s1",
+   "lauf": "B_R_M1_P0_02",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 19.6,
+   "fall_m": 4.2,
+   "gefaelle_mittel": 0.216,
+   "gefaelle_max": 0.226,
+   "breite_m": 3.4,
+   "s0_m": 94.52,
+   "s1_m": 114.09,
+   "mitte_cm": [
+    -229605,
+    -8435
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 46,
+    "wegpunkte_sehen": 28,
+    "anteil_wegpunkte": 0.609,
+    "naechste_sicht_m": 84.9,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 83.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 125.3,
+     "abstand_rand_roh_m": 125.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.823,
+    "sehens": 0.173,
+    "physik": 0.446,
+    "gesamt": 51.5
+   },
+   "rang": 46,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 28 Wegpunkte (naechster 85 m), 100 % der Strecke; 125 m vom Rand von aue_03_schwalbenwand; 4.2 m Fall auf 20 m (Mittel 22 %, max 23 %)"
+  },
+  {
+   "id": "B_R_P5_P1_01_s1",
+   "lauf": "B_R_P5_P1_01",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 193.8,
+   "fall_m": 22.0,
+   "gefaelle_mittel": 0.113,
+   "gefaelle_max": 0.301,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 193.84,
+   "mitte_cm": [
+    366602,
+    119097
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 51,
+    "wegpunkte_sehen": 10,
+    "anteil_wegpunkte": 0.196,
+    "naechste_sicht_m": 19.5,
+    "anteil_strecke_sichtbar": 0.762,
+    "weg_abstand_min_m": 18.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 284.6,
+     "abstand_rand_roh_m": 284.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.75,
+    "sehens": 0.06,
+    "physik": 0.629,
+    "gesamt": 50.7
+   },
+   "rang": 47,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 10 Wegpunkte (naechster 20 m), 76 % der Strecke; 22.0 m Fall auf 194 m (Mittel 11 %, max 30 %)"
+  },
+  {
+   "id": "B_R2_R_P2_M1_01_s1",
+   "lauf": "B_R2_R_P2_M1_01",
+   "art": "bach",
+   "feld": "F4",
+   "biom": "aue",
+   "laenge_m": 67.3,
+   "fall_m": 5.8,
+   "gefaelle_mittel": 0.087,
+   "gefaelle_max": 0.146,
+   "breite_m": 3.3,
+   "s0_m": 0.0,
+   "s1_m": 67.3,
+   "mitte_cm": [
+    94863,
+    -60108
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 43,
+    "wegpunkte_sehen": 21,
+    "anteil_wegpunkte": 0.488,
+    "naechste_sicht_m": 39.1,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 35.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_08_lianenhalle",
+     "abstand_rand_m": 217.5,
+     "abstand_rand_roh_m": 217.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.903,
+    "sehens": 0.094,
+    "physik": 0.377,
+    "gesamt": 50.2
+   },
+   "rang": 48,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 21 Wegpunkte (naechster 39 m), 100 % der Strecke; 5.8 m Fall auf 67 m (Mittel 9 %, max 15 %)"
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_s1",
+   "lauf": "F_ERLENBACH_1V_C2",
+   "art": "fluss",
+   "feld": "C2",
+   "biom": "tundra",
+   "laenge_m": 181.4,
+   "fall_m": 57.0,
+   "gefaelle_mittel": 0.314,
+   "gefaelle_max": 1.023,
+   "breite_m": 11.2,
+   "s0_m": 0.0,
+   "s1_m": 181.42,
+   "mitte_cm": [
+    -175621,
+    -231086
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 37,
+    "wegpunkte_sehen": 5,
+    "anteil_wegpunkte": 0.135,
+    "naechste_sicht_m": 75.9,
+    "anteil_strecke_sichtbar": 0.9,
+    "weg_abstand_min_m": 76.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_05_der_trunkene_grund",
+     "abstand_rand_m": 316.0,
+     "abstand_rand_roh_m": 316.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": {
+    "stufen": [
+     "F_ERLENBACH_1V_C2_S00",
+     "F_ERLENBACH_1V_C2_S01",
+     "F_ERLENBACH_1V_C2_S02",
+     "F_ERLENBACH_1V_C2_S03",
+     "F_ERLENBACH_1V_C2_S04",
+     "F_ERLENBACH_1V_C2_S05",
+     "F_ERLENBACH_1V_C2_S06",
+     "F_ERLENBACH_1V_C2_S07",
+     "F_ERLENBACH_1V_C2_S08",
+     "F_ERLENBACH_1V_C2_S09",
+     "F_ERLENBACH_1V_C2_S10",
+     "F_ERLENBACH_1V_C2_S11"
+    ],
+    "fall_gestuft_m": 33.24,
+    "anteil_fall": 0.583,
+    "fx_gruppen": [
+     "C2_A",
+     "C2_B",
+     "C2_C",
+     "C2_D",
+     "C2_E"
+    ]
+   },
+   "status": "gebaut_stufen",
+   "score": {
+    "sicht": 0.516,
+    "sehens": 0.049,
+    "physik": 0.934,
+    "gesamt": 50.1
+   },
+   "rang": 49,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 5 Wegpunkte (naechster 76 m), 90 % der Strecke; 57.0 m Fall auf 181 m (Mittel 31 %, max 102 %); schon mit Stufen gebaut (F_ERLENBACH_1V_C2_S00, F_ERLENBACH_1V_C2_S01, F_ERLENBACH_1V_C2_S02...) - nur Feinschliff, FX aus Auftrag 14 (C2_A, C2_B, C2_C, C2_D, C2_E)"
+  },
+  {
+   "id": "B_R3_R_P3_P0_02_s1",
+   "lauf": "B_R3_R_P3_P0_02",
+   "art": "bach",
+   "feld": "G5",
+   "biom": "heide",
+   "laenge_m": 10.3,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.163,
+   "gefaelle_max": 0.163,
+   "breite_m": 3.5,
+   "s0_m": 0.0,
+   "s1_m": 10.3,
+   "mitte_cm": [
+    231800,
+    8100
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 58,
+    "wegpunkte_sehen": 36,
+    "anteil_wegpunkte": 0.621,
+    "naechste_sicht_m": 143.6,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 130.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "sumpf_01_der_ertrunkene_wald",
+     "abstand_rand_m": 227.5,
+     "abstand_rand_roh_m": 227.5
+    },
+    "kameras": [
+     {
+      "kamera": "sumpf_01_der_ertrunkene_wald_fern",
+      "ort": "sumpf_01_der_ertrunkene_wald",
+      "abstand_m": 233.0
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.756,
+    "sehens": 0.358,
+    "physik": 0.301,
+    "gesamt": 50.0
+   },
+   "rang": 50,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 36 Wegpunkte (naechster 144 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (sumpf_01_der_ertrunkene_wald); 1.7 m Fall auf 10 m (Mittel 16 %, max 16 %)"
+  },
+  {
+   "id": "B_R2_R_P3_M1_02_s1",
+   "lauf": "B_R2_R_P3_M1_02",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 38.6,
+   "fall_m": 3.4,
+   "gefaelle_mittel": 0.088,
+   "gefaelle_max": 0.118,
+   "breite_m": 2.8,
+   "s0_m": 0.0,
+   "s1_m": 38.57,
+   "mitte_cm": [
+    233748,
+    -100324
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 108,
+    "wegpunkte_sehen": 30,
+    "anteil_wegpunkte": 0.278,
+    "naechste_sicht_m": 26.8,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 10.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 183.4,
+     "abstand_rand_roh_m": 183.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.93,
+    "sehens": 0.118,
+    "physik": 0.306,
+    "gesamt": 49.9
+   },
+   "rang": 51,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 30 Wegpunkte (naechster 27 m), 100 % der Strecke; 3.4 m Fall auf 39 m (Mittel 9 %, max 12 %)"
+  },
+  {
+   "id": "B_R3_R_M2_P0_02_s1",
+   "lauf": "B_R3_R_M2_P0_02",
+   "art": "bach",
+   "feld": "B5",
+   "biom": "bergwald",
+   "laenge_m": 106.7,
+   "fall_m": 16.3,
+   "gefaelle_mittel": 0.153,
+   "gefaelle_max": 0.206,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 106.68,
+   "mitte_cm": [
+    -270216,
+    39666
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 58,
+    "wegpunkte_sehen": 22,
+    "anteil_wegpunkte": 0.379,
+    "naechste_sicht_m": 161.8,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 151.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 225.9,
+     "abstand_rand_roh_m": 225.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.741,
+    "sehens": 0.089,
+    "physik": 0.588,
+    "gesamt": 49.9
+   },
+   "rang": 52,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 22 Wegpunkte (naechster 162 m), 100 % der Strecke; 16.3 m Fall auf 107 m (Mittel 15 %, max 21 %)"
+  },
+  {
+   "id": "F_ERLENBACH_3_D3_s2",
+   "lauf": "F_ERLENBACH_3_D3",
+   "art": "fluss",
+   "feld": "D3",
+   "biom": "tundra",
+   "laenge_m": 14.9,
+   "fall_m": 2.0,
+   "gefaelle_mittel": 0.136,
+   "gefaelle_max": 0.136,
+   "breite_m": 77.0,
+   "s0_m": 226.78,
+   "s1_m": 241.64,
+   "mitte_cm": [
+    -154599,
+    -150530
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 41,
+    "wegpunkte_sehen": 33,
+    "anteil_wegpunkte": 0.805,
+    "naechste_sicht_m": 32.2,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 28.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_07_die_steinringe",
+     "abstand_rand_m": 146.1,
+     "abstand_rand_roh_m": 146.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.918,
+    "sehens": 0.151,
+    "physik": 0.29,
+    "gesamt": 49.9
+   },
+   "rang": 53,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 33 Wegpunkte (naechster 32 m), 100 % der Strecke; 146 m vom Rand von tundra_07_die_steinringe; 2.0 m Fall auf 15 m (Mittel 14 %, max 14 %)"
+  },
+  {
+   "id": "B_R_M2_M2_03_s1",
+   "lauf": "B_R_M2_M2_03",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 55.9,
+   "fall_m": 9.5,
+   "gefaelle_mittel": 0.17,
+   "gefaelle_max": 0.356,
+   "breite_m": 5.0,
+   "s0_m": 0.0,
+   "s1_m": 55.88,
+   "mitte_cm": [
+    -277591,
+    -127526
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 117,
+    "wegpunkte_sehen": 12,
+    "anteil_wegpunkte": 0.103,
+    "naechste_sicht_m": 30.3,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 2.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_02_die_brandkiefer",
+     "abstand_rand_m": 353.3,
+     "abstand_rand_roh_m": 353.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.832,
+    "sehens": 0.038,
+    "physik": 0.513,
+    "gesamt": 49.8
+   },
+   "rang": 54,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 12 Wegpunkte (naechster 30 m), 100 % der Strecke; 9.5 m Fall auf 56 m (Mittel 17 %, max 36 %)"
+  },
+  {
+   "id": "F_ERLENBACH_3_D3_s1",
+   "lauf": "F_ERLENBACH_3_D3",
+   "art": "fluss",
+   "feld": "D3",
+   "biom": "tundra",
+   "laenge_m": 122.2,
+   "fall_m": 7.5,
+   "gefaelle_mittel": 0.062,
+   "gefaelle_max": 0.096,
+   "breite_m": 64.5,
+   "s0_m": 0.0,
+   "s1_m": 122.16,
+   "mitte_cm": [
+    -162407,
+    -165657
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 74,
+    "wegpunkte_sehen": 33,
+    "anteil_wegpunkte": 0.446,
+    "naechste_sicht_m": 120.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 82.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_01_der_pingo",
+     "abstand_rand_m": 97.7,
+     "abstand_rand_roh_m": 97.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.779,
+    "sehens": 0.209,
+    "physik": 0.409,
+    "gesamt": 49.7
+   },
+   "rang": 55,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 33 Wegpunkte (naechster 120 m), 100 % der Strecke; 98 m vom Rand von tundra_01_der_pingo; 7.5 m Fall auf 122 m (Mittel 6 %, max 10 %)"
+  },
+  {
+   "id": "B_R_P2_M1_01_s1",
+   "lauf": "B_R_P2_M1_01",
+   "art": "bach",
+   "feld": "F4",
+   "biom": "aue",
+   "laenge_m": 105.6,
+   "fall_m": 16.2,
+   "gefaelle_mittel": 0.154,
+   "gefaelle_max": 0.234,
+   "breite_m": 3.5,
+   "s0_m": 0.0,
+   "s1_m": 105.6,
+   "mitte_cm": [
+    116320,
+    -87832
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 46,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 81.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_07_blautopf",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -35.0
+    },
+    "kameras": [
+     {
+      "kamera": "aue_07_blautopf_anmarsch",
+      "ort": "aue_07_blautopf",
+      "abstand_m": 49.0
+     },
+     {
+      "kamera": "aue_07_blautopf_held",
+      "ort": "aue_07_blautopf",
+      "abstand_m": 23.4
+     },
+     {
+      "kamera": "aue_07_blautopf_nah",
+      "ort": "aue_07_blautopf",
+      "abstand_m": 12.7
+     }
+    ]
+   },
+   "umbau": [
+    {
+     "ort": "aue_07_blautopf",
+     "biom": "aue",
+     "laenge_m": 47.8,
+     "anteil": 0.444,
+     "geo": [
+      "see:topf",
+      "bach:quellbach",
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "teilweise_sehens",
+   "score": {
+    "sicht": 0.038,
+    "sehens": 1.0,
+    "physik": 0.587,
+    "gesamt": 49.1
+   },
+   "rang": 56,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 81 m); im Bild von 3 Sehens-Kamera(s) (aue_07_blautopf); 0 m vom Rand von aue_07_blautopf; 16.2 m Fall auf 106 m (Mittel 15 %, max 23 %); beruehrt aue_07_blautopf (48 m) - Abschnitt aussparen"
+  },
+  {
+   "id": "B_R2_R_P4_M1_02_s1",
+   "lauf": "B_R2_R_P4_M1_02",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 114.4,
+   "fall_m": 16.9,
+   "gefaelle_mittel": 0.147,
+   "gefaelle_max": 0.214,
+   "breite_m": 3.4,
+   "s0_m": 0.0,
+   "s1_m": 114.38,
+   "mitte_cm": [
+    248439,
+    -115500
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 92,
+    "wegpunkte_sehen": 6,
+    "anteil_wegpunkte": 0.065,
+    "naechste_sicht_m": 34.9,
+    "anteil_strecke_sichtbar": 0.692,
+    "weg_abstand_min_m": 31.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 66.1,
+     "abstand_rand_roh_m": 66.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.58,
+    "sehens": 0.257,
+    "physik": 0.59,
+    "gesamt": 48.6
+   },
+   "rang": 57,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 35 m), 69 % der Strecke; 66 m vom Rand von elfenwald_04_elfentreppe; 16.9 m Fall auf 114 m (Mittel 15 %, max 21 %)"
+  },
+  {
+   "id": "B_R_P5_P1_02_s2",
+   "lauf": "B_R_P5_P1_02",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 27.7,
+   "fall_m": 5.6,
+   "gefaelle_mittel": 0.202,
+   "gefaelle_max": 0.242,
+   "breite_m": 3.2,
+   "s0_m": 39.53,
+   "s1_m": 67.27,
+   "mitte_cm": [
+    365995,
+    136041
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 52,
+    "wegpunkte_sehen": 10,
+    "anteil_wegpunkte": 0.192,
+    "naechste_sicht_m": 12.6,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 276.3,
+     "abstand_rand_roh_m": 276.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.815,
+    "sehens": 0.063,
+    "physik": 0.468,
+    "gesamt": 48.6
+   },
+   "rang": 58,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 10 Wegpunkte (naechster 13 m), 100 % der Strecke; 5.6 m Fall auf 28 m (Mittel 20 %, max 24 %)"
+  },
+  {
+   "id": "B_R_P2_M1_02_s1",
+   "lauf": "B_R_P2_M1_02",
+   "art": "bach",
+   "feld": "F4",
+   "biom": "aue",
+   "laenge_m": 76.9,
+   "fall_m": 9.1,
+   "gefaelle_mittel": 0.118,
+   "gefaelle_max": 0.172,
+   "breite_m": 3.4,
+   "s0_m": 0.0,
+   "s1_m": 76.89,
+   "mitte_cm": [
+    99561,
+    -58327
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 45,
+    "wegpunkte_sehen": 13,
+    "anteil_wegpunkte": 0.289,
+    "naechste_sicht_m": 89.9,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 55.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_08_lianenhalle",
+     "abstand_rand_m": 155.0,
+     "abstand_rand_roh_m": 155.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.755,
+    "sehens": 0.142,
+    "physik": 0.466,
+    "gesamt": 48.5
+   },
+   "rang": 59,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 13 Wegpunkte (naechster 90 m), 100 % der Strecke; 9.1 m Fall auf 77 m (Mittel 12 %, max 17 %)"
+  },
+  {
+   "id": "B_R_M2_M1_02_s1",
+   "lauf": "B_R_M2_M1_02",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 16.3,
+   "fall_m": 2.4,
+   "gefaelle_mittel": 0.147,
+   "gefaelle_max": 0.17,
+   "breite_m": 3.8,
+   "s0_m": 49.61,
+   "s1_m": 65.9,
+   "mitte_cm": [
+    -281805,
+    -121054
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 127,
+    "wegpunkte_sehen": 25,
+    "anteil_wegpunkte": 0.197,
+    "naechste_sicht_m": 34.8,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 33.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_02_die_brandkiefer",
+     "abstand_rand_m": 294.6,
+     "abstand_rand_roh_m": 294.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.912,
+    "sehens": 0.056,
+    "physik": 0.319,
+    "gesamt": 47.7
+   },
+   "rang": 60,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 25 Wegpunkte (naechster 35 m), 100 % der Strecke; 2.4 m Fall auf 16 m (Mittel 15 %, max 17 %)"
+  },
+  {
+   "id": "F_ELFENFLUSS_3_F4_s1",
+   "lauf": "F_ELFENFLUSS_3_F4",
+   "art": "fluss",
+   "feld": "G4",
+   "biom": "aue",
+   "laenge_m": 268.0,
+   "fall_m": 12.1,
+   "gefaelle_mittel": 0.045,
+   "gefaelle_max": 0.057,
+   "breite_m": 62.4,
+   "s0_m": 0.0,
+   "s1_m": 268.03,
+   "mitte_cm": [
+    121490,
+    -33794
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 20,
+    "wegpunkte_sehen": 12,
+    "anteil_wegpunkte": 0.6,
+    "naechste_sicht_m": 202.4,
+    "anteil_strecke_sichtbar": 0.75,
+    "weg_abstand_min_m": 88.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_08_lianenhalle",
+     "abstand_rand_m": 42.3,
+     "abstand_rand_roh_m": 42.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.575,
+    "sehens": 0.302,
+    "physik": 0.523,
+    "gesamt": 47.7
+   },
+   "rang": 61,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 12 Wegpunkte (naechster 202 m), 75 % der Strecke; 42 m vom Rand von aue_08_lianenhalle; 12.1 m Fall auf 268 m (Mittel 4 %, max 6 %)"
+  },
+  {
+   "id": "B_R_P3_M2_03_s1",
+   "lauf": "B_R_P3_M2_03",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 226.0,
+   "fall_m": 30.8,
+   "gefaelle_mittel": 0.136,
+   "gefaelle_max": 0.239,
+   "breite_m": 4.1,
+   "s0_m": 0.0,
+   "s1_m": 225.99,
+   "mitte_cm": [
+    227998,
+    -149099
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 124,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.024,
+    "naechste_sicht_m": 41.1,
+    "anteil_strecke_sichtbar": 0.125,
+    "weg_abstand_min_m": 41.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "abstand_rand_m": 21.4,
+     "abstand_rand_roh_m": 21.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.363,
+    "sehens": 0.347,
+    "physik": 0.712,
+    "gesamt": 46.3
+   },
+   "rang": 62,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 41 m), 12 % der Strecke; 21 m vom Rand von elfenwald_08_wurzelbruecke; 30.8 m Fall auf 226 m (Mittel 14 %, max 24 %)"
+  },
+  {
+   "id": "B_R_M1_M1_01_s1",
+   "lauf": "B_R_M1_M1_01",
+   "art": "bach",
+   "feld": "C3",
+   "biom": "aue",
+   "laenge_m": 30.9,
+   "fall_m": 8.3,
+   "gefaelle_mittel": 0.268,
+   "gefaelle_max": 0.375,
+   "breite_m": 4.2,
+   "s0_m": 124.92,
+   "s1_m": 155.82,
+   "mitte_cm": [
+    -226395,
+    -122728
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 40,
+    "wegpunkte_sehen": 14,
+    "anteil_wegpunkte": 0.35,
+    "naechste_sicht_m": 183.2,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 158.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 410.7,
+     "abstand_rand_roh_m": 410.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.696,
+    "sehens": 0.026,
+    "physik": 0.582,
+    "gesamt": 46.1
+   },
+   "rang": 63,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 183 m), 100 % der Strecke; 8.3 m Fall auf 31 m (Mittel 27 %, max 38 %)"
+  },
+  {
+   "id": "B_R_P4_M2_03_s1",
+   "lauf": "B_R_P4_M2_03",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 71.5,
+   "fall_m": 12.8,
+   "gefaelle_mittel": 0.179,
+   "gefaelle_max": 0.201,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 71.5,
+   "mitte_cm": [
+    237660,
+    -147797
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 104,
+    "wegpunkte_sehen": 4,
+    "anteil_wegpunkte": 0.038,
+    "naechste_sicht_m": 15.9,
+    "anteil_strecke_sichtbar": 0.556,
+    "weg_abstand_min_m": 16.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "abstand_rand_m": 84.9,
+     "abstand_rand_roh_m": 84.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.538,
+    "sehens": 0.227,
+    "physik": 0.566,
+    "gesamt": 45.3
+   },
+   "rang": 64,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 16 m), 56 % der Strecke; 85 m vom Rand von elfenwald_08_wurzelbruecke; 12.8 m Fall auf 72 m (Mittel 18 %, max 20 %)"
+  },
+  {
+   "id": "B_R2_R_P5_P1_01_s1",
+   "lauf": "B_R2_R_P5_P1_01",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 132.9,
+   "fall_m": 16.5,
+   "gefaelle_mittel": 0.124,
+   "gefaelle_max": 0.248,
+   "breite_m": 3.7,
+   "s0_m": 0.0,
+   "s1_m": 132.92,
+   "mitte_cm": [
+    355264,
+    112616
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 44,
+    "wegpunkte_sehen": 8,
+    "anteil_wegpunkte": 0.182,
+    "naechste_sicht_m": 35.2,
+    "anteil_strecke_sichtbar": 0.733,
+    "weg_abstand_min_m": 34.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 275.1,
+     "abstand_rand_roh_m": 275.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.648,
+    "sehens": 0.064,
+    "physik": 0.573,
+    "gesamt": 45.0
+   },
+   "rang": 65,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 8 Wegpunkte (naechster 35 m), 73 % der Strecke; 16.5 m Fall auf 133 m (Mittel 12 %, max 25 %)"
+  },
+  {
+   "id": "B_R_M1_M1_02_s2",
+   "lauf": "B_R_M1_M1_02",
+   "art": "bach",
+   "feld": "C3",
+   "biom": "aue",
+   "laenge_m": 30.5,
+   "fall_m": 7.2,
+   "gefaelle_mittel": 0.236,
+   "gefaelle_max": 0.294,
+   "breite_m": 4.0,
+   "s0_m": 105.73,
+   "s1_m": 136.27,
+   "mitte_cm": [
+    -221443,
+    -122359
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 33,
+    "wegpunkte_sehen": 15,
+    "anteil_wegpunkte": 0.455,
+    "naechste_sicht_m": 214.4,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 189.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 440.1,
+     "abstand_rand_roh_m": 440.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.709,
+    "sehens": 0.021,
+    "physik": 0.533,
+    "gesamt": 45.0
+   },
+   "rang": 66,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 15 Wegpunkte (naechster 214 m), 100 % der Strecke; 7.2 m Fall auf 30 m (Mittel 24 %, max 29 %)"
+  },
+  {
+   "id": "F_HAUPTFLUSS_3_C4_s1",
+   "lauf": "F_HAUPTFLUSS_3_C4",
+   "art": "fluss",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 135.1,
+   "fall_m": 13.7,
+   "gefaelle_mittel": 0.101,
+   "gefaelle_max": 0.182,
+   "breite_m": 44.3,
+   "s0_m": 0.0,
+   "s1_m": 135.12,
+   "mitte_cm": [
+    -255103,
+    -4122
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 130,
+    "wegpunkte_sehen": 10,
+    "anteil_wegpunkte": 0.077,
+    "naechste_sicht_m": 81.9,
+    "anteil_strecke_sichtbar": 0.8,
+    "weg_abstand_min_m": 73.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_03_saeulenhain",
+     "abstand_rand_m": 179.5,
+     "abstand_rand_roh_m": 179.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.637,
+    "sehens": 0.121,
+    "physik": 0.528,
+    "gesamt": 44.9
+   },
+   "rang": 67,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 10 Wegpunkte (naechster 82 m), 80 % der Strecke; 13.7 m Fall auf 135 m (Mittel 10 %, max 18 %)"
+  },
+  {
+   "id": "B_K1_WASSERFALL_WEST_03_s1",
+   "lauf": "B_K1_WASSERFALL_WEST_03",
+   "art": "bach",
+   "feld": "B4",
+   "biom": "bergwald",
+   "laenge_m": 175.9,
+   "fall_m": 35.8,
+   "gefaelle_mittel": 0.204,
+   "gefaelle_max": 0.239,
+   "breite_m": 5.6,
+   "s0_m": 0.0,
+   "s1_m": 175.95,
+   "mitte_cm": [
+    -273060,
+    -57382
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 91,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.033,
+    "naechste_sicht_m": 55.4,
+    "anteil_strecke_sichtbar": 0.263,
+    "weg_abstand_min_m": 38.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_04_felsenmeer",
+     "abstand_rand_m": 80.0,
+     "abstand_rand_roh_m": 80.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.363,
+    "sehens": 0.235,
+    "physik": 0.774,
+    "gesamt": 44.8
+   },
+   "rang": 68,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 55 m), 26 % der Strecke; 80 m vom Rand von bergwald_04_felsenmeer; 35.8 m Fall auf 176 m (Mittel 20 %, max 24 %)"
+  },
+  {
+   "id": "B_R_M2_M2_03_s2",
+   "lauf": "B_R_M2_M2_03",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 10.4,
+   "fall_m": 1.9,
+   "gefaelle_mittel": 0.186,
+   "gefaelle_max": 0.201,
+   "breite_m": 2.4,
+   "s0_m": 65.31,
+   "s1_m": 75.67,
+   "mitte_cm": [
+    -278604,
+    -130794
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 102,
+    "wegpunkte_sehen": 11,
+    "anteil_wegpunkte": 0.108,
+    "naechste_sicht_m": 13.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 13.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_02_die_brandkiefer",
+     "abstand_rand_m": 403.1,
+     "abstand_rand_roh_m": 403.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.843,
+    "sehens": 0.027,
+    "physik": 0.334,
+    "gesamt": 44.5
+   },
+   "rang": 69,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 14 m), 100 % der Strecke; 1.9 m Fall auf 10 m (Mittel 19 %, max 20 %)"
+  },
+  {
+   "id": "B_R_P5_P1_02_s1",
+   "lauf": "B_R_P5_P1_02",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 30.1,
+   "fall_m": 6.5,
+   "gefaelle_mittel": 0.214,
+   "gefaelle_max": 0.401,
+   "breite_m": 3.3,
+   "s0_m": 0.0,
+   "s1_m": 30.1,
+   "mitte_cm": [
+    362451,
+    137175
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 53,
+    "wegpunkte_sehen": 7,
+    "anteil_wegpunkte": 0.132,
+    "naechste_sicht_m": 38.9,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 10.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 238.3,
+     "abstand_rand_roh_m": 238.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.663,
+    "sehens": 0.082,
+    "physik": 0.499,
+    "gesamt": 43.9
+   },
+   "rang": 70,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 39 m), 100 % der Strecke; 6.5 m Fall auf 30 m (Mittel 21 %, max 40 %)"
+  },
+  {
+   "id": "B_R_P2_M1_02_s2",
+   "lauf": "B_R_P2_M1_02",
+   "art": "bach",
+   "feld": "F4",
+   "biom": "aue",
+   "laenge_m": 18.9,
+   "fall_m": 2.0,
+   "gefaelle_mittel": 0.107,
+   "gefaelle_max": 0.107,
+   "breite_m": 4.0,
+   "s0_m": 86.89,
+   "s1_m": 105.83,
+   "mitte_cm": [
+    94236,
+    -56573
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 40,
+    "wegpunkte_sehen": 17,
+    "anteil_wegpunkte": 0.425,
+    "naechste_sicht_m": 88.4,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 88.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_08_lianenhalle",
+     "abstand_rand_m": 205.3,
+     "abstand_rand_roh_m": 205.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.818,
+    "sehens": 0.102,
+    "physik": 0.263,
+    "gesamt": 43.7
+   },
+   "rang": 71,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 17 Wegpunkte (naechster 88 m), 100 % der Strecke; 2.0 m Fall auf 19 m (Mittel 11 %, max 11 %)"
+  },
+  {
+   "id": "B_R2_R_P4_M2_01_s1",
+   "lauf": "B_R2_R_P4_M2_01",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 476.3,
+   "fall_m": 103.8,
+   "gefaelle_mittel": 0.218,
+   "gefaelle_max": 0.554,
+   "breite_m": 4.1,
+   "s0_m": 0.0,
+   "s1_m": 476.31,
+   "mitte_cm": [
+    274563,
+    -143673
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 86,
+    "wegpunkte_sehen": 1,
+    "anteil_wegpunkte": 0.012,
+    "naechste_sicht_m": 58.2,
+    "anteil_strecke_sichtbar": 0.02,
+    "weg_abstand_min_m": 48.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_05_farnschlucht",
+     "abstand_rand_m": 101.1,
+     "abstand_rand_roh_m": 101.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.249,
+    "sehens": 0.204,
+    "physik": 0.918,
+    "gesamt": 43.6
+   },
+   "rang": 72,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 1 Wegpunkte (naechster 58 m), 2 % der Strecke; 101 m vom Rand von elfenwald_05_farnschlucht; 103.8 m Fall auf 476 m (Mittel 22 %, max 55 %)"
+  },
+  {
+   "id": "B_R_P2_M1_02_s3",
+   "lauf": "B_R_P2_M1_02",
+   "art": "bach",
+   "feld": "F4",
+   "biom": "aue",
+   "laenge_m": 12.0,
+   "fall_m": 2.0,
+   "gefaelle_mittel": 0.163,
+   "gefaelle_max": 0.169,
+   "breite_m": 3.4,
+   "s0_m": 153.7,
+   "s1_m": 165.75,
+   "mitte_cm": [
+    89198,
+    -52753
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 35,
+    "wegpunkte_sehen": 20,
+    "anteil_wegpunkte": 0.571,
+    "naechste_sicht_m": 133.1,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 131.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_08_lianenhalle",
+     "abstand_rand_m": 245.7,
+     "abstand_rand_roh_m": 245.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.765,
+    "sehens": 0.078,
+    "physik": 0.316,
+    "gesamt": 42.4
+   },
+   "rang": 73,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 20 Wegpunkte (naechster 133 m), 100 % der Strecke; 2.0 m Fall auf 12 m (Mittel 16 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P4_M2_01_s1",
+   "lauf": "B_R_P4_M2_01",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 123.7,
+   "fall_m": 27.1,
+   "gefaelle_mittel": 0.219,
+   "gefaelle_max": 0.477,
+   "breite_m": 3.6,
+   "s0_m": 0.0,
+   "s1_m": 123.66,
+   "mitte_cm": [
+    255921,
+    -164515
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 94,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.032,
+    "naechste_sicht_m": 33.0,
+    "anteil_strecke_sichtbar": 0.143,
+    "weg_abstand_min_m": 28.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_05_farnschlucht",
+     "abstand_rand_m": 126.7,
+     "abstand_rand_roh_m": 126.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.384,
+    "sehens": 0.172,
+    "physik": 0.727,
+    "gesamt": 42.3
+   },
+   "rang": 74,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 33 m), 14 % der Strecke; 127 m vom Rand von elfenwald_05_farnschlucht; 27.1 m Fall auf 124 m (Mittel 22 %, max 48 %)"
+  },
+  {
+   "id": "B_R2_R_P3_M2_03_s1",
+   "lauf": "B_R2_R_P3_M2_03",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 41.6,
+   "fall_m": 5.3,
+   "gefaelle_mittel": 0.127,
+   "gefaelle_max": 0.239,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 41.57,
+   "mitte_cm": [
+    188156,
+    -163567
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 88,
+    "wegpunkte_sehen": 7,
+    "anteil_wegpunkte": 0.08,
+    "naechste_sicht_m": 14.9,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 4.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 303.2,
+     "abstand_rand_roh_m": 303.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.719,
+    "sehens": 0.053,
+    "physik": 0.394,
+    "gesamt": 42.2
+   },
+   "rang": 75,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 15 m), 100 % der Strecke; 5.3 m Fall auf 42 m (Mittel 13 %, max 24 %)"
+  },
+  {
+   "id": "B_R2_K8_ELFENFALL_01_s1",
+   "lauf": "B_R2_K8_ELFENFALL_01",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 54.8,
+   "fall_m": 7.6,
+   "gefaelle_mittel": 0.139,
+   "gefaelle_max": 0.17,
+   "breite_m": 5.3,
+   "s0_m": 0.0,
+   "s1_m": 54.76,
+   "mitte_cm": [
+    261171,
+    -111913
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 60,
+    "wegpunkte_sehen": 4,
+    "anteil_wegpunkte": 0.067,
+    "naechste_sicht_m": 27.7,
+    "anteil_strecke_sichtbar": 0.714,
+    "weg_abstand_min_m": 6.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_03_rotlaubhain",
+     "abstand_rand_m": 91.0,
+     "abstand_rand_roh_m": 91.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.541,
+    "sehens": 0.218,
+    "physik": 0.454,
+    "gesamt": 41.8
+   },
+   "rang": 76,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 28 m), 71 % der Strecke; 91 m vom Rand von elfenwald_03_rotlaubhain; 7.6 m Fall auf 55 m (Mittel 14 %, max 17 %)"
+  },
+  {
+   "id": "B_R2_R_M3_P1_01_s1",
+   "lauf": "B_R2_R_M3_P1_01",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "aue",
+   "laenge_m": 19.6,
+   "fall_m": 1.9,
+   "gefaelle_mittel": 0.095,
+   "gefaelle_max": 0.109,
+   "breite_m": 3.9,
+   "s0_m": 14.85,
+   "s1_m": 34.43,
+   "mitte_cm": [
+    -366793,
+    128585
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 31,
+    "wegpunkte_sehen": 19,
+    "anteil_wegpunkte": 0.613,
+    "naechste_sicht_m": 118.2,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 117.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "kueste_05_die_gezeitenbank",
+     "abstand_rand_m": 212.9,
+     "abstand_rand_roh_m": 212.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.781,
+    "sehens": 0.097,
+    "physik": 0.247,
+    "gesamt": 41.5
+   },
+   "rang": 77,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 19 Wegpunkte (naechster 118 m), 100 % der Strecke; 1.9 m Fall auf 20 m (Mittel 10 %, max 11 %)"
+  },
+  {
+   "id": "B_R2_R_M1_M1_04_s1",
+   "lauf": "B_R2_R_M1_M1_04",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 75.6,
+   "fall_m": 6.3,
+   "gefaelle_mittel": 0.083,
+   "gefaelle_max": 0.108,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 75.61,
+   "mitte_cm": [
+    -257025,
+    -85120
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 62,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 72.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -40.3
+    },
+    "kameras": [
+     {
+      "kamera": "aue_01_biberstau_anmarsch",
+      "ort": "aue_01_biberstau",
+      "abstand_m": 16.7
+     },
+     {
+      "kamera": "aue_01_biberstau_held",
+      "ort": "aue_01_biberstau",
+      "abstand_m": 45.8
+     }
+    ]
+   },
+   "umbau": [
+    {
+     "ort": "aue_01_biberstau",
+     "biom": "aue",
+     "laenge_m": 45.8,
+     "anteil": 0.59,
+     "geo": [
+      "see:stau",
+      "bach:ueberlauf",
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "umgebaut_von_sehens",
+   "score": {
+    "sicht": 0.039,
+    "sehens": 0.94,
+    "physik": 0.387,
+    "gesamt": 41.4
+   },
+   "rang": 78,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 72 m); im Bild von 2 Sehens-Kamera(s) (aue_01_biberstau); 0 m vom Rand von aue_01_biberstau; 6.3 m Fall auf 76 m (Mittel 8 %, max 11 %); wird von aue_01_biberstau umgebaut - nicht doppelt planen"
+  },
+  {
+   "id": "B_R_P3_M1_06_s1",
+   "lauf": "B_R_P3_M1_06",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 57.1,
+   "fall_m": 6.8,
+   "gefaelle_mittel": 0.12,
+   "gefaelle_max": 0.176,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 57.08,
+   "mitte_cm": [
+    230668,
+    -74635
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 97,
+    "wegpunkte_sehen": 8,
+    "anteil_wegpunkte": 0.082,
+    "naechste_sicht_m": 27.6,
+    "anteil_strecke_sichtbar": 0.857,
+    "weg_abstand_min_m": 23.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_06_blauer_grund",
+     "abstand_rand_m": 352.1,
+     "abstand_rand_roh_m": 352.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.689,
+    "sehens": 0.038,
+    "physik": 0.423,
+    "gesamt": 41.4
+   },
+   "rang": 79,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 8 Wegpunkte (naechster 28 m), 86 % der Strecke; 6.8 m Fall auf 57 m (Mittel 12 %, max 18 %)"
+  },
+  {
+   "id": "B_R_P5_P1_04_s2",
+   "lauf": "B_R_P5_P1_04",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 13.4,
+   "fall_m": 4.1,
+   "gefaelle_mittel": 0.304,
+   "gefaelle_max": 0.374,
+   "breite_m": 4.4,
+   "s0_m": 67.2,
+   "s1_m": 80.56,
+   "mitte_cm": [
+    370602,
+    146506
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 51,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.059,
+    "naechste_sicht_m": 12.3,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 0.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 320.3,
+     "abstand_rand_roh_m": 320.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.606,
+    "sehens": 0.047,
+    "physik": 0.525,
+    "gesamt": 41.4
+   },
+   "rang": 80,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 12 m), 100 % der Strecke; 4.1 m Fall auf 13 m (Mittel 30 %, max 37 %)"
+  },
+  {
+   "id": "B_R2_R_M1_P0_02_s1",
+   "lauf": "B_R2_R_M1_P0_02",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 9.5,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.178,
+   "gefaelle_max": 0.178,
+   "breite_m": 2.8,
+   "s0_m": 0.0,
+   "s1_m": 9.49,
+   "mitte_cm": [
+    -245700,
+    5300
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 60,
+    "wegpunkte_sehen": 14,
+    "anteil_wegpunkte": 0.233,
+    "naechste_sicht_m": 155.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 133.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 213.8,
+     "abstand_rand_roh_m": 213.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.716,
+    "sehens": 0.096,
+    "physik": 0.316,
+    "gesamt": 41.0
+   },
+   "rang": 81,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 156 m), 100 % der Strecke; 1.7 m Fall auf 10 m (Mittel 18 %, max 18 %)"
+  },
+  {
+   "id": "B_R2_R_P4_M2_01_s2",
+   "lauf": "B_R2_R_P4_M2_01",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 33.2,
+   "fall_m": 3.7,
+   "gefaelle_mittel": 0.112,
+   "gefaelle_max": 0.142,
+   "breite_m": 4.4,
+   "s0_m": 485.8,
+   "s1_m": 519.02,
+   "mitte_cm": [
+    253241,
+    -133467
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 92,
+    "wegpunkte_sehen": 5,
+    "anteil_wegpunkte": 0.054,
+    "naechste_sicht_m": 33.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 8.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 115.5,
+     "abstand_rand_roh_m": 115.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.616,
+    "sehens": 0.185,
+    "physik": 0.336,
+    "gesamt": 40.3
+   },
+   "rang": 82,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 5 Wegpunkte (naechster 33 m), 100 % der Strecke; 116 m vom Rand von elfenwald_04_elfentreppe; 3.7 m Fall auf 33 m (Mittel 11 %, max 14 %)"
+  },
+  {
+   "id": "F_ELFENFLUSS_3_G4_s1",
+   "lauf": "F_ELFENFLUSS_3_G4",
+   "art": "fluss",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 149.8,
+   "fall_m": 6.8,
+   "gefaelle_mittel": 0.045,
+   "gefaelle_max": 0.059,
+   "breite_m": 43.0,
+   "s0_m": 0.0,
+   "s1_m": 149.78,
+   "mitte_cm": [
+    226417,
+    -56578
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 90,
+    "wegpunkte_sehen": 8,
+    "anteil_wegpunkte": 0.089,
+    "naechste_sicht_m": 78.0,
+    "anteil_strecke_sichtbar": 0.938,
+    "weg_abstand_min_m": 72.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_06_blauer_grund",
+     "abstand_rand_m": 172.6,
+     "abstand_rand_roh_m": 172.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.61,
+    "sehens": 0.127,
+    "physik": 0.395,
+    "gesamt": 40.1
+   },
+   "rang": 83,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 8 Wegpunkte (naechster 78 m), 94 % der Strecke; 6.8 m Fall auf 150 m (Mittel 4 %, max 6 %)"
+  },
+  {
+   "id": "B_R_P1_M2_04_s1",
+   "lauf": "B_R_P1_M2_04",
+   "art": "bach",
+   "feld": "E3",
+   "biom": "tundra",
+   "laenge_m": 92.6,
+   "fall_m": 9.5,
+   "gefaelle_mittel": 0.103,
+   "gefaelle_max": 0.272,
+   "breite_m": 4.7,
+   "s0_m": 0.0,
+   "s1_m": 92.65,
+   "mitte_cm": [
+    -27329,
+    -186543
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 324.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_06_das_schneetaelchen",
+     "abstand_rand_m": 47.8,
+     "abstand_rand_roh_m": 47.8
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_06_das_schneetaelchen_anmarsch",
+      "ort": "tundra_06_das_schneetaelchen",
+      "abstand_m": 200.0
+     },
+     {
+      "kamera": "tundra_06_das_schneetaelchen_held",
+      "ort": "tundra_06_das_schneetaelchen",
+      "abstand_m": 185.1
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.017,
+    "sehens": 0.831,
+    "physik": 0.464,
+    "gesamt": 39.5
+   },
+   "rang": 84,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 324 m); im Bild von 2 Sehens-Kamera(s) (tundra_06_das_schneetaelchen); 48 m vom Rand von tundra_06_das_schneetaelchen; 9.5 m Fall auf 93 m (Mittel 10 %, max 27 %)"
+  },
+  {
+   "id": "B_R_P3_M1_04_s1",
+   "lauf": "B_R_P3_M1_04",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 29.3,
+   "fall_m": 3.2,
+   "gefaelle_mittel": 0.109,
+   "gefaelle_max": 0.138,
+   "breite_m": 4.6,
+   "s0_m": 0.0,
+   "s1_m": 29.28,
+   "mitte_cm": [
+    233772,
+    -90353
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 110,
+    "wegpunkte_sehen": 11,
+    "anteil_wegpunkte": 0.1,
+    "naechste_sicht_m": 53.7,
+    "anteil_strecke_sichtbar": 0.75,
+    "weg_abstand_min_m": 52.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 280.0,
+     "abstand_rand_roh_m": 280.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.704,
+    "sehens": 0.062,
+    "physik": 0.316,
+    "gesamt": 39.5
+   },
+   "rang": 85,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 54 m), 75 % der Strecke; 3.2 m Fall auf 29 m (Mittel 11 %, max 14 %)"
+  },
+  {
+   "id": "B_R_P1_M2_02_s4",
+   "lauf": "B_R_P1_M2_02",
+   "art": "bach",
+   "feld": "E3",
+   "biom": "tundra",
+   "laenge_m": 102.8,
+   "fall_m": 8.8,
+   "gefaelle_mittel": 0.085,
+   "gefaelle_max": 0.114,
+   "breite_m": 5.9,
+   "s0_m": 341.43,
+   "s1_m": 444.18,
+   "mitte_cm": [
+    -39253,
+    -191400
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 8,
+    "wegpunkte_sehen": 6,
+    "anteil_wegpunkte": 0.75,
+    "naechste_sicht_m": 221.1,
+    "anteil_strecke_sichtbar": 0.167,
+    "weg_abstand_min_m": 211.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_03_die_eiswand",
+     "abstand_rand_m": 74.1,
+     "abstand_rand_roh_m": 74.1
+    },
+    "kameras": [
+     {
+      "kamera": "tundra_03_die_eiswand_anmarsch",
+      "ort": "tundra_03_die_eiswand",
+      "abstand_m": 304.0
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.269,
+    "sehens": 0.514,
+    "physik": 0.442,
+    "gesamt": 39.4
+   },
+   "rang": 86,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 221 m), 17 % der Strecke; im Bild von 1 Sehens-Kamera(s) (tundra_03_die_eiswand); 74 m vom Rand von tundra_03_die_eiswand; 8.8 m Fall auf 103 m (Mittel 8 %, max 11 %)"
+  },
+  {
+   "id": "B_R2_R_M1_M1_04_s2",
+   "lauf": "B_R2_R_M1_M1_04",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 19.1,
+   "fall_m": 2.1,
+   "gefaelle_mittel": 0.11,
+   "gefaelle_max": 0.126,
+   "breite_m": 4.0,
+   "s0_m": 84.67,
+   "s1_m": 103.74,
+   "mitte_cm": [
+    -251840,
+    -84379
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 46,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 148.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -40.5
+    },
+    "kameras": [
+     {
+      "kamera": "aue_01_biberstau_anmarsch",
+      "ort": "aue_01_biberstau",
+      "abstand_m": 42.5
+     },
+     {
+      "kamera": "aue_01_biberstau_held",
+      "ort": "aue_01_biberstau",
+      "abstand_m": 21.3
+     },
+     {
+      "kamera": "aue_01_biberstau_nah",
+      "ort": "aue_01_biberstau",
+      "abstand_m": 17.5
+     }
+    ]
+   },
+   "umbau": [
+    {
+     "ort": "aue_01_biberstau",
+     "biom": "aue",
+     "laenge_m": 21.0,
+     "anteil": 1.0,
+     "geo": [
+      "see:stau",
+      "bach:ueberlauf",
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "umgebaut_von_sehens",
+   "score": {
+    "sicht": 0.031,
+    "sehens": 1.0,
+    "physik": 0.271,
+    "gesamt": 39.3
+   },
+   "rang": 87,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 148 m); im Bild von 3 Sehens-Kamera(s) (aue_01_biberstau); 0 m vom Rand von aue_01_biberstau; 2.1 m Fall auf 19 m (Mittel 11 %, max 13 %); wird von aue_01_biberstau umgebaut - nicht doppelt planen"
+  },
+  {
+   "id": "B_R_P5_P1_04_s1",
+   "lauf": "B_R_P5_P1_04",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 58.0,
+   "fall_m": 16.2,
+   "gefaelle_mittel": 0.279,
+   "gefaelle_max": 0.405,
+   "breite_m": 4.5,
+   "s0_m": 0.0,
+   "s1_m": 57.98,
+   "mitte_cm": [
+    366196,
+    147267
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 52,
+    "wegpunkte_sehen": 1,
+    "anteil_wegpunkte": 0.019,
+    "naechste_sicht_m": 15.0,
+    "anteil_strecke_sichtbar": 0.143,
+    "weg_abstand_min_m": 15.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 255.5,
+     "abstand_rand_roh_m": 255.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.367,
+    "sehens": 0.073,
+    "physik": 0.689,
+    "gesamt": 37.5
+   },
+   "rang": 88,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 1 Wegpunkte (naechster 15 m), 14 % der Strecke; 16.2 m Fall auf 58 m (Mittel 28 %, max 40 %)"
+  },
+  {
+   "id": "B_R2_R_P3_M2_02_s1",
+   "lauf": "B_R2_R_P3_M2_02",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 84.5,
+   "fall_m": 18.7,
+   "gefaelle_mittel": 0.222,
+   "gefaelle_max": 0.326,
+   "breite_m": 3.5,
+   "s0_m": 0.0,
+   "s1_m": 84.54,
+   "mitte_cm": [
+    224705,
+    -163896
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 105,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.029,
+    "naechste_sicht_m": 244.0,
+    "anteil_strecke_sichtbar": 0.3,
+    "weg_abstand_min_m": 153.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "abstand_rand_m": 34.5,
+     "abstand_rand_roh_m": 34.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.196,
+    "sehens": 0.318,
+    "physik": 0.663,
+    "gesamt": 37.3
+   },
+   "rang": 89,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 244 m), 30 % der Strecke; 34 m vom Rand von elfenwald_08_wurzelbruecke; 18.7 m Fall auf 84 m (Mittel 22 %, max 33 %)"
+  },
+  {
+   "id": "B_R_M2_P1_01_s1",
+   "lauf": "B_R_M2_P1_01",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "bergwald",
+   "laenge_m": 85.7,
+   "fall_m": 23.2,
+   "gefaelle_mittel": 0.27,
+   "gefaelle_max": 0.512,
+   "breite_m": 3.7,
+   "s0_m": 0.0,
+   "s1_m": 85.69,
+   "mitte_cm": [
+    -339845,
+    113290
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 61,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.049,
+    "naechste_sicht_m": 137.6,
+    "anteil_strecke_sichtbar": 0.7,
+    "weg_abstand_min_m": 80.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "kueste_05_die_gezeitenbank",
+     "abstand_rand_m": 310.4,
+     "abstand_rand_roh_m": 310.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.341,
+    "sehens": 0.051,
+    "physik": 0.739,
+    "gesamt": 37.3
+   },
+   "rang": 90,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 138 m), 70 % der Strecke; 23.2 m Fall auf 86 m (Mittel 27 %, max 51 %)"
+  },
+  {
+   "id": "B_R3_R_M1_P0_01_s1",
+   "lauf": "B_R3_R_M1_P0_01",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 10.2,
+   "fall_m": 1.9,
+   "gefaelle_mittel": 0.188,
+   "gefaelle_max": 0.188,
+   "breite_m": 4.0,
+   "s0_m": 0.0,
+   "s1_m": 10.2,
+   "mitte_cm": [
+    -190650,
+    12250
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 43,
+    "wegpunkte_sehen": 8,
+    "anteil_wegpunkte": 0.186,
+    "naechste_sicht_m": 115.3,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 115.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 171.6,
+     "abstand_rand_roh_m": 171.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.574,
+    "sehens": 0.127,
+    "physik": 0.336,
+    "gesamt": 36.8
+   },
+   "rang": 91,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 8 Wegpunkte (naechster 115 m), 100 % der Strecke; 1.9 m Fall auf 10 m (Mittel 19 %, max 19 %)"
+  },
+  {
+   "id": "B_R_M1_P0_04_s1",
+   "lauf": "B_R_M1_P0_04",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 18.4,
+   "fall_m": 2.8,
+   "gefaelle_mittel": 0.151,
+   "gefaelle_max": 0.182,
+   "breite_m": 4.0,
+   "s0_m": 587.57,
+   "s1_m": 605.95,
+   "mitte_cm": [
+    -198354,
+    25690
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 30,
+    "wegpunkte_sehen": 17,
+    "anteil_wegpunkte": 0.567,
+    "naechste_sicht_m": 258.9,
+    "anteil_strecke_sichtbar": 0.333,
+    "weg_abstand_min_m": 225.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 166.8,
+     "abstand_rand_roh_m": 166.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.557,
+    "sehens": 0.132,
+    "physik": 0.339,
+    "gesamt": 36.4
+   },
+   "rang": 92,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 17 Wegpunkte (naechster 259 m), 33 % der Strecke; 2.8 m Fall auf 18 m (Mittel 15 %, max 18 %)"
+  },
+  {
+   "id": "B_R2_R_M2_M2_01_s1",
+   "lauf": "B_R2_R_M2_M2_01",
+   "art": "bach",
+   "feld": "C3",
+   "biom": "bergwald",
+   "laenge_m": 37.7,
+   "fall_m": 3.4,
+   "gefaelle_mittel": 0.091,
+   "gefaelle_max": 0.105,
+   "breite_m": 5.4,
+   "s0_m": 5.0,
+   "s1_m": 42.74,
+   "mitte_cm": [
+    -265593,
+    -127009
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 96,
+    "wegpunkte_sehen": 7,
+    "anteil_wegpunkte": 0.073,
+    "naechste_sicht_m": 63.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 56.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 386.1,
+     "abstand_rand_roh_m": 386.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.616,
+    "sehens": 0.03,
+    "physik": 0.308,
+    "gesamt": 34.8
+   },
+   "rang": 93,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 64 m), 100 % der Strecke; 3.4 m Fall auf 38 m (Mittel 9 %, max 10 %)"
+  },
+  {
+   "id": "B_R_P3_M2_02_s2",
+   "lauf": "B_R_P3_M2_02",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 47.1,
+   "fall_m": 6.5,
+   "gefaelle_mittel": 0.139,
+   "gefaelle_max": 0.213,
+   "breite_m": 5.4,
+   "s0_m": 135.83,
+   "s1_m": 182.92,
+   "mitte_cm": [
+    232830,
+    -161241
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 106,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.019,
+    "naechste_sicht_m": 134.0,
+    "anteil_strecke_sichtbar": 0.333,
+    "weg_abstand_min_m": 92.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -28.0
+    },
+    "kameras": []
+   },
+   "umbau": [
+    {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "biom": "elfenwald",
+     "laenge_m": 29.4,
+     "anteil": 0.6,
+     "geo": [
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "umgebaut_von_sehens",
+   "score": {
+    "sicht": 0.241,
+    "sehens": 0.4,
+    "physik": 0.432,
+    "gesamt": 34.6
+   },
+   "rang": 94,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 134 m), 33 % der Strecke; 0 m vom Rand von elfenwald_08_wurzelbruecke; 6.5 m Fall auf 47 m (Mittel 14 %, max 21 %); wird von elfenwald_08_wurzelbruecke umgebaut - nicht doppelt planen"
+  },
+  {
+   "id": "B_R_P1_M2_02_s1",
+   "lauf": "B_R_P1_M2_02",
+   "art": "bach",
+   "feld": "E2",
+   "biom": "tundra",
+   "laenge_m": 9.1,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.192,
+   "gefaelle_max": 0.192,
+   "breite_m": 4.0,
+   "s0_m": 0.0,
+   "s1_m": 9.06,
+   "mitte_cm": [
+    -25900,
+    -224500
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 61,
+    "wegpunkte_sehen": 6,
+    "anteil_wegpunkte": 0.098,
+    "naechste_sicht_m": 161.7,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 157.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 115.9,
+     "abstand_rand_roh_m": 115.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.471,
+    "sehens": 0.185,
+    "physik": 0.329,
+    "gesamt": 34.3
+   },
+   "rang": 95,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 162 m), 100 % der Strecke; 116 m vom Rand von tundra_04_die_fliesstreppe; 1.7 m Fall auf 9 m (Mittel 19 %, max 19 %)"
+  },
+  {
+   "id": "F_ERLENBACH_2_C2_s1",
+   "lauf": "F_ERLENBACH_2_C2",
+   "art": "fluss",
+   "feld": "C2",
+   "biom": "tundra",
+   "laenge_m": 71.5,
+   "fall_m": 5.3,
+   "gefaelle_mittel": 0.074,
+   "gefaelle_max": 0.14,
+   "breite_m": 28.6,
+   "s0_m": 0.0,
+   "s1_m": 71.5,
+   "mitte_cm": [
+    -178670,
+    -218065
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 33,
+    "wegpunkte_sehen": 11,
+    "anteil_wegpunkte": 0.333,
+    "naechste_sicht_m": 200.8,
+    "anteil_strecke_sichtbar": 0.667,
+    "weg_abstand_min_m": 168.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_01_der_pingo",
+     "abstand_rand_m": 247.2,
+     "abstand_rand_roh_m": 247.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.529,
+    "sehens": 0.077,
+    "physik": 0.356,
+    "gesamt": 34.2
+   },
+   "rang": 96,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 201 m), 67 % der Strecke; 5.3 m Fall auf 72 m (Mittel 7 %, max 14 %)"
+  },
+  {
+   "id": "B_R2_R_M1_P0_02_s2",
+   "lauf": "B_R2_R_M1_P0_02",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 5.0,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.333,
+   "gefaelle_max": 0.333,
+   "breite_m": 2.0,
+   "s0_m": 27.4,
+   "s1_m": 32.4,
+   "mitte_cm": [
+    -243550,
+    4700
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 58,
+    "wegpunkte_sehen": 6,
+    "anteil_wegpunkte": 0.103,
+    "naechste_sicht_m": 214.5,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 153.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 197.4,
+     "abstand_rand_roh_m": 197.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.439,
+    "sehens": 0.107,
+    "physik": 0.435,
+    "gesamt": 33.8
+   },
+   "rang": 97,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 214 m), 100 % der Strecke; 1.7 m Fall auf 5 m (Mittel 33 %, max 33 %)"
+  },
+  {
+   "id": "B_R2_R_P4_M1_01_s1",
+   "lauf": "B_R2_R_P4_M1_01",
+   "art": "bach",
+   "feld": "H3",
+   "biom": "elfenwald",
+   "laenge_m": 29.9,
+   "fall_m": 4.5,
+   "gefaelle_mittel": 0.151,
+   "gefaelle_max": 0.199,
+   "breite_m": 3.5,
+   "s0_m": 0.0,
+   "s1_m": 29.87,
+   "mitte_cm": [
+    237446,
+    -123491
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 106,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 90.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 0.0,
+     "abstand_rand_roh_m": -28.5
+    },
+    "kameras": [
+     {
+      "kamera": "elfenwald_04_elfentreppe_nah",
+      "ort": "elfenwald_04_elfentreppe",
+      "abstand_m": 24.7
+     }
+    ]
+   },
+   "umbau": [
+    {
+     "ort": "elfenwald_04_elfentreppe",
+     "biom": "elfenwald",
+     "laenge_m": 31.9,
+     "anteil": 1.0,
+     "geo": [
+      "see:becken_3",
+      "see:becken_4",
+      "see:becken_5",
+      "bach:stufe_3",
+      "bach:stufe_4",
+      "bach:abfluss",
+      "ist_wasser"
+     ]
+    }
+   ],
+   "gebaut": null,
+   "status": "umgebaut_von_sehens",
+   "score": {
+    "sicht": 0.037,
+    "sehens": 0.67,
+    "physik": 0.394,
+    "gesamt": 33.4
+   },
+   "rang": 98,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 91 m); im Bild von 1 Sehens-Kamera(s) (elfenwald_04_elfentreppe); 0 m vom Rand von elfenwald_04_elfentreppe; 4.5 m Fall auf 30 m (Mittel 15 %, max 20 %); wird von elfenwald_04_elfentreppe umgebaut - nicht doppelt planen"
+  },
+  {
+   "id": "B_R2_R_M1_M1_02_s1",
+   "lauf": "B_R2_R_M1_M1_02",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 16.0,
+   "fall_m": 2.4,
+   "gefaelle_mittel": 0.15,
+   "gefaelle_max": 0.17,
+   "breite_m": 2.0,
+   "s0_m": 0.0,
+   "s1_m": 16.05,
+   "mitte_cm": [
+    -264549,
+    -60890
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 51,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.039,
+    "naechste_sicht_m": 41.7,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 28.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 209.3,
+     "abstand_rand_roh_m": 209.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.507,
+    "sehens": 0.099,
+    "physik": 0.322,
+    "gesamt": 32.9
+   },
+   "rang": 99,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 42 m), 100 % der Strecke; 2.4 m Fall auf 16 m (Mittel 15 %, max 17 %)"
+  },
+  {
+   "id": "F_ERLENBACH_1_C2_s1",
+   "lauf": "F_ERLENBACH_1_C2",
+   "art": "fluss",
+   "feld": "C2",
+   "biom": "tundra",
+   "laenge_m": 29.0,
+   "fall_m": 3.8,
+   "gefaelle_mittel": 0.132,
+   "gefaelle_max": 0.16,
+   "breite_m": 31.5,
+   "s0_m": 0.0,
+   "s1_m": 28.97,
+   "mitte_cm": [
+    -172207,
+    -239704
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 37,
+    "wegpunkte_sehen": 4,
+    "anteil_wegpunkte": 0.108,
+    "naechste_sicht_m": 73.4,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 74.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "fjord_04_haengetal",
+     "abstand_rand_m": 305.9,
+     "abstand_rand_roh_m": 305.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.51,
+    "sehens": 0.052,
+    "physik": 0.356,
+    "gesamt": 32.6
+   },
+   "rang": 100,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 73 m), 100 % der Strecke; 3.8 m Fall auf 29 m (Mittel 13 %, max 16 %)"
+  },
+  {
+   "id": "B_R_M1_M2_02_s1",
+   "lauf": "B_R_M1_M2_02",
+   "art": "bach",
+   "feld": "C3",
+   "biom": "aue",
+   "laenge_m": 11.4,
+   "fall_m": 1.5,
+   "gefaelle_mittel": 0.132,
+   "gefaelle_max": 0.201,
+   "breite_m": 5.7,
+   "s0_m": 46.01,
+   "s1_m": 57.42,
+   "mitte_cm": [
+    -264197,
+    -134302
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 89,
+    "wegpunkte_sehen": 9,
+    "anteil_wegpunkte": 0.101,
+    "naechste_sicht_m": 124.8,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 112.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 465.2,
+     "abstand_rand_roh_m": 465.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.594,
+    "sehens": 0.018,
+    "physik": 0.26,
+    "gesamt": 32.1
+   },
+   "rang": 101,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 9 Wegpunkte (naechster 125 m), 100 % der Strecke; 1.5 m Fall auf 11 m (Mittel 13 %, max 20 %)"
+  },
+  {
+   "id": "B_R2_R_P3_M2_01_s1",
+   "lauf": "B_R2_R_P3_M2_01",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 73.1,
+   "fall_m": 16.7,
+   "gefaelle_mittel": 0.228,
+   "gefaelle_max": 0.563,
+   "breite_m": 3.5,
+   "s0_m": 0.0,
+   "s1_m": 73.1,
+   "mitte_cm": [
+    181523,
+    -173440
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 84,
+    "wegpunkte_sehen": 1,
+    "anteil_wegpunkte": 0.012,
+    "naechste_sicht_m": 74.3,
+    "anteil_strecke_sichtbar": 0.333,
+    "weg_abstand_min_m": 46.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 365.3,
+     "abstand_rand_roh_m": 365.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.285,
+    "sehens": 0.035,
+    "physik": 0.649,
+    "gesamt": 31.9
+   },
+   "rang": 102,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 1 Wegpunkte (naechster 74 m), 33 % der Strecke; 16.7 m Fall auf 73 m (Mittel 23 %, max 56 %)"
+  },
+  {
+   "id": "B_R_P3_M2_04_s1",
+   "lauf": "B_R_P3_M2_04",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 86.8,
+   "fall_m": 18.7,
+   "gefaelle_mittel": 0.216,
+   "gefaelle_max": 0.536,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 86.82,
+   "mitte_cm": [
+    183802,
+    -133753
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 65,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 159.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 15.8,
+     "abstand_rand_roh_m": 15.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.029,
+    "sehens": 0.36,
+    "physik": 0.658,
+    "gesamt": 31.7
+   },
+   "rang": 103,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 159 m); 16 m vom Rand von elfenwald_01_mutterbaum; 18.7 m Fall auf 87 m (Mittel 22 %, max 54 %)"
+  },
+  {
+   "id": "B_R_P5_P1_05_s1",
+   "lauf": "B_R_P5_P1_05",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 9.5,
+   "fall_m": 4.0,
+   "gefaelle_mittel": 0.422,
+   "gefaelle_max": 0.422,
+   "breite_m": 4.0,
+   "s0_m": 0.0,
+   "s1_m": 9.49,
+   "mitte_cm": [
+    369100,
+    155200
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 50,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.04,
+    "naechste_sicht_m": 63.8,
+    "anteil_strecke_sichtbar": 0.5,
+    "weg_abstand_min_m": 51.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 323.5,
+     "abstand_rand_roh_m": 323.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.366,
+    "sehens": 0.046,
+    "physik": 0.52,
+    "gesamt": 31.6
+   },
+   "rang": 104,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 64 m), 50 % der Strecke; 4.0 m Fall auf 10 m (Mittel 42 %, max 42 %)"
+  },
+  {
+   "id": "B_R_P2_M3_02_s1",
+   "lauf": "B_R_P2_M3_02",
+   "art": "bach",
+   "feld": "F2",
+   "biom": "aue",
+   "laenge_m": 116.2,
+   "fall_m": 29.0,
+   "gefaelle_mittel": 0.25,
+   "gefaelle_max": 0.961,
+   "breite_m": 4.6,
+   "s0_m": 0.0,
+   "s1_m": 116.18,
+   "mitte_cm": [
+    50375,
+    -297691
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 359.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "frost_05_blockgletscher",
+     "abstand_rand_m": 67.0,
+     "abstand_rand_roh_m": 67.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.015,
+    "sehens": 0.256,
+    "physik": 0.763,
+    "gesamt": 31.2
+   },
+   "rang": 105,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 359 m); 67 m vom Rand von frost_05_blockgletscher; 29.0 m Fall auf 116 m (Mittel 25 %, max 96 %)"
+  },
+  {
+   "id": "B_R_M1_P0_01_s1",
+   "lauf": "B_R_M1_P0_01",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 19.5,
+   "fall_m": 2.8,
+   "gefaelle_mittel": 0.143,
+   "gefaelle_max": 0.168,
+   "breite_m": 4.0,
+   "s0_m": 29.85,
+   "s1_m": 49.35,
+   "mitte_cm": [
+    -207490,
+    -13994
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 45,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.044,
+    "naechste_sicht_m": 68.3,
+    "anteil_strecke_sichtbar": 0.667,
+    "weg_abstand_min_m": 40.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 148.3,
+     "abstand_rand_roh_m": 148.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.391,
+    "sehens": 0.149,
+    "physik": 0.331,
+    "gesamt": 30.1
+   },
+   "rang": 106,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 68 m), 67 % der Strecke; 148 m vom Rand von aue_03_schwalbenwand; 2.8 m Fall auf 20 m (Mittel 14 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P3_M2_02_s1",
+   "lauf": "B_R_P3_M2_02",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 86.9,
+   "fall_m": 19.2,
+   "gefaelle_mittel": 0.221,
+   "gefaelle_max": 0.296,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 86.91,
+   "mitte_cm": [
+    221634,
+    -159446
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 102,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 92.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "abstand_rand_m": 64.7,
+     "abstand_rand_roh_m": 64.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.037,
+    "sehens": 0.26,
+    "physik": 0.667,
+    "gesamt": 29.3
+   },
+   "rang": 107,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 92 m); 65 m vom Rand von elfenwald_08_wurzelbruecke; 19.2 m Fall auf 87 m (Mittel 22 %, max 30 %)"
+  },
+  {
+   "id": "B_R_M3_M2_01_s1",
+   "lauf": "B_R_M3_M2_01",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 193.5,
+   "fall_m": 50.9,
+   "gefaelle_mittel": 0.263,
+   "gefaelle_max": 0.561,
+   "breite_m": 4.4,
+   "s0_m": 0.0,
+   "s1_m": 193.5,
+   "mitte_cm": [
+    -378139,
+    -132692
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 455.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_01_der_moench",
+     "abstand_rand_m": 300.8,
+     "abstand_rand_roh_m": 300.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.011,
+    "sehens": 0.054,
+    "physik": 0.888,
+    "gesamt": 28.7
+   },
+   "rang": 108,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 456 m); 50.9 m Fall auf 194 m (Mittel 26 %, max 56 %)"
+  },
+  {
+   "id": "B_R_M1_M1_02_s1",
+   "lauf": "B_R_M1_M1_02",
+   "art": "bach",
+   "feld": "C3",
+   "biom": "aue",
+   "laenge_m": 57.0,
+   "fall_m": 4.6,
+   "gefaelle_mittel": 0.081,
+   "gefaelle_max": 0.113,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 57.05,
+   "mitte_cm": [
+    -222770,
+    -113446
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 24,
+    "wegpunkte_sehen": 7,
+    "anteil_wegpunkte": 0.292,
+    "naechste_sicht_m": 250.2,
+    "anteil_strecke_sichtbar": 0.714,
+    "weg_abstand_min_m": 248.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 355.2,
+     "abstand_rand_roh_m": 355.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.396,
+    "sehens": 0.037,
+    "physik": 0.34,
+    "gesamt": 27.2
+   },
+   "rang": 109,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 250 m), 71 % der Strecke; 4.6 m Fall auf 57 m (Mittel 8 %, max 11 %)"
+  },
+  {
+   "id": "B_R_M2_P1_01_s3",
+   "lauf": "B_R_M2_P1_01",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "bergwald",
+   "laenge_m": 8.2,
+   "fall_m": 1.6,
+   "gefaelle_mittel": 0.189,
+   "gefaelle_max": 0.189,
+   "breite_m": 4.0,
+   "s0_m": 400.63,
+   "s1_m": 408.88,
+   "mitte_cm": [
+    -338650,
+    144950
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 24,
+    "wegpunkte_sehen": 5,
+    "anteil_wegpunkte": 0.208,
+    "naechste_sicht_m": 183.3,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 182.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "kueste_05_die_gezeitenbank",
+     "abstand_rand_m": 498.9,
+     "abstand_rand_roh_m": 498.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.426,
+    "sehens": 0.014,
+    "physik": 0.321,
+    "gesamt": 27.1
+   },
+   "rang": 110,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 5 Wegpunkte (naechster 183 m), 100 % der Strecke; 1.6 m Fall auf 8 m (Mittel 19 %, max 19 %)"
+  },
+  {
+   "id": "B_R2_R_M1_M1_03_s1",
+   "lauf": "B_R2_R_M1_M1_03",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 96.0,
+   "fall_m": 9.8,
+   "gefaelle_mittel": 0.102,
+   "gefaelle_max": 0.125,
+   "breite_m": 4.2,
+   "s0_m": 38.86,
+   "s1_m": 134.87,
+   "mitte_cm": [
+    -255947,
+    -79144
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 51,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 60.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 8.5,
+     "abstand_rand_roh_m": 8.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.041,
+    "sehens": 0.378,
+    "physik": 0.468,
+    "gesamt": 27.0
+   },
+   "rang": 111,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 61 m); 8 m vom Rand von aue_01_biberstau; 9.8 m Fall auf 96 m (Mittel 10 %, max 12 %)"
+  },
+  {
+   "id": "B_R_P3_M1_01_s1",
+   "lauf": "B_R_P3_M1_01",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 85.5,
+   "fall_m": 10.5,
+   "gefaelle_mittel": 0.123,
+   "gefaelle_max": 0.172,
+   "breite_m": 4.0,
+   "s0_m": 0.0,
+   "s1_m": 85.49,
+   "mitte_cm": [
+    177819,
+    -120777
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 61,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 150.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 17.2,
+     "abstand_rand_roh_m": 17.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.03,
+    "sehens": 0.357,
+    "physik": 0.493,
+    "gesamt": 26.7
+   },
+   "rang": 112,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 150 m); 17 m vom Rand von elfenwald_01_mutterbaum; 10.5 m Fall auf 86 m (Mittel 12 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P4_M1_04_s1",
+   "lauf": "B_R_P4_M1_04",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 60.6,
+   "fall_m": 6.7,
+   "gefaelle_mittel": 0.11,
+   "gefaelle_max": 0.129,
+   "breite_m": 4.8,
+   "s0_m": 10.3,
+   "s1_m": 70.94,
+   "mitte_cm": [
+    237424,
+    -87789
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 110,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.027,
+    "naechste_sicht_m": 106.0,
+    "anteil_strecke_sichtbar": 0.375,
+    "weg_abstand_min_m": 79.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 290.8,
+     "abstand_rand_roh_m": 290.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.31,
+    "sehens": 0.058,
+    "physik": 0.413,
+    "gesamt": 26.5
+   },
+   "rang": 113,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 106 m), 38 % der Strecke; 6.7 m Fall auf 61 m (Mittel 11 %, max 13 %)"
+  },
+  {
+   "id": "F_ELFENFLUSS_2_H4_s1",
+   "lauf": "F_ELFENFLUSS_2_H4",
+   "art": "fluss",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 214.8,
+   "fall_m": 41.2,
+   "gefaelle_mittel": 0.192,
+   "gefaelle_max": 0.567,
+   "breite_m": 14.9,
+   "s0_m": 0.0,
+   "s1_m": 214.85,
+   "mitte_cm": [
+    281830,
+    -59455
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 12,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.167,
+    "naechste_sicht_m": 296.2,
+    "anteil_strecke_sichtbar": 0.261,
+    "weg_abstand_min_m": 245.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_03_rotlaubhain",
+     "abstand_rand_m": 378.6,
+     "abstand_rand_roh_m": 378.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": {
+    "stufen": [
+     "F_ELFENFLUSS_2_H4_S00",
+     "F_ELFENFLUSS_2_H4_S01"
+    ],
+    "fall_gestuft_m": 5.77,
+    "anteil_fall": 0.14,
+    "fx_gruppen": [
+     "H4_A"
+    ]
+   },
+   "status": "gebaut_teilweise",
+   "score": {
+    "sicht": 0.142,
+    "sehens": 0.032,
+    "physik": 0.8,
+    "gesamt": 26.3
+   },
+   "rang": 114,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 296 m), 26 % der Strecke; 41.2 m Fall auf 215 m (Mittel 19 %, max 57 %); teils gestuft gebaut (F_ELFENFLUSS_2_H4_S00, F_ELFENFLUSS_2_H4_S01, 5.8 m = 14 % des Falls) - Rest planen, FX mit Auftrag 14 (H4_A) abstimmen"
+  },
+  {
+   "id": "B_K8_ELFENFALL_04_s1",
+   "lauf": "B_K8_ELFENFALL_04",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 232.1,
+   "fall_m": 36.3,
+   "gefaelle_mittel": 0.156,
+   "gefaelle_max": 0.225,
+   "breite_m": 5.7,
+   "s0_m": 0.0,
+   "s1_m": 232.06,
+   "mitte_cm": [
+    289680,
+    -28328
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 431.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "sumpf_05_der_erlenbruch",
+     "abstand_rand_m": 222.6,
+     "abstand_rand_roh_m": 222.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.012,
+    "sehens": 0.091,
+    "physik": 0.756,
+    "gesamt": 25.9
+   },
+   "rang": 115,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 431 m); 36.3 m Fall auf 232 m (Mittel 16 %, max 22 %)"
+  },
+  {
+   "id": "B_K8_ELFENFALL_02_s3",
+   "lauf": "B_K8_ELFENFALL_02",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 9.2,
+   "fall_m": 1.5,
+   "gefaelle_mittel": 0.165,
+   "gefaelle_max": 0.165,
+   "breite_m": 4.8,
+   "s0_m": 270.69,
+   "s1_m": 279.91,
+   "mitte_cm": [
+    264650,
+    -55600
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 33,
+    "wegpunkte_sehen": 4,
+    "anteil_wegpunkte": 0.121,
+    "naechste_sicht_m": 174.0,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 170.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "sumpf_05_der_erlenbruch",
+     "abstand_rand_m": 399.7,
+     "abstand_rand_roh_m": 399.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.402,
+    "sehens": 0.028,
+    "physik": 0.292,
+    "gesamt": 25.7
+   },
+   "rang": 116,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 174 m), 100 % der Strecke; 1.5 m Fall auf 9 m (Mittel 16 %, max 16 %)"
+  },
+  {
+   "id": "B_R2_R_P4_P1_01_s1",
+   "lauf": "B_R2_R_P4_P1_01",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 31.4,
+   "fall_m": 5.6,
+   "gefaelle_mittel": 0.179,
+   "gefaelle_max": 0.504,
+   "breite_m": 5.7,
+   "s0_m": 19.43,
+   "s1_m": 50.87,
+   "mitte_cm": [
+    331988,
+    97867
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 42,
+    "wegpunkte_sehen": 1,
+    "anteil_wegpunkte": 0.024,
+    "naechste_sicht_m": 178.4,
+    "anteil_strecke_sichtbar": 0.4,
+    "weg_abstand_min_m": 126.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "sumpf_06_das_bultenfeld",
+     "abstand_rand_m": 153.0,
+     "abstand_rand_roh_m": 153.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.189,
+    "sehens": 0.144,
+    "physik": 0.447,
+    "gesamt": 25.3
+   },
+   "rang": 117,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 1 Wegpunkte (naechster 178 m), 40 % der Strecke; 5.6 m Fall auf 31 m (Mittel 18 %, max 50 %)"
+  },
+  {
+   "id": "B_R_P3_M2_04_s2",
+   "lauf": "B_R_P3_M2_04",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 55.4,
+   "fall_m": 6.3,
+   "gefaelle_mittel": 0.114,
+   "gefaelle_max": 0.12,
+   "breite_m": 3.8,
+   "s0_m": 96.72,
+   "s1_m": 152.15,
+   "mitte_cm": [
+    179096,
+    -127617
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 50,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 149.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 1.9,
+     "abstand_rand_roh_m": 1.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.03,
+    "sehens": 0.395,
+    "physik": 0.408,
+    "gesamt": 25.3
+   },
+   "rang": 118,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 150 m); 2 m vom Rand von elfenwald_01_mutterbaum; 6.3 m Fall auf 55 m (Mittel 11 %, max 12 %)"
+  },
+  {
+   "id": "B_R_P1_M2_02_s3",
+   "lauf": "B_R_P1_M2_02",
+   "art": "bach",
+   "feld": "E2",
+   "biom": "tundra",
+   "laenge_m": 75.1,
+   "fall_m": 13.9,
+   "gefaelle_mittel": 0.186,
+   "gefaelle_max": 0.289,
+   "breite_m": 5.2,
+   "s0_m": 228.59,
+   "s1_m": 303.67,
+   "mitte_cm": [
+    -35822,
+    -203139
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 3,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 262.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_04_die_fliesstreppe",
+     "abstand_rand_m": 91.8,
+     "abstand_rand_roh_m": 91.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.021,
+    "sehens": 0.217,
+    "physik": 0.585,
+    "gesamt": 24.9
+   },
+   "rang": 119,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 262 m); 92 m vom Rand von tundra_04_die_fliesstreppe; 13.9 m Fall auf 75 m (Mittel 19 %, max 29 %)"
+  },
+  {
+   "id": "B_R_P3_M1_07_s1",
+   "lauf": "B_R_P3_M1_07",
+   "art": "bach",
+   "feld": "G4",
+   "biom": "elfenwald",
+   "laenge_m": 28.0,
+   "fall_m": 2.6,
+   "gefaelle_mittel": 0.093,
+   "gefaelle_max": 0.119,
+   "breite_m": 3.6,
+   "s0_m": 20.0,
+   "s1_m": 48.0,
+   "mitte_cm": [
+    230724,
+    -60299
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 77,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.039,
+    "naechste_sicht_m": 64.4,
+    "anteil_strecke_sichtbar": 0.25,
+    "weg_abstand_min_m": 56.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_06_blauer_grund",
+     "abstand_rand_m": 233.7,
+     "abstand_rand_roh_m": 233.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.345,
+    "sehens": 0.084,
+    "physik": 0.278,
+    "gesamt": 24.7
+   },
+   "rang": 120,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 64 m), 25 % der Strecke; 2.6 m Fall auf 28 m (Mittel 9 %, max 12 %)"
+  },
+  {
+   "id": "B_R_M1_P0_04_s2",
+   "lauf": "B_R_M1_P0_04",
+   "art": "bach",
+   "feld": "C5",
+   "biom": "aue",
+   "laenge_m": 18.0,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.096,
+   "gefaelle_max": 0.102,
+   "breite_m": 4.0,
+   "s0_m": 748.92,
+   "s1_m": 766.95,
+   "mitte_cm": [
+    -210312,
+    21465
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 307.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 57.1,
+     "abstand_rand_roh_m": 57.1
+    },
+    "kameras": [
+     {
+      "kamera": "aue_03_schwalbenwand_anmarsch",
+      "ort": "aue_03_schwalbenwand",
+      "abstand_m": 390.6
+     }
+    ]
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.018,
+    "sehens": 0.543,
+    "physik": 0.238,
+    "gesamt": 24.2
+   },
+   "rang": 121,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 307 m); im Bild von 1 Sehens-Kamera(s) (aue_03_schwalbenwand); 57 m vom Rand von aue_03_schwalbenwand; 1.7 m Fall auf 18 m (Mittel 10 %, max 10 %)"
+  },
+  {
+   "id": "B_R_P2_M1_01_s2",
+   "lauf": "B_R_P2_M1_01",
+   "art": "bach",
+   "feld": "F4",
+   "biom": "aue",
+   "laenge_m": 79.3,
+   "fall_m": 10.6,
+   "gefaelle_mittel": 0.134,
+   "gefaelle_max": 0.244,
+   "breite_m": 4.3,
+   "s0_m": 115.5,
+   "s1_m": 194.76,
+   "mitte_cm": [
+    110940,
+    -96035
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 35,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 187.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_07_blautopf",
+     "abstand_rand_m": 61.5,
+     "abstand_rand_roh_m": 61.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.027,
+    "sehens": 0.265,
+    "physik": 0.502,
+    "gesamt": 24.1
+   },
+   "rang": 122,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 188 m); 62 m vom Rand von aue_07_blautopf; 10.6 m Fall auf 79 m (Mittel 13 %, max 24 %)"
+  },
+  {
+   "id": "F_ELFENFLUSS_2_H4_s2",
+   "lauf": "F_ELFENFLUSS_2_H4",
+   "art": "fluss",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 12.2,
+   "fall_m": 1.9,
+   "gefaelle_mittel": 0.156,
+   "gefaelle_max": 0.158,
+   "breite_m": 41.0,
+   "s0_m": 227.3,
+   "s1_m": 239.48,
+   "mitte_cm": [
+    270578,
+    -54484
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 18,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.167,
+    "naechste_sicht_m": 224.2,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 221.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "sumpf_05_der_erlenbruch",
+     "abstand_rand_m": 404.7,
+     "abstand_rand_roh_m": 404.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.344,
+    "sehens": 0.027,
+    "physik": 0.305,
+    "gesamt": 23.7
+   },
+   "rang": 123,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 224 m), 100 % der Strecke; 1.9 m Fall auf 12 m (Mittel 16 %, max 16 %)"
+  },
+  {
+   "id": "B_R_P2_M3_01_s1",
+   "lauf": "B_R_P2_M3_01",
+   "art": "bach",
+   "feld": "F1",
+   "biom": "aue",
+   "laenge_m": 46.8,
+   "fall_m": 13.4,
+   "gefaelle_mittel": 0.286,
+   "gefaelle_max": 0.474,
+   "breite_m": 4.0,
+   "s0_m": 29.43,
+   "s1_m": 76.27,
+   "mitte_cm": [
+    40210,
+    -308293
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 391.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "gletscher_07_der_nunatak",
+     "abstand_rand_m": 212.5,
+     "abstand_rand_roh_m": 212.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.014,
+    "sehens": 0.097,
+    "physik": 0.666,
+    "gesamt": 23.4
+   },
+   "rang": 124,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 391 m); 13.4 m Fall auf 47 m (Mittel 29 %, max 47 %)"
+  },
+  {
+   "id": "B_R_P0_P2_05_s1",
+   "lauf": "B_R_P0_P2_05",
+   "art": "bach",
+   "feld": "D7",
+   "biom": "aue",
+   "laenge_m": 156.8,
+   "fall_m": 33.6,
+   "gefaelle_mittel": 0.214,
+   "gefaelle_max": 0.349,
+   "breite_m": 3.9,
+   "s0_m": 0.0,
+   "s1_m": 156.81,
+   "mitte_cm": [
+    -133205,
+    224754
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 780.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 654.2,
+     "abstand_rand_roh_m": 654.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.004,
+    "sehens": 0.005,
+    "physik": 0.767,
+    "gesamt": 23.3
+   },
+   "rang": 125,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 780 m); 33.6 m Fall auf 157 m (Mittel 21 %, max 35 %)"
+  },
+  {
+   "id": "B_R_P3_P1_03_s1",
+   "lauf": "B_R_P3_P1_03",
+   "art": "bach",
+   "feld": "G6",
+   "biom": "dschungel",
+   "laenge_m": 7.1,
+   "fall_m": 1.9,
+   "gefaelle_mittel": 0.273,
+   "gefaelle_max": 0.273,
+   "breite_m": 4.8,
+   "s0_m": 9.85,
+   "s1_m": 16.92,
+   "mitte_cm": [
+    148800,
+    118100
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 2,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 289.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_06_schluckhoehle",
+     "abstand_rand_m": 29.6,
+     "abstand_rand_roh_m": 29.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.019,
+    "sehens": 0.328,
+    "physik": 0.419,
+    "gesamt": 23.2
+   },
+   "rang": 126,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 290 m); 30 m vom Rand von dschungel_06_schluckhoehle; 1.9 m Fall auf 7 m (Mittel 27 %, max 27 %)"
+  },
+  {
+   "id": "F_HAUPTFLUSS_3_C5_s1",
+   "lauf": "F_HAUPTFLUSS_3_C5",
+   "art": "fluss",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 131.2,
+   "fall_m": 6.8,
+   "gefaelle_mittel": 0.052,
+   "gefaelle_max": 0.086,
+   "breite_m": 54.1,
+   "s0_m": 0.0,
+   "s1_m": 131.17,
+   "mitte_cm": [
+    -245517,
+    -580
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 114,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.018,
+    "naechste_sicht_m": 166.8,
+    "anteil_strecke_sichtbar": 0.2,
+    "weg_abstand_min_m": 123.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 170.5,
+     "abstand_rand_roh_m": 170.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.187,
+    "sehens": 0.128,
+    "physik": 0.392,
+    "gesamt": 23.1
+   },
+   "rang": 127,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 167 m), 20 % der Strecke; 6.8 m Fall auf 131 m (Mittel 5 %, max 9 %)"
+  },
+  {
+   "id": "B_R_P0_P2_02_s1",
+   "lauf": "B_R_P0_P2_02",
+   "art": "bach",
+   "feld": "D6",
+   "biom": "aue",
+   "laenge_m": 156.9,
+   "fall_m": 24.7,
+   "gefaelle_mittel": 0.158,
+   "gefaelle_max": 0.241,
+   "breite_m": 3.7,
+   "s0_m": 0.0,
+   "s1_m": 156.94,
+   "mitte_cm": [
+    -118726,
+    181497
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 366.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 270.9,
+     "abstand_rand_roh_m": 270.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.015,
+    "sehens": 0.066,
+    "physik": 0.671,
+    "gesamt": 22.7
+   },
+   "rang": 128,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 367 m); 24.7 m Fall auf 157 m (Mittel 16 %, max 24 %)"
+  },
+  {
+   "id": "B_R_P0_P2_06_s1",
+   "lauf": "B_R_P0_P2_06",
+   "art": "bach",
+   "feld": "D7",
+   "biom": "aue",
+   "laenge_m": 105.3,
+   "fall_m": 26.5,
+   "gefaelle_mittel": 0.252,
+   "gefaelle_max": 0.444,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 105.32,
+   "mitte_cm": [
+    -156424,
+    238364
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 918.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 877.0,
+     "abstand_rand_roh_m": 877.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.002,
+    "sehens": 0.001,
+    "physik": 0.748,
+    "gesamt": 22.6
+   },
+   "rang": 129,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 918 m); 26.5 m Fall auf 105 m (Mittel 25 %, max 44 %)"
+  },
+  {
+   "id": "B_R_M2_M2_01_s1",
+   "lauf": "B_R_M2_M2_01",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 38.2,
+   "fall_m": 11.8,
+   "gefaelle_mittel": 0.31,
+   "gefaelle_max": 0.332,
+   "breite_m": 3.1,
+   "s0_m": 0.0,
+   "s1_m": 38.2,
+   "mitte_cm": [
+    -340851,
+    -152328
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 16,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 97.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_01_der_moench",
+     "abstand_rand_m": 364.6,
+     "abstand_rand_roh_m": 364.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.036,
+    "sehens": 0.035,
+    "physik": 0.66,
+    "gesamt": 22.3
+   },
+   "rang": 130,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 97 m); 11.8 m Fall auf 38 m (Mittel 31 %, max 33 %)"
+  },
+  {
+   "id": "B_R_M3_M2_02_s1",
+   "lauf": "B_R_M3_M2_02",
+   "art": "bach",
+   "feld": "A3",
+   "biom": "bergwald",
+   "laenge_m": 109.1,
+   "fall_m": 23.7,
+   "gefaelle_mittel": 0.217,
+   "gefaelle_max": 0.853,
+   "breite_m": 3.7,
+   "s0_m": 0.0,
+   "s1_m": 109.08,
+   "mitte_cm": [
+    -386709,
+    -127899
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 585.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_01_der_moench",
+     "abstand_rand_m": 400.0,
+     "abstand_rand_roh_m": 400.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.007,
+    "sehens": 0.028,
+    "physik": 0.701,
+    "gesamt": 22.1
+   },
+   "rang": 131,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 585 m); 23.7 m Fall auf 109 m (Mittel 22 %, max 85 %)"
+  },
+  {
+   "id": "B_K8_ELFENFALL_03_s1",
+   "lauf": "B_K8_ELFENFALL_03",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 133.5,
+   "fall_m": 12.8,
+   "gefaelle_mittel": 0.096,
+   "gefaelle_max": 0.142,
+   "breite_m": 5.4,
+   "s0_m": 19.7,
+   "s1_m": 153.18,
+   "mitte_cm": [
+    265425,
+    -32525
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 19,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 219.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "sumpf_05_der_erlenbruch",
+     "abstand_rand_m": 122.5,
+     "abstand_rand_roh_m": 122.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.024,
+    "sehens": 0.177,
+    "physik": 0.514,
+    "gesamt": 21.7
+   },
+   "rang": 132,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 219 m); 122 m vom Rand von sumpf_05_der_erlenbruch; 12.8 m Fall auf 134 m (Mittel 10 %, max 14 %)"
+  },
+  {
+   "id": "B_R_P3_P0_01_s1",
+   "lauf": "B_R_P3_P0_01",
+   "art": "bach",
+   "feld": "G4",
+   "biom": "heide",
+   "laenge_m": 18.4,
+   "fall_m": 1.8,
+   "gefaelle_mittel": 0.098,
+   "gefaelle_max": 0.124,
+   "breite_m": 4.4,
+   "s0_m": 56.7,
+   "s1_m": 75.07,
+   "mitte_cm": [
+    220288,
+    -8343
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 46,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.043,
+    "naechste_sicht_m": 150.7,
+    "anteil_strecke_sichtbar": 0.667,
+    "weg_abstand_min_m": 67.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "heide_03_die_wacholderprozession",
+     "abstand_rand_m": 238.7,
+     "abstand_rand_roh_m": 238.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.293,
+    "sehens": 0.081,
+    "physik": 0.245,
+    "gesamt": 21.5
+   },
+   "rang": 133,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 151 m), 67 % der Strecke; 1.8 m Fall auf 18 m (Mittel 10 %, max 12 %)"
+  },
+  {
+   "id": "B_R_P0_P2_03_s1",
+   "lauf": "B_R_P0_P2_03",
+   "art": "bach",
+   "feld": "D6",
+   "biom": "aue",
+   "laenge_m": 104.8,
+   "fall_m": 18.5,
+   "gefaelle_mittel": 0.177,
+   "gefaelle_max": 0.402,
+   "breite_m": 4.0,
+   "s0_m": 0.0,
+   "s1_m": 104.82,
+   "mitte_cm": [
+    -116394,
+    190724
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 412.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 288.0,
+     "abstand_rand_roh_m": 288.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.013,
+    "sehens": 0.059,
+    "physik": 0.627,
+    "gesamt": 21.1
+   },
+   "rang": 134,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 413 m); 18.5 m Fall auf 105 m (Mittel 18 %, max 40 %)"
+  },
+  {
+   "id": "B_K8_ELFENFALL_06_s1",
+   "lauf": "B_K8_ELFENFALL_06",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 84.7,
+   "fall_m": 18.5,
+   "gefaelle_mittel": 0.218,
+   "gefaelle_max": 0.261,
+   "breite_m": 5.2,
+   "s0_m": 0.0,
+   "s1_m": 84.7,
+   "mitte_cm": [
+    303075,
+    -22414
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 581.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "sumpf_05_der_erlenbruch",
+     "abstand_rand_m": 395.6,
+     "abstand_rand_roh_m": 395.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.007,
+    "sehens": 0.029,
+    "physik": 0.658,
+    "gesamt": 20.9
+   },
+   "rang": 135,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 582 m); 18.5 m Fall auf 85 m (Mittel 22 %, max 26 %)"
+  },
+  {
+   "id": "B_R2_R_P0_P2_03_s1",
+   "lauf": "B_R2_R_P0_P2_03",
+   "art": "bach",
+   "feld": "D7",
+   "biom": "aue",
+   "laenge_m": 134.1,
+   "fall_m": 24.9,
+   "gefaelle_mittel": 0.186,
+   "gefaelle_max": 0.438,
+   "breite_m": 3.4,
+   "s0_m": 0.0,
+   "s1_m": 134.11,
+   "mitte_cm": [
+    -134077,
+    232796
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 843.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 709.1,
+     "abstand_rand_roh_m": 709.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.003,
+    "sehens": 0.004,
+    "physik": 0.688,
+    "gesamt": 20.9
+   },
+   "rang": 136,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 843 m); 24.9 m Fall auf 134 m (Mittel 19 %, max 44 %)"
+  },
+  {
+   "id": "B_R_P3_M2_01_s2",
+   "lauf": "B_R_P3_M2_01",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 20.9,
+   "fall_m": 3.0,
+   "gefaelle_mittel": 0.146,
+   "gefaelle_max": 0.154,
+   "breite_m": 4.6,
+   "s0_m": 404.27,
+   "s1_m": 425.18,
+   "mitte_cm": [
+    162564,
+    -175584
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 64,
+    "wegpunkte_sehen": 1,
+    "anteil_wegpunkte": 0.016,
+    "naechste_sicht_m": 88.6,
+    "anteil_strecke_sichtbar": 0.25,
+    "weg_abstand_min_m": 79.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 407.5,
+     "abstand_rand_roh_m": 407.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.247,
+    "sehens": 0.026,
+    "physik": 0.342,
+    "gesamt": 20.9
+   },
+   "rang": 137,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 1 Wegpunkte (naechster 89 m), 25 % der Strecke; 3.0 m Fall auf 21 m (Mittel 15 %, max 15 %)"
+  },
+  {
+   "id": "B_R_P0_P2_04_s1",
+   "lauf": "B_R_P0_P2_04",
+   "art": "bach",
+   "feld": "D7",
+   "biom": "aue",
+   "laenge_m": 105.9,
+   "fall_m": 20.4,
+   "gefaelle_mittel": 0.193,
+   "gefaelle_max": 0.275,
+   "breite_m": 3.6,
+   "s0_m": 0.0,
+   "s1_m": 105.92,
+   "mitte_cm": [
+    -123710,
+    213598
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 623.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 474.7,
+     "abstand_rand_roh_m": 474.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.006,
+    "sehens": 0.017,
+    "physik": 0.656,
+    "gesamt": 20.4
+   },
+   "rang": 138,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 624 m); 20.4 m Fall auf 106 m (Mittel 19 %, max 28 %)"
+  },
+  {
+   "id": "F_ELFENFLUSS_1_H4_s1",
+   "lauf": "F_ELFENFLUSS_1_H4",
+   "art": "fluss",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 194.1,
+   "fall_m": 20.4,
+   "gefaelle_mittel": 0.105,
+   "gefaelle_max": 0.138,
+   "breite_m": 34.2,
+   "s0_m": 0.0,
+   "s1_m": 194.09,
+   "mitte_cm": [
+    299216,
+    -66775
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 421.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_02_nebelhain",
+     "abstand_rand_m": 320.6,
+     "abstand_rand_roh_m": 320.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.012,
+    "sehens": 0.047,
+    "physik": 0.612,
+    "gesamt": 20.3
+   },
+   "rang": 139,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 421 m); 20.4 m Fall auf 194 m (Mittel 10 %, max 14 %)"
+  },
+  {
+   "id": "B_R2_R_P0_P2_01_s1",
+   "lauf": "B_R2_R_P0_P2_01",
+   "art": "bach",
+   "feld": "D6",
+   "biom": "aue",
+   "laenge_m": 79.4,
+   "fall_m": 14.9,
+   "gefaelle_mittel": 0.188,
+   "gefaelle_max": 0.377,
+   "breite_m": 4.1,
+   "s0_m": 0.0,
+   "s1_m": 79.4,
+   "mitte_cm": [
+    -115190,
+    195503
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 415.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 290.0,
+     "abstand_rand_roh_m": 290.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.013,
+    "sehens": 0.058,
+    "physik": 0.598,
+    "gesamt": 20.2
+   },
+   "rang": 140,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 416 m); 14.9 m Fall auf 79 m (Mittel 19 %, max 38 %)"
+  },
+  {
+   "id": "B_R_M3_M2_03_s1",
+   "lauf": "B_R_M3_M2_03",
+   "art": "bach",
+   "feld": "A3",
+   "biom": "bergwald",
+   "laenge_m": 66.8,
+   "fall_m": 15.5,
+   "gefaelle_mittel": 0.232,
+   "gefaelle_max": 0.385,
+   "breite_m": 4.7,
+   "s0_m": 0.0,
+   "s1_m": 66.81,
+   "mitte_cm": [
+    -390729,
+    -127376
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 640.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_01_der_moench",
+     "abstand_rand_m": 458.8,
+     "abstand_rand_roh_m": 458.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.006,
+    "sehens": 0.019,
+    "physik": 0.64,
+    "gesamt": 20.0
+   },
+   "rang": 141,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 641 m); 15.5 m Fall auf 67 m (Mittel 23 %, max 38 %)"
+  },
+  {
+   "id": "B_K8_ELFENFALL_02_s1",
+   "lauf": "B_K8_ELFENFALL_02",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 65.2,
+   "fall_m": 12.3,
+   "gefaelle_mittel": 0.189,
+   "gefaelle_max": 0.257,
+   "breite_m": 4.9,
+   "s0_m": 0.0,
+   "s1_m": 65.22,
+   "mitte_cm": [
+    283744,
+    -69208
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 312.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_03_rotlaubhain",
+     "abstand_rand_m": 298.1,
+     "abstand_rand_roh_m": 298.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.018,
+    "sehens": 0.055,
+    "physik": 0.568,
+    "gesamt": 19.4
+   },
+   "rang": 142,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 313 m); 12.3 m Fall auf 65 m (Mittel 19 %, max 26 %)"
+  },
+  {
+   "id": "B_R2_R_P0_P2_02_s1",
+   "lauf": "B_R2_R_P0_P2_02",
+   "art": "bach",
+   "feld": "D7",
+   "biom": "aue",
+   "laenge_m": 85.2,
+   "fall_m": 15.4,
+   "gefaelle_mittel": 0.181,
+   "gefaelle_max": 0.326,
+   "breite_m": 3.2,
+   "s0_m": 0.0,
+   "s1_m": 85.22,
+   "mitte_cm": [
+    -116246,
+    206606
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 544.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 404.0,
+     "abstand_rand_roh_m": 404.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.008,
+    "sehens": 0.027,
+    "physik": 0.598,
+    "gesamt": 19.1
+   },
+   "rang": 143,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 545 m); 15.4 m Fall auf 85 m (Mittel 18 %, max 33 %)"
+  },
+  {
+   "id": "B_K8_ELFENFALL_02_s2",
+   "lauf": "B_K8_ELFENFALL_02",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 48.9,
+   "fall_m": 9.4,
+   "gefaelle_mittel": 0.193,
+   "gefaelle_max": 0.327,
+   "breite_m": 4.5,
+   "s0_m": 75.41,
+   "s1_m": 124.33,
+   "mitte_cm": [
+    277818,
+    -66436
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 305.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_03_rotlaubhain",
+     "abstand_rand_m": 303.4,
+     "abstand_rand_roh_m": 303.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.018,
+    "sehens": 0.053,
+    "physik": 0.531,
+    "gesamt": 18.2
+   },
+   "rang": 144,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 305 m); 9.4 m Fall auf 49 m (Mittel 19 %, max 33 %)"
+  },
+  {
+   "id": "B_R2_R_P3_M1_01_s1",
+   "lauf": "B_R2_R_P3_M1_01",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 60.9,
+   "fall_m": 4.8,
+   "gefaelle_mittel": 0.079,
+   "gefaelle_max": 0.102,
+   "breite_m": 3.0,
+   "s0_m": 0.0,
+   "s1_m": 60.87,
+   "mitte_cm": [
+    178465,
+    -113636
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 65,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 157.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 104.4,
+     "abstand_rand_roh_m": 104.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.03,
+    "sehens": 0.199,
+    "physik": 0.345,
+    "gesamt": 17.5
+   },
+   "rang": 145,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 158 m); 104 m vom Rand von elfenwald_01_mutterbaum; 4.8 m Fall auf 61 m (Mittel 8 %, max 10 %)"
+  },
+  {
+   "id": "B_R_M2_M2_01_s2",
+   "lauf": "B_R_M2_M2_01",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 19.3,
+   "fall_m": 4.8,
+   "gefaelle_mittel": 0.251,
+   "gefaelle_max": 0.266,
+   "breite_m": 2.4,
+   "s0_m": 47.26,
+   "s1_m": 66.53,
+   "mitte_cm": [
+    -339782,
+    -155897
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 16,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 99.5
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_01_der_moench",
+     "abstand_rand_m": 407.6,
+     "abstand_rand_roh_m": 407.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.036,
+    "sehens": 0.026,
+    "physik": 0.496,
+    "gesamt": 17.1
+   },
+   "rang": 146,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 100 m); 4.8 m Fall auf 19 m (Mittel 25 %, max 27 %)"
+  },
+  {
+   "id": "F_HAUPTFLUSS_1_B4_s1",
+   "lauf": "F_HAUPTFLUSS_1_B4",
+   "art": "fluss",
+   "feld": "B4",
+   "biom": "bergwald",
+   "laenge_m": 30.0,
+   "fall_m": 5.3,
+   "gefaelle_mittel": 0.176,
+   "gefaelle_max": 0.179,
+   "breite_m": 21.0,
+   "s0_m": 0.0,
+   "s1_m": 30.0,
+   "mitte_cm": [
+    -317933,
+    -67946
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 30,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 104.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_04_felsenmeer",
+     "abstand_rand_m": 230.1,
+     "abstand_rand_roh_m": 230.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.035,
+    "sehens": 0.086,
+    "physik": 0.437,
+    "gesamt": 17.1
+   },
+   "rang": 147,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 105 m); 5.3 m Fall auf 30 m (Mittel 18 %, max 18 %)"
+  },
+  {
+   "id": "F_ELFENFLUSS_3_G4_s2",
+   "lauf": "F_ELFENFLUSS_3_G4",
+   "art": "fluss",
+   "feld": "G4",
+   "biom": "aue",
+   "laenge_m": 44.3,
+   "fall_m": 2.4,
+   "gefaelle_mittel": 0.054,
+   "gefaelle_max": 0.057,
+   "breite_m": 72.5,
+   "s0_m": 1103.0,
+   "s1_m": 1147.34,
+   "mitte_cm": [
+    131406,
+    -40349
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 2,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 270.3
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_08_lianenhalle",
+     "abstand_rand_m": 56.0,
+     "abstand_rand_roh_m": 56.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.02,
+    "sehens": 0.275,
+    "physik": 0.24,
+    "gesamt": 16.3
+   },
+   "rang": 148,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 270 m); 56 m vom Rand von aue_08_lianenhalle; 2.4 m Fall auf 44 m (Mittel 5 %, max 6 %)"
+  },
+  {
+   "id": "B_R_P3_P1_04_s1",
+   "lauf": "B_R_P3_P1_04",
+   "art": "bach",
+   "feld": "G6",
+   "biom": "dschungel",
+   "laenge_m": 17.8,
+   "fall_m": 2.3,
+   "gefaelle_mittel": 0.128,
+   "gefaelle_max": 0.205,
+   "breite_m": 6.8,
+   "s0_m": 0.0,
+   "s1_m": 17.81,
+   "mitte_cm": [
+    157750,
+    122353
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 329.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_06_schluckhoehle",
+     "abstand_rand_m": 107.8,
+     "abstand_rand_roh_m": 107.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.017,
+    "sehens": 0.195,
+    "physik": 0.297,
+    "gesamt": 15.4
+   },
+   "rang": 149,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 330 m); 108 m vom Rand von dschungel_06_schluckhoehle; 2.3 m Fall auf 18 m (Mittel 13 %, max 20 %)"
+  },
+  {
+   "id": "B_R3_R_P2_M1_01_s1",
+   "lauf": "B_R3_R_P2_M1_01",
+   "art": "bach",
+   "feld": "G4",
+   "biom": "aue",
+   "laenge_m": 18.9,
+   "fall_m": 2.2,
+   "gefaelle_mittel": 0.117,
+   "gefaelle_max": 0.141,
+   "breite_m": 3.2,
+   "s0_m": 0.0,
+   "s1_m": 18.87,
+   "mitte_cm": [
+    133950,
+    -93750
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 53,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 134.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_07_blautopf",
+     "abstand_rand_m": 153.7,
+     "abstand_rand_roh_m": 153.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.032,
+    "sehens": 0.144,
+    "physik": 0.282,
+    "gesamt": 14.0
+   },
+   "rang": 150,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 135 m); 2.2 m Fall auf 19 m (Mittel 12 %, max 14 %)"
+  },
+  {
+   "id": "B_R_P0_P2_04_s2",
+   "lauf": "B_R_P0_P2_04",
+   "art": "bach",
+   "feld": "D7",
+   "biom": "aue",
+   "laenge_m": 57.3,
+   "fall_m": 7.0,
+   "gefaelle_mittel": 0.122,
+   "gefaelle_max": 0.168,
+   "breite_m": 3.6,
+   "s0_m": 113.98,
+   "s1_m": 171.24,
+   "mitte_cm": [
+    -115764,
+    211451
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 567.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 412.2,
+     "abstand_rand_roh_m": 412.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.008,
+    "sehens": 0.026,
+    "physik": 0.429,
+    "gesamt": 13.9
+   },
+   "rang": 151,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 567 m); 7.0 m Fall auf 57 m (Mittel 12 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P3_M1_03_s1",
+   "lauf": "B_R_P3_M1_03",
+   "art": "bach",
+   "feld": "G4",
+   "biom": "elfenwald",
+   "laenge_m": 18.7,
+   "fall_m": 1.9,
+   "gefaelle_mittel": 0.103,
+   "gefaelle_max": 0.11,
+   "breite_m": 4.0,
+   "s0_m": 28.67,
+   "s1_m": 47.42,
+   "mitte_cm": [
+    139478,
+    -87644
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 59,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 82.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_07_blautopf",
+     "abstand_rand_m": 192.2,
+     "abstand_rand_roh_m": 192.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.038,
+    "sehens": 0.111,
+    "physik": 0.255,
+    "gesamt": 12.5
+   },
+   "rang": 152,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 83 m); 1.9 m Fall auf 19 m (Mittel 10 %, max 11 %)"
+  },
+  {
+   "id": "B_R3_R_M2_P2_01_s1",
+   "lauf": "B_R3_R_M2_P2_01",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "bergwald",
+   "laenge_m": 20.0,
+   "fall_m": 1.8,
+   "gefaelle_mittel": 0.09,
+   "gefaelle_max": 0.113,
+   "breite_m": 4.5,
+   "s0_m": 0.0,
+   "s1_m": 20.05,
+   "mitte_cm": [
+    -294751,
+    175083
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 7,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 270.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "lava_08_glutauge",
+     "abstand_rand_m": 147.8,
+     "abstand_rand_roh_m": 147.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.02,
+    "sehens": 0.149,
+    "physik": 0.238,
+    "gesamt": 12.4
+   },
+   "rang": 153,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 270 m); 148 m vom Rand von lava_08_glutauge; 1.8 m Fall auf 20 m (Mittel 9 %, max 11 %)"
+  },
+  {
+   "id": "B_R_P3_M1_08_s1",
+   "lauf": "B_R_P3_M1_08",
+   "art": "bach",
+   "feld": "G4",
+   "biom": "elfenwald",
+   "laenge_m": 20.0,
+   "fall_m": 1.9,
+   "gefaelle_mittel": 0.096,
+   "gefaelle_max": 0.108,
+   "breite_m": 2.8,
+   "s0_m": 0.0,
+   "s1_m": 20.0,
+   "mitte_cm": [
+    142450,
+    -58850
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 45,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 150.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_08_lianenhalle",
+     "abstand_rand_m": 188.4,
+     "abstand_rand_roh_m": 188.4
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.03,
+    "sehens": 0.114,
+    "physik": 0.248,
+    "gesamt": 12.1
+   },
+   "rang": 154,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 150 m); 1.9 m Fall auf 20 m (Mittel 10 %, max 11 %)"
+  },
+  {
+   "id": "B_R_P5_P1_02_s4",
+   "lauf": "B_R_P5_P1_02",
+   "art": "bach",
+   "feld": "I6",
+   "biom": "dschungel",
+   "laenge_m": 8.6,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.197,
+   "gefaelle_max": 0.197,
+   "breite_m": 5.7,
+   "s0_m": 275.69,
+   "s1_m": 284.29,
+   "mitte_cm": [
+    382600,
+    122300
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 36,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 198.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_03_steinwald",
+     "abstand_rand_m": 488.0,
+     "abstand_rand_roh_m": 488.0
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.026,
+    "sehens": 0.015,
+    "physik": 0.334,
+    "gesamt": 11.5
+   },
+   "rang": 155,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 199 m); 1.7 m Fall auf 9 m (Mittel 20 %, max 20 %)"
+  },
+  {
+   "id": "B_R2_R_P2_P1_02_s1",
+   "lauf": "B_R2_R_P2_P1_02",
+   "art": "bach",
+   "feld": "F5",
+   "biom": "aue",
+   "laenge_m": 8.1,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.206,
+   "gefaelle_max": 0.206,
+   "breite_m": 4.0,
+   "s0_m": 125.38,
+   "s1_m": 133.44,
+   "mitte_cm": [
+    48700,
+    95550
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 522.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_01_rippenland",
+     "abstand_rand_m": 409.5,
+     "abstand_rand_roh_m": 409.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.009,
+    "sehens": 0.026,
+    "physik": 0.343,
+    "gesamt": 11.4
+   },
+   "rang": 156,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 522 m); 1.7 m Fall auf 8 m (Mittel 21 %, max 21 %)"
+  },
+  {
+   "id": "F_ERLENBACH_1V_C2_s2",
+   "lauf": "F_ERLENBACH_1V_C2",
+   "art": "fluss",
+   "feld": "C2",
+   "biom": "tundra",
+   "laenge_m": 11.9,
+   "fall_m": 1.7,
+   "gefaelle_mittel": 0.142,
+   "gefaelle_max": 0.145,
+   "breite_m": 26.4,
+   "s0_m": 191.24,
+   "s1_m": 203.16,
+   "mitte_cm": [
+    -178468,
+    -221024
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 24,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 168.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "tundra_01_der_pingo",
+     "abstand_rand_m": 305.7,
+     "abstand_rand_roh_m": 305.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.029,
+    "sehens": 0.052,
+    "physik": 0.281,
+    "gesamt": 11.1
+   },
+   "rang": 157,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 168 m); 1.7 m Fall auf 12 m (Mittel 14 %, max 14 %)"
+  },
+  {
+   "id": "B_R_P0_P2_03_s2",
+   "lauf": "B_R_P0_P2_03",
+   "art": "bach",
+   "feld": "D6",
+   "biom": "aue",
+   "laenge_m": 12.3,
+   "fall_m": 1.6,
+   "gefaelle_mittel": 0.126,
+   "gefaelle_max": 0.133,
+   "breite_m": 4.4,
+   "s0_m": 141.92,
+   "s1_m": 154.24,
+   "mitte_cm": [
+    -109289,
+    196381
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 426.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 283.8,
+     "abstand_rand_roh_m": 283.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.012,
+    "sehens": 0.06,
+    "physik": 0.26,
+    "gesamt": 10.1
+   },
+   "rang": 158,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 427 m); 1.6 m Fall auf 12 m (Mittel 13 %, max 13 %)"
+  },
+  {
+   "id": "B_R_P0_P2_01_s1",
+   "lauf": "B_R_P0_P2_01",
+   "art": "bach",
+   "feld": "D6",
+   "biom": "aue",
+   "laenge_m": 18.9,
+   "fall_m": 1.6,
+   "gefaelle_mittel": 0.084,
+   "gefaelle_max": 0.104,
+   "breite_m": 4.4,
+   "s0_m": 103.21,
+   "s1_m": 122.15,
+   "mitte_cm": [
+    -110203,
+    185694
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 338.9
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_07_totenpfanne",
+     "abstand_rand_m": 230.6,
+     "abstand_rand_roh_m": 230.6
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.016,
+    "sehens": 0.086,
+    "physik": 0.221,
+    "gesamt": 9.9
+   },
+   "rang": 159,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 339 m); 1.6 m Fall auf 19 m (Mittel 8 %, max 10 %)"
+  },
+  {
+   "id": "B_R_P2_P1_02_s1",
+   "lauf": "B_R_P2_P1_02",
+   "art": "bach",
+   "feld": "F5",
+   "biom": "aue",
+   "laenge_m": 18.8,
+   "fall_m": 2.0,
+   "gefaelle_mittel": 0.109,
+   "gefaelle_max": 0.142,
+   "breite_m": 3.4,
+   "s0_m": 103.6,
+   "s1_m": 122.39,
+   "mitte_cm": [
+    44230,
+    95077
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 472.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "oedland_01_rippenland",
+     "abstand_rand_m": 367.1,
+     "abstand_rand_roh_m": 367.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.01,
+    "sehens": 0.035,
+    "physik": 0.265,
+    "gesamt": 9.4
+   },
+   "rang": 160,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 472 m); 2.0 m Fall auf 19 m (Mittel 11 %, max 14 %)"
+  },
+  {
+   "id": "F_DSCHUNGELFLUSS_H7_s1",
+   "lauf": "F_DSCHUNGELFLUSS_H7",
+   "art": "fluss",
+   "feld": "H7",
+   "biom": "dschungel",
+   "laenge_m": 42.8,
+   "fall_m": 1.5,
+   "gefaelle_mittel": 0.036,
+   "gefaelle_max": 0.042,
+   "breite_m": 62.0,
+   "s0_m": 703.89,
+   "s1_m": 746.67,
+   "mitte_cm": [
+    247704,
+    254075
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 1296.6
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "dschungel_04_blaues_auge",
+     "abstand_rand_m": 1194.1,
+     "abstand_rand_roh_m": 1194.1
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "score": {
+    "sicht": 0.001,
+    "sehens": 0.0,
+    "physik": 0.18,
+    "gesamt": 5.4
+   },
+   "rang": 161,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 1297 m); 1.5 m Fall auf 43 m (Mittel 4 %, max 4 %)"
+  }
+ ]
+}
