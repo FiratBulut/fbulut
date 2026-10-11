@@ -196,6 +196,13 @@ def platziere(info, x_m, y_m, q, s, boden_fn, eingraben_m=0.0, bezug="min", z_un
     my = 0.5 * (P[:, 1].min() + P[:, 1].max()) if zentrieren else 0.0
     px, py = cx - mx, cy - my
     fuss_r = 0.5 * math.hypot(P[:, 0].max() - P[:, 0].min(), P[:, 1].max() - P[:, 1].min()) / 100.0
+    # Fussabdruck als Ellipse (Hauptachsen der gedrehten Box im Grundriss): Kontaktzonen und Abstaende
+    Q = P[:, :2] - P[:, :2].mean(axis=0)
+    w_, V = np.linalg.eigh(Q.T @ Q)
+    ach = V[:, ::-1]
+    pr = Q @ ach
+    fa, fb = float(np.abs(pr[:, 0]).max()) / 100.0, float(np.abs(pr[:, 1]).max()) / 100.0
+    fw = math.atan2(ach[1, 0], ach[0, 0])
     if z_unterkante_m is not None:
         z = z_unterkante_m * 100.0 - eingraben_m * 100.0 - zmin
         b = float(boden_fn(x_m, y_m))
@@ -207,7 +214,9 @@ def platziere(info, x_m, y_m, q, s, boden_fn, eingraben_m=0.0, bezug="min", z_un
         z = float(kand.min()) if bezug == "min" else float(np.median(kand))
         b = float(boden_fn(x_m, y_m))
     return {"x": px, "y": py, "z": z, "hoehe_m": H / 100.0, "fuss_r_m": fuss_r, "boden_z_m": b,
-            "unterkante_z_m": (z + zmin) / 100.0, "oberkante_z_m": (z + zmax) / 100.0}
+            "unterkante_z_m": (z + zmin) / 100.0, "oberkante_z_m": (z + zmax) / 100.0,
+            "mx_m": (px + P[:, 0].mean()) / 100.0, "my_m": (py + P[:, 1].mean()) / 100.0,
+            "fuss_a_m": max(fa, 0.05), "fuss_b_m": max(fb, 0.05), "fuss_winkel": fw}
 
 
 # ============================================================================================
@@ -373,6 +382,33 @@ def um_stuecke(rng, stuecke, ring=(0.9, 1.6), je=(4, 8), seite=None, seite_staer
         k = int(rng.integers(je[0], je[1] + 1))
         if k <= 0:
             continue
+        ell = st.get("fuss_a_m") is not None and not st.get("_ring_absolut")
+        if ell:
+            # Ring um die Fuss-Ellipse (lange Stuecke wie Klammwaende, Staemme): Faktor auf beide Halbachsen
+            f = rng.uniform(ring[0], ring[1], k)
+            a = rng.uniform(0, 2 * np.pi, k)
+            ca, sa = math.cos(st["fuss_winkel"]), math.sin(st["fuss_winkel"])
+            u = f * st["fuss_a_m"] * np.cos(a) + 0.3 * np.sign(np.cos(a)) * (f > 1)
+            v = f * st["fuss_b_m"] * np.sin(a) + 0.3 * np.sign(np.sin(a)) * (f > 1)
+            dx, dy = u * ca - v * sa, u * sa + v * ca
+            cx, cy = st.get("mx_m", st["x_m"]), st.get("my_m", st["y_m"])
+            if seite is not None:
+                # Seitenwahl: Punkte auf der falschen Seite mit Wahrscheinlichkeit seite_staerke verwerfen
+                if seite == "hangab" and boden_fn is not None:
+                    s_ = max(st["fuss_r_m"], 1.0)
+                    gx = boden_fn(cx + s_, cy) - boden_fn(cx - s_, cy)
+                    gy = boden_fn(cx, cy + s_) - boden_fn(cx, cy - s_)
+                    zx, zy = -gx, -gy
+                else:
+                    g = math.radians(float(seite))
+                    zx, zy = math.sin(g), -math.cos(g)
+                gut = (dx * zx + dy * zy) >= 0
+                behalten = gut | (rng.uniform(0, 1, k) > seite_staerke)
+                dx, dy, f = dx[behalten], dy[behalten], f[behalten]
+            xs.extend(cx + dx)
+            ys.extend(cy + dy)
+            ts.extend(f / max(ring[1], 1e-6))
+            continue
         r0, r1 = ring[0] * st["fuss_r_m"], ring[1] * st["fuss_r_m"] + 0.3
         rr = rng.uniform(r0, r1, k)
         a = rng.uniform(0, 2 * np.pi, k)
@@ -412,7 +448,8 @@ class Ebene:
         self.hinweise = []
 
     def neu(self, ort, gruppe, ebene, netz, x_cm, y_cm, z_cm, q, s, kollision=False, akteur=False,
-            sichtweite=None, schatten=None, material=None, extra=None, prioritaet=None):
+            sichtweite=None, schatten=None, material=None, extra=None, prioritaet=None, z_frei=False, rolle=None):
+        """z_frei: Stueck ruht absichtlich NICHT auf dem Gelaende (auf einem anderen Stueck, verkeilt, im Wasser)."""
         info = self.inv.netz(netz)
         if ebene not in EBENEN:
             raise ValueError("Ebene %r (erlaubt: %s)" % (ebene, ", ".join(EBENEN)))
@@ -422,7 +459,8 @@ class Ebene:
              "s": tuple(float(v) for v in s), "kollision": bool(kollision), "akteur": bool(akteur),
              "sichtweite": list(sichtweite if sichtweite is not None else std["sichtweite"]),
              "schatten": bool(std["schatten"] if schatten is None else schatten), "material": material,
-             "nanite": info["nanite"], "pivot": info["pivot"], "extra": dict(extra or {}),
+             "nanite": info["nanite"], "pivot": info["pivot"], "extra": dict(extra or {}), "z_frei": bool(z_frei),
+             "rolle": rolle,
              "prio": float(prioritaet if prioritaet is not None else zlib.crc32(
                  ("%s|%s|%d" % (ort, gruppe, len(self.stuecke))).encode()) / 4294967296.0)}
         e["feld"] = _daten.feld_von_cm(e["x"], e["y"])
@@ -510,6 +548,8 @@ class Ebene:
                          "nanite": e["nanite"], "pivot": e["pivot"]}
                     if e.get("material"):
                         a["material_wunsch"] = e["material"]
+                    if e.get("z_frei"):
+                        a["z_frei"] = True
                     for k, v in e["extra"].items():
                         a[k] = round(v, 2) if isinstance(v, float) else v
                     akteure.append(a)
@@ -533,6 +573,9 @@ class Ebene:
                                 "ebene": "sw_" + self.biom, "orte": orte}
                 if g[0].get("material"):
                     dateien[key]["material_wunsch"] = g[0]["material"]
+                nz = sum(1 for e in g if e.get("z_frei"))
+                if nz:
+                    dateien[key]["z_frei_anzahl"] = nz
             n = sum(d["anzahl"] for d in dateien.values())
             kol = sum(d["anzahl"] for d in dateien.values() if d["kollision"])
             orte_feld = sorted({e["ort"] for e in st})

@@ -72,8 +72,6 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
     a = np.clip(np.abs(d) / dm, 0, 1)[..., None] * 0.55
     farbe = np.where(d[..., None] > 0, np.array([230, 60, 40]), np.array([40, 90, 230]))
     rgb = rgb * (1 - a) + farbe * a
-    rand = _z._grenzen(np.abs(d) > 0.25) & (np.abs(d) > 0.25)
-    rgb[rand] = (255, 255, 255)
     wa = fe.get("wasser") > 0
     rgb[wa] = rgb[wa] * 0.3 + np.array(_z.FARBEN["wasser"]) * 0.7
     me = fe.get("meer")
@@ -137,6 +135,13 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
             xs = (e["x"] + pts[:, 0]) / 100.0
             ys = (e["y"] + pts[:, 1]) / 100.0
             cx, cy = P(float(xs.mean()), float(ys.mean()))
+            if e.get("rolle") == "baum":
+                # stehender Baum: Krone als Kreis (halbe Box-Breite), Stamm als Punkt am Pivot
+                kr = 0.25 * (xs.max() - xs.min() + ys.max() - ys.min()) * 0.5 * px_m
+                dr.ellipse([cx - kr, cy - kr, cx + kr, cy + kr], fill=c + (60,), outline=c + (230,), width=2 if e["akteur"] else 1)
+                sx_, sy_ = P(e["x"] / 100.0, e["y"] / 100.0)
+                dr.ellipse([sx_ - 3, sy_ - 3, sx_ + 3, sy_ + 3], fill=(60, 30, 10, 255), outline=(0, 0, 0, 255))
+                continue
             if e["akteur"]:
                 # gedrehter Grundriss: konvexe Huelle der Boxpunkte
                 hull = _huelle(np.stack([xs, ys], axis=1))

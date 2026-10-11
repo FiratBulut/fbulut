@@ -779,15 +779,12 @@ def pruefe_ort_gelaende(o, basis, welt):
     for w in o.get("wasser", []) or []:
         if w.get("typ") != "see" or not w.get("umriss_cm") or not _zahl(w.get("spiegel_cm")):
             continue
+        from .rezept import ufer_freibord
         u = np.asarray(w["umriss_cm"], np.float64) / 100.0
-        c = u.mean(axis=0)
-        v = u - c
-        n = np.maximum(np.hypot(v[:, 0], v[:, 1]), 1e-6)
-        aussen = u + v / n[:, None] * max(1.5, welt.zelle_m)
-        zr = boden.hoehe(aussen[:, 0], aussen[:, 1])
-        tief = float(w["spiegel_cm"]) / 100.0 - float(zr.min())
+        tief = -ufer_freibord(boden.hoehe, u, float(w["spiegel_cm"]) / 100.0, welt.zelle_m)
         if tief > 0.05:
-            b.append((WARNUNG, oid, "see %s: Ufer bis %.2f m UNTER dem Spiegel (Gelaende nach Stempel)" % (w.get("id"), tief)))
+            b.append((WARNUNG, oid, "see %s: Ufer haelt nicht - auf einem Strahl 0,5-3 m hinter dem Umriss bis %.2f m "
+                                    "UNTER dem Spiegel (Gelaende nach Stempel)" % (w.get("id"), tief)))
     m = o.get("mitte_cm")
     if _pkt(m, 2) and welt.im_raster_m(m[0] / 100.0, m[1] / 100.0):
         i, j = welt.cm_zu_ij(m[0], m[1])
@@ -809,6 +806,9 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
         return b
     je_ort = {}
     boden = BodenNachStempel(welt, orte, basis) if welt is not None else None
+    # Orte, die bestehendes Wasser SIND (gelaende.ist_wasser): dort sind Instanzen im Bestandswasser gewollt
+    wasser_fenster = [(o["gelaende"]["fenster_ij"]) for o in (orte or [])
+                      if (o.get("gelaende") or {}).get("ist_wasser") and o["gelaende"].get("fenster_ij")]
     ort_re = re.compile(r"^(%s_\d{2}_[a-z0-9_]+?)_[a-z0-9_]+$" % re.escape(biom))
     orte_ids = {o.get("id") for o in (orte or [])}
 
@@ -870,20 +870,31 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
             if welt is not None:
                 bz = boden.hoehe(xm, ym)
                 zz = a[:, 2] / 100.0
+                # Unter-/Oberkante aus den Netz-Bounds (Pivot kann oben liegen, z. B. Efeu), Naeherung aufrecht
                 if inv is not None and inv.netz_pfad(d.get("pfad", "")):
                     info = inv.netz(d["pfad"])
-                    hoch = info["groesse_m"][2] * a[:, 7:10].max(axis=1)
+                    (_, _, bz0), (_, _, bz1) = info["bounds_cm"]
+                    unter = zz + bz0 / 100.0 * a[:, 9]
+                    ober = zz + bz1 / 100.0 * a[:, 9]
                 else:
-                    hoch = np.full(len(zz), 1.0)
-                tol = 0.35 + 0.5 * welt.zelle_m
-                n_schwebt += int((zz - bz > tol).sum())
-                n_vers += int((zz < bz - hoch - 0.5).sum())
+                    unter, ober = zz, zz + 1.0
+                # Toleranz waechst mit der Hangneigung (Interpolation zwischen Zellen an Stempelkanten/Waenden)
+                gx = (boden.hoehe(xm + 1.0, ym) - boden.hoehe(xm - 1.0, ym)) / 2.0
+                gy = (boden.hoehe(xm, ym + 1.0) - boden.hoehe(xm, ym - 1.0)) / 2.0
+                tol = 0.35 + 0.5 * welt.zelle_m + np.hypot(gx, gy) * welt.zelle_m
+                n_schwebt += max(0, int((unter - bz > tol).sum()) - int(d.get("z_frei_anzahl", 0)))
+                n_vers += int((ober < bz - 0.5 - np.hypot(gx, gy) * welt.zelle_m).sum())
                 i, j = welt.m_zu_ij(xm, ym)
                 if (bz < -0.3).any():
                     b.append((FEHLER, ft, "%s: %d Instanzen im Meer (Boden < -0,3 m)" % (key, int((bz < -0.3).sum()))))
                 n_weg += int((welt.weg_basis[i, j] > 0).sum()) if "pfad" not in str(d.get("gruppe")) else 0
                 if not any(t in str(d.get("gruppe", "")) for t in ("wasser", "pfad")):
-                    n_wasser += int((welt.wasser[i, j] > 0).sum())
+                    nass = welt.wasser[i, j] > 0
+                    for (fi0, fj0, fh, fw) in wasser_fenster:
+                        ii1 = ym + _daten.OFF_I
+                        jj1 = xm + _daten.OFF_J
+                        nass &= ~((ii1 >= fi0) & (ii1 < fi0 + fh) & (jj1 >= fj0) & (jj1 < fj0 + fw))
+                    n_wasser += int(nass.sum())
         if summe != plan.get("instanzen"):
             b.append((FEHLER, ft, "instanzen %s, Summe der Dateien %d" % (plan.get("instanzen"), summe)))
         if "kollision_anzahl" in plan and kol != plan["kollision_anzahl"]:
@@ -913,15 +924,15 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
                 je_ort.setdefault(oid, {"instanzen": 0, "kollision": 0, "akteure": 0})["akteure"] += 1
             if welt is not None and _zahl(e.get("unterkante_z")) and _zahl(e.get("boden_z")):
                 bz = float(boden.hoehe(e["x"] / 100.0, e["y"] / 100.0))
-                if e["unterkante_z"] / 100.0 > bz + 0.3 + 0.5 * welt.zelle_m and "z_frei" not in e:
+                if e["unterkante_z"] / 100.0 > bz + 0.3 + 0.5 * welt.zelle_m and not e.get("z_frei"):
                     b.append((WARNUNG, ft, "akteur %s (%s): Unterkante %.1f m ueber dem Boden"
                               % (e["netz"], e["klasse"], e["unterkante_z"] / 100.0 - bz)))
         if n_aussen:
             b.append((FEHLER, ft, "%d Instanzen/Akteure ausserhalb des Feldrechtecks (Setzer ueberspringt sie)" % n_aussen))
         if n_schwebt:
-            b.append((WARNUNG, ft, "%d Instanzen schweben (Pivot > Boden nach Stempel + Toleranz)" % n_schwebt))
+            b.append((WARNUNG, ft, "%d Instanzen schweben (Unterkante > Boden nach Stempel + Toleranz)" % n_schwebt))
         if n_vers:
-            b.append((HINWEIS, ft, "%d Instanzen ganz im Boden (Pivot tiefer als Netzhoehe)" % n_vers))
+            b.append((HINWEIS, ft, "%d Instanzen ganz im Boden (Oberkante unter dem Boden)" % n_vers))
         if n_weg:
             b.append((WARNUNG, ft, "%d Instanzen auf dem Wegenetz" % n_weg))
         if n_wasser:

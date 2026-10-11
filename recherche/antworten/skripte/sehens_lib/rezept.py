@@ -214,7 +214,8 @@ class OrtKontext:
 
     def _suche(self, spec):
         x, y = self.punkt(spec.get("bei", "mitte"))
-        r = float(spec.get("r_m", 15.0))
+        r = spec.get("r_m", 15.0)
+        r = float(r) if _zahl(r) else float(r[1])
         art = spec["suche"]
         if art == "hangauf_bis":
             # vom Punkt hangauf gehen, bis das Gelaende hoehe_m ueber dem Start liegt (oder max_m)
@@ -325,6 +326,7 @@ class OrtKontext:
                   wasser=not g.get("wasser_frei", False), ausnahme_maske=ausnahme)
         if g.get("begruendung"):
             st.begruendung = g["begruendung"]
+        st.ist_wasser = bool(g.get("ist_wasser"))
         if st.max_aenderung_m > 40.0 and not g.get("begruendung"):
             self.melde(WARNUNG, "Gelaende |Delta| %.1f m > 40 m ohne 'begruendung' (Ferat erlaubt mehr, aber begruenden)"
                        % st.max_aenderung_m)
@@ -408,17 +410,35 @@ class OrtKontext:
             px = x + a_m * np.cos(t) * ux - b_m * np.sin(t) * uy
             py = y + a_m * np.cos(t) * uy + b_m * np.sin(t) * ux
             spiegel = float(np.min(self.boden(px, py))) + float(w.get("spiegel_rand_min"))
+        auslass = b.get("auslass", "auto")
+        aus_g = None
+        if auslass == "auto":
+            # Abfluss = tiefster Punkt 3 m hinter der Uferlinie (vor dem Becken)
+            t = np.linspace(0, 2 * np.pi, 72, endpoint=False)
+            ux, uy = _st.kompass_vektor(rg)
+            pa, pb = (a_m + 3.0) * np.cos(t), (b_m + 3.0) * np.sin(t)
+            px, py = x + pa * ux - pb * uy, y + pa * uy + pb * ux
+            k = int(np.argmin(np.asarray(self.boden(px, py))))
+            aus_g = _st.vektor_kompass(px[k] - x, py[k] - y)
+        elif _zahl(auslass):
+            aus_g = float(auslass)
         um = self.stempel.see_becken(x, y, a_m, b_m, rg, spiegel, float(w.get("tiefe_m", 2.0)),
                                      ufer_m=float(b.get("ufer_m", 6.0)), freibord_m=float(b.get("freibord_m", 0.5)),
-                                     boden=float(b.get("boden", 0.45)))
+                                     boden=float(b.get("boden", 0.45)), auslass_grad=aus_g,
+                                     auslass_sektor_grad=float(b.get("auslass_sektor_grad", 30.0)),
+                                     lippe_m=float(b.get("lippe_m", 1.5)))
         self.see[w["id"]] = {"umriss_m": um, "spiegel_m": spiegel, "x": x, "y": y, "a_m": a_m, "b_m": b_m,
-                             "richtung": rg}
+                             "richtung": rg, "auslass_grad": aus_g}
         self.linien["ufer_" + w["id"]] = um + [um[0]]
-        # Auto-Anker: <id>_mitte, <id>_auslass (tiefster Uferpunkt vor dem Becken, 3 m nach aussen)
+        # Auto-Anker: <id>_mitte, <id>_auslass (Uferpunkt in Abflussrichtung, 3 m nach aussen)
         self.anker[w["id"] + "_mitte"] = (x, y)
         U = np.asarray(um)
-        zr = np.asarray(self.welt.hoehe_bei_m(U[:, 0], U[:, 1]))
-        k = int(np.argmin(zr))
+        if aus_g is not None:
+            gg = np.array([_st.vektor_kompass(p_[0] - x, p_[1] - y) for p_ in U])
+            k = int(np.argmin(np.abs((gg - aus_g + 180.0) % 360.0 - 180.0)))
+        else:
+            k = int(np.argmin(np.asarray(self.welt.hoehe_bei_m(U[:, 0], U[:, 1]))))
+        self.see[w["id"]]["auslass_m"] = [float(U[k, 0]), float(U[k, 1])]
         v = U[k] - [x, y]
         n = max(float(np.hypot(*v)), 1e-6)
         self.anker[w["id"] + "_auslass"] = (float(U[k, 0] + v[0] / n * 3.0), float(U[k, 1] + v[1] / n * 3.0))
@@ -457,8 +477,10 @@ class OrtKontext:
         elif "abfluss_von" in w:
             s = self.see[w["abfluss_von"]]
             um = np.asarray(s["umriss_m"])
-            zr = np.asarray(self.boden(um[:, 0], um[:, 1]))
-            k = int(np.argmin(zr))
+            if s.get("auslass_m"):
+                k = int(np.argmin(np.hypot(um[:, 0] - s["auslass_m"][0], um[:, 1] - s["auslass_m"][1])))
+            else:
+                k = int(np.argmin(np.asarray(self.boden(um[:, 0], um[:, 1]))))
             # vom tiefsten Uferpunkt nach aussen weiter abwaerts
             vx, vy = um[k, 0] - s["x"], um[k, 1] - s["y"]
             n = max(math.hypot(vx, vy), 1e-6)
@@ -475,7 +497,7 @@ class OrtKontext:
         else:
             self.melde(FEHLER, "bach %s: punkte, von oder abfluss_von fehlt" % w.get("id"))
             return
-        pts = _vereinfachen(pts, 1.0)
+        pts = _verdichten(_vereinfachen(pts, 1.0), float(w.get("max_segment_m", 3.0)))
         self.linien["bach_" + w.get("id", str(len(self.linien)))] = pts
         if w.get("rinne"):
             rn = w["rinne"]
@@ -495,10 +517,12 @@ class OrtKontext:
                 e = {"typ": "see", "id": w["id"], "umriss_cm": [[round(p[0] * 100), round(p[1] * 100)] for p in s["umriss_m"]],
                      "spiegel_cm": round(s["spiegel_m"] * 100), "tiefe_m": float(w.get("tiefe_m", 2.0)),
                      "farbe": w.get("farbe", "klar")}
+                if s.get("auslass_m"):
+                    e["auslass_cm"] = [round(s["auslass_m"][0] * 100), round(s["auslass_m"][1] * 100)]
                 frei = self._freibord(s)
                 e["freibord_min_m"] = round(frei, 2)
-                if frei < 0.05:
-                    self.melde(WARNUNG, "see %s: Ufer nur %.2f m ueber dem Spiegel (Soll rundum darueber)" % (w["id"], frei))
+                if frei < -0.02:
+                    self.melde(WARNUNG, "see %s: Ufer haelt nicht (bis %.2f m unter dem Spiegel)" % (w["id"], -frei))
                 self.wasser.append(e)
             elif t == "bach":
                 pts = self.linien.get("bach_" + w.get("id", ""))
@@ -545,13 +569,9 @@ class OrtKontext:
                 self.melde(FEHLER, "wasser.typ %r" % t)
 
     def _freibord(self, s):
-        um = np.asarray(s["umriss_m"])
-        cx, cy = s["x"], s["y"]
-        v = um - [cx, cy]
-        n = np.maximum(np.hypot(v[:, 0], v[:, 1]), 1e-6)
-        aussen = um + v / n[:, None] * max(1.0, self.welt.zelle_m)
-        z = np.asarray(self.boden(aussen[:, 0], aussen[:, 1]))
-        return float(z.min() - s["spiegel_m"])
+        """Dichtheit des Seeufers: je Umrisspunkt das hoechste Gelaende auf dem Strahl 0,5 ... 3 m (mind. 2 Zellen)
+        hinter der Uferlinie minus Spiegel; Rueckgabe das Minimum ueber alle Punkte (>= 0: Ufer haelt rundum)."""
+        return ufer_freibord(self.boden, s["umriss_m"], s["spiegel_m"], self.welt.zelle_m)
 
     def _muendung(self, p, w):
         x, y = p
@@ -701,7 +721,8 @@ class OrtKontext:
             if isinstance(seite, str) and seite not in ("hangab",):
                 seite = {"nord": 0.0, "ost": 90.0, "sued": 180.0, "west": 270.0}.get(seite, None)
             if v.get("ring_m"):
-                basis = [dict(s_, fuss_r_m=1.0) for s_ in basis]
+                basis = [dict(s_, fuss_r_m=1.0, _ring_absolut=True, x_m=s_.get("x_m"), y_m=s_.get("y_m"))
+                         for s_ in basis]
                 ring = tuple(v["ring_m"])
             else:
                 ring = tuple(v.get("ring", (0.9, 1.6)))
@@ -746,9 +767,11 @@ class OrtKontext:
             if meide == "kern" and not self._massiv.frei(x, y, 0.0, 0.7):
                 continue
             stk["netz"] = info["name"]
+            x, y = stk.pop("_x", x), stk.pop("_y", y)
             e = self.ebene.neu(self.id, name, ebene, netz, stk["x"], stk["y"], stk["z"], stk["q"], stk["s"],
                                kollision=stk["kollision"], akteur=stk["akteur"], sichtweite=g.get("sichtweite"),
-                               schatten=g.get("schatten"), material=self._material(g),
+                               schatten=g.get("schatten"), material=self._material(g), z_frei=stk.get("z_frei", False),
+                               rolle=g.get("rolle", "fels"),
                                extra={"hoehe_m": round(stk["hoehe_m"], 2), "boden_z": round(stk["boden_z_m"] * 100, 1),
                                       "unterkante_z": round(stk["unterkante_z_m"] * 100, 1)} if stk["akteur"] else None)
             stk["stueck"] = e
@@ -943,9 +966,17 @@ class OrtKontext:
                     return None
                 z_unter = ziel[0]["oberkante_z_m"] + float(g.get("z_versatz_m", -0.3))
             elif zb.startswith("see:"):
+                # aus dem Wasser ragend: Oberkante = Spiegel + oberkante_ueber_m, Unterkante im Seegrund
+                # (reicht das Netz nicht bis zum Grund, wird es in Z gestreckt, hoechstens x1,8)
                 sid = zb.split(":", 1)[1]
                 z_ober = self.see[sid]["spiegel_m"] + float(g.get("oberkante_ueber_m", 1.0))
-                z_unter = z_ober - H
+                grund = float(self.boden(x, y)) - 0.4
+                if z_ober - H > grund:
+                    f = min(1.8, (z_ober - grund) / max(H, 0.1))
+                    s = (s[0], s[1], s[2] * f)
+                    P = _ins.gedrehte_box(info, q, s)
+                    H = (P[:, 2].max() - P[:, 2].min()) / 100.0
+                z_unter = min(z_ober - H, grund)
                 e_m = 0.0
             elif zb.startswith("boden+"):
                 z_unter = float(self.boden(x, y)) + float(zb.split("+", 1)[1])
@@ -957,8 +988,20 @@ class OrtKontext:
                     return None
                 nah = min(ziel, key=lambda s_: (s_["x_m"] - x) ** 2 + (s_["y_m"] - y) ** 2)
                 z_unter = nah["oberkante_z_m"] + float(g.get("z_versatz_m", -0.4))
+        if yaw_fest is not None and (g.get("verteilung") or {}).get("front_an_linie"):
+            # Reihe: die der Linie zugewandte Seite (nicht die Mitte) liegt im Abstand versatz_m von der Linie
+            dxb, dyb = _st.kompass_vektor(yaw_fest)
+            P = _ins.gedrehte_box(info, q, s)
+            pr = (P[:, 0] * dxb + P[:, 1] * dyb) / 100.0
+            ext = float(pr.max() - 0.5 * (pr.max() + pr.min()))
+            x, y = x - dxb * ext, y - dyb * ext
+        if zb and zb.startswith("see:") and kontakt == "lokal":
+            P = _ins.gedrehte_box(info, q, s)
+            H = (P[:, 2].max() - P[:, 2].min()) / 100.0
         p = _ins.platziere(info, x, y, q, s, self.boden, e_m, g.get("bezug", "mitte" if rolle in ("pflanze", "baum") else "min"),
                            z_unter, kontakt, zentrieren=bool(g.get("zentrieren", True)))
+        p["z_frei"] = bool(zb) and not zb.startswith("see:")
+        p["_x"], p["_y"] = x, y
         groesse = max(gr) * max(s)
         std = _ins.STANDARD_EBENE[ebene]
         if "kollision" in g:
@@ -968,13 +1011,14 @@ class OrtKontext:
                 "fels", "stein", "baum", "stamm", "wurzel")
         akteur = bool(g.get("akteur", ebene == "held" or (ebene == "begleiter" and groesse >= 2.5)))
         massiv = kol or (akteur and rolle != "pflanze")
-        # Kernradius fuer Abstaende: Baeume = Stamm (nicht Krone), Felsen = 60 % des Fussabdrucks
-        if rolle == "baum":
+        # Kernradius fuer Abstaende: Baeume = Stamm (nicht Krone), Felsen = 60 % der KURZEN Fuss-Halbachse
+        # (lange Waende/Staemme sperren sonst die ganze Umgebung)
+        if rolle == "baum" or (rolle == "stamm" and art == "liegend"):
             kern = max(0.4, 0.035 * max(gr) * max(s))
         elif rolle in ("pflanze", "streu"):
-            kern = 0.3 * p["fuss_r_m"]
+            kern = 0.3 * min(p["fuss_a_m"], p["fuss_b_m"])
         else:
-            kern = 0.6 * p["fuss_r_m"]
+            kern = 0.75 * min(p["fuss_a_m"], p["fuss_b_m"])
         p.update({"q": q, "s": s, "kollision": kol, "akteur": akteur, "massiv": massiv, "kern_r_m": kern, "yaw": yaw})
         return p
 
@@ -1096,14 +1140,20 @@ class OrtKontext:
                 maske = np.zeros(len(x), bool)
                 maske[erste] = True
                 steil &= maske
-            sel = nass | steil
-            if sel.any():
-                g = {"name": "pfad_trittsteine", "ebene": "pfad", "rolle": "stein",
-                     "palette": ts.get("palette", ["SM_flat_rock_04"]), "groesse_m": ts.get("groesse_m", [0.7, 1.1]),
+            steil &= ~nass
+            for name, sel, pal, gr in (("pfad_trittsteine", nass, ts.get("palette", ["SM_flat_rock_04"]),
+                                        ts.get("groesse_m", [0.7, 1.1])),
+                                       ("pfad_stufen", steil, ts.get("stufen_palette", ts.get("palette", ["SM_flat_rock_04"])),
+                                        ts.get("stufen_groesse_m", ts.get("groesse_m", [0.9, 1.4])))):
+                if not sel.any():
+                    continue
+                g = {"name": name, "ebene": "pfad", "rolle": "stein", "palette": pal, "groesse_m": gr,
                      "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [float(a), float(b)]} for a, b in zip(x[sel], y[sel])]},
                      "eingraben": ts.get("eingraben", [0.45, 0.6]), "im_wasser": "egal", "weg_abstand_m": 0,
                      "meide": None, "kollision": True, "akteur": False, "ausrichtung": "normale"}
                 self.gruppe(g)
+            self.pfad["trittsteine"] = len(self.gruppen.get("pfad_trittsteine", []))
+            self.pfad["stufen"] = len(self.gruppen.get("pfad_stufen", []))
 
     # ------------------------------------------------------------------ Effekte (§6), Klaenge
     def effekte_bauen(self):
@@ -1265,7 +1315,8 @@ class OrtKontext:
         e["assets_wunsch"] = self.r.get("assets_wunsch", [])
         e["budget"] = bud
         if self.pfad:
-            e["pfad"] = {k: self.pfad[k] for k in ("punkte_cm", "breite_cm", "art", "quelle", "laenge_m", "max_steigung_grad")}
+            e["pfad"] = {k: self.pfad[k] for k in ("punkte_cm", "breite_cm", "art", "quelle", "laenge_m", "max_steigung_grad",
+                                                   "trittsteine", "stufen") if k in self.pfad}
         if self.klaenge:
             e["klaenge"] = self.klaenge
         if self.freiraeume:
@@ -1274,6 +1325,20 @@ class OrtKontext:
         e["hinweise"] = [ascii_text(t) for s, _, t in self.meldungen if s == HINWEIS][:30]
         self.eintrag = e
         return e
+
+
+def ufer_freibord(boden_fn, umriss_m, spiegel_m, zelle_m=1.0):
+    """Je Umrisspunkt: max. Gelaende auf dem Strahl 0,5 ... max(3, 2 x Zelle) m nach aussen (von der Umrissmitte)
+    minus Spiegel; Rueckgabe Minimum (m). Eine Lippe irgendwo auf dem Strahl genuegt - das Wasser bleibt drin."""
+    um = np.asarray(umriss_m, np.float64)
+    v = um - um.mean(axis=0)
+    n = np.maximum(np.hypot(v[:, 0], v[:, 1]), 1e-6)
+    ds = np.arange(0.5, max(3.0, 2.0 * zelle_m) + 0.01, 0.5)
+    best = np.full(len(um), -1e9)
+    for dd in ds:
+        a = um + v / n[:, None] * dd
+        best = np.maximum(best, np.asarray(boden_fn(a[:, 0], a[:, 1]), np.float64))
+    return float((best - spiegel_m).min())
 
 
 def _liste(v):
@@ -1292,6 +1357,17 @@ def _in_polygon(x, y, poly):
         c = ((y1 > y) != (y2 > y)) & (x < (x2 - x1) * (y - y1) / np.where(y2 - y1 == 0, 1e-12, y2 - y1) + x1)
         innen ^= c
     return innen
+
+
+def _verdichten(pts, max_m):
+    """Segmente laenger als max_m unterteilen (Baeche: Stufen bleiben klein, Gefaelle folgt dem Gelaende)."""
+    out = [list(pts[0])]
+    for a, b in zip(pts[:-1], pts[1:]):
+        L = math.hypot(b[0] - a[0], b[1] - a[1])
+        n = max(1, int(math.ceil(L / max_m)))
+        for k in range(1, n + 1):
+            out.append([a[0] + (b[0] - a[0]) * k / n, a[1] + (b[1] - a[1]) * k / n])
+    return out
 
 
 def _vereinfachen(pts, tol):

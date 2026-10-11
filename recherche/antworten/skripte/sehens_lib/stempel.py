@@ -203,6 +203,7 @@ class Stempel:
         self.ist_fertig = False
         self.max_aenderung_m = 0.0
         self.begruendung = ""
+        self.ist_wasser = False
 
     @classmethod
     def um(cls, welt, x_m, y_m, breite_m, hoehe_m=None, rand_m=8.0, seed=0):
@@ -332,9 +333,11 @@ class Stempel:
         self._anwenden(w, rel=amplitude_m * n, modus="add", name="buckel")
 
     def see_becken(self, x, y, a_m, b_m, richtung_grad, spiegel_z, tiefe_m, ufer_m=6.0, freibord_m=0.5,
-                   boden=0.45, n_umriss=48):
+                   boden=0.45, n_umriss=48, auslass_grad=None, auslass_sektor_grad=35.0, lippe_m=1.5):
         """Seebecken mit Ufer rundum ueber dem Spiegel (§5): innen Sohle bis spiegel - tiefe (nur absenken),
-        aussen Uferring auf >= spiegel + freibord (nur anheben, weicher Auslauf ueber ufer_m).
+        aussen Uferring auf >= spiegel + freibord (nur anheben): volles Freibord bis plateau_m (in Metern hinter
+        der Uferlinie), weicher Auslauf bis ufer_m. auslass_grad: Kompassrichtung des Abflusses - dort nur eine
+        schmale Lippe (lippe_m, Freibord 0,05 m) statt eines Damms; der Abfluss-Bach beginnt an der Lippe.
         Rueckgabe: Umriss [[x, y], ...] in m, gegen den Uhrzeigersinn (Flaeche > 0 in X/Y)."""
         r = max(a_m, b_m)
         st = (a_m / r, b_m / r)
@@ -344,10 +347,24 @@ class Stempel:
         sohle = spiegel_z - tiefe_m * prof - 0.05 * (1.0 - d)          # leicht unter dem Spiegel bis zum Ufer
         w_in = innen.astype(np.float64)
         self._anwenden(w_in, ziel=np.where(innen, sohle, 0.0), modus="min", name="see_becken")
-        k = ufer_m / r
-        ring = (d >= 1.0) & (d < 1.0 + k)
-        ufer_ziel = spiegel_z + freibord_m * glatt01((d - 1.0) / max(k * 0.35, 1e-6))
-        w_r = np.where(ring, abfall(d, 1.0 + 0.5 * k, 1.0 + k), 0.0)
+        # metrischer Abstand hinter der Uferlinie (entlang des Strahls von der Mitte)
+        pd = np.hypot(self.X - x, self.Y - y)
+        m = np.where(d > 1.0, pd * (1.0 - 1.0 / np.maximum(d, 1e-6)), 0.0)
+        plateau_m = np.full(d.shape, max(0.5 * ufer_m, 2.5 * self.z + 0.5))
+        aus_m = np.full(d.shape, max(ufer_m, plateau_m.max() + 2.0))
+        fb = np.full(d.shape, float(freibord_m))
+        if auslass_grad is not None:
+            lippe_m = max(float(lippe_m), 2.0 * self.z + 0.5)      # mind. 2 Zellen, sonst verwischt die Lippe
+            g = np.degrees(np.arctan2(self.X - x, -(self.Y - y))) % 360.0
+            dg = np.abs((g - auslass_grad + 180.0) % 360.0 - 180.0)
+            im_auslass = dg <= auslass_sektor_grad
+            plateau_m = np.where(im_auslass, lippe_m, plateau_m)
+            aus_m = np.where(im_auslass, lippe_m + 1.5, aus_m)
+            fb = np.where(im_auslass, 0.05, fb)
+        ring = (d >= 1.0) & (m < aus_m)
+        ufer_ziel = spiegel_z + fb * glatt01(m / 0.6)
+        auslauf = 0.5 * (1.0 + np.cos(np.pi * np.clip((m - plateau_m) / np.maximum(aus_m - plateau_m, 1e-6), 0, 1)))
+        w_r = np.where(ring, np.where(m <= plateau_m, 1.0, auslauf), 0.0)
         self._anwenden(w_r, ziel=ufer_ziel, modus="max", name="see_ufer")
         ux, uy = kompass_vektor(richtung_grad)
         t = np.linspace(0, 2 * np.pi, n_umriss, endpoint=False)
@@ -429,6 +446,8 @@ class Stempel:
                "max_aenderung_m": round(float(np.abs(a).max()), 2)}
         if begruendung or self.begruendung:
             blk["begruendung"] = begruendung or self.begruendung
+        if self.ist_wasser:
+            blk["ist_wasser"] = True      # §3: der Ort IST das bestehende Wasser (Aenderung dort erlaubt)
         blk["werkzeuge"] = sorted(set(self.protokoll))
         return blk
 
