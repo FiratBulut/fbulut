@@ -328,6 +328,29 @@ HOOKS_ALLE = {"anker": hook_anker, "nach_gelaende": hook_nach_gelaende, "gruppen
 HOOKS = {}
 
 
+def verdeckung_pruefen(ctx, wp):
+    """Regel 'verdeckung' [{"kern_m", "ziel_hoehe_m", "probe_r_m", "zweck"}]: Fundstueck MIT Stempel und geplanten
+    Stuecken gegen alle Wegpunkte (Wege + Pfade, sehens_lib.verdeckung). Sichtbar -> WARNUNG."""
+    from sehens_lib import verdeckung
+    for v in ctx.r.get("verdeckung") or []:
+        if v.get("gruppe"):                        # Oberkanten aller Stuecke einer Gruppe (z. B. Orgelwand)
+            sichtbar = []
+            for stk in ctx.gruppen.get(v["gruppe"], []):
+                x, y = stk["x_m"], stk["y_m"]
+                H = stk["oberkante_z_m"] - float(ctx.boden(x, y)) - float(v.get("unter_oberkante_m", 0.5))
+                r = verdeckung.pruefe_ort(ctx, wp, ziel_hoehe_m=H, probe_r_m=0.3, kern_m=[x, y], mit_heute=False)
+                if not r["verdeckt"]:
+                    sichtbar.append(max(p[1] for p in r["proben"]))
+            ctx.melde("WARNUNG" if sichtbar else "HINWEIS", "%s: %d von %d Oberkanten vom Weg/Pfad sichtbar%s" % (
+                v.get("zweck", v["gruppe"]), len(sichtbar), len(ctx.gruppen.get(v["gruppe"], [])),
+                (" (max. Anteil %.2f)" % max(sichtbar)) if sichtbar else " - verdeckt"))
+            continue
+        k = ctx.punkt(v.get("kern", "mitte"))
+        r = verdeckung.pruefe_ort(ctx, wp, ziel_hoehe_m=v.get("ziel_hoehe_m"), probe_r_m=v.get("probe_r_m"),
+                                  kern_m=list(k))
+        ctx.melde("HINWEIS" if r["verdeckt"] else "WARNUNG", "%s: %s" % (v.get("zweck", "Verdeckung"), r["text"]))
+
+
 def nachtrag(d, kontexte, aus):
     """orte.json-Erweiterungen aus den Hooks: pfad_zugang, pfade_zusatz (+ Kachel-Dateien unter lagen/)."""
     from sehens_lib import format as sfmt
@@ -407,6 +430,7 @@ def main(argv=None):
     ap.add_argument("--daten2m", default=None, help="2-m-PNGs (Cloud-Test): recherche/vorlagen/daten/sehens")
     ap.add_argument("--daten1m", default=None, help="1-m-Originale (Standard <basis>/export/unreal/welt)")
     ap.add_argument("--cache", default=None)
+    ap.add_argument("--ohne-verdeckung", action="store_true", help="Verdeckungsprobe der Fundstuecke auslassen")
     ap.add_argument("--gruppen", action="store_true", help="je Ort die Stueckzahl je Gruppe ausgeben (Rezept-Abgleich)")
     a = ap.parse_args(argv)
     T0 = time.perf_counter()
@@ -468,6 +492,7 @@ def main(argv=None):
     ebene = instanzen.Ebene(BIOM, inv, stand=sfmt.heute())
     orte_mitten = {k: (o["mitte_cm"][0] / 100.0, o["mitte_cm"][1] / 100.0) for k, o in alle.items()}
     kontexte = []
+    wp = None
     for oid in planen:
         t0 = time.perf_counter()
         regel = copy.deepcopy(R["orte"][oid])
@@ -477,6 +502,11 @@ def main(argv=None):
         hooks = dict(HOOKS_ALLE)
         hooks.update(HOOKS.get(oid, {}))
         ctx.baue(hooks)
+        if ctx.r.get("verdeckung") and not a.ohne_verdeckung:
+            if wp is None:
+                from sehens_lib import sicht
+                wp = sicht.Wegpunkte(welt, 20)
+            verdeckung_pruefen(ctx, wp)
         kontexte.append(ctx)
         if a.gruppen:
             for g in ctx.r.get("gruppen") or []:

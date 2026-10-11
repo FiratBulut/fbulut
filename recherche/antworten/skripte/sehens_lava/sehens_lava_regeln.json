@@ -252,9 +252,8 @@
     "Saturation": 1.3,
     "Min Roughness": 0.7
    },
-   "fuer": [
-    "Decal Schwefelkruste/Ocker (Maske aus MI_Leakage_04)"
-   ]
+   "fuer": [],
+   "hinweis": "Decal Schwefelkruste gelb/ocker (Maske aus MI_Leakage_04), nur lava_02"
   },
   {
    "name": "MI_EL_SW_Basalt_Saeule",
@@ -3629,6 +3628,14 @@
      "lautstaerke": 0.25,
      "zweck": "Tropfen im Roehrenmaul (pruefen: Tropfen, nicht Regen)"
     }
+   ],
+   "verdeckung": [
+    {
+     "kern": "mitte",
+     "ziel_hoehe_m": 1.0,
+     "probe_r_m": 4,
+     "zweck": "Einblick in die Grube (Grund + 1 m)"
+    }
    ]
   },
   "lava_05_klare_spalte": {
@@ -4445,6 +4452,14 @@
      "lautstaerke": 0.2,
      "zweck": "Tropfen von den Leisten ins Wasser (leise)"
     }
+   ],
+   "verdeckung": [
+    {
+     "kern": "wasser",
+     "ziel_hoehe_m": 6.0,
+     "probe_r_m": 1,
+     "zweck": "Einblick in die Spalte (Wasser + 0,5 m)"
+    }
    ]
   },
   "lava_06_kraterreihe": {
@@ -5160,23 +5175,23 @@
     "halde": {
      "punkte": [
       [
-       4,
+       1,
        -36
       ],
       [
-       3,
+       0,
        -15
       ],
       [
-       2,
+       -1,
        5
       ],
       [
-       1,
+       -2,
        25
       ],
       [
-       -2,
+       -5,
        46
       ]
      ]
@@ -5264,18 +5279,18 @@
      "verteilung": {
       "typ": "reihe",
       "punkte": "wand",
-      "abstand_m": 9.0,
-      "versatz_m": 1.0,
+      "abstand_m": 8.5,
+      "versatz_m": 3.5,
       "versatz_streuung_m": 1.2,
       "seiten": [
-       "links"
+       "rechts"
       ],
-      "blick": "zur_linie",
+      "blick": "von_linie",
       "front_an_linie": true
      },
      "skala": [
-      6.2,
-      7.2
+      4.0,
+      4.6
      ],
      "front_achse": "+y",
      "ausrichtung": "aufrecht",
@@ -5290,7 +5305,7 @@
      "meide": null,
      "weg_abstand_m": 0,
      "mindestens": 8,
-     "hinweis": "Module 1,6 x 0,8 x 2,6 m x6-7 = 10-11 m breit, 16-18 m hoch; Schauseite +y angenommen (Prueffbild)"
+     "hinweis": "Module 1,6 x 0,8 x 2,6 m x5,2-5,8: Fuss am Schluchtboden, Oberkante ~ Plateaukante (14-15 m, mit Stempel 16-20 m Wand); Schauseite +y angenommen (Prueffbild)"
     },
     {
      "name": "pfeifen",
@@ -5301,21 +5316,21 @@
       "typ": "reihe",
       "punkte": "wand",
       "abstand_m": 13.0,
-      "versatz_m": 4.5,
+      "versatz_m": 6.0,
       "versatz_streuung_m": 1.0,
       "seiten": [
-       "links"
+       "rechts"
       ],
-      "blick": "zur_linie"
+      "blick": "von_linie"
      },
      "skala": [
-      5.6,
-      6.6
+      4.6,
+      5.4
      ],
      "ausrichtung": "aufrecht",
      "kipp_grad": [
-      8,
-      15
+      3,
+      8
      ],
      "kipp_richtung": "zu:schlucht",
      "eingraben": [
@@ -5337,12 +5352,12 @@
       "typ": "punkt",
       "bei": "nordende"
      },
-     "skala": 2.0,
+     "skala": 1.7,
      "front_achse": "+y",
      "yaw": "zu:schlucht",
      "eingraben": [
-      0.42,
-      0.48
+      0.5,
+      0.55
      ],
      "akteur": true,
      "kollision": true,
@@ -5360,7 +5375,7 @@
       "typ": "cluster",
       "form": "band",
       "punkte": "wand",
-      "versatz_m": 2.5,
+      "versatz_m": 7.0,
       "breite_m": 3.0,
       "zentren": [
        7,
@@ -5442,11 +5457,21 @@
      ],
      "anzahl": 70,
      "verteilung": {
-      "typ": "band",
+      "typ": "cluster",
+      "form": "band",
       "punkte": "halde",
-      "breite_m": 10
+      "breite_m": 9,
+      "zentren": [
+       7,
+       9
+      ],
+      "je": [
+       6,
+       11
+      ],
+      "radius_m": 4.5
      },
-     "abstand_m": 1.3,
+     "abstand_m": 1.2,
      "skala": [
       3.0,
       4.2
@@ -5465,11 +5490,20 @@
      "ebene": "schutt",
      "warum": "kurze Saeulenstuempfe und Buendel in der Halde",
      "palette": "basalt_stuempfe",
-     "anzahl": 70,
      "verteilung": {
-      "typ": "band",
+      "typ": "cluster",
+      "form": "band",
       "punkte": "halde",
-      "breite_m": 12
+      "breite_m": 12,
+      "zentren": [
+       8,
+       10
+      ],
+      "je": [
+       6,
+       10
+      ],
+      "radius_m": 4.0
      },
      "abstand_m": 1.2,
      "skala": [
@@ -5506,11 +5540,20 @@
      "ebene": "kleinzeug",
      "warum": "Grus und Kiesel in der Halde und am Schluchtboden",
      "palette": "grus",
-     "anzahl": 1500,
      "verteilung": {
-      "typ": "band",
+      "typ": "cluster",
+      "form": "band",
       "punkte": "halde",
-      "breite_m": 22
+      "breite_m": 22,
+      "zentren": [
+       70,
+       90
+      ],
+      "je": [
+       10,
+       22
+      ],
+      "radius_m": 2.8
      },
      "abstand_m": 0.4,
      "rolle": "stein",
@@ -5827,6 +5870,14 @@
      "lautstaerke": 0.3,
      "zweck": "Wind ueber der Kante (Laubanteil pruefen)"
     }
+   ],
+   "verdeckung": [
+    {
+     "kern": "schlucht",
+     "ziel_hoehe_m": 1.5,
+     "probe_r_m": 4,
+     "zweck": "Schluchtboden"
+    }
    ]
   },
   "lava_08_glutauge": {
@@ -6003,7 +6054,7 @@
       12
      ],
      "kipp_richtung": "zu:mitte",
-     "z_bezug": "boden+-0.7",
+     "z_bezug": "boden+-0.85",
      "akteur": true,
      "kollision": true,
      "material": "MI_EL_SW_Lava_Glasur",
@@ -6475,6 +6526,14 @@
       2.0,
       4.0
      ]
+    }
+   ],
+   "verdeckung": [
+    {
+     "kern": "mitte",
+     "ziel_hoehe_m": 1.5,
+     "probe_r_m": 1,
+     "zweck": "Einblick in den Glutschacht (Glut + 1,5 m)"
     }
    ]
   }
