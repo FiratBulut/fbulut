@@ -39,6 +39,11 @@ def standard_ordner():
     return os.path.normpath(os.path.join(hier, "..", "..", "..", "vorlagen", "daten"))
 
 
+# Auftrag 13d: unvollstaendig geladene Netze (nur 1 von 5 Dateien) - nicht verwenden (FEHLER)
+UNVOLLSTAENDIG = {"uldubik_tier_0": "Desert_Western_Cluster_Rock_Medium_05_uldubik",
+                  "uk5ebcp_tier_0": "Desert_Western_Ledge_Rock_Small_07_uk5ebcp"}
+
+
 def houdini(s):
     """Houdini-Sehenswuerdigkeiten (SW_*) sind verboten (Auftrag 13, 'Houdini-Sachen auslassen')."""
     n = str(s).rsplit("/", 1)[-1]
@@ -159,6 +164,8 @@ class Inventar:
         b = []
         if houdini(s):
             return [(FEHLER, "Houdini-Asset (SW_*) verboten: %s" % s)]
+        if _letzter(str(s)).split(".")[0] in UNVOLLSTAENDIG:
+            return [(FEHLER, "Netz unvollstaendig geladen (13d), nicht verwenden: %s" % s)]
         p = self.netz_pfad(s)
         if p is None:
             if self.mehrdeutig(s):
