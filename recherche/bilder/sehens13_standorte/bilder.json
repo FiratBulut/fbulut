@@ -1,0 +1,674 @@
+[
+ {
+  "biom": "aue",
+  "ort": "aue_02_die_alte",
+  "bild": "C4_aue__aue_02_die_alte_fern.jpg",
+  "zweck": "Wiese im Bachdelta von der Straße aus – wo steht die Krone gegen den Himmel?",
+  "kamera": [
+   "C4",
+   -198600,
+   -15000,
+   -228200,
+   -55200,
+   3922,
+   "aue__aue_02_die_alte_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "aue",
+  "ort": "aue_03_schwalbenwand",
+  "bild": "C5_aue__aue_03_schwalbenwand_held.jpg",
+  "zweck": "Die heutige Geländestufe von der Altrinne aus (Höhe, Hangwinkel, Licht)",
+  "kamera": [
+   "C5",
+   -218800,
+   15800,
+   -216600,
+   7600,
+   2192,
+   "aue__aue_03_schwalbenwand_held",
+   -170
+  ]
+ },
+ {
+  "biom": "aue",
+  "ort": "aue_04_treibholzwerder",
+  "bild": "D5_aue__aue_04_treibholzwerder_fern.jpg",
+  "zweck": "Kiesinsel vom Südufer-Weg (wie viel Insel schaut über den Strom?)",
+  "kamera": [
+   "D5",
+   -66200,
+   98800,
+   -73000,
+   49400,
+   2569,
+   "aue__aue_04_treibholzwerder_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "aue",
+  "ort": "aue_06_mondarm",
+  "bild": "E5_aue__aue_06_mondarm_held.jpg",
+  "zweck": "Altwasser vom Südufer: Spiegel, Uferhöhe, bestehende Bäume",
+  "kamera": [
+   "E5",
+   -23500,
+   73900,
+   -30000,
+   72200,
+   1417,
+   "aue__aue_06_mondarm_held",
+   -170
+  ]
+ },
+ {
+  "biom": "aue",
+  "ort": "aue_07_blautopf",
+  "bild": "F4_aue__aue_07_blautopf_held.jpg",
+  "zweck": "Talschluss der Kerbe heute (Wandhöhe für den Stempel)",
+  "kamera": [
+   "F4",
+   115800,
+   -85800,
+   116600,
+   -82400,
+   2939,
+   "aue__aue_07_blautopf_held",
+   -170
+  ]
+ },
+ {
+  "biom": "bergwald",
+  "ort": "bergwald_01_der_moench",
+  "bild": "B3_bergwald__bergwald_01_der_moench_fern.jpg",
+  "zweck": "Silhouette der Rippennase vom Talweg (Nadel noch nicht gebaut)",
+  "kamera": [
+   "B3",
+   -278000,
+   -105200,
+   -340800,
+   -110200,
+   36383,
+   "bergwald__bergwald_01_der_moench_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "bergwald",
+  "ort": "bergwald_03_saeulenhain",
+  "bild": "B5_bergwald__bergwald_03_saeulenhain_fern.jpg",
+  "zweck": "Kronenlinie ueber dem Talboden heute",
+  "kamera": [
+   "B5",
+   -216600,
+   -24600,
+   -276400,
+   10400,
+   10588,
+   "bergwald__bergwald_03_saeulenhain_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "bergwald",
+  "ort": "bergwald_05_klemmblock_klamm",
+  "bild": "I4_bergwald__bergwald_05_klemmblock_klamm_held.jpg",
+  "zweck": "Klamm und Stufe heute (Breite, Wandhoehe)",
+  "kamera": [
+   "I4",
+   375200,
+   -96000,
+   373000,
+   -96600,
+   10086,
+   "bergwald__bergwald_05_klemmblock_klamm_held",
+   -170
+  ]
+ },
+ {
+  "biom": "bergwald",
+  "ort": "bergwald_06_karsee",
+  "bild": "B5_bergwald__bergwald_06_karsee_held.jpg",
+  "zweck": "Karboden und Karwand heute (Seeflaeche, Schwelle)",
+  "kamera": [
+   "B5",
+   -319200,
+   4200,
+   -321000,
+   7200,
+   26030,
+   "bergwald__bergwald_06_karsee_held",
+   -170
+  ]
+ },
+ {
+  "biom": "canyon",
+  "ort": "canyon_03_rote_stufe",
+  "bild": "C4_canyon__canyon_03_rote_stufe_fern.jpg",
+  "zweck": "Westliche Schichtstufe vom Aue-Weg: wie hoch steht der Ringruecken ueber dem Vorland?",
+  "kamera": [
+   "C4",
+   -233400,
+   -20800,
+   -191000,
+   -46000,
+   2608,
+   "canyon__canyon_03_rote_stufe_fern",
+   170
+  ]
+ },
+ {
+  "biom": "canyon",
+  "ort": "canyon_07_smaragdgumpe",
+  "bild": "D4_canyon__canyon_07_smaragdgumpe_held.jpg",
+  "zweck": "Bachrinne an der Suedstufe heute: Wandhoehe, Wasser auf dem Hang",
+  "kamera": [
+   "D4",
+   -164738,
+   -43366,
+   -167200,
+   -43800,
+   3831,
+   "canyon__canyon_07_smaragdgumpe_held",
+   170
+  ]
+ },
+ {
+  "biom": "canyon",
+  "ort": "canyon_04_fluesterschlucht",
+  "bild": "D4_canyon__canyon_04_fluesterschlucht_held.jpg",
+  "zweck": "Seitenbach am Canyonrand: Fallkante in den Hauptcanyon",
+  "kamera": [
+   "D4",
+   -117500,
+   -74408,
+   -123500,
+   -84800,
+   8066,
+   "canyon__canyon_04_fluesterschlucht_held",
+   170
+  ]
+ },
+ {
+  "biom": "dschungel",
+  "ort": "dschungel_04_blaues_auge",
+  "bild": "H6_dschungel__dschungel_04_blaues_auge_held.jpg",
+  "zweck": "Schacht unter Meerniveau - ist heute Meerwasser sichtbar?",
+  "kamera": [
+   "H6",
+   239500,
+   120699,
+   243600,
+   127800,
+   1761,
+   "dschungel__dschungel_04_blaues_auge_held",
+   170
+  ]
+ },
+ {
+  "biom": "dschungel",
+  "ort": "dschungel_05_verborgene_lagune",
+  "bild": "G6_dschungel__dschungel_05_verborgene_lagune_held.jpg",
+  "zweck": "Wie sieht die Turmspalte heute aus (Rechteckform, Cliff-Akteure)?",
+  "kamera": [
+   "G6",
+   196801,
+   141800,
+   189700,
+   137700,
+   2382,
+   "dschungel__dschungel_05_verborgene_lagune_held",
+   170
+  ]
+ },
+ {
+  "biom": "dschungel",
+  "ort": "dschungel_01_mondtor",
+  "bild": "G5_dschungel__dschungel_01_mondtor_fern.jpg",
+  "zweck": "Turmsilhouette fuer den zusammengesetzten Bogen",
+  "kamera": [
+   "G5",
+   135600,
+   71000,
+   178600,
+   95800,
+   11352,
+   "dschungel__dschungel_01_mondtor_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "elfenwald",
+  "ort": "elfenwald_01_mutterbaum",
+  "bild": "G3_elfenwald__elfenwald_01_mutterbaum_fern.jpg",
+  "zweck": "Wie hoch muss der Riese sein, damit er aus 315 m ueber den Wald ragt?",
+  "kamera": [
+   "G3",
+   168000,
+   -161200,
+   173600,
+   -130200,
+   6808,
+   "elfenwald__elfenwald_01_mutterbaum_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "elfenwald",
+  "ort": "elfenwald_02_nebelhain",
+  "bild": "I4_elfenwald__elfenwald_02_nebelhain_fern.jpg",
+  "zweck": "Lesbarkeit des Grats von der Oststrasse (Nebel-Dichte festlegen)",
+  "kamera": [
+   "I4",
+   383000,
+   -73200,
+   346000,
+   -70800,
+   40667,
+   "elfenwald__elfenwald_02_nebelhain_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "elfenwald",
+  "ort": "elfenwald_05_farnschlucht",
+  "bild": "H3_elfenwald__elfenwald_05_farnschlucht_held.jpg",
+  "zweck": "Gerinne steht nur im Wasserraster - gibt es dort heute sichtbares Wasser?",
+  "kamera": [
+   "H3",
+   274500,
+   -160500,
+   276200,
+   -158800,
+   8054,
+   "elfenwald__elfenwald_05_farnschlucht_held",
+   170
+  ]
+ },
+ {
+  "biom": "fjord",
+  "ort": "fjord_02_schleierwand",
+  "bild": "C2_fjord__fjord_02_schleierwand_held.jpg",
+  "zweck": "Talschluss vom Fjordboden",
+  "kamera": [
+   "C2",
+   -170944,
+   -317333,
+   -174000,
+   -300000,
+   28383,
+   "fjord__fjord_02_schleierwand_held",
+   -170
+  ]
+ },
+ {
+  "biom": "fjord",
+  "ort": "fjord_01_die_kanzel",
+  "bild": "D1_fjord__fjord_01_die_kanzel_anmarsch.jpg",
+  "zweck": "Ostwand von der Sohle: wo genau die Kante ist",
+  "kamera": [
+   "D1",
+   -165500,
+   -337111,
+   -155500,
+   -327500,
+   23105,
+   "fjord__fjord_01_die_kanzel_anmarsch",
+   -170
+  ]
+ },
+ {
+  "biom": "frost",
+  "ort": "frost_02_frostsee",
+  "bild": "E2_frost__frost_02_frostsee_held.jpg",
+  "zweck": "Frostsee mit Houdini-Resten am Nordufer – was muss weg?",
+  "kamera": [
+   "E2",
+   15000,
+   -247000,
+   20000,
+   -226000,
+   2272,
+   "frost__frost_02_frostsee_held",
+   -170
+  ]
+ },
+ {
+  "biom": "frost",
+  "ort": "frost_04_raureifhain",
+  "bild": "F2_frost__frost_04_raureifhain_fern.jpg",
+  "zweck": "Hangschulter vom Steig aus",
+  "kamera": [
+   "F2",
+   -12000,
+   -244600,
+   33000,
+   -268000,
+   14739,
+   "frost__frost_04_raureifhain_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "gletscher",
+  "ort": "gletscher_01_gletschertor",
+  "bild": "E2_gletscher__gletscher_01_gletschertor_held.jpg",
+  "zweck": "Sander und Zunge heute – wie leer ist das Vorfeld?",
+  "kamera": [
+   "E2",
+   -76000,
+   -265000,
+   -62000,
+   -284500,
+   23039,
+   "gletscher__gletscher_01_gletschertor_held",
+   -170
+  ]
+ },
+ {
+  "biom": "gletscher",
+  "ort": "gletscher_05_die_waechte",
+  "bild": "E1_gletscher__gletscher_05_die_waechte_fern.jpg",
+  "zweck": "Grat vom Frostlager aus: liest sich die Kante?",
+  "kamera": [
+   "E1",
+   -82400,
+   -297400,
+   -61000,
+   -319600,
+   41750,
+   "gletscher__gletscher_05_die_waechte_fern",
+   -170
+  ]
+ },
+ {
+  "biom": "heide",
+  "ort": "heide_01_die_graue_burg",
+  "bild": "F5_heide__heide_01_leer_held.jpg",
+  "zweck": "Vorhandene Felsplatten auf der Kuppe - Massstab fuer die Tor-Stapel",
+  "kamera": [
+   "F5",
+   125700,
+   40300,
+   131000,
+   46600,
+   2300,
+   "heide__heide_01_leer_held",
+   -170
+  ]
+ },
+ {
+  "biom": "heide",
+  "ort": "heide_04_der_kolk",
+  "bild": "G5_heide__heide_04_leer_anmarsch.jpg",
+  "zweck": "Ovale Mulde mit Felsrahmen (alte Kachel?) - Grundlage fuer die Moorkuppe",
+  "kamera": [
+   "G5",
+   177300,
+   66900,
+   179000,
+   59500,
+   1700,
+   "heide__heide_04_leer_anmarsch",
+   -170
+  ]
+ },
+ {
+  "biom": "kueste",
+  "ort": "kueste_04_der_seefall",
+  "bild": "A5_kueste__kueste_04_der_seefall_held.jpg",
+  "zweck": "heutige Kliffkante am Bach (gibt es den Wasserstreifen am Kliff schon? Höhe der Wand)",
+  "kamera": [
+   "A5",
+   -385164,
+   62133,
+   -384400,
+   57800,
+   3714,
+   "kueste__kueste_04_der_seefall_held",
+   170
+  ]
+ },
+ {
+  "biom": "kueste",
+  "ort": "kueste_01_die_alten",
+  "bild": "A5_kueste__kueste_01_die_alten_fern.jpg",
+  "zweck": "Inselchen heute (Heightfield-Pfeiler, Houdini-Reste K9?)",
+  "kamera": [
+   "A5",
+   -388200,
+   38800,
+   -401000,
+   87200,
+   4884,
+   "kueste__kueste_01_die_alten_fern",
+   170
+  ]
+ },
+ {
+  "biom": "kueste",
+  "ort": "kueste_06_die_kreidewand",
+  "bild": "H2_kueste__kueste_06_die_kreidewand_fern.jpg",
+  "zweck": "Westflanke des Kaps von der Bucht aus – Hanglage für den Abbruch",
+  "kamera": [
+   "H2",
+   251800,
+   -173800,
+   259000,
+   -238000,
+   162,
+   "kueste__kueste_06_die_kreidewand_fern",
+   170
+  ]
+ },
+ {
+  "biom": "lava",
+  "ort": "lava_01_schwarze_mauer",
+  "bild": "C6_lava__lava_01_leer_held.jpg",
+  "zweck": "Wirkt die 5-9-m-Front heute schon als Wand? (vor dem Stempel)",
+  "kamera": [
+   "C6",
+   -210851,
+   102443,
+   -208400,
+   104500,
+   4500,
+   "lava__lava_01_leer_held",
+   -170
+  ]
+ },
+ {
+  "biom": "lava",
+  "ort": "lava_03_kraterkinder",
+  "bild": "C5_lava__lava_03_leer_held.jpg",
+  "zweck": "Mulde mit Lavasand von Sueden, Aue-Bach dahinter",
+  "kamera": [
+   "C5",
+   -212500,
+   78800,
+   -214000,
+   70000,
+   1900,
+   "lava__lava_03_leer_held",
+   -170
+  ]
+ },
+ {
+  "biom": "lava",
+  "ort": "lava_06_kraterreihe",
+  "bild": "C6_lava__lava_06_leer_held.jpg",
+  "zweck": "Wie sieht die vorhandene Kegelkette (alte Kachel) heute aus? Entscheidet mit ueber den Kratersteig",
+  "kamera": [
+   "C6",
+   -193500,
+   129000,
+   -183000,
+   139500,
+   6600,
+   "lava__lava_06_leer_held",
+   -170
+  ]
+ },
+ {
+  "biom": "lava",
+  "ort": "lava_07_basaltorgel",
+  "bild": "B6_lava__lava_07_leer_held.jpg",
+  "zweck": "Schlucht am Westrand: Hoehe/Form der Plateaukante",
+  "kamera": [
+   "B6",
+   -281800,
+   140200,
+   -278600,
+   138600,
+   4500,
+   "lava__lava_07_leer_held",
+   -170
+  ]
+ },
+ {
+  "biom": "oedland",
+  "ort": "oedland_02_regenbogenhang",
+  "bild": "D6_oedland__oedland_02_regenbogenhang_fern.jpg",
+  "zweck": "Westsporn der Abbruchkante vom Flachland (heute ohne Weg)",
+  "kamera": [
+   "D6",
+   -76800,
+   160000,
+   -88000,
+   116000,
+   226,
+   "oedland__oedland_02_regenbogenhang_fern",
+   170
+  ]
+ },
+ {
+  "biom": "oedland",
+  "ort": "oedland_01_rippenland",
+  "bild": "E6_oedland__oedland_01_rippenland_held.jpg",
+  "zweck": "Badland-Kuppe von Westen",
+  "kamera": [
+   "E6",
+   -9818,
+   118916,
+   2000,
+   121000,
+   6988,
+   "oedland__oedland_01_rippenland_held",
+   170
+  ]
+ },
+ {
+  "biom": "oedland",
+  "ort": "oedland_03_hoellentor",
+  "bild": "E6_oedland__oedland_03_hoellentor_fern.jpg",
+  "zweck": "Ton-Flachland vom kuenftigen Oedlandpfad",
+  "kamera": [
+   "E6",
+   -20200,
+   154800,
+   18000,
+   153000,
+   258,
+   "oedland__oedland_03_hoellentor_fern",
+   170
+  ]
+ },
+ {
+  "biom": "sumpf",
+  "ort": "sumpf_01_der_ertrunkene_wald",
+  "bild": "H5_sumpf__sumpf_01_der_ertrunkene_wald_fern.jpg",
+  "zweck": "offenes Wasser heute (Epic-See 1,58 m) vom Westweg",
+  "kamera": [
+   "H5",
+   210800,
+   18200,
+   261000,
+   16000,
+   197,
+   "sumpf__sumpf_01_der_ertrunkene_wald_fern",
+   170
+  ]
+ },
+ {
+  "biom": "sumpf",
+  "ort": "sumpf_07_der_tellerweiher",
+  "bild": "H5_sumpf__sumpf_07_der_tellerweiher_held.jpg",
+  "zweck": "Weiher T_2884_725 heute: Ufer, Röhricht",
+  "kamera": [
+   "H5",
+   289000,
+   84500,
+   289000,
+   72500,
+   108,
+   "sumpf__sumpf_07_der_tellerweiher_held",
+   170
+  ]
+ },
+ {
+  "biom": "tundra",
+  "ort": "tundra_01_der_pingo",
+  "bild": "C3_tundra__tundra_01_leer_anmarsch.jpg",
+  "zweck": "Wirkt der vorhandene Rundhuegel (20 m) schon als Pingo? Blick vom Weg ueber den Zopfstrom",
+  "kamera": [
+   "C3",
+   -158300,
+   -185900,
+   -173600,
+   -184200,
+   5000,
+   "tundra__tundra_01_leer_anmarsch",
+   -170
+  ]
+ },
+ {
+  "biom": "tundra",
+  "ort": "tundra_03_die_eiswand",
+  "bild": "E3_tundra__tundra_03_leer_held.jpg",
+  "zweck": "Wie sieht die vorhandene Hufeisen-Mulde am Strand heute aus (alte Kachel?)",
+  "kamera": [
+   "E3",
+   -57100,
+   -195800,
+   -53000,
+   -184500,
+   500,
+   "tundra__tundra_03_leer_held",
+   -170
+  ]
+ },
+ {
+  "biom": "wueste",
+  "ort": "wueste_01_yardang_flotte",
+  "bild": "D3_wueste__wueste_01_yardang_flotte_fern.jpg",
+  "zweck": "Rippen-Enden an der Nordkueste ueber die Bucht",
+  "kamera": [
+   "D3",
+   -75400,
+   -192800,
+   -83600,
+   -133600,
+   1129,
+   "wueste__wueste_01_yardang_flotte_fern",
+   170
+  ]
+ },
+ {
+  "biom": "wueste",
+  "ort": "wueste_02_sternduene",
+  "bild": "E4_wueste__wueste_02_sternduene_held.jpg",
+  "zweck": "Sandhang suedlich des Wuestenbachs - Platz fuer 22-m-Duene",
+  "kamera": [
+   "E4",
+   -43910,
+   -20167,
+   -42000,
+   -31000,
+   2939,
+   "wueste__wueste_02_sternduene_held",
+   170
+  ]
+ }
+]
