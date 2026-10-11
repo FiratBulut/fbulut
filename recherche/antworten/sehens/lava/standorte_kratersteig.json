@@ -1,0 +1,212 @@
+{
+ "stand": "2026-10-11",
+ "biom": "lava",
+ "hinweis": "Diese 3 Orte liegen heute 700-900 m vom naechsten Weg (Regel 80-300 m). Sie gelten nur, wenn Ferat den Pfad 'Kratersteig' (unten) als Weg baut. Abstaende/Sicht hier gegen Wege + Kratersteig.",
+ "kratersteig": {
+  "start": "Ende des Archivpfads bei Zalas Archiv (X -2366 m, Y 884 m)",
+  "breite_m": 1.5,
+  "bodenlage": "Kies/Erde als Band, Trittsteine auf Lavafels",
+  "aeste": {
+   "ost": {
+    "laenge_m": 623.7,
+    "max_steigung_grad": 22.1,
+    "mittel_steigung_grad": 4.8,
+    "punkte_cm": [
+     [-236500, 88100, 2224],
+     [-233700, 90900, 2249],
+     [-231700, 94100, 2386],
+     [-230100, 95700, 2855],
+     [-230100, 96500, 3014],
+     [-226100, 100900, 4259],
+     [-222500, 104500, 4198],
+     [-220500, 105700, 4211],
+     [-212500, 114100, 4094],
+     [-209700, 114100, 4302],
+     [-208500, 115300, 4388],
+     [-207700, 115300, 4412],
+     [-200500, 122500, 5162],
+     [-198500, 123300, 5146],
+     [-192500, 128500, 5564]
+    ]
+   },
+   "west": {
+    "laenge_m": 897.5,
+    "max_steigung_grad": 11.0,
+    "mittel_steigung_grad": 3.5,
+    "punkte_cm": [
+     [-236500, 88100, 2224],
+     [-237300, 90100, 2237],
+     [-237700, 93700, 2295],
+     [-238900, 94900, 2459],
+     [-239300, 96100, 2488],
+     [-248900, 105700, 2923],
+     [-251300, 108500, 3153],
+     [-251300, 110100, 3211],
+     [-252100, 111300, 3257],
+     [-256500, 116500, 3357],
+     [-264500, 124500, 4188],
+     [-265700, 126500, 4463],
+     [-266500, 136100, 5441],
+     [-267300, 136900, 5493],
+     [-267300, 138500, 5495],
+     [-268900, 140100, 5589],
+     [-268500, 140900, 5605],
+     [-268500, 162100, 6362],
+     [-268100, 162500, 6470],
+     [-268100, 164100, 6645]
+    ]
+   }
+  }
+ },
+ "orte": [
+  {
+   "id": "lava_06_kraterreihe",
+   "name": "Die Kraterreihe",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-183000, 136000, 5862],
+   "radius_m": 140.0,
+   "felder": ["C6", "D6"],
+   "kameras": [
+    ["C6", -190491, 129700, -183000, 136000, 5717, "lava_06_kraterreihe_anmarsch", 170],
+    ["C6", -189028, 132520, -183000, 136000, 6012, "lava_06_kraterreihe_held", 170],
+    ["C6", -183866, 135500, -183000, 136000, 5912, "lava_06_kraterreihe_nah", 170],
+    ["C6", -227000, 99600, -183000, 136000, 4106, "lava_06_kraterreihe_fern", 170]
+   ],
+   "ziel_hoehe_m": 18.0,
+   "sicht": {
+    "naechster_weg_m": 121.0,
+    "sichtbar_ab_m": 571.0,
+    "wegpunkte_sichtbar": 25,
+    "wegpunkte_ring_300_800": 74,
+    "mittel_anteil": 0.2
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 126.1,
+    "luftlinie_m": 121.0,
+    "max_steigung_grad": 12.9,
+    "mittel_steigung_grad": 4.7,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1925.0, 1285.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-183000, 136000, 5873],
+    [-183700, 135700, 5817],
+    [-185700, 133700, 6097],
+    [-186100, 133700, 6119],
+    [-190100, 129700, 5865],
+    [-190900, 129700, 5775],
+    [-192500, 128500, 5564]
+   ],
+   "draufsicht": "lava_06_kraterreihe.png",
+   "bedingung": "nur mit neuem Pfad 'Kratersteig' (standorte_kratersteig.json, Ferat entscheidet)",
+   "standort_begruendung": "Vorhandene Kegelkette auf einer NO-SW-Spalte am Nordostfuss (36-77 m); heute 717 m vom Weg -> nur mit Kratersteig."
+  },
+  {
+   "id": "lava_07_basaltorgel",
+   "name": "Die Basaltorgel",
+   "art": "fundstueck",
+   "mitte_cm": [-279500, 139000, 4180],
+   "radius_m": 60.0,
+   "felder": ["B6"],
+   "kameras": [
+    ["B6", -276741, 139500, -279500, 139000, 4280, "lava_07_basaltorgel_anmarsch", 170],
+    ["B6", -277038, 139434, -279500, 139000, 4225, "lava_07_basaltorgel_held", 170],
+    ["B6", -278515, 139174, -279500, 139000, 4230, "lava_07_basaltorgel_nah", 170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 106.6,
+    "sichtbar_ab_m": 0,
+    "wegpunkte_sichtbar": 0,
+    "wegpunkte_ring_300_800": 80,
+    "mittel_anteil": 0.0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "einblick_grund_max": null
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 116.1,
+    "luftlinie_m": 106.4,
+    "max_steigung_grad": 24.5,
+    "mittel_steigung_grad": 9.4,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-2689.0, 1399.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-279500, 139000, 4273],
+    [-278900, 139500, 4462],
+    [-278500, 139100, 4682],
+    [-278100, 139500, 4940],
+    [-277700, 139100, 5154],
+    [-277300, 139500, 5346],
+    [-272100, 139500, 5899],
+    [-271700, 139900, 5846],
+    [-268900, 139900, 5578]
+   ],
+   "draufsicht": "lava_07_basaltorgel.png",
+   "bedingung": "nur mit neuem Pfad 'Kratersteig' (standorte_kratersteig.json, Ferat entscheidet)",
+   "standort_begruendung": "Westrand des Aschenplateaus: Schlucht zwischen Plateau (55 m) und Westhuegel, Plateaukante 10-14 m bei 30-35 Grad; heute 714 m vom Weg."
+  },
+  {
+   "id": "lava_08_glutauge",
+   "name": "Das Glutauge",
+   "art": "fundstueck",
+   "mitte_cm": [-274500, 174000, 6501],
+   "radius_m": 45.0,
+   "felder": ["B6", "C6"],
+   "kameras": [
+    ["B6", -269839, 165839, -274500, 174000, 6454, "lava_08_glutauge_anmarsch", 170],
+    ["B6", -265753, 168950, -274500, 174000, 6531, "lava_08_glutauge_held", 170],
+    ["B6", -273634, 173500, -274500, 174000, 6551, "lava_08_glutauge_nah", 170]
+   ],
+   "ziel_hoehe_m": 1.0,
+   "sicht": {
+    "naechster_weg_m": 117.9,
+    "sichtbar_ab_m": 0,
+    "wegpunkte_sichtbar": 9,
+    "wegpunkte_ring_300_800": 38,
+    "mittel_anteil": 0.2,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 1.0,
+    "einblick_grund_max": 0.0
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 125.5,
+    "luftlinie_m": 117.9,
+    "max_steigung_grad": 6.8,
+    "mittel_steigung_grad": 3.1,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-2681.0, 1641.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-274500, 174000, 6513],
+    [-274100, 171700, 6371],
+    [-271700, 169300, 6566],
+    [-271300, 167300, 6562],
+    [-268100, 164100, 6645]
+   ],
+   "draufsicht": "lava_08_glutauge.png",
+   "bedingung": "nur mit neuem Pfad 'Kratersteig' (standorte_kratersteig.json, Ferat entscheidet)",
+   "standort_begruendung": "Junger Lavastrom (Lavafels-Band) auf dem Westplateau, flacher Abschnitt 64-70 m (Hang 8-13 Grad); heute >870 m vom Weg."
+  }
+ ]
+}

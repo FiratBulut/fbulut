@@ -1,0 +1,256 @@
+{
+ "stand": "2026-10-11",
+ "biom": "lava",
+ "orte": [
+  {
+   "id": "lava_01_schwarze_mauer",
+   "name": "Die Schwarze Mauer",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-208400, 104500, 4730],
+   "radius_m": 75.0,
+   "felder": ["C5", "C6"],
+   "kameras": [
+    ["C6", -223819, 93500, -208400, 104500, 3696, "lava_01_schwarze_mauer_anmarsch", 170],
+    ["C6", -210851, 102443, -208400, 104500, 4051, "lava_01_schwarze_mauer_held", 170],
+    ["C6", -209166, 103857, -208400, 104500, 4780, "lava_01_schwarze_mauer_nah", 170],
+    ["C6", -250600, 62400, -208400, 104500, 2578, "lava_01_schwarze_mauer_fern", 170]
+   ],
+   "ziel_hoehe_m": 16.0,
+   "sicht": {
+    "naechster_weg_m": 324.2,
+    "sichtbar_ab_m": 785.0,
+    "wegpunkte_sichtbar": 37,
+    "wegpunkte_ring_300_800": 52,
+    "mittel_anteil": 0.6
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 351.3,
+    "luftlinie_m": 326.1,
+    "max_steigung_grad": 20.2,
+    "mittel_steigung_grad": 4.9,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-2367.0, 883.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-208400, 104500, 4779],
+    [-208700, 103900, 4532],
+    [-211100, 103500, 4183],
+    [-216300, 98300, 4090],
+    [-216700, 98300, 4090],
+    [-221500, 93900, 4109],
+    [-222300, 93500, 4022],
+    [-227100, 93500, 3118],
+    [-227500, 93100, 2972],
+    [-228300, 93100, 2786],
+    [-229900, 91900, 2448],
+    [-231900, 91900, 2264],
+    [-234700, 89100, 2234],
+    [-235900, 89100, 2228],
+    [-236700, 88300, 2226]
+   ],
+   "draufsicht": "lava_01_schwarze_mauer.png",
+   "standort_begruendung": "Westfront des alten Blocklavastroms: Stufe 5-9 m (41 -> 47-50 m), Hang an der Front bis 45 Grad; offenes Moospolster davor; Weg 324 m (Archivpfad)."
+  },
+  {
+   "id": "lava_02_schwefelgrund",
+   "name": "Schwefelgrund",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-239400, 127600, 4973],
+   "radius_m": 70.0,
+   "felder": ["C6"],
+   "kameras": [
+    ["C6", -236700, 88300, -239400, 127600, 2096, "lava_02_schwefelgrund_anmarsch", 170],
+    ["C6", -227909, 137242, -239400, 127600, 5123, "lava_02_schwefelgrund_held", 170],
+    ["C6", -238634, 128243, -239400, 127600, 5023, "lava_02_schwefelgrund_nah", 170],
+    ["C6", -249600, 49000, -239400, 127600, 2603, "lava_02_schwefelgrund_fern", 170]
+   ],
+   "ziel_hoehe_m": 25.0,
+   "sicht": {
+    "naechster_weg_m": 392.9,
+    "sichtbar_ab_m": 798.0,
+    "wegpunkte_sichtbar": 22,
+    "wegpunkte_ring_300_800": 22,
+    "mittel_anteil": 0.6
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 404.7,
+    "luftlinie_m": 393.9,
+    "max_steigung_grad": 19.8,
+    "mittel_steigung_grad": 4.9,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-2367.0, 883.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-239400, 127600, 4981],
+    [-239500, 127100, 4969],
+    [-239100, 126300, 4890],
+    [-237900, 124700, 4933],
+    [-237900, 123500, 4909],
+    [-237500, 123100, 4855],
+    [-237500, 120300, 4768],
+    [-237100, 119900, 4745],
+    [-237100, 118300, 4710],
+    [-236700, 117900, 4714],
+    [-236700, 88300, 2226]
+   ],
+   "draufsicht": "lava_02_schwefelgrund.png",
+   "standort_begruendung": "Nordfuss des Vulkans, Moos/Wiese mit Lavafels-Rippen, flache Hangmulde (TPI100 -2,6 m); offen nach Norden; Weg 393 m (Archivpfad)."
+  },
+  {
+   "id": "lava_03_kraterkinder",
+   "name": "Die Kraterkinder",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-214000, 69000, 1822],
+   "radius_m": 85.0,
+   "felder": ["C5"],
+   "kameras": [
+    ["C5", -207195, 62195, -214000, 69000, 1922, "lava_03_kraterkinder_anmarsch", 170],
+    ["C5", -206263, 62508, -214000, 69000, 1972, "lava_03_kraterkinder_held", 170],
+    ["C5", -213234, 68357, -214000, 69000, 1872, "lava_03_kraterkinder_nah", 170],
+    ["C5", -250600, 60800, -214000, 69000, 1922, "lava_03_kraterkinder_fern", 170]
+   ],
+   "ziel_hoehe_m": 8.0,
+   "sicht": {
+    "naechster_weg_m": 291.3,
+    "sichtbar_ab_m": 772.0,
+    "wegpunkte_sichtbar": 26,
+    "wegpunkte_ring_300_800": 130,
+    "mittel_anteil": 0.1
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 292.7,
+    "luftlinie_m": 292.7,
+    "max_steigung_grad": 14.6,
+    "mittel_steigung_grad": 2.5,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1933.0, 483.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-214000, 69000, 1832],
+    [-193300, 48300, 2570]
+   ],
+   "draufsicht": "lava_03_kraterkinder.png",
+   "standort_begruendung": "Geschlossene Lavasand-Mulde (Senkentiefe 3,9 m, Einzugsflaeche 0,35 km2) am Rand der feuchten Aue, Bach 130 m noerdlich; Weg 291 m."
+  },
+  {
+   "id": "lava_04_roehrenfenster",
+   "name": "Das Roehrenfenster",
+   "art": "fundstueck",
+   "mitte_cm": [-179200, 78000, 3684],
+   "radius_m": 45.0,
+   "felder": ["C5"],
+   "kameras": [
+    ["C5", -188658, 50915, -179200, 78000, 2515, "lava_04_roehrenfenster_anmarsch", 170],
+    ["C5", -180055, 75651, -179200, 78000, 3076, "lava_04_roehrenfenster_held", 170],
+    ["C5", -179542, 77060, -179200, 78000, 3734, "lava_04_roehrenfenster_nah", 170]
+   ],
+   "ziel_hoehe_m": 1.0,
+   "sicht": {
+    "naechster_weg_m": 286.0,
+    "sichtbar_ab_m": 0,
+    "wegpunkte_sichtbar": 17,
+    "wegpunkte_ring_300_800": 172,
+    "mittel_anteil": 0.1,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "einblick_grund_max": 0.0
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 335.3,
+    "luftlinie_m": 309.4,
+    "max_steigung_grad": 13.8,
+    "mittel_steigung_grad": 2.0,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-1897.0, 489.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-179200, 78000, 3683],
+    [-180900, 76500, 3246],
+    [-180900, 74100, 3154],
+    [-182100, 72500, 3122],
+    [-182100, 67300, 3029],
+    [-183700, 65700, 2982],
+    [-183700, 64500, 2946],
+    [-185300, 62900, 2906],
+    [-185300, 58500, 2856],
+    [-185700, 58100, 2839],
+    [-185700, 55700, 2760],
+    [-187300, 53700, 2691],
+    [-187300, 52500, 2668],
+    [-189700, 49700, 2622],
+    [-189700, 48900, 2547]
+   ],
+   "draufsicht": "lava_04_roehrenfenster.png",
+   "standort_begruendung": "Rand des Moos-Lavaplateaus ueber der Wiese (Stromrand, 35 m), Hang 10-22 Grad; Rohr verlaeuft hangab nach NO; Weg 282 m."
+  },
+  {
+   "id": "lava_05_klare_spalte",
+   "name": "Die Klare Spalte",
+   "art": "fundstueck",
+   "mitte_cm": [-260400, 98200, 2955],
+   "radius_m": 65.0,
+   "felder": ["C5", "C6"],
+   "kameras": [
+    ["C6", -242677, 82058, -260400, 98200, 2128, "lava_05_klare_spalte_anmarsch", 170],
+    ["C6", -272218, 96116, -260400, 98200, 2985, "lava_05_klare_spalte_held", 170],
+    ["C6", -261385, 98026, -260400, 98200, 3005, "lava_05_klare_spalte_nah", 170]
+   ],
+   "ziel_hoehe_m": 1.0,
+   "sicht": {
+    "naechster_weg_m": 241.9,
+    "sichtbar_ab_m": 0,
+    "wegpunkte_sichtbar": 0,
+    "wegpunkte_ring_300_800": 34,
+    "mittel_anteil": 0.0,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 0.4,
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 1.0,
+    "einblick_grund_max": 0.0
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 252.2,
+    "luftlinie_m": 247.7,
+    "max_steigung_grad": 14.6,
+    "mittel_steigung_grad": 2.6,
+    "steil_laenge_m": 0.0,
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "weg_punkt_m": [-2421.0, 815.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-260400, 98200, 2967],
+    [-255700, 93900, 2732],
+    [-254500, 93500, 2708],
+    [-242100, 81500, 2180]
+   ],
+   "draufsicht": "lava_05_klare_spalte.png",
+   "standort_begruendung": "Moos-Lavaebene im Westen (29-30 m, Hang 12 Grad), parallel zur Spaltenrichtung der Kraterreihe (NO-SW); Weg 242 m."
+  }
+ ]
+}

@@ -1,0 +1,321 @@
+{
+ "stand": "2026-10-11",
+ "biom": "bergwald",
+ "hinweis": "Paketnamen exakt wie in antworten/sehens/downloadliste.json; Bestand = Netznamen aus vorlagen/daten/netze.csv (keiner gesperrt). v1-Namen in der Download-Liste: Blitzbaum = bergwald_02_die_brandkiefer, Schleierfall/Klemmblock-Klamm = bergwald_05_klemmblock_klamm.",
+ "orte": [
+  {
+   "id": "bergwald_01_der_moench",
+   "name": "Der Mönch",
+   "art": "leuchtfeuer",
+   "bestand": ["veqnci0db_tier_2", "rcygn_tier_0", "ukjhcamga_tier_0", "vdssailfa_tier_2", "SM_NordicBoulder_01", "SM_mountain_rock_big_02_7", "SM_mountain_rock_big_02_8", "SM_mountain_rock_big_01_1", "SM_ground_rock_01", "SM_ground_rock_03_03", "SM_flat_rock_04", "SM_mountain_rock_small_01_1", "SM_stone_03", "SM_Forest_pine_06", "SM_dwarf_pine_big_01", "SM_heath_A_01", "SM_lingonberry_01"],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Windklang am Grat",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "bergwald_02_die_brandkiefer",
+   "name": "Die Brandkiefer",
+   "art": "leuchtfeuer",
+   "bestand": ["SM_Forest_pine_10_dead", "qlEtl_tier_0", "SM_DeadTree_02", "SM_RottenTreeStump_01", "SM_BrokenStump_01", "SM_BrokenTreeAssembly_01", "SM_Pine_broken_branch_01", "SM_mountain_branch_01_01", "SM_Forest_pine_04_log", "SM_Pine_roots_01", "SM_Forest_pine_plant_01", "SM_Forest_pine_plant_02", "SM_Forest_pine_plant_03", "Fir_01_Plant", "Big_Tree_Birch_01", "SM_Crownbeard_03"],
+   "decals": ["MI_ScatteredBark_01", "MI_ScatteredSticksAndTwigs_01"],
+   "pakete": [
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "C",
+     "wofuer": "Asche-/Staubwirbel im Brandkreis (optional)",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
+     "prioritaet": "C",
+     "wofuer": "toter Riesenstamm, falls im Paket",
+     "ersatz_bestand": "SM_Forest_pine_10_dead x1,3",
+     "preis_laut_liste": "Preis ungeprüft"
+    }
+   ]
+  },
+  {
+   "id": "bergwald_03_saeulenhain",
+   "name": "Säulenhain",
+   "art": "leuchtfeuer",
+   "bestand": ["Fir_07_Forest", "Fir_04_Standalone", "Fir_06_Forest", "Fir_01_Plant", "SM_MossyTree_01", "SM_LargeFallenTree_02", "SM_Pine_roots_01", "SM_OldFallenTree_02", "SM_Forest_pine_08_log", "SM_detail_branches_03", "SM_EagleFern_M_01", "SM_SilverLadyFern_04", "SM_MossClump_02", "SM_billberry_01", "SM_MossyForestRoots_03", "SM_SmallStonesPack_03", "SM_flat_rock_02"],
+   "pakete": [
+    {
+     "paket": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
+     "prioritaet": "B",
+     "wofuer": "12 Riesentannen 45-55 m (echte Riesenstaemme statt gestreckter Tannen)",
+     "ersatz_bestand": "Fir_07_Forest/Fir_04_Standalone x2,2-2,5 (Rinde verzerrt, nicht Nanite)",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Forest Fungi – Mushroom Pack",
+     "prioritaet": "B",
+     "wofuer": "Pilze an Stammfuessen und Ammenstamm",
+     "ersatz_bestand": "SM_mushroom_01/02 (0,3 m)",
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Waldhalle-Klang",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "bergwald_04_felsenmeer",
+   "name": "Felsenmeer",
+   "art": "fundstueck",
+   "bestand": ["SM_NordicBoulder_01", "SM_MossyForestBoulder_04", "SM_MossyForestBoulder_03", "SM_MossyForestBoulder_01", "SM_Big_Rock_01", "SM_Big_Rock_02", "SM_mountain_rock_big_02_1", "SM_mountain_rock_big_02_3", "SM_MossyRocks_02", "SM_ForestRockFormation_05", "SM_SmallStonesPack_03", "Fir_06_Forest", "SM_Forest_pine_09", "SM_MossyForestRoots_03", "SM_Fern_02", "SM_flat_rock_04"],
+   "decals": ["MI_Leakage_04"],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "verborgener Bach unter den Bloecken (nur Klang)",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "bergwald_05_klemmblock_klamm",
+   "name": "Klemmblock-Klamm",
+   "art": "fundstueck",
+   "bestand": ["SM_NordicBoulder_01", "SM_big_rock_wall_01", "SM_big_rock_wall_02", "SM_big_rock_wall_03", "rcygn_tier_0", "vfmjadufa_tier_2", "ukjhcamga_tier_0", "SM_mountain_rock_big_02_1", "SM_DryRiverBed_01", "SM_OldTreeBranch_06", "SM_Forest_pine_04_log", "SM_SilverLadyFern_04", "SM_BeechFern_04", "SM_Ivy_11", "SM_Pine_roots_03", "SM_flat_rock_02", "SM_flat_rock_04"],
+   "material": ["MI_EL_Wasserfall", "MI_EL_Wasserfall_Aufprall"],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Schleierfall 30 m + Gumpenablauf (Fluss-Material mit Wasserfaellen)",
+     "ersatz_bestand": "MI_EL_Wasserfall / MI_EL_Wasserfall_Aufprall (eigen)",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "B",
+     "wofuer": "Gischt am Fallfuss (optional)",
+     "ersatz_bestand": "lokaler Nebel 0,08",
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+     "prioritaet": "B",
+     "wofuer": "Wasserfall-/Gischt-Effekte",
+     "ersatz_bestand": "MI_EL_Wasserfall_Aufprall",
+     "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Fallrauschen in der Klamm",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    },
+    {
+     "paket": "Realistic Waterfall and Water VFX",
+     "prioritaet": "C",
+     "wofuer": "nur falls der eigene Vorhang zu glatt wirkt",
+     "ersatz_bestand": "MI_EL_Wasserfall",
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Kategorie-Auszug, ungeprüft)"
+    },
+    {
+     "paket": "Waterfall Pro",
+     "prioritaet": "C",
+     "wofuer": "nur falls der eigene Vorhang zu glatt wirkt",
+     "ersatz_bestand": "MI_EL_Wasserfall",
+     "preis_laut_liste": "ca. 45 € (ab 49,99 USD laut Kategorie-Auszug, ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "bergwald_06_karsee",
+   "name": "Karsee",
+   "art": "fundstueck",
+   "bestand": ["SM_NordicBoulder_01", "SM_MossyForestBoulder_04", "SM_dwarf_pine_big_01", "SM_dwarf_pine_medium_02", "SM_MassiveTundraRockFormation_02", "ukjhcamga_tier_0", "SM_mountain_rock_big_01_1", "SM_ground_rock_01", "SM_ToadRush_010", "SM_billberry_01", "SM_lingonberry_01"],
+   "material": ["MI_Eldarien_Wasser_See"],
+   "pakete": [
+    {
+     "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Kaskade des Abflusses ueber die Karschwelle",
+     "ersatz_bestand": "MI_EL_Wasserfall_Kaskade (eigen)",
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Zulaeufe/Kaskade",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "bergwald_07_windwurf",
+   "name": "Windwurf",
+   "art": "fundstueck",
+   "bestand": ["SM_Forest_pine_08", "SM_Forest_pine_09", "SM_FallenSpruceTree_01", "SM_LargeFallenTree_02", "SM_Pine_roots_01", "SM_stones_roots_01", "SM_stones_roots_02", "SM_BrokenStump_01", "SM_Pine_broken_branch_01", "SM_Pine_broken_branch_02", "SM_detail_branches_03", "Fir_01_Plant", "SM_Forest_pine_plant_02", "SM_Elderberry_08", "SM_hazel_02"],
+   "pakete": [
+    {
+     "paket": "Forest Fungi – Mushroom Pack",
+     "prioritaet": "B",
+     "wofuer": "Pilze/Baumschwaemme auf den liegenden Staemmen",
+     "ersatz_bestand": "SM_mushroom_01/02",
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+    },
+    {
+     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "prioritaet": "C",
+     "wofuer": "fliegende Nadeln/Blaetter in der Gasse (optional)",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "prioritaet": "C",
+     "wofuer": "Windboeen/Blaetter (optional)",
+     "ersatz_bestand": "ohne Effekt",
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Brandung + Wind",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    },
+    {
+     "paket": "Wilderness Nature Loops",
+     "prioritaet": "C",
+     "wofuer": "Waldklang-Schleifen (optional)",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "Preis ungeprüft"
+    }
+   ]
+  },
+  {
+   "id": "bergwald_08_der_wurzelstein",
+   "name": "Der Wurzelstein",
+   "art": "fundstueck",
+   "bestand": ["SM_NordicBoulder_01", "SM_Forest_pine_08", "SM_Big_Rock_01", "SM_Big_Rock_02", "SM_MossyForestBoulder_04", "SM_Pine_roots_01", "SM_Pine_roots_03", "SM_stones_roots_03", "SM_MossyForestBoulder_01", "SM_MossyForestBoulder_03", "SM_ground_rock_01", "SM_billberry_01", "SM_lingonberry_01", "SM_BeechFern_04"],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Waldklang",
+     "ersatz_bestand": "kein Klang",
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  }
+ ],
+ "pakete_gesamt": [
+  {
+   "paket": "Free City & Nature Sounds",
+   "prioritaet": "A",
+   "orte": ["bergwald_01_der_moench", "bergwald_03_saeulenhain", "bergwald_04_felsenmeer", "bergwald_05_klemmblock_klamm", "bergwald_06_karsee", "bergwald_07_windwurf", "bergwald_08_der_wurzelstein"]
+  },
+  {
+   "paket": "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)",
+   "prioritaet": "A",
+   "orte": ["bergwald_05_klemmblock_klamm", "bergwald_06_karsee"]
+  },
+  {
+   "paket": "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)",
+   "prioritaet": "B",
+   "orte": ["bergwald_02_die_brandkiefer", "bergwald_03_saeulenhain"]
+  },
+  {
+   "paket": "Forest Fungi – Mushroom Pack",
+   "prioritaet": "B",
+   "orte": ["bergwald_03_saeulenhain", "bergwald_07_windwurf"]
+  },
+  {
+   "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+   "prioritaet": "B",
+   "orte": ["bergwald_05_klemmblock_klamm"]
+  },
+  {
+   "paket": "Niagara Examples Pack",
+   "prioritaet": "B",
+   "orte": ["bergwald_02_die_brandkiefer", "bergwald_05_klemmblock_klamm"]
+  },
+  {
+   "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+   "prioritaet": "C",
+   "orte": ["bergwald_07_windwurf"]
+  },
+  {
+   "paket": "Realistic Waterfall and Water VFX",
+   "prioritaet": "C",
+   "orte": ["bergwald_05_klemmblock_klamm"]
+  },
+  {
+   "paket": "Ultimate Niagara Environmental VFX",
+   "prioritaet": "C",
+   "orte": ["bergwald_07_windwurf"]
+  },
+  {
+   "paket": "Waterfall Pro",
+   "prioritaet": "C",
+   "orte": ["bergwald_05_klemmblock_klamm"]
+  },
+  {
+   "paket": "Wilderness Nature Loops",
+   "prioritaet": "C",
+   "orte": ["bergwald_07_windwurf"]
+  }
+ ],
+ "neue_paketwuensche": [],
+ "luecken": [
+  {
+   "was": "Freistehende Felsnadel/Spire (Turm mit Kopf, 25-35 m) fuer bergwald_01_der_moench",
+   "loesung_ohne_asset": "veqnci0db_tier_2 hochkant, 6-8 m eingegraben, Kappe rcygn_tier_0; Rueckseite mit vdssailfa_tier_2 schliessen",
+   "quelle_gesucht": "Websuche 11.10.: Fab-Kategorie 'Rocks & Stones / Spire' existiert (https://www.fab.com/category/3d-model/nature-plants--rocks-stones), aber kein konkretes Listing belegt; fab.com aus der Umgebung nicht abrufbar -> kein Paketwunsch"
+  },
+  {
+   "was": "Senkrechter Wurzelteller 3-5 m mit Erde und Steinen (Windwurf)",
+   "loesung_ohne_asset": "SM_Pine_roots_01 x2 + SM_stones_roots_02 gekippt, Erde-Lage und Erd-Decal (MI_Leakage_*) dahinter"
+  },
+  {
+   "was": "Russ-/Asche-Decal (Brandkiefer)",
+   "loesung_ohne_asset": "MI_ScatteredBark_01 dunkel getoent + Bodenlage Erde; Materialwunsch MI_EL_SW_Verkohlt"
+  },
+  {
+   "was": "Riesen-Nadelbaum (45-55 m, Nanite)",
+   "loesung_ohne_asset": "Fir_07_Forest/Fir_04_Standalone x2,2-2,5; bis 'Forest Cretaceous' (B) da ist"
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "bergwald_01_der_moench",
+   "kamera": ["B3", -278000, -105200, -340800, -110200, 5465, "bergwald_01_der_moench_fern", 170],
+   "zweck": "Silhouette der Rippennase vom Talweg (Nadel noch nicht gebaut)"
+  },
+  {
+   "ort": "bergwald_03_saeulenhain",
+   "kamera": ["B5", -216600, -24600, -276400, 10400, 2379, "bergwald_03_saeulenhain_fern", 170],
+   "zweck": "Kronenlinie ueber dem Talboden heute"
+  },
+  {
+   "ort": "bergwald_05_klemmblock_klamm",
+   "kamera": ["I4", 375200, -96000, 373000, -96600, 9579, "bergwald_05_klemmblock_klamm_held", 170],
+   "zweck": "Klamm und Stufe heute (Breite, Wandhoehe)"
+  },
+  {
+   "ort": "bergwald_06_karsee",
+   "kamera": ["B5", -319200, 4200, -321000, 7200, 24792, "bergwald_06_karsee_held", 170],
+   "zweck": "Karboden und Karwand heute (Seeflaeche, Schwelle)"
+  }
+ ]
+}

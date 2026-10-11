@@ -1,0 +1,390 @@
+{
+ "stand": "2026-10-11",
+ "biom": "aue",
+ "orte": [
+  {
+   "id": "aue_01_biberstau",
+   "name": "Biberstau",
+   "art": "fundstueck",
+   "mitte_cm": [-253000, -84000, 3431],
+   "radius_m": 45.0,
+   "felder": ["C4"],
+   "kameras": [
+    ["C4", -256768, -83500, -253000, -84000, 3531, "aue_01_biberstau_anmarsch", -170],
+    ["C4", -257400, -84000, -253000, -84000, 3521, "aue_01_biberstau_held", 170],
+    ["C4", -254256, -83664, -253000, -84000, 3481, "aue_01_biberstau_nah", -170]
+   ],
+   "ziel_hoehe_m": 3.0,
+   "standort_begruendung": "Bach B_R2_R_M1_M1_04 mit 5-6 % Gefaelle im Nadel-/Mischwald am Westrand der Aue; Damm an der schmalsten Stelle (Bach 4 m), Kies-/Nadelboden, vom Weg voellig verdeckt.",
+   "sicht": {
+    "naechster_weg_m": 144.1,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 3.0,
+    "verdeckt": true,
+    "max_anteil_400m": 0.0,
+    "wegpunkte_400m": 77,
+    "verdeckt_3x3": "9/9"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 145.8,
+    "luftlinie_m": 143.1,
+    "max_steigung_grad": 14.8,
+    "mittel_steigung_grad": 7.3,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 17.8,
+    "pfad_noetig": false,
+    "weg_punkt_m": [-2673.0, -835.0]
+   },
+   "pfad_cm": [
+    [-253000, -84000, 3447],
+    [-253300, -83500, 3543],
+    [-267300, -83500, 5292]
+   ],
+   "draufsicht": "aue_01_biberstau.png"
+  },
+  {
+   "id": "aue_02_die_alte",
+   "name": "Die Alte",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-228200, -55200, 2422],
+   "radius_m": 40.0,
+   "felder": ["C4"],
+   "kameras": [
+    ["C4", -237653, -36147, -228200, -55200, 2522, "aue_02_die_alte_anmarsch", -170],
+    ["C4", -241989, -43630, -228200, -55200, 2572, "aue_02_die_alte_held", 170],
+    ["C4", -228966, -54557, -228200, -55200, 2472, "aue_02_die_alte_nah", -170],
+    ["C4", -198600, -15000, -228200, -55200, 2489, "aue_02_die_alte_fern", 170]
+   ],
+   "ziel_hoehe_m": 30.0,
+   "standort_begruendung": "Offene Wiese im Bachdelta von C4 (Hang < 3 Grad, Baumdichte 1 %), beste Fernsicht im Umkreis von 90 m; Bach 3-8 m entfernt (Wurzeln am Ufer).",
+   "sicht": {
+    "naechster_weg_m": 270.1,
+    "sichtbar_ab_m": 798.0,
+    "ziel_hoehe_m": 30.0,
+    "wegpunkte_300_800m": 328,
+    "wegpunkte_sichtbar": 83,
+    "mittel_anteil": 0.2,
+    "bester_wegpunkt_m": [-1986.0, -150.0],
+    "bester_abstand_m": 499.0
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 330.0,
+    "luftlinie_m": 304.3,
+    "max_steigung_grad": 11.1,
+    "mittel_steigung_grad": 2.3,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 5.7,
+    "pfad_noetig": false,
+    "weg_punkt_m": [-2451.0, -299.0]
+   },
+   "pfad_cm": [
+    [-228200, -55200, 2439],
+    [-228700, -54700, 2519],
+    [-228700, -51900, 2529],
+    [-229500, -50700, 2526],
+    [-229500, -46700, 2580],
+    [-230300, -45900, 2580],
+    [-230300, -44700, 2588],
+    [-231900, -43100, 2628],
+    [-231900, -41900, 2676],
+    [-242300, -31500, 3395],
+    [-243500, -31500, 3404],
+    [-245100, -29900, 3672]
+   ],
+   "draufsicht": "aue_02_die_alte.png"
+  },
+  {
+   "id": "aue_03_schwalbenwand",
+   "name": "Schwalbenwand",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-216000, 8200, 1381],
+   "radius_m": 80.0,
+   "felder": ["C5"],
+   "kameras": [
+    ["C5", -248700, 27500, -216000, 8200, 1481, "aue_03_schwalbenwand_anmarsch", -170],
+    ["C5", -227818, 6116, -216000, 8200, 1531, "aue_03_schwalbenwand_held", 170],
+    ["C5", -216985, 8026, -216000, 8200, 1431, "aue_03_schwalbenwand_nah", -170],
+    ["C5", -265600, 600, -216000, 8200, 1481, "aue_03_schwalbenwand_fern", 170]
+   ],
+   "ziel_hoehe_m": 12.0,
+   "standort_begruendung": "Natuerliche 9-10-m-Gelaendestufe (22,7 -> 13,9 m, bis 63 Grad, Boden Fels/Wiese) suedlich des Flussbogens: verlassener Prallhang; Fuss = alte Rinne.",
+   "sicht": {
+    "naechster_weg_m": 267.4,
+    "sichtbar_ab_m": 795.0,
+    "ziel_hoehe_m": 12.0,
+    "wegpunkte_300_800m": 333,
+    "wegpunkte_sichtbar": 70,
+    "mittel_anteil": 0.2,
+    "bester_wegpunkt_m": [-2656.0, 6.0],
+    "bester_abstand_m": 502.0
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 411.4,
+    "luftlinie_m": 379.7,
+    "max_steigung_grad": 12.8,
+    "mittel_steigung_grad": 2.9,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 4.0,
+    "furt_laenge_m": 15.3,
+    "pfad_noetig": true,
+    "weg_punkt_m": [-2487.0, 275.0]
+   },
+   "pfad_cm": [
+    [-216000, 8200, 1364],
+    [-217500, 8300, 1374],
+    [-224300, 15100, 1729],
+    [-225500, 15500, 1812],
+    [-226700, 16700, 1930],
+    [-227500, 16700, 1961],
+    [-232700, 21900, 2229],
+    [-232700, 22700, 2287],
+    [-234300, 24300, 2319],
+    [-235900, 25100, 2349],
+    [-237100, 26300, 2390],
+    [-237900, 26700, 2396],
+    [-246300, 26700, 2719],
+    [-247100, 27500, 2831],
+    [-248700, 27500, 3005]
+   ],
+   "draufsicht": "aue_03_schwalbenwand.png"
+  },
+  {
+   "id": "aue_04_treibholzwerder",
+   "name": "Treibholzwerder",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-73000, 49400, 1969],
+   "radius_m": 60.0,
+   "felder": ["D5", "E5"],
+   "kameras": [
+    ["D5", -86286, 32714, -73000, 49400, 2069, "aue_04_treibholzwerder_anmarsch", -170],
+    ["D5", -80713, 40207, -73000, 49400, 1978, "aue_04_treibholzwerder_held", 170],
+    ["D5", -73643, 48634, -73000, 49400, 2019, "aue_04_treibholzwerder_nah", -170],
+    ["D5", -66200, 98800, -73000, 49400, 2069, "aue_04_treibholzwerder_fern", 170]
+   ],
+   "ziel_hoehe_m": 12.0,
+   "standort_begruendung": "Kiesinsel (Sand/Geroell, 100 x 30 m) zwischen Hauptstrom und Altarm F_ALTARM_FLUSSAUE_D5; Inselkopf flussauf (West) faengt Treibgut.",
+   "sicht": {
+    "naechster_weg_m": 273.4,
+    "sichtbar_ab_m": 792.0,
+    "ziel_hoehe_m": 12.0,
+    "wegpunkte_300_800m": 343,
+    "wegpunkte_sichtbar": 57,
+    "mittel_anteil": 0.1,
+    "bester_wegpunkt_m": [-662.0, 988.0],
+    "bester_abstand_m": 499.0
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 312.7,
+    "luftlinie_m": 295.7,
+    "max_steigung_grad": 9.2,
+    "mittel_steigung_grad": 1.8,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 9.7,
+    "furt_laenge_m": 36.3,
+    "pfad_noetig": true,
+    "weg_punkt_m": [-917.0, 265.0]
+   },
+   "pfad_cm": [
+    [-73000, 49400, 1971],
+    [-76100, 45700, 2007],
+    [-75300, 44100, 1961],
+    [-77300, 42100, 2129],
+    [-77300, 41700, 2126],
+    [-91700, 27300, 2361],
+    [-91700, 26500, 2363]
+   ],
+   "draufsicht": "aue_04_treibholzwerder.png"
+  },
+  {
+   "id": "aue_05_lilienrinne",
+   "name": "Lilienrinne",
+   "art": "fundstueck",
+   "mitte_cm": [-42000, 21400, 1292],
+   "radius_m": 70.0,
+   "felder": ["E5"],
+   "kameras": [
+    ["E5", -43555, 20245, -42000, 21400, 1392, "aue_05_lilienrinne_anmarsch", -170],
+    ["E5", -49705, 24205, -42000, 21400, 1382, "aue_05_lilienrinne_held", 170],
+    ["E5", -42940, 21742, -42000, 21400, 1342, "aue_05_lilienrinne_nah", -170]
+   ],
+   "ziel_hoehe_m": 3.0,
+   "standort_begruendung": "Natuerliche Tiefenlinie parallel zum Fluss (TPI25 -0,8 m, Gefaelle 2,3 %), zwischen Gehoelzinseln; 9/9 Probepunkte vom Weg verdeckt.",
+   "sicht": {
+    "naechster_weg_m": 148.4,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 3.0,
+    "verdeckt": true,
+    "max_anteil_400m": 0.0,
+    "wegpunkte_400m": 72,
+    "verdeckt_3x3": "9/9"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 152.2,
+    "luftlinie_m": 151.3,
+    "max_steigung_grad": 7.2,
+    "mittel_steigung_grad": 2.1,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [-529.0, 109.0]
+   },
+   "pfad_cm": [
+    [-42000, 21400, 1296],
+    [-42500, 21300, 1332],
+    [-52900, 10900, 1846]
+   ],
+   "draufsicht": "aue_05_lilienrinne.png"
+  },
+  {
+   "id": "aue_06_mondarm",
+   "name": "Mondarm",
+   "art": "fundstueck",
+   "mitte_cm": [-24000, 74000, 1917],
+   "radius_m": 90.0,
+   "felder": ["E5"],
+   "kameras": [
+    ["E5", -25300, 77990, -24000, 74000, 2017, "aue_06_mondarm_anmarsch", -170],
+    ["E5", -28104, 85276, -24000, 74000, 2007, "aue_06_mondarm_held", 170],
+    ["E5", -24342, 74940, -24000, 74000, 1967, "aue_06_mondarm_nah", -170]
+   ],
+   "ziel_hoehe_m": 3.0,
+   "standort_begruendung": "Hufeisenfoermiges Altwasser (Teich T_K2_FLUSSAUE_00 + Wasserflaeche) mit Zulauf von Sueden; Blickpunkt am Suedufer hinter Weiden, vom Weg verdeckt.",
+   "sicht": {
+    "naechster_weg_m": 84.0,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 3.0,
+    "verdeckt": true,
+    "max_anteil_400m": 0.0,
+    "wegpunkte_400m": 48,
+    "verdeckt_3x3": "3/9",
+    "verdeckt_3x3_mit_guertel": "9/9"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 99.0,
+    "luftlinie_m": 92.4,
+    "max_steigung_grad": 10.6,
+    "mittel_steigung_grad": 3.7,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 17.7,
+    "pfad_noetig": false,
+    "weg_punkt_m": [-265.0, 829.0]
+   },
+   "pfad_cm": [
+    [-24000, 74000, 1918],
+    [-24100, 74900, 1938],
+    [-24900, 75700, 1980],
+    [-24900, 76500, 2012],
+    [-25300, 76900, 2039],
+    [-25300, 80500, 2169],
+    [-26500, 82100, 2323],
+    [-26500, 82900, 2436]
+   ],
+   "draufsicht": "aue_06_mondarm.png"
+  },
+  {
+   "id": "aue_07_blautopf",
+   "name": "Blautopf",
+   "art": "fundstueck",
+   "mitte_cm": [116600, -83400, 2708],
+   "radius_m": 40.0,
+   "felder": ["F4"],
+   "kameras": [
+    ["F4", 117500, -78021, 116600, -83400, 2808, "aue_07_blautopf_anmarsch", -170],
+    ["F4", 115506, -77196, 116600, -83400, 2798, "aue_07_blautopf_held", 170],
+    ["F4", 116177, -82494, 116600, -83400, 2758, "aue_07_blautopf_nah", -170]
+   ],
+   "ziel_hoehe_m": 3.0,
+   "standort_begruendung": "Anfang des Bachs B_R_P2_M1_01 (Quelle z 27,9 m) im Talschluss einer Laubwald-Kerbe (TPI50 -6 m), Weg 80-90 m oberhalb hinter der Kante.",
+   "sicht": {
+    "naechster_weg_m": 87.1,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 3.0,
+    "verdeckt": true,
+    "max_anteil_400m": 0.0,
+    "wegpunkte_400m": 77,
+    "verdeckt_3x3": "9/9"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 90.4,
+    "luftlinie_m": 86.0,
+    "max_steigung_grad": 20.8,
+    "mittel_steigung_grad": 13.2,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 7.1,
+    "pfad_noetig": false,
+    "weg_punkt_m": [1179.0, -749.0]
+   },
+   "pfad_cm": [
+    [116600, -83400, 2666],
+    [117500, -82500, 3033],
+    [117500, -77300, 4383],
+    [117900, -76900, 4542],
+    [117900, -74900, 4798]
+   ],
+   "draufsicht": "aue_07_blautopf.png"
+  },
+  {
+   "id": "aue_08_lianenhalle",
+   "name": "Lianenhalle",
+   "art": "fundstueck",
+   "mitte_cm": [119600, -47000, 1692],
+   "radius_m": 60.0,
+   "felder": ["F4"],
+   "kameras": [
+    ["F4", 115861, -50662, 119600, -47000, 1792, "aue_08_lianenhalle_anmarsch", -170],
+    ["F4", 114329, -53282, 119600, -47000, 1782, "aue_08_lianenhalle_held", 170],
+    ["F4", 118957, -47766, 119600, -47000, 1742, "aue_08_lianenhalle_nah", -170]
+   ],
+   "ziel_hoehe_m": 3.0,
+   "standort_begruendung": "Laub-Auwald am Prallufer des Elfenflusses (60 m), Hang 8 Grad, Baumdichte 24 %, vom Weg verdeckt; 158 m innerhalb des Aue-Rechtecks.",
+   "sicht": {
+    "naechster_weg_m": 210.4,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 3.0,
+    "verdeckt": true,
+    "max_anteil_400m": 0.0,
+    "wegpunkte_400m": 58,
+    "verdeckt_3x3": "8/9"
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 225.6,
+    "luftlinie_m": 209.0,
+    "max_steigung_grad": 16.9,
+    "mittel_steigung_grad": 8.5,
+    "steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
+    "pfad_noetig": false,
+    "weg_punkt_m": [1095.0, -653.0]
+   },
+   "pfad_cm": [
+    [119600, -47000, 1677],
+    [109900, -56500, 3996],
+    [109900, -64900, 3182],
+    [109500, -65300, 3307]
+   ],
+   "draufsicht": "aue_08_lianenhalle.png"
+  }
+ ]
+}
