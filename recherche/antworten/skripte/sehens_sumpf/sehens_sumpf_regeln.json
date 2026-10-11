@@ -223,6 +223,8 @@
      "anzahl": 320, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 22}, "abstand_m": 0.7, "skala": [2.5, 4.5], "rolle": "streu", "material": "MI_EL_SW_Torfmoos"},
     {"name": "seggen", "ebene": "bewuchs", "warum": "Seggen, Schachtelhalm und Wollgras-Ersatz auf dem Teppich", "palette": ["SM_ToadRush_013", "SM_ToadRush_015", "SM_dead_grass_03", "SM_rough_horsetail_02"],
      "gewichte": [3, 3, 2, 1], "anzahl": 900, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 26}, "abstand_m": 0.35, "rolle": "pflanze"},
+    {"name": "torfkruemel", "ebene": "kleinzeug", "warum": "kleine Moosbulte, Halmreste und Torfkruemel zwischen den Polstern", "palette": ["SM_MossClump_02", "SM_dead_grass_03", "SM_MossClump_04"],
+     "anzahl": 700, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 24}, "abstand_m": 0.3, "skala": [1.0, 2.0], "rolle": "streu"},
     {"name": "heide", "ebene": "kleinzeug", "warum": "Heide auf trockeneren Bulten", "netz": "SM_forest_heather_01",
      "verteilung": {"typ": "cluster", "form": "ring", "bei": "mitte", "r_m": [10, 26], "zentren": [8, 11], "je": [6, 10], "radius_m": 1.6}, "abstand_m": 0.35, "rolle": "pflanze"},
     {"name": "birkensaum", "ebene": "bewuchs", "warum": "Moorbirken-Saum schirmt den Ort ab (Fundstueck)", "netz": "Big_Tree_Birch_01",
@@ -331,7 +333,7 @@
    ],
    "gruppen": [
     {"name": "bulten", "ebene": "held", "warum": "Seggenbulten: Schopf auf einem Sockel aus Blattresten - im Spaetsommer goldene Spitzen", "palette": "bulten",
-     "verteilung": {"typ": "cluster", "form": "kreis", "bei": "mitte", "r_m": 36, "zentren": [34, 42], "je": [3, 6], "radius_m": 2.6, "zentren_abstand_m": 3}, "abstand_m": 1.1, "skala": [1.1, 1.6], "rolle": "pflanze", "akteur": false},
+     "verteilung": {"typ": "cluster", "form": "kreis", "bei": "mitte", "r_m": 36, "zentren": [60, 72], "je": [4, 8], "radius_m": 2.6, "zentren_abstand_m": 2.5}, "abstand_m": 0.95, "skala": [1.2, 1.8], "rolle": "pflanze", "akteur": false},
     {"name": "bultsockel", "ebene": "kontakt", "warum": "alte Blattreste unter jedem Bult", "palette": ["SM_dead_grass_01", "SM_dead_grass_03"],
      "verteilung": {"typ": "um_gruppe", "gruppe": "bulten", "ring_m": [0.0, 0.3], "je": [1, 1]}, "skala": [0.5, 0.8], "rolle": "streu", "meide": null},
     {"name": "grauweiden", "ebene": "begleiter", "warum": "Grauweiden-Buesche zwischen den Bulten", "palette": ["SM_grey_willow_01", "SM_grey_willow_02"],
