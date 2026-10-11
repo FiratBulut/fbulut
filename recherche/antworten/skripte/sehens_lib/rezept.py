@@ -1115,6 +1115,8 @@ class OrtKontext:
             for pa in self.pfad_abschnitte:
                 P = np.concatenate([P, np.asarray(pa["punkte_m"])])
             grenze = 600.0 if self.st["art"] == "leuchtfeuer" else 400.0
+            if pfad_regel.get("fenster_max_m"):        # optional: Lagenfenster schaerfer begrenzen (z. B. 400 m)
+                grenze = min(grenze, float(pfad_regel["fenster_max_m"]))
             x0 = max(min(x0, P[:, 0].min() - 6), self.mx - grenze / 2 + 1)
             x1 = min(max(x1, P[:, 0].max() + 6), self.mx + grenze / 2 - 1)
             y0 = max(min(y0, P[:, 1].min() - 6), self.my - grenze / 2 + 1)

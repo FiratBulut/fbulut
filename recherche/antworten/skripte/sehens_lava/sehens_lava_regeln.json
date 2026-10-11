@@ -1,0 +1,6138 @@
+{
+ "_doku": {
+  "stand": "2026-10-11",
+  "auftrag": "13 Phase 2 - Planer Lava (Biom-Agent B7). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md",
+  "quellen": "sehens/lava/katalog.md (Ortsabschnitte + 'Abgleich mit Inventar 13b und Entscheidungen 13c'), sehens/lava/asset_bedarf.json, sehens/lava/standorte.json (Orte, Kameras, pfade)",
+  "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
+  "hinweis": "Jede Gruppe hat eine Ursache ('warum'). Netze nur aus netze.csv; SM_lava_wall_01-09 fehlen (13b) -> Ersatz aus /Game/Basalt und SM_lava_b/m/s_rock_*. Basalt und SM_lava_b/m_rock sind NICHT Nanite: wenige grosse Stuecke, Saeulengruppen als Foliage (akteur false). Eigene Schluessel: 'zugang', 'pfade_zusatz', 'gelaende.senken_erlaubt', 'materialien_mit' (Hooks in sehens_lava.py)."
+ },
+ "biom": "lava",
+ "seed": 1307,
+ "paletten": {
+  "lava_bloecke": [
+   "SM_lava_b_rock_01",
+   "SM_lava_b_rock_02",
+   "SM_lava_b_rock_03",
+   "SM_lava_b_rock_04"
+  ],
+  "lava_mittel": [
+   "SM_lava_m_rock_01",
+   "SM_lava_m_rock_03",
+   "SM_lava_m_rock_04",
+   "SM_lava_m_rock_06",
+   "SM_lava_m_rock_07"
+  ],
+  "lava_schlacke": [
+   "SM_lava_m_rock_02",
+   "SM_lava_m_rock_07",
+   "SM_lava_m_rock_08",
+   "SM_lava_s_rock_03"
+  ],
+  "lava_klein": [
+   "SM_lava_s_rock_01",
+   "SM_lava_s_rock_02",
+   "SM_lava_s_rock_03",
+   "SM_lava_s_rock_04",
+   "SM_lava_s_rock_05"
+  ],
+  "lava_kiesel": [
+   "SM_lava_s_rock_06",
+   "SM_lava_s_rock_07",
+   "SM_lava_s_rock_08"
+  ],
+  "steinchen": [
+   "SM_SmallStonesPack_08",
+   "SM_SmallStonesPack_09",
+   "SM_SmallStonesPack_10",
+   "SM_SmallStonesPack_11",
+   "SM_SmallStonesPack_12",
+   "SM_SmallStonesPack_13",
+   "SM_SmallStonesPack_14",
+   "SM_stone_05",
+   "SM_stone_06",
+   "SM_stone_07"
+  ],
+  "grus": [
+   "SM_lava_s_rock_06",
+   "SM_lava_s_rock_07",
+   "SM_lava_s_rock_08",
+   "SM_SmallStonesPack_08",
+   "SM_SmallStonesPack_11",
+   "SM_SmallStonesPack_13",
+   "SM_SmallStonesPack_14",
+   "SM_stone_06"
+  ],
+  "moos": [
+   "SM_moss_01",
+   "SM_moss_02",
+   "SM_MossClump_01",
+   "SM_MossClump_03",
+   "SM_MossClump_05"
+  ],
+  "moosbuckel": [
+   "SM_MossyRocks_01",
+   "SM_MossyRocks_02",
+   "SM_MossyForestRock_03"
+  ],
+  "tundragras": [
+   "SM_wk2oaeyqx_VarA",
+   "SM_wk2oaeyqx_VarB",
+   "SM_wk2oaeyqx_VarC",
+   "SM_wk2oaeyqx_VarD",
+   "SM_wk2oaeyqx_VarE",
+   "SM_wk2oaeyqx_VarF",
+   "SM_wk2oaeyqx_VarG",
+   "SM_wk2oaeyqx_VarH",
+   "SM_wk2oaeyqx_VarI"
+  ],
+  "tundragras_flach": [
+   "SM_wk2oaeyqx_VarA",
+   "SM_wk2oaeyqx_VarD",
+   "SM_wk2oaeyqx_VarE",
+   "SM_wk2oaeyqx_VarH",
+   "SM_wk2oaeyqx_VarI"
+  ],
+  "halme_tot": [
+   "SM_dead_grass_01",
+   "SM_dead_grass_02",
+   "SM_dead_grass_03"
+  ],
+  "zweige_tot": [
+   "SM_DryBranches_01",
+   "SM_DryBranches_04",
+   "SM_DryBranches_05",
+   "SM_DryBranches_07"
+  ],
+  "farn_schatten": [
+   "SM_EagleFern_M_01",
+   "SM_EagleFern_S_01",
+   "SM_EagleFern_S_02",
+   "SM_EagleFern_S_04",
+   "SM_foliage_fern_01_1",
+   "SM_foliage_fern_01_2",
+   "SM_foliage_fern_01_3",
+   "SM_foliage_fern_01_4"
+  ],
+  "kriechweide": [
+   "SM_grey_willow_01",
+   "SM_grey_willow_02",
+   "SM_grey_willow_03",
+   "SM_grey_willow_04"
+  ],
+  "zwergkiefer": [
+   "SM_dwarf_pine_small_01",
+   "SM_dwarf_pine_small_02"
+  ],
+  "basalt_saeulen": [
+   "Basalt_Basalt_Pillar_B_SM",
+   "Basalt_Basalt_Pillar_C_SM",
+   "Basalt_Basalt_Pillar_D_SM",
+   "Basalt_Basalt_Pillar_Variance_B_SM",
+   "Basalt_Basalt_Pillar_Variance_C_SM",
+   "Basalt_Basalt_Pillar_Variance_D_SM"
+  ],
+  "basalt_lang": [
+   "Basalt_Basalt_Pillar_D_SM",
+   "Basalt_Basalt_Pillar_Variance_D_SM",
+   "Basalt_Basalt_Pillar_Variance_C_SM"
+  ],
+  "basalt_stuempfe": [
+   "Basalt_Basalt_Pillar_A_SM",
+   "Basalt_Basalt_Pillar_Variance_A_SM",
+   "Basalt_Basalt_Pillars_Cluster_Low_SM",
+   "Basalt_Basalt_Pillar_B_SM"
+  ],
+  "basalt_bloecke": [
+   "Basalt_Basalt_Rock_A_SM",
+   "Basalt_Basalt_Rock_B_SM",
+   "Basalt_Basalt_Rock_C_SM",
+   "Basalt_Basalt_Rock_D_SM"
+  ],
+  "trittstein_lava": [
+   "SM_lava_s_rock_05",
+   "SM_lava_m_rock_08"
+  ],
+  "stufe_lava": [
+   "SM_lava_m_rock_08",
+   "SM_lava_s_rock_05",
+   "Basalt_Basalt_Pillars_Cluster_Low_SM"
+  ]
+ },
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Lava_Moos",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.55,
+     0.66,
+     0.36,
+     1.0
+    ],
+    "Auflage_Menge": 0.75,
+    "Auflage_Schwelle": 0.55,
+    "Auflage_Flecken": 0.7,
+    "Toenung": [
+     0.42,
+     0.4,
+     0.4,
+     1.0
+    ]
+   },
+   "fuer": [
+    "Basalt_Basalt_Cliff_Rock_A_SM",
+    "SM_lava_b_rock_01",
+    "SM_lava_b_rock_02",
+    "SM_lava_m_rock_01",
+    "SM_lava_m_rock_04"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schlacke_Rot",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.62,
+     0.3,
+     0.22,
+     1.0
+    ],
+    "Helligkeit": 0.9,
+    "Variation": 0.7
+   },
+   "fuer": [
+    "SM_lava_m_rock_02",
+    "SM_lava_m_rock_07",
+    "SM_lava_m_rock_08",
+    "SM_lava_s_rock_03",
+    "SM_lava_b_rock_03"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schwefelkruste",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.95,
+     0.82,
+     0.25,
+     1.0
+    ],
+    "Auflage_Menge": 0.6,
+    "Auflage_Hohl": 0.85,
+    "Auflage_Rauheit": 0.95
+   },
+   "fuer": [
+    "SM_lava_m_rock_05",
+    "SM_lava_s_rock_01",
+    "SM_lava_s_rock_04",
+    "SM_lava_b_rock_04"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schwefel_Decal",
+   "basis": "M_MS_Decal",
+   "parameter": {
+    "BaseColor Tint": [
+     1.0,
+     0.84,
+     0.3,
+     1.0
+    ],
+    "Saturation": 1.3,
+    "Min Roughness": 0.7
+   },
+   "fuer": [
+    "Decal Schwefelkruste/Ocker (Maske aus MI_Leakage_04)"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Basalt_Saeule",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Toenung": [
+     0.55,
+     0.55,
+     0.58,
+     1.0
+    ],
+    "Fels_Saettigung": 0.4,
+    "Moos_Menge": 0.35,
+    "Moos_Farbe": [
+     0.6,
+     0.72,
+     0.4,
+     1.0
+    ]
+   },
+   "fuer": [
+    "Basalt_Basalt_Pillars_Wall_SM",
+    "Basalt_Basalt_Pillars_WallSlope_SM",
+    "Basalt_Basalt_Pillars_WallOverhang_SM",
+    "Basalt_Basalt_Pillars_Cluster_High_SM",
+    "Basalt_Basalt_Cliff_SM"
+   ],
+   "hinweis": "Albedo/Normal/ORM aus /Game/Basalt in die Instanz uebernehmen (sonst zeigt M_EL_Klippe_RVT die Nordklippen-Textur); nur Fussblend + Moos sind gewollt."
+  },
+  {
+   "name": "MI_EL_SW_Lava_Glasur",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Rauheit": 0.35,
+    "Specular": 0.6,
+    "Toenung": [
+     0.5,
+     0.48,
+     0.52,
+     1.0
+    ]
+   },
+   "fuer": [
+    "Basalt_Basalt_Cliff_Rock_B_SM",
+    "SM_lava_s_rock_05",
+    "SM_lava_m_rock_08"
+   ]
+  }
+ ],
+ "orte": {
+  "lava_01_schwarze_mauer": {
+   "kurz": "Schwarze Stirn eines alten Blocklavastroms, 8-12 m hoch und 140 m lang, in Lappen gebrochen; auf einem Vorsprung ein 10 m hoher Schlotturm mit Zwilling, davor Blockschutt, Moospolster und ein umflossener toter Baum.",
+   "marker": {
+    "titel": "Die Schwarze Mauer",
+    "text": "Hier blieb der Strom stehen, als haette ihn jemand angehalten. Die Stirn ist so schwarz wie am Tag, an dem sie erkaltete; nur das Moos wagt sich hinauf.",
+    "entdeckung_m": 90
+   },
+   "budget": {
+    "instanzen": 7000,
+    "kollision": 900,
+    "akteure": 30,
+    "lichter": 0,
+    "niagara": 0,
+    "decals": 3
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "statt_jetzt": "SM_lava_wall_01/02/03/09 fehlen in netze.csv (13b): Wandschollen aus Basalt_Basalt_Cliff_Rock_A_SM + SM_lava_b_rock_01/02 mit MI_EL_SW_Lava_Moos"
+    },
+    {
+     "paket": "Megascans Icelandic Sand With Pebbles",
+     "statt_jetzt": "SM_SmallStonesPack_08-14 + SM_lava_s_rock_06-08 + Lage Lavasand"
+    },
+    {
+     "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+     "statt_jetzt": "SM_MossyRocks_01/02 als Moospolster + SM_lava_* mit MI_EL_SW_Lava_Moos"
+    }
+   ],
+   "anker": {
+    "turm": [
+     5,
+     -2
+    ],
+    "zwilling": [
+     -2,
+     -27
+    ],
+    "toter_baum": [
+     -20,
+     7
+    ],
+    "polster": [
+     -36,
+     0
+    ],
+    "pioniere": [
+     14,
+     15
+    ],
+    "blick": [
+     -24.5,
+     -20.6
+    ]
+   },
+   "linien": {
+    "front": {
+     "punkte": [
+      [
+       -28,
+       -70
+      ],
+      [
+       -16,
+       -45
+      ],
+      [
+       -4,
+       -30
+      ],
+      [
+       -6,
+       -13
+      ],
+      [
+       6,
+       5
+      ],
+      [
+       9,
+       27
+      ],
+      [
+       20,
+       50
+      ]
+     ]
+    },
+    "saum": {
+     "punkte": [
+      [
+       -37,
+       -70
+      ],
+      [
+       -25,
+       -45
+      ],
+      [
+       -13,
+       -30
+      ],
+      [
+       -15,
+       -13
+      ],
+      [
+       -3,
+       5
+      ],
+      [
+       0,
+       27
+      ],
+      [
+       11,
+       50
+      ]
+     ]
+    }
+   },
+   "gelaende": {
+    "fenster_m": [
+     170,
+     150
+    ],
+    "bei": [
+     -4,
+     -10
+    ],
+    "rand_m": 10,
+    "ops": [
+     {
+      "op": "abbruch",
+      "punkte": "front",
+      "hoehe_m": 3.0,
+      "breite_m": 4.5,
+      "reichweite_m": 13,
+      "seite": "links",
+      "verteilung": "oben",
+      "warum": "Stirn um 3 m anheben (Katalog: Wand 8-12 m), Ostseite = Stromoberflaeche"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       [
+        -7,
+        -37
+       ],
+       [
+        9,
+        -42
+       ]
+      ],
+      "breite_m": 4,
+      "tiefe_m": 1.6,
+      "rand_m": 2.5,
+      "warum": "Kerbe: Front in Lappen brechen (nie gerade)"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       [
+        6,
+        16
+       ],
+       [
+        22,
+        13
+       ]
+      ],
+      "breite_m": 4,
+      "tiefe_m": 1.4,
+      "rand_m": 2.5,
+      "warum": "zweite Kerbe zwischen zwei Stromlappen"
+     },
+     {
+      "op": "buckel",
+      "bei": [
+       10,
+       -10
+      ],
+      "radius_m": 34,
+      "amplitude_m": 0.7,
+      "wellenlaenge_m": 7,
+      "streckung": [
+       1.8,
+       1.0
+      ],
+      "richtung": 10,
+      "warum": "Blocklava-Oberflaeche schollig, nicht glatt"
+     }
+    ]
+   },
+   "gruppen": [
+    {
+     "name": "hornito",
+     "ebene": "held",
+     "warum": "Schlotturm (Hornito): Gas trieb Lavafetzen durch die Kruste und schweisste sie zum Turm",
+     "netz": "SM_IcelandicLavaSpire_01",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": "turm"
+     },
+     "skala": 2.0,
+     "skala_xyz": [
+      0.65,
+      0.65,
+      1.0
+     ],
+     "ausrichtung": "aufrecht",
+     "kipp_grad": [
+      3,
+      6
+     ],
+     "kipp_richtung": "zu:blick",
+     "yaw": "zu:blick",
+     "eingraben": [
+      0.22,
+      0.26
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null,
+     "hinweis": "Netzhoehe 5,3 m x 2,0 = 10,6 m, schlanker gestaucht (0,65); Texeldichte im Prueffbild pruefen"
+    },
+    {
+     "name": "zwilling",
+     "ebene": "held",
+     "warum": "kleinerer Zwillingsschlot auf demselben Gasweg",
+     "netz": "SM_IcelandicLavaSpire_03",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": "zwilling"
+     },
+     "skala": 1.3,
+     "ausrichtung": "aufrecht",
+     "kipp_grad": [
+      4,
+      8
+     ],
+     "kipp_richtung": "zu:toter_baum",
+     "eingraben": [
+      0.25,
+      0.3
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "wandschollen",
+     "ebene": "begleiter",
+     "warum": "erstarrte Stirnschollen bilden die Wand (Ersatz fuer SM_lava_wall_01/02/03/09)",
+     "palette": [
+      "Basalt_Basalt_Cliff_Rock_A_SM",
+      "SM_lava_b_rock_01",
+      "SM_lava_b_rock_02"
+     ],
+     "gewichte": [
+      2,
+      1,
+      1
+     ],
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "front",
+      "abstand_m": 17,
+      "versatz_m": 1.5,
+      "versatz_streuung_m": 2.5,
+      "seiten": [
+       "links"
+      ],
+      "blick": "zur_linie",
+      "front_an_linie": true
+     },
+     "groesse_m": [
+      7.0,
+      10.0
+     ],
+     "front_achse": "+y",
+     "yaw_streuung_grad": 25,
+     "kipp_grad": [
+      0,
+      10
+     ],
+     "eingraben": [
+      0.3,
+      0.42
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Lava_Moos",
+     "meide": null,
+     "hinweis": "Schauseite der Schollen unbekannt (front_achse +y angenommen)"
+    },
+    {
+     "name": "abgesackt",
+     "ebene": "begleiter",
+     "warum": "von der Stirn abgebrochene, abgesackte Grossbloecke vor der Wand",
+     "palette": "lava_bloecke",
+     "anzahl": 6,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "front",
+      "versatz_m": 6,
+      "breite_m": 6
+     },
+     "abstand_m": 9,
+     "groesse_m": [
+      3.5,
+      5.0
+     ],
+     "kipp_grad": [
+      8,
+      20
+     ],
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "akteur": true,
+     "material": "MI_EL_SW_Lava_Moos"
+    },
+    {
+     "name": "saum_grob",
+     "ebene": "schutt",
+     "warum": "Schuttsaum: die grossen Bloecke rollen am weitesten (aussen grob)",
+     "palette": "lava_mittel",
+     "anzahl": 70,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "front",
+      "versatz_m": 12,
+      "breite_m": 8
+     },
+     "abstand_m": 2.4,
+     "groesse_m": [
+      1.6,
+      2.8
+     ],
+     "eingraben": [
+      0.3,
+      0.45
+     ]
+    },
+    {
+     "name": "saum_fein",
+     "ebene": "schutt",
+     "warum": "Schuttsaum direkt am Wandfuss (innen fein)",
+     "palette": "lava_klein",
+     "anzahl": 120,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "front",
+      "versatz_m": 4.5,
+      "breite_m": 6
+     },
+     "abstand_m": 1.2,
+     "groesse_m": [
+      0.7,
+      1.5
+     ],
+     "meide": "kern"
+    },
+    {
+     "name": "kronenschutt",
+     "ebene": "schutt",
+     "warum": "zerbrochene Kruste auf der Stromoberflaeche hinter der Stirn",
+     "palette": "lava_klein",
+     "anzahl": 60,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "front",
+      "versatz_m": -10,
+      "breite_m": 14
+     },
+     "abstand_m": 1.8,
+     "groesse_m": [
+      0.8,
+      1.8
+     ],
+     "kipp_grad": [
+      5,
+      20
+     ]
+    },
+    {
+     "name": "grus_saum",
+     "ebene": "kleinzeug",
+     "warum": "Grus und schwarzer Kies im Schuttsaum",
+     "palette": "grus",
+     "anzahl": 1400,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "front",
+      "versatz_m": 8,
+      "breite_m": 18
+     },
+     "abstand_m": 0.35,
+     "rolle": "stein"
+    },
+    {
+     "name": "grus_krone",
+     "ebene": "kleinzeug",
+     "warum": "Krustensplitter auf dem Strom",
+     "palette": "grus",
+     "anzahl": 700,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "front",
+      "versatz_m": -11,
+      "breite_m": 18
+     },
+     "abstand_m": 0.45,
+     "rolle": "stein"
+    },
+    {
+     "name": "toter_baum",
+     "ebene": "begleiter",
+     "warum": "Natur erzaehlt: der Strom umfloss einen Baum, er starb stehend",
+     "netz": "Fir_08_Dead_NoBillboard",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": "toter_baum"
+     },
+     "skala": 0.72,
+     "rolle": "baum",
+     "kipp_grad": [
+      4,
+      7
+     ],
+     "kipp_richtung": 270,
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "totholz",
+     "ebene": "kleinzeug",
+     "warum": "abgefallene Aeste unter dem toten Baum",
+     "palette": "zweige_tot",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "toter_baum",
+      "ring_m": [
+       1.0,
+       6.0
+      ],
+      "je": [
+       10,
+       14
+      ]
+     },
+     "rolle": "streu",
+     "skala": [
+      1.0,
+      1.6
+     ]
+    },
+    {
+     "name": "moospolster",
+     "ebene": "bewuchs",
+     "warum": "Zackenmuetzenmoos-Polster auf dem alten Strom vor der Front (feucht, windstill)",
+     "palette": "moosbuckel",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "kreis",
+      "bei": "polster",
+      "r_m": 24,
+      "zentren": [
+       9,
+       12
+      ],
+      "je": [
+       3,
+       5
+      ],
+      "radius_m": 3.0
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      1.4,
+      2.6
+     ],
+     "rolle": "stein",
+     "eingraben": [
+      0.45,
+      0.6
+     ],
+     "meide": "kern",
+     "material": "MI_EL_SW_Lava_Moos"
+    },
+    {
+     "name": "tundragras",
+     "ebene": "bewuchs",
+     "warum": "Gras nur unterhalb der Front (Feinmaterial, Feuchte im Lee der Wand)",
+     "palette": "tundragras",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ring",
+      "bei": "mitte",
+      "r_m": [
+       18,
+       66
+      ],
+      "zentren": [
+       16,
+       22
+      ],
+      "je": [
+       5,
+       10
+      ],
+      "radius_m": 3.0
+     },
+     "abstand_m": 0.6,
+     "rolle": "pflanze",
+     "hoehe_rel_m": [
+      -12,
+      -2.5
+     ]
+    },
+    {
+     "name": "pioniere",
+     "ebene": "bewuchs",
+     "warum": "Pioniere in Spalten der Krone, vom Wind gestaucht",
+     "palette": [
+      "SM_dwarf_pine_small_01",
+      "SM_dwarf_pine_small_02",
+      "SM_wk2oaeyqx_VarB",
+      "SM_wk2oaeyqx_VarC"
+     ],
+     "gewichte": [
+      1,
+      1,
+      2,
+      2
+     ],
+     "verteilung": {
+      "typ": "cluster",
+      "form": "kreis",
+      "bei": "pioniere",
+      "r_m": 30,
+      "zentren": [
+       5,
+       7
+      ],
+      "je": [
+       1,
+       3
+      ],
+      "radius_m": 2.5
+     },
+     "abstand_m": 1.2,
+     "skala": [
+      0.55,
+      0.85
+     ],
+     "rolle": "pflanze",
+     "hoehe_rel_m": [
+      0.5,
+      9
+     ]
+    },
+    {
+     "name": "moos_nord",
+     "ebene": "kontakt",
+     "warum": "Moos kriecht an der schattigen Nordseite der Bloecke hoch",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "wandschollen",
+       "abgesackt",
+       "saum_grob"
+      ],
+      "ring": [
+       0.85,
+       1.2
+      ],
+      "je": [
+       6,
+       10
+      ],
+      "seite": "nord",
+      "seite_staerke": 0.6
+     },
+     "rolle": "streu"
+    },
+    {
+     "name": "kiessaum",
+     "ebene": "kontakt",
+     "warum": "Kiesrand: nichts steht auf, alles steckt im Schutt",
+     "palette": "steinchen",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "wandschollen",
+       "abgesackt",
+       "hornito",
+       "zwilling"
+      ],
+      "ring": [
+       0.95,
+       1.35
+      ],
+      "je": [
+       20,
+       32
+      ]
+     },
+     "rolle": "stein"
+    },
+    {
+     "name": "turmfuss",
+     "ebene": "kontakt",
+     "warum": "abgebroechelte Fetzen am Fuss der Schlote",
+     "palette": "lava_kiesel",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "hornito",
+       "zwilling"
+      ],
+      "ring": [
+       0.9,
+       1.5
+      ],
+      "je": [
+       10,
+       14
+      ]
+     },
+     "rolle": "stein"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Lavafels",
+     "form": "band",
+     "punkte": "front",
+     "breite_m": 12,
+     "wert": 230,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Geroell",
+     "form": "band",
+     "punkte": "saum",
+     "breite_m": 12,
+     "wert": 210,
+     "flecken": 0.45
+    },
+    {
+     "lage": "Lavasand",
+     "form": "band",
+     "punkte": "saum",
+     "breite_m": 20,
+     "wert": 140,
+     "flecken": 0.5
+    },
+    {
+     "lage": "Moos",
+     "form": "kreis",
+     "bei": "polster",
+     "r_m": 24,
+     "wert": 220,
+     "flecken": 0.5
+    },
+    {
+     "lage": "Moos",
+     "form": "um_gruppe",
+     "gruppe": [
+      "saum_grob",
+      "abgesackt"
+     ],
+     "ring": [
+      0.9,
+      1.6
+     ],
+     "wert": 160
+    }
+   ],
+   "pfad": {
+    "breite_cm": 140,
+    "lagen": {
+     "Erde": 200,
+     "Kies": 120
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 20,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.5
+     ],
+     "stufen_abstand_m": 3.0
+    }
+   },
+   "effekte": [
+    {
+     "typ": "decal",
+     "material": "MI_TileableLeakage_03",
+     "zweck": "Sickerspur an der Stirn unter dem Schlot",
+     "bei": {
+      "auf_linie": "front",
+      "s_m": 66,
+      "seite_m": -1.0
+     },
+     "hoehe_m": 3.5,
+     "ausrichtung": "wand",
+     "blick": 260,
+     "groesse_m": [
+      1.5,
+      2.0,
+      7.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableMossPatches_02",
+     "zweck": "Moosflecken am Wandfuss",
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "saum",
+      "breite_m": 6
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+     "bei": "turm",
+     "radius_m": 70,
+     "lautstaerke": 0.4,
+     "zweck": "Wind ueber dem offenen Lavafeld (Laubanteil pruefen; spaeter Fantasy Ambiences)"
+    }
+   ]
+  },
+  "lava_02_schwefelgrund": {
+   "kurz": "Flache, ocker-gelb gebleichte Mulde am Vulkanfuss: zwei Risse mit Fumarolen, ein gelb verkrusteter Dampfschlot mit weisser Saeule und zwei milchig-tuerkise Schwefelquellen; ringsum ein toter Saum.",
+   "marker": {
+    "titel": "Schwefelgrund",
+    "text": "Der Boden ist warm und riecht nach faulen Eiern. Wer hier rastet, steht wieder auf, ehe er es will.",
+    "entdeckung_m": 120
+   },
+   "budget": {
+    "instanzen": 4000,
+    "kollision": 300,
+    "akteure": 20,
+    "lichter": 0,
+    "niagara": 3,
+    "decals": 10
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "statt_jetzt": "Dampf: NS_Smoke_Plume / NS_Chimney_Smoke (Niagara Examples, optional, Kopie weiss-grau, langsam) + 2 lokaler_nebel; Schwefel-Decals aus MI_Leakage_04 + MI_EL_SW_Schwefel_Decal"
+    },
+    {
+     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+     "statt_jetzt": "CUE_Water_Stream_I_Cue leise als Brodeln (kein Zischen im Bestand)"
+    }
+   ],
+   "anker": {
+    "schlot": [
+     4,
+     -8
+    ],
+    "quelle_w": [
+     -16,
+     14
+    ],
+    "quelle_o": [
+     22,
+     13
+    ],
+    "held_blick": [
+     22,
+     60
+    ],
+    "f1": [
+     -24,
+     22
+    ],
+    "f2": [
+     -9,
+     8
+    ],
+    "f3": [
+     10,
+     -10
+    ],
+    "f4": [
+     25,
+     -26
+    ],
+    "f5": [
+     -20,
+     -9
+    ],
+    "f6": [
+     -9,
+     -22
+    ],
+    "f7": [
+     4,
+     -34
+    ]
+   },
+   "linien": {
+    "riss1": {
+     "punkte": [
+      [
+       -31,
+       29
+      ],
+      [
+       -14,
+       13
+      ],
+      [
+       0,
+       0
+      ],
+      [
+       16,
+       -16
+      ],
+      [
+       32,
+       -33
+      ]
+     ]
+    },
+    "riss2": {
+     "punkte": [
+      [
+       -26,
+       -4
+      ],
+      [
+       -18,
+       -14
+      ],
+      [
+       -6,
+       -27
+      ],
+      [
+       9,
+       -40
+      ]
+     ]
+    }
+   },
+   "gelaende": {
+    "fenster_m": [
+     140,
+     140
+    ],
+    "rand_m": 10,
+    "senken_erlaubt": [
+     {
+      "bei": "schlot",
+      "r_m": 4,
+      "grund": "Schlotmuendung: hier steigt Dampf, keine Pfuetze"
+     }
+    ],
+    "ops": [
+     {
+      "op": "mulde",
+      "bei": "mitte",
+      "radius_m": 22,
+      "tiefe_m": 1.6,
+      "rand_m": 10,
+      "boden": 0.5,
+      "streckung": [
+       1.0,
+       0.7
+      ],
+      "richtung": 130,
+      "warum": "Mulde -1,6 m: zersetzter Boden sackt nach (Katalog)"
+     },
+     {
+      "op": "rinne",
+      "punkte": "riss1",
+      "breite_m": 2.0,
+      "tiefe_m": 0.6,
+      "rand_m": 1.5,
+      "warum": "Dampfspalte 1 (NO-SW, parallel zur Kraterreihe)"
+     },
+     {
+      "op": "rinne",
+      "punkte": "riss2",
+      "breite_m": 1.6,
+      "tiefe_m": 0.5,
+      "rand_m": 1.5,
+      "warum": "Dampfspalte 2"
+     },
+     {
+      "op": "kuppe",
+      "bei": "schlot",
+      "radius_m": 4.5,
+      "hoehe_m": 2.8,
+      "plateau": 0.1,
+      "rand_m": 4,
+      "warum": "Dampfschlot: Huegel +2,8 m aus Sinter und Kruste"
+     },
+     {
+      "op": "mulde",
+      "bei": "schlot",
+      "radius_m": 1.4,
+      "tiefe_m": 1.1,
+      "rand_m": 1.2,
+      "boden": 0.3,
+      "warum": "Schlotkrater"
+     }
+    ]
+   },
+   "wasser": [
+    {
+     "typ": "see",
+     "id": "quelle_w",
+     "bei": "quelle_w",
+     "r_m": 5.0,
+     "spiegel_rand_min": -0.15,
+     "tiefe_m": 0.6,
+     "farbe": "thermal",
+     "becken": {
+      "ufer_m": 3.0,
+      "freibord_m": 0.15,
+      "boden": 0.4,
+      "auslass": null
+     }
+    },
+    {
+     "typ": "see",
+     "id": "quelle_o",
+     "bei": "quelle_o",
+     "r_m": 3.5,
+     "spiegel_rand_min": -0.15,
+     "tiefe_m": 0.6,
+     "farbe": "thermal",
+     "becken": {
+      "ufer_m": 2.5,
+      "freibord_m": 0.15,
+      "boden": 0.4,
+      "auslass": null
+     }
+    }
+   ],
+   "gruppen": [
+    {
+     "name": "schlotkrone",
+     "ebene": "held",
+     "warum": "Krone des Dampfschlots: verkrustete Brocken, vom Schwefel gelb",
+     "palette": [
+      "SM_lava_b_rock_04",
+      "SM_lava_m_rock_05"
+     ],
+     "anzahl": 3,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "schlot",
+      "r_m": [
+       1.9,
+       2.6
+      ]
+     },
+     "groesse_m": [
+      1.6,
+      2.2
+     ],
+     "kipp_grad": [
+      10,
+      22
+     ],
+     "kipp_richtung": "von:schlot",
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Schwefelkruste",
+     "meide": null,
+     "abstand_m": 1.8
+    },
+    {
+     "name": "fumarolen",
+     "ebene": "begleiter",
+     "warum": "Fumarolenmuendungen auf den Rissen: kleine Krustenkegel",
+     "palette": [
+      "SM_lava_m_rock_05",
+      "SM_lava_m_rock_01",
+      "SM_lava_m_rock_07"
+     ],
+     "gewichte": [
+      2,
+      1,
+      1
+     ],
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       "f1",
+       "f2",
+       "f3",
+       "f4",
+       "f5",
+       "f6",
+       "f7"
+      ]
+     },
+     "groesse_m": [
+      0.9,
+      1.4
+     ],
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "material": "MI_EL_SW_Schwefelkruste",
+     "meide": null,
+     "weg_abstand_m": 2.5
+    },
+    {
+     "name": "ventkranz",
+     "ebene": "schutt",
+     "warum": "Kranz aus aufgesprengten, gebleichten Brocken um jede Muendung",
+     "palette": [
+      "SM_lava_s_rock_01",
+      "SM_lava_s_rock_04",
+      "SM_lava_s_rock_03"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "fumarolen",
+       "schlotkrone"
+      ],
+      "ring_m": [
+       0.8,
+       2.2
+      ],
+      "je": [
+       5,
+       8
+      ]
+     },
+     "groesse_m": [
+      0.4,
+      0.8
+     ],
+     "eingraben": [
+      0.35,
+      0.5
+     ],
+     "material": "MI_EL_SW_Schwefelkruste",
+     "meide": "kern"
+    },
+    {
+     "name": "rissschutt",
+     "ebene": "schutt",
+     "warum": "Krustenbrocken entlang der Risse, vom Dampf zersetzt",
+     "palette": "lava_klein",
+     "anzahl": 45,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "riss1",
+      "breite_m": 6
+     },
+     "abstand_m": 1.4,
+     "groesse_m": [
+      0.5,
+      1.2
+     ],
+     "material": "MI_EL_SW_Schwefelkruste"
+    },
+    {
+     "name": "rissschutt2",
+     "ebene": "schutt",
+     "warum": "dasselbe am zweiten Riss",
+     "palette": "lava_klein",
+     "anzahl": 25,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "riss2",
+      "breite_m": 5
+     },
+     "abstand_m": 1.4,
+     "groesse_m": [
+      0.5,
+      1.1
+     ],
+     "material": "MI_EL_SW_Schwefelkruste"
+    },
+    {
+     "name": "bleichgrus",
+     "ebene": "kleinzeug",
+     "warum": "gebleichter, zerfallener Grus in der Mulde",
+     "palette": "steinchen",
+     "anzahl": 900,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "mitte",
+      "a_m": 26,
+      "b_m": 18,
+      "richtung": 130
+     },
+     "abstand_m": 0.45,
+     "rolle": "stein"
+    },
+    {
+     "name": "quellkies",
+     "ebene": "kleinzeug",
+     "warum": "Sinterkies am Quellrand",
+     "palette": "steinchen",
+     "dichte_je_m2": 1.2,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "mitte",
+      "r_m": 40,
+      "band_m": [
+       -0.3,
+       1.4
+      ]
+     },
+     "abstand_m": 0.25,
+     "rolle": "stein",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "tote_halme",
+     "ebene": "bewuchs",
+     "warum": "toter Saum: gebleichte Halme, wo der Dampf die Wurzeln verbrueht",
+     "palette": "halme_tot",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ring",
+      "bei": "mitte",
+      "r_m": [
+       22,
+       40
+      ],
+      "zentren": [
+       14,
+       18
+      ],
+      "je": [
+       3,
+       6
+      ],
+      "radius_m": 3.5
+     },
+     "abstand_m": 1.4,
+     "rolle": "pflanze",
+     "skala": [
+      0.7,
+      1.1
+     ]
+    },
+    {
+     "name": "aussengras",
+     "ebene": "bewuchs",
+     "warum": "erst ausserhalb des Saums wieder lebendes Gras",
+     "palette": "tundragras",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ring",
+      "bei": "mitte",
+      "r_m": [
+       38,
+       62
+      ],
+      "zentren": [
+       12,
+       16
+      ],
+      "je": [
+       5,
+       9
+      ],
+      "radius_m": 3.0
+     },
+     "abstand_m": 0.7,
+     "rolle": "pflanze"
+    },
+    {
+     "name": "krustensteine",
+     "ebene": "kontakt",
+     "warum": "gelbe Kruste kriecht vom Riss auf die Steine",
+     "palette": [
+      "SM_lava_s_rock_06",
+      "SM_lava_s_rock_08",
+      "SM_SmallStonesPack_13"
+     ],
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "fumarolen",
+       "rissschutt"
+      ],
+      "ring": [
+       0.9,
+       1.6
+      ],
+      "je": [
+       4,
+       8
+      ]
+     },
+     "rolle": "stein",
+     "material": "MI_EL_SW_Schwefelkruste"
+    },
+    {
+     "name": "halmstreu",
+     "ebene": "kontakt",
+     "warum": "abgebrochene tote Halme am Fuss der Horste",
+     "palette": "steinchen",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "ventkranz",
+      "ring": [
+       1.0,
+       1.6
+      ],
+      "je": [
+       2,
+       4
+      ]
+     },
+     "rolle": "stein"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Lehm",
+     "form": "kreis",
+     "bei": "mitte",
+     "r_m": 22,
+     "streckung": [
+      1.0,
+      0.7
+     ],
+     "richtung": 130,
+     "wert": 210,
+     "flecken": 0.45,
+     "rand_m": 6
+    },
+    {
+     "lage": "Sand",
+     "form": "band",
+     "punkte": "riss1",
+     "breite_m": 7,
+     "wert": 200,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Sand",
+     "form": "band",
+     "punkte": "riss2",
+     "breite_m": 6,
+     "wert": 190,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Erde",
+     "form": "kreis",
+     "bei": "schlot",
+     "r_m": 6,
+     "wert": 220,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Kies",
+     "form": "ufer",
+     "bei": "mitte",
+     "r_m": 40,
+     "band_m": [
+      0.0,
+      2.0
+     ],
+     "wert": 210
+    },
+    {
+     "lage": "Schlamm",
+     "form": "ufer",
+     "bei": "mitte",
+     "r_m": 40,
+     "band_m": [
+      0.0,
+      0.8
+     ],
+     "wert": 160
+    },
+    {
+     "lage": "Trockengras",
+     "form": "ring",
+     "bei": "mitte",
+     "r_m": [
+      24,
+      44
+     ],
+     "wert": 180,
+     "flecken": 0.5
+    }
+   ],
+   "pfad": {
+    "breite_cm": 140,
+    "lagen": {
+     "Erde": 200,
+     "Kies": 110
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 20,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
+   "effekte": [
+    {
+     "typ": "niagara",
+     "asset": "NS_Smoke_Plume",
+     "optional": true,
+     "bei": "schlot",
+     "hoehe_m": 1.0,
+     "skala": 1.5,
+     "zweck": "Dampfsaeule 20-30 m (Kopie, weiss, langsam, kein Rauchschwarz) - zieht vom Weg",
+     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "hinweis": "Dampf aus Lava & Volcano einsetzen, sobald nachgeladen"
+    },
+    {
+     "typ": "niagara",
+     "asset": "NS_Chimney_Smoke",
+     "optional": true,
+     "bei": "f3",
+     "hoehe_m": 0.4,
+     "skala": 0.5,
+     "zweck": "kleine Fumarolenfahne (Kopie, weiss-grau, duenn)",
+     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)"
+    },
+    {
+     "typ": "niagara",
+     "asset": "NS_Chimney_Smoke",
+     "optional": true,
+     "bei": "quelle_w",
+     "hoehe_m": 0.2,
+     "skala": 0.6,
+     "zweck": "Dampf ueber der Schwefelquelle (Kopie, weiss, flach)",
+     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)"
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Schwefeldunst in der Mulde",
+     "bei": "mitte",
+     "hoehe_m": 2.0,
+     "radius_m": 24,
+     "dichte": 0.07,
+     "farbe": [
+      0.93,
+      0.92,
+      0.82
+     ],
+     "hoehenabfall": 0.8
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Dampf am Schlot",
+     "bei": "schlot",
+     "hoehe_m": 4.0,
+     "radius_m": 9,
+     "dichte": 0.09,
+     "farbe": [
+      0.95,
+      0.95,
+      0.92
+     ],
+     "hoehenabfall": 0.5
+    },
+    {
+     "typ": "decal",
+     "material": "MI_EL_SW_Schwefel_Decal",
+     "optional": true,
+     "anzahl": 5,
+     "zweck": "Schwefelkruste gelb an den Muendungen (Materialwunsch, Maske MI_Leakage_04)",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "riss1",
+      "breite_m": 4
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_04",
+     "anzahl": 3,
+     "zweck": "Ocker/Weiss-Flecken (getoent im Editor)",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "riss2",
+      "breite_m": 5
+     },
+     "groesse_m": [
+      1.0,
+      3.5,
+      3.5
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_09",
+     "anzahl": 2,
+     "zweck": "Nassrand/gelber Rand an den Quellen",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "quelle_w",
+      "r_m": [
+       5.2,
+       6.5
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      2.5,
+      2.5
+     ]
+    }
+   ],
+   "materialien_mit": [
+    "MI_EL_SW_Schwefel_Decal"
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Water_Stream_I_Cue",
+     "bei": "quelle_w",
+     "radius_m": 25,
+     "lautstaerke": 0.35,
+     "zweck": "Brodeln der Schwefelquelle (Ersatz; Zischen kommt mit Fantasy Ambiences)"
+    }
+   ]
+  },
+  "lava_03_kraterkinder": {
+   "kurz": "Fuenf runde, grasbewachsene Pseudokrater in einer schwarzen Aschensenke am Rand der Aue; in den zwei groessten steht schwarzes, spiegelndes Wasser, aus dem groessten sickert ein Rinnsal in den Sand.",
+   "marker": {
+    "titel": "Die Kraterkinder",
+    "text": "Fuenf kleine Krater sitzen um die Senke wie Kinder um ein erloschenes Feuer. In zweien schlaeft schwarzes Wasser, und es spiegelt nur, was ueber ihm steht.",
+    "entdeckung_m": 70
+   },
+   "budget": {
+    "instanzen": 6000,
+    "kollision": 400,
+    "akteure": 10,
+    "lichter": 0,
+    "niagara": 0,
+    "decals": 4
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Megascans Icelandic Sand With Pebbles",
+     "statt_jetzt": "Lage Lavasand + SM_SmallStonesPack_* / SM_stone_05-07"
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "statt_jetzt": "Nassband am Kraterteich aus MI_Leakage_* / MI_TileableLeakage_*"
+    },
+    {
+     "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+     "statt_jetzt": "SM_MossyRocks_01/02 + SM_lava_s_rock_* mit MI_EL_SW_Lava_Moos"
+    },
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "statt_jetzt": "Schweissschlacke SM_lava_wall_06/07/08 fehlt: SM_lava_m_rock_08 + Basalt_Basalt_Cliff_Rock_B_SM (flach) mit MI_EL_SW_Schlacke_Rot"
+    }
+   ],
+   "anker": {
+    "k1": [
+     -25,
+     10
+    ],
+    "k2": [
+     15,
+     -20
+    ],
+    "k3": [
+     40,
+     25
+    ],
+    "k4": [
+     -5,
+     45
+    ],
+    "k5": [
+     60,
+     -15
+    ],
+    "k2_rinne": {
+     "von": "k2",
+     "richtung": 135,
+     "abstand_m": 13
+    },
+    "k4_rinne": {
+     "von": "k4",
+     "richtung": 200,
+     "abstand_m": 12
+    },
+    "k5_rinne": {
+     "von": "k5",
+     "richtung": 110,
+     "abstand_m": 11
+    },
+    "k1_flanke": {
+     "von": "k1",
+     "richtung": 110,
+     "abstand_m": 12.5
+    },
+    "senke": [
+     10,
+     20
+    ],
+    "blick": [
+     15,
+     98
+    ]
+   },
+   "gelaende": {
+    "fenster_m": [
+     190,
+     190
+    ],
+    "bei": [
+     15,
+     12
+    ],
+    "rand_m": 12,
+    "ops": [
+     {
+      "op": "kuppe",
+      "bei": "k1",
+      "radius_m": 10.54,
+      "hoehe_m": 7.0,
+      "plateau": 0.12,
+      "rand_m": 8.5,
+      "warum": "Pseudokrater k1: Dampfexplosion, Schlacke um den Schlot aufgeschuettet"
+     },
+     {
+      "op": "mulde",
+      "bei": "k1",
+      "radius_m": 4.125,
+      "tiefe_m": 4.5,
+      "boden": 0.35,
+      "rand_m": 3.375,
+      "warum": "Krater k1"
+     },
+     {
+      "op": "kuppe",
+      "bei": "k2",
+      "radius_m": 8.06,
+      "hoehe_m": 5.5,
+      "plateau": 0.12,
+      "rand_m": 6.5,
+      "warum": "Pseudokrater k2: Dampfexplosion, Schlacke um den Schlot aufgeschuettet"
+     },
+     {
+      "op": "mulde",
+      "bei": "k2",
+      "radius_m": 3.0250000000000004,
+      "tiefe_m": 2.4,
+      "boden": 0.35,
+      "rand_m": 2.475,
+      "warum": "Krater k2"
+     },
+     {
+      "op": "kuppe",
+      "bei": "k3",
+      "radius_m": 11.78,
+      "hoehe_m": 7.5,
+      "plateau": 0.12,
+      "rand_m": 9.5,
+      "warum": "Pseudokrater k3: Dampfexplosion, Schlacke um den Schlot aufgeschuettet"
+     },
+     {
+      "op": "mulde",
+      "bei": "k3",
+      "radius_m": 4.675000000000001,
+      "tiefe_m": 5.0,
+      "boden": 0.35,
+      "rand_m": 3.825,
+      "warum": "Krater k3"
+     },
+     {
+      "op": "kuppe",
+      "bei": "k4",
+      "radius_m": 6.82,
+      "hoehe_m": 4.5,
+      "plateau": 0.12,
+      "rand_m": 5.5,
+      "warum": "Pseudokrater k4: Dampfexplosion, Schlacke um den Schlot aufgeschuettet"
+     },
+     {
+      "op": "mulde",
+      "bei": "k4",
+      "radius_m": 2.475,
+      "tiefe_m": 2.0,
+      "boden": 0.35,
+      "rand_m": 2.025,
+      "warum": "Krater k4"
+     },
+     {
+      "op": "kuppe",
+      "bei": "k5",
+      "radius_m": 6.2,
+      "hoehe_m": 3.5,
+      "plateau": 0.12,
+      "rand_m": 5.0,
+      "warum": "Pseudokrater k5: Dampfexplosion, Schlacke um den Schlot aufgeschuettet"
+     },
+     {
+      "op": "mulde",
+      "bei": "k5",
+      "radius_m": 2.2,
+      "tiefe_m": 1.8,
+      "boden": 0.35,
+      "rand_m": 1.8,
+      "warum": "Krater k5"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       "k2",
+       "k2_rinne"
+      ],
+      "breite_m": 2.0,
+      "sohle": [
+       "boden+0.2",
+       "boden-0.2"
+      ],
+      "rand_m": 2.0,
+      "warum": "Krater k2 nach aussen gebrochen: kein abflussloses Loch, Hufeisenform"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       "k4",
+       "k4_rinne"
+      ],
+      "breite_m": 2.0,
+      "sohle": [
+       "boden+0.2",
+       "boden-0.2"
+      ],
+      "rand_m": 2.0,
+      "warum": "Krater k4 nach aussen gebrochen: kein abflussloses Loch, Hufeisenform"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       "k5",
+       "k5_rinne"
+      ],
+      "breite_m": 2.0,
+      "sohle": [
+       "boden+0.2",
+       "boden-0.2"
+      ],
+      "rand_m": 2.0,
+      "warum": "Krater k5 nach aussen gebrochen: kein abflussloses Loch, Hufeisenform"
+     }
+    ]
+   },
+   "wasser": [
+    {
+     "typ": "see",
+     "id": "teich_k1",
+     "bei": "k1",
+     "r_m": 4.6,
+     "spiegel_rand_min": -0.25,
+     "tiefe_m": 1.5,
+     "farbe": "schwarz_spiegel",
+     "becken": {
+      "ufer_m": 3.0,
+      "freibord_m": 0.3,
+      "boden": 0.4,
+      "auslass": null
+     }
+    },
+    {
+     "typ": "see",
+     "id": "teich_k3",
+     "bei": "k3",
+     "r_m": 5.2,
+     "spiegel_rand_min": -0.25,
+     "tiefe_m": 1.5,
+     "farbe": "schwarz_spiegel",
+     "becken": {
+      "ufer_m": 3.0,
+      "freibord_m": 0.3,
+      "boden": 0.4,
+      "auslass": null
+     }
+    },
+    {
+     "typ": "bach",
+     "id": "rinnsal",
+     "von": "k1_flanke",
+     "laenge_m": 45,
+     "breite_m": 0.6,
+     "tiefe_cm": 8,
+     "farbe": "klar",
+     "quelle": true,
+     "muendung": "versickert",
+     "rinne": {
+      "tiefe_m": 0.25,
+      "breite_m": 1.0
+     },
+     "hinweis": "sickert aus der Kegelflanke und versickert im Lavasand (Senke liegt 2-4 m unter dem Aue-Bach)"
+    }
+   ],
+   "gruppen": [
+    {
+     "name": "kraterkrone",
+     "ebene": "held",
+     "warum": "Schweissschlacke-Brocken auf dem Rand des groessten Kraters (rot oxidiert)",
+     "palette": [
+      "SM_lava_b_rock_03",
+      "SM_lava_m_rock_02"
+     ],
+     "anzahl": 3,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k1",
+      "r_m": [
+       5.5,
+       7.0
+      ]
+     },
+     "groesse_m": [
+      2.2,
+      3.0
+     ],
+     "abstand_m": 4,
+     "kipp_grad": [
+      10,
+      25
+     ],
+     "kipp_richtung": "von:k1",
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "im_wasser": "nein"
+    },
+    {
+     "name": "randblock_k3",
+     "ebene": "begleiter",
+     "warum": "Randbloecke des zweiten Teichkraters",
+     "palette": [
+      "SM_lava_b_rock_03",
+      "SM_lava_m_rock_07"
+     ],
+     "anzahl": 2,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k3",
+      "r_m": [
+       6.0,
+       7.5
+      ]
+     },
+     "groesse_m": [
+      2.0,
+      2.6
+     ],
+     "abstand_m": 5,
+     "kipp_grad": [
+      8,
+      20
+     ],
+     "kipp_richtung": "von:k3",
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "akteur": true,
+     "material": "MI_EL_SW_Schlacke_Rot"
+    },
+    {
+     "name": "spatter",
+     "ebene": "begleiter",
+     "warum": "Spatterfladen: flach gelandete Lavafetzen an den kleinen Kegeln",
+     "palette": [
+      "Basalt_Basalt_Cliff_Rock_B_SM",
+      "SM_lava_m_rock_08"
+     ],
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       {
+        "von": "k2",
+        "richtung": 300,
+        "abstand_m": 3.5
+       },
+       {
+        "von": "k4",
+        "richtung": 60,
+        "abstand_m": 3.0
+       },
+       {
+        "von": "k5",
+        "richtung": 250,
+        "abstand_m": 2.8
+       },
+       {
+        "von": "k2",
+        "richtung": 40,
+        "abstand_m": 4.0
+       }
+      ]
+     },
+     "groesse_m": [
+      2.2,
+      3.0
+     ],
+     "kipp_grad": [
+      6,
+      15
+     ],
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "akteur": false
+    },
+    {
+     "name": "randschlacke_k1",
+     "ebene": "schutt",
+     "warum": "Schlacke am Kraterrand k1 (aus dem Schlot geworfen, rot oxidiert)",
+     "palette": "lava_schlacke",
+     "anzahl": 21,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k1",
+      "r_m": [
+       3.375,
+       7.875
+      ]
+     },
+     "abstand_m": 1.3,
+     "groesse_m": [
+      0.6,
+      1.4
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "im_wasser": "nein"
+    },
+    {
+     "name": "randschlacke_k2",
+     "ebene": "schutt",
+     "warum": "Schlacke am Kraterrand k2 (aus dem Schlot geworfen, rot oxidiert)",
+     "palette": "lava_schlacke",
+     "anzahl": 17,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k2",
+      "r_m": [
+       2.475,
+       5.775
+      ]
+     },
+     "abstand_m": 1.3,
+     "groesse_m": [
+      0.6,
+      1.4
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "im_wasser": "nein"
+    },
+    {
+     "name": "randschlacke_k3",
+     "ebene": "schutt",
+     "warum": "Schlacke am Kraterrand k3 (aus dem Schlot geworfen, rot oxidiert)",
+     "palette": "lava_schlacke",
+     "anzahl": 23,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k3",
+      "r_m": [
+       3.825,
+       8.925
+      ]
+     },
+     "abstand_m": 1.3,
+     "groesse_m": [
+      0.6,
+      1.4
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "im_wasser": "nein"
+    },
+    {
+     "name": "randschlacke_k4",
+     "ebene": "schutt",
+     "warum": "Schlacke am Kraterrand k4 (aus dem Schlot geworfen, rot oxidiert)",
+     "palette": "lava_schlacke",
+     "anzahl": 15,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k4",
+      "r_m": [
+       2.025,
+       4.7250000000000005
+      ]
+     },
+     "abstand_m": 1.3,
+     "groesse_m": [
+      0.6,
+      1.4
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "im_wasser": "nein"
+    },
+    {
+     "name": "randschlacke_k5",
+     "ebene": "schutt",
+     "warum": "Schlacke am Kraterrand k5 (aus dem Schlot geworfen, rot oxidiert)",
+     "palette": "lava_schlacke",
+     "anzahl": 14,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k5",
+      "r_m": [
+       1.8,
+       4.2
+      ]
+     },
+     "abstand_m": 1.3,
+     "groesse_m": [
+      0.6,
+      1.4
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "im_wasser": "nein"
+    },
+    {
+     "name": "flankenschutt",
+     "ebene": "schutt",
+     "warum": "abgerollte Lapilli-Brocken am Kegelfuss",
+     "palette": "lava_klein",
+     "anzahl": 70,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "senke",
+      "a_m": 68,
+      "b_m": 50,
+      "richtung": 80
+     },
+     "abstand_m": 2.0,
+     "groesse_m": [
+      0.5,
+      1.1
+     ],
+     "hoehe_rel_m": [
+      -3,
+      3.5
+     ],
+     "meide": "kern"
+    },
+    {
+     "name": "lapilli",
+     "ebene": "kleinzeug",
+     "warum": "Lapilli und Kiesel in der Aschensenke",
+     "palette": "grus",
+     "anzahl": 1700,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "senke",
+      "a_m": 70,
+      "b_m": 52,
+      "richtung": 80
+     },
+     "abstand_m": 0.5,
+     "rolle": "stein"
+    },
+    {
+     "name": "flankengras",
+     "ebene": "bewuchs",
+     "warum": "Flanken gruen: aelter und feucht (Grundwasser der Aue), Kraterraender kahl",
+     "palette": "tundragras",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ellipse",
+      "bei": "senke",
+      "a_m": 68,
+      "b_m": 50,
+      "richtung": 80,
+      "zentren": [
+       30,
+       38
+      ],
+      "je": [
+       6,
+       12
+      ],
+      "radius_m": 3.2
+     },
+     "abstand_m": 0.6,
+     "rolle": "pflanze",
+     "hoehe_rel_m": [
+      0.6,
+      6.2
+     ],
+     "hang_grad": [
+      6,
+      40
+     ]
+    },
+    {
+     "name": "flankenmoos",
+     "ebene": "bewuchs",
+     "warum": "Moospolster am Fuss der Kegel, wo Wasser sickert",
+     "palette": "moosbuckel",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ellipse",
+      "bei": "senke",
+      "a_m": 66,
+      "b_m": 48,
+      "richtung": 80,
+      "zentren": [
+       8,
+       12
+      ],
+      "je": [
+       2,
+       4
+      ],
+      "radius_m": 3.0
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      1.2,
+      2.2
+     ],
+     "rolle": "stein",
+     "eingraben": [
+      0.45,
+      0.6
+     ],
+     "hoehe_rel_m": [
+      -1,
+      2.5
+     ],
+     "material": "MI_EL_SW_Lava_Moos"
+    },
+    {
+     "name": "weiden_k1",
+     "ebene": "bewuchs",
+     "warum": "Kriechweiden am Kraterteich (einziges Holz der Senke)",
+     "palette": "kriechweide",
+     "dichte_je_m2": 0.12,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "k1",
+      "r_m": 12,
+      "band_m": [
+       0.6,
+       3.0
+      ]
+     },
+     "abstand_m": 1.4,
+     "rolle": "pflanze",
+     "skala": [
+      0.7,
+      1.0
+     ]
+    },
+    {
+     "name": "weiden_k3",
+     "ebene": "bewuchs",
+     "warum": "Kriechweiden am zweiten Teich",
+     "palette": "kriechweide",
+     "dichte_je_m2": 0.12,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "k3",
+      "r_m": 12,
+      "band_m": [
+       0.6,
+       3.0
+      ]
+     },
+     "abstand_m": 1.4,
+     "rolle": "pflanze",
+     "skala": [
+      0.7,
+      1.0
+     ]
+    },
+    {
+     "name": "rohrkolben",
+     "ebene": "bewuchs",
+     "warum": "Rohrkolben sparsam im Flachwasser (Katalog: sparsam)",
+     "palette": [
+      "SM_Rohrkolben_Horst_2",
+      "SM_Rohrkolben_Jung_1",
+      "SM_Rohrkolben_Jung_3"
+     ],
+     "anzahl": 7,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "k3",
+      "r_m": 12,
+      "band_m": [
+       -0.6,
+       0.4
+      ]
+     },
+     "abstand_m": 1.8,
+     "rolle": "pflanze",
+     "im_wasser": "egal",
+     "skala": [
+      0.7,
+      0.9
+     ]
+    },
+    {
+     "name": "ufersteine",
+     "ebene": "kontakt",
+     "warum": "Kiesring am Teich: Wellenschlag sortiert die Lapilli",
+     "palette": "steinchen",
+     "dichte_je_m2": 1.5,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "senke",
+      "r_m": 80,
+      "band_m": [
+       -0.4,
+       1.2
+      ]
+     },
+     "abstand_m": 0.22,
+     "rolle": "stein",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "bachkies",
+     "ebene": "kontakt",
+     "warum": "Kies im Rinnsal",
+     "palette": "steinchen",
+     "dichte_je_m2": 1.0,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "k1_flanke",
+      "r_m": 45,
+      "band_m": [
+       -0.3,
+       0.8
+      ]
+     },
+     "abstand_m": 0.25,
+     "rolle": "stein",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "moos_nord",
+     "ebene": "kontakt",
+     "warum": "Moos an der Nordseite der Randbloecke",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "kraterkrone",
+       "randblock_k3",
+       "spatter"
+      ],
+      "ring": [
+       0.85,
+       1.25
+      ],
+      "je": [
+       6,
+       10
+      ],
+      "seite": "nord",
+      "seite_staerke": 0.6
+     },
+     "rolle": "streu"
+    },
+    {
+     "name": "kiessaum",
+     "ebene": "kontakt",
+     "warum": "Lapillisaum um die Bloecke",
+     "palette": "grus",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "kraterkrone",
+       "randblock_k3",
+       "spatter",
+       "randschlacke_k1",
+       "randschlacke_k3"
+      ],
+      "ring": [
+       0.9,
+       1.4
+      ],
+      "je": [
+       4,
+       8
+      ]
+     },
+     "rolle": "stein"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Lavasand",
+     "form": "kreis",
+     "bei": "senke",
+     "r_m": 66,
+     "streckung": [
+      1.0,
+      0.75
+     ],
+     "richtung": 80,
+     "wert": 190,
+     "flecken": 0.35,
+     "rand_m": 10
+    },
+    {
+     "lage": "Gras",
+     "form": "hang",
+     "bei": "senke",
+     "r_m": 72,
+     "hang_grad": [
+      8,
+      40
+     ],
+     "wert": 170,
+     "flecken": 0.5
+    },
+    {
+     "lage": "Lavafels",
+     "form": "ring",
+     "bei": "k1",
+     "r_m": [
+      3.5,
+      7.5
+     ],
+     "wert": 200,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Lavafels",
+     "form": "ring",
+     "bei": "k3",
+     "r_m": [
+      4.0,
+      8.5
+     ],
+     "wert": 200,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Kies",
+     "form": "ufer",
+     "bei": "senke",
+     "r_m": 80,
+     "band_m": [
+      0.0,
+      1.5
+     ],
+     "wert": 200
+    },
+    {
+     "lage": "Schlamm",
+     "form": "ufer",
+     "bei": "senke",
+     "r_m": 80,
+     "band_m": [
+      0.0,
+      0.6
+     ],
+     "wert": 150
+    },
+    {
+     "lage": "Moos",
+     "form": "ufer",
+     "bei": "senke",
+     "r_m": 80,
+     "band_m": [
+      1.5,
+      4.0
+     ],
+     "wert": 170
+    }
+   ],
+   "pfad": {
+    "breite_cm": 140,
+    "lagen": {
+     "Erde": 200,
+     "Kies": 110
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 20,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
+   "effekte": [
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "duenner Dunst ueber den Kraterteichen (kuehle Senke)",
+     "bei": "senke",
+     "hoehe_m": 2.0,
+     "radius_m": 45,
+     "dichte": 0.03,
+     "farbe": [
+      0.82,
+      0.85,
+      0.88
+     ],
+     "hoehenabfall": 0.7
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableLeakage_01",
+     "anzahl": 2,
+     "zweck": "Nassband am Kraterteich",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k1",
+      "r_m": [
+       4.8,
+       5.6
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      2.0,
+      2.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableLeakage_01",
+     "anzahl": 1,
+     "zweck": "Nassband am zweiten Teich",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "k3",
+      "r_m": [
+       5.4,
+       6.2
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      2.0,
+      2.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableMossPatches_01",
+     "anzahl": 1,
+     "zweck": "Moosfleck am Kegelfuss",
+     "bei": {
+      "von": "k4",
+      "richtung": 0,
+      "abstand_m": 8
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Water_Stream_II_Cue",
+     "bei": [
+      -60,
+      -60
+     ],
+     "radius_m": 80,
+     "lautstaerke": 0.4,
+     "zweck": "Aue-Bach hinter der Senke (Grundklang)"
+    }
+   ]
+  },
+  "lava_04_roehrenfenster": {
+   "kurz": "Auf dem Moosplateau klafft ein 26 x 16 m grosses, 8 m tiefes Einsturzfenster einer Lavaroehre: an beiden Enden schwarze Roehrenmaeuler unter Lavaplatten, am Grund Bruchschutt und eine kuehle Farnoase.",
+   "marker": {
+    "titel": "Das Roehrenfenster",
+    "text": "Unter dem Moos ist der Berg hohl. Wo die Decke eingebrochen ist, atmet die Roehre kalte Luft, und in ihrem Licht wachsen Farne, die sonst nirgends hier gedeihen.",
+    "entdeckung_m": 25
+   },
+   "budget": {
+    "instanzen": 3500,
+    "kollision": 500,
+    "akteure": 25,
+    "lichter": 0,
+    "niagara": 1,
+    "decals": 8
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "statt_jetzt": "Deckenlippen SM_lava_wall_01/02/09 fehlen: Basalt_Basalt_Cliff_Rock_B_SM als Deckenplatte ueber den Roehrenmaeulern + Basalt_Basalt_Pillars_WallOverhang_SM kopfueber; Roehre selbst = Gelaendekerbe unter der Platte"
+    },
+    {
+     "paket": "Cave Ambience",
+     "statt_jetzt": "CUE_Rain_Dropping_on_various_textures_Cue leise (Tropfen)"
+    },
+    {
+     "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+     "statt_jetzt": "SM_MossyRocks_01/02 + SM_lava_* mit MI_EL_SW_Lava_Moos"
+    }
+   ],
+   "anker": {
+    "maul_no": {
+     "von": "mitte",
+     "richtung": 50,
+     "abstand_m": 11
+    },
+    "maul_sw": {
+     "von": "mitte",
+     "richtung": 230,
+     "abstand_m": 11
+    },
+    "kerbe_no": {
+     "von": "mitte",
+     "richtung": 50,
+     "abstand_m": 20
+    },
+    "kerbe_sw": {
+     "von": "mitte",
+     "richtung": 230,
+     "abstand_m": 20
+    },
+    "ruecken": [
+     -4,
+     -21
+    ],
+    "dolin_no": [
+     28,
+     -20
+    ],
+    "dolin_sw": [
+     -31,
+     22
+    ],
+    "nordwand": [
+     0,
+     -7
+    ],
+    "suedwand": [
+     0,
+     7
+    ],
+    "blick_held": [
+     -8.5,
+     -23.5
+    ]
+   },
+   "linien": {
+    "achse": {
+     "punkte": [
+      [
+       47,
+       -40
+      ],
+      [
+       28,
+       -20
+      ],
+      [
+       0,
+       0
+      ],
+      [
+       -31,
+       22
+      ],
+      [
+       -58,
+       42
+      ]
+     ]
+    }
+   },
+   "gelaende": {
+    "fenster_m": [
+     130,
+     140
+    ],
+    "bei": [
+     -4,
+     0
+    ],
+    "rand_m": 10,
+    "senken_erlaubt": [
+     {
+      "bei": "mitte",
+      "r_m": 24,
+      "grund": "Einsturzfenster: entwaessert in die beiden Roehrenmaeuler"
+     },
+     {
+      "bei": "dolin_no",
+      "r_m": 9,
+      "grund": "Einsenkung ueber der Roehre (Katalog)"
+     },
+     {
+      "bei": "dolin_sw",
+      "r_m": 9,
+      "grund": "Einsenkung ueber der Roehre (Katalog)"
+     }
+    ],
+    "ops": [
+     {
+      "op": "kuppe",
+      "bei": "ruecken",
+      "radius_m": 6,
+      "hoehe_m": 3.5,
+      "plateau": 0.3,
+      "rand_m": 6,
+      "streckung": [
+       4.0,
+       1.0
+      ],
+      "richtung": 100,
+      "warum": "Druckruecken +3,5 m zwischen Weg und Fenster: verdeckt die Grube vom Weg (Phase 1: Einblick 0 %)"
+     },
+     {
+      "op": "mulde",
+      "bei": "mitte",
+      "radius_m": 12.5,
+      "ziel_z": "mitte-8",
+      "boden": 0.8,
+      "rand_m": 2.0,
+      "streckung": [
+       1.0,
+       0.62
+      ],
+      "richtung": 50,
+      "warum": "Einsturzfenster ~26 x 16 m, Sohle 8 m unter dem Plateau (steile Waende)"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       "maul_no",
+       "kerbe_no"
+      ],
+      "breite_m": 4,
+      "sohle": [
+       "mitte-8",
+       "mitte-8"
+      ],
+      "rand_m": 1.2,
+      "warum": "Roehrenmaul NO: der Gang laeuft unter der Deckenplatte weiter (Ueberhang = Netz)"
+     },
+     {
+      "op": "rinne",
+      "punkte": [
+       "maul_sw",
+       "kerbe_sw"
+      ],
+      "breite_m": 4,
+      "sohle": [
+       "mitte-8",
+       "mitte-8"
+      ],
+      "rand_m": 1.2,
+      "warum": "Roehrenmaul SW"
+     },
+     {
+      "op": "mulde",
+      "bei": "dolin_no",
+      "radius_m": 5,
+      "tiefe_m": 2.0,
+      "boden": 0.3,
+      "rand_m": 3,
+      "streckung": [
+       1.25,
+       1.0
+      ],
+      "richtung": 50,
+      "warum": "Einsenkung: zeigt, wohin die Roehre laeuft"
+     },
+     {
+      "op": "mulde",
+      "bei": "dolin_sw",
+      "radius_m": 5,
+      "tiefe_m": 1.5,
+      "boden": 0.3,
+      "rand_m": 3,
+      "streckung": [
+       1.25,
+       1.0
+      ],
+      "richtung": 50,
+      "warum": "zweite Einsenkung"
+     }
+    ]
+   },
+   "gruppen": [
+    {
+     "name": "deckenplatte_sw",
+     "ebene": "held",
+     "warum": "Roehrendecke: die erhaltene Kruste ueberspannt das SW-Maul",
+     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": {
+       "von": "mitte",
+       "richtung": 230,
+       "abstand_m": 17.5
+      }
+     },
+     "skala": 0.95,
+     "ausrichtung": "aufrecht",
+     "front_achse": "+x",
+     "yaw": {
+      "basis": "achse",
+      "plus": 90
+     },
+     "yaw_streuung_grad": 6,
+     "z_bezug": "boden+6.8",
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Lava_Moos",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "hinweis": "Unterkante 6,8 m ueber der Kerbensohle = Roehrenmaul; Oberkante ~buendig mit dem Plateau"
+    },
+    {
+     "name": "deckenplatte_no",
+     "ebene": "held",
+     "warum": "Roehrendecke ueber dem NO-Maul (Hang faellt nach NO: Maul niedriger)",
+     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": {
+       "von": "mitte",
+       "richtung": 50,
+       "abstand_m": 17.5
+      }
+     },
+     "skala": 0.95,
+     "ausrichtung": "aufrecht",
+     "front_achse": "+x",
+     "yaw": {
+      "basis": "achse",
+      "plus": 90
+     },
+     "yaw_streuung_grad": 6,
+     "z_bezug": "boden+3.4",
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Lava_Moos",
+     "meide": null,
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "deckenlippe",
+     "ebene": "held",
+     "warum": "abgerissene Deckenlippe haengt ins SW-Maul (kopfueber)",
+     "netz": "Basalt_Basalt_Pillars_WallOverhang_SM",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": {
+       "von": "mitte",
+       "richtung": 230,
+       "abstand_m": 14.9
+      }
+     },
+     "skala": 1.6,
+     "ausrichtung": "aufrecht",
+     "kipp_grad": 180,
+     "kipp_richtung": {
+      "basis": "achse",
+      "plus": 90
+     },
+     "yaw": {
+      "basis": "achse",
+      "plus": 90
+     },
+     "z_bezug": "boden+2.9",
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Lava_Moos",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "hinweis": "kopfueber (Kippen 180 Grad); Prueffbild: Fuge zur Deckenplatte mit Moos/Decal decken"
+    },
+    {
+     "name": "deckenbrocken",
+     "ebene": "begleiter",
+     "warum": "eingestuerzte Deckenbrocken am Grund",
+     "palette": "lava_bloecke",
+     "anzahl": 5,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "mitte",
+      "a_m": 10,
+      "b_m": 6,
+      "richtung": 50
+     },
+     "abstand_m": 3.5,
+     "groesse_m": [
+      2.4,
+      3.6
+     ],
+     "kipp_grad": [
+      10,
+      30
+     ],
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "hoehe_rel_m": [
+      -12,
+      -4.5
+     ]
+    },
+    {
+     "name": "bruchkegel",
+     "ebene": "schutt",
+     "warum": "Bruchschutt unter den Raendern (Decke bricht nach)",
+     "palette": "lava_mittel",
+     "anzahl": 40,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "mitte",
+      "a_m": 12.5,
+      "b_m": 7.8,
+      "richtung": 50
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      0.9,
+      1.8
+     ],
+     "hoehe_rel_m": [
+      -12,
+      -3.5
+     ],
+     "meide": "kern"
+    },
+    {
+     "name": "bruch_klein",
+     "ebene": "schutt",
+     "warum": "kleiner Bruchschutt am Grund",
+     "palette": "lava_klein",
+     "anzahl": 60,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "mitte",
+      "a_m": 12,
+      "b_m": 7.5,
+      "richtung": 50
+     },
+     "abstand_m": 1.0,
+     "groesse_m": [
+      0.4,
+      0.9
+     ],
+     "hoehe_rel_m": [
+      -12,
+      -4.0
+     ],
+     "meide": "kern"
+    },
+    {
+     "name": "randbloecke",
+     "ebene": "schutt",
+     "warum": "gelockerte Kruste an der Grubenkante",
+     "palette": "lava_klein",
+     "anzahl": 18,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       10,
+       17
+      ]
+     },
+     "abstand_m": 2.0,
+     "groesse_m": [
+      0.6,
+      1.2
+     ],
+     "hoehe_rel_m": [
+      -2,
+      3
+     ],
+     "material": "MI_EL_SW_Lava_Moos"
+    },
+    {
+     "name": "grubengrus",
+     "ebene": "kleinzeug",
+     "warum": "Grus und Steinchen am Grubengrund",
+     "palette": "grus",
+     "anzahl": 500,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "mitte",
+      "a_m": 12,
+      "b_m": 7.5,
+      "richtung": 50
+     },
+     "abstand_m": 0.4,
+     "rolle": "stein",
+     "hoehe_rel_m": [
+      -12,
+      -3.0
+     ]
+    },
+    {
+     "name": "plateaugrus",
+     "ebene": "kleinzeug",
+     "warum": "Steinchen im Moos auf dem Plateau",
+     "palette": "steinchen",
+     "anzahl": 500,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       11,
+       40
+      ]
+     },
+     "abstand_m": 0.6,
+     "rolle": "stein"
+    },
+    {
+     "name": "farnoase",
+     "ebene": "bewuchs",
+     "warum": "Farnoase nur im kuehlen, feuchten Schacht (Kaltluft aus der Roehre)",
+     "palette": "farn_schatten",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ellipse",
+      "bei": "mitte",
+      "a_m": 10,
+      "b_m": 6,
+      "richtung": 50,
+      "zentren": [
+       6,
+       8
+      ],
+      "je": [
+       5,
+       9
+      ],
+      "radius_m": 2.2
+     },
+     "abstand_m": 0.8,
+     "rolle": "pflanze",
+     "hoehe_rel_m": [
+      -12,
+      -4.5
+     ]
+    },
+    {
+     "name": "wandmoos",
+     "ebene": "bewuchs",
+     "warum": "Moospolster an den Grubenwaenden (Tropfwasser)",
+     "palette": "moos",
+     "dichte_je_m2": 1.2,
+     "verteilung": {
+      "typ": "ellipse",
+      "bei": "mitte",
+      "a_m": 14,
+      "b_m": 9,
+      "richtung": 50
+     },
+     "abstand_m": 0.3,
+     "rolle": "streu",
+     "hang_grad": [
+      25,
+      80
+     ]
+    },
+    {
+     "name": "plateaugras",
+     "ebene": "bewuchs",
+     "warum": "Gras und Moos auf dem Plateau wie heute, dichter an der Kante (Tau aus der Roehre)",
+     "palette": "tundragras_flach",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ring",
+      "bei": "mitte",
+      "r_m": [
+       12,
+       42
+      ],
+      "zentren": [
+       14,
+       18
+      ],
+      "je": [
+       5,
+       9
+      ],
+      "radius_m": 2.8
+     },
+     "abstand_m": 0.6,
+     "rolle": "pflanze",
+     "hoehe_rel_m": [
+      -2.5,
+      4
+     ]
+    },
+    {
+     "name": "kantenmoos",
+     "ebene": "kontakt",
+     "warum": "Moos kriecht ueber die Kante und auf die Deckenplatten",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "deckenplatte_sw",
+       "deckenplatte_no",
+       "deckenlippe"
+      ],
+      "ring": [
+       0.8,
+       1.15
+      ],
+      "je": [
+       14,
+       20
+      ]
+     },
+     "rolle": "streu",
+     "im_wasser": "egal"
+    },
+    {
+     "name": "brockenkies",
+     "ebene": "kontakt",
+     "warum": "Kies und Moos um die Deckenbrocken",
+     "palette": "grus",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "deckenbrocken",
+       "bruchkegel"
+      ],
+      "ring": [
+       0.9,
+       1.4
+      ],
+      "je": [
+       6,
+       10
+      ]
+     },
+     "rolle": "stein"
+    },
+    {
+     "name": "brockenmoos",
+     "ebene": "kontakt",
+     "warum": "Moos auf der Nordseite der Brocken",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "deckenbrocken",
+      "ring": [
+       0.85,
+       1.2
+      ],
+      "je": [
+       6,
+       10
+      ],
+      "seite": "nord",
+      "seite_staerke": 0.6
+     },
+     "rolle": "streu"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Moos",
+     "form": "ring",
+     "bei": "mitte",
+     "r_m": [
+      12,
+      34
+     ],
+     "wert": 210,
+     "flecken": 0.45
+    },
+    {
+     "lage": "Fels",
+     "form": "hang",
+     "bei": "mitte",
+     "r_m": 20,
+     "hang_grad": [
+      38,
+      90
+     ],
+     "wert": 210
+    },
+    {
+     "lage": "Geroell",
+     "form": "kreis",
+     "bei": "mitte",
+     "r_m": 10,
+     "streckung": [
+      1.0,
+      0.62
+     ],
+     "richtung": 50,
+     "wert": 200,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Erde",
+     "form": "kreis",
+     "bei": "mitte",
+     "r_m": 6,
+     "streckung": [
+      1.0,
+      0.7
+     ],
+     "richtung": 50,
+     "wert": 190,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Moos",
+     "form": "kreis",
+     "bei": "dolin_no",
+     "r_m": 6,
+     "wert": 230,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Moos",
+     "form": "kreis",
+     "bei": "dolin_sw",
+     "r_m": 6,
+     "wert": 230,
+     "flecken": 0.3
+    }
+   ],
+   "pfad": {
+    "breite_cm": 130,
+    "lagen": {
+     "Erde": 190,
+     "Kies": 100
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 20,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
+   "effekte": [
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Kaltluft im Schacht (Roehre atmet)",
+     "bei": "mitte",
+     "hoehe_m": 1.5,
+     "radius_m": 11,
+     "dichte": 0.06,
+     "farbe": [
+      0.8,
+      0.84,
+      0.86
+     ],
+     "hoehenabfall": 0.9
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_02",
+     "anzahl": 3,
+     "zweck": "Tropfspuren an den Grubenwaenden",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       8.5,
+       10.5
+      ]
+     },
+     "hoehe_m": 2.5,
+     "ausrichtung": "wand",
+     "blick": "von:mitte",
+     "groesse_m": [
+      1.5,
+      2.0,
+      5.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_06",
+     "anzahl": 2,
+     "zweck": "Sickerstreifen unter den Deckenplatten",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       12.5,
+       14
+      ]
+     },
+     "hoehe_m": 3.0,
+     "ausrichtung": "wand",
+     "blick": "von:mitte",
+     "groesse_m": [
+      1.5,
+      2.0,
+      4.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableMossPatches_03",
+     "anzahl": 3,
+     "zweck": "Moos-Decal ueber der Naht Gelaende/Deckenplatte",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       15,
+       19
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Rain_Dropping_on_various_textures_Cue",
+     "bei": "maul_sw",
+     "radius_m": 18,
+     "lautstaerke": 0.25,
+     "zweck": "Tropfen im Roehrenmaul (pruefen: Tropfen, nicht Regen)"
+    }
+   ]
+  },
+  "lava_05_klare_spalte": {
+   "kurz": "110 m lange, 4-9 m breite Riftspalte in der Mooslava: 5 m unter der Kante steht Grundwasser, so klar, dass man jeden Block am Grund sieht; eine Klemmscholle ueberspannt die Engstelle, am Suedwestende fuehrt eine Schuttrampe hinab.",
+   "marker": {
+    "titel": "Die Klare Spalte",
+    "text": "Hier reisst das Land auseinander, langsam, seit Menschengedenken. Das Wasser darin ist so klar, dass man meint, man koennte hinuntergehen.",
+    "entdeckung_m": 20
+   },
+   "budget": {
+    "instanzen": 5000,
+    "kollision": 900,
+    "akteure": 45,
+    "lichter": 0,
+    "niagara": 0,
+    "decals": 8
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "statt_jetzt": "Spaltenwaende SM_lava_wall_04/05 fehlen: Basalt_Basalt_Pillars_Wall_SM / _WallSlope_SM senkrecht gereiht (MI_EL_SW_Basalt_Saeule)"
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "statt_jetzt": "Nassband an der Wasserlinie aus MI_TileableLeakage_* / MI_Leakage_*"
+    },
+    {
+     "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+     "statt_jetzt": "SM_MossyRocks_01/02 + SM_lava_* mit MI_EL_SW_Lava_Moos"
+    }
+   ],
+   "anker": {
+    "klemm": [
+     14,
+     -16
+    ],
+    "birke": [
+     -24,
+     34
+    ],
+    "tumulus": [
+     26,
+     -26
+    ],
+    "wasser": [
+     -1,
+     1
+    ],
+    "rampe_oben": [
+     -52,
+     62
+    ],
+    "rampe_unten": [
+     -38,
+     45
+    ],
+    "weiden": [
+     -30,
+     30
+    ]
+   },
+   "linien": {
+    "spalte": {
+     "punkte": [
+      [
+       -36,
+       43
+      ],
+      [
+       -16,
+       19
+      ],
+      [
+       0,
+       0
+      ],
+      [
+       16,
+       -20
+      ],
+      [
+       32,
+       -38
+      ]
+     ]
+    },
+    "rampe": {
+     "punkte": [
+      [
+       -52,
+       62
+      ],
+      [
+       -38,
+       45
+      ]
+     ]
+    }
+   },
+   "gelaende": {
+    "fenster_m": [
+     150,
+     140
+    ],
+    "bei": [
+     -8,
+     10
+    ],
+    "rand_m": 10,
+    "ops": [
+     {
+      "op": "rinne",
+      "punkte": "spalte",
+      "breite_m": 6.0,
+      "sohle": [
+       "boden-11",
+       "boden-11"
+      ],
+      "rand_m": 2.5,
+      "warum": "Riftspalte 11 m tief (Dehnung NO-SW wie die Kraterreihe)"
+     },
+     {
+      "op": "rinne",
+      "punkte": "rampe",
+      "breite_m": 4.5,
+      "sohle": [
+       "boden-0.4",
+       "boden+3.0"
+      ],
+      "rand_m": 3.0,
+      "warum": "Schuttrampe am Suedwestende: Abstieg zum Wasser"
+     },
+     {
+      "op": "kuppe",
+      "bei": "tumulus",
+      "radius_m": 7,
+      "hoehe_m": 2.4,
+      "plateau": 0.3,
+      "rand_m": 5,
+      "streckung": [
+       2.3,
+       1.0
+      ],
+      "richtung": 40,
+      "warum": "Moos-Tumulus +2,4 m am NO-Ende: Rahmen und _held-Standpunkt, Spalte bleibt vom Weg verborgen"
+     }
+    ]
+   },
+   "wasser": [
+    {
+     "typ": "see",
+     "id": "spaltwasser",
+     "bei": "wasser",
+     "spiegel": "boden+5.5",
+     "tiefe_m": 6.0,
+     "farbe": "tuerkis",
+     "becken": {
+      "a_m": 50,
+      "b_m": 2.9,
+      "richtung": 40,
+      "ufer_m": 2.0,
+      "freibord_m": 0.8,
+      "boden": 0.5,
+      "auslass": null
+     }
+    }
+   ],
+   "gruppen": [
+    {
+     "name": "klemmscholle",
+     "ebene": "held",
+     "warum": "Klemmscholle: beim Aufreissen abgebrochen und zwischen den Waenden verkeilt",
+     "netz": "SM_lava_b_rock_02",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": "klemm"
+     },
+     "skala": 1.25,
+     "ausrichtung": "aufrecht",
+     "front_achse": "+y",
+     "yaw": {
+      "basis": "spalte",
+      "plus": 90
+     },
+     "yaw_streuung_grad": 6,
+     "kipp_grad": [
+      4,
+      8
+     ],
+     "z_bezug": "boden+8.6",
+     "akteur": true,
+     "kollision": true,
+     "im_wasser": "egal",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "material": "MI_EL_SW_Lava_Moos",
+     "hinweis": "laengste Achse (y, 5 m x 1,25) quer zur Spalte"
+    },
+    {
+     "name": "waende",
+     "ebene": "begleiter",
+     "warum": "senkrecht geklueftete Basaltwaende der Spalte (Ersatz fuer SM_lava_wall_04/05)",
+     "palette": [
+      "Basalt_Basalt_Pillars_Wall_SM",
+      "Basalt_Basalt_Pillars_WallSlope_SM"
+     ],
+     "gewichte": [
+      3,
+      1
+     ],
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "spalte",
+      "abstand_m": 7.5,
+      "versatz_m": 3.2,
+      "versatz_streuung_m": 0.6,
+      "seiten": [
+       "links",
+       "rechts"
+      ],
+      "blick": "zur_linie",
+      "front_an_linie": true
+     },
+     "skala": [
+      3.6,
+      4.2
+     ],
+     "front_achse": "+y",
+     "ausrichtung": "aufrecht",
+     "eingraben": [
+      0.04,
+      0.08
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Basalt_Saeule",
+     "im_wasser": "egal",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "hinweis": "Schauseite der Wandmodule (+y) angenommen; Fuss im Spaltengrund unter Wasser"
+    },
+    {
+     "name": "wasserbloecke",
+     "ebene": "begleiter",
+     "warum": "Bruchbloecke am Grund, durch das klare Wasser sichtbar",
+     "palette": [
+      "SM_lava_b_rock_01",
+      "SM_lava_b_rock_03"
+     ],
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 3.0,
+      "t": [
+       0.25,
+       0.95
+      ]
+     },
+     "abstand_m": 6,
+     "groesse_m": [
+      2.0,
+      3.0
+     ],
+     "im_wasser": "nur",
+     "eingraben": [
+      0.25,
+      0.35
+     ],
+     "akteur": false,
+     "kollision": true,
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "grundschutt",
+     "ebene": "wasser",
+     "warum": "Schutt am Spaltengrund (sichtbarer Grund)",
+     "palette": "lava_mittel",
+     "anzahl": 30,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 4.0
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      0.8,
+      1.6
+     ],
+     "im_wasser": "nur",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "rampenschutt",
+     "ebene": "schutt",
+     "warum": "Schuttrampe: Wandbruch am Suedwestende",
+     "palette": "lava_mittel",
+     "anzahl": 24,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "rampe",
+      "breite_m": 6.0
+     },
+     "abstand_m": 1.8,
+     "groesse_m": [
+      0.8,
+      1.6
+     ],
+     "meide": "kern",
+     "im_wasser": "egal",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "wandfussschutt",
+     "ebene": "schutt",
+     "warum": "Steinschlag von den Waenden",
+     "palette": "lava_klein",
+     "anzahl": 60,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 11.0
+     },
+     "abstand_m": 1.4,
+     "groesse_m": [
+      0.5,
+      1.1
+     ],
+     "im_wasser": "egal",
+     "meide": "kern",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "kantenschutt",
+     "ebene": "schutt",
+     "warum": "gelockerte Kruste an der Spaltenkante (Suedostseite, flach)",
+     "palette": "lava_klein",
+     "anzahl": 30,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "versatz_m": 9,
+      "breite_m": 6
+     },
+     "abstand_m": 2.0,
+     "groesse_m": [
+      0.4,
+      0.6
+     ]
+    },
+    {
+     "name": "uferkies",
+     "ebene": "kleinzeug",
+     "warum": "Kies auf den Leisten an der Wasserlinie",
+     "palette": "grus",
+     "dichte_je_m2": 0.9,
+     "verteilung": {
+      "typ": "ufer",
+      "bei": "wasser",
+      "r_m": 60,
+      "band_m": [
+       -0.6,
+       1.8
+      ]
+     },
+     "abstand_m": 0.3,
+     "rolle": "stein",
+     "im_wasser": "egal",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "moosgrus",
+     "ebene": "kleinzeug",
+     "warum": "Steinchen im Moos an der Kante",
+     "palette": "steinchen",
+     "anzahl": 700,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 30
+     },
+     "abstand_m": 0.5,
+     "rolle": "stein"
+    },
+    {
+     "name": "birke",
+     "ebene": "begleiter",
+     "warum": "Windbirke an der Kante (Windfluechter, Rahmen fuer den _held-Blick)",
+     "netz": "Big_Tree_birch_01",
+     "verteilung": {
+      "typ": "punkt",
+      "bei": "birke"
+     },
+     "skala": 0.45,
+     "rolle": "baum",
+     "kipp_grad": [
+      7,
+      10
+     ],
+     "kipp_richtung": 220,
+     "akteur": true,
+     "kollision": true,
+     "meide": null
+    },
+    {
+     "name": "kriechweiden",
+     "ebene": "bewuchs",
+     "warum": "Kriechweiden am windgeschuetzten Suedwestende",
+     "palette": "kriechweide",
+     "anzahl": 8,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "weiden",
+      "r_m": 14
+     },
+     "abstand_m": 2.5,
+     "rolle": "pflanze",
+     "skala": [
+      0.6,
+      0.9
+     ]
+    },
+    {
+     "name": "kluftfarn",
+     "ebene": "bewuchs",
+     "warum": "Farne in den schattigen Klueften der Waende",
+     "palette": "farn_schatten",
+     "anzahl": 60,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 9
+     },
+     "abstand_m": 0.9,
+     "rolle": "pflanze",
+     "hang_grad": [
+      18,
+      75
+     ],
+     "im_wasser": "nein",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "leistenmoos",
+     "ebene": "bewuchs",
+     "warum": "Moos auf jeder Leiste (Gischtfeuchte, Schatten)",
+     "palette": "moos",
+     "dichte_je_m2": 1.0,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 12
+     },
+     "abstand_m": 0.3,
+     "rolle": "streu",
+     "im_wasser": "nein",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "moospolster",
+     "ebene": "bewuchs",
+     "warum": "Moospolster der Mooslava rings um die Spalte (niedrig, Wegseite frei)",
+     "palette": "moosbuckel",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ring",
+      "bei": "mitte",
+      "r_m": [
+       12,
+       48
+      ],
+      "zentren": [
+       10,
+       14
+      ],
+      "je": [
+       2,
+       4
+      ],
+      "radius_m": 2.6
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      1.2,
+      2.2
+     ],
+     "rolle": "stein",
+     "eingraben": [
+      0.5,
+      0.65
+     ],
+     "material": "MI_EL_SW_Lava_Moos"
+    },
+    {
+     "name": "mossgras",
+     "ebene": "bewuchs",
+     "warum": "Gras zwischen den Polstern",
+     "palette": "tundragras_flach",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ring",
+      "bei": "mitte",
+      "r_m": [
+       10,
+       50
+      ],
+      "zentren": [
+       12,
+       16
+      ],
+      "je": [
+       5,
+       9
+      ],
+      "radius_m": 2.6
+     },
+     "abstand_m": 0.6,
+     "rolle": "pflanze"
+    },
+    {
+     "name": "kantenmoos",
+     "ebene": "kontakt",
+     "warum": "Moos kriecht ueber die Kante auf die Waende",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "waende",
+       "klemmscholle"
+      ],
+      "ring": [
+       0.85,
+       1.15
+      ],
+      "je": [
+       6,
+       10
+      ]
+     },
+     "rolle": "streu",
+     "im_wasser": "nein",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "birkenstreu",
+     "ebene": "kontakt",
+     "warum": "Zweige und Wurzelanlauf unter der Birke",
+     "palette": "zweige_tot",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "birke",
+      "ring_m": [
+       0.6,
+       4.0
+      ],
+      "je": [
+       8,
+       12
+      ]
+     },
+     "rolle": "streu"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Moos",
+     "form": "band",
+     "punkte": "spalte",
+     "breite_m": 40,
+     "wert": 200,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Fels",
+     "form": "hang",
+     "bei": "mitte",
+     "r_m": 60,
+     "hang_grad": [
+      40,
+      90
+     ],
+     "wert": 220
+    },
+    {
+     "lage": "Lavafels",
+     "form": "band",
+     "punkte": "spalte",
+     "breite_m": 16,
+     "wert": 160,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Kies",
+     "form": "ufer",
+     "bei": "wasser",
+     "r_m": 60,
+     "band_m": [
+      0.0,
+      1.5
+     ],
+     "wert": 200
+    },
+    {
+     "lage": "Geroell",
+     "form": "band",
+     "punkte": "rampe",
+     "breite_m": 7,
+     "wert": 210,
+     "flecken": 0.3
+    },
+    {
+     "lage": "Moos",
+     "form": "kreis",
+     "bei": "tumulus",
+     "r_m": 9,
+     "streckung": [
+      2.0,
+      1.0
+     ],
+     "richtung": 40,
+     "wert": 230,
+     "flecken": 0.3
+    }
+   ],
+   "pfad": {
+    "breite_cm": 130,
+    "lagen": {
+     "Erde": 190,
+     "Kies": 110
+    },
+    "ende": {
+     "ab_m": 60,
+     "punkte": [
+      [
+       30,
+       -31
+      ],
+      [
+       22,
+       -14
+      ],
+      [
+       7,
+       6
+      ],
+      [
+       -9,
+       25
+      ],
+      [
+       -27,
+       47
+      ],
+      [
+       -46,
+       70
+      ],
+      "rampe_oben",
+      "rampe_unten"
+     ]
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 16,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ],
+     "stufen_abstand_m": 2.5
+    }
+   },
+   "effekte": [
+    {
+     "typ": "decal",
+     "material": "MI_TileableLeakage_02",
+     "anzahl": 4,
+     "zweck": "Nassband/Sickerstreifen an den Waenden",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 6,
+      "t": [
+       0.2,
+       0.9
+      ]
+     },
+     "hoehe_m": 3.0,
+     "ausrichtung": "wand",
+     "blick": 310,
+     "groesse_m": [
+      1.5,
+      2.5,
+      6.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableLeakage_02",
+     "anzahl": 2,
+     "zweck": "dasselbe, Gegenwand",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 6,
+      "t": [
+       0.1,
+       0.8
+      ]
+     },
+     "hoehe_m": 3.0,
+     "ausrichtung": "wand",
+     "blick": 130,
+     "groesse_m": [
+      1.5,
+      2.5,
+      6.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableMossPatches_02",
+     "anzahl": 2,
+     "zweck": "Moos ueber der Kante",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 14
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Rain_Dropping_on_various_textures_Cue",
+     "bei": "wasser",
+     "radius_m": 30,
+     "lautstaerke": 0.2,
+     "zweck": "Tropfen von den Leisten ins Wasser (leise)"
+    }
+   ]
+  },
+  "lava_06_kraterreihe": {
+   "kurz": "Vier Schlackenkegel auf einer schnurgeraden Eruptionsspalte; der groesste, 27 m hoch, oeffnet sich als Hufeisen, sein Krater ist innen rostrot, aus dem Boden steigt ein Hauch Restdampf.",
+   "marker": {
+    "titel": "Die Kraterreihe",
+    "text": "Der Berg hat sich hier der Laenge nach geoeffnet und Perle um Perle ausgespien. Die groesste atmet noch.",
+    "entdeckung_m": 150
+   },
+   "budget": {
+    "instanzen": 8000,
+    "kollision": 600,
+    "akteure": 15,
+    "lichter": 0,
+    "niagara": 1,
+    "decals": 4
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "statt_jetzt": "Restdampf NS_Chimney_Smoke (optional, Kopie, duenn); Spatterfladen SM_lava_wall_06/07/08 fehlen: SM_lava_m_rock_08 + Basalt_Basalt_Cliff_Rock_B_SM (flach) mit MI_EL_SW_Schlacke_Rot"
+    },
+    {
+     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+     "statt_jetzt": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue leise (Laubanteil pruefen)"
+    }
+   ],
+   "anker": {
+    "haupt": [
+     -54,
+     87
+    ],
+    "k_mitte": [
+     -16,
+     -3
+    ],
+    "k_ost": [
+     26,
+     -25
+    ],
+    "k_alt": [
+     92,
+     -107
+    ],
+    "faecher": [
+     -66,
+     104
+    ],
+    "held_ziel": [
+     -40,
+     50
+    ],
+    "alt_nord": [
+     92,
+     -122
+    ]
+   },
+   "linien": {
+    "spalte": {
+     "punkte": [
+      [
+       110,
+       -130
+      ],
+      [
+       92,
+       -105
+      ],
+      [
+       28,
+       -23
+      ],
+      [
+       -15,
+       -3
+      ],
+      [
+       -54,
+       85
+      ],
+      [
+       -100,
+       160
+      ]
+     ]
+    }
+   },
+   "gelaende": {
+    "fenster_m": [
+     300,
+     280
+    ],
+    "bei": [
+     5,
+     -10
+    ],
+    "rand_m": 14,
+    "senken_erlaubt": [
+     {
+      "bei": "haupt",
+      "r_m": 16,
+      "grund": "Krater des Hauptkegels (Bestand, geschaerft)"
+     },
+     {
+      "bei": "k_mitte",
+      "r_m": 10,
+      "grund": "Krater (Bestand)"
+     },
+     {
+      "bei": "k_ost",
+      "r_m": 12,
+      "grund": "Krater (Bestand)"
+     },
+     {
+      "bei": "k_alt",
+      "r_m": 12,
+      "grund": "Krater (Bestand)"
+     }
+    ],
+    "ops": [
+     {
+      "op": "kuppe",
+      "bei": "haupt",
+      "radius_m": 22,
+      "hoehe_m": 2.0,
+      "plateau": 0.55,
+      "rand_m": 8,
+      "warum": "Kraterrand +2 m schaerfen (alte Kachel weich)"
+     },
+     {
+      "op": "mulde",
+      "bei": "haupt",
+      "radius_m": 9,
+      "tiefe_m": 4.0,
+      "boden": 0.45,
+      "rand_m": 5,
+      "warum": "Krater -2 m netto (Rand +2, Boden -2)"
+     },
+     {
+      "op": "buckel",
+      "bei": "faecher",
+      "radius_m": 26,
+      "amplitude_m": 0.5,
+      "wellenlaenge_m": 5,
+      "streckung": [
+       1.8,
+       1.0
+      ],
+      "richtung": 217,
+      "warum": "Schlackenfaecher uneben"
+     }
+    ]
+   },
+   "gruppen": [
+    {
+     "name": "kraterkrone",
+     "ebene": "held",
+     "warum": "Schweissschlacke-Tuerme auf dem Hauptkrater-Rand (rot oxidiert)",
+     "palette": [
+      "SM_lava_b_rock_04",
+      "SM_lava_b_rock_03",
+      "SM_lava_m_rock_02"
+     ],
+     "anzahl": 3,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "haupt",
+      "r_m": [
+       16,
+       20
+      ]
+     },
+     "abstand_m": 12,
+     "groesse_m": [
+      3.6,
+      5.0
+     ],
+     "kipp_grad": [
+      8,
+      18
+     ],
+     "kipp_richtung": "von:haupt",
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Schlacke_Rot"
+    },
+    {
+     "name": "kegelbloecke",
+     "ebene": "begleiter",
+     "warum": "Randbloecke der kleineren Kegel",
+     "palette": "lava_bloecke",
+     "anzahl": 6,
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       {
+        "von": "k_mitte",
+        "richtung": 20,
+        "abstand_m": 9
+       },
+       {
+        "von": "k_mitte",
+        "richtung": 200,
+        "abstand_m": 10
+       },
+       {
+        "von": "k_ost",
+        "richtung": 300,
+        "abstand_m": 13
+       },
+       {
+        "von": "k_ost",
+        "richtung": 130,
+        "abstand_m": 12
+       },
+       {
+        "von": "k_alt",
+        "richtung": 250,
+        "abstand_m": 12
+       },
+       {
+        "von": "k_alt",
+        "richtung": 60,
+        "abstand_m": 11
+       }
+      ]
+     },
+     "groesse_m": [
+      3.0,
+      4.2
+     ],
+     "kipp_grad": [
+      8,
+      20
+     ],
+     "eingraben": [
+      0.3,
+      0.42
+     ],
+     "akteur": true,
+     "material": "MI_EL_SW_Schlacke_Rot"
+    },
+    {
+     "name": "spatter",
+     "ebene": "begleiter",
+     "warum": "Spatterfladen an der Spalte (flache Fetzen)",
+     "palette": [
+      "Basalt_Basalt_Cliff_Rock_B_SM",
+      "SM_lava_m_rock_08"
+     ],
+     "anzahl": 8,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 10,
+      "t": [
+       0.2,
+       0.75
+      ]
+     },
+     "abstand_m": 12,
+     "groesse_m": [
+      2.4,
+      3.4
+     ],
+     "kipp_grad": [
+      5,
+      15
+     ],
+     "eingraben": [
+      0.3,
+      0.4
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot",
+     "akteur": false
+    },
+    {
+     "name": "schlackenfaecher",
+     "ebene": "schutt",
+     "warum": "Faecher roter Schlacke: vom Wind nach SW verfrachtet, unten groeber",
+     "palette": "lava_schlacke",
+     "anzahl": 110,
+     "verteilung": {
+      "typ": "faecher",
+      "bei": "haupt",
+      "richtung": 217,
+      "laenge_m": 48,
+      "start_m": 14,
+      "oeffnung_grad": 50
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      0.6,
+      1.4
+     ],
+     "gradient": {
+      "von": 0.8,
+      "bis": 1.6
+     },
+     "material": "MI_EL_SW_Schlacke_Rot"
+    },
+    {
+     "name": "kraterschlacke",
+     "ebene": "schutt",
+     "warum": "Schlacke im Krater und am Rand",
+     "palette": "lava_schlacke",
+     "anzahl": 60,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "haupt",
+      "r_m": [
+       6,
+       22
+      ]
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      0.6,
+      1.5
+     ],
+     "material": "MI_EL_SW_Schlacke_Rot"
+    },
+    {
+     "name": "spaltenschutt",
+     "ebene": "schutt",
+     "warum": "Schlacke entlang der Eruptionsspalte",
+     "palette": "lava_klein",
+     "anzahl": 90,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 20
+     },
+     "abstand_m": 2.0,
+     "groesse_m": [
+      0.6,
+      1.4
+     ]
+    },
+    {
+     "name": "lapilli",
+     "ebene": "kleinzeug",
+     "warum": "Lapilli auf den Flanken (Lage Lavasand + Kiesel)",
+     "palette": "grus",
+     "anzahl": 1800,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "spalte",
+      "breite_m": 50
+     },
+     "abstand_m": 0.6,
+     "rolle": "stein"
+    },
+    {
+     "name": "lapilli_faecher",
+     "ebene": "kleinzeug",
+     "warum": "feine Schlacke im Faecher",
+     "palette": "lava_kiesel",
+     "anzahl": 600,
+     "verteilung": {
+      "typ": "faecher",
+      "bei": "haupt",
+      "richtung": 217,
+      "laenge_m": 50,
+      "start_m": 10,
+      "oeffnung_grad": 60
+     },
+     "abstand_m": 0.5,
+     "rolle": "stein",
+     "material": "MI_EL_SW_Schlacke_Rot"
+    },
+    {
+     "name": "altmoos",
+     "ebene": "bewuchs",
+     "warum": "Moos nur an der Nordseite des aeltesten (NO-)Kegels",
+     "palette": "moos",
+     "dichte_je_m2": 0.6,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "alt_nord",
+      "r_m": 16
+     },
+     "abstand_m": 0.35,
+     "rolle": "streu"
+    },
+    {
+     "name": "altmoospolster",
+     "ebene": "bewuchs",
+     "warum": "Moospolster am alten Kegel",
+     "palette": "moosbuckel",
+     "anzahl": 10,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "alt_nord",
+      "r_m": 16
+     },
+     "abstand_m": 2.0,
+     "groesse_m": [
+      1.2,
+      2.0
+     ],
+     "rolle": "stein",
+     "eingraben": [
+      0.5,
+      0.65
+     ],
+     "material": "MI_EL_SW_Lava_Moos"
+    },
+    {
+     "name": "leegras",
+     "ebene": "bewuchs",
+     "warum": "einzelne Grashorste im Windschatten der Kegel (Lee = Ostseite)",
+     "palette": "tundragras",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "band",
+      "punkte": "spalte",
+      "breite_m": 40,
+      "versatz_m": -14,
+      "zentren": [
+       10,
+       14
+      ],
+      "je": [
+       3,
+       6
+      ],
+      "radius_m": 2.5
+     },
+     "abstand_m": 0.7,
+     "rolle": "pflanze"
+    },
+    {
+     "name": "kontakt_krone",
+     "ebene": "kontakt",
+     "warum": "Schlacke 40 % eingegraben, Lapilli-Saum um die Bloecke",
+     "palette": "lava_kiesel",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "kraterkrone",
+       "kegelbloecke",
+       "spatter"
+      ],
+      "ring": [
+       0.9,
+       1.35
+      ],
+      "je": [
+       10,
+       16
+      ]
+     },
+     "rolle": "stein"
+    },
+    {
+     "name": "moos_bloecke",
+     "ebene": "kontakt",
+     "warum": "Moos an der Nordseite der alten Bloecke",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "kegelbloecke",
+      "ring": [
+       0.85,
+       1.2
+      ],
+      "je": [
+       4,
+       8
+      ],
+      "seite": "nord",
+      "seite_staerke": 0.7
+     },
+     "rolle": "streu"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Lavasand",
+     "form": "band",
+     "punkte": "spalte",
+     "breite_m": 70,
+     "wert": 180,
+     "flecken": 0.4
+    },
+    {
+     "lage": "Geroell",
+     "form": "kreis",
+     "bei": "faecher",
+     "r_m": 26,
+     "streckung": [
+      1.0,
+      0.55
+     ],
+     "richtung": 217,
+     "wert": 210,
+     "flecken": 0.45
+    },
+    {
+     "lage": "Lavafels",
+     "form": "ring",
+     "bei": "haupt",
+     "r_m": [
+      10,
+      24
+     ],
+     "wert": 220,
+     "flecken": 0.35
+    },
+    {
+     "lage": "Moos",
+     "form": "kreis",
+     "bei": "alt_nord",
+     "r_m": 18,
+     "wert": 200,
+     "flecken": 0.5
+    }
+   ],
+   "pfad": {
+    "breite_cm": 150,
+    "lagen": {
+     "Erde": 210,
+     "Kies": 120
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 18,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ],
+     "stufen_abstand_m": 3.0
+    }
+   },
+   "zugang": {
+    "breite_cm": 130,
+    "lagen": {
+     "Lavasand": 200,
+     "Kies": 110
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "stufen_ab_grad": 16,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ],
+     "stufen_abstand_m": 2.5
+    }
+   },
+   "pfade_zusatz": [
+    {
+     "pfad_id": "lava_pfad_kratersteig_ost",
+     "kurz": "kratersteig_ost",
+     "lagen": {
+      "Erde": 210,
+      "Kies": 120
+     },
+     "hinweis": "ganzer Ostast als Bodenband (der Ort traegt ihn, fuer = [lava_06])"
+    }
+   ],
+   "effekte": [
+    {
+     "typ": "niagara",
+     "asset": "NS_Chimney_Smoke",
+     "optional": true,
+     "bei": "haupt",
+     "hoehe_m": 0.5,
+     "skala": 0.6,
+     "zweck": "Restdampf im Hauptkrater (Kopie, duenn, weiss)",
+     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "hinweis": "Dampf aus Lava & Volcano einsetzen, sobald nachgeladen"
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "Restdampf haengt im Krater",
+     "bei": "haupt",
+     "hoehe_m": 3.0,
+     "radius_m": 10,
+     "dichte": 0.06,
+     "farbe": [
+      0.9,
+      0.88,
+      0.85
+     ],
+     "hoehenabfall": 0.8
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableLeakage_03",
+     "anzahl": 2,
+     "zweck": "Rost-/Schwefelstreifen an der Kraterwand",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "haupt",
+      "r_m": [
+       6,
+       9
+      ]
+     },
+     "hoehe_m": 2.5,
+     "ausrichtung": "wand",
+     "blick": "von:haupt",
+     "groesse_m": [
+      1.5,
+      2.0,
+      5.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableMossPatches_01",
+     "anzahl": 2,
+     "zweck": "Moos am alten Kegel",
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "alt_nord",
+      "r_m": 10
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+     "bei": "haupt",
+     "radius_m": 60,
+     "lautstaerke": 0.35,
+     "zweck": "Wind auf dem Kegel (Laubanteil pruefen; spaeter Fantasy Ambiences)"
+    }
+   ]
+  },
+  "lava_07_basaltorgel": {
+   "kurz": "In einer kleinen Schlucht unter der Plateaukante steht eine 16-20 m hohe, leicht gebogene Wand aus sechseckigen Basaltsaeulen, oben gefaechert wie Orgelpfeifen; am Fuss liegen gebrochene Saeulen wie gestapelte Staemme, Moos besetzt die Stufen.",
+   "marker": {
+    "titel": "Die Basaltorgel",
+    "text": "Niemand hat diese Saeulen gesetzt, und doch stehen sie wie Pfeifen in einer Orgel, die nur der Frost spielt. Jeden Winter faellt ein Ton herunter.",
+    "entdeckung_m": 30
+   },
+   "budget": {
+    "instanzen": 4000,
+    "kollision": 800,
+    "akteure": 70,
+    "lichter": 0,
+    "niagara": 0,
+    "decals": 6
+   },
+   "assets_wunsch": [],
+   "anker": {
+    "schlucht": [
+     -12,
+     -6
+    ],
+    "blick_held": [
+     -23,
+     12
+    ],
+    "nordende": [
+     12,
+     -66
+    ],
+    "suedende": [
+     2,
+     42
+    ],
+    "farnfuge": [
+     4,
+     -10
+    ],
+    "gras": [
+     -18,
+     0
+    ]
+   },
+   "linien": {
+    "wand": {
+     "punkte": [
+      [
+       11,
+       -60
+      ],
+      [
+       12,
+       -30
+      ],
+      [
+       10,
+       0
+      ],
+      [
+       5,
+       35
+      ]
+     ]
+    },
+    "halde": {
+     "punkte": [
+      [
+       3,
+       -60
+      ],
+      [
+       4,
+       -30
+      ],
+      [
+       2,
+       0
+      ],
+      [
+       -3,
+       35
+      ]
+     ]
+    }
+   },
+   "gelaende": {
+    "fenster_m": [
+     150,
+     120
+    ],
+    "bei": [
+     0,
+     -8
+    ],
+    "rand_m": 10,
+    "ops": [
+     {
+      "op": "abbruch",
+      "punkte": "wand",
+      "hoehe_m": 4.0,
+      "breite_m": 4.5,
+      "reichweite_m": 13,
+      "seite": "links",
+      "verteilung": "oben",
+      "warum": "Plateaukante +4 m -> Wand 16-20 m (Katalog)"
+     },
+     {
+      "op": "glaetten",
+      "bei": "schlucht",
+      "radius_m": 14,
+      "staerke": 0.5,
+      "sigma_m": 3,
+      "warum": "Schluchtboden beruhigen (Halde, Gras)"
+     }
+    ]
+   },
+   "gruppen": [
+    {
+     "name": "orgel",
+     "ebene": "held",
+     "warum": "Saeulenwand: langsam erkaltende Lava zerfiel in Sechseck-Saeulen (Basalt Columns x6-7)",
+     "palette": [
+      "Basalt_Basalt_Pillars_Wall_SM",
+      "Basalt_Basalt_Pillars_WallSlope_SM",
+      "Basalt_Basalt_Pillars_WallOverhang_SM"
+     ],
+     "gewichte": [
+      3,
+      2,
+      1
+     ],
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "wand",
+      "abstand_m": 9.0,
+      "versatz_m": 1.0,
+      "versatz_streuung_m": 1.2,
+      "seiten": [
+       "links"
+      ],
+      "blick": "zur_linie",
+      "front_an_linie": true
+     },
+     "skala": [
+      6.2,
+      7.2
+     ],
+     "front_achse": "+y",
+     "ausrichtung": "aufrecht",
+     "yaw_streuung_grad": 10,
+     "eingraben": [
+      0.08,
+      0.14
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Basalt_Saeule",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "mindestens": 8,
+     "hinweis": "Module 1,6 x 0,8 x 2,6 m x6-7 = 10-11 m breit, 16-18 m hoch; Schauseite +y angenommen (Prueffbild)"
+    },
+    {
+     "name": "pfeifen",
+     "ebene": "held",
+     "warum": "oben gefaechert: Saeulenbuendel neigen sich ueber die Kante (Orgelpfeifen)",
+     "netz": "Basalt_Basalt_Pillars_Cluster_High_SM",
+     "verteilung": {
+      "typ": "reihe",
+      "punkte": "wand",
+      "abstand_m": 13.0,
+      "versatz_m": 4.5,
+      "versatz_streuung_m": 1.0,
+      "seiten": [
+       "links"
+      ],
+      "blick": "zur_linie"
+     },
+     "skala": [
+      5.6,
+      6.6
+     ],
+     "ausrichtung": "aufrecht",
+     "kipp_grad": [
+      8,
+      15
+     ],
+     "kipp_richtung": "zu:schlucht",
+     "eingraben": [
+      0.3,
+      0.38
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Basalt_Saeule",
+     "meide": null,
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "kante",
+     "ebene": "begleiter",
+     "warum": "Plateaukante ueber beiden Wandenden (Basalt_Basalt_Cliff_SM x3, wenige grosse Stuecke)",
+     "netz": "Basalt_Basalt_Cliff_SM",
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       "nordende",
+       "suedende"
+      ]
+     },
+     "skala": [
+      2.6,
+      2.9
+     ],
+     "front_achse": "+y",
+     "yaw": "zu:schlucht",
+     "eingraben": [
+      0.4,
+      0.48
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Basalt_Saeule",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "hinweis": "193 000 Dreiecke, kein Nanite: nur 2 Stueck"
+    },
+    {
+     "name": "saeulengruppen",
+     "ebene": "begleiter",
+     "warum": "unten senkrecht: freistehende Saeulengruppen vor der Wand (verschieden hoch)",
+     "palette": "basalt_saeulen",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "band",
+      "punkte": "wand",
+      "versatz_m": 2.5,
+      "breite_m": 3.0,
+      "zentren": [
+       7,
+       9
+      ],
+      "je": [
+       3,
+       6
+      ],
+      "radius_m": 1.6
+     },
+     "abstand_m": 1.3,
+     "skala": [
+      4.5,
+      6.0
+     ],
+     "ausrichtung": "aufrecht",
+     "kipp_grad": [
+      0,
+      4
+     ],
+     "eingraben": [
+      0.1,
+      0.2
+     ],
+     "akteur": false,
+     "kollision": true,
+     "material": "MI_EL_SW_Basalt_Saeule",
+     "meide": null,
+     "weg_abstand_m": 0,
+     "hinweis": "Foliage statt Akteur (nicht Nanite, Akteurbudget)"
+    },
+    {
+     "name": "gefallene",
+     "ebene": "begleiter",
+     "warum": "umgestuerzte Saeulen quer in der Halde (Frost hat sie gekippt)",
+     "palette": "basalt_lang",
+     "anzahl": 4,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "breite_m": 6,
+      "t": [
+       0.1,
+       0.9
+      ]
+     },
+     "abstand_m": 7,
+     "skala": [
+      4.2,
+      5.0
+     ],
+     "ausrichtung": "liegend",
+     "zentrieren": false,
+     "yaw": {
+      "basis": "zu:schlucht",
+      "plus": 0
+     },
+     "yaw_streuung_grad": 35,
+     "rolle": "stamm",
+     "eingraben": [
+      0.2,
+      0.3
+     ],
+     "akteur": true,
+     "kollision": true,
+     "meide": null,
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "halde_stuecke",
+     "ebene": "schutt",
+     "warum": "Saeulenstuecke wie gestapelte Staemme (Frostsprengung)",
+     "palette": [
+      "Basalt_Basalt_Pillar_B_SM",
+      "Basalt_Basalt_Pillar_C_SM",
+      "Basalt_Basalt_Pillar_Variance_B_SM",
+      "Basalt_Basalt_Pillar_Variance_C_SM"
+     ],
+     "anzahl": 70,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "breite_m": 10
+     },
+     "abstand_m": 1.3,
+     "skala": [
+      3.0,
+      4.2
+     ],
+     "ausrichtung": "liegend",
+     "zentrieren": true,
+     "rolle": "stamm",
+     "eingraben": [
+      0.25,
+      0.35
+     ],
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "halde_stuempfe",
+     "ebene": "schutt",
+     "warum": "kurze Saeulenstuempfe und Buendel in der Halde",
+     "palette": "basalt_stuempfe",
+     "anzahl": 70,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "breite_m": 12
+     },
+     "abstand_m": 1.2,
+     "skala": [
+      3.0,
+      4.5
+     ],
+     "gradient": {
+      "von": 1.2,
+      "bis": 0.9
+     },
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "halde_bloecke",
+     "ebene": "schutt",
+     "warum": "Basaltbloecke am Haldenfuss (rollen am weitesten)",
+     "palette": "basalt_bloecke",
+     "anzahl": 22,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "versatz_m": 5,
+      "breite_m": 8
+     },
+     "abstand_m": 2.2,
+     "skala": [
+      1.0,
+      1.7
+     ],
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "grus",
+     "ebene": "kleinzeug",
+     "warum": "Grus und Kiesel in der Halde und am Schluchtboden",
+     "palette": "grus",
+     "anzahl": 1500,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "breite_m": 22
+     },
+     "abstand_m": 0.4,
+     "rolle": "stein",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "haldenmoos",
+     "ebene": "bewuchs",
+     "warum": "Moospolster auf den Stufen und der Halde (schattig)",
+     "palette": "moos",
+     "dichte_je_m2": 0.8,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "breite_m": 14
+     },
+     "abstand_m": 0.35,
+     "rolle": "streu",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "moospolster",
+     "ebene": "bewuchs",
+     "warum": "groessere Moospolster am Haldenfuss",
+     "palette": "moosbuckel",
+     "anzahl": 12,
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "versatz_m": 7,
+      "breite_m": 8
+     },
+     "abstand_m": 2.0,
+     "groesse_m": [
+      1.2,
+      2.0
+     ],
+     "rolle": "stein",
+     "eingraben": [
+      0.5,
+      0.65
+     ],
+     "material": "MI_EL_SW_Lava_Moos",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "fugenfarn",
+     "ebene": "bewuchs",
+     "warum": "Farne in den Fugen der Saeulengruppen (Sickerwasser)",
+     "palette": "farn_schatten",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": "saeulengruppen",
+      "ring_m": [
+       0.6,
+       1.8
+      ],
+      "je": [
+       1,
+       3
+      ]
+     },
+     "rolle": "pflanze",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "schluchtgras",
+     "ebene": "bewuchs",
+     "warum": "Gras am Schluchtboden (Feinmaterial, Feuchte)",
+     "palette": "tundragras",
+     "verteilung": {
+      "typ": "cluster",
+      "form": "kreis",
+      "bei": "gras",
+      "r_m": 22,
+      "zentren": [
+       10,
+       14
+      ],
+      "je": [
+       5,
+       9
+      ],
+      "radius_m": 2.8
+     },
+     "abstand_m": 0.6,
+     "rolle": "pflanze",
+     "hang_grad": [
+      0,
+      28
+     ],
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "wandfuss_moos",
+     "ebene": "kontakt",
+     "warum": "Moos am Wandfuss (Fussblend M_EL_Klippe_RVT + Instanzen)",
+     "palette": "moos",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "orgel",
+       "kante"
+      ],
+      "ring": [
+       0.9,
+       1.15
+      ],
+      "je": [
+       12,
+       18
+      ]
+     },
+     "rolle": "streu",
+     "weg_abstand_m": 0
+    },
+    {
+     "name": "saeulenkies",
+     "ebene": "kontakt",
+     "warum": "Kiessaum um Saeulen und Bloecke - nichts steht auf",
+     "palette": "grus",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "saeulengruppen",
+       "gefallene",
+       "halde_bloecke"
+      ],
+      "ring": [
+       0.95,
+       1.4
+      ],
+      "je": [
+       3,
+       6
+      ]
+     },
+     "rolle": "stein",
+     "weg_abstand_m": 0
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Geroell",
+     "form": "band",
+     "punkte": "halde",
+     "breite_m": 14,
+     "wert": 220,
+     "flecken": 0.35
+    },
+    {
+     "lage": "Fels",
+     "form": "hang",
+     "bei": "mitte",
+     "r_m": 60,
+     "hang_grad": [
+      38,
+      90
+     ],
+     "wert": 220
+    },
+    {
+     "lage": "Moos",
+     "form": "band",
+     "punkte": "halde",
+     "breite_m": 22,
+     "wert": 150,
+     "flecken": 0.5
+    },
+    {
+     "lage": "Gras",
+     "form": "kreis",
+     "bei": "gras",
+     "r_m": 22,
+     "wert": 170,
+     "flecken": 0.45
+    }
+   ],
+   "pfad": {
+    "breite_cm": 150,
+    "lagen": {
+     "Erde": 210,
+     "Kies": 120
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 18,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
+   "zugang": {
+    "breite_cm": 120,
+    "lagen": {
+     "Erde": 190,
+     "Kies": 140
+    },
+    "punkte": [
+     [
+      106,
+      9
+     ],
+     [
+      70,
+      18
+     ],
+     [
+      45,
+      40
+     ],
+     [
+      25,
+      56
+     ],
+     [
+      10,
+      58
+     ],
+     [
+      -2,
+      48
+     ],
+     [
+      -8,
+      32
+     ],
+     [
+      -10,
+      12
+     ],
+     [
+      -11,
+      -6
+     ]
+    ],
+    "warum": "pfad_cm (Phase 1) steigt mitten durch die Orgelwand ab; Abstieg ueber die Rampe am Suedende (Katalog: Abstieg mit Trittstufen im Schutt)",
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "stufen_ab_grad": 14,
+     "stufen_palette": "basalt_stuempfe",
+     "stufen_groesse_m": [
+      1.2,
+      1.6
+     ],
+     "stufen_abstand_m": 2.2
+    }
+   },
+   "pfade_zusatz": [
+    {
+     "pfad_id": "lava_pfad_kratersteig_west",
+     "kurz": "kratersteig_west",
+     "lagen": {
+      "Erde": 210,
+      "Kies": 120
+     },
+     "hinweis": "ganzer Westast als Bodenband (fuer lava_07 und lava_08); im Lagenfenster der Orte doppelt, max-Regel"
+    }
+   ],
+   "effekte": [
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_05",
+     "anzahl": 4,
+     "zweck": "Sickerwasser zeichnet dunkle Streifen in die Saeulen",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "wand",
+      "versatz_m": 0.5,
+      "breite_m": 1.0,
+      "t": [
+       0.1,
+       0.9
+      ]
+     },
+     "hoehe_m": 8.0,
+     "ausrichtung": "wand",
+     "blick": 275,
+     "groesse_m": [
+      2.0,
+      2.5,
+      12.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_TileableMossPatches_03",
+     "anzahl": 2,
+     "zweck": "Moos auf der Halde",
+     "verteilung": {
+      "typ": "band",
+      "punkte": "halde",
+      "breite_m": 8
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    }
+   ],
+   "klaenge": [
+    {
+     "asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+     "bei": "schlucht",
+     "radius_m": 50,
+     "lautstaerke": 0.3,
+     "zweck": "Wind ueber der Kante (Laubanteil pruefen)"
+    }
+   ]
+  },
+  "lava_08_glutauge": {
+   "kurz": "Auf dem jungen, schwarz glaenzenden Strom des Westplateaus liegt zwischen zwei Buckeln ein 8 x 6 m grosses Loch; 6 m darunter fliesst dumpf orange Glut vorbei, ein duenner Dampf zieht, kein Halm waechst hier.",
+   "marker": {
+    "titel": "Das Glutauge",
+    "text": "Der Berg hat ein Auge, und es ist nicht geschlossen. Wer hineinsieht, spuert die Hitze auf den Lidern, lange bevor er die Glut sieht.",
+    "entdeckung_m": 15
+   },
+   "budget": {
+    "instanzen": 2500,
+    "kollision": 300,
+    "akteure": 20,
+    "lichter": 1,
+    "niagara": 2,
+    "decals": 6
+   },
+   "assets_wunsch": [
+    {
+     "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "statt_jetzt": "Lava-Material und 7 Glut-Decals fehlen: punktlicht orange im Schacht + M_Decal_Glow (optional, Kopie orange) + NS_Fire/NS_Spark_Continuous (optional); Krustenplatten SM_lava_wall_06/07/08 -> Basalt_Basalt_Cliff_Rock_B_SM"
+    },
+    {
+     "paket": "Ultimate Niagara Environmental VFX",
+     "statt_jetzt": "NS_Spark_Continuous (Kopie, wenige, langsam, orange), Hitzeflimmern fehlt"
+    },
+    {
+     "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+     "statt_jetzt": "stumm"
+    }
+   ],
+   "anker": {
+    "tumulus_no": [
+     17,
+     -12
+    ],
+    "tumulus_sw": [
+     -15,
+     12
+    ],
+    "grund": [
+     0,
+     0
+    ],
+    "blick_held": [
+     15,
+     -11
+    ],
+    "alt_rand": [
+     -30,
+     -26
+    ]
+   },
+   "gelaende": {
+    "fenster_m": [
+     100,
+     100
+    ],
+    "rand_m": 10,
+    "senken_erlaubt": [
+     {
+      "bei": "mitte",
+      "r_m": 8,
+      "grund": "Oberlicht einer aktiven Lavaroehre: unten fliesst Glut, Wasser verdampft"
+     }
+    ],
+    "ops": [
+     {
+      "op": "kuppe",
+      "bei": "tumulus_no",
+      "radius_m": 8,
+      "hoehe_m": 1.8,
+      "plateau": 0.3,
+      "rand_m": 6,
+      "streckung": [
+       1.75,
+       1.0
+      ],
+      "richtung": 20,
+      "warum": "Tumulus NO: aufgewoelbte Kruste ueber der Roehre"
+     },
+     {
+      "op": "kuppe",
+      "bei": "tumulus_sw",
+      "radius_m": 7,
+      "hoehe_m": 1.4,
+      "plateau": 0.3,
+      "rand_m": 6,
+      "streckung": [
+       1.7,
+       1.0
+      ],
+      "richtung": 20,
+      "warum": "Tumulus SW"
+     },
+     {
+      "op": "buckel",
+      "bei": "mitte",
+      "radius_m": 34,
+      "amplitude_m": 0.3,
+      "wellenlaenge_m": 4,
+      "streckung": [
+       1.6,
+       1.0
+      ],
+      "richtung": 290,
+      "warum": "Stricklava: Seile und Zehen quer zur Fliessrichtung"
+     },
+     {
+      "op": "mulde",
+      "bei": "mitte",
+      "radius_m": 4,
+      "tiefe_m": 6,
+      "boden": 0.65,
+      "rand_m": 1.5,
+      "streckung": [
+       1.0,
+       0.75
+      ],
+      "richtung": 20,
+      "warum": "Glutschacht 8 x 6 m, 6 m tief (Oberlicht der Roehre)"
+     }
+    ]
+   },
+   "gruppen": [
+    {
+     "name": "lider",
+     "ebene": "held",
+     "warum": "Krustenlider: die erstarrte Decke kragt ueber den Schacht (Ueberhang = Netz)",
+     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "anzahl": 3,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       4.4,
+       5.2
+      ]
+     },
+     "abstand_m": 4.0,
+     "skala": [
+      0.48,
+      0.58
+     ],
+     "ausrichtung": "aufrecht",
+     "yaw": "von:mitte",
+     "front_achse": "+x",
+     "kipp_grad": [
+      6,
+      12
+     ],
+     "kipp_richtung": "zu:mitte",
+     "z_bezug": "boden+-0.45",
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Lava_Glasur",
+     "meide": null,
+     "hinweis": "Unterkante 0,45 m unter dem Gelaende am Lidmittelpunkt, Innenkante ragt ueber den Schacht"
+    },
+    {
+     "name": "tumulusschollen",
+     "ebene": "begleiter",
+     "warum": "aufgewoelbte, gerissene Schollen auf den Tumuli",
+     "netz": "Basalt_Basalt_Cliff_Rock_B_SM",
+     "verteilung": {
+      "typ": "punkte",
+      "punkte": [
+       {
+        "von": "tumulus_no",
+        "richtung": 20,
+        "abstand_m": 4
+       },
+       {
+        "von": "tumulus_no",
+        "richtung": 200,
+        "abstand_m": 5
+       },
+       {
+        "von": "tumulus_sw",
+        "richtung": 20,
+        "abstand_m": 3
+       },
+       {
+        "von": "tumulus_sw",
+        "richtung": 200,
+        "abstand_m": 4
+       }
+      ]
+     },
+     "skala": [
+      0.6,
+      0.8
+     ],
+     "kipp_grad": [
+      10,
+      22
+     ],
+     "kipp_richtung": "von:mitte",
+     "eingraben": [
+      0.35,
+      0.45
+     ],
+     "akteur": true,
+     "kollision": true,
+     "material": "MI_EL_SW_Lava_Glasur",
+     "meide": null
+    },
+    {
+     "name": "krustenplatten",
+     "ebene": "schutt",
+     "warum": "Krustenplatten der jungen Stricklava, gekippt und uebereinander geschoben",
+     "palette": [
+      "Basalt_Basalt_Cliff_Rock_B_SM",
+      "SM_lava_m_rock_08"
+     ],
+     "anzahl": 55,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       6.5,
+       30
+      ]
+     },
+     "abstand_m": 2.0,
+     "groesse_m": [
+      1.2,
+      2.8
+     ],
+     "kipp_grad": [
+      5,
+      22
+     ],
+     "eingraben": [
+      0.3,
+      0.45
+     ],
+     "material": "MI_EL_SW_Lava_Glasur"
+    },
+    {
+     "name": "zehen",
+     "ebene": "schutt",
+     "warum": "Lavazehen: kleine, glatte Lappen am Stromrand",
+     "palette": [
+      "SM_lava_s_rock_05"
+     ],
+     "anzahl": 45,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       8,
+       34
+      ]
+     },
+     "abstand_m": 1.6,
+     "groesse_m": [
+      0.8,
+      1.4
+     ],
+     "skala_xyz": [
+      1.4,
+      1.0,
+      0.45
+     ],
+     "eingraben": [
+      0.25,
+      0.35
+     ],
+     "material": "MI_EL_SW_Lava_Glasur"
+    },
+    {
+     "name": "glassplitter",
+     "ebene": "kleinzeug",
+     "warum": "Glassplitter und Kruste (Kante bleibt unter 0,5 m frei)",
+     "palette": "lava_kiesel",
+     "anzahl": 800,
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       5,
+       34
+      ]
+     },
+     "abstand_m": 0.6,
+     "skala": [
+      0.35,
+      0.7
+     ],
+     "rolle": "stein",
+     "material": "MI_EL_SW_Lava_Glasur"
+    },
+    {
+     "name": "schachtgrus",
+     "ebene": "kleinzeug",
+     "warum": "abgebroechelte Kruste am Schachtgrund (glimmt)",
+     "palette": "lava_kiesel",
+     "anzahl": 30,
+     "verteilung": {
+      "typ": "kreis",
+      "bei": "mitte",
+      "r_m": 3.0
+     },
+     "abstand_m": 0.5,
+     "skala": [
+      0.4,
+      0.8
+     ],
+     "rolle": "stein"
+    },
+    {
+     "name": "flechtensaum",
+     "ebene": "bewuchs",
+     "warum": "erst am Rand zum aelteren Strom wieder Flechte und Moos (Kontrast zu lava_04)",
+     "palette": [
+      "SM_MossClump_01",
+      "SM_MossClump_03",
+      "SM_MossClump_05",
+      "SM_moss_02"
+     ],
+     "verteilung": {
+      "typ": "cluster",
+      "form": "ring",
+      "bei": "mitte",
+      "r_m": [
+       34,
+       46
+      ],
+      "zentren": [
+       8,
+       12
+      ],
+      "je": [
+       5,
+       10
+      ],
+      "radius_m": 2.0
+     },
+     "abstand_m": 0.3,
+     "rolle": "streu"
+    },
+    {
+     "name": "lidkies",
+     "ebene": "kontakt",
+     "warum": "Splitter am Fuss der Lider und Schollen - nichts steht auf",
+     "palette": "lava_kiesel",
+     "verteilung": {
+      "typ": "um_gruppe",
+      "gruppe": [
+       "lider",
+       "tumulusschollen",
+       "krustenplatten"
+      ],
+      "ring": [
+       0.9,
+       1.3
+      ],
+      "je": [
+       4,
+       8
+      ]
+     },
+     "skala": [
+      0.35,
+      0.6
+     ],
+     "rolle": "stein"
+    }
+   ],
+   "lagen": [
+    {
+     "lage": "Lavafels",
+     "form": "kreis",
+     "bei": "mitte",
+     "r_m": 34,
+     "wert": 235,
+     "flecken": 0.3,
+     "rand_m": 8
+    },
+    {
+     "lage": "Felsplatte",
+     "form": "kreis",
+     "bei": "mitte",
+     "r_m": 18,
+     "wert": 170,
+     "flecken": 0.5
+    },
+    {
+     "lage": "Lavasand",
+     "form": "kreis",
+     "bei": "mitte",
+     "r_m": 3.5,
+     "wert": 200
+    }
+   ],
+   "pfad": {
+    "breite_cm": 150,
+    "lagen": {
+     "Lavasand": 200,
+     "Kies": 120
+    },
+    "trittsteine": {
+     "palette": "trittstein_lava",
+     "groesse_m": [
+      0.8,
+      1.2
+     ],
+     "stufen_ab_grad": 18,
+     "stufen_palette": "stufe_lava",
+     "stufen_groesse_m": [
+      1.0,
+      1.4
+     ]
+    }
+   },
+   "zugang": {
+    "breite_cm": 120,
+    "lagen": {
+     "Lavasand": 190,
+     "Kies": 110
+    }
+   },
+   "pfade_zusatz": [
+    {
+     "pfad_id": "lava_pfad_gipfelsteig",
+     "kurz": "gipfelsteig",
+     "art": "serpentine",
+     "lagen": {
+      "Lavasand": 210,
+      "Kies": 110
+     },
+     "hinweis": "Gipfelsteig (fuer = []): Serpentine, Bodenband entlang der Phase-1-Kehren; die endgueltigen Kehren und den Anschnitt rechnet Ferats Serpentinen-Werkzeug"
+    }
+   ],
+   "effekte": [
+    {
+     "typ": "punktlicht",
+     "zweck": "Glut im Schacht (dezent, wirkt im Schattenloch auch bei fester Sonne)",
+     "bei": "grund",
+     "hoehe_m": 1.2,
+     "intensitaet_cd": 800,
+     "radius_m": 6,
+     "farbe": [
+      1.0,
+      0.45,
+      0.15
+     ],
+     "schatten": false
+    },
+    {
+     "typ": "niagara",
+     "asset": "NS_Spark_Continuous",
+     "optional": true,
+     "bei": "grund",
+     "hoehe_m": 0.5,
+     "skala": 0.4,
+     "zweck": "Glutfunken ueber dem Fenster (Kopie: wenige, langsam, orange)",
+     "wunsch_paket": "Ultimate Niagara Environmental VFX"
+    },
+    {
+     "typ": "niagara",
+     "asset": "NS_SmokePuffLight",
+     "optional": true,
+     "bei": "grund",
+     "hoehe_m": 2.0,
+     "skala": 0.5,
+     "zweck": "duenner Dampf zieht aus dem Schacht (Kopie, hell, transparent)",
+     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+     "hinweis": "Hitzeflimmern kommt mit Lava & Volcano"
+    },
+    {
+     "typ": "lokaler_nebel",
+     "zweck": "warmer Dunst im Schacht",
+     "bei": "grund",
+     "hoehe_m": 2.5,
+     "radius_m": 5,
+     "dichte": 0.05,
+     "farbe": [
+      1.0,
+      0.75,
+      0.55
+     ],
+     "hoehenabfall": 0.9
+    },
+    {
+     "typ": "decal",
+     "material": "M_Decal_Glow",
+     "optional": true,
+     "anzahl": 3,
+     "zweck": "Glut in Haarrissen um das Fenster (Kopie orange, schwach; Ersatz bis Lava-Decals)",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       5,
+       12
+      ]
+     },
+     "groesse_m": [
+      0.5,
+      2.5,
+      0.6
+     ],
+     "wunsch_paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)"
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_08",
+     "anzahl": 2,
+     "zweck": "Russrand an der Schachtkante",
+     "verteilung": {
+      "typ": "ring",
+      "bei": "mitte",
+      "r_m": [
+       4.5,
+       6
+      ]
+     },
+     "groesse_m": [
+      1.0,
+      3.0,
+      3.0
+     ]
+    },
+    {
+     "typ": "decal",
+     "material": "MI_Leakage_08",
+     "anzahl": 1,
+     "zweck": "Russ an der Schachtwand",
+     "bei": {
+      "von": "mitte",
+      "richtung": 200,
+      "abstand_m": 3.2
+     },
+     "hoehe_m": 3.0,
+     "ausrichtung": "wand",
+     "blick": 20,
+     "groesse_m": [
+      1.0,
+      2.0,
+      4.0
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -233,7 +233,8 @@ Namen exakt wie FORMAT.md §2. Ferat setzt `neu = max(alt, ziel)`; die Lagen ste
 `pfad_id` des Orts), sonst der Fußweg `pfad_cm` des Orts (umgedreht: Weg → Ort). `art: auto` = `serpentine` ab 15 %
 Steigung. In `orte.json` steht `"pfad": {"punkte_cm", "breite_cm", "art", ...}` – den Anschnitt rechnet Ferat.
 Trittsteine kommen dorthin, wo der Pfad Wasser quert, Felsstufen dorthin, wo er **entlang** steiler als `stufen_ab_grad` ist.
-Das Bodenband wird auf das Lagenfenster (≤ 400/600 m) gekappt; der Rest steht nur als `pfad` drin (HINWEIS).
+Das Bodenband wird auf das Lagenfenster (≤ 400/600 m) gekappt; der Rest steht nur als `pfad` drin (HINWEIS). `"fenster_max_m": 400`
+(optional) kappt das Lagenfenster eines Leuchtfeuers schon bei 400 m (sonst Prüfer-WARNUNG > 400 m).
 
 Geteilte Pfade und Zugänge (Erweiterung, optional): `"abschnitt": "naechster"` nimmt von einem Pfad, den mehrere Orte nutzen
 (`fuer`), nur den Abschnitt, der diesem Ort entlang der Bogenlänge am nächsten liegt (Grenzen in der Mitte zwischen den
