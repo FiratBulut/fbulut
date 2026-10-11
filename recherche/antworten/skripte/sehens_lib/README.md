@@ -153,7 +153,8 @@ Anleitung für neue Biom-Planer (Aufbau, Regel-Schema, Bausteine, fehlende Asset
 | `rezept.py` | `OrtKontext(...).baue(hooks)` – baut einen Ort aus dem Regel-Block: Anker/Linien, Gelände, Wasser (§5), Gruppen je Detail-Ebene, Pfad (13c), Lagen, Effekte (§6), Klänge, Freiräume, Budget (§9), orte.json-Eintrag. `schreibe_biom(...)` schreibt orte.json, gelaende/, lagen/ und die Ebene. |
 | `vorschau.py` | `vorschau(ctx, pfad)` → `test_<id>.png`: Gelände nach dem Stempel (rot/blau = Δ), geplante Lagen, Wasser, Instanzen je Detail-Ebene, Akteur-Grundrisse, Effekte, Pfad, Freiräume, Kameras, Legende mit Zahlen und Budget. |
 
-Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorierbar): `pfad` (13c), `klaenge`,
+Erweiterungen von `orte.json` (zusätzlich zu §2, von Ferats Werkzeugen ignorierbar): `pfad` (13c), `pfad_zugang` (Fußweg
+`pfad_cm` zusätzlich zu einem Pfad aus `pfade`, Regel `pfad.zugang`), `klaenge`,
 `freiraeume` (Bestand entfernen), `detail_ebenen` (Witcher-Größenstufen), `hinweise`, `gelaende.begruendung`,
 `gelaende.ist_wasser`, `see.auslass_cm`, `see.freibord_min_m`. In `plan.json`: `orte_budget`, `dateien[*].orte`,
 `dateien[*].material_wunsch`, `dateien[*].z_frei_anzahl`, Akteure mit `hoehe_m`, `boden_z`, `unterkante_z`, `pivot`.

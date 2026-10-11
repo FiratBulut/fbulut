@@ -646,15 +646,17 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None):
             b.append((FEHLER, oid, "klaenge: asset und pos_cm [x, y, z] noetig"))
         elif inv is not None:
             b += [(st, oid, tx) for st, tx in inv.asset_pruefen("klang", k["asset"], bool(k.get("optional")))]
-    pf = o.get("pfad")
-    if pf:
+    for pk in ("pfad", "pfad_zugang"):
+        pf = o.get(pk)
+        if not pf:
+            continue
         pts = pf.get("punkte_cm") or []
         if len(pts) < 2 or not all(_pkt(q, 2) for q in pts):
-            b.append((FEHLER, oid, "pfad.punkte_cm: >= 2 Punkte [x, y] (13c)"))
+            b.append((FEHLER, oid, "%s.punkte_cm: >= 2 Punkte [x, y] (13c)" % pk))
         if not (_zahl(pf.get("breite_cm")) and 120 <= pf["breite_cm"] <= 200):
-            b.append((FEHLER, oid, "pfad.breite_cm %r (Soll 120-200, 13c)" % pf.get("breite_cm")))
+            b.append((FEHLER, oid, "%s.breite_cm %r (Soll 120-200, 13c)" % (pk, pf.get("breite_cm"))))
         if pf.get("art") not in _daten.PFAD_ARTEN:
-            b.append((FEHLER, oid, "pfad.art %r (%s)" % (pf.get("art"), "/".join(_daten.PFAD_ARTEN))))
+            b.append((FEHLER, oid, "%s.art %r (%s)" % (pk, pf.get("art"), "/".join(_daten.PFAD_ARTEN))))
     de = o.get("detail_ebenen")
     if isinstance(de, dict):
         for eb in ("held", "begleiter", "schutt", "kleinzeug", "bewuchs", "kontakt"):

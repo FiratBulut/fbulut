@@ -233,6 +233,14 @@ Steigung. In `orte.json` steht `"pfad": {"punkte_cm", "breite_cm", "art", ...}` 
 Trittsteine kommen dorthin, wo der Pfad Wasser quert, Felsstufen dorthin, wo er **entlang** steiler als `stufen_ab_grad` ist.
 Das Bodenband wird auf das Lagenfenster (≤ 400/600 m) gekappt; der Rest steht nur als `pfad` drin (HINWEIS).
 
+Geteilte Pfade und Zugänge (Erweiterung, optional): `"abschnitt": "naechster"` nimmt von einem Pfad, den mehrere Orte nutzen
+(`fuer`), nur den Abschnitt, der diesem Ort entlang der Bogenlänge am nächsten liegt (Grenzen in der Mitte zwischen den
+Projektionen der Orte) – jeder Pfadmeter gehört genau einem Ort, Stufen entstehen nicht doppelt. Dafür übergibt der Planer
+`OrtKontext(..., orte_mitten={id: (x_m, y_m)})`. `"zugang": true` (oder `{"breite_cm", "lagen", "trittsteine"}`) legt
+zusätzlich den Fußweg `pfad_cm` des Orts (Pfad → Ort) als eigenes Bodenband mit Trittsteinen/Stufen an; in `orte.json` steht
+er als `"pfad_zugang"` (gleiches Schema wie `pfad`). `trittsteine.stufen_bis_grad` begrenzt Felsstufen nach oben (steiler:
+Kehren aus Ferats Serpentinen-Werkzeug).
+
 ### 3.9 Effekte, Klänge, Freiräume
 
 - `{"typ": "punktlicht"|"spotlicht", "bei", "hoehe_m", "intensitaet_cd", "radius_m", "farbe", "kompass", "neigung_grad",

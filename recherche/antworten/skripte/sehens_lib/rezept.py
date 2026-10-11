@@ -62,7 +62,7 @@ def _anzahl(v, rng):
 
 class OrtKontext:
     def __init__(self, welt, gel, inv, ebene, standort, regel, biom, seed=0, stand="", pfade_biom=None,
-                 paletten=None, materialien=None):
+                 paletten=None, materialien=None, orte_mitten=None):
         self.welt, self.gel, self.inv, self.ebene = welt, gel, inv, ebene
         self.st = standort
         self.r = regel or {}
@@ -88,6 +88,8 @@ class OrtKontext:
         self.materialien = {m["name"]: m for m in (materialien or [])}
         self.mat_benutzt = set()
         self.pfade_biom = pfade_biom or []
+        self.orte_mitten = dict(orte_mitten or {})     # ort_id -> (x_m, y_m), fuer pfad.abschnitt (geteilte Pfade)
+        self.zugang = None                              # pfad.zugang: Fussweg pfad_cm zusaetzlich zum Pfad aus pfade
         self._massiv = _ins.Abstandsgitter(4.0)
         self.eintrag = None
         # Bestandswasser, das NICHT in karte_wasser steht (z. B. Epic-Seen wie T_2954_391 im Sumpf): Liste
@@ -1105,6 +1107,8 @@ class OrtKontext:
         x0, y0, x1, y1 = self.stempel.fe.grenzen_m()
         if self.pfad and pfad_regel:
             P = np.asarray(self.pfad["punkte_m"])
+            if self.zugang:
+                P = np.concatenate([P, np.asarray(self.zugang["punkte_m"])])
             grenze = 600.0 if self.st["art"] == "leuchtfeuer" else 400.0
             x0 = max(min(x0, P[:, 0].min() - 6), self.mx - grenze / 2 + 1)
             x1 = min(max(x1, P[:, 0].max() + 6), self.mx + grenze / 2 - 1)
@@ -1160,6 +1164,11 @@ class OrtKontext:
                 br = self.pfad["breite_cm"] / 100.0
                 lg.band(name, self.pfad["punkte_m"], br * (1.0 if wert >= 180 else 0.7), float(wert),
                         rand_m=0.8, flecken=0.15, flecken_m=3.0)
+            if self.zugang:
+                for name, wert in (self.zugang.get("lagen") or pfad_regel.get("lagen") or {"Erde": 220, "Kies": 110}).items():
+                    br = self.zugang["breite_cm"] / 100.0
+                    lg.band(name, self.zugang["punkte_m"], br * (1.0 if wert >= 180 else 0.7), float(wert),
+                            rand_m=0.8, flecken=0.15, flecken_m=3.0)
             P = np.asarray(self.pfad["punkte_m"])
             x0, y0, x1, y1 = lg.fe.grenzen_m()
             aus = ~((P[:, 0] >= x0) & (P[:, 0] <= x1) & (P[:, 1] >= y0) & (P[:, 1] <= y1))
@@ -1170,16 +1179,29 @@ class OrtKontext:
 
     # ------------------------------------------------------------------ Pfad (13c)
     def pfad_bauen(self):
+        """Pfad (13c): zuerst ein Pfad aus standorte.json["pfade"] (fuer/pfad_id), sonst pfad_cm des Orts.
+        Erweiterungen (optional, Auftrag 13 Phase 2):
+          "abschnitt": "naechster" - bei geteilten Pfaden (mehrere Orte in "fuer") nur der Abschnitt, der diesem Ort
+                       entlang der Bogenlaenge am naechsten liegt (Grenze = Mitte zwischen den Projektionen der Orte;
+                       braucht orte_mitten). Jeder Pfadmeter gehoert so genau einem Ort (keine doppelten Stufen).
+          "zugang": true | {"breite_cm", "lagen", "trittsteine"} - zusaetzlich der Fussweg pfad_cm des Orts
+                       (Pfad -> Ort) als eigenes Bodenband + Trittsteine/Stufen (orte.json "pfad_zugang").
+          trittsteine.stufen_bis_grad - Felsstufen nur bis zu dieser Steigung (steiler: Kehren, Ferats Werkzeug)."""
         pr = self.r.get("pfad")
         if not pr:
             return
         quelle, P = None, None
+        pfad_eintrag = None
         for p in self.pfade_biom:
             if self.id in (p.get("fuer") or []) or self.st.get("pfad_id") == p.get("id"):
                 P = [[q[0] / 100.0, q[1] / 100.0] for q in p["punkte_cm"]]
                 quelle = "pfade:%s" % p["id"]
                 art = p.get("art", "trampelpfad")
+                pfad_eintrag = p
                 break
+        if P is not None and pr.get("abschnitt") == "naechster":
+            P, a_m, b_m = self._pfad_abschnitt(pfad_eintrag, P)
+            quelle += " (Abschnitt %.0f-%.0f m)" % (a_m, b_m)
         if P is None and self.st.get("pfad_cm") and pr.get("quelle", "auto") in ("auto", "pfad_cm"):
             P = [[q[0] / 100.0, q[1] / 100.0] for q in self.st["pfad_cm"]][::-1]    # Weg -> Ort
             quelle = "pfad_cm (Fussweg aus Phase 1, Weg -> Ort)"
@@ -1187,6 +1209,19 @@ class OrtKontext:
         if P is None:
             self.melde(HINWEIS, "pfad: keine Pfadquelle (pfade/pfad_cm) - kein Pfadband")
             return
+        self.pfad = self._pfad_eintrag(P, pr, art, quelle)
+        ts = pr.get("trittsteine")
+        if ts:
+            self._pfad_steine(self.pfad, ts, "pfad")
+        zg = pr.get("zugang")
+        if zg and pfad_eintrag is not None and self.st.get("pfad_cm"):
+            zr = dict(pr, **zg) if isinstance(zg, dict) else dict(pr)
+            Pz = [[q[0] / 100.0, q[1] / 100.0] for q in self.st["pfad_cm"]][::-1]      # Pfad -> Ort
+            self.zugang = self._pfad_eintrag(Pz, zr, None, "pfad_cm (Fussweg vom %s zum Ort)" % pfad_eintrag["id"])
+            if zr.get("trittsteine"):
+                self._pfad_steine(self.zugang, zr["trittsteine"], "zugang")
+
+    def _pfad_eintrag(self, P, pr, art, quelle):
         P = _vereinfachen(P, float(pr.get("vereinfachen_m", 1.5)))
         prof = _gel.pfad_profil(self.welt, P)
         if art is None:
@@ -1195,39 +1230,75 @@ class OrtKontext:
                 art = "serpentine" if prof["max_steigung_prozent"] > 15.0 else "trampelpfad"
         br = int(pr.get("breite_cm", 140))
         br = max(120, min(200, br))
-        self.pfad = {"punkte_m": P, "punkte_cm": [[round(p[0] * 100), round(p[1] * 100)] for p in P],
-                     "breite_cm": br, "art": art, "quelle": quelle, "laenge_m": prof["laenge_m"],
-                     "max_steigung_grad": prof["max_steigung_grad"]}
-        ts = pr.get("trittsteine")
-        if ts:
-            x, y, s = _gel.polylinie_proben(P, float(ts.get("abstand_m", 0.9)))
-            nass = self.im_wasser(x, y, 0.5)
-            steil = np.zeros(len(x), bool)
-            if ts.get("stufen_ab_grad") and len(x) > 2:
-                # Steigung ENTLANG des Pfads (Fenster 4 m), nicht die Hangneigung quer dazu
-                zz = np.asarray(self.boden(x, y), np.float64)
-                h = np.degrees(np.arctan(np.abs(np.gradient(zz, s)) if np.all(np.diff(s) > 0) else np.zeros(len(x))))
-                steil = h >= float(ts["stufen_ab_grad"])
-                # Stufen nur alle ~2,5 m
-                k = np.round(s / float(ts.get("stufen_abstand_m", 2.5)))
-                _, erste = np.unique(np.where(steil, k, -1), return_index=True)
-                maske = np.zeros(len(x), bool)
-                maske[erste] = True
-                steil &= maske
-            steil &= ~nass
-            for name, sel, pal, gr in (("pfad_trittsteine", nass, ts.get("palette", ["SM_flat_rock_04"]),
-                                        ts.get("groesse_m", [0.7, 1.1])),
-                                       ("pfad_stufen", steil, ts.get("stufen_palette", ts.get("palette", ["SM_flat_rock_04"])),
-                                        ts.get("stufen_groesse_m", ts.get("groesse_m", [0.9, 1.4])))):
-                if not sel.any():
-                    continue
-                g = {"name": name, "ebene": "pfad", "rolle": "stein", "palette": pal, "groesse_m": gr,
-                     "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [float(a), float(b)]} for a, b in zip(x[sel], y[sel])]},
-                     "eingraben": ts.get("eingraben", [0.45, 0.6]), "im_wasser": "egal", "weg_abstand_m": 0,
-                     "meide": None, "kollision": True, "akteur": False, "ausrichtung": "normale"}
-                self.gruppe(g)
-            self.pfad["trittsteine"] = len(self.gruppen.get("pfad_trittsteine", []))
-            self.pfad["stufen"] = len(self.gruppen.get("pfad_stufen", []))
+        return {"punkte_m": P, "punkte_cm": [[round(p[0] * 100), round(p[1] * 100)] for p in P],
+                "breite_cm": br, "art": art, "quelle": quelle, "laenge_m": prof["laenge_m"],
+                "max_steigung_grad": prof["max_steigung_grad"], "lagen": pr.get("lagen")}
+
+    def _pfad_abschnitt(self, p, P):
+        """Abschnitt eines geteilten Pfads, der diesem Ort entlang der Bogenlaenge am naechsten liegt."""
+        A = np.asarray(P, np.float64)
+        seg = np.hypot(*np.diff(A, axis=0).T)
+        kum = np.concatenate([[0.0], np.cumsum(seg)])
+        L = float(kum[-1])
+
+        def s_von(x, y):
+            d = A[1:] - A[:-1]
+            t = np.clip(((x - A[:-1, 0]) * d[:, 0] + (y - A[:-1, 1]) * d[:, 1]) / np.maximum(seg ** 2, 1e-9), 0, 1)
+            qx, qy = A[:-1, 0] + d[:, 0] * t, A[:-1, 1] + d[:, 1] * t
+            k = int(np.argmin(np.hypot(qx - x, qy - y)))
+            return float(kum[k] + t[k] * seg[k])
+
+        mitten = dict(self.orte_mitten)
+        mitten[self.id] = (self.mx, self.my)
+        fuer = sorted({o for o in (p.get("fuer") or []) if o in mitten} | {self.id})
+        s = {o: s_von(*mitten[o]) for o in fuer}
+        reihe = sorted(fuer, key=lambda o: (s[o], o))
+        k = reihe.index(self.id)
+        a = 0.0 if k == 0 else 0.5 * (s[reihe[k - 1]] + s[reihe[k]])
+        b = L if k == len(reihe) - 1 else 0.5 * (s[reihe[k]] + s[reihe[k + 1]])
+
+        def punkt(sd):
+            j = int(np.clip(np.searchsorted(kum, sd, side="right") - 1, 0, len(seg) - 1))
+            f = (sd - kum[j]) / max(seg[j], 1e-9)
+            return [float(A[j, 0] + (A[j + 1, 0] - A[j, 0]) * f), float(A[j, 1] + (A[j + 1, 1] - A[j, 1]) * f)]
+
+        innen = [[float(q[0]), float(q[1])] for q, sk in zip(A, kum) if a < sk < b]
+        return [punkt(a)] + innen + [punkt(b)], a, b
+
+    def _pfad_steine(self, pf, ts, praefix):
+        """Trittsteine (Pfad quert Wasser) und Felsstufen (Steigung entlang des Pfads >= stufen_ab_grad) als Gruppen
+        <praefix>_trittsteine / <praefix>_stufen (Ebene pfad)."""
+        P = pf["punkte_m"]
+        x, y, s = _gel.polylinie_proben(P, float(ts.get("abstand_m", 0.9)))
+        nass = self.im_wasser(x, y, 0.5)
+        steil = np.zeros(len(x), bool)
+        if ts.get("stufen_ab_grad") and len(x) > 2:
+            # Steigung ENTLANG des Pfads (Fenster 4 m), nicht die Hangneigung quer dazu
+            zz = np.asarray(self.boden(x, y), np.float64)
+            h = np.degrees(np.arctan(np.abs(np.gradient(zz, s)) if np.all(np.diff(s) > 0) else np.zeros(len(x))))
+            steil = h >= float(ts["stufen_ab_grad"])
+            if ts.get("stufen_bis_grad") is not None:
+                steil &= h <= float(ts["stufen_bis_grad"])
+            # Stufen nur alle ~2,5 m
+            k = np.round(s / float(ts.get("stufen_abstand_m", 2.5)))
+            _, erste = np.unique(np.where(steil, k, -1), return_index=True)
+            maske = np.zeros(len(x), bool)
+            maske[erste] = True
+            steil &= maske
+        steil &= ~nass
+        for name, sel, pal, gr in ((praefix + "_trittsteine", nass, ts.get("palette", ["SM_flat_rock_04"]),
+                                    ts.get("groesse_m", [0.7, 1.1])),
+                                   (praefix + "_stufen", steil, ts.get("stufen_palette", ts.get("palette", ["SM_flat_rock_04"])),
+                                    ts.get("stufen_groesse_m", ts.get("groesse_m", [0.9, 1.4])))):
+            if not sel.any():
+                continue
+            g = {"name": name, "ebene": "pfad", "rolle": "stein", "palette": pal, "groesse_m": gr,
+                 "verteilung": {"typ": "punkte", "punkte": [{"pos_m": [float(a), float(b)]} for a, b in zip(x[sel], y[sel])]},
+                 "eingraben": ts.get("eingraben", [0.45, 0.6]), "im_wasser": "egal", "weg_abstand_m": 0,
+                 "meide": None, "kollision": True, "akteur": False, "ausrichtung": "normale"}
+            self.gruppe(g)
+        pf["trittsteine"] = len(self.gruppen.get(praefix + "_trittsteine", []))
+        pf["stufen"] = len(self.gruppen.get(praefix + "_stufen", []))
 
     # ------------------------------------------------------------------ Effekte (§6), Klaenge
     def effekte_bauen(self):
@@ -1393,6 +1464,9 @@ class OrtKontext:
         if self.pfad:
             e["pfad"] = {k: self.pfad[k] for k in ("punkte_cm", "breite_cm", "art", "quelle", "laenge_m", "max_steigung_grad",
                                                    "trittsteine", "stufen") if k in self.pfad}
+        if self.zugang:
+            e["pfad_zugang"] = {k: self.zugang[k] for k in ("punkte_cm", "breite_cm", "art", "quelle", "laenge_m",
+                                                            "max_steigung_grad", "trittsteine", "stufen") if k in self.zugang}
         if self.klaenge:
             e["klaenge"] = self.klaenge
         if self.freiraeume:

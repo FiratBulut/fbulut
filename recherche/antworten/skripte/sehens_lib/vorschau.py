@@ -105,10 +105,12 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
             q = [P(f["mitte_cm"][0] / 100.0 + a, f["mitte_cm"][1] / 100.0 + b) for a, b in ecken]
             dr.line(q + [q[0]], fill=(255, 0, 200, 230), width=2)
     # Pfad
-    if ctx.pfad:
-        q = [P(p[0], p[1]) for p in ctx.pfad["punkte_m"]]
-        dr.line(q, fill=(0, 0, 0, 200), width=max(3, int(ctx.pfad["breite_cm"] / 100.0 * px_m) + 2), joint="curve")
-        dr.line(q, fill=(250, 235, 200, 255), width=max(1, int(ctx.pfad["breite_cm"] / 100.0 * px_m)), joint="curve")
+    for pf in (ctx.pfad, getattr(ctx, "zugang", None)):
+        if not pf:
+            continue
+        q = [P(p[0], p[1]) for p in pf["punkte_m"]]
+        dr.line(q, fill=(0, 0, 0, 200), width=max(3, int(pf["breite_cm"] / 100.0 * px_m) + 2), joint="curve")
+        dr.line(q, fill=(250, 235, 200, 255), width=max(1, int(pf["breite_cm"] / 100.0 * px_m)), joint="curve")
     # Wasser (geplant)
     for w in ctx.wasser:
         if w["typ"] == "see":
