@@ -1,6 +1,6 @@
 # Auftrag 11 – Status der Verteilungs-Arbeiten (Koordinator: Cloud-Session)
 
-Stand: 2026-10-10 20:30 UTC. Runde 4 abgeschlossen, Antwort: verteilung-korrektur-runde4.md.
+Stand: 2026-10-11 04:05 UTC. Runde 5 in Arbeit.
 
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
@@ -179,3 +179,9 @@ Regel verbindlich in `verteilung-KONVENTIONEN.md` §1b: Meer = hoehe < 0 und kar
 | nordkueste, aue, heide_tundra | fertig, gepusht (synthetisch unter 0 m unzulaessig: nordkueste 783 -> 0, aue 20 342 (52 %) -> 0, heide_tundra Kuestensaum 420 -> 0; Gesamt nordkueste 28 504 -> 42 913, aue 39 244 -> 16 286, heide_tundra 8 565 -> 8 136). aue-Ursache bestaetigt: Meer mit eigner 0 zaehlte als aue, Kuestenfeld B5 jetzt Leerplan. nordkueste waechst, weil Kuestenklassen (tang, treibholz, strandkiesel = meer_rolle; strandplatte = strand) jetzt das echte Meer finden: 5 206 erlaubte Meeres-Rollen zwischen -0,3 und 0 m, hoechstens 8 m seewaerts der Wasserlinie (`meer.meer_band_m` = 8 in nordkueste_regeln.json). Wirkt das zu dicht, Faktoren der Strandklassen oder meer_band_m senken |
 | hochgebirge, elfenwald, sumpf | fertig, gepusht (synthetisch: hochgebirge C2 Kuestensaum 905 -> 15 nur Bach-Steine, Gesamt 35 440 -> 34 570; elfenwald G4 13 -> 5 nur Wasserkante, 41 886 -> 42 145; sumpf H5 unter 0 m 868 -> 0, Saum 1 763 -> 0, 47 930 -> 47 823, Suesswasser-Klassen unveraendert). Landzellen-Bezug nachgeruestet (Inselfelder synthetisch vom Leerplan zum Plan; kein Saum mehr in Kennzahl-0-Seen); Sumpf/Elfenwald: eigene Datei je Ebene `<Netz>_e<Ebene>` (vorher falsche Rolle/Ebene bei gemischten Netzen). Risiko: liegen echte Sumpfteiche in eigner.r8 auf Kennzahl 0, bekommen sie keinen Schilfguertel - beim Echtlauf H5 pruefen |
 | dschungel, lava, wueste_ergaenzung | fertig, gepusht (synthetisch Boden unter 0 m: dschungel G6 2 -> 0, lava C7 14 245 -> 0, wueste E7 7 969 -> 0; Gesamt 15 588 -> 15 171 / 32 892 -> 32 651 / 18 783 -> 10 428; Kuestensaum 0-0,3 m nur Wasserkante/Strand, im Dschungel vorher 95 Baeume/Palmen dort). Hinweis: z unter 0 durch Eingraben auf Strand ab 0 m moeglich (dschungel 87, lava 257, wueste 1) - kein Meer |
+
+## Runde 5 (Auftrag `auftraege/verteilung-korrektur-runde5.md`, Bilder FELSR3, 11.10. 06:00 lokal)
+
+| Teil | Aufgabe | Stand |
+|---|---|---|
+| felsgruppen | Steilhang > 35 Grad: Bloecke > 2 m max. 1 je 150 m2, > 4 m max. 1 je 600 m2, Potenzgesetz der Groessen; Eingraben 50-70 %, lange Achse entlang Fallrichtung +-20 Grad; wuerfelartige Netze an Haengen > 30 Grad nur als Satelliten < 1,5 m; Blockstrom-Platten >= 40 % eingegraben, nur in Rinnen/Hangfuss | laeuft |
