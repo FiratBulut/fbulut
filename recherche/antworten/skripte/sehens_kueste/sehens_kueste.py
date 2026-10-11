@@ -22,7 +22,8 @@ Exit-Code: 0 ok, 1 Pruefer meldet FEHLER, 2 Pflichtdatei fehlt.
 Ort-spezifischer Code (alles andere steht in den Regeln):
   KuesteKontext._filter  Gruppen-Schluessel "boden_min_m" (nur Akteure): Brandungsbloecke, Stuempfe und Pfeiler stehen
                          auf der gestempelten Brandungsplattform UNTER dem Meeresspiegel (Foliage bleibt bei > -0,3 m,
-                         Pruefer-Regel "Instanzen im Meer").
+                         Pruefer-Regel "Instanzen im Meer"); "boden_ab_m": Sicherheitsabstand fuer Foliage an steilen
+                         Stempelkanten; Meer (Gelaende nach Stempel < 0) zaehlt fuer den Senken-Check als Wasser.
   hook_tuempel_anker     Gezeitenbank: 8-12 Tuempel (see) zufaellig, aber deterministisch auf der Felsbank verteilt.
   hook_seefall_ende      Seefall: Fallfuss auf Meereshoehe (Schaumkessel ist mit dem Meer verbunden).
   hook_duene             Duenenkamm: Kamm als Wall (Stempel.damm) entlang der Kammlinie, Luv flach, Lee steil.

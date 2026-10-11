@@ -46,7 +46,7 @@
   "kueste_01_die_alten": {
    "kurz": "Zwei Granitpfeiler vor dem Kliff, der grosse 45 m, der kleine schief zu ihm geneigt; dazwischen drei Stuempfe gefallener Pfeiler auf einer Brandungsplattform, unten schwarz von Tang.",
    "marker": {"titel": "Die Alten", "text": "Zwei stehen noch, drei liegen schon im Wasser. Das Meer hat Zeit, und die Alten wissen das.", "entdeckung_m": 120},
-   "budget": {"instanzen": 1500, "kollision": 300, "akteure": 55, "lichter": 0, "niagara": 2, "decals": 7},
+   "budget": {"instanzen": 1500, "kollision": 300, "akteure": 55, "lichter": 0, "niagara": 3, "decals": 7},
    "assets_wunsch": [
     {"paket": "Wilderness Nature Loops", "statt_jetzt": "CUE_Water_Stream_IV_Cue tief gepitcht als Brandung; Seevogelstimmen fehlen (Luecke)"}
    ],
@@ -114,6 +114,7 @@
     {"typ": "decal", "material": "MI_TileableLeakage_02", "zweck": "Kotstreifen am schiefen Pfeiler", "bei": {"von": "pfeiler2", "richtung": "zu:blick", "abstand_m": 8}, "hoehe_m": 18, "ausrichtung": "wand", "blick": "zu:blick", "groesse_m": [6.0, 3.0, 8.0]},
     {"typ": "niagara", "asset": "NS_Impact_Small", "zweck": "Brandungsgischt am Pfeilerfuss (Nature Water FX)", "hinweis": "Aufprall-Gischt als Brandung: stossweise, Spawn-Rate niedrig", "bei": {"von": "mitte", "richtung": "zu:blick", "abstand_m": 14}, "hoehe_m": 1.6},
     {"typ": "niagara", "asset": "NS_Impact_Small", "zweck": "Brandungsgischt am kleinen Pfeiler", "hinweis": "wie oben, versetzt getaktet", "bei": {"von": "pfeiler2", "richtung": "zu:blick", "abstand_m": 9}, "hoehe_m": 1.6},
+    {"typ": "niagara", "asset": "NS_Wake_Medium", "zweck": "Schaumring um den grossen Pfeilerfuss (Nature Water FX)", "hinweis": "stehend, als Brandungsring um den Fuss; langsam", "bei": "mitte", "hoehe_m": 0.0},
     {"typ": "lokaler_nebel", "zweck": "Gischtdunst zwischen den Pfeilern (trennt sie vom Hintergrund)", "bei": "zwischen", "hoehe_m": 4, "radius_m": 45, "dichte": 0.03, "farbe": [0.85, 0.88, 0.9], "hoehenabfall": 0.7}
    ],
    "klaenge": [
@@ -185,7 +186,7 @@
   "kueste_03_das_nadeltor": {
    "kurz": "46-m-Pfeiler, durch den das Meer ein Tor geschlagen hat: zwei Beine, ein Sturz 8 m ueber dem Wasser, daneben eine duenne Nadel; Blick vom Pfadende durch das Tor auf den Horizont.",
    "marker": {"titel": "Das Nadeltor", "text": "Das Meer hat den Fels nicht gebrochen, nur durchbohrt. Bei jeder Welle geht Licht durch das Tor, als atme es.", "entdeckung_m": 110},
-   "budget": {"instanzen": 1300, "kollision": 200, "akteure": 40, "lichter": 0, "niagara": 1, "decals": 5},
+   "budget": {"instanzen": 1300, "kollision": 200, "akteure": 40, "lichter": 0, "niagara": 2, "decals": 5},
    "assets_wunsch": [
     {"paket": "Wilderness Nature Loops", "statt_jetzt": "CUE_Water_Stream_IX_Cue als Brandung im Torgang; Seevoegel fehlen"}
    ],
@@ -243,9 +244,10 @@
     {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Schaumspur an der Nordostwand des Gangs", "bei": "tor", "hoehe_m": 3.5, "ausrichtung": "wand", "blick": {"basis": "torachse", "plus": -90}, "groesse_m": [6.0, 12.0, 5.0]},
     {"typ": "decal", "material": "MI_TileableLeakage_01", "zweck": "Schaumspur an der Suedwestwand des Gangs", "bei": "tor", "hoehe_m": 3.5, "ausrichtung": "wand", "blick": {"basis": "torachse", "plus": 90}, "groesse_m": [6.0, 12.0, 5.0]},
     {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband an der Nadel", "bei": {"von": "nadel", "richtung": "zu:blick", "abstand_m": 7}, "hoehe_m": 3.0, "ausrichtung": "wand", "blick": "zu:blick", "groesse_m": [5.0, 7.0, 3.5]},
-    {"typ": "niagara", "asset": "NS_Impact_Small", "zweck": "Gischt im Tor bei jeder Welle (Nature Water FX)", "hinweis": "stossweise; Licht faellt durch das Tor", "bei": "tor", "hoehe_m": 3.0},
+    {"typ": "niagara", "asset": "NS_Impact_Medium", "zweck": "Gischt im Tor bei jeder Welle (Nature Water FX)", "hinweis": "stossweise; Licht faellt durch das Tor", "bei": "tor", "hoehe_m": 3.0},
     {"typ": "lokaler_nebel", "zweck": "Gischt im Torgang (Licht faellt durch)", "bei": "tor", "hoehe_m": 4, "radius_m": 14, "dichte": 0.04, "farbe": [0.86, 0.89, 0.92], "hoehenabfall": 0.8},
-    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algen auf dem Blocksockel", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "pfeiler", "r_m": [11, 15]}, "groesse_m": [1.0, 3.5, 3.5]}
+    {"typ": "decal", "material": "MI_Decal_Algae", "zweck": "Algen auf dem Blocksockel", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "pfeiler", "r_m": [11, 15]}, "groesse_m": [1.0, 3.5, 3.5]},
+    {"typ": "niagara", "asset": "NS_Wake_Small", "zweck": "Schaumspur, die durch den Torgang zieht", "bei": "tor", "hoehe_m": 0.0, "yaw": "torachse"}
    ],
    "klaenge": [
     {"asset": "CUE_Water_Stream_IX_Cue", "bei": "tor", "radius_m": 120, "lautstaerke": 0.8, "zweck": "Brandung im Torgang (Ersatz); Seevoegel fehlen"}
@@ -410,12 +412,15 @@
     {"name": "kreidewand", "ebene": "held", "warum": "weisse Nordwand der Abrissnische (zur Bucht und zu den Kameras), MI_EL_SW_Kreide", "netz": "SM_MassiveSandstoneCliff_05", "verteilung": {"typ": "punkt", "bei": "nordwand_b"}, "skala": 0.7, "ausrichtung": "aufrecht", "yaw": 175, "yaw_streuung_grad": 0, "front_achse": "+y", "eingraben_m": 1.5, "bezug": "min", "akteur": true, "kollision": true, "material": "MI_EL_SW_Kreide", "meide": null, "weg_abstand_m": 0},
     {"name": "kreidewand_west", "ebene": "held", "warum": "niedrigerer Teil der Nordwand zum Strand hin", "netz": "vmnmbhv_tier_0", "verteilung": {"typ": "punkt", "bei": "nordwand_a"}, "skala": 0.55, "ausrichtung": "aufrecht", "yaw": 185, "yaw_streuung_grad": 0, "front_achse": "+y", "eingraben_m": 1.2, "bezug": "min", "akteur": true, "kollision": true, "material": "MI_EL_SW_Kreide", "meide": null, "weg_abstand_m": 0},
     {"name": "kopfwand", "ebene": "held", "warum": "Kopfwand der Nische (Abrisskante oben im Hang)", "netz": "SM_MassiveSandstoneCliff_05", "verteilung": {"typ": "punkt", "bei": "kopfwand"}, "skala": 0.6, "ausrichtung": "aufrecht", "yaw": 262, "yaw_streuung_grad": 0, "front_achse": "+y", "eingraben_m": 1.5, "bezug": "min", "akteur": true, "kollision": true, "material": "MI_EL_SW_Kreide", "meide": null, "weg_abstand_m": 0},
+    {"name": "kreidewand_sued", "ebene": "begleiter", "warum": "niedrige Suedflanke der Nische (Kreide, schaut nach Norden)", "netz": "SM_beach_cliff_02_B", "verteilung": {"typ": "punkt", "bei": [36.0, 10.5]}, "skala": 1.15, "ausrichtung": "aufrecht", "yaw": 0, "yaw_streuung_grad": 0, "front_achse": "+y", "eingraben": [0.25, 0.35], "bezug": "min", "akteur": true, "kollision": true, "material": "MI_EL_SW_Kreide", "meide": null, "weg_abstand_m": 0},
     {"name": "kegelblock", "ebene": "begleiter", "warum": "grosse Kreidescholle im Sturzkegel", "netz": "SM_beach_cliff_02_B", "verteilung": {"typ": "punkt", "bei": {"von": "kegel", "richtung": 90, "abstand_m": 10}}, "skala": 0.55, "yaw": 100, "kipp_grad": 12, "kipp_richtung": 270, "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Kreide", "weg_abstand_m": 0},
     {"name": "kantenbuchen", "ebene": "begleiter", "warum": "Buchen an der Abrisskante, Wurzeln haengen frei", "palette": ["SM_beech_tree_05", "SM_beech_tree_08"], "anzahl": 3, "verteilung": {"typ": "band", "punkte": [[14, -24], [52, -22]], "breite_m": 6}, "abstand_m": 9, "skala": [0.85, 1.0], "rolle": "baum", "akteur": true, "kollision": true, "weg_abstand_m": 0},
     {"name": "tote_buche", "ebene": "begleiter", "warum": "abgestorbene Buche, kippt ueber die Kante in die Nische", "netz": "SM_EuropeanBeech_Dead_XL_01", "verteilung": {"typ": "punkt", "bei": [26, -19]}, "skala": 0.9, "rolle": "baum", "kipp_grad": 18, "kipp_richtung": 180, "akteur": true, "kollision": true, "weg_abstand_m": 0},
     {"name": "buche_im_wasser", "ebene": "begleiter", "warum": "mitgerissene Buche, Krone im Wasser (Abbruch erzaehlt)", "netz": "SM_beech_tree_08", "verteilung": {"typ": "punkt", "bei": [-16, -6]}, "ausrichtung": "liegend", "zentrieren": false, "yaw": 255, "yaw_streuung_grad": 0, "skala": 0.9, "rolle": "stamm", "eingraben_m": [0.3, 0.4], "bezug": "mitte", "akteur": true, "kollision": true, "material": "MI_EL_SW_Windstill", "meide": null, "im_wasser": "egal", "weg_abstand_m": 0},
     {"name": "liegende_staemme", "ebene": "begleiter", "warum": "gestuerzte Staemme am Strand, mit dem Kopf zum Wasser", "palette": ["SM_FallenSpruceTree_01", "SM_BrokenTreeAssembly_01"], "anzahl": 2, "verteilung": {"typ": "ellipse", "bei": "strand", "a_m": 6, "b_m": 12, "richtung": 0}, "abstand_m": 6, "skala": [1.4, 1.7], "yaw": 270, "yaw_streuung_grad": 25, "rolle": "stamm", "akteur": true, "kollision": true, "im_wasser": "egal", "weg_abstand_m": 0},
     {"name": "kreideschollen", "ebene": "schutt", "warum": "Kreideschollen im Sturzkegel, unten groesser (rollen weiter)", "palette": ["uchoab3fa_tier_0", "SM_beach_escarpment_01_A"], "anzahl": 40, "verteilung": {"typ": "faecher", "bei": [20, -4], "richtung": 270, "laenge_m": 44, "start_m": 4, "oeffnung_grad": 40}, "abstand_m": 2.0, "groesse_m": [1.2, 3.5], "gradient": {"von": 0.8, "bis": 1.4}, "eingraben": [0.3, 0.45], "material": "MI_EL_SW_Kreide", "im_wasser": "nein", "weg_abstand_m": 0},
+    {"name": "rutschmasse", "ebene": "schutt", "warum": "Rutschmasse auf der Gleitflaeche: Kreideschollen und umgekippte Rasensoden", "palette": ["uchoab3fa_tier_0", "SM_beach_escarpment_01_B", "SM_beach_escarpment_01_C", "SM_NordicBeachRockyGround_01"], "anzahl": 45, "verteilung": {"typ": "ellipse", "bei": "nische", "a_m": 27, "b_m": 9, "richtung": 90}, "abstand_m": 2.2, "groesse_m": [1.0, 3.0], "eingraben": [0.3, 0.45], "material": "MI_EL_SW_Kreide", "weg_abstand_m": 0},
+    {"name": "nischenkiesel", "ebene": "kleinzeug", "warum": "Feuerstein und Kreidegrus auf der Gleitflaeche", "palette": ["SM_SmallStonesPack_05", "SM_SmallStonesPack_03", "SM_SmallStonesPack_07"], "anzahl": 300, "verteilung": {"typ": "ellipse", "bei": "nische", "a_m": 28, "b_m": 10, "richtung": 90}, "abstand_m": 0.4, "skala": [1.2, 2.5], "rolle": "stein"},
     {"name": "kreidekiesel", "ebene": "schutt", "warum": "Kreide-Kies-Flecken am Strand und im Kegel", "palette": "kiesflecken", "anzahl": 45, "verteilung": {"typ": "faecher", "bei": [16, -3], "richtung": 270, "laenge_m": 46, "start_m": 6, "oeffnung_grad": 45}, "abstand_m": 2.0, "skala": [0.8, 1.3], "im_wasser": "nein", "weg_abstand_m": 0},
     {"name": "wurzelstruenke", "ebene": "schutt", "warum": "Wurzelstruenke, mit der Kante abgerutscht", "palette": ["SM_RottenTreeStump_01", "SM_RottenTreeStump_02"], "anzahl": 4, "verteilung": {"typ": "ellipse", "bei": "nische", "a_m": 24, "b_m": 8, "richtung": 90}, "abstand_m": 6, "skala": [0.9, 1.3], "rolle": "stamm", "weg_abstand_m": 0},
     {"name": "treibholz", "ebene": "schutt", "warum": "Treibholz am Strand unter der Wand", "palette": "treibholz", "anzahl": 10, "verteilung": {"typ": "ellipse", "bei": "strand", "a_m": 5, "b_m": 30, "richtung": 0}, "abstand_m": 3, "skala": [0.8, 1.4], "rolle": "stamm", "weg_abstand_m": 0},
@@ -438,7 +443,7 @@
    "freiraeume": [
     {"form": "rechteck", "bei": "nische", "laenge_m": 64, "breite_m": 30, "richtung": 90, "grund": "Abrissnische: bestehende Buchen und Straeucher entfernen"}
    ],
-   "pfad": {"abschnitt": "naechster", "breite_cm": 150, "lagen": {"Erde": 210, "Laub": 140}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.2], "stufen_ab_grad": 22, "stufen_bis_grad": 40, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.6], "stufen_abstand_m": 3.0}, "fenster_max_m": 396},
+   "pfad": {"abschnitt": [0, 1500], "breite_cm": 150, "lagen": {"Erde": 210, "Laub": 140}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.2], "stufen_ab_grad": 22, "stufen_bis_grad": 40, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.6], "stufen_abstand_m": 3.0}, "fenster_max_m": 396},
    "effekte": [
     {"typ": "decal", "material": "MI_Leakage_01", "zweck": "Sickerstreifen an der Kreidewand", "bei": [28, -12], "hoehe_m": 8, "ausrichtung": "wand", "blick": 180, "groesse_m": [5.0, 5.0, 14.0]},
     {"typ": "decal", "material": "MI_Leakage_01", "zweck": "Sickerstreifen an der Kreidewand", "bei": [44, -12], "hoehe_m": 8, "ausrichtung": "wand", "blick": 180, "groesse_m": [5.0, 5.0, 14.0]},
@@ -459,6 +464,7 @@
    "marker": {"titel": "Der Duenenkamm", "text": "Der Sand wandert, und er nimmt mit, was ihm im Weg steht. Von der Kiefer schaut nur noch die Krone heraus.", "entdeckung_m": 30},
    "budget": {"instanzen": 3800, "kollision": 120, "akteure": 15, "lichter": 0, "niagara": 1, "decals": 11},
    "assets_wunsch": [
+    {"paket": "Nanite Driftwood Props", "statt_jetzt": "gebleichte grosse Treibholzstaemme fehlen weiter: SM_beach_driftwood_01 (x2,4) als Held + SM_beach_driftwood_02/04/08 (Coast & Dunes)"},
     {"paket": "Wilderness Nature Loops", "statt_jetzt": "CUE_Water_Stream_IV_Cue (Brandung-Ersatz) + CUE_Wind_Autumn_wind_with_leaves_rustling_Cue"}
    ],
    "anker": {
@@ -500,7 +506,7 @@
     {"lage": "Nadeln", "form": "kreis", "bei": "kiefernsaum", "r_m": 10, "streckung": [3.4, 1.0], "richtung": 0, "wert": 170, "flecken": 0.4},
     {"lage": "Kies", "form": "band", "punkte": "spuelsaum", "breite_m": 3, "wert": 180, "flecken": 0.4}
    ],
-   "pfad": {"abschnitt": [1434, 1680], "breite_cm": 150, "lagen": {"Erde": 200, "Nadeln": 150}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.2], "stufen_ab_grad": 22, "stufen_bis_grad": 40, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.6], "stufen_abstand_m": 3.0}, "fenster_max_m": 396},
+   "pfad": {"abschnitt": [1800, 1925], "breite_cm": 150, "lagen": {"Erde": 200, "Nadeln": 150}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.2], "stufen_ab_grad": 22, "stufen_bis_grad": 40, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.6], "stufen_abstand_m": 3.0}, "fenster_max_m": 396},
    "effekte": [
     {"typ": "niagara", "asset": "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf", "optional": true, "zweck": "Sandfahnen am Kamm (umgefaerbt sandfarben, flach)", "credits": "SoftTofuVFX (CC BY 4.0)", "hinweis": "Kopie, Partikel sandfarben, sehr klein, bodennah - optional, weil umgebaut", "bei": "kamm", "hoehe_m": 0.5},
     {"typ": "decal", "material": "MI_Decal_Sand_Small_Waves", "zweck": "Windrippeln auf der Luvseite", "anzahl": 4, "verteilung": {"typ": "ellipse", "bei": [11, -2], "a_m": 26, "b_m": 4, "richtung": 0}, "groesse_m": [1.0, 5.0, 5.0]},
@@ -554,7 +560,8 @@
     {"name": "hangschutt", "ebene": "schutt", "warum": "Steinschlag aus den 41-63 Grad steilen Buchtflanken", "palette": "geroell", "anzahl": 70, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 32}, "abstand_m": 1.6, "groesse_m": [0.5, 1.6], "hoehe_rel_m": [2.5, 30], "weg_abstand_m": 0},
     {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kiesel am Plattenrand und am Ufer (auf der Platte selbst kaum: Salz, Wasser)", "palette": "kiesel", "anzahl": 360, "verteilung": {"typ": "kreis", "bei": {"auf_linie": "gang", "t": 0.5}, "r_m": 26}, "abstand_m": 0.35, "skala": [0.8, 1.6], "hoehe_rel_m": [-15, 1.5], "rolle": "stein", "weg_abstand_m": 0, "boden_ab_m": 0.3},
     {"name": "kiefern", "ebene": "bewuchs", "warum": "krumme Strandkiefern oben am Hang, vom Wind gedrueckt", "palette": ["SM_pine_beach_crooked_01", "SM_pine_beach_small_02", "SM_pine_beach_medium_04"], "anzahl": 5, "verteilung": {"typ": "kreis", "bei": "hang", "r_m": 18}, "abstand_m": 6, "skala": [0.9, 1.2], "kipp_grad": [4, 8], "kipp_richtung": 270, "hoehe_rel_m": [6, 30], "rolle": "baum", "weg_abstand_m": 0},
-    {"name": "sanddorn", "ebene": "bewuchs", "warum": "Sanddorn in den Felsfugen oberhalb der Gischt", "palette": ["SM_sea_buckthorn_04", "SM_sea_buckthorn_05", "SM_sea_buckthorn_06"], "verteilung": {"typ": "cluster", "form": "kreis", "bei": "mitte", "r_m": 28, "zentren": [5, 8], "je": [2, 4], "radius_m": 2.5}, "abstand_m": 1.2, "hoehe_rel_m": [3, 25], "rolle": "pflanze", "weg_abstand_m": 0},
+    {"name": "sanddorn", "ebene": "bewuchs", "warum": "Sanddorn in den Felsfugen oberhalb der Gischt", "palette": ["SM_sea_buckthorn_04", "SM_sea_buckthorn_05", "SM_sea_buckthorn_06"], "verteilung": {"typ": "cluster", "form": "kreis", "bei": "mitte", "r_m": 28, "zentren": [9, 13], "je": [2, 4], "radius_m": 2.5}, "abstand_m": 1.2, "hoehe_rel_m": [3, 25], "rolle": "pflanze", "weg_abstand_m": 0},
+    {"name": "hangkraut", "ebene": "bewuchs", "warum": "Strandgras, Strandmelde und Wundklee in den Hangfugen ueber der Gischt", "palette": ["SM_beach_grass_02_1", "SM_beach_grass_02_2", "SM_sea_wormwood_01", "SM_kidney_vetch_01", "SM_stonecrop_02"], "verteilung": {"typ": "cluster", "form": "kreis", "bei": "mitte", "r_m": 32, "zentren": [14, 20], "je": [5, 9], "radius_m": 2.5}, "abstand_m": 0.5, "hoehe_rel_m": [3, 28], "hang_grad": [0, 50], "rolle": "pflanze", "weg_abstand_m": 0},
     {"name": "mauerpfeffer", "ebene": "kleinzeug", "warum": "Mauerpfeffer in Spalten ueber der Platte", "palette": "salzkraut", "anzahl": 140, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 26}, "abstand_m": 0.5, "hoehe_rel_m": [2.5, 16], "hang_grad": [0, 50], "rolle": "pflanze", "weg_abstand_m": 0},
     {"name": "plattenfuge", "ebene": "kontakt", "warum": "Kies in den Plattenfugen (nichts steht auf)", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": ["platten", "schelf"], "ring": [0.95, 1.2], "je": [14, 20]}, "rolle": "stein", "im_wasser": "egal"},
     {"name": "dachfuss", "ebene": "kontakt", "warum": "Geroell am Fuss der Felsdaecher", "palette": "kiesel", "verteilung": {"typ": "um_gruppe", "gruppe": ["dach_1", "dach_2", "dach_3"], "ring": [0.9, 1.25], "je": [18, 28]}, "rolle": "stein", "im_wasser": "egal", "boden_ab_m": 0.3},
@@ -566,9 +573,9 @@
     {"lage": "Kies", "form": "kreis", "bei": "kueste", "r_m": 10, "wert": 190, "flecken": 0.4},
     {"lage": "Trockengras", "form": "ring", "bei": "mitte", "r_m": [13, 34], "wert": 150, "flecken": 0.5}
    ],
-   "pfad": {"abschnitt": [1680, 1925], "breite_cm": 150, "lagen": {"Erde": 200, "Nadeln": 150}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.2], "stufen_ab_grad": 22, "stufen_bis_grad": 40, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.6], "stufen_abstand_m": 3.0}, "fenster_max_m": 396},
+   "pfad": {"abschnitt": [1500, 1800], "breite_cm": 150, "lagen": {"Erde": 200, "Nadeln": 150}, "trittsteine": {"palette": "trittstein", "groesse_m": [0.8, 1.2], "stufen_ab_grad": 22, "stufen_bis_grad": 40, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.6], "stufen_abstand_m": 3.0}, "fenster_max_m": 396},
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Geyser_Medium", "zweck": "Fontaene aus dem Loch, 8-14 m, alle 9-14 s (Nature Water FX)", "hinweis": "Intervall 9-14 s, Hoehe 8-14 m; Meerwasser, kein Dampf", "bei": "mitte", "hoehe_m": 0.5},
+    {"typ": "niagara", "asset": "NS_Geyser_Large", "zweck": "Fontaene aus dem Loch, 8-14 m, alle 9-14 s (Nature Water FX)", "hinweis": "Intervall 9-14 s, Hoehe 8-14 m; Meerwasser, kein Dampf", "bei": "mitte", "hoehe_m": 0.5},
     {"typ": "niagara", "asset": "NS_Impact_Medium", "zweck": "Gischt am Gangmund, wenn die Welle hineindrueckt", "bei": "kueste", "hoehe_m": 1.0},
     {"typ": "lokaler_nebel", "zweck": "Spruehregen um das Loch", "bei": "mitte", "hoehe_m": 4, "radius_m": 10, "dichte": 0.05, "farbe": [0.88, 0.91, 0.93], "hoehenabfall": 0.7},
     {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "Nassfaecher um das Loch (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "ring", "bei": "mitte", "r_m": [3, 7]}, "groesse_m": [1.0, 4.0, 4.0]},
