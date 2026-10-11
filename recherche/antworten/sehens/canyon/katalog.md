@@ -233,6 +233,8 @@ Budget ca. 1 500 Instanzen, 6 Akteure, 6 Decals.
 
 - Die Nordhälfte des Canyons (Mäander-Oberlauf, Nordstufe, Ringrücken, Mündungsfall bei X −1610 / Y −1090) ist 400–670 m vom Weg und
   nur über Wasser erreichbar – ein späterer „Canyonsteig“ vom Burgweg ROMAN_LOC_003 am Rand entlang würde 2–3 weitere Orte öffnen.
+  **Reserve (E25):** nicht jetzt. Fällt ein Ort im Editorbild durch, ersetzt ihn ein Ort am Mündungsfall (X −1610 / Y −1090)
+  über einen Randsteig vom Burgweg ROMAN_LOC_003.
 - Darf die Welle eine eigene prozedurale Decal-Textur (Linienmuster) bekommen?
 
 ## Abgleich Inventar 13d (Stand 11.10.2026, abends)
