@@ -2445,6 +2445,7 @@ def bogen_abschnitt(P, a_m, b_m):
     return [punkt(a)] + innen + [punkt(b)], a, b
 
 
+        bud, z = self.budget()
 def ufer_freibord(boden_fn, umriss_m, spiegel_m, zelle_m=1.0, offen=None):
     """Je Umrisspunkt: max. Gelaende auf dem Strahl 0,5 ... max(3, 2 x Zelle) m nach aussen (von der Umrissmitte)
     minus Spiegel; Rueckgabe Minimum (m). Eine Lippe irgendwo auf dem Strahl genuegt - das Wasser bleibt drin.
