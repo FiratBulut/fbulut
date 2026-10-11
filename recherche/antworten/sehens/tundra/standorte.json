@@ -366,75 +366,72 @@
    "pfad_id": "tundra_pfad_der_trunkene_grund"
   },
   {
-   "id": "tundra_06_das_aufeis",
-   "name": "Das Aufeis",
+   "id": "tundra_06_das_schneetaelchen",
+   "name": "Das Schneetaelchen",
    "art": "fundstueck",
-   "mitte_cm": [-176000, -223500, 5377],
-   "radius_m": 55.0,
-   "felder": ["C2", "D2"],
+   "mitte_cm": [-18200, -196200, 2358],
+   "radius_m": 40.0,
+   "felder": ["E3"],
    "kameras": [
-    ["C2", -176630, -216632, -176000, -223500, 5477, "tundra_06_das_aufeis_anmarsch", -170],
-    ["C2", -182204, -224594, -176000, -223500, 5422, "tundra_06_das_aufeis_held", 170],
-    ["C2", -176985, -223674, -176000, -223500, 5427, "tundra_06_das_aufeis_nah", -170]
+    ["E3", -7297, -198300, -18200, -196200, 2458, "tundra_06_das_schneetaelchen_anmarsch", -170],
+    ["E3", -8709, -199654, -18200, -196200, 2403, "tundra_06_das_schneetaelchen_held", 170],
+    ["E3", -17260, -196542, -18200, -196200, 2408, "tundra_06_das_schneetaelchen_nah", -170]
    ],
    "ziel_hoehe_m": 1.5,
+   "standort_begruendung": "Hangmulde (TPI50 -2,6 m) am Schneefeld-Rand zum Frostgebiet, Boden Schnee, Hang 8-15 Grad nach SSW; Weg 283 m (Weg Ost, kein Pfad noetig, max. 14 Grad); vom Weg verdeckt (5/5 Proben); >= 352 m zu Eiswand und Fliesstreppe; Ersatz fuer das Aufeis (C2-Kaskade, Auftrag 14)",
    "sicht": {
-    "naechster_weg_m": 296.0,
+    "naechster_weg_m": 283.0,
     "sichtbar_ab_m": 0,
     "ziel_hoehe_m": 1.5,
     "probepunkte": 5,
-    "probe_kern_m": [-1760, -2235, 18.3],
+    "probe_kern_m": [-182.0, -1962.0, 13.3],
     "verdeckt_mit_stempel": true,
     "max_anteil_mit_stempel": 0.0,
     "wegpunkte_mit_sicht_mit_stempel": 0,
     "verdeckt_heute": true,
-    "max_anteil_heute": 0.0,
-    "wegpunkte_mit_sicht_heute": 0,
-    "naechste_sicht_heute_m": 0,
     "mit_pfaden": {
      "probe_kern_ost_west_sued_nord": [
-      [0, 0.0, 86],
-      [0, 0.0, 92],
-      [0, 0.0, 76],
-      [0, 0.0, 89],
-      [0, 0.0, 81]
+      [0, 0.0, 20],
+      [0, 0.0, 22],
+      [0, 0.0, 20],
+      [0, 0.0, 20],
+      [0, 0.0, 21]
      ],
-     "naechster_weg_m": 88.8
-    }
+     "naechster_weg_m": 283.0
+    },
+    "verlegt": "Auftrag 14 (Koordinator): Aufeis lag auf der gebauten Erlenbach-Kaskade C2 (F_ERLENBACH_1V_C2) - gestrichen, neuer Fundstueck-Typ"
    },
    "erreichbar": {
     "erreichbar": true,
     "modus": "streng",
-    "laenge_m": 379.0,
-    "luftlinie_m": 342.3,
-    "max_steigung_grad": 24.7,
-    "mittel_steigung_grad": 5.5,
+    "laenge_m": 312.7,
+    "luftlinie_m": 287.6,
+    "umweg_faktor": 1.1,
+    "max_steigung_grad": 14.3,
+    "mittel_steigung_grad": 6.6,
     "steil_laenge_m": 0.0,
-    "weg_punkt_m": [-1547.0, -1967.0],
+    "quer_steil_laenge_m": 0.0,
+    "wasser_laenge_m": 0.0,
+    "furt_laenge_m": 0.0,
     "pfad_noetig": false,
-    "wasser_laenge_m": 0.0
+    "weg_punkt_m": [59.0, -2119.0]
    },
    "pfad_cm": [
-    [-176000, -223500, 5432],
-    [-175900, -222300, 5251],
-    [-176300, -221900, 4991],
-    [-176300, -220300, 4815],
-    [-176700, -219900, 4569],
-    [-176700, -216700, 4172],
-    [-159500, -199900, 4767],
-    [-158700, -199900, 4855],
-    [-156700, -197900, 5175],
-    [-155100, -197900, 4983],
-    [-154700, -197500, 5118],
-    [-154700, -196700, 5233]
+    [-18200, -196200, 2382],
+    [-14900, -196300, 2775],
+    [-12900, -198300, 3329],
+    [-6500, -198300, 3796],
+    [-1300, -203500, 4025],
+    [-1300, -204300, 4010],
+    [5900, -211900, 2819]
    ],
    "gelaende_plan": {
-    "fenster_m": null,
-    "max_aenderung_m": 0.0,
-    "primitive": 0
+    "fenster_m": [-228.0, -2008.0, -136.0, -1916.0],
+    "groesse_m": [92, 92],
+    "max_aenderung_m": 1.6,
+    "hinweis": "Nivationsmulde -1,5 m, Protalus-Wall +1 m (Planer Phase 2)"
    },
-   "draufsicht": "tundra_06_das_aufeis.png",
-   "pfad_id": "tundra_pfad_das_aufeis"
+   "draufsicht": "tundra_06_das_schneetaelchen.png"
   },
   {
    "id": "tundra_07_die_steinringe",
@@ -644,27 +641,6 @@
    "laenge_m": 306.9,
    "rest_trampelspur_m": 185.0,
    "max_steigung_grad": 26.3,
-   "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug",
-   "bodenlage": "Erde/Kies-Band 1,2-2 m"
-  },
-  {
-   "id": "tundra_pfad_das_aufeis",
-   "art": "serpentine",
-   "breite_cm": 150,
-   "punkte_cm": [
-    [-154700, -196700],
-    [-154700, -197500],
-    [-155100, -197900],
-    [-156700, -197900],
-    [-158700, -199900],
-    [-159500, -199900],
-    [-174848, -214891]
-   ],
-   "anschluss": "Weg Ost (X -1547 / Y -1967) bis zur Schluchtkante, Kehren hinab zum Talboden",
-   "fuer": ["tundra_06_das_aufeis"],
-   "laenge_m": 280.5,
-   "rest_trampelspur_m": 92.0,
-   "max_steigung_grad": 24.7,
    "hinweis": "Kehren noetig (Steigung > 8,5 Grad = 15 %) - Serpentinen-Werkzeug",
    "bodenlage": "Erde/Kies-Band 1,2-2 m"
   }

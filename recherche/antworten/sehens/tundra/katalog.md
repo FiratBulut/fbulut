@@ -46,7 +46,7 @@ Hoch −170, echtes Ziel; Kameras im Wasser automatisch ans Ufer verschoben. Zwe
 | tundra_03_die_eiswand | Die Eiswand | Leuchtfeuer | Auftaurutschung mit Grundeis-Kopfwand | E3 | −530 / −1845 | 195 m | 87 von 159, bis 699 m | Trampelpfad 110 m |
 | tundra_04_die_fliesstreppe | Die Fließtreppe | Leuchtfeuer | Solifluktionsloben + Schneeflecken | E2 | −450 / −2195 | 145 m | 62 von 100, bis 625 m | – |
 | tundra_05_der_trunkene_grund | Der Trunkene Grund | Fundstück | Thermokarstsee, Palsen, kippender Wald | D2 | −1355 / −2450 | 280 m | verdeckt (5/5 Proben, 0 von 15–17; mit Pfad 0 von 78–81) | Serpentine 307 m |
-| tundra_06_das_aufeis | Das Aufeis | Fundstück | geschichtetes Aufeis im Schluchtboden | C2 | −1760 / −2235 | 296 m | verdeckt (5/5 Proben, 0 von 22–32; mit Pfad 0 von 82–101) | Serpentine 281 m |
+| tundra_06_das_schneetaelchen | Das Schneetälchen | Fundstück | Schneetälchen mit Altschnee, Zwergweiden, Protalus-Wall (verlegt wegen C2-Kaskade, Auftrag 14) | E3 | −182 / −1962 | 283 m | verdeckt (5/5 Proben, 0 von 22–32; mit Pfad 0 von 82–101) | Serpentine 281 m |
 | tundra_07_die_steinringe | Die Steinringe | Fundstück | sortierte Steinringe im Flechtenteppich, Eisschubwall | D3 | −1412 / −1630 | 93 m | teilweise (s. u.) | – |
 | tundra_08_das_wabenmoor | Das Wabenmoor | Fundstück | Eiskeil-Polygonmoor an der Flussmündung | D3 | −924 / −1738 | 104 m | Kern 3 von 80 (Anteil 0,25), 2/5 Proben verdeckt | – |
 
@@ -200,29 +200,33 @@ Jungfichten `Fir_01_Plant` (Jungwuchs auf dem Buckel). Kontaktzone – Torfkante
 **Aufwand und Risiko:** mittel. Risiko: Abgrenzung zu gletscher_04 Toteisloch (dort ohne Wald/Palsen) – bitte bestätigen.
 Budget: ~9 000 Instanzen (700 Kollision), 40 Akteure, 0 Lichter, 0 Niagara, 1 Nebel, 4 Decals.
 
-## tundra_06_das_aufeis – Das Aufeis (Fundstück)
+## tundra_06_das_schneetaelchen – Das Schneetälchen (Fundstück)
 
-**Was man sieht:** Am Grund einer engen Schlucht liegt mitten im Sommer eine 70 m lange, gestufte Eisdecke, 1–2,5 m dick, blau an den
-Kanten und weiß oben. Der Bach hat sich eine schmale Rinne hindurchgeschnitten; an der Quelle oberhalb tritt Grundwasser aus und
-gefriert Schicht um Schicht. Unterhalb ein Kiesfächer, auf dem das Eis in Schollen zerfällt.
-**Vorbild:** Aufeis (Naledi) im Brooks Range und an der Indigirka; Spiel: Eisstufen im Frostgipfel-Tal (DA:I), aber ohne Wasserfall.
-**Standort:** C2, X −1760 / Y −2235 m (Ostflanke; Talboden 20 m westlich bei 42–44 m, dort 25 m breit). Schlucht/Kessel, TPI100 −20 m,
-Relief 52 m, Geröll 25 %. Weg 296 m (Weg Ost), Stadtrand 359 m.
-**Verdeckung:** 5/5 Proben verdeckt, 0 von 22–32 Wegpunkten (Schluchtwände).
-**Komposition und Anmarsch:** Zugang 379 m (max. 24,7°) → **Pfad `tundra_pfad_das_aufeis` (Serpentine 281 m bis zur Schluchtkante, dann 92 m Trampelspur mit Kehren hinab)**.
-`_anmarsch` an der Schluchtkante: Blick hinunter auf das weiße Band. `_held` vom Westhang talab, `_nah` an der Eisstufe.
-**Detail-Ebenen:** Held – Eisdecke aus `vd5leh0ga_tier_0`, `uhpocesfa_tier_0`, `vdsrdd0fa_tier_0` (Ice Cliff, vorhanden) flach gelegt,
-Stufenkanten `SM_SmoothRockShelf_01`/`SM_ForestRockSlab_01`/`SM_ForestRockShelf_01` mit `MI_EL_SW_Aufeis`. Begleiter 4–6 – Eisschollen
-am Fächer, Schneewächten an der Schattenwand (`xelnbaeqx_tier_0`, `vcyiedgfa_tier_0`, `xfwhcfnqx_tier_0`). Schutt 60–100 – Kies und
-Gerölle im Bett (`SM_DryRiverBed_01/02`, `SM_NordicBeachRockyGround_01/02`, `SM_stones_01_2/_5`). Kleinzeug – Eiszapfen
-`SM_EISZAPFEN_1/2/5/8` an den Stufen, `SM_SmallStonesPack_05`. Bewuchs nach Ursache – Talboden kahl (Eis, Hochwasser), Hangfuß:
-Polarweide `SM_grey_willow_01/04`, Tundragras `SM_wk2oaeyqx_VarB`, Moos an der Quelle. Kontaktzone – Eisrand taut: Nassband, Schlamm.
-**Wasser, Effekte, Licht:** `bach` mit `quelle: true` am Kopf, `klar`, schneidet die Eisrinne, mündet in den vorhandenen Bach. Klang
-`CUE_Water_Stream_VII_Cue`. Die Schlucht liegt im Schatten, das Eis leuchtet kühl – keine Lichter nötig.
-**Geländeänderung:** keine.
-**Assets:** Eis/Schnee jetzt vorhanden; Download B „Arctic Cliffs“ nur für größere Platten.
-**Aufwand und Risiko:** mittel. Risiko: Dopplung mit frost (Eis) – Unterschied: Schichteis auf Kies, kein Fall, kein See. Ferat entscheidet.
-Budget: ~4 000 Instanzen (400 Kollision), 30 Akteure, 0 Lichter, 0 Niagara, 3 Decals.
+> **Verlegt wegen C2-Kaskade (Auftrag 14).** Das frühere *Aufeis* (C2, X −1760 / Y −2235) lag auf der unteren Erlenbach-Kaskade
+> `F_ERLENBACH_1V_C2`, die Ferat schon gebaut hat (12 Stufen, Gischt). Koordinator: Die Kaskade bleibt. Flussab öffnet sich die
+> Schlucht zur Ebene (Weg 59–70 m, 25–44 Wegpunkte mit Sicht), flussauf liegt der Bach offen neben dem Weg (5–13 Wegpunkte); eine
+> andere Tundra-Schlucht mit Wasser, 80–300 m vom Weg und verdeckt, gibt es nicht. → **Aufeis gestrichen**, ersetzt durch ein
+> Schneetälchen am Schneefeldrand; Pfad `tundra_pfad_das_aufeis` entfällt (Zugang 313 m, max. 14°, kein Pfad nötig).
+
+**Was man sieht:** In einer Hangmulde am Rand des Schneefelds liegt mitten im Sommer ein schmutzig-weißer Altschneerest, rosa
+geädert von Schneealgen. Wo er gestern noch lag, ist der Boden schwarz und nass; darum ein Ring aus daumenhohem Zwergweiden-Teppich
+mit weißen Blütchen, außen Heide. Unter dem Schnee ein Wall aus Frostschutt, hinter dem sich ein Schmelzwassertümpel staut.
+**Vorbild:** Schneetälchen (Salicetum herbaceae) in Lappland und Spitzbergen, Protalus-Wälle, Blutschnee (Chlamydomonas nivalis);
+Spiel: späte Schneeflecken im Frostgipfel-Hochland (DA:I).
+**Standort:** E3, X −182 / Y −1962 m, Boden 23,6 m. Hangmulde (TPI50 −2,6 m), Hang 8–15° nach SSW, Boden Schnee (Rand des
+Frostgebiets, 34 m innerhalb der Biomgrenze); Weg 283 m (Weg Ost), ≥ 352 m zu Eiswand und Fließtreppe.
+**Verdeckung:** 5/5 Proben verdeckt (0 von 20–22 Wegpunkten ≤ 400 m), heute wie mit Plan.
+**Detail-Ebenen:** Held – Altschneerest `xgxhcjxqx_tier_0` ×1,5 mit `MI_EL_SW_Blutschnee`. Begleiter – Schneewehen `uhuldcyfa_tier_0`,
+`Snow_Embankment_uhvifcgfa_High`, `xelnbaeqx_tier_0`, rosa Restschnee `vcytca0fa_tier_0`. Schutt – Protalus-Wall (`SM_TundraRockyGround_01`,
+`SM_ground_rock_02`, `SM_mountain_rock_big_01_*`), Blöcke mit `MI_EL_SW_Altschnee`, Frostschutt. Kleinzeug – Schneehäufchen, dunkles
+Schneetälchen-Moos, Grus. Bewuchs nach Ursache (Ausaperungszeit) – innen nackt/Moos, dann Zwergweide (`SM_grey_willow_01/02` flach),
+Seggen (`SM_wk2oaeyqx_VarD/H/I`), weiße Blütchen (`SM_WhiteWindflower_*` ×0,3), außen Heide/Krähenbeere. Kontaktzone – Kiessaum,
+Moos am Tümpel.
+**Wasser, Effekte, Licht:** `see` Schmelzwassertümpel (klar, 0,6 m) hinter dem Wall, Abfluss versickert; Decals `MI_Deca_Wet`,
+`MI_Decal_Clay_03`; Klang Rinnsal + Wind.
+**Geländeänderung:** Nivationsmulde −1,5 m, Protalus-Wall +1 m (Lücke in der Mitte = Abfluss); max. 1,9 m.
+**Aufwand und Risiko:** gering. Risiko: Abgrenzung zum Schneefleck der Fließtreppe (dort Nebenrolle, hier Thema: Ausaperung und
+Pflanzenzonen).
 
 ## tundra_07_die_steinringe – Die Steinringe (Fundstück)
 

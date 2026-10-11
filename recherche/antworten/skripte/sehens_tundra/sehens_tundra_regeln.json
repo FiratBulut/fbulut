@@ -4,7 +4,8 @@
    "auftrag": "13 Phase 2 - Planer Tundra (Biom-Agent B5). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md, Muster sehens_bergwald",
    "quellen": "sehens/tundra/katalog.md, sehens/tundra/asset_bedarf.json, standorte.json (inkl. pfade), sehens-STATUS.md (Entscheidungen Ferat)",
    "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
-   "erweiterungen": "gelaende.daemme (Hook: Stempel.damm nach ops/Seebecken), loben (Fliesstreppe), ringe (Steinringe), waben (Wabenmoor), sicht (Verdeckungspruefung der Fundstuecke)",
+   "erweiterungen": "gelaende.daemme (Hook: Stempel.damm nach ops/Seebecken), loben (Fliesstreppe), ringe (Steinringe), waben (Wabenmoor), pfad.ende_r_m, sicht (Verdeckungspruefung der Fundstuecke)",
+   "verlegt": "tundra_06: Aufeis gestrichen (lag auf der gebauten Erlenbach-Kaskade C2, Auftrag 14) -> Das Schneetaelchen am Schneefeldrand",
    "hinweis": "Jede Gruppe hat eine Ursache ('warum'). Netze nur aus netze.csv; Material MI_EL_SW_* nur aus 'materialwuensche'. Keine Tiere, keine Bauten."
  },
  "biom": "tundra",
@@ -30,7 +31,7 @@
  },
  "materialwuensche": [
   {"name": "MI_EL_SW_Grundeis", "basis": "M_EL_Eis4", "parameter": {"Eis_Farbe": [0.62, 0.78, 0.9, 1.0], "Eis_Tief_Farbe": [0.18, 0.3, 0.42, 1.0], "Schnee_Menge": 0.25, "Eis_Rau_Max": 0.3, "Seite_Farbe": [0.35, 0.45, 0.52, 1.0]}, "fuer": ["vd5leh0ga_tier_0", "vd4hbizcb_tier_0", "SM_EISZAPFEN_6", "SM_EISZAPFEN_8", "SM_EISZAPFEN_9"]},
-  {"name": "MI_EL_SW_Aufeis", "basis": "M_EL_Eis4", "parameter": {"Eis_Farbe": [0.55, 0.8, 0.97, 1.0], "Eis_Tief_Farbe": [0.08, 0.28, 0.5, 1.0], "Schnee_Menge": 0.45, "Schnee_Schwelle": 0.72, "Eis_Spekular": 0.7}, "fuer": ["SM_SmoothRockShelf_01", "SM_ForestRockSlab_01", "SM_EISZAPFEN_1", "SM_EISZAPFEN_2", "SM_EISZAPFEN_5"]},
+  {"name": "MI_EL_SW_Blutschnee", "basis": "M_MS_Base", "parameter": {"BaseColor Tint": [1.0, 0.8, 0.8, 1.0], "Saturation": 1.15}, "fuer": ["xgxhcjxqx_tier_0", "vcytca0fa_tier_0"], "hinweis": "Schneealgen (Blutschnee): rosa Schlieren auf Altschnee im Schneetaelchen; Kopie der Megascans-Instanz (M_MS_Base_Trm) mit Tint"},
   {"name": "MI_EL_SW_Landkartenflechte", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Farbe": [0.78, 0.82, 0.38, 1.0], "Auflage_Menge": 0.45, "Auflage_Flecken": 0.9, "Auflage_Schwelle": 0.45, "Toenung": [0.62, 0.62, 0.6, 1.0]}, "fuer": ["SM_NordicBoulder_01", "SM_MassiveTundraRockFormation_02", "SM_NordicBeachRocks_01", "xisgcic_tier_0", "skjsL_tier_0"]},
   {"name": "MI_EL_SW_Flechte_Decal", "basis": "M_MS_Decal", "parameter": {"BaseColor Tint": [0.82, 0.86, 0.72, 1.0], "Saturation": 0.6, "Brightness": 1.25, "Min Roughness": 0.85}, "fuer": ["Decal-Kopie von MI_TileableMossPatches_01/02 (Rentierflechte, blass grau-gruen) - Wanderer, Steinringe"]},
   {"name": "MI_EL_SW_Altschnee", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Farbe": [0.9, 0.92, 0.95, 1.0], "Auflage_Menge": 0.85, "Auflage_Schwelle": 0.4, "Auflage_Rauheit": 0.75}, "fuer": ["SM_TundraRockyGround_01"]},
@@ -357,54 +358,64 @@
    ]
   },
 
-  "tundra_06_das_aufeis": {
-   "kurz": "Mitten im Sommer liegt am Schluchtgrund eine 70 m lange, gestufte Eisdecke, blau an den Kanten; der Bach schneidet eine Rinne hindurch, unten zerfaellt sie zu Schollen.",
-   "marker": {"titel": "Das Aufeis", "text": "Das Wasser kommt aus dem Hang und gefriert, Schicht um Schicht, jeden Winter neu. Selbst im Sommer gibt die Schlucht nicht alles wieder her.", "entdeckung_m": 35},
-   "budget": {"instanzen": 4000, "kollision": 400, "akteure": 34, "lichter": 0, "niagara": 1, "decals": 3},
+  "tundra_06_das_schneetaelchen": {
+   "kurz": "Hangmulde am Rand des Schneefelds: ein schmutzig-weisser, rosa geaederter Altschneerest, darunter frisch ausgeaperter schwarzer Boden, ein Ring aus Zwergweiden-Teppich und ein Schutt-Wall, hinter dem sich Schmelzwasser staut.",
+   "marker": {"titel": "Das Schneetaelchen", "text": "Hier geht der Winter als Letzter. Wo der Schnee gestern noch lag, ist die Erde schwarz und nass, und die Weiden wachsen nicht hoeher als ein Daumen.", "entdeckung_m": 25},
+   "budget": {"instanzen": 4000, "kollision": 300, "akteure": 12, "lichter": 0, "niagara": 0, "decals": 4},
    "assets_wunsch": [
-    {"paket": "Arctic Cliffs", "statt_jetzt": "Ice_Cliff vd5leh0ga/uhpocesfa/vdsrdd0fa hochkant flach gelegt + Stufenkanten mit MI_EL_SW_Aufeis"}
+    {"paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam", "statt_jetzt": "keine Schneefahne (optional, C)"}
    ],
-   "anker": {"quelle": [-12, -38], "einmuendung": [-23, -36], "faecher_kopf": [-30, 50], "schattenwand": [-8, 0]},
-   "linien": {
-    "eisband": {"punkte": [[-22, -42], [-24, -20], [-25, 0], [-26, 20], [-29, 40], [-31, 52]]},
-    "eis_links": {"punkte": [[-16.5, -42], [-18.5, -20], [-19.5, 0], [-20.5, 20], [-23.5, 40], [-25.5, 52]]},
-    "eis_rechts": {"punkte": [[-27.5, -42], [-29.5, -20], [-30.5, 0], [-31.5, 20], [-34.5, 40], [-36.5, 52]]},
-    "wandfuss_ost": {"punkte": [[-8, -34], [-11, -10], [-12, 14], [-15, 38]]}
+   "anker": {"schnee": [3, -8], "tuempel": [0, 2], "wall_w": [-9, 6], "wall_o": [8, 7]},
+   "linien": {"protalus_w": {"punkte": [[-11, 5], [-6, 7.5], [-2.5, 8]]}, "protalus_o": {"punkte": [[2.5, 8], [6, 8], [10, 5]]}},
+   "gelaende": {
+    "fenster_m": [92, 92],
+    "rand_m": 10,
+    "senke_begruendung": "Nivationsmulde: Schmelzwasser versickert im Schutt, Restmulden hinter dem Protalus-Wall - gewollt",
+    "ops": [
+     {"op": "mulde", "bei": [2, -5], "radius_m": 12, "tiefe_m": 1.5, "rand_m": 7, "boden": 0.4, "streckung": [1.3, 1.0], "richtung": 111, "warum": "Nivationsmulde: der Schnee raeumt den Boden aus (Frost, Schmelzwasser)"}
+    ],
+    "daemme": [
+     {"punkte": "protalus_w", "breite_m": 5, "hoehe_m": 1.0, "krone": 0.3, "verjuengung_m": 2.5, "warum": "Protalus-Wall West: Schutt rollte ueber den Schnee und blieb an seinem Fuss liegen"},
+     {"punkte": "protalus_o", "breite_m": 5, "hoehe_m": 1.0, "krone": 0.3, "verjuengung_m": 2.5, "warum": "Protalus-Wall Ost; Luecke in der Mitte = Abfluss"}
+    ]
    },
-   "gelaende": {"fenster_m": [120, 110], "rand_m": 10, "ops": []},
    "wasser": [
-    {"typ": "bach", "id": "quellbach", "punkte": ["quelle", [-17, -37], "einmuendung"], "breite_m": 0.8, "tiefe_cm": 12, "farbe": "klar", "quelle": true, "muendung": "auto", "hinweis": "Grundwasseraustritt am Hangfuss; gefriert im Winter Schicht um Schicht zum Aufeis"}
+    {"typ": "see", "id": "schmelztuempel", "bei": "tuempel", "spiegel": "boden+0.15", "tiefe_m": 0.6, "farbe": "klar", "becken": {"a_m": 3.2, "b_m": 2.2, "richtung": 111, "ufer_m": 2, "freibord_m": 0.15, "boden": 0.35, "auslass": 201}},
+    {"typ": "bach", "id": "schmelzwasser", "abfluss_von": "schmelztuempel", "laenge_m": 40, "breite_m": 0.5, "tiefe_cm": 8, "farbe": "klar", "quelle": false, "muendung": "versickert", "hinweis": "Schmelzwasser des Schneerests, versickert im Hangschutt"}
    ],
    "gruppen": [
-    {"name": "eisdecke_links", "ebene": "held", "warum": "geschichtetes Aufeis (1-2,5 m) auf dem Kiesbett, Ostseite der Rinne", "palette": "eisplatte", "anzahl": 13, "verteilung": {"typ": "band", "punkte": "eis_links", "breite_m": 7}, "ausrichtung": "hochkant", "hochkant_achse": "y", "skala": [1.25, 1.6], "skala_xyz": [1.0, 0.65, 1.0], "yaw": "eisband", "yaw_streuung_grad": 18, "eingraben": [0.4, 0.55], "abstand_m": 3.6, "im_wasser": "egal", "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 1.5},
-    {"name": "eisdecke_rechts", "ebene": "held", "warum": "Aufeis Westseite der Rinne", "palette": "eisplatte", "anzahl": 13, "verteilung": {"typ": "band", "punkte": "eis_rechts", "breite_m": 7}, "ausrichtung": "hochkant", "hochkant_achse": "y", "skala": [1.25, 1.6], "skala_xyz": [1.0, 0.65, 1.0], "yaw": "eisband", "yaw_streuung_grad": 18, "eingraben": [0.4, 0.55], "abstand_m": 3.6, "im_wasser": "egal", "akteur": true, "kollision": true, "meide": null, "weg_abstand_m": 1.5},
-    {"name": "stufenkanten", "ebene": "begleiter", "warum": "Stufen der Eisdecke (Schichten), blau getoent", "palette": ["SM_SmoothRockShelf_01", "SM_ForestRockSlab_01"], "anzahl": 6, "verteilung": {"typ": "band", "punkte": "eisband", "breite_m": 14, "t": [0.1, 0.9]}, "skala": [0.9, 1.3], "eingraben": [0.45, 0.55], "im_wasser": "egal", "material": "MI_EL_SW_Aufeis", "akteur": true, "kollision": true, "abstand_m": 6, "meide": null},
-    {"name": "schollen", "ebene": "begleiter", "warum": "unten zerfaellt das Eis zu Schollen auf dem Kiesfaecher", "netz": "vd4hbizcb_tier_0", "anzahl": 6, "verteilung": {"typ": "faecher", "bei": "faecher_kopf", "richtung": 190, "laenge_m": 18, "oeffnung_grad": 70}, "skala": [0.6, 1.0], "kipp_grad": [10, 35], "kipp_richtung": "zufall", "eingraben": [0.25, 0.4], "im_wasser": "egal", "akteur": true, "kollision": true, "material": "MI_EL_SW_Aufeis", "abstand_m": 3},
-    {"name": "waechten", "ebene": "begleiter", "warum": "Schneewechten an der schattigen Ostwand", "palette": ["xelnbaeqx_tier_0", "vcyiedgfa_tier_0", "xfwhcfnqx_tier_0"], "anzahl": 4, "verteilung": {"typ": "band", "punkte": "wandfuss_ost", "breite_m": 5}, "skala": [0.8, 1.1], "yaw": "wandfuss_ost", "yaw_streuung_grad": 12, "eingraben": [0.3, 0.45], "akteur": true, "kollision": false, "abstand_m": 10},
-    {"name": "bettgeroell", "ebene": "schutt", "warum": "Kies und Gerölle im Bett unter dem Eis", "palette": ["SM_NordicBeachRockyGround_01", "SM_NordicBeachRockyGround_02", "SM_stones_01_2", "SM_stones_01_5"], "anzahl": 70, "verteilung": {"typ": "band", "punkte": "eisband", "breite_m": 12}, "groesse_m": [0.5, 1.4], "im_wasser": "egal", "abstand_m": 1.4},
-    {"name": "kiesfaecher", "ebene": "schutt", "warum": "Kiesfaecher unterhalb des Eises", "palette": ["SM_stones_01_1", "SM_stones_01_3", "SM_mountain_rock_small_01_1", "SM_DryRiverBed_01"], "anzahl": 60, "verteilung": {"typ": "faecher", "bei": "faecher_kopf", "richtung": 190, "laenge_m": 22, "oeffnung_grad": 80}, "groesse_m": [0.4, 1.0], "im_wasser": "egal", "abstand_m": 0.9},
-    {"name": "eiszapfen", "ebene": "kleinzeug", "warum": "Eiszapfen an den Stufenkanten", "palette": ["SM_EISZAPFEN_1", "SM_EISZAPFEN_2", "SM_EISZAPFEN_5", "SM_EISZAPFEN_8"], "verteilung": {"typ": "um_gruppe", "gruppe": ["eisdecke_links", "eisdecke_rechts", "stufenkanten"], "ring": [0.85, 1.05], "je": [1, 3]}, "skala": [0.3, 0.55], "ausrichtung": "aufrecht", "rolle": "stein", "eingraben": [0.2, 0.3], "material": "MI_EL_SW_Aufeis", "meide": null, "im_wasser": "egal"},
-    {"name": "steinchen", "ebene": "kleinzeug", "warum": "Steinchen im Bett und am Eisrand", "palette": ["SM_SmallStonesPack_05", "SM_SmallStonesPack_08", "SM_SmallStonesPack_03"], "anzahl": 650, "verteilung": {"typ": "band", "punkte": "eisband", "breite_m": 16}, "abstand_m": 0.3, "rolle": "stein", "im_wasser": "egal"},
-    {"name": "hangweiden", "ebene": "bewuchs", "warum": "Polarweiden am Hangfuss (nicht im Bett: Eis und Hochwasser)", "palette": ["SM_grey_willow_01", "SM_grey_willow_04"], "anzahl": 30, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 50}, "hang_grad": [6, 34], "abstand_m": 3.0, "skala": [0.9, 1.4], "rolle": "pflanze"},
-    {"name": "hanggras", "ebene": "bewuchs", "warum": "Tundragras an den Schluchthaengen", "palette": ["SM_wk2oaeyqx_VarB", "SM_wk2oaeyqx_VarC"], "anzahl": 600, "verteilung": {"typ": "kreis", "bei": "mitte", "r_m": 52}, "hang_grad": [4, 42], "abstand_m": 0.6, "rolle": "pflanze"},
-    {"name": "quellmoos", "ebene": "kontakt", "warum": "Moos an der Quelle (immer nass)", "palette": "moos", "anzahl": 140, "verteilung": {"typ": "kreis", "bei": "quelle", "r_m": 4.5}, "abstand_m": 0.2, "rolle": "streu", "im_wasser": "egal"},
-    {"name": "eisrand", "ebene": "kontakt", "warum": "tauender Eisrand: Steinchen und Moos", "palette": ["SM_SmallStonesPack_05", "SM_moss_02", "SM_MossClump_04"], "verteilung": {"typ": "um_gruppe", "gruppe": ["eisdecke_links", "eisdecke_rechts", "schollen", "waechten"], "ring": [0.95, 1.25], "je": [6, 10]}, "rolle": "stein", "im_wasser": "egal"}
+    {"name": "schneerest", "ebene": "held", "warum": "Altschneerest in der Mulde: haelt sich bis in den Spaetsommer, rosa Schlieren von Schneealgen", "netz": "xgxhcjxqx_tier_0", "verteilung": {"typ": "punkt", "bei": "schnee"}, "skala": 1.5, "yaw": 111, "eingraben": [0.4, 0.45], "akteur": true, "kollision": true, "material": "MI_EL_SW_Blutschnee", "meide": null},
+    {"name": "schneewehen", "ebene": "begleiter", "warum": "Reste der Schneewehe am oberen Muldenrand", "palette": ["uhuldcyfa_tier_0", "Snow_Embankment_uhvifcgfa_High", "xelnbaeqx_tier_0"], "anzahl": 3, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [6, 10]}, "hoehe_rel_m": [-0.5, 6], "skala": [0.8, 1.1], "yaw": 111, "yaw_streuung_grad": 20, "eingraben": [0.35, 0.45], "akteur": true, "kollision": false, "abstand_m": 5, "meide": null},
+    {"name": "schneereste_rosa", "ebene": "begleiter", "warum": "kleine Restschneehaufen mit Schneealgen", "netz": "vcytca0fa_tier_0", "anzahl": 2, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [7, 11]}, "skala": [0.8, 1.0], "eingraben": [0.35, 0.45], "akteur": true, "kollision": false, "material": "MI_EL_SW_Blutschnee", "abstand_m": 5},
+    {"name": "protalus", "ebene": "schutt", "warum": "Protalus-Wall: Frostschutt rollte ueber den Schnee und sammelt sich an seinem Fuss", "palette": ["SM_TundraRockyGround_01", "SM_ground_rock_02", "SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_3"], "anzahl": 36, "verteilung": {"typ": "band", "punkte": [[-11, 5], [-6, 7.5], [-2.5, 8], [2.5, 8], [6, 8], [10, 5]], "breite_m": 4}, "groesse_m": [0.5, 1.6], "abstand_m": 1.0, "eingraben": [0.3, 0.45]},
+    {"name": "altschnee_bloecke", "ebene": "schutt", "warum": "Bloecke im Schneerand, Altschnee obenauf", "netz": "SM_TundraRockyGround_01", "anzahl": 3, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [8, 12]}, "groesse_m": [1.8, 2.6], "material": "MI_EL_SW_Altschnee", "abstand_m": 5},
+    {"name": "frostschutt", "ebene": "schutt", "warum": "Frostschutt auf dem frisch ausgeaperten Boden", "palette": "kiesel", "anzahl": 45, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [8, 13]}, "groesse_m": [0.3, 0.8], "abstand_m": 0.9},
+    {"name": "schneehaeufchen", "ebene": "kleinzeug", "warum": "letzte Schneeflecken am Rand", "palette": ["xftjadtab_tier_0", "xemmbh2qx_tier_0"], "anzahl": 12, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [8, 14]}, "skala": [0.5, 0.9], "eingraben": [0.3, 0.45], "rolle": "stein", "abstand_m": 2.0},
+    {"name": "schwarzmoos", "ebene": "kleinzeug", "warum": "frisch ausgeapert: dunkler, nasser Boden mit Schneetaelchen-Moos", "palette": ["SM_MossClump_04", "SM_moss_02", "SM_MossClump_02"], "anzahl": 520, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [8, 12.5]}, "abstand_m": 0.3, "rolle": "streu"},
+    {"name": "steinchen", "ebene": "kleinzeug", "warum": "Grus und Steinchen in der Mulde", "palette": "steinchen", "anzahl": 600, "verteilung": {"typ": "kreis", "bei": [1, -3], "r_m": 20}, "abstand_m": 0.4, "rolle": "stein"},
+    {"name": "zwergweiden", "ebene": "bewuchs", "warum": "Zwergweiden-Teppich (Kraut-Weide): nur wo der Schnee spaet geht, daumenhoch", "palette": ["SM_grey_willow_01", "SM_grey_willow_02"], "anzahl": 280, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [12, 18]}, "skala": [0.35, 0.5], "skala_xyz": [1.25, 1.25, 0.4], "abstand_m": 0.55, "rolle": "pflanze"},
+    {"name": "schneetaelchen_gras", "ebene": "bewuchs", "warum": "flache Seggen und Gras im Schneetaelchen", "palette": ["SM_wk2oaeyqx_VarD", "SM_wk2oaeyqx_VarH", "SM_wk2oaeyqx_VarI"], "anzahl": 520, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [10, 21]}, "abstand_m": 0.45, "rolle": "pflanze"},
+    {"name": "schneebluemchen", "ebene": "bewuchs", "warum": "weisse Bluetchen, die direkt hinter dem Schnee aufgehen", "palette": ["SM_WhiteWindflower_02", "SM_WhiteWindflower_06", "SM_WhiteWindflower_07"], "verteilung": {"typ": "cluster", "form": "ring", "bei": "schnee", "r_m": [11, 17], "zentren": [10, 14], "je": [5, 9], "radius_m": 1.2}, "skala": [0.28, 0.38], "abstand_m": 0.3, "rolle": "pflanze"},
+    {"name": "heide", "ebene": "bewuchs", "warum": "aussen, wo der Schnee frueh geht: Heide, Kraehen- und Preiselbeere", "palette": "zwergstrauch", "anzahl": 760, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [18, 32]}, "abstand_m": 0.55, "rolle": "pflanze"},
+    {"name": "tuempelrand", "ebene": "kontakt", "warum": "Moos und Binsen am Schmelzwassertuempel", "palette": ["SM_ToadRush_014", "SM_moss_01", "SM_MossClump_01"], "dichte_je_m2": 0.8, "verteilung": {"typ": "ufer", "bei": "tuempel", "r_m": 8, "band_m": [-0.2, 1.2]}, "abstand_m": 0.25, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "moos_nord", "ebene": "kontakt", "warum": "Moos an der Nordseite der Bloecke", "palette": "moos", "verteilung": {"typ": "um_gruppe", "gruppe": ["protalus", "altschnee_bloecke"], "ring": [0.85, 1.2], "je": [3, 6], "seite": "nord"}, "rolle": "streu"},
+    {"name": "kiessaum", "ebene": "kontakt", "warum": "Kiessaum um Bloecke und Schnee, nichts steht auf", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["schneerest", "schneewehen", "schneereste_rosa", "altschnee_bloecke", "protalus"], "ring": [0.95, 1.3], "je": [8, 16]}, "rolle": "stein"}
    ],
    "lagen": [
-    {"lage": "Eis", "form": "band", "punkte": "eisband", "breite_m": 18, "wert": 220, "rand_m": 2, "flecken": 0.2},
-    {"lage": "Kies", "form": "band", "punkte": "eisband", "breite_m": 5, "wert": 210},
-    {"lage": "Schlamm", "form": "band", "punkte": "eisband", "breite_m": 24, "wert": 150, "flecken": 0.4},
-    {"lage": "Schnee", "form": "band", "punkte": "wandfuss_ost", "breite_m": 6, "wert": 200, "flecken": 0.3},
-    {"lage": "Moos", "form": "kreis", "bei": "quelle", "r_m": 6, "wert": 220}
+    {"lage": "Schnee", "form": "kreis", "bei": "schnee", "r_m": 8, "streckung": [1.3, 1.0], "richtung": 111, "wert": 255, "rand_m": 2, "flecken": 0.15},
+    {"lage": "Schlamm", "form": "ring", "bei": "schnee", "r_m": [7, 12.5], "wert": 215, "flecken": 0.3, "warum": "frisch ausgeapert, nass"},
+    {"lage": "Moos", "form": "ring", "bei": "schnee", "r_m": [11, 19], "wert": 200, "flecken": 0.35},
+    {"lage": "Heide", "form": "ring", "bei": "schnee", "r_m": [18, 32], "wert": 175, "flecken": 0.45},
+    {"lage": "Geroell", "form": "band", "punkte": [[-11, 5], [-6, 7.5], [-2.5, 8], [2.5, 8], [6, 8], [10, 5]], "breite_m": 4, "wert": 200}
    ],
-   "pfad": {"breite_cm": 150, "lagen": {"Erde": 205, "Kies": 140}, "zugang": true, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.1], "stufen_ab_grad": 22, "stufen_palette": "felsstufe", "stufen_groesse_m": [1.0, 1.5], "stufen_abstand_m": 3.0}},
+   "pfad": {"breite_cm": 130, "lagen": {"Erde": 195, "Kies": 110}, "ende_r_m": 14},
    "effekte": [
-    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Quellaustritt am Hangfuss (Nature Water FX, 13d)", "bei": "quelle", "hoehe_m": 0.2, "skala": 0.4, "yaw_grad": 265, "hinweis": "klein und flach halten - nur der austretende Quellstrahl"},
-    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am tauenden Eisrand (Coast & Dunes, 13d)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": [-25, 0], "r_m": 40, "band_m": [0.0, 3.5]}, "abstand_m": 10, "groesse_m": [1.0, 3.0, 3.0]}
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "nasser, frisch ausgeaperter Boden (Coast & Dunes, 13d)", "anzahl": 3, "verteilung": {"typ": "ring", "bei": "schnee", "r_m": [8, 11]}, "abstand_m": 5, "groesse_m": [1.0, 3.5, 3.5]},
+    {"typ": "decal", "material": "MI_Decal_Clay_03", "zweck": "Schlick am Schmelzwassertuempel (Coast & Dunes, 13d)", "bei": {"anker": "tuempel", "versatz_m": [3, 1]}, "groesse_m": [1.0, 3.0, 3.0]}
    ],
    "klaenge": [
-    {"asset": "CUE_Water_Stream_VII_Cue", "bei": "quelle", "radius_m": 30, "lautstaerke": 0.5, "zweck": "Quelle und Bach unter dem Eis"},
-    {"asset": "CUE_Ice_Walking_on_ice_I_Cue", "bei": [-25, 0], "radius_m": 20, "lautstaerke": 0.15, "zweck": "Knacken im Eis (nur Knack-Anteile, Zufallsimpuls)"}
+    {"asset": "CUE_Water_Stream_I_Cue", "bei": "tuempel", "radius_m": 15, "lautstaerke": 0.25, "zweck": "Schmelzwasser rinnt"},
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "mitte", "radius_m": 45, "lautstaerke": 0.5, "zweck": "Wind ueber dem Schneefeld"}
    ]
   },
 
