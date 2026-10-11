@@ -12,12 +12,13 @@ python -I recherche/antworten/skripte/sehens_fjord/sehens_fjord.py --daten2m rec
 
 ## Testlauf 2 m (11.10.2026, ~50 s, zwei Läufe byteidentisch)
 
-Planer 0 FEHLER / 0 WARNUNG; Prüfer **0 FEHLER, 1 WARNUNG** (`lagen-Fenster` 01, s. u.).
+Planer 0 FEHLER / 0 WARNUNG; Prüfer **0 FEHLER, 0 WARNUNG** (Lagenfenster 01 akzeptiert, E49). Seit **E46** hat der Fjord
+7 Leuchtfeuer und 1 Fundstück (07 Brandungsgrotte).
 
 | Ort | Inst. | Koll. | Akteure | Stempel | Held / Besonderheit |
 |---|---|---|---|---|---|
 | 01 Kanzel | 1 049 | 188 | 7 | 9,0 m | Platte `SM_MassiveTundraRockFormation_01` ×0,42 nach 313°, Wand darunter `vmnmbhv`/`veqnci0db`, Riss als Rinne mit Blöcken und Moos, Windkiefern |
-| 02 Schleierwand | 1 903 | 232 | 7 | 17,1 m | 5 Fallbänder 204–228 m (E24) mit `material_hinweis` M_River_Water_Translucent, 3 Gumpen + Abflüsse, NS_Waterfall_Small × 2 + NS_Impact_Small, Felsrippen `vdssailfa`/`vfmjadufa` (Klippe_Fjordnass), Sturzkegel, Birken, Leakage + Deca_Wet |
+| 02 Schleierwand | 1 903 | 232 | 7 | 17,1 m | 5 Fallbänder 204–228 m (E24) mit eigenem Vorhang `MI_EL_SW_Schleierfall` (E48, `material_wunsch`), Gumpen/Bäche mit `material_hinweis` M_River_Water_Translucent, 3 Gumpen + Abflüsse, NS_Waterfall_Small × 2 + NS_Impact_Small, Felsrippen `vdssailfa`/`vfmjadufa` (Klippe_Fjordnass), Sturzkegel, Birken, Leakage + Deca_Wet |
 | 03 Trollzunge | 713 | 151 | 6 | 1,0 m | Zunge `uchoab3fa` ragt hangab frei (Unterkante absolut 381,5 m), Unterbau `rcygn` 7 m im Grat, Frostschutt, Moospolster |
 | 04 Hängetal | 2 027 | 300 | 7 | 14,6 m | Hochtalboden als ebene Stufe in die V-Rinne gesetzt (**begruendung**), mäandrierender Bach, Lippenfall 33 m, Gumpe; Klamm-Vorlage: NS_Waterfall_Medium an der Lippe, NS_Impact_Medium in der Gumpe, NS_Stream_Small im Bach |
 | 05 Fjordkopf | 2 064 | 155 | 8 | 0,5 m | Schwemmfächer +0,5 m mit 2 Prielen, Watt-Blöcke, Treibholz `SM_beach_driftwood_*`, Tang `SM_seaweed_01_*`, Sanddorn, Decals Algae/Sand_Wet/Deca_Wet_Flat, NS_Stream_Small |
@@ -26,29 +27,31 @@ Planer 0 FEHLER / 0 WARNUNG; Prüfer **0 FEHLER, 1 WARNUNG** (`lagen-Fenster` 01
 | 08 Alte Ufer | 3 256 | 275 | 20 | 1,8 m | 3 Strandlinien entlang der Höhenlinien 31/51/73 m (Strandwälle als Damm), Kanten `SM_LS_beach_escarpment_*`, Rundkiesel, Muschelschill `SM_shells_01_A/B`, Birkengehölz |
 
 Je Feld: C1 8 424, C2 103, D1 1 870, D2 2 808 Instanzen. Materialwünsche 3/6: `Klippe_Fjordnass`, `Schleierfall`
-(nur falls der eigene Vorhang statt M_River_Water_Translucent genommen wird), `Fels_Flechte`.
+(E48: Vorhang der Schleierwand-Fälle; der Vorhang trägt die Fernsicht, Niagara ergänzt in der Nähe), `Fels_Flechte`.
+`M_River_Water_Translucent` steht nur noch als `material_hinweis` an Bächen und Gumpen.
 
-**Warnung (begründet):** `lagen-Fenster 410 × 154 m` bei 01 (Leuchtfeuer). Der Kanzel-Ast `fjord_pfad_kanzel` gehört ganz
-zu diesem Ort und ist 410 m lang.
+**Lagenfenster > 400 m (E49, akzeptiert):** 410 × 154 m bei 01 (Leuchtfeuer). Der Kanzel-Ast `fjord_pfad_kanzel` gehört ganz
+zu diesem Ort und ist 410 m lang; Begründung in `warnung_akzeptiert.lagen_fenster`, der Prüfer meldet nur einen HINWEIS.
 
 Neu in der Lib für die Küste: Gruppenschlüssel `boden_min_m`. Rundkiesel und Tang an Prielen und im Spalt setzen
 `boden_min_m: 0.0`, damit Rundungsunterschiede zwischen Stempelboden und Prüferboden kein „im Meer“ auslösen.
 
-## Verdeckung der Fundstücke
+## E46 – Fundstück → Leuchtfeuer (04, 05, 06, 08)
 
-| Ort | Ergebnis (Plan, Ziel 3 m) | Ursache |
-|---|---|---|
-| 04 Hängetal | 22 Punkte sehen den Kern | Fjordsteig in 86–151 m Abstand, **87–176 m höher**, Blick steil hinab |
-| 05 Fjordkopf | 41 | Steig rundum an den Fjordwänden, 90–113 m, +29…+76 m |
-| 06 Bergsturz | 49 | Ort liegt in einer 60–70°-Wand, Blick von unten (−41…−91 m) aus 90–290 m |
-| 07 Brandungsgrotte | **verdeckt** (Kern 0) | – |
-| 08 Alte Ufer | 43 | Hang mit Exposition 75°, der Oststeig gegenüber liegt in 280–340 m |
+Ein Fjord ist eine Aussichtslandschaft, der Fjordsteig ein Panoramaweg. Im offenen U-Tal ließen sich 04/05/06/08 nicht
+verstecken: Wälle sperrten 0–3 Steigpunkte und wurden wieder entfernt. Deshalb sind die vier Orte jetzt Leuchtfeuer
+(`standorte.json`: `art`, `ziel_hoehe_m`, `sicht`, neue Kamera `_fern`; Katalog mit Vermerk E46). Nachweis mit
+`sicht.sicht_von_wegen` gegen Wege + Steige, Ring 300–800 m:
 
-Der Fjord ist ein offenes U-Tal. Der Steig läuft an den Wänden über oder gegenüber den Orten. Ein Wall kann diese Blicke
-nicht sperren. Die Versuche (Rahmen 04/05/06/08) sperrten 0–3 Punkte, standen teils quer im Bach und wurden deshalb
-wieder herausgenommen. Gehölz (Birken 04/06/08) ist gesetzt, ändert die Zahlen aber kaum. Der Katalog beschreibt die Orte
-selbst als „vom Fjordsteig erst auf den letzten 100 m“ sichtbar. Die Einstufung als Fundstück muss Ferat entscheiden
-(siehe Bericht).
+| Ort | Silhouette | Punkte mit Sicht (≥ 30 %) | lesbar bis | `_fern` |
+|---|---|---|---|---|
+| 04 Hängetal | 12 m (Lippe + Fall) | 6 / 134 | 465 m | 465 m (X −1642 / Y −2312) |
+| 05 Fjordkopf | 4 m (Fächer) | 19 / 66 | 433 m | 433 m (X −1616 / Y −2948) |
+| 06 Bergsturz | 10 m (Blockkegel) | 16 / 69 | 330 m | 330 m (X −1562 / Y −3008) |
+| 08 Alte Ufer | 4 m (Stufenbänder) | 37 / 76 | 628 m | 498 m (X −1664 / Y −3072) |
+
+Von bestehenden Wegen allein sieht keiner der vier Orte (der Fjord hat keinen Weg). Die Marker haben jetzt
+`entdeckung_m` 100. Für 07 (Fundstück) zeigt die Verdeckungsprüfung den Kern **verdeckt** (0 Steigpunkte).
 
 ## Grenzen
 

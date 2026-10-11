@@ -24,7 +24,7 @@ ersetzt). Eigener Code, alles über Regelschlüssel gesteuert:
 
 ## Testlauf 2 m (11.10.2026, ~70 s, zwei Läufe byteidentisch)
 
-Planer 0 FEHLER / 0 WARNUNG; Prüfer (`orte.json` + `sw_gletscher`) **0 FEHLER, 2 WARNUNG** (s. u.).
+Planer 0 FEHLER / 0 WARNUNG; Prüfer (`orte.json` + `sw_gletscher`) **0 FEHLER, 0 WARNUNG** (Lagenfenster 02/05 akzeptiert, E49).
 
 | Ort | Inst. | Koll. | Akteure | Stempel | Held / Besonderheit |
 |---|---|---|---|---|---|
@@ -41,9 +41,9 @@ Je Feld: D1 1 386, D2 6 499, E1 2 109, E2 5 426 Instanzen. Materialwünsche 4/6:
 `SM_EISZAPFEN_*`), `Fels_Schneekappe`, `Klippe_Gletscherschliff`, `Findling_Flechte`. Die 31 Eis-/Schnee-Megascans behalten
 `M_MS_Base_Trm` und stehen über die Lib in `material_fix_ausnahmen` (E34).
 
-**Warnungen (begründet):** `lagen-Fenster > 400 m` bei 02 (330 × 414 m) und 05 (286 × 404 m). Beide sind Leuchtfeuer; der
-Weststeig-Abschnitt, der ihnen nach `abschnitt: naechster` gehört, ist so lang. Kürzer ginge nur, wenn ein Teil des
-Bands ohne Lage bliebe.
+**Lagenfenster > 400 m (E49, akzeptiert):** 02 (330 × 414 m) und 05 (286 × 404 m). Beide sind Leuchtfeuer; der
+Weststeig-Abschnitt, der ihnen nach `abschnitt: naechster` gehört, ist so lang. Die Regel `warnung_akzeptiert.lagen_fenster`
+trägt die Begründung, der Prüfer meldet dann nur einen HINWEIS.
 
 ## Verdeckung der Fundstücke (Plan inkl. Wall, Felsen, Bäume; Ziel 3 m)
 
@@ -58,14 +58,12 @@ Bands ohne Lage bliebe.
 Die Restblicke kommen steil von oben (Steig über dem Ort). Ein Wall oder Gehölz hilft dort nicht. Das lässt sich nur über
 die Steigführung lösen (siehe Bericht, Korrekturbedarf).
 
-## E22 – Steig über Eis
+## E22/E47 – Steig über Eis
 
-`gletscher_08` prüft `gletscher_pfad_nordhang` (`pfad_regel`). Das Band ist jetzt Schnee/Kies (200/135 ≈ 60/40), ohne
+`gletscher_08` prüft `gletscher_pfad_nordhang` (`pfad_regel`). Das Band ist Schnee/Kies (200/135 ≈ 60/40), ohne
 Bauwerk. Der Abstand zum Bergschrund (Linie `gletscher_05_die_waechte/bergschrund`) beträgt mindestens **151 m** (Soll ≥ 15 m).
-
-Der Steig führt aber über 248 m Schneezellen, davon 198 m steiler als 12°: Serpentinen mit 17–30° am Nordhang. Flaches Eis
-(Karboden) berührt er nicht. Wenn diese Schneefelder als Eis gelten, muss die Linie in `standorte.json` umgelegt werden.
-Die Felsstufen (22–32°) bleiben vorerst gesetzt.
+Gletschereis (≤ 12°) berührt der Steig nicht. Er quert 248 m Schneefelder mit 17–30° in Serpentinen; nach **E47** gelten
+sie nicht als Gletschereis, Kehren sind dort erlaubt. Die Linie bleibt, die Felsstufen (22–32°) bleiben gesetzt.
 
 ## Grenzen
 

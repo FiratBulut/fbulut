@@ -12,7 +12,7 @@ python -I recherche/antworten/skripte/sehens_frost/sehens_frost.py --daten2m rec
 
 ## Testlauf 2 m (11.10.2026, ~60 s, zwei Läufe byteidentisch)
 
-Planer 0 FEHLER / 0 WARNUNG; Prüfer **0 FEHLER, 1 WARNUNG** (`lagen-Fenster` 02, s. u.).
+Planer 0 FEHLER / 0 WARNUNG; Prüfer **0 FEHLER, 0 WARNUNG** (Lagenfenster 02 akzeptiert, E49).
 
 | Ort | Inst. | Koll. | Akteure | Stempel | Held / Besonderheit |
 |---|---|---|---|---|---|
@@ -30,8 +30,8 @@ Je Feld: E2 5 986, E3 387, F2 12 734 Instanzen. Materialwünsche **6/6**: `Raure
 `antworten/sehens/frost/decal_eisblasen.png`, `decal_eisrisse.png`, prozedural erzeugt; Generator im Arbeitsordner).
 Die Eis-/Schnee-Megascans behalten `M_MS_Base_Trm` (E34, `material_fix_ausnahmen`).
 
-**Warnung (begründet):** `lagen-Fenster 422 × 338 m` bei 02 (Leuchtfeuer). Dazu gehört der lange Froststeig-Abschnitt
-am See.
+**Lagenfenster > 400 m (E49, akzeptiert):** 422 × 338 m bei 02 (Leuchtfeuer), wegen des langen Froststeig-Abschnitts am
+See; Begründung in `warnung_akzeptiert.lagen_fenster`, der Prüfer meldet nur einen HINWEIS.
 
 ## Verdeckung der Fundstücke (Plan, Ziel 3 m)
 
