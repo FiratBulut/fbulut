@@ -1,0 +1,498 @@
+{
+ "stand": "2026-10-11",
+ "biom": "tundra",
+ "orte": [
+  {
+   "id": "tundra_01_der_pingo",
+   "name": "Der Eisbuckel",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-173600, -184200, 4791],
+   "radius_m": 60.0,
+   "felder": ["C3", "D3"],
+   "kameras": [
+    ["C3", -158300, -185900, -173600, -184200, 4918, "tundra_01_der_pingo_anmarsch", -170],
+    ["C3", -160601, -186492, -173600, -184200, 3567, "tundra_01_der_pingo_held", 170],
+    ["C3", -172615, -184374, -173600, -184200, 4868, "tundra_01_der_pingo_nah", -170],
+    ["C3", -124200, -179600, -173600, -184200, 1822, "tundra_01_der_pingo_fern", 170]
+   ],
+   "ziel_hoehe_m": 22.0,
+   "sicht": {
+    "naechster_weg_m": 152.6,
+    "sichtbar_ab_m": 797.6,
+    "wegpunkte_sichtbar": 110,
+    "wegpunkte_ring_300_800": 129,
+    "mittel_anteil": 0.8,
+    "heute_wegpunkte_sichtbar": 110,
+    "ziel_hoehe_m": 22.0,
+    "bester_wegpunkt_m": [-1242, -1796],
+    "bester_abstand_m": 496
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 173.0,
+    "luftlinie_m": 153.9,
+    "max_steigung_grad": 24.3,
+    "mittel_steigung_grad": 8.6,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [-1583.0, -1859.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-173600, -184200, 4676],
+    [-172300, -184300, 4369],
+    [-171500, -183900, 4028],
+    [-171100, -184300, 3797],
+    [-170700, -183900, 3579],
+    [-170300, -184300, 3356],
+    [-169100, -184300, 3192],
+    [-166700, -186700, 3372],
+    [-165900, -186700, 3311],
+    [-165100, -185900, 3306],
+    [-158300, -185900, 3327]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [-1786.0, -1904.0, -1680.0, -1798.0],
+    "groesse_m": [108, 108],
+    "max_hebung_m": 2.7,
+    "max_senkung_m": -4.6,
+    "max_aenderung_m": 4.6,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 5
+   },
+   "draufsicht": "tundra_01_der_pingo.png"
+  },
+  {
+   "id": "tundra_02_der_wanderer",
+   "name": "Der Wanderer",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-96800, -215800, 16289],
+   "radius_m": 45.0,
+   "felder": ["D2"],
+   "kameras": [
+    ["D2", -81500, -219738, -96800, -215800, 16469, "tundra_02_der_wanderer_anmarsch", -170],
+    ["D2", -94451, -214945, -96800, -215800, 16519, "tundra_02_der_wanderer_held", 170],
+    ["D2", -95860, -215458, -96800, -215800, 16419, "tundra_02_der_wanderer_nah", -170],
+    ["D2", -52200, -238600, -96800, -215800, 9831, "tundra_02_der_wanderer_fern", 170]
+   ],
+   "ziel_hoehe_m": 8.0,
+   "sicht": {
+    "naechster_weg_m": 129.3,
+    "sichtbar_ab_m": 795.5,
+    "wegpunkte_sichtbar": 95,
+    "wegpunkte_ring_300_800": 175,
+    "mittel_anteil": 0.5,
+    "heute_wegpunkte_sichtbar": 95,
+    "ziel_hoehe_m": 8.0,
+    "bester_wegpunkt_m": [-522, -2386],
+    "bester_abstand_m": 501
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 264.5,
+    "luftlinie_m": 152.6,
+    "max_steigung_grad": 24.9,
+    "mittel_steigung_grad": 19.6,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [-819.0, -2191.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-96800, -215800, 16354],
+    [-95900, -216700, 15932],
+    [-95900, -219900, 14803],
+    [-95100, -220300, 14413],
+    [-95100, -220700, 14276],
+    [-93100, -221500, 13369],
+    [-90700, -223900, 12282],
+    [-90300, -223900, 12157],
+    [-88700, -225500, 11357],
+    [-87900, -225900, 10986],
+    [-85100, -225900, 9853],
+    [-81500, -222300, 7870],
+    [-81500, -219500, 7054],
+    [-81900, -219100, 6911]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [-994.0, -2184.0, -942.0, -2132.0],
+    "groesse_m": [54, 54],
+    "max_hebung_m": 0.8,
+    "max_senkung_m": 0.0,
+    "max_aenderung_m": 0.8,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 1
+   },
+   "draufsicht": "tundra_02_der_wanderer.png"
+  },
+  {
+   "id": "tundra_03_die_eiswand",
+   "name": "Die Eiswand",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-53000, -184500, 887],
+   "radius_m": 55.0,
+   "felder": ["E3"],
+   "kameras": [
+    ["E3", -69700, -194100, -53000, -184500, 794, "tundra_03_die_eiswand_anmarsch", -170],
+    ["E3", -57104, -195776, -53000, -184500, 844, "tundra_03_die_eiswand_held", 170],
+    ["E3", -53342, -185440, -53000, -184500, 744, "tundra_03_die_eiswand_nah", -170],
+    ["E3", -57800, -234000, -53000, -184500, 794, "tundra_03_die_eiswand_fern", 170]
+   ],
+   "ziel_hoehe_m": 10.0,
+   "sicht": {
+    "naechster_weg_m": 194.5,
+    "sichtbar_ab_m": 698.7,
+    "wegpunkte_sichtbar": 87,
+    "wegpunkte_ring_300_800": 159,
+    "mittel_anteil": 0.5,
+    "heute_wegpunkte_sichtbar": 92,
+    "ziel_hoehe_m": 10.0,
+    "bester_wegpunkt_m": [-578, -2340],
+    "bester_abstand_m": 497
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 209.1,
+    "luftlinie_m": 192.6,
+    "max_steigung_grad": 18.3,
+    "mittel_steigung_grad": 6.0,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [-697.0, -1941.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-53000, -184500, 711],
+    [-56500, -184500, 260],
+    [-57300, -184900, 294],
+    [-61700, -189300, 561],
+    [-64500, -189300, 735],
+    [-65300, -190100, 695],
+    [-66100, -190100, 694],
+    [-69700, -193700, 1607],
+    [-69700, -194100, 1693]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [-598.0, -1914.0, -462.0, -1788.0],
+    "groesse_m": [138, 128],
+    "max_hebung_m": 0.0,
+    "max_senkung_m": -5.2,
+    "max_aenderung_m": 5.2,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 3
+   },
+   "draufsicht": "tundra_03_die_eiswand.png"
+  },
+  {
+   "id": "tundra_04_die_fliesstreppe",
+   "name": "Die Fliesstreppe",
+   "art": "leuchtfeuer",
+   "mitte_cm": [-45000, -219500, 5553],
+   "radius_m": 80.0,
+   "felder": ["E2"],
+   "kameras": [
+    ["E2", -51500, -228057, -45000, -219500, 5721, "tundra_04_die_fliesstreppe_anmarsch", -170],
+    ["E2", -46424, -227575, -45000, -219500, 5771, "tundra_04_die_fliesstreppe_held", 170],
+    ["E2", -45174, -220485, -45000, -219500, 5671, "tundra_04_die_fliesstreppe_nah", -170],
+    ["E2", -84200, -189200, -45000, -219500, 1318, "tundra_04_die_fliesstreppe_fern", 170]
+   ],
+   "ziel_hoehe_m": 12.0,
+   "sicht": {
+    "naechster_weg_m": 144.8,
+    "sichtbar_ab_m": 625.3,
+    "wegpunkte_sichtbar": 62,
+    "wegpunkte_ring_300_800": 100,
+    "mittel_anteil": 0.6,
+    "heute_wegpunkte_sichtbar": 61,
+    "ziel_hoehe_m": 12.0,
+    "bester_wegpunkt_m": [-842, -1892],
+    "bester_abstand_m": 495
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 153.6,
+    "luftlinie_m": 144.3,
+    "max_steigung_grad": 22.4,
+    "mittel_steigung_grad": 8.1,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [-527.0, -2317.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-45000, -219500, 5683],
+    [-47900, -222500, 5935],
+    [-47900, -224100, 6157],
+    [-51500, -227700, 7072],
+    [-51500, -228500, 7175],
+    [-52300, -229300, 7240],
+    [-52700, -231700, 7888]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [-506.0, -2296.0, -374.0, -2140.0],
+    "groesse_m": [134, 158],
+    "max_hebung_m": 1.3,
+    "max_senkung_m": -1.5,
+    "max_aenderung_m": 1.5,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 6
+   },
+   "draufsicht": "tundra_04_die_fliesstreppe.png"
+  },
+  {
+   "id": "tundra_05_der_trunkene_grund",
+   "name": "Der Trunkene Grund",
+   "art": "fundstueck",
+   "mitte_cm": [-135500, -245000, 16224],
+   "radius_m": 55.0,
+   "felder": ["D2"],
+   "kameras": [
+    ["D2", -137700, -228650, -135500, -245000, 16039, "tundra_05_der_trunkene_grund_anmarsch", -170],
+    ["D2", -136924, -236925, -135500, -245000, 15984, "tundra_05_der_trunkene_grund_held", 170],
+    ["D2", -135674, -244015, -135500, -245000, 15989, "tundra_05_der_trunkene_grund_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 280.3,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.5,
+    "probepunkte": 5,
+    "probe_kern_m": [-1355, -2450, 18.3],
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_mit_sicht_mit_stempel": 0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "wegpunkte_mit_sicht_heute": 0,
+    "naechste_sicht_heute_m": 0
+   },
+   "erreichbar": {
+    "erreichbar": false,
+    "modus": "weich",
+    "laenge_m": 448.7,
+    "luftlinie_m": 313.0,
+    "max_steigung_grad": 26.3,
+    "mittel_steigung_grad": 16.5,
+    "steil_laenge_m": 5.7,
+    "weg_punkt_m": [-1351.0, -2137.0],
+    "pfad_noetig": true
+   },
+   "pfad_cm": [
+    [-135500, -245000, 15938],
+    [-136700, -243700, 16053],
+    [-136700, -242500, 16417],
+    [-138300, -240900, 16929],
+    [-138300, -240500, 17005],
+    [-143100, -235700, 19176],
+    [-137100, -229700, 21920],
+    [-138700, -226900, 22014],
+    [-137100, -225300, 21222],
+    [-137500, -225300, 21074],
+    [-131500, -219300, 18600],
+    [-131900, -219300, 18441],
+    [-131500, -218900, 18161],
+    [-131900, -218900, 18069],
+    [-131100, -218100, 17595],
+    [-131500, -217700, 17399],
+    [-131500, -216900, 17190],
+    [-135100, -213300, 15563],
+    [-135100, -213700, 15460]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [-1416.0, -2498.0, -1272.0, -2402.0],
+    "groesse_m": [146, 98],
+    "max_hebung_m": 2.5,
+    "max_senkung_m": -3.0,
+    "max_aenderung_m": 3.0,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 5
+   },
+   "draufsicht": "tundra_05_der_trunkene_grund.png"
+  },
+  {
+   "id": "tundra_06_das_aufeis",
+   "name": "Das Aufeis",
+   "art": "fundstueck",
+   "mitte_cm": [-176000, -223500, 5377],
+   "radius_m": 55.0,
+   "felder": ["C2", "D2"],
+   "kameras": [
+    ["C2", -176630, -216632, -176000, -223500, 5477, "tundra_06_das_aufeis_anmarsch", -170],
+    ["C2", -182204, -224594, -176000, -223500, 5422, "tundra_06_das_aufeis_held", 170],
+    ["C2", -176985, -223674, -176000, -223500, 5427, "tundra_06_das_aufeis_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 296.0,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.5,
+    "probepunkte": 5,
+    "probe_kern_m": [-1760, -2235, 18.3],
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.0,
+    "wegpunkte_mit_sicht_mit_stempel": 0,
+    "verdeckt_heute": true,
+    "max_anteil_heute": 0.0,
+    "wegpunkte_mit_sicht_heute": 0,
+    "naechste_sicht_heute_m": 0
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 379.0,
+    "luftlinie_m": 342.3,
+    "max_steigung_grad": 24.7,
+    "mittel_steigung_grad": 5.5,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [-1547.0, -1967.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-176000, -223500, 5432],
+    [-175900, -222300, 5251],
+    [-176300, -221900, 4991],
+    [-176300, -220300, 4815],
+    [-176700, -219900, 4569],
+    [-176700, -216700, 4172],
+    [-159500, -199900, 4767],
+    [-158700, -199900, 4855],
+    [-156700, -197900, 5175],
+    [-155100, -197900, 4983],
+    [-154700, -197500, 5118],
+    [-154700, -196700, 5233]
+   ],
+   "gelaende_plan": {
+    "fenster_m": null,
+    "max_aenderung_m": 0.0,
+    "primitive": 0
+   },
+   "draufsicht": "tundra_06_das_aufeis.png"
+  },
+  {
+   "id": "tundra_07_die_steinringe",
+   "name": "Die Steinringe",
+   "art": "fundstueck",
+   "mitte_cm": [-141200, -163000, 453],
+   "radius_m": 35.0,
+   "felder": ["D3"],
+   "kameras": [
+    ["D3", -143679, -162100, -141200, -163000, 480, "tundra_07_die_steinringe_anmarsch", -170],
+    ["D3", -149947, -168050, -141200, -163000, 410, "tundra_07_die_steinringe_held", 170],
+    ["D3", -142066, -163500, -141200, -163000, 430, "tundra_07_die_steinringe_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.0,
+   "sicht": {
+    "naechster_weg_m": 93.4,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.0,
+    "probepunkte": 5,
+    "probe_kern_m": [-1412, -1630, 11.7],
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 1.0,
+    "wegpunkte_mit_sicht_mit_stempel": 32,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "wegpunkte_mit_sicht_heute": 35,
+    "naechste_sicht_heute_m": 82.3
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 97.8,
+    "luftlinie_m": 92.6,
+    "max_steigung_grad": 13.7,
+    "mittel_steigung_grad": 3.5,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [-1503.0, -1613.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-141200, -163000, 380],
+    [-142300, -162900, 380],
+    [-143100, -162100, 490],
+    [-148300, -162100, 561],
+    [-148700, -161700, 590],
+    [-150300, -161300, 695]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [-1448.0, -1668.0, -1372.0, -1594.0],
+    "groesse_m": [78, 76],
+    "max_hebung_m": 3.7,
+    "max_senkung_m": -1.3,
+    "max_aenderung_m": 3.7,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 2
+   },
+   "draufsicht": "tundra_07_die_steinringe.png"
+  },
+  {
+   "id": "tundra_08_das_wabenmoor",
+   "name": "Das Wabenmoor",
+   "art": "fundstueck",
+   "mitte_cm": [-92400, -173800, 498],
+   "radius_m": 40.0,
+   "felder": ["D3"],
+   "kameras": [
+    ["D3", -91100, -180499, -92400, -173800, 580, "tundra_08_das_wabenmoor_anmarsch", -170],
+    ["D3", -90245, -179720, -92400, -173800, 498, "tundra_08_das_wabenmoor_held", 170],
+    ["D3", -92058, -174740, -92400, -173800, 530, "tundra_08_das_wabenmoor_nah", -170]
+   ],
+   "ziel_hoehe_m": 0.6,
+   "sicht": {
+    "naechster_weg_m": 103.8,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 0.6,
+    "probepunkte": 5,
+    "probe_kern_m": [-924, -1738, 13.3],
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 1.0,
+    "wegpunkte_mit_sicht_mit_stempel": 20,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 0.7,
+    "wegpunkte_mit_sicht_heute": 19,
+    "naechste_sicht_heute_m": 101.1
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 108.1,
+    "luftlinie_m": 103.8,
+    "max_steigung_grad": 23.1,
+    "mittel_steigung_grad": 8.0,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [-911.0, -1841.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [-92400, -173800, 480],
+    [-92300, -174900, 480],
+    [-91100, -176100, 823],
+    [-91100, -184100, 1821]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [-978.0, -1788.0, -882.0, -1698.0],
+    "groesse_m": [98, 92],
+    "max_hebung_m": 3.4,
+    "max_senkung_m": -4.6,
+    "max_aenderung_m": 4.6,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 2
+   },
+   "draufsicht": "tundra_08_das_wabenmoor.png"
+  }
+ ]
+}

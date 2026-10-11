@@ -1,0 +1,474 @@
+{
+ "stand": "2026-10-11",
+ "biom": "heide",
+ "orte": [
+  {
+   "id": "heide_01_die_graue_burg",
+   "name": "Die Graue Burg",
+   "art": "leuchtfeuer",
+   "mitte_cm": [131000, 46600, 2225],
+   "radius_m": 55.0,
+   "felder": ["F5", "G5"],
+   "kameras": [
+    ["F5", 125900, 39900, 131000, 46600, 2521, "heide_01_die_graue_burg_anmarsch", -170],
+    ["F5", 125729, 40318, 131000, 46600, 746, "heide_01_die_graue_burg_held", 170],
+    ["F5", 130357, 45834, 131000, 46600, 2471, "heide_01_die_graue_burg_nah", -170],
+    ["F5", 159800, 5600, 131000, 46600, 1756, "heide_01_die_graue_burg_fern", 170]
+   ],
+   "ziel_hoehe_m": 12.0,
+   "sicht": {
+    "naechster_weg_m": 84.1,
+    "sichtbar_ab_m": 795.4,
+    "wegpunkte_sichtbar": 119,
+    "wegpunkte_ring_300_800": 183,
+    "mittel_anteil": 0.6,
+    "heute_wegpunkte_sichtbar": 116,
+    "ziel_hoehe_m": 12.0,
+    "bester_wegpunkt_m": [1598, 56],
+    "bester_abstand_m": 501
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 108.0,
+    "luftlinie_m": 84.2,
+    "max_steigung_grad": 24.6,
+    "mittel_steigung_grad": 10.2,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [1259.0, 399.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [131000, 46600, 2401],
+    [130300, 47100, 2057],
+    [129500, 46700, 1768],
+    [129500, 46300, 1636],
+    [130300, 45500, 1473],
+    [130300, 44300, 991],
+    [125900, 39900, 864]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [1274.0, 428.0, 1350.0, 504.0],
+    "groesse_m": [78, 78],
+    "max_hebung_m": 2.0,
+    "max_senkung_m": 0.0,
+    "max_aenderung_m": 2.0,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 1
+   },
+   "draufsicht": "heide_01_die_graue_burg.png"
+  },
+  {
+   "id": "heide_02_ginstergold",
+   "name": "Ginstergold",
+   "art": "leuchtfeuer",
+   "mitte_cm": [229500, 61000, 1966],
+   "radius_m": 70.0,
+   "felder": ["G5", "H5"],
+   "kameras": [
+    ["G5", 217700, 71100, 229500, 61000, 2066, "heide_02_ginstergold_anmarsch", -170],
+    ["G5", 233604, 72276, 229500, 61000, 2086, "heide_02_ginstergold_held", 170],
+    ["G5", 229842, 61940, 229500, 61000, 2016, "heide_02_ginstergold_nah", -170],
+    ["G5", 208600, 15600, 229500, 61000, 2066, "heide_02_ginstergold_fern", 170]
+   ],
+   "ziel_hoehe_m": 4.0,
+   "sicht": {
+    "naechster_weg_m": 155.2,
+    "sichtbar_ab_m": 702.5,
+    "wegpunkte_sichtbar": 38,
+    "wegpunkte_ring_300_800": 252,
+    "mittel_anteil": 0.1,
+    "heute_wegpunkte_sichtbar": 38,
+    "ziel_hoehe_m": 4.0,
+    "bester_wegpunkt_m": [2086, 156],
+    "bester_abstand_m": 500
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 159.6,
+    "luftlinie_m": 155.3,
+    "max_steigung_grad": 11.7,
+    "mittel_steigung_grad": 4.8,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [2177.0, 711.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [229500, 61000, 1995],
+    [226100, 64300, 1780],
+    [224900, 64300, 1939],
+    [217700, 71100, 2517]
+   ],
+   "gelaende_plan": {
+    "fenster_m": null,
+    "max_aenderung_m": 0.0,
+    "primitive": 0
+   },
+   "draufsicht": "heide_02_ginstergold.png"
+  },
+  {
+   "id": "heide_03_die_wacholderprozession",
+   "name": "Die Wacholderprozession",
+   "art": "leuchtfeuer",
+   "mitte_cm": [189000, -8000, 2548],
+   "radius_m": 70.0,
+   "felder": ["G4", "G5"],
+   "kameras": [
+    ["G4", 205073, -6700, 189000, -8000, 2766, "heide_03_die_wacholderprozession_anmarsch", -170],
+    ["G4", 200818, -10084, 189000, -8000, 2816, "heide_03_die_wacholderprozession_held", 170],
+    ["G4", 189985, -8174, 189000, -8000, 2716, "heide_03_die_wacholderprozession_nah", -170],
+    ["G4", 198600, 34000, 189000, -8000, 1956, "heide_03_die_wacholderprozession_fern", 170]
+   ],
+   "ziel_hoehe_m": 6.0,
+   "sicht": {
+    "naechster_weg_m": 197.9,
+    "sichtbar_ab_m": 799.6,
+    "wegpunkte_sichtbar": 82,
+    "wegpunkte_ring_300_800": 328,
+    "mittel_anteil": 0.2,
+    "heute_wegpunkte_sichtbar": 70,
+    "ziel_hoehe_m": 6.0,
+    "bester_wegpunkt_m": [1986, 340],
+    "bester_abstand_m": 431
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 212.0,
+    "luftlinie_m": 200.4,
+    "max_steigung_grad": 17.2,
+    "mittel_steigung_grad": 4.6,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [2087.0, -43.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [189000, -8000, 2651],
+    [193900, -7900, 2462],
+    [194300, -7500, 2486],
+    [203500, -7500, 2870],
+    [204300, -6700, 3103],
+    [205500, -6700, 2956],
+    [206300, -6300, 2709],
+    [208700, -4300, 2598]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [1814.0, -156.0, 1982.0, -14.0],
+    "groesse_m": [170, 144],
+    "max_hebung_m": 1.2,
+    "max_senkung_m": 0.0,
+    "max_aenderung_m": 1.2,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 1
+   },
+   "draufsicht": "heide_03_die_wacholderprozession.png"
+  },
+  {
+   "id": "heide_04_der_kolk",
+   "name": "Der Kolk",
+   "art": "fundstueck",
+   "mitte_cm": [179000, 59500, 1669],
+   "radius_m": 60.0,
+   "felder": ["G5"],
+   "kameras": [
+    ["G5", 177275, 66931, 179000, 59500, 1775, "heide_04_der_kolk_anmarsch", -170],
+    ["G5", 179000, 65800, 179000, 59500, 1705, "heide_04_der_kolk_held", 170],
+    ["G5", 179000, 60500, 179000, 59500, 1725, "heide_04_der_kolk_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.0,
+   "sicht": {
+    "naechster_weg_m": 204.9,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.0,
+    "probepunkte": 5,
+    "probe_kern_m": [1790, 595, 20.0],
+    "verdeckt_mit_stempel": true,
+    "max_anteil_mit_stempel": 0.1,
+    "wegpunkte_mit_sicht_mit_stempel": 0,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "wegpunkte_mit_sicht_heute": 4,
+    "naechste_sicht_heute_m": 282.6
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 220.6,
+    "luftlinie_m": 204.6,
+    "max_steigung_grad": 19.0,
+    "mittel_steigung_grad": 6.2,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [1725.0, 789.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [179000, 59500, 1620],
+    [178900, 64100, 1704],
+    [178100, 64900, 1827],
+    [178100, 65300, 1964],
+    [177300, 66100, 2130],
+    [177300, 66900, 2083],
+    [175700, 68900, 1645],
+    [175700, 72900, 1627],
+    [173700, 74900, 1795],
+    [173300, 75700, 1919],
+    [173300, 78100, 2385],
+    [172500, 78900, 2463]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [1728.0, 524.0, 1866.0, 656.0],
+    "groesse_m": [140, 134],
+    "max_hebung_m": 1.5,
+    "max_senkung_m": -1.4,
+    "max_aenderung_m": 1.5,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 4
+   },
+   "draufsicht": "heide_04_der_kolk.png"
+  },
+  {
+   "id": "heide_05_der_wackelstein",
+   "name": "Der Wackelstein",
+   "art": "fundstueck",
+   "mitte_cm": [209500, 32000, 2413],
+   "radius_m": 30.0,
+   "felder": ["G5"],
+   "kameras": [
+    ["G5", 208335, 33120, 209500, 32000, 2198, "heide_05_der_wackelstein_anmarsch", -170],
+    ["G5", 207585, 30393, 209500, 32000, 2143, "heide_05_der_wackelstein_held", 170],
+    ["G5", 208734, 31357, 209500, 32000, 2148, "heide_05_der_wackelstein_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 92.6,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.5,
+    "probepunkte": 5,
+    "probe_kern_m": [2095, 320, 10.0],
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 0.6,
+    "wegpunkte_mit_sicht_mit_stempel": 14,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "wegpunkte_mit_sicht_heute": 18,
+    "naechste_sicht_heute_m": 85.2
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 98.0,
+    "luftlinie_m": 92.1,
+    "max_steigung_grad": 16.8,
+    "mittel_steigung_grad": 4.0,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [2017.0, 369.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [209500, 32000, 2114],
+    [206900, 34500, 2280],
+    [206500, 34500, 2268],
+    [204500, 36100, 2205],
+    [203300, 36100, 2193],
+    [202500, 36900, 2144],
+    [201700, 36900, 2125]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [2062.0, 286.0, 2130.0, 354.0],
+    "groesse_m": [70, 70],
+    "max_hebung_m": 2.2,
+    "max_senkung_m": -3.1,
+    "max_aenderung_m": 3.1,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 2
+   },
+   "draufsicht": "heide_05_der_wackelstein.png"
+  },
+  {
+   "id": "heide_06_der_wollsackfall",
+   "name": "Der Wollsackfall",
+   "art": "fundstueck",
+   "mitte_cm": [149800, 16500, 1892],
+   "radius_m": 32.0,
+   "felder": ["G5"],
+   "kameras": [
+    ["G5", 150700, 12896, 149800, 16500, 1992, "heide_06_der_wollsackfall_anmarsch", -170],
+    ["G5", 150234, 14038, 149800, 16500, 1937, "heide_06_der_wollsackfall_held", 170],
+    ["G5", 149974, 15515, 149800, 16500, 1942, "heide_06_der_wollsackfall_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 115.2,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.5,
+    "probepunkte": 5,
+    "probe_kern_m": [1476, 160, 8.0],
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 1.0,
+    "wegpunkte_mit_sicht_mit_stempel": 40,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "wegpunkte_mit_sicht_heute": 59,
+    "naechste_sicht_heute_m": 102.0
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 125.3,
+    "luftlinie_m": 115.5,
+    "max_steigung_grad": 12.7,
+    "mittel_steigung_grad": 2.7,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [1539.0, 57.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [149800, 16500, 1889],
+    [150700, 15700, 1839],
+    [150700, 10100, 1736],
+    [151900, 8900, 1730],
+    [151900, 8100, 1739],
+    [153900, 5700, 1804]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [1438.0, 94.0, 1514.0, 228.0],
+    "groesse_m": [78, 136],
+    "max_hebung_m": 1.8,
+    "max_senkung_m": -4.8,
+    "max_aenderung_m": 4.8,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 4.6,
+    "rand_max_m": 0.0,
+    "primitive": 6
+   },
+   "draufsicht": "heide_06_der_wollsackfall.png"
+  },
+  {
+   "id": "heide_07_der_totengrund",
+   "name": "Der Totengrund",
+   "art": "fundstueck",
+   "mitte_cm": [131000, -13500, 2105],
+   "radius_m": 40.0,
+   "felder": ["F4", "G4"],
+   "kameras": [
+    ["F4", 129051, -10603, 131000, -13500, 1810, "heide_07_der_totengrund_anmarsch", -170],
+    ["F4", 134811, -11300, 131000, -13500, 1755, "heide_07_der_totengrund_held", 170],
+    ["F4", 131866, -13000, 131000, -13500, 1760, "heide_07_der_totengrund_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 84.9,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.5,
+    "probepunkte": 5,
+    "probe_kern_m": [1310, -135, 13.3],
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 1.0,
+    "wegpunkte_mit_sicht_mit_stempel": 7,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "wegpunkte_mit_sicht_heute": 13,
+    "naechste_sicht_heute_m": 99.8
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 89.4,
+    "luftlinie_m": 82.9,
+    "max_steigung_grad": 21.2,
+    "mittel_steigung_grad": 6.9,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [1277.0, -59.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [131000, -13500, 1694],
+    [130900, -12700, 1701],
+    [129300, -11100, 2223],
+    [128900, -10300, 2240],
+    [128900, -9100, 2223],
+    [127700, -7900, 2197],
+    [127700, -5900, 1927]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [1258.0, -204.0, 1358.0, -84.0],
+    "groesse_m": [102, 122],
+    "max_hebung_m": 3.0,
+    "max_senkung_m": -4.0,
+    "max_aenderung_m": 4.0,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 3
+   },
+   "draufsicht": "heide_07_der_totengrund.png"
+  },
+  {
+   "id": "heide_08_die_windkante",
+   "name": "Die Windkante",
+   "art": "fundstueck",
+   "mitte_cm": [98500, 33000, 158],
+   "radius_m": 45.0,
+   "felder": ["F5"],
+   "kameras": [
+    ["F5", 96300, 28982, 98500, 33000, 258, "heide_08_die_windkante_anmarsch", -170],
+    ["F5", 96300, 29189, 98500, 33000, 139, "heide_08_die_windkante_held", 170],
+    ["F5", 98000, 32134, 98500, 33000, 208, "heide_08_die_windkante_nah", -170]
+   ],
+   "ziel_hoehe_m": 1.5,
+   "sicht": {
+    "naechster_weg_m": 111.1,
+    "sichtbar_ab_m": 0,
+    "ziel_hoehe_m": 1.5,
+    "probepunkte": 5,
+    "probe_kern_m": [985, 330, 15.0],
+    "verdeckt_mit_stempel": false,
+    "max_anteil_mit_stempel": 0.3,
+    "wegpunkte_mit_sicht_mit_stempel": 1,
+    "verdeckt_heute": false,
+    "max_anteil_heute": 1.0,
+    "wegpunkte_mit_sicht_heute": 40,
+    "naechste_sicht_heute_m": 98.2
+   },
+   "erreichbar": {
+    "erreichbar": true,
+    "modus": "streng",
+    "laenge_m": 121.7,
+    "luftlinie_m": 115.1,
+    "max_steigung_grad": 11.6,
+    "mittel_steigung_grad": 2.4,
+    "steil_laenge_m": 0.0,
+    "weg_punkt_m": [963.0, 217.0],
+    "pfad_noetig": false
+   },
+   "pfad_cm": [
+    [98500, 33000, 159],
+    [97500, 31700, 170],
+    [97500, 30900, 158],
+    [96300, 29700, 277],
+    [96300, 21700, 105]
+   ],
+   "gelaende_plan": {
+    "fenster_m": [930.0, 268.0, 1042.0, 392.0],
+    "groesse_m": [114, 126],
+    "max_hebung_m": 4.0,
+    "max_senkung_m": 0.0,
+    "max_aenderung_m": 4.0,
+    "max_an_wegen_m": 0.0,
+    "max_an_wasser_m": 0.0,
+    "rand_max_m": 0.0,
+    "primitive": 1
+   },
+   "draufsicht": "heide_08_die_windkante.png"
+  }
+ ]
+}
