@@ -1131,7 +1131,7 @@
    "vorbild": "Plitvice-Wald, Elfenfall; DA:I Emerald Graves; Witcher 3 Velen-Wald",
    "netze": {
     "lippe": [
-     "SM_ForestRockShelf_01",
+     "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01",
      "SM_ForestRockShelf_02",
      "SM_ForestRockShelf_03",
      "SM_ForestRockSlab_01",
@@ -1318,7 +1318,7 @@
     "riegel": [
      "SM_LimestoneRocks2",
      "SM_LimestoneRocks3",
-     "SM_ForestRockShelf_01",
+     "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01",
      "SM_ForestRockShelf_02"
     ],
     "bloecke": [
