@@ -247,12 +247,17 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False, boden_
             k += 1
             continue
         # Fuss STUFE_L_M hinter der Lippe
-        kf = int(np.searchsorted(s, s[k - 1] + STUFE_L_M - 1e-6))
+        # 13i K5: Fuss an der Probe, die Lippe + STUFE_L_M am naechsten liegt (bei Proben < 0,5 m Abstand rutschte er
+        # sonst eine Probe weiter -> Stufe 1 m lang, Becken danach nur 2,5 m); Lippe, Hoehe und Zahl bleiben
+        kf = int(np.argmin(np.abs(s[k:min(k + 4, n)] - (s[k - 1] + STUFE_L_M)))) + k
         kf = min(max(kf, k), n - 1)
-        for q in range(k, kf + 1):
+        # Spiegel wie 13f: bis zur bisherigen Fuss-Probe auf dem Unterwasser (Lage/Hoehe/Zahl der Stufen gleich)
+        kf_alt = min(max(int(np.searchsorted(s, s[k - 1] + STUFE_L_M - 1e-6)), k), n - 1)
+        kf = min(kf, kf_alt)
+        for q in range(k, kf_alt + 1):
             W[q] = neu
-        stufen.append((float(s[k - 1]), float(s[kf]), float(W[k - 1]), float(neu)))
-        k = kf + 1
+        stufen.append((float(s[k - 1]), float(s[kf]), float(W[k - 1]), float(neu), float(s[kf_alt])))
+        k = kf_alt + 1
     if W_boden is not None:
         W = np.maximum(W, float(W_boden))
         W = np.minimum.accumulate(W)
@@ -265,19 +270,29 @@ def treppe(s, g, B, W0=None, W_boden=None, W_ende=None, start_fest=False, boden_
             # Stueck liegt, geht darin auf
             kl = int(np.searchsorted(s, s[-1] - STUFE_L_M))
             kl = min(max(kl, 0), n - 2)
-            stufen = [e for e in stufen if e[1] <= s[kl] + 1e-6]
-            stufen.append((float(s[kl]), float(s[-1]), float(W[kl]), we))
-            W[kl + 1:] = we
+            stufen = [e for e in stufen if e[4] <= s[kl] + 1e-6]
+            if stufen and s[kl] - stufen[-1][1] < BECKEN_MIN_M - 1e-6:
+                # 13i K5: davor bliebe < 3 m Becken - die Schluss-Stufe geht in der letzten Stufe auf (Lippe und Oberwasser
+                # wie bisher, Fuss am Ende auf dem Zielspiegel)
+                a_, b_, wo_, wu_, _ = stufen.pop()
+                ka_ = int(np.clip(np.searchsorted(s, a_ - 1e-6), 0, n - 1))
+                stufen.append((a_, float(s[-1]), wo_, we, float(s[-1])))
+                W[ka_ + 1:] = we
+            else:
+                stufen.append((float(s[kl]), float(s[-1]), float(W[kl]), we, float(s[-1])))
+                W[kl + 1:] = we
         W[-1] = we
         W = np.maximum(W, we)
         W = np.minimum.accumulate(W)
     # Stufen nach dem Anheben (Zielspiegel, Furten) aus dem endgueltigen W neu ablesen
     neu_st = []
-    for a, b, wo, wu in stufen:
+    for a, b, wo, wu, b_alt in stufen:
         ka = int(np.clip(np.searchsorted(s, a - 1e-6), 0, n - 1))
         kb = int(np.clip(np.searchsorted(s, b - 1e-6), 0, n - 1))
-        if W[ka] - W[kb] >= STUFE_MIN_M:
-            neu_st.append((float(s[ka]), float(s[kb]), float(W[ka]), float(W[kb])))
+        # Hoehe wie 13f an der bisherigen Fuss-Probe gemessen (13i K5: nur die Lage des Fusses ist korrigiert)
+        kb_alt = int(np.clip(np.searchsorted(s, b_alt - 1e-6), 0, n - 1))
+        if W[ka] - W[kb_alt] >= STUFE_MIN_M:
+            neu_st.append((float(s[ka]), float(s[kb]), float(W[ka]), float(W[kb_alt])))
     stufen = neu_st
     return W, stufen
 

@@ -21,6 +21,7 @@ API:
 """
 
 import math
+import os
 import re
 
 import numpy as np
@@ -83,6 +84,10 @@ def _hindernis(info, pfad, x_cm, y_cm, z_cm, q, s, ort=None, gruppe=None, ebene=
         if ist_baum(pfad) or LAUB_MUSTER.search(str(pfad).rsplit("/", 1)[-1]):
             # Laub/Nadeln fuellen die Box nicht: liegende Baeume, Jungbaeume -> Kern 80 % der Box
             m_, r_ = 0.5 * (b0 + b1), 0.4 * (b1 - b0)
+            b0, b1 = m_ - r_, m_ + r_
+        elif float(np.max((b1 - b0) * s)) > 1500.0:
+            # sehr grosse Fels-/Klippenschalen (> 15 m) sind hohl/konkav: Kern 70 % der Box (Ueberhang, Nische)
+            m_, r_ = 0.5 * (b0 + b1), 0.35 * (b1 - b0)
             b0, b1 = m_ - r_, m_ + r_
         h.update(typ="box", M=_q_matrix(qi), s=s, bmin=b0, bmax=b1, pz=z_cm / 100.0)
     return h
@@ -148,9 +153,12 @@ def hindernisse_aus_ebene(sw_ordner, inv, min_hoehe_m=MIN_HOEHE_M):
             for r in a:
                 if max(gr) * float(max(r[7:10])) < min_hoehe_m:
                     continue
+                orte_d = list((d.get("orte") or {}).keys())
                 h = _hindernis(info, d.get("pfad", key), float(r[0]), float(r[1]), float(r[2]),
                                (float(r[3]), float(r[4]), float(r[5]), float(r[6])), (float(r[7]), float(r[8]), float(r[9])),
-                               gruppe=key, ebene=d.get("ebene"))
+                               ort=orte_d[0] if len(orte_d) == 1 else None, gruppe=key,
+                               ebene=d.get("gruppe") if d.get("gruppe") in ("held", "begleiter", "schutt", "kleinzeug", "bewuchs",
+                                                                           "kontakt", "wasser", "pfad") else d.get("ebene"))
                 if h["H"] >= min_hoehe_m or h["typ"] == "baum":
                     out.append(h)
     return out
@@ -302,7 +310,7 @@ def pruefe_kamera(kam, ort, welt, boden_fn, hind, freiraeume=None, bestand=True,
             break
     # Gelaende (nach dem Stempel) - bei _fern entscheidet die Silhouetten-Regel (pruefe_leuchtfeuer)
     g = np.asarray(boden_fn(X, Y), np.float64)
-    unter = gueltig & (s >= 1.0) & (Z < g - 0.2 + rand_m)
+    unter = gueltig & (s >= 1.0) & (Z < g - 0.2 + (0.7 if rand_m > 0 else 0.0))
     if unter.any() and art != "fern":
         b.append(("FEHLER", "Kamera %s: Gelaende verdeckt die Sicht nach %.0f m" % (name, float(s[unter][0]))))
     # Bestandskronen
@@ -336,11 +344,12 @@ def pruefe_leuchtfeuer(ort, welt, boden_fn, hind, freiraeume=None):
     mx, my = ort["mitte_cm"][0] / 100.0, ort["mitte_cm"][1] / 100.0
     info = {}
     # Riesen-Regel (nur wenn der Held ein Baumhain ist)
-    baeume = [h for h in held if h["typ"] == "baum"]
+    # Totholz (abgestorbene, kahle Staemme) liest sich ueber Farbe und Form, nicht ueber die Hoehe -> nur lebende Baeume
+    baeume = [h for h in held if h["typ"] == "baum" and not re.search(r"dead", str(h["pfad"]), re.I)]
     if len(baeume) >= max(2, 0.5 * len(held)):
         r0 = float(ort.get("radius_m", 40.0))
         ang = np.linspace(0, 2 * np.pi, 72, endpoint=False)
-        rr = np.arange(r0 + 5.0, r0 + 65.0, 4.0)
+        rr = np.arange(r0 + 3.0, r0 + 35.0, 4.0)           # Nachbarn: Ring bis 35 m um den Ort (ohne Freiraeume)
         A, RR = np.meshgrid(ang, rr)
         X = mx + RR * np.sin(A)
         Y = my - RR * np.cos(A)
@@ -356,33 +365,47 @@ def pruefe_leuchtfeuer(ort, welt, boden_fn, hind, freiraeume=None):
         ex, ey, ez = kamera_auge(kam, boden_fn)
         best = 0.0
         for h in sorted(held, key=lambda h_: -h_["z1"])[:12]:
-            z_min, _ = _si.mindesthoehe(welt, ex, ey, ez, h["x"], h["y"], baum=False, ziel_rand_m=4.0)
-            # Bestand ohne Freiraeume als Hindernis (Kronen 0,85 h wie sicht.py)
-            d = math.hypot(h["x"] - ex, h["y"] - ey)
-            t = np.arange(6.0, max(d - 4.0, 6.5), 4.0)
-            Xs = ex + (h["x"] - ex) * t / d
-            Ys = ey + (h["y"] - ey) * t / d
-            g = np.asarray(boden_fn(Xs, Ys), np.float64)
-            bh, da = _bestand(welt, Xs, Ys, freiraeume)
-            ob = np.where(da, g + 0.85 * bh, g)
-            zreq = ez + (ob - ez) * d / t
-            # einzelne Kronen lassen Luecken (wie sicht.baum_block = 3): drittgroesster Wert der Kronen
-            zk = np.sort(np.where(da, zreq, -np.inf))[::-1]
-            zb = zk[2] if len(zk) >= 3 and np.isfinite(zk[2]) else -np.inf
-            zg = float(np.max(np.where(~da, zreq, -np.inf))) if (~da).any() else -np.inf
-            zm = max(float(z_min[0]), zb, zg)
+            zm = _mindest_z(welt, boden_fn, ex, ey, ez, h["x"], h["y"], freiraeume)
             sicht = h["z1"] - zm
             best = max(best, sicht / max(h["H"], 1.0) if sicht > 0 else 0.0)
             if sicht >= LEUCHT_ANTEIL * h["H"] and (sicht >= LEUCHT_MIN_M or sicht >= 0.9 * h["H"]):
                 info["fern_sichtbar_m"] = round(float(sicht), 1)
                 break
         else:
-            b.append(("FEHLER", "Leuchtfeuer: aus %s ist die Silhouette nicht lesbar (bester Held %.0f %% sichtbar, "
-                                "Soll >= 30 %% und >= 10 m oder ganz; 13h: Freiraum in der Achse, hoeher oder Kamera versetzen)"
-                      % (kam[6], 100.0 * best)))
+            # Silhouette des Orts (Phase 1: Landform + Held, Zielhoehe = 2 x (ZZ - Boden)): >= 30 % ueber der
+            # Mindesthoehe (Gelaende + Bestand ohne Freiraeume) genuegt ebenfalls ("Ziel ueber dem Bestand")
+            zx, zy = kam[3] / 100.0, kam[4] / 100.0
+            zb = float(boden_fn(zx, zy))
+            H = max(2.0 * (kam[5] / 100.0 - zb), max(h_["z1"] for h_ in held) - zb, 4.0)
+            zm = _mindest_z(welt, boden_fn, ex, ey, ez, zx, zy, freiraeume)
+            anteil = (zb + H - zm) / H
+            info["fern_ort_anteil"] = round(float(anteil), 2)
+            if anteil < LEUCHT_ANTEIL:
+                b.append(("FEHLER", "Leuchtfeuer: aus %s ist die Silhouette nicht lesbar (bester Held %.0f %% sichtbar, "
+                                    "Ort-Silhouette %.0f %% von %.0f m; Soll >= 30 %%; 13h: Freiraum in der Achse, hoeher "
+                                    "oder Kamera versetzen)" % (kam[6], 100.0 * best, 100.0 * max(anteil, 0.0), H)))
         info["fern_anteil"] = round(best, 2)
         info["fern_himmel"] = himmel_hinter(welt, ex, ey, ez, held)
     return b, info
+
+
+def _mindest_z(welt, boden_fn, ex, ey, ez, tx, ty, freiraeume):
+    """Mindesthoehe am Ziel fuer freie Sicht: Gelaende (nach dem Stempel) + Bestandskronen 0,85 h ohne Freiraeume;
+    einzelne Kronen lassen Luecken (drittgroesster Kronenwert, wie sicht.baum_block = 3)."""
+    from . import sicht as _si
+    z_min, _ = _si.mindesthoehe(welt, ex, ey, ez, tx, ty, baum=False, ziel_rand_m=4.0)
+    d = math.hypot(tx - ex, ty - ey)
+    t = np.arange(6.0, max(d - 4.0, 6.5), 4.0)
+    Xs = ex + (tx - ex) * t / max(d, 1e-6)
+    Ys = ey + (ty - ey) * t / max(d, 1e-6)
+    g = np.asarray(boden_fn(Xs, Ys), np.float64)
+    bh, da = _bestand(welt, Xs, Ys, freiraeume)
+    ob = np.where(da, g + 0.85 * bh, g)
+    zreq = ez + (ob - ez) * d / t
+    zk = np.sort(np.where(da, zreq, -np.inf))[::-1]
+    zb = zk[2] if len(zk) >= 3 and np.isfinite(zk[2]) else -np.inf
+    zg = float(np.max(np.where(~da, zreq, -np.inf))) if (~da).any() else -np.inf
+    return max(float(z_min[0]), zb, zg)
 
 
 def himmel_hinter(welt, ex, ey, ez, held, weit_m=4000.0):
@@ -405,8 +428,9 @@ def himmel_hinter(welt, ex, ey, ez, held, weit_m=4000.0):
 # ============================================================================================
 # Planer
 # ============================================================================================
-PLANER_RAND_M = 0.4         # Planer prueft mit Reserve (2-m-Stempel gegen 1-m-Boden des Pruefers)
+PLANER_RAND_M = 0.6         # Planer prueft mit Reserve (2-m-Stempel gegen 1-m-Boden des Pruefers)
 ABSTAND = {"nah": (5.0, 15.0), "held": (20.0, 70.0), "anmarsch": (25.0, 160.0), "fern": (300.0, 800.0)}
+ABSTAND_WEIT = {"nah": (4.0, 16.0), "held": (12.0, 100.0), "anmarsch": (20.0, 220.0)}
 
 
 def _kandidaten(kam, art, rng_n=48, abstand_m=None, richtung=None):
@@ -495,7 +519,8 @@ def kameras_bauen(ctx):
         if ctx.stempel is not None and ctx.stempel.enthaelt(kam[3] / 100.0, kam[4] / 100.0):
             zb0 = float(ctx.welt.hoehe_bei_m(kam[3] / 100.0, kam[4] / 100.0))
             zb1 = float(ctx.boden(kam[3] / 100.0, kam[4] / 100.0))
-            if abs(zb1 - zb0) > 0.3:
+            if zb1 - zb0 > 0.3:
+                # aufgeschuettet: Ziel hebt sich mit (gleiche Hoehe ueber Grund); abgegraben: Ziel bleibt
                 kam[5] = int(round((zb1 + max(kam[5] / 100.0 - zb0, 0.5)) * 100))
                 geaendert = True
         zb_t = float(ctx.boden(kam[3] / 100.0, kam[4] / 100.0))
@@ -531,6 +556,8 @@ def kameras_bauen(ctx):
                                                          "vor dem Himmel" if b_[2].get("fern_himmel") else "vor Gelaende",
                                                          b_[2].get("fern_anteil", 0.0)))
         bef = pruefe_kamera(kam, ort, ctx.welt, ctx.boden, hind, frei, rand_m=PLANER_RAND_M)
+        if os.environ.get("SEHENS_DBG_KAM") and os.environ["SEHENS_DBG_KAM"] in name:
+            print("DBG", name, kam, bef)
         if art == "fern" and ctx.st["art"] == "leuchtfeuer" and regel.get("versetzen", True) and r.get("suche") != "wegpunkte":
             lb, _ = pruefe_leuchtfeuer(dict(ort, kameras=[kam]), ctx.welt, ctx.boden, hind, frei)
             if bef or [x for x in lb if "_fern" in x[1]]:
@@ -553,7 +580,11 @@ def kameras_bauen(ctx):
             ausgeblendet = [e["umriss_cm"] for e in ctx.bestand_ausblenden if e.get("art") == "houdini" and e.get("umriss_cm")]
             kand = []
             rr_ = ctx.richtung(r["richtung"]) if r.get("richtung") is not None else None
-            for kosten, x, y in _kandidaten(kam, art, abstand_m=r.get("abstand_m"), richtung=rr_):
+            roh = _kandidaten(kam, art, abstand_m=r.get("abstand_m"), richtung=rr_)
+            if not r.get("abstand_m") and art in ABSTAND_WEIT:
+                # zweiter Ring weiter gefasst (72 Richtungen), teurer -> hinten angestellt
+                roh += [(k_ + 50.0, x_, y_) for k_, x_, y_ in _kandidaten(kam, art, 72, ABSTAND_WEIT[art], rr_)]
+            for kosten, x, y in roh:
                 if not ctx.welt.im_raster_m(x, y):
                     continue
                 i, j = ctx.welt.m_zu_ij(x, y)

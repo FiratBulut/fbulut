@@ -182,11 +182,13 @@
     "Schnee_Menge": 0.05,
     "Eis_Spekular": 0.8
    },
-   "fuer": [
-    "Frostsee (see frostsee, eis)",
-    "Blasensee am Blockgletscher",
-    "Frostblumen-Lagune"
-   ]
+   "fuer": [],
+   "fuer_wasser": [
+    "frost_02_frostsee/frostsee",
+    "frost_05_blockgletscher/blasensee",
+    "frost_07_frostblumen/lagune"
+   ],
+   "hinweis": "13i K9: kein Netz - Material der zugefrorenen Seeflaechen (Ort/See-id in fuer_wasser; Frostsee, Blasensee am Blockgletscher, Frostblumen-Lagune)"
   },
   {
    "name": "MI_EL_SW_Spritzeis",
@@ -2347,9 +2349,10 @@
      },
      "abstand_m": 5.5,
      "skala": [
-      0.55,
-      0.85
+      0.8,
+      1.1
      ],
+     "hinweis_13h": "13h Leuchtfeuer: Raureifkiefern groesser (vorher Median 16 m bei 27 m Bestand) - der Hain muss aus 300-800 m ueber dem Wald stehen",
      "skala_xyz": [
       1.0,
       1.0,
@@ -2689,6 +2692,9 @@
      "lautstaerke": 0.45,
      "zweck": "Westwind (Laubanteil im Editor pruefen)"
     }
+   ],
+   "freiraeume": [
+    {"form": "kreis", "bei": "mitte", "r_m": 106, "rollen": ["baum"], "grund": "13h Leuchtfeuer: Schneegespenster frei auf der Schulter oberhalb der Waldgrenze (wie Juhyo am Zao) - Bestand bis 106 m um den Ort entfernen, damit der Hain aus 300-800 m ueber dem Wald steht"}
    ],
    "_entschieden": [
     "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam: Kaufliste: nicht empfohlen (Schneefahne nur als Kopie/ohne Effekt)"

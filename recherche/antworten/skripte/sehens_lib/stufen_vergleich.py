@@ -9,6 +9,8 @@ Aufruf:  python -I stufen_vergleich.py <alt>/orte.json <neu>/orte.json [...weite
 
 Je Bach (Ort + id) werden die Stufen verglichen: Lippe/Fuss (x, y, z in cm), fall_m und art. Ergebnis je Bach:
   gleich      alle Stufen identisch
+  fuss        Lippe, Hoehen und Zahl gleich, nur der Fuss in der Lage <= 60 cm verschoben (13i K5)
+  schluss     wie fuss, die Schluss-Stufe am See ist in der letzten Stufe aufgegangen (13i K5)
   verlaengert Stufen des alten Laufs identisch, der neue Lauf hat zusaetzliche Stufen hinter dem alten Ende
   anders      sonst (mit der ersten Abweichung)
   neu / weg   Bach nur in einer der beiden Ausgaben
@@ -36,6 +38,16 @@ def baeche(pfad):
     return out
 
 
+def _fuss_weg(p, q):
+    return ((p[1][0] - q[1][0]) ** 2 + (p[1][1] - q[1][1]) ** 2) ** 0.5
+
+
+def _nur_fuss(p, q):
+    """Gleiche Lippe (x, y, z) und Hoehen (Fuss-z +-1 cm, Fall +-0,01 m, Art), Fuss in der Lage <= 60 cm verschoben."""
+    return p[0] == q[0] and abs(p[1][2] - q[1][2]) <= 1 and abs(p[2] - q[2]) <= 0.011 and p[3] == q[3] and \
+        _fuss_weg(p, q) <= 60.0
+
+
 def vergleiche(alt, neu):
     A, N = baeche(alt), baeche(neu)
     zeilen = []
@@ -49,6 +61,14 @@ def vergleiche(alt, neu):
         a, n = A[k]["stufen"], N[k]["stufen"]
         if a == n:
             zeilen.append((k, "gleich", "%d Stufen" % len(a)))
+        elif len(a) == len(n) and all(_nur_fuss(p, q) for p, q in zip(a, n)):
+            mx = max(_fuss_weg(p, q) for p, q in zip(a, n))
+            zeilen.append((k, "fuss", "%d Stufen: Lippe, Hoehen, Zahl gleich; Fuss bis %.0f cm verschoben (13i K5)"
+                           % (len(a), mx)))
+        elif len(n) == len(a) - 1 and all(_nur_fuss(p, q) for p, q in zip(a[:-2], n[:-1])) and \
+                a[-2][0] == n[-1][0] and abs(a[-1][1][2] - n[-1][1][2]) <= 1:
+            zeilen.append((k, "schluss", "Schluss-Stufe in der letzten Stufe aufgegangen (Becken davor < 3 m, 13i K5); "
+                           "uebrige %d Stufen: Lippe/Hoehen gleich" % (len(n) - 1)))
         elif len(n) > len(a) and n[:len(a)] == a and (N[k]["laenge_m"] or 0) > (A[k]["laenge_m"] or 0):
             zeilen.append((k, "verlaengert", "%d gleiche + %d neue Stufen (Lauf %.1f -> %.1f m)"
                            % (len(a), len(n) - len(a), A[k]["laenge_m"] or 0, N[k]["laenge_m"] or 0)))

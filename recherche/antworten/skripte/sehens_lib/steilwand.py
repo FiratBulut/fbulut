@@ -658,9 +658,15 @@ def auto_verkleiden(ctx):
     steil, _ = _steil_im_stempel(ctx)
     if steil.sum() * ctx.stempel.z ** 2 < 4.0:
         return []
+    # Akteur-Budget (§9: 80 je Ort) - Wandnetze sind Akteure
+    akt = sum(1 for e in ctx.ebene.stuecke if e.get("ort") == ctx.id and e.get("akteur"))
+    max_n = max(0, min(50, 78 - akt))
+    if max_n == 0:
+        ctx.melde("WARNUNG", "Verkleidung (13h): Akteur-Budget erschoepft - neue Steilflaechen bleiben offen")
+        return []
     grp = {"name": v.get("name", "wandverkleidung"), "ebene": "begleiter", "rolle": "fels",
            "warum": "13h: neue Steilflaeche > 45 Grad nur mit Fels - automatische Verkleidung mit Wandnetzen des Bioms (A15)",
-           "verteilung": {"typ": "steilwand", "max_anzahl": int(v.get("max_anzahl", 30)), "versatz_m": 0.3,
+           "verteilung": {"typ": "steilwand", "max_anzahl": int(v.get("max_anzahl", max_n)), "versatz_m": 0.3,
                           "min_flaeche_m2": float(v.get("min_flaeche_m2", 2.0))},
            "groesse_m": v.get("groesse_m", [3.0, 7.0]), "groesse_achse": v.get("groesse_achse", "z"),
            "front_achse": v.get("front_achse", "+y"), "im_wasser": "egal",

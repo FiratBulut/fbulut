@@ -898,6 +898,26 @@ def pruefe_ort_gelaende(o, basis, welt):
                 b.append((WARNUNG if name == "bestehendem Wasser" else FEHLER, oid,
                           "Gelaende aendert sich %d m2 naeher als 3 m an %s (bis %.2f m; Soll: keine Aenderung <= 3 m, "
                           "§3/A13)" % (n, name, float(np.abs(a[nah]).max()))))
+        # 13i K6 (Regel 15e): jede Zelle mit |Delta| > 0,3 m hat eine Bodenlage
+        stark = np.abs(a) > 0.3
+        lgb = o.get("lagen") or {}
+        if stark.any():
+            hat = np.zeros(a.shape, bool)
+            if lgb.get("fenster_ij") and lgb.get("lagen"):
+                li0, lj0, lh, lw = lgb["fenster_ij"]
+                summe = np.zeros((lh, lw), np.float64)
+                for n_ in lgb["lagen"]:
+                    q_ = os.path.join(basis, lgb["datei_praefix"] + n_ + ".r8")
+                    if os.path.exists(q_) and os.path.getsize(q_) == lh * lw:
+                        summe += np.fromfile(q_, dtype=np.uint8).reshape(lh, lw)
+                gi, gj = np.nonzero(stark)
+                ii_, jj_ = gi + i0 - li0, gj + j0 - lj0
+                inn = (ii_ >= 0) & (ii_ < lh) & (jj_ >= 0) & (jj_ < lw)
+                hat[gi[inn], gj[inn]] = summe[ii_[inn], jj_[inn]] > 0
+            ohne = stark & ~hat
+            if ohne.any():
+                b.append((FEHLER, oid, "%d Zellen mit |Delta| > 0,3 m ohne Bodenlage (bis %.1f m; Regel 15e, 13i K6)"
+                          % (int(ohne.sum()), float(np.abs(a[ohne]).max()))))
     # Seeufer
     boden = BodenNachStempel(welt, [o], basis)
     for w in o.get("wasser", []) or []:
@@ -919,10 +939,24 @@ def pruefe_ort_gelaende(o, basis, welt):
             if q.get("muendung") == w.get("id"):
                 offen.append((_b.linien_stueck(Pq, Lq - 6.0, Lq), r))
         tief = -ufer_freibord(boden.hoehe, u, float(w["spiegel_cm"]) / 100.0, welt.zelle_m, offen=offen)
+        # 13i K8: Wasser eines Bachs dicht am Ufer ist kein Ufer (Probe im Bachbett)
+        bach_offen = []
+        for q in o.get("wasser", []) or []:
+            if q.get("typ") == "bach" and q.get("punkte_cm"):
+                Pq = np.asarray(q["punkte_cm"], np.float64)[:, :2] / 100.0
+                bach_offen.append((Pq, _b.wasserkante(float(q["punkte_cm"][0][3]) / 100.0, welt.zelle_m) + 0.5 * welt.zelle_m))
         if tief > 0.05:
             # 13f A13: Seeufer >= Spiegel
             b.append((FEHLER, oid, "see %s: Ufer haelt nicht - auf einem Strahl 0,5-3 m hinter dem Umriss bis %.2f m "
                                    "UNTER dem Spiegel (Gelaende nach Stempel, A13)" % (w.get("id"), tief)))
+        # 13i K8: Ufer 1 m ausserhalb des Umrisses (Normale), alle 0,5 m, >= Spiegel (wie der lokale Pruefer)
+        # auf 2 m mischt die Probe bei 1 m die Seezelle mit -> dort 1 m + 0,75 Zellen (lokal auf 1 m genau 1 m)
+        n_u, t_u, L_u, wo_u = ufer_1m(boden.hoehe, u, float(w["spiegel_cm"]) / 100.0, offen + bach_offen,
+                                      welt.zelle_m, 1.0 + 0.75 * max(welt.zelle_m - 1.0, 0.0))
+        if n_u:
+            b.append((FEHLER if welt.zelle_m <= 1.0 else WARNUNG, oid,
+                      "see %s: Ufer 1 m ausserhalb des Umrisses an %d von %d Proben unter dem Spiegel (bis %.2f m, z. B. "
+                      "X %.0f Y %.0f; 13i K8)" % (w.get("id"), n_u, L_u, t_u, wo_u[0], wo_u[1])))
     b += pruefe_baeche(o, welt, boden)
     m = o.get("mitte_cm")
     if _pkt(m, 2) and welt.im_raster_m(m[0] / 100.0, m[1] / 100.0):
@@ -930,6 +964,47 @@ def pruefe_ort_gelaende(o, basis, welt):
         if welt.meer[i, j]:
             b.append((FEHLER, oid, "Mitte liegt im Meer"))
     return b
+
+
+def ufer_1m(boden_fn, umriss_m, spiegel_m, offen=(), zelle_m=1.0, abstand_m=1.0, schritt_m=0.5):
+    """13i K8: Gelaende abstand_m ausserhalb des Umrisses (aeussere Normale), alle schritt_m; Zu-/Abfluesse (offen:
+    [(Polylinie, r)]) ausgenommen. Toleranz 2 cm auf 1 m, auf 2 m 0,02 + 0,2 m je Zelle mehr (Rasterverschmierung).
+    Rueckgabe (Zahl unter dem Spiegel, groesste Tiefe, Zahl der Proben, (x, y) der tiefsten)."""
+    from .stempel import polylinie_abstand
+    U = np.asarray(umriss_m, np.float64)[:, :2]
+    if len(U) < 3:
+        return 0, 0.0, 0, (0.0, 0.0)
+    A2 = 0.5 * float(np.sum(U[:, 0] * np.roll(U[:, 1], -1) - np.roll(U[:, 0], -1) * U[:, 1]))
+    Z = np.vstack([U, U[:1]])
+    pts, nor = [], []
+    for k in range(len(U)):
+        a, c = Z[k], Z[k + 1]
+        L = float(np.hypot(*(c - a)))
+        if L < 1e-6:
+            continue
+        t = (c - a) / L
+        nrm = np.array([t[1], -t[0]]) if A2 > 0 else np.array([-t[1], t[0]])   # nach aussen
+        for f in np.arange(0.0, L, schritt_m):
+            pts.append(a + t * f)
+            nor.append(nrm)
+    P = np.asarray(pts) + np.asarray(nor) * abstand_m
+    # die Probe muss wirklich ausserhalb liegen (konkave Ecken): Abstand zum Umriss ~ abstand_m
+    d_u, _, _ = polylinie_abstand(P[:, 0], P[:, 1], Z)
+    ok = d_u >= 0.8 * abstand_m
+    for Pz, r in offen or ():
+        if len(Pz) >= 2:
+            dd, _, _ = polylinie_abstand(P[:, 0], P[:, 1], np.asarray(Pz, np.float64))
+            ok &= dd > r
+    if not ok.any():
+        return 0, 0.0, 0, (0.0, 0.0)
+    P = P[ok]
+    h = np.asarray(boden_fn(P[:, 0], P[:, 1]), np.float64)
+    tol = 0.02 if zelle_m <= 1.0 else 0.02 + 0.2 * (zelle_m - 1.0)
+    unter = h < spiegel_m - tol
+    if not unter.any():
+        return 0, 0.0, len(P), (0.0, 0.0)
+    k = int(np.argmin(h))
+    return int(unter.sum()), float(spiegel_m - h[k]), len(P), (float(P[k, 0]), float(P[k, 1]))
 
 
 def _abstand_umriss(U, x, y):

@@ -335,6 +335,13 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
     auslaufend (2 m), nie in Weg-/Ortszonen (Koordinator 13f).
   - Neue Felder im Bach-Eintrag: `laenge_m`, `muendung_art` (`see_eigen|bach|fluss|see|teich|houdini|versickert`),
     `muendung_spiegel_cm`, `abfluss_von`, `stufen`, `furten`, `muendung_offen_ab_cm`.
+  - **13i (Nachtest 1 m):** Das Querprofil senkt außerhalb der Wasserkante höchstens `tiefe + 0,5 m` ab, ab Netzrand +
+    Uferring weich auf 0, zu den Linienenden hin auslaufend (K1; Kontrolle `profil_absenkung_aussen`, FEHLER bei
+    Absenkung > 0,3 m abseits des Bachs). Der Stufenfuß liegt 0,5 m hinter der Lippe (Becken ab dem Fuß ≥ 3 m); die
+    Schluss-Stufe am See geht in der letzten Stufe auf, wenn davor < 3 m Becken blieben (K5). Unerreichbare
+    Epic-Mündung → automatisch weiter, ein Abfluss nie über dem Seespiegel (K4). Furtstrecken > 15 % Gefälle werden
+    `"art": "durchlass"` (Wasser unter dem Weg, kein Wasserfilm; K9). Seeufer: 1 m hinter dem Umriss ≥ Spiegel
+    + 0,1 m (K8, Prüfer misst dort alle 0,5 m).
   - **13g – `wasser_koerper`** (nur Datenformat): Bäche mit einer Stufe ≥ 0,5 m bekommen zusätzlich
     `wasser_koerper_lauf` (`SW_<ortid>_<bachid>`) und `wasser_koerper` im A15/14b-Format: `river` (≥ 15 m außerhalb der
     Stufenstrecken) und `kaskadennetz` je zusammenhängender Stufenstrecke (`mittellinie` [x, y, z, breite, tempo,
@@ -360,6 +367,12 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
 - **Wand-/Hängepflanzen** (A6): `"z_frei": true` an der Gruppe (Efeu, Lianen, Luftwurzeln). `plan.json` führt
   `z_frei_index`; der Prüfer zählt diese Stücke weder als „schwebt“ noch als „im Meer“.
 - **Materialwünsche** (A7): zusätzlich biomweit oben in `orte.json` als `"materialwuensche_biom"`.
+- **Lagen** (13i K6/K7): Jede Zelle mit |Δ| > 0,3 m bekommt eine Bodenlage (Rezeptlage, sonst an steilen Stellen Fels
+  des Bioms – Lavafels, Sandstein, Fels –, flach Geröll bzw. Sand/Lavasand/Schlamm/Erde); der Prüfer meldet Zellen ohne
+  Lage als FEHLER. Alle Lagen werden vor dem Schreiben auf höchstens 150 je 1-m-Nachbarzelle geglättet (nur nach außen
+  ergänzt, auch bei „fleckig“ und kleinen Ringen).
+- **Instanzen** (13i K2/K3): `bezug: mitte` mit Pivot in der Netzmitte (bmin_z·sz < −0,25 · Höhe) → Netz-Unterkante auf
+  den Boden; Stücke bis 1 cm an einer Feldgrenze rücken 1 cm ins Feld, das Feld kommt aus dem float32-Wert.
 - **Lagen** (A11): Ränder ≥ 3 m weich (auch innen bei `ring`/`um_gruppe`/`ufer`); Pfad-Bodenband mit 1 m Übergang
   beidseits und 10 m vor dem Lagenfenster ausgeblendet; alle Lagen laufen am Fensterrand auf 3 m aus.
 - **Feldzuordnung** (A10): `s = floor((x_cm + 473050)/100800)`, `r = floor((y_cm + 406050)/100800) + 1` –

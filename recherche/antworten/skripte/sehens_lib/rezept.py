@@ -37,6 +37,7 @@ from . import kamera_frei as _kf
 from . import see_bloecke as _sb
 
 FEHLER, WARNUNG, HINWEIS = "FEHLER", "WARNUNG", "HINWEIS"
+FURT_GEFAELLE_MAX = 0.15     # 13i K9: steilere Furtstrecken werden Durchlass (kein Wasserfilm ueber den Weg am Hang)
 BUDGET_9 = {"instanzen": 15000, "kollision": 1500, "akteure": 80, "lichter": 4, "niagara": 3, "nebel": 2,
             "decals": 12}
 WITCHER_STUFEN = {"held": (1, 3), "begleiter": (3, 12), "schutt": (20, 400), "kleinzeug": (100, 12000)}
@@ -342,6 +343,7 @@ class OrtKontext:
         for w in self.r.get("wasser") or []:
             if w.get("typ") == "bach":
                 self._bach_linie(w)
+        self._seeufer_halten()
         # 13h: Bachprofil ausserhalb von Netzrand + Uferring hoechstens tiefe + 0,5 m eintiefen (keine Keilwaende)
         n_k = _sw.bach_einschnitt_begrenzen(self, delta_vor_bach)
         if n_k > 0:
@@ -871,6 +873,43 @@ class OrtKontext:
         for h in hinweise:
             self.melde(HINWEIS, "bach %s: %s" % (wid, h))
 
+    def _seeufer_halten(self):
+        """13i K8: das Seeufer haelt 1 m ausserhalb des Umrisses (lokaler Pruefer, alle 0,5 m): Band bis 1 m + 0,75
+        Zellen hinter dem Umriss auf mindestens Spiegel + 0,1 m anheben (nur anheben), danach 1:2 auslaufend; Zu- und
+        Abfluesse des Sees (erste/letzte 6 m, halbe Breite + 1 m) bleiben offen. Nach den Baechen (Spiegel/Stufen davon
+        unberuehrt), vor fertig()."""
+        st = self.stempel
+        z = self.welt.zelle_m
+        for sid, sv in self.see.items():
+            if sv.get("klein") or not sv.get("umriss_m"):
+                continue
+            U = np.asarray(sv["umriss_m"], np.float64)
+            Z = np.vstack([U, U[:1]])
+            d, _, _ = _st.polylinie_abstand(st.X, st.Y, Z)
+            aussen = ~_in_polygon(st.X, st.Y, U)
+            d1 = 1.0 + 0.75 * z
+            band = aussen & (d <= d1 + 2.0)
+            if not band.any():
+                continue
+            offen = np.zeros(st.X.shape, bool)
+            for wid, pl in self.bach_plan.items():
+                he = _bach.halbe_breite_eff(pl["B"], z) + 1.0
+                P = np.stack([pl["x"], pl["y"]], 1)
+                L_ = float(pl["s"][-1])
+                for sid_, a_, b_ in ((pl.get("start_see"), 0.0, 6.0), (pl.get("end_see"), L_ - 6.0, L_)):
+                    if sid_ == sid:
+                        dk, _, _ = _st.polylinie_abstand(st.X, st.Y, _bach.linien_stueck(P, a_, b_))
+                        offen |= dk <= he
+                db, _, _ = _st.polylinie_abstand(st.X, st.Y, P)
+                offen |= db <= _bach.wasserkante(pl["B"], z) + 0.5 * z      # Wasser eines Bachs nie zuschuetten
+            ziel = float(sv["spiegel_m"]) + 0.1 - np.maximum(d - d1, 0.0) * 0.5
+            cur = st.h0 + st.delta
+            heben = band & ~offen & (cur < ziel)
+            if heben.any():
+                st.delta = np.where(heben, ziel - st.h0, st.delta)
+                self.melde(HINWEIS, "see %s: Ufer 1 m hinter dem Umriss auf Spiegel + 0,1 m gehalten (%d Zellen, bis "
+                                    "%.2f m angehoben, 13i K8)" % (sid, int(heben.sum()), float((ziel - cur)[heben].max())))
+
     def _schutz_faktor_bei(self, x, y):
         """Schutzfaktor (0 = Weg-/Ortsschutz hebt den Stempel auf, 1 = frei) an Weltpunkten."""
         f = self.stempel.schutz_faktor(wasser=False)
@@ -1321,9 +1360,20 @@ class OrtKontext:
             for a_, b_ in pl["furten"]:
                 xa_, ya_ = _bach.punkt_bei(P, kum, a_)
                 xb_, yb_ = _bach.punkt_bei(P, kum, b_)
-                e["furten"].append({"von_cm": [round(float(xa_) * 100), round(float(ya_) * 100)],
-                                    "bis_cm": [round(float(xb_) * 100), round(float(yb_) * 100)],
-                                    "grund": "Weg-/Ortsschutz (3 m): Wasser laeuft flach ueber den Boden (Furt)"})
+                # 13i K9: steile Furtstrecke (> 15 %) waere ein Wasserfilm ueber den Weg am Hang -> Durchlass unter dem Weg
+                gef = (float(np.interp(a_, s, W)) - float(np.interp(b_, s, W))) / max(b_ - a_, 0.5)
+                f_ = {"von_cm": [round(float(xa_) * 100), round(float(ya_) * 100)],
+                      "bis_cm": [round(float(xb_) * 100), round(float(yb_) * 100)],
+                      "gefaelle_pct": round(100.0 * gef, 1)}
+                if gef > FURT_GEFAELLE_MAX:
+                    f_["art"] = "durchlass"
+                    f_["grund"] = ("Weg-/Ortsschutz (3 m) am Steilhang (%.0f %%): kein Wasserfilm ueber den Weg - das Wasser "
+                                   "laeuft unter dem Weg durch (Durchlass/Rohr, dort keine Wasserflaeche)" % (100.0 * gef))
+                    self.melde(HINWEIS, "bach %s: Furt mit %.0f %% Gefaelle als Durchlass (13i K9)" % (wid, 100.0 * gef))
+                else:
+                    f_["art"] = "furt"
+                    f_["grund"] = "Weg-/Ortsschutz (3 m): Wasser laeuft flach ueber den Boden (Furt)"
+                e["furten"].append(f_)
         if pl["offen_s"] is not None:
             xo, yo = _bach.punkt_bei(P, kum, pl["offen_s"])
             e["muendung_offen_ab_cm"] = [round(float(xo) * 100), round(float(yo) * 100)]
@@ -1912,7 +1962,8 @@ class OrtKontext:
     def lagen_bauen(self):
         regeln = self.r.get("lagen") or []
         pfad_regel = self.r.get("pfad")
-        if not regeln and not (pfad_regel and self.pfad):
+        stark = bool(self.stempel is not None and self.stempel.delta.size and np.abs(self.stempel.delta).max() > 0.3)
+        if not regeln and not (pfad_regel and self.pfad) and not stark:
             return
         x0, y0, x1, y1 = self.stempel.fe.grenzen_m()
         if self.pfad and pfad_regel:
@@ -2003,6 +2054,39 @@ class OrtKontext:
                 self.melde(HINWEIS, "Pfadband: %d von %d Pfadpunkten ausserhalb des Lagenfensters (Fenstergrenze %d m) - "
                                     "dort nur 'pfad' fuer Ferats Pfadwerkzeug" % (int(aus.sum()), len(P),
                                                                                  600 if self.st["art"] == "leuchtfeuer" else 400))
+
+        self._lagen_delta_decken()
+
+    # 13i K6 (Regel 15e): jede Zelle mit |Delta| > 0,3 m bekommt eine Bodenlage
+    LAGE_STEIL = {"lava": "Lavafels", "canyon": "Sandstein"}
+    LAGE_FLACH = {"lava": "Lavasand", "wueste": "Sand", "sumpf": "Schlamm", "aue": "Erde", "gletscher": "Geroell",
+                  "frost": "Geroell"}
+
+    def _lagen_delta_decken(self):
+        """Wo der Stempel das Gelaende um > 0,3 m aendert und keine Lage liegt (Summe < 60 von 255): an steilen Stellen
+        (> 35 Grad, Abbrueche) Fels des Bioms, sonst Geroell bzw. die Bodenlage des Bioms; weich (Delta 0,15-0,45 m)."""
+        lg = self.lagen
+        if lg is None or self.stempel is None:
+            return
+        dl = np.abs(np.asarray(_st._bilinear_fenster(self.stempel.delta, self.stempel.fe, self.welt, lg.X, lg.Y, 0.0)))
+        if not (dl > 0.3).any():
+            return
+        summe = np.zeros(lg.X.shape)
+        for a_ in lg.ziel.values():
+            summe = summe + a_
+        w = _st.glatt01((dl - 0.15) / 0.3) * (1.0 - _st.glatt01((summe - 30.0) / 60.0))
+        if not (w > 0.05).any():
+            return
+        hang = np.asarray(self.stempel.hang_grad_bei_m(lg.X, lg.Y), np.float64)
+        steil = _st.glatt01((hang - 30.0) / 10.0)
+        n_steil = self.LAGE_STEIL.get(self.biom, "Fels")
+        n_flach = self.LAGE_FLACH.get(self.biom, "Geroell")
+        lg.maske(n_steil, w * steil, 210.0)
+        lg.maske(n_flach, w * (1.0 - steil), 200.0)
+        n = int(((dl > 0.3) & (summe < 1.0)).sum())
+        if n:
+            self.melde(HINWEIS, "Lagen: %d Zellen mit |Delta| > 0,3 m ohne Rezeptlage -> %s/%s (13i K6)"
+                       % (n, n_steil, n_flach))
 
     # ------------------------------------------------------------------ Pfad (13c)
     def pfad_bauen(self):
@@ -2567,7 +2651,7 @@ def materialien_verteilen(kontexte, materialwuensche, inv):
         for st, txt in inv.material_pruefen(mw):
             kontexte[0].melde(st, txt)
         ziel = next((c for c in kontexte if mw["name"] in c.mat_benutzt), kontexte[0])
-        out[ziel.id].append({k: mw[k] for k in ("name", "basis", "parameter", "fuer", "texturen", "hinweis") if k in mw})
+        out[ziel.id].append({k: mw[k] for k in ("name", "basis", "parameter", "fuer", "fuer_wasser", "texturen", "hinweis") if k in mw})
     if len(materialwuensche) > 6:
         kontexte[0].melde(FEHLER, "%d Materialwuensche > 6 je Biom (§7)" % len(materialwuensche))
     return out
@@ -2606,7 +2690,7 @@ def schreibe_biom(aus_ordner, sw_ordner, biom, kontexte, ebene, materialwuensche
     if materialwuensche:
         # 13f A7: alle Materialwuensche des Bioms zusaetzlich oben in orte.json - wer nur einen Teil der Orte einbaut,
         # verliert keine Definition (beim Ort steht jeder Wunsch weiter genau einmal, beim ersten Nutzer)
-        zusatz["materialwuensche_biom"] = [{k: mw[k] for k in ("name", "basis", "parameter", "fuer", "texturen", "hinweis")
+        zusatz["materialwuensche_biom"] = [{k: mw[k] for k in ("name", "basis", "parameter", "fuer", "fuer_wasser", "texturen", "hinweis")
                                             if k in mw} for mw in materialwuensche]
     zusatz = zusatz or None
     d = _fmt.schreibe_orte(os.path.join(aus_ordner, "orte.json"), biom, orte, stand=stand, pruefen=False, zusatz=zusatz)

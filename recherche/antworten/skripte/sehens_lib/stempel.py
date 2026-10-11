@@ -746,6 +746,29 @@ def flaeche(umriss):
 # ============================================================================================
 # Bodenlagen
 # ============================================================================================
+def kanten_weich(a, L=150.0):
+    """13i K7: Lagenwert (0-255, 1-m-Raster) zwischen Nachbarzellen hoechstens L (Diagonale L * sqrt 2) - harte Kanten
+    (Flecken, kleine Ringe) werden nach aussen weich ergaenzt (nur anheben, der Kern bleibt)."""
+    a = np.asarray(a, np.float64).copy()
+    if a.size == 0:
+        return a
+    for _ in range(int(255.0 / L) + 3):
+        p = np.pad(a, 1, mode="edge")
+        m = np.full(a.shape, -np.inf)
+        h, w = a.shape
+        for di in (-1, 0, 1):
+            for dj in (-1, 0, 1):
+                if di == 0 and dj == 0:
+                    continue
+                schritt = L * (1.41421356 if di and dj else 1.0)
+                m = np.maximum(m, p[1 + di:1 + di + h, 1 + dj:1 + dj + w] - schritt)
+        neu = np.maximum(a, m)
+        if np.array_equal(neu, a):
+            break
+        a = neu
+    return a
+
+
 class Lagen:
     def __init__(self, welt, x0_m, y0_m, x1_m, y1_m, seed=0):
         self.welt = welt
@@ -817,7 +840,7 @@ class Lagen:
         rel = "lagen/%s_" % ort_id
         rf = self.randfaktor(3.0)          # 13f A11: am Fensterrand weich auf 0
         for n in namen:
-            a = nach_1m(self.ziel[n] * rf, self.z)
+            a = kanten_weich(nach_1m(self.ziel[n] * rf, self.z))
             pf = os.path.join(ordner, rel + n + ".r8")
             os.makedirs(os.path.dirname(pf), exist_ok=True)
             np.ascontiguousarray(np.clip(np.rint(a), 0, 255).astype(np.uint8)).tofile(pf)
