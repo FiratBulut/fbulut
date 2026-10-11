@@ -413,7 +413,7 @@
    "name": "Sinterhalle",
    "art": "fundstueck",
    "mitte_cm": [378000, 212000, 2047],
-   "radius_m": 45.0,
+   "radius_m": 50.0,
    "felder": ["I7"],
    "kameras": [
     ["I7", 378064, 206706, 378000, 212000, 2147, "dschungel_08_sinterhalle_anmarsch", -170],
