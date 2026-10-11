@@ -191,13 +191,15 @@ def pruefe_wasser(p, ordner, welt, b, tag):
     if welt is None:
         return
     orte = [{"id": a["id"], "gelaende": a.get("gelaende")} for a in p.get("abschnitte") or []]
+    from gefaelle_plan import nahe_stufe
     boden = BodenNachStempel(welt, orte, ordner)
     for w in kn:
         M = np.asarray(w["mittellinie"], np.float64)
         kn_ = w["knick"]
         n_bett = n_ufer = n_b = 0
+        nah = nahe_stufe(w["mittellinie"], kn_, max(welt.zelle_m - 1.0, 0.0))
         for k in range(len(M)):
-            if kn_[k] != "becken":
+            if kn_[k] != "becken" or nah[k]:
                 continue
             n_b += 1
             if k + 1 < len(M):
@@ -216,11 +218,14 @@ def pruefe_wasser(p, ordner, welt, b, tag):
             hz = boden.hoehe(np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_]))
             if float(np.min(hz)) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - 0.005:
                 n_ufer += 1
+        from gefaelle_plan import raster_stufe, raster_text
+        zus = max(welt.zelle_m - 1.0, 0.0)
         if n_bett:
-            b.append((FEHLER, tag, "%s: Bett an %d von %d Beckenpunkten < 0,2 m unter dem Spiegel" % (w["id"], n_bett, n_b)))
+            b.append((raster_stufe(n_bett, n_b, zus), tag, "%s: Bett an %d von %d Beckenpunkten < 0,2 m unter dem Spiegel%s"
+                      % (w["id"], n_bett, n_b, raster_text(n_bett, n_b, zus))))
         if n_ufer:
-            b.append((FEHLER, tag, "%s: Ufer am Netzrand an %d von %d Beckenpunkten < 0,1 m ueber dem Spiegel"
-                      % (w["id"], n_ufer, n_b)))
+            b.append((raster_stufe(n_ufer, n_b, zus), tag, "%s: Ufer am Netzrand an %d von %d Beckenpunkten < 0,1 m ueber "
+                      "dem Spiegel%s" % (w["id"], n_ufer, n_b, raster_text(n_ufer, n_b, zus))))
 
 
 def pruefe_effekte(p, rw, inv, b, tag):

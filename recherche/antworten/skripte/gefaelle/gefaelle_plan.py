@@ -19,23 +19,30 @@ Ablauf je Strecke (Regelwerk 'ablauf'):
      becken.gefaelle bis zur naechsten Lippe -> D = S*L - S_Becken*(L - Stufenlaenge) und die Summe ist exakt D_ges.
      Der neue Spiegel ist nie hoeher als der alte (nur Eintiefen, kein Damm).
   5. Spiegel: Stufe/Fall = zwei Punkte (stufen.zwei_punkte), Schnelle = Rampe, kurze Becken -> Kaskade (Teilstufen).
-  6. Gelaende (Delta, nur absenken): Bett = Spiegel - Tiefe, Lippe als Krone, Kolk je Stufe, Uferboeschung; steil
-     (Uferklippe/Klamm) wo ufer_klippen.wann / klamm.wann; Schutz an Wegen, Orten, anderem Wasser, Rand 0.
+  6. Gelaende (Delta): Bett = Spiegel - max(Tiefe, 0,5 m), Lippe als Krone, Kolk je Stufe, Uferboeschung; steil
+     (Uferklippe/Klamm) wo ufer_klippen.wann / klamm.wann; Uferwulst (Spiegel + 0,15 m, hoechstens 1 m anheben) fuer
+     die 14b-Pruefung 'Ufer am Netzrand'; Schutz an Wegen (4 + 4 m), Orten, anderem Wasser (3 m), Rand 0.
   7. Netze je Biom am Stufenort (biome.<biom>.netze): Riegel/Lippe/Holz, Fallwand, Uferwaende, Sturzbloecke,
      Beckenbloecke, Wandschutt, Kies, Moos (Kontakt).
-  8. Lagen (lagen.zonen + biome.<biom>.lagen), Effekte (effekte, <= 3 je Stufe, <= 6 gleichzeitig), Kameras
-     _vorher/_nachher (Augenhoehe -170) fuer Pilot-Strecken, Epic-Flussstuecke (Luecke >= 1,2 m, keine Ueberlappung).
+  8. Lagen (lagen.zonen + biome.<biom>.lagen), Effekte (effekte, <= 3 je Stufe, <= 6 gleichzeitig; unter 3 m nur
+     NS_Waterfall_Small + NS_Impact_Small, Koordinator/14b), Kameras _vorher/_nachher (+ _weg_vorher/_nachher,
+     Augenhoehe -170) fuer Pilot-Strecken.
+  9. Wasser (Befund 14b, Variante A verbindlich): wasser_koerper = Epic-River ober-/unterhalb jeder Stufenstrecke
+     + Kaskadennetz (statisches SLW-Netz) dazwischen, 0,5 m Ueberlappung; keine Flussstuecke mit Luecken, keine
+     Schaumscheiben. --variante C gibt zusaetzlich den gestuften Einzelspline + eigene Bach-Zone aus.
 
 Aufruf (python -I, NumPy + Pillow):
   python -I gefaelle_plan.py [--laeufe ID ...] [--strecken ID ...] [--alle] [--daten2m DIR] [--aus DIR] [--bild]
+                             [--bild-ordner DIR] [--variante A|C] [--ohne-pruefung]
   Ohne --laeufe/--strecken/--alle: alle Laeufe der 20 Pilot-Strecken aus prioritaet.json.
   Ohne --daten2m: 1-m-Originale aus <basis>/export/unreal/welt, Ausgabe <basis>/export/unreal/welt/gefaelle/<lauf>/.
   Cloud-Test: --daten2m recherche/vorlagen/daten/sehens --aus <scratchpad>/a15/plan
-Ausgabe je Lauf (<aus>/<lauf>/): plan.json, gelaende/<abschnitt>.f32, lagen/<abschnitt>_<Lage>.r8,
+Ausgabe je Lauf (<aus>/<lauf>/): plan.json (spiegel_neu_cm, stufen, wasser_koerper, abschnitte, effekte, kameras),
+  gelaende/<abschnitt>.f32, lagen/<abschnitt>_<Lage>.r8,
   instanzen/<Feld>/plan.json + <Netz>.f32 (FORMAT.md §3, Ebene 'gefaelle'); --bild: test_<strecke>.png je Pilot-Strecke.
 Exit-Code: 0 ok, 1 Pruefer meldet FEHLER, 2 Pflichtdatei fehlt.
 Quellen: auftraege/15-gefaelle-felsstufen-klippen.md, antworten/15-gefaelle-regelwerk.md, vorlagen/SEHENS_FORMAT.md
-  §3/§6/§8/§9, vorlagen/FORMAT.md §3, vorlagen/daten/wasser_fx/stufen_fluss_teile.json (C2-Teilung), sehens_lib.
+  §3/§6/§8/§9, vorlagen/FORMAT.md §3, antworten/14b-befund-geteilte-baeche.md (Kaskadennetz), sehens_lib.
 """
 
 import argparse
@@ -220,7 +227,7 @@ def feste_zonen(pr, welt, gel, orte, umbau, andere, s0, s1):
             fi, fj = fe.lokal(x, y)
             fi = np.clip(np.rint(fi).astype(int), 0, df.shape[0] - 1)
             fj = np.clip(np.rint(fj).astype(int), 0, df.shape[1] - 1)
-            markiere(df[fi, fj] <= 4.0 + 4.0 + B / 2.0 + 6.0, "fremdes Wasser (Raster)")
+            markiere(df[fi, fj] <= 4.0 + 4.0 + B / 2.0 + 10.0, "fremdes Wasser (Raster)")
     m = np.zeros(len(idx), bool)
     for P in andere:
         bx = (P[:, 0].min() - 30, P[:, 0].max() + 30, P[:, 1].min() - 30, P[:, 1].max() + 30)
@@ -695,6 +702,7 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     # Uferwulst (14b, Pruefung 'Ufer am Rand ueber Spiegel'): ausserhalb der Wasserbreite mindestens Spiegel + 0,15 m
     # bis Netzrand + 0,6 m, dann 1:2 auslaufen - hebt nur, wo das alte Ufer zu niedrig ist
     wulst = z_sp + 0.15 - np.maximum(d - (half + KN["rand_ueberstand_m"] + 0.6), 0.0) * 0.5
+    wulst = np.minimum(wulst, cur + 1.0)                       # hoechstens 1 m anheben (kein Damm ueber Rinnen)
     neu = np.where(innen & (d >= half), np.maximum(neu, wulst), neu)
     alt = st.delta[band]
     dn = neu - cur
@@ -1218,6 +1226,29 @@ def RASTER_ZUSCHLAG():
     return max(_ZELLE[0] - 1.0, 0.0)
 
 
+def raster_stufe(n_fehl, n_ges, zuschlag=None):
+    """FEHLER; auf grobem Raster (2 m) WARNUNG, wenn hoechstens 1 Punkt bzw. 10 % betroffen sind (Rasterverschmierung
+    an kurzen Kaskadenbecken) - lokal auf 1 m gilt streng FEHLER."""
+    z = RASTER_ZUSCHLAG() if zuschlag is None else zuschlag
+    return "WARNUNG" if z > 0 and n_fehl <= max(1, int(0.1 * n_ges)) else "FEHLER"
+
+
+def raster_text(n_fehl, n_ges, zuschlag=None):
+    return " (2-m-Raster: lokal auf 1 m pruefen)" if raster_stufe(n_fehl, n_ges, zuschlag) == "WARNUNG" else ""
+
+
+def nahe_stufe(mitte, knick, zuschlag):
+    """True fuer Beckenpunkte, die auf grobem Raster (zuschlag > 0) naeher als 1,5 x Zelle an einer Lippe/einem Fuss
+    liegen: dort mischt die bilineare Abfrage Ober- und Unterwasser (2-m-Naeherung; auf 1 m wird alles geprueft)."""
+    if zuschlag <= 0:
+        return [False] * len(mitte)
+    M = np.asarray(mitte, np.float64)[:, :2] / 100.0
+    s = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(M, axis=0).T))])
+    st = s[[k for k, r in enumerate(knick) if r in ("lippe", "fuss")]]
+    grenze = 1.5 * (zuschlag + 1.0)
+    return [bool(st.size and np.min(np.abs(st - s[k])) < grenze) for k in range(len(mitte))]
+
+
 def river_punkte(pr, sp, a, b, breite_fn):
     ss = [a] + [s_ for s_, _, _ in sp if a + 0.05 < s_ < b - 0.05] + [b]
     dicht = [ss[0]]
@@ -1337,13 +1368,14 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
             melde("FEHLER", "Kaskadennetz %d: Mittellinie steigt" % n)
         # Pruefungen (a) Bett >= 0,2 m unter dem Spiegel (Becken), (b) Ufer am Rand >= 0,1 m ueber dem Spiegel
         n_bett = n_ufer = n_bk = 0
-        for q, rolle in zip(mitte, knick):
-            if rolle != "becken":
+        nah_stufe = nahe_stufe(mitte, knick, RASTER_ZUSCHLAG())
+        for q, rolle, ns_ in zip(mitte, knick, nah_stufe):
+            if rolle != "becken" or ns_:
                 continue
             n_bk += 1
             if q[7] < KN["bett_unter_spiegel_min_m"] * 100.0 - 0.5:
                 n_bett += 1
-        ss = [q for q, r_k in zip(mitte, knick) if r_k == "becken"]
+        ss = [q for q, r_k, ns_ in zip(mitte, knick, nah_stufe) if r_k == "becken" and not ns_]
         for q in ss:
             k_ = mitte.index(q)
             q2 = mitte[k_ + 1] if k_ + 1 < len(mitte) else mitte[k_ - 1]
@@ -1370,11 +1402,11 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
               "quelle": KN["quelle"]}
         kns.append(kn)
         if n_bett:
-            melde("FEHLER", "%s: Bett an %d von %d Beckenpunkten < %.1f m unter dem Spiegel"
-                  % (kn["id"], n_bett, n_bk, KN["bett_unter_spiegel_min_m"]))
+            melde(raster_stufe(n_bett, n_bk), "%s: Bett an %d von %d Beckenpunkten < %.1f m unter dem Spiegel%s"
+                  % (kn["id"], n_bett, n_bk, KN["bett_unter_spiegel_min_m"], raster_text(n_bett, n_bk)))
         if n_ufer:
-            melde("FEHLER", "%s: Ufer am Netzrand an %d von %d Proben < %.1f m ueber dem Spiegel"
-                  % (kn["id"], n_ufer, len(ss), KN["ufer_ueber_spiegel_am_rand_m"]))
+            melde(raster_stufe(n_ufer, len(ss)), "%s: Ufer am Netzrand an %d von %d Proben < %.1f m ueber dem Spiegel%s"
+                  % (kn["id"], n_ufer, len(ss), KN["ufer_ueber_spiegel_am_rand_m"], raster_text(n_ufer, len(ss))))
     koerper = sorted(rivers + kns, key=lambda k_: k_["s_m"][0])
     for k_ in range(len(koerper) - 1):
         o, u = koerper[k_], koerper[k_ + 1]
@@ -1750,7 +1782,14 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             for a, b, _ in segs:
                 korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_fn, winkel_fn, rw, welt, gel, orte_nah)
             schutz_orte(st, welt, gel, orte_nah)
-            st.fertig(schutz=True, weg_m=4.0, wasser=True, ausnahme_maske=korr)   # 4 m: Reserve fuer 1-m-Interpolation
+            # anderes Wasser: SEHENS_FORMAT §3 - keine Aenderung <= 3 m (+ 2 m Uebergang); Wege/Pfade 4 m + 4 m (Reserve
+            # fuer die 1-m-Interpolation) ueber Stempel.fertig
+            from sehens_lib import gelaende as gel_mod
+            wm = (st.fe.get("wasser") > 0) & ~korr
+            if wm.any():
+                dw = gel_mod.abstand(wm, welt.zelle_m, 12.0)
+                st.delta *= glatt01((dw - 3.0 - 0.5 * welt.zelle_m) / 2.0)
+            st.fertig(schutz=True, weg_m=4.0, wasser=False)
             st.protokoll = ["Bett"] + (["Kolk"] if any(e["art"] != "schnelle" for e in st_ab) else []) + \
                 (["Felsstufe"] if any(e["art"] == "fall" for e in st_ab) else []) + \
                 (["Klamm"] if any(w["klamm"] for w in wandzonen if any(a <= w["a"] <= b for a, b, _ in segs)) else []) + \
