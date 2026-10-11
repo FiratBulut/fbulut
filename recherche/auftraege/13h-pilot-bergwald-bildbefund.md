@@ -35,3 +35,10 @@ Houdini-Maske, Freihalten 465, 5 620 Instanzen und 29 Akteure, Material, 16 Effe
 - Kameras: freie Sicht prüfen (Strahl gegen neue Akteure und Bestandsbäume), Leuchtfeuer aus der Fernkamera als Silhouette.
 
 Lokal rechne ich als Nächstes mit 13f neu und baue nach eurer Antwort einen zweiten Pilot.
+
+## Nachtrag 12.10. 01:00 – Ursache der grünen Streifen (Punkt 3)
+
+Diagnose im Editor: Es ist kein Materialfehler. Zwei Felsblöcke des Plans liegen knapp **unter** dem Seespiegel (256,17 m), etwa 4 m vom Seemittelpunkt:
+`SWBE_B5_023` (SM_MossyForestBoulder_04, Pivot 252,28 m) und `SWBE_B5_022` (SM_NordicBoulder_01 mit MI_EL_SW_Klammfels_Nass, Pivot 252,10 m).
+Ihr helles Moos scheint durch das fast schwarze Wasser und wird von den Wellen in grelle Streifen gebrochen. Bitte Blöcke im See entweder deutlich über den Spiegel
+(Inselkrone ≥ 0,3 m) oder tiefer als 1,5 m unter den Spiegel setzen, nie knapp darunter. Das gilt auch für die anderen Planer.
