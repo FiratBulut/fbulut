@@ -293,7 +293,7 @@
     {"asset": "CUE_Rain_Dropping_on_various_textures_Cue", "bei": "lagune", "radius_m": 35, "lautstaerke": 0.25, "zweck": "Tropfen von den Waenden (leise; im Editor pruefen)"}
    ],
    "see_kontur": [
-    {"id": "lagune", "bei": "lagune", "spiegel": 19.0, "tiefe_m": 7.0, "farbe": "smaragd", "kante_m": 19.0, "rand_m": 3.0, "rampe_m": 5.0, "warum": "Wasser fuellt den geschlossenen Karstkessel bis 19 m (Boden 9,5 m, Ueberlauf 38 m); Umriss = Kesselkontur (Hook see_kontur)"}
+    {"id": "lagune", "bei": "lagune", "spiegel": 19.0, "tiefe_m": 7.0, "farbe": "smaragd", "kante_m": 19.0, "rand_m": 7.0, "rampe_m": 5.0, "warum": "Wasser fuellt den geschlossenen Karstkessel bis 19 m (Boden 9,5 m, Ueberlauf 38 m); Umriss = Kesselkontur (Hook see_kontur)"}
    ]
   },
 

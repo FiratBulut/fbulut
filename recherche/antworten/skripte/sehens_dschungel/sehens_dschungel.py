@@ -103,13 +103,14 @@ def hook_see_kontur(ctx):
         pts = []
         for g in np.arange(0.0, 360.0, 5.0):
             ux, uy = stm.kompass_vektor(float(g))
-            r_last = 0.0
+            r_last = 0.0                                        # weitester Seepunkt auf dem Strahl (auch hinter Buchten)
             for r in np.arange(0.0, 120.0, 0.5):
                 i = int(round((cy + uy * r - st.Y[0, 0]) / st.z))
                 j = int(round((cx + ux * r - st.X[0, 0]) / st.z))
-                if not (0 <= i < m0.shape[0] and 0 <= j < m0.shape[1]) or not m0[i, j]:
+                if not (0 <= i < m0.shape[0] and 0 <= j < m0.shape[1]):
                     break
-                r_last = r
+                if m0[i, j]:
+                    r_last = r
             pts.append([cx + ux * max(r_last + 0.5, 1.0), cy + uy * max(r_last + 0.5, 1.0)])
         if stm.flaeche(pts) < 0:
             pts = pts[::-1]

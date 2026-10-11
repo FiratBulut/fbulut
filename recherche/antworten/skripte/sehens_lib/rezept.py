@@ -1239,6 +1239,8 @@ class OrtKontext:
             P = [[q[0] / 100.0, q[1] / 100.0] for q in self.st["pfad_cm"]][::-1]    # Weg -> Ort
             quelle = "pfad_cm (Fussweg aus Phase 1, Weg -> Ort)"
             art = None
+            if pr.get("vor_wasser_m") is not None:          # Ortsmitte liegt im geplanten See: Fussweg endet am Ufer
+                P = self._bis_vor_wasser(P, float(pr["vor_wasser_m"]))
         if P is None:
             self.melde(HINWEIS, "pfad: keine Pfadquelle (pfade/pfad_cm) - kein Pfadband")
             return

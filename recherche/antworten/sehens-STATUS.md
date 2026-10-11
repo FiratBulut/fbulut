@@ -13,7 +13,13 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 | Pfade | `pfade` in `standorte.json` (Schema 13c), Lib rastert sie als Wege | fertig: alte `standorte_*.json` aufgelöst, Lava/Gletscher/Frost/Fjord je 8 Orte |
 | Phase 2 | Planer `skripte/sehens_<biom>/` + Lib-Erweiterung | **Lib fertig** (`inventar.py`, `stempel.py`, `instanzen.py`, `rezept.py`, `vorschau.py`, Prüfer Phase 2, `PLANER_ANLEITUNG.md`); **Referenzplaner Bergwald fertig** (8 Orte, alle 6 Detail-Ebenen, Prüfer 0 FEHLER/0 WARNUNG, deterministisch, Testbilder `sehens/bergwald/test_*.png`). Übrige 14 Biome laufen parallel: aue+sumpf · elfenwald+dschungel · lava · gletscher+frost+fjord · tundra+heide · canyon+wueste+oedland · kueste |
 
-### Phase 2 – Hinweise aus dem Bergwald-Referenzplaner
+### Phase 2 – Planer je Biom
+
+| Biom | Planer | Stand | Anmerkungen |
+|---|---|---|---|
+| bergwald | `skripte/sehens_bergwald/` | **fertig** (Inventar 13d; Planer + Prüfer 0 FEHLER/0 WARNUNG; deterministisch) | Klamm mit NS_Waterfall_Medium/NS_Impact_Medium/NS_Stream_Small; Mountain-Wurzeln/Pilze; Nassband-Decals; Karsee ±9 m |
+| kueste | `skripte/sehens_kueste/` | **fertig** (Inventar 13d; 0 FEHLER/0 WARNUNG; byteidentisch) | Brandungspfeiler aus 3 Stücken (Kopf ~49 m); Nadeltor-Stempel −49 m (begründet); Seefall 54 m mit NS_Waterfall_Large; Blasloch mit NS_Geyser_Large; alle 4 Fundstücke verdeckt. Korrekturen: Guano-Wand der Vogelinsel an der Ostflanke (Kameras stehen im Osten), Kreidewand-Hauptwand nach Süden; Klang-Ersatz für Brandung/Seevögel |
+
 
 - **Karsee (bergwald_06):** Der Karboden ist in den 2-m-Daten 18–27° geneigt; der See braucht ~±9 m Erdbau statt ±6 m (Gelände frei → umgesetzt, begründet im Stempel). Im 1-m-Lauf prüfen.
 - **Mönch (bergwald_01):** Sockelplateau entfällt (Hang 52°); die Nadel steckt hangseitig tiefer im Boden.
@@ -74,6 +80,8 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 8. Optionale Tiere (Fische, Ameisen) mit „nur Landschaft“ vereinbar?
 
 Beantwortet (13c bzw. Chat, siehe „Entscheidungen Ferat“ und `13c-antworten-offene-fragen.md`): Pfade/Steige (alle gebaut), Kratersteig + Gipfelsteig, Basalt, Mondtor, Rotlaub, Cenote-See, Tausendfuß, Die Alte, Erlen-Ersatz, Mondarm-Gehölz, Schwalbenwand-Decal, Mönch, Windwurf/Säulenhain, Karsee-Stempel, Gelände frei, Klippensteig, Brushify, Forest Cretaceous, Nature Water FX. Die Einträge unten sind der Verlauf.
+
+**Neu aus Phase 2 (Küste):** Darf die Guano-Wand der Vogelinsel an der Ostseite liegen (Katalog sagte West, alle Kameras stehen im Osten)? Editorbild für Schauseite der Klippenschalen und die Unterseite des Nadeltor-Sturzes. Vogelwolke über der Vogelinsel (`NS_feather`) behalten (Frage Tiere)?
 
 **Neu aus 13d:**
 9. **Limestone:** nicht im Inventar 13d – soll Claude (lokal) die Megascans-Limestone-Assets und das Ancraite „Limestone Rock Set“ laden? Link zum Ancraite-Set?
