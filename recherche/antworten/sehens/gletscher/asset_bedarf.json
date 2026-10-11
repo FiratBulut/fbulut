@@ -934,5 +934,204 @@
    "Tropfwasser im Portal: kein System im Bestand."
   ],
   "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "gletscher_02_lawinenkegel",
+    "wunsch": "Megascans Eis/Schnee: Altschnee-Kegel (A)",
+    "jetzt": [
+     {
+      "name": "Snow_Hill_vdbmabvva_High",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Snow_Hill_vdbmabvva/StaticMeshes/Snow_Hill_vdbmabvva_High",
+      "masse_m": [
+       20.66,
+       13.83,
+       3.0
+      ],
+      "nanite": true,
+      "asset": "Snow_Hill_vdbmabvva"
+     },
+     {
+      "name": "Snow_Embankment_uhvifcgfa_High",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhvifcgfa/StaticMeshes/Snow_Embankment_uhvifcgfa_High",
+      "masse_m": [
+       4.89,
+       1.18,
+       0.78
+      ],
+      "nanite": true,
+      "asset": "Snow_Embankment_uhvifcgfa"
+     }
+    ],
+    "hinweis": "neu seit 13b: Snow_Hill_vdbmabvva (20,7 × 13,8 × 3,0 m) – größtes Schneenetz, ideal für den Kegelfuß."
+   },
+   {
+    "ort": "gletscher_05_die_waechte",
+    "wunsch": "Megascans Eis/Schnee: Wächte (A)",
+    "jetzt": [
+     {
+      "name": "Snow_Embankment_uhvifcgfa_High",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhvifcgfa/StaticMeshes/Snow_Embankment_uhvifcgfa_High",
+      "masse_m": [
+       4.89,
+       1.18,
+       0.78
+      ],
+      "nanite": true,
+      "asset": "Snow_Embankment_uhvifcgfa"
+     }
+    ]
+   },
+   {
+    "ort": "gletscher_01_gletschertor",
+    "wunsch": "Mountain/Nature Water FX: Gletscherbach am Portal (C)",
+    "jetzt": [
+     {
+      "name": "NS_Stream_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Stream_Small"
+     },
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     }
+    ]
+   },
+   {
+    "ort": "gletscher_06_gletschertoepfe",
+    "wunsch": "Mountain: Kaskaden zwischen den Töpfen (B)",
+    "jetzt": [
+     {
+      "name": "NS_Stream_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Stream_Medium"
+     },
+     {
+      "name": "NS_Waterfall_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Small"
+     },
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ],
+    "hinweis": "Mountain bringt Fluss-/Seematerial (M_River_Water_Translucent[_Tess], M_Lake_Water_Translucent_Tess); ein eigenes Wasserfall-Material ist unter den im Inventar gelisteten Namen nicht sichtbar (12 von 21 Materialien gelistet) → Fallvorhang bleibt M_EL_Wasserfall2/MI_EL_Wasserfall, Bewegung und Gischt kommen aus Nature Water FX."
+   },
+   {
+    "ort": "gletscher_08_gletscherschliff",
+    "wunsch": "Glatte Schliffplatte (bisher SM_SmoothRockShelf_01)",
+    "jetzt": [
+     {
+      "name": "SM_flat_rock_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_01",
+      "masse_m": [
+       9.92,
+       7.0,
+       1.54
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Mountain-Platte 9,9 × 7,0 × 1,5 m als Rundhöcker-Rücken; Schrammen bleiben Decal (MI_TileableLeakage_02 gestreckt)."
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "gletscher_01_gletschertor",
+    "bisher_ersatz": "MI_EL_Wasserfall_Aufprall als Schaum am Portal",
+    "neu_echt": [
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     }
+    ]
+   },
+   {
+    "ort": "gletscher_03_moraenensee",
+    "bisher_ersatz": "MI_Leakage_* am Ufer",
+    "neu_echt": [
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     },
+     {
+      "name": "MI_Decal_Rocks_Small",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small"
+     }
+    ],
+    "hinweis": "Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*."
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Schneefahne an Wächte und Nunatak",
+    "orte": [
+     "gletscher_05_die_waechte",
+     "gletscher_07_der_nunatak"
+    ],
+    "paket": "Niagara VFX Pack — Snow … (C) / Ultimate Niagara Environmental VFX (C)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Tropfwasser im Portal",
+    "orte": [
+     "gletscher_01_gletschertor"
+    ],
+    "paket": "kein passendes System im Bestand",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   },
+   {
+    "was": "Große Eisplatten für die Séracs",
+    "orte": [
+     "gletscher_01_gletschertor"
+    ],
+    "paket": "Arctic Cliffs (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Klang in der Eishöhle",
+    "orte": [
+     "gletscher_01_gletschertor"
+    ],
+    "paket": "Cave Ambience (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Uferkies hell",
+    "orte": [
+     "gletscher_03_moraenensee"
+    ],
+    "paket": "Megascans Icelandic Sand With Pebbles (C)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   }
+  ],
+  "pakete_status_13d": {
+   "Arctic Cliffs": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Cave Ambience": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile": "im Projekt – im Projekt (`/Game/Fab/Megascans/3D/Ice_Cliff_*`)",
+   "Megascans Icelandic Sand With Pebbles": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  }
  }
 }

@@ -211,3 +211,30 @@ Budget ca. 1 500 Instanzen, 10 Akteure, 1 Nebel.
 
 - **Ödlandpfad bauen?** (3 Äste, 1,93 km, Serpentine 19,8° im Abstieg). Ohne Pfad hat das Ödland 4 Orte.
 - Darf das Höllentor 2 Punktlichter + 3 Niagara nutzen (Budget-Grenze)?
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `oedland_01_rippenland` – Desert Western: gebänderte Wandstücke für Messerrücken (A): `uk5oded_tier_0 (Desert_Western_Cliff_Layered_XL_02)`, `veonegs_tier_0 (Desert_Western_Formation_Layered_XL_01)`, `vceoferfa_tier_0 (Desert_Western_Cliff_Layered_XL_03)`
+- `oedland_02_regenbogenhang` – Desert Western: Farbbänder für den bunten Hang (A): `uk4paip_tier_0 (Desert_Western_Formation_Layered_XL_06)`, `vepnfcr_tier_0 (Desert_Western_Formation_Layered_XL_03)`, `venuafk_tier_0 (Desert_Western_Cliff_Layered_XL_11)`
+- `oedland_03_hoellentor` – Lava & Volcano: Glut-Decals mit Emission, Hitzeflimmern (A): `MI_NM_Decal_Lava_NoAlbedo_03`, `FX_Distortion_Big`, `FX_Lava_Smoke_1`
+- `oedland_03_hoellentor` – Ultimate Niagara (B): Flame Dust/Smoke Spark: `FX_Lava_Particle_02`, `FX_Lava_Smoke_03`
+- `oedland_06_schlammvulkaene` – Lava & Volcano: Blasen/Spritzer + Schlamm (A): `FX_Lava_Bubble`, `ulnfeaq_tier_0 (Desert_Western_Mound_Mud_Rough_01)`, `vepoadh_tier_0 (Desert_Western_Slope_Mud_Erosion_01)`
+- `oedland_07_totenpfanne` – Coast & Dunes: Ton-/Riss-Decals (B): `MI_Decal_Clay_01`, `MI_Decal_Clay_02`, `MI_Decal_Clay_03`
+- `oedland_08_erdroehren` – Lava & Volcano (C): Bodensets Ton, Kies: `vepoadh_tier_0 (Desert_Western_Slope_Mud_Erosion_01)`, `ulcceh3_tier_0 (Desert_Western_Pile_Rock_Rough_01)`, `MI_Decal_Clay_03`
+
+**Ersatz → echtes Asset:**
+
+- `oedland_01_rippenland, oedland_02_regenbogenhang`: statt ukjhcamga_tier_0 ×4 Tönungen, SM_HugeSandstoneCliff_05/07 → `uk5oded_tier_0 (Desert_Western_Cliff_Layered_XL_02)`, `uk4paip_tier_0 (Desert_Western_Formation_Layered_XL_06)`, `veonegs_tier_0 (Desert_Western_Formation_Layered_XL_01)` – Desert Western hat die Bänder in der Textur (Nanite, Fab-Material) – kein Material-Fix.
+- `oedland_03_hoellentor`: statt M_Eldarien_Glut auf SM_Rock_* + Punktlicht → `MI_NM_Decal_Lava_NoAlbedo_03`, `FX_Distortion_Big` – M_Eldarien_Glut auf Splittern darf bleiben; Decal + Flimmern ergänzen.
+- `oedland_06_schlammvulkaene`: statt NS_Bubble_Burst + Bodenlage Schlamm → `FX_Lava_Bubble`, `ulnfeaq_tier_0 (Desert_Western_Mound_Mud_Rough_01)`
+- `oedland_07_totenpfanne`: statt Bodenlage Lehm + MI_TileableLeakage hell → `MI_Decal_Clay_01`, `MI_Decal_Clay_02`
+
+**Fehlt weiter:**
+
+- Brausen/Fauchen des Gaskraters (oedland_03_hoellentor) – Fantasy Ambiences (B) · *nur nach Ferats OK*
+- Hall/Tropfen in den Röhren (oedland_08_erdroehren) – Cave Ambience (B) · *nur nach Ferats OK*
+- Runde Konkretionen (oedland_05_kugelsteine) – Wadi Rum Sandstone Rock 01–04 (C) · *nur nach Ferats OK*

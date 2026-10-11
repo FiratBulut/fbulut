@@ -782,5 +782,208 @@
    "Eisglocken/Frostblumen: CryoGen (B) oder Eiszapfen verkleinert."
   ],
   "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "frost_06_eiskueste",
+    "wunsch": "Niagara: Fontänen der Eisvulkane, Gischt (B)",
+    "jetzt": [
+     {
+      "name": "NS_Geyser_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Geyser_Small"
+     },
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     }
+    ],
+    "hinweis": "NS_Geyser_Small als Kopie, kurz und unregelmäßig; Bild-Check."
+   },
+   {
+    "ort": "frost_06_eiskueste",
+    "wunsch": "Coast & Dunes: Nassband-Decals, Spülsaum (B)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     }
+    ]
+   },
+   {
+    "ort": "frost_07_frostblumen",
+    "wunsch": "Coast & Dunes: Treibholz/Spülsaum (C)",
+    "jetzt": [
+     {
+      "name": "SM_beach_driftwood_02",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_02",
+      "masse_m": [
+       2.3,
+       0.87,
+       0.38
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_beach_driftwood_06",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_06",
+      "masse_m": [
+       1.28,
+       0.21,
+       0.08
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_seaweed_01_E",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_E",
+      "masse_m": [
+       2.54,
+       2.99,
+       0.09
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "frost_01_der_eisfall",
+    "wunsch": "Mountain: Restwasser hinter den Säulen (C)",
+    "jetzt": [
+     {
+      "name": "NS_Stream_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Stream_Small"
+     }
+    ]
+   },
+   {
+    "ort": "frost_04_raureifhain",
+    "wunsch": "Megascans Eis/Schnee: kleine Schneewehen (B)",
+    "jetzt": [
+     {
+      "name": "Snow_Embankment_uhvifcgfa_High",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhvifcgfa/StaticMeshes/Snow_Embankment_uhvifcgfa_High",
+      "masse_m": [
+       4.89,
+       1.18,
+       0.78
+      ],
+      "nanite": true,
+      "asset": "Snow_Embankment_uhvifcgfa"
+     }
+    ],
+    "hinweis": "neu seit 13b: Snow_Embankment_uhvifcgfa (4,9 × 1,2 × 0,8 m)."
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "frost_06_eiskueste",
+    "bisher_ersatz": "MI_Leakage_11 als Nassband; Decal statt Bewegung",
+    "neu_echt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "NS_Geyser_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Geyser_Small"
+     }
+    ]
+   },
+   {
+    "ort": "frost_07_frostblumen",
+    "bisher_ersatz": "nur SM_beach_driftwood_01",
+    "neu_echt": [
+     {
+      "name": "SM_beach_driftwood_02",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_02",
+      "masse_m": [
+       2.3,
+       0.87,
+       0.38
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_beach_driftwood_06",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_06",
+      "masse_m": [
+       1.28,
+       0.21,
+       0.08
+      ],
+      "nanite": false
+     }
+    ]
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Eissäulen, Zapfenvorhang, Eisglocken, Frostblumen",
+    "orte": [
+     "frost_01_der_eisfall",
+     "frost_03_eisvorhang",
+     "frost_07_frostblumen",
+     "frost_08_glockenbach"
+    ],
+    "paket": "CryoGen (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Große Eisplatten/Treibeis",
+    "orte": [
+     "frost_02_frostsee"
+    ],
+    "paket": "Arctic Cliffs (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Schneefall/Eisnebel",
+    "orte": [
+     "frost_04_raureifhain"
+    ],
+    "paket": "Niagara VFX Pack — Snow … (C) / Ultimate Niagara Environmental VFX (C)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Raureif-/Schneebäume",
+    "orte": [
+     "frost_04_raureifhain"
+    ],
+    "paket": "kein Paket → MI_EL_SW_Raureif auf SM_Forest_pine_06/07",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   }
+  ],
+  "pakete_status_13d": {
+   "Arctic Cliffs": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "CryoGen: Native Procedural Ice Architecture": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Megascans Eis/Schnee: Ice Cliff, Snow Embankment, Huge Snow Hill, Rocky Snow Pile": "im Projekt – im Projekt (`/Game/Fab/Megascans/3D/Ice_Cliff_*`)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  },
+  "warnung": "SM_Forest_pine_06 ist seit 13d ein Doppelname: /Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_06 (Baum, 25 m) und /Game/Mountain_Environment_Set/Roots/Meshes/SM_Forest_pine_06 (Wurzelstück, 2,5 m). Für frost_04 den Foliage-Pfad nehmen."
  }
 }

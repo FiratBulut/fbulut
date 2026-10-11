@@ -297,3 +297,27 @@ der See verdeckt bleibt); die Reststrecke ist eine Trampelspur (Bodenlage Erde, 
 2. tundra_07 **Steinringe**: vom höheren Küstenweg teilweise einsehbar – als Fundstück lassen oder zum Leuchtfeuer machen?
 3. Mischung **4 Leuchtfeuer / 4 Fundstücke** statt 3/5 (die offene Küstenebene gibt kaum Verstecke her).
 4. Bildwünsche (leer): Pingo-Hügel, Hufeisen-Mulde der Eiswand, Aufeis-Schlucht (Kameras in `asset_bedarf.json`).
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `tundra_03_die_eiswand` – Coast & Dunes: Nass-/Lehm-Decals für Schlammstrom und Tropfspuren (B): `MI_Decal_Clay_01`, `MI_Decal_Clay_02`, `MI_Deca_Wet`
+- `tundra_08_das_wabenmoor` – Coast & Dunes: Nassband-Decals an den Tümpelrändern (B): `MI_Deca_Wet_Flat`
+- `tundra_05_der_trunkene_grund, tundra_06_das_aufeis` – Nassband an allen Wasserorten (13d): `MI_Deca_Wet_Flat`
+
+**Ersatz → echtes Asset:**
+
+- `tundra_03, _05, _06, _08`: statt MI_Leakage_01…13 als Nässe/Schlamm → `MI_Deca_Wet`, `MI_Deca_Wet_Flat`, `MI_Decal_Clay_01` – Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*.
+- `tundra_01_der_pingo`: statt Schneekappe aus Snow_Embankment_uhuldcyfa/Snow_Pile_xftjadtab → `Snow_Embankment_uhvifcgfa_High` – optional zusätzliche Schneewehe (neu seit 13b).
+
+**Fehlt weiter:**
+
+- Größere Eisplatten (8–10-m-Wand, Aufeis-Schollen) (tundra_03_die_eiswand, tundra_06_das_aufeis) – Arctic Cliffs (B) · *nur nach Ferats OK*
+- Rentierflechte (tundra_02_der_wanderer, tundra_07_die_steinringe) – Moss & Lichen Forest Ground Rock Materials (C) · *nur nach Ferats OK*
+- Bemooste Islandblöcke (tundra_02_der_wanderer) – Tundra Icelandic Rock Cluster (C) · *kostenlos → Claude lädt auf Wunsch*
+- Kiesmatrix (tundra_07_die_steinringe) – Megascans Icelandic Sand With Pebbles (C) · *kostenlos → Claude lädt auf Wunsch*
+- Schneefahnen (optional) (tundra_04_die_fliesstreppe) – Niagara VFX Pack — Snow … (C) · *nur nach Ferats OK*
+- Wind-Klang (tundra_01_der_pingo) – Fantasy Ambiences (B) · *nur nach Ferats OK*

@@ -391,3 +391,31 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | `MI_EL_SW_Schwefel_Decal` | `M_MS_Decal` | `BaseColor Tint` [1, 0,84, 0,3, 1], `Saturation` 1,3, `Min Roughness` 0,7 | Decal (Maske aus MI_Leakage_04) |
 | `MI_EL_SW_Basalt_Saeule` | `M_EL_Klippe_RVT` | `Toenung` [0,55, 0,55, 0,58, 1], `Fels_Saettigung` 0,4, `Moos_Menge` 0,35, `Moos_Farbe` [0,6, 0,72, 0,4, 1] | `Basalt_Basalt_Pillars_Wall_SM`, `Basalt_Basalt_Pillars_WallSlope_SM`, `Basalt_Basalt_Pillars_WallOverhang_SM`, `Basalt_Basalt_Pillars_Cluster_High_SM`, `Basalt_Basalt_Cliff_SM` – MI_EL_SW_Basalt_Saeule nur, falls das Basalt-Originalmaterial zu frisch/glatt wirkt; dann Albedo/Normal/ORM aus /Game/Basalt in die Instanz übernehmen (sonst zeigt M_EL_Klippe_RVT die Nordklippen-Textur). |
 | `MI_EL_SW_Lava_Glasur` | `M_EL_Fels_MS` | `Rauheit` 0,35, `Specular` 0,6, `Toenung` [0,5, 0,48, 0,52, 1] | `Basalt_Basalt_Cliff_Rock_B_SM`, SM_lava_wall_06/07/08 (nach 13d) |
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `lava_02_schwefelgrund` – Lava & Volcano: Dampf-/Rauch-Niagara für Dampfschlot und Fumarolen, Hitzeflimmern (A): `FX_Lava_Smoke_1`, `FX_Lava_Smoke_02`, `FX_Distortion_Small`, `NS_Geyser_Small`
+- `lava_06_kraterreihe` – Lava & Volcano: Restdampf im Hauptkrater, Hitzeflimmern (A): `FX_Lava_Smoke_03`, `FX_Distortion_Small`
+- `lava_08_glutauge` – Lava & Volcano: Lava-Material, Glut-Decals, Blasen/Hitzeflimmern (A): `SM_lava_disc`, `SM_Lava_HP`, `M_NM_Master_Lava_Material`, `MI_NM_Decal_Lava_NoAlbedo_01`, `MI_NM_Decal_Lava_Normals_01`, `FX_Lava_Bubble`, `FX_Distortion_Small`, `FX_Lava_Particle_01`
+- `lava_03_kraterkinder` – Coast & Dunes: Nassband-/Kiesel-Decals am Kraterteich (B): `MI_Deca_Wet_Flat`, `MI_Decal_Rocks_Small`
+- `lava_05_klare_spalte` – Coast & Dunes: Nass-/Kieseldecals an der Wasserlinie (B): `MI_Deca_Wet`, `MI_Decal_Rocks_Small`
+
+**Ersatz → echtes Asset:**
+
+- `lava_01_schwarze_mauer`: statt Basalt_Basalt_Cliff_Rock_A_SM als Wandschollen-Ersatz → `SM_lava_wall_01`, `SM_lava_wall_02`, `SM_lava_wall_03`, `SM_lava_wall_09` – SM_lava_wall_01–09 sind zurück (kein Nanite, 1,7–6,8 m) → Plan wieder wie im Katalog.
+- `lava_04_roehrenfenster`: statt Basalt_Basalt_Pillars_WallOverhang_SM / Cliff_Rock_B_SM als Deckenlippe → `SM_lava_wall_01`, `SM_lava_wall_02`, `SM_lava_wall_09`, `SM_lava_wall_06`, `SM_lava_wall_08` – Deckenlippe kopfüber aus wall_01/02/09, dunkles Röhrenende aus wall_06/08.
+- `lava_05_klare_spalte`: statt Basalt_Basalt_Pillars_Wall_SM/_WallSlope_SM als Spaltenwände → `SM_lava_wall_04`, `SM_lava_wall_05` – Spaltenwände 3,9–4,4 m hoch, gereiht.
+- `lava_08_glutauge`: statt Punktlicht + emissive MI auf SM_lava_s_rock_*; Stricklava aus Basalt → `SM_lava_wall_06`, `SM_lava_wall_07`, `SM_lava_wall_08`, `SM_lava_disc` – Stricklava wieder aus flachen wall_06/07/08; MI_EL_SW_Lava_Glasur gilt wie geplant.
+- `lava_02_schwefelgrund, lava_06_kraterreihe`: statt lokaler_nebel / NS_Chimney_Smoke als Dampf → `FX_Lava_Smoke_02`, `FX_Distortion_Small` – NS_Smoke_Plume/NS_Chimney_Smoke bleiben als Alternative, falls die Lava-Effekte zu „vulkanisch“ wirken.
+
+**Fehlt weiter:**
+
+- Lava-/Schwefel-/Windklang (lava_02_schwefelgrund, lava_06_kraterreihe, lava_08_glutauge) – Fantasy Ambiences (B) · *nur nach Ferats OK*
+- Tropfen/Hall im Röhrenmaul (lava_04_roehrenfenster) – Cave Ambience (B) · *nur nach Ferats OK*
+- Schwarzer Kies/Schlackensand (lava_01_schwarze_mauer, lava_03_kraterkinder) – Megascans Icelandic Sand With Pebbles (C) · *kostenlos → Claude lädt auf Wunsch*
+- Bemooste Islandblöcke (lava_01, lava_03, lava_04, lava_05) – Tundra Icelandic Rock Cluster (C) · *kostenlos → Claude lädt auf Wunsch*
+- Schwefel-Färbung der Decals (lava_02_schwefelgrund) – kein Paket → eigene Instanz MI_EL_SW_Schwefel_Decal (Formmaske jetzt auch aus MI_NM_Decal_Lava_NoAlbedo_*) · *ohne Paket*

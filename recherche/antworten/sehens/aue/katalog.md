@@ -577,3 +577,31 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 - Maßstab: **1 Kachel = 200 × 200 cm** (5,12 px/cm). Decal-Größe `groesse_cm` [30, 200, 200] (Tiefe × Breite × Höhe), für längere Wandstücke mehrere Decals nebeneinander (nahtlos in X) oder Kachelung über `Tiling`.
 - Projektion: senkrecht auf die Wand (Decal-X = Wandnormale), nur im oberen Wanddrittel unter der Abbruchkante; 6–8 Decals je Wand, Abstände unregelmäßig. Projektionstiefe 30 cm, damit die Unebenheiten der Wand mitgenommen werden, aber der Wandfuß darunter frei bleibt.
 - Material: `MI_EL_SW_Brutroehren` auf `M_MS_Decal` (Tabelle oben; Ferat legt es an).
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `aue_03_schwalbenwand` – Coast & Dunes: Lehm-/Nassufer-Decals für Wand und Fuß (A): `MI_Decal_Clay_01`, `MI_Decal_Clay_02`, `MI_Decal_Clay_03`, `MI_Deca_Wet`
+- `aue_04_treibholzwerder` – Coast & Dunes: Nassband-/Kiesel-Decals an der Wasserlinie (A): `MI_Deca_Wet_Flat`, `MI_Decal_Rocks_Small`
+- `aue_05_lilienrinne` – Nanite Driftwood Props (C): Spülsaum aus kleinem Treibgut: `SM_beach_driftwood_03`, `SM_beach_driftwood_05`, `SM_beach_driftwood_06`, `SM_beach_driftwood_07`, `SM_beach_driftwood_09`
+- `aue_02_die_alte` – Forest Fungi (C): Schwefelporling am Starkast: `SM_mushroom_red-belted_conk_01`, `SM_mushroom_red-belted_conk_02`, `SM_mushroom_red-belted_conk_03`
+- `aue_08_lianenhalle` – Forest Fungi (C): Pilze am liegenden Altstamm: `SM_mushroom_red-belted_conk_02`, `SM_mushroom_pennybun_01`, `SM_mushroom_fly_amanita_02`
+- `aue_07_blautopf` – Nature Water FX (C, optional): leise Quellaufwallung: `NS_Fountain_1`
+
+**Ersatz → echtes Asset:**
+
+- `aue_01_biberstau, aue_04_treibholzwerder, aue_06_mondarm, aue_07_blautopf`: statt MI_TileableLeakage_01/02/04 als Nassband → `MI_Deca_Wet`, `MI_Deca_Wet_Flat` – Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*.
+- `aue_03_schwalbenwand`: statt MI_Leakage_04, MI_TileableLeakage_03 (Lehm/Nässe) → `MI_Decal_Clay_02`, `MI_Deca_Wet` – Wandkörper bleibt SM_beach_cliff_02_A–C/SM_LS_beach_cliff_*; neu als Ergänzung der Prallkante: SM_beach_escarpment_02_A–D (8–11 m).
+- `aue_04_treibholzwerder`: statt nur SM_beach_driftwood_01 als gebleichtes Treibholz → `SM_beach_driftwood_02`, `SM_beach_driftwood_04`, `SM_beach_driftwood_08` – Begleiter der Treibholzburg (1,9–2,4 m); der Held selbst bleibt beim Paket Nanite Driftwood Props (A).
+
+**Fehlt weiter:**
+
+- Treibholzburg (Held, große gebleichte Stämme) (aue_04_treibholzwerder) – Nanite Driftwood Props (A) · *nur nach Ferats OK*
+- Stieleiche als Held (aue_02_die_alte, aue_08_lianenhalle) – Quercus Robur (Stieleiche) – Nanite & Impostor (B) · *nur nach Ferats OK*
+- Schwarzerlen (aue_01_biberstau, aue_04_treibholzwerder, aue_06_mondarm) – Megascans Trees: European Black Alder (B) · *kostenlos → Claude lädt auf Wunsch*
+- Große Kalkwand (Karst) am Blautopf (aue_07_blautopf) – weitere Megascans-Limestone-Assets / Ancraite „Limestone Rock Set“ · *noch nicht geladen, kostenlos → Claude lädt auf Wunsch*
+- Tote Stieleiche (Biotopbaum) (aue_08_lianenhalle) – Imposing Dead Quercus Robur (C) · *nur nach Ferats OK*
+- Fallendes Laub (optional) (aue_08_lianenhalle) – Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam (C) – oder Kopie von NS_leaf (vorhanden) · *nur nach Ferats OK*

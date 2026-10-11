@@ -639,5 +639,144 @@
    "Große Kalkfelsen/Karsttürme: Das vorhandene Limestone Rocks ist nur ein 0,6-m-Haufen. Ferat lädt gerade weitere Megascans-Limestone-Assets und das kostenlose „Limestone Rock Set“ von Ancraite („wird geladen“). Damit ist die Lücke voraussichtlich geschlossen; Netznamen folgen mit dem neuen Inventar. Bis dahin gelten `SM_Cliff_01a–e` (bis 75 m, skaliert) und `SM_LimestoneRocks2/3`."
   ],
   "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "dschungel_02_turmquelle",
+    "wunsch": "Nature Water FX: Gischt am Fuß (B) / Sprühnebel",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium"
+     },
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     }
+    ]
+   },
+   {
+    "ort": "dschungel_02_turmquelle",
+    "wunsch": "Mountain: Wasserfall aus der Wand + Abflussbach (A)",
+    "jetzt": [
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     },
+     {
+      "name": "NS_Stream_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Stream_Small"
+     }
+    ],
+    "hinweis": "Mountain bringt Fluss-/Seematerial (M_River_Water_Translucent[_Tess], M_Lake_Water_Translucent_Tess); ein eigenes Wasserfall-Material ist unter den im Inventar gelisteten Namen nicht sichtbar (12 von 21 Materialien gelistet) → Fallvorhang bleibt M_EL_Wasserfall2/MI_EL_Wasserfall, Bewegung und Gischt kommen aus Nature Water FX."
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "dschungel_02_turmquelle",
+    "bisher_ersatz": "lokaler Nebel als Gischt/Sprühnebel",
+    "neu_echt": [
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     }
+    ]
+   },
+   {
+    "ort": "dschungel_02_turmquelle, dschungel_04_blaues_auge, dschungel_05_verborgene_lagune",
+    "bisher_ersatz": "MI_Leakage_* als Nässe am Ufer",
+    "neu_echt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ],
+    "hinweis": "Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*."
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Große Kalkfelsen/Karsttürme, Kalkplatten, Kalkschutt",
+    "orte": [
+     "dschungel_01_mondtor",
+     "dschungel_03_steinwald",
+     "dschungel_05_verborgene_lagune",
+     "dschungel_06_schluckhoehle"
+    ],
+    "paket": "weitere Megascans-Limestone-Assets / Ancraite „Limestone Rock Set“ – in netze.csv 13d NICHT enthalten; bis dahin SM_Cliff_01a–e skaliert + SM_LimestoneRocks2/3",
+    "beschaffung": "noch nicht geladen – Ferat wollte laden (kostenlos → Claude lädt auf Wunsch)"
+   },
+   {
+    "was": "Tropische Uferpflanzen, Luftwurzeln",
+    "orte": [
+     "dschungel_04_blaues_auge",
+     "dschungel_07_garten_der_riesen"
+    ],
+    "paket": "Electric Dreams Environment (B)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   },
+   {
+    "was": "Riesenblätter (Held)",
+    "orte": [
+     "dschungel_07_garten_der_riesen"
+    ],
+    "paket": "Nanite Tropical Plant Pack 2 (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Sinterfahnen/Stalaktiten",
+    "orte": [
+     "dschungel_06_schluckhoehle",
+     "dschungel_08_sinterhalle"
+    ],
+    "paket": "Cave Stalactites & Wall Kit (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Höhlenklang",
+    "orte": [
+     "dschungel_06_schluckhoehle",
+     "dschungel_08_sinterhalle"
+    ],
+    "paket": "Cave Ambience (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Sinterbecken",
+    "orte": [
+     "dschungel_08_sinterhalle"
+    ],
+    "paket": "Travertine Hot Spring Terraces (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   }
+  ],
+  "pakete_status_13d": {
+   "Cave Ambience": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Cave Stalactites & Wall Kit – Midpoly Nanite-Ready Asset Pack": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Electric Dreams Environment (Dschungel-Pflanzen, Felsen, Soundscape-Klänge)": "fehlt – Prio B – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Megascans Limestone Rocks": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone + Ancraite „Limestone Rock Set“ NICHT in Inventar 13d → noch nicht geladen – Ferat wollte laden (kostenlos → Claude lädt auf Wunsch)",
+   "Megascans Rembrandt Water Lily": "im Projekt – im Projekt (`/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/*`)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)",
+   "Nanite Tropical Plant Pack 2": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "im Projekt – im Projekt (gekauft, 13d) (`/Game/NatureWaterFX/FX/*`)",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Procedural Rocks Generator": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Rain Forest Pack": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Travertine Hot Spring Terraces – Modular Environment Pack": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Tropical Vegetation Assets": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  }
  }
 }

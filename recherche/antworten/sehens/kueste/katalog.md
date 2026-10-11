@@ -389,3 +389,35 @@ Environmental VFX** (B), **Coast & Dunes** (A).
 2. Darf das Höhenfeld unter dem **Nadeltor** um bis zu 48 m abgesenkt werden (Torgang), oder Bogen außen an den Pfeiler setzen?
 3. Bleiben die Klippen-Kacheln der alten Houdini-Steilküste (K9) stehen? Die Planung setzt die neuen Felsen auf das heutige Höhenfeld.
 4. Fontäne des Blaslochs: Nature Water FX (ca. 40 €) kaufen oder mit `NS_Smoke_Plume` beginnen?
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `kueste_01_die_alten` – Coast & Dunes: Seetang-/Seepockenband, Nass-Decals (A): `MI_Decal_Algae`, `MI_Deca_Wet`, `SM_seaweed_01_A`, `SM_seaweed_01_B`
+- `kueste_01_die_alten` – Gischt an den Pfeilerfüßen (Ultimate Niagara C): `NS_Impact_Small`, `NS_Wake_Medium`
+- `kueste_02_die_vogelinsel` – Coast & Dunes: Nass-/Tangband, Spritzzone (A): `MI_Decal_Algae`, `MI_Deca_Wet`
+- `kueste_03_das_nadeltor` – Coast & Dunes: Tangband, Schaum im Durchbruch (A): `MI_Decal_Algae`, `SM_seaweed_01_C`, `NS_Wake_Small`
+- `kueste_03_das_nadeltor` – Gischt im Tor (Ultimate Niagara C): `NS_Impact_Medium`
+- `kueste_04_der_seefall` – Nature Water FX: Gischt am Aufschlag, Sprühnebel (B): `NS_Waterfall_Large`, `NS_Impact_Large`
+- `kueste_04_der_seefall` – Mountain: Fall-/Schaummaterial (A): `M_River_Water_Translucent`
+- `kueste_05_die_gezeitenbank` – Coast & Dunes: Seetang, Muscheln, Algen-Decals in den Tümpeln (A): `SM_seaweed_01_A`, `SM_seaweed_01_D`, `SM_seaweed_01_E`, `SM_shells_01_A`, `SM_shells_01_B`, `MI_Decal_Algae`, `MI_Decal_Sand_Wet`
+- `kueste_06_die_kreidewand` – Coast & Dunes: Kiesel-Decals, Spülsaum (B): `MI_Decal_Rocks_Small`, `MI_Decal_Rocks_Big`, `MI_Deca_Wet_Flat`
+- `kueste_07_der_duenenkamm` – Coast & Dunes: Sand-/Spülsaum-Decals, Seetang im Spülsaum (A): `MI_Decal_Sand_Small_Waves`, `MI_Decal_Sand_Big_Waves`, `MI_Decal_Sand_Dry_2`, `SM_seaweed_01_B`, `SM_shells_01_A`
+- `kueste_08_das_blasloch` – Nature Water FX: Fontäne aus dem Loch (A, Geysir-System): `NS_Geyser_Large`, `NS_Impact_Medium`
+- `kueste_08_das_blasloch` – Coast & Dunes: Nassband, Tang (A): `MI_Deca_Wet`, `MI_Decal_Algae`
+
+**Ersatz → echtes Asset:**
+
+- `kueste_01, _03, _04, _08`: statt NS_Smoke_Plume weiß/flach als Gischt → `NS_Impact_Small`, `NS_Impact_Medium`, `NS_Impact_Large`
+- `kueste_08_das_blasloch`: statt NS_Smoke_Plume weiß + Bewegung als Fontäne → `NS_Geyser_Large`
+- `kueste_01–_08`: statt MI_Leakage_10/_* als Tang- und Nassband → `MI_Decal_Algae`, `MI_Deca_Wet`
+- `kueste_05_die_gezeitenbank`: statt SM_WaterPlant03 grün getönt unter Wasser → `SM_seaweed_01_A`, `SM_seaweed_01_D`
+- `kueste_07_der_duenenkamm`: statt SM_dead_grass_01 als Spülsaum, SM_beach_driftwood_01 → `SM_seaweed_01_B`, `SM_beach_driftwood_02`, `SM_beach_driftwood_04`, `SM_beach_driftwood_08`
+
+**Fehlt weiter:**
+
+- Gebleichte große Treibholzstämme (kueste_07_der_duenenkamm) – Nanite Driftwood Props (A, Held von aue_04) · *nur nach Ferats OK*
+- Brandungs-/Seevogelklang (kueste_01–_08) – kein Paket belegt (Wilderness Nature Loops C prüfen) · *nur nach Ferats OK*

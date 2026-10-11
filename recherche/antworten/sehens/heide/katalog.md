@@ -247,3 +247,25 @@ Wollsackfall nur 4 m mit 31,7° → Steinstufen als Instanzen). `standorte.json`
 2. „Brushify – Moorlands Pack“ (Heidekraut + UK-Granit) – evtl. schon in deiner Bibliothek? Preis ungeprüft. → **status_13b: gestrichen (Ferat: zu teuer)**; Ersatz aus dem Bestand bleibt.
 3. heide_02 Ginstergold liegt nach der Verschiebung an einer Waldrand-Lichtung (Laub 49 %) – Leuchtfeuer nur über die Farbe (38 Wegpunkte).
 4. Bildwünsche (leer): Graue Burg (Kuppe), Kolk-Mulde (Kameras in `asset_bedarf.json`).
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `heide_06_der_wollsackfall` – Mountain: Wasserfall-/Kaskadenmaterial für die 3 Stufen (A): `NS_Waterfall_Small`, `NS_Impact_Small`, `M_River_Water_Translucent`
+- `heide_08_die_windkante` – Coast & Dunes: Sand-/Kiesel-Decals für Anriss und Rippelmarken (A): `MI_Decal_Sand_Small_Waves`, `MI_Decal_Sand_Big_Waves`, `MI_Decal_Sand_Dry`, `MI_Decal_Rocks_Small`
+- `heide_04_der_kolk` – Coast & Dunes: Nassband-Decal am Kolkrand (C): `MI_Deca_Wet`
+
+**Ersatz → echtes Asset:**
+
+- `heide_02, _04, _07 (Erika/Besenheide)`: statt SM_heath_A_01/B_01/cross_01 + SM_forest_heather_01 → `SM_heath_A_02`, `SM_heath_A_03`, `SM_heath_B_02`, `SM_heath_B_03`, `SM_heath_cross_02` – Mehr Varianten (Mountain); Tönung MI_EL_SW_Erika_Bluete gilt auch für sie.
+- `heide_03_die_wacholderprozession, heide_07_der_totengrund`: statt Wacholder aus SM_Forest_pine_plant_01–03/Fir_01_Plant gestaucht → `SM_Forest_pine_tree_00_B`, `SM_Forest_pine_tree_00_C`, `SM_dwarf_pine_medium_05` – Zusätzliche schlanke Jungkiefern 6,5–9 m (Mountain) als Wacholder-Säulen (sx/sy 0,45–0,6) – Bild-Check.
+- `heide_05_der_wackelstein`: statt Wollsack-Kranz aus SM_mountain_rock_big_02_* + SM_Big_Rock_* → `SM_Big_rock_01`, `SM_Big_rock_02` – Optional 8–10-m-Blöcke (Mountain, kein Nanite). Doppelname: SM_Big_Rock_01/02 (Environment_Set) ≠ SM_Big_rock_01/02 (Mountain) – vollen Pfad nehmen.
+- `heide_08_die_windkante`: statt Lage Sand + MI_Leakage_* (nur als Feuchte) → `MI_Decal_Sand_Small_Waves`, `MI_Decal_Sand_Big_Waves`
+
+**Fehlt weiter:**
+
+- Heidekraut-Foliage, UK-Granit (heide_01, heide_02, heide_03, heide_04, heide_05, heide_07) – Brushify – Moorlands Pack: gestrichen (Ferat: zu teuer) · *ohne Paket*
+- Wacholder, Ginster, Wollgras (heide_02_ginstergold, heide_03_die_wacholderprozession, heide_04_der_kolk) – nicht auf Fab → Ersatz aus Bestand · *ohne Paket*

@@ -884,5 +884,422 @@
    "Hitzeflimmern, Lava-Material, 7 Glut-Decals: kommen mit Lava & Volcano (läuft bei Ferat)."
   ],
   "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "lava_02_schwefelgrund",
+    "wunsch": "Lava & Volcano: Dampf-/Rauch-Niagara für Dampfschlot und Fumarolen, Hitzeflimmern (A)",
+    "jetzt": [
+     {
+      "name": "FX_Lava_Smoke_1",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_1"
+     },
+     {
+      "name": "FX_Lava_Smoke_02",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_02"
+     },
+     {
+      "name": "FX_Distortion_Small",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Small"
+     },
+     {
+      "name": "NS_Geyser_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Geyser_Small"
+     }
+    ],
+    "hinweis": "Fumarolen als Kopien von FX_Lava_Smoke_* (weiß-grau, dünn); Dampfschlot alternativ NS_Geyser_Small (Nature Water FX, Material M_Steam) leise."
+   },
+   {
+    "ort": "lava_06_kraterreihe",
+    "wunsch": "Lava & Volcano: Restdampf im Hauptkrater, Hitzeflimmern (A)",
+    "jetzt": [
+     {
+      "name": "FX_Lava_Smoke_03",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_03"
+     },
+     {
+      "name": "FX_Distortion_Small",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Small"
+     }
+    ]
+   },
+   {
+    "ort": "lava_08_glutauge",
+    "wunsch": "Lava & Volcano: Lava-Material, Glut-Decals, Blasen/Hitzeflimmern (A)",
+    "jetzt": [
+     {
+      "name": "SM_lava_disc",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Meshes/SM_lava_disc",
+      "masse_m": [
+       2.0,
+       2.0,
+       0.0
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_Lava_HP",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Meshes/SM_Lava_HP",
+      "masse_m": [
+       2.0,
+       2.0,
+       0.0
+      ],
+      "nanite": false
+     },
+     {
+      "name": "M_NM_Master_Lava_Material",
+      "typ": "material",
+      "paket": "Lava_Volcano_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     },
+     {
+      "name": "MI_NM_Decal_Lava_NoAlbedo_01",
+      "typ": "decal",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_01"
+     },
+     {
+      "name": "MI_NM_Decal_Lava_Normals_01",
+      "typ": "decal",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_01"
+     },
+     {
+      "name": "FX_Lava_Bubble",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Bubble"
+     },
+     {
+      "name": "FX_Distortion_Small",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Small"
+     },
+     {
+      "name": "FX_Lava_Particle_01",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Particle_01"
+     }
+    ],
+    "hinweis": "Glut im Schacht: Lava-Fläche SM_lava_disc/SM_Lava_HP; 21 Decal-Instanzen MI_NM_Decal_Lava_{Normals,NoAlbedo,NoAlbedoNoNormals}_01–07 – welche glühen, im Editor wählen. FX_Lava_Particle_01 als Glutfunken prüfen."
+   },
+   {
+    "ort": "lava_03_kraterkinder",
+    "wunsch": "Coast & Dunes: Nassband-/Kiesel-Decals am Kraterteich (B)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     },
+     {
+      "name": "MI_Decal_Rocks_Small",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small"
+     }
+    ]
+   },
+   {
+    "ort": "lava_05_klare_spalte",
+    "wunsch": "Coast & Dunes: Nass-/Kieseldecals an der Wasserlinie (B)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "MI_Decal_Rocks_Small",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small"
+     }
+    ]
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "lava_01_schwarze_mauer",
+    "bisher_ersatz": "Basalt_Basalt_Cliff_Rock_A_SM als Wandschollen-Ersatz",
+    "neu_echt": [
+     {
+      "name": "SM_lava_wall_01",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_01",
+      "masse_m": [
+       6.63,
+       2.77,
+       2.65
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_02",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_02",
+      "masse_m": [
+       6.77,
+       3.98,
+       2.76
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_03",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_03",
+      "masse_m": [
+       6.53,
+       3.39,
+       2.98
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_09",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_09",
+      "masse_m": [
+       5.71,
+       2.9,
+       2.38
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "SM_lava_wall_01–09 sind zurück (kein Nanite, 1,7–6,8 m) → Plan wieder wie im Katalog."
+   },
+   {
+    "ort": "lava_04_roehrenfenster",
+    "bisher_ersatz": "Basalt_Basalt_Pillars_WallOverhang_SM / Cliff_Rock_B_SM als Deckenlippe",
+    "neu_echt": [
+     {
+      "name": "SM_lava_wall_01",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_01",
+      "masse_m": [
+       6.63,
+       2.77,
+       2.65
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_02",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_02",
+      "masse_m": [
+       6.77,
+       3.98,
+       2.76
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_09",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_09",
+      "masse_m": [
+       5.71,
+       2.9,
+       2.38
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_06",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_06",
+      "masse_m": [
+       2.46,
+       2.11,
+       1.18
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_08",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_08",
+      "masse_m": [
+       2.33,
+       2.88,
+       1.34
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Deckenlippe kopfüber aus wall_01/02/09, dunkles Röhrenende aus wall_06/08."
+   },
+   {
+    "ort": "lava_05_klare_spalte",
+    "bisher_ersatz": "Basalt_Basalt_Pillars_Wall_SM/_WallSlope_SM als Spaltenwände",
+    "neu_echt": [
+     {
+      "name": "SM_lava_wall_04",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_04",
+      "masse_m": [
+       3.07,
+       3.29,
+       4.35
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_05",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_05",
+      "masse_m": [
+       1.74,
+       1.78,
+       3.86
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Spaltenwände 3,9–4,4 m hoch, gereiht."
+   },
+   {
+    "ort": "lava_08_glutauge",
+    "bisher_ersatz": "Punktlicht + emissive MI auf SM_lava_s_rock_*; Stricklava aus Basalt",
+    "neu_echt": [
+     {
+      "name": "SM_lava_wall_06",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_06",
+      "masse_m": [
+       2.46,
+       2.11,
+       1.18
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_07",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_07",
+      "masse_m": [
+       3.35,
+       3.34,
+       1.57
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_wall_08",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Cliffs_Rocks/Meshes/SM_lava_wall_08",
+      "masse_m": [
+       2.33,
+       2.88,
+       1.34
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_lava_disc",
+      "typ": "netz",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Meshes/SM_lava_disc",
+      "masse_m": [
+       2.0,
+       2.0,
+       0.0
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Stricklava wieder aus flachen wall_06/07/08; MI_EL_SW_Lava_Glasur gilt wie geplant."
+   },
+   {
+    "ort": "lava_02_schwefelgrund, lava_06_kraterreihe",
+    "bisher_ersatz": "lokaler_nebel / NS_Chimney_Smoke als Dampf",
+    "neu_echt": [
+     {
+      "name": "FX_Lava_Smoke_02",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_02"
+     },
+     {
+      "name": "FX_Distortion_Small",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Small"
+     }
+    ],
+    "hinweis": "NS_Smoke_Plume/NS_Chimney_Smoke bleiben als Alternative, falls die Lava-Effekte zu „vulkanisch“ wirken."
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Lava-/Schwefel-/Windklang",
+    "orte": [
+     "lava_02_schwefelgrund",
+     "lava_06_kraterreihe",
+     "lava_08_glutauge"
+    ],
+    "paket": "Fantasy Ambiences (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Tropfen/Hall im Röhrenmaul",
+    "orte": [
+     "lava_04_roehrenfenster"
+    ],
+    "paket": "Cave Ambience (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Schwarzer Kies/Schlackensand",
+    "orte": [
+     "lava_01_schwarze_mauer",
+     "lava_03_kraterkinder"
+    ],
+    "paket": "Megascans Icelandic Sand With Pebbles (C)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   },
+   {
+    "was": "Bemooste Islandblöcke",
+    "orte": [
+     "lava_01",
+     "lava_03",
+     "lava_04",
+     "lava_05"
+    ],
+    "paket": "Tundra Icelandic Rock Cluster (C)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   },
+   {
+    "was": "Schwefel-Färbung der Decals",
+    "orte": [
+     "lava_02_schwefelgrund"
+    ],
+    "paket": "kein Paket → eigene Instanz MI_EL_SW_Schwefel_Decal (Formmaske jetzt auch aus MI_NM_Decal_Lava_NoAlbedo_*)",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   }
+  ],
+  "pakete_status_13d": {
+   "Basalt Columns and Rocks 21 Types – AssetKit PBR": "im Projekt – im Projekt (gekauft) (`/Game/Basalt/meshes/*`)",
+   "Cave Ambience": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Lava_Volcano_Environment_Set/*`)",
+   "Megascans Desert Western Cliff Layered XL 14 + Large 03": "im Projekt – im Projekt (13d), 2 Netze unvollständig (`/Game/Fab/Megascans/3D/Desert_Western_*`)",
+   "Megascans Icelandic Sand With Pebbles": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Realistic Starter VFX Pack Vol 2": "entfällt: Dampf/Rauch jetzt mit NS_Smoke_Plume/NS_Chimney_Smoke aus dem Niagara Examples Pack; Cascade-Paket war nur Texturquelle.",
+   "Tundra Icelandic Rock Cluster (Quixel Megascans)": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Ultimate Niagara Environmental VFX": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  }
  }
 }

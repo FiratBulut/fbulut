@@ -970,5 +970,559 @@
    ],
    "zweck": "Seitenbach am Canyonrand: Fallkante in den Hauptcanyon"
   }
- ]
+ ],
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "canyon_03_rote_stufe",
+    "wunsch": "Desert Western Cliff Layered XL 14 als Stufenwand mit Bändern (A)",
+    "jetzt": [
+     {
+      "name": "venuafk_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_11_venuafk/Raw/venuafk_tier_0/StaticMeshes/venuafk_tier_0",
+      "masse_m": [
+       45.31,
+       29.47,
+       41.22
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_11_venuafk"
+     },
+     {
+      "name": "uk5oded_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_02_uk5oded/Raw/uk5oded_tier_0/StaticMeshes/uk5oded_tier_0",
+      "masse_m": [
+       54.25,
+       28.25,
+       19.92
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_02_uk5oded"
+     },
+     {
+      "name": "vjqhcapga_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_07_vjqhcapga/Raw/vjqhcapga_tier_0/StaticMeshes/vjqhcapga_tier_0",
+      "masse_m": [
+       30.86,
+       14.02,
+       14.2
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_07_vjqhcapga"
+     }
+    ],
+    "hinweis": "XL 14 selbst ist nicht im Projekt; XL_11 (45 × 29 × 41 m) und XL_02 (54 × 28 × 20 m) übernehmen die Hauptform, XL_07 als Begleiter."
+   },
+   {
+    "ort": "canyon_01_sonnenfenster",
+    "wunsch": "Desert Western: geschichtete Bogenfinne mit Farbbändern (B)",
+    "jetzt": [
+     {
+      "name": "vepnfcr_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_03_vepnfcr/Raw/vepnfcr_tier_0/StaticMeshes/vepnfcr_tier_0",
+      "masse_m": [
+       31.88,
+       14.75,
+       25.47
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_03_vepnfcr"
+     },
+     {
+      "name": "vjqiaa2qx_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_05_vjqiaa2qx/Raw/vjqiaa2qx_tier_0/StaticMeshes/vjqiaa2qx_tier_0",
+      "masse_m": [
+       19.73,
+       8.01,
+       21.87
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_05_vjqiaa2qx"
+     },
+     {
+      "name": "vb1mbdega_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_Large_02_vb1mbdega/Raw/vb1mbdega_tier_0/StaticMeshes/vb1mbdega_tier_0",
+      "masse_m": [
+       26.15,
+       8.74,
+       5.82
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_Large_02_vb1mbdega"
+     }
+    ],
+    "hinweis": "Pfeiler aus Formation_Layered_XL_03/_05, Sturz Cliff_Layered_Large_02 (26 × 8,7 × 5,8 m) quer – Bogen bleibt zusammengesetzt (Akteure), Bild-Check."
+   },
+   {
+    "ort": "canyon_04_fluesterschlucht",
+    "wunsch": "Desert Western: glatt gewaschene, geschwungene Schluchtwände (B)",
+    "jetzt": [
+     {
+      "name": "vjqhcapga_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_07_vjqhcapga/Raw/vjqhcapga_tier_0/StaticMeshes/vjqhcapga_tier_0",
+      "masse_m": [
+       30.86,
+       14.02,
+       14.2
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_07_vjqhcapga"
+     },
+     {
+      "name": "vceoferfa_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_03_vceoferfa/Raw/vceoferfa_tier_0/StaticMeshes/vceoferfa_tier_0",
+      "masse_m": [
+       23.88,
+       6.04,
+       5.09
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_03_vceoferfa"
+     },
+     {
+      "name": "veoneio_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_01_veoneio/Raw/veoneio_tier_0/StaticMeshes/veoneio_tier_0",
+      "masse_m": [
+       14.93,
+       5.46,
+       4.8
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_01_veoneio"
+     }
+    ]
+   },
+   {
+    "ort": "canyon_04_fluesterschlucht",
+    "wunsch": "Mountain/Nature Water FX: Austritt des Falls in den Canyon (A)",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Small"
+     },
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     },
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ],
+    "hinweis": "Mountain bringt Fluss-/Seematerial (M_River_Water_Translucent[_Tess], M_Lake_Water_Translucent_Tess); ein eigenes Wasserfall-Material ist unter den im Inventar gelisteten Namen nicht sichtbar (12 von 21 Materialien gelistet) → Fallvorhang bleibt M_EL_Wasserfall2/MI_EL_Wasserfall, Bewegung und Gischt kommen aus Nature Water FX."
+   },
+   {
+    "ort": "canyon_05_hoodoo_kessel",
+    "wunsch": "Hoodoo-Schäfte (Hollowstone B / Procedural Rocks C)",
+    "jetzt": [
+     {
+      "name": "vepoda2_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Spire_Large_03_vepoda2/Raw/vepoda2_tier_0/StaticMeshes/vepoda2_tier_0",
+      "masse_m": [
+       13.87,
+       8.41,
+       14.68
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Spire_Large_03_vepoda2"
+     },
+     {
+      "name": "ulbwebv_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Spire_Large_05_ulbwebv/Raw/ulbwebv_tier_0/StaticMeshes/ulbwebv_tier_0",
+      "masse_m": [
+       8.44,
+       8.48,
+       11.84
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Spire_Large_05_ulbwebv"
+     },
+     {
+      "name": "vh3oagiga_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Spire_Layered_XL_03_vh3oagiga/Raw/vh3oagiga_tier_0/StaticMeshes/vh3oagiga_tier_0",
+      "masse_m": [
+       27.59,
+       15.38,
+       27.97
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Spire_Layered_XL_03_vh3oagiga"
+     },
+     {
+      "name": "vennei3_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Spire_Layered_XL_04_vennei3/Raw/vennei3_tier_0/StaticMeshes/vennei3_tier_0",
+      "masse_m": [
+       28.05,
+       14.54,
+       14.45
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Spire_Layered_XL_04_vennei3"
+     },
+     {
+      "name": "vijmaacqx_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Spire_Layered_XL_05_vijmaacqx/Raw/vijmaacqx_tier_0/StaticMeshes/vijmaacqx_tier_0",
+      "masse_m": [
+       10.04,
+       6.72,
+       6.96
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Spire_Layered_XL_05_vijmaacqx"
+     }
+    ],
+    "hinweis": "Spire_Large_03/_05 und Spire_Layered_XL_03–05 sind echte Felstürme mit Bändern → Hollowstone und Procedural Rocks für canyon_05 nicht mehr nötig."
+   },
+   {
+    "ort": "canyon_05_hoodoo_kessel",
+    "wunsch": "Desert Western: Kesselwand mit Bändern (B)",
+    "jetzt": [
+     {
+      "name": "umsocbyfa_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_08_umsocbyfa/Raw/umsocbyfa_tier_0/StaticMeshes/umsocbyfa_tier_0",
+      "masse_m": [
+       12.95,
+       6.23,
+       8.02
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_08_umsocbyfa"
+     },
+     {
+      "name": "vceldhvfa_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_16_vceldhvfa/Raw/vceldhvfa_tier_0/StaticMeshes/vceldhvfa_tier_0",
+      "masse_m": [
+       8.99,
+       5.46,
+       9.87
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_16_vceldhvfa"
+     }
+    ]
+   },
+   {
+    "ort": "canyon_02_der_waeger",
+    "wunsch": "Procedural Rocks Generator (C): Sockelsäule mit Taille",
+    "jetzt": [
+     {
+      "name": "ulbwebv_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Spire_Large_05_ulbwebv/Raw/ulbwebv_tier_0/StaticMeshes/ulbwebv_tier_0",
+      "masse_m": [
+       8.44,
+       8.48,
+       11.84
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Spire_Large_05_ulbwebv"
+     }
+    ],
+    "hinweis": "Spire_Large_05 (8,4 × 8,5 × 11,8 m) als Sockel; Kopf bleibt SM_RockSandstone_040."
+   },
+   {
+    "ort": "canyon_06_die_kolke",
+    "wunsch": "Coast & Dunes: Nass-/Kiesel-Decals am Kolkrand (B)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "MI_Decal_Rocks_Small",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small"
+     }
+    ]
+   },
+   {
+    "ort": "canyon_07_smaragdgumpe",
+    "wunsch": "Mountain/Nature Water FX: 38-m-Fall mit Gischt (A/C)",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium"
+     },
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     },
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ]
+   },
+   {
+    "ort": "canyon_07_smaragdgumpe",
+    "wunsch": "Coast & Dunes: Nassband an der Gumpe (B)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ]
+   },
+   {
+    "ort": "canyon_08_die_welle",
+    "wunsch": "Desert Western Cliff Layered Large 03 als Wellenplatte (A)",
+    "jetzt": [
+     {
+      "name": "vbzmdd1ga_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_Large_03_vbzmdd1ga/Raw/vbzmdd1ga_tier_0/StaticMeshes/vbzmdd1ga_tier_0",
+      "masse_m": [
+       22.43,
+       7.02,
+       3.79
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_Large_03_vbzmdd1ga"
+     },
+     {
+      "name": "venodhb_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Patch_Ground_Slate_Small_01__venodhb/Raw/venodhb_tier_0/StaticMeshes/venodhb_tier_0",
+      "masse_m": [
+       2.23,
+       1.87,
+       0.07
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Patch_Ground_Slate_Small_01__venodhb"
+     }
+    ],
+    "hinweis": "Large_03 (22,4 × 7 × 3,8 m) ist der gewünschte kreuzgeschichtete Sandstein; flache Platten Patch_Ground_Slate_Small_01."
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "canyon_06_die_kolke",
+    "bisher_ersatz": "Held uk5ebcp_tier_0 + uldubik_tier_0 (UNVOLLSTÄNDIG angekommen – nicht verwenden)",
+    "neu_echt": [
+     {
+      "name": "vbvqbbofa_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Large_03_vbvqbbofa/Raw/vbvqbbofa_tier_0/StaticMeshes/vbvqbbofa_tier_0",
+      "masse_m": [
+       20.68,
+       5.72,
+       4.26
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Ledge_Rock_Large_03_vbvqbbofa"
+     },
+     {
+      "name": "uk5pbhv_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Medium_07_uk5pbhv/Raw/uk5pbhv_tier_0/StaticMeshes/uk5pbhv_tier_0",
+      "masse_m": [
+       2.47,
+       1.58,
+       1.52
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Ledge_Rock_Medium_07_uk5pbhv"
+     },
+     {
+      "name": "ulerccg_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Ledge_Rock_Small_05_ulerccg/Raw/ulerccg_tier_0/StaticMeshes/ulerccg_tier_0",
+      "masse_m": [
+       2.52,
+       2.11,
+       0.6
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Ledge_Rock_Small_05_ulerccg"
+     },
+     {
+      "name": "uk5ocf2_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Canyon_Sandstone_Rocky_Ground_uk5ocf2/Raw/uk5ocf2_tier_0/StaticMeshes/uk5ocf2_tier_0",
+      "masse_m": [
+       3.16,
+       2.09,
+       0.22
+      ],
+      "nanite": true,
+      "asset": "Canyon_Sandstone_Rocky_Ground_uk5ocf2"
+     }
+    ],
+    "hinweis": "Ledge_Rock_Large_03 (20,7 m) als Felsbank mit Kolken, Ledge_Rock_Medium_07/Small_05 und Canyon_Sandstone_Rocky_Ground als Ränder."
+   },
+   {
+    "ort": "canyon_08_die_welle",
+    "bisher_ersatz": "Held uk5ebcp_tier_0, Begleiter uldubik_tier_0 (UNVOLLSTÄNDIG – nicht verwenden)",
+    "neu_echt": [
+     {
+      "name": "vbzmdd1ga_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_Large_03_vbzmdd1ga/Raw/vbzmdd1ga_tier_0/StaticMeshes/vbzmdd1ga_tier_0",
+      "masse_m": [
+       22.43,
+       7.02,
+       3.79
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_Large_03_vbzmdd1ga"
+     },
+     {
+      "name": "uk4pehu_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cluster_Rock_Medium_06_uk4pehu/Raw/uk4pehu_tier_0/StaticMeshes/uk4pehu_tier_0",
+      "masse_m": [
+       2.22,
+       0.91,
+       0.67
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cluster_Rock_Medium_06_uk4pehu"
+     }
+    ],
+    "hinweis": "MI_EL_SW_Welle auf vbzmdd1ga_tier_0 umhängen (statt uk5ebcp_tier_0)."
+   },
+   {
+    "ort": "canyon_01, _03, _04, _05",
+    "bisher_ersatz": "SM_MassiveSandstoneCliff_01–05, SM_HugeSandstoneCliff_*, vmnmbhv/ukjhcamga_tier_0 + MI_EL_SW_Canyon_Rotband",
+    "neu_echt": [
+     {
+      "name": "venuafk_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_11_venuafk/Raw/venuafk_tier_0/StaticMeshes/venuafk_tier_0",
+      "masse_m": [
+       45.31,
+       29.47,
+       41.22
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_11_venuafk"
+     },
+     {
+      "name": "uk5oded_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_02_uk5oded/Raw/uk5oded_tier_0/StaticMeshes/uk5oded_tier_0",
+      "masse_m": [
+       54.25,
+       28.25,
+       19.92
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_02_uk5oded"
+     },
+     {
+      "name": "vepnfcr_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_03_vepnfcr/Raw/vepnfcr_tier_0/StaticMeshes/vepnfcr_tier_0",
+      "masse_m": [
+       31.88,
+       14.75,
+       25.47
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_03_vepnfcr"
+     },
+     {
+      "name": "vjqhcapga_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_07_vjqhcapga/Raw/vjqhcapga_tier_0/StaticMeshes/vjqhcapga_tier_0",
+      "masse_m": [
+       30.86,
+       14.02,
+       14.2
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_07_vjqhcapga"
+     }
+    ],
+    "hinweis": "Desert Western hat die Farbbänder schon in der Textur (Fab-Material M_MS_Base, Nanite, kein Material-Fix) → Rotband-Tönung nur noch für Begleiter aus dem alten Bestand."
+   },
+   {
+    "ort": "canyon_07_smaragdgumpe",
+    "bisher_ersatz": "lokaler_nebel + NS_SmokePuffLight weiß als Gischt",
+    "neu_echt": [
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     }
+    ]
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Wäger-Kopf mit geschlossener Rückseite",
+    "orte": [
+     "canyon_02_der_waeger"
+    ],
+    "paket": "Wadi Rum Sandstone Rock 01–04 (jetzt C)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Wind-Flüstern in der Kerbe (Klang)",
+    "orte": [
+     "canyon_04_fluesterschlucht"
+    ],
+    "paket": "Fantasy Ambiences (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Desert Western Cliff Layered XL 14 (ursprünglicher Wunsch)",
+    "orte": [
+     "canyon_03_rote_stufe"
+    ],
+    "paket": "nicht nötig – XL_02/XL_11 decken es",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   }
+  ],
+  "pakete_status_13d": {
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Hollowstone Canyon (Porous Rocks Desert)": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Megascans Desert Western Cliff Layered XL 14 + Large 03": "im Projekt – im Projekt (13d), 2 Netze unvollständig (`/Game/Fab/Megascans/3D/Desert_Western_*`)",
+   "Megascans Sandstone (Vault, nicht auf Fab migriert)": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "im Projekt – im Projekt (gekauft, 13d) (`/Game/NatureWaterFX/FX/*`)",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Procedural Rocks Generator": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Wadi Rum Sandstone Rock 01–04": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Wilderness Nature Loops": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  },
+  "nicht_verwenden": [
+   "uk5ebcp_tier_0 (Desert_Western_Ledge_Rock_Small_07_uk5ebcp)",
+   "uldubik_tier_0 (Desert_Western_Cluster_Rock_Medium_05_uldubik)"
+  ]
+ }
 }

@@ -274,3 +274,28 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 |---|---|---|---|
 | `MI_EL_SW_Klippe_Fjordnass` | `M_EL_Klippe_RVT` | `Moos_Farbe` [0,55, 0,75, 0,45, 1], `Moos_Menge` 0,85, `Blend_Hoehe` 600, `Toenung` [0,7, 0,72, 0,75, 1] | `vdssailfa_tier_2`, `vfmjadufa_tier_2`, `SM_HugeNordicCoastalCliff_01` |
 | `MI_EL_SW_Schleierfall` | `M_EL_Wasserfall2` | `Deckkraft` 0,55, `Straehnen_Staerke` 0,9, `Schaum_Menge` 1,6, `V_Skala` 0,4 | Fallbänder Schleierwand |
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `fjord_02_schleierwand` – Mountain/Nature Water FX: 6 dünne Fallbänder + Sprühnebel (A/B): `NS_Waterfall_Small`, `NS_Impact_Small`
+- `fjord_04_haengetal` – Mountain: Fall 40 m an der Lippe (A): `NS_Waterfall_Medium`, `NS_Impact_Medium`, `M_River_Water_Translucent`
+- `fjord_05_fjordkopf` – Coast & Dunes: Seetang, Spülsaum-Decals, nasser Sand (A): `SM_seaweed_01_A`, `SM_seaweed_01_C`, `MI_Decal_Algae`, `MI_Decal_Sand_Wet`, `MI_Deca_Wet_Flat`, `SM_beach_driftwood_02`
+- `fjord_07_brandungsgrotte` – Coast & Dunes: Seetang-Band und Nässe (A): `MI_Decal_Algae`, `MI_Deca_Wet`, `SM_seaweed_01_D`
+- `fjord_07_brandungsgrotte` – Niagara: Gischt im Spalt (B): `NS_Impact_Small`, `NS_Wake_Small`
+
+**Ersatz → echtes Asset:**
+
+- `fjord_05_fjordkopf, fjord_07_brandungsgrotte`: statt MI_Leakage_10 als Tang-/Nassband → `MI_Decal_Algae`, `MI_Deca_Wet`
+- `fjord_02_schleierwand`: statt lokaler_nebel als Sprühnebel am Wandfuß → `NS_Impact_Small`
+- `fjord_08_strandterrassen`: statt nur SM_BeachSandWithPebbles_01/02 → `MI_Decal_Rocks_Small` – Kiesel-Decal als Ergänzung; Icelandic Sand bleibt C.
+
+**Fehlt weiter:**
+
+- Dunkler Kies/gerundete Strandkiesel (fjord_05_fjordkopf, fjord_08_strandterrassen) – Megascans Icelandic Sand With Pebbles (C) · *kostenlos → Claude lädt auf Wunsch*
+- Grottenklang (fjord_07_brandungsgrotte) – Cave Ambience (B) · *nur nach Ferats OK*
+- Wind am Grat (fjord_03_trollzunge) – Fantasy Ambiences (B) · *nur nach Ferats OK*
+- Brandungs-/Möwenklang (fjord_01_die_kanzel, fjord_05_fjordkopf, fjord_07_brandungsgrotte) – kein Paket gefunden (Wilderness Nature Loops C, Inhalt ungeprüft) · *nur nach Ferats OK*

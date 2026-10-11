@@ -852,5 +852,160 @@
    "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
    "Tundra Icelandic Rock Cluster (Quixel Megascans)"
   ]
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "tundra_03_die_eiswand",
+    "wunsch": "Coast & Dunes: Nass-/Lehm-Decals für Schlammstrom und Tropfspuren (B)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Clay_01",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_01"
+     },
+     {
+      "name": "MI_Decal_Clay_02",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_02"
+     },
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ]
+   },
+   {
+    "ort": "tundra_08_das_wabenmoor",
+    "wunsch": "Coast & Dunes: Nassband-Decals an den Tümpelrändern (B)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     }
+    ]
+   },
+   {
+    "ort": "tundra_05_der_trunkene_grund, tundra_06_das_aufeis",
+    "wunsch": "Nassband an allen Wasserorten (13d)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     }
+    ]
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "tundra_03, _05, _06, _08",
+    "bisher_ersatz": "MI_Leakage_01…13 als Nässe/Schlamm",
+    "neu_echt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     },
+     {
+      "name": "MI_Decal_Clay_01",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_01"
+     }
+    ],
+    "hinweis": "Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*."
+   },
+   {
+    "ort": "tundra_01_der_pingo",
+    "bisher_ersatz": "Schneekappe aus Snow_Embankment_uhuldcyfa/Snow_Pile_xftjadtab",
+    "neu_echt": [
+     {
+      "name": "Snow_Embankment_uhvifcgfa_High",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_uhvifcgfa/StaticMeshes/Snow_Embankment_uhvifcgfa_High",
+      "masse_m": [
+       4.89,
+       1.18,
+       0.78
+      ],
+      "nanite": true,
+      "asset": "Snow_Embankment_uhvifcgfa"
+     }
+    ],
+    "hinweis": "optional zusätzliche Schneewehe (neu seit 13b)."
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Größere Eisplatten (8–10-m-Wand, Aufeis-Schollen)",
+    "orte": [
+     "tundra_03_die_eiswand",
+     "tundra_06_das_aufeis"
+    ],
+    "paket": "Arctic Cliffs (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Rentierflechte",
+    "orte": [
+     "tundra_02_der_wanderer",
+     "tundra_07_die_steinringe"
+    ],
+    "paket": "Moss & Lichen Forest Ground Rock Materials (C)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Bemooste Islandblöcke",
+    "orte": [
+     "tundra_02_der_wanderer"
+    ],
+    "paket": "Tundra Icelandic Rock Cluster (C)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   },
+   {
+    "was": "Kiesmatrix",
+    "orte": [
+     "tundra_07_die_steinringe"
+    ],
+    "paket": "Megascans Icelandic Sand With Pebbles (C)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   },
+   {
+    "was": "Schneefahnen (optional)",
+    "orte": [
+     "tundra_04_die_fliesstreppe"
+    ],
+    "paket": "Niagara VFX Pack — Snow … (C)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Wind-Klang",
+    "orte": [
+     "tundra_01_der_pingo"
+    ],
+    "paket": "Fantasy Ambiences (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   }
+  ],
+  "pakete_status_13d": {
+   "Arctic Cliffs": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Megascans Icelandic Sand With Pebbles": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Moss & Lichen Forest Ground Rock Materials": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Travertine Hot Spring Terraces – Modular Environment Pack": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Tundra Icelandic Rock Cluster (Quixel Megascans)": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+  }
  }
 }

@@ -487,3 +487,30 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | `MI_EL_SW_Klammfels_Nass` | `M_EL_Fels_MS` | `Nass_Dunkel` 0,75 | `Klamm`, Karsee-Ufer |
 | `MI_EL_SW_Granit_Moos` | `M_EL_Klippe_RVT` | `Moos_Menge_Akteur` 1, `Moos_Farbe` [0,75, 0,9, 0,55, 1] | `veqnci0db_tier_2`, `vdssailfa_tier_2`, `Basalt_Basalt_Cliff_Rock_A_SM`, `Basalt_Basalt_Rock_C_SM`, `Basalt_Basalt_Rock_D_SM` |
 | `MI_EL_SW_Block_Moos` | `M_EL_Fels_Auflage` | `Auflage_Menge` 0,8, `Auflage_Farbe` [0,45, 0,6, 0,3, 1] | `Felsenmeer`, `Wurzelstein` |
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `bergwald_05_klemmblock_klamm` – Nature Water FX: Wasserfall-/Gischt-Effekte (B): `NS_Waterfall_Medium`, `NS_Impact_Medium`
+- `bergwald_05_klemmblock_klamm` – Mountain: Fluss-Material für den Gumpenablauf (A): `M_River_Water_Translucent`
+- `bergwald_06_karsee` – Mountain: Kaskade des Abflusses über die Karschwelle (A): `NS_Stream_Medium`, `M_River_Water_Translucent`
+- `bergwald_03_saeulenhain` – Forest Fungi (B): Pilze an Stammfüßen und Ammenstamm: `SM_mushroom_pennybun_02`, `SM_mushroom_fly_amanita_03`, `SM_mushroom_bay_bolete_03`, `SM_mushroom_red-belted_conk_03`
+- `bergwald_07_windwurf` – Forest Fungi (B): Baumschwämme auf den liegenden Stämmen: `SM_mushroom_red-belted_conk_01`, `SM_mushroom_red-belted_conk_02`, `SM_mushroom_red-belted_conk_03`
+- `bergwald_07_windwurf` – Lücke „senkrechter Wurzelteller 3–5 m“: `SM_pine_roots_01`
+- `bergwald_08_der_wurzelstein` – Wurzeln über Fels (bisher nur Bestand): `SM_stones_roots_04`, `SM_stones_roots_05`, `SM_roots_slope_03_01`, `SM_roots_slope_02_02`
+
+**Ersatz → echtes Asset:**
+
+- `bergwald_05_klemmblock_klamm`: statt lokaler_nebel 0,08 bzw. MI_EL_Wasserfall_Aufprall als Gischt → `NS_Impact_Medium`
+- `bergwald_07_windwurf`: statt SM_Pine_roots_01 ×2 + SM_stones_roots_02 gekippt als Wurzelteller → `SM_pine_roots_01`
+- `bergwald_03_saeulenhain, bergwald_07_windwurf`: statt SM_mushroom_01/02 (Meadow, 0,3 m) → `SM_mushroom_saffron_milk_cap_01`, `SM_mushroom_rufous_milkcap_03`, `SM_mushroom_red-belted_conk_01`
+- `bergwald_04_felsenmeer`: statt nur Bestandsblöcke → `SM_Big_rock_01`, `SM_Big_rock_02` – Optional größere Blöcke 8–10 m (Mountain, kein Nanite). Achtung Doppelname: SM_Big_Rock_01/02 (Environment_Set, 4,6 m) gibt es auch – exakte Schreibweise/vollen Pfad nehmen.
+
+**Fehlt weiter:**
+
+- Freistehende Felsnadel (Granit) (bergwald_01_der_moench) – kein Paket – veqnci0db_tier_2 hochkant bleibt (Desert-Western-Spires sind roter Sandstein, passen nicht) · *ohne Paket*
+- Riesen-Nadelbäume (bergwald_03_saeulenhain) – Forest Cretaceous gestrichen → Fir_07_Forest/Fir_04_Standalone ×2,2–2,5 · *ohne Paket*
+- Laub/Windböen (optional) (bergwald_07_windwurf) – Ultimate Niagara Environmental VFX (C) bzw. NS_leaf (vorhanden) · *nur nach Ferats OK*

@@ -203,3 +203,33 @@ Budget ca. 2 000 Instanzen, 8 Akteure, 12 Decals.
 
 - Hollowstone Canyon (Preis ungeprüft) für Wabenwand und Hoodoos – kaufen? Sonst Decal-Lösung.
 - Sterndüne +22 m Geländestempel neben dem gebauten Palmental in Ordnung?
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `wueste_01_yardang_flotte` – Wadi Rum (B): lange Abbrüche als Rumpfflanken: `vbvqbbofa_tier_0 (Desert_Western_Ledge_Rock_Large_03)`, `vceoferfa_tier_0 (Desert_Western_Cliff_Layered_XL_03)`, `veoneio_tier_0 (Desert_Western_Cliff_Layered_XL_01)`
+- `wueste_02_sternduene` – Coast & Dunes: Rippel-Decals (A): `MI_Decal_Sand_Small_Waves`, `MI_Decal_Sand_Big_Waves`, `MI_Decal_Sand_Dry`
+- `wueste_03_die_waechter` – Wadi Rum (B): Pilzkappe: `sfEby_tier_0 (Red_Sandstone_Cliff)`, `venpeg2_tier_0 (Desert_Western_Rock_Medium_12)`
+- `wueste_04_quelloase` – Coast & Dunes: Nassband-Decals am Quelltopf (B): `MI_Deca_Wet`
+- `wueste_05_salzpfanne` – Coast & Dunes: Strand-/Kiesel-Decals (A): `MI_Decal_Sand_Dirt`, `MI_Decal_Rocks_Small`, `MI_Decal_Sand_Dry_2`
+- `wueste_06_windkanterfeld` – Wadi Rum (C): kleine Blöcke mit Schliff als Dreikanter: `pjcxN_tier_0 (Sharp_Sandstone)`, `vmjjfhh_tier_0 (Sandstone_Boulder)`, `ulqteed_tier_0 (Desert_Western_Patch_Ground_Rocky_Medium_01)`
+- `wueste_07_trockenes_wadi` – Coast & Dunes: Treibholz/Spülsaum-Decals (B): `SM_beach_driftwood_02`, `SM_beach_driftwood_04`, `MI_Decal_Rocks_Small`, `MI_Decal_Rocks_Big`, `ulcceh3_tier_0 (Desert_Western_Pile_Rock_Rough_01)`, `ul4lehiga_tier_0 (Desert_Western_Pile_Rock_Small_01)`
+
+**Ersatz → echtes Asset:**
+
+- `wueste_03_die_waechter`: statt uldubik_tier_0 (UNVOLLSTÄNDIG angekommen – nicht verwenden) → `uk4pehu_tier_0 (Desert_Western_Cluster_Rock_Medium_06)`, `ulbwebv_tier_0 (Desert_Western_Spire_Large_05)` – Cluster_Rock_Medium_06 als Begleiter, Spire_Large_05 als gedrungener Schaft.
+- `wueste_01_yardang_flotte`: statt vmnmbhv_tier_0, SM_HugeSandstoneCliff_05 als Flanken → `vbvqbbofa_tier_0 (Desert_Western_Ledge_Rock_Large_03)`, `vceoferfa_tier_0 (Desert_Western_Cliff_Layered_XL_03)`
+- `wueste_04_quelloase, wueste_07_trockenes_wadi`: statt MI_Leakage_*/MI_TileableLeakage_* → `MI_Deca_Wet`, `MI_Decal_Rocks_Small`
+- `wueste_07_trockenes_wadi`: statt nur SM_beach_driftwood_01 → `SM_beach_driftwood_02`, `SM_beach_driftwood_04`, `SM_beach_driftwood_08`
+
+**Nicht verwenden (unvollständig angekommen, Ferat lädt neu):** `uldubik_tier_0 (Desert_Western_Cluster_Rock_Medium_05_uldubik)`, `uk5ebcp_tier_0 (Desert_Western_Ledge_Rock_Small_07_uk5ebcp)`
+
+**Fehlt weiter:**
+
+- Poröser Wüstenfels = Tafoni-Waben (Held) (wueste_08_wabenwand, wueste_03_die_waechter) – Hollowstone Canyon (B) · *nur nach Ferats OK*
+- Sandfahnen am Heck/Kamm (wueste_01_yardang_flotte, wueste_02_sternduene) – Ultimate Niagara Environmental VFX (jetzt C) · *nur nach Ferats OK*
+- Breite Wand (04) (wueste_08_wabenwand) – Wadi Rum Sandstone Rock 01–04 (C) – sonst Desert_Western_Cliff_Layered_XL_02 · *nur nach Ferats OK*
+- Wüstenpflaster/Wadi-Schutt (wueste_03, wueste_06, wueste_07) – Megascans Desert Pack (C, Vault) – teils durch Desert Western gedeckt · *kostenlos → Claude lädt auf Wunsch*

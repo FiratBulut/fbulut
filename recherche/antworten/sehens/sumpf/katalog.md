@@ -340,3 +340,22 @@ langsam; dazu 2 `punktlicht` (Intensität ≤ 2 cd, Radius 4 m, ohne Schatten) �
    der Sumpf einheitlich?
 2. Erlenbruch mit Birken/Pappeln jetzt bauen (13c) und das Erlenpaket später nachziehen – einverstanden?
 3. Irrlichter als `NS_Sparkling_Glow` mit 2 schwachen Punktlichtern – oder ganz ohne Licht, nur Nebel?
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `sumpf_01_der_ertrunkene_wald, sumpf_04_der_schwingrasen, sumpf_07_der_tellerweiher` – Nassband an allen Wasserorten (13d): `MI_Deca_Wet_Flat`, `MI_Deca_Wet`
+- `sumpf_05_der_erlenbruch` – Pilze an Totholz (kein Wunsch, Ergänzung): `SM_mushroom_red-belted_conk_01`, `SM_mushroom_red-belted_conk_02`
+
+**Ersatz → echtes Asset:**
+
+- `sumpf_* (Uferlinien)`: statt MI_Leakage_* / MI_TileableLeakage_* als Nässe → `MI_Deca_Wet_Flat` – Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*.
+
+**Fehlt weiter:**
+
+- Schwarzerlen (Held Erlenbruch) (sumpf_05_der_erlenbruch, sumpf_02_der_weidendom) – Megascans Trees: European Black Alder (B) · *kostenlos → Claude lädt auf Wunsch*
+- Ganze Sumpfzypressen (sumpf_01_der_ertrunkene_wald, sumpf_02_der_weidendom) – Taxodium Distichum (Bald Cypress) Tree Pack (B) · *nur nach Ferats OK*
+- Torfmoos-Teppich (sumpf_04_der_schwingrasen) – kein Paket → MI_EL_SW_Torfmoos · *ohne Paket*

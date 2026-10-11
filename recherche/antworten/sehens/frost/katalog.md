@@ -292,3 +292,29 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | `MI_EL_SW_Raureif` | `M_EL_Pflanze` | `Farbe` [0,86, 0,91, 0,97, 1], `Helligkeit` 1,45, `Wind_Staerke` 0,05 | `SM_Forest_pine_06`, `SM_Forest_pine_07`, `SM_dwarf_pine_big_01`, `SM_dwarf_pine_small_01`, `SM_rough_horsetail_01`, `SM_wk2oaeyqx_VarB` |
 | `MI_EL_SW_Schwarzeis` | `M_EL_Eis4` | `Eis_Farbe` [0,06, 0,12, 0,2, 1], `Eis_Tief_Farbe` [0,01, 0,02, 0,05, 1], `Schnee_Menge` 0,05, `Eis_Spekular` 0,8 | Frostsee-Blasenbucht, Blasensee am Blockgletscher, Frostblumen-Lagune |
 | `MI_EL_SW_Spritzeis` | `M_EL_Eis4` | `Eis_Farbe` [0,7, 0,85, 0,97, 1], `Schnee_Menge` 0,45, `Eis_Rau_Max` 0,3 | `SM_EISZAPFEN_1`, `SM_EISZAPFEN_4`, `SM_EISZAPFEN_9`, Eisvorhang, Eisglocken, Eisvulkane |
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `frost_06_eiskueste` – Niagara: Fontänen der Eisvulkane, Gischt (B): `NS_Geyser_Small`, `NS_Impact_Small`
+- `frost_06_eiskueste` – Coast & Dunes: Nassband-Decals, Spülsaum (B): `MI_Deca_Wet`, `MI_Decal_Algae`
+- `frost_07_frostblumen` – Coast & Dunes: Treibholz/Spülsaum (C): `SM_beach_driftwood_02`, `SM_beach_driftwood_06`, `SM_seaweed_01_E`
+- `frost_01_der_eisfall` – Mountain: Restwasser hinter den Säulen (C): `NS_Stream_Small`
+- `frost_04_raureifhain` – Megascans Eis/Schnee: kleine Schneewehen (B): `Snow_Embankment_uhvifcgfa_High`
+
+**Ersatz → echtes Asset:**
+
+- `frost_06_eiskueste`: statt MI_Leakage_11 als Nassband; Decal statt Bewegung → `MI_Deca_Wet`, `NS_Geyser_Small`
+- `frost_07_frostblumen`: statt nur SM_beach_driftwood_01 → `SM_beach_driftwood_02`, `SM_beach_driftwood_06`
+
+**Achtung Doppelname:** SM_Forest_pine_06 ist seit 13d ein Doppelname: /Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_06 (Baum, 25 m) und /Game/Mountain_Environment_Set/Roots/Meshes/SM_Forest_pine_06 (Wurzelstück, 2,5 m). Für frost_04 den Foliage-Pfad nehmen.
+
+**Fehlt weiter:**
+
+- Eissäulen, Zapfenvorhang, Eisglocken, Frostblumen (frost_01_der_eisfall, frost_03_eisvorhang, frost_07_frostblumen, frost_08_glockenbach) – CryoGen (B) · *nur nach Ferats OK*
+- Große Eisplatten/Treibeis (frost_02_frostsee) – Arctic Cliffs (B) · *nur nach Ferats OK*
+- Schneefall/Eisnebel (frost_04_raureifhain) – Niagara VFX Pack — Snow … (C) / Ultimate Niagara Environmental VFX (C) · *nur nach Ferats OK*
+- Raureif-/Schneebäume (frost_04_raureifhain) – kein Paket → MI_EL_SW_Raureif auf SM_Forest_pine_06/07 · *ohne Paket*

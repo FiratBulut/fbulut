@@ -494,3 +494,29 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | `MI_EL_SW_Bartflechte` | `M_EL_Pflanze` | `Farbe` [0,72, 0,78, 0,62, 1], `Wind_Staerke` 0,5 | `SM_Ivy_11`, `SM_Ivy_21` |
 | `MI_EL_SW_Kalktuff` | `M_EL_Fels_Auflage` | `Toenung` [1, 0,97, 0,88, 1], `Auflage_Menge` 0,7, `Auflage_Farbe` [0,55, 0,7, 0,35, 1] | `SM_ForestRockShelf_01`, `SM_SmoothRockShelf_01` |
 | `MI_EL_SW_Blaugrund` | `M_EL_Pflanze` | `Farbe` [0,55, 0,6, 1, 1] | `SM_Periwinkle_01`, `SM_Periwinkle_02`, `SM_Periwinkle_03`, `SM_Periwinkle_04` |
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `elfenwald_07_schwammgrund` – Forest Fungi (B): Baumschwamm-Konsolen, Hallimasch: `SM_mushroom_red-belted_conk_01`, `SM_mushroom_red-belted_conk_02`, `SM_mushroom_red-belted_conk_03`, `SM_mushroom_rufous_milkcap_01`, `SM_mushroom_saffron_milk_cap_02`
+- `elfenwald_01_mutterbaum` – Forest Fungi (B): Pilze in den Wurzelnischen: `SM_mushroom_fly_amanita_02`, `SM_mushroom_pennybun_01`, `SM_mushroom_destroying_angel`
+- `elfenwald_08_wurzelbruecke` – Forest Fungi (C): Pilze am Stamm: `SM_mushroom_red-belted_conk_01`, `SM_mushroom_red-belted_conk_03`
+- `elfenwald_04_elfentreppe` – Mountain: Kaskadenwasser über die Stufen (B): `NS_Stream_Small`, `M_River_Water_Translucent`
+- `elfenwald_05_farnschlucht` – Mountain: Kaskaden im Tobel (B): `NS_Stream_Medium`, `NS_Waterfall_Small`, `M_River_Water_Translucent`
+
+**Ersatz → echtes Asset:**
+
+- `elfenwald_01_mutterbaum, _07_schwammgrund, _08_wurzelbruecke`: statt SM_mushroom_01/02 (Meadow, 0,3 m) → `SM_mushroom_red-belted_conk_02`, `SM_mushroom_fly_amanita_03`
+- `elfenwald_07_schwammgrund`: statt Riesenschirmlinge aus SM_mushroom_01/02 ×6–12 (grob) → `SM_mushroom_fly_amanita_03`, `SM_mushroom_pennybun_02` – Besserer Ersatz ×6–10 (0,4 m → 2,3–3,9 m); Texel-Dichte im Bild prüfen. Echte Riesenpilze bleiben Wunsch C.
+- `elfenwald_04_elfentreppe, _05_farnschlucht`: statt MI_Leakage_* als Nässe an den Stufen → `MI_Deca_Wet` – Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*.
+- `elfenwald_01_mutterbaum, _08_wurzelbruecke`: statt nur Bestandswurzeln → `SM_roots_slope_03_01`, `SM_roots_slope_03_02` – Optional: Hangwurzeln 3,2 × 4 × 2,2 m (Mountain) am Wurzelfuß.
+
+**Fehlt weiter:**
+
+- Riesenpilze 2–4 m (Held) (elfenwald_07_schwammgrund) – Giant Fantasy Nanite Mushrooms (C) · *nur nach Ferats OK*
+- Sinter-/Tuffkanten (elfenwald_04_elfentreppe) – Travertine Hot Spring Terraces (B) · *nur nach Ferats OK*
+- Fallendes rotes Laub (optional) (elfenwald_03_rotlaubhain) – Niagara VFX Pack Snow/Leaves (C) bzw. Kopie von NS_leaf (vorhanden) · *nur nach Ferats OK*
+- Riesenstamm (elfenwald_01_mutterbaum, elfenwald_08_wurzelbruecke) – Forest Cretaceous gestrichen → SM_beech_tree_05 ×2,5, SM_LargeFallenTree_02 ×3 · *ohne Paket*

@@ -301,3 +301,28 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 | `MI_EL_SW_Gletschereis_Tief` | `M_EL_Eis4` | `Eis_Farbe` [0,25, 0,55, 0,92, 1], `Eis_Tief_Farbe` [0,02, 0,12, 0,35, 1], `Schnee_Menge` 0,25, `Eis_Rau_Max` 0,22 | Séracs, Gletschertor, Bergschrund, `SM_EISZAPFEN_8`, `SM_EISZAPFEN_9` |
 | `MI_EL_SW_Fels_Schneekappe` | `M_EL_Fels_Auflage` | `Auflage_Farbe` [0,95, 0,97, 1, 1], `Auflage_Menge` 0,65, `Auflage_Schwelle` 0,6, `Toenung` [0,75, 0,76, 0,8, 1] | `veqnci0db_tier_2`, `SM_NordicBoulder_01`, `rcygn_tier_0` |
 | `MI_EL_SW_Klippe_Gletscherschliff` | `M_EL_Klippe_RVT` | `Moos_Menge` 0,15, `Fels_Saettigung` 0,5, `Helligkeit` 1,1 | `SM_SmoothRockShelf_01`, `SM_MassiveTundraRockFormation_02` |
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `gletscher_02_lawinenkegel` – Megascans Eis/Schnee: Altschnee-Kegel (A): `Snow_Hill_vdbmabvva_High`, `Snow_Embankment_uhvifcgfa_High`
+- `gletscher_05_die_waechte` – Megascans Eis/Schnee: Wächte (A): `Snow_Embankment_uhvifcgfa_High`
+- `gletscher_01_gletschertor` – Mountain/Nature Water FX: Gletscherbach am Portal (C): `NS_Stream_Small`, `NS_Impact_Small`
+- `gletscher_06_gletschertoepfe` – Mountain: Kaskaden zwischen den Töpfen (B): `NS_Stream_Medium`, `NS_Waterfall_Small`, `M_River_Water_Translucent`
+- `gletscher_08_gletscherschliff` – Glatte Schliffplatte (bisher SM_SmoothRockShelf_01): `SM_flat_rock_01`
+
+**Ersatz → echtes Asset:**
+
+- `gletscher_01_gletschertor`: statt MI_EL_Wasserfall_Aufprall als Schaum am Portal → `NS_Impact_Small`
+- `gletscher_03_moraenensee`: statt MI_Leakage_* am Ufer → `MI_Deca_Wet_Flat`, `MI_Decal_Rocks_Small` – Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*.
+
+**Fehlt weiter:**
+
+- Schneefahne an Wächte und Nunatak (gletscher_05_die_waechte, gletscher_07_der_nunatak) – Niagara VFX Pack — Snow … (C) / Ultimate Niagara Environmental VFX (C) · *nur nach Ferats OK*
+- Tropfwasser im Portal (gletscher_01_gletschertor) – kein passendes System im Bestand · *ohne Paket*
+- Große Eisplatten für die Séracs (gletscher_01_gletschertor) – Arctic Cliffs (B) · *nur nach Ferats OK*
+- Klang in der Eishöhle (gletscher_01_gletschertor) – Cave Ambience (B) · *nur nach Ferats OK*
+- Uferkies hell (gletscher_03_moraenensee) – Megascans Icelandic Sand With Pebbles (C) · *kostenlos → Claude lädt auf Wunsch*

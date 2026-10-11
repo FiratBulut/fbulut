@@ -531,5 +531,256 @@
   "C": [
    "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)"
   ]
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "heide_06_der_wollsackfall",
+    "wunsch": "Mountain: Wasserfall-/Kaskadenmaterial für die 3 Stufen (A)",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Small"
+     },
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     },
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ],
+    "hinweis": "Mountain bringt Fluss-/Seematerial (M_River_Water_Translucent[_Tess], M_Lake_Water_Translucent_Tess); ein eigenes Wasserfall-Material ist unter den im Inventar gelisteten Namen nicht sichtbar (12 von 21 Materialien gelistet) → Fallvorhang bleibt M_EL_Wasserfall2/MI_EL_Wasserfall, Bewegung und Gischt kommen aus Nature Water FX."
+   },
+   {
+    "ort": "heide_08_die_windkante",
+    "wunsch": "Coast & Dunes: Sand-/Kiesel-Decals für Anriss und Rippelmarken (A)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Sand_Small_Waves",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Small_Waves"
+     },
+     {
+      "name": "MI_Decal_Sand_Big_Waves",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Big_Waves"
+     },
+     {
+      "name": "MI_Decal_Sand_Dry",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Dry"
+     },
+     {
+      "name": "MI_Decal_Rocks_Small",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small"
+     }
+    ],
+    "hinweis": "Dünen-„Stempel“ des Pakets stehen nicht als Netz im Inventar → Geländestempel bleibt eigen."
+   },
+   {
+    "ort": "heide_04_der_kolk",
+    "wunsch": "Coast & Dunes: Nassband-Decal am Kolkrand (C)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ]
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "heide_02, _04, _07 (Erika/Besenheide)",
+    "bisher_ersatz": "SM_heath_A_01/B_01/cross_01 + SM_forest_heather_01",
+    "neu_echt": [
+     {
+      "name": "SM_heath_A_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_02",
+      "masse_m": [
+       0.4,
+       0.35,
+       0.21
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_heath_A_03",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_03",
+      "masse_m": [
+       0.34,
+       0.34,
+       0.19
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_heath_B_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_02",
+      "masse_m": [
+       0.43,
+       0.43,
+       0.18
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_heath_B_03",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_03",
+      "masse_m": [
+       0.44,
+       0.42,
+       0.17
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_heath_cross_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_cross_02",
+      "masse_m": [
+       0.43,
+       0.43,
+       0.16
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Mehr Varianten (Mountain); Tönung MI_EL_SW_Erika_Bluete gilt auch für sie."
+   },
+   {
+    "ort": "heide_03_die_wacholderprozession, heide_07_der_totengrund",
+    "bisher_ersatz": "Wacholder aus SM_Forest_pine_plant_01–03/Fir_01_Plant gestaucht",
+    "neu_echt": [
+     {
+      "name": "SM_Forest_pine_tree_00_B",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_tree_00_B",
+      "masse_m": [
+       3.61,
+       3.57,
+       6.46
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_Forest_pine_tree_00_C",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_tree_00_C",
+      "masse_m": [
+       4.16,
+       3.58,
+       9.0
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_dwarf_pine_medium_05",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_05",
+      "masse_m": [
+       1.51,
+       1.77,
+       2.04
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Zusätzliche schlanke Jungkiefern 6,5–9 m (Mountain) als Wacholder-Säulen (sx/sy 0,45–0,6) – Bild-Check."
+   },
+   {
+    "ort": "heide_05_der_wackelstein",
+    "bisher_ersatz": "Wollsack-Kranz aus SM_mountain_rock_big_02_* + SM_Big_Rock_*",
+    "neu_echt": [
+     {
+      "name": "SM_Big_rock_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_Big_rock_01",
+      "masse_m": [
+       8.18,
+       9.41,
+       6.3
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_Big_rock_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_Big_rock_02",
+      "masse_m": [
+       9.38,
+       10.15,
+       4.32
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Optional 8–10-m-Blöcke (Mountain, kein Nanite). Doppelname: SM_Big_Rock_01/02 (Environment_Set) ≠ SM_Big_rock_01/02 (Mountain) – vollen Pfad nehmen."
+   },
+   {
+    "ort": "heide_08_die_windkante",
+    "bisher_ersatz": "Lage Sand + MI_Leakage_* (nur als Feuchte)",
+    "neu_echt": [
+     {
+      "name": "MI_Decal_Sand_Small_Waves",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Small_Waves"
+     },
+     {
+      "name": "MI_Decal_Sand_Big_Waves",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Big_Waves"
+     }
+    ]
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Heidekraut-Foliage, UK-Granit",
+    "orte": [
+     "heide_01",
+     "heide_02",
+     "heide_03",
+     "heide_04",
+     "heide_05",
+     "heide_07"
+    ],
+    "paket": "Brushify – Moorlands Pack: gestrichen (Ferat: zu teuer)",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   },
+   {
+    "was": "Wacholder, Ginster, Wollgras",
+    "orte": [
+     "heide_02_ginstergold",
+     "heide_03_die_wacholderprozession",
+     "heide_04_der_kolk"
+    ],
+    "paket": "nicht auf Fab → Ersatz aus Bestand",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   }
+  ],
+  "pakete_status_13d": {
+   "Brushify – Moorlands Pack": "gestrichen (Ferat: zu teuer)",
+   "Cave Ambience": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Megascans Limestone Rocks": "im Projekt nur 0,6-m-Haufen; weitere Megascans-Limestone + Ancraite „Limestone Rock Set“ NICHT in Inventar 13d → noch nicht geladen – Ferat wollte laden (kostenlos → Claude lädt auf Wunsch)",
+   "Megascans Rembrandt Water Lily": "im Projekt – im Projekt (`/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/*`)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)"
+  }
  }
 }

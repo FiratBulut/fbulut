@@ -603,5 +603,476 @@
    "kamera": "kueste_06_die_kreidewand_fern",
    "zweck": "Westflanke des Kaps von der Bucht aus – Hanglage für den Abbruch"
   }
- ]
+ ],
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "kueste_01_die_alten",
+    "wunsch": "Coast & Dunes: Seetang-/Seepockenband, Nass-Decals (A)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "SM_seaweed_01_A",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_A",
+      "masse_m": [
+       2.8,
+       0.74,
+       0.03
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_seaweed_01_B",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_B",
+      "masse_m": [
+       3.72,
+       1.04,
+       0.04
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "kueste_01_die_alten",
+    "wunsch": "Gischt an den Pfeilerfüßen (Ultimate Niagara C)",
+    "jetzt": [
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     },
+     {
+      "name": "NS_Wake_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Wake_Medium"
+     }
+    ],
+    "hinweis": "NS_Wake_* nur als Kopie für Schaumkränze um die Pfeilerfüße."
+   },
+   {
+    "ort": "kueste_02_die_vogelinsel",
+    "wunsch": "Coast & Dunes: Nass-/Tangband, Spritzzone (A)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_03_das_nadeltor",
+    "wunsch": "Coast & Dunes: Tangband, Schaum im Durchbruch (A)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "SM_seaweed_01_C",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_C",
+      "masse_m": [
+       1.93,
+       2.3,
+       0.06
+      ],
+      "nanite": false
+     },
+     {
+      "name": "NS_Wake_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Wake_Small"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_03_das_nadeltor",
+    "wunsch": "Gischt im Tor (Ultimate Niagara C)",
+    "jetzt": [
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_04_der_seefall",
+    "wunsch": "Nature Water FX: Gischt am Aufschlag, Sprühnebel (B)",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Large",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Large"
+     },
+     {
+      "name": "NS_Impact_Large",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Large"
+     }
+    ],
+    "hinweis": "Vorhang-Material bleibt M_EL_Wasserfall2; NS_Waterfall_Large für Bewegung."
+   },
+   {
+    "ort": "kueste_04_der_seefall",
+    "wunsch": "Mountain: Fall-/Schaummaterial (A)",
+    "jetzt": [
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ],
+    "hinweis": "Mountain bringt Fluss-/Seematerial (M_River_Water_Translucent[_Tess], M_Lake_Water_Translucent_Tess); ein eigenes Wasserfall-Material ist unter den im Inventar gelisteten Namen nicht sichtbar (12 von 21 Materialien gelistet) → Fallvorhang bleibt M_EL_Wasserfall2/MI_EL_Wasserfall, Bewegung und Gischt kommen aus Nature Water FX."
+   },
+   {
+    "ort": "kueste_05_die_gezeitenbank",
+    "wunsch": "Coast & Dunes: Seetang, Muscheln, Algen-Decals in den Tümpeln (A)",
+    "jetzt": [
+     {
+      "name": "SM_seaweed_01_A",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_A",
+      "masse_m": [
+       2.8,
+       0.74,
+       0.03
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_seaweed_01_D",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_D",
+      "masse_m": [
+       2.46,
+       2.19,
+       0.03
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_seaweed_01_E",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_E",
+      "masse_m": [
+       2.54,
+       2.99,
+       0.09
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_shells_01_A",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_shells_01_A",
+      "masse_m": [
+       1.08,
+       1.21,
+       0.06
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_shells_01_B",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_shells_01_B",
+      "masse_m": [
+       1.16,
+       1.19,
+       0.04
+      ],
+      "nanite": false
+     },
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "MI_Decal_Sand_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Wet"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_06_die_kreidewand",
+    "wunsch": "Coast & Dunes: Kiesel-Decals, Spülsaum (B)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Rocks_Small",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small"
+     },
+     {
+      "name": "MI_Decal_Rocks_Big",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Big"
+     },
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_07_der_duenenkamm",
+    "wunsch": "Coast & Dunes: Sand-/Spülsaum-Decals, Seetang im Spülsaum (A)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Sand_Small_Waves",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Small_Waves"
+     },
+     {
+      "name": "MI_Decal_Sand_Big_Waves",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Big_Waves"
+     },
+     {
+      "name": "MI_Decal_Sand_Dry_2",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Dry_2"
+     },
+     {
+      "name": "SM_seaweed_01_B",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_B",
+      "masse_m": [
+       3.72,
+       1.04,
+       0.04
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_shells_01_A",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_shells_01_A",
+      "masse_m": [
+       1.08,
+       1.21,
+       0.06
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "kueste_08_das_blasloch",
+    "wunsch": "Nature Water FX: Fontäne aus dem Loch (A, Geysir-System)",
+    "jetzt": [
+     {
+      "name": "NS_Geyser_Large",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Geyser_Large"
+     },
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     }
+    ],
+    "hinweis": "NS_Geyser_Large als Kopie, Takt 9–14 s im System einstellen; Höhe 8–14 m im Editor prüfen."
+   },
+   {
+    "ort": "kueste_08_das_blasloch",
+    "wunsch": "Coast & Dunes: Nassband, Tang (A)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     }
+    ]
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "kueste_01, _03, _04, _08",
+    "bisher_ersatz": "NS_Smoke_Plume weiß/flach als Gischt",
+    "neu_echt": [
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     },
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     },
+     {
+      "name": "NS_Impact_Large",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Large"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_08_das_blasloch",
+    "bisher_ersatz": "NS_Smoke_Plume weiß + Bewegung als Fontäne",
+    "neu_echt": [
+     {
+      "name": "NS_Geyser_Large",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Geyser_Large"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_01–_08",
+    "bisher_ersatz": "MI_Leakage_10/_* als Tang- und Nassband",
+    "neu_echt": [
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ]
+   },
+   {
+    "ort": "kueste_05_die_gezeitenbank",
+    "bisher_ersatz": "SM_WaterPlant03 grün getönt unter Wasser",
+    "neu_echt": [
+     {
+      "name": "SM_seaweed_01_A",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_A",
+      "masse_m": [
+       2.8,
+       0.74,
+       0.03
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_seaweed_01_D",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_D",
+      "masse_m": [
+       2.46,
+       2.19,
+       0.03
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "kueste_07_der_duenenkamm",
+    "bisher_ersatz": "SM_dead_grass_01 als Spülsaum, SM_beach_driftwood_01",
+    "neu_echt": [
+     {
+      "name": "SM_seaweed_01_B",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_B",
+      "masse_m": [
+       3.72,
+       1.04,
+       0.04
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_beach_driftwood_02",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_02",
+      "masse_m": [
+       2.3,
+       0.87,
+       0.38
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_beach_driftwood_04",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_04",
+      "masse_m": [
+       1.85,
+       1.5,
+       0.53
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_beach_driftwood_08",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_08",
+      "masse_m": [
+       2.4,
+       0.77,
+       0.16
+      ],
+      "nanite": false
+     }
+    ]
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Gebleichte große Treibholzstämme",
+    "orte": [
+     "kueste_07_der_duenenkamm"
+    ],
+    "paket": "Nanite Driftwood Props (A, Held von aue_04)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Brandungs-/Seevogelklang",
+    "orte": [
+     "kueste_01–_08"
+    ],
+    "paket": "kein Paket belegt (Wilderness Nature Loops C prüfen)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   }
+  ],
+  "pakete_status_13d": {
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Free Niagara Particles": "im Projekt – im Projekt (`/Game/FreeParticle_SoftTofu/Niagara/*`)",
+   "Megascans Rembrandt Water Lily": "im Projekt – im Projekt (`/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/*`)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)",
+   "Nanite Driftwood Props": "fehlt – Prio A – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "im Projekt – im Projekt (gekauft, 13d) (`/Game/NatureWaterFX/FX/*`)",
+   "Ultimate Niagara Environmental VFX": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  }
+ }
 }

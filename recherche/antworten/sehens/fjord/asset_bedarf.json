@@ -548,5 +548,238 @@
    "Seetang/Seepocken-Band: Coast & Dunes läuft bei Ferat (Decals, Seetang); bis dahin MI_Leakage_10."
   ],
   "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "fjord_02_schleierwand",
+    "wunsch": "Mountain/Nature Water FX: 6 dünne Fallbänder + Sprühnebel (A/B)",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Small"
+     },
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     }
+    ],
+    "hinweis": "Mountain bringt Fluss-/Seematerial (M_River_Water_Translucent[_Tess], M_Lake_Water_Translucent_Tess); ein eigenes Wasserfall-Material ist unter den im Inventar gelisteten Namen nicht sichtbar (12 von 21 Materialien gelistet) → Fallvorhang bleibt M_EL_Wasserfall2/MI_EL_Wasserfall, Bewegung und Gischt kommen aus Nature Water FX."
+   },
+   {
+    "ort": "fjord_04_haengetal",
+    "wunsch": "Mountain: Fall 40 m an der Lippe (A)",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium"
+     },
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     },
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ]
+   },
+   {
+    "ort": "fjord_05_fjordkopf",
+    "wunsch": "Coast & Dunes: Seetang, Spülsaum-Decals, nasser Sand (A)",
+    "jetzt": [
+     {
+      "name": "SM_seaweed_01_A",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_A",
+      "masse_m": [
+       2.8,
+       0.74,
+       0.03
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_seaweed_01_C",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_C",
+      "masse_m": [
+       1.93,
+       2.3,
+       0.06
+      ],
+      "nanite": false
+     },
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "MI_Decal_Sand_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Wet"
+     },
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     },
+     {
+      "name": "SM_beach_driftwood_02",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_02",
+      "masse_m": [
+       2.3,
+       0.87,
+       0.38
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "fjord_07_brandungsgrotte",
+    "wunsch": "Coast & Dunes: Seetang-Band und Nässe (A)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     },
+     {
+      "name": "SM_seaweed_01_D",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_seaweed_01_D",
+      "masse_m": [
+       2.46,
+       2.19,
+       0.03
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "fjord_07_brandungsgrotte",
+    "wunsch": "Niagara: Gischt im Spalt (B)",
+    "jetzt": [
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     },
+     {
+      "name": "NS_Wake_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Wake_Small"
+     }
+    ],
+    "hinweis": "NS_Wake_Small nur als Kopie für Schaum auf dem Wasser im Spalt."
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "fjord_05_fjordkopf, fjord_07_brandungsgrotte",
+    "bisher_ersatz": "MI_Leakage_10 als Tang-/Nassband",
+    "neu_echt": [
+     {
+      "name": "MI_Decal_Algae",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+     },
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ]
+   },
+   {
+    "ort": "fjord_02_schleierwand",
+    "bisher_ersatz": "lokaler_nebel als Sprühnebel am Wandfuß",
+    "neu_echt": [
+     {
+      "name": "NS_Impact_Small",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+     }
+    ]
+   },
+   {
+    "ort": "fjord_08_strandterrassen",
+    "bisher_ersatz": "nur SM_BeachSandWithPebbles_01/02",
+    "neu_echt": [
+     {
+      "name": "MI_Decal_Rocks_Small",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small"
+     }
+    ],
+    "hinweis": "Kiesel-Decal als Ergänzung; Icelandic Sand bleibt C."
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Dunkler Kies/gerundete Strandkiesel",
+    "orte": [
+     "fjord_05_fjordkopf",
+     "fjord_08_strandterrassen"
+    ],
+    "paket": "Megascans Icelandic Sand With Pebbles (C)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   },
+   {
+    "was": "Grottenklang",
+    "orte": [
+     "fjord_07_brandungsgrotte"
+    ],
+    "paket": "Cave Ambience (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Wind am Grat",
+    "orte": [
+     "fjord_03_trollzunge"
+    ],
+    "paket": "Fantasy Ambiences (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Brandungs-/Möwenklang",
+    "orte": [
+     "fjord_01_die_kanzel",
+     "fjord_05_fjordkopf",
+     "fjord_07_brandungsgrotte"
+    ],
+    "paket": "kein Paket gefunden (Wilderness Nature Loops C, Inhalt ungeprüft)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   }
+  ],
+  "pakete_status_13d": {
+   "Cave Ambience": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Megascans Icelandic Sand With Pebbles": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Realistic Waterfall and Water VFX": "bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft."
+  }
  }
 }

@@ -863,5 +863,357 @@
   ],
   "fehlt_weiter": [],
   "hinweis": "Niagara/Blueprints sind optional (SEHENS_FORMAT §6: ≤ 3 je Ort); 'Kopie' = Ferat dupliziert das System und ändert Farbe/Größe. Megascans-Eis behält M_MS_Base_Trm (Durchscheinen). Basalt-Netze sind nicht Nanite."
+ },
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "bergwald_05_klemmblock_klamm",
+    "wunsch": "Nature Water FX: Wasserfall-/Gischt-Effekte (B)",
+    "jetzt": [
+     {
+      "name": "NS_Waterfall_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Waterfall_Medium"
+     },
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     }
+    ],
+    "hinweis": "Schleierfall 30 m: Vorhang-Material bleibt MI_EL_Wasserfall, NS_Waterfall_Medium für Bewegung, NS_Impact_Medium am Fallfuß statt lokaler_nebel."
+   },
+   {
+    "ort": "bergwald_05_klemmblock_klamm",
+    "wunsch": "Mountain: Fluss-Material für den Gumpenablauf (A)",
+    "jetzt": [
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ],
+    "hinweis": "Mountain bringt Fluss-/Seematerial (M_River_Water_Translucent[_Tess], M_Lake_Water_Translucent_Tess); ein eigenes Wasserfall-Material ist unter den im Inventar gelisteten Namen nicht sichtbar (12 von 21 Materialien gelistet) → Fallvorhang bleibt M_EL_Wasserfall2/MI_EL_Wasserfall, Bewegung und Gischt kommen aus Nature Water FX."
+   },
+   {
+    "ort": "bergwald_06_karsee",
+    "wunsch": "Mountain: Kaskade des Abflusses über die Karschwelle (A)",
+    "jetzt": [
+     {
+      "name": "NS_Stream_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Stream_Medium"
+     },
+     {
+      "name": "M_River_Water_Translucent",
+      "typ": "material",
+      "paket": "Mountain_Environment_Set",
+      "pfad": null,
+      "hinweis": "Name laut inventar.json (nur Name, kein Pfad im Inventar) – Ordner im Editor nachsehen"
+     }
+    ]
+   },
+   {
+    "ort": "bergwald_03_saeulenhain",
+    "wunsch": "Forest Fungi (B): Pilze an Stammfüßen und Ammenstamm",
+    "jetzt": [
+     {
+      "name": "SM_mushroom_pennybun_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_pennybun_02",
+      "masse_m": [
+       0.14,
+       0.13,
+       0.27
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_fly_amanita_03",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_fly_amanita_03",
+      "masse_m": [
+       0.2,
+       0.2,
+       0.39
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_bay_bolete_03",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_bay_bolete_03",
+      "masse_m": [
+       0.19,
+       0.2,
+       0.19
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_red-belted_conk_03",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_red-belted_conk_03",
+      "masse_m": [
+       0.38,
+       0.3,
+       0.13
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Mountain bringt 30 Pilz-Netze (12 Arten); Forest Fungi damit nur noch optional."
+   },
+   {
+    "ort": "bergwald_07_windwurf",
+    "wunsch": "Forest Fungi (B): Baumschwämme auf den liegenden Stämmen",
+    "jetzt": [
+     {
+      "name": "SM_mushroom_red-belted_conk_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_red-belted_conk_01",
+      "masse_m": [
+       0.29,
+       0.21,
+       0.12
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_red-belted_conk_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_red-belted_conk_02",
+      "masse_m": [
+       0.23,
+       0.18,
+       0.15
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_red-belted_conk_03",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_red-belted_conk_03",
+      "masse_m": [
+       0.38,
+       0.3,
+       0.13
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "bergwald_07_windwurf",
+    "wunsch": "Lücke „senkrechter Wurzelteller 3–5 m“",
+    "jetzt": [
+     {
+      "name": "SM_pine_roots_01",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_pine_roots_01",
+      "masse_m": [
+       2.83,
+       3.35,
+       3.23
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Wurzelteller 2,8 × 3,4 × 3,2 m aus Coast & Dunes (kein Nanite). Achtung: nicht verwechseln mit SM_Pine_roots_01 (Mountain, 5,1 m lang, liegend) – im Plan den vollen Pfad nehmen."
+   },
+   {
+    "ort": "bergwald_08_der_wurzelstein",
+    "wunsch": "Wurzeln über Fels (bisher nur Bestand)",
+    "jetzt": [
+     {
+      "name": "SM_stones_roots_04",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_04",
+      "masse_m": [
+       6.6,
+       5.2,
+       1.64
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_stones_roots_05",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_05",
+      "masse_m": [
+       6.6,
+       5.2,
+       1.89
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_roots_slope_03_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_roots_slope_03_01",
+      "masse_m": [
+       3.2,
+       3.99,
+       2.28
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_roots_slope_02_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_roots_slope_02_02",
+      "masse_m": [
+       3.49,
+       2.59,
+       0.89
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Neue Mountain-Netze: Wurzelgeflecht über Steinen 6,6 × 5,2 m und Hangwurzeln 3–3,5 m."
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "bergwald_05_klemmblock_klamm",
+    "bisher_ersatz": "lokaler_nebel 0,08 bzw. MI_EL_Wasserfall_Aufprall als Gischt",
+    "neu_echt": [
+     {
+      "name": "NS_Impact_Medium",
+      "typ": "niagara",
+      "pfad": "/Game/NatureWaterFX/FX/NS_Impact_Medium"
+     }
+    ]
+   },
+   {
+    "ort": "bergwald_07_windwurf",
+    "bisher_ersatz": "SM_Pine_roots_01 ×2 + SM_stones_roots_02 gekippt als Wurzelteller",
+    "neu_echt": [
+     {
+      "name": "SM_pine_roots_01",
+      "typ": "netz",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_pine_roots_01",
+      "masse_m": [
+       2.83,
+       3.35,
+       3.23
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "bergwald_03_saeulenhain, bergwald_07_windwurf",
+    "bisher_ersatz": "SM_mushroom_01/02 (Meadow, 0,3 m)",
+    "neu_echt": [
+     {
+      "name": "SM_mushroom_saffron_milk_cap_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_saffron_milk_cap_01",
+      "masse_m": [
+       0.16,
+       0.17,
+       0.19
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_rufous_milkcap_03",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_rufous_milkcap_03",
+      "masse_m": [
+       0.22,
+       0.16,
+       0.15
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_red-belted_conk_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_red-belted_conk_01",
+      "masse_m": [
+       0.29,
+       0.21,
+       0.12
+      ],
+      "nanite": false
+     }
+    ]
+   },
+   {
+    "ort": "bergwald_04_felsenmeer",
+    "bisher_ersatz": "nur Bestandsblöcke",
+    "neu_echt": [
+     {
+      "name": "SM_Big_rock_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_Big_rock_01",
+      "masse_m": [
+       8.18,
+       9.41,
+       6.3
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_Big_rock_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_Big_rock_02",
+      "masse_m": [
+       9.38,
+       10.15,
+       4.32
+      ],
+      "nanite": false
+     }
+    ],
+    "hinweis": "Optional größere Blöcke 8–10 m (Mountain, kein Nanite). Achtung Doppelname: SM_Big_Rock_01/02 (Environment_Set, 4,6 m) gibt es auch – exakte Schreibweise/vollen Pfad nehmen."
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Freistehende Felsnadel (Granit)",
+    "orte": [
+     "bergwald_01_der_moench"
+    ],
+    "paket": "kein Paket – veqnci0db_tier_2 hochkant bleibt (Desert-Western-Spires sind roter Sandstein, passen nicht)",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   },
+   {
+    "was": "Riesen-Nadelbäume",
+    "orte": [
+     "bergwald_03_saeulenhain"
+    ],
+    "paket": "Forest Cretaceous gestrichen → Fir_07_Forest/Fir_04_Standalone ×2,2–2,5",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   },
+   {
+    "was": "Laub/Windböen (optional)",
+    "orte": [
+     "bergwald_07_windwurf"
+    ],
+    "paket": "Ultimate Niagara Environmental VFX (C) bzw. NS_leaf (vorhanden)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   }
+  ],
+  "pakete_status_13d": {
+   "Forest Cretaceous (Mammutbaum/Küstenmammutbaum, Fotogrammetrie)": "bewusst nicht aufgenommen: laut Ferat teuer und sehr schlecht bewertet. Riesenbäume bleiben Bestand plus Skalierung (13c: Nicht-Nanite-Nadelbäume ×2,2–2,5, SM_beech_tree_05 ×2,5).",
+   "Forest Fungi – Mushroom Pack": "fehlt – Prio C – kostenpflichtig → nur nach Ferats OK",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Mountain – Environment Set (Fluss-/Wasserfall-Material neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Mountain_Environment_Set/*`)",
+   "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)": "im Projekt – im Projekt (gekauft, 13d) (`/Game/NatureWaterFX/FX/*`)",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Realistic Waterfall and Water VFX": "bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft.",
+   "Ultimate Niagara Environmental VFX": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Waterfall Pro": "bewusst nicht aufgenommen: überflüssig, Nature Water FX ist gekauft.",
+   "Wilderness Nature Loops": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  }
  }
 }

@@ -557,5 +557,107 @@
    "kamera": "sumpf_07_der_tellerweiher_held",
    "zweck": "Weiher T_2884_725 heute: Ufer, Röhricht"
   }
- ]
+ ],
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "sumpf_01_der_ertrunkene_wald, sumpf_04_der_schwingrasen, sumpf_07_der_tellerweiher",
+    "wunsch": "Nassband an allen Wasserorten (13d)",
+    "jetzt": [
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     },
+     {
+      "name": "MI_Deca_Wet",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet"
+     }
+    ],
+    "hinweis": "Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*."
+   },
+   {
+    "ort": "sumpf_05_der_erlenbruch",
+    "wunsch": "Pilze an Totholz (kein Wunsch, Ergänzung)",
+    "jetzt": [
+     {
+      "name": "SM_mushroom_red-belted_conk_01",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_red-belted_conk_01",
+      "masse_m": [
+       0.29,
+       0.21,
+       0.12
+      ],
+      "nanite": false
+     },
+     {
+      "name": "SM_mushroom_red-belted_conk_02",
+      "typ": "netz",
+      "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mushroom_red-belted_conk_02",
+      "masse_m": [
+       0.23,
+       0.18,
+       0.15
+      ],
+      "nanite": false
+     }
+    ]
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "sumpf_* (Uferlinien)",
+    "bisher_ersatz": "MI_Leakage_* / MI_TileableLeakage_* als Nässe",
+    "neu_echt": [
+     {
+      "name": "MI_Deca_Wet_Flat",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat"
+     }
+    ],
+    "hinweis": "Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*."
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Schwarzerlen (Held Erlenbruch)",
+    "orte": [
+     "sumpf_05_der_erlenbruch",
+     "sumpf_02_der_weidendom"
+    ],
+    "paket": "Megascans Trees: European Black Alder (B)",
+    "beschaffung": "kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
+   },
+   {
+    "was": "Ganze Sumpfzypressen",
+    "orte": [
+     "sumpf_01_der_ertrunkene_wald",
+     "sumpf_02_der_weidendom"
+    ],
+    "paket": "Taxodium Distichum (Bald Cypress) Tree Pack (B)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   },
+   {
+    "was": "Torfmoos-Teppich",
+    "orte": [
+     "sumpf_04_der_schwingrasen"
+    ],
+    "paket": "kein Paket → MI_EL_SW_Torfmoos",
+    "beschaffung": "ohne Paket (Bestand, Material, Gelände)"
+   }
+  ],
+  "pakete_status_13d": {
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Free Niagara Particles": "im Projekt – im Projekt (`/Game/FreeParticle_SoftTofu/Niagara/*`)",
+   "Megascans Rembrandt Water Lily": "im Projekt – im Projekt (`/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/StaticMeshes/*`)",
+   "Megascans Trees: European Black Alder": "fehlt – Prio B – kostenlos/aus Bibliothek → Claude lädt auf Wunsch",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Swamp Cypress Roots – Nanite Ready (Free)": "im Projekt – im Projekt (`/Game/Downloads/SwampCypress/StaticMeshes/SM_SwampCypress_A`)"
+  }
+ }
 }

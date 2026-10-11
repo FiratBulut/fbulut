@@ -813,5 +813,367 @@
    ],
    "zweck": "Ton-Flachland vom kuenftigen Oedlandpfad"
   }
- ]
+ ],
+ "abgleich_13d": {
+  "stand": "2026-10-11 (Inventar 13d, 15:56)",
+  "quelle": "vorlagen/daten/netze.csv (1 965 Netze), inventar_extra.json (116 Niagara, 85 Decals); auftraege/13d; antworten/sehens/downloadliste.json (Stand 13d)",
+  "hinweis": "erfuellt = Wunsch jetzt mit echtem Asset gedeckt; ersatz_tauschen = bisheriger Ersatz → echtes Asset (Planer stellen gerade um); fehlt_weiter mit beschaffung. Jeder Name ist gegen netze.csv bzw. inventar_extra.json geprüft; Materialnamen nur gegen inventar.json (ohne Pfad). Orte, Kameras und Ersatz-Felder oben bleiben unverändert (Stand 13b).",
+  "erfuellt": [
+   {
+    "ort": "oedland_01_rippenland",
+    "wunsch": "Desert Western: gebänderte Wandstücke für Messerrücken (A)",
+    "jetzt": [
+     {
+      "name": "uk5oded_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_02_uk5oded/Raw/uk5oded_tier_0/StaticMeshes/uk5oded_tier_0",
+      "masse_m": [
+       54.25,
+       28.25,
+       19.92
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_02_uk5oded"
+     },
+     {
+      "name": "veonegs_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_01_veonegs/Raw/veonegs_tier_0/StaticMeshes/veonegs_tier_0",
+      "masse_m": [
+       55.09,
+       14.22,
+       30.49
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_01_veonegs"
+     },
+     {
+      "name": "vceoferfa_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_03_vceoferfa/Raw/vceoferfa_tier_0/StaticMeshes/vceoferfa_tier_0",
+      "masse_m": [
+       23.88,
+       6.04,
+       5.09
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_03_vceoferfa"
+     }
+    ]
+   },
+   {
+    "ort": "oedland_02_regenbogenhang",
+    "wunsch": "Desert Western: Farbbänder für den bunten Hang (A)",
+    "jetzt": [
+     {
+      "name": "uk4paip_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_06_uk4paip/Raw/uk4paip_tier_0/StaticMeshes/uk4paip_tier_0",
+      "masse_m": [
+       68.56,
+       43.45,
+       36.8
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_06_uk4paip"
+     },
+     {
+      "name": "vepnfcr_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_03_vepnfcr/Raw/vepnfcr_tier_0/StaticMeshes/vepnfcr_tier_0",
+      "masse_m": [
+       31.88,
+       14.75,
+       25.47
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_03_vepnfcr"
+     },
+     {
+      "name": "venuafk_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_11_venuafk/Raw/venuafk_tier_0/StaticMeshes/venuafk_tier_0",
+      "masse_m": [
+       45.31,
+       29.47,
+       41.22
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_11_venuafk"
+     }
+    ],
+    "hinweis": "Formation_Layered_XL_06 (68,6 × 43,5 × 36,8 m) als Hangkörper; Tönungen MI_EL_SW_Oedland_Rot/_Ocker/_Violett nur noch für Akzente."
+   },
+   {
+    "ort": "oedland_03_hoellentor",
+    "wunsch": "Lava & Volcano: Glut-Decals mit Emission, Hitzeflimmern (A)",
+    "jetzt": [
+     {
+      "name": "MI_NM_Decal_Lava_NoAlbedo_03",
+      "typ": "decal",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_03"
+     },
+     {
+      "name": "FX_Distortion_Big",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Big"
+     },
+     {
+      "name": "FX_Lava_Smoke_1",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_1"
+     }
+    ]
+   },
+   {
+    "ort": "oedland_03_hoellentor",
+    "wunsch": "Ultimate Niagara (B): Flame Dust/Smoke Spark",
+    "jetzt": [
+     {
+      "name": "FX_Lava_Particle_02",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Particle_02"
+     },
+     {
+      "name": "FX_Lava_Smoke_03",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_03"
+     }
+    ],
+    "hinweis": "Glutfunken aus dem Lava-Set; NS_Fire/NS_Spark_Continuous bleiben dazu."
+   },
+   {
+    "ort": "oedland_06_schlammvulkaene",
+    "wunsch": "Lava & Volcano: Blasen/Spritzer + Schlamm (A)",
+    "jetzt": [
+     {
+      "name": "FX_Lava_Bubble",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Bubble"
+     },
+     {
+      "name": "ulnfeaq_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Mound_Mud_Rough_01_ulnfeaq/Raw/ulnfeaq_tier_0/StaticMeshes/ulnfeaq_tier_0",
+      "masse_m": [
+       3.81,
+       3.33,
+       0.21
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Mound_Mud_Rough_01_ulnfeaq"
+     },
+     {
+      "name": "vepoadh_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Slope_Mud_Erosion_01_vepoadh/Raw/vepoadh_tier_0/StaticMeshes/vepoadh_tier_0",
+      "masse_m": [
+       1.98,
+       1.77,
+       0.51
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Slope_Mud_Erosion_01_vepoadh"
+     }
+    ],
+    "hinweis": "FX_Lava_Bubble nur als Kopie in Schlammbraun; Schlammkuppen Mound_Mud_Rough_01, Erosionshang Slope_Mud_Erosion_01."
+   },
+   {
+    "ort": "oedland_07_totenpfanne",
+    "wunsch": "Coast & Dunes: Ton-/Riss-Decals (B)",
+    "jetzt": [
+     {
+      "name": "MI_Decal_Clay_01",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_01"
+     },
+     {
+      "name": "MI_Decal_Clay_02",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_02"
+     },
+     {
+      "name": "MI_Decal_Clay_03",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_03"
+     }
+    ]
+   },
+   {
+    "ort": "oedland_08_erdroehren",
+    "wunsch": "Lava & Volcano (C): Bodensets Ton, Kies",
+    "jetzt": [
+     {
+      "name": "vepoadh_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Slope_Mud_Erosion_01_vepoadh/Raw/vepoadh_tier_0/StaticMeshes/vepoadh_tier_0",
+      "masse_m": [
+       1.98,
+       1.77,
+       0.51
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Slope_Mud_Erosion_01_vepoadh"
+     },
+     {
+      "name": "ulcceh3_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Pile_Rock_Rough_01_ulcceh3/Raw/ulcceh3_tier_0/StaticMeshes/ulcceh3_tier_0",
+      "masse_m": [
+       1.92,
+       1.67,
+       0.26
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Pile_Rock_Rough_01_ulcceh3"
+     },
+     {
+      "name": "MI_Decal_Clay_03",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_03"
+     }
+    ],
+    "hinweis": "Bodenstücke kommen aus Desert Western statt aus dem Lava-Set."
+   }
+  ],
+  "ersatz_tauschen": [
+   {
+    "ort": "oedland_01_rippenland, oedland_02_regenbogenhang",
+    "bisher_ersatz": "ukjhcamga_tier_0 ×4 Tönungen, SM_HugeSandstoneCliff_05/07",
+    "neu_echt": [
+     {
+      "name": "uk5oded_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Cliff_Layered_XL_02_uk5oded/Raw/uk5oded_tier_0/StaticMeshes/uk5oded_tier_0",
+      "masse_m": [
+       54.25,
+       28.25,
+       19.92
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Cliff_Layered_XL_02_uk5oded"
+     },
+     {
+      "name": "uk4paip_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_06_uk4paip/Raw/uk4paip_tier_0/StaticMeshes/uk4paip_tier_0",
+      "masse_m": [
+       68.56,
+       43.45,
+       36.8
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_06_uk4paip"
+     },
+     {
+      "name": "veonegs_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Formation_Layered_XL_01_veonegs/Raw/veonegs_tier_0/StaticMeshes/veonegs_tier_0",
+      "masse_m": [
+       55.09,
+       14.22,
+       30.49
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Formation_Layered_XL_01_veonegs"
+     }
+    ],
+    "hinweis": "Desert Western hat die Bänder in der Textur (Nanite, Fab-Material) – kein Material-Fix."
+   },
+   {
+    "ort": "oedland_03_hoellentor",
+    "bisher_ersatz": "M_Eldarien_Glut auf SM_Rock_* + Punktlicht",
+    "neu_echt": [
+     {
+      "name": "MI_NM_Decal_Lava_NoAlbedo_03",
+      "typ": "decal",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_03"
+     },
+     {
+      "name": "FX_Distortion_Big",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Big"
+     }
+    ],
+    "hinweis": "M_Eldarien_Glut auf Splittern darf bleiben; Decal + Flimmern ergänzen."
+   },
+   {
+    "ort": "oedland_06_schlammvulkaene",
+    "bisher_ersatz": "NS_Bubble_Burst + Bodenlage Schlamm",
+    "neu_echt": [
+     {
+      "name": "FX_Lava_Bubble",
+      "typ": "niagara",
+      "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Bubble"
+     },
+     {
+      "name": "ulnfeaq_tier_0",
+      "typ": "netz",
+      "pfad": "/Game/Fab/Megascans/3D/Desert_Western_Mound_Mud_Rough_01_ulnfeaq/Raw/ulnfeaq_tier_0/StaticMeshes/ulnfeaq_tier_0",
+      "masse_m": [
+       3.81,
+       3.33,
+       0.21
+      ],
+      "nanite": true,
+      "asset": "Desert_Western_Mound_Mud_Rough_01_ulnfeaq"
+     }
+    ]
+   },
+   {
+    "ort": "oedland_07_totenpfanne",
+    "bisher_ersatz": "Bodenlage Lehm + MI_TileableLeakage hell",
+    "neu_echt": [
+     {
+      "name": "MI_Decal_Clay_01",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_01"
+     },
+     {
+      "name": "MI_Decal_Clay_02",
+      "typ": "decal",
+      "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_02"
+     }
+    ]
+   }
+  ],
+  "fehlt_weiter": [
+   {
+    "was": "Brausen/Fauchen des Gaskraters",
+    "orte": [
+     "oedland_03_hoellentor"
+    ],
+    "paket": "Fantasy Ambiences (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Hall/Tropfen in den Röhren",
+    "orte": [
+     "oedland_08_erdroehren"
+    ],
+    "paket": "Cave Ambience (B)",
+    "beschaffung": "kostenpflichtig → nur nach Ferats OK"
+   },
+   {
+    "was": "Runde Konkretionen",
+    "orte": [
+     "oedland_05_kugelsteine"
+    ],
+    "paket": "Wadi Rum Sandstone Rock 01–04 (C)",
+    "beschaffung": "kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+   }
+  ],
+  "pakete_status_13d": {
+   "Cave Ambience": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Coast_Dunes_Environment_Set/*`)",
+   "Fantasy Ambiences (Lava, Höhle, Wind …)": "fehlt – Prio B – kostenpflichtig → nur nach Ferats OK",
+   "Free City & Nature Sounds": "im Projekt – im Projekt (`/Game/City_Nature_Sounds/WAV/*,`)",
+   "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)": "im Projekt – im Projekt, vollständig (13d) (`/Game/Lava_Volcano_Environment_Set/*`)",
+   "Megascans Desert Western Cliff Layered XL 14 + Large 03": "im Projekt – im Projekt (13d), 2 Netze unvollständig (`/Game/Fab/Megascans/3D/Desert_Western_*`)",
+   "Niagara Examples Pack": "im Projekt – im Projekt (`/Game/NiagaraExamples/*`)",
+   "Ultimate Niagara Environmental VFX": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Wadi Rum Sandstone Rock 01–04": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
+   "Wilderness Nature Loops": "fehlt – Prio C – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK"
+  }
+ }
 }

@@ -464,3 +464,26 @@ Neues Inventar: `netze.csv` mit 1 692 Netzen, `inventar_extra.json` mit 73 Niaga
 
 | Name | Basis | Parameter | für |
 |---|---|---|---|
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `dschungel_02_turmquelle` – Nature Water FX: Gischt am Fuß (B) / Sprühnebel: `NS_Waterfall_Medium`, `NS_Impact_Medium`
+- `dschungel_02_turmquelle` – Mountain: Wasserfall aus der Wand + Abflussbach (A): `M_River_Water_Translucent`, `NS_Stream_Small`
+
+**Ersatz → echtes Asset:**
+
+- `dschungel_02_turmquelle`: statt lokaler Nebel als Gischt/Sprühnebel → `NS_Impact_Medium`
+- `dschungel_02_turmquelle, dschungel_04_blaues_auge, dschungel_05_verborgene_lagune`: statt MI_Leakage_* als Nässe am Ufer → `MI_Deca_Wet` – Nassband an der Wasserlinie jetzt mit dem echten Coast-&-Dunes-Decal MI_Deca_Wet (flache Ufer MI_Deca_Wet_Flat) statt MI_Leakage_*/MI_TileableLeakage_*.
+
+**Fehlt weiter:**
+
+- Große Kalkfelsen/Karsttürme, Kalkplatten, Kalkschutt (dschungel_01_mondtor, dschungel_03_steinwald, dschungel_05_verborgene_lagune, dschungel_06_schluckhoehle) – weitere Megascans-Limestone-Assets / Ancraite „Limestone Rock Set“ – in netze.csv 13d NICHT enthalten; bis dahin SM_Cliff_01a–e skaliert + SM_LimestoneRocks2/3 · *noch nicht geladen, kostenlos → Claude lädt auf Wunsch*
+- Tropische Uferpflanzen, Luftwurzeln (dschungel_04_blaues_auge, dschungel_07_garten_der_riesen) – Electric Dreams Environment (B) · *kostenlos → Claude lädt auf Wunsch*
+- Riesenblätter (Held) (dschungel_07_garten_der_riesen) – Nanite Tropical Plant Pack 2 (B) · *nur nach Ferats OK*
+- Sinterfahnen/Stalaktiten (dschungel_06_schluckhoehle, dschungel_08_sinterhalle) – Cave Stalactites & Wall Kit (B) · *nur nach Ferats OK*
+- Höhlenklang (dschungel_06_schluckhoehle, dschungel_08_sinterhalle) – Cave Ambience (B) · *nur nach Ferats OK*
+- Sinterbecken (dschungel_08_sinterhalle) – Travertine Hot Spring Terraces (B) · *nur nach Ferats OK*

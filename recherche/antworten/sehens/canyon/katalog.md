@@ -234,3 +234,36 @@ Budget ca. 1 500 Instanzen, 6 Akteure, 6 Decals.
 - Die Nordhälfte des Canyons (Mäander-Oberlauf, Nordstufe, Ringrücken, Mündungsfall bei X −1610 / Y −1090) ist 400–670 m vom Weg und
   nur über Wasser erreichbar – ein späterer „Canyonsteig“ vom Burgweg ROMAN_LOC_003 am Rand entlang würde 2–3 weitere Orte öffnen.
 - Darf die Welle eine eigene prozedurale Decal-Textur (Linienmuster) bekommen?
+
+## Abgleich Inventar 13d (Stand 11.10.2026, abends)
+
+Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatus stehen in `asset_bedarf.json` → `abgleich_13d`. Orte und Kameras bleiben unverändert; die Phase-2-Planer werden gerade auf die echten Assets umgestellt.
+
+**Jetzt erfüllt:**
+
+- `canyon_03_rote_stufe` – Desert Western Cliff Layered XL 14 als Stufenwand mit Bändern (A): `venuafk_tier_0 (Desert_Western_Cliff_Layered_XL_11)`, `uk5oded_tier_0 (Desert_Western_Cliff_Layered_XL_02)`, `vjqhcapga_tier_0 (Desert_Western_Cliff_Layered_XL_07)`
+- `canyon_01_sonnenfenster` – Desert Western: geschichtete Bogenfinne mit Farbbändern (B): `vepnfcr_tier_0 (Desert_Western_Formation_Layered_XL_03)`, `vjqiaa2qx_tier_0 (Desert_Western_Formation_Layered_XL_05)`, `vb1mbdega_tier_0 (Desert_Western_Cliff_Layered_Large_02)`
+- `canyon_04_fluesterschlucht` – Desert Western: glatt gewaschene, geschwungene Schluchtwände (B): `vjqhcapga_tier_0 (Desert_Western_Cliff_Layered_XL_07)`, `vceoferfa_tier_0 (Desert_Western_Cliff_Layered_XL_03)`, `veoneio_tier_0 (Desert_Western_Cliff_Layered_XL_01)`
+- `canyon_04_fluesterschlucht` – Mountain/Nature Water FX: Austritt des Falls in den Canyon (A): `NS_Waterfall_Small`, `NS_Impact_Small`, `M_River_Water_Translucent`
+- `canyon_05_hoodoo_kessel` – Hoodoo-Schäfte (Hollowstone B / Procedural Rocks C): `vepoda2_tier_0 (Desert_Western_Spire_Large_03)`, `ulbwebv_tier_0 (Desert_Western_Spire_Large_05)`, `vh3oagiga_tier_0 (Desert_Western_Spire_Layered_XL_03)`, `vennei3_tier_0 (Desert_Western_Spire_Layered_XL_04)`, `vijmaacqx_tier_0 (Desert_Western_Spire_Layered_XL_05)`
+- `canyon_05_hoodoo_kessel` – Desert Western: Kesselwand mit Bändern (B): `umsocbyfa_tier_0 (Desert_Western_Cliff_Layered_XL_08)`, `vceldhvfa_tier_0 (Desert_Western_Cliff_Layered_XL_16)`
+- `canyon_02_der_waeger` – Procedural Rocks Generator (C): Sockelsäule mit Taille: `ulbwebv_tier_0 (Desert_Western_Spire_Large_05)`
+- `canyon_06_die_kolke` – Coast & Dunes: Nass-/Kiesel-Decals am Kolkrand (B): `MI_Deca_Wet`, `MI_Decal_Rocks_Small`
+- `canyon_07_smaragdgumpe` – Mountain/Nature Water FX: 38-m-Fall mit Gischt (A/C): `NS_Waterfall_Medium`, `NS_Impact_Medium`, `M_River_Water_Translucent`
+- `canyon_07_smaragdgumpe` – Coast & Dunes: Nassband an der Gumpe (B): `MI_Deca_Wet`
+- `canyon_08_die_welle` – Desert Western Cliff Layered Large 03 als Wellenplatte (A): `vbzmdd1ga_tier_0 (Desert_Western_Cliff_Layered_Large_03)`, `venodhb_tier_0 (Desert_Western_Patch_Ground_Slate_Small_01)`
+
+**Ersatz → echtes Asset:**
+
+- `canyon_06_die_kolke`: statt Held uk5ebcp_tier_0 + uldubik_tier_0 (UNVOLLSTÄNDIG angekommen – nicht verwenden) → `vbvqbbofa_tier_0 (Desert_Western_Ledge_Rock_Large_03)`, `uk5pbhv_tier_0 (Desert_Western_Ledge_Rock_Medium_07)`, `ulerccg_tier_0 (Desert_Western_Ledge_Rock_Small_05)`, `uk5ocf2_tier_0 (Canyon_Sandstone_Rocky_Ground)` – Ledge_Rock_Large_03 (20,7 m) als Felsbank mit Kolken, Ledge_Rock_Medium_07/Small_05 und Canyon_Sandstone_Rocky_Ground als Ränder.
+- `canyon_08_die_welle`: statt Held uk5ebcp_tier_0, Begleiter uldubik_tier_0 (UNVOLLSTÄNDIG – nicht verwenden) → `vbzmdd1ga_tier_0 (Desert_Western_Cliff_Layered_Large_03)`, `uk4pehu_tier_0 (Desert_Western_Cluster_Rock_Medium_06)` – MI_EL_SW_Welle auf vbzmdd1ga_tier_0 umhängen (statt uk5ebcp_tier_0).
+- `canyon_01, _03, _04, _05`: statt SM_MassiveSandstoneCliff_01–05, SM_HugeSandstoneCliff_*, vmnmbhv/ukjhcamga_tier_0 + MI_EL_SW_Canyon_Rotband → `venuafk_tier_0 (Desert_Western_Cliff_Layered_XL_11)`, `uk5oded_tier_0 (Desert_Western_Cliff_Layered_XL_02)`, `vepnfcr_tier_0 (Desert_Western_Formation_Layered_XL_03)`, `vjqhcapga_tier_0 (Desert_Western_Cliff_Layered_XL_07)` – Desert Western hat die Farbbänder schon in der Textur (Fab-Material M_MS_Base, Nanite, kein Material-Fix) → Rotband-Tönung nur noch für Begleiter aus dem alten Bestand.
+- `canyon_07_smaragdgumpe`: statt lokaler_nebel + NS_SmokePuffLight weiß als Gischt → `NS_Impact_Medium`
+
+**Nicht verwenden (unvollständig angekommen, Ferat lädt neu):** `uk5ebcp_tier_0 (Desert_Western_Ledge_Rock_Small_07_uk5ebcp)`, `uldubik_tier_0 (Desert_Western_Cluster_Rock_Medium_05_uldubik)`
+
+**Fehlt weiter:**
+
+- Wäger-Kopf mit geschlossener Rückseite (canyon_02_der_waeger) – Wadi Rum Sandstone Rock 01–04 (jetzt C) · *nur nach Ferats OK*
+- Wind-Flüstern in der Kerbe (Klang) (canyon_04_fluesterschlucht) – Fantasy Ambiences (B) · *nur nach Ferats OK*
+- Desert Western Cliff Layered XL 14 (ursprünglicher Wunsch) (canyon_03_rote_stufe) – nicht nötig – XL_02/XL_11 decken es · *ohne Paket*
