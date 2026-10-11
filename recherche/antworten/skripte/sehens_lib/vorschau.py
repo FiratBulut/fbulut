@@ -94,14 +94,14 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
     for f in ctx.freiraeume:
         mx, my = P(f["mitte_cm"][0] / 100.0, f["mitte_cm"][1] / 100.0)
         if f["form"] == "kreis":
-            _gestrichelt(dr, mx, my, f["radius_cm"] / 100.0 * px_m, (255, 60, 60, 220), 2)
+            _gestrichelt(dr, mx, my, f["radius_cm"] / 100.0 * px_m, (255, 0, 200, 230), 2)
         else:
             ga = math.radians(f["richtung_grad"])
             ux, uy = math.sin(ga), -math.cos(ga)
             L, B = f["laenge_cm"] / 200.0, f["breite_cm"] / 200.0
             ecken = [(L * sx * ux - B * sy * uy, L * sx * uy + B * sy * ux) for sx, sy in ((1, 1), (1, -1), (-1, -1), (-1, 1))]
             q = [P(f["mitte_cm"][0] / 100.0 + a, f["mitte_cm"][1] / 100.0 + b) for a, b in ecken]
-            dr.line(q + [q[0]], fill=(255, 60, 60, 220), width=2)
+            dr.line(q + [q[0]], fill=(255, 0, 200, 230), width=2)
     # Pfad
     if ctx.pfad:
         q = [P(p[0], p[1]) for p in ctx.pfad["punkte_m"]]
@@ -238,7 +238,7 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
     y += 6
     leg = [("see/bach", (40, 200, 210)), ("Wasserfall", (255, 255, 255)), ("Pfad", (250, 235, 200)),
            ("Nebel / Licht", (235, 235, 245)), ("Niagara (hohl=optional)", (220, 120, 255)),
-           ("Decal", (170, 110, 60)), ("Freiraum (Bestand weg)", (255, 60, 60))]
+           ("Decal", (170, 110, 60)), ("Freiraum (Bestand weg)", (255, 0, 200))]
     for t, c in leg:
         d2.rectangle([W + 12, y + 3, W + 22, y + 13], fill=c)
         d2.text((W + 30, y), t, fill=(220, 220, 220), font=f_k)
