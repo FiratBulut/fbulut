@@ -1,15 +1,17 @@
 # Auftrag 13 – Sehenswürdigkeiten (8 je Biom): Status
 
-Stand: 2026-10-11 12:25 UTC. Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-11 12:30 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
 
 ## Phase 1
 
 | Teil | Inhalt | Stand |
 |---|---|---|
-| A | Download-Liste für Ferat (`sehens-downloadliste.md`, `sehens/downloadliste.json`) | **Vorfassung gepusht**: 34 Pakete (A 9, B 13, C 12), A+B ca. 49,5 GB geschätzt; Top-10 kostenlos bzw. schon gekauft. Preise/Größen/Versionen ungeprüft (fab.com aus der Cloud nicht erreichbar). Wird nach den Biom-Entwürfen nachgeschärft (Ort-IDs, fehlende Formen). |
+| A | Download-Liste für Ferat (`sehens-downloadliste.md`, `sehens/downloadliste.json`) | **aktualisiert auf Inventar 13b + Ferats Nachträge** (erledigt/läuft/erneut versuchen/fehlend A·B·C/Lücken/bewusst nicht); Abgleich mit den endgültigen Ort-IDs aller 15 Biome läuft |
 | Baukasten | `skripte/sehens_lib/` (Laden 2 m, Hang/Krümmung/Abfluss, Sichtbarkeit vom Weg, Kandidatensuche, Draufsicht-PNG, Format-Prüfer `sehens_pruefen.py`) | fertig, gepusht (Selbsttest auf echten 2-m-Daten ohne Fehler; Grenzen: Bäume nur 4-m-Näherung, 1-m-Lader nur synthetisch getestet) |
-| B/C | Katalog + `sehens/<biom>/standorte.json` + Draufsichten je Ort | Welle 1: B1 aue (fertig) · B2 bergwald (fertig) · B3 elfenwald+dschungel (fertig) · B7 lava (fertig). Welle 2: B4 gletscher+frost+fjord (fertig, mit Steig-Vorschlägen) · B5 tundra+heide (fertig) · B6 canyon+wueste+oedland (fertig) · B8 kueste+sumpf (fertig) |
-| D | diese Datei | laufend |
+| B/C | Katalog + `sehens/<biom>/standorte.json` + Draufsichten je Ort | **fertig**: 120 Orte (48 Leuchtfeuer/72 Fundstücke), 19 Pfade (20,9 km) in `pfade`; Gesamtkatalog `sehens-katalog.md` mit allen Ortsabschnitten; `sehens/marker.json`; Prüfer über alle Biome 0 FEHLER, 1 WARNUNG (Tundra-Pfad streift ROMAN_LOC_018) |
+| D | diese Datei | aktuell |
+| Pfade | `pfade` in `standorte.json` (Schema 13c), Lib rastert sie als Wege | fertig: alte `standorte_*.json` aufgelöst, Lava/Gletscher/Frost/Fjord je 8 Orte |
+| Phase 2 | Planer `skripte/sehens_<biom>/` + Lib-Erweiterung | beginnt mit Inventar 13b (fehlende Pakete mit Ersatz) |
 
 ## Biome
 
@@ -47,7 +49,20 @@ Stand: 2026-10-11 12:25 UTC. Koordinator: Cloud-Session. Wird bei jedem Push akt
 - **Nature Water FX: gekauft** (Import und Inventar folgen) → Gischt/Wasserfälle für Seefall, Blasloch, Schleierfall, Schleierwand, Eisfall.
 - **Megascans:** größtenteils 2024 beansprucht, also kostenlos. Desert Western Cliff Layered, weitere Megascans-Limestone und das kostenlose „Limestone Rock Set“ (Ancraite) werden geladen. **Forest Cretaceous gestrichen** (teuer, schlecht bewertet).
 
-## Offene Fragen
+## Noch offen (kompakt, Stand Phase-1-Abschluss)
+
+1. **Hollowstone Canyon kaufen?** (Wabenwand wueste_08, Hoodoos canyon_05; sonst Ersatz aus Sandstein + Tafoni-Material.) **Megascans Desert Pack / Megascans Sandstone** schon in der Bibliothek?
+2. **Inventar:** Kommen `SM_lava_wall_01…09` mit der Lava-Nachladung zurück? Behalten die Eis-Netze `M_MS_Base_Trm`? Dürfen Basalt-Instanzen eigene Texturen bekommen? Welche Assets stecken hinter den zwei fehlgeschlagenen Megascans-IDs?
+3. **Nebel:** `BP_FogBankCard`/`BP_FogBankVolume` als Akteure setzen, oder nur `lokaler_nebel`? Irrlichter (Sumpf) mit 2 schwachen Punktlichtern oder nur Nebel?
+4. **Tundra:** Darf der Pfad zum Trunkenen Grund den Rand von ROMAN_LOC_018 streifen? Aufeis/Thermokarstsee neben Frost/Gletscher in Ordnung? Steinringe Fundstück lassen (vom Küstenweg teils sichtbar) oder Leuchtfeuer?
+5. **Eis:** Darf ein Steig über Gletschereis führen? Houdini-Reste `SM_K7_GLETSCHER__EIS`, `SM_K13_FROSTSEE__*` und die alten Klippenkacheln der Steilküste (K9) ausblenden? Wasserfälle > 150 m Fallhöhe in Ordnung?
+6. **Sumpf:** See stellenweise eigene Farbe `schwarz_spiegel`?
+7. **Canyon:** später einen „Canyonsteig“ (Nordhälfte heute nur über Wasser; +2–3 Orte möglich)?
+8. Optionale Tiere (Fische, Ameisen) mit „nur Landschaft“ vereinbar?
+
+Beantwortet (13c bzw. Chat, siehe „Entscheidungen Ferat“ und `13c-antworten-offene-fragen.md`): Pfade/Steige (alle gebaut), Kratersteig + Gipfelsteig, Basalt, Mondtor, Rotlaub, Cenote-See, Tausendfuß, Die Alte, Erlen-Ersatz, Mondarm-Gehölz, Schwalbenwand-Decal, Mönch, Windwurf/Säulenhain, Karsee-Stempel, Gelände frei, Klippensteig, Brushify, Forest Cretaceous, Nature Water FX. Die Einträge unten sind der Verlauf.
+
+## Offene Fragen – Verlauf
 
 - elfenwald/dschungel: Ist der 0,9-km-Serpentinenpfad zum Nebelhain akzeptabel? Mondtor-Bogen aus `SM_Cliff_01*` zusammengesetzt in Ordnung? Darf die Buchenblatt-Material-Instanz rot getönt werden (Rotlaubhain)? Ist im Cenote-Schacht heute Meerwasser zu sehen (Bildwunsch)? Welches Tropenpflanzen-Paket ist schon vorhanden? Einverstanden mit Streichen von „Tausendfuß“ (ersetzt durch Sinterhalle)?
 - aue: Für Die Alte auf das Eichenpaket (Quercus Robur) warten oder Schwarzpappel aus dem Bestand (×1,3)? Megascans-Erlen (European Black Alder) schon in der Bibliothek? Einverstanden mit 220 m neuem Ufergehölz am Mondarm (sonst kein echtes Fundstück)? Darf für die Brutröhren der Schwalbenwand eine eigene kleine Decal-Textur erzeugt werden?
