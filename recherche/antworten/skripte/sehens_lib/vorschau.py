@@ -104,6 +104,11 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
             ecken = [(L * sx * ux - B * sy * uy, L * sx * uy + B * sy * ux) for sx, sy in ((1, 1), (1, -1), (-1, -1), (-1, 1))]
             q = [P(f["mitte_cm"][0] / 100.0 + a, f["mitte_cm"][1] / 100.0 + b) for a, b in ecken]
             dr.line(q + [q[0]], fill=(255, 0, 200, 230), width=2)
+    # 13f B: Houdini-Wasser, das ausgeblendet wird (bestand_ausblenden art houdini)
+    for ba in getattr(ctx, "bestand_ausblenden", None) or []:
+        if ba.get("art") == "houdini" and ba.get("umriss_cm"):
+            q = [P(p[0] / 100.0, p[1] / 100.0) for p in ba["umriss_cm"]]
+            dr.line(q + [q[0]], fill=(255, 0, 200, 200), width=1)
     # Pfad
     for pf in [ctx.pfad, getattr(ctx, "zugang", None)] + list(getattr(ctx, "pfad_abschnitte", None) or []):
         if not pf:
@@ -120,6 +125,22 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
             q = [P(p[0] / 100.0, p[1] / 100.0) for p in w["punkte_cm"]]
             br = max(2, int(w["punkte_cm"][0][3] / 100.0 * px_m))
             dr.line(q, fill=(60, 150, 255, 230), width=br, joint="curve")
+            # 13f A8: Stufen (Lippe -> Fuss) als weisse Querstriche mit Fallhoehe ab 2 m
+            for st_ in w.get("stufen") or []:
+                a = P(st_["lippe_cm"][0] / 100.0, st_["lippe_cm"][1] / 100.0)
+                b = P(st_["fuss_cm"][0] / 100.0, st_["fuss_cm"][1] / 100.0)
+                vx, vy = b[0] - a[0], b[1] - a[1]
+                n = max(math.hypot(vx, vy), 1e-6)
+                h = br * 0.5 + 3
+                dr.line([(a[0] - vy / n * h, a[1] + vx / n * h), (a[0] + vy / n * h, a[1] - vx / n * h)],
+                        fill=(255, 255, 255, 255), width=3)
+                if st_.get("fall_m", 0) >= 2.0:
+                    dr.text((a[0] + 5, a[1] - 13), "%.0f" % st_["fall_m"], fill=(255, 255, 255), font=f_k,
+                            stroke_width=2, stroke_fill=(0, 0, 0))
+            for f_ in w.get("furten") or []:
+                a = P(f_["von_cm"][0] / 100.0, f_["von_cm"][1] / 100.0)
+                b = P(f_["bis_cm"][0] / 100.0, f_["bis_cm"][1] / 100.0)
+                dr.line([a, b], fill=(250, 235, 200, 255), width=br + 4)
         elif w["typ"] == "wasserfall":
             q = [P(p[0] / 100.0, p[1] / 100.0) for p in w["kante_cm"]]
             dr.line(q, fill=(255, 255, 255, 255), width=5)
@@ -240,9 +261,9 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
             d2.text((W + 12, y), "%-10s %6d" % (k, b[k]), fill=(200, 220, 255), font=f_k)
             y += 15
     y += 6
-    leg = [("see/bach", (40, 200, 210)), ("Wasserfall", (255, 255, 255)), ("Pfad", (250, 235, 200)),
+    leg = [("see/bach", (40, 200, 210)), ("Wasserfall / Bachstufe (m)", (255, 255, 255)), ("Pfad / Furt", (250, 235, 200)),
            ("Nebel / Licht", (235, 235, 245)), ("Niagara (hohl=optional)", (220, 120, 255)),
-           ("Decal", (170, 110, 60)), ("Freiraum (Bestand weg)", (255, 0, 200))]
+           ("Decal", (170, 110, 60)), ("Freiraum / Houdini aus (Bestand weg)", (255, 0, 200))]
     for t, c in leg:
         d2.rectangle([W + 12, y + 3, W + 22, y + 13], fill=c)
         d2.text((W + 30, y), t, fill=(220, 220, 220), font=f_k)

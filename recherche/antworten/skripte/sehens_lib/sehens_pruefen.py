@@ -1027,7 +1027,8 @@ def pruefe_baeche(o, welt, boden=None):
         hc = np.asarray(boden.hoehe(xs, ys), np.float64)
         hl = np.asarray(boden.hoehe(xs + nx_ * du, ys + ny_ * du), np.float64)
         hr = np.asarray(boden.hoehe(xs - nx_ * du, ys - ny_ * du), np.float64)
-        tol = 0.01
+        # Toleranz: 1 cm auf 1 m; auf 2 m (Cloud-Test) verschmiert die Interpolation Boeschung und Stufen
+        tol = 0.01 if z <= 1.0 else 0.02 + 0.2 * (z - 1.0)
         n_mitte = int((hc > ws + tol).sum())
         n_ufer = int(((hl < ws - tol) | (hr < ws - tol)).sum())
         if n_mitte:

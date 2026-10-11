@@ -310,7 +310,7 @@
     "klemm": {"auf_linie": "achse", "s_m": 13.0},
     "klammmitte": {"auf_linie": "achse", "s_m": 18.0}
    },
-   "gelaende": {"fenster_m": [90, 90], "rand_m": 9, "ist_wasser": true, "ist_wasser_r_m": 40,
+   "gelaende": {"fenster_m": [130, 130], "rand_m": 9, "ist_wasser": true, "ist_wasser_r_m": 60,
                 "begruendung": "Die Klamm IST der Bachanfang (Gumpe -> bestehendes Gerinne): Gumpenlippe und Klammboden duerfen am Bestandswasser geaendert werden", "ops": [
     {"op": "glaetten", "bei": "klammmitte", "radius_m": 9, "staerke": 0.6, "sigma_m": 3, "warum": "Klammboden glaetten (-1 ... +1 m)"},
     {"op": "abbruch", "punkte": [{"auf_linie": "achse", "s_m": 4, "seite_m": 7}, {"auf_linie": "achse", "s_m": 34, "seite_m": 9}], "hoehe_m": 6, "breite_m": 5, "reichweite_m": 14, "seite": "links", "verteilung": "oben", "warum": "Nordwand der Klamm anheben (2-m-Daten zu offen)"},
@@ -318,7 +318,8 @@
    ]},
    "wasser": [
     {"typ": "see", "id": "gumpe", "bei": "gumpe", "r_m": 5.5, "spiegel_rand_min": -0.1, "tiefe_m": 2.5, "farbe": "smaragd", "becken": {"ufer_m": 4, "freibord_m": 0.25}},
-    {"typ": "bach", "id": "klammbach", "abfluss_von": "gumpe", "laenge_m": 40, "breite_m": 2.0, "tiefe_cm": 35, "farbe": "klar", "quelle": false,
+    {"typ": "bach", "id": "klammbach", "abfluss_von": "gumpe", "laenge_m": 45, "breite_m": 2.0, "tiefe_cm": 35, "farbe": "klar", "quelle": false,
+     "muendung_houdini": true, "hinweis_wasser": "13f A9: geht ins bestehende Houdini-Gerinne ueber (Netzname in den Cloud-Daten nicht bekannt - lokal zuordnen)",
      "material_hinweis": "Mountain-Set (13d): M_River_Water_Translucent als Flussmaterial"},
     {"typ": "wasserfall", "id": "schleierfall", "kante": [{"anker": "fall_oben", "versatz_m": [0, -3]}, {"anker": "fall_oben", "versatz_m": [0, 3]}], "becken": "gumpe", "breite_m": 3.5, "farbe": "klar",
      "material_hinweis": "Mountain-Set (13d): Wasserfall-/Flussmaterial des Sets statt MI_EL_Wasserfall; Vorhang + NS_Waterfall_Medium"}
@@ -351,7 +352,7 @@
      "verteilung": {"typ": "band", "punkte": "achse", "breite_m": 7.0}, "abstand_m": 0.3, "rolle": "stein", "im_wasser": "egal"},
     {"name": "spritzzone", "ebene": "bewuchs", "warum": "Moos und Farn in der Spritzzone", "palette": "farn_nass", "anzahl": 70,
      "verteilung": {"typ": "band", "punkte": "achse", "breite_m": 11.0}, "abstand_m": 0.7, "rolle": "pflanze"},
-    {"name": "efeu_nordwand", "ebene": "bewuchs", "warum": "Efeu-Ersatz an der schattigen Nordwand", "netz": "SM_Ivy_11",
+    {"name": "efeu_nordwand", "z_frei": true, "ebene": "bewuchs", "warum": "Efeu-Ersatz an der schattigen Nordwand", "netz": "SM_Ivy_11",
      "verteilung": {"typ": "um_gruppe", "gruppe": "klammwand", "ring": [0.4, 0.7], "je": [1, 2], "seite": "nord"}, "rolle": "pflanze", "meide": null},
     {"name": "kantenkiefern", "ebene": "bewuchs", "warum": "Kiefern an der Kante, Wurzeln freigespuelt", "palette": ["/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_06", "SM_Forest_pine_02"],
      "anzahl": 3, "verteilung": {"typ": "ring", "bei": "fall_oben", "r_m": [4, 12]}, "abstand_m": 5, "skala": [0.6, 0.8], "rolle": "baum"},

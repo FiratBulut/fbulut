@@ -645,10 +645,13 @@ class OrtKontext:
                 return
             hinweise.append("am Gelaendefenster gekappt nach %.0f m (Rest ausserhalb)" % _st.polylinie_laenge(pts[:k]))
             pts = pts[:k]
-            if ziel.get("art") not in ("versickert",):
-                self.melde(WARNUNG, "bach %s: Muendung %s ausserhalb des Gelaendefensters - endet 'versickert' am "
-                                    "Fensterrand (fenster_m vergroessern)" % (wid, ziel.get("id")))
-            ziel = {"art": "versickert", "id": "versickert"}
+            if ziel.get("art") == "houdini":
+                pass                # endet im Houdini-Lauf, der dort weiterlaeuft
+            else:
+                if ziel.get("art") not in ("versickert",):
+                    self.melde(WARNUNG, "bach %s: Muendung %s ausserhalb des Gelaendefensters - endet 'versickert' am "
+                                        "Fensterrand (fenster_m vergroessern)" % (wid, ziel.get("id")))
+                ziel = {"art": "versickert", "id": "versickert"}
         self.linien["bach_" + wid] = pts
         if w.get("rinne"):
             rn = w["rinne"]
@@ -738,7 +741,17 @@ class OrtKontext:
             return _st.polylinie_laenge(p)
 
         if w.get("muendung_houdini"):
-            return {"art": "houdini", "id": w["muendung_houdini"], "_pts": pts}
+            # explizit: Bach geht in einen sichtbaren Houdini-Wasserlauf ueber (Name, oder true = Name lokal zuordnen);
+            # die Linie endet im ersten Houdini-Wasser (karte_wasser) nach 3 m, sonst nach laenge_m
+            hid = w["muendung_houdini"] if isinstance(w["muendung_houdini"], str) else "houdini"
+            if w.get("houdini_kappen", True) and not isinstance(w["muendung_houdini"], str):
+                kum = _bach.bogen(pts)
+                for k in range(1, len(pts)):
+                    i, j = self.welt.m_zu_ij(pts[k][0], pts[k][1])
+                    if kum[k] > 3.0 and self.welt.wasser[i, j] > 0:
+                        pts = pts[:k + 1]
+                        break
+            return {"art": "houdini", "id": hid, "_pts": pts}
         if isinstance(mu, str) and mu not in ("auto", "versickert", "suesswasser_bestand") and mu not in self.see:
             if epic.kennt(mu):
                 sp = epic.spiegel(mu, *pts[-1])

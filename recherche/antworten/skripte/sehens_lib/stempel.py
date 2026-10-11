@@ -427,6 +427,21 @@ class Stempel:
         dl = self.delta[box]
         dl += neu - cur
         self.delta[box] = dl
+        # Gruben ausserhalb des Wassers, die nur durch den Sprung der Projektion an Knicken/Stufen entstehen (einzelne
+        # Zellen neben dem Bach), auf den Ueberlaufpegel zuruecksetzen (nie hoeher als vorher)
+        abges = np.zeros(self.delta.shape, bool)
+        abges[box] = innen & (neu < cur - 0.01) & (d > _b.wasserkante(breite_m, self.z) + 0.5)
+        if ring_aus is not None:
+            abges &= ~ring_aus
+        if abges.any():
+            h = (self.h0 + self.delta).astype(np.float32)
+            gef = _gel.abfluss(h, self.z, np.zeros(h.shape, bool))["gefuellt"].astype(np.float64)
+            vor = np.zeros(self.delta.shape)
+            vor[box] = cur
+            grube = abges & (gef - h > 0.02)
+            if grube.any():
+                ziel = np.minimum(gef, vor)
+                self.delta = np.where(grube, ziel - self.h0, self.delta)
         self.protokoll.append(name)
 
     # -- Schutz / Abschluss --
