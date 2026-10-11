@@ -166,6 +166,20 @@ Ergebnis und Vorher-Nachher-Tabelle stehen in `antworten/15b-korrektur-1m-ufer-n
     (`kaskadennetz.muendungen[].linie_cm`). Die Gegenseite und der Rest des Netzes werden geprüft.
   - Der Uferring hebt an der Zuflusslinie nicht an.
 
+## Korrektur 15e
+
+- **Abtrag außerhalb der Wasserbreite** ist begrenzt: höchstens (alter − neuer Spiegel + 0,5 m) − (Abstand −
+  halbe Breite) · tan 35° (`aussen_begrenzen`). Vorher war die 35°-Böschung eine Obergrenze bis 60 m neben dem Bach
+  und schnitt steile Hänge ab.
+- **Uferring:** auf Spiegel + 0,2 m. Auch das Anheben läuft außen 1:2 aus.
+- **„Bestand“** zählt, wenn das alte Ufer tiefer als Spiegel − 0,75 m liegt.
+- **Lagen:** Jede Zelle mit |Δ| > 0,3 m bekommt eine Lage, sonst die erste Lage der Zone `ufer_nah`. Das gilt auch
+  jenseits von Feldgrenzen.
+- **Neue Prüfregeln:**
+  - |Δ| > 0,3 m ist nur innerhalb von halbe Breite + 0,4 + 1,5 m + (Eintiefung + 0,5 m) / tan 35° + 1 m erlaubt,
+    dazu an den Zufluss-Endstücken.
+  - Jede Zelle mit |Δ| > 0,3 m braucht eine Lage.
+
 ## Grenzen
 
 - **2-m-Daten:** Ein 4-m-Bach ist dort nur 2 Zellen breit. Riser, Becken und Ufer verschmieren, deshalb gelten Bett- und

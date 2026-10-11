@@ -752,7 +752,7 @@ def spiegel_bei(sp, s):
 # ======================================================================================================================
 # Gelaende
 # ======================================================================================================================
-RING = {"vorlauf_m": 1.5, "ueber_spiegel_m": 0.15, "breite_m": 1.5, "auslauf": 0.5, "breite_aenderung": 0.2,
+RING = {"vorlauf_m": 1.5, "ueber_spiegel_m": 0.2, "breite_m": 1.5, "auslauf": 0.5, "breite_aenderung": 0.2,
         "kante_m": 0.5, "abtrag_zuschlag_m": 0.5}   # 15b: Uferring am Netzrand
 
 
@@ -807,8 +807,10 @@ def ring_ziel(d, half, z_sp, z_ufer, cur):
     Breite zaehlt der Spiegel an der Stelle, ausserhalb der Ufer-Spiegel (Oberwasser neben dem Fuss einer Stufe)."""
     plateau = half + KN["rand_ueberstand_m"] + RING["breite_m"]
     anstieg = np.minimum((d - wasserkante(half)) * np.tan(np.radians(BOESCHUNG_GRAD)), RING["ueber_spiegel_m"])
-    z = np.where(d < half, z_sp, np.maximum(z_ufer, z_sp)) + anstieg - np.maximum(d - plateau, 0.0) * RING["auslauf"]
-    return np.minimum(z, cur + KN["wulst_max_m"])
+    aus = np.maximum(d - plateau, 0.0) * RING["auslauf"]
+    z = np.where(d < half, z_sp, np.maximum(z_ufer, z_sp)) + anstieg - aus
+    # 15e: auch das Anheben selbst laeuft 1:2 aus (sonst hebt ein tiefes Altufer bis 1 m weit ausserhalb des Rings)
+    return np.minimum(z, cur + np.maximum(KN["wulst_max_m"] - aus, 0.0))
 
 
 def bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp):
@@ -1555,7 +1557,7 @@ KN = {"material": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Kaskade_SLW", "ra
       "abstand_bett_wand_cm": 20, "fuss_unter_spiegel_m": 0.3, "bett_unter_spiegel_min_m": 0.2,
       "ufer_ueber_spiegel_am_rand_m": 0.1, "tempo": {"becken": 80, "lippe": 240, "bogen": 300, "wand": 300, "fuss": 150,
                                                        "rampe": 300},
-      "vorhang_ab_m": 3.0, "nach_unten_m": 1.0, "bett_min_tiefe_m": 0.7, "river_min_m": 15.0, "fallbecken_min_breite_m": 5.0, "wulst_max_m": 1.0, "becken_abstand_m": 2.0,
+      "vorhang_ab_m": 3.0, "nach_unten_m": 1.0, "bett_min_tiefe_m": 0.7, "river_min_m": 15.0, "bestand_reserve_m": 0.15, "fallbecken_min_breite_m": 5.0, "wulst_max_m": 1.0, "becken_abstand_m": 2.0,
       "bett_proben_anteil": 0.3,
       "quelle": "antworten/14b-befund-geteilte-baeche.md Abschnitt 3 (Empfehlung A) und 4, Entscheidungen Koordinator"}
 
@@ -1585,7 +1587,7 @@ def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0):
     ok | fehl | bestand | muendung. Probe bei halbe Breite + rand_ueberstand_m (+ Rasterzuschlag) quer zur
     Mittellinie. 'muendung' nur, wenn die Probe <= Zuflussbreite/2 + 1 m von der Zuflusslinie liegt (dort ist das
     Ufer offen); 'bestand' nur, wenn das ALTE Ufer an derselben Stelle tiefer liegt als Spiegel + 0,1 m - 1 m
-    (Uferring <= 1 m reicht nicht)."""
+    + 0,15 m Rasterreserve (Uferring <= 1 m reicht nicht)."""
     M = np.asarray([q[:4] for q in mitte], np.float64)
     out = []
     for k in idx:
@@ -1604,7 +1606,10 @@ def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0):
                 st_ = "muendung"
             elif float(hz[sd]) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - 5e-3:
                 ha = float(alt_fn(px[sd:sd + 1], py[sd:sd + 1])[0])
-                st_ = "bestand" if ha < zs + KN["ufer_ueber_spiegel_am_rand_m"] - KN["wulst_max_m"] else "fehl"
+                # 15e: Bestand, wenn das alte Ufer so tief liegt, dass der Ring (<= 1 m) mit 0,15 m Rasterreserve nicht
+                # ueber Spiegel + 0,1 m kommt (altes Ufer < Spiegel - 0,75 m)
+                st_ = "bestand" if ha < zs + KN["ufer_ueber_spiegel_am_rand_m"] - KN["wulst_max_m"] + \
+                    KN["bestand_reserve_m"] else "fehl"
             out.append((k, "links" if sd == 0 else "rechts", float(px[sd]), float(py[sd]), zs, float(hz[sd]), st_))
     return out
 

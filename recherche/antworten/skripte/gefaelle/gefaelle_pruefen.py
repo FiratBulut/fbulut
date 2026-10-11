@@ -232,7 +232,7 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
         n_bestand = sum(1 for q in pr_ if q[6] == "bestand")
         if n_bestand:
             b.append((WARNUNG, tag, "%s: Ufer am Netzrand an %d Proben schon im Bestand unter dem Spiegel (altes Ufer "
-                      "> 0,9 m unter dem Spiegel, Uferring reicht nicht)" % (w["id"], n_bestand)))
+                      "> 0,75 m unter dem Spiegel, Uferring <= 1 m reicht nicht)" % (w["id"], n_bestand)))
         if n_bett:
             b.append((raster_stufe(n_bett, n_b, zus), tag, "%s: Bett an %d von %d Beckenpunkten < 0,2 m unter dem Spiegel%s"
                       % (w["id"], n_bett, n_b, raster_text(n_bett, n_b, zus))))
@@ -386,9 +386,10 @@ def pruefe_gelaende(p, ordner, welt, orte, b, tag):
             Xs, Ys = (jj_ + j0) - 4730.5, (ii_ + i0) - 4060.5
             ok, d_ = _erlaubte_zone(p, Xs, Ys)
             if (~ok).any():
-                b.append((FEHLER, ab["id"], "Gelaende aendert sich um > 0,3 m abseits des Bachs: %d m2, bis %.1f m tief, "
+                b.append((FEHLER, ab["id"], "Gelaende aendert sich um > 0,3 m abseits des Bachs: %d m2, Delta bis %+.1f m, "
                           "%.0f m von der Wasserlinie (erlaubt: Netzrand + Uferring + Boeschung der Eintiefung)"
-                          % (int((~ok).sum()), float(np.abs(a[stark][~ok]).max()), float(d_[~ok].max()))))
+                          % (int((~ok).sum()), float(a[stark][~ok][np.argmax(np.abs(a[stark][~ok]))]),
+                             float(d_[~ok].max()))))
             gi, gj = ii_ + i0, jj_ + j0
             hat = np.zeros(len(gi), bool)
             for (li0, lj0, lh, lw), s_ in lagen_alle:
