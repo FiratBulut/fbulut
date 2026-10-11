@@ -61,8 +61,8 @@ python -I sehens_<biom>.py [--orte ID …] [--bild] [--daten2m <Ordner>] [--aus 
 - **Heldenstücke als Akteure**: Liste `plan["akteure"]` mit `{"netz", "pfad", "x", "y", "z", "qx", "qy", "qz", "qw", "sx", "sy", "sz",
   "klasse": "<ort_id>_<rolle>"}` (≤ 500 je Feld). Alles Kleine als Foliage-Datei.
 - Netznamen nur aus `daten/netze.csv` (Stand 11.10.) oder aus der Download-Liste (dann im Plan mit Ersatz aus dem Inventar, bis das Paket da
-  ist). Gesperrt: `daten/netz_sperre.json`. Megascans/Fab-Netze bekommen beim Setzen automatisch unsere Material-Überschreibung (sonst
-  schwarz) – kein eigener Schritt nötig. Netze mit Fehlern: `daten/netz_check_ergebnis.json`.
+  ist). Gesperrt: `daten/netz_sperre.json`. Megascans/Fab-Netze bekommen nach dem Setzen unsere Material-Überschreibung (Material-Fix
+  läuft bei mir für alle Ebenen `sw_*`; sonst wären sie schwarz) – für euch kein eigener Schritt. Ein Plan darf auch nur `akteure` enthalten. Netze mit Fehlern: `daten/netz_check_ergebnis.json`.
 - Bodenhöhe immer aus der **nach** dem Geländestempel gültigen Höhe (Planer rechnet `hoehe + delta`). Eingraben wie FORMAT.md §3.
 
 ## 5. Wasser (`wasser`, optional; ich baue es als Epic-Wasser)
@@ -97,8 +97,9 @@ Neue Master-Materialien oder Texturen nur mit Begründung als eigener Punkt (ich
 
 ## 8. Kameras (für meine Prüfbilder)
 
-`[Feld, KX, KY, ZX, ZY, ZZ, Name, Hoch]` in cm: Kamera (KX, KY), Ziel (ZX, ZY, ZZ absolut). Kamerahöhe wird
-`max(Boden_an_Kamera + Hoch, ZZ + 300)` – für Augenhöhe also Ziel tief legen (ZZ ≈ Boden am Ziel + 0 … 150) und Hoch = 170.
+`[Feld, KX, KY, ZX, ZY, ZZ, Name, Hoch]` in cm: Kamera (KX, KY), Ziel (ZX, ZY, ZZ absolut). Hoch positiv: Kamerahöhe =
+`max(Boden_an_Kamera + Hoch, ZZ + 300)` (Blick von oben). **Hoch negativ = genau |Hoch| über dem Boden** (Augenhöhe: `-170`), ohne die
+3-m-Regel (Stand 11.10. 13:00). Ist die Sicht verdeckt, steigt die Kamera in 4-m-Schritten.
 Mindestens 3 je Ort: `_anmarsch` (vom nächsten Weg, Augenhöhe, so wie der Spieler den Ort zuerst sieht), `_held` (beste Komposition),
 `_nah` (Detail 5–15 m). Leuchtfeuer zusätzlich `_fern` (300–800 m).
 
