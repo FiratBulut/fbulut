@@ -173,6 +173,10 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
             elif ue > 1e-3:
                 b.append((FEHLER, tag, "%s/%s ueberlappen (nicht benachbart)" % (o[k]["id"], o[j]["id"])))
     rv = [w for w in wk if w["typ"] == "river"]
+    for w in rv:                                          # 15c: kurze River-Stuecke zeichnen trockene Becken (14b)
+        if w["s_m"][1] - w["s_m"][0] < KN["river_min_m"] - 1e-3:
+            b.append((FEHLER, tag, "%s: River %.1f m < %.0f m (gehoert als Rampe ins Kaskadennetz)"
+                      % (w["id"], w["s_m"][1] - w["s_m"][0], KN["river_min_m"])))
     if len(rv) > 1:
         ue = ueberlappungen([{"punkte": w["punkte"]} for w in rv])
         if ue:
@@ -203,57 +207,38 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
         boden = BodenNachStempel(welt, orte, ordner)
         alt_hoehe = lambda x_, y_: welt.bilinear(welt.hoehe, x_, y_)  # noqa: E731
         zelle = welt.zelle_m
-    alt = np.asarray(p["spiegel_alt_cm"], np.float64)
-    s_alt = _s_entlang(p["spiegel_alt_cm"])
-    alt_m = np.minimum.accumulate(alt[:, 2])
+    from gefaelle_plan import raster_stufe, raster_text, ufer_proben
+    zus = max(zelle - 1.0, 0.0)                         # 2-m-Naeherung (siehe gefaelle_plan.RASTER_ZUSCHLAG)
     for w in kn:
         M = np.asarray(w["mittellinie"], np.float64)
         kn_ = w["knick"]
-        n_bett = n_ufer = n_b = 0
-        nah = nahe_stufe(w["mittellinie"], kn_, max(zelle - 1.0, 0.0))
-        s_kn = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(M[:, :2] / 100.0, axis=0).T))])
-        n_bestand = 0
-        from gefaelle_plan import muendung_maske
-        mund = muendung_maske(w["mittellinie"], w["s_m"][0], w.get("muendungen_s_m") or [])
-        for k in range(len(M)):
-            if kn_[k] != "becken" or nah[k]:
-                continue
-            n_b += 1
-            if k + 1 < len(M):
-                t = M[k + 1, :2] - M[k, :2]
-            else:
-                t = M[k, :2] - M[k - 1, :2]
-            L = max(float(np.hypot(*t)), 1e-6)
-            tx, ty = t / L
+        nah = nahe_stufe(w["mittellinie"], kn_, zus)
+        ix = [k for k in range(len(M)) if kn_[k] == "becken" and not nah[k]]
+        n_b = len(ix)
+        n_bett = 0
+        for k in ix:
+            t = M[k + 1, :2] - M[k, :2] if k + 1 < len(M) else M[k, :2] - M[k - 1, :2]
+            tx, ty = t / max(float(np.hypot(*t)), 1e-6)
             x, y, zs, br = M[k, 0] / 100.0, M[k, 1] / 100.0, M[k, 2] / 100.0, M[k, 3] / 100.0
-            zus = max(zelle - 1.0, 0.0)                 # 2-m-Naeherung (siehe gefaelle_plan.RASTER_ZUSCHLAG)
-            off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - zus, 0.15 * br)   # 15b: nasses Bett (mittlere 60 %)
+            off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - zus, 0.15 * br)   # 15b: nasses Bett
             bett = float(np.mean(boden.hoehe(x + ty * off, y - tx * off)))
             if zs - bett < KN["bett_unter_spiegel_min_m"] - 0.005:
                 n_bett += 1
-            r_ = br / 2.0 + w.get("rand_ueberstand_m", 0.4) + zus
-            if mund[k]:
-                continue                                    # Zufluss-Muendung: Ufer dort offen
-            px_, py_ = np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_])
-            hz = boden.hoehe(px_, py_)
-            if float(np.min(hz)) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - 0.005:
-                # Bestand (15b): nur wenn das ALTE Ufer an derselben Stelle unter dem Spiegel + 0,1 m liegt und auch
-                # der Uferring (<= 1 m Anheben) es nicht erreicht -> WARNUNG; sonst hat der Stempel es gesenkt -> FEHLER
-                if float(np.min(alt_hoehe(px_, py_))) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - KN["wulst_max_m"]:
-                    n_bestand += 1
-                else:
-                    n_ufer += 1
-        from gefaelle_plan import raster_stufe, raster_text
-        zus = max(zelle - 1.0, 0.0)
+        # Ufer je Seite (15c): Muendung nur an der Zuflusslinie, Bestand nur bei altem Ufer unter Spiegel + 0,1 - 1 m
+        mu = [{"breite_m": m_["breite_m"], "linie_m": (np.asarray(m_["linie_cm"], np.float64) / 100.0).tolist()}
+              for m_ in w.get("muendungen") or []]
+        pr_ = ufer_proben(w["mittellinie"], ix, boden.hoehe, alt_hoehe, mu, zus)
+        n_ufer = sum(1 for q in pr_ if q[6] == "fehl")
+        n_bestand = sum(1 for q in pr_ if q[6] == "bestand")
         if n_bestand:
-            b.append((WARNUNG, tag, "%s: Ufer am Netzrand an %d Beckenpunkten schon im Bestand unter dem alten Spiegel"
-                      % (w["id"], n_bestand)))
+            b.append((WARNUNG, tag, "%s: Ufer am Netzrand an %d Proben schon im Bestand unter dem Spiegel (altes Ufer "
+                      "> 0,9 m unter dem Spiegel, Uferring reicht nicht)" % (w["id"], n_bestand)))
         if n_bett:
             b.append((raster_stufe(n_bett, n_b, zus), tag, "%s: Bett an %d von %d Beckenpunkten < 0,2 m unter dem Spiegel%s"
                       % (w["id"], n_bett, n_b, raster_text(n_bett, n_b, zus))))
         if n_ufer:
-            b.append((raster_stufe(n_ufer, n_b, zus), tag, "%s: Ufer am Netzrand an %d von %d Beckenpunkten < 0,1 m ueber "
-                      "dem Spiegel%s" % (w["id"], n_ufer, n_b, raster_text(n_ufer, n_b, zus))))
+            b.append((raster_stufe(n_ufer, 2 * n_b, zus), tag, "%s: Ufer am Netzrand an %d von %d Proben < 0,1 m ueber "
+                      "dem Spiegel%s" % (w["id"], n_ufer, 2 * n_b, raster_text(n_ufer, 2 * n_b, zus))))
 
 
 def pruefe_effekte(p, rw, inv, b, tag):

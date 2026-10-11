@@ -912,7 +912,7 @@ def alt_1m(K, fij):
     return welt.bilinear(welt.hoehe, jj - gd.OFF_J_1M, ii - gd.OFF_I_1M)
 
 
-def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, zufl_aus):
+def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendungen):
     """15b: Gelaende-Delta auf dem 1-m-Ausgaberaster nachziehen, gegen das alte 1-m-Gelaende (lokal: die 1-m-Welt
     selbst; Cloud: --hoehe1m-fenster). Im Wasser (wo der Stempel abgesenkt hat) hoechstens das Querprofil, im
     Uferring (Wasserkante bis Netzrand + 1,5 m) mindestens Spiegel + 0,15 m (<= 1 m Anheben). Schutzfaktoren
@@ -956,12 +956,12 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, zufl_au
     for box, ring, d, half, z_sp, zu in ringe:
         f_ = Ft[box]
         Ft[box] = np.where(ring, np.maximum(f_, ring_ziel(d, half, z_sp, zu, alt[box])), f_)
+    # Zufluss-Muendungen: Ufer offen (kein Anheben), nur an der Zuflusslinie (Breite/2 + 1 m), sonst gilt der Ring
     offen = np.zeros(F.shape, bool)
-    for za in zufl_aus:
-        T_ = np.asarray(za["_tail_m"])[:, :2]
-        dzu, _, _ = stm.polylinie_abstand(X, Y, T_)
-        offen |= dzu <= za["_B"] / 2.0 + 3.0
-    Ft = np.where(offen, F, Ft)
+    for m_ in muendungen:
+        dzu, _, _ = stm.polylinie_abstand(X, Y, np.asarray(m_["linie_m"])[:, :2])
+        offen |= dzu <= m_["breite_m"] / 2.0 + 1.0
+    Ft = np.where(offen, np.minimum(Ft, np.minimum(F, alt)), Ft)
     Fn = F + fs * (Ft - F)
     st.alt_1m = alt
     st.delta_1m = Fn - alt
@@ -1505,7 +1505,7 @@ KN = {"material": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Kaskade_SLW", "ra
       "abstand_bett_wand_cm": 20, "fuss_unter_spiegel_m": 0.3, "bett_unter_spiegel_min_m": 0.2,
       "ufer_ueber_spiegel_am_rand_m": 0.1, "tempo": {"becken": 80, "lippe": 240, "bogen": 300, "wand": 300, "fuss": 150,
                                                        "rampe": 300},
-      "vorhang_ab_m": 3.0, "nach_unten_m": 1.0, "bett_min_tiefe_m": 0.5, "wulst_max_m": 1.0, "becken_abstand_m": 2.0,
+      "vorhang_ab_m": 3.0, "nach_unten_m": 1.0, "bett_min_tiefe_m": 0.7, "river_min_m": 15.0, "fallbecken_min_breite_m": 5.0, "wulst_max_m": 1.0, "becken_abstand_m": 2.0,
       "bett_proben_anteil": 0.3,
       "quelle": "antworten/14b-befund-geteilte-baeche.md Abschnitt 3 (Empfehlung A) und 4, Entscheidungen Koordinator"}
 
@@ -1530,6 +1530,35 @@ def raster_text(n_fehl, n_ges, zuschlag=None):
     return " (2-m-Raster: lokal auf 1 m pruefen)" if raster_stufe(n_fehl, n_ges, zuschlag) == "WARNUNG" else ""
 
 
+def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0):
+    """15c: Ufer am Netzrand je Beckenpunkt und Seite: Liste (k, seite, x, y, z_spiegel, h_neu, status) mit status
+    ok | fehl | bestand | muendung. Probe bei halbe Breite + rand_ueberstand_m (+ Rasterzuschlag) quer zur
+    Mittellinie. 'muendung' nur, wenn die Probe <= Zuflussbreite/2 + 1 m von der Zuflusslinie liegt (dort ist das
+    Ufer offen); 'bestand' nur, wenn das ALTE Ufer an derselben Stelle tiefer liegt als Spiegel + 0,1 m - 1 m
+    (Uferring <= 1 m reicht nicht)."""
+    M = np.asarray([q[:4] for q in mitte], np.float64)
+    out = []
+    for k in idx:
+        k2 = k + 1 if k + 1 < len(M) else k - 1
+        tvec = (M[k2, :2] - M[k, :2]) * (1 if k2 > k else -1)
+        tx, ty = tvec / max(float(np.hypot(*tvec)), 1e-6)
+        x, y, zs, br = M[k, 0] / 100.0, M[k, 1] / 100.0, M[k, 2] / 100.0, M[k, 3] / 100.0
+        r_ = br / 2.0 + KN["rand_ueberstand_m"] + zuschlag
+        px = np.array([x + ty * r_, x - ty * r_])
+        py = np.array([y - tx * r_, y + tx * r_])
+        hz = boden_fn(px, py)
+        for sd in range(2):
+            st_ = "ok"
+            if any(gd.abstand_punkte_polylinie(px[sd:sd + 1], py[sd:sd + 1], np.asarray(m_["linie_m"]))[0]
+                   <= m_["breite_m"] / 2.0 + 1.0 for m_ in muendungen if len(m_["linie_m"]) >= 2):
+                st_ = "muendung"
+            elif float(hz[sd]) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - 5e-3:
+                ha = float(alt_fn(px[sd:sd + 1], py[sd:sd + 1])[0])
+                st_ = "bestand" if ha < zs + KN["ufer_ueber_spiegel_am_rand_m"] - KN["wulst_max_m"] else "fehl"
+            out.append((k, "links" if sd == 0 else "rechts", float(px[sd]), float(py[sd]), zs, float(hz[sd]), st_))
+    return out
+
+
 def muendung_maske(mitte, s_a, muendungen):
     """True fuer Netzpunkte an einer Zufluss-Muendung (dort ist das Ufer offen)."""
     if not muendungen:
@@ -1537,6 +1566,23 @@ def muendung_maske(mitte, s_a, muendungen):
     M = np.asarray(mitte, np.float64)[:, :2] / 100.0
     s = s_a + np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(M, axis=0).T))])
     return [any(abs(s[k] - sm_) <= bm_ / 2.0 + 2.0 for sm_, bm_ in muendungen) for k in range(len(mitte))]
+
+
+def muendungen_linien(zufl, pr=None, laenge_m=20.0):
+    """15c: Muendungen (keine Fortsetzungen) mit dem Endstueck der Zuflusslinie (<= 20 m, in m) fuer die Pruefung
+    'Ufer offen nur an der Zuflusslinie'."""
+    out = []
+    for z_ in zufl:
+        if z_.get("fortsetzung"):
+            continue
+        P = np.asarray(z_["P"], np.float64)
+        seg = np.hypot(*np.diff(P, axis=0).T) if len(P) > 1 else np.zeros(0)
+        d_ende = np.concatenate([np.cumsum(seg[::-1])[::-1], [0.0]])
+        L_ = P[d_ende <= laenge_m] if (d_ende <= laenge_m).sum() >= 2 else P[-2:]
+        if pr is not None:                                   # bis zur Mittellinie verlaengern (Muendungsstelle)
+            L_ = np.vstack([L_, np.asarray(pr.xy(z_["s_m"]), np.float64)[None, :]])
+        out.append({"id": z_["id"], "s_m": float(z_["s_m"]), "breite_m": float(z_["B"]), "linie_m": L_.tolist()})
+    return out
 
 
 def zufluesse_anpassen(pr, sp, zufl, segmente):
@@ -1628,10 +1674,19 @@ def kn_bereiche(pr, stufen, segmente):
         a = st[0]["p"]
         ende = max((e.get("teil") or [e])[-1]["p"] + (e.get("teil") or [e])[-1]["l"] for e in st)
         b = min(float(pr.s[-1]), ende + KN["nach_unten_m"] + KN["ueberlapp_m"])
-        if bereiche and a - bereiche[-1][1] < 2.0 * KN["ueberlapp_m"] + 1.0:
-            bereiche[-1] = (bereiche[-1][0], b, bereiche[-1][2] + st)          # zu kurzer River dazwischen: zusammen
+        if bereiche and a - bereiche[-1][1] < KN["river_min_m"] + 2.0 * KN["ueberlapp_m"]:
+            # 15c: River dazwischen < 15 m -> kein Epic-River, Teil des Netzes als Rampe (14b: trockene Becken)
+            a0, b0, st0, ramp0 = bereiche[-1]
+            bereiche[-1] = (a0, b, st0 + st, ramp0 + [(b0, a)])
         else:
-            bereiche.append((a, b, st))
+            bereiche.append((a, b, st, []))
+    L = float(pr.s[-1])
+    if bereiche and bereiche[0][0] < KN["river_min_m"] + KN["ueberlapp_m"]:
+        a0, b0, st0, ramp0 = bereiche[0]
+        bereiche[0] = (0.0, b0, st0, [(0.0, a0)] + ramp0)                  # River am Laufanfang < 15 m
+    if bereiche and L - bereiche[-1][1] < KN["river_min_m"] + KN["ueberlapp_m"]:
+        a0, b0, st0, ramp0 = bereiche[-1]
+        bereiche[-1] = (a0, L, st0, ramp0 + [(b0, L)])                     # River am Laufende < 15 m
     return bereiche
 
 
@@ -1646,21 +1701,22 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
     dem River (Bauhinweis). z der Mittellinie = spiegel_neu_cm (+ Ueberfallbogen an den Stufen)."""
     g = 9.81
     bereiche = kn_bereiche(pr, stufen, segmente)
+    L_lauf = float(pr.s[-1])
     grenzen = [0.0]
-    for a, b, _ in bereiche:
-        grenzen += [a + KN["ueberlapp_m"], b - KN["ueberlapp_m"]]
-    grenzen.append(float(pr.s[-1]))
+    for a, b, _, _ in bereiche:
+        grenzen += [a + KN["ueberlapp_m"] if a > 1e-6 else 0.0, b - KN["ueberlapp_m"] if b < L_lauf - 1e-6 else L_lauf]
+    grenzen.append(L_lauf)
     rivers = []
     for k in range(0, len(grenzen), 2):
         ra, rb = grenzen[k], grenzen[k + 1]
-        if rb - ra < 0.5:
+        if rb - ra < 1.0:
             continue
         pts = river_punkte(pr, sp, ra, rb, breite_fn)
         rivers.append({"id": "%s_R%d" % (lauf_id, len(rivers)), "typ": "river", "s_m": [_r(ra, 2), _r(rb, 2)],
                        "punkte": pts, "punkt_typen": ["CURVE"] + ["CURVE_CLAMPED"] * (len(pts) - 2) + ["CURVE"],
                        "zone": "<Feld>_Wasserzone", "overlap_material_priority": 0})
     kns = []
-    for n, (a, b, st) in enumerate(bereiche):
+    for n, (a, b, st, rampen) in enumerate(bereiche):
         mitte, knick = [], []
         pkt = [(s_, z_, k_) for s_, z_, k_ in sp if a - 1e-6 <= s_ <= b + 1e-6]
         if not pkt or pkt[-1][0] < b - 0.05:
@@ -1703,13 +1759,24 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
                 off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - RASTER_ZUSCHLAG(), 0.15 * br)
                 bett = float(np.mean(boden_fn(x + ty * off, y - tx * off)))
                 abstand_bett_cm = (z_ - bett) * 100.0
+            tempo, fall_a, sch = KN["tempo"][rolle], (1.0 if rolle in ("bogen", "wand") else
+                                                      (0.5 if rolle == "rampe" else 0.0)), schaum(s_, rolle)
+            if rolle == "rampe" and in_rampe(s_):
+                # 15c: frueheres River-Stueck < 15 m als Rampe im Netz; flache Teile (<= 2 %) ruhig wie Becken
+                gef = (float(spiegel_bei(sp, s_ - 1.0)) - float(spiegel_bei(sp, s_ + 1.0))) / 2.0
+                if gef <= 0.02:
+                    tempo, fall_a, sch = KN["tempo"]["becken"], 0.0, schaum(s_, "becken")
             mitte.append([round(x * 100, 1), round(y * 100, 1), round(z_ * 100, 1), round(br * 100, 1),
-                          KN["tempo"][rolle], 1.0 if rolle in ("bogen", "wand") else (0.5 if rolle == "rampe" else 0.0),
-                          schaum(s_, rolle), round(abstand_bett_cm, 1)])
+                          tempo, fall_a, sch, round(abstand_bett_cm, 1)])
             knick.append(rolle)
+
+        def in_rampe(s_):
+            return any(ra_ - 1e-6 <= s_ <= rb_ + 1e-6 for ra_, rb_ in rampen)
 
         for k, (s_, z_, k_) in enumerate(pkt):
             rolle = {"alt": "becken", "becken": "becken", "lippe": "lippe", "fuss": "fuss", "rampe": "rampe"}[k_]
+            if rolle == "becken" and in_rampe(s_):
+                rolle = "rampe"
             if rolle == "fuss" and mitte and knick[-1] == "lippe":
                 # Ueberfallbogen x = v t, z = -g t^2 / 2, dann Wandpunkt vor der Felswand, Fuss auf dem unteren Spiegel
                 s_l, z_l = pkt[k - 1][0], pkt[k - 1][1]
@@ -1737,25 +1804,14 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
             n_bk += 1
             if q[7] < KN["bett_unter_spiegel_min_m"] * 100.0 - 0.5:
                 n_bett += 1
-        mund = muendung_maske(mitte, a, [(sm_, bm_) for sm_, bm_ in muendungen])
-        ss = [q for q, r_k, ns_, mu_ in zip(mitte, knick, nah_stufe, mund) if r_k == "becken" and not ns_ and not mu_]
-        for q in ss:
-            k_ = mitte.index(q)
-            q2 = mitte[k_ + 1] if k_ + 1 < len(mitte) else mitte[k_ - 1]
-            t = np.array([q2[0] - q[0], q2[1] - q[1]], np.float64) * (1 if k_ + 1 < len(mitte) else -1)
-            tx, ty = t / max(float(np.hypot(*t)), 1e-6)
-            x, y = q[0] / 100.0, q[1] / 100.0
-            r_ = q[3] / 200.0 + KN["rand_ueberstand_m"] + RASTER_ZUSCHLAG()
-            hz = boden_fn(np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_]))
-            if float(np.min(hz)) < q[2] / 100.0 + KN["ufer_ueber_spiegel_am_rand_m"] - 5e-3:
-                # schon im Bestand lag das Ufer unter dem alten Spiegel (Epic-Wasser ueber dem Gelaende): kein FEHLER
-                # 15b: nur wenn das ALTE Ufer an derselben Stelle unter dem (neuen) Spiegel + 0,1 m liegt und auch
-                # der Uferring (<= 1 m Anheben) es nicht erreicht
-                hz_alt = welt_hoehe(np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_]))
-                if float(np.min(hz_alt)) < q[2] / 100.0 + KN["ufer_ueber_spiegel_am_rand_m"] - KN["wulst_max_m"]:
-                    n_ufer_bestand += 1
-                else:
-                    n_ufer += 1
+        # 15c: Ufer je Seite; Muendung nur an der Zuflusslinie, Bestand nur bei altem Ufer unter Spiegel + 0,1 - 1 m
+        mu_kn = [m_ for m_ in muendungen if a - m_["breite_m"] - 5.0 <= m_["s_m"] <= b + m_["breite_m"] + 5.0]
+        ix = [k_ for k_, (r_k, ns_) in enumerate(zip(knick, nah_stufe)) if r_k == "becken" and not ns_]
+        proben = ufer_proben(mitte, ix, boden_fn, welt_hoehe, mu_kn, RASTER_ZUSCHLAG())
+        ss = ix
+        n_ufer = sum(1 for p_ in proben if p_[6] == "fehl")
+        n_ufer_bestand = sum(1 for p_ in proben if p_[6] == "bestand")
+        n_mund = sum(1 for p_ in proben if p_[6] == "muendung")
         vorhang = [e["id"] for e in st if _hat_vorhang(e)]
         kn = {"id": "%s_KN%d" % (lauf_id, n), "typ": "kaskadennetz", "s_m": [_r(a, 2), _r(b, 2)],
               "mittellinie": mitte, "mittellinie_felder": ["x_cm", "y_cm", "z_cm", "breite_cm", "tempo_cm_s", "fallanteil",
@@ -1765,10 +1821,14 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
               "fuss_unter_spiegel_m": KN["fuss_unter_spiegel_m"], "material": KN["material"],
               "nanite": False, "schatten": False, "kollision": "keine",
               "stufen": [e["id"] for e in st], "vorhang_an_stufen": vorhang,
-              "muendungen_s_m": [[_r(sm_, 2), _r(bm_, 2)] for sm_, bm_ in muendungen if a <= sm_ <= b],
+              "rampen_s_m": [[_r(ra_, 2), _r(rb_, 2)] for ra_, rb_ in rampen],
+              "muendungen_s_m": [[_r(m_["s_m"], 2), _r(m_["breite_m"], 2)] for m_ in mu_kn],
+              "muendungen": [{"id": m_["id"], "s_m": _r(m_["s_m"], 2), "breite_m": _r(m_["breite_m"], 2),
+                              "linie_cm": [[round(v[0] * 100, 1), round(v[1] * 100, 1)] for v in m_["linie_m"]]}
+                             for m_ in mu_kn],
               "pruefung": {"bett_unter_spiegel_min_m": KN["bett_unter_spiegel_min_m"],
                            "ufer_ueber_spiegel_am_rand_m": KN["ufer_ueber_spiegel_am_rand_m"],
-                           "becken_punkte": n_bk, "bett_zu_flach": n_bett, "ufer_proben": int(len(ss)),
+                           "becken_punkte": n_bk, "bett_zu_flach": n_bett, "ufer_proben": int(2 * len(ss)), "ufer_muendung": n_mund,
                            "ufer_zu_tief": n_ufer, "ufer_zu_tief_bestand": n_ufer_bestand},
               "quelle": KN["quelle"]}
         kns.append(kn)
@@ -1779,8 +1839,9 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
             melde("WARNUNG", "%s: Ufer am Netzrand an %d Proben schon im Bestand unter dem alten Spiegel "
                   "(Uferwulst <= 1 m reicht nicht) - lokal pruefen" % (kn["id"], n_ufer_bestand))
         if n_ufer:
-            melde(raster_stufe(n_ufer, len(ss)), "%s: Ufer am Netzrand an %d von %d Proben < %.1f m ueber dem Spiegel%s"
-                  % (kn["id"], n_ufer, len(ss), KN["ufer_ueber_spiegel_am_rand_m"], raster_text(n_ufer, len(ss))))
+            melde(raster_stufe(n_ufer, 2 * len(ss)), "%s: Ufer am Netzrand an %d von %d Proben < %.1f m ueber dem Spiegel%s"
+                  % (kn["id"], n_ufer, 2 * len(ss), KN["ufer_ueber_spiegel_am_rand_m"],
+                     raster_text(n_ufer, 2 * len(ss))))
     koerper = sorted(rivers + kns, key=lambda k_: k_["s_m"][0])
     for k_ in range(len(koerper) - 1):
         o, u = koerper[k_], koerper[k_ + 1]
@@ -2052,6 +2113,11 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         k0, k1 = e["p"] + e["l"], e["p"] + e["l"] + e["kolk"]["laenge"]
         m = (pr.s >= k0) & (pr.s <= k1)
         Bw[m] = np.maximum(Bw[m], gr.formel(rw.r["becken"]["breite"]["formel"], B=e["B"]))
+        if e["D"] >= 1.5:
+            # 15c: unter Stufen >= 1,5 m steht neben dem Fuss 1,5 m lang die Oberwasser-Seitenwand; das Becken dort
+            # mindestens 5 m breit, damit die Wand >= 1 m (eine 1-m-Zelle) neben dem nassen Bett (mittlere 60 %) liegt
+            m2 = (pr.s >= e["p"]) & (pr.s <= k1 + RING["vorlauf_m"])
+            Bw[m2] = np.maximum(Bw[m2], KN["fallbecken_min_breite_m"])
     s_eval = np.arange(0.0, pr.s[-1] + 1e-6, 1.0)
     in_seg = np.zeros(len(s_eval), bool)
     for a, b in segmente:
@@ -2246,7 +2312,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     # 15b: Gelaende-Delta auf 1 m nachziehen (Wasser hoechstens Querprofil, Uferring >= Spiegel + 0,15 m)
     for kx in kontexte:
         feinschliff_1m(K, kx["ctx"].stempel, pr, sp, kx["stufen"], [(a, b) for a, b, _ in kx["segs"]], breite_gel_fn,
-                       winkel_fn, zufl_aus)
+                       winkel_fn, muendungen_linien(zufl, pr))
     # Effekte, Kameras, Flussstuecke
     effekte, eff_weg = bauen_effekte(K, pr, alle_stufen, breite_fn)
     from sehens_lib.sehens_pruefen import BodenNachStempel
@@ -2264,7 +2330,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     def boden_fn(x, y):
         return alt_fn(x, y) + deltas_1m.delta(x, y)
     wasser_koerper = bauen_wasser_A(pr, sp, alle_stufen, segmente, breite_fn, lauf_id, boden_fn, melde,
-                                    [(z_["s_m"], z_["B"]) for z_ in zufl if not z_.get("fortsetzung")], alt_fn)
+                                    muendungen_linien(zufl, pr), alt_fn)
     kameras = []
     for x in strecken_out:
         if x.get("pilot") and x.get("_segs") and any(e["strecke"] == x["id"] for e in alle_stufen):

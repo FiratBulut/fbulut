@@ -153,6 +153,19 @@ Ergebnis und Vorher-Nachher-Tabelle stehen in `antworten/15b-korrektur-1m-ufer-n
 - **Pilotläufe auf den 1-m-Fenstern:** 19 Läufe, 0 FEHLER (vorher 29), zwei Läufe identisch.
 - **Alle 161 auf 2 m:** 0 FEHLER.
 
+## Nachtest 15c
+
+- **Bett:** mindestens 0,7 m unter dem Spiegel (vorher 0,5 m), als Sicherheitszuschlag gegen das Raster.
+- **Becken unter Stufen ≥ 1,5 m:** mindestens 5 m breit, bis Kolkende + 1,5 m. So liegt die Oberwasser-Seitenwand
+  ≥ 1 m neben dem nassen Bett.
+- **Kurze River-Stücke:** Ein River < 15 m wird nicht als Epic-River ausgegeben, sondern als Teil des Kaskadennetzes
+  (`knick` = `rampe`, `rampen_s_m`). Das gilt am Laufanfang, am Laufende und zwischen zwei Netzen. Flache Teile
+  (≤ 2 %) haben Becken-Tempo. Der Prüfer meldet River < 15 m als FEHLER.
+- **Mündungen:**
+  - Ausgenommen ist nur noch die Uferprobe einer Seite, die ≤ Zuflussbreite/2 + 1 m von der Zuflusslinie liegt
+    (`kaskadennetz.muendungen[].linie_cm`). Die Gegenseite und der Rest des Netzes werden geprüft.
+  - Der Uferring hebt an der Zuflusslinie nicht an.
+
 ## Grenzen
 
 - **2-m-Daten:** Ein 4-m-Bach ist dort nur 2 Zellen breit. Riser, Becken und Ufer verschmieren, deshalb gelten Bett- und
