@@ -1,0 +1,1549 @@
+{
+ "quelle_weltplan": "P1-03_all_presets_2026-09-20_r010",
+ "orte": [
+  {
+   "id": "EXP_001",
+   "name": "Elfenstadt",
+   "art": "elfenstadt",
+   "radius_m": 190,
+   "stil_alt": "feudal",
+   "x": 2600.0,
+   "z": -700.0,
+   "unreal_cm": [
+    260000,
+    -70000
+   ],
+   "verschoben": false,
+   "quelle": "game_expansion_markers",
+   "hoehe_m": [
+    34.2,
+    61.8,
+    88.4
+   ],
+   "relief_m": 54.2,
+   "neigung_grad": [
+    4.3,
+    17.2
+   ],
+   "wasser_im_radius_pct": 4.7,
+   "wasser_abstand_m": 129,
+   "houdini_ort_pct": 77.8,
+   "region": "WALD_OST",
+   "kachel": "K8_ELFENFALL",
+   "rezept": "elfenwald",
+   "kachel_titel": "Elfenfluss-Wasserfall (HF_02) im Ostwald: Buchen-Ahorn-Wald, bemooste Schlucht, Elfensiedlung am Fluss",
+   "wege": []
+  },
+  {
+   "id": "EXP_002",
+   "name": "Goblin-Insel",
+   "art": "goblin",
+   "radius_m": 110,
+   "stil_alt": "goblin",
+   "x": 366.0,
+   "z": 2168.0,
+   "unreal_cm": [
+    36600,
+    216800
+   ],
+   "verschoben": false,
+   "quelle": "game_expansion_markers",
+   "hoehe_m": [
+    0.7,
+    5.4,
+    8.9
+   ],
+   "relief_m": 8.1,
+   "neigung_grad": [
+    1.9,
+    3.3
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 86.0,
+   "region": "GRASLAND",
+   "kachel": "R_P2_P2",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_P2_P2 (aue 82%, oedland 18%)",
+   "wege": []
+  },
+  {
+   "id": "EXP_003",
+   "name": "Frostlager",
+   "art": "lager",
+   "radius_m": 90,
+   "stil_alt": "frost",
+   "x": -600.0,
+   "z": -2600.0,
+   "unreal_cm": [
+    -60000,
+    -260000
+   ],
+   "verschoben": false,
+   "quelle": "game_expansion_markers",
+   "hoehe_m": [
+    110.8,
+    158.3,
+    189.0
+   ],
+   "relief_m": 78.2,
+   "neigung_grad": [
+    10.1,
+    45.4
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 154,
+   "houdini_ort_pct": 68.3,
+   "region": null,
+   "kachel": "K7_GLETSCHER",
+   "rezept": "gletscher",
+   "kachel_titel": "Gletschertal mit Eisbruch, Moraenen und Gletscherkar (Arena WBA_01) im Eisland des Nordens",
+   "wege": [
+    {
+     "zu": "RES_CH11_LOC_002",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH03_LOC_009",
+   "name": "Grenzwacht",
+   "art": "turm",
+   "radius_m": 40,
+   "stil_alt": "stein",
+   "x": -3000.0,
+   "z": -1200.0,
+   "unreal_cm": [
+    -300000,
+    -120000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    114.3,
+    139.3,
+    151.0
+   ],
+   "relief_m": 36.8,
+   "neigung_grad": [
+    10.9,
+    58.4
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 69,
+   "houdini_ort_pct": 90.7,
+   "region": "WALD_NW",
+   "kachel": "R_M2_M1",
+   "rezept": "bergwald",
+   "kachel_titel": "Regelkachel R_M2_M1 (bergwald 100%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_007",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH26_LOC_001",
+   "name": "Verlassene Muehle",
+   "art": "muehle",
+   "radius_m": 40,
+   "stil_alt": "holz",
+   "x": -1600.0,
+   "z": 410.0,
+   "unreal_cm": [
+    -160000,
+    41000
+   ],
+   "verschoben": true,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    21.5,
+    22.5,
+    23.4
+   ],
+   "relief_m": 1.9,
+   "neigung_grad": [
+    1.1,
+    1.9
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 48,
+   "houdini_ort_pct": 86.5,
+   "region": null,
+   "kachel": "K14_AETHELGARD",
+   "rezept": "aue",
+   "kachel_titel": "Aethelgard am Zusammenfluss (Flussstadt)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_013",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH27_LOC_003",
+   "name": "Kammer",
+   "art": "keller",
+   "radius_m": 40,
+   "stil_alt": "stein",
+   "x": -2550.0,
+   "z": 150.0,
+   "unreal_cm": [
+    -255000,
+    15000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    32.3,
+    34.6,
+    37.9
+   ],
+   "relief_m": 5.6,
+   "neigung_grad": [
+    3.2,
+    9.4
+   ],
+   "wasser_im_radius_pct": 0.2,
+   "wasser_abstand_m": 39,
+   "houdini_ort_pct": 91.9,
+   "region": null,
+   "kachel": "R_M1_P0",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_P0 (aue 96%, bergwald 2%, canyon 2%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_010",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_009",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH28_LOC_001",
+   "name": "Gerberei",
+   "art": "werkstatt",
+   "radius_m": 45,
+   "stil_alt": "holz",
+   "x": -2375.0,
+   "z": -125.0,
+   "unreal_cm": [
+    -237500,
+    -12500
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    25.4,
+    27.4,
+    29.4
+   ],
+   "relief_m": 3.9,
+   "neigung_grad": [
+    2.4,
+    3.0
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 56,
+   "houdini_ort_pct": 82.3,
+   "region": null,
+   "kachel": "R_M1_P0",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_P0 (aue 96%, bergwald 2%, canyon 2%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_010",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH40_LOC_002",
+   "name": "Aufstiegsweg",
+   "art": "hoehle",
+   "radius_m": 35,
+   "stil_alt": "stein",
+   "x": -1500.0,
+   "z": -1800.0,
+   "unreal_cm": [
+    -150000,
+    -180000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    20.7,
+    23.6,
+    27.2
+   ],
+   "relief_m": 6.5,
+   "neigung_grad": [
+    3.7,
+    8.7
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 78.2,
+   "region": "TUNDRA",
+   "kachel": "K10_TUNDRA",
+   "rezept": "tundra",
+   "kachel_titel": "Tundra am Binnenmeer: verflochtener Schmelzwasserfluss (Sander), gehobene Strandterrassen mit Strandwaellen, Thermokarstseen, Pingos, Eiskeilpolygone, Fliesserdeloben, Findlinge",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_006",
+     "klasse": "pfad"
+    },
+    {
+     "zu": "ROMAN_LOC_018",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH41_LOC_006",
+   "name": "Emres Turm",
+   "art": "turm",
+   "radius_m": 40,
+   "stil_alt": "stein",
+   "x": -900.0,
+   "z": 250.0,
+   "unreal_cm": [
+    -90000,
+    25000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    22.5,
+    24.3,
+    25.5
+   ],
+   "relief_m": 3.0,
+   "neigung_grad": [
+    2.1,
+    3.9
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 77,
+   "houdini_ort_pct": 92.3,
+   "region": null,
+   "kachel": "K14_AETHELGARD",
+   "rezept": "aue",
+   "kachel_titel": "Aethelgard am Zusammenfluss (Flussstadt)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_012",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH42_LOC_001",
+   "name": "Erdkeller",
+   "art": "keller",
+   "radius_m": 35,
+   "stil_alt": "holz",
+   "x": -1800.0,
+   "z": 500.0,
+   "unreal_cm": [
+    -180000,
+    50000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    26.9,
+    27.9,
+    28.4
+   ],
+   "relief_m": 1.5,
+   "neigung_grad": [
+    0.9,
+    1.4
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 48,
+   "houdini_ort_pct": 67.7,
+   "region": null,
+   "kachel": "R_M1_P0",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_P0 (aue 96%, bergwald 2%, canyon 2%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_013",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH45_LOC_015",
+   "name": "Labor drei",
+   "art": "archiv",
+   "radius_m": 40,
+   "stil_alt": "stein",
+   "x": -1950.0,
+   "z": 470.0,
+   "unreal_cm": [
+    -195000,
+    47000
+   ],
+   "verschoben": true,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    24.4,
+    25.3,
+    26.2
+   ],
+   "relief_m": 1.8,
+   "neigung_grad": [
+    1.1,
+    1.8
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 44,
+   "houdini_ort_pct": 92.7,
+   "region": null,
+   "kachel": "R_M1_P0",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_P0 (aue 96%, bergwald 2%, canyon 2%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_019",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH45_LOC_016",
+   "name": "Schattenjaeger-Posten",
+   "art": "aussenposten",
+   "radius_m": 50,
+   "stil_alt": "holz",
+   "x": -850.0,
+   "z": 850.0,
+   "unreal_cm": [
+    -85000,
+    85000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    38.9,
+    42.2,
+    45.6
+   ],
+   "relief_m": 6.7,
+   "neigung_grad": [
+    3.4,
+    9.4
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 84.3,
+   "region": "GRASLAND",
+   "kachel": "R_P0_P1",
+   "rezept": "oedland",
+   "kachel_titel": "Regelkachel R_P0_P1 (oedland 62%, aue 26%, bergwald 12%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_020",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH45_LOC_017",
+   "name": "Zalas Archiv",
+   "art": "archiv",
+   "radius_m": 45,
+   "stil_alt": "stein",
+   "x": -2350.0,
+   "z": 900.0,
+   "unreal_cm": [
+    -235000,
+    90000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    21.8,
+    22.4,
+    23.4
+   ],
+   "relief_m": 1.6,
+   "neigung_grad": [
+    0.8,
+    3.7
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 88.3,
+   "region": null,
+   "kachel": "K11_LAVAFELD",
+   "rezept": "lava",
+   "kachel_titel": "Lavafeld am Nordfuss des Vulkans: moosbedeckte alte Stroeme, junger schwarzer Strom, Kraterreihe, Pseudokrater im See, Lavaroehre mit Einsturzloechern, Kipukas",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_009",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CH49_LOC_001",
+   "name": "Priesterlager",
+   "art": "lager",
+   "radius_m": 45,
+   "stil_alt": "bazaar",
+   "x": -1200.0,
+   "z": -550.0,
+   "unreal_cm": [
+    -120000,
+    -55000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    34.6,
+    43.6,
+    79.2
+   ],
+   "relief_m": 44.6,
+   "neigung_grad": [
+    10.9,
+    64.1
+   ],
+   "wasser_im_radius_pct": 21.4,
+   "wasser_abstand_m": 0,
+   "houdini_ort_pct": 63.9,
+   "region": "WUESTE",
+   "kachel": "K3_CANYON",
+   "rezept": "canyon",
+   "kachel_titel": "Wuestencanyon (Sandsteinbaender, Seitenschluchten, Tafelberge)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_003",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CHEP_LOC_002",
+   "name": "Haus mit offenen Tueren",
+   "art": "haus",
+   "radius_m": 35,
+   "stil_alt": "dorf",
+   "x": -1250.0,
+   "z": -1800.0,
+   "unreal_cm": [
+    -125000,
+    -180000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    12.2,
+    18.6,
+    23.5
+   ],
+   "relief_m": 11.3,
+   "neigung_grad": [
+    8.0,
+    18.3
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 73.8,
+   "region": "TUNDRA",
+   "kachel": "K10_TUNDRA",
+   "rezept": "tundra",
+   "kachel_titel": "Tundra am Binnenmeer: verflochtener Schmelzwasserfluss (Sander), gehobene Strandterrassen mit Strandwaellen, Thermokarstseen, Pingos, Eiskeilpolygone, Fliesserdeloben, Findlinge",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_006",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "RES_CHEP_LOC_005",
+   "name": "Oestliche Steinbrueche",
+   "art": "steinbruch",
+   "radius_m": 70,
+   "stil_alt": "stein",
+   "x": 0.0,
+   "z": 950.0,
+   "unreal_cm": [
+    0,
+    95000
+   ],
+   "verschoben": false,
+   "quelle": "provisional_source_reservations",
+   "hoehe_m": [
+    18.8,
+    22.2,
+    26.3
+   ],
+   "relief_m": 7.6,
+   "neigung_grad": [
+    2.8,
+    3.7
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 123,
+   "houdini_ort_pct": 88.1,
+   "region": "GRASLAND",
+   "kachel": "K2_FLUSSAUE",
+   "rezept": "aue",
+   "kachel_titel": "Flussaue am Hauptfluss (Unterlauf)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_020",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_001",
+   "name": "Tannbruch",
+   "art": "weiler",
+   "radius_m": 70,
+   "stil_alt": "holz",
+   "x": -3087.0,
+   "z": -721.0,
+   "unreal_cm": [
+    -308700,
+    -72100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    234.2,
+    302.7,
+    326.8
+   ],
+   "relief_m": 92.6,
+   "neigung_grad": [
+    14.1,
+    67.3
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 86,
+   "houdini_ort_pct": 89.4,
+   "region": null,
+   "kachel": "K1_WASSERFALL_WEST",
+   "rezept": "bergwald",
+   "kachel_titel": "Wasserfall-Schlucht im Westgebirge (HF_01)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_002",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_002",
+   "name": "Reth",
+   "art": "dorf",
+   "radius_m": 100,
+   "stil_alt": "dorf",
+   "x": -2587.0,
+   "z": -421.0,
+   "unreal_cm": [
+    -258700,
+    -42100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    48.9,
+    56.9,
+    69.5
+   ],
+   "relief_m": 20.6,
+   "neigung_grad": [
+    4.5,
+    7.1
+   ],
+   "wasser_im_radius_pct": 2.5,
+   "wasser_abstand_m": 32,
+   "houdini_ort_pct": 99.2,
+   "region": null,
+   "kachel": "R_M1_M1",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_M1 (aue 44%, bergwald 40%, canyon 9%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_010",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_001",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_007",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_003",
+   "name": "Sanctum",
+   "art": "wuestenstadt",
+   "radius_m": 190,
+   "stil_alt": "bazaar",
+   "x": -887.0,
+   "z": -721.0,
+   "unreal_cm": [
+    -88700,
+    -72100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    70.9,
+    88.1,
+    114.2
+   ],
+   "relief_m": 43.3,
+   "neigung_grad": [
+    3.4,
+    16.1
+   ],
+   "wasser_im_radius_pct": 0.6,
+   "wasser_abstand_m": 172,
+   "houdini_ort_pct": 98.1,
+   "region": "WUESTE",
+   "kachel": "K12_WUESTE",
+   "rezept": "wueste",
+   "kachel_titel": "Brennende Wueste: Duenen zwischen Sandstein-Rippen, Sanctum auf dem Felsplateau, gruene Schlucht zur Oase, Felskueste",
+   "wege": [
+    {
+     "zu": "RES_CHEP_LOC_007",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_005",
+     "klasse": "neben"
+    },
+    {
+     "zu": "RES_CH49_LOC_001",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_004",
+   "name": "Aethel",
+   "art": "dorf",
+   "radius_m": 100,
+   "stil_alt": "dorf",
+   "x": -287.0,
+   "z": -71.0,
+   "unreal_cm": [
+    -28700,
+    -7100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    9.7,
+    12.9,
+    22.6
+   ],
+   "relief_m": 13.0,
+   "neigung_grad": [
+    1.8,
+    2.3
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 233,
+   "houdini_ort_pct": 92.3,
+   "region": null,
+   "kachel": "R_P1_P0",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_P1_P0 (aue 95%, canyon 5%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_012",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_005",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_005",
+   "name": "Mercys Fall",
+   "art": "wuestendorf",
+   "radius_m": 90,
+   "stil_alt": "bazaar",
+   "x": -287.0,
+   "z": -821.0,
+   "unreal_cm": [
+    -28700,
+    -82100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    55.4,
+    62.5,
+    77.9
+   ],
+   "relief_m": 22.5,
+   "neigung_grad": [
+    4.5,
+    16.1
+   ],
+   "wasser_im_radius_pct": 0.7,
+   "wasser_abstand_m": 68,
+   "houdini_ort_pct": 88.6,
+   "region": "WUESTE",
+   "kachel": "K12_WUESTE",
+   "rezept": "wueste",
+   "kachel_titel": "Brennende Wueste: Duenen zwischen Sandstein-Rippen, Sanctum auf dem Felsplateau, gruene Schlucht zur Oase, Felskueste",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_004",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_003",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_006",
+   "name": "Erlenbach",
+   "art": "dorf",
+   "radius_m": 90,
+   "stil_alt": "holz",
+   "x": -1672.0,
+   "z": -1500.0,
+   "unreal_cm": [
+    -167200,
+    -150000
+   ],
+   "verschoben": true,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    2.0,
+    7.1,
+    12.8
+   ],
+   "relief_m": 10.8,
+   "neigung_grad": [
+    2.9,
+    4.7
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 100,
+   "houdini_ort_pct": 92.1,
+   "region": "TUNDRA",
+   "kachel": "K10_TUNDRA",
+   "rezept": "tundra",
+   "kachel_titel": "Tundra am Binnenmeer: verflochtener Schmelzwasserfluss (Sander), gehobene Strandterrassen mit Strandwaellen, Thermokarstseen, Pingos, Eiskeilpolygone, Fliesserdeloben, Findlinge",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_011",
+     "klasse": "neben"
+    },
+    {
+     "zu": "RES_CH40_LOC_002",
+     "klasse": "pfad"
+    },
+    {
+     "zu": "RES_CHEP_LOC_002",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_007",
+   "name": "Blackwood",
+   "art": "dorf",
+   "radius_m": 95,
+   "stil_alt": "holz",
+   "x": -2837.0,
+   "z": -1121.0,
+   "unreal_cm": [
+    -283700,
+    -112100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    39.9,
+    57.7,
+    66.6
+   ],
+   "relief_m": 26.7,
+   "neigung_grad": [
+    5.4,
+    10.4
+   ],
+   "wasser_im_radius_pct": 3.3,
+   "wasser_abstand_m": 16,
+   "houdini_ort_pct": 98.1,
+   "region": "WALD_NW",
+   "kachel": "R_M2_M1",
+   "rezept": "bergwald",
+   "kachel_titel": "Regelkachel R_M2_M1 (bergwald 100%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_002",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_008",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_021",
+     "klasse": "pfad"
+    },
+    {
+     "zu": "RES_CH03_LOC_009",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_008",
+   "name": "Wolfstal",
+   "art": "weiler",
+   "radius_m": 70,
+   "stil_alt": "holz",
+   "x": -2537.0,
+   "z": -1271.0,
+   "unreal_cm": [
+    -253700,
+    -127100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    10.0,
+    15.7,
+    23.6
+   ],
+   "relief_m": 13.6,
+   "neigung_grad": [
+    4.3,
+    12.1
+   ],
+   "wasser_im_radius_pct": 0.4,
+   "wasser_abstand_m": 59,
+   "houdini_ort_pct": 87.3,
+   "region": "WALD_NW",
+   "kachel": "R_M1_M2",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_M2 (aue 35%, bergwald 33%, tundra 23%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_007",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_011",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_009",
+   "name": "Zalas verborgene Stadt",
+   "art": "ruinen",
+   "radius_m": 150,
+   "stil_alt": "stein",
+   "x": -2500.0,
+   "z": 700.0,
+   "unreal_cm": [
+    -250000,
+    70000
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    20.9,
+    26.3,
+    37.4
+   ],
+   "relief_m": 16.5,
+   "neigung_grad": [
+    2.7,
+    6.6
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 247,
+   "houdini_ort_pct": 73.8,
+   "region": null,
+   "kachel": "K11_LAVAFELD",
+   "rezept": "lava",
+   "kachel_titel": "Lavafeld am Nordfuss des Vulkans: moosbedeckte alte Stroeme, junger schwarzer Strom, Kraterreihe, Pseudokrater im See, Lavaroehre mit Einsturzloechern, Kipukas",
+   "wege": [
+    {
+     "zu": "RES_CH27_LOC_003",
+     "klasse": "neben"
+    },
+    {
+     "zu": "RES_CH45_LOC_017",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_010",
+   "name": "Veyr",
+   "art": "dorf",
+   "radius_m": 110,
+   "stil_alt": "dorf",
+   "x": -2220.0,
+   "z": -270.0,
+   "unreal_cm": [
+    -222000,
+    -27000
+   ],
+   "verschoben": true,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    24.0,
+    25.5,
+    27.1
+   ],
+   "relief_m": 3.1,
+   "neigung_grad": [
+    0.9,
+    1.3
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 117,
+   "houdini_ort_pct": 94.5,
+   "region": null,
+   "kachel": "R_M1_M1",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_M1 (aue 44%, bergwald 40%, canyon 9%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_019",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_002",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_017",
+     "klasse": "neben"
+    },
+    {
+     "zu": "RES_CH27_LOC_003",
+     "klasse": "neben"
+    },
+    {
+     "zu": "RES_CH28_LOC_001",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_011",
+   "name": "Altes Nordtor",
+   "art": "tor",
+   "radius_m": 90,
+   "stil_alt": "stein",
+   "x": -2037.0,
+   "z": -1671.0,
+   "unreal_cm": [
+    -203700,
+    -167100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    -0.2,
+    13.2,
+    22.2
+   ],
+   "relief_m": 22.4,
+   "neigung_grad": [
+    6.3,
+    24.4
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 45.1,
+   "region": "TUNDRA",
+   "kachel": "K10_TUNDRA",
+   "rezept": "tundra",
+   "kachel_titel": "Tundra am Binnenmeer: verflochtener Schmelzwasserfluss (Sander), gehobene Strandterrassen mit Strandwaellen, Thermokarstseen, Pingos, Eiskeilpolygone, Fliesserdeloben, Findlinge",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_008",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_006",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_012",
+   "name": "Aethelgard",
+   "art": "stadt",
+   "radius_m": 190,
+   "stil_alt": "flussstadt",
+   "x": -1150.0,
+   "z": 170.0,
+   "unreal_cm": [
+    -115000,
+    17000
+   ],
+   "verschoben": true,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    20.1,
+    24.6,
+    28.6
+   ],
+   "relief_m": 8.5,
+   "neigung_grad": [
+    1.4,
+    7.5
+   ],
+   "wasser_im_radius_pct": 12.8,
+   "wasser_abstand_m": 97,
+   "houdini_ort_pct": 76.6,
+   "region": null,
+   "kachel": "K14_AETHELGARD",
+   "rezept": "aue",
+   "kachel_titel": "Aethelgard am Zusammenfluss (Flussstadt)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_013",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_014",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_015",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_020",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_004",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "RES_CH41_LOC_006",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_013",
+   "name": "Kestenbruch",
+   "art": "dorf",
+   "radius_m": 100,
+   "stil_alt": "dorf",
+   "x": -1700.0,
+   "z": 110.0,
+   "unreal_cm": [
+    -170000,
+    11000
+   ],
+   "verschoben": true,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    22.6,
+    26.9,
+    33.9
+   ],
+   "relief_m": 11.2,
+   "neigung_grad": [
+    2.7,
+    3.9
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 123,
+   "houdini_ort_pct": 97.7,
+   "region": null,
+   "kachel": "R_M1_P0",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_P0 (aue 96%, bergwald 2%, canyon 2%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_012",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_019",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "RES_CH26_LOC_001",
+     "klasse": "pfad"
+    },
+    {
+     "zu": "RES_CH42_LOC_001",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_014",
+   "name": "Halbtann",
+   "art": "weiler",
+   "radius_m": 75,
+   "stil_alt": "dorf",
+   "x": -1437.0,
+   "z": 79.0,
+   "unreal_cm": [
+    -143700,
+    7900
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    24.5,
+    27.0,
+    29.6
+   ],
+   "relief_m": 5.1,
+   "neigung_grad": [
+    1.9,
+    2.4
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 90.2,
+   "region": null,
+   "kachel": "K14_AETHELGARD",
+   "rezept": "aue",
+   "kachel_titel": "Aethelgard am Zusammenfluss (Flussstadt)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_012",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "RES_CHEP_LOC_007",
+     "klasse": "haupt"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_015",
+   "name": "Derven",
+   "art": "dorf",
+   "radius_m": 95,
+   "stil_alt": "dorf",
+   "x": -1337.0,
+   "z": 479.0,
+   "unreal_cm": [
+    -133700,
+    47900
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    20.2,
+    22.9,
+    24.8
+   ],
+   "relief_m": 4.6,
+   "neigung_grad": [
+    1.3,
+    7.2
+   ],
+   "wasser_im_radius_pct": 18.9,
+   "wasser_abstand_m": 34,
+   "houdini_ort_pct": 65.7,
+   "region": null,
+   "kachel": "K14_AETHELGARD",
+   "rezept": "aue",
+   "kachel_titel": "Aethelgard am Zusammenfluss (Flussstadt)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_012",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_016",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_016",
+   "name": "Vestren",
+   "art": "weiler",
+   "radius_m": 75,
+   "stil_alt": "dorf",
+   "x": -1187.0,
+   "z": 679.0,
+   "unreal_cm": [
+    -118700,
+    67900
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    29.4,
+    33.3,
+    37.5
+   ],
+   "relief_m": 8.2,
+   "neigung_grad": [
+    3.0,
+    4.5
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": null,
+   "houdini_ort_pct": 92.6,
+   "region": null,
+   "kachel": "K14_AETHELGARD",
+   "rezept": "aue",
+   "kachel_titel": "Aethelgard am Zusammenfluss (Flussstadt)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_015",
+     "klasse": "neben"
+    },
+    {
+     "zu": "ROMAN_LOC_020",
+     "klasse": "haupt"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_017",
+   "name": "Tal der Toten",
+   "art": "friedhof",
+   "radius_m": 75,
+   "stil_alt": "friedhof",
+   "x": -2935.0,
+   "z": -190.0,
+   "unreal_cm": [
+    -293500,
+    -19000
+   ],
+   "verschoben": true,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    120.3,
+    161.7,
+    186.1
+   ],
+   "relief_m": 65.9,
+   "neigung_grad": [
+    13.7,
+    50.1
+   ],
+   "wasser_im_radius_pct": 13.3,
+   "wasser_abstand_m": 49,
+   "houdini_ort_pct": 72.3,
+   "region": null,
+   "kachel": "K1_WASSERFALL_WEST",
+   "rezept": "bergwald",
+   "kachel_titel": "Wasserfall-Schlucht im Westgebirge (HF_01)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_010",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_018",
+   "name": "Kharad-Vor",
+   "art": "festung",
+   "radius_m": 120,
+   "stil_alt": "stein",
+   "x": -1300.0,
+   "z": -2100.0,
+   "unreal_cm": [
+    -130000,
+    -210000
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    92.0,
+    165.6,
+    253.0
+   ],
+   "relief_m": 161.0,
+   "neigung_grad": [
+    32.5,
+    59.0
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 193,
+   "houdini_ort_pct": 42.4,
+   "region": "TUNDRA",
+   "kachel": "K10_TUNDRA",
+   "rezept": "tundra",
+   "kachel_titel": "Tundra am Binnenmeer: verflochtener Schmelzwasserfluss (Sander), gehobene Strandterrassen mit Strandwaellen, Thermokarstseen, Pingos, Eiskeilpolygone, Fliesserdeloben, Findlinge",
+   "wege": [
+    {
+     "zu": "RES_CH40_LOC_002",
+     "klasse": "pfad"
+    },
+    {
+     "zu": "RES_CH11_LOC_002",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_019",
+   "name": "Ostwerk",
+   "art": "weiler",
+   "radius_m": 80,
+   "stil_alt": "werk",
+   "x": -1950.0,
+   "z": -125.0,
+   "unreal_cm": [
+    -195000,
+    -12500
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    20.1,
+    27.2,
+    37.2
+   ],
+   "relief_m": 17.1,
+   "neigung_grad": [
+    3.8,
+    13.6
+   ],
+   "wasser_im_radius_pct": 0.0,
+   "wasser_abstand_m": 97,
+   "houdini_ort_pct": 0.0,
+   "region": null,
+   "kachel": "R_M1_P0",
+   "rezept": "aue",
+   "kachel_titel": "Regelkachel R_M1_P0 (aue 96%, bergwald 2%, canyon 2%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_013",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_010",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "RES_CH45_LOC_015",
+     "klasse": "pfad"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_020",
+   "name": "Aethelburg",
+   "art": "burg",
+   "radius_m": 130,
+   "stil_alt": "stein",
+   "x": -487.0,
+   "z": 1129.0,
+   "unreal_cm": [
+    -48700,
+    112900
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    33.5,
+    66.1,
+    82.5
+   ],
+   "relief_m": 49.0,
+   "neigung_grad": [
+    11.5,
+    25.1
+   ],
+   "wasser_im_radius_pct": 0.9,
+   "wasser_abstand_m": 95,
+   "houdini_ort_pct": 38.3,
+   "region": "GRASLAND",
+   "kachel": "R_P1_P1",
+   "rezept": "oedland",
+   "kachel_titel": "Regelkachel R_P1_P1 (oedland 83%, bergwald 12%, aue 5%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_016",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "ROMAN_LOC_012",
+     "klasse": "haupt"
+    },
+    {
+     "zu": "RES_CH45_LOC_016",
+     "klasse": "neben"
+    },
+    {
+     "zu": "RES_CHEP_LOC_005",
+     "klasse": "neben"
+    }
+   ]
+  },
+  {
+   "id": "ROMAN_LOC_021",
+   "name": "Nordbruch",
+   "art": "weiler",
+   "radius_m": 70,
+   "stil_alt": "holz",
+   "x": -3337.0,
+   "z": -1521.0,
+   "unreal_cm": [
+    -333700,
+    -152100
+   ],
+   "verschoben": false,
+   "quelle": "required_location_markers",
+   "hoehe_m": [
+    21.1,
+    44.1,
+    59.9
+   ],
+   "relief_m": 38.8,
+   "neigung_grad": [
+    6.4,
+    29.5
+   ],
+   "wasser_im_radius_pct": 3.1,
+   "wasser_abstand_m": 18,
+   "houdini_ort_pct": 91.1,
+   "region": "WALD_NW",
+   "kachel": "R_M2_M2",
+   "rezept": "bergwald",
+   "kachel_titel": "Regelkachel R_M2_M2 (bergwald 100%)",
+   "wege": [
+    {
+     "zu": "ROMAN_LOC_007",
+     "klasse": "pfad"
+    }
+   ]
+  }
+ ]
+}

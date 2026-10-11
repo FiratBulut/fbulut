@@ -1,0 +1,352 @@
+[
+ {
+  "bild": "UFER2_E5_E5_Altarm_hoch.jpg",
+  "feld": "E5",
+  "biome_im_feld": [
+   "aue",
+   "oedland"
+  ],
+  "zeit": "11.10. 11:33"
+ },
+ {
+  "bild": "UFER2_E5_E5_Flussaue_Altarm.jpg",
+  "feld": "E5",
+  "biome_im_feld": [
+   "aue",
+   "oedland"
+  ],
+  "zeit": "11.10. 11:24"
+ },
+ {
+  "bild": "HEUTE1_E5_hain0.jpg",
+  "feld": "E5",
+  "biome_im_feld": [
+   "aue",
+   "oedland"
+  ],
+  "zeit": "10.10. 10:03"
+ },
+ {
+  "bild": "MITT1_F5_rundgang.jpg",
+  "feld": "F5",
+  "biome_im_feld": [
+   "aue",
+   "heide"
+  ],
+  "zeit": "10.10. 20:00"
+ },
+ {
+  "bild": "BERG11_B4_rundgang.jpg",
+  "feld": "B4",
+  "biome_im_feld": [
+   "bergwald"
+  ],
+  "zeit": "10.10. 18:44"
+ },
+ {
+  "bild": "WASSER3_B4_WF_K1_weit.jpg",
+  "feld": "B4",
+  "biome_im_feld": [
+   "bergwald"
+  ],
+  "zeit": "11.10. 02:23"
+ },
+ {
+  "bild": "BIOM3_B5_rundgang.jpg",
+  "feld": "B5",
+  "biome_im_feld": [
+   "bergwald",
+   "kueste"
+  ],
+  "zeit": "10.10. 21:59"
+ },
+ {
+  "bild": "BIOM3_A4_rundgang.jpg",
+  "feld": "A4",
+  "biome_im_feld": [
+   "bergwald"
+  ],
+  "zeit": "10.10. 21:57"
+ },
+ {
+  "bild": "NAH2_G4_elfenw_nah0.jpg",
+  "feld": "G4",
+  "biome_im_feld": [
+   "aue",
+   "heide",
+   "elfenwald"
+  ],
+  "zeit": "10.10. 23:10"
+ },
+ {
+  "bild": "WASSER3_H4_WF_K8_weit.jpg",
+  "feld": "H4",
+  "biome_im_feld": [
+   "aue",
+   "elfenwald",
+   "sumpf"
+  ],
+  "zeit": "11.10. 06:48"
+ },
+ {
+  "bild": "KASKADE1_H4_KA_K8_Klamm.jpg",
+  "feld": "H4",
+  "biome_im_feld": [
+   "aue",
+   "elfenwald",
+   "sumpf"
+  ],
+  "zeit": "11.10. 10:39"
+ },
+ {
+  "bild": "CLOUD3_G4_hain0.jpg",
+  "feld": "G4",
+  "biome_im_feld": [
+   "aue",
+   "heide",
+   "elfenwald"
+  ],
+  "zeit": "10.10. 19:10"
+ },
+ {
+  "bild": "BIOM3_H6_rundgang.jpg",
+  "feld": "H6",
+  "biome_im_feld": [
+   "dschungel"
+  ],
+  "zeit": "10.10. 22:01"
+ },
+ {
+  "bild": "BIOM3_G6_rundgang.jpg",
+  "feld": "G6",
+  "biome_im_feld": [
+   "dschungel"
+  ],
+  "zeit": "10.10. 22:00"
+ },
+ {
+  "bild": "BIOM2_J6_rundgang.jpg",
+  "feld": "J6",
+  "biome_im_feld": [
+   "aue"
+  ],
+  "zeit": "10.10. 21:22"
+ },
+ {
+  "bild": "NAH3_C6_lava_nah0.jpg",
+  "feld": "C6",
+  "biome_im_feld": [
+   "lava"
+  ],
+  "zeit": "11.10. 04:37"
+ },
+ {
+  "bild": "BIOM1_C6_rundgang.jpg",
+  "feld": "C6",
+  "biome_im_feld": [
+   "lava"
+  ],
+  "zeit": "10.10. 19:32"
+ },
+ {
+  "bild": "BERG11_E1_rundgang.jpg",
+  "feld": "E1",
+  "biome_im_feld": [
+   "gletscher"
+  ],
+  "zeit": "10.10. 18:47"
+ },
+ {
+  "bild": "NAH2_E1_hochge_nah0.jpg",
+  "feld": "E1",
+  "biome_im_feld": [
+   "gletscher"
+  ],
+  "zeit": "10.10. 23:04"
+ },
+ {
+  "bild": "SERP2_E2_SERP_D2_kehren_hoch.jpg",
+  "feld": "E2",
+  "biome_im_feld": [
+   "gletscher",
+   "tundra",
+   "frost"
+  ],
+  "zeit": "11.10. 07:00"
+ },
+ {
+  "bild": "BERG11_D2_rundgang.jpg",
+  "feld": "D2",
+  "biome_im_feld": [
+   "gletscher",
+   "fjord",
+   "tundra"
+  ],
+  "zeit": "10.10. 18:46"
+ },
+ {
+  "bild": "NAH3_D3_K10_hoch.jpg",
+  "feld": "D3",
+  "biome_im_feld": [
+   "tundra",
+   "canyon",
+   "wueste"
+  ],
+  "zeit": "11.10. 04:43"
+ },
+ {
+  "bild": "BERG11_C2_rundgang.jpg",
+  "feld": "C2",
+  "biome_im_feld": [
+   "gletscher",
+   "fjord",
+   "tundra"
+  ],
+  "zeit": "10.10. 18:45"
+ },
+ {
+  "bild": "STRASSE1_D4_D4_ferat_blick.jpg",
+  "feld": "D4",
+  "biome_im_feld": [
+   "aue",
+   "canyon",
+   "wueste"
+  ],
+  "zeit": "10.10. 22:22"
+ },
+ {
+  "bild": "STRASSE1_E4_E4_neu_576m.jpg",
+  "feld": "E4",
+  "biome_im_feld": [
+   "aue",
+   "wueste"
+  ],
+  "zeit": "10.10. 22:31"
+ },
+ {
+  "bild": "WASSER3_E4_E4_Wuestenbach.jpg",
+  "feld": "E4",
+  "biome_im_feld": [
+   "aue",
+   "wueste"
+  ],
+  "zeit": "11.10. 04:04"
+ },
+ {
+  "bild": "BIOM2_F6_rundgang.jpg",
+  "feld": "F6",
+  "biome_im_feld": [
+   "aue",
+   "oedland"
+  ],
+  "zeit": "10.10. 21:19"
+ },
+ {
+  "bild": "BIOM2_E7_rundgang.jpg",
+  "feld": "E7",
+  "biome_im_feld": [
+   "oedland"
+  ],
+  "zeit": "10.10. 21:18"
+ },
+ {
+  "bild": "MITT1_G5_rundgang.jpg",
+  "feld": "G5",
+  "biome_im_feld": [
+   "heide",
+   "dschungel"
+  ],
+  "zeit": "10.10. 20:02"
+ },
+ {
+  "bild": "HEUTE1_G5_hain0.jpg",
+  "feld": "G5",
+  "biome_im_feld": [
+   "heide",
+   "dschungel"
+  ],
+  "zeit": "10.10. 10:25"
+ },
+ {
+  "bild": "KLIPPE2_A5_fern.jpg",
+  "feld": "A5",
+  "biome_im_feld": [
+   "kueste"
+  ],
+  "zeit": "10.10. 18:19"
+ },
+ {
+  "bild": "KLIPPE2_A5_k2_nah.jpg",
+  "feld": "A5",
+  "biome_im_feld": [
+   "kueste"
+  ],
+  "zeit": "10.10. 18:12"
+ },
+ {
+  "bild": "BERG11_A5_rundgang.jpg",
+  "feld": "A5",
+  "biome_im_feld": [
+   "kueste"
+  ],
+  "zeit": "10.10. 18:44"
+ },
+ {
+  "bild": "NAH2_H5_sumpf_nah0.jpg",
+  "feld": "H5",
+  "biome_im_feld": [
+   "aue",
+   "dschungel",
+   "sumpf"
+  ],
+  "zeit": "10.10. 22:59"
+ },
+ {
+  "bild": "BIOM1_H5_rundgang.jpg",
+  "feld": "H5",
+  "biome_im_feld": [
+   "aue",
+   "dschungel",
+   "sumpf"
+  ],
+  "zeit": "10.10. 19:35"
+ },
+ {
+  "bild": "BIOM2_B7_rundgang.jpg",
+  "feld": "B7",
+  "biome_im_feld": [
+   "aue",
+   "lava"
+  ],
+  "zeit": "10.10. 21:15"
+ },
+ {
+  "bild": "BIOM3_I4_rundgang.jpg",
+  "feld": "I4",
+  "biome_im_feld": [
+   "bergwald",
+   "elfenwald"
+  ],
+  "zeit": "10.10. 22:02"
+ },
+ {
+  "bild": "BIOM2_I5_rundgang.jpg",
+  "feld": "I5",
+  "biome_im_feld": [
+   "bergwald",
+   "dschungel",
+   "sumpf"
+  ],
+  "zeit": "10.10. 21:21"
+ },
+ {
+  "bild": "UFER2_C4_rundgang.jpg",
+  "feld": "C4",
+  "biome_im_feld": [
+   "bergwald",
+   "aue",
+   "canyon"
+  ],
+  "zeit": "10.10. 12:24"
+ }
+]

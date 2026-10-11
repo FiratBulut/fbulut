@@ -1,0 +1,719 @@
+[
+ {
+  "name": "M_EL_Pflanze",
+  "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/M_EL_Pflanze",
+  "skalar": {
+   "Variation": 0.6,
+   "Durchscheinen": 0.8,
+   "Helligkeit": 1.0,
+   "Wind_Staerke": 0.25,
+   "Rauheit": 1.0,
+   "Specular": 0.35,
+   "Normal_Flach": 0.0,
+   "Wind_Hoehe": 60.0,
+   "Wind_Tempo": 0.5,
+   "EL_Version_2": 2.0
+  },
+  "vektor": {
+   "Farbe": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "textur": {
+   "T": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_BC",
+   "AoRT": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_AoRT",
+   "BC": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_BC",
+   "N": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_N"
+  },
+  "instanzen": 6
+ },
+ {
+  "name": "M_EL_Fels_MS",
+  "pfad": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS",
+  "skalar": {
+   "Helligkeit": 1.0,
+   "Nass_Weich": 15.0,
+   "Nass_Dunkel": 0.55,
+   "Variation": 0.6,
+   "Rauheit": 1.0,
+   "Specular": 0.35,
+   "Normal_Flach": 0.0,
+   "Durchscheinen": 0.8,
+   "Wind_Hoehe": 60.0,
+   "Wind_Staerke": 0.25,
+   "Wind_Tempo": 0.5,
+   "EL_Version_2": 2.0
+  },
+  "vektor": {
+   "Toenung": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "Farbe": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "textur": {
+   "Normal": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_N",
+   "BC": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_BC",
+   "AoRT": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_AoRT",
+   "N": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_N",
+   "T": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_BC"
+  },
+  "instanzen": 145
+ },
+ {
+  "name": "M_EL_Fels_Auflage",
+  "pfad": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage",
+  "skalar": {
+   "Fels_Saettigung": 1.0,
+   "Helligkeit": 1.0,
+   "Rauheit": 1.0,
+   "Auflage_Kachel": 400.0,
+   "Auflage_Schwelle": 0.7,
+   "Auflage_Weich": 0.15,
+   "Auflage_Hohl": 0.6,
+   "Auflage_Flecken": 0.5,
+   "Auflage_Menge": 0.5,
+   "Auflage_Kante": 3.0,
+   "Auflage_Rauheit": 0.9
+  },
+  "vektor": {
+   "Toenung": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "Auflage_Farbe": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "textur": {
+   "Albedo": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_BC",
+   "Normal": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_N",
+   "DpRF": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_DpRF",
+   "Auflage_Tex": "/Game/Coast_Dunes_Environment_Set/Landscape/Textures/T_ground_sand_02_BC_H"
+  },
+  "instanzen": 25
+ },
+ {
+  "name": "M_EL_Klippe_RVT",
+  "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT",
+  "skalar": {
+   "Fels_Saettigung": 0.7,
+   "Helligkeit": 0.95,
+   "Rauheit": 1.0,
+   "Fuss_Z": 0.0,
+   "Moos_Kachel": 400.0,
+   "Blend_Hoehe": 150.0,
+   "Blend_Weich": 80.0,
+   "Blend_Flecken": 0.6,
+   "Moos_Schwelle": 0.55,
+   "Moos_Weich": 0.2,
+   "Moos_Ab": 250.0,
+   "Moos_Band": 200.0,
+   "Moos_Menge": 0.5,
+   "Moos_Menge_Akteur": 1.0,
+   "Moos_Flecken": 0.8,
+   "Moos_Kante": 3.0
+  },
+  "vektor": {
+   "Toenung": [
+    0.88,
+    0.88,
+    0.9,
+    1.0
+   ],
+   "Moos_Farbe": [
+    0.9,
+    1.0,
+    0.75,
+    1.0
+   ]
+  },
+  "textur": {
+   "Albedo": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vdssailfa/Medium/vdssailfa_tier_2/Textures/T_vdssailfa_2K_B",
+   "Normal": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vdssailfa/Medium/vdssailfa_tier_2/Textures/T_vdssailfa_2K_N",
+   "ORM": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_vdssailfa/Medium/vdssailfa_tier_2/Textures/T_vdssailfa_2K_ORM",
+   "Moos_Albedo": "/Game/Fab/Megascans/Surfaces/Nordic_Moss_se4rwei/Raw/se4rwei_tier_0/Textures/T_se4rwei_8K_B",
+   "Moos_ORM": "/Game/Fab/Megascans/Surfaces/Nordic_Moss_se4rwei/Raw/se4rwei_tier_0/Textures/T_se4rwei_8K_ORM"
+  },
+  "instanzen": 9
+ },
+ {
+  "name": "M_EL_Wasserfall2",
+  "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
+  "skalar": {
+   "Tempo": 1.0,
+   "V_Skala": 0.6,
+   "U_Skala": 1.0,
+   "Straehnen_Staerke": 0.6,
+   "Schaum_Menge": 1.2,
+   "Wasser_Rauheit": 0.06,
+   "Schaum_Rauheit": 0.55,
+   "Schaum_Leuchten": 0.03,
+   "Rand_Durchsicht": 0.7,
+   "Deckkraft": 1.0,
+   "Tiefenblende_cm": 60.0
+  },
+  "vektor": {
+   "Wasserfarbe": [
+    0.16,
+    0.24,
+    0.26,
+    1.0
+   ],
+   "Schaumfarbe": [
+    0.9,
+    0.94,
+    0.96,
+    1.0
+   ]
+  },
+  "textur": {
+   "Schaum_A": "/Game/RiverShader/Textures/T_Foam_D_1",
+   "Schaum_B": "/Game/RiverShader/Textures/T_Foam_D_2",
+   "Straehnen": "/Game/RiverShader/Textures/T_StretchNoise",
+   "Wasser_Normale": "/Game/RiverShader/Textures/T_Water_N",
+   "Schaum_Normale": "/Game/RiverShader/Textures/T_WaterFoam_N_1"
+  },
+  "instanzen": 4
+ },
+ {
+  "name": "M_Eldarien_Glut",
+  "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_Glut",
+  "skalar": {},
+  "vektor": {},
+  "textur": {},
+  "instanzen": 0
+ },
+ {
+  "name": "M_EL_Eis4",
+  "pfad": "/Game/Eldarien/Welt/Wasser/M_EL_Eis4",
+  "skalar": {
+   "Eis_Kachel_cm": 2300.0,
+   "Eis_Flecken": 0.85,
+   "Eis_Normal_Staerke": 0.45,
+   "Eis_Rau_Max": 0.16,
+   "Eis_Rau_Min": 0.04,
+   "Schnee_Flecken_cm": 9000.0,
+   "Schnee_Schliere_cm": 2600.0,
+   "Schnee_Schwelle": 0.66,
+   "Schnee_Schliere": 0.3,
+   "Schnee_Menge": 0.85,
+   "Schnee_Kachel_cm": 420.0,
+   "Seite_Kachel_cm": 700.0,
+   "Kante_Rauschen": 0.6,
+   "Rand_Breite_m": 3.0,
+   "Rand_Rauschen_m": 3.5,
+   "Schnee_Rau": 0.72,
+   "Seite_Rau": 0.18,
+   "Eis_Spekular": 0.6
+  },
+  "vektor": {
+   "Eis_Tief_Farbe": [
+    0.05,
+    0.2,
+    0.46,
+    1.0
+   ],
+   "Eis_Farbe": [
+    0.36,
+    0.64,
+    0.96,
+    1.0
+   ],
+   "Schnee_Farbe": [
+    0.93,
+    0.96,
+    1.0,
+    1.0
+   ],
+   "Seite_Farbe": [
+    0.16,
+    0.36,
+    0.62,
+    1.0
+   ]
+  },
+  "textur": {},
+  "instanzen": 1
+ },
+ {
+  "name": "M_EL_Fels_Sand",
+  "pfad": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand",
+  "skalar": {
+   "Helligkeit": 1.0,
+   "Rauheit": 1.0,
+   "Sand_Kachel": 400.0,
+   "Sand_Schwelle": 0.55,
+   "Sand_Weich": 0.22,
+   "Sand_Hohl": 0.6,
+   "Sand_Flecken": 0.5,
+   "Sand_Menge": 0.6,
+   "Sand_Kante": 3.0,
+   "Sand_Fuss": 0.0,
+   "Sand_Fuss_Weich": 80.0,
+   "Sand_Rauheit": 0.92
+  },
+  "vektor": {
+   "Toenung": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "Sand_Farbe": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "textur": {
+   "Albedo": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_BC",
+   "Normal": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_N",
+   "DpRF": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_DpRF"
+  },
+  "instanzen": 10
+ },
+ {
+  "name": "M_Eldarien_Wasser_Schaum8",
+  "pfad": "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_Schaum8",
+  "skalar": {
+   "WaterZoneIndex": 0.0,
+   "MaxFlowVelocity": 1024.0,
+   "WaterBodyIndex": 0.0,
+   "Fluidsim Normal Strength": 1.0,
+   "Max Fluid Displacement": 1024.0,
+   "Fluid Displacement Multiplier": 1.0,
+   "Velocity Debug": 0.0,
+   "Simulation Flowmap Speed": 0.75,
+   "Sim Foam Scale": 350.0,
+   "Sim Flowmap Detection": 1.5,
+   "SIm Flowmap Speed": 1.5,
+   "Fluidsim Velocity EdgeFalloff": 0.2,
+   "Fluidsim Velocity Edgeoffset": 0.02,
+   "Sim Foam Dpeth Min": 8.0,
+   "Foam Attachment": 0.4,
+   "Water Depth to Mask Waves": 100.0,
+   "Sim Foam Normal": 1.0,
+   "Foam Opacity": 1.0,
+   "Foam Roughness": 0.4,
+   "Wave Over Object Mask Distance": 256.0,
+   "Wave DF Mask Bias": -64.0,
+   "Sim Velocity Normal Strength": 40.0,
+   "Sim Foam Velocity Mip": 128.0,
+   "Wave over Rock Steepness": 0.0,
+   "SimFoam Contrast": 0.0,
+   "ShowSim": 1.0,
+   "Fluidsim Flow Density": 0.25,
+   "WPO Flowmap": 6.0,
+   "Foam Distance": 256.0,
+   "Depth for DF Foam": 64.0,
+   "Foam Dpeth Min": 64.0,
+   "FoamContrast": 1.0,
+   "Foam MacroScale": 1536.0,
+   "Foam Normal I": 0.5,
+   "Foam normal offset": 0.002,
+   "Foam Wave normal Z": 2.0,
+   "Foam powr": 0.2,
+   "Foam Boost": 1.0,
+   "Height Bias": -1.0,
+   "Front Foam Scale": 654.0,
+   "Front Height Bias": -0.5,
+   "Foam Scattering Mip": 8.0,
+   "Foam Texture Blend Min": 0.4,
+   "Foam Texture Blend Width": 0.4,
+   "Foam Phase Mip Bias": 0.0,
+   "Foam Scatter Bias": 0.25,
+   "Wave Foam Erase Near FluidsimSize": 0.5,
+   "Mask Wave Foam near FluidSim": 1.0,
+   "Fluid Eraose Ssaler": 0.5,
+   "Water Roughness": 0.02,
+   "Water Specular": 0.225,
+   "Refraction": 1.15,
+   "Depth for Min Refraction": 5000.0,
+   "Refraction Far": 1.02,
+   "Water Fresnel Roughness": 0.1,
+   "Water Fresnel Specular": 0.225,
+   "Water Fresnel  Exponenth": 5.0,
+   "Anisotropy": 0.1,
+   "Default Distant Water Scale": 3500.0,
+   "Default Disant Water Speed": 0.75,
+   "Default Distant Normal Strength": 0.3,
+   "Default Distant Normal StrengthB": 0.25,
+   "Far Normal Fresnel Power": 9.0,
+   "Default Near Water Scale": 512.0,
+   "Default Near Normal Strength": 0.25,
+   "Water Distant Normal Offset": 5000.0,
+   "Water Distant Normal Length": 10000.0,
+   "Velocity to Mask waves": 100.0,
+   "River Flowmap Speed": 0.003,
+   "River Flowmap Detection Velocity": 64.0,
+   "River Foam Scale": 512.0,
+   "River Time Modulation Size": 2750.0,
+   "River Normal Flatness": 0.5,
+   "River Flowmap Depth Density": 0.003,
+   "River Flowmap Depth Bias": 64.0,
+   "Critical Angle Dot": 0.225,
+   "Critical Angle Width": 0.01,
+   "Refraction Bottom Amount": 1.0,
+   "Critical Angle Bend Width": -0.75,
+   "Lip Refraction": 0.95,
+   "Water Opacity Mask Offset": -24.0,
+   "RefractionDownsampleFactor": 2.0,
+   "Multiply Refraction": 1.0,
+   "FD": 1.0,
+   "Light Parallax": 1.0,
+   "Caustics Finite Offset": 16.0,
+   "Caustics Brightness Adjust": 1.0,
+   "Refract Caustic Position": 2.0,
+   "Min focus size": 0.0005,
+   "Caustics Water Depth Bias": 64.0,
+   "Water Depth Caustics Spread": 0.0,
+   "Caustics Waves Water Body Index": 0.0,
+   "EL_Time": 0.0,
+   "ELD_Tiefe_Versatz": 10.0,
+   "ELD_Schaum_Tempo": 0.35,
+   "ELD_Schaum_Groesse": 320.0,
+   "ELD_Schaum_Zug": 0.55,
+   "ELD_Fels_Schaum": 1.6,
+   "ELD_DF_Steil": 0.8,
+   "ELD_Kontakt_Radius": 55.0,
+   "ELD_Spur_Laenge": 1.0,
+   "ELD_Wirbel_Tempo": 0.35,
+   "ELD_DF_Schaum": 1.2,
+   "ELD_Strom_Schwelle": 1.6,
+   "ELD_Strom_Breite": 1.2,
+   "ELD_Strom_Schaum": 0.8,
+   "ELD_Saum_Mitte": 6.0,
+   "ELD_Saum_Breite": 7.0,
+   "ELD_Ufer_Schaum": 0.45,
+   "ELD_Saum_Neigung": 0.05,
+   "ELD_Schaum_Schwelle": 0.1,
+   "ELD_Schaum_Kontrast": 2.4,
+   "ELD_Schaum_Rauheit": 0.55,
+   "ELD_Schaum_Deckkraft": 0.05,
+   "ELD_Wirbel_Groesse": 140.0,
+   "ELD_Wirbel_Zug": 1.3,
+   "ELD_Wirbel_Normal": 0.9,
+   "ELD_Schaum_Normal": 0.6,
+   "ELD_Wirbel_Staerke": 0.85
+  },
+  "vektor": {
+   "BakedWaterSimSize": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "Foam Emissive": [
+    0.287,
+    1.0,
+    0.188,
+    1.0
+   ],
+   "foramnormal": [
+    0.5,
+    0.5,
+    1.0,
+    0.0
+   ],
+   "Water Albedo": [
+    0.85,
+    0.85,
+    0.85,
+    0.5
+   ],
+   "Scattering": [
+    1.0,
+    1.0,
+    1.0,
+    0.5
+   ],
+   "Absorption": [
+    10.0,
+    150.0,
+    350.0,
+    8.0
+   ],
+   "Foam Scattering": [
+    1.0,
+    1.0,
+    1.0,
+    5.0
+   ],
+   "EL_Ripple0": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "EL_Ripple1": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "EL_Ripple2": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "EL_Ripple3": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "EL_Ripple4": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "EL_Ripple5": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "EL_Ripple6": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "EL_Ripple7": [
+    0.0,
+    0.0,
+    -100.0,
+    0.0
+   ],
+   "ELD_Schaum_Farbe": [
+    0.8,
+    0.84,
+    0.82,
+    1.0
+   ]
+  },
+  "textur": {
+   "BakedWaterSimTexVT": "/Water/Textures/BlackVT4x4",
+   "BakedWaterSimTex": "/Engine/EngineResources/DefaultTexture",
+   "WaterVelocityAndHeight": "/Water/Textures/BlackTexture2DArray",
+   "NormalAndHeight": "/Engine/Functions/Engine_MaterialFunctions02/PivotPainter2/Black_1x1_EXR_Texture",
+   "Velocity": "/Engine/Functions/Engine_MaterialFunctions02/PivotPainter2/Black_1x1_EXR_Texture",
+   "RiverFlowmapDiffuse": "/Water/Textures/Flowmaps/RiverFlowmap_Diffuse",
+   "RiverFlowmapNormal": "/Water/Textures/Flowmaps/RiverFlowmap_Normal"
+  },
+  "instanzen": 1
+ },
+ {
+  "name": "M_EL_Strasse_V2",
+  "pfad": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2",
+  "skalar": {
+   "A_Kachel_m": 3.0,
+   "Kachel_Faktor2": 0.823,
+   "B_Kachel_m": 2.5,
+   "C_Kachel_m": 2.0,
+   "A_Hoehe_Quelle": 1.0,
+   "B_Hoehe_Quelle": 1.0,
+   "C_Hoehe_Quelle": 1.0,
+   "Detail_Weich": 0.32,
+   "B_Schwelle_Unten": 0.83,
+   "B_Schwelle_Oben": 0.99,
+   "B_Abschnitt": 0.3,
+   "B_Rille": 0.5,
+   "Hoehe_Misch_Unten": 0.18,
+   "Hoehe_Misch_Oben": 0.82,
+   "Hoehe_Misch_Staerke": 0.24,
+   "C_Schwelle_Unten": 0.007,
+   "C_Schwelle_Oben": 0.973,
+   "C_Flaechenanteil": 0.0,
+   "C_Fleck_Faktor": 1.0,
+   "C_Rille": 0.8,
+   "C_aus_Naesse": 0.0,
+   "Rand_A_Unten": 0.35,
+   "Rand_A_Oben": 0.97,
+   "Rand_Variation": 0.25,
+   "Mittelstreifen": 0.0,
+   "Rille_Unten": 0.08,
+   "Rille_Oben": 0.45,
+   "Rille_Variation": 0.5,
+   "Naesse_Max": 0.2,
+   "Naesse_Nass_Unten": 0.15,
+   "Naesse_Nass_Oben": 0.7,
+   "Naesse_Rille": 0.7,
+   "Naesse_Flaeche": 0.3,
+   "Pfuetze_Staerke": 0.0,
+   "Pfuetze_Pegel": 0.6,
+   "Deckkraft_Unten": 0.05,
+   "Deckkraft_Oben": 0.6,
+   "Rand_Fransen": 0.25,
+   "Spekular": 0.5,
+   "Fern_Start_cm": 3000.0,
+   "Fern_Laenge_cm": 6000.0,
+   "Normal_Staerke": 0.8,
+   "Normal_Fern": 0.5,
+   "Rille_Abdunkeln": 0.88,
+   "Rille_Glaette": 0.06,
+   "Makro_Staerke": 0.08,
+   "Naht_Staerke": 0.8,
+   "VC_Farbe_Staerke": 0.0,
+   "Naesse_Glanz": 0.32,
+   "Rauheit_Boden": 0.4,
+   "Pfuetze_Rauheit": 0.06,
+   "AO_Staerke": 1.0,
+   "Rand_RVT_Staerke": 0.6,
+   "Umgebung_RVT": 0.08,
+   "Helligkeit": 1.0,
+   "Relief_m": 0.03
+  },
+  "vektor": {
+   "Seed_Versatz_m": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "A_Toenung": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "B_Toenung": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "C_Toenung": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "Biom_Mittelfarbe": [
+    0.15,
+    0.12,
+    0.08,
+    1.0
+   ],
+   "VC_Bezug": [
+    0.45,
+    0.42,
+    0.33,
+    1.0
+   ],
+   "Naesse_Farbe": [
+    0.5,
+    0.53,
+    0.55,
+    1.0
+   ],
+   "Farbe_Gesamt": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "textur": {
+   "A_Farbe": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_BC_H",
+   "A_Normal": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_N",
+   "A_Maske": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_MT_R_AO",
+   "B_Farbe": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_BC_H",
+   "B_Normal": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_N",
+   "B_Maske": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_MT_R_AO",
+   "C_Farbe": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_BC_H",
+   "C_Normal": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_N",
+   "C_Maske": "/Game/Environment_Set/Environment/Landscape/Textures/T_ground_dirt_01_MT_R_AO"
+  },
+  "instanzen": 15
+ },
+ {
+  "name": "M_MS_Decal",
+  "pfad": "/Game/Fab/Materials/Standard/M_MS_Decal",
+  "skalar": {
+   "Tiling": 1.0,
+   "Crop Y": 1.0,
+   "Crop X": 1.0,
+   "Opacity Intensity": 1.0,
+   "Saturation": 1.0,
+   "Brightness": 1.0,
+   "Contrast": 1.0,
+   "Min Roughness": 0.0,
+   "Max Roughness": 1.0,
+   "AO Strength": 1.0,
+   "Normal Intensity": 1.0,
+   "Specular": 0.5
+  },
+  "vektor": {
+   "BaseColor Tint": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "textur": {
+   "BaseColorTexture": "/Fab/Textures/Standard/T_DefaultColor",
+   "MetallicRoughnessTexture": "/Fab/Textures/Standard/T_DefaultMasks",
+   "NormalTexture": "/Fab/Textures/Standard/T_DefaultNormal",
+   "HeightTexture": "/Fab/Textures/Standard/T_DefaultDisplacement"
+  },
+  "instanzen": 1
+ },
+ {
+  "name": "M_MS_Base",
+  "pfad": "/Game/Fab/Materials/Standard/M_MS_Base",
+  "skalar": {
+   "Normal Intensity": 1.0,
+   "Specular": 0.5,
+   "Saturation": 1.0,
+   "Brightness": 1.0,
+   "Contrast": 1.0,
+   "Min Roughness": 0.0,
+   "Max Roughness": 1.0,
+   "AO Strength": 1.0
+  },
+  "vektor": {
+   "BaseColor Tint": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "textur": {
+   "BaseColorTexture": "/Fab/Textures/Standard/T_DefaultColor",
+   "NormalTexture": "/Fab/Textures/Standard/T_DefaultNormal",
+   "MetallicRoughnessTexture": "/Fab/Textures/Standard/T_DefaultMasks",
+   "HeightTexture": "/Fab/Textures/Standard/T_DefaultDisplacement"
+  },
+  "instanzen": 28
+ },
+ {
+  "name": "M_Eldarien_Eis",
+  "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_Eis",
+  "skalar": {},
+  "vektor": {},
+  "textur": {},
+  "instanzen": 0
+ }
+]
