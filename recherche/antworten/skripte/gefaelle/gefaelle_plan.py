@@ -1160,3 +1160,427 @@ def ueberlappungen(stuecke, zelle=0.25):
             out.add((int(j), i))
         besitz[m & (besitz < 0)] = i
     return sorted(out)
+
+
+# ======================================================================================================================
+# Ein Lauf
+# ======================================================================================================================
+def fels_funktion(K, pr):
+    welt, gel, rw = K["welt"], K["gel"], K["rw"]
+    fr = rw.fels_regel()
+    from sehens_lib import daten
+    codes = {daten.BODEN.index(n) for n in FELS_LAGEN if n in daten.BODEN}
+
+    def f(s, S):
+        x, y = pr.xy(s)
+        tx, ty = pr.tang(s)
+        B = pr.Bi(s)
+        r = fr["radius"]
+        px = np.array([x, x + r, x - r, x, x, x + ty * (B / 2 + 2), x - ty * (B / 2 + 2)])
+        py = np.array([y, y, y, y + r, y - r, y - tx * (B / 2 + 2), y + tx * (B / 2 + 2)])
+        i, j = welt.m_zu_ij(px, py)
+        if any(int(c) in codes for c in welt.boden[i, j]):
+            return True
+        if float(np.max(gel.neigung[i[5:], j[5:]])) > fr["hang_grad"]:
+            return True
+        return welt.biom_bei_m(x, y) in fr["biome"] and S >= fr["S_fels"]
+    return f
+
+
+def eintiefung(K, pr, sp, s_arr):
+    """Gelaende quer zum Lauf (B/2+1 ... 2B, je Seite das Maximum, dann das Minimum beider Seiten) ueber dem neuen
+    Spiegel (ufer_klippen.wann / klamm.wann)."""
+    welt = K["welt"]
+    out = np.zeros(len(s_arr))
+    for n, s in enumerate(s_arr):
+        x, y = pr.xy(s)
+        tx, ty = pr.tang(s)
+        B = pr.Bi(s)
+        off = np.linspace(B / 2.0 + 1.0, max(2.0 * B, B / 2.0 + 2.0), 5)
+        hl = welt.hoehe_bei_m(x + ty * off, y - tx * off)
+        hr = welt.hoehe_bei_m(x - ty * off, y + tx * off)
+        out[n] = min(float(np.max(hl)), float(np.max(hr))) - float(spiegel_bei(sp, s))
+    return out
+
+
+def plane_lauf(lauf_id, K, strecken_ids=None):
+    from sehens_lib import daten, instanzen, rezept, stempel as stm
+    from sehens_lib import format as sfmt
+    welt, gel, inv, rw = K["welt"], K["gel"], K["inv"], K["rw"]
+    meldungen = []
+
+    def melde(stufe, text):
+        meldungen.append((stufe, lauf_id, text))
+    K["melde"] = melde
+    lauf = gd.Lauf.aus_welt(welt, lauf_id, K["baeche"], K["wasser_welt"])
+    pr = Profil(lauf)
+    fels_fn = fels_funktion(K, pr)
+    st_l = [x for x in K["strecken"] if x["lauf"] == lauf_id and (strecken_ids is None or x["id"] in strecken_ids)]
+    # andere Gewaesser im Umfeld
+    bx = (pr.x.min() - 60, pr.x.max() + 60, pr.y.min() - 60, pr.y.max() + 60)
+    andere = []
+    quellen = [(f["id"], f["punkte"]) for f in (K["wasser_welt"].get("fluesse") or [])] + \
+              [(b["id"], b["punkte"]) for b in K["baeche"]]
+    for oid, pk in quellen:
+        if oid == lauf_id or not pk or len(pk) < 2:
+            continue
+        P = np.asarray(pk, np.float64)[:, :2] / 100.0
+        if P[:, 0].max() < bx[0] or P[:, 0].min() > bx[1] or P[:, 1].max() < bx[2] or P[:, 1].min() > bx[3]:
+            continue
+        andere.append(P)
+    for s_ in K["wasser_welt"].get("seen") or []:
+        P = np.asarray(s_.get("umriss") or [[0, 0]], np.float64)[:, :2] / 100.0
+        if len(P) >= 3 and not (P[:, 0].max() < bx[0] or P[:, 0].min() > bx[1] or P[:, 1].max() < bx[2] or P[:, 1].min() > bx[3]):
+            andere.append(np.vstack([P, P[:1]]))
+    orte_nah = [o for o in K["orte"] if bx[0] - 300 < o["x_m"] < bx[1] + 300 and bx[2] - 300 < o["y_m"] < bx[3] + 300]
+    biom_netze = {}
+
+    def netze(biom):
+        if biom not in biom_netze:
+            bn, b = rw.biom(biom)
+            N = {k: netze_pruefen(inv, v, melde, "%s.%s" % (bn, k)) for k, v in b["netze"].items()}
+            for k in ("lippe", "riegel", "bloecke", "wand", "schutt", "kies", "holz", "extra"):
+                N.setdefault(k, [])
+            biom_netze[biom] = (bn, N)
+        return biom_netze[biom]
+
+    hz = gr.holzstufe(rw)
+    strecken_out, alle_stufen, segmente = [], [], []
+    abschnitte = []
+    for x in st_l:
+        pe = K["prio"].get(x["id"], {})
+        status = pe.get("status", "offen")
+        eintrag = {"id": x["id"], "status": status, "rang": pe.get("rang"), "pilot": bool(pe.get("pilot")),
+                   "s_m": [x["s0_m"], x["s1_m"]], "laenge_m": x["laenge_m"], "fall_m": x["hoehe_m"],
+                   "gefaelle_mittel": x["gefaelle_mittel"], "gefaelle_max": x["gefaelle_max"]}
+        if status not in PLANBAR:
+            eintrag["hinweis"] = {"gebaut_stufen": "schon mit Stufen gebaut (Auftrag 12/14) - nur Feinschliff, nicht geplant",
+                                  "umgebaut_von_sehens": "baut ein Sehens-Planer um - nicht doppelt geplant"}.get(status, status)
+            strecken_out.append(eintrag)
+            continue
+        s0, s1 = x["s0_m"], x["s1_m"]
+        fix, gruende = feste_zonen(pr, welt, gel, orte_nah, K["umbau"], andere, s0, s1)
+        L = s1 - s0
+        n_ab = max(1, int(math.ceil(L / 420.0)))
+        grenzen_ab = [s0 + L * k / n_ab for k in range(n_ab + 1)]
+        for k in range(1, n_ab):
+            m = np.abs(pr.s - grenzen_ab[k]) <= 10.0
+            fix[m] = True
+            gruende.append((_r(grenzen_ab[k] - 10), _r(grenzen_ab[k] + 10), "Abschnittsgrenze (Fenster <= 600 m)"))
+        frei = []
+        ks = np.flatnonzero((pr.s >= s0) & (pr.s <= s1))
+        st = None
+        for k in ks:
+            if not fix[k] and st is None:
+                st = pr.s[k]
+            if (fix[k] or k == ks[-1]) and st is not None:
+                e_ = pr.s[k] if not fix[k] else pr.s[max(k - 1, 0)]
+                if e_ - st >= 2.0 * gr.min_abstand_stufen(rw, pr.Bi(st)):
+                    frei.append((float(st), float(e_)))
+                st = None
+        rng = np.random.default_rng(abs(hash_stabil(SEED, x["id"])))
+        leger = Stufenleger(rw, pr, welt, x["art"], rng, None, fels_fn)
+        st_x = []
+        segs_x = []
+        for a, b in frei:
+            roh = leger.lege(a, b)
+            if not roh:
+                continue
+            fertig = leger.ausarbeiten(roh, a, b)
+            fertig = [e for e in fertig if e["D"] >= rw.art_bereich("schnelle")[0] or e.get("erzwungen")]
+            if not fertig:
+                continue
+            kk = leger.kaskaden(fertig)
+            # Segmentanfang = erste Lippe (davor bleibt der Spiegel)
+            a2 = kk[0]["p"]
+            biome_seg = [welt.biom_bei_m(*pr.xy(v)) for v in np.linspace(a2, b, 7)]
+            biom_seg = max(set(biome_seg), key=lambda v: (biome_seg.count(v), v))
+            segs_x.append((a2, b, biom_seg, int(np.searchsorted(grenzen_ab, a2, side="right") - 1)))
+            st_x += kk
+        for n, e in enumerate(sorted(st_x, key=lambda e: e["p"])):
+            e["nr"] = len(alle_stufen) + n
+            e["id"] = "%s_S%02d" % (x["id"], n + 1)
+            e["strecke"] = x["id"]
+            b_ = welt.biom_bei_m(*pr.xy(e["p"]))
+            e["biom"] = b_ if b_ in rw.r["biome"] or b_ in rw.ERSATZ else (segs_x[0][2] if segs_x else "aue")
+            netze(e["biom"])
+            letzter = e.get("teil", [{"D": e["D"]}])[-1]
+            e["kolk"] = rw.kolk("fall" if e["art"] == "fall" else "stufe", e["D"] if e["art"] != "kaskade" else letzter["D"],
+                                e["S"], e["L"], e["B"])
+            e["lippe_breite_m"] = rw.lippe_breite(e["B"])
+            lin, ue, ub, br = lippe_linie(pr, rw, e, np.random.default_rng(abs(hash_stabil(SEED, e["id"]))))
+            e["_lippe_m"], e["_ueberfall"], e["_ueberfall_b"] = lin, ue, ub
+            an = hz["anteil"].get(rw.biom(e["biom"])[0], 0.0)
+            e["holz"] = bool(e["art"] in ("stufe", "kaskade", "schnelle") and e["D"] <= hz["D_max"] and e["B"] <= hz["B_max"]
+                             and float(np.random.default_rng(abs(hash_stabil(SEED, e["id"], "holz"))).uniform()) < an)
+        if st_x:
+            sx = sorted(st_x, key=lambda e: e["p"])
+            for k in range(1, len(sx)):
+                sx[k]["abstand_vorher"] = sx[k]["p"] - sx[k - 1]["p"]
+        alle_stufen += st_x
+        segmente += [(a, b) for a, b, _, _ in segs_x]
+        eintrag["ausgespart"] = [list(g) for g in gruende]
+        eintrag["segmente_m"] = [[_r(a, 2), _r(b, 2)] for a, b, _, _ in segs_x]
+        eintrag["_segs"] = segs_x
+        eintrag["_n_ab"] = n_ab
+        strecken_out.append(eintrag)
+    plan = {"stand": sfmt.heute(), "auftrag": "15 - steile Strecken: Felsstufen, Klippen, Faelle", "lauf": lauf_id,
+            "art": lauf.art, "quelle_lauf": lauf.quelle, "ebene": EBENE,
+            "regeln": {"datei": "recherche/antworten/skripte/gefaelle/gefaelle_regeln.json", "version": rw.version,
+                       "stand": rw.stand},
+            "daten": "1m" if welt.zelle_m == 1.0 else "2m (Cloud-Test)", "strecken": []}
+    if not alle_stufen:
+        plan["strecken"] = [{k: v for k, v in e.items() if not k.startswith("_")} for e in strecken_out]
+        plan["hinweis"] = "keine planbaren Stufen (alle Strecken gebaut, umgebaut oder in festen Zonen)"
+        return plan, [], meldungen, pr, None
+    sp = spiegel_punkte(pr, alle_stufen, segmente)
+    # Breite, Boeschungswinkel, Wandzonen
+    Bw = pr.B.copy()
+    winkel = np.full(pr.n, BOESCHUNG_GRAD)
+    wandzonen = []
+    wv = gr.wand(rw)
+    for e in alle_stufen:
+        if e["art"] == "schnelle":
+            continue
+        k0, k1 = e["p"] + e["l"], e["p"] + e["l"] + e["kolk"]["laenge"]
+        m = (pr.s >= k0) & (pr.s <= k1)
+        Bw[m] = np.maximum(Bw[m], gr.formel(rw.r["becken"]["breite"]["formel"], B=e["B"]))
+    s_eval = np.arange(0.0, pr.s[-1] + 1e-6, 1.0)
+    in_seg = np.zeros(len(s_eval), bool)
+    for a, b in segmente:
+        in_seg |= (s_eval >= a) & (s_eval <= b)
+    eint = np.zeros(len(s_eval))
+    eint[in_seg] = eintiefung(K, pr, sp, s_eval[in_seg])
+    roh_zonen = []
+    for e in alle_stufen:
+        if e["art"] == "fall" and e["D"] >= 2.0:
+            w = gr.wand(rw, D=e["D"])
+            kw = gr.klamm_werte(rw, e["B"], D=e["D"])
+            klamm = e["S"] >= kw["S_min"] and e["D"] >= 4.0
+            lang = max(w["laenge_unterhalb"], kw["laenge"] if klamm else 0.0)
+            roh_zonen.append({"a": e["p"] + e["l"], "b": e["p"] + e["l"] + lang, "hoehe": w["hoehe_an_fall"],
+                              "grund": "Klamm unter Fall %s" % e["id"] if klamm else "Fall %s" % e["id"],
+                              "klamm": klamm, "sohle": kw["sohlbreite"], "biom": e["biom"], "D": e["D"]})
+    # Uferwand entlang: S >= S_min und Eintiefung >= eintiefung_min
+    S_eval = np.array([pr.gefaelle(s, rw.fenster(pr.Bi(s))) for s in s_eval])
+    kw0 = gr.klamm_werte(rw, 4.0)
+    m_u = in_seg & (S_eval >= wv["S_min"]) & (eint >= wv["eintiefung_min"])
+    st_ = None
+    for k in range(len(s_eval)):
+        if m_u[k] and st_ is None:
+            st_ = k
+        if (not m_u[k] or k == len(s_eval) - 1) and st_ is not None:
+            a, b = s_eval[st_], s_eval[k]
+            if b - a >= 6.0:
+                ee = float(np.median(eint[st_:k + 1]))
+                Dk = max([e["D"] for e in alle_stufen if e["art"] == "fall" and a - 60 <= e["p"] <= b] or [ee])
+                klamm = float(np.median(S_eval[st_:k + 1])) >= kw0["S_min"] and ee >= kw0["eintiefung_min"]
+                bi = welt.biom_bei_m(*pr.xy(0.5 * (a + b)))
+                bi = bi if bi in rw.r["biome"] or bi in rw.ERSATZ else alle_stufen[0]["biom"]
+                roh_zonen.append({"a": a, "b": b, "hoehe": gr.wand(rw, eintiefung=ee, D_klamm=Dk)["hoehe_entlang"],
+                                  "grund": "Klamm (Eintiefung %.1f m)" % ee if klamm else "Uferklippe (Eintiefung %.1f m)" % ee,
+                                  "klamm": klamm, "sohle": gr.klamm_werte(rw, pr.Bi(a))["sohlbreite"], "biom": bi, "D": ee})
+            st_ = None
+    # in Becken-Stuecke teilen (eine Wasserhoehe je Wandgruppe), nur in Segmenten
+    lippen = sorted(e["p"] for e in alle_stufen)
+    for z in roh_zonen:
+        for a, b in segmente:
+            za, zb = max(z["a"], a), min(z["b"], b)
+            if zb - za < 4.0:
+                continue
+            schnitte = [za] + [p for p in lippen if za < p < zb] + [zb]
+            for c0, c1 in zip(schnitte[:-1], schnitte[1:]):
+                c0b = c0 + 1.0 if c0 in lippen else c0
+                if c1 - c0b < 4.0:
+                    continue
+                m = (pr.s >= c0b) & (pr.s <= c1)
+                if z["klamm"]:
+                    Bw[m] = np.maximum(Bw[m], z["sohle"])
+                    winkel[m] = np.maximum(winkel[m], 85.0)
+                else:
+                    winkel[m] = np.maximum(winkel[m], 0.5 * sum(wv["neigung"]) if z["grund"].startswith("Ufer")
+                                           else 0.5 * sum(gr.formel("0", ) or [70.0, 90.0]) if False else 80.0)
+                wandzonen.append(dict(z, a=c0b, b=c1, z_wasser=float(spiegel_bei(sp, c0b + 0.5)),
+                                      nr=len(wandzonen)))
+    # Breite glatt (Uebergaenge 3 m), dann Versatz der Waende
+    kern = np.ones(int(3.0 / DS) * 2 + 1)
+    Bw = np.maximum(pr.B, np.convolve(np.pad(Bw, len(kern) // 2, mode="edge"), kern / kern.sum(), mode="valid"))
+
+    def breite_fn(s):
+        return np.interp(s, pr.s, Bw)
+
+    def winkel_fn(s):
+        return np.interp(s, pr.s, winkel)
+    for wz in wandzonen:
+        wz["versatz"] = float(np.max(breite_fn(np.linspace(wz["a"], wz["b"], 8)))) / 2.0 + 0.5 * sum(wv["abstand"])
+    # Abschnitte (Fenster) je Strecke und Abschnittsnummer
+    ebene = instanzen.Ebene(EBENE, inv, stand=sfmt.heute(), ebene_name=EBENE, ft_praefix=FT_PRAEFIX)
+    kontexte = []
+    stempel_liste = []
+    aus_lauf = os.path.join(K["aus"], lauf_id)
+    for x in strecken_out:
+        if "_segs" not in x:
+            continue
+        for n_ab in range(x["_n_ab"]):
+            segs = [(a, b, bi) for a, b, bi, k in x["_segs"] if k == n_ab]
+            if not segs:
+                continue
+            aid = x["id"] if x["_n_ab"] == 1 else "%s_a%d" % (x["id"], n_ab + 1)
+            st_ab = [e for e in alle_stufen if e["strecke"] == x["id"] and any(a - 1e-6 <= e["p"] <= b + 1e-6 for a, b, _ in segs)]
+            pts = np.vstack([np.asarray(pr.polylinie(a, b, 2.0)) for a, b, _ in segs])
+            e_max = float(np.max(eint[np.isin(np.round(s_eval), np.round(np.concatenate(
+                [np.arange(a, b, 1.0) for a, b, _ in segs])))])) if len(segs) else 0.0
+            e_max = max(e_max, max([e["D"] + e.get("kolk", {}).get("tiefe", 0) for e in st_ab] or [0]))
+            rand = min(70.0, 6.0 + float(Bw.max()) / 2.0 + e_max / math.tan(math.radians(BOESCHUNG_GRAD))) + 10.0
+            x0, y0 = pts[:, 0].min() - rand, pts[:, 1].min() - rand
+            x1, y1 = pts[:, 0].max() + rand, pts[:, 1].max() + rand
+            if max(x1 - x0, y1 - y0) > 600.0:
+                melde("WARNUNG", "%s: Fenster %.0f x %.0f m > 600 m" % (aid, x1 - x0, y1 - y0))
+            st = stm.Stempel(welt, x0, y0, x1, y1, rand_m=8.0, seed=SEED)
+            korr = np.zeros(st.X.shape, bool)
+            for a, b, _ in segs:
+                korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_fn, winkel_fn, rw, welt, gel, orte_nah)
+            schutz_orte(st, welt, gel, orte_nah)
+            st.fertig(schutz=True, weg_m=3.0, wasser=True, ausnahme_maske=korr)
+            st.protokoll = ["Bett"] + (["Kolk"] if any(e["art"] != "schnelle" for e in st_ab) else []) + \
+                (["Felsstufe"] if any(e["art"] == "fall" for e in st_ab) else []) + \
+                (["Klamm"] if any(w["klamm"] for w in wandzonen if any(a <= w["a"] <= b for a, b, _ in segs)) else []) + \
+                (["Uferklippen"] if any(not w["klamm"] for w in wandzonen if any(a <= w["a"] <= b for a, b, _ in segs)) else [])
+            st.ist_wasser = True
+            if st.max_aenderung_m > 40.0:
+                st.begruendung = "Fallhoehe + Kolk eines Falls > 40 m (Regelwerk faelle/kolk)"
+            sk = st.senken(wasser=korr)
+            if sk["flaeche_m2"] > 0:
+                melde("WARNUNG", "%s: geschlossene Senke ausserhalb des Laufs %.0f m2, %.1f m tief"
+                      % (aid, sk["flaeche_m2"], sk["max_tiefe_m"]))
+            stempel_liste.append(st)
+            cx, cy = 0.5 * (x0 + x1), 0.5 * (y0 + y1)
+            biom_ab = max(set(bi for _, _, bi in segs), key=lambda v: sum(1 for _, _, b2 in segs if b2 == v))
+            standort = {"id": aid, "name": "Gefaelle %s" % aid, "art": "fundstueck",
+                        "mitte_cm": [round(cx * 100), round(cy * 100), round(float(welt.hoehe_bei_m(cx, cy)) * 100)],
+                        "radius_m": 0.5 * math.hypot(x1 - x0, y1 - y0), "felder": sorted({daten.feld_von_m(px, py)
+                                                                                         for px, py in pts}),
+                        "kameras": []}
+            ctx = rezept.OrtKontext(welt, gel, inv, ebene, standort, {"lagen": []}, biom_ab, seed=SEED)
+            ctx.stempel = st
+            ctx.linien["bach_haupt"] = pr.polylinie(max(0.0, segs[0][0] - 5), min(pr.s[-1], segs[-1][1] + 5), 1.0)
+            wz_ab = [w for w in wandzonen if any(a - 1e-6 <= w["a"] <= b + 1e-6 for a, b, _ in segs)]
+            bauen_instanzen(ctx, K, pr, st_ab, [(a, b, bi) for a, b, bi in segs], wz_ab, biom_netze, None)
+            # nichts in Sehenswuerdigkeiten (Radius + 10 m)
+            vorher = len(ebene.stuecke)
+            ebene.stuecke = [s_ for s_ in ebene.stuecke if s_["ort"] != aid or not any(
+                math.hypot(s_["x"] / 100.0 - o["x_m"], s_["y"] / 100.0 - o["y_m"]) <= o["radius_m"] + 10.0 for o in orte_nah)]
+            if len(ebene.stuecke) < vorher:
+                melde("HINWEIS", "%s: %d Instanzen in Sehenswuerdigkeiten entfernt" % (aid, vorher - len(ebene.stuecke)))
+            lg = stm.Lagen(welt, *st.fe.grenzen_m(), seed=SEED)
+            bauen_lagen(lg, K, pr, st_ab, [(a, b, bi) for a, b, bi in segs], wz_ab,
+                        {bi: rw.biom(bi)[1]["lagen"] for bi in {e["biom"] for e in st_ab} | {bi for _, _, bi in segs}},
+                        breite_fn)
+            ctx.lagen = lg
+            ebene.ausduennen(aid, 15000, 1500, 80)
+            for s_, oid, t_ in ctx.meldungen:
+                meldungen.append((s_, oid, t_))
+            kontexte.append({"ctx": ctx, "id": aid, "strecke": x["id"], "stufen": st_ab, "segs": segs, "biom": biom_ab})
+    # Effekte, Kameras, Flussstuecke
+    effekte, eff_weg = bauen_effekte(K, pr, alle_stufen, breite_fn)
+    ramp_s = [(e["p"], e["p"] + e["l"]) for e in alle_stufen if e["art"] == "schnelle"]
+    stuecke, luecken, m_fs = bauen_flussstuecke(pr, sp, alle_stufen, breite_fn, lauf_id, ramp_s)
+    for st_, t_ in m_fs:
+        melde(st_, t_)
+    kameras = []
+    for x in strecken_out:
+        if x.get("pilot") and "_segs" in x:
+            kameras += bauen_kameras(K, pr, x["id"], [e for e in alle_stufen if e["strecke"] == x["id"]],
+                                     breite_fn, stempel_liste)
+            if not any(k[6].endswith("_vorher") and not k[6].endswith("weg_vorher") for k in kameras if k[6].startswith(x["id"])):
+                melde("WARNUNG", "%s: keine freie Kameraposition fuer _vorher/_nachher gefunden" % x["id"])
+    # Schreiben
+    os.makedirs(aus_lauf, exist_ok=True)
+    for sub in ("gelaende", "lagen", "instanzen"):
+        p_ = os.path.join(aus_lauf, sub)
+        if os.path.isdir(p_):
+            import shutil
+            shutil.rmtree(p_)
+    ab_out = []
+    for kx in kontexte:
+        ctx = kx["ctx"]
+        blk = ctx.stempel.schreibe(aus_lauf, kx["id"])
+        lblk = ctx.lagen.schreibe(aus_lauf, kx["id"])
+        z = ebene.zaehle(kx["id"])
+        ab_out.append({"id": kx["id"], "strecke": kx["strecke"], "biom": kx["biom"],
+                       "felder": ctx.st["felder"], "segmente_m": [[_r(a, 2), _r(b, 2)] for a, b, _ in kx["segs"]],
+                       "gelaende": blk, "lagen": lblk,
+                       "budget": {"instanzen": z["instanzen"], "kollision": z["kollision"], "akteure": z["akteure"],
+                                  "niagara": sum(1 for e in effekte if e["stufe"] in {s_["id"] for s_ in kx["stufen"]})},
+                       "detail_ebenen": {k: v for k, v in z["je_ebene"].items()}})
+    info = ebene.schreibe(os.path.join(aus_lauf, "instanzen")) if ebene.stuecke else {}
+    stufen_out = []
+    for e in sorted(alle_stufen, key=lambda e: e["p"]):
+        tx, ty = pr.tang(e["p"])
+        fx, fy = pr.xy(e["p"] + e["l"])
+        d = {"id": e["id"], "strecke": e["strecke"], "s_m": _r(e["p"], 2), "art": {"stufe": "kaskade"}.get(e["art"], e["art"]),
+             "art_regel": e["art"], "fall_m": _r(e["D"], 2), "lippe_cm": [[round(p[0] * 100, 1), round(p[1] * 100, 1),
+                                                                            round(e["u"] * 100, 1)] for p in e["_lippe_m"]],
+             "lippe_breite_cm": round(e["lippe_breite_m"] * 100), "ueberfall_cm": [round(e["_ueberfall"][0] * 100, 1),
+                                                                                   round(e["_ueberfall"][1] * 100, 1),
+                                                                                   round(e["u"] * 100, 1)],
+             "ueberfall_breite_cm": round(e["_ueberfall_b"] * 100), "fuss_cm": [round(fx * 100, 1), round(fy * 100, 1),
+                                                                               round(e["d"] * 100, 1)],
+             "fuss_z_cm": round(e["d"] * 100, 1), "richtung": [round(tx, 4), round(ty, 4)],
+             "breite_m": _r(e["B"], 2), "abstand_naechste_m": _r(e["L"], 2), "gefaelle_einheit": round(e["S"], 3),
+             "becken_gefaelle": round(e["gb"], 4), "klasse": e["klasse"], "biom": e["biom"],
+             "felstyp": rw.biom(e["biom"])[1].get("felstyp", ""), "fels_anstehend": bool(e["fels"]),
+             "erzwungen_knickpunkt": bool(e.get("erzwungen")), "holzstufe": bool(e.get("holz")),
+             "vorhang": e["art"] != "schnelle" and e["D"] >= 0.8}
+        if e["art"] != "schnelle":
+            ko = e["kolk"]
+            kx_, ky_ = pr.xy(e["p"] + e["l"] + (ko["x_strahl"] if e["art"] == "fall" else 0.4 * ko["laenge"]))
+            d["kolk"] = {"tiefe_m": _r(ko["tiefe"], 2), "laenge_m": _r(ko["laenge"], 2), "radius_m": _r(ko["radius"], 2),
+                         "mitte_cm": [round(kx_ * 100, 1), round(ky_ * 100, 1), round((e["d"] - ko["tiefe"]) * 100, 1)]}
+        else:
+            d["rampe_m"] = _r(e["l"], 2)
+        if e.get("teil"):
+            d["teilstufen"] = [{"s_m": _r(t["p"], 2), "fall_m": _r(t["D"], 2), "oben_z_cm": round(t["u"] * 100, 1),
+                                "unten_z_cm": round(t["d"] * 100, 1)} for t in e["teil"]]
+        stufen_out.append(d)
+    for x in strecken_out:
+        x["stufen"] = [d["id"] for d in stufen_out if d["strecke"] == x["id"]]
+        x["abschnitte"] = [a["id"] for a in ab_out if a["strecke"] == x["id"]]
+        x["kameras"] = [k for k in kameras if k[6].startswith(x["id"] + "_")]
+        x["arten"] = {a: sum(1 for d in stufen_out if d["strecke"] == x["id"] and d["art_regel"] == a)
+                      for a in ("schnelle", "stufe", "kaskade", "fall")}
+        x["fall_gestuft_m"] = _r(sum(d["fall_m"] for d in stufen_out if d["strecke"] == x["id"]), 2)
+    plan.update({
+        "strecken": [{k: v for k, v in e.items() if not k.startswith("_")} for e in strecken_out],
+        "spiegel_alt_cm": [[round(float(p[0]), 1), round(float(p[1]), 1), round(float(p[2]), 1), round(float(p[3]), 1)]
+                           for p in lauf.P],
+        "spiegel_neu_cm": [[round(pr.xy(s_)[0] * 100, 1), round(pr.xy(s_)[1] * 100, 1), round(z_ * 100, 1),
+                            round(float(breite_fn(s_)) * 100, 1)] for s_, z_, _ in sp],
+        "spiegel_neu_art": [k_ for _, _, k_ in sp],
+        "spiegel_neu_s_m": [_r(s_, 2) for s_, _, _ in sp],
+        "stufen": stufen_out,
+        "flussstuecke": stuecke, "luecken": luecken,
+        "teilung": dict(TEIL, quelle="vorlagen/daten/wasser_fx/stufen_fluss_teile.json (C2)"),
+        "abschnitte": ab_out,
+        "wandzonen": [{"nr": w["nr"], "s_m": [_r(w["a"], 2), _r(w["b"], 2)], "grund": w["grund"], "hoehe_m": _r(w["hoehe"], 2),
+                       "klamm": bool(w["klamm"]), "z_wasser_cm": round(w["z_wasser"] * 100, 1), "biom": w["biom"]}
+                      for w in wandzonen],
+        "instanzen": {"ordner": "instanzen", "ebene": EBENE, "ft_praefix": FT_PRAEFIX, "felder": info,
+                      "anzahl": sum(v["instanzen"] for v in info.values()), "kollision": sum(v["kollision"] for v in info.values()),
+                      "akteure": sum(v["akteure"] for v in info.values())},
+        "akteure": sum(v["akteure"] for v in info.values()),
+        "effekte": effekte, "effekte_ausgeduennt": eff_weg,
+        "kameras": kameras,
+        "felder": sorted({daten.feld_von_m(px, py) for px, py in zip(pr.x[::20], pr.y[::20])}),
+    })
+    for h in ebene.hinweise:
+        melde("HINWEIS", h)
+    plan["meldungen"] = [{"stufe": s_, "text": t_} for s_, _, t_ in meldungen]
+    with open(os.path.join(aus_lauf, "plan.json"), "w", encoding="utf-8") as f:
+        json.dump(plan, f, ensure_ascii=False, indent=1)
+    return plan, kontexte, meldungen, pr, sp
+
+
+def hash_stabil(*teile):
+    import zlib
+    return zlib.crc32("|".join(str(t) for t in teile).encode("utf-8"))
