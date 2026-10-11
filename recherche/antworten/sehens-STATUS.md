@@ -6,7 +6,7 @@ Stand: 2026-10-11 12:30 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 
 | Teil | Inhalt | Stand |
 |---|---|---|
-| A | Download-Liste für Ferat (`sehens-downloadliste.md`, `sehens/downloadliste.json`) | **aktualisiert auf Inventar 13b + Ferats Nachträge** (erledigt/läuft/erneut versuchen/fehlend A·B·C/Lücken/bewusst nicht); Abgleich mit den endgültigen Ort-IDs aller 15 Biome läuft |
+| A | Download-Liste für Ferat (`sehens-downloadliste.md`, `sehens/downloadliste.json`) | **aktualisiert auf Inventar 13b + Ferats Nachträge** (erledigt/läuft/erneut versuchen/fehlend A·B·C/Lücken/bewusst nicht); abgeglichen mit den endgültigen Ort-IDs aller 15 Biome; noch offen: A 1, B 15, C 12 (A+B ca. 23 GB, ungeprüft) |
 | Baukasten | `skripte/sehens_lib/` (Laden 2 m, Hang/Krümmung/Abfluss, Sichtbarkeit vom Weg, Kandidatensuche, Draufsicht-PNG, Format-Prüfer `sehens_pruefen.py`) | fertig, gepusht (Selbsttest auf echten 2-m-Daten ohne Fehler; Grenzen: Bäume nur 4-m-Näherung, 1-m-Lader nur synthetisch getestet) |
 | B/C | Katalog + `sehens/<biom>/standorte.json` + Draufsichten je Ort | **fertig**: 120 Orte (48 Leuchtfeuer/72 Fundstücke), 19 Pfade (20,9 km) in `pfade`; Gesamtkatalog `sehens-katalog.md` mit allen Ortsabschnitten; `sehens/marker.json`; Prüfer über alle Biome 0 FEHLER, 1 WARNUNG (Tundra-Pfad streift ROMAN_LOC_018) |
 | D | diese Datei | aktuell |
