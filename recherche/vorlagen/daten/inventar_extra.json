@@ -1,79 +1,122 @@
 {
- "stand": "2026-10-11 13:25",
+ "stand": "2026-10-11 15:56",
  "niagara": [
   "/Game/NiagaraExamples/FX_NDC/NS_NDC_Footsteps",
   "/Game/NiagaraExamples/FX_NDC/NS_NDC_Impacts",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_feather",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Animate",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Animate_2",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_card",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow_2",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Heart",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Moon",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Noise",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Note",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Skull",
-  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Star",
   "/Game/NiagaraExamples/Utilities/SpriteGeneration/SmokePuffLight/NS_SmokePuffLight",
   "/Game/NiagaraExamples/Utilities/SpriteGeneration/ExplosionRoil/NS_ExplosionRoil",
   "/Game/NiagaraExamples/Utilities/SpriteGeneration/NS_TestSprite",
   "/Game/NiagaraExamples/Materials/Reference/NS_SubUV_Utilities",
-  "/Game/NiagaraExamples/FX_Weapons/Trails/NS_BulletTracer",
-  "/Game/NiagaraExamples/FX_Weapons/Trails/NS_RocketTrail",
   "/Game/NiagaraExamples/FX_Weapons/Trails/NS_SimpleRibbonTrail",
+  "/Game/NiagaraExamples/FX_Weapons/Trails/NS_RocketTrail",
+  "/Game/NiagaraExamples/FX_Weapons/Trails/NS_BulletTracer",
   "/Game/NiagaraExamples/FX_Weapons/MuzzleFlashes/NS_MuzzleFlash",
-  "/Game/NiagaraExamples/FX_Weapons/Impacts/NS_Impact_Concrete",
-  "/Game/NiagaraExamples/FX_Weapons/Impacts/NS_Impact_Glass",
-  "/Game/NiagaraExamples/FX_Weapons/Impacts/NS_Impact_Metal",
   "/Game/NiagaraExamples/FX_Weapons/Impacts/NS_Impact_Wood",
-  "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Burst",
-  "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous",
+  "/Game/NiagaraExamples/FX_Weapons/Impacts/NS_Impact_Metal",
+  "/Game/NiagaraExamples/FX_Weapons/Impacts/NS_Impact_Glass",
+  "/Game/NiagaraExamples/FX_Weapons/Impacts/NS_Impact_Concrete",
   "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Impact_Looping",
-  "/Game/NiagaraExamples/FX_Smoke/NS_Chimney_Smoke",
+  "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Continuous",
+  "/Game/NiagaraExamples/FX_Sparks/NS_Spark_Burst",
   "/Game/NiagaraExamples/FX_Smoke/NS_Smoke_Plume",
-  "/Game/NiagaraExamples/FX_SkeletalMesh/NS_Dino_Tris_Color_Burst",
+  "/Game/NiagaraExamples/FX_Smoke/NS_Chimney_Smoke",
   "/Game/NiagaraExamples/FX_SkeletalMesh/NS_Dino_Tri_Loop",
+  "/Game/NiagaraExamples/FX_SkeletalMesh/NS_Dino_Tris_Color_Burst",
   "/Game/NiagaraExamples/FX_Ribbons/NS_TeslaCoil",
-  "/Game/NiagaraExamples/FX_Player/NS_Player_Buff_Looping",
-  "/Game/NiagaraExamples/FX_Player/NS_Player_DeBuff_Looping",
-  "/Game/NiagaraExamples/FX_Player/NS_Player_Electricity_Looping",
-  "/Game/NiagaraExamples/FX_Player/NS_Player_Teleport_In",
-  "/Game/NiagaraExamples/FX_Player/NS_Player_Teleport_Out",
-  "/Game/NiagaraExamples/FX_Player/NS_Weapon_Buff_Looping",
   "/Game/NiagaraExamples/FX_Player/NS_Weapon_DeBuff_Looping",
-  "/Game/NiagaraExamples/FX_PickUp/NS_Pickup_Idle",
-  "/Game/NiagaraExamples/FX_PickUp/NS_Pickup_Spawn",
-  "/Game/NiagaraExamples/FX_PickUp/NS_Pickup_Success",
+  "/Game/NiagaraExamples/FX_Player/NS_Weapon_Buff_Looping",
+  "/Game/NiagaraExamples/FX_Player/NS_Player_Teleport_Out",
+  "/Game/NiagaraExamples/FX_Player/NS_Player_Teleport_In",
+  "/Game/NiagaraExamples/FX_Player/NS_Player_Electricity_Looping",
+  "/Game/NiagaraExamples/FX_Player/NS_Player_DeBuff_Looping",
+  "/Game/NiagaraExamples/FX_Player/NS_Player_Buff_Looping",
   "/Game/NiagaraExamples/FX_PickUp/NS_Pickup_Timeout",
-  "/Game/NiagaraExamples/FX_NDC/NS_NDC_Footsteps_Bubbles",
+  "/Game/NiagaraExamples/FX_PickUp/NS_Pickup_Success",
+  "/Game/NiagaraExamples/FX_PickUp/NS_Pickup_Spawn",
+  "/Game/NiagaraExamples/FX_PickUp/NS_Pickup_Idle",
   "/Game/NiagaraExamples/FX_NDC/NS_NDC_Footsteps_Fire",
-  "/Game/NiagaraExamples/FX_Misc/NS_Boundary",
-  "/Game/NiagaraExamples/FX_Misc/NS_Boundary_Box",
-  "/Game/NiagaraExamples/FX_Misc/NS_Boundary_Cylinder",
-  "/Game/NiagaraExamples/FX_Misc/NS_Boundary_Sphere",
-  "/Game/NiagaraExamples/FX_Misc/NS_Bubble_Burst",
-  "/Game/NiagaraExamples/FX_Misc/NS_Fire",
-  "/Game/NiagaraExamples/FX_Misc/NS_FireworkBurst",
-  "/Game/NiagaraExamples/FX_Misc/NS_HitDissolve",
-  "/Game/NiagaraExamples/FX_Misc/NS_SkeletalMeshBones_Burst",
-  "/Game/NiagaraExamples/FX_Misc/NS_SkeletalMeshBones_Loop",
-  "/Game/NiagaraExamples/FX_Misc/NS_SkeletalMeshTris_Burst",
+  "/Game/NiagaraExamples/FX_NDC/NS_NDC_Footsteps_Bubbles",
   "/Game/NiagaraExamples/FX_Misc/NS_SkeletalMeshTris_Loop",
-  "/Game/NiagaraExamples/FX_Markers/NS_Marker_Location",
+  "/Game/NiagaraExamples/FX_Misc/NS_SkeletalMeshTris_Burst",
+  "/Game/NiagaraExamples/FX_Misc/NS_SkeletalMeshBones_Loop",
+  "/Game/NiagaraExamples/FX_Misc/NS_SkeletalMeshBones_Burst",
+  "/Game/NiagaraExamples/FX_Misc/NS_HitDissolve",
+  "/Game/NiagaraExamples/FX_Misc/NS_FireworkBurst",
+  "/Game/NiagaraExamples/FX_Misc/NS_Fire",
+  "/Game/NiagaraExamples/FX_Misc/NS_Bubble_Burst",
+  "/Game/NiagaraExamples/FX_Misc/NS_Boundary_Sphere",
+  "/Game/NiagaraExamples/FX_Misc/NS_Boundary_Cylinder",
+  "/Game/NiagaraExamples/FX_Misc/NS_Boundary_Box",
+  "/Game/NiagaraExamples/FX_Misc/NS_Boundary",
   "/Game/NiagaraExamples/FX_Markers/NS_Marker_Target",
-  "/Game/NiagaraExamples/FX_Footstep/NS_Footstep_Bubbles",
-  "/Game/NiagaraExamples/FX_Footstep/NS_Footstep_Fire",
-  "/Game/NiagaraExamples/FX_Footstep/NS_Footstep_Gravel",
+  "/Game/NiagaraExamples/FX_Markers/NS_Marker_Location",
   "/Game/NiagaraExamples/FX_Footstep/NS_Footstep_LW",
-  "/Game/NiagaraExamples/FX_Explosions/NS_Dirt_Explosion",
-  "/Game/NiagaraExamples/FX_Explosions/NS_Dirt_Explosion_Medium",
-  "/Game/NiagaraExamples/FX_Explosions/NS_Dirt_Explosion_Small",
-  "/Game/NiagaraExamples/FX_Explosions/NS_Explosion",
+  "/Game/NiagaraExamples/FX_Footstep/NS_Footstep_Gravel",
+  "/Game/NiagaraExamples/FX_Footstep/NS_Footstep_Fire",
+  "/Game/NiagaraExamples/FX_Footstep/NS_Footstep_Bubbles",
+  "/Game/NiagaraExamples/FX_Explosions/NS_Explosion_Small",
   "/Game/NiagaraExamples/FX_Explosions/NS_Explosion_Medium",
-  "/Game/NiagaraExamples/FX_Explosions/NS_Explosion_Small"
+  "/Game/NiagaraExamples/FX_Explosions/NS_Explosion",
+  "/Game/NiagaraExamples/FX_Explosions/NS_Dirt_Explosion_Small",
+  "/Game/NiagaraExamples/FX_Explosions/NS_Dirt_Explosion_Medium",
+  "/Game/NiagaraExamples/FX_Explosions/NS_Dirt_Explosion",
+  "/Game/NatureWaterFX/FX/NS_Waterfall_Small",
+  "/Game/NatureWaterFX/FX/NS_Waterfall_Medium",
+  "/Game/NatureWaterFX/FX/NS_Waterfall_Large",
+  "/Game/NatureWaterFX/FX/NS_Wake_Small",
+  "/Game/NatureWaterFX/FX/NS_Wake_Medium",
+  "/Game/NatureWaterFX/FX/NS_Wake_Large",
+  "/Game/NatureWaterFX/FX/NS_Stream_Small",
+  "/Game/NatureWaterFX/FX/NS_Stream_Medium",
+  "/Game/NatureWaterFX/FX/NS_Stream_Large",
+  "/Game/NatureWaterFX/FX/NS_Impact_Small",
+  "/Game/NatureWaterFX/FX/NS_Impact_Medium",
+  "/Game/NatureWaterFX/FX/NS_Impact_Large",
+  "/Game/NatureWaterFX/FX/NS_Geyser_Small",
+  "/Game/NatureWaterFX/FX/NS_Geyser_Medium",
+  "/Game/NatureWaterFX/FX/NS_Geyser_Large",
+  "/Game/NatureWaterFX/FX/NS_Fountain_5",
+  "/Game/NatureWaterFX/FX/NS_Fountain_4",
+  "/Game/NatureWaterFX/FX/NS_Fountain_3",
+  "/Game/NatureWaterFX/FX/NS_Fountain_2",
+  "/Game/NatureWaterFX/FX/NS_Fountain_1",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Smoke_Volcano_01",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Waves",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Waterfall_5",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Waterfall_4",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Waterfall_3",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Waterfall_2",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Waterfall",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Splash_0",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_1",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_03",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Smoke_02",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Particle_02",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Particle_01",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Explosion",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Erruption_Low_freq",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Erruption",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Bubble_Layered",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Lava_Bubble",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Small",
+  "/Game/Lava_Volcano_Environment_Set/Particles/Niagara_systems/FX_Distortion_Big",
+  "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/System/Grid2D_SW_Lava_3",
+  "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/System/Grid2D_SW_Lava_2",
+  "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/System/Grid2D_SW_Lava_1",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Star",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Skull",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Note",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Noise",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Moon",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Heart",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow_2",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Glow",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_card",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Animate_2",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling_Animate",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_Sparkling",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_leaf",
+  "/Game/FreeParticle_SoftTofu/Niagara/NS_feather"
  ],
  "decal_materialien": [
   {
@@ -82,14 +125,6 @@
   },
   {
    "pfad": "/Game/NiagaraExamples/FX_Footstep/Materials/M_Footprint_Decal",
-   "eltern": ""
-  },
-  {
-   "pfad": "/Game/Fab/Materials/Standard/M_MS_Decal",
-   "eltern": ""
-  },
-  {
-   "pfad": "/Game/Fab/Materials/VT/M_MS_Decal_VT",
    "eltern": ""
   },
   {
@@ -113,6 +148,26 @@
    "eltern": ""
   },
   {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Fab/Materials/VT/M_MS_Decal_VT",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Fab/Materials/Standard/M_MS_Decal",
+   "eltern": ""
+  },
+  {
    "pfad": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR",
    "eltern": ""
   },
@@ -121,15 +176,23 @@
    "eltern": ""
   },
   {
-   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal",
-   "eltern": "/Game/NiagaraExamples/Materials/MasterMaterials/M_Decal_SubUV.M_Decal_SubUV"
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals",
+   "eltern": ""
   },
   {
-   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal_Frame0",
-   "eltern": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal.MI_Explosion_Decal"
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_NoAlbedoNoNormals",
+   "eltern": ""
   },
   {
-   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal_Frame1",
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_NoAlbedo",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Details/Materials/MI_mountain_decals_01",
+   "eltern": "/Game/Mountain_Environment_Set/Master_Materials/M_Master_material_Cutout.M_Master_material_Cutout"
+  },
+  {
+   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal_Frame3",
    "eltern": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal.MI_Explosion_Decal"
   },
   {
@@ -137,19 +200,23 @@
    "eltern": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal.MI_Explosion_Decal"
   },
   {
-   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal_Frame3",
+   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal_Frame1",
    "eltern": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal.MI_Explosion_Decal"
   },
   {
-   "pfad": "/Game/Mountain_Environment_Set/Details/Materials/MI_mountain_decals_01",
-   "eltern": "/Game/Mountain_Environment_Set/Master_Materials/M_Master_material_Cutout.M_Master_material_Cutout"
+   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal_Frame0",
+   "eltern": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal.MI_Explosion_Decal"
+  },
+  {
+   "pfad": "/Game/NiagaraExamples/Materials/MI_Explosion_Decal",
+   "eltern": "/Game/NiagaraExamples/Materials/MasterMaterials/M_Decal_SubUV.M_Decal_SubUV"
   },
   {
    "pfad": "/Game/Mountain_Environment_Set/Details/Materials/MI_mountain_decals_02",
    "eltern": "/Game/Mountain_Environment_Set/Master_Materials/M_Master_material_Cutout.M_Master_material_Cutout"
   },
   {
-   "pfad": "/Game/Megascans/Decals/TileableMossPatches/MI_TileableMossPatches_01",
+   "pfad": "/Game/Megascans/Decals/TileableMossPatches/MI_TileableMossPatches_03",
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CNR.M_MS_CustomDecal_CNR"
   },
   {
@@ -157,15 +224,11 @@
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CNR.M_MS_CustomDecal_CNR"
   },
   {
-   "pfad": "/Game/Megascans/Decals/TileableMossPatches/MI_TileableMossPatches_03",
+   "pfad": "/Game/Megascans/Decals/TileableMossPatches/MI_TileableMossPatches_01",
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CNR.M_MS_CustomDecal_CNR"
   },
   {
-   "pfad": "/Game/Megascans/Decals/TileableLeakage/MI_TileableLeakage_01",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/TileableLeakage/MI_TileableLeakage_02",
+   "pfad": "/Game/Megascans/Decals/TileableLeakage/MI_TileableLeakage_04",
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
   },
   {
@@ -173,7 +236,11 @@
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
   },
   {
-   "pfad": "/Game/Megascans/Decals/TileableLeakage/MI_TileableLeakage_04",
+   "pfad": "/Game/Megascans/Decals/TileableLeakage/MI_TileableLeakage_02",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/TileableLeakage/MI_TileableLeakage_01",
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
   },
   {
@@ -201,47 +268,7 @@
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_MS_Master/M_MS_Foliage_Overwrite/M_MS_CustomFoliage.M_MS_CustomFoliage"
   },
   {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_01",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_02",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_03",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_04",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_05",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_06",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_07",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_08",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_09",
-   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_10",
-   "eltern": "/Game/MSPresets/M_MS_Decal_Material_VT/M_MS_Decal_Material_VT.M_MS_Decal_Material_VT"
-  },
-  {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_11",
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_13",
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
   },
   {
@@ -249,8 +276,188 @@
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
   },
   {
-   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_13",
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_11",
    "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_10",
+   "eltern": "/Game/MSPresets/M_MS_Decal_Material_VT/M_MS_Decal_Material_VT.M_MS_Decal_Material_VT"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_09",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_08",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_07",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_06",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_05",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_04",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_03",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_02",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Megascans/Decals/Leakage/MI_Leakage_01",
+   "eltern": "/Game/Custom/CustomMaterials/Materials/Master_Materials/Custom_Decal/M_MS_CustomDecal_CR.M_MS_CustomDecal_CR"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_07",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals.M_NM_Decal_Lava_Normals"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_06",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals.M_NM_Decal_Lava_Normals"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_05",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals.M_NM_Decal_Lava_Normals"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_04",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals.M_NM_Decal_Lava_Normals"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_03",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals.M_NM_Decal_Lava_Normals"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_02",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals.M_NM_Decal_Lava_Normals"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_Normals_01",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_Normals.M_NM_Decal_Lava_Normals"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_07",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo.M_NM_Decal_Lava_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_06",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo.M_NM_Decal_Lava_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_05",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo.M_NM_Decal_Lava_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_04",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo.M_NM_Decal_Lava_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_03",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo.M_NM_Decal_Lava_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_02",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo.M_NM_Decal_Lava_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedo_01",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedo.M_NM_Decal_Lava_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedoNoNormals_07",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava.M_NM_Decal_Lava_NoAlbedoNoNormals_Lava"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedoNoNormals_06",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava.M_NM_Decal_Lava_NoAlbedoNoNormals_Lava"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedoNoNormals_05",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava.M_NM_Decal_Lava_NoAlbedoNoNormals_Lava"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedoNoNormals_04",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava.M_NM_Decal_Lava_NoAlbedoNoNormals_Lava"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedoNoNormals_03",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava.M_NM_Decal_Lava_NoAlbedoNoNormals_Lava"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedoNoNormals_02",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava.M_NM_Decal_Lava_NoAlbedoNoNormals_Lava"
+  },
+  {
+   "pfad": "/Game/Lava_Volcano_Environment_Set/Decals/MI_NM_Decal_Lava_NoAlbedoNoNormals_01",
+   "eltern": "/Game/Lava_Volcano_Environment_Set/Master_Materials/M_NM_Decal_Lava_NoAlbedoNoNormals_Lava.M_NM_Decal_Lava_NoAlbedoNoNormals_Lava"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_NoAlbedo.M_NM_Decal_NoAlbedo"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_NoAlbedoNoNormals.M_NM_Decal_NoAlbedoNoNormals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Wet",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Small_Waves",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Dry_2",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Dry",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Dirt",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Big_Waves",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Small",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Rocks_Big",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_03",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_02",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Clay_01",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae",
+   "eltern": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals.M_NM_Decal_Normals"
   }
  ],
  "eldarien_materialien": [
@@ -275,15 +482,27 @@
    "eltern": ""
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_Wasser",
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide_Blatt",
    "eltern": ""
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_Eis",
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide1_Fern",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17",
    "eltern": ""
   },
   {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide2_Fern",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex",
    "eltern": ""
   },
   {
@@ -303,14 +522,6 @@
    "eltern": ""
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT",
-   "eltern": ""
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex",
-   "eltern": ""
-  },
-  {
    "pfad": "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_V2",
    "eltern": ""
   },
@@ -319,27 +530,7 @@
    "eltern": ""
   },
   {
-   "pfad": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17",
-   "eltern": ""
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17s",
-   "eltern": ""
-  },
-  {
    "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
-   "eltern": ""
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide1_Fern",
-   "eltern": ""
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide_Blatt",
-   "eltern": ""
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/M_EL_Eis4",
    "eltern": ""
   },
   {
@@ -347,11 +538,19 @@
    "eltern": ""
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide2_Fern",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_Eis",
    "eltern": ""
   },
   {
    "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Wasser/M_EL_Eis4",
    "eltern": ""
   },
   {
@@ -400,6 +599,10 @@
   },
   {
    "pfad": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/M_Eldarien_Wasser",
    "eltern": ""
   },
   {
@@ -472,6 +675,10 @@
   },
   {
    "pfad": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V2",
+   "eltern": ""
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17s",
    "eltern": ""
   },
   {
@@ -613,12 +820,112 @@
    "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V9b.M_Eldarien_Landschaft_V9b"
   },
   {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_GroundCover_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EagleFern_Atlas_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
    "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_WhiteWindflower_01",
    "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/M_EL_Pflanze.M_EL_Pflanze"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_WhiteWindflower_02",
    "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/M_EL_Pflanze.M_EL_Pflanze"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Atlas_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Bark_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Detail_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Decoration",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Tileable",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_TwoSided",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_03",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_DeadTree_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Crownbeard_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Elderberry_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Fern_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_KikuyuGrass_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_PurpleShamrock_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_RedLachenalia_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_SilverLadyFern_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRoots_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRock_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/MI_EL_Weide_Blatt",
+   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide_Blatt.M_EL_Weide_Blatt"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/MI_EL_Weide1_Fern",
+   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide1_Fern.M_EL_Weide1_Fern"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V12",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17.M_Eldarien_Landschaft_V17"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_02",
@@ -645,7 +952,87 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Crownbeard_01",
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_SilverLadyFern_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenTreeBranch_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_LargeFallenTree_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldFallenTree_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldFallenTree_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_BeechFern_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_CustomMoss_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EnglishIvy_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Ivy_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_LilyOfTheValley_01",
+   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/M_EL_Pflanze.M_EL_Pflanze"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Periwinkle_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BirchTreeStump_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenStump_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenTreeAssembly_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_FallenTreeAssembly_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockShelf_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockShelf_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockSlab_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRoots_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_GrassyEmbankment_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_LargeFallenTree_02",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -653,7 +1040,23 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyEmbankment_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_03",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_04",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -669,27 +1072,7 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRock_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRock_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EnglishIvy_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Ivy_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRock_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_CustomMoss_01",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_09",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -697,39 +1080,7 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Tileable",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_TwoSided",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Fern_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_PurpleShamrock_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_DeadTree_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_SilverLadyFern_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_SilverLadyFern_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_01",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRock_01",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -737,23 +1088,15 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyRocks_02",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_01",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Atlas_01",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_02",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Bark_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Detail_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockSlab_01",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_03",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -761,48 +1104,88 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyRocks_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyRocks_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyTree_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBoulder_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OakBranch_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_03",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_09",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_02",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_04",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_05",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_fjord",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_06",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_07",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_RottenTreeStump_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_RottenTreeStump_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TreeStump_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_01_bergwald",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_gletscher",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_bergwald",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_tundra",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyEmbankment_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/MI_EL_Weide2_Fern",
+   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide2_Fern.M_EL_Weide2_Fern"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_TundraMossyBoulder_01_bergwald",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_TundraMossyBoulder_01_tundra",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenTreeBranch_01",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRock_01",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_FallenSpruceTree_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_KIEFERNRINDE",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRockyGround_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyRocks_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_RINDE",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Basis",
@@ -829,44 +1212,16 @@
    "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Birke_Fern.M_EL_Birke_Fern"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xjijdiz",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_bergwald",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xjijbgx",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GLETSCHEREIS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_bergwald",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Wasser/MI_Wasser_Fluss",
    "eltern": "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_V2.M_Eldarien_Wasser_V2"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_fjord",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_fjord",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_tundra",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_tundra",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_gletscher",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_gletscher",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_aue",
@@ -905,204 +1260,16 @@
    "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V12",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17.M_Eldarien_Landschaft_V17"
+   "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade",
+   "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_bergwald",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
+   "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum",
+   "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_bergwald",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_vdssailfa",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_01_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_03_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_TundraMossyBoulder_01_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_04_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EagleFern_Atlas_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_GroundCover_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_BeechFern_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_LilyOfTheValley_01",
-   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/M_EL_Pflanze.M_EL_Pflanze"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BirchTreeStump_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockShelf_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_LargeFallenTree_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldFallenTree_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldFallenTree_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_RottenTreeStump_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_RottenTreeStump_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_vfmjadufa",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Decoration",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_06",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xf3odif",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xfplcbf",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRocks_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBoulder_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_05",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TreeStump_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_veqnci0db",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenStump_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_LargeFallenTree_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_rcygn",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Elderberry_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_KikuyuGrass_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Periwinkle_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_FallenTreeAssembly_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyTree_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OakBranch_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_RedLachenalia_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_07",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V12s",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17s.M_Eldarien_Landschaft_V17s"
+   "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle",
+   "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall",
@@ -1117,144 +1284,8 @@
    "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade",
-   "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_frost",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_04_kueste",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_frost",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_frost",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/MI_EL_Weide1_Fern",
-   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide1_Fern.M_EL_Weide1_Fern"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/MI_EL_Weide_Blatt",
-   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide_Blatt.M_EL_Weide_Blatt"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenTreeAssembly_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_GrassyEmbankment_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRoots_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRoots_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TundraRockyGround_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis4",
-   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis4.M_EL_Eis4"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Stones_01",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Stones_01.MI_Namaqualand_Stones_01"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_HugeSandstoneCliff_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_SandstoneBoulder_04",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_SandstoneBoulder_05",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_HugeSandstoneCliff_07",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_HugeSandstoneCliff_05",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_05",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/MI_EL_Weide2_Fern",
-   "eltern": "/Game/Eldarien/Welt/Bewuchs/Material/Blatt/M_EL_Weide2_Fern.M_EL_Weide2_Fern"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_04",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_04.MI_Namaqualand_Boulder_04"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Rocks_01",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Rocks_01.MI_Namaqualand_Rocks_01"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulders_01",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulders_01.MI_Namaqualand_Boulders_01"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Wueste_RockSandstone_040",
-   "eltern": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/MI_RockSandstone_011.MI_RockSandstone_011"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_02",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_02.MI_Namaqualand_Boulder_02"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_03",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_03.MI_Namaqualand_Boulder_03"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_05",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_05.MI_Namaqualand_Boulder_05"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_06",
-   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_06.MI_Namaqualand_Boulder_06"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_kueste",
-   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_kueste",
@@ -1265,31 +1296,51 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_04_kueste",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_kueste",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_kueste",
    "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockShelf_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_04_bergwald",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ErodedRockyGround_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Stones_01",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Stones_01.MI_Namaqualand_Stones_01"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Rocks_01",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Rocks_01.MI_Namaqualand_Rocks_01"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRockyGround_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_06",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_06.MI_Namaqualand_Boulder_06"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_05",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_05",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_05.MI_Namaqualand_Boulder_05"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_04",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_04.MI_Namaqualand_Boulder_04"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_03",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_03.MI_Namaqualand_Boulder_03"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulder_02",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulder_02.MI_Namaqualand_Boulder_02"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Namaqualand/MI_EL_Wueste_Namaqualand_Boulders_01",
+   "eltern": "/Game/Namaqualand/Materials/MI_Namaqualand_Boulders_01.MI_Namaqualand_Boulders_01"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_02",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -1297,11 +1348,155 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_SandstoneBoulder_05",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_SandstoneBoulder_04",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
+  },
+  {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_SandstoneBoulder_03",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
   },
   {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_FallenSpruceTree_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xjijdiz",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xjijbgx",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xfplcbf",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_xf3odif",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TundraRockyGround_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRockyGround_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRockyGround_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_TundraMossyBoulder_01_tundra",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Wueste_RockSandstone_040",
+   "eltern": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/MI_RockSandstone_011.MI_RockSandstone_011"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_tundra",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_gletscher",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_frost",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_mountain_rocks_atlas_02_fjord",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_mountain_rocks_atlas_02.MI_mountain_rocks_atlas_02"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MossyForestBoulder_03_bergwald",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_tundra",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_gletscher",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_frost",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_MassiveNordicCoastalCliff_01_fjord",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_HugeSandstoneCliff_07",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_HugeSandstoneCliff_05",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_HugeSandstoneCliff_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_tundra",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_gletscher",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_fjord",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Berg/MI_EL_Berg_Big_rock_03_frost",
+   "eltern": "/Game/Mountain_Environment_Set/Rocks/Materials/MI_Big_rock_03.MI_Big_rock_03"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_vfmjadufa",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_vdssailfa",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+  },
+  {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TundraMossyBoulder_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_rcygn",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRocks_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_05",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -1309,59 +1504,19 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyEmbankment_02",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ErodedRockyGround_01",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyEmbankment_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum",
-   "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle",
-   "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Vorhang",
    "eltern": "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2.M_EL_Wasserfall2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern",
-   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer2.MI_Eldarien_Meer2"
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Wasser_Meer",
+   "eltern": "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_V2.M_Eldarien_Wasser_V2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern_t1",
-   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer2.MI_Eldarien_Meer2"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_DEBUG",
-   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Fluss.MI_Eldarien_Wasser_Fluss"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_FlussSim",
-   "eltern": "/WaterAdvanced/Niagara/Materials/SW_Water_Material_River_Niagara_Cached.SW_Water_Material_River_Niagara_Cached"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Meer",
-   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Basis.MI_Eldarien_Wasser_Basis"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis",
-   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis.M_EL_Eis"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis2",
-   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis2.M_EL_Eis2"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis3",
-   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis3.M_EL_Eis3"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Eldarien",
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Schaum",
    "eltern": "/Game/EldarienWaterLiteLicensed/M_EL_RiverShader.M_EL_RiverShader"
   },
   {
@@ -1369,27 +1524,47 @@
    "eltern": "/EldarienWaterLite/Materials/MI_EL_River.MI_EL_River"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Schaum",
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Eldarien",
    "eltern": "/Game/EldarienWaterLiteLicensed/M_EL_RiverShader.M_EL_RiverShader"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Wasser_Meer",
-   "eltern": "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_V2.M_Eldarien_Wasser_V2"
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis4",
+   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis4.M_EL_Eis4"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_fjord",
-   "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis3",
+   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis3.M_EL_Eis3"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_frost",
-   "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis2",
+   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis2.M_EL_Eis2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_gletscher",
-   "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_EL_Eis",
+   "eltern": "/Game/Eldarien/Welt/Wasser/M_EL_Eis.M_EL_Eis"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_kueste",
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Meer",
+   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Basis.MI_Eldarien_Wasser_Basis"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_FlussSim",
+   "eltern": "/WaterAdvanced/Niagara/Materials/SW_Water_Material_River_Niagara_Cached.SW_Water_Material_River_Niagara_Cached"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_DEBUG",
+   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Fluss.MI_Eldarien_Wasser_Fluss"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern_t1",
+   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer2.MI_Eldarien_Meer2"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern",
+   "eltern": "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer2.MI_Eldarien_Meer2"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_sumpf",
    "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
   },
   {
@@ -1397,359 +1572,23 @@
    "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_sumpf",
+   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_kueste",
    "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_BRUECKE_STEIN",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_gletscher",
+   "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_BASALT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_frost",
+   "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_BERGSCHLUCHT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+   "pfad": "/Game/Eldarien/Welt/Strasse/MI_EL_Strasse_fjord",
+   "eltern": "/Game/Eldarien/Welt/Strasse/M_EL_Strasse_V2.M_EL_Strasse_V2"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_CANYONSANDSTEIN",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_FJORDFELS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GLETSCHERFELS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GNEIS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GRANIT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_KALK",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_MOOSSCHLUCHT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_OEDFELS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_SANDSTEIN_ROT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_VULKANFELS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K10_TUNDRA_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K11_LAVAFELD_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K12_WUESTE_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K14_AETHELGARD_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K1_WASSERFALL_WEST_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K2_FLUSSAUE_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K3_CANYON_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K7_GLETSCHER_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_M1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_M2_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_P0_ERDE2_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M2_M1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M2_M2_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M2_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M1_ERDE2_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M2_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M3_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_P0_ERDE2_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_P1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P1_P0_ERDE2_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P1_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P1_P1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P2_M1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P2_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_M1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_M2_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_P1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_M1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_M2_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_P1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_M1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_P0_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_P1_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_P2_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_BUCHENRINDE",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_ERDE_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_FELS_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_KALK_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_KIES_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_LAUB_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_MOOS_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_NADEL_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_SAND_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_SCHLICK_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_SCHUTT_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_TON3_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_TON4_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_TON5_Rand",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DSCHUNGELRINDE",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_EIS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_BASALT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_CANYONSANDSTEIN",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_EISTEIN",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_GLETSCHERFELS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_GNEIS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_GRANIT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_HOODOO",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_KALK",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_KUESTENFELS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_LEHM",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_MOOSFELS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_MOOSSCHLUCHT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_SANDSTEIN_ROT",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_SCHLACKE",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FEST_MOOS",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FEST_SCHLICK",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_HOLZSTEIN",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_KIEFERNRINDE",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_RINDE",
-   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_SALZ_Rand",
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_SINTER_Rand",
    "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
   },
   {
@@ -1757,207 +1596,383 @@
    "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_SINTER_Rand",
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_SALZ_Rand",
    "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_HOLZSTEIN",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FEST_SCHLICK",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FEST_MOOS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_SCHLACKE",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_SANDSTEIN_ROT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_MOOSSCHLUCHT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_MOOSFELS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_LEHM",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_KUESTENFELS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_KALK",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_HOODOO",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_GRANIT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_GNEIS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_GLETSCHERFELS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_EISTEIN",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_CANYONSANDSTEIN",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_FELS_BASALT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_EIS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DSCHUNGELRINDE",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_TON5_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_TON4_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_TON3_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_SCHUTT_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_SCHLICK_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_SAND_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_NADEL_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_MOOS_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_LAUB_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_KIES_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_KALK_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_FELS_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_DECKE_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_SW_BUCHENRINDE",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_P2_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_P1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P5_M1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_P1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_M2_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P4_M1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_P1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_M2_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P3_M1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P2_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P2_M1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P1_P1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P1_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P1_P0_ERDE2_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_P1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_P0_ERDE2_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M3_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M2_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_P0_M1_ERDE2_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M2_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M2_M2_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M2_M1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_P0_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_P0_ERDE2_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_M2_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_R_M1_M1_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K7_GLETSCHER_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K3_CANYON_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K2_FLUSSAUE_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K1_WASSERFALL_WEST_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K14_AETHELGARD_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K12_WUESTE_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K11_LAVAFELD_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K10_TUNDRA_ERDE_Rand",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex_Rand.M_Eldarien_NetzTex_Rand"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_VULKANFELS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_SANDSTEIN_ROT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_OEDFELS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_MOOSSCHLUCHT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_KALK",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GRANIT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GNEIS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GLETSCHERFELS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_GLETSCHEREIS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_FJORDFELS",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_CANYONSANDSTEIN",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_BERGSCHLUCHT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_FELSHAUT_BASALT",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Netze/MI_K_BRUECKE_STEIN",
+   "eltern": "/Game/Eldarien/Welt/Material/M_Eldarien_NetzTex.M_Eldarien_NetzTex"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_veqnci0db",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Material/Fels/Klippe/MI_EL_Klippe_ukjhcamga",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/Klippe/M_EL_Klippe_RVT.M_EL_Klippe_RVT"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_fjord",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_frost",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_gletscher",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_kueste",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_tundra",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_fjord",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_frost",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_gletscher",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_kueste",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_tundra",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BeachSandWithPebbles_01",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmoothRockShelf_01",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_05",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_03",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_04",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Sand_MassiveSandstoneCliff_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Sand.M_EL_Fels_Sand"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_04",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_fjord",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_gletscher",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_kueste",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_tundra",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_fjord",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_gletscher",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_kueste",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_tundra",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_04",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_05",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_06",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_07",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_bergwald",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_fjord",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_gletscher",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_kueste",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_tundra",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_04",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_05",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveTundraRockFormation_01",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveTundraRockFormation_02",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_03",
-   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_04",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneCliff_02",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
@@ -1965,74 +1980,265 @@
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneCliff_02",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_04",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmoothRockShelf_01",
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_03",
    "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveTundraRockFormation_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveTundraRockFormation_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_05",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_04",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_03",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_tundra",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_kueste",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_gletscher",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_fjord",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_bergwald",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_07",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_06",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_05",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_04",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_03",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_tundra",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_kueste",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_gletscher",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_fjord",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_bergwald",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_tundra",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_kueste",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_gletscher",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_fjord",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_bergwald",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_04",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_04",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_03",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_02",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BeachSandWithPebbles_01",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS.M_EL_Fels_MS"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_tundra",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_kueste",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_gletscher",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_frost",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_fjord",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_02_bergwald",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_tundra",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_kueste",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_gletscher",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_frost",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_fjord",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Auf_HugeNordicCoastalCliff_01_bergwald",
+   "eltern": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_Auflage.M_EL_Fels_Auflage"
   },
   {
    "pfad": "/Game/Eldarien/Welt/Debug/MI_Debug_Karte_Hell",
    "eltern": "/Game/Eldarien/Welt/Debug/M_Debug_Karte_Hell.M_Debug_Karte_Hell"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10.M_Eldarien_Landschaft_V10"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10b",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10b.M_Eldarien_Landschaft_V10b"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10c",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10c.M_Eldarien_Landschaft_V10c"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10d",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10d.M_Eldarien_Landschaft_V10d"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V2",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V2.M_Eldarien_Landschaft_V2"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V3",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V3.M_Eldarien_Landschaft_V3"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V4",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V4.M_Eldarien_Landschaft_V4"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V5",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V5.M_Eldarien_Landschaft_V5"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V6",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V6.M_Eldarien_Landschaft_V6"
-  },
-  {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V7",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V7.M_Eldarien_Landschaft_V7"
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V9",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V9.M_Eldarien_Landschaft_V9"
   },
   {
    "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V8",
    "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V8.M_Eldarien_Landschaft_V8"
   },
   {
-   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V9",
-   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V9.M_Eldarien_Landschaft_V9"
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V7",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V7.M_Eldarien_Landschaft_V7"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V6",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V6.M_Eldarien_Landschaft_V6"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V5",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V5.M_Eldarien_Landschaft_V5"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V4",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V4.M_Eldarien_Landschaft_V4"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V3",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V3.M_Eldarien_Landschaft_V3"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V2",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V2.M_Eldarien_Landschaft_V2"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V12s",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V17s.M_Eldarien_Landschaft_V17s"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10d",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10d.M_Eldarien_Landschaft_V10d"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10c",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10c.M_Eldarien_Landschaft_V10c"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10b",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10b.M_Eldarien_Landschaft_V10b"
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V10",
+   "eltern": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V10.M_Eldarien_Landschaft_V10"
   }
  ],
  "wasser_materialien": [
   "/Game/Eldarien/Welt/Wasser/M_Eldarien_Meer",
-  "/Game/Eldarien/Welt/Material/M_Eldarien_Wasser",
   "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_Schaum8",
   "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_V2",
   "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall2",
-  "/Game/Eldarien/Welt/Wasser/M_EL_Eis4",
   "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/M_EL_Wasserfall",
+  "/Game/Eldarien/Welt/Wasser/M_EL_Eis4",
   "/Game/Eldarien/Welt/Wasser/M_EL_Eis3",
   "/Game/Eldarien/Welt/Wasser/M_EL_Eis2",
   "/Game/Eldarien/Welt/Wasser/M_EL_Eis",
@@ -2044,6 +2250,7 @@
   "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_Schaum2",
   "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser_Schaum",
   "/Game/Eldarien/Welt/Wasser/M_Eldarien_Wasser",
+  "/Game/Eldarien/Welt/Material/M_Eldarien_Wasser",
   "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Basis",
   "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer2",
   "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_LOD",
@@ -2051,26 +2258,26 @@
   "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Fluss",
   "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_See",
   "/Game/Eldarien/Welt/Wasser/MI_Wasser_Fluss",
+  "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade",
+  "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum",
+  "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle",
   "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall",
   "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Aufprall",
   "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Zulauf",
-  "/Game/Eldarien/Welt/Wasser/Wasserfall_v2/MI_EL_Wasserfall_Kaskade",
-  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis4",
-  "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum",
-  "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schnelle",
   "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Vorhang",
-  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern",
-  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern_t1",
-  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_DEBUG",
-  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_FlussSim",
-  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Meer",
-  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis",
-  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis2",
-  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis3",
-  "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Eldarien",
-  "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Epic_Eldarien",
-  "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Schaum",
   "/Game/Eldarien/Welt/Wasser/MI_Wasser_Meer",
+  "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Schaum",
+  "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Epic_Eldarien",
+  "/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Eldarien",
+  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis4",
+  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis3",
+  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis2",
+  "/Game/Eldarien/Welt/Wasser/MI_EL_Eis",
+  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_Meer",
+  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_FlussSim",
+  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Wasser_DEBUG",
+  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern_t1",
+  "/Game/Eldarien/Welt/Wasser/MI_Eldarien_Meer_Fern",
   "/Game/Eldarien/Welt/Material/Netze/MI_K_STR_K1_WASSERFALL_WEST_ERDE_Rand"
  ],
  "klaenge": {
@@ -2122,46 +2329,46 @@
   "SoundCue": {
    "anzahl": 46,
    "beispiele": [
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Rhythmic_cheering_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Soft_cheering_and_chatter_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Soft_cheering_I_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Soft_cheering_II_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_and_soft_rhythmic_cheering_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_and_strong_rhythmic_cheering_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_I_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_II_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Mall_ambience_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_School_excursion_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Street_parade_with_music_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Elevator_ride_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Fireworks_New_Year_s_Eve_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_I_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_II_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_III_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_IV_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_V_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Motorcycle_engine_Start_and_drive_away_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Distant_thunder_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Dropping_on_various_textures_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Falling_on_a_metal_roof_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Falling_on_a_wooden_roof_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_Ambience_Field_recording_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_I_Without_rain_wind_background_noise_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_II_Without_rain_wind_background_noise_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_III_Without_rain_wind_background_noise_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_III_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
     "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_V_Cue",
     "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VI_Cue",
     "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
     "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VIII_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_X_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
-    "/Game/City_Nature_Sounds/CUE/CUE_City_Ambience_Park_Spring_With_birds_cars_and_planes_Cue"
+    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IX_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_IV_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_II_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_III_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_I_Without_rain_wind_background_noise_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_II_Without_rain_wind_background_noise_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_III_Without_rain_wind_background_noise_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Thunder_Lightning_Ambience_Field_recording_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Falling_on_a_wooden_roof_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Falling_on_a_metal_roof_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Dropping_on_various_textures_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Rain_Distant_thunder_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Nature_Birds_Singing_and_talking_lovebirds_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Motorcycle_engine_Start_and_drive_away_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_V_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_I_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_IV_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_II_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_III_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Fireworks_New_Year_s_Eve_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Elevator_ride_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Street_parade_with_music_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_School_excursion_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Mall_ambience_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_I_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_II_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_and_strong_rhythmic_cheering_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Strong_cheering_and_soft_rhythmic_cheering_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Soft_cheering_I_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Soft_cheering_II_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Soft_cheering_and_chatter_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Rhythmic_cheering_Cue",
+    "/Game/City_Nature_Sounds/CUE/CUE_Crowd_Cheering_Ambience_Cue"
    ]
   },
   "MetaSoundSource": {
@@ -2191,19 +2398,19 @@
  "blueprints_effekt": [
   "/Game/Blueprints/MovementModes/B_MovementMode_Flying",
   "/Game/NiagaraExamples/Utilities/Blueprints/BP_VFX_Preview_Spawner",
-  "/Game/NiagaraExamples/Gallery/Blueprints/Tools/BP_FireworkTarget",
-  "/Game/NiagaraExamples/Gallery/Blueprints/Tools/BP_LightFixture",
-  "/Game/NiagaraExamples/Gallery/Blueprints/Tools/BP_LightFixtureWall",
   "/Game/NiagaraExamples/Gallery/Blueprints/Tools/BP_WeaponAutoFire",
-  "/Game/NiagaraExamples/FX_Weapons/Projectiles/BP_ImpactProjectile",
-  "/Game/NiagaraExamples/FX_Weapons/Projectiles/BP_ProjectileMaster",
+  "/Game/NiagaraExamples/Gallery/Blueprints/Tools/BP_LightFixtureWall",
+  "/Game/NiagaraExamples/Gallery/Blueprints/Tools/BP_LightFixture",
+  "/Game/NiagaraExamples/Gallery/Blueprints/Tools/BP_FireworkTarget",
   "/Game/NiagaraExamples/FX_Weapons/Projectiles/BP_RocketProjectile",
-  "/Game/NiagaraExamples/FX_Misc/BP_DinoDragon",
+  "/Game/NiagaraExamples/FX_Weapons/Projectiles/BP_ProjectileMaster",
+  "/Game/NiagaraExamples/FX_Weapons/Projectiles/BP_ImpactProjectile",
   "/Game/NiagaraExamples/FX_Misc/BP_HitDissolveCow",
+  "/Game/NiagaraExamples/FX_Misc/BP_DinoDragon",
   "/Game/NiagaraExamples/FX_Footstep/AN_Footstep",
-  "/Game/NiagaraExamples/FX_Fog/BP_FogBankCard",
   "/Game/NiagaraExamples/FX_Fog/BP_FogBankVolume",
+  "/Game/NiagaraExamples/FX_Fog/BP_FogBankCard",
   "/Game/NiagaraExamples/FX_Explosions/CameraShake/CS_Explosion_01"
  ],
- "dauer_s": 0.2
+ "dauer_s": 0.0
 }
