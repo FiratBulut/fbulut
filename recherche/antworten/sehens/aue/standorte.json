@@ -110,7 +110,7 @@
     ["C5", -248700, 27500, -216000, 8200, 1981, "aue_03_schwalbenwand_anmarsch", -170],
     ["C5", -218800, 15800, -216600, 7600, 2192, "aue_03_schwalbenwand_held", -170],
     ["C5", -216985, 8026, -216000, 8200, 1431, "aue_03_schwalbenwand_nah", -170],
-    ["C5", -265600, 600, -216000, 8200, 1981, "aue_03_schwalbenwand_fern", -170]
+    ["C5", -248200, 46800, -216000, 8200, 1981, "aue_03_schwalbenwand_fern", -170]
    ],
    "ziel_hoehe_m": 12.0,
    "standort_begruendung": "Natuerliche 9-10-m-Gelaendestufe (22,7 -> 13,9 m, bis 63 Grad, Boden Fels/Wiese) suedlich des Flussbogens: verlassener Prallhang; Fuss = alte Rinne.",
@@ -257,7 +257,7 @@
    "felder": ["E5"],
    "kameras": [
     ["E5", -25300, 77990, -24000, 74000, 2017, "aue_06_mondarm_anmarsch", -170],
-    ["E5", -23600, 74800, -30000, 72200, 1417, "aue_06_mondarm_held", -170],
+    ["E5", -23500, 73900, -30000, 72200, 1417, "aue_06_mondarm_held", -170],
     ["E5", -24342, 74940, -24000, 74000, 1967, "aue_06_mondarm_nah", -170]
    ],
    "ziel_hoehe_m": 3.0,
@@ -307,7 +307,7 @@
    "kameras": [
     ["F4", 117500, -78021, 116600, -83400, 2808, "aue_07_blautopf_anmarsch", -170],
     ["F4", 115800, -85800, 116600, -82400, 2939, "aue_07_blautopf_held", -170],
-    ["F4", 116177, -82494, 116600, -83400, 2758, "aue_07_blautopf_nah", -170]
+    ["F4", 117800, -82300, 116600, -82600, 2864, "aue_07_blautopf_nah", -170]
    ],
    "ziel_hoehe_m": 3.0,
    "standort_begruendung": "Anfang des Bachs B_R_P2_M1_01 (Quelle z 27,9 m) im Talschluss einer Laubwald-Kerbe (TPI50 -6 m), Weg 80-90 m oberhalb hinter der Kante.",

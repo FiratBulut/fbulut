@@ -318,8 +318,8 @@
    "felder": ["H3"],
    "kameras": [
     ["H3", 273975, -157175, 276200, -158800, 8819, "elfenwald_05_farnschlucht_anmarsch", -170],
-    ["H3", 274695, -154665, 276200, -158800, 8839, "elfenwald_05_farnschlucht_held", 170],
-    ["H3", 275858, -157860, 276200, -158800, 8769, "elfenwald_05_farnschlucht_nah", -170]
+    ["H3", 274500, -160500, 276200, -158800, 8054, "elfenwald_05_farnschlucht_held", 170],
+    ["H3", 275493, -159507, 276200, -158800, 8769, "elfenwald_05_farnschlucht_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "Schlucht/Kessel, Boden Fels, Hang 55 Grad, TPI100 -15 m, Laub 35 %, Erde 31 %, Fels 26 %, Gras 4 %; Weg 208 m, Wasser 8 m, Baeume bis 23 m",

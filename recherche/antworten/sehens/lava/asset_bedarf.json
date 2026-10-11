@@ -1,0 +1,417 @@
+{
+ "stand": "2026-10-11",
+ "biom": "lava",
+ "quelle_downloadliste": "antworten/sehens/downloadliste.json",
+ "orte": {
+  "lava_01_schwarze_mauer": [
+   {
+    "paket": "Free City & Nature Sounds",
+    "prioritaet": "C",
+    "wofuer": "Windgrundklang offenes Lavafeld",
+    "ersatz_bestand": "kein Klang (stumm)"
+   },
+   {
+    "paket": "Megascans Icelandic Sand With Pebbles",
+    "prioritaet": "C",
+    "wofuer": "Schwarzer Kies im Schuttsaum der Front",
+    "ersatz_bestand": "SM_SmallStonesPack_08…14 + Lage Lavasand"
+   }
+  ],
+  "lava_02_schwefelgrund": [
+   {
+    "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+    "prioritaet": "A",
+    "wofuer": "Dampf-/Rauch-Niagara fuer Dampfschlot und Fumarolen, Hitzeflimmern",
+    "ersatz_bestand": "lokaler_nebel (2x) + MI_TileableLeakage als Krusten"
+   },
+   {
+    "paket": "Niagara Examples Pack",
+    "prioritaet": "A",
+    "wofuer": "Dampfsaeule (Vorlage Smoke/Steam), falls Lava-Set-Effekte zu 'vulkanisch' sind",
+    "ersatz_bestand": "lokaler_nebel"
+   },
+   {
+    "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+    "prioritaet": "B",
+    "wofuer": "Zischen/Brodeln der Fumarolen und Schwefelquellen",
+    "ersatz_bestand": "MetaSound aus Rauschen + Blubberimpulsen"
+   },
+   {
+    "paket": "Realistic Starter VFX Pack Vol 2",
+    "prioritaet": "C",
+    "wofuer": "Dampf-Texturen (Cascade, nur Texturquelle)",
+    "ersatz_bestand": "-"
+   }
+  ],
+  "lava_03_kraterkinder": [
+   {
+    "paket": "Megascans Icelandic Sand With Pebbles",
+    "prioritaet": "C",
+    "wofuer": "Schlackensand/Kiesel an den Kegelflanken und am Teichufer",
+    "ersatz_bestand": "Lage Lavasand + SM_SmallStonesPack_*"
+   },
+   {
+    "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+    "prioritaet": "B",
+    "wofuer": "Nassband-/Kiesel-Decals am Kraterteich",
+    "ersatz_bestand": "MI_Leakage_01…13"
+   },
+   {
+    "paket": "Free City & Nature Sounds",
+    "prioritaet": "C",
+    "wofuer": "Wasser/Voegel an der Aue (Grundklang)",
+    "ersatz_bestand": "-"
+   }
+  ],
+  "lava_04_roehrenfenster": [
+   {
+    "paket": "Cave Ambience",
+    "prioritaet": "B",
+    "wofuer": "Tropfen/Hall im Roehrenmaul",
+    "ersatz_bestand": "MetaSound Tropfen"
+   },
+   {
+    "paket": "Niagara Examples Pack",
+    "prioritaet": "A",
+    "wofuer": "Kaltluft-Dunst im Schacht (Mist Card)",
+    "ersatz_bestand": "lokaler_nebel"
+   }
+  ],
+  "lava_05_klare_spalte": [
+   {
+    "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+    "prioritaet": "B",
+    "wofuer": "Nass-/Kieseldecals an der Wasserlinie in der Spalte",
+    "ersatz_bestand": "MI_Leakage_*, MI_TileableLeakage_*"
+   },
+   {
+    "paket": "Free City & Nature Sounds",
+    "prioritaet": "C",
+    "wofuer": "Wind ueber der Spalte, Tropfen",
+    "ersatz_bestand": "-"
+   }
+  ],
+  "lava_06_kraterreihe": [
+   {
+    "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+    "prioritaet": "A",
+    "wofuer": "Restdampf im Hauptkrater (dezent), Hitzeflimmern",
+    "ersatz_bestand": "lokaler_nebel klein"
+   },
+   {
+    "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+    "prioritaet": "B",
+    "wofuer": "Wind/Grollen am Kraterrand",
+    "ersatz_bestand": "-"
+   }
+  ],
+  "lava_07_basaltorgel": [
+   {
+    "paket": "Basalt Columns and Rocks 21 Types – AssetKit PBR",
+    "prioritaet": "A",
+    "wofuer": "Saeulen, Saeulenstuempfe und Truemmer fuer die Orgelwand (21 Teile)",
+    "ersatz_bestand": "SM_lava_wall_04/05 senkrecht gereiht + SM_IcelandicLavaSpire_01/03 (keine echten Sechsecke, deutlich schwaecher)"
+   }
+  ],
+  "lava_08_glutauge": [
+   {
+    "paket": "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+    "prioritaet": "A",
+    "wofuer": "Lava-Material (Water-Plugin) fuer die Glut im Schacht, 7 Glut-Decals mit Emission, Blasen/Hitzeflimmern",
+    "ersatz_bestand": "Punktlicht orange + emissive MI auf SM_lava_s_rock_* im Schacht (schwach)"
+   },
+   {
+    "paket": "Ultimate Niagara Environmental VFX",
+    "prioritaet": "B",
+    "wofuer": "Glutfunken/Asche ueber dem Fenster (Flame Dust)",
+    "ersatz_bestand": "keiner"
+   },
+   {
+    "paket": "Fantasy Ambiences (Lava, Höhle, Wind …)",
+    "prioritaet": "B",
+    "wofuer": "Lava-Brodeln (Lava-Ambiences)",
+    "ersatz_bestand": "MetaSound"
+   }
+  ]
+ },
+ "neue_paketwuensche": [
+  {
+   "paket": "Tundra Icelandic Rock Cluster (Quixel Megascans)",
+   "link": "https://www.fab.com/listings/11fe6037-b5c1-4bde-baf8-72c1c6018298",
+   "preis": "ungeprueft (Megascans: kostenlos, falls 2024 beansprucht; sonst ab ca. 1 €)",
+   "groesse_gb": "ca. 0,1 (Schaetzung)",
+   "nanite": "ja (Megascans, ungeprueft)",
+   "prioritaet": "C",
+   "wofuer": [
+    "lava_01_schwarze_mauer",
+    "lava_03_kraterkinder",
+    "lava_04_roehrenfenster",
+    "lava_05_klare_spalte"
+   ],
+   "begruendung": "Gescannte moosbewachsene Islandbloecke (1,35 x 1,39 x 0,62 m, geschlossenes Netz) - genau die Kontaktzone Moospolster/Lavablock; unsere SM_IcelandicBoulder_* sind gesperrt (netz_sperre.json).",
+   "ersatz_bestand": "SM_lava_m_rock_* / SM_lava_s_rock_* mit MI_EL_SW_Lava_Moos (M_EL_Fels_Auflage) + SM_MossyRocks_01/02",
+   "quelle": "Websuche 11.10.2026 (Fab-Listing, Titel und Masse aus dem Listing-Auszug)"
+  }
+ ],
+ "luecken_ohne_asset": [
+  {
+   "luecke": "Lavaroehre (Roehrenmaul mit Decke, Innenraum)",
+   "orte": [
+    "lava_04_roehrenfenster",
+    "lava_08_glutauge"
+   ],
+   "loesung": "Loch im Gelaende (Stempel -8 m) + Deckenlippe aus SM_lava_wall_01/02/09 kopfueber als Akteure, Innenraum endet nach 4-6 m im Dunkel (schwarzes Netz-Ende aus SM_lava_wall_06/08, kein Licht). Auf Fab kein Lavaroehren-Paket gefunden (Websuche 11.10.: nur 'Cave Stalactites & Wall Kit', Kalksteinhoehle - passt nicht)."
+  },
+  {
+   "luecke": "Pseudokrater/Schlackenkegel (kleine Kegel mit Krater)",
+   "orte": [
+    "lava_03_kraterkinder",
+    "lava_06_kraterreihe"
+   ],
+   "loesung": "Reine Gelaendeform (Kegelstempel mit Krater), Kraterrand mit SM_lava_m_rock_* und SM_lava_wall_06/07/08 (Schweissschlacke), rote Schlacke ueber MI_EL_SW_Schlacke_Rot."
+  },
+  {
+   "luecke": "Schwefel-/Ocker-/Bleich-Decals",
+   "orte": [
+    "lava_02_schwefelgrund"
+   ],
+   "loesung": "Eigene Decal-Instanzen auf M_MS_Decal: Leakage-/MossPatch-Masken als Form, BaseColor Tint gelb (Schwefel), ocker (Ton), weiss (Bleiche); Krusten auf Steinen ueber MI_EL_SW_Schwefelkruste (M_EL_Fels_Auflage, Auflage in Hohlformen)."
+  },
+  {
+   "luecke": "Stricklava (Pahoehoe-Seile, Lavazehen)",
+   "orte": [
+    "lava_08_glutauge"
+   ],
+   "loesung": "Flache SM_lava_wall_06/07/08 (1,2-1,6 m hoch) liegend als Zehen und Schollen, MI_EL_SW_Lava_Glasur (Rauheit 0,35); Seilmuster als Decal aus Leakage-Maske dunkel. Kein Asset gefunden."
+  },
+  {
+   "luecke": "Hornito/Schlotturm",
+   "orte": [
+    "lava_01_schwarze_mauer"
+   ],
+   "loesung": "SM_IcelandicLavaSpire_01 x1,8 + _03 x1,3 (Bestand, Nanite) - Texel-Dichte im Bild pruefen."
+  },
+  {
+   "luecke": "Lava-/Schwefel-/Hoehlenklaenge (falls B-Klangpakete nicht gekauft werden)",
+   "orte": [
+    "lava_02_schwefelgrund",
+    "lava_04_roehrenfenster",
+    "lava_08_glutauge"
+   ],
+   "loesung": "MetaSounds aus gefiltertem Rauschen + Zufallsimpulsen (wie Download-Liste, Luecken-Tabelle)."
+  }
+ ],
+ "nicht_mehr_noetig": [
+  {
+   "paket": "Megascans Desert Western Cliff Layered XL 14 + Large 03",
+   "hinweis": "Der 'Regenbogenhang' aus Katalog v1 entfaellt fuer lava (Dopplung mit oedland:Bemalte Huegel); fuer lava nicht mehr noetig."
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Lava_Moos",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.55,
+     0.66,
+     0.36,
+     1.0
+    ],
+    "Auflage_Menge": 0.75,
+    "Auflage_Schwelle": 0.55,
+    "Auflage_Flecken": 0.7,
+    "Toenung": [
+     0.42,
+     0.4,
+     0.4,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_lava_wall_01",
+    "SM_lava_wall_02",
+    "SM_lava_b_rock_01",
+    "SM_lava_m_rock_01"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schlacke_Rot",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [
+     0.62,
+     0.3,
+     0.22,
+     1.0
+    ],
+    "Helligkeit": 0.9,
+    "Variation": 0.7
+   },
+   "fuer": [
+    "SM_lava_m_rock_02",
+    "SM_lava_s_rock_03",
+    "SM_lava_wall_07"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schwefelkruste",
+   "basis": "M_EL_Fels_Auflage",
+   "parameter": {
+    "Auflage_Farbe": [
+     0.95,
+     0.82,
+     0.25,
+     1.0
+    ],
+    "Auflage_Menge": 0.6,
+    "Auflage_Hohl": 0.85,
+    "Auflage_Rauheit": 0.95
+   },
+   "fuer": [
+    "SM_lava_m_rock_05",
+    "SM_lava_s_rock_01",
+    "SM_lava_b_rock_04"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Schwefel_Decal",
+   "basis": "M_MS_Decal",
+   "parameter": {
+    "BaseColor Tint": [
+     1.0,
+     0.84,
+     0.3,
+     1.0
+    ],
+    "Saturation": 1.3,
+    "Min Roughness": 0.7
+   },
+   "fuer": [
+    "Decal (Maske aus MI_Leakage_04)"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Basalt_Saeule",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Toenung": [
+     0.55,
+     0.55,
+     0.58,
+     1.0
+    ],
+    "Fels_Saettigung": 0.4,
+    "Moos_Menge": 0.35,
+    "Moos_Farbe": [
+     0.6,
+     0.72,
+     0.4,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_lava_wall_04",
+    "SM_lava_wall_05",
+    "Basalt Columns (nach Download)"
+   ]
+  },
+  {
+   "name": "MI_EL_SW_Lava_Glasur",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Rauheit": 0.35,
+    "Specular": 0.6,
+    "Toenung": [
+     0.5,
+     0.48,
+     0.52,
+     1.0
+    ]
+   },
+   "fuer": [
+    "SM_lava_wall_06",
+    "SM_lava_wall_07",
+    "SM_lava_wall_08"
+   ]
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "lava_01_schwarze_mauer",
+   "zweck": "Wirkt die 5-9-m-Front heute schon als Wand? (vor dem Stempel)",
+   "kamera": [
+    "C6",
+    -210851,
+    102443,
+    -208400,
+    104500,
+    4500,
+    "lava_01_leer_held",
+    -170
+   ]
+  },
+  {
+   "ort": "lava_03_kraterkinder",
+   "zweck": "Mulde mit Lavasand von Sueden, Aue-Bach dahinter",
+   "kamera": [
+    "C5",
+    -212500,
+    78800,
+    -214000,
+    70000,
+    1900,
+    "lava_03_leer_held",
+    -170
+   ]
+  },
+  {
+   "ort": "lava_06_kraterreihe",
+   "zweck": "Wie sieht die vorhandene Kegelkette (alte Kachel) heute aus? Entscheidet mit ueber den Kratersteig",
+   "kamera": [
+    "C6",
+    -193500,
+    129000,
+    -183000,
+    139500,
+    6600,
+    "lava_06_leer_held",
+    -170
+   ]
+  },
+  {
+   "ort": "lava_07_basaltorgel",
+   "zweck": "Schlucht am Westrand: Hoehe/Form der Plateaukante",
+   "kamera": [
+    "B6",
+    -281800,
+    140200,
+    -278600,
+    138600,
+    4500,
+    "lava_07_leer_held",
+    -170
+   ]
+  }
+ ],
+ "zusammenfassung": {
+  "A": [
+   "Lava & Volcano – Environment Set (fehlende Teile neu hinzufügen)",
+   "Niagara Examples Pack",
+   "Basalt Columns and Rocks 21 Types – AssetKit PBR"
+  ],
+  "B": [
+   "Fantasy Ambiences (Lava, Höhle, Wind …)",
+   "Cave Ambience",
+   "Ultimate Niagara Environmental VFX",
+   "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)"
+  ],
+  "C": [
+   "Free City & Nature Sounds",
+   "Megascans Icelandic Sand With Pebbles",
+   "Realistic Starter VFX Pack Vol 2",
+   "Tundra Icelandic Rock Cluster (Quixel Megascans)"
+  ],
+  "hinweis": "lava_06-08 brauchen ihre Pakete nur, wenn der Kratersteig gebaut wird; Basalt Columns (ca. 11 €) dann A, sonst entbehrlich."
+ }
+}

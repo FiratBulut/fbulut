@@ -1,0 +1,550 @@
+{
+ "stand": "2026-10-11",
+ "biom": "aue",
+ "hinweis": "Paketnamen exakt wie in antworten/sehens/downloadliste.json; Bestand = Netznamen aus vorlagen/daten/netze.csv (geprüft, keiner gesperrt, keine Houdini-Netze). v1-Namen in der Download-Liste: aue:Erdfall-Weiher → aue_06_mondarm (Seerosen) und aue_07_blautopf (Kalk); aue:Hexenring entfällt (Pilze nur noch C); aue:Schwalbenwand/aue:Blautopf unverändert.",
+ "orte": [
+  {
+   "id": "aue_01_biberstau",
+   "name": "Biberstau",
+   "art": "fundstueck",
+   "bestand": ["SM_OldTreeBranch_01", "SM_OldTreeBranch_02", "SM_OldTreeBranch_03", "SM_OldTreeBranch_04", "SM_OldTreeBranch_05", "SM_detail_branches_01", "SM_detail_branches_02", "SM_detail_branches_03", "SM_branch_01_1", "SM_branch_01_2", "SM_Pine_broken_branch_01", "SM_dead_log_01", "SM_dead_log_03", "SM_trunk_01", "SM_trunk_02", "SM_BrokenTreeAssembly_01", "SM_LargeFallenTree_02", "Fir_08_Dead_NoBillboard", "SM_Forest_pine_10_dead", "SM_BirchTreeStump_01", "SM_TreeStump_01", "SM_RottenTreeStump_02", "SM_Poplar_plant_A_00", "SM_Poplar_plant_C_00", "SM_Rohrkolben_Horst_1", "SM_Rohrkolben_Horst_3", "SM_ToadRush_00", "SM_ToadRush_010", "SM_MossyForestRoots_02", "SM_SilverLadyFern_03", "SM_SmallStonesPack_03", "SM_MossyForestRock_01"],
+   "decals": ["MI_ScatteredBark_01", "MI_Sticks_01", "MI_TileableLeakage_01"],
+   "pakete": [
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "B",
+     "wofuer": "Plätschern am Überlauf",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    },
+    {
+     "paket": "Megascans Trees: European Black Alder",
+     "prioritaet": "C",
+     "wofuer": "Erlen/Espen am Teichrand",
+     "ersatz_bestand": "SM_Poplar_tree_02 (Espe-Ersatz)",
+     "in_downloadliste": false,
+     "preis_laut_liste": "kostenlos (Early Access, laut UE-Marketplace-Seite)"
+    }
+   ]
+  },
+  {
+   "id": "aue_02_die_alte",
+   "name": "Die Alte",
+   "art": "leuchtfeuer",
+   "bestand": ["SM_Poplar_tree_06_Optimised", "SM_dry_oak_01_B", "SM_dry_oak_01_D", "SM_dry_oak_02_A", "SM_LargeFallenTree_02", "SM_OldTreeBranch_05", "SM_OldTreeBranch_06", "SM_beech_old_roots_01", "SM_MossyForestRoots_01", "SM_MossyForestRoots_03", "SM_crooked_root_01", "SM_crooked_root_04", "SM_nettle_01_0_SM_nettle_01_0", "SM_nettle_01_1_SM_nettle_01_1", "SM_Elderberry_03", "SM_Elderberry_07", "SM_flower_chamomile_01", "SM_flower_brownray_knapweed_01", "SM_meadow_daisy_01", "SM_flower_common_Saint_John_s_wort_01", "SM_grass_meadow_02", "SM_grass_meadow_04", "SM_DeadLeaves_03", "SM_detail_leaves_01"],
+   "decals": ["MI_TileableMossPatches_02", "MI_ScatteredBark_01"],
+   "pakete": [
+    {
+     "paket": "Quercus Robur (Stieleiche) – Nanite & Impostor",
+     "prioritaet": "B",
+     "wofuer": "die Stieleiche selbst (Held)",
+     "ersatz_bestand": "SM_Poplar_tree_06_Optimised ×1,3 → Schwarzpappel",
+     "in_downloadliste": false,
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Free Niagara Particles",
+     "prioritaet": "C",
+     "wofuer": "Pollen/Samenflug im Gegenlicht (optional)",
+     "ersatz_bestand": "ohne Effekt",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (Lizenz CC BY 4.0)"
+    },
+    {
+     "paket": "Forest Fungi – Mushroom Pack",
+     "prioritaet": "C",
+     "wofuer": "Schwefelporling am Starkast",
+     "ersatz_bestand": "SM_mushroom_01 skaliert",
+     "in_downloadliste": true,
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "B",
+     "wofuer": "Wind in der Krone, Grillen",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "aue_03_schwalbenwand",
+   "name": "Schwalbenwand",
+   "art": "leuchtfeuer",
+   "bestand": ["SM_beach_cliff_02_A", "SM_beach_cliff_02_B", "SM_beach_cliff_02_C", "SM_beach_cliff_01_A", "SM_beach_cliff_01_B", "SM_beach_escarpment_01_A", "SM_sandy_slope_01", "SM_sandy_slope_02", "SM_sandy_slope_03", "SM_sandy_slope_05", "SM_scarp_01", "SM_scarp_02", "SM_Rock_02", "SM_s_rock_01", "SM_ForestRockFormation_02", "SM_Poplar_tree_05_Optimised", "SM_Poplar_tree_07_Optimised", "Poplar_02_Standalone", "SM_Poplar_tree_04", "SM_Pine_roots_01", "SM_crooked_roots_small", "SM_ForestRoots_01", "SM_ForestRoots_02", "SM_crooked_root_021", "SM_petasites_spurius_01", "SM_rough_horsetail_01", "SM_Rohrkolben_Horst_2", "SM_ToadRush_02", "SM_grass_bush_02", "SM_flower_bouncing_bet_01", "SM_SmallStonesPack_05"],
+   "decals": ["MI_Leakage_04", "MI_TileableLeakage_03"],
+   "pakete": [
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Lehm-/Nassufer-Decals für Wand und Fuß",
+     "ersatz_bestand": "MI_Leakage_*",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "C",
+     "wofuer": "Vogelstimmen/Wind",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "aue_04_treibholzwerder",
+   "name": "Treibholzwerder",
+   "art": "leuchtfeuer",
+   "bestand": ["SM_beach_driftwood_01", "SM_LargeFallenTree_01", "SM_LargeFallenTree_02", "SM_OldFallenTree_01", "SM_OldFallenTree_02", "SM_FallenSpruceTree_01", "SM_BrokenTreeAssembly_01", "SM_trunk_01", "SM_trunk_02", "SM_OldTreeBranch_01", "SM_OldTreeBranch_03", "SM_OldTreeBranch_05", "Fir_08_Dead_NoBillboard", "SM_Pine_roots_01", "SM_Pine_roots_02", "SM_stones_roots_01", "SM_stones_roots_02", "Big_Tree_Willow_01", "Big_Tree_Willow_02", "SM_grey_willow_02", "SM_grey_willow_04", "SM_Poplar_plant_A_00", "SM_Poplar_plant_B_00", "SM_petasites_spurius_02", "SM_NordicBeachRockyGround_01", "SM_NordicBeachRockyGround_02", "SM_BeachSandWithPebbles_01", "SM_DryRiverBed_01", "SM_SmallStonesPack_01", "SM_SmallStonesPack_07", "SM_SmallStonesPack_12", "SM_flat_rock_02", "SM_flat_rock_03", "SM_SmoothRockShelf_01", "SM_beach_grass_02_1"],
+   "decals": ["MI_SticksAndTwigs_01", "MI_ScatteredSticksAndTwigs_01", "MI_TileableLeakage_02"],
+   "pakete": [
+    {
+     "paket": "Nanite Driftwood Props",
+     "prioritaet": "A",
+     "wofuer": "Treibholzburg (Held), gebleichte Stämme",
+     "ersatz_bestand": "Waldstämme aus dem Bestand, mit MI_EL_SW_Treibholz aufgehellt",
+     "in_downloadliste": false,
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+     "prioritaet": "A",
+     "wofuer": "Nassband-/Kiesel-Decals an der Wasserlinie",
+     "ersatz_bestand": "MI_TileableLeakage_*",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (schon gekauft)"
+    },
+    {
+     "paket": "Megascans Trees: European Black Alder",
+     "prioritaet": "C",
+     "wofuer": "Weichholz-Jungwuchs am Inselende",
+     "ersatz_bestand": "SM_grey_willow_*",
+     "in_downloadliste": false,
+     "preis_laut_liste": "kostenlos (Early Access, laut UE-Marketplace-Seite)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "B",
+     "wofuer": "Rauschen des Stroms an der Verklausung",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "aue_05_lilienrinne",
+   "name": "Lilienrinne",
+   "art": "fundstueck",
+   "bestand": ["SM_Crownbeard_01", "SM_Crownbeard_03", "SM_Crownbeard_08", "SM_Rohrkolben_Jung_1", "SM_Rohrkolben_Jung_2", "SM_flower_brownray_knapweed_01", "SM_flower_brownray_knapweed_02", "SM_flower_bouncing_bet_01", "SM_WhiteWindflower_02", "SM_flower_chamomile_02", "SM_petasites_spurius_01", "SM_rough_horsetail_02", "SM_ToadRush_011", "SM_grey_willow_03", "SM_grey_willow_04", "Big_Tree_Willow_01", "SM_detail_branches_02", "SM_detail_branches_03", "SM_OldTreeBranch_04", "SM_dead_log_02", "SM_SmallStonesPack_09", "SM_grass_meadow_01", "SM_grass_meadow_03"],
+   "decals": ["MI_TileableLeakage_04", "MI_SticksAndTwigs_01"],
+   "pakete": [
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "C",
+     "wofuer": "Bodennebel-/Mückenschwarm über dem Tümpel (optional)",
+     "ersatz_bestand": "lokaler Nebel aus §6",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Nanite Driftwood Props",
+     "prioritaet": "C",
+     "wofuer": "Spülsaum aus kleinem Treibgut",
+     "ersatz_bestand": "SM_detail_branches_*",
+     "in_downloadliste": false,
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "B",
+     "wofuer": "Frösche/Insekten",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "aue_06_mondarm",
+   "name": "Mondarm",
+   "art": "fundstueck",
+   "bestand": ["SM_WaterPlant01", "SM_WaterPlant02", "SM_WaterPlant03", "SM_WaterPlant04", "SM_lily_01_1", "SM_Rohrkolben_Horst_1", "SM_Rohrkolben_Horst_4", "SM_Rohrkolben_Horst_6", "SM_Rohrkolben_Jung_3", "SM_ToadRush_012", "Big_Tree_Willow_01", "Big_Tree_Willow_02", "SM_Poplar_tree_03_Optimised", "SM_grey_willow_01", "SM_grey_willow_02", "SM_grey_willow_03", "SM_grey_willow_04", "SM_LargeFallenTree_02", "SM_OldFallenTree_02", "SM_OldTreeBranch_05", "SM_crooked_root_031", "SM_crooked_root_05", "SM_MossyForestRoots_01", "SM_petasites_spurius_03", "SM_rough_horsetail_03", "SM_Elderberry_05"],
+   "decals": ["MI_TileableLeakage_01", "MI_TileableMossPatches_01"],
+   "pakete": [
+    {
+     "paket": "Megascans Rembrandt Water Lily",
+     "prioritaet": "A",
+     "wofuer": "Teich-/Seerosenfeld (Held)",
+     "ersatz_bestand": "SM_WaterPlant01…04 (CityPark, nicht Nanite)",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+    },
+    {
+     "paket": "Megascans Trees: European Black Alder",
+     "prioritaet": "B",
+     "wofuer": "Erlen im Weiden-/Erlengürtel (Fundstück-Rahmen)",
+     "ersatz_bestand": "SM_grey_willow_* + Big_Tree_Willow_01",
+     "in_downloadliste": false,
+     "preis_laut_liste": "kostenlos (Early Access, laut UE-Marketplace-Seite)"
+    },
+    {
+     "paket": "Niagara Examples Pack",
+     "prioritaet": "C",
+     "wofuer": "Dunst/Mücken über dem Spiegel (optional)",
+     "ersatz_bestand": "lokaler Nebel aus §6",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Frösche, Schilfrohrsänger, Wasser",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "aue_07_blautopf",
+   "name": "Blautopf",
+   "art": "fundstueck",
+   "bestand": ["SM_big_rock_wall_01", "SM_big_rock_wall_02", "SM_big_rock_wall_03", "SM_HugeMossyForestCliff_01", "SM_MossyRockFace_02", "SM_ForestRockShelf_01", "SM_ForestRockSlab_01", "SM_SmoothRockShelf_01", "SM_LimestoneRocks2", "SM_LimestoneRocks3", "SM_MossyForestBoulder_02", "SM_MossyForestBoulder_05", "SM_MossyForestRock_02", "SM_Fern_02", "SM_Fern_04", "SM_SilverLadyFern_05", "SM_BeechFern_04", "SM_EnglishIvy_03", "SM_MossClump_01", "SM_petasites_spurius_02", "SM_beech_tree_06", "SM_LargeFallenTree_01", "SM_SmallStonesPack_06", "SM_NordicBeachRock_01"],
+   "decals": ["MI_Leakage_07", "MI_TileableMossPatches_03"],
+   "pakete": [
+    {
+     "paket": "Megascans Limestone Rocks",
+     "prioritaet": "B",
+     "wofuer": "Kalkwand und Uferplatten (Karst)",
+     "ersatz_bestand": "SM_big_rock_wall_* + MI_EL_SW_Kalk_Moos",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos, falls 2024 beansprucht; sonst ab ca. 1 € (ungeprüft)"
+    },
+    {
+     "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+     "prioritaet": "C",
+     "wofuer": "leise Quellaufwallung in der Topfmitte (optional, kostenpflichtig)",
+     "ersatz_bestand": "ohne Effekt; nur Wasserfarbe tiefblau",
+     "in_downloadliste": true,
+     "preis_laut_liste": "ca. 40 € (ab 44,99 USD laut Kategorie-Auszug, ungeprüft)"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "A",
+     "wofuer": "Quellrauschen, Tropfen",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  },
+  {
+   "id": "aue_08_lianenhalle",
+   "name": "Lianenhalle",
+   "art": "fundstueck",
+   "bestand": ["SM_Poplar_tree_06_Optimised", "SM_Poplar_tree_07_Optimised", "Poplar_06_Forest", "SM_EuropeanHornbeam_Forest_02", "SM_EuropeanHornbeam_Forest_04", "SM_Vines_01a", "SM_Ivy_10", "SM_Ivy_17", "SM_Ivy_12", "SM_EnglishIvy_05", "SM_WhiteWindflower_01", "SM_WhiteWindflower_04", "SM_LilyOfTheValley_02", "SM_YellowArchangel_05", "SM_Periwinkle_02", "SM_Elderberry_09", "SM_LargeFallenTree_01", "SM_MossyTree_01", "SM_RottenTreeStump_01", "SM_EuropeanBeech_Dead_XL_01", "SM_detail_branches_01", "SM_detail_branches_03", "SM_OldTreeBranch_02", "SM_DeadLeaves_05", "SM_ForestRoots_02"],
+   "decals": ["MI_TileableLeakage_02", "MI_ScatteredSticksAndTwigs_01", "MI_TileableMossPatches_02"],
+   "pakete": [
+    {
+     "paket": "Quercus Robur (Stieleiche) – Nanite & Impostor",
+     "prioritaet": "C",
+     "wofuer": "Stieleichen im Hallenrand",
+     "ersatz_bestand": "SM_Poplar_tree_* / Hainbuche",
+     "in_downloadliste": false,
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
+     "prioritaet": "C",
+     "wofuer": "toter Biotopbaum",
+     "ersatz_bestand": "SM_EuropeanBeech_Dead_XL_01",
+     "in_downloadliste": false,
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Forest Fungi – Mushroom Pack",
+     "prioritaet": "C",
+     "wofuer": "Pilze am liegenden Altstamm",
+     "ersatz_bestand": "SM_mushroom_01/02",
+     "in_downloadliste": true,
+     "preis_laut_liste": "ca. 18 € (ab 19,99 USD laut Verkäuferseite, ungeprüft)"
+    },
+    {
+     "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+     "prioritaet": "C",
+     "wofuer": "fallende Blätter im Lichtschacht (optional)",
+     "ersatz_bestand": "ohne Effekt",
+     "in_downloadliste": true,
+     "preis_laut_liste": "Preis ungeprüft"
+    },
+    {
+     "paket": "Free City & Nature Sounds",
+     "prioritaet": "B",
+     "wofuer": "Spechte/Waldvögel, Fluss in der Ferne",
+     "ersatz_bestand": "ohne Klang",
+     "in_downloadliste": true,
+     "preis_laut_liste": "kostenlos (laut Titel; ungeprüft)"
+    }
+   ]
+  }
+ ],
+ "pakete_gesamt": [
+  {
+   "paket": "Coast & Dunes – Environment Set (Decals, Seetang, Stempel neu hinzufügen)",
+   "prioritaet": "A",
+   "orte": ["aue_03_schwalbenwand", "aue_04_treibholzwerder"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Free City & Nature Sounds",
+   "prioritaet": "A",
+   "orte": ["aue_01_biberstau", "aue_02_die_alte", "aue_03_schwalbenwand", "aue_04_treibholzwerder", "aue_05_lilienrinne", "aue_06_mondarm", "aue_07_blautopf", "aue_08_lianenhalle"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Megascans Rembrandt Water Lily",
+   "prioritaet": "A",
+   "orte": ["aue_06_mondarm"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Nanite Driftwood Props",
+   "prioritaet": "A",
+   "orte": ["aue_04_treibholzwerder", "aue_05_lilienrinne"],
+   "in_downloadliste": false
+  },
+  {
+   "paket": "Megascans Limestone Rocks",
+   "prioritaet": "B",
+   "orte": ["aue_07_blautopf"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Megascans Trees: European Black Alder",
+   "prioritaet": "B",
+   "orte": ["aue_01_biberstau", "aue_04_treibholzwerder", "aue_06_mondarm"],
+   "in_downloadliste": false
+  },
+  {
+   "paket": "Quercus Robur (Stieleiche) – Nanite & Impostor",
+   "prioritaet": "B",
+   "orte": ["aue_02_die_alte", "aue_08_lianenhalle"],
+   "in_downloadliste": false
+  },
+  {
+   "paket": "Forest Fungi – Mushroom Pack",
+   "prioritaet": "C",
+   "orte": ["aue_02_die_alte", "aue_08_lianenhalle"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Free Niagara Particles",
+   "prioritaet": "C",
+   "orte": ["aue_02_die_alte"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Nature Water FX (Fontänen, Geysire, Bäche, Wasserfälle)",
+   "prioritaet": "C",
+   "orte": ["aue_07_blautopf"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Niagara Examples Pack",
+   "prioritaet": "C",
+   "orte": ["aue_05_lilienrinne", "aue_06_mondarm"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Niagara VFX Pack — Snow, Sakura Petals, Autumn Leaves & Steam",
+   "prioritaet": "C",
+   "orte": ["aue_08_lianenhalle"],
+   "in_downloadliste": true
+  },
+  {
+   "paket": "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
+   "prioritaet": "C",
+   "orte": ["aue_08_lianenhalle"],
+   "in_downloadliste": false
+  }
+ ],
+ "neue_paketwuensche": [
+  {
+   "name": "Nanite Driftwood Props",
+   "fab_link": "https://www.fab.com/listings/0e9cba47-33ee-4a64-a1e1-88611efbee3b",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 2.0,
+   "groesse_hinweis": "Schätzung Claude (8K-Texturen, 20 Netze; ungeprüft)",
+   "ue_version": "UE5 (ungeprüft)",
+   "nanite": true,
+   "prioritaet": "A",
+   "wofuer": ["aue_04_treibholzwerder", "aue_06_mondarm", "aue_05_lilienrinne"],
+   "ersatz_bestand": "SM_beach_driftwood_01, SM_LargeFallenTree_01/02, SM_OldFallenTree_01/02, SM_BrokenTreeAssembly_01, SM_trunk_01/02",
+   "inhalt_laut_quelle": "an dänischen Stränden fotogrammetrisch gescannt: 5 Treibholzhaufen, 5 Stämme, 4 große Äste, 6 Stümpfe; 8K, Nanite",
+   "quelle": "WebSearch 11.10.2026 (Fab-Listing-Auszug, Seite selbst aus der Umgebung nicht abrufbar)",
+   "begruendung": "Die Verklausung am Werder ist ein Leuchtfeuer aus gebleichtem Treibholz; im Bestand gibt es nur ein 3,6-m-Treibholz und Waldstämme mit Rinde/Moos.",
+   "pruefen_bibliothek": true
+  },
+  {
+   "name": "Quercus Robur (Stieleiche) – Nanite & Impostor",
+   "fab_link": "https://www.fab.com/listings/453443d0-2015-4d94-9997-81de633b1941",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 3.0,
+   "groesse_hinweis": "Schätzung Claude (ungeprüft)",
+   "ue_version": "UE5 (ungeprüft)",
+   "nanite": true,
+   "prioritaet": "B",
+   "wofuer": ["aue_02_die_alte", "aue_08_lianenhalle"],
+   "ersatz_bestand": "SM_Poplar_tree_06_Optimised ×1,3 (dann Schwarzpappel statt Eiche); Jungeichen SM_dry_oak_01_B/D",
+   "inhalt_laut_quelle": "Stieleichen (Quercus robur), Nanite-Netze + Impostor-System für große Landschaften",
+   "quelle": "WebSearch 11.10.2026 (Fab-Listing-Auszug, Seite nicht abrufbar)",
+   "begruendung": "Im Bestand gibt es keine große Eiche (nur SM_dry_oak bis 9 m). Die Alte ist als Solitär-Stieleiche gedacht; die Schwarzpappel ist ein guter Auen-Ersatz.",
+   "pruefen_bibliothek": true
+  },
+  {
+   "name": "Imposing Dead Quercus Robur (tote Stieleiche) – Nanite & Impostor",
+   "fab_link": "https://www.fab.com/listings/de7a1a4a-8a51-48cd-b57e-abcb12aafdb2",
+   "anbieter": "ungeprüft",
+   "preis": "Preis ungeprüft",
+   "groesse_gb": 2.0,
+   "groesse_hinweis": "Schätzung Claude (ungeprüft)",
+   "ue_version": "UE5 (ungeprüft)",
+   "nanite": true,
+   "prioritaet": "C",
+   "wofuer": ["aue_08_lianenhalle", "aue_02_die_alte"],
+   "ersatz_bestand": "SM_EuropeanBeech_Dead_XL_01, SM_Forest_pine_10_dead",
+   "inhalt_laut_quelle": "tote Stieleichen inkl. 'Silent Sentinel' (ganzer toter Baum), Nanite + Impostor",
+   "quelle": "WebSearch 11.10.2026 (Fab-Listing-Auszug, Seite nicht abrufbar)",
+   "begruendung": "Toter Altbaum (Biotopbaum) in der Lianenhalle, abgebrochener Starkast an der Alten.",
+   "pruefen_bibliothek": false
+  },
+  {
+   "name": "Megascans Trees: European Black Alder",
+   "fab_link": null,
+   "anbieter": "Quixel Megascans",
+   "preis": "kostenlos (Early Access, laut UE-Marketplace-Seite)",
+   "groesse_gb": 3.0,
+   "groesse_hinweis": "Schätzung Claude (22 Bäume, 8K; ungeprüft)",
+   "ue_version": "UE5 (Megascans Trees)",
+   "nanite": null,
+   "prioritaet": "B",
+   "wofuer": ["aue_06_mondarm", "aue_01_biberstau", "aue_05_lilienrinne", "aue_08_lianenhalle"],
+   "ersatz_bestand": "Big_Tree_Willow_01/02, SM_Poplar_tree_03/04, SM_EuropeanHornbeam_Forest_* (Override nötig)",
+   "inhalt_laut_quelle": "22 Schwarzerlen: 9 Wald-, 5 Feldbäume, 6 Jungbäume, 2 Sämlinge; dynamischer Megascans-Vegetations-Shader; nur für UE-Produkte lizenziert",
+   "quelle": "https://docs.unrealengine.com/marketplace/en-US/product/megascans-trees-european-black-alder-early-access",
+   "begruendung": "Die Erle ist der Baum der Ufer und Bruchwälder – heute gibt es keinen einzigen Ufer-Laubbaum außer zwei Trauerweiden. Schwesterpaket der vorhandenen Megascans-Hainbuchen, daher evtl. schon in der Bibliothek.",
+   "pruefen_bibliothek": true
+  }
+ ],
+ "luecken": [
+  {
+   "was": "Brutröhren der Uferschwalben (Löcher 6–8 cm in der Lehmwand) – aue_03_schwalbenwand",
+   "loesung_ohne_asset": "Decal aus M_MS_Decal mit einer kleinen neuen Maskentextur (dunkle Ellipsen in lockeren Reihen, 512 px, Claude erzeugt sie in Python); 6–8 Decals 2 × 1 m im oberen Wanddrittel. Ohne Textur: Band aus SM_s_rock_* tief eingedrückt und dunkel getönt (schwächer).",
+   "quelle_gesucht": "keine passende Fab-Quelle belegt"
+  },
+  {
+   "was": "Sumpf-Schwertlilie (gelb) und Blutweiderich (purpur) – aue_05_lilienrinne",
+   "loesung_ohne_asset": "Gelb: SM_Crownbeard_* (gelbe Korbblüten 0,1–1 m; nicht _06, schwarz) zwischen schwertförmigen Blättern von SM_Rohrkolben_Jung_*; Purpur: SM_flower_brownray_knapweed_* mit Materialwunsch MI_EL_SW_Weiderich (M_EL_Pflanze, Farbe purpur).",
+   "quelle_gesucht": "Websuche 11.10. (fab.com Megascans iris / purple loosestrife): kein Listing belegt"
+  },
+  {
+   "was": "Biber-Nagestumpf (sanduhrförmig angenagt) und Biberburg – aue_01_biberstau",
+   "loesung_ohne_asset": "SM_BirchTreeStump_01/SM_TreeStump_01 schräg eingegraben + Späne-Decal MI_ScatteredBark_01; Burg und Damm als Haufen aus SM_OldTreeBranch_*, SM_detail_branches_*, SM_dead_log_* mit Schlamm-Lage dazwischen.",
+   "quelle_gesucht": "nicht gesucht (Spezialasset, Lösung aus Bestand reicht)"
+  },
+  {
+   "was": "Silberweide (aufrechte Auenweide) – heute nur Trauerweiden Big_Tree_Willow_01/02",
+   "loesung_ohne_asset": "Big_Tree_Willow_* mit M_EL_Weide-Material leicht silbriger getönt (Materialwunsch nicht nötig, Instanzfarbe); Erlen-Paket (B) als Ergänzung.",
+   "quelle_gesucht": "Websuche 11.10.: nur 'Stylized Willow Tree' (Comic-Stil, unpassend) gefunden"
+  },
+  {
+   "was": "Bärlauch-Teppich – aue_08_lianenhalle",
+   "loesung_ohne_asset": "SM_LilyOfTheValley_* + SM_WhiteWindflower_* (Buschwindröschen) – gleiche Wirkung: heller Frühjahrsteppich unter Auwald.",
+   "quelle_gesucht": "nicht gesucht"
+  }
+ ],
+ "materialwuensche": [
+  {
+   "name": "MI_EL_SW_Lehmwand",
+   "basis": "M_EL_Fels_Sand",
+   "parameter": {
+    "Toenung": [0.8, 0.64, 0.47, 1.0],
+    "Sand_Farbe": [0.86, 0.74, 0.56, 1.0],
+    "Sand_Menge": 0.8,
+    "Sand_Fuss_Weich": 120.0
+   },
+   "fuer": ["SM_beach_cliff_02_A", "SM_beach_cliff_02_B", "SM_beach_cliff_02_C", "SM_sandy_slope_01", "SM_scarp_01"]
+  },
+  {
+   "name": "MI_EL_SW_Kalk_Moos",
+   "basis": "M_EL_Klippe_RVT",
+   "parameter": {
+    "Toenung": [0.96, 0.94, 0.87, 1.0],
+    "Moos_Menge_Akteur": 0.9,
+    "Moos_Farbe": [0.7, 0.88, 0.5, 1.0]
+   },
+   "fuer": ["SM_big_rock_wall_01", "SM_big_rock_wall_02", "SM_big_rock_wall_03", "SM_HugeMossyForestCliff_01"]
+  },
+  {
+   "name": "MI_EL_SW_Ufer_Nass",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Nass_Dunkel": 0.75,
+    "Nass_Weich": 25.0
+   },
+   "fuer": ["SM_SmallStonesPack_*", "SM_flat_rock_02", "SM_NordicBeachRock_01", "SM_MossyForestRock_02"]
+  },
+  {
+   "name": "MI_EL_SW_Weiderich",
+   "basis": "M_EL_Pflanze",
+   "parameter": {
+    "Farbe": [0.95, 0.45, 0.85, 1.0],
+    "Variation": 0.4
+   },
+   "fuer": ["SM_flower_brownray_knapweed_01", "SM_flower_brownray_knapweed_02"]
+  },
+  {
+   "name": "MI_EL_SW_Treibholz",
+   "basis": "M_EL_Fels_MS",
+   "parameter": {
+    "Toenung": [1.3, 1.25, 1.18, 1.0],
+    "Helligkeit": 1.25
+   },
+   "fuer": ["SM_LargeFallenTree_01", "SM_LargeFallenTree_02", "SM_OldFallenTree_02", "SM_trunk_01"],
+   "hinweis": "nur falls die automatische Megascans-Überschreibung auch Holz über M_EL_Fels_MS führt; sonst entfällt er (Driftwood-Paket ist schon hell)"
+  }
+ ],
+ "bildwuensche": [
+  {
+   "ort": "aue_02_die_alte",
+   "kamera": ["C4", -198600, -15000, -228200, -55200, 3922, "aue_02_die_alte_fern", -170],
+   "zweck": "Wiese im Bachdelta von der Straße aus – wo steht die Krone gegen den Himmel?"
+  },
+  {
+   "ort": "aue_03_schwalbenwand",
+   "kamera": ["C5", -218800, 15800, -216600, 7600, 2192, "aue_03_schwalbenwand_held", -170],
+   "zweck": "Die heutige Geländestufe von der Altrinne aus (Höhe, Hangwinkel, Licht)"
+  },
+  {
+   "ort": "aue_04_treibholzwerder",
+   "kamera": ["D5", -66200, 98800, -73000, 49400, 2569, "aue_04_treibholzwerder_fern", -170],
+   "zweck": "Kiesinsel vom Südufer-Weg (wie viel Insel schaut über den Strom?)"
+  },
+  {
+   "ort": "aue_06_mondarm",
+   "kamera": ["E5", -23500, 73900, -30000, 72200, 1417, "aue_06_mondarm_held", -170],
+   "zweck": "Altwasser vom Südufer: Spiegel, Uferhöhe, bestehende Bäume"
+  },
+  {
+   "ort": "aue_07_blautopf",
+   "kamera": ["F4", 115800, -85800, 116600, -82400, 2939, "aue_07_blautopf_held", -170],
+   "zweck": "Talschluss der Kerbe heute (Wandhöhe für den Stempel)"
+  }
+ ]
+}
