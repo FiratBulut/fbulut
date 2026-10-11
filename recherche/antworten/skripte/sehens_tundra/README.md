@@ -21,7 +21,7 @@ Eigener Code (Hooks, alles andere sind Regeln):
 ## Testlauf 2 m (11.10.2026, ~75 s, zwei Läufe byteidentisch)
 
 Planer 0 FEHLER / 0 WARNUNG; Prüfer (orte.json + sw_tundra, mit Daten und Inventar) **0 FEHLER, 0 WARNUNG**, 3 HINWEIS
-(Flechte-Decal-Wunsch ohne Netz, Aufeis-Platten liegen im Bestandsbach, 1 Instanz ganz im Boden).
+(Flechte-Decal-Wunsch ohne Netz u. a.).
 
 | Ort | Inst. | Koll. | Akt. | Held/Begl./Schutt/Klein/Bewuchs/Kontakt | Wasser, Effekte | Stempel |
 |---|---|---|---|---|---|---|
@@ -30,21 +30,22 @@ Planer 0 FEHLER / 0 WARNUNG; Prüfer (orte.json + sw_tundra, mit Daten und Inven
 | 03 Eiswand | 2 345 | 151 | 51 | 20/31/133/673/1 210/299 | Rinnsal (versickert), Nebel, 9 Decals | 11,3 m |
 | 04 Fließtreppe | 4 204 | 65 | 6 | 1/155/290/1 150/2 045/562 | Schmelzfaden über die Stirnen; 2 Decals | 1,7 m |
 | 05 Trunkener Grund | 2 106 | 96 | 31 | 20/11/23/1 220/390/400 | See moorbraun + Abfluss, Nebel, 4 Decals | 4,1 m |
-| 06 Aufeis | 1 885 | 71 | 42 | 26/16/130/716/626/407 | Quellbach, NS_Stream_Small, 3 Decals | – |
+| 06 Schneetälchen | 3 544 | 32 | 6 | Altschnee (Blutschnee)/Wehen/Protalus-Wall/Moos/Zwergweiden/Kiessaum | Schmelzwassertümpel + Abfluss; 4 Decals | 1,8 m |
 | 07 Steinringe | 2 615 | 62 | 4 | 178/4/490/744/757/446 | 6 Decals | 5,9 m |
 | 08 Wabenmoor | 4 123 | 59 | 2 | 4/2/60/1 560/1 936/560 | 7 Tümpel; 6 Decals | 3,7 m |
 
-Verdeckung (Wege + Pfade ≤ 400 m, Kern + 4 Proben): Trunkener Grund, Aufeis, **Steinringe** (heute 29–35 Wegpunkte)
+Verdeckung (Wege + Pfade ≤ 400 m, Kern + 4 Proben): Trunkener Grund, Schneetälchen, **Steinringe** (heute 29–35 Wegpunkte)
 und **Wabenmoor** (heute bis 21) sind mit Plan **vollständig verdeckt** – Steinringe durch Terrasse −1,5 m, alten
 Strandwall +3,8 m (W–N–O) und Eisschubwall +2,4 m (seewärts, Lücke SSO zum Strand); Wabenmoor durch Uferwall/Levee
 mit Weidengebüsch West und Ost (+1,5/+2,4 m) und Böschungssaum Nord.
 
-Materialwünsche (6): `MI_EL_SW_Grundeis`, `_Aufeis`, `_Landkartenflechte`, `_Flechte_Decal`, `_Altschnee`, `_Torf`.
+Materialwünsche (6): `MI_EL_SW_Grundeis`, `_Blutschnee`, `_Landkartenflechte`, `_Flechte_Decal`, `_Altschnee`, `_Torf`.
 
 ## Grenzen und offene Punkte
 
 - Eiswand: Kopfwand aus Ice-Cliff-Schalen, Schauseite als `+y` angenommen – Prüfbild `_held` entscheidet. Durchbruch
   durch den Küstenwall senkt bis 11,3 m (Abfluss des Kessels zum Strand). Senken im Kessel = gewollte Setzungsmulden.
-- Aufeis: Platten liegen im Bestandsbach (Prüfer-HINWEIS, gewollt); „Arctic Cliffs“ (größere Platten) bleibt Wunsch.
+- tundra_06: **Aufeis gestrichen** (lag auf der gebauten Erlenbach-Kaskade C2, Auftrag 14; kein anderer glaubwürdiger Schluchtort)
+  → *Das Schneetälchen* (X −182 / Y −1962) am Schneefeldrand; `tundra_pfad_das_aufeis` entfällt.
 - Wollgras fehlt im Bestand → weiße Windröschen ×0,4 zwischen Binsen. Brandung fehlt (Wind-Cue).
 - `senke_begruendung` an Pingo (Kratersee), Eiswand, Trunkener Grund, Steinringe (Strandwall-Swale), Wabenmoor (Polygonmitten).

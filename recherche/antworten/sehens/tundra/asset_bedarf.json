@@ -49,14 +49,6 @@
    }
   ],
   "tundra_05_der_trunkene_grund": [],
-  "tundra_06_das_aufeis": [
-   {
-    "paket": "Arctic Cliffs",
-    "prioritaet": "B",
-    "wofuer": "grosse Eisplatten (Treibeis-Platten als Aufeis-Schollen)",
-    "ersatz_bestand": "wie oben"
-   }
-  ],
   "tundra_07_die_steinringe": [
    {
     "paket": "Megascans Icelandic Sand With Pebbles",
@@ -78,7 +70,8 @@
     "wofuer": "Nassband-Decals an den Tuempelraendern",
     "ersatz_bestand": "MI_Leakage_*"
    }
-  ]
+  ],
+  "tundra_06_das_schneetaelchen": []
  },
  "vorhanden": {
   "tundra_01_der_pingo": [
@@ -289,76 +282,6 @@
     "paket": "Niagara Examples Pack (13b, vorhanden)"
    }
   ],
-  "tundra_06_das_aufeis": [
-   {
-    "name": "vd5leh0ga_tier_0",
-    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_vd5leh0ga/Raw/vd5leh0ga_tier_0/StaticMeshes/vd5leh0ga_tier_0",
-    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
-    "masse_m": [
-     8.02,
-     2.06,
-     2.09
-    ]
-   },
-   {
-    "name": "uhpocesfa_tier_0",
-    "pfad": "/Game/Fab/Megascans/3D/Ice_Cliff_uhpocesfa/Raw/uhpocesfa_tier_0/StaticMeshes/uhpocesfa_tier_0",
-    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
-    "masse_m": [
-     6.89,
-     1.79,
-     4.46
-    ]
-   },
-   {
-    "name": "vdsrdd0fa_tier_0",
-    "pfad": "/Game/Fab/Megascans/3D/Large_Ice_Cliff_vdsrdd0fa/Raw/vdsrdd0fa_tier_0/StaticMeshes/vdsrdd0fa_tier_0",
-    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
-    "masse_m": [
-     5.02,
-     2.51,
-     4.15
-    ]
-   },
-   {
-    "name": "xelnbaeqx_tier_0",
-    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_xelnbaeqx/Raw/xelnbaeqx_tier_0/StaticMeshes/xelnbaeqx_tier_0",
-    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
-    "masse_m": [
-     9.05,
-     0.32,
-     1.23
-    ]
-   },
-   {
-    "name": "vcyiedgfa_tier_0",
-    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_vcyiedgfa/Raw/vcyiedgfa_tier_0/StaticMeshes/vcyiedgfa_tier_0",
-    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
-    "masse_m": [
-     6.83,
-     1.53,
-     0.47
-    ]
-   },
-   {
-    "name": "xfwhcfnqx_tier_0",
-    "pfad": "/Game/Fab/Megascans/3D/Snow_Embankment_xfwhcfnqx/Raw/xfwhcfnqx_tier_0/StaticMeshes/xfwhcfnqx_tier_0",
-    "paket": "Megascans Eis/Schnee (13b, vorhanden)",
-    "masse_m": [
-     8.16,
-     1.77,
-     0.44
-    ]
-   },
-   {
-    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_VII_Cue",
-    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
-   },
-   {
-    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Ice_Walking_on_ice_I_Cue (nur Knack-Anteile, als Zufallsimpuls)",
-    "paket": "Free City & Nature Sounds (13b, vorhanden; nur Natur)"
-   }
-  ],
   "tundra_07_die_steinringe": [
    {
     "klang": "/Game/City_Nature_Sounds/CUE/CUE_Wind_Autumn_wind_with_leaves_rustling_Cue",
@@ -374,6 +297,20 @@
     "niagara": "kein Nebel-/Dunstsystem im Niagara Examples Pack (nur NS_Smoke_Plume, NS_SmokePuffLight, NS_Chimney_Smoke)",
     "loesung": "lokaler_nebel (Local Fog Volume); NS_SmokePuffLight nur als Vorlage fuer eigenes Dunst-System",
     "paket": "Niagara Examples Pack (13b, vorhanden)"
+   }
+  ],
+  "tundra_06_das_schneetaelchen": [
+   {
+    "name": "xgxhcjxqx_tier_0",
+    "paket": "Megascans Eis/Schnee (13b, vorhanden)"
+   },
+   {
+    "name": "Snow_Embankment_uhvifcgfa_High",
+    "paket": "Megascans Eis/Schnee (13d)"
+   },
+   {
+    "klang": "/Game/City_Nature_Sounds/CUE/CUE_Water_Stream_I_Cue",
+    "paket": "Free City & Nature Sounds"
    }
   ]
  },
@@ -512,32 +449,6 @@
    "SM_branch_01_1",
    "vd4hbizcb_tier_0"
   ],
-  "tundra_06_das_aufeis": [
-   "SM_SmoothRockShelf_01",
-   "SM_ForestRockSlab_01",
-   "SM_ForestRockShelf_01",
-   "SM_EISZAPFEN_1",
-   "SM_EISZAPFEN_2",
-   "SM_EISZAPFEN_5",
-   "SM_EISZAPFEN_8",
-   "SM_DryRiverBed_01",
-   "SM_DryRiverBed_02",
-   "SM_NordicBeachRockyGround_01",
-   "SM_NordicBeachRockyGround_02",
-   "SM_stones_01_2",
-   "SM_stones_01_5",
-   "SM_SmallStonesPack_05",
-   "SM_grey_willow_01",
-   "SM_grey_willow_04",
-   "SM_wk2oaeyqx_VarB",
-   "SM_MossClump_03",
-   "vd5leh0ga_tier_0",
-   "uhpocesfa_tier_0",
-   "vdsrdd0fa_tier_0",
-   "xelnbaeqx_tier_0",
-   "vcyiedgfa_tier_0",
-   "xfwhcfnqx_tier_0"
-  ],
   "tundra_07_die_steinringe": [
    "SM_NordicBeachRock_01",
    "SM_NordicBeachRocks_01",
@@ -583,6 +494,24 @@
    "SM_MossClump_04",
    "SM_moss_02",
    "SM_branch_01_1"
+  ],
+  "tundra_06_das_schneetaelchen": [
+   "xgxhcjxqx_tier_0",
+   "uhuldcyfa_tier_0",
+   "xelnbaeqx_tier_0",
+   "vcytca0fa_tier_0",
+   "xftjadtab_tier_0",
+   "xemmbh2qx_tier_0",
+   "SM_TundraRockyGround_01",
+   "SM_ground_rock_02",
+   "SM_grey_willow_01",
+   "SM_grey_willow_02",
+   "SM_wk2oaeyqx_VarD",
+   "SM_wk2oaeyqx_VarH",
+   "SM_wk2oaeyqx_VarI",
+   "SM_WhiteWindflower_02",
+   "SM_MossClump_04",
+   "SM_moss_02"
   ]
  },
  "neue_paketwuensche": [
@@ -642,7 +571,6 @@
    "luecke": "Grundeis/Eiskeile in Erdwand (Thaw Slump), Aufeis-Decke",
    "orte": [
     "tundra_03_die_eiswand",
-    "tundra_06_das_aufeis",
     "tundra_01_der_pingo"
    ],
    "loesung": "Bis Megascans Eis/Schnee (A) da ist: flache Felsplatten/Uferkanten (SM_SmoothRockShelf_01, SM_ForestRockSlab_01, SM_beach_escarpment_01_*) mit MI_EL_SW_Aufeis/MI_EL_SW_Grundeis auf M_EL_Eis4, Eiszapfen SM_EISZAPFEN_* an Kanten. Eiskeile als senkrechte Keile aus SM_EISZAPFEN_8/9 im Torf."
@@ -706,31 +634,6 @@
     "SM_beach_escarpment_01_A",
     "SM_EISZAPFEN_8",
     "SM_EISZAPFEN_9"
-   ]
-  },
-  {
-   "name": "MI_EL_SW_Aufeis",
-   "basis": "M_EL_Eis4",
-   "parameter": {
-    "Eis_Farbe": [
-     0.55,
-     0.8,
-     0.97,
-     1.0
-    ],
-    "Eis_Tief_Farbe": [
-     0.08,
-     0.28,
-     0.5,
-     1.0
-    ],
-    "Schnee_Menge": 0.45,
-    "Schnee_Schwelle": 0.72,
-    "Eis_Spekular": 0.7
-   },
-   "fuer": [
-    "SM_SmoothRockShelf_01",
-    "SM_ForestRockSlab_01"
    ]
   },
   {
@@ -822,20 +725,6 @@
     -184500,
     500,
     "tundra_03_leer_held",
-    -170
-   ]
-  },
-  {
-   "ort": "tundra_06_das_aufeis",
-   "zweck": "Schlucht: Breite und Bachbett heute",
-   "kamera": [
-    "C2",
-    -182200,
-    -224600,
-    -178500,
-    -222000,
-    4400,
-    "tundra_06_leer_held",
     -170
    ]
   }
@@ -1007,5 +896,6 @@
    "Travertine Hot Spring Terraces – Modular Environment Pack": "fehlt – Prio B – kostenpflichtig bzw. Preis ungeprüft → nur nach Ferats OK",
    "Tundra Icelandic Rock Cluster (Quixel Megascans)": "fehlt – Prio C – kostenlos/aus Bibliothek → Claude lädt auf Wunsch"
   }
- }
+ },
+ "hinweis_auftrag14": "tundra_06: Aufeis gestrichen (lag auf der gebauten C2-Kaskade) -> tundra_06_das_schneetaelchen; MI_EL_SW_Aufeis entfaellt, MI_EL_SW_Blutschnee neu (Planer-Regeln)"
 }

@@ -29,7 +29,7 @@ gewählt (Richtwert 3/5) – jede Form dort, wo das Gelände sie hergibt. Vier O
 gletscher), kein gefrorenes Wasserfall-/Seeeis (Eisfall, Eisvorhang, Frostsee, Frostblumen → frost), keine Fjordküste/Strandterrassen
 (fjord_08 „Die alten Ufer“). Bewusst gestrichen aus Katalog v1: **Warme Quelle** (Dopplung mit gletscher-Geysir), **Die Erstarrten**
 (Granitpfeiler = Heide-Tor), **Os**. Grenzfälle mit Begründung: tundra_05 (Thermokarstsee) ≠ gletscher_04 Toteisloch (dort Gletscher-Toteis,
-hier tauender Boden mit Palsen und kippenden Bäumen); tundra_06 Aufeis ≠ frost_01/03 (dort gefrorene Fälle/Vorhänge, hier flächiges
+hier tauender Boden mit Palsen und kippenden Bäumen); tundra_06 Aufeis (gestrichen, Auftrag 14) ≠ frost_01/03 (dort gefrorene Fälle/Vorhänge, hier flächiges
 Schichteis aus Grundwasser im Talboden) – **Ferat bitte bestätigen**.
 
 **Sichtmessung:** `sicht.py`, Wegpunkte alle 20 m, Gelände + `baumhoehe_4m`, **mit dem geplanten Stempel** (Kopie der Höhe; geplante
@@ -46,12 +46,12 @@ Hoch −170, echtes Ziel; Kameras im Wasser automatisch ans Ufer verschoben. Zwe
 | tundra_03_die_eiswand | Die Eiswand | Leuchtfeuer | Auftaurutschung mit Grundeis-Kopfwand | E3 | −530 / −1845 | 195 m | 87 von 159, bis 699 m | Trampelpfad 110 m |
 | tundra_04_die_fliesstreppe | Die Fließtreppe | Leuchtfeuer | Solifluktionsloben + Schneeflecken | E2 | −450 / −2195 | 145 m | 62 von 100, bis 625 m | – |
 | tundra_05_der_trunkene_grund | Der Trunkene Grund | Fundstück | Thermokarstsee, Palsen, kippender Wald | D2 | −1355 / −2450 | 280 m | verdeckt (5/5 Proben, 0 von 15–17; mit Pfad 0 von 78–81) | Serpentine 307 m |
-| tundra_06_das_schneetaelchen | Das Schneetälchen | Fundstück | Schneetälchen mit Altschnee, Zwergweiden, Protalus-Wall (verlegt wegen C2-Kaskade, Auftrag 14) | E3 | −182 / −1962 | 283 m | verdeckt (5/5 Proben, 0 von 22–32; mit Pfad 0 von 82–101) | Serpentine 281 m |
+| tundra_06_das_schneetaelchen | Das Schneetälchen | Fundstück | Schneetälchen mit Altschnee, Zwergweiden, Protalus-Wall (verlegt wegen C2-Kaskade, Auftrag 14) | E3 | −182 / −1962 | 283 m | verdeckt (5/5 Proben, 0 von 20–22) | – |
 | tundra_07_die_steinringe | Die Steinringe | Fundstück | sortierte Steinringe im Flechtenteppich, Eisschubwall | D3 | −1412 / −1630 | 93 m | teilweise (s. u.) | – |
 | tundra_08_das_wabenmoor | Das Wabenmoor | Fundstück | Eiskeil-Polygonmoor an der Flussmündung | D3 | −924 / −1738 | 104 m | Kern 3 von 80 (Anteil 0,25), 2/5 Proben verdeckt | – |
 
 Erzählbogen: Der Boden ist gefroren und arbeitet – er hebt (Pingo, Palsen), sortiert (Steinringe, Polygone), fließt (Fließtreppe), taut und
-bricht (Eiswand, Trunkener Grund) und schichtet Eis aus Quellwasser (Aufeis); dazwischen liegt, was das Eis einst brachte (Wanderer).
+bricht (Eiswand, Trunkener Grund) und hält den letzten Schnee bis in den Spätsommer (Schneetälchen); dazwischen liegt, was das Eis einst brachte (Wanderer).
 
 ---
 
@@ -289,7 +289,7 @@ Budget: ~6 000 Instanzen (200 Kollision), 0 Akteure, 0 Lichter, 0 Niagara, 9 Was
 | tundra_pfad_der_pingo | Trittsteine | 63 m | 92 m | 24,3° | Weg westlich des Zopfstroms (X −1583 / Y −1859) | Furt 10 m → Trittsteine; am Hügelfuß Kehren |
 | tundra_pfad_die_eiswand | Trampelpfad | 110 m | 92 m | 18,3° | Küstenweg Ost (X −697 / Y −1941) | 8 m Bach → Trittsteine |
 | tundra_pfad_der_trunkene_grund | Serpentine | 307 m | 185 m | 26,3° | Weg westlich Kharad-Vor (X −1419 / Y −2165, außerhalb des Stadtrands) | streift den Stadtkreis (Prüfer-WARNUNG); Kehren |
-| tundra_pfad_das_aufeis | Serpentine | 281 m | 92 m | 24,7° | Weg Ost (X −1547 / Y −1967) | Kehren hinab in die Schlucht |
+| ~~tundra_pfad_das_aufeis~~ | – | – | – | – | – | entfällt (Aufeis gestrichen, Auftrag 14) |
 
 Pfade zählen beim Prüfer als Wege. Deshalb **endet jeder Pfad vor dem Ort** (92 m bzw. beim Trunkenen Grund 185 m hinter der Kuppe, damit
 der See verdeckt bleibt); die Reststrecke ist eine Trampelspur (Bodenlage Erde, kein Weg). Band 1,5 m Erde/Kies; Punktliste = Rohlinie aus
@@ -297,10 +297,10 @@ der See verdeckt bleibt); die Reststrecke ist eine Trampelspur (Bodenlage Erde, 
 
 ## Offene Fragen an Ferat
 
-1. tundra_06 **Aufeis** (Eis im Talboden) und tundra_05 **Thermokarstsee** neben frost/gletscher – so in Ordnung?
+1. tundra_06 **Aufeis** gestrichen (C2-Kaskade, Auftrag 14 → Schneetälchen); tundra_05 **Thermokarstsee** neben frost/gletscher – so in Ordnung?
 2. tundra_07 **Steinringe**: vom höheren Küstenweg teilweise einsehbar – als Fundstück lassen oder zum Leuchtfeuer machen?
 3. Mischung **4 Leuchtfeuer / 4 Fundstücke** statt 3/5 (die offene Küstenebene gibt kaum Verstecke her).
-4. Bildwünsche (leer): Pingo-Hügel, Hufeisen-Mulde der Eiswand, Aufeis-Schlucht (Kameras in `asset_bedarf.json`).
+4. Bildwünsche (leer): Pingo-Hügel, Hufeisen-Mulde der Eiswand, Aufeis-Schlucht entfällt (Kameras in `asset_bedarf.json`).
 
 ## Abgleich Inventar 13d (Stand 11.10.2026, abends)
 
@@ -310,7 +310,7 @@ Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatu
 
 - `tundra_03_die_eiswand` – Coast & Dunes: Nass-/Lehm-Decals für Schlammstrom und Tropfspuren (B): `MI_Decal_Clay_01`, `MI_Decal_Clay_02`, `MI_Deca_Wet`
 - `tundra_08_das_wabenmoor` – Coast & Dunes: Nassband-Decals an den Tümpelrändern (B): `MI_Deca_Wet_Flat`
-- `tundra_05_der_trunkene_grund, tundra_06_das_aufeis` – Nassband an allen Wasserorten (13d): `MI_Deca_Wet_Flat`
+- `tundra_05_der_trunkene_grund, tundra_06_das_schneetaelchen` – Nassband an allen Wasserorten (13d): `MI_Deca_Wet_Flat`
 
 **Ersatz → echtes Asset:**
 
@@ -319,7 +319,7 @@ Neues Inventar: 1 965 Netze, 116 Niagara, 85 Decals. Pfade, Maße und Paketstatu
 
 **Fehlt weiter:**
 
-- Größere Eisplatten (8–10-m-Wand, Aufeis-Schollen) (tundra_03_die_eiswand, tundra_06_das_aufeis) – Arctic Cliffs (B) · *nur nach Ferats OK*
+- Größere Eisplatten (8–10-m-Wand, Aufeis-Schollen) (tundra_03_die_eiswand) – Arctic Cliffs (B) · *nur nach Ferats OK*
 - Rentierflechte (tundra_02_der_wanderer, tundra_07_die_steinringe) – Moss & Lichen Forest Ground Rock Materials (C) · *nur nach Ferats OK*
 - Bemooste Islandblöcke (tundra_02_der_wanderer) – Tundra Icelandic Rock Cluster (C) · *kostenlos → Claude lädt auf Wunsch*
 - Kiesmatrix (tundra_07_die_steinringe) – Megascans Icelandic Sand With Pebbles (C) · *kostenlos → Claude lädt auf Wunsch*
