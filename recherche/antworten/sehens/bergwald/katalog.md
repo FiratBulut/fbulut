@@ -23,9 +23,10 @@ Stand 11.10.2026 · Agent B2 · Dateien: `standorte.json` (Prüfer: **0 FEHLER, 
   25–100 m vom Bach), Blockhalde (27° unter Fels, Hohlform), Klamm (TPI25 ≤ −5, Einzugsfläche, Hang ≥ 35°), Kar (TPI100 ≤ −15,
   flacher Boden), Windwurf (Waldhang 15–30°), Wurzelstein (Waldhang ~30° mit Fels). Danach Auswahl aller 8 zusammen mit
   ≥ 360 m Abstand (Kombinationssuche), Leuchtfeuer mit Sichtnachweis, Fundstücke nur, wenn `verdeckt_vom_weg` = wahr.
-- Abstände: kleinster Abstand zwischen zwei Bergwald-Orten 370 m (Brandkiefer–Windwurf). Andere Biome hatten beim Schreiben noch
-  keine `standorte.json` (`belegte_punkte` = 0) – der globale Abstand wird vom Prüfer beim Zusammenführen geprüft.
-- Einmaligkeit: geprüft gegen den Katalog v1 aller Biome (andere `katalog.md` gab es noch nicht). Abgrenzung: Mönch ≠ „Die
+- Abstände: kleinster Abstand zwischen zwei Bergwald-Orten 372 m (Karsee–Wurzelstein), zu anderen Biomen 373 m (Klamm –
+  `elfenwald_02_nebelhain`). Gesamtprüfung über alle vorhandenen `standorte.json` (aue, dschungel, elfenwald, lava, bergwald):
+  **0 FEHLER** für den Bergwald. Verteilung: 6 Orte im West-, 2 im Ostteil (Ostteil 1,0 km², davon wenig Maske).
+- Einmaligkeit: geprüft gegen den Katalog v1 aller Biome und die Ortsnamen der schon vorhandenen `standorte.json` (aue, dschungel, elfenwald, lava; deren `katalog.md` gab es noch nicht). Abgrenzung: Mönch ≠ „Die
   Erstarrten“ (Tundra, Pfeilergruppe auf kahler Kuppe) ≠ „Die Alten“ (Küste, Brandungspfeiler); Felsenmeer ≠ „Blockstrom“ (Heide,
   offene Blockzunge) – hier bemooste Blöcke **unter Wald** unter einer Abbruchkante; Brandkiefer ≠ „Die Alte“/„Mutterbaum“
   (lebende Laubbäume); Karsee ≠ „Schmelzsee“ (auf Gletschereis) und ≠ Moorauge/Erdfall-Weiher (Flachland); Klamm ≠ Farnschlucht
@@ -36,7 +37,7 @@ Stand 11.10.2026 · Agent B2 · Dateien: `standorte.json` (Prüfer: **0 FEHLER, 
 | Nr | ID | Name | Art | Feld | X / Y (m) | Boden z | Radius | Weg | Nachweis (sicht.py) |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | `bergwald_01_der_moench` | Der Mönch | Leuchtfeuer | B3 | −3408 / −1102 | 348 m | 40 m | 296 m | 32-m-Silhouette von 66 / 175 Wegpunkten (300–800 m) ≥ 30 % lesbar, bis 800 m |
-| 2 | `bergwald_02_die_brandkiefer` | Die Brandkiefer | Leuchtfeuer | I4 | 3620 / −590 | 229 m | 35 m | 160 m | 32 m: 27 / 48 Wegpunkte, mittlerer Anteil 0,46, bis 794 m |
+| 2 | `bergwald_02_die_brandkiefer` | Die Brandkiefer | Leuchtfeuer | B4 | −2990 / −920 | 164 m | 35 m | 101 m | 32 m: 56 / 233 Wegpunkte, bis 800 m; bester Punkt 706 m mit Anteil 1,0 |
 | 3 | `bergwald_03_saeulenhain` | Säulenhain | Leuchtfeuer | B5 | −2764 / 104 | 81 m | 45 m | 104 m | 50 m: 59 / 179 Wegpunkte, bis 800 m; Fuß (3 m) von 0 / 264 Wegpunkten ≤ 800 m |
 | 4 | `bergwald_04_felsenmeer` | Felsenmeer | Fundstück | B4 | −2938 / −510 | 130 m | 50 m | 84 m | verdeckt: 0 / 94 Wegpunkten ≤ 400 m, 0 / 342 ≤ 800 m (4 m) |
 | 5 | `bergwald_05_klemmblock_klamm` | Klemmblock-Klamm | Fundstück | I4 | 3730 / −966 | 99 m | 40 m | 203 m | verdeckt: 0 / 26 ≤ 400 m, 0 / 62 ≤ 800 m (6 m) |
@@ -104,24 +105,29 @@ zweite Schale; Steig ist lang.
 
 ## 2 · Die Brandkiefer (`bergwald_02_die_brandkiefer`) – Leuchtfeuer
 
-**Was man sieht.** Auf dem Kopf eines Sporns über dem Meer steht eine riesige tote Kiefer, schwarz verkohlt bis in die
-Astquirle, vom Blitz längs gespalten; ein abgeworfener Kronenteil liegt hangab. Ringsum eine runde Brandfläche aus Asche, Erde
-und verkohlten Stümpfen, dahinter ein Ring aus jungem Kiefern- und Birkenaufwuchs, hüfthoch und leuchtend grün – die Geschichte
-eines Gewitters in drei Ringen.
+**Was man sieht.** Auf dem Kopf eines bewaldeten Sporns, hoch über der Talstraße, steht eine riesige tote Kiefer, schwarz
+verkohlt bis in die Astquirle, vom Blitz längs gespalten; ein abgeworfener Kronenteil liegt hangab. Ringsum eine runde Lichtung
+aus Asche, Erde und verkohlten Stümpfen, dahinter ein Ring aus jungem Kiefern- und Birkenaufwuchs, hüfthoch und leuchtend grün,
+erst dann wieder dunkler Hochwald – die Geschichte eines Gewitters in drei Ringen, und von unten eine schwarze Gabel über den
+Wipfeln.
 
-**Vorbild.** Blitzbäume auf Kuppen (Schwarzwald, Tatra), Brandflächen mit Birkenvorwald; Spiel: der Galgenbaum/die toten
-Einzelbäume von Velen (Witcher 3) – hier ohne Menschenspur.
+**Vorbild.** Blitzbäume auf Kuppen (Schwarzwald, Tatra), Brandflächen mit Birkenvorwald; Spiel: die toten Einzelbäume von Velen
+(Witcher 3) – hier ohne Menschenspur.
 
-**Standort.** Feld I4, X 3620 / Y −590, Boden 229 m. Spornkopf: TPI50 +16,3 m, TPI100 +30,1 m, Landform Kuppe/Gipfel; nach
-O/SO −37…−39 m auf 40 m, nach W steigt der Kamm an. Boden Laub 72 % / Fels 24 %, Hang 30° (am Kopf flacher), Exposition 95°
-(O, zum Meer, 345 m entfernt). 160 m vom Weg, 48 m vom Bach. 30 m innerhalb der Westgrenze (dahinter Elfenwald-Rechteck mit
-demselben Laub/Fels-Boden; die Kiefer gehört mit Wetterseite zum Meer klar zum Bergwald). **Sicht:** 32 m Zielhöhe → 27 von 48
-Wegpunkten (56 %) sehen ≥ 30 %, mittlerer Anteil 0,46, lesbar bis 794 m; bester Punkt (3798/−192) in 436 m mit vollem Anteil.
+**Standort.** Feld B4, X −2990 / Y −920, Boden 164,3 m. Spornkopf über dem Tal: TPI25 +3,8 m, TPI50 +11,4 m, TPI100 +20,4 m,
+Landform Kuppe/Gipfel, Hang 26° (max 58°), Exposition 62° (ONO, zur Straße). Boden Nadeln 88 % / Fels 9 %, dichter Wald ringsum
+(374 Baumzellen im 35-m-Kreis, bis 31 m) – die Lichtung ist also die Folge des Brandes. 101 m vom Weg (−3016/−1018), 70 m vom Bach,
+120 m vom nächsten Ort, 151 m vom Rand ROMAN_LOC_001 (knapp über der 150-m-Grenze), 342 m innerhalb des Bioms. Erste Wahl war
+der Spornkopf I4 (3620/−590); er lag 203 m neben `elfenwald_02_nebelhain` und wurde deshalb hierher verlegt (Prüfer global
+0 FEHLER). **Sicht:** 32 m Zielhöhe → 56 von 233 Wegpunkten im Ring 300–800 m sehen ≥ 30 % (mittlerer Anteil 0,13 – der Wald
+schluckt den Stamm, die Krone ragt heraus), lesbar bis 800 m; bester Punkt (−2508/−404) in 706 m mit vollem Anteil. Der Fuß
+(3 m) ist vom Weg nur an 1 von 117 Wegpunkten ≤ 400 m zu 28 % sichtbar.
 
-**Komposition und Anmarsch.** Die schwarze Silhouette gegen Meer und Himmel. `_fern` vom Küstenweg im Süden (I5, 760 m,
-Anteil 1,0), `_anmarsch` vom Weg im Osten (233 m, Anteil 0,46 – der Baum steht über dem Waldrand), `_held` 160 m von WSW vom
-höheren Kamm (Kamera 306 m) über den Baum hinweg aufs Meer, `_nah` 10 m (Rinde, Spaltriss, Asche). **Pfad nötig:** 460 m
-vom Weg (3853/−577), max 34°, 61 m steil, 123 m Querhang → Steig mit Kehren, Kiesband, oben Trittstufen.
+**Komposition und Anmarsch.** Die schwarze Gabel gegen den Himmel über dem dunklen Wald, dahinter die Felsflanke des Kamms.
+`_fern` von der Straße im NO (C4, 706 m, Anteil 1,0), `_anmarsch` 147 m vom Talweg im N (Anteil 0,66), `_held` 60 m von WSW
+vom Hang oberhalb (Kamera 194 m) über Lichtung und Baum hinweg ins Tal, `_nah` 10 m (Rinde, Spaltriss, Asche). **Pfad nötig:**
+286 m vom Weg (−2947/−1065), Luftlinie 151 m, max 29°, nur 7 m steiler als 25°, 14 m Querhang, 4 m Bach (Trittsteine) →
+Steig mit zwei Kehren, Erde/Nadel-Band.
 
 **Detail-Ebenen.** Held: `SM_Forest_pine_10_dead` ×1,3 (≈ 32 m), Materialwunsch verkohlt (s. u.). Begleiter (5): 2 verkohlte
 Stümpfe (`SM_RottenTreeStump_01`, `SM_BrokenStump_01`), abgeworfener Kronenteil (`SM_BrokenTreeAssembly_01` ×1,5),
@@ -142,7 +148,7 @@ Riesenstamm dabei ist; Ersatz `SM_Forest_pine_10_dead` ×1,3). Materialwunsch `M
 `Toenung` [0,16, 0,14, 0,13, 1], `Helligkeit` 0,6) für Stümpfe/Äste; für die Kiefer selbst bitte prüfen, ob die
 Material-Überschreibung (`M_EL_Pflanze`, `Farbe` [0,2, 0,18, 0,17, 1]) greift.
 
-**Aufwand und Risiko.** Klein (≈ 15 Akteure, ~3 000 Instanzen). Risiko: `SM_Forest_pine_10_dead` ist nicht Nanite (Billboard-LOD
+**Aufwand und Risiko.** Klein (≈ 15 Akteure, ~3 000 Instanzen; bestehende Bäume im 16-m-Kreis entfernen). Risiko: `SM_Forest_pine_10_dead` ist nicht Nanite (Billboard-LOD
 aus der Ferne prüfen – die Silhouette ist der Ort).
 
 ---

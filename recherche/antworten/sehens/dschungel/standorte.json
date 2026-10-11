@@ -6,66 +6,64 @@
    "id": "dschungel_01_mondtor",
    "name": "Mondtor",
    "art": "leuchtfeuer",
-   "mitte_cm": [179600, 94400, 9092],
+   "mitte_cm": [178600, 95800, 10102],
    "radius_m": 55.0,
    "felder": ["G5", "G6"],
    "kameras": [
-    ["G5", 175700, 84700, 179600, 94400, 9192, "dschungel_01_mondtor_anmarsch", 170],
-    ["G5", 180468, 99324, 179600, 94400, 9242, "dschungel_01_mondtor_held", 170],
-    ["G5", 179774, 95385, 179600, 94400, 9142, "dschungel_01_mondtor_nah", 170],
-    ["G5", 209400, 54800, 179600, 94400, 2106, "dschungel_01_mondtor_fern", 170]
+    ["G5", 166700, 85700, 178600, 95800, 10202, "dschungel_01_mondtor_anmarsch", -170],
+    ["G5", 179468, 100724, 178600, 95800, 10252, "dschungel_01_mondtor_held", 170],
+    ["G5", 178774, 96785, 178600, 95800, 10152, "dschungel_01_mondtor_nah", -170],
+    ["G5", 135600, 71000, 178600, 95800, 682, "dschungel_01_mondtor_fern", 170]
    ],
    "ziel_hoehe_m": 25,
-   "standort_begruendung": "Kuppe/Gipfel, Boden Fels, Hang 56 Grad, TPI100 +46 m, Fels 59 %, Laub 30 %, Kraut 4 %, Moos 4 %; Weg 64 m, Wasser 136 m, Baeume bis 52 m",
+   "standort_begruendung": "Kuppe/Gipfel, Boden Laub, Hang 12 Grad, TPI100 +53 m, Fels 66 %, Laub 19 %, Kraut 6 %, Moos 4 %; Weg 80 m, Wasser 153 m, Baeume bis 30 m",
    "sicht": {
-    "naechster_weg_m": 64.0,
-    "sichtbar_ab_m": 799,
+    "naechster_weg_m": 80.0,
+    "sichtbar_ab_m": 800,
     "ziel_hoehe_m": 25,
-    "wegpunkte_300_800": 244,
-    "wegpunkte_sichtbar": 191,
-    "mittel_anteil": 0.7,
+    "wegpunkte_300_800": 241,
+    "wegpunkte_sichtbar": 196,
+    "mittel_anteil": 0.8,
     "bester": {
-     "x_m": 2094.0,
-     "y_m": 548.0,
-     "z_m": 22.4,
-     "abstand_m": 495.6,
+     "x_m": 1356.0,
+     "y_m": 710.0,
+     "z_m": 8.1,
+     "abstand_m": 496.4,
      "anteil": 1.0
     }
    },
    "erreichbar": {
     "erreichbar": false,
     "modus": "weich",
-    "laenge_m": 308.2,
-    "luftlinie_m": 104.5,
-    "max_steigung_grad": 42.4,
-    "mittel_steigung_grad": 15.3,
-    "steil_laenge_m": 33.7,
-    "quer_steil_laenge_m": 81.1,
+    "laenge_m": 273.6,
+    "luftlinie_m": 156.1,
+    "max_steigung_grad": 34.4,
+    "mittel_steigung_grad": 16.3,
+    "steil_laenge_m": 31.3,
+    "quer_steil_laenge_m": 75.3,
     "wasser_laenge_m": 0.0,
     "furt_laenge_m": 0.0,
     "pfad_noetig": true,
-    "weg_punkt_m": [1757.0, 847.0]
+    "weg_punkt_m": [1667.0, 857.0]
    },
    "pfad_cm": [
-    [179600, 94400, 8873],
-    [179300, 93900, 8862],
-    [178500, 93900, 9252],
-    [176100, 96700, 9352],
-    [174900, 96700, 9128],
-    [173300, 98300, 8428],
-    [173300, 95900, 7495],
-    [172900, 95500, 7302],
-    [171700, 96700, 6554],
-    [171700, 94700, 5929],
-    [170900, 95100, 5458],
-    [170900, 93900, 4812],
-    [171300, 93500, 4592],
-    [172100, 93500, 4074],
-    [172100, 91500, 3495],
-    [170900, 90300, 2965],
-    [170900, 88300, 3005],
-    [174900, 84700, 2563],
-    [175700, 84700, 2424]
+    [178600, 95800, 10059],
+    [178300, 95700, 9975],
+    [177500, 96500, 9792],
+    [175100, 96500, 9213],
+    [173100, 98500, 8341],
+    [173100, 96100, 7361],
+    [172700, 96500, 7118],
+    [172300, 96100, 6918],
+    [171900, 96500, 6684],
+    [171900, 94500, 5993],
+    [170700, 95700, 5312],
+    [170700, 93700, 4563],
+    [171900, 92900, 3820],
+    [171500, 92500, 3606],
+    [171500, 91300, 3256],
+    [166700, 86500, 1988],
+    [166700, 85700, 2071]
    ],
    "draufsicht": "dschungel_01_mondtor.png"
   },
@@ -77,9 +75,9 @@
    "radius_m": 50.0,
    "felder": ["G5", "G6"],
    "kameras": [
-    ["G5", 230900, 90300, 225000, 96200, 3231, "dschungel_02_turmquelle_anmarsch", 170],
+    ["G5", 230900, 90300, 225000, 96200, 3569, "dschungel_02_turmquelle_anmarsch", -170],
     ["G5", 234193, 88487, 225000, 96200, 3619, "dschungel_02_turmquelle_held", 170],
-    ["G5", 225766, 95557, 225000, 96200, 3519, "dschungel_02_turmquelle_nah", 170],
+    ["G5", 225766, 95557, 225000, 96200, 3519, "dschungel_02_turmquelle_nah", -170],
     ["G5", 212800, 66000, 225000, 96200, 2245, "dschungel_02_turmquelle_fern", 170]
    ],
    "ziel_hoehe_m": 60,
@@ -127,9 +125,9 @@
    "radius_m": 50.0,
    "felder": ["H6", "I6"],
    "kameras": [
-    ["H6", 348300, 142534, 333000, 144200, 10850, "dschungel_03_steinwald_anmarsch", 170],
+    ["H6", 348300, 142534, 333000, 144200, 13358, "dschungel_03_steinwald_anmarsch", -170],
     ["H6", 337157, 146600, 333000, 144200, 13408, "dschungel_03_steinwald_held", 170],
-    ["H6", 333866, 144700, 333000, 144200, 13308, "dschungel_03_steinwald_nah", 170],
+    ["H6", 333866, 144700, 333000, 144200, 13308, "dschungel_03_steinwald_nah", -170],
     ["H6", 311400, 99000, 333000, 144200, 725, "dschungel_03_steinwald_fern", 170]
    ],
    "ziel_hoehe_m": 15,
@@ -200,9 +198,9 @@
    "radius_m": 50.0,
    "felder": ["H6"],
    "kameras": [
-    ["H6", 239890, 121030, 243600, 127800, 1741, "dschungel_04_blaues_auge_anmarsch", 170],
+    ["H6", 239890, 121030, 243600, 127800, 1741, "dschungel_04_blaues_auge_anmarsch", -170],
     ["H6", 239500, 120699, 243600, 127800, 1761, "dschungel_04_blaues_auge_held", 170],
-    ["H6", 243100, 126934, 243600, 127800, 1691, "dschungel_04_blaues_auge_nah", 170]
+    ["H6", 243100, 126934, 243600, 127800, 1691, "dschungel_04_blaues_auge_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "offener Hang, Boden Fels, Hang 31 Grad, TPI100 -10 m, Laub 80 %, Fels 11 %, Kraut 5 %, Schlamm 3 %; Weg 239 m, Wasser 244 m, Baeume bis 61 m",
@@ -252,9 +250,9 @@
    "radius_m": 50.0,
    "felder": ["G6"],
    "kameras": [
-    ["G6", 181759, 132771, 189700, 137700, 2362, "dschungel_05_verborgene_lagune_anmarsch", 170],
+    ["G6", 181759, 132771, 189700, 137700, 2362, "dschungel_05_verborgene_lagune_anmarsch", -170],
     ["G6", 187535, 136450, 189700, 137700, 2382, "dschungel_05_verborgene_lagune_held", 170],
-    ["G6", 188834, 137200, 189700, 137700, 2312, "dschungel_05_verborgene_lagune_nah", 170]
+    ["G6", 188834, 137200, 189700, 137700, 2312, "dschungel_05_verborgene_lagune_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "Schlucht/Kessel, Boden Laub, Hang 10 Grad, TPI100 -35 m, Fels 66 %, Laub 23 %, Kraut 5 %, Moos 3 %; Weg 276 m, Wasser 143 m, Baeume bis 29 m",
@@ -309,50 +307,56 @@
    "id": "dschungel_06_schluckhoehle",
    "name": "Schluckhoehle",
    "art": "fundstueck",
-   "mitte_cm": [147800, 109800, 1628],
+   "mitte_cm": [146800, 110600, 1722],
    "radius_m": 45.0,
    "felder": ["G6"],
    "kameras": [
-    ["G6", 149804, 96796, 147800, 109800, 1263, "dschungel_06_schluckhoehle_anmarsch", 170],
-    ["G6", 147800, 105400, 147800, 109800, 1584, "dschungel_06_schluckhoehle_held", 170],
-    ["G6", 147800, 108800, 147800, 109800, 1678, "dschungel_06_schluckhoehle_nah", 170]
+    ["G6", 151700, 89100, 146800, 110600, 1822, "dschungel_06_schluckhoehle_anmarsch", -170],
+    ["G6", 147234, 108138, 146800, 110600, 1513, "dschungel_06_schluckhoehle_held", 170],
+    ["G6", 146974, 109615, 146800, 110600, 1772, "dschungel_06_schluckhoehle_nah", -170]
    ],
    "ziel_hoehe_m": 4,
-   "standort_begruendung": "offener Hang, Boden Trockengras, Hang 15 Grad, TPI100 +4 m, Felsplatte 38 %, Trockengras 34 %, Moos 16 %, Heide 10 %; Weg 212 m, Wasser 8 m, Baeume bis 25 m",
+   "standort_begruendung": "offener Hang, Boden Felsplatte, Hang 5 Grad, TPI100 +5 m, Felsplatte 44 %, Trockengras 29 %, Moos 17 %, Heide 9 %; Weg 222 m, Wasser 13 m, Baeume bis 25 m",
    "sicht": {
-    "naechster_weg_m": 211.8,
+    "naechster_weg_m": 221.7,
     "sichtbar_ab_m": 0,
     "ziel_hoehe_m": 4,
     "verdeckt": true,
-    "max_anteil_bis_400m": 0.1,
+    "max_anteil_bis_400m": 0.0,
     "wegpunkte_bis_400m": 44,
-    "naechste_sicht_m": null
+    "naechste_sicht_m": null,
+    "gemessen_an_m": [1476, 1099],
+    "mitte_max_anteil": 0.8
    },
    "erreichbar": {
     "erreichbar": true,
     "modus": "streng",
-    "laenge_m": 223.7,
-    "luftlinie_m": 211.0,
-    "max_steigung_grad": 18.3,
-    "mittel_steigung_grad": 3.7,
+    "laenge_m": 235.0,
+    "luftlinie_m": 220.5,
+    "max_steigung_grad": 15.9,
+    "mittel_steigung_grad": 3.4,
     "steil_laenge_m": 0.0,
     "quer_steil_laenge_m": 0.0,
     "wasser_laenge_m": 0.0,
     "furt_laenge_m": 0.0,
     "pfad_noetig": false,
-    "weg_punkt_m": [1519.0, 891.0]
+    "weg_punkt_m": [1517.0, 891.0]
    },
    "pfad_cm": [
-    [147800, 109800, 1614],
-    [148300, 104700, 1488],
-    [149100, 103900, 1426],
-    [149100, 101100, 1473],
-    [149500, 100700, 1428],
-    [149500, 97100, 1361],
-    [150300, 96300, 1362],
-    [150700, 93900, 1425],
-    [151900, 92700, 1314],
-    [151900, 89100, 1285]
+    [146800, 110600, 1730],
+    [146900, 108300, 1641],
+    [147300, 107900, 1645],
+    [147300, 105900, 1661],
+    [147700, 105500, 1698],
+    [147700, 101500, 1377],
+    [148900, 100300, 1373],
+    [148900, 99500, 1384],
+    [149300, 99100, 1325],
+    [149300, 97100, 1350],
+    [150500, 95500, 1344],
+    [150500, 93900, 1424],
+    [151700, 91900, 1255],
+    [151700, 89100, 1284]
    ],
    "draufsicht": "dschungel_06_schluckhoehle.png"
   },
@@ -364,9 +368,9 @@
    "radius_m": 45.0,
    "felder": ["H6"],
    "kameras": [
-    ["H6", 294900, 112396, 289200, 126400, 1814, "dschungel_07_garten_der_riesen_anmarsch", 170],
+    ["H6", 294900, 112396, 289200, 126400, 1838, "dschungel_07_garten_der_riesen_anmarsch", -170],
     ["H6", 293300, 133501, 289200, 126400, 1827, "dschungel_07_garten_der_riesen_held", 170],
-    ["H6", 289700, 127266, 289200, 126400, 1788, "dschungel_07_garten_der_riesen_nah", 170]
+    ["H6", 289700, 127266, 289200, 126400, 1788, "dschungel_07_garten_der_riesen_nah", -170]
    ],
    "ziel_hoehe_m": 3,
    "standort_begruendung": "Ebene, Boden Laub, Hang 3 Grad, TPI100 +5 m, Laub 67 %, Gras 33 %, Kraut 1 %; Weg 209 m, Wasser 49 m, Baeume bis 61 m",
@@ -412,9 +416,9 @@
    "radius_m": 45.0,
    "felder": ["I6"],
    "kameras": [
-    ["I6", 376143, 170454, 370800, 178800, 3777, "dschungel_08_sinterhalle_anmarsch", 170],
+    ["I6", 376143, 170454, 370800, 178800, 3777, "dschungel_08_sinterhalle_anmarsch", -170],
     ["I6", 377292, 171063, 370800, 178800, 3797, "dschungel_08_sinterhalle_held", 170],
-    ["I6", 371443, 178034, 370800, 178800, 3727, "dschungel_08_sinterhalle_nah", 170]
+    ["I6", 371443, 178034, 370800, 178800, 3727, "dschungel_08_sinterhalle_nah", -170]
    ],
    "ziel_hoehe_m": 4,
    "standort_begruendung": "Schlucht/Kessel, Boden Laub, Hang 17 Grad, TPI100 -66 m, Fels 54 %, Laub 31 %, Kraut 7 %, Moos 4 %; Weg 89 m, Wasser 57 m, Baeume bis 31 m",
