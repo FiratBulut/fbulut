@@ -527,6 +527,10 @@
    ],
    "klaenge": [{"asset": "CUE_Water_Stream_VII_Cue", "bei": "karsee_auslass", "radius_m": 30, "lautstaerke": 0.6, "zweck": "Abfluss ueber die Schwelle"}],
    "kameras": {
+    "anmarsch": {"ziel": "karsee_auslass", "ziel_hoehe_m": 3.0, "abstand_m": [24, 45], "richtung": 75,
+                 "grund": "13h: am Abfluss unterhalb der Schwelle - Felsbuckel und Kaskade, dahinter oeffnet sich der Kar"},
+    "held": {"ziel": "karsee_mitte", "ziel_hoehe_m": 2.0, "abstand_m": [24, 45], "richtung": 50,
+             "grund": "13h: von der Schwelle ueber den See auf die gegliederte Rueckwand (Klippen, Felsbaender, Schuttkegel)"},
     "nah": {"ziel": "karsee_insel", "ziel_hoehe_m": 1.2, "abstand_m": [9, 15], "richtung": 120,
             "grund": "13h/13i K9: _nah stand im See - jetzt am SO-Ufer auf die Felsinsel mit der Kiefer (Spiegelung, Uferkies)"}
    }
