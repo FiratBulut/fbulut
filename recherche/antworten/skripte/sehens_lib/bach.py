@@ -605,6 +605,10 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
         # Boeschung - der A15-Mittelwert ueber 60 % der Breite misst dort die Boeschung mit)
         if "Bett an" in txt:
             return
+        if "Ufer am Netzrand" in txt:
+            # Pruefer (sehens_pruefen.pruefe_wasser_koerper) prueft mit den A12-Ausnahmen (Furten, Muendung, Seen)
+            melde("HINWEIS", txt)
+            return
         melde(st, txt)
     try:
         koerper = gp.bauen_wasser_A(pr, sp, st_in, segmente, lambda s_: br, lauf_id,
