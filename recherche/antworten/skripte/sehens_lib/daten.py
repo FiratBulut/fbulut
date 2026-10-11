@@ -78,13 +78,18 @@ def m_zu_pixel(x_m, y_m, zelle_m):
 
 
 def feld_von_m(x_m, y_m):
-    """Gitterfeld ("E5") eines Weltpunkts in m; None ausserhalb."""
-    j1 = int(np.floor(float(x_m) + OFF_J + 0.5))
-    i1 = int(np.floor(float(y_m) + OFF_I + 0.5))
-    if not (0 <= j1 < NX_1M and 0 <= i1 < NY_1M):
+    """Gitterfeld ("E5") eines Weltpunkts in m; None ausserhalb.
+
+    Feldrechteck wie der Setzer und die Landschaftskomponenten (Auftrag 13f A10): [X0, X0 + 100 800) cm mit
+    X0 = -473 050 + s * 100 800 (= Mitte der 1-m-Zelle j = 1008 * s), also
+    s = floor((x_cm + 473050) / 100800), r = floor((y_cm + 406050) / 100800). Frueher lag die Grenze am Zellrand
+    (0,5 m weiter west/noerdlich) - Stuecke im 0,5-m-Streifen landeten im falschen plan.json."""
+    fx = (float(x_m) + OFF_J) / FELD_M
+    fy = (float(y_m) + OFF_I) / FELD_M
+    if not (X_MIN_M <= float(x_m) < X_MAX_M and Y_MIN_M <= float(y_m) < Y_MAX_M):
         return None
-    s = j1 // FELD_M
-    r = i1 // FELD_M + 1
+    s = max(int(np.floor(fx)), 0)
+    r = max(int(np.floor(fy)), 0) + 1
     if s >= len(FELD_SPALTEN) or r > FELD_ZEILEN:
         return None
     return "%s%d" % (FELD_SPALTEN[s], r)
@@ -95,12 +100,15 @@ def feld_von_cm(x_cm, y_cm):
 
 
 def feld_grenzen_m(feld):
-    """(x0, y0, x1, y1) in m eines Felds (Rand der 1-m-Zellen; letzte Felder an Weltrand gekappt)."""
+    """(x0, y0, x1, y1) in m eines Felds: [x0, x1) x [y0, y1), Grenze = Mitte der 1-m-Zelle j = 1008 * s (A10);
+    erste/letzte Felder reichen bis an den Weltrand (Rand der 1-m-Zellen)."""
     s = FELD_SPALTEN.index(feld[0].upper())
     r = int(feld[1:])
-    j0, j1 = s * FELD_M, min((s + 1) * FELD_M, NX_1M)
-    i0, i1 = (r - 1) * FELD_M, min(r * FELD_M, NY_1M)
-    return (j0 - 0.5 - OFF_J, i0 - 0.5 - OFF_I, j1 - 0.5 - OFF_J, i1 - 0.5 - OFF_I)
+    x0 = X_MIN_M if s == 0 else s * FELD_M - OFF_J
+    x1 = X_MAX_M if s == len(FELD_SPALTEN) - 1 else min((s + 1) * FELD_M - OFF_J, X_MAX_M)
+    y0 = Y_MIN_M if r == 1 else (r - 1) * FELD_M - OFF_I
+    y1 = Y_MAX_M if r == FELD_ZEILEN else min(r * FELD_M - OFF_I, Y_MAX_M)
+    return (x0, y0, x1, y1)
 
 
 def felder_im_kreis(x_m, y_m, radius_m):
@@ -536,11 +544,17 @@ def lade_1m(ordner, daten2m=None, standorte_pfad=None, boden=True):
         b4 = np.zeros((ny4, nx4), np.uint8)
         bh4 = np.zeros((ny4, nx4), np.uint8)
     # Vektoren
-    bae = p("baeche", "baeche.json")
-    baeche, teiche, ww, _ = _vektoren(bae, p("teiche", "teiche.json"), p("wasser_welt.json"), None)
-    if os.path.exists(p("baeche", "baeche_r2.json")):
-        b2 = _lese_json(p("baeche", "baeche_r2.json")) or {}
-        baeche = list(baeche) + list(b2.get("baeche", []))
+    # Bachliste (Auftrag 13f A2): baeche_alle.json (gebaut, IDs B_R2_*, mit R3 - wie im 2-m-Paket) bevorzugen;
+    # nur wenn sie fehlt, die alten Listen baeche.json + baeche_r2.json (IDs B2_*, ohne R3)
+    if os.path.exists(p("baeche", "baeche_alle.json")):
+        baeche, teiche, ww, _ = _vektoren(p("baeche", "baeche_alle.json"), p("teiche", "teiche.json"),
+                                          p("wasser_welt.json"), None)
+    else:
+        baeche, teiche, ww, _ = _vektoren(p("baeche", "baeche.json"), p("teiche", "teiche.json"),
+                                          p("wasser_welt.json"), None)
+        if os.path.exists(p("baeche", "baeche_r2.json")):
+            b2 = _lese_json(p("baeche", "baeche_r2.json")) or {}
+            baeche = list(baeche) + list(b2.get("baeche", []))
     if standorte_pfad is None:
         standorte_pfad = os.path.normpath(p("..", "..", "..", "docs", "staedte", "standorte.json"))
         if not os.path.exists(standorte_pfad):
