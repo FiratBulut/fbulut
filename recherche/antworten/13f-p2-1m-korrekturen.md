@@ -232,3 +232,30 @@ Kürzel der Dateien: `lib/` = `recherche/antworten/skripte/sehens_lib/`.
    - Soll der Auslauf an den Bach unterhalb des ausgeblendeten Abschnitts angeschlossen werden (`punkte`)?
 6. **kueste_05:** Nur 4 Tümpel ≥ 10 m² passen auf die Felsbank (vorher 11 kleine). Reicht das, oder lieber die Bank
    vergrößern?
+
+## Entscheidungen Koordinator (Nachtrag 11.10.2026, abends)
+
+Ferat hat die Entscheidungen an den Koordinator übertragen. Danach kam Ferats Vorgabe (23:20, Auftrag 13g): **die
+Stufen bleiben genau wie in 13f**. Ich habe deshalb jeden Punkt daran gemessen, ob sich die `stufen` gegenüber
+`c945f93` ändern. Prüfskript: `sehens_lib/stufen_vergleich.py`. Ergebnis auf 2 m: alle 42 Bäche haben identische
+Stufen. Code-Stand: Commit **`8175f8f`** (mit den Zwischenständen `88a66ec`, `0d40e67`).
+
+| Frage / Punkt | Entscheidung | Umsetzung |
+|---|---|---|
+| 1 / 3 | bleiben Rückfragen an Claude lokal; bergwald_05 Klammbach vorerst `versickert` bzw. nächster Epic-Bach | **weggelassen.** Mit `muendung: auto` verschieben sich die drei Stufen des Klammbachs (bis 3 cm, Fall 8,91 → 8,88 m), und es kommen 6 neue dazu. Der Klammbach bleibt wie in 13f (`muendung_houdini: true`). |
+| 2 Mündungskorridor | letzte 8 m: Gelände am Bestandswasser höchstens 0,5 m, weich auslaufend, nicht in Weg-/Ortszonen | **umgesetzt** (`rezept.gelaende_bauen`): Kern halbe Breite + 1 m, Auslauf 2 m, Weg-/Ortsschutz bleibt hart 0. Prüfer: dort bis 0,55 m erlaubt. Stufen unverändert. |
+| 4 Fallketten | ~~bündeln nach Regelwerk 15~~ | **zurückgenommen** (Ferat 23:20). Die Bündelung war kurz umgesetzt und ist vollständig zurückgebaut; `bach.treppe` ist wieder der Stand von `c945f93`. |
+| 5 heide_06 `auslauf` | an `B_R2_R_P3_P0_01` unterhalb anschließen, Bachende nie unter dessen Spiegel | **weggelassen.** Der Anschluss funktioniert (84 m, Ende auf 11,74 m). Aber unter dem Spiegel des Bestandsbachs darf das Ende nicht liegen, also fällt die 0,34-m-Schnelle des 13f-Laufs weg. Das ist eine Stufenänderung. Rezept wie 13f. Code dafür ist da (`muendung: "<Epic-Id>"` mit `verlaengern_m`). |
+| 6 kueste_05 | 4 Tümpel ≥ 10 m² reichen | so belassen. |
+| gletscher_06 `klammbach_oben` | robust beheben, Ziel 0 FEHLER auch auf 1 m | **umgesetzt, nur im Stempel:** Uferring auf Spiegel + 0,2 m und hebt bis 2 m. Die letzte Zelle innen an der Wasserkante wird bis zur Böschung aufgefüllt. Die Spiegelplanung rechnet weiter mit 0,15 m / 1 m, damit Spiegel und Stufen gleich bleiben. Synthetisch 1 m: 0 FEHLER (vorher 0,31 m). |
+| „versickert < 25 m“ (canyon_07, lava_03, wueste_04) | bis 25 m verlängern oder sinnvoll anschließen | **Code umgesetzt, greift bei diesen drei nicht.** Ein zu kurzer Lauf wird ab seinem 13f-Ende ohne Kehre weitergeführt; der Lauf davor bleibt Punkt für Punkt gleich. Die Verlängerung zählt nur, wenn sie sinnvoll ist: höchstens 0,5 m Gegenanstieg, nicht in Weg-/Ortsschutz, Bestandswasser oder den Ring eines geplanten Sees. Bei canyon_07 (zurück zur Gumpe bzw. ins Bestandsgerinne), lava_03 (Kehre) und wueste_04 (geschlossene Mulde) gibt es keine solche Fortsetzung. Andere Linien (`punkte`) würden die Stufen ändern. Die WARNUNG bleibt wie in 13f. |
+| „Bett über Spiegel“ | beheben, wo vertretbar | fjord_02: die Abflüsse laufen im unbenannten Houdini-Gerinne unter den Gumpen. Neues Feld `im_bestand_stempeln`: Dort gilt der Wasserschutz im eigenen Korridor nicht, und das Bett wird gestempelt. Spiegel und Stufen sind unverändert. Die Planer-Prüfung „Bett über Spiegel“ nutzt jetzt dieselbe Toleranz und Stufenzone wie der Prüfer. gletscher_03 und gletscher_06 sind ohne Meldung. |
+
+**Prüfergebnis mit diesem Stand (`8175f8f`):**
+- 2 m, alle 15 Planer: Planer und Prüfer 0 FEHLER; zwei Läufe byteidentisch.
+- Synthetisch 1 m: 0 FEHLER in allen 15 Biomen.
+- Selbsttest: 0 FEHLER (52 Prüfungen).
+- Es bleiben WARNUNGEN aus 13f: versickert < 25 m (canyon_07, lava_03, wueste_04, s. o.), heide_06 `fall3` 0,8 m,
+  fjord_06 Kamera, auf 1 m dschungel H6 (1 Instanz schwebt).
+- fjord_02: am Rand des Gerinne-Korridors ändert sich das Gelände noch auf 1–9 m² am Bestandswasser (bis 0,58 m).
+- Neu sind WARNUNGEN „Stufen ≥ 1 m ohne Niagara“ (13g, Niagara-Grenze 8 je Ort).
