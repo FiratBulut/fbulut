@@ -1,0 +1,440 @@
+{
+ "_doku": {
+  "stand": "2026-10-11",
+  "auftrag": "13 Phase 2 - Planer Wueste (Biom-Agent B6). Schema: antworten/skripte/sehens_lib/PLANER_ANLEITUNG.md",
+  "quellen": "sehens/wueste/katalog.md, sehens/wueste/asset_bedarf.json, standorte.json, sehens-STATUS.md (Entscheidungen Ferat), Auftrag 13b/13c/13d",
+  "einheiten": "Meter, Kompassgrad (0 = Nord, 90 = Ost); Referenzen [dx, dy] relativ zur Ortsmitte (Y nach Sueden)",
+  "hinweis": "Die Wuestenfelder C3/C4/D3/D4/D5/E3/E4/E5 sind gebaut (Namaqualand-Planer, Palmental): hier wird NUR ergaenzt - keine freiraeume, kein 'entfernen'. Helden aus Megascans Desert Western (Fab-Materialien, kein Override). Netze nur aus netze.csv (13d); uldubik/uk5ebcp (unvollstaendig) nicht verwendet. front_achse '+y' ist eine Annahme.",
+  "materialien": "4 von 6: Wuestenlack, Salzkruste, Wueste_Sandauflage, Salz_Decal (eigene Textur sehens/wueste/decal_salzkruste.png)"
+ },
+ "biom": "wueste",
+ "seed": 1307,
+ "paletten": {
+  "sandstein_gross": ["SM_SandstoneBoulder_05", "SM_RockSandstone_040", "SM_SandstoneBoulder_04"],
+  "sandstein_schutt": ["SM_SandstoneBoulder_04", "SM_RockSandstone_034", "SM_RockSandstone_021", "SM_namaqualand_boulder_04_NN", "uk5pbhv_tier_0", "uk4pehu_tier_0"],
+  "namaqua_bloecke": ["SM_namaqualand_boulder_03_NN", "SM_namaqualand_boulder_04_NN", "SM_namaqualand_boulder_02_NN"],
+  "namaqua_klein": ["SM_namaqualand_boulder_05_NN", "SM_namaqualand_boulder_06_NN", "SM_RockSandstone_021", "vmjjfhh_tier_0"],
+  "kies": ["SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_rocks_01_b_NN", "SM_namaqualand_rocks_01_c_NN", "SM_namaqualand_boulders_01_b_NN"],
+  "steinchen": ["SM_namaqualand_stones_01_a_NN", "SM_namaqualand_stones_01_b_NN", "SM_namaqualand_stones_01_c_NN", "SM_namaqualand_stones_01_d_NN", "SM_namaqualand_stones_01_e_NN", "SM_SmallStonesPack_07", "SM_SmallStonesPack_13"],
+  "schichtgeroell": ["ul4lehiga_tier_0", "ulnfeaw_tier_0", "ulcceh3_tier_0"],
+  "bodenplatten": ["ulksbcz_tier_0", "ulerccg_tier_0", "uk4qcgx_tier_0", "venodhb_tier_0"],
+  "sukkulenten": ["SM_cheiridopsis_succulent_g_NN", "SM_cheiridopsis_succulent_h_NN", "SM_leipoldtia_schultzei_large_NN", "SM_leipoldtia_schultzei_small_NN"],
+  "eispflanzen": ["SM_crystalline_iceplant_a_NN", "SM_crystalline_iceplant_c_NN", "SM_crystalline_iceplant_e_NN"],
+  "dorn": ["SM_didelta_spinosa_medium_NN", "SM_othonna_cerarioides_f_NN", "SM_othonna_cerarioides_b_NN"],
+  "searsia": ["SM_searsia_burchellii_medium_NN", "SM_searsia_lucida_a_NN"],
+  "trockengras": ["SM_dead_grass_01", "SM_dead_grass_02", "SM_dead_grass_03"],
+  "rooibos": ["SM_wild_rooibos_bush_e_NN", "SM_wild_rooibos_bush_b_NN", "SM_wild_rooibos_bush_d_NN"],
+  "sandschleppe": ["SM_sandy_slope_04", "SM_sandy_slope_05"],
+  "palmen": ["SM_Palm_01_03_G", "SM_Palm_01_04_G", "SM_Palm_01_02_G"],
+  "jungpalmen": ["SM_Palm_01_07_G", "SM_Palm_01_09_G", "SM_Palm_01_10_G"],
+  "feucht": ["SM_Rohrkolben_Horst_2", "SM_Rohrkolben_Jung_1", "SM_ToadRush_010"],
+  "astwerk": ["SM_bark_debris_01_a_NN", "SM_dead_quiver_branch_01_NN", "SM_dry_quiver_leaf_a_NN"],
+  "flutgeroell": ["SM_DryRiverBed_01", "SM_stones_01_6", "SM_stones_01_3", "SM_namaqualand_boulder_04_NN"],
+  "felsstufe": ["SM_RockSandstone_034", "SM_RockSandstone_021", "uk5pbhv_tier_0"],
+  "trittstein": ["ulerccg_tier_0", "SM_RockSandstone_034"]
+ },
+ "materialwuensche": [
+  {"name": "MI_EL_SW_Wuestenlack", "basis": "M_EL_Fels_MS", "parameter": {"Toenung": [0.24, 0.18, 0.15, 1.0], "Helligkeit": 0.75, "Specular": 0.6, "Rauheit": 0.55}, "fuer": ["SM_SandstoneBoulder_05", "SM_SandstoneBoulder_04", "SM_namaqualand_boulder_03_NN", "SM_namaqualand_boulder_04_NN", "SM_namaqualand_boulder_05_NN"], "hinweis": "blauschwarz glaenzender Wuestenlack (Windkanter, Wabenwand)"},
+  {"name": "MI_EL_SW_Salzkruste", "basis": "M_EL_Fels_Auflage", "parameter": {"Auflage_Menge": 0.9, "Auflage_Farbe": [0.97, 0.96, 0.92, 1.0], "Auflage_Schwelle": 0.4, "Helligkeit": 0.95}, "fuer": ["SM_namaqualand_boulder_02_NN", "SM_namaqualand_boulder_05_NN", "SM_stones_01_3", "SM_beach_driftwood_01"], "hinweis": "salzverkrustete Steine und Treibholz (Salzpfanne)"},
+  {"name": "MI_EL_SW_Wueste_Sandauflage", "basis": "M_EL_Fels_Sand", "parameter": {"Sand_Menge": 0.8, "Sand_Fuss": 1.0, "Sand_Farbe": [0.9, 0.72, 0.5, 1.0]}, "fuer": ["SM_SandstoneBoulder_05", "SM_SandstoneBoulder_04", "SM_RockSandstone_040", "SM_namaqualand_boulder_03_NN"], "hinweis": "Sand in Fugen und am Fuss (Wind lagert Sand ab)"},
+  {"name": "MI_EL_SW_Salz_Decal", "basis": "M_MS_Decal", "parameter": {"Opacity Intensity": 0.9, "Brightness": 0.8, "Saturation": 0.9, "Tiling": 1.0}, "texturen": {"BaseColorTexture": "antworten/sehens/wueste/decal_salzkruste.png", "NormalTexture": "antworten/sehens/wueste/decal_salzkruste_n.png"}, "fuer": ["Decal wueste_05_salzpfanne: Salzpolygone/Wabenmuster (eigene prozedurale Textur, Koordinator: ja)"], "hinweis": "Helligkeit 0,8 gegen Ueberstrahlen (Katalog-Risiko)"}
+ ],
+ "orte": {
+
+  "wueste_01_yardang_flotte": {
+   "kurz": "Vier lange Felsruecken laufen parallel auf die Kueste zu wie gestrandete Rumpfe: steiler Bug nach NW (Windseite), lang auslaufendes Heck mit Sandfahne, dazwischen Sandgassen mit Rippeln.",
+   "marker": {"titel": "Die Yardang-Flotte", "text": "Eine Flotte aus Stein, die nie ablegen wird. Der Wind schleift seit Jahrtausenden an ihren Bugen, und die Gassen dazwischen singen, wenn er dreht.", "entdeckung_m": 100},
+   "budget": {"instanzen": 8000, "kollision": 600, "akteure": 30, "lichter": 0, "niagara": 0, "decals": 4},
+   "assets_wunsch": [
+    {"paket": "Wadi Rum Sandstone Rock 01–04", "statt_jetzt": "Desert Western Formation/Cliff Layered (veonegs, vjqhcapga, vb1mbdega) liegend in Windrichtung"},
+    {"paket": "Ultimate Niagara Environmental VFX", "statt_jetzt": "Sandfahne: lokaler_nebel (sandfarben, duenn) im Lee"}
+   ],
+   "anker": {
+    "blick": {"pos_m": [-845.6, -1276.0]}
+   },
+   "linien": {
+    "r1": {"punkte": [[-110, -70.0], [-10, 30.0]]},
+    "r2": {"punkte": [[-75, -63.0], [25, 37.0]]},
+    "r3": {"punkte": [[-40, -56.0], [60, 44.0]]},
+    "r4": {"punkte": [[-5, -49.0], [95, 51.0]]}
+   },
+   "anker_danach": {
+    "bug1": {"suche": "hoechster", "bei": {"auf_linie": "r1", "t": 0.15}, "r_m": 6},
+    "bug2": {"suche": "hoechster", "bei": {"auf_linie": "r2", "t": 0.15}, "r_m": 6},
+    "bug3": {"suche": "hoechster", "bei": {"auf_linie": "r3", "t": 0.15}, "r_m": 6},
+    "bug4": {"suche": "hoechster", "bei": {"auf_linie": "r4", "t": 0.15}, "r_m": 6},
+    "mitte1": {"von": "bug1", "richtung": 135, "abstand_m": 30},
+    "mitte2": {"von": "bug2", "richtung": 135, "abstand_m": 30},
+    "mitte3": {"von": "bug3", "richtung": 135, "abstand_m": 30},
+    "mitte4": {"von": "bug4", "richtung": 135, "abstand_m": 30},
+    "heck1": {"von": "bug1", "richtung": 135, "abstand_m": 58},
+    "heck2": {"von": "bug2", "richtung": 135, "abstand_m": 58},
+    "heck3": {"von": "bug3", "richtung": 135, "abstand_m": 58},
+    "heck4": {"von": "bug4", "richtung": 135, "abstand_m": 58},
+    "gasse": {"auf_linie": "r2", "t": 0.45, "seite_m": -17},
+    "lee": {"auf_linie": "r3", "t": 0.7}
+   },
+   "gelaende": {"fenster_m": [240, 240], "rand_m": 14, "bei": [0, -5], "schutz_weg_m": 5, "senke_begruendung": "Windgassen zwischen den Ruecken sind abflusslose Deflationsmulden (Yardang-Feld, es regnet nicht)",
+    "ops": [
+     {"op": "kuppe", "bei": {"auf_linie": "r1", "t": 0.35}, "radius_m": 30, "hoehe_m": 2.0, "plateau": 0.3, "streckung": [3.0, 0.45], "richtung": 135, "rand_m": 6, "warum": "Ruecken 1 schaerfen (+2 m)"},
+     {"op": "kuppe", "bei": {"auf_linie": "r2", "t": 0.35}, "radius_m": 30, "hoehe_m": 2.0, "plateau": 0.3, "streckung": [3.0, 0.45], "richtung": 135, "rand_m": 6, "warum": "Ruecken 2 schaerfen (+2 m)"},
+     {"op": "kuppe", "bei": {"auf_linie": "r3", "t": 0.35}, "radius_m": 30, "hoehe_m": 2.0, "plateau": 0.3, "streckung": [3.0, 0.45], "richtung": 135, "rand_m": 6, "warum": "Ruecken 3 schaerfen (+2 m)"},
+     {"op": "kuppe", "bei": {"auf_linie": "r4", "t": 0.35}, "radius_m": 30, "hoehe_m": 2.0, "plateau": 0.3, "streckung": [3.0, 0.45], "richtung": 135, "rand_m": 6, "warum": "Ruecken 4 schaerfen (+2 m)"},
+     {"op": "glaetten", "bei": "gasse", "radius_m": 26, "staerke": 0.5, "sigma_m": 4, "warum": "Sandgasse glatt geblasen"}
+    ]
+   },
+   "gruppen": [
+    {"name": "bug", "ebene": "held", "warum": "Bug: der Wind (NW) unterschneidet die Stirn - steil, gerieft (Desert Western Formation Layered)", "netz": "veonegs_tier_0", "verteilung": {"typ": "punkte", "punkte": ["bug1", "bug2", "bug3", "bug4"]}, "ausrichtung": "aufrecht", "normale_anteil": 0.15, "yaw": 135, "yaw_streuung_grad": 5, "skala": [0.42, 0.52], "skala_xyz": [1.0, 0.6, 1.0], "eingraben": [0.4, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "rumpf", "ebene": "begleiter", "warum": "Rumpfmitte: waagrecht gerieft, niedriger", "palette": ["vjqhcapga_tier_0", "uk5oded_tier_0"], "verteilung": {"typ": "punkte", "punkte": ["mitte1", "mitte2", "mitte3", "mitte4"]}, "ausrichtung": "aufrecht", "normale_anteil": 0.2, "yaw": 135, "yaw_streuung_grad": 6, "groesse_m": [20, 26], "groesse_achse": "max", "skala_xyz": [1.0, 0.55, 0.7], "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
+    {"name": "heck", "ebene": "begleiter", "warum": "Heck: lang auslaufend, flach (Ledge/Cliff Layered Large)", "palette": ["vb1mbdega_tier_0", "vbvqbbofa_tier_0", "vceoferfa_tier_0"], "verteilung": {"typ": "punkte", "punkte": ["heck1", "heck2", "heck3", "heck4"]}, "ausrichtung": "aufrecht", "normale_anteil": 0.3, "yaw": 135, "yaw_streuung_grad": 6, "groesse_m": [18, 24], "groesse_achse": "max", "skala_xyz": [1.0, 0.8, 0.7], "eingraben": [0.4, 0.5], "akteur": true, "kollision": true, "meide": null},
+    {"name": "bugschutt", "ebene": "schutt", "warum": "Schutt NUR an der Bugseite: der Windabtrag unterschneidet den Bug", "palette": ["SM_namaqualand_boulder_03_NN", "SM_RockSandstone_034", "uk5pbhv_tier_0", "SM_namaqualand_boulder_04_NN"], "verteilung": {"typ": "um_gruppe", "gruppe": "bug", "ring": [0.9, 1.6], "je": [10, 16], "seite": 315, "seite_staerke": 0.9}, "groesse_m": [0.5, 1.6], "abstand_m": 1.0},
+    {"name": "halden", "ebene": "schutt", "warum": "flache Geroellhaufen am Rumpffuss", "palette": "schichtgeroell", "verteilung": {"typ": "um_gruppe", "gruppe": ["rumpf", "bug"], "ring": [1.0, 1.4], "je": [2, 4]}, "skala": [0.8, 1.3], "abstand_m": 2.5, "rolle": "stein"},
+    {"name": "kiesel_gasse", "ebene": "kleinzeug", "warum": "Kies in den Sandgassen (Deflation)", "palette": "kies", "anzahl": 1800, "verteilung": {"typ": "kreis", "bei": [0, -5], "r_m": 95}, "abstand_m": 0.6, "rolle": "stein", "hang_grad": [0, 22]},
+    {"name": "kiesel_bug", "ebene": "kleinzeug", "warum": "Feinkies vor jedem Bug", "palette": "steinchen", "anzahl": 800, "verteilung": {"typ": "um_gruppe", "gruppe": "bug", "ring": [0.9, 2.0], "je": [80, 120], "seite": 315, "seite_staerke": 0.8}, "rolle": "stein"},
+    {"name": "sandfahnen", "ebene": "schutt", "warum": "Sandfahnen im Lee hinter jedem Heck", "palette": "sandschleppe", "verteilung": {"typ": "um_gruppe", "gruppe": "heck", "ring": [1.0, 1.8], "je": [3, 5], "seite": 135, "seite_staerke": 1.0}, "yaw": 135, "yaw_streuung_grad": 12, "skala": [0.9, 1.4], "rolle": "streu", "ausrichtung": "normale", "abstand_m": 3},
+    {"name": "trockengras_lee", "ebene": "bewuchs", "warum": "Trockengras nur im Lee der Rumpfe", "palette": "trockengras", "verteilung": {"typ": "um_gruppe", "gruppe": ["rumpf", "heck"], "ring": [1.0, 2.2], "je": [5, 9], "seite": 45, "seite_staerke": 0.9}, "rolle": "pflanze", "abstand_m": 2.0},
+    {"name": "othonna_lee", "ebene": "bewuchs", "warum": "Othonna nur im Windschatten", "palette": ["SM_othonna_cerarioides_f_NN", "SM_othonna_cerarioides_b_NN"], "verteilung": {"typ": "um_gruppe", "gruppe": ["rumpf", "heck"], "ring": [1.0, 1.6], "je": [2, 4], "seite": 45, "seite_staerke": 1.0}, "rolle": "pflanze", "abstand_m": 2.0},
+    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sandsaum an jedem Rumpf (Kontaktzone)", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["bug", "rumpf", "heck"], "ring": [0.9, 1.2], "je": [25, 40]}, "rolle": "stein"},
+    {"name": "fugenkies", "ebene": "kontakt", "warum": "Kies um die Bugbloecke", "palette": "kies", "verteilung": {"typ": "um_gruppe", "gruppe": "bugschutt", "ring": [0.9, 1.3], "je": [2, 4]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Sand", "form": "kreis", "bei": "gasse", "r_m": 90, "wert": 200, "flecken": 0.35},
+    {"lage": "Sandstein", "form": "um_gruppe", "gruppe": ["bug", "rumpf", "heck"], "ring": [0.3, 1.1], "wert": 210},
+    {"lage": "Kies", "form": "um_gruppe", "gruppe": "bug", "ring": [0.9, 1.8], "wert": 180},
+    {"lage": "Trockengras", "form": "um_gruppe", "gruppe": ["rumpf", "heck"], "ring": [1.0, 2.0], "wert": 120}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Sand_Small_Waves", "zweck": "Rippelmarken in den Sandgassen (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "kreis", "bei": "gasse", "r_m": 40}, "abstand_m": 15, "groesse_m": [1.0, 8.0, 8.0]},
+    {"typ": "lokaler_nebel", "zweck": "duenne Sandfahne im Lee (Wunsch: Ultimate Niagara Environmental VFX)", "bei": "lee", "hoehe_m": 2, "radius_m": 25, "dichte": 0.025, "farbe": [0.86, 0.74, 0.58], "hoehenabfall": 1.0},
+    {"typ": "decal", "material": "MI_Leakage_03", "zweck": "dunkle Riefen am Bug", "bei": "bug2", "hoehe_m": 5, "ausrichtung": "wand", "blick": 315, "groesse_m": [1.5, 4.0, 8.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "gasse", "radius_m": 90, "lautstaerke": 0.5, "zweck": "Wind in den Gassen (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "wueste_02_sternduene": {
+   "kurz": "Eine 22 m hohe Sterndune mit drei geschwungenen, messerscharfen Kaemmen, die sich im Gipfel treffen; am Fuss ein halb begrabener toter Koecherbaum.",
+   "marker": {"titel": "Die Sternduene", "text": "Der Wind kommt hier aus drei Richtungen und kann sich nicht einigen. So waechst der Sand zum Stern und begraebt, was im Weg steht.", "entdeckung_m": 120},
+   "budget": {"instanzen": 1500, "kollision": 100, "akteure": 3, "lichter": 0, "niagara": 0, "decals": 6},
+   "assets_wunsch": [
+    {"paket": "Ultimate Niagara Environmental VFX", "statt_jetzt": "Sandfahne am Gipfel: lokaler_nebel (sandfarben, duenn)"}
+   ],
+   "anker": {
+    "gipfel": [0, 0],
+    "k1": [-62, -48],
+    "k2": [58, -24],
+    "k3": [-8, 72],
+    "koecher": [28, 30],
+    "blick": {"pos_m": [-420.0, -200.0]}
+   },
+   "gelaende": {"fenster_m": [230, 230], "rand_m": 16, "bei": [0, 0], "senke_begruendung": "Interduenental zwischen Sternduene und Felsrippen (Ausblasungsmulde, abflusslos wie in jedem Erg)", "begruendung": "Sternduene +22 m (Katalog, Ferat 11.10.: Gelaende frei); neben dem gebauten Palmental wird nur Sand aufgeschuettet, nichts entfernt.", "daemme": [{"punkte": [[9, 7], "gipfel", [-32, -22], "k1"], "breite_m": 30, "hoehe_m": 5, "krone": 0.04, "verjuengung_m": 12}, {"punkte": [[-10, -4], "gipfel", [30, -10], "k2"], "breite_m": 26, "hoehe_m": 4, "krone": 0.04, "verjuengung_m": 12}, {"punkte": [[1, -11], "gipfel", [-8, 36], "k3"], "breite_m": 30, "hoehe_m": 5, "krone": 0.04, "verjuengung_m": 12}],
+    "ops": [
+     {"op": "kuppe", "bei": "gipfel", "radius_m": 50, "hoehe_m": 9, "plateau": 0.0, "rand_m": 24, "warum": "Dunenkoerper +9 m (Kegel), die Kaemme kommen als Waelle (daemme) dazu"}
+    ]
+   },
+   "gruppen": [
+    {"name": "koecherbaum", "ebene": "held", "warum": "Natur erzaehlt: die wandernde Duene hat den Koecherbaum begraben (halb im Sand)", "netz": "SM_dead_quiver_trunk_NN", "verteilung": {"typ": "punkt", "bei": "koecher"}, "skala": 2.2, "rolle": "baum", "eingraben_m": 1.6, "kipp_grad": 14, "kipp_richtung": 210, "akteur": true, "kollision": true},
+    {"name": "aeste", "ebene": "begleiter", "warum": "abgebrochene Aeste des Koecherbaums ragen aus dem Sand", "palette": ["SM_dead_quiver_branch_01_NN", "SM_dead_quiver_branch_02_NN"], "verteilung": {"typ": "um_gruppe", "gruppe": "koecherbaum", "ring_m": [1.0, 4.0], "je": [4, 6]}, "skala": [1.4, 2.0], "rolle": "stamm", "eingraben": [0.3, 0.5]},
+    {"name": "sandschleppen", "ebene": "begleiter", "warum": "Sandschleppen an den Kaemmen (Leeseite)", "palette": "sandschleppe", "anzahl": 12, "verteilung": {"typ": "band", "punkte": ["k1", "gipfel", "k2"], "breite_m": 18}, "skala": [1.0, 1.5], "yaw": "zufall", "rolle": "streu", "ausrichtung": "normale", "abstand_m": 6, "akteur": false},
+    {"name": "duenental", "ebene": "schutt", "warum": "Bloecke im Ausblasungstal zwischen Duene und Rippe", "palette": ["SM_namaqualand_boulder_05_NN", "SM_namaqualand_boulder_02_NN", "uk4pehu_tier_0"], "anzahl": 30, "verteilung": {"typ": "ring", "bei": "gipfel", "r_m": [62, 95]}, "groesse_m": [0.6, 1.6], "abstand_m": 3, "hang_grad": [0, 30]},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies im Ausblasungstal (Sand ist weggeblasen)", "palette": "kies", "anzahl": 500, "verteilung": {"typ": "ring", "bei": "gipfel", "r_m": [60, 95]}, "abstand_m": 0.6, "rolle": "stein"},
+    {"name": "rooibos", "ebene": "bewuchs", "warum": "Rooibos am Duenenfuss, wo Restfeuchte unter dem Sand liegt", "palette": "rooibos", "verteilung": {"typ": "cluster", "form": "ring", "bei": "gipfel", "r_m": [55, 80], "zentren": [5, 7], "je": [3, 6], "radius_m": 2.5}, "abstand_m": 0.7, "rolle": "pflanze"},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras nur am Duenenfuss", "palette": "trockengras", "anzahl": 50, "verteilung": {"typ": "ring", "bei": "gipfel", "r_m": [55, 85]}, "abstand_m": 2.5, "rolle": "pflanze"},
+    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand ueberdeckt Holz und Steine (Kontaktzone)", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["koecherbaum", "aeste", "duenental"], "ring": [0.9, 1.3], "je": [6, 12]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Sand", "form": "kreis", "bei": "gipfel", "r_m": 75, "wert": 255, "rand_m": 12, "flecken": 0.1},
+    {"lage": "Kies", "form": "ring", "bei": "gipfel", "r_m": [70, 95], "wert": 170, "flecken": 0.5}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Sand_Big_Waves", "zweck": "grosse Rippel auf den Flanken (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "ring", "bei": "gipfel", "r_m": [15, 45]}, "abstand_m": 15, "groesse_m": [2.0, 12.0, 12.0]},
+    {"typ": "decal", "material": "MI_Decal_Sand_Small_Waves", "zweck": "feine Rippel am Fuss", "anzahl": 3, "verteilung": {"typ": "ring", "bei": "gipfel", "r_m": [45, 70]}, "abstand_m": 12, "groesse_m": [1.0, 8.0, 8.0]},
+    {"typ": "lokaler_nebel", "zweck": "Sandfahne am Gipfelkamm (duenn)", "bei": "gipfel", "hoehe_m": 2, "radius_m": 18, "dichte": 0.02, "farbe": [0.9, 0.78, 0.6], "hoehenabfall": 1.2}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "gipfel", "radius_m": 70, "lautstaerke": 0.45, "zweck": "Wind am Duenenkamm (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "wueste_03_die_waechter": {
+   "kurz": "Sieben gedrungene Pilzfelsen stehen auf einer Kiesflaeche wie Wachen; der Wind hat ihre Fuesse zu Hohlkehlen geschliffen, die dunklen Kappen haengen ueber. Der groesste ist 10 m hoch.",
+   "marker": {"titel": "Die Waechter", "text": "Sieben stehen sie da und schauen ins Tal, als warteten sie auf jemanden, der nie kam. Der Sand hat ihnen die Fuesse abgeschliffen, gewichen sind sie nicht.", "entdeckung_m": 80},
+   "budget": {"instanzen": 3000, "kollision": 300, "akteure": 20, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [
+    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Pilzfelsen aus Desert Western Spire Large 05/03 (gedrungen) + Kappen SM_RockSandstone_040"},
+    {"paket": "Procedural Rocks Generator", "statt_jetzt": "wie oben, je Stueck anders skaliert"}
+   ],
+   "anker": {
+    "w1": [0, 0],
+    "w2": [14, -8],
+    "w3": [-12, 10],
+    "w4": [22, 14],
+    "w5": [-20, -14],
+    "w6": [6, 24],
+    "w7": [-28, 4],
+    "blick": {"pos_m": [100.0, -760.0]}
+   },
+   "gelaende": {"fenster_m": [110, 110], "rand_m": 12, "senke_begruendung": "flache Deflationsmulden im Kiespflaster (Wind traegt Feinmaterial aus)",
+    "ops": [
+     {"op": "glaetten", "bei": [0, 4], "radius_m": 30, "staerke": 0.35, "sigma_m": 4, "warum": "Deflationsflaeche +/-1 m geglaettet"}
+    ]
+   },
+   "gruppen": [
+    {"name": "fuesse", "ebene": "held", "warum": "Pilzfelsen-Fuss: der sandbeladene Wind schleift unten am staerksten (Hohlkehle)", "palette": ["ulbwebv_tier_0", "vepoda2_tier_0"], "verteilung": {"typ": "punkte", "punkte": ["w1", "w2", "w3", "w4", "w5", "w6", "w7"]}, "groesse_m": [5.0, 8.0], "groesse_achse": "z", "skala_xyz": [0.55, 0.55, 1.0], "skala_streuung": 0.12, "yaw": "zufall", "eingraben": [0.2, 0.25], "akteur": true, "kollision": true, "meide": null, "hinweis": "w1 bekommt die groesste Skalierung nicht automatisch - Groesse zufaellig 5-8 m + Kappe; der Groesste ~10 m"},
+    {"name": "kappen", "ebene": "held", "warum": "die haertere, dunklere Kappe haengt ueber", "netz": "SM_RockSandstone_040", "verteilung": {"typ": "auf_gruppe", "gruppe": "fuesse", "je": [1, 1], "anteil": [0.5, 0.5]}, "groesse_m": [4.5, 6.0], "skala_xyz": [1.0, 1.0, 0.7], "yaw": "zufall", "z_bezug": "oben:fuesse", "z_versatz_m": -0.4, "akteur": true, "kollision": true, "material": "MI_EL_SW_Wuestenlack", "meide": null},
+    {"name": "abgefallene", "ebene": "begleiter", "warum": "abgefallene Kappen liegen neben ihren Waechtern", "palette": ["SM_SandstoneBoulder_05", "SM_namaqualand_boulder_03_NN"], "anzahl": 6, "verteilung": {"typ": "ring", "bei": [0, 4], "r_m": [6, 34]}, "groesse_m": [2.2, 3.5], "kipp_grad": [10, 35], "eingraben": [0.3, 0.42], "abstand_m": 5, "material": "MI_EL_SW_Wueste_Sandauflage"},
+    {"name": "schutt", "ebene": "schutt", "warum": "Bruchstuecke der Kappen", "palette": ["SM_namaqualand_boulder_04_NN", "SM_SandstoneBoulder_03", "SM_RockSandstone_021", "uk5pbhv_tier_0"], "anzahl": 70, "verteilung": {"typ": "kreis", "bei": [0, 4], "r_m": 40}, "groesse_m": [0.4, 1.4], "abstand_m": 1.5},
+    {"name": "pflaster", "ebene": "kleinzeug", "warum": "Deflationspflaster aus Kies", "palette": ["SM_namaqualand_boulders_01_b_NN", "SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_rocks_01_c_NN"], "anzahl": 2000, "verteilung": {"typ": "kreis", "bei": [0, 4], "r_m": 42}, "abstand_m": 0.45, "rolle": "stein"},
+    {"name": "sukkulenten_lee", "ebene": "bewuchs", "warum": "Sukkulentenpolster im Lee (SO) der Waechter", "palette": "sukkulenten", "verteilung": {"typ": "um_gruppe", "gruppe": "fuesse", "ring": [1.0, 2.0], "je": [3, 6], "seite": 135, "seite_staerke": 0.9}, "rolle": "pflanze", "abstand_m": 0.4},
+    {"name": "didelta", "ebene": "bewuchs", "warum": "Didelta-Dornpolster in Kiesmulden", "palette": ["SM_didelta_spinosa_medium_NN", "SM_didelta_spinosa_small_NN"], "anzahl": 14, "verteilung": {"typ": "ring", "bei": [0, 4], "r_m": [12, 45]}, "abstand_m": 3, "rolle": "pflanze"},
+    {"name": "sandkehle", "ebene": "kontakt", "warum": "Sand sammelt sich in der Hohlkehle am Fuss", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["fuesse", "abgefallene"], "ring": [0.85, 1.3], "je": [20, 30]}, "rolle": "stein"},
+    {"name": "sandschleppen", "ebene": "kontakt", "warum": "kleine Sandschleppen im Lee jedes Waechters", "palette": "sandschleppe", "verteilung": {"typ": "um_gruppe", "gruppe": "fuesse", "ring": [1.0, 1.4], "je": [1, 1], "seite": 135, "seite_staerke": 1.0}, "yaw": 135, "skala": [0.6, 0.9], "rolle": "streu", "ausrichtung": "normale"}
+   ],
+   "lagen": [
+    {"lage": "Kies", "form": "kreis", "bei": [0, 4], "r_m": 40, "wert": 220, "flecken": 0.35},
+    {"lage": "Geroell", "form": "ring", "bei": [0, 4], "r_m": [30, 50], "wert": 170, "flecken": 0.5},
+    {"lage": "Sand", "form": "um_gruppe", "gruppe": "fuesse", "ring": [0.9, 1.8], "wert": 200}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Rocks_Small", "zweck": "Kiespflaster zwischen den Waechtern (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": [0, 4], "r_m": 20}, "abstand_m": 10, "groesse_m": [1.0, 6.0, 6.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": [0, 4], "radius_m": 50, "lautstaerke": 0.4, "zweck": "Wind zwischen den Waechtern (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "wueste_04_quelloase": {
+   "kurz": "Im engen Talgrund nahe der Nordkueste quillt am Fuss der Rippen ein tuerkiser Quelltopf, 12 m breit; Faecherpalmen, Binsen und Rohrkolben draengen sich um das Wasser, das nach 40 m im Sand versickert.",
+   "marker": {"titel": "Die Quelloase", "text": "Man hoert das Wasser, bevor man es sieht. Wer hier rastet, teilt den Schatten mit den Palmen und das Wasser mit allem, was in der Wueste Durst hat.", "entdeckung_m": 30},
+   "budget": {"instanzen": 4000, "kollision": 300, "akteure": 12, "lichter": 0, "niagara": 1, "decals": 4},
+   "assets_wunsch": [],
+   "anker": {
+    "quelle": [0, 0],
+    "quellwand": [6, -14],
+    "blick": {"pos_m": [-480.0, -1450.0]}
+   },
+   "gelaende": {"fenster_m": [90, 90], "rand_m": 10, "senke_begruendung": "Quellmulde: das Grundwasser steht knapp unter dem Boden (Feuchtsenke um den Topf, Rinnsal versickert)",
+    "ops": [
+     {"op": "mulde", "bei": "quelle", "radius_m": 10, "tiefe_m": 1.5, "rand_m": 6, "boden": 0.4, "warum": "Quellmulde -1,5 m"}
+    ]
+   },
+   "wasser": [
+    {"typ": "see", "id": "quelltopf", "bei": "quelle", "r_m": 6, "spiegel_rand_min": -0.1, "tiefe_m": 3.0, "farbe": "tuerkis", "becken": {"ufer_m": 4, "freibord_m": 0.2, "auslass": "auto"}},
+    {"typ": "bach", "id": "rinnsal", "abfluss_von": "quelltopf", "laenge_m": 40, "breite_m": 1.2, "tiefe_cm": 15, "farbe": "klar", "quelle": false, "muendung": "versickert"}
+   ],
+   "gruppen": [
+    {"name": "palmen", "ebene": "held", "warum": "Faecherpalmen draengen sich ans Wasser (Grundwasser)", "palette": "palmen", "anzahl": 5, "verteilung": {"typ": "ufer", "bei": "quelle", "r_m": 16, "band_m": [1.0, 7.0]}, "versuche": 30, "abstand_m": 3.5, "skala": [0.9, 1.15], "rolle": "baum", "akteur": true, "kollision": true, "mindestens": 4},
+    {"name": "quellwand", "ebene": "begleiter", "warum": "Quellwand: am Uebergang Sandstein/Sand tritt das Wasser aus (Desert Western Cliff Layered)", "netz": "umsocbyfa_tier_0", "verteilung": {"typ": "punkt", "bei": "quellwand"}, "skala": 0.9, "yaw": "zu:quelle", "front_achse": "+y", "eingraben": [0.35, 0.42], "akteur": true, "kollision": true, "meide": null},
+    {"name": "jungpalmen", "ebene": "begleiter", "warum": "Jungpalmen im Halbschatten der Alten", "palette": "jungpalmen", "anzahl": 6, "verteilung": {"typ": "ufer", "bei": "quelle", "r_m": 24, "band_m": [2.0, 10.0]}, "abstand_m": 2.5, "skala": [0.8, 1.1], "rolle": "baum"},
+    {"name": "quellbloecke", "ebene": "schutt", "warum": "Sandsteinbloecke am Quellaustritt", "palette": ["SM_RockSandstone_021", "SM_stones_01_3", "SM_SandstoneBoulder_04"], "anzahl": 24, "verteilung": {"typ": "ring", "bei": "quelle", "r_m": [6, 18]}, "groesse_m": [0.4, 1.4], "abstand_m": 1.2, "material": "MI_EL_SW_Wueste_Sandauflage"},
+    {"name": "quellsteine", "ebene": "wasser", "warum": "Steine im klaren Quelltopf", "palette": ["SM_stones_01_3", "SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_boulders_01_b_NN"], "anzahl": 40, "verteilung": {"typ": "kreis", "bei": "quelle", "r_m": 6}, "abstand_m": 0.4, "im_wasser": "nur", "rolle": "stein"},
+    {"name": "wedel", "ebene": "kleinzeug", "warum": "abgefallene Wedel und Fasern unter den Palmen", "palette": "astwerk", "verteilung": {"typ": "um_gruppe", "gruppe": ["palmen", "jungpalmen"], "ring_m": [0.5, 4.0], "je": [12, 20]}, "rolle": "streu"},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Kies am Ufer und im Rinnsal", "palette": "steinchen", "anzahl": 600, "verteilung": {"typ": "ufer", "bei": "quelle", "r_m": 11, "band_m": [-0.3, 3.0]}, "versuche": 30, "abstand_m": 0.25, "rolle": "stein", "im_wasser": "egal"},
+    {"name": "feuchtring", "ebene": "bewuchs", "warum": "Feuchtring: Rohrkolben und Binsen nur am Wasser", "palette": "feucht", "verteilung": {"typ": "ufer", "bei": "quelle", "r_m": 10, "band_m": [-0.3, 2.0]}, "versuche": 30, "anzahl": 70, "abstand_m": 0.6, "rolle": "pflanze", "im_wasser": "egal"},
+    {"name": "farn_wand", "ebene": "bewuchs", "warum": "Farn an der feuchten Quellwand", "netz": "SM_Fern_02a", "verteilung": {"typ": "um_gruppe", "gruppe": "quellwand", "ring": [0.8, 1.2], "je": [5, 8]}, "rolle": "pflanze"},
+    {"name": "searsia_aussen", "ebene": "bewuchs", "warum": "aussen Searsia, wo das Grundwasser tiefer liegt", "palette": "searsia", "anzahl": 8, "verteilung": {"typ": "ring", "bei": "quelle", "r_m": [14, 30]}, "abstand_m": 4, "rolle": "pflanze"},
+    {"name": "moos_ufer", "ebene": "kontakt", "warum": "Nassband am Ufer und an den Bloecken", "palette": ["SM_MossClump_01", "SM_MossClump_03"], "verteilung": {"typ": "ufer", "bei": "quelle", "r_m": 9, "band_m": [-0.1, 0.8]}, "versuche": 40, "anzahl": 80, "abstand_m": 0.3, "rolle": "streu", "im_wasser": "egal"},
+    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sandsaum um Quellwand und Bloecke", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["quellwand", "quellbloecke"], "ring": [0.9, 1.3], "je": [8, 14]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Schlamm", "form": "ufer", "bei": "quelle", "r_m": 40, "band_m": [0.0, 1.5], "wert": 180},
+    {"lage": "Gras", "form": "ufer", "bei": "quelle", "r_m": 40, "band_m": [1.0, 6.0], "wert": 170},
+    {"lage": "Sand", "form": "ring", "bei": "quelle", "r_m": [12, 40], "wert": 200, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "verdeckung": {"kern": "quelle", "probe_r_m": 8, "ziel_hoehe_m": 3},
+   "effekte": [
+    {"typ": "niagara", "asset": "NS_Stream_Small", "optional": false, "zweck": "Rinnsal am Auslass (Nature Water FX)", "bei": "quelltopf_auslass", "hoehe_m": 0.05, "yaw": "quelltopf_auslass"},
+    {"typ": "decal", "material": "MI_Deca_Wet", "zweck": "Nassband am Ufer (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "ufer", "bei": "quelle", "r_m": 20, "band_m": [0.0, 2.0]}, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Decal_Sand_Wet", "zweck": "feuchter Sand, wo das Rinnsal versickert", "bei": {"von": "quelle", "richtung": "quelltopf_auslass", "abstand_m": 30}, "groesse_m": [1.0, 6.0, 6.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Water_Stream_I_Cue", "bei": "quelle", "radius_m": 60, "lautstaerke": 0.5, "zweck": "man hoert das Wasser, bevor man es sieht"}
+   ]
+  },
+
+  "wueste_05_salzpfanne": {
+   "kurz": "Hinter einem niedrigen Duenenriegel liegt eine gleissend weisse Kruste mit Wabenmuster, 120 m breit; in der Mitte eine milchige Restsole, am Rand Treibholz und salzverkrustete Steine.",
+   "marker": {"titel": "Die Salzpfanne", "text": "Hier verdunstet das Meer, das es bis hinter die Duenen geschafft hat. Was bleibt, ist weiss und knirscht, und nichts waechst, was nicht Salz vertraegt.", "entdeckung_m": 40},
+   "budget": {"instanzen": 2000, "kollision": 150, "akteure": 4, "lichter": 0, "niagara": 0, "decals": 10},
+   "assets_wunsch": [],
+   "anker": {
+    "pfanne": [0, 0],
+    "sole": [10, 8],
+    "riegel": [-60, -40],
+    "blick": {"pos_m": [-120.0, -380.0]}
+   },
+   "gelaende": {"fenster_m": [200, 200], "rand_m": 16, "senke_begruendung": "Sabkha: abflusslose Kuestensalzpfanne (Meerwasser und Abfluss verdunsten) - per Definition geschlossen; Restsole im Kern",
+    "ops": [
+     {"op": "mulde", "bei": "pfanne", "radius_m": 50, "tiefe_m": 1.0, "rand_m": 14, "boden": 0.7, "warum": "Pfanne -1 m, flach"},
+     {"op": "glaetten", "bei": "pfanne", "radius_m": 55, "staerke": 0.8, "sigma_m": 5, "warum": "Pfannenboden spiegelglatt"},
+     {"op": "kuppe", "bei": "riegel", "radius_m": 34, "hoehe_m": 6, "plateau": 0.2, "streckung": [1.6, 1.0], "richtung": 40, "rand_m": 14, "warum": "Duenenriegel +6 m auf der Wegseite (NW): verdeckt die Pfanne"}
+    ]
+   },
+   "wasser": [
+    {"typ": "see", "id": "restsole", "bei": "sole", "r_m": 16, "spiegel": "boden+0.05", "tiefe_m": 0.2, "farbe": "salzweiss", "becken": {"ufer_m": 6, "freibord_m": 0.05, "boden": 0.8, "auslass": null}}
+   ],
+   "gruppen": [
+    {"name": "salzsteine", "ebene": "held", "warum": "Blickfang: salzverkrustete Bloecke am Rand der Restsole (Salz kristallisiert, wo es verdunstet); der eigentliche Held ist die Kruste (Lage + Decals)", "palette": ["SM_namaqualand_boulder_02_NN", "SM_namaqualand_boulder_03_NN"], "anzahl": 3, "verteilung": {"typ": "ring", "bei": "pfanne", "r_m": [40, 56]}, "groesse_m": [2.0, 3.0], "eingraben": [0.35, 0.45], "abstand_m": 10, "akteur": true, "kollision": true, "material": "MI_EL_SW_Salzkruste"},
+    {"name": "treibholz", "ebene": "begleiter", "warum": "Treibholz der letzten Sturmflut am Rand, salzweiss", "netz": "SM_beach_driftwood_01", "anzahl": 7, "verteilung": {"typ": "ring", "bei": "pfanne", "r_m": [38, 58]}, "skala": [0.9, 1.4], "rolle": "stamm", "abstand_m": 6, "material": "MI_EL_SW_Salzkruste"},
+    {"name": "randsteine", "ebene": "schutt", "warum": "Steine am Rand (vom Riegel heruntergewaschen)", "palette": ["SM_namaqualand_rocks_01_b_NN", "SM_namaqualand_boulder_05_NN", "SM_stones_01_3"], "anzahl": 40, "verteilung": {"typ": "ring", "bei": "pfanne", "r_m": [42, 62]}, "groesse_m": [0.3, 0.9], "abstand_m": 2.5, "material": "MI_EL_SW_Salzkruste"},
+    {"name": "salzkoerner", "ebene": "kleinzeug", "warum": "Salzbrocken und Kiesel am Saum (kein Kern-Bewuchs)", "palette": "steinchen", "anzahl": 700, "verteilung": {"typ": "ring", "bei": "pfanne", "r_m": [36, 60]}, "abstand_m": 0.5, "rolle": "stein"},
+    {"name": "salzpflanzen", "ebene": "bewuchs", "warum": "Salzpflanzen NUR am Rand (im Kern nichts)", "palette": ["SM_crystalline_iceplant_a_NN", "SM_crystalline_iceplant_c_NN", "SM_leipoldtia_schultzei_small_NN"], "verteilung": {"typ": "cluster", "form": "ring", "bei": "pfanne", "r_m": [46, 66], "zentren": [9, 12], "je": [5, 10], "radius_m": 2.5}, "abstand_m": 0.35, "rolle": "pflanze"},
+    {"name": "riegelgras", "ebene": "bewuchs", "warum": "Trockengras auf dem Duenenriegel", "palette": "trockengras", "anzahl": 60, "verteilung": {"typ": "kreis", "bei": "riegel", "r_m": 40}, "abstand_m": 3, "rolle": "pflanze"},
+    {"name": "salzsaum", "ebene": "kontakt", "warum": "Salz kriecht an Holz und Steinen hoch (Kontaktzone)", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["salzsteine", "treibholz"], "ring": [0.9, 1.4], "je": [10, 16]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Lehm", "form": "kreis", "bei": "pfanne", "r_m": 52, "wert": 230, "rand_m": 8, "flecken": 0.2},
+    {"lage": "Sand", "form": "kreis", "bei": "riegel", "r_m": 50, "wert": 230, "flecken": 0.3},
+    {"lage": "Kies", "form": "ring", "bei": "pfanne", "r_m": [48, 64], "wert": 160, "flecken": 0.5}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "verdeckung": {"kern": "pfanne", "probe_r_m": 20, "ziel_hoehe_m": 1},
+   "effekte": [
+    {"typ": "decal", "material": "MI_EL_SW_Salz_Decal", "optional": true, "textur": "antworten/sehens/wueste/decal_salzkruste.png", "textur_normal": "antworten/sehens/wueste/decal_salzkruste_n.png", "zweck": "Salzpolygone (Wabenmuster) auf der Kruste - eigene prozedurale Decal-Textur", "hinweis": "Materialwunsch MI_EL_SW_Salz_Decal (M_MS_Decal, Helligkeit 0,8) mit decal_salzkruste.png anlegen; optional bis dahin", "anzahl": 9, "verteilung": {"typ": "kreis", "bei": "pfanne", "r_m": 40}, "abstand_m": 14, "groesse_m": [1.0, 18.0, 18.0]},
+    {"typ": "decal", "material": "MI_Deca_Wet_Flat", "zweck": "feuchter Rand der Restsole (Coast & Dunes)", "bei": "sole", "groesse_m": [1.0, 34.0, 34.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "pfanne", "radius_m": 70, "lautstaerke": 0.35, "zweck": "Wind ueber der Pfanne (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "wueste_06_windkanterfeld": {
+   "kurz": "Auf einer windoffenen Verflachung des Rippenkamms liegt ein dunkles Steinpflaster; jeder Stein ist dreikantig geschliffen und glaenzt vom Wuestenlack. In der Mitte ein mannshoher Dreikanter.",
+   "marker": {"titel": "Das Windkanter-Feld", "text": "Tausend Steine, alle in dieselbe Richtung geschliffen. Der Wind hat hier Jahrhunderte lang dasselbe Wort gesagt.", "entdeckung_m": 25},
+   "budget": {"instanzen": 9000, "kollision": 200, "akteure": 4, "lichter": 0, "niagara": 0, "decals": 2},
+   "assets_wunsch": [
+    {"paket": "Wadi Rum Sandstone Rock 01–04", "statt_jetzt": "SM_SandstoneBoulder_05 mit MI_EL_SW_Wuestenlack als Dreikanter"}
+   ],
+   "anker": {
+    "kanter": [0, 0],
+    "blick": {"pos_m": [-458.0, -939.0]}
+   },
+   "gelaende": {"fenster_m": [100, 100], "ops": []},
+   "gruppen": [
+    {"name": "dreikanter", "ebene": "held", "warum": "der grosse Dreikanter: drei Schliffflaechen, die laengste Kante quer zum Wind (NW)", "netz": "SM_SandstoneBoulder_05", "verteilung": {"typ": "punkt", "bei": "kanter"}, "skala": 0.75, "yaw": 45, "eingraben": [0.3, 0.35], "akteur": true, "kollision": true, "material": "MI_EL_SW_Wuestenlack", "meide": null},
+    {"name": "begleiter", "ebene": "begleiter", "warum": "kleinere Kanter, gleich eingeregelt (lange Achse NW-SO)", "palette": ["SM_namaqualand_boulder_03_NN", "SM_namaqualand_boulder_04_NN", "SM_SandstoneBoulder_04", "venpeg2_tier_0"], "anzahl": 7, "verteilung": {"typ": "ring", "bei": "kanter", "r_m": [6, 30]}, "groesse_m": [1.4, 2.4], "yaw": 135, "yaw_streuung_grad": 12, "eingraben": [0.3, 0.4], "abstand_m": 6, "material": "MI_EL_SW_Wuestenlack"},
+    {"name": "kanter_mittel", "ebene": "schutt", "warum": "Windkanter mittlerer Groesse im Pflaster", "palette": ["SM_namaqualand_boulder_05_NN", "SM_namaqualand_boulder_06_NN", "SM_RockSandstone_021"], "anzahl": 200, "verteilung": {"typ": "kreis", "bei": "kanter", "r_m": 42}, "groesse_m": [0.4, 1.0], "yaw": 135, "yaw_streuung_grad": 18, "abstand_m": 1.2, "material": "MI_EL_SW_Wuestenlack"},
+    {"name": "pflaster", "ebene": "kleinzeug", "warum": "dichtes Steinpflaster (Serir), eingeregelt NW-SO", "palette": ["SM_namaqualand_rocks_01_a_NN", "SM_namaqualand_rocks_01_c_NN", "SM_namaqualand_stones_01_d_NN", "SM_namaqualand_rocks_01_b_NN"], "anzahl": 7000, "verteilung": {"typ": "kreis", "bei": "kanter", "r_m": 46}, "abstand_m": 0.32, "yaw": 135, "yaw_streuung_grad": 22, "rolle": "stein"},
+    {"name": "pflaster_rand", "ebene": "kleinzeug", "warum": "Pflaster duennt zum Rand aus", "palette": "steinchen", "anzahl": 900, "verteilung": {"typ": "ring", "bei": "kanter", "r_m": [44, 58]}, "abstand_m": 0.5, "rolle": "stein"},
+    {"name": "leipoldtia", "ebene": "bewuchs", "warum": "vereinzelte Leipoldtia-Polster in Feinsandmulden", "palette": ["SM_leipoldtia_schultzei_large_NN", "SM_leipoldtia_schultzei_small_NN"], "verteilung": {"typ": "cluster", "form": "kreis", "bei": "kanter", "r_m": 45, "zentren": [5, 7], "je": [1, 3], "radius_m": 1.5}, "abstand_m": 0.6, "rolle": "pflanze"},
+    {"name": "sandluv", "ebene": "kontakt", "warum": "Feinsand im Lee der grossen Kanter", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["dreikanter", "begleiter"], "ring": [0.9, 1.5], "je": [12, 20], "seite": 135, "seite_staerke": 0.8}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Kies", "form": "kreis", "bei": "kanter", "r_m": 46, "wert": 235, "flecken": 0.25},
+    {"lage": "Geroell", "form": "kreis", "bei": "kanter", "r_m": 52, "wert": 200, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "verdeckung": {"kern": "kanter", "probe_r_m": 15, "ziel_hoehe_m": 1},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Decal_Rocks_Big", "zweck": "dichtes Pflaster als Decal unter den Instanzen (Coast & Dunes)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "kanter", "r_m": 25}, "abstand_m": 15, "groesse_m": [1.0, 12.0, 12.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "kanter", "radius_m": 60, "lautstaerke": 0.55, "zweck": "voller Wind auf dem Kamm (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "wueste_07_trockenes_wadi": {
+   "kurz": "Eine enge Flutrinne mit rundgeschliffenem Geroell; an den Prallhaengen Treibholz in Verhauen 2 m ueber der Sohle, zwei Schirm-Akazien und ein 4 m hoher Trockenfall mit poliertem Fels.",
+   "marker": {"titel": "Das Trockene Wadi", "text": "Das Holz haengt hoch in den Felsen, als haette jemand es dort verstaut. Wer es sieht, weiss, wie schnell hier aus Staub ein Fluss werden kann.", "entdeckung_m": 30},
+   "budget": {"instanzen": 4000, "kollision": 400, "akteure": 10, "lichter": 0, "niagara": 0, "decals": 6},
+   "assets_wunsch": [],
+   "anker": {
+    "blick": {"pos_m": [192.0, -1131.0]}
+   },
+   "linien": {
+    "sohle": {"punkte": [[0, 64], [2, 48], [3, 40], [8, 30], [10, 20], [8, 10], [2, 3], [-3, -9]]}
+   },
+   "anker_danach": {
+    "fall": {"auf_linie": "sohle", "s_m": 55},
+    "fall_oben": {"auf_linie": "sohle", "s_m": 53},
+    "fall_unten": {"auf_linie": "sohle", "s_m": 60},
+    "prall1": {"auf_linie": "sohle", "s_m": 30, "seite_m": 6},
+    "prall2": {"auf_linie": "sohle", "s_m": 44, "seite_m": -6},
+    "akazie1": {"auf_linie": "sohle", "s_m": 22, "seite_m": 2.0},
+    "akazie2": {"auf_linie": "sohle", "s_m": 38, "seite_m": -2.0}
+   },
+   "gelaende": {"fenster_m": [120, 130], "rand_m": 12, "bei": [4, 24], "senke_begruendung": "bestehende Hohlform im Wadigrund (Kolk unter dem Trockenfall, im 2-m-Bestand schon geschlossen; Wadi fuehrt nur bei Starkregen Wasser) - im 1-m-Lauf pruefen",
+    "ops": [
+     {"op": "kuppe", "bei": "fall_oben", "radius_m": 5, "hoehe_m": 2.0, "plateau": 0.5, "streckung": [1.0, 2.2], "richtung": "sohle", "rand_m": 3, "modus": "max", "warum": "Fallkante: harte Bank steht 2 m ueber die Sohle (Trockenfall ~4 m mit dem natuerlichen Gefaelle)"}
+    ]
+   },
+   "gruppen": [
+    {"name": "akazien", "ebene": "held", "warum": "Schirm-Akazien NUR in der Sohle (Grundwasser unter dem Geroell)", "palette": ["SM_searsia_burchellii_large_NN", "SM_dry_oak_01_D"], "verteilung": {"typ": "punkte", "punkte": ["akazie1", "akazie2"]}, "skala": [1.3, 1.45], "skala_xyz": [1.15, 1.15, 0.85], "rolle": "baum", "akteur": true, "kollision": true, "weg_abstand_m": 0},
+    {"name": "fallfels", "ebene": "begleiter", "warum": "polierter Fels des Trockenfalls (Desert Western Ledge Rock Large)", "netz": "vbvqbbofa_tier_0", "verteilung": {"typ": "punkt", "bei": "fall_oben"}, "skala": 0.55, "yaw": {"basis": "sohle", "plus": 90}, "front_achse": "+y", "eingraben": [0.35, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "prallhang", "ebene": "begleiter", "warum": "Prallhaenge: Fels freigespuelt an der Aussenseite der Kurven", "palette": ["vceldhvfa_tier_0", "umsocbyfa_tier_0"], "verteilung": {"typ": "punkte", "punkte": ["prall1", "prall2"]}, "skala": [0.7, 0.85], "yaw": "zufall", "eingraben": [0.4, 0.45], "akteur": true, "kollision": true, "meide": null},
+    {"name": "busch_sohle", "ebene": "begleiter", "warum": "Searsia-Gebuesch in der Sohle", "palette": ["SM_searsia_burchellii_medium_NN", "SM_searsia_burchellii_small_NN"], "anzahl": 5, "verteilung": {"typ": "band", "punkte": "sohle", "breite_m": 6, "t": [0.3, 1.0]}, "abstand_m": 5, "rolle": "pflanze"},
+    {"name": "flutgeroell", "ebene": "schutt", "warum": "Flutgeroell sortiert: grob oben, fein unten", "palette": "flutgeroell", "anzahl": 150, "verteilung": {"typ": "band", "punkte": "sohle", "breite_m": 7}, "groesse_m": [0.4, 1.2], "gradient": {"von": 1.5, "bis": 0.6}, "abstand_m": 0.9, "weg_abstand_m": 0},
+    {"name": "verhau", "ebene": "schutt", "warum": "Treibholz-Verhaue 2 m ueber der Sohle an den Prallhaengen (Spur der letzten Flut)", "palette": ["SM_beach_driftwood_01", "SM_dead_log_01", "SM_dead_log_04"], "verteilung": {"typ": "um_gruppe", "gruppe": "prallhang", "ring": [0.8, 1.1], "je": [5, 8]}, "skala": [0.8, 1.2], "rolle": "stamm", "z_bezug": "boden+1.8", "meide": null},
+    {"name": "kiesel", "ebene": "kleinzeug", "warum": "Feinkies in der Sohle", "palette": "kies", "anzahl": 900, "verteilung": {"typ": "band", "punkte": "sohle", "breite_m": 8}, "abstand_m": 0.3, "rolle": "stein", "weg_abstand_m": 0},
+    {"name": "astwerk", "ebene": "kleinzeug", "warum": "Rinde und Aeste im Flutsaum", "palette": "astwerk", "anzahl": 160, "verteilung": {"typ": "band", "punkte": "sohle", "breite_m": 10}, "abstand_m": 0.6, "rolle": "streu", "weg_abstand_m": 0},
+    {"name": "dorn_rand", "ebene": "bewuchs", "warum": "Dornbusch (Didelta/Othonna) an den Raendern, wo es trockener ist", "palette": "dorn", "anzahl": 26, "verteilung": {"typ": "band", "punkte": "sohle", "breite_m": 24}, "abstand_m": 2.5, "rolle": "pflanze", "hang_grad": [5, 40]},
+    {"name": "trockengras", "ebene": "bewuchs", "warum": "Trockengras auf den Terrassen", "palette": "trockengras", "anzahl": 40, "verteilung": {"typ": "band", "punkte": "sohle", "breite_m": 30}, "abstand_m": 2.5, "rolle": "pflanze"},
+    {"name": "sandsaum", "ebene": "kontakt", "warum": "Sand und Kies an Fels und Stamm (Kontaktzone)", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["fallfels", "prallhang", "akazien"], "ring": [0.9, 1.3], "je": [12, 20]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Geroell", "form": "band", "punkte": "sohle", "breite_m": 7, "wert": 220, "flecken": 0.3},
+    {"lage": "Kies", "form": "band", "punkte": "sohle", "breite_m": 11, "wert": 180, "flecken": 0.4},
+    {"lage": "Sand", "form": "band", "punkte": "sohle", "breite_m": 20, "wert": 150, "flecken": 0.5}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "verdeckung": {"kern": "fall_unten", "probe_r_m": 8, "ziel_hoehe_m": 3},
+   "effekte": [
+    {"typ": "decal", "material": "MI_TileableLeakage_02", "zweck": "polierter Fels / Spuelsaum am Trockenfall", "bei": "fall_oben", "hoehe_m": 1.5, "ausrichtung": "wand", "blick": "sohle", "groesse_m": [1.5, 4.0, 4.0]},
+    {"typ": "decal", "material": "MI_Leakage_02", "zweck": "Flutmarke an den Prallhaengen (2 m)", "anzahl": 2, "verteilung": {"typ": "kreis", "bei": "prall1", "r_m": 5}, "hoehe_m": 2.0, "ausrichtung": "wand", "blick": "zu:fall", "groesse_m": [1.0, 3.0, 2.0]},
+    {"typ": "decal", "material": "MI_Decal_Clay_02", "zweck": "getrockneter Schlamm in Kolken der Sohle (Coast & Dunes)", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "sohle", "breite_m": 4}, "abstand_m": 10, "groesse_m": [1.0, 4.0, 4.0]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "fall", "radius_m": 50, "lautstaerke": 0.35, "zweck": "Wind im Wadi (Laubanteil im Editor pruefen)"}
+   ]
+  },
+
+  "wueste_08_wabenwand": {
+   "kurz": "Die Nordwand einer Kuestenrippe ist von Waben durchloechert - Hunderte Hoehlungen bis zu einer 6-m-Nische, dazwischen blauschwarz glaenzende Streifen von Wuestenlack; in der Nische ein Koecherbaum.",
+   "marker": {"titel": "Die Wabenwand", "text": "Das Salz der Gischt frisst den Stein Korn um Korn, bis die Wand aussieht wie ein verlassener Bienenstock. In der groessten Wabe hat ein Koecherbaum Schutz gefunden.", "entdeckung_m": 25},
+   "budget": {"instanzen": 2000, "kollision": 200, "akteure": 8, "lichter": 0, "niagara": 0, "decals": 12},
+   "assets_wunsch": [
+    {"paket": "Hollowstone Canyon (Porous Rocks Desert)", "statt_jetzt": "Desert Western Cliff Layered + Red Sandstone Cliff, Waben nur ueber Decals (Leakage/Clay) - echte Waben erst mit Hollowstone"}
+   ],
+   "anker": {
+    "nische": [0, -6],
+    "w_west": [-24, -18],
+    "w_ost": [24, -16],
+    "blick": {"pos_m": [-172.0, -1338.0]}
+   },
+   "linien": {
+    "wand": {"punkte": [[-34, -20], [-14, -10], [0, -8], [14, -10], [32, -18]]}
+   },
+   "gelaende": {"fenster_m": [90, 80], "ops": []},
+   "gruppen": [
+    {"name": "wand", "ebene": "held", "warum": "Nordwand der Rippe (Desert Western Cliff Layered): Salzgischt + Tau hoehlen sie aus", "palette": ["venuafk_tier_0", "vjqhcapga_tier_0"], "verteilung": {"typ": "reihe", "punkte": "wand", "abstand_m": 15, "versatz_m": 1.0, "versatz_streuung_m": 0.6, "seiten": ["rechts"], "blick": "zur_linie", "front_an_linie": true}, "groesse_m": [14, 18], "groesse_achse": "max", "skala_xyz": [1.0, 0.6, 1.0], "front_achse": "+y", "eingraben": [0.35, 0.4], "akteur": true, "kollision": true, "meide": null},
+    {"name": "nischenwand", "ebene": "held", "warum": "Rueckwand der grossen Nische (zurueckversetzt, dunkel)", "netz": "sfEby_tier_0", "verteilung": {"typ": "punkt", "bei": {"anker": "nische", "versatz_m": [0, 4]}}, "skala": 1.0, "yaw": 0, "ausrichtung": "hochkant", "hochkant_achse": "y", "eingraben": [0.15, 0.2], "akteur": true, "kollision": true, "meide": null, "hinweis": "Red Sandstone Cliff hochkant als Nischenrueckwand; Ausrichtung im Editorbild pruefen"},
+    {"name": "begleiter", "ebene": "begleiter", "warum": "abgeloeste Bloecke mit Wuestenlack am Wandfuss", "palette": ["SM_RockSandstone_040", "SM_SandstoneBoulder_05"], "anzahl": 3, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 8, "versatz_m": 6}, "groesse_m": [2.5, 4.0], "eingraben": [0.3, 0.4], "abstand_m": 8, "material": "MI_EL_SW_Wuestenlack"},
+    {"name": "wandschutt", "ebene": "schutt", "warum": "abgegruster Sandstein unter den Waben", "palette": ["SM_SandstoneBoulder_03", "SM_RockSandstone_021", "uk4pehu_tier_0", "vmjjfhh_tier_0"], "anzahl": 60, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 10, "versatz_m": 5}, "groesse_m": [0.3, 1.0], "abstand_m": 1.0},
+    {"name": "grus", "ebene": "kleinzeug", "warum": "Sandsteingrus, der aus den Waben rieselt", "palette": "steinchen", "anzahl": 700, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 12, "versatz_m": 4}, "abstand_m": 0.25, "rolle": "stein"},
+    {"name": "koecherbaum", "ebene": "bewuchs", "warum": "Koecherbaum im Schatten der grossen Nische", "netz": "SM_quiver_tree_01_NN", "verteilung": {"typ": "punkt", "bei": "nische"}, "skala": 1.5, "rolle": "baum", "akteur": true},
+    {"name": "polster", "ebene": "bewuchs", "warum": "Stonecrop/Eispflanze in den Hoehlungen am Fuss", "palette": ["SM_stonecrop_01", "SM_crystalline_iceplant_a_NN", "SM_crystalline_iceplant_c_NN"], "verteilung": {"typ": "um_gruppe", "gruppe": "wand", "ring": [0.85, 1.1], "je": [6, 10], "seite": "nord", "seite_staerke": 0.8}, "rolle": "pflanze", "meide": null},
+    {"name": "salzsaum", "ebene": "kontakt", "warum": "Sand- und Salzsaum am Wandfuss", "palette": "steinchen", "verteilung": {"typ": "um_gruppe", "gruppe": ["wand", "begleiter"], "ring": [0.9, 1.2], "je": [15, 25]}, "rolle": "stein"}
+   ],
+   "lagen": [
+    {"lage": "Sandstein", "form": "hang", "bei": "nische", "r_m": 40, "hang_grad": [35, 90], "wert": 220},
+    {"lage": "Sand", "form": "band", "punkte": "wand", "breite_m": 10, "wert": 190, "flecken": 0.4}
+   ],
+   "pfad": {"breite_cm": 120, "lagen": {"Sand": 190, "Kies": 140}, "fenster_max_m": 390, "trittsteine": {"palette": "trittstein", "groesse_m": [0.7, 1.0], "stufen_ab_grad": 20, "stufen_palette": "felsstufe", "stufen_groesse_m": [0.9, 1.3], "stufen_abstand_m": 2.6}},
+   "verdeckung": {"kern": "nische", "probe_r_m": 8, "ziel_hoehe_m": 3},
+   "effekte": [
+    {"typ": "decal", "material": "MI_Leakage_04", "zweck": "blauschwarzer Wuestenlack in Streifen", "anzahl": 4, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 3, "versatz_m": 1}, "abstand_m": 6, "hoehe_m": 5, "ausrichtung": "wand", "blick": 0, "groesse_m": [1.5, 2.5, 9.0]},
+    {"typ": "decal", "material": "MI_Leakage_06", "zweck": "Lackschleier ueber der Nische", "bei": "nische", "hoehe_m": 7, "ausrichtung": "wand", "blick": 0, "groesse_m": [1.5, 6.0, 4.0]},
+    {"typ": "decal", "material": "MI_Decal_Clay_01", "zweck": "Waben-Ersatz: dunkle Hoehlungsflecken (bis Hollowstone)", "anzahl": 4, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 3, "versatz_m": 1}, "abstand_m": 5, "hoehe_m": 3, "ausrichtung": "wand", "blick": 0, "groesse_m": [1.0, 3.0, 3.0]},
+    {"typ": "decal", "material": "MI_Decal_Clay_03", "zweck": "kleine Waben am Fuss", "anzahl": 3, "verteilung": {"typ": "band", "punkte": "wand", "breite_m": 3, "versatz_m": 1}, "abstand_m": 5, "hoehe_m": 1.2, "ausrichtung": "wand", "blick": 0, "groesse_m": [1.0, 2.0, 1.5]}
+   ],
+   "klaenge": [
+    {"asset": "CUE_Wind_Autumn_wind_with_leaves_rustling_Cue", "bei": "nische", "radius_m": 40, "lautstaerke": 0.4, "zweck": "Wind pfeift in den Waben (Laubanteil im Editor pruefen)"}
+   ]
+  }
+ }
+}

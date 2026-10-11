@@ -3080,7 +3080,8 @@
       0.9,
       1.3
      ]
-    }
+    },
+    "vor_wasser_m": 2.5
    },
    "effekte": [
     {
@@ -4107,7 +4108,8 @@
       "ufer_m": 2.5,
       "freibord_m": 0.4,
       "boden": 0.3,
-      "lippe_m": 1.2
+      "lippe_m": 1.2,
+      "auslass": 355
      }
     },
     {
@@ -4122,7 +4124,8 @@
       "ufer_m": 2.0,
       "freibord_m": 0.4,
       "boden": 0.3,
-      "lippe_m": 1.0
+      "lippe_m": 1.0,
+      "auslass": 355
      }
     },
     {
@@ -4137,7 +4140,8 @@
       "ufer_m": 2.0,
       "freibord_m": 0.4,
       "boden": 0.3,
-      "lippe_m": 1.0
+      "lippe_m": 1.0,
+      "auslass": 355
      }
     },
     {
