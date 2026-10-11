@@ -1,0 +1,122 @@
+{
+ "B_K8_ELFENFALL_01": [],
+ "B_R2_R_M1_M1_02": [],
+ "B_R2_R_P0_M2_01": [],
+ "B_R_M2_P1_02": [],
+ "B_R_M3_P1_01": [],
+ "B_R_P0_M2_01": [],
+ "B_R_P0_M2_02": [],
+ "B_R_P0_M2_03": [],
+ "B_R_P0_M2_04": [],
+ "B_R_P1_M2_01": [
+  {
+   "netz": "B_R_P1_M2_01_KN0",
+   "k": 212,
+   "art": "ufer",
+   "seite": "links",
+   "x_m": -543.7,
+   "y_m": -2091.7,
+   "spiegel_m": 29.98,
+   "ufer_neu_m": 29.78,
+   "ufer_alt_m": 30.84,
+   "fehlt_m": 0.3,
+   "breite_m": 4.8,
+   "stempel_senkt_ufer_m": 1.07
+  },
+  {
+   "netz": "B_R_P1_M2_01_KN0",
+   "k": 213,
+   "art": "ufer",
+   "seite": "links",
+   "x_m": -543.7,
+   "y_m": -2090.3,
+   "spiegel_m": 29.95,
+   "ufer_neu_m": 29.66,
+   "ufer_alt_m": 30.84,
+   "fehlt_m": 0.4,
+   "breite_m": 4.8,
+   "stempel_senkt_ufer_m": 1.18
+  }
+ ],
+ "B_R_P1_M2_03": [],
+ "B_R_P3_M2_01": [
+  {
+   "netz": "B_R_P3_M2_01_KN1",
+   "k": 127,
+   "art": "ufer",
+   "seite": "rechts",
+   "x_m": 1785.2,
+   "y_m": -1713.6,
+   "spiegel_m": 18.11,
+   "ufer_neu_m": 17.87,
+   "ufer_alt_m": 19.12,
+   "fehlt_m": 0.34,
+   "breite_m": 5.3,
+   "stempel_senkt_ufer_m": 1.25
+  },
+  {
+   "netz": "B_R_P3_M2_01_KN1",
+   "k": 128,
+   "art": "ufer",
+   "seite": "rechts",
+   "x_m": 1784.1,
+   "y_m": -1714.5,
+   "spiegel_m": 18.09,
+   "ufer_neu_m": 17.8,
+   "ufer_alt_m": 19.14,
+   "fehlt_m": 0.39,
+   "breite_m": 5.6,
+   "stempel_senkt_ufer_m": 1.34
+  },
+  {
+   "netz": "B_R_P3_M2_01_KN1",
+   "k": 129,
+   "art": "ufer",
+   "seite": "rechts",
+   "x_m": 1783.1,
+   "y_m": -1715.5,
+   "spiegel_m": 18.06,
+   "ufer_neu_m": 18.15,
+   "ufer_alt_m": 19.01,
+   "fehlt_m": 0.01,
+   "breite_m": 5.9,
+   "stempel_senkt_ufer_m": 0.87
+  }
+ ],
+ "B_R_P4_M1_03": [],
+ "B_R_P4_M2_04": [],
+ "B_R_P5_P1_03": [],
+ "B_R_P5_P1_05": [],
+ "F_ELFENFLUSS_3_H4": [],
+ "F_ERLENBACH_1V_C2": [],
+ "F_ERLENBACH_2V_D3": [
+  {
+   "netz": "F_ERLENBACH_2V_D3_KN0",
+   "k": 32,
+   "art": "ufer",
+   "seite": "links",
+   "x_m": -1636.8,
+   "y_m": -1784.5,
+   "spiegel_m": 23.53,
+   "ufer_neu_m": 23.24,
+   "ufer_alt_m": 22.24,
+   "fehlt_m": 0.4,
+   "breite_m": 32.9,
+   "stempel_senkt_ufer_m": -1.0
+  },
+  {
+   "netz": "F_ERLENBACH_2V_D3_KN0",
+   "k": 33,
+   "art": "ufer",
+   "seite": "links",
+   "x_m": -1636.7,
+   "y_m": -1783.0,
+   "spiegel_m": 23.5,
+   "ufer_neu_m": 23.02,
+   "ufer_alt_m": 22.02,
+   "fehlt_m": 0.58,
+   "breite_m": 32.6,
+   "stempel_senkt_ufer_m": -1.0
+  }
+ ]
+}
