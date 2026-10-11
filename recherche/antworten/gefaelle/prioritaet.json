@@ -22,20 +22,18 @@
   "physik": "0,55 log(1+Fall)/log(61) + 0,3 min(1, Gefaelle/0,3) + 0,15 min(1, Laenge/300 m)"
  },
  "status_anzahl": {
-  "offen": 150,
-  "teilweise_sehens": 3,
+  "offen": 106,
+  "teilweise_sehens": 2,
   "umgebaut_von_sehens": 6,
-  "gebaut_teilweise": 1,
-  "gebaut_stufen": 1
+  "gebaut_teilweise": 0,
+  "gebaut_stufen": 1,
+  "kaum_planbar": 46
  },
  "pilot": [
   "B_R_P0_M2_03_s1",
   "B_R_P0_M2_02_s1",
-  "B_R2_R_P1_M2_01_s1",
   "F_ERLENBACH_2V_D3_s1",
   "B_R_P1_M2_01_s1",
-  "B_R_P0_M2_03_s2",
-  "B_R3_R_M2_P0_01_s1",
   "B_R_P0_M2_02_s2",
   "B_R_P0_M2_04_s1",
   "B_R_M3_P1_01_s1",
@@ -45,10 +43,13 @@
   "B_R_P1_M2_03_s1",
   "B_K8_ELFENFALL_01_s1",
   "B_R_P5_P1_05_s2",
-  "F_ELFENFLUSS_3_H4_s1",
   "B_R_P4_M1_03_s1",
   "B_R2_R_P0_M2_01_s1",
-  "B_R_P3_M2_01_s1"
+  "B_R_P3_M2_01_s1",
+  "B_R_P5_P1_03_s1",
+  "B_R2_R_M1_M1_02_s2",
+  "B_R_M1_P0_03_s1",
+  "B_R_P4_M1_02_s1"
  ],
  "strecken": [
   {
@@ -98,6 +99,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 314.0,
+   "feste_zonen": [
+    "Sehenswuerdigkeit",
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.942,
     "sehens": 0.94,
@@ -160,6 +166,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 166.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.968,
     "sehens": 0.815,
@@ -236,7 +246,13 @@
     }
    ],
    "gebaut": null,
-   "status": "teilweise_sehens",
+   "status": "kaum_planbar",
+   "planbar_m": 26.5,
+   "feste_zonen": [
+    "Sehenswuerdigkeit",
+    "Umbau Sehens-Planer",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.718,
     "sehens": 1.0,
@@ -244,8 +260,8 @@
     "gesamt": 76.9
    },
    "rang": 3,
-   "pilot": true,
-   "begruendung": "vom Weg/Pfad sichtbar: 84 Wegpunkte (naechster 196 m), 100 % der Strecke; im Bild von 4 Sehens-Kamera(s) (tundra_03_die_eiswand, tundra_04_die_fliesstreppe); 0 m vom Rand von tundra_04_die_fliesstreppe; 19.4 m Fall auf 163 m (Mittel 12 %, max 21 %); beruehrt tundra_04_die_fliesstreppe (38 m) - Abschnitt aussparen"
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 84 Wegpunkte (naechster 196 m), 100 % der Strecke; im Bild von 4 Sehens-Kamera(s) (tundra_03_die_eiswand, tundra_04_die_fliesstreppe); 0 m vom Rand von tundra_04_die_fliesstreppe; 19.4 m Fall auf 163 m (Mittel 12 %, max 21 %); nur 26 m ausserhalb fester Zonen (Sehenswuerdigkeit, Umbau Sehens-Planer, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "F_ERLENBACH_2V_D3_s1",
@@ -289,6 +305,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 82.5,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.947,
     "sehens": 0.641,
@@ -341,6 +362,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 301.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.862,
     "sehens": 0.607,
@@ -402,7 +427,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Sehenswuerdigkeit"
+   ],
    "score": {
     "sicht": 0.776,
     "sehens": 0.994,
@@ -410,8 +439,8 @@
     "gesamt": 74.0
    },
    "rang": 6,
-   "pilot": true,
-   "begruendung": "vom Weg/Pfad sichtbar: 23 Wegpunkte (naechster 122 m), 100 % der Strecke; im Bild von 3 Sehens-Kamera(s) (tundra_08_das_wabenmoor); 2 m vom Rand von tundra_08_das_wabenmoor; 2.5 m Fall auf 10 m (Mittel 26 %, max 26 %)"
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 23 Wegpunkte (naechster 122 m), 100 % der Strecke; im Bild von 3 Sehens-Kamera(s) (tundra_08_das_wabenmoor); 2 m vom Rand von tundra_08_das_wabenmoor; 2.5 m Fall auf 10 m (Mittel 26 %, max 26 %); nur 0 m ausserhalb fester Zonen (Sehenswuerdigkeit) - kein Pilot"
   },
   {
    "id": "B_R3_R_M2_P0_01_s1",
@@ -454,7 +483,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 53.5,
+   "feste_zonen": [
+    "Sehenswuerdigkeit",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.728,
     "sehens": 0.67,
@@ -462,8 +496,8 @@
     "gesamt": 73.0
    },
    "rang": 7,
-   "pilot": true,
-   "begruendung": "vom Weg/Pfad sichtbar: 26 Wegpunkte (naechster 52 m), 25 % der Strecke; im Bild von 1 Sehens-Kamera(s) (bergwald_03_saeulenhain); 0 m vom Rand von bergwald_03_saeulenhain; 38.3 m Fall auf 182 m (Mittel 21 %, max 29 %)"
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 26 Wegpunkte (naechster 52 m), 25 % der Strecke; im Bild von 1 Sehens-Kamera(s) (bergwald_03_saeulenhain); 0 m vom Rand von bergwald_03_saeulenhain; 38.3 m Fall auf 182 m (Mittel 21 %, max 29 %); nur 54 m ausserhalb fester Zonen (Sehenswuerdigkeit, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P0_M2_02_s2",
@@ -512,6 +546,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 57.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.906,
     "sehens": 0.741,
@@ -564,6 +600,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 93.5,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.959,
     "sehens": 0.417,
@@ -610,6 +650,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 220.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.885,
     "sehens": 0.268,
@@ -662,6 +706,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 80.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.902,
     "sehens": 0.444,
@@ -708,6 +756,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 158.5,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.916,
     "sehens": 0.141,
@@ -766,6 +819,13 @@
    ],
    "gebaut": null,
    "status": "teilweise_sehens",
+   "planbar_m": 511.0,
+   "feste_zonen": [
+    "Sehenswuerdigkeit",
+    "Umbau Sehens-Planer",
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.641,
     "sehens": 0.4,
@@ -818,6 +878,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 63.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.913,
     "sehens": 0.449,
@@ -870,6 +934,12 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 324.0,
+   "feste_zonen": [
+    "Ort",
+    "Sehenswuerdigkeit",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.365,
     "sehens": 0.652,
@@ -916,6 +986,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 120.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.916,
     "sehens": 0.042,
@@ -961,7 +1035,14 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 75.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt",
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.879,
     "sehens": 0.101,
@@ -969,8 +1050,8 @@
     "gesamt": 61.3
    },
    "rang": 17,
-   "pilot": true,
-   "begruendung": "vom Weg/Pfad sichtbar: 19 Wegpunkte (naechster 51 m), 100 % der Strecke; 45.0 m Fall auf 418 m (Mittel 11 %, max 17 %)"
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 19 Wegpunkte (naechster 51 m), 100 % der Strecke; 45.0 m Fall auf 418 m (Mittel 11 %, max 17 %); nur 75 m ausserhalb fester Zonen (Ort, Stadt, Weg/Pfad, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P4_M1_03_s1",
@@ -1008,6 +1089,12 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 155.0,
+   "feste_zonen": [
+    "Ort",
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.814,
     "sehens": 0.162,
@@ -1132,6 +1219,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 39.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.843,
     "sehens": 0.444,
@@ -1178,6 +1269,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 316.5,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.861,
     "sehens": 0.073,
@@ -1224,6 +1320,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 136.5,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.967,
     "sehens": 0.041,
@@ -1231,7 +1332,7 @@
     "gesamt": 60.2
    },
    "rang": 22,
-   "pilot": false,
+   "pilot": true,
    "begruendung": "vom Weg/Pfad sichtbar: 26 Wegpunkte (naechster 12 m), 100 % der Strecke; 25.3 m Fall auf 156 m (Mittel 16 %, max 28 %)"
   },
   {
@@ -1270,6 +1371,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 113.5,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.941,
     "sehens": 0.137,
@@ -1277,7 +1382,7 @@
     "gesamt": 60.1
    },
    "rang": 23,
-   "pilot": false,
+   "pilot": true,
    "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 10 m), 100 % der Strecke; 19.1 m Fall auf 134 m (Mittel 14 %, max 18 %)"
   },
   {
@@ -1316,6 +1421,12 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 20.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.893,
     "sehens": 0.251,
@@ -1323,7 +1434,7 @@
     "gesamt": 60.1
    },
    "rang": 24,
-   "pilot": false,
+   "pilot": true,
    "begruendung": "vom Weg/Pfad sichtbar: 27 Wegpunkte (naechster 44 m), 100 % der Strecke; 70 m vom Rand von bergwald_03_saeulenhain; 11.2 m Fall auf 56 m (Mittel 20 %, max 23 %)"
   },
   {
@@ -1362,6 +1473,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 130.5,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.787,
     "sehens": 0.223,
@@ -1369,7 +1485,7 @@
     "gesamt": 59.3
    },
    "rang": 25,
-   "pilot": false,
+   "pilot": true,
    "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 10 m), 68 % der Strecke; 88 m vom Rand von elfenwald_04_elfentreppe; 28.7 m Fall auf 175 m (Mittel 16 %, max 31 %)"
   },
   {
@@ -1408,6 +1524,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 172.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.683,
     "sehens": 0.245,
@@ -1454,6 +1572,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 249.5,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.653,
     "sehens": 0.25,
@@ -1500,6 +1622,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 66.5,
+   "feste_zonen": [
+    "Ort",
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.971,
     "sehens": 0.062,
@@ -1546,6 +1673,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 47.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.768,
     "sehens": 0.21,
@@ -1592,6 +1724,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 241.5,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.891,
     "sehens": 0.053,
@@ -1716,6 +1852,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 51.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.899,
     "sehens": 0.098,
@@ -1761,7 +1901,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.964,
     "sehens": 0.278,
@@ -1770,7 +1915,7 @@
    },
    "rang": 33,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 27 Wegpunkte (naechster 13 m), 100 % der Strecke; 54 m vom Rand von elfenwald_04_elfentreppe; 2.8 m Fall auf 24 m (Mittel 12 %, max 17 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 27 Wegpunkte (naechster 13 m), 100 % der Strecke; 54 m vom Rand von elfenwald_04_elfentreppe; 2.8 m Fall auf 24 m (Mittel 12 %, max 17 %); nur 0 m ausserhalb fester Zonen (Weg/Pfad, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P4_M1_02_s2",
@@ -1808,6 +1953,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 48.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.941,
     "sehens": 0.217,
@@ -1854,6 +2003,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 153.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.897,
     "sehens": 0.059,
@@ -1905,7 +2058,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 3.5,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.968,
     "sehens": 0.311,
@@ -1914,7 +2071,7 @@
    },
    "rang": 36,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 30 Wegpunkte (naechster 12 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (aue_03_schwalbenwand); 1.6 m Fall auf 18 m (Mittel 9 %, max 11 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 30 Wegpunkte (naechster 12 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (aue_03_schwalbenwand); 1.6 m Fall auf 18 m (Mittel 9 %, max 11 %); nur 4 m ausserhalb fester Zonen (Weg/Pfad) - kein Pilot"
   },
   {
    "id": "B_K1_WASSERFALL_WEST_02_s1",
@@ -1952,6 +2109,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 204.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.616,
     "sehens": 0.211,
@@ -1998,6 +2159,12 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 37.5,
+   "feste_zonen": [
+    "Ort",
+    "Stadt",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.857,
     "sehens": 0.2,
@@ -2044,6 +2211,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 110.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.637,
     "sehens": 0.301,
@@ -2090,6 +2261,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 20.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.894,
     "sehens": 0.247,
@@ -2136,6 +2309,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 171.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.828,
     "sehens": 0.05,
@@ -2182,6 +2357,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 38.5,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.816,
     "sehens": 0.039,
@@ -2227,7 +2406,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.672,
     "sehens": 0.307,
@@ -2236,7 +2419,7 @@
    },
    "rang": 43,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 22 m), 100 % der Strecke; 40 m vom Rand von bergwald_04_felsenmeer; 4.5 m Fall auf 15 m (Mittel 30 %, max 30 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 22 m), 100 % der Strecke; 40 m vom Rand von bergwald_04_felsenmeer; 4.5 m Fall auf 15 m (Mittel 30 %, max 30 %); nur 0 m ausserhalb fester Zonen (Weg/Pfad) - kein Pilot"
   },
   {
    "id": "B_R_M1_P0_03_s2",
@@ -2274,6 +2457,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 44.5,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.954,
     "sehens": 0.093,
@@ -2320,6 +2507,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 26.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.892,
     "sehens": 0.021,
@@ -2366,6 +2558,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 19.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.823,
     "sehens": 0.173,
@@ -2412,6 +2606,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 194.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.75,
     "sehens": 0.06,
@@ -2458,6 +2654,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 57.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.903,
     "sehens": 0.094,
@@ -2579,7 +2779,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 10.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.756,
     "sehens": 0.358,
@@ -2588,7 +2790,7 @@
    },
    "rang": 50,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 36 Wegpunkte (naechster 144 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (sumpf_01_der_ertrunkene_wald); 1.7 m Fall auf 10 m (Mittel 16 %, max 16 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 36 Wegpunkte (naechster 144 m), 100 % der Strecke; im Bild von 1 Sehens-Kamera(s) (sumpf_01_der_ertrunkene_wald); 1.7 m Fall auf 10 m (Mittel 16 %, max 16 %); nur 10 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R2_R_P3_M1_02_s1",
@@ -2625,7 +2827,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 1.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.93,
     "sehens": 0.118,
@@ -2634,7 +2840,7 @@
    },
    "rang": 51,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 30 Wegpunkte (naechster 27 m), 100 % der Strecke; 3.4 m Fall auf 39 m (Mittel 9 %, max 12 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 30 Wegpunkte (naechster 27 m), 100 % der Strecke; 3.4 m Fall auf 39 m (Mittel 9 %, max 12 %); nur 1 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R3_R_M2_P0_02_s1",
@@ -2672,6 +2878,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 95.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.741,
     "sehens": 0.089,
@@ -2717,7 +2927,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Ort",
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.918,
     "sehens": 0.151,
@@ -2726,7 +2941,7 @@
    },
    "rang": 53,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 33 Wegpunkte (naechster 32 m), 100 % der Strecke; 146 m vom Rand von tundra_07_die_steinringe; 2.0 m Fall auf 15 m (Mittel 14 %, max 14 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 33 Wegpunkte (naechster 32 m), 100 % der Strecke; 146 m vom Rand von tundra_07_die_steinringe; 2.0 m Fall auf 15 m (Mittel 14 %, max 14 %); nur 0 m ausserhalb fester Zonen (Ort, Weg/Pfad) - kein Pilot"
   },
   {
    "id": "B_R_M2_M2_03_s1",
@@ -2764,6 +2979,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 25.5,
+   "feste_zonen": [
+    "Ort",
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.832,
     "sehens": 0.038,
@@ -2809,7 +3029,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 10.5,
+   "feste_zonen": [
+    "Ort",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.779,
     "sehens": 0.209,
@@ -2818,7 +3043,7 @@
    },
    "rang": 55,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 33 Wegpunkte (naechster 120 m), 100 % der Strecke; 98 m vom Rand von tundra_01_der_pingo; 7.5 m Fall auf 122 m (Mittel 6 %, max 10 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 33 Wegpunkte (naechster 120 m), 100 % der Strecke; 98 m vom Rand von tundra_01_der_pingo; 7.5 m Fall auf 122 m (Mittel 6 %, max 10 %); nur 10 m ausserhalb fester Zonen (Ort, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P2_M1_01_s1",
@@ -2884,6 +3109,11 @@
    ],
    "gebaut": null,
    "status": "teilweise_sehens",
+   "planbar_m": 48.5,
+   "feste_zonen": [
+    "Sehenswuerdigkeit",
+    "Umbau Sehens-Planer"
+   ],
    "score": {
     "sicht": 0.038,
     "sehens": 1.0,
@@ -2930,6 +3160,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 114.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.58,
     "sehens": 0.257,
@@ -2975,7 +3207,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 14.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.815,
     "sehens": 0.063,
@@ -2984,7 +3220,7 @@
    },
    "rang": 58,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 10 Wegpunkte (naechster 13 m), 100 % der Strecke; 5.6 m Fall auf 28 m (Mittel 20 %, max 24 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 10 Wegpunkte (naechster 13 m), 100 % der Strecke; 5.6 m Fall auf 28 m (Mittel 20 %, max 24 %); nur 14 m ausserhalb fester Zonen (Weg/Pfad) - kein Pilot"
   },
   {
    "id": "B_R_P2_M1_02_s1",
@@ -3022,6 +3258,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 77.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.755,
     "sehens": 0.142,
@@ -3067,7 +3305,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.912,
     "sehens": 0.056,
@@ -3076,7 +3319,7 @@
    },
    "rang": 60,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 25 Wegpunkte (naechster 35 m), 100 % der Strecke; 2.4 m Fall auf 16 m (Mittel 15 %, max 17 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 25 Wegpunkte (naechster 35 m), 100 % der Strecke; 2.4 m Fall auf 16 m (Mittel 15 %, max 17 %); nur 0 m ausserhalb fester Zonen (Ort, Stadt) - kein Pilot"
   },
   {
    "id": "F_ELFENFLUSS_3_F4_s1",
@@ -3114,6 +3357,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 122.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.575,
     "sehens": 0.302,
@@ -3160,6 +3407,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 226.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.363,
     "sehens": 0.347,
@@ -3206,6 +3455,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 31.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.696,
     "sehens": 0.026,
@@ -3252,6 +3503,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 72.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.538,
     "sehens": 0.227,
@@ -3298,6 +3551,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 133.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.648,
     "sehens": 0.064,
@@ -3344,6 +3599,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 30.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.709,
     "sehens": 0.021,
@@ -3390,6 +3647,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 69.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.637,
     "sehens": 0.121,
@@ -3436,6 +3697,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 157.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.363,
     "sehens": 0.235,
@@ -3481,7 +3746,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 11.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.843,
     "sehens": 0.027,
@@ -3490,7 +3757,7 @@
    },
    "rang": 69,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 14 m), 100 % der Strecke; 1.9 m Fall auf 10 m (Mittel 19 %, max 20 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 14 m), 100 % der Strecke; 1.9 m Fall auf 10 m (Mittel 19 %, max 20 %); nur 11 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R_P5_P1_02_s1",
@@ -3528,6 +3795,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 30.0,
+   "feste_zonen": [
+    "Weg/Pfad"
+   ],
    "score": {
     "sicht": 0.663,
     "sehens": 0.082,
@@ -3573,7 +3844,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.818,
     "sehens": 0.102,
@@ -3582,7 +3857,7 @@
    },
    "rang": 71,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 17 Wegpunkte (naechster 88 m), 100 % der Strecke; 2.0 m Fall auf 19 m (Mittel 11 %, max 11 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 17 Wegpunkte (naechster 88 m), 100 % der Strecke; 2.0 m Fall auf 19 m (Mittel 11 %, max 11 %); nur 0 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R2_R_P4_M2_01_s1",
@@ -3620,6 +3895,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 476.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.249,
     "sehens": 0.204,
@@ -3665,7 +3942,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 12.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.765,
     "sehens": 0.078,
@@ -3674,7 +3953,7 @@
    },
    "rang": 73,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 20 Wegpunkte (naechster 133 m), 100 % der Strecke; 2.0 m Fall auf 12 m (Mittel 16 %, max 17 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 20 Wegpunkte (naechster 133 m), 100 % der Strecke; 2.0 m Fall auf 12 m (Mittel 16 %, max 17 %); nur 12 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R_P4_M2_01_s1",
@@ -3712,6 +3991,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 124.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.384,
     "sehens": 0.172,
@@ -3758,6 +4039,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 17.5,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.719,
     "sehens": 0.053,
@@ -3804,6 +4090,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 35.0,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.541,
     "sehens": 0.218,
@@ -3849,7 +4140,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 7.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.781,
     "sehens": 0.097,
@@ -3858,7 +4153,7 @@
    },
    "rang": 77,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 19 Wegpunkte (naechster 118 m), 100 % der Strecke; 1.9 m Fall auf 20 m (Mittel 10 %, max 11 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 19 Wegpunkte (naechster 118 m), 100 % der Strecke; 1.9 m Fall auf 20 m (Mittel 10 %, max 11 %); nur 8 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R2_R_M1_M1_04_s1",
@@ -3965,6 +4260,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 57.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.689,
     "sehens": 0.038,
@@ -4010,7 +4307,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.606,
     "sehens": 0.047,
@@ -4019,7 +4321,7 @@
    },
    "rang": 80,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 12 m), 100 % der Strecke; 4.1 m Fall auf 13 m (Mittel 30 %, max 37 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 12 m), 100 % der Strecke; 4.1 m Fall auf 13 m (Mittel 30 %, max 37 %); nur 0 m ausserhalb fester Zonen (Weg/Pfad, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R2_R_M1_P0_02_s1",
@@ -4056,7 +4358,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 9.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.716,
     "sehens": 0.096,
@@ -4065,7 +4369,7 @@
    },
    "rang": 81,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 156 m), 100 % der Strecke; 1.7 m Fall auf 10 m (Mittel 18 %, max 18 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 14 Wegpunkte (naechster 156 m), 100 % der Strecke; 1.7 m Fall auf 10 m (Mittel 18 %, max 18 %); nur 10 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R2_R_P4_M2_01_s2",
@@ -4103,6 +4407,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 25.5,
+   "feste_zonen": [
+    "Weg/Pfad",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.616,
     "sehens": 0.185,
@@ -4149,6 +4458,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 49.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.61,
     "sehens": 0.127,
@@ -4206,6 +4519,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 93.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.017,
     "sehens": 0.831,
@@ -4251,7 +4566,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 13.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.704,
     "sehens": 0.062,
@@ -4260,7 +4579,7 @@
    },
    "rang": 85,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 54 m), 75 % der Strecke; 3.2 m Fall auf 29 m (Mittel 11 %, max 14 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 11 Wegpunkte (naechster 54 m), 75 % der Strecke; 3.2 m Fall auf 29 m (Mittel 11 %, max 14 %); nur 13 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P1_M2_02_s4",
@@ -4304,6 +4623,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 103.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.269,
     "sehens": 0.514,
@@ -4424,6 +4745,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 58.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.367,
     "sehens": 0.073,
@@ -4470,6 +4793,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 85.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.196,
     "sehens": 0.318,
@@ -4516,6 +4841,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 86.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.341,
     "sehens": 0.051,
@@ -4561,7 +4888,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 10.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.574,
     "sehens": 0.127,
@@ -4570,7 +4899,7 @@
    },
    "rang": 91,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 8 Wegpunkte (naechster 115 m), 100 % der Strecke; 1.9 m Fall auf 10 m (Mittel 19 %, max 19 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 8 Wegpunkte (naechster 115 m), 100 % der Strecke; 1.9 m Fall auf 10 m (Mittel 19 %, max 19 %); nur 10 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R_M1_P0_04_s1",
@@ -4608,6 +4937,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 18.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.557,
     "sehens": 0.132,
@@ -4653,7 +4984,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 12.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.616,
     "sehens": 0.03,
@@ -4662,7 +4997,7 @@
    },
    "rang": 93,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 64 m), 100 % der Strecke; 3.4 m Fall auf 38 m (Mittel 9 %, max 10 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 64 m), 100 % der Strecke; 3.4 m Fall auf 38 m (Mittel 9 %, max 10 %); nur 12 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P3_M2_02_s2",
@@ -4755,7 +5090,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 9.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.471,
     "sehens": 0.185,
@@ -4764,7 +5101,7 @@
    },
    "rang": 95,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 162 m), 100 % der Strecke; 116 m vom Rand von tundra_04_die_fliesstreppe; 1.7 m Fall auf 9 m (Mittel 19 %, max 19 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 162 m), 100 % der Strecke; 116 m vom Rand von tundra_04_die_fliesstreppe; 1.7 m Fall auf 9 m (Mittel 19 %, max 19 %); nur 10 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "F_ERLENBACH_2_C2_s1",
@@ -4802,6 +5139,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 31.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.529,
     "sehens": 0.077,
@@ -4847,7 +5188,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 5.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.439,
     "sehens": 0.107,
@@ -4856,7 +5199,7 @@
    },
    "rang": 97,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 214 m), 100 % der Strecke; 1.7 m Fall auf 5 m (Mittel 33 %, max 33 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 6 Wegpunkte (naechster 214 m), 100 % der Strecke; 1.7 m Fall auf 5 m (Mittel 33 %, max 33 %); nur 6 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R2_R_P4_M1_01_s1",
@@ -4961,7 +5304,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.507,
     "sehens": 0.099,
@@ -4970,7 +5317,7 @@
    },
    "rang": 99,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 42 m), 100 % der Strecke; 2.4 m Fall auf 16 m (Mittel 15 %, max 17 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 42 m), 100 % der Strecke; 2.4 m Fall auf 16 m (Mittel 15 %, max 17 %); nur 0 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "F_ERLENBACH_1_C2_s1",
@@ -5007,7 +5354,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.51,
     "sehens": 0.052,
@@ -5016,7 +5367,7 @@
    },
    "rang": 100,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 73 m), 100 % der Strecke; 3.8 m Fall auf 29 m (Mittel 13 %, max 16 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 73 m), 100 % der Strecke; 3.8 m Fall auf 29 m (Mittel 13 %, max 16 %); nur 0 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_M1_M2_02_s1",
@@ -5053,7 +5404,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 11.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.594,
     "sehens": 0.018,
@@ -5062,7 +5415,7 @@
    },
    "rang": 101,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 9 Wegpunkte (naechster 125 m), 100 % der Strecke; 1.5 m Fall auf 11 m (Mittel 13 %, max 20 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 9 Wegpunkte (naechster 125 m), 100 % der Strecke; 1.5 m Fall auf 11 m (Mittel 13 %, max 20 %); nur 11 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R2_R_P3_M2_01_s1",
@@ -5100,6 +5453,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 66.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.285,
     "sehens": 0.035,
@@ -5146,6 +5503,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 87.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.029,
     "sehens": 0.36,
@@ -5191,7 +5550,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 9.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.366,
     "sehens": 0.046,
@@ -5200,7 +5561,7 @@
    },
    "rang": 104,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 64 m), 50 % der Strecke; 4.0 m Fall auf 10 m (Mittel 42 %, max 42 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 64 m), 50 % der Strecke; 4.0 m Fall auf 10 m (Mittel 42 %, max 42 %); nur 10 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R_P2_M3_02_s1",
@@ -5238,6 +5599,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 117.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.015,
     "sehens": 0.256,
@@ -5247,374 +5610,6 @@
    "rang": 105,
    "pilot": false,
    "begruendung": "vom Weg nicht sichtbar (Weg 359 m); 67 m vom Rand von frost_05_blockgletscher; 29.0 m Fall auf 116 m (Mittel 25 %, max 96 %)"
-  },
-  {
-   "id": "B_R_M1_P0_01_s1",
-   "lauf": "B_R_M1_P0_01",
-   "art": "bach",
-   "feld": "C4",
-   "biom": "aue",
-   "laenge_m": 19.5,
-   "fall_m": 2.8,
-   "gefaelle_mittel": 0.143,
-   "gefaelle_max": 0.168,
-   "breite_m": 4.0,
-   "s0_m": 29.85,
-   "s1_m": 49.35,
-   "mitte_cm": [
-    -207490,
-    -13994
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 45,
-    "wegpunkte_sehen": 2,
-    "anteil_wegpunkte": 0.044,
-    "naechste_sicht_m": 68.3,
-    "anteil_strecke_sichtbar": 0.667,
-    "weg_abstand_min_m": 40.4
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "aue_03_schwalbenwand",
-     "abstand_rand_m": 148.3,
-     "abstand_rand_roh_m": 148.3
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.391,
-    "sehens": 0.149,
-    "physik": 0.331,
-    "gesamt": 30.1
-   },
-   "rang": 106,
-   "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 68 m), 67 % der Strecke; 148 m vom Rand von aue_03_schwalbenwand; 2.8 m Fall auf 20 m (Mittel 14 %, max 17 %)"
-  },
-  {
-   "id": "B_R_P3_M2_02_s1",
-   "lauf": "B_R_P3_M2_02",
-   "art": "bach",
-   "feld": "G3",
-   "biom": "elfenwald",
-   "laenge_m": 86.9,
-   "fall_m": 19.2,
-   "gefaelle_mittel": 0.221,
-   "gefaelle_max": 0.296,
-   "breite_m": 4.2,
-   "s0_m": 0.0,
-   "s1_m": 86.91,
-   "mitte_cm": [
-    221634,
-    -159446
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 102,
-    "wegpunkte_sehen": 0,
-    "anteil_wegpunkte": 0.0,
-    "naechste_sicht_m": null,
-    "anteil_strecke_sichtbar": 0.0,
-    "weg_abstand_min_m": 92.1
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "elfenwald_08_wurzelbruecke",
-     "abstand_rand_m": 64.7,
-     "abstand_rand_roh_m": 64.7
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.037,
-    "sehens": 0.26,
-    "physik": 0.667,
-    "gesamt": 29.3
-   },
-   "rang": 107,
-   "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 92 m); 65 m vom Rand von elfenwald_08_wurzelbruecke; 19.2 m Fall auf 87 m (Mittel 22 %, max 30 %)"
-  },
-  {
-   "id": "B_R_M3_M2_01_s1",
-   "lauf": "B_R_M3_M2_01",
-   "art": "bach",
-   "feld": "B3",
-   "biom": "bergwald",
-   "laenge_m": 193.5,
-   "fall_m": 50.9,
-   "gefaelle_mittel": 0.263,
-   "gefaelle_max": 0.561,
-   "breite_m": 4.4,
-   "s0_m": 0.0,
-   "s1_m": 193.5,
-   "mitte_cm": [
-    -378139,
-    -132692
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 0,
-    "wegpunkte_sehen": 0,
-    "anteil_wegpunkte": 0.0,
-    "naechste_sicht_m": null,
-    "anteil_strecke_sichtbar": 0.0,
-    "weg_abstand_min_m": 455.8
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "bergwald_01_der_moench",
-     "abstand_rand_m": 300.8,
-     "abstand_rand_roh_m": 300.8
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.011,
-    "sehens": 0.054,
-    "physik": 0.888,
-    "gesamt": 28.7
-   },
-   "rang": 108,
-   "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 456 m); 50.9 m Fall auf 194 m (Mittel 26 %, max 56 %)"
-  },
-  {
-   "id": "B_R_M1_M1_02_s1",
-   "lauf": "B_R_M1_M1_02",
-   "art": "bach",
-   "feld": "C3",
-   "biom": "aue",
-   "laenge_m": 57.0,
-   "fall_m": 4.6,
-   "gefaelle_mittel": 0.081,
-   "gefaelle_max": 0.113,
-   "breite_m": 3.8,
-   "s0_m": 0.0,
-   "s1_m": 57.05,
-   "mitte_cm": [
-    -222770,
-    -113446
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 24,
-    "wegpunkte_sehen": 7,
-    "anteil_wegpunkte": 0.292,
-    "naechste_sicht_m": 250.2,
-    "anteil_strecke_sichtbar": 0.714,
-    "weg_abstand_min_m": 248.7
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "aue_01_biberstau",
-     "abstand_rand_m": 355.2,
-     "abstand_rand_roh_m": 355.2
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.396,
-    "sehens": 0.037,
-    "physik": 0.34,
-    "gesamt": 27.2
-   },
-   "rang": 109,
-   "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 250 m), 71 % der Strecke; 4.6 m Fall auf 57 m (Mittel 8 %, max 11 %)"
-  },
-  {
-   "id": "B_R_M2_P1_01_s3",
-   "lauf": "B_R_M2_P1_01",
-   "art": "bach",
-   "feld": "B6",
-   "biom": "bergwald",
-   "laenge_m": 8.2,
-   "fall_m": 1.6,
-   "gefaelle_mittel": 0.189,
-   "gefaelle_max": 0.189,
-   "breite_m": 4.0,
-   "s0_m": 400.63,
-   "s1_m": 408.88,
-   "mitte_cm": [
-    -338650,
-    144950
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 24,
-    "wegpunkte_sehen": 5,
-    "anteil_wegpunkte": 0.208,
-    "naechste_sicht_m": 183.3,
-    "anteil_strecke_sichtbar": 1.0,
-    "weg_abstand_min_m": 182.0
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "kueste_05_die_gezeitenbank",
-     "abstand_rand_m": 498.9,
-     "abstand_rand_roh_m": 498.9
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.426,
-    "sehens": 0.014,
-    "physik": 0.321,
-    "gesamt": 27.1
-   },
-   "rang": 110,
-   "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 5 Wegpunkte (naechster 183 m), 100 % der Strecke; 1.6 m Fall auf 8 m (Mittel 19 %, max 19 %)"
-  },
-  {
-   "id": "B_R2_R_M1_M1_03_s1",
-   "lauf": "B_R2_R_M1_M1_03",
-   "art": "bach",
-   "feld": "C4",
-   "biom": "aue",
-   "laenge_m": 96.0,
-   "fall_m": 9.8,
-   "gefaelle_mittel": 0.102,
-   "gefaelle_max": 0.125,
-   "breite_m": 4.2,
-   "s0_m": 38.86,
-   "s1_m": 134.87,
-   "mitte_cm": [
-    -255947,
-    -79144
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 51,
-    "wegpunkte_sehen": 0,
-    "anteil_wegpunkte": 0.0,
-    "naechste_sicht_m": null,
-    "anteil_strecke_sichtbar": 0.0,
-    "weg_abstand_min_m": 60.8
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "aue_01_biberstau",
-     "abstand_rand_m": 8.5,
-     "abstand_rand_roh_m": 8.5
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.041,
-    "sehens": 0.378,
-    "physik": 0.468,
-    "gesamt": 27.0
-   },
-   "rang": 111,
-   "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 61 m); 8 m vom Rand von aue_01_biberstau; 9.8 m Fall auf 96 m (Mittel 10 %, max 12 %)"
-  },
-  {
-   "id": "B_R_P3_M1_01_s1",
-   "lauf": "B_R_P3_M1_01",
-   "art": "bach",
-   "feld": "G3",
-   "biom": "elfenwald",
-   "laenge_m": 85.5,
-   "fall_m": 10.5,
-   "gefaelle_mittel": 0.123,
-   "gefaelle_max": 0.172,
-   "breite_m": 4.0,
-   "s0_m": 0.0,
-   "s1_m": 85.49,
-   "mitte_cm": [
-    177819,
-    -120777
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 61,
-    "wegpunkte_sehen": 0,
-    "anteil_wegpunkte": 0.0,
-    "naechste_sicht_m": null,
-    "anteil_strecke_sichtbar": 0.0,
-    "weg_abstand_min_m": 150.2
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "elfenwald_01_mutterbaum",
-     "abstand_rand_m": 17.2,
-     "abstand_rand_roh_m": 17.2
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.03,
-    "sehens": 0.357,
-    "physik": 0.493,
-    "gesamt": 26.7
-   },
-   "rang": 112,
-   "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 150 m); 17 m vom Rand von elfenwald_01_mutterbaum; 10.5 m Fall auf 86 m (Mittel 12 %, max 17 %)"
-  },
-  {
-   "id": "B_R_P4_M1_04_s1",
-   "lauf": "B_R_P4_M1_04",
-   "art": "bach",
-   "feld": "H4",
-   "biom": "elfenwald",
-   "laenge_m": 60.6,
-   "fall_m": 6.7,
-   "gefaelle_mittel": 0.11,
-   "gefaelle_max": 0.129,
-   "breite_m": 4.8,
-   "s0_m": 10.3,
-   "s1_m": 70.94,
-   "mitte_cm": [
-    237424,
-    -87789
-   ],
-   "sicht": {
-    "wegpunkte_im_umkreis": 110,
-    "wegpunkte_sehen": 3,
-    "anteil_wegpunkte": 0.027,
-    "naechste_sicht_m": 106.0,
-    "anteil_strecke_sichtbar": 0.375,
-    "weg_abstand_min_m": 79.7
-   },
-   "sehens": {
-    "naehe": {
-     "ort": "elfenwald_04_elfentreppe",
-     "abstand_rand_m": 290.8,
-     "abstand_rand_roh_m": 290.8
-    },
-    "kameras": []
-   },
-   "umbau": [],
-   "gebaut": null,
-   "status": "offen",
-   "score": {
-    "sicht": 0.31,
-    "sehens": 0.058,
-    "physik": 0.413,
-    "gesamt": 26.5
-   },
-   "rang": 113,
-   "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 106 m), 38 % der Strecke; 6.7 m Fall auf 61 m (Mittel 11 %, max 13 %)"
   },
   {
    "id": "F_ELFENFLUSS_2_H4_s1",
@@ -5661,16 +5656,412 @@
      "H4_A"
     ]
    },
-   "status": "gebaut_teilweise",
+   "status": "kaum_planbar",
+   "planbar_m": 56.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.142,
     "sehens": 0.032,
     "physik": 0.8,
-    "gesamt": 26.3
+    "gesamt": 30.6
+   },
+   "rang": 106,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 296 m), 26 % der Strecke; 41.2 m Fall auf 215 m (Mittel 19 %, max 57 %); nur 56 m ausserhalb fester Zonen (Ort, Stadt, anderes Gewaesser (Zufluss/See)) - kein Pilot"
+  },
+  {
+   "id": "B_R_M1_P0_01_s1",
+   "lauf": "B_R_M1_P0_01",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 19.5,
+   "fall_m": 2.8,
+   "gefaelle_mittel": 0.143,
+   "gefaelle_max": 0.168,
+   "breite_m": 4.0,
+   "s0_m": 29.85,
+   "s1_m": 49.35,
+   "mitte_cm": [
+    -207490,
+    -13994
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 45,
+    "wegpunkte_sehen": 2,
+    "anteil_wegpunkte": 0.044,
+    "naechste_sicht_m": 68.3,
+    "anteil_strecke_sichtbar": 0.667,
+    "weg_abstand_min_m": 40.4
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_03_schwalbenwand",
+     "abstand_rand_m": 148.3,
+     "abstand_rand_roh_m": 148.3
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "planbar_m": 19.5,
+   "feste_zonen": [],
+   "score": {
+    "sicht": 0.391,
+    "sehens": 0.149,
+    "physik": 0.331,
+    "gesamt": 30.1
+   },
+   "rang": 107,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 68 m), 67 % der Strecke; 148 m vom Rand von aue_03_schwalbenwand; 2.8 m Fall auf 20 m (Mittel 14 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P3_M2_02_s1",
+   "lauf": "B_R_P3_M2_02",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 86.9,
+   "fall_m": 19.2,
+   "gefaelle_mittel": 0.221,
+   "gefaelle_max": 0.296,
+   "breite_m": 4.2,
+   "s0_m": 0.0,
+   "s1_m": 86.91,
+   "mitte_cm": [
+    221634,
+    -159446
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 102,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 92.1
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_08_wurzelbruecke",
+     "abstand_rand_m": 64.7,
+     "abstand_rand_roh_m": 64.7
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "planbar_m": 87.0,
+   "feste_zonen": [],
+   "score": {
+    "sicht": 0.037,
+    "sehens": 0.26,
+    "physik": 0.667,
+    "gesamt": 29.3
+   },
+   "rang": 108,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 92 m); 65 m vom Rand von elfenwald_08_wurzelbruecke; 19.2 m Fall auf 87 m (Mittel 22 %, max 30 %)"
+  },
+  {
+   "id": "B_R_M3_M2_01_s1",
+   "lauf": "B_R_M3_M2_01",
+   "art": "bach",
+   "feld": "B3",
+   "biom": "bergwald",
+   "laenge_m": 193.5,
+   "fall_m": 50.9,
+   "gefaelle_mittel": 0.263,
+   "gefaelle_max": 0.561,
+   "breite_m": 4.4,
+   "s0_m": 0.0,
+   "s1_m": 193.5,
+   "mitte_cm": [
+    -378139,
+    -132692
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 0,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 455.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "bergwald_01_der_moench",
+     "abstand_rand_m": 300.8,
+     "abstand_rand_roh_m": 300.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "planbar_m": 194.0,
+   "feste_zonen": [],
+   "score": {
+    "sicht": 0.011,
+    "sehens": 0.054,
+    "physik": 0.888,
+    "gesamt": 28.7
+   },
+   "rang": 109,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 456 m); 50.9 m Fall auf 194 m (Mittel 26 %, max 56 %)"
+  },
+  {
+   "id": "B_R_M1_M1_02_s1",
+   "lauf": "B_R_M1_M1_02",
+   "art": "bach",
+   "feld": "C3",
+   "biom": "aue",
+   "laenge_m": 57.0,
+   "fall_m": 4.6,
+   "gefaelle_mittel": 0.081,
+   "gefaelle_max": 0.113,
+   "breite_m": 3.8,
+   "s0_m": 0.0,
+   "s1_m": 57.05,
+   "mitte_cm": [
+    -222770,
+    -113446
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 24,
+    "wegpunkte_sehen": 7,
+    "anteil_wegpunkte": 0.292,
+    "naechste_sicht_m": 250.2,
+    "anteil_strecke_sichtbar": 0.714,
+    "weg_abstand_min_m": 248.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 355.2,
+     "abstand_rand_roh_m": 355.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "planbar_m": 57.5,
+   "feste_zonen": [],
+   "score": {
+    "sicht": 0.396,
+    "sehens": 0.037,
+    "physik": 0.34,
+    "gesamt": 27.2
+   },
+   "rang": 110,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 7 Wegpunkte (naechster 250 m), 71 % der Strecke; 4.6 m Fall auf 57 m (Mittel 8 %, max 11 %)"
+  },
+  {
+   "id": "B_R_M2_P1_01_s3",
+   "lauf": "B_R_M2_P1_01",
+   "art": "bach",
+   "feld": "B6",
+   "biom": "bergwald",
+   "laenge_m": 8.2,
+   "fall_m": 1.6,
+   "gefaelle_mittel": 0.189,
+   "gefaelle_max": 0.189,
+   "breite_m": 4.0,
+   "s0_m": 400.63,
+   "s1_m": 408.88,
+   "mitte_cm": [
+    -338650,
+    144950
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 24,
+    "wegpunkte_sehen": 5,
+    "anteil_wegpunkte": 0.208,
+    "naechste_sicht_m": 183.3,
+    "anteil_strecke_sichtbar": 1.0,
+    "weg_abstand_min_m": 182.0
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "kueste_05_die_gezeitenbank",
+     "abstand_rand_m": 498.9,
+     "abstand_rand_roh_m": 498.9
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "kaum_planbar",
+   "planbar_m": 8.5,
+   "feste_zonen": [],
+   "score": {
+    "sicht": 0.426,
+    "sehens": 0.014,
+    "physik": 0.321,
+    "gesamt": 27.1
+   },
+   "rang": 111,
+   "pilot": false,
+   "begruendung": "vom Weg/Pfad sichtbar: 5 Wegpunkte (naechster 183 m), 100 % der Strecke; 1.6 m Fall auf 8 m (Mittel 19 %, max 19 %); nur 8 m ausserhalb fester Zonen () - kein Pilot"
+  },
+  {
+   "id": "B_R2_R_M1_M1_03_s1",
+   "lauf": "B_R2_R_M1_M1_03",
+   "art": "bach",
+   "feld": "C4",
+   "biom": "aue",
+   "laenge_m": 96.0,
+   "fall_m": 9.8,
+   "gefaelle_mittel": 0.102,
+   "gefaelle_max": 0.125,
+   "breite_m": 4.2,
+   "s0_m": 38.86,
+   "s1_m": 134.87,
+   "mitte_cm": [
+    -255947,
+    -79144
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 51,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 60.8
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "aue_01_biberstau",
+     "abstand_rand_m": 8.5,
+     "abstand_rand_roh_m": 8.5
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "planbar_m": 80.5,
+   "feste_zonen": [
+    "Sehenswuerdigkeit"
+   ],
+   "score": {
+    "sicht": 0.041,
+    "sehens": 0.378,
+    "physik": 0.468,
+    "gesamt": 27.0
+   },
+   "rang": 112,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 61 m); 8 m vom Rand von aue_01_biberstau; 9.8 m Fall auf 96 m (Mittel 10 %, max 12 %)"
+  },
+  {
+   "id": "B_R_P3_M1_01_s1",
+   "lauf": "B_R_P3_M1_01",
+   "art": "bach",
+   "feld": "G3",
+   "biom": "elfenwald",
+   "laenge_m": 85.5,
+   "fall_m": 10.5,
+   "gefaelle_mittel": 0.123,
+   "gefaelle_max": 0.172,
+   "breite_m": 4.0,
+   "s0_m": 0.0,
+   "s1_m": 85.49,
+   "mitte_cm": [
+    177819,
+    -120777
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 61,
+    "wegpunkte_sehen": 0,
+    "anteil_wegpunkte": 0.0,
+    "naechste_sicht_m": null,
+    "anteil_strecke_sichtbar": 0.0,
+    "weg_abstand_min_m": 150.2
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_01_mutterbaum",
+     "abstand_rand_m": 17.2,
+     "abstand_rand_roh_m": 17.2
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "planbar_m": 69.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
+   "score": {
+    "sicht": 0.03,
+    "sehens": 0.357,
+    "physik": 0.493,
+    "gesamt": 26.7
+   },
+   "rang": 113,
+   "pilot": false,
+   "begruendung": "vom Weg nicht sichtbar (Weg 150 m); 17 m vom Rand von elfenwald_01_mutterbaum; 10.5 m Fall auf 86 m (Mittel 12 %, max 17 %)"
+  },
+  {
+   "id": "B_R_P4_M1_04_s1",
+   "lauf": "B_R_P4_M1_04",
+   "art": "bach",
+   "feld": "H4",
+   "biom": "elfenwald",
+   "laenge_m": 60.6,
+   "fall_m": 6.7,
+   "gefaelle_mittel": 0.11,
+   "gefaelle_max": 0.129,
+   "breite_m": 4.8,
+   "s0_m": 10.3,
+   "s1_m": 70.94,
+   "mitte_cm": [
+    237424,
+    -87789
+   ],
+   "sicht": {
+    "wegpunkte_im_umkreis": 110,
+    "wegpunkte_sehen": 3,
+    "anteil_wegpunkte": 0.027,
+    "naechste_sicht_m": 106.0,
+    "anteil_strecke_sichtbar": 0.375,
+    "weg_abstand_min_m": 79.7
+   },
+   "sehens": {
+    "naehe": {
+     "ort": "elfenwald_04_elfentreppe",
+     "abstand_rand_m": 290.8,
+     "abstand_rand_roh_m": 290.8
+    },
+    "kameras": []
+   },
+   "umbau": [],
+   "gebaut": null,
+   "status": "offen",
+   "planbar_m": 44.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
+   "score": {
+    "sicht": 0.31,
+    "sehens": 0.058,
+    "physik": 0.413,
+    "gesamt": 26.5
    },
    "rang": 114,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 296 m), 26 % der Strecke; 41.2 m Fall auf 215 m (Mittel 19 %, max 57 %); teils gestuft gebaut (F_ELFENFLUSS_2_H4_S00, F_ELFENFLUSS_2_H4_S01, 5.8 m = 14 % des Falls) - Rest planen, FX mit Auftrag 14 (H4_A) abstimmen"
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 106 m), 38 % der Strecke; 6.7 m Fall auf 61 m (Mittel 11 %, max 13 %)"
   },
   {
    "id": "B_K8_ELFENFALL_04_s1",
@@ -5708,6 +6099,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 233.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.012,
     "sehens": 0.091,
@@ -5753,7 +6146,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.402,
     "sehens": 0.028,
@@ -5762,7 +6160,7 @@
    },
    "rang": 116,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 174 m), 100 % der Strecke; 1.5 m Fall auf 9 m (Mittel 16 %, max 16 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 4 Wegpunkte (naechster 174 m), 100 % der Strecke; 1.5 m Fall auf 9 m (Mittel 16 %, max 16 %); nur 0 m ausserhalb fester Zonen (Ort, Stadt) - kein Pilot"
   },
   {
    "id": "B_R2_R_P4_P1_01_s1",
@@ -5800,6 +6198,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 32.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.189,
     "sehens": 0.144,
@@ -5845,7 +6245,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.5,
+   "feste_zonen": [
+    "Sehenswuerdigkeit",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.03,
     "sehens": 0.395,
@@ -5854,7 +6259,7 @@
    },
    "rang": 118,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 150 m); 2 m vom Rand von elfenwald_01_mutterbaum; 6.3 m Fall auf 55 m (Mittel 11 %, max 12 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 150 m); 2 m vom Rand von elfenwald_01_mutterbaum; 6.3 m Fall auf 55 m (Mittel 11 %, max 12 %); nur 0 m ausserhalb fester Zonen (Sehenswuerdigkeit, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P1_M2_02_s3",
@@ -5892,6 +6297,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 75.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.021,
     "sehens": 0.217,
@@ -5938,6 +6345,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 28.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.345,
     "sehens": 0.084,
@@ -5989,7 +6398,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 7.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.018,
     "sehens": 0.543,
@@ -5998,7 +6411,7 @@
    },
    "rang": 121,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 307 m); im Bild von 1 Sehens-Kamera(s) (aue_03_schwalbenwand); 57 m vom Rand von aue_03_schwalbenwand; 1.7 m Fall auf 18 m (Mittel 10 %, max 10 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 307 m); im Bild von 1 Sehens-Kamera(s) (aue_03_schwalbenwand); 57 m vom Rand von aue_03_schwalbenwand; 1.7 m Fall auf 18 m (Mittel 10 %, max 10 %); nur 7 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P2_M1_01_s2",
@@ -6036,6 +6449,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 79.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.027,
     "sehens": 0.265,
@@ -6081,7 +6496,13 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt",
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.344,
     "sehens": 0.027,
@@ -6090,7 +6511,7 @@
    },
    "rang": 123,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 224 m), 100 % der Strecke; 1.9 m Fall auf 12 m (Mittel 16 %, max 16 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 3 Wegpunkte (naechster 224 m), 100 % der Strecke; 1.9 m Fall auf 12 m (Mittel 16 %, max 16 %); nur 0 m ausserhalb fester Zonen (Ort, Stadt, anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P2_M3_01_s1",
@@ -6128,6 +6549,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 47.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.014,
     "sehens": 0.097,
@@ -6174,6 +6597,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 157.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.004,
     "sehens": 0.005,
@@ -6219,7 +6644,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 7.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.019,
     "sehens": 0.328,
@@ -6228,7 +6655,7 @@
    },
    "rang": 126,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 290 m); 30 m vom Rand von dschungel_06_schluckhoehle; 1.9 m Fall auf 7 m (Mittel 27 %, max 27 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 290 m); 30 m vom Rand von dschungel_06_schluckhoehle; 1.9 m Fall auf 7 m (Mittel 27 %, max 27 %); nur 7 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "F_HAUPTFLUSS_3_C5_s1",
@@ -6265,7 +6692,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 35.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.187,
     "sehens": 0.128,
@@ -6274,7 +6705,7 @@
    },
    "rang": 127,
    "pilot": false,
-   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 167 m), 20 % der Strecke; 6.8 m Fall auf 131 m (Mittel 5 %, max 9 %)"
+   "begruendung": "vom Weg/Pfad sichtbar: 2 Wegpunkte (naechster 167 m), 20 % der Strecke; 6.8 m Fall auf 131 m (Mittel 5 %, max 9 %); nur 35 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P0_P2_02_s1",
@@ -6312,6 +6743,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 157.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.015,
     "sehens": 0.066,
@@ -6358,6 +6791,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 105.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.002,
     "sehens": 0.001,
@@ -6403,7 +6838,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.036,
     "sehens": 0.035,
@@ -6412,7 +6852,7 @@
    },
    "rang": 130,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 97 m); 11.8 m Fall auf 38 m (Mittel 31 %, max 33 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 97 m); 11.8 m Fall auf 38 m (Mittel 31 %, max 33 %); nur 0 m ausserhalb fester Zonen (Ort, Stadt) - kein Pilot"
   },
   {
    "id": "B_R_M3_M2_02_s1",
@@ -6450,6 +6890,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 109.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.007,
     "sehens": 0.028,
@@ -6496,6 +6938,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 133.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.024,
     "sehens": 0.177,
@@ -6542,6 +6986,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 18.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.293,
     "sehens": 0.081,
@@ -6588,6 +7034,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 89.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.013,
     "sehens": 0.059,
@@ -6634,6 +7084,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 85.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.007,
     "sehens": 0.029,
@@ -6680,6 +7132,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 134.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.003,
     "sehens": 0.004,
@@ -6726,6 +7180,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 21.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.247,
     "sehens": 0.026,
@@ -6772,6 +7228,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 106.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.006,
     "sehens": 0.017,
@@ -6818,6 +7276,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 152.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.012,
     "sehens": 0.047,
@@ -6864,6 +7326,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 62.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.013,
     "sehens": 0.058,
@@ -6910,6 +7376,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 67.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.006,
     "sehens": 0.019,
@@ -6956,6 +7424,11 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 42.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.018,
     "sehens": 0.055,
@@ -7002,6 +7475,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 74.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.008,
     "sehens": 0.027,
@@ -7047,7 +7524,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.018,
     "sehens": 0.053,
@@ -7056,7 +7538,7 @@
    },
    "rang": 144,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 305 m); 9.4 m Fall auf 49 m (Mittel 19 %, max 33 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 305 m); 9.4 m Fall auf 49 m (Mittel 19 %, max 33 %); nur 0 m ausserhalb fester Zonen (Ort, Stadt) - kein Pilot"
   },
   {
    "id": "B_R2_R_P3_M1_01_s1",
@@ -7094,6 +7576,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 61.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.03,
     "sehens": 0.199,
@@ -7139,7 +7623,12 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "Ort",
+    "Stadt"
+   ],
    "score": {
     "sicht": 0.036,
     "sehens": 0.026,
@@ -7148,7 +7637,7 @@
    },
    "rang": 146,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 100 m); 4.8 m Fall auf 19 m (Mittel 25 %, max 27 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 100 m); 4.8 m Fall auf 19 m (Mittel 25 %, max 27 %); nur 0 m ausserhalb fester Zonen (Ort, Stadt) - kein Pilot"
   },
   {
    "id": "F_HAUPTFLUSS_1_B4_s1",
@@ -7186,6 +7675,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 18.5,
+   "feste_zonen": [
+    "Ort"
+   ],
    "score": {
     "sicht": 0.035,
     "sehens": 0.086,
@@ -7231,7 +7724,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.02,
     "sehens": 0.275,
@@ -7240,7 +7737,7 @@
    },
    "rang": 148,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 270 m); 56 m vom Rand von aue_08_lianenhalle; 2.4 m Fall auf 44 m (Mittel 5 %, max 6 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 270 m); 56 m vom Rand von aue_08_lianenhalle; 2.4 m Fall auf 44 m (Mittel 5 %, max 6 %); nur 0 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P3_P1_04_s1",
@@ -7278,6 +7775,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 18.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.017,
     "sehens": 0.195,
@@ -7324,6 +7823,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 19.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.032,
     "sehens": 0.144,
@@ -7370,6 +7871,10 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 46.5,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.008,
     "sehens": 0.026,
@@ -7416,6 +7921,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 18.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.038,
     "sehens": 0.111,
@@ -7461,7 +7968,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 12.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.02,
     "sehens": 0.149,
@@ -7470,7 +7981,7 @@
    },
    "rang": 153,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 270 m); 148 m vom Rand von lava_08_glutauge; 1.8 m Fall auf 20 m (Mittel 9 %, max 11 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 270 m); 148 m vom Rand von lava_08_glutauge; 1.8 m Fall auf 20 m (Mittel 9 %, max 11 %); nur 12 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P3_M1_08_s1",
@@ -7508,6 +8019,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 20.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.03,
     "sehens": 0.114,
@@ -7553,7 +8066,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 8.5,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.026,
     "sehens": 0.015,
@@ -7562,7 +8077,7 @@
    },
    "rang": 155,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 199 m); 1.7 m Fall auf 9 m (Mittel 20 %, max 20 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 199 m); 1.7 m Fall auf 9 m (Mittel 20 %, max 20 %); nur 8 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R2_R_P2_P1_02_s1",
@@ -7599,7 +8114,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.009,
     "sehens": 0.026,
@@ -7608,7 +8127,7 @@
    },
    "rang": 156,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 522 m); 1.7 m Fall auf 8 m (Mittel 21 %, max 21 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 522 m); 1.7 m Fall auf 8 m (Mittel 21 %, max 21 %); nur 0 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "F_ERLENBACH_1V_C2_s2",
@@ -7645,7 +8164,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.029,
     "sehens": 0.052,
@@ -7654,7 +8177,7 @@
    },
    "rang": 157,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 168 m); 1.7 m Fall auf 12 m (Mittel 14 %, max 14 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 168 m); 1.7 m Fall auf 12 m (Mittel 14 %, max 14 %); nur 0 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "B_R_P0_P2_03_s2",
@@ -7691,7 +8214,9 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 13.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.012,
     "sehens": 0.06,
@@ -7700,7 +8225,7 @@
    },
    "rang": 158,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 427 m); 1.6 m Fall auf 12 m (Mittel 13 %, max 13 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 427 m); 1.6 m Fall auf 12 m (Mittel 13 %, max 13 %); nur 13 m ausserhalb fester Zonen () - kein Pilot"
   },
   {
    "id": "B_R_P0_P2_01_s1",
@@ -7738,6 +8263,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 19.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.016,
     "sehens": 0.086,
@@ -7783,7 +8310,11 @@
    },
    "umbau": [],
    "gebaut": null,
-   "status": "offen",
+   "status": "kaum_planbar",
+   "planbar_m": 0.0,
+   "feste_zonen": [
+    "anderes Gewaesser (Zufluss/See)"
+   ],
    "score": {
     "sicht": 0.01,
     "sehens": 0.035,
@@ -7792,7 +8323,7 @@
    },
    "rang": 160,
    "pilot": false,
-   "begruendung": "vom Weg nicht sichtbar (Weg 472 m); 2.0 m Fall auf 19 m (Mittel 11 %, max 14 %)"
+   "begruendung": "vom Weg nicht sichtbar (Weg 472 m); 2.0 m Fall auf 19 m (Mittel 11 %, max 14 %); nur 0 m ausserhalb fester Zonen (anderes Gewaesser (Zufluss/See)) - kein Pilot"
   },
   {
    "id": "F_DSCHUNGELFLUSS_H7_s1",
@@ -7830,6 +8361,8 @@
    "umbau": [],
    "gebaut": null,
    "status": "offen",
+   "planbar_m": 43.0,
+   "feste_zonen": [],
    "score": {
     "sicht": 0.001,
     "sehens": 0.0,

@@ -553,3 +553,13 @@ Die Translucent-Sortierung ist **nicht** die Hauptursache. Sie würde Flackern u
 4. **Absorption/Scattering von `MI_Eldarien_Wasser_Fluss`**: Bitte die Ist-Werte (oder die Parameterliste) exportieren, damit
    `MI_EL_Kaskade_SLW` farbgleich wird.
 5. Soll der Planer Variante C (`gestufter_spline` + Bach-Zone) weiter mit ausgeben (für einen Vergleich), oder nur noch A?
+
+## Entscheidungen Koordinator zu den Rückfragen (Ferat: „du entscheidest“)
+
+1. **Variante A „Kaskadennetz“ ist Standard**; der Planer aus Auftrag 15 gibt keine Flussstücke mit Lücken mehr aus.
+2. **Schwimmen in den Becken ist nicht nötig** (Becken 5–7 m, flach) → kein `WaterBodyCustom` als Standard.
+3. **Vorhang:** Unter 3 m Fallhöhe nur Nature Water FX (`NS_Waterfall_Small` + `NS_Impact_Small`); ab 3 m bleibt der eigene Vorhang für die Fernsicht (mit den Rand-Abhilfen aus Abschnitt „Vorhang-Rechtecke“), Niagara ergänzt nah. Schaumscheiben entfallen.
+4. **Absorption/Scattering von `MI_Eldarien_Wasser_Fluss`:** bitte im Editor auslesen und ins Kaskadennetz-MI übernehmen (Prüfschritt für Claude lokal; aus der Cloud nicht lesbar).
+5. **Variante C** gibt der Planer nur auf Schalter `--variante C` aus.
+
+Erster Prüfschritt lokal: das Python-Skript aus Abschnitt 5 (Zonenwerte, Kachelgrenzen, SLW-Probeplatte auf T03), dann Bildprobe der SLW-Zunge an S01.

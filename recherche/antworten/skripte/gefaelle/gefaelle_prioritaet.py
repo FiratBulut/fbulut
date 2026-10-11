@@ -19,6 +19,8 @@ Status (statt Score-Abzug bzw. zusaetzlich):
   gebaut_stufen        schon mit Stufen gebaut (vorlagen/daten/wasser_fx/stufen.json, Auftrag 14), Stufen decken
                        >= 50 % des Falls -> nur Feinschliff
   gebaut_teilweise     einzelne Stufen gebaut (< 50 % des Falls) -> Rest planen, Score x (1 - Anteil), FX abstimmen
+  kaum_planbar         < 15 m oder < 30 % der Strecke ausserhalb fester Zonen (gefaelle_plan.feste_zonen: Wege + Uebergang,
+                       Orte, Staedte, Sehenswuerdigkeiten Radius + 10 m, Zufluesse) -> kein Pilot
   offen                normal
 Pilot = die 20 hoechsten Scores mit Status offen/teilweise_sehens.
 
@@ -40,6 +42,7 @@ sys.path.insert(0, os.path.dirname(HIER))
 import numpy as np  # noqa: E402
 
 import gefaelle_daten as gd  # noqa: E402
+import gefaelle_plan as gp  # noqa: E402
 
 GEWICHTE = {"sicht": 0.40, "sehens": 0.30, "physik": 0.30}
 ZIEL_HOEHE_M = 2.0
@@ -50,6 +53,8 @@ KAMERA_R_MAX_M = 400.0
 UMBAU_MIN_ANTEIL = 0.50       # >= 50 % der Strecke baut ein Sehens-Ort um -> ganz auslassen
 UMBAU_REST_MIN_M = 30.0       # oder es bleiben < 30 m uebrig
 GESTUFT_MIN_ANTEIL = 0.50     # gebaute Stufen decken >= 50 % des Falls -> nur Feinschliff
+PLANBAR_MIN_M = 15.0          # ausserhalb fester Zonen (Weg, Ort, Sehenswuerdigkeit, Zufluss) mindestens 15 m ...
+PLANBAR_MIN_ANTEIL = 0.30     # ... und 30 % der Strecke, sonst 'kaum_planbar' (kein Pilot)
 N_PILOT = 20
 
 
@@ -185,6 +190,9 @@ def begruendung(e):
         t.append("teils gestuft gebaut (%s, %.1f m = %.0f %% des Falls) - Rest planen, FX mit Auftrag 14 (%s) abstimmen"
                  % (", ".join(e["gebaut"]["stufen"]), e["gebaut"]["fall_gestuft_m"], 100 * e["gebaut"]["anteil_fall"],
                     ", ".join(e["gebaut"]["fx_gruppen"])))
+    elif e["status"] == "kaum_planbar":
+        t.append("nur %.0f m ausserhalb fester Zonen (%s) - kein Pilot" % (e.get("planbar_m", 0),
+                                                                          ", ".join(e.get("feste_zonen", []))))
     elif e["status"] == "umgebaut_von_sehens":
         t.append("wird von %s umgebaut - nicht doppelt planen" % e["umbau"][0]["ort"])
     elif e["status"] == "teilweise_sehens":
@@ -242,6 +250,13 @@ def main(argv=None):
             e["status"] = "teilweise_sehens"
         else:
             e["status"] = "offen"
+        if e["status"] in ("offen", "teilweise_sehens", "gebaut_teilweise"):
+            pl, gr_ = gp.planbarer_anteil(lauf, welt, gel, orte, umbau, welt.wasser_welt, welt.baeche,
+                                          x["s0_m"], x["s1_m"])
+            e["planbar_m"] = round(pl, 1)
+            e["feste_zonen"] = sorted({g[2] for g in gr_})
+            if pl < PLANBAR_MIN_M or pl < PLANBAR_MIN_ANTEIL * x["laenge_m"]:
+                e["status"] = "kaum_planbar"
         e["score"] = scores(e)
         liste.append(e)
         if (n + 1) % 20 == 0:
@@ -269,7 +284,7 @@ def main(argv=None):
                          "physik": "0,55 log(1+Fall)/log(61) + 0,3 min(1, Gefaelle/0,3) + 0,15 min(1, Laenge/300 m)"},
            "status_anzahl": {s: sum(1 for e in liste if e["status"] == s)
                              for s in ("offen", "teilweise_sehens", "umgebaut_von_sehens", "gebaut_teilweise",
-                                       "gebaut_stufen")},
+                                       "gebaut_stufen", "kaum_planbar")},
            "pilot": pilot, "strecken": liste}
     os.makedirs(os.path.dirname(os.path.abspath(a.aus)), exist_ok=True)
     with open(a.aus, "w", encoding="utf-8") as f:

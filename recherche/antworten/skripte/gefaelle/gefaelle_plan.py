@@ -222,6 +222,33 @@ def feste_zonen(pr, welt, gel, orte, umbau, andere, s0, s1):
     return fix, gruende
 
 
+def andere_gewaesser(lauf_id, pr, wasser_welt, baeche):
+    """Polylinien (m) anderer Fluesse/Baeche und Seeumrisse im Umfeld des Laufs (Zufluesse -> feste Zonen)."""
+    bx = (pr.x.min() - 60, pr.x.max() + 60, pr.y.min() - 60, pr.y.max() + 60)
+    out = []
+    quellen = [(f["id"], f["punkte"]) for f in (wasser_welt.get("fluesse") or [])] + [(b["id"], b["punkte"]) for b in baeche]
+    for oid, pk in quellen:
+        if oid == lauf_id or not pk or len(pk) < 2:
+            continue
+        P = np.asarray(pk, np.float64)[:, :2] / 100.0
+        if P[:, 0].max() < bx[0] or P[:, 0].min() > bx[1] or P[:, 1].max() < bx[2] or P[:, 1].min() > bx[3]:
+            continue
+        out.append(P)
+    for s_ in wasser_welt.get("seen") or []:
+        P = np.asarray(s_.get("umriss") or [[0, 0]], np.float64)[:, :2] / 100.0
+        if len(P) >= 3 and not (P[:, 0].max() < bx[0] or P[:, 0].min() > bx[1] or P[:, 1].max() < bx[2] or P[:, 1].min() > bx[3]):
+            out.append(np.vstack([P, P[:1]]))
+    return out
+
+
+def planbarer_anteil(lauf, welt, gel, orte, umbau, wasser_welt, baeche, s0, s1):
+    """Laenge (m) der Strecke ausserhalb der festen Zonen (Wege, Orte, Sehenswuerdigkeiten, Umbau, Zufluesse)."""
+    pr = Profil(lauf)
+    fix, gruende = feste_zonen(pr, welt, gel, orte, umbau, andere_gewaesser(lauf.id, pr, wasser_welt, baeche), s0, s1)
+    m = (pr.s >= s0) & (pr.s <= s1)
+    return float((~fix[m]).sum() * DS), gruende
+
+
 # ======================================================================================================================
 # Stufen legen
 # ======================================================================================================================
@@ -419,8 +446,8 @@ class Stufenleger:
             art = "fall"
         elif D0 >= rw.art_bereich("stufe")[0] and "stufe" in arten:
             art = "stufe"
-        elif "kaskade" in arten and D0 >= rw.art_bereich("kaskade")[0] and "stufe" not in arten:
-            art = "kaskade"
+        elif "kaskade" in arten and D0 >= rw.art_bereich("kaskade")[0]:
+            art = "kaskade"                       # kleiner als eine Blockstufe -> Kaskade (Teilstufe)
         elif "schnelle" in arten and D0 <= rw.art_bereich("schnelle")[1]:
             art = "schnelle"
         elif "stufe" in arten:
@@ -491,18 +518,31 @@ class Stufenleger:
             if t["D"] <= k_hi + 1e-6:
                 neu.append(t)
                 continue
-            # verfuegbare Laenge bis zur naechsten Teilstufe bzw. bis zur naechsten Lippe (60 %)
+            # verfuegbare Laenge bis zur naechsten Teilstufe bzw. bis zur naechsten Lippe
             nxt = e["teil"][n_t + 1]["p"] if n_t + 1 < len(e["teil"]) else e["q"]
-            n = int(math.ceil(t["D"] / (0.95 * k_hi)))
-            Lk = max(gr.L_kaskade_min(rw, e["B"]), rw.abstand_L_kaskade(e["B"]))
-            Lk = min(Lk, 0.6 * (nxt - t["p"]) / max(n - 1, 1)) if n > 1 else Lk
-            gb = e["gb"]
-            Dt = (t["D"] + gb * (n - 1) * t["l"]) / n          # Mini-Becken behalten becken.gefaelle
-            u = t["u"]
-            for i in range(n):
-                p_i = t["p"] + i * Lk
-                neu.append({"p": p_i, "u": u, "d": u - Dt, "D": Dt, "l": t["l"]})
-                u = u - Dt - gb * max(Lk - t["l"], 0.0)
+            pr, gb = self.pr, e["gb"]
+            z_nxt = pr.zi(nxt)
+            gewaehlt = None
+            for n in range(int(math.ceil(t["D"] / (0.95 * k_hi))), 7):
+                Dt = t["D"] / n
+                # Teil-Lippen dort, wo der alte Spiegel um i*Dt gefallen ist -> neuer Spiegel nie ueber dem alten
+                ps = [t["p"]] + [float(np.interp(-(t["u"] - i * Dt), -pr.z0, pr.s)) for i in range(1, n)]
+                ok = all(ps[i] - ps[i - 1] >= t["l"] + 0.5 for i in range(1, n)) and nxt - ps[-1] >= t["l"] + 0.5
+                if not ok:
+                    continue
+                teile, u = [], t["u"]
+                for i in range(n):
+                    if i < n - 1:
+                        d = u - Dt
+                    else:
+                        d = z_nxt + gb * (nxt - ps[i] - t["l"])
+                    teile.append({"p": ps[i], "u": u, "d": d, "D": u - d, "l": t["l"]})
+                    if i < n - 1:
+                        u = d - gb * (ps[i + 1] - ps[i] - t["l"])
+                if all(0.0 < x_["D"] <= k_hi + 1e-6 for x_ in teile):
+                    gewaehlt = teile
+                    break
+            neu += gewaehlt if gewaehlt else [t]
         e["teil"] = neu
         e["l"] = neu[-1]["p"] + neu[-1]["l"] - neu[0]["p"]
         e["d"] = neu[-1]["d"]
@@ -558,6 +598,11 @@ def spiegel_punkte(pr, alle_stufen, segmente):
             out[-1] = (s_, min(z_, out[-1][1]), k_)
             continue
         out.append((s_, z_, k_))
+    # alte Laufpunkte dicht (< 0,3 m) an Stufenpunkten entfernen (keine Mini-Segmente mit Scheingefaelle)
+    stufig = ("lippe", "fuss", "rampe")
+    out = [t for k, t in enumerate(out) if t[2] != "alt" or k in (0, len(out) - 1) or not (
+        (k > 0 and out[k - 1][2] in stufig and t[0] - out[k - 1][0] < 0.3) or
+        (k + 1 < len(out) and out[k + 1][2] in stufig and out[k + 1][0] - t[0] < 0.3))]
     zs = np.minimum.accumulate(np.array([t[1] for t in out]))
     return [(t[0], float(z), t[2]) for t, z in zip(out, zs)]
 
@@ -627,6 +672,21 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     st._lauf_maske = getattr(st, "_lauf_maske", np.zeros(X.shape, bool))
     st._lauf_maske[band] |= innen & (d <= half + 10.0)       # fuer die Senken-Pruefung (Becken/Kolke sind Wasser)
     return korr
+
+
+def neue_senken(st, wasser, min_tiefe_m=0.3, min_flaeche_m2=8.0):
+    """Geschlossene Senken, die der Stempel NEU erzeugt (Fuelltiefe nachher - vorher > min_tiefe), ausserhalb des
+    Laufs (Becken/Kolke sind Wasser) und ausserhalb bestehenden Wassers."""
+    from sehens_lib import gelaende as gel_mod
+    z = st.z
+    vor = st.h0.astype(np.float32)
+    nach = (st.h0 + st.delta).astype(np.float32)
+    leer = np.zeros(vor.shape, bool)
+    t0 = gel_mod.abfluss(vor, z, leer)["gefuellt"] - vor
+    t1 = gel_mod.abfluss(nach, z, leer)["gefuellt"] - nach
+    m = (t1 - t0 > min_tiefe_m) & ~wasser & (st.fe.get("wasser") == 0)
+    fl = float(m.sum() * z * z)
+    return {"flaeche_m2": fl if fl >= min_flaeche_m2 else 0.0, "max_tiefe_m": float((t1 - t0)[m].max()) if m.any() else 0.0}
 
 
 def schutz_orte(st, welt, gel, orte):
@@ -717,8 +777,7 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
         quer = (fl + 90.0) % 360.0
         if e["art"] == "fall" and N["wand"]:
             ko = e["kolk"]
-            h = e["D"] + 0.5 * ko["tiefe"] + 0.3
-            netz = N["wand"][int(ctx_rng(ctx, "fw", k).integers(len(N["wand"])))]
+            netz, h = wand_netz(inv, N["wand"], e["D"] + 0.5 * ko["tiefe"] + 0.3, ctx_rng(ctx, "fw", k))
             info = inv.netz(netz)
             gz = max(info["groesse_m"][2], 0.1)
             breite = info["groesse_m"][0] * h / gz
@@ -785,22 +844,24 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
         if not N["wand"]:
             continue
         nm = "wand_%02d" % wz["nr"]
-        netz = N["wand"][int(ctx_rng(ctx, "wz", wz["nr"]).integers(len(N["wand"])))]
+        netz, h = wand_netz(inv, N["wand"], float(np.clip(wz["hoehe"], 2.0, 40.0)), ctx_rng(ctx, "wz", wz["nr"]))
         info = inv.netz(netz)
-        h = float(np.clip(wz["hoehe"], 2.0, 40.0))
         breite = info["groesse_m"][0] * h / max(info["groesse_m"][2], 0.1)
         lin_name = "wl_%02d" % wz["nr"]
         ctx.linien[lin_name] = pr.polylinie(wz["a"], wz["b"], 1.0)
         ueb = 0.5 * sum(K["klamm"]["ueberlappung"])
-        gruppe(ctx, {"name": nm, "ebene": "begleiter", "netz": netz, "rolle": "fels",
-                     "verteilung": {"typ": "reihe", "punkte": lin_name, "abstand_m": max(2.0, breite * (1.0 - ueb)),
-                                    "versatz_m": wz["versatz"], "versatz_streuung_m": 0.4, "seiten": ["links", "rechts"],
-                                    "blick": "zur_linie", "front_an_linie": True},
-                     "groesse_m": [h * 0.9, h * 1.1], "groesse_achse": "z", "front_achse": "+y", "ausrichtung": "aufrecht",
-                     "z_bezug": "z:%.3f" % (wz["z_wasser"] - 0.3), "akteur": True, "kollision": True,
-                     "im_wasser": "egal", "meide": None, "weg_abstand_m": 4.0, "yaw_streuung_grad": 6.0,
-                     "warum": "Uferwand %s (ufer_klippen/klamm), %.1f m hoch" % (wz["grund"], h)})
-        fels_gruppen.append(nm)
+        h_soll = float(np.clip(wz["hoehe"], 2.0, 40.0))
+        reihen = int(min(3, math.ceil(h_soll / max(h, 0.5) - 0.15)))      # hohe Waende: Netze uebereinander
+        for r_ in range(max(1, reihen)):
+            gruppe(ctx, {"name": nm if r_ == 0 else "%s_r%d" % (nm, r_ + 1), "ebene": "begleiter", "netz": netz, "rolle": "fels",
+                         "verteilung": {"typ": "reihe", "punkte": lin_name, "abstand_m": max(2.0, breite * (1.0 - ueb)),
+                                        "versatz_m": wz["versatz"] + 0.4 * r_, "versatz_streuung_m": 0.4,
+                                        "seiten": ["links", "rechts"], "blick": "zur_linie", "front_an_linie": True},
+                         "groesse_m": [h * 0.9, h * 1.05], "groesse_achse": "z", "front_achse": "+y", "ausrichtung": "aufrecht",
+                         "z_bezug": "z:%.3f" % (wz["z_wasser"] - 0.3 + r_ * 0.85 * h), "akteur": True, "kollision": True,
+                         "im_wasser": "egal", "meide": None, "weg_abstand_m": 4.0, "yaw_streuung_grad": 6.0,
+                         "warum": "Uferwand %s (ufer_klippen/klamm), %.1f m hoch, Reihe %d" % (wz["grund"], h_soll, r_ + 1)})
+        fels_gruppen += [nm] + ["%s_r%d" % (nm, r_ + 1) for r_ in range(1, max(1, reihen))]
         # 6. Wandschutt (Kegel am Wandfuss)
         kl, _ = gr.kegel(rw, h)
         for seite, sg in (("l", 1.0), ("r", -1.0)):
@@ -855,6 +916,23 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
                      "verteilung": {"typ": "um_gruppe", "gruppe": vorhanden, "ring": [0.6, 1.1], "je": [1, 3],
                                     "seite": "nord"}, "rolle": "streu", "im_wasser": "nein", "meide": "kern",
                      "warum": "Moos auf der Nordseite der Felsen (Spruehzone, Schatten)"})
+
+
+def wand_netz(inv, liste, h, rng, max_skala=3.0):
+    """Wandnetz fuer eine Wandhoehe h: bevorzugt stehende Netze (Hoehe >= 0,35 x Grundriss), deren Hoehe am
+    besten passt; Massstab hoechstens max_skala (sonst wird die Wand niedriger). Rueckgabe (netz, hoehe_m)."""
+    kand = []
+    for n in liste:
+        gx, gy, gz_ = inv.netz(n)["groesse_m"]
+        if gz_ < 0.35 * max(gx, gy):
+            continue
+        kand.append((abs(math.log(max(h, 0.5) / (1.2 * max(gz_, 0.1)))), n, gz_))
+    if not kand:
+        kand = [(abs(math.log(max(h, 0.5) / max(inv.netz(n)["groesse_m"][2], 0.1))), n, inv.netz(n)["groesse_m"][2])
+                for n in liste]
+    kand.sort()
+    _, n, gz_ = kand[int(rng.integers(min(3, len(kand))))]
+    return n, float(min(h, max_skala * gz_))
 
 
 def ctx_rng(ctx, *teile):
@@ -1329,20 +1407,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     st_l = [x for x in K["strecken"] if x["lauf"] == lauf_id and (strecken_ids is None or x["id"] in strecken_ids)]
     # andere Gewaesser im Umfeld
     bx = (pr.x.min() - 60, pr.x.max() + 60, pr.y.min() - 60, pr.y.max() + 60)
-    andere = []
-    quellen = [(f["id"], f["punkte"]) for f in (K["wasser_welt"].get("fluesse") or [])] + \
-              [(b["id"], b["punkte"]) for b in K["baeche"]]
-    for oid, pk in quellen:
-        if oid == lauf_id or not pk or len(pk) < 2:
-            continue
-        P = np.asarray(pk, np.float64)[:, :2] / 100.0
-        if P[:, 0].max() < bx[0] or P[:, 0].min() > bx[1] or P[:, 1].max() < bx[2] or P[:, 1].min() > bx[3]:
-            continue
-        andere.append(P)
-    for s_ in K["wasser_welt"].get("seen") or []:
-        P = np.asarray(s_.get("umriss") or [[0, 0]], np.float64)[:, :2] / 100.0
-        if len(P) >= 3 and not (P[:, 0].max() < bx[0] or P[:, 0].min() > bx[1] or P[:, 1].max() < bx[2] or P[:, 1].min() > bx[3]):
-            andere.append(np.vstack([P, P[:1]]))
+    andere = andere_gewaesser(lauf_id, pr, K["wasser_welt"], K["baeche"])
     orte_nah = [o for o in K["orte"] if bx[0] - 300 < o["x_m"] < bx[1] + 300 and bx[2] - 300 < o["y_m"] < bx[3] + 300]
     biom_netze = {}
 
@@ -1493,29 +1558,51 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
                                   "grund": "Klamm (Eintiefung %.1f m)" % ee if klamm else "Uferklippe (Eintiefung %.1f m)" % ee,
                                   "klamm": klamm, "sohle": gr.klamm_werte(rw, pr.Bi(a))["sohlbreite"], "biom": bi, "D": ee})
             st_ = None
-    # in Becken-Stuecke teilen (eine Wasserhoehe je Wandgruppe), nur in Segmenten
+    # Zonen vereinigen (je Ort die hoechste Wand), in Becken-Stuecke teilen (eine Wasserhoehe je Wandgruppe)
+    wh = np.zeros(pr.n)
+    wz_id = np.full(pr.n, -1)
+    wk = np.zeros(pr.n, bool)
+    in_seg_pr = np.zeros(pr.n, bool)
+    for a, b in segmente:
+        in_seg_pr |= (pr.s >= a) & (pr.s <= b)
+    for n_z, z in enumerate(roh_zonen):
+        m = (pr.s >= z["a"]) & (pr.s <= z["b"]) & in_seg_pr
+        hoeher = m & (z["hoehe"] > wh)
+        wh[hoeher] = z["hoehe"]
+        wz_id[hoeher] = n_z
+        if z["klamm"]:
+            wk |= m
     lippen = sorted(e["p"] for e in alle_stufen)
-    for z in roh_zonen:
-        for a, b in segmente:
-            za, zb = max(z["a"], a), min(z["b"], b)
-            if zb - za < 4.0:
-                continue
-            schnitte = [za] + [p for p in lippen if za < p < zb] + [zb]
-            for c0, c1 in zip(schnitte[:-1], schnitte[1:]):
-                c0b = c0 + 1.0 if c0 in lippen else c0
-                if c1 - c0b < 4.0:
-                    continue
-                m = (pr.s >= c0b) & (pr.s <= c1)
-                if z["klamm"]:
-                    Bw[m] = np.maximum(Bw[m], z["sohle"])
-                    winkel[m] = np.maximum(winkel[m], 85.0)
-                else:
-                    wn = rw.r["faelle"].get("wand_neigung") or {"min": 70, "max": 90}
-                    w_ = 0.5 * sum(wv["neigung"]) if z["grund"].startswith("Ufer") else \
-                        0.5 * (float(wn["min"]) + float(wn["max"]))
-                    winkel[m] = np.maximum(winkel[m], min(w_, 85.0))
-                wandzonen.append(dict(z, a=c0b, b=c1, z_wasser=float(spiegel_bei(sp, c0b + 0.5)),
-                                      nr=len(wandzonen)))
+    for e in alle_stufen:                                  # an jeder Stufe 1 m Abstand (Wasserhoehe wechselt)
+        wh[(pr.s >= e["p"] - 0.5) & (pr.s < e["p"] + e["l"] + 1.0)] = 0.0
+    k = 0
+    while k < pr.n:
+        if wh[k] <= 0:
+            k += 1
+            continue
+        k1 = k
+        while k1 + 1 < pr.n and wh[k1 + 1] > 0:
+            k1 += 1
+        a, b = float(pr.s[k]), float(pr.s[k1])
+        if b - a >= 4.0:
+            ids = wz_id[k:k1 + 1]
+            z = roh_zonen[int(np.bincount(ids[ids >= 0]).argmax())]
+            klamm = bool(wk[k:k1 + 1].mean() >= 0.5)
+            m = (pr.s >= a) & (pr.s <= b)
+            if klamm:
+                Bw[m] = np.maximum(Bw[m], z["sohle"])
+                winkel[m] = np.maximum(winkel[m], 85.0)
+            else:
+                wn = rw.r["faelle"].get("wand_neigung") or {"min": 70, "max": 90}
+                w_ = 0.5 * sum(wv["neigung"]) if z["grund"].startswith("Ufer") else 0.5 * (float(wn["min"]) + float(wn["max"]))
+                winkel[m] = np.maximum(winkel[m], min(w_, 85.0))
+            wandzonen.append(dict(z, a=a, b=b, hoehe=float(wh[k:k1 + 1].max()), klamm=klamm,
+                                  grund=("Klamm: " if klamm and not z["grund"].startswith("Klamm") else "") + z["grund"],
+                                  z_wasser=float(spiegel_bei(sp, a + 0.5)), nr=len(wandzonen)))
+        k = k1 + 1
+    # Boeschungswinkel ueber die Stufen hinweg fortsetzen (Max-Filter +-2 m), sonst V-Kerbe an der Fallkante
+    w_ = int(2.0 / DS)
+    winkel = np.array([winkel[max(0, k - w_):k + w_ + 1].max() for k in range(pr.n)])
     # Breite glatt (Uebergaenge 3 m), dann Versatz der Waende
     kern = np.ones(int(3.0 / DS) * 2 + 1)
     Bw = np.maximum(pr.B, np.convolve(np.pad(Bw, len(kern) // 2, mode="edge"), kern / kern.sum(), mode="valid"))
@@ -1555,7 +1642,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             for a, b, _ in segs:
                 korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_fn, winkel_fn, rw, welt, gel, orte_nah)
             schutz_orte(st, welt, gel, orte_nah)
-            st.fertig(schutz=True, weg_m=3.0, wasser=True, ausnahme_maske=korr)
+            st.fertig(schutz=True, weg_m=4.0, wasser=True, ausnahme_maske=korr)   # 4 m: Reserve fuer 1-m-Interpolation
             st.protokoll = ["Bett"] + (["Kolk"] if any(e["art"] != "schnelle" for e in st_ab) else []) + \
                 (["Felsstufe"] if any(e["art"] == "fall" for e in st_ab) else []) + \
                 (["Klamm"] if any(w["klamm"] for w in wandzonen if any(a <= w["a"] <= b for a, b, _ in segs)) else []) + \
@@ -1563,9 +1650,9 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             st.ist_wasser = True
             if st.max_aenderung_m > 40.0:
                 st.begruendung = "Fallhoehe + Kolk eines Falls > 40 m (Regelwerk faelle/kolk)"
-            sk = st.senken(wasser=st._lauf_maske | korr)
+            sk = neue_senken(st, st._lauf_maske | korr)
             if sk["flaeche_m2"] > 0:
-                melde("WARNUNG", "%s: geschlossene Senke ausserhalb des Laufs %.0f m2, %.1f m tief"
+                melde("WARNUNG" if sk["flaeche_m2"] >= 30.0 else "HINWEIS", "%s: geschlossene Senke ausserhalb des Laufs %.0f m2, %.1f m tief"
                       % (aid, sk["flaeche_m2"], sk["max_tiefe_m"]))
             stempel_liste.append(st)
             cx, cy = 0.5 * (x0 + x1), 0.5 * (y0 + y1)
@@ -1603,7 +1690,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         melde(st_, t_)
     kameras = []
     for x in strecken_out:
-        if x.get("pilot") and "_segs" in x:
+        if x.get("pilot") and x.get("_segs") and any(e["strecke"] == x["id"] for e in alle_stufen):
             kameras += bauen_kameras(K, pr, x["id"], [e for e in alle_stufen if e["strecke"] == x["id"]],
                                      breite_fn, stempel_liste)
             if not any(k[6].endswith("_vorher") and not k[6].endswith("weg_vorher") for k in kameras if k[6].startswith(x["id"])):
@@ -1693,8 +1780,20 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         melde("HINWEIS", h)
     plan["meldungen"] = [{"stufe": s_, "text": t_} for s_, _, t_ in meldungen]
     with open(os.path.join(aus_lauf, "plan.json"), "w", encoding="utf-8") as f:
-        json.dump(plan, f, ensure_ascii=False, indent=1)
+        json.dump(plan, f, ensure_ascii=False, indent=1, default=_json_np)
     return plan, kontexte, meldungen, pr, sp
+
+
+def _json_np(o):
+    if isinstance(o, np.bool_):
+        return bool(o)
+    if isinstance(o, np.integer):
+        return int(o)
+    if isinstance(o, np.floating):
+        return float(o)
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    raise TypeError(type(o).__name__)
 
 
 def hash_stabil(*teile):

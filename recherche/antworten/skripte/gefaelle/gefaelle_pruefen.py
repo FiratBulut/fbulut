@@ -67,7 +67,7 @@ def pruefe_spiegel(p, rw, b, tag):
     s_neu = np.asarray(p.get("spiegel_neu_s_m") or _s_entlang(sp), np.float64)
     s_alt = _s_entlang(p["spiegel_alt_cm"])
     ueber = z - np.interp(s_neu, s_alt, alt_m)
-    if (ueber > 2.0).any():
+    if (ueber > 5.0).any():
         b.append((WARNUNG, tag, "neuer Spiegel bis %.2f m ueber dem alten (Ufer pruefen)" % (ueber.max() / 100.0)))
     _, zp_max = rw.zwei_punkte()
     gb_max = float(rw.r["becken"]["gefaelle"].get("max", 0.02))
