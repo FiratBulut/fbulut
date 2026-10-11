@@ -182,4 +182,4 @@ und „Ergebnis je Biom“ folgen mit der Endfassung.
 
 ## Commit für den zweiten Pilot
 
-Vorfassung Bergwald: siehe Commit-Nachricht „Auftrag 13h: Vorfassung Bergwald …“. Den Hash nennt die Endfassung.
+Vorfassung Bergwald: **`73e5cb3`**. Für diesen Stand gilt: Bergwald auf 2 m 0 FEHLER, zwei Läufe byteidentisch, geprüft in einem eigenen Worktree ohne fremde, nicht committete Änderungen. Die Endfassung (alle Biome) nennt einen neuen Hash.
