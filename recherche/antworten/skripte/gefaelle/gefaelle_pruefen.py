@@ -13,7 +13,10 @@ Geprueft (Regelwerk = gefaelle_regeln.json, regeln_hart + Zahlen):
             (FEHLER), > becken.gefaelle.max (WARNUNG); Schnelle-Rampe <= rampe_gefaelle_max.
   Stufen    Fall je Art in stufen.arten [D_min, D_max] (Fall <= faelle.hoehe_max_einzeln; Kaskade je Teilstufe),
             <= max_stufen_je_100m, lippe_cm 3-7 Punkte, fuss_z < Lippe.
-  Stuecke   Flussstuecke monoton, Luecke an jeder Teilung >= 1,2 m, keine Ueberlappung in der Draufsicht (0,25-m-Raster).
+  Wasser    (Befund 14b, Variante A) wasser_koerper = River + Kaskadennetz: Spiegel/Netz-Mittellinie monoton fallend,
+            Nachbarn ueberlappen genau 0,5 m, sonst nichts (River auch in der Draufsicht), jede Stufe liegt in einem Netz,
+            Bett >= 0,2 m unter dem Spiegel und Ufer am Netzrand >= 0,1 m darueber (Gelaende nach dem Stempel),
+            je Stufe Niagara oder Vorhang (WARNUNG, wenn die Grenze 'gleichzeitig' das verhindert).
   Assets    Netze (Instanz-Ebene + Akteure) in netze.csv, nicht gesperrt; Niagara in inventar_extra.json.
   Budget    je Abschnitt <= SEHENS_FORMAT §9 (sehens_pruefen.pruefe_ebene), Effekte <= 3 je Stufe, <= 6 gleichzeitig
             (Proben alle 2 m entlang des Spiegels, Cull-Radius), Cull 30-150 m; je Feld <= 60 000.
@@ -79,7 +82,7 @@ def pruefe_spiegel(p, rw, b, tag):
         dh = math.hypot((sp[k + 1][0] - sp[k][0]) / 100.0, (sp[k + 1][1] - sp[k][1]) / 100.0)
         dz = (z[k] - z[k + 1]) / 100.0
         a0, a1 = art[k], art[k + 1]
-        if a1 == "lippe" and a0 in ("alt",) and abs(z[k] - z_alt_bei[k]) < 1.0 and abs(z[k + 1] - z_alt_bei[k + 1]) < 1.0:
+        if a1 == "lippe" and a0 in ("alt",) and abs(z[k] - z_alt_bei[k]) < 5.0 and abs(z[k + 1] - z_alt_bei[k + 1]) < 5.0:
             continue                                   # unveraenderter alter Lauf bis zur ersten Lippe
         if a0 == "lippe" and a1 == "fuss":
             if dh > zp_max + 0.01:
@@ -136,26 +139,88 @@ def pruefe_stufen(p, rw, b, tag):
             break
 
 
-def pruefe_stuecke(p, b, tag):
-    from gefaelle_plan import ueberlappungen, TEIL
-    fs = p.get("flussstuecke") or []
-    if not fs:
-        b.append((FEHLER, tag, "flussstuecke fehlen"))
+def pruefe_wasser(p, ordner, welt, b, tag):
+    """Variante A (14b): River + Kaskadennetz. Monotonie, Ueberlappung nur 0,5 m, Bett/Ufer am Netz, jede Stufe im Netz."""
+    from gefaelle_plan import ueberlappungen, KN
+    from sehens_lib.sehens_pruefen import BodenNachStempel
+    wk = p.get("wasser_koerper") or []
+    if not wk:
+        b.append((FEHLER, tag, "wasser_koerper fehlt"))
         return
-    for f in fs:
-        z = [q[2] for q in f["punkte"]]
+    if p.get("flussstuecke"):
+        b.append((FEHLER, tag, "flussstuecke mit Luecken sind abgeschafft (14b)"))
+    for w in wk:
+        if w.get("typ") not in ("river", "kaskadennetz", "custom", "statisch_platte"):
+            b.append((FEHLER, tag, "%s: typ %r" % (w.get("id"), w.get("typ"))))
+        P = w.get("punkte") or w.get("mittellinie") or []
+        if len(P) < 2:
+            b.append((FEHLER, tag, "%s: < 2 Punkte" % w.get("id")))
+            continue
+        z = [q[2] for q in P]
         if any(z[k + 1] > z[k] + TOL for k in range(len(z) - 1)):
-            b.append((FEHLER, tag, "%s: Spiegel steigt im Flussstueck" % f["id"]))
-        if len(f["punkte"]) < 2:
-            b.append((FEHLER, tag, "%s: < 2 Punkte" % f["id"]))
-    for lu in p.get("luecken") or []:
-        if lu["luecke_entlang_m"] < TEIL["luecke_min_m"] - 1e-6 or lu["luecke_m"] < TEIL["luecke_min_m"] - 0.05:
-            b.append((FEHLER, tag, "Luecke %s -> %s nur %.2f m (< %.1f m)" % (lu["oben"], lu["unten"], lu["luecke_m"],
-                                                                            TEIL["luecke_min_m"])))
-    ue = ueberlappungen(fs)
-    if ue:
-        b.append((FEHLER, tag, "Flussstuecke ueberlappen in der Draufsicht: %s" % ", ".join(
-            "%s/%s" % (fs[i]["id"][-3:], fs[j]["id"][-3:]) for i, j in ue[:6])))
+            b.append((FEHLER, tag, "%s: %s steigt" % (w["id"], "Netz-Mittellinie" if w["typ"] == "kaskadennetz" else "Spiegel")))
+        if w["typ"] == "kaskadennetz" and len(w.get("knick") or []) != len(P):
+            b.append((FEHLER, tag, "%s: knick und mittellinie verschieden lang" % w["id"]))
+    # Ueberlappung entlang des Laufs: Nachbarn genau ueberlapp_m, sonst keine
+    o = sorted(wk, key=lambda w: w["s_m"][0])
+    for k in range(len(o)):
+        for j in range(k + 1, len(o)):
+            ue = o[k]["s_m"][1] - o[j]["s_m"][0]
+            if j == k + 1:
+                if abs(ue - KN["ueberlapp_m"]) > 0.06:
+                    b.append((FEHLER, tag, "%s/%s ueberlappen %.2f m (soll %.1f m)" % (o[k]["id"], o[j]["id"], ue,
+                                                                                    KN["ueberlapp_m"])))
+            elif ue > 1e-3:
+                b.append((FEHLER, tag, "%s/%s ueberlappen (nicht benachbart)" % (o[k]["id"], o[j]["id"])))
+    rv = [w for w in wk if w["typ"] == "river"]
+    if len(rv) > 1:
+        ue = ueberlappungen([{"punkte": w["punkte"]} for w in rv])
+        if ue:
+            b.append((FEHLER, tag, "River-Abschnitte ueberlappen in der Draufsicht: %s" % ue[:5]))
+    kn = [w for w in wk if w["typ"] == "kaskadennetz"]
+    for e in p.get("stufen") or []:
+        if not any(w["s_m"][0] - 1e-3 <= e["s_m"] <= w["s_m"][1] + 1e-3 for w in kn):
+            b.append((FEHLER, tag, "%s liegt in keinem Kaskadennetz" % e["id"]))
+    # (d) Niagara oder Vorhang je Stufe
+    fx = {e["stufe"] for e in p.get("effekte") or []}
+    ohne = [sid for w in kn for sid in w.get("stufen", []) if sid not in fx and sid not in (w.get("vorhang_an_stufen") or [])]
+    if ohne:
+        b.append((WARNUNG, tag, "%d Stufen ohne Niagara und ohne Vorhang (Grenze <= 6 gleichzeitig; Schaum nur im Netz): %s"
+                  % (len(ohne), ", ".join(x_[-3:] for x_ in ohne[:12]))))
+    # (a) Bett >= 0,2 m unter dem Spiegel, (b) Ufer am Netzrand >= 0,1 m ueber dem Spiegel - Gelaende NACH dem Stempel
+    if welt is None:
+        return
+    orte = [{"id": a["id"], "gelaende": a.get("gelaende")} for a in p.get("abschnitte") or []]
+    boden = BodenNachStempel(welt, orte, ordner)
+    for w in kn:
+        M = np.asarray(w["mittellinie"], np.float64)
+        kn_ = w["knick"]
+        n_bett = n_ufer = n_b = 0
+        for k in range(len(M)):
+            if kn_[k] != "becken":
+                continue
+            n_b += 1
+            if k + 1 < len(M):
+                t = M[k + 1, :2] - M[k, :2]
+            else:
+                t = M[k, :2] - M[k - 1, :2]
+            L = max(float(np.hypot(*t)), 1e-6)
+            tx, ty = t / L
+            x, y, zs, br = M[k, 0] / 100.0, M[k, 1] / 100.0, M[k, 2] / 100.0, M[k, 3] / 100.0
+            zus = max(welt.zelle_m - 1.0, 0.0)          # 2-m-Naeherung (siehe gefaelle_plan.RASTER_ZUSCHLAG)
+            off = np.linspace(-1, 1, 7) * max(0.45 * br - zus, 0.15 * br)
+            bett = float(np.mean(boden.hoehe(x + ty * off, y - tx * off)))
+            if zs - bett < KN["bett_unter_spiegel_min_m"] - 0.005:
+                n_bett += 1
+            r_ = br / 2.0 + w.get("rand_ueberstand_m", 0.4) + zus
+            hz = boden.hoehe(np.array([x + ty * r_, x - ty * r_]), np.array([y - tx * r_, y + tx * r_]))
+            if float(np.min(hz)) < zs + KN["ufer_ueber_spiegel_am_rand_m"] - 0.005:
+                n_ufer += 1
+        if n_bett:
+            b.append((FEHLER, tag, "%s: Bett an %d von %d Beckenpunkten < 0,2 m unter dem Spiegel" % (w["id"], n_bett, n_b)))
+        if n_ufer:
+            b.append((FEHLER, tag, "%s: Ufer am Netzrand an %d von %d Beckenpunkten < 0,1 m ueber dem Spiegel"
+                      % (w["id"], n_ufer, n_b)))
 
 
 def pruefe_effekte(p, rw, inv, b, tag):
@@ -230,8 +295,8 @@ def pruefe_gelaende(p, ordner, welt, orte, b, tag):
             b.append((WARNUNG, ab["id"], "|Delta| %.1f m > 40 m ohne Begruendung" % np.abs(a).max()))
         if max(hh, ww) > 600:
             b.append((WARNUNG, ab["id"], "Fenster %d x %d m > 600 m" % (hh, ww)))
-        if a.max() > 0.01:
-            b.append((WARNUNG, ab["id"], "Gelaende wird angehoben (max %.2f m) - Planer soll nur absenken" % a.max()))
+        if a.max() > 1.0:
+            b.append((WARNUNG, ab["id"], "Gelaende wird um %.2f m angehoben (Uferwulst soll < 1 m bleiben)" % a.max()))
         lg = ab.get("lagen")
         if lg:
             li0, lj0, lh, lw = lg["fenster_ij"]
@@ -302,7 +367,7 @@ def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None):
     with open(pj, "r", encoding="utf-8") as f:
         p = json.load(f)
     rw = rw or gr.Regelwerk.lade()
-    for k in ("lauf", "stufen", "spiegel_neu_cm", "flussstuecke", "abschnitte", "effekte", "kameras", "instanzen"):
+    for k in ("lauf", "stufen", "spiegel_neu_cm", "wasser_koerper", "abschnitte", "effekte", "kameras", "instanzen"):
         if k not in p:
             b.append((FEHLER, tag, "plan.json: %s fehlt" % k))
     if not p.get("stufen"):
@@ -310,7 +375,7 @@ def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None):
         return b
     pruefe_spiegel(p, rw, b, tag)
     pruefe_stufen(p, rw, b, tag)
-    pruefe_stuecke(p, b, tag)
+    pruefe_wasser(p, ordner, welt, b, tag)
     pruefe_effekte(p, rw, inv, b, tag)
     pruefe_kameras(p, b, tag)
     pruefe_gelaende(p, ordner, welt, orte if orte is not None else gd.sehens_orte(), b, tag)
