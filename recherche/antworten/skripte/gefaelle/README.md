@@ -180,6 +180,54 @@ Ergebnis und Vorher-Nachher-Tabelle stehen in `antworten/15b-korrektur-1m-ufer-n
     dazu an den Zufluss-Endstücken.
   - Jede Zelle mit |Δ| > 0,3 m braucht eine Lage.
 
+## Unregelmäßige Stufen und Querprofil (15f)
+
+Die Parameter stehen in `gefaelle_regeln.json`, Abschnitt `stufen.unregelmaessig`.
+
+**Lippen**
+- Jede Lippe (auch jede Teil-Lippe einer Kaskade) liegt 15–30° schräg zur Querrichtung, das Vorzeichen ist zufällig.
+- Sie ist gekrümmt (Pfeil 0,05–0,15 B, Scheitel stromab) und hat 1–2 Kerben für den Hauptstrahl.
+- Teil-Lippen einer Kaskade haben dieselbe Schrägrichtung, aber einen anderen Winkel. Die Kerbe sitzt auf der anderen
+  Seite (versetzt).
+- Der Längsversatz wird so begrenzt, dass zwischen Nachbarlippen |ΔVersatz| ≤ 0,6 × Becken gilt. Damit bleibt
+  `s_eff(s, u) = s − Versatz` monoton und der Spiegel steigt nie.
+- Gelände, Bett, Krone (neben der Kerbe 5 cm unter Wasser, in der Kerbe tiefer), Uferring und Netz rechnen alle mit
+  `s_eff`.
+
+**Abstände und Höhen**
+- `stufen.zufall` ±40 %, Suchfenster für die nächste Lippe 0,6–1,4 L.
+- Teilstufen einer Kaskade streuen ±45 % (Blockkaskade). Es wird eher eine Teilstufe mehr gelegt, die mittlere Höhe
+  liegt bei ≤ 0,75 × D_max.
+- 30 % der Teilstufen bis 0,8 m werden zur Rampe (Schnelle), wo Platz ist.
+
+**Breite:** Lippen 0,8 B (Einschnürung ±1,5 m), Becken 1,2 B. Die Breite ändert sich höchstens 0,4 m je m.
+
+**Netze**
+- Lippen sind dicht mit Blöcken besetzt (Abstand 0,75 × Blockgröße); die Kerben bleiben frei, Keystones sitzen an den
+  Kerbenrändern.
+- Neu: Kies im Kolk, Totholz quer im Becken (30 %), mehr Beckenblöcke.
+
+**Kaskadennetz**
+- `mittellinie_s_m`: Laufkoordinate je Punkt.
+- `knick` hat zusätzlich den Wert `uebergang`: Querschnitte alle 0,25 m um jede Lippe, damit der schräge Absturz
+  aufgelöst ist.
+- `quer` (je Punkt `quer_punkte` = 11 Stützpunkte, Index 0 = rechts, Lage
+  u = (−1 + 2 j/(N − 1)) × (breite/2 + rand_ueberstand_m)) mit den Feldern:
+  - `dz_cm`: Wasserhöhe gegen `z_cm`.
+  - `deckung` 0–1: In der Kerbe ist die Zunge deckend, daneben 0,15–0,35, sodass Fels durchscheint.
+  - `schaum` 0–1: nur am Lippensaum (≤ 0,5 m, Seiten 0,15), auf der Zunge (Seiten 0,1) und im Aufprallkreis
+    (≤ 30 % der Beckenlänge), sonst 0.
+  - `tiefe_cm`: Wasser über dem Bett, für die Beckenfarbe.
+- Dazu `material_parameter` (Schaum_Menge 0,15, Zungen_Schaum 0,25) und `farbe_hinweis`.
+- Die Spalte `schaum` der Mittellinie ist der mittlere Querpunkt.
+
+**Prüfer**
+- Querprofil passt zur Mittellinie, Wasserlinie je Längsstreifen monoton, Werte 0–1, Anfang und Ende eben
+  (Anschluss River).
+- Ufer und Bett gegen das Wasser an der jeweiligen Seite. Uferproben direkt neben einem schrägen Absturz
+  (≤ 1,5 m stromab, ≤ 1 m stromauf auf dieser Seite) zählen wie Lippenpunkte (`ufer_an_lippe`).
+- HINWEIS „Regelmäßigkeit“: CV der Lippenabstände bzw. Fallhöhen < 0,2 oder Lippenwinkel alle gleich.
+
 ## Grenzen
 
 - **2-m-Daten:** Ein 4-m-Bach ist dort nur 2 Zellen breit. Riser, Becken und Ufer verschmieren, deshalb gelten Bett- und
