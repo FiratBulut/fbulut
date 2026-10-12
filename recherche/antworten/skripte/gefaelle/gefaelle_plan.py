@@ -1519,14 +1519,14 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
         k = e["nr"]
         ko = e["kolk"]
         x, y = pr.xy(e["p"] + e["l"] + (ko["x_strahl"] if e["art"] == "fall" else 0.4 * ko["laenge"]))
-        if N["kies"]:
+        if N["kies"] and e["d"] - ko["tiefe"] > 0.2:            # nicht unter Meereshoehe (Pruefung 'im Meer')
             ctx.anker["kolk_%02d" % k] = (x, y)
             gruppe(ctx, {"name": "kolkkies_%02d" % k, "ebene": "kleinzeug", "palette": N["kies"],
                          "anzahl": int(np.clip(4.0 * ko["radius"], 6, 30)),
                          "verteilung": {"typ": "faecher", "bei": "kolk_%02d" % k, "richtung": kompass(*pr.tang(e["p"])),
                                         "laenge_m": max(ko["radius"], 1.0), "oeffnung_grad": 140},
                          "abstand_m": 0.3, "skala": [0.7, 1.2], "rolle": "stein", "im_wasser": "egal",
-                         "warum": "Kies im Kolk (15f: Kolk mit Kies)"})
+                         "boden_min_m": 1.0, "warum": "Kies im Kolk (15f: Kolk mit Kies)"})
         rng_h = ctx_rng(ctx, "totholz", k)
         if N["holz"] and not e.get("holz") and rng_h.uniform() < unreg(rw)["totholz_quer_anteil"]:
             L_b = max(e["L"] - e["l"], 1.0)
@@ -1535,7 +1535,7 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
             setze(ctx, "totholz_%02d" % k, "begleiter", N["holz"], [(xh, yh)],
                   [(kompass(*pr.tang(s_h)) + 90.0 + float(rng_h.uniform(-30.0, 30.0))) % 360.0], rolle="stamm",
                   ausrichtung="liegend", groesse_m=[e["B"] * 0.6, e["B"] * 0.95], groesse_achse="max", zentrieren=True,
-                  akteur=False, kollision=True, im_wasser="egal", meide=None, eingraben=[0.2, 0.35],
+                  akteur=False, kollision=True, im_wasser="egal", meide=None, eingraben=[0.2, 0.35], boden_min_m=1.0,
                   warum="Totholz quer im Becken (15f, Vorbilder Step-Pool-Baeche)")
     # 5. Beckenbloecke + 7. Kies je Segment
     korn = gr.becken_korn(rw)
@@ -1548,13 +1548,13 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
             gruppe(ctx, {"name": "beckenbloecke_%02d" % n_s, "ebene": "wasser", "palette": N["bloecke"],
                          "anzahl": max(2, int((b - a) / max(1.5 * B, 4.0))),
                          "verteilung": {"typ": "band", "punkte": ln, "breite_m": 0.8 * B}, "abstand_m": 1.5,
-                         "groesse_m": [0.4, 1.3], "rolle": "stein", "im_wasser": "egal",
+                         "groesse_m": [0.4, 1.3], "rolle": "stein", "im_wasser": "egal", "boden_min_m": 1.0,
                          "warum": "einzelne Bloecke im Becken (grob an Stufen, fein im Becken)"})
         if N["kies"]:
             gruppe(ctx, {"name": "kies_%02d" % n_s, "ebene": "kleinzeug", "palette": N["kies"],
                          "anzahl": int(min(4000, (b - a) * (B + 2.0) * 0.35)),
                          "verteilung": {"typ": "band", "punkte": ln, "breite_m": B + 2.0}, "abstand_m": 0.45,
-                         "skala": [0.6, 1.1], "rolle": "stein", "im_wasser": "egal",
+                         "skala": [0.6, 1.1], "rolle": "stein", "im_wasser": "egal", "boden_min_m": 1.0,
                          "warum": "Kies im Becken und am Ufer (schutt.becken_korn %.2f-%.2f m)" % korn})
     # 8. Moos (Kontakt) an allen Felsgruppen
     moos = {}
@@ -1881,7 +1881,7 @@ def raster_text(n_fehl, n_ges, zuschlag=None):
     return " (2-m-Raster: lokal auf 1 m pruefen)" if raster_stufe(n_fehl, n_ges, zuschlag) == "WARNUNG" else ""
 
 
-def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0, quer=None):
+def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0, quer=None, s_liste=None):
     """15c: Ufer am Netzrand je Beckenpunkt und Seite: Liste (k, seite, x, y, z_spiegel, h_neu, status) mit status
     ok | fehl | bestand | muendung. Probe bei halbe Breite + rand_ueberstand_m (+ Rasterzuschlag) quer zur
     Mittellinie. 'muendung' nur, wenn die Probe <= Zuflussbreite/2 + 1 m von der Zuflusslinie liegt (dort ist das
@@ -1901,7 +1901,18 @@ def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0, quer=
         for sd in range(2):
             st_ = "ok"
             if quer is not None:                                   # 15f: Wasser an dieser Seite (schraege Lippen)
-                zs = M[k, 2] / 100.0 + quer[k][-1 if sd == 0 else 0][0] / 100.0
+                j_ = -1 if sd == 0 else 0
+                zs = M[k, 2] / 100.0 + quer[k][j_][0] / 100.0
+                if s_liste is not None:
+                    # an einer schraegen Lippe liegt der Absturz auf dieser Seite <= 1,5 m stromab bzw. <= 1 m stromauf:
+                    # das Ufer ist dort die Seitenwand des Absturzes (wie Lippen-/Fusspunkte, kein Becken)
+                    S_ = np.asarray(s_liste, np.float64)
+                    nb = np.flatnonzero((S_ >= S_[k] - 1.0) & (S_ <= S_[k] + 1.5))
+                    ze = np.array([M[i_, 2] / 100.0 + quer[i_][j_][0] / 100.0 for i_ in nb])
+                    if ze.size and float(np.max(np.abs(ze - zs))) > 0.3:
+                        out.append((k, "links" if sd == 0 else "rechts", float(px[sd]), float(py[sd]), zs,
+                                    float(hz[sd]), "lippe"))
+                        continue
             if any(gd.abstand_punkte_polylinie(px[sd:sd + 1], py[sd:sd + 1], np.asarray(m_["linie_m"]))[0]
                    <= m_["breite_m"] / 2.0 + 1.0 for m_ in muendungen if len(m_["linie_m"]) >= 2):
                 st_ = "muendung"
@@ -2029,6 +2040,14 @@ def kn_bereiche(pr, stufen, segmente):
             continue
         a = st[0]["p"]
         ende = max((e.get("teil") or [e])[-1]["p"] + (e.get("teil") or [e])[-1]["l"] for e in st)
+        # 15f: schraege Lippen - der Absturz liegt an einer Seite bis zum groessten Versatz weiter stromab/stromauf
+        for e in st:
+            for t_ in (e.get("teil") or [e]):
+                g = t_.get("geo")
+                if g:
+                    dv = lippen_versatz(g, np.linspace(-g["h"], g["h"], 25))
+                    ende = max(ende, t_["p"] + t_["l"] + float(dv.max()))
+                    a = min(a, t_["p"] + float(dv.min()) - UNREG_STANDARD["schaum"]["saum_m"])
         b = min(float(pr.s[-1]), ende + KN["nach_unten_m"] + KN["ueberlapp_m"])
         if bereiche and a - bereiche[-1][1] < KN["river_min_m"] + 2.0 * KN["ueberlapp_m"]:
             # 15c: River dazwischen < 15 m -> kein Epic-River, Teil des Netzes als Rampe (14b: trockene Becken)
@@ -2270,11 +2289,13 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
         # 15c: Ufer je Seite; Muendung nur an der Zuflusslinie, Bestand nur bei altem Ufer unter Spiegel + 0,1 - 1 m
         mu_kn = [m_ for m_ in muendungen if a - m_["breite_m"] - 5.0 <= m_["s_m"] <= b + m_["breite_m"] + 5.0]
         ix = [k_ for k_, (r_k, ns_) in enumerate(zip(knick, nah_stufe)) if r_k == "becken" and not ns_]
-        proben = ufer_proben(mitte, ix, boden_fn, welt_hoehe, mu_kn, RASTER_ZUSCHLAG(), quer)
+        proben = ufer_proben(mitte, ix, boden_fn, welt_hoehe, mu_kn, RASTER_ZUSCHLAG(), quer,
+                             mitte_s if quer is not None else None)
         ss = ix
         n_ufer = sum(1 for p_ in proben if p_[6] == "fehl")
         n_ufer_bestand = sum(1 for p_ in proben if p_[6] == "bestand")
         n_mund = sum(1 for p_ in proben if p_[6] == "muendung")
+        n_lippe = sum(1 for p_ in proben if p_[6] == "lippe")
         vorhang = [e["id"] for e in st if _hat_vorhang(e)]
         kn = {"id": "%s_KN%d" % (lauf_id, n), "typ": "kaskadennetz", "s_m": [_r(a, 2), _r(b, 2)],
               "mittellinie": mitte, "mittellinie_felder": ["x_cm", "y_cm", "z_cm", "breite_cm", "tempo_cm_s", "fallanteil",
@@ -2293,6 +2314,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
               "pruefung": {"bett_unter_spiegel_min_m": KN["bett_unter_spiegel_min_m"],
                            "ufer_ueber_spiegel_am_rand_m": KN["ufer_ueber_spiegel_am_rand_m"],
                            "becken_punkte": n_bk, "bett_zu_flach": n_bett, "ufer_proben": int(2 * len(ss)), "ufer_muendung": n_mund,
+                           "ufer_an_lippe": n_lippe,
                            "ufer_zu_tief": n_ufer, "ufer_zu_tief_bestand": n_ufer_bestand},
               "quelle": KN["quelle"]}
         if quer is not None:

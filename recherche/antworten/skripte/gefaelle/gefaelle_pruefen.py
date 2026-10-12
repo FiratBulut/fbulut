@@ -266,6 +266,10 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
                 steigt = int((np.diff(ZQ, axis=0) > 2.0).sum())
                 if steigt:
                     b.append((FEHLER, tag, "%s: Querprofil-Wasserlinie steigt an %d Stellen (> 2 cm)" % (w["id"], steigt)))
+                for kk_, nm_ in ((0, "Anfang"), (len(Q) - 1, "Ende")):
+                    if max(abs(c[0]) for c in Q[kk_]) > 10.0:
+                        b.append((FEHLER, tag, "%s: Querprofil am %s nicht eben (|dz| > 10 cm) - Anschluss an River"
+                                  % (w["id"], nm_)))
                 DS_ = np.asarray([[c[1:3] for c in r] for r in Q], np.float64)
                 if DS_.min() < -1e-6 or DS_.max() > 1.0 + 1e-6:
                     b.append((FEHLER, tag, "%s: deckung/schaum ausserhalb 0-1" % w["id"]))
@@ -287,7 +291,8 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
         # Ufer je Seite (15c): Muendung nur an der Zuflusslinie, Bestand nur bei altem Ufer unter Spiegel + 0,1 - 1 m
         mu = [{"breite_m": m_["breite_m"], "linie_m": (np.asarray(m_["linie_cm"], np.float64) / 100.0).tolist()}
               for m_ in w.get("muendungen") or []]
-        pr_ = ufer_proben(w["mittellinie"], ix, boden.hoehe, alt_hoehe, mu, zus, Q)
+        pr_ = ufer_proben(w["mittellinie"], ix, boden.hoehe, alt_hoehe, mu, zus, Q,
+                          w.get("mittellinie_s_m") if Q is not None else None)
         n_ufer = sum(1 for q in pr_ if q[6] == "fehl")
         n_bestand = sum(1 for q in pr_ if q[6] == "bestand")
         if n_bestand:
@@ -378,7 +383,7 @@ def _lagen_summe(p, ordner):
 
 def _erlaubte_zone(p, X, Y):
     """15e: Abstand d zur neuen Wasserlinie und erlaubte Breite je Zelle: halbe Breite + Netzrand 0,4 + Uferring 1,5
-    + Boeschung fuer die Eintiefung ((alter - neuer Spiegel + 0,5 m) / tan 35 deg) + 1 m Rasterreserve; dazu die
+    + Boeschung fuer die Eintiefung ((alter - neuer Spiegel + 0,5 m) / tan 35 deg) + 2 m Reserve; dazu die
     Zufluss-Endstuecke (Breite/2 + 4 m). Klamm/Wandzonen stecken in der Breite."""
     from gefaelle_plan import KN, RING, BOESCHUNG_GRAD
     from sehens_lib import stempel as stm
@@ -394,10 +399,13 @@ def _erlaubte_zone(p, X, Y):
     z_alt = np.minimum.accumulate(A[:, 2]) / 100.0
     eint = np.maximum(np.interp(s, s_alt, z_alt) - np.interp(s, s_neu, N[:, 2] / 100.0), 0.0)
     # Eintiefung im Umkreis +-3 m (Fallkanten) als Maximum
-    eint = np.maximum.reduce([np.maximum(np.interp(s + ds, s_alt, z_alt) - np.interp(s + ds, s_neu, N[:, 2] / 100.0), 0.0)
-                              for ds in (-3.0, -1.5, 0.0, 1.5, 3.0)])
+    # 15f: schraege Lippen verschieben den Absturz seitlich um bis zu ~0,6 x halbe Breite -> Fenster mitwachsen lassen
+    fen = 3.0 + 0.6 * half
+    eint = np.maximum.reduce([np.maximum(np.interp(s + f_ * fen, s_alt, z_alt) - np.interp(s + f_ * fen, s_neu,
+                                                                                         N[:, 2] / 100.0), 0.0)
+                              for f_ in np.linspace(-1.0, 1.0, 9)])
     breite = half + KN["rand_ueberstand_m"] + RING["breite_m"] + (eint + RING["abtrag_zuschlag_m"]) / np.tan(
-        np.radians(BOESCHUNG_GRAD)) + 1.0
+        np.radians(BOESCHUNG_GRAD)) + 2.0                   # 2 m Reserve: 1-m-Raster und Kruemmung (Projektion)
     ok = d <= breite
     for z_ in p.get("zufluesse") or []:
         T_ = np.asarray(z_["punkte_neu_cm"], np.float64)

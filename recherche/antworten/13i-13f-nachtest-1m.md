@@ -36,7 +36,7 @@ Vorfassung schon in `5d88d44` (WIP-Commit) gepusht. Endstand: siehe Commit-Hinwe
 - **Ergebnis:** In meinen Punkten 0 FEHLER auf 2 m und synthetisch auf 1 m, siehe „Prüfergebnis“.
 - **Was noch FEHLER meldet:**
   - die neuen 13h-Regeln (Kamera, Leuchtfeuer, Steilflächen); ihre Behebung macht der 13h-Agent;
-  - auf 2 m kueste A5: ein Kiesel im Meer, Ursache noch offen (s. u.).
+  - gletscher_03 `seeabfluss` auf 1 m: das Gelände kommt aus der laufenden 13h-Umformung (s. „Prüfergebnis“).
 
 ## K1 – Querprofil schneidet in steile Hänge
 
@@ -189,14 +189,39 @@ durch das Bachprofil.
 (Endstand siehe unten; FEHLER aus den 13h-Regeln „Kamera“, „Leuchtfeuer“, „neu steil ohne Fels-Akteur“ sind
 ausgeklammert.)
 
-ERGEBNIS_PLATZHALTER
+Stand `785711d` (Code). In den Läufen ist auch der jeweils aktuelle Arbeitsstand des parallel arbeitenden 13h-Agenten
+enthalten.
+
+| Lauf | Ergebnis in meinen Punkten (K1–K8, K10, Bäche, Seen, Lagen, Instanzen) |
+|---|---|
+| 2 m, alle 15 | Planer 0 FEHLER; Prüfer 0 FEHLER aus K1–K10 |
+| synthetisch 1 m, alle 15 | 0 FEHLER aus K1–K10, ausgenommen gletscher_03 `seeabfluss` (s. u.) |
+| Selbsttest | 0 FEHLER, 68 Prüfungen; neu: K1 Querprofil, K2 Pivot in der Netzmitte, K3 Feldgrenze |
+| Stufenvergleich 2 m gegen c945f93 | 37 Bäche gleich bzw. nur Fuß verschoben (K5), 5 mit aufgegangener Schluss-Stufe (K5), 4 in gletscher „anders“ (s. u.) |
+| Rollout oedland, kueste, sumpf | 2 m: Prüfer 0 FEHLER, zwei Läufe byteidentisch |
+
+**Was noch FEHLER meldet, und warum:**
+- Die neuen 13h-Regeln: Kamera (freie Sicht), Leuchtfeuer (Silhouette), Steilflächen > 45° ohne Fels-Akteur. Diese
+  Regeln und ihre Behebung liegen beim 13h-Agenten.
+- **gletscher:** Der 13h-Agent hat das Gelände in gletscher_01, 03 und 05 neu geformt (organische Ränder, K9:
+  Karbank, Balken). Damit sieht der Spiegel unter vier Bächen anders aus. In gletscher_01, gletscher_05 und
+  gletscher_03 `firnrinnsal` verschieben sich die Stufen um Zentimeter. Der `seeabfluss` von gletscher_03 nimmt einen
+  neuen Weg (10 → 1 Stufe) und meldet auf 1 m „Gelände über dem Spiegel“ (13 von 20 m, bis 4,9 m). Ich prüfe das
+  erneut, sobald die 13h-Formen fertig sind. Es liegt nicht an K1–K10: Mit dem Gelände von vorher (Lauf vor den
+  13h-Änderungen) waren alle Stufen gleich bzw. nur der Fuß verschoben, und es gab keinen A12-FEHLER.
+- **Zwei Läufe byteidentisch, alle 15:** Während meiner Läufe hat der 13h-Agent die Bibliothek mehrmals geändert,
+  deshalb sind die beiden Läufe verschieden. Die Stichprobe der Rollout-Biome bei unveränderter Bibliothek ist
+  byteidentisch. Der Abschlusslauf folgt unten.
+- Es bleiben WARNUNGEN wie 13f: versickert < 25 m (canyon_07, lava_03, wueste_04), heide_06 `fall3` 0,8 m; neu kommen
+  WARNUNGEN „Stufen ≥ 1 m ohne Niagara“ (13g) dazu.
+
+DETERMINISMUS_PLATZHALTER
 
 ## Offen / Rückfragen
 
-1. **kueste A5, `SM_NordicBeachRock_01` im Meer (2 m, 1 Instanz):**
-   - Der Fehler ist neu seit diesem Stand. Er gehört zu keinem der K-Punkte direkt: kein Bach, K2 betrifft nur
-     Fuß ≥ 1,5 m.
-   - Vermutlich verschiebt das geänderte Gelände (K8-Ufer bzw. 13h-Böschung) die Zufallsplatzierung des Kleinzeugs.
-   - Bitte lokal auf 1 m prüfen; ich sehe es mir an, sobald 13h fertig ist.
+1. **kueste A5, `SM_NordicBeachRock_01` im Meer (2 m):** behoben.
+   - Ursache: Der Planer prüfte „nicht im Meer“ am Zielpunkt, der Prüfer misst aber am Pivot. Nach dem Zentrieren der
+     Box lag der Pivot am steilen Sockelrand 3 cm tiefer (−0,33 m).
+   - Jetzt verwirft `_ein_stueck` Stücke, deren Pivot unter `boden_min_m` liegt (außer `z_frei`).
 2. **Doppelte K1-Begrenzung** (mein `bach.absenk_grenze` und `steilwand.bach_einschnitt_begrenzen` aus 13h): Welche soll
    bleiben?
