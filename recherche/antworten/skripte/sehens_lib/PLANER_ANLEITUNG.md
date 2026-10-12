@@ -371,6 +371,10 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
   des Bioms – Lavafels, Sandstein, Fels –, flach Geröll bzw. Sand/Lavasand/Schlamm/Erde); der Prüfer meldet Zellen ohne
   Lage als FEHLER. Alle Lagen werden vor dem Schreiben auf höchstens 150 je 1-m-Nachbarzelle geglättet (nur nach außen
   ergänzt, auch bei „fleckig“ und kleinen Ringen).
+- **Akteur-Budget** (13j): Netze, die in einem Ort ≥ 12-mal als Akteur stehen (Wandmodule, 13h-Verkleidung), werden
+  Instanzen der Ebene `sw_<biom>` mit Kollision; Richtwert ≤ 50 Akteure je Ort (Prüfer-HINWEIS). Gruppenfeld
+  `"akteur_fest": true` hält wiederholte Heldenstücke als Akteure. Kaskadennetze tragen das 15f-Querprofil `quer`
+  (gerade Lippen, `dz_cm` = 0).
 - **Instanzen** (13i K2/K3): `bezug: mitte` mit Pivot in der Netzmitte (bmin_z·sz < −0,25 · Höhe) → Netz-Unterkante auf
   den Boden; Stücke bis 1 cm an einer Feldgrenze rücken 1 cm ins Feld, das Feld kommt aus dem float32-Wert.
 - **Lagen** (A11): Ränder ≥ 3 m weich (auch innen bei `ring`/`um_gruppe`/`ufer`); Pfad-Bodenband mit 1 m Übergang

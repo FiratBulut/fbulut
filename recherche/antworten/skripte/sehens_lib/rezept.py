@@ -886,7 +886,8 @@ class OrtKontext:
         """13j Akteur-Budget: Netze, die in diesem Ort >= 12-mal als Akteur stehen (Wandmodule, auch die
         Wandverkleidung aus 13h), werden Instanzen der Ebene sw_<biom> mit Kollision (nur die Ausgabeform; Lage,
         Groesse, Drehung bleiben). Einzelne Heldenstuecke bleiben Akteure."""
-        st = [e for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"]]
+        fest = {g.get("name") for g in (self.r.get("gruppen") or []) if g.get("akteur_fest")}
+        st = [e for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"] and e.get("gruppe") not in fest]
         je = {}
         for e in st:
             je.setdefault(e["netz"], []).append(e)
