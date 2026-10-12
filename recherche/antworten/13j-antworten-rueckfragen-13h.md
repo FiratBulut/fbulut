@@ -41,16 +41,16 @@ Stand 12.10.2026. Grundlage ist der 13h-Endstand (dadcc24/146e49c) mit den neuen
   Schaum, `tiefe_cm` aus dem gestempelten Bett.
 - **Gerade Lippen:** Jede Sehens-Stufe bekommt die Lippenform Winkel 0, kein Pfeil, eine Kerbe über die ganze Breite.
   Daraus folgt:
-  - `dz_cm` = 0 überall. Das Wasser steht quer auf der Mittellinie.
+  - `dz_cm` nach A15-Konvention (korrigiert im Nachtrag, siehe unten): relativ zu `z_cm` des eigenen Punkts; quer zur
+    Lippe ist die absolute Wasserhöhe gleich, an Punkten mit gleichem s ebenfalls.
   - `deckung` = 1.
   - `schaum` nur am Lippensaum (≤ 0,5 m) und in Zunge und Aufprallkreis (≤ 30 % des Beckens), wie die 15f-Regel.
   - `tiefe_cm` = Spiegel − Bett je Stützpunkt.
 - Die Netze sagen `"lippen": "gerade (Sehens-Stufen wie 13f, keine Unregelmaessigkeit aus 15f)"`.
-- **Hinweis zu `quer_ergaenzen`:**
-  - Der letzte Bogenpunkt und der Wandpunkt einer Stufe haben in `bauen_wasser_A` dasselbe s. Die Interpolation in
-    `quer_ergaenzen` nimmt dort die Höhe des Nachbarpunkts; `dz_cm` lag dadurch an diesen Punkten bei bis zu 6 m.
-  - Für gerade Lippen setze ich `dz_cm` = 0. Im A15-Werkzeug selbst (`skripte/gefaelle/`, nicht geändert) besteht das
-    wohl auch: Bitte bei Gelegenheit prüfen, ob die C2-Netze dort springende Querprofile haben.
+- **`dz_cm` an Bogen und Wand (korrigiert im Nachtrag):**
+  - Der letzte Bogenpunkt und der Wandpunkt einer Stufe haben in `bauen_wasser_A` dasselbe s. `dz_cm` ist dort groß,
+    weil es relativ zu `z_cm` des eigenen Punkts gilt. Das ist kein Fehler (A15, 15f-Nachtrag `099f902`).
+  - Mein früherer Workaround (`dz_cm` = 0) ist entfernt. `dz_cm` kommt unverändert aus `quer_ergaenzen`.
 - **Bergwald:** 4 Kaskadennetze (bergwald_05 `klammbach`, bergwald_06 `abfluss`, `zulauf_sued`, `zulauf_west`). Alle
   haben `quer`; der Prüfer meldet 0 FEHLER; die Stufen sind wie 13f/13i.
 
@@ -108,6 +108,6 @@ Stand 12.10.2026. Grundlage ist der 13h-Endstand (dadcc24/146e49c) mit den neuen
 
 ## Beobachtung
 
-Bei parallel laufenden Planern (3 Prozesse) waren elfenwald und lava einmal nicht byteidentisch: Die Kameraversätze aus
-`kamera_frei` unterschieden sich um Zentimeter. Nacheinander gerechnet waren sie identisch. Ich vermute
-Gleitkomma-Reihenfolgen in mehrfädigen NumPy-Operationen unter Last. Nicht behoben, nur zur Kenntnis.
+~~Bei parallel laufenden Planern waren elfenwald und lava einmal nicht byteidentisch (Kameraversätze aus `kamera_frei`).~~
+Korrigiert im Nachtrag: Der Unterschied lag nicht in `kamera_frei`, sondern in einer A15-Änderung zwischen den beiden
+Läufen (neues Feld `pruefung.ufer_an_lippe`); siehe Nachtrag, Abschnitt Determinismus.

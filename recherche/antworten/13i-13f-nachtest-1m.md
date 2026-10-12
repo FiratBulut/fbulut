@@ -218,8 +218,8 @@ enthalten.
 **Zwei Läufe byteidentisch (Abschluss):**
 - Je Biom zweimal nacheinander gerechnet, mit Prüfsumme der Bibliothek vor und nach den Läufen (unverändert): alle 15
   Biome byteidentisch.
-- Elfenwald und lava waren bei einem Durchgang mit drei parallelen Prozessen einmal verschieden (Kameraversatz aus
-  `kamera_frei`, Zentimeter). Nacheinander waren sie identisch, siehe 13j-Antwort.
+- ~~Elfenwald und lava waren bei einem Durchgang mit drei parallelen Prozessen einmal verschieden (Kameraversatz aus
+  `kamera_frei`).~~ Korrigiert im Nachtrag: Ursache war eine A15-Änderung zwischen den Läufen, nicht `kamera_frei`.
 
 **Commits:**
 - `5d88d44`: Vorfassung K1–K4.
