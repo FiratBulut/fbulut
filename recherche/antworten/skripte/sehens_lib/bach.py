@@ -638,14 +638,33 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
             melde("HINWEIS", txt)
             return
         melde(st, txt)
+    # 13j / 15f: Querprofil 'quer' (11 Stuetzpunkte dz_cm, deckung, schaum, tiefe_cm) - mit GERADEN Lippen
+    # (Ferat: Stufen wie 13f, keine Lippen-Unregelmaessigkeit): Winkel 0, kein Pfeil, eine Kerbe ueber die ganze Breite
+    # -> dz 0, Deckung 1, Schaum nur am Lippensaum und in Zunge/Aufprall, tiefe_cm aus dem gestempelten Bett
+    lf = None
+    rw = regelwerk()
+    if rw is not None and hasattr(gp, "LippenFeld") and hasattr(gp, "quer_ergaenzen"):
+        for e in st_in:
+            e["B"] = br
+            e["geo"] = {"winkel_grad": 0.0, "tan": 0.0, "pfeil": 0.0, "h": max(br / 2.0, 0.5),
+                        "kerben": [(0.0, br + 2.0 * gp.KN["rand_ueberstand_m"], 0.0)], "seite_deckung": 1.0,
+                        "skala": 1.0, "gerade": True}
+        lf = gp.LippenFeld(st_in, segmente)
     try:
         koerper = gp.bauen_wasser_A(pr, sp, st_in, segmente, lambda s_: br, lauf_id,
                                     lambda xx, yy: np.asarray(boden_fn(xx, yy), np.float64), melde_netz, (),
-                                    lambda xx, yy: np.asarray(alt_fn(xx, yy), np.float64))
+                                    lambda xx, yy: np.asarray(alt_fn(xx, yy), np.float64), lf=lf, rw=rw)
     finally:
         gp._ZELLE[0] = alt_z
     for kb in koerper:
         kb["breite_bach_m"] = round(float(B), 2)
+        if kb.get("quer") is not None and lf is not None:
+            # gerade Lippen: das Wasser steht quer ueberall auf der Mittellinie (dz = 0). Die Interpolation in
+            # quer_ergaenzen greift an Punkten mit gleichem s (letzter Bogenpunkt = Wandpunkt) sonst die Nachbarhoehe.
+            for zeile in kb["quer"]:
+                for c in zeile:
+                    c[0] = 0.0
+            kb["lippen"] = "gerade (Sehens-Stufen wie 13f, keine Unregelmaessigkeit aus 15f)"
         if kb["typ"] == "kaskadennetz":
             kb["pruefung"]["bett_unter_spiegel_min_m"] = bett_min(tiefe_m)
             kb["pruefung"]["bett_messung"] = "tiefster Bettpunkt quer (13f-Querprofil), Regel min(0,2 m; halbe Tiefe)"
