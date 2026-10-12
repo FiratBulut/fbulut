@@ -526,3 +526,19 @@ Projekt:
 5. **Überspannende Stämme** ohne Wasser-Kollision (Unterkante > Spiegel + 0,1 m): einverstanden? Betrifft auch überhängende Felsnasen.
 6. **Spielmaterial:** unser Master am Water Body (`MI_Eldarien_Wasser_Fluss` mit `BakedWaterSimTex`) oder Epics `SW_Water_Material`?
    Ich empfehle unseren Master, wenn T2-9 zeigt, dass er die gebackenen Daten liest.
+
+## Nachtrag Koordinator: Rückfragen 1–6 entschieden
+
+Ferat hat Designfragen an die Cloud übergeben („du entscheidest“). Gilt, bis Ferat es anders sagt:
+
+1. **Hinter dem Ladebereich:** `WaterBodyRiver` ohne Simulation (Flowmap aus der Spline, unser Material). Das Gebackene braucht man nur im Ladebereich.
+2. **Instanzen verschieben:** ja. Das Bau-Werkzeug verschiebt die Wasser-Kollisionsobjekte aus den Planer-Ebenen in den `WH_<kachel>`-Akteur
+   (Variante A). Damit gibt es keine Doppelten. Rückbau über die Liste `umzug`.
+3. **Breite Flüsse mit 0,5-m-Zellen:** ja. Bäche bekommen 0,25 m.
+4. **Eigener Live-Nahbereich:** nein. Wir nutzen die eingebaute Interaktion um die Spielfigur plus das Gebackene. Erst wenn Teil 2 zeigt, dass `LIVE_SIM`
+   aus dem gebackenen Zustand startet und das sichtbar besser ist, kommt die Frage wieder auf.
+5. **Überspannende Objekte (Brückenstamm, überhängender Fels) ohne Wasser-Kollision:** ja. Von oben gesehen wären sie sonst ein Damm.
+6. **Spielmaterial:** unser Master `M_Eldarien_Wasser_Schaum8` bzw. `M_EL_Kaskade_SLW2` am Water Body. Damit sind die Einheit und die Klar-Werte aus 13k/15g
+   durchgehend gleich. `MI_EL_SWR_Fluss` dient nur als Vorschau beim Backen und als Ersatz.
+
+Umsetzung im Export (`fluss_sim_v2`) folgt nach Teil 2, sobald die Erfassung von ISM/HISM im `WH`-Akteur bestätigt ist.
