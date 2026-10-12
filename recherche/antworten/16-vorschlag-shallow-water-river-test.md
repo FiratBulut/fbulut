@@ -62,6 +62,17 @@ Die Umsetzung erfolgt als Decals bzw. flache Schaumkarten (Netze und Materialien
 Strömung, folgen die Schaumstraßen ihr; sonst folgen sie der `mittellinie`. Den Planer-Ausbau (Feld `schaum_objekte` je Kaskadennetz) mache ich, sobald
 die Bilder von C2 Version 3 und dem Test da sind.
 
+## Nachtrag: Felsen brauchen Wasser-Kollision
+
+Ferat (12.10., aus dem Video): Felsen werden von der Simulation erkannt, wenn bei ihnen die **Wasser-Kollision** eingestellt ist. Folgen:
+
+- **Test:** Den Felsen aus der Testfrage „Nachbearbeitung“ einmal mit und einmal ohne diese Einstellung prüfen. Den genauen Namen der Einstellung bzw. des
+  Kollisionsprofils in 5.8.3 bitte zurückmelden. Prüfen, ob sie auch bei **instanzierten** Felsen (ISM/HISM, Foliage) wirkt oder nur bei einzelnen Akteuren.
+- **Planer (nach dem Test):** Jede Instanz und jeder Akteur, der im Wasser oder bis 1 m daneben steht (Blöcke in Stufen, Randblöcke aus 15g, Felsnasen),
+  bekommt ein Feld `wasser_kollision: true`. Das lokale Bau-Werkzeug setzt damit die Einstellung automatisch, auch bei späteren Neuplanungen.
+- **Handarbeit später:** Von Hand gesetzte Felsen im Fluss brauchen dieselbe Einstellung. Am einfachsten geht das über eine eigene Kollisions-Voreinstellung
+  bzw. ein Editor-Werkzeug „Wasser-Kollision an Auswahl“. Dann reagiert das Wasser nach einem Reset bzw. Neu-Einbacken ohne neue Planung.
+
 ## Rückfrage
 
 - Ferat: Wie heißt das Video bzw. der Kanal? Dann kann ich die gezeigten Einstellungen gezielt nachrecherchieren.
