@@ -78,6 +78,9 @@ BIOME = ("aue", "bergwald", "canyon", "dschungel", "elfenwald", "fjord", "frost"
          "kueste", "lava", "oedland", "sumpf", "tundra", "wueste")
 FORMAT_VERSION = "fluss_sim_v3"
 BACK_FORMAT = "back_liste_v3"
+# 16f Rueckfrage (Epic Parameter Reference): SWR-Felder, die das Backen bestimmen, aber nicht im Fingerabdruck stehen
+SIM_VORGABEN_FELDER = ("resolution_max_axis", "match_spline", "match_spline_height_amount", "remove_outside_spline_amount",
+                       "source_size_cm", "sim_speed", "num_steps", "use_capture")
 
 
 def log(*t):
@@ -296,6 +299,8 @@ class Pool:
                 return bool(re.search(r"(rock|cliff|boulder|stone|_tier_\d)", str(s), re.I))
         cache = {}
         fest = np.zeros(n, bool)
+        fest_alt = np.zeros(n, bool)
+        ausdehnung = np.zeros(n)
         art = []
         ecken = np.array([[i, j, k] for i in (0, 1) for j in (0, 1) for k in (0, 1)], float)
         for pfad in sorted({r["pfad"] for r in self.recs}):
@@ -332,14 +337,25 @@ class Pool:
             r["art"] = a
             r["masse_quelle"] = cache[r["pfad"]][2]
             groesse = (hi[k] - lo[k]) / 100.0
-            gross = max(groesse[0], groesse[1]) >= self.r["min_ausdehnung_m"] and groesse[2] >= self.r["min_hoehe_m"]
-            fest[k] = (a != "pflanze") and (r["kollision"] or a in ("fels", "holz")) and gross
+            # 16f Rueckfrage: Mindestgroesse = groesste Ausdehnung des Netzes x |Skala| (ohne Drehung), Hoehe wie bisher
+            # aus den gedrehten Bounds (Kies, Steinpackungen bleiben ohne)
+            bmin, bmax = cache[r["pfad"]][0], cache[r["pfad"]][1]
+            aus_m = float(((bmax - bmin) * np.abs(V[k, 7:10])).max()) / 100.0
+            ausdehnung[k] = aus_m
+            fest_art = (a != "pflanze") and (r["kollision"] or a in ("fels", "holz"))
+            gross_alt = max(groesse[0], groesse[1]) >= self.r["min_ausdehnung_m"] and groesse[2] >= self.r["min_hoehe_m"]
+            gross = aus_m >= self.r["min_ausdehnung_m"] - 1e-9 and groesse[2] >= self.r["min_hoehe_m"]
+            fest[k] = fest_art and gross
+            fest_alt[k] = fest_art and gross_alt
             art.append(a)
         self.fest = fest
+        self.fest_alt = fest_alt
+        self.ausdehnung = ausdehnung
         self.cx = (lo[:, 0] + hi[:, 0]) / 200.0 if n else np.zeros(0)
         self.cy = (lo[:, 1] + hi[:, 1]) / 200.0 if n else np.zeros(0)
         self.rad = (np.hypot(hi[:, 0] - lo[:, 0], hi[:, 1] - lo[:, 1]) / 200.0) if n else np.zeros(0)
-        log("Objekt-Pool: %d Objekte, davon %d fest und gross genug" % (n, int(fest.sum())))
+        log("Objekt-Pool: %d Objekte, davon %d fest und gross genug (groesste Ausdehnung >= %.2f m; Regel bis v7: %d)"
+            % (n, int(fest.sum()), self.r["min_ausdehnung_m"], int(fest_alt.sum())))
 
     def ref(self, k):
         r = self.recs[k]
@@ -1878,6 +1894,7 @@ def baue_gewaesser_v3(gw, regeln, pool):
     n_k = len(teile_)
     einzel = n_k == 1
     rand = S["rand_m"] * 100.0
+    SV = S["sim_vorgaben"]
     kacheln = []
     bid_ = (lambda k: gid) if einzel else (lambda k: "%s_T%02d" % (gid, k))
     for k, e in enumerate(teile_):
@@ -1923,7 +1940,11 @@ def baue_gewaesser_v3(gw, regeln, pool):
                     "source_river_water_bodies": [wbr], "sink_river_water_bodies": [wbr],
                     "bottom_contour_tags": [S["hindernis_tag"]], "bottom_contour_actors": [],
                     "bottom_contour_landscape_actors": "lokal", "use_capture": True,
-                    "match_spline": True if einzel else "lokal testen",
+                    "match_spline": SV["match_spline"],
+                    "match_spline_height_amount": SV["match_spline_height_amount"],
+                    "remove_outside_spline_amount": SV["remove_outside_spline_amount"],
+                    "source_size_cm": r1(P[i0, 3]),
+                    "sim_speed": SV["sim_speed"], "num_steps": SV["num_steps"],
                     "begrenzung": ({"art": "rechteck_um_fluss", "hinweis": "SWR-Bereich = achsparalleles Rechteck um den Fluss (16c Nachtrag 17:45)"}
                                    if einzel else
                                    {"art": "rechteck_teil", "rechteck_cm": [r1(box[0]), r1(box[1]), r1(box[2]), r1(box[3])],
@@ -1959,7 +1980,7 @@ def baue_gewaesser_v3(gw, regeln, pool):
         gro = (pool.hi[k] - pool.lo[k]) / 100.0
         e = {"ref": pool.ref(k), "netz": rec["netz"], "pfad": rec["pfad"], "art": rec["art"],
              "pos_cm": [r1(rec["v"][0]), r1(rec["v"][1]), r1(rec["v"][2])],
-             "groesse_m": [r1(gro[0], 2), r1(gro[1], 2), r1(gro[2], 2)], "lage": lage,
+             "groesse_m": [r1(gro[0], 2), r1(gro[1], 2), r1(gro[2], 2)], "ausdehnung_m": r1(pool.ausdehnung[k], 3), "lage": lage,
              "abstand_rand_m": r1(rnd, 2), "s_m": r1(s_, 2), "bereich": bereich_bei(s_, True), "swr_bereich": kachel_bei(s_),
              "unterkante_ueber_spiegel_m": r1(ueber, 2), "kollision_im_plan": rec["kollision"]}
         if lage == "im_wasser" and ueber > ue_max + 1e-9:
@@ -3146,6 +3167,7 @@ def main(argv=None):
                              "vorgaenger": kc["vorgaenger"], "nachfolger": kc["nachfolger"],
                              "back_reihenfolge": kc["back_reihenfolge"], "geteilt": kc["geteilt"],
                              "resolution_max_axis": sw["resolution_max_axis"], "zelle_m": sw["zelle_m"],
+                             "sim_vorgaben": {k_: sw[k_] for k_ in SIM_VORGABEN_FELDER},
                              "fingerabdruck": ges, "teile": teile_, "n_hoehen": nh, "n_objekte": no})
     # schreiben
     for rel in sorted(dateien):
@@ -3471,7 +3493,10 @@ def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, g
     zus["hoehe"] = {"hoechste_spline_m": [[i, r1(z / 100.0, 2), k_] for z, i, k_ in hz[:8]],
                     "grenze_m": 655.04, "ueber_grenze": sum(1 for z, _, _ in hz if z > 65504.0)}
     zus["kollision_objekte_eindeutig"] = len(kol_global)
-    zus["objekt_pool"] = {"objekte": len(pool.recs), "fest_und_gross": int(pool.fest.sum())}
+    zus["objekt_pool"] = {"objekte": len(pool.recs), "fest_und_gross": int(pool.fest.sum()),
+                          "fest_und_gross_regel_bis_v7": int(pool.fest_alt.sum()),
+                          "mindestgroesse": "groesste Ausdehnung (Netz-Bounds x |Skala|) >= %.2f m und Hoehe >= %.2f m"
+                                            % (regeln["kollision"]["min_ausdehnung_m"], regeln["kollision"]["min_hoehe_m"])}
     return zus
 
 

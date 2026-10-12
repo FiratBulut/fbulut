@@ -534,6 +534,19 @@ def pruefe_swr(g, ss, P, regeln, b):
             b.append((FEHLER, e["id"], "resolution_max_axis %d, Regel ergibt %d" % (res, res_soll)))
         if bool(e.get("geteilt")) != (n > 1):
             b.append((FEHLER, e["id"], "geteilt-Kennung passt nicht"))
+        # 16f Rueckfrage: SWR-Startwerte nach der Epic Parameter Reference
+        SV = S.get("sim_vorgaben")
+        if SV:
+            for f_ in ("match_spline", "match_spline_height_amount", "remove_outside_spline_amount", "sim_speed", "num_steps"):
+                if f_ not in sw or sw[f_] != SV[f_] or type(sw[f_]) is not type(SV[f_]):
+                    b.append((FEHLER, e["id"], "%s %r != Vorgabe %r" % (f_, sw.get(f_), SV[f_])))
+            if sw.get("num_steps", 0) < sw.get("sim_speed", 0):
+                b.append((FEHLER, e["id"], "num_steps %r < sim_speed %r (Substeps >= Speed)" % (sw.get("num_steps"), sw.get("sim_speed"))))
+            if not (0.0 <= SV["match_spline_height_amount"] <= max(SV["testreihe"]["match_spline_height_amount"]) + 1e-9):
+                b.append((FEHLER, e["id"], "match_spline_height_amount ausserhalb der Testreihe 0 ... 0,05"))
+            qs = sw.get("source_size_cm")
+            if SV["source_size"] == "breite_quelle" and (qs is None or abs(qs - P[i0][3]) > 0.051 or qs <= 0):
+                b.append((FEHLER, e["id"], "source_size_cm %r != RiverWidth am ersten Splinepunkt %.1f" % (qs, P[i0][3])))
         wh = e.get("hindernis_akteur")
         if wh and wh["id"] not in sw["bottom_contour_actors"]:
             b.append((FEHLER, e["id"], "eigener Hindernis-Akteur fehlt in bottom_contour_actors"))
@@ -695,6 +708,16 @@ def streifen_alle(st, x, y):
     return d, halb, z, tf
 
 
+def groesste_ausdehnung(pool, key):
+    """Unabhaengig vom Exporter: (Netz-Bounds max - min) x |Skala|, groesste Achse, in m (ohne Drehung)."""
+    Pp = pool["p"]
+    k = pool["ref_k"][key]
+    r = Pp.recs[k]
+    (bmin, bmax), _ = Pp.masse.bounds(r["pfad"])
+    s = np.abs(np.asarray(r["v"][7:10], float))
+    return float(max((bmax[i] - bmin[i]) * s[i] for i in range(3))) / 100.0
+
+
 def pruefe_kollision(g, pool, regeln, b):
     st = streifen(g)
     if st is None:
@@ -702,13 +725,26 @@ def pruefe_kollision(g, pool, regeln, b):
     liste = {json.dumps(o["ref"], sort_keys=True): o for o in g["wasser_kollision"]}
     ohne = {json.dumps(o["ref"], sort_keys=True): o for o in g.get("ohne_wasser_kollision") or []}
     ue_max = regeln["kollision"]["ueberspannt_unterkante_max_m"]
+    min_aus = regeln["kollision"]["min_ausdehnung_m"]
+    klein = []
     for key, o in liste.items():
         if not o.get("wasser_kollision"):
             b.append((FEHLER, g["id"], "wasser_kollision != true: %s" % key))
+        # 16f Rueckfrage: Mindestgroesse = groesste Ausdehnung inkl. Skala (gespeichert und, mit Pool, neu gerechnet)
+        aus = o.get("ausdehnung_m")
+        if pool is not None and key in pool["refs"]:
+            aus = groesste_ausdehnung(pool, key)
+            if abs(aus - o.get("ausdehnung_m", -1.0)) > 0.0011:
+                b.append((FEHLER, g["id"], "ausdehnung_m %r, neu gerechnet %.3f: %s" % (o.get("ausdehnung_m"), aus, key)))
+        if aus is None or aus < min_aus - 0.0005:
+            klein.append(key)
         if pool is not None and key not in pool["refs"]:
             b.append((FEHLER, g["id"], "Verweis existiert nicht: %s" % key))
         if o["lage"] == "im_wasser" and o.get("unterkante_ueber_spiegel_m", 0.0) > ue_max + 0.005:
             b.append((FEHLER, g["id"], "ueberspanntes Objekt mit Wasser-Kollision: %s" % key))
+    if klein:
+        b.append((FEHLER, g["id"], "%d Objekte mit Wasser-Kollision kleiner als %.2f m (groesste Ausdehnung inkl. Skala), z. B. %s"
+                  % (len(klein), min_aus, klein[0])))
     for key, o in ohne.items():
         if key in liste:
             b.append((FEHLER, g["id"], "Objekt in wasser_kollision UND ohne_wasser_kollision: %s" % key))
@@ -888,7 +924,8 @@ def main(argv=None):
                     for pf in fx.feld_plaene(sw)[0]:
                         P.lade_ebene(pf, "sw_%s/%s/plan.json" % (biom, os.path.basename(os.path.dirname(pf))))
         P.fertig()
-        pool = {"p": P, "fest": P.fest, "refs": {json.dumps(P.ref(k), sort_keys=True) for k in range(len(P.recs))}}
+        ref_k_ = {json.dumps(P.ref(k), sort_keys=True): k for k in range(len(P.recs))}
+        pool = {"p": P, "fest": P.fest, "refs": set(ref_k_), "ref_k": ref_k_}
     welt = None
     if a.daten2m or a.daten1m:
         from sehens_lib import daten
@@ -1041,6 +1078,8 @@ def main(argv=None):
             if e["fingerabdruck"] != ei.get("fingerabdruck") or e["bereich_cm"] != ei["bereich_cm"] \
                     or e["punkt_index"] != ei["punkt_index"]:
                 b.append((FEHLER, wer, "Fingerabdruck/Bereich/punkt_index back_liste != fluss_sim.json"))
+            if e.get("sim_vorgaben") != {k_: ei["swr"].get(k_) for k_ in fx.SIM_VORGABEN_FELDER}:
+                b.append((FEHLER, wer, "sim_vorgaben back_liste != swr in fluss_sim.json"))
             i0, i1 = ei["punkt_index"]
             wb = g["water_body"]
             st = fx.fp_splines_text([(wb["id"], wb["spline"]["punkte"][i0:i1 + 1])], fpr["spline_quant_cm"])

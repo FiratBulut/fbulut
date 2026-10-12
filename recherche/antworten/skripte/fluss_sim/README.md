@@ -55,6 +55,26 @@ Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBo
   (größte Komponente, meiste Komponenten, größter Akteur) und mit der Zahl der Akteure über dem Richtwert
   `komponenten_richtwert` = 16.
 
+**Ergänzungen 16f Rückfrage** (Regeln Version 8, Format bleibt `fluss_sim_v3`; Antwort
+[`../../16f-rueckfrage-epic-parameter-lokal.md`](../../16f-rueckfrage-epic-parameter-lokal.md), Quelle: Epic „Baked River
+Simulations – Parameter Reference“, lokal gelesen):
+- **SWR-Startwerte je SWR-Bereich** (`swr.sim_vorgaben`): `match_spline` true (auch Teilstücke),
+  `match_spline_height_amount` **0,02** (Nachfüllrate; vorher 2 = Ursache von Befund 7), `remove_outside_spline_amount` 50,
+  `source_size_cm` = `RiverWidth` des ersten Splinepunkts des Bereichs (Bachbreite an der Quelle), `sim_speed` 10,
+  `num_steps` 10. `resolution_max_axis` wie bisher nach Zielzelle. Testreihe in den Regeln (`testreihe`: 0 / 0,02 / 0,05;
+  `source_size` 300 / 1000 cm).
+- **`back_liste.json`** nennt je SWR `sim_vorgaben` (Auflösung, die Felder oben, `use_capture`). Sie stehen **nicht** im
+  Fingerabdruck; das lokale Werkzeug backt neu, wenn Fingerabdruck **oder** `sim_vorgaben` vom letzten Backen abweichen.
+- **Mindestgröße der Hindernisse:** größte Ausdehnung = max über x, y, z von (Netz-Bounds) × |Skala|, ohne Drehung,
+  ≥ 0,4 m (Ferat: „Steine ≥ 0,4 m eintragen“); Höhe der Welt-Box ≥ 0,2 m wie bisher. Bis v7 zählte die größte Seite der
+  gedrehten Welt-Box im Grundriss; ein schräg liegender 0,3-m-Stein kam so über 0,4 m. Kleinere Objekte bekommen keine
+  `wasser_kollision` und stehen in keinem `WH_`-Akteur. Feld `ausdehnung_m` je Eintrag. 2-m-Lauf: 42 285 → 40 980
+  eindeutige Objekte (1 323 kleine Felsen und Steinpackungen weg, 18 lange bzw. hohe Objekte neu), WH-Instanzen
+  41 251 → 39 946.
+- **Prüfer:** FEHLER, wenn ein SWR-Feld von der Vorgabe abweicht, `num_steps` < `sim_speed`, `source_size_cm` ≠ Breite am
+  ersten Punkt, `sim_vorgaben` in der Back-Liste ≠ SWR, `ausdehnung_m` ≠ neu gerechnet (eigene Rechnung aus Bounds × Skala)
+  oder < 0,4 m.
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -66,7 +86,7 @@ Stufe, kein Becken, keine Lippe und kein Gelände (13f-Regel); der Prüfer vergl
 |---|---|
 | `fluss_sim_export.py` | Exporter: Läufe verketten, Mündungen, `fluss_sim.json` je Gewässer, `back_liste.json` (je SWR-Bereich), `zusammenfassung.json`; Referenz-Funktionen für den Fingerabdruck |
 | `fluss_sim_pruefen.py` | Prüfer (FEHLER/WARNUNG/HINWEIS), Exit-Code 1 bei FEHLER |
-| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure), Version 7 |
+| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure, SWR-Startwerte), Version 8 |
 
 ## Aufruf
 
@@ -236,7 +256,8 @@ Gekürzt aus `F_ERLENBACH`:
              "achse_m": 459.06, "resolution_max_axis": 1856, "zelle_m": 0.247, "raster_erwartet": [528, 1856],
              "source_river_water_bodies": ["WBR_F_ERLENBACH"], "sink_river_water_bodies": ["WBR_F_ERLENBACH"],
              "bottom_contour_tags": ["SWR_Hindernis"], "bottom_contour_actors": ["WH_F_ERLENBACH_T00"], "use_capture": true,
-             "match_spline": "lokal testen", "begrenzung": {"art": "rechteck_teil", "rechteck_cm": ["..."], "hinweis": "…"},
+             "match_spline": true, "match_spline_height_amount": 0.02, "remove_outside_spline_amount": 50.0,
+             "source_size_cm": 3300.0, "sim_speed": 10, "num_steps": 10, "begrenzung": {"art": "rechteck_teil", "rechteck_cm": ["..."], "hinweis": "…"},
              "render_state": {"backen": "LIVE_SIM", "spiel": "WATER_COMPONENT_WITH_BAKED_SIM", "ersatz": "BAKED_SIM"},
              "material": {"water_body": "MI_EL_SWR_Klar", "baked_sim_material": "MI_EL_SWR_Klar"}},
      "bereich_cm": [-181304.0, -243571.6, -166647.0, -196065.4], "zufluesse": ["WBR_B_R3_K10_TUNDRA_01"],
@@ -247,8 +268,8 @@ Gekürzt aus `F_ERLENBACH`:
 ```
 
 - **Ungeteiltes Gewässer** (188 von 196): ein Eintrag in `swr_bereiche` mit `id` = Gewässer-ID, SWR `SWR_<gewaesser>`,
-  WH `WH_<gewaesser>`, `begrenzung.art = "rechteck_um_fluss"`, `match_spline: true`.
-- **Geteilt** (8): `<gewaesser>_T00 …`, `geteilt: true`, `match_spline: "lokal testen"`, `begrenzung.art = "rechteck_teil"` mit
+  WH `WH_<gewaesser>`, `begrenzung.art = "rechteck_um_fluss"`, `match_spline: true` (v8: alle SWR, Startwerte s. o.).
+- **Geteilt** (5): `<gewaesser>_T00 …`, `geteilt: true`, `match_spline: true` (bis v7 „lokal testen“), `begrenzung.art = "rechteck_teil"` mit
   dem Rechteck des Stücks (Weltkoordinaten, cm). Alle nennen denselben `WBR_<gewaesser>` als Quelle und Senke.
 - **Bau-Werkzeug (v3):** je Gewässer **einen** `WaterBodyRiver` aus `water_body.spline`, je `swr_bereiche[]` eine
   `ShallowWaterRiver` und einen `WH_…` aus `hindernis_akteur`. `bereiche` sind nur s-Bereiche (Rolle `becken`, `rinne`,
@@ -294,8 +315,9 @@ an Vorhang-Fällen); `vorhang_status` = „wartet“ (Ferat 16c).
 **Wasser-Kollision.** Ein Objekt (Instanz einer Ebene oder Akteur) bekommt `wasser_kollision: true`, wenn es
 - **fest** ist: Kollision im Plan, Fels-/Klippennetz (`sehens_lib.steilwand.ist_fels`) oder Holz (`holz_muster`),
   nie eine Pflanze (`pflanze_muster`);
-- **groß genug** ist: Grundriss ≥ 0,4 m und Höhe ≥ 0,2 m (gedrehte Bounds aus `netze_masse.json`, sonst `netze.csv`
-  „unten Mitte“). Kies und Steinpackungen bleiben ohne;
+- **groß genug** ist (v8): größte Ausdehnung ≥ 0,4 m (Netz-Bounds aus `netze_masse.json`, sonst `netze.csv` „unten Mitte“,
+  × |Skala|, ohne Drehung; Feld `ausdehnung_m`) und Höhe der gedrehten Welt-Box ≥ 0,2 m. Kies, Steinpackungen und kleine
+  Steine bleiben ohne und kommen in keinen `WH_`-Akteur;
 - **im Wasser oder ≤ 1 m daneben** steht: Abstand Mittelpunkt–Spline − Grundriss-Radius − halbe Breite ≤ 1 m,
   Unterkante ≤ Spiegel + 0,5 m, Oberkante ≥ Bett − 0,1 m.
 
@@ -340,6 +362,10 @@ einen Damm). Für `lage = ufer` bleibt + 0,5 m.
 
 
 ## Fingerabdruck (Back-Liste)
+
+**v8:** Die SWR-Einstellungen (`sim_vorgaben` je Eintrag der Back-Liste: Auflösung, `match_spline*`,
+`remove_outside_spline_amount`, `source_size_cm`, `sim_speed`, `num_steps`, `use_capture`) gehören nicht zur Formel. Weicht
+eine davon vom Stand beim letzten Backen ab, gilt die SWR ebenfalls als „neu backen“.
 
 Je **SWR-Bereich** (v3; v2: je Einheit, v1: je Kachel) legt ein SHA-256-Fingerabdruck fest, was die Simulation dort sieht. Das
 lokale Werkzeug backt nur SWR neu, deren Fingerabdruck sich gegenüber dem letzten Backen geändert hat. Die Formel ist
@@ -434,6 +460,11 @@ zeigen, was sich geändert hat.
   `offen` und Lücken als HINWEIS.
 - **Fälle, Vorhang, Schaum, Kollision, Hindernis-Akteure (je SWR), Back-Liste mit Fingerabdruck** (Splines, Objekte und mit
   Daten auch Gelände neu gerechnet), **Determinismus** (`--vergleich`: alle Dateien byte-gleich) wie v2.
+- **16f Rückfrage (v8):** SWR-Startwerte (`match_spline`, `match_spline_height_amount`, `remove_outside_spline_amount`,
+  `sim_speed`, `num_steps` = Regel, `num_steps` ≥ `sim_speed`, `source_size_cm` = Breite am ersten Punkt), `sim_vorgaben` der
+  Back-Liste = SWR; Hindernisse: `ausdehnung_m` neu gerechnet (± 1 mm) und ≥ 0,4 m. Gegenproben (alle FEHLER, Exit 1):
+  Nachfüllrate 2, `source_size_cm` 1000, `ausdehnung_m` 0,3, Back-Liste `remove_outside_spline_amount` 200, `num_steps` 5,
+  Regel 0,5 m (167 FEHLER: Objekte 0,4–0,5 m).
 - **16c Nachtrag 4, Hindernis-Akteure:** je `WH_…` höchstens 4 000 Instanzen je Komponente und 128 Komponenten
   (FEHLER), `n_komponenten` = Liste, geteilte Netze mit `teil` 1 … n; HINWEIS mit den größten Werten und den Akteuren über
   16 Komponenten.
