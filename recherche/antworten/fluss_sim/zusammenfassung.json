@@ -1,153 +1,220 @@
 {
- "kategorien": {
-  "fluesse": {
-   "dateien": 12,
-   "gewaesser": 12,
-   "abschnitte": 144,
-   "faelle": 0,
-   "faelle_vorhang": 0,
-   "kollision": 281,
-   "kollision_im_wasser": 255,
-   "ueberspannt": 10,
-   "schaum": {},
-   "kacheln": 141,
-   "laenge_m": 6338.1,
-   "abschnitte_innen_faelle": 0,
-   "swr_einheiten": 37,
-   "geteilte_strecken": 6
-  },
-  "gefaelle": {
-   "dateien": 98,
-   "gewaesser": 98,
-   "abschnitte": 745,
-   "faelle": 561,
-   "faelle_vorhang": 34,
-   "kollision": 19812,
-   "kollision_im_wasser": 19355,
-   "ueberspannt": 1213,
-   "schaum": {
-    "aufprallteppich": 34,
-    "kehrwasser": 116,
-    "schaumstrasse": 184
-   },
-   "kacheln": 308,
-   "laenge_m": 23268.5,
-   "abschnitte_innen_faelle": 41,
-   "swr_einheiten": 139,
-   "geteilte_strecken": 24
-  },
-  "gefaelle_roh": {
-   "dateien": 25,
-   "gewaesser": 25,
-   "abschnitte": 75,
-   "faelle": 0,
-   "faelle_vorhang": 0,
-   "kollision": 314,
-   "kollision_im_wasser": 263,
-   "ueberspannt": 39,
-   "schaum": {},
-   "kacheln": 64,
-   "laenge_m": 3982.8,
-   "abschnitte_innen_faelle": 0,
-   "swr_einheiten": 31,
-   "geteilte_strecken": 4
-  },
-  "sehens": {
-   "dateien": 26,
-   "gewaesser": 42,
-   "abschnitte": 135,
-   "faelle": 204,
-   "faelle_vorhang": 136,
-   "kollision": 1636,
-   "kollision_im_wasser": 1290,
-   "ueberspannt": 96,
-   "schaum": {
-    "aufprallteppich": 136,
-    "kehrwasser": 161,
-    "schaumstrasse": 600
-   },
-   "kacheln": 46,
-   "laenge_m": 1816.4,
-   "abschnitte_innen_faelle": 94,
-   "swr_einheiten": 42,
-   "geteilte_strecken": 0
+ "laeufe": {
+  "teile_welt": 195,
+  "teile_plan": 98,
+  "teile_roh": 97,
+  "sehens_baeche": 42,
+  "fortsetzungen": {
+   "anschluss": 23,
+   "ueberlappung": 18
   }
  },
  "summe": {
-  "gewaesser": 177,
-  "abschnitte": 1099,
+  "gewaesser": 196,
+  "laenge_m": 45753.5,
+  "swr_bereiche": 211,
+  "gewaesser_eine_swr": 188,
   "faelle": 765,
   "faelle_vorhang": 170,
-  "kollision": 22043,
-  "kollision_im_wasser": 21163,
-  "ueberspannt": 1358,
-  "kacheln": 559,
-  "laenge_m": 35405.8,
+  "abstuerze": 2074,
+  "bereiche": 942,
+  "kollision": 21715,
+  "kollision_im_wasser": 20806,
+  "ueberspannt": 1368,
   "schaum": {
    "aufprallteppich": 170,
-   "kehrwasser": 277,
+   "kehrwasser": 273,
    "schaumstrasse": 784
   },
-  "dateien": 161,
-  "abschnitte_innen_faelle": 135,
-  "swr_einheiten": 249,
-  "geteilte_strecken": 34
+  "splinepunkte": 18650
  },
- "swr_einheiten": {
-  "anzahl": 249,
-  "typ": {
-   "bach": 205,
-   "fluss": 44
+ "kategorien": {
+  "sehens/sehens_bach": {
+   "gewaesser": 42,
+   "laenge_m": 1816.4,
+   "swr_bereiche": 42,
+   "eine_swr": 42,
+   "laeufe": 42
   },
+  "welt/bach": {
+   "gewaesser": 145,
+   "laenge_m": 32886.0,
+   "swr_bereiche": 149,
+   "eine_swr": 141,
+   "laeufe": 168
+  },
+  "welt/fluss": {
+   "gewaesser": 9,
+   "laenge_m": 11050.9,
+   "swr_bereiche": 20,
+   "eine_swr": 5,
+   "laeufe": 27
+  }
+ },
+ "muendungen": {
+  "bach": 61,
+  "fluss": 13,
+  "meer": 55,
+  "offen": 24,
+  "see": 23,
+  "versickert": 19,
+  "wasserfall": 1
+ },
+ "muendungen_quelle": {
+  "anschluss_r2": 47,
+  "geometrie": 32,
+  "geometrie (Meer-Raster)": 55,
+  "geometrie (nah)": 20,
+  "sehens": 40,
+  "sehens (houdini R_M2_P0__WASSER, kein Lauf in Reichweite)": 1,
+  "sehens (houdini houdini, kein Lauf in Reichweite)": 1
+ },
+ "muendungen_offen": ["B_K1_WASSERFALL_WEST_01","B_K1_WASSERFALL_WEST_03","B_K8_ELFENFALL_01","B_K8_ELFENFALL_03","B_K8_ELFENFALL_04","B_K8_ELFENFALL_05","B_K8_ELFENFALL_06","B_R3_K12_WUESTE_01","B_R3_R_M1_P0_01","B_R3_R_P4_M1_01","B_R_M1_M1_03","B_R_M1_P0_01","B_R_M1_P0_02","B_R_M2_M1_02","B_R_M2_M2_01","B_R_P1_P0_04","B_R_P2_M3_01","B_R_P3_M1_05","B_R_P3_M1_06","B_R_P3_P1_01","B_R_P4_M2_03","F_HAUPTFLUSS_2","SW_bergwald_05_klemmblock_klamm_klammbach","SW_bergwald_06_karsee_abfluss"],
+ "anfang": {
+  "quelle": 168,
+  "see": 25,
+  "wasserfall": 3
+ },
+ "zufluesse_mit_endstueck_aus_plan": ["B_R2_R_P0_M2_01","B_R2_R_P1_M2_01","B_R2_R_P2_P1_01","B_R2_R_P3_M2_01","B_R2_R_P4_M1_02","B_R2_R_P4_M2_01","B_R_P2_M1_03","B_R_P3_M1_07"],
+ "laenge_m": {
+  "min": 4.6,
+  "median": 135.7,
+  "max": 3856.1,
+  "verteilung": {
+   "<= 50": 34,
+   "<= 100": 42,
+   "<= 130": 20,
+   "<= 180": 23,
+   "<= 256": 30,
+   "<= 500": 32,
+   "<= 1000": 9,
+   "<= 2000": 3,
+   "> 2000": 3
+  },
+  "laengste": [["F_HAUPTFLUSS_3",3856.1],["F_DSCHUNGELFLUSS",2867.0],["F_ELFENFLUSS",2212.74],["B_R_P3_P0_02",1294.83],["B_K1_WASSERFALL_WEST_03",1039.94],["F_ERLENBACH",1006.7],["B_R_P3_P0_04",944.76],["B_R_M1_P0_04",766.95],["B_R3_R_M2_P0_01",755.93],["B_R_P4_M2_04",743.86]]
+ },
+ "box_achse_m": {
+  "median": 122.2,
+  "max": 3497.9,
+  "verteilung": {
+   "<= 50": 38,
+   "<= 100": 49,
+   "<= 130": 21,
+   "<= 180": 23,
+   "<= 256": 29,
+   "<= 500": 24,
+   "<= 1000": 9,
+   "<= 2000": 1,
+   "> 2000": 2
+  }
+ },
+ "swr": {
+  "anzahl": 211,
+  "typ": {
+   "bach": 200,
+   "fluss": 11
+  },
+  "gewaesser_eine_swr": 188,
+  "gewaesser_geteilt": 8,
+  "swr_in_geteilten": 23,
+  "geteilte": [["F_HAUPTFLUSS_3",6,3856.1],["F_ELFENFLUSS",4,2212.74],["F_DSCHUNGELFLUSS",3,2867.0],["B_K1_WASSERFALL_WEST_03",2,1039.94],["B_R_P3_P0_02",2,1294.83],["B_R_P3_P0_04",2,944.76],["B_R_P4_M2_04",2,743.86],["F_ERLENBACH",2,1006.7]],
+  "naehte": {
+   "becken": 15
+  },
+  "aufloesung": {
+   "<= 512": 106,
+   "513-1024": 56,
+   "1025-2048": 49,
+   "> 2048": 0
+  },
+  "aufloesung_median": 512,
+  "aufloesung_max": 2048,
   "zelle_m": {
-   "min": 0.168,
-   "median": 0.343,
-   "max": 0.498,
+   "min": 0.145,
+   "median": 0.244,
+   "max": 0.35,
    "verteilung": {
-    "bach": {"<= 0.30":26,"<= 0.35":120,"<= 0.40":17,"<= 0.45":18,"<= 0.50":24},
-    "fluss": {"<= 0.45":3,"<= 0.50":41}
+    "bach": {"<= 0.20":8,"<= 0.25":181,"<= 0.30":11},
+    "fluss": {"<= 0.35":11}
    }
   },
-  "resolution_max_axis": {
-   "32": 9,
-   "64": 8,
-   "96": 14,
-   "128": 7,
-   "160": 12,
-   "192": 21,
-   "224": 8,
-   "256": 7,
-   "288": 5,
-   "320": 7,
-   "352": 9,
-   "384": 16,
-   "416": 11,
-   "448": 9,
-   "480": 24,
-   "512": 82
+  "rechteck_m": {
+   "median_laengste_seite": 128.8,
+   "max_laengste_seite": 716.4
   },
-  "bach_ueber_zielband": 42,
-  "naehte": {
-   "becken": 16,
-   "fall": 22,
-   "ruhig": 34
+  "zellen_mio": {
+   "summe": 79.0
   },
-  "geteilte_strecken": 34,
-  "einheiten_in_geteilten": 106,
-  "groesste_teilung": [["F_DSCHUNGELFLUSS_H6",8],["F_ELFENFLUSS_3_G4",7],["F_HAUPTFLUSS_3_D5",7],["F_HAUPTFLUSS_3_E5",7],["F_HAUPTFLUSS_3_C5",6],["F_HAUPTFLUSS_3_F5",5],["B_R2_R_M1_M1_02",4],["F_DSCHUNGELFLUSS_H7",4],["B_R2_R_P4_M2_01",3],["B_R_M1_P0_03",3]],
-  "hindernis_akteure": 182,
-  "hindernis_instanzen": 20521,
-  "hindernis_akteure_mit_tag": 998,
-  "hindernis_komponenten": 2001,
-  "einheiten_ohne_hindernis": 67
+  "hindernis_akteure": 141,
+  "hindernis_instanzen": 20432,
+  "hindernis_akteure_mit_tag": 1150,
+  "swr_ohne_hindernis": 70,
+  "gelaende_max_in_swr_m": 331.86,
+  "gelaende_max_swr": "F_HAUPTFLUSS_1"
  },
- "kollision_objekte_eindeutig": 21519,
+ "varianten_zelle": {
+  "regel: bach 0.25 (max 0.30), fluss 0.35": {
+   "gewaesser_geteilt": 8,
+   "gewaesser_eine_swr": 188,
+   "swr": 211,
+   "aufloesung": {
+    "<= 512": 106,
+    "513-1024": 56,
+    "1025-2048": 49
+   }
+  },
+  "bach 0.25 (max 0.25), fluss 0.35": {
+   "gewaesser_geteilt": 11,
+   "gewaesser_eine_swr": 185,
+   "swr": 216,
+   "aufloesung": {
+    "<= 512": 106,
+    "513-1024": 58,
+    "1025-2048": 52
+   }
+  },
+  "alle 0.25": {
+   "gewaesser_geteilt": 12,
+   "gewaesser_eine_swr": 184,
+   "swr": 219,
+   "aufloesung": {
+    "<= 512": 105,
+    "513-1024": 59,
+    "1025-2048": 55
+   }
+  },
+  "bach 0.30, fluss 0.35": {
+   "gewaesser_geteilt": 8,
+   "gewaesser_eine_swr": 188,
+   "swr": 211,
+   "aufloesung": {
+    "<= 512": 120,
+    "513-1024": 53,
+    "1025-2048": 38
+   }
+  },
+  "bis 512 (Zwischenregel 16c): bach 0.35, fluss 0.5": {
+   "gewaesser_geteilt": 66,
+   "gewaesser_eine_swr": 130,
+   "swr": 749,
+   "aufloesung": {
+    "<= 512": 749,
+    "513-1024": 0,
+    "1025-2048": 0
+   }
+  }
+ },
+ "hoehe": {
+  "hoechste_spline_m": [["SW_gletscher_05_die_waechte_muehlenbach",307.1,"sehens"],["SW_bergwald_06_karsee_zulauf_sued",288.2,"sehens"],["F_HAUPTFLUSS_1",288.15,"welt"],["SW_bergwald_06_karsee_zulauf_west",280.12,"sehens"],["SW_gletscher_03_moraenensee_firnrinnsal",265.77,"sehens"],["SW_bergwald_06_karsee_abfluss",256.17,"sehens"],["SW_fjord_04_haengetal_hochtalbach",215.34,"sehens"],["F_HAUPTFLUSS_2",206.56,"welt"]],
+  "grenze_m": 655.04,
+  "ueber_grenze": 0
+ },
+ "kollision_objekte_eindeutig": 21582,
  "objekt_pool": {
   "objekte": 347878,
-  "fest_und_gross": 63887
+  "fest_und_gross": 63893
  },
- "fluesse_ab_15m": ["F_ALTARM_FLUSSAUE_D5","F_ALTARM_FLUSSAUE_E5","F_CANYONBACH_D4","F_CANYONBACH_D5","F_DSCHUNGELFLUSS_H5","F_DSCHUNGELFLUSS_H6","F_DSCHUNGELFLUSS_H7","F_ELFENFLUSS_1_H4","F_ELFENFLUSS_2_H4","F_ELFENFLUSS_3_F4","F_ELFENFLUSS_3_G4","F_ELFENFLUSS_3_H4","F_ERLENBACH_1V_C2","F_ERLENBACH_1_C2","F_ERLENBACH_2V_D3","F_ERLENBACH_2_C2","F_ERLENBACH_2_C3","F_ERLENBACH_2_D3","F_ERLENBACH_3_D3","F_GLETSCHERTAL_D2","F_HAUPTFLUSS_1_B4","F_HAUPTFLUSS_2_B4","F_HAUPTFLUSS_3_C4","F_HAUPTFLUSS_3_C5","F_HAUPTFLUSS_3_D5","F_HAUPTFLUSS_3_E5","F_HAUPTFLUSS_3_F5"],
- "laeufe_161_ohne_plan": ["B_R2_R_M1_M1_03","B_R2_R_M1_M1_04","B_R2_R_M1_P0_02","B_R2_R_M3_P1_01","B_R2_R_P1_M2_01","B_R2_R_P2_P1_02","B_R2_R_P4_M1_01","B_R3_R_M1_P0_01","B_R3_R_M2_P0_01","B_R3_R_M2_P2_01","B_R3_R_P3_P0_02","B_R_M1_M2_02","B_R_M2_M1_02","B_R_M2_M2_01","B_R_P3_M1_02","B_R_P3_P1_03","B_R_P3_P1_04","B_R_P4_M1_01","B_R_P4_M2_02","F_DSCHUNGELFLUSS_H7","F_ELFENFLUSS_2_H4","F_ERLENBACH_1_C2","F_ERLENBACH_3_D3","F_HAUPTFLUSS_1_B4","F_HAUPTFLUSS_2_B4"],
  "daten": "2m (Cloud-Test)",
- "format": "fluss_sim_v2"
+ "format": "fluss_sim_v3",
+ "dateien": 180
 }

@@ -1,11 +1,11 @@
 {
-  "version": 2,
+  "version": 3,
   "stand": "2026-10-12",
-  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten",
+  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten; v3 (16c, Ferat 12.10.2026 17:10): EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss, Meer) ueber alle Faelle hinweg, Abschnitte nur noch als s-Bereiche, SWR-Kacheln auf demselben Fluss",
   "fall_schwelle_m": 1.0,
   "fall_schwelle_hinweis": "Einzelabsturz (Stufe ohne Teilstufen bzw. jede Teilstufe einer Kaskade) >= Schwelle und keine Rampe/Schnelle = Fall. Wert wird im Einrichtungstest geprueft (Datei 16).",
   "abschnitt": {
-    "min_laenge_m": 4.0,
+    "min_laenge_m": 0.0,
     "min_laenge_begruendung": "WaterBodyRiver zeichnet sich in die Water-Info-Textur (14b: 1,18 m je Texel bei C2). Unter ~3,4 Texeln (4 m) entstehen Luecken-Artefakte; kuerzere Becken werden mit dem talwaerts folgenden Abschnitt zusammengefasst (der Fall liegt dann innen, Spline-Stufe LINEAR, Vorhang bleibt).",
     "rest_am_laufende_m": 0.5,
     "max_laenge_m": 112.0,
@@ -18,7 +18,8 @@
     "velocity_max_cm_s": 1024.0,
     "velocity_max_hinweis": "r.Water.MaxFlowVelocity 1024 cm/s (A12)",
     "becken_gefaelle_max": 0.03,
-    "stufe_z_min_cm": 2.0
+    "stufe_z_min_cm": 2.0,
+    "hinweis_v3": "v3: Abschnitte sind nur noch Bereiche (s_m) mit Rolle; min_laenge_m/max_laenge_m gelten nicht mehr (kein eigener WaterBodyRiver). tiefe_*, velocity_*, becken_gefaelle_max gelten weiter."
   },
   "kaskadennetz": {
     "vor_lippe_m": 0.5,
@@ -56,11 +57,6 @@
     "gischt_ab_m": 3.0,
     "nur_an_vorhang": true
   },
-  "kacheln": {
-    "groesse_m": 128.0,
-    "rand_m": 8.0,
-    "hinweis": "v2: Kacheln sind nur noch Unterteilung einer SWR-Einheit (Akteur-Grenze 13k je Kachel, Teil-Fingerabdruck zur Ortung von Aenderungen). Gebacken wird je Einheit."
-  },
   "fingerabdruck": {
     "version": "FLUSS_SIM_FP1",
     "hoehe_quant_cm": 5,
@@ -77,40 +73,24 @@
     "senkrecht_ab_m": 2.0,
     "senkrecht_versatz_max_anteil": 0.3,
     "felsstufe_arten": ["fall"],
-    "begruendung": "Die 2D-Simulation (eine Hoehe je Zelle) zeichnet einen Absturz als Rinne ueber 1-2 Zellen (0,35-0,5 m). Bis ~2 m liegt diese Rinne im Schaumband der Lippe und liest sich als Wildwasser (16b: C2-Faelle als steile Rinnen natuerlich). Ab 3 m (Planer vorhang_ab_m, 14b) oder an einer senkrechten Felslippe ab 2 m (Versatz Lippe->Fuss <= 0,3 x Fallhoehe, also >= 73 Grad, Art fall, kein Holz) entstuende eine sichtbare 'Glaswand' ohne freien Strahl: dort Vorhang (Kaskadennetz) + Schaumobjekte. Kaskaden-Teilstufen und Schnellen nie."
+    "begruendung": "Die 2D-Simulation (eine Hoehe je Zelle) zeichnet einen Absturz als Rinne ueber 1-2 Zellen (0,35-0,5 m). Bis ~2 m liegt diese Rinne im Schaumband der Lippe und liest sich als Wildwasser (16b: C2-Faelle als steile Rinnen natuerlich). Ab 3 m (Planer vorhang_ab_m, 14b) oder an einer senkrechten Felslippe ab 2 m (Versatz Lippe->Fuss <= 0,3 x Fallhoehe, also >= 73 Grad, Art fall, kein Holz) entstuende eine sichtbare 'Glaswand' ohne freien Strahl: dort Vorhang (Kaskadennetz) + Schaumobjekte. Kaskaden-Teilstufen und Schnellen nie.",
+    "status": "wartet (Ferat 16c: Wasserfaelle/Vorhaenge vorerst nicht bauen; Regel und Felder bleiben wie 16b)"
   },
   "swr": {
-    "einheit": "Strecke: ein ShallowWaterRiver + ein WaterBodyRiver je Gewaesser (Lauf, Sehens-Bach, Fluss), solange die laengste Achse der Begrenzungsbox bei resolution_max eine Zelle <= zelle_max_m ergibt",
-    "zelle_ziel_bach_m": 0.35,
-    "zelle_ziel_fluss_m": 0.5,
-    "zelle_max_m": 0.5,
-    "zelle_bach_hinweis_ab_m": 0.4,
+    "einheit": "v3 (16c Nachtrag 17:45): je Gewaesser EIN WaterBodyRiver und EINE ShallowWaterRiver. SWR-Bereich = achsparalleles Rechteck um den Fluss; resolution_max_axis = laengste Rechteckseite / Zielzelle (Vielfaches von 32, hoechstens resolution_max). Nur wenn die Zelle dann ueber zelle_max laege (Bach > 2048 x 0,30 = 614 m, Fluss > 2048 x 0,35 = 717 m), wird die Simulation in wenige lange Stuecke geteilt; der Fluss bleibt ein WaterBodyRiver.",
+    "zelle_ziel_bach_m": 0.25,
+    "zelle_max_bach_m": 0.3,
+    "zelle_ziel_fluss_m": 0.35,
+    "zelle_max_fluss_m": 0.35,
+    "zelle_hinweis": "Ferat 17:45: Baeche 0,25-0,30 m, Fluesse bis 0,35 m. Bach = Lauf mit Abstuerzen im Plan, Median der Breite < 15 m oder Sehens-Bach; ein SWR-Bereich, der einen Bach-Lauf beruehrt, gilt als Bach. Pruefer: Zelle <= zelle_max + 0,005 m, Aufloesung <= resolution_max.",
+    "resolution_max": 2048,
+    "resolution_hinweis": "16c Nachtrag 17:45 gemessen an C2: 512 -> 0,8 ms, 1024 -> 6,3 ms, 2048 -> 9,7 ms live im Editor; gebacken im Spiel ~0,2 ms. Die Kosten fallen nur beim Backen an.",
     "fluss_breite_median_ab_m": 15.0,
     "typ_hinweis": "bach = Gewaesser mit Abstuerzen aus dem Plan oder mittlere Breite (Median) < 15 m; sonst fluss",
-    "resolution_max": 512,
     "resolution_min": 32,
     "resolution_schritt": 32,
     "rand_m": 8.0,
     "rand_hinweis": "Bereich fuer Bodenerfassung, Fingerabdruck und Nachbar-Hindernisse = Box der Spline + rand_m; die Zelle rechnet mit der Box ohne Rand",
-    "spline_punkt_abstand_min_m": 2.0,
-    "spline_punkt_abstand_roh_m": 5.0,
-    "teilung": {
-      "fenster_anteil": 0.5,
-      "fenster_anteil_notfall": 0.1,
-      "rang": {
-        "fall_vorhang": 3,
-        "fall": 2,
-        "becken": 1,
-        "ruhig": 0
-      },
-      "becken_min_laenge_m": 8.0,
-      "becken_gefaelle_max": 0.03,
-      "ruhig_fenster_m": 5.0,
-      "ruhig_abstand_absturz_m": 1.0,
-      "ueberlappung_m": 4.0,
-      "min_einheit_m": 30.0,
-      "hinweis": "Laengere Strecken werden gierig von oben geteilt: Teilstelle im hinteren Teil (fenster_anteil) des noch passenden Bereichs, bester Rang zuerst, bei Gleichstand die talwaerts letzte (Becken, Faelle) bzw. die flachste (ruhig). An Faellen Source/Sink-Verkettung ohne Ueberlappung (oben endet die Spline an der Lippe, unten beginnt sie am Fuss), in Becken/ruhigen Stellen ueberlappen die Splines um ueberlappung_m (je Seite die Haelfte)."
-    },
     "hindernis_tag": "SWR_Hindernis",
     "render_state": {
       "backen": "LIVE_SIM",
@@ -118,6 +98,42 @@
       "ersatz": "BAKED_SIM"
     },
     "material_spiel": "MI_EL_SWR_Klar",
-    "material_hinweis": "16b Nachtrag 16:30: Kind von MI_Eldarien_Wasser_Fluss, Water-Body-Material und baked_sim_material"
+    "material_hinweis": "16b Nachtrag 16:30: Kind von MI_Eldarien_Wasser_Fluss, Water-Body-Material und baked_sim_material",
+    "prioritaet_hauptlauf": 10,
+    "prioritaet_hinweis": "overlap_material_priority = prioritaet_hauptlauf - Stufe im Muendungsbaum (Hauptlauf 10, Zufluss 9, dessen Zufluss 8 ...), mindestens 1",
+    "teilung": {
+      "ueberlappung_m": 8.0,
+      "naht_abstand_absturz_m": 5.0,
+      "min_teil_m": 50.0,
+      "hinweis": "Nur fuer Gewaesser, deren Rechteck bei resolution_max die zelle_max ueberschreitet. Kleinste Anzahl Teilstuecke; unter gleich vielen die mit der kleinsten Summe der Rechteckflaechen (gewundene und diagonale Laeufe). Naht an einem Splinepunkt, >= naht_abstand_absturz_m von jeder Stufe (nicht an Faellen), >= min_teil_m vom Anfang/Ende. Nachbarbereiche ueberlappen ueberlappung_m (je Seite die Haelfte); naht.art = becken, wenn die Naht in einem Becken liegt, sonst lauf.",
+      "geteilt_hinweis": "Teilstueck einer geteilten Simulation: beide SWR nennen denselben WaterBodyRiver als Quelle und Senke. Da der SWR-Bereich gemessen das Rechteck um die Quell-Fluesse ist, muss das Rechteck dieses Teilstuecks lokal begrenzt werden (Test 16c, Abschnitt Recherche); bis dahin vorlaeufig."
+    }
+  },
+  "gewaesser": {
+    "definition": "Gewaesser = Kette von Welt-Laeufen (wasser_welt.json 'fluesse' je Feld, baeche_alle.json), deren Ende am Anfang des naechsten liegt (Feldgrenze mit Ueberlappung oder Anschluss), von der Quelle bis zur Muendung; Sehens-Baeche sind je ein eigenes Gewaesser. Muendung = Ende in See, Fluss/Bach (Zusammenfluss: der Nebenlauf endet im Hauptlauf), Meer; sonst versickert/wasserfall/offen.",
+    "fortsetzung_abstand_m": 8.0,
+    "fortsetzung_ueberlappung_max_m": 40.0,
+    "fortsetzung_quer_m": 1.0,
+    "fortsetzung_dz_max_cm": 50.0,
+    "ueberlappung_dz_max_cm": 500.0,
+    "fortsetzung_hinweis": "Anschluss: Ende von P <= fortsetzung_abstand_m vom Anfang von N, N beginnt nicht hoeher als P endet (+ dz). Ueberlappung (Feldgrenzen 12-30 m): Ende von P liegt <= quer_m auf N bei s <= ueberlappung_max_m und umgekehrt; gekuerzt wird das Teil ohne Gefaelle-Plan, sonst das untere.",
+    "muendung_toleranz_m": 3.0,
+    "muendung_dz_unter_cm": 100.0,
+    "ausdruecklich_rand_max_m": 15.0,
+    "see_toleranz_m": 5.0,
+    "meer_radius_m": 10.0,
+    "meer_strand_z_max_cm": 200.0,
+    "meer_strand_radius_m": 150.0,
+    "nah_toleranz_m": 25.0,
+    "nah_dz_ueber_cm": 1000.0,
+    "wasserfall_radius_m": 120.0,
+    "muendung_hinweis": "Reihenfolge: ausdruecklich (Sehens 'muendung', R2 'anschluss.ende', wenn das Ende <= ausdruecklich_rand_max_m neben dem Ziel liegt) > Fluss/Bach (Ende <= halbe Breite + muendung_toleranz_m neben der Mittellinie eines anderen Laufs, Ende nicht > muendung_dz_unter_cm unter dessen Spiegel) > See (Umriss + halbe Breite + see_toleranz_m) > Meer (Meer-Raster im Umkreis halbe Breite + meer_radius_m; oder Ende <= meer_strand_z_max_cm hoch und Meer <= meer_strand_radius_m entfernt: Bach endet am Strand) > nah (Luecke in den Weltdaten: Lauf bzw. See <= nah_toleranz_m neben dem Ende, Ende hoechstens nah_dz_ueber_cm ueber dem Ziel; Feld luecke_m) > Welt-Wasserfall (<= wasserfall_radius_m) > offen. Zusammenfluss: der Nebenlauf behaelt seine Spline bis ins Wasser des Hauptlaufs; Endstueck nach Gefaelle-Plan 'zufluesse' abgesenkt."
+  },
+  "spline": {
+    "abstand_m": 2.0,
+    "abstand_roh_m": 5.0,
+    "stufe_dx_min_m": 0.1,
+    "zusammen_m": 0.05,
+    "hinweis": "Eine Spline je Gewaesser: Anfang, Ende, je Stufe (jeder Absturz aus Plan/Sehens, auch Kaskaden-Teilstufen und Schnellen) ein Punkt an der Lippe (z = Oberwasser) und einer am Fuss (z = Unterwasser), beide LINEAR, zwischen Lippe und Fuss kein Punkt. Dazwischen gleichmaessig mit Abstand >= abstand_m (roh: abstand_roh_m), also 2-4 m bzw. 5-10 m. Fuss >= Lippe + stufe_dx_min_m; liegt die naechste Lippe naeher als zusammen_m am Fuss, teilen sie sich einen Punkt (Rolle fuss_lippe). z nie steigend."
   }
 }
