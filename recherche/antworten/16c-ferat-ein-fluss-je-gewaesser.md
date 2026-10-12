@@ -715,3 +715,365 @@ Inhalte aus Suchmaschinen-Auszügen; Zahlen mit Messschwelle (meist ≥ 10 cm Du
 5. **Roh-Läufe ohne Plan** (97 Welt-Läufe ohne Stufenplan, außerhalb der Stufenstrecken): Dort setzt bisher niemand
    Totholz oder Uferstreifen. Soll der Planer dafür einen eigenen Durchlauf bekommen (nur Totholz und Lagen, kein
    Gelände)?
+
+## Nachtrag 3: Totholz nach Waldnähe, Roh-Läufe, Feldgrenzen
+
+Stand 12.10.2026. Grundlage: Koordinator-Entscheidungen zu den Rückfragen aus Nachtrag 2, Ferats Nachtrag 18:15 („Felsen,
+Totholz und Schlamm in jedem Bachbett“) und Punkt 3 der 16d-Antworten (Feldgrenzen). Code für lokal: Commit **`79670b9`**.
+Gerechnet auf den 2-m-Daten (Gefälle `--alle`, 15 Sehens-Planer, Roh-Läufe, fluss_sim-Export), auf den 1-m-Fenstern der
+Piloten und auf der synthetischen 1-m-Welt.
+
+### Kurzfazit
+
+- **Totholz nach Waldnähe:** Der Baumanteil im Umkreis von 40 m zählt jetzt in jedem Biom. Ein Bach mit Bäumen am Ufer
+  bekommt Wald-Dichte, auch in Tundra und Heide. Baumlose Strecken bleiben bei „kaum“ bzw. 0, bekommen aber Treibholz und
+  Äste, wenn der Oberlauf bewaldet ist. Waldbiome rechnen wie bisher.
+- **C2 bleibt bei 5 großen Stücken.** Am Erlenbach stehen nach den Daten keine Bäume am Ufer: 2 Bäume (≥ 5 m) im Umkreis
+  von 40 m, 38 im Umkreis von 80 m. Die Bäume aus Ferats Bild stehen 80–150 m entfernt am Hang. Ich habe das nicht
+  erzwungen (Abschnitt 2, Rückfrage 1).
+- **Feldgrenzen bereinigt:** Eine Stufe steht nur noch in einem Plan. Der Export verliert keine Stufe mehr (vorher 5).
+  4 der 5 Lippen bleiben im Plan ihres Felds. Eine Lippe (gleiches Feld) entfällt, weil der obere Plan die Überlappung
+  behält.
+- **Roh-Läufe:** Die 97 Läufe ohne Stufenplan haben jetzt eine eigene Ebene `bachbett_roh` mit Felsen, Totholz, Schlamm,
+  Kies an Schnellen und Uferstreifen. Dazu kommen die Reststrecken der 98 geplanten Läufe außerhalb ihrer Stufenstrecken.
+  Es gibt keine Stufen und keine Geländeänderung, nur Instanzen und Lagen.
+  - Roh-Läufe: 17,0 km Bachbett.
+  - Reststrecken: 6,7 km Bachbett.
+  - Zusammen 24 730 Instanzen, keine Akteure.
+- **fluss_sim:** `holz_muster` erkennt jetzt Äste und Moosbäume. Der Export liest die Roh-Ebene mit ein.
+  - Wasser-Kollision: 24 697 → 41 945 Objekte, davon 12 766 aus der Roh-Ebene.
+  - 184 von 199 SWR-Fingerabdrücken ändern sich, fast nur im Teil `objekte`.
+- **Unverändert:** Aue-Holzstufen über dem Rahmen (HINWEIS) und die enge Elfenwald-Kaskade `B_R2_R_P3_M2_02` (WARNUNG) so
+  gelassen, wie entschieden.
+- **Prüfung:** Alle Läufe haben 0 FEHLER und sind deterministisch (Tabelle in Abschnitt 6).
+  - Gefälle `--alle` 2 m und Piloten 1 m.
+  - 15 Sehens-Planer, 2 m und synthetisch 1 m.
+  - Roh-Ebene und fluss_sim-Export.
+  - Selbsttest grün: 139 Prüfungen, 16 davon neu.
+
+### 1. Totholz nach Waldnähe
+
+**Regel** (`sehens_lib/bachbett.py` → `dichte`, Regeln v2 in `bachbett_regeln.json`):
+
+- Für jedes Segment wird der Baumanteil gemessen: der Anteil der 4-m-Zellen mit Bäumen ≥ 5 m (`baeume_4m`) im Radius
+  40 m um den Bach. Das ist das Raster, das auch die Fern-Kameras aus 13k nutzen. Es enthält alle gesetzten Ebenen.
+- **Waldbiome** (Bergwald, Elfenwald, Aue, Sumpf, Dschungel, Fjord) rechnen wie bisher: Biom-Dichte × Waldfaktor 0,6–1,4.
+- **Übrige Biome:** Das Gewicht g = glatt((Anteil − 1 %) / 4 %) mischt zwei Dichten. Der Rahmen [min, Ziel, max] ist
+  (1 − g) × Biom + g × Ersatz-Waldbiom × Waldfaktor.
+  - Ab etwa 5 % Baumanteil gilt die volle Wald-Dichte. Das ist knapp die Hälfte des Bergwald-Mittels von 12 %.
+  - Ersatz-Waldbiom: Tundra, Heide, Ödland, Küste, Gletscher und Frost → Bergwald; Canyon und Wüste → Aue (Galeriewald).
+  - Lava hat kein Ersatz-Waldbiom und bleibt bei 0.
+  - Ab g ≥ 0,5 kommen die Netze aus der Palette des Waldbioms.
+- **Treibholz:** Baumlose Strecken (1 − g) bekommen zusätzlich h × 2 große Stücke je 100 m (max 4, kein Minimum), dazu
+  0,3 Verklausungen, 4 Äste und 6 Zweige.
+  - h = glatt(…) ist dieselbe Rampe, gemessen am Baumanteil der letzten 300 m Oberlauf.
+  - Palette: verwitterte Stämme und Äste (`SM_OldFallenTree_*`, `SM_OldTreeBranch_*`, `SM_dead_log_03/04`,
+    `SM_BrokenTreeBranch_01`), alle im Inventar, ohne Sägeschnitt.
+- **Daten:** Baumanteil im 40-m-Umkreis aller Welt-Läufe, in 50-m-Stücken:
+  - Bergwald: Median 12,5 %.
+  - Elfenwald: 31,6 %.
+  - Dschungel: 15,2 %.
+  - Aue: 2,2 %.
+  - Heide: 0,7 %, 90-%-Wert 2,0 %.
+  - Tundra: 0,2 %, 90-%-Wert 2,2 %.
+
+  Die meisten Tundra- und Heidebäche sind also wirklich offen.
+- **Plan und Prüfer:** `dichte[*]` trägt `wald_anteil`, `wald_biom`, `wald_gewicht`, `oberlauf_anteil`, `treibholz`,
+  `rahmen_lw` und `palette`. Die Prüfer rechnen den Rahmen nach und melden eine Abweichung als FEHLER: Gefälle, Sehens und
+  Roh-Ebene; den Oberlauf nehmen sie aus `spiegel_neu_cm`. Die Dichte-Regel prüft gegen diesen Rahmen.
+  - Über max: FEHLER.
+  - Unter min: ab 60 m FEHLER, mit blockierten Plätzen WARNUNG.
+
+**Gefälle `--alle`, 2 m** (große Stücke = Stamm, Verklausung, überspannt, Wurzelstock; „Bestand“ = Holzstufen):
+
+| Biom | Länge m | Stamm | Verkl. | übersp. | Wurzel | Bestand | groß je 100 m | Äste | Zweige |
+|---|---|---|---|---|---|---|---|---|---|
+| Aue | 2 630 → 2 615 | 5 → 5 | 5 → 5 | 0 | 2 → 2 | 1 084 | 41,7 → 41,9 | 502 → 499 | 992 → 986 |
+| Bergwald | 1 718 | 125 | 41 | 2 | 33 | 77 | 16,2 | 433 | 788 |
+| Dschungel | 919 | 74 | 28 | 10 | 21 | 40 | 18,8 | 382 | 606 |
+| Elfenwald | 3 958 → 3 946 | 425 → 421 | 270 | 41 | 161 → 160 | 234 | 28,6 → 28,5 | 1 864 → 1 860 | 2 723 → 2 714 |
+| Heide | 18 | 0 → **2** | 0 | 0 | 0 | 0 | 0 → **11,1** | 1 → 3 | 2 → 5 |
+| Tundra | 1 909 → 1 907 | 33 → **48** | 18 → **21** | 0 | 5 → **11** | 0 | 2,9 → **4,2** | 130 → 172 | 189 → 263 |
+| **Summe** | 11 152 → 11 123 | 662 → 675 | 362 → 365 | 53 | 222 → 227 | 1 435 | 24,5 → 24,8 | 3 312 → 3 349 | 5 300 → 5 362 |
+
+- Neu sind 1 299 → 1 320 große Stücke.
+- Instanzen 75 097 → 74 729, Akteure 771 → 769. Weniger sind es, weil `F_HAUPTFLUSS_3_C4` und `F_ELFENFLUSS_3_H4` an der
+  Feldgrenze früher enden (Abschnitt 3).
+- Aue und Elfenwald ändern sich nur durch diese beiden Neuplanungen. Die Waldbiome rechnen wie vorher; die Anzahlen sind
+  dort bitgleich.
+- **Tundra mit Ufer-Wald bzw. Treibholz** (7 Segmente; g = Wald-Gewicht):
+
+  | Segment | Baumanteil | g | Treibholz | Ziel je 100 m | gesetzt je 100 m |
+  |---|---|---|---|---|---|
+  | `B_R_P1_M2_02_s2` | 4,2 % | 0,89 | – | 10,2 | 7,0 |
+  | `B_R_P1_M2_02_s3` | 2,7 % | 0,39 | 0,43 | 6,7 | 6,7 |
+  | `B_R_P1_M2_02_s4` | 1,8 % | 0,12 | 0,67 | 5,2 | 4,9 |
+  | `B_R_P1_M2_01_s1` | 2,1 % | 0,17 | 0,83 | 5,9 | 5,9 |
+  | `B_R2_R_P0_M2_01_s1` | 3,3 % | 0,60 | 0,41 | 8,3 | 6,6 |
+  | `B_R_P1_M2_04_s1` | 2,1 % | 0,19 | – | 4,3 | 4,0 |
+  | `B_R_P3_P0_01_s1` (Heide) | 5,5 % | 1,0 | – | 11,7 | 11,1 |
+
+  An `B_R_P1_M2_02_s2` blockieren die Lippenzonen 92 Plätze. Der Rahmen bleibt trotzdem eingehalten.
+- **Piloten, 1-m-Fenster:** 443 → 449 große Stücke; Instanzen 22 987 → 22 842; Akteure 251 → 251.
+
+**Sehens, 2 m** (42 Bäche): Es ändern sich nur Bäche mit Bäumen am Ufer.
+
+| Bach | Baumanteil | groß vorher → nachher |
+|---|---|---|
+| `gletscher_01_gletschertor/gletscherbach` (132 m) | 7,2 % | 0 → 17 |
+| `gletscher_02_lawinenkegel`, drei Schmelzbäche (96 m) | 6,8–13,9 % | 0 → 15 |
+| `tundra_04_die_fliesstreppe/schmelzfaden` (192 m) | 3,3 % | 6 → 15 |
+| `tundra_05_der_trunkene_grund/abfluss` (36 m) | 9,5 % | 1 → 5 |
+| `tundra_06_das_schneetaelchen/schmelzwasser` (35 m) | 3,9 % | 1 → 3 |
+
+- Summe der großen Stücke 84 → 131, Äste 144 → 209, Zweige 237 → 356.
+- Instanzen 280 112 → 280 343, Akteure unverändert.
+- Die Gletscher-Orte 01 und 02 liegen nach dem Baumraster am Waldrand. Deshalb gilt dort Bergwald-Dichte. Die übrigen
+  Gletscherbäche bleiben ohne Holz (Baumanteil ≤ 1,7 %).
+- Sehens-Bäche bekommen kein Treibholz vom Oberlauf, weil sie an einer Quelle oder einem See beginnen.
+
+### 2. C2 im Detail
+
+- **Bäume am Erlenbach** (Bäume ≥ 5 m im 4-m-Raster um `F_ERLENBACH_1V_C2`):
+
+  | Umkreis | Zellen | mit Baum | Bäume | Anteil |
+  |---|---|---|---|---|
+  | 20 m | 586 | 1 | 1 | 0,2 % |
+  | 40 m | 1 327 | 2 | 2 | 0,15 % |
+  | 80 m | 3 281 | 33 | 38 | 1,0 % |
+  | 150 m | 8 222 | 334 | 389 | 4,1 % |
+  | 300 m | 25 257 | 1 396 | 1 585 | 5,5 % |
+
+- **Ergebnis:** Am Ufer ist C2 offene Tundra. Das Gewicht ist g = 0, der Oberlauf ist 17 m Quellbach ohne Bäume, also gibt
+  es auch kein Treibholz.
+  - Rahmen 0–6, Ziel 3 je 100 m auf 171 m.
+  - Wie in Nachtrag 2: 5 große Stücke, 12 Äste und 17 Zweige, 329 m² Uferstreifen, 238 m² Schlamm.
+  - Instanzen 1 857, davon 533 mit Kollision.
+  - Die Instanz-Dateien der Pilotplanung auf 1 m sind byte-gleich zum Stand `b841294`; nur `plan.json` hat die neuen
+    Felder.
+- **Warum nicht 20–25:** Die Kiefern und Birken aus Ferats Bild stehen 80–150 m vom Bach entfernt am Hang. Mit dem
+  Radius 30–50 m aus der Entscheidung zählen sie nicht.
+  - Mit 150 m Radius (Holz durch Lawinen und Steinschlag vom Hang, siehe Rigon 2012 in Nachtrag 2) wäre der Anteil 4,1 %.
+  - Das ergäbe g ≈ 0,85 und etwa 17 große Stücke.
+  - Das habe ich nicht eingebaut (Rückfrage 1).
+- **fluss_sim, 2-m-Export:** In C2 haben jetzt 20 Holzobjekte Wasser-Kollision, 5 sind ohne (überspannt). Vorher waren es
+  2 als `holz` und 4 als `sonstiges`. Die Äste am Wasser zählen jetzt als Holz.
+
+### 3. Feldgrenzen mit zwei Gefälle-Plänen
+
+**Regel** (`gefaelle_daten.feldgrenzen`, im Planer und im Prüfer):
+
+1. Zwei Welt-Läufe überlappen sich, wenn das Ende des einen ≤ 1 m neben dem Anfang des anderen liegt und umgekehrt, bei
+   bis zu 40 m Überlappung. Das sind dieselben Kriterien wie im Export.
+2. Haben beide Läufe Stufen, gehört eine Lippe in den Plan, in dessen Feld sie liegt. Liegen beide Läufe im selben Feld
+   (Verlängerungen wie `*_1V_C2` → `*_2_C2`), gehört die ganze Überlappung dem oberen Lauf. Ob der Nachbar Stufen bekommt,
+   klärt ein Trockenlauf seiner Stufenlage (`nachbar_hat_stufen`). Das Ergebnis hängt also nicht von `--laeufe` ab.
+3. Im fremden Teil (`fremd_s_m`) setzt ein Plan keine Lippe, und sein Becken darf nicht hineinlaufen. Dort bleibt der alte
+   Spiegel, damit beide Pläne mit passendem Spiegel anschließen.
+   - Verletzt das erste Legen diese Regel, wird die Strecke mit der Zone als fester Zone neu gelegt (`feldgrenzen.neu_gelegt`).
+   - Der untere Lauf schließt erst dort an, wo sein alter Spiegel nicht über dem des oberen liegt (`grenze_s_m`). In den
+     Daten fällt das mit der Feldgrenze zusammen.
+4. **Export:** Haben beide Teile einen Plan mit `feldgrenzen`, schneidet der Export die Kette bei `grenze_s_m`, statt das
+   untere Teil um die ganze Überlappung zu kürzen.
+5. **Prüfer:** Eine Lippe im fremden Teil ist FEHLER, ebenso ein Becken, das hineinläuft. Die Überlappung wird aus den
+   Weltdaten nachgerechnet.
+
+**Die drei Fälle aus 16c** (vorher: der Export ließ 5 Teil-Lippen fallen):
+
+| Überlappung | Feldgrenze | vorher | nachher |
+|---|---|---|---|
+| `F_ERLENBACH_1V_C2` → `F_ERLENBACH_2_C2` | gleiches Feld C2, Überlappung 0–11,9 m gehört C2 | `2_C2_s1_S01_T1` (s 10,0) im Export entfallen | `2_C2` neu gelegt, erste Lippe nach 11,9 m: 5 → 4 Lippen, Fall 3,36 → 3,11 m. C2 selbst unverändert. |
+| `F_HAUPTFLUSS_3_C4` → `F_HAUPTFLUSS_3_C5` | C4/C5 bei C5 s 5,25 m | `C5_s1_S01_T1/T2` (s 10,0 und 24,3) entfallen | beide Lippen liegen in C5 und bleiben. C4 neu gelegt: Sein letztes Becken lief in die Überlappung, jetzt endet die Strecke an der Feldgrenze. 8 Lippen bleiben, Fall 9,77 → 9,06 m; die 0,71 m übernehmen die C5-Stufen. |
+| `F_ELFENFLUSS_3_H4` → `F_ELFENFLUSS_3_G4` | H4/G4 bei G4 s 9,0 m | `G4_s1_S01_T1/T2` (s 10,0 und 21,0) entfallen | beide Lippen bleiben in G4. H4 neu gelegt wie C4: 6 Lippen, Fall 7,46 → 6,89 m. |
+
+- **Export:** `abstuerze_entfallen` 5 → 0, Abstürze 2 074 → 2 078, Fälle 765 → 762.
+- Die drei Gewässer `F_ERLENBACH`, `F_HAUPTFLUSS_3` und `F_ELFENFLUSS` haben neue Splines (Schnittpunkt verschoben).
+- Alle übrigen 95 Pläne haben dieselben Stufen wie vorher. Insgesamt bleiben es 1 071 Stufen.
+- `plan.json → feldgrenzen` nennt alle 36 Überlappungen mit `fremd_s_m`, `feldgrenze_s_m`, `grenze_s_m`, `nachbar_plan`,
+  `lippen_in_fremd` und `neu_gelegt`.
+
+### 4. Roh-Läufe: eigene Ebene `bachbett_roh`
+
+**Wie der Export diese Läufe heute kennt:** als Teil `herkunft: "roh"`, Linie direkt aus den Weltdaten (`wasser_welt.json`
+`fluesse` je Feld, `baeche_alle.json`; Punkte `[x, y, z, Breite, Tiefe, v]`, Spiegel = Punkt-z). Objekte hatten sie bisher
+nicht (nur die Ufer-Ebene lokal in 5 Feldern).
+
+**Skript** `skripte/gefaelle/bachbett_roh.py` (Prüfer `bachbett_roh_pruefen.py`, auch eingebaut):
+
+- **Welche Läufe:**
+  - Alle Welt-Läufe ohne Gefälle-Plan mit Stufen: 97 Roh-Läufe, 21,0 km.
+  - Die Reststrecken der 98 geplanten Läufe, 20 m Abstand zu den Stufenstrecken. `--ohne-reststrecken` schaltet sie ab.
+- **Linie und Spiegel:** Lauf-Punkte plus Zwischenpunkte alle 2 m. Der Spiegel ist Punkt-z, nie steigend.
+- **Ruhe:** aus dem Spiegelgefälle über 20 m, ruhig bei ≤ 0,4 % und Schnelle ab 2 %. Sie steuert Schlamm (ruhig) und Kies
+  im Bett (Schnelle).
+- **Ausgespart** (`bereiche.ausgespart` mit Grund):
+  - Laufenden (je 3 m).
+  - Überlappungen, die der Export kürzt (340 m).
+  - Mündung in fremdes Wasser (527 m) sowie Seen und Teiche.
+  - Orte und Bauwerke bis halbe Breite + 4 m (3 240 m).
+  - Sehenswürdigkeiten, Radius + 10 m (1 837 m); dort bauen die Sehens-Planer.
+  - Bei Reststrecken die Stufenstrecken.
+  - Nach dem Setzen wird zusätzlich alles entfernt, was auf einer Ortszelle oder in einem ausgesparten Bereich liegt.
+- **Felsen** (`bachbett.felsen_setzen`, Regeln `roh.felsen`):
+  - Ufersteine 0,5–1,4 m.
+  - Störsteine im Wasser 0,4–1,6 m, höchstens 0,25 × Breite.
+  - Kies und Steinpackungen 0,25–0,6 m.
+  - Dichte nach dem Gefälle: Ufer 5–16, Wasser 1–8, Kies 8–24 je 100 m.
+  - Netze aus den Biom-Paletten `bloecke`/`kies` des Gefälle-Regelwerks.
+  - Ab 0,8 m mit Kollision.
+  - Nicht in Feldern mit lokaler Ufer-Ebene: `--ufer-felder`, lokal automatisch aus `ufer/foliage_<Feld>/`. Dort liegen
+    schon Kiesel, Kopfsteine und Blöcke.
+- **Totholz, Schlamm, Uferstreifen:** dieselbe `bachbett`-Logik wie im Gefälle-Planer, mit Waldnähe und Treibholz vom
+  Oberlauf (eigener Lauf, 300 m). Es gibt keine Stufen und keine Lippenzonen. Verklausungen entstehen an Engstellen.
+- **Gelände:** keine Änderung. Die Lagen sind Zielgewichte auf 1 m. Laut `SEHENS_FORMAT` §3 gilt neu = max(alt, ziel); die
+  übrigen Lagen werden skaliert. Der deckende Streifen verdrängt also das Gras.
+- **Format** wie die Gefälle-Pläne, damit der Gefälle-Prüfer (`pruefe_instanzen`, `pruefe_bachbett`) direkt darauf läuft:
+  - `<aus>/<lauf>/plan.json` mit `art` (`bachbett_roh` | `bachbett_rest`), `spiegel_neu_cm`/`_s_m` (Lauflinie),
+    `stufen: []`, `gelaende: null`, `bereiche`, `abschnitte` (Fenster ≤ 450 m, Lagen, Budget) und
+    `bachbett.abschnitte[*]` (`stuecke`, `felsen`, `felsen_bilanz`, `dichte`, `lagen`).
+  - `instanzen/<Feld>/`: Ebene `bachbett_roh`, `FT_EL_BBR_`.
+  - `lagen/<id>_<Lage>.r8`.
+  - Lokal: `export/unreal/welt/bachbett_roh/`.
+
+**Zahlen (2 m):**
+
+| | Läufe | Länge km | Bachbett km | leer | Instanzen | Kollision | große Stücke | Felsen Ufer/Wasser/Kies |
+|---|---|---|---|---|---|---|---|---|
+| Roh-Läufe | 97 | 21,0 | 17,0 | 7 | 16 760 | 5 686 | 2 187 | 1 584 / 635 / 2 434 |
+| Reststrecken | 98 | 23,3 | 6,7 | 57 | 7 970 | 2 807 | 1 199 | 710 / 308 / 1 076 |
+| **Summe** | **195** | **44,3** | **23,7** | 64 | **24 730** | **8 493** | **3 386** | **2 294 / 943 / 3 510** |
+
+- „Leer“ heißt: Der Lauf ist ganz ausgespart, z. B. ein kurzer Feldrest, ein Ort oder eine Sehenswürdigkeit, oder die
+  Reststrecke ist kürzer als 12 m.
+- Akteure: 0.
+- Lagen: 183 000 m² Uferstreifen, 192 000 m² Schlamm, 127 000 m² Kies im Bett.
+
+**Totholz je Biom (Roh-Ebene, Roh-Läufe und Reststrecken):**
+
+| Biom | Bachbett m | Stamm | Verkl. | übersp. | Wurzel | groß je 100 m | Äste | Zweige | davon mit Ufer-Wald (m) |
+|---|---|---|---|---|---|---|---|---|---|
+| Aue | 8 699 | 786 | 144 | 79 | 184 | 13,7 | 1 748 | 3 314 | – |
+| Bergwald | 471 | 52 | 0 | 1 | 8 | 13,0 | 84 | 167 | – |
+| Canyon | 84 | 6 | 0 | 0 | 1 | 8,3 | 9 | 17 | 44 |
+| Dschungel | 4 967 | 716 | 72 | 36 | 144 | 19,5 | 1 922 | 3 218 | – |
+| Elfenwald | 2 768 | 641 | 60 | 54 | 132 | 32,0 | 1 101 | 1 782 | – |
+| Gletscher | 53 | 7 | 0 | 0 | 1 | 15,2 | 11 | 22 | 53 |
+| Heide | 4 577 | 136 | 2 | 2 | 22 | 3,5 | 269 | 517 | 187 |
+| Ödland | 290 | 12 | 0 | 0 | 2 | 4,8 | 17 | 30 | – |
+| Tundra | 1 130 | 30 | 2 | 0 | 2 | 3,0 | 65 | 113 | 4 |
+| Wüste | 657 | 37 | 7 | 0 | 8 | 7,9 | 77 | 146 | 379 |
+| **Summe** | **23 694** | **2 423** | **287** | **172** | **504** | **14,3** | **5 303** | **9 326** | **667** |
+
+- Treibholz vom bewaldeten Oberlauf: auf 439 m (gewichtet).
+- Der Wüstenbach `B_R3_K12_WUESTE_01` hat 3–4 % Baumanteil am Ufer und gilt deshalb teils als Galeriewald.
+
+**Prüfer `bachbett_roh_pruefen.py`** (FEHLER):
+
+- Stufen oder Gelände vorhanden; Spiegel steigt; Akteure.
+- Instanz-Ebene wie bei den Gefälle-Plänen: Format, Inventar, Sägeschnitt, Feldrechteck, Budget, Schweben, Weg, Ortsflächen.
+- Bachbett wie `pruefe_bachbett`:
+  - Liste ↔ Ebene.
+  - Kollision großer Stücke am Wasser.
+  - Rahmen nach Waldnähe nachgerechnet.
+  - Uferstreifen ≥ 80 %.
+- Felsen:
+  - in der Ebene vorhanden.
+  - Blöcke ≥ 0,8 m am Wasser mit Kollision.
+  - ≥ 2 Ufer- oder Störsteine je 100 m je Segment ab 30 m, außer in Ufer-Ebene-Feldern.
+- Nichts in Sehenswürdigkeiten und in ausgesparten Bereichen.
+
+Ergebnis: 195 Läufe, **0 FEHLER, 0 WARNUNG**, 463 HINWEIS (Uferstreifen-Anteile, Dichte kurzer Strecken).
+
+### 5. fluss_sim-Export (Regeln v6)
+
+- **`holz_muster`** = `(log|trunk|stamm|stump|root|driftwood|treibholz|branch|deadtree|dead_tree|fallen|mossytree)`.
+  - Äste und Moosbäume laufen jetzt als `holz`.
+  - Bei den Objekten mit Wasser-Kollision sinkt `sonstiges` von 2 168 auf 147. Es bleiben vor allem `SM_DryRiverBed_*`,
+    Sandplatten und einzelne Bäume.
+  - Selbsttest: Alle Stamm-, Ast- und Wurzelnetze der Bachbett-Paletten erkennt der Export als Holz.
+- **Feldgrenzen:** Schnitt bei `grenze_s_m`, siehe Abschnitt 3.
+- **Roh-Ebene:** neue Option `--roh` (Standard: `bachbett_roh` neben `--gefaelle`), auch im Prüfer.
+  `zusammenfassung.json → eingaben.bachbett_roh` nennt 131 Läufe mit 163 Feld-Ebenen.
+- **Zahlen** (2 m, vorher → nachher):
+
+  | | vorher | nachher |
+  |---|---|---|
+  | Wasser-Kollision | 24 697 | 41 945 (12 766 aus der Roh-Ebene) |
+  | davon im Wasser | 23 776 | 36 623 |
+  | `holz` | 2 271 | 16 974 |
+  | `fels` | 20 258 | 24 824 |
+  | überspannt (ohne Wasser-Kollision) | 1 782 | 6 934 (3 428 aus der Roh-Ebene) |
+  | Objekt-Pool | 358 258 | 382 849 |
+  | fest und groß | 66 990 | 101 488 |
+
+  Der Sprung bei `holz` kommt aus der Roh-Ebene (8 146) und aus den Ästen am Wasser in den Gefälle- und Sehens-Plänen.
+  Die neuen „überspannt“ sind meist Ufersteine und Äste auf der Böschung über dem Spiegel, die noch im Spline-Streifen
+  liegen.
+- **Fingerabdrücke:**
+  - 184 von 199 SWR-Bereichen ändern sich, 15 bleiben gleich.
+  - 173 ändern sich nur im Teil `objekte`.
+  - 8 auch in `splines`: `F_ELFENFLUSS_T02/T03`, `F_ERLENBACH_T01`, `F_HAUPTFLUSS_3_T01`–`T05`.
+  - 3 auch in `gelaende`: `F_ELFENFLUSS_T01`, `F_ERLENBACH_T00`, `F_HAUPTFLUSS_3_T00` (neu gelegte Pläne an der Feldgrenze).
+  - C2: `F_ERLENBACH_T00` `2ff2481e67e7…` → `8ca4e0808cd8…`, Objekte 678 → 802; `F_ERLENBACH_T01` 199 → 297.
+  - Alle geänderten SWR neu backen.
+- **Prüfer:** 0 FEHLER, 0 WARNUNG, 68 HINWEIS (vorher 67). Zwei Läufe sind byte-gleich (`--vergleich`).
+- **Beispiele** unter `antworten/fluss_sim/` sind neu: `F_ERLENBACH`, `bergwald_06_karsee`, `elfenwald_04_elfentreppe`,
+  `zusammenfassung.json`, `vorschlaege.json` und `back_liste_auszug.json`.
+
+### 6. Prüfung
+
+| Lauf | Ergebnis |
+|---|---|
+| Gefälle `--alle`, 2 m | Planer 0 FEHLER, 2 WARNUNG; Prüfer 0 FEHLER, 43 WARNUNG (dieselben wie vorher), 301 HINWEIS; zwei Läufe byte-gleich |
+| Piloten, 1-m-Fenster | Planer 0 FEHLER; Prüfer 0 FEHLER, 11 WARNUNG (dieselben wie vorher); zwei Läufe byte-gleich |
+| 15 Sehens-Planer, 2 m | Planer und Prüfer je 0 FEHLER; Prüfer 28 WARNUNG wie vorher; zwei Läufe byte-gleich |
+| 15 Sehens-Planer, synthetisch 1 m | Planer und Prüfer je 0 FEHLER (31 WARNUNG) |
+| Roh-Ebene `bachbett_roh` | Planer 0 FEHLER, 0 WARNUNG; Prüfer 0 FEHLER, 0 WARNUNG, 463 HINWEIS; zwei Läufe byte-gleich |
+| fluss_sim-Export + Prüfer | 0 FEHLER, 0 WARNUNG, 68 HINWEIS; zwei Läufe byte-gleich |
+| Selbsttest `sehens_lib/selbsttest.py` | grün: 139 ok, 0 FEHLER. Schritt 14 hat 16 neue Prüfungen: Tundra mit/ohne Ufer-Wald, Bergwald unverändert, Treibholz, Lava, Prüfer-Rahmen, Ruhe aus dem Gefälle, Holzmuster, Treibholz-Palette, Feldgrenzen (geteilt, Spiegel-Anschluss, gleiches Feld). |
+
+**Testbilder neu:**
+- Gefälle: `antworten/gefaelle/test_B_R_P1_M2_01_s1.png`, `test_B_R2_R_P0_M2_01_s1.png` (Tundra mit Ufer-Wald) und
+  `test_F_ELFENFLUSS_3_H4_s1.png` (an der Feldgrenze neu gelegt).
+- Sehens: `antworten/sehens/gletscher/test_gletscher_01_gletschertor.png`, `test_gletscher_02_lawinenkegel.png` und
+  `antworten/sehens/tundra/test_tundra_04_…`, `_05_…`, `_06_….png`.
+
+Die übrigen 19 Gefälle-Pilotbilder sind byte-gleich.
+
+### 7. Lokal zu tun
+
+1. Commit **`79670b9`** holen.
+2. **Gefälle auf 1 m neu planen** (`--alle`):
+   - Neu sind nur `F_ERLENBACH_2_C2`, `F_HAUPTFLUSS_3_C4` und `F_ELFENFLUSS_3_H4` (Stufen und Gelände) sowie das Totholz
+     der Tundra- und Heide-Läufe mit Ufer-Wald.
+   - **C2 (`F_ERLENBACH_1V_C2`) ändert sich nicht.** Seine Instanz-Dateien sind gleich; nur `plan.json` hat neue Felder.
+3. **Das lokale Bachdekor an C2 entfernen:** Totholz, Schlamm und Uferpflanzen aus eurem Bachdekor-Werkzeug. Sonst liegt
+   das Holz doppelt, denn der Planer setzt in C2 schon 5 große Stücke, 12 Äste und 17 Zweige sowie Schlamm und Streifen.
+   Uferpflanzen setzt der Planer nicht; die dürfen bleiben.
+4. **Sehens neu planen:** Es ändern sich `gletscher_01`, `gletscher_02`, `tundra_04`, `tundra_05` und `tundra_06`; die
+   übrigen Orte bleiben gleich.
+5. **Roh-Ebene erzeugen:** `python -I recherche/antworten/skripte/gefaelle/bachbett_roh.py --basis <production>`. Das liest
+   `export/unreal/welt/gefaelle/`, schreibt `export/unreal/welt/bachbett_roh/` und prüft. Danach Instanzen und Lagen
+   einbauen.
+   - Die Felder mit Ufer-Ebene (`ufer/foliage_<Feld>/`) bekommen automatisch keine Felsen.
+   - In diesen 5 Feldern liegt auch schon Treibholz der Ufer-Ebene. Bitte ansehen, ob dort Holz doppelt wirkt (Rückfrage 3).
+6. **fluss_sim-Export und Prüfer neu.** Die Roh-Ebene wird neben `gefaelle/` automatisch gefunden. Dann die SWR mit neuem
+   Fingerabdruck neu backen: fast alle, wegen der Roh-Objekte und der Äste.
+7. **Im Editor ansehen:**
+   - Liegen die Störsteine im Roh-Lauf glaubhaft?
+   - Wirkt Kies an den Schnellen und Schlamm in den flachen Strecken?
+   - Ist die Tundra mit Ufer-Wald (`B_R_P1_M2_02`) dichter als C2?
+
+### Rückfragen (Nachtrag 3)
+
+1. **C2 und Hang-Holz:** Am Erlenbach stehen die Bäume 80–150 m entfernt am Hang. Mit einem zweiten Radius, etwa „Hang bis
+   150 m, nur bergauf“, wären es an C2 etwa 17 statt 5 große Stücke. Soll Holz vom Hang zählen, oder bleibt es beim
+   40-m-Umkreis?
+2. **Gletscherbäche am Waldrand** (`gletscher_01`, `gletscher_02`): Nach dem Baumraster stehen dort Bäume am Ufer, also gilt
+   Bergwald-Dichte (17 bzw. 15 große Stücke). Passt das zum Bild, oder sollen Gletscher wie Lava ohne Ersatz-Waldbiom
+   bleiben?
+3. **Ufer-Ebene lokal:** In den 5 Feldern mit `ufer/foliage_<Feld>/` setzt die Roh-Ebene keine Felsen, aber Totholz. Die
+   Ufer-Ebene hat dort ebenfalls Treibholz. Sollen wir dort das Totholz auch abschalten? Technisch wäre das ein zweiter
+   Schalter wie `--ufer-felder`.
+4. **Kollisionsmenge:** Die Roh-Ebene bringt 12 766 Objekte mit Wasser-Kollision, die meisten Äste und Ufersteine. Ist
+   das für die Hindernis-Akteure (`WH_…`) unkritisch, oder sollen Äste ohne Plan-Kollision dort nicht zählen?

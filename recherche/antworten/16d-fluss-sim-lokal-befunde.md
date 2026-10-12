@@ -334,3 +334,14 @@ unter dem Ziel), dazu der Commit dieser Antwort.
    Nachtrag noch auf die Vergleichsbilder. Höchstzelle Bach global 0,40 m hieße: `B_R_P4_M2_04`,
    `B_K1_WASSERFALL_WEST_03` und `B_R_P3_P0_04` ungeteilt; `B_R_P3_P0_02` (0,48 m) bliebe geteilt. Genauso ginge eine
    Ausnahmeliste nur für diese drei. Sollen wir das nach euren Bildern umstellen?
+
+## Nachtrag: Punkt 3 der Antworten (Feldgrenzen mit zwei Plänen) erledigt
+
+Umgesetzt im Gefälle-Planer, Commit `79670b9`. Regel, Zahlen und die drei Fälle stehen in „Nachtrag 3“, Abschnitt 3, von
+[`16c-ferat-ein-fluss-je-gewaesser.md`](16c-ferat-ein-fluss-je-gewaesser.md).
+
+- Eine Stufe gehört nur in einen Plan, und zwar in den Plan ihres Felds; im selben Feld gehört sie dem oberen Lauf.
+- Der andere Plan setzt dort keine Lippe und lässt dort kein Becken hineinlaufen. Er schließt mit dem alten Spiegel an.
+- Der Export schneidet die Kette an der Besitzgrenze (`plan.json → feldgrenzen.grenze_s_m`). Dadurch entfallen jetzt 0
+  statt 5 Stufen.
+- Neu gelegt wurden `F_ERLENBACH_2_C2`, `F_HAUPTFLUSS_3_C4` und `F_ELFENFLUSS_3_H4`. C2 bleibt unverändert.
