@@ -169,3 +169,39 @@ python -I recherche/antworten/skripte/gefaelle/gefaelle_plan.py --basis . --laeu
 python -I recherche/antworten/skripte/gefaelle/gefaelle_plan.py --daten2m recherche/vorlagen/daten/sehens \
     --hoehe1m-fenster recherche/vorlagen/daten/gefaelle/hoehe_1m_fenster --aus <scratchpad>/a15f/plan --bild
 ```
+
+## Nachtrag: dz-Sprünge im Querprofil (Befund Sehens-Agent)
+
+**Kein Fehler im Plan, aber bitte `dz_cm` nicht auf 0 setzen.** Der Planer bleibt unverändert, C2 und die Piloten
+bleiben wie in ae09234.
+
+**Warum `dz_cm` springt:**
+- `dz_cm` ist relativ zu `z_cm` des **eigenen** Netzpunkts.
+- An einer Stufe liegen Lippe, Bogen, Wand und Fuß auf (fast) gleichem s, aber mit verschiedenem `z_cm`. Das ist die
+  Fallkante der Mittellinie, bis zu 18 m an B_K8_ELFENFALL.
+- Derselbe Querstützpunkt hat an diesen Punkten dieselbe **absolute** Wasserhöhe `z_cm + dz_cm`. Der relative Wert
+  `dz_cm` unterscheidet sich deshalb genau um den Höhenunterschied der Mittellinie.
+- Bei schrägen Lippen kreuzt ein Querschnitt die Lippe. Ein Teil liegt dann im Ober-, ein Teil im Unterwasser, und
+  `dz_cm` springt innerhalb des Querschnitts um höchstens die Lippenhöhe. Das ist der schräge Vorhang, kein Riss.
+
+**Nachgemessen (19 Pilotläufe, alle Netze):**
+
+| Messung | Ergebnis |
+|---|---|
+| absolute Wasserhöhe zwischen Punkten mit gleichem s | Unterschied 0 cm |
+| absolute Sprünge längs | nie größer als die größte Lippenhöhe des Netzes |
+| größter relativer Sprung von `dz_cm` | 18,4 m an einem 18,5-m-Fall |
+
+**Was `dz_cm = 0` bewirken würde:**
+- Die Lippen wären wieder gerade quer zum Lauf.
+- Das Netz passte nicht mehr zum schräg gestempelten Gelände. Der Prüfer meldet dann bei C2 „Wasserhöhe an Punkten mit
+  gleichem s verschieden“ und einen Uferfehler.
+
+**Für das Einbau-Werkzeug:**
+- Vertexhöhe = `z_cm + dz_cm`.
+- Querschnitte mit gleichem s ergeben Nullflächen; man kann sie zusammenlegen.
+
+**Neue Prüferregel** (`gefaelle_pruefen.py`, Commit siehe unten):
+- Die absolute Wasserhöhe `z + dz` muss an Punkten mit gleichem s gleich sein (≤ 1 cm).
+- Sprünge längs und quer dürfen höchstens die größte Lippenhöhe des Netzes + 5 cm betragen.
+- Ergebnis: Piloten auf 1 m und alle 161 auf 2 m 0 FEHLER. Ein Testplan mit `dz = 0` wird als FEHLER erkannt.

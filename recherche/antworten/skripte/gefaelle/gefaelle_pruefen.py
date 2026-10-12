@@ -266,6 +266,18 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
                 steigt = int((np.diff(ZQ, axis=0) > 2.0).sum())
                 if steigt:
                     b.append((FEHLER, tag, "%s: Querprofil-Wasserlinie steigt an %d Stellen (> 2 cm)" % (w["id"], steigt)))
+                # 15f-Nachtrag: dz_cm ist relativ zu z_cm des eigenen Punkts. Massgeblich ist die absolute Wasserhoehe
+                # z_cm + dz_cm: an Punkten mit gleichem s identisch, Spruenge laengs und quer hoechstens die groesste
+                # Lippenhoehe des Netzes (+ 5 cm). Sonst wuerde das Netz reissen.
+                sm_ = np.asarray(w.get("mittellinie_s_m") or [], np.float64)
+                d_max = max([t_["fall_m"] for e_ in p.get("stufen") or [] if e_["id"] in (w.get("stufen") or [])
+                             for t_ in (e_.get("teilstufen") or [e_])] + [0.0]) * 100.0 + 5.0
+                if len(sm_) == len(ZQ):
+                    gleich = np.abs(np.diff(sm_)) < 1e-6
+                    if gleich.any() and float(np.abs(np.diff(ZQ, axis=0))[gleich].max()) > 1.0:
+                        b.append((FEHLER, tag, "%s: Wasserhoehe (z + dz) an Punkten mit gleichem s verschieden" % w["id"]))
+                if float(np.abs(np.diff(ZQ, axis=0)).max()) > d_max or float(np.abs(np.diff(ZQ, axis=1)).max()) > d_max:
+                    b.append((FEHLER, tag, "%s: Wasserhoehe (z + dz) springt mehr als die groesste Lippenhoehe" % w["id"]))
                 for kk_, nm_ in ((0, "Anfang"), (len(Q) - 1, "Ende")):
                     if max(abs(c[0]) for c in Q[kk_]) > 10.0:
                         b.append((FEHLER, tag, "%s: Querprofil am %s nicht eben (|dz| > 10 cm) - Anschluss an River"
