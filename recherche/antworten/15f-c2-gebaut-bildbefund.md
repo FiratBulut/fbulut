@@ -201,7 +201,7 @@ bleiben wie in ae09234.
 - Vertexhöhe = `z_cm + dz_cm`.
 - Querschnitte mit gleichem s ergeben Nullflächen; man kann sie zusammenlegen.
 
-**Neue Prüferregel** (`gefaelle_pruefen.py`, Commit siehe unten):
+**Neue Prüferregel** (`gefaelle_pruefen.py`, Commit `099f902`):
 - Die absolute Wasserhöhe `z + dz` muss an Punkten mit gleichem s gleich sein (≤ 1 cm).
 - Sprünge längs und quer dürfen höchstens die größte Lippenhöhe des Netzes + 5 cm betragen.
 - Ergebnis: Piloten auf 1 m und alle 161 auf 2 m 0 FEHLER. Ein Testplan mit `dz = 0` wird als FEHLER erkannt.
