@@ -139,6 +139,49 @@ def pruefe_stufen(p, rw, b, tag):
             break
 
 
+def regelmaessigkeit(p):
+    """15f: Kennzahlen je Strecke: Variationskoeffizient der Lippenabstaende (innerhalb eines Segments) und der
+    Fallhoehen aller Lippen (Teilstufen einzeln), Streuung der Lippenwinkel (Grad), Anteil schraeger Lippen."""
+    out = {}
+    for x in p.get("strecken") or []:
+        st = [e for e in p.get("stufen") or [] if e.get("strecke") == x["id"]]
+        lips = []
+        for e in st:
+            if e.get("teilstufen"):
+                for t_ in e["teilstufen"]:
+                    lips.append((t_["s_m"], t_["fall_m"], (t_.get("lippe_form") or {}).get("winkel_grad")))
+            else:
+                lips.append((e["s_m"], e["fall_m"], (e.get("lippe_form") or {}).get("winkel_grad")))
+        lips.sort()
+        if len(lips) < 3:
+            continue
+        segs = x.get("segmente_m") or [[-1e9, 1e9]]
+        abst = []
+        for a_, b_ in segs:
+            s_ = [v[0] for v in lips if a_ - 1e-6 <= v[0] <= b_ + 1e-6]
+            abst += list(np.diff(s_))
+        D = np.array([v[1] for v in lips])
+        W = np.array([v[2] if v[2] is not None else 0.0 for v in lips])
+        abst = np.array(abst) if abst else np.zeros(0)
+        out[x["id"]] = {"lippen": len(lips),
+                        "cv_abstand": float(abst.std() / abst.mean()) if len(abst) >= 2 and abst.mean() > 0 else 0.0,
+                        "cv_hoehe": float(D.std() / D.mean()) if D.mean() > 0 else 0.0,
+                        "winkel_streuung_grad": float(W.std()), "winkel_betrag_mittel_grad": float(np.abs(W).mean()),
+                        "schraeg_anteil": float((np.abs(W) >= 10.0).mean())}
+    return out
+
+
+def pruefe_regelmaessigkeit(p, b, tag):
+    """15f: Treppen-Verdacht als HINWEIS: CV Abstaende oder Hoehen < 0,2, Lippenwinkel alle gleich (Streuung < 3 Grad)."""
+    for sid, r in regelmaessigkeit(p).items():
+        if r["cv_abstand"] < 0.2:
+            b.append((HINWEIS, sid, "Lippenabstaende zu regelmaessig (CV %.2f < 0,2)" % r["cv_abstand"]))
+        if r["cv_hoehe"] < 0.2:
+            b.append((HINWEIS, sid, "Fallhoehen zu regelmaessig (CV %.2f < 0,2)" % r["cv_hoehe"]))
+        if r["winkel_streuung_grad"] < 3.0:
+            b.append((HINWEIS, sid, "Lippenwinkel alle gleich (Streuung %.1f Grad)" % r["winkel_streuung_grad"]))
+
+
 def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
     """Variante A (14b): River + Kaskadennetz. Monotonie, Ueberlappung nur 0,5 m, Bett/Ufer am Netz, jede Stufe im Netz."""
     from gefaelle_plan import ueberlappungen, KN
@@ -207,11 +250,25 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
         boden = BodenNachStempel(welt, orte, ordner)
         alt_hoehe = lambda x_, y_: welt.bilinear(welt.hoehe, x_, y_)  # noqa: E731
         zelle = welt.zelle_m
-    from gefaelle_plan import raster_stufe, raster_text, ufer_proben
+    from gefaelle_plan import raster_stufe, raster_text, ufer_proben, quer_u
     zus = max(zelle - 1.0, 0.0)                         # 2-m-Naeherung (siehe gefaelle_plan.RASTER_ZUSCHLAG)
     for w in kn:
         M = np.asarray(w["mittellinie"], np.float64)
         kn_ = w["knick"]
+        Q = w.get("quer")
+        if Q is not None:
+            # 15f: Querprofil - Laenge, Monotonie je Laengsstreifen (Spiegel steigt nie), Wertebereiche
+            if len(Q) != len(M) or any(len(r) != w.get("quer_punkte", 0) for r in Q):
+                b.append((FEHLER, tag, "%s: quer passt nicht zur Mittellinie" % w["id"]))
+                Q = None
+            else:
+                ZQ = M[:, 2][:, None] + np.asarray([[c[0] for c in r] for r in Q], np.float64)
+                steigt = int((np.diff(ZQ, axis=0) > 2.0).sum())
+                if steigt:
+                    b.append((FEHLER, tag, "%s: Querprofil-Wasserlinie steigt an %d Stellen (> 2 cm)" % (w["id"], steigt)))
+                DS_ = np.asarray([[c[1:3] for c in r] for r in Q], np.float64)
+                if DS_.min() < -1e-6 or DS_.max() > 1.0 + 1e-6:
+                    b.append((FEHLER, tag, "%s: deckung/schaum ausserhalb 0-1" % w["id"]))
         nah = nahe_stufe(w["mittellinie"], kn_, zus)
         ix = [k for k in range(len(M)) if kn_[k] == "becken" and not nah[k]]
         n_b = len(ix)
@@ -221,13 +278,16 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
             tx, ty = t / max(float(np.hypot(*t)), 1e-6)
             x, y, zs, br = M[k, 0] / 100.0, M[k, 1] / 100.0, M[k, 2] / 100.0, M[k, 3] / 100.0
             off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - zus, 0.15 * br)   # 15b: nasses Bett
-            bett = float(np.mean(boden.hoehe(x + ty * off, y - tx * off)))
-            if zs - bett < KN["bett_unter_spiegel_min_m"] - 0.005:
+            if Q is not None:                                 # 15f: Wasser an der jeweiligen Stelle (schraege Lippen)
+                zw = zs + np.interp(off, quer_u(br, len(Q[k])), [c[0] / 100.0 for c in Q[k]])
+            else:
+                zw = np.full(len(off), zs)
+            if float(np.mean(zw - boden.hoehe(x + ty * off, y - tx * off))) < KN["bett_unter_spiegel_min_m"] - 0.005:
                 n_bett += 1
         # Ufer je Seite (15c): Muendung nur an der Zuflusslinie, Bestand nur bei altem Ufer unter Spiegel + 0,1 - 1 m
         mu = [{"breite_m": m_["breite_m"], "linie_m": (np.asarray(m_["linie_cm"], np.float64) / 100.0).tolist()}
               for m_ in w.get("muendungen") or []]
-        pr_ = ufer_proben(w["mittellinie"], ix, boden.hoehe, alt_hoehe, mu, zus)
+        pr_ = ufer_proben(w["mittellinie"], ix, boden.hoehe, alt_hoehe, mu, zus, Q)
         n_ufer = sum(1 for q in pr_ if q[6] == "fehl")
         n_bestand = sum(1 for q in pr_ if q[6] == "bestand")
         if n_bestand:
@@ -469,6 +529,7 @@ def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None, h1m=N
         return b
     pruefe_spiegel(p, rw, b, tag)
     pruefe_stufen(p, rw, b, tag)
+    pruefe_regelmaessigkeit(p, b, tag)
     pruefe_wasser(p, ordner, welt, b, tag, h1m)
     pruefe_effekte(p, rw, inv, b, tag)
     pruefe_kameras(p, b, tag)

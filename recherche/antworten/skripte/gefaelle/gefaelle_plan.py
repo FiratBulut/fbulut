@@ -480,7 +480,8 @@ class Stufenleger:
             L_t = max(L_t * (1.0 + self.rng.uniform(-self.Ls, self.Ls)), L_min)
             # naechster Einzelfall begrenzt das Fenster
             grenze = faelle[fi][0] if fi < len(faelle) else b
-            q0, q1 = p + 0.75 * L_t, p + 1.25 * L_t
+            fa, fb = unreg(rw).get("abstand_fenster", [0.6, 1.4])     # 15f: Abstaende staerker streuen
+            q0, q1 = p + fa * L_t, p + fb * L_t
             if q0 >= grenze - 0.5 * L_min:
                 q = grenze
             else:
@@ -644,7 +645,32 @@ class Stufenleger:
         for e in out:
             if e["art"] == "kaskade":
                 self._teilstufen_teilen(e, k_hi)
+                self._rampen_einstreuen(e)
         return out
+
+    def _rampen_einstreuen(self, e):
+        """15f: ab und zu eine Teilstufe der Kaskade als kurze Rampe (Schnelle) statt als Zwei-Punkt-Stufe.
+        Der Becken-Fall wird auf die Rampe umgelegt, damit die naechste Teil-Lippe auf derselben Hoehe bleibt."""
+        rw = self.rw
+        anteil = unreg(rw)["rampe_anteil"]
+        s_hi = rw.art_bereich("schnelle")[1]
+        teile = e["teil"]
+        for i, t in enumerate(teile[:-1]):
+            if t["D"] > s_hi or self.rng.uniform() >= anteil:
+                continue
+            l_r, g_max = rw.rampe(max(t["D"], 0.15))
+            l_r = max(l_r, t["D"] / max(g_max, 0.05))
+            luecke = teile[i + 1]["p"] - t["p"]
+            if luecke < l_r + 0.5:
+                continue
+            dl = l_r - t["l"]
+            D_neu = t["D"] + e["gb"] * dl
+            if D_neu / l_r > g_max or D_neu > s_hi:
+                continue
+            t["D"], t["l"], t["rampe"] = D_neu, l_r, True
+            t["d"] = t["u"] - D_neu
+        e["D"] = sum(t_["D"] for t_ in teile)
+        e["l"] = teile[-1]["p"] + teile[-1]["l"] - teile[0]["p"]
 
     def _teilstufen_teilen(self, e, k_hi):
         """Teilstufen ueber kaskade.D_max in n gleiche Teilstufen im Abstand stufen.abstand_L_kaskade teilen."""
@@ -659,17 +685,29 @@ class Stufenleger:
             pr, gb = self.pr, e["gb"]
             z_nxt = pr.zi(nxt)
             gewaehlt = None
-            for n in range(int(math.ceil(t["D"] / (0.95 * k_hi))), 7):
-                Dt = t["D"] / n
-                # Teil-Lippen dort, wo der alte Spiegel um i*Dt gefallen ist -> neuer Spiegel nie ueber dem alten
-                ps = [t["p"]] + [float(np.interp(-(t["u"] - i * Dt), -pr.z0, pr.s)) for i in range(1, n)]
+            # 15f: eher eine Teilstufe mehr (mittlere Hoehe <= 0,75 x D_max), damit die Hoehen streuen koennen
+            for n in list(range(int(math.ceil(t["D"] / (0.75 * k_hi))), 8)) + \
+                    list(range(int(math.ceil(t["D"] / (0.95 * k_hi))), int(math.ceil(t["D"] / (0.75 * k_hi))))):
+                # 15f: Blockkaskade - Teilhoehen streuen (+-45 %), Summe = D; Teil-Lippen dort, wo der alte Spiegel
+                # um die Summe der Teilhoehen gefallen ist -> neuer Spiegel nie ueber dem alten
+                st_ = unreg(rw)["teilhoehen_streuung"]
+                w_ = None
+                for _v in range(12):
+                    w_ = self.rng.uniform(1.0 - st_, 1.0 + st_, n)
+                    w_ = w_ / w_.sum() * t["D"]
+                    if w_.max() <= 0.98 * k_hi:
+                        break
+                if w_.max() > 0.98 * k_hi:
+                    w_ = np.full(n, t["D"] / n)
+                cum = np.concatenate([[0.0], np.cumsum(w_)])
+                ps = [t["p"]] + [float(np.interp(-(t["u"] - cum[i]), -pr.z0, pr.s)) for i in range(1, n)]
                 ok = all(ps[i] - ps[i - 1] >= t["l"] + 0.5 for i in range(1, n)) and nxt - ps[-1] >= t["l"] + 0.5
                 if not ok:
                     continue
                 teile, u = [], t["u"]
                 for i in range(n):
                     if i < n - 1:
-                        d = u - Dt
+                        d = u - w_[i]
                     else:
                         d = z_nxt + gb * (nxt - ps[i] - t["l"])
                     teile.append({"p": ps[i], "u": u, "d": d, "D": u - d, "l": t["l"]})
@@ -703,7 +741,7 @@ def spiegel_punkte(pr, alle_stufen, segmente):
             teile = e.get("teil") or [{"p": e["p"], "u": e["u"], "d": e["d"], "l": e["l"]}]
             for n, t in enumerate(teile):
                 pkt.append((t["p"], t["u"], "lippe"))
-                if e["art"] == "schnelle":
+                if e["art"] == "schnelle" or t.get("rampe"):
                     pkt.append((t["p"] + t["l"], t["d"], "rampe"))
                 else:
                     pkt.append((t["p"] + t["l"], t["d"], "fuss"))
@@ -747,6 +785,176 @@ def spiegel_bei(sp, s):
     S = np.array([t[0] for t in sp])
     Z = np.array([t[1] for t in sp])
     return np.interp(s, S, Z)
+
+
+# ======================================================================================================================
+# 15f: unregelmaessige Lippen (schraeg, gekruemmt, Kerben), Lippenfeld s_eff(s, u)
+# ======================================================================================================================
+UNREG_STANDARD = {
+    "winkel_abweichung_grad": [15.0, 30.0],     # Lippe schraeg zur Fliessrichtung (Abweichung von quer), Vorzeichen zufaellig
+    "pfeil": [0.05, 0.15],                      # Bogen (x B), Scheitel stromab
+    "kerbe_breite": [0.2, 0.35], "kerbe_breite_m": [0.8, 3.0],   # Hauptstrahl (x B, begrenzt in m)
+    "kerbe_tiefe_m": [0.15, 0.4],               # Krone in der Kerbe tiefer
+    "kerbe_lage": 0.35,                         # Kerbenmitte in +-0,35 B um die Achse
+    "zwei_kerben_ab_B_m": 6.0, "zwei_kerben_anteil": 0.5,
+    "versatz_max_anteil": 0.6,                  # |Lippenversatz-Differenz| <= 0,6 x Becken (s_eff monoton)
+    "seite_deckung": [0.15, 0.35],              # Zungen-Deckung neben der Kerbe (Fels scheint durch)
+    "krone_saum_m": 0.6, "krone_unter_spiegel_m": 0.05,   # Krone neben der Kerbe knapp unter Wasser
+    "einschnuerung": 0.8, "einschnuerung_laenge_m": 1.5, "breite_aenderung_max": 0.4,
+    "teilhoehen_streuung": 0.45, "rampe_anteil": 0.3,
+    "schaum": {"saum_m": 0.5, "saum_seite": 0.15, "zunge_seite": 0.1, "aufprall_anteil_max": 0.3, "aufprall_rand_m": 0.5},
+    "material": {"Schaum_Menge": 0.15, "Zungen_Schaum": 0.25},
+    "quer_punkte": 11,
+}
+
+
+def unreg(rw):
+    """Parameter 'stufen.unregelmaessig' aus dem Regelwerk (15f), fehlende Werte aus UNREG_STANDARD."""
+    u = dict(UNREG_STANDARD)
+    r = (rw.r.get("stufen") or {}).get("unregelmaessig") or {}
+    for k, v in r.items():
+        if k.startswith("_") or k in ("annahme", "notiz", "quelle", "quellen", "text"):
+            continue
+        if isinstance(v, dict) and "wert" in v:
+            v = v["wert"]
+        if isinstance(u.get(k), dict) and isinstance(v, dict):
+            u[k] = dict(u[k], **{kk: vv for kk, vv in v.items() if not kk.startswith("_")})
+        else:
+            u[k] = v
+    return u
+
+
+def lippen_geo(rw, B, rng, vorzeichen=None):
+    """Form einer Lippe (15f): Winkel zur Querrichtung, Bogen, 1-2 Kerben (Hauptstrahl), Seitendeckung."""
+    U = unreg(rw)
+    w = float(rng.uniform(*U["winkel_abweichung_grad"]))
+    sg = vorzeichen if vorzeichen is not None else (1.0 if rng.uniform() < 0.5 else -1.0)
+    n_k = 2 if (B >= U["zwei_kerben_ab_B_m"] and rng.uniform() < U["zwei_kerben_anteil"]) else 1
+    kerben = []
+    for _ in range(n_k):
+        kb = float(np.clip(rng.uniform(*U["kerbe_breite"]) * B, *U["kerbe_breite_m"]))
+        kb = min(kb, 0.6 * B)
+        for _v in range(8):
+            uk = float(rng.uniform(-U["kerbe_lage"], U["kerbe_lage"]) * B)
+            if all(abs(uk - k_[0]) >= 0.5 * (kb + k_[1]) + 0.5 for k_ in kerben):
+                break
+        kerben.append((uk, kb, float(rng.uniform(*U["kerbe_tiefe_m"]))))
+    return {"winkel_grad": sg * w, "tan": math.tan(math.radians(sg * w)), "pfeil": float(rng.uniform(*U["pfeil"])) * B,
+            "h": max(B / 2.0, 0.5), "kerben": kerben, "seite_deckung": float(rng.uniform(*U["seite_deckung"])),
+            "skala": 1.0}
+
+
+def lippen_versatz(g, u):
+    """Laengsversatz der Lippe (m, + = stromab) an der Seitenlage u (m, + = links)."""
+    uc = np.clip(np.asarray(u, np.float64), -g["h"], g["h"])
+    return g["skala"] * (g["tan"] * uc + g["pfeil"] * (1.0 - (uc / g["h"]) ** 2) - g["pfeil"] * 2.0 / 3.0)
+
+
+def lippen_liste(stufen):
+    """Alle Lippen (auch Teil-Lippen der Kaskaden) als (s, D, l, teil-dict, stufe) nach s."""
+    out = []
+    for e in stufen:
+        for t in (e.get("teil") or [e]):
+            out.append((t["p"], t["D"], t["l"], t, e))
+    return sorted(out, key=lambda v: v[0])
+
+
+def lippen_formen(rw, stufen, segmente, seed):
+    """15f: jeder Lippe eine Form geben (deterministisch je Stufen-ID), Versatz auf <= 0,4 x Abstand zu den Nachbar-
+    lippen bzw. Segmentgrenzen begrenzen. Teil-Lippen einer Kaskade wechseln die Schraegrichtung (versetzt)."""
+    U = unreg(rw)
+    for a, b in segmente:
+        li = [v for v in lippen_liste(stufen) if a - 1e-6 <= v[0] <= b + 1e-6]
+        vorz = None
+        geos = []
+        for k, (s_, D_, l_, t, e) in enumerate(li):
+            rng = np.random.default_rng(abs(hash_stabil(seed, e["id"], "lippe", round(s_, 2))))
+            if e.get("teil") and len(e["teil"]) > 1 and t is not e["teil"][0] and vorz is not None:
+                # Teil-Lippen einer Kaskade: gleiche Schraegrichtung, anderer Winkel, Kerbe auf die andere Seite versetzt
+                g = lippen_geo(rw, e["B"], rng, vorz)
+                uk0 = geos[-1]["kerben"][0][0]
+                g["kerben"][0] = (-np.sign(uk0 or 1.0) * abs(g["kerben"][0][0]) if abs(uk0) > 0.05 * e["B"]
+                                  else g["kerben"][0][0], g["kerben"][0][1], g["kerben"][0][2])
+            else:
+                g = lippen_geo(rw, e["B"], rng)
+            vorz = 1.0 if g["tan"] >= 0 else -1.0
+            t["geo"] = g
+            geos.append(g)
+        # Versatz begrenzen: |Versatz_i+1(u) - Versatz_i(u)| <= anteil x Becken dazwischen, an den Segmentgrenzen
+        # |Versatz| <= anteil x Abstand -> s_eff monoton, jedes Becken bleibt erhalten
+        uu = None
+        for _r_ in range(8):
+            ok = True
+            for k, (s_, D_, l_, t, e) in enumerate(li):
+                g = geos[k]
+                uu = np.linspace(-g["h"], g["h"], 25)
+                if k == 0 or k == len(li) - 1:
+                    ab = (s_ - a) if k == 0 else (b - (s_ + l_))
+                    m = float(np.max(np.abs(lippen_versatz(g, uu))))
+                    lim = U["versatz_max_anteil"] * max(ab, 0.2)
+                    if m > lim + 1e-6:
+                        g["skala"] *= lim / m
+                        ok = False
+                if k + 1 < len(li):
+                    g2 = geos[k + 1]
+                    uu = np.linspace(-max(g["h"], g2["h"]), max(g["h"], g2["h"]), 25)
+                    m = float(np.max(np.abs(lippen_versatz(g2, uu) - lippen_versatz(g, uu))))
+                    lim = U["versatz_max_anteil"] * max(li[k + 1][0] - (s_ + l_), 0.2)
+                    if m > lim + 1e-6:
+                        f = lim / m
+                        g["skala"] *= f
+                        g2["skala"] *= f
+                        ok = False
+            if ok:
+                break
+
+
+class LippenFeld:
+    """s_eff(s, u) = s - Versatz(s, u): zwischen benachbarten Lippen linear ueberblendet, an Segmentgrenzen 0.
+    Weil jeder Versatz <= 0,4 x Abstand ist, bleibt s_eff entlang s monoton (Spiegel steigt nie)."""
+
+    def __init__(self, stufen, segmente):
+        anker = []
+        for a, b in sorted(segmente):
+            anker.append((a, None))
+            for s_, D_, l_, t, e in lippen_liste([e for e in stufen if a - 1e-6 <= e["p"] <= b + 1e-6]):
+                if t.get("geo"):
+                    anker.append((s_, t["geo"]))
+            anker.append((b, None))
+        anker.sort(key=lambda v: v[0])
+        self.S = np.array([v[0] for v in anker]) if anker else np.zeros(0)
+        self.G = [v[1] for v in anker]
+
+    def versatz(self, s, u):
+        s = np.asarray(s, np.float64)
+        u = np.asarray(u, np.float64)
+        s, u = np.broadcast_arrays(s, u)
+        out = np.zeros(s.shape)
+        if len(self.S) < 2:
+            return out
+        i = np.clip(np.searchsorted(self.S, s, side="right") - 1, 0, len(self.S) - 2)
+        for k in np.unique(i):
+            m = i == k
+            s0, s1 = self.S[k], self.S[k + 1]
+            w = np.clip((s[m] - s0) / max(s1 - s0, 1e-6), 0.0, 1.0)
+            g0, g1 = self.G[k], self.G[k + 1]
+            v0 = lippen_versatz(g0, u[m]) if g0 else 0.0
+            v1 = lippen_versatz(g1, u[m]) if g1 else 0.0
+            innen = (s[m] >= self.S[0]) & (s[m] <= self.S[-1])
+            out[m] = np.where(innen, (1.0 - w) * v0 + w * v1, 0.0)
+        return out
+
+    def s_eff(self, s, u):
+        return np.asarray(s, np.float64) - self.versatz(s, u)
+
+
+def kerben_gewicht(g, u, rand_m=0.3):
+    """1 in einer Kerbe (Hauptstrahl), 0 daneben, weicher Rand."""
+    u = np.asarray(u, np.float64)
+    w = np.zeros(u.shape)
+    for uk, kb, _ in g["kerben"]:
+        w = np.maximum(w, np.clip((kb / 2.0 + rand_m - np.abs(u - uk)) / max(rand_m, 1e-6), 0.0, 1.0))
+    return w
 
 
 # ======================================================================================================================
@@ -813,7 +1021,7 @@ def ring_ziel(d, half, z_sp, z_ufer, cur):
     return np.minimum(z, cur + np.maximum(KN["wulst_max_m"] - aus, 0.0))
 
 
-def bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp):
+def bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp, u=None):
     """Betthoehe entlang s (ohne Querprofil): Spiegel - max(Tiefe; 0,5 m), hinter dem Kaskadennetz zum Segmentende
     ausgeblendet, Lippen-Krone 0,15 m unter der Lippe, Kolke unter den Stufen."""
     bett = z_sp - np.maximum(np.interp(s, pr.s, pr.tiefe), KN["bett_min_tiefe_m"])   # 14b: Bett >= 0,2 m im Mittel
@@ -828,8 +1036,18 @@ def bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp):
     for e in stufen:
         teile = e.get("teil") or [{"p": e["p"], "u": e["u"], "d": e["d"], "D": e["D"], "l": e["l"]}]
         for t in teile:
-            krone = (s >= t["p"] - 1.0) & (s <= t["p"] + 0.05)
-            bett = np.where(krone, np.minimum(bett, t["u"] - 0.15), bett)
+            g = t.get("geo")
+            if g is None or u is None:
+                krone = (s >= t["p"] - 1.0) & (s <= t["p"] + 0.05)
+                bett = np.where(krone, np.minimum(bett, t["u"] - 0.15), bett)
+                continue
+            # 15f: Krone neben den Kerben knapp unter Wasser (Fels scheint durch), in der Kerbe tiefer (Hauptstrahl)
+            U = UNREG_STANDARD
+            krone = (s >= t["p"] - U["krone_saum_m"]) & (s <= t["p"] + 0.05)
+            kw = kerben_gewicht(g, u)
+            tief = max([k_[2] for k_ in g["kerben"]] or [0.2])
+            kz = (1.0 - kw) * (t["u"] - U["krone_unter_spiegel_m"]) + kw * (t["u"] - 0.15 - tief)
+            bett = np.where(krone, kz, bett)
         if e["art"] == "schnelle":
             continue
         ko = e["kolk"]
@@ -842,7 +1060,7 @@ def bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp):
     return bett
 
 
-def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn, rw, welt, gel, orte):
+def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn, rw, welt, gel, orte, lf=None):
     """Delta-Hoehe (nur absenken) im Fenster: Bett/Kolk/Lippe/Boeschung/Klippe entlang [seg_a, seg_b]."""
     from sehens_lib import stempel as stm, gelaende as gel_mod
     st = ctx_g
@@ -861,20 +1079,21 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     dgrob = gel_mod.abstand(m_lin, welt.zelle_m, reach + 5.0)
     band = dgrob <= reach
     xs, ys = X[band], Y[band]
-    d, s_loc, _ = stm.polylinie_abstand(xs, ys, linie)
+    d, s_loc, seite = stm.polylinie_abstand(xs, ys, linie)
     s = seg_a + s_loc
     innen = (s > seg_a + 0.01) & (s < seg_b - 0.01)
     Bw = breite_fn(s)
     half = Bw / 2.0
-    z_sp = spiegel_bei(sp, s)
-    bett = bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp)
+    s_e = lf.s_eff(s, seite) if lf is not None else s       # 15f: schraege/gekruemmte Lippen
+    z_sp = spiegel_bei(sp, s_e)
+    bett = bett_profil(pr, sp, stufen, seg_a, seg_b, s_e, z_sp, seite if lf is not None else None)
     cur = h0[band]
-    T = aussen_begrenzen(profil_T(d, half, bett, z_sp, ufer_z(sp, s), winkel_fn(s)), d, half, cur,
-                         abtrag_grenze(pr, sp, s))
+    T = aussen_begrenzen(profil_T(d, half, bett, z_sp, ufer_z(sp, s_e), winkel_fn(s)), d, half, cur,
+                         abtrag_grenze(pr, sp, s_e))
     neu = np.where(innen, np.minimum(cur, T), cur)
     # Uferring (15b): ausserhalb der Wasserbreite bis Netzrand + 1,5 m mindestens Spiegel + 0,15 m, dann 1:2 auslaufen;
     # hebt nur, wo das Ufer zu niedrig ist, hoechstens 1 m (kein Damm ueber Rinnen)
-    neu = np.where(innen & (d >= wasserkante(half)), np.maximum(neu, ring_ziel(d, half, z_sp, ufer_z(sp, s), cur)), neu)
+    neu = np.where(innen & (d >= wasserkante(half)), np.maximum(neu, ring_ziel(d, half, z_sp, ufer_z(sp, s_e), cur)), neu)
     alt = st.delta[band]
     dn = neu - cur
     # mehrere Segmente im Fenster: Absenken - tiefster Wert gilt; Wulst - hoechster Wert, wo nichts abgesenkt wird
@@ -931,7 +1150,7 @@ def alt_1m(K, fij):
     return welt.bilinear(welt.hoehe, jj - gd.OFF_J_1M, ii - gd.OFF_I_1M)
 
 
-def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendungen):
+def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendungen, lf=None):
     """15b: Gelaende-Delta auf dem 1-m-Ausgaberaster nachziehen, gegen das alte 1-m-Gelaende (lokal: die 1-m-Welt
     selbst; Cloud: --hoehe1m-fenster). Im Wasser (wo der Stempel abgesenkt hat) hoechstens das Querprofil, im
     Uferring (Wasserkante bis Netzrand + 1,5 m) mindestens Spiegel + 0,15 m (<= 1 m Anheben). Schutzfaktoren
@@ -959,15 +1178,16 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendun
         if not box.any():
             continue
         xs, ys = X[box], Y[box]
-        d, s_loc, _ = stm.polylinie_abstand(xs, ys, linie)
+        d, s_loc, seite = stm.polylinie_abstand(xs, ys, linie)
         s = a + s_loc
         innen = (s > a + 0.01) & (s < b - 0.01) & (d <= bmax)
         half = breite_fn(s) / 2.0
-        z_sp = spiegel_bei(sp, s)
-        zu = ufer_z(sp, s)
-        bett = bett_profil(pr, sp, stufen_ab, a, b, s, z_sp)
+        s_e = lf.s_eff(s, seite) if lf is not None else s   # 15f: schraege/gekruemmte Lippen
+        z_sp = spiegel_bei(sp, s_e)
+        zu = ufer_z(sp, s_e)
+        bett = bett_profil(pr, sp, stufen_ab, a, b, s_e, z_sp, seite if lf is not None else None)
         T = aussen_begrenzen(profil_T(d, half, bett, z_sp, zu, winkel_fn(s)), d, half, alt[box],
-                             abtrag_grenze(pr, sp, s))
+                             abtrag_grenze(pr, sp, s_e))
         wasser = innen & (d < half)
         w_ = wz[box]
         wz[box] = np.where(wasser, np.minimum(w_, np.minimum(alt[box], T)), w_)
@@ -1090,6 +1310,21 @@ def lippe_linie(pr, rw, e, rng):
     br = rw.lippe_breite(B)
     n_min, n_max = gr.lippe_punkte(rw)
     n = int(np.clip(round(br / 2.0) + 1, n_min, n_max))
+    g = e.get("geo") or ((e.get("teil") or [{}])[0].get("geo") if e.get("teil") else None)
+    if g is not None:
+        # 15f: schraeg, gekruemmt; Ueberfall = Hauptkerbe
+        pts = []
+        for k in range(n):
+            u_ = br / 2.0 - br * k / (n - 1)                       # links -> rechts
+            s_ = e["p"] + float(lippen_versatz(g, u_))
+            xs_, ys_ = pr.xy(s_)
+            txs, tys = pr.tang(s_)
+            pts.append([xs_ + tys * u_, ys_ - txs * u_])
+        uk, kb, _ = g["kerben"][0]
+        s_ = e["p"] + float(lippen_versatz(g, uk))
+        xs_, ys_ = pr.xy(s_)
+        txs, tys = pr.tang(s_)
+        return pts, [xs_ + tys * uk, ys_ - txs * uk], kb, br
     pf = rw.lippe_pfeil() * B
     pts = []
     for k in range(n):
@@ -1100,6 +1335,34 @@ def lippe_linie(pr, rw, e, rng):
     vers = float(rng.uniform(-0.25, 0.25)) * max(B - ub, 0.0)
     ue = [x + lx * vers + tx * pf, y + ly * vers + ty * pf]
     return pts, ue, ub, br
+
+
+def lippen_blockpunkte(pr, p, g, br, abstand):
+    """15f: Punkte (x, y, u, yaw_quer) dicht entlang einer schraegen/gekruemmten Lippe, Kerben (Hauptstrahl) frei;
+    dazu die Keystone-Punkte an den Kerbenraendern."""
+    kerben = g["kerben"] if g else []
+    us = np.arange(-br / 2.0 + abstand / 2.0, br / 2.0 - abstand / 2.0 + 1e-6, max(abstand, 0.3))
+    pts, keys = [], []
+
+    def xy(u_):
+        s_ = p + (float(lippen_versatz(g, u_)) if g else 0.0)
+        x, y = pr.xy(s_)
+        tx, ty = pr.tang(s_)
+        # Richtung der Lippe (fuer Yaw): Ableitung des Versatzes
+        dv = (float(lippen_versatz(g, u_ + 0.2)) - float(lippen_versatz(g, u_ - 0.2))) / 0.4 if g else 0.0
+        lx, ly = ty, -tx
+        vx, vy = lx + tx * dv, ly + ty * dv
+        return x + lx * u_, y + ly * u_, kompass(vx, vy)
+    for u_ in us:
+        if any(abs(u_ - uk) < kb / 2.0 + 0.25 * abstand for uk, kb, _ in kerben):
+            continue
+        pts.append(xy(float(u_)))
+    for uk, kb, _ in kerben:
+        for sg in (-1.0, 1.0):
+            u_ = uk + sg * (kb / 2.0 + 0.5 * abstand)
+            if abs(u_) <= br / 2.0:
+                keys.append(xy(float(u_)))
+    return pts, keys
 
 
 def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netze, eintr):
@@ -1135,7 +1398,8 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
         if e.get("holz") and N["holz"]:
             wurzel = bn == "aue" and N.get("wurzel") and k % 2 == 1
             for n_t, t in enumerate(teile):
-                lin_t, _, _, _ = lippe_linie(pr, rw, dict(e, p=t["p"]), ctx_rng(ctx, "holz", k, n_t))
+                lin_t, _, _, _ = lippe_linie(pr, rw, dict(e, p=t["p"], geo=t.get("geo"), teil=None),
+                                             ctx_rng(ctx, "holz", k, n_t))
                 if wurzel:
                     pts = _entlang(lin_t, 2)
                     setze(ctx, "wurzel_%02d_%d" % (k, n_t), "begleiter", N["wurzel"], pts, [quer] * len(pts), rolle="wurzel",
@@ -1153,13 +1417,18 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
             continue
         if e["art"] == "fall":
             dick = float(np.clip(gr.formel(rw.r["faelle"]["riegel_dicke"]["formel"], D=e["D"]), 1.0, 4.0))
-            n = max(2, int(math.ceil(e["lippe_breite_m"] / max(dick, 0.5))))
             lin = e["_lippe_m"]
-            pts = _entlang(lin, n)
-            setze(ctx, "riegel_%02d" % k, "begleiter", N["riegel"] or N["lippe"], pts, [quer] * n, rolle="fels",
+            g_f = e.get("geo")
+            bp, kp = lippen_blockpunkte(pr, e["p"], g_f, e["lippe_breite_m"],
+                                        dick * unreg(rw)["lippe_bloecke"]["abstand_faktor"])
+            bp = bp + kp
+            pts = [(x_, y_) for x_, y_, _ in bp] or _entlang(lin, 2)
+            yws = [w_ for _, _, w_ in bp] or [quer] * len(pts)
+            n = len(pts)
+            setze(ctx, "riegel_%02d" % k, "begleiter", N["riegel"] or N["lippe"], pts, yws, rolle="fels",
                   groesse_m=[dick * 0.85, dick * 1.1], groesse_achse="max", akteur=False, kollision=True,
                   im_wasser="egal", meide=None, eingraben=[0.35, 0.5], weg_abstand_m=4.0,
-                  warum="durchgehende Lippe aus Riegel-Netzen (faelle.riegel_dicke)")
+                  warum="Lippe aus Riegel-Netzen, dicht, Kerbe (Hauptstrahl) frei (faelle.riegel_dicke, 15f)")
             if N["lippe"]:
                 setze(ctx, "lippe_%02d" % k, "schutt", N["lippe"], _entlang(lin, max(2, n - 1)), [quer] * max(2, n - 1),
                       rolle="fels", groesse_m=[0.8, 1.6], groesse_achse="max", akteur=False, im_wasser="egal",
@@ -1175,20 +1444,24 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
             if e["art"] == "schnelle":
                 n_blk = max(2, min(n_blk, 4))
                 d_blk = float(np.clip(d_blk, 0.4, 1.5))
-            e_t = dict(e, p=t["p"])
-            lin, _, _, _ = lippe_linie(pr, rw, e_t, ctx_rng(ctx, "lip", k, n_t))
-            pts = _entlang(lin, n_blk)
-            mid = (n_blk - 1) / 2.0
-            kern = [pts[int(round(mid))]]
-            flanke = [p_ for i_, p_ in enumerate(pts) if i_ != int(round(mid))]
+            # 15f: Lippe dicht mit Bloecken (Abstand 0,75 x Blockgroesse), Kerben frei, Keystones an den Kerbenraendern
+            bp, kp = lippen_blockpunkte(pr, t["p"], t.get("geo"), e["lippe_breite_m"],
+                                        max(d_blk * 0.7, 0.4) * unreg(rw)["lippe_bloecke"]["abstand_faktor"] / 0.7)
+            if not kp:
+                lin, _, _, _ = lippe_linie(pr, rw, dict(e, p=t["p"]), ctx_rng(ctx, "lip", k, n_t))
+                kp = [(x_, y_, quer) for x_, y_ in _entlang(lin, 1)]
+            kern = [(x_, y_) for x_, y_, _ in kp]
+            flanke = [(x_, y_) for x_, y_, _ in bp]
             nm = "riegel_%02d_%d" % (k, n_t)
-            setze(ctx, nm + "k", "begleiter" if d_blk >= 1.2 else "schutt", N["riegel"] or N["bloecke"], kern, [quer],
+            setze(ctx, nm + "k", "begleiter" if d_blk >= 1.2 else "schutt", N["riegel"] or N["bloecke"], kern,
+                  [w_ for _, _, w_ in kp],
                   rolle="fels", groesse_m=[d_blk * 0.95, d_blk * 1.05], groesse_achse="max", akteur=d_blk >= 2.5,
                   im_wasser="egal", meide=None, eingraben=[0.3, 0.45], weg_abstand_m=4.0,
                   warum="Keystone der Blockstufe (schutt.stufenblock_D)")
-            setze(ctx, nm + "f", "schutt", N["riegel"] or N["bloecke"], flanke, [quer] * len(flanke), rolle="fels",
-                  groesse_m=[d_blk * 0.55, d_blk * 0.85], groesse_achse="max", akteur=False, im_wasser="egal",
-                  meide=None, eingraben=[0.3, 0.45], weg_abstand_m=4.0, warum="Stufenbloecke neben dem Keystone")
+            setze(ctx, nm + "f", "schutt", N["riegel"] or N["bloecke"], flanke, [w_ for _, _, w_ in bp], rolle="fels",
+                  groesse_m=[d_blk * 0.55, d_blk * 0.9], groesse_achse="max", akteur=False, im_wasser="egal",
+                  meide=None, eingraben=[0.3, 0.45], weg_abstand_m=4.0, yaw_streuung_grad=25.0,
+                  warum="Lippe dicht aus Stufenbloecken, schraeg/gekruemmt, Kerbe frei (15f)")
             fels_gruppen += [nm + "k", nm + "f"]
     # 3. Uferwaende
     for wz in wandzonen:
@@ -1238,6 +1511,32 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
                                     "laenge_m": e["kolk"]["laenge"] + e["B"], "oeffnung_grad": 70},
                      "abstand_m": 0.8, "groesse_m": [gm * 0.7, gm * 1.3], "rolle": "fels", "im_wasser": "egal",
                      "warum": "Sturzbloecke in und neben der Gumpe (schutt.unter_fall)"})
+    # 15f: Kolk mit Kies, Totholz quer im Becken
+    for e in abschnitt_stufen:
+        if e["art"] == "schnelle":
+            continue
+        bn, N = biom_netze[e["biom"]]
+        k = e["nr"]
+        ko = e["kolk"]
+        x, y = pr.xy(e["p"] + e["l"] + (ko["x_strahl"] if e["art"] == "fall" else 0.4 * ko["laenge"]))
+        if N["kies"]:
+            ctx.anker["kolk_%02d" % k] = (x, y)
+            gruppe(ctx, {"name": "kolkkies_%02d" % k, "ebene": "kleinzeug", "palette": N["kies"],
+                         "anzahl": int(np.clip(4.0 * ko["radius"], 6, 30)),
+                         "verteilung": {"typ": "faecher", "bei": "kolk_%02d" % k, "richtung": kompass(*pr.tang(e["p"])),
+                                        "laenge_m": max(ko["radius"], 1.0), "oeffnung_grad": 140},
+                         "abstand_m": 0.3, "skala": [0.7, 1.2], "rolle": "stein", "im_wasser": "egal",
+                         "warum": "Kies im Kolk (15f: Kolk mit Kies)"})
+        rng_h = ctx_rng(ctx, "totholz", k)
+        if N["holz"] and not e.get("holz") and rng_h.uniform() < unreg(rw)["totholz_quer_anteil"]:
+            L_b = max(e["L"] - e["l"], 1.0)
+            s_h = e["p"] + e["l"] + float(rng_h.uniform(0.35, 0.7)) * L_b
+            xh, yh = pr.xy(s_h)
+            setze(ctx, "totholz_%02d" % k, "begleiter", N["holz"], [(xh, yh)],
+                  [(kompass(*pr.tang(s_h)) + 90.0 + float(rng_h.uniform(-30.0, 30.0))) % 360.0], rolle="stamm",
+                  ausrichtung="liegend", groesse_m=[e["B"] * 0.6, e["B"] * 0.95], groesse_achse="max", zentrieren=True,
+                  akteur=False, kollision=True, im_wasser="egal", meide=None, eingraben=[0.2, 0.35],
+                  warum="Totholz quer im Becken (15f, Vorbilder Step-Pool-Baeche)")
     # 5. Beckenbloecke + 7. Kies je Segment
     korn = gr.becken_korn(rw)
     for n_s, (a, b, biom) in enumerate(segmente):
@@ -1247,9 +1546,9 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
         B = float(np.mean(pr.B[(pr.s >= a) & (pr.s <= b)])) if b > a else 3.0
         if N["bloecke"]:
             gruppe(ctx, {"name": "beckenbloecke_%02d" % n_s, "ebene": "wasser", "palette": N["bloecke"],
-                         "anzahl": max(1, int((b - a) / max(3.0 * B, 6.0))),
-                         "verteilung": {"typ": "band", "punkte": ln, "breite_m": 0.8 * B}, "abstand_m": 2.0,
-                         "groesse_m": [0.4, 0.9], "rolle": "stein", "im_wasser": "egal",
+                         "anzahl": max(2, int((b - a) / max(1.5 * B, 4.0))),
+                         "verteilung": {"typ": "band", "punkte": ln, "breite_m": 0.8 * B}, "abstand_m": 1.5,
+                         "groesse_m": [0.4, 1.3], "rolle": "stein", "im_wasser": "egal",
                          "warum": "einzelne Bloecke im Becken (grob an Stufen, fein im Becken)"})
         if N["kies"]:
             gruppe(ctx, {"name": "kies_%02d" % n_s, "ebene": "kleinzeug", "palette": N["kies"],
@@ -1582,7 +1881,7 @@ def raster_text(n_fehl, n_ges, zuschlag=None):
     return " (2-m-Raster: lokal auf 1 m pruefen)" if raster_stufe(n_fehl, n_ges, zuschlag) == "WARNUNG" else ""
 
 
-def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0):
+def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0, quer=None):
     """15c: Ufer am Netzrand je Beckenpunkt und Seite: Liste (k, seite, x, y, z_spiegel, h_neu, status) mit status
     ok | fehl | bestand | muendung. Probe bei halbe Breite + rand_ueberstand_m (+ Rasterzuschlag) quer zur
     Mittellinie. 'muendung' nur, wenn die Probe <= Zuflussbreite/2 + 1 m von der Zuflusslinie liegt (dort ist das
@@ -1601,6 +1900,8 @@ def ufer_proben(mitte, idx, boden_fn, alt_fn, muendungen=(), zuschlag=0.0):
         hz = boden_fn(px, py)
         for sd in range(2):
             st_ = "ok"
+            if quer is not None:                                   # 15f: Wasser an dieser Seite (schraege Lippen)
+                zs = M[k, 2] / 100.0 + quer[k][-1 if sd == 0 else 0][0] / 100.0
             if any(gd.abstand_punkte_polylinie(px[sd:sd + 1], py[sd:sd + 1], np.asarray(m_["linie_m"]))[0]
                    <= m_["breite_m"] / 2.0 + 1.0 for m_ in muendungen if len(m_["linie_m"]) >= 2):
                 st_ = "muendung"
@@ -1750,7 +2051,110 @@ def _hat_vorhang(e):
     return e["art"] != "schnelle" and e["D"] >= KN["vorhang_ab_m"] and not e.get("teil")
 
 
-def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde, muendungen=(), welt_hoehe=None):
+def quer_u(br, N):
+    """Seitenlagen (m, + = links) der Querprofil-Stuetzpunkte: linspace(-1, 1, N) x (Breite/2 + Netzrand)."""
+    return np.linspace(-1.0, 1.0, N) * (br / 2.0 + KN["rand_ueberstand_m"])
+
+
+def quer_ergaenzen(pr, rw, mitte, knick, mitte_s, st, lf, boden_fn, breite_fn):
+    """15f: Querprofil je Netzpunkt (N Stuetzpunkte quer, Index 0 = rechts, N-1 = links): dz_cm (Wasser gegen die
+    Mittellinie - schraege Lippen), deckung 0-1 (Zunge in der Kerbe deckend, daneben duenn -> Fels scheint durch),
+    schaum 0-1 (nur Lippensaum <= 0,5 m, Zunge und Aufprallkreis <= 30 % der Beckenlaenge), tiefe_cm (Wasser ueber dem
+    Bett, fuer die Beckenfarbe). Um jede Lippe wird die Mittellinie alle 0,25 m verdichtet ('uebergang'), damit der
+    schraege Absturz in jedem Laengsstreifen aufgeloest ist."""
+    U = unreg(rw)
+    sch = U["schaum"]
+    N = int(U["quer_punkte"])
+    lips = [v for v in lippen_liste(st) if v[3].get("geo")]
+    S = np.asarray(mitte_s, np.float64)
+    Z = np.asarray([q[2] for q in mitte], np.float64) / 100.0
+    # 1. verdichten
+    neu_s = []
+    for s_l, D_l, l_l, t_l, e_l in lips:
+        g = t_l["geo"]
+        dv = lippen_versatz(g, np.linspace(-g["h"], g["h"], 21))
+        a_ = s_l + float(dv.min()) - sch["saum_m"] - 0.2
+        b_ = s_l + l_l + float(dv.max()) + KN["bogen_x_m"] + 0.5
+        for s_n in np.arange(a_, b_ + 1e-6, 0.25):
+            if S[0] < s_n < S[-1] and np.min(np.abs(S - s_n)) > 0.12 and not any(abs(s_n - v) < 0.12 for v in neu_s):
+                neu_s.append(float(s_n))
+    if neu_s:
+        alle = sorted([(s_, k_, "alt") for k_, s_ in enumerate(S)] + [(s_, -1, "neu") for s_ in neu_s],
+                      key=lambda v: (v[0], 0 if v[2] == "alt" else 1))
+        m2, k2, s2 = [], [], []
+        T_ = np.asarray([q[4] for q in mitte], np.float64)
+        F_ = np.asarray([q[5] for q in mitte], np.float64)
+        for s_, k_, art in alle:
+            if art == "alt":
+                m2.append(list(mitte[k_]))
+                k2.append(knick[k_])
+            else:
+                x, y = pr.xy(s_)
+                z_ = float(np.interp(s_, S, Z))
+                m2.append([round(x * 100, 1), round(y * 100, 1), round(z_ * 100, 1), round(float(breite_fn(s_)) * 100, 1),
+                           round(float(np.interp(s_, S, T_))), round(float(np.interp(s_, S, F_)), 2), 0.0, 0.0])
+                k2.append("uebergang")
+            s2.append(float(s_))
+        zz = np.minimum.accumulate(np.asarray([q[2] for q in m2], np.float64))
+        for q, z_ in zip(m2, zz):
+            q[2] = round(float(z_), 1)
+        mitte, knick, mitte_s = m2, k2, s2
+        S = np.asarray(mitte_s, np.float64)
+        Z = np.asarray([q[2] for q in mitte], np.float64) / 100.0
+    # 2. Querprofile
+    imp = []                                                       # (s_aufprall, radius, geo)
+    for i, (s_l, D_l, l_l, t_l, e_l) in enumerate(lips):
+        if t_l.get("rampe") or e_l["art"] == "schnelle":
+            continue
+        nxt = lips[i + 1][0] if i + 1 < len(lips) else s_l + l_l + 2.0 * e_l["B"]
+        L_b = max(nxt - (s_l + l_l), 0.5)
+        xs_ = e_l.get("kolk", {}).get("x_strahl", 0.0) if e_l["art"] == "fall" else 0.3
+        imp.append((s_l + l_l + xs_, min(float(np.clip(0.5 * D_l + 0.5, 1.0, 3.0)), sch["aufprall_anteil_max"] * L_b),
+                    t_l["geo"]))
+    quer = []
+    for k, q in enumerate(mitte):
+        br = q[3] / 100.0
+        u = quer_u(br, N)
+        s_k = S[k]
+        s_e = lf.s_eff(np.full(N, s_k), u)
+        z_j = np.interp(s_e, S, Z)
+        deck = np.ones(N)
+        schm = np.zeros(N)
+        for s_l, D_l, l_l, t_l, e_l in lips:
+            r = s_e - s_l
+            if not ((r >= -sch["saum_m"]) & (r <= l_l + KN["bogen_x_m"] + 0.3)).any():
+                continue
+            g = t_l["geo"]
+            kw = kerben_gewicht(g, u)
+            saum = (r >= -sch["saum_m"]) & (r <= 0.0)
+            zunge = (r > 0.0) & (r <= l_l + KN["bogen_x_m"] + 0.3)
+            if t_l.get("rampe") or e_l["art"] == "schnelle":
+                schm = np.where(zunge, np.maximum(schm, 0.3 + 0.4 * kw), schm)
+                schm = np.where(saum, np.maximum(schm, sch["saum_seite"] * 0.5 + 0.5 * kw), schm)
+                continue
+            schm = np.where(saum, np.maximum(schm, kw + (1.0 - kw) * sch["saum_seite"]), schm)
+            schm = np.where(zunge, np.maximum(schm, kw + (1.0 - kw) * sch["zunge_seite"]), schm)
+            deck = np.where(zunge, np.minimum(deck, kw + (1.0 - kw) * g["seite_deckung"]), deck)
+        for s_i, r_a, g in imp:
+            for uk, kb, _ in g["kerben"]:
+                dist = np.hypot(s_e - s_i, u - uk)
+                schm = np.maximum(schm, np.clip((r_a + sch["aufprall_rand_m"] - dist) / sch["aufprall_rand_m"], 0.0, 1.0))
+        x, y = q[0] / 100.0, q[1] / 100.0
+        tx, ty = pr.tang(s_k)
+        bett_j = boden_fn(x + ty * u, y - tx * u)
+        quer.append([[round(float((zj - Z[k]) * 100.0), 1), round(float(dj), 2), round(float(sj), 2),
+                      round(float((zj - bj) * 100.0), 1)] for zj, dj, sj, bj in zip(z_j, deck, schm, bett_j)])
+        q[6] = round(float(schm[N // 2]), 2)                       # Mittellinie: Schaum in der Mitte
+        if knick[k] in ("becken", "uebergang", "rampe"):
+            # Bett-Abstand: Mittel ueber die mittleren 60 % gegen das Wasser an der jeweiligen Stelle
+            off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - RASTER_ZUSCHLAG(), 0.15 * br)
+            zw = np.interp(off, u, z_j)
+            q[7] = round(float(np.mean(zw - boden_fn(x + ty * off, y - tx * off))) * 100.0, 1)
+    return mitte, knick, mitte_s, quer
+
+
+def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde, muendungen=(), welt_hoehe=None,
+                   lf=None, rw=None):
     """Variante A (14b, verbindlich): je Stufenstrecke ein Kaskadennetz (statisches SLW-Netz) von der ersten Lippe bis
     1,5 m hinter den Fuss der letzten Stufe; Epic-River nur ober- und unterhalb, 0,5 m Ueberlappung, Netz 2 cm unter
     dem River (Bauhinweis). z der Mittellinie = spiegel_neu_cm (+ Ueberfallbogen an den Stufen)."""
@@ -1772,7 +2176,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
                        "zone": "<Feld>_Wasserzone", "overlap_material_priority": 0})
     kns = []
     for n, (a, b, st, rampen) in enumerate(bereiche):
-        mitte, knick = [], []
+        mitte, knick, mitte_s = [], [], []
         pkt = [(s_, z_, k_) for s_, z_, k_ in sp if a - 1e-6 <= s_ <= b + 1e-6]
         if not pkt or pkt[-1][0] < b - 0.05:
             pkt.append((b, float(spiegel_bei(sp, b)), "becken"))
@@ -1824,6 +2228,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
             mitte.append([round(x * 100, 1), round(y * 100, 1), round(z_ * 100, 1), round(br * 100, 1),
                           tempo, fall_a, sch, round(abstand_bett_cm, 1)])
             knick.append(rolle)
+            mitte_s.append(float(s_))
 
         def in_rampe(s_):
             return any(ra_ - 1e-6 <= s_ <= rb_ + 1e-6 for ra_, rb_ in rampen)
@@ -1847,6 +2252,9 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
                 punkt(max(s_, s_w), z_, "fuss", KN["abstand_bett_wand_cm"])
                 continue
             punkt(s_, z_, rolle)
+        quer = None
+        if lf is not None and rw is not None:
+            mitte, knick, mitte_s, quer = quer_ergaenzen(pr, rw, mitte, knick, mitte_s, st, lf, boden_fn, breite_fn)
         zs = [q[2] for q in mitte]
         if any(zs[i + 1] > zs[i] + 1e-6 for i in range(len(zs) - 1)):
             melde("FEHLER", "Kaskadennetz %d: Mittellinie steigt" % n)
@@ -1862,7 +2270,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
         # 15c: Ufer je Seite; Muendung nur an der Zuflusslinie, Bestand nur bei altem Ufer unter Spiegel + 0,1 - 1 m
         mu_kn = [m_ for m_ in muendungen if a - m_["breite_m"] - 5.0 <= m_["s_m"] <= b + m_["breite_m"] + 5.0]
         ix = [k_ for k_, (r_k, ns_) in enumerate(zip(knick, nah_stufe)) if r_k == "becken" and not ns_]
-        proben = ufer_proben(mitte, ix, boden_fn, welt_hoehe, mu_kn, RASTER_ZUSCHLAG())
+        proben = ufer_proben(mitte, ix, boden_fn, welt_hoehe, mu_kn, RASTER_ZUSCHLAG(), quer)
         ss = ix
         n_ufer = sum(1 for p_ in proben if p_[6] == "fehl")
         n_ufer_bestand = sum(1 for p_ in proben if p_[6] == "bestand")
@@ -1877,6 +2285,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
               "nanite": False, "schatten": False, "kollision": "keine",
               "stufen": [e["id"] for e in st], "vorhang_an_stufen": vorhang,
               "rampen_s_m": [[_r(ra_, 2), _r(rb_, 2)] for ra_, rb_ in rampen],
+              "mittellinie_s_m": [_r(s_, 2) for s_ in mitte_s],
               "muendungen_s_m": [[_r(m_["s_m"], 2), _r(m_["breite_m"], 2)] for m_ in mu_kn],
               "muendungen": [{"id": m_["id"], "s_m": _r(m_["s_m"], 2), "breite_m": _r(m_["breite_m"], 2),
                               "linie_cm": [[round(v[0] * 100, 1), round(v[1] * 100, 1)] for v in m_["linie_m"]]}
@@ -1886,6 +2295,18 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
                            "becken_punkte": n_bk, "bett_zu_flach": n_bett, "ufer_proben": int(2 * len(ss)), "ufer_muendung": n_mund,
                            "ufer_zu_tief": n_ufer, "ufer_zu_tief_bestand": n_ufer_bestand},
               "quelle": KN["quelle"]}
+        if quer is not None:
+            U_ = unreg(rw)
+            kn.update({
+                "quer": quer, "quer_punkte": int(U_["quer_punkte"]),
+                "quer_felder": ["dz_cm", "deckung", "schaum", "tiefe_cm"],
+                "quer_lage": "Stuetzpunkt j liegt bei u = (-1 + 2 j / (N - 1)) x (breite/2 + rand_ueberstand_m) quer zur "
+                             "Mittellinie (u > 0 links in Fliessrichtung, j = 0 rechts); Wasserhoehe = z_cm + dz_cm",
+                "material_parameter": dict(U_["material"]),
+                "farbe_hinweis": "Beckenfarbe nach tiefe_cm: Absorption_Faktor/Streuung_Faktor x clamp(tiefe / 150 cm, "
+                                 "0,35, 1) - flache Becken heller (15f, Vorschlag)",
+                "schaum_regel": "Schaum nur am Lippensaum (<= %.1f m) und in Zunge/Aufprallkreis (<= %.0f %% der "
+                                "Beckenlaenge), sonst 0" % (U_["schaum"]["saum_m"], 100 * U_["schaum"]["aufprall_anteil_max"])})
         kns.append(kn)
         if n_bett:
             melde(raster_stufe(n_bett, n_bk), "%s: Bett an %d von %d Beckenpunkten < %.1f m unter dem Spiegel%s"
@@ -2135,6 +2556,11 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
                 e["a14_bleibt"] = True            # z. B. H4: A14-Effekte (NS_Stream) an dieser Stufe bleiben
             if rw.biom(e["biom"])[0] == "aue" and e["art"] != "fall":
                 e["holz"] = True                  # Koordinator 11.10.: Aue-Stufen = Holz-Verklausung / Wurzelstufe
+        # 15f: Lippenformen (schraeg, gekruemmt, Kerben), danach Lippenlinien neu
+        lippen_formen(rw, st_x, [(a, b) for a, b, _, _ in segs_x], SEED)
+        for e in st_x:
+            lin, ue, ub, br = lippe_linie(pr, rw, e, np.random.default_rng(abs(hash_stabil(SEED, e["id"]))))
+            e["_lippe_m"], e["_ueberfall"], e["_ueberfall_b"] = lin, ue, ub
         if st_x:
             sx = sorted(st_x, key=lambda e: e["p"])
             for k in range(1, len(sx)):
@@ -2156,9 +2582,16 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         plan["hinweis"] = "keine planbaren Stufen (alle Strecken gebaut, umgebaut oder in festen Zonen)"
         return plan, [], meldungen, pr, None
     sp = spiegel_punkte(pr, alle_stufen, segmente)
+    lf = LippenFeld(alle_stufen, segmente)                  # 15f: s_eff(s, u) fuer schraege Lippen
     zufl_aus = zufluesse_anpassen(pr, sp, [z_ for z_ in zufl if not z_.get("fortsetzung")], segmente)
     # Breite, Boeschungswinkel, Wandzonen
-    Bw = pr.B.copy()
+    # 15f: Einschnuerung an den Lippen (Becken breiter, Lippen schmaler)
+    U_ = unreg(rw)
+    B_min = pr.B.copy()
+    for s_l, D_l, l_l, t_l, e_l in lippen_liste(alle_stufen):
+        m_l = np.abs(pr.s - (s_l + 0.5 * l_l)) <= U_["einschnuerung_laenge_m"]
+        B_min[m_l] = np.minimum(B_min[m_l], np.maximum(pr.B[m_l] * U_["einschnuerung"], 2.5))
+    Bw = B_min.copy()
     winkel = np.full(pr.n, BOESCHUNG_GRAD)
     wandzonen = []
     wv = gr.wand(rw)
@@ -2256,13 +2689,13 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     winkel = np.array([winkel[max(0, k - w_):k + w_ + 1].max() for k in range(pr.n)])
     # Breite glatt (Uebergaenge 3 m), dann Versatz der Waende
     kern = np.ones(int(3.0 / DS) * 2 + 1)
-    Bw = np.maximum(pr.B, np.convolve(np.pad(Bw, len(kern) // 2, mode="edge"), kern / kern.sum(), mode="valid"))
+    Bw = np.maximum(B_min, np.convolve(np.pad(Bw, len(kern) // 2, mode="edge"), kern / kern.sum(), mode="valid"))
     # 15b: Breite aendert sich hoechstens 0,2 m je m (nur verbreitern): Netzpunkt, Bett und Uferring sehen auf 1-2 m
     # Laengsabstand dieselbe Wasserbreite, sonst laege der Netzrand neben einer breiteren Absenkung
     for k in range(1, pr.n):
-        Bw[k] = max(Bw[k], Bw[k - 1] - RING["breite_aenderung"] * DS)
+        Bw[k] = max(Bw[k], Bw[k - 1] - U_["breite_aenderung_max"] * DS)
     for k in range(pr.n - 2, -1, -1):
-        Bw[k] = max(Bw[k], Bw[k + 1] - RING["breite_aenderung"] * DS)
+        Bw[k] = max(Bw[k], Bw[k + 1] - U_["breite_aenderung_max"] * DS)
 
     def breite_fn(s):
         return np.interp(s, pr.s, Bw)
@@ -2298,7 +2731,8 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             st = stm.Stempel(welt, x0, y0, x1, y1, rand_m=8.0, seed=SEED)
             korr = np.zeros(st.X.shape, bool)
             for a, b, _ in segs:
-                korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_gel_fn, winkel_fn, rw, welt, gel, orte_nah)
+                korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_gel_fn, winkel_fn, rw, welt, gel, orte_nah,
+                                           lf)
             for za in zufl_aus:                                    # Zufluss-Endstueck an den neuen Spiegel
                 x0w, y0w, x1w, y1w = st.fe.grenzen_m()
                 T_ = np.asarray(za["_tail_m"])
@@ -2367,7 +2801,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     # 15b: Gelaende-Delta auf 1 m nachziehen (Wasser hoechstens Querprofil, Uferring >= Spiegel + 0,15 m)
     for kx in kontexte:
         feinschliff_1m(K, kx["ctx"].stempel, pr, sp, kx["stufen"], [(a, b) for a, b, _ in kx["segs"]], breite_gel_fn,
-                       winkel_fn, muendungen_linien(zufl, pr))
+                       winkel_fn, muendungen_linien(zufl, pr), lf)
     # Effekte, Kameras, Flussstuecke
     effekte, eff_weg = bauen_effekte(K, pr, alle_stufen, breite_fn)
     from sehens_lib.sehens_pruefen import BodenNachStempel
@@ -2385,7 +2819,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     def boden_fn(x, y):
         return alt_fn(x, y) + deltas_1m.delta(x, y)
     wasser_koerper = bauen_wasser_A(pr, sp, alle_stufen, segmente, breite_fn, lauf_id, boden_fn, melde,
-                                    muendungen_linien(zufl, pr), alt_fn)
+                                    muendungen_linien(zufl, pr), alt_fn, lf, rw)
     kameras = []
     for x in strecken_out:
         if x.get("pilot") and x.get("_segs") and any(e["strecke"] == x["id"] for e in alle_stufen):
@@ -2445,7 +2879,10 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             d["rampe_m"] = _r(e["l"], 2)
         if e.get("teil"):
             d["teilstufen"] = [{"s_m": _r(t["p"], 2), "fall_m": _r(t["D"], 2), "oben_z_cm": round(t["u"] * 100, 1),
-                                "unten_z_cm": round(t["d"] * 100, 1)} for t in e["teil"]]
+                                "unten_z_cm": round(t["d"] * 100, 1), "rampe": bool(t.get("rampe")),
+                                "rampe_m": _r(t["l"], 2) if t.get("rampe") else None,
+                                "lippe_form": lippe_form_json(t.get("geo"))} for t in e["teil"]]
+        d["lippe_form"] = lippe_form_json(e.get("geo") or ((e.get("teil") or [{}])[0].get("geo")))
         stufen_out.append(d)
     for x in strecken_out:
         x["stufen"] = [d["id"] for d in stufen_out if d["strecke"] == x["id"]]
@@ -2489,6 +2926,16 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     with open(os.path.join(aus_lauf, "plan.json"), "w", encoding="utf-8") as f:
         json.dump(plan, f, ensure_ascii=False, indent=1, default=_json_np)
     return plan, kontexte, meldungen, pr, sp
+
+
+def lippe_form_json(g):
+    """15f: Lippenform fuer plan.json: Winkel zur Querrichtung (+ = linke Seite stromab), Bogen, Kerben (u + = links)."""
+    if not g:
+        return None
+    return {"winkel_grad": _r(math.degrees(math.atan(g["tan"] * g["skala"])), 1), "winkel_roh_grad": _r(g["winkel_grad"], 1),
+            "pfeil_m": _r(g["pfeil"] * g["skala"], 2), "versatz_skala": _r(g["skala"], 2),
+            "kerben": [{"u_m": _r(uk, 2), "breite_m": _r(kb, 2), "tiefe_m": _r(kt, 2)} for uk, kb, kt in g["kerben"]],
+            "seite_deckung": _r(g["seite_deckung"], 2)}
 
 
 def _json_np(o):
@@ -2600,9 +3047,53 @@ def testbild(kx, K, pr, sp, plan, pfad):
     dr.text((L, H - 22), "%s  Laengsprofil s %.0f-%.0f m  |  %s  |  Fall %.1f m, gestuft %.1f m  |  Arten %s" % (
         kx["id"], a, b, st["status"], st["fall_m"], st.get("fall_gestuft_m", 0),
         ", ".join("%s %d" % (k, v) for k, v in (st.get("arten") or {}).items() if v)), fill=(230, 230, 230), font=f)
-    out = Image.new("RGB", (W, top.size[1] + H), (22, 22, 26))
+    # 15f: Kaskadennetz abgewickelt (x = s, y = quer): Wasser blau nach Deckung, Schaum weiss, Fels grau
+    H2 = 0
+    band = None
+    kns = [wk for wk in plan["wasser_koerper"] if wk["typ"] == "kaskadennetz" and wk.get("quer")
+           and wk["s_m"][1] > a and wk["s_m"][0] < b]
+    if kns:
+        H2 = 230
+        band = Image.new("RGB", (W, H2), (22, 22, 26))
+        db = ImageDraw.Draw(band)
+        umax = max(max(q[3] for q in wk["mittellinie"]) for wk in kns) / 200.0 + KN["rand_ueberstand_m"]
+        T2, B2 = 24, H2 - 24
+
+        def PU(s_, u_):
+            return L + (s_ - a) / max(b - a, 1e-6) * (R - L), T2 + (umax - u_) / (2 * umax) * (B2 - T2)
+        for wk in kns:
+            Sm = wk["mittellinie_s_m"]
+            Nq = wk["quer_punkte"]
+            for k in range(len(Sm) - 1):
+                if Sm[k + 1] < a or Sm[k] > b:
+                    continue
+                br = wk["mittellinie"][k][3] / 100.0
+                uu = quer_u(br, Nq)
+                for j in range(Nq):
+                    dz, dk, sc, tf = wk["quer"][k][j]
+                    u0 = uu[j] - (uu[1] - uu[0]) / 2.0
+                    u1 = uu[j] + (uu[1] - uu[0]) / 2.0
+                    wasser = np.array([40, 105, 150]) * dk + np.array([95, 90, 82]) * (1 - dk)
+                    if tf < 5.0:
+                        wasser = np.array([95, 90, 82])
+                    c = wasser * (1 - sc) + np.array([235, 240, 240]) * sc
+                    x0_, y0_ = PU(Sm[k], u1)
+                    x1_, y1_ = PU(Sm[k + 1], u0)
+                    db.rectangle([x0_, y0_, max(x1_, x0_ + 1), y1_], fill=tuple(int(v) for v in c))
+        for e in kx["stufen"]:
+            for tl in (e.get("teil") or [e]):
+                g = tl.get("geo")
+                if not g:
+                    continue
+                uu = np.linspace(-g["h"], g["h"], 15)
+                db.line([PU(tl["p"] + float(lippen_versatz(g, u_)), u_) for u_ in uu], fill=(255, 200, 60), width=2)
+        db.text((L, 4), "Kaskadennetz abgewickelt (x = s, y = quer, oben links): Wasser nach Deckung, Schaum weiss, "
+                "Fels grau; gelb = Lippen (schraeg, gekruemmt)", fill=(230, 230, 230), font=f)
+    out = Image.new("RGB", (W, top.size[1] + H + H2), (22, 22, 26))
     out.paste(top, (0, 0))
     out.paste(img, (0, top.size[1]))
+    if band is not None:
+        out.paste(band, (0, top.size[1] + H))
     os.makedirs(os.path.dirname(os.path.abspath(pfad)), exist_ok=True)
     out.save(pfad, optimize=True)
     return pfad

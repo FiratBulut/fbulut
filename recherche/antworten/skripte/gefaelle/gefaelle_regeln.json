@@ -676,10 +676,10 @@
    "winkel_zur_fliessrichtung": {
     "annahme": true,
     "wert": 90,
-    "min": 75,
-    "max": 105,
+    "min": 60,
+    "max": 120,
     "einheit": "grad",
-    "notiz": "quer zum Bach, leicht schraeg erlaubt"
+    "notiz": "15f: schraeg zur Fliessrichtung, Abweichung von quer 15-30 Grad (Vorzeichen zufaellig), siehe unregelmaessig"
    },
    "breite": {
     "annahme": true,
@@ -708,9 +708,9 @@
   },
   "zufall": {
    "annahme": true,
-   "L_streuung": 0.25,
-   "D_streuung": 0.3,
-   "notiz": "+-25 % L und +-30 % D je Stufe gegen Treppenmuster; danach D-Summe auf D_ges normieren"
+   "L_streuung": 0.4,
+   "D_streuung": 0.4,
+   "notiz": "+-40 % L und D je Stufe gegen Treppenmuster (15f: Bildbefund C2 'Betontreppe', vorher 25/30 %); danach D-Summe auf D_ges normieren"
   },
   "max_stufen_je_100m": {
    "annahme": true,
@@ -722,6 +722,71 @@
    "formel": "max(2.5, 0.8 * B)",
    "einheit": "m",
    "notiz": "sonst Kaskade"
+  },
+  "unregelmaessig": {
+   "annahme": true,
+   "quelle": [
+    "MB1997",
+    "CHIN1999",
+    "CURWOHL2003"
+   ],
+   "notiz": "15f (Bildbefund C2 im Editor): Step-pool-Lippen sind Blockreihen, schraeg und gekruemmt, mit 1-2 Kerben fuer den Hauptstrahl; Abstaende und Hoehen streuen stark; Becken breiter als die Lippen. Werte angenommen, Vorbilder Partnachklamm, Johnston Canyon, Plitvice (antworten/15f-c2-gebaut-bildbefund.md).",
+   "winkel_abweichung_grad": [
+    15.0,
+    30.0
+   ],
+   "pfeil": [
+    0.05,
+    0.15
+   ],
+   "kerbe_breite": [
+    0.2,
+    0.35
+   ],
+   "kerbe_breite_m": [
+    0.8,
+    3.0
+   ],
+   "kerbe_tiefe_m": [
+    0.15,
+    0.4
+   ],
+   "kerbe_lage": 0.35,
+   "zwei_kerben_ab_B_m": 6.0,
+   "zwei_kerben_anteil": 0.5,
+   "versatz_max_anteil": 0.6,
+   "seite_deckung": [
+    0.15,
+    0.35
+   ],
+   "krone_saum_m": 0.6,
+   "krone_unter_spiegel_m": 0.05,
+   "einschnuerung": 0.8,
+   "einschnuerung_laenge_m": 1.5,
+   "breite_aenderung_max": 0.4,
+   "abstand_fenster": [
+    0.6,
+    1.4
+   ],
+   "teilhoehen_streuung": 0.45,
+   "rampe_anteil": 0.3,
+   "schaum": {
+    "saum_m": 0.5,
+    "saum_seite": 0.15,
+    "zunge_seite": 0.1,
+    "aufprall_anteil_max": 0.3,
+    "aufprall_rand_m": 0.5
+   },
+   "material": {
+    "Schaum_Menge": 0.15,
+    "Zungen_Schaum": 0.25
+   },
+   "quer_punkte": 11,
+   "lippe_bloecke": {
+    "abstand_faktor": 0.75,
+    "notiz": "Lippe dicht mit Bloecken (Abstand 0,75 x Blockgroesse), Kerben frei; Keystones an den Kerbenraendern"
+   },
+   "totholz_quer_anteil": 0.3
   }
  },
  "becken": {
