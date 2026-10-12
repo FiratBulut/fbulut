@@ -355,30 +355,10 @@ def bach_kern_m(B, zelle_m):
     return _b.ufer_abstand(B, zelle_m) + _b.RING_BREITE_M + 0.5
 
 
-def bach_einschnitt_begrenzen(ctx, delta_vor):
-    """13h (vgl. 13i K1): ausserhalb der Kernzone (Netzrand + Uferring) senkt das Bachprofil hoechstens
-    tiefe + 0,5 m unter das Gelaende vor den Baechen - keine Keile mit senkrechter Wand am Rand der Reichweite.
-    Spiegel, Stufen und Kern bleiben unveraendert. Rueckgabe: zurueckgenommene Flaeche m2."""
-    st = ctx.stempel
-    if not ctx.bach_plan:
-        return 0.0
-    z = float(st.z)
-    vor = np.asarray(delta_vor, np.float64)
-    neu = st.delta.copy()
-    kern = np.zeros(neu.shape, bool)
-    zonen = _bach_zonen(ctx, st.X, st.Y)
-    for b in zonen:
-        kern |= b["d"] <= bach_kern_m(b["B"], z)
-    for b in zonen:
-        aussen = (b["d"] < np.inf) & ~kern
-        grenze = vor - (b["tiefe"] + 0.5)
-        m = aussen & (neu < grenze)
-        neu = np.where(m, grenze, neu)
-    n = float((np.abs(neu - st.delta) > 0.01).sum()) * z * z
-    st.delta = neu
-    ctx._bach_kern = kern
-    return n
-
+# 13i/13j: die fruehere zweite K1-Begrenzung (bach_einschnitt_begrenzen) ist entfallen - es gilt allein
+# bach.absenk_grenze in stempel.bach_profil (ausserhalb der Wasserkante <= tiefe + 0,5 m, ab Netzrand + Uferring weich
+# auf 0, Bezug Gelaende vor allen Baechen). Fuer Rezept-Stempel gilt weiter die Steilflaechenregel (boeschung_anwenden,
+# Verkleidung).
 
 def _fest_maske(ctx):
     """Zellen, die die Boeschung nicht aendern darf: Rand, Weg-/Orts-/Wasserschutz, Seeflaeche (+ Lippe),

@@ -345,15 +345,13 @@ class OrtKontext:
         if g.get("ist_wasser"):
             self._ist_wasser_maske = np.hypot(st.X - self.mx, st.Y - self.my) <= float(
                 g.get("ist_wasser_r_m", self.st["radius_m"]))
-        delta_vor_bach = st.delta.copy()
+        # 13i K1 (eine Funktion, bach.absenk_grenze in stempel.bach_profil): Bezug ist das Gelaende vor allen Baechen
+        st.delta_vor_baeche = st.delta.copy()
         for w in self.r.get("wasser") or []:
             if w.get("typ") == "bach":
                 self._bach_linie(w)
+        st.delta_vor_baeche = None
         self._seeufer_halten()
-        # 13h: Bachprofil ausserhalb von Netzrand + Uferring hoechstens tiefe + 0,5 m eintiefen (keine Keilwaende)
-        n_k = _sw.bach_einschnitt_begrenzen(self, delta_vor_bach)
-        if n_k > 0:
-            self.melde(HINWEIS, "Bachprofil (13h): Einschnitt ausserhalb Netzrand + Uferring auf %.0f m2 begrenzt" % n_k)
         ausnahme = self._ausnahme_maske(wasser_ausnahmen=True)
         st.fertig(schutz=g.get("schutz", True), weg_m=float(g.get("schutz_weg_m", 3.0)),
                   wasser=not g.get("wasser_frei", False), ausnahme_maske=ausnahme,

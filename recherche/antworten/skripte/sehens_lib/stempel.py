@@ -446,7 +446,10 @@ class Stempel:
         grenze = _b.absenk_grenze(d, breite_m, tiefe_m, self.z)
         t_end = np.clip(np.minimum(sp, L - sp) / 2.0, 0.0, 1.0)
         grenze = np.where(np.isfinite(grenze), grenze * t_end * t_end * (3.0 - 2.0 * t_end), grenze)
-        T = np.maximum(T, cur - grenze)
+        # Bezug: Gelaende vor allen Baechen (mehrere Baeche nebeneinander summieren ihre Einschnitte nicht)
+        dv = getattr(self, "delta_vor_baeche", None)
+        bezug = np.minimum(cur, (self.h0 + dv)[box]) if dv is not None else cur
+        T = np.maximum(T, bezug - grenze)
         neu = np.where(innen, np.minimum(cur, T), cur)
         rm = innen & ring
         if ring_aus is not None:

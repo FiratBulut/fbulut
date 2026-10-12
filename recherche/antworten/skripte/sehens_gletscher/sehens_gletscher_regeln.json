@@ -2051,6 +2051,8 @@
       "ufer_m": 5,
       "freibord_m": 0.6,
       "boden": 0.4,
+      "auslass": 80,
+      "auslass_grund": "13i/13j (Koordinator): Abfluss nach Osten wie 13f - getrennt vom Firnrinnsal, das von Norden muendet (>= 6 m Abstand, getrennte Uferringe)",
       "einpassen": {
        "r_such_m": 6,
        "schritt_m": 2,

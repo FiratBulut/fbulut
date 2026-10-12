@@ -180,7 +180,7 @@
    "anker_danach": {},
    "gelaende": {"fenster_m": [190, 190], "ops": []},
    "gruppen": [
-    {"name": "riesen", "ebene": "held", "warum": "13h Befund 5/6: bis 13 Riesentannen x2,6-2,9 (57-64 m) >= 2 x Bestand - nur die Waldform Fir_07_Forest (hohe Kronenbasis = Saeulenstamm), nicht mehr die bis zum Boden beastete Fir_04_Standalone",
+    {"name": "riesen", "ebene": "held", "akteur_fest": true, "warum": "13h Befund 5/6: bis 13 Riesentannen x2,6-2,9 (57-64 m) >= 2 x Bestand - nur die Waldform Fir_07_Forest (hohe Kronenbasis = Saeulenstamm), nicht mehr die bis zum Boden beastete Fir_04_Standalone",
      "palette": ["Fir_07_Forest"], "anzahl": 13, "verteilung": {"typ": "ellipse", "bei": "halle", "a_m": 29, "b_m": 21, "richtung": {"basis": "hangab", "plus": 90}},
      "abstand_m": 8.5, "skala": [2.6, 2.9], "rolle": "baum", "hang_grad": [0, 28], "akteur": true, "kollision": true, "eingraben_m": [0.6, 1.0], "mindestens": 11, "versuche": 12},
     {"name": "ammenstamm", "ebene": "begleiter", "warum": "gestuerzter Riese = Ammenstamm (Lichtschacht darueber)", "netz": "SM_MossyTree_01",
