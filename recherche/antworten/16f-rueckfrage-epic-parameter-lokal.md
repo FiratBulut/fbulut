@@ -345,8 +345,8 @@ die Grenze.
 | `WH_`-Akteure | 197 | 197 |
 | Kehrwasser-Schaumobjekte (Lee von Randblöcken) | 317 | 316 |
 
-- **Weggefallen:** `SM_mountain_rock_small_01_*` (707), `SM_NordicBeachRock_01` (104), `SM_SmallStonesPack_*` (≈ 370) und
-  weitere kleine Felsen. Ihre alte Welt-Box im Grundriss war 0,40–0,62 m (Median 0,46 m), ihre echte Größe < 0,4 m.
+- **Weggefallen:** `SM_mountain_rock_small_01_*` (707), `SM_SmallStonesPack_*` (368), `SM_NordicBeachRock_01` (118),
+  `SM_stone_*` (41), `SM_MossyForestBoulder_*` (35) und weitere kleine Felsen. Ihre alte Welt-Box im Grundriss war 0,40–0,62 m (Median 0,46 m), ihre echte Größe < 0,4 m.
 - **Neu dazu (18):** lange Äste und hohe Felsen (`SM_Big_Rock_03`, `SM_ForestRockShelf_*`, `SM_mountain_branch_01_02`).
   Ihre Welt-Box war im Grundriss < 0,4 m, sie selbst sind länger oder höher.
 - **Größte Abnahmen je `WH_`:**
