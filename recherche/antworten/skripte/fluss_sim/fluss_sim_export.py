@@ -2305,6 +2305,9 @@ def _vorschlag_fertig(e, pts, ziel, zt, gel, V, art, begruendung, kreuzt, extra=
     if zt is not None and len(z) > 1:
         z[-1] = min(z[-2], zt)
     z = np.minimum.accumulate(np.asarray(z))
+    if zt is not None:
+        # nie unter den Spiegel des Ziels (z. B. Meeresboden unter 0 m vor dem Ziel)
+        z = np.maximum(z, min(float(zt), float(ez)))
     ein = float(np.max(h[1:] - z[1:])) / 100.0 if len(z) > 1 else 0.0
     L = float(np.hypot(*np.diff(pts[:, :2], axis=0).T).sum()) / 100.0
     v = {"art": art, "methode": (extra or {}).get("methode", "gerade"), "ziel": ziel,
@@ -2427,7 +2430,8 @@ def vorschlag_offen(e, zk, gel, V, ohne):
     if methode != "steilstes_gefaelle":
         txt += ", aus der Senke weiter auf dem Weg des geringsten Anstiegs" if abstieg else \
             " nicht moeglich (Ende in einer Senke): Weg des geringsten Anstiegs"
-    txt += " bis %s %s (Spiegel %.1f m, Ende %.1f m)" % (ziel["art"], ziel["id"], zt / 100.0, ez / 100.0)
+    txt += " bis %s (Spiegel %.1f m, Ende %.1f m)" % (ziel["id"] if ziel["id"] == ziel["art"] else "%s %s" % (ziel["art"], ziel["id"]),
+                                                    zt / 100.0, ez / 100.0)
     if kreuzt:
         txt += "; kreuzt Wasser mit hoeherem Spiegel: %s" % ", ".join(kreuzt)
     return _vorschlag_fertig(e, pts, ziel, zt, gel, V, "offen", txt, kreuzt,
