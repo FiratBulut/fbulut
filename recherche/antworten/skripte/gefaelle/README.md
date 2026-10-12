@@ -325,6 +325,19 @@ lang, deshalb gilt hier:
 - Die Zahl der Instanzen und Akteure ist gleich (64 951 ohne Holz, 1 002 Holzstücke). Etwa 1 800 kleine Steine und
   Kiesel rücken neben dem Holz leicht, weil die Abstandsregel die neue Holzgröße sieht.
 
+## Einheitenfelder und Stammausrichtung (Nachtrag 13k, 12.10.)
+
+Ergebnis und Zahlen: Abschnitt „Nachtrag: Stammausrichtung Sehens, Einheitenfelder A15“ in
+`antworten/13k-pilot2-bildbefund-15g-nachtrag.md`.
+
+- **`material_parameter` jedes Kaskadennetzes** trägt jetzt dieselben Einheitenfelder wie die Sehens-Netze
+  (`slw_einheit`): `einheit: "je_m"`, `skalierung_ue: 0.01`, `SLW_Absorption_pro_cm` (0,004/0,0007/0,0005),
+  `SLW_Streuung_pro_cm` (0,0002/0,0003/0,0004) und `einheit_hinweis`. UE 5.8 rechnet die SLW-Koeffizienten je cm
+  (Ferat-Test 13k). Die je-m-Werte `SLW_*_pro_m` bleiben unverändert. Sonst ändert sich an den Netzen nichts.
+- **Prüfer:** `pruefe_ebene` (auch im Kontext `gefaelle`) meldet FEHLER, wenn ein liegend modelliertes Holznetz steht
+  (Hochachse > 45° gegen die Hangnormale) oder eine Holz-Instanz außerhalb der Skala liegt (Stämme 0,6–1,8, Äste
+  ≤ 1,8). Die A15-Läufe sind seit `024d25f` regelkonform (0 FEHLER).
+
 ## Grenzen
 
 - **2-m-Daten:** Ein 4-m-Bach ist dort nur 2 Zellen breit. Riser, Becken und Ufer verschmieren, deshalb gelten Bett- und

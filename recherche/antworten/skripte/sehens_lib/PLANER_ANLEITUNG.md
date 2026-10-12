@@ -210,6 +210,15 @@ waagrecht in Richtung `yaw`, der Pivot liegt am Stammfuß → mit `zentrieren: f
 (lokale Y- bzw. X-Achse nach oben: Klippenschale als Nadel, Wurzelteller senkrecht). **`skala_xyz` wirkt in den lokalen
 Netzachsen** (wie in Unreal): bei `hochkant` mit Achse `y` ist `skala_xyz[1]` die neue Höhe.
 
+**`liegend` nur für stehend modellierte Netze** (Bäume, `Branch_Goat_Willow_Decaying_*`: lange Achse z). Liegend
+modellierte Stämme und Äste (lange Achse x/y, z. B. `SM_OldFallenTree_*`, `SM_LargeFallenTree_*`, `SM_dead_log_*`)
+liegen mit `normale` (Hangnormale) richtig. Nachtrag 13k: Steht `liegend` an einer Gruppe mit `rolle: stamm` und
+einem liegend modellierten Netz, setzt das Rezept dieses Netz selbst mit `normale`, die lange Achse in Yaw-Richtung
+(`inventar.stamm_form`, wie A15 `holz_form`). Gemischte Paletten (Baum + Stamm) gehen damit. Die Skala liegender
+Stämme ist auf 0,6–1,8 begrenzt (Äste nur nach oben); einzeln gesetzte Akteure behalten ihre Regel-Skala. Der Prüfer
+meldet FEHLER, wenn ein liegend modelliertes Holznetz mit der Hochachse mehr als 45° von der Hangnormalen abweicht
+(es steht) oder eine Instanz außerhalb der Skala liegt.
+
 **Höhe**: Standard = Unterseite eingegraben, kein Kontaktpunkt schwebt (`bezug: min`; Pflanzen/Bäume `mitte`). Die
 Lib liest den Pivot aus `netze_masse.json` (sonst „unten Mitte“) und gräbt senkrecht zum Hang ein. `z_bezug` setzt
 Stücke auf andere (`oben:<gruppe>` = Oberkante des nächsten Stücks der Gruppe, `oberkante:<gruppe>` = des ersten),
@@ -540,7 +549,8 @@ Beispiel: `hook_windwurf_anker` im Bergwald-Planer setzt die Stammfüße einer S
   See, `gelaende.ist_wasser: true`.
 - Lange Stücke (Wände, Stämme) als `meide: null` setzen und Kontaktzonen mit `ring` (Fuß-Ellipse) statt `ring_m`.
 - Reihen (`reihe`) mit `front_an_linie: true`, sonst ragt die Wandmitte in die Klamm.
-- Liegende Foliage-Bäume: `ausrichtung: liegend`, `zentrieren: false`, Material mit `Wind_Staerke` 0.
+- Liegende Foliage-Bäume: `ausrichtung: liegend`, `zentrieren: false`, Material mit `Wind_Staerke` 0. Liegend
+  modellierte Stämme nie `liegend` (sie stünden senkrecht), sondern `normale` (Nachtrag 13k).
 - Kleinzeug großzügig (Hunderte bis Tausende) – es kostet wenig, und das Budget dünnt automatisch aus.
 - Die Regeldatei ist JSON: keine Kommentare, Gründe in `warum`/`hinweis`/`_doku`.
 - 13f: Ein Bach muss ganz im Geländefenster liegen (sonst gekappt, Mündung → `versickert`) – `fenster_m` groß genug

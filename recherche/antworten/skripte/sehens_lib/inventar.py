@@ -82,6 +82,19 @@ SAEGE_GRUND = ("13k: gesaegtes Stammstueck (Schnittflaechen) - in der Wildnis ve
                "Wegen; Kleinholz = Aeste/Zapfen/Rinde, Totholz = grosse liegende Staemme")
 
 
+# Nachtrag 13k (Stammausrichtung Sehens): liegend modellierte Staemme/Aeste (lange Achse x/y, z. B. SM_OldFallenTree_*,
+# SM_LargeFallenTree_*, SM_dead_log_*) liegen 'normale' (der Hangnormalen folgend), nie 'liegend' (das kippt die lokale
+# Z-Achse in die Waagrechte - fuer stehend modellierte Baeume gedacht). Pruefer: lange Achse <= LIEGEND_NEIGUNG_MAX_GRAD
+# gegen die Waagrechte, Skala in LIEGEND_SKALA (wie A15 stufen.holzstufe.netz_skala).
+HOLZ_LIEGEND_NAME = re.compile(r"(FallenTree|FallenSpruce|dead_log|OldTreeBranch|MossyTree|BrokenTree|trunk|driftwood|"
+                               r"broken_branch|detail_branches|mountain_branch|^SM_branch_)", re.I)
+HOLZ_AST_NAME = re.compile(r"(OldTreeBranch|BrokenTreeBranch|broken_branch|detail_branches|mountain_branch|^SM_branch_)",
+                           re.I)        # Aeste/Zweige: duerfen kleiner als 0,6 sein (Kleinzeug), nie groesser als 1,8
+LIEGEND_VERHAELTNIS = 1.5           # lange waagrechte Achse >= 1,5 x Hoehe -> eindeutig liegend modelliert
+LIEGEND_NEIGUNG_MAX_GRAD = 45.0     # Hochachse weicht mehr von der Hangnormalen ab -> Stamm 'steht' (FEHLER)
+LIEGEND_SKALA = (0.6, 1.8)          # Skala (groesste Achse) liegender Staemme, wie A15 stufen.holzstufe.netz_skala
+
+
 def houdini(s):
     """Houdini-Sehenswuerdigkeiten (SW_*) sind verboten (Auftrag 13, 'Houdini-Sachen auslassen')."""
     n = str(s).rsplit("/", 1)[-1]
@@ -250,6 +263,33 @@ class Inventar:
             if re.search(r"(^|_)ends($|_)", n, re.I):
                 return "%s: Material %s (Schnittflaeche)" % (_letzter(p), n)
         return None
+
+    def stamm_form(self, s):
+        """Nachtrag 13k (Stammausrichtung): (Laenge m, liegend_modelliert, front_achse) aus groesse_m, wie
+        gefaelle_plan.holz_form. Liegend modelliert = lange Achse x oder y (z nicht die laengste Ausdehnung);
+        front_achse = laengere waagrechte Achse (+x/+y). Stehend modellierte Netze (Baeume, Branch_Goat_Willow_*):
+        (Hoehe, False, '+x')."""
+        g = self.netz(s)["groesse_m"]
+        if g[2] >= max(g[0], g[1]):
+            return float(g[2]), False, "+x"
+        return float(max(g)), True, ("+x" if g[0] >= g[1] else "+y")
+
+    def liegendes_holz(self, s):
+        """Nachtrag 13k (Pruefer): True fuer eindeutig liegend modellierte Stamm-/Astnetze - Name aus der Holzliste
+        (HOLZ_LIEGEND_NAME) und lange waagrechte Achse >= LIEGEND_VERHAELTNIS x Hoehe. Wurzeln, Stuempfe, Baeume und
+        stehend modellierte Aeste zaehlen nicht."""
+        p = self.netz_pfad(s)
+        if p is None or not HOLZ_LIEGEND_NAME.search(_letzter(p)):
+            return False
+        g = self.netze[p]["groesse_m"]
+        return max(g[0], g[1]) >= LIEGEND_VERHAELTNIS * max(g[2], 1e-3)
+
+    def liegend_skala_grenzen(self, s):
+        """Nachtrag 13k: erlaubte Skala (groesste Achse) eines liegend modellierten Holznetzes: Staemme
+        LIEGEND_SKALA (0,6-1,8), Aeste/Zweige nur nach oben begrenzt (0-1,8; kleine Zweige sind gewollt)."""
+        p = self.netz_pfad(s) or str(s)
+        lo, hi = LIEGEND_SKALA
+        return (0.0 if HOLZ_AST_NAME.search(_letzter(p)) else lo), hi
 
     def netz_pruefen(self, s, optional=False, wildnis=False):
         b = []

@@ -224,6 +224,16 @@ Schema der Rezept-Felder: [`PLANER_ANLEITUNG.md`](PLANER_ANLEITUNG.md) §3.12. A
 
 Antwort: `antworten/13k-pilot2-bildbefund-15g-nachtrag.md`.
 
+**Nachtrag 13k: Stammausrichtung (12.10.)**, Abschnitt „Nachtrag: Stammausrichtung Sehens, Einheitenfelder A15“ der
+Antwort:
+
+| Modul | Inhalt |
+|---|---|
+| `inventar.py` | `stamm_form(netz)`: Länge, liegend modelliert (lange Achse x/y), Front = lange waagrechte Achse (wie A15 `holz_form`). `liegendes_holz(netz)`: eindeutig liegend modellierte Stämme und Äste (Holz-Name, lange Achse ≥ 1,5 × Höhe; ohne Wurzeln, Stümpfe, Bäume). `liegend_skala_grenzen`: Stämme 0,6–1,8, Äste ≤ 1,8 (`LIEGEND_SKALA`). |
+| `rezept.py` | `_ein_stueck`: `ausrichtung: liegend` mit `rolle: stamm` und liegend modelliertem Netz → `normale`, lange Achse in Yaw-Richtung, Skala begrenzt. Der Zufallswert für den Roll wird weiter gezogen, deshalb bleibt die Zahlenfolge gleich. Liegende Stämme als Instanzen werden auf die Skalagrenzen gekappt; einzeln gesetzte Akteure (Held, `akteur: true`, große Begleiter) nicht. |
+| `sehens_pruefen.py` | `pruefe_liegendes_holz` in `pruefe_ebene` (beide Kontexte): FEHLER, wenn die Hochachse eines liegend modellierten Holznetzes mehr als 45° von der Hangnormalen abweicht (nach dem Stempel, Radius wie beim Setzen). FEHLER bei Instanzen mit Skala außerhalb der Grenzen. Bei Akteuren ist die Skala nur ein HINWEIS. |
+| `selbsttest_13k.py` | Schritt 13, Teil 9: Form, Neigung flach und am Hang, Prüferfälle. |
+
 ## Cache und Laufzeiten (2 m, 4789 × 3529, ohne SciPy)
 
 - Ordner: `$SEHENS_CACHE` oder `--cache`, Standard

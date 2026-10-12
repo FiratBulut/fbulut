@@ -863,6 +863,24 @@ UNREG_STANDARD = {
 }
 
 
+def slw_einheit(mp):
+    """Nachtrag 13k (Rueckfrage 6, zweiter Teil): dieselben Einheitenfelder wie die Sehens-Kaskadennetze
+    (sehens_lib/bach.py). Ferat-Test 13k: UE 5.8 rechnet die SLW-Koeffizienten je cm. Die Werte SLW_*_pro_m bleiben
+    unveraendert je m; dazu einheit, skalierung_ue und die je-cm-Werte. Gleiche Schluessel und Reihenfolge wie in
+    Sehens (bach.py ueberschreibt sie dort mit denselben Werten)."""
+    if not isinstance(mp, dict) or "SLW_Absorption_pro_m" not in mp:
+        return mp
+    mp["einheit"] = "je_m"
+    mp["skalierung_ue"] = 0.01
+    mp["SLW_Absorption_pro_cm"] = [round(v * 0.01, 5) for v in mp["SLW_Absorption_pro_m"]]
+    mp["SLW_Streuung_pro_cm"] = [round(v * 0.01, 5) for v in mp.get("SLW_Streuung_pro_m", [])]
+    mp["einheit_hinweis"] = ("SLW_*_pro_m sind Koeffizienten je Meter (Beer-Lambert); UE 5.8 rechnet je cm -> "
+                             "x skalierung_ue (0,01) bzw. direkt SLW_*_pro_cm eintragen (Ferat-Test 13k: x 1,0 "
+                             "leuchtet 20-30 cm tiefes Wasser tuerkis, x 0,01 klar). Nicht verwechseln mit "
+                             "wasserfarben.json 'absorption' = Absorptionslaenge in cm (1/Wert je cm)")
+    return mp
+
+
 def unreg(rw):
     """Parameter 'stufen.unregelmaessig' aus dem Regelwerk (15f), fehlende Werte aus UNREG_STANDARD."""
     u = dict(UNREG_STANDARD)
@@ -2671,7 +2689,7 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
                 "quer_felder": ["dz_cm", "deckung", "schaum", "tiefe_cm"],
                 "quer_lage": "Stuetzpunkt j liegt bei u = (-1 + 2 j / (N - 1)) x (breite/2 + rand_ueberstand_m) quer zur "
                              "Mittellinie (u > 0 links in Fliessrichtung, j = 0 rechts); Wasserhoehe = z_cm + dz_cm",
-                "material_parameter": dict(U_["material"]),
+                "material_parameter": slw_einheit(dict(U_["material"])),   # Nachtrag 13k: Einheitenfelder
                 "farbe_hinweis": "15g: SLW-Werte in material_parameter (klares Gebirgsbachwasser, Koeffizienten je m). "
                                  "Opacity nur aus Schaum (Opacity 1 = deckende Oberflaeche mit Base Color), Deckung auf "
                                  "Specular/Normalstaerke; tiefe_cm >= 0 (0 am Ufer), optional Absorption/Streuung x "

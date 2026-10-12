@@ -1,6 +1,6 @@
 """selbsttest_13k.py - Schritt 13 des Selbsttests (Auftrag 13k): Saegeschnitt-Regel, Fern-Achse (Gelaende und
 Baumkronen), Flaechen > 60 Grad, Strahlbreite an der Lippe, Schaumhuelle der Treppenbaeche, Cull der Vorhang-Stufen,
-Seefarbe bergsee. Nur synthetische Faelle (plus Inventar); schreibt nichts.
+Seefarbe bergsee, Akteure nach Kontext, Stammausrichtung (Nachtrag). Nur synthetische Faelle (plus Inventar); schreibt nichts.
 
 Aufruf ueber selbsttest.py (Schritt 13) oder direkt: python -I selbsttest_13k.py
 """
@@ -116,6 +116,8 @@ def test_13k(inv=None):
             "Seefarbe bergsee (Ferat C: Absorption 8/45/40/8 cm) in FARBEN und orte.json", f)
     # --- 8 Akteur-Budget nach Kontext (13k-Rueckfrage 6): Sehens-Ort <= 50 je Ort, Gefaelle <= 50 je 200 m Lauf
     _akteure_kontext(inv, f)
+    # --- 9 Stammausrichtung (Nachtrag 13k): liegend modellierte Staemme 'normale', Pruefer-FEHLER bei Stehen/Skala
+    _stamm_ausrichtung(inv, f)
     return len(f)
 
 
@@ -156,6 +158,40 @@ def _akteure_kontext(inv, f):
         _pruefe(False, "pruefe_ebene: unbekannter Kontext -> ValueError", f)
     except ValueError:
         _pruefe(True, "pruefe_ebene: unbekannter Kontext -> ValueError", f)
+
+def _stamm_ausrichtung(inv, f):
+    from . import instanzen as _ins, sehens_pruefen as sp, inventar as _inv
+    _pruefe(inv.stamm_form("SM_OldFallenTree_01")[1] and inv.stamm_form("SM_dead_log_03")[1]
+            and not inv.stamm_form("Branch_Goat_Willow_Decaying_01")[1] and not inv.stamm_form("SM_Forest_pine_08")[1],
+            "stamm_form: OldFallenTree/dead_log liegend modelliert, Goat_Willow-Ast/Baum stehend", f)
+    _pruefe(inv.liegendes_holz("SM_dead_log_01") and inv.liegendes_holz("SM_LargeFallenTree_02")
+            and not inv.liegendes_holz("Branch_Goat_Willow_Decaying_02") and not inv.liegendes_holz("SM_MossyForestRoots_01")
+            and not inv.liegendes_holz("SM_EuropeanBeech_Dead_M_01"),
+            "liegendes_holz: Staemme ja, Wurzeln/stehende Aeste/Baeume nein", f)
+    q_alt = _ins.orientierung("liegend", 30.0, roll_grad=0.0)                 # Fehlerbild vor dem Nachtrag
+    q_neu = _ins.orientierung("aufrecht", 30.0, front_achse="+x")
+    w = sp.liegend_neigung_grad(inv, "SM_dead_log_01", [q_alt, q_neu])
+    _pruefe(w[0] > 80.0 and w[1] < 1.0, "dead_log_01: 'liegend' steht %.0f Grad, 'normale' liegt %.0f Grad" % (w[0], w[1]), f)
+    n_ = (math.sin(math.radians(30.0)), 0.0, math.cos(math.radians(30.0)))
+    q_hang = _ins.orientierung("aufrecht", 90.0, n_, 1.0, front_achse="+x")   # Hang 30 Grad, Stamm in Falllinie
+    q_hang_alt = _ins.orientierung("liegend", 90.0, n_, 1.0, roll_grad=90.0)
+    w = sp.liegend_neigung_grad(inv, "SM_dead_log_01", [q_hang, q_hang_alt], [n_, n_])
+    _pruefe(w[0] < 1.0 and w[1] > 80.0, "Hang 30 Grad: 'normale' %.0f Grad, 'liegend' %.0f Grad gegen die Hangnormale"
+            % (w[0], w[1]), f)
+
+    def stufen(*a, **k):
+        return [st_ for st_, _ in sp.pruefe_liegendes_holz(inv, *a, **k)]
+    _pruefe(stufen("SM_dead_log_01", [q_alt], [[1.0, 1.0, 1.0]]) == ["FEHLER"]
+            and stufen("SM_dead_log_01", [q_neu], [[1.8, 1.8, 1.8]]) == []
+            and stufen("SM_dead_log_01", [q_neu], [[2.2, 2.2, 2.2]]) == ["FEHLER"]
+            and stufen("SM_dead_log_01", [q_neu], [[0.5, 0.5, 0.5]]) == ["FEHLER"]
+            and stufen("SM_OldTreeBranch_04", [q_neu], [[0.3, 0.3, 0.3]]) == []
+            and stufen("SM_OldTreeBranch_01", [q_neu], [[45.0, 45.0, 45.0]]) == ["FEHLER"]
+            and stufen("SM_LargeFallenTree_02", [q_neu], [[4.6, 2.1, 2.1]], akteur=True) == ["HINWEIS"]
+            and stufen("Branch_Goat_Willow_Decaying_02", [q_alt], [[1.0, 1.0, 1.0]]) == [],
+            "Pruefer: steht > %.0f Grad bzw. Skala ausserhalb %.1f-%.1f (Aeste nur > 1,8) -> FEHLER, Akteur-Riese "
+            "HINWEIS, stehend modellierter Ast nicht" % ((_inv.LIEGEND_NEIGUNG_MAX_GRAD,) + tuple(_inv.LIEGEND_SKALA)), f)
+
 
 
 if __name__ == "__main__":

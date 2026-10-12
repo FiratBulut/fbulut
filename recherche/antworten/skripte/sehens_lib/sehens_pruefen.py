@@ -1386,6 +1386,57 @@ def pruefe_baeche(o, welt, boden=None):
 KONTEXTE_EBENE = ("sehens", "gefaelle")
 
 
+def liegend_neigung_grad(inv, pfad, q, normale=None):
+    """Nachtrag 13k: Winkel (Grad) zwischen der Hochachse (lokal z) eines liegend modellierten Netzes und der
+    Hangnormalen (N x 3; ohne normale die Senkrechte), je Quaternion (N x 4, x y z w). Liegt der Stamm der
+    Hangnormalen folgend ('normale'), ist der Winkel ~0; mit 'liegend' gesetzt steht er (~90 Grad) oder liegt auf
+    der Kante."""
+    from . import instanzen as _ins
+    q = np.atleast_2d(np.asarray(q, np.float64))
+    up = np.array([_ins.q_drehe(tuple(r), (0.0, 0.0, 1.0)) for r in q]).reshape(-1, 3)
+    n = np.tile([0.0, 0.0, 1.0], (len(q), 1)) if normale is None else np.atleast_2d(np.asarray(normale, np.float64))
+    c = np.sum(up * n, axis=1) / np.maximum(np.linalg.norm(up, axis=1) * np.linalg.norm(n, axis=1), 1e-12)
+    return np.degrees(np.arccos(np.clip(c, -1.0, 1.0)))
+
+
+def _hangnormale(boden, inv, pfad, xm, ym, s):
+    """Hangnormale nach dem Stempel am Stueck, Radius wie beim Setzen (rezept: 0,3 x Laenge, 1-4 m)."""
+    L = inv.stamm_form(pfad)[0]
+    r = np.clip(0.3 * L * np.max(np.atleast_2d(np.asarray(s, np.float64)), axis=1), 1.0, 4.0)
+    gx = (boden.hoehe(xm + r, ym) - boden.hoehe(xm - r, ym)) / (2.0 * r)
+    gy = (boden.hoehe(xm, ym + r) - boden.hoehe(xm, ym - r)) / (2.0 * r)
+    n = np.stack([-np.asarray(gx, np.float64), -np.asarray(gy, np.float64), np.ones(np.shape(gx))], axis=-1)
+    return n.reshape(-1, 3)
+
+
+def pruefe_liegendes_holz(inv, pfad, q, s, normale=None, akteur=False):
+    """Nachtrag 13k (Stammausrichtung): liegend modellierte Staemme/Aeste (inventar.liegendes_holz).
+    FEHLER: Hochachse mehr als LIEGEND_NEIGUNG_MAX_GRAD gegen die Hangnormale (Stamm steht bzw. liegt auf der Kante -
+    mit 'liegend' statt 'normale' gesetzt). FEHLER: Skala (groesste Achse) ausserhalb liegend_skala_grenzen
+    (Staemme 0,6-1,8, Aeste/Zweige <= 1,8), fuer Instanzen. Einzeln gesetzte Akteure (Riesen der Held-/Begleiter-Ebene,
+    Skala aus der Regel) melden die Skala nur als HINWEIS. Rueckgabe Liste (stufe, text)."""
+    from . import inventar as _inv
+    if inv.netz_pfad(pfad) is None or not inv.liegendes_holz(pfad):
+        return []
+    out = []
+    w = liegend_neigung_grad(inv, pfad, q, normale)
+    steil = w > _inv.LIEGEND_NEIGUNG_MAX_GRAD
+    if steil.any():
+        out.append((FEHLER, "%d liegend modellierte Staemme/Aeste stehen: Hochachse > %.0f Grad gegen die Hangnormale "
+                    "(max %.0f Grad) - 'normale' statt 'liegend' setzen (Nachtrag 13k, wie A15 holz_form)"
+                    % (int(steil.sum()), _inv.LIEGEND_NEIGUNG_MAX_GRAD, float(w.max()))))
+    sk = np.max(np.atleast_2d(np.asarray(s, np.float64)), axis=1)
+    lo, hi = inv.liegend_skala_grenzen(pfad)
+    raus = (sk < lo - 1e-3) | (sk > hi + 1e-3)
+    if raus.any():
+        out.append((HINWEIS if akteur else FEHLER,
+                    "%d liegend modellierte %s mit Skala ausserhalb %.1f-%.1f (%.2f-%.2f)%s"
+                    % (int(raus.sum()), "Staemme" if lo > 0 else "Aeste", lo, hi, float(sk[raus].min()),
+                       float(sk[raus].max()), " - einzeln gesetzter Akteur, Skala aus der Regel" if akteur else
+                       " - Netz nach Laenge waehlen (Nachtrag 13k, wie A15 netz_skala)")))
+    return out
+
+
 def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None, kontext="sehens"):
     """Instanz-Ebene sw_<biom>/<Feld>/ (FORMAT.md §3, SEHENS_FORMAT §4, §9): plan.json-Schluessel, f32-Groessen,
     Anzahlen, Assets (netze.csv, Sperre, Houdini), Quaternion/Massstab, Lage im Feld, Akteure (<= 500 je Feld),
@@ -1453,6 +1504,11 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None, ko
             if not np.isfinite(a).all():
                 b.append((FEHLER, ft, "%s: NaN/Inf" % key))
                 continue
+            if inv is not None and inv.netz_pfad(d.get("pfad", "")) and inv.liegendes_holz(d["pfad"]):
+                nrm = (_hangnormale(boden, inv, d["pfad"], a[:, 0] / 100.0, a[:, 1] / 100.0, a[:, 7:10])
+                       if boden is not None else None)
+                b += [(st, ft, "%s: %s" % (key, tx)) for st, tx in pruefe_liegendes_holz(inv, d["pfad"], a[:, 3:7],
+                                                                                         a[:, 7:10], nrm)]
             qn = np.linalg.norm(a[:, 3:7], axis=1)
             if np.abs(qn - 1).max() > 1e-3:
                 b.append((FEHLER, ft, "%s: Quaternion nicht normiert (max |q| %.4f)" % (key, qn.max())))
@@ -1520,6 +1576,12 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None, ko
                 continue
             if inv is not None:
                 b += [(st, ft, "akteur %s: %s" % (e["netz"], tx)) for st, tx in inv.netz_pruefen(e["pfad"], wildnis=True)]
+                if inv.netz_pfad(e["pfad"]) and inv.liegendes_holz(e["pfad"]):
+                    s_ = [[e["sx"], e["sy"], e["sz"]]]
+                    nrm = (_hangnormale(boden, inv, e["pfad"], np.array([e["x"] / 100.0]), np.array([e["y"] / 100.0]), s_)
+                           if boden is not None else None)
+                    b += [(st, ft, "akteur %s (%s): %s" % (e["netz"], e["klasse"], tx)) for st, tx in pruefe_liegendes_holz(
+                        inv, e["pfad"], [[e["qx"], e["qy"], e["qz"], e["qw"]]], s_, nrm, akteur=True)]
             if not (x0 <= e["x"] / 100.0 < x1 and y0 <= e["y"] / 100.0 < y1):
                 n_aussen += 1
             qn = math.sqrt(e["qx"] ** 2 + e["qy"] ** 2 + e["qz"] ** 2 + e["qw"] ** 2)

@@ -47,3 +47,8 @@ Materialwünsche 6/6: `Oedland_Ton`, `_Rot`, `_Violett`, `Russ`, `Konkretion`, `
   jeweils mit `kopie_von` und `kopie_aenderungen` in `orte.json`; die Originale bleiben unberührt.
 - Ein Feuerklang fehlt im Bestand (Wunsch Fantasy Ambiences).
 - **13f:** Salsen < 10 m² sind jetzt Lage Schlamm statt Epic-See (A13).
+- **Nachtrag 13k (Stammausrichtung):** Die Gruppe `staemme` der Dornbusch-Senke steht weiter auf `liegend`. Das passt
+  nur zum stehend modellierten `SM_EuropeanBeech_Dead_M_01`. Die liegend modellierten `SM_dead_log_01/03` standen
+  damit senkrecht. Das Rezept setzt sie jetzt selbst mit `normale` (8 Stämme, der Hangnormalen folgend, lange Achse in
+  Yaw-Richtung). Liegende Stämme als Instanzen sind auf Skala ≤ 1,8 begrenzt: 4 Stämme der Dornbusch-Senke und 9 der
+  Totenpfanne (`liegende`, vorher bis × 2,0). Ergebnis in `antworten/13k-pilot2-bildbefund-15g-nachtrag.md`.

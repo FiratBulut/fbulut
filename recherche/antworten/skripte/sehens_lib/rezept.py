@@ -1861,6 +1861,24 @@ class OrtKontext:
         s = (s0 * sxyz[0], s0 * sxyz[1], s0 * sxyz[2])
         # Ausrichtung
         art = g.get("ausrichtung", "normale" if rolle in ("fels", "stein", "stamm", "wurzel", "streu") else "aufrecht")
+        stamm_quer = None
+        if rolle == "stamm":
+            # Nachtrag 13k (wie A15 holz_form, 024d25f): 'liegend' kippt die lokale Z-Achse in die Waagrechte und ist
+            # nur fuer stehend modellierte Netze (Baeume, Branch_Goat_Willow_*) richtig. Liegend modellierte Staemme
+            # (lange Achse x/y: SM_dead_log_*, SM_*FallenTree_*) standen damit schraeg bis senkrecht -> 'normale'
+            # (der Hangnormalen folgend), lange Achse in Yaw-Richtung. Skala liegender Staemme auf LIEGEND_SKALA
+            # begrenzt (Aeste nur nach oben); einzeln gesetzte Akteure (Held, akteur: true) behalten ihre Regel-Skala.
+            _, liegend_mod, achse_l = self.inv.stamm_form(info["pfad"])
+            if art == "liegend" and liegend_mod:
+                art, stamm_quer = "normale", achse_l
+            akteur_vorab = bool(g.get("akteur", ebene == "held" or (ebene == "begleiter" and max(gr) * max(s) >= 2.5)))
+            if liegend_mod and (stamm_quer is not None or (self.inv.liegendes_holz(info["pfad"]) and not akteur_vorab)):
+                lo_, hi_ = self.inv.liegend_skala_grenzen(info["pfad"])
+                sk = max(s)
+                sk_neu = float(np.clip(sk, lo_, hi_))
+                if abs(sk_neu - sk) > 1e-9:
+                    s = tuple(v * sk_neu / sk for v in s)
+                    s0 *= sk_neu / sk
         yaw_spec = g.get("yaw", "zufall")
         if yaw_fest is not None:
             yaw = yaw_fest + rng.uniform(-1, 1) * float(g.get("yaw_streuung_grad", 8.0))
@@ -1897,6 +1915,11 @@ class OrtKontext:
             front, front_q = g["front_achse"], "regel"
         else:
             front, front_q = "+x", "standard"
+        if stamm_quer is not None:
+            # Nachtrag 13k: lange Achse des liegend modellierten Stamms zeigt in die Yaw-Richtung (wie vorher der
+            # Stammkopf bei 'liegend'); der Roll-Zufallswert wird weiter gezogen, damit die Folge gleich bleibt
+            front, front_q = stamm_quer, "stamm_laengsachse"
+            rng.uniform(0, 360)
         q = _ins.orientierung("aufrecht" if art == "normale" else art, yaw, n, na, kipp_r, kipp,
                               g.get("hochkant_achse", "y"), float(rng.uniform(0, 360)) if art == "liegend" else 0.0,
                               front)

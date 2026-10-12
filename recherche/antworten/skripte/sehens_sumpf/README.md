@@ -65,3 +65,7 @@ Material-Instanzen 4 von 6: `MI_EL_SW_Silberholz`, `_Torfmoos`, `_Weide_Grau`, `
 - Erlen fehlen weiter (Birke/Pappel, 13c); Pfadbänder werden auf das Lagenfenster gekappt.
 - **13f:** Erlenring im Osten verdichtet (`erlenring_ost`, 45 Bäume im Ostsektor). Die Schlenke liegt jetzt am tiefsten
   Punkt der Rinne (Anker-Suche), damit das Rinnsal hinein- und nicht bergauf fließt.
+- **Nachtrag 13k (Stammausrichtung):** In `treibende_aeste` (Weidendom) bleiben die stehend modellierten
+  `Branch_Goat_Willow_Decaying_*` auf `liegend`. Das liegend modellierte `SM_dead_log_02` setzt das Rezept jetzt mit
+  `normale` (32 Stück). Vorher stand es senkrecht oder lag auf der Kante. Ergebnis in
+  `antworten/13k-pilot2-bildbefund-15g-nachtrag.md`.
