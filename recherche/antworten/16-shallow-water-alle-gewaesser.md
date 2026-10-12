@@ -68,7 +68,7 @@ Beispiele: `antworten/fluss_sim/` (C2, Sehens-Ort `bergwald_06_karsee`, Zusammen
 - **Neuer, eigenständiger Exporter** `fluss_sim_export.py`. Er liest nur die Planer-Ausgaben (Gefälle-Pläne, Sehens-`orte.json`,
   Instanz-Ebenen, Gelände-Deltas) und ändert keine Stufe, kein Becken und kein Gelände. Die 13f-Treppen der Sehens-Bäche bleiben exakt;
   der Prüfer vergleicht Lippen- und Fußhöhen jedes Falls mit der Quelle (±2 cm).
-- **Lauf über alles (2 m):** 177 Gewässer, 35,4 km Wasserlinie, **1 120 Abschnitte, 765 Fälle, 22 820 Objekte mit Wasser-Kollision,
+- **Lauf über alles (2 m):** 177 Gewässer, 35,4 km Wasserlinie, **1 120 Abschnitte, 765 Fälle, 22 825 Objekte mit Wasser-Kollision,
   5 562 Schaumobjekte, 555 Back-Kacheln**.
 - **Prüfer: 0 FEHLER, 0 WARNUNG**, 10 HINWEIS (Fälle, deren Fuß in einem See liegt). Zwei Läufe sind byte-gleich (163 Dateien).
   Gegenproben mit absichtlich verfälschten Daten ergeben FEHLER.
@@ -76,6 +76,10 @@ Beispiele: `antworten/fluss_sim/` (C2, Sehens-Ort `bergwald_06_karsee`, Zusammen
   Formel aus dem Editor und backt nur geänderte Kacheln neu, auch nach Handänderungen.
 - **13k war beim letzten Lauf fertig:** `13k-pilot2-bildbefund-15g-nachtrag.md` liegt im Remote-Branch (Commit `2e36947`). Die
   Planer-Ausgaben stammen vom Code-Stand `97e82a3` (danach keine Planer-Änderung).
+- **Neu gerechnet am 12.10. mit `024d25f`** (13k-Rückfragen 2 und 6: natürliches Holz in A15, Akteure ≤ 50 je 200 m
+  Lauflänge). Der Gefälle-Planer meldet jetzt 0 FEHLER. Geändert haben sich nur Kollisionszahlen (+4 bzw. +5 eindeutig),
+  1 Kehrwasser und die Fingerabdrücke der Kacheln mit geändertem Holz bzw. Akteuren (C2: 2 von 3 Kacheln). Abschnitte,
+  Fälle und Kacheln sind gleich.
 
 ### 2. Was der Exporter ausgibt
 
@@ -104,7 +108,7 @@ Gefälle-Pläne gelten je **Lauf** (ein Lauf kann mehrere der 161 Strecken entha
                        "lage": "im_wasser", "abschnitt": "..._A08", "kollision_im_plan": true, "wasser_kollision": true}, ...],
  "sim_bereiche": [{"id": "F_ERLENBACH_1V_C2_K00", "bereich_cm": [-177406.5, -241656.6, -169942.9, -229584.4],
                    "abschnitte": ["..._A00", ..., "..._A07"], "source_river": "..._A00", "sink_river": "..._A07",
-                   "grenze_oben": "laufanfang", "grenze_unten": "fall", "fingerabdruck": "1bae85d4...", "n_objekte": 336}]}
+                   "grenze_oben": "laufanfang", "grenze_unten": "fall", "fingerabdruck": "df3b9c64...", "n_objekte": 336}]}
 ```
 
 `RiverWidth`, `Depth` und `WaterVelocityScalar` sind die Felder von `UWaterSplineMetadata` (je Splinepunkt, `FInterpCurveFloat`; Epic:
@@ -132,11 +136,11 @@ Schaum-Netze und Decals wählt das lokale Werkzeug; im Inventar stehen als Kandi
 
 | Kategorie | Dateien | Gewässer | Länge km | Abschnitte | Fälle | davon im Abschnitt | Kollision (im Wasser) | Schaumobjekte (Teppich/Straße/Kehrwasser) | Kacheln |
 |---|---|---|---|---|---|---|---|---|---|
-| Gefälle-Läufe mit Plan (161 Strecken, C2 inkl.) | 98 | 98 | 23,3 | 745 | 561 | 47 | 21 021 (20 558) | 561 / 1 719 / 1 992 | 304 |
+| Gefälle-Läufe mit Plan (161 Strecken, C2 inkl.) | 98 | 98 | 23,3 | 745 | 561 | 47 | 21 025 (20 568) | 561 / 1 719 / 1 993 | 304 |
 | Läufe der 161 Strecken ohne Plan (roh) | 25 | 25 | 4,0 | 75 | 0 | 0 | 353 (302) | – | 64 |
 | Sehens-Bäche (15 Biome) | 26 | 42 | 1,8 | 135 | 204 | 94 | 1 732 (1 386) | 204 / 788 / 298 | 46 |
 | Flüsse ≥ 15 m ohne Plan (roh) | 12 | 12 | 6,3 | 165 | 0 | 0 | 291 (265) | – | 141 |
-| **Summe** | **161** | **177** | **35,4** | **1 120** | **765** | **141** | **23 397 (22 511)**, eindeutig 22 820 | **765 / 2 507 / 2 290** | **555** |
+| **Summe** | **161** | **177** | **35,4** | **1 120** | **765** | **141** | **23 401 (22 521)**, eindeutig 22 825 | **765 / 2 507 / 2 291** | **555** |
 
 - **Flüsse ≥ 15 m:** Alle 27 Flüsse aus `wasser_welt.json` sind ≥ 15 m breit (größte Breite je Fluss). 9 haben einen Gefälle-Plan
   (u. a. C2, `F_ERLENBACH_2V_D3`, `F_ELFENFLUSS_3_H4`, `F_HAUPTFLUSS_3_C5`), 6 sind Läufe der 161 Strecken ohne Plan
@@ -174,9 +178,10 @@ python -I recherche/antworten/skripte/fluss_sim/fluss_sim_export.py --gefaelle e
 Abschnitt, Beckenspiegel ±2 cm, jedes Objekt im Wasser in `wasser_kollision`, Schaum im Wasser und auf dem Spiegel, jeder Abschnitt in
 genau einer Kachel, Fingerabdrücke neu gerechnet (auch Gelände), zwei Läufe byte-gleich.
 
-**Beobachtung am Rand:** Der Gefälle-Planer meldet auf 2 m seit den 13k-Regeln der gemeinsamen Bibliothek 189 FEHLER (gesägte
-`*_log`-Stämme in der Wildnis, mehr als 50 Akteure je Ort, z. B. C2 mit 62). Die Pläne werden trotzdem vollständig geschrieben, der
-Export liest sie unverändert. Das gehört zum Gefälle-Planer, nicht zu diesem Auftrag.
+**Beobachtung am Rand (erledigt mit `024d25f`):** Der Gefälle-Planer meldete auf 2 m seit den 13k-Regeln der gemeinsamen
+Bibliothek 189 FEHLER (gesägte `*_log`-Stämme in der Wildnis, mehr als 50 Akteure je Ort, z. B. C2 mit 62). Jetzt: 0 FEHLER,
+Holz natürlich, Akteure ≤ 50 je 200 m Lauflänge (C2: 42). Der fluss_sim-Prüfer zählt zusätzlich höchstens 50 Akteure eines
+Gefälle-Laufs je Back-Kachel (FEHLER). Details im Nachtrag von `13k-pilot2-bildbefund-15g-nachtrag.md`.
 
 ### 5. Was das lokale Bau-Werkzeug tun muss
 
@@ -248,7 +253,8 @@ Die Belege stammen aus **Suchmaschinen-Auszügen** der verlinkten Seiten; YouTub
 | Was | Commit |
 |---|---|
 | Exporter, Prüfer, Regeln (Zwischenstand) | `8c0406d` |
-| README, Beispiele, diese Umsetzung, Endlauf | Commit dieser Datei |
+| README, Beispiele, diese Umsetzung, Endlauf | `8774ca9` |
+| Neulauf nach 13k-Rückfragen 2 und 6 (Beispiele, Akteure je Kachel im Prüfer) | `024d25f` |
 
 ---
 *Ursprünglicher Vorschlag (zur Nachvollziehbarkeit):*

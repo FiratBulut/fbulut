@@ -604,3 +604,118 @@ Rezeptbreite und Tiefe kommt.
    - C2 hat 62 Akteure. Soll die Bündelung auf höchstens 50 aus Abschnitt 9 auch im Gefälle-Werkzeug laufen?
    - Sollen die A15-Netze dieselben Einheitenfelder in `material_parameter` bekommen (`einheit`, `skalierung_ue`,
      `SLW_*_pro_cm`)? Das ändert in C2 nur Metadaten.
+
+## Nachtrag: Rückfragen 2 und 6 entschieden
+
+Stand 12.10.2026, Code-Stand **`024d25f`** (bitte lokal mit diesem Commit oder neuer planen). Entscheidungen des
+Koordinators:
+- Rückfrage 2: Die Sägeschnitt-Regel gilt auch für A15, weil Gefälle-Bäche Wildnis sind.
+- Rückfrage 6: Die Grenze von 50 Akteuren gilt je Sehens-Ort. Für Gefälle-Läufe gilt sie je 200 m Lauflänge bzw. je
+  Back-Kachel. Wiederholte gleiche Akteure werden nach der 13j-Regel (≥ 12) Instanzen.
+
+**Holz (`skripte/gefaelle/`):**
+- `biome.bergwald.netze.holz`: Statt der drei gesägten `SM_Forest_pine_04_0x_log` stehen jetzt die natürlichen Netze
+  aus Abschnitt 1 dort:
+  - Stämme `SM_OldFallenTree_01/02`, `SM_LargeFallenTree_01/02`, `SM_FallenSpruceTree_01`, `SM_MossyTree_01`
+  - Äste `SM_OldTreeBranch_01/02/03/04/06`, `SM_detail_branches_01/02/03`
+- Elfenwald, Aue, Sumpf, Dschungel und Ödland bekommen dazu lange natürliche Stämme bzw. Äste. `SM_dead_log_*`
+  bleibt, weil Rückfrage 1 offen ist.
+- Das Netz wird nach Länge gewählt. Holzstufe: 0,45–0,7 × Lippenbreite, Totholz: 0,6–0,95 × Bachbreite. Erlaubt ist
+  0,6–1,8 × Netzlänge (`stufen.holzstufe.netz_skala`).
+- Vorher wurde das Holz bis × 45 skaliert: `SM_OldTreeBranch_01` lag auf 45 m, in breiten Flüssen lag `SM_dead_log_*`
+  bis × 38.
+- Die Stämme liegen jetzt quer zum Bach und folgen der Hangnormalen (`normale`, wie das 13k-Totholz).
+  - Vorher waren sie mit `liegend` gesetzt. Das erwartet einen stehend modellierten Stamm (lange Achse z).
+  - Liegend modellierte Netze (lange Achse x/y) standen dadurch schräg bis senkrecht im Bach.
+  - Nur stehend modellierte Stücke (`Branch_Goat_Willow_Decaying_*`) bleiben `liegend`.
+- Lage, Zahl und Höhe der Stufen sind unverändert.
+
+| Holz (alle 161 Strecken, 2 m) | vor 13k | jetzt |
+|---|---|---|
+| Holzstücke (Holzstufen + Totholz) | 1 002 | 1 002 |
+| davon gesägt (`*_log`) | 56 | **0** |
+| Skala > 1,8 | 707 (max × 45,8) | **0** (max × 1,80) |
+| Palette bergwald | 3 gesägte + 1 natürliches Netz | 14 natürliche |
+
+Die 1 002 Stücke verteilen sich so:
+
+| Netze | Stücke |
+|---|---|
+| `SM_OldTreeBranch_04` | 145 |
+| `SM_LargeFallenTree_01` | 141 |
+| `SM_OldFallenTree_02` | 136 |
+| `SM_OldTreeBranch_06` | 131 |
+| `SM_OldFallenTree_01` | 123 |
+| `SM_LargeFallenTree_02` | 71 |
+| `SM_MossyForestRoots_01/02/03` | 70 |
+| `SM_MossyTree_01` | 35 |
+| `SM_OldTreeBranch_02/03` | 34 |
+| `SM_dead_log_01–04` | 100 |
+| `SM_detail_branches_01/02/03` | 12 |
+| Rest | 4 |
+
+Holzstufen gibt es 327 (Aue 272, Elfenwald 44, Bergwald 7, Dschungel 4).
+
+**Akteure:**
+- Je Abschnitt gilt die 13j-Regel: Netze, die dort ≥ 12-mal als Akteur stehen, werden Instanzen mit Kollision.
+- Danach gilt je Lauf: höchstens 50 Akteure je 200 m Lauflänge, gemessen in einem gleitenden Fenster.
+  - Ist ein Fenster zu voll, greift die 13k-Logik: zuerst die häufigsten Netze, dann die kleinsten, nie die
+    Held-Ebene.
+  - Gemeinsamer Code in `sehens_lib/instanzen.py`: `akteure_wiederholt_buendeln`, `akteure_auf_grenze`,
+    `akteure_je_fenster`.
+- Prüfer:
+  - `pruefe_ebene(…, kontext="sehens" | "gefaelle")`. Die Grenze „50 je Ort“ gilt nur im Kontext `sehens`, alle
+    anderen Regeln gelten in beiden Kontexten (auch der Sägeschnitt).
+  - `gefaelle_pruefen` meldet > 50 je 200 m als FEHLER.
+  - `fluss_sim_pruefen` meldet > 50 Akteure eines Gefälle-Laufs je Back-Kachel als FEHLER.
+- Lage, Größe und Drehung bleiben gleich. Niagara-Effekte und Vorhänge sind unverändert.
+
+| Akteure (2 m) | vorher | jetzt |
+|---|---|---|
+| alle 98 Läufe mit Plan | 929 | 771 (144 nach 13j in 6 Läufen, 14 nach Fenster in `B_R_P1_M2_02`) |
+| C2 (203 m) | 62 | **42** (20 × `rcygn_tier_0` als Instanzen) |
+| `B_K8_ELFENFALL_01` | 90 (Abschnitt a1: 77) | 39 |
+| `B_R_P4_M2_04` | 71 (a1: 68) | 38 |
+| höchstens je 200 m Lauflänge | 76 (`B_K8_ELFENFALL_01`) | 49 (`B_R2_R_P4_M2_01`) |
+
+**Prüfergebnis:**
+
+| Lauf | vor 13k (`1de18bb`) | nach 13k (`8774ca9`) | jetzt (`024d25f`) |
+|---|---|---|---|
+| Gefälle `--alle` 2 m, Planer | 0 FEHLER | 189 FEHLER | **0 FEHLER**, 2 WARNUNG |
+| Gefälle `--alle` 2 m, Prüfer | 0 FEHLER, 51 WARNUNG, 130 HINWEIS | 193 FEHLER, 57 WARNUNG, 126 HINWEIS | **0 FEHLER, 42 WARNUNG**, 129 HINWEIS |
+| 19 Piloten, 1-m-Fenster, Prüfer | 0 FEHLER, 12 WARNUNG, 25 HINWEIS | 21 FEHLER, 13 WARNUNG, 22 HINWEIS | **0 FEHLER, 11 WARNUNG**, 23 HINWEIS |
+| C2 (1-m-Fenster) | 0 FEHLER, 2 WARNUNG | 1 FEHLER (62 Akteure), 2 WARNUNG | 0 FEHLER, 2 WARNUNG (wie 15g) |
+
+- **Determinismus:** `--alle` und die Piloten liefen je zweimal. Die Ausgaben sind identisch (`diff -r` ohne Bilder).
+- **WARNUNG gegenüber dem Stand vor 13k:** 9 Warnungen „Instanzen schweben“ fallen weg (vorher stand Holz schräg im
+  Bach). Neue Warnungen gibt es nicht. Die übrigen 42 sind die bekannten (Stufen ohne Niagara wegen der Grenze
+  gleichzeitig, Becken > 2 %, 2-m-Raster).
+- **Unverändert gegenüber dem Stand vor 13k:**
+  - Stufen, Spiegel, Wasserkörper, Effekte, Kameras, Gelände- und Lagen-Dateien.
+  - Die Gesamtzahl der Stücke (Instanzen + Akteure).
+  - Etwa 1 800 von 65 000 kleinen Steinen und Kieseln rücken leicht, weil die Abstandsregel die neue Holzgröße sieht.
+- **15 Sehens-Planer (2 m):** 0 FEHLER. Die Ausgaben sind byte-gleich mit dem Stand `8774ca9`; die Bibliothek ist nur
+  umgebaut, das Verhalten ist gleich. Selbsttest grün: 90 Prüfungen, 0 FEHLER, davon 5 neu in Schritt 13 (Akteure
+  nach Kontext).
+- **fluss_sim neu** (Beispiele in `antworten/fluss_sim/` und Zahlen in Datei 16 aktualisiert):
+  - Prüfer 0 FEHLER, 0 WARNUNG. Zwei Läufe byte-gleich (163 Dateien).
+  - 1 120 Abschnitte, 765 Fälle und 555 Kacheln wie vorher.
+  - Kollisionsobjekte 23 401 (vorher 23 397), eindeutig 22 825 (vorher 22 820).
+  - Die Kollisionsobjekte verweisen auf die Instanzen; die ehemaligen Akteure stehen jetzt als Instanzen mit
+    Kollision in den `*_kol`-Dateien.
+  - C2: 625 Kollisionsobjekte wie vorher; 2 von 3 Kacheln haben einen neuen Fingerabdruck.
+
+**Lokal zu tun:**
+1. Gefälle-Läufe mit `024d25f` neu planen (1 m). Vorher die alten Holzinstanzen `SM_Forest_pine_04_0x_log`
+   zurückbauen.
+2. Danach `fluss_sim_export.py` neu laufen lassen. In C2 sind 2 Kacheln neu zu backen (geänderter Fingerabdruck).
+3. Im Bild prüfen: Stämme liegen quer, keine stehenden Stämme, Holzstufen überspannen die Lippe.
+
+**Offen:**
+- Rückfrage 6, zweiter Teil: die Einheitenfelder (`einheit`, `skalierung_ue`, `SLW_*_pro_cm`) in den
+  `material_parameter` der A15-Netze. Das ist nicht entschieden und nicht umgesetzt.
+- Rückfrage 1 (`SM_dead_log_*`, `SM_pine_stump_*`) ist weiter offen. A15 nutzt `SM_dead_log_*` nur noch für kurze
+  Stücke (100 Stück, Skala ≤ 1,8).
+- Dieselbe `liegend`-Ausrichtung liegend modellierter Stämme steckt auch in Sehens-Regeln, z. B. ödland `staemme`
+  (`SM_dead_log_01/03`). Das ist nicht geändert, weil die Sehens-Ausgaben gleich bleiben sollten.
