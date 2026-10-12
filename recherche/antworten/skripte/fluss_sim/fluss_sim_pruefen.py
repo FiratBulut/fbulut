@@ -771,6 +771,11 @@ def pruefe_schaum(g, b):
 
 def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
     pflanze = re.compile(regeln["kollision"]["pflanze_muster"], re.I)
+    gr = regeln["swr"].get("hindernis_grenzen") or {}
+    i_max = int(gr.get("instanzen_je_komponente_max") or 0)
+    k_richt, k_max = int(gr.get("komponenten_richtwert") or 0), int(gr.get("komponenten_max") or 0)
+    groesst = {"komp": (0, "-", "-"), "n_komp": (0, "-"), "inst": (0, "-")}
+    ueber_richt = []
     in_wh, wh_ids = {}, set()
     for eid, (e, g) in alle_swr.items():
         wh = e.get("hindernis_akteur")
@@ -779,6 +784,27 @@ def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
         wh_ids.add(wh["id"])
         if wh["id"] != "WH_" + eid:
             b.append((FEHLER, eid, "Hindernis-Akteur heisst %s" % wh["id"]))
+        # 16c Nachtrag 4: Grenzen je WH_-Akteur (Instanzen je Komponente, Komponenten je Akteur)
+        nk = len(wh["komponenten"])
+        if nk != wh.get("n_komponenten"):
+            b.append((FEHLER, eid, "n_komponenten %s, Liste hat %d" % (wh.get("n_komponenten"), nk)))
+        groesst["n_komp"] = max(groesst["n_komp"], (nk, wh["id"]))
+        groesst["inst"] = max(groesst["inst"], (int(wh["n_instanzen"]), wh["id"]))
+        if k_max and nk > k_max:
+            b.append((FEHLER, eid, "%s hat %d Komponenten (> %d)" % (wh["id"], nk, k_max)))
+        elif k_richt and nk > k_richt:
+            ueber_richt.append(nk)
+        teile = {}
+        for c in wh["komponenten"]:
+            ni = len(c["instanzen"])
+            groesst["komp"] = max(groesst["komp"], (ni, wh["id"], c["netz"].rsplit("/", 1)[-1]))
+            if i_max and ni > i_max:
+                b.append((FEHLER, eid, "%s: Komponente %s mit %d Instanzen (> %d)" % (wh["id"], c["netz"], ni, i_max)))
+            teile.setdefault(c["netz"], []).append(c.get("teil"))
+        for netz, tl in teile.items():
+            if len(tl) > 1 and sorted(tl) != list(range(1, len(tl) + 1)):
+                b.append((FEHLER, eid, "%s: Netz %s in %d Komponenten ohne Teil-Nummern 1..%d" % (wh["id"], netz, len(tl),
+                                                                                             len(tl))))
         n = 0
         for c in wh["komponenten"]:
             if pflanze.search(c["netz"].rsplit("/", 1)[-1]):
@@ -805,6 +831,16 @@ def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
         for w in e["swr"]["bottom_contour_actors"]:
             if w not in wh_ids:
                 b.append((FEHLER, eid, "bottom_contour_actors verweist auf fehlenden %s" % w))
+    if wh_ids:
+        gk, gn, gi = groesst["komp"], groesst["n_komp"], groesst["inst"]
+        b.append((HINWEIS, "WH", "%d Hindernis-Akteure: groesste Komponente %d Instanzen (%s, %s; Grenze %d), meiste "
+                  "Komponenten %d (%s; Grenze %d), groesster Akteur %d Instanzen (%s)"
+                  % (len(wh_ids), gk[0], gk[1], gk[2], i_max, gn[0], gn[1], k_max, gi[0], gi[1])))
+        if ueber_richt:
+            b.append((HINWEIS, "WH", "%d von %d Hindernis-Akteuren ueber dem Richtwert von %d Komponenten (Median %d, "
+                      "hoechstens %d): je Netz eine Komponente (16a d2), Teilen nach Netz senkt die Zahl nicht"
+                      % (len(ueber_richt), len(wh_ids), k_richt, int(sorted(ueber_richt)[len(ueber_richt) // 2]),
+                         max(ueber_richt))))
 
 
 regeln_global = None

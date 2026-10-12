@@ -10,7 +10,7 @@ die Stufenstrecken aus. Dieses Skript gibt den uebrigen Welt-Laeufen dieselbe Ba
     abschaltbar mit --ohne-reststrecken.
 
 Je Lauf: Felsen (Ufersteine, Stoersteine im Wasser, Kies/Steinpackungen; nicht in Feldern mit lokaler Ufer-Ebene),
-Totholz nach Waldnaehe (Staemme, Verklausungen an Engstellen, ueberspannende Staemme, Wurzelstoecke, Aeste, Zweige),
+Totholz nach Waldnaehe mit Hangeintrag (nicht in Feldern mit lokaler Ufer-Ebene, 16c Nachtrag 4) (Staemme, Verklausungen an Engstellen, ueberspannende Staemme, Wurzelstoecke, Aeste, Zweige),
 Schlamm in ruhigen, tiefen Strecken (Ruhe aus dem Spiegelgefaelle), Kies im Bett an Schnellen und der nasse
 Uferstreifen. Stufen werden NICHT erfunden, das Gelaende bleibt unveraendert - nur Instanzen und Lagen.
 
@@ -26,7 +26,8 @@ Aufruf:
          [--daten2m DIR | --daten1m DIR] [--aus DIR] [--ufer-felder FELD ...] [--ohne-reststrecken] [--ohne-pruefung]
   Lokal (1 m): --basis <production> -> liest export/unreal/welt/, --gefaelle export/unreal/welt/gefaelle, schreibt nach
   export/unreal/welt/bachbett_roh/. Felder mit gesetzter Ufer-Ebene (export/unreal/welt/ufer/foliage_<Feld>/) bekommen
-  keine Felsen (die Ufer-Ebene hat dort schon Kiesel, Kopfsteine, Bloecke).
+  keine Felsen und (16c Nachtrag 4) kein Totholz: die Ufer-Ebene hat dort schon Kiesel, Kopfsteine, Bloecke und Treibholz.
+  Schlamm, Kies im Bett und Uferstreifen bleiben (Regel roh.ufer_ebene_ohne).
   Pruefer: gefaelle/bachbett_roh_pruefen.py (auch eingebaut, ausser --ohne-pruefung).
 """
 
@@ -335,9 +336,13 @@ def plane_lauf(lauf_id, K, plan_gef=None):
     pal_fn = paletten_fn(rw, inv)
     ufer_felder = K["ufer_felder"]
     from sehens_lib import daten as _d
+    ufer_ohne = set(R.a["roh"].get("ufer_ebene_ohne") or ["felsen"])
 
     def ohne_fn(x, y):
         return _d.feld_von_m(x, y) in ufer_felder
+
+    felsen_ohne = ohne_fn if "felsen" in ufer_ohne and ufer_felder else None
+    totholz_ohne = ohne_fn if "totholz" in ufer_ohne and ufer_felder else None
 
     rb = float(np.max(B)) / 2.0 + 60.0
     seen_nah = [see for see in K["seen"] if see["box"][0] - rb <= X.max() and see["box"][2] + rb >= X.min() and
@@ -378,13 +383,19 @@ def plane_lauf(lauf_id, K, plan_gef=None):
         biom_ab = max(set(bi for _, _, bi in gruppe), key=lambda v: (sum(b_ - a_ for a_, b_, b2 in gruppe if b2 == v), v))
         ctx = rezept.OrtKontext(welt, gel, inv, ebene, standort, {"lagen": []}, biom_ab, seed=SEED)
         ctx.stempel = st
-        fb = bb.felsen_setzen(ctx, kanal, gruppe, pal_fn, R, see_fn=see_fn, gefaelle_fn=gef_fn, ohne_fn=ohne_fn)
-        bil = bb.totholz_setzen(ctx, kanal, gruppe, R, welt, None, "bb", see_fn=see_fn, oberlauf_fn=oberlauf_fn)
+        fb = bb.felsen_setzen(ctx, kanal, gruppe, pal_fn, R, see_fn=see_fn, gefaelle_fn=gef_fn, ohne_fn=felsen_ohne)
+        bil = bb.totholz_setzen(ctx, kanal, gruppe, R, welt, None, "bb", see_fn=see_fn, oberlauf_fn=oberlauf_fn,
+                                ohne_fn=totholz_ohne)
         # nichts auf Ortsflaechen (Lage nach dem Zentrieren) und nichts in Sehenswuerdigkeiten (Radius + 10 m)
         def auf_ort(s_):
             i_, j_ = welt.m_zu_ij(s_["x"] / 100.0, s_["y"] / 100.0)
             return bool(welt.ort[i_, j_] > 0)
         ebene.stuecke = [s_ for s_ in ebene.stuecke if s_["ort"] != aid or not auf_ort(s_)]
+        # 16c Nachtrag 4: kein Totholz in Feldern mit lokaler Ufer-Ebene (Lage nach dem Zentrieren, wie der Pruefer)
+        if totholz_ohne is not None:
+            ebene.stuecke = [s_ for s_ in ebene.stuecke if s_["ort"] != aid or not
+                             str(s_.get("gruppe", "")).startswith(bb.PRAEFIX) or
+                             not totholz_ohne(s_["x"] / 100.0, s_["y"] / 100.0)]
         # nichts in ausgesparten Bereichen (Lage nach dem Zentrieren; wie der Pruefer: Projektion, +-1 m, <= 6 m)
         zonen_aus = [(a_, b_) for a_, b_, g_ in aus if "Lauf" not in g_]
         eig = [s_ for s_ in ebene.stuecke if s_["ort"] == aid]
@@ -426,7 +437,9 @@ def plane_lauf(lauf_id, K, plan_gef=None):
     plan.update({"abschnitte": ab_out,
                  "bachbett": {"regeln": plan["regeln"]["datei"], "version": R.version,
                               "auftrag": "16c Nachtrag 3 (Roh-Laeufe: Felsen, Totholz, Schlamm, Uferstreifen)",
-                              "felsen_ohne_felder": sorted(ufer_felder), "abschnitte": bb_ab},
+                              "felsen_ohne_felder": sorted(ufer_felder) if "felsen" in ufer_ohne else [],
+                              "totholz_ohne_felder": sorted(ufer_felder) if "totholz" in ufer_ohne else [],
+                              "abschnitte": bb_ab},
                  "instanzen": {"ordner": "instanzen", "ebene": EBENE, "ft_praefix": FT_PRAEFIX, "felder": info,
                                "anzahl": sum(v["instanzen"] for v in info.values()),
                                "kollision": sum(v["kollision"] for v in info.values()),
@@ -449,7 +462,8 @@ def main(argv=None):
     ap.add_argument("--baeche", default=None)
     ap.add_argument("--inventar", default=None)
     ap.add_argument("--ufer-felder", nargs="*", default=None,
-                    help="Felder mit lokaler Ufer-Ebene (keine Felsen); Standard: Ordner ufer/foliage_<Feld> der 1-m-Daten")
+                    help="Felder mit lokaler Ufer-Ebene (keine Felsen, kein Totholz); Standard: Ordner ufer/foliage_<Feld> "
+                         "der 1-m-Daten")
     ap.add_argument("--ohne-reststrecken", action="store_true", help="nur Roh-Laeufe, keine Reststrecken geplanter Laeufe")
     ap.add_argument("--ohne-pruefung", action="store_true")
     from sehens_lib import daten
@@ -505,7 +519,7 @@ def main(argv=None):
     aus = os.path.abspath(a.aus or os.path.join(a.basis, "export", "unreal", "welt", "bachbett_roh"))
     K = {"welt": welt, "gel": gel, "inv": inv, "rw": rw, "laeufe": laeufe, "geplant": geplant, "seen": seen,
          "orte": gd.sehens_orte(a.sehens), "aus": aus, "ufer_felder": ufer, "h1m": None}
-    _log(welt.info(), "| %d Laeufe, %d mit Stufenplan, Ufer-Ebene (ohne Felsen): %s" % (
+    _log(welt.info(), "| %d Laeufe, %d mit Stufenplan, Ufer-Ebene (ohne Felsen und Totholz): %s" % (
         len(laeufe), len(geplant), ", ".join(sorted(ufer)) or "-"))
     ziel = sorted(a.laeufe) if a.laeufe else sorted(laeufe)
     alle_meld = []

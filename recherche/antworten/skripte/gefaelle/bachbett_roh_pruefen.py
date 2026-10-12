@@ -10,6 +10,7 @@ Je <aus>/<lauf>/plan.json (art bachbett_roh | bachbett_rest):
     Dichte im Rahmen nach Waldnaehe (nachgerechnet, mit Treibholz vom Oberlauf), Uferstreifen >= 80 % der Uferzellen;
   - Felsen: gelistete Felsen in der Ebene, Bloecke >= kollision_ab_m mit Kollision, Dichte >= pruef_min_je_100m je
     Segment ab 30 m (ausser in Feldern mit lokaler Ufer-Ebene) - FEHLER;
+  - kein Totholz in Feldern mit lokaler Ufer-Ebene (bachbett.totholz_ohne_felder, 16c Nachtrag 4) - FEHLER;
   - nichts in Sehenswuerdigkeiten (Radius + 10 m) und nichts in den ausgesparten Bereichen (Achse, +-1 m) - FEHLER.
 
 Aufruf: python -I recherche/antworten/skripte/gefaelle/bachbett_roh_pruefen.py <aus> [--daten2m DIR | --daten1m DIR]
@@ -101,6 +102,13 @@ def pruefe_lauf(ordner, welt=None, inv=None, rw=None, orte=None):
                     100.0 * n / L < float(F["pruef_min_je_100m"]) and not seg.get("ohne"):
                 b.append((FEHLER, aid, "Felsen %.0f-%.0f m: %.1f Ufer-/Stoersteine je 100 m (< %.1f)"
                           % (a_, b_, 100.0 * n / L, float(F["pruef_min_je_100m"]))))
+        # 16c Nachtrag 4: kein Totholz in Feldern mit lokaler Ufer-Ebene (die hat dort schon Treibholz)
+        ohne_th = set((p.get("bachbett") or {}).get("totholz_ohne_felder") or [])
+        if ohne_th:
+            n_th = sum(1 for st in blk.get("stuecke") or []
+                       if _d.feld_von_m(st["pos_cm"][0] / 100.0, st["pos_cm"][1] / 100.0) in ohne_th)
+            if n_th:
+                b.append((FEHLER, aid, "%d Totholz-Stuecke in Feldern mit Ufer-Ebene (%s)" % (n_th, ", ".join(sorted(ohne_th)))))
         alle_pos += [(st["pos_cm"][0] / 100.0, st["pos_cm"][1] / 100.0) for st in fs]
         alle_pos += [(st["pos_cm"][0] / 100.0, st["pos_cm"][1] / 100.0) for st in blk.get("stuecke") or []]
     # nichts in Sehenswuerdigkeiten und in ausgesparten Bereichen

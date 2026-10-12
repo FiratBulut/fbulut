@@ -7,6 +7,8 @@ Zahlen und Netze: bachbett_regeln.json (Dichten je Biom mit Quellen).
 Bausteine
   Regeln.lade()                       Regeln, .biom(name) (unbekannt -> tundra-artig ohne Holz)
   wald_faktor(welt, punkte_m, R, b)   Dichte nach Waldnaehe (Anteil 4-m-Baumzellen im Radius)
+  dichte(welt, punkte_m, biom, R, o)  Totholz-Rahmen nach Waldnaehe (16c Nachtrag 3), mit Hangeintrag bis 150 m in den
+                                      Nicht-Waldbiomen (16c Nachtrag 4, baum_messung)
   Kanal(...)                          Gerinne entlang s: Lage, Spiegel, Wasserbreite, Stufen -> Lippenzonen, Ruhe, Kruemmung
   totholz_setzen(ctx, kanal, segm.)   liegende Staemme am Ufer (teils im Wasser), Verklausungen oberhalb von Lippen und an
                                       Engstellen (verkeilt), ueberspannende Staemme, Wurzelstoecke, Aeste, Zweige
@@ -99,15 +101,97 @@ def _faktor(anteil, R):
     return float(np.clip(lo + (hi - lo) * anteil / (2.0 * float(R.a["wald_bezug"])), lo, hi))
 
 
-def baum_anteil(welt, punkte_m, R=None):
+def baum_anteil(welt, punkte_m, R=None, hang=False):
     """Anteil der 4-m-Zellen mit Baeumen (welt.baeume4 > 0, Netzhoehe >= 5 m) im Radius wald_radius_m um die Punkte
-    (Proben alle 10 m) - fuer jedes Biom (16c Nachtrag 3). None ohne Baumraster/Punkte."""
+    (Proben alle 10 m) - fuer jedes Biom (16c Nachtrag 3). hang=True: dazu der Hang-Anteil (16c Nachtrag 4,
+    baum_messung). None ohne Baumraster/Punkte."""
+    m = baum_messung(welt, punkte_m, R, hang)
+    return None if m is None else m["anteil"]
+
+
+def _proben(punkte_m):
+    """Proben alle 10 m entlang der Punkte (wie wald_faktor seit 16c Nachtrag 18:15)."""
+    P = np.asarray(punkte_m, np.float64)[:, :2]
+    kum = np.concatenate([[0.0], np.cumsum(np.hypot(*np.diff(P, axis=0).T))]) if len(P) > 1 else np.zeros(1)
+    ss = np.arange(0.0, kum[-1] + 1e-6, 10.0) if kum[-1] > 0 else np.zeros(1)
+    return np.interp(ss, kum, P[:, 0]), np.interp(ss, kum, P[:, 1])
+
+
+def baum_messung(welt, punkte_m, R=None, hang=False):
+    """Baumanteil um einen Bach (16c Nachtrag 3 und 4). Rueckgabe dict oder None (ohne Baumraster/Punkte):
+      ufer   Anteil der 4-m-Zellen mit Baeumen im Radius wald_radius_m (alle Seiten, wie bisher);
+      hang   (nur hang=True und mit Hoehenraster) Hang-Anteil: Summe der Gewichte w der Baumzellen zwischen hang.voll_m
+             und hang.radius_m, geteilt durch die Zahl der Ufer-Zellen. w = w_Entfernung x w_Neigung, nur wenn die Zelle
+             hoeher steht als die Bachstelle und die gerade Linie zum Bach keinen Gegenanstieg > hang.gegenanstieg_m hat
+             (Ruecken, Querrinne); je Zelle zaehlt die Bachstelle mit dem groessten w;
+      anteil ufer + hang (bzw. ufer); n_ufer, n_hang_baum (Baumzellen 40-150 m), n_hang_ok (davon mit w > 0)."""
     R = R or regeln()
+    A = R.a
     P = np.asarray(punkte_m, np.float64).reshape(-1, 2) if len(punkte_m) else np.zeros((0, 2))
-    if len(P) == 0 or getattr(welt, "baeume4", None) is None:
+    b4 = getattr(welt, "baeume4", None)
+    if len(P) == 0 or b4 is None:
         return None
-    f, anteil = _wald_faktor_aus(welt, P, R)
-    return anteil
+    px, py = _proben(P)
+    r = float(A["wald_radius_m"])
+    H = A.get("hang") or {}
+    mit_hang = bool(hang) and bool(H) and getattr(welt, "hoehe", None) is not None
+    rmax = max(r, float(H["radius_m"])) if mit_hang else r
+    from . import daten as _d
+    i0, j0 = _d.m_zu_pixel(px.min() - rmax, py.min() - rmax, 4.0)
+    i1, j1 = _d.m_zu_pixel(px.max() + rmax, py.max() + rmax, 4.0)
+    i0, i1 = int(max(0, math.floor(min(i0, i1)))), int(min(b4.shape[0] - 1, math.ceil(max(i0, i1))))
+    j0, j1 = int(max(0, math.floor(min(j0, j1)))), int(min(b4.shape[1] - 1, math.ceil(max(j0, j1))))
+    if i1 < i0 or j1 < j0:
+        return None
+    jj, ii = np.meshgrid(np.arange(j0, j1 + 1), np.arange(i0, i1 + 1))
+    x4 = jj * 4.0 + 1.5 - 4730.5
+    y4 = ii * 4.0 + 1.5 - 4060.5
+    baum = np.asarray(b4[i0:i1 + 1, j0:j1 + 1]) > 0
+    nah = np.zeros(x4.shape, bool)
+    for x_, y_ in zip(px, py):
+        nah |= (x4 - x_) ** 2 + (y4 - y_) ** 2 <= r * r
+    if not nah.any():
+        return None
+    n_u = int(nah.sum())
+    ufer = float(int(baum[nah].sum()) / n_u)
+    out = {"ufer": ufer, "hang": None, "anteil": ufer, "n_ufer": n_u, "n_hang_baum": 0, "n_hang_ok": 0}
+    if not mit_hang:
+        return out
+    rn = float(H["voll_m"])
+    kand = baum & ~nah
+    qx, qy = x4[kand], y4[kand]
+    if len(qx):
+        D = np.sqrt((qx[:, None] - px[None, :]) ** 2 + (qy[:, None] - py[None, :]) ** 2)
+        im = D.min(1) <= rmax
+        qx, qy, D = qx[im], qy[im], D[im]
+    out["n_hang_baum"] = int(len(qx))
+    summe = 0.0
+    if len(qx):
+        zb = np.asarray(welt.bilinear(welt.hoehe, px, py), np.float64)
+        zq = np.asarray(welt.bilinear(welt.hoehe, qx, qy), np.float64)
+        G = (zq[:, None] - zb[None, :]) / np.maximum(D, 1.0)
+        g0, g1 = (float(v) for v in H["neigung"])
+        tn = np.clip((G - g0) / max(g1 - g0, 1e-6), 0.0, 1.0)
+        W = np.clip((rmax - D) / max(rmax - rn, 1e-6), 0.0, 1.0) * tn * tn * (3.0 - 2.0 * tn)
+        W[(D > rmax) | (G <= 0.0)] = 0.0
+        q, k = np.nonzero(W > 0.0)
+        ok = np.zeros(len(q), bool)
+        ns = int(math.ceil(rmax / float(H["profil_schritt_m"]))) + 1
+        t = np.linspace(0.0, 1.0, ns)
+        tol = float(H["gegenanstieg_m"])
+        for a_ in range(0, len(q), 20000):
+            qq, kk = q[a_:a_ + 20000], k[a_:a_ + 20000]
+            X = qx[qq, None] + (px[kk] - qx[qq])[:, None] * t[None, :]
+            Y = qy[qq, None] + (py[kk] - qy[qq])[:, None] * t[None, :]
+            Z = np.asarray(welt.bilinear(welt.hoehe, X.ravel(), Y.ravel()), np.float64).reshape(X.shape)
+            ok[a_:a_ + 20000] = (Z - np.minimum.accumulate(Z, axis=1)).max(1) <= tol
+        Wq = np.zeros(len(qx))
+        np.maximum.at(Wq, q[ok], W[q[ok], k[ok]])
+        summe = float(Wq.sum())
+        out["n_hang_ok"] = int((Wq > 0.0).sum())
+    out["hang"] = summe / n_u
+    out["anteil"] = ufer + out["hang"]
+    return out
 
 
 def dichte(welt, punkte_m, biom, R=None, oberlauf_m=None):
@@ -118,16 +202,27 @@ def dichte(welt, punkte_m, biom, R=None, oberlauf_m=None):
       ('kaum' bzw. 0): Rahmen = (1 - g) x Biom + g x Wald.
     - Treibholz: baumlose Strecken (1 - g) bekommen zusaetzlich 'treibholz' x h, h = glatt aus dem Baumanteil am
       Oberlauf (oberlauf_m: Punkte der letzten treibholz.oberlauf_m Meter oberhalb des Segments).
+    - 16c Nachtrag 4: In den uebrigen Biomen ist der Anteil Ufer-Anteil + Hang-Anteil (baum_messung, Hangbaeume bis
+      hang.radius_m, gewichtet nach Entfernung und Neigung, nur oberhalb des Bachs und ohne Ruecken dazwischen), am
+      Segment wie am Oberlauf. Waldbiome bleiben beim Ufer-Anteil (ihre Literaturdichten enthalten den Hangeintrag).
     Rueckgabe dict: biom, wald_biom, wald_anteil, wald_faktor, wald_gewicht, oberlauf_anteil, treibholz, lw [min, Ziel,
-    max], verklausung, ast, zweig (je 100 m), palette (Biom der Netz-Paletten; 'treibholz' = allgemeine Palette)."""
+    max], verklausung, ast, zweig (je 100 m), palette (Biom der Netz-Paletten; 'treibholz' = allgemeine Palette); in
+    Nicht-Waldbiomen dazu ufer_anteil, hang_anteil, hang_baeume [Zellen mit Gewicht, Baumzellen 40-150 m]."""
     R = R or regeln()
     A = R.a
     bn, Rb = R.biom(biom)
-    an = baum_anteil(welt, punkte_m, R)
+    # 16c Nachtrag 4: Hangbaeume (bis hang.radius_m) zaehlen nur in Nicht-Waldbiomen mit Ersatz-Waldbiom
+    hang = (not Rb.get("wald")) and bool(Rb.get("wald_ersatz"))
+    bm = baum_messung(welt, punkte_m, R, hang)
+    an = None if bm is None else bm["anteil"]
     a_ = 0.0 if an is None else float(an)
     f = _faktor(a_, R) if an is not None else 1.0
     out = {"biom": bn, "wald_biom": None, "wald_anteil": None if an is None else round(a_, 4), "wald_faktor": 1.0,
            "wald_gewicht": 0.0, "oberlauf_anteil": None, "treibholz": 0.0, "palette": bn}
+    if bm is not None and bm["hang"] is not None:
+        out["ufer_anteil"] = round(float(bm["ufer"]), 4)
+        out["hang_anteil"] = round(float(bm["hang"]), 4)
+        out["hang_baeume"] = [bm["n_hang_ok"], bm["n_hang_baum"]]
     T = A["treibholz"]
     keys = ("verklausung_je_100m", "ast_je_100m", "zweig_je_100m")
     if Rb.get("wald"):
@@ -141,7 +236,7 @@ def dichte(welt, punkte_m, biom, R=None, oberlauf_m=None):
         g = _glatt((a_ - a0) / max(a1 - a0, 1e-6)) if (wb and an is not None) else 0.0
         h = 0.0
         if oberlauf_m is not None and len(oberlauf_m) >= 2 and (1.0 - g) > 0.0:
-            ao = baum_anteil(welt, oberlauf_m, R)
+            ao = baum_anteil(welt, oberlauf_m, R, hang)
             if ao is not None:
                 out["oberlauf_anteil"] = round(float(ao), 4)
                 h = _glatt((float(ao) - a0) / max(a1 - a0, 1e-6))
@@ -494,11 +589,13 @@ class _Massiv:
 
 
 def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, seed_teil="bb", see_fn=None, name_teil="",
-                   oberlauf_fn=None):
+                   oberlauf_fn=None, ohne_fn=None):
     """Totholz eines Gerinnes in den OrtKontext ctx setzen. segmente: [(a, b, biom)] (s-Bereiche des Gerinnes).
     bestand_lw: {segment_index: Anzahl schon vorhandener grosser Holzstuecke (Holzstufen, Totholz quer)} - wird von der
     Ziel-Anzahl abgezogen. see_fn(x, y) -> True, wo kein Holz liegen darf (z. B. Seen). oberlauf_fn(a) -> Punkte (m)
-    der Strecke oberhalb von s = a (Treibholz, 16c Nachtrag 3). Rueckgabe Bilanz je Segment."""
+    der Strecke oberhalb von s = a (Treibholz, 16c Nachtrag 3). ohne_fn(x, y) -> True, wo kein Totholz gesetzt wird
+    (16c Nachtrag 4: Felder mit lokaler Ufer-Ebene, die dort schon Treibholz hat); liegt ein Segment ganz darin, bekommt
+    es kein Totholz und den Eintrag 'ufer_ebene': 'ganz'. Rueckgabe Bilanz je Segment."""
     R = R or regeln()
     A = R.a
     welt = welt or ctx.welt
@@ -573,6 +670,14 @@ def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, see
         bilanz.append(bil)
         if L_seg < float(A["min_laenge_m"]):
             continue
+        if ohne_fn is not None:
+            qx_, qy_ = kanal.xy(np.linspace(a, b, 9))
+            im_ = [bool(ohne_fn(float(x_), float(y_))) for x_, y_ in zip(qx_, qy_)]
+            if all(im_):
+                bil["ufer_ebene"] = "ganz"
+                continue
+            if any(im_):
+                bil["ufer_ebene"] = "teil"
         ss = np.linspace(a, b, max(2, int(L_seg / 2.0) + 1))
         ober = oberlauf_fn(a) if oberlauf_fn is not None else None
         dz = dichte(welt, np.stack(kanal.xy(ss), 1), bn, R, ober)
@@ -581,6 +686,9 @@ def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, see
         bil["wald_anteil"] = None if dz["wald_anteil"] is None else round(float(dz["wald_anteil"]), 3)
         for k_ in ("wald_biom", "wald_gewicht", "oberlauf_anteil", "treibholz", "palette"):
             bil[k_] = dz[k_]
+        for k_ in ("ufer_anteil", "hang_anteil", "hang_baeume"):         # 16c Nachtrag 4 (nur Nicht-Waldbiome)
+            if k_ in dz:
+                bil[k_] = dz[k_]
         bil["rahmen_lw"] = [round(v, 3) for v in dz["lw"]]
         r_ = rng("seg", n_seg)
         lw_ziel = float(dz["lw"][1]) * L_seg / 100.0
@@ -599,6 +707,9 @@ def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, see
 
         def ok_ort(x, y):
             if see_fn is not None and bool(np.any(see_fn(np.array([x]), np.array([y])))):
+                return False
+            if ohne_fn is not None and ohne_fn(float(x), float(y)):
+                grund["ufer_ebene"] = grund.get("ufer_ebene", 0) + 1
                 return False
             return True
 

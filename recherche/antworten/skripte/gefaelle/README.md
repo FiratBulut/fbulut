@@ -413,6 +413,26 @@ python -I recherche/antworten/skripte/gefaelle/bachbett_roh.py --gefaelle <gefae
 python -I recherche/antworten/skripte/gefaelle/bachbett_roh_pruefen.py <s>/bachbett_roh --daten2m recherche/vorlagen/daten/sehens
 ```
 
+## Nachtrag 4 zu 16c: Hangeintrag Totholz, Roh-Ebene neben Ufer-Ebene (Koordinator 12.10.)
+
+Antwort und Zahlen: „Nachtrag 4“ in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
+
+**Hangeintrag** (`sehens_lib.bachbett.baum_messung`, Regeln v3 `allgemein.hang`): In den Nicht-Waldbiomen (Tundra, Heide,
+Ödland, Küste, Gletscher, Frost, Canyon, Wüste) zählen Bäume am Hang bis 150 m mit. Der Wald-Anteil ist der Ufer-Anteil
+(40 m, wie bisher) plus der Hang-Anteil: Summe der Gewichte der Baumzellen 40–150 m, geteilt durch die Zahl der
+Ufer-Zellen. Gewicht = Entfernung (40 m: 1, linear bis 0 bei 150 m) × Neigung (glatt von 3 % bis 15 % mittlerem Gefälle
+Baum → Bach). Es zählen nur Zellen, die höher stehen als die Bachstelle und deren gerade Linie zum Bach keinen
+Gegenanstieg über 3 m hat (Rücken, Querrinne). Gewertet wird die Bachstelle mit dem größten Gewicht. Waldfaktor,
+Ufer-Wald-Gewicht und Treibholz am Oberlauf rechnen damit wie in Nachtrag 3. Waldbiome bleiben beim Ufer-Anteil.
+`dichte[*]` trägt dazu `ufer_anteil`, `hang_anteil` und `hang_baeume` [Zellen mit Gewicht, Baumzellen 40–150 m]; der
+Prüfer rechnet den Rahmen wie bisher nach.
+
+**Roh-Ebene neben der Ufer-Ebene** (`bachbett_roh.py`, Regel `roh.ufer_ebene_ohne`): In Feldern mit lokaler Ufer-Ebene
+(`ufer/foliage_<Feld>/`, `--ufer-felder`) setzt die Roh-Ebene weder Felsen noch Totholz; Schlamm, Kies im Bett und
+Uferstreifen bleiben. Ein Segment ganz in solchen Feldern trägt `ufer_ebene: "ganz"` (keine Dichteprüfung), ein Segment
+am Rand `ufer_ebene: "teil"` (abgelehnte Plätze zählen als blockiert). `plan.json → bachbett.totholz_ohne_felder`;
+Prüfer: Totholz in diesen Feldern = FEHLER.
+
 ## Grenzen
 
 - **2-m-Daten:** Ein 4-m-Bach ist dort nur 2 Zellen breit. Riser, Becken und Ufer verschmieren, deshalb gelten Bett- und

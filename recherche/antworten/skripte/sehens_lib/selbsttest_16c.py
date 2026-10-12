@@ -145,6 +145,7 @@ def test_16c(inv=None):
     n, ant = bb.streifen_bewerten(h, dd, np.full(5, 2.0), np.ones(5, bool), np.array([255, 255, 255, 0, 0.0]), R)
     _pruefe(n == 4 and abs(ant - 0.75) < 1e-9, "Uferstreifen-Bewertung: 4 Uferzellen, 75 %% belegt (%d, %.2f)" % (n, ant), f)
     f += test_16c3(inv, R)
+    f += test_16c4(R)
     return len(f)
 
 
@@ -256,6 +257,86 @@ def test_16c3(inv, R):
                 "Feldgrenze im selben Feld: Ueberlappung gehoert dem oberen Lauf", f)
     except Exception as ex:                                           # pragma: no cover
         _pruefe(False, "Feldgrenzen-Test: %s" % ex, f)
+    return f
+
+
+class _HangWelt(_BaumWelt):
+    """Baumraster plus analytisches Gelaende z = hoehe_fn(x, y) (fuer bachbett.baum_messung, 16c Nachtrag 4)."""
+
+    def __init__(self, hoehe_fn):
+        super().__init__()
+        self.hoehe = "analytisch"
+        self._h = hoehe_fn
+
+    def bilinear(self, a, x, y):
+        return self._h(np.asarray(x, np.float64), np.asarray(y, np.float64))
+
+
+def test_16c4(R):
+    """16c Nachtrag 4: Hangbaeume bis 150 m (oberhalb, zum Bach fallend, kein Ruecken dazwischen) zaehlen in den
+    Nicht-Waldbiomen; Waldbiome unveraendert; Hindernis-Akteure: Komponenten nach Netz geteilt. Liste der FEHLER-Texte."""
+    from . import bachbett as bb
+    f = []
+    P = np.stack([np.linspace(0.0, 100.0, 51), np.full(51, 0.0)], 1)      # 100-m-Bach bei y = 0, z = 0
+
+    def tal(x, y):          # Nordhang (+y) 30 % Neigung; Sueden: Ruecken (15 m) bei y = -60, dahinter faellt es ab
+        return np.where(y >= 0.0, 0.3 * y, np.where(y >= -60.0, 0.25 * -y, 15.0 - 0.3 * (-y - 60.0)))
+
+    def baeume(W, y0, y1):
+        from . import daten as _d
+        for yy in np.arange(y0, y1 + 1e-6, 4.0):
+            for xx in np.arange(0.0, 100.0 + 1e-6, 4.0):
+                i, j = _d.m_zu_pixel(xx, yy, 4.0)
+                W.baeume4[int(round(i)), int(round(j))] = 1
+    W0 = _HangWelt(tal)
+    d0 = bb.dichte(W0, P, "tundra", R)
+    _pruefe(d0["wald_gewicht"] == 0.0 and d0.get("hang_anteil") == 0.0, "Hang ohne Baeume: kein Hang-Anteil", f)
+    W1 = _HangWelt(tal)
+    baeume(W1, 80.0, 120.0)
+    d1 = bb.dichte(W1, P, "tundra", R)
+    m1 = bb.baum_messung(W1, P, R, True)
+    _pruefe(m1["ufer"] == 0.0 and m1["hang"] > 0.05 and d1["wald_gewicht"] >= 0.99 and d1["wald_biom"] == "bergwald",
+            "Tundra, Baeume 80-120 m am Hang oberhalb: Hang-Anteil %.3f -> Wald-Dichte (Gewicht %.2f, Ziel %.1f/100 m)"
+            % (m1["hang"], d1["wald_gewicht"], d1["lw"][1]), f)
+    W2 = _HangWelt(tal)
+    baeume(W2, -120.0, -80.0)
+    m2 = bb.baum_messung(W2, P, R, True)
+    _pruefe(m2["hang"] == 0.0 and m2["n_hang_baum"] > 0, "Baeume jenseits des Rueckens zaehlen nicht (%d Baumzellen, "
+            "Gewicht %.3f)" % (m2["n_hang_baum"], m2["hang"]), f)
+    W3 = _HangWelt(lambda x, y: np.zeros(np.shape(x)))
+    baeume(W3, 80.0, 120.0)
+    m3 = bb.baum_messung(W3, P, R, True)
+    _pruefe(m3["hang"] == 0.0, "Baeume auf ebenem Gelaende 80-120 m zaehlen nicht (kein Hang)", f)
+    W4 = _HangWelt(lambda x, y: -0.3 * np.abs(y))
+    baeume(W4, 80.0, 120.0)
+    m4 = bb.baum_messung(W4, P, R, True)
+    _pruefe(m4["hang"] == 0.0, "Baeume tiefer als der Bach zaehlen nicht", f)
+    W5 = _HangWelt(tal)
+    baeume(W5, 156.0, 200.0)
+    m5 = bb.baum_messung(W5, P, R, True)
+    _pruefe(m5["hang"] == 0.0, "Baeume ueber 150 m zaehlen nicht", f)
+    W6 = _HangWelt(tal)
+    baeume(W6, 44.0, 60.0)
+    m6 = bb.baum_messung(W6, P, R, True)
+    _pruefe(m6["hang"] > m1["hang"] * (len(np.arange(44, 61, 4)) / len(np.arange(80, 121, 4))),
+            "naehere Hangbaeume wiegen mehr (44-60 m: %.3f, 80-120 m: %.3f)" % (m6["hang"], m1["hang"]), f)
+    db0, db1 = bb.dichte(W0, P, "bergwald", R), bb.dichte(W1, P, "bergwald", R)
+    _pruefe(db0["lw"] == db1["lw"] and "hang_anteil" not in db1,
+            "Waldbiom (Bergwald): Hangbaeume aendern nichts (Ufer-Anteil wie bisher)", f)
+    seg = {"s_m": [0, 100], "wald_faktor": d1["wald_faktor"], "wald_gewicht": d1["wald_gewicht"], "rahmen_lw": d1["lw"]}
+    _pruefe(not bb.rahmen_vergleichen(seg, bb.dichte(W1, P, "tundra", R), "t") and
+            bb.rahmen_vergleichen(seg, bb.dichte(W2, P, "tundra", R), "t"),
+            "Pruefer rechnet den Hang-Anteil nach (gleich: ok, Baeume hinter dem Ruecken: FEHLER)", f)
+    # Hindernis-Akteure: mehr als instanzen_je_komponente_max Instanzen eines Netzes -> weitere Komponenten
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fluss_sim"))
+        import fluss_sim_export as fx
+        k = fx.hindernis_komponenten({"/G/A": list(range(9001)), "/G/B": list(range(3))}, {"instanzen_je_komponente_max": 4000})
+        _pruefe([(c["netz"], len(c["instanzen"]), c.get("teil")) for c in k] ==
+                [("/G/A", 4000, 1), ("/G/A", 4000, 2), ("/G/A", 1001, 3), ("/G/B", 3, None)],
+                "WH_-Akteur: 9001 Instanzen eines Netzes -> 3 Komponenten (4000/4000/1001), kleines Netz ungeteilt", f)
+    except Exception as ex:                                           # pragma: no cover
+        _pruefe(False, "Hindernis-Komponenten-Test: %s" % ex, f)
     return f
 
 

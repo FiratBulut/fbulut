@@ -2902,6 +2902,24 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
     return gewaesser, teile, karte, info
 
 
+def hindernis_komponenten(komp, grenzen=None):
+    """Komponenten eines Hindernis-Akteurs WH_<kachel>: je Netz eine HISM-Komponente (16a d2), sortiert nach Netz. Hat ein
+    Netz mehr als grenzen.instanzen_je_komponente_max Instanzen, wird es auf weitere Komponenten desselben Netzes geteilt
+    (Felder teil/teile; 16c Nachtrag 4). komp: {netz: [Instanz, ...]} in fester Reihenfolge."""
+    nmax = int((grenzen or {}).get("instanzen_je_komponente_max") or 0)
+    out = []
+    for pf in sorted(komp):
+        lst = komp[pf]
+        teile = [lst] if nmax <= 0 or len(lst) <= nmax else [lst[i:i + nmax] for i in range(0, len(lst), nmax)]
+        for k, t in enumerate(teile):
+            c = {"netz": pf, "klasse": "HISM", "nanite": None, "kollision": "wie_quelle", "instanzen": t}
+            if len(teile) > 1:
+                c["teil"] = k + 1
+                c["teile"] = len(teile)
+            out.append(c)
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Exporter Entscheidung 16 (v3, 16c): fluss_sim.json je Gewaesser + back_liste.json")
     ap.add_argument("--gefaelle", default=None, help="Ordner mit <lauf>/plan.json (gefaelle_plan.py)")
@@ -3075,13 +3093,13 @@ def main(argv=None):
                 akt.append(inst)
             else:
                 komp.setdefault(rec["pfad"], []).append(inst)
+        komps = hindernis_komponenten(komp, S.get("hindernis_grenzen"))
         kc["hindernis_akteur"] = {
             "id": "WH_" + kid, "klasse": "Actor", "label": "WH_" + kid, "tags": [S["hindernis_tag"], "SWR_B_" + kid],
             "ursprung_cm": [r1(0.5 * (b_[0] + b_[2])), r1(0.5 * (b_[1] + b_[3])), 0.0],
-            "komponenten": [{"netz": pf, "klasse": "HISM", "nanite": None, "kollision": "wie_quelle", "instanzen": komp[pf]}
-                            for pf in sorted(komp)],
+            "komponenten": komps,
             "akteure_mit_tag": akt,
-            "n_instanzen": sum(len(v_) for v_ in komp.values()), "n_komponenten": len(komp), "n_akteure_mit_tag": len(akt),
+            "n_instanzen": sum(len(v_) for v_ in komp.values()), "n_komponenten": len(komps), "n_akteure_mit_tag": len(akt),
             "umzug": "verschieben"}
 
     # Fingerabdruecke je SWR-Kachel (Back-Einheit)

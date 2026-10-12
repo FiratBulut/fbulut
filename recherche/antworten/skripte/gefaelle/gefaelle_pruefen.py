@@ -750,6 +750,12 @@ def pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m=None):
             n_neu = sum(1 for st, _ in ok_st if st["art"] in bb.ARTEN_LW and a_ - 1.0 <= st["s_m"] <= b_ + 1.0)
             n_best = sum(1 for st in best if a_ - 1.0 <= st["s_m"] <= b_ + 1.0)
             f = float(seg.get("wald_faktor", 1.0))
+            if seg.get("ufer_ebene") == "ganz":
+                # 16c Nachtrag 4: Segment ganz in einem Feld mit lokaler Ufer-Ebene (Roh-Ebene) -> kein Totholz
+                if n_neu:
+                    b.append((FEHLER, aid, "Bachbett: %d grosse Totholz-Stuecke im Segment %.0f-%.0f m, das ganz in "
+                              "einem Feld mit Ufer-Ebene liegt" % (n_neu, a_, b_)))
+                continue
             rahmen = None
             if welt is not None and L >= float(A["min_laenge_m"]):
                 ss_ = np.linspace(a_, b_, max(2, int(L / 2.0) + 1))
@@ -765,8 +771,8 @@ def pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m=None):
                 if R.biom(maj)[0] != seg["biom"]:
                     b.append((WARNUNG, aid, "Bachbett: Segment %.0f-%.0f m als %s geplant, Weltbiom ueberwiegend %s"
                               % (a_, b_, seg["biom"], maj)))
-            stf, txt = bb.dichte_bewerten(seg["biom"], f, L, n_neu + n_best, int(seg.get("blockiert", 0)), R, n_neu,
-                                          rahmen=rahmen)
+            blk_ = int(seg.get("blockiert", 0)) + int((seg.get("abgelehnt") or {}).get("ufer_ebene", 0))
+            stf, txt = bb.dichte_bewerten(seg["biom"], f, L, n_neu + n_best, blk_, R, n_neu, rahmen=rahmen)
             if stf:
                 b.append((stf, aid, "Bachbett-Dichte " + txt))
         # Uferstreifen

@@ -45,6 +45,16 @@ Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBo
   Stufenplan → Wasser-Kollision, überspannende Stämme ohne). Der Prüfer nimmt `--roh` ebenso. `zusammenfassung.json`
   nennt die Ebene unter `eingaben.bachbett_roh`.
 
+**Ergänzungen 16c Nachtrag 4** (Regeln Version 7, Format bleibt `fluss_sim_v3`; Antwort: Nachtrag 4 in
+[`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md)):
+- **Grenzen der Hindernis-Akteure** (`swr.hindernis_grenzen`): höchstens `instanzen_je_komponente_max` = 4 000
+  Instanzen je Komponente. Hat ein Netz in einer Kachel mehr, teilt der Export es auf weitere Komponenten desselben Netzes
+  (`teil`, `teile`; Funktion `hindernis_komponenten`). Je Netz bleibt es sonst eine HISM-Komponente (16a d2).
+- **Prüfer:** FEHLER über 4 000 Instanzen je Komponente, über `komponenten_max` = 128 Komponenten je Akteur, bei
+  `n_komponenten` ≠ Liste und bei geteilten Netzen ohne Teil-Nummern 1 … n. HINWEIS mit den größten Werten
+  (größte Komponente, meiste Komponenten, größter Akteur) und mit der Zahl der Akteure über dem Richtwert
+  `komponenten_richtwert` = 16.
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -56,7 +66,7 @@ Stufe, kein Becken, keine Lippe und kein Gelände (13f-Regel); der Prüfer vergl
 |---|---|
 | `fluss_sim_export.py` | Exporter: Läufe verketten, Mündungen, `fluss_sim.json` je Gewässer, `back_liste.json` (je SWR-Bereich), `zusammenfassung.json`; Referenz-Funktionen für den Fingerabdruck |
 | `fluss_sim_pruefen.py` | Prüfer (FEHLER/WARNUNG/HINWEIS), Exit-Code 1 bei FEHLER |
-| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck), Version 3 |
+| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure), Version 7 |
 
 ## Aufruf
 
@@ -424,6 +434,9 @@ zeigen, was sich geändert hat.
   `offen` und Lücken als HINWEIS.
 - **Fälle, Vorhang, Schaum, Kollision, Hindernis-Akteure (je SWR), Back-Liste mit Fingerabdruck** (Splines, Objekte und mit
   Daten auch Gelände neu gerechnet), **Determinismus** (`--vergleich`: alle Dateien byte-gleich) wie v2.
+- **16c Nachtrag 4, Hindernis-Akteure:** je `WH_…` höchstens 4 000 Instanzen je Komponente und 128 Komponenten
+  (FEHLER), `n_komponenten` = Liste, geteilte Netze mit `teil` 1 … n; HINWEIS mit den größten Werten und den Akteuren über
+  16 Komponenten.
 
 - **16d:** Pool und Gelände nur aus Lauf-Plänen (wie Export); Gelände ohne `back_liste.gelaende.deltas_ohne`, Erkennung
   heute anders = WARNUNG; Töpfe (Bereich `topf`, Splinepunkte auf dem Spiegel ± 3 cm, SWR-Rechteck schließt den Topf

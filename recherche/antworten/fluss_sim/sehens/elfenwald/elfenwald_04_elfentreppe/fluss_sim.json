@@ -1,6 +1,6 @@
 {
  "format": "fluss_sim_v3",
- "regeln_version": 6,
+ "regeln_version": 7,
  "fall_schwelle_m": 1.0,
  "daten": "2m (Cloud-Test)",
  "gewaesser": [

@@ -1,7 +1,7 @@
 {
-  "version": 6,
+  "version": 7,
   "stand": "2026-10-12",
-  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten; v3 (16c, Ferat 12.10.2026 17:10): EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss, Meer) ueber alle Faelle hinweg, Abschnitte nur noch als s-Bereiche, SWR-Kacheln auf demselben Fluss; v4 (16d, 12.10.2026): kleine Toepfe in Sehens-Treppen (< 30 m) gehoeren zum Gewaesser, Vorschlaege fuer offene Enden und Luecken getrennt von der Spline; v5 (16e, Ferat 12.10.2026 18:50): kein Simulationsschaum in Baechen und Fluessen (Material), nur an Faellen wenig (schaum_maske fuer Vorhang-Faelle); Tempo je Splinepunkt nach dem Gefaelle (Manning-Strickler, tempo_faktor), insgesamt langsamer; Baeche bis 0,40 m Zelle ungeteilt (16d Nachtrag Punkt 2)",
+  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten; v3 (16c, Ferat 12.10.2026 17:10): EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss, Meer) ueber alle Faelle hinweg, Abschnitte nur noch als s-Bereiche, SWR-Kacheln auf demselben Fluss; v4 (16d, 12.10.2026): kleine Toepfe in Sehens-Treppen (< 30 m) gehoeren zum Gewaesser, Vorschlaege fuer offene Enden und Luecken getrennt von der Spline; v5 (16e, Ferat 12.10.2026 18:50): kein Simulationsschaum in Baechen und Fluessen (Material), nur an Faellen wenig (schaum_maske fuer Vorhang-Faelle); Tempo je Splinepunkt nach dem Gefaelle (Manning-Strickler, tempo_faktor), insgesamt langsamer; Baeche bis 0,40 m Zelle ungeteilt (16d Nachtrag Punkt 2); v6 (16c Nachtrag 3): holz_muster mit Aesten/Moosbaeumen, Roh-Lauf-Ebene; v7 (16c Nachtrag 4): Grenzen der Hindernis-Akteure (swr.hindernis_grenzen)",
   "fall_schwelle_m": 1.0,
   "fall_schwelle_hinweis": "Einzelabsturz (Stufe ohne Teilstufen bzw. jede Teilstufe einer Kaskade) >= Schwelle und keine Rampe/Schnelle = Fall. Wert wird im Einrichtungstest geprueft (Datei 16).",
   "abschnitt": {
@@ -105,6 +105,8 @@
     "rand_m": 8.0,
     "rand_hinweis": "Bereich fuer Bodenerfassung, Fingerabdruck und Nachbar-Hindernisse = Box der Spline + rand_m; die Zelle rechnet mit der Box ohne Rand",
     "hindernis_tag": "SWR_Hindernis",
+    "hindernis_grenzen": {"instanzen_je_komponente_max": 4000, "komponenten_richtwert": 16, "komponenten_max": 128,
+      "hinweis": "16c Nachtrag 4 (Koordinator): je WH_-Akteur hoechstens 4000 Instanzen je Komponente; mehr teilt der Export nach Netz auf weitere Komponenten desselben Netzes (Feld teil). Je Netz eine HISM/ISM-Komponente (16a d2), deshalb haengt die Komponentenzahl an der Netzvielfalt der Kachel: ueber komponenten_richtwert meldet der Pruefer einen HINWEIS mit den groessten Werten, ueber komponenten_max einen FEHLER."},
     "render_state": {
       "backen": "LIVE_SIM",
       "spiel": "WATER_COMPONENT_WITH_BAKED_SIM",

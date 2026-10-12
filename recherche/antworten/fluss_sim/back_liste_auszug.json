@@ -35,14 +35,14 @@
    "geteilt": false,
    "resolution_max_axis": 2048,
    "zelle_m": 0.4,
-   "fingerabdruck": "cc5071c707b2d9e4d9c09c6ec21fe0b12fc5a770e717ea46a6cff934b1e780e1",
+   "fingerabdruck": "b3c733148d3c3cd2de5ed387e735381cd5a067e70da9755a5e2beef79291557e",
    "teile": {
     "gelaende": "328f6b6b344c4d74fd7903a409d48a3c837767c1c885d96b1a388e0b609fb679",
     "splines": "235f9b27339d055203b0da2262d8078c7f3c30645d32acf884598ca0afe61aa5",
-    "objekte": "652acfe54c2db0fd903474d22d0a27820879d229e3d117617322b242a2d68bf6"
+    "objekte": "7154f8a2e953ed1d00255c68f33e50ee14f01a20f75c498361463c1c7b05da04"
    },
    "n_hoehen": 48906,
-   "n_objekte": 385
+   "n_objekte": 403
   },
   {
    "swr_bereich": "F_ERLENBACH_T00",
@@ -63,14 +63,14 @@
    "geteilt": true,
    "resolution_max_axis": 1856,
    "zelle_m": 0.247,
-   "fingerabdruck": "8ca4e0808cd8504ed17eb2731c460e7bed94f94d21a597bd974e907e8f0e7b68",
+   "fingerabdruck": "6d654add5371982735170f8bd510d23ae1fc005b4f7bb7594151643620077ebd",
    "teile": {
     "gelaende": "0a3622deee89b57ab644588000d20d71024ed2505c6733a712af08033536eff1",
     "splines": "9fb6423b5f885107e3a9c1d84fb1b4148ae5c7de3acefe2af2ce9ee177cf2d58",
-    "objekte": "a488af142e47d9305583cccdeb99f61d203323ebc4a0544f9f68308a8e5634b3"
+    "objekte": "24f9854e2b22c99731e8e8d3cf948b58ed8447c28f4343b6dc9bce1616a2f60c"
    },
    "n_hoehen": 17301,
-   "n_objekte": 802
+   "n_objekte": 833
   },
   {
    "swr_bereich": "F_ERLENBACH_T01",
@@ -91,14 +91,14 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.264,
-   "fingerabdruck": "47d48db84e970651a353ebf78575a1636b686669d1a3b08971b181227ad94814",
+   "fingerabdruck": "f48e9bfb0d0b8fd43805c350b0a200ff2c881e51c3ad20d6738a907d98ac88b2",
    "teile": {
     "gelaende": "a90f9d9ccc50e47b19d41ebdf0ccc13587542e0bcc166d285e244a63e3e73913",
     "splines": "d7043444c8a11b53db014d3bc112cb313a1124fc70b8434c78d6cdae25de80ef",
-    "objekte": "ba2c0f462909f60de301e7ead4141f126798882f46e417228831c4c396e09508"
+    "objekte": "249e02abd9e4741a035b5f30e7976cf917f26b09a343368aa777cf98f887da5b"
    },
    "n_hoehen": 30024,
-   "n_objekte": 297
+   "n_objekte": 320
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T00",
@@ -259,11 +259,11 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.35,
-   "fingerabdruck": "e1f7ea6c29c53696644e1130438e52738cde5cd851807a05822f9a2cf6830a8e",
+   "fingerabdruck": "03da92993d4c54d0d5b9e2c742d325bd0af62195ae74a22f796b2ca95d63f8ee",
    "teile": {
     "gelaende": "1257122dc4d6760c328da2f87fce02755f02ce501354c08cbe0fc9d6f0a67b73",
     "splines": "fe97c2c0a2ae192861e4bb3edd1fa1abadd8080715f51bf21bbef2bd21b48124",
-    "objekte": "5fb847f1ad58509e3fdc50308c9b9809891e831cdc48d2a3640de13c197eb222"
+    "objekte": "5bccecab925eb713bdd58e282cb5539e60f7a03ac6b25eb2dfac0db02e7cc891"
    },
    "n_hoehen": 47946,
    "n_objekte": 501

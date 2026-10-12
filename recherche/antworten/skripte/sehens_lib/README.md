@@ -265,6 +265,16 @@ Uferzellen (auf 2 m bei Sehens-Bächen WARNUNG).
 
 Die Sehens-Bäche bekommen den Rahmen nach Waldnähe ohne Oberlauf-Treibholz (sie beginnen an Quelle oder See).
 
+**Nachtrag 4 (Koordinator 12.10.):** Antwort „Nachtrag 4“ in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
+
+| Modul | Inhalt |
+|---|---|
+| `bachbett_regeln.json` v3 | `allgemein.hang` (Radius 150 m, voll bis 40 m, Neigung 3–15 %, Gegenanstieg 3 m) mit Quellen `BENDA_SIAS`, `WELTY`, `MCDADE`, `SOBOTA`, `REEVES`, `RIGON`; `roh.ufer_ebene_ohne` (Felsen und Totholz) |
+| `bachbett.py` | `baum_messung(welt, punkte, R, hang)` → Ufer-Anteil, Hang-Anteil (Hangbäume bis 150 m: höher als der Bach, zum Bach fallend, kein Rücken dazwischen, gewichtet nach Entfernung und Neigung); `dichte` nutzt in Nicht-Waldbiomen Ufer- + Hang-Anteil (auch am Oberlauf), Waldbiome unverändert; `totholz_setzen(…, ohne_fn)` lässt Felder mit Ufer-Ebene aus |
+| `selbsttest_16c.py` | `test_16c4`: Hangbäume oberhalb zählen, jenseits des Rückens, auf ebenem Gelände, tiefer als der Bach und über 150 m nicht; nähere wiegen mehr; Bergwald unverändert; Prüfer rechnet nach; WH_-Komponenten nach Netz geteilt |
+
+Die Sehens-Bäche in offenen Biomen (Gletscher, Tundra, Heide …) bekommen den Hang-Anteil ebenso.
+
 ## Cache und Laufzeiten (2 m, 4789 × 3529, ohne SciPy)
 
 - Ordner: `$SEHENS_CACHE` oder `--cache`, Standard

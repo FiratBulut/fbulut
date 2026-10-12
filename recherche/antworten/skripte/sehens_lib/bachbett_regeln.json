@@ -3,13 +3,14 @@
   "zweck": "Bachbett-Ausstattung (Auftrag 16c, Nachtrag 18:15, Ferat: 'Felsen, totes Holz und Schlamm gehoeren in jedes Bachbett'). Gemeinsam fuer den Gefaelle-Planer (A15) und die Sehens-Bach-Planer (sehens_lib.rezept). Modul: sehens_lib/bachbett.py.",
   "einheiten": "Dichten je 100 m Gerinnelaenge (Laufkoordinate s). 'lw' = grosses Totholz (Large Wood, Durchmesser >= 10 cm, Laenge >= 1 m): Staemme am Ufer, Verklausungsstaemme, ueberspannende Staemme, Wurzelstoecke. Aeste (1-2,5 m) und Zweige (< 1 m) getrennt.",
   "waldnaehe_16c3": "16c Nachtrag 3 (Koordinator): Totholz nach Waldnaehe statt nur nach Biom-Etikett. Fuer JEDES Biom zaehlt der Baumanteil (welt.baeume4 > 0, Baeume >= 5 m) im Radius wald_radius_m um den Bach. Waldbiome: Dichte x wald_faktor wie bisher. Uebrige Biome: Gewicht g = glatt((Anteil - ufer_wald_anteil[0]) / (ufer_wald_anteil[1] - ufer_wald_anteil[0])); Rahmen = (1 - g) x Biom + g x wald_ersatz-Biom x wald_faktor (Bach mit Baeumen am Ufer = Wald-Dichte, auch in der Tundra). Baumlose Strecken (g < 1) bekommen zusaetzlich Treibholz x h, h = glatt aus dem Baumanteil am Oberlauf (treibholz.oberlauf_m Meter oberhalb). Lava hat kein wald_ersatz (bleibt 0).",
+  "hangeintrag_16c4": "16c Nachtrag 4 (Koordinator): Hangbaeume bis hang.radius_m zaehlen in den Nicht-Waldbiomen mit. Ufer-Anteil a_u wie bisher (Anteil der 4-m-Baumzellen im Radius wald_radius_m, alle Seiten). Dazu der Hang-Anteil a_h = Summe der Gewichte w der Baumzellen zwischen hang.voll_m und hang.radius_m, geteilt durch die Zahl der Ufer-Zellen (die Hangbaeume liefern Holz in dieselbe Strecke wie Baeume am Ufer, offene Hangflaeche verduennt nicht). w = w_Entfernung x w_Neigung: w_Entfernung = 1 bei voll_m, linear 0 bei radius_m; w_Neigung = glatt((G - neigung[0]) / (neigung[1] - neigung[0])) mit G = (z_Baum - z_Bach) / Abstand. Eine Baumzelle zaehlt nur, wenn sie hoeher steht als die Bachstelle und das Gelaende auf der geraden Linie zum Bach keinen Gegenanstieg > hang.gegenanstieg_m hat (Ruecken, Querrinne); gewertet wird die Bachstelle mit dem groessten w. Wald-Anteil = a_u + a_h; die Waldfaktor-Logik (ufer_wald_anteil, wald_faktor, Treibholz am Oberlauf) bleibt. Waldbiome rechnen weiter nur mit a_u: ihre Literaturdichten enthalten den Hangeintrag schon (Feldaufnahmen zaehlen alles Holz im Gerinne).",
   "waldnaehe": "Dichte x wald_faktor (nur Biome mit 'wald': true): Anteil 4-m-Zellen mit Baeumen (welt.baeume4 > 0) im Radius wald_radius_m um den Bach, bezogen auf wald_bezug (Mittel im Bergwald 0,12): faktor = clip(min + (max - min) x Anteil / (2 x Bezug), min, max). Kein Wald -> min (Holz kommt auch von oberhalb), doppelt so dicht wie der Bergwald-Mittel -> max.",
   "pruefer": "dichte_lw: > max x wald_faktor = FEHLER; < min x wald_faktor = FEHLER ab pruef_min_laenge_m Laenge (kuerzer HINWEIS, mit blockierten Plaetzen WARNUNG). Kein Totholz-Stueck mit der Achse 'mitten in einer Lippe bzw. einem Vorhang': Lippenzone in der Koordinate s - Schraegversatz(u) von Lippe - 0,3 m bis Fuss + 0,5 m (Stufen >= 1 m bzw. Vorhang: Lippe - 0,5 m bis Fuss + 1,5 m, Strahl/Aufprall), quer bis Lippenbreite/2 - 0,3 m; an den Lippenenden darf Holz verkeilt liegen. Uferstreifen: Zellen 0,05-0,5 m ueber dem Spiegel bis 1,5 m neben dem Netzrand, ausserhalb der Lippenzonen, zu >= streifen_anteil_min mit Streifenlagen >= 200 belegt.",
   "kollision": "Alles grosse Holz im Wasser oder <= 1 m daneben hat 'kollision': true (Datei <netz>_kol), damit der fluss_sim-Export es als Wasser-Kollision aufnimmt (fluss_sim_regeln.kollision: fest = Kollision im Plan oder Fels/Holz, Grundriss >= 0,4 m, Hoehe >= 0,2 m). Ueberspannende Staemme (Unterkante >= Spiegel + ueberspannt_unterkante_min_m) erkennt der Export selbst (16a Entscheidung 5: keine Wasser-Kollision).",
   "netze": "Nur natuerliche Netze aus netze.csv (keine Saegeschnitte: inventar.saegeschnitt, Pruefer inventar.saegeschnitt). Staemme/Aeste liegend modelliert -> 'normale' (Hangnormale), Skala 0,6-1,8 (Aeste <= 1,8), Netz nach Laenge wie 13k."
  },
- "version": 2,
- "stand": "2026-10-12 (v2: 16c Nachtrag 3)",
+ "version": 3,
+ "stand": "2026-10-12 (v3: 16c Nachtrag 4, Hangeintrag)",
  "quellen": {
   "SLO": "Repozitorij Univerza v Ljubljani (Radovna, Triglavska Bistrica, Zavrsnica; Meza): im Mittel 15,8 Stueck (1,05 m3) bzw. 14,4 Stueck (1,25 m3) Totholz je 100 m Gerinne (Stuecke >= 0,5 m, >= 10 cm). https://repozitorij.uni-lj.si/IzpisGradiva.php?id=137595",
   "HERING": "Hering et al. 2000, Coarse woody debris quantity and distribution in Central European streams, Int. Rev. Hydrobiol. 85: geometrisches Mittel 12,5 Staemme (>= 10 cm) je 100 m.",
@@ -19,6 +20,11 @@
   "COLORADO": "Wohl & Cadol 2011, Neighborhood matters (Geomorphology 125), und GSA 2011 / AFS 2012 (Beckman & Wohl): Altwald (> 200-250 Jahre) im Mittel 45 Verklausungen je km, jungere bzw. genutzte Bestaende 15-20 je km; Holzmenge vor allem von Tal- und Gerinneform abhaengig.",
   "LASELVA": "Cadol & Wohl (La Selva, Costa Rica): 3,0-34,7 m3 je 100 m (Mittel 12,3 m3), viele kleine Stuecke statt weniger grosser (Saraiva et al. 2022, PLoS ONE: Amazonas/Cerrado aehnlich gemaessigten Waeldern).",
   "FOX": "Fox & Bolton 2007, NAJFM 27: 342-359: Referenz unbewirtschafteter Baeche Washington; 75. Perzentil je Breitenklasse als Untergrenze; Bewertung < 4 / 4-11 / > 11 Stuecke je 100 m (Sekundaerquelle).",
+  "BENDA_SIAS": "Benda & Sias 2003, A quantitative framework for evaluating the mass balance of in-stream organic debris, Forest Ecology and Management 172: 1-16: Holzbilanz eines Gerinneabschnitts aus Absterben/Baumfall, Ufererosion, Rutschungen und Murgaengen; Baumfall liefert nur aus etwa einer Baumlaenge, Rutschungen und Murgaenge auch von weiter oben am Hang.",
+  "WELTY": "Welty et al. 2002, Riparian aquatic interaction simulator (RAIS), Forest Ecology and Management 162: 299-318: Eintragswahrscheinlichkeit eines Baums nach Abstand zum Gerinne und Baumhoehe (Recruitment Distance), Hangneigung als Einflussgroesse.",
+  "MCDADE": "McDade et al. 1990, Source distances for coarse woody debris entering small streams in western Oregon and Washington, Can. J. For. Res. 20: 326-330: der groesste Teil des Holzes aus Baumfall stammt aus weniger als einer Baumlaenge Abstand.",
+  "SOBOTA": "Sobota, Gregory & Van Sickle 2006, Riparian tree fall directionality and modeling large wood recruitment to streams, Can. J. For. Res. 36: 1077-1091: an Haengen fallen Baeume bevorzugt hangab; Baeume oberhalb des Bachs liefern mehr Holz als solche jenseits.",
+  "REEVES": "Reeves, Burnett & McGarry 2003, Sources of large wood in the main stem of a fourth-order watershed in coastal Oregon, Can. J. Fish. Aquat. Sci. 60: 309-320; May & Gresswell 2003, Earth Surf. Process. Landforms 28: 409-424: ein grosser Teil des Holzes kommt mit Rutschungen und Murgaengen von den Haengen und aus Seitenrinnen.",
   "ANNAHME": "Gletscher/Frost/Lava: kein Wald, kein Holznachschub - 0 je 100 m. Wueste 0-2, Tundra kaum (0-6, Ziel 3, etwa ein Fuenftel des Bergwalds: einzelne Baeume am Hang, Treibholz von oberhalb), Heide/Kueste/Oedland/Canyon wenig. Annahme aus dem Fehlen bzw. der Seltenheit der Holzquelle, kein Literaturwert."
  },
  "allgemein": {
@@ -27,6 +33,9 @@
   "wald_bezug": 0.12,
   "wald_faktor": [0.6, 1.4],
   "ufer_wald_anteil": [0.01, 0.05],
+  "hang": {"radius_m": 150.0, "voll_m": 40.0, "neigung": [0.03, 0.15], "gegenanstieg_m": 3.0, "profil_schritt_m": 4.0,
+   "quelle": ["BENDA_SIAS", "WELTY", "MCDADE", "SOBOTA", "REEVES", "RIGON"],
+   "hinweis": "16c Nachtrag 4: Hangeintrag (Windwurf, Lawinen, Rutschungen) aus Baeumen oberhalb des Bachs bis 150 m, nur Nicht-Waldbiome. 0-40 m voll (Baumfall, etwa eine Baumlaenge), 40-150 m linear abnehmend. Neigung: unter 3 % (Talboden, Ebene) bleibt Holz liegen, ab 15 % (8,5 Grad) voller Hang. Gegenanstieg > 3 m = Ruecken oder Querrinne (kleinere Buckel, Wegboeschungen und Rasterrauschen der 2-m-Daten zaehlen nicht)."},
   "treibholz": {"oberlauf_m": 300.0, "lw_je_100m": [0, 2, 4], "verklausung_je_100m": 0.3, "ast_je_100m": 4, "zweig_je_100m": 6,
    "hinweis": "Treibholz und Aeste vom bewaldeten Oberlauf an baumlosen Strecken (Gletscher, Wueste, offene Tundra); verwittert, ohne Rinde",
    "stamm": ["SM_OldFallenTree_01", "SM_OldFallenTree_02", "SM_OldTreeBranch_06", "SM_dead_log_03", "SM_dead_log_04"],
@@ -84,6 +93,8 @@
   "gras_lagen": ["Wiese", "Gras", "Trockengras", "Kraut", "Heide"],
   "roh": {
    "hinweis": "16c Nachtrag 3: Laeufe ohne Stufenplan (Roh-Laeufe) und die Reststrecken geplanter Laeufe ausserhalb der Stufenstrecken (gefaelle/bachbett_roh.py): Felsen, Totholz, Schlamm und Uferstreifen mit derselben Logik, aber ohne Stufen und ohne Gelaendeaenderung (nur Instanzen und Lagen). Spiegel = Lauf-Punkte (nie steigend), Ruhe aus dem Spiegelgefaelle.",
+   "ufer_ebene_ohne": ["felsen", "totholz"],
+   "ufer_ebene_hinweis": "Felder mit lokaler Ufer-Ebene (ufer/foliage_<Feld>/, --ufer-felder): die Ufer-Ebene hat dort schon Kiesel, Kopfsteine, Bloecke und Treibholz. Die Roh-Ebene setzt dort keine Felsen (16c Nachtrag 3) und kein Totholz (16c Nachtrag 4); Schlamm, Kies im Bett und Uferstreifen bleiben.",
    "ruhe_fenster_m": 20.0,
    "ruhe_gefaelle": [0.004, 0.02],
    "rand_lauf_m": 3.0,
