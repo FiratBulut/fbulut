@@ -286,7 +286,9 @@ def pruefe_kamera(kam, ort, welt, boden_fn, hind, freiraeume=None, bestand=True,
                 b.append(("FEHLER", "Kamera %s %.1f m vom Stamm %s (Kronenradius %.1f m + 2 m noetig, 13h)"
                           % (name, dh, str(h["pfad"]).rsplit("/", 1)[-1], h["r_krone"])))
                 break
-        elif _in_hindernis(h, np.array([ex]), np.array([ey]), np.array([ez]), 0.3)[0]:
+        elif _in_hindernis(h, np.array([ex]), np.array([ey]), np.array([ez]), max(0.3, rand_m))[0]:
+            # 13i Nachtrag: der Planer prueft auch den Standplatz mit seiner Reserve (Augenhoehe aus dem 2-m-Stempel
+            # weicht vom 1-m-Boden des Pruefers um Dezimeter ab; gletscher_03 _nah stand 0,18 m tiefer im Netz)
             b.append(("FEHLER", "Kamera %s steht in %s" % (name, str(h["pfad"]).rsplit("/", 1)[-1])))
             break
     # Strahl (neue Netze)
