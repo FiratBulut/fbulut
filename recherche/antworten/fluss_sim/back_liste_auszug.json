@@ -10,6 +10,11 @@
   "formel": "siehe README fluss_sim, Abschnitt Fingerabdruck"
  },
  "einheit": "SWR-Bereich (eine SWR je Gewaesser; Teilstuecke nur bei sehr grossem Rechteck)",
+ "gelaende": {
+  "hinweis": "Fingerabdruck Gelaende = Welt + Planer-Deltas ohne die schon gebauter Laeufe (16d)",
+  "gebaut": [],
+  "deltas_ohne": []
+ },
  "swr_bereiche": [
   {
    "swr_bereich": "F_ERLENBACH_T00",
@@ -318,7 +323,35 @@
    },
    "n_hoehen": 190,
    "n_objekte": 33
+  },
+  {
+   "swr_bereich": "SW_elfenwald_04_elfentreppe_zulauf",
+   "gewaesser": "SW_elfenwald_04_elfentreppe_zulauf",
+   "datei": "sehens/elfenwald/elfenwald_04_elfentreppe/fluss_sim.json",
+   "swr": "SWR_SW_elfenwald_04_elfentreppe_zulauf",
+   "water_body_river": "WBR_SW_elfenwald_04_elfentreppe_zulauf",
+   "punkt_index": [0,42],
+   "hindernis_akteur": "WH_SW_elfenwald_04_elfentreppe_zulauf",
+   "bereich_cm": [235332.0,-125940.0,242940.0,-119139.2],
+   "s_m": [0.0,78.83],
+   "s_sim_m": [0.0,78.83],
+   "naht_oben": "quelle",
+   "naht_unten": "muendung",
+   "vorgaenger": [],
+   "nachfolger": [],
+   "back_reihenfolge": 0,
+   "geteilt": false,
+   "resolution_max_axis": 256,
+   "zelle_m": 0.235,
+   "fingerabdruck": "0db70375d63e10b2481d100453c10976b3f3aa6d91c3ca7cb25815d1fe5615d8",
+   "teile": {
+    "gelaende": "d3ed923db8bc42f6fef1dd13f4ba168272f70065ab413ab687ef27bdf84185e6",
+    "splines": "135749f236940a5511453743cba47500c9ddb1293d34af2f6173c81ac65cb1c3",
+    "objekte": "cd2e514fc44a44ac7b8ee4e62af0603cffe72062e0aaab38ce4ba14fd58e6440"
+   },
+   "n_hoehen": 1292,
+   "n_objekte": 140
   }
  ],
- "hinweis": "Auszug: F_ERLENBACH (mit C2), F_HAUPTFLUSS_3 (geteilt), bergwald_06_karsee; vollstaendig im Exportordner"
+ "hinweis": "Auszug: F_ERLENBACH (mit C2), F_HAUPTFLUSS_3 (geteilt), bergwald_06_karsee, elfenwald_04_elfentreppe (eine SWR mit 5 Toepfen); vollstaendig im Exportordner"
 }

@@ -13,6 +13,15 @@ Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBo
   (kleinste Rechteckfläche, nicht an Fällen); alle Stücke nennen denselben Fluss.
 - Fälle (Vorhang, Niagara, Schaumobjekte) und Wasser-Kollision (`WH_…`) wie 16/16a; Vorhänge **warten** vorerst.
 
+**Ergänzungen 16d** (Regeln Version 4, Format bleibt `fluss_sim_v3`, nur neue Felder bzw. Werte):
+- **Eingaben:** nur echte Lauf-Pläne (`<lauf>/plan.json` mit `wasser_koerper`); Archivordner (Name mit „.“ oder führendem
+  „_“) und andere Pläne (Feld-Instanzplan `gefaelle/C2/plan.json` von `a15_einbau.py`) werden übersprungen und genannt.
+- **Gebaute Läufe:** Ihr Gelände-Delta wird nicht noch einmal addiert (`--gebaut`, `sehens_einbau/A15_<lauf>/lauf.json`).
+- **Töpfe:** Kleine Sehens-Seen (< 30 m) an Sehens-Bächen sind Teil des Gewässers (Bereich `topf`, kein `WaterBodyLake`);
+  eine Treppe wie die Elfentreppe ist **ein** Gewässer mit **einer** SWR.
+- **Vorschläge:** Für offene Enden und Lücken stehen Vorschlagspunkte in `muendung.vorschlag` und `vorschlaege.json`,
+  getrennt von der Spline.
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -50,18 +59,57 @@ python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py export/unre
        --daten1m export/unreal/welt
 ```
 
-Option `--nur ID …` (Gewässer-, Lauf- oder Ort-IDs; verkettet wird immer über alle Läufe). Laufzeit 2 m: ~17 s Export,
-~12 s Prüfung. Ausgabe (`--aus`, 24 MB auf 2 m, nicht ins Repo):
+Optionen:
+- `--nur ID …` (Gewässer-, Lauf- oder Ort-IDs; verkettet wird immer über alle Läufe);
+- `--gebaut LAUF …` (16d): schon gebaute Läufe, deren Gelände-Delta lokal bereits in `welt/` eingestempelt ist
+  (Gefälle-Lauf-ID, Sehens-Ort-ID oder `SW_<ort>_<bach>`);
+- `--einbau DIR` (16d): Ordner `sehens_einbau/` für die automatische Erkennung, Standard `<daten1m>/sehens_einbau`, sonst
+  neben `--gefaelle` (`export/unreal/welt/gefaelle` → `export/unreal/welt/sehens_einbau`), neben `--sw-ordner` oder
+  neben `--sehens`; `--ohne-erkennung` schaltet die Erkennung ab.
+
+Der Prüfer nimmt dieselben Optionen nur zum Abgleich; maßgeblich ist, was der Export in `back_liste.json`
+(`gelaende.deltas_ohne`) vermerkt hat. Laufzeit 2 m: ~36 s Export (davon ~15 s Vorschläge), ~40 s Prüfung. Ausgabe (`--aus`, 24 MB auf 2 m, nicht ins Repo):
 
 ```
 gewaesser/<gewaesser>/fluss_sim.json     je Welt-Gewässer (154; Gefälle-Läufe mit Plan und rohe Läufe verkettet)
-sehens/<biom>/<ort>/fluss_sim.json       je Sehens-Ort mit Bach (26 Orte, 42 Gewässer)
+sehens/<biom>/<ort>/fluss_sim.json       je Sehens-Ort mit Bach (26 Orte, 42 Bäche in 33 Gewässern)
+vorschlaege.json                         Vorschläge für offene Enden und Lücken (16d), nicht in der Spline
 back_liste.json                          alle SWR-Bereiche mit Fingerabdruck und Back-Reihenfolge (back_liste_v3)
 zusammenfassung.json                     Zahlen (Gewässer, Mündungen, SWR, Auflösungen, Varianten, Höhen)
 ```
 
 Beispiele im Repo: [`../../fluss_sim/`](../../fluss_sim/) – `gewaesser/F_ERLENBACH` (enthält C2 bei s 17,4–220,6 m),
-`sehens/bergwald/bergwald_06_karsee`, `zusammenfassung.json`, `back_liste_auszug.json`.
+`sehens/bergwald/bergwald_06_karsee`, `sehens/elfenwald/elfenwald_04_elfentreppe` (ein Gewässer mit 5 Töpfen, eine SWR),
+`zusammenfassung.json`, `vorschlaege.json`, `back_liste_auszug.json`.
+
+## Eingaben und gebaute Läufe (16d)
+
+**Nur Lauf-Pläne.** Unter `--gefaelle` zählt ein Ordner nur, wenn sein Name kein „.“ enthält, nicht mit „_“ beginnt und
+seine `plan.json` den Schlüssel `wasser_koerper` hat. Übersprungen und im Protokoll genannt (`uebersprungen: …`, in
+`zusammenfassung.json` unter `eingaben.uebersprungen`) werden
+- Archivkopien wie `F_ERLENBACH_1V_C2.alt_v1_gebaut`, `.alt_vor15b`, `_alt/`;
+- andere Pläne ohne `wasser_koerper`, z. B. der Feld-Instanzplan `gefaelle/C2/plan.json` von `a15_einbau.py`;
+- Archiv-Feldordner unter `<lauf>/instanzen/` und `sw_<biom>/` (z. B. `C2.alt`, `_G3`).
+Die Sehens-Biome werden über ihre festen Namen gelesen (`<biom>/orte.json`), Archivordner dort also nie.
+
+**Gelände gebauter Läufe.** Der Fingerabdruck rechnet mit Welt + Planer-Deltas. Lokal sind gebaute Läufe schon in
+`welt/hoehe.f32` eingestempelt; ihr Delta würde sonst doppelt zählen. Ein Delta wird **nicht** addiert, wenn
+- die Lauf-ID (bzw. Sehens-Ort-ID oder `SW_<ort>_<bach>`) in `--gebaut` steht, oder
+- `sehens_einbau/A15_<lauf>/lauf.json` existiert und `nachgezogen` das Feld des Eintrags enthält (bei Plänen über mehrere
+  Felder je Abschnitt: alle `felder` des Abschnitts). Sehens: `A15_<ort>/lauf.json` oder `A15_SW_<ort>_<bach>/lauf.json`
+  gegen `felder` des Orts.
+- Fehlt die Datei, ist der Lauf ungebaut. Ist sie unlesbar oder nennt das Feld nicht, wird das Delta addiert und das
+  Protokoll nennt die Datei (`lauf_json_ungebaut`).
+
+Das Format von `lauf.json` ist hier nicht bekannt; gelesen werden (Annahme, `nachgezogen_felder()`):
+`["C2", "C3"]`, `[{"feld": "C2", "ok": true}]` (auch `id`/`name`; `ok`/`nachgezogen`/`fertig`/`erledigt` falsch = nicht
+nachgezogen), `{"C2": true | {…}, "C3": false}`, `{"felder": ["C2"]}`, `"C2,C3"`, `true` (alle Felder). Steht
+`nachgezogen` nicht oben, wird in Unterobjekten bis Tiefe 3 gesucht. Groß-/Kleinschreibung egal.
+
+Protokoll (`gebaut: … nicht addiert (…)`), `zusammenfassung.json` (`gelaende_deltas.gebaut`, mit Quelle und Form) und
+`back_liste.json` (`gelaende.gebaut`, `gelaende.deltas_ohne`) nennen die gebauten Läufe. Die `lage` der
+Kollisionsobjekte hängt nicht vom Gelände ab (Objekt-Bounds gegen Spline und Wasserstand aus dem Plan); das doppelte
+Delta verfälschte nur den Gelände-Teil des Fingerabdrucks.
 
 ## Gewässer bilden (Verkettung, Mündung)
 
@@ -83,7 +131,32 @@ Beispiele im Repo: [`../../fluss_sim/`](../../fluss_sim/) – `gewaesser/F_ERLEN
   5. **nah** (Lücke in den Weltdaten): Lauf bzw. See ≤ 25 m neben dem Ende → Mündung mit `luecke_m`;
   6. **Wasserfall** (Welt-Wasserfall ≤ 120 m), sonst **versickert** (Sehens) bzw. **offen** (mit `naechster_lauf`).
 - `overlap_material_priority` = 10 − Stufe im Mündungsbaum (Hauptlauf 10, Zufluss 9 …).
-- `anfang`: `quelle`, `see` (Seeabfluss) oder `wasserfall`.
+- `anfang`: `quelle`, `see` (Seeabfluss), `topf` oder `wasserfall`.
+
+**Töpfe (16d, Regel `gewaesser.topf`).** Ein Sehens-See mit größter Ausdehnung (größter Abstand zweier Umrisspunkte)
+< 30 m, in den ein Sehens-Bach mündet oder aus dem einer abfließt, ist ein **Topf** des Gewässers:
+- **Durchfluss** (Zulauf und Abfluss): Zulauf → Topf → Abfluss wird **ein** Gewässer (Elfentreppe: 6 Bäche, 5 Töpfe;
+  Gletschertöpfe: 4 Bäche, 3 Töpfe; Wollsackfall: 2 Bäche, 1 Gumpe). Bei mehreren Zuläufen geht der längste weiter.
+- **Quelltopf** (nur Abfluss): Das Gewässer beginnt in der Topfmitte (`anfang.art = "topf"`).
+- **Endtopf** (nur Zulauf): Das Gewässer endet in der Topfmitte (`muendung.art = "topf"`).
+- Spline: ein Punkt in der Mitte des Topf-Rechtecks auf dem Spiegel, Rolle `topf`, Breite = größte Rechteckseite + 2 × 1 m
+  (so schließt das SWR-Rechteck den Topf ein), Tiefe aus `tiefe_m`, Tempo 10 cm/s; dazwischen wie üblich 2–4 m.
+- Export: `toepfe[]` (See, Art, `s_m`, Spiegel, Rechteck, `water_body_lake: false`) und ein Bereich mit `rolle: "topf"`.
+  Lokal für diese Seen **keinen** `WaterBodyLake` bauen; die SWR des Gewässers füllt sie.
+- Größere Seen (Biberstau 36 m, Karsee 34 m, Moränensee 32 m, Trunkensee 50 m) bleiben `WaterBodyLake` und Mündungsziel;
+  Welt-Seen bleiben unverändert. Beginnt ein anderes Gewässer an einem Topf (`B_R_P2_M1_01` am Blautopf), heißt der
+  Anfang `topf` mit `gewaesser` = Besitzer.
+
+**Vorschläge (16d, Regel `gewaesser.vorschlag`).** Für jede Mündung `offen` und jede Mündung mit `luecke_m` steht in
+`muendung.vorschlag` (und gesammelt in `vorschlaege.json`) ein Vorschlag; die Spline bleibt unverändert:
+- **Lücke:** gerade vom Spline-Ende bis 1 m hinter den Wasserrand des bekannten Ziels.
+- **Offen:** auf einem 4-m-Suchraster (Umkreis 1 500 m, Gelände = Welt + Deltas) entlang des **steilsten Gefälles** (D8);
+  endet das in einer Senke, weiter auf dem Weg des **geringsten Anstiegs** (Dijkstra, Kosten = Länge + 20 × Anstieg) bis
+  zur ersten Wasserzelle (Gewässer-Streifen, See ohne Töpfe, Meer) mit Spiegel ≤ Ende + 1 m. Das eigene Gewässer, seine
+  Zuflüsse und Gewässer, deren Mündungskette selbst offen endet, zählen nicht als Ziel.
+- Felder: `punkte` (erster = Spline-Ende; Punkte ≤ 5 m; z = min(vorheriges z, Gelände), nie steigend; Breite/Tiefe/Tempo
+  vom Ende), `ziel` (Art, ID, Spiegel, ggf. `s_m`), `laenge_m`, `dz_m`, `einschnitt_max_m` (Gelände über dem Wasser),
+  `kreuzt` (Wasser mit höherem Spiegel auf dem Weg), `methode`, `begruendung`.
 
 ## Format `fluss_sim.json` (v3)
 
@@ -307,16 +380,25 @@ zeigen, was sich geändert hat.
 - **Fälle, Vorhang, Schaum, Kollision, Hindernis-Akteure (je SWR), Back-Liste mit Fingerabdruck** (Splines, Objekte und mit
   Daten auch Gelände neu gerechnet), **Determinismus** (`--vergleich`: alle Dateien byte-gleich) wie v2.
 
+- **16d:** Pool und Gelände nur aus Lauf-Plänen (wie Export); Gelände ohne `back_liste.gelaende.deltas_ohne`, Erkennung
+  heute anders = WARNUNG; Töpfe (Bereich `topf`, Splinepunkte auf dem Spiegel ± 3 cm, SWR-Rechteck schließt den Topf
+  ein, < 30 m, nur in einem Gewässer, kein See-Ziel mehr, `water_body_lake: false`); Läufe + Töpfe lückenlos;
+  Vorschläge (am Spline-Ende, z nie steigend, Abstand ≤ 5 m, `laenge_m`, Ziel erreicht, gleich `vorschlaege.json`).
+
 Gegenproben (F_ERLENBACH verfälscht), alle FEHLER mit Exit 1: steigende Spline, Stufe ohne Fußpunkt, Fußpunkt auf
 Oberwasser, Lücke zwischen SWR-Bereichen, Auflösung 4096, Zelle 0,45 m (Auflösung 1024), zweiter Fluss als Quelle, Lauf
-doppelt, Naht an einem Fall, Grundriss-Sprung.
+doppelt, Naht an einem Fall, Grundriss-Sprung. 16d (Elfentreppe, `B_R_M2_M2_01`, `B_R3_K10_TUNDRA_01`, Karsee): Topf
+nicht auf dem Spiegel, Topf ≥ 30 m, Rechteck ohne Topf, Topf ohne Bereich, Topf als `WaterBodyLake`, Mündung in einen
+Topf als See, Vorschlag steigt / beginnt nicht am Ende / Abstand 8 m / Ziel verfehlt / fehlt, `vorschlaege.json` weicht ab.
+Gelände: Fingerabdruck mit gebautem Lauf, aber Welt ohne Stempel → FEHLER.
 
 ## Grenzen
 
 - **2-m-Daten:** Längen, Tiefen und Gelände-Fingerabdrücke stammen aus dem 2-m-Raster; lokal auf 1 m neu exportieren.
 - **Andere Ebenen:** Felsen anderer Ebenen (Bestand, Felsgruppen) findet erst der lokale Lauf.
 - **Mündungen mit Lücke** (`luecke_m`, 23) und **offene Enden** (24) sind Lücken in den Weltdaten (Bach endet 25–700 m vor
-  dem nächsten Wasser oder tiefer als der Fluss daneben); die Spline wird nicht erfunden, nur gemeldet.
+  dem nächsten Wasser oder tiefer als der Fluss daneben); die Spline wird nicht erfunden. Die Vorschläge (16d) stehen
+  getrennt daneben und sind lokal zu prüfen (2-m-Gelände, 4-m-Suchraster).
 - **Geteilte Simulation** (8 Gewässer): Der gemessene SWR-Bereich ist das Rechteck um den Quell-Fluss; zwei SWR mit
   demselben Fluss decken ohne eigene Begrenzung beide das ganze Rechteck ab. Begrenzung und Naht lokal testen (16c).
 - **Überlappende Gewässer:** Sehens-Bäche, die einen Bestandsbach ersetzen (`heide_06` → `B_R2_R_P3_P0_01`), stehen weiter

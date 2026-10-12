@@ -5,7 +5,8 @@ fluss_sim_pruefen.py - Pruefer fuer die Ausgaben von fluss_sim_export.py (Entsch
 
 Aufruf:  python -I fluss_sim_pruefen.py <aus> [--gefaelle DIR] [--sehens DIR] [--sw-ordner DIR]
                                          [--daten2m DIR | --daten1m DIR] [--vergleich <aus2>]
-         <aus> = Ausgabeordner des Exporters (fluss_sim.json-Dateien, back_liste.json).
+                                         [--gebaut LAUF ...] [--einbau DIR] [--ohne-erkennung]
+         <aus> = Ausgabeordner des Exporters (fluss_sim.json-Dateien, back_liste.json, vorschlaege.json).
 Exit-Code 1 bei FEHLER.
 
 Geprueft (FEHLER, wenn nicht anders gesagt):
@@ -26,11 +27,16 @@ Geprueft (FEHLER, wenn nicht anders gesagt):
              des Ziels (+ Luecke) und in dessen zufluesse; offen = HINWEIS.
   Faelle     Vorhang-Regel 16b, Schaum/Kaskadennetz nur an Vorhang-Faellen, Lippe/Fuss-Punkt wie Absturz.
   Kollision, Schaum, Hindernis-Akteure (je SWR), Back-Liste mit Fingerabdruck (neu gerechnet), Determinismus wie v2.
+  16d        nur Lauf-Plaene (Archivordner/Feld-Plaene wie beim Export uebersprungen); Gelaende ohne die Deltas gebauter
+             Laeufe (back_liste.gelaende.deltas_ohne), Erkennung heute anders = WARNUNG; Toepfe (Bereich topf, Punkt
+             auf dem Spiegel, SWR-Rechteck schliesst den Topf ein, < Grenze, nur in einem Gewaesser, kein See-Ziel);
+             Vorschlaege (am Spline-Ende, z nie steigend, Punktabstand, Ziel erreicht, = vorschlaege.json).
 """
 
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
 import sys
@@ -46,7 +52,7 @@ import fluss_sim_export as fx  # noqa: E402
 
 FEHLER, WARNUNG, HINWEIS = "FEHLER", "WARNUNG", "HINWEIS"
 SCHAUM_ARTEN = ("aufprallteppich", "schaumstrasse", "kehrwasser")
-MUENDUNG_ARTEN = ("meer", "see", "fluss", "bach", "versickert", "wasserfall", "offen")
+MUENDUNG_ARTEN = ("meer", "see", "fluss", "bach", "versickert", "wasserfall", "offen", "topf")
 
 
 def melde(befunde, titel=""):
@@ -272,12 +278,17 @@ def pruefe_faelle(g, quellen, regeln, b):
 
 
 def pruefe_laeufe_bereiche(g, b):
-    L = g["laeufe"]
+    # Laeufe und Toepfe (16d) hintereinander: Topf fuellt die Luecke zwischen Zulauf und Abfluss bzw. Anfang/Ende
+    L = sorted([dict(l_, _topf=False) for l_ in g["laeufe"]] +
+               [{"id": "Topf " + tp["see"], "s_m": tp["s_m"], "_topf": True} for tp in g.get("toepfe") or []],
+               key=lambda x: (x["s_m"][0], x["s_m"][1]))
     for i in range(1, len(L)):
-        if L[i]["s_m"][0] < L[i - 1]["s_m"][1] - 0.011 or L[i]["s_m"][0] - L[i - 1]["s_m"][1] > 15.0:
+        luecke = 0.011 if (L[i]["_topf"] or L[i - 1]["_topf"]) else 15.0
+        if L[i]["s_m"][0] < L[i - 1]["s_m"][1] - 0.011 or L[i]["s_m"][0] - L[i - 1]["s_m"][1] > luecke:
             b.append((FEHLER, g["id"], "Laeufe %s -> %s nicht hintereinander" % (L[i - 1]["id"], L[i]["id"])))
     if abs(L[0]["s_m"][0]) > 0.011 or abs(L[-1]["s_m"][1] - g["laenge_m"]) > 0.011:
         b.append((FEHLER, g["id"], "Laeufe decken das Gewaesser nicht von 0 bis laenge_m"))
+    pruefe_toepfe(g, b)
     br = g["bereiche"]
     fl = {f["id"]: f for f in g["faelle"]}
     for i in range(1, len(br)):
@@ -292,8 +303,42 @@ def pruefe_laeufe_bereiche(g, b):
     if not iv or iv[0][0] > rest + 0.01 or g["laenge_m"] - iv[-1][1] > rest + 0.01 or len(iv) > 1:
         b.append((FEHLER, g["id"], "Bereiche und Faelle decken das Gewaesser nicht lueckenlos (%s)" % iv[:3]))
     for x in br:
-        if x.get("rolle") not in ("becken", "rinne", "gerinne", "lauf"):
+        if x.get("rolle") not in ("becken", "rinne", "gerinne", "lauf", "topf"):
             b.append((FEHLER, x["id"], "Bereich-Rolle %r" % x.get("rolle")))
+
+
+def pruefe_toepfe(g, b):
+    """16d: Topf = Bereich mit Rolle topf, Splinepunkt in der Topfmitte auf dem Spiegel, SWR-Rechteck schliesst den Topf
+    ein, kein WaterBodyLake; Groesse < Grenze."""
+    mx = fx.toepfe_max(regeln_global)
+    sp = g["water_body"]["spline"]
+    P = np.asarray(sp["punkte"], float)
+    ss = np.asarray(sp["punkte_s_m"], float)
+    rol = sp["punkt_rollen"]
+    br_topf = {x.get("topf"): x for x in g["bereiche"] if x.get("rolle") == "topf"}
+    for tp in g.get("toepfe") or []:
+        sid = tp["see"]
+        if tp.get("ausdehnung_m", 1e9) >= mx:
+            b.append((FEHLER, sid, "Topf %.1f m >= Grenze %.0f m" % (tp["ausdehnung_m"], mx)))
+        if tp.get("water_body_lake") is not False:
+            b.append((FEHLER, sid, "Topf ohne water_body_lake: false"))
+        x = br_topf.get(sid)
+        if x is None:
+            b.append((FEHLER, sid, "kein Bereich mit Rolle topf"))
+        elif x["s_m"][0] > tp["s_m"][0] + 0.06 or x["s_m"][1] < tp["s_m"][1] - 0.06:
+            b.append((FEHLER, sid, "Topf-Bereich %s deckt den Topf %s nicht" % (x["s_m"], tp["s_m"])))
+        m = (ss >= tp["s_m"][0] - 0.011) & (ss <= tp["s_m"][1] + 0.011)
+        mitte = [i for i in np.where(m)[0] if abs(P[i, 0] - tp["mitte_cm"][0]) < 1.0 and abs(P[i, 1] - tp["mitte_cm"][1]) < 1.0]
+        if not mitte and not any(rol[i] == "topf" for i in np.where(m)[0]):
+            b.append((FEHLER, sid, "kein Splinepunkt im Topf"))
+        if (np.abs(P[m, 2] - tp["spiegel_cm"]) > 3.0).any():
+            b.append((FEHLER, sid, "Splinepunkte im Topf nicht auf dem Spiegel %.0f cm" % tp["spiegel_cm"]))
+        r = tp["rechteck_cm"]
+        for e in g.get("swr_bereiche") or []:
+            if e["s_sim_m"][0] - 0.011 <= tp["s_m"][0] and tp["s_m"][1] <= e["s_sim_m"][1] + 0.011:
+                q = e["rechteck_cm"]
+                if q[0] > r[0] + 1.0 or q[1] > r[1] + 1.0 or q[2] < r[2] - 1.0 or q[3] < r[3] - 1.0:
+                    b.append((FEHLER, sid, "SWR-Rechteck %s schliesst den Topf %s nicht ein" % (e["id"], r)))
 
 
 def pruefe_swr(g, ss, P, regeln, b):
@@ -422,12 +467,91 @@ def pruefe_muendung(g, alle, seen_ids, b):
         if rnd > tol:
             b.append((FEHLER, gid, "Muendungspunkt %.1f m neben dem Wasser von %s (Toleranz %.1f m)" % (rnd, z["id"], tol)))
         if mu.get("luecke_m"):
-            b.append((HINWEIS, gid, "Muendung in %s mit Luecke %.1f m (Spline lokal verlaengern)" % (z["id"], mu["luecke_m"])))
+            b.append((HINWEIS, gid, "Muendung in %s mit Luecke %.1f m (Vorschlag %s)" % (z["id"], mu["luecke_m"], kurz_vorschlag(mu))))
     elif mu["art"] == "see":
         if mu.get("ziel") not in seen_ids:
             b.append((FEHLER, gid, "See %r unbekannt" % mu.get("ziel")))
+        if mu.get("ziel") in toepfe_global:
+            b.append((FEHLER, gid, "Muendung in See %s, der ein Topf von %s ist" % (mu["ziel"], toepfe_global[mu["ziel"]])))
+    elif mu["art"] == "topf":
+        z = alle.get(mu.get("gewaesser"))
+        if z is None or not any(tp["see"] == mu.get("ziel") for tp in z.get("toepfe") or []):
+            b.append((FEHLER, gid, "Topf %r nicht in Gewaesser %r" % (mu.get("ziel"), mu.get("gewaesser"))))
     elif mu["art"] == "offen":
-        b.append((HINWEIS, gid, "Muendung offen (%s)" % (mu.get("naechster_lauf") or {})))
+        b.append((HINWEIS, gid, "Muendung offen (%s), Vorschlag %s" % ((mu.get("naechster_lauf") or {}).get("lauf"), kurz_vorschlag(mu))))
+    if mu["art"] == "offen" or mu.get("luecke_m"):
+        pruefe_vorschlag(g, mu, alle, b)
+    elif mu.get("vorschlag"):
+        b.append((FEHLER, gid, "Vorschlag an einer Muendung ohne Luecke / nicht offen"))
+
+
+def kurz_vorschlag(mu):
+    v = mu.get("vorschlag")
+    if not v:
+        return "-"
+    z = v.get("ziel") or {}
+    return "%s %.0f m -> %s %s" % (v.get("methode"), v.get("laenge_m") or 0.0, z.get("art"), z.get("id"))
+
+
+def pruefe_vorschlag(g, mu, alle, b):
+    """16d: Vorschlag getrennt von der Spline; beginnt am Spline-Ende, z nie steigend, Punktabstand, Ziel erreicht."""
+    gid = g["id"]
+    v = mu.get("vorschlag")
+    if not v:
+        b.append((WARNUNG, gid, "kein Vorschlag fuer %s" % ("offenes Ende" if mu["art"] == "offen" else "Luecke")))
+        return
+    V = regeln_global["gewaesser"]["vorschlag"]
+    soll = "offen" if mu["art"] == "offen" else "luecke"
+    if v.get("art") != soll:
+        b.append((FEHLER, gid, "Vorschlag-Art %r statt %s" % (v.get("art"), soll)))
+    Q = np.asarray(v.get("punkte") or [], float)
+    if len(Q) < 2 or Q.shape[1] < 3:
+        b.append((FEHLER, gid, "Vorschlag mit < 2 Punkten"))
+        return
+    E = g["water_body"]["spline"]["punkte"][-1]
+    if abs(Q[0, 0] - E[0]) > 1.0 or abs(Q[0, 1] - E[1]) > 1.0 or abs(Q[0, 2] - E[2]) > 1.0:
+        b.append((FEHLER, gid, "Vorschlag beginnt nicht am Spline-Ende"))
+    if (np.diff(Q[:, 2]) > 0.05).any():
+        b.append((FEHLER, gid, "Vorschlag steigt"))
+    d = np.hypot(*np.diff(Q[:, :2], axis=0).T) / 100.0
+    if (d > V["punkt_abstand_m"] + 0.05).any():
+        b.append((FEHLER, gid, "Vorschlag-Punkte %.1f m auseinander (> %.1f m)" % (float(d.max()), V["punkt_abstand_m"])))
+    if abs(float(d.sum()) - (v.get("laenge_m") or 0.0)) > 0.05:
+        b.append((FEHLER, gid, "Vorschlag laenge_m passt nicht"))
+    z = v.get("ziel")
+    if z is None:
+        if soll == "luecke" or v.get("ziel_gefunden", True):
+            b.append((FEHLER, gid, "Vorschlag ohne Ziel"))
+        return
+    x, y = Q[-1, 0], Q[-1, 1]
+    if z["art"] in ("fluss", "bach"):
+        zg = alle.get(z["id"])
+        if zg is None:
+            b.append((FEHLER, gid, "Vorschlag-Ziel %s fehlt" % z["id"]))
+            return
+        if zg is g:
+            b.append((FEHLER, gid, "Vorschlag fuehrt in das eigene Gewaesser"))
+        P2 = np.asarray(zg["water_body"]["spline"]["punkte"], float) / 100.0
+        dd, halb, _, _ = streifen_alle((P2[:-1], P2[1:]), [x / 100.0], [y / 100.0])
+        rnd = float((dd - np.maximum(halb, 2.0)).min())
+        if rnd > V["raster_m"]:
+            b.append((FEHLER, gid, "Vorschlag endet %.1f m neben dem Wasser von %s" % (rnd, z["id"])))
+    elif z["art"] == "see":
+        U = seen_umriss.get(z["id"])
+        if U is not None:
+            dd = fx.abstand_polygon(U, x, y)
+            if dd > V["raster_m"]:
+                b.append((FEHLER, gid, "Vorschlag endet %.1f m neben See %s" % (dd, z["id"])))
+        if z["id"] in toepfe_global:
+            b.append((FEHLER, gid, "Vorschlag-Ziel %s ist ein Topf" % z["id"]))
+    elif z["art"] == "meer" and welt_global is not None:
+        from sehens_lib import daten as _d
+        w = welt_global
+        r = int(math.ceil(V["raster_m"] / w.zelle_m))
+        fi, fj = _d.m_zu_pixel(x / 100.0, y / 100.0, w.zelle_m)
+        i0, j0 = int(round(float(fi))), int(round(float(fj)))
+        if not np.asarray(w.meer)[max(i0 - r, 0):i0 + r + 1, max(j0 - r, 0):j0 + r + 1].any():
+            b.append((FEHLER, gid, "Vorschlag endet nicht am Meer"))
 
 
 def streifen(g):
@@ -564,10 +688,13 @@ def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
 
 
 regeln_global = None
+toepfe_global = {}
+seen_umriss = {}
+welt_global = None
 
 
 def main(argv=None):
-    global regeln_global
+    global regeln_global, welt_global
     ap = argparse.ArgumentParser(description="Pruefer Entscheidung 16 (fluss_sim v3)")
     ap.add_argument("aus")
     ap.add_argument("--gefaelle", default=None)
@@ -577,24 +704,29 @@ def main(argv=None):
     ap.add_argument("--vergleich", default=None, help="zweiter Ausgabeordner: Dateien muessen byte-gleich sein")
     ap.add_argument("--daten2m", default=None)
     ap.add_argument("--daten1m", default=None)
+    ap.add_argument("--gebaut", nargs="+", default=None, help="wie beim Exporter (nur zum Abgleich der Erkennung)")
+    ap.add_argument("--einbau", default=None, help="wie beim Exporter (sehens_einbau/)")
+    ap.add_argument("--ohne-erkennung", action="store_true")
     a = ap.parse_args(argv)
     regeln = fx.lese_json(a.regeln)
     regeln_global = regeln
     gesamt = {FEHLER: 0, WARNUNG: 0, HINWEIS: 0}
     quellen = {"gefaelle": a.gefaelle, "sehens": a.sehens}
+    gef_plaene, eingabe_weg = fx.lauf_plaene(a.gefaelle)
+    quellen["gef_plaene"] = gef_plaene
     pool = None
     if a.gefaelle or a.sehens:
-        import glob
         P = fx.Pool(regeln, fx.Masse())
-        if a.gefaelle:
-            for pf in sorted(glob.glob(os.path.join(a.gefaelle, "*", "instanzen", "*", "plan.json"))):
-                lauf = os.path.basename(os.path.dirname(os.path.dirname(os.path.dirname(pf))))
+        for lauf in sorted(gef_plaene):
+            for pf in fx.feld_plaene(os.path.join(a.gefaelle, lauf, "instanzen"))[0]:
                 P.lade_ebene(pf, "gefaelle/%s/instanzen/%s/plan.json" % (lauf, os.path.basename(os.path.dirname(pf))))
         if a.sehens:
             for biom in fx.BIOME:
+                if not os.path.exists(os.path.join(a.sehens, biom, "orte.json")):
+                    continue
                 sw = fx.finde_sw(a.sehens, a.sw_ordner, biom)
                 if sw:
-                    for pf in sorted(glob.glob(os.path.join(sw, "*", "plan.json"))):
+                    for pf in fx.feld_plaene(sw)[0]:
                         P.lade_ebene(pf, "sw_%s/%s/plan.json" % (biom, os.path.basename(os.path.dirname(pf))))
         P.fertig()
         pool = {"p": P, "fest": P.fest, "refs": {json.dumps(P.ref(k), sort_keys=True) for k in range(len(P.recs))}}
@@ -617,18 +749,32 @@ def main(argv=None):
             alle[g["id"]] = g
             datei_von[g["id"]] = rel
     seen_ids = set()
+    welt_global = welt
+    seen_umriss.clear()
     if welt is not None:
         seen_ids |= {s["id"] for s in (welt.wasser_welt or {}).get("seen", []) or []}
+        for s_ in (welt.wasser_welt or {}).get("seen", []) or []:
+            if s_.get("umriss"):
+                seen_umriss[s_["id"]] = np.asarray(s_["umriss"], float)[:, :2]
     if a.sehens:
         for biom in fx.BIOME:
             po = os.path.join(a.sehens, biom, "orte.json")
             if os.path.exists(po):
                 for o in fx.lese_json(po).get("orte") or []:
                     seen_ids |= {"%s/%s" % (o["id"], w["id"]) for w in o.get("wasser") or [] if w.get("typ") == "see"}
+                    for w in o.get("wasser") or []:
+                        if w.get("typ") == "see" and w.get("umriss_cm"):
+                            seen_umriss["%s/%s" % (o["id"], w["id"])] = np.asarray(w["umriss_cm"], float)[:, :2]
     if welt is None or not a.sehens:
         seen_ids |= {g["muendung"]["ziel"] for g in alle.values() if g["muendung"]["art"] == "see"}
     alle_swr, alle_kol, lauf_in = {}, {}, {}
     wbrs = {}
+    toepfe_global.clear()
+    for gid in sorted(alle):
+        for tp in alle[gid].get("toepfe") or []:
+            if tp["see"] in toepfe_global:
+                befunde_datei[datei_von[gid]].append((FEHLER, tp["see"], "Topf in zwei Gewaessern"))
+            toepfe_global[tp["see"]] = gid
     for gid in sorted(alle):
         g = alle[gid]
         b = befunde_datei[datei_von[gid]]
@@ -673,6 +819,20 @@ def main(argv=None):
         else:
             b.append((HINWEIS, "Laeufe", "alle %d Welt-Laeufe in genau einem Gewaesser" % len(soll)))
     pruefe_hindernis_global(alle_swr, alle_kol, regeln, b)
+    pv = os.path.join(a.aus, "vorschlaege.json")
+    mit_v = {gid: g["muendung"]["vorschlag"] for gid, g in alle.items() if g["muendung"].get("vorschlag")}
+    if not os.path.exists(pv):
+        b.append((FEHLER, "vorschlaege.json", "fehlt"))
+    else:
+        vl = fx.lese_json(pv).get("vorschlaege") or []
+        if {o["gewaesser"]: o["vorschlag"] for o in vl} != mit_v or len(vl) != len(mit_v):
+            b.append((FEHLER, "vorschlaege.json", "passt nicht zu muendung.vorschlag (%d / %d)" % (len(vl), len(mit_v))))
+        else:
+            arten = {}
+            for o in vl:
+                k_ = o["vorschlag"]["art"]
+                arten[k_] = arten.get(k_, 0) + 1
+            b.append((HINWEIS, "vorschlaege.json", "%d Vorschlaege %s (getrennt von der Spline)" % (len(vl), arten)))
     z = melde(b, "Ein Fluss je Gewaesser / Hindernis-Akteure (global)")
     for k_ in gesamt:
         gesamt[k_] += z[k_]
@@ -691,17 +851,22 @@ def main(argv=None):
             b.append((FEHLER, "back_liste", "SWR-Bereiche in back_liste != Dateien (%d / %d)" % (len(set(ids)), len(alle_swr))))
         gel = None
         if welt is not None:
+            # Gelaende wie beim Export: Deltas schon gebauter Laeufe (back_liste.gelaende.deltas_ohne) nicht addieren
             gel = fx.Gelaende(welt)
-            if a.gefaelle:
-                for pf in sorted(os.listdir(a.gefaelle)):
-                    pp = os.path.join(a.gefaelle, pf, "plan.json")
-                    if os.path.exists(pp):
-                        gel.delta_hinzu(os.path.join(a.gefaelle, pf), fx.lese_json(pp).get("abschnitte"))
-            if a.sehens:
-                for biom in fx.BIOME:
-                    po = os.path.join(a.sehens, biom, "orte.json")
-                    if os.path.exists(po):
-                        gel.delta_hinzu(os.path.join(a.sehens, biom), fx.lese_json(po).get("orte"))
+            blg = bl.get("gelaende") or {}
+            ohne = set(blg.get("deltas_ohne") or [])
+            gi = fx.gelaende_laden(gel, a.gefaelle, gef_plaene, a.sehens, ohne_dateien=ohne)
+            if len(gi["ohne_dateien"]) != len(ohne):
+                b.append((FEHLER, "back_liste", "deltas_ohne nennt %d Dateien, gefunden %d" % (len(ohne), len(gi["ohne_dateien"]))))
+            # Erkennung heute (lauf.json, --gebaut) gegen den Export
+            if not a.ohne_erkennung:
+                einbau = fx.einbau_ordner_finden(a.einbau, a.daten1m, a.gefaelle, a.sehens, a.sw_ordner)
+                jetzt = fx.gelaende_laden(fx.Gelaende(welt), a.gefaelle, gef_plaene, a.sehens, a.gebaut or (), einbau)
+                if set(jetzt["ohne_dateien"]) != ohne:
+                    b.append((WARNUNG, "gebaut", "Erkennung jetzt %s, beim Export %s (lauf.json seit dem Export geaendert?)"
+                              % (sorted(g["id"] for g in jetzt["gebaut"]), blg.get("gebaut"))))
+            if blg.get("gebaut"):
+                b.append((HINWEIS, "gebaut", "Gelaende-Deltas ohne %d Datei(en) gebauter Laeufe: %s" % (len(ohne), blg["gebaut"])))
         Pp = pool["p"] if pool else None
         ref_k = {json.dumps(Pp.ref(k), sort_keys=True): k for k in range(len(Pp.recs))} if Pp else {}
         kol_k = np.array(sorted(ref_k[k_] for k_ in alle_kol if k_ in ref_k), int) if Pp else np.zeros(0, int)

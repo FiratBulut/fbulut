@@ -9,10 +9,13 @@ Liest NUR die vorhandenen Planer-Ausgaben (gefaelle_plan.py: <lauf>/plan.json + 
 
   Gewaesser         EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss/Bach, Meer), ueber
                     alle Faelle und Feldgrenzen hinweg. Die Welt-Laeufe (wasser_welt.json je Feld, baeche_alle.json,
-                    mit Gefaelle-Plan oder roh) werden an ihren Enden verkettet; Sehens-Baeche sind je ein Gewaesser.
+                    mit Gefaelle-Plan oder roh) werden an ihren Enden verkettet; Sehens-Baeche sind je ein Gewaesser,
+                    ueber kleine Toepfe (< 30 m, 16d) verkettet: Zulauf -> Topf -> Abfluss = ein Gewaesser.
   water_body        die eine Spline (x, y, z, Breite, Tiefe, Tempo je Punkt) mit Punktrollen; jede Stufe hat einen
                     Punkt an der Lippe (Oberwasser) und einen am Fuss (Unterwasser), dazwischen 2-4 m (roh 5-10 m).
-  muendung          Art (meer, see, fluss, bach, versickert, wasserfall, offen), Ziel, Muendungspunkt; zufluesse.
+  muendung          Art (meer, see, fluss, bach, versickert, wasserfall, offen, topf), Ziel, Muendungspunkt; zufluesse.
+                    Offene Enden und Luecken: muendung.vorschlag (Punkte, Ziel, Begruendung), NICHT in der Spline (16d).
+  toepfe            kleine Sehens-Seen als Teil des Gewaessers (Bereich rolle topf, kein WaterBodyLake, 16d)
   bereiche          die frueheren Abschnitte zwischen den Faellen nur noch als s-Bereiche mit Rolle
   faelle            je Einzelabsturz >= fall_schwelle_m: Lippe/Fuss, Effekte, vorhang (Regel 16b) und nur dann
                     Kaskadennetz-Bereich und schaum_objekte (wie 16/16a; Vorhaenge warten auf Ferat)
@@ -22,7 +25,15 @@ Liest NUR die vorhandenen Planer-Ausgaben (gefaelle_plan.py: <lauf>/plan.json + 
                     Rechteckflaeche, nicht an Faellen). Je SWR Hindernis-Akteur WH_<swr> und Fingerabdruck.
   wasser_kollision  alle festen Instanzen/Akteure im Wasser oder <= 1 m daneben (ueberspannte ohne, 16a E5)
 
-und global back_liste.json (je SWR-Bereich: Fingerabdruck, Reihenfolge) sowie zusammenfassung.json.
+und global back_liste.json (je SWR-Bereich: Fingerabdruck, Reihenfolge), vorschlaege.json und zusammenfassung.json.
+
+Eingaben (16d): gelesen werden nur Lauf-Plaene (<lauf>/plan.json mit 'wasser_koerper'); Ordner mit '.' im Namen oder
+fuehrendem '_' (Archivkopien) und andere Plaene (Feld-Instanzplan gefaelle/C2/plan.json von a15_einbau.py) werden
+uebersprungen und im Protokoll genannt, ebenso Archiv-Feldordner unter instanzen/ und sw_<biom>/.
+Gelaende-Deltas schon gebauter Laeufe werden nicht addiert (lokal schon in welt/ eingestempelt): --gebaut LAUF ... oder
+automatisch, wenn sehens_einbau/A15_<lauf>/lauf.json existiert und 'nachgezogen' das Feld enthaelt (siehe
+nachgezogen_felder; fehlt die Datei, gilt der Lauf als ungebaut). Protokoll und zusammenfassung.json (gelaende_deltas)
+nennen die gebauten Laeufe, back_liste.json (gelaende.deltas_ohne) die weggelassenen Delta-Dateien fuer den Pruefer.
 
 Aufruf (Cloud, 2 m):
   python -I recherche/antworten/skripte/fluss_sim/fluss_sim_export.py \
@@ -30,14 +41,15 @@ Aufruf (Cloud, 2 m):
 Lokal (1 m):
   python -I .../fluss_sim_export.py --gefaelle export/unreal/welt/gefaelle --sehens export/unreal/welt/sehens \
       --sw-ordner export/unreal/welt --daten1m export/unreal/welt --aus export/unreal/welt/fluss_sim
-Optionen: --nur ID ... (Gewaesser-, Lauf- oder Ort-IDs; verkettet wird immer ueber alle Laeufe), --regeln DATEI.
+Optionen: --nur ID ... (Gewaesser-, Lauf- oder Ort-IDs; verkettet wird immer ueber alle Laeufe), --regeln DATEI,
+  --gebaut LAUF ... (Gefaelle-Lauf, Sehens-Ort oder SW_<ort>_<bach>), --einbau DIR (sehens_einbau/; Standard
+  <daten1m>/sehens_einbau bzw. neben --gefaelle), --ohne-erkennung (lauf.json nicht auswerten).
 
 Deterministisch (keine Zeitstempel, sortierte Ausgabe, Zufall aus SHA-256 der IDs). Keine Unreal-Importe.
 Die Funktion fingerabdruck() ist die Referenz fuer das lokale Werkzeug (Handaenderungen im Editor).
 """
 
 import argparse
-import glob
 import hashlib
 import json
 import math
@@ -344,7 +356,9 @@ class Gelaende:
         self.deltas = []
 
     def delta_hinzu(self, basis, eintraege):
+        """Rueckgabe: Anzahl hinzugefuegter Deltas."""
         from sehens_lib import daten as _d
+        n = 0
         for e in eintraege or []:
             g = e.get("gelaende") or {}
             fij = g.get("fenster_ij")
@@ -355,27 +369,36 @@ class Gelaende:
                 i0, j0, hh, ww = fij
                 box = (j0 - _d.OFF_J, i0 - _d.OFF_I, j0 + ww - 1 - _d.OFF_J, i0 + hh - 1 - _d.OFF_I)
                 self.deltas.append((tuple(fij), box, pf))
+                n += 1
+        return n
 
     def delta(self, x, y):
         from sehens_lib import daten as _d
-        out = np.zeros(np.broadcast(x, y).shape)
+        x, y = np.broadcast_arrays(np.asarray(x, float), np.asarray(y, float))
+        out = np.zeros(x.shape)
         x0, x1, y0, y1 = float(np.min(x)), float(np.max(x)), float(np.min(y)), float(np.max(y))
         for (i0, j0, hh, ww), box, pf in self.deltas:
             if box[2] < x0 or box[0] > x1 or box[3] < y0 or box[1] > y1:
                 continue
-            a = np.fromfile(pf, dtype="<f4").reshape(hh, ww).astype(np.float64)
-            fi = y + _d.OFF_I - i0
-            fj = x + _d.OFF_J - j0
+            # Vorauswahl der Punkte im Fenster (+ 1 cm), gerechnet wird wie bisher (Ergebnis bitgleich)
+            sel = (x >= box[0] - 0.01) & (x <= box[2] + 0.01) & (y >= box[1] - 0.01) & (y <= box[3] + 0.01)
+            if not sel.any():
+                continue
+            xs, ys = x[sel], y[sel]
+            fi = ys + _d.OFF_I - i0
+            fj = xs + _d.OFF_J - j0
             innen = (fi >= 0) & (fi <= hh - 1) & (fj >= 0) & (fj <= ww - 1)
             if not innen.any():
                 continue
+            a = np.fromfile(pf, dtype="<f4").reshape(hh, ww).astype(np.float64)
             i = np.clip(np.floor(fi).astype(np.int64), 0, hh - 2)
             j = np.clip(np.floor(fj).astype(np.int64), 0, ww - 2)
             di = np.clip(fi - i, 0, 1)
             dj = np.clip(fj - j, 0, 1)
             v = (a[i, j] * (1 - di) * (1 - dj) + a[i, j + 1] * (1 - di) * dj + a[i + 1, j] * di * (1 - dj) +
                  a[i + 1, j + 1] * di * dj)
-            out = np.where(innen, out + v, out)
+            o = out[sel]
+            out[sel] = np.where(innen, o + v, o)
         return out
 
     def raster(self, bereich_cm):
@@ -393,6 +416,244 @@ class Gelaende:
         H = w.hoehe[I, J].astype(np.float64) + self.delta(X, Y)
         x0, y0 = _d.pixel_zu_m(i0, j0, z)
         return float(x0) * 100.0, float(y0) * 100.0, z * 100.0, H * 100.0
+
+    def hoehe_cm(self, x_cm, y_cm):
+        """Gelaende (cm) an Weltpunkten (cm): Rasterhoehe bilinear + Deltas."""
+        x = np.asarray(x_cm, float) / 100.0
+        y = np.asarray(y_cm, float) / 100.0
+        h = np.asarray(self.welt.bilinear(self.welt.hoehe, x, y), float)
+        return (h + self.delta(x, y)) * 100.0
+
+
+# ======================================================================================================================
+# Eingaben (16d): nur echte Lauf-Plaene, keine Archivordner; schon gebaute Laeufe ohne Gelaende-Delta
+# ======================================================================================================================
+def ist_archiv(name):
+    """Archiv- bzw. Ablageordner: Name mit '.' (F_..._C2.alt_v1_gebaut) oder fuehrendem '_' (_alt)."""
+    return "." in name or name.startswith("_")
+
+
+def lauf_plaene(gef_basis):
+    """Lauf-Plaene unter --gefaelle: <lauf>/plan.json mit Schluessel 'wasser_koerper'. Archivordner und andere Plaene
+    (z. B. Feld-Instanzplan gefaelle/C2/plan.json von a15_einbau.py) werden genannt und uebersprungen.
+    Rueckgabe ({lauf: pfad}, [{ordner, grund}])."""
+    plaene, weg = {}, []
+    if not gef_basis or not os.path.isdir(gef_basis):
+        return plaene, weg
+    for name in sorted(os.listdir(gef_basis)):
+        d = os.path.join(gef_basis, name)
+        if not os.path.isdir(d):
+            continue
+        pf = os.path.join(d, "plan.json")
+        if ist_archiv(name):
+            weg.append({"ordner": name, "grund": "Archivordner ('.' im Namen bzw. fuehrendes '_')"})
+            continue
+        if not os.path.exists(pf):
+            continue
+        try:
+            plan = lese_json(pf)
+        except (OSError, ValueError):
+            weg.append({"ordner": name, "grund": "plan.json nicht lesbar"})
+            continue
+        if not isinstance(plan, dict) or "wasser_koerper" not in plan:
+            weg.append({"ordner": name, "grund": "kein Lauf-Plan (ohne 'wasser_koerper', z. B. Feld-Instanzplan von a15_einbau.py)"})
+            continue
+        plaene[name] = pf
+        del plan
+    return plaene, weg
+
+
+def feld_plaene(ordner):
+    """Instanz-Ebenen <ordner>/<Feld>/plan.json ohne Archivordner. Rueckgabe ([pfad], [{ordner, grund}])."""
+    out, weg = [], []
+    if not ordner or not os.path.isdir(ordner):
+        return out, weg
+    for name in sorted(os.listdir(ordner)):
+        pf = os.path.join(ordner, name, "plan.json")
+        if not os.path.isdir(os.path.join(ordner, name)):
+            continue
+        if ist_archiv(name):
+            weg.append({"ordner": name, "grund": "Archivordner ('.' im Namen bzw. fuehrendes '_')"})
+            continue
+        if os.path.exists(pf):
+            out.append(pf)
+    return out, weg
+
+
+def _wahr(v):
+    if isinstance(v, str):
+        return v.strip().lower() not in ("", "0", "nein", "false", "no", "offen", "aus")
+    return bool(v)
+
+
+def nachgezogen_felder(d, tiefe=0):
+    """Liest 'nachgezogen' aus lauf.json (Format nicht festgelegt, daher defensiv). Rueckgabe (felder, form):
+    felder = Menge der Feldnamen (gross), 'alle' (nachgezogen: true) oder None (kein Eintrag). Angenommene Formen:
+      "nachgezogen": ["C2", "C3"]                               Liste von Feldnamen
+      "nachgezogen": [{"feld": "C2", "ok": true, ...}, ...]       Liste von Objekten (feld/id/name; ok/nachgezogen/fertig)
+      "nachgezogen": {"C2": true | {...}, "C3": false}            Objekt je Feld (Wert wahr = nachgezogen)
+      "nachgezogen": {"felder": ["C2"]}                           Objekt mit Feldliste
+      "nachgezogen": "C2" bzw. "C2,C3"                            Text
+      "nachgezogen": true                                         alle Felder des Laufs
+    Liegt 'nachgezogen' nicht oben, wird in Unterobjekten (bis Tiefe 3, Schluessel sortiert) gesucht."""
+    if not isinstance(d, dict):
+        return None, "kein Objekt"
+    if "nachgezogen" not in d:
+        if tiefe < 3:
+            for k in sorted(d, key=str):
+                if isinstance(d[k], dict):
+                    f, form = nachgezogen_felder(d[k], tiefe + 1)
+                    if f is not None:
+                        return f, "%s.%s" % (k, form)
+        return None, "ohne 'nachgezogen'"
+    v = d["nachgezogen"]
+    if v is True:
+        return "alle", "true"
+    if isinstance(v, str):
+        return {t.upper() for t in re.split(r"[,;\s]+", v) if t}, "text"
+    if isinstance(v, (list, tuple)):
+        out = set()
+        for x in v:
+            if isinstance(x, str):
+                out.add(x.strip().upper())
+            elif isinstance(x, dict):
+                ok = all(_wahr(x[k]) for k in ("ok", "nachgezogen", "fertig", "erledigt") if k in x)
+                f = x.get("feld") or x.get("id") or x.get("name")
+                if ok and isinstance(f, str):
+                    out.add(f.strip().upper())
+                if ok and isinstance(x.get("felder"), (list, tuple)):
+                    out |= {str(f2).strip().upper() for f2 in x["felder"]}
+            elif isinstance(x, (list, tuple)) and x and isinstance(x[0], str):
+                out.add(x[0].strip().upper())
+        return out, "liste"
+    if isinstance(v, dict):
+        if isinstance(v.get("felder"), (list, tuple)):
+            return {str(f).strip().upper() for f in v["felder"]}, "objekt.felder"
+        return {str(k).strip().upper() for k, w in v.items() if _wahr(w)}, "objekt"
+    if not v:
+        return set(), "leer"
+    return None, "unbekannt (%s)" % type(v).__name__
+
+
+def einbau_ordner_finden(einbau, daten1m, gefaelle, sehens, sw_ordner):
+    """sehens_einbau/ im Welt-Export: --einbau, sonst <daten1m>/sehens_einbau, <Eltern von --gefaelle>/sehens_einbau,
+    <sw-ordner>/sehens_einbau, <Eltern von --sehens>/sehens_einbau (erster vorhandener). Lokal liegen gefaelle/, sehens/
+    und sehens_einbau/ alle in export/unreal/welt (= --daten1m)."""
+    if einbau:
+        return einbau if os.path.isdir(einbau) else None
+    kand = [daten1m, os.path.dirname(os.path.abspath(gefaelle)) if gefaelle else None, sw_ordner,
+            os.path.dirname(os.path.abspath(sehens)) if sehens else None]
+    for b in kand:
+        if b and os.path.isdir(os.path.join(b, "sehens_einbau")):
+            return os.path.join(b, "sehens_einbau")
+    return None
+
+
+def lauf_json_lesen(einbau, lauf_id):
+    """sehens_einbau/A15_<lauf>/lauf.json -> (felder|'alle'|None, form, rel) oder None (Datei fehlt = ungebaut)."""
+    if not einbau:
+        return None
+    rel = "sehens_einbau/A15_%s/lauf.json" % lauf_id
+    pf = os.path.join(einbau, "A15_" + lauf_id, "lauf.json")
+    if not os.path.exists(pf):
+        return None
+    try:
+        d = lese_json(pf)
+    except (OSError, ValueError):
+        return None, "nicht lesbar", rel
+    f, form = nachgezogen_felder(d)
+    return f, form, rel
+
+
+def _deckt(fe, felder):
+    if fe == "alle":
+        return True
+    return bool(fe) and bool(felder) and {str(f).upper() for f in felder} <= fe
+
+
+def gelaende_laden(gel, gef_basis, gef_plaene, sehens_basis, gebaut_ids=(), einbau=None, ohne_dateien=None):
+    """Gelaende-Deltas der Planer zu gel hinzufuegen. Deltas schon gebauter Laeufe (lokal bereits in welt/ eingestempelt)
+    werden NICHT addiert (16d):
+      - Lauf-ID (gefaelle) bzw. Ort-ID oder SW_<ort>_<bach> (Sehens) in gebaut_ids (--gebaut), oder
+      - sehens_einbau/A15_<lauf>/lauf.json existiert und 'nachgezogen' enthaelt das Feld (alle Felder des Eintrags);
+        Sehens: A15_<ort>/lauf.json oder A15_SW_<ort>_<bach>/lauf.json. Fehlt die Datei, gilt der Lauf als ungebaut.
+    ohne_dateien (Pruefer): genau diese Delta-Dateien weglassen, keine Erkennung.
+    Rueckgabe info (addiert, ohne, gebaut[], lauf_json_ungebaut[], ohne_dateien[])."""
+    gebaut_ids = set(gebaut_ids or ())
+    info = {"addiert": 0, "ohne": 0, "gebaut": [], "lauf_json_ungebaut": [], "ohne_dateien": []}
+
+    def eintragen(basis, rel_basis, eintraege, wer, art, felder_std, quelle):
+        rein = []
+        n_ohne = 0
+        for e in eintraege or []:
+            g = e.get("gelaende") or {}
+            if not g.get("datei"):
+                continue
+            rel = "%s/%s" % (rel_basis, g["datei"])
+            if ohne_dateien is not None:
+                weg = rel in ohne_dateien
+            else:
+                fel = e.get("felder") or felder_std
+                weg = quelle is not None and (quelle[0] == "--gebaut" or _deckt(quelle[1], fel))
+            if weg:
+                n_ohne += 1
+                info["ohne_dateien"].append(rel)
+            else:
+                rein.append(e)
+        info["addiert"] += gel.delta_hinzu(basis, rein)
+        info["ohne"] += n_ohne
+        if n_ohne and ohne_dateien is None:
+            info["gebaut"].append({"id": wer, "art": art, "quelle": quelle[0] if quelle[0] == "--gebaut" else quelle[2],
+                                   "nachgezogen_form": None if quelle[0] == "--gebaut" else quelle[3],
+                                   "felder": sorted(felder_std or []), "deltas_ohne": n_ohne})
+
+    for lauf in sorted(gef_plaene or {}):
+        plan = lese_json(gef_plaene[lauf])
+        felder = plan.get("felder") or []
+        quelle = None
+        if ohne_dateien is None:
+            if lauf in gebaut_ids:
+                quelle = ("--gebaut", None, None, None)
+            else:
+                lj = lauf_json_lesen(einbau, lauf)
+                if lj is not None:
+                    quelle = ("lauf.json", lj[0], lj[2], lj[1])
+                    if not _deckt(lj[0], felder):
+                        info["lauf_json_ungebaut"].append({"id": lauf, "lauf_json": lj[2], "nachgezogen_form": lj[1],
+                                                           "felder": sorted(felder)})
+        eintragen(os.path.join(gef_basis, lauf), "gefaelle/%s" % lauf, plan.get("abschnitte"), lauf, "gefaelle", felder,
+                  quelle)
+        del plan
+    if sehens_basis and os.path.isdir(sehens_basis):
+        for biom in BIOME:
+            po = os.path.join(sehens_basis, biom, "orte.json")
+            if not os.path.exists(po):
+                continue
+            od = lese_json(po)
+            for ort in od.get("orte") or []:
+                if not (ort.get("gelaende") or {}).get("datei"):
+                    continue
+                oid = ort["id"]
+                felder = ort.get("felder") or []
+                quelle = None
+                if ohne_dateien is None:
+                    laeufe = [oid] + sorted(w.get("wasser_koerper_lauf") or "SW_%s_%s" % (oid, w.get("id"))
+                                            for w in ort.get("wasser") or [] if w.get("typ") == "bach")
+                    if any(g == oid or g.startswith("SW_%s_" % oid) for g in gebaut_ids):
+                        quelle = ("--gebaut", None, None, None)
+                    else:
+                        for lid in laeufe:
+                            lj = lauf_json_lesen(einbau, lid)
+                            if lj is None:
+                                continue
+                            if _deckt(lj[0], felder):
+                                quelle = ("lauf.json", lj[0], lj[2], lj[1])
+                                break
+                            info["lauf_json_ungebaut"].append({"id": lid, "lauf_json": lj[2], "nachgezogen_form": lj[1],
+                                                               "felder": sorted(felder)})
+                eintragen(os.path.join(sehens_basis, biom), "sehens/%s" % biom, [ort], oid, "sehens", felder, quelle)
+    info["ohne_dateien"] = sorted(info["ohne_dateien"])
+    return info
 
 
 # ======================================================================================================================
@@ -593,6 +854,56 @@ def becken_aus(abst, linie):
     if float(linie.s[-1]) - a > 0.05:
         out.append({"s_m": [a, float(linie.s[-1])], "oben": vor, "unten": None})
     del grenzen
+    return out
+
+
+def _iv_teilen(a, b, iv):
+    """[a, b] an den Intervallen iv (a_, b_, id) teilen: Liste (x0, x1, id|None), Stuecke < 5 cm entfallen."""
+    st, x = [], a
+    for p0, p1, sid in sorted(iv):
+        if p1 <= a + 1e-6 or p0 >= b - 1e-6:
+            continue
+        p0, p1 = max(p0, a), min(p1, b)
+        if p0 - x > 0.05:
+            st.append([x, p0, None])
+        elif st:
+            st[-1][1] = p0
+        else:
+            p0 = x
+        st.append([p0, p1, sid])
+        x = p1
+    if b - x > 0.05 or not st:
+        st.append([x, b, None])
+    else:
+        st[-1][1] = b
+    return st
+
+
+def segmente_toepfe(segs, tp_iv):
+    """Bereiche an den Toepfen teilen (16d): Topf = eigener Bereich mit Rolle 'topf'."""
+    out = []
+    for g in segs:
+        st = _iv_teilen(g["a"], g["b"], tp_iv)
+        for k, (x0, x1, sid) in enumerate(st):
+            n = {"a": x0, "b": x1, "oben": g["oben"] if k == 0 else None, "unten": g["unten"] if k == len(st) - 1 else None,
+                 "innen": g["innen"] if k == 0 else []}
+            if k == 0 and g.get("rest_oben"):
+                n["rest_oben"] = True
+            if k == len(st) - 1 and g.get("rest_unten"):
+                n["rest_unten"] = True
+            if sid:
+                n["topf"] = sid
+            out.append(n)
+    return out
+
+
+def becken_ohne_toepfe(becken, tp_iv):
+    out = []
+    for bk in becken:
+        st = [x for x in _iv_teilen(bk["s_m"][0], bk["s_m"][1], tp_iv) if x[2] is None]
+        for k, (x0, x1, _) in enumerate(st):
+            out.append({"s_m": [x0, x1], "oben": bk["oben"] if x0 <= bk["s_m"][0] + 1e-6 else None,
+                        "unten": bk["unten"] if x1 >= bk["s_m"][1] - 1e-6 else None})
     return out
 
 
@@ -989,9 +1300,12 @@ def ausschnitt(L, a, b):
     return out
 
 
-def zusammenfuegen(kette, links, regeln):
+def zusammenfuegen(kette, links, regeln, topf_oben=None, topf_unten=None):
     """Verkettet die Linien der Teile zu einer Gewaesser-Linie. An Ueberlappungen (Feldgrenzen) wird das Teil ohne Plan
-    gekuerzt, sonst das untere. Rueckgabe (linie, abst, extra, laeufe)."""
+    gekuerzt, sonst das untere. Toepfe (16d): Verbindung 'topf' fuehrt vom Ende des Zulaufs ueber die Topfmitte zum Anfang
+    des Abflusses; topf_oben/topf_unten setzen die Topfmitte vor den Anfang bzw. hinter das Ende. Der Topfpunkt liegt auf
+    dem Spiegel, Breite = groesste Rechteckseite + 2 x Rand (damit das SWR-Rechteck den Topf einschliesst).
+    Rueckgabe (linie, abst, extra, laeufe)."""
     cut = [[t.s0, t.s1] for t in kette]
     for i, l in enumerate(links):
         if l["art"] == "ueberlappung":
@@ -1005,14 +1319,40 @@ def zusammenfuegen(kette, links, regeln):
     ufer = {"s_m": [], "einzug_links_m": [], "einzug_rechts_m": []}
     laeufe = []
     ende = None
+    toepfe = []
+    vmin = regeln["abschnitt"]["velocity_min_cm_s"]
+
+    def topf_punkt(tp, s_):
+        S.append(s_); X.append(tp["mitte_cm"][0]); Y.append(tp["mitte_cm"][1]); Z.append(tp["spiegel_cm"])
+        B.append(tp["breite_cm"]); T.append(tp["tiefe_cm"]); V.append(vmin); K.append("topf")
+
+    def topf_eintrag(tp, s_a, s_b):
+        toepfe.append({"see": tp["see"], "art": tp["art"], "s_m": [r1(s_a, 2), r1(s_b, 2)], "spiegel_cm": r1(tp["spiegel_cm"]),
+                       "ausdehnung_m": tp["ausdehnung_m"], "rechteck_cm": [r1(v) for v in tp["rechteck_cm"]],
+                       "mitte_cm": [r1(tp["mitte_cm"][0]), r1(tp["mitte_cm"][1])], "breite_spline_cm": r1(tp["breite_cm"]),
+                       "tiefe_cm": r1(tp["tiefe_cm"]), "zulauf": tp["zulauf"], "abfluss": tp["abfluss"],
+                       "water_body_lake": False, "hinweis": "Topf ist Teil des Gewaessers: kein WaterBodyLake, die SWR fuellt ihn"})
+
+    if topf_oben is not None:
+        topf_punkt(topf_oben, 0.0)
+        ende = (topf_oben["mitte_cm"][0], topf_oben["mitte_cm"][1], 0.0)
+        topf_a = 0.0
     for i, t in enumerate(kette):
         a, b = cut[i]
         A = ausschnitt(t.linie, a, b)
+        tp = links[i - 1].get("topf") if i > 0 and links[i - 1]["art"] == "topf" else None
+        if tp is not None:
+            topf_a = ende[2]
+            s_c = ende[2] + max(math.hypot(tp["mitte_cm"][0] - ende[0], tp["mitte_cm"][1] - ende[1]) / 100.0, 1e-3)
+            topf_punkt(tp, s_c)
+            ende = (tp["mitte_cm"][0], tp["mitte_cm"][1], s_c)
         if ende is None:
             off = -a
         else:
             gap = max(math.hypot(A["x"][0] - ende[0], A["y"][0] - ende[1]) / 100.0, 1e-3)
             off = ende[2] + gap - a
+        if tp is not None or (i == 0 and topf_oben is not None):
+            topf_eintrag(tp if tp is not None else topf_oben, topf_a, a + off)
         S += list(A["s"] + off)
         X += list(A["x"]); Y += list(A["y"]); Z += list(A["z"]); B += list(A["b"]); T += list(A["t"]); V += list(A["v"])
         K += list(A["knick"])
@@ -1053,10 +1393,14 @@ def zusammenfuegen(kette, links, regeln):
                        "gekuerzt_m": [r1(a - t.s0, 2), r1(t.s1 - b, 2)], "quelle": q,
                        "abstuerze_entfallen": sorted(weg),
                        "anschluss_oben": None if i == 0 else links[i - 1]["art"]})
+    if topf_unten is not None:
+        s_c = ende[2] + max(math.hypot(topf_unten["mitte_cm"][0] - ende[0], topf_unten["mitte_cm"][1] - ende[1]) / 100.0, 1e-3)
+        topf_eintrag(topf_unten, ende[2], s_c)
+        topf_punkt(topf_unten, s_c)
     linie = Linie(S, X, Y, Z, B, T, V, K)
     abst.sort(key=lambda d: (d["s_lippe"], d["id"]))
     extra = {"effekte": eff, "strahl": strahl, "vorhang": vorhang, "kaskadennetze": kns,
-             "ufer_rand": ufer if ufer["s_m"] else None, "roh": all(t.roh for t in kette)}
+             "ufer_rand": ufer if ufer["s_m"] else None, "roh": all(t.roh for t in kette), "toepfe": toepfe}
     return linie, abst, extra, laeufe
 
 
@@ -1135,7 +1479,7 @@ def gewaesser_spline(linie, abst, roh_bei, regeln):
         k = int(np.clip(np.searchsorted(linie.s, s_), 0, len(linie.s) - 1))
         kk = [j for j in (k - 1, k) if 0 <= j < len(linie.s)]
         r_ = [linie.knick[j] for j in kk]
-        rollen.append("becken" if all(x in ("becken", "uebergang", "fuss") for x in r_) else
+        rollen.append("topf" if "topf" in r_ else "becken" if all(x in ("becken", "uebergang", "fuss") for x in r_) else
                       ("rampe" if "rampe" in r_ else ("gerinne" if "gerinne" in r_ else
                                                       (r_[-1] if r_[-1] in ("river", "roh") else "rinne"))))
     z = np.minimum.accumulate(np.asarray(z, float))
@@ -1326,12 +1670,17 @@ def baue_gewaesser_v3(gw, regeln, pool):
     for f in faelle:
         f["vorhang"], f["vorhang_grund"] = vorhang_regel(f, R)
     becken = becken_aus(abst, linie)
+    tp_iv = [(tp["s_m"][0], tp["s_m"][1], tp["see"]) for tp in gw.get("toepfe") or []]
+    if tp_iv:
+        becken = becken_ohne_toepfe(becken, tp_iv)
     sp, stufe_punkt = gewaesser_spline(linie, abst, gw["roh_bei"], R)
     ss = np.asarray(sp["punkte_s_m"], float)
     P = np.asarray(sp["punkte"], float)
     wbr = "WBR_" + gid
     # Bereiche (fruehere Abschnitte) zwischen den Faellen
     segs = segmente_bilden(linie, faelle, R)
+    if tp_iv:
+        segs = segmente_toepfe(segs, tp_iv)
     bereiche = []
     for n, g_ in enumerate(segs):
         a, b = g_["a"], g_["b"]
@@ -1345,10 +1694,13 @@ def baue_gewaesser_v3(gw, regeln, pool):
                             "oben": bk["oben"], "unten": bk["unten"]})
         laeufe_in = [l_["id"] for l_ in gw["laeufe"] if l_["s_m"][0] < b - 1e-6 and l_["s_m"][1] > a + 1e-6]
         bereiche.append({"id": "%s_A%02d" % (gid, n), "s_m": [r1(a, 2), r1(b, 2)], "laenge_m": r1(b - a, 2),
-                         "rolle": bereich_rolle(a, b, linie, innen, becken, all(gw["roh_bei"](x) for x in (a, 0.5 * (a + b), b))),
+                         "rolle": "topf" if g_.get("topf") else
+                         bereich_rolle(a, b, linie, innen, becken, all(gw["roh_bei"](x) for x in (a, 0.5 * (a + b), b))),
                          "oben_fall": g_["oben"], "unten_fall": g_["unten"], "faelle_innen": g_["innen"],
                          "abstuerze_innen": innen, "becken": bec, "laeufe": laeufe_in,
                          "rest_oben": bool(g_.get("rest_oben")), "rest_unten": bool(g_.get("rest_unten"))})
+        if g_.get("topf"):
+            bereiche[-1]["topf"] = g_["topf"]
     # SWR-Bereiche (Nachtrag 17:45): eine SWR je Gewaesser, Aufloesung bis 2048; nur sehr grosse Rechtecke teilen
     typ_pkt = [gw["typ_bei"](x) for x in ss]
     zmax_pkt = np.array([S["zelle_max_bach_m"] if t_ == "bach" else S["zelle_max_fluss_m"] for t_ in typ_pkt], float)
@@ -1516,7 +1868,7 @@ def baue_gewaesser_v3(gw, regeln, pool):
         "laeufe": gw["laeufe"], "anfang": gw["anfang"], "muendung": gw["muendung"], "zufluesse": [],
         "water_body": {"id": wbr, "klasse": "WaterBodyRiver", "affects_landscape": False,
                        "overlap_material_priority": None, "spline": sp},
-        "abstuerze": abst_out, "bereiche": bereiche, "faelle": fl, "swr_bereiche": kacheln,
+        "abstuerze": abst_out, "bereiche": bereiche, "faelle": fl, "swr_bereiche": kacheln, "toepfe": gw.get("toepfe") or [],
         "wasser_kollision": wk, "ohne_wasser_kollision": ohne,
         "effekte_ohne_fall": sorted({e["_quelle"] + "[%d]" % e["_index"] for e in extra["effekte"]}
                                     - {x["quelle"] + "[%d]" % x["index"] for f in fl for x in f["effekte"]})}
@@ -1754,8 +2106,434 @@ def endstueck_anpassen(linie, eintrag_zufluss):
 
 
 # ======================================================================================================================
+# Vorschlaege fuer offene Enden und Luecken (16d, Entscheidung zu Rueckfrage 5 aus 16c): getrennt, nie in der Spline
+# ======================================================================================================================
+def _rdp(P, tol):
+    """Douglas-Peucker (xy, cm) auf einer Punktliste; Anfang/Ende bleiben."""
+    P = np.asarray(P, float)
+    if len(P) < 3:
+        return list(range(len(P)))
+    behalten = np.zeros(len(P), bool)
+    behalten[0] = behalten[-1] = True
+    stapel = [(0, len(P) - 1)]
+    while stapel:
+        a, b = stapel.pop()
+        if b - a < 2:
+            continue
+        A, B = P[a, :2], P[b, :2]
+        AB = B - A
+        L = math.hypot(AB[0], AB[1])
+        Q = P[a + 1:b, :2]
+        if L < 1e-9:
+            d = np.hypot(Q[:, 0] - A[0], Q[:, 1] - A[1])
+        else:
+            d = np.abs(AB[0] * (Q[:, 1] - A[1]) - AB[1] * (Q[:, 0] - A[0])) / L
+        k = int(np.argmax(d))
+        if d[k] > tol:
+            m = a + 1 + k
+            behalten[m] = True
+            stapel += [(a, m), (m, b)]
+    return [i for i in range(len(P)) if behalten[i]]
+
+
+def _abtasten(P, schritt_cm):
+    """Polyline (xy cm) gleichmaessig mit Abstand <= schritt abtasten; Knickpunkte bleiben."""
+    out = [list(P[0])]
+    for a, b in zip(P[:-1], P[1:]):
+        L = math.hypot(b[0] - a[0], b[1] - a[1])
+        n = max(1, int(math.ceil(L / schritt_cm - 1e-9)))
+        for m in range(1, n + 1):
+            t = m / n
+            out.append([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t])
+    return out
+
+
+class Zielkarte:
+    """Wasser als Ziel fuer die Vorschlaege: Gewaesser-Streifen (Spline +- halbe Breite), Seen (ohne Toepfe), Meer."""
+
+    def __init__(self, alle, karte, welt):
+        self.welt = welt
+        self.karte = karte
+        self.gw = []
+        for e in alle:
+            P = np.asarray(e["water_body"]["spline"]["punkte"], float)
+            if len(P) < 2:
+                continue
+            h = np.maximum(P[:, 3], 400.0) / 2.0
+            self.gw.append({"id": e["id"], "art": "fluss" if e["art"] == "fluss" else "bach", "P": P,
+                            "ss": np.asarray(e["water_body"]["spline"]["punkte_s_m"], float),
+                            "box": ((P[:, 0] - h).min(), (P[:, 1] - h).min(), (P[:, 0] + h).max(), (P[:, 1] + h).max())})
+        self.seen = [s for s in karte.seen if not s.get("topf")]
+
+    def raster(self, x0, y0, g_cm, nx, ny, ohne):
+        """Zielraster (ny, nx): Spiegel (cm, inf = kein Wasser) und Ziel-Index in self.ziele."""
+        tz = np.full((ny, nx), np.inf)
+        ti = np.full((ny, nx), -1, np.int64)
+        ziele = []
+        x1, y1 = x0 + (nx - 1) * g_cm, y0 + (ny - 1) * g_cm
+
+        def zellen(bx):
+            j0 = max(int(math.floor((bx[0] - x0) / g_cm)), 0)
+            j1 = min(int(math.ceil((bx[2] - x0) / g_cm)), nx - 1)
+            i0 = max(int(math.floor((bx[1] - y0) / g_cm)), 0)
+            i1 = min(int(math.ceil((bx[3] - y0) / g_cm)), ny - 1)
+            return i0, i1, j0, j1
+
+        # Meer (Spiegel 0)
+        from sehens_lib import daten as _d
+        I, J = np.meshgrid(np.arange(ny), np.arange(nx), indexing="ij")
+        X = (x0 + J * g_cm) / 100.0
+        Y = (y0 + I * g_cm) / 100.0
+        fi, fj = _d.m_zu_pixel(X, Y, self.welt.zelle_m)
+        ii = np.clip(np.floor(fi + 0.5).astype(np.int64), 0, self.welt.ny - 1)
+        jj = np.clip(np.floor(fj + 0.5).astype(np.int64), 0, self.welt.nx - 1)
+        m = np.asarray(self.welt.meer)[ii, jj]
+        if m.any():
+            ziele.append({"art": "meer", "id": "meer"})
+            tz[m] = 0.0
+            ti[m] = len(ziele) - 1
+        # Seen
+        for s in self.seen:
+            b = s["box"]
+            if b[2] < x0 or b[0] > x1 or b[3] < y0 or b[1] > y1:
+                continue
+            i0, i1, j0, j1 = zellen(b)
+            if i0 > i1 or j0 > j1:
+                continue
+            Ii, Jj = np.meshgrid(np.arange(i0, i1 + 1), np.arange(j0, j1 + 1), indexing="ij")
+            px, py = x0 + Jj * g_cm, y0 + Ii * g_cm
+            U = s["umriss"]
+            xa, ya = U[:, 0], U[:, 1]
+            xb, yb = np.roll(xa, -1), np.roll(ya, -1)
+            innen = np.zeros(px.shape, bool)
+            for k in range(len(U)):
+                c = ((ya[k] > py) != (yb[k] > py))
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    xs = (xb[k] - xa[k]) * (py - ya[k]) / (yb[k] - ya[k]) + xa[k]
+                innen ^= c & (px < xs)
+            sel = innen & (s["spiegel_cm"] < tz[i0:i1 + 1, j0:j1 + 1])
+            if sel.any():
+                ziele.append({"art": "see", "id": s["id"]})
+                tz[i0:i1 + 1, j0:j1 + 1][sel] = s["spiegel_cm"]
+                ti[i0:i1 + 1, j0:j1 + 1][sel] = len(ziele) - 1
+        # Gewaesser-Streifen
+        for q in self.gw:
+            if q["id"] in ohne:
+                continue
+            b = q["box"]
+            if b[2] < x0 or b[0] > x1 or b[3] < y0 or b[1] > y1:
+                continue
+            P = q["P"]
+            k_ = None
+            hs = np.maximum(np.maximum(P[:-1, 3], P[1:, 3]), 400.0) / 2.0
+            lox, hix = np.minimum(P[:-1, 0], P[1:, 0]) - hs, np.maximum(P[:-1, 0], P[1:, 0]) + hs
+            loy, hiy = np.minimum(P[:-1, 1], P[1:, 1]) - hs, np.maximum(P[:-1, 1], P[1:, 1]) + hs
+            for k in np.where((hix >= x0) & (lox <= x1) & (hiy >= y0) & (loy <= y1))[0]:
+                A, B = P[k], P[k + 1]
+                bx = (lox[k], loy[k], hix[k], hiy[k])
+                i0, i1, j0, j1 = zellen(bx)
+                if i0 > i1 or j0 > j1:
+                    continue
+                Ii, Jj = np.meshgrid(np.arange(i0, i1 + 1), np.arange(j0, j1 + 1), indexing="ij")
+                px, py = x0 + Jj * g_cm, y0 + Ii * g_cm
+                ab = B[:2] - A[:2]
+                t = np.clip(((px - A[0]) * ab[0] + (py - A[1]) * ab[1]) / max(ab[0] ** 2 + ab[1] ** 2, 1e-9), 0, 1)
+                d = np.hypot(px - (A[0] + t * ab[0]), py - (A[1] + t * ab[1]))
+                hb = np.maximum(A[3] + t * (B[3] - A[3]), 400.0) / 2.0
+                z = A[2] + t * (B[2] - A[2])
+                sel = (d <= hb) & (z < tz[i0:i1 + 1, j0:j1 + 1])
+                if sel.any():
+                    if k_ is None:
+                        ziele.append({"art": q["art"], "id": q["id"], "P": P, "ss": q["ss"]})
+                        k_ = len(ziele) - 1
+                    tz[i0:i1 + 1, j0:j1 + 1][sel] = z[sel]
+                    ti[i0:i1 + 1, j0:j1 + 1][sel] = k_
+        return tz, ti, ziele
+
+
+def vorschlag_luecke(e, mu, zk, gel, V):
+    """Luecke (Ziel bekannt): gerade Verlaengerung vom Spline-Ende bis ins_wasser_m hinter den Wasserrand des Ziels."""
+    P = e["water_body"]["spline"]["punkte"]
+    ex, ey = P[-1][0], P[-1][1]
+    ins = V["ins_wasser_m"] * 100.0
+    if mu["art"] in ("fluss", "bach"):
+        q = next((x for x in zk.gw if x["id"] == mu.get("ziel")), None)
+        if q is None:
+            return None
+        Q = q["P"]
+        A, B = Q[:-1], Q[1:]
+        ab = B[:, :2] - A[:, :2]
+        t = np.clip(((ex - A[:, 0]) * ab[:, 0] + (ey - A[:, 1]) * ab[:, 1]) / np.maximum((ab ** 2).sum(1), 1e-9), 0, 1)
+        cx, cy = A[:, 0] + t * ab[:, 0], A[:, 1] + t * ab[:, 1]
+        d = np.hypot(ex - cx, ey - cy)
+        k = int(np.argmin(d))
+        halb = float(A[k, 3] + t[k] * (B[k, 3] - A[k, 3])) / 2.0
+        zt = float(A[k, 2] + t[k] * (B[k, 2] - A[k, 2]))
+        ux, uy = (cx[k] - ex) / max(d[k], 1e-9), (cy[k] - ey) / max(d[k], 1e-9)
+        L = min(max(float(d[k]) - halb + ins, 50.0), float(d[k]))
+        ziel = {"art": q["art"], "id": q["id"], "spiegel_cm": r1(zt),
+                "s_m": r1(float(q["ss"][k] + t[k] * (q["ss"][k + 1] - q["ss"][k])), 2)}
+    else:
+        s = next((x for x in zk.karte.seen if x["id"] == mu.get("ziel")), None)
+        if s is None:
+            return None
+        U = s["umriss"]
+        A, B = U, np.roll(U, -1, axis=0)
+        ab = B - A
+        t = np.clip(((ex - A[:, 0]) * ab[:, 0] + (ey - A[:, 1]) * ab[:, 1]) / np.maximum((ab ** 2).sum(1), 1e-9), 0, 1)
+        cx, cy = A[:, 0] + t * ab[:, 0], A[:, 1] + t * ab[:, 1]
+        d = np.hypot(ex - cx, ey - cy)
+        k = int(np.argmin(d))
+        ux, uy = (cx[k] - ex) / max(d[k], 1e-9), (cy[k] - ey) / max(d[k], 1e-9)
+        L = float(d[k]) + ins
+        zt = float(s["spiegel_cm"])
+        ziel = {"art": "see", "id": s["id"], "spiegel_cm": r1(zt)}
+    pts = _abtasten([[ex, ey], [ex + ux * L, ey + uy * L]], V["punkt_abstand_m"] * 100.0)
+    return _vorschlag_fertig(e, pts, ziel, zt, gel, V, "luecke",
+                             "Luecke %.1f m: gerade Verlaengerung vom Spline-Ende %.1f m bis %.1f m hinter den Wasserrand von %s"
+                             % (mu.get("luecke_m") or 0.0, L / 100.0, V["ins_wasser_m"], ziel["id"]), [])
+
+
+def _vorschlag_fertig(e, pts, ziel, zt, gel, V, art, begruendung, kreuzt, extra=None):
+    P = e["water_body"]["spline"]["punkte"]
+    ez, br, tf, vel = P[-1][2], P[-1][3], P[-1][4], P[-1][5]
+    pts = np.asarray(pts, float)
+    h = gel.hoehe_cm(pts[:, 0], pts[:, 1])
+    z = [float(ez)]
+    for i in range(1, len(pts)):
+        z.append(min(z[-1], float(h[i])))
+    if zt is not None and len(z) > 1:
+        z[-1] = min(z[-2], zt)
+    z = np.minimum.accumulate(np.asarray(z))
+    ein = float(np.max(h[1:] - z[1:])) / 100.0 if len(z) > 1 else 0.0
+    L = float(np.hypot(*np.diff(pts[:, :2], axis=0).T).sum()) / 100.0
+    v = {"art": art, "methode": (extra or {}).get("methode", "gerade"), "ziel": ziel,
+         "punkte_felder": ["x_cm", "y_cm", "z_cm", "RiverWidth_cm", "Depth_cm", "WaterVelocityScalar_cm_s"],
+         "punkte": [[r1(p[0]), r1(p[1]), r1(zz), br, tf, vel] for p, zz in zip(pts, z)],
+         "laenge_m": r1(L, 2), "dz_m": r1((float(ez) - float(z[-1])) / 100.0, 2),
+         "einschnitt_max_m": r1(max(ein, 0.0), 2), "gelaende_max_ueber_ende_m": r1((float(h.max()) - float(ez)) / 100.0, 2),
+         "kreuzt": kreuzt, "begruendung": begruendung,
+         "hinweis": "Vorschlag, nicht in der Spline: lokal pruefen und uebernehmen (Spline verlaengern bzw. Weltdaten nachziehen)"}
+    if ziel and zt is not None and zt > float(ez) + 1.0:
+        v["ziel_hoeher_cm"] = r1(zt - float(ez))
+    if extra:
+        v.update({k: w for k, w in extra.items() if k != "methode"})
+    return v
+
+
+def vorschlag_offen(e, zk, gel, V, ohne):
+    """Offenes Ende: steilstes Gefaelle (D8 auf dem Suchraster), aus einer Senke weiter mit dem Weg des geringsten
+    Anstiegs (Dijkstra, Kosten = Laenge + anstieg_kosten x Anstieg) bis zur ersten Wasserzelle (Gewaesser, See, Meer), deren
+    Spiegel hoechstens dz_toleranz_cm ueber dem Ende liegt."""
+    import heapq
+    P = e["water_body"]["spline"]["punkte"]
+    ex, ey, ez = P[-1][0], P[-1][1], P[-1][2]
+    g = V["raster_m"] * 100.0
+    R = V["radius_m"] * 100.0
+    n = int(round(R / g))
+    nx = ny = 2 * n + 1
+    x0, y0 = ex - n * g, ey - n * g
+    I, J = np.meshgrid(np.arange(ny), np.arange(nx), indexing="ij")
+    H = gel.hoehe_cm(x0 + J * g, y0 + I * g)
+    tz, ti, ziele = zk.raster(x0, y0, g, nx, ny, ohne)
+    ok = tz <= ez + V["dz_toleranz_cm"]
+    nb = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    i, j = n, n
+    weg = [(i, j)]
+    abstieg, abstieg_m = 0, 0.0
+    while not ok[i, j] and len(weg) < 4 * n:
+        best = None
+        for di, dj in nb:
+            a, b = i + di, j + dj
+            if not (0 <= a < ny and 0 <= b < nx):
+                continue
+            gef = (H[i, j] - H[a, b]) / math.hypot(di, dj)
+            if gef > 1e-6 and (best is None or gef > best[0]):
+                best = (gef, a, b)
+        if best is None:
+            break
+        abstieg_m += math.hypot(best[1] - i, best[2] - j) * V["raster_m"]
+        i, j = best[1], best[2]
+        weg.append((i, j))
+        abstieg += 1
+    methode = "steilstes_gefaelle"
+    if not ok[i, j]:
+        methode = "steilstes_gefaelle+geringster_anstieg" if abstieg else "geringster_anstieg"
+        K = V["anstieg_kosten"]
+        start = i * nx + j
+        dist = {start: 0.0}
+        vor = {}
+        heap = [(0.0, start)]
+        ziel_k = None
+        fertig = set()
+        while heap:
+            c, k = heapq.heappop(heap)
+            if k in fertig:
+                continue
+            fertig.add(k)
+            a, b = divmod(k, nx)
+            if ok[a, b]:
+                ziel_k = k
+                break
+            for di, dj in nb:
+                a2, b2 = a + di, b + dj
+                if not (0 <= a2 < ny and 0 <= b2 < nx):
+                    continue
+                k2 = a2 * nx + b2
+                if k2 in fertig:
+                    continue
+                c2 = c + math.hypot(di, dj) * V["raster_m"] + K * max(0.0, float(H[a2, b2] - H[a, b])) / 100.0
+                if c2 < dist.get(k2, float("inf")) - 1e-12:
+                    dist[k2] = c2
+                    vor[k2] = k
+                    heapq.heappush(heap, (c2, k2))
+        if ziel_k is None:
+            pts = [[ex, ey]] + [[x0 + b * g, y0 + a * g] for a, b in weg[1:]]
+            if len(pts) < 2:
+                return None
+            return _vorschlag_fertig(e, pts, None, None, gel, V, "offen",
+                                     "kein Wasser mit Spiegel <= Ende + %.1f m im Umkreis %.0f m: nur steilstes Gefaelle bis zur "
+                                     "Senke (versickert)" % (V["dz_toleranz_cm"] / 100.0, V["radius_m"]), [],
+                                     {"methode": "steilstes_gefaelle", "ziel_gefunden": False})
+        teil = []
+        k = ziel_k
+        while k != start:
+            teil.append(divmod(k, nx))
+            k = vor[k]
+        weg += teil[::-1]
+    if len(weg) < 2:
+        return None
+    a, b = weg[-1]
+    zd = ziele[int(ti[a, b])]
+    zt = float(tz[a, b])
+    ziel = {"art": zd["art"], "id": zd["id"], "spiegel_cm": r1(zt)}
+    if "P" in zd:
+        Q = zd["P"]
+        px, py = x0 + b * g, y0 + a * g
+        A_, B_ = Q[:-1], Q[1:]
+        ab = B_[:, :2] - A_[:, :2]
+        t = np.clip(((px - A_[:, 0]) * ab[:, 0] + (py - A_[:, 1]) * ab[:, 1]) / np.maximum((ab ** 2).sum(1), 1e-9), 0, 1)
+        d = np.hypot(px - (A_[:, 0] + t * ab[:, 0]), py - (A_[:, 1] + t * ab[:, 1]))
+        kk = int(np.argmin(d))
+        ziel["s_m"] = r1(float(zd["ss"][kk] + t[kk] * (zd["ss"][kk + 1] - zd["ss"][kk])), 2)
+    # Wasser mit hoeherem Spiegel, durch das der Weg fuehrt
+    kreuzt = sorted({ziele[int(ti[a_, b_])]["id"] for a_, b_ in weg[1:-1] if ti[a_, b_] >= 0})
+    roh = [[ex, ey]] + [[x0 + b_ * g, y0 + a_ * g] for a_, b_ in weg[1:]]
+    keep = _rdp(roh, V["vereinfachen_m"] * 100.0)
+    pts = _abtasten([roh[k] for k in keep], V["punkt_abstand_m"] * 100.0)
+    txt = "offen: Verlaengerung entlang des steilsten Gefaelles (D8, %.0f-m-Raster)" % V["raster_m"]
+    if abstieg:
+        txt += " %.0f m" % abstieg_m
+    if methode != "steilstes_gefaelle":
+        txt += ", aus der Senke weiter auf dem Weg des geringsten Anstiegs" if abstieg else \
+            " nicht moeglich (Ende in einer Senke): Weg des geringsten Anstiegs"
+    txt += " bis %s %s (Spiegel %.1f m, Ende %.1f m)" % (ziel["art"], ziel["id"], zt / 100.0, ez / 100.0)
+    if kreuzt:
+        txt += "; kreuzt Wasser mit hoeherem Spiegel: %s" % ", ".join(kreuzt)
+    return _vorschlag_fertig(e, pts, ziel, zt, gel, V, "offen", txt, kreuzt,
+                             {"methode": methode, "ziel_gefunden": True, "abstieg_m": r1(abstieg_m, 1)})
+
+
+def vorschlaege_bilden(alle, karte, welt, gel, regeln, log_=log):
+    """Je offenem Ende und je Luecke ein Vorschlag (Feld muendung.vorschlag + vorschlaege.json). Die Spline bleibt."""
+    V = regeln["gewaesser"]["vorschlag"]
+    zk = Zielkarte(alle, karte, welt)
+    nach_id = {e["id"]: e for e in alle}
+    oben = {}
+    for e in alle:
+        z = e["muendung"].get("ziel")
+        if e["muendung"]["art"] in ("fluss", "bach") and z in nach_id:
+            oben.setdefault(z, []).append(e["id"])
+
+    def endet_offen(gid):
+        """Muendungskette endet offen (bzw. im Kreis): als Ziel ungeeignet, sonst entstehen Vorschlaege in Sackgassen."""
+        seen = set()
+        while gid in nach_id and gid not in seen:
+            seen.add(gid)
+            m = nach_id[gid]["muendung"]
+            if m["art"] == "offen":
+                return True
+            if m["art"] not in ("fluss", "bach"):
+                return False
+            gid = m.get("ziel")
+        return gid in seen
+    sackgasse = {e["id"] for e in alle if endet_offen(e["id"])}
+
+    def zufluss_baum(gid):
+        out, st = {gid}, [gid]
+        while st:
+            for u in oben.get(st.pop(), []):
+                if u not in out:
+                    out.add(u)
+                    st.append(u)
+        return out
+    out = []
+    for e in sorted(alle, key=lambda e_: e_["id"]):
+        mu = e["muendung"]
+        if mu["art"] == "offen":
+            v = vorschlag_offen(e, zk, gel, V, zufluss_baum(e["id"]) | sackgasse)
+        elif mu.get("luecke_m"):
+            v = vorschlag_luecke(e, mu, zk, gel, V)
+        else:
+            continue
+        if v is None:
+            continue
+        mu["vorschlag"] = v
+        out.append({"gewaesser": e["id"], "muendung_art": mu["art"], "luecke_m": mu.get("luecke_m"), "vorschlag": v})
+    log_("Vorschlaege: %d (offen %d, Luecke %d)" % (len(out), sum(1 for o in out if o["vorschlag"]["art"] == "offen"),
+                                                   sum(1 for o in out if o["vorschlag"]["art"] == "luecke")))
+    return out
+
+
+# ======================================================================================================================
 # Hauptlauf
 # ======================================================================================================================
+def toepfe_max(regeln):
+    return float((regeln["gewaesser"].get("topf") or {}).get("max_ausdehnung_m", 0.0))
+
+
+def toepfe_bilden(sehens_seen, sehens_teile, regeln):
+    """Kleine Sehens-Seen (groesste Ausdehnung < topf.max_ausdehnung_m), in die ein Sehens-Bach muendet oder aus denen
+    einer abfliesst, werden Toepfe des Gewaessers (16d, Entscheidung zu Rueckfrage 4 aus 16c): kein eigener WaterBodyLake,
+    die SWR des Gewaessers fuellt sie. Zulauf -> Topf -> Abfluss wird ein Gewaesser. Rueckgabe (toepfe, nach, vor)."""
+    TP = regeln["gewaesser"].get("topf") or {}
+    mx = toepfe_max(regeln)
+    rand = float(TP.get("rand_m", 1.0)) * 100.0
+    for s in sehens_seen:
+        U = s["umriss"]
+        s["ausdehnung_m"] = r1(float(np.hypot(U[:, None, 0] - U[None, :, 0], U[:, None, 1] - U[None, :, 1]).max()) / 100.0, 2) \
+            if len(U) > 1 else 0.0
+    zu, ab = {}, {}
+    for t in sehens_teile:
+        sh = t.sehens
+        if sh.get("muendung_art") == "see_eigen" and sh.get("muendung"):
+            zu.setdefault("%s/%s" % (sh["ort"], sh["muendung"]), []).append(t)
+        if sh.get("abfluss_von"):
+            ab.setdefault("%s/%s" % (sh["ort"], sh["abfluss_von"]), []).append(t)
+    toepfe, nach, vor = {}, {}, {}
+    for s in sorted(sehens_seen, key=lambda s_: s_["id"]):
+        sid = s["id"]
+        if not (s["ausdehnung_m"] < mx and (sid in zu or sid in ab)):
+            continue
+        U = s["umriss"]
+        bx = [float(U[:, 0].min()), float(U[:, 1].min()), float(U[:, 0].max()), float(U[:, 1].max())]
+        z_ = sorted(zu.get(sid, []), key=lambda t: (-(t.s1 - t.s0), t.id))
+        a_ = sorted(ab.get(sid, []), key=lambda t: t.id)
+        tp = {"see": sid, "ausdehnung_m": s["ausdehnung_m"], "spiegel_cm": float(s["spiegel_cm"]),
+              "tiefe_cm": max(float(s.get("tiefe_m") or 0.0) * 100.0, regeln["abschnitt"]["tiefe_min_cm"]),
+              "mitte_cm": [0.5 * (bx[0] + bx[2]), 0.5 * (bx[1] + bx[3])],
+              "breite_cm": max(bx[2] - bx[0], bx[3] - bx[1]) + 2.0 * rand, "rechteck_cm": bx,
+              "zulauf": z_[0].id if z_ else None, "abfluss": a_[0].id if a_ else None,
+              "weitere_zulaeufe": [t.id for t in z_[1:]], "weitere_abfluesse": [t.id for t in a_[1:]],
+              "art": "durchfluss" if (z_ and a_) else ("quelltopf" if a_ else "endtopf"), "gewaesser": None}
+        toepfe[sid] = tp
+        s["topf"] = True
+        if z_ and a_:
+            nach[z_[0].id] = (a_[0].id, {"art": "topf", "topf": tp, "abstand_m": 0.0})
+            vor[a_[0].id] = z_[0].id
+    return toepfe, nach, vor
+
+
 def finde_sw(sehens_basis, sw_ordner, biom):
     for c in ([os.path.join(sw_ordner, "sw_" + biom)] if sw_ordner else []) + \
              [os.path.join(sehens_basis, biom, "sw_" + biom), os.path.join(sehens_basis, "..", "sw_" + biom)]:
@@ -1764,7 +2542,7 @@ def finde_sw(sehens_basis, sw_ordner, biom):
     return None
 
 
-def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
+def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
     """Alle Laeufe laden, verketten, Muendungen bestimmen. Rueckgabe (gewaesser, teile, karte, info)."""
     import gefaelle_daten as gd
     G = regeln["gewaesser"]
@@ -1776,8 +2554,12 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
         teile_welt.append(("bach", b["id"], None, b.get("netz"), b.get("feld"), b.get("anschluss")))
     teile = []
     for art, tid, fam, netz, feld, ans in teile_welt:
-        pf = os.path.join(gef, tid, "plan.json") if gef else None
-        r = gefaelle_gewaesser(gef, tid, regeln) if (pf and os.path.exists(pf)) else None
+        if gef_plaene is None:
+            pf = os.path.join(gef, tid, "plan.json") if gef else None
+            hat_plan = bool(pf and os.path.exists(pf))
+        else:
+            hat_plan = tid in gef_plaene
+        r = gefaelle_gewaesser(gef, tid, regeln) if hat_plan else None
         if r:
             g, linie, abst, extra = r
             her = "plan"
@@ -1793,12 +2575,14 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
         for w in ort.get("wasser") or []:
             if w.get("typ") == "see" and w.get("umriss_cm"):
                 sehens_seen.append({"id": "%s/%s" % (ort["id"], w["id"]), "quelle": "sehens/%s/orte.json" % biom,
-                                    "umriss": np.asarray(w["umriss_cm"], float)[:, :2], "spiegel_cm": float(w.get("spiegel_cm") or 0.0)})
+                                    "umriss": np.asarray(w["umriss_cm"], float)[:, :2], "spiegel_cm": float(w.get("spiegel_cm") or 0.0),
+                                    "tiefe_m": w.get("tiefe_m")})
         for g, linie, abst, extra in sehens_gewaesser(biom, ort, regeln):
             w = next(x for x in ort["wasser"] if x.get("typ") == "bach" and x.get("id") == g["bach"])
             sh = {"ort": ort["id"], "biom": biom, "bach": w.get("id"), "muendung": w.get("muendung"),
                   "muendung_art": w.get("muendung_art"), "abfluss_von": w.get("abfluss_von"), "rel": rel}
             sehens_teile.append(Teil(g["id"], "sehens_bach", "sehens", g, linie, abst, extra, sehens=sh))
+    toepfe, s_nach, s_vor = toepfe_bilden(sehens_seen, sehens_teile, regeln)
     karte = Wasserkarte(welt, sehens_seen, G)
     # Fortsetzungen (Welt-Laeufe)
     nach, vor = {}, {}
@@ -1833,7 +2617,19 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
             k.append(teil_ort[nid])
             links.append(f)
         ketten.append((k, links))
-    ketten += [([t], []) for t in sehens_teile]
+    # Sehens-Baeche: Ketten ueber kleine Toepfe (16d, Rueckfrage 4 aus 16c): Zulauf -> Topf -> Abfluss = ein Gewaesser
+    s_ort = {t.id: t for t in sehens_teile}
+    for t in sehens_teile:
+        if t.id in s_vor:
+            continue
+        k, links = [t], []
+        while k[-1].id in s_nach:
+            nid, f = s_nach[k[-1].id]
+            if any(x.id == nid for x in k):
+                break
+            k.append(s_ort[nid])
+            links.append(f)
+        ketten.append((k, links))
     # Namen, Muendung, Zusammenfuegen
     gewaesser, vergeben = [], set()
     for k, links in ketten:
@@ -1846,7 +2642,26 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
         vergeben.add(gid)
         mu = muendung_suchen(k, teile, karte, G, teil_ort)
         an = anfang_suchen(k[0], karte, G)
-        linie, abst, extra, laeufe = zusammenfuegen(k, links, regeln)
+        topf_oben = topf_unten = None
+        if kat == "sehens":
+            sh0, sh1 = k[0].sehens, k[-1].sehens
+            sid0 = "%s/%s" % (sh0["ort"], sh0.get("abfluss_von")) if sh0.get("abfluss_von") else None
+            if sid0 in toepfe and toepfe[sid0]["zulauf"] is None and toepfe[sid0]["abfluss"] == k[0].id:
+                topf_oben = toepfe[sid0]
+            sid1 = "%s/%s" % (sh1["ort"], sh1.get("muendung")) if sh1.get("muendung_art") == "see_eigen" else None
+            if sid1 in toepfe and toepfe[sid1]["abfluss"] is None and toepfe[sid1]["zulauf"] == k[-1].id:
+                topf_unten = toepfe[sid1]
+        linie, abst, extra, laeufe = zusammenfuegen(k, links, regeln, topf_oben=topf_oben, topf_unten=topf_unten)
+        for tp in extra.get("toepfe") or []:
+            toepfe[tp["see"]]["gewaesser"] = gid
+        if topf_unten is not None:
+            mu = {"art": "topf", "ziel": topf_unten["see"], "gewaesser": gid, "spiegel_ziel_cm": r1(topf_unten["spiegel_cm"]),
+                  "punkt_cm": [r1(linie.x[-1]), r1(linie.y[-1]), r1(linie.z[-1])], "quelle": "sehens",
+                  "hinweis": "endet in seinem Topf (< %.0f m, Teil des Gewaessers, kein WaterBodyLake)" % toepfe_max(regeln)}
+        if topf_oben is not None:
+            an = {"art": "topf", "ziel": topf_oben["see"], "gewaesser": gid, "quelle": "sehens",
+                  "punkt_cm": [r1(linie.x[0]), r1(linie.y[0]), r1(linie.z[0])],
+                  "hinweis": "beginnt in seinem Topf (< %.0f m, Teil des Gewaessers, kein WaterBodyLake)" % toepfe_max(regeln)}
         typen = {t.id: swr_typ(t.linie, t.abst, t.extra, regeln)[0] for t in k}
         for l_ in laeufe:
             l_["swr_typ"] = typen[l_["id"]]
@@ -1866,7 +2681,8 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
             return rohe[-1][3]
 
         gw = {"id": gid, "kategorie": kat, "art": art, "linie": linie, "abst": abst, "extra": extra, "laeufe": laeufe,
-              "muendung": mu, "anfang": an, "roh_bei": roh_bei, "typ_bei": typ_bei, "teile": k}
+              "muendung": mu, "anfang": an, "roh_bei": roh_bei, "typ_bei": typ_bei, "teile": k,
+              "toepfe": extra.get("toepfe") or []}
         if kat == "sehens":
             sh = k[0].sehens
             gw["quelle_sehens"] = {"biom": sh["biom"], "ort": sh["ort"], "bach": sh["bach"]}
@@ -1874,6 +2690,19 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
         else:
             gw["rel"] = os.path.join("gewaesser", gid, "fluss_sim.json")
         gewaesser.append(gw)
+    # Anfang/Muendung an einem Topf, der zu einem (anderen) Gewaesser gehoert: kein See mehr, sondern dessen Topf
+    for gw in gewaesser:
+        for key in ("anfang", "muendung"):
+            m = gw[key]
+            if m.get("art") == "see" and m.get("ziel") in toepfe and toepfe[m["ziel"]].get("gewaesser"):
+                if toepfe[m["ziel"]]["gewaesser"] == gw["id"]:
+                    # nur geometrisch neben dem eigenen Topf (z. B. kurzer Zulauf der Elfentreppe): Quelle
+                    gw[key] = {"art": "quelle", "punkt_cm": m["punkt_cm"],
+                               "hinweis": "beginnt neben dem eigenen Topf %s" % m["ziel"]}
+                    continue
+                m["art"] = "topf"
+                m["gewaesser"] = toepfe[m["ziel"]]["gewaesser"]
+                m["hinweis"] = "Topf gehoert zu %s (kein WaterBodyLake)" % m["gewaesser"]
     # Muendungsziel -> Gewaesser, Zufluss-Endstuecke aus den Plaenen
     lauf_gw = {}
     for gw in gewaesser:
@@ -1896,7 +2725,8 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log):
                     if a_:
                         a_["quelle"] = "gefaelle/%s/plan.json#zufluesse" % Q.id
                         mu["endstueck_angepasst"] = a_
-    info = {"teile_welt": len(teile), "teile_plan": sum(1 for t in teile if t.herkunft == "plan"),
+    info = {"toepfe": toepfe, "sehens_seen": sehens_seen,
+            "teile_welt": len(teile), "teile_plan": sum(1 for t in teile if t.herkunft == "plan"),
             "teile_roh": sum(1 for t in teile if t.herkunft == "roh"), "sehens_baeche": len(sehens_teile),
             "fortsetzungen": {a_: sum(1 for _, (n_, f) in nach.items() if f["art"] == a_) for a_ in ("anschluss", "ueberlappung")}}
     return gewaesser, teile, karte, info
@@ -1910,6 +2740,13 @@ def main(argv=None):
     ap.add_argument("--aus", required=True)
     ap.add_argument("--regeln", default=REGELN_STANDARD)
     ap.add_argument("--nur", nargs="+", default=None)
+    ap.add_argument("--gebaut", nargs="+", default=None, metavar="LAUF",
+                    help="schon gebaute Laeufe (Gelaende-Delta lokal bereits eingestempelt): Gefaelle-Lauf-IDs, Sehens-Ort-IDs "
+                         "oder SW_<ort>_<bach>; ihre Deltas werden nicht addiert (16d)")
+    ap.add_argument("--einbau", default=None,
+                    help="Ordner sehens_einbau/ (A15_<lauf>/lauf.json, 'nachgezogen'); Standard: <daten1m>/sehens_einbau bzw. "
+                         "neben --gefaelle")
+    ap.add_argument("--ohne-erkennung", action="store_true", help="lauf.json nicht auswerten (nur --gebaut)")
     from sehens_lib import daten
     daten.argumente_hinzufuegen(ap)
     a = ap.parse_args(argv)
@@ -1919,34 +2756,61 @@ def main(argv=None):
     masse = Masse()
     pool = Pool(regeln, masse)
     gel = Gelaende(welt)
-    if a.gefaelle and os.path.isdir(a.gefaelle):
-        for lauf in sorted(os.listdir(a.gefaelle)):
-            pf = os.path.join(a.gefaelle, lauf, "plan.json")
-            if not os.path.exists(pf):
-                continue
-            plan = lese_json(pf)
-            gel.delta_hinzu(os.path.join(a.gefaelle, lauf), plan.get("abschnitte"))
-            for feld_plan in sorted(glob.glob(os.path.join(a.gefaelle, lauf, "instanzen", "*", "plan.json"))):
-                feld = os.path.basename(os.path.dirname(feld_plan))
-                pool.lade_ebene(feld_plan, "gefaelle/%s/instanzen/%s/plan.json" % (lauf, feld))
+    gef_ok = os.path.isdir(a.gefaelle) if a.gefaelle else False
+    gef_plaene, eingabe_weg = lauf_plaene(a.gefaelle if gef_ok else None)
+    eingabe_weg = [dict(w, eingabe="gefaelle") for w in eingabe_weg]
+    for lauf in sorted(gef_plaene):
+        fp_, weg_ = feld_plaene(os.path.join(a.gefaelle, lauf, "instanzen"))
+        eingabe_weg += [dict(w, eingabe="gefaelle/%s/instanzen" % lauf) for w in weg_]
+        for feld_plan in fp_:
+            feld = os.path.basename(os.path.dirname(feld_plan))
+            pool.lade_ebene(feld_plan, "gefaelle/%s/instanzen/%s/plan.json" % (lauf, feld))
     sehens = []
-    if a.sehens and os.path.isdir(a.sehens):
+    sehens_ok = bool(a.sehens and os.path.isdir(a.sehens))
+    if sehens_ok:
         for biom in BIOME:
             po = os.path.join(a.sehens, biom, "orte.json")
             if not os.path.exists(po):
                 continue
             od = lese_json(po)
-            gel.delta_hinzu(os.path.join(a.sehens, biom), od.get("orte"))
             sw = finde_sw(a.sehens, a.sw_ordner, biom)
             if sw:
-                for feld_plan in sorted(glob.glob(os.path.join(sw, "*", "plan.json"))):
+                fp_, weg_ = feld_plaene(sw)
+                eingabe_weg += [dict(w, eingabe="sw_%s" % biom) for w in weg_]
+                for feld_plan in fp_:
                     feld = os.path.basename(os.path.dirname(feld_plan))
                     pool.lade_ebene(feld_plan, "sw_%s/%s/plan.json" % (biom, feld))
             for ort in od.get("orte") or []:
                 sehens.append((biom, ort, os.path.join("sehens", biom, ort["id"], "fluss_sim.json")))
+    for w in eingabe_weg:
+        log("uebersprungen: %s/%s - %s" % (w["eingabe"], w["ordner"], w["grund"]))
+    einbau = None if a.ohne_erkennung else einbau_ordner_finden(a.einbau, a.daten1m, a.gefaelle, a.sehens, a.sw_ordner)
+    if a.einbau and not einbau and not a.ohne_erkennung:
+        log("WARNUNG: --einbau %s nicht gefunden - keine Erkennung gebauter Laeufe" % a.einbau)
+    ginfo = gelaende_laden(gel, a.gefaelle, gef_plaene, a.sehens if sehens_ok else None, a.gebaut or (), einbau)
+    unbekannt = sorted(set(a.gebaut or ()) - set(gef_plaene) - {g["id"] for g in ginfo["gebaut"]}
+                       - {o["id"] for _, o, _ in sehens} - {"SW_%s_%s" % (o["id"], w.get("id")) for _, o, _ in sehens
+                                                            for w in o.get("wasser") or []})
+    for g in ginfo["gebaut"]:
+        log("gebaut: %s (%s) - %d Gelaende-Delta(s) nicht addiert (%s%s)" % (
+            g["id"], g["art"], g["deltas_ohne"], g["quelle"], ", nachgezogen: %s" % g["nachgezogen_form"] if g["nachgezogen_form"] else ""))
+    for g in ginfo["lauf_json_ungebaut"]:
+        log("lauf.json ohne passendes Feld (%s nicht in nachgezogen, Form %s): %s - Delta wird addiert"
+            % ("/".join(g["felder"]) or "?", g["nachgezogen_form"], g["lauf_json"]))
+    for u in unbekannt:
+        log("WARNUNG: --gebaut %s: kein Lauf-Plan bzw. Sehens-Ort mit Gelaende-Delta" % u)
+    log("Gelaende-Deltas: %d addiert, %d nicht addiert (gebaut: %s); sehens_einbau %s"
+        % (ginfo["addiert"], ginfo["ohne"], ", ".join(g["id"] for g in ginfo["gebaut"]) or "keiner",
+           "gefunden" if einbau else ("nicht ausgewertet" if a.ohne_erkennung else "nicht gefunden")))
     pool.fertig()
-    gewaesser, teile, karte, info = gewaesser_bilden(welt, a.gefaelle if a.gefaelle and os.path.isdir(a.gefaelle) else None,
-                                                     sehens, regeln)
+    gewaesser, teile, karte, info = gewaesser_bilden(welt, a.gefaelle if gef_ok else None, sehens, regeln,
+                                                     gef_plaene=gef_plaene)
+    toepfe = info.pop("toepfe")
+    sehens_seen = info.pop("sehens_seen")
+    eingaben = {"lauf_plaene": len(gef_plaene), "uebersprungen": eingabe_weg}
+    gdelta = {"addiert": ginfo["addiert"], "nicht_addiert": ginfo["ohne"], "gebaut": ginfo["gebaut"],
+                               "lauf_json_ungebaut": ginfo["lauf_json_ungebaut"], "gebaut_unbekannt": unbekannt,
+                               "sehens_einbau": "gefunden" if einbau else ("nicht ausgewertet" if a.ohne_erkennung else "nicht gefunden")}
     nur = set(a.nur) if a.nur else None
     if nur:
         gewaesser = [gw for gw in gewaesser if gw["id"] in nur or any(l_["id"] in nur for l_ in gw["laeufe"])
@@ -1987,6 +2851,8 @@ def main(argv=None):
     for e in alle:
         e["water_body"]["overlap_material_priority"] = max(1, prio_max - stufe(e))
         e["muendung"]["stufe"] = stufe(e)
+    # Vorschlaege fuer offene Enden und Luecken (getrennt von der Spline)
+    vorschlaege = vorschlaege_bilden(alle, karte, welt, gel, regeln)
     # Wasser-Kollision global: jedes Objekt genau einem Hindernis-Akteur WH_<kachel> zuordnen (naechste Kachel)
     fpr = regeln["fingerabdruck"]
     kol_global, kand_kachel = {}, {}
@@ -2086,19 +2952,85 @@ def main(argv=None):
              "daten": "1m" if a.daten1m else "2m (Cloud-Test)", "gewaesser": dateien[rel]}
         schreibe_json(os.path.join(a.aus, rel), d)
     zus = zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, gewaesser)
+    zus["toepfe"] = toepfe_zusammenfassung(toepfe, sehens_seen, karte, regeln, info, alle)
+    zus["vorschlaege"] = vorschlaege_zusammenfassung(vorschlaege)
+    zus["eingaben"] = eingaben
+    zus["gelaende_deltas"] = gdelta
     zus["daten"] = "1m" if a.daten1m else "2m (Cloud-Test)"
     zus["format"] = FORMAT_VERSION
     zus["dateien"] = len(dateien)
     schreibe_json(os.path.join(a.aus, "zusammenfassung.json"), zus)
+    schreibe_json(os.path.join(a.aus, "vorschlaege.json"),
+                  {"format": "fluss_sim_vorschlaege_v1", "regeln": regeln["gewaesser"]["vorschlag"],
+                   "hinweis": "Vorschlagspunkte fuer offene Enden und Luecken (16d). NICHT in water_body.spline enthalten; lokal "
+                              "pruefen und uebernehmen. Erster Punkt = Spline-Ende, z nie steigend.",
+                   "vorschlaege": vorschlaege}, max_tiefe=3)
     schreibe_json(os.path.join(a.aus, "back_liste.json"),
                   {"format": BACK_FORMAT, "fingerabdruck": dict(fpr, formel="siehe README fluss_sim, Abschnitt Fingerabdruck"),
-                   "einheit": "SWR-Bereich (eine SWR je Gewaesser; Teilstuecke nur bei sehr grossem Rechteck)", "swr_bereiche": back})
+                   "einheit": "SWR-Bereich (eine SWR je Gewaesser; Teilstuecke nur bei sehr grossem Rechteck)",
+                   "gelaende": {"hinweis": "Fingerabdruck Gelaende = Welt + Planer-Deltas ohne die schon gebauter Laeufe (16d)",
+                                "gebaut": [g["id"] for g in ginfo["gebaut"]], "deltas_ohne": ginfo["ohne_dateien"]},
+                   "swr_bereiche": back})
     s_ = zus["summe"]
     log("geschrieben: %d Dateien, %d Gewaesser (%d mit einer SWR), %d SWR-Bereiche, Aufloesung %s, Muendungen %s, %d Faelle "
         "(%d mit Vorhang), %d Kollisionsobjekte (%d eindeutig, %d ueberspannt), %d Hindernis-Akteure"
         % (len(dateien), s_["gewaesser"], s_["gewaesser_eine_swr"], s_["swr_bereiche"], zus["swr"]["aufloesung"], zus["muendungen"],
            s_["faelle"], s_["faelle_vorhang"], s_["kollision"], len(kol_global), s_["ueberspannt"], zus["swr"]["hindernis_akteure"]))
     return 0
+
+
+def vorschlaege_zusammenfassung(vorschlaege):
+    out = {"anzahl": len(vorschlaege), "datei": "vorschlaege.json", "nach_art": {}, "methode": {}, "ziel": {},
+           "laenge_m": {}, "einschnitt_ueber_1m": [], "kreuzt_hoeheres_wasser": [], "ohne_ziel": []}
+    L = []
+    for o in vorschlaege:
+        v = o["vorschlag"]
+        out["nach_art"][v["art"]] = out["nach_art"].get(v["art"], 0) + 1
+        out["methode"][v["methode"]] = out["methode"].get(v["methode"], 0) + 1
+        z = (v.get("ziel") or {}).get("art", "keins")
+        out["ziel"][z] = out["ziel"].get(z, 0) + 1
+        L.append(v["laenge_m"])
+        if v["einschnitt_max_m"] > 1.0:
+            out["einschnitt_ueber_1m"].append([o["gewaesser"], v["einschnitt_max_m"]])
+        if v.get("kreuzt"):
+            out["kreuzt_hoeheres_wasser"].append([o["gewaesser"], v["kreuzt"]])
+        if not v.get("ziel"):
+            out["ohne_ziel"].append(o["gewaesser"])
+    for k in ("nach_art", "methode", "ziel"):
+        out[k] = {x: out[k][x] for x in sorted(out[k])}
+    if L:
+        out["laenge_m"] = {"min": r1(min(L), 1), "median": r1(float(np.median(L)), 1), "max": r1(max(L), 1)}
+    out["liste"] = [[o["gewaesser"], o["vorschlag"]["art"], (o["vorschlag"].get("ziel") or {}).get("id"), o["vorschlag"]["laenge_m"]]
+                    for o in vorschlaege]
+    return out
+
+
+def toepfe_zusammenfassung(toepfe, sehens_seen, karte, regeln, info, alle):
+    mx = toepfe_max(regeln)
+    art = {}
+    for tp in toepfe.values():
+        art[tp["art"]] = art.get(tp["art"], 0) + 1
+    verbunden = set()
+    for s in sehens_seen:
+        verbunden.add(s["id"])
+    gross = sorted(s["id"] for s in sehens_seen if not s.get("topf") and s["ausdehnung_m"] >= mx
+                   and any(e["anfang"].get("ziel") == s["id"] or e["muendung"].get("ziel") == s["id"] for e in alle))
+    welt_klein = 0
+    for s in karte.seen:
+        if s["quelle"] == "wasser_welt.json":
+            U = s["umriss"]
+            if len(U) > 1 and float(np.hypot(U[:, None, 0] - U[None, :, 0], U[:, None, 1] - U[None, :, 1]).max()) / 100.0 < mx:
+                welt_klein += 1
+    sg = [e for e in alle if e["kategorie"] == "sehens"]
+    return {"max_ausdehnung_m": mx, "anzahl": len(toepfe), "nach_art": {k: art[k] for k in sorted(art)},
+            "sehens_baeche": info["sehens_baeche"], "sehens_gewaesser": len(sg),
+            "sehens_gewaesser_mit_topf": sum(1 for e in sg if e.get("toepfe")),
+            "liste": [{"see": tp["see"], "art": tp["art"], "ausdehnung_m": tp["ausdehnung_m"], "gewaesser": tp["gewaesser"],
+                       "zulauf": tp["zulauf"], "abfluss": tp["abfluss"]} for _, tp in sorted(toepfe.items())],
+            "seen_bleiben": {"sehens_mit_bach_ab_grenze": gross,
+                             "sehens_ohne_bach": sum(1 for s in sehens_seen if not s.get("topf") and s["id"] not in gross),
+                             "welt_unter_grenze_unveraendert": welt_klein},
+            "hinweis": "Toepfe sind Teil ihres Gewaessers (Bereich rolle 'topf', Feld toepfe[]): lokal KEIN WaterBodyLake bauen"}
 
 
 def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, gewaesser):

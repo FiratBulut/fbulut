@@ -1,7 +1,7 @@
 {
-  "version": 3,
+  "version": 4,
   "stand": "2026-10-12",
-  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten; v3 (16c, Ferat 12.10.2026 17:10): EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss, Meer) ueber alle Faelle hinweg, Abschnitte nur noch als s-Bereiche, SWR-Kacheln auf demselben Fluss",
+  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten; v3 (16c, Ferat 12.10.2026 17:10): EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss, Meer) ueber alle Faelle hinweg, Abschnitte nur noch als s-Bereiche, SWR-Kacheln auf demselben Fluss; v4 (16d, 12.10.2026): kleine Toepfe in Sehens-Treppen (< 30 m) gehoeren zum Gewaesser, Vorschlaege fuer offene Enden und Luecken getrennt von der Spline",
   "fall_schwelle_m": 1.0,
   "fall_schwelle_hinweis": "Einzelabsturz (Stufe ohne Teilstufen bzw. jede Teilstufe einer Kaskade) >= Schwelle und keine Rampe/Schnelle = Fall. Wert wird im Einrichtungstest geprueft (Datei 16).",
   "abschnitt": {
@@ -124,6 +124,21 @@
     "meer_radius_m": 10.0,
     "meer_strand_z_max_cm": 200.0,
     "meer_strand_radius_m": 150.0,
+    "topf": {
+      "max_ausdehnung_m": 30.0,
+      "rand_m": 1.0,
+      "hinweis": "16d (Koordinator zu Rueckfrage 4 aus 16c): Sehens-Seen mit groesster Ausdehnung < max_ausdehnung_m, in die ein Sehens-Bach muendet oder aus denen einer abfliesst, sind Toepfe des Gewaessers: kein eigener WaterBodyLake, die EINE SWR des Gewaessers fuellt sie. Zulauf -> Topf -> Abfluss = ein Gewaesser (Treppen wie Elfentreppe, Gletschertoepfe); Quelltopf bzw. Endtopf = Anfang bzw. Ende des Gewaessers. Der Spline-Punkt liegt in der Mitte des Topf-Rechtecks auf dem Spiegel, Breite = groesste Rechteckseite + 2 x rand_m, damit das SWR-Rechteck den Topf einschliesst. Bereich mit Rolle topf, Feld toepfe[]. Groessere Seen bleiben WaterBodyLake und Muendungsziel; Welt-Seen bleiben unveraendert."
+    },
+    "vorschlag": {
+      "raster_m": 4.0,
+      "radius_m": 1500.0,
+      "dz_toleranz_cm": 100.0,
+      "anstieg_kosten": 20.0,
+      "ins_wasser_m": 1.0,
+      "punkt_abstand_m": 5.0,
+      "vereinfachen_m": 1.0,
+      "hinweis": "16d (Koordinator zu Rueckfrage 5 aus 16c): je offenem Ende und je Luecke ein Vorschlag (muendung.vorschlag, vorschlaege.json), NICHT in der Spline. Luecke: gerade vom Spline-Ende bis ins_wasser_m hinter den Wasserrand des bekannten Ziels. Offen: auf einem Suchraster (raster_m, Umkreis radius_m, Gelaende = Welt + Deltas) entlang des steilsten Gefaelles (D8); endet das in einer Senke, weiter auf dem Weg des geringsten Anstiegs (Dijkstra, Kosten = Laenge + anstieg_kosten x Anstieg in m) bis zur ersten Wasserzelle (Gewaesser-Streifen, See ohne Toepfe, Meer) mit Spiegel <= Ende + dz_toleranz_cm; eigenes Gewaesser und seine Zufluesse zaehlen nicht. Weg mit Douglas-Peucker (vereinfachen_m) geglaettet, Punkte alle <= punkt_abstand_m; z = min(vorheriges z, Gelaende), nie steigend; einschnitt_max_m = groesste Hoehe des Gelaendes ueber dem Wasser entlang des Wegs."
+    },
     "nah_toleranz_m": 25.0,
     "nah_dz_ueber_cm": 1000.0,
     "wasserfall_radius_m": 120.0,
