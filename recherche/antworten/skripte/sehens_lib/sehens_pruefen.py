@@ -772,6 +772,9 @@ def pruefe_orte(d, basis=None, inv=None, welt=None, sw_ordner=None):
         b += pruefe_ort(o, biom or "?", basis, inv, welt, mi_geplant=mi_geplant)
     if sw_ordner is not None:
         b += pruefe_ebene(sw_ordner, biom, inv, orte, welt, basis)
+        if inv is not None:
+            from . import bachbett as _bb
+            b += _bb.pruefe_orte_bachbett(d, basis, welt, sw_ordner, inv)   # 16c Nachtrag 18:15
     if welt is not None:
         # 13h: neue Steilflaechen > 45 Grad auf > 20 m2 nur mit Fels-Akteur (FEHLER); Kameras frei (FEHLER)
         from . import steilwand as _sw

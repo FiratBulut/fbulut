@@ -179,6 +179,17 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
                     r = max(0.8, min(r, 2.0))
                 dr.ellipse([cx - r, cy - r, cx + r, cy + r], fill=c + (200 if eb != "bewuchs" else 110,),
                            outline=(0, 0, 0, 160) if r > 2.5 else None)
+    # 16c Nachtrag 18:15: Bachbett-Totholz als Achse (braun; Verklausung rot, ueberspannt magenta, Aeste/Zweige duenn)
+    from . import bachbett as _bb
+    farbe_bb = {"stamm": (120, 66, 24), "wurzel": (90, 50, 20), "verklausung": (230, 40, 30), "ueberspannt": (230, 60, 230),
+                "ast": (190, 130, 70), "zweig": (225, 195, 140)}
+    for e in stuecke:
+        if not e["gruppe"].startswith(_bb.PRAEFIX):
+            continue
+        art = next((a_ for a_ in _bb.ARTEN if "_%s_" % a_ in e["gruppe"] or e["gruppe"].startswith(_bb.PRAEFIX + a_ + "_")),
+                   "stamm")
+        (x0, y0, x1, y1), _, _ = _bb.achse_enden(ctx.inv, e["pfad"], e["q"], e["s"], (e["x"], e["y"]))
+        dr.line([P(x0, y0), P(x1, y1)], fill=farbe_bb[art] + (255,), width=4 if art in _bb.ARTEN_LW else 2)
     # Effekte
     for e in ctx.effekte:
         x, y = e["pos_cm"][0] / 100.0, e["pos_cm"][1] / 100.0
@@ -263,7 +274,8 @@ def vorschau(ctx, pfad, groesse_m=None, breite_px=900):
     y += 6
     leg = [("see/bach", (40, 200, 210)), ("Wasserfall / Bachstufe (m)", (255, 255, 255)), ("Pfad / Furt", (250, 235, 200)),
            ("Nebel / Licht", (235, 235, 245)), ("Niagara (hohl=optional)", (220, 120, 255)),
-           ("Decal", (170, 110, 60)), ("Freiraum / Houdini aus (Bestand weg)", (255, 0, 200))]
+           ("Decal", (170, 110, 60)), ("Freiraum / Houdini aus (Bestand weg)", (255, 0, 200)),
+           ("Totholz Stamm/Wurzel (Ast hell)", (120, 66, 24)), ("Verklausung / ueberspannt", (230, 40, 30))]
     for t, c in leg:
         d2.rectangle([W + 12, y + 3, W + 22, y + 13], fill=c)
         d2.text((W + 30, y), t, fill=(220, 220, 220), font=f_k)

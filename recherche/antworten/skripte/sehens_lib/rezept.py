@@ -34,6 +34,7 @@ from . import inventar as _inv
 from . import bach as _bach
 from . import steilwand as _sw
 from . import kamera_frei as _kf
+from . import bachbett as _bb
 from . import see_bloecke as _sb
 from .instanzen import (AKTEUR_WIEDERHOLT_AB, AKTEURE_JE_ORT_MAX, akteure_wiederholt_buendeln,  # 13j/13k
                         akteure_auf_grenze)
@@ -2023,7 +2024,7 @@ class OrtKontext:
         regeln = self.r.get("lagen") or []
         pfad_regel = self.r.get("pfad")
         stark = bool(self.stempel is not None and self.stempel.delta.size and np.abs(self.stempel.delta).max() > 0.3)
-        if not regeln and not (pfad_regel and self.pfad) and not stark:
+        if not regeln and not (pfad_regel and self.pfad) and not stark and not getattr(self, "_bachbett", None):
             return
         x0, y0, x1, y1 = self.stempel.fe.grenzen_m()
         if self.pfad and pfad_regel:
@@ -2117,7 +2118,7 @@ class OrtKontext:
                 self.melde(HINWEIS, "Pfadband: %d von %d Pfadpunkten ausserhalb des Lagenfensters (Fenstergrenze %d m) - "
                                     "dort nur 'pfad' fuer Ferats Pfadwerkzeug" % (int(aus.sum()), len(P),
                                                                                  600 if self.st["art"] == "leuchtfeuer" else 400))
-
+        _bb.sehens_lagen(self)                           # 16c Nachtrag 18:15: Schlamm, nasser Uferstreifen am Bach
         self._lagen_delta_decken()
 
     # 13i K6 (Regel 15e): jede Zelle mit |Delta| > 0,3 m bekommt eine Bodenlage
@@ -2459,6 +2460,7 @@ class OrtKontext:
         _sb.korrigieren(self)                            # 13h Nachtrag: Bloecke im See nie knapp unter dem Spiegel
         if hooks.get("gruppen"):
             hooks["gruppen"](self)
+        _bb.sehens_totholz(self)                         # 16c Nachtrag 18:15: Totholz im und am Bach (Instanzen)
         self._akteure_buendeln()
         self.pfad_bauen()
         self.lagen_bauen()
@@ -2512,6 +2514,7 @@ class OrtKontext:
         # vor dem Budget, weil ein freigeraeumter Standplatz Instanzen entfernt
         kam_neu = _kf.kameras_bauen(self)
         bud, z = self.budget()
+        _bb.sehens_eintrag(self)                         # 16c Nachtrag 18:15: 'bachbett' je Bach (nach dem Ausduennen)
         if kam_neu is not None:
             self.st = dict(self.st, kameras=kam_neu)
         e = _fmt.ort_phase2(self.st, kurz=self.r.get("kurz", ""))

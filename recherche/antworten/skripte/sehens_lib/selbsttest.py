@@ -634,6 +634,11 @@ def main(argv=None):
         from .selbsttest_13k import test_13k
         z13 = test_13k()
     z["FEHLER"] += z13
+    # 14 Auftrag 16c Nachtrag 18:15: Bachbett (Totholz-Regeln, Lippenzonen, Schlamm, Uferstreifen, Bewertungen)
+    with schritt("14 Auftrag 16c (Bachbett: Totholz, Schlamm, Uferstreifen)"):
+        from .selbsttest_16c import test_16c
+        z14 = test_16c()
+    z["FEHLER"] += z14
     log("-" * 60)
     for u in zeiten:
         log("%-44s %7.2f s" % (u.name, u.sek))

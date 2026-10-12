@@ -338,6 +338,41 @@ Ergebnis und Zahlen: Abschnitt „Nachtrag: Stammausrichtung Sehens, Einheitenfe
   (Hochachse > 45° gegen die Hangnormale) oder eine Holz-Instanz außerhalb der Skala liegt (Stämme 0,6–1,8, Äste
   ≤ 1,8). Die A15-Läufe sind seit `024d25f` regelkonform (0 FEHLER).
 
+## Bachbett: Totholz, Schlamm, Uferstreifen (16c Nachtrag 18:15)
+
+Ferat zu C2: „Felsen, totes Holz und Schlamm gehören in jedes Bachbett.“ Logik und Zahlen liegen gemeinsam für A15 und
+die Sehens-Bach-Planer in `sehens_lib/bachbett.py` und `sehens_lib/bachbett_regeln.json` (Dichten je Biom mit Quellen).
+Antwort: Nachtrag 2 in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
+
+- **Unverändert:** Stufen, Lippen, Becken, Spiegel, Gelände, Wasserkörper, Effekte und Kameras. Neu sind nur Instanzen
+  (Gruppen `bb_<art>_<nr>`, nach allen anderen Gruppen gesetzt) und Lagen.
+- **Totholz je Segment** (`bachbett_instanzen`): Ziel = `lw_je_100m` des Bioms × Waldfaktor × Länge, abzüglich der
+  vorhandenen Holzstufen/Totholz-quer-Stücke (`holz_*`, `totholz_*`, `wurzel_*`).
+  - Verklausungen oberhalb von Lippen (Becken davor ≥ 3 m) und an Engstellen (B ≤ 0,85 × Median): 2–3 Stämme schräg
+    (12–35°), verkeilt (Unterkante auf Spiegel − 0,6 × Dicke bzw. auf dem Stamm darunter, `z_frei`), Äste obenauf.
+  - Überspannende Stämme an schmalen Becken (B ≤ 5 m): auf beiden Ufern aufliegend, Unterkante ≥ Spiegel + 0,25 m. Der
+    fluss_sim-Export führt sie als `ueberspannt` (16a Entscheidung 5, keine Wasser-Kollision).
+  - Stämme am Ufer, teils im Wasser (15–55° zur Fließrichtung), Wurzelstöcke an der Wasserkante, Äste am Ufer, Zweige
+    am Innenufer (Gleithang).
+  - Netz nach Länge wie 13k (Skala 0,6–1,8), liegend modelliert → `normale` (Hangnormale), nie Sägeschnitt, nie Akteure.
+  - Kollision für alles große Holz (und Äste ≤ 1 m neben dem Wasser) → Datei `<netz>_kol`, damit der fluss_sim-Export
+    es als Wasser-Kollision aufnimmt (`fluss_sim_regeln.kollision`: Kollision im Plan, Grundriss ≥ 0,4 m, Höhe ≥ 0,2 m).
+  - Kein Stück mit der Achse mitten in einer Lippe bzw. einem Vorhang: Lippenzone in s − Schrägversatz(u) von
+    Lippe − 0,3 m bis Fuß + 0,5 m (Stufen ≥ 1 m: − 0,5 / + 1,5 m), quer bis Lippenbreite/2 − 0,3 m. Geprüft wird nach
+    dem Setzen mit der Achse des gesetzten Netzes (gedrehte Bounds), wie im Prüfer.
+- **Lagen** (`bachbett_lagen_1m`, auf dem 1-m-Raster gegen den Boden nach dem Stempel):
+  - Schlamm (Lava: Lavasand) in ruhigen, tiefen Becken (Ruhe 0 an Lippe/Kolk/Schnelle → Übergang zu Kies) und am
+    Gleithang (Innenufer, ≤ 0,35 m tief); Kies darunter gedämpft.
+  - Nasser Uferstreifen 0–1 m über dem Spiegel bis 3,5 m neben die Wasserkante: Schlamm/Erde/Moos je Biom, Summe 255
+    (deckend). Wiese/Gras/Trockengras/Kraut/Heide dort auf 0 (wie die Nadelstreu in 13k), übrige Lagen × 0,4.
+- **plan.json → `bachbett.abschnitte[<id>]`:** `stuecke` (Art, Netz, Lage, Achse, s/u, Unterkante über dem Spiegel,
+  Kollision), `bestand` (Holzstufen), `dichte` je Segment (Ziel, gesetzt, abgelehnt, Waldfaktor, je 100 m), `lagen`
+  (Streifen- und Schlamm-Fläche m²).
+- **Prüfer** (`pruefe_bachbett`, FEHLER): Liste ↔ Instanz-Ebene, Kollision des großen Holzes am Wasser, kein Stück mitten
+  in einer Lippe/einem Vorhang, Dichte je Segment im Rahmen (über max; unter min ab 60 m), Uferstreifen ≥ 80 % der
+  Uferzellen (0,05–0,5 m über dem Spiegel bis 1,5 m neben dem Netzrand, außerhalb der Lippenzonen) mit Streifenlagen
+  ≥ 200. Spiegel an schrägen Lippen über `bachbett.Lippenfeld` aus `lippe_form` und `segmente_m`.
+
 ## Grenzen
 
 - **2-m-Daten:** Ein 4-m-Bach ist dort nur 2 Zellen breit. Riser, Becken und Ufer verschmieren, deshalb gelten Bett- und

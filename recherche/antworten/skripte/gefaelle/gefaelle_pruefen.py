@@ -632,6 +632,191 @@ def pruefe_instanzen(p, ordner, welt, inv, b, tag):
         b.append((FEHLER, tag, "%d Instanzen/Akteure auf Ortsflaechen" % n_ort))
 
 
+def bachbett_stufen_aus_plan(p, rw):
+    """Lippen (auch Teil-Lippen) aus plan.json fuer sehens_lib.bachbett.lippen_zonen - wie gefaelle_plan.bachbett_stufen
+    (s_lippe, s_fuss = s + Zwei-Punkt-Abstand bzw. Rampe, Fall, gross >= 1 m oder Vorhang, Lippenform aus lippe_form)."""
+    zp = rw.zwei_punkte()[0]
+    out = []
+    for st in p.get("stufen") or []:
+        teile = st.get("teilstufen") or [{"s_m": st["s_m"], "fall_m": st["fall_m"], "rampe": "rampe_m" in st,
+                                          "rampe_m": st.get("rampe_m"), "lippe_form": st.get("lippe_form")}]
+        for t in teile:
+            g = t.get("lippe_form") or {}
+            l_ = float(t["rampe_m"]) if t.get("rampe") and t.get("rampe_m") is not None else zp
+            d = {"s_lippe": float(t["s_m"]), "s_fuss": float(t["s_m"]) + l_, "fall": float(t["fall_m"]),
+                 "gross": bool(float(t["fall_m"]) >= 1.0 or (not st.get("teilstufen") and st.get("vorhang"))),
+                 "halb": float(st["lippe_breite_cm"]) / 200.0}
+            if g:
+                d.update(tan=math.tan(math.radians(float(g["winkel_grad"]))), pfeil=float(g["pfeil_m"]),
+                         h=max(float(st["breite_m"]) / 2.0, 0.5))
+            out.append(d)
+    return out
+
+
+def _ebene_index(io):
+    """Instanz-Ebene -> Liste (netz, kollision, x, y, z, q, s) aller Instanzen (fuer den Abgleich der Bachbett-Liste)."""
+    from sehens_lib import instanzen as ins
+    out = []
+    for feld, (plan, arr) in ins.lies_ebene(io).items():
+        for key, a in arr.items():
+            if a.ndim != 2 or not len(a):
+                continue
+            info = (plan.get("dateien") or {}).get(key, {})
+            netz = key.split("__")[0]
+            kol = bool(info.get("kollision", netz.endswith("_kol")))
+            if netz.endswith("_kol"):
+                netz = netz[:-4]
+            for r in a:
+                out.append((netz, kol, float(r[0]), float(r[1]), float(r[2]), tuple(float(v) for v in r[3:7]),
+                            tuple(float(v) for v in r[7:10]), info.get("pfad")))
+    return out
+
+
+def pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m=None):
+    """16c Nachtrag 18:15 (Ferat: Felsen, Totholz, Schlamm in jedes Bachbett), Regeln sehens_lib/bachbett_regeln.json:
+    - plan.json 'bachbett' vorhanden; jedes gelistete Stueck steht so in der Instanz-Ebene (Lage +-2 cm, Netz);
+    - grosses Totholz (Staemme, Verklausung, ueberspannt, Wurzelstock) im Wasser bzw. <= 1 m daneben mit Kollision
+      (Datei <netz>_kol -> fluss_sim-Export: Wasser-Kollision);
+    - kein Totholz-Stueck mit der Achse mitten in einer Lippe bzw. einem Vorhang (Lippenzonen, schraeger Versatz aus
+      lippe_form);
+    - Dichte grosses Totholz je Segment im Rahmen des Bioms x Waldfaktor (FEHLER ueber max, unter min ab 60 m);
+    - Uferstreifen: Zellen 0,05-0,5 m ueber dem Spiegel bis 1,5 m neben dem Netzrand (ausserhalb der Lippenzonen) zu
+      >= 80 % mit Streifen-Lagen (Schlamm/Erde/Moos je Biom) >= 200."""
+    from sehens_lib import bachbett as bb
+    from sehens_lib import stempel as stm
+    R = bb.regeln()
+    A = R.a
+    blk = p.get("bachbett")
+    if not blk or "abschnitte" not in blk:
+        b.append((FEHLER, tag, "plan.json: 'bachbett' fehlt (16c Nachtrag 18:15: Totholz, Schlamm, Uferstreifen)"))
+        return
+    stufen = bachbett_stufen_aus_plan(p, rw)
+    zonen = bb.lippen_zonen(stufen, R)
+    zonen_voll = bb.lippen_zonen([dict(st, halb=1e9) for st in stufen], R, zuschlag=1.0)
+    lfeld = bb.Lippenfeld(stufen, [tuple(sg) for x_ in p.get("strecken") or [] for sg in x_.get("segmente_m") or []])
+    N = np.asarray(p["spiegel_neu_cm"], np.float64)
+    P = N[:, :2] / 100.0
+    s_neu = np.asarray(p["spiegel_neu_s_m"], np.float64)
+    cum = _s_entlang(p["spiegel_neu_cm"])
+
+    def proj(x, y):
+        d, s_p, u = bb.projektion_schnell(x, y, P, 1024)
+        return d, np.interp(s_p, cum, s_neu), u
+    io = os.path.join(ordner, (p.get("instanzen") or {}).get("ordner", "instanzen"))
+    idx = _ebene_index(io) if os.path.isdir(io) else []
+    from collections import defaultdict
+    je_netz = defaultdict(list)
+    for r in idx:
+        je_netz[r[0]].append(r)
+    ab_by_id = {a["id"]: a for a in p.get("abschnitte") or []}
+    for aid, ab in sorted(blk["abschnitte"].items()):
+        stuecke = ab.get("stuecke") or []
+        ok_st = []
+        n_fehlt = 0
+        for st in stuecke:
+            kand = [r for r in je_netz.get(st["netz"], []) if abs(r[2] - st["pos_cm"][0]) <= 2.0 and
+                    abs(r[3] - st["pos_cm"][1]) <= 2.0 and abs(r[4] - st["pos_cm"][2]) <= 2.0]
+            if not kand:
+                n_fehlt += 1
+                continue
+            ok_st.append((st, kand[0]))
+        if n_fehlt:
+            b.append((FEHLER, aid, "Bachbett: %d von %d gelisteten Totholz-Stuecken nicht in der Instanz-Ebene"
+                      % (n_fehlt, len(stuecke))))
+        n_lippe, n_kol, lippe_bsp = 0, 0, ""
+        for st, r in ok_st:
+            pfad = r[7] or st["pfad"]
+            (x0, y0, x1, y1), (cx, cy), L = bb.achse_enden(inv, pfad, r[5], r[6], (r[2], r[3]))
+            t = np.linspace(0.0, 1.0, 9)
+            d, s, u = proj(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t)
+            if bb.in_zonen(s, zonen, u).any():
+                n_lippe += 1
+                lippe_bsp = lippe_bsp or "%s (s %.1f m)" % (st["gruppe"], float(np.median(s)))
+            if st["art"] in bb.ARTEN_LW:
+                dc, sc, uc = proj([cx], [cy])
+                halb = float(np.interp(sc[0], s_neu, N[:, 3] / 200.0))
+                if dc[0] <= halb + float(A["kollision_ufer_m"]) and not r[1]:
+                    n_kol += 1
+        if n_lippe:
+            b.append((FEHLER, aid, "Bachbett: %d Totholz-Stuecke mitten in einer Lippe/einem Vorhang, z. B. %s"
+                      % (n_lippe, lippe_bsp)))
+        if n_kol:
+            b.append((FEHLER, aid, "Bachbett: %d grosse Totholz-Stuecke im Wasser bzw. <= 1 m daneben ohne Kollision "
+                      "(fluss_sim-Export erkennt sie nicht als Wasser-Kollision)" % n_kol))
+        # Dichte je Segment
+        best = ab.get("bestand") or []
+        for seg in ab.get("dichte") or []:
+            a_, b_ = seg["s_m"]
+            L = float(seg["laenge_m"])
+            n_neu = sum(1 for st, _ in ok_st if st["art"] in bb.ARTEN_LW and a_ - 1.0 <= st["s_m"] <= b_ + 1.0)
+            n_best = sum(1 for st in best if a_ - 1.0 <= st["s_m"] <= b_ + 1.0)
+            f = float(seg.get("wald_faktor", 1.0))
+            if welt is not None and L >= float(A["min_laenge_m"]):
+                m_ = (s_neu >= a_) & (s_neu <= b_)
+                pts = P[m_] if m_.sum() >= 2 else P
+                ss_ = np.linspace(a_, b_, max(2, int(L / 2.0) + 1))
+                pts = np.stack([np.interp(ss_, s_neu, N[:, 0] / 100.0), np.interp(ss_, s_neu, N[:, 1] / 100.0)], 1)
+                f2, _ = bb.wald_faktor(welt, pts, R, seg["biom"])
+                if abs(f2 - f) > 0.02:
+                    b.append((FEHLER, aid, "Bachbett: Waldfaktor %.3f im Plan, nachgerechnet %.3f" % (f, f2)))
+                    f = f2
+                bi = [welt.biom_bei_m(float(x_), float(y_)) for x_, y_ in pts[::max(1, len(pts) // 7)]]
+                maj = max(set(bi), key=lambda v: (bi.count(v), v))
+                if R.biom(maj)[0] != seg["biom"]:
+                    b.append((WARNUNG, aid, "Bachbett: Segment %.0f-%.0f m als %s geplant, Weltbiom ueberwiegend %s"
+                              % (a_, b_, seg["biom"], maj)))
+            stf, txt = bb.dichte_bewerten(seg["biom"], f, L, n_neu + n_best, int(seg.get("blockiert", 0)), R, n_neu)
+            if stf:
+                b.append((stf, aid, "Bachbett-Dichte " + txt))
+        # Uferstreifen
+        a_lg = ab_by_id.get(aid, {}).get("lagen")
+        a_ge = ab_by_id.get(aid, {}).get("gelaende")
+        if welt is None or not a_lg or not ab.get("dichte"):
+            continue
+        li0, lj0, lh, lw = [int(v) for v in a_lg["fenster_ij"]]
+        from gefaelle_plan import alt_1m
+        F = alt_1m({"welt": welt, "h1m": h1m}, [li0, lj0, lh, lw]).copy()
+        if a_ge:
+            gi0, gj0, gh, gw = [int(v) for v in a_ge["fenster_ij"]]
+            pf = os.path.join(ordner, a_ge["datei"])
+            if os.path.exists(pf) and os.path.getsize(pf) == gh * gw * 4:
+                dl = np.fromfile(pf, dtype="<f4").reshape(gh, gw)
+                i_a, i_b = max(gi0, li0), min(gi0 + gh, li0 + lh)
+                j_a, j_b = max(gj0, lj0), min(gj0 + gw, lj0 + lw)
+                if i_b > i_a and j_b > j_a:
+                    F[i_a - li0:i_b - li0, j_a - lj0:j_b - lj0] += dl[i_a - gi0:i_b - gi0, j_a - gj0:j_b - gj0]
+        jj, ii = np.meshgrid(np.arange(lj0, lj0 + lw, dtype=np.float64), np.arange(li0, li0 + lh, dtype=np.float64))
+        X, Y = jj - gd.OFF_J_1M, ii - gd.OFF_I_1M
+        for seg in ab["dichte"]:
+            a_, b_ = seg["s_m"]
+            _, Rb = R.biom(seg["biom"])
+            hb = float(np.max(N[:, 3])) / 200.0 + 4.0
+            sx = np.interp(np.linspace(a_, b_, 20), s_neu, N[:, 0] / 100.0)
+            sy = np.interp(np.linspace(a_, b_, 20), s_neu, N[:, 1] / 100.0)
+            box = (X >= sx.min() - hb) & (X <= sx.max() + hb) & (Y >= sy.min() - hb) & (Y <= sy.max() + hb)
+            if not box.any():
+                continue
+            d, s, u = proj(X[box], Y[box])
+            halb = np.interp(s, s_neu, N[:, 3] / 200.0)
+            z_sp = np.interp(lfeld.s_eff(s, u), s_neu, N[:, 2] / 100.0)      # Spiegel an schraegen Lippen (15f)
+            ok = (s >= a_ + 1.0) & (s <= b_ - 1.0) & ~bb.in_zonen(s, zonen_voll, u)
+            summe = np.zeros(int(box.sum()))
+            for n in Rb["streifen"]:
+                if n in a_lg["lagen"]:
+                    q = os.path.join(ordner, a_lg["datei_praefix"] + n + ".r8")
+                    if os.path.exists(q) and os.path.getsize(q) == lh * lw:
+                        summe += np.fromfile(q, dtype=np.uint8).reshape(lh, lw)[box]
+            n_z, anteil = bb.streifen_bewerten(F[box] - z_sp, d, halb, ok, summe, R)
+            if n_z >= 20 and anteil < float(A["streifen_anteil_min"]):
+                b.append((FEHLER, aid, "Uferstreifen %s %.0f-%.0f m: nur %.0f %% von %d Uferzellen (0,05-0,5 m ueber "
+                          "dem Spiegel) mit %s >= 200 (Regel >= %.0f %%)" % (seg["biom"], a_, b_, 100 * anteil, n_z,
+                                                                          "/".join(Rb["streifen"]),
+                                                                          100 * float(A["streifen_anteil_min"]))))
+            elif n_z:
+                b.append((HINWEIS, aid, "Uferstreifen %s %.0f-%.0f m: %.0f %% von %d Uferzellen belegt"
+                          % (seg["biom"], a_, b_, 100 * anteil, n_z)))
+
+
 def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None, h1m=None):
     pj = os.path.join(ordner, "plan.json")
     tag = os.path.basename(os.path.normpath(ordner))
@@ -655,6 +840,8 @@ def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None, h1m=N
     pruefe_kameras(p, b, tag)
     pruefe_gelaende(p, ordner, welt, orte if orte is not None else gd.sehens_orte(), b, tag)
     pruefe_instanzen(p, ordner, welt, inv, b, tag)
+    if inv is not None:
+        pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m)
     for m in p.get("meldungen") or []:
         if m["stufe"] == FEHLER:
             b.append((FEHLER, tag, "Planer: %s" % m["text"]))

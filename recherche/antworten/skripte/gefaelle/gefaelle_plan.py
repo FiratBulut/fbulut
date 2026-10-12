@@ -1351,13 +1351,24 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendun
     return st.delta_1m
 
 
-def schreibe_lagen_1m(lg, st, ordner, ort_id, ersatz):
+def schreibe_lagen_1m(lg, st, ordner, ort_id, ersatz, bb_fn=None):
     """Wie Lagen.schreibe (1 m), dazu 15e: jede Zelle mit |Delta| > 0,3 m bekommt eine Lage - wo keine Zone sie
-    abdeckt (auch jenseits einer Feldgrenze), die erste Lage der Zone 'ufer_nah' des Bioms."""
+    abdeckt (auch jenseits einer Feldgrenze), die erste Lage der Zone 'ufer_nah' des Bioms.
+    16c Nachtrag 18:15: bb_fn(fl) -> (zusatz, w_streifen, w_schlamm, kennzahlen) - Schlamm und nasser Uferstreifen;
+    Gras-Lagen im Streifen und Kies unter dem Schlamm werden gedaempft (sehens_lib.bachbett.lagen_mischen)."""
     from sehens_lib import stempel as stm
     fl = [int(v) for v in lg.fe.fenster_ij_1m()]
     li0, lj0, lh, lw = fl
     arr = {n: stm.nach_1m(lg.ziel[n], lg.z) for n in lg.ziel}
+    kz_bb = None
+    if bb_fn is not None:
+        from sehens_lib import bachbett as bb_
+        zus, w_str, w_sch, kz_bb = bb_fn(fl)
+        rf1 = stm.nach_1m(lg.randfaktor(3.0), lg.z)
+        if rf1.shape != (lh, lw):
+            rf1 = np.pad(rf1, ((0, max(0, lh - rf1.shape[0])), (0, max(0, lw - rf1.shape[1]))), mode="edge")[:lh, :lw]
+        zus = {n: v * rf1 for n, v in zus.items()}
+        bb_.lagen_mischen(arr, zus, w_str * rf1, w_sch * rf1)
     summe = np.zeros((lh, lw))
     for a in arr.values():
         summe += np.clip(np.rint(a), 0, 255)
@@ -1380,7 +1391,10 @@ def schreibe_lagen_1m(lg, st, ordner, ort_id, ersatz):
         pf = os.path.join(ordner, rel + n + ".r8")
         os.makedirs(os.path.dirname(pf), exist_ok=True)
         np.ascontiguousarray(np.clip(np.rint(arr[n]), 0, 255).astype(np.uint8)).tofile(pf)
-    return {"datei_praefix": rel, "fenster_ij": fl, "lagen": namen}
+    out = {"datei_praefix": rel, "fenster_ij": fl, "lagen": namen}
+    if kz_bb is not None:
+        out["_bachbett"] = kz_bb
+    return out
 
 
 def schreibe_1m(st, ordner, ort_id):
@@ -1875,6 +1889,123 @@ def _entlang(lin, n):
         f = (sd - kum[j]) / max(seg[j], 1e-9)
         out.append((float(P[j, 0] + (P[j + 1, 0] - P[j, 0]) * f), float(P[j, 1] + (P[j + 1, 1] - P[j, 1]) * f)))
     return out
+
+
+# ======================================================================================================================
+# 16c Nachtrag 18:15 (Ferat): Bachbett - Totholz, Schlamm, nasser Uferstreifen (Logik in sehens_lib.bachbett)
+# ======================================================================================================================
+BESTAND_HOLZ = ("holz_", "totholz_", "wurzel_")         # Holzstufen/Verklausungen (15/15f/13k) zaehlen als Totholz
+
+
+def bachbett_stufen(stufen_ab):
+    """Lippen (auch Teil-Lippen) fuer die Lippenzonen: s_lippe, s_fuss, Fall, gross (>= 1 m oder Vorhang) und die
+    wirksame Lippenform (tan, Pfeil, h) - der Pruefer liest dieselben Werte aus plan.json lippe_form."""
+    out = []
+    for s_l, D_l, l_l, t, e in lippen_liste(stufen_ab):
+        g = t.get("geo")
+        d = {"s_lippe": float(s_l), "s_fuss": float(s_l + l_l), "fall": float(D_l),
+             "gross": bool(D_l >= 1.0 or _hat_vorhang(e)), "halb": float(e["lippe_breite_m"]) / 2.0}
+        if g:
+            d.update(tan=float(g["tan"] * g["skala"]), pfeil=float(g["pfeil"] * g["skala"]), h=float(g["h"]))
+        out.append(d)
+    return out
+
+
+def bachbett_kanal(pr, sp, lf, ufer, breite_fn, stufen_ab, segs):
+    """sehens_lib.bachbett.Kanal fuer einen Abschnitt: Mittellinie (1 m) von der ersten Lippe - 12 m bis zum letzten
+    Segmentende + 12 m, Spiegel exakt (spiegel_bei mit s_eff der schraegen Lippen), Wasserkante je Seite (15g)."""
+    from sehens_lib import bachbett as bb
+    a0 = max(0.0, min(a for a, b, _ in segs) - 12.0)
+    b0 = min(float(pr.s[-1]), max(b for a, b, _ in segs) + 12.0)
+    # Mittellinie = Punkte der neuen Wasserlinie (wie plan.json spiegel_neu_cm): Planer und Pruefer projizieren auf
+    # dieselbe Polylinie (bei breiten Fluessen weicht die Projektion auf die 0,5-m-Lauflinie sonst bis ~0,7 m ab)
+    S_sp = np.array([t_[0] for t_ in sp], np.float64)
+    k = np.flatnonzero((S_sp >= a0) & (S_sp <= b0))
+    k = np.arange(max(0, k.min() - 1), min(len(S_sp), k.max() + 2)) if len(k) else np.arange(len(S_sp))
+    s = S_sp[k]
+    xy = [pr.xy(s_) for s_ in s]
+    x = np.array([round(float(v[0]) * 100, 1) / 100.0 for v in xy])
+    y = np.array([round(float(v[1]) * 100, 1) / 100.0 for v in xy])
+
+    def halb(s_, u_):
+        return wasserkante(breite_fn(s_) / 2.0 - (ufer.einzug(s_, u_) if ufer is not None else 0.0))
+    return bb.Kanal(s, x, y, spiegel_bei(sp, s), breite_fn(s), bachbett_stufen(stufen_ab),
+                    s_eff=(lf.s_eff if lf is not None else None), halb_fn=halb, zonen_zuschlag_m=0.15,
+                    z_fn=lambda se: spiegel_bei(sp, se))
+
+
+def bachbett_instanzen(ctx, kanal, segs, st_ab):
+    """Totholz in einen Gefaelle-Abschnitt setzen (nach allen anderen Gruppen: Bloecke, Riegel, Holzstufen, Moos).
+    Vorhandene Holzstufen/Totholz-quer-Stuecke werden von der Ziel-Dichte abgezogen."""
+    from sehens_lib import bachbett as bb
+    bestand = {}
+    for g, lst in ctx.gruppen.items():
+        if not g.startswith(BESTAND_HOLZ):
+            continue
+        for s_ in lst:
+            _, s_l, _ = kanal.projektion(np.array([s_["x_m"]]), np.array([s_["y_m"]]))
+            for n_s, (a, b, _) in enumerate(segs):
+                if a - 1.0 <= float(s_l[0]) <= b + 1.0:
+                    bestand[n_s] = bestand.get(n_s, 0) + 1
+                    break
+    return bb.totholz_setzen(ctx, kanal, [(a, b, bi) for a, b, bi in segs], welt=ctx.welt, bestand_lw=bestand,
+                             seed_teil="bb")
+
+
+def bachbett_block(ctx, kanal, bilanz, inv):
+    """plan.json -> bachbett.abschnitte[<id>]: Stuecke nach dem Ausduennen, Bestand-Holz, Dichte je Segment."""
+    from sehens_lib import bachbett as bb
+    st = bb.stuecke_block(ctx, kanal, inv)
+    best = [dict(b_, art="bestand") for b_ in bb.stuecke_block(ctx, kanal, inv, gruppen_praefix=BESTAND_HOLZ)]
+    return {"stuecke": st, "bestand": [{k: b_[k] for k in ("gruppe", "netz", "pfad", "pos_cm", "s_m", "laenge_m")}
+                                       for b_ in best],
+            "dichte": bb.dichte_zusammenfassen(st, bilanz, best)}
+
+
+def bachbett_lagen_1m(K, ctx, kanal, segs, fl, st):
+    """Schlamm (ruhige tiefe Becken, Gleithang) und nasser Uferstreifen (0-1 m ueber dem Spiegel) auf dem 1-m-Raster
+    der Lagen (fl = [i0, j0, ni, nj]) gegen den Boden NACH dem Stempel (altes 1-m-Gelaende + 1-m-Delta).
+    Rueckgabe (zusatz, w_streifen, w_schlamm, kennzahlen)."""
+    from sehens_lib import bachbett as bb
+    i0, j0, ni, nj = [int(v) for v in fl]
+    alt = alt_1m(K, fl)
+    F = alt.copy()
+    d1 = getattr(st, "delta_1m", None)
+    if d1 is not None:
+        si0, sj0, sh, sw = [int(v) for v in st.fe.fenster_ij_1m()]
+        i_a, i_b = max(si0, i0), min(si0 + sh, i0 + ni)
+        j_a, j_b = max(sj0, j0), min(sj0 + sw, j0 + nj)
+        if i_b > i_a and j_b > j_a:
+            F[i_a - i0:i_b - i0, j_a - j0:j_b - j0] += d1[i_a - si0:i_b - si0, j_a - sj0:j_b - sj0]
+    jj, ii = np.meshgrid(np.arange(j0, j0 + nj, dtype=np.float64), np.arange(i0, i0 + ni, dtype=np.float64))
+    X, Y = jj - gd.OFF_J_1M, ii - gd.OFF_I_1M
+    rand = float(np.max(kanal.B)) / 2.0 + 8.0
+    box = (X >= kanal.x.min() - rand) & (X <= kanal.x.max() + rand) & (Y >= kanal.y.min() - rand) & \
+        (Y <= kanal.y.max() + rand)
+    zusatz, w_str, w_sch = {}, np.zeros(X.shape), np.zeros(X.shape)
+    kz = {"streifen_m2": 0, "schlamm_m2": 0}
+    if not box.any():
+        return zusatz, w_str, w_sch, kz
+    xs, ys = X[box], Y[box]
+    d, s, u = kanal.projektion(xs, ys)
+    halb = kanal.halb(s, u)
+    z_sp = kanal.z(s, u)
+    ruhe = kanal.ruhe(kanal.s_eff(s, u))
+    kr = kanal.kruemmung(s) * np.where(u >= 0, 1.0, -1.0)
+    for a, b, biom in segs:
+        nah = ((s >= a) & (s <= b) & (d <= kanal.halb_netz(s) + 6.0)).astype(np.float64)
+        if not nah.any():
+            continue
+        lg_, ws_, wsch_ = bb.bett_lagen(xs, ys, F[box], z_sp, d, halb, ruhe, kr, biom, nah, seed=SEED)
+        for n, v in lg_.items():
+            full = zusatz.get(n, np.zeros(X.shape))
+            full[box] = np.maximum(full[box], v)
+            zusatz[n] = full
+        w_str[box] = np.maximum(w_str[box], ws_)
+        w_sch[box] = np.maximum(w_sch[box], wsch_)
+    kz["streifen_m2"] = int((w_str >= 0.5).sum())
+    kz["schlamm_m2"] = int((w_sch >= 0.3).sum())
+    return zusatz, w_str, w_sch, kz
 
 
 # ======================================================================================================================
@@ -3180,6 +3311,9 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             ctx.linien["bach_haupt"] = pr.polylinie(max(0.0, segs[0][0] - 5), min(pr.s[-1], segs[-1][1] + 5), 1.0)
             wz_ab = [w for w in wandzonen if any(a - 1e-6 <= w["a"] <= b + 1e-6 for a, b, _ in segs)]
             bauen_instanzen(ctx, K, pr, st_ab, [(a, b, bi) for a, b, bi in segs], wz_ab, biom_netze, None, ufer, breite_fn)
+            # 16c Nachtrag 18:15: Totholz im und am Bach (nach allen anderen Gruppen; Stufen/Spiegel/Gelaende bleiben)
+            kanal_bb = bachbett_kanal(pr, sp, lf, ufer, breite_fn, st_ab, segs)
+            bil_bb = bachbett_instanzen(ctx, kanal_bb, segs, st_ab)
             # nichts in Sehenswuerdigkeiten (Radius + 10 m)
             vorher = len(ebene.stuecke)
             ebene.stuecke = [s_ for s_ in ebene.stuecke if s_["ort"] != aid or not any(
@@ -3197,7 +3331,8 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             ebene.ausduennen(aid, 15000, 1500, 80)
             for s_, oid, t_ in ctx.meldungen:
                 meldungen.append((s_, oid, t_))
-            kontexte.append({"ctx": ctx, "id": aid, "strecke": x["id"], "stufen": st_ab, "segs": segs, "biom": biom_ab})
+            kontexte.append({"ctx": ctx, "id": aid, "strecke": x["id"], "stufen": st_ab, "segs": segs, "biom": biom_ab,
+                             "kanal_bb": kanal_bb, "bilanz_bb": bil_bb})
     akteure_je_lauflaenge(ebene, pr, inv, melde)
     # 15b: Gelaende-Delta auf 1 m nachziehen (Wasser hoechstens Querprofil, Uferring >= Spiegel + 0,15 m)
     for kx in kontexte:
@@ -3236,12 +3371,18 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             import shutil
             shutil.rmtree(p_)
     ab_out = []
+    bachbett_abschnitte = {}
     for kx in kontexte:
         ctx = kx["ctx"]
         blk = schreibe_1m(ctx.stempel, aus_lauf, kx["id"])
         lblk = schreibe_lagen_1m(ctx.lagen, ctx.stempel, aus_lauf, kx["id"],
                                  (gr.lagen_zone(K["rw"], "ufer_nah", K["rw"].biom(kx["biom"])[1]["lagen"], None)[1]
-                                  or ["Geroell"])[0])
+                                  or ["Geroell"])[0],
+                                 bb_fn=lambda fl_, kx=kx: bachbett_lagen_1m(K, kx["ctx"], kx["kanal_bb"], kx["segs"], fl_,
+                                                                             kx["ctx"].stempel))
+        bb_ab = bachbett_block(ctx, kx["kanal_bb"], kx["bilanz_bb"], inv)
+        bb_ab["lagen"] = (lblk or {}).pop("_bachbett", None)
+        bachbett_abschnitte[kx["id"]] = bb_ab
         z = ebene.zaehle(kx["id"])
         ab_out.append({"id": kx["id"], "strecke": kx["strecke"], "biom": kx["biom"],
                        "felder": ctx.st["felder"], "segmente_m": [[_r(a, 2), _r(b, 2)] for a, b, _ in kx["segs"]],
@@ -3320,6 +3461,10 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         "felder": sorted({daten.feld_von_m(px, py) for px, py in zip(pr.x[::20], pr.y[::20])}),
     })
     plan["ufer_rand"] = ufer_rand_block(pr, ufer, breite_fn, segmente, ebene, [kx["id"] for kx in kontexte])
+    from sehens_lib import bachbett as bb_
+    plan["bachbett"] = {"regeln": "recherche/antworten/skripte/sehens_lib/bachbett_regeln.json",
+                        "version": bb_.regeln().version, "auftrag": "16c Nachtrag 18:15 (Totholz, Schlamm, Uferstreifen)",
+                        "abschnitte": bachbett_abschnitte}
     for h in ebene.hinweise:
         melde("HINWEIS", h)
     if K.get("variante") == "C":
