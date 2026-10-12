@@ -1,9 +1,42 @@
-# Vorschlag 16 – Test „Shallow Water River“ (Epic) an C2
+# Entscheidung 16 – Shallow Water River für alle Bäche und Flüsse (dynamische Welt)
 
-Stand 12.10.2026. Ferat fragte, warum wir nicht mit Unreals Shallow-Water-Fluss arbeiten. Laut Ferat zeigt ein Video, dass er in 5.8 gut läuft.
-Die Cloud kann YouTube nicht öffnen; das Video selbst habe ich nicht gesehen. Dieser Vorschlag ist ein **Test für die lokale Instanz**, kein Umbau.
+Stand 12.10.2026. **Ferat hat entschieden:** Alle Bäche und Flüsse laufen mit Epics **Shallow Water River**. Es geht nicht um einen Vorschlag
+und nicht um einen Test mit offenem Ausgang. Ziel ist eine dynamische Welt: Später gesetzte Felsen und Geländeänderungen soll das Wasser selbst
+erkennen, ohne Neuplanung.
 
-## Kurzfazit
+## Umbau (verbindlich)
+
+| Teil | Wer liefert | Was |
+|---|---|---|
+| Gelände, Stufen, Becken, Lippen | Planer (unverändert, 13f-Regel bleibt) | Form des Bachbetts |
+| Wasseroberfläche Bäche + Flüsse | **WaterBodyRiver + ShallowWaterRiver** | Strömung, Füllen der Becken, Umfließen von Hindernissen, Kehrwasser |
+| Fälle (Stufe ≥ 1 m, Schwelle wird im Einrichtungstest geprüft) | Kaskadennetz-Vorhang + Niagara (Nature Water FX) + Schaumobjekte | was 2D nicht kann |
+| Hindernisse | jede Instanz/jeder Akteur im Wasser oder ≤ 1 m daneben: `wasser_kollision: true` | Wasser erkennt Felsen automatisch |
+| Seen | bleiben `WaterBodyLake` | nicht Teil dieser Entscheidung |
+
+**Planer-Ausgabe (neu):** Je Gewässerstrecke eine Liste `fluss_sim` mit Abschnitten zwischen den Fällen. Jeder Abschnitt hat Splinepunkte
+(Lage, Breite, Tiefe, Fließgeschwindigkeit). Dazu je Fall einen Eintrag mit oberem/unterem Abschnitt, Vorhang, Effekten und Schaumobjekten
+sowie eine Liste aller Objekte mit Wasser-Kollision. Das lokale Bau-Werkzeug erzeugt daraus `WaterBodyRiver` + `ShallowWaterRiver` und
+setzt die Kollision.
+
+**Bisherige Kaskadennetz-Oberfläche** in Becken und flachen Strecken wird durch die Simulation ersetzt. Ob sie als ferne Darstellung bleibt,
+hängt von Reichweite und Kosten der Simulation ab (Einrichtungstest unten).
+
+**Offene Risiken (ehrlich):**
+- Kosten in einer offenen Welt mit über 160 Strecken sind unbekannt. Wahrscheinlich ist ein Simulationsbereich um den Spieler nötig, der Rest
+  als ruhender WaterBodyRiver.
+- Ein Forenbericht meldet einen Startfehler in 5.7.4. Laut Ferats Video läuft es in 5.8.
+- Ob Wasser-Kollision bei instanzierten Felsen (HISM/Foliage) wirkt, ist offen.
+
+## Einrichtungstest (lokal, vor dem Gesamtbau)
+
+Die Teststrecken und Fragen unten bleiben gültig. Sie dienen jetzt der **Einrichtung**: Werte, Schwelle für Fälle, Reichweite, Budget,
+Kollisionseinstellung. Es ist keine Ja/Nein-Entscheidung mehr.
+
+---
+*Ursprünglicher Vorschlag (zur Nachvollziehbarkeit):*
+
+## Kurzfazit (Vorschlag)
 
 - **Shallow Water River** ist seit UE 5.6 Teil von Water + Niagara Fluids und kostenlos. Er simuliert die Wasseroberfläche eines Flusses (`WaterBodyRiver`):
   Strömung um Hindernisse, Füllen von Becken, Wellen. Die Lage des Flusses gibt weiter die Spline vor.
