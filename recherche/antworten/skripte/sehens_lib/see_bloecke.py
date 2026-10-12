@@ -4,7 +4,7 @@ Befund (Karsee, Punkt 3): Zwei Felsbloecke lagen knapp unter dem Seespiegel; ihr
 und wurde von den Wellen in grelle Streifen gebrochen. Regel fuer alle Planer (Koordinator): Stuecke >= 0,5 m in einem
 geplanten See/Becken (Fels, Steine, Holz, Wurzeln, Moos - keine Pflanzen, die durch den Spiegel wachsen) ragen entweder
 heraus (Oberkante >= Spiegel + 0,3 m) oder liegen ganz tiefer als 1,5 m unter dem Spiegel (Oberkante <= Spiegel - 1,5 m).
-Ausnahme: Gruppen mit "teilweise_ueberflutet": true (z. B. Uferbloecke, die durch den Spiegel stossen) - sie stehen in
+Zugefrorene Seen ("eis") sind ausgenommen. Ausnahme: Gruppen mit "teilweise_ueberflutet": true (z. B. Uferbloecke, die durch den Spiegel stossen) - sie stehen in
 orte.json je Ort unter "teilweise_ueberflutet" (Gruppennamen), der Pruefer laesst sie aus.
 
   korrigieren(ctx)                                  Planer (rezept.baue, nach den Gruppen): Stuecke heben/senken/entfernen
@@ -32,6 +32,8 @@ def _oberkante(info, q, s, z_cm):
 def _seen(ort_wasser):
     out = []
     for w in ort_wasser or []:
+        if w.get("eis"):
+            continue                       # zugefroren: Stuecke liegen auf dem Eis
         if w.get("typ") == "see" and w.get("umriss_cm") and isinstance(w.get("spiegel_cm"), (int, float)):
             out.append((np.asarray(w["umriss_cm"], np.float64)[:, :2] / 100.0, float(w["spiegel_cm"]) / 100.0, w.get("id")))
     return out
@@ -76,8 +78,10 @@ def korrigieren(ctx):
     liegt, solange das Stueck nicht ganz im Grund verschwindet, sonst entfernen."""
     from . import steilwand as _sw
     meer_reste(ctx)
+    # zugefrorene Seen ("eis"): dort liegt alles AUF dem Eis - die Regel gilt nur fuer offenes Wasser
+    eis = {w.get("id") for w in ctx.r.get("wasser") or [] if w.get("typ") == "see" and w.get("eis")}
     seen = [(np.asarray(sv["umriss_m"], np.float64), float(sv["spiegel_m"]), sid) for sid, sv in ctx.see.items()
-            if not sv.get("klein")]
+            if not sv.get("klein") and sid not in eis]
     if not seen:
         return
     weg, gehoben, gesenkt = set(), 0, 0

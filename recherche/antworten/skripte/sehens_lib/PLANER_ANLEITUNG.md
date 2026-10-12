@@ -378,6 +378,55 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
 - **Feldzuordnung** (A10): `s = floor((x_cm + 473050)/100800)`, `r = floor((y_cm + 406050)/100800) + 1` –
   wie Setzer und Landschaftskomponenten (`daten.feld_von_m`, `feld_grenzen_m`, Prüfer).
 
+### 3.12 Steilflächen, Kameras, Leuchtfeuer, Blöcke im See (Auftrag 13h)
+
+Hintergrund ist der Bildbefund des ersten Editor-Pilots: senkrechte, glatte Erdwände, `_nah` in einer Krone,
+Leuchtfeuer aus `_fern` nicht lesbar und grüne Streifen von Blöcken knapp unter dem Seespiegel. Alles ist additiv;
+alte Rezepte laufen weiter und bekommen das neue Verhalten automatisch.
+
+**Prüfer-Regeln (FEHLER):**
+- **Steilflächen:** > 20 m² zusammenhängend mit > 45°, die der Stempel neu geschaffen hat (|Δ| > 0,25 m, mehr als 5°
+  steiler als vorher), ohne Fels-Akteur, der die Zellen deckt.
+  - „Deckt“ heißt: in der XY-Hülle der gedrehten Bounds und mit der Bodenhöhe zwischen Unter- und Oberkante ± 1 m.
+  - Ausgenommen sind Seegrund, Meeresboden und das benetzte Bachbett.
+  - Modul: `steilwand.py`.
+- **Kameras** (`kamera_frei.py`):
+  - nicht im geplanten Wasser und nicht in einem Netz;
+  - Abstand zu jedem neuen Baum ≥ Kronenradius + 2 m;
+  - freier Strahl gegen neue Netze, Bestandskronen (4 m, ohne Freiräume) und Gelände nach dem Stempel.
+- **Leuchtfeuer:** `_fern` muss die Silhouette zeigen. Die Held-Netze müssen ≥ 30 % und ≥ 10 m (oder ganz) über der
+  Mindesthöhe liegen; ersatzweise die Ort-Silhouette aus Phase 1 zu ≥ 30 %. Lebende Held-Bäume müssen ≥ 1,5 × so hoch sein
+  wie der Bestand (90-%-Wert im Ring bis 35 m, ohne Freiräume). Info: Silhouette vor dem Himmel ja/nein.
+- **Blöcke im See** (`see_bloecke.py`): Stücke ≥ 0,5 m (keine Pflanzen) liegen mit der Oberkante ≥ Spiegel + 0,3 m oder
+  ≤ Spiegel − 1,5 m. Gruppen mit `"teilweise_ueberflutet": true` sind ausgenommen und stehen in `orte.json` unter
+  `teilweise_ueberflutet`.
+
+**Gelände-Block, neue Felder:**
+
+| Feld | Standard | Wirkung |
+|---|---|---|
+| `max_neigung_grad` | 38 | Böschung nach `fertig()`: Halde am Fuß aufschütten (`max_auftrag_m` 3), dann Kante abtragen (`max_abtrag_m` 3), linear auslaufend, nur wo der Bestand flacher als die Grenze ist. Keine neuen Senken. `false` schaltet aus. |
+| `halde` | Lage + Blöcke aus `gefaelle_regeln.json` → `biome.<biom>` | `{"lage", "wert", "bloecke": palette \| false, "dichte_je_m2", "groesse_m"}`; `false` = keine Halde-Lage und keine Blöcke |
+| `steil_erlaubt` | – | `[{"bei", "r_m"} \| {"punkte", "breite_m"}]`: gewollte Wand. Die Böschung lässt sie stehen, die Verkleidung muss sie decken. |
+| `verkleiden` | an, Wandnetze des Bioms (A15) | `{"palette", "groesse_m", "groesse_achse", "max_anzahl"}` für die automatische Gruppe `wandverkleidung`; `false` = aus. Akteur-Budget: höchstens 78 Akteure je Ort. |
+| `rauschen` | – | `{"anteil": 0.25, "wellenlaenge_m": 18}`: organischer Rand für mulde, kuppe, terrasse, rinne, abbruch und damm (auch je `op`). Gilt nicht für Seebecken und Bäche. |
+
+**Weitere Felder:**
+- **Gruppen:** `"verteilung": {"typ": "steilwand", "bei", "r_m", "max_anzahl", "versatz_m"}` verkleidet neue
+  Steilflächen. Gierig von unten nach oben; die Front zeigt talwärts (`front_achse` je Netz), die Vorderkante liegt auf
+  der Wandzelle (wie `front_an_linie`); hohe Wände werden gestapelt (`z_frei`). `"verteilung": {"typ": "halde"}` legt
+  Stücke auf die Halde. Gruppen-Flag `"teilweise_ueberflutet": true` (siehe oben).
+- **See-Becken:** `"insel": {"versatz_m", "r_m", "ueber_m", "plateau"}` legt eine Geländekuppe ins Becken, die Krone liegt
+  `ueber_m` über dem Spiegel (Anker `<see>_insel`).
+- **Kameras** (`"kameras"` im Rezept):
+  - `{"<art>": {"pos", "ziel" | "ziel_gruppe" + "ziel_richtung", "ziel_hoehe_m", "abstand_m", "richtung", "hoch",
+    "grund"}, "fern": {"suche": "wegpunkte"}, "versetzen": true, "standplatz_freiraeumen": true}`.
+  - Ohne Regel prüft der Planer alle Kameras und versetzt blockierte selbst: Ring um das Ziel nahe der alten Position,
+    dann weiter gefasst. `_fern` bei Leuchtfeuern sucht er an Weg- und Pfadpunkten in 300–800 m, Himmel bevorzugt.
+  - Ziele unter dem Boden hebt er an.
+  - Eigene Pflanzen am Standplatz räumt er frei.
+  - `orte.json` trägt dann `kameras_13h`.
+
 ## 4. Bausteine der Bibliothek (für Hooks und Sonderfälle)
 
 ```python
