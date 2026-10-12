@@ -542,3 +542,357 @@ Ferat hat Designfragen an die Cloud übergeben („du entscheidest“). Gilt, bi
    durchgehend gleich. `MI_EL_SWR_Fluss` dient nur als Vorschau beim Backen und als Ersatz.
 
 Umsetzung im Export (`fluss_sim_v2`) folgt nach Teil 2, sobald die Erfassung von ISM/HISM im `WH`-Akteur bestätigt ist.
+
+## Nachtrag 2: Woher das Marmormuster kommt (Antwort auf Nachtrag 15:05)
+
+Stand 12.10.2026. Grundlage sind Nachtrag 15:05, die Bilder `bilder/swr/t1_material_epic_gegen_eigen.jpg`,
+`t1_material_varianten.jpg` und `t1_c2_netz_gegen_swr.jpg` sowie `vorlagen/daten/material_parameter.json` und
+`vorlagen/daten/inventar_extra.json`. Quellenlage wie oben: `dev.epicgames.com` und das Forum antworten aus der Cloud mit Proxy 403,
+`web.archive.org` und GitHub ebenfalls. Alle Web-Belege stammen aus **Suchmaschinen-Auszügen** und sind so gekennzeichnet wie
+oben ([Doku], [Forum], [Leitfaden], [Projekt], [Test 16a], [Ableitung], [ungeprüft]). Ferats Video kenne ich noch nicht (Rückfrage 1).
+
+### Kurzfazit
+
+- **Die beiden Material-Tests haben das Material, das in LIVE_SIM zeichnet, sehr wahrscheinlich gar nicht erreicht.**
+  - In LIVE_SIM zeichnet das **Niagara-System** der SWR die Wasseroberfläche (über `river_sim_system`, eine `NiagaraComponent`) mit
+    dem Material seines eigenen Renderers. Nach Test 16a ist das `SW_Water_Material_River`.
+  - Der Water Body ist in LIVE_SIM ausgeblendet. Ein Forenbericht zu 5.6.1 sagt: Nach „Reset“ an der SWR verschwindet der Water Body
+    vollständig [Forum]. In Ferats Bild rechts ist auch keine zweite Wasserfläche zu sehen [Test 16a].
+  - Damit wirkt **`MI_Eldarien_Wasser_Fluss` am Water Body in LIVE_SIM nicht**. Das erklärt, warum die Varianten V2–V4 identisch
+    aussehen: `Sim Velocity Normal Strength` 40 → 3 hätte sonst deutlich sichtbar sein müssen [Ableitung].
+  - `baked_sim_material` und `spline_river_material` sind nach ihren Namen die Materialien für die **gebackene** bzw. die
+    **Spline**-Darstellung, nicht für LIVE_SIM [Ableitung]. Daher „kaum Unterschied“ bei `MI_EL_SWR_Fluss`.
+  - **Unsere Klar-Werte auf `SW_Water_Material_River` in LIVE_SIM sind also noch gar nicht getestet.**
+- **Das Muster selbst hat zwei Teile** [Ableitung aus den Bildern]:
+  1. **Grundfarbe deckend oliv-türkis:** Sie kommt aus Absorption 20,8/25/24,7 cm und Streuung 0,77/1,0/0,92 im Niagara-Material.
+     Man sieht das im unteren Becken, wo das Wasser ruhig ist: einheitlich oliv, kein Grund sichtbar.
+  2. **Weiß-cremige Marmorflecken und türkise Schlieren nur im schnellen Teil:** simulierter Schaum, mit der Strömung verzogen, dazu
+     Spiegelungen an steilen Simulations-Normalen. Im Becken fehlen sie. Das Muster folgt also der **Geschwindigkeit**.
+- **Der Sekundär-Emitter ist wahrscheinlich nicht die Ursache des Marmors.** Seine Teilchen sieht man als Gischtwolke am Fels und als
+  körnige beige Flecken (Bild Varianten, untere Reihe). Der Marmor ist dagegen eine geschlossene Fläche auf der Oberfläche
+  [Ableitung]. D3 im Plan prüft das in einer Minute.
+- **Die Strecke ist für eine Flachwasser-Simulation sehr steil:** 70,1 → 55,6 m auf 40 m sind **36 % mittleres Gefälle**. Zwischen den
+  Becken ist das Wasser überall schnell. Schaum und unruhige Normalen sind dort physikalisch „richtig“ [Ableitung]. Klares Wasser
+  bekommt man in den **Becken**; in den Rinnen kann man den Schaum nur weißer, dünner und kürzer machen.
+- **Für das Spiel ist LIVE_SIM nur die Vorschau beim Backen.** Nach Entscheidung 6 zeichnet im Spiel `WATER_COMPONENT_WITH_BAKED_SIM`
+  mit **unserem** Master. Ein Forenauszug zu 5.6 sagt dasselbe von der anderen Seite: Die Einstellungen im überschriebenen Material
+  greifen nur, wenn die SWR auf „Water Component with Baked Sim“ steht [Forum]. **Der wichtigste Test ist deshalb D6:** einmal
+  backen und T1 in WCBS mit `MI_Eldarien_Wasser_Fluss` ansehen.
+
+### Befunde
+
+**B1. Eigenschaften der SWR (belegt) [Doku Python 5.5, Test 16a]**
+
+| Eigenschaft | Typ | Bedeutung für das Aussehen |
+|---|---|---|
+| `render_state` | `ShallowWaterRenderState`, lesen/schreiben | wählt den Darstellungsweg (LIVE_SIM, BAKED_SIM, WATER_COMPONENT_WITH_BAKED_SIM, DEBUG_RENDER_BOTTOM_CONTOUR …) |
+| `river_sim_system` | `NiagaraComponent`, nur lesen | die laufende Simulation; ihr Asset kommt laut Doku aus den Projekteinstellungen („Plugins – Water ShallowWaterSimulation“) |
+| `water_info_texture` | `TextureRenderTarget2DArray`, nur lesen | Water-Info-Aufnahme der SWR (Eingang der Simulation, siehe B4) |
+| `baked_sim`, `baked_water_surface_rt`, `baked_water_surface_texture` | nur lesen | gebackene Daten |
+| `baked_sim_material`, `spline_river_material` | Material | in 5.8.3 vorhanden [Test 16a]; in keinem Auszug beschrieben |
+| `resolution_max_axis`, `sim_speed`, `num_steps`, `match_spline`, `use_capture`, `bottom_contour_*`, `source/sink_river_water_bodies` | | Simulation, nicht Optik |
+
+- Weitere Material-Felder (z. B. Übergänge zu See und Meer) gibt es vielleicht, belegt ist nichts davon. D1 listet alle Felder.
+- **Am Water Body** (5.7): `baked_shallow_water_sim` (nur lesen) und ein Schalter `use_baked_sim_for_queries_and_physics` [Doku].
+
+**B2. Was in LIVE_SIM zeichnet [Doku, Forum, Projekt, Ableitung]**
+
+- Das Niagara-System zeichnet die Wasserfläche über seine Renderer. Welche Materialien die Renderer nutzen, lässt sich per Python
+  auslesen: `unreal.NiagaraFunctionLibrary.get_all_emitters(system)` liefert je Emitter eine `NiagaraMinimalEmitterInfo` mit
+  `emitter_name`, `is_enabled`, `is_lightweight`, `used_renderer_materials`, `used_renderer_meshes` [Doku, Auszug; Versionsangabe
+  fehlt im Auszug, deshalb im Skript mit `hasattr` abgesichert].
+- Im Projekt gibt es schon **`MI_Eldarien_Wasser_FlussSim`, Eltern `/WaterAdvanced/Niagara/Materials/SW_Water_Material_River_Niagara_Cached`**
+  [Projekt, `inventar_extra.json`]. Es gibt also mindestens vier SW-Materialien: `SW_Water_Material`, `…_River`, `…_River_Spline`,
+  `…_River_Niagara_Cached`. Welches davon in welchem Zustand zeichnet, zeigt D1. Wofür `…_Niagara_Cached` gedacht ist, ist
+  unbelegt; der Name deutet auf eine Fassung für zwischengespeicherte Simulationsdaten [Ableitung].
+- Material in den Niagara-Renderer bringen, ohne Engine-Inhalt zu speichern:
+  - **Weg A:** Hat `Grid2D_SW_River` einen Benutzerparameter vom Typ Material, setzt man ihn mit
+    `NiagaraComponent.set_variable_material(name, material)` [Doku Python 5.0–5.6].
+  - **Weg B:** Kopie des Systems nach `/Game/…`, dort Renderer-Material oder Emitter ändern, Kopie in den Projekteinstellungen
+    eintragen (Feldname dort unbelegt) oder mit `NiagaraComponent.set_asset(kopie)` setzen. Ob die SWR beim nächsten Reset wieder
+    das Projekt-Asset setzt, ist offen [ungeprüft].
+  - **Weg C (Schnelltest):** Werte in `SW_Water_Material_River` nur im Speicher ändern und wieder zurücksetzen (Skript D4). Nicht
+    speichern, denn das ist Engine-Inhalt.
+
+**B3. Sekundär-Emitter [Test 16a, Doku, ungeprüft]**
+
+- `SW_River_Secondary_Emitter` (50 000 Teilchen) mit `M_SW_Foam` zeichnet nach Name und Bild **Gischt- und Schaumteilchen** über der
+  Fläche. Seine Parameter (Spawn-Schwelle, Lebensdauer, Größe) kenne ich nicht; die Parameter-Referenz von Epic ist nicht lesbar.
+- **Abschalten:**
+  - `NiagaraComponent.set_emitter_enable(emitter_name, bool)`: Die C++-Funktion `SetEmitterEnable` gibt es [Doku 4.26]. Ein
+    Fehler, durch den sie wirkungslos blieb, ist seit 5.4 behoben [Doku, Jira UE-89870]. Der Python-Name ist vermutlich
+    `set_emitter_enable`; das Skript prüft es mit `hasattr`. **Ob sie bei GPU-Emittern wirkt, ist unbelegt.**
+  - Sicher geht es nur in einer **Kopie des Systems** (Weg B): Emitter-Haken aus oder Renderer-Haken aus.
+- Ob es Benutzerparameter für Teilchenzahl oder Schwelle gibt, zeigt die Liste aus D1.
+
+**B4. Water-Info-Pfad [Doku, Forum, Projekt, Ableitung]**
+
+- Die Water Zone zeichnet eine Water-Info-Textur (`Texture2DArray`). Laut Forum 5.6 steht im Blau-Kanal die Wasserhöhe und im
+  Alpha-Kanal die Bodenhöhe [Forum]. Die Strömung steht sehr wahrscheinlich in Rot/Grün [Ableitung].
+- Das Water-Body-Material liest sie über `WaterVelocityAndHeight` (in unserem Master Standard `/Water/Textures/BlackTexture2DArray`,
+  zur Laufzeit von der Water Zone gesetzt) [Projekt]. Daraus kommen Flowmap, Wellenmaske und Strömungsschaum am normalen Water Body.
+- Die SWR hat eine **eigene** `water_info_texture` [Doku]. Sie dient vermutlich als Eingang der Simulation (Wasserflächen der Quell-
+  und Senken-Bodies, Höhen) [Ableitung].
+- In **LIVE_SIM** ist der Water Body ausgeblendet. Der Water-Info-Pfad hat dort **keinen Einfluss auf das Aussehen** [Ableitung].
+- In **WCBS** zeichnet der Water Body wieder. Die gebackene Simulation kommt dann über `BakedWaterSimTex`/`…VT`/`BakedWaterSimSize`
+  und vermutlich auch über die Water-Info-Textur ins Material [Projekt, Ableitung].
+- Daneben gibt es die **Interaktions-Simulation** um die Spielfigur: `BasicShallowWaterSubsystem` hat `normal_rt`, `velocity_rt`,
+  `water_info_texture` und eine `mpc` (Material Parameter Collection) [Doku]. Sie speist sehr wahrscheinlich die Material-Eingänge
+  `NormalAndHeight` und `Velocity` und die `Fluidsim *`-Werte [Ableitung].
+
+**B5. Welche Parameter aus `M_Eldarien_Wasser_Schaum8` wo wirken können [Projekt, Ableitung]**
+
+| Gruppe (Werte aus `material_parameter.json`) | Liest | LIVE_SIM (am Water Body) | WCBS | Interaktion (PIE) |
+|---|---|---|---|---|
+| `BakedWaterSimTex`, `BakedWaterSimTexVT`, `BakedWaterSimSize` | gebackene Simulation | nein | **ja** | – |
+| `Sim Foam Scale` 350, `SimFoam Contrast` 0, `Sim Foam Dpeth Min` 8, `Sim Foam Velocity Mip` 128, `Sim Foam Normal` 1, `Sim Velocity Normal Strength` 40, `SIm Flowmap Speed` 1,5, `Sim Flowmap Detection` 1,5, `Simulation Flowmap Speed` 0,75 | Simulationsdaten (gebacken oder Water Info) | nein | **vermutlich ja** | – |
+| `Fluidsim Flow Density` 0,25, `Fluidsim Normal Strength` 1, `Fluidsim Velocity EdgeFalloff` 0,2, `Fluidsim Velocity Edgeoffset` 0,02, `Fluid Displacement Multiplier` 1, `Max Fluid Displacement` 1024, `Fluid Eraose Ssaler` 0,5, `Mask Wave Foam near FluidSim` 1, `Wave Foam Erase Near FluidsimSize` 0,5, `ShowSim` 1, `Velocity Debug` 0; Texturen `NormalAndHeight`, `Velocity` | Interaktions-Simulation (Render Targets) | nein | nur um die Spielfigur | **vermutlich ja** |
+| `WaterVelocityAndHeight`, `River Flowmap *`, `WPO Flowmap` 6 | Water Info der Water Zone | nein | ja | ja |
+| `Absorption`, `Scattering`, `Water Albedo`, `Foam *` | – | nein | ja | ja |
+
+- Kurz: **Am Water Body wirkt in LIVE_SIM keiner dieser Werte**, weil der Water Body dort nicht zeichnet.
+- Dieselben Namen in `SW_Water_Material_River` (dieselbe Familie) wirken in LIVE_SIM nur, wenn dieses Material im Niagara-Renderer
+  steckt. Das prüft D1.
+- `ShowSim` 1 und `Velocity Debug` 0 sind Debug-Schalter: Mit `Velocity Debug` = 1 sollte man in WCBS die Strömung sehen
+  [Ableitung aus dem Namen].
+
+**B6. Beispiel-Szenen**
+
+- **Epic:** Ein Forenbericht zu 5.7.4 nennt die mitgelieferte Testkarte **`WaterFluidSimtestShallow`**, in der die SWR funktioniert
+  [Forum]. Ältere Leitfäden legen sie unter `Water/Content/FluidSimulation/` ab, damals für die alte Fluid-Sim [Leitfaden]. Im Content
+  Browser bei eingeschaltetem „Show Engine Content“ und „Show Plugin Content“ nach `WaterFluidSimtest` bzw. in `/WaterAdvanced/`
+  nach `Maps` suchen. Werte daraus kenne ich nicht.
+- **Tutorials von Epic:** „Baked River Simulations – Overview and Quick Start“ und „Parameter Reference“ (2025) beschreiben die
+  Parameter von SWR, Niagara und Material. Der Inhalt ist aus der Cloud nicht lesbar, nur der Vorspann [Doku].
+- **Klares Bachwasser mit Werten:** Weder bei Epic noch in der Community habe ich ein Beispiel gefunden. Die japanischen Leitfäden
+  und die 5.6-Videos zeigen den Standard (türkis, viel Schaum). **Bitte die Testkarte lokal öffnen** (D7) und ihre Material- und
+  Niagara-Werte mit Skript D1 auslesen.
+
+### Diagnoseplan (lokale Instanz, T1, nichts speichern)
+
+Reihenfolge: Jeder Schritt schließt eine Ursache aus. D1 und D2 dauern zusammen etwa 5 Minuten. Die Ausgabe von D1 bitte als
+`bilder/swr/t1_diag_liste.txt` zurück.
+
+**D0. Griffe holen (für alle Schritte)**
+
+```python
+import unreal
+eas  = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
+alle = eas.get_all_level_actors()
+swr  = next(a for a in alle if isinstance(a, unreal.ShallowWaterRiver))
+comp = swr.get_component_by_class(unreal.ShallowWaterRiverComponent)
+nc   = comp.get_editor_property('river_sim_system')          # NiagaraComponent (belegt, nur lesen)
+wbs  = [a for a in alle if isinstance(a, unreal.WaterBodyRiver)]
+```
+
+**D1. Bestandsaufnahme: wer zeichnet womit (nur lesen)**
+
+```python
+def felder(obj):
+    aus = []
+    for n in sorted(dir(obj)):
+        if n.startswith('_'):
+            continue
+        try:
+            aus.append(f'  {n} = {obj.get_editor_property(n)}')
+        except Exception:
+            pass                                              # Methode oder nicht freigegeben
+    return aus
+
+z = ['== ShallowWaterRiverComponent'] + felder(comp)
+sysa = nc.get_asset()
+z.append(f'== Niagara-System: {sysa.get_path_name()}')
+NFL = unreal.NiagaraFunctionLibrary
+if hasattr(NFL, 'get_all_emitters'):
+    for e in NFL.get_all_emitters(sysa):
+        mats = [m.get_path_name() for m in e.get_editor_property('used_renderer_materials') if m]
+        nets = [m.get_path_name() for m in e.get_editor_property('used_renderer_meshes') if m]
+        z.append(f"  Emitter {e.get_editor_property('emitter_name')} an={e.get_editor_property('is_enabled')} "
+                 f"Material={mats} Netze={nets}")
+z.append('== NiagaraFunctionLibrary (user/emitter): ' +
+         str([f for f in dir(NFL) if 'user' in f.lower() or 'emitter' in f.lower()]))
+for wb in wbs:
+    wbc = wb.get_component_by_class(unreal.WaterBodyRiverComponent)
+    z.append(f'== Water Body {wb.get_actor_label()}')
+    for n in ('water_material', 'baked_shallow_water_sim', 'use_baked_sim_for_queries_and_physics'):
+        try:
+            z.append(f'  {n} = {wbc.get_editor_property(n)}')
+        except Exception as ex:
+            z.append(f'  {n}: {ex}')
+cdo = unreal.ShallowWaterRiverComponent.get_default_object()   # Epic-Standard der Material-Felder
+for n in ('baked_sim_material', 'spline_river_material'):
+    try:
+        z.append(f'  Standard {n} = {cdo.get_editor_property(n)}')
+    except Exception as ex:
+        z.append(f'  Standard {n}: {ex}')
+pfad = unreal.Paths.project_saved_dir() + 't1_diag_liste.txt'
+open(pfad, 'w', encoding='utf-8').write('\n'.join(z))
+print(pfad)
+```
+
+- **Benutzerparameter:** Ob `NiagaraFunctionLibrary` eine Funktion dafür hat (im Auszug `get_all_user_parameters` genannt), ist
+  nicht sicher belegt. Die letzte Zeile der Liste zeigt es; dann `help(unreal.NiagaraFunctionLibrary.<name>)` für die Argumente.
+- **Sicherer Weg ohne Python:** Im Outliner die SWR wählen, im Komponentenbaum die Niagara-Komponente anklicken. Im Details-Fenster
+  steht der Abschnitt mit den Benutzerparametern (je nach Version „User Parameters“ oder „Override Parameters“). Bitte ein
+  Bildschirmfoto, dazu ein Foto der Emitter-Liste von `Grid2D_SW_River` im Niagara-Editor (nur ansehen, nicht speichern).
+- **Erwartung:** Der Emitter, der die Fläche zeichnet, nennt `SW_Water_Material_River` (oder `…_Niagara_Cached`), der Sekundär-Emitter
+  `M_SW_Foam`. `MI_EL_SWR_Fluss` taucht nirgends auf.
+
+**D2. Zeichnet der Water Body in LIVE_SIM überhaupt?**
+
+```python
+nc.set_visibility(False)    # Niagara-Ausgabe aus
+# Bild ansehen: Ist das Bett jetzt trocken, zeichnet in LIVE_SIM nur Niagara.
+nc.set_visibility(True)
+```
+
+- Gegenprobe ohne Python: In der Konsole des Viewports `ShowFlag.Particles 0`, danach `ShowFlag.Particles 1`. Ob der Schalter auch
+  Niagara-Netz-Renderer ausblendet, ist nicht belegt; `set_visibility` ist der sichere Weg.
+- **Ergebnis „trocken“:** Alle Material-Tests am Water Body sind für LIVE_SIM gegenstandslos. Weiter mit D3.
+
+**D3. Sekundär-Emitter aus**
+
+```python
+EM = 'SW_River_Secondary_Emitter'          # genauen Namen aus D1 übernehmen
+if hasattr(nc, 'set_emitter_enable'):
+    nc.set_emitter_enable(EM, False)       # zurück: True
+else:
+    print('nicht freigegeben -> Kopie des Systems (Weg B)')
+```
+
+- Wenn sich nichts ändert, im Output Log nach einer Niagara-Meldung zu `SetEmitterEnable` suchen. Dann **Weg B**:
+  `unreal.EditorAssetLibrary.duplicate_asset('/WaterAdvanced/Niagara/Systems/Grid2D_SW_River', '/Game/Eldarien/Welt/Wasser/SWR/NS_EL_SW_River_Diag')`.
+  In der Kopie den Haken am Sekundär-Emitter entfernen, `nc.set_asset(unreal.load_asset('/Game/Eldarien/Welt/Wasser/SWR/NS_EL_SW_River_Diag'))`
+  und 1–2 Minuten laufen lassen. In derselben Kopie lassen sich auch die Renderer des Haupt-Emitters einzeln abhaken.
+- **Erwartung:** Gischtwolke und körnige Flecken verschwinden, der Marmor bleibt. Verschwindet der Marmor, ist meine Annahme falsch und
+  die Teilchenzahl bzw. Schwelle des Sekundär-Emitters ist der Hebel.
+
+**D4. Signalfarbe im richtigen Material (Weg C, nur im Speicher)**
+
+```python
+MEL = unreal.MaterialEditingLibrary
+mi  = unreal.load_asset('/WaterAdvanced/Niagara/Materials/SW_Water_Material_River')   # Pfad aus D1 nehmen
+print(MEL.get_scalar_parameter_names(mi)); print(MEL.get_vector_parameter_names(mi))
+
+alt = {}
+def setze_v(n, v):
+    alt[n] = ('v', MEL.get_material_instance_vector_parameter_value(mi, n))
+    MEL.set_material_instance_vector_parameter_value(mi, n, v)
+def setze_s(n, v):
+    alt[n] = ('s', MEL.get_material_instance_scalar_parameter_value(mi, n))
+    MEL.set_material_instance_scalar_parameter_value(mi, n, v)
+
+setze_v('Foam Emissive', unreal.LinearColor(20, 0, 0, 1))     # Probe 1: Schaum leuchtet rot
+MEL.update_material_instance(mi)
+# Bild. Danach Probe 2 und 3 einzeln: setze_s('Foam Opacity', 0.0) / setze_v('Absorption', unreal.LinearColor(1000, 1000, 1000, 1))
+
+def zurueck():
+    for n, (t, w) in alt.items():
+        (MEL.set_material_instance_vector_parameter_value if t == 'v' else MEL.set_material_instance_scalar_parameter_value)(mi, n, w)
+    MEL.update_material_instance(mi)
+# zurueck() aufrufen; beim Schließen „nicht speichern“ wählen.
+```
+
+- Die Namen `Foam Emissive`, `Foam Opacity` und `Absorption` stammen aus unserem Master und gelten in `SW_Water_Material` vermutlich
+  gleich. Die beiden `print`-Zeilen zeigen die echten Namen.
+- **Lesart:**
+  - **Probe 1** (Schaum rot): Wird der Marmor rot, ist er Simulations-Schaum. Dann helfen `SimFoam Contrast`, `Foam powr`,
+    `Foam Texture Blend Min` und die Schaum-Schwelle im Niagara-System.
+  - **Probe 2** (`Foam Opacity` 0): Bleiben nur türkise Schlieren, kommen sie aus Normalen und Spiegelung. Dann helfen die
+    Normalstärken, besonders `Sim Velocity Normal Strength` (40 im Standard der Familie) und die Flowmap-Geschwindigkeiten im
+    SW-Material.
+  - **Probe 3** (Absorption 1000): Wird das Becken glasklar, ist die Konvention „Länge in cm“ auch hier bestätigt (b1).
+  - **Ändert sich bei keiner Probe etwas,** zeichnet ein anderes Material. Dann den Pfad aus D1 nehmen, auch `…_Niagara_Cached`.
+- Hat D1 einen Benutzerparameter vom Typ Material gezeigt, ist **Weg A** sauberer: `MI_EL_SWR_Fluss` mit
+  `nc.set_variable_material('<Name>', unreal.load_asset('/Game/…/MI_EL_SWR_Fluss'))` einsetzen. So wird die Engine nicht angefasst.
+
+**D5. Ansichtsmodi (Konsole im Viewport)**
+
+- `viewmode unlit`: Bleibt der Marmor, steckt er in Farbe/Schaum. Verschwindet er, sind es Licht und Spiegelung (Normalen).
+- `viewmode wireframe`: Dichte des Niagara-Netzes. Grobe Dreiecke an den Lippen würden die harten Kanten erklären.
+- Zurück mit `viewmode lit`.
+
+**D6. `render_state` durchschalten**
+
+```python
+RS = unreal.ShallowWaterRenderState
+print([n for n in dir(RS) if n.isupper()])          # alle Zustände, auch DEBUG_*
+comp.set_editor_property('render_state', RS.DEBUG_RENDER_BOTTOM_CONTOUR)   # je Aufruf ein Zustand
+welt = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
+unreal.SystemLibrary.execute_console_command(welt, 'HighResShot 1')        # Bild nach Saved/Screenshots
+```
+
+- Jede Änderung startet die Simulation neu [Test 16a]. Deshalb **einen Zustand je Aufruf** und warten, bis die Becken voll sind.
+  Kein `time.sleep` im Skript, das blockiert den Editor.
+- **DEBUG-Zustände:** Belegt ist nur `DEBUG_RENDER_BOTTOM_CONTOUR`. Gibt es weitere (z. B. für Geschwindigkeit oder Schaum), bitte je
+  ein Bild. Liegen die hellen Bereiche des Schaum-Debugs auf dem Marmor, ist D4 Probe 1 bestätigt.
+- **Wichtigster Teil:** Einmal **Bake** (Knopf), dann `WATER_COMPONENT_WITH_BAKED_SIM`. Jetzt zeichnet der Water Body mit
+  `MI_Eldarien_Wasser_Fluss`. Dann die drei Varianten aus Nachtrag 15:05 wiederholen und zusätzlich `Velocity Debug` = 1 setzen.
+  - Wirken die Varianten jetzt, ist bestätigt, dass LIVE_SIM nur die Vorschau ist.
+  - Bleibt der Marmor auch hier, steckt er im gebackenen Schaum. Dann ist der Hebel die Schaum-Erzeugung im Niagara-System (D1-Liste).
+- Danach `BAKED_SIM`: Das ist die SWR-eigene gebackene Darstellung mit `baked_sim_material`. Hier sollte `MI_EL_SWR_Fluss` wirken.
+
+**D7. Vergleich mit Epics Testkarte**
+
+- `WaterFluidSimtestShallow` öffnen (B6) und D1 dort ausführen. Material- und Niagara-Werte gegen T1 vergleichen.
+- Prüfen, ob die Karte dasselbe Muster zeigt. Wenn ja, ist es das Standardaussehen der SWR in schnellem Wasser und kein Fehler bei uns.
+
+### Startwerte für klares Wasser
+
+**Wo:** in dem Material, das D1 als zeichnend ausweist. Für die Vorschau (LIVE_SIM, BAKED_SIM) ist das `MI_EL_SWR_Fluss` (über
+Weg A oder B im Niagara-Renderer bzw. als `baked_sim_material`). Für das Spiel (WCBS) ist es `MI_Eldarien_Wasser_Fluss`.
+
+| Parameter | Standard der Familie | **Start** | Zweck |
+|---|---|---|---|
+| `Absorption` | SW 20,8/25/24,7 | **250 / 1 430 / 2 000** | klar, Grund sichtbar (wie b2) |
+| `Scattering` | 0,77/1,0/0,92 | **0,6 / 0,8 / 1,0** | kein Grünstich |
+| `Albedo` bzw. `Water Albedo` | 0,083 | **0,03** | weniger milchig |
+| `Foam Emissive` | 0,287/1,0/0,188 | **0 / 0 / 0** | kein grüner Schaum |
+| `SimFoam Contrast` | 0 | **2** | nur kräftiger Schaum bleibt |
+| `Foam powr` | 0,2 | **0,6** | dünner Schaum fällt weg |
+| `Foam Texture Blend Min` | 0,4 | **0,6** | Marmortextur erst bei viel Schaum |
+| `Sim Velocity Normal Strength` | 40 | **10** | weniger Schlieren in schnellem Wasser (falls D4 Probe 2 Normalen zeigt) |
+| `SIm Flowmap Speed` / `Simulation Flowmap Speed` | 1,5 / 0,75 | **0,75 / 0,4** | Textur weniger verzogen [Ableitung] |
+
+- **Niagara-Seite:** Namen erst nach D1. Gesucht sind Benutzerparameter mit „Foam“, „Spawn“, „Threshold“, „Dissipation“/„Decay“ oder
+  „Secondary“ im Namen. Ziel wie in b3: Schaum erst ab ≈ 1,5 m/s bzw. an Stufen, Abklingen 2–4 s, Sekundär-Emitter auf ≈ ¼ der
+  Teilchen (Gischt nur an Lippe und Fels).
+- **Erwartung für T1:** Die Becken werden klar. Die Rinnen bleiben weiß, aber mit weißem statt grünlich-cremigem Schaum und ohne
+  flächigen Marmor.
+
+### Quellen (alle Auszüge aus Suchmaschinen; die Seiten selbst gaben Proxy 403)
+
+Epic-Doku und API:
+- [Python 5.5: unreal.ShallowWaterRiverComponent](https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/ShallowWaterRiverComponent?application_version=5.5) – `render_state`, `river_sim_system` (Asset aus den Projekteinstellungen), `water_info_texture`, `baked_*`
+- [Python 5.5: unreal.ShallowWaterRiver](https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/ShallowWaterRiver?application_version=5.5)
+- [Python 5.7: unreal.WaterBodyCustomComponent](https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/WaterBodyCustomComponent?application_version=5.7) – `baked_shallow_water_sim`, `use_baked_sim_for_queries_and_physics`
+- [Python: unreal.BasicShallowWaterSubsystem](https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/BasicShallowWaterSubsystem) – `mpc`, `normal_rt`, `velocity_rt`, `water_info_texture`, `shallow_water_niagara_simulation`
+- [Python: unreal.NiagaraFunctionLibrary](https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/NiagaraFunctionLibrary) und [unreal.NiagaraMinimalEmitterInfo](https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/NiagaraMinimalEmitterInfo) – `get_all_emitters`, `used_renderer_materials`
+- [Python 5.6: unreal.NiagaraComponent](https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/NiagaraComponent?application_version=5.6) – `set_variable_material`, `set_variable_float`
+- [API 4.26: UNiagaraComponent::SetEmitterEnable](https://docs.unrealengine.com/4.26/en-US/API/Plugins/Niagara/UNiagaraComponent/SetEmitterEnable/index.html), [Jira UE-89870](https://issues.unrealengine.com/issue/UE-89870) – behoben ab 5.4
+- [Tutorial: Baked River Simulations – Parameter Reference](https://dev.epicgames.com/community/learning/tutorials/72Lb/unreal-engine-baked-river-simulations-parameter-reference), [Overview and Quick Start (Forum)](https://forums.unrealengine.com/t/tutorial-baked-river-simulations-overview-and-quick-start/2512102) – Inhalt nicht erreichbar
+
+Epic-Forum:
+- [5.6.1: Nach Reset an der SWR verschwindet der Water Body](https://forums.unrealengine.com/t/hi-everyone-new-to-ue-as-i-was-working-on-a-shot-in-ue-5-6-1-i-got-stuck-somewhere-i-was-using-water-body-river-the-i-used-shallow-water-river-and-attached-the-water-body-and-clicked-reset-but-as-soon-as-i-clicked-reset-the-water-body-completely/2741247)
+- [Unreal 5.6 water simulation](https://forums.unrealengine.com/t/unreal-5-6-water-simulation/2626503) – Material-Überschreibung wirkt nur mit „Water Component with Baked Sim“ (Auszug; Zuordnung zu genau diesem Thread nicht sicher)
+- [ShallowWaterRiver simulation does not initialize in 5.7.4](https://forums.unrealengine.com/t/shallowwaterriver-simulation-does-not-initialize-in-unreal-engine-5-7-4/2731772) – Testkarte `WaterFluidSimtestShallow`
+- [Shallow body river – Water Component with Baked Sim not rendering](https://forums.unrealengine.com/t/shallow-body-river-water-component-with-baked-sim-not-rendering/2688228) – WCBS zeigt nur Schaum
+- [GPU Water Depth calculated wrong in Water Info](https://forums.unrealengine.com/t/gpu-water-depth-calculated-wrong-in-water-info/2743113) – Kanäle der Water-Info-Textur
+- [Too much foam on water](https://forums.unrealengine.com/t/too-much-foam-on-water/2404908) – Schaum in Simulation und Material (ältere Fluid-Sim)
+
+Leitfäden:
+- [hxsd: Unreal Wasser-System Teil 2 (chinesisch)](https://jiaocheng.hxsd.com/course/content/12003/) – Lage von `WaterFluidSimtestShallow` (ältere Version)
+
+Projekt:
+- `vorlagen/daten/material_parameter.json` (`M_Eldarien_Wasser_Schaum8`, alle `Sim *`-, `Fluidsim *`- und `BakedWaterSim*`-Werte)
+- `vorlagen/daten/inventar_extra.json` (`MI_Eldarien_Wasser_FlussSim` → `SW_Water_Material_River_Niagara_Cached`)
+
+### Rückfragen
+
+1. **Ferats Video:** Titel und Kanal? Dann ziehe ich die Werte daraus nach (über Suchauszüge, YouTube ist gesperrt).
+2. **`MI_Eldarien_Wasser_FlussSim`** (Eltern `SW_Water_Material_River_Niagara_Cached`) liegt schon im Projekt. Wofür wurde es angelegt,
+   und war es irgendwo eingesetzt? Es ist der natürliche Kandidat für den Niagara-Renderer (Weg A/B).
+3. **Reihenfolge:** Darf D6 (Bake + WCBS) vor D3–D5 laufen? Für das Spiel zählt nur WCBS. Zeigt T1 dort klares Wasser, reicht für
+   LIVE_SIM eine grobe Vorschau, und D3–D5 werden zur Kür.
+4. **Kopie des Niagara-Systems** unter `/Game/Eldarien/Welt/Wasser/SWR/` (Weg B): einverstanden? Sie wäre auch der Ort für eigene
+   Schaum-Schwellen im Spiel, wenn die Benutzerparameter nicht reichen.
