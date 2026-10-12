@@ -44,3 +44,13 @@ rechts gebacken).
   Wichtig: Ungespeicherte Akteure erscheinen in PIE nicht (World Partition); PIE startet am PlayerStart (E5) → Teleport nötig.
 - **Fragen:** (1) Was sind die 3 verbleibenden Dispatches im gebackenen Zustand (Sekundär-Emitter/Interaktion?) – lassen sie sich im Spiel abschalten,
   wenn kein Pawn im Wasser ist? (2) Schaum in steilen Rinnen dünner: welche Werte zuerst (SimFoam Contrast höher, Foam Opacity, Sim Foam Scale)?
+
+## Nachtrag 17:05 – T2-10 und T2-11 (Teil 1)
+
+- **T2-10 Höhe:** In unseren Weltdaten liegt kein Bach und kein Fluss über **288 m** (höchster Punkt `F_HAUPTFLUSS_1_B4`; 197 Gewässer aus
+  `wasser_welt.json` + `baeche/baeche_alle.json`). Gelände über 655,04 m: 0,026 % der Zellen (nur Gipfel, max 684,1 m). Die 16-bit-Grenze trifft
+  unsere Gewässer also nicht. Offen: Sehens-Bäche in Gletscher/Frost – bitte mit euren Daten prüfen, ob dort ein Bach über 655 m liegt.
+- **T2-11 Teil 1:** Nach hartem Editor-Neustart ist `SWR_C2` weiter `WATER_COMPONENT_WITH_BAKED_SIM` mit `MI_EL_SWR_Klar`, und das Bild ist gleich wie
+  vor dem Neustart → die gebackenen Daten liegen im gespeicherten Akteur. In PIE (Auftrag 202) wurde die SWR mit der Zelle geladen.
+- **Schaum (Auftrag 203):** `SimFoam Contrast` 2 → 4 → 6 und `Foam Opacity` 0,9 → 0,6 → 0,5 ändern das Bild nur wenig; gesetzt ist Contrast 4 /
+  Opacity 0,6. Aus der Nähe wirkt der Schaum flockig (Zelle ≈ 0,35 m bei 512 auf 179 m) – mit 0,25-m-Kacheln (S2) sollte das feiner werden.
