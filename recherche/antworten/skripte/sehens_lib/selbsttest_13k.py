@@ -114,7 +114,48 @@ def test_13k(inv=None):
     wf = _fmt.wasser_farben_block(["bergsee", "tiefblau"])
     _pruefe(wf and wf["bergsee"]["absorption"] == [8, 45, 40, 8] and "bergsee" in sp.FARBEN,
             "Seefarbe bergsee (Ferat C: Absorption 8/45/40/8 cm) in FARBEN und orte.json", f)
+    # --- 8 Akteur-Budget nach Kontext (13k-Rueckfrage 6): Sehens-Ort <= 50 je Ort, Gefaelle <= 50 je 200 m Lauf
+    _akteure_kontext(inv, f)
     return len(f)
+
+
+def _akteure_kontext(inv, f):
+    from . import instanzen as _ins, sehens_pruefen as sp, daten as _d
+
+    def st(netz, n, ebene="begleiter"):
+        return [{"netz": netz, "pfad": netz, "akteur": True, "kollision": True, "ebene": ebene, "s": (1.0, 1.0, 1.0),
+                 "gruppe": "g"} for _ in range(n)]
+    a = st("SM_OldFallenTree_01", 12) + st("SM_OldFallenTree_02", 11)
+    um = _ins.akteure_wiederholt_buendeln(a)
+    _pruefe(um == [("SM_OldFallenTree_01", 12)] and sum(e["akteur"] for e in a) == 11,
+            "13j: 12 gleiche Akteure -> Instanzen mit Kollision, 11 bleiben Akteure", f)
+    b = st("SM_OldFallenTree_01", 30, "held") + st("SM_OldFallenTree_02", 20) + st("SM_LargeFallenTree_01", 15)
+    n, um = _ins.akteure_auf_grenze(b, 50, inv)
+    _pruefe(n == 45 and um == [("SM_OldFallenTree_02", 20)] and all(e["akteur"] for e in b if e["ebene"] == "held"),
+            "13k: 65 Akteure -> 45 (haeufigstes Netz zuerst, Held-Ebene bleibt)", f)
+    nf, s0 = _ins.akteure_je_fenster([0.0] * 30 + [150.0] * 21 + [260.0] * 40, 200.0)
+    _pruefe(nf == 61 and s0 == 150.0, "gleitendes 200-m-Fenster: hoechstens %d Akteure ab s = %s m" % (nf, s0), f)
+    # pruefe_ebene: 51 Akteure in einem Eintrag -> FEHLER nur im Kontext 'sehens'
+    x0, y0, x1, y1 = _d.feld_grenzen_m("C2")
+    ak = [{"netz": "SM_OldFallenTree_01", "pfad": "SM_OldFallenTree_01", "x": (x0 + 10.0 + k) * 100.0,
+           "y": (y0 + 10.0) * 100.0, "z": 0.0, "qx": 0.0, "qy": 0.0, "qz": 0.0, "qw": 1.0, "sx": 1.0, "sy": 1.0,
+           "sz": 1.0, "klasse": "T_ORT_holz"} for k in range(51)]
+    ebene = {"C2": ({"stand": "t", "feld": "C2", "instanzen": 0, "dateien": {}, "akteure": ak}, {})}
+    alt = _ins.lies_ebene
+    _ins.lies_ebene = lambda _o: ebene
+    try:
+        bs = sp.pruefe_ebene("-", "t", orte=[{"id": "T_ORT"}])
+        bg = sp.pruefe_ebene("-", "gefaelle", orte=[{"id": "T_ORT"}], kontext="gefaelle")
+    finally:
+        _ins.lies_ebene = alt
+    _pruefe(any(s_ == "FEHLER" and "Akteure > 50" in t_ for s_, _, t_ in bs)
+            and not any("Akteure > 50" in t_ for _, _, t_ in bg),
+            "pruefe_ebene: 51 Akteure je Ort FEHLER im Kontext sehens, nicht im Kontext gefaelle (Grenze je 200 m)", f)
+    try:
+        sp.pruefe_ebene("-", "t", kontext="lauf")
+        _pruefe(False, "pruefe_ebene: unbekannter Kontext -> ValueError", f)
+    except ValueError:
+        _pruefe(True, "pruefe_ebene: unbekannter Kontext -> ValueError", f)
 
 
 if __name__ == "__main__":

@@ -262,7 +262,9 @@ def min_abstand_stufen(rw, B):
 
 def holzstufe(rw):
     e = _get(rw.r, "stufen", "holzstufe") or {}
-    return {"D_max": float(e.get("D_max", 1.0)), "B_max": float(e.get("B_max", 6.0)), "anteil": dict(e.get("anteil") or {})}
+    sk = e.get("netz_skala") or {}
+    return {"D_max": float(e.get("D_max", 1.0)), "B_max": float(e.get("B_max", 6.0)), "anteil": dict(e.get("anteil") or {}),
+            "skala": (float(sk.get("min", 0.6)), float(sk.get("max", 1.8)))}
 
 
 def lippe_punkte(rw):

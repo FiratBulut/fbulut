@@ -17,9 +17,12 @@ Geprueft (Regelwerk = gefaelle_regeln.json, regeln_hart + Zahlen):
             Nachbarn ueberlappen genau 0,5 m, sonst nichts (River auch in der Draufsicht), jede Stufe liegt in einem Netz,
             Bett >= 0,2 m unter dem Spiegel und Ufer am Netzrand >= 0,1 m darueber (Gelaende nach dem Stempel),
             je Stufe Niagara oder Vorhang (WARNUNG, wenn die Grenze 'gleichzeitig' das verhindert).
-  Assets    Netze (Instanz-Ebene + Akteure) in netze.csv, nicht gesperrt; Niagara in inventar_extra.json.
-  Budget    je Abschnitt <= SEHENS_FORMAT §9 (sehens_pruefen.pruefe_ebene), Effekte <= 3 je Stufe, <= 6 gleichzeitig
-            (Proben alle 2 m entlang des Spiegels, Cull-Radius), Cull 30-150 m; je Feld <= 60 000.
+  Assets    Netze (Instanz-Ebene + Akteure) in netze.csv, nicht gesperrt, kein Saegeschnitt (13k, Wildnis);
+            Niagara in inventar_extra.json.
+  Budget    je Abschnitt <= SEHENS_FORMAT §9 (sehens_pruefen.pruefe_ebene, Kontext 'gefaelle'), Akteure <= 50 je 200 m
+            Lauflaenge (gleitendes Fenster, 13k-Rueckfrage 6; die Sehens-Grenze 50 je Ort gilt hier nicht je
+            Abschnitt), Effekte <= 3 je Stufe, <= 6 gleichzeitig (Proben alle 2 m entlang des Spiegels,
+            Cull-Radius), Cull 30-150 m; je Feld <= 60 000.
   Eingriffe Gelaende-Delta: Rand 0, |Delta| > 40 m nur mit Begruendung, keine Aenderung <= 2 m an Wegen/Pfaden
             (FEHLER), <= 5 m an Orten (FEHLER), in Sehenswuerdigkeiten (Radius) (FEHLER); Instanzen nicht auf
             Wegen (WARNUNG) und Orten (FEHLER); Lagen-Dateien vorhanden.
@@ -560,6 +563,43 @@ def pruefe_gelaende(p, ordner, welt, orte, b, tag):
                 b.append((FEHLER, ab["id"], "Gelaende aendert sich %d m2 in Sehenswuerdigkeit %s" % (n, o["id"])))
 
 
+def akteure_s(p, ebene):
+    """Laufkoordinate s (m, wie spiegel_neu_s_m) und Netz aller Akteure eines Laufs: Projektion auf die neue
+    Wasserlinie."""
+    sp = np.asarray(p.get("spiegel_neu_cm") or [], np.float64)
+    if len(sp) < 2:
+        return [], []
+    P = sp[:, :2] / 100.0
+    s_l = np.asarray(p.get("spiegel_neu_s_m") or _s_entlang(sp), np.float64)
+    A = P[:-1]
+    D = P[1:] - A
+    L2 = np.maximum((D ** 2).sum(1), 1e-12)
+    s_out, netze = [], []
+    for _, (plan, _arr) in sorted(ebene.items()):
+        for e in plan.get("akteure") or []:
+            q = np.array([e["x"], e["y"]], np.float64) / 100.0
+            t = np.clip(((q - A) * D).sum(1) / L2, 0.0, 1.0)
+            d2 = ((A + D * t[:, None] - q) ** 2).sum(1)
+            k = int(np.argmin(d2))
+            s_out.append(float(s_l[k] + t[k] * (s_l[k + 1] - s_l[k])))
+            netze.append(e.get("netz"))
+    return s_out, netze
+
+
+def pruefe_akteure_lauf(p, ebene, b, tag):
+    """13k-Rueckfrage 6 (Koordinator): hoechstens 50 Akteure je 200 m Lauflaenge (gleitendes Fenster; eine
+    Back-Kachel ist <= 128 m lang und liegt damit in einem Fenster). FEHLER darueber."""
+    from sehens_lib import instanzen as ins
+    s_a, _ = akteure_s(p, ebene)
+    n, s0 = ins.akteure_je_fenster(s_a, ins.AKTEURE_GEFAELLE_FENSTER_M)
+    if n > ins.AKTEURE_GEFAELLE_MAX:
+        b.append((FEHLER, tag, "%d Akteure in %.0f m Lauflaenge ab s = %.1f m > %d (13k-Rueckfrage 6: wiederholte "
+                  "Module als Instanzen)" % (n, ins.AKTEURE_GEFAELLE_FENSTER_M, s0, ins.AKTEURE_GEFAELLE_MAX)))
+    elif n > 0.8 * ins.AKTEURE_GEFAELLE_MAX:
+        b.append((HINWEIS, tag, "Akteure: %d gesamt, hoechstens %d je %.0f m Lauflaenge (nahe Grenze %d)"
+                  % (len(s_a), n, ins.AKTEURE_GEFAELLE_FENSTER_M, ins.AKTEURE_GEFAELLE_MAX)))
+
+
 def pruefe_instanzen(p, ordner, welt, inv, b, tag):
     from sehens_lib import sehens_pruefen as sp_
     from sehens_lib import instanzen as ins
@@ -569,14 +609,18 @@ def pruefe_instanzen(p, ordner, welt, inv, b, tag):
             b.append((FEHLER, tag, "Instanz-Ordner fehlt"))
         return
     orte = [{"id": a["id"], "gelaende": a.get("gelaende"), "budget": a.get("budget")} for a in p.get("abschnitte") or []]
-    for st, oid, t in sp_.pruefe_ebene(io, "gefaelle", inv=inv, orte=orte, welt=welt, basis=ordner):
+    # Kontext 'gefaelle': die 13k-Grenze "50 Akteure je Sehens-Ort" gilt hier nicht je Abschnitt, sondern je 200 m
+    # Lauflaenge (pruefe_akteure_lauf); alle anderen Ebenen-Regeln (auch Saegeschnitt) wie in Sehens
+    for st, oid, t in sp_.pruefe_ebene(io, "gefaelle", inv=inv, orte=orte, welt=welt, basis=ordner, kontext="gefaelle"):
         if "nicht in orte.json" in t:
             st = FEHLER
         b.append((st, oid, t.replace("orte.json", "plan.json abschnitte")))
+    ebene = ins.lies_ebene(io)
+    pruefe_akteure_lauf(p, ebene, b, tag)
     if welt is None:
         return
     n_ort = 0
-    for feld, (plan, arr) in ins.lies_ebene(io).items():
+    for feld, (plan, arr) in ebene.items():
         for a in arr.values():
             if a.ndim == 2 and len(a):
                 i, j = welt.m_zu_ij(a[:, 0] / 100.0, a[:, 1] / 100.0)

@@ -40,7 +40,8 @@
    "Anfang und Ende der Strecke behalten ihre Hoehe (Anschluss an vorhandenes Wasser).",
    "Teilstuecke in der Draufsicht nicht ueberlappend, Luecke an der Stufe >= 1.2 m (Antwort 12).",
    "Netze nur aus daten/netze.csv, nicht aus daten/netz_sperre.json."
-  ]
+  ],
+  "stand_holz": "2026-10-12: Holz natuerlich (13k-Rueckfrage 2), stufen.holzstufe.netz_skala"
  },
  "_doku": {
   "stand": "2026-10-11",
@@ -660,7 +661,14 @@
    },
    "B_max": 6.0,
    "einheit": "m",
-   "notiz": "Stufen aus Stamm/Wurzeln sind in Waldbaechen normal (CURWOHL2003); Anteile und Grenzen angenommen"
+   "notiz": "Stufen aus Stamm/Wurzeln sind in Waldbaechen normal (CURWOHL2003); Anteile und Grenzen angenommen",
+   "netz_skala": {
+    "annahme": true,
+    "min": 0.6,
+    "max": 1.8,
+    "einheit": "x Originalgroesse",
+    "notiz": "13k-Rueckfrage 2 (Koordinator 12.10.): Saegeschnitt gilt auch fuer A15 (inventar.saegeschnitt), Holz = natuerliche liegende Staemme und Aeste (biome.<biom>.netze.holz). Holzstufe und Totholz waehlen das Netz nach Laenge: Ziel-Laenge (Holzstufe 0,45-0,7 x Lippenbreite, Totholz 0,6-0,95 x B) / Netzlaenge muss in [min; max] liegen; sonst das naechstliegende Netz, Laenge auf [min; max] x Netzlaenge begrenzt. Wie 13k Saeulenhain (Staemme x1,1-1,8). Vorher bis x45 (OldTreeBranch_01 auf 45 m)."
+   }
   },
   "zwei_punkte": {
    "quelle": [
@@ -1650,10 +1658,20 @@
      "SM_SmallStonesPack_14"
     ],
     "holz": [
-     "SM_Forest_pine_04_01_log",
-     "SM_Forest_pine_04_02_log",
-     "SM_Forest_pine_04_03_log",
-     "SM_FallenSpruceTree_01"
+     "SM_OldFallenTree_01",
+     "SM_OldFallenTree_02",
+     "SM_LargeFallenTree_01",
+     "SM_LargeFallenTree_02",
+     "SM_FallenSpruceTree_01",
+     "SM_MossyTree_01",
+     "SM_OldTreeBranch_01",
+     "SM_OldTreeBranch_02",
+     "SM_OldTreeBranch_03",
+     "SM_OldTreeBranch_04",
+     "SM_OldTreeBranch_06",
+     "SM_detail_branches_01",
+     "SM_detail_branches_02",
+     "SM_detail_branches_03"
     ],
     "extra": [
      "SM_MossClump_01",
@@ -1761,7 +1779,15 @@
      "SM_OldTreeBranch_04",
      "SM_MossyForestRoots_01",
      "SM_MossyForestRoots_02",
-     "SM_MossyForestRoots_03"
+     "SM_MossyForestRoots_03",
+     "SM_OldFallenTree_01",
+     "SM_OldFallenTree_02",
+     "SM_LargeFallenTree_01",
+     "SM_LargeFallenTree_02",
+     "SM_MossyTree_01",
+     "SM_OldTreeBranch_02",
+     "SM_OldTreeBranch_03",
+     "SM_OldTreeBranch_06"
     ],
     "extra": [
      "SM_ForestRoots_01",
@@ -1859,7 +1885,15 @@
      "SM_dead_log_04",
      "SM_OldTreeBranch_01",
      "SM_OldTreeBranch_04",
-     "Branch_Goat_Willow_Decaying_01"
+     "Branch_Goat_Willow_Decaying_01",
+     "SM_OldFallenTree_01",
+     "SM_OldFallenTree_02",
+     "SM_LargeFallenTree_01",
+     "SM_LargeFallenTree_02",
+     "SM_MossyTree_01",
+     "SM_OldTreeBranch_02",
+     "SM_OldTreeBranch_03",
+     "SM_OldTreeBranch_06"
     ],
     "extra": [
      "SM_MossClump_01",
@@ -1952,7 +1986,13 @@
      "SM_dead_log_03",
      "SM_dead_log_04",
      "SM_OldTreeBranch_01",
-     "SM_OldTreeBranch_04"
+     "SM_OldTreeBranch_04",
+     "SM_LargeFallenTree_01",
+     "SM_LargeFallenTree_02",
+     "SM_MossyTree_01",
+     "SM_OldTreeBranch_02",
+     "SM_OldTreeBranch_03",
+     "SM_OldTreeBranch_06"
     ],
     "extra": [
      "SM_Vines_01a",
@@ -2721,7 +2761,15 @@
      "SM_dead_log_03",
      "SM_dead_log_04",
      "Branch_Goat_Willow_Decaying_01",
-     "Branch_Goat_Willow_Decaying_02"
+     "Branch_Goat_Willow_Decaying_02",
+     "SM_OldFallenTree_01",
+     "SM_OldFallenTree_02",
+     "SM_LargeFallenTree_01",
+     "SM_LargeFallenTree_02",
+     "SM_MossyTree_01",
+     "SM_OldTreeBranch_02",
+     "SM_OldTreeBranch_03",
+     "SM_OldTreeBranch_06"
     ],
     "extra": [
      "SM_CustomMoss_01",
@@ -3011,7 +3059,10 @@
     ],
     "holz": [
      "SM_dead_log_01",
-     "SM_dead_log_02"
+     "SM_dead_log_02",
+     "SM_OldFallenTree_01",
+     "SM_OldFallenTree_02",
+     "SM_OldTreeBranch_06"
     ],
     "extra": [
      "ulnfeaq_tier_0",

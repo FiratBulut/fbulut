@@ -1383,11 +1383,20 @@ def pruefe_baeche(o, welt, boden=None):
     return b
 
 
-def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
+KONTEXTE_EBENE = ("sehens", "gefaelle")
+
+
+def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None, kontext="sehens"):
     """Instanz-Ebene sw_<biom>/<Feld>/ (FORMAT.md §3, SEHENS_FORMAT §4, §9): plan.json-Schluessel, f32-Groessen,
     Anzahlen, Assets (netze.csv, Sperre, Houdini), Quaternion/Massstab, Lage im Feld, Akteure (<= 500 je Feld),
-    Budget je Ort gegen orte.json, mit Welt: Meer, Weg, Schweben/Versinken gegen das Gelaende NACH dem Stempel."""
+    Budget je Ort gegen orte.json, mit Welt: Meer, Weg, Schweben/Versinken gegen das Gelaende NACH dem Stempel.
+    kontext: 'sehens' (Standard) - ein Eintrag in 'orte' ist ein Sehens-Ort, hoechstens 50 Akteure je Ort (FEHLER).
+             'gefaelle' (A15) - ein Eintrag ist ein Abschnitt eines Gefaelle-Laufs (bis 600 m); die Akteur-Grenze
+             gilt dort je 200 m Lauflaenge und wird von gefaelle_pruefen geprueft. Alle uebrigen Regeln (auch der
+             Saegeschnitt in der Wildnis) gelten in beiden Kontexten gleich."""
     from . import instanzen as _ins
+    if kontext not in KONTEXTE_EBENE:
+        raise ValueError("pruefe_ebene: kontext %r (erlaubt: %s)" % (kontext, ", ".join(KONTEXTE_EBENE)))
     b = []
     tag = "sw_%s" % biom
     ebene = _ins.lies_ebene(sw_ordner)
@@ -1546,10 +1555,10 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
                 b.append((FEHLER, oid, "budget.%s = %s, Ebene %s enthaelt %d" % (k, bu[k], tag, z[k])))
             if z[k] > BUDGET[k]:
                 b.append((WARNUNG, oid, "%s %d > %d (§9)" % (k, z[k], BUDGET[k])))
-        if z["akteure"] > 50:
-            # 13k: Ferat-Vorgabe hoechstens 50 Akteure je Ort (vorher Richtwert/HINWEIS)
-            b.append((FEHLER, oid, "%d Akteure > 50 je Ort (13k: Ferat-Vorgabe; wiederholte Module als Instanzen)"
-                      % z["akteure"]))
+        if kontext == "sehens" and z["akteure"] > _ins.AKTEURE_JE_ORT_MAX:
+            # 13k: Ferat-Vorgabe hoechstens 50 Akteure je Sehens-Ort (vorher Richtwert/HINWEIS)
+            b.append((FEHLER, oid, "%d Akteure > %d je Ort (13k: Ferat-Vorgabe; wiederholte Module als Instanzen)"
+                      % (z["akteure"], _ins.AKTEURE_JE_ORT_MAX)))
     for oid in je_ort:
         if orte is not None and oid not in orte_ids:
             b.append((WARNUNG, oid, "Instanzen in %s fuer einen Ort, der nicht in orte.json steht" % tag))

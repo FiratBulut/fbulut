@@ -35,6 +35,8 @@ from . import bach as _bach
 from . import steilwand as _sw
 from . import kamera_frei as _kf
 from . import see_bloecke as _sb
+from .instanzen import (AKTEUR_WIEDERHOLT_AB, AKTEURE_JE_ORT_MAX, akteure_wiederholt_buendeln,  # 13j/13k
+                        akteure_auf_grenze)
 
 FEHLER, WARNUNG, HINWEIS = "FEHLER", "WARNUNG", "HINWEIS"
 FURT_GEFAELLE_MAX = 0.15     # 13i K9: steilere Furtstrecken werden Durchlass (kein Wasserfilm ueber den Weg am Hang)
@@ -877,55 +879,29 @@ class OrtKontext:
         for h in hinweise:
             self.melde(HINWEIS, "bach %s: %s" % (wid, h))
 
-    AKTEUR_WIEDERHOLT_AB = 12      # 13j: wiederholte Module desselben Netzes ab 12 Stueck -> Instanzen mit Kollision
-    AKTEURE_RICHTWERT = 50         # 13j: Richtwert je Ort (Pruefer-HINWEIS darueber)
+    AKTEUR_WIEDERHOLT_AB = AKTEUR_WIEDERHOLT_AB    # 13j (Modulkonstante, auch fuer das Gefaelle-Werkzeug)
+    AKTEURE_RICHTWERT = AKTEURE_JE_ORT_MAX         # 13k: hoechstens 50 je Sehens-Ort (Pruefer-FEHLER darueber)
 
-    def _akteure_buendeln(self):
+    def _akteure_buendeln(self, grenze_je_ort=True):
         """13j Akteur-Budget: Netze, die in diesem Ort >= 12-mal als Akteur stehen (Wandmodule, auch die
         Wandverkleidung aus 13h), werden Instanzen der Ebene sw_<biom> mit Kollision (nur die Ausgabeform; Lage,
-        Groesse, Drehung bleiben). Einzelne Heldenstuecke bleiben Akteure."""
+        Groesse, Drehung bleiben). Einzelne Heldenstuecke bleiben Akteure.
+        grenze_je_ort: True = danach 13k-Grenze AKTEURE_RICHTWERT je Ort (Sehens-Ort). False = nur die 13j-Regel;
+        das Gefaelle-Werkzeug (A15) begrenzt stattdessen je 200 m Lauflaenge (Entscheidung zu 13k-Rueckfrage 6)."""
         fest = {g.get("name") for g in (self.r.get("gruppen") or []) if g.get("akteur_fest")}
         st = [e for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"] and e.get("gruppe") not in fest]
-        je = {}
-        for e in st:
-            je.setdefault(e["netz"], []).append(e)
-        n_um = 0
-        for netz, es in sorted(je.items()):
-            if len(es) >= self.AKTEUR_WIEDERHOLT_AB:
-                for e in es:
-                    e["akteur"] = False
-                    e["kollision"] = True
-                    e["extra"] = dict(e.get("extra") or {}, aus_akteur=True)
-                n_um += len(es)
-                self.melde(HINWEIS, "Akteur-Budget (13j): %d x %s als Instanzen mit Kollision" % (len(es), netz))
-        rest = len(st) - n_um
-        if rest + sum(1 for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"]
-                      and e.get("gruppe") in fest) > self.AKTEURE_RICHTWERT:
+        for netz, n in akteure_wiederholt_buendeln(st, self.AKTEUR_WIEDERHOLT_AB):
+            self.melde(HINWEIS, "Akteur-Budget (13j): %d x %s als Instanzen mit Kollision" % (n, netz))
+        if not grenze_je_ort:
+            return
+        alle = [e for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"]]
+        if len(alle) > self.AKTEURE_RICHTWERT:
             # 13k (Ferat: hoechstens 50 Akteure je Ort): weitere Netze buendeln - zuerst die am haeufigsten
             # wiederholten, bei Gleichstand die kleinsten; nie akteur_fest-Gruppen, nie die Held-Ebene
-            alle = [e for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"]]
-            n_akt = len(alle)
-            kand = {}
-            for e in alle:
-                if e.get("gruppe") in fest or e.get("ebene") == "held":
-                    continue
-                kand.setdefault(e["netz"], []).append(e)
-            groesse = {}
-            for netz, es in kand.items():
-                try:
-                    groesse[netz] = max(self.inv.netz(es[0]["pfad"])["groesse_m"]) * max(max(e_["s"]) for e_ in es)
-                except KeyError:
-                    groesse[netz] = 99.0
-            for netz in sorted(kand, key=lambda n_: (-len(kand[n_]), groesse[n_], n_)):
-                if n_akt <= self.AKTEURE_RICHTWERT:
-                    break
-                for e in kand[netz]:
-                    e["akteur"] = False
-                    e["kollision"] = True
-                    e["extra"] = dict(e.get("extra") or {}, aus_akteur=True)
-                n_akt -= len(kand[netz])
+            n_akt, umgestellt = akteure_auf_grenze(alle, self.AKTEURE_RICHTWERT, self.inv, fest)
+            for netz, n in umgestellt:
                 self.melde(HINWEIS, "Akteur-Budget (13k, <= %d je Ort): %d x %s als Instanzen mit Kollision"
-                           % (self.AKTEURE_RICHTWERT, len(kand[netz]), netz))
+                           % (self.AKTEURE_RICHTWERT, n, netz))
             if n_akt > self.AKTEURE_RICHTWERT:
                 self.melde(WARNUNG, "Akteure: %d > %d je Ort (13k) - nur Held-/akteur_fest-Stuecke uebrig"
                            % (n_akt, self.AKTEURE_RICHTWERT))

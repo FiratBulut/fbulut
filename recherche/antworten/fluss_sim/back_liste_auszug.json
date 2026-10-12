@@ -18,11 +18,11 @@
    "abschnitte": ["F_ERLENBACH_1V_C2_A00","F_ERLENBACH_1V_C2_A01","F_ERLENBACH_1V_C2_A02","F_ERLENBACH_1V_C2_A03","F_ERLENBACH_1V_C2_A04","F_ERLENBACH_1V_C2_A05","F_ERLENBACH_1V_C2_A06","F_ERLENBACH_1V_C2_A07"],
    "grenze_oben": "laufanfang",
    "grenze_unten": "fall",
-   "fingerabdruck": "1bae85d4336b98afedb9f933a7b6998f200fb743fa998729a503ccba6b76f591",
+   "fingerabdruck": "df3b9c6455314e22293f208d0117208fdf4c8187641ca6900eb70e436621d594",
    "teile": {
     "gelaende": "5af84af623333da03bde8b46d7919b2851628b9288905754718c070051f52b66",
     "splines": "093074aa45ca127640a3ece8050f9a39a9e7c2bf7a6ef083b751f73f83fa1391",
-    "objekte": "f4a85e0e2fceaa3aeb6681b717a627af939f4ae05fa8e400e0c23f64b6ef5e98"
+    "objekte": "fc34a55bf7d9d95ffbeb446766a867772d91ec5a77485ad343bbac96cb98d1c2"
    },
    "n_hoehen": 2318,
    "n_objekte": 336
@@ -35,11 +35,11 @@
    "abschnitte": ["F_ERLENBACH_1V_C2_A08","F_ERLENBACH_1V_C2_A09","F_ERLENBACH_1V_C2_A10","F_ERLENBACH_1V_C2_A11","F_ERLENBACH_1V_C2_A12","F_ERLENBACH_1V_C2_A13","F_ERLENBACH_1V_C2_A14","F_ERLENBACH_1V_C2_A15","F_ERLENBACH_1V_C2_A16"],
    "grenze_oben": "fall",
    "grenze_unten": "fall",
-   "fingerabdruck": "98062a356a75ac9604c1bfa932c1c378d3796fe931a21fc4d4492e1331afa4c2",
+   "fingerabdruck": "d6bcb5183141d4a5e937590bc0dc9a6a6bfd6d32c3536996273d2443bc739d0f",
    "teile": {
     "gelaende": "1c4cfe8cbf27efce44ee14b26e522ab0e42bd4cbee737e0b6cfc082b3c936ca2",
     "splines": "16794da9141e7b1163045f264533bb7a9343809c128da1c90b41ef886955b647",
-    "objekte": "a04fd4100cd070aea8e727d0efc4e33bcc250fab81911faefe5fb0cd55c6806b"
+    "objekte": "af3f6628be716367043c87ec95a07d594486fd3a379f1a1c783b3a8e5c8c4640"
    },
    "n_hoehen": 1620,
    "n_objekte": 392

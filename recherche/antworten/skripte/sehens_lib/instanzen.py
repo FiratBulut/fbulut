@@ -448,6 +448,78 @@ def um_stuecke(rng, stuecke, ring=(0.9, 1.6), je=(4, 8), seite=None, seite_staer
 # ============================================================================================
 # Ebene sw_<biom>
 # ============================================================================================
+# ============================================================================================
+# Akteur-Budget (13j/13k) - gemeinsam fuer Sehens-Orte und Gefaelle-Laeufe (A15)
+# ============================================================================================
+AKTEUR_WIEDERHOLT_AB = 12      # 13j: wiederholte Module desselben Netzes ab 12 Stueck -> Instanzen mit Kollision
+AKTEURE_JE_ORT_MAX = 50        # 13k (Ferat): hoechstens 50 Akteure je Sehens-Ort (Pruefer-FEHLER)
+AKTEURE_GEFAELLE_MAX = 50      # 13k-Rueckfrage 6 (Koordinator): Gefaelle-Laeufe hoechstens 50 Akteure ...
+AKTEURE_GEFAELLE_FENSTER_M = 200.0   # ... je 200 m Lauflaenge (gleitendes Fenster; Back-Kacheln sind <= 128 m)
+
+
+def _zu_instanz(e):
+    e["akteur"] = False
+    e["kollision"] = True
+    e["extra"] = dict(e.get("extra") or {}, aus_akteur=True)
+
+
+def akteure_wiederholt_buendeln(stuecke, ab=AKTEUR_WIEDERHOLT_AB):
+    """13j: Akteure in 'stuecke' (ein Ort bzw. ein Gefaelle-Abschnitt), deren Netz dort >= ab-mal als Akteur steht,
+    werden Instanzen mit Kollision (nur die Ausgabeform; Lage, Groesse, Drehung bleiben).
+    Rueckgabe [(netz, anzahl), ...] der umgestellten Netze (sortiert nach Netzname)."""
+    je = {}
+    for e in stuecke:
+        if e["akteur"]:
+            je.setdefault(e["netz"], []).append(e)
+    um = []
+    for netz, es in sorted(je.items()):
+        if len(es) >= ab:
+            for e in es:
+                _zu_instanz(e)
+            um.append((netz, len(es)))
+    return um
+
+
+def akteure_auf_grenze(stuecke, grenze, inv, fest=()):
+    """13k: buendelt Akteure in 'stuecke' weiter zu Instanzen mit Kollision, bis hoechstens 'grenze' uebrig sind -
+    zuerst die am haeufigsten wiederholten Netze, bei Gleichstand die kleinsten; nie Gruppen in 'fest'
+    (akteur_fest) und nie die Held-Ebene. Rueckgabe (Akteure danach, [(netz, anzahl), ...])."""
+    alle = [e for e in stuecke if e["akteur"]]
+    n_akt = len(alle)
+    kand = {}
+    for e in alle:
+        if e.get("gruppe") in fest or e.get("ebene") == "held":
+            continue
+        kand.setdefault(e["netz"], []).append(e)
+    groesse = {}
+    for netz, es in kand.items():
+        try:
+            groesse[netz] = max(inv.netz(es[0]["pfad"])["groesse_m"]) * max(max(e_["s"]) for e_ in es)
+        except KeyError:
+            groesse[netz] = 99.0
+    um = []
+    for netz in sorted(kand, key=lambda n_: (-len(kand[n_]), groesse[n_], n_)):
+        if n_akt <= grenze:
+            break
+        for e in kand[netz]:
+            _zu_instanz(e)
+        n_akt -= len(kand[netz])
+        um.append((netz, len(kand[netz])))
+    return n_akt, um
+
+
+def akteure_je_fenster(s_m, fenster_m=AKTEURE_GEFAELLE_FENSTER_M):
+    """Hoechste Zahl von Akteuren in einem gleitenden Fenster der Laenge fenster_m entlang der Laufkoordinate.
+    s_m: Laufkoordinaten der Akteure. Rueckgabe (anzahl, s_anfang) - (0, None) ohne Akteure."""
+    s = np.sort(np.asarray(s_m, np.float64))
+    if not len(s):
+        return 0, None
+    ende = np.searchsorted(s, s + fenster_m + 1e-9, side="right")
+    n = ende - np.arange(len(s))
+    k = int(np.argmax(n))
+    return int(n[k]), float(s[k])
+
+
 def ft_kuerzel(biom):
     return "SW" + biom[:2].upper()
 

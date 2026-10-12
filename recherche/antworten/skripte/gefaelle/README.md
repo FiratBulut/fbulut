@@ -91,6 +91,8 @@ python -I recherche/antworten/skripte/gefaelle/gefaelle_pruefen.py <aus> [--date
    - **Elfenwald:** Wände aus gestapeltem `SM_HugeMossyForestCliff_01` / `SM_ForestRockShelf_*` (bis 4 Reihen).
    - **Aue:** keine Felswände; Stufen sind Erdanrisse (Gelände), Wurzelstufen und Holz-Verklausungen (3 Stämme) im
      Wechsel.
+   - **Holz (13k-Rückfrage 2, 12.10.):** nur natürliche liegende Stämme und Äste, kein Sägeschnitt; Netz nach Länge,
+     Skala 0,6–1,8 (Abschnitt „Holz und Akteure“).
 7. **Lagen** nach `lagen.zonen` × `biome.<biom>.lagen`, **Effekte** nach `effekte.je_art`. Stufen < 1 m bekommen
    kein Niagara. 1–3 m: `NS_Waterfall_Small` + `NS_Impact_Small`, ab 3 m Vorhang-Netz plus Niagara (14b). Cull 30–60 m
    (Heldenfälle bis 150 m). Ausdünnen auf ≤ 6 gleichzeitig mit Cull ≥ 30 m (große Fälle zuerst), danach je Stufe ≥ 1 m
@@ -127,7 +129,10 @@ python -I recherche/antworten/skripte/gefaelle/gefaelle_pruefen.py <aus> [--date
 - Kameras.
 - Gelände: Rand 0, |Δ| > 40 m, nicht ≤ 2 m an Weg/Pfad, ≤ 5 m an Ort, nicht in Sehenswürdigkeiten, Anheben > 1 m.
 - Lagen-Dateien.
-- Instanz-Ebene über `sehens_lib.sehens_pruefen.pruefe_ebene`: Format, Inventar, Feldrechteck, Budget §9 je Abschnitt, Schweben, Weg, dazu Ortsflächen.
+- Instanz-Ebene über `sehens_lib.sehens_pruefen.pruefe_ebene(…, kontext="gefaelle")`: Format, Inventar (auch
+  Sägeschnitt = FEHLER, Wildnis), Feldrechteck, Budget §9 je Abschnitt, Schweben, Weg, dazu Ortsflächen.
+- Akteure: höchstens 50 je 200 m Lauflänge (gleitendes Fenster entlang der neuen Wasserlinie), sonst FEHLER. Die
+  Sehens-Grenze „50 je Ort“ gilt im Kontext `gefaelle` nicht je Abschnitt.
 
 Auf 2-m-Daten zählt eine Bett- oder Uferabweichung an höchstens 1 Punkt bzw. 10 % eines Netzes als WARNUNG
 (Rasterverschmierung an kurzen Kaskadenbecken). Lokal auf 1 m gilt FEHLER.
@@ -278,6 +283,47 @@ Ergebnis und Zahlen: `antworten/15g-c2-v2-bildbefund.md`. Parameter in `gefaelle
 - Kein Schaum ≥ 0,5 in der Beckenmitte, je Längsstreifen: in Becken ≥ 6 m im Bereich
   [Anfang + 0,5 L + 1,5 m; Ende − 1 m].
 - WARNUNG: Schaum ≥ 0,5 auf > 25 % der Netzfläche.
+
+## Holz und Akteure (13k-Rückfragen 2 und 6, Koordinator 12.10.)
+
+Ergebnis und Zahlen: Nachtrag in `antworten/13k-pilot2-bildbefund-15g-nachtrag.md`.
+
+**Holz.** Die Sägeschnitt-Regel der Bibliothek (`inventar.saegeschnitt`: `*_log` aus
+`Mountain_Environment_Set/Details`, Material `*ends*`, Holzlager) gilt auch für A15, weil Gefälle-Bäche Wildnis sind.
+- `biome.bergwald.netze.holz`: statt `SM_Forest_pine_04_01/02/03_log` die natürlichen Netze aus 13k: liegende Stämme
+  `SM_OldFallenTree_01/02`, `SM_LargeFallenTree_01/02`, `SM_FallenSpruceTree_01`, `SM_MossyTree_01` und Äste
+  `SM_OldTreeBranch_01/02/03/04/06`, `SM_detail_branches_01/02/03`.
+- Elfenwald, Aue, Sumpf, Dschungel und Ödland bekommen dazu lange natürliche Stämme bzw. Äste, damit breite Bäche
+  passende Längen finden. Küste (Treibholz), Canyon und Wüste bleiben. `SM_dead_log_*` bleibt (13k-Rückfrage 1 offen).
+- **Netz nach Länge** (`holz_setzen`): Ziel-Länge wie bisher (Holzstufe 0,45–0,7 × Lippenbreite, Totholz
+  0,6–0,95 × B). In Frage kommen Netze mit Ziel-Länge / Netzlänge in `stufen.holzstufe.netz_skala` [0,6; 1,8];
+  sonst das nächstliegende Netz. Die Länge wird auf 0,6–1,8 × Netzlänge begrenzt. Vorher lag die Skala bis × 45.
+- **Ausrichtung** aus den Bounds (`holz_form`): Liegend modellierte Stämme (lange Achse x/y) werden `normale` gesetzt,
+  die lange Achse quer zum Bach, wie das 13k-Totholz. Mit `liegend` standen sie vorher schräg bis senkrecht.
+  Nur stehend modellierte Stücke (lange Achse z, z. B. `Branch_Goat_Willow_Decaying_*`) bleiben `liegend`.
+- Je Holzstück eine Gruppe `holz_<nr>_<teil>_<i>` bzw. `totholz_<nr>_0`. Lage, Zahl und Höhe der Stufen ändern sich
+  nicht.
+
+**Akteure.** Die 13k-Grenze „höchstens 50 Akteure je Ort“ gilt für Sehens-Orte. Ein Gefälle-Abschnitt ist bis 600 m
+lang, deshalb gilt hier:
+1. Je Abschnitt die 13j-Regel: ≥ 12 gleiche Akteure (`AKTEUR_WIEDERHOLT_AB`) werden Instanzen mit Kollision
+   (`OrtKontext._akteure_buendeln(grenze_je_ort=False)`).
+2. Je Lauf höchstens 50 Akteure je 200 m Lauflänge (`akteure_je_lauflaenge`, gleitendes Fenster mit 2 m Reserve).
+   Ist ein Fenster voll, stellt die 13k-Logik (`sehens_lib.instanzen.akteure_auf_grenze`) weitere Netze um: zuerst
+   die häufigsten, dann die kleinsten, nie die Held-Ebene. Eine Back-Kachel ist ≤ 128 m lang und liegt damit in
+   einem Fenster. Der fluss_sim-Prüfer zählt zusätzlich je Kachel.
+- Lage, Größe und Drehung bleiben, nur die Ausgabeform ändert sich. Niagara-Effekte und Vorhänge sind unverändert.
+- In der Bibliothek trennt `pruefe_ebene(…, kontext="sehens" | "gefaelle")` die beiden Fälle. Im Kontext `gefaelle`
+  entfällt nur die Grenze je Ort, alle anderen Regeln gelten wie in Sehens.
+
+**Prüfung (12.10.):**
+- Alle 161 auf 2 m: 0 FEHLER (vorher 193 im Prüfer bzw. 189 im Planer), 42 WARNUNG (vor 13k 51), zwei Läufe
+  identisch.
+- 19 Piloten auf den 1-m-Fenstern: 0 FEHLER (vorher 21), 11 WARNUNG (vor 13k 12), zwei Läufe identisch.
+- Weggefallen sind 9 Warnungen „Instanzen schweben“. Stufen, Spiegel, Wasserkörper, Effekte, Kameras, Gelände und
+  Lagen sind gegenüber dem Stand vor 13k unverändert.
+- Die Zahl der Instanzen und Akteure ist gleich (64 951 ohne Holz, 1 002 Holzstücke). Etwa 1 800 kleine Steine und
+  Kiesel rücken neben dem Holz leicht, weil die Abstandsregel die neue Holzgröße sieht.
 
 ## Grenzen
 

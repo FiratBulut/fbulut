@@ -139,6 +139,11 @@ Abstände über alle Biome – noch vorhandene Varianten `*/standorte_*.json` z�
 `--datei X/orte.json` prüft Phase 2: orte.json (§2–§9), Gelände/Lagen-Dateien, mit Daten Weg-/Wasserschutz und
 Seeufer, Assets gegen das Inventar und – falls `X/sw_<biom>/` existiert oder `--ebene` angegeben ist – die
 Instanz-Ebene (Format, Anzahlen, Assets, Feldrechteck, Akteure, Budget je Ort, Schweben/Versinken). Exit 1 bei FEHLER.
+`pruefe_ebene(…, kontext="sehens" | "gefaelle")`: Im Kontext `sehens` (Standard) gilt höchstens 50 Akteure je Ort
+(13k, FEHLER). Im Kontext `gefaelle` (A15, Einträge = Laufabschnitte bis 600 m) gilt die Grenze je 200 m Lauflänge und
+wird vom Gefälle-Prüfer geprüft; alle anderen Regeln (auch Sägeschnitt) gelten gleich. Gemeinsame Bündel-Logik:
+`instanzen.akteure_wiederholt_buendeln` (13j, ≥ 12 gleiche), `instanzen.akteure_auf_grenze` (13k),
+`instanzen.akteure_je_fenster`.
 
 ## Phase 2 – Planer-Bausteine (Auftrag 13)
 

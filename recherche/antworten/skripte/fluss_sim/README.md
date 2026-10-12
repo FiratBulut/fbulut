@@ -272,6 +272,8 @@ zeigen, was sich geändert hat.
   Fälle, deren Fuß in einem anderen Gewässer liegt, als HINWEIS.
 - **Kacheln**: jeder Abschnitt in genau einer Kachel; `back_liste.json` = Kacheln der Dateien; Fingerabdruck
   (Splines, Objekte, mit `--daten2m/--daten1m` auch Gelände) neu gerechnet = gespeichert.
+- **Akteure** (mit `--gefaelle`): höchstens 50 Akteure eines Gefälle-Laufs je Kachel (13k-Rückfrage 6, wie
+  „50 je 200 m Lauflänge“ im Gefälle-Prüfer).
 - **Determinismus** mit `--vergleich`: alle Dateien byte-gleich.
 
 Gegenproben (C2, absichtlich verfälscht): fehlender Fall, fehlendes Kollisionsobjekt, steigende Spline, Breite 0,

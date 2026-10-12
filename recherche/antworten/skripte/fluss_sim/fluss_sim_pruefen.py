@@ -21,6 +21,7 @@ Geprueft:
              (Abstand zur Spline < halbe Breite, Unterkante <= Spiegel + 0,5 m), steht in wasser_kollision; jeder
              Verweis existiert (Datei/Index bzw. Akteur) und hat wasser_kollision = true.
   Schaum     Art bekannt, Groesse > 0, Lage im Wasserstreifen des eigenen Gewaessers (+ 0,5 m).
+  Akteure    (mit --gefaelle) hoechstens 50 Akteure eines Gefaelle-Laufs je Back-Kachel (13k-Rueckfrage 6).
   Kacheln    jeder Abschnitt in genau einer Kachel; back_liste deckt alle Kacheln; Fingerabdruck (Splines und
              Objekte aus den Dateien, Gelaende mit --daten2m/--daten1m) nach README neu gerechnet = gespeichert.
   Determinismus  mit --vergleich: alle Dateien byte-gleich.
@@ -371,6 +372,26 @@ def pruefe_kacheln(g, b):
             b.append((FEHLER, a["id"], "in %d Kacheln (soll 1)" % n.get(a["id"], 0)))
 
 
+def pruefe_akteure_kachel(g, pool, b):
+    """13k-Rueckfrage 6 (Koordinator 12.10.): Gefaelle-Laeufe hoechstens 50 Akteure je Back-Kachel (wie je 200 m
+    Lauflaenge in gefaelle_pruefen). Gezaehlt werden die Akteure der Gefaelle-Ebene des Laufs im Kachelbereich."""
+    if pool is None or g.get("kategorie") != "gefaelle":
+        return
+    from sehens_lib import instanzen as ins
+    praefix = "gefaelle/%s/" % g["id"]
+    ak = pool.get("akteure")
+    if ak is None:
+        P = pool["p"]
+        ak = [(r["quelle"], float(r["v"][0]), float(r["v"][1])) for r in P.recs if r.get("liste") == "akteure"]
+        pool["akteure"] = ak
+    for k in g["sim_bereiche"]:
+        x0, y0, x1, y1 = k["bereich_cm"]
+        n = sum(1 for q, x, y in ak if q.startswith(praefix) and x0 <= x <= x1 and y0 <= y <= y1)
+        if n > ins.AKTEURE_GEFAELLE_MAX:
+            b.append((FEHLER, k["id"], "%d Akteure in der Back-Kachel > %d (13k-Rueckfrage 6)"
+                      % (n, ins.AKTEURE_GEFAELLE_MAX)))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Pruefer Entscheidung 16 (fluss_sim_export.py-Ausgaben)")
     ap.add_argument("aus")
@@ -414,6 +435,7 @@ def main(argv=None):
             pruefe_kollision(g, pool, regeln, b)
             pruefe_schaum(g, b)
             pruefe_kacheln(g, b)
+            pruefe_akteure_kachel(g, pool, b)
             for k in g["sim_bereiche"]:
                 alle_kacheln[k["id"]] = (k, g)
         if b:

@@ -24,7 +24,9 @@ Ablauf je Strecke (Regelwerk 'ablauf'):
      (Uferklippe/Klamm) wo ufer_klippen.wann / klamm.wann; Uferwulst (Spiegel + 0,15 m, hoechstens 1 m anheben) fuer
      die 14b-Pruefung 'Ufer am Netzrand'; Schutz an Wegen (3 + 2 m), Orten, anderem Wasser (3 m), Rand 0.
   7. Netze je Biom am Stufenort (biome.<biom>.netze): Riegel/Lippe/Holz, Fallwand, Uferwaende, Sturzbloecke,
-     Beckenbloecke, Wandschutt, Kies, Moos (Kontakt).
+     Beckenbloecke, Wandschutt, Kies, Moos (Kontakt). Holz (13k-Rueckfrage 2): nur natuerliche Staemme/Aeste, kein
+     Saegeschnitt; Netz nach Laenge, Skala stufen.holzstufe.netz_skala. Akteure (13k-Rueckfrage 6): >= 12 gleiche
+     je Abschnitt -> Instanzen (13j), danach <= 50 je 200 m Lauflaenge.
   8. Lagen (lagen.zonen + biome.<biom>.lagen), Effekte (effekte, <= 3 je Stufe, nur Stufen >= 1 m; <= 6 gleichzeitig
      mit Cull >= 30 m + je Stufe NS_Impact_Small Cull 20 m, hart <= 8; unter 3 m NS_Waterfall_Small + NS_Impact_Small,
      Koordinator 11.10./14b), Kameras _vorher/_nachher (+ _weg_vorher/_nachher,
@@ -1414,6 +1416,42 @@ def setze(ctx, name, ebene, palette, punkte, yaws=None, **kw):
         return []
 
 
+def holz_form(inv, netz):
+    """Laenge (m, groesste Ausdehnung), Ausrichtung und Front-Achse eines Holznetzes aus seinen Bounds.
+    Liegend modellierte Staemme/Aeste (Megascans, Forest Set: lange Achse x oder y) werden 'normale' gesetzt, die
+    lange Achse zeigt in die Yaw-Richtung (quer zum Bach), wie die 13k-Totholzgruppen der Sehens-Orte. Nur stehend
+    modellierte Stuecke (lange Achse z) bleiben 'liegend' (sehens_lib: lokale Z-Achse = Stamm)."""
+    g = inv.netz(inv.netz_pfad(netz) or netz)["groesse_m"]
+    if g[2] >= max(g[0], g[1]):
+        return float(g[2]), "liegend", "+x"
+    return float(max(g)), "normale", ("+x" if g[0] >= g[1] else "+y")
+
+
+def holz_setzen(ctx, name, ebene, palette, punkte, yaws, ziel_m, rng, skala, **kw):
+    """13k-Rueckfrage 2 (Koordinator 12.10.): Holz nach Laenge waehlen. Je Punkt eine Ziel-Laenge aus ziel_m; Netze,
+    deren Laenge x skala [min; max] die Ziel-Laenge erreicht, kommen in Frage (gleichverteilt), sonst das Netz mit
+    dem kleinsten Laengenverhaeltnis. Die Laenge wird auf skala x Netzlaenge begrenzt (vorher bis x45).
+    Je Punkt eine Gruppe <name>_<i> (Anker, Yaw, Ebene, Eingraben wie bisher); Rueckgabe Liste der Gruppennamen."""
+    inv = ctx.inv
+    form = {n: holz_form(inv, n) for n in palette}
+    namen = []
+    for i, (pt, yw) in enumerate(zip(punkte, yaws)):
+        z = float(rng.uniform(float(ziel_m[0]), float(ziel_m[1])))
+        ok = [n for n in palette if skala[0] * form[n][0] <= z <= skala[1] * form[n][0]]
+        if ok:
+            n = ok[int(rng.integers(len(ok)))]
+        else:
+            n = min(palette, key=lambda n_: (abs(math.log(z / max(form[n_][0], 1e-3))), n_))
+        L, art, front = form[n]
+        z = float(np.clip(z, skala[0] * L, skala[1] * L))
+        nm = "%s_%d" % (name, i)
+        g = dict(kw)
+        g.update(ausrichtung=art, front_achse=front, groesse_m=[z, z], groesse_achse="max")
+        if setze(ctx, nm, ebene, [n], [pt], [yw], **g):
+            namen.append(nm)
+    return namen
+
+
 def gruppe(ctx, g):
     g.setdefault("boden_min_m", 0.2)
     try:
@@ -1531,11 +1569,14 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
                 else:
                     pts = _entlang(lin_t, 3)
                     yaws = [quer + d_ for d_ in (-18.0, 4.0, 22.0)]
-                    setze(ctx, "holz_%02d_%d" % (k, n_t), "begleiter", N["holz"], pts, yaws, rolle="stamm",
-                          ausrichtung="liegend", groesse_m=[e["lippe_breite_m"] * 0.45, e["lippe_breite_m"] * 0.7],
-                          groesse_achse="max", zentrieren=True, akteur=False, kollision=True, im_wasser="egal",
-                          meide=None, eingraben=[0.3, 0.4], yaw_streuung_grad=6.0,
-                          warum="Holzstufe/Verklausung (stufen.holzstufe): Staemme quer und verkeilt an der Lippe")
+                    # 13k-Rueckfrage 2: natuerliche Staemme/Aeste, Netz nach Laenge (Lippenbreite), Skala begrenzt
+                    holz_setzen(ctx, "holz_%02d_%d" % (k, n_t), "begleiter", N["holz"], pts, yaws,
+                                [e["lippe_breite_m"] * 0.45, e["lippe_breite_m"] * 0.7],
+                                ctx_rng(ctx, "holzwahl", k, n_t), hz["skala"], rolle="stamm",
+                                zentrieren=True, akteur=False, kollision=True, im_wasser="egal",
+                                meide=None, eingraben=[0.3, 0.4], yaw_streuung_grad=6.0,
+                                warum="Holzstufe/Verklausung (stufen.holzstufe): natuerliche Staemme quer und verkeilt "
+                                      "an der Lippe, Netz nach Laenge (13k-Rueckfrage 2)")
             continue
         if e["art"] == "fall":
             dick = float(np.clip(gr.formel(rw.r["faelle"]["riegel_dicke"]["formel"], D=e["D"]), 1.0, 4.0))
@@ -1654,11 +1695,13 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
             L_b = max(e["L"] - e["l"], 1.0)
             s_h = e["p"] + e["l"] + float(rng_h.uniform(0.35, 0.7)) * L_b
             xh, yh = pr.xy(s_h)
-            setze(ctx, "totholz_%02d" % k, "begleiter", N["holz"], [(xh, yh)],
-                  [(kompass(*pr.tang(s_h)) + 90.0 + float(rng_h.uniform(-30.0, 30.0))) % 360.0], rolle="stamm",
-                  ausrichtung="liegend", groesse_m=[e["B"] * 0.6, e["B"] * 0.95], groesse_achse="max", zentrieren=True,
-                  akteur=False, kollision=True, im_wasser="egal", meide=None, eingraben=[0.2, 0.35], boden_min_m=1.0,
-                  warum="Totholz quer im Becken (15f, Vorbilder Step-Pool-Baeche)")
+            holz_setzen(ctx, "totholz_%02d" % k, "begleiter", N["holz"], [(xh, yh)],
+                        [(kompass(*pr.tang(s_h)) + 90.0 + float(rng_h.uniform(-30.0, 30.0))) % 360.0],
+                        [e["B"] * 0.6, e["B"] * 0.95], ctx_rng(ctx, "totholzwahl", k), hz["skala"], rolle="stamm",
+                        zentrieren=True, akteur=False, kollision=True, im_wasser="egal", meide=None,
+                        eingraben=[0.2, 0.35], boden_min_m=1.0,
+                        warum="Totholz quer im Becken (15f, Vorbilder Step-Pool-Baeche): natuerlicher Stamm/Ast, "
+                              "Netz nach Laenge (13k-Rueckfrage 2)")
     # 5. Beckenbloecke + 7. Kies je Segment
     korn = gr.becken_korn(rw)
     for n_s, (a, b, biom) in enumerate(segmente):
@@ -1761,6 +1804,40 @@ def wand_netz(inv, liste, h, rng, max_skala=3.0, stapel=()):
     kand.sort()
     _, n, gz_ = kand[int(rng.integers(min(3, len(kand))))]
     return n, float(min(h, max_skala * gz_))
+
+
+AKTEURE_FENSTER_RESERVE_M = 2.0   # Planer zaehlt im Fenster 200 + 2 m (Pruefer projiziert auf die neue Wasserlinie)
+
+
+def akteure_je_lauflaenge(ebene, pr, inv, melde):
+    """13k-Rueckfrage 6 (Koordinator 12.10.): hoechstens 50 Akteure je 200 m Lauflaenge (gleitendes Fenster entlang
+    s; Back-Kacheln sind <= 128 m und liegen damit in einem Fenster). Nach der 13j-Regel je Abschnitt werden in
+    jedem zu vollen Fenster weitere Netze mit der 13k-Logik (sehens_lib.instanzen.akteure_auf_grenze: zuerst die
+    haeufigsten, dann die kleinsten, nie die Held-Ebene) zu Instanzen mit Kollision; Lage, Groesse, Drehung bleiben."""
+    from sehens_lib import instanzen as ins
+    from sehens_lib import stempel as stm
+    akt = [e for e in ebene.stuecke if e["akteur"]]
+    if len(akt) <= ins.AKTEURE_GEFAELLE_MAX:
+        return
+    linie = np.stack([pr.x, pr.y], 1)
+    _, s_loc, _ = stm.polylinie_abstand(np.array([e["x"] / 100.0 for e in akt]), np.array([e["y"] / 100.0 for e in akt]),
+                                        linie)
+    s_von = {id(e): float(v) for e, v in zip(akt, np.asarray(s_loc, np.float64))}
+    fenster = ins.AKTEURE_GEFAELLE_FENSTER_M + AKTEURE_FENSTER_RESERVE_M
+    while True:
+        akt = [e for e in akt if e["akteur"]]
+        n, s0 = ins.akteure_je_fenster([s_von[id(e)] for e in akt], fenster)
+        if n <= ins.AKTEURE_GEFAELLE_MAX:
+            return
+        im = [e for e in akt if s0 - 1e-9 <= s_von[id(e)] <= s0 + fenster + 1e-9]
+        n_rest, um = ins.akteure_auf_grenze(im, ins.AKTEURE_GEFAELLE_MAX, inv)
+        for netz, k in um:
+            melde("HINWEIS", "Akteur-Budget (13k-Rueckfrage 6, <= %d je %.0f m Lauflaenge, ab s = %.0f m): %d x %s als "
+                  "Instanzen mit Kollision" % (ins.AKTEURE_GEFAELLE_MAX, ins.AKTEURE_GEFAELLE_FENSTER_M, s0, k, netz))
+        if not um:
+            melde("WARNUNG", "Akteure: %d > %d je %.0f m Lauflaenge (ab s = %.0f m) - nur Held-Stuecke uebrig"
+                  % (n_rest, ins.AKTEURE_GEFAELLE_MAX, ins.AKTEURE_GEFAELLE_FENSTER_M, s0))
+            return
 
 
 def ctx_rng(ctx, *teile):
@@ -3096,10 +3173,14 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
                         {bi: rw.biom(bi)[1]["lagen"] for bi in {e["biom"] for e in st_ab} | {bi for _, _, bi in segs}},
                         breite_fn)
             ctx.lagen = lg
+            # 13j: >= 12 gleiche Akteure im Abschnitt -> Instanzen mit Kollision (wie Sehens); die 13k-Grenze gilt im
+            # Gefaelle-Kontext nicht je Abschnitt, sondern je 200 m Lauflaenge (akteure_je_lauflaenge, unten)
+            ctx._akteure_buendeln(grenze_je_ort=False)
             ebene.ausduennen(aid, 15000, 1500, 80)
             for s_, oid, t_ in ctx.meldungen:
                 meldungen.append((s_, oid, t_))
             kontexte.append({"ctx": ctx, "id": aid, "strecke": x["id"], "stufen": st_ab, "segs": segs, "biom": biom_ab})
+    akteure_je_lauflaenge(ebene, pr, inv, melde)
     # 15b: Gelaende-Delta auf 1 m nachziehen (Wasser hoechstens Querprofil, Uferring >= Spiegel + 0,15 m)
     for kx in kontexte:
         feinschliff_1m(K, kx["ctx"].stempel, pr, sp, kx["stufen"], [(a, b) for a, b, _ in kx["segs"]], breite_gel_fn,
