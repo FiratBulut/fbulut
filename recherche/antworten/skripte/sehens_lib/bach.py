@@ -659,11 +659,8 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
     for kb in koerper:
         kb["breite_bach_m"] = round(float(B), 2)
         if kb.get("quer") is not None and lf is not None:
-            # gerade Lippen: das Wasser steht quer ueberall auf der Mittellinie (dz = 0). Die Interpolation in
-            # quer_ergaenzen greift an Punkten mit gleichem s (letzter Bogenpunkt = Wandpunkt) sonst die Nachbarhoehe.
-            for zeile in kb["quer"]:
-                for c in zeile:
-                    c[0] = 0.0
+            # dz_cm nach A15-Konvention (15f-Nachtrag 099f902): relativ zu z_cm des eigenen Punkts; die absolute
+            # Wasserhoehe z + dz ist bei gleichem s identisch (Lippe/Bogen/Wand/Fuss)
             kb["lippen"] = "gerade (Sehens-Stufen wie 13f, keine Unregelmaessigkeit aus 15f)"
         if kb["typ"] == "kaskadennetz":
             kb["pruefung"]["bett_unter_spiegel_min_m"] = bett_min(tiefe_m)

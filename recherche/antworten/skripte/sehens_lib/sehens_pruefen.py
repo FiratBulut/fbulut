@@ -1111,6 +1111,17 @@ def pruefe_wasser_koerper(w, oid, welt, boden, X, Y, kum, seen=None):
     fx = [{"stufe": f["stufe"]} for kb in wk for f in kb.get("effekte") or []]
     bb = []
     gpr.pruefe_wasser({"wasser_koerper": wk, "stufen": stufen, "effekte": fx}, None, None, bb, tag)
+    if welt is not None and any(kb.get("quer") is not None for kb in wk):
+        # 15f-Regeln zum Querprofil (z + dz stetig, gleiche Hoehe bei gleichem s, Spruenge <= groesste Lippenhoehe +
+        # 5 cm, Enden eben, Wertebereiche) aus gefaelle_pruefen.pruefe_wasser - importiert; dessen Bett-/Uferpruefung
+        # (Gelaende aus A15-Abschnitten) gilt hier nicht, die macht dieser Pruefer selbst (unten)
+        bq = []
+        try:
+            gpr.pruefe_wasser({"wasser_koerper": wk, "stufen": stufen, "effekte": fx}, None, welt, bq, tag)
+        except Exception as ex:      # noqa: BLE001
+            bq = [(WARNUNG, tag, "Querprofil-Pruefung (gefaelle_pruefen) nicht ausfuehrbar: %s" % ex)]
+        bb += [t for t in bq if "Querprofil" in t[2] or "Wasserhoehe" in t[2] or "deckung/schaum" in t[2]
+               or "quer passt" in t[2] or "nicht ausfuehrbar" in t[2]]
     for st_, t_, txt in bb:
         if "liegt in keinem Kaskadennetz" in txt:
             # Lippe auf der Bachlinie gesucht (naechster Punkt): Toleranz 0,6 m
