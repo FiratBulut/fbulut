@@ -1,9 +1,14 @@
 # fluss_sim – Exporter für Shallow Water River (Entscheidung 16)
 
 Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBodyRiver` + `ShallowWaterRiver`
-(UE 5.8.3, Plugins Water + Niagara Fluids). Die Simulation wird im Editor **gebacken**. Fälle (Einzelabsturz ≥ 1 m)
-bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Seen bleiben `WaterBodyLake`. Begründung und Arbeitsablauf
-stehen in [`../../16-shallow-water-alle-gewaesser.md`](../../16-shallow-water-alle-gewaesser.md).
+(UE 5.8.3, Plugins Water + Niagara Fluids). Die Simulation wird im Editor **gebacken**. Seen bleiben `WaterBodyLake`.
+Begründung und Arbeitsablauf stehen in [`../../16-shallow-water-alle-gewaesser.md`](../../16-shallow-water-alle-gewaesser.md).
+
+**Format v2 (16b, `fluss_sim_v2`):** Die Einheit für Simulation, Backen und Fingerabdruck ist die **Strecke**: je Gewässer
+**ein** `ShallowWaterRiver` mit **einem** `WaterBodyRiver` (lokal an C2 bestätigt: 1 SWR über die ganze Strecke,
+Auflösung 512, gebacken 0,2 ms). Nur Strecken, deren Box bei 512 Zellen > 0,5 m je Zelle ergäbe (≈ 256 m), werden geteilt.
+Vorhang und Schaumobjekte gibt es nur noch an echten Fallkanten (Regel unten); alle anderen Fälle zeichnet die Simulation
+als Wildwasserrinne. Antwort dazu: [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
 Der Exporter **liest nur**: die Planer-Ausgaben von `gefaelle_plan.py` (`<lauf>/plan.json`, `instanzen/`,
 `gelaende/`) und der Sehens-Planer (`<biom>/orte.json`, `sw_<biom>/`, `gelaende/`) sowie die Weltdaten. Er ändert
@@ -12,9 +17,9 @@ Prüfer vergleicht Lippen- und Fußhöhen mit der Quelle.
 
 | Datei | Inhalt |
 |---|---|
-| `fluss_sim_export.py` | Exporter: `fluss_sim.json` je Gewässer, `back_liste.json`, `zusammenfassung.json`; enthält die Referenz-Funktionen für den Fingerabdruck |
+| `fluss_sim_export.py` | Exporter: `fluss_sim.json` je Gewässer (v2: `swr_einheiten` führend), `back_liste.json` (je SWR-Einheit), `zusammenfassung.json`; enthält die Referenz-Funktionen für den Fingerabdruck |
 | `fluss_sim_pruefen.py` | Prüfer (FEHLER/WARNUNG/HINWEIS wie `gefaelle_pruefen.py`), Exit-Code 1 bei FEHLER |
-| `fluss_sim_regeln.json` | alle Zahlen (Fall-Schwelle, Abschnittslängen, Kollision, Schaum, Kacheln, Fingerabdruck) |
+| `fluss_sim_regeln.json` | alle Zahlen (Fall-Schwelle, Abschnittslängen, Kollision, Schaum, Vorhang, SWR-Einheit und Teilung, Kacheln, Fingerabdruck), Version 2 |
 
 ## Aufruf
 
@@ -40,23 +45,91 @@ python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py export/unre
        --daten1m export/unreal/welt
 ```
 
-Optionen: `--nur ID …` (Lauf-, Fluss- oder Ort-IDs; der Objekt-Pool wird trotzdem ganz geladen), `--ohne-fluesse`,
-`--ohne-roh`, `--regeln`. Laufzeit 2 m: ~12 s Export, ~15 s Prüfung (ohne Planer).
+Optionen: `--nur ID …` (Lauf-, Fluss- oder Ort-IDs; der Objekt-Pool wird trotzdem ganz geladen; die Zuordnung der
+Hindernis-Objekte zu Einheiten anderer Gewässer fehlt dann), `--ohne-fluesse`, `--ohne-roh`, `--regeln`.
+Laufzeit 2 m: ~15 s Export, ~15 s Prüfung (ohne Planer).
 
-**Ausgabe** (`--aus`), nicht ins Repo (17 MB auf 2 m):
+**Ausgabe** (`--aus`), nicht ins Repo (25 MB auf 2 m):
 
 ```
 gefaelle/<lauf>/fluss_sim.json          je Lauf mit Plan (98) und je Lauf der 161 Strecken ohne Plan (25, roh)
 sehens/<biom>/<ort>/fluss_sim.json      je Sehens-Ort mit Bach (26 Orte, 42 Bäche)
 fluesse/<fluss>/fluss_sim.json          Flüsse >= 15 m Breite ohne Plan und ohne Strecke (12, roh)
-back_liste.json                         alle Back-Kacheln mit Fingerabdruck
+back_liste.json                         alle SWR-Einheiten mit Fingerabdruck und Back-Reihenfolge (back_liste_v2)
 zusammenfassung.json                    Zahlen je Kategorie
 ```
 
 Beispiele im Repo: [`../../fluss_sim/`](../../fluss_sim/) (C2, Sehens-Ort `bergwald_06_karsee`, Zusammenfassung,
 Auszug der Back-Liste).
 
-## Format `fluss_sim.json`
+## Format `fluss_sim.json` (v2)
+
+Neu in v2 sind `swr_einheiten`, `ohne_wasser_kollision`, je Fall `vorhang`/`vorhang_grund`/`versatz_m`/`einheit_*`, je
+Kollisionsobjekt `einheit`/`hindernis_akteur`/`unterkante_ueber_spiegel_m` und je Abschnitt bzw. Kachel `einheit`.
+Gekürzt aus C2:
+
+```json
+{"format": "fluss_sim_v2", "regeln_version": 2, ...,
+ "gewaesser": [{"id": "F_ERLENBACH_1V_C2", ...,
+   "swr_einheiten": [{
+     "id": "F_ERLENBACH_1V_C2_E00", "s_m": [0.0, 203.16], "laenge_m": 203.16,
+     "abschnitte": ["…_A00", …, "…_A17"], "kacheln": ["…_K00", "…_K01", "…_K02"], "faelle_innen": ["…_s1_S01_T2", …],
+     "naht_oben": {"art": "laufanfang", "s_m": 0.0, "fall": null, "ueberlappung_m": 0.0},
+     "naht_unten": {"art": "laufende", "s_m": 203.16, "fall": null, "ueberlappung_m": 0.0},
+     "vorgaenger": [], "nachfolger": [], "back_reihenfolge": 0,
+     "water_body": {"id": "WBR_F_ERLENBACH_1V_C2_E00", "klasse": "WaterBodyRiver", "affects_landscape": false,
+                    "overlap_material_priority": 1,
+                    "spline": {"s_m": [0.0, 203.16], "punkte": [[-172182.5, -239417.0, 10206.1, 2879.3, 91.7, 300.0], …],
+                               "punkte_felder": ["x_cm", "y_cm", "z_cm", "RiverWidth_cm", "Depth_cm", "WaterVelocityScalar_cm_s"],
+                               "punkt_typen": […], "tangenten_cm": […], "punkte_s_m": [0.0, 2.0, 4.0, …], "punkt_rollen": […]}},
+     "swr": {"id": "SWR_F_ERLENBACH_1V_C2_E00", "klasse": "ShallowWaterRiver", "typ": "bach", "breite_median_m": 21.73,
+             "zelle_ziel_m": 0.35, "achse_m": 217.64, "box_m": [91.47, 217.64], "resolution_max_axis": 512, "zelle_m": 0.425,
+             "raster_erwartet": [216, 512],
+             "source_river_water_bodies": ["WBR_F_ERLENBACH_1V_C2_E00"], "sink_river_water_bodies": ["WBR_F_ERLENBACH_1V_C2_E00"],
+             "bottom_contour_tags": ["SWR_Hindernis"],
+             "bottom_contour_actors": ["WH_F_ERLENBACH_1V_C2_E00", "WH_F_ERLENBACH_2_C2_E00"],
+             "bottom_contour_landscape_actors": "lokal", "use_capture": true, "match_spline": true,
+             "render_state": {"backen": "LIVE_SIM", "spiel": "WATER_COMPONENT_WITH_BAKED_SIM", "ersatz": "BAKED_SIM"},
+             "material": {"water_body": "MI_EL_SWR_Klar", "baked_sim_material": "MI_EL_SWR_Klar"}},
+     "bereich_cm": [-180689.4, -241656.6, -169942.9, -218292.2],
+     "hindernis_akteur": {"id": "WH_F_ERLENBACH_1V_C2_E00", "klasse": "Actor", "tags": ["SWR_Hindernis", "SWR_E_F_ERLENBACH_1V_C2_E00"],
+                          "ursprung_cm": [-175316.1, -229974.4, 0.0],
+                          "komponenten": [{"netz": "/Game/…/texndcpda_tier_0", "klasse": "HISM", "nanite": null, "kollision": "wie_quelle",
+                                           "instanzen": [{"ref": {…}, "pos_cm": […], "quat_xyzw": […], "skala": […], "lage": "im_wasser"}, …]}, …],
+                          "akteure_mit_tag": [{"ref": {"quelle": "…", "liste": "akteure", "index": 0}, …}, …],
+                          "n_instanzen": 526, "n_komponenten": 20, "n_akteure_mit_tag": 46, "umzug": "verschieben"},
+     "fingerabdruck": "7d2b1daf…", "fingerabdruck_teile": {"gelaende": "…", "splines": "…", "objekte": "…"},
+     "n_hoehen": 6318, "raster_cm": 200.0, "n_objekte": 614}],
+   "abschnitte": [{"id": "…_A00", "einheit": "…_E00", … wie v1 …,
+                   "water_body": {"klasse": "WaterBodyRiver", "affects_landscape": false, "nur_rueckfall": true, …}}, …],
+   "faelle": [{"id": "…_s1_S10", "fall_m": 2.84, "versatz_m": 0.73, "vorhang": true,
+               "vorhang_grund": "senkrechte felslippe (versatz 0.73 m <= 0.3 x fall)",
+               "einheit_oben": "…_E00", "einheit_unten": "…_E00",
+               "kaskadennetz": {"id": "…_KN0", "bereich_s_m": [104.25, 106.75], "vorhang": true, "vorhang_planer": false},
+               "schaum": "objekte", "schaum_objekte": [ … ], …},
+              {"id": "…_s1_S09", "fall_m": 2.63, "versatz_m": 2.31, "vorhang": false,
+               "kaskadennetz": {"id": "…_KN0", "bereich_s_m": null, "vorhang": false, "vorhang_planer": false},
+               "schaum": "simulation", "schaum_objekte": [], …}, …],
+   "wasser_kollision": [{… wie v1 …, "einheit": "…_E00", "unterkante_ueber_spiegel_m": -3.57,
+                         "hindernis_akteur": "WH_F_ERLENBACH_1V_C2_E00"}, …],
+   "ohne_wasser_kollision": [{… "lage": "im_wasser", "unterkante_ueber_spiegel_m": 0.24, "wasser_kollision": false,
+                              "grund": "ueberspannt"}, …],
+   "sim_bereiche": [{"id": "…_K00", "einheit": "…_E00", "rolle": "unterteilung", … wie v1 …}, …]}]}
+```
+
+- **Bau-Werkzeug (v2):** je Einheit **einen** `WaterBodyRiver` aus `water_body.spline` (Punkttypen, Tangenten,
+  Metadaten wie v1), **einen** `ShallowWaterRiver` mit den Feldern aus `swr` und **einen** `WH_<einheit>` aus
+  `hindernis_akteur`. Die Abschnitte sind nur noch Unterteilung (Becken, Lippen, Fall-Zuordnung, Prüfung); ein
+  `WaterBodyRiver` je Abschnitt ist der Rückfall, falls eine Spline je Einheit lokal nicht geht.
+- **`hindernis_akteur`** ist `null`, wenn der Einheit kein Objekt zugeordnet ist. Ein Objekt, das in mehreren Gewässern
+  steht (Mündungen, überlappende Läufe), kommt genau in den WH-Akteur der Einheit mit dem kleinsten `abstand_rand_m`;
+  die anderen Einheiten erfassen es über `bottom_contour_actors` (alle WH, deren Objekte den `bereich_cm` schneiden).
+- **Spline je Einheit:** Anfang, Ende und Lippen (Vorhang-Fälle zuerst, dann nach Fallhöhe) als Anker, dazwischen
+  gleichmäßig mit Abstand ≥ 2 m (roh ≥ 5 m), also 2–4 m (roh 5–10 m). Lippen, die < 2 m an einem stärkeren Anker liegen,
+  fallen weg. `LINEAR` an jeder Lippe und am Punkt danach. Endet die Einheit an einem Fall, liegt der letzte Punkt auf
+  dem Oberwasser der Lippe; beginnt sie an einem Fall, liegt der erste auf dem Fuß.
+
+### Format v1 (Abschnitte, Fälle, Kollision; in v2 unverändert, soweit oben nicht anders gesagt)
 
 ```json
 {"format": "fluss_sim_v1", "regeln_version": 1, "fall_schwelle_m": 1.0, "daten": "2m (Cloud-Test)",
@@ -175,20 +248,57 @@ liegen in der Cloud nicht vor; lokal setzt das Bau-Werkzeug dieselbe Regel auf a
 - Netze und Decals wählt das lokale Bau-Werkzeug. Kandidaten im Inventar (`inventar_extra.json`):
   `/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Schaum`, `/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum`.
 
-**Kaskadennetz nur noch an Fällen.** `kaskadennetz.bereich_s_m` = [Lippe − 0,5 m; Fuß + 1,5 m] auf
-`mittellinie_s_m` des bisherigen Netzes. Das Bau-Werkzeug schneidet das Netz auf diese Bereiche zu; Becken und
-flache Strecken übernimmt der River.
+**Kaskadennetz nur noch an Vorhang-Fällen (v2).** `kaskadennetz.bereich_s_m` = [Lippe − 0,5 m; Fuß + 1,5 m] auf
+`mittellinie_s_m` des bisherigen Netzes, nur bei `vorhang: true` (sonst `null`). Das Bau-Werkzeug schneidet das Netz auf
+diese Bereiche zu; Becken, flache Strecken und alle anderen Fälle übernimmt die Simulation.
 
-**Back-Kacheln (`sim_bereiche`).** Aufeinanderfolgende Abschnitte eines Gewässers, bis die Bounding-Box (Punkte ±
-halbe Breite) + 2 × 8 m Rand 128 m erreicht. Jede Kachel = ein `ShallowWaterRiver` (Quelle = erster, Senke =
-letzter Abschnitt). `grenze_oben`/`grenze_unten`: `fall` (Kante liegt unter Vorhang und Aufprallschaum),
-`offen` (Teilung in fließendem Wasser), `laufanfang`, `laufende`. Flüsse breiter als ~110 m ergeben größere Kacheln
-(größte 246 m, Hauptfluss F5 bis 222 m breit).
+**Vorhang (v2, 16b).** `vorhang: true` nur an einer echten Fallkante:
+- Einzelabsturz (keine Kaskaden-Teilstufe, keine Schnelle) **≥ 3,0 m** (wie `vorhang_ab_m` des Planers, 14b), oder
+- **senkrechte Felslippe**: Einzelabsturz ≥ 2,0 m, Art `fall`, keine Holzstufe, horizontaler Versatz Lippe → Fuß
+  (`versatz_m`, Überfall-Mitte bzw. Lippenpunkt gegen `fuss_cm`) ≤ 0,3 × Fallhöhe (≥ 73°).
+- Begründung: Die Simulation ist 2D (eine Höhe je Zelle von 0,35–0,5 m). Einen Absturz zeichnet sie als Rinne über
+  1–2 Zellen. Unter 2 m liegt diese Rinne im Schaumband der Lippe und liest sich als Wildwasser (16b: C2 natürlicher
+  als das Netz). Ab 3 m bzw. an einer senkrechten Wand ab 2 m entstünde eine geneigte „Glaswand“ ohne freien Strahl und
+  ohne Luft dahinter; dort braucht es Vorhang und Aufprallschaum.
+- **Schaumobjekte** (Aufprallteppich, Schaumstraßen, Kehrwasser) nur bei `vorhang: true`; sonst `schaum: "simulation"`,
+  `schaum_objekte: []`. Die Niagara-Effekte (`effekte`) bleiben an allen Fällen.
+
+**Überspannende Objekte (16a Entscheidung 5).** `lage = im_wasser` und Unterkante > Spiegel + 0,1 m → keine
+Wasser-Kollision, Eintrag in `ohne_wasser_kollision` mit `grund: "ueberspannt"` (die Erfassung von oben machte daraus
+einen Damm). Für `lage = ufer` bleibt + 0,5 m.
+
+**SWR-Einheit (v2, `swr` in den Regeln).**
+- **Eine Einheit je Strecke** (Gewässer der Ausgabe: Gefälle-Lauf, Sehens-Bach, Fluss), solange die längste Achse der
+  Box (Spline ± halbe Breite) bei `resolution_max` = 512 eine Zelle ≤ `zelle_max_m` = 0,5 m ergibt, also ≤ 256 m.
+- **Zelle:** Ziel 0,35 m für Bäche (Strecke mit Abstürzen aus dem Plan oder Median der Breite < 15 m), 0,5 m für Flüsse.
+  `resolution_max_axis` = ⌈Achse / Ziel / 32⌉ × 32, begrenzt auf [32; 512]; `zelle_m` = Achse / Auflösung. Bäche mit
+  Zelle > 0,4 m (Box 205–256 m) bleiben eine Einheit und bekommen im Prüfer einen HINWEIS.
+- **Teilung** längerer Strecken (gierig von oben, möglichst wenige Einheiten): Für den Anfang `a` wird das größte `b`
+  bestimmt, bis zu dem die Box ≤ 256 m − 4 m (Überlappung) bleibt. Gesucht wird eine Teilstelle im hinteren Teil
+  [a + 0,5 · (b − a); b] (Notfall: ab 0,1). Rangfolge: **Fall mit Vorhang** > **Fall** > **Becken** (Mitte eines
+  Beckens ≥ 8 m, Gefälle ≤ 3 % über ± 2 m) > **ruhige Stelle** (flachstes Gefälle über ± 5 m, ≥ 1 m von jedem Absturz).
+  Bei gleichem Rang die talwärts letzte (Fälle, Becken) bzw. die flachste. Keine Rest-Einheit < 30 m.
+- **Naht an einem Fall:** Source/Sink-Verkettung ohne Überlappung. Die obere Spline endet an der Lippe (Senke = eigener
+  River), die untere beginnt am Fuß (Quelle = eigener River). Die Kante liegt unter Vorhang bzw. Aufprall; das Wasser
+  fällt frei über die Lippe und hängt nicht vom Unterwasser ab.
+- **Naht in einem Becken bzw. an einer ruhigen Stelle:** Die beiden Splines überlappen 4 m (je 2 m über die Teilstelle).
+  Dort ist der Spiegel waagrecht und die Strömung langsam; beide Simulationen haben an der Naht denselben Spiegel, Senke
+  und Quelle liegen 2 m hinter bzw. vor der sichtbaren Naht. Der obere River hat Vorrang (`overlap_material_priority`).
+- Die Einheit hat `naht_oben`/`naht_unten` (`laufanfang`, `fall`, `becken`, `ruhig`, `offen`, `laufende`), `vorgaenger`,
+  `nachfolger` und `back_reihenfolge` (von oben nach unten backen).
+
+**Kacheln (`sim_bereiche`, v2 nur Unterteilung).** Aufeinanderfolgende Abschnitte **einer Einheit**, bis die
+Bounding-Box (Punkte ± halbe Breite) + 2 × 8 m Rand 128 m erreicht. Sie dienen der Akteur-Grenze aus 13k (≤ 50
+Akteure eines Gefälle-Laufs je Kachel) und mit ihrem Teil-Fingerabdruck der Ortung von Änderungen. Gebacken wird je
+Einheit. `grenze_oben`/`grenze_unten` wie v1.
 
 ## Fingerabdruck (Back-Liste)
 
-Je Kachel legt ein SHA-256-Fingerabdruck fest, was die Simulation dort sieht. Das lokale Werkzeug backt nur Kacheln
-neu, deren Fingerabdruck sich gegenüber dem letzten Backen geändert hat. Die Funktionen
+Je **SWR-Einheit** (v2; v1: je Kachel) legt ein SHA-256-Fingerabdruck fest, was die Simulation dort sieht. Das lokale
+Werkzeug backt nur Einheiten neu, deren Fingerabdruck sich gegenüber dem letzten Backen geändert hat. Die Formel ist
+unverändert (`FLUSS_SIM_FP1`); bezogen wird sie auf `bereich_cm` der Einheit (Box der Spline + 8 m Rand) und auf die
+**eine** Spline der Einheit (`S|WBR_<einheit>|n`). Die Kacheln tragen weiter einen eigenen Fingerabdruck mit den
+Abschnitt-Splines; er zeigt, in welchem Teil einer Einheit sich etwas geändert hat. Die Funktionen
 `fp_gelaende_text`, `fp_splines_text`, `fp_objekte_text` und `fingerabdruck` in `fluss_sim_export.py` sind die
 Referenz; sie brauchen nur `hashlib`, `math` und NumPy und laufen auch im Unreal-Python.
 
@@ -245,12 +355,12 @@ x/y/z −172818,7/−238622,3/9795,7, q (−0,239743; −0,187143; 0,128668; 0,9
 Formel aus dem **Editor-Zustand**:
 - Gelände: Landschaftshöhe an den Rasterpunkten (z. B. `Landscape.get_height_at_location` bzw. Line Trace auf den
   Kanal der Landschaft) auf dem 1-m-Raster.
-- Splines: die `WaterBodyRiver`-Akteure der Kachel (Tag bzw. Label = Abschnitt-ID), Splinepunkte in Weltkoordinaten
-  mit `RiverWidth`, `Depth`, `WaterVelocityScalar` aus den Spline-Metadaten.
-- Objekte: alle Akteure **und** ISM/HISM/Foliage-Instanzen mit Wasser-Kollision, deren Weltbounds die Kachel
+- Splines: der `WaterBodyRiver` der Einheit (Label `WBR_<einheit>`), Splinepunkte in Weltkoordinaten mit `RiverWidth`,
+  `Depth`, `WaterVelocityScalar` aus den Spline-Metadaten.
+- Objekte: alle Akteure mit Tag `SWR_Hindernis` **und** alle Instanzen der `WH_…`-Akteure, deren Weltbounds den Bereich
   schneiden – auch die von Hand gesetzten Felsen. Netzpfad ohne `.Objektname`-Suffix.
 
-Es vergleicht immer gleich mit gleich: den Editor-Fingerabdruck beim letzten Backen (gespeichert je Kachel) mit dem
+Es vergleicht immer gleich mit gleich: den Editor-Fingerabdruck beim letzten Backen (gespeichert je Einheit) mit dem
 aktuellen Editor-Fingerabdruck, und den Planer-Fingerabdruck dieser Liste mit dem der vorigen Liste (neue
 Planung). Planer- und Editor-Wert sind wegen Landschafts-Quantisierung (16 bit) und Interpolation nicht
 zwingend gleich; ein Unterschied an einer Rundungsgrenze löst höchstens ein unnötiges Neu-Backen aus. Die Teil-Hashes
@@ -270,14 +380,28 @@ zeigen, was sich geändert hat.
   + 0,5 m, nicht ganz unter dem Bett), steht in `wasser_kollision`; jeder Verweis existiert; `wasser_kollision: true`.
 - **Schaum**: Art bekannt, Größe > 0, jeder Punkt im eigenen Wasser (± 0,5 m) und auf dessen Spiegel (± 0,5 m);
   Fälle, deren Fuß in einem anderen Gewässer liegt, als HINWEIS.
-- **Kacheln**: jeder Abschnitt in genau einer Kachel; `back_liste.json` = Kacheln der Dateien; Fingerabdruck
-  (Splines, Objekte, mit `--daten2m/--daten1m` auch Gelände) neu gerechnet = gespeichert.
+- **Kacheln**: jeder Abschnitt in genau einer Kachel, jede Kachel in genau einer Einheit; Teil-Fingerabdrücke neu gerechnet.
+- **SWR-Einheiten (v2)**: lückenlose Kette über die Strecke (Naht an Fall = Lippe/Fuß, sonst gemeinsame Stelle mit 4 m
+  Überlappung), jeder Abschnitt in genau einer Einheit, keine Rest-Einheit < 30 m; Spline ≥ 2 Punkte, Abstand ≥ 2 m und
+  < 2 × Ziel, z nie steigend, Becken-Punkte auf dem Spiegel der Abschnitt-Spline (± 2 cm), Ende an Lippe = Oberwasser,
+  Anfang am Fuß = Unterwasser; `resolution_max_axis` Vielfaches von 32 in [32; 512], `achse_m` aus der Spline neu
+  gerechnet, `zelle_m` = Achse / Auflösung, **Zelle ≤ 0,5 m**; Bach > 0,4 m als HINWEIS; Quelle/Senke = eigener River.
+- **Vorhang (v2)**: `vorhang` = Regel aus den Fall-Feldern; nur Vorhang-Fälle haben Kaskadennetz-Bereich und
+  Schaumobjekte (mit Aufprallteppich), alle anderen keine.
+- **Hindernis-Akteure (v2, global)**: jedes Objekt mit `wasser_kollision: true` in genau einem `WH_<einheit>`, Verweis
+  `hindernis_akteur` passt, Instanzzahlen stimmen, kein Pflanzennetz, kein überspanntes Objekt; `ohne_wasser_kollision`
+  erfüllt die Regel; `bottom_contour_actors` enthalten die eigene WH und nur vorhandene.
+- **Back-Liste (v2)**: Einheiten = Einheiten der Dateien; Fingerabdruck (Splines, Objekte, mit `--daten2m/--daten1m`
+  auch Gelände) neu gerechnet = gespeichert.
 - **Akteure** (mit `--gefaelle`): höchstens 50 Akteure eines Gefälle-Laufs je Kachel (13k-Rückfrage 6, wie
   „50 je 200 m Lauflänge“ im Gefälle-Prüfer).
 - **Determinismus** mit `--vergleich`: alle Dateien byte-gleich.
 
 Gegenproben (C2, absichtlich verfälscht): fehlender Fall, fehlendes Kollisionsobjekt, steigende Spline, Breite 0,
-entferntes Becken, Lücke im Grundriss und abgesenkter Beckenspiegel ergeben jeweils FEHLER (Exit 1).
+entferntes Becken, Lücke im Grundriss und abgesenkter Beckenspiegel ergeben jeweils FEHLER (Exit 1). v2 zusätzlich:
+Auflösung 400 (kein Vielfaches von 32, Zelle 0,54 m), Vorhang an S09 umgeschaltet, Schaum an einem Fall ohne Vorhang,
+Objekt aus dem WH-Akteur entfernt, Splinepunkte 0,5 m auseinander, steigende Einheiten-Spline, überspanntes Objekt mit
+Kollision, abgesenkter Becken-Punkt der Einheiten-Spline: jeweils FEHLER (Exit 1).
 
 ## Grenzen
 
@@ -287,5 +411,8 @@ entferntes Becken, Lücke im Grundriss und abgesenkter Beckenspiegel ergeben jew
   (Bestand, Felsgruppen) findet erst der lokale Lauf bzw. das Bau-Werkzeug.
 - **Überlappende Gewässer**: Mündungen und von Sehens-Planern umgebaute Strecken können zwei Gewässer an derselben
   Stelle haben; das Bau-Werkzeug legt die Kacheln dann zusammen.
-- **Offene Kachelgrenzen** (in fließendem Wasser, v. a. lange Flüsse): Naht zwischen zwei Simulationen, im
-  Einrichtungstest prüfen (Überlappung der Kacheln, gemeinsame Senke/Quelle).
+- **Nähte zwischen SWR-Einheiten** (v2: 72 Nähte in 34 geteilten Strecken, davon 22 an Fällen): an Becken/ruhigen
+  Stellen 4 m Überlappung; ob zwei überlappende Water Bodies im Spiel sauber über `overlap_material_priority` gezeichnet
+  werden, ist lokal zu prüfen (16b, Rückfragen).
+- **Mündungen** zwischen Gewässern sind nicht verkettet (jede Strecke backt für sich); gemeinsame Objekte erfasst die
+  Nachbar-SWR über `bottom_contour_actors`.

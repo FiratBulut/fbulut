@@ -5,17 +5,21 @@ fluss_sim_export.py - Exporter fuer Entscheidung 16 (Shallow Water River fuer al
 
 Liest NUR die vorhandenen Planer-Ausgaben (gefaelle_plan.py: <lauf>/plan.json + instanzen/, Sehens-Planer:
 <biom>/orte.json + sw_<biom>/) und die Weltdaten. Aendert nichts an Planern, Stufen, Becken oder Gelaende
-(13f-Regel: die Treppen der Sehens-Baeche bleiben exakt). Schreibt je Gewaesser eine fluss_sim.json:
+(13f-Regel: die Treppen der Sehens-Baeche bleiben exakt). Schreibt je Gewaesser eine fluss_sim.json (Format v2, 16b):
 
-  abschnitte        WaterBodyRiver-Abschnitte zwischen den Faellen: Splinepunkte (cm) mit RiverWidth, Depth,
-                    WaterVelocityScalar (UWaterSplineMetadata), Punkttyp + Tangente, Anschluss an die Becken
-  faelle            je Einzelabsturz >= fall_schwelle_m: oberer/unterer Abschnitt, Fallhoehe, Lippe, Strahlbreite,
-                    Kaskadennetz-Bereich (Vorhang) und Effekte, dazu schaum_objekte (Aufprallteppich,
-                    Schaumstrassen, Kehrwasser)
-  wasser_kollision  alle festen Instanzen/Akteure im Wasser oder <= 1 m daneben, mit eindeutigem Verweis
-  sim_bereiche      Back-Kacheln (je ein ShallowWaterRiver) mit Eingabe-Fingerabdruck
+  swr_einheiten     FUEHREND: je Strecke ein ShallowWaterRiver + ein WaterBodyRiver (Spline aus der Mittellinie,
+                    Punktabstand >= 2 m, RiverWidth/Depth/WaterVelocityScalar je Punkt), resolution_max_axis und
+                    Zelle, Hindernis-Akteur WH_<einheit>, Naht/Verkettung zu Nachbar-Einheiten, Fingerabdruck.
+                    Lange Strecken und breite Fluesse werden an Faellen bzw. Becken geteilt (Regel in README).
+  abschnitte        Unterteilung zwischen den Faellen (v1): Becken, Lippen, Anschluss; WaterBodyRiver je Abschnitt
+                    nur noch als Rueckfall
+  faelle            je Einzelabsturz >= fall_schwelle_m: Lippe/Fuss, Effekte, vorhang (Regel 16b) und nur dann
+                    Kaskadennetz-Bereich und schaum_objekte (Aufprallteppich, Schaumstrassen, Kehrwasser)
+  wasser_kollision  alle festen Instanzen/Akteure im Wasser oder <= 1 m daneben, mit Verweis, Einheit und
+                    Hindernis-Akteur; ohne_wasser_kollision: ueberspannende Objekte (16a Entscheidung 5)
+  sim_bereiche      Kacheln <= 128 m als Unterteilung einer Einheit (Akteur-Grenze 13k, Teil-Fingerabdruck)
 
-und global back_liste.json (Kachel, Fingerabdruck, Abschnitte) sowie zusammenfassung.json.
+und global back_liste.json (je SWR-Einheit: Fingerabdruck, Reihenfolge) sowie zusammenfassung.json.
 
 Aufruf (Cloud, 2 m):
   python -I recherche/antworten/skripte/fluss_sim/fluss_sim_export.py \
@@ -53,7 +57,8 @@ NETZE_CSV = os.path.join(RECHERCHE, "vorlagen", "daten", "netze.csv")
 NETZE_MASSE = os.path.join(RECHERCHE, "vorlagen", "daten", "netze_masse.json")
 BIOME = ("aue", "bergwald", "canyon", "dschungel", "elfenwald", "fjord", "frost", "gletscher", "heide",
          "kueste", "lava", "oedland", "sumpf", "tundra", "wueste")
-FORMAT_VERSION = "fluss_sim_v1"
+FORMAT_VERSION = "fluss_sim_v2"
+BACK_FORMAT = "back_liste_v2"
 
 
 def log(*t):
@@ -533,13 +538,21 @@ def abstuerze_gefaelle(plan, linie):
                 zu = float(t.get("unten_z_cm", linie.z_bei(sl) - 100 * t["fall_m"]))
                 out.append({"id": "%s_T%d" % (st["id"], k + 1), "stufe": st["id"], "teil": k + 1, "art": st.get("art"),
                             "art_regel": st.get("art_regel"), "s_lippe": sl, "z_oben": float(t.get("oben_z_cm", linie.z_bei(sl, "oben"))),
-                            "z_unten": zu, "fall_m": float(t["fall_m"]), "rampe": bool(t.get("rampe")) or rampe_st})
+                            "z_unten": zu, "fall_m": float(t["fall_m"]), "rampe": bool(t.get("rampe")) or rampe_st,
+                            "versatz_m": None, "holz": bool(st.get("holzstufe")), "klasse": st.get("klasse")})
         else:
             sl = float(st["s_m"])
             zo = float(st["lippe_cm"][0][2]) if st.get("lippe_cm") else linie.z_bei(sl, "oben")
             zu = float(st.get("fuss_z_cm", zo - 100 * st["fall_m"]))
+            # Versatz Lippe -> Fuss (horizontal, m): Ueberfall-Mitte bzw. Mitte der Lippenpunkte gegen den Fuss
+            lp = st.get("ueberfall_cm")
+            if not lp and st.get("lippe_cm"):
+                lp = list(np.mean(np.asarray(st["lippe_cm"], float)[:, :2], axis=0))
+            fp = st.get("fuss_cm")
+            versatz = math.hypot(lp[0] - fp[0], lp[1] - fp[1]) / 100.0 if (lp and fp) else None
             out.append({"id": st["id"], "stufe": st["id"], "teil": 0, "art": st.get("art"), "art_regel": st.get("art_regel"),
-                        "s_lippe": sl, "z_oben": zo, "z_unten": zu, "fall_m": float(st["fall_m"]), "rampe": rampe_st})
+                        "s_lippe": sl, "z_oben": zo, "z_unten": zu, "fall_m": float(st["fall_m"]), "rampe": rampe_st,
+                        "versatz_m": versatz, "holz": bool(st.get("holzstufe")), "klasse": st.get("klasse")})
     out.sort(key=lambda d: (d["s_lippe"], d["id"]))
     for d in out:
         d["s_fuss"] = linie.s_fuss(d["s_lippe"], d["z_unten"])
@@ -556,7 +569,8 @@ def abstuerze_sehens(lauf_id, bach, linie):
         sf_proj = linie.s_projektion(fp[0], fp[1], fp[2])
         out.append({"id": "%s_S%02d" % (lauf_id, k), "stufe": "%s_S%02d" % (lauf_id, k), "teil": 0, "art": st.get("art"),
                     "art_regel": st.get("art"), "s_lippe": sl, "z_oben": float(lp[2]), "z_unten": float(fp[2]),
-                    "fall_m": float(st["fall_m"]), "rampe": st.get("art") == "schnelle", "s_fuss_proj": sf_proj})
+                    "fall_m": float(st["fall_m"]), "rampe": st.get("art") == "schnelle", "s_fuss_proj": sf_proj,
+                    "versatz_m": math.hypot(lp[0] - fp[0], lp[1] - fp[1]) / 100.0, "holz": False, "klasse": None})
     out.sort(key=lambda d: (d["s_lippe"], d["id"]))
     for d in out:
         d["s_fuss"] = max(linie.s_fuss(d["s_lippe"], d["z_unten"]), d["s_lippe"])
@@ -580,8 +594,8 @@ def becken_aus(abst, linie):
     return out
 
 
-def abschnitte_bilden(linie, faelle, regeln):
-    """Abschnitte zwischen den Faellen; zu kurze Becken talwaerts zusammenfassen; lange teilen."""
+def segmente_bilden(linie, faelle, regeln):
+    """Becken-Segmente zwischen den Faellen; Reste am Laufrand weg, zu kurze Becken talwaerts zusammenfassen."""
     R = regeln["abschnitt"]
     s0, s1 = float(linie.s[0]), float(linie.s[-1])
     seg = []
@@ -613,8 +627,37 @@ def abschnitte_bilden(linie, faelle, regeln):
             neu["rest_unten"] = True
         i0 = min(k, j)
         seg[i0:i0 + 2] = [neu]
-    # lange Abschnitte teilen (gleich lange Teile, gemeinsamer Endpunkt); breite Fluesse kuerzer, damit Abschnitt
-    # + Breite + 2 x Rand in eine Kachel passen (mindestens 1/4 Kachel)
+    return seg
+
+
+def segmente_schneiden(seg, schnitte, faelle_s):
+    """Segmente an den Teilstellen der SWR-Einheiten in Becken/ruhigen Stellen schneiden (offene Grenze, gemeinsamer
+    Endpunkt). faelle_s: Fall-ID -> s_lippe (zum Aufteilen von 'innen')."""
+    out = []
+    for g in seg:
+        cuts = sorted(c for c in schnitte if g["a"] + 1e-6 < c < g["b"] - 1e-6)
+        if not cuts:
+            out.append(g)
+            continue
+        grenzen = [g["a"]] + cuts + [g["b"]]
+        for m in range(len(grenzen) - 1):
+            h = dict(g)
+            h["a"], h["b"] = grenzen[m], grenzen[m + 1]
+            h["innen"] = [i for i in g["innen"] if h["a"] - 1e-6 <= faelle_s[i] < h["b"] - 1e-6]
+            if m > 0:
+                h["oben"] = None
+                h.pop("rest_oben", None)
+            if m < len(grenzen) - 2:
+                h["unten"] = None
+                h.pop("rest_unten", None)
+            out.append(h)
+    return out
+
+
+def lang_teilen(linie, seg, regeln):
+    """Lange Abschnitte teilen (gleich lange Teile, gemeinsamer Endpunkt); breite Fluesse kuerzer, damit Abschnitt
+    + Breite + 2 x Rand in eine Kachel passen (mindestens 1/4 Kachel)."""
+    R = regeln["abschnitt"]
     K = regeln["kacheln"]
     out = []
     for g in seg:
@@ -636,6 +679,224 @@ def abschnitte_bilden(linie, faelle, regeln):
                 h.pop("rest_unten", None)
             out.append(h)
     return out
+
+
+def abschnitte_bilden(linie, faelle, regeln):
+    """v1-Verhalten (ohne Teilung in SWR-Einheiten)."""
+    return lang_teilen(linie, segmente_bilden(linie, faelle, regeln), regeln)
+
+
+# ======================================================================================================================
+# v2: SWR-Einheit = Strecke (16b)
+# ======================================================================================================================
+def vorhang_regel(d, regeln):
+    """Vorhang (Kaskadennetz) + Schaumobjekte nur an einer echten Fallkante (16b). Rueckgabe (bool, grund)."""
+    V = regeln["vorhang"]
+    if d.get("rampe"):
+        return False, "schnelle/rampe"
+    if d.get("teil"):
+        return False, "kaskaden-teilstufe (Simulation zeichnet Rinne)"
+    D = float(d["fall_m"])
+    if D >= V["ab_m"] - 1e-9:
+        return True, "einzelabsturz >= %.1f m" % V["ab_m"]
+    vs = d.get("versatz_m")
+    if (D >= V["senkrecht_ab_m"] - 1e-9 and vs is not None and vs <= V["senkrecht_versatz_max_anteil"] * D + 1e-9
+            and d.get("art") in V["felsstufe_arten"] and not d.get("holz")):
+        return True, "senkrechte felslippe (versatz %.2f m <= %.1f x fall)" % (vs, V["senkrecht_versatz_max_anteil"])
+    if D >= V["senkrecht_ab_m"] - 1e-9:
+        return False, "%.1f-%.1f m ohne senkrechte felslippe (versatz %s)" % (
+            V["senkrecht_ab_m"], V["ab_m"], "unbekannt" if vs is None else "%.2f m" % vs)
+    return False, "unter %.1f m (Simulation zeichnet Rinne)" % V["senkrecht_ab_m"]
+
+
+def box_linie(linie, a, b):
+    """Achsparallele Box (cm) der Wasserflaeche (Mittellinie +- halbe Breite) zwischen s = a und b."""
+    m = (linie.s >= a) & (linie.s <= b)
+    w = linie.bei(np.array([a, b], float))
+    x = np.concatenate([linie.x[m], w["x"]])
+    y = np.concatenate([linie.y[m], w["y"]])
+    h = np.maximum(np.concatenate([linie.b[m], w["b"]]), 10.0) / 2.0
+    return [float((x - h).min()), float((y - h).min()), float((x + h).max()), float((y + h).max())]
+
+
+def b_max_von(linie, a, L_max_cm):
+    """Groesstes s (Punkt der Mittellinie), bis zu dem die Box ab a in L_max passt."""
+    w = linie.bei(a)
+    h = max(float(w["b"]), 10.0) / 2.0
+    x0, x1, y0, y1 = float(w["x"]) - h, float(w["x"]) + h, float(w["y"]) - h, float(w["y"]) + h
+    best = a
+    i0 = int(np.searchsorted(linie.s, a, side="right"))
+    for j in range(i0, len(linie.s)):
+        h = max(float(linie.b[j]), 10.0) / 2.0
+        nx0, nx1 = min(x0, linie.x[j] - h), max(x1, linie.x[j] + h)
+        ny0, ny1 = min(y0, linie.y[j] - h), max(y1, linie.y[j] + h)
+        if max(nx1 - nx0, ny1 - ny0) > L_max_cm:
+            return best
+        x0, x1, y0, y1 = nx0, nx1, ny0, ny1
+        best = float(linie.s[j])
+    return float(linie.s[-1])
+
+
+def zelle_fuer(achse_m, ziel_m, S):
+    res = int(math.ceil(achse_m / ziel_m / S["resolution_schritt"] - 1e-9)) * S["resolution_schritt"]
+    res = max(S["resolution_min"], min(S["resolution_max"], res))
+    return res, achse_m / res
+
+
+def swr_typ(linie, abst, extra, regeln):
+    """bach: Abstuerze im Plan oder Median der Breite < fluss_breite_median_ab_m; sonst fluss."""
+    S = regeln["swr"]
+    ds = np.diff(linie.s)
+    bm = 0.5 * (linie.b[1:] + linie.b[:-1]) if len(linie.s) > 1 else linie.b
+    if len(ds) and ds.sum() > 0:
+        o = np.argsort(bm)
+        c = np.cumsum(ds[o])
+        med = float(bm[o][int(np.searchsorted(c, 0.5 * c[-1]))]) / 100.0
+    else:
+        med = float(np.median(linie.b)) / 100.0
+    hat_stufen = any(d["fall_m"] > 0 for d in abst)
+    return ("bach" if (hat_stufen or med < S["fluss_breite_median_ab_m"]) else "fluss"), med
+
+
+def einheiten_bilden(linie, seg, faelle, abst, extra, regeln):
+    """Teilt eine Strecke in moeglichst wenige SWR-Einheiten (Box-Achse <= resolution_max x zelle_max).
+    Rueckgabe Liste {a, b, naht_oben, naht_unten} (naht = {art, s_m, fall})."""
+    S = regeln["swr"]
+    T = S["teilung"]
+    rang = T["rang"]
+    ue = T["ueberlappung_m"] * 100.0
+    L_max = S["resolution_max"] * S["zelle_max_m"] * 100.0 - ue
+    s0, s1 = seg[0]["a"], seg[-1]["b"]
+    fl = {f["id"]: f for f in faelle}
+    kand = []                                          # (s_ende, s_start, rang, art, fall)
+    for i in range(len(seg) - 1):
+        fid = seg[i]["unten"]
+        if fid in fl:
+            f = fl[fid]
+            kand.append((seg[i]["b"], seg[i + 1]["a"], rang["fall_vorhang"] if f.get("vorhang") else rang["fall"], "fall", fid))
+    zs = lambda q: np.interp(q, linie.s, linie.z)      # noqa: E731
+    for bk in extra["becken"]:
+        p, q = bk["s_m"]
+        if q - p < T["becken_min_laenge_m"]:
+            continue
+        m = 0.5 * (p + q)
+        if not any(g["a"] + 2.0 <= m <= g["b"] - 2.0 for g in seg):
+            continue
+        if (zs(m - 2.0) - zs(m + 2.0)) / 400.0 > T["becken_gefaelle_max"]:
+            continue
+        kand.append((m, m, rang["becken"], "becken", None))
+    kand.sort()
+    sperr = [(d["s_lippe"] - T["ruhig_abstand_absturz_m"], d["s_fuss"] + T["ruhig_abstand_absturz_m"]) for d in abst]
+
+    def ruhig(lo, hi):
+        ss = np.arange(math.ceil(lo), math.floor(hi) + 1e-9, 1.0)
+        ss = [x for x in ss if any(g["a"] + 2.0 <= x <= g["b"] - 2.0 for g in seg)
+              and not any(a_ <= x <= b_ for a_, b_ in sperr)]
+        if not ss:
+            return None
+        ss = np.asarray(ss, float)
+        w = T["ruhig_fenster_m"]
+        gef = (zs(np.maximum(ss - w, s0)) - zs(np.minimum(ss + w, s1))) / (2 * w * 100.0)
+        k = min(range(len(ss)), key=lambda i: (round(float(gef[i]), 4), -ss[i]))
+        return float(ss[k])
+
+    out = []
+    a = s0
+    naht_o = {"art": "laufanfang", "s_m": s0, "fall": None}
+    while True:
+        bm = b_max_von(linie, a, L_max)
+        if bm >= s1 - 1e-6:
+            out.append({"a": a, "b": s1, "naht_oben": naht_o, "naht_unten": {"art": "laufende", "s_m": s1, "fall": None}})
+            break
+        wahl = None
+        rest = T["min_einheit_m"]
+        hi = min(bm, s1 - rest)                          # keine Rest-Einheit kuerzer als min_einheit_m
+        for anteil in (T["fenster_anteil"], T["fenster_anteil_notfall"]):
+            lo = a + anteil * (bm - a)
+            c = [k for k in kand if lo <= k[0] <= bm and k[0] > a + 1.0 and s1 - k[1] >= rest - 1e-6]
+            if c:
+                wahl = max(c, key=lambda k: (k[2], k[0]))
+                break
+        if wahl is None:
+            r = ruhig(min(a + T["fenster_anteil"] * (bm - a), hi), hi) if hi > a + 1.0 else None
+            wahl = (r, r, rang["ruhig"], "ruhig", None) if r is not None else (max(hi, a + 1.0), max(hi, a + 1.0), -1, "offen", None)
+        s_e, s_s, _, art, fid = wahl
+        naht = {"art": art, "s_m": s_e, "fall": fid}
+        out.append({"a": a, "b": s_e, "naht_oben": naht_o, "naht_unten": naht})
+        a = s_s
+        naht_o = dict(naht, s_m=s_s)
+    return out
+
+
+def einheit_spline(linie, a, b, ext_o, ext_u, abst, faelle, regeln, roh, unten_fall):
+    """Spline einer SWR-Einheit (ein WaterBodyRiver): Anfang, Ende, Lippen (Vorhang-Faelle zuerst, dann nach
+    Fallhoehe), dazwischen gleichmaessig mit Abstand >= spline_punkt_abstand_min_m (roh: Ziel ..._roh_m)."""
+    S = regeln["swr"]
+    R = regeln["abschnitt"]
+    dmin = S["spline_punkt_abstand_min_m"]
+    dziel = S["spline_punkt_abstand_roh_m"] if roh else dmin
+    A = max(float(linie.s[0]), a - ext_o)
+    B = min(float(linie.s[-1]), b + ext_u)
+    fl = {f["id"]: f for f in faelle}
+    lippen = sorted([d for d in abst if A + 1e-4 < d["s_lippe"] < B - 1e-4],
+                    key=lambda d: (0 if fl.get(d["id"], {}).get("vorhang") else (1 if d["id"] in fl else 2), -d["fall_m"], d["s_lippe"]))
+    anker = {A: "anfang", B: "ende"}
+    for d in lippen:
+        if all(abs(d["s_lippe"] - k) >= dmin - 1e-9 for k in anker):
+            anker[d["s_lippe"]] = "lippe"
+    ks = sorted(anker)
+    ss, typ = [ks[0]], [anker[ks[0]]]
+    for k in ks[1:]:
+        g = k - ss[-1]
+        n = max(1, int(math.floor(g / dziel + 1e-9)))
+        basis = ss[-1]
+        for m in range(1, n):
+            ss.append(basis + g * m / n)
+            typ.append("zwischen")
+        ss.append(k)
+        typ.append(anker[k])
+    ss = np.asarray(ss, float)
+    w = linie.bei(ss)
+    z = []
+    for s_, t in zip(ss, typ):
+        oben = t == "lippe" or (t == "ende" and unten_fall)
+        z.append(linie.z_bei(s_, "oben" if oben else "unten"))
+    z = np.minimum.accumulate(np.asarray(z, float))
+    v = np.clip(w["v"], R["velocity_min_cm_s"], R["velocity_max_cm_s"])
+    pts = [[r1(w["x"][i]), r1(w["y"][i]), r1(z[i]), r1(max(w["b"][i], 10.0)), r1(max(w["t"][i], R["tiefe_min_cm"])), r1(v[i])]
+           for i in range(len(ss))]
+    ptyp = []
+    for i, t in enumerate(typ):
+        nach_lippe = i > 0 and typ[i - 1] == "lippe"
+        ptyp.append("LINEAR" if (t == "lippe" or nach_lippe) else "CURVE_CLAMPED")
+    P = np.array([p[:3] for p in pts])
+    tang = []
+    for i in range(len(pts)):
+        p0 = P[max(i - 1, 0)]
+        p1 = P[min(i + 1, len(pts) - 1)]
+        den = 2.0 if 0 < i < len(pts) - 1 else 1.0
+        t = (p1 - p0) / den
+        dz0 = P[i][2] - P[i - 1][2] if i > 0 else None
+        dz1 = P[i + 1][2] - P[i][2] if i < len(pts) - 1 else None
+        if ptyp[i] == "LINEAR" or (dz0 is not None and abs(dz0) < 0.5) or (dz1 is not None and abs(dz1) < 0.5):
+            t[2] = 0.0
+        else:
+            cand = [abs(x) for x in (dz0, dz1) if x is not None]
+            t[2] = -min(cand) if cand else 0.0
+        tang.append([r1(t[0]), r1(t[1]), r1(t[2])])
+    rollen = []
+    for s_, t in zip(ss, typ):
+        if t == "lippe":
+            rollen.append("lippe")
+            continue
+        k = int(np.clip(np.searchsorted(linie.s, s_), 0, len(linie.s) - 1))
+        kk = [i for i in (k - 1, k) if 0 <= i < len(linie.s)]
+        r_ = [linie.knick[i] for i in kk]
+        rollen.append("becken" if all(x in ("becken", "uebergang", "fuss") for x in r_) else
+                      ("rampe" if "rampe" in r_ else ("gerinne" if "gerinne" in r_ else r_[-1])))
+    return {"s_m": [r1(A, 2), r1(B, 2)], "punkte": pts,
+            "punkte_felder": ["x_cm", "y_cm", "z_cm", "RiverWidth_cm", "Depth_cm", "WaterVelocityScalar_cm_s"],
+            "punkt_typen": ptyp, "tangenten_cm": tang, "punkte_s_m": [r1(x, 2) for x in ss], "punkt_rollen": rollen}
 
 
 def spline_punkte(linie, g, abst, regeln, roh=False):
@@ -765,7 +1026,8 @@ def kollision_fuer(pool, abschnitte_pts, regeln):
             if not np.isfinite(rand_m[i, j]):
                 continue
             lage = "im_wasser" if d[i, j] - rad[i, 0] < halb[i, j] else "ufer"
-            out.append((int(k), segs[j][0], float(rand_m[i, j]), lage, float(d[i, j]), float(halb[i, j])))
+            out.append((int(k), segs[j][0], float(rand_m[i, j]), lage, float(d[i, j]), float(halb[i, j]),
+                        float(zlo[i, 0] - zw_[i, j])))
     out.sort(key=lambda t: pool.ref_text(t[0]))
     return out
 
@@ -884,16 +1146,33 @@ def schaum_fuer_fall(f, linie, becken_ende_s, strahl_m, regeln, randbloecke, ufe
 # Gewaesser -> fluss_sim
 # ======================================================================================================================
 def baue_gewaesser(g, linie, abst, regeln, pool, extra):
-    """g: dict id, art, quelle; abst: Abstuerze; extra: kaskadennetze, effekte, vorhang, strahl, ufer_rand, roh."""
+    """g: dict id, art, quelle; abst: Abstuerze; extra: kaskadennetze, effekte, vorhang, strahl, ufer_rand, roh.
+    Rueckgabe (abschnitte, faelle, wasser_kollision, ohne_wasser_kollision, einheiten)."""
     R = regeln
+    S = R["swr"]
     schw = R["fall_schwelle_m"]
     faelle = [d for d in abst if d["fall_m"] >= schw - 1e-9 and not d["rampe"]]
-    segs = abschnitte_bilden(linie, faelle, R)
+    for f in faelle:
+        f["vorhang"], f["vorhang_grund"] = vorhang_regel(f, R)
+    seg0 = segmente_bilden(linie, faelle, R)
+    einh = einheiten_bilden(linie, seg0, faelle, abst, extra, R)
+    schnitte = [e["naht_unten"]["s_m"] for e in einh[:-1] if e["naht_unten"]["art"] != "fall"]
+    segs = lang_teilen(linie, segmente_schneiden(seg0, schnitte, {f["id"]: f["s_lippe"] for f in faelle}), R)
+    eids = ["%s_E%02d" % (g["id"], k) for k in range(len(einh))]
+
+    def einheit_bei(s_):
+        for k, e in enumerate(einh):
+            if e["a"] - 1e-6 <= s_ <= e["b"] + 1e-6:
+                return k
+        return None
+
     abschnitte = []
     for n, s in enumerate(segs):
         ss, pts, typ, tang, rollen = spline_punkte(linie, s, abst, R, roh=extra.get("roh", False))
         aid = "%s_A%02d" % (g["id"], n)
         s["id"] = aid
+        ke = einheit_bei(0.5 * (s["a"] + s["b"]))
+        s["einheit"] = ke
         bec = []
         for b in extra["becken"]:
             m = 0.5 * (b["s_m"][0] + b["s_m"][1])
@@ -902,7 +1181,7 @@ def baue_gewaesser(g, linie, abst, regeln, pool, extra):
                             "spiegel_cm": [r1(linie.z_bei(b["s_m"][0], "unten")), r1(linie.z_bei(b["s_m"][1], "oben"))],
                             "oben": b["oben"], "unten": b["unten"]})
         abschnitte.append({
-            "id": aid, "s_m": [r1(s["a"], 2), r1(s["b"], 2)], "laenge_m": r1(s["b"] - s["a"], 2),
+            "id": aid, "einheit": eids[ke], "s_m": [r1(s["a"], 2), r1(s["b"], 2)], "laenge_m": r1(s["b"] - s["a"], 2),
             "teil": list(s.get("teil", (1, 1))),
             "punkte": pts, "punkte_felder": ["x_cm", "y_cm", "z_cm", "RiverWidth_cm", "Depth_cm", "WaterVelocityScalar_cm_s"],
             "punkt_typen": typ, "tangenten_cm": tang, "punkte_s_m": [r1(v, 2) for v in ss], "punkt_rollen": rollen,
@@ -910,8 +1189,9 @@ def baue_gewaesser(g, linie, abst, regeln, pool, extra):
                           "spiegel_anfang_cm": pts[0][2], "spiegel_ende_cm": pts[-1][2],
                           "rest_oben": bool(s.get("rest_oben")), "rest_unten": bool(s.get("rest_unten"))},
             "faelle_innen": s["innen"], "becken": bec,
-            "water_body": {"klasse": "WaterBodyRiver", "affects_landscape": False,
-                           "hinweis": "Gelaende kommt aus dem Planer-Delta; Depth nur fuer Water-Info/Simulation"}})
+            "water_body": {"klasse": "WaterBodyRiver", "affects_landscape": False, "nur_rueckfall": True,
+                           "hinweis": "v2: Unterteilung; gebaut wird ein WaterBodyRiver je SWR-Einheit (swr_einheiten[].spline). "
+                                      "WaterBodyRiver je Abschnitt nur, falls eine Spline je Einheit nicht geht"}})
     a_id_je_s = [(a["s_m"][0], a["s_m"][1], a["id"]) for a in abschnitte]
 
     def abschnitt_bei(s_, oben):
@@ -921,19 +1201,28 @@ def baue_gewaesser(g, linie, abst, regeln, pool, extra):
             return None
         return kand[0] if oben else kand[-1]
 
-    # Wasser-Kollision
+    ab_einheit = {a["id"]: a["einheit"] for a in abschnitte}
+    # Wasser-Kollision (ueberspannende Objekte im Wasser: keine Kollision, 16a Entscheidung 5)
     kol = kollision_fuer(pool, [(a["id"], a["punkte"]) for a in abschnitte], R)
-    wk = []
+    wk, ohne = [], []
     randbloecke = []
     kante = R["kollision"]["randblock_kante_m"]
-    for k, aid, rand, lage, d, halb in kol:
+    ue_max = R["kollision"]["ueberspannt_unterkante_max_m"]
+    for k, aid, rand, lage, d, halb, ueber in kol:
         rec = pool.recs[k]
         gro = (pool.hi[k] - pool.lo[k]) / 100.0
-        wk.append({"ref": pool.ref(k), "netz": rec["netz"], "pfad": rec["pfad"], "art": rec["art"],
-                   "pos_cm": [r1(rec["v"][0]), r1(rec["v"][1]), r1(rec["v"][2])],
-                   "groesse_m": [r1(gro[0], 2), r1(gro[1], 2), r1(gro[2], 2)], "lage": lage,
-                   "abstand_rand_m": r1(rand, 2), "abschnitt": aid, "kollision_im_plan": rec["kollision"],
-                   "wasser_kollision": True})
+        e = {"ref": pool.ref(k), "netz": rec["netz"], "pfad": rec["pfad"], "art": rec["art"],
+             "pos_cm": [r1(rec["v"][0]), r1(rec["v"][1]), r1(rec["v"][2])],
+             "groesse_m": [r1(gro[0], 2), r1(gro[1], 2), r1(gro[2], 2)], "lage": lage,
+             "abstand_rand_m": r1(rand, 2), "abschnitt": aid, "einheit": ab_einheit[aid],
+             "unterkante_ueber_spiegel_m": r1(ueber, 2), "kollision_im_plan": rec["kollision"]}
+        if lage == "im_wasser" and ueber > ue_max + 1e-9:
+            e["wasser_kollision"] = False
+            e["grund"] = "ueberspannt"
+            ohne.append(e)
+            continue
+        e["wasser_kollision"] = True
+        wk.append(e)
         if abs(d - halb) <= pool.rad[k] + kante:
             zm = (pool.lo[k, 2] + pool.hi[k, 2]) / 2.0
             s_ = linie.s_projektion(pool.cx[k] * 100, pool.cy[k] * 100, zm, z_tol_cm=150.0)
@@ -960,28 +1249,88 @@ def baue_gewaesser(g, linie, abst, regeln, pool, extra):
             gesch = [d for d in faelle if d["stufe"] == f["stufe"]]
             eff = [e for e in eff if min(gesch, key=lambda d: math.hypot(
                 linie.bei(d["s_fuss"])["x"] - e["pos_cm"][0], linie.bei(d["s_fuss"])["y"] - e["pos_cm"][1]))["id"] == f["id"]]
+        vh = f["vorhang"]
         eintrag = {
             "id": f["id"], "stufe": f["stufe"], "teil": f["teil"], "art": f["art"], "art_regel": f.get("art_regel"),
             "fall_m": r1(f["fall_m"], 2), "s_lippe_m": r1(f["s_lippe"], 2), "s_fuss_m": r1(f["s_fuss"], 2),
             "abschnitt_oben": a_o, "abschnitt_unten": a_u, "im_abschnitt": innen,
+            "einheit_oben": ab_einheit.get(a_o), "einheit_unten": ab_einheit.get(a_u),
             "lippe_cm": [r1(pl["x"]), r1(pl["y"]), r1(f["z_oben"])], "fuss_cm": [r1(pf_["x"]), r1(pf_["y"]), r1(f["z_unten"])],
             "lippe_breite_m": r1(float(pl["b"]) / 100.0, 2),
+            "versatz_m": None if f.get("versatz_m") is None else r1(f["versatz_m"], 2), "holzstufe": bool(f.get("holz")),
+            "vorhang": vh, "vorhang_grund": f["vorhang_grund"],
             "strahl_breite_m": strahl.get("strahl_breite_m") if strahl else None,
             "strahl_quelle": strahl.get("quelle") if strahl else None,
-            "kaskadennetz": {"id": kn_id, "bereich_s_m": [r1(f["s_lippe"] - KN["vor_lippe_m"], 2), r1(f["s_fuss"] + KN["nach_fuss_m"], 2)],
-                             "vorhang": f["stufe"] in extra["vorhang"]},
+            "kaskadennetz": {"id": kn_id,
+                             "bereich_s_m": [r1(f["s_lippe"] - KN["vor_lippe_m"], 2), r1(f["s_fuss"] + KN["nach_fuss_m"], 2)] if vh else None,
+                             "vorhang": vh, "vorhang_planer": f["stufe"] in extra["vorhang"]},
             "effekte": [{"quelle": e["_quelle"], "index": e["_index"], "asset": e.get("asset"), "rolle": e.get("rolle"),
                          "cull_m": e.get("cull_m"), "pos_cm": e.get("pos_cm")} for e in eff],
             "gischt": f["fall_m"] >= R["schaum"]["gischt_ab_m"],
+            "schaum": "objekte" if vh else "simulation",
             "schaum_objekte": schaum_fuer_fall(f, linie, becken_ende, (strahl or {}).get("strahl_breite_m"), R,
-                                               randbloecke, extra.get("ufer_rand"))}
+                                               randbloecke, extra.get("ufer_rand")) if vh else []}
         if eintrag["gischt"]:
             eintrag["gischt_hinweis"] = "Gischt = vorhandene Nature-Water-FX-Effekte dieser Stufe (cull_m aus 13k), kein neues Objekt"
         fl.append(eintrag)
-    return abschnitte, fl, wk
+    # SWR-Einheiten
+    typ, med = swr_typ(linie, abst, extra, R)
+    ziel = S["zelle_ziel_bach_m"] if typ == "bach" else S["zelle_ziel_fluss_m"]
+    ue = S["teilung"]["ueberlappung_m"] / 2.0
+    roh = extra.get("roh", False)
+    rand = S["rand_m"] * 100.0
+    einheiten = []
+    n_e = len(einh)
+    for k, e in enumerate(einh):
+        eid = eids[k]
+        offen = ("becken", "ruhig", "offen")
+        ext_o = ue if e["naht_oben"]["art"] in offen else 0.0
+        ext_u = ue if e["naht_unten"]["art"] in offen else 0.0
+        sp = einheit_spline(linie, e["a"], e["b"], ext_o, ext_u, abst, faelle, R, roh, e["naht_unten"]["art"] == "fall")
+        P = np.asarray(sp["punkte"], float)
+        h = P[:, 3] / 2.0
+        box = [float((P[:, 0] - h).min()), float((P[:, 1] - h).min()), float((P[:, 0] + h).max()), float((P[:, 1] + h).max())]
+        lx, ly = (box[2] - box[0]) / 100.0, (box[3] - box[1]) / 100.0
+        achse = max(lx, ly)
+        res, zelle = zelle_fuer(achse, ziel, S)
+        kurz = int(math.ceil(res * min(lx, ly) / max(achse, 1e-6) - 1e-9))
+        raster = [res, kurz] if lx >= ly else [kurz, res]
+        wbr, swr, wh = "WBR_" + eid, "SWR_" + eid, "WH_" + eid
+
+        def naht(nh, seite):
+            d = {"art": nh["art"], "s_m": r1(nh["s_m"], 2), "fall": nh["fall"],
+                 "ueberlappung_m": r1(2 * ue, 2) if nh["art"] in offen else 0.0}
+            if nh["art"] == "fall":
+                d["verkettung"] = ("Senke = eigener River, Spline endet an der Lippe" if seite == "unten"
+                                   else "Quelle = eigener River, Spline beginnt am Fuss")
+            elif nh["art"] in offen:
+                d["verkettung"] = "Splines ueberlappen %.1f m in ruhigem Wasser (gleicher Spiegel), oberer River hat Vorrang" % (2 * ue)
+            return d
+
+        abs_ids = [a["id"] for a in abschnitte if a["einheit"] == eid]
+        einheiten.append({
+            "id": eid, "s_m": [r1(e["a"], 2), r1(e["b"], 2)], "laenge_m": r1(e["b"] - e["a"], 2),
+            "abschnitte": abs_ids, "faelle_innen": [f["id"] for f in faelle if e["a"] + 1e-6 < f["s_lippe"] < e["b"] - 1e-6],
+            "naht_oben": naht(e["naht_oben"], "oben"), "naht_unten": naht(e["naht_unten"], "unten"),
+            "vorgaenger": [eids[k - 1]] if k > 0 else [], "nachfolger": [eids[k + 1]] if k < n_e - 1 else [],
+            "back_reihenfolge": k,
+            "water_body": {"id": wbr, "klasse": "WaterBodyRiver", "affects_landscape": False,
+                           "overlap_material_priority": n_e - k, "spline": sp},
+            "swr": {"id": swr, "klasse": "ShallowWaterRiver", "typ": typ, "breite_median_m": r1(med, 2),
+                    "zelle_ziel_m": ziel, "achse_m": r1(achse, 2), "box_m": [r1(lx, 2), r1(ly, 2)],
+                    "resolution_max_axis": res, "zelle_m": r1(zelle, 3), "raster_erwartet": raster,
+                    "source_river_water_bodies": [wbr], "sink_river_water_bodies": [wbr],
+                    "bottom_contour_tags": [S["hindernis_tag"]], "bottom_contour_actors": [],
+                    "bottom_contour_landscape_actors": "lokal", "use_capture": True, "match_spline": True,
+                    "render_state": dict(S["render_state"]),
+                    "material": {"water_body": S["material_spiel"], "baked_sim_material": S["material_spiel"]}},
+            "bereich_cm": [r1(box[0] - rand), r1(box[1] - rand), r1(box[2] + rand), r1(box[3] + rand)],
+            "hindernis_akteur": None})
+    return abschnitte, fl, wk, ohne, einheiten
 
 
-def kacheln_bilden(gid, abschnitte, faelle, regeln):
+def kacheln_bilden(gid, abschnitte, faelle, regeln, n0=0, einheit=None, laufanfang=True, laufende=True):
+    """Kacheln (<= 128 m) als Unterteilung einer SWR-Einheit; Nummern ab n0 (gewaesserweit eindeutig)."""
     K = regeln["kacheln"]
     out = []
     cur = None
@@ -1012,11 +1361,14 @@ def kacheln_bilden(gid, abschnitte, faelle, regeln):
         erst, letzt = ab[c["abschnitte"][0]], ab[c["abschnitte"][-1]]
         go = erst["anschluss"]["oben_fall"]
         gu = letzt["anschluss"]["unten_fall"]
-        res.append({"id": "%s_K%02d" % (gid, n), "bereich_cm": bx, "abschnitte": c["abschnitte"],
-                    "source_river": c["abschnitte"][0], "sink_river": c["abschnitte"][-1],
-                    "grenze_oben": "fall" if go in fall_ids else ("laufanfang" if n == 0 else "offen"),
-                    "grenze_unten": "fall" if gu in fall_ids else ("laufende" if n == len(out) - 1 else "offen"),
-                    "groesse_m": [r1((bx[2] - bx[0]) / 100.0, 1), r1((bx[3] - bx[1]) / 100.0, 1)]})
+        e = {"id": "%s_K%02d" % (gid, n0 + n), "bereich_cm": bx, "abschnitte": c["abschnitte"],
+             "source_river": c["abschnitte"][0], "sink_river": c["abschnitte"][-1],
+             "grenze_oben": "fall" if go in fall_ids else ("laufanfang" if (n == 0 and laufanfang) else "offen"),
+             "grenze_unten": "fall" if gu in fall_ids else ("laufende" if (n == len(out) - 1 and laufende) else "offen"),
+             "groesse_m": [r1((bx[2] - bx[0]) / 100.0, 1), r1((bx[3] - bx[1]) / 100.0, 1)]}
+        if einheit is not None:
+            e = dict({"id": e["id"], "einheit": einheit, "rolle": "unterteilung"}, **{k: v for k, v in e.items() if k != "id"})
+        res.append(e)
     return res
 
 
@@ -1209,57 +1561,128 @@ def main(argv=None):
     # je Gewaesser bauen
     dateien = {}
     for kat, rel, g, linie, abst, extra in gewaesser:
-        abschnitte, faelle, wk = baue_gewaesser(g, linie, abst, regeln, pool, extra)
-        kach = kacheln_bilden(g["id"], abschnitte, faelle, regeln)
+        abschnitte, faelle, wk, ohne, einheiten = baue_gewaesser(g, linie, abst, regeln, pool, extra)
+        kach = []
+        n_ab = len(abschnitte)
+        for ei in einheiten:
+            ab_e = [x for x in abschnitte if x["einheit"] == ei["id"]]
+            erst = abschnitte.index(ab_e[0]) == 0
+            letzt = abschnitte.index(ab_e[-1]) == n_ab - 1
+            kk = kacheln_bilden(g["id"], ab_e, faelle, regeln, n0=len(kach), einheit=ei["id"], laufanfang=erst, laufende=letzt)
+            ei["kacheln"] = [k_["id"] for k_ in kk]
+            kach += kk
         eintrag = {"id": g["id"], "kategorie": kat, "art": g["art"], "quelle": g["quelle"], "laenge_m": r1(linie.s[-1] - linie.s[0], 2),
                    "abstuerze": [{"id": d["id"], "s_lippe_m": r1(d["s_lippe"], 2), "s_fuss_m": r1(d["s_fuss"], 2),
                                   "fall_m": r1(d["fall_m"], 2), "rampe": d["rampe"]} for d in abst],
-                   "abschnitte": abschnitte, "faelle": faelle, "wasser_kollision": wk, "sim_bereiche": kach,
+                   "swr_einheiten": einheiten,
+                   "abschnitte": abschnitte, "faelle": faelle, "wasser_kollision": wk, "ohne_wasser_kollision": ohne,
+                   "sim_bereiche": kach,
                    "effekte_ohne_fall": sorted({e["_quelle"] + "[%d]" % e["_index"] for e in extra["effekte"]}
                                                - {x["quelle"] + "[%d]" % x["index"] for f in faelle for x in f["effekte"]})}
         for key in ("strecken", "lauf_art", "bach"):
             if g.get(key) is not None:
                 eintrag[key] = g[key]
         dateien.setdefault(rel, []).append(eintrag)
-    # Fingerabdruecke je Kachel
+    # Wasser-Kollision global: jedes Objekt genau einem Hindernis-Akteur WH_<einheit> zuordnen (naechste Einheit)
     fpr = regeln["fingerabdruck"]
     kol_global = {}
-    for rel, liste in dateien.items():
-        for e in liste:
+    kand_einheit = {}
+    for rel in sorted(dateien):
+        for e in dateien[rel]:
             for o in e["wasser_kollision"]:
                 key = json.dumps(o["ref"], sort_keys=True)
                 kol_global[key] = o
+                kand_einheit.setdefault(key, []).append((o["abstand_rand_m"], o["einheit"]))
+    zuordnung = {k_: min(v)[1] for k_, v in kand_einheit.items()}
     kol_keys = sorted(kol_global)
     ref_index = {}
     for k, r in enumerate(pool.recs):
         ref_index[json.dumps(pool.ref(k), sort_keys=True)] = k
     kol_k = np.array([ref_index[k_] for k_ in kol_keys], int) if kol_keys else np.zeros(0, int)
+    je_einheit = {}
+    for key in kol_keys:
+        je_einheit.setdefault(zuordnung[key], []).append(key)
+    alle_einheiten = {}
+    for rel in sorted(dateien):
+        for e in dateien[rel]:
+            for o in e["wasser_kollision"]:
+                o["hindernis_akteur"] = "WH_" + zuordnung[json.dumps(o["ref"], sort_keys=True)]
+            for ei in e["swr_einheiten"]:
+                alle_einheiten[ei["id"]] = ei
+    S = regeln["swr"]
+    for eid in sorted(je_einheit):
+        ei = alle_einheiten[eid]
+        b_ = ei["bereich_cm"]
+        komp = {}
+        akt = []
+        for key in je_einheit[eid]:
+            k = ref_index[key]
+            rec = pool.recs[k]
+            v = rec["v"]
+            q = quat_kanonisch(v[3:7])
+            inst = {"ref": pool.ref(k), "pos_cm": [r1(v[0]), r1(v[1]), r1(v[2])],
+                    "quat_xyzw": [round(float(x), 6) for x in q], "skala": [round(float(x), 4) for x in v[7:10]],
+                    "lage": kol_global[key]["lage"]}
+            if rec.get("liste") == "akteure":
+                akt.append(inst)
+            else:
+                komp.setdefault(rec["pfad"], []).append(inst)
+        ei["hindernis_akteur"] = {
+            "id": "WH_" + eid, "klasse": "Actor", "label": "WH_" + eid,
+            "tags": [S["hindernis_tag"], "SWR_E_" + eid],
+            "ursprung_cm": [r1(0.5 * (b_[0] + b_[2])), r1(0.5 * (b_[1] + b_[3])), 0.0],
+            "komponenten": [{"netz": pf, "klasse": "HISM", "nanite": None, "kollision": "wie_quelle", "instanzen": komp[pf]}
+                            for pf in sorted(komp)],
+            "akteure_mit_tag": akt,
+            "n_instanzen": sum(len(v_) for v_ in komp.values()), "n_komponenten": len(komp), "n_akteure_mit_tag": len(akt),
+            "umzug": "verschieben"}
+    # Fingerabdruecke je SWR-Einheit (Back-Einheit) und je Kachel (Unterteilung, Ortung von Aenderungen)
+    def fp_bereich(bx, splines):
+        x0, y0, rcm, H = gel.raster(bx)
+        gt = fp_gelaende_text(x0, y0, rcm, H, fpr["hoehe_quant_cm"])
+        st = fp_splines_text(splines, fpr["spline_quant_cm"])
+        objs, whs = [], set()
+        if len(kol_k):
+            lo, hi = pool.lo[kol_k], pool.hi[kol_k]
+            sel = (hi[:, 0] >= bx[0]) & (lo[:, 0] <= bx[2]) & (hi[:, 1] >= bx[1]) & (lo[:, 1] <= bx[3])
+            for i in np.where(sel)[0]:
+                k = kol_k[i]
+                v = pool.recs[k]["v"]
+                objs.append([pool.recs[k]["pfad"]] + [float(x) for x in v[:10]])
+                whs.add("WH_" + zuordnung[kol_keys[i]])
+        ot = fp_objekte_text(objs, fpr["pos_quant_cm"], fpr["quat_quant"], fpr["skala_quant"])
+        ges, teile = fingerabdruck(gt, st, ot, fpr["version"])
+        return ges, teile, int(H.size), r1(rcm, 1), len(objs), sorted(whs)
+
     back = []
     for rel in sorted(dateien):
         for e in dateien[rel]:
             ab = {a_["id"]: a_ for a_ in e["abschnitte"]}
             for kc in e["sim_bereiche"]:
-                bx = kc["bereich_cm"]
-                x0, y0, rcm, H = gel.raster(bx)
-                gt = fp_gelaende_text(x0, y0, rcm, H, fpr["hoehe_quant_cm"])
-                st = fp_splines_text([(i, ab[i]["punkte"]) for i in kc["abschnitte"]], fpr["spline_quant_cm"])
-                objs = []
-                if len(kol_k):
-                    lo, hi = pool.lo[kol_k], pool.hi[kol_k]
-                    sel = (hi[:, 0] >= bx[0]) & (lo[:, 0] <= bx[2]) & (hi[:, 1] >= bx[1]) & (lo[:, 1] <= bx[3])
-                    for k in kol_k[sel]:
-                        v = pool.recs[k]["v"]
-                        objs.append([pool.recs[k]["pfad"]] + [float(x) for x in v[:10]])
-                ot = fp_objekte_text(objs, fpr["pos_quant_cm"], fpr["quat_quant"], fpr["skala_quant"])
-                ges, teile = fingerabdruck(gt, st, ot, fpr["version"])
+                ges, teile, nh, rcm, no, _ = fp_bereich(kc["bereich_cm"], [(i, ab[i]["punkte"]) for i in kc["abschnitte"]])
                 kc["fingerabdruck"] = ges
                 kc["fingerabdruck_teile"] = teile
-                kc["n_hoehen"] = int(H.size)
-                kc["raster_cm"] = r1(rcm, 1)
-                kc["n_objekte"] = len(objs)
-                back.append({"kachel": kc["id"], "gewaesser": e["id"], "datei": rel.replace(os.sep, "/"), "bereich_cm": bx,
-                             "abschnitte": kc["abschnitte"], "grenze_oben": kc["grenze_oben"], "grenze_unten": kc["grenze_unten"],
-                             "fingerabdruck": ges, "teile": teile, "n_hoehen": int(H.size), "n_objekte": len(objs)})
+                kc["n_hoehen"] = nh
+                kc["raster_cm"] = rcm
+                kc["n_objekte"] = no
+            for ei in e["swr_einheiten"]:
+                wb = ei["water_body"]
+                ges, teile, nh, rcm, no, whs = fp_bereich(ei["bereich_cm"], [(wb["id"], wb["spline"]["punkte"])])
+                ei["fingerabdruck"] = ges
+                ei["fingerabdruck_teile"] = teile
+                ei["n_hoehen"] = nh
+                ei["raster_cm"] = rcm
+                ei["n_objekte"] = no
+                ei["swr"]["bottom_contour_actors"] = whs
+                sw = ei["swr"]
+                back.append({"einheit": ei["id"], "gewaesser": e["id"], "datei": rel.replace(os.sep, "/"),
+                             "swr": sw["id"], "water_body_river": wb["id"],
+                             "hindernis_akteur": ei["hindernis_akteur"]["id"] if ei["hindernis_akteur"] else None,
+                             "bereich_cm": ei["bereich_cm"], "s_m": ei["s_m"], "abschnitte": ei["abschnitte"],
+                             "kacheln": ei["kacheln"], "naht_oben": ei["naht_oben"]["art"], "naht_unten": ei["naht_unten"]["art"],
+                             "vorgaenger": ei["vorgaenger"], "nachfolger": ei["nachfolger"],
+                             "back_reihenfolge": ei["back_reihenfolge"], "resolution_max_axis": sw["resolution_max_axis"],
+                             "zelle_m": sw["zelle_m"], "fingerabdruck": ges, "teile": teile, "n_hoehen": nh, "n_objekte": no})
     # schreiben
     zus = {"kategorien": {}, "summe": {}}
     for rel in sorted(dateien):
@@ -1269,46 +1692,89 @@ def main(argv=None):
         schreibe_json(os.path.join(a.aus, rel), d)
         for e in liste:
             z = zus["kategorien"].setdefault(e["kategorie"], {"dateien": set(), "gewaesser": 0, "abschnitte": 0, "faelle": 0,
-                                                             "kollision": 0, "kollision_im_wasser": 0, "schaum": {},
-                                                             "kacheln": 0, "laenge_m": 0.0, "abschnitte_innen_faelle": 0,
-                                                             "abschnitte_kurz_m": []})
+                                                             "faelle_vorhang": 0,
+                                                             "kollision": 0, "kollision_im_wasser": 0, "ueberspannt": 0,
+                                                             "schaum": {}, "kacheln": 0, "laenge_m": 0.0,
+                                                             "abschnitte_innen_faelle": 0, "swr_einheiten": 0,
+                                                             "geteilte_strecken": 0})
             z["dateien"].add(rel)
             z["gewaesser"] += 1
             z["abschnitte"] += len(e["abschnitte"])
             z["faelle"] += len(e["faelle"])
+            z["faelle_vorhang"] += sum(1 for f in e["faelle"] if f["vorhang"])
             z["kollision"] += len(e["wasser_kollision"])
             z["kollision_im_wasser"] += sum(1 for o in e["wasser_kollision"] if o["lage"] == "im_wasser")
+            z["ueberspannt"] += len(e["ohne_wasser_kollision"])
             z["kacheln"] += len(e["sim_bereiche"])
             z["laenge_m"] += e["laenge_m"]
             z["abschnitte_innen_faelle"] += sum(len(a_["faelle_innen"]) for a_ in e["abschnitte"])
+            z["swr_einheiten"] += len(e["swr_einheiten"])
+            z["geteilte_strecken"] += 1 if len(e["swr_einheiten"]) > 1 else 0
             for f in e["faelle"]:
-                for s in f["schaum_objekte"]:
-                    z["schaum"][s["art"]] = z["schaum"].get(s["art"], 0) + 1
-    ges = {"gewaesser": 0, "abschnitte": 0, "faelle": 0, "kollision": 0, "kollision_im_wasser": 0, "kacheln": 0, "laenge_m": 0.0,
-           "schaum": {}, "dateien": 0, "abschnitte_innen_faelle": 0}
+                for s_ in f["schaum_objekte"]:
+                    z["schaum"][s_["art"]] = z["schaum"].get(s_["art"], 0) + 1
+    ges = {"gewaesser": 0, "abschnitte": 0, "faelle": 0, "faelle_vorhang": 0, "kollision": 0, "kollision_im_wasser": 0,
+           "ueberspannt": 0, "kacheln": 0, "laenge_m": 0.0, "schaum": {}, "dateien": 0, "abschnitte_innen_faelle": 0,
+           "swr_einheiten": 0, "geteilte_strecken": 0}
     for k, z in zus["kategorien"].items():
         z["dateien"] = len(z["dateien"])
         z["laenge_m"] = r1(z["laenge_m"], 1)
-        del z["abschnitte_kurz_m"]
-        for key in ("gewaesser", "abschnitte", "faelle", "kollision", "kollision_im_wasser", "kacheln", "dateien",
-                    "abschnitte_innen_faelle"):
+        z["schaum"] = {s_: z["schaum"][s_] for s_ in sorted(z["schaum"])}
+        for key in ("gewaesser", "abschnitte", "faelle", "faelle_vorhang", "kollision", "kollision_im_wasser", "ueberspannt",
+                    "kacheln", "dateien", "abschnitte_innen_faelle", "swr_einheiten", "geteilte_strecken"):
             ges[key] += z[key]
         ges["laenge_m"] = r1(ges["laenge_m"] + z["laenge_m"], 1)
-        for s, n in z["schaum"].items():
-            ges["schaum"][s] = ges["schaum"].get(s, 0) + n
+        for s_, n in z["schaum"].items():
+            ges["schaum"][s_] = ges["schaum"].get(s_, 0) + n
+    ges["schaum"] = {s_: ges["schaum"][s_] for s_ in sorted(ges["schaum"])}
     zus["summe"] = ges
+    # SWR-Einheiten: Zellen, Aufloesung, Naehte, Hindernis-Akteure
+    eis = [ei for rel in sorted(dateien) for e in dateien[rel] for ei in e["swr_einheiten"]]
+    stufen = [0.30, 0.35, 0.40, 0.45, 0.50]
+    zv = {}
+    for ei in eis:
+        z_ = ei["swr"]["zelle_m"]
+        lab = next(("<= %.2f" % x for x in stufen if z_ <= x + 1e-9), "> 0.50")
+        zv.setdefault(ei["swr"]["typ"], {}).setdefault(lab, 0)
+        zv[ei["swr"]["typ"]][lab] += 1
+    rv = {}
+    for ei in eis:
+        rv[str(ei["swr"]["resolution_max_axis"])] = rv.get(str(ei["swr"]["resolution_max_axis"]), 0) + 1
+    nv = {}
+    for ei in eis:
+        if ei["naht_unten"]["art"] not in ("laufende",):
+            nv[ei["naht_unten"]["art"]] = nv.get(ei["naht_unten"]["art"], 0) + 1
+    zellen = np.array([ei["swr"]["zelle_m"] for ei in eis]) if eis else np.zeros(1)
+    whs = [ei["hindernis_akteur"] for ei in eis if ei["hindernis_akteur"]]
+    geteilt = sorted({e["id"]: len(e["swr_einheiten"]) for rel in dateien for e in dateien[rel] if len(e["swr_einheiten"]) > 1}.items())
+    zus["swr_einheiten"] = {
+        "anzahl": len(eis), "typ": {t: sum(1 for ei in eis if ei["swr"]["typ"] == t) for t in ("bach", "fluss")},
+        "zelle_m": {"min": r1(zellen.min(), 3), "median": r1(np.median(zellen), 3), "max": r1(zellen.max(), 3),
+                    "verteilung": {t: {k_: zv[t][k_] for k_ in sorted(zv[t])} for t in sorted(zv)}},
+        "resolution_max_axis": {k_: rv[k_] for k_ in sorted(rv, key=int)},
+        "bach_ueber_zielband": sum(1 for ei in eis if ei["swr"]["typ"] == "bach" and ei["swr"]["zelle_m"] > S["zelle_bach_hinweis_ab_m"] + 1e-9),
+        "naehte": {k_: nv[k_] for k_ in sorted(nv)},
+        "geteilte_strecken": len(geteilt), "einheiten_in_geteilten": sum(n for _, n in geteilt),
+        "groesste_teilung": [list(x) for x in sorted(geteilt, key=lambda t: (-t[1], t[0]))[:10]],
+        "hindernis_akteure": len(whs), "hindernis_instanzen": sum(w["n_instanzen"] for w in whs),
+        "hindernis_akteure_mit_tag": sum(w["n_akteure_mit_tag"] for w in whs),
+        "hindernis_komponenten": sum(w["n_komponenten"] for w in whs),
+        "einheiten_ohne_hindernis": len(eis) - len(whs)}
     zus["kollision_objekte_eindeutig"] = len(kol_global)
     zus["objekt_pool"] = {"objekte": len(pool.recs), "fest_und_gross": int(pool.fest.sum())}
     zus["fluesse_ab_15m"] = fluss_ids
     zus["laeufe_161_ohne_plan"] = ohne_plan
     zus["daten"] = "1m" if a.daten1m else "2m (Cloud-Test)"
+    zus["format"] = FORMAT_VERSION
     zus["kategorien"] = {k: zus["kategorien"][k] for k in sorted(zus["kategorien"])}
     schreibe_json(os.path.join(a.aus, "zusammenfassung.json"), zus)
     schreibe_json(os.path.join(a.aus, "back_liste.json"),
-                  {"format": "back_liste_v1", "fingerabdruck": dict(fpr, formel="siehe README fluss_sim, Abschnitt Fingerabdruck"),
-                   "kacheln": back})
-    log("geschrieben: %d Dateien, %d Gewaesser, %d Abschnitte, %d Faelle, %d Kollisionsobjekte (%d eindeutig), %d Kacheln"
-        % (len(dateien), ges["gewaesser"], ges["abschnitte"], ges["faelle"], ges["kollision"], len(kol_global), ges["kacheln"]))
+                  {"format": BACK_FORMAT, "fingerabdruck": dict(fpr, formel="siehe README fluss_sim, Abschnitt Fingerabdruck"),
+                   "einheit": "SWR-Einheit (Strecke); Kacheln nur Unterteilung", "einheiten": back})
+    log("geschrieben: %d Dateien, %d Gewaesser, %d SWR-Einheiten (%d Strecken geteilt), %d Abschnitte, %d Faelle (%d mit Vorhang), "
+        "%d Kollisionsobjekte (%d eindeutig, %d ueberspannt), %d Hindernis-Akteure, %d Kacheln"
+        % (len(dateien), ges["gewaesser"], len(eis), len(geteilt), ges["abschnitte"], ges["faelle"], ges["faelle_vorhang"],
+           ges["kollision"], len(kol_global), ges["ueberspannt"], len(whs), ges["kacheln"]))
     return 0
 
 

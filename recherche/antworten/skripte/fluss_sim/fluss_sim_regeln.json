@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "stand": "2026-10-12",
-  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken",
+  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten",
   "fall_schwelle_m": 1.0,
   "fall_schwelle_hinweis": "Einzelabsturz (Stufe ohne Teilstufen bzw. jede Teilstufe einer Kaskade) >= Schwelle und keine Rampe/Schnelle = Fall. Wert wird im Einrichtungstest geprueft (Datei 16).",
   "abschnitt": {
@@ -34,7 +34,9 @@
     "holz_muster": "(log|trunk|stamm|stump|root|driftwood|treibholz|branch_big|deadtree|dead_tree|fallen)",
     "pflanze_muster": "(fern|grass|gras|flower|leaf|leaves|moss_|mossclump|moss_clump|bush|shrub|plant|clover|reed|schilf|lily|lilie|ivy|vine|liane|mushroom|pilz|decal|debris_small|needle)",
     "randblock_kante_m": 0.5,
-    "hinweis": "Fest = Kollision im Plan, Fels-/Klippennetz (sehens_lib.steilwand.ist_fels) oder Holz; Pflanzen nie. Kleiner als min_ausdehnung_m bzw. min_hoehe_m (Kies, Steinpackungen) bleibt ohne Wasser-Kollision."
+    "hinweis": "Fest = Kollision im Plan, Fels-/Klippennetz (sehens_lib.steilwand.ist_fels) oder Holz; Pflanzen nie. Kleiner als min_ausdehnung_m bzw. min_hoehe_m (Kies, Steinpackungen) bleibt ohne Wasser-Kollision.",
+    "ueberspannt_unterkante_max_m": 0.1,
+    "ueberspannt_hinweis": "16a Entscheidung 5: lage im_wasser und Unterkante > Spiegel + 0,1 m (Stamm als Bruecke, ueberhaengender Fels) -> keine Wasser-Kollision (die Bodenerfassung von oben machte daraus einen Damm), Eintrag in ohne_wasser_kollision"
   },
   "schaum": {
     "aufprall_faktor": [0.5, 1.0],
@@ -51,12 +53,13 @@
     "bucht_einzug_min_m": 0.4,
     "material_kandidaten": ["/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Schaum", "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum"],
     "material_hinweis": "Nur Kandidaten aus inventar_extra.json; die Wahl der Netze/Decals trifft das lokale Bau-Werkzeug.",
-    "gischt_ab_m": 3.0
+    "gischt_ab_m": 3.0,
+    "nur_an_vorhang": true
   },
   "kacheln": {
     "groesse_m": 128.0,
     "rand_m": 8.0,
-    "hinweis": "Back-Kachel = ein ShallowWaterRiver mit aufeinanderfolgenden Abschnitten eines Gewaessers, Ausdehnung (Bounding-Box inkl. halber Breite) <= groesse_m; Grenzen bevorzugt an Faellen."
+    "hinweis": "v2: Kacheln sind nur noch Unterteilung einer SWR-Einheit (Akteur-Grenze 13k je Kachel, Teil-Fingerabdruck zur Ortung von Aenderungen). Gebacken wird je Einheit."
   },
   "fingerabdruck": {
     "version": "FLUSS_SIM_FP1",
@@ -68,5 +71,53 @@
   },
   "fluesse": {
     "breite_min_m": 15.0
+  },
+  "vorhang": {
+    "ab_m": 3.0,
+    "senkrecht_ab_m": 2.0,
+    "senkrecht_versatz_max_anteil": 0.3,
+    "felsstufe_arten": ["fall"],
+    "begruendung": "Die 2D-Simulation (eine Hoehe je Zelle) zeichnet einen Absturz als Rinne ueber 1-2 Zellen (0,35-0,5 m). Bis ~2 m liegt diese Rinne im Schaumband der Lippe und liest sich als Wildwasser (16b: C2-Faelle als steile Rinnen natuerlich). Ab 3 m (Planer vorhang_ab_m, 14b) oder an einer senkrechten Felslippe ab 2 m (Versatz Lippe->Fuss <= 0,3 x Fallhoehe, also >= 73 Grad, Art fall, kein Holz) entstuende eine sichtbare 'Glaswand' ohne freien Strahl: dort Vorhang (Kaskadennetz) + Schaumobjekte. Kaskaden-Teilstufen und Schnellen nie."
+  },
+  "swr": {
+    "einheit": "Strecke: ein ShallowWaterRiver + ein WaterBodyRiver je Gewaesser (Lauf, Sehens-Bach, Fluss), solange die laengste Achse der Begrenzungsbox bei resolution_max eine Zelle <= zelle_max_m ergibt",
+    "zelle_ziel_bach_m": 0.35,
+    "zelle_ziel_fluss_m": 0.5,
+    "zelle_max_m": 0.5,
+    "zelle_bach_hinweis_ab_m": 0.4,
+    "fluss_breite_median_ab_m": 15.0,
+    "typ_hinweis": "bach = Gewaesser mit Abstuerzen aus dem Plan oder mittlere Breite (Median) < 15 m; sonst fluss",
+    "resolution_max": 512,
+    "resolution_min": 32,
+    "resolution_schritt": 32,
+    "rand_m": 8.0,
+    "rand_hinweis": "Bereich fuer Bodenerfassung, Fingerabdruck und Nachbar-Hindernisse = Box der Spline + rand_m; die Zelle rechnet mit der Box ohne Rand",
+    "spline_punkt_abstand_min_m": 2.0,
+    "spline_punkt_abstand_roh_m": 5.0,
+    "teilung": {
+      "fenster_anteil": 0.5,
+      "fenster_anteil_notfall": 0.1,
+      "rang": {
+        "fall_vorhang": 3,
+        "fall": 2,
+        "becken": 1,
+        "ruhig": 0
+      },
+      "becken_min_laenge_m": 8.0,
+      "becken_gefaelle_max": 0.03,
+      "ruhig_fenster_m": 5.0,
+      "ruhig_abstand_absturz_m": 1.0,
+      "ueberlappung_m": 4.0,
+      "min_einheit_m": 30.0,
+      "hinweis": "Laengere Strecken werden gierig von oben geteilt: Teilstelle im hinteren Teil (fenster_anteil) des noch passenden Bereichs, bester Rang zuerst, bei Gleichstand die talwaerts letzte (Becken, Faelle) bzw. die flachste (ruhig). An Faellen Source/Sink-Verkettung ohne Ueberlappung (oben endet die Spline an der Lippe, unten beginnt sie am Fuss), in Becken/ruhigen Stellen ueberlappen die Splines um ueberlappung_m (je Seite die Haelfte)."
+    },
+    "hindernis_tag": "SWR_Hindernis",
+    "render_state": {
+      "backen": "LIVE_SIM",
+      "spiel": "WATER_COMPONENT_WITH_BAKED_SIM",
+      "ersatz": "BAKED_SIM"
+    },
+    "material_spiel": "MI_EL_SWR_Klar",
+    "material_hinweis": "16b Nachtrag 16:30: Kind von MI_Eldarien_Wasser_Fluss, Water-Body-Material und baked_sim_material"
   }
 }
