@@ -211,7 +211,8 @@ Die Parameter stehen in `gefaelle_regeln.json`, Abschnitt `stufen.unregelmaessig
 - `mittellinie_s_m`: Laufkoordinate je Punkt.
 - `knick` hat zusätzlich den Wert `uebergang`: Querschnitte alle 0,25 m um jede Lippe, damit der schräge Absturz
   aufgelöst ist.
-- `quer` (je Punkt `quer_punkte` = 11 Stützpunkte, Index 0 = rechts, Lage
+- `quer` (je Punkt `quer_punkte` Stützpunkte, seit 15g mindestens 21 und Querabstand ≤ 1 m, also je Netz
+  N = max(21; ⌈(Breite_max + 0,8 m)/1 m⌉ + 1), ungerade; Index 0 = rechts, Lage
   u = (−1 + 2 j/(N − 1)) × (breite/2 + rand_ueberstand_m)) mit den Feldern:
   - `dz_cm`: Wasserhöhe gegen `z_cm`.
   - `deckung` 0–1: In der Kerbe ist die Zunge deckend, daneben 0,15–0,35, sodass Fels durchscheint.
@@ -227,6 +228,56 @@ Die Parameter stehen in `gefaelle_regeln.json`, Abschnitt `stufen.unregelmaessig
 - Ufer und Bett gegen das Wasser an der jeweiligen Seite. Uferproben direkt neben einem schrägen Absturz
   (≤ 1,5 m stromab, ≤ 1 m stromauf auf dieser Seite) zählen wie Lippenpunkte (`ufer_an_lippe`).
 - HINWEIS „Regelmäßigkeit“: CV der Lippenabstände bzw. Fallhöhen < 0,2 oder Lippenwinkel alle gleich.
+
+## Bildbefund 15g (C2 Version 2)
+
+Ergebnis und Zahlen: `antworten/15g-c2-v2-bildbefund.md`. Parameter in `gefaelle_regeln.json`,
+`stufen.unregelmaessig` (`schaum`, `quer_punkte`, `quer_abstand_max_m`, `deckung_ufer`, `ufer_rauschen`,
+`rand_bloecke`, `material`).
+
+**Schaum weich (`quer_ergaenzen`, `kerben_weich`, `schaum_weich`)**
+- Querpunkte: mindestens 21, Querabstand ≤ 1 m (`quer_n`; C2: 31).
+- Quer: Kerbenrand smoothstep über ≥ 3 Querabstände, Kerbenbreite mit Rauschen entlang s.
+- Längs: Kern am Lippensaum (Schaum ≥ 0,5 höchstens 0,5 m oberhalb), Anstieg oberhalb über ~0,8 m, Abklingen
+  unterhalb über clamp(0,15 × Beckenlänge; 0,8; 1,5) m, beides ±20 % Rauschen. Aufprall: Kern ≤ 30 % der
+  Beckenlänge, endet vor der Beckenmitte, elliptischer Rand, nur unterhalb der eigenen Lippe.
+- Rauschen: `rauschen2` (Wertrauschen mit ganzzahligem Hash, Seed aus Lauf-ID und Netznummer), deterministisch.
+- Verdichtung: Mittellinie alle 0,25 m über die ganze Schaumzone jeder Lippe.
+- Sicherheitsnetz `schaum_weich`: Sprung höchstens 0,45 je Querabstand bzw. je 0,5 m längs; hebt nur die
+  niedrigere Seite an.
+
+**Deckung und Tiefe**
+- `tiefe_cm` ≥ 0 (0 = Gelände über dem Wasser).
+- `deckung` = 0, wo das Gelände über dem Wasser liegt; sonst 0,3 + 0,7 × smoothstep(Tiefe / 0,6 m), quer höchstens
+  0,5 je Stützpunkt. Die Zunge in der Kerbe bleibt deckend.
+- `material_parameter`: Werte für `M_EL_Kaskade_SLW2` (klares Gebirgsbachwasser, Koeffizienten je m). Opacity nur aus
+  Schaum, nicht aus Deckung.
+
+**Unregelmäßige Beckenränder (`UferRand`)**
+- Je Seite zieht die Wasserkante um Einzug(s) = amp × n(s) nach innen; n ist weiches Rauschen (Wellenlänge ~6,5 m).
+  So entstehen Vorsprünge, dazwischen Buchten auf voller Breite.
+- amp = clip(0,2 B − 0,3 m; 0; 1,2 m). Je Seite ist amp = 0 am Lippenende (0,3 m frei, 1 m Übergang), an
+  Segmentenden, Mündungen und Wand-/Klammzonen (> 50°).
+- Die Netzbreite wird um max(amp links, amp rechts) verbreitert und bleibt die Hülle. An den Lippen bleibt die
+  Breite, die Spiegel bleiben waagrecht.
+- Gelände: `profil_T`, `aussen_begrenzen` und `ring_ziel` rechnen mit der Wasserkante je Seite. Der Uferring
+  (Spiegel + 0,2 m, ≤ 1 m Anheben) bildet die Vorsprünge; das Plateau endet weiter am Netzrand + 1,5 m. Abtrag
+  neben dem Wasser ≤ Eintiefung + 0,5 m.
+- `plan.json` → `ufer_rand`: Einzug je 1 m links/rechts und Kennzahlen.
+
+**Randblöcke (`bauen_instanzen`)**
+- `randecke_<n>`: je Lippenende (auch Teil-Lippen) mit 85 % ein Eckblock 0,9–1,8 m, knapp außerhalb der Wasserkante,
+  0,2–0,8 m stromab.
+- `randbloecke_<n>`: am Beckenrand alle 2,5–5 m je Seite; auf Vorsprüngen sicher, sonst mit 33 %.
+- Netze aus der Biom-Palette `bloecke` (geprüft gegen das Inventar), Ebene `schutt`, keine Akteure.
+
+**Prüfer (neu, FEHLER)**
+- Querprofil: ≥ 21 Stützpunkte, Abstand ≤ 1 m, `tiefe_cm` ≥ 0.
+- Schaumkante: Sprung zwischen Nachbarpunkten quer ≤ 0,5, längs ≤ 0,5 je 0,5 m.
+- Schaum nur auf feinem Längsraster: Abstand ≤ 0,6 m, wo Schaum > 0,05.
+- Kein Schaum ≥ 0,5 in der Beckenmitte, je Längsstreifen: in Becken ≥ 6 m im Bereich
+  [Anfang + 0,5 L + 1,5 m; Ende − 1 m].
+- WARNUNG: Schaum ≥ 0,5 auf > 25 % der Netzfläche.
 
 ## Grenzen
 

@@ -730,7 +730,7 @@
     "CHIN1999",
     "CURWOHL2003"
    ],
-   "notiz": "15f (Bildbefund C2 im Editor): Step-pool-Lippen sind Blockreihen, schraeg und gekruemmt, mit 1-2 Kerben fuer den Hauptstrahl; Abstaende und Hoehen streuen stark; Becken breiter als die Lippen. Werte angenommen, Vorbilder Partnachklamm, Johnston Canyon, Plitvice (antworten/15f-c2-gebaut-bildbefund.md).",
+   "notiz": "15f (Bildbefund C2 im Editor): Step-pool-Lippen sind Blockreihen, schraeg und gekruemmt, mit 1-2 Kerben fuer den Hauptstrahl; Abstaende und Hoehen streuen stark; Becken breiter als die Lippen. Werte angenommen, Vorbilder Partnachklamm, Johnston Canyon, Plitvice (antworten/15f-c2-gebaut-bildbefund.md). 15g (Bildbefund C2 Version 2): Schaum mit weichen Kanten quer und laengs (smoothstep, Rauschen, Lipschitz-Huelle), quer_punkte >= 21 mit Querabstand <= 1 m, Deckung zum Ufer weich, unregelmaessige Beckenraender (ufer_rauschen) und Randbloecke; Werte angenommen (antworten/15g-c2-v2-bildbefund.md).",
    "winkel_abweichung_grad": [
     15.0,
     30.0
@@ -775,18 +775,92 @@
     "saum_seite": 0.15,
     "zunge_seite": 0.1,
     "aufprall_anteil_max": 0.3,
-    "aufprall_rand_m": 0.5
+    "aufprall_rand_m": 0.5,
+    "rampe_quer_punkte": 3,
+    "rampe_quer_min_m": 0.4,
+    "oben_m": 0.3,
+    "aus_unten_anteil": 0.15,
+    "aus_unten_m": [
+     0.5,
+     1.5
+    ],
+    "rauschen": 0.5,
+    "rauschen_wellenlaenge_m": 0.9,
+    "laengs_ds_m": 0.5,
+    "kern_min": 0.5,
+    "sprung_max": 0.45
    },
    "material": {
     "Schaum_Menge": 0.15,
-    "Zungen_Schaum": 0.25
+    "Zungen_Schaum": 0.25,
+    "SLW_Absorption_pro_m": [
+     0.4,
+     0.07,
+     0.05
+    ],
+    "SLW_Streuung_pro_m": [
+     0.02,
+     0.03,
+     0.04
+    ],
+    "SLW_PhaseG": 0.5,
+    "SLW_Color_Scale_Behind_Water": 1.0,
+    "Specular": 0.25,
+    "Rauheit_Becken": 0.04,
+    "Rauheit_Schaum": 0.4,
+    "Refraktion_Modus": "Pixel Normal Offset",
+    "Refraktion": 1.33,
+    "Refraktion_Lippe": 1.15,
+    "Schaum_Farbe_linear": [
+     0.8,
+     0.83,
+     0.83
+    ],
+    "Opacity": "Schaum (Vertexfarbe B) x Schaum_Menge-Kurve, NICHT Deckung",
+    "Deckung": "Vertexfarbe A -> Specular und Normalstaerke (Ufer weich), Quads < 0,3 nur ohne Tiefe",
+    "Tiefenfaktor": "Absorption/Streuung x clamp(tiefe/150 cm; 0,35; 1) optional"
    },
-   "quer_punkte": 11,
+   "quer_punkte": 21,
    "lippe_bloecke": {
     "abstand_faktor": 0.75,
     "notiz": "Lippe dicht mit Bloecken (Abstand 0,75 x Blockgroesse), Kerben frei; Keystones an den Kerbenraendern"
    },
-   "totholz_quer_anteil": 0.3
+   "totholz_quer_anteil": 0.3,
+   "quer_abstand_max_m": 1.0,
+   "deckung_ufer": {
+    "tiefe_m": 0.6,
+    "rand": 0.3,
+    "sprung_max": 0.5
+   },
+   "ufer_rauschen": {
+    "amp_anteil": 0.2,
+    "amp_abzug_m": 0.3,
+    "amp_max_m": 1.2,
+    "wellenlaenge_m": [
+     4.0,
+     9.0
+    ],
+    "lippe_frei_m": 0.3,
+    "lippe_uebergang_m": 1.0,
+    "ende_frei_m": 3.0,
+    "winkel_max_grad": 50.0
+   },
+   "rand_bloecke": {
+    "abstand_m": [
+     2.5,
+     5.0
+    ],
+    "anteil": 0.65,
+    "groesse_m": [
+     0.6,
+     1.4
+    ],
+    "lippe_ecke_m": [
+     0.9,
+     1.8
+    ],
+    "vorsprung_min": 0.45
+   }
   }
  },
  "becken": {

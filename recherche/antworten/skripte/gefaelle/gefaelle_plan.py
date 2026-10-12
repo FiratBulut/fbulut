@@ -103,6 +103,39 @@ def glatt01(t):
     return t * t * (3.0 - 2.0 * t)
 
 
+def _hash01(i, j, seed):
+    """Deterministisches Gitterrauschen 0-1 (ganzzahliger Hash, plattformunabhaengig) fuer Gitterpunkte (i, j)."""
+    i = np.asarray(i, np.int64).astype(np.uint64)
+    j = np.asarray(j, np.int64).astype(np.uint64)
+    with np.errstate(over="ignore"):
+        h = (i * np.uint64(0x9E3779B97F4A7C15)) ^ (j * np.uint64(0xC2B2AE3D27D4EB4F)) ^ np.uint64(int(seed) & 0xFFFFFFFF)
+        h ^= h >> np.uint64(29)
+        h *= np.uint64(0xBF58476D1CE4E5B9)
+        h ^= h >> np.uint64(32)
+        h *= np.uint64(0x94D049BB133111EB)
+        h ^= h >> np.uint64(29)
+    return (h >> np.uint64(11)).astype(np.float64) / float(1 << 53)
+
+
+def rauschen2(x, y, seed, wl):
+    """15g: weiches Wertrauschen 0-1 in der Ebene (Gitterweite wl, smoothstep-Interpolation), deterministisch."""
+    x = np.asarray(x, np.float64) / wl
+    y = np.asarray(y, np.float64) / wl
+    x, y = np.broadcast_arrays(x, y)
+    i0, j0 = np.floor(x), np.floor(y)
+    fx, fy = glatt01(x - i0), glatt01(y - j0)
+    i0, j0 = i0.astype(np.int64), j0.astype(np.int64)
+    v00, v10 = _hash01(i0, j0, seed), _hash01(i0 + 1, j0, seed)
+    v01, v11 = _hash01(i0, j0 + 1, seed), _hash01(i0 + 1, j0 + 1, seed)
+    return (v00 * (1 - fx) + v10 * fx) * (1 - fy) + (v01 * (1 - fx) + v11 * fx) * fy
+
+
+def rauschen1(s, seed, wl):
+    """15g: weiches Wertrauschen 0-1 entlang s, zwei Oktaven (wl, wl/2.3)."""
+    s = np.asarray(s, np.float64)
+    return 0.7 * rauschen2(s, 0.0, seed, wl) + 0.3 * rauschen2(s, 7.5, seed + 17, wl / 2.3)
+
+
 # ======================================================================================================================
 # Profil eines Laufs
 # ======================================================================================================================
@@ -802,9 +835,29 @@ UNREG_STANDARD = {
     "krone_saum_m": 0.6, "krone_unter_spiegel_m": 0.05,   # Krone neben der Kerbe knapp unter Wasser
     "einschnuerung": 0.8, "einschnuerung_laenge_m": 1.5, "breite_aenderung_max": 0.4,
     "teilhoehen_streuung": 0.45, "rampe_anteil": 0.3,
-    "schaum": {"saum_m": 0.5, "saum_seite": 0.15, "zunge_seite": 0.1, "aufprall_anteil_max": 0.3, "aufprall_rand_m": 0.5},
-    "material": {"Schaum_Menge": 0.15, "Zungen_Schaum": 0.25},
-    "quer_punkte": 11,
+    "schaum": {"saum_m": 0.5, "saum_seite": 0.15, "zunge_seite": 0.1, "aufprall_anteil_max": 0.3, "aufprall_rand_m": 0.5,
+               # 15g: weiche Kanten statt Rechtecke (smoothstep + Rauschen), quer und laengs
+               "rampe_quer_punkte": 3, "rampe_quer_min_m": 0.4, "oben_m": 0.3, "aus_unten_anteil": 0.15,
+               "aus_unten_m": [0.5, 1.5], "rauschen": 0.5, "rauschen_wellenlaenge_m": 0.9, "laengs_ds_m": 0.5,
+               "kern_min": 0.5, "sprung_max": 0.45},
+    "material": {"Schaum_Menge": 0.15, "Zungen_Schaum": 0.25,
+                 # 15g: M_EL_Kaskade_SLW2 - klares Gebirgsbachwasser (Single Layer Water, Koeffizienten je m)
+                 "SLW_Absorption_pro_m": [0.40, 0.07, 0.05], "SLW_Streuung_pro_m": [0.02, 0.03, 0.04],
+                 "SLW_PhaseG": 0.5, "SLW_Color_Scale_Behind_Water": 1.0, "Specular": 0.25,
+                 "Rauheit_Becken": 0.04, "Rauheit_Schaum": 0.4, "Refraktion_Modus": "Pixel Normal Offset",
+                 "Refraktion": 1.33, "Refraktion_Lippe": 1.15, "Schaum_Farbe_linear": [0.80, 0.83, 0.83],
+                 "Opacity": "Schaum (Vertexfarbe B) x Schaum_Menge-Kurve, NICHT Deckung",
+                 "Deckung": "Vertexfarbe A -> Specular und Normalstaerke (Ufer weich), Quads < 0,3 nur ohne Tiefe",
+                 "Tiefenfaktor": "Absorption/Streuung x clamp(tiefe/150 cm; 0,35; 1) optional"},
+    "quer_punkte": 21, "quer_abstand_max_m": 1.0,
+    # 15g: Deckung zum Ufer weich (Opacity ueber die Tiefe), tiefe_cm >= 0
+    "deckung_ufer": {"tiefe_m": 0.6, "rand": 0.3, "sprung_max": 0.5},
+    # 15g: unregelmaessige Beckenraender (Buchten/Vorspruenge), Einzug je Seite = Amplitude x Rauschen(s)
+    "ufer_rauschen": {"amp_anteil": 0.2, "amp_abzug_m": 0.3, "amp_max_m": 1.2, "wellenlaenge_m": [4.0, 9.0],
+                      "lippe_frei_m": 0.3, "lippe_uebergang_m": 1.0, "ende_frei_m": 3.0, "winkel_max_grad": 50.0},
+    # 15g: Randbloecke an Becken- und Lippenraendern (brechen die Terrassenkante)
+    "rand_bloecke": {"abstand_m": [2.5, 5.0], "anteil": 0.65, "groesse_m": [0.6, 1.4], "lippe_ecke_m": [0.9, 1.8],
+                     "vorsprung_min": 0.45},
 }
 
 
@@ -957,6 +1010,70 @@ def kerben_gewicht(g, u, rand_m=0.3):
     return w
 
 
+class UferRand:
+    """15g: unregelmaessige Beckenraender. Je Seite (u > 0 links) wird die Wasserkante um einen Einzug
+    e(s) = amp(s) x n(s) in [0, amp] nach innen verschoben (Vorsprung des Ufers); n ist weiches Wertrauschen
+    (zwei Oktaven, Seed aus Lauf und Seite), sodass sich Buchten (n = 0, volle Breite) und Vorspruenge abwechseln.
+    amp = clip(0,2 B - 0,3 m; 0; 1,2 m), je Seite 0 am Lippenende dieser Seite (0,3 m frei, 1 m Uebergang), an
+    Segmentenden, Muendungen und an Wand-/Klammzonen (Boeschung > 50 deg). Die Netzbreite (breite_fn) wird um
+    max(amp links, amp rechts) verbreitert und bleibt die Huelle: die Wasserkante liegt nie ausserhalb des Netzes, der
+    Netzrand nie im Wasser. An den Lippen bleibt die Breite (Einschnuerung). Der Spiegel bleibt waagrecht."""
+
+    def __init__(self, pr, Bw, winkel, stufen, segmente, muendungen_s, seed, U):
+        R = U["ufer_rauschen"]
+        s = pr.s
+        amp = np.clip(R["amp_anteil"] * Bw - R["amp_abzug_m"], 0.0, R["amp_max_m"])
+        f = np.zeros(pr.n)
+        for a, b in segmente:
+            m = (s >= a) & (s <= b)
+            f[m] = np.minimum(glatt01((s[m] - a - R["ende_frei_m"]) / 2.0), glatt01((b - s[m] - R["ende_frei_m"]) / 2.0))
+        for s_m, b_m in muendungen_s:
+            f = np.minimum(f, glatt01((np.abs(s - s_m) - b_m / 2.0 - 3.0) / 2.0))
+        f = np.minimum(f, glatt01((R["winkel_max_grad"] - winkel) / 10.0))
+        # an jeder Lippe je Seite frei: Abstand zum Lippenende dieser Seite (schraege Lippe: s_l + Versatz(+-h)) und
+        # zum Fuss (s_l + l + Versatz); dazwischen (unter dem Absturz) ebenfalls 0
+        fs = {1: np.ones(pr.n), -1: np.ones(pr.n)}
+        for s_l, D_l, l_l, t_l, e_l in lippen_liste(stufen):
+            g = t_l.get("geo")
+            for sg in (1, -1):
+                v_ = float(lippen_versatz(g, sg * g["h"])) if g else 0.0
+                a_, b_ = s_l + v_, s_l + l_l + v_
+                d = np.maximum(np.maximum(a_ - s, s - b_), 0.0)
+                fs[sg] = np.minimum(fs[sg], glatt01((d - R["lippe_frei_m"]) / R["lippe_uebergang_m"]))
+        self.s = s
+        self.amp_s = {sg: amp * f * fs[sg] for sg in (1, -1)}
+        self.amp = np.maximum(self.amp_s[1], self.amp_s[-1])   # Verbreiterung des Netzes (Huelle)
+        wl = float(np.mean(R["wellenlaenge_m"]))
+        self.n = {}
+        for sg in (1, -1):
+            sd = hash_stabil(seed, "ufer", sg)
+            n = rauschen1(s, sd, wl)
+            # Buchten (n klein) und Vorspruenge (n gross): weiche Schwelle, damit beide als Formen lesbar sind
+            self.n[sg] = glatt01((n - 0.3) / 0.45)
+
+    def amp_bei(self, s, seite=None):
+        if seite is None:
+            return np.interp(s, self.s, self.amp)
+        return np.interp(s, self.s, self.amp_s[1 if seite >= 0 else -1])
+
+    def einzug(self, s, seite):
+        """Einzug der Wasserkante (m, >= 0) an s auf der Seite sign(seite) (+ = links)."""
+        s = np.asarray(s, np.float64)
+        seite = np.asarray(seite, np.float64)
+        s, seite = np.broadcast_arrays(s, seite)
+        el = np.interp(s, self.s, self.amp_s[1] * self.n[1])
+        er = np.interp(s, self.s, self.amp_s[-1] * self.n[-1])
+        return np.where(seite >= 0, el, er)
+
+    def anteil(self, s_a, s_b, schwelle=0.3):
+        """Anteil der Randlaenge (beide Seiten) in [s_a, s_b] mit Einzug > schwelle (m)."""
+        m = (self.s >= s_a) & (self.s <= s_b)
+        if not m.any():
+            return 0.0
+        e = np.concatenate([self.amp_s[1][m] * self.n[1][m], self.amp_s[-1][m] * self.n[-1][m]])
+        return float((e > schwelle).mean())
+
+
 # ======================================================================================================================
 # Gelaende
 # ======================================================================================================================
@@ -1009,11 +1126,12 @@ def profil_T(d, half, bett, z_sp, z_ufer, winkel):
     return np.where(d <= half, innen, aussen)
 
 
-def ring_ziel(d, half, z_sp, z_ufer, cur):
+def ring_ziel(d, half, z_sp, z_ufer, cur, half_netz=None):
     """Uferring (15b): ab der Wasserkante mit 35 deg auf Spiegel + 0,15 m, so bis Netzrand + 1,5 m, dann 1:2
     auslaufen; hoechstens 1 m ueber dem bisherigen Gelaende. Gilt fuer d >= wasserkante(half). Innerhalb der halben
     Breite zaehlt der Spiegel an der Stelle, ausserhalb der Ufer-Spiegel (Oberwasser neben dem Fuss einer Stufe)."""
-    plateau = half + KN["rand_ueberstand_m"] + RING["breite_m"]
+    # 15g: das Plateau endet am Netzrand + 1,5 m (Netzbreite), auch wo die Wasserkante (half) eingezogen ist
+    plateau = (half if half_netz is None else np.maximum(half_netz, half)) + KN["rand_ueberstand_m"] + RING["breite_m"]
     anstieg = np.minimum((d - wasserkante(half)) * np.tan(np.radians(BOESCHUNG_GRAD)), RING["ueber_spiegel_m"])
     aus = np.maximum(d - plateau, 0.0) * RING["auslauf"]
     z = np.where(d < half, z_sp, np.maximum(z_ufer, z_sp)) + anstieg - aus
@@ -1060,7 +1178,8 @@ def bett_profil(pr, sp, stufen, seg_a, seg_b, s, z_sp, u=None):
     return bett
 
 
-def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn, rw, welt, gel, orte, lf=None):
+def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn, rw, welt, gel, orte, lf=None,
+                       ufer=None):
     """Delta-Hoehe (nur absenken) im Fenster: Bett/Kolk/Lippe/Boeschung/Klippe entlang [seg_a, seg_b]."""
     from sehens_lib import stempel as stm, gelaende as gel_mod
     st = ctx_g
@@ -1083,7 +1202,8 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     s = seg_a + s_loc
     innen = (s > seg_a + 0.01) & (s < seg_b - 0.01)
     Bw = breite_fn(s)
-    half = Bw / 2.0
+    half_netz = Bw / 2.0
+    half = half_netz - (ufer.einzug(s, seite) if ufer is not None else 0.0)   # 15g: Buchten/Vorspruenge je Seite
     s_e = lf.s_eff(s, seite) if lf is not None else s       # 15f: schraege/gekruemmte Lippen
     z_sp = spiegel_bei(sp, s_e)
     bett = bett_profil(pr, sp, stufen, seg_a, seg_b, s_e, z_sp, seite if lf is not None else None)
@@ -1093,15 +1213,16 @@ def gelaende_abschnitt(ctx_g, pr, sp, stufen, seg_a, seg_b, breite_fn, winkel_fn
     neu = np.where(innen, np.minimum(cur, T), cur)
     # Uferring (15b): ausserhalb der Wasserbreite bis Netzrand + 1,5 m mindestens Spiegel + 0,15 m, dann 1:2 auslaufen;
     # hebt nur, wo das Ufer zu niedrig ist, hoechstens 1 m (kein Damm ueber Rinnen)
-    neu = np.where(innen & (d >= wasserkante(half)), np.maximum(neu, ring_ziel(d, half, z_sp, ufer_z(sp, s_e), cur)), neu)
+    neu = np.where(innen & (d >= wasserkante(half)), np.maximum(neu, ring_ziel(d, half, z_sp, ufer_z(sp, s_e), cur,
+                                                                               half_netz)), neu)
     alt = st.delta[band]
     dn = neu - cur
     # mehrere Segmente im Fenster: Absenken - tiefster Wert gilt; Wulst - hoechster Wert, wo nichts abgesenkt wird
     st.delta[band] = np.where((alt < 0) | (dn < 0), np.minimum(alt, dn), np.maximum(alt, dn))
     korr = np.zeros(X.shape, bool)
-    korr[band] = d <= np.maximum(half + 6.0, 8.0)          # eigenes Wasser (auch ausserhalb des Segments) nicht schuetzen
+    korr[band] = d <= np.maximum(half_netz + 6.0, 8.0)          # eigenes Wasser (auch ausserhalb des Segments) nicht schuetzen
     st._lauf_maske = getattr(st, "_lauf_maske", np.zeros(X.shape, bool))
-    st._lauf_maske[band] |= innen & (d <= half + 10.0)       # fuer die Senken-Pruefung (Becken/Kolke sind Wasser)
+    st._lauf_maske[band] |= innen & (d <= half_netz + 10.0)       # fuer die Senken-Pruefung (Becken/Kolke sind Wasser)
     return korr
 
 
@@ -1150,7 +1271,7 @@ def alt_1m(K, fij):
     return welt.bilinear(welt.hoehe, jj - gd.OFF_J_1M, ii - gd.OFF_I_1M)
 
 
-def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendungen, lf=None):
+def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendungen, lf=None, ufer=None):
     """15b: Gelaende-Delta auf dem 1-m-Ausgaberaster nachziehen, gegen das alte 1-m-Gelaende (lokal: die 1-m-Welt
     selbst; Cloud: --hoehe1m-fenster). Im Wasser (wo der Stempel abgesenkt hat) hoechstens das Querprofil, im
     Uferring (Wasserkante bis Netzrand + 1,5 m) mindestens Spiegel + 0,15 m (<= 1 m Anheben). Schutzfaktoren
@@ -1181,7 +1302,8 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendun
         d, s_loc, seite = stm.polylinie_abstand(xs, ys, linie)
         s = a + s_loc
         innen = (s > a + 0.01) & (s < b - 0.01) & (d <= bmax)
-        half = breite_fn(s) / 2.0
+        half_netz = breite_fn(s) / 2.0
+        half = half_netz - (ufer.einzug(s, seite) if ufer is not None else 0.0)   # 15g: Buchten/Vorspruenge
         s_e = lf.s_eff(s, seite) if lf is not None else s   # 15f: schraege/gekruemmte Lippen
         z_sp = spiegel_bei(sp, s_e)
         zu = ufer_z(sp, s_e)
@@ -1191,11 +1313,11 @@ def feinschliff_1m(K, st, pr, sp, stufen_ab, segs, breite_fn, winkel_fn, muendun
         wasser = innen & (d < half)
         w_ = wz[box]
         wz[box] = np.where(wasser, np.minimum(w_, np.minimum(alt[box], T)), w_)
-        ringe.append((box, innen & (d >= wasserkante(half)), d, half, z_sp, zu))
+        ringe.append((box, innen & (d >= wasserkante(half)), d, half, z_sp, zu, half_netz))
     Ft = np.where(np.isfinite(wz), wz, Ft)
-    for box, ring, d, half, z_sp, zu in ringe:
+    for box, ring, d, half, z_sp, zu, hn in ringe:
         f_ = Ft[box]
-        Ft[box] = np.where(ring, np.maximum(f_, ring_ziel(d, half, z_sp, zu, alt[box])), f_)
+        Ft[box] = np.where(ring, np.maximum(f_, ring_ziel(d, half, z_sp, zu, alt[box], hn)), f_)
     # Zufluss-Muendungen: Ufer offen (kein Anheben), nur an der Zuflusslinie (Breite/2 + 1 m), sonst gilt der Ring
     offen = np.zeros(F.shape, bool)
     for m_ in muendungen:
@@ -1365,7 +1487,7 @@ def lippen_blockpunkte(pr, p, g, br, abstand):
     return pts, keys
 
 
-def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netze, eintr):
+def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netze, eintr, ufer=None, breite_fn=None):
     """Alle Gruppen eines Abschnitts. biom_netze: dict biom -> (biom_name, netze-dict gefiltert)."""
     rw, inv = K["rw"], K["inv"]
     hz = gr.holzstufe(rw)
@@ -1556,6 +1678,60 @@ def bauen_instanzen(ctx, K, pr, abschnitt_stufen, segmente, wandzonen, biom_netz
                          "verteilung": {"typ": "band", "punkte": ln, "breite_m": B + 2.0}, "abstand_m": 0.45,
                          "skala": [0.6, 1.1], "rolle": "stein", "im_wasser": "egal", "boden_min_m": 1.0,
                          "warum": "Kies im Becken und am Ufer (schutt.becken_korn %.2f-%.2f m)" % korn})
+    # 15g: Randbloecke an Becken- und Lippenraendern - die Terrassenkante (waagrechter Spiegel, gleichmaessiger Rand)
+    # wird unterbrochen. Lippenecken: je Lippenende ein groesserer Block knapp ausserhalb der Wasserkante, 0,2-0,8 m
+    # stromab (dort sieht man die Kante von unten). Beckenrand: alle 2,5-5 m je Seite, sicher auf Vorspruengen.
+    if ufer is not None and breite_fn is not None:
+        RB = unreg(rw)["rand_bloecke"]
+        for n_s, (a, b, biom) in enumerate(segmente):
+            bn, N = biom_netze[biom]
+            pal = N["bloecke"] or N["riegel"]
+            if not pal:
+                continue
+
+            def xy_u(s_, u_):
+                x_, y_ = pr.xy(s_)
+                tx_, ty_ = pr.tang(s_)
+                return x_ + ty_ * u_, y_ - tx_ * u_
+            ecken, ecken_yaw = [], []
+            for e in abschnitt_stufen:
+                if not (a - 1e-6 <= e["p"] <= b + 1e-6) or e.get("holz"):
+                    continue
+                for n_t, t in enumerate(e.get("teil") or [e]):
+                    g = t.get("geo")
+                    rng = ctx_rng(ctx, "randecke", e["nr"], n_t)
+                    for sg in (1.0, -1.0):
+                        if rng.uniform() > 0.85:
+                            continue
+                        h_ = float(breite_fn(t["p"])) / 2.0
+                        u_ = sg * (float(wasserkante(h_)) + float(rng.uniform(0.1, 0.6)))
+                        s_ = t["p"] + (float(lippen_versatz(g, np.clip(u_, -g["h"], g["h"]))) if g else 0.0) + \
+                            float(rng.uniform(0.2, 0.8))
+                        ecken.append(xy_u(s_, u_))
+                        ecken_yaw.append(float(rng.uniform(0.0, 360.0)))
+            rand, rand_yaw = [], []
+            for sg in (1.0, -1.0):
+                rng = ctx_rng(ctx, "randblock", n_s, int(sg))
+                s_ = a + float(rng.uniform(0.0, RB["abstand_m"][0]))
+                while s_ < b:
+                    amp = float(ufer.amp_bei(s_, sg))
+                    if amp >= 0.05:
+                        ez = float(ufer.einzug(s_, sg))
+                        vorsprung = ez >= RB["vorsprung_min"] * amp
+                        if vorsprung or rng.uniform() < 0.5 * RB["anteil"]:
+                            h_ = float(breite_fn(s_)) / 2.0 - ez
+                            rand.append(xy_u(s_, sg * (h_ - 0.2 + float(rng.uniform(-0.3, 0.3)))))
+                            rand_yaw.append(float(rng.uniform(0.0, 360.0)))
+                    s_ += float(rng.uniform(*RB["abstand_m"]))
+            setze(ctx, "randecke_%02d" % n_s, "schutt", pal, ecken, ecken_yaw, rolle="fels",
+                  groesse_m=list(RB["lippe_ecke_m"]), groesse_achse="max", akteur=False, im_wasser="egal", meide=None,
+                  eingraben=[0.3, 0.45], weg_abstand_m=4.0,
+                  warum="Eckblock am Lippenende (15g: Terrassenkante von unten unterbrechen)")
+            setze(ctx, "randbloecke_%02d" % n_s, "schutt", pal, rand, rand_yaw, rolle="fels",
+                  groesse_m=list(RB["groesse_m"]), groesse_achse="max", akteur=False, im_wasser="egal", meide=None,
+                  eingraben=[0.3, 0.45], weg_abstand_m=4.0,
+                  warum="Randblock an der Wasserkante, sicher auf Ufervorspruengen (15g: unregelmaessiger Beckenrand)")
+            fels_gruppen += ["randecke_%02d" % n_s, "randbloecke_%02d" % n_s]
     # 8. Moos (Kontakt) an allen Felsgruppen
     moos = {}
     for e in abschnitt_stufen:
@@ -2075,26 +2251,72 @@ def quer_u(br, N):
     return np.linspace(-1.0, 1.0, N) * (br / 2.0 + KN["rand_ueberstand_m"])
 
 
-def quer_ergaenzen(pr, rw, mitte, knick, mitte_s, st, lf, boden_fn, breite_fn):
-    """15f: Querprofil je Netzpunkt (N Stuetzpunkte quer, Index 0 = rechts, N-1 = links): dz_cm (Wasser gegen die
-    Mittellinie - schraege Lippen), deckung 0-1 (Zunge in der Kerbe deckend, daneben duenn -> Fels scheint durch),
-    schaum 0-1 (nur Lippensaum <= 0,5 m, Zunge und Aufprallkreis <= 30 % der Beckenlaenge), tiefe_cm (Wasser ueber dem
-    Bett, fuer die Beckenfarbe). Um jede Lippe wird die Mittellinie alle 0,25 m verdichtet ('uebergang'), damit der
-    schraege Absturz in jedem Laengsstreifen aufgeloest ist."""
+def quer_n(U, br_max):
+    """15g: Zahl der Querstuetzpunkte je Netz: mindestens quer_punkte (21), Abstand <= quer_abstand_max_m (1 m) auch am
+    breitesten Querschnitt (Breite + 2 x Netzrand), ungerade (Mittelpunkt = Spalte schaum der Mittellinie)."""
+    n = max(int(U["quer_punkte"]), int(math.ceil((br_max + 2.0 * KN["rand_ueberstand_m"]) /
+                                                 float(U["quer_abstand_max_m"]) - 1e-9)) + 1)
+    return n if n % 2 == 1 else n + 1
+
+
+def kerben_weich(g, u, rand_m, s_e, seed, rauschen=0.4):
+    """15g: Kerbengewicht 0-1 mit smoothstep-Rand (Breite rand_m, >= 3 Querabstaende) und Rauschen in der Kante
+    (Kerbenbreite +-rauschen x rand/2, weich entlang s): keine Rechteckkante mehr zwischen Kerbe und Seite."""
+    u = np.asarray(u, np.float64)
+    w = np.zeros(u.shape)
+    for n_k, (uk, kb, _) in enumerate(g["kerben"]):
+        nz = (rauschen2(s_e, n_k * 3.1 + 0.5 * np.sign(u - uk), seed + 31 + n_k, 0.8) - 0.5) * 2.0
+        halb = kb / 2.0 + nz * rauschen * rand_m / 2.0
+        w = np.maximum(w, glatt01((halb + rand_m / 2.0 - np.abs(u - uk)) / max(rand_m, 1e-6)))
+    return w
+
+
+def quer_ergaenzen(pr, rw, mitte, knick, mitte_s, st, lf, boden_fn, breite_fn, seed=0):
+    """15f/15g: Querprofil je Netzpunkt (N Stuetzpunkte quer, Index 0 = rechts, N-1 = links): dz_cm (Wasser gegen die
+    Mittellinie - schraege Lippen), deckung 0-1 (Zunge in der Kerbe deckend, daneben duenn; zum Ufer weich auf 0),
+    schaum 0-1, tiefe_cm (Wasser ueber dem Bett, >= 0, fuer die Beckenfarbe).
+    15g Schaum: Kern am Lippensaum, auf der Zunge und im Aufprallkreis (Schaum >= 0,5 hoechstens 0,5 m oberhalb der
+    Lippe bzw. bis 30 % der Beckenlaenge), mit weichen Uebergaengen: quer smoothstep ueber >= 3 Querabstaende,
+    laengs oberhalb ueber ~0,9 m, unterhalb ueber clamp(0,15 x Beckenlaenge; 0,8; 1,5) m, alle Kanten mit
+    deterministischem Rauschen (Seed aus Netz-ID). Um jede Lippe wird die Mittellinie alle 0,25 m verdichtet, ueber die
+    ganze Schaumzone, damit das 0,5-m-Gitter keine Strichreihe zeigt."""
     U = unreg(rw)
     sch = U["schaum"]
-    N = int(U["quer_punkte"])
+    rz = float(sch["rauschen"])
     lips = [v for v in lippen_liste(st) if v[3].get("geo")]
     S = np.asarray(mitte_s, np.float64)
     Z = np.asarray([q[2] for q in mitte], np.float64) / 100.0
-    # 1. verdichten
-    neu_s = []
-    for s_l, D_l, l_l, t_l, e_l in lips:
+    # 0. Schaumzonen je Lippe: Beckenlaengen, Ausklingen, Aufprall
+    info = []
+    for i, (s_l, D_l, l_l, t_l, e_l) in enumerate(lips):
         g = t_l["geo"]
+        nxt = lips[i + 1][0] if i + 1 < len(lips) else s_l + l_l + 2.0 * e_l["B"]
+        prv = lips[i - 1][0] + lips[i - 1][2] if i > 0 else s_l - 2.0 * e_l["B"]
+        L_b = max(nxt - (s_l + l_l), 0.5)
+        L_o = max(s_l - prv, 0.5)
+        rampe = bool(t_l.get("rampe") or e_l["art"] == "schnelle")
         dv = lippen_versatz(g, np.linspace(-g["h"], g["h"], 21))
-        a_ = s_l + float(dv.min()) - sch["saum_m"] - 0.2
-        b_ = s_l + l_l + float(dv.max()) + KN["bogen_x_m"] + 0.5
-        for s_n in np.arange(a_, b_ + 1e-6, 0.25):
+        A_o = min(sch["saum_m"] + sch["oben_m"], max(0.45 * L_o, 0.6))
+        if i == 0:                                                 # Netzanfang: Anstieg beginnt im Netz
+            A_o = max(min(A_o, (s_l + float(dv.min()) - S[0]) / (1.0 + rz / 2.0)), 0.3)
+        A_u = float(np.clip(sch["aus_unten_anteil"] * L_b, *sch["aus_unten_m"]))
+        r_z = l_l + KN["bogen_x_m"] + 0.3
+        imp = None
+        ende = r_z + A_u * (1.0 + rz / 2.0)
+        if not rampe:
+            xs_ = e_l.get("kolk", {}).get("x_strahl", 0.0) if e_l["art"] == "fall" else 0.3
+            r_k = min(float(np.clip(0.5 * D_l + 0.5, 1.0, 3.0)), sch["aufprall_anteil_max"] * L_b)
+            r_k = min(r_k, max(0.45 * L_b - xs_, 0.3))           # 15g: Kern endet vor der Beckenmitte (weiter Strahl)
+            imp = (s_l + l_l + xs_, r_k)
+            ende = max(ende, l_l + xs_ + r_k + 2.0 * A_u)
+        # Fenster grosszuegig (LippenFeld blendet den Versatz zwischen Nachbarlippen): Schaum nie auf grobem Raster
+        info.append({"A_o": A_o, "A_u": A_u, "r_z": r_z, "rampe": rampe, "imp": imp, "L_b": L_b,
+                     "a": s_l + 1.5 * float(dv.min()) - A_o * (1.0 + rz / 2.0) - 1.0,
+                     "b": s_l + 1.5 * float(dv.max()) + ende + 1.0})
+    # 1. verdichten (0,25 m ueber die ganze Schaumzone)
+    neu_s = []
+    for (s_l, D_l, l_l, t_l, e_l), inf in zip(lips, info):
+        for s_n in np.arange(inf["a"], inf["b"] + 1e-6, 0.25):
             if S[0] < s_n < S[-1] and np.min(np.abs(S - s_n)) > 0.12 and not any(abs(s_n - v) < 0.12 for v in neu_s):
                 neu_s.append(float(s_n))
     if neu_s:
@@ -2120,56 +2342,103 @@ def quer_ergaenzen(pr, rw, mitte, knick, mitte_s, st, lf, boden_fn, breite_fn):
         mitte, knick, mitte_s = m2, k2, s2
         S = np.asarray(mitte_s, np.float64)
         Z = np.asarray([q[2] for q in mitte], np.float64) / 100.0
+    N = quer_n(U, max(q[3] for q in mitte) / 100.0)
+    DU = U["deckung_ufer"]
     # 2. Querprofile
-    imp = []                                                       # (s_aufprall, radius, geo)
-    for i, (s_l, D_l, l_l, t_l, e_l) in enumerate(lips):
-        if t_l.get("rampe") or e_l["art"] == "schnelle":
-            continue
-        nxt = lips[i + 1][0] if i + 1 < len(lips) else s_l + l_l + 2.0 * e_l["B"]
-        L_b = max(nxt - (s_l + l_l), 0.5)
-        xs_ = e_l.get("kolk", {}).get("x_strahl", 0.0) if e_l["art"] == "fall" else 0.3
-        imp.append((s_l + l_l + xs_, min(float(np.clip(0.5 * D_l + 0.5, 1.0, 3.0)), sch["aufprall_anteil_max"] * L_b),
-                    t_l["geo"]))
-    quer = []
+    zeilen = []
     for k, q in enumerate(mitte):
         br = q[3] / 100.0
         u = quer_u(br, N)
+        du = float(u[1] - u[0])
+        rand_q = max(sch["rampe_quer_punkte"] * du, sch["rampe_quer_min_m"])
         s_k = S[k]
         s_e = lf.s_eff(np.full(N, s_k), u)
         z_j = np.interp(s_e, S, Z)
+        nz = (rauschen2(s_e, u, seed, sch["rauschen_wellenlaenge_m"]) - 0.5) * 2.0     # -1..1, weich in s und u
         deck = np.ones(N)
         schm = np.zeros(N)
-        for s_l, D_l, l_l, t_l, e_l in lips:
+        zone_k = np.zeros(N)                                       # Zunge in der Kerbe (Deckung bleibt dort)
+        for (s_l, D_l, l_l, t_l, e_l), inf in zip(lips, info):
             r = s_e - s_l
-            if not ((r >= -sch["saum_m"]) & (r <= l_l + KN["bogen_x_m"] + 0.3)).any():
+            if not ((s_e >= inf["a"]) & (s_e <= inf["b"])).any():
                 continue
             g = t_l["geo"]
-            kw = kerben_gewicht(g, u)
-            saum = (r >= -sch["saum_m"]) & (r <= 0.0)
-            zunge = (r > 0.0) & (r <= l_l + KN["bogen_x_m"] + 0.3)
-            if t_l.get("rampe") or e_l["art"] == "schnelle":
-                schm = np.where(zunge, np.maximum(schm, 0.3 + 0.4 * kw), schm)
-                schm = np.where(saum, np.maximum(schm, sch["saum_seite"] * 0.5 + 0.5 * kw), schm)
-                continue
-            schm = np.where(saum, np.maximum(schm, kw + (1.0 - kw) * sch["saum_seite"]), schm)
-            schm = np.where(zunge, np.maximum(schm, kw + (1.0 - kw) * sch["zunge_seite"]), schm)
-            deck = np.where(zunge, np.minimum(deck, kw + (1.0 - kw) * g["seite_deckung"]), deck)
-        for s_i, r_a, g in imp:
-            for uk, kb, _ in g["kerben"]:
-                dist = np.hypot(s_e - s_i, u - uk)
-                schm = np.maximum(schm, np.clip((r_a + sch["aufprall_rand_m"] - dist) / sch["aufprall_rand_m"], 0.0, 1.0))
+            kw = kerben_weich(g, u, rand_q, s_e, seed, rz)
+            A_o = inf["A_o"] * (1.0 + 0.5 * rz * nz)
+            A_u = inf["A_u"] * (1.0 + 0.5 * rz * nz)
+            E = np.where(r < 0.0, glatt01((r + A_o) / A_o),
+                         np.where(r <= inf["r_z"], 1.0, 1.0 - glatt01((r - inf["r_z"]) / A_u)))
+            wz = glatt01(r / 0.5)                                  # Saum -> Zunge
+            if inf["rampe"]:
+                val = (1.0 - wz) * (0.5 * sch["saum_seite"] + 0.5 * kw) + wz * (0.3 + 0.4 * kw)
+            else:
+                val = kw + (1.0 - kw) * (sch["saum_seite"] + (sch["zunge_seite"] - sch["saum_seite"]) * wz)
+                zz_ = glatt01(r / 0.4) * (1.0 - glatt01((r - inf["r_z"]) / 0.6))
+                deck = np.minimum(deck, 1.0 - zz_ * (1.0 - (kw + (1.0 - kw) * g["seite_deckung"])))
+                zone_k = np.maximum(zone_k, zz_ * kw)
+            schm = np.maximum(schm, E * val)
+            if inf["imp"] is not None:
+                # Aufprall: Kern + elliptischer Rand (laengs clamp(0,15 L; 0,8; 1,5) m, quer >= 3,2 Querabstaende),
+                # nur unterhalb der eigenen Lippe
+                s_i, r_k = inf["imp"]
+                rim_s = inf["A_u"]
+                kern = max(r_k - rim_s / 2.0, 0.3)
+                rim_u = max(rim_s, 3.2 * du)
+                f_n = 1.0 + 0.5 * rz * nz
+                unten = glatt01((r + 0.2) / 0.4)
+                for uk, kb, _ in g["kerben"]:
+                    dl, dq = s_e - s_i, u - uk
+                    dist = np.hypot(dl, dq)
+                    ex = np.maximum(dist - kern, 0.0) / np.maximum(dist, 1e-6)
+                    q_ = np.hypot(dl * ex / (rim_s * f_n), dq * ex / (rim_u * f_n))
+                    schm = np.maximum(schm, unten * (1.0 - glatt01(q_)))
         x, y = q[0] / 100.0, q[1] / 100.0
         tx, ty = pr.tang(s_k)
         bett_j = boden_fn(x + ty * u, y - tx * u)
-        quer.append([[round(float((zj - Z[k]) * 100.0), 1), round(float(dj), 2), round(float(sj), 2),
-                      round(float((zj - bj) * 100.0), 1)] for zj, dj, sj, bj in zip(z_j, deck, schm, bett_j)])
-        q[6] = round(float(schm[N // 2]), 2)                       # Mittellinie: Schaum in der Mitte
+        tief = z_j - bett_j
+        # 15g: Deckung zum Ufer weich: 0 wo das Gelaende ueber dem Wasser liegt (Netz unter dem Ufer), sonst
+        # rand + (1 - rand) x smoothstep(Tiefe / tiefe_m); die Zunge in der Kerbe bleibt deckend
+        d_uf = np.where(tief <= 0.0, 0.0, DU["rand"] + (1.0 - DU["rand"]) * glatt01(tief / DU["tiefe_m"]))
+        deck = np.minimum(deck, d_uf + (1.0 - d_uf) * zone_k)
+        # weicher Uferrand auch an steilen Boeschungen: Deckung faellt quer hoechstens 0,5 je Stuetzpunkt
+        for _ in range(4):
+            deck[1:] = np.minimum(deck[1:], deck[:-1] + DU["sprung_max"])
+            deck[:-1] = np.minimum(deck[:-1], deck[1:] + DU["sprung_max"])
+        zeilen.append((z_j, deck, np.clip(schm, 0.0, 1.0), tief))
         if knick[k] in ("becken", "uebergang", "rampe"):
             # Bett-Abstand: Mittel ueber die mittleren 60 % gegen das Wasser an der jeweiligen Stelle
             off = np.linspace(-1, 1, 7) * max(KN["bett_proben_anteil"] * br - RASTER_ZUSCHLAG(), 0.15 * br)
             zw = np.interp(off, u, z_j)
             q[7] = round(float(np.mean(zw - boden_fn(x + ty * off, y - tx * off))) * 100.0, 1)
+    # 3. Sicherheitsnetz gegen harte Kanten: Schaum hoechstens sprung_max je Querabstand bzw. je 0,5 m laengs
+    # (Lipschitz-Huelle, hebt nur die niedrigere Seite an; deterministisch)
+    F = schaum_weich(np.asarray([z_[2] for z_ in zeilen]), S, sch.get("sprung_max", 0.45))
+    quer = []
+    for k, (z_j, deck, _, tief) in enumerate(zeilen):
+        quer.append([[round(float((zj - Z[k]) * 100.0), 1), round(float(dj), 2), round(float(sj), 2),
+                      round(float(max(tj, 0.0) * 100.0), 1)] for zj, dj, sj, tj in zip(z_j, deck, F[k], tief)])
+        mitte[k][6] = round(float(F[k, N // 2]), 2)                # Mittellinie: Schaum in der Mitte
     return mitte, knick, mitte_s, quer
+
+
+def schaum_weich(F, S, sprung, ds_ref=0.5):
+    """15g: Lipschitz-Huelle des Schaumfelds F[k, j]: quer |F[k, j] - F[k, j+1]| <= sprung je Stuetzpunkt, laengs
+    <= sprung je 0,5 m (Gefaelle, Gitter des Einbau-Werkzeugs), an Punkten mit fast gleichem s (Fallkante) <= 0,3 x
+    sprung. Nur Anheben der niedrigeren Seite (weicher Rand), Werte bleiben 0-1."""
+    F = np.array(F, np.float64)
+    if F.size == 0:
+        return F
+    ds = np.diff(np.asarray(S, np.float64))
+    lim = (sprung * np.maximum(ds / ds_ref, 0.3))[:, None]
+    for _ in range(200):
+        alt = F.copy()
+        F[:, 1:] = np.maximum(F[:, 1:], F[:, :-1] - sprung)
+        F[:, :-1] = np.maximum(F[:, :-1], F[:, 1:] - sprung)
+        F[1:] = np.maximum(F[1:], F[:-1] - lim)
+        F[:-1] = np.maximum(F[:-1], F[1:] - lim)
+        if float(np.abs(F - alt).max()) < 1e-9:
+            break
+    return np.clip(F, 0.0, 1.0)
 
 
 def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde, muendungen=(), welt_hoehe=None,
@@ -2273,7 +2542,8 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
             punkt(s_, z_, rolle)
         quer = None
         if lf is not None and rw is not None:
-            mitte, knick, mitte_s, quer = quer_ergaenzen(pr, rw, mitte, knick, mitte_s, st, lf, boden_fn, breite_fn)
+            mitte, knick, mitte_s, quer = quer_ergaenzen(pr, rw, mitte, knick, mitte_s, st, lf, boden_fn, breite_fn,
+                                                         hash_stabil(SEED, lauf_id, "KN", n))
         zs = [q[2] for q in mitte]
         if any(zs[i + 1] > zs[i] + 1e-6 for i in range(len(zs) - 1)):
             melde("FEHLER", "Kaskadennetz %d: Mittellinie steigt" % n)
@@ -2320,15 +2590,20 @@ def bauen_wasser_A(pr, sp, stufen, segmente, breite_fn, lauf_id, boden_fn, melde
         if quer is not None:
             U_ = unreg(rw)
             kn.update({
-                "quer": quer, "quer_punkte": int(U_["quer_punkte"]),
+                "quer": quer, "quer_punkte": len(quer[0]) if quer else int(U_["quer_punkte"]),
                 "quer_felder": ["dz_cm", "deckung", "schaum", "tiefe_cm"],
                 "quer_lage": "Stuetzpunkt j liegt bei u = (-1 + 2 j / (N - 1)) x (breite/2 + rand_ueberstand_m) quer zur "
                              "Mittellinie (u > 0 links in Fliessrichtung, j = 0 rechts); Wasserhoehe = z_cm + dz_cm",
                 "material_parameter": dict(U_["material"]),
-                "farbe_hinweis": "Beckenfarbe nach tiefe_cm: Absorption_Faktor/Streuung_Faktor x clamp(tiefe / 150 cm, "
-                                 "0,35, 1) - flache Becken heller (15f, Vorschlag)",
-                "schaum_regel": "Schaum nur am Lippensaum (<= %.1f m) und in Zunge/Aufprallkreis (<= %.0f %% der "
-                                "Beckenlaenge), sonst 0" % (U_["schaum"]["saum_m"], 100 * U_["schaum"]["aufprall_anteil_max"])})
+                "farbe_hinweis": "15g: SLW-Werte in material_parameter (klares Gebirgsbachwasser, Koeffizienten je m). "
+                                 "Opacity nur aus Schaum (Opacity 1 = deckende Oberflaeche mit Base Color), Deckung auf "
+                                 "Specular/Normalstaerke; tiefe_cm >= 0 (0 am Ufer), optional Absorption/Streuung x "
+                                 "clamp(tiefe / 150 cm, 0,35, 1)",
+                "schaum_regel": "Schaum >= 0,5 nur am Lippensaum (<= %.1f m), auf der Zunge und im Aufprallkreis (<= %.0f %% "
+                                "der Beckenlaenge), weich auslaufend (oberhalb ~0,9 m, unterhalb clamp(0,15 L; 0,8; 1,5) m, "
+                                "quer >= 3 Stuetzpunkte, Rauschen), Sprung zwischen Nachbarpunkten <= %.2f, sonst 0"
+                                % (U_["schaum"]["saum_m"], 100 * U_["schaum"]["aufprall_anteil_max"],
+                                   U_["schaum"]["sprung_max"])})
         kns.append(kn)
         if n_bett:
             melde(raster_stufe(n_bett, n_bk), "%s: Bett an %d von %d Beckenpunkten < %.1f m unter dem Spiegel%s"
@@ -2712,6 +2987,11 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     # Breite glatt (Uebergaenge 3 m), dann Versatz der Waende
     kern = np.ones(int(3.0 / DS) * 2 + 1)
     Bw = np.maximum(B_min, np.convolve(np.pad(Bw, len(kern) // 2, mode="edge"), kern / kern.sum(), mode="valid"))
+    # 15g: unregelmaessige Beckenraender - Netzbreite um die Einzugs-Amplitude verbreitern (Huelle), die Wasserkante
+    # je Seite zieht um Einzug(s) <= amp nach innen (Vorspruenge), sonst Buchten auf voller Breite
+    ufer = UferRand(pr, Bw, winkel, alle_stufen, segmente,
+                    [(m_["s_m"], m_["breite_m"]) for m_ in muendungen_linien(zufl, pr)], hash_stabil(SEED, lauf_id), U_)
+    Bw = Bw + ufer.amp
     # 15b: Breite aendert sich hoechstens 0,2 m je m (nur verbreitern): Netzpunkt, Bett und Uferring sehen auf 1-2 m
     # Laengsabstand dieselbe Wasserbreite, sonst laege der Netzrand neben einer breiteren Absenkung
     for k in range(1, pr.n):
@@ -2754,7 +3034,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             korr = np.zeros(st.X.shape, bool)
             for a, b, _ in segs:
                 korr |= gelaende_abschnitt(st, pr, sp, st_ab, a, b, breite_gel_fn, winkel_fn, rw, welt, gel, orte_nah,
-                                           lf)
+                                           lf, ufer)
             for za in zufl_aus:                                    # Zufluss-Endstueck an den neuen Spiegel
                 x0w, y0w, x1w, y1w = st.fe.grenzen_m()
                 T_ = np.asarray(za["_tail_m"])
@@ -2804,7 +3084,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             ctx.stempel = st
             ctx.linien["bach_haupt"] = pr.polylinie(max(0.0, segs[0][0] - 5), min(pr.s[-1], segs[-1][1] + 5), 1.0)
             wz_ab = [w for w in wandzonen if any(a - 1e-6 <= w["a"] <= b + 1e-6 for a, b, _ in segs)]
-            bauen_instanzen(ctx, K, pr, st_ab, [(a, b, bi) for a, b, bi in segs], wz_ab, biom_netze, None)
+            bauen_instanzen(ctx, K, pr, st_ab, [(a, b, bi) for a, b, bi in segs], wz_ab, biom_netze, None, ufer, breite_fn)
             # nichts in Sehenswuerdigkeiten (Radius + 10 m)
             vorher = len(ebene.stuecke)
             ebene.stuecke = [s_ for s_ in ebene.stuecke if s_["ort"] != aid or not any(
@@ -2823,7 +3103,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     # 15b: Gelaende-Delta auf 1 m nachziehen (Wasser hoechstens Querprofil, Uferring >= Spiegel + 0,15 m)
     for kx in kontexte:
         feinschliff_1m(K, kx["ctx"].stempel, pr, sp, kx["stufen"], [(a, b) for a, b, _ in kx["segs"]], breite_gel_fn,
-                       winkel_fn, muendungen_linien(zufl, pr), lf)
+                       winkel_fn, muendungen_linien(zufl, pr), lf, ufer)
     # Effekte, Kameras, Flussstuecke
     effekte, eff_weg = bauen_effekte(K, pr, alle_stufen, breite_fn)
     from sehens_lib.sehens_pruefen import BodenNachStempel
@@ -2940,6 +3220,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         "kameras": kameras,
         "felder": sorted({daten.feld_von_m(px, py) for px, py in zip(pr.x[::20], pr.y[::20])}),
     })
+    plan["ufer_rand"] = ufer_rand_block(pr, ufer, breite_fn, segmente, ebene, [kx["id"] for kx in kontexte])
     for h in ebene.hinweise:
         melde("HINWEIS", h)
     if K.get("variante") == "C":
@@ -2948,6 +3229,38 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
     with open(os.path.join(aus_lauf, "plan.json"), "w", encoding="utf-8") as f:
         json.dump(plan, f, ensure_ascii=False, indent=1, default=_json_np)
     return plan, kontexte, meldungen, pr, sp
+
+
+def ufer_rand_block(pr, ufer, breite_fn, segmente, ebene, orte_ids):
+    """15g: Uferlinie fuer Einbau und Pruefung: je 1 m Einzug links/rechts (m, Wasserkante nach innen), dazu Kennzahlen:
+    Anteil der Randlaenge mit Bucht/Vorsprung (Einzug > 0,3 m), mit Randblock (<= 1,5 m) und mit einem von beiden."""
+    ss = np.concatenate([np.arange(a, b + 1e-6, 1.0) for a, b in sorted(segmente)]) if segmente else np.zeros(0)
+    el, er = ufer.einzug(ss, 1.0), ufer.einzug(ss, -1.0)
+    bl = [(e["x"] / 100.0, e["y"] / 100.0) for e in ebene.stuecke if e["ort"] in orte_ids and
+          str(e["gruppe"]).startswith(("randbloecke", "randecke"))]
+    B = np.asarray(bl, np.float64).reshape(-1, 2)
+    n_e = sum(1 for e in ebene.stuecke if e["ort"] in orte_ids and str(e["gruppe"]).startswith("randecke"))
+    mit_e = mit_b = mit_x = 0
+    for s_, a_l, a_r in zip(ss, el, er):
+        x_, y_ = pr.xy(s_)
+        tx_, ty_ = pr.tang(s_)
+        h_ = float(breite_fn(s_)) / 2.0
+        for sg, e_ in ((1.0, a_l), (-1.0, a_r)):
+            u_ = sg * (h_ - e_)
+            px, py = x_ + ty_ * u_, y_ - tx_ * u_
+            b_ = bool(len(B)) and float(np.min(np.hypot(B[:, 0] - px, B[:, 1] - py))) <= 1.5
+            mit_e += e_ > 0.3
+            mit_b += b_
+            mit_x += (e_ > 0.3) or b_
+    n = max(2 * len(ss), 1)
+    return {"regel": "15g: Wasserkante je Seite um einzug_m nach innen (Vorsprung), sonst Bucht auf voller Netzbreite; "
+                     "Netz = Huelle, Spiegel waagrecht. Uferring Spiegel + 0,2 m, Abtrag neben dem Wasser <= Eintiefung "
+                     "+ 0,5 m",
+            "s_m": [_r(v, 1) for v in ss], "einzug_links_m": [_r(v, 2) for v in el],
+            "einzug_rechts_m": [_r(v, 2) for v in er],
+            "amp_max_m": _r(float(ufer.amp.max()) if len(ufer.amp) else 0.0, 2),
+            "anteil_bucht_vorsprung": _r(mit_e / n, 3), "anteil_randblock": _r(mit_b / n, 3),
+            "anteil_bucht_oder_block": _r(mit_x / n, 3), "randbloecke": len(bl) - n_e, "eckbloecke": n_e}
 
 
 def lippe_form_json(g):

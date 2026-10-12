@@ -285,6 +285,7 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
                 DS_ = np.asarray([[c[1:3] for c in r] for r in Q], np.float64)
                 if DS_.min() < -1e-6 or DS_.max() > 1.0 + 1e-6:
                     b.append((FEHLER, tag, "%s: deckung/schaum ausserhalb 0-1" % w["id"]))
+                pruefe_schaum_15g(w, M, Q, ZQ, sm_, b, tag)
         nah = nahe_stufe(w["mittellinie"], kn_, zus)
         ix = [k for k in range(len(M)) if kn_[k] == "becken" and not nah[k]]
         n_b = len(ix)
@@ -316,6 +317,61 @@ def pruefe_wasser(p, ordner, welt, b, tag, h1m=None):
         if n_ufer:
             b.append((raster_stufe(n_ufer, 2 * n_b, zus), tag, "%s: Ufer am Netzrand an %d von %d Proben < 0,1 m ueber "
                       "dem Spiegel%s" % (w["id"], n_ufer, 2 * n_b, raster_text(n_ufer, 2 * n_b, zus))))
+
+
+def pruefe_schaum_15g(w, M, Q, ZQ, S, b, tag):
+    """15g: Querabstand <= 1 m (>= 21 Stuetzpunkte), weiche Schaumkanten (Nachbarsprung quer <= 0,5, laengs <= 0,5 je
+    0,5 m), Schaum nur auf feinem Laengsraster (<= 0,6 m), Schaum >= 0,5 nicht in der Beckenmitte (je Laengsstreifen),
+    tiefe_cm >= 0 - alles FEHLER; Schaum >= 0,5 auf > 25 % der Netzflaeche WARNUNG."""
+    from gefaelle_plan import KN
+    N = len(Q[0])
+    A = np.asarray(Q, np.float64)
+    sc, tf = A[:, :, 2], A[:, :, 3]
+    du = (M[:, 3] / 100.0 + 2.0 * KN["rand_ueberstand_m"]) / max(N - 1, 1)
+    if N < 21 or float(du.max()) > 1.0 + 1e-3:
+        b.append((FEHLER, tag, "%s: Querprofil zu grob (%d Stuetzpunkte, Abstand bis %.2f m; verlangt >= 21 und <= 1 m)"
+                  % (w["id"], N, float(du.max()))))
+    if float(tf.min()) < -1e-6:
+        b.append((FEHLER, tag, "%s: tiefe_cm < 0" % w["id"]))
+    jq = np.abs(np.diff(sc, axis=1))
+    if float(jq.max()) > 0.5 + 1e-6:
+        b.append((FEHLER, tag, "%s: harte Schaumkante quer (Sprung %.2f > 0,5 zwischen Nachbarpunkten, %d Stellen)"
+                  % (w["id"], float(jq.max()), int((jq > 0.5 + 1e-6).sum()))))
+    if len(S) != len(M):
+        return
+    ds = np.diff(S)
+    jl = np.abs(np.diff(sc, axis=0))
+    erl = 0.5 * np.maximum(ds / 0.5, 1.0)[:, None] + 1e-6
+    if (jl > erl).any():
+        b.append((FEHLER, tag, "%s: harte Schaumkante laengs (Sprung bis %.2f je 0,5 m, %d Stellen)"
+                  % (w["id"], float((jl / np.maximum(ds / 0.5, 1.0)[:, None]).max()), int((jl > erl).sum()))))
+    grob = (np.maximum(sc[:-1], sc[1:]).max(axis=1) > 0.05) & (ds > 0.6)
+    if grob.any():
+        b.append((FEHLER, tag, "%s: Schaum auf grobem Laengsraster (%d Abschnitte > 0,6 m)" % (w["id"], int(grob.sum()))))
+    gew = np.zeros(len(S))
+    gew[:-1] += ds / 2.0
+    gew[1:] += ds / 2.0
+    W = (gew * du)[:, None] * np.ones((1, N))
+    anteil = float((W * (sc >= 0.5)).sum() / max(float(W.sum()), 1e-9))
+    if anteil > 0.25:
+        b.append((WARNUNG, tag, "%s: Schaum >= 0,5 auf %.0f %% der Netzflaeche (> 25 %%, nur Lippen/Zunge/Aufprall; "
+                  "dichte Fallkette?)" % (w["id"], 100.0 * anteil)))
+    # je Laengsstreifen: Becken = Lauf ohne Absturz (absolute Wasserhoehe faellt < 3 cm); in Becken >= 6 m darf in
+    # [Anfang + 0,5 L + 1,5 m, Ende - 1 m] kein Schaum >= 0,5 liegen (Aufprall <= 30 % L + Rand, Saum <= 0,5 m)
+    n_mitte = 0
+    for j in range(N):
+        z = ZQ[:, j]
+        brueche = np.flatnonzero(np.diff(z) < -3.0)
+        starts = np.concatenate([[0], brueche + 1])
+        enden = np.concatenate([brueche, [len(z) - 1]])
+        for k0, k1 in zip(starts, enden):
+            L = S[k1] - S[k0]
+            if L < 6.0:
+                continue
+            m = (S[k0:k1 + 1] >= S[k0] + 0.5 * L + 1.5) & (S[k0:k1 + 1] <= S[k1] - 1.0)
+            n_mitte += int((sc[k0:k1 + 1, j][m] >= 0.5).sum())
+    if n_mitte:
+        b.append((FEHLER, tag, "%s: Schaum >= 0,5 in der Beckenmitte (%d Stuetzpunkte)" % (w["id"], n_mitte)))
 
 
 def pruefe_effekte(p, rw, inv, b, tag):
