@@ -360,6 +360,9 @@ Antwort: Nachtrag 2 in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
   - Kein Stück mit der Achse mitten in einer Lippe bzw. einem Vorhang: Lippenzone in s − Schrägversatz(u) von
     Lippe − 0,3 m bis Fuß + 0,5 m (Stufen ≥ 1 m: − 0,5 / + 1,5 m), quer bis Lippenbreite/2 − 0,3 m. Geprüft wird nach
     dem Setzen mit der Achse des gesetzten Netzes (gedrehte Bounds), wie im Prüfer.
+  - Liegend modellierte Stücke weichen ≤ 30° von der Hangnormalen ab (Prüfer-Grenze 45°, Reserve für den 1-m-Boden);
+    verkeilte und überspannende Stämme folgen der Normalen so weit, dass es ≤ 20° sind. Nach dem 1-m-Feinschliff
+    entfernt `bachbett_neigung_1m` Stücke, die auf dem endgültigen Boden > 40° abweichen.
 - **Lagen** (`bachbett_lagen_1m`, auf dem 1-m-Raster gegen den Boden nach dem Stempel):
   - Schlamm (Lava: Lavasand) in ruhigen, tiefen Becken (Ruhe 0 an Lippe/Kolk/Schnelle → Übergang zu Kies) und am
     Gleithang (Innenufer, ≤ 0,35 m tief); Kies darunter gedämpft.

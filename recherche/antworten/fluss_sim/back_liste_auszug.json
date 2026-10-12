@@ -63,14 +63,14 @@
    "geteilt": true,
    "resolution_max_axis": 1856,
    "zelle_m": 0.247,
-   "fingerabdruck": "bde4496c2c8fb1a97170424f72a97106738820d6282cca4f016faab7cd6dd36d",
+   "fingerabdruck": "2ff2481e67e7df2328fe1fa4a8405bb9ba708ee24592a311145447f6d343537b",
    "teile": {
     "gelaende": "82f713e44bdaa3ebfbc28397fca2a1e8a9fd6883d6073672831f6b879b96a88d",
     "splines": "925cd2e9558f6a01225a0593d0ed5ad10ef0f79f30ff25c8444f80c56668bdd6",
-    "objekte": "e27dd2428e7145a989a98f724883467f723189ea358b1ad0b3ed4ea150934df4"
+    "objekte": "a25bb0582274faa9bf8883dd38494c82d26fe675ac03b2c9665dc846a0cf94ad"
    },
    "n_hoehen": 17301,
-   "n_objekte": 681
+   "n_objekte": 678
   },
   {
    "swr_bereich": "F_ERLENBACH_T01",
@@ -91,11 +91,11 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.264,
-   "fingerabdruck": "70755d1d7b8b7c17c9cc3b4de19fb629972d3578f795de4c6a392cb455f13518",
+   "fingerabdruck": "92cb652ee0e63c4a55d94f0fc52a65b933647f5af9a604d25074c530ad6c005d",
    "teile": {
     "gelaende": "a90f9d9ccc50e47b19d41ebdf0ccc13587542e0bcc166d285e244a63e3e73913",
     "splines": "eedc1943d120f268c4559cc9b8b0bdbf47b97e0435c05397e6122b08901daac1",
-    "objekte": "571bb12a7a4f777328f53575778600044e1b9dfc17fd8e3cc2ac029686bfb703"
+    "objekte": "ef7dcd1f8d35d2b4b81229933ff94aaeac0faa7bc70006cf077953291392c3d1"
    },
    "n_hoehen": 30024,
    "n_objekte": 199
@@ -287,14 +287,14 @@
    "geteilt": false,
    "resolution_max_axis": 192,
    "zelle_m": 0.23,
-   "fingerabdruck": "9a3241dbf42ae21705bc93832f1f0cbeb80456014270625acbf475b66af683ea",
+   "fingerabdruck": "4c5226e6d0c0c70cee0196b879df5bf37ba02d6e0dc4cc3c0dae1409bd57e2a2",
    "teile": {
     "gelaende": "87a99824aa65097d0d94b46c022666871af253659fe53dc23ea72f2441be73bf",
     "splines": "05ea44fafcc22cf9adb046769fe093c808596847c444f0d2ed1278a9dd4c23ea",
-    "objekte": "dd44f4afe5843e7b0a0c8b8442521b0cc97a2afd6a4622dd4c6a525992dc2947"
+    "objekte": "72af370ca1bbfc79889955d7ea780794d61d48f7475f8734aa48d310c02f4a36"
    },
    "n_hoehen": 450,
-   "n_objekte": 32
+   "n_objekte": 30
   },
   {
    "swr_bereich": "SW_bergwald_06_karsee_zulauf_sued",
@@ -343,11 +343,11 @@
    "geteilt": false,
    "resolution_max_axis": 96,
    "zelle_m": 0.242,
-   "fingerabdruck": "54969d5c2a84936ffa9542ac5b125dc839b2fef5e609093cd17305f61737bda7",
+   "fingerabdruck": "665fccf6c30d6d7ab098d3bb59fafeb9f2eaa0a4c76e8caea4d5b4b0aa2a88f2",
    "teile": {
     "gelaende": "611d1e3d22eba8570fe086ad12e7ad3340a97515e8924eb34f941d295485f885",
     "splines": "8d4f084930c24bfba2dcd33c16f7f2debcd8862d9a66d68ee53b4ae184014dfd",
-    "objekte": "16282a3148948b773a21def09bb7c73d437791059f42a78e7d80f0bfe26a862e"
+    "objekte": "a95548362f93a8e1c1f20ce5f5816d974d355842516bd4cba8f5f7c6050bb7f0"
    },
    "n_hoehen": 190,
    "n_objekte": 37

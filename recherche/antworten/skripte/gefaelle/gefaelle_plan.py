@@ -1904,7 +1904,8 @@ def bachbett_stufen(stufen_ab):
     for s_l, D_l, l_l, t, e in lippen_liste(stufen_ab):
         g = t.get("geo")
         d = {"s_lippe": float(s_l), "s_fuss": float(s_l + l_l), "fall": float(D_l),
-             "gross": bool(D_l >= 1.0 or _hat_vorhang(e)), "halb": float(e["lippe_breite_m"]) / 2.0}
+             "gross": bool(round(float(D_l), 2) >= 1.0 or _hat_vorhang(e)),   # wie plan.json fall_m (2 Stellen)
+             "halb": float(e["lippe_breite_m"]) / 2.0}
         if g:
             d.update(tan=float(g["tan"] * g["skala"]), pfeil=float(g["pfeil"] * g["skala"]), h=float(g["h"]))
         out.append(d)
@@ -1950,6 +1951,29 @@ def bachbett_instanzen(ctx, kanal, segs, st_ab):
                     break
     return bb.totholz_setzen(ctx, kanal, [(a, b, bi) for a, b, bi in segs], welt=ctx.welt, bestand_lw=bestand,
                              seed_teil="bb")
+
+
+def bachbett_neigung_1m(ebene, inv, boden_fn, melde):
+    """Nach dem 1-m-Feinschliff: liegend modellierte Bachbett-Stuecke, deren Hochachse auf dem endgueltigen Boden mehr
+    als 40 Grad von der Hangnormalen abweicht (Pruefer-Grenze 45 Grad, sehens_pruefen._hangnormale), entfernen -
+    gesetzt wurde gegen den 2-m-Stempel."""
+    from sehens_lib import bachbett as bb
+    from sehens_lib.sehens_pruefen import liegend_neigung_grad
+
+    raus = []
+    for e in ebene.stuecke:
+        if not e["gruppe"].startswith(bb.PRAEFIX) or not inv.liegendes_holz(e["pfad"]):
+            continue
+        xm, ym = e["x"] / 100.0, e["y"] / 100.0
+        r = float(np.clip(0.3 * inv.stamm_form(e["pfad"])[0] * max(e["s"]), 1.0, 4.0))
+        gx = (float(boden_fn(xm + r, ym)) - float(boden_fn(xm - r, ym))) / (2.0 * r)
+        gy = (float(boden_fn(xm, ym + r)) - float(boden_fn(xm, ym - r))) / (2.0 * r)
+        if float(liegend_neigung_grad(inv, e["pfad"], [e["q"]], [[-gx, -gy, 1.0]])[0]) > 40.0:
+            raus.append(id(e))
+    if raus:
+        ebene.stuecke = [e for e in ebene.stuecke if id(e) not in set(raus)]
+        melde("HINWEIS", "Bachbett: %d Totholz-Stuecke nach dem 1-m-Feinschliff entfernt (Hochachse > 40 Grad gegen die "
+                         "Hangnormale)" % len(raus))
 
 
 def bachbett_block(ctx, kanal, bilanz, inv):
@@ -3354,6 +3378,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
 
     def boden_fn(x, y):
         return alt_fn(x, y) + deltas_1m.delta(x, y)
+    bachbett_neigung_1m(ebene, inv, boden_fn, melde)
     wasser_koerper = bauen_wasser_A(pr, sp, alle_stufen, segmente, breite_fn, lauf_id, boden_fn, melde,
                                     muendungen_linien(zufl, pr), alt_fn, lf, rw)
     kameras = []

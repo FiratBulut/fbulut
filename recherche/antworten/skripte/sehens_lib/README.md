@@ -234,6 +234,27 @@ Antwort:
 | `sehens_pruefen.py` | `pruefe_liegendes_holz` in `pruefe_ebene` (beide Kontexte): FEHLER, wenn die Hochachse eines liegend modellierten Holznetzes mehr als 45° von der Hangnormalen abweicht (nach dem Stempel, Radius wie beim Setzen). FEHLER bei Instanzen mit Skala außerhalb der Grenzen. Bei Akteuren ist die Skala nur ein HINWEIS. |
 | `selbsttest_13k.py` | Schritt 13, Teil 9: Form, Neigung flach und am Hang, Prüferfälle. |
 
+## Auftrag 16c, Nachtrag 18:15 (Bachbett: Totholz, Schlamm, Uferstreifen)
+
+Ferat zu C2: „Felsen, totes Holz und Schlamm gehören in jedes Bachbett.“ Gemeinsam für den Gefälle-Planer (A15) und alle
+Sehens-Bach-Planer; Antwort: Nachtrag 2 in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
+
+| Modul | Inhalt |
+|---|---|
+| `bachbett_regeln.json` | Dichten je Biom (grosses Totholz `lw_je_100m` [min, Ziel, max], Verklausungen, Äste, Zweige je 100 m) mit Quellen, Netz-Paletten (nur natürliche Netze), Streifen- und Beckenlagen je Biom, alle Abstände und Prüfgrenzen |
+| `bachbett.py` | `Kanal` (Mittellinie, Spiegel, Wasserkante, Lippen → Lippenzonen mit Schrägversatz, Ruhe, Krümmung), `wald_faktor` (Waldnähe aus `welt.baeume4`), `totholz_setzen` (Verklausung oberhalb von Lippen/an Engstellen, überspannende Stämme, Stämme am Ufer, Wurzelstöcke, Äste, Zweige am Innenufer → Gruppen `bb_…`, Instanzen, nie Akteure), `bett_lagen` + `lagen_mischen` (Schlamm in ruhigen tiefen Becken und am Gleithang, nasser Uferstreifen 0–1 m über dem Spiegel, Gras gedämpft), `stuecke_block`/`dichte_zusammenfassen` (Planausgabe), Prüfer-Helfer (`lippen_zonen`, `in_zonen`, `Lippenfeld`, `achse_enden`, `dichte_bewerten`, `streifen_bewerten`, `projektion_schnell`), Sehens-Adapter (`sehens_totholz`, `sehens_lagen`, `sehens_eintrag`) und `pruefe_orte_bachbett` |
+| `rezept.py` | `baue()`: nach den Rezeptgruppen `_bb.sehens_totholz`; `lagen_bauen()`: `_bb.sehens_lagen` vor `_lagen_delta_decken`; `eintrag_bauen()`: nach dem Budget `bachbett` je Bach in `orte.json`. Rezept-Feld je Bach `"bachbett": false` schaltet ab. |
+| `sehens_pruefen.py` | `pruefe_orte` ruft `bachbett.pruefe_orte_bachbett` (mit Ebene und Inventar). |
+| `vorschau.py` | Totholz als Achse (Stamm/Wurzel braun, Verklausung rot, überspannt magenta, Äste/Zweige hell). |
+| `selbsttest_16c.py` | Schritt 14 des Selbsttests. |
+
+Regeln (beide Planer): Stufen, Lippen, Becken, Spiegel, Gelände und Effekte bleiben (13f); kein Stück mit der Achse mitten in
+einer Lippe bzw. einem Vorhang; großes Holz im Wasser oder ≤ 1 m daneben mit Kollision (`<netz>_kol`, damit der
+fluss_sim-Export es als Wasser-Kollision aufnimmt); überspannende Stämme mit Unterkante ≥ Spiegel + 0,25 m (Export:
+`ueberspannt`, keine Wasser-Kollision, 16a Entscheidung 5); Netz nach Länge, Skala 0,6–1,8, liegend modelliert →
+`normale`. Prüfer (FEHLER): Liste ↔ Ebene, Kollision, Lippenzonen, Dichte je Biom × Waldfaktor, Uferstreifen ≥ 80 % der
+Uferzellen (auf 2 m bei Sehens-Bächen WARNUNG).
+
 ## Cache und Laufzeiten (2 m, 4789 × 3529, ohne SciPy)
 
 - Ordner: `$SEHENS_CACHE` oder `--cache`, Standard

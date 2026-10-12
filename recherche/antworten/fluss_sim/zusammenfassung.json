@@ -18,12 +18,12 @@
   "faelle_vorhang": 170,
   "abstuerze": 2074,
   "bereiche": 963,
-  "kollision": 24666,
-  "kollision_im_wasser": 23738,
-  "ueberspannt": 1768,
+  "kollision": 24697,
+  "kollision_im_wasser": 23776,
+  "ueberspannt": 1782,
   "schaum": {
    "aufprallteppich": 170,
-   "kehrwasser": 299,
+   "kehrwasser": 298,
    "schaumstrasse": 806
   },
   "splinepunkte": 18721
@@ -148,7 +148,7 @@
    "summe": 80.0
   },
   "hindernis_akteure": 131,
-  "hindernis_instanzen": 23476,
+  "hindernis_instanzen": 23509,
   "hindernis_akteure_mit_tag": 1036,
   "swr_ohne_hindernis": 68,
   "gelaende_max_in_swr_m": 331.86,
@@ -221,10 +221,10 @@
   "grenze_m": 655.04,
   "ueber_grenze": 0
  },
- "kollision_objekte_eindeutig": 24512,
+ "kollision_objekte_eindeutig": 24545,
  "objekt_pool": {
-  "objekte": 358203,
-  "fest_und_gross": 66940
+  "objekte": 358258,
+  "fest_und_gross": 66990
  },
  "tempo": {
   "einheit": "m/s (UE: WaterVelocityScalar = x 100 cm/s)",

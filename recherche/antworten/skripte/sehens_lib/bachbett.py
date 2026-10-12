@@ -351,6 +351,25 @@ def _richtung(yaw):
     return math.sin(math.radians(yaw)), -math.cos(math.radians(yaw))
 
 
+def _hang_grad(ctx, x, y, L):
+    """Hangneigung (Grad) am Punkt, Radius wie rezept._ein_stueck (0,3 x Laenge, 1-4 m)."""
+    r = float(np.clip(0.3 * L, 1.0, 4.0))
+    gx = (float(ctx.boden(x + r, y)) - float(ctx.boden(x - r, y))) / (2.0 * r)
+    gy = (float(ctx.boden(x, y + r)) - float(ctx.boden(x, y - r))) / (2.0 * r)
+    return math.degrees(math.atan(math.hypot(gx, gy)))
+
+
+def _neigung_zur_normalen(ctx, inv, e):
+    """Winkel Hochachse <-> Hangnormale wie sehens_pruefen.pruefe_liegendes_holz (Normale am Pivot, Radius 0,3 x
+    Netzlaenge x Skala, 1-4 m), hier gegen den Boden des Planers."""
+    from .sehens_pruefen import liegend_neigung_grad
+    xm, ym = e["x"] / 100.0, e["y"] / 100.0
+    r = float(np.clip(0.3 * inv.stamm_form(e["pfad"])[0] * max(e["s"]), 1.0, 4.0))
+    gx = (float(ctx.boden(xm + r, ym)) - float(ctx.boden(xm - r, ym))) / (2.0 * r)
+    gy = (float(ctx.boden(xm, ym + r)) - float(ctx.boden(xm, ym - r))) / (2.0 * r)
+    return float(liegend_neigung_grad(inv, e["pfad"], [e["q"]], [[-gx, -gy, 1.0]])[0])
+
+
 class _Massiv:
     """Massive Stuecke (Bloecke, Riegel, Waende) des Kontexts fuer den Achsentest."""
 
@@ -406,6 +425,12 @@ def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, see
             g["normale_anteil"] = 0.8
         if extra:
             g.update(extra)
+        if "z_bezug" in g:
+            # verkeilt/ueberspannend: so weit der Hangnormalen folgen, dass die Hochachse <= neigung_frei_grad von ihr
+            # abweicht (Pruefer pruefe_liegendes_holz: > 45 Grad = 'steht')
+            th = _hang_grad(ctx, x, y, L)
+            if th > float(A["neigung_frei_grad"]):
+                g["normale_anteil"] = max(float(g.get("normale_anteil", 0.0)), 1.0 - float(A["neigung_frei_grad"]) / th)
         try:
             out = ctx.gruppe(g)
         except (KeyError, ValueError) as ex:
@@ -418,6 +443,12 @@ def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, see
         if e is not None:
             # Achse des tatsaechlich gesetzten Netzes (wie der Pruefer: gedrehte Bounds) gegen die Lippenzonen
             (x0, y0, x1, y1), _, _ = achse_enden(inv, e["pfad"], e["q"], e["s"], (e["x"], e["y"]))
+            if inv.liegendes_holz(e["pfad"]) and _neigung_zur_normalen(ctx, inv, e) > float(A["neigung_max_grad"]):
+                # wie der Pruefer (Normale am Pivot, Radius 0,3 x Laenge, 1-4 m) mit Reserve fuer den 1-m-Boden
+                ctx.ebene.stuecke = [s_ for s_ in ctx.ebene.stuecke if s_ is not e]
+                ctx.gruppen[nm] = []
+                grund["neigung"] = grund.get("neigung", 0) + 1
+                return None
             if not frei_lippe(x0, y0, x1, y1):
                 ctx.ebene.stuecke = [s_ for s_ in ctx.ebene.stuecke if s_ is not e]
                 ctx.gruppen[nm] = []
@@ -488,7 +519,8 @@ def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, see
                 gesetzt = []
                 z_top = None
                 for i in range(n_st):
-                    L = float(np.clip(B_ * rj.uniform(0.75, 1.15), A["stamm_laenge_m"][0], A["stamm_laenge_m"][1]))
+                    L = float(np.clip(B_ * rj.uniform(*A["verklausung_laenge_B"]), A["stamm_laenge_m"][0],
+                                      A["stamm_laenge_m"][1]))
                     netz, L, Ln, H = _netz_nach_laenge(inv, stamm_pal, L, rj)
                     w = sg * (1 if i % 2 == 0 else -1) * float(rj.uniform(*A["verklausung_winkel_grad"]))
                     tx, ty = kanal.tang(s0)
@@ -604,7 +636,10 @@ def totholz_setzen(ctx, kanal, segmente, R=None, welt=None, bestand_lw=None, see
                     u = sg * (h_ + float(rk.uniform(-0.2, 0.8)))
                     yaw = float(rk.uniform(0, 360))
                 else:
-                    L = float(np.clip(B_ * rk.uniform(*A["stamm_laenge_B"]), *A["stamm_laenge_m"]))
+                    # Laenge gleichverteilt bis zur Bachbreite (breite Baeche: ganze Spanne, viele Netze)
+                    L = float(rk.uniform(A["stamm_laenge_m"][0],
+                                         float(np.clip(B_ * A["stamm_laenge_B"][1], A["stamm_laenge_m"][0] + 0.5,
+                                                       A["stamm_laenge_m"][1]))))
                     netz, L, Ln, H = _netz_nach_laenge(inv, pal, L, rk)
                     u = sg * (h_ + float(rk.uniform(*A["ufer_u_m"])))
                     tx, ty = kanal.tang(sc)
@@ -886,7 +921,7 @@ def sehens_kanal(ctx, wid, R=None):
     B = float(pl["B"])
     he = float(_bach.halbe_breite_eff(B, ctx.welt.zelle_m))
     stufen = [{"s_lippe": float(st["s_lippe"]), "s_fuss": float(st["s_fuss"]), "fall": float(st["fall_m"]),
-               "gross": float(st["fall_m"]) >= 1.0, "halb": B / 2.0} for st in pl["stufen"]]
+               "gross": round(float(st["fall_m"]), 2) >= 1.0, "halb": B / 2.0} for st in pl["stufen"]]
     return Kanal(s, x, y, W, np.full(len(s), B), stufen, halb_fn=lambda s_, u_: np.full(np.shape(s_), he), R=R,
                  zonen_zuschlag_m=0.1)
 

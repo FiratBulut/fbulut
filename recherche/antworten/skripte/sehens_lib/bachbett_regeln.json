@@ -18,7 +18,7 @@
   "COLORADO": "Wohl & Cadol 2011, Neighborhood matters (Geomorphology 125), und GSA 2011 / AFS 2012 (Beckman & Wohl): Altwald (> 200-250 Jahre) im Mittel 45 Verklausungen je km, jungere bzw. genutzte Bestaende 15-20 je km; Holzmenge vor allem von Tal- und Gerinneform abhaengig.",
   "LASELVA": "Cadol & Wohl (La Selva, Costa Rica): 3,0-34,7 m3 je 100 m (Mittel 12,3 m3), viele kleine Stuecke statt weniger grosser (Saraiva et al. 2022, PLoS ONE: Amazonas/Cerrado aehnlich gemaessigten Waeldern).",
   "FOX": "Fox & Bolton 2007, NAJFM 27: 342-359: Referenz unbewirtschafteter Baeche Washington; 75. Perzentil je Breitenklasse als Untergrenze; Bewertung < 4 / 4-11 / > 11 Stuecke je 100 m (Sekundaerquelle).",
-  "ANNAHME": "Tundra/Gletscher/Frost/Lava/Wueste: oberhalb der Baumgrenze bzw. ohne Wald kein Holznachschub - Dichte 0-1 je 100 m (Annahme aus dem Fehlen der Quelle, kein Literaturwert)."
+  "ANNAHME": "Gletscher/Frost/Lava: kein Wald, kein Holznachschub - 0 je 100 m. Wueste 0-2, Tundra kaum (0-6, Ziel 3, etwa ein Fuenftel des Bergwalds: einzelne Baeume am Hang, Treibholz von oberhalb), Heide/Kueste/Oedland/Canyon wenig. Annahme aus dem Fehlen bzw. der Seltenheit der Holzquelle, kein Literaturwert."
  },
  "allgemein": {
   "min_laenge_m": 12.0,
@@ -35,7 +35,7 @@
   "abstand_ast_m": 1.2,
   "abstand_zweig_m": 0.5,
   "stamm_laenge_m": [2.0, 7.0],
-  "stamm_laenge_B": [0.5, 1.1],
+  "stamm_laenge_B": [0.5, 1.0],
   "ufer_u_m": [-0.6, 0.5],
   "ufer_winkel_grad": [15, 55],
   "wurzel_anteil": 0.15,
@@ -45,6 +45,7 @@
   "ueberspannt_ueberstand_m": [0.8, 1.8],
   "ueberspannt_unterkante_min_m": 0.25,
   "verklausung_staemme": [2, 3],
+  "verklausung_laenge_B": [0.55, 1.0],
   "verklausung_aeste": [1, 2],
   "verklausung_vor_lippe_m": [0.7, 1.6],
   "verklausung_winkel_grad": [12, 35],
@@ -55,6 +56,8 @@
   "zweig_u_m": [-0.6, 1.5],
   "zweig_skala": [0.8, 1.6],
   "kollision_ufer_m": 1.0,
+  "neigung_frei_grad": 20.0,
+  "neigung_max_grad": 30.0,
   "pruef_min_laenge_m": 60.0,
   "streifen_hoehe_m": [-0.1, 0.65, 1.0],
   "streifen_breite_m": 3.5,
@@ -146,7 +149,7 @@
   "tundra": {"wald": false, "lw_je_100m": [0, 3, 6], "verklausung_je_100m": 0.5, "ast_je_100m": 6, "zweig_je_100m": 10,
    "quelle": ["ANNAHME", "FOX"],
    "hinweis": "'kaum': Bergtundra mit einzelnen Kiefern/Birken am Hang (C2) - wenige alte, verwitterte Staemme und Wurzelstoecke (Treibholz von oberhalb, Krummholz), etwa ein Fuenftel der Bergwald-Dichte",
-   "stamm": ["SM_OldFallenTree_01", "SM_OldFallenTree_02", "SM_OldTreeBranch_06", "SM_dead_log_03", "SM_dead_log_04"],
+   "stamm": ["SM_OldFallenTree_01", "SM_OldFallenTree_02", "SM_OldTreeBranch_06", "SM_FallenSpruceTree_01", "SM_dead_log_03", "SM_dead_log_04"],
    "ast": ["SM_mountain_branch_01_06", "SM_mountain_branch_01_07", "SM_Pine_broken_branch_04", "SM_Pine_broken_branch_10"],
    "zweig": ["SM_mountain_branch_01_01", "SM_mountain_branch_01_02", "SM_mountain_branch_01_04", "SM_Pine_broken_branch_02"],
    "wurzel": ["SM_BrokenStump_01", "SM_Pine_roots_04"],

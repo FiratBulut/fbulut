@@ -683,7 +683,6 @@ def pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m=None):
     - Uferstreifen: Zellen 0,05-0,5 m ueber dem Spiegel bis 1,5 m neben dem Netzrand (ausserhalb der Lippenzonen) zu
       >= 80 % mit Streifen-Lagen (Schlamm/Erde/Moos je Biom) >= 200."""
     from sehens_lib import bachbett as bb
-    from sehens_lib import stempel as stm
     R = bb.regeln()
     A = R.a
     blk = p.get("bachbett")
@@ -752,8 +751,6 @@ def pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m=None):
             n_best = sum(1 for st in best if a_ - 1.0 <= st["s_m"] <= b_ + 1.0)
             f = float(seg.get("wald_faktor", 1.0))
             if welt is not None and L >= float(A["min_laenge_m"]):
-                m_ = (s_neu >= a_) & (s_neu <= b_)
-                pts = P[m_] if m_.sum() >= 2 else P
                 ss_ = np.linspace(a_, b_, max(2, int(L / 2.0) + 1))
                 pts = np.stack([np.interp(ss_, s_neu, N[:, 0] / 100.0), np.interp(ss_, s_neu, N[:, 1] / 100.0)], 1)
                 f2, _ = bb.wald_faktor(welt, pts, R, seg["biom"])

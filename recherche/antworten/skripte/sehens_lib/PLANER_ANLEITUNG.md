@@ -476,6 +476,18 @@ alte Rezepte laufen weiter und bekommen das neue Verhalten automatisch.
   Fallfläche ≤ 0,45; Aufprall-Effekte an Stufen ≥ 3 m mit `cull_m` 60–80 m und `strahl_breite_m`; Vorhänge in
   `vorhang` mit Strahlbreite. Stufen, Querprofil und Effekt-Positionen bleiben wie 13f.
 
+### 3.14 Bachbett: Totholz, Schlamm, Uferstreifen (Auftrag 16c, Nachtrag 18:15)
+
+Jeder geplante Bach bekommt automatisch (keine Rezeptarbeit nötig) Totholz, Schlamm und einen nassen Uferstreifen nach
+`sehens_lib/bachbett_regeln.json` (Dichte je Biom, mit Waldnähe):
+- Gruppen `bb_<bach>_<art>_<nr>` (Arten `stamm`, `verklausung`, `ueberspannt`, `wurzel`, `ast`, `zweig`), Instanzen,
+  nie Akteure; großes Holz mit Kollision. Sie stehen nach den Rezeptgruppen, sehen also Blöcke und Riegel (Achse nicht
+  durch massive Stücke, Verklausung verkeilt).
+- Lagen: Schlamm (bzw. Lavasand) in ruhigen tiefen Becken und am Gleithang, Uferstreifen 0–1 m über dem Spiegel
+  (Schlamm/Erde/Moos je Biom, deckend; Wiese/Gras/Trockengras/Kraut/Heide dort 0).
+- `orte.json`: je Bach `bachbett` (`stuecke`, `dichte`, `lagen`).
+- Abschalten je Bach: `{"typ": "bach", "id": "...", "bachbett": false}` (z. B. Lavarinne, Eisrinne; Grund im `warum`).
+
 ## 4. Bausteine der Bibliothek (für Hooks und Sonderfälle)
 
 ```python
