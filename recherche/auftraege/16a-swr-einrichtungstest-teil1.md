@@ -36,3 +36,17 @@ b) **Material:** Welche Parameter in `SW_Water_Material` steuern Weißwasser und
    Stufen und Hindernissen?
 c) **Größe:** Grenzen für `resolution_max_axis` und Fläche; ein `AShallowWaterRiver` je Fluss oder je Abschnitt zwischen den Fällen?
 d) **ISM/Foliage als Hindernis:** Gibt es Erfahrungen, ob die Bodenerfassung Instanzen einzeln erfassen kann?
+
+## Nachtrag 15:05 – Material: das Marmormuster kommt nicht aus den Wasserfarben
+
+- `MI_EL_SWR_Fluss` (Kind von `SW_Water_Material_River`, unsere Absorption/Streuung, Schaum neutral) als `baked_sim_material` + `spline_river_material`:
+  kaum Unterschied ([`bilder/swr/t1_material_epic_gegen_eigen.jpg`](../bilder/swr/t1_material_epic_gegen_eigen.jpg)).
+- In LIVE_SIM zeichnet der Fluss mit seinem eigenen Wassermaterial (`MI_Eldarien_Wasser_Fluss`, Master `M_Eldarien_Wasser_Schaum8`, dieselbe
+  Parameterfamilie inkl. „Fluidsim …“/„Sim Foam …“). Drei Varianten mit ruhigeren Werten (`Sim Velocity Normal Strength` 40 → 10 → 3,
+  `Fluidsim Normal Strength` 1 → 0,5 → 0,25, `WPO Flowmap` 6 → 3 → 1,5, `Foam Opacity` 0,45 → 0,25/0,3, `Sim Foam Scale` 350 → 700):
+  **praktisch identisch** ([`bilder/swr/t1_material_varianten.jpg`](../bilder/swr/t1_material_varianten.jpg)).
+- Vermutung: Das hell-türkis-weiße Marmormuster entsteht in der Darstellung der Simulation selbst (Sekundär-Emitter `SW_River_Secondary_Emitter`
+  mit 50 000 Teilchen, `M_SW_Foam`, Simulations-Normalen) oder im Wasser-Info-Pfad, nicht in den Material-Parametern, die wir geändert haben.
+- **Bitte gezielt recherchieren:** Welche Einstellungen an `AShallowWaterRiver`/`Grid2D_SW_River` (Emitter-Parameter, Benutzerparameter des
+  Niagara-Systems) und welche Material-Parameter steuern das Aussehen in LIVE_SIM bzw. BAKED_SIM? Gibt es Beispiel-Szenen von Epic (5.6/5.7) mit
+  klarem Bachwasser, und welche Werte nutzen sie? Ferats Video bitte einbeziehen, sobald er Titel/Kanal nennt.
