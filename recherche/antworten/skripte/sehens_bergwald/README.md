@@ -64,6 +64,28 @@ Material-Instanzen 5 von 6: `MI_EL_SW_Verkohlt`, `_Klammfels_Nass`, `_Granit_Moo
 - **Klemmblock-Klamm:** `wasserfall` (Kante aus der Stufe, Fuß = Gumpe), Gumpe `smaragd`, Bach zum Bestandsgerinne,
   Effekte aus Nature Water FX (siehe oben).
 
+## Auftrag 13h – Bildbefund erster Pilot (12.10.2026)
+
+Details und Vorbilder: `recherche/antworten/13h-pilot-bergwald-bildbefund.md`.
+
+- **Karsee (`bergwald_06`):**
+  - `gelaende.max_neigung_grad: 35` und `halde`: neue Steilheit wird am Fuß als Schutthalde aufgeschüttet und an der
+    Kante abgetragen, mit Lage `Geroell` und Blöcken.
+  - Rückwand `karwand_fels`: 18 Klippennetze mit `verteilung.typ: steilwand`, `front_an_linie`, gestapelt.
+  - Auslauf: `schwelle_buckel` aus 14 Rundhöckern.
+  - Gliederung: `felsbaender`(`_west`), `rinnenkegel_sued/_west`, Moos- und Schnee-Lagen.
+  - Seefarbe `tiefblau` mit `farbe_begruendung`.
+  - Insel: `becken.insel` ist eine Kuppe 0,6 m über dem Spiegel; Blöcke und Kiefer stehen darauf.
+  - Spiegel 256,17 m und die Bachstufen sind unverändert.
+- **Säulenhain (`bergwald_03`):**
+  - 13 × `Fir_07_Forest` ×2,6–2,9 (Median 59,5 m; Bestand P90 27 m).
+  - Freiraum `kreis` r 34 m für den Kern, `rechteck` 70 × 42 m für die Lichtung nach ONO.
+  - `saum_jungwuchs`, `lichtung_gras`, `altholz`, drei Spotlichter, Nebel 0,05.
+  - Kameras werden über die Regel `kameras` gesetzt; `_fern` wird an einem Wegpunkt gesucht (570 m, Kronen vor dem Himmel).
+- **Windwurf:** `kameras.nah` zielt auf die Gruppe `wurzelteller`.
+- **Prüfer 2 m:** 0 FEHLER. Es bleiben 4 WARNUNGen am Karsee, alle aus 13g/13i (Stufen ohne Niagara, Ufer 4 von 168 Proben).
+- **Steilflächen am Karsee:** 241 m² neu > 45°, davon 233 m² verkleidet.
+
 ## Grenzen und offene Punkte
 
 - Pivot/Front: `veqnci0db_tier_2`, `rcygn_tier_0`, `vfmjadufa_tier_2`, die Basalt- und Mountain-Netze haben keine Bounds
