@@ -262,6 +262,24 @@ Die Belege stammen aus **Suchmaschinen-Auszügen** der verlinkten Seiten; YouTub
 | Neulauf nach 13k-Rückfragen 2 und 6 (Beispiele, Akteure je Kachel im Prüfer) | `024d25f` |
 | fluss_sim v2: SWR-Einheit = Strecke, Vorhang-Regel, `WH_<einheit>`, Prüfer v2 (16b) | `6f7f315` |
 
+## Nachtrag 16c – ein Fluss und eine SWR je Gewässer (fluss_sim v3)
+
+Ferat (16c): **Je Gewässer genau ein `WaterBodyRiver`** von der Quelle bis zur Mündung (See, Fluss, Meer), über alle Fälle
+hinweg; die Simulation füllt Becken und überströmt Lippen selbst. Nach der Messung 16c (17:45) außerdem **eine SWR je
+Gewässer** mit Auflösung bis 2048. Das ersetzt die Strecken-Einheiten aus 16b:
+
+- **196 Gewässer** (195 Welt-Läufe zu 154 verkettet, 42 Sehens-Bäche). Jede Stufe hat in der Spline einen Punkt an der Lippe
+  und einen am Fuß. Die Abschnitte gibt es nur noch als Bereiche.
+- **Mündungen:** Meer 55, Bach 61, Fluss 13, See 23, versickert 19, Wasserfall 1, offen 24. Ein Nebenbach endet im
+  Hauptfluss.
+- **188 Gewässer mit einer SWR.** Zielzelle Bach 0,25 m, Fluss 0,35 m; Auflösungen 106 × ≤ 512, 56 × ≤ 1024, 49 × ≤ 2048.
+  Nur 8 sehr große Gewässer werden für die Simulation geteilt; ob zwei SWR auf demselben Fluss gebacken sauber
+  aneinanderstoßen, klärt ein lokaler Test.
+- Fälle, Vorhang-Regel und Wasser-Kollision wie 16/16a/16b; Vorhänge warten vorerst. Hindernis-Akteur je SWR (meist je
+  Gewässer).
+- Prüfer v3: 0 FEHLER, zwei Läufe byte-gleich. Einzelheiten, Zahlen, Testplan und T2-10:
+  [`16c-ferat-ein-fluss-je-gewaesser.md`](16c-ferat-ein-fluss-je-gewaesser.md).
+
 ## Nachtrag 16b – eine Simulation je Strecke (fluss_sim v2)
 
 Lokal bestätigt (16b): **ein** Shallow Water River über die ganze C2-Strecke funktioniert und sieht natürlicher aus als das

@@ -514,3 +514,18 @@ Projekt:
    nur greifen, wenn das Objekt die Wassermitte überdeckt (echte Brücke/Überhang)?
 6. **Manager für die Gischt-Teilchen** (2.2 Weg 1) als eigenes Weltsubsystem im Plugin: einverstanden? Alternativ die Kopie
    des Niagara-Systems mit Effect Type (Weg 2, offene Rückfrage 4 aus 16a Nachtrag 2).
+
+## Nachtrag 16c – T2-10 und Ablösung von v2
+
+- **T2-10 (Höhe): Kein Sehens-Bach liegt über 655 m.**
+  - Höchster Sehens-Bach: `gletscher_05_die_waechte` Mühlenbach mit **307,1 m**.
+  - Höchstes Sehens-Wasser überhaupt: Wasserfall-Kante `fjord_02_schleierwand` mit 361,2 m.
+  - Frost: höchstens 43,3 m. Welt-Gewässer: höchstens 288,2 m (`F_HAUPTFLUSS_1`).
+  - Gelände in den SWR-Rechtecken: höchstens 331,9 m.
+  - Die fp16-Grenze (65 504 cm) trifft also kein Gewässer; der Abstand beträgt mindestens 294 m.
+- **Rückfrage 1 (C2-Zelle)** ist durch eure Messung geklärt: Der SWR-Bereich ist das Rechteck um den Fluss, Zelle =
+  längste Seite / Auflösung.
+- **Rückfrage 3 (Bach-Zelle 0,4–0,5 m)** entfällt: Mit Auflösung bis 2048 liegen Bäche bei 0,25 m, höchstens 0,30 m.
+- **Format v2 ist abgelöst** durch v3: ein `WaterBodyRiver` und eine SWR je Gewässer. Siehe
+  [`16c-ferat-ein-fluss-je-gewaesser.md`](16c-ferat-ein-fluss-je-gewaesser.md).
+
