@@ -2,7 +2,7 @@
 
 Stand 12.10.2026. Bearbeitet: K1–K8, K10, aus K9 frost_01 `fuer`, gletscher_01-Furtstrecke und elfenwald_04 `zulauf`.
 Die übrigen K9-Punkte (organische Formen, Terrassen, Kamera bergwald_06) macht der 13h-Agent. K1 bis K4 waren als
-Vorfassung schon in `5d88d44` (WIP-Commit) gepusht. Endstand: siehe Commit-Hinweis am Ende.
+Vorfassung schon in `5d88d44` (WIP-Commit) gepusht. Endstand: `785711d` (13i), danach 13j (`e9489b3`).
 
 ## Kurzfazit
 
@@ -215,7 +215,17 @@ enthalten.
 - Es bleiben WARNUNGEN wie 13f: versickert < 25 m (canyon_07, lava_03, wueste_04), heide_06 `fall3` 0,8 m; neu kommen
   WARNUNGEN „Stufen ≥ 1 m ohne Niagara“ (13g) dazu.
 
-DETERMINISMUS_PLATZHALTER
+**Zwei Läufe byteidentisch (Abschluss):**
+- Je Biom zweimal nacheinander gerechnet, mit Prüfsumme der Bibliothek vor und nach den Läufen (unverändert): alle 15
+  Biome byteidentisch.
+- Elfenwald und lava waren bei einem Durchgang mit drei parallelen Prozessen einmal verschieden (Kameraversatz aus
+  `kamera_frei`, Zentimeter). Nacheinander waren sie identisch, siehe 13j-Antwort.
+
+**Commits:**
+- `5d88d44`: Vorfassung K1–K4.
+- `785711d`: K5–K10, Pivot-Meer-Prüfung.
+- `291ae73`, `41952fe`, `e9489b3`: 13j.
+- Diese Datei: Commit danach.
 
 ## Offen / Rückfragen
 
