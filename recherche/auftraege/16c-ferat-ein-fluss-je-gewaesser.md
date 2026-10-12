@@ -37,3 +37,17 @@ von Anfang bis zum Schluss, wo der Fluss mündet.“
   wird (lange oder diagonal/gewunden verlaufende Flüsse wie `F_HAUPTFLUSS` 2 km), muss der Fluss für die Simulation in wenige lange Stücke geteilt
   werden – nach Länge/Rechteckfläche, nicht an den Fällen. Unsere Daten: Bäche (170 Stück in `baeche_alle.json`, je Feld gestückelt) Median 151 m,
   max 1 000 m; Flüsse (27) Median 204 m, max 1 996 m. Bitte im Export: je Gewässer Rechteckmaße, empfohlene Auflösung und ggf. Teilungspunkte.
+
+## Nachtrag 18:15 – Ferat: Felsen, Totholz und Schlamm gehören in jedes Bachbett
+
+Ferat zu C2: „Es muss noch viel besser werden … auch Felsen, totes Holz und Schlamm gehören (dazu).“ Der C2-Plan (0e00d17) hat viele Felsen
+(Riegel, Sturz-/Becken-/Rand-/Eckblöcke, Wandschutt, Lippenplatten) und 1 092 Kiesel, aber **kein Totholz und keinen Schlamm** (Lagen nur
+Trockengras/Moos/Kies/Geröll/Fels/Felsplatte). Bitte im Gefälle-Planer (und in den Sehens-Bach-Planern) ergänzen:
+
+1. **Totholz:** liegende Stämme an Ufern und in Engstellen (teils im Wasser, teils verkeilt zwischen Blöcken: Treibholz-Verklausung), Äste und
+   Wurzelstöcke am Ufer, Zweige auf Kiesbänken; Dichte nach Waldnähe (Bergwald/Aue mehr, Tundra/Wüste kaum). Stämme, die das Wasser **überspannen**
+   (Unterkante > Spiegel + 0,1 m): keine Wasser-Kollision (16a d2). Alles im Wasser bzw. ≤ 1 m daneben: `wasser_kollision: true`.
+2. **Schlamm:** Lage `Schlamm` in ruhigen, tiefen Becken und an flachen Innenufern (Gleithang), Übergang zu Kies an den Schnellen; nasser dunkler
+   Uferstreifen (0–1 m über dem Spiegel: Schlamm/Erde/Moos) statt trockener Gräser direkt am Wasser.
+3. **Felsen:** wie bisher, mit `wasser_kollision` für alles im Wasser (Hindernis-Akteur je Gewässer statt je Kachel, siehe oben).
+Lokal ergänze ich C2 vorerst mit unserem Bachdekor-Werkzeug (nur Totholz/Schlamm/Uferpflanzen), bis euer Planer es liefert.
