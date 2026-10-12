@@ -12,6 +12,8 @@ Je Bach (Ort + id) werden die Stufen verglichen: Lippe/Fuss (x, y, z in cm), fal
   fuss        Lippe, Hoehen und Zahl gleich, nur der Fuss in der Lage <= 60 cm verschoben (13i K5)
   schluss     wie fuss, die Schluss-Stufe am See ist in der letzten Stufe aufgegangen (13i K5)
   verlaengert Stufen des alten Laufs identisch, der neue Lauf hat zusaetzliche Stufen hinter dem alten Ende
+  gelaende13h Bach im 13h-Gelaende (Liste GELAENDE_13H, Koordinator 13i-Nachtrag): Stufen folgen dem neuen Gelaende;
+              Zahl, Fallhoehen (Summe, groesste) und Lippenversatz werden mit ausgegeben
   anders      sonst (mit der ersten Abweichung)
   neu / weg   Bach nur in einer der beiden Ausgaben
 Exit-Code 0, wenn kein Bach 'anders' ist.
@@ -36,6 +38,24 @@ def baeche(pfad):
                 out[(o["id"], w.get("id"))] = {"stufen": st, "ende": tuple(w["punkte_cm"][-1][:2]) if w.get("punkte_cm")
                                                else None, "laenge_m": w.get("laenge_m")}
     return out
+
+
+# Koordinator 13i-Nachtrag: diese vier Gletscherbaeche laufen durch Gelaende, das 13h umgebaut hat (Boeschung, Halde,
+# Wandverkleidung; gletscher_03 zusaetzlich der getrennte Seeabfluss). Ihre Stufen duerfen sich minimal aendern.
+GELAENDE_13H = {("gletscher_01_gletschertor", "gletscherbach"), ("gletscher_03_moraenensee", "firnrinnsal"),
+                ("gletscher_03_moraenensee", "seeabfluss"), ("gletscher_05_die_waechte", "muehlenbach")}
+
+
+def _gelaende_text(a, n, la, ln):
+    t = "Gelaendeaenderung 13h: %d -> %d Stufen, Fall Summe %.2f -> %.2f m, groesste %.2f -> %.2f m, Lauf %.1f -> %.1f m" % (
+        len(a), len(n), sum(p[2] for p in a), sum(p[2] for p in n), max([p[2] for p in a] + [0]),
+        max([p[2] for p in n] + [0]), la or 0, ln or 0)
+    if len(a) == len(n):
+        lv = [((p[0][0] - q[0][0]) ** 2 + (p[0][1] - q[0][1]) ** 2) ** 0.5 for p, q in zip(a, n)]
+        dh = [abs(p[2] - q[2]) for p, q in zip(a, n)]
+        t += ", Lippen bis %.0f cm versetzt, %d Fallhoehen geaendert (bis %.2f m)" % (
+            max(lv), sum(1 for d in dh if d > 0.011), max(dh))
+    return t
 
 
 def _fuss_weg(p, q):
@@ -72,6 +92,8 @@ def vergleiche(alt, neu):
         elif len(n) > len(a) and n[:len(a)] == a and (N[k]["laenge_m"] or 0) > (A[k]["laenge_m"] or 0):
             zeilen.append((k, "verlaengert", "%d gleiche + %d neue Stufen (Lauf %.1f -> %.1f m)"
                            % (len(a), len(n) - len(a), A[k]["laenge_m"] or 0, N[k]["laenge_m"] or 0)))
+        elif k in GELAENDE_13H:
+            zeilen.append((k, "gelaende13h", _gelaende_text(a, n, A[k]["laenge_m"], N[k]["laenge_m"])))
         else:
             i = next((j for j in range(min(len(a), len(n))) if a[j] != n[j]), min(len(a), len(n)))
             zeilen.append((k, "anders", "%d -> %d Stufen, erste Abweichung Stufe %d: %s -> %s"
