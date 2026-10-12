@@ -260,6 +260,28 @@ Die Belege stammen aus **Suchmaschinen-Auszügen** der verlinkten Seiten; YouTub
 | Exporter, Prüfer, Regeln (Zwischenstand) | `8c0406d` |
 | README, Beispiele, diese Umsetzung, Endlauf | `8774ca9` |
 | Neulauf nach 13k-Rückfragen 2 und 6 (Beispiele, Akteure je Kachel im Prüfer) | `024d25f` |
+| fluss_sim v2: SWR-Einheit = Strecke, Vorhang-Regel, `WH_<einheit>`, Prüfer v2 (16b) | `6f7f315` |
+
+## Nachtrag 16b – eine Simulation je Strecke (fluss_sim v2)
+
+Lokal bestätigt (16b): **ein** Shallow Water River über die ganze C2-Strecke funktioniert und sieht natürlicher aus als das
+Kaskadennetz. Gebacken in `WATER_COMPONENT_WITH_BAKED_SIM` kostet er im Spiel 0,2 ms. Damit ändert sich der Umbau oben:
+
+- **Einheit ist die Strecke, nicht mehr die Back-Kachel.** Je Gewässer gibt es einen `ShallowWaterRiver`, einen
+  `WaterBodyRiver` (Spline aus der Mittellinie, Punkte ≥ 2 m) und einen Hindernis-Akteur `WH_<einheit>`. Fingerabdruck und
+  Neu-Backen gelten je Einheit; die Kacheln bleiben nur als Unterteilung.
+- **Geteilt wird nur, wenn die Box bei 512 Zellen > 0,5 m je Zelle ergäbe (≈ 256 m).** Teilstellen in dieser Reihenfolge:
+  Fall mit Vorhang, Fall, Becken, ruhige Stelle. An Fällen werden Quelle und Senke verkettet, in Becken überlappen die
+  Splines 4 m. Ergebnis: **249 Einheiten** statt 555 Kacheln, 34 Strecken geteilt, Zelle Median 0,34 m, höchstens 0,50 m.
+- **Fälle:** Vorhang und Schaumobjekte nur noch bei Einzelabsturz ≥ 3 m oder senkrechter Felslippe ab 2 m (170 von 765).
+  Alle anderen zeichnet die Simulation als Wildwasserrinne; die Niagara-Effekte bleiben. Die Zeile „Fälle“ in der Tabelle
+  oben gilt damit nur noch für diese 170.
+- **Überspannende Objekte** (Entscheidung 5 aus 16a) haben keine Wasser-Kollision mehr (1 358).
+- **Neues Risiko:** Im gebackenen Zustand laufen je Einheit 3 Dispatches weiter (vermutlich Gischt-Teilchen). Bei 1 km
+  Ladebereich sind bis zu 62 Einheiten geladen (5–12 ms). Ein Abschalten nach Entfernung und Sicht ist Pflicht; die Diagnose
+  steht in 16b.
+- Prüfer v2: 0 FEHLER, zwei Läufe byte-gleich. Einzelheiten, Beispiel-JSON, Schaum- und Sichtbarkeitswerte:
+  [`16b-swr-c2-ganze-strecke.md`](16b-swr-c2-ganze-strecke.md).
 
 ---
 *Ursprünglicher Vorschlag (zur Nachvollziehbarkeit):*
