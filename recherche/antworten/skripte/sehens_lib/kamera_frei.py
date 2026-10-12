@@ -615,7 +615,7 @@ def kameras_bauen(ctx):
             kand.sort(key=lambda t: t[0])
             # zuerst mit voller Planer-Reserve, dann (enge Schluchten, Nischen) mit kleiner Reserve
             for kosten, x, y, rand_ in [(c[0], c[1], c[2], PLANER_RAND_M) for c in kand] + \
-                    [(c[0], c[1], c[2], 0.25) for c in kand[:400]]:
+                    [(c[0], c[1], c[2], 0.25) for c in kand]:      # 13i Nachtrag: alle, auch der weite Ring
                 k2 = list(kam)
                 k2[0], k2[1], k2[2] = _daten.feld_von_m(x, y), int(round(x * 100)), int(round(y * 100))
                 if not pruefe_kamera(k2, ort, ctx.welt, ctx.boden, hind, frei, rand_m=rand_):
