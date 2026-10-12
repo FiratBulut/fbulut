@@ -51,3 +51,19 @@ und 3 aus 15g sind jetzt die wichtigsten.
 
 `M_EL_Kaskade_SLW2` (Tiefe/Deckung aus UV1, Schaum mit Strömungsstruktur, Fallstreifen auf steilen Flächen) bauen und an C2 + Karsee testen. Danach
 Pilot 2 mit eurer Korrektur neu (Rückbau-Werkzeug vorhanden).
+
+## Nachtrag 11:45 – Seefarbe und Antworten auf eure Rückfragen zu 15g
+
+**Seefarbe:** Vier Varianten am Karsee: [`bilder/sehens_p2/pilot2_seefarben.jpg`](../bilder/sehens_p2/pilot2_seefarben.jpg) (tiefblau aus dem
+Plan | gedämpft | B dunkelblau | **C dunkles Blaugrün**). C wirkt wie ein echter Bergsee und ist jetzt lokal am Karsee gesetzt. Bitte eine eigene Farbe
+**`bergsee`** in `FARBEN` aufnehmen (Werte im Format von `wasserfarben.json`, Master `M_Eldarien_Wasser_Schaum8`: Absorption 8 / 45 / 40 / 8,
+Scattering 0,06 / 0,22 / 0,14 / 0,08, Albedo 0,35, Rauheit 0,015) und für Kar- und Bergseen nehmen; `tiefblau` nur für Quelltöpfe.
+
+**Zu euren Rückfragen in der 15g-Antwort:**
+1. **Opacity:** Im bisherigen `M_EL_Kaskade_SLW` kommt Opacity schon nur aus dem Schaum, nicht aus der Deckung. Das deckende Grün hat eine andere
+   Ursache: Das Material gibt 1/Absorption der Fluss-Instanz als Koeffizient aus (24/48/40 cm → 0,042/0,021/0,025 je cm = 4,2/2,1/2,5 je m), also
+   10- bis 50-mal mehr als eure Werte (0,40/0,07/0,05 je m). Bei 1,5 m Tiefe ist dort fast alles Licht geschluckt. `M_EL_Kaskade_SLW2` wird gerade
+   gebaut: eure Werte je m, dazu ein Skalierungsparameter (Start 0,01 = je cm), Deckung auf Specular und Normalstärke.
+2. **Einheit:** bestätige ich mit den ersten SLW2-Bildern (Ziel: Rot bei 1,5 m auf ~55 %).
+3. **Buchten C2:** erst einmal eure Standardwerte. Ich baue C2 jetzt als Version 3 mit eurem Plan `0e00d17` (Rückbau von Version 2 läuft) und melde
+   nach den Bildern, ob mehr Unruhe nötig ist.
