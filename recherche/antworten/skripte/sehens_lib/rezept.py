@@ -899,8 +899,36 @@ class OrtKontext:
                 n_um += len(es)
                 self.melde(HINWEIS, "Akteur-Budget (13j): %d x %s als Instanzen mit Kollision" % (len(es), netz))
         rest = len(st) - n_um
-        if rest > self.AKTEURE_RICHTWERT:
-            self.melde(HINWEIS, "Akteure: %d > Richtwert %d je Ort (13j)" % (rest, self.AKTEURE_RICHTWERT))
+        if rest + sum(1 for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"]
+                      and e.get("gruppe") in fest) > self.AKTEURE_RICHTWERT:
+            # 13k (Ferat: hoechstens 50 Akteure je Ort): weitere Netze buendeln - zuerst die am haeufigsten
+            # wiederholten, bei Gleichstand die kleinsten; nie akteur_fest-Gruppen, nie die Held-Ebene
+            alle = [e for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"]]
+            n_akt = len(alle)
+            kand = {}
+            for e in alle:
+                if e.get("gruppe") in fest or e.get("ebene") == "held":
+                    continue
+                kand.setdefault(e["netz"], []).append(e)
+            groesse = {}
+            for netz, es in kand.items():
+                try:
+                    groesse[netz] = max(self.inv.netz(es[0]["pfad"])["groesse_m"]) * max(max(e_["s"]) for e_ in es)
+                except KeyError:
+                    groesse[netz] = 99.0
+            for netz in sorted(kand, key=lambda n_: (-len(kand[n_]), groesse[n_], n_)):
+                if n_akt <= self.AKTEURE_RICHTWERT:
+                    break
+                for e in kand[netz]:
+                    e["akteur"] = False
+                    e["kollision"] = True
+                    e["extra"] = dict(e.get("extra") or {}, aus_akteur=True)
+                n_akt -= len(kand[netz])
+                self.melde(HINWEIS, "Akteur-Budget (13k, <= %d je Ort): %d x %s als Instanzen mit Kollision"
+                           % (self.AKTEURE_RICHTWERT, len(kand[netz]), netz))
+            if n_akt > self.AKTEURE_RICHTWERT:
+                self.melde(WARNUNG, "Akteure: %d > %d je Ort (13k) - nur Held-/akteur_fest-Stuecke uebrig"
+                           % (n_akt, self.AKTEURE_RICHTWERT))
 
     def _seeufer_halten(self):
         """13i K8: das Seeufer haelt 1 m ausserhalb des Umrisses (lokaler Pruefer, alle 0,5 m): Band bis 1 m + 0,75

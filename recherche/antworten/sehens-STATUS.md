@@ -1,6 +1,6 @@
 # Auftrag 13 – Sehenswürdigkeiten (8 je Biom): Status
 
-Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-12 (13k). **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
 
 ## Phase 1
 
@@ -46,6 +46,16 @@ Stand: 2026-10-11 14:16 UTC. **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdi
 - Nature Water FX, Lava & Volcano (inkl. `SM_lava_wall_*`), Coast & Dunes, Mountain, Desert Western sind im Projekt; alle 15 `asset_bedarf.json` haben einen Block `abgleich_13d` (85 Wünsche erfüllt, 49 Ersatzlösungen → echte Assets, 60 Punkte fehlen weiter). Planer werden gerade umgestellt; Bergwald ist umgestellt (0 FEHLER).
 - **Nicht verwenden** (unvollständig): `Desert_Western_Cluster_Rock_Medium_05_uldubik`, `Desert_Western_Ledge_Rock_Small_07_uk5ebcp`. Hinweis an Claude lokal: beide stehen auch in Auftrag-11-Dateien (`skripte/felsgruppen_regeln.json`, `skripte/wueste_ergaenzung_regeln.json`, `assets-taxonomie.*`, `verteilung-*.md`) – dort bitte vorerst ausfiltern oder nach dem Neuladen prüfen.
 - Doppelnamen brauchen den vollen Pfad: `SM_Forest_pine_06` (Baum 25 m vs. Wurzel 2,5 m); `SM_Big_rock_01/02` ≠ `SM_Big_Rock_01/02`; `SM_pine_roots_01` (Coast) ≠ `SM_Pine_roots_01` (Mountain).
+
+### Pilot-Korrekturen nach den Editor-Bildern (13f–13k)
+
+| Auftrag | Inhalt | Antwort |
+|---|---|---|
+| 13f/13g | 1-m-Korrekturen, Bäche als Treppe (Stufen fest), Treppenbäche als `wasser_koerper` (river + Kaskadennetz) | `13f-p2-1m-korrekturen.md`, `13g-treppenbaeche-als-kaskadennetz.md` |
+| 13h/13i/13j | Pilot 1: Steilflächen nur mit Fels, Kameras frei, Leuchtfeuer, See-Blöcke; Querprofil, `quer`, Akteur-Bündelung | `13h-…`, `13i-…`, `13j-…` |
+| **13k** | Pilot 2: gesägte Stammstücke verboten (1 606 → 0), Säulenhain Totholz + Waldboden in 6 Schichten, `_fern`-Achse gegen Gelände und Baumkronen (24 von 52 Kameras versetzt), Flächen > 60° bis zur Oberkante (Karsee), Seefarbe `bergsee` (Ferat C), Treppenbach-Schaum (Schaum > 0,5: 61 % → 16 %, Becken ≤ 0,2), Vorhänge `cull_m` 60–80 m + `strahl_breite_m`, höchstens 50 Akteure je Ort (FEHLER) | `13k-pilot2-bildbefund-15g-nachtrag.md` |
+
+Stand 13k: alle 15 Planer auf 2 m und synthetisch 1 m 0 FEHLER, Stufen unverändert gegenüber 13f (42/42), Testbilder neu.
 
 ## Biome
 

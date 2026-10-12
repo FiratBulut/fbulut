@@ -94,8 +94,8 @@ def test_13k(inv=None):
     c = _b.schaum_huelle(S, [(1.0, 1.5, 3.0, "fall", 8.0), (8.0, 8.5, 1.5, "fall", 14.0)])
     becken = (S > 1.5 + 0.3 + 2.5 + 0.1) & (S < 8.0 - 0.8)
     _pruefe(float(c[becken].max()) <= 0.2 + 1e-9, "Becken hinter dem Abklingen <= 0,2 (max %.2f)" % float(c[becken].max()), f)
-    _pruefe(float(c[(S > 1.05) & (S < 1.45)].max()) <= 0.55 and float(c[(S >= 1.5) & (S <= 1.8)].min()) >= 0.69,
-            "Fallflaeche <= 0,55 (Saum)/0,45, Fallfuss-Spitze >= 0,7", f)
+    _pruefe(float(c[(S > 1.05) & (S < 1.45)].max()) <= 0.5 and float(c[(S >= 1.5) & (S <= 1.8)].min()) >= 0.64,
+            "Fallflaeche <= 0,5 (Saum)/0,45, Fallfuss-Spitze >= 0,65", f)
     _pruefe(c[np.searchsorted(S, 2.8)] < c[np.searchsorted(S, 2.0)], "Schaum klingt hinter dem Fuss ab", f)
     # Pruefer: Becken mit Schaum 0,6 -> FEHLER
     kb = {"id": "T_KN0", "knick": ["lippe", "bogen", "fuss"] + ["becken"] * 12 + ["lippe"],

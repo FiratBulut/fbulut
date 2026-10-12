@@ -1547,7 +1547,8 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
             if z[k] > BUDGET[k]:
                 b.append((WARNUNG, oid, "%s %d > %d (§9)" % (k, z[k], BUDGET[k])))
         if z["akteure"] > 50:
-            b.append((HINWEIS, oid, "%d Akteure > Richtwert 50 je Ort (13j: wiederholte Module als Instanzen)"
+            # 13k: Ferat-Vorgabe hoechstens 50 Akteure je Ort (vorher Richtwert/HINWEIS)
+            b.append((FEHLER, oid, "%d Akteure > 50 je Ort (13k: Ferat-Vorgabe; wiederholte Module als Instanzen)"
                       % z["akteure"]))
     for oid in je_ort:
         if orte is not None and oid not in orte_ids:

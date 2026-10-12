@@ -579,12 +579,12 @@ def bett_min(tiefe_m):
 # Die 15g-Logik (quer_ergaenzen: Querpunkte, smoothstep-Kanten, Rauschen, Deckung zum Ufer, Lipschitz-Huelle) wird
 # wiederverwendet - mit Sehens-Parametern (eigene Kopie des Regelwerks, C2/A15 unveraendert) und einer Kerbe in
 # Strahlbreite statt ueber die ganze Lippe. Danach begrenzt eine Laengshuelle den Schaum: Becken/Gumpen <= 0,2,
-# Lippensaum <= 0,55, Fallflaeche <= 0,45 (Fall-Optik macht das Material), Fallfuss Spitze 0,7-0,9 und Abklingen ueber
+# Lippensaum <= 0,5, Fallflaeche <= 0,45 (Fall-Optik macht das Material), Fallfuss Spitze 0,65-0,85 und Abklingen ueber
 # 2-4 m; Schnellen <= 0,45. Treppe, Querprofil und Effekt-Positionen bleiben wie 13f (nur Schaum/Deckung/Tiefe).
 SCHAUM_SEHENS = {"saum_m": 0.3, "oben_m": 0.3, "saum_seite": 0.05, "zunge_seite": 0.08, "aufprall_anteil_max": 0.15,
                  "aus_unten_anteil": 0.5, "aus_unten_m": [2.0, 4.0]}
-SCHAUM_HUELLE = {"becken": 0.2, "saum": 0.55, "saum_m": 0.8, "fall": 0.45, "rampe": 0.45, "fuss_spitze": [0.7, 0.9],
-                 "fuss_kern_m": 0.3, "abklingen_m": [2.0, 4.0]}
+SCHAUM_HUELLE = {"becken": 0.2, "saum": 0.5, "saum_m": 0.8, "fall": 0.45, "rampe": 0.45, "fuss_spitze": [0.65, 0.85],
+                 "fuss_kern_m": 0.2, "abklingen_m": [2.0, 4.0], "abklingen_exp": 4.0}
 STRAHL_SEITE_DECKUNG = 0.3      # Deckung neben dem Strahl auf Zunge/Fallflaeche (duenner Film, Fels scheint durch)
 G_ERDE = 9.81
 
@@ -604,7 +604,7 @@ def _rw_sehens(rw, tiefe_m):
     return type(rw)(r2, getattr(rw, "pfad", ""))
 
 
-def lippen_strahl(xl, yl, tx, ty, oben, br, boden_fn, v_m_s, tiefe_m):
+def lippen_strahl(xl, yl, tx, ty, oben, br, boden_fn, v_m_s, tiefe_m, B_rezept=None):
     """13k: Strahlbreite an einer Lippe aus Abfluss und Querprofil. Querschnitt 0,3 m oberhalb der Lippe auf dem
     gestempelten Gelaende (Bett), Wasserspiegel = Oberwasser. Abfluss Q = A(Becken) x v (A15-Beckentempo); an der
     Lippe stellt sich die kritische Tiefe ein (Q^2 T / (g A^3) = 1); der Strahl ist die Wasserspiegelbreite T_c bei
@@ -613,16 +613,18 @@ def lippen_strahl(xl, yl, tx, ty, oben, br, boden_fn, v_m_s, tiefe_m):
     h = br / 2.0 + NETZRAND_M
     u = np.arange(-h, h + 1e-6, 0.05)
     z = np.asarray(boden_fn(xl + ty * u, yl - tx * u), np.float64)
-    if not np.isfinite(z).all():
-        return None
-    k0 = int(np.argmin(z))
-    zmin = float(z[k0])
-    if oben - zmin < 0.02:
-        # Bett im 2-m-Raster an der Lippe nicht aufgeloest: Rezept-Trapez (Bettbreite B - 2 t / tan 35)
-        z = np.where(np.abs(u) <= max(br / 2.0 - tiefe_m / TAN_B, 0.1), oben - tiefe_m,
-                     oben - tiefe_m + (np.abs(u) - max(br / 2.0 - tiefe_m / TAN_B, 0.1)) * TAN_B)
+    quelle = "gelaende"
+    k0 = int(np.argmin(z)) if np.isfinite(z).all() else 0
+    zmin = float(z[k0]) if np.isfinite(z).all() else float("nan")
+    if not (np.isfinite(z).all() and 0.5 * tiefe_m - 0.02 <= oben - zmin <= 1.5 * tiefe_m + 0.05):
+        # Bett an der Lippe im Raster nicht sauber aufgeloest (2 m: die Fallkante verschmiert ins Unterwasser) -
+        # 13f-Querprofil selbst: Bett = Spiegel - Tiefe zwischen den Wasserkanten, 35-Grad-Boeschung
+        wk = (float(B_rezept) if B_rezept else br) / 2.0     # Rezeptbreite (das 2-m-Netz ist kuenstlich breiter)
+        b0 = max(wk - tiefe_m / TAN_B, 0.1)
+        z = np.where(np.abs(u) <= b0, oben - tiefe_m, oben - tiefe_m + (np.abs(u) - b0) * TAN_B)
         k0 = int(np.argmin(np.abs(u)))
         zmin = float(z[k0])
+        quelle = "querprofil_13f"
     du = 0.05
 
     def flaeche(hh):
@@ -657,7 +659,8 @@ def lippen_strahl(xl, yl, tx, ty, oben, br, boden_fn, v_m_s, tiefe_m):
     A_c, T_c, u_c = flaeche(hc)
     T_c = float(np.clip(T_c, 0.3, T_b))
     return {"strahl_breite_m": round(T_c, 2), "u_mitte_m": round(u_c, 2), "abfluss_m3_s": round(Q, 3),
-            "krit_tiefe_m": round(hc, 3), "wasserbreite_m": round(T_b, 2), "lippe_breite_m": round(2.0 * h, 2)}
+            "krit_tiefe_m": round(hc, 3), "wasserbreite_m": round(T_b, 2), "lippe_breite_m": round(2.0 * h, 2),
+            "querschnitt": quelle}
 
 
 def schaum_huelle(S, lips):
@@ -679,15 +682,15 @@ def schaum_huelle(S, lips):
             continue
         c = np.where((S > s_l) & (S < s_f), np.maximum(c, SH["fall"]), c)
         # Fallfuss: Spitze, dann Abklingen ueber 2-4 m (nie ueber 70 % des Beckens bis zur naechsten Lippe)
-        P = float(np.clip(0.6 + 0.1 * D, *SH["fuss_spitze"]))
+        P = float(np.clip(0.55 + 0.1 * D, *SH["fuss_spitze"]))
         A = float(np.clip(1.0 + 0.5 * D, *SH["abklingen_m"]))
         L_b = max(s_n - s_f, 1.0)
         A = min(A, max(0.7 * L_b, 1.0))
         x = S - s_f
         kern = SH["fuss_kern_m"]
-        # Abklingen (1 - smoothstep)^3: steil am Anfang, nach A genau auf dem Beckenwert
+        # Abklingen (1 - smoothstep)^4: steil am Anfang, nach A genau auf dem Beckenwert
         fu = np.where(x < -0.05, 0.0, np.where(x <= kern, P, SH["becken"] + (P - SH["becken"]) *
-                                                 (1.0 - glatt((x - kern) / A)) ** 3))
+                                                 (1.0 - glatt((x - kern) / A)) ** SH["abklingen_exp"]))
         c = np.maximum(c, fu)
     return c
 
@@ -794,7 +797,7 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
     for e in st_in:
         xl, yl = pr.xy(max(e["p"] - 0.3, 0.0))
         tx_, ty_ = pr.tang(e["p"])
-        strahl[e["id"]] = lippen_strahl(xl, yl, tx_, ty_, float(e["u"]), br, boden_fn, v_becken, float(tiefe_m))
+        strahl[e["id"]] = lippen_strahl(xl, yl, tx_, ty_, float(e["u"]), br, boden_fn, v_becken, float(tiefe_m), float(B))
     if rw is not None and hasattr(gp, "LippenFeld") and hasattr(gp, "quer_ergaenzen"):
         rw = _rw_sehens(rw, tiefe_m)
         for e in st_in:
@@ -832,7 +835,7 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
             kb["mittellinie"][k_][6] = round(float(F[k_, len(r_) // 2]), 2)
         kb["schaum_regel"] = ("13k Sehens: Schaum nur in Strahlbreite (strahl_breite_m je Stufe); Becken/Gumpen <= %.1f, "
                               "Lippensaum <= %.2f, Fallflaeche <= %.2f (Fall-Optik macht das Material), Fallfuss Spitze "
-                              "0,7-0,9 und Abklingen ueber 2-4 m (<= 70 %% des Beckens), Schnellen <= %.2f; weiche Kanten "
+                              "0,65-0,85 und Abklingen ueber 2-4 m (<= 70 %% des Beckens), Schnellen <= %.2f; weiche Kanten "
                               "wie 15g (smoothstep, Rauschen, Sprung <= 0,45)"
                               % (SCHAUM_HUELLE["becken"], SCHAUM_HUELLE["saum"], SCHAUM_HUELLE["fall"], SCHAUM_HUELLE["rampe"]))
         kb["stufen_strahl"] = [dict({"stufe": e["id"], "fall_m": round(float(e["D"]), 2)}, **(strahl.get(e["id"]) or {}))
