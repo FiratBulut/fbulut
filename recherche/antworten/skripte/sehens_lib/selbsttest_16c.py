@@ -144,7 +144,119 @@ def test_16c(inv=None):
     dd = np.array([2.5, 2.5, 2.5, 2.5, 2.5])
     n, ant = bb.streifen_bewerten(h, dd, np.full(5, 2.0), np.ones(5, bool), np.array([255, 255, 255, 0, 0.0]), R)
     _pruefe(n == 4 and abs(ant - 0.75) < 1e-9, "Uferstreifen-Bewertung: 4 Uferzellen, 75 %% belegt (%d, %.2f)" % (n, ant), f)
+    f += test_16c3(inv, R)
     return len(f)
+
+
+class _BaumWelt:
+    """Minimale Welt fuer bachbett.dichte(): nur das 4-m-Baumraster (ganze Welt, wie welt.baeume4)."""
+
+    def __init__(self):
+        from . import daten as _d
+        self.baeume4 = np.zeros((int(np.ceil(_d.NY_1M / 4.0)), int(np.ceil(_d.NX_1M / 4.0))), np.uint8)
+
+    def baeume_um(self, x, y, r, dicht=1):
+        """Baeume (>= 5 m) in jeder dicht-ten 4-m-Zelle im Radius r um (x, y)."""
+        from . import daten as _d
+        i0, j0 = _d.m_zu_pixel(x - r, y - r, 4.0)
+        i1, j1 = _d.m_zu_pixel(x + r, y + r, 4.0)
+        for i in range(int(i0), int(i1) + 1):
+            for j in range(int(j0), int(j1) + 1):
+                if (i + j) % dicht == 0:
+                    self.baeume4[i, j] = 1
+
+
+def test_16c3(inv, R):
+    """16c Nachtrag 3: Totholz nach Waldnaehe (auch in der Tundra), Treibholz vom Oberlauf, Lava ohne Holz, Ruhe aus
+    dem Gefaelle (Roh-Laeufe), Feldgrenzen (Stufe nur in einem Plan), Export-Holzmuster fuer Aeste/Moosbaeume.
+    Rueckgabe Liste der FEHLER-Texte."""
+    from . import bachbett as bb
+    f = []
+    P = np.stack([np.linspace(0.0, 100.0, 51), np.full(51, 0.0)], 1)      # 100-m-Bach bei y = 0
+    W0 = _BaumWelt()
+    d0 = bb.dichte(W0, P, "tundra", R)
+    _pruefe(abs(d0["lw"][1] - 3.0) < 1e-6 and d0["wald_gewicht"] == 0.0,
+            "Tundra ohne Baeume am Ufer: Ziel 3/100 m ('kaum', Gewicht 0)", f)
+    W1 = _BaumWelt()
+    W1.baeume_um(50.0, 0.0, 70.0, dicht=4)
+    d1 = bb.dichte(W1, P, "tundra", R)
+    _pruefe(d1["wald_gewicht"] >= 0.99 and d1["wald_biom"] == "bergwald" and d1["lw"][1] >= 12.0 and
+            d1["palette"] == "bergwald",
+            "Tundra mit Baeumen am Ufer: Wald-Dichte (Bergwald x Waldfaktor, Ziel %.1f, Anteil %.2f)"
+            % (d1["lw"][1], d1["wald_anteil"] or 0), f)
+    db = bb.dichte(W1, P, "bergwald", R)
+    _pruefe(abs(db["lw"][1] - 15.0 * db["wald_faktor"]) < 0.01, "Bergwald unveraendert: Ziel = 15 x Waldfaktor", f)
+    W2 = _BaumWelt()
+    W2.baeume_um(-200.0, 0.0, 60.0, dicht=3)
+    ober = np.stack([np.linspace(-300.0, 0.0, 61), np.zeros(61)], 1)
+    d2 = bb.dichte(W2, P, "gletscher", R, ober)
+    pal = bb.paletten(R, d2)
+    _pruefe(d2["treibholz"] > 0.9 and 1.5 <= d2["lw"][1] <= 2.5 and d2["lw"][0] == 0.0 and pal["stamm"] and
+            d2["palette"] == "treibholz",
+            "Gletscher, Oberlauf bewaldet: vereinzelt Treibholz (Ziel %.1f/100 m, kein Minimum, Treibholz-Palette)"
+            % d2["lw"][1], f)
+    d3 = bb.dichte(W2, P, "gletscher", R, None)
+    _pruefe(d3["lw"][1] == 0.0 and d3["ast"] == 0.0, "Gletscher ohne Baeume und ohne Oberlauf: kein Holz", f)
+    d4 = bb.dichte(W1, P, "lava", R)
+    _pruefe(d4["lw"][1] == 0.0 and d4["wald_gewicht"] == 0.0, "Lava bleibt ohne Holz (kein wald_ersatz)", f)
+    st, _ = bb.dichte_bewerten("tundra", 1.0, 200.0, 4, 0, R, 4, rahmen=d1)
+    _pruefe(st == "FEHLER", "Tundra mit Ufer-Wald und nur 2/100 m -> FEHLER (zu duenn nach Waldnaehe)", f)
+    st, _ = bb.dichte_bewerten("tundra", 1.0, 200.0, 26, 0, R, 26, rahmen=d1)
+    _pruefe(st is None, "Tundra mit Ufer-Wald und 13/100 m im Rahmen", f)
+    seg = {"s_m": [0, 100], "wald_faktor": d0["wald_faktor"], "wald_gewicht": 0.0, "rahmen_lw": d0["lw"]}
+    _pruefe(len(bb.rahmen_vergleichen(seg, d1, "t")) >= 1 and not bb.rahmen_vergleichen(seg, d0, "t"),
+            "Pruefer: Rahmen im Plan gegen nachgerechnet (Abweichung = FEHLER)", f)
+    # Ruhe aus dem Gefaelle (Roh-Laeufe)
+    s_ = np.arange(0.0, 200.0, 2.0)
+    z_ = np.where(s_ < 100.0, 10.0 - 0.001 * s_, 9.9 - 0.04 * (s_ - 100.0))
+    rf, Sg = bb.ruhe_aus_gefaelle(s_, z_, R)
+    _pruefe(float(rf(50.0)) > 0.95 and float(rf(150.0)) < 0.05, "Roh-Lauf: Ruhe 1 bei 0,1 % Gefaelle, 0 bei 4 %", f)
+    # Export: Aeste und Moosbaeume sind Holz
+    fs_pfad = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fluss_sim", "fluss_sim_regeln.json")
+    if os.path.exists(fs_pfad):
+        with open(fs_pfad, "r", encoding="utf-8") as fh:
+            k = json.load(fh)["kollision"]
+        holz, pflanze = re.compile(k["holz_muster"], re.I), re.compile(k["pflanze_muster"], re.I)
+        namen = ["SM_OldTreeBranch_06", "SM_BrokenTreeBranch_01", "SM_MossyTree_01", "SM_Pine_broken_branch_04",
+                 "SM_mountain_branch_01_06", "SM_detail_branches_01"]
+        _pruefe(all(holz.search(n) and not pflanze.search(n) for n in namen),
+                "fluss_sim holz_muster: Aeste und Moosbaeume als holz (nicht sonstiges)", f)
+        alle = {n for b in R.r["biome"].values() for a in ("stamm", "ast", "wurzel") for n in b[a]}
+        alle |= {n for a in ("stamm", "ast", "wurzel") for n in R.a["treibholz"][a]}
+        rest = sorted(n for n in alle if not holz.search(n))
+        _pruefe(not rest, "alle Stamm-/Ast-/Wurzel-Netze erkennt der Export als holz (%s)" % (", ".join(rest[:3]) or "-"), f)
+    # Treibholz-Palette im Inventar, natuerlich
+    tp = [n for a in ("stamm", "ast", "zweig", "wurzel") for n in R.a["treibholz"][a]]
+    _pruefe(all(inv.netz_pfad(n) and not inv.saegeschnitt(n) for n in tp), "Treibholz-Palette im Inventar, ohne Saegeschnitt", f)
+    # Feldgrenzen: Stufe nur in einem Plan
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "gefaelle"))
+        import gefaelle_daten as gd
+        from . import daten as _d
+        xg = _d.X_MIN_M + _d.FELD_M * 3 + 0.5                        # Feldgrenze (Spalte 3/4)
+        Pp = [[(xg - 200.0 + k * 10.0) * 100, 0.0, 1000.0 - k * 10.0, 400.0] for k in range(23)]   # P bis xg + 20
+        Pn = [[(xg - 10.0 + k * 10.0) * 100, 0.0, 810.0 - k * 10.0, 400.0] for k in range(20)]    # N ab xg - 10
+        L_ = {"P": gd.Lauf("P", "fluss", Pp, _d.feld_von_m(xg - 50.0, 0.0)),
+              "N": gd.Lauf("N", "fluss", Pn, _d.feld_von_m(xg + 50.0, 0.0))}
+        fp, fn = gd.feldgrenzen("P", L_), gd.feldgrenzen("N", L_)
+        ok = (len(fp) == 1 and len(fn) == 1 and fp[0]["seite"] == "ende" and fn[0]["seite"] == "anfang" and
+              abs(fp[0]["fremd_s_m"][0] - 200.0) <= 0.6 and abs(fn[0]["fremd_s_m"][1] - 10.0) <= 0.6)
+        _pruefe(ok, "Feldgrenze: Ueberlappung geteilt an der Feldgrenze (P fremd ab %.1f m, N fremd bis %.1f m)"
+                % (fp[0]["fremd_s_m"][0] if fp and fp[0]["fremd_s_m"] else -1,
+                   fn[0]["fremd_s_m"][1] if fn and fn[0]["fremd_s_m"] else -1), f)
+        Ph = [[x_, y_, z_ + 50.0, b_] for x_, y_, z_, b_ in Pn]                                  # N 0,5 m hoeher
+        L_h = {"P": L_["P"], "N": gd.Lauf("N", "fluss", Ph, L_["N"].feld)}
+        fh = gd.feldgrenzen("N", L_h)
+        _pruefe(fh and fh[0]["fremd_s_m"][1] > 10.5 and fh[0]["grenze_s_m"] == fh[0]["fremd_s_m"][1],
+                "Feldgrenze: unterer Lauf 0,5 m hoeher -> Anschluss erst bei passendem Spiegel (fremd bis %.1f m)"
+                % (fh[0]["fremd_s_m"][1] if fh else -1), f)
+        L_["N"].feld = L_["P"].feld
+        fp, fn = gd.feldgrenzen("P", L_), gd.feldgrenzen("N", L_)
+        _pruefe(fp[0]["fremd_s_m"] is None and abs(fn[0]["fremd_s_m"][1] - fn[0]["ueberlappung_s_m"][1]) < 1e-6,
+                "Feldgrenze im selben Feld: Ueberlappung gehoert dem oberen Lauf", f)
+    except Exception as ex:                                           # pragma: no cover
+        _pruefe(False, "Feldgrenzen-Test: %s" % ex, f)
+    return f
 
 
 if __name__ == "__main__":

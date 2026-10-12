@@ -485,6 +485,40 @@ def feld_plaene(ordner):
     return out, weg
 
 
+def roh_ordner_finden(roh, gefaelle):
+    """16c Nachtrag 3: Ordner der Roh-Lauf-Ebene (gefaelle/bachbett_roh.py): --roh, sonst 'bachbett_roh' neben --gefaelle
+    (export/unreal/welt/gefaelle -> export/unreal/welt/bachbett_roh). None, wenn nicht vorhanden."""
+    if roh:
+        return roh if os.path.isdir(roh) else None
+    if gefaelle:
+        c = os.path.join(os.path.dirname(os.path.abspath(gefaelle.rstrip("/"))), "bachbett_roh")
+        if os.path.isdir(c):
+            return c
+    return None
+
+
+def roh_ebenen(roh_basis):
+    """Instanz-Ebenen der Roh-Laeufe: <roh>/<lauf>/instanzen/<Feld>/plan.json (Plan mit art 'bachbett_roh').
+    Rueckgabe ([(pfad, ref)], [{ordner, grund}])."""
+    out, weg = [], []
+    if not roh_basis or not os.path.isdir(roh_basis):
+        return out, weg
+    for name in sorted(os.listdir(roh_basis)):
+        d = os.path.join(roh_basis, name)
+        if not os.path.isdir(d):
+            continue
+        if ist_archiv(name):
+            weg.append({"ordner": name, "grund": "Archivordner ('.' im Namen bzw. fuehrendes '_')"})
+            continue
+        if not os.path.exists(os.path.join(d, "plan.json")):
+            continue
+        fp_, w_ = feld_plaene(os.path.join(d, "instanzen"))
+        weg += [dict(x, ordner="%s/instanzen/%s" % (name, x["ordner"])) for x in w_]
+        for pf in fp_:
+            out.append((pf, "bachbett_roh/%s/instanzen/%s/plan.json" % (name, os.path.basename(os.path.dirname(pf)))))
+    return out, weg
+
+
 def _wahr(v):
     if isinstance(v, str):
         return v.strip().lower() not in ("", "0", "nein", "false", "no", "offen", "aus")
@@ -1240,7 +1274,9 @@ def gefaelle_gewaesser(gef_basis, lauf, regeln):
          "quelle": {"plan": "gefaelle/%s/plan.json" % lauf, "wasser_koerper": [k["id"] for k in wk]},
          "strecken": [s["id"] for s in plan.get("strecken") or []]}
     extra = {"effekte": eff, "strahl": strahl, "vorhang": vorhang, "kaskadennetze": kns, "ufer_rand": plan.get("ufer_rand"),
-             "becken": becken_aus(abst, linie), "zufluesse": plan.get("zufluesse") or []}
+             "becken": becken_aus(abst, linie), "zufluesse": plan.get("zufluesse") or [],
+             # 16c Nachtrag 3: Feldgrenzen mit zwei Plaenen - Besitzgrenze der Ueberlappung (gefaelle_daten.feldgrenzen)
+             "feldgrenzen": {(e["nachbar"], e["seite"]): e for e in (plan.get("feldgrenzen") or {}).get("ueberlappungen") or []}}
     return g, linie, abst, extra
 
 
@@ -1414,8 +1450,16 @@ def zusammenfuegen(kette, links, regeln, topf_oben=None, topf_unten=None):
     for i, l in enumerate(links):
         if l["art"] == "ueberlappung":
             P, N = kette[i], kette[i + 1]
+            gp = (P.extra.get("feldgrenzen") or {}).get((N.id, "ende"))
+            gn = (N.extra.get("feldgrenzen") or {}).get((P.id, "anfang"))
             if N.herkunft == "plan" and P.herkunft != "plan":
                 cut[i][1] = l["s_p"]
+            elif P.herkunft == "plan" and N.herkunft == "plan" and gp and gn:
+                # 16c Nachtrag 3: zwei Plaene - Schnitt an der Besitzgrenze (Lippe gehoert dem Plan ihres Felds), keine
+                # Stufe entfaellt; beide Plaene haben dort den alten Spiegel
+                cut[i][1] = float(np.clip(gp["grenze_s_m"], P.s0, P.s1))
+                cut[i + 1][0] = float(np.clip(gn["grenze_s_m"], N.s0, N.s1))
+                l["schnitt"] = "feldgrenze"
             else:
                 cut[i + 1][0] = l["s_n"]
     S, X, Y, Z, B, T, V, K = [], [], [], [], [], [], [], []
@@ -2863,6 +2907,9 @@ def main(argv=None):
     ap.add_argument("--gefaelle", default=None, help="Ordner mit <lauf>/plan.json (gefaelle_plan.py)")
     ap.add_argument("--sehens", default=None, help="Ordner mit <biom>/orte.json (Sehens-Planer)")
     ap.add_argument("--sw-ordner", default=None, help="Ordner mit sw_<biom>/ (Standard: <sehens>/<biom>/sw_<biom>)")
+    ap.add_argument("--roh", default=None,
+                    help="16c Nachtrag 3: Ordner der Roh-Lauf-Ebene (gefaelle/bachbett_roh.py, <lauf>/instanzen/<Feld>/); "
+                         "Standard: bachbett_roh neben --gefaelle")
     ap.add_argument("--aus", required=True)
     ap.add_argument("--regeln", default=REGELN_STANDARD)
     ap.add_argument("--nur", nargs="+", default=None)
@@ -2891,6 +2938,13 @@ def main(argv=None):
         for feld_plan in fp_:
             feld = os.path.basename(os.path.dirname(feld_plan))
             pool.lade_ebene(feld_plan, "gefaelle/%s/instanzen/%s/plan.json" % (lauf, feld))
+    roh_basis = roh_ordner_finden(a.roh, a.gefaelle if gef_ok else None)
+    roh_liste, weg_ = roh_ebenen(roh_basis)
+    eingabe_weg += [dict(w, eingabe="bachbett_roh") for w in weg_]
+    for feld_plan, ref in roh_liste:
+        pool.lade_ebene(feld_plan, ref)
+    if a.roh and not roh_basis:
+        log("WARNUNG: --roh %s nicht gefunden - Roh-Lauf-Ebene (Totholz/Felsen) nicht gelesen" % a.roh)
     sehens = []
     sehens_ok = bool(a.sehens and os.path.isdir(a.sehens))
     if sehens_ok:
@@ -2933,7 +2987,9 @@ def main(argv=None):
                                                      gef_plaene=gef_plaene)
     toepfe = info.pop("toepfe")
     sehens_seen = info.pop("sehens_seen")
-    eingaben = {"lauf_plaene": len(gef_plaene), "uebersprungen": eingabe_weg}
+    eingaben = {"lauf_plaene": len(gef_plaene), "uebersprungen": eingabe_weg,
+                "bachbett_roh": {"ordner": "bachbett_roh" if roh_basis else None,
+                                 "laeufe": len({r_.split("/")[1] for _, r_ in roh_liste}), "ebenen": len(roh_liste)}}
     gdelta = {"addiert": ginfo["addiert"], "nicht_addiert": ginfo["ohne"], "gebaut": ginfo["gebaut"],
                                "lauf_json_ungebaut": ginfo["lauf_json_ungebaut"], "gebaut_unbekannt": unbekannt,
                                "sehens_einbau": "gefunden" if einbau else ("nicht ausgewertet" if a.ohne_erkennung else "nicht gefunden")}

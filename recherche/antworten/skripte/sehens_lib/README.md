@@ -255,6 +255,16 @@ fluss_sim-Export es als Wasser-Kollision aufnimmt); überspannende Stämme mit U
 `normale`. Prüfer (FEHLER): Liste ↔ Ebene, Kollision, Lippenzonen, Dichte je Biom × Waldfaktor, Uferstreifen ≥ 80 % der
 Uferzellen (auf 2 m bei Sehens-Bächen WARNUNG).
 
+**Nachtrag 3 (Koordinator 12.10.):** Antwort „Nachtrag 3“ in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
+
+| Modul | Inhalt |
+|---|---|
+| `bachbett_regeln.json` v2 | `ufer_wald_anteil`, `treibholz` (Dichte, Oberlauf 300 m, Palette), `wald_ersatz` je Nicht-Waldbiom (Lava ohne), Abschnitt `roh` (Ruhe aus dem Gefälle, Aussparungen, Felsen, Kies im Bett) |
+| `bachbett.py` | `dichte(welt, punkte, biom, R, oberlauf)` → Rahmen nach Waldnähe (Ufer-Wald in jedem Biom, Treibholz vom bewaldeten Oberlauf), `paletten`, `baum_anteil`, `oberlauf_punkte`, `rahmen_vergleichen` (Prüfer); `totholz_setzen(…, oberlauf_fn)`; `dichte_bewerten(…, rahmen=)`; `Kanal(…, ruhe_fn=)`, `ruhe_aus_gefaelle` und `felsen_setzen` für die Roh-Läufe (`gefaelle/bachbett_roh.py`) |
+| `selbsttest_16c.py` | Schritt 14 erweitert (`test_16c3`): Tundra mit/ohne Ufer-Wald, Treibholz, Lava, Prüfer-Rahmen, Ruhe aus dem Gefälle, Export-Holzmuster, Treibholz-Palette, Feldgrenzen |
+
+Die Sehens-Bäche bekommen den Rahmen nach Waldnähe ohne Oberlauf-Treibholz (sie beginnen an Quelle oder See).
+
 ## Cache und Laufzeiten (2 m, 4789 × 3529, ohne SciPy)
 
 - Ordner: `$SEHENS_CACHE` oder `--cache`, Standard

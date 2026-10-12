@@ -1935,7 +1935,20 @@ def bachbett_kanal(pr, sp, lf, ufer, breite_fn, stufen_ab, segs):
                     z_fn=lambda se: spiegel_bei(sp, se))
 
 
-def bachbett_instanzen(ctx, kanal, segs, st_ab):
+def bachbett_oberlauf_fn(pr, sp, laenge_m=None):
+    """16c Nachtrag 3: Punkte der neuen Wasserlinie (wie plan.json spiegel_neu_cm, auf 1 mm gerundet) von s = a -
+    treibholz.oberlauf_m bis a, alle 5 m - Baumanteil am Oberlauf fuer das Treibholz. Der Pruefer rechnet mit
+    spiegel_neu_cm / spiegel_neu_s_m dasselbe nach."""
+    from sehens_lib import bachbett as bb
+    L = float(laenge_m if laenge_m is not None else bb.regeln().a["treibholz"]["oberlauf_m"])
+    S = np.array([t_[0] for t_ in sp], np.float64)
+    xy = [pr.xy(s_) for s_ in S]
+    X = np.array([round(float(v[0]) * 100, 1) / 100.0 for v in xy])
+    Y = np.array([round(float(v[1]) * 100, 1) / 100.0 for v in xy])
+    return lambda a: bb.oberlauf_punkte(S, X, Y, a, L)
+
+
+def bachbett_instanzen(ctx, kanal, segs, st_ab, oberlauf_fn=None):
     """Totholz in einen Gefaelle-Abschnitt setzen (nach allen anderen Gruppen: Bloecke, Riegel, Holzstufen, Moos).
     Vorhandene Holzstufen/Totholz-quer-Stuecke werden von der Ziel-Dichte abgezogen."""
     from sehens_lib import bachbett as bb
@@ -1950,7 +1963,7 @@ def bachbett_instanzen(ctx, kanal, segs, st_ab):
                     bestand[n_s] = bestand.get(n_s, 0) + 1
                     break
     return bb.totholz_setzen(ctx, kanal, [(a, b, bi) for a, b, bi in segs], welt=ctx.welt, bestand_lw=bestand,
-                             seed_teil="bb")
+                             seed_teil="bb", oberlauf_fn=oberlauf_fn)
 
 
 def bachbett_neigung_1m(ebene, inv, boden_fn, melde):
@@ -2990,7 +3003,22 @@ def eintiefung(K, pr, sp, s_arr):
     return out
 
 
-def plane_lauf(lauf_id, K, strecken_ids=None):
+def nachbar_hat_stufen(nid, K):
+    """16c Nachtrag 3: Bekommt der Nachbarlauf einen Gefaelle-Plan mit Stufen? Trockenlauf der Stufenlage (alle seine
+    Strecken, ohne Feldgrenz-Zonen), gecacht - unabhaengig davon, welche Laeufe dieser Aufruf plant (deterministisch)."""
+    c = K.setdefault("_hat_stufen", {})
+    if nid not in c:
+        m_ = K.get("melde")
+        try:
+            c[nid] = len(plane_lauf(nid, K, None, nur_stufen=True)) > 0
+        except KeyError:
+            c[nid] = False
+        finally:
+            K["melde"] = m_
+    return c[nid]
+
+
+def plane_lauf(lauf_id, K, strecken_ids=None, nur_stufen=False):
     from sehens_lib import daten, instanzen, rezept, stempel as stm
     from sehens_lib import format as sfmt
     welt, gel, inv, rw = K["welt"], K["gel"], K["inv"], K["rw"]
@@ -3028,6 +3056,16 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         return biom_netze[biom]
 
     hz = gr.holzstufe(rw)
+    # 16c Nachtrag 3: Feldgrenzen - Ueberlappungen mit Nachbarlaeufen, deren Plan die Lippe dort behaelt
+    fg_liste = gd.feldgrenzen(lauf_id, K["laeufe"]) if (K.get("laeufe") and not nur_stufen) else []
+    fremd_zonen = []
+    for e_ in fg_liste:
+        e_["nachbar_plan"] = bool(e_["fremd_s_m"]) and nachbar_hat_stufen(e_["nachbar"], K)
+        if e_["fremd_s_m"] and e_["nachbar_plan"]:
+            fremd_zonen.append((float(e_["fremd_s_m"][0]), float(e_["fremd_s_m"][1]),
+                                "Feldgrenze: Ueberlappung mit %s, Lippe gehoert dort zum Plan %s (%s)"
+                                % (e_["nachbar"], e_["nachbar"], e_["regel"])))
+    feldgrenz_neu = []
     strecken_out, alle_stufen, segmente = [], [], []
     abschnitte = []
     for x in st_l:
@@ -3042,47 +3080,67 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             strecken_out.append(eintrag)
             continue
         s0, s1 = x["s0_m"], x["s1_m"]
-        fix, gruende = feste_zonen(pr, welt, gel, orte_nah, K["umbau"], andere, s0, s1, zufl)
-        L = s1 - s0
-        n_ab = max(1, int(math.ceil(L / 420.0)))
-        grenzen_ab = [s0 + L * k / n_ab for k in range(n_ab + 1)]
-        for k in range(1, n_ab):
-            m = np.abs(pr.s - grenzen_ab[k]) <= 10.0
-            fix[m] = True
-            gruende.append((_r(grenzen_ab[k] - 10), _r(grenzen_ab[k] + 10), "Abschnittsgrenze (Fenster <= 600 m)"))
-        frei = []
-        ks = np.flatnonzero((pr.s >= s0) & (pr.s <= s1))
-        st = None
-        for k in ks:
-            if not fix[k] and st is None:
-                st = pr.s[k]
-            if (fix[k] or k == ks[-1]) and st is not None:
-                e_ = pr.s[k] if not fix[k] else pr.s[max(k - 1, 0)]
-                anschl = max(2.0 * min(pr.Bi(st), 5.0), 3.0)  # Anschluss an den Laufenden fix (2 B, hoechstens 10 m)
-                st2, e2 = max(float(st), anschl), min(float(e_), pr.s[-1] - max(2.0 * min(pr.Bi(e_), 5.0), 3.0))
-                if e2 - st2 >= 2.0 * gr.min_abstand_stufen(rw, pr.Bi(st2)):
-                    frei.append((st2, e2))
-                st = None
-        rng = np.random.default_rng(abs(hash_stabil(SEED, x["id"])))
-        vorg = [(lauf.s_von_m(v["lippe_cm"][0] / 100.0, v["lippe_cm"][1] / 100.0)[0], v["id"])
-                for v in gd.vorgabe_stufen(lauf_id)]
-        leger = Stufenleger(rw, pr, welt, x["art"], rng, None, fels_fn, verbot, vorg)
-        st_x = []
-        segs_x = []
-        for a, b in frei:
-            roh = leger.lege(a, b)
-            if not roh:
-                continue
-            fertig = leger.ausarbeiten(roh, a, b)
-            if not fertig:
-                continue
-            kk = leger.kaskaden(fertig)
-            # Segmentanfang = erste Lippe (davor bleibt der Spiegel)
-            a2 = kk[0]["p"]
-            biome_seg = [welt.biom_bei_m(*pr.xy(v)) for v in np.linspace(a2, b, 7)]
-            biom_seg = max(set(biome_seg), key=lambda v: (biome_seg.count(v), v))
-            segs_x.append((a2, b, biom_seg, int(np.searchsorted(grenzen_ab, a2, side="right") - 1)))
-            st_x += kk
+        extra_fix = []
+        for versuch in (0, 1):
+            fix, gruende = feste_zonen(pr, welt, gel, orte_nah, K["umbau"], andere, s0, s1, zufl)
+            for fa, fb, grund in extra_fix:                       # 16c Nachtrag 3: Feldgrenze, Stufe beim Nachbarplan
+                fix[(pr.s >= fa - 1e-6) & (pr.s <= fb + 1e-6)] = True
+                gruende.append((_r(fa), _r(fb), grund))
+            L = s1 - s0
+            n_ab = max(1, int(math.ceil(L / 420.0)))
+            grenzen_ab = [s0 + L * k / n_ab for k in range(n_ab + 1)]
+            for k in range(1, n_ab):
+                m = np.abs(pr.s - grenzen_ab[k]) <= 10.0
+                fix[m] = True
+                gruende.append((_r(grenzen_ab[k] - 10), _r(grenzen_ab[k] + 10), "Abschnittsgrenze (Fenster <= 600 m)"))
+            frei = []
+            ks = np.flatnonzero((pr.s >= s0) & (pr.s <= s1))
+            st = None
+            for k in ks:
+                if not fix[k] and st is None:
+                    st = pr.s[k]
+                if (fix[k] or k == ks[-1]) and st is not None:
+                    e_ = pr.s[k] if not fix[k] else pr.s[max(k - 1, 0)]
+                    anschl = max(2.0 * min(pr.Bi(st), 5.0), 3.0)  # Anschluss an den Laufenden fix (2 B, hoechstens 10 m)
+                    st2, e2 = max(float(st), anschl), min(float(e_), pr.s[-1] - max(2.0 * min(pr.Bi(e_), 5.0), 3.0))
+                    if e2 - st2 >= 2.0 * gr.min_abstand_stufen(rw, pr.Bi(st2)):
+                        frei.append((st2, e2))
+                    st = None
+            rng = np.random.default_rng(abs(hash_stabil(SEED, x["id"])))
+            vorg = [(lauf.s_von_m(v["lippe_cm"][0] / 100.0, v["lippe_cm"][1] / 100.0)[0], v["id"])
+                    for v in gd.vorgabe_stufen(lauf_id)]
+            leger = Stufenleger(rw, pr, welt, x["art"], rng, None, fels_fn, verbot, vorg)
+            st_x = []
+            segs_x = []
+            for a, b in frei:
+                roh = leger.lege(a, b)
+                if not roh:
+                    continue
+                fertig = leger.ausarbeiten(roh, a, b)
+                if not fertig:
+                    continue
+                kk = leger.kaskaden(fertig)
+                # Segmentanfang = erste Lippe (davor bleibt der Spiegel)
+                a2 = kk[0]["p"]
+                biome_seg = [welt.biom_bei_m(*pr.xy(v)) for v in np.linspace(a2, b, 7)]
+                biom_seg = max(set(biome_seg), key=lambda v: (biome_seg.count(v), v))
+                segs_x.append((a2, b, biom_seg, int(np.searchsorted(grenzen_ab, a2, side="right") - 1)))
+                st_x += kk
+            # 16c Nachtrag 3 (Feldgrenzen mit zwei Plaenen): liegt eine Lippe in der Ueberlappung, die dem Nachbarplan
+            # gehoert, wird die Strecke mit dieser Zone als fester Zone neu gelegt (Spiegel dort alt, Anschluss passt)
+            if versuch == 0:
+                ps = [float(e_["p"]) for e_ in st_x] + [float(t_["p"]) for e_ in st_x for t_ in (e_.get("teil") or [])]
+                # auch ein Becken, das in die Zone hineinlaeuft (Segment endet dort), zaehlt: dort muss der alte
+                # Spiegel bleiben, damit der Nachbarplan mit passendem Spiegel anschliesst
+                verl = [z_ for z_ in fremd_zonen if any(z_[0] - 1e-6 <= p_ <= z_[1] + 1e-6 for p_ in ps) or
+                        any(b_ > z_[0] + 0.05 and a_ < z_[1] - 0.05 for a_, b_, _, _ in segs_x)]
+                if not verl:
+                    break
+                extra_fix = verl
+                for z_ in verl:
+                    feldgrenz_neu.append({"strecke": x["id"], "fremd_s_m": [_r(z_[0], 2), _r(z_[1], 2)], "grund": z_[2],
+                                          "lippen_vorher_s_m": sorted(_r(p_, 2) for p_ in ps
+                                                                      if z_[0] - 1e-6 <= p_ <= z_[1] + 1e-6)})
         for n, e in enumerate(sorted(st_x, key=lambda e: e["p"])):
             e["nr"] = len(alle_stufen) + n
             e["id"] = "%s_S%02d" % (x["id"], n + 1)
@@ -3119,6 +3177,8 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         eintrag["_segs"] = segs_x
         eintrag["_n_ab"] = n_ab
         strecken_out.append(eintrag)
+    if nur_stufen:
+        return alle_stufen
     plan = {"stand": sfmt.heute(), "auftrag": "15 - steile Strecken: Felsstufen, Klippen, Faelle", "lauf": lauf_id,
             "art": lauf.art, "quelle_lauf": lauf.quelle, "ebene": EBENE,
             "regeln": {"datei": "recherche/antworten/skripte/gefaelle/gefaelle_regeln.json", "version": rw.version,
@@ -3337,7 +3397,7 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
             bauen_instanzen(ctx, K, pr, st_ab, [(a, b, bi) for a, b, bi in segs], wz_ab, biom_netze, None, ufer, breite_fn)
             # 16c Nachtrag 18:15: Totholz im und am Bach (nach allen anderen Gruppen; Stufen/Spiegel/Gelaende bleiben)
             kanal_bb = bachbett_kanal(pr, sp, lf, ufer, breite_fn, st_ab, segs)
-            bil_bb = bachbett_instanzen(ctx, kanal_bb, segs, st_ab)
+            bil_bb = bachbett_instanzen(ctx, kanal_bb, segs, st_ab, bachbett_oberlauf_fn(pr, sp))
             # nichts in Sehenswuerdigkeiten (Radius + 10 m)
             vorher = len(ebene.stuecke)
             ebene.stuecke = [s_ for s_ in ebene.stuecke if s_["ort"] != aid or not any(
@@ -3486,6 +3546,17 @@ def plane_lauf(lauf_id, K, strecken_ids=None):
         "felder": sorted({daten.feld_von_m(px, py) for px, py in zip(pr.x[::20], pr.y[::20])}),
     })
     plan["ufer_rand"] = ufer_rand_block(pr, ufer, breite_fn, segmente, ebene, [kx["id"] for kx in kontexte])
+    # 16c Nachtrag 3: Feldgrenzen mit zwei Plaenen - eine Stufe gehoert nur in einen Plan
+    lip_s = [float(t_["p"]) for e_ in alle_stufen for t_ in (e_.get("teil") or [e_])]
+    for e_ in fg_liste:
+        fz = e_.get("fremd_s_m")
+        e_["lippen_in_fremd"] = sum(1 for p_ in lip_s if fz and e_["nachbar_plan"] and fz[0] - 1e-6 <= p_ <= fz[1] + 1e-6)
+    plan["feldgrenzen"] = {
+        "regel": "16c Nachtrag 3 (Koordinator): Ueberlappen zwei Laeufe an einer Feldgrenze (12-30 m) und haben beide einen "
+                 "Gefaelle-Plan, gehoert eine Stufe nur in EINEN Plan: der Plan, in dessen Feld die Lippe liegt, behaelt sie "
+                 "(gleiches Feld: der obere Lauf). In 'fremd_s_m' setzt dieser Plan keine Lippe, der Spiegel bleibt dort alt "
+                 "und schliesst an den Nachbarplan an. Der fluss_sim-Export schneidet die Kette bei 'grenze_s_m'.",
+        "ueberlappungen": fg_liste, "neu_gelegt": feldgrenz_neu}
     from sehens_lib import bachbett as bb_
     plan["bachbett"] = {"regeln": "recherche/antworten/skripte/sehens_lib/bachbett_regeln.json",
                         "version": bb_.regeln().version, "auftrag": "16c Nachtrag 18:15 (Totholz, Schlamm, Uferstreifen)",
@@ -3804,7 +3875,7 @@ def main(argv=None):
     K = {"welt": welt, "gel": gel, "inv": inv, "rw": rw, "prio": prio, "strecken": strecken,
          "orte": gd.sehens_orte(a.sehens), "umbau": umbau, "baeche": baeche, "wasser_welt": welt.wasser_welt,
          "aus": aus, "wp": sicht.Wegpunkte(welt, 20.0), "klamm": gr.klamm_werte(rw, 4.0), "variante": a.variante,
-         "h1m": h1m}
+         "h1m": h1m, "laeufe": gd.alle_laeufe(welt, baeche, welt.wasser_welt)}
     rc = 0
     alle_meld = []
     zusammen = []

@@ -31,6 +31,20 @@ Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBo
   des Aufprallteppichs, Radius, Stärke). Im Material: Simulationsschaum nur innerhalb der Kapseln.
 - **Bäche ungeteilt bis 0,40 m Zelle** (`swr.zelle_max_bach_ungeteilt_m`); Teilstücke behalten höchstens 0,30 m.
 
+**Ergänzungen 16c Nachtrag 3** (Regeln Version 6, Format bleibt `fluss_sim_v3`; Antwort: Nachtrag 3 in
+[`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md)):
+- **`holz_muster`** um `branch` und `mossytree` erweitert: Äste und Moosbäume (`SM_OldTreeBranch_*`,
+  `SM_BrokenTreeBranch_*`, `SM_Pine_broken_branch_*`, `SM_mountain_branch_*`, `SM_detail_branches_*`, `SM_MossyTree_01`)
+  laufen als `holz` statt `sonstiges`.
+- **Feldgrenzen mit zwei Gefälle-Plänen:** Haben beide Teile einer Überlappung einen Plan mit `feldgrenzen`
+  (`gefaelle_daten.feldgrenzen`), schneidet der Export die Kette an der Besitzgrenze `grenze_s_m` (die Lippe gehört dem
+  Plan ihres Felds, im selben Feld dem oberen). Damit entfällt keine Stufe mehr (`abstuerze_entfallen` leer). Ohne
+  `feldgrenzen` gilt die alte Regel (das untere Teil wird gekürzt).
+- **Roh-Lauf-Ebene** (`gefaelle/bachbett_roh.py`, Option `--roh DIR`, Standard `bachbett_roh` neben `--gefaelle`): Der
+  Export liest `<roh>/<lauf>/instanzen/<Feld>/plan.json` in den Objekt-Pool (Felsen und großes Totholz der Läufe ohne
+  Stufenplan → Wasser-Kollision, überspannende Stämme ohne). Der Prüfer nimmt `--roh` ebenso. `zusammenfassung.json`
+  nennt die Ebene unter `eingaben.bachbett_roh`.
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -51,10 +65,12 @@ Cloud (2 m), Planer-Ausgaben vorher in den Scratchpad erzeugen:
 ```
 python -I recherche/antworten/skripte/gefaelle/gefaelle_plan.py --alle --daten2m recherche/vorlagen/daten/sehens --aus <s>/gef
 python -I recherche/antworten/skripte/sehens_<biom>/sehens_<biom>.py --daten2m recherche/vorlagen/daten/sehens --aus <s>/sehens/<biom>   # je Biom
+python -I recherche/antworten/skripte/gefaelle/bachbett_roh.py --gefaelle <s>/gef --daten2m recherche/vorlagen/daten/sehens \
+       --aus <s>/bachbett_roh                                                                       # 16c Nachtrag 3
 python -I recherche/antworten/skripte/fluss_sim/fluss_sim_export.py --gefaelle <s>/gef --sehens <s>/sehens \
-       --daten2m recherche/vorlagen/daten/sehens --aus <s>/fs
+       --roh <s>/bachbett_roh --daten2m recherche/vorlagen/daten/sehens --aus <s>/fs
 python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py <s>/fs --gefaelle <s>/gef --sehens <s>/sehens \
-       --daten2m recherche/vorlagen/daten/sehens [--vergleich <s>/fs_zweiter_lauf]
+       --roh <s>/bachbett_roh --daten2m recherche/vorlagen/daten/sehens [--vergleich <s>/fs_zweiter_lauf]
 ```
 
 Lokal (1 m), nach den Planer-Läufen auf 1 m:
@@ -67,6 +83,9 @@ python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py export/unre
        --gefaelle export/unreal/welt/gefaelle --sehens export/unreal/welt/sehens --sw-ordner export/unreal/welt \
        --daten1m export/unreal/welt
 ```
+
+Die Roh-Lauf-Ebene `export/unreal/welt/bachbett_roh/` (vorher `gefaelle/bachbett_roh.py --basis <production>` laufen
+lassen) liegt neben `gefaelle/` und wird ohne `--roh` gefunden.
 
 Optionen:
 - `--nur ID …` (Gewässer-, Lauf- oder Ort-IDs; verkettet wird immer über alle Läufe);

@@ -14,6 +14,8 @@ Stufenstrecke, dazwischen ein Kaskadennetz.
 | `gefaelle_regelwerk.py` | liest `gefaelle_regeln.json` und wertet seine Formeln aus (AST-geprüft) |
 | `gefaelle_daten.py` | Strecken (stabile IDs `<lauf>_s<k>`), Läufe, Sehens-Orte, Umbau der Sehens-Planer, gebaute Stufen |
 | `gefaelle_regeln.json` | Regelwerk (Regelwerk-Agent, nicht von diesem Planer geschrieben) |
+| `bachbett_roh.py` | 16c Nachtrag 3: Bachbett (Felsen, Totholz, Schlamm, Uferstreifen) für Läufe ohne Stufenplan → `<aus>/<lauf>/plan.json`, `instanzen/<Feld>/`, `lagen/` |
+| `bachbett_roh_pruefen.py` | Prüfer der Roh-Lauf-Ebene (auch eingebaut in `bachbett_roh.py`) |
 
 ## Aufruf
 
@@ -375,6 +377,41 @@ Antwort: Nachtrag 2 in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
   in einer Lippe/einem Vorhang, Dichte je Segment im Rahmen (über max; unter min ab 60 m), Uferstreifen ≥ 80 % der
   Uferzellen (0,05–0,5 m über dem Spiegel bis 1,5 m neben dem Netzrand, außerhalb der Lippenzonen) mit Streifenlagen
   ≥ 200. Spiegel an schrägen Lippen über `bachbett.Lippenfeld` aus `lippe_form` und `segmente_m`.
+
+## Nachtrag 3 zu 16c: Totholz nach Waldnähe, Feldgrenzen, Roh-Läufe (Koordinator 12.10.)
+
+Antwort und Zahlen: „Nachtrag 3“ in `antworten/16c-ferat-ein-fluss-je-gewaesser.md`.
+
+**Totholz nach Waldnähe** (`sehens_lib.bachbett.dichte`, Regeln v2): Der Baumanteil (4-m-Raster, Bäume ≥ 5 m) im Radius
+40 m um den Bach zählt jetzt in jedem Biom. Ein Bach mit Bäumen am Ufer bekommt die Dichte des Ersatz-Waldbioms
+(`wald_ersatz`, z. B. Tundra → Bergwald) × Waldfaktor, gewichtet mit g = glatt((Anteil − 0,01)/0,04). Baumlose Strecken
+behalten ihr Biom („kaum“ bzw. 0) und bekommen Treibholz und Äste, wenn die 300 m Oberlauf bewaldet sind. Waldbiome
+rechnen wie bisher. `plan.json → bachbett.abschnitte[*].dichte[*]` trägt dazu `wald_biom`, `wald_gewicht`,
+`oberlauf_anteil`, `treibholz`, `rahmen_lw` [min, Ziel, max] und `palette`. Der Prüfer rechnet den Rahmen nach (Oberlauf
+aus `spiegel_neu_cm`) und meldet eine Abweichung als FEHLER.
+
+**Feldgrenzen mit zwei Plänen** (`gefaelle_daten.feldgrenzen`, 16d Punkt 3): Überlappen zwei Läufe 12–30 m an einer
+Feldgrenze und haben beide Stufen, gehört eine Lippe nur in einen Plan: in den Plan ihres Felds (gleiches Feld: der obere
+Lauf). Liegt beim ersten Legen eine Lippe in der Überlappung des Nachbarn oder läuft ein Becken hinein, wird die
+Strecke mit dieser Zone als fester Zone neu gelegt (Spiegel dort alt, Anschluss passt). Der untere Lauf schließt erst
+dort an, wo sein alter Spiegel nicht über dem des oberen liegt (`grenze_s_m` ≥ Feldgrenze `feldgrenze_s_m`). Ob der Nachbar Stufen bekommt, klärt ein Trockenlauf seiner
+Stufenlage (`nachbar_hat_stufen`), unabhängig von `--laeufe`. `plan.json → feldgrenzen` (`ueberlappungen` mit
+`fremd_s_m`, `grenze_s_m`, `nachbar_plan`, `lippen_in_fremd`; `neu_gelegt`). Der fluss_sim-Export schneidet die Kette an
+`grenze_s_m`. Prüfer (`pruefe_feldgrenzen`): Lippe in einer fremden Überlappung = FEHLER, Geometrie nachgerechnet.
+
+**Roh-Läufe** (`bachbett_roh.py`, Prüfer `bachbett_roh_pruefen.py`): Felsen, Totholz, Schlamm, Kies an Schnellen und
+Uferstreifen für die Welt-Läufe ohne Stufenplan und die Reststrecken geplanter Läufe (Abstand 20 m zu den
+Stufenstrecken). Keine Stufen, kein Gelände – nur Instanzen (Ebene `bachbett_roh`, `FT_EL_BBR_`) und Lagen. Format wie
+die Gefälle-Pläne (`<aus>/<lauf>/plan.json` mit `spiegel_neu_cm` = Lauflinie, `abschnitte`, `bachbett`, `bereiche`),
+Standard-Ausgabe lokal `export/unreal/welt/bachbett_roh/`. Ausgespart: Laufenden (3 m), Überlappungen, die der Export
+kürzt, fremdes Wasser (Mündung, Seen, Teiche), Sehenswürdigkeiten (Radius + 10 m) und Felder mit lokaler Ufer-Ebene (nur
+Felsen; `--ufer-felder`, lokal automatisch aus `ufer/foliage_<Feld>/`).
+
+```
+python -I recherche/antworten/skripte/gefaelle/bachbett_roh.py --gefaelle <gefaelle-Ausgabe> --daten2m recherche/vorlagen/daten/sehens \
+       --aus <s>/bachbett_roh [--laeufe ID …] [--ohne-reststrecken] [--ufer-felder FELD …]
+python -I recherche/antworten/skripte/gefaelle/bachbett_roh_pruefen.py <s>/bachbett_roh --daten2m recherche/vorlagen/daten/sehens
+```
 
 ## Grenzen
 

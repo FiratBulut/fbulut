@@ -14,19 +14,19 @@
   "laenge_m": 45893.9,
   "swr_bereiche": 199,
   "gewaesser_eine_swr": 182,
-  "faelle": 765,
+  "faelle": 762,
   "faelle_vorhang": 170,
-  "abstuerze": 2074,
-  "bereiche": 963,
-  "kollision": 24697,
-  "kollision_im_wasser": 23776,
-  "ueberspannt": 1782,
+  "abstuerze": 2078,
+  "bereiche": 960,
+  "kollision": 41945,
+  "kollision_im_wasser": 36623,
+  "ueberspannt": 6934,
   "schaum": {
    "aufprallteppich": 170,
-   "kehrwasser": 298,
+   "kehrwasser": 314,
    "schaumstrasse": 806
   },
-  "splinepunkte": 18721
+  "splinepunkte": 18719
  },
  "kategorien": {
   "sehens/sehens_bach": {
@@ -93,7 +93,7 @@
    "<= 2000": 3,
    "> 2000": 3
   },
-  "laengste": [["F_HAUPTFLUSS_3",3856.1],["F_DSCHUNGELFLUSS",2867.0],["F_ELFENFLUSS",2212.74],["B_R_P3_P0_02",1294.83],["B_K1_WASSERFALL_WEST_03",1039.94],["F_ERLENBACH",1006.7],["B_R_P3_P0_04",944.76],["B_R_M1_P0_04",766.95],["B_R3_R_M2_P0_01",755.93],["B_R_P4_M2_04",743.86]]
+  "laengste": [["F_HAUPTFLUSS_3",3856.1],["F_DSCHUNGELFLUSS",2867.0],["F_ELFENFLUSS",2212.7],["B_R_P3_P0_02",1294.83],["B_K1_WASSERFALL_WEST_03",1039.94],["F_ERLENBACH",1006.7],["B_R_P3_P0_04",944.76],["B_R_M1_P0_04",766.95],["B_R3_R_M2_P0_01",755.93],["B_R_P4_M2_04",743.86]]
  },
  "box_achse_m": {
   "median": 127.0,
@@ -119,7 +119,7 @@
   "gewaesser_eine_swr": 182,
   "gewaesser_geteilt": 5,
   "swr_in_geteilten": 17,
-  "geteilte": [["F_HAUPTFLUSS_3",6,3856.1],["F_ELFENFLUSS",4,2212.74],["F_DSCHUNGELFLUSS",3,2867.0],["B_R_P3_P0_02",2,1294.83],["F_ERLENBACH",2,1006.7]],
+  "geteilte": [["F_HAUPTFLUSS_3",6,3856.1],["F_ELFENFLUSS",4,2212.7],["F_DSCHUNGELFLUSS",3,2867.0],["B_R_P3_P0_02",2,1294.83],["F_ERLENBACH",2,1006.7]],
   "naehte": {
    "becken": 12
   },
@@ -147,10 +147,10 @@
   "zellen_mio": {
    "summe": 80.0
   },
-  "hindernis_akteure": 131,
-  "hindernis_instanzen": 23509,
-  "hindernis_akteure_mit_tag": 1036,
-  "swr_ohne_hindernis": 68,
+  "hindernis_akteure": 197,
+  "hindernis_instanzen": 40658,
+  "hindernis_akteure_mit_tag": 1034,
+  "swr_ohne_hindernis": 2,
   "gelaende_max_in_swr_m": 331.86,
   "gelaende_max_swr": "F_HAUPTFLUSS_1"
  },
@@ -208,9 +208,9 @@
   "bis 512 (Zwischenregel 16c): bach 0.35, fluss 0.5": {
    "gewaesser_geteilt": 66,
    "gewaesser_eine_swr": 121,
-   "swr": 740,
+   "swr": 739,
    "aufloesung": {
-    "<= 512": 740,
+    "<= 512": 739,
     "513-1024": 0,
     "1025-2048": 0
    }
@@ -221,18 +221,18 @@
   "grenze_m": 655.04,
   "ueber_grenze": 0
  },
- "kollision_objekte_eindeutig": 24545,
+ "kollision_objekte_eindeutig": 41692,
  "objekt_pool": {
-  "objekte": 358258,
-  "fest_und_gross": 66990
+  "objekte": 382849,
+  "fest_und_gross": 101488
  },
  "tempo": {
   "einheit": "m/s (UE: WaterVelocityScalar = x 100 cm/s)",
   "regel": "Manning-Strickler bei Normalabfluss je Splinepunkt: v = k_st^(3/5) * q^(2/5) * max(I, gefaelle_min)^(3/10). I = Gefaelle des Wasserspiegels ueber +-fenster_halb_m (Stufen zaehlen mit). q = Q / b (Abfluss je Meter Breite, b = RiverWidth); Q = v_becken_ref_ms * Median(b * h) ueber +-q_fenster_m mit h = Depth * tiefe_mittel_anteil (>= tiefe_min_m): ein Becken mittlerer Groesse fliesst mit v_becken_ref_ms, Engstellen schneller, breite Becken langsamer (Kontinuitaet); in Becken und Toepfen (Rueckstau) v = min(v, q / h). v begrenzt auf [v_min_ms; v_max_ms], entlang s geglaettet (Gauss glatt_sigma_m, Gewicht x halber Punktabstand), dann Aenderung je Meter <= aenderung_max_ms_je_m (untere Huelle: nur Spitzen sinken), zuletzt x tempo_faktor. tempo_ms auf 0,001 m/s gerundet; WaterVelocityScalar_cm_s = tempo_ms x 100 (0,1 cm/s).",
   "tempo_faktor": 1.0,
   "vorher": {
-   "n": 18721,
-   "mittel": 1.638,
+   "n": 18719,
+   "mittel": 1.639,
    "median": 1.5,
    "p10": 0.8,
    "p90": 2.881,
@@ -240,42 +240,42 @@
    "max": 4.5
   },
   "nachher": {
-   "n": 18721,
+   "n": 18719,
    "mittel": 0.687,
    "median": 0.584,
-   "p10": 0.172,
+   "p10": 0.173,
    "p90": 1.373,
    "min": 0.1,
    "max": 2.5
   },
   "nach_rolle": {
    "becken": {
-    "vorher": {"n":2432,"mittel":0.804,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":3.0},
-    "nachher": {"n":2432,"mittel":0.214,"median":0.208,"p10":0.133,"p90":0.289,"min":0.1,"max":2.407}
+    "vorher": {"n":2437,"mittel":0.804,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":3.0},
+    "nachher": {"n":2437,"mittel":0.214,"median":0.208,"p10":0.133,"p90":0.291,"min":0.1,"max":2.407}
    },
    "fuss": {
-    "vorher": {"n":2074,"mittel":1.623,"median":1.5,"p10":1.5,"p90":1.5,"min":0.5,"max":3.0},
-    "nachher": {"n":2074,"mittel":1.196,"median":1.215,"p10":0.766,"p90":1.525,"min":0.404,"max":2.343}
+    "vorher": {"n":2078,"mittel":1.624,"median":1.5,"p10":1.5,"p90":1.5,"min":0.5,"max":3.0},
+    "nachher": {"n":2078,"mittel":1.196,"median":1.216,"p10":0.767,"p90":1.528,"min":0.404,"max":2.343}
    },
    "gerinne": {
-    "vorher": {"n":79,"mittel":1.759,"median":1.68,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
-    "nachher": {"n":79,"mittel":0.772,"median":0.655,"p10":0.498,"p90":1.262,"min":0.368,"max":2.268}
+    "vorher": {"n":84,"mittel":1.814,"median":1.839,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
+    "nachher": {"n":84,"mittel":0.766,"median":0.659,"p10":0.501,"p90":1.204,"min":0.368,"max":2.268}
    },
    "lippe": {
-    "vorher": {"n":2074,"mittel":2.359,"median":2.4,"p10":2.4,"p90":2.4,"min":0.5,"max":2.4},
-    "nachher": {"n":2074,"mittel":1.199,"median":1.21,"p10":0.765,"p90":1.545,"min":0.404,"max":2.348}
+    "vorher": {"n":2078,"mittel":2.36,"median":2.4,"p10":2.4,"p90":2.4,"min":0.5,"max":2.4},
+    "nachher": {"n":2078,"mittel":1.2,"median":1.211,"p10":0.765,"p90":1.553,"min":0.404,"max":2.348}
    },
    "rampe": {
-    "vorher": {"n":395,"mittel":2.613,"median":3.0,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
-    "nachher": {"n":395,"mittel":1.058,"median":1.121,"p10":0.136,"p90":1.735,"min":0.1,"max":2.5}
+    "vorher": {"n":397,"mittel":2.615,"median":3.0,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
+    "nachher": {"n":397,"mittel":1.058,"median":1.121,"p10":0.136,"p90":1.734,"min":0.1,"max":2.5}
    },
    "rinne": {
-    "vorher": {"n":62,"mittel":1.789,"median":1.602,"p10":0.924,"p90":2.889,"min":0.8,"max":3.0},
-    "nachher": {"n":62,"mittel":0.981,"median":0.996,"p10":0.555,"p90":1.471,"min":0.11,"max":1.849}
+    "vorher": {"n":59,"mittel":1.837,"median":1.65,"p10":0.962,"p90":2.892,"min":0.8,"max":3.0},
+    "nachher": {"n":59,"mittel":0.957,"median":0.991,"p10":0.544,"p90":1.39,"min":0.11,"max":1.849}
    },
    "river": {
-    "vorher": {"n":6078,"mittel":1.614,"median":1.525,"p10":0.8,"p90":3.0,"min":0.3,"max":3.773},
-    "nachher": {"n":6078,"mittel":0.578,"median":0.562,"p10":0.189,"p90":1.027,"min":0.1,"max":2.105}
+    "vorher": {"n":6059,"mittel":1.616,"median":1.536,"p10":0.8,"p90":3.0,"min":0.3,"max":3.773},
+    "nachher": {"n":6059,"mittel":0.577,"median":0.562,"p10":0.188,"p90":1.024,"min":0.1,"max":2.105}
    },
    "roh": {
     "vorher": {"n":5466,"mittel":1.706,"median":1.8,"p10":0.352,"p90":2.852,"min":0.3,"max":4.5},
@@ -288,20 +288,20 @@
   },
   "nach_gefaelle": {
    "< 1 %": {
-    "vorher": {"n":4513,"mittel":1.17,"median":0.865,"p10":0.3,"p90":2.457,"min":0.1,"max":3.264},
-    "nachher": {"n":4513,"mittel":0.323,"median":0.275,"p10":0.1,"p90":0.663,"min":0.1,"max":1.391}
+    "vorher": {"n":4520,"mittel":1.171,"median":0.865,"p10":0.3,"p90":2.457,"min":0.1,"max":3.27},
+    "nachher": {"n":4520,"mittel":0.322,"median":0.274,"p10":0.1,"p90":0.663,"min":0.1,"max":1.384}
    },
    "1-5 %": {
-    "vorher": {"n":6413,"mittel":1.563,"median":1.608,"p10":0.8,"p90":2.601,"min":0.548,"max":3.829},
-    "nachher": {"n":6413,"mittel":0.499,"median":0.446,"p10":0.182,"p90":1.008,"min":0.1,"max":1.8}
+    "vorher": {"n":6406,"mittel":1.565,"median":1.619,"p10":0.8,"p90":2.611,"min":0.548,"max":3.829},
+    "nachher": {"n":6406,"mittel":0.499,"median":0.446,"p10":0.182,"p90":1.006,"min":0.1,"max":1.8}
    },
    "5-15 %": {
-    "vorher": {"n":3545,"mittel":1.895,"median":1.837,"p10":0.8,"p90":3.0,"min":0.5,"max":4.5},
-    "nachher": {"n":3545,"mittel":0.81,"median":0.738,"p10":0.577,"p90":1.12,"min":0.223,"max":1.954}
+    "vorher": {"n":3540,"mittel":1.898,"median":1.859,"p10":0.8,"p90":3.0,"min":0.5,"max":4.5},
+    "nachher": {"n":3540,"mittel":0.81,"median":0.738,"p10":0.577,"p90":1.119,"min":0.223,"max":1.954}
    },
    "> 15 %": {
-    "vorher": {"n":4250,"mittel":2.033,"median":2.4,"p10":1.5,"p90":3.0,"min":0.8,"max":4.5},
-    "nachher": {"n":4250,"mittel":1.257,"median":1.264,"p10":0.883,"p90":1.579,"min":0.26,"max":2.5}
+    "vorher": {"n":4253,"mittel":2.033,"median":2.4,"p10":1.5,"p90":3.0,"min":0.8,"max":4.5},
+    "nachher": {"n":4253,"mittel":1.257,"median":1.265,"p10":0.883,"p90":1.581,"min":0.26,"max":2.5}
    }
   },
   "nach_kategorie": {
@@ -310,8 +310,8 @@
     "nachher": {"n":1086,"mittel":0.673,"median":0.683,"p10":0.1,"p90":1.317,"min":0.1,"max":2.407}
    },
    "welt": {
-    "vorher": {"n":17635,"mittel":1.642,"median":1.518,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
-    "nachher": {"n":17635,"mittel":0.688,"median":0.577,"p10":0.18,"p90":1.376,"min":0.1,"max":2.5}
+    "vorher": {"n":17633,"mittel":1.643,"median":1.528,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
+    "nachher": {"n":17633,"mittel":0.688,"median":0.576,"p10":0.18,"p90":1.376,"min":0.1,"max":2.5}
    }
   },
   "spearman_gefaelle": {
@@ -324,35 +324,35 @@
    "punkte": 124,
    "vorher": {
     "n": 124,
-    "mittel": 1.749,
+    "mittel": 1.748,
     "median": 1.5,
     "p10": 0.8,
     "p90": 2.4,
     "min": 0.8,
-    "max": 3.264
+    "max": 3.27
    },
    "nachher": {
     "n": 124,
-    "mittel": 1.355,
-    "median": 1.607,
+    "mittel": 1.353,
+    "median": 1.605,
     "p10": 0.228,
     "p90": 1.963,
     "min": 0.149,
     "max": 2.348
    },
    "nach_rolle": {
-    "becken": {"vorher":{"n":25,"mittel":0.8,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":0.8},"nachher":{"n":25,"mittel":0.239,"median":0.233,"p10":0.185,"p90":0.301,"min":0.149,"max":0.442}},
-    "fuss": {"vorher":{"n":42,"mittel":1.536,"median":1.5,"p10":1.5,"p90":1.5,"min":1.5,"max":3.0},"nachher":{"n":42,"mittel":1.74,"median":1.715,"p10":1.509,"p90":1.97,"min":1.447,"max":2.343}},
-    "gerinne": {"vorher":{"n":1,"mittel":2.465,"median":2.465,"p10":2.465,"p90":2.465,"min":2.465,"max":2.465},"nachher":{"n":1,"mittel":0.757,"median":0.757,"p10":0.757,"p90":0.757,"min":0.757,"max":0.757}},
-    "lippe": {"vorher":{"n":42,"mittel":2.4,"median":2.4,"p10":2.4,"p90":2.4,"min":2.4,"max":2.4},"nachher":{"n":42,"mittel":1.751,"median":1.731,"p10":1.494,"p90":2.013,"min":1.447,"max":2.348}},
+    "becken": {"vorher":{"n":25,"mittel":0.8,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":0.8},"nachher":{"n":25,"mittel":0.239,"median":0.233,"p10":0.186,"p90":0.301,"min":0.149,"max":0.442}},
+    "fuss": {"vorher":{"n":42,"mittel":1.536,"median":1.5,"p10":1.5,"p90":1.5,"min":1.5,"max":3.0},"nachher":{"n":42,"mittel":1.741,"median":1.715,"p10":1.509,"p90":1.97,"min":1.447,"max":2.343}},
+    "gerinne": {"vorher":{"n":1,"mittel":2.452,"median":2.452,"p10":2.452,"p90":2.452,"min":2.452,"max":2.452},"nachher":{"n":1,"mittel":0.758,"median":0.758,"p10":0.758,"p90":0.758,"min":0.758,"max":0.758}},
+    "lippe": {"vorher":{"n":42,"mittel":2.4,"median":2.4,"p10":2.4,"p90":2.4,"min":2.4,"max":2.4},"nachher":{"n":42,"mittel":1.752,"median":1.732,"p10":1.494,"p90":2.013,"min":1.447,"max":2.348}},
     "rampe": {"vorher":{"n":4,"mittel":3.0,"median":3.0,"p10":3.0,"p90":3.0,"min":3.0,"max":3.0},"nachher":{"n":4,"mittel":1.313,"median":1.321,"p10":1.266,"p90":1.355,"min":1.249,"max":1.363}},
-    "river": {"vorher":{"n":10,"mittel":1.708,"median":1.489,"p10":0.8,"p90":2.697,"min":0.8,"max":3.264},"nachher":{"n":10,"mittel":0.938,"median":1.137,"p10":0.249,"p90":1.373,"min":0.161,"max":1.624}}
+    "river": {"vorher":{"n":10,"mittel":1.702,"median":1.461,"p10":0.8,"p90":2.696,"min":0.8,"max":3.27},"nachher":{"n":10,"mittel":0.91,"median":1.137,"p10":0.25,"p90":1.347,"min":0.162,"max":1.349}}
    },
    "nach_gefaelle": {
-    "< 1 %": {"vorher":{"n":4,"mittel":2.724,"median":2.567,"p10":2.5,"p90":3.075,"min":2.5,"max":3.264},"nachher":{"n":4,"mittel":0.365,"median":0.348,"p10":0.19,"p90":0.553,"min":0.161,"max":0.603}},
-    "1-5 %": {"vorher":{"n":26,"mittel":0.864,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":2.465},"nachher":{"n":26,"mittel":0.259,"median":0.234,"p10":0.187,"p90":0.321,"min":0.149,"max":0.757}},
-    "5-15 %": {"vorher":{"n":6,"mittel":1.247,"median":0.8,"p10":0.8,"p90":2.142,"min":0.8,"max":3.0},"nachher":{"n":6,"mittel":1.258,"median":1.308,"p10":1.123,"p90":1.343,"min":0.997,"max":1.345}},
-    "> 15 %": {"vorher":{"n":88,"mittel":2.0,"median":2.4,"p10":1.5,"p90":2.4,"min":1.5,"max":3.0},"nachher":{"n":88,"mittel":1.73,"median":1.713,"p10":1.487,"p90":1.999,"min":1.307,"max":2.348}}
+    "< 1 %": {"vorher":{"n":4,"mittel":2.725,"median":2.566,"p10":2.5,"p90":3.079,"min":2.5,"max":3.27},"nachher":{"n":4,"mittel":0.366,"median":0.349,"p10":0.191,"p90":0.555,"min":0.162,"max":0.606}},
+    "1-5 %": {"vorher":{"n":26,"mittel":0.864,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":2.452},"nachher":{"n":26,"mittel":0.259,"median":0.234,"p10":0.188,"p90":0.321,"min":0.149,"max":0.758}},
+    "5-15 %": {"vorher":{"n":7,"mittel":1.303,"median":0.8,"p10":0.8,"p90":2.168,"min":0.8,"max":3.0},"nachher":{"n":7,"mittel":1.269,"median":1.325,"p10":1.148,"p90":1.348,"min":0.996,"max":1.349}},
+    "> 15 %": {"vorher":{"n":87,"mittel":2.003,"median":2.4,"p10":1.5,"p90":2.4,"min":1.5,"max":3.0},"nachher":{"n":87,"mittel":1.732,"median":1.714,"p10":1.482,"p90":2.001,"min":1.307,"max":2.348}}
    }
   }
  },
@@ -591,7 +591,12 @@
  },
  "eingaben": {
   "lauf_plaene": 98,
-  "uebersprungen": []
+  "uebersprungen": [],
+  "bachbett_roh": {
+   "ordner": "bachbett_roh",
+   "laeufe": 131,
+   "ebenen": 163
+  }
  },
  "gelaende_deltas": {
   "addiert": 224,

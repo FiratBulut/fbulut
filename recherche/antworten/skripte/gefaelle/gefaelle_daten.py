@@ -106,6 +106,129 @@ class Lauf:
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Feldgrenzen: Ueberlappung zweier Welt-Laeufe (16d Antwort Punkt 3, 16c Nachtrag 3)
+# ----------------------------------------------------------------------------------------------------------------------
+FORTSETZUNG_STANDARD = {"fortsetzung_abstand_m": 8.0, "fortsetzung_ueberlappung_max_m": 40.0, "fortsetzung_quer_m": 1.0,
+                        "ueberlappung_dz_max_cm": 500.0}
+FLUSS_SIM_REGELN = os.path.join(SKRIPTE, "fluss_sim", "fluss_sim_regeln.json")
+
+
+def fortsetzung_regeln():
+    """Kriterien wie fluss_sim_regeln.json 'gewaesser' (gleiche Verkettung wie der Export), sonst Standardwerte."""
+    r = dict(FORTSETZUNG_STANDARD)
+    try:
+        g = lese_json(FLUSS_SIM_REGELN)["gewaesser"]
+        for k in r:
+            if k in g:
+                r[k] = float(g[k])
+    except (OSError, KeyError, ValueError):
+        pass
+    return r
+
+
+def alle_laeufe(welt, baeche=None, wasser_welt=None):
+    """{id: Lauf} aller Welt-Laeufe (wasser_welt.json 'fluesse', Baeche)."""
+    ww = wasser_welt if wasser_welt is not None else (welt.wasser_welt or {})
+    out = {}
+    for f in ww.get("fluesse", []) or []:
+        out[f["id"]] = Lauf(f["id"], "fluss", f["punkte"], f.get("feld"), "wasser_welt.json")
+    for b in (baeche if baeche is not None else welt.baeche) or []:
+        if b["id"] not in out and len(b.get("punkte") or []) >= 2:
+            out[b["id"]] = Lauf(b["id"], "bach", b["punkte"], b.get("feld"), "baeche_alle.json")
+    return out
+
+
+def _feld_bei(lauf, s):
+    from sehens_lib import daten as _d
+    d = lauf.bei_s(np.atleast_1d(np.asarray(s, np.float64)))
+    return [_d.feld_von_m(float(x), float(y)) for x, y in zip(d["x"], d["y"])]
+
+
+def _ueberlappung(P, N, G):
+    """Wie fluss_sim_export.fortsetzung_test (art 'ueberlappung'): Ende von P liegt <= quer auf N bei s <= max, Anfang
+    von N <= quer auf P bei s >= Laenge - max, kein Anschluss (Ende-Anfang > fortsetzung_abstand_m)."""
+    ex, ey = P.xy[-1]
+    ax, ay = N.xy[0]
+    if math.hypot(ex - ax, ey - ay) <= G["fortsetzung_abstand_m"]:
+        return None
+    ue = G["fortsetzung_ueberlappung_max_m"]
+    sn, dn = N.s_von_m(ex, ey)
+    if dn > G["fortsetzung_quer_m"] or not (0.0 < sn <= ue):
+        return None
+    if abs(float(np.interp(sn, N.s, N.z)) - float(P.z[-1])) * 100.0 > G["ueberlappung_dz_max_cm"]:
+        return None
+    sp, dp = P.s_von_m(ax, ay)
+    if dp > G["fortsetzung_quer_m"] or not (P.laenge_m - ue <= sp < P.laenge_m):
+        return None
+    return sp, sn
+
+
+def feldgrenzen(lauf_id, laeufe, schritt_m=0.25):
+    """Ueberlappungen des Laufs mit Nachbarlaeufen an Feldgrenzen (zwei Plaene uebereinander). Regel (Koordinator 16c
+    Nachtrag 3): Eine Stufe gehoert nur in EINEN Plan. Der Plan, in dessen Feld die Lippe liegt, behaelt sie; der
+    andere laesst die Ueberlappung frei (Spiegel bleibt dort alt, der Plan schliesst mit passendem Spiegel an).
+    Liegen beide Laeufe im selben Feld (Verlaengerungen wie *_1V_C2 -> *_2_C2), gehoert die Ueberlappung dem oberen.
+    Passender Spiegel: Der untere Lauf schliesst erst dort an, wo sein alter Spiegel nicht ueber dem des oberen liegt
+    (die Feld-Stuecke weichen in der Ueberlappung bis ~0,7 m voneinander ab); seine Lippen davor entfallen.
+    Rueckgabe: Liste {nachbar, seite ('ende' = Lauf ist oben, 'anfang' = Lauf ist unten), ueberlappung_s_m (eigenes s),
+    feldgrenze_s_m (Feldwechsel), grenze_s_m (eigenes s: Anschluss, hier schneidet der Export die Kette), fremd_s_m
+    ([a, b] oder None: dort setzt dieser Lauf keine Stufe), eigen_feld, nachbar_feld, regel}."""
+    G = fortsetzung_regeln()
+    X = laeufe[lauf_id]
+    out = []
+    for nid in sorted(laeufe):
+        if nid == lauf_id:
+            continue
+        Y = laeufe[nid]
+        for P, N, seite in ((X, Y, "ende"), (Y, X, "anfang")):
+            r = _ueberlappung(P, N, G)
+            if r is None:
+                continue
+            sp, sn = r
+            gleich = not P.feld or not N.feld or P.feld == N.feld
+            if gleich:
+                g_p, g_n = P.laenge_m, sn
+                regel = "gleiches Feld %s: Ueberlappung gehoert dem oberen Lauf" % (P.feld,)
+            else:
+                ss_p = np.arange(sp, P.laenge_m + 1e-9, schritt_m)
+                fp = _feld_bei(P, ss_p)
+                k = next((i for i, f in enumerate(fp) if f != P.feld), None)
+                g_p = float(ss_p[k]) if k is not None else P.laenge_m
+                ss_n = np.arange(0.0, sn + 1e-9, schritt_m)
+                fn = _feld_bei(N, ss_n)
+                k = next((i for i, f in enumerate(fn) if f == N.feld), None)
+                g_n = float(ss_n[k]) if k is not None else sn
+                regel = "Feldgrenze %s/%s: Lippe gehoert dem Plan ihres Felds" % (P.feld, N.feld)
+            # passender Spiegel: der untere Lauf schliesst erst dort an, wo sein (alter) Spiegel nicht ueber dem des
+            # oberen liegt (die Feld-Laeufe weichen in der Ueberlappung bis ~0,7 m voneinander ab); davor setzt er keine
+            # Lippe. Schnitt = Anschluss: unten bei s_n*, oben bei der Projektion desselben Punkts.
+            ss_a = np.arange(g_n, sn + 1e-9, schritt_m)
+            dn_ = N.bei_s(ss_a)
+            s_an = sn
+            for k_, (x_, y_, z_) in enumerate(zip(dn_["x"], dn_["y"], dn_["z"])):
+                sp_k, _ = P.s_von_m(float(x_), float(y_))
+                if float(z_) <= float(np.interp(sp_k, P.s, P.z)) + 0.02:
+                    s_an = float(ss_a[k_])
+                    break
+            xa, ya = float(np.interp(s_an, N.s, N.xy[:, 0])), float(np.interp(s_an, N.s, N.xy[:, 1]))
+            s_ap = min(P.s_von_m(xa, ya)[0], P.laenge_m)
+            if seite == "ende":
+                ue_s = [round(sp, 2), round(X.laenge_m, 2)]
+                grenze, fg_ = s_ap, g_p
+                fremd = [round(g_p, 2), round(X.laenge_m, 2)] if g_p < X.laenge_m - 1e-6 else None
+            else:
+                ue_s = [0.0, round(sn, 2)]
+                grenze, fg_ = s_an, g_n
+                fremd = [0.0, round(s_an, 2)] if s_an > 1e-6 else None
+            out.append({"nachbar": nid, "seite": seite, "ueberlappung_s_m": ue_s, "grenze_s_m": round(grenze, 2),
+                        "feldgrenze_s_m": round(fg_, 2), "fremd_s_m": fremd, "eigen_feld": X.feld,
+                        "nachbar_feld": Y.feld, "regel": regel + ("; Anschluss erst bei passendem Spiegel (unten s %.1f "
+                                                                   "statt %.1f m)" % (s_an, g_n) if s_an > g_n + 0.01
+                                                                   else "")})
+    return out
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Strecken
 # ----------------------------------------------------------------------------------------------------------------------
 def lade_strecken(pfad=None, welt=None, baeche=None, wasser_welt=None):

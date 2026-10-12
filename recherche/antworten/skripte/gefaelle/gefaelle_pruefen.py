@@ -750,19 +750,23 @@ def pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m=None):
             n_neu = sum(1 for st, _ in ok_st if st["art"] in bb.ARTEN_LW and a_ - 1.0 <= st["s_m"] <= b_ + 1.0)
             n_best = sum(1 for st in best if a_ - 1.0 <= st["s_m"] <= b_ + 1.0)
             f = float(seg.get("wald_faktor", 1.0))
+            rahmen = None
             if welt is not None and L >= float(A["min_laenge_m"]):
                 ss_ = np.linspace(a_, b_, max(2, int(L / 2.0) + 1))
                 pts = np.stack([np.interp(ss_, s_neu, N[:, 0] / 100.0), np.interp(ss_, s_neu, N[:, 1] / 100.0)], 1)
-                f2, _ = bb.wald_faktor(welt, pts, R, seg["biom"])
-                if abs(f2 - f) > 0.02:
-                    b.append((FEHLER, aid, "Bachbett: Waldfaktor %.3f im Plan, nachgerechnet %.3f" % (f, f2)))
-                    f = f2
+                # 16c Nachtrag 3: Rahmen nach Waldnaehe (Ufer-Wald in jedem Biom, Treibholz vom Oberlauf)
+                ober = bb.oberlauf_punkte(s_neu, N[:, 0] / 100.0, N[:, 1] / 100.0, a_,
+                                                float(A["treibholz"]["oberlauf_m"]))
+                rahmen = bb.dichte(welt, pts, seg["biom"], R, ober)
+                for bf in bb.rahmen_vergleichen(seg, rahmen, aid, FEHLER):
+                    b.append(bf)
                 bi = [welt.biom_bei_m(float(x_), float(y_)) for x_, y_ in pts[::max(1, len(pts) // 7)]]
                 maj = max(set(bi), key=lambda v: (bi.count(v), v))
                 if R.biom(maj)[0] != seg["biom"]:
                     b.append((WARNUNG, aid, "Bachbett: Segment %.0f-%.0f m als %s geplant, Weltbiom ueberwiegend %s"
                               % (a_, b_, seg["biom"], maj)))
-            stf, txt = bb.dichte_bewerten(seg["biom"], f, L, n_neu + n_best, int(seg.get("blockiert", 0)), R, n_neu)
+            stf, txt = bb.dichte_bewerten(seg["biom"], f, L, n_neu + n_best, int(seg.get("blockiert", 0)), R, n_neu,
+                                          rahmen=rahmen)
             if stf:
                 b.append((stf, aid, "Bachbett-Dichte " + txt))
         # Uferstreifen
@@ -814,6 +818,57 @@ def pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m=None):
                           % (seg["biom"], a_, b_, 100 * anteil, n_z)))
 
 
+_LAEUFE = {}
+
+
+def pruefe_feldgrenzen(p, welt, b, tag):
+    """16c Nachtrag 3 (Feldgrenzen mit zwei Plaenen): 'feldgrenzen' im Plan; keine Lippe (auch Teil-Lippe) in einer
+    Ueberlappung, die dem Nachbarplan gehoert (FEHLER). Mit Weltdaten wird die Ueberlappung nachgerechnet."""
+    blk = p.get("feldgrenzen")
+    if blk is None:
+        b.append((FEHLER, tag, "plan.json: 'feldgrenzen' fehlt (16c Nachtrag 3: Stufe nur in einem Plan)"))
+        return
+    liste = blk.get("ueberlappungen") or []
+    if welt is not None:
+        key = id(welt)
+        if key not in _LAEUFE:
+            _LAEUFE.clear()
+            _LAEUFE[key] = gd.alle_laeufe(welt)
+        if p["lauf"] in _LAEUFE[key]:
+            neu = {(e["nachbar"], e["seite"]): e for e in gd.feldgrenzen(p["lauf"], _LAEUFE[key])}
+            for e in liste:
+                n = neu.get((e["nachbar"], e["seite"]))
+                if n is None or (n["fremd_s_m"] or [0, 0]) != (e["fremd_s_m"] or [0, 0]):
+                    b.append((FEHLER, tag, "Feldgrenze %s (%s): fremd_s_m im Plan %s, nachgerechnet %s"
+                              % (e["nachbar"], e["seite"], e["fremd_s_m"], n and n["fremd_s_m"])))
+            if len(neu) != len(liste):
+                b.append((FEHLER, tag, "Feldgrenzen: %d Ueberlappungen im Plan, nachgerechnet %d" % (len(liste), len(neu))))
+    lip = []
+    for st in p.get("stufen") or []:
+        for t in st.get("teilstufen") or [st]:
+            lip.append((st["id"], float(t["s_m"])))
+    for e in liste:
+        fz = e.get("fremd_s_m")
+        if not fz or not e.get("nachbar_plan"):
+            continue
+        drin = [sid for sid, s_ in lip if fz[0] - 1e-3 <= s_ <= fz[1] + 1e-3]
+        segs = [sg for x_ in p.get("strecken") or [] for sg in x_.get("segmente_m") or []]
+        seg_in = [sg for sg in segs if sg[1] > fz[0] + 0.05 and sg[0] < fz[1] - 0.05]
+        if seg_in:
+            b.append((FEHLER, tag, "Feldgrenze %s: Stufenstrecke %s reicht in die Ueberlappung %.1f-%.1f m (Spiegel dort "
+                      "nicht alt, kein passender Anschluss)" % (e["nachbar"], seg_in[0], fz[0], fz[1])))
+        if drin:
+            b.append((FEHLER, tag, "Feldgrenze %s: %d Lippen in der Ueberlappung %.1f-%.1f m, die dem Plan %s gehoert (%s)"
+                      % (e["nachbar"], len(drin), fz[0], fz[1], e["nachbar"], ", ".join(sorted(set(drin))[:3]))))
+        else:
+            b.append((HINWEIS, tag, "Feldgrenze %s (%s): Ueberlappung %.1f-%.1f m gehoert dem Nachbarplan, keine Lippe dort"
+                      % (e["nachbar"], e["seite"], fz[0], fz[1])))
+    for nl in blk.get("neu_gelegt") or []:
+        b.append((HINWEIS, tag, "Feldgrenze: Strecke %s neu gelegt, %d Lippen bei s %s m lagen in %s (jetzt beim "
+                                "Nachbarplan bzw. entfallen)" % (nl["strecke"], len(nl["lippen_vorher_s_m"]),
+                                                                  nl["lippen_vorher_s_m"], nl["fremd_s_m"])))
+
+
 def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None, h1m=None):
     pj = os.path.join(ordner, "plan.json")
     tag = os.path.basename(os.path.normpath(ordner))
@@ -839,6 +894,7 @@ def pruefe_lauf(ordner, welt=None, inv=None, rw=None, gel=None, orte=None, h1m=N
     pruefe_instanzen(p, ordner, welt, inv, b, tag)
     if inv is not None:
         pruefe_bachbett(p, ordner, welt, inv, rw, b, tag, h1m)
+    pruefe_feldgrenzen(p, welt, b, tag)
     for m in p.get("meldungen") or []:
         if m["stufe"] == FEHLER:
             b.append((FEHLER, tag, "Planer: %s" % m["text"]))

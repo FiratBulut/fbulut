@@ -820,6 +820,7 @@ def main(argv=None):
     ap.add_argument("--gefaelle", default=None)
     ap.add_argument("--sehens", default=None)
     ap.add_argument("--sw-ordner", default=None)
+    ap.add_argument("--roh", default=None, help="wie beim Exporter: Roh-Lauf-Ebene (bachbett_roh/)")
     ap.add_argument("--regeln", default=fx.REGELN_STANDARD)
     ap.add_argument("--vergleich", default=None, help="zweiter Ausgabeordner: Dateien muessen byte-gleich sein")
     ap.add_argument("--daten2m", default=None)
@@ -840,6 +841,8 @@ def main(argv=None):
         for lauf in sorted(gef_plaene):
             for pf in fx.feld_plaene(os.path.join(a.gefaelle, lauf, "instanzen"))[0]:
                 P.lade_ebene(pf, "gefaelle/%s/instanzen/%s/plan.json" % (lauf, os.path.basename(os.path.dirname(pf))))
+        for pf, ref in fx.roh_ebenen(fx.roh_ordner_finden(a.roh, a.gefaelle))[0]:
+            P.lade_ebene(pf, ref)
         if a.sehens:
             for biom in fx.BIOME:
                 if not os.path.exists(os.path.join(a.sehens, biom, "orte.json")):
