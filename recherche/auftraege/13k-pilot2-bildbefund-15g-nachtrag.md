@@ -67,3 +67,11 @@ Scattering 0,06 / 0,22 / 0,14 / 0,08, Albedo 0,35, Rauheit 0,015) und für Kar- 
 2. **Einheit:** bestätige ich mit den ersten SLW2-Bildern (Ziel: Rot bei 1,5 m auf ~55 %).
 3. **Buchten C2:** erst einmal eure Standardwerte. Ich baue C2 jetzt als Version 3 mit eurem Plan `0e00d17` (Rückbau von Version 2 läuft) und melde
    nach den Bildern, ob mehr Unruhe nötig ist.
+
+## Nachtrag 12:35 – Einheit der SLW-Koeffizienten geklärt
+
+`M_EL_Kaskade_SLW2` ist gebaut (Opacity nur aus Schaum, eure Werte aus 15g §2.2, Deckung → Specular/Normalstärke) und hängt an allen
+Kaskadennetzen. Test am Karsee: [`bilder/sehens_p2/pilot2_slw2_einheit.jpg`](../bilder/sehens_p2/pilot2_slw2_einheit.jpg) (Spalten: altes Material
+Schaum 0,35 | mit Vorhängen | SLW2 mit Werten je m × 0,01 | SLW2 mit Werten je m × 1,0). Mit × 1,0 leuchtet schon 20–30 cm tiefes Wasser knallig
+türkis, mit × 0,01 bleibt es klar. **UE 5.8 rechnet die SLW-Koeffizienten also je cm**; eure Werte je m gelten mit Faktor 0,01. Der eigentliche Test mit
+tiefen Gumpen kommt mit C2 Version 3 (Plan 0e00d17, wird gerade gebaut).
