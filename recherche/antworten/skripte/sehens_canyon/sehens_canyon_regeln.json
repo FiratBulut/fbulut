@@ -174,7 +174,7 @@
     "wand_mitte": {"punkte": [[-38, -150], [0, -124], [30, -110], [60, -94], [92, -74], [125, -60]]},
     "wand_oben": {"punkte": [[-20, -178], [10, -160], [45, -146], [78, -124], [100, -104], [140, -86]]}
    },
-   "gelaende": {"rauschen": {"anteil": 0.3, "wellenlaenge_m": 20, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform (Etagenkanten)"}, "fenster_m": [220, 240], "rand_m": 14, "bei": [45, -95], "senke_begruendung": "flache Mulden auf den Simsen hinter den harten Baenken (Regen versickert im Sandstein)",
+   "gelaende": {"verkleiden": {"groesse_m": [10.0, 18.0], "groesse_achse": "z", "grund": "13h: Etagenkanten der Roten Stufe mit grossen Sandsteinschalen verkleiden (wenige grosse statt vieler kleiner Akteure)"}, "rauschen": {"anteil": 0.3, "wellenlaenge_m": 20, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform (Etagenkanten)"}, "fenster_m": [220, 240], "rand_m": 14, "bei": [45, -95], "senke_begruendung": "flache Mulden auf den Simsen hinter den harten Baenken (Regen versickert im Sandstein)",
     "ops": [
      {"op": "abbruch", "punkte": "wand_unten", "hoehe_m": 5, "breite_m": 5, "reichweite_m": 18, "seite": "links", "verteilung": "oben", "warum": "unterste Etage: Wandfuss nachschaerfen (rote Wand)"},
      {"op": "abbruch", "punkte": "wand_mitte", "hoehe_m": 5, "breite_m": 5, "reichweite_m": 16, "seite": "links", "verteilung": "oben", "warum": "zweite Etage"},

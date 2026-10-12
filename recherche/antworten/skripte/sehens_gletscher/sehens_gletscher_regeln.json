@@ -355,7 +355,7 @@
      ]
     }
    },
-   "gelaende": {"verkleiden": {"groesse_m": [8.0, 14.0], "groesse_achse": "z", "grund": "13h: Felsstufe unter den Seracs (8 m) mit grossen Wand-/Eisklippen verkleiden - wenige grosse Netze statt vieler kleiner (Akteur-Budget)"}, "rauschen": {"anteil": 0.3, "wellenlaenge_m": 18, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
+   "gelaende": {"verkleiden": {"palette": ["rcygn_tier_0", "SM_HugeNordicCoastalCliff_01", "uhprdg2fa_tier_0", "SM_MassiveNordicCoastalCliff_01"], "groesse_m": [10.0, 16.0], "groesse_achse": "z", "grund": "13h: Felsstufe unter den Seracs (8 m) mit wenigen grossen Fels-/Eisklippen verkleiden (Akteur-Budget)"}, "rauschen": {"anteil": 0.3, "wellenlaenge_m": 18, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
     "schutz_weg_m": 5,
     "fenster_m": [
      380,
@@ -1971,7 +1971,7 @@
      ]
     }
    },
-   "gelaende": {"verkleiden": {"palette": ["rcygn_tier_0", "SM_HugeNordicCoastalCliff_01", "SM_MassiveNordicCoastalCliff_01", "vdssailfa_tier_2", "vfmjadufa_tier_2"], "groesse_m": [12.0, 22.0], "groesse_achse": "z", "grund": "13h: Karrueckwand ueber der Karbank (bis ~40 m) mit massiven Klippenschalen verkleiden"}, "rauschen": {"anteil": 0.25, "wellenlaenge_m": 16, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
+   "gelaende": {"verkleiden": {"palette": ["rcygn_tier_0", "SM_HugeNordicCoastalCliff_01", "SM_MassiveNordicCoastalCliff_01", "vdssailfa_tier_2", "vfmjadufa_tier_2"], "groesse_m": [12.0, 22.0], "groesse_achse": "z", "max_anzahl": 70, "grund": "13h: Karrueckwand ueber der Karbank (bis ~40 m) mit massiven Klippenschalen verkleiden"}, "rauschen": {"anteil": 0.25, "wellenlaenge_m": 16, "grund": "13i K9/13h: organischer Rand statt geometrischer Grundform"}, 
     "schutz_weg_m": 5,
     "fenster_m": [
      140,
@@ -3312,7 +3312,7 @@
       "op": "abbruch",
       "punkte": "bergschrund",
       "hoehe_m": 2.5,
-      "breite_m": 4,
+      "breite_m": 6,
       "reichweite_m": 12,
       "seite": "links",
       "verteilung": "oben",
@@ -3340,10 +3340,10 @@
      {
       "op": "damm",
       "punkte": "waechte",
-      "breite_m": 16,
-      "hoehe_m": 3.0,
-      "krone": 0.45,
-      "warum": "Waechtenwulst auf dem Grat"
+      "breite_m": 26,
+      "hoehe_m": 1.8,
+      "krone": 0.3,
+      "warum": "Waechtenwulst auf dem Grat - 13h: breiter und flacher (26 m, 1,8 m), damit die Flanken nicht ueber 45 Grad kommen; die Ueberhang-Kante zeigen die Eiskanten-Netze, nicht das Gelaende"
      }
     ],
     "senke_begruendung": "Gletschermuehle: der Schacht schluckt den Schmelzbach; flache Firnmulden (gewollt)"
@@ -3545,7 +3545,8 @@
     {
      "name": "schrundkante",
      "ebene": "begleiter",
-     "warum": "Eiskante am Bergschrund (oberer Rand des Firns)",
+     "akteur": false,
+     "warum": "Eiskante am Bergschrund (oberer Rand des Firns) - 13h: als Instanzen statt 25 Akteuren (Akteur-Budget fuer die Felsverkleidung)",
      "netz": "vd4hbizcb_tier_0",
      "verteilung": {
       "typ": "reihe",
@@ -3568,7 +3569,6 @@
       0.35,
       0.45
      ],
-     "akteur": true,
      "kollision": true,
      "meide": null
     },

@@ -310,7 +310,7 @@ def pruefe_kamera(kam, ort, welt, boden_fn, hind, freiraeume=None, bestand=True,
             break
     # Gelaende (nach dem Stempel) - bei _fern entscheidet die Silhouetten-Regel (pruefe_leuchtfeuer)
     g = np.asarray(boden_fn(X, Y), np.float64)
-    unter = gueltig & (s >= 1.0) & (Z < g - 0.2 + (0.7 if rand_m > 0 else 0.0))
+    unter = gueltig & (s >= 1.0) & (Z < g - 0.2 + (0.7 if rand_m >= 0.5 else (0.35 if rand_m > 0 else 0.0)))
     if unter.any() and art != "fern":
         b.append(("FEHLER", "Kamera %s: Gelaende verdeckt die Sicht nach %.0f m" % (name, float(s[unter][0]))))
     # Bestandskronen
@@ -601,10 +601,12 @@ def kameras_bauen(ctx):
                     continue                    # Standplatz: Augenhoehe auf Fels/Halde, nicht in der Wand
                 kand.append((kosten + max(0.0, hg - 30.0) * 0.3, x, y))
             kand.sort(key=lambda t: t[0])
-            for kosten, x, y in kand:
+            # zuerst mit voller Planer-Reserve, dann (enge Schluchten, Nischen) mit kleiner Reserve
+            for kosten, x, y, rand_ in [(c[0], c[1], c[2], PLANER_RAND_M) for c in kand] + \
+                    [(c[0], c[1], c[2], 0.25) for c in kand[:400]]:
                 k2 = list(kam)
                 k2[0], k2[1], k2[2] = _daten.feld_von_m(x, y), int(round(x * 100)), int(round(y * 100))
-                if not pruefe_kamera(k2, ort, ctx.welt, ctx.boden, hind, frei, rand_m=PLANER_RAND_M):
+                if not pruefe_kamera(k2, ort, ctx.welt, ctx.boden, hind, frei, rand_m=rand_):
                     ctx.melde("HINWEIS", "Kamera %s versetzt (13h): (%.0f, %.0f) -> (%.0f, %.0f) m, %.0f m vom Ziel - "
                                          "vorher: %s" % (name, kam[1] / 100.0, kam[2] / 100.0, x, y,
                                                          math.hypot(x - kam[3] / 100.0, y - kam[4] / 100.0), bef[0][1]))
