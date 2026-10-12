@@ -337,7 +337,10 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
     `muendung_spiegel_cm`, `abfluss_von`, `stufen`, `furten`, `muendung_offen_ab_cm`.
   - **13i (Nachtest 1 m):** Das Querprofil senkt außerhalb der Wasserkante höchstens `tiefe + 0,5 m` ab, ab Netzrand +
     Uferring weich auf 0, zu den Linienenden hin auslaufend (K1; Kontrolle `profil_absenkung_aussen`, FEHLER bei
-    Absenkung > 0,3 m abseits des Bachs). Der Stufenfuß liegt 0,5 m hinter der Lippe (Becken ab dem Fuß ≥ 3 m); die
+    Absenkung > 0,3 m abseits des Bachs). Es gibt dafür **eine** Funktion, `bach.absenk_grenze`, angewandt in
+    `stempel.bach_profil`; Bezug ist das Gelände vor allen Bächen (`min(aktuell, h0 + Δ vor den Bächen)`), so dass
+    kreuzende oder parallele Bäche einander nicht vertiefen. Die frühere 13h-Nachbegrenzung
+    (`steilwand.bach_einschnitt_begrenzen`) ist entfallen. Der Stufenfuß liegt 0,5 m hinter der Lippe (Becken ab dem Fuß ≥ 3 m); die
     Schluss-Stufe am See geht in der letzten Stufe auf, wenn davor < 3 m Becken blieben (K5). Unerreichbare
     Epic-Mündung → automatisch weiter, ein Abfluss nie über dem Seespiegel (K4). Furtstrecken > 15 % Gefälle werden
     `"art": "durchlass"` (Wasser unter dem Weg, kein Wasserfilm; K9). Seeufer: 1 m hinter dem Umriss ≥ Spiegel
@@ -374,7 +377,12 @@ Alles additiv; alte Rezepte laufen weiter, bekommen aber das neue Verhalten der 
 - **Akteur-Budget** (13j): Netze, die in einem Ort ≥ 12-mal als Akteur stehen (Wandmodule, 13h-Verkleidung), werden
   Instanzen der Ebene `sw_<biom>` mit Kollision; Richtwert ≤ 50 Akteure je Ort (Prüfer-HINWEIS). Gruppenfeld
   `"akteur_fest": true` hält wiederholte Heldenstücke als Akteure. Kaskadennetze tragen das 15f-Querprofil `quer`
-  (gerade Lippen, `dz_cm` = 0).
+  (gerade Lippen). `dz_cm` folgt der A15-Konvention (15f-Nachtrag `099f902`): relativ zu `z_cm` des eigenen Punkts,
+  die absolute Wasserhöhe `z + dz` ist bei gleichem `s` gleich; der Prüfer übernimmt die A15-Regel aus
+  `gefaelle_pruefen.pruefe_wasser` (Import). Liegt ein 13f-Fuß näher als `bogen_x_m` + 5 cm an der Lippe
+  (Schluss-Stufe am Laufende), setzt nur das Netz seinen Fußpunkt dorthin; die Stufe selbst bleibt.
+  Verkleidung: `"gelaende": {"verkleiden": {"budget_nach_buendeln": true}}` zählt beim Akteur-Budget nur die Akteure,
+  die nach dem Bündeln Akteure bleiben (opt-in, z. B. gletscher_06).
 - **Instanzen** (13i K2/K3): `bezug: mitte` mit Pivot in der Netzmitte (bmin_z·sz < −0,25 · Höhe) → Netz-Unterkante auf
   den Boden; Stücke bis 1 cm an einer Feldgrenze rücken 1 cm ins Feld, das Feld kommt aus dem float32-Wert.
 - **Lagen** (A11): Ränder ≥ 3 m weich (auch innen bei `ring`/`um_gruppe`/`ufer`); Pfad-Bodenband mit 1 m Übergang

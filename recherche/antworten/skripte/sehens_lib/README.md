@@ -197,10 +197,10 @@ Die 1-m-Logik lässt sich in der Cloud mit einer synthetischen 1-m-Welt prüfen 
 
 | Modul | Inhalt |
 |---|---|
-| `steilwand.py` | Prüfer-Regel Steilflächen (> 45° auf > 20 m² ohne Fels-Akteur → FEHLER). Böschung und Halde (`boeschung_anwenden`). Verkleidung (`verkleiden`, Gruppe `typ: steilwand`; `auto_verkleiden` mit den Wandnetzen des Bioms aus `gefaelle_regeln.json`). Bachprofil außerhalb Netzrand + Uferring höchstens Tiefe + 0,5 m (vgl. 13i K1). |
+| `steilwand.py` | Prüfer-Regel Steilflächen (> 45° auf > 20 m² ohne Fels-Akteur → FEHLER). Böschung und Halde (`boeschung_anwenden`). Verkleidung (`verkleiden`, Gruppe `typ: steilwand`; `auto_verkleiden` mit den Wandnetzen des Bioms aus `gefaelle_regeln.json`). Die Bach-Nachbegrenzung aus 13h ist entfallen; K1 liegt allein in `bach.absenk_grenze` (`stempel.bach_profil`). `verkleiden.budget_nach_buendeln` (opt-in): Akteur-Budget ohne die 13j-gebündelten Netze. |
 | `stempel.py` | `Stempel.boeschung(max_grad, fest, max_auftrag_m, max_abtrag_m)` mit `halde`-Maske; `rauschen_spec` / `_org` (organische Ränder) |
-| `kamera_frei.py` | Kamera-Prüfung (Wasser, Netz, Kronenradius + 2 m, freier Strahl gegen neue Netze, Bestandskronen und Gelände), Leuchtfeuer (Silhouette aus `_fern`, Himmel, Riesen ≥ 1,5 × Bestand), `kameras_bauen` (versetzen, Fern-Suche, Standplatz freiräumen) |
-| `see_bloecke.py` | Blöcke im See: Oberkante ≥ Spiegel + 0,3 m oder ≤ Spiegel − 1,5 m (`teilweise_ueberflutet` ausgenommen), Kleinstücke an der Meereskante |
+| `kamera_frei.py` | Kamera-Prüfung (Wasser, Netz, Kronenradius + 2 m, freier Strahl gegen neue Netze, Bestandskronen und Gelände), Leuchtfeuer (Silhouette aus `_fern`, Himmel, Riesen ≥ 1,5 × Bestand), `kameras_bauen` (versetzen, Fern-Suche, Standplatz freiräumen). Hindernis-Cache nur bei gleichem Stück und gleicher Lage/Größe (13i Nachtrag) |
+| `see_bloecke.py` | Blöcke im See: Oberkante ≥ Spiegel + 0,3 m oder ≤ Spiegel − 1,5 m (`teilweise_ueberflutet` ausgenommen; Pflanzen auch über den Ordner `/Plants/` erkannt), Kleinstücke an der Meereskante |
 | `selbsttest_13h.py` | Schritt 12 des Selbsttests |
 
 Schema der Rezept-Felder: [`PLANER_ANLEITUNG.md`](PLANER_ANLEITUNG.md) §3.12. Antwort: `antworten/13h-pilot-bergwald-bildbefund.md`.

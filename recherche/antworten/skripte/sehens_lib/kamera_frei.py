@@ -97,12 +97,20 @@ _CACHE = {}
 MIN_HOEHE_M = 2.0             # Instanzen kleiner als 2 m (Farn, Gras, Kiesel) sperren keinen Blick in Augenhoehe
 
 
+def _stueck_signatur(e):
+    return (e.get("pfad"), e.get("x"), e.get("y"), e.get("z"), tuple(e.get("q") or ()), tuple(e.get("s") or ()),
+            bool(e.get("akteur")), e.get("ort"), e.get("gruppe"), e.get("ebene"))
+
+
 def hindernisse_aus_stuecken(stuecke, inv, min_hoehe_m=MIN_HOEHE_M):
     """Planer: Hindernisse aus Ebene.stuecke (alle Orte des Laufs); Akteure immer, Instanzen ab min_hoehe_m."""
     out = []
     for e in stuecke:
         c = _CACHE.get(id(e))
-        if c is not None and c[0] is e:
+        # 13i Nachtrag: Treffer nur bei gleichem Stueck UND gleicher Lage/Groesse/Rolle (Stuecke werden nach dem ersten
+        # Kamerabau noch versetzt: Seebloecke, Buendeln) - sonst neu rechnen; die Reihenfolge folgt immer 'stuecke'
+        sig = _stueck_signatur(e)
+        if c is not None and c[0] is e and c[2] == sig:
             if c[1] is not None:
                 out.append(c[1])
             continue
@@ -118,7 +126,7 @@ def hindernisse_aus_stuecken(stuecke, inv, min_hoehe_m=MIN_HOEHE_M):
                 h = None
             else:
                 h["stueck"] = e
-        _CACHE[id(e)] = (e, h)
+        _CACHE[id(e)] = (e, h, sig)
         if h is not None:
             out.append(h)
     return out

@@ -588,15 +588,32 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
         return None, []
     s = np.asarray(s, np.float64)
     W = np.minimum.accumulate(np.asarray(W, np.float64))
+    x, y = np.asarray(x, np.float64), np.asarray(y, np.float64)
+    # A15 legt das Ende des Ueberfallbogens und den Wandpunkt auf dasselbe s (Lippe + bogen_x_m); der Fuss muss
+    # dahinter liegen, sonst stehen drei Punkte mit gleichem s und verschiedener Wasserhoehe im Netz (Pruefregel
+    # 15f-Nachtrag 099f902). Liegt der 13f-Fuss naeher an der Lippe (Schluss-Stufe am Laufende), setzt NUR das Netz
+    # seinen Fusspunkt auf Lippe + bogen_x_m + 5 cm; die Stufe (Treppe, 'stufen', Spiegel) bleibt wie 13f. Am Laufende
+    # wird die Bachlinie dafuer geradeaus verlaengert (das Netz ragt dann bis 5 cm ins Muendungsbecken).
+    bx = float(getattr(gp, "KN", {}).get("bogen_x_m", 0.45)) + 0.05
+    fuss_netz = [max(float(e["s_fuss"]), float(e["s_lippe"]) + bx) if e["art"] != "schnelle" else float(e["s_fuss"])
+                 for e in stufen]
+    ueber = max(fuss_netz + [float(s[-1])]) - float(s[-1])
+    if ueber > 1e-6 and len(s) >= 2:
+        dx, dy = x[-1] - x[-2], y[-1] - y[-2]
+        n_ = max(math.hypot(dx, dy), 1e-9)
+        s = np.append(s, s[-1] + ueber)
+        x = np.append(x, x[-1] + dx / n_ * ueber)
+        y = np.append(y, y[-1] + dy / n_ * ueber)
+        W = np.append(W, W[-1])
     pr = _LaufProfil(s, x, y, W, tiefe_m, gp.TEIL["velocity_becken_cm_s"])
     L = float(s[-1])
     # Spiegelpunkte (s, z, Rolle): Lippe/Fuss exakt aus den Stufen, dazwischen der geplante Spiegel alle ~2 m
     sp = [(0.0, float(W[0]), "becken")]
     spannen = []
-    for e in stufen:
+    for e, sf in zip(stufen, fuss_netz):
         sp.append((float(e["s_lippe"]), float(e["oben"]), "lippe"))
-        sp.append((float(e["s_fuss"]), float(e["unten"]), "rampe" if e["art"] == "schnelle" else "fuss"))
-        spannen.append((float(e["s_lippe"]), float(e["s_fuss"])))
+        sp.append((sf, float(e["unten"]), "rampe" if e["art"] == "schnelle" else "fuss"))
+        spannen.append((float(e["s_lippe"]), sf))
     for s_ in np.arange(2.0, L - 0.5, 2.0):
         if any(a - 0.3 <= s_ <= b + 0.3 for a, b in spannen):
             continue
@@ -614,9 +631,9 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
     sp = [(t[0], float(z), t[2]) for t, z in zip(sp2, zs)]
     # Stufen im A15-Format; Segmente nur aus Stufen >= 0,5 m (kn_bereiche fasst Luecken < 15 m zu Rampen zusammen)
     st15 = []
-    for k, e in enumerate(stufen):
+    for k, (e, sf) in enumerate(zip(stufen, fuss_netz)):
         st15.append({"id": "%s_S%02d" % (lauf_id, k), "p": float(e["s_lippe"]),
-                     "l": max(float(e["s_fuss"]) - float(e["s_lippe"]), 0.01), "D": float(e["fall_m"]),
+                     "l": max(sf - float(e["s_lippe"]), 0.01), "D": float(e["fall_m"]),
                      "art": e["art"], "u": float(e["oben"]), "d": float(e["unten"]), "kolk": {"x_strahl": 0.0}})
     netz_ids = {st15[k]["id"] for k, e in enumerate(stufen) if e["fall_m"] >= STUFE_NETZ_MIN_M}
     segmente = [(e["p"], e["p"] + e["l"]) for e in st15 if e["id"] in netz_ids]

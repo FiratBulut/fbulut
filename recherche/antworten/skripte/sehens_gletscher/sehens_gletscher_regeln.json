@@ -4025,6 +4025,7 @@
     }
    },
    "gelaende": {
+    "verkleiden": {"budget_nach_buendeln": true, "grund": "13i Nachtrag: Klammwaende (bis 11 m) auf 1 m vollstaendig verkleiden - die Wandnetze werden ab 12 gleichen zu Instanzen mit Kollision gebuendelt (13j) und belasten das Akteur-Budget nicht; vorher blieben 2 Steilflaechen (45 und 21 m2) offen"},
     "schutz_weg_m": 5,
     "fenster_m": [
      170,

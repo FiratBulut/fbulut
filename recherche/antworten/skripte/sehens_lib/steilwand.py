@@ -664,10 +664,26 @@ def pruefe_orte_steil(d, basis, welt, sw_ordner, inv):
     return b
 
 
+def _akteure_nach_buendeln(ctx):
+    """Akteure des Orts, die nach dem 13j-Buendeln Akteure bleiben (Gruppen mit akteur_fest immer)."""
+    fest = {g.get("name") for g in (ctx.r.get("gruppen") or []) if g.get("akteur_fest")}
+    ab = int(getattr(ctx, "AKTEUR_WIEDERHOLT_AB", 0) or 0)
+    je, n = {}, 0
+    for e in ctx.ebene.stuecke:
+        if e.get("ort") != ctx.id or not e.get("akteur"):
+            continue
+        if ab <= 0 or e.get("gruppe") in fest:
+            n += 1
+        else:
+            je[e.get("netz")] = je.get(e.get("netz"), 0) + 1
+    return n + sum(k for k in je.values() if k < ab)
+
+
 def auto_verkleiden(ctx):
     """13h: nach allen Gruppen - verbliebene neue Steilflaechen (> 45 Grad) automatisch mit den Wandnetzen des Bioms
     (Regelwerk A15, gefaelle_regeln.json biome.<biom>.netze.wand) verkleiden. Regel im gelaende-Block:
-    "verkleiden": false (aus) | {"palette": [...], "groesse_m": [a, b], "groesse_achse": "z", "max_anzahl": 30}."""
+    "verkleiden": false (aus) | {"palette": [...], "groesse_m": [a, b], "groesse_achse": "z", "max_anzahl": 30,
+    "budget_nach_buendeln": true (Akteur-Budget ohne die Netze, die 13j zu Instanzen buendelt)}."""
     g = ctx.r.get("gelaende") or {}
     v = g.get("verkleiden", {})
     if v is False or ctx.stempel is None:
@@ -675,8 +691,13 @@ def auto_verkleiden(ctx):
     v = v if isinstance(v, dict) else {}
     if _raster_1m(ctx)["steil"].sum() < 4.0:
         return []
-    # Akteur-Budget (§9: 80 je Ort) - Wandnetze sind Akteure
-    akt = sum(1 for e in ctx.ebene.stuecke if e.get("ort") == ctx.id and e.get("akteur"))
+    # Akteur-Budget (§9: 80 je Ort) - Wandnetze sind Akteure. 13i Nachtrag (opt-in "budget_nach_buendeln": true):
+    # Netze, die im Ort >= 12-mal als Akteur stehen, werden danach zu Instanzen mit Kollision gebuendelt
+    # (rezept._akteure_buendeln, 13j) und zaehlen dann nicht mit
+    if v.get("budget_nach_buendeln"):
+        akt = _akteure_nach_buendeln(ctx)
+    else:
+        akt = sum(1 for e in ctx.ebene.stuecke if e.get("ort") == ctx.id and e.get("akteur"))
     max_n = max(0, min(60, 78 - akt))
     if max_n == 0:
         ctx.melde("WARNUNG", "Verkleidung (13h): Akteur-Budget erschoepft - neue Steilflaechen bleiben offen")

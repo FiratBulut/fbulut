@@ -6027,6 +6027,7 @@
     ]
    },
    "gelaende": {
+    "verkleiden": {"palette": ["SM_lava_wall_04", "SM_lava_wall_05"], "groesse_m": [3.5, 6.0], "groesse_achse": "z", "grund": "13i Nachtrag: Schachtwaende (8 x 6 m, 6 m tief) mit den kompakten Lavawaenden 04/05 (3,5-6 m hoch) verkleiden statt mit bis zu 25 m breiten Schalen (lava_wall_01-03, Basaltklippe), die das Loch auf 1 m ganz zudeckten und den Blick der _nah-Kamera hinein sperrten; vom Weg bleibt der Schacht verdeckt (Regel verdeckung)"},
     "fenster_m": [
      100,
      100
