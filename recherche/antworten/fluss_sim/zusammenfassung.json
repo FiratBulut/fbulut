@@ -1,0 +1,84 @@
+{
+ "kategorien": {
+  "fluesse": {
+   "dateien": 12,
+   "gewaesser": 12,
+   "abschnitte": 165,
+   "faelle": 0,
+   "kollision": 291,
+   "kollision_im_wasser": 265,
+   "schaum": {},
+   "kacheln": 141,
+   "laenge_m": 6338.1,
+   "abschnitte_innen_faelle": 0
+  },
+  "gefaelle": {
+   "dateien": 98,
+   "gewaesser": 98,
+   "abschnitte": 745,
+   "faelle": 561,
+   "kollision": 21021,
+   "kollision_im_wasser": 20558,
+   "schaum": {
+    "aufprallteppich": 561,
+    "schaumstrasse": 1719,
+    "kehrwasser": 1992
+   },
+   "kacheln": 304,
+   "laenge_m": 23268.5,
+   "abschnitte_innen_faelle": 47
+  },
+  "gefaelle_roh": {
+   "dateien": 25,
+   "gewaesser": 25,
+   "abschnitte": 75,
+   "faelle": 0,
+   "kollision": 353,
+   "kollision_im_wasser": 302,
+   "schaum": {},
+   "kacheln": 64,
+   "laenge_m": 3982.8,
+   "abschnitte_innen_faelle": 0
+  },
+  "sehens": {
+   "dateien": 26,
+   "gewaesser": 42,
+   "abschnitte": 135,
+   "faelle": 204,
+   "kollision": 1732,
+   "kollision_im_wasser": 1386,
+   "schaum": {
+    "aufprallteppich": 204,
+    "schaumstrasse": 788,
+    "kehrwasser": 298
+   },
+   "kacheln": 46,
+   "laenge_m": 1816.4,
+   "abschnitte_innen_faelle": 94
+  }
+ },
+ "summe": {
+  "gewaesser": 177,
+  "abschnitte": 1120,
+  "faelle": 765,
+  "kollision": 23397,
+  "kollision_im_wasser": 22511,
+  "kacheln": 555,
+  "laenge_m": 35405.8,
+  "schaum": {
+   "aufprallteppich": 765,
+   "schaumstrasse": 2507,
+   "kehrwasser": 2290
+  },
+  "dateien": 161,
+  "abschnitte_innen_faelle": 141
+ },
+ "kollision_objekte_eindeutig": 22820,
+ "objekt_pool": {
+  "objekte": 347878,
+  "fest_und_gross": 63893
+ },
+ "fluesse_ab_15m": ["F_ALTARM_FLUSSAUE_D5","F_ALTARM_FLUSSAUE_E5","F_CANYONBACH_D4","F_CANYONBACH_D5","F_DSCHUNGELFLUSS_H5","F_DSCHUNGELFLUSS_H6","F_DSCHUNGELFLUSS_H7","F_ELFENFLUSS_1_H4","F_ELFENFLUSS_2_H4","F_ELFENFLUSS_3_F4","F_ELFENFLUSS_3_G4","F_ELFENFLUSS_3_H4","F_ERLENBACH_1V_C2","F_ERLENBACH_1_C2","F_ERLENBACH_2V_D3","F_ERLENBACH_2_C2","F_ERLENBACH_2_C3","F_ERLENBACH_2_D3","F_ERLENBACH_3_D3","F_GLETSCHERTAL_D2","F_HAUPTFLUSS_1_B4","F_HAUPTFLUSS_2_B4","F_HAUPTFLUSS_3_C4","F_HAUPTFLUSS_3_C5","F_HAUPTFLUSS_3_D5","F_HAUPTFLUSS_3_E5","F_HAUPTFLUSS_3_F5"],
+ "laeufe_161_ohne_plan": ["B_R2_R_M1_M1_03","B_R2_R_M1_M1_04","B_R2_R_M1_P0_02","B_R2_R_M3_P1_01","B_R2_R_P1_M2_01","B_R2_R_P2_P1_02","B_R2_R_P4_M1_01","B_R3_R_M1_P0_01","B_R3_R_M2_P0_01","B_R3_R_M2_P2_01","B_R3_R_P3_P0_02","B_R_M1_M2_02","B_R_M2_M1_02","B_R_M2_M2_01","B_R_P3_M1_02","B_R_P3_P1_03","B_R_P3_P1_04","B_R_P4_M1_01","B_R_P4_M2_02","F_DSCHUNGELFLUSS_H7","F_ELFENFLUSS_2_H4","F_ERLENBACH_1_C2","F_ERLENBACH_3_D3","F_HAUPTFLUSS_1_B4","F_HAUPTFLUSS_2_B4"],
+ "daten": "2m (Cloud-Test)"
+}

@@ -117,7 +117,7 @@ def fp_gelaende_text(x0_cm, y0_cm, raster_cm, hoehen_cm, q_cm):
     (x0 + j*raster, y0 + k*raster) cm. Text: Kopfzeile + je Zeile die quantisierten Hoehen."""
     H = np.asarray(hoehen_cm, np.float64)
     ny, nx = H.shape
-    zeilen = ["G|r=%d|x0=%d|y0=%d|nx=%d|ny=%d|q=%d" % (int(round(raster_cm)), int(round(x0_cm)), int(round(y0_cm)),
+    zeilen = ["G|r=%d|x0=%d|y0=%d|nx=%d|ny=%d|q=%d" % (qrund(raster_cm, 1), qrund(x0_cm, 1), qrund(y0_cm, 1),
                                                        nx, ny, int(q_cm))]
     Q = np.floor(H / float(q_cm) + 0.5).astype(np.int64)
     for k in range(ny):

@@ -1,0 +1,117 @@
+{
+ "format": "back_liste_v1",
+ "fingerabdruck": {
+  "version": "FLUSS_SIM_FP1",
+  "hoehe_quant_cm": 5,
+  "pos_quant_cm": 1,
+  "quat_quant": 10000,
+  "skala_quant": 1000,
+  "spline_quant_cm": 1,
+  "formel": "siehe README fluss_sim, Abschnitt Fingerabdruck"
+ },
+ "kacheln": [
+  {
+   "kachel": "F_ERLENBACH_1V_C2_K00",
+   "gewaesser": "F_ERLENBACH_1V_C2",
+   "datei": "gefaelle/F_ERLENBACH_1V_C2/fluss_sim.json",
+   "bereich_cm": [-177406.5,-241656.6,-169942.9,-229584.4],
+   "abschnitte": ["F_ERLENBACH_1V_C2_A00","F_ERLENBACH_1V_C2_A01","F_ERLENBACH_1V_C2_A02","F_ERLENBACH_1V_C2_A03","F_ERLENBACH_1V_C2_A04","F_ERLENBACH_1V_C2_A05","F_ERLENBACH_1V_C2_A06","F_ERLENBACH_1V_C2_A07"],
+   "grenze_oben": "laufanfang",
+   "grenze_unten": "fall",
+   "fingerabdruck": "1bae85d4336b98afedb9f933a7b6998f200fb743fa998729a503ccba6b76f591",
+   "teile": {
+    "gelaende": "5af84af623333da03bde8b46d7919b2851628b9288905754718c070051f52b66",
+    "splines": "093074aa45ca127640a3ece8050f9a39a9e7c2bf7a6ef083b751f73f83fa1391",
+    "objekte": "f4a85e0e2fceaa3aeb6681b717a627af939f4ae05fa8e400e0c23f64b6ef5e98"
+   },
+   "n_hoehen": 2318,
+   "n_objekte": 336
+  },
+  {
+   "kachel": "F_ERLENBACH_1V_C2_K01",
+   "gewaesser": "F_ERLENBACH_1V_C2",
+   "datei": "gefaelle/F_ERLENBACH_1V_C2/fluss_sim.json",
+   "bereich_cm": [-179865.4,-233048.4,-173914.4,-222350.8],
+   "abschnitte": ["F_ERLENBACH_1V_C2_A08","F_ERLENBACH_1V_C2_A09","F_ERLENBACH_1V_C2_A10","F_ERLENBACH_1V_C2_A11","F_ERLENBACH_1V_C2_A12","F_ERLENBACH_1V_C2_A13","F_ERLENBACH_1V_C2_A14","F_ERLENBACH_1V_C2_A15","F_ERLENBACH_1V_C2_A16"],
+   "grenze_oben": "fall",
+   "grenze_unten": "fall",
+   "fingerabdruck": "98062a356a75ac9604c1bfa932c1c378d3796fe931a21fc4d4492e1331afa4c2",
+   "teile": {
+    "gelaende": "1c4cfe8cbf27efce44ee14b26e522ab0e42bd4cbee737e0b6cfc082b3c936ca2",
+    "splines": "16794da9141e7b1163045f264533bb7a9343809c128da1c90b41ef886955b647",
+    "objekte": "a04fd4100cd070aea8e727d0efc4e33bcc250fab81911faefe5fb0cd55c6806b"
+   },
+   "n_hoehen": 1620,
+   "n_objekte": 392
+  },
+  {
+   "kachel": "F_ERLENBACH_1V_C2_K02",
+   "gewaesser": "F_ERLENBACH_1V_C2",
+   "datei": "gefaelle/F_ERLENBACH_1V_C2/fluss_sim.json",
+   "bereich_cm": [-180689.4,-225642.7,-176275.1,-218292.2],
+   "abschnitte": ["F_ERLENBACH_1V_C2_A17"],
+   "grenze_oben": "fall",
+   "grenze_unten": "laufende",
+   "fingerabdruck": "3d71f2197a18cf2def01022f5b354f417076637efb0cd84be6cdf4e219a65153",
+   "teile": {
+    "gelaende": "c2dffdb5a5c98b83fad36cc81cbe49c714c185ddc0f7c3254780bbeefaa212ea",
+    "splines": "11de3c9c12fe3a7be9be8d16561a1cf3cc45545d0f4f9d88adc8bf6f12842056",
+    "objekte": "a5e5811cb4a526fffe21b467096d2b07b002c20c7abcbfa62ddf76e2dc6c055c"
+   },
+   "n_hoehen": 814,
+   "n_objekte": 141
+  },
+  {
+   "kachel": "SW_bergwald_06_karsee_abfluss_K00",
+   "gewaesser": "SW_bergwald_06_karsee_abfluss",
+   "datei": "sehens/bergwald/bergwald_06_karsee/fluss_sim.json",
+   "bereich_cm": [-320643.2,4283.0,-314632.7,7294.1],
+   "abschnitte": ["SW_bergwald_06_karsee_abfluss_A00","SW_bergwald_06_karsee_abfluss_A01","SW_bergwald_06_karsee_abfluss_A02","SW_bergwald_06_karsee_abfluss_A03","SW_bergwald_06_karsee_abfluss_A04","SW_bergwald_06_karsee_abfluss_A05","SW_bergwald_06_karsee_abfluss_A06"],
+   "grenze_oben": "laufanfang",
+   "grenze_unten": "laufende",
+   "fingerabdruck": "b496d948589032387b128680b481dee598846fc4f7c5e71b90425862524c0797",
+   "teile": {
+    "gelaende": "87a99824aa65097d0d94b46c022666871af253659fe53dc23ea72f2441be73bf",
+    "splines": "63f28120abdf616ad32616da6d18cb36c48dbd09f58561667558f8b176871cc9",
+    "objekte": "6b8cb499908e8fd1332b4c3e33254719c1d1b7a09b319c994982e3d52493972f"
+   },
+   "n_hoehen": 450,
+   "n_objekte": 27
+  },
+  {
+   "kachel": "SW_bergwald_06_karsee_zulauf_sued_K00",
+   "gewaesser": "SW_bergwald_06_karsee_zulauf_sued",
+   "datei": "sehens/bergwald/bergwald_06_karsee/fluss_sim.json",
+   "bereich_cm": [-323698.4,7141.9,-320563.7,10112.2],
+   "abschnitte": ["SW_bergwald_06_karsee_zulauf_sued_A00","SW_bergwald_06_karsee_zulauf_sued_A01"],
+   "grenze_oben": "fall",
+   "grenze_unten": "fall",
+   "fingerabdruck": "c84f19c93d9e6254531c9576a82b58cbaea519417c0276a511f24b5bfb01fe4c",
+   "teile": {
+    "gelaende": "6bd54d5951114666a683c4a271fee3944d32f886d46e15be5fb11a50123816d5",
+    "splines": "37112b62e41a4694c64f2e28d5ca4de03d236c9a59f23e39353b39cf958d46ff",
+    "objekte": "a50480f3a4ee248032e10f42651cef996e080c796fef002466e1f04011c27859"
+   },
+   "n_hoehen": 240,
+   "n_objekte": 42
+  },
+  {
+   "kachel": "SW_bergwald_06_karsee_zulauf_west_K00",
+   "gewaesser": "SW_bergwald_06_karsee_zulauf_west",
+   "datei": "sehens/bergwald/bergwald_06_karsee/fluss_sim.json",
+   "bereich_cm": [-325090.1,4862.4,-321519.9,6824.3],
+   "abschnitte": ["SW_bergwald_06_karsee_zulauf_west_A00","SW_bergwald_06_karsee_zulauf_west_A01"],
+   "grenze_oben": "fall",
+   "grenze_unten": "fall",
+   "fingerabdruck": "8b0cb20c37abbe70e3efa2aefd91c1c5326b0716db7a0233a07c89711eb15750",
+   "teile": {
+    "gelaende": "d662a0a57e726ad733242c191d91e02278bcbdb56ccb31aad54c1cfdc60ce097",
+    "splines": "411df2d06175dc829f14164e435bbcc2994c8a6d531757001dc1a289dcd022e0",
+    "objekte": "c4fc7ca1ae6e6fb0b5301a62b5fbd9564de2d0186abc86705d6e8b92f769d017"
+   },
+   "n_hoehen": 180,
+   "n_objekte": 24
+  }
+ ],
+ "hinweis": "Auszug (C2 + bergwald_06_karsee) aus dem 2-m-Lauf; die volle back_liste.json (555 Kacheln) erzeugt der Exporter."
+}
