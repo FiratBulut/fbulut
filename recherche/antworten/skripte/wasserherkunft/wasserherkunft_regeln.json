@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "stand": "2026-10-12",
+  "zweck": "Auftrag 17: Woher kommt das Wasser unserer Faelle? Alle Zahlen der Analyse (wasserherkunft.py). Annahmen, keine Messwerte.",
+  "niederschlag_mm_a": {
+    "_hinweis": "Jahresniederschlag je Biom (Annahme fuer die Spielwelt, angelehnt an reale Klimazonen: Mittelgebirge ~1000, Alpen ~2000, Luv-Insel 3000-10000). Gilt je 2-m-Zelle des Einzugsgebiets.",
+    "aue": 900, "bergwald": 1600, "gletscher": 2500, "tundra": 600, "canyon": 400, "oedland": 300,
+    "heide": 1000, "elfenwald": 1800, "dschungel": 3500, "kueste": 1400, "wueste": 100, "lava": 2000,
+    "frost": 800, "sumpf": 1100, "fjord": 2500, "meer": 0
+  },
+  "abflussbeiwert": {
+    "_hinweis": "Anteil des Niederschlags, der abfliesst (Rest verdunstet). Fels/Eis hoch, Wueste/Oedland niedrig.",
+    "aue": 0.4, "bergwald": 0.6, "gletscher": 0.8, "tundra": 0.6, "canyon": 0.3, "oedland": 0.3,
+    "heide": 0.5, "elfenwald": 0.6, "dschungel": 0.5, "kueste": 0.5, "wueste": 0.15, "lava": 0.5,
+    "frost": 0.7, "sumpf": 0.4, "fjord": 0.8, "meer": 0.0
+  },
+  "nebel_zuschlag": {
+    "_hinweis": "Nebelauskaemmung (Madeira: 8 % des Regens im Lorbeerwald bis >100 % in Hochlagen-Heidewald). Zuschlag auf den Niederschlag nur fuer Zellen dieser Biome ueber der Hoehe.",
+    "biome": ["elfenwald", "dschungel", "bergwald", "kueste", "lava"],
+    "ab_hoehe_m": 120.0,
+    "faktor": 0.15
+  },
+  "fall": {
+    "_hinweis": "Bedarf eines Falls aus seiner Breite: Ueberfall nach Poleni q = 2/3 * mu * sqrt(2g) * h^1.5 je m Breite, mu = 0.6 (q ~ 1.77 h^1.5). h = Ueberfallhoehe an der Lippe.",
+    "mu": 0.6,
+    "h_vorhang_m": 0.02,
+    "h_schleier_m": 0.005,
+    "breite_standard_m": 2.0,
+    "_klassen_hinweis": "Grenzen des mittleren Abflusses (m3/s) fuer die Bildklassen",
+    "klassen_m3s": [[0.0, "rinnsal"], [0.005, "schleier"], [0.05, "mittel"], [0.5, "strom"]]
+  },
+  "bewertung": {
+    "_hinweis": "V = Q_angebot / Q_bedarf. Spielwelten sind verdichtet (Strecken 3-5x kuerzer als real, Flaechen also 10-25x kleiner) - deshalb Spielfaktor 10: passt ab V >= v_plausibel. Herkunft sichtbar = Wasser oberhalb >= wasser_oberhalb_min_m (Plan-Spline oder Welt-Wasserflaeche) ODER Quellmerkmal (See/Teich/Topf, Schnee/Eis im Einzugsgebiet, geplante Quelle). aus_dem_nichts = keine sichtbare Herkunft und V < v_plausibel, ODER kein Quellmerkmal, V < v_nichts und Wasser oberhalb < nichts_kurz_m (das Wasser beginnt kurz oberhalb ohne Quelle und ohne Einzugsgebiet). Die Gelaende-Rinne zaehlt nicht als Herkunft (trockene Rinne), sie bestimmt nur die Massnahme.",
+    "v_plausibel": 0.1,
+    "v_nichts": 0.05,
+    "wasser_oberhalb_min_m": 30.0,
+    "nichts_kurz_m": 150.0,
+    "quelle_kurz_m": 30.0
+  },
+  "lippe": {
+    "_hinweis": "Lippe auf das D8-Netz schnappen: Zelle mit groesster Akkumulation im Radius, nicht tiefer als Gelaende an der Lippe minus tol (sonst landet man am Fuss).",
+    "radius_m": 6.0,
+    "hoehen_toleranz_m": 1.5
+  },
+  "rinne": {
+    "_hinweis": "Sichtbare Gelaende-Rinne oberhalb: Haupt-Zufluss-Linie 10-120 m oberhalb der Lippe, Median TPI (Radius 15 m) < tpi_max_m und Median Einzugsgebiet >= flaeche_min_m2.",
+    "von_m": 10.0,
+    "bis_m": 120.0,
+    "tpi_radius_m": 15.0,
+    "tpi_max_m": -0.4,
+    "flaeche_min_m2": 500.0
+  },
+  "quellmerkmal": {
+    "see_min_m2": 200.0,
+    "schnee_min_m2": 2000.0,
+    "schnee_boeden": ["Schnee", "Eis"]
+  },
+  "oberlauf": {
+    "_hinweis": "Vorschlagspunkte: Haupt-Zufluss-Linie (Tiefenlinie) aufwaerts bis die Einzugsflaeche unter mulde_m2 faellt (Quellmulde) oder bis zu vorhandenem Wasser (anschluss_wasser); ist das kuerzer als kamm_wenn_kuerzer_m, steilster Anstieg bis zum Kamm (Ende an der Kuppe oder wo die Steigung unter kamm_flach faellt).",
+    "mulde_m2": 1500.0,
+    "max_laenge_m": 500.0,
+    "punkt_abstand_m": 10.0,
+    "kamm_wenn_kuerzer_m": 30.0,
+    "kamm_max_m": 300.0,
+    "kamm_flach": 0.1
+  },
+  "insel": {
+    "_hinweis": "Landmassen auf 8-m-Raster (Anteil Land >= 0.5), 8er-Nachbarschaft. Hauptland = groesste; Insel = jede andere >= min_flaeche_m2.",
+    "raster_m": 8,
+    "min_flaeche_m2": 2000.0
+  },
+  "gipfel": {
+    "_hinweis": "Nebel/Wolken am Gipfel vorschlagen, wenn der hoechste Punkt des Einzugsgebiets so weit ueber der Lippe liegt.",
+    "nebel_ab_m": 80.0
+  }
+}
