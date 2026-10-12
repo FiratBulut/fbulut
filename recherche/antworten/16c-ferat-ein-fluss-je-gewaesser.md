@@ -1077,3 +1077,272 @@ Die übrigen 19 Gefälle-Pilotbilder sind byte-gleich.
    Schalter wie `--ufer-felder`.
 4. **Kollisionsmenge:** Die Roh-Ebene bringt 12 766 Objekte mit Wasser-Kollision, die meisten Äste und Ufersteine. Ist
    das für die Hindernis-Akteure (`WH_…`) unkritisch, oder sollen Äste ohne Plan-Kollision dort nicht zählen?
+
+## Nachtrag 4: Hangeintrag Totholz, Roh-Ebene neben Ufer-Ebene
+
+Stand 12.10.2026. Grundlage: Koordinator-Entscheidungen zu den Rückfragen 1–4 aus Nachtrag 3. Code für lokal: Commit
+**`2c15bd4`**. Gerechnet auf den 2-m-Daten (Gefälle `--alle`, 15 Sehens-Planer, Roh-Ebene, fluss_sim-Export), auf den
+1-m-Fenstern der Piloten und auf der synthetischen 1-m-Welt.
+
+### Kurzfazit
+
+- **Hangbäume zählen bis 150 m** (Rückfrage 1), in den Biomen ohne eigenen Wald (Tundra, Heide, Ödland, Küste, Canyon,
+  Wüste, Gletscher, Frost). Gewichtet wird nach Entfernung und Neigung. Bäume tiefer als der Bach, auf ebenem Gelände oder
+  hinter einem Rücken zählen nicht. Die Waldfaktor-Logik aus Nachtrag 3 bleibt; nur der Einzugsbereich ist größer.
+  Die Waldbiome bleiben unverändert (Begründung in Abschnitt 1).
+- **C2: 5 → 14 große Stücke** (171 m, Ziel 14,6). Dazu 24 statt 12 Äste und 40 statt 17 Zweige, Netze aus der
+  Bergwald-Palette. Das liegt knapp unter den erwarteten 15–20. Ich habe nicht nachgeschoben: Von 286 Baumzellen
+  zwischen 40 und 150 m zählen 130. Die übrigen stehen tiefer als der Bach, hinter dem Sattel nördlich des Bachanfangs
+  bzw. hinter der Kuppe, oder zu flach (Abschnitt 2, Bild `antworten/gefaelle/c2_hangbaeume.png`).
+- **Gletscherbäche am Waldrand** (Rückfrage 2): Bergwald-Dichte bleibt, keine Regeländerung. Durch die Hangbäume
+  steigen `gletscher_01` von 17 auf 20 und `gletscher_02` von 15 auf 19 große Stücke.
+- **Roh-Ebene in Feldern mit Ufer-Ebene** (Rückfrage 3): kein Totholz mehr, wie schon keine Felsen. Schlamm, Kies im Bett
+  und Uferstreifen bleiben. In der Cloud gibt es keine Ufer-Ebene, deshalb ein eigener Testlauf mit 5 Feldern (Abschnitt 4).
+- **Hindernis-Akteure** (Rückfrage 4): höchstens 531 Instanzen in einer Komponente (Grenze 4 000), bis 69 Komponenten
+  in einem Akteur. Der Richtwert 16 ist mit „je Netz eine Komponente“ (16a) nicht zu halten (Abschnitt 5, Rückfrage).
+- **Prüfung:** Alle Läufe haben 0 FEHLER und sind zweimal byte-gleich (Tabelle in Abschnitt 7). Selbsttest grün: 149
+  Prüfungen, 10 davon neu.
+
+### 1. Regel: Hangeintrag
+
+**Was die Literatur sagt** (Quellen in `bachbett_regeln.json`):
+- Baumfall liefert Holz aus etwa einer Baumlänge. Der größte Teil stammt aus weniger als 20–50 m Abstand (McDade et al.
+  1990; Recruitment Distance im Modell RAIS, Welty et al. 2002).
+- Von weiter oben kommt Holz mit Rutschungen, Murgängen und Lawinen. Die Holzbilanz von Benda & Sias (2003) führt
+  diesen Eintrag als eigenen Term neben Baumfall und Ufererosion. Reeves et al. (2003) und May & Gresswell (2003) fanden
+  einen großen Teil des Holzes aus Hangprozessen, Rigon et al. (2012) ebenso in den Ostalpen.
+- An Hängen fallen Bäume bevorzugt hangab (Sobota et al. 2006). Bäume oberhalb des Bachs liefern also mehr als Bäume
+  jenseits eines Rückens.
+
+**Umsetzung** (`sehens_lib/bachbett.py` → `baum_messung`, Regeln v3 `allgemein.hang`):
+- **Ufer-Anteil** wie bisher: Anteil der 4-m-Zellen mit Bäumen ≥ 5 m im Umkreis von 40 m, alle Seiten.
+- **Hang-Anteil:** Jede Baumzelle zwischen 40 und 150 m bekommt ein Gewicht w = Entfernung × Neigung.
+  - Entfernung: 1 bei 40 m, linear auf 0 bei 150 m.
+  - Neigung G = (Höhe Baum − Höhe Bach) / Abstand. Unter 3 % zählt nichts (Talboden, Ebene; dort bleibt Holz liegen).
+    Ab 15 % (8,5°) zählt der Baum voll, dazwischen glatter Übergang.
+  - Die Zelle zählt nur, wenn sie höher steht als die Bachstelle und das Gelände auf der geraden Linie zum Bach keinen
+    Gegenanstieg über 3 m hat. Ein Gegenanstieg über 3 m ist ein Rücken oder eine Querrinne. Kleinere Buckel,
+    Wegböschungen und das Rauschen der 2-m-Daten zählen nicht; Lawinen und Rutschungen laufen über sie hinweg.
+  - Je Zelle zählt die Bachstelle mit dem größten Gewicht (Proben alle 10 m).
+  - Hang-Anteil = Summe der Gewichte / Zahl der Ufer-Zellen. Ein Hangbaum wirkt also wie ein Bruchteil eines Baums am Ufer;
+    offene Hangfläche verdünnt nicht.
+- **Wald-Anteil = Ufer-Anteil + Hang-Anteil.** Damit rechnen Ufer-Wald-Gewicht g, Waldfaktor und Treibholz am Oberlauf
+  wie in Nachtrag 3, auch der Oberlauf mit Hangbäumen.
+- **Waldbiome** (Bergwald, Elfenwald, Aue, Sumpf, Dschungel, Fjord) bleiben beim Ufer-Anteil. Ihre Literaturdichten
+  stammen aus Feldaufnahmen, die alles Holz im Gerinne zählen, also auch das vom Hang. Mit Hangbäumen läge der
+  Bergwald-Bach im Median bei 39 % statt 13 %, der Waldfaktor stünde fast überall bei 1,4, und der Hangeintrag zählte
+  doppelt. Ihre Anzahlen sind bitgleich zu Nachtrag 3.
+- **Plan und Prüfer:** `dichte[*]` trägt zusätzlich `ufer_anteil`, `hang_anteil` und `hang_baeume` (Zellen mit
+  Gewicht, Baumzellen 40–150 m). Die Prüfer (Gefälle, Sehens, Roh-Ebene) rechnen den Rahmen mit derselben Funktion nach.
+  Eine Abweichung ist FEHLER.
+
+**Daten** (100-m-Stücke aller Welt-Läufe; Wald-Anteil ohne → mit Hang):
+
+| Biom | Median | Anteil der Stücke ≥ 5 % (volle Wald-Dichte) |
+|---|---|---|
+| Tundra | 0,3 % → 1,0 % | 23 % |
+| Heide | 0,7 % → 1,2 % | 10 % |
+| Ödland | 0,1 % → 0,8 % | 0 % |
+| Wüste | 3,2 % → 4,0 % | 14 % |
+
+Die meisten offenen Bäche bleiben offen. Mehr Holz bekommen die Bäche unter bewaldeten Hängen.
+
+### 2. C2 im Detail
+
+- **Hangbäume am Erlenbach** (`F_ERLENBACH_1V_C2`, s 10–181 m): 286 Baumzellen zwischen 40 und 150 m, davon zählen 130.
+  - Summe der Gewichte 36,5, auf 1 155 Ufer-Zellen → Hang-Anteil 3,2 %, Ufer-Anteil 0,2 %, zusammen 3,3 %.
+  - Ufer-Wald-Gewicht g = 0,62, Waldfaktor 0,71, Netze aus der Bergwald-Palette.
+  - Oberlauf (s 0–10 m mit dem Hang darüber): 13,6 % → Treibholz-Anteil 0,38 auf dem baumlosen Rest.
+  - Rahmen 3,5–14,8, Ziel 8,5 große Stücke je 100 m → Ziel 14,6 auf 171 m.
+- **Ergebnis (2 m und 1-m-Fenster gleich):**
+
+  | | Nachtrag 3 | Nachtrag 4 |
+  |---|---|---|
+  | große Stücke (Stamm / Verklausung / überspannt / Wurzelstock) | 5 (1 / 3 / 0 / 1) | 14 (9 / 3 / 0 / 2) |
+  | je 100 m | 2,9 | 8,2 |
+  | Äste / Zweige | 12 / 17 | 24 / 40 |
+  | Instanzen / davon mit Kollision | 1 857 / 533 | 1 901 / 548 |
+  | Uferstreifen / Schlamm (1 m) | 329 / 238 m² | unverändert |
+
+  Abgelehnt wurden 10 Plätze in Lippenzonen und 16 neben Blöcken. Stufen, Becken, Gelände und Lagen bleiben gleich.
+- **Warum nicht 17–20:** Die Schätzung aus Nachtrag 3 (4,1 % im 150-m-Kreis) zählte alle Richtungen. Das Bild
+  `antworten/gefaelle/c2_hangbaeume.png` zeigt, wer davon zählt:
+  - grün (130 Zellen): vor allem der Nordosthang oberhalb des Bachs, Neigung zum Bach im Median 21 % (10–90 %: 11–48 %);
+  - rot (51): im Nordwesten hinter der Kuppe, tiefer als die Bachstellen;
+  - orange (92): im Norden hinter dem Sattel (103 m) und hinter der Kuppe, Gegenanstieg über 3 m;
+  - violett (13): zu flach (unter 3 %).
+
+  Auch mit 8 m Gegenanstieg stiege das Ziel nur auf 16,2 (5 m: 15,7), denn die Bäume hinter dem Sattel stehen flach
+  zum Bach. Mehr gäbe es nur ohne Neigungsgewicht, und dann zählten auch Bäume, die kein Holz bis zum Bach bringen. Ich
+  habe deshalb nichts nachgeschoben.
+- **fluss_sim:** In `F_ERLENBACH_T00` 802 → 833 Objekte, `F_ERLENBACH_T01` 297 → 320 (die Strecke von `F_ERLENBACH_2V_D3`
+  bekommt ebenfalls Hangholz).
+
+### 3. Gletscherbäche am Waldrand
+
+Keine Regeländerung; Gletscher und Frost bekommen nach Baumanteil die Bergwald-Dichte. Die Hangbäume erhöhen die
+Anteile, deshalb ändern sich die Zahlen:
+
+| Sehens-Bach | Ufer / Hang | groß vorher → nachher |
+|---|---|---|
+| `gletscher_01_gletschertor/gletscherbach` (132 m) | 7,2 % / 4,3 % | 17 → 20 |
+| `gletscher_02_lawinenkegel`, drei Schmelzbäche (96 m) | 6,8–13,9 % / 6,7–9,6 % | 15 → 19 |
+| `gletscher_06_gletschertoepfe/klammbach_unten` (33 m) | 1,3 % / 1,5 % | 0 → 1 |
+| `frost_03_eisvorhang/sickerlinie` (22 m) | 1,2 % / 7,2 % | 0 → 3 |
+| `tundra_04_die_fliesstreppe/schmelzfaden` (192 m) | 3,3 % / 6,2 % | 15 → 26 |
+| `tundra_05_der_trunkene_grund/abfluss` (36 m) | 9,5 % / 25,8 % | 5 → 8 |
+| `tundra_06_das_schneetaelchen/schmelzwasser` (35 m) | 3,9 % / 3,9 % | 3 → 4 |
+
+`frost_03` ist neu dabei: Der Eisvorhang liegt unter einem bewaldeten Hang. Soll Frost wie Lava ohne Holz bleiben, reicht
+`wald_ersatz` bei `frost` zu streichen (Rückfrage 1).
+
+### 4. Roh-Ebene in Feldern mit Ufer-Ebene
+
+- **Regel** `roh.ufer_ebene_ohne = ["felsen", "totholz"]`: In Feldern mit `ufer/foliage_<Feld>/` (lokal automatisch,
+  sonst `--ufer-felder`) setzt die Roh-Ebene weder Felsen noch Totholz. Schlamm, Kies im Bett und Uferstreifen bleiben.
+- **Umsetzung:** `bachbett.totholz_setzen(…, ohne_fn)`. Ein Segment ganz im Feld bekommt kein Totholz und den Eintrag
+  `ufer_ebene: "ganz"`. Am Feldrand (`"teil"`) fallen nur die Plätze im Feld weg; sie zählen als blockiert. Nach dem
+  Zentrieren werden Stücke im Feld noch einmal entfernt. `plan.json → bachbett.totholz_ohne_felder` nennt die Felder.
+- **Prüfer:** Totholz in diesen Feldern ist FEHLER. Bei `"ganz"` gibt es keine Dichteprüfung, bei `"teil"` ist zu wenig
+  Holz eine WARNUNG.
+- **Testlauf** mit den 5 holzreichsten Feldern G4, H6, C4, G6 und E5 als Ufer-Feldern:
+  - 87 Segmente ganz und 11 teilweise ohne Totholz.
+  - 0 Totholz-Stücke und 0 Felsen in diesen Feldern.
+  - Instanzen 25 201 → 13 162; Uferstreifen, Schlamm und Kies unverändert (183 000 / 192 000 / 127 000 m²).
+  - Prüfer 0 FEHLER, 4 WARNUNG (Randsegmente).
+- Der Hauptlauf in der Cloud hat keine Ufer-Ebene; dort ändert sich nur der Hangeintrag.
+
+### 5. Hindernis-Akteure (`WH_…`)
+
+- **Regeln** v7 `swr.hindernis_grenzen`:
+  - Höchstens 4 000 Instanzen je Komponente. Hat ein Netz mehr, teilt der Export es auf weitere Komponenten desselben
+    Netzes (`teil`, `teile`).
+  - Prüfer: FEHLER über 4 000 Instanzen je Komponente und über 128 Komponenten je Akteur; HINWEIS mit den größten Werten.
+- **Größte Werte** (197 Akteure):
+  - Komponente: 531 Instanzen (`WH_F_ELFENFLUSS_T01`, `SM_MossyForestRock_01`). Geteilt werden musste nichts.
+  - Akteur: 1 356 Instanzen (`WH_B_R_P4_M2_04`).
+  - Komponenten: bis 69 (`WH_B_K1_WASSERFALL_WEST_03`), Median 28.
+  - **167 von 197 Akteuren haben mehr als 16 Komponenten.**
+- **Warum 16 nicht passt:** Eine HISM-Komponente hat genau ein Netz. Die Zahl der Komponenten ist also die Zahl der
+  verschiedenen Netze mit Wasser-Kollision in der Kachel: Felsen, Stämme, Wurzeln und Äste mehrerer Paletten. Mehr
+  Komponenten durch Teilen nach Netz senken sie nicht.
+  - Unter 16 käme man nur mit weiteren Akteuren je Kachel (`WH_<kachel>_2` …), etwa 405 statt 197.
+  - Das widerspricht „ein `WH_…` je Kachel“ aus 16a und spart keine Draw Calls, denn je Netz bleibt es eine Komponente.
+  - Ich habe deshalb 16 als Richtwert (HINWEIS) und 128 als harte Grenze gesetzt (Rückfrage 2).
+
+### 6. Zahlen vorher → nachher
+
+**Gefälle `--alle`, 2 m** (große Stücke = Stamm, Verklausung, überspannt, Wurzelstock; „Bestand“ = Holzstufen):
+
+| Biom | Länge m | Stamm | Verkl. | übersp. | Wurzel | Bestand | groß je 100 m | Äste | Zweige |
+|---|---|---|---|---|---|---|---|---|---|
+| Aue | 2 615 | 5 | 5 | 0 | 2 | 1 084 | 41,9 | 499 | 986 |
+| Bergwald | 1 718 | 125 | 41 | 2 | 33 | 77 | 16,2 | 433 | 788 |
+| Dschungel | 919 | 74 | 28 | 10 | 21 | 40 | 18,8 | 382 | 606 |
+| Elfenwald | 3 946 | 421 | 270 | 41 | 160 | 234 | 28,5 | 1 860 | 2 714 |
+| Heide | 18 | 2 → 3 | 0 | 0 | 0 | 0 | 11,1 → **16,7** | 3 → 5 | 5 → 10 |
+| Tundra | 1 907 | 48 → 96 | 21 → 32 | 0 → 2 | 11 → 24 | 0 | 4,2 → **8,1** | 172 → 265 | 263 → 453 |
+| **Summe** | 11 123 | 675 → 724 | 365 → 376 | 53 → 55 | 227 → 240 | 1 435 | 24,8 → 25,4 | 3 349 → 3 444 | 5 362 → 5 557 |
+
+- Neu sind 1 320 → 1 395 große Stücke. Instanzen 74 729 → 75 095, Akteure gleich.
+- 14 von 128 Segmenten ändern sich: 13 in der Tundra, 1 in der Heide (`B_R_P3_P0_01_s1`, 18 m, Hang-Anteil 73 %:
+  2 → 3 große Stücke). Die größeren:
+
+  | Segment | Ufer / Hang | g vorher → nachher | groß vorher → nachher |
+  |---|---|---|---|
+  | `B_R_P0_M2_01_s1` (116 m) | 0,6 % / 10,0 % | 0 → 1 | 3 → 17 |
+  | `B_R_P1_M2_01_s1` (324 m) | 2,1 % / 4,7 % | 0,17 → 1 | 19 → 40 |
+  | `B_R_P1_M2_02_s3` / `_s4` | 2,7 / 1,8 % + 4,6 / 2,5 % | 0,39 / 0,12 → 1 / 0,94 | 5 / 5 → 9 / 11 |
+  | `B_R_P1_M2_04_s1` (76 m) | 2,1 % / 3,8 % | 0,19 → 1 | 3 → 9 |
+  | `F_ERLENBACH_1V_C2_s1` (171 m) | 0,2 % / 3,2 % | 0 → 0,62 | 5 → 14 |
+  | `F_ERLENBACH_2V_D3_s1` (94 m) | 0,9 % / 2,6 % | 0 → 0,69 | 3 → 8 |
+  | `B_R_P0_M2_02_s1` (184 m) | 0,5 % / 1,4 % | 0 → 0,14 | 4 → 8 |
+  | `B_R_P1_M2_03_s1` (60 m) | 0,2 % / 2,9 % | 0 → 0,54 | 2 → 4 |
+
+- **Piloten, 1-m-Fenster:** große Stücke 449 → 507 (Tundra 3,7 → 7,8 je 100 m), Instanzen 22 842 → 23 112.
+
+**Sehens, 2 m** (42 Bäche): große Stücke 131 → 157, Äste 209 → 245, Zweige 356 → 426. Es ändern sich nur die 9 Bäche
+aus Abschnitt 3 (Instanz-Ebenen `sw_frost` E2, `sw_gletscher` D2/E1, `sw_tundra` D2/E2/E3). Alle übrigen Ebenen sind
+byte-gleich; `orte.json` nennt überall die neue Regelversion 3.
+
+**Roh-Ebene** (Roh-Läufe und Reststrecken, 23,7 km Bachbett):
+
+| Biom | Bachbett m | Stamm | Verkl. | übersp. | Wurzel | groß je 100 m | Äste | Zweige |
+|---|---|---|---|---|---|---|---|---|
+| Canyon | 84 | 6 → 8 | 0 | 0 | 1 | 8,3 → 10,7 | 9 → 12 | 17 → 24 |
+| Gletscher | 53 | 7 → 8 | 0 | 0 | 1 → 2 | 15,2 → 19,0 | 11 → 13 | 22 → 26 |
+| Heide | 4 577 | 136 → 172 | 2 → 12 | 2 → 10 | 22 → 33 | 3,5 → 5,0 | 269 → 352 | 517 → 680 |
+| Ödland | 290 | 12 | 0 | 0 | 2 | 4,8 | 17 | 30 |
+| Tundra | 1 130 | 30 → 35 | 2 → 5 | 0 | 2 → 5 | 3,0 → 4,0 | 65 → 81 | 113 → 137 |
+| Wüste | 657 | 37 → 53 | 7 | 0 | 8 → 10 | 7,9 → 10,7 | 77 → 100 | 146 → 193 |
+| Waldbiome (Aue, Bergwald, Dschungel, Elfenwald) | 16 905 | unverändert | | | | | | |
+| **Summe** | **23 694** | 2 423 → 2 483 | 287 → 300 | 172 → 180 | 504 → 521 | 14,3 → 14,7 | 5 303 → 5 430 | 9 326 → 9 572 |
+
+- Neu sind 3 386 → 3 484 große Stücke. Instanzen 24 730 → 25 201, Akteure 0; 20 Läufe ändern sich.
+- Lagen unverändert. Der Ufer-Wald (gewichtet) wächst von 667 auf 1 531 m Bachbett.
+
+**fluss_sim, 2 m:**
+
+| | vorher | nachher |
+|---|---|---|
+| Wasser-Kollision | 41 945 | 42 542 (13 014 aus der Roh-Ebene) |
+| davon im Wasser | 36 623 | 37 081 |
+| `holz` | 16 974 | 17 571 |
+| überspannt (ohne Wasser-Kollision) | 6 934 | 7 103 |
+| Objekt-Pool | 382 849 | 383 818 |
+
+**SWR-Fingerabdrücke:** 35 von 199 ändern sich, alle nur im Teil `objekte`; 164 bleiben gleich. Neu backen:
+
+- Gefälle- und Roh-Bäche: `B_R_P0_M2_01`, `B_R_P0_M2_02`, `B_R_P1_M2_01`, `B_R_P1_M2_02`, `B_R_P1_M2_04`,
+  `B_R_P2_P0_01`, `B_R_P2_P0_04`, `B_R_P2_P0_06`, `B_R_P3_P0_01`, `B_R_P3_P0_02_T00`, `B_R_P3_P0_02_T01`,
+  `B_R_P3_P0_04`, `B_R_P3_P0_05`, `B_R2_R_P0_M2_01`, `B_R2_R_P1_M2_01`, `B_R2_R_P3_P0_02`, `B_R2_R_P3_P0_03`,
+  `B_R2_R_P3_P0_04`, `B_R2_R_P3_P0_05`, `B_R3_R_P3_P0_02`, `B_R3_K12_WUESTE_01`.
+- Flüsse: `F_ERLENBACH_T00` (`8ca4e0808cd8…` → `6d654add5371…`), `F_ERLENBACH_T01` (`47d48db84e97…` →
+  `f48e9bfb0d0b…`), `F_CANYONBACH`, `F_GLETSCHERTAL`, `F_HAUPTFLUSS_3_T05`.
+- Sehens: `SW_frost_03_eisvorhang_sickerlinie`, `SW_gletscher_01_gletschertor_gletscherbach`,
+  `SW_gletscher_02_lawinenkegel_schmelz_mitte` / `_ost` / `_west`, `SW_gletscher_06_gletschertoepfe_klammbach_oben`,
+  `SW_tundra_04_die_fliesstreppe_schmelzfaden`, `SW_tundra_05_der_trunkene_grund_abfluss`,
+  `SW_tundra_06_das_schneetaelchen_schmelzwasser`.
+
+### 7. Prüfung
+
+| Lauf | Ergebnis |
+|---|---|
+| Gefälle `--alle`, 2 m | Planer 0 FEHLER, 2 WARNUNG; Prüfer 0 FEHLER, 43 WARNUNG (dieselben wie vorher), 301 HINWEIS; zwei Läufe byte-gleich |
+| Piloten, 1-m-Fenster | Planer 0 FEHLER; Prüfer 0 FEHLER, 11 WARNUNG (wie vorher); zwei Läufe byte-gleich |
+| 15 Sehens-Planer, 2 m | Planer und Prüfer je 0 FEHLER; Prüfer-Warnungen wie vorher; zwei Läufe byte-gleich |
+| 15 Sehens-Planer, synthetisch 1 m | Planer und Prüfer je 0 FEHLER; 36 WARNUNG, keine zum Bachbett; zwei Läufe byte-gleich |
+| Roh-Ebene `bachbett_roh` | Planer 0 FEHLER, 0 WARNUNG; Prüfer 0 FEHLER, 0 WARNUNG, 463 HINWEIS; zwei Läufe byte-gleich |
+| Roh-Ebene mit 5 Ufer-Feldern (Test) | Planer 0 FEHLER; Prüfer 0 FEHLER, 4 WARNUNG (Randsegmente), 0 Totholz und 0 Felsen in den Feldern |
+| fluss_sim-Export + Prüfer | 0 FEHLER, 0 WARNUNG, 70 HINWEIS (2 neu: Hindernis-Akteure); zwei Läufe byte-gleich (183 Dateien) |
+| Selbsttest `sehens_lib/selbsttest.py` | grün: 149 ok, 0 FEHLER. `test_16c4` hat 10 neue Prüfungen: Hangbäume oberhalb zählen; hinter dem Rücken, auf ebenem Gelände, tiefer als der Bach und über 150 m nicht; nähere wiegen mehr; Bergwald unverändert; Prüfer rechnet nach; WH-Komponenten nach Netz geteilt. |
+
+**Testbilder neu:**
+- Gefälle (Piloten): `antworten/gefaelle/test_F_ERLENBACH_1V_C2_s1.png`, `test_F_ERLENBACH_2V_D3_s1.png`,
+  `test_B_R_P0_M2_01_s1.png`, `test_B_R_P0_M2_02_s1.png`, `test_B_R_P1_M2_01_s1.png`, `test_B_R_P1_M2_03_s1.png`,
+  `test_B_R2_R_P0_M2_01_s1.png`. Die übrigen 15 Pilotbilder sind byte-gleich.
+- Neu: `antworten/gefaelle/c2_hangbaeume.png` (welche Bäume an C2 zählen).
+- Sehens: `tundra_04`, `_05`, `_06`, `gletscher_01`, `_02`, `_06` und `frost_03` (`antworten/sehens/<biom>/test_….png`).
+- fluss_sim-Beispiele (`antworten/fluss_sim/`) neu, darunter `F_ERLENBACH` und `back_liste_auszug.json`.
+
+### 8. Lokal zu tun
+
+1. Commit **`2c15bd4`** holen.
+2. **Gefälle auf 1 m neu planen** (`--alle`). Neu ist nur das Totholz der Tundra- und Heide-Läufe mit Hangwald, darunter
+   C2 (`F_ERLENBACH_1V_C2`: 14 große Stücke, 24 Äste, 40 Zweige). Stufen, Gelände und Lagen bleiben gleich.
+3. **Sehens neu planen:** Es ändern sich `tundra_04`–`06`, `gletscher_01`, `_02`, `_06` und `frost_03`.
+4. **Roh-Ebene neu erzeugen** (`bachbett_roh.py --basis <production>`). In den Feldern mit `ufer/foliage_<Feld>/` fallen
+   jetzt Felsen und Totholz weg. Bitte im Log die Zeile „Ufer-Ebene (ohne Felsen und Totholz): …“ prüfen.
+5. **fluss_sim-Export und Prüfer neu.** Der Prüfer gibt die größten `WH_…`-Werte aus. Danach die SWR mit neuem
+   Fingerabdruck neu backen; lokal kommen die Felder mit Ufer-Ebene dazu.
+6. **Im Editor ansehen:** C2 von unten mit Blick zum Nordosthang. Liegt jetzt genug Holz im Bach, und passt die
+   Bergwald-Palette zu den Kiefern und Birken am Hang?
+
+### Rückfragen (Nachtrag 4)
+
+1. **C2 bei 14 statt 15–20:** Reicht das? Ein lockerer Rücken (Gegenanstieg 8 m statt 3 m) brächte nur 16. Für 17–20
+   müsste das Neigungsgewicht fallen; dann zählten auch flach stehende Bäume, die kein Holz bis zum Bach bringen. Und soll
+   `frost` wie Lava ohne Holz bleiben (`frost_03`: 0 → 3)?
+2. **Komponenten je `WH_…`:** 167 von 197 Akteuren haben mehr als 16 Komponenten, weil jedes Netz eine Komponente
+   braucht. Bleibt es bei einem Akteur je Kachel (Richtwert 16 nur als HINWEIS, harte Grenze 128)? Oder sollen die
+   Komponenten auf `WH_<kachel>_2` … verteilt werden (etwa 405 Akteure)?
