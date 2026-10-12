@@ -130,5 +130,14 @@ Commits: `47a97a9`, `4a95150`, `0e22f82`, `725a69e`; Einzelheiten in der 13i-Ant
 
 **Prüfergebnis (Endstand):**
 
-ERGEBNIS_NACHTRAG
+| Lauf | Ergebnis |
+|---|---|
+| 2 m, alle 15 | Planer 0 FEHLER, Prüfer 0 FEHLER |
+| synthetisch 1 m, alle 15 | Planer 0 FEHLER, Prüfer 0 FEHLER |
+| Determinismus 2 m | alle 15 je zweimal nacheinander, drei Biome gleichzeitig: byteidentisch, Eingaben-Summe stabil |
+| Determinismus 1 m | gletscher, kueste, lava, tundra je zweimal + der parallele Gesamtlauf: dreimal byteidentisch |
+| Stufenvergleich gegen c945f93 | gleich 7, fuss 26, schluss 5, gelaende13h 4 (die vier Gletscherbäche), kein `anders` |
+| Selbsttest | 68 ok, 0 FEHLT |
+
+Verbleibende WARNUNGEN sind die bekannten (Senken in lava, Niagara-Grenze, gletscher_03 `firnrinnsal` 26,4 m).
 
