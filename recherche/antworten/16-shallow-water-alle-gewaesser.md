@@ -80,6 +80,11 @@ Beispiele: `antworten/fluss_sim/` (C2, Sehens-Ort `bergwald_06_karsee`, Zusammen
   Lauflänge). Der Gefälle-Planer meldet jetzt 0 FEHLER. Geändert haben sich nur Kollisionszahlen (+4 bzw. +5 eindeutig),
   1 Kehrwasser und die Fingerabdrücke der Kacheln mit geändertem Holz bzw. Akteuren (C2: 2 von 3 Kacheln). Abschnitte,
   Fälle und Kacheln sind gleich.
+- **Nachtrag 13k (Stammausrichtung Sehens, Einheitenfelder A15, Code `f1ec688`):** 49 Stämme in ödland_04, ödland_07
+  und sumpf_02 geändert (40 liegen jetzt statt zu stehen, 13 auf × 1,8 begrenzt, 4 davon beides); die A15-Netze tragen die SLW-Einheitenfelder.
+  Neu exportiert: Prüfer 0 FEHLER, 0 WARNUNG, zwei Läufe byte-gleich. Abschnitte, Fälle, Kollisionsobjekte und
+  Back-Liste sind gleich, **keine Kachel hat einen neuen Fingerabdruck** (keiner der Stämme liegt an einem Gewässer mit
+  Kachel). Nur `objekt_pool.fest_und_gross` sinkt von 63 898 auf 63 887.
 
 ### 2. Was der Exporter ausgibt
 

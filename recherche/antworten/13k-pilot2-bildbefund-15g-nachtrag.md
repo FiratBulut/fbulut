@@ -719,3 +719,101 @@ Holzstufen gibt es 327 (Aue 272, Elfenwald 44, Bergwald 7, Dschungel 4).
   Stücke (100 Stück, Skala ≤ 1,8).
 - Dieselbe `liegend`-Ausrichtung liegend modellierter Stämme steckt auch in Sehens-Regeln, z. B. ödland `staemme`
   (`SM_dead_log_01/03`). Das ist nicht geändert, weil die Sehens-Ausgaben gleich bleiben sollten.
+
+## Nachtrag: Stammausrichtung Sehens, Einheitenfelder A15
+
+Stand 12.10.2026, Code-Stand **`f1ec688`** (bitte lokal mit diesem Commit oder neuer planen). Damit sind die beiden
+offenen Punkte aus dem Nachtrag oben erledigt.
+
+**1. Stammausrichtung in den Sehens-Regeln**
+
+- **Suche:** In allen 15 Sehens-Regeln habe ich jede Gruppe mit `ausrichtung: liegend` gegen die Netzmaße geprüft.
+  `liegend` dreht die lokale Z-Achse in die Waagrechte. Richtig ist das nur für stehend modellierte Netze (lange
+  Achse z).
+  - **Richtig (bleiben):** Bäume (`Fir_08_Dead`, `SM_Forest_pine_08/09`, `SM_Forest_pine_10_dead`, `SM_beech_tree_08`,
+    `SM_EuropeanBeech_Dead_M_01`), Basaltsäulen, Eiszapfen, `Branch_Goat_Willow_Decaying_*`.
+  - **Falsch** (liegend modellierte Stämme mit `liegend`), zwei Gruppen:
+    - ödland `oedland_04_dornbusch_senke` → `staemme`: `SM_dead_log_01/03`
+    - sumpf `sumpf_02_der_weidendom` → `treibende_aeste`: `SM_dead_log_02`
+  - Beide Paletten mischen stehend und liegend modellierte Netze. Eine Änderung der Regel-Datei hätte deshalb nicht
+    gereicht.
+- **Behebung in der Bibliothek** (`rezept._ein_stueck`, nach dem Vorbild von A15 `holz_form`, `024d25f`):
+  - Steht `liegend` an einer Gruppe mit `rolle: stamm` und einem liegend modellierten Netz, wird dieses Netz mit
+    `normale` gesetzt. Es folgt damit der Hangnormalen wie das 13k-Totholz.
+  - Die lange Achse zeigt in die Yaw-Richtung, also dorthin, wohin vorher der Stammkopf zeigte.
+  - Der Zufallswert für den Roll wird weiter gezogen. So bleibt die Zahlenfolge gleich, und alle anderen Stücke
+    bleiben, wo sie waren.
+- **Skala:** Liegende Stämme als Instanzen sind auf 0,6–1,8 begrenzt, Äste nur nach oben (≤ 1,8).
+  - Betroffen waren nur Stücke über 1,8: ödland `staemme` (bis × 2,2) und `oedland_07_totenpfanne` → `liegende`
+    (bis × 2,0).
+  - Einzeln gesetzte Akteure behalten die Skala aus ihrer Regel. Das sind die Riesen in Held- und Begleiter-Ebene,
+    z. B. elfenwald_07 Riesenstamm × 4,6, dschungel_07 Sturzstamm × 4,2, sumpf `liegende` × 2,0–2,6. Der Prüfer
+    nennt sie als HINWEIS (40 Akteure in 6 Biomen). Soll auch für sie 1,8 gelten, ist das eine Bildentscheidung, bitte sagen.
+- **Neue Prüferregel** `pruefe_liegendes_holz` in `pruefe_ebene`, gilt in den Kontexten Sehens und Gefälle:
+  - Geprüft werden liegend modellierte Holznetze (`inventar.liegendes_holz`: Stamm- oder Ast-Name, lange waagrechte
+    Achse ≥ 1,5 × Höhe; Wurzeln, Stümpfe und Bäume nicht).
+  - **FEHLER**, wenn die Hochachse mehr als **45°** von der Hangnormalen abweicht (Gelände nach dem Stempel), der
+    Stamm also steht oder auf der Kante liegt.
+  - **FEHLER**, wenn eine Instanz außerhalb der Skala liegt (Stämme 0,6–1,8, Äste ≤ 1,8). Bei Akteuren ist das ein
+    HINWEIS.
+  - **Warum gegen die Hangnormale:** Gegen die Senkrechte gemessen kommen auch richtig gesetzte Zweige auf
+    Steilhängen auf bis zu 75°. Gegen die Hangnormale liegen alle richtig gesetzten Stücke bei höchstens 36°, die
+    falschen bei 80–92°.
+  - Selbsttest Schritt 13, Teil 9: 5 neue Prüfungen.
+- Treppen, Stufen, Effekte, Kameras, Gelände und Lagen sind unverändert. `orte.json` ist in allen 15 Biomen
+  byte-gleich.
+
+| Betroffene Stücke (2 m) | Ort | vorher | jetzt |
+|---|---|---|---|
+| `SM_dead_log_01/03`, `staemme` | oedland_04 Dornbusch-Senke | 8 stehend (80–92° gegen die Hangnormale), 4 davon × 1,87–2,02 | 8 liegend, Skala ≤ 1,8 |
+| `SM_dead_log_01/02/04`, `liegende` | oedland_07 Totenpfanne | 9 mit × 1,81–1,97 (Lage richtig) | 9 mit × 1,8 |
+| `SM_dead_log_02`, `treibende_aeste` | sumpf_02 Weidendom | 32 stehend oder auf der Kante (bis 90°) | 32 liegend |
+| **Summe** | 3 Orte | **40 Stämme falsch ausgerichtet, 13 zu groß skaliert** (4 davon beides) | 0 |
+
+Daneben rücken im Feld D6 (Dornbusch-Senke, Totenpfanne) 54 von 3 670 kleinen Steinen (`SM_SmallStonesPack_*`) um bis
+zu 2,8 m, weil die Abstandsregel die liegenden Stämme sieht. Die anderen 13 Biome sind byte-gleich mit dem Stand vor dem Nachtrag.
+Testbilder neu: `test_oedland_04_dornbusch_senke.png`, `test_oedland_07_totenpfanne.png`,
+`test_sumpf_02_der_weidendom.png`. Alle übrigen Testbilder sind byte-gleich.
+
+**2. Einheitenfelder in den A15-Kaskadennetzen**
+
+- `gefaelle_plan.slw_einheit` schreibt in `material_parameter` jedes Kaskadennetzes dieselben Felder wie in den
+  Sehens-Netzen. Schlüssel und Reihenfolge sind gleich:
+  - `einheit: "je_m"`, `skalierung_ue: 0.01`
+  - `SLW_Absorption_pro_cm` [0,004; 0,0007; 0,0005] und `SLW_Streuung_pro_cm` [0,0002; 0,0003; 0,0004]
+  - `einheit_hinweis`
+- Die je-m-Werte (`SLW_Absorption_pro_m` 0,40/0,07/0,05, `SLW_Streuung_pro_m` 0,02/0,03/0,04) sind unverändert.
+- `--alle` 2 m: 123 Kaskadennetze in 98 Läufen tragen die Felder, C2 eingeschlossen. Sonst sind die Pläne gleich mit
+  `024d25f`: Instanzen, Gelände, Lagen, Wasser, Effekte. Die Sehens-Netze sind byte-gleich, weil `bach.py` dieselben
+  Werte setzt.
+
+**Prüfergebnis**
+
+| Lauf | Ergebnis |
+|---|---|
+| 15 Sehens-Planer, 2 m | Planer und Prüfer **0 FEHLER** in allen 15. Vorher fand der neue Prüfer 8 FEHLER (ödland 6, sumpf 2). Zwei Läufe byte-gleich (`diff -r`). |
+| 15 Sehens-Planer, synthetisch 1 m | Planer und Prüfer **0 FEHLER** in allen 15 |
+| Selbsttest | grün, 95 ok, 0 FEHLER (vorher 90; neu: 5 Prüfungen Stammausrichtung) |
+| Gefälle `--alle` 2 m | Planer 0 FEHLER, 2 WARNUNG; Prüfer **0 FEHLER**, 42 WARNUNG, 129 HINWEIS (wie `024d25f`). Zwei Läufe identisch. |
+| 19 Piloten, 1-m-Fenster | Planer 0 FEHLER; Prüfer **0 FEHLER**, 11 WARNUNG, 23 HINWEIS (wie `024d25f`). Zwei Läufe identisch. |
+| fluss_sim neu | Prüfer **0 FEHLER**, 0 WARNUNG, 10 HINWEIS. Zwei Läufe byte-gleich (163 Dateien). |
+
+- **fluss_sim:**
+  - Abschnitte, Fälle, Kollisionsobjekte und Back-Liste sind gleich: **0 Back-Kacheln mit neuem Fingerabdruck**.
+  - Keiner der 49 geänderten Stämme liegt in einem Gewässer mit Kachel. ödland_04, ödland_07 und sumpf_02 haben keinen
+    Sehens-Bach.
+  - Geändert hat sich nur `objekt_pool.fest_und_gross`: 63 898 → 63 887. 11 Stämme sind liegend bzw. mit Skala ≤ 1,8
+    kleiner als die Mindestgröße für feste Objekte.
+  - Beispiele in `antworten/fluss_sim/`: nur `zusammenfassung.json` geändert. Die Zahlen in Datei 16 bleiben.
+- Die Prüferregel greift auch in A15. Die Gefälle-Läufe melden 0 FEHLER, weil das Holz dort seit `024d25f` quer und
+  mit Skala 0,6–1,8 liegt.
+
+**Lokal zu tun:**
+1. ödland und sumpf mit `f1ec688` neu planen (1 m). Die Ebenen `sw_oedland` und `sw_sumpf` tauschen; betroffen
+   sind die Felder D6 bzw. H5/I5.
+2. Im Bild prüfen:
+   - Dornbusch-Senke: tote Stämme liegen im Gestrüpp.
+   - Weidendom: `SM_dead_log_02` treibt flach.
+   - Totenpfanne: Stämme ≤ × 1,8.
+3. Gefälle-Läufe neu planen ist nicht nötig. Nur wer die Felder `einheit`/`SLW_*_pro_cm` im Werkzeug lesen will, plant
+   neu. Kein Neubacken nötig.
