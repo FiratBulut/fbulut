@@ -166,8 +166,8 @@ def pruefe_orte_see_bloecke(d, welt, sw_ordner, inv):
                 stuecke.append((dd.get("pfad", key), float(r[0]), float(r[1]), float(r[2]),
                                 (float(r[3]), float(r[4]), float(r[5]), float(r[6])), (float(r[7]), float(r[8]), float(r[9]))))
         for pfad, x, y, z, q, s in stuecke:
-            if PFLANZE.search(str(pfad).rsplit("/", 1)[-1]):
-                continue
+            if PFLANZE.search(str(pfad).rsplit("/", 1)[-1]) or "/plants/" in str(pfad).lower():
+                continue                   # Pflanzen (auch Megascans-Codenamen im Ordner .../Plants/) wachsen durch den Spiegel
             try:
                 info = inv.netz(pfad)
             except KeyError:
