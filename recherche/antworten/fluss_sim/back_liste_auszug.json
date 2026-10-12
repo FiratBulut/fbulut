@@ -17,6 +17,34 @@
  },
  "swr_bereiche": [
   {
+   "swr_bereich": "B_R_P3_P0_04",
+   "gewaesser": "B_R_P3_P0_04",
+   "datei": "gewaesser/B_R_P3_P0_04/fluss_sim.json",
+   "swr": "SWR_B_R_P3_P0_04",
+   "water_body_river": "WBR_B_R_P3_P0_04",
+   "punkt_index": [0,188],
+   "hindernis_akteur": null,
+   "bereich_cm": [118150.0,48095.9,201650.0,71425.2],
+   "s_m": [0.0,944.76],
+   "s_sim_m": [0.0,944.76],
+   "naht_oben": "quelle",
+   "naht_unten": "muendung",
+   "vorgaenger": [],
+   "nachfolger": [],
+   "back_reihenfolge": 0,
+   "geteilt": false,
+   "resolution_max_axis": 2048,
+   "zelle_m": 0.4,
+   "fingerabdruck": "9b557935019fd5387bc413997dfaa3c134b6b025941ad7beb6105296da050602",
+   "teile": {
+    "gelaende": "328f6b6b344c4d74fd7903a409d48a3c837767c1c885d96b1a388e0b609fb679",
+    "splines": "235f9b27339d055203b0da2262d8078c7f3c30645d32acf884598ca0afe61aa5",
+    "objekte": "39ae1ce2b12eea4b295566f373f1d68e6022fda02359bdd9db42d1b82078e6fa"
+   },
+   "n_hoehen": 48906,
+   "n_objekte": 1
+  },
+  {
    "swr_bereich": "F_ERLENBACH_T00",
    "gewaesser": "F_ERLENBACH",
    "datei": "gewaesser/F_ERLENBACH/fluss_sim.json",
@@ -35,14 +63,14 @@
    "geteilt": true,
    "resolution_max_axis": 1856,
    "zelle_m": 0.247,
-   "fingerabdruck": "34f419d2d683d64ec5d41b8bd42ad95fab67c5b3d8f4eeaeb8ea4f2025e4ff3e",
+   "fingerabdruck": "bde4496c2c8fb1a97170424f72a97106738820d6282cca4f016faab7cd6dd36d",
    "teile": {
     "gelaende": "82f713e44bdaa3ebfbc28397fca2a1e8a9fd6883d6073672831f6b879b96a88d",
-    "splines": "d7541186121ff6b3b732b48956b730110826b3598ce447c39d41d4fec960a1e5",
-    "objekte": "4ff26c5f118fc9f0f294794d1ddb745bb7b9ee3699b54a085ea45f0b4d693138"
+    "splines": "925cd2e9558f6a01225a0593d0ed5ad10ef0f79f30ff25c8444f80c56668bdd6",
+    "objekte": "e27dd2428e7145a989a98f724883467f723189ea358b1ad0b3ed4ea150934df4"
    },
    "n_hoehen": 17301,
-   "n_objekte": 669
+   "n_objekte": 681
   },
   {
    "swr_bereich": "F_ERLENBACH_T01",
@@ -63,14 +91,14 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.264,
-   "fingerabdruck": "ddce38c57a34f08f93cd871708dfb9aafdd2f4ead94d2d692971a2c006dd014c",
+   "fingerabdruck": "70755d1d7b8b7c17c9cc3b4de19fb629972d3578f795de4c6a392cb455f13518",
    "teile": {
     "gelaende": "a90f9d9ccc50e47b19d41ebdf0ccc13587542e0bcc166d285e244a63e3e73913",
-    "splines": "a06f7a67e3d16ca6c77e9007cb1d207a98ba3eb0c82f53cad1712b71de0a1a9c",
-    "objekte": "4bb2d4011220f3f74451863becf7d767c24dfe870fa15915ac607b4c4aece83a"
+    "splines": "eedc1943d120f268c4559cc9b8b0bdbf47b97e0435c05397e6122b08901daac1",
+    "objekte": "571bb12a7a4f777328f53575778600044e1b9dfc17fd8e3cc2ac029686bfb703"
    },
    "n_hoehen": 30024,
-   "n_objekte": 193
+   "n_objekte": 199
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T00",
@@ -91,14 +119,14 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.3,
-   "fingerabdruck": "432020c5aa7b16dbbbc4af55893bc883d9cd7a8d5ab14c93629ad5261e8fcdf3",
+   "fingerabdruck": "3a3335735ebe8c905f3178cc128d9af15ffa5bef4d8de375ba22f979f1ff7eda",
    "teile": {
     "gelaende": "18035d2e0f20e2e49493e99b791a02d47aa200d3629b2dfe0196442cd13bb587",
-    "splines": "8e154a58629cfa45a3b79729d6c35f2d94fa4da6dc08de363f3ad6760f290773",
-    "objekte": "8fd428e2cdce550ba3a9eba8dcebd8e53808477c879c249152e289893bf44685"
+    "splines": "70745131c0b0573045ea54f2a7d20de1e2ef822d4cb88d583a7037b0caff7ddf",
+    "objekte": "6adadfea284228d3caa007644d7c5c1baca164cc6209ebf42b91bd5333034c81"
    },
    "n_hoehen": 31815,
-   "n_objekte": 145
+   "n_objekte": 166
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T01",
@@ -119,14 +147,14 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.3,
-   "fingerabdruck": "d8cf0a174a2883592a62e6c3857ca390012024b87e48dc2b09d3c031f320bf99",
+   "fingerabdruck": "925df74fc39c6afc7dbb15fe2ffd1322401858bb92f9860c1d9d555c1059f47d",
    "teile": {
     "gelaende": "2f5175825ac5e9acbfd28d1bce0839dc025746a72a02509426b503fec3fead61",
-    "splines": "a876495c1074c281b2ce4579ff81937c97c83e80ec306b7e6dd745c13e59ddf8",
-    "objekte": "ae5a54faf1e932663392d1ec77453c1097c12ac3968ea774798fa407390585f2"
+    "splines": "02dd94123e7071a005f852917e1abcf245ea009579baefa7b3ed2b49027ec2c3",
+    "objekte": "375eb73fb7067075892a6dda93dbc387ba3a2d7f61a4c3516547c9789afa97b9"
    },
    "n_hoehen": 62370,
-   "n_objekte": 11
+   "n_objekte": 12
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T02",
@@ -147,10 +175,10 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.349,
-   "fingerabdruck": "c422f05d3161ea9d2c59c7ffc870dfae8ea719c788d321505169629f55c09343",
+   "fingerabdruck": "e06dcf266893024226678f8ef37d22ce33e2866fbf2cac0945d771153d34486a",
    "teile": {
     "gelaende": "37d813a546b3dfb19633af0077f665023e3eaac509f1bb98007ad15ec1f5235e",
-    "splines": "a29890583d7b9f1e794e18271a90d8d87ca20998e59546d45942d2f5cbec8931",
+    "splines": "ded3ffc7545f570ad598ee848b5058bb956c92b4e74894d56b45e6a43a852daa",
     "objekte": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
    },
    "n_hoehen": 36966,
@@ -175,10 +203,10 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.35,
-   "fingerabdruck": "7f0f3141a417652442f16701a86cf056e5659fbcb71056a677e0bb4714441003",
+   "fingerabdruck": "85ad67bf9cd1564bcd221751bffd6d3168ffde9c1b36d62acecd52715e499e08",
    "teile": {
     "gelaende": "6952619f41c0ea8b5699a78cb3b6a60d8d354bd2e73165d212049b6b3ac083c6",
-    "splines": "bbfc69cfea797cc2cbc95c6bcf657725b8f169d77f26bb9dccfb726aca98c8c9",
+    "splines": "8c0edec31fe2f30af8d2f35965c2ccc3330fff6764b9528b7987d296b0585e18",
     "objekte": "1d179997e6c72d80c9bbe7ad847ef328b7ecff5ac99655e10e1787c2ff87f6c6"
    },
    "n_hoehen": 37595,
@@ -203,10 +231,10 @@
    "geteilt": true,
    "resolution_max_axis": 1408,
    "zelle_m": 0.347,
-   "fingerabdruck": "9df29dd69e04eaadbb1f3e346e7b0b56927063faf4ab44e01a59d114188f562c",
+   "fingerabdruck": "1b837eccd3801fcc8c2d2be34adb53d9d69f4d44fc92260c39b084629b1c5365",
    "teile": {
     "gelaende": "4ea5e0447b09413e512ebb8988120617c415d17ed9072e84601a4db9019b066c",
-    "splines": "752ab0a4b1ed73dbcb3522181b901ef49bba746c1c9fae288b2c33c334ed4394",
+    "splines": "7d0af2fed4ae33f5e00664e56939aeddc8a300542129546ff3b03e0c03ee115d",
     "objekte": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
    },
    "n_hoehen": 42757,
@@ -231,11 +259,11 @@
    "geteilt": true,
    "resolution_max_axis": 2048,
    "zelle_m": 0.35,
-   "fingerabdruck": "76618531a465ae1da830ff50b6966d5adfba3dec0c8ce6c6d90cdf4d482d6442",
+   "fingerabdruck": "90dbfa853b8e6ff0423cee15de852382caf3a55e3c519e1a6b97ae20d73e9afd",
    "teile": {
     "gelaende": "1257122dc4d6760c328da2f87fce02755f02ce501354c08cbe0fc9d6f0a67b73",
-    "splines": "a40a05e33984213620e3d6ee4c70e7266156b7ad01fd7574deec9a54bb947984",
-    "objekte": "2462cf8ecdabab40a8b4fcffbb506401bed9caab8303b1e57f2c2b2b801cdb4a"
+    "splines": "83fb793bac46f93551e2d4e062ccdf375533e539f161cb2853fd9d2ee09e6046",
+    "objekte": "33f70f2507a3ce86b4fdcfce86f96386ae6da7339b708901fcca3b14be290fcb"
    },
    "n_hoehen": 47946,
    "n_objekte": 14
@@ -259,14 +287,14 @@
    "geteilt": false,
    "resolution_max_axis": 192,
    "zelle_m": 0.23,
-   "fingerabdruck": "3911d9e6351b2568cb0a3098539be4a24a945425519addc67092aa8289968b3c",
+   "fingerabdruck": "9a3241dbf42ae21705bc93832f1f0cbeb80456014270625acbf475b66af683ea",
    "teile": {
     "gelaende": "87a99824aa65097d0d94b46c022666871af253659fe53dc23ea72f2441be73bf",
-    "splines": "4483772aa8d69e87c3c5d59cc122546e8e57c882309f82fa7a48f11160935988",
-    "objekte": "569940d4f92459026d0afdff24ae479e0838d40c618a77cd8b14a32518f1f8d1"
+    "splines": "05ea44fafcc22cf9adb046769fe093c808596847c444f0d2ed1278a9dd4c23ea",
+    "objekte": "dd44f4afe5843e7b0a0c8b8442521b0cc97a2afd6a4622dd4c6a525992dc2947"
    },
    "n_hoehen": 450,
-   "n_objekte": 26
+   "n_objekte": 32
   },
   {
    "swr_bereich": "SW_bergwald_06_karsee_zulauf_sued",
@@ -287,14 +315,14 @@
    "geteilt": false,
    "resolution_max_axis": 96,
    "zelle_m": 0.192,
-   "fingerabdruck": "a35d264d62a42f77eb34b2d74a18c6ab5038777180198e061b5361315308b946",
+   "fingerabdruck": "848ac07b6458271c49078ec31190ae94a33693786975a8e170aa95707c0237c6",
    "teile": {
     "gelaende": "f7e86852bbd41de4376a8892900a11b887703e1a996ddc19e455e92122d66afc",
-    "splines": "a19f1b162698179500331ad9a08bb143cd0a257d7a66efeca2fed6c9f37c72f7",
-    "objekte": "a61a1af0d35da8d7dc81fc280de60b7c931ad8313d6118dd1834953cacc74da5"
+    "splines": "71c83fc0bff0ad4d54563d9c35222c8ce163c8e40d7c58e2b29da4b145031081",
+    "objekte": "edff57ae982063a69162e6187ffadbe79c3928f23b71e1e8f2c4beea4e0bb591"
    },
    "n_hoehen": 272,
-   "n_objekte": 58
+   "n_objekte": 59
   },
   {
    "swr_bereich": "SW_bergwald_06_karsee_zulauf_west",
@@ -315,14 +343,14 @@
    "geteilt": false,
    "resolution_max_axis": 96,
    "zelle_m": 0.242,
-   "fingerabdruck": "31308eb41d15a67a5c16038b32baf9e424f5672f675b22e3a57c541cbb08476d",
+   "fingerabdruck": "54969d5c2a84936ffa9542ac5b125dc839b2fef5e609093cd17305f61737bda7",
    "teile": {
     "gelaende": "611d1e3d22eba8570fe086ad12e7ad3340a97515e8924eb34f941d295485f885",
-    "splines": "b411e3b23b56e26b3ab88decfa2edabcd88fb05b293e8fc23ae9e440d937300d",
-    "objekte": "2bc48314c7620cce5b655e4354ea07c510264ac86b137091c978e23b6c068fb1"
+    "splines": "8d4f084930c24bfba2dcd33c16f7f2debcd8862d9a66d68ee53b4ae184014dfd",
+    "objekte": "16282a3148948b773a21def09bb7c73d437791059f42a78e7d80f0bfe26a862e"
    },
    "n_hoehen": 190,
-   "n_objekte": 33
+   "n_objekte": 37
   },
   {
    "swr_bereich": "SW_elfenwald_04_elfentreppe_zulauf",
@@ -343,15 +371,15 @@
    "geteilt": false,
    "resolution_max_axis": 256,
    "zelle_m": 0.235,
-   "fingerabdruck": "0db70375d63e10b2481d100453c10976b3f3aa6d91c3ca7cb25815d1fe5615d8",
+   "fingerabdruck": "1ed20967fe7a31afc5a23cf9d9333407b5de3ab6731b575d4d44278b40047320",
    "teile": {
     "gelaende": "d3ed923db8bc42f6fef1dd13f4ba168272f70065ab413ab687ef27bdf84185e6",
-    "splines": "135749f236940a5511453743cba47500c9ddb1293d34af2f6173c81ac65cb1c3",
+    "splines": "80ba4d88c70739cb0514c7a25870d774a9ad83440bd1ffe3291b6d2956f81d4a",
     "objekte": "cd2e514fc44a44ac7b8ee4e62af0603cffe72062e0aaab38ce4ba14fd58e6440"
    },
    "n_hoehen": 1292,
    "n_objekte": 140
   }
  ],
- "hinweis": "Auszug: F_ERLENBACH (mit C2), F_HAUPTFLUSS_3 (geteilt), bergwald_06_karsee, elfenwald_04_elfentreppe (eine SWR mit 5 Toepfen); vollstaendig im Exportordner"
+ "hinweis": "Auszug: F_ERLENBACH (mit C2), F_HAUPTFLUSS_3 (geteilt), B_R_P3_P0_04 (16e: ungeteilt mit 0,40 m), bergwald_06_karsee, elfenwald_04_elfentreppe (eine SWR mit 5 Toepfen); vollstaendig im Exportordner"
 }

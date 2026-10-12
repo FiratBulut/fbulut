@@ -1,7 +1,7 @@
 {
-  "version": 4,
+  "version": 5,
   "stand": "2026-10-12",
-  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten; v3 (16c, Ferat 12.10.2026 17:10): EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss, Meer) ueber alle Faelle hinweg, Abschnitte nur noch als s-Bereiche, SWR-Kacheln auf demselben Fluss; v4 (16d, 12.10.2026): kleine Toepfe in Sehens-Treppen (< 30 m) gehoeren zum Gewaesser, Vorschlaege fuer offene Enden und Luecken getrennt von der Spline",
+  "quelle": "Entscheidung 16 (Ferat 12.10.2026): alle Baeche und Fluesse mit WaterBodyRiver + ShallowWaterRiver, Faelle bleiben Kaskadennetz-Vorhang + Niagara + Schaumobjekte, Simulation wird gebacken; v2 (16b, 12.10.2026): SWR-Einheit = Strecke (ein ShallowWaterRiver + ein WaterBodyRiver je Strecke), Vorhang/Schaum nur an echten Fallkanten; v3 (16c, Ferat 12.10.2026 17:10): EIN WaterBodyRiver je Gewaesser von der Quelle bis zur Muendung (See, Fluss, Meer) ueber alle Faelle hinweg, Abschnitte nur noch als s-Bereiche, SWR-Kacheln auf demselben Fluss; v4 (16d, 12.10.2026): kleine Toepfe in Sehens-Treppen (< 30 m) gehoeren zum Gewaesser, Vorschlaege fuer offene Enden und Luecken getrennt von der Spline; v5 (16e, Ferat 12.10.2026 18:50): kein Simulationsschaum in Baechen und Fluessen (Material), nur an Faellen wenig (schaum_maske fuer Vorhang-Faelle); Tempo je Splinepunkt nach dem Gefaelle (Manning-Strickler, tempo_faktor), insgesamt langsamer; Baeche bis 0,40 m Zelle ungeteilt (16d Nachtrag Punkt 2)",
   "fall_schwelle_m": 1.0,
   "fall_schwelle_hinweis": "Einzelabsturz (Stufe ohne Teilstufen bzw. jede Teilstufe einer Kaskade) >= Schwelle und keine Rampe/Schnelle = Fall. Wert wird im Einrichtungstest geprueft (Datei 16).",
   "abschnitt": {
@@ -19,7 +19,8 @@
     "velocity_max_hinweis": "r.Water.MaxFlowVelocity 1024 cm/s (A12)",
     "becken_gefaelle_max": 0.03,
     "stufe_z_min_cm": 2.0,
-    "hinweis_v3": "v3: Abschnitte sind nur noch Bereiche (s_m) mit Rolle; min_laenge_m/max_laenge_m gelten nicht mehr (kein eigener WaterBodyRiver). tiefe_*, velocity_*, becken_gefaelle_max gelten weiter."
+    "hinweis_v3": "v3: Abschnitte sind nur noch Bereiche (s_m) mit Rolle; min_laenge_m/max_laenge_m gelten nicht mehr (kein eigener WaterBodyRiver). tiefe_*, velocity_*, becken_gefaelle_max gelten weiter.",
+    "hinweis_v5": "v5: velocity_min_cm_s/velocity_max_cm_s gelten nur noch fuer die alte Tempo-Quelle (Statistik 'vorher') und als UE-Grenze (1024 = r.Water.MaxFlowVelocity); das Tempo der Spline kommt aus dem Block 'tempo'."
   },
   "kaskadennetz": {
     "vor_lippe_m": 0.5,
@@ -55,7 +56,16 @@
     "material_kandidaten": ["/Game/Eldarien/Welt/Wasser/MI_EL_Fluss_Schaum", "/Game/Eldarien/Welt/Wasser/Stufenfall/MI_EL_Stufenfall_Schaum"],
     "material_hinweis": "Nur Kandidaten aus inventar_extra.json; die Wahl der Netze/Decals trifft das lokale Bau-Werkzeug.",
     "gischt_ab_m": 3.0,
-    "nur_an_vorhang": true
+    "nur_an_vorhang": true,
+    "maske": {
+      "radius_max_m": 3.0,
+      "radius_min_m": 1.0,
+      "nachlauf_max_m": 6.0,
+      "staerke_fall_m": 5.0,
+      "staerke_min": 0.4,
+      "slots_max": 8,
+      "hinweis": "16e Option B: je Vorhang-Fall eine Kapsel (a_cm = Aufprall am Fuss, b_cm = Ende des Aufprallteppichs entlang der Spline, hoechstens nachlauf_max_m; radius = halbe Teppichbreite in [radius_min_m; radius_max_m]; staerke = fall_m / staerke_fall_m in [staerke_min; 1]). Das Material laesst den Simulationsschaum nur innerhalb der Kapseln durch (weicher Rand). slots_max = Vektorparameter je Water-Body-Material (2 Vektoren je Slot)."
+    }
   },
   "fingerabdruck": {
     "version": "FLUSS_SIM_FP1",
@@ -80,6 +90,8 @@
     "einheit": "v3 (16c Nachtrag 17:45): je Gewaesser EIN WaterBodyRiver und EINE ShallowWaterRiver. SWR-Bereich = achsparalleles Rechteck um den Fluss; resolution_max_axis = laengste Rechteckseite / Zielzelle (Vielfaches von 32, hoechstens resolution_max). Nur wenn die Zelle dann ueber zelle_max laege (Bach > 2048 x 0,30 = 614 m, Fluss > 2048 x 0,35 = 717 m), wird die Simulation in wenige lange Stuecke geteilt; der Fluss bleibt ein WaterBodyRiver.",
     "zelle_ziel_bach_m": 0.25,
     "zelle_max_bach_m": 0.3,
+    "zelle_max_bach_ungeteilt_m": 0.4,
+    "zelle_ungeteilt_hinweis": "16e (Ferat 16d Nachtrag Punkt 2): ein Bach bleibt ungeteilt, solange seine Zelle bei resolution_max <= zelle_max_bach_ungeteilt_m bleibt (Rechteck <= 819 m); erst darueber wird geteilt, und die Teilstuecke halten zelle_max_bach_m. Vergleichsbilder 0,27 / 0,19 m stehen aus.",
     "zelle_ziel_fluss_m": 0.35,
     "zelle_max_fluss_m": 0.35,
     "zelle_hinweis": "Ferat 17:45: Baeche 0,25-0,30 m, Fluesse bis 0,35 m. Bach = Lauf mit Abstuerzen im Plan, Median der Breite < 15 m oder Sehens-Bach; ein SWR-Bereich, der einen Bach-Lauf beruehrt, gilt als Bach. Pruefer: Zelle <= zelle_max + 0,005 m, Aufloesung <= resolution_max.",
@@ -150,5 +162,33 @@
     "stufe_dx_min_m": 0.1,
     "zusammen_m": 0.05,
     "hinweis": "Eine Spline je Gewaesser: Anfang, Ende, je Stufe (jeder Absturz aus Plan/Sehens, auch Kaskaden-Teilstufen und Schnellen) ein Punkt an der Lippe (z = Oberwasser) und einer am Fuss (z = Unterwasser), beide LINEAR, zwischen Lippe und Fuss kein Punkt. Dazwischen gleichmaessig mit Abstand >= abstand_m (roh: abstand_roh_m), also 2-4 m bzw. 5-10 m. Fuss >= Lippe + stufe_dx_min_m; liegt die naechste Lippe naeher als zusammen_m am Fuss, teilen sie sich einen Punkt (Rolle fuss_lippe). z nie steigend."
+  },
+  "tempo": {
+    "regel": "Manning-Strickler bei Normalabfluss je Splinepunkt: v = k_st^(3/5) * q^(2/5) * max(I, gefaelle_min)^(3/10). I = Gefaelle des Wasserspiegels ueber +-fenster_halb_m (Stufen zaehlen mit). q = Q / b (Abfluss je Meter Breite, b = RiverWidth); Q = v_becken_ref_ms * Median(b * h) ueber +-q_fenster_m mit h = Depth * tiefe_mittel_anteil (>= tiefe_min_m): ein Becken mittlerer Groesse fliesst mit v_becken_ref_ms, Engstellen schneller, breite Becken langsamer (Kontinuitaet); in Becken und Toepfen (Rueckstau) v = min(v, q / h). v begrenzt auf [v_min_ms; v_max_ms], entlang s geglaettet (Gauss glatt_sigma_m, Gewicht x halber Punktabstand), dann Aenderung je Meter <= aenderung_max_ms_je_m (untere Huelle: nur Spitzen sinken), zuletzt x tempo_faktor. tempo_ms auf 0,001 m/s gerundet; WaterVelocityScalar_cm_s = tempo_ms x 100 (0,1 cm/s).",
+    "kst_bach": 15.0,
+    "kst_fluss": 25.0,
+    "kst_hinweis": "Strickler k_st in m^(1/3)/s (= 1/n nach Manning): Wildbach mit Bloecken und Stufen-Becken-Folge 10-20 (n 0,05-0,10), Gebirgsfluss mit Geroell 25-30 (n 0,033-0,04). Gewaehlt 15 / 25. Typ je Punkt wie die SWR-Zelle (bach/fluss, typ_bei).",
+    "tiefe_mittel_anteil": 0.6,
+    "tiefe_min_m": 0.1,
+    "tiefe_hinweis": "Depth der Spline ist die groesste Tiefe im mittleren Querschnitt (tiefe_quer_anteil 0,6); die mittlere Fliesstiefe liegt bei etwa 0,6 davon (Rechteck-/Parabelquerschnitt).",
+    "v_becken_ref_ms": 0.2,
+    "q_fenster_m": 100.0,
+    "q_hinweis": "Der Plan kennt keinen Abfluss. Q wird so gewaehlt, dass ein Becken mit der mittleren Geometrie (Median von Breite x mittlerer Tiefe ueber +-100 m) mit 0,2 m/s fliesst; die Planer-Tiefe ist die Bett-Tiefe unter dem Spiegel und taugt in Rinnen nicht als Fliesstiefe, daher Normaltiefe aus q und I.",
+    "rueckstau_rollen": ["becken", "topf"],
+    "rueckstau_hinweis": "In Becken und Toepfen bestimmt die Lippe unterhalb den Wasserstand (Rueckstau); die Planer-Tiefe ist dort die echte Wassertiefe: v = min(v_Manning, q / h). Ein Becken mittlerer Groesse fliesst so mit v_becken_ref_ms, tiefe/breite langsamer. Die Planer-Becken haben teils 2 % Spiegelgefaelle (C2), Manning allein gaebe dort 1 m/s.",
+    "fenster_halb_m": 2.0,
+    "gefaelle_min": 0.0001,
+    "gefaelle_hinweis": "Becken haben einen (fast) waagrechten Spiegel; gefaelle_min 0,01 % gibt dort bei q 0,1-0,3 m2/s etwa 0,15-0,25 m/s, wie in ruhigen Gumpen.",
+    "v_min_ms": 0.1,
+    "v_max_ms": 2.5,
+    "v_hinweis": "Grenzen: Becken 0,1-0,3 m/s, steile Rinnen 1-2,5 m/s (mittlere Geschwindigkeit; Manning ueberschaetzt bei I > 10 % wegen Makrorauheit, daher die Kappe). Heute (16d): Becken 0,8, Lippe 2,4, Rampe/Bogen 3,0, Fuss 1,5 m/s fest nach Rolle.",
+    "glatt_sigma_m": 0.75,
+    "aenderung_max_ms_je_m": 0.6,
+    "tempo_faktor": 1.0,
+    "tempo_faktor_hinweis": "Globale Feinabstimmung nach Ferats Bildern (z. B. 0,8 = alles 20 % langsamer); die Grenzen gelten vor dem Faktor. Aendert die Spline und damit den Fingerabdruck (neu backen).",
+    "klassen_gefaelle": [0.01, 0.05, 0.15],
+    "klassen_hinweis": "Pruefer: Median-Tempo je Gefaelleklasse (<1 %, 1-5 %, 5-15 %, >15 %) muss steigen (FEHLER), Rangkorrelation Tempo/Gefaelle je Gewaesser < spearman_min = HINWEIS.",
+    "spearman_min": 0.3,
+    "ue_einheit": "WaterVelocityScalar (UWaterSplineMetadata, 'The current of the water at this vertex') in UE-Einheiten = cm/s; Standard 128 (FWaterSplineCurveDefaults.DefaultVelocity, Code 5.6.1 laut 12-recherche), kodiert in der Water-Info-Textur relativ zu r.Water.MaxFlowVelocity 1024 cm/s; negativ = Gegenrichtung."
   }
 }

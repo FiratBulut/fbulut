@@ -22,6 +22,15 @@ Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBo
 - **Vorschläge:** Für offene Enden und Lücken stehen Vorschlagspunkte in `muendung.vorschlag` und `vorschlaege.json`,
   getrennt von der Spline.
 
+**Ergänzungen 16e** (Regeln Version 5, Format bleibt `fluss_sim_v3`; Antwort
+[`../../16e-ferat-schaum-weg-langsamer.md`](../../16e-ferat-schaum-weg-langsamer.md)):
+- **Tempo nach Gefälle:** `water_body.spline.tempo_ms` je Punkt (m/s) nach Manning-Strickler aus dem Spiegelgefälle,
+  `WaterVelocityScalar_cm_s` = `tempo_ms` × 100. Flache Becken 0,1–0,3 m/s, steile Rinnen 1,5–2,5 m/s, geglättet;
+  globaler Regler `regeln.tempo.tempo_faktor`. Ersetzt das feste Rollen-Tempo des Plans (Becken 0,8, Lippe 2,4, Rampe 3 m/s).
+- **Schaum-Maske (Option B):** `schaum_maske.kapseln` je Gewässer, eine Kapsel je Vorhang-Fall (Aufprall bis Ende
+  des Aufprallteppichs, Radius, Stärke). Im Material: Simulationsschaum nur innerhalb der Kapseln.
+- **Bäche ungeteilt bis 0,40 m Zelle** (`swr.zelle_max_bach_ungeteilt_m`); Teilstücke behalten höchstens 0,30 m.
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -226,12 +235,29 @@ liegt die nächste Lippe näher als 0,05 m am Fuß, teilen sie sich einen Punkt 
 **Tangenten** wie v2 (Catmull-Rom in xy, z monoton, 0 an `LINEAR` und flachen Nachbarn).
 
 **SWR** (`regeln.swr`, Nachtrag 17:45). Zielzelle je Lauf: Bach (Abstürze im Plan, Median der Breite < 15 m, Sehens-Bach)
-0,25 m, höchstens 0,30 m; Fluss 0,35 m. Ein SWR-Bereich, der einen Bach-Lauf berührt, gilt als Bach.
+0,25 m, höchstens 0,30 m (16e: ein ungeteilter Bach bis 0,40 m, `zelle_max_bach_ungeteilt_m`); Fluss 0,35 m. Ein SWR-Bereich, der einen Bach-Lauf berührt, gilt als Bach.
 `resolution_max_axis` = ⌈längste Rechteckseite / Ziel / 32⌉ × 32, in [32; 2048]; `zelle_m` = Seite / Auflösung.
-**Teilung** nur, wenn das Rechteck des ganzen Flusses bei 2048 die Höchstzelle überschreitet (Bach > 614 m, Fluss > 717 m):
+**Teilung** nur, wenn das Rechteck des ganzen Flusses bei 2048 die Höchstzelle überschreitet (16e: Bach > 819 m bei
+0,40 m, vorher > 614 m; Fluss > 717 m); die Teilstücke halten dann Bach 0,30 m bzw. Fluss 0,35 m:
 kleinste Anzahl Stücke, unter gleich vielen die kleinste Summe der Rechteckflächen (dynamische Programmierung über die
 Splinepunkte), Naht ≥ 5 m von jeder Stufe und ≥ 50 m vom Anfang/Ende, Nachbarn überlappen 8 m (`s_sim_m`).
 `naht.art` = `becken`, wenn die Naht in einem Becken liegt, sonst `lauf`.
+
+**Tempo (16e, `regeln.tempo`).** Je Splinepunkt, nur aus den gerundeten Spline-Werten (der Prüfer rechnet nach):
+1. Spiegelgefälle I = (z(s − 2 m) − z(s + 2 m)) / 4 m (am Rand einseitig); Stufen zählen mit, Lippe und Fuß werden schnell.
+2. Abfluss Q = 0,2 m/s × Median(Breite × 0,6 × Depth) über ± 100 m: ein Becken mittlerer Größe fließt mit 0,2 m/s
+   (der Plan kennt keinen Abfluss; seine Tiefe ist die Bett-Tiefe, keine Fließtiefe). q = Q / Breite.
+3. Manning-Strickler bei Normalabfluss (breites Gerinne): v = k_st^0,6 · q^0,4 · max(I; 0,0001)^0,3,
+   k_st = 15 (Bach, Blöcke, Stufen-Becken) bzw. 25 m^(1/3)/s (Fluss). In Becken und Töpfen (Rückstau von der Lippe, die
+   Planer-Tiefe ist die Wassertiefe) zusätzlich v = min(v; q / h): ein mittleres Becken fließt mit 0,2 m/s.
+4. v in [0,1; 2,5] m/s, Gauß-Glättung (σ 0,75 m), dann Änderung ≤ 0,6 m/s je m (nur Spitzen sinken), × `tempo_faktor` (1,0).
+5. `tempo_ms` (0,001 m/s), `WaterVelocityScalar_cm_s` = `tempo_ms` × 100 (UE-Einheit cm/s, Standard 128, Kodierung bis
+   `r.Water.MaxFlowVelocity` 1024). `tempo_info.gefaelle` und `tempo_info.kst` je Punkt.
+- Die Spline-Werte ändern den Fingerabdruck (Splineteil) → alle SWR gelten als „neu backen“.
+
+**Schaum-Maske (16e, `regeln.schaum.maske`).** Je Vorhang-Fall eine Kapsel `a_cm` (Fuß) → `b_cm` (Ende des
+Aufprallteppichs, höchstens Fuß + 6 m), Radius = halbe Teppichbreite in [1; 3] m, Stärke = Fallhöhe / 5 m in [0,4; 1].
+`slots_max` 8 je Water-Body-Material (`ueber_slots`, wenn mehr). Für Option B im Material; bei Option A bleibt das Feld unbenutzt.
 
 **Fall, Vorhang, Schaumobjekte** wie v2 (`fall_schwelle_m` 1,0, Vorhang ab 3 m bzw. senkrechte Felslippe ab 2 m, Schaum nur
 an Vorhang-Fällen); `vorhang_status` = „wartet“ (Ferat 16c).
@@ -364,7 +390,7 @@ zeigen, was sich geändert hat.
   Senke; jeder Welt-Lauf in genau einem Gewässer, mit `--daten2m/--daten1m` kommen alle Läufe aus `wasser_welt.json` und
   `baeche_alle.json` vor; Läufe hintereinander von 0 bis `laenge_m`.
 - **Spline durchgehend und monoton:** ≥ 2 Punkte, Felder gleich lang, s steigend 0 … `laenge_m`, kein Grundriss-Sprung,
-  Abstand ≤ 2 × Ziel (außer Lippe → Fuß), z nie steigend, Breite/Tiefe > 0, Tempo 0–1024 cm/s, Stufenpunkte `LINEAR`,
+  Abstand ≤ 2 × Ziel (außer Lippe → Fuß), z nie steigend, Breite/Tiefe > 0, Tempo 0–1024 cm/s (16e: siehe unten), Stufenpunkte `LINEAR`,
   Becken-Punkte flach (≤ 3 %) und auf dem Becken-Spiegel (± 2 cm).
 - **Jede Stufe hat Lippe und Fuß:** Punkt-Index gültig, Rolle, s ± 6 cm, z = Ober- bzw. Unterwasser ± 2 cm. Mit
   `--gefaelle/--sehens` werden die Stufen je Lauf aus der Quelle neu gezählt (Höhen ± 2 cm, s, Fall-Einträge); entfallene
@@ -373,7 +399,7 @@ zeigen, was sich geändert hat.
   `swr_bereiche` je Bereich stimmt.
 - **SWR:** Kette 0 … `laenge_m`, Überlappung je Naht, keine Naht an einer Stufe; Rechteck/Achse aus den Splinepunkten
   `punkt_index` neu gerechnet; `resolution_max_axis` Vielfaches von 32 in [32; **2048**] und = Regel; **Zelle ≤ Höchstzelle
-  + 0,005 m** (Bach 0,30, Fluss 0,35); geteilt nur, wenn das ganze Rechteck nicht passt (HINWEIS je geteiltem Gewässer).
+  + 0,005 m** (Bach 0,30, ungeteilt 0,40 (16e), Fluss 0,35); geteilt nur, wenn das ganze Rechteck nicht passt (HINWEIS je geteiltem Gewässer).
 - **Mündung:** Art bekannt; Mündungspunkt = Spline-Ende; Fluss/Bach: Ziel existiert, `ziel_s_m` im Ziel, Punkt im
   Wasserstreifen des Ziels (+ `luecke_m` + 5 m), Eintrag in dessen `zufluesse`; See bekannt (Welt bzw. Sehens);
   `offen` und Lücken als HINWEIS.
@@ -384,6 +410,14 @@ zeigen, was sich geändert hat.
   heute anders = WARNUNG; Töpfe (Bereich `topf`, Splinepunkte auf dem Spiegel ± 3 cm, SWR-Rechteck schließt den Topf
   ein, < 30 m, nur in einem Gewässer, kein See-Ziel mehr, `water_body_lake: false`); Läufe + Töpfe lückenlos;
   Vorschläge (am Spline-Ende, z nie steigend, Abstand ≤ 5 m, `laenge_m`, Ziel erreicht, gleich `vorschlaege.json`).
+
+- **16e:** Tempo: `tempo_ms` und `tempo_info` je Punkt, `WaterVelocityScalar_cm_s` = `tempo_ms` × 100, im Rahmen
+  [`tempo_faktor` × 0,1; `tempo_faktor` × 2,5] m/s, Änderung ≤ 0,6 m/s je m, nachgerechnet mit `tempo_regel`
+  (± 0,0015 m/s); global steigt das Median-Tempo je Gefälleklasse (< 1 %, 1–5 %, 5–15 %, > 15 %), flache Becken im
+  Median ≤ 0,3 m/s, steile Rinnen ≥ 1,0 m/s (je × `tempo_faktor`); Rangkorrelation Tempo/Gefälle je Gewässer < 0,3 =
+  HINWEIS. Schaum-Maske: genau eine Kapsel je Vorhang-Fall, keine an anderen Fällen, s ab Fuß bis ≤ 6 m, Radius und Stärke
+  in den Grenzen; mehr als 8 = HINWEIS. Bach-Zelle: ungeteilt ≤ 0,40 m (> 0,30 m = HINWEIS), Teilstücke ≤ 0,30 m,
+  `zelle_max_m` = Regel.
 
 Gegenproben (F_ERLENBACH verfälscht), alle FEHLER mit Exit 1: steigende Spline, Stufe ohne Fußpunkt, Fußpunkt auf
 Oberwasser, Lücke zwischen SWR-Bereichen, Auflösung 4096, Zelle 0,45 m (Auflösung 1024), zweiter Fluss als Quelle, Lauf

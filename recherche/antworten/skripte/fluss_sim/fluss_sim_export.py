@@ -27,6 +27,11 @@ Liest NUR die vorhandenen Planer-Ausgaben (gefaelle_plan.py: <lauf>/plan.json + 
 
 und global back_liste.json (je SWR-Bereich: Fingerabdruck, Reihenfolge), vorschlaege.json und zusammenfassung.json.
 
+16e (Regeln Version 5): Tempo je Splinepunkt nach dem Spiegelgefaelle (tempo_regel: Manning-Strickler bei Normalabfluss,
+Abfluss aus der Becken-Geometrie, geglaettet, tempo_faktor) -> spline.tempo_ms (m/s) und WaterVelocityScalar_cm_s
+(= x 100); schaum_maske je Gewaesser (Kapseln nur an Vorhang-Faellen, Option B: Simulationsschaum nur dort); Baeche
+bleiben bis zelle_max_bach_ungeteilt_m (0,40 m) ungeteilt, Teilstuecke halten zelle_max_bach_m (0,30 m).
+
 Eingaben (16d): gelesen werden nur Lauf-Plaene (<lauf>/plan.json mit 'wasser_koerper'); Ordner mit '.' im Namen oder
 fuehrendem '_' (Archivkopien) und andere Plaene (Feld-Instanzplan gefaelle/C2/plan.json von a15_einbau.py) werden
 uebersprungen und im Protokoll genannt, ebenso Archiv-Feldordner unter instanzen/ und sw_<biom>/.
@@ -972,6 +977,105 @@ def zelle_fuer(achse_m, ziel_m, S):
     return res, achse_m / res
 
 
+def zelle_max_ungeteilt(typ, S):
+    """16e: hoechste Zelle, bis zu der ein Gewaesser mit EINER SWR auskommt (Bach 0,40 m, Fluss wie zelle_max_fluss_m)."""
+    if typ == "bach":
+        return S.get("zelle_max_bach_ungeteilt_m", S["zelle_max_bach_m"])
+    return S["zelle_max_fluss_m"]
+
+
+def tempo_regel(ss_m, z_cm, b_cm, t_cm, kst, rollen, T):
+    """16e: Tempo je Splinepunkt aus dem Gefaelle des Wasserspiegels (Manning-Strickler bei Normalabfluss), Rueckgabe
+    (tempo_ms, gefaelle). Rechnet nur mit den gerundeten Spline-Werten (s, z, Breite, Tiefe) und k_st je Punkt, damit
+    der Pruefer exakt nachrechnen kann.
+      I  = (z(s - w) - z(s + w)) / (2 w), w = fenster_halb_m (am Rand einseitig); Stufen zaehlen mit
+      Q  = v_becken_ref * Median(b * h) ueber +-q_fenster_m (Abfluss: ein Becken mittlerer Groesse fliesst mit
+           v_becken_ref), b = RiverWidth, h = max(Depth * tiefe_mittel_anteil, tiefe_min_m)
+      q  = Q / b (Abfluss je Meter Breite: Engstellen schneller, breite Becken langsamer)
+      v  = k_st^(3/5) * q^(2/5) * max(I, gefaelle_min)^(3/10)   (Manning, breites Gerinne R ~ h, h = Normaltiefe)
+      Becken/Topf (Rueckstau von der Lippe, die Tiefe ist die Beckentiefe): v = min(v, q / h)  (Kontinuitaet)
+      v  = clip(v, v_min_ms, v_max_ms), Gauss-Glaettung entlang s (glatt_sigma_m, Gewicht x halber Punktabstand),
+           dann untere Huelle mit |dv/ds| <= aenderung_max_ms_je_m (nur Spitzen sinken)
+      tempo_ms = round(tempo_faktor * v, 3)"""
+    s = np.asarray(ss_m, float)
+    z = np.asarray(z_cm, float) / 100.0
+    b = np.maximum(np.asarray(b_cm, float) / 100.0, 0.1)
+    h = np.maximum(np.asarray(t_cm, float) / 100.0 * T["tiefe_mittel_anteil"], T["tiefe_min_m"])
+    k = np.asarray(kst, float)
+    n = len(s)
+    if n == 0:
+        return np.zeros(0), np.zeros(0)
+    w = T["fenster_halb_m"]
+    lo = np.maximum(s - w, s[0])
+    hi = np.minimum(s + w, s[-1])
+    dz = np.interp(lo, s, z) - np.interp(hi, s, z)
+    ds = hi - lo
+    gef = np.where(ds > 1e-6, dz / np.where(ds > 1e-6, ds, 1.0), 0.0)
+    gef = np.round(np.maximum(gef, 0.0), 4)
+    A = b * h
+    qf = T["q_fenster_m"]
+    Q = np.empty(n)
+    for i in range(n):
+        j0 = int(np.searchsorted(s, s[i] - qf, side="left"))
+        j1 = int(np.searchsorted(s, s[i] + qf, side="right"))
+        Q[i] = T["v_becken_ref_ms"] * float(np.median(A[j0:j1]))
+    q = Q / b
+    v = k ** 0.6 * q ** 0.4 * np.maximum(gef, T["gefaelle_min"]) ** 0.3
+    stau = np.array([r in T["rueckstau_rollen"] for r in rollen], bool)
+    v = np.where(stau, np.minimum(v, q / h), v)
+    v = np.clip(v, T["v_min_ms"], T["v_max_ms"])
+    sig = T["glatt_sigma_m"]
+    if n > 1 and sig > 0:
+        gew = np.empty(n)
+        gew[1:-1] = 0.5 * (s[2:] - s[:-2])
+        gew[0] = 0.5 * (s[1] - s[0])
+        gew[-1] = 0.5 * (s[-1] - s[-2])
+        gew = np.maximum(gew, 1e-3)
+        vg = np.empty(n)
+        for i in range(n):
+            j0 = int(np.searchsorted(s, s[i] - 3.0 * sig, side="left"))
+            j1 = int(np.searchsorted(s, s[i] + 3.0 * sig, side="right"))
+            d = (s[j0:j1] - s[i]) / sig
+            wi = np.exp(-0.5 * d * d) * gew[j0:j1]
+            vg[i] = float((wi * v[j0:j1]).sum() / wi.sum())
+        v = vg
+    g = T["aenderung_max_ms_je_m"]
+    for i in range(1, n):
+        v[i] = min(v[i], v[i - 1] + g * (s[i] - s[i - 1]))
+    for i in range(n - 2, -1, -1):
+        v[i] = min(v[i], v[i + 1] + g * (s[i + 1] - s[i]))
+    tempo = np.round(T["tempo_faktor"] * v, 3)
+    return tempo, gef
+
+
+def schaum_maske(fl, sp, linie, regeln):
+    """16e Option B: Kapseln fuer den Simulationsschaum nur an Vorhang-Faellen (Aufprall bis Ende des Aufprallteppichs)."""
+    M = regeln["schaum"]["maske"]
+    out = []
+    for f in fl:
+        if not f["vorhang"]:
+            continue
+        tep = next((o for o in f["schaum_objekte"] if o["art"] == "aufprallteppich"), None)
+        sa = f["s_fuss_m"]
+        if tep is not None:
+            sb = min(max(tep["s_m"][1], sa), sa + M["nachlauf_max_m"])
+            br = tep["groesse_m"][1]
+        else:
+            sb = min(sa + M["nachlauf_max_m"], float(linie.s[-1]))
+            br = f["lippe_breite_m"]
+        sb = min(sb, float(linie.s[-1]))
+        rad = min(max(0.5 * br, M["radius_min_m"]), M["radius_max_m"])
+        pa, pb = linie.bei(sa), linie.bei(sb)
+        out.append({"fall": f["id"], "s_m": [r1(sa, 2), r1(sb, 2)],
+                    "a_cm": [r1(pa["x"]), r1(pa["y"]), r1(linie.z_bei(sa, "unten"))],
+                    "b_cm": [r1(pb["x"]), r1(pb["y"]), r1(linie.z_bei(sb, "unten"))],
+                    "radius_m": r1(rad, 2),
+                    "staerke": r1(min(max(f["fall_m"] / M["staerke_fall_m"], M["staerke_min"]), 1.0), 2)})
+    return {"kapseln": out, "n": len(out), "slots_max": M["slots_max"], "ueber_slots": len(out) > M["slots_max"],
+            "felder_material": "je Slot k: ELD_Fall_A_k = (a.x, a.y, radius_cm, staerke), ELD_Fall_B_k = (b.x, b.y, 0, 0) (Vorschlag)",
+            "hinweis": "Option B (16e): Simulationsschaum nur innerhalb dieser Kapseln sichtbar, sonst Schaum aus. Nur Vorhang-Faelle."}
+
+
 def swr_typ(linie, abst, extra, regeln):
     """bach: Abstuerze im Plan oder Median der Breite < fluss_breite_median_ab_m; sonst fluss."""
     S = regeln["swr"]
@@ -1510,7 +1614,8 @@ def gewaesser_spline(linie, abst, roh_bei, regeln):
         tang.append([r1(t[0]), r1(t[1]), r1(t[2])])
     sp = {"s_m": [r1(s0, 2), r1(s1, 2)], "punkte": pts,
           "punkte_felder": ["x_cm", "y_cm", "z_cm", "RiverWidth_cm", "Depth_cm", "WaterVelocityScalar_cm_s"],
-          "punkt_typen": ptyp, "tangenten_cm": tang, "punkte_s_m": [r1(x, 2) for x in ss], "punkt_rollen": rollen}
+          "punkt_typen": ptyp, "tangenten_cm": tang, "punkte_s_m": [r1(x, 2) for x in ss], "punkt_rollen": rollen,
+          "_v_alt": [r1(x) for x in v]}
     return sp, stufe_punkt
 
 
@@ -1675,6 +1780,20 @@ def baue_gewaesser_v3(gw, regeln, pool):
         becken = becken_ohne_toepfe(becken, tp_iv)
     sp, stufe_punkt = gewaesser_spline(linie, abst, gw["roh_bei"], R)
     ss = np.asarray(sp["punkte_s_m"], float)
+    # 16e: Tempo je Splinepunkt nach dem Gefaelle (Manning-Strickler), ersetzt das Rollen-Tempo des Plans
+    T = R["tempo"]
+    typ_pkt = [gw["typ_bei"](x) for x in ss]
+    kst = [T["kst_bach"] if t_ == "bach" else T["kst_fluss"] for t_ in typ_pkt]
+    P0 = np.asarray(sp["punkte"], float)
+    tempo, gef = tempo_regel(ss, P0[:, 2], P0[:, 3], P0[:, 4], kst, sp["punkt_rollen"], T)
+    for i, p_ in enumerate(sp["punkte"]):
+        p_[5] = r1(100.0 * tempo[i])
+    v_alt = sp.pop("_v_alt")
+    sp["tempo_ms"] = [float(x) for x in tempo]
+    sp["tempo_info"] = {"regel": "manning_strickler_16e", "tempo_faktor": T["tempo_faktor"],
+                        "gefaelle": [float(x) for x in gef], "kst": kst,
+                        "hinweis": "WaterVelocityScalar_cm_s = tempo_ms x 100 (UE-Einheit cm/s); gefaelle = Spiegelgefaelle "
+                                   "ueber +-%.1f m; kst = Strickler je Punkt (bach/fluss)" % T["fenster_halb_m"]}
     P = np.asarray(sp["punkte"], float)
     wbr = "WBR_" + gid
     # Bereiche (fruehere Abschnitte) zwischen den Faellen
@@ -1702,11 +1821,12 @@ def baue_gewaesser_v3(gw, regeln, pool):
         if g_.get("topf"):
             bereiche[-1]["topf"] = g_["topf"]
     # SWR-Bereiche (Nachtrag 17:45): eine SWR je Gewaesser, Aufloesung bis 2048; nur sehr grosse Rechtecke teilen
-    typ_pkt = [gw["typ_bei"](x) for x in ss]
     zmax_pkt = np.array([S["zelle_max_bach_m"] if t_ == "bach" else S["zelle_max_fluss_m"] for t_ in typ_pkt], float)
     L_max = S["resolution_max"] * zmax_pkt
+    # 16e: Baeche bleiben bis zelle_max_bach_ungeteilt_m ungeteilt; geteilt wird mit zelle_max_bach_m je Stueck
+    zun_pkt = np.array([zelle_max_ungeteilt(t_, S) for t_ in typ_pkt], float)
     achse_ges = achse_von(box_punkte(P, 0, len(P) - 1))
-    if achse_ges <= float(L_max.min()) + 1e-9:
+    if achse_ges <= S["resolution_max"] * float(zun_pkt.min()) + 1e-9:
         teile_ = [{"a": s0, "b": s1, "naht_oben": {"art": "quelle", "s_m": s0}, "naht_unten": {"art": "muendung", "s_m": s1}}]
     else:
         teile_ = swr_teilen(sp, abst, becken, R, L_max)
@@ -1724,7 +1844,7 @@ def baue_gewaesser_v3(gw, regeln, pool):
         box = box_punkte(P, i0, i1)
         typ = "bach" if "bach" in typ_pkt[i0:i1 + 1] else "fluss"
         ziel = S["zelle_ziel_bach_m"] if typ == "bach" else S["zelle_ziel_fluss_m"]
-        zmax = S["zelle_max_bach_m"] if typ == "bach" else S["zelle_max_fluss_m"]
+        zmax = zelle_max_ungeteilt(typ, S) if einzel else (S["zelle_max_bach_m"] if typ == "bach" else S["zelle_max_fluss_m"])
         med = float(np.median(P[i0:i1 + 1, 3])) / 100.0
         lx, ly = (box[2] - box[0]) / 100.0, (box[3] - box[1]) / 100.0
         achse = max(lx, ly)
@@ -1868,13 +1988,15 @@ def baue_gewaesser_v3(gw, regeln, pool):
         "laeufe": gw["laeufe"], "anfang": gw["anfang"], "muendung": gw["muendung"], "zufluesse": [],
         "water_body": {"id": wbr, "klasse": "WaterBodyRiver", "affects_landscape": False,
                        "overlap_material_priority": None, "spline": sp},
-        "abstuerze": abst_out, "bereiche": bereiche, "faelle": fl, "swr_bereiche": kacheln, "toepfe": gw.get("toepfe") or [],
+        "abstuerze": abst_out, "bereiche": bereiche, "faelle": fl, "schaum_maske": schaum_maske(fl, sp, linie, R),
+        "swr_bereiche": kacheln, "toepfe": gw.get("toepfe") or [],
         "wasser_kollision": wk, "ohne_wasser_kollision": ohne,
         "effekte_ohne_fall": sorted({e["_quelle"] + "[%d]" % e["_index"] for e in extra["effekte"]}
                                     - {x["quelle"] + "[%d]" % x["index"] for f in fl for x in f["effekte"]})}
     for k_ in ("quelle_sehens",):
         if gw.get(k_):
             eintrag[k_] = gw[k_]
+    eintrag["_tempo_alt_cm_s"] = v_alt
     return eintrag
 
 
@@ -2829,6 +2951,7 @@ def main(argv=None):
         e = baue_gewaesser_v3(gw, regeln, pool)
         alle.append(e)
         dateien.setdefault(gw["rel"], []).append(e)
+    tempo_alt = {e["id"]: e.pop("_tempo_alt_cm_s") for e in alle}
     nach_id = {e["id"]: e for e in alle}
     # Zufluesse und Rang (overlap_material_priority: Hauptlauf vor Zufluss)
     for e in alle:
@@ -2956,6 +3079,8 @@ def main(argv=None):
              "daten": "1m" if a.daten1m else "2m (Cloud-Test)", "gewaesser": dateien[rel]}
         schreibe_json(os.path.join(a.aus, rel), d)
     zus = zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, gewaesser)
+    zus["tempo"] = tempo_zusammenfassung(alle, tempo_alt, regeln)
+    zus["schaum_maske"] = schaum_maske_zusammenfassung(alle, regeln)
     zus["toepfe"] = toepfe_zusammenfassung(toepfe, sehens_seen, karte, regeln, info, alle)
     zus["vorschlaege"] = vorschlaege_zusammenfassung(vorschlaege)
     zus["eingaben"] = eingaben
@@ -2981,6 +3106,97 @@ def main(argv=None):
         % (len(dateien), s_["gewaesser"], s_["gewaesser_eine_swr"], s_["swr_bereiche"], zus["swr"]["aufloesung"], zus["muendungen"],
            s_["faelle"], s_["faelle_vorhang"], s_["kollision"], len(kol_global), s_["ueberspannt"], zus["swr"]["hindernis_akteure"]))
     return 0
+
+
+def _stat(x):
+    x = np.asarray(x, float)
+    if not len(x):
+        return None
+    return {"n": int(len(x)), "mittel": r1(x.mean(), 3), "median": r1(np.median(x), 3),
+            "p10": r1(np.percentile(x, 10), 3), "p90": r1(np.percentile(x, 90), 3), "min": r1(x.min(), 3), "max": r1(x.max(), 3)}
+
+
+def gefaelle_klasse(g, grenzen):
+    k = int(np.searchsorted(np.asarray(grenzen, float), g, side="right"))
+    namen = ["< %g %%" % (grenzen[0] * 100)] + ["%g-%g %%" % (grenzen[i] * 100, grenzen[i + 1] * 100)
+                                                 for i in range(len(grenzen) - 1)] + ["> %g %%" % (grenzen[-1] * 100)]
+    return namen[k], namen
+
+
+C2_LAUF = "F_ERLENBACH_1V_C2"
+
+
+def tempo_zusammenfassung(alle, tempo_alt, regeln):
+    """16e: Tempo vorher (Rolle aus dem Plan bzw. Weltdaten) / nachher (Gefaelle-Regel) in m/s, nach Rolle, Gefaelleklasse,
+    Kategorie; dazu C2 (Lauf F_ERLENBACH_1V_C2 im Gewaesser F_ERLENBACH) und je Gewaesser die Rangkorrelation."""
+    T = regeln["tempo"]
+    gr = T["klassen_gefaelle"]
+    alt_r, neu_r, alt_k, neu_k, alt_c, neu_c = {}, {}, {}, {}, {}, {}
+    c2_alt, c2_neu, c2_r = {}, {}, {}
+    A, N, rho = [], [], []
+    for e in alle:
+        sp = e["water_body"]["spline"]
+        neu = np.asarray(sp["tempo_ms"], float)
+        alt = np.asarray(tempo_alt[e["id"]], float) / 100.0
+        gef = np.asarray(sp["tempo_info"]["gefaelle"], float)
+        A += list(alt)
+        N += list(neu)
+        kat = e["kategorie"]
+        alt_c.setdefault(kat, []).extend(alt)
+        neu_c.setdefault(kat, []).extend(neu)
+        c2 = next((l_["s_m"] for l_ in e["laeufe"] if l_["id"] == C2_LAUF), None)
+        for i, rol in enumerate(sp["punkt_rollen"]):
+            kl, _ = gefaelle_klasse(gef[i], gr)
+            alt_r.setdefault(rol, []).append(alt[i]); neu_r.setdefault(rol, []).append(neu[i])
+            alt_k.setdefault(kl, []).append(alt[i]); neu_k.setdefault(kl, []).append(neu[i])
+            if c2 and c2[0] - 1e-6 <= sp["punkte_s_m"][i] <= c2[1] + 1e-6:
+                c2_alt.setdefault(rol, []).append(alt[i]); c2_neu.setdefault(rol, []).append(neu[i])
+                c2_r.setdefault("alle", []).append((alt[i], neu[i], gef[i]))
+        if len(neu) >= 30 and np.ptp(gef) > 0.02:
+            rho.append((round(spearman(gef, neu), 3), e["id"]))
+    _, namen = gefaelle_klasse(0.0, gr)
+    out = {"einheit": "m/s (UE: WaterVelocityScalar = x 100 cm/s)", "regel": T["regel"], "tempo_faktor": T["tempo_faktor"],
+           "vorher": _stat(A), "nachher": _stat(N),
+           "nach_rolle": {r: {"vorher": _stat(alt_r[r]), "nachher": _stat(neu_r[r])} for r in sorted(neu_r)},
+           "nach_gefaelle": {k: {"vorher": _stat(alt_k[k]), "nachher": _stat(neu_k[k])} for k in namen if k in neu_k},
+           "nach_kategorie": {k: {"vorher": _stat(alt_c[k]), "nachher": _stat(neu_c[k])} for k in sorted(neu_c)},
+           "spearman_gefaelle": {"n_gewaesser": len(rho), "median": r1(np.median([r for r, _ in rho]), 3) if rho else None,
+                                 "unter_min": sorted(i for r, i in rho if r < T["spearman_min"])}}
+    if c2_r:
+        a_, n_, g_ = (np.asarray(x, float) for x in zip(*c2_r["alle"]))
+        out["c2"] = {"lauf": C2_LAUF, "punkte": int(len(a_)), "vorher": _stat(a_), "nachher": _stat(n_),
+                     "nach_rolle": {r: {"vorher": _stat(c2_alt[r]), "nachher": _stat(c2_neu[r])} for r in sorted(c2_neu)},
+                     "nach_gefaelle": {k: {"vorher": _stat([a for a, g in zip(a_, g_) if gefaelle_klasse(g, gr)[0] == k]),
+                                           "nachher": _stat([n for n, g in zip(n_, g_) if gefaelle_klasse(g, gr)[0] == k])}
+                                       for k in namen if any(gefaelle_klasse(g, gr)[0] == k for g in g_)}}
+    return out
+
+
+def spearman(x, y):
+    def rang(v):
+        v = np.asarray(v, float)
+        o = np.argsort(v, kind="stable")
+        r = np.empty(len(v))
+        r[o] = np.arange(len(v), dtype=float)
+        # Bindungen: mittlerer Rang
+        _, inv, cnt = np.unique(v, return_inverse=True, return_counts=True)
+        summe = np.bincount(inv, weights=r)
+        return summe[inv] / cnt[inv]
+    rx, ry = rang(x), rang(y)
+    rx -= rx.mean()
+    ry -= ry.mean()
+    den = math.sqrt(float((rx * rx).sum() * (ry * ry).sum()))
+    return float((rx * ry).sum() / den) if den > 0 else 0.0
+
+
+def schaum_maske_zusammenfassung(alle, regeln):
+    M = regeln["schaum"]["maske"]
+    n = [e["schaum_maske"]["n"] for e in alle]
+    rad = [k["radius_m"] for e in alle for k in e["schaum_maske"]["kapseln"]]
+    return {"kapseln": int(sum(n)), "gewaesser_mit_kapseln": int(sum(1 for x in n if x)),
+            "je_gewaesser_max": int(max(n)) if n else 0, "slots_max": M["slots_max"],
+            "ueber_slots": sorted(e["id"] for e in alle if e["schaum_maske"]["ueber_slots"]),
+            "radius_m": _stat(rad)}
 
 
 def vorschlaege_zusammenfassung(vorschlaege):
@@ -3138,12 +3354,15 @@ def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, g
         "gelaende_max_swr": max(hoehe_kachel)[1] if hoehe_kachel else None}
     # Varianten der Zielzelle (Zielzelle, hoechste Zelle) fuer Bach / Fluss: wie viele Gewaesser muessten geteilt werden?
     var = {}
-    for name, zb, mb, zf, mf in (("regel: bach 0.25 (max 0.30), fluss 0.35", S["zelle_ziel_bach_m"], S["zelle_max_bach_m"],
-                                  S["zelle_ziel_fluss_m"], S["zelle_max_fluss_m"]),
-                                 ("bach 0.25 (max 0.25), fluss 0.35", 0.25, 0.25, 0.35, 0.35),
-                                 ("alle 0.25", 0.25, 0.25, 0.25, 0.25),
-                                 ("bach 0.30, fluss 0.35", 0.30, 0.30, 0.35, 0.35),
-                                 ("bis 512 (Zwischenregel 16c): bach 0.35, fluss 0.5", 0.35, 0.35, 0.5, 0.5)):
+    for name, zb, mb, mbu, zf, mf in (
+            ("regel 16e: bach 0.25 (ungeteilt bis %.2f, Teilstuecke max %.2f), fluss 0.35"
+             % (zelle_max_ungeteilt("bach", S), S["zelle_max_bach_m"]), S["zelle_ziel_bach_m"], S["zelle_max_bach_m"],
+             zelle_max_ungeteilt("bach", S), S["zelle_ziel_fluss_m"], S["zelle_max_fluss_m"]),
+            ("16d: bach 0.25 (max 0.30), fluss 0.35", 0.25, 0.30, 0.30, 0.35, 0.35),
+            ("bach 0.25 (max 0.25), fluss 0.35", 0.25, 0.25, 0.25, 0.35, 0.35),
+            ("alle 0.25", 0.25, 0.25, 0.25, 0.25, 0.25),
+            ("bach 0.30, fluss 0.35", 0.30, 0.30, 0.30, 0.35, 0.35),
+            ("bis 512 (Zwischenregel 16c): bach 0.35, fluss 0.5", 0.35, 0.35, 0.35, 0.5, 0.5)):
         n_t, n_k, rv = 0, 0, {"<= 512": 0, "513-1024": 0, "1025-2048": 0}
         rmax = 512 if "512" in name else S["resolution_max"]
         S2 = dict(S, resolution_max=rmax)
@@ -3151,8 +3370,9 @@ def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, g
             ss_ = e["water_body"]["spline"]["punkte_s_m"]
             typ_ = [gw["typ_bei"](x) for x in ss_]
             Lm = np.array([rmax * (mb if t == "bach" else mf) for t in typ_], float)
+            Lu = np.array([rmax * (mbu if t == "bach" else mf) for t in typ_], float)
             P = e["water_body"]["spline"]["punkte"]
-            if achse_von(box_punkte(P, 0, len(P) - 1)) <= float(Lm.min()) + 1e-9:
+            if achse_von(box_punkte(P, 0, len(P) - 1)) <= float(Lu.min()) + 1e-9:
                 tl = [(0, len(P) - 1)]
             else:
                 n_t += 1

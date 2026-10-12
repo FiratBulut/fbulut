@@ -31,6 +31,9 @@ Geprueft (FEHLER, wenn nicht anders gesagt):
              Laeufe (back_liste.gelaende.deltas_ohne), Erkennung heute anders = WARNUNG; Toepfe (Bereich topf, Punkt
              auf dem Spiegel, SWR-Rechteck schliesst den Topf ein, < Grenze, nur in einem Gewaesser, kein See-Ziel);
              Vorschlaege (am Spline-Ende, z nie steigend, Punktabstand, Ziel erreicht, = vorschlaege.json).
+  16e        Tempo (tempo_ms, UE-Wert x 100, Rahmen, Glattheit, nachgerechnet; global Median je Gefaelleklasse steigend,
+             flache Becken <= 0,3 m/s, steile Rinnen >= 1 m/s; Rangkorrelation schwach = HINWEIS); schaum_maske (eine
+             Kapsel je Vorhang-Fall, Grenzen); Bach-Zelle ungeteilt <= 0,40 m (> 0,30 = HINWEIS), Teilstuecke <= 0,30 m.
 """
 
 import argparse
@@ -154,6 +157,115 @@ def pruefe_spline(g, regeln, b):
             b.append((FEHLER, gid, "Becken s %.1f-%.1f nicht gefuellt (Spline %.1f statt %.1f cm)"
                       % (a, c, float(P[m, 2][np.argmax(np.abs(P[m, 2] - za))]), za)))
     return ss, P
+
+
+def pruefe_tempo(g, ss, P, regeln, b, tempo_global):
+    """16e: Tempo je Splinepunkt nach der Gefaelle-Regel: Feld tempo_ms, UE-Wert = x 100 cm/s, im Rahmen, glatt,
+    nachgerechnet (fx.tempo_regel mit den gerundeten Spline-Werten); Daten fuer den globalen Monotonie-Test sammeln."""
+    T = regeln["tempo"]
+    gid = g["id"]
+    sp = g["water_body"]["spline"]
+    tm = sp.get("tempo_ms")
+    ti = sp.get("tempo_info") or {}
+    n = len(P)
+    if tm is None or len(tm) != n or len(ti.get("gefaelle") or []) != n or len(ti.get("kst") or []) != n:
+        b.append((FEHLER, gid, "tempo_ms / tempo_info fehlt oder nicht so lang wie punkte"))
+        return
+    tm = np.asarray(tm, float)
+    if np.abs(P[:, 5] - np.round(tm * 100.0, 1)).max() > 0.051:
+        i = int(np.argmax(np.abs(P[:, 5] - tm * 100.0)))
+        b.append((FEHLER, gid, "WaterVelocityScalar_cm_s %.1f != tempo_ms x 100 (%.3f) bei s %.1f" % (P[i, 5], tm[i], ss[i])))
+    f = T["tempo_faktor"]
+    if abs(ti.get("tempo_faktor", -1) - f) > 1e-9:
+        b.append((FEHLER, gid, "tempo_faktor %r != Regel %r" % (ti.get("tempo_faktor"), f)))
+    lo, hi = f * T["v_min_ms"] - 0.0015, f * T["v_max_ms"] + 0.0015
+    if (tm < lo).any() or (tm > hi).any():
+        b.append((FEHLER, gid, "Tempo ausserhalb [%.3f; %.3f] m/s (%.3f-%.3f)" % (lo, hi, tm.min(), tm.max())))
+    if n > 1:
+        dv = np.abs(np.diff(tm))
+        lim = f * T["aenderung_max_ms_je_m"] * np.diff(ss) + 0.0021
+        if (dv > lim).any():
+            i = int(np.argmax(dv - lim))
+            b.append((FEHLER, gid, "Tempo springt um %.3f m/s auf %.2f m bei s %.1f (> %.2f m/s je m)"
+                      % (dv[i], ss[i + 1] - ss[i], ss[i], f * T["aenderung_max_ms_je_m"])))
+    kst = ti["kst"]
+    if any(k not in (T["kst_bach"], T["kst_fluss"]) for k in kst):
+        b.append((FEHLER, gid, "kst nicht aus {%s, %s}" % (T["kst_bach"], T["kst_fluss"])))
+        return
+    neu, gef = fx.tempo_regel(ss, P[:, 2], P[:, 3], P[:, 4], kst, sp["punkt_rollen"], T)
+    if np.abs(neu - tm).max() > 0.0015 or np.abs(gef - np.asarray(ti["gefaelle"], float)).max() > 0.00015:
+        i = int(np.argmax(np.abs(neu - tm)))
+        b.append((FEHLER, gid, "Tempo nicht nach der Regel: gespeichert %.3f, gerechnet %.3f m/s bei s %.1f" % (tm[i], neu[i], ss[i])))
+    for i in range(n):
+        tempo_global.append((float(gef[i]), float(tm[i]), sp["punkt_rollen"][i]))
+    if n >= 30 and np.ptp(gef) > 0.02:
+        rho = fx.spearman(gef, tm)
+        if rho < T["spearman_min"]:
+            b.append((HINWEIS, gid, "Tempo folgt dem Gefaelle schwach (Rangkorrelation %.2f < %.2f)" % (rho, T["spearman_min"])))
+
+
+def pruefe_tempo_global(tempo_global, regeln, b):
+    """Monotonie-Bezug: Median-Tempo je Gefaelleklasse steigt; Becken langsam, steile Rinnen schnell."""
+    T = regeln["tempo"]
+    if not tempo_global:
+        return
+    gef = np.array([x[0] for x in tempo_global])
+    tm = np.array([x[1] for x in tempo_global])
+    rol = [x[2] for x in tempo_global]
+    _, namen = fx.gefaelle_klasse(0.0, T["klassen_gefaelle"])
+    kl = np.array([fx.gefaelle_klasse(g_, T["klassen_gefaelle"])[0] for g_ in gef])
+    med = []
+    for k in namen:
+        m = kl == k
+        if m.any():
+            med.append((k, float(np.median(tm[m])), int(m.sum())))
+    text = ", ".join("%s: %.2f m/s (%d)" % x for x in med)
+    if any(med[i + 1][1] <= med[i][1] for i in range(len(med) - 1)):
+        b.append((FEHLER, "Tempo", "Median-Tempo steigt nicht mit dem Gefaelle: %s" % text))
+    else:
+        b.append((HINWEIS, "Tempo", "Median-Tempo je Gefaelleklasse: %s" % text))
+    beck = np.array([r in ("becken", "topf") for r in rol]) & (gef <= 0.001)
+    f = T["tempo_faktor"]
+    if beck.any():
+        mb = float(np.median(tm[beck]))
+        if mb > 0.3 * f + 1e-9:
+            b.append((FEHLER, "Tempo", "flache Becken im Median %.2f m/s (> %.2f)" % (mb, 0.3 * f)))
+    steil = gef > T["klassen_gefaelle"][-1]
+    if steil.any():
+        ms = float(np.median(tm[steil]))
+        if ms < 1.0 * f - 1e-9:
+            b.append((FEHLER, "Tempo", "steile Rinnen (> %g %%) im Median %.2f m/s (< %.2f)" % (T["klassen_gefaelle"][-1] * 100, ms, f)))
+
+
+def pruefe_schaum_maske(g, ss, regeln, b):
+    """16e Option B: je Vorhang-Fall genau eine Kapsel, nicht an Faellen ohne Vorhang; Masse in den Grenzen."""
+    M = regeln["schaum"]["maske"]
+    gid = g["id"]
+    sm = g.get("schaum_maske")
+    if not isinstance(sm, dict):
+        b.append((FEHLER, gid, "schaum_maske fehlt"))
+        return
+    fa = {f["id"]: f for f in g["faelle"]}
+    soll = sorted(f["id"] for f in g["faelle"] if f["vorhang"])
+    ist = [k["fall"] for k in sm["kapseln"]]
+    if sorted(ist) != soll or len(ist) != len(set(ist)):
+        b.append((FEHLER, gid, "schaum_maske: Kapseln %d fuer %d Vorhang-Faelle (oder an Fall ohne Vorhang)" % (len(ist), len(soll))))
+    if sm["n"] != len(ist) or sm["ueber_slots"] != (len(ist) > M["slots_max"]):
+        b.append((FEHLER, gid, "schaum_maske: n/ueber_slots passt nicht"))
+    L = g["laenge_m"]
+    for k in sm["kapseln"]:
+        f = fa.get(k["fall"])
+        if f is None:
+            continue
+        a_, c_ = k["s_m"]
+        if abs(a_ - f["s_fuss_m"]) > 0.011 or c_ < a_ - 1e-6 or c_ - a_ > M["nachlauf_max_m"] + 0.011 or c_ > L + 0.011:
+            b.append((FEHLER, gid, "schaum_maske %s: s %s nicht Fuss .. Fuss + %.1f m" % (k["fall"], k["s_m"], M["nachlauf_max_m"])))
+        if not (M["radius_min_m"] - 0.006 <= k["radius_m"] <= M["radius_max_m"] + 0.006):
+            b.append((FEHLER, gid, "schaum_maske %s: radius %.2f m ausserhalb" % (k["fall"], k["radius_m"])))
+        if not (M["staerke_min"] - 0.006 <= k["staerke"] <= 1.0):
+            b.append((FEHLER, gid, "schaum_maske %s: staerke %.2f" % (k["fall"], k["staerke"])))
+    if sm["ueber_slots"]:
+        b.append((HINWEIS, gid, "schaum_maske: %d Vorhang-Faelle > %d Slots je Material" % (len(ist), M["slots_max"])))
 
 
 def pruefe_stufen(g, ss, P, b):
@@ -405,7 +517,15 @@ def pruefe_swr(g, ss, P, regeln, b):
         zelle = achse / res
         if abs(zelle - sw["zelle_m"]) > 0.0011:
             b.append((FEHLER, e["id"], "zelle_m %.3f != Achse/Aufloesung %.3f" % (sw["zelle_m"], zelle)))
-        zmax = S["zelle_max_bach_m"] if sw["typ"] == "bach" else S["zelle_max_fluss_m"]
+        if n == 1:
+            zmax = fx.zelle_max_ungeteilt(sw["typ"], S)
+        else:
+            zmax = S["zelle_max_bach_m"] if sw["typ"] == "bach" else S["zelle_max_fluss_m"]
+        if abs(sw.get("zelle_max_m", -1) - zmax) > 1e-9:
+            b.append((FEHLER, e["id"], "zelle_max_m %r != Regel %.2f" % (sw.get("zelle_max_m"), zmax)))
+        if n == 1 and sw["typ"] == "bach" and zelle > S["zelle_max_bach_m"] + S.get("zelle_toleranz_m", 0.005):
+            b.append((HINWEIS, e["id"], "Bach ungeteilt mit Zelle %.3f m (> %.2f, bis %.2f erlaubt, 16e); Vergleichsbilder 0,27/0,19 m ausstehend"
+                      % (zelle, S["zelle_max_bach_m"], zmax)))
         if zelle > zmax + S.get("zelle_toleranz_m", 0.005):
             b.append((FEHLER, e["id"], "Zelle %.3f m > %.2f m + Toleranz (%s)" % (zelle, zmax, sw["typ"])))
         ziel = S["zelle_ziel_bach_m"] if sw["typ"] == "bach" else S["zelle_ziel_fluss_m"]
@@ -422,7 +542,7 @@ def pruefe_swr(g, ss, P, regeln, b):
     # eine SWR, wenn das ganze Rechteck es erlaubt
     if n > 1:
         typen = {e["swr"]["typ"] for e in E}
-        zmax = S["zelle_max_bach_m"] if "bach" in typen else S["zelle_max_fluss_m"]
+        zmax = fx.zelle_max_ungeteilt("bach" if "bach" in typen else "fluss", S)
         if fx.achse_von(fx.box_punkte(P, 0, len(P) - 1)) <= S["resolution_max"] * zmax - 0.5:
             b.append((FEHLER, gid, "geteilt, obwohl das ganze Rechteck mit %d Zellen <= %.2f m passt" % (S["resolution_max"], zmax)))
         b.append((HINWEIS, gid, "Simulation in %d SWR-Bereiche geteilt (Rechteck %.0f m): Naht lokal pruefen"
@@ -768,6 +888,7 @@ def main(argv=None):
     if welt is None or not a.sehens:
         seen_ids |= {g["muendung"]["ziel"] for g in alle.values() if g["muendung"]["art"] == "see"}
     alle_swr, alle_kol, lauf_in = {}, {}, {}
+    tempo_global = []
     wbrs = {}
     toepfe_global.clear()
     for gid in sorted(alle):
@@ -792,6 +913,8 @@ def main(argv=None):
         pruefe_muendung(g, alle, seen_ids, b)
         pruefe_kollision(g, pool, regeln, b)
         pruefe_schaum(g, b)
+        pruefe_tempo(g, ss, P, regeln, b, tempo_global)
+        pruefe_schaum_maske(g, ss, regeln, b)
         for e in g.get("swr_bereiche") or []:
             if e["id"] in alle_swr:
                 b.append((FEHLER, e["id"], "SWR-ID doppelt"))
@@ -819,6 +942,7 @@ def main(argv=None):
         else:
             b.append((HINWEIS, "Laeufe", "alle %d Welt-Laeufe in genau einem Gewaesser" % len(soll)))
     pruefe_hindernis_global(alle_swr, alle_kol, regeln, b)
+    pruefe_tempo_global(tempo_global, regeln, b)
     pv = os.path.join(a.aus, "vorschlaege.json")
     mit_v = {gid: g["muendung"]["vorschlag"] for gid, g in alle.items() if g["muendung"].get("vorschlag")}
     if not os.path.exists(pv):
