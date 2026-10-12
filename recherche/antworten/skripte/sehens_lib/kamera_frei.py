@@ -154,11 +154,13 @@ def hindernisse_aus_ebene(sw_ordner, inv, min_hoehe_m=MIN_HOEHE_M):
                 if max(gr) * float(max(r[7:10])) < min_hoehe_m:
                     continue
                 orte_d = list((d.get("orte") or {}).keys())
+                # 13j: Wandmodule/Heldenstuecke, die als Instanzen kommen (Akteur-Budget), behalten ihre Ebene 'held'
+                gr_ = str(d.get("gruppe") or "").split("/")
+                eb_ = next((g_ for g_ in ("held", "begleiter", "schutt", "kleinzeug", "bewuchs", "kontakt", "wasser",
+                                          "pfad") if g_ in gr_), d.get("ebene"))
                 h = _hindernis(info, d.get("pfad", key), float(r[0]), float(r[1]), float(r[2]),
                                (float(r[3]), float(r[4]), float(r[5]), float(r[6])), (float(r[7]), float(r[8]), float(r[9])),
-                               ort=orte_d[0] if len(orte_d) == 1 else None, gruppe=key,
-                               ebene=d.get("gruppe") if d.get("gruppe") in ("held", "begleiter", "schutt", "kleinzeug", "bewuchs",
-                                                                           "kontakt", "wasser", "pfad") else d.get("ebene"))
+                               ort=orte_d[0] if len(orte_d) == 1 else None, gruppe=key, ebene=eb_)
                 if h["H"] >= min_hoehe_m or h["typ"] == "baum":
                     out.append(h)
     return out

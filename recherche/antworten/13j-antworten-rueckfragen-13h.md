@@ -80,7 +80,31 @@ Stand 12.10.2026. Grundlage ist der 13h-Endstand (dadcc24/146e49c) mit den neuen
 
 ## Prüfergebnis
 
-ERGEBNIS_13J
+| Lauf | Ergebnis |
+|---|---|
+| 2 m, alle 15 (mit neuen Netzmaßen, `quer`, Akteur-Budget) | Planer 0 FEHLER; Prüfer 0 FEHLER |
+| synthetisch 1 m | 0 FEHLER bis auf gletscher_03/06, lava_08 und tundra_08 (s. u.) |
+| Selbsttest | 0 FEHLER (68 Prüfungen) |
+| Stufenvergleich gegen c945f93 | wie 13i: 26 nur Fuß, 7 gleich, 5 Schluss-Stufe; 4 gletscher-Bäche „anders“ durch die 13h-Umformung des Geländes |
+
+**Kamera-Prüfung nach dem Akteur-Budget:**
+- Der Prüfer (`kamera_frei.hindernisse_aus_ebene`) gab Instanzen bisher die Ebene der Datei („begleiter/held“ zählte
+  nicht als `held`). Deshalb galten umgewandelte Wandmodule nicht mehr als eigenes Heldenstück und sperrten die
+  `_held`-Kamera (frost_02).
+- Jetzt gilt die Ebene aus der Gruppe der Datei (`held` vor `begleiter` …), wie im Planer.
+
+**Synthetische 1-m-Welt, offen:**
+- **gletscher_03:**
+  - `seeabfluss` „Gelände über dem Spiegel“ (bis 4,9 m) und eine Steilfläche.
+  - Ursache: Nach der 13h-Umformung (Karbank, organische Ränder) laufen `seeabfluss` und `firnrinnsal` am Moränensee
+    1–2 m nebeneinander. Der Uferring des zweiten schüttet das Bett des ersten zu.
+  - Schützt man das Bett, fehlt dem zweiten das Ufer.
+  - Lösung im Rezept (Linien trennen). Das ändert aber die Stufen; Rückfrage, ob das erlaubt ist.
+- **gletscher_06:** zwei Steilflächen ohne Fels-Akteur (13h-Regel, 21 und 45 m²).
+- **lava_08:** Kamera `_nah`, Sicht nach 3 m durch Basaltsäulen (13h-Kameraregel). Mit den gemessenen Netzmaßen ist der
+  Säulenstock größer als angenommen.
+- **tundra_08:** ein Moospolster 0,25 m unter dem Tümpelspiegel (13h-Seeblock-Regel, neue Netzmaße).
+- Diese vier betreffen die 13h-Regeln bzw. das 13h-Gelände; auf 2 m sind sie ohne Meldung.
 
 ## Beobachtung
 
