@@ -45,6 +45,22 @@ Die Cloud kann YouTube nicht öffnen; das Video selbst habe ich nicht gesehen. D
 - **Läuft nicht, oder nicht auf Stufen:** Wir bleiben beim Kaskadennetz und den SLW2-Werten.
 - **Fluid Flux** (kostenpflichtig, kann Zustände einbacken) bleibt erst einmal draußen. Eine Frage für Ferat wird es erst, wenn der kostenlose Weg nicht reicht.
 
+## Nachtrag: Fälle bleiben beim Kaskadennetz, dazu gezielt platzierter Schaum
+
+Ferat (12.10.): Für die Wasserfälle ist das Kaskadennetz wahrscheinlich besser geeignet; realistischer wird es, wenn man nur Schaum gezielt platziert. Dafür sind
+nach dem Test diese Schaumarten als eigene Objekte vorgesehen, statt nur Vertexschaum im Netz:
+
+| Art | Wo | Form |
+|---|---|---|
+| Aufprallteppich | Fallfuß jeder Stufe ≥ 1 m | unregelmäßiger Fleck, Radius ≈ 0,5–1 × Fallhöhe, an den Rändern ausgefranst |
+| Schaumstraßen | vom Aufprall talwärts in Hauptströmung | 2–6 dünne, gebogene Streifen, 2–4 m lang, auslaufend |
+| Kehrwasserschaum | Buchten und hinter Randblöcken (15g) | kleine kreisende Flecken, ruhend |
+| Gischt | Fälle ≥ 3 m | Niagara aus Nature Water FX (bestehende Effekte, `cull_m` aus 13k) |
+
+Die Umsetzung erfolgt als Decals bzw. flache Schaumkarten (Netze und Materialien nur aus dem vorhandenen Inventar). Liefert Shallow Water später eine
+Strömung, folgen die Schaumstraßen ihr; sonst folgen sie der `mittellinie`. Den Planer-Ausbau (Feld `schaum_objekte` je Kaskadennetz) mache ich, sobald
+die Bilder von C2 Version 3 und dem Test da sind.
+
 ## Rückfrage
 
 - Ferat: Wie heißt das Video bzw. der Kanal? Dann kann ich die gezeigten Einstellungen gezielt nachrecherchieren.
