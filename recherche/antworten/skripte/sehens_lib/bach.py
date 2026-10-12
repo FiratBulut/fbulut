@@ -841,6 +841,18 @@ def wasser_koerper(lauf_id, s, x, y, W, stufen, B, tiefe_m, boden_fn, alt_fn, ze
         kb["stufen_strahl"] = [dict({"stufe": e["id"], "fall_m": round(float(e["D"]), 2)}, **(strahl.get(e["id"]) or {}))
                                for e in st_in if e["id"] in kb["stufen"]]
         kb["schaum_kennzahlen"] = schaum_kennzahlen(kb)
+        mp = kb.get("material_parameter")
+        if isinstance(mp, dict) and "SLW_Absorption_pro_m" in mp:
+            # 13k (Ferat, Nachtrag 12:35, Test UE 5.8): der SLW-Knoten rechnet die Koeffizienten je cm. Die Werte hier
+            # bleiben je m (unveraendert), dazu Einheit, Skalierung und die je-cm-Werte ausdruecklich
+            mp["einheit"] = "je_m"
+            mp["skalierung_ue"] = 0.01
+            mp["SLW_Absorption_pro_cm"] = [round(v * 0.01, 5) for v in mp["SLW_Absorption_pro_m"]]
+            mp["SLW_Streuung_pro_cm"] = [round(v * 0.01, 5) for v in mp.get("SLW_Streuung_pro_m", [])]
+            mp["einheit_hinweis"] = ("SLW_*_pro_m sind Koeffizienten je Meter (Beer-Lambert); UE 5.8 rechnet je cm -> "
+                                     "x skalierung_ue (0,01) bzw. direkt SLW_*_pro_cm eintragen (Ferat-Test 13k: x 1,0 "
+                                     "leuchtet 20-30 cm tiefes Wasser tuerkis, x 0,01 klar). Nicht verwechseln mit "
+                                     "wasserfarben.json 'absorption' = Absorptionslaenge in cm (1/Wert je cm)")
     for kb in koerper:
         kb["breite_bach_m"] = round(float(B), 2)
         if kb.get("quer") is not None and lf is not None:

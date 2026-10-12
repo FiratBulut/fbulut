@@ -251,8 +251,11 @@ def schreibe_r8(pfad, a):
 WASSER_FARBEN = {
     "bergsee": {"master": "M_Eldarien_Wasser_Schaum8", "absorption": [8, 45, 40, 8],
                 "scattering": [0.06, 0.22, 0.14, 0.08], "albedo": 0.35, "rauheit": 0.015,
-                "einheit_absorption": "cm (Absorptionslaenge je Kanal; Koeffizient = 1/Wert je cm)",
-                "je_m": {"absorption_koeff_pro_m": [12.5, 2.22, 2.5]},
+                "einheit_absorption": "Absorptionslaenge in cm je Kanal (Konvention wasserfarben.json: das Material gibt "
+                                      "1/Wert als SLW-Koeffizient je cm aus - KEIN Koeffizient, keine Skalierung 0,01)",
+                "einheit_scattering": "wie in wasserfarben.json (vom Material unveraendert verwendet)",
+                "entspricht_koeffizient": {"absorption_pro_cm": [0.125, 0.0222, 0.025],
+                                           "absorption_pro_m": [12.5, 2.22, 2.5]},
                 "fuer": "Kar- und Bergseen (13k, Ferat Variante C 'dunkles Blaugruen'); tiefblau nur Quelltoepfe",
                 "quelle": "Ferat, Auftrag 13k Nachtrag 11:45, bilder/sehens_p2/pilot2_seefarben.jpg (C)"},
 }

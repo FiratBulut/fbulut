@@ -830,9 +830,13 @@ def kameras_bauen(ctx):
             kand = []
             rr_ = ctx.richtung(r["richtung"]) if r.get("richtung") is not None else None
             roh = _kandidaten(kam, art, abstand_m=r.get("abstand_m"), richtung=rr_)
-            if not r.get("abstand_m") and art in ABSTAND_WEIT:
-                # zweiter Ring weiter gefasst (72 Richtungen), teurer -> hinten angestellt
-                roh += [(k_ + 50.0, x_, y_) for k_, x_, y_ in _kandidaten(kam, art, 72, ABSTAND_WEIT[art], rr_)]
+            if art in ABSTAND_WEIT:
+                # zweiter Ring weiter gefasst (72 Richtungen), teurer -> hinten angestellt; 13k: auch bei einer
+                # Ring-Regel als Rueckfall (Karsee 1 m: die Wandverkleidung > 60 Grad belegt Ufernischen)
+                ring = ABSTAND_WEIT[art] if not r.get("abstand_m") else \
+                    (float(r["abstand_m"][0]), float(r["abstand_m"][1]) + 5.0)
+                roh += [(k_ + (50.0 if not r.get("abstand_m") else 200.0), x_, y_)
+                        for k_, x_, y_ in _kandidaten(kam, art, 72, ring, rr_)]
             for kosten, x, y in roh:
                 if not ctx.welt.im_raster_m(x, y):
                     continue
@@ -840,9 +844,11 @@ def kameras_bauen(ctx):
                 if ctx.welt.meer[i, j]:
                     continue
                 if ctx.welt.wasser[i, j] > 0 and not any(
-                        _sw.in_polygon(np.array([x]), np.array([y]), np.asarray(u, np.float64) / 100.0)[0]
+                        _sw.in_polygon(np.array([x]), np.array([y]), np.asarray(u, np.float64) / 100.0, 1.5)[0]
                         for u in ausgeblendet):
-                    continue                    # Bestandswasser, ausser es wird ausgeblendet (houdini, 13f B)
+                    # Bestandswasser, ausser es wird ausgeblendet (houdini, 13f B); 13k: Rand 1,5 m, weil das
+                    # Wasserraster am Umriss der ausgeblendeten Flaeche eine Zelle ueberlappt (1 m)
+                    continue
                 hg = float(ctx.stempel.hang_grad_bei_m(x, y)) if ctx.stempel is not None else 0.0
                 if hg > 50.0:
                     continue                    # Standplatz: Augenhoehe auf Fels/Halde, nicht in der Wand
@@ -853,7 +859,10 @@ def kameras_bauen(ctx):
                     [(c[0], c[1], c[2], 0.25) for c in kand]:      # 13i Nachtrag: alle, auch der weite Ring
                 k2 = list(kam)
                 k2[0], k2[1], k2[2] = _daten.feld_von_m(x, y), int(round(x * 100)), int(round(y * 100))
-                if not pruefe_kamera(k2, ort, ctx.welt, ctx.boden, hind, frei, rand_m=rand_):
+                _bk = pruefe_kamera(k2, ort, ctx.welt, ctx.boden, hind, frei, rand_m=rand_)
+                if os.environ.get("SEHENS_DBG_KAM") and os.environ["SEHENS_DBG_KAM"] in name:
+                    print("DBGK", round(x), round(y), rand_, (_bk or [("", "ok")])[0][1][:90])
+                if not _bk:
                     ctx.melde("HINWEIS", "Kamera %s versetzt (13h): (%.0f, %.0f) -> (%.0f, %.0f) m, %.0f m vom Ziel - "
                                          "vorher: %s" % (name, kam[1] / 100.0, kam[2] / 100.0, x, y,
                                                          math.hypot(x - kam[3] / 100.0, y - kam[4] / 100.0), bef[0][1]))
