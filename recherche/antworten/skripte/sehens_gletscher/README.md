@@ -72,3 +72,7 @@ sie nicht als Gletschereis, Kehren sind dort erlaubt. Die Linie bleibt, die Fels
 - Für die Schneefahne (05/07) gibt es kein Schnee-Niagara, sie bleibt als optionale `NS_Smoke_Plume`-Stelle. Den Kauf des Niagara-Snow-Pakets empfiehlt die Kaufliste nicht.
 - Gewollte Hohlformen tragen `senke_begruendung` (Bergschrund, Strudeltöpfe, Kolke).
 - **13f:** gletscher_06: Topf-Kette mit `abfluss_von` + `bis_see` (statt `von: topfN_auslass`).
+
+## Auftrag 13k
+
+- Gesägtes Stammstück `SM_Forest_pine_04_log` (Schnittflächen-Material `MI_Pine_lods_ends`) ist in der Wildnis verboten (Bibliotheksregel 13k) und ersetzt: Astbruch im Lawinenkegel jetzt `SM_OldTreeBranch_06`.

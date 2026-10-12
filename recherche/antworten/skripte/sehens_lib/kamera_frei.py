@@ -402,6 +402,147 @@ def pruefe_leuchtfeuer(ort, welt, boden_fn, hind, freiraeume=None):
     return b, info
 
 
+# ============================================================================================
+# 13k: Fern-Achse (Gelaende UND Baumkronen) - _fern darf nicht selbst im Wald stehen
+# ============================================================================================
+FERN_ANTEIL_MIN = 0.5         # mindestens die Haelfte der Silhouettenstrahlen frei
+FERN_NAH_M = 60.0             # Vordergrund: Korridor +-FERN_KORRIDOR_M um den Hauptstrahl kronenfrei
+FERN_KORRIDOR_M = 2.0
+FERN_KRONE_BLOCK_M = 1.0      # so viel Strahl in einer Krone sperrt (4-m-Raster: Zellmitte +- Kronenradius)
+FERN_GELAENDE_RAND_M = 0.3
+
+
+def kronen_radius_m(h):
+    """Kronenradius eines Bestandsbaums aus der Hoehe (Nadelbaum ~0,15 h, 1,2-4,0 m)."""
+    return np.clip(0.15 * np.asarray(h, np.float64), 1.2, 4.0)
+
+
+def bestand_kronen_treffer(welt, boden_fn, X, Y, Z, freiraeume=None):
+    """13k: Punkte (X, Y, Z) in einer Bestandskrone? Jede Zelle des 4-m-Baumrasters (baeume4 > 0) traegt eine Krone
+    um die Zellmitte: Radius kronen_radius_m(h) (oberste 15 % halber Radius), von Boden + 0,35 h bis Boden + h; Baeume
+    in Freiraeumen (Regel 'freiraeume', Rolle baum) zaehlen nicht. Geprueft werden die 3 x 3 Nachbarzellen."""
+    X = np.asarray(X, np.float64)
+    Y = np.asarray(Y, np.float64)
+    Z = np.asarray(Z, np.float64)
+    fi, fj = _daten.m_zu_pixel(X, Y, 4.0)
+    i0 = np.rint(fi).astype(np.int64)
+    j0 = np.rint(fj).astype(np.int64)
+    ny, nx = welt.baumhoehe4.shape
+    hit = np.zeros(X.shape, bool)
+    for di in (-1, 0, 1):
+        for dj in (-1, 0, 1):
+            i = np.clip(i0 + di, 0, ny - 1)
+            j = np.clip(j0 + dj, 0, nx - 1)
+            h = welt.baumhoehe4[i, j].astype(np.float64)
+            da = (welt.baeume4[i, j] > 0) & (h > 1.0)
+            if not da.any():
+                continue
+            cx, cy = _daten.pixel_zu_m(i, j, 4.0)
+            if freiraeume:
+                da &= ~_freiraum_maske(freiraeume, cx, cy)
+            if not da.any():
+                continue
+            g = np.asarray(boden_fn(cx, cy), np.float64)
+            r = kronen_radius_m(h)
+            r = np.where(Z > g + 0.85 * h, 0.5 * r, r)
+            hit |= da & (np.hypot(X - cx, Y - cy) <= r) & (Z >= g + BESTAND_KRONE_AB * h) & (Z <= g + h)
+    return hit
+
+
+def _strahl_frei(welt, boden_fn, hind, freiraeume, ex, ey, ez, tx, ty, tz, ende_frei_m, ignor=(), gelaende=True):
+    """Strahl Auge -> Punkt: (frei, Grund). Gelaende (nach dem Stempel) mit 0,3 m Rand, Bestandskronen (>= 1 m Strahl
+    in Kronen), eigene Netze (Baeume als Krone + Stamm, sonst Box) - die letzten ende_frei_m vor dem Ziel zaehlen nicht."""
+    d3 = math.sqrt((tx - ex) ** 2 + (ty - ey) ** 2 + (tz - ez) ** 2)
+    dh = math.hypot(tx - ex, ty - ey)
+    if d3 < 1.0:
+        return True, ""
+    s_nah = np.arange(1.0, min(80.0, d3), 0.5)
+    s_fern = np.arange(80.0, d3, 2.0) if d3 > 80.0 else np.zeros(0)
+    s = np.concatenate([s_nah, s_fern])
+    s = s[s <= d3 - ende_frei_m]
+    if not len(s):
+        return True, ""
+    f = s / d3
+    X, Y, Z = ex + (tx - ex) * f, ey + (ty - ey) * f, ez + (tz - ez) * f
+    g = np.asarray(boden_fn(X, Y), np.float64)
+    unter = Z < g + FERN_GELAENDE_RAND_M
+    if gelaende and unter.any():
+        return False, "Gelaende nach %.0f m" % float(s[unter][0] * dh / d3)
+    ds = np.diff(np.concatenate([[0.0], s]))
+    kr = bestand_kronen_treffer(welt, boden_fn, X, Y, Z, freiraeume)
+    if float((ds * kr).sum()) >= FERN_KRONE_BLOCK_M:
+        return False, "Baumkronen (Bestand) nach %.0f m" % float(s[kr][0] * dh / d3)
+    for h in hind:
+        if id(h) in ignor:
+            continue
+        sel = (X >= h["bb"][0] - 1) & (X <= h["bb"][2] + 1) & (Y >= h["bb"][1] - 1) & (Y <= h["bb"][3] + 1)
+        if not sel.any():
+            continue
+        if _in_hindernis(h, X[sel], Y[sel], Z[sel], 0.0).any():
+            return False, "%s nach %.0f m" % (str(h["pfad"]).rsplit("/", 1)[-1], float(s[sel][0] * dh / d3))
+    return True, ""
+
+
+def pruefe_fern_achse(kam, ort, welt, boden_fn, hind, freiraeume=None):
+    """13k (Ferat Pilot 2): freie Sichtachse aus _fern auf die Silhouette - Gelaende UND Baumkronen (Bestand aus dem
+    4-m-Baumraster mit Kronenradius, eigene Baeume/Netze). Strahlen auf die oberen 30 % der hoechsten Held-Netze
+    (bis 6 Netze x 3 Hoehen; ohne Held-Netz: Ort-Silhouette am Kameraziel); mindestens 50 % muessen frei sein. Dazu
+    muss der Vordergrund frei sein: Korridor +-2 m um den Hauptstrahl auf den ersten 60 m ohne Krone/Netz/Gelaende
+    (Kamera auf einer Lichtung oder am Gegenhang, nicht im Wald). Rueckgabe (befunde [(stufe, text)], info)."""
+    b = []
+    name = str(kam[6])
+    ex, ey, ez = kamera_auge(kam, boden_fn)
+    held = sorted(_held_hindernisse(ort, hind), key=lambda h_: -h_["z1"])[:6]
+    ziele = []
+    if held:
+        for h in held:
+            H = max(h["H"], 1.0)
+            for f_ in (0.0, 0.15, 0.3):
+                ziele.append((h["x"], h["y"], h["z1"] - f_ * H - 0.1))
+    else:
+        zx, zy = kam[3] / 100.0, kam[4] / 100.0
+        zb = float(boden_fn(zx, zy))
+        H = max(2.0 * (kam[5] / 100.0 - zb), float((ort.get("sicht") or {}).get("ziel_hoehe_m") or 0.0), 4.0)
+        for f_ in (0.0, 0.15, 0.3):
+            ziele.append((zx, zy, zb + (1.0 - f_) * H))
+    eigen = {id(h) for h in _held_hindernisse(ort, hind)}
+    r_motiv = 0.6 * float(ort.get("radius_m", 30.0))
+    frei_n, gruende = 0, []
+    for tx, ty, tz in ziele:
+        ok, grund = _strahl_frei(welt, boden_fn, hind, freiraeume, ex, ey, ez, tx, ty, tz, r_motiv, eigen)
+        frei_n += int(ok)
+        if not ok:
+            gruende.append(grund)
+    anteil = frei_n / max(len(ziele), 1)
+    # Vordergrund-Korridor um den Hauptstrahl (Mitte der Ziele)
+    mx = float(np.mean([z_[0] for z_ in ziele]))
+    my = float(np.mean([z_[1] for z_ in ziele]))
+    mz = float(np.mean([z_[2] for z_ in ziele]))
+    dh = max(math.hypot(mx - ex, my - ey), 1e-6)
+    ux, uy = (mx - ex) / dh, (my - ey) / dh
+    nah_ok, nah_grund = True, ""
+    L = min(FERN_NAH_M, dh - r_motiv)
+    for off in (-FERN_KORRIDOR_M, 0.0, FERN_KORRIDOR_M):
+        # Parallelstrahl seitlich versetzt; nur die ersten L Meter (Bildvordergrund)
+        px, py = ex - uy * off, ey + ux * off
+        tz_ = ez + (mz - ez) * L / dh
+        # seitliche Strahlen pruefen nur Kronen und Netze (das Gelaende neben der Kamera prueft der Hauptstrahl)
+        ok, grund = _strahl_frei(welt, boden_fn, [h for h in hind if id(h) not in eigen], freiraeume,
+                                 px, py, ez, px + ux * L, py + uy * L, tz_, 0.0, gelaende=(off == 0.0))
+        if not ok:
+            nah_ok, nah_grund = False, "%s (Versatz %+.0f m)" % (grund, off)
+            break
+    info = {"fern_achse_anteil": round(anteil, 2), "fern_vordergrund_frei": nah_ok}
+    if anteil < FERN_ANTEIL_MIN:
+        b.append(("FEHLER", "Kamera %s: Fern-Achse verdeckt - nur %d von %d Silhouettenstrahlen frei (%s; 13k: Gelaende "
+                            "und Baumkronen, Lichtung oder Gegenhang)" % (name, frei_n, len(ziele),
+                                                                        "; ".join(sorted(set(gruende))[:3]))))
+    if not nah_ok:
+        b.append(("FEHLER", "Kamera %s: Vordergrund verdeckt - %s im Korridor +-%.0f m auf den ersten %.0f m (13k: "
+                            "Kamera steht im Wald)" % (name, nah_grund, FERN_KORRIDOR_M, L)))
+    return b, info
+
+
 def _mindest_z(welt, boden_fn, ex, ey, ez, tx, ty, freiraeume):
     """Mindesthoehe am Ziel fuer freie Sicht: Gelaende (nach dem Stempel) + Bestandskronen 0,85 h ohne Freiraeume;
     einzelne Kronen lassen Luecken (drittgroesster Kronenwert, wie sicht.baum_block = 3)."""
@@ -479,19 +620,101 @@ def _ziel_aus_gruppe(ctx, r):
     return best["stueck"]["x"] / 100.0, best["stueck"]["y"] / 100.0
 
 
-def _fern_suchen(ctx, kam, ort, hind):
-    """Leuchtfeuer _fern: Weg-/Pfadpunkt 300-800 m, von dem die Silhouette lesbar ist - zuerst vor dem Himmel,
-    dann der groesste sichtbare Anteil; bei Gleichstand nahe der alten Kamera."""
+FERN_ABSEITS_M = 40.0         # 13k: Lichtung hoechstens so weit neben dem Weg/Pfad (zweiter Durchgang)
+FERN_GEGENHANG_M = 150.0      # 13k: dritter Durchgang - Gegenhang/Aussichtspunkt bis 150 m neben Weg/Pfad (Raster 20 m)
+FERN_FREI_M = 1.0e9           # 13k: vierter Durchgang - Aussichtspunkt im ganzen Ring (nur wenn sonst nichts frei ist)
+
+
+def _fern_kandidaten(ctx, wp, weit=False):
+    """13k: Kandidaten fuer _fern - Weg-/Pfadpunkte im Ring 300-800 m und Punkte bis 40 m daneben (Lichtung, Gegenhang):
+    Raster 10 m, kein Wasser/Meer, Hang <= 30 Grad, keine Bestandskrone im Umkreis 6 m."""
+    idx, d = wp.im_ring(ctx.mx, ctx.my, 300.0, 800.0)
+    out = [(float(wp.x_m[k]), float(wp.y_m[k]), 0.0) for k in idx]
+    if not len(idx):
+        return out
+    gesehen = set()
+    if weit:
+        # Gegenhang: Raster 20 m im ganzen Ring, bis FERN_GEGENHANG_M neben Weg/Pfad
+        out = []
+        for x0 in np.arange(math.floor((ctx.mx - 800.0) / 20.0) * 20.0, ctx.mx + 800.0, 20.0):
+            for y0 in np.arange(math.floor((ctx.my - 800.0) / 20.0) * 20.0, ctx.my + 800.0, 20.0):
+                x, y = float(x0), float(y0)
+                r = math.hypot(x - ctx.mx, y - ctx.my)
+                if not (300.0 <= r <= 800.0) or not bool(ctx.welt.im_raster_m(x, y)):
+                    continue
+                ab = float(np.min(np.hypot(wp.x_m[idx] - x, wp.y_m[idx] - y)))
+                if FERN_ABSEITS_M < ab:
+                    out.append((x, y, ab))
+    for k in ([] if weit else idx):
+        for dx in (-40.0, -30.0, -20.0, -10.0, 0.0, 10.0, 20.0, 30.0, 40.0):
+            for dy in (-40.0, -30.0, -20.0, -10.0, 0.0, 10.0, 20.0, 30.0, 40.0):
+                if dx == 0.0 and dy == 0.0:
+                    continue
+                x = round((float(wp.x_m[k]) + dx) / 10.0) * 10.0
+                y = round((float(wp.y_m[k]) + dy) / 10.0) * 10.0
+                if (x, y) in gesehen:
+                    continue
+                gesehen.add((x, y))
+                r = math.hypot(x - ctx.mx, y - ctx.my)
+                if not (300.0 <= r <= 800.0) or not bool(ctx.welt.im_raster_m(x, y)):
+                    continue
+                ab = float(np.min(np.hypot(wp.x_m[idx] - x, wp.y_m[idx] - y)))
+                if ab > FERN_ABSEITS_M:
+                    continue
+                out.append((x, y, ab))
+    ok = []
+    for x, y, ab in out:
+        if ab == 0.0:
+            ok.append((x, y, ab))
+            continue
+        i, j = ctx.welt.m_zu_ij(x, y)
+        if ctx.welt.meer[i, j] or ctx.welt.wasser[i, j] > 0 or ctx.welt.ort[i, j] > 0:
+            continue
+        gx = np.array([x - 2.0, x + 2.0, x, x])
+        gy = np.array([y, y, y - 2.0, y + 2.0])
+        hz = np.asarray(ctx.boden(gx, gy), np.float64)
+        if math.degrees(math.atan(math.hypot(hz[1] - hz[0], hz[3] - hz[2]) / 4.0)) > 30.0:
+            continue
+        ang = np.linspace(0, 2 * np.pi, 12, endpoint=False)
+        rx, ry = x + 6.0 * np.sin(ang), y - 6.0 * np.cos(ang)
+        rz = np.asarray(ctx.boden(rx, ry), np.float64) + 6.0
+        if bestand_kronen_treffer(ctx.welt, ctx.boden, rx, ry, rz, ctx.freiraeume).any():
+            continue
+        ok.append((x, y, ab))
+    return ok
+
+
+def _fern_suchen(ctx, kam, ort, hind, achse=True):
+    """Leuchtfeuer _fern: Weg-/Pfadpunkt 300-800 m (13k: auch bis 40 m daneben auf einer Lichtung oder am Gegenhang),
+    von dem die Silhouette lesbar ist UND die Achse frei ist (Gelaende und Baumkronen, pruefe_fern_achse) - zuerst vor
+    dem Himmel, dann der groesste sichtbare Anteil, dann nahe am Weg; bei Gleichstand nahe der alten Kamera."""
     from . import sicht as _si
     wp = getattr(ctx, "_wegpunkte", None)
     if wp is None:
         wp = _si.Wegpunkte(ctx.welt, 20.0)
         ctx._wegpunkte = wp
-    idx, d = wp.im_ring(ctx.mx, ctx.my, 300.0, 800.0)
     kx, ky = kam[1] / 100.0, kam[2] / 100.0
     best = None
-    for k in idx:
-        x, y = float(wp.x_m[k]), float(wp.y_m[k])
+    kand = _fern_kandidaten(ctx, wp)
+    # zuerst die Weg-/Pfadpunkte selbst, nur wenn keiner taugt die Punkte daneben (Lichtung, Gegenhang)
+    weit = None
+    for lo, hi in ((0.0, 0.0), (0.1, FERN_ABSEITS_M), (FERN_ABSEITS_M + 0.1, FERN_GEGENHANG_M),
+                   (FERN_GEGENHANG_M + 0.1, FERN_FREI_M)):
+        if lo > FERN_ABSEITS_M:
+            if weit is None:
+                weit = _fern_kandidaten(ctx, wp, weit=True)  # nur wenn Weg und Lichtungen nichts liefern
+            kand = weit
+        ref = [None]
+        _fern_durchgang(ctx, kam, ort, hind, achse, [k_ for k_ in kand if lo <= k_[2] <= hi], kx, ky, ref)
+        best = ref[0]
+        if best is not None:
+            break
+    return best
+
+
+def _fern_durchgang(ctx, kam, ort, hind, achse, kand, kx, ky, best_ref):
+    best = best_ref[0]
+    for x, y, ab in kand:
         k2 = list(kam)
         k2[0], k2[1], k2[2] = _daten.feld_von_m(x, y), int(round(x * 100)), int(round(y * 100))
         o2 = dict(ort, kameras=[k2])
@@ -500,11 +723,16 @@ def _fern_suchen(ctx, kam, ort, hind):
             continue
         if pruefe_kamera(k2, ort, ctx.welt, ctx.boden, hind, ctx.freiraeume, bestand=False):
             continue
+        ach = None
+        if achse:
+            fb, ach = pruefe_fern_achse(k2, ort, ctx.welt, ctx.boden, hind, ctx.freiraeume)
+            if fb:
+                continue
         sc = (1 if info.get("fern_himmel") else 0, round(info.get("fern_anteil", 0.0), 1),
-              -math.hypot(x - kx, y - ky))
+              round((ach or {}).get("fern_achse_anteil", 0.0), 1), -round(ab / 10.0), -math.hypot(x - kx, y - ky))
         if best is None or sc > best[0]:
-            best = (sc, k2, info)
-    return best
+            best = (sc, k2, dict(info, **(ach or {}), abseits_m=round(ab, 0)))
+    best_ref[0] = best
 
 
 def kameras_bauen(ctx):
@@ -565,26 +793,33 @@ def kameras_bauen(ctx):
                 if b_ is not None:
                     kam = b_[1]
                     ctx.melde("HINWEIS", "Kamera %s gesucht (13h): Wegpunkt (%.0f, %.0f) m, %.0f m vom Ort, Silhouette %s, "
-                                         "Anteil %.2f" % (name, kam[1] / 100.0, kam[2] / 100.0,
+                                         "Anteil %.2f, %.0f m neben Weg/Pfad (13k)" % (name, kam[1] / 100.0, kam[2] / 100.0,
                                                          math.hypot(kam[1] / 100.0 - ctx.mx, kam[2] / 100.0 - ctx.my),
                                                          "vor dem Himmel" if b_[2].get("fern_himmel") else "vor Gelaende",
-                                                         b_[2].get("fern_anteil", 0.0)))
+                                                         b_[2].get("fern_anteil", 0.0), b_[2].get("abseits_m", 0.0)))
         bef = pruefe_kamera(kam, ort, ctx.welt, ctx.boden, hind, frei, rand_m=PLANER_RAND_M)
         if os.environ.get("SEHENS_DBG_KAM") and os.environ["SEHENS_DBG_KAM"] in name:
             print("DBG", name, kam, bef)
-        if art == "fern" and ctx.st["art"] == "leuchtfeuer" and regel.get("versetzen", True) and r.get("suche") != "wegpunkte":
+        if art == "fern":
+            # 13k: Fern-Achse (Gelaende und Baumkronen) gehoert zu den Kamera-Befunden
+            fb_, _ = pruefe_fern_achse(kam, ort, ctx.welt, ctx.boden, hind, frei)
+            bef = bef + fb_
+        if art == "fern" and ctx.st["art"] == "leuchtfeuer" and regel.get("versetzen", True) and \
+                (r.get("suche") != "wegpunkte" or [x for x in bef if "13k" in x[1]]):
             lb, _ = pruefe_leuchtfeuer(dict(ort, kameras=[kam]), ctx.welt, ctx.boden, hind, frei)
             if bef or [x for x in lb if "_fern" in x[1]]:
                 b_ = _fern_suchen(ctx, kam, ort, hind)
                 if b_ is not None:
                     ctx.melde("HINWEIS", "Kamera %s versetzt (13h): Wegpunkt (%.0f, %.0f) m, %.0f m vom Ort, Silhouette %s, "
-                                         "Anteil %.2f - vorher: %s" % (name, b_[1][1] / 100.0, b_[1][2] / 100.0,
+                                         "Anteil %.2f, %.0f m neben Weg/Pfad (13k) - vorher: %s" % (name, b_[1][1] / 100.0, b_[1][2] / 100.0,
                                                                       math.hypot(b_[1][1] / 100.0 - ctx.mx, b_[1][2] / 100.0 - ctx.my),
                                                                       "vor dem Himmel" if b_[2].get("fern_himmel") else "vor Gelaende",
-                                                                      b_[2].get("fern_anteil", 0.0), (bef or lb)[0][1]))
+                                                                      b_[2].get("fern_anteil", 0.0), b_[2].get("abseits_m", 0.0),
+                                                                      (bef or lb)[0][1]))
                     kam = b_[1]
                     geaendert = True
                     bef = pruefe_kamera(kam, ort, ctx.welt, ctx.boden, hind, frei, rand_m=PLANER_RAND_M)
+                    bef = bef + pruefe_fern_achse(kam, ort, ctx.welt, ctx.boden, hind, frei)[0]
         if r.get("abstand_m") and not bef and art != "fern":
             d_ = math.hypot(kam[1] / 100.0 - kam[3] / 100.0, kam[2] / 100.0 - kam[4] / 100.0)
             if not (float(r["abstand_m"][0]) - 0.5 <= d_ <= float(r["abstand_m"][1]) + 0.5):
@@ -671,6 +906,11 @@ def pruefe_orte_kameras(d, basis, welt, sw_ordner, inv):
                 continue
             for st_, t in pruefe_kamera(kam, o, welt, boden.hoehe, hind, o.get("freiraeume")):
                 b.append((st_, oid, t))
+            if str(kam[6]).endswith("_fern"):
+                fb_, fi_ = pruefe_fern_achse(kam, o, welt, boden.hoehe, hind, o.get("freiraeume"))
+                b += [(st_, oid, t) for st_, t in fb_]
+                b.append(("HINWEIS", oid, "Fern-Achse (13k) %s: %d %% der Silhouettenstrahlen frei, Vordergrund %s"
+                          % (kam[6], round(100 * fi_["fern_achse_anteil"]), "frei" if fi_["fern_vordergrund_frei"] else "verdeckt")))
         bef, info = pruefe_leuchtfeuer(o, welt, boden.hoehe, hind, o.get("freiraeume"))
         b += [(st_, oid, t) for st_, t in bef]
         if info:

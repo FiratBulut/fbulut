@@ -439,6 +439,34 @@ alte Rezepte laufen weiter und bekommen das neue Verhalten automatisch.
   - Eigene Pflanzen am Standplatz räumt er frei.
   - `orte.json` trägt dann `kameras_13h`.
 
+### 3.13 Pilot 2: Totholz, Waldboden, Fern-Achse, Wände > 60°, Seefarbe, Schaum (Auftrag 13k)
+
+- **Sägeschnitt verboten:** Netze mit Schnittflächen-Material (`*ends*` laut `netze_masse.json`, z. B.
+  `MI_Pine_lods_ends`), alle `*_log` aus `Mountain_Environment_Set/Details` und Holzlager-/Brennholz-Netze sind in der
+  Wildnis FEHLER (Planer-Palette und Prüfer, `inventar.saegeschnitt`). Kleinholz in wilden Wäldern = Äste
+  (`SM_detail_branches_*`, `SM_OldTreeBranch_*`, `SM_Pine_broken_branch_*`), Zapfen, Rinde (Decal). Totholz = wenige
+  große liegende Stämme (`SM_LargeFallenTree_*`, `SM_FallenSpruceTree_01`, `SM_OldFallenTree_*` × 1,3–1,8,
+  `SM_MossyTree_01`) in Gruppen unter abgestorbenen Bäumen (`verteilung.typ: um_gruppe` um eine Totbaum-Gruppe),
+  hangparallel (`"yaw": {"basis": "hangab", "plus": 90}`). Richtwert Altwald je 100 m²: 1–3 Stämme, 5–15 Äste,
+  geklumpt (`cluster`).
+- **Waldboden in Schichten** (4–6): Moospolster, Farngruppen zu 3–7 (`cluster` mit `je: [3, 7]`), Heidelbeer-Inseln,
+  bemooste Steine, Wurzeln, Nadelstreu. Eine deckende Lage (`wert` 255, `flecken` 0) dämpft das Landschaftsgras:
+  `neu = max(alt, 255)` skaliert die übrigen Lagen auf 0 (SEHENS_FORMAT §3).
+- **Fern-Achse** (`kamera_frei.pruefe_fern_achse`, Planer und Prüfer FEHLER): Strahlen von `_fern` auf die oberen
+  30 % der höchsten Held-Netze, geprüft gegen Gelände (nach dem Stempel), Bestandskronen (4-m-Baumraster, Kronenradius
+  0,15 h, 1,2–4 m, ab 0,35 h) und eigene Netze; ≥ 50 % frei und Vordergrund-Korridor ± 2 m auf den ersten 60 m frei.
+  Die Suche geht Weg-/Pfadpunkt → Lichtung bis 40 m daneben → Gegenhang bis 150 m → Aussichtspunkt im Ring.
+- **Wände > 60°** (`gelaende.verkleiden_60`): `{"bei", "r_m" (Standard radius_m + 25), "palette", "groesse_m",
+  "max_anzahl", "schuttkegel": {"palette", "dichte_je_m2", "breite_m", "lage", "wert"} | false}` – alle Gebiete
+  > 60° im Umkreis, die zum Ort schauen, bis zur Oberkante verkleidet (Instanzen mit Kollision), Schuttkegel am Fuß.
+  In `orte.json` steht dann `gelaende.steil60`; der Prüfer meldet offene Gebiete > 20 m² als FEHLER, ohne Regel als
+  HINWEIS (Liste).
+- **Seefarbe `bergsee`** (Ferat, Variante C): Kar- und Bergseen; `tiefblau` nur Quelltöpfe (Prüfer WARNUNG). Werte
+  im Format `wasserfarben.json` oben in `orte.json` → `wasser_farben`.
+- **Treppenbäche:** Schaum je Stufe in Strahlbreite (`stufen_strahl`), Becken ≤ 0,2, Fallfuß mit Abklingen 2–4 m,
+  Fallfläche ≤ 0,45; Aufprall-Effekte an Stufen ≥ 3 m mit `cull_m` 60–80 m und `strahl_breite_m`; Vorhänge in
+  `vorhang` mit Strahlbreite. Stufen, Querprofil und Effekt-Positionen bleiben wie 13f.
+
 ## 4. Bausteine der Bibliothek (für Hooks und Sonderfälle)
 
 ```python

@@ -55,7 +55,7 @@ from . import daten as _daten  # noqa: E402
 FEHLER, WARNUNG, HINWEIS = "FEHLER", "WARNUNG", "HINWEIS"
 ARTEN = ("leuchtfeuer", "fundstueck")
 FARBEN = ("klar", "tuerkis", "tiefblau", "smaragd", "moorbraun", "schwarz_spiegel", "gletschermilch",
-          "thermal", "rostrot", "salzweiss")
+          "thermal", "rostrot", "salzweiss", "bergsee")          # 13k: bergsee = dunkles Blaugruen (Kar-/Bergseen)
 MASTER = ("M_EL_Fels_MS", "M_EL_Fels_Auflage", "M_EL_Fels_Sand", "M_EL_Klippe_RVT", "M_EL_Pflanze",
           "M_EL_Eis4", "M_EL_Wasserfall2", "M_MS_Decal", "M_MS_Base")
 BUDGET = {"instanzen": 15000, "kollision": 1500, "akteure": 80, "lichter": 4, "niagara": 3, "decals": 12}
@@ -570,6 +570,11 @@ def pruefe_ort(o, biom, basis=None, inv=None, welt=None, mi_geplant=None):
             continue
         if w.get("farbe") not in FARBEN:
             b.append((FEHLER, oid, "wasser.farbe %r (erlaubt: %s)" % (w.get("farbe"), ", ".join(FARBEN))))
+        elif w.get("typ") == "see" and w.get("farbe") == "tiefblau" and not re.search(
+                r"quell|topf|cenote|blautopf", "%s %s" % (w.get("id", ""), oid), re.I):
+            # 13k: tiefblau nur fuer Quelltoepfe (Karst-/Quelltopf, Cenote) - Kar- und Bergseen sind bergsee
+            b.append((WARNUNG, oid, "see %s: farbe tiefblau nur fuer Quelltoepfe (13k) - Kar-/Bergsee: bergsee"
+                      % w.get("id")))
         if t == "see":
             u = w.get("umriss_cm") or []
             if len(u) < 3 or not all(_pkt(p, 2) for p in u):
@@ -1074,6 +1079,57 @@ def _in_polygon_np(x, y, U):
     return _in_polygon(np.array([x]), np.array([y]), U)[0]
 
 
+SCHAUM_BECKEN_MAX = 0.2         # 13k (Ferat): Becken und Gumpen klar
+SCHAUM_ANTEIL_WARN = 0.35       # 13k: Schaum > 0,5 auf mehr als 35 % der quer-Eintraege -> WARNUNG (Ziel 10-25 %)
+
+
+def pruefe_schaum_sehens(kb, tag):
+    """13k: Schaum der Sehens-Treppenbaeche. Becken/Gumpen (Beckenpunkte hinter Fallfuss + Abklingen 2-4 m, hoechstens
+    70 % des Beckens, und mehr als 0,8 m vor der naechsten Lippe) Schaum <= 0,2 (FEHLER); Fallflaechen nicht pauschal
+    1,0 (Schaum >= 0,95 auf Bogen/Wand = FEHLER); Anteil Schaum > 0,5 > 35 % = WARNUNG."""
+    b = []
+    M = kb["mittellinie"]
+    kn = kb["knick"]
+    S = np.asarray(kb.get("mittellinie_s_m") or [], np.float64)
+    Q = np.asarray(kb["quer"], np.float64)
+    if len(S) != len(M) or Q.ndim != 3:
+        return b
+    sc = Q[:, :, 2]
+    Z = np.asarray([q[2] for q in M], np.float64) / 100.0
+    lippen = [k for k, r in enumerate(kn) if r == "lippe"]
+    fuesse = []
+    for k in lippen:
+        f = next((j for j in range(k + 1, len(kn)) if kn[j] in ("fuss", "rampe")), None)
+        if f is not None:
+            fuesse.append((S[k], S[f], Z[k] - Z[f]))
+    n_bk = n_viel = 0
+    for k, r in enumerate(kn):
+        if r not in ("becken", "uebergang"):
+            continue
+        vor = [v for v in fuesse if v[1] <= S[k] + 1e-6]
+        nach = [v for v in fuesse if v[0] > S[k] + 1e-6]
+        if not vor or any(v[0] < S[k] < v[1] for v in fuesse):     # Fallflaeche (Lippe -> Fuss), kein Becken
+            continue
+        s_l, s_f, D = vor[-1]
+        s_n = nach[0][0] if nach else S[-1] + 6.0
+        A = min(float(np.clip(1.0 + 0.5 * D, 2.0, 4.0)), max(0.7 * max(s_n - s_f, 1.0), 1.0))
+        if S[k] - s_f > 0.3 + A + 0.25 and s_n - S[k] > 0.8:
+            n_bk += 1
+            if float(sc[k].max()) > SCHAUM_BECKEN_MAX + 0.02:
+                n_viel += 1
+    if n_viel:
+        b.append((FEHLER, tag, "%s: Schaum > %.1f im Becken an %d von %d Beckenpunkten (13k: Becken und Gumpen klar)"
+                  % (kb["id"], SCHAUM_BECKEN_MAX, n_viel, n_bk)))
+    fall = [k for k, r in enumerate(kn) if r in ("bogen", "wand")]
+    if fall and float(np.mean(sc[fall].max(axis=1) >= 0.95)) > 0.5:
+        b.append((FEHLER, tag, "%s: Fallflaechen pauschal Schaum 1,0 (13k: die Fall-Optik macht das Material)" % kb["id"]))
+    anteil = float((sc > 0.5).mean())
+    if anteil > SCHAUM_ANTEIL_WARN:
+        b.append((WARNUNG, tag, "%s: Schaum > 0,5 auf %.0f %% der quer-Eintraege (13k: Ziel ~10-25 %%)"
+                  % (kb["id"], 100.0 * anteil)))
+    return b
+
+
 def pruefe_wasser_koerper(w, oid, welt, boden, X, Y, kum, seen=None):
     """13g: wasser_koerper eines Treppenbachs (river + kaskadennetz, A15/14b) mit den Netzregeln aus
     gefaelle_pruefen.py: Mittellinie/Spiegel monoton, knick passend, Nachbarn ueberlappen genau 0,5 m, kein River
@@ -1121,7 +1177,14 @@ def pruefe_wasser_koerper(w, oid, welt, boden, X, Y, kum, seen=None):
         except Exception as ex:      # noqa: BLE001
             bq = [(WARNUNG, tag, "Querprofil-Pruefung (gefaelle_pruefen) nicht ausfuehrbar: %s" % ex)]
         bb += [t for t in bq if "Querprofil" in t[2] or "Wasserhoehe" in t[2] or "deckung/schaum" in t[2]
-               or "quer passt" in t[2] or "nicht ausfuehrbar" in t[2]]
+               or "quer passt" in t[2] or "nicht ausfuehrbar" in t[2]
+               # 13k: die 15g-Schaumregeln gelten auch fuer die Sehens-Treppenbaeche (weiche Kanten, feines Raster,
+               # keine Beckenmitte, tiefe_cm >= 0); den Flaechenanteil prueft pruefe_schaum_sehens mit Sehens-Grenze
+               or "harte Schaumkante" in t[2] or "grobem Laengsraster" in t[2] or "Beckenmitte" in t[2]
+               or "tiefe_cm < 0" in t[2]]
+        for kb in wk:
+            if kb.get("typ") == "kaskadennetz" and kb.get("quer") is not None:
+                bb += pruefe_schaum_sehens(kb, tag)
     for st_, t_, txt in bb:
         if "liegt in keinem Kaskadennetz" in txt:
             # Lippe auf der Bachlinie gesucht (naechster Punkt): Toleranz 0,6 m
@@ -1377,7 +1440,7 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
                 if f not in d:
                     b.append((FEHLER, ft, "%s: Schluessel %s fehlt" % (key, f)))
             if inv is not None:
-                b += [(st, ft, "%s: %s" % (key, tx)) for st, tx in inv.netz_pruefen(d.get("pfad", key))]
+                b += [(st, ft, "%s: %s" % (key, tx)) for st, tx in inv.netz_pruefen(d.get("pfad", key), wildnis=True)]   # 13k Saegeschnitt
             if not np.isfinite(a).all():
                 b.append((FEHLER, ft, "%s: NaN/Inf" % key))
                 continue
@@ -1447,7 +1510,7 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
                 b.append((FEHLER, ft, "akteur %d: %s fehlt" % (k, ", ".join(fehlt))))
                 continue
             if inv is not None:
-                b += [(st, ft, "akteur %s: %s" % (e["netz"], tx)) for st, tx in inv.netz_pruefen(e["pfad"])]
+                b += [(st, ft, "akteur %s: %s" % (e["netz"], tx)) for st, tx in inv.netz_pruefen(e["pfad"], wildnis=True)]
             if not (x0 <= e["x"] / 100.0 < x1 and y0 <= e["y"] / 100.0 < y1):
                 n_aussen += 1
             qn = math.sqrt(e["qx"] ** 2 + e["qy"] ** 2 + e["qz"] ** 2 + e["qw"] ** 2)

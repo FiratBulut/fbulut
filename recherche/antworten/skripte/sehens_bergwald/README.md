@@ -86,6 +86,19 @@ Details und Vorbilder: `recherche/antworten/13h-pilot-bergwald-bildbefund.md`.
 - **Prüfer 2 m:** 0 FEHLER. Es bleiben 4 WARNUNGen am Karsee, alle aus 13g/13i (Stufen ohne Niagara, Ufer 4 von 168 Proben).
 - **Steilflächen am Karsee:** 241 m² neu > 45°, davon 233 m² verkleidet.
 
+## Auftrag 13k – Bildbefund Pilot 2 (12.10.2026)
+
+Details: `recherche/antworten/13k-pilot2-bildbefund-15g-nachtrag.md`.
+
+- **Säulenhain (`bergwald_03`):** keine gesägten Stammstücke mehr (Regel in der Bibliothek). Totholz: 3 abgestorbene
+  Riesentannen (`Fir_08_Dead_Forest` ×2,0–2,4) mit Gruppen großer liegender Stämme darunter, hangparallel; mittleres
+  Totholz und Äste in Nestern (Richtwert Altwald je 100 m²: 1–3 Stämme, 5–15 Äste). Waldboden in Schichten: Moospolster,
+  Farngruppen zu 3–7, Heidelbeer-Inseln, bemooste Steine, Wurzeln; Nadelstreu deckend (255) gegen Landschaftsgras.
+  `_fern` mit freier Achse (Gelände und Baumkronen).
+- **Karsee (`bergwald_06`):** `gelaende.verkleiden_60` – alle Flächen > 60° im Kar (75 m, zum See gewandt) bis zur
+  Oberkante verkleidet, Schuttkegel am Fuß; Seefarbe `bergsee` (Ferat Variante C).
+- `paletten.stammstuecke`, `brandholz`, `treibholz`, `nadeln_zweige` und `MI_EL_SW_Verkohlt.fuer` ohne `*_log`.
+
 ## Grenzen und offene Punkte
 
 - Pivot/Front: `veqnci0db_tier_2`, `rcygn_tier_0`, `vfmjadufa_tier_2`, die Basalt- und Mountain-Netze haben keine Bounds

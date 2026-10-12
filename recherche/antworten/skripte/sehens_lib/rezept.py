@@ -1574,7 +1574,7 @@ class OrtKontext:
         gew = g.get("gewichte")
         namen, ok_gew = [], []
         for k, n in enumerate(p):
-            bef = self.inv.netz_pruefen(n)
+            bef = self.inv.netz_pruefen(n, wildnis=True)          # 13k: Saegeschnitt in der Wildnis = FEHLER
             for st, t in bef:
                 if st == FEHLER:
                     self.melde(FEHLER, "%s: %s" % (g.get("name"), t))
@@ -1674,6 +1674,8 @@ class OrtKontext:
                                          seite, float(v.get("seite_staerke", 0.6)), self.boden)
         elif t == "halde":
             xs, ys, ts, ziel_n = _sw.halde_punkte(self, g, rng)       # 13h: Bloecke auf der Schutthalde
+        elif t == "wandfuss60":
+            xs, ys, ts, ziel_n = _sw.wandfuss60_punkte(self, g, rng)  # 13k: Schuttkegel am Fuss der > 60-Grad-Waende
         else:
             form = self._form(v, rng)
             n = _anzahl(g.get("anzahl"), rng) if "anzahl" in g else int(round(float(g.get("dichte_je_m2", 0.1)) *
@@ -2052,6 +2054,9 @@ class OrtKontext:
                 elif form == "halde":
                     # 13h: Schutthalde der Boeschung (Geroell statt glatter Erdflaeche)
                     lg.maske(name, _sw.halde_lage(self, lg), wert, r.get("flecken", 0.3), r.get("flecken_m", 4.0))
+                elif form == "wandfuss60":
+                    # 13k: Schuttkegel am Fuss der verkleideten > 60-Grad-Waende
+                    lg.maske(name, _sw.wandfuss60_lage(self, lg), wert, r.get("flecken", 0.35), r.get("flecken_m", 4.0))
                 elif form == "hang":
                     x, y = self.punkt(r.get("bei", "mitte"))
                     hg = r.get("hang_grad", [0, 90])
@@ -2421,6 +2426,7 @@ class OrtKontext:
             except (KeyError, ValueError) as ex:
                 self.melde(FEHLER, "Gruppe %s: %s" % (g.get("name"), ex))
         _sw.auto_verkleiden(self)                         # 13h: restliche neue Steilflaechen mit Wandnetzen des Bioms
+        _sw.verkleiden_60(self)                           # 13k: Flaechen > 60 Grad bis zur Oberkante + Schuttkegel
         if getattr(self, "_halde_gruppe", None):
             self.gruppe(self._halde_gruppe)              # 13h: Bloecke auf der Schutthalde (Boeschung)
         _sb.korrigieren(self)                            # 13h Nachtrag: Bloecke im See nie knapp unter dem Spiegel
@@ -2707,6 +2713,14 @@ def schreibe_biom(aus_ordner, sw_ordner, biom, kontexte, ebene, materialwuensche
         if c.stempel is not None:
             blk = c.stempel.schreibe(aus_ordner, c.id)
             if blk:
+                r60 = _sw.steil60_regel(c.r)
+                if r60 is not None:
+                    # 13k: Regel 'Flaechen > 60 Grad vollstaendig verkleiden' fuer den Pruefer (gleicher Bereich)
+                    bx, by = c.punkt(r60.get("bei", "mitte"))
+                    blk["steil60"] = dict({"r_m": float(r60.get("r_m", float(c.st.get("radius_m", 40.0)) + 25.0)),
+                                           "bei_cm": [round(bx * 100), round(by * 100)],
+                                           "grenze_grad": float(r60.get("grenze_grad", _sw.STEIL60_GRAD))},
+                                          **(getattr(c, "_steil60_bilanz", None) or {}))
                 e["gelaende"] = blk
         if c.lagen is not None:
             blk = c.lagen.schreibe(aus_ordner, c.id)
@@ -2729,6 +2743,10 @@ def schreibe_biom(aus_ordner, sw_ordner, biom, kontexte, ebene, materialwuensche
         # verliert keine Definition (beim Ort steht jeder Wunsch weiter genau einmal, beim ersten Nutzer)
         zusatz["materialwuensche_biom"] = [{k: mw[k] for k in ("name", "basis", "parameter", "fuer", "fuer_wasser", "texturen", "hinweis")
                                             if k in mw} for mw in materialwuensche]
+    wf = _fmt.wasser_farben_block([w.get("farbe") for o in orte for w in (o.get("wasser") or [])
+                                   if w.get("typ") == "see"])
+    if wf:
+        zusatz["wasser_farben"] = wf                    # 13k: neue Seefarbe bergsee (Format wasserfarben.json)
     zusatz = zusatz or None
     d = _fmt.schreibe_orte(os.path.join(aus_ordner, "orte.json"), biom, orte, stand=stand, pruefen=False, zusatz=zusatz)
     info = ebene.schreibe(sw_ordner, orte_info={o["id"]: o for o in orte})

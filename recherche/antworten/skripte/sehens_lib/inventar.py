@@ -25,6 +25,9 @@ Pivot/Front (E35): netz() liefert zusaetzlich pivot_z_anteil (0 = Pivot an der U
   (Mitte der Bounds relativ zum Pivot), pivot_quelle, front_achse (nur aus netze_masse.json, sonst None) und
   front_quelle. Felder pivot_z_anteil/pivot_xy_versatz_m/front_achse in netze_masse.json haben Vorrang.
 Fehlende Assets: FEHLER; mit optional=True nur HINWEIS (SEHENS_FORMAT §6 "optional": true).
+13k Saegeschnitt: inv.saegeschnitt(name_oder_pfad) -> Grund (str) oder None. Gesaegte Stammstuecke (Material mit
+  'ends' laut netze_masse.json, z. B. MI_Pine_lods_ends, oder *_log aus Mountain_Environment_Set/Details) sind in der
+  Wildnis verboten (nur an Lagern, Holzfaellerplaetzen, Wegen); netz_pruefen(..., wildnis=True) meldet sie als FEHLER.
 """
 
 import csv
@@ -68,6 +71,15 @@ FRONT_ACHSEN = ("+x", "-x", "+y", "-y", "+z", "-z")
 WASSER_MATERIAL_NUR_NAME = {
     "M_River_Water_Translucent": "Mountain_Environment_Set (vorlagen/daten/inventar.json materialien, nur Name)",
 }
+
+
+# 13k (Ferat): gesaegte Stammstuecke mit Schnittflaechen-Material sehen wie ein Holzlager aus - in der Wildnis verboten.
+# Erkennung: Materialslot mit 'ends' (netze_masse.json "mats", z. B. MI_Pine_lods_ends) oder Name *_log im Ordner
+# Mountain_Environment_Set/Details (dort sind alle *_log gesaegt). Dazu Holzlager-/Kaminholz-Netze (Menschenspur).
+SAEGE_PFAD = re.compile(r"/Mountain_Environment_Set/Details/Meshes/SM_[^/]*_log$", re.I)
+HOLZLAGER_NAME = re.compile(r"(Pile_WoodLog|FireplaceLogs|half_log|WoodPile|Firewood)", re.I)
+SAEGE_GRUND = ("13k: gesaegtes Stammstueck (Schnittflaechen) - in der Wildnis verboten, nur an Lagern/Holzfaellerplaetzen/"
+               "Wegen; Kleinholz = Aeste/Zapfen/Rinde, Totholz = grosse liegende Staemme")
 
 
 def houdini(s):
@@ -226,8 +238,25 @@ class Inventar:
         (z. B. M_River_Water_Translucent: nur Name belegt, siehe WASSER_MATERIAL_NUR_NAME)."""
         return self._suche(self.wasser_mat, s)
 
-    def netz_pruefen(self, s, optional=False):
+    def saegeschnitt(self, s):
+        """13k: Grund (str), wenn das Netz ein gesaegtes Stammstueck bzw. Holzlager ist, sonst None."""
+        p = self.netz_pfad(s) or str(s).split(".")[0]
+        if HOLZLAGER_NAME.search(_letzter(p)):
+            return "Holzlager/Brennholz (Menschenspur): %s" % _letzter(p)
+        if SAEGE_PFAD.search(p):
+            return "%s: *_log aus Mountain_Environment_Set/Details" % _letzter(p)
+        for m in (self.masse.get(p) or {}).get("mats") or []:
+            n = _letzter(m)
+            if re.search(r"(^|_)ends($|_)", n, re.I):
+                return "%s: Material %s (Schnittflaeche)" % (_letzter(p), n)
+        return None
+
+    def netz_pruefen(self, s, optional=False, wildnis=False):
         b = []
+        if wildnis:
+            sg = self.saegeschnitt(s)
+            if sg:
+                b.append((FEHLER, "%s - %s" % (sg, SAEGE_GRUND)))
         if houdini(s):
             return [(FEHLER, "Houdini-Asset (SW_*) verboten: %s" % s)]
         if _letzter(str(s)).split(".")[0] in UNVOLLSTAENDIG:
@@ -264,10 +293,10 @@ class Inventar:
     def blueprint_pfad(self, s):
         return self._suche(self.blueprints, s)
 
-    def asset_pruefen(self, art, s, optional=False):
+    def asset_pruefen(self, art, s, optional=False, wildnis=False):
         """art: netz | niagara | decal | klang | blueprint. Fehlend -> FEHLER (optional -> HINWEIS)."""
         if art == "netz":
-            return self.netz_pruefen(s, optional)
+            return self.netz_pruefen(s, optional, wildnis)
         if s is None or s == "":
             return [(HINWEIS if optional else FEHLER, "%s ohne Asset-Pfad" % art)]
         if houdini(s):

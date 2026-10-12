@@ -238,3 +238,27 @@ def schreibe_r8(pfad, a):
     """Bodenlage-Zielgewicht uint8 0..255 zeilenweise (SEHENS_FORMAT §3)."""
     os.makedirs(os.path.dirname(os.path.abspath(pfad)), exist_ok=True)
     np.ascontiguousarray(np.clip(a, 0, 255), dtype=np.uint8).tofile(pfad)
+
+
+# ============================================================================================
+# 13k: Wasserfarben (SEHENS_FORMAT §5 'farbe') - neue Voreinstellung 'bergsee' (Ferat, Nachtrag 11:45, Variante C)
+# ============================================================================================
+# Format wie Ferats wasserfarben.json (Master M_Eldarien_Wasser_Schaum8): 'absorption' ist je Kanal eine
+# ABSORPTIONSLAENGE in cm (das Material gibt 1/Wert je cm als SLW-Koeffizient aus), 'scattering' der Streuwert,
+# dazu albedo und rauheit. 8/45/40 cm entspricht 0,125/0,022/0,025 je cm = 12,5/2,2/2,5 je m: Rot ist nach wenigen
+# Zentimetern weg, Gruen kommt am weitesten -> dunkles Blaugruen; Streuung 0,06/0,22/0,14 ohne Blau-Ueberhang.
+# tiefblau bleibt Ferats bestehende Instanz (nur noch fuer Quelltoepfe).
+WASSER_FARBEN = {
+    "bergsee": {"master": "M_Eldarien_Wasser_Schaum8", "absorption": [8, 45, 40, 8],
+                "scattering": [0.06, 0.22, 0.14, 0.08], "albedo": 0.35, "rauheit": 0.015,
+                "einheit_absorption": "cm (Absorptionslaenge je Kanal; Koeffizient = 1/Wert je cm)",
+                "je_m": {"absorption_koeff_pro_m": [12.5, 2.22, 2.5]},
+                "fuer": "Kar- und Bergseen (13k, Ferat Variante C 'dunkles Blaugruen'); tiefblau nur Quelltoepfe",
+                "quelle": "Ferat, Auftrag 13k Nachtrag 11:45, bilder/sehens_p2/pilot2_seefarben.jpg (C)"},
+}
+
+
+def wasser_farben_block(farben):
+    """orte.json oben: Werte der im Biom benutzten neuen Voreinstellungen (Format wasserfarben.json)."""
+    out = {f: dict(WASSER_FARBEN[f]) for f in sorted(set(farben)) if f in WASSER_FARBEN}
+    return out or None

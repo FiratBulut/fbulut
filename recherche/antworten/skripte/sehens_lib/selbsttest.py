@@ -629,6 +629,11 @@ def main(argv=None):
         from .selbsttest_13h import test_13h
         z12 = test_13h(welt)
     z["FEHLER"] += z12
+    # 13 Auftrag 13k: Saegeschnitt, Fern-Achse, Flaechen > 60 Grad, Strahlbreite, Schaumhuelle, Cull, bergsee
+    with schritt("13 Auftrag 13k (Saegeschnitt, Fern-Achse, 60 Grad, Schaum, Strahl)"):
+        from .selbsttest_13k import test_13k
+        z13 = test_13k()
+    z["FEHLER"] += z13
     log("-" * 60)
     for u in zeiten:
         log("%-44s %7.2f s" % (u.name, u.sek))

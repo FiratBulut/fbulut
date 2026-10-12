@@ -466,6 +466,32 @@ def halde_punkte(ctx, g, rng):
     return xs, ys, np.zeros(len(xs)), n
 
 
+def wandfuss60_punkte(ctx, g, rng):
+    """13k: Zufallspunkte im Schuttkegel am Fuss der > 60-Grad-Waende (verteilung.typ 'wandfuss60')."""
+    st = ctx.stempel
+    h = getattr(ctx, "_fuss60", None)
+    if h is None or not h.any():
+        return np.zeros(0), np.zeros(0), np.zeros(0), 0
+    ii, jj = np.nonzero(h)
+    n = int(g.get("anzahl", 0)) or int(round(float(g.get("dichte_je_m2", 0.1)) * len(ii) * st.z * st.z))
+    k = rng.choice(len(ii), size=max(n * 4, 1), replace=True)
+    xs = st.X[ii[k], jj[k]] + rng.uniform(-0.5, 0.5, len(k)) * st.z
+    ys = st.Y[ii[k], jj[k]] + rng.uniform(-0.5, 0.5, len(k)) * st.z
+    return xs, ys, np.zeros(len(xs)), n
+
+
+def wandfuss60_lage(ctx, lg):
+    """13k: Gewichtsmaske 0..1 des Schuttkegels am Wandfuss im Lagenraster."""
+    from . import stempel as _stm
+    from . import gelaende as _g
+    st = ctx.stempel
+    h = getattr(ctx, "_fuss60", None)
+    if h is None:
+        return np.zeros(lg.X.shape)
+    w = _g.glaetten(h.astype(np.float32), 1.0).astype(np.float64)
+    return np.clip(_stm._bilinear_fenster(w, st.fe, ctx.welt, lg.X, lg.Y, 0.0) * 1.6, 0.0, 1.0)
+
+
 def halde_lage(ctx, lg):
     """Gewichtsmaske 0..1 der Halde im Lagenraster."""
     from . import stempel as _stm
@@ -543,7 +569,9 @@ def verkleiden(ctx, g):
     G = _raster_1m(ctx)
     steil, h1 = G["steil"], G["h1"]
     GX, GY = G["X"], G["Y"]
-    if v.get("bei") is not None or v.get("r_m") is not None:
+    if v.get("modus") == "steil60":
+        steil = steil60_maske(ctx, G, v)              # 13k: alle Flaechen > 60 Grad im Bereich, bis zur Oberkante
+    elif v.get("bei") is not None or v.get("r_m") is not None:
         x, y = ctx.punkt(v.get("bei", "mitte"))
         steil &= np.hypot(GX - x, GY - y) <= float(v.get("r_m", 30.0))
     z2 = 1.0
@@ -631,9 +659,195 @@ def verkleiden(ctx, g):
     ctx.gruppen[name] = ctx.gruppen.get(name, []) + out
     rest = float(offen.sum()) * z2
     ges = float(steil.sum()) * z2
-    ctx.melde("HINWEIS", "Gruppe %s (13h): %d Wandnetze verkleiden %.0f von %.0f m2 neuer Steilflaeche (Rest %.0f m2)"
-              % (name, len(out), ges - rest, ges, rest))
+    ctx.melde("HINWEIS", "Gruppe %s (13h): %d Wandnetze verkleiden %.0f von %.0f m2 %s (Rest %.0f m2)"
+              % (name, len(out), ges - rest, ges, "Flaeche > 60 Grad (13k)" if v.get("modus") == "steil60"
+                 else "neuer Steilflaeche", rest))
+    if v.get("modus") == "steil60":
+        ctx._steil60_bilanz = {"flaeche_m2": int(ges), "verkleidet_m2": int(ges - rest), "netze": len(out)}
     return out
+
+
+# ============================================================================================
+# 13k: Flaechen > 60 Grad vollstaendig verkleiden (bis zur Oberkante) + Schuttkegel am Fuss
+# ============================================================================================
+STEIL60_GRAD = 60.0
+STEIL60_MIN_M2 = 10.0
+STEIL60_ZUGEWANDT = 0.3       # Anteil der Zellen eines Gebiets, die zum Ort schauen (Hangab-Richtung +-75 Grad)
+
+
+def steil60_regel(o_oder_r):
+    """Regel 'gelaende.verkleiden_60' (Rezept) bzw. 'gelaende.steil60' (orte.json) -> dict oder None."""
+    g = (o_oder_r or {}).get("gelaende") or {}
+    v = g.get("verkleiden_60", g.get("steil60"))
+    if not v:
+        return None
+    return v if isinstance(v, dict) else {}
+
+
+def steil60_bereich_maske(X, Y, h1, s1, mx, my, r_m, aus, grenze_grad=STEIL60_GRAD, min_m2=STEIL60_MIN_M2):
+    """Gebiete > grenze_grad (natuerlich oder neu), die im Umkreis r_m um den Ort liegen und zum Ort schauen
+    (>= 30 % der Zellen mit Hangab-Richtung +-75 Grad zur Ortsmitte) - jeweils das GANZE Gebiet (bis zur Oberkante,
+    auch ausserhalb von r_m), ab min_m2 (1-m-Raster)."""
+    m = (s1 > grenze_grad) & ~aus
+    if not m.any():
+        return m
+    gy, gx = np.gradient(np.asarray(h1, np.float64))
+    n = np.hypot(gx, gy) + 1e-9
+    ax, ay = -gx / n, -gy / n                           # hangab (X nach Osten, Y nach Sueden)
+    vx, vy = mx - X, my - Y
+    vn = np.hypot(vx, vy) + 1e-9
+    zu = (ax * vx + ay * vy) / vn > math.cos(math.radians(75.0))
+    nah = vn <= r_m
+    lab, gr = komponenten(m)
+    out = np.zeros(m.shape, bool)
+    for k, nz in enumerate(gr, start=1):
+        if nz < min_m2:
+            continue
+        sel = lab == k
+        if not (sel & nah).any():
+            continue
+        if float((sel & nah & zu).sum()) >= STEIL60_ZUGEWANDT * float((sel & nah).sum()):
+            out |= sel
+    return out
+
+
+def _aus_1m(ctx, X, Y, h1):
+    from . import rezept as _rz
+    from . import bach as _b
+    st = ctx.stempel
+    aus = h1 < MEER_UNTER_M
+    for sid, sv in ctx.see.items():
+        if not sv.get("klein"):
+            aus |= _rz._in_polygon(X, Y, sv["umriss_m"]) & (h1 <= float(sv["spiegel_m"]) + 0.05)
+    for b in _bach_zonen(ctx, X, Y):
+        aus |= b["d"] <= _b.halbe_breite_eff(b["B"], st.z) + 1.0
+    return aus
+
+
+def steil60_maske(ctx, G, v):
+    """Planer: Maske der zu verkleidenden Flaechen > 60 Grad im 1-m-Raster des Stempelfensters."""
+    r = steil60_regel(ctx.r) or {}
+    x, y = ctx.punkt(r.get("bei", "mitte"))
+    R = float(r.get("r_m", float(ctx.st.get("radius_m", 40.0)) + 25.0))
+    s1 = neigung_grad(G["h1"], 1.0)
+    return steil60_bereich_maske(G["X"], G["Y"], G["h1"], s1, x, y, R, _aus_1m(ctx, G["X"], G["Y"], G["h1"]),
+                                 float(r.get("grenze_grad", STEIL60_GRAD)), float(r.get("min_flaeche_m2", STEIL60_MIN_M2)))
+
+
+def verkleiden_60(ctx):
+    """13k (Ferat Pilot 2, Karsee-Rueckwand): Flaechen > 60 Grad im Ort vollstaendig verkleiden - auch natuerliche
+    Steilwaende, die das Landschaftsmaterial nur gestreckt zeigt - bis zur Oberkante (gestapelte Wandnetze), dazu
+    ein Schuttkegel am Fuss (Bloecke + Geroell-Lage). Regel im gelaende-Block:
+    "verkleiden_60": {"r_m": R (Standard radius_m + 25), "bei": ref, "palette": [...], "groesse_m": [a, b],
+                      "max_anzahl": 120, "schuttkegel": {"palette", "dichte_je_m2", "breite_m", "lage", "wert"} | false}.
+    Die Netze sind Instanzen mit Kollision (kein Akteur-Budget, 13j), Fels zaehlt fuer die Steilflaechen-Pruefung."""
+    r = steil60_regel(ctx.r)
+    if r is None or ctx.stempel is None:
+        return []
+    grp = {"name": r.get("name", "wandverkleidung_60"), "ebene": "begleiter", "rolle": "fels",
+           "warum": "13k: Flaechen > 60 Grad vollstaendig mit Fels verkleidet (bis zur Oberkante), kein gestrecktes "
+                    "Landschaftsmaterial",
+           "verteilung": {"typ": "steilwand", "modus": "steil60", "max_anzahl": int(r.get("max_anzahl", 120)),
+                          "versatz_m": float(r.get("versatz_m", 0.4)), "min_flaeche_m2": 1.0},
+           "groesse_m": r.get("groesse_m", [8.0, 14.0]), "groesse_achse": r.get("groesse_achse", "z"),
+           "front_achse": r.get("front_achse", "+y"), "im_wasser": "egal", "akteur": False, "kollision": True,
+           "hinweis": "Schauseite +Y angenommen (E35) - im Editorbild pruefen"}
+    grp["palette"] = r.get("palette") or biom_netze(ctx.biom).get("wand") or []
+    if r.get("material"):
+        grp["material"] = r["material"]
+    out = ctx.gruppe(grp)
+    sk = r.get("schuttkegel", {})
+    if sk is not False:
+        sk = sk if isinstance(sk, dict) else {}
+        ctx._fuss60 = wandfuss_maske(ctx, float(sk.get("breite_m", 7.0)))
+        if ctx._fuss60 is not None and ctx._fuss60.any():
+            bn = biom_netze(ctx.biom)
+            fl = float(ctx._fuss60.sum()) * ctx.stempel.z * ctx.stempel.z
+            ctx.r.setdefault("lagen", []).append({"lage": sk.get("lage", "Geroell"), "form": "wandfuss60",
+                                                  "wert": float(sk.get("wert", 200)), "flecken": 0.35})
+            ctx.gruppe({"name": "schuttkegel_60", "ebene": "schutt", "rolle": "fels",
+                        "warum": "13k: Schuttkegel am Fuss der verkleideten Wand (Steinschlag sammelt sich am Wandfuss)",
+                        "palette": sk.get("palette") or bn.get("schutt") or bn.get("bloecke"),
+                        "anzahl": int(round(float(sk.get("dichte_je_m2", 0.12)) * fl)),
+                        "verteilung": {"typ": "wandfuss60"}, "abstand_m": 1.2, "groesse_m": sk.get("groesse_m", [0.5, 1.6]),
+                        "im_wasser": "nein", "boden_min_m": 0.3})
+    return out
+
+
+def wandfuss_maske(ctx, breite_m=7.0):
+    """Stempelraster: Zellen bis breite_m unterhalb der verkleideten > 60-Grad-Flaechen (unteres Drittel der Wand),
+    flacher als 40 Grad, nicht im Wasser - dort liegt der Schuttkegel."""
+    from . import gelaende as _g
+    st = ctx.stempel
+    G = _raster_1m(ctx)
+    m = steil60_maske(ctx, G, {})
+    if not m.any():
+        return None
+    # unteres Drittel jeder Wand (Hoehe relativ im Gebiet)
+    lab, gr = komponenten(m)
+    fuss = np.zeros(m.shape, bool)
+    for k, nz in enumerate(gr, start=1):
+        sel = lab == k
+        h = G["h1"][sel]
+        lo, hi = float(h.min()), float(h.max())
+        fuss[sel] = h <= lo + 0.33 * max(hi - lo, 0.5)
+    # auf das Stempelraster uebertragen
+    ii = np.clip(np.rint((G["Y"][fuss] - st.Y[0, 0]) / st.z).astype(int), 0, st.delta.shape[0] - 1)
+    jj = np.clip(np.rint((G["X"][fuss] - st.X[0, 0]) / st.z).astype(int), 0, st.delta.shape[1] - 1)
+    f2 = np.zeros(st.delta.shape, bool)
+    f2[ii, jj] = True
+    d = _g.abstand(f2, st.z, breite_m + 2.0)
+    h1 = st.h0 + st.delta
+    unten = d <= breite_m
+    hg = np.asarray(st.hang_grad_bei_m(st.X, st.Y), np.float64)
+    # nur unterhalb des Wandfusses (Boden tiefer als der tiefste Fusspunkt + 2 m in der Naehe)
+    zmin = float(np.min(G["h1"][fuss])) if fuss.any() else float(h1.min())
+    w = unten & (hg < 40.0) & (h1 <= zmin + 6.0) & ~f2
+    w &= ~ctx._wasser_maske_fenster(st.fe)
+    for sid, sv in ctx.see.items():
+        if not sv.get("klein"):
+            from . import rezept as _rz
+            w &= ~_rz._in_polygon(st.X, st.Y, sv["umriss_m"])
+    return w
+
+
+def pruefe_ort_steil60(o, basis, welt, abdruecke):
+    """Pruefer 13k: Flaechen > 60 Grad im Ort (zum Ort gewandt, Umkreis r_m) ohne Fels-Deckung. FEHLER fuer Orte mit
+    gelaende.steil60 (Regel aktiv) bei offenen Gebieten > 20 m2; sonst HINWEIS mit der offenen Flaeche."""
+    oid = o.get("id", "?")
+    g = o.get("gelaende") or {}
+    fij = g.get("fenster_ij")
+    if not (basis and g.get("datei") and isinstance(fij, list) and len(fij) == 4):
+        return []
+    pf = os.path.join(basis, g["datei"])
+    if not (os.path.exists(pf) and os.path.getsize(pf) == fij[2] * fij[3] * 4):
+        return []
+    a = np.fromfile(pf, dtype="<f4").reshape(fij[2], fij[3]).astype(np.float64)
+    X, Y = _gitter_1m(fij)
+    h1 = welt.bilinear(welt.hoehe, X, Y) + a
+    s1 = neigung_grad(h1, 1.0)
+    aus = ausnahme_wasser(o, X, Y, h1, 1.0) | (h1 < MEER_UNTER_M)
+    r = steil60_regel(o)
+    mx, my = o["mitte_cm"][0] / 100.0, o["mitte_cm"][1] / 100.0
+    if r and r.get("bei_cm"):
+        mx, my = r["bei_cm"][0] / 100.0, r["bei_cm"][1] / 100.0
+    R = float((r or {}).get("r_m", float(o.get("radius_m", 40.0)) + 25.0))
+    m = steil60_bereich_maske(X, Y, h1, s1, mx, my, R, aus, float((r or {}).get("grenze_grad", STEIL60_GRAD)))
+    if not m.any():
+        return []
+    ged = deckung(X, Y, h1, abdruecke, nur=m) & m
+    lab, gr = komponenten(m & ~ged)
+    gross = [(n, lab == k) for k, n in enumerate(gr, start=1) if n > MIN_FLAECHE_M2]
+    b = []
+    if r is not None:
+        for n, sel in gross[:8]:
+            b.append(("FEHLER", oid, "Gelaende: %d m2 > 60 Grad ohne Fels bei (%.0f, %.0f) m, %.0f-%.0f m (13k: Flaechen "
+                                     "> 60 Grad vollstaendig verkleiden)" % (n, float(X[sel].mean()), float(Y[sel].mean()),
+                                                                             float(h1[sel].min()), float(h1[sel].max()))))
+    b.append(("HINWEIS", oid, "Flaechen > 60 Grad (13k, %s): %d m2 im Ort, %d m2 mit Fels, %d m2 offen in Gebieten > 20 m2"
+              % ("Regel aktiv" if r is not None else "Regel aus", int(m.sum()), int(ged.sum()),
+                 sum(n for n, _ in gross))))
+    return b
 
 
 def pruefe_orte_steil(d, basis, welt, sw_ordner, inv):
@@ -659,8 +873,9 @@ def pruefe_orte_steil(d, basis, welt, sw_ordner, inv):
                          "sx": float(r[7]), "sy": float(r[8]), "sz": float(r[9])} for r in a)
     b = []
     for o in d.get("orte") or []:
-        b += pruefe_ort_steil(o, basis, welt, fels_abdruecke(akteure, inv, o.get("id")) +
-                              fels_abdruecke(inst.get(o.get("id")) or [], inv, None))
+        ab = fels_abdruecke(akteure, inv, o.get("id")) + fels_abdruecke(inst.get(o.get("id")) or [], inv, None)
+        b += pruefe_ort_steil(o, basis, welt, ab)
+        b += pruefe_ort_steil60(o, basis, welt, ab)          # 13k
     return b
 
 

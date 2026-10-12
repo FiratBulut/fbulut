@@ -205,6 +205,20 @@ Die 1-m-Logik lässt sich in der Cloud mit einer synthetischen 1-m-Welt prüfen 
 
 Schema der Rezept-Felder: [`PLANER_ANLEITUNG.md`](PLANER_ANLEITUNG.md) §3.12. Antwort: `antworten/13h-pilot-bergwald-bildbefund.md`.
 
+## Auftrag 13k (Pilot 2: Säulenhain, Karsee; Schaum der Treppenbäche)
+
+| Modul | Inhalt |
+|---|---|
+| `inventar.py` | `saegeschnitt(netz)`: gesägte Stammstücke (`*ends*`-Material, `*_log` aus `Mountain_Environment_Set/Details`, Holzlager) – `netz_pruefen(..., wildnis=True)` meldet FEHLER (Planer-Palette, Prüfer). A15 ruft ohne `wildnis` auf (unverändert). |
+| `kamera_frei.py` | `pruefe_fern_achse` (Gelände UND Baumkronen: `bestand_kronen_treffer` aus dem 4-m-Baumraster), `_fern_suchen` mit Lichtung (≤ 40 m neben Weg/Pfad), Gegenhang (≤ 150 m) und Aussichtspunkt im Ring; Prüfer FEHLER + HINWEIS je `_fern`. |
+| `steilwand.py` | `verkleiden_60` (Regel `gelaende.verkleiden_60`): Flächen > 60° bis zur Oberkante verkleidet, Schuttkegel am Fuß (`wandfuss60`); Prüfer `pruefe_ort_steil60` (FEHLER mit Regel, sonst HINWEIS). |
+| `bach.py` | Strahlbreite je Lippe (`lippen_strahl`: Abfluss × kritische Tiefe im Querprofil), Schaum-Kerbe = Strahl, Laengshuelle `schaum_huelle` (Becken ≤ 0,2, Fallfuß 2–4 m Abklingen, Fallfläche ≤ 0,45), `cull_vorhang` 60–80 m an Stufen ≥ 3 m; Netzfelder `stufen_strahl`, `vorhang`, `schaum_kennzahlen`. |
+| `sehens_pruefen.py` | `pruefe_schaum_sehens` (Becken > 0,2 = FEHLER, Fallflächen pauschal 1,0 = FEHLER, Anteil > 0,5 über 35 % = WARNUNG), 15g-Schaumregeln übernommen, Farbe `bergsee`, `tiefblau` außerhalb von Quelltöpfen = WARNUNG. |
+| `format.py` | `WASSER_FARBEN["bergsee"]` (Ferat Variante C, Format `wasserfarben.json`), Block `wasser_farben` in `orte.json`. |
+| `selbsttest_13k.py` | Schritt 13 des Selbsttests. |
+
+Antwort: `antworten/13k-pilot2-bildbefund-15g-nachtrag.md`.
+
 ## Cache und Laufzeiten (2 m, 4789 × 3529, ohne SciPy)
 
 - Ordner: `$SEHENS_CACHE` oder `--cache`, Standard
