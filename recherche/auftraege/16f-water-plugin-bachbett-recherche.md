@@ -131,3 +131,11 @@ Liste aus unserer Installation (Ordner, Plugin, Reife, Status bei uns, Engine-Be
 | VirtualProduction | GeometryMask | Geometry Mask |  | aus |  |
 | WorldMetrics | WorldMetrics | World Metrics | Exp | an (Standard) | Provides access to the world metrics system |
 | WorldStreamingInsights | WorldStreamingInsights | World Streaming Insights | Exp | aus | Suite of tools to profile, debug, and monitor aspects of world streaming in the Unreal Engine. |
+
+## Nachtrag 23:15 – Ferat: „welche UE5-Plugins und Features waren für Witcher 4 im Einsatz?“
+Bitte gezielt recherchieren (State of Unreal 2025 Witcher-4-UE5-Tech-Demo, CDPR/Epic-Talks, Unreal Fest, Epic-Blog, Interviews, Release-Notes 5.6–5.8,
+Breakdowns): **welche Engine-Features und Plugins** CDPR/Epic für die Witcher-4-Demo (und die Zusammenarbeit an UE5 für Witcher 4) genutzt oder
+entwickelt haben – z. B. Nanite Foliage, FastGeo Streaming, Mass/Crowds, MetaHuman, Animation (Motion Matching, Unreal Animation Framework,
+ML Deformer), Lumen/Raytracing-Einstellungen, Landschaft/Gelände, Wasser/Flüsse (wie wurden Flüsse und Wasserfälle gemacht?), Himmel/Wolken/Nebel,
+PCG/Biome – je Feature: was es tut, ob in 5.8 verfügbar (Plugin-Name aus der Liste oben oder Engine-Feature), Reife, und was Eldarien davon nutzen
+sollte (mit Begründung, Aufwand, Risiko). Quellen mit Links, Unsicheres kennzeichnen.
