@@ -312,4 +312,8 @@ Die Riesen-Regel (≥ 1,5 × Bestand) hat zwei Haine angehoben bzw. freigestellt
 - Alle Biome (Verkleidung, Kameras): `8c6514e`.
 - Doku und Eis-Ausnahme: `d0c6e3a`.
 - Testbilder aller 15 Biome (erzeugt aus `d0c6e3a`): im Zwischenstand-Commit `2dc19e6`.
-- Endfassung dieser Antwort und Bergwald-README: siehe Commit-Nachricht „Auftrag 13h: Endfassung“ auf dem Branch.
+- **Endfassung: `dadcc24`.**
+  - Auf diesem Stand nachgeprüft in einem eigenen Worktree: alle 15 Biome 0 FEHLER, zwei Läufe byteidentisch (Diff 0),
+    Selbsttest 0 FEHLER.
+  - Gegenüber den Testbildern hat sich nur das Metadatenfeld `ufer_an_lippe` in `orte.json` geändert (15f, anderer
+    Agent). Die Geometrie ist gleich, die Bilder gelten weiter.
