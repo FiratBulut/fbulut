@@ -435,3 +435,283 @@ Web-Seiten waren aus der Cloud nicht lesbar (DNS); Inhalte aus Suchmaschinen-Aus
 6. **Nachtrag 18:15 (Totholz, Schlamm):** Das ist Planer-Arbeit (Gefälle- und Sehens-Bach-Planer) und nicht Teil dieses
    Auftrags. Soll das als eigener Auftrag laufen? Der Export übernimmt neue Objekte automatisch (Wasser-Kollision,
    überspannte Stämme ohne).
+
+
+## Nachtrag 2: Totholz, Schlamm, Uferstreifen (Antwort auf Nachtrag 18:15)
+
+Stand 12.10.2026. Code für lokal: Commit `b841294` (Zwischenstand `6c8787b`). Gerechnet auf den 2-m-Daten (Gefälle `--alle`,
+15 Sehens-Planer), auf den 1-m-Fenstern der Piloten und auf der synthetischen 1-m-Welt.
+
+### Kurzfazit
+
+- **Ein Modul für beide Planer:** `skripte/sehens_lib/bachbett.py` mit den Zahlen in `sehens_lib/bachbett_regeln.json`.
+  Der Gefälle-Planer ruft es je Abschnitt auf, die Sehens-Planer über `rezept.py` für jeden geplanten Bach. Rezepte
+  brauchen keine Änderung (Abschalten je Bach mit `"bachbett": false`).
+- **Unverändert (13f-Regel):** Stufen, Lippen, Becken, Spiegel, Gelände-Deltas, Wasserkörper, Effekte und Kameras. Alle
+  98 Gefälle-Pläne vergleichen gleich, `gelaende/*.f32` byte-gleich. Bei allen 42 Sehens-Bächen sind `punkte_cm`,
+  `stufen` und `wasser_koerper` gleich. Akteure unverändert: Gefälle 771, Sehens 2 278. Neu sind nur Instanzen und Lagen.
+- **Totholz** (nur Instanzen, nie Akteure), Gefälle `--alle`:
+  - 1 299 neue große Stücke: 662 Stämme am Ufer, 362 Verklausungs-Stämme, 53 überspannende Stämme, 222 Wurzelstöcke.
+  - Dazu 3 312 Äste und 5 300 Zweige.
+  - Zusammen mit den 1 435 Holzstufen-Stücken sind das 24,5 große Stücke je 100 m Stufenstrecke.
+  - Sehens: 84 große Stücke, 144 Äste und 237 Zweige an 42 Bächen (1,8 km).
+- **Dichte nach Biom und Waldnähe:** Die Literaturwerte für Gebirgsbäche liegen bei 12–16 Stück je 100 m in
+  Mitteleuropa und den Alpen und bis 60 in Naturwäldern (Quellen unten). Daraus:
+  - Bergwald 15, Elfenwald 25, Aue 18, Sumpf 22 und Dschungel 18 je 100 m;
+  - Tundra 3, Heide 3, Wüste 0,5;
+  - Lava, Gletscher und Frost 0.
+  - Der Waldfaktor 0,6–1,4 aus dem 4-m-Baumraster gilt in den Waldbiomen.
+- **Schlamm:** Lage `Schlamm` gibt es (FORMAT.md §2), also keine Rückfrage zum Namen. Sie liegt in ruhigen, tiefen Becken
+  und am Gleithang, an Lippe, Kolk und Schnelle bleibt Kies. In der Lava liegt Lavasand.
+  - Gefälle: 34 639 m² mit Gewicht ≥ 0,3.
+  - Sehens: 188 m². Die Treppenbäche haben kaum ruhige Becken.
+- **Uferstreifen:** Ein nasser, dunkler Streifen 0–1 m über dem Spiegel aus Schlamm, Erde und Moos je Biom, Summe 255,
+  also deckend. Wiese, Gras, Trockengras, Kraut und Heide stehen dort auf 0 (wie die Nadelstreu in 13k).
+  - Gefälle: 53 928 m² Streifen; der Prüfer findet an 9 549 Uferzellen 100 % belegt.
+  - Sehens: 18 156 m².
+- **Felsen** bleiben, wie sie waren. Alles große Holz im Wasser oder ≤ 1 m daneben steht in `<netz>_kol` (3 026 Stücke
+  mit Kollision im Wasser oder am Ufer, Äste eingeschlossen). Der fluss_sim-Export (16e-Stand) liest es ein:
+  - 24 697 Wasser-Kollisionsobjekte, davon 1 782 überspannt (16d ohne Totholz: 22 025 bzw. 1 425).
+  - Prüfer: **0 FEHLER**.
+- **fluss_sim:** Der fluss_sim-Agent ist fertig (Antworten 16d und 16e im Repo). Ich habe den Exporter nach seiner
+  README auf die neuen Pläne laufen lassen. Sein Prüfer meldet 0 FEHLER, deshalb sind die Beispiele unter
+  `antworten/fluss_sim/` aktualisiert (Abschnitt 3).
+- **C2:** C2 liegt im Biom **Tundra** (109 von 109 Punkten), also gilt „kaum“: 5 große Stücke, 12 Äste und 17 Zweige,
+  dazu 329 m² Uferstreifen und 238 m² Schlamm (Abschnitt 6). Mehr Holz ginge nur mit einer Ausnahme für C2
+  (Rückfrage 1).
+- **Prüfung:**
+  - Gefälle `--alle` 2 m und Piloten 1-m-Fenster: **0 FEHLER**, je zweimal byte-gleich.
+  - 15 Sehens-Planer 2 m: **0 FEHLER**, zweimal byte-gleich; auf der synthetischen 1-m-Welt ebenfalls 0 FEHLER (Uferstreifen dort als FEHLER-Regel).
+  - Selbsttest grün: 123 Prüfungen, 28 davon neu.
+
+### 1. Totholz: Regeln
+
+**Arten** (Gruppen `bb_<art>_<nr>` bzw. Sehens `bb_<bach>_<art>_<nr>`, nach allen anderen Gruppen gesetzt):
+
+| Art | Lage | Ebene / Kollision |
+|---|---|---|
+| `verklausung` | oberhalb einer Lippe (das Becken davor ist ≥ 3 m lang) und an Engstellen (B ≤ 0,85 × Median): 2–3 Stämme mit 0,55–1,0 × B Länge, 12–35° schräg und im Wechsel, 0,7–1,6 m vor der Lippe. Verkeilt: Unterkante auf Spiegel − 0,6 × Dicke bzw. auf dem Stamm darunter (`z_frei`). Obenauf 1–2 Äste. | begleiter, Kollision |
+| `ueberspannt` | an schmalen Becken (B ≤ 5 m), auf beiden Ufern aufliegend, 0,8–1,8 m Überstand je Seite, Unterkante ≥ Spiegel + 0,25 m | begleiter, Kollision für den Spieler; der Export führt ihn als `ueberspannt` ohne Wasser-Kollision (16a E5) |
+| `stamm` | am Ufer, Mitte bei Wasserkante −0,6/+0,5 m, 15–55° zur Fließrichtung (teils im Wasser), 2–7 m, höchstens Bachbreite | begleiter, Kollision |
+| `wurzel` | Wurzelstock an der Wasserkante (−0,2/+0,8 m), 1,2–3 m | begleiter, Kollision |
+| `ast` | Ufer −0,5/+2 m, 1–2,6 m | schutt; Kollision, wenn ≤ 1 m neben dem Wasser |
+| `zweig` | Kiesbank bzw. Innenufer (Gleithang: Krümmung zur Seite, 80 %), −0,6/+1,5 m | kleinzeug, ohne Kollision |
+
+- **Anzahl** je Segment: Ziel = `lw_je_100m` × Waldfaktor × Länge/100, abzüglich der vorhandenen Holzstufen und
+  Totholz-quer-Stücke (`holz_*`, `totholz_*`, `wurzel_*`). Davon sind 12 % überspannend und 15 % Wurzelstöcke, der
+  Rest liegt am Ufer. Verklausungen und Äste kommen dazu.
+  - In der **Aue** sind schon alle Stufen aus Holz. Mit 1 084 Holzstufen-Stücken liegt sie bei 41,7 je 100 m, deshalb
+    kommen dort nur 12 Stücke dazu (Rückfrage 3).
+- **Netze:** nur natürliche Netze aus `netze.csv`, je Biom eine Palette für Stamm, Ast, Zweig und Wurzel:
+  - Bergwald: `SM_FallenSpruceTree_01`, `SM_OldFallenTree_*`, `SM_LargeFallenTree_*`, `SM_Pine_roots_*`,
+    `SM_Pine_broken_branch_*`, `SM_mountain_branch_01_*`;
+  - Elfenwald: `SM_MossyTree_01`, `SM_MossyForestRoots_*`;
+  - Küste: Treibholz.
+  - Geprüft: kein Sägeschnitt (`inventar.saegeschnitt`), kein Pflanzenmuster des Exports, alle im Inventar
+    (Selbsttest). Stümpfe aus dem Mountain-Set (`SM_pine_stump_*`) sind nicht dabei: Sie sind wahrscheinlich gesägt,
+    melden aber kein `*ends*`-Material.
+- **Ausrichtung und Skala wie 13k:** Das Netz wird nach der Länge gewählt (Skala 0,6–1,8, Äste ≤ 1,8). Liegend
+  modellierte Stücke liegen auf `normale`.
+  - Die Hochachse weicht höchstens 30° von der Hangnormalen ab, mit Reserve zur Prüfergrenze 45°.
+  - Verkeilte und überspannende Stämme folgen der Normalen so weit, dass es ≤ 20° sind.
+  - Im Gefälle entfernt der Planer nach dem 1-m-Feinschliff jedes Stück, das auf dem endgültigen Boden mehr als 40°
+    abweicht.
+- **Kein Stück durch Blöcke:** Die mittleren 60 % der Achse halten den Kernradius aller massiven Stücke ein. Nur
+  Verklausungen dürfen an Blöcken anliegen.
+- **Kein Totholz mitten in einer Lippe oder einem Vorhang:** Die Lippenzone wird in der Lippen-Koordinate
+  s − Schrägversatz(u) gemessen (15f-Lippenform, aus `lippe_form` nachrechenbar).
+  - Normale Lippe: von 0,3 m vor der Lippe bis 0,5 m hinter dem Fuß.
+  - Stufe ≥ 1 m oder Vorhang: von 0,5 m vor der Lippe bis 1,5 m hinter dem Fuß (Strahl und Aufprall).
+  - Quer reicht die Zone bis Lippenbreite/2 − 0,3 m. An den Lippenenden darf Holz verkeilt liegen.
+  - Geprüft wird nach dem Setzen, an der Achse des tatsächlich gesetzten Netzes (gedrehte Bounds) – genau wie im
+    Prüfer.
+
+### 2. Schlamm und Uferstreifen
+
+- **Gefälle:** Die Lagen werden auf dem 1-m-Ausgaberaster gegen den Boden nach dem 1-m-Feinschliff gerechnet (altes
+  Gelände + Delta). Der Spiegel folgt an den schrägen Lippen `s_eff`.
+- **Sehens:** auf dem Lagenraster des Orts. Auf 2 m wird der Streifen um eine Zelle verbreitert, damit ein 1–3 m breiter
+  Bach nach dem Hochrechnen seine Uferzellen deckt.
+- **Schlamm** (`becken` je Biom, Gewicht 140–230):
+  - Gewicht = Ruhe × Tiefe(0,25 → 0,6 m) × Abstand zur Wasserkante (≥ 0,3 m).
+  - Die Ruhe ist 0 an der Lippe, bis Fuß + 1,5 m (an Stufen ≥ 1 m bis + 3 m) und 1,2 m vor der nächsten Lippe;
+    dazwischen steigt sie auf 1.
+  - Am Gleithang (Krümmung ≥ 0,01/m zur Seite der Zelle, ≤ 0,35 m tief, Ufernähe) liegt Schlamm mit 0,7.
+  - Kies wird unter dem Schlamm um 75 % × Gewicht gedämpft. An den Schnellen bleibt Kies.
+- **Uferstreifen:**
+  - Höhe über dem Spiegel: voll von −0,1 bis 0,65 m, Auslauf bis 1,0 m.
+  - Breite: bis 3,5 m neben die Wasserkante, Auslauf 1 m.
+  - Mischung je Biom mit Rauschen (4 m), z. B. Bergwald Erde 45 %, Moos 35 %, Schlamm 20 %; Aue und Sumpf meist
+    Schlamm; Canyon und Wüste Lehm/Schlamm; Gletscher Schlamm/Geröll (Gletschermehl); Lava Lavasand/Moos.
+  - Die Summe ist 255, also deckend. Wiese, Gras, Trockengras, Kraut und Heide stehen im Streifen auf 0, alle übrigen
+    Lagen auf × 0,4, damit der Streifen vorn liegt.
+
+### 3. Felsen und Wasser-Kollision (Export nur gelesen, nicht geändert)
+
+- Der Export (`fluss_sim_export.Pool.fertig`) wertet ein Objekt als fest, wenn es kein Pflanzennetz ist, im Plan Kollision
+  hat oder ein Fels- bzw. Holznetz ist (`holz_muster`), und wenn es groß genug ist (Grundriss ≥ 0,4 m, Höhe ≥ 0,2 m).
+  Fest heißt Wasser-Kollision im Wasser oder ≤ 1 m daneben. Liegt die Unterkante im Wasser mehr als 0,1 m über dem
+  Spiegel, gilt das Objekt als `ueberspannt`.
+- **Totholz:** Alle großen Stücke haben `kollision: true` (Datei `<netz>_kol`). Damit erkennt der Export sie auch dann,
+  wenn der Name nicht unter `holz_muster` fällt (`SM_OldTreeBranch_*`, `SM_MossyTree_01` und die Äste laufen dort als
+  `sonstiges`, Rückfrage 2). Kleine Zweige bleiben unter der Größengrenze.
+- **Felsen:** unverändert. Der fluss_sim-Prüfer meldet 0 Objekte im Wasser ohne Wasser-Kollision.
+- **Export-Lauf** (Nachtrag 16e, Exporter aus `b71fd13`): 187 Gewässer, 199 SWR-Bereiche.
+  - 24 697 Wasser-Kollisionsobjekte (+31 gegen die 16e-Beispiele, die schon mit dem Zwischenstand gerechnet waren).
+  - Davon 1 782 überspannt.
+  - Prüfer **0 FEHLER**, 0 WARNUNG, 67 HINWEIS.
+  - Die Beispiele unter `antworten/fluss_sim/` sind neu: `F_ERLENBACH`, `bergwald_06_karsee`, `zusammenfassung.json`,
+    `back_liste_auszug.json`. Bei `elfenwald_04_elfentreppe` und `vorschlaege.json` ändert sich nichts.
+  - Die SWR-Fingerabdrücke der Bereiche mit neuem Holz ändern sich (`objekte`). Diese SWR also neu backen.
+
+### 4. Neue Prüfregeln
+
+`gefaelle_pruefen.pruefe_bachbett` und `bachbett.pruefe_orte_bachbett` (Sehens, über `sehens_pruefen.pruefe_orte`):
+
+| Regel | Stufe |
+|---|---|
+| `bachbett` im Plan bzw. je Bach in `orte.json` fehlt | FEHLER |
+| gelistetes Stück fehlt in der Instanz-Ebene (Lage ± 2 cm, Netz) | FEHLER |
+| großes Holz im Wasser bzw. ≤ 1 m daneben ohne Kollision | FEHLER |
+| Achse eines Stücks in einer Lippenzone (mitten in Lippe/Vorhang) | FEHLER |
+| Dichte großes Holz > max × Waldfaktor (+ 1 Stück Toleranz, bei max 0 keine) | FEHLER; HINWEIS, wenn schon der Bestand darüber liegt |
+| Dichte < min × Waldfaktor | FEHLER ab 60 m (WARNUNG mit blockierten Plätzen, darunter HINWEIS) |
+| Waldfaktor im Plan ≠ nachgerechnet | FEHLER |
+| Uferstreifen: < 80 % der Uferzellen (0,05–0,5 m über dem Spiegel, bis 1,5 m neben dem Netzrand, außerhalb der Lippenzonen) mit Streifenlagen ≥ 200 | FEHLER (Sehens auf 2 m: WARNUNG) |
+
+Dazu gilt weiter `pruefe_liegendes_holz`: Hochachse ≤ 45° gegen die Hangnormale, Skala im Rahmen.
+
+### 5. Zahlen je Biom (vorher → nachher)
+
+**Gefälle `--alle`, 2 m** (98 Läufe mit Stufen, 128 Segmente). Vorher gab es kein Totholz außer den Holzstufen
+(„Bestand“) und keinen Schlamm bzw. Streifen.
+
+| Biom | Länge m | Stamm | Verklausung | überspannt | Wurzel | Bestand | groß je 100 m | Äste | Zweige | Streifen m² | Schlamm m² |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Aue | 2 630 | 5 | 5 | 0 | 2 | 1 084 | 41,7 | 502 | 992 | 13 968 | 16 844 |
+| Bergwald | 1 718 | 125 | 41 | 2 | 33 | 77 | 16,2 | 433 | 788 | 8 369 | 1 114 |
+| Dschungel | 919 | 74 | 28 | 10 | 21 | 40 | 18,8 | 382 | 606 | 4 622 | 465 |
+| Elfenwald | 3 958 | 425 | 270 | 41 | 161 | 234 | 28,6 | 1 864 | 2 723 | 18 314 | 12 820 |
+| Heide | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 2 | 98 | 22 |
+| Tundra | 1 909 | 33 | 18 | 0 | 5 | 0 | 2,9 | 130 | 189 | 8 557 | 3 374 |
+| **Summe** | **11 152** | **662** | **362** | **53** | **222** | **1 435** | **24,5** | **3 312** | **5 300** | **53 928** | **34 639** |
+
+- Instanzen 65 182 → 75 097 (+15 %), Akteure 771 → 771.
+- Prüfer: 0 FEHLER; WARNUNG 42 → 43. Neu ist die Warnung `B_R2_R_P3_M2_02` (Elfenwald, 17,8 statt ≥ 19,6 je 100 m):
+  Die Lippen der dichten Kaskade blockieren 145 Plätze.
+- Piloten auf 1-m-Fenstern (19 Läufe):
+  - Instanzen 20 102 → 22 987, Akteure 251 → 251.
+  - 443 große Stücke neu (18,7 je 100 m mit Bestand).
+  - Prüfer 0 FEHLER, WARNUNG 11 → 11.
+
+**Sehens, 2 m** (42 Bäche in 26 Orten):
+
+| Biom | Bäche | Länge m | groß | je 100 m | Äste | Zweige | Streifen m² | Schlamm m² | Instanzen vorher → nachher |
+|---|---|---|---|---|---|---|---|---|---|
+| Aue | 2 | 15 | 0 | 0 | 0 | 0 | 108 | 20 | 20 090 → 20 090 |
+| Bergwald | 4 | 102 | 9 | 8,8 | 13 | 22 | 944 | 0 | 13 413 → 13 457 |
+| Canyon | 2 | 144 | 2 | 1,4 | 4 | 6 | 1 248 | 0 | 17 826 → 17 838 |
+| Dschungel | 2 | 156 | 28 | 17,9 | 59 | 96 | 1 736 | 36 | 15 317 → 15 500 |
+| Elfenwald | 7 | 91 | 18 | 19,7 | 23 | 39 | 760 | 0 | 30 980 → 31 060 |
+| Fjord | 4 | 235 | 9 | 3,8 | 13 | 23 | 2 344 | 32 | 13 405 → 13 450 |
+| Frost | 1 | 26 | 0 | 0 | 0 | 0 | 272 | 0 | 19 611 → 19 611 |
+| Gletscher | 11 | 522 | 0 | 0 | 0 | 0 | 5 268 | 40 | 16 743 → 16 743 |
+| Heide | 2 | 103 | 3 | 2,9 | 4 | 9 | 1 052 | 20 | 25 451 → 25 467 |
+| Lava | 1 | 23 | 0 | 0 | 0 | 0 | 216 | 0 | 18 685 → 18 685 |
+| Sumpf | 1 | 30 | 5 | 16,4 | 5 | 8 | 324 | 0 | 21 704 → 21 722 |
+| Tundra | 4 | 345 | 10 | 2,9 | 23 | 34 | 3 668 | 36 | 24 784 → 24 851 |
+| Wüste | 1 | 23 | 0 | 0 | 0 | 0 | 216 | 4 | 19 326 → 19 326 |
+| **Summe** | **42** | **1 816** | **84** | **4,6** | **144** | **237** | **18 156** | **188** | **279 647 → 280 112** |
+
+- Küste und Ödland haben keinen Bach.
+- In der Aue sind die zwei Bäche zusammen nur 15 m lang, unter der Mindestlänge. Frost, Gletscher und Lava haben nach
+  der Regel kein Holz; in der Wüste ergibt das Ziel 0,1 Stück.
+- Akteure 2 278 → 2 278. Warnungen gleich wie vorher (Fjord und Tundra je ein HINWEIS mehr).
+
+### 6. C2 im Detail (`F_ERLENBACH_1V_C2_s1`, 1-m-Fenster)
+
+- **Biom und Ziel:** Tundra auf 171 m Segment, Ziel 3 × 171/100 = 5,1 große Stücke. Der Waldfaktor gilt in der
+  Tundra nicht.
+- **Gesetzt:**
+
+  | Art | Netz | Länge | Lage | Unterkante über dem Spiegel | Export |
+  |---|---|---|---|---|---|
+  | Verklausung bei s 60 (vor der Fallkette S04/S05) | `SM_FallenSpruceTree_01` | 7,0 m | im Wasser | −0,52 m | Wasser-Kollision |
+  | Verklausung | `SM_OldTreeBranch_06` | 7,0 m | im Wasser | +0,05 m | Wasser-Kollision |
+  | Verklausung (obenauf) | `SM_OldTreeBranch_06` | 7,0 m | im Wasser | +0,37 m | `ueberspannt` |
+  | Wurzelstock bei s 90 | `SM_BrokenStump_01` | 2,0 m | Ufer | — | Wasser-Kollision |
+  | Stamm bei s 167 | `SM_OldFallenTree_01` | 2,9 m | Ufer | +0,31 m | `ueberspannt` |
+
+  Dazu 12 Äste (6 mit Kollision am Wasser) und 17 Zweige (`SM_Pine_broken_branch_*`, `SM_mountain_branch_01_*`).
+- **Abgelehnt:** 3 Plätze in Lippenzonen, 4 Achsen durch Blöcke, 1 zu nah am Nachbarn. Die 18 Stufen mit 42 Lippen
+  lassen auf 171 m wenig freies Bett.
+- **Lagen:**
+  - 329 m² Uferstreifen (Moos/Erde/Schlamm, Trockengras dort 0); der Prüfer zählt 32 Uferzellen, 100 % belegt. Das
+    Ufer der Klamm ist steil, der Streifen deshalb meist 1–2 m schmal.
+  - 238 m² Schlamm in den wenigen längeren Becken und am Innenufer.
+- **Instanzen** 1 823 → 1 857, Kollision 522 → 533, Akteure 42 → 42.
+- **Export:** `F_ERLENBACH` mit 6 Holzobjekten mit Wasser-Kollision und 2 überspannten in C2.
+- Testbild: `antworten/gefaelle/test_F_ERLENBACH_1V_C2_s1.png`.
+
+### 7. Prüfung
+
+| Lauf | Ergebnis |
+|---|---|
+| Gefälle `--alle`, 2 m | Planer 0 FEHLER; Prüfer 0 FEHLER, 43 WARNUNG; zwei Läufe byte-gleich (`diff -r` ohne Bilder) |
+| Piloten, 1-m-Fenster | Planer 0 FEHLER; Prüfer 0 FEHLER, 11 WARNUNG; zwei Läufe byte-gleich |
+| 15 Sehens-Planer, 2 m | Planer und Prüfer je 0 FEHLER; zwei Läufe byte-gleich |
+| 15 Sehens-Planer, synthetisch 1 m | Planer und Prüfer je 0 FEHLER; Warnungen wie im 13k-Lauf (Uferstreifen-Regel hier als FEHLER) |
+| Selbsttest `sehens_lib/selbsttest.py` | grün, 123 ok, 0 FEHLER (neu Schritt 14 `selbsttest_16c.py`, 28 Prüfungen) |
+| fluss_sim-Export + Prüfer (16e-Stand) | 0 FEHLER, 0 WARNUNG |
+
+**Testbilder:**
+- `antworten/gefaelle/test_*.png`: 22 Pilotbilder. Totholz ist als Achse eingezeichnet: Stamm und Wurzel braun,
+  Verklausung rot, überspannt magenta, Äste hell.
+- `antworten/sehens/<biom>/test_<ort>.png`: die 26 Orte mit Bach.
+
+### 8. Lokal zu tun
+
+1. Commit `b841294` holen und Gefälle und Sehens auf 1 m neu planen. Dabei ändern sich nur `instanzen/`, `sw_<biom>/` und
+   die Lagen-Dateien; Gelände und Wasser bleiben.
+2. Das lokale Bachdekor an C2 (Totholz, Schlamm, Uferpflanzen) entfernen oder abgleichen, sonst liegt Holz doppelt.
+   Uferpflanzen setzt der Planer nicht; die dürfen bleiben.
+3. Lagen einbauen. Der Streifen setzt seine Lagen deckend (Summe 255), das Landschaftsgras geht dort weg.
+4. fluss_sim-Export neu laufen lassen und die SWR mit geändertem Fingerabdruck neu backen. Die Hindernis-Akteure `WH_…`
+   bekommen das Holz.
+5. Im Editor ansehen:
+   - Liegen die Verklausungen verkeilt und nicht schwebend? Sie sind `z_frei`; die Unterkante steht im Plan.
+   - Lesen sich die überspannenden Stämme als Brücke?
+   - Ist der Streifen dunkel genug? Sonst Gewichte in `bachbett_regeln.json` → `biome.<biom>.streifen` anpassen.
+
+### Quellen (Nachtrag 2)
+
+Inhalte aus Suchmaschinen-Auszügen; Zahlen mit Messschwelle (meist ≥ 10 cm Durchmesser, ≥ 0,5–1 m Länge).
+
+- [Repozitorij Univerze v Ljubljani – Totholz in Alpenbächen (Radovna, Triglavska Bistrica, Završnica)](https://repozitorij.uni-lj.si/IzpisGradiva.php?id=137595) – im Mittel 15,8 Stück (1,05 m³) je 100 m, obere Meža 14,4 Stück
+- Hering et al. 2000, *Coarse woody debris quantity and distribution in Central European streams*, Int. Rev. Hydrobiol. 85 – geometrisches Mittel 12,5 Stämme (≥ 10 cm) je 100 m (Auszug)
+- [Coarse woody debris in mountain streams (Tatra)](https://yadda.icm.edu.pl/baztech/element/bwmeta1.element.baztech-article-BUJ5-0053-0019/c/Coarse_woody_debris_in_mountain.pdf) – ca. 60 Stück je 100 m in Naturwald-Bächen
+- [Comiti, Andreoli, Lenzi, Mao 2006, Geomorphology 78 – Dolomiten](https://core.ac.uk/works/29445906) – niedrige Mengen wie andere Alpenbäche, Dichte fällt mit der Einzugsfläche
+- [Rigon, Comiti, Lenzi 2012, WRR 48 – Ostalpen](https://bia.unibz.it/esploro/outputs/journalArticle/Large-wood-storage-in-streams-of/991006492981701241) – 13 Bäche, 2–20 m breit, 3–38 % Gefälle; Holz vor allem aus Hangprozessen; Alpen 10–100 m³/ha ([EPICFORCE D20](https://research.ncl.ac.uk/epicforce/assets/D20.pdf))
+- [Wohl & Cadol 2011, Neighborhood matters (Colorado Front Range)](https://mountainscholar.org/items/cd063216-3460-4cbc-a134-c5ef4f0604a0) und [GSA 2011](https://gsa.confex.com/gsa/2011AM/webprogram/Paper197961.html) / [AFS 2012](https://afs.confex.com/afs/2012/webprogram/Paper10921.html) – Altwald im Mittel 45 Verklausungen je km, jüngere Bestände 15–20 je km
+- [Cadol & Wohl, La Selva (Costa Rica)](https://mountainscholar.org/handle/10217/39099) – 3,0–34,7 m³ je 100 m, viele kleine Stücke; [Saraiva et al. 2022, PLoS ONE](https://repositorio.ufmg.br/handle/1843/74863) – neotropische Bäche ähnlich gemäßigten Wäldern
+- [Fox & Bolton 2007, NAJFM 27](https://salishsearestoration.org/wiki/Fox_and_Bolton_2007) – Referenz unbewirtschafteter Bäche; 75. Perzentil als Untergrenze
+- Projekt: `antworten/13k-pilot2-bildbefund-15g-nachtrag.md` (Sägeschnitt, Stammausrichtung, Skala),
+  `antworten/16a-swr-einrichtungstest-teil1.md` (d1, Entscheidung 5), `skripte/fluss_sim/fluss_sim_regeln.json`
+  (`kollision`), `vorlagen/FORMAT.md` §2 (Lagen)
+
+### Rückfragen (Nachtrag 2)
+
+1. **C2 ist Tundra.** Damit liegen dort nur 5 große Stücke (Regel „kaum“). Im Bild stehen einzelne Kiefern und Birken
+   am Hang. Soll C2 (oder der ganze Erlenbach) als Ausnahme Bergwald-Dichte bekommen? Das wären bei 171 m etwa
+   25 Stücke statt 5. Technisch wäre das ein Eintrag „Lauf → Biom“ in `bachbett_regeln.json`.
+2. **Export `holz_muster`:** `SM_OldTreeBranch_*`, `SM_MossyTree_01`, `SM_BrokenTreeBranch_01`, `SM_Pine_broken_branch_*`
+   und `SM_mountain_branch_*` laufen im Export als `sonstiges`. Wasser-Kollision haben sie trotzdem (`kollision` im
+   Plan). Soll der fluss_sim-Agent das Muster um `branch|mossytree` erweitern, damit die Art stimmt?
+3. **Aue:** Die Holzstufen allein ergeben 41,7 große Stücke je 100 m, über dem Rahmen 10–30. Der Prüfer meldet das als
+   HINWEIS, und der Planer setzt dort fast nichts dazu. Bleibt das so, oder soll der Anteil der Holzstufen in der Aue
+   sinken?
+4. **Dichte Kaskaden:** In 1 von 128 Segmenten reicht der Platz nicht für die Mindestdichte (WARNUNG). Die
+   Lippenzonen gehen vor. Einverstanden?
+5. **Roh-Läufe ohne Plan** (97 Welt-Läufe ohne Stufenplan, außerhalb der Stufenstrecken): Dort setzt bisher niemand
+   Totholz oder Uferstreifen. Soll der Planer dafür einen eigenen Durchlauf bekommen (nur Totholz und Lagen, kein
+   Gelände)?
