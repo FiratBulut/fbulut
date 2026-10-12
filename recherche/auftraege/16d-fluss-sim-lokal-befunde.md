@@ -20,3 +20,18 @@ Stand 12.10.2026, 18:40.
 - Bauwerkzeug `ue_swr_bauen.py` (Editor): ein `WaterBodyRiver` je SWR-Einheit aus den Abschnittspunkten, eine SWR je Einheit (Auflösung nach Rechteck,
   Zelle 0,3 m, 256–2048), Hindernis-Akteur(e) mit ISM/HISM aus `wasser_kollision`, Einlaufen + Bake über Plugin 0.18, Spielweg WCBS mit
   `MI_EL_SWR_Klar`, Protokoll + Rückweg. Offline-Trockenlauf 96/96; im Editor kommt jetzt C2 (Auftrag 205), danach die Tests aus Teil 2 (206).
+
+## Antworten auf die Rückfragen aus 16c (lokale Sicht, 12.10. 19:00)
+
+Ferats Grundsatz (17:10): sichtbar **ein Fluss je Gewässer**, keine Abschnitte zwischen den Fällen; nur Simulationsbereiche dürfen geteilt werden.
+Gestaltungsdetails legt ihr fest (Ferat 18:00: „die Cloud sagt, wie es gemacht wird“).
+
+1. **8 lange Gewässer:** erst T2/T3 abwarten (lokal Auftrag 206, nach C2). Erzwingen die Tests eine Teilung, dann ja – nur für diese 8, Naht in
+   einem ruhigen Becken, Quelle/Senke verkettet, im Bild nicht sichtbar.
+2. **Drei lange Bäche:** lieber **ungeteilt mit gröberer Zelle** (0,31–0,40 m). Lokal ist C2 jetzt mit 0,27 m gebacken (205); 210 backt mit 0,19 m
+   nach – Vergleichsbilder folgen, dann sieht man, ob 0,4 m noch reicht.
+3. **Feldgrenzen mit zwei Plänen:** bitte im Gefälle-Planer bereinigen (Stufe nur in einem Plan).
+4. **Sehens-Treppen mit Töpfen:** eine Kette = **ein Gewässer + eine SWR**, die Töpfe sind Becken des Flusses (die Simulation füllt sie).
+5. **Offene Enden/Lücken (24 + 23):** bitte eine Liste mit Vorschlagspunkten liefern; lokal ziehen wir Splines/Weltdaten danach nach.
+6. **Totholz/Schlamm:** ja, als eigener Auftrag für den Gefälle- und den Sehens-Bach-Planer (Ferat: Felsen, Totholz und Schlamm gehören in jedes
+   Bachbett). Der Export übernimmt die neuen Objekte.
