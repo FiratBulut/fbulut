@@ -662,12 +662,25 @@ def pruefe_orte_steil(d, basis, welt, sw_ordner, inv):
     if welt is None or inv is None or not basis:
         return []
     akteure = []
+    inst = {}                    # 13j: Wandmodule als Instanzen (Typ mit Kollision) zaehlen wie Fels-Akteure
     if sw_ordner and os.path.isdir(sw_ordner):
-        for feld, (plan, _arr) in sorted(_ins.lies_ebene(sw_ordner).items()):
+        for feld, (plan, arr) in sorted(_ins.lies_ebene(sw_ordner).items()):
             akteure += plan.get("akteure") or []
+            for key, dat in (plan.get("dateien") or {}).items():
+                a = arr.get(key)
+                if not dat.get("kollision") or a is None or getattr(a, "ndim", 1) != 2:
+                    continue
+                if not ist_fels(dat.get("pfad")):
+                    continue
+                for oid in (dat.get("orte") or {}):
+                    inst.setdefault(oid, []).extend(
+                        {"pfad": dat.get("pfad"), "netz": key, "rolle": "fels", "x": float(r[0]), "y": float(r[1]),
+                         "z": float(r[2]), "qx": float(r[3]), "qy": float(r[4]), "qz": float(r[5]), "qw": float(r[6]),
+                         "sx": float(r[7]), "sy": float(r[8]), "sz": float(r[9])} for r in a)
     b = []
     for o in d.get("orte") or []:
-        b += pruefe_ort_steil(o, basis, welt, fels_abdruecke(akteure, inv, o.get("id")))
+        b += pruefe_ort_steil(o, basis, welt, fels_abdruecke(akteure, inv, o.get("id")) +
+                              fels_abdruecke(inst.get(o.get("id")) or [], inv, None))
     return b
 
 

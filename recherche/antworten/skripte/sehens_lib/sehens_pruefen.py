@@ -1472,6 +1472,9 @@ def pruefe_ebene(sw_ordner, biom, inv=None, orte=None, welt=None, basis=None):
                 b.append((FEHLER, oid, "budget.%s = %s, Ebene %s enthaelt %d" % (k, bu[k], tag, z[k])))
             if z[k] > BUDGET[k]:
                 b.append((WARNUNG, oid, "%s %d > %d (§9)" % (k, z[k], BUDGET[k])))
+        if z["akteure"] > 50:
+            b.append((HINWEIS, oid, "%d Akteure > Richtwert 50 je Ort (13j: wiederholte Module als Instanzen)"
+                      % z["akteure"]))
     for oid in je_ort:
         if orte is not None and oid not in orte_ids:
             b.append((WARNUNG, oid, "Instanzen in %s fuer einen Ort, der nicht in orte.json steht" % tag))

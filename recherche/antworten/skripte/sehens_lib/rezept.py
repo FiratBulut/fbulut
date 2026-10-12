@@ -879,6 +879,30 @@ class OrtKontext:
         for h in hinweise:
             self.melde(HINWEIS, "bach %s: %s" % (wid, h))
 
+    AKTEUR_WIEDERHOLT_AB = 12      # 13j: wiederholte Module desselben Netzes ab 12 Stueck -> Instanzen mit Kollision
+    AKTEURE_RICHTWERT = 50         # 13j: Richtwert je Ort (Pruefer-HINWEIS darueber)
+
+    def _akteure_buendeln(self):
+        """13j Akteur-Budget: Netze, die in diesem Ort >= 12-mal als Akteur stehen (Wandmodule, auch die
+        Wandverkleidung aus 13h), werden Instanzen der Ebene sw_<biom> mit Kollision (nur die Ausgabeform; Lage,
+        Groesse, Drehung bleiben). Einzelne Heldenstuecke bleiben Akteure."""
+        st = [e for e in self.ebene.stuecke if e["ort"] == self.id and e["akteur"]]
+        je = {}
+        for e in st:
+            je.setdefault(e["netz"], []).append(e)
+        n_um = 0
+        for netz, es in sorted(je.items()):
+            if len(es) >= self.AKTEUR_WIEDERHOLT_AB:
+                for e in es:
+                    e["akteur"] = False
+                    e["kollision"] = True
+                    e["extra"] = dict(e.get("extra") or {}, aus_akteur=True)
+                n_um += len(es)
+                self.melde(HINWEIS, "Akteur-Budget (13j): %d x %s als Instanzen mit Kollision" % (len(es), netz))
+        rest = len(st) - n_um
+        if rest > self.AKTEURE_RICHTWERT:
+            self.melde(HINWEIS, "Akteure: %d > Richtwert %d je Ort (13j)" % (rest, self.AKTEURE_RICHTWERT))
+
     def _seeufer_halten(self):
         """13i K8: das Seeufer haelt 1 m ausserhalb des Umrisses (lokaler Pruefer, alle 0,5 m): Band bis 1 m + 0,75
         Zellen hinter dem Umriss auf mindestens Spiegel + 0,1 m anheben (nur anheben), danach 1:2 auslaufend; Zu- und
@@ -2403,6 +2427,7 @@ class OrtKontext:
         _sb.korrigieren(self)                            # 13h Nachtrag: Bloecke im See nie knapp unter dem Spiegel
         if hooks.get("gruppen"):
             hooks["gruppen"](self)
+        self._akteure_buendeln()
         self.pfad_bauen()
         self.lagen_bauen()
         self.effekte_bauen()
