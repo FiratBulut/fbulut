@@ -34,6 +34,7 @@ Die Cloud kann YouTube nicht öffnen; das Video selbst habe ich nicht gesehen. D
 | Läuft sie nur um die Kamera oder über den ganzen Fluss? Wie weit reicht sie? | Hybrid-Planung |
 | Kann man Höhe, Geschwindigkeit und Schaum als Textur oder Zustand **speichern**? (Render Target exportieren, Einback-Funktion) | Einbacken ja/nein |
 | Bilder von denselben Kameras wie in 15g: `s1`, `kn0_unten`, `kn0_nah_s119` | Vergleich mit Version 3 |
+| **Nachbearbeitung:** einen Megascans-Felsen (Static Mesh) mitten in den Fluss stellen und Landschaft leicht modellieren, dann Reset. Reagiert die Strömung auf beides oder nur auf die Landschaft? Braucht der Fels Kollision bzw. Distance Field? | Ferats Wunsch: Details später ändern, ohne neu zu planen |
 
 ## Entscheidung danach
 
