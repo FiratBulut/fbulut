@@ -111,3 +111,24 @@ Stand 12.10.2026. Grundlage ist der 13h-Endstand (dadcc24/146e49c) mit den neuen
 ~~Bei parallel laufenden Planern waren elfenwald und lava einmal nicht byteidentisch (Kameraversätze aus `kamera_frei`).~~
 Korrigiert im Nachtrag: Der Unterschied lag nicht in `kamera_frei`, sondern in einer A15-Änderung zwischen den beiden
 Läufen (neues Feld `pruefung.ufer_an_lippe`); siehe Nachtrag, Abschnitt Determinismus.
+
+## Nachtrag (Koordinator, 12.10.)
+
+Commits: `47a97a9`, `4a95150`, `0e22f82`, `725a69e`; Einzelheiten in der 13i-Antwort, Abschnitt Nachtrag.
+
+- **`dz_cm` nach A15-Konvention:** Workaround (`dz_cm` = 0) entfernt; `dz_cm` kommt unverändert aus `quer_ergaenzen`.
+  Der Prüfer `sehens_pruefen.pruefe_wasser_koerper` importiert die Regel aus `099f902` (`gefaelle_pruefen.pruefe_wasser`,
+  zweiter Aufruf mit Welt, gefiltert auf Querprofil/Wasserhöhe/Deckung): absolute Wasserhöhe bei gleichem s gleich,
+  Sprünge längs und quer ≤ größte Lippenhöhe + 5 cm. Gegenprobe: ein verfälschtes `dz_cm` ergibt FEHLER.
+- **Fuß hinter dem Bogen:** Bei einer Schluss-Stufe, deren 13f-Fuß näher als `bogen_x_m` + 5 cm an der Lippe liegt
+  (elfenwald_04 `stufe_1`), setzt das Netz seinen Fuß auf Lippe + `bogen_x_m` + 5 cm. Die Stufen bleiben wie 13f.
+- **Akteur-Budget:** Riesentannen (bergwald, Gruppe `riesen`) bleiben mit `akteur_fest` Akteure. Neue Option
+  `gelaende.verkleiden.budget_nach_buendeln` (nur gletscher_06): Die 13h-Verkleidung rechnet das Budget ohne die
+  Netze, die danach gebündelt werden.
+- **Determinismus:** Der frühere Unterschied kam aus einer A15-Änderung zwischen zwei Läufen, nicht aus `kamera_frei`
+  (siehe Beobachtung). Zusätzlich ist der Hindernis-Cache in `kamera_frei` jetzt lagegenau.
+
+**Prüfergebnis (Endstand):**
+
+ERGEBNIS_NACHTRAG
+

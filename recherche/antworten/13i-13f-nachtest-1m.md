@@ -234,4 +234,76 @@ enthalten.
      Box lag der Pivot am steilen Sockelrand 3 cm tiefer (−0,33 m).
    - Jetzt verwirft `_ein_stueck` Stücke, deren Pivot unter `boden_min_m` liegt (außer `z_frei`).
 2. **Doppelte K1-Begrenzung** (mein `bach.absenk_grenze` und `steilwand.bach_einschnitt_begrenzen` aus 13h): Welche soll
-   bleiben?
+   bleiben? → entschieden, siehe Nachtrag (eine Funktion).
+
+## Nachtrag (Koordinator, 12.10.)
+
+Commits: `47a97a9` (K1, gletscher_03, akteur_fest, dz_cm), `4a95150` (Restfehler 1 m), `0e22f82` und `725a69e`
+(Kamera-Planer, Stufenvergleich), Antworten: Commit dieser Fassung.
+
+**K1 – eine Funktion:**
+- Es bleibt allein `bach.absenk_grenze`, angewandt in `stempel.bach_profil`. `steilwand.bach_einschnitt_begrenzen`
+  ist entfernt (auch der Aufruf in `rezept`).
+- Verhalten: Innerhalb der Wasserkante (+ 0,5 Zellen) gilt das Bett wie 13f. Außerhalb senkt das Profil höchstens
+  `tiefe + 0,5 m` ab; ab Netzrand + Uferring läuft die Grenze über 2 m weich auf 0, an den Linienenden über die
+  letzten 2 m ebenfalls.
+- Bezug ist das Gelände **vor allen Bächen** (`min(aktuell, h0 + Δ vor den Bächen)`). So vertiefen sich kreuzende oder
+  parallele Bäche nicht gegenseitig; das war der Grund für die strengere 13h-Grenze.
+- Kontrolle `profil_absenkung_aussen` (FEHLER > 0,3 m abseits des Bachs): in allen 15 Biomen 0 m², 2 m und 1 m.
+- Doku: PLANER_ANLEITUNG (Bäche, 13i), README (`steilwand.py`).
+
+**gletscher_03 – Abfluss getrennt:**
+- Das Becken des Moränensees bekommt `"auslass": 80` (Rezept, mit `auslass_grund`). Der `seeabfluss` verlässt den
+  See jetzt dort und läuft getrennt vom `firnrinnsal` (kein gemeinsames Bett mehr, beide eigene Ringe).
+- Stufenvergleich gegen c945f93 (`stufen_vergleich.py`, neue Klasse `gelaende13h` für die vier Gletscherbäche):
+
+| Bach | Stufen | Fall Summe | größte Stufe | Lippen | Begründung |
+|---|---|---|---|---|---|
+| gletscher_01 `gletscherbach` | 13 → 13 | 8,42 → 8,37 m | 2,31 → 2,31 m | unverändert; 1 Fall um 0,05 m | Geländeänderung 13h |
+| gletscher_05 `muehlenbach` | 18 → 18 | 14,67 → 14,67 m | 2,78 → 2,65 m | unverändert; 3 Fälle bis 0,24 m | Geländeänderung 13h |
+| gletscher_03 `seeabfluss` | 10 → 11 | 49,40 → 50,29 m | 10,06 → 11,67 m | neuer Weg ab Auslass | Geländeänderung 13h + getrennter Abfluss |
+| gletscher_03 `firnrinnsal` | 6 → 8 | 75,76 → 75,75 m | 22,98 → 26,37 m | Lauf 51,0 → 28,3 m | Geländeänderung 13h (Karrückwand) |
+
+  - Alle übrigen Bäche: `gleich` 7, `fuss` 26, `schluss` 5 wie 13f/13i; kein `anders`.
+  - `firnrinnsal` hat seit dem 13h-Gelände eine Stufe 26,4 m > 25 m (Planer-WARNUNG aus dem Regelwerk). Die Zahl
+    und die Höhen der Stufen gleich zu halten, ging dort nicht: Der Lauf ist durch die neue Wand fast halb so lang.
+
+**Riesentannen (Säulenhain):** Gruppe `riesen` hat `"akteur_fest": true` und bleibt Akteur.
+
+**`dz_cm`:** Der Workaround (`dz_cm` = 0) ist entfernt. `dz_cm` kommt unverändert aus `quer_ergaenzen` (A15-Konvention,
+relativ zu `z_cm` des eigenen Punkts). `sehens_pruefen.pruefe_wasser_koerper` übernimmt die Querprofil-Regel aus
+`099f902` per Import (`gefaelle_pruefen.pruefe_wasser` mit Welt, gefiltert auf Querprofil/Wasserhöhe/Deckung).
+- Gefunden dabei: Liegt ein 13f-Fuß näher als `bogen_x_m` + 5 cm an der Lippe (Schluss-Stufe am Laufende, z. B.
+  elfenwald_04 `stufe_1`), standen Bogenende, Wandpunkt und Fuß auf demselben s mit zwei Wasserhöhen. Jetzt setzt nur
+  das Netz seinen Fuß auf Lippe + `bogen_x_m` + 5 cm (am Laufende 5 cm ins Mündungsbecken). Die Stufen bleiben.
+
+**Restfehler auf synthetischen 1 m:**
+- **gletscher_06** (Steilflächen 45 und 21 m² offen): Die Verkleidung war vom Akteur-Budget begrenzt (38 Netze), obwohl
+  13j die Wandnetze danach zu Instanzen bündelt. Neue Option `"verkleiden": {"budget_nach_buendeln": true}` (opt-in,
+  nur gletscher_06): Das Budget zählt nur Akteure, die nach dem Bündeln Akteure bleiben. Jetzt 60 Netze, Rest 42 m² in
+  kleinen Flächen (≤ 20 m², erlaubt).
+- **gletscher_03:** Steilfläche nach dem getrennten Abfluss: 0 offen.
+- **lava_08** (`_nah` durch Basalt verdeckt): Die Auto-Verkleidung deckte den Glutschacht (8 × 6 m, 6 m tief) mit bis
+  zu 25 m breiten Schalen zu. Rezept: Schachtwände mit `SM_lava_wall_04/05` (3,5–6 m). `_nah` sieht in den Schacht; vom
+  Weg bleibt er verdeckt (Regel `verdeckung`, HINWEIS wie vorher).
+- **tundra_08** (Seeblock `SM_wk2oaeyqx_VarI`): Das war Tundragras (Megascans-Code im Namen). Die Seeblock-Prüfung
+  erkennt Pflanzen jetzt auch am Ordner `/Plants/`. Kein Block im Tümpel.
+- **gletscher_03 `_nah`** (2 m, nach dem Abflussumbau): Die Kamera stand im Prüfer 0,18 m tiefer und damit in einem
+  Felsnetz. Der Planer prüft den Standplatz jetzt mit seiner Reserve (0,6 m statt 0,3 m). Der Rückfall mit kleiner
+  Reserve prüft dafür alle Kandidaten, auch den weiten Ring (kueste_08 `_nah` auf 1 m).
+
+**Kamera-Determinismus:**
+- Die Ursache des früheren Unterschieds (k24/k25, elfenwald und lava) war **nicht** `kamera_frei`. Der Vergleich der
+  beiden `orte.json` zeigt nur das neue Feld `wasser_koerper[].pruefung.ufer_an_lippe` (A15, `gefaelle_plan.py`).
+  Der A15-Agent hat die Datei zwischen den beiden Läufen geändert. Meine Prüfsumme deckte nur `sehens_lib` und die
+  Rezepte ab, nicht `skripte/gefaelle/`.
+- Geprüft: 4 gleichzeitige Läufe (lava, elfenwald) byteidentisch; 3 Läufe mit `PYTHONHASHSEED` 1/2/3 byteidentisch.
+  NumPy-Reduktionen und BLAS sind hier ausrichtungsunabhängig (Test mit versetzten Puffern).
+- Robust gemacht: Der Hindernis-Cache in `kamera_frei` trifft nur noch bei gleichem Stück **und** gleicher
+  Lage/Größe/Rolle (Stücke werden nach dem ersten Kamerabau noch versetzt). Die Läufe prüfen jetzt die Summe **aller**
+  Eingaben (Lib, Planer, Rezepte, `skripte/gefaelle/*`, Standorte, Inventar) vor, zwischen und nach den Läufen.
+
+**Prüfergebnis (Endstand):**
+
+ERGEBNIS_NACHTRAG
+
