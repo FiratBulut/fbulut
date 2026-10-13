@@ -1,0 +1,16 @@
+{
+ "_doku": "Bodenlagen-Mischung je Zone des neuen p2-Bettplans (Cloud 16h-N6c, talkaskade_zonen.u8: 0 aussen, 1 bett, 2 kolk, 3 lippenkrone, 4 stufenwand_rampe, 5 uferstufe, 6 schulter, 7 boeschung). Prozent je Lage, je Zelle auf 100 normiert. Vorbild: bachbett_ufer_regeln.json B2_landschaft_bach.lagen_unter_spiegel (Geroell 30, Kies 15 an Schnellen, Fels 20 an Lippen/Stufen, Felsplatte 10 Beckengrund, Schlamm 12 / Algen 13 ruhige Becken) und ufer_plan_p2.json Klasse 'steil' (Erde 15, Geroell 25, Kies 15, Moos 25, Trockengras 20). Bettzonen 1-5 OHNE Graslage (6b: 'In der Bettzone bekommen die Lagen keine Graslage'). gewicht: 1 = Mischung ersetzt die alten Lagen ganz; 'delta' = Gewicht aus der Hoehenaenderung clip(|delta| / delta_voll_m, 0, 1) (nur wo sich das Gelaende geaendert hat), 'fest' = fester Wert, nur wo |delta| > delta_min_m.",
+ "stand": "13.10.2026 (Hilfsagent)",
+ "zonen": {
+  "1": {"name": "bett", "gewicht": 1.0, "lagen": {"Geroell": 45, "Kies": 25, "Fels": 30}},
+  "2": {"name": "kolk", "gewicht": 1.0, "lagen": {"Geroell": 30, "Felsplatte": 15, "Schlamm": 25, "Algen": 20, "Fels": 10}},
+  "3": {"name": "lippenkrone", "gewicht": 1.0, "lagen": {"Fels": 55, "Geroell": 30, "Felsplatte": 15}},
+  "4": {"name": "stufenwand_rampe", "gewicht": 1.0, "lagen": {"Fels": 60, "Felsplatte": 25, "Geroell": 15}},
+  "5": {"name": "uferstufe", "gewicht": 1.0, "lagen": {"Geroell": 30, "Kies": 20, "Erde": 25, "Schlamm": 10, "Moos": 15}},
+  "6": {"name": "schulter", "gewicht": "fest", "gewicht_fest": 0.6, "delta_min_m": 0.05, "lagen": {"Erde": 20, "Geroell": 20, "Moos": 20, "Trockengras": 40}},
+  "7": {"name": "boeschung", "gewicht": "delta", "delta_voll_m": 0.5, "delta_min_m": 0.05, "lagen": {"Erde": 20, "Geroell": 30, "Kies": 15, "Moos": 15, "Trockengras": 20}}
+ },
+ "glaetten_zonen_6_7": true,
+ "graslagen": ["Wiese", "Gras", "Trockengras", "Heide", "Kraut", "Laub", "Nadeln"],
+ "pruefung": "Zellen der Zonen 1-5 muessen nach dem Mischen Graslagen = 0 haben; Summe aller 22 Lagen je Zelle = 255."
+}
