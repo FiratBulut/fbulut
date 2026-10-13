@@ -301,7 +301,7 @@ Strecken ≥ 6 m anfassen.
 
 ## 7. Was lokal zu tun ist
 
-Regeln und Skripte: Commit **`@@HASH@@`** holen.
+Regeln und Skripte: Commit **`aceac7f`** holen.
 
 1. **Tönungs-Knoten** (1.2) ins Landschaftsmaterial, zuerst nur W_unter, dann mit Bachgewicht. Bilder an `C2_t430_auge`, `C2_t500_auge`,
    `C2_t500_schraeg`, `C2_t550_auge`.
