@@ -12,7 +12,7 @@
     "format": "laeufe: {Lauf-ID: {ersetzt_durch, art, feld, grund}}; ersatz: {ID: Beschreibung des neuen Laufs}"
   },
   "version": 1,
-  "stand": "2026-10-13 (Auftrag 16h)",
+  "stand": "2026-10-13 (Auftrag 16h; Nachtrag 2: muendung_anschluss)",
   "ersatz": {
     "ERLENBACH_P2": {
       "name": "Erlenbach p2",
@@ -20,15 +20,78 @@
       "quelle": "D2-Felsrinne, Quelle auf 190 m",
       "laenge_m": 788,
       "muendung": "C3-Fluss (Welt-Lauf F_ERLENBACH_2_C3 bzw. Gewaesser F_ERLENBACH)",
-      "abschnitte_s_m": {"bergrinne": [0, 199], "durchbruch": [199, 390], "talkaskade": [390, 579], "kiesbett": [579, 728], "muendung": [728, 788]},
+      "abschnitte_s_m": {
+        "bergrinne": [
+          0,
+          199
+        ],
+        "durchbruch": [
+          199,
+          390
+        ],
+        "talkaskade": [
+          390,
+          579
+        ],
+        "kiesbett": [
+          579,
+          728
+        ],
+        "muendung": [
+          728,
+          788
+        ]
+      },
       "planer": "Unsere Plaene fuer C2 ruhen: kein Gefaelle-Plan, keine Roh-Ebene, kein fluss_sim-Teil. Bisher war C2 unser Pilot Rang 1 (F_ERLENBACH_1V_C2_s1, A15/16c); dieser Stand ist abgeloest. Fuer p2 gelten nur noch Regel-Dateien, die Ferats Werkzeug lesen kann (antworten/bachbett_ufer_regeln.json).",
-      "quelle_auftrag": "recherche/auftraege/16h-erlenbach-p2-talkaskade-ufer-wasser.md"
+      "quelle_auftrag": "recherche/auftraege/16h-erlenbach-p2-talkaskade-ufer-wasser.md",
+      "muendung_anschluss": {
+        "status": "Vorschlag 16h Nachtrag 2 (13.10.); wird vom Export noch nicht gelesen. Umsetzung im fluss_sim-Export (16g/v12): Kopf des Ziel-Laufs kuerzen wie die Regel 'Anschluss erst bei passendem Spiegel' der Feldgrenzen (16c Nachtrag 3).",
+        "ziel_lauf": "F_ERLENBACH_2_C3",
+        "p2_s_m": 748,
+        "p2_spiegel_m": 36.86,
+        "p2_spiegel_bei_s_m": 740,
+        "ziel_kopf_spiegel_m": [
+          37.78,
+          37.42,
+          37.0,
+          36.55
+        ],
+        "ziel_kopf_s_m": [
+          0.0,
+          14.8,
+          29.7,
+          44.5
+        ],
+        "befund": "Die ersten drei Punkte von F_ERLENBACH_2_C3 (37,78 / 37,42 / 37,00 m) sind Kopien des Endes des ersetzten F_ERLENBACH_2_C2 (s 174-204: 37,78 / 37,42 / 37,00 m), also die alte Feld-Ueberlappung, kein eigener Flussspiegel.",
+        "regel": "F_ERLENBACH beginnt am Anschluss an p2: erster Punkt des Ziel-Laufs mit Spiegel <= p2-Spiegel an der Muendung + 0,02 m (2-m-Daten: s = 34,3 m, interpoliert zwischen 37,00 m bei s 29,7 und 36,55 m bei s 44,5) bzw. die Projektion der p2-Muendung auf den Ziel-Lauf, wenn diese weiter stromab liegt. Der Kopf davor entfaellt (wie die ersetzten Laeufe).",
+        "pruefen_lokal": "Gelaende unter dem C3-Kopf (s 0-34 m) <= 36,56 m (Spiegel - 0,3 m)? Projektion der p2-Muendung (s 748/760) auf F_ERLENBACH_2_C3?"
+      }
     }
   },
   "laeufe": {
-    "F_ERLENBACH_1_C2": {"ersetzt_durch": "ERLENBACH_P2", "art": "fluss", "feld": "C2", "grund": "alter Epic-Fluss (Houdini-Stand, 23-39 m breit), existiert lokal nicht mehr"},
-    "F_ERLENBACH_1V_C2": {"ersetzt_durch": "ERLENBACH_P2", "art": "fluss", "feld": "C2", "grund": "bisheriger Pilot C2 (A14/A15, 16a-16g); existiert lokal nicht mehr"},
-    "F_ERLENBACH_2_C2": {"ersetzt_durch": "ERLENBACH_P2", "art": "fluss", "feld": "C2", "grund": "alter Epic-Fluss, existiert lokal nicht mehr"},
-    "B_R3_K10_TUNDRA_01": {"ersetzt_durch": "ERLENBACH_P2", "art": "bach", "feld": "C2", "grund": "alter Bach, existiert lokal nicht mehr"}
+    "F_ERLENBACH_1_C2": {
+      "ersetzt_durch": "ERLENBACH_P2",
+      "art": "fluss",
+      "feld": "C2",
+      "grund": "alter Epic-Fluss (Houdini-Stand, 23-39 m breit), existiert lokal nicht mehr"
+    },
+    "F_ERLENBACH_1V_C2": {
+      "ersetzt_durch": "ERLENBACH_P2",
+      "art": "fluss",
+      "feld": "C2",
+      "grund": "bisheriger Pilot C2 (A14/A15, 16a-16g); existiert lokal nicht mehr"
+    },
+    "F_ERLENBACH_2_C2": {
+      "ersetzt_durch": "ERLENBACH_P2",
+      "art": "fluss",
+      "feld": "C2",
+      "grund": "alter Epic-Fluss, existiert lokal nicht mehr"
+    },
+    "B_R3_K10_TUNDRA_01": {
+      "ersetzt_durch": "ERLENBACH_P2",
+      "art": "bach",
+      "feld": "C2",
+      "grund": "alter Bach, existiert lokal nicht mehr"
+    }
   }
 }

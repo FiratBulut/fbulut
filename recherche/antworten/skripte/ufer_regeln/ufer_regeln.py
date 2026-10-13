@@ -11,6 +11,9 @@ Werkzeug (Bachdekor / s38 lagen). Nur Python-Standardbibliothek, keine Unreal-Im
                                                     Teil C2: Lagen auf Uferboeschungen (None unter 20 Grad)
   schichtband_maske(neigung_grad, wandhoehe_m, fels_anteil)   0..1 (V17-Baender nur auf Fels ab 3 m Wand)
   bachgewicht(R, breite_m), landschaft_wert(R, name, breite_m)  B2: Landschaftsmaterial Bach gegen Welt (Lerp)
+  kasten_nah, boeschung_zweistufig, abtrag_m3, strecken_auswahl  16h Nachtrag 2: Kasten nur am Ufer, Zuruecklegen bis
+                                                    zum Gelaende (32/38 Grad), Auswahl nach Fels-Anteil und Streckenlaenge
+  toenung_neutral_gewicht(h_m, bachgewicht)         16h Nachtrag 2: Tal-Toenung unter Wasser und im Uferband neutral
   kasten_hoehe(querschnitt, grenze_grad=45)         groesste zusammenhaengende Hoehe steiler als grenze_grad
   boeschung_zuruecklegen(querschnitt, d_kante, ziel_grad=32)  Hang ab der Wasserkante zuruecklegen (nur abtragen)
 
@@ -228,6 +231,88 @@ def boeschung_zuruecklegen(querschnitt, d_kante, ziel_grad=32.0, korridor_max_m=
     return out
 
 
+def kasten_nah(querschnitt, d_max_m=4.0, grenze_grad=45.0):
+    """16h Nachtrag 2: Kasten nur im Uferbereich (d <= d_max_m ab der Wasserkante). Steile Talhaenge weiter draussen sind
+    natuerlich und kein gegrabener Kasten."""
+    return kasten_hoehe([p for p in querschnitt if p[0] <= d_max_m + 1e-9], grenze_grad)
+
+
+def boeschung_zweistufig(querschnitt, d_kante=0.0, grad_unten=32.0, h_wechsel_m=1.5, grad_oben=38.0, korridor_max_m=6.0):
+    """16h Nachtrag 2: Hang ab der Wasserkante zuruecklegen, unten grad_unten bis h_wechsel_m ueber der Kante, darueber
+    grad_oben, bis die Linie das Gelaende trifft (nur abtragen, hoechstens korridor_max_m). Anders als
+    boeschung_zuruecklegen endet der Abtrag am Gelaende, nicht hart am Korridorrand (dort entstand sonst eine neue Stufe).
+    Rueckgabe (profil_neu, d_schnitt_m: 0 = nichts zu tun, None = Linie trifft das Gelaende im Korridor nicht -> Uferfels
+    statt Abtrag)."""
+    pts = sorted(querschnitt)
+    z_k = None
+    for (d0, z0), (d1, z1) in zip(pts, pts[1:]):
+        if d0 <= d_kante <= d1:
+            z_k = z0 + (z1 - z0) * ((d_kante - d0) / (d1 - d0) if d1 > d0 else 0.0)
+            break
+    if z_k is None:
+        z_k = pts[0][1] if d_kante < pts[0][0] else pts[-1][1]
+    t1, t2 = math.tan(math.radians(grad_unten)), math.tan(math.radians(grad_oben))
+    d_w = h_wechsel_m / t1
+
+    def linie(d):
+        x = d - d_kante
+        return z_k + (x * t1 if x <= d_w else h_wechsel_m + (x - d_w) * t2)
+
+    # letzter Punkt ueber der Linie im Korridor; der Abtrag endet am naechsten Punkt auf bzw. unter der Linie
+    ueber = [i for i, (d, z) in enumerate(pts)
+             if d_kante < d <= d_kante + korridor_max_m + 1e-9 and z > linie(d) + 1e-9]
+    if not ueber:
+        return [(d, round(z, 4)) for d, z in pts], 0.0
+    nach = [i for i in range(ueber[-1] + 1, len(pts)) if pts[i][1] <= linie(pts[i][0]) + 1e-9]
+    d_s = pts[nach[0]][0] if nach else None
+    if d_s is None or d_s - d_kante > korridor_max_m:
+        return [(d, round(z, 4)) for d, z in pts], None
+    out = [(d, round(min(z, linie(d)) if d_kante <= d < d_s else z, 4)) for d, z in pts]
+    return out, round(d_s - d_kante, 3)
+
+
+def abtrag_m3(alt, neu, schritt_m=0.5, abstand_m=2.0):
+    """Abtragvolumen eines Querschnitts (m3) bei Abtastung schritt_m und Querschnittsabstand abstand_m."""
+    return round(sum(max(z0 - z1, 0.0) for (_, z0), (_, z1) in zip(sorted(alt), sorted(neu))) * schritt_m * abstand_m, 3)
+
+
+def strecken_auswahl(eintraege, fels_max=0.5, min_folge=3):
+    """16h Nachtrag 2: Zuruecklegen nur in zusammenhaengenden Strecken je Seite. eintraege: Liste dicts mit s, seite,
+    kasten (bool, nah), fels_anteil (0..1 vor dem Graben, None = unbekannt -> zaehlt als Lockermaterial).
+    Rueckgabe Menge (s, seite), die zurueckgelegt werden: Kasten und Fels < fels_max, in Folgen von >= min_folge
+    Querschnitten (Abstand 2 m, eine Luecke von einem Querschnitt ueberbrueckt)."""
+    out = set()
+    for seite in sorted({e["seite"] for e in eintraege}):
+        E = sorted((e for e in eintraege if e["seite"] == seite), key=lambda e: e["s"])
+        ja = [e["kasten"] and (e.get("fels_anteil") is None or e["fels_anteil"] < fels_max) for e in E]
+        # eine Luecke von einem Querschnitt ueberbruecken
+        ja2 = list(ja)
+        for i in range(1, len(ja) - 1):
+            if not ja[i] and ja[i - 1] and ja[i + 1]:
+                ja2[i] = True
+        i = 0
+        while i < len(E):
+            if not ja2[i]:
+                i += 1
+                continue
+            j = i
+            while j + 1 < len(E) and ja2[j + 1]:
+                j += 1
+            if j - i + 1 >= min_folge:
+                out |= {(E[k]["s"], seite) for k in range(i, j + 1) if ja[k] or ja2[k]}
+            i = j + 1
+    return out
+
+
+def toenung_neutral_gewicht(h_m, bachgewicht, band=(0.3, 0.8)):
+    """16h Nachtrag 2: Gewicht, mit dem die Houdini-Tal-Toenung auf neutral geht. h_m = Gelaende - Spiegel (m, unter
+    Wasser negativ). Unter Wasser 1 (alle Gewaesser), im Uferband bis band[0] voll und bis band[1] auslaufend, dort nur
+    mit dem Bachgewicht."""
+    unter = 1.0 - smoothstep(-0.05, 0.05, h_m)
+    ufer = bachgewicht * (1.0 - smoothstep(band[0], band[1], h_m))
+    return round(max(unter, ufer), 4)
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Selbsttest
 # ----------------------------------------------------------------------------------------------------------------------
@@ -266,6 +351,21 @@ def selbsttest(R):
     ok(kasten_hoehe(neu) == 0.0, "Zuruecklegen laesst Kasten stehen: %s" % neu)
     ok(all(z1 <= z0 + 1e-9 for (_, z0), (_, z1) in zip(sorted(kasten + [(1.0, 1.25), (2.0, 1.32)]), neu)),
        "Zuruecklegen hebt an")
+    # 16h Nachtrag 2
+    hoch = [(0.0, 0.0), (0.5, 1.0), (1.0, 2.0), (1.5, 2.6), (2.0, 3.0), (3.0, 3.1), (4.0, 3.2), (5.0, 3.3), (6.0, 3.4)]
+    neu2, ds = boeschung_zweistufig(hoch, 0.0)
+    ok(ds is not None and kasten_hoehe([p for p in neu2 if p[0] <= ds + 1.0]) <= 0.6, "zweistufig laesst Kasten: %s" % neu2)
+    ok(all(z1 <= z0 + 1e-9 for (_, z0), (_, z1) in zip(hoch, neu2)), "zweistufig hebt an")
+    ok(abtrag_m3(hoch, neu2) > 0, "zweistufig ohne Abtrag")
+    wand = [(0.0, 0.0), (0.5, 2.0), (1.0, 4.0), (2.0, 6.0), (4.0, 8.0), (6.0, 10.0), (8.0, 12.0)]
+    ok(boeschung_zweistufig(wand, 0.0)[1] is None, "hohe Wand muss offen bleiben (Uferfels)")
+    ok(kasten_nah([(0.0, 0.0), (1.0, 0.3), (5.0, 1.0), (5.5, 2.5)]) == 0.0, "Talhang weit draussen als Kasten gezaehlt")
+    E = [{"s": 2.0 * i, "seite": "links", "kasten": i in (1, 2, 3, 5, 9), "fels_anteil": 0.8 if i == 5 else 0.1}
+         for i in range(12)]
+    sel = strecken_auswahl(E)
+    ok(sel == {(2.0, "links"), (4.0, "links"), (6.0, "links")}, "strecken_auswahl: %s" % sorted(sel))
+    ok(toenung_neutral_gewicht(-0.3, 0.0) == 1.0 and toenung_neutral_gewicht(0.2, 1.0) == 1.0
+       and toenung_neutral_gewicht(0.2, 0.0) == 0.0 and toenung_neutral_gewicht(1.0, 1.0) == 0.0, "Toenung-Gewicht")
     return f
 
 

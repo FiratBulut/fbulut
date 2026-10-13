@@ -268,12 +268,12 @@
       "farbe": "Lerp(1, (0.92, 1.0, 0.95), smoothstep(0.6, 1.5, Tiefe_m))"
     },
     "lagen_unter_spiegel": {
-      "Geroell": 40,
-      "Kies": 25,
-      "Fels": 10,
-      "Felsplatte": 5,
-      "Schlamm": 10,
-      "Algen": 10
+      "Geroell": 30,
+      "Kies": 15,
+      "Fels": 20,
+      "Felsplatte": 10,
+      "Schlamm": 12,
+      "Algen": 13
     },
     "lagen_bedingungen": {
       "Kies": "vorn an Schnellen und Rinnen (Ruhe < 0,6)",
@@ -333,6 +333,38 @@
       },
       "gleichzeitig_max": 4,
       "hinweis": "[Gestaltung, unsicher] im Spiel abhoeren"
+    },
+    "toenung_16h2": {
+      "_doku": "16h Nachtrag 2 (TL): Hauptgrund des orangen Betts ist die Houdini-Tal-Toenung (Lagen Toenung_R/G/B, 64 = neutral, ToenungStaerke 0,5; im Tal etwa (1,05; 0,86; 0,77) nach Staerke). Im Material unter Wasser (alle Gewaesser) und im Uferband (nur Baeche) auf neutral.",
+      "gewicht": "W = max(1 - smoothstep(-0,05; 0,05; h), Bachgewicht x (1 - smoothstep(0,3; 0,8; h))), h = Gelaende - Spiegel (m)",
+      "anwendung": "ToenungStaerke_eff = ToenungStaerke x (1 - W x Toenung_Wasser_Neutral)",
+      "Toenung_Wasser_Neutral": 1.0,
+      "band_m": [
+        0.3,
+        0.8
+      ],
+      "option_gestein": "Toenung auf Gesteinslagen (Kies, Geroell, Fels, Felsplatte) weltweit x 0,5 (ToenungStaerke_eff x (1 - 0,5 x Gesteinsanteil)) - Gestaltungsentscheidung, nicht noetig fuer das Bachbett"
+    },
+    "entsaettigung_nass": {
+      "_doku": "Kies/Geroell-Texturen (T_ground_big_pebbles_01, T_ground_stones_01) sind selbst orange. Bis graue Texturen da sind: unter Wasser und im nassen Band Farbe = Lerp(Farbe, Luminanz, 0,35), danach Nass_Abdunkeln.",
+      "staerke": 0.35
+    },
+    "lagen_unter_spiegel_hinweis": "16h Nachtrag 2: weg von den orangen Kies/Geroell-Texturen, hin zu Fels/Felsplatte (Farbe der Fels-Texturen lokal pruefen), Schlamm und Algen. Vorher (Nachtrag 1): Geroell 40, Kies 25, Fels 10, Felsplatte 5, Schlamm 10, Algen 10.",
+    "texturen_inventar": {
+      "_doku": "Nur aus vorlagen/daten/inventar.json (fab_texturen). Farben aus der Cloud nicht gesehen: im Editor pruefen.",
+      "kachelbar_surfaces": {
+        "geroell_bach": "/Game/Megascans/Surfaces/MossyRockyGround/T_MossyRockyGround_01_BC (+ _N, _AoRDp)",
+        "fels_unter_wasser": "/Game/Megascans/Surfaces/IcelandicQuarryRock/T_IcelandicQuarryRock_01_BC (+ _AoRDp)"
+      },
+      "nicht_kachelbar_3d_assets": [
+        "/Game/Megascans/3D_Assets/DryRiverBed/T_DryRiverBed_01_BC",
+        "/Game/Megascans/3D_Assets/NordicBeachRockyGround/T_NordicBeachRockyGround_01_BC",
+        "/Game/Megascans/3D_Assets/NordicBeachRockyGround/T_NordicBeachRockyGround_02_BC",
+        "/Game/Megascans/3D_Assets/TundraRockyGround/T_TundraRockyGround_01_BC",
+        "/Game/Megascans/3D_Assets/NordicBeachRocks/T_NordicBeachRocks_01_BC"
+      ],
+      "nicht_kachelbar_hinweis": "Texturen von 3D-Scans (fuer ihr Netz gebacken): als Landschaftslage nur nach Test (Kachelnaehte); besser die Netze selbst als Bettflecken setzen",
+      "fehlt": "eine kachelbare graue, runde Bachkiesel-Oberflaeche (Kies) - Megascans-Suche (kostenlos ueber Fab): Stichworte 'river pebbles', 'riverbed gravel', 'wet pebbles', 'mossy river stones'; grau-blau, gerundet, 2 x 2 m"
     }
   },
   "C_ufer": {
@@ -483,6 +515,27 @@
           "outer": 0.8
         },
         "blend_mode": "Min"
+      },
+      "zuruecklegen_16h2": {
+        "_doku": "16h Nachtrag 2: Kasten nur im Uferbereich zaehlen (d <= 4 m; steile Talhaenge weiter draussen sind natuerlich). Zuruecklegen zweistufig bis zum Gelaende (32 Grad bis 1,5 m ueber der Kante, darueber 38 Grad), hoechstens 6 m; trifft die Linie das Gelaende nicht, statt Abtrag Uferfels (C4). Wo Fels moeglich ist (Bergrinne, Durchbruch): nur in zusammenhaengenden Strecken >= 3 Querschnitte (6 m) je Seite mit Fels + Felsplatte vor dem Graben < 50 %, eine Luecke von einem Querschnitt wird ueberbrueckt. Talkaskade/Kiesbett (Lockermaterial): jeder Kasten-Querschnitt; der Abtrag laeuft je 2 m stromauf und stromab aus. Bergrinne und Durchbruch ohne Lagen-Pruefung gelten als Fels.",
+        "kasten_d_max_m": 4.0,
+        "kasten_m": 0.6,
+        "grad_unten": 32.0,
+        "h_wechsel_m": 1.5,
+        "grad_oben": 38.0,
+        "korridor_max_m": 6.0,
+        "fels_max": 0.5,
+        "min_folge": {
+          "bergrinne": 3,
+          "durchbruch": 3,
+          "standard": 1
+        },
+        "fels_unbekannt_nicht_in": [
+          "bergrinne",
+          "durchbruch"
+        ],
+        "skript": "skripte/ufer_regeln/zuruecklegen_p2.py",
+        "ersetzt": "boeschung_zuruecklegen (32 Grad, harter 4-m-Korridor) erzeugte bei Ufern > 2,5 m eine neue Stufe am Korridorrand"
       }
     },
     "lagen_steil": {
