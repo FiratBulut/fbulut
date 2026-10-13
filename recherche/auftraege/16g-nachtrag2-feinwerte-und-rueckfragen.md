@@ -44,3 +44,25 @@ Bezug: eure Antwort `antworten/16g-nachtrag-ursache-gefunden.md` (a5be890). Eure
 ## 3. Reihenfolge lokal
 
 F1 (`remove_outside` 50) → F2 (Band = Bett, 0,3/0,4) → F6 (Zone 2048) → F4/F5 erst mit Antwort auf 16h §3 (unser Master hat kein `FoamAtten`).
+
+## 4. Ergebnisse F1 und F2 (13.10. 11:12–11:29, C2, Zone 4096, Nachfüllen 0,3, Hindernisse N5, Quelle 300)
+
+Messung wie bisher: „1–8 m außerhalb“ = nasse Zellen 1–8 m neben dem Plan-Bett. Das Spline-Band ist im Oberlauf Bett + 2 m, im Kiesbett = Bett.
+
+| Lauf | Bett nass | 1–8 m außerhalb | Tiefe Mitte (Plan 0,59) | Front | Bemerkung |
+|---|---|---|---|---|---|
+| Endstand 10:15 (Entfernen 0) | 99,8 % | 1 653 (Kies 515) | 0,55 m | 783 | gespeichert |
+| **F1** Entfernen 50, nach 5 min | 99,1 % | 1 179 (Kies 97) | 0,51 m | 748 | Kies 97,4 % nass, Tiefe Kies 0,37 m (Plan 0,53) |
+| **F1** nach 8 min | 99,4 % | **1 023 (−38 %)** | **0,47 m** | 748 | |
+| **F2** Band = Bett (Rinne 1,6–2,0 m) + Entfernen 50 | **4,1 %** | 116 | 0,00 m | **s 59** | nach 5 und 8 min gleich |
+
+**Folgerungen:**
+1. **F1:** Entfernen 50 nimmt 38 % des Überlaufs weg, macht das Bett aber 15 % flacher. Überlauf außerhalb des Bands zeichnet das Netz in WCBS
+   ohnehin nicht. Deshalb bleibt der Endstand (Entfernen 0). Die Front 748 ist die Grenze des C3-Flusses `F_ERLENBACH_2_C3` (36 m breit).
+   Ab s 748 liegt der Bach in ihm, also ist das richtig.
+2. **F2 widerlegt Teiler 6:** Das Band ist in der Rinne nur 1,6–2,0 m breit (6,8 Pixel bei 0,29 m), und das Wasser bleibt bei s 59 stehen.
+   - Entweder braucht es mehr Pixel quer, oder ein Band, das breiter ist als das Bett.
+   - Mit Band = Bett + 2 m (12–14 Pixel) läuft es durch.
+   - Vorschlag für die Regel: **Band = Bett + 2 m**, und Pixel ≤ Bandbreite / 12. F6 (Zone 2048) teste ich nur auf Wunsch.
+3. **Mündung:** `F_ERLENBACH_2_C3` steht in den Daten bei 37,78 m. Der p2-Spiegel liegt bei s 740 bei 36,86 m, also 0,9 m tiefer.
+   Ein Bild der Mündung folgt.
