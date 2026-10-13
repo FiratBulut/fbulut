@@ -622,7 +622,7 @@
       }
     },
     "bewuchs_kante": {
-      "_doku": "Teil C3: Bewuchs an der Boeschungsschulter (Linie, an der die Neigung unter 20 Grad faellt) und an der Wasserlinie. Nichts in Lippenzonen (bachbett_regeln.json: 0,3 m vor bis 0,5 m hinter einer Lippe, an Stufen >= 1 m 0,5 m vor bis 1,5 m hinter dem Fuss).",
+      "_doku": "Teil C3: Bewuchs an der Boeschungsschulter (Linie, an der die Neigung unter 20 Grad faellt) und an der Wasserlinie. Ausschluss nach ausschluss_16h5 (Lippen nur fuer Steine im Hauptstrahl; das fruehere Lippenzonen-Band war fuer das Ufer zu breit).",
       "ueberhaengendes_gras": {
         "wo": "Erd- und Rasenufer (nicht Fels, nicht Kiesbank)",
         "anteil_kantenlaenge": [
@@ -653,7 +653,8 @@
           "SM_GrassyEmbankment_01",
           "SM_GrassyEmbankment_02"
         ],
-        "landschaftsgras_faktor_kante": 1.3
+        "landschaftsgras_faktor_kante": 1.3,
+        "fuss": "Fuss auf Schulterhoehe (h_ueber_spiegel_m = Schulter), Mitte 0,15-0,35 m vor der Schulter zum Wasser; ist das Gelaende dort tiefer, bleibt der Fuss auf Schulterhoehe (begrenzt durch das Gelaende) - der Bueschel haengt ueber die Kante (16h Nachtrag 5 bestaetigt)"
       },
       "moospolster": {
         "wo": "Ufersteine und Boeschung 0-1,2 m ueber dem Spiegel",
@@ -881,7 +882,35 @@
         }
       ]
     },
-    "plan_skript": "skripte/ufer_regeln/ufer_plan_p2.py -> ufer_p2/ufer_plan_p2.json (Bach-Koordinaten s/seite/d)"
+    "plan_skript": "skripte/ufer_regeln/ufer_plan_p2.py -> ufer_p2/ufer_plan_p2.json (Bach-Koordinaten s/seite/d)",
+    "ausschluss_16h5": {
+      "_doku": "16h Nachtrag 5: Ausschlussregeln fuer Ufer-Instanzen nach Ferats Einbau (1 592 von 1 730 gesetzt). Ersetzt das Lippenzonen-BAND (s_lippe - 1,5 ... s_fuss + 1,0 m, d <= 2 m) fuer Ufer-Elemente: Bei Stufen alle 5-7 m deckte es 84 % der Talkaskade ab (unser Fehler: die Lippenzone ist fuer Holz im Bett gedacht, nicht fuer das Ufer).",
+      "lippe_steine": {
+        "s_m": 0.75,
+        "d_max_m": 0.5,
+        "hinweis": "nur Steine: |s - s_lippe| <= 0,75 m und d <= 0,5 m (Hauptstrahl frei); Pflanzen an der Lippe erlaubt"
+      },
+      "pflanze_im_wasser": {
+        "unter_spiegel_m": 0.02
+      },
+      "ueberdeckung": {
+        "huelle_anteil": 0.85,
+        "hinweis": "Bodenpunkt in der gedrehten Huelle eines Bachdekor-Felsens/Stamms oder einer Felsschale (85 %); Bloecke und Uferfelsen duerfen Kopfsteine und Kiesel ueberdecken, nicht umgekehrt; Widerlager liefert das Bachdekor"
+      },
+      "zu_tief": {
+        "oberseite_min_anteil": 0.25,
+        "hinweis": "Oberseite der Mitte < 25 % der Hoehe ueber dem Gelaende = verschwunden"
+      },
+      "flache_steine": {
+        "hoehe_laenge_max": 0.35,
+        "neigung_max_grad": 35.0,
+        "hinweis": "flache Netze (Hoehe < 0,35 x Laenge) nur bis 35 Grad Ufer; steiler runde Netze (sonst zu tief eingegraben, 20 Faelle an 40-57-Grad-Ufern)"
+      },
+      "auflage": {
+        "huelle_anteil": 0.6,
+        "hinweis": "Ferat: keine schwebende Ecke, Auflage mit 60 % der Huelle"
+      }
+    }
   },
   "quellen": {
     "REPOSE": "Wikipedia, Angle of repose (Tabelle: Kies natuerlich mit Sand 25-30 Grad, Schotter gebrochen 45 Grad, Sand trocken 34 Grad) https://en.wikipedia.org/wiki/Angle_of_repose",

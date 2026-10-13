@@ -37,7 +37,7 @@
  },
  "summe": {
   "gewaesser": 186,
-  "laenge_m": 45413.7,
+  "laenge_m": 45417.7,
   "swr_bereiche": 197,
   "gewaesser_eine_swr": 182,
   "faelle": 737,
@@ -52,7 +52,7 @@
    "kehrwasser": 304,
    "schaumstrasse": 787
   },
-  "splinepunkte": 18477,
+  "splinepunkte": 18479,
   "gefiltert": 20103
  },
  "kategorien": {
@@ -72,7 +72,7 @@
   },
   "welt/fluss": {
    "gewaesser": 9,
-   "laenge_m": 10643.9,
+   "laenge_m": 10647.9,
    "swr_bereiche": 19,
    "eine_swr": 6,
    "laeufe": 24
@@ -334,7 +334,7 @@
   "regel": "Manning-Strickler bei Normalabfluss je Splinepunkt: v = k_st^(3/5) * q^(2/5) * max(I, gefaelle_min)^(3/10). I = Gefaelle des Wasserspiegels ueber +-fenster_halb_m (Stufen zaehlen mit). q = Q / b (Abfluss je Meter Breite, b = RiverWidth); Q = v_becken_ref_ms * Median(b * h) ueber +-q_fenster_m mit h = Depth * tiefe_mittel_anteil (>= tiefe_min_m): ein Becken mittlerer Groesse fliesst mit v_becken_ref_ms, Engstellen schneller, breite Becken langsamer (Kontinuitaet); in Becken und Toepfen (Rueckstau) v = min(v, q / h). v begrenzt auf [v_min_ms; v_max_ms], entlang s geglaettet (Gauss glatt_sigma_m, Gewicht x halber Punktabstand), dann Aenderung je Meter <= aenderung_max_ms_je_m (untere Huelle: nur Spitzen sinken), zuletzt x tempo_faktor. tempo_ms auf 0,001 m/s gerundet; WaterVelocityScalar_cm_s = tempo_ms x 100 (0,1 cm/s).",
   "tempo_faktor": 1.0,
   "vorher": {
-   "n": 18477,
+   "n": 18479,
    "mittel": 1.639,
    "median": 1.5,
    "p10": 0.8,
@@ -343,7 +343,7 @@
    "max": 4.5
   },
   "nachher": {
-   "n": 18477,
+   "n": 18479,
    "mittel": 0.683,
    "median": 0.58,
    "p10": 0.172,
@@ -381,8 +381,8 @@
     "nachher": {"n":5979,"mittel":0.575,"median":0.559,"p10":0.176,"p90":1.025,"min":0.1,"max":2.105}
    },
    "roh": {
-    "vorher": {"n":5445,"mittel":1.704,"median":1.8,"p10":0.351,"p90":2.852,"min":0.3,"max":4.5},
-    "nachher": {"n":5445,"mittel":0.606,"median":0.496,"p10":0.164,"p90":1.266,"min":0.1,"max":2.099}
+    "vorher": {"n":5447,"mittel":1.705,"median":1.8,"p10":0.351,"p90":2.852,"min":0.3,"max":4.5},
+    "nachher": {"n":5447,"mittel":0.606,"median":0.496,"p10":0.164,"p90":1.266,"min":0.1,"max":2.099}
    },
    "topf": {
     "vorher": {"n":61,"mittel":0.463,"median":0.393,"p10":0.1,"p90":0.8,"min":0.1,"max":2.63},
@@ -391,12 +391,12 @@
   },
   "nach_gefaelle": {
    "< 1 %": {
-    "vorher": {"n":4495,"mittel":1.169,"median":0.864,"p10":0.3,"p90":2.457,"min":0.1,"max":3.0},
-    "nachher": {"n":4495,"mittel":0.322,"median":0.274,"p10":0.1,"p90":0.663,"min":0.1,"max":1.384}
+    "vorher": {"n":4501,"mittel":1.17,"median":0.866,"p10":0.3,"p90":2.457,"min":0.1,"max":3.0},
+    "nachher": {"n":4501,"mittel":0.323,"median":0.274,"p10":0.1,"p90":0.664,"min":0.1,"max":1.384}
    },
    "1-5 %": {
-    "vorher": {"n":6302,"mittel":1.569,"median":1.628,"p10":0.8,"p90":2.612,"min":0.548,"max":3.829},
-    "nachher": {"n":6302,"mittel":0.498,"median":0.445,"p10":0.181,"p90":1.01,"min":0.1,"max":1.8}
+    "vorher": {"n":6298,"mittel":1.569,"median":1.628,"p10":0.8,"p90":2.612,"min":0.548,"max":3.829},
+    "nachher": {"n":6298,"mittel":0.498,"median":0.444,"p10":0.181,"p90":1.007,"min":0.1,"max":1.8}
    },
    "5-15 %": {
     "vorher": {"n":3518,"mittel":1.897,"median":1.854,"p10":0.8,"p90":3.0,"min":0.5,"max":4.5},
@@ -413,8 +413,8 @@
     "nachher": {"n":1086,"mittel":0.673,"median":0.683,"p10":0.1,"p90":1.317,"min":0.1,"max":2.407}
    },
    "welt": {
-    "vorher": {"n":17391,"mittel":1.643,"median":1.528,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
-    "nachher": {"n":17391,"mittel":0.683,"median":0.573,"p10":0.18,"p90":1.366,"min":0.1,"max":2.5}
+    "vorher": {"n":17393,"mittel":1.643,"median":1.528,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
+    "nachher": {"n":17393,"mittel":0.683,"median":0.573,"p10":0.18,"p90":1.366,"min":0.1,"max":2.5}
    }
   },
   "spearman_gefaelle": {

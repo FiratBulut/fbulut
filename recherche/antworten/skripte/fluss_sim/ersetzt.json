@@ -12,7 +12,7 @@
     "format": "laeufe: {Lauf-ID: {ersetzt_durch, art, feld, grund}}; ersatz: {ID: Beschreibung des neuen Laufs}"
   },
   "version": 1,
-  "stand": "2026-10-13 (Auftrag 16h; Nachtrag 4: lokaler Kopf des C3-Laufs)",
+  "stand": "2026-10-13 (Auftrag 16h; Nachtrag 5: lokaler C3-Kopf ab s 20 m)",
   "ersatz": {
     "ERLENBACH_P2": {
       "name": "Erlenbach p2",
@@ -69,19 +69,19 @@
         "aktiv": true,
         "befund_bild": "16h Nachtrag 3, bilder/swr_p2/muendung.jpg: C3 ist an der Muendung nur ein Tuempel in einem breiten Schotterbett; keine Glaswand",
         "lokaler_kopf": {
-          "stand": "16h Nachtrag 4 (13.10., Ferat): lokaler C3-Kopf, Punkte 0-2 nach s (dist) 24/31/38 m verschoben",
+          "stand": "16h Nachtrag 5 (13.10., Ferat): C3-Punkt 0 nach s (dist) 20 m unter das p2-Wasser (p2 laeuft bis dist 28,7 m), 36,80 m, Breite 6 m (= p2-Breite); Punkt 1 auf 36,78 m",
           "s_m": [
-            24.0,
+            20.0,
             31.0,
             38.0
           ],
           "spiegel_m": [
             36.8,
-            36.72,
+            36.78,
             36.64
           ],
           "breite_m": [
-            7.0,
+            6.0,
             11.0,
             14.0
           ],
@@ -98,8 +98,13 @@
               26.0,
               25.0
             ],
-            "annahme": "Ferats Punkte 3-6 (Breiten 17/22/26/25 m) sind die Weltpunkte ab s 44,5 m (dort heute 28/26/26/25 m; die Punkte 5 und 6 stimmen ueberein)"
+            "annahme": "von Ferat bestaetigt (16h Nachtrag 5): Punkte 3-6 sind die Weltpunkte bei s 44,5 / 59,4 / 74,2 / 89,0 m"
           }
+        },
+        "overlap_material_priority": {
+          "ersatz_p2": 12,
+          "ziel": 10,
+          "regel": "p2 zeichnet in der Ueberlappung (dist 20-28,7 m) ueber dem C3-Kopf. Der Export gibt Welt-Fluessen 10; bleibt das <= 11, passt es. p2 ist kein Teil des Exports, deshalb nur hier vermerkt."
         }
       }
     }

@@ -14,6 +14,7 @@ Werkzeug (Bachdekor / s38 lagen). Nur Python-Standardbibliothek, keine Unreal-Im
   kasten_nah, boeschung_zweistufig, abtrag_m3, strecken_auswahl  16h Nachtrag 2: Kasten nur am Ufer, Zuruecklegen bis
                                                     zum Gelaende (32/38 Grad), Auswahl nach Fels-Anteil und Streckenlaenge
   toenung_neutral_gewicht(h_m, bachgewicht)         16h Nachtrag 2: Tal-Toenung unter Wasser und im Uferband neutral
+  stein_an_lippe, flacher_stein_erlaubt             16h Nachtrag 5: Ausschluss am Hauptstrahl, flache Steine nur <= 35 Grad
   kasten_hoehe(querschnitt, grenze_grad=45)         groesste zusammenhaengende Hoehe steiler als grenze_grad
   boeschung_zuruecklegen(querschnitt, d_kante, ziel_grad=32)  Hang ab der Wasserkante zuruecklegen (nur abtragen)
 
@@ -304,6 +305,18 @@ def strecken_auswahl(eintraege, fels_max=0.5, min_folge=3):
     return out
 
 
+def stein_an_lippe(s_m, d_m, lippen_s, regel=None):
+    """16h Nachtrag 5: Stein im Hauptstrahl einer Lippe? |s - s_lippe| <= 0,75 m und d <= 0,5 m (statt Lippenzonen-Band)."""
+    r = regel or {"s_m": 0.75, "d_max_m": 0.5}
+    return d_m <= r["d_max_m"] and any(abs(s_m - sl) <= r["s_m"] for sl in lippen_s)
+
+
+def flacher_stein_erlaubt(hoehe_m, laenge_m, neigung_grad, regel=None):
+    """16h Nachtrag 5: flache Netze (Hoehe < 0,35 x Laenge) nur bis 35 Grad Uferneigung."""
+    r = regel or {"hoehe_laenge_max": 0.35, "neigung_max_grad": 35.0}
+    return not (hoehe_m < r["hoehe_laenge_max"] * laenge_m and neigung_grad > r["neigung_max_grad"])
+
+
 def toenung_neutral_gewicht(h_m, bachgewicht, band=(0.3, 0.8)):
     """16h Nachtrag 2: Gewicht, mit dem die Houdini-Tal-Toenung auf neutral geht. h_m = Gelaende - Spiegel (m, unter
     Wasser negativ). Unter Wasser 1 (alle Gewaesser), im Uferband bis band[0] voll und bis band[1] auslaufend, dort nur
@@ -366,6 +379,10 @@ def selbsttest(R):
     ok(sel == {(2.0, "links"), (4.0, "links"), (6.0, "links")}, "strecken_auswahl: %s" % sorted(sel))
     ok(toenung_neutral_gewicht(-0.3, 0.0) == 1.0 and toenung_neutral_gewicht(0.2, 1.0) == 1.0
        and toenung_neutral_gewicht(0.2, 0.0) == 0.0 and toenung_neutral_gewicht(1.0, 1.0) == 0.0, "Toenung-Gewicht")
+    ok(stein_an_lippe(10.5, 0.3, [10.0]) and not stein_an_lippe(10.5, 0.8, [10.0])
+       and not stein_an_lippe(11.0, 0.2, [10.0]), "Lippen-Ausschluss Steine")
+    ok(flacher_stein_erlaubt(0.13, 0.52, 30.0) and not flacher_stein_erlaubt(0.13, 0.52, 45.0)
+       and flacher_stein_erlaubt(0.3, 0.42, 50.0), "flache Steine")
     return f
 
 

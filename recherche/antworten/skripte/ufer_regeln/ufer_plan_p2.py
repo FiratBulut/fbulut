@@ -85,12 +85,15 @@ def schulter(P, n, d_max=6.0):
     return None
 
 
-def netz_fuer(liste, groesse, R, key):
-    """Netz aus der Liste, dessen Skala (Zielgroesse / groesste Ausdehnung) in [0,35; 1,8] liegt; deterministisch."""
+def netz_fuer(liste, groesse, R, key, neigung=0.0):
+    """Netz aus der Liste, dessen Skala (Zielgroesse / groesste Ausdehnung) in [0,35; 1,8] liegt; deterministisch.
+    16h Nachtrag 5: flache Netze (Hoehe < 0,35 x Laenge) nur bis 35 Grad Uferneigung."""
     ok = []
     for n in liste:
         r = R[n]
         m = max(float(r["groesse_x_m"]), float(r["groesse_y_m"]), float(r["groesse_z_m"]))
+        if not u.flacher_stein_erlaubt(float(r["groesse_z_m"]), max(float(r["groesse_x_m"]), float(r["groesse_y_m"])), neigung):
+            continue
         sk = groesse / m
         if 0.35 <= sk <= 1.8:
             ok.append((n, round(sk, 3)))
@@ -118,6 +121,16 @@ class Plan:
                                                                             float(r["groesse_z_m"])], "eintraege": []})
         e["eintraege"].append([round(s, 2), seite, round(d, 2), round(skala, 3), round(yaw, 1), round(kipp, 1),
                                round(einb, 2), round(h, 2)])
+
+
+def neigung_bei(prof, n, d):
+    """Neigung (Grad) am Abstand d (linear zwischen den Profilpunkten, ausserhalb Randwert)."""
+    if d <= prof[0][0]:
+        return n[0]
+    for (d0, _), (d1, _), g0, g1 in zip(prof, prof[1:], n, n[1:]):
+        if d0 <= d <= d1:
+            return g0 + (g1 - g0) * (d - d0) / max(d1 - d0, 1e-9)
+    return n[-1]
 
 
 def plane(Q, R, sperre, regeln, abschnitte, prallhaenge):
@@ -204,11 +217,12 @@ def plane(Q, R, sperre, regeln, abschnitte, prallhaenge):
             F = ST["prallhang_fuss"]
             for k in range(1 if zufall(s, seite, "pb") < 0.75 else 2):
                 gr = zw(*F["groesse_m"], s, seite, "pg", k)
+                du = zw(*F["u_m"], s, seite, "pu", k)
                 netz, sk = netz_fuer(["skjsL_tier_0", "texndcpda_tier_0", "SM_mountain_rock_big_02_2"], gr, R,
-                                     (s, seite, "pn", k))
+                                     (s, seite, "pn", k), neigung_bei(prof, n, du))
                 if netz:
                     P_.setze(netz, "uferblock", "bb_steine", gr >= 0.8, [0, 45000], s + zw(-1, 1, s, seite, "ps", k),
-                             seite, zw(*F["u_m"], s, seite, "pu", k), sk, zw(-20, 20, s, seite, "py", k),
+                             seite, du, sk, zw(-20, 20, s, seite, "py", k),
                              zw(10, 20, s, seite, "pk", k), zw(*F["einbettung"], s, seite, "pe", k), 0.0)
             if felsig and wh >= 2.5 and zufall(s, seite, "uf") < 0.5:
                 gr = zw(1.5, 2.5, s, seite, "ufg")
@@ -220,10 +234,11 @@ def plane(Q, R, sperre, regeln, abschnitte, prallhaenge):
             K = ST["gerade"]
             if zufall(s, seite, "kp") < 2.0 * zw(*K["je_10m_ufer"], s, seite, "kq") / 10.0:
                 gr = zw(*K["groesse_m"], s, seite, "kg")
-                netz, sk = netz_fuer(K["netze"], gr, R, (s, seite, "kn"))
+                du = zw(*K["u_m"], s, seite, "ku")
+                netz, sk = netz_fuer(K["netze"], gr, R, (s, seite, "kn"), neigung_bei(prof, n, du))
                 if netz:
                     P_.setze(netz, "kopfstein", "bb_steine", False, [0, 9000], s + zw(-1, 1, s, seite, "ks"), seite,
-                             zw(*K["u_m"], s, seite, "ku"), sk, zw(-20, 20, s, seite, "ky"), zw(10, 20, s, seite, "kk"),
+                             du, sk, zw(-20, 20, s, seite, "ky"), zw(10, 20, s, seite, "kk"),
                              zw(*K["einbettung"], s, seite, "ke"), 0.0)
         else:
             Gh = ST["gleithang"]
@@ -265,14 +280,16 @@ def main(argv=None):
     f = pruefe(P_, lagen, regeln)
     for netz, e in P_.inst.items():
         e["anzahl"] = len(e["eintraege"])
-    out = {"format": "ufer_plan_p2_v1", "stand": "16h Nachtrag 3", "quelle": os.path.relpath(a.quer, ANTW),
+    out = {"format": "ufer_plan_p2_v1", "stand": "16h Nachtrag 3, Regeln 16h Nachtrag 5", "quelle": os.path.relpath(a.quer, ANTW),
            "regeln": "bachbett_ufer_regeln.json (C_ufer)", "abschnitte": ab,
            "koordinaten": "Bach: s = m entlang p2 wie die Querschnitte, seite wie dort, d = m ab der Wasserkante (aussen +). "
                           "Welt-x/y ueber die p2-Spline (wie querschnitte_p2.json), z = Gelaende - einbettung x Netzhoehe "
                           "(Netzhoehe = groesse_m[2] x skala); h_ueber_spiegel_m nur zur Kontrolle.",
            "spalten": SPALTEN,
-           "hinweise": ["Lippenzonen und Stufen-Widerlager sind in den Querschnitten nicht enthalten: Ferats Kette filtert mit "
-                        "den Lippen des Bachdekors (bachbett_regeln.json lippe_*).",
+           "hinweise": ["Lippen und Stufen-Widerlager sind in den Querschnitten nicht enthalten. Ausschluss nach "
+                        "bachbett_ufer_regeln.json C_ufer.ausschluss_16h5 (16h Nachtrag 5): Steine im Hauptstrahl "
+                        "(|s - s_lippe| <= 0,75 m, d <= 0,5 m), Pflanzen im Wasser, Ueberdeckung mit Bachdekor-Felsen, zu tief; "
+                        "kein Lippenzonen-Band fuer das Ufer.",
                         "Farne werden nicht gesetzt: es fehlen Nordseite und Baumnaehe je Querschnitt.",
                         "rolle 'wurzel_bedingt_baum_6m': nur setzen, wenn ein Baum/Strauch <= 6 m von der Kante steht, "
                         "sonst durch ein Grasbueschel ersetzen.",
