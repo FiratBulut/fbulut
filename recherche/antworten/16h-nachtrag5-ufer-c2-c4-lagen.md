@@ -197,7 +197,7 @@ Alle Werte in `MI_EL_SWR_Klar`, nicht speichern, Kameras t430/t500/t550 auf Auge
 
 ## 7. Was lokal zu tun ist
 
-Commit **`@@HASH@@`** holen.
+Commit **`3452dbc`** holen.
 
 1. `Entsaettigung_Nass` 0,5 (V18, beide Instanzen); V19 bleibt ungebaut.
 2. Testreihe 2.2: zuerst D, dann W1 (ELD-Wirbel aus), W2/W3 neben euren A/B; W4 nur nach D (c).
