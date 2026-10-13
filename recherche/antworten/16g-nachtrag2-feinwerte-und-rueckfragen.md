@@ -459,6 +459,8 @@ for z in zeilen[-400:]:
 
 ## Was lokal zu tun ist
 
+Code- und Regelstand: Commit `c5d3cbb` (fluss_sim v11).
+
 1. **F2-0,4** (Abschnitt 2): Rate 0,4, Spline ohne Offsets, Band = Bett + 2 m, Entfernen 0, Quelle 300, Hindernisse N5.
    - ≥ 9 000 Bilder bzw. 5 min, Bildrate notieren.
    - Messen wie F1: Bett nass, 1–8 m außerhalb, Tiefe Mitte, Front.
