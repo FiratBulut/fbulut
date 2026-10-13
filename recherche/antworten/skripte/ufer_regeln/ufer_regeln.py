@@ -10,6 +10,7 @@ Werkzeug (Bachdekor / s38 lagen). Nur Python-Standardbibliothek, keine Unreal-Im
   steil_mischung(R, neigung_grad, wandhoehe_m, fels_anstehend=False, nordseite=False)
                                                     Teil C2: Lagen auf Uferboeschungen (None unter 20 Grad)
   schichtband_maske(neigung_grad, wandhoehe_m, fels_anteil)   0..1 (V17-Baender nur auf Fels ab 3 m Wand)
+  bachgewicht(R, breite_m), landschaft_wert(R, name, breite_m)  B2: Landschaftsmaterial Bach gegen Welt (Lerp)
   kasten_hoehe(querschnitt, grenze_grad=45)         groesste zusammenhaengende Hoehe steiler als grenze_grad
   boeschung_zuruecklegen(querschnitt, d_kante, ziel_grad=32)  Hang ab der Wasserkante zuruecklegen (nur abtragen)
 
@@ -62,6 +63,8 @@ def _alle_mischungen(R):
                 yield "A_altbett.%s.%s" % (b["name"], k), b[k]
     for kl in R["C_ufer"]["lagen_steil"]["klassen"]:
         yield "C_ufer.lagen_steil.%s" % kl["name"], kl["lagen"]
+    if "B2_landschaft_bach" in R:
+        yield "B2_landschaft_bach.lagen_unter_spiegel", R["B2_landschaft_bach"]["lagen_unter_spiegel"]
 
 
 def pruefe(R):
@@ -166,6 +169,21 @@ def steil_mischung(R, neigung_grad, wandhoehe_m, fels_anstehend=False, nordseite
     return m
 
 
+def bachgewicht(R, breite_m):
+    """B2: 1 fuer Baeche (<= 6 m), 0 fuer Fluesse/Seen (>= 12 m), weich dazwischen."""
+    a, b = R["B2_landschaft_bach"]["bachgewicht_breite_m"]
+    return round(1.0 - smoothstep(a, b, breite_m), 4)
+
+
+def landschaft_wert(R, name, breite_m):
+    """B2: Parameter des Landschaftsmaterials als Lerp(Welt, Bach, Bachgewicht)."""
+    e = R["B2_landschaft_bach"]["material"][name]
+    g = bachgewicht(R, breite_m)
+    if isinstance(e["welt"], list):
+        return [round(w + g * (bv - w), 4) for w, bv in zip(e["welt"], e["bach"])]
+    return round(e["welt"] + g * (e["bach"] - e["welt"]), 4)
+
+
 def schichtband_maske(neigung_grad, wandhoehe_m, fels_anteil):
     """V17-Schichtbaender: smoothstep(38, 45, Neigung) x smoothstep(3, 4, Wandhoehe) x [Fels+Felsplatte >= 50 %]."""
     if fels_anteil < 0.5:
@@ -240,6 +258,8 @@ def selbsttest(R):
     ok(schichtband_maske(50, 2.0, 0.9) == 0.0, "Schichtband unter 3 m")
     ok(schichtband_maske(50, 5.0, 0.3) == 0.0, "Schichtband auf Lockermaterial")
     ok(schichtband_maske(50, 5.0, 0.8) == 1.0, "Schichtband auf hoher Felswand fehlt")
+    ok(bachgewicht(R, 2.0) == 1.0 and bachgewicht(R, 20.0) == 0.0, "Bachgewicht")
+    ok(landschaft_wert(R, "Ufer_Staerke", 2.0) == 0.25 and landschaft_wert(R, "Ufer_Staerke", 30.0) == 0.85, "Ufer_Staerke Bach/Welt")
     kasten = [(0.0, 0.0), (0.3, 1.2), (3.0, 1.4)]          # 76 Grad ueber 1,2 m: Kasten
     ok(kasten_hoehe(kasten) == 1.2, "Kasten nicht erkannt")
     neu = boeschung_zuruecklegen(kasten + [(1.0, 1.25), (2.0, 1.32)], 0.0)

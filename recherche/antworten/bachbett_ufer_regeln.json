@@ -14,112 +14,746 @@
   },
   "version": 1,
   "stand": "2026-10-13 (Auftrag 16h)",
-  "lagen_namen": ["Wiese", "Gras", "Trockengras", "Laub", "Nadeln", "Moos", "Heide", "Kraut", "Erde", "Lehm", "Schlamm", "Sand", "Kies", "Geroell", "Fels", "Felsplatte", "Sandstein", "Schnee", "Eis", "Lavafels", "Lavasand", "Algen"],
-  "abschnitte_p2_s_m": {"bergrinne": [0, 199], "durchbruch": [199, 390], "talkaskade": [390, 579], "kiesbett": [579, 728], "muendung": [728, 788]},
-
+  "lagen_namen": [
+    "Wiese",
+    "Gras",
+    "Trockengras",
+    "Laub",
+    "Nadeln",
+    "Moos",
+    "Heide",
+    "Kraut",
+    "Erde",
+    "Lehm",
+    "Schlamm",
+    "Sand",
+    "Kies",
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Sandstein",
+    "Schnee",
+    "Eis",
+    "Lavafels",
+    "Lavasand",
+    "Algen"
+  ],
+  "abschnitte_p2_s_m": {
+    "bergrinne": [
+      0,
+      199
+    ],
+    "durchbruch": [
+      199,
+      390
+    ],
+    "talkaskade": [
+      390,
+      579
+    ],
+    "kiesbett": [
+      579,
+      728
+    ],
+    "muendung": [
+      728,
+      788
+    ]
+  },
   "A_altbett": {
     "_doku": "Teil A: Die alten Kies-/Geroellstreifen der ersetzten Fluesse (F_ERLENBACH_1_C2/_1V_C2/_2_C2, B_R3_K10_TUNDRA_01) werden in die Umgebung ueberfuehrt. Nur nahe am Bach bleibt ein Hochwasserbett. Gilt nur in der Maske 'altes Flussband' (ersetzte Laeufe, halbe Breite + 3 m); ausserhalb der Maske nichts aendern. Der Uferstreifen (bachbett_regeln.json, 0-3,5 m neben der Kante, -0,1 bis 1,0 m ueber dem Spiegel: Tundra Moos 45, Erde 35, Schlamm 20) bleibt vorn und wird darueber gelegt.",
     "entscheidung": "[Gestaltung] Kein trockenes Schotterbett: Ein 25-35 m breiter toter Streifen ohne Fluss liest sich als Fehler. Ein echtes Hochwasserbett eines 2-5-m-Baches ist nur 1-3 Bachbreiten breit (0-6 m), danach Pionierbewuchs auf alten Baenken (6-12 m), dann Umgebung. Im Kiesbett (flacher Talboden) bleiben Kiesbaenke am Gleithang und einzelne alte Schotterflecken unter Gras sichtbar.",
     "baender": [
       {
         "name": "hochwasserbett",
-        "d_m": [0, 6],
-        "talkaskade": {"Geroell": 30, "Kies": 20, "Moos": 20, "Erde": 10, "Fels": 10, "Trockengras": 10},
-        "kiesbett": {"Kies": 40, "Geroell": 20, "Moos": 15, "Trockengras": 10, "Erde": 10, "Schlamm": 5},
-        "kiesbett_gleithang": {"Kies": 55, "Geroell": 15, "Sand": 10, "Moos": 10, "Trockengras": 10},
-        "gras_dichte_faktor": [0.2, 0.4],
+        "d_m": [
+          0,
+          6
+        ],
+        "talkaskade": {
+          "Geroell": 30,
+          "Kies": 20,
+          "Moos": 20,
+          "Erde": 10,
+          "Fels": 10,
+          "Trockengras": 10
+        },
+        "kiesbett": {
+          "Kies": 40,
+          "Geroell": 20,
+          "Moos": 15,
+          "Trockengras": 10,
+          "Erde": 10,
+          "Schlamm": 5
+        },
+        "kiesbett_gleithang": {
+          "Kies": 55,
+          "Geroell": 15,
+          "Sand": 10,
+          "Moos": 10,
+          "Trockengras": 10
+        },
+        "gras_dichte_faktor": [
+          0.2,
+          0.4
+        ],
         "hinweis": "Fels nur auf Flaechen >= 32 Grad; sonst sein Anteil zu Geroell. Gleithang-Kiesbank: 0,5-1,0 x B breit, hoechstens 0,3 m ueber Mittelwasser."
       },
       {
         "name": "alte_baenke",
-        "d_m": [6, 12],
-        "talkaskade": {"Moos": 25, "Trockengras": 25, "Geroell": 15, "Wiese": 15, "Kies": 10, "Heide": 10},
-        "kiesbett": {"Trockengras": 25, "Wiese": 20, "Moos": 20, "Kies": 15, "Geroell": 10, "Heide": 10},
-        "gras_dichte_faktor": [0.6, 0.8],
+        "d_m": [
+          6,
+          12
+        ],
+        "talkaskade": {
+          "Moos": 25,
+          "Trockengras": 25,
+          "Geroell": 15,
+          "Wiese": 15,
+          "Kies": 10,
+          "Heide": 10
+        },
+        "kiesbett": {
+          "Trockengras": 25,
+          "Wiese": 20,
+          "Moos": 20,
+          "Kies": 15,
+          "Geroell": 10,
+          "Heide": 10
+        },
+        "gras_dichte_faktor": [
+          0.6,
+          0.8
+        ],
         "hinweis": "Pionierbewuchs auf altem Schotter: Moos und Gras in Flecken (Rauschen 3 m), Steine schauen durch."
       },
       {
         "name": "umgebung",
-        "d_m": [12, 9999],
+        "d_m": [
+          12,
+          9999
+        ],
         "regel": "wie die natuerliche Umgebung: je Zelle der Median der Lagen in 30-60 m Abstand vom p2-Bett ausserhalb der Maske, gleiche Hoehenlage (+-15 m) und gleiche Neigungsklasse (0-15, 15-30, > 30 Grad). Das ist dieselbe Quelle wie Ferats Fuellung der Dichten (altwasser_reinigen_p2.py).",
-        "talkaskade_richtwert": {"Trockengras": 30, "Heide": 25, "Wiese": 25, "Moos": 15, "Kies": 5},
-        "kiesbett_richtwert": {"Trockengras": 30, "Wiese": 30, "Heide": 20, "Moos": 15, "Kies": 5},
-        "gras_dichte_faktor": [1.0, 1.0],
-        "rest_schotter": {"nur": "kiesbett", "rauschen_m": 6.0, "schwelle": 0.8, "Kies_max": 15, "Geroell_max": 10, "hinweis": "einzelne alte Schotterflecken unter Gras (ehemaliges Hochwasserbett), hoechstens 10 % der Flaeche, nie als Streifen"}
+        "talkaskade_richtwert": {
+          "Trockengras": 30,
+          "Heide": 25,
+          "Wiese": 25,
+          "Moos": 15,
+          "Kies": 5
+        },
+        "kiesbett_richtwert": {
+          "Trockengras": 30,
+          "Wiese": 30,
+          "Heide": 20,
+          "Moos": 15,
+          "Kies": 5
+        },
+        "gras_dichte_faktor": [
+          1.0,
+          1.0
+        ],
+        "rest_schotter": {
+          "nur": "kiesbett",
+          "rauschen_m": 6.0,
+          "schwelle": 0.8,
+          "Kies_max": 15,
+          "Geroell_max": 10,
+          "hinweis": "einzelne alte Schotterflecken unter Gras (ehemaliges Hochwasserbett), hoechstens 10 % der Flaeche, nie als Streifen"
+        }
       }
     ],
-    "uebergang": {"breite_m": 3.0, "kurve": "smoothstep", "grenze_rauschen_m": 4.0, "grenze_versatz_m": 1.5, "hinweis": "Bandgrenzen nicht als gerade Linie: Grenze je Ort um +-1,5 m verschieben (Rauschen mit 4 m Wellenlaenge), dann 3 m weich ueberblenden"},
-    "pruefung": {"ziel": "kein zusammenhaengendes Kies+Geroell-Band > 50 % ueber mehr als 8 m Breite und 20 m Laenge ausserhalb 0-6 m", "werte_vorher_16h": {"talkaskade": {"6-12": {"Kies": 22, "Geroell": 20, "Fels": 9, "Felsplatte": 9, "Moos": 21}, "12-20": {"Trockengras": 27, "Wiese": 23, "Moos": 18, "Heide": 13, "Kies": 3}, "20-30": {"Heide": 27, "Wiese": 25, "Trockengras": 20}}, "kiesbett": {"6-12": {"Wiese": 24, "Kies": 22, "Heide": 21}, "12-20": {"Kies": 26, "Wiese": 23}, "20-30": {"Kies": 40, "Trockengras": 18}}}}
+    "uebergang": {
+      "breite_m": 3.0,
+      "kurve": "smoothstep",
+      "grenze_rauschen_m": 4.0,
+      "grenze_versatz_m": 1.5,
+      "hinweis": "Bandgrenzen nicht als gerade Linie: Grenze je Ort um +-1,5 m verschieben (Rauschen mit 4 m Wellenlaenge), dann 3 m weich ueberblenden"
+    },
+    "pruefung": {
+      "ziel": "kein zusammenhaengendes Kies+Geroell-Band > 50 % ueber mehr als 8 m Breite und 20 m Laenge ausserhalb 0-6 m",
+      "werte_vorher_16h": {
+        "talkaskade": {
+          "6-12": {
+            "Kies": 22,
+            "Geroell": 20,
+            "Fels": 9,
+            "Felsplatte": 9,
+            "Moos": 21
+          },
+          "12-20": {
+            "Trockengras": 27,
+            "Wiese": 23,
+            "Moos": 18,
+            "Heide": 13,
+            "Kies": 3
+          },
+          "20-30": {
+            "Heide": 27,
+            "Wiese": 25,
+            "Trockengras": 20
+          }
+        },
+        "kiesbett": {
+          "6-12": {
+            "Wiese": 24,
+            "Kies": 22,
+            "Heide": 21
+          },
+          "12-20": {
+            "Kies": 26,
+            "Wiese": 23
+          },
+          "20-30": {
+            "Kies": 40,
+            "Trockengras": 18
+          }
+        }
+      }
+    }
   },
-
+  "B2_landschaft_bach": {
+    "_doku": "Antwort auf Frage B2 (Nachtrag 16h 11:15): Landschaftsmaterial 'Ufer und Gewaesergrund' fuer Baeche. Bachgewicht = 1 - smoothstep(6, 12, Gewaesserbreite m), als zweiter Kanal der Spiegel-Textur oder eigene R8-Textur; je Parameter Lerp(Welt, Bach, Bachgewicht). Seen/Fluesse behalten K2.",
+    "bachgewicht_breite_m": [
+      6.0,
+      12.0
+    ],
+    "material": {
+      "Ufer_Staerke": {
+        "welt": 0.85,
+        "bach": 0.25
+      },
+      "Ufer_Farbe": {
+        "welt": [
+          0.95,
+          0.93,
+          0.88
+        ],
+        "bach": [
+          0.6,
+          0.62,
+          0.6
+        ]
+      },
+      "Nass_Abdunkeln": {
+        "welt": 0.55,
+        "bach": 0.4
+      },
+      "Nass_Breite_cm": {
+        "welt": 150,
+        "bach": 50
+      },
+      "Uferband_hoehe_cm": {
+        "welt": [
+          -30,
+          60
+        ],
+        "bach": [
+          -10,
+          30
+        ]
+      },
+      "Uferband_staerke": {
+        "welt": 0.85,
+        "bach": 0.3
+      },
+      "Uferband_normal_z_min": {
+        "welt": 0.86,
+        "bach": 0.94
+      }
+    },
+    "tiefenabdunkelung": {
+      "helligkeit": "Lerp(1, 0.7, smoothstep(0.2, 1.0, Tiefe_m))",
+      "farbe": "Lerp(1, (0.92, 1.0, 0.95), smoothstep(0.6, 1.5, Tiefe_m))"
+    },
+    "lagen_unter_spiegel": {
+      "Geroell": 40,
+      "Kies": 25,
+      "Fels": 10,
+      "Felsplatte": 5,
+      "Schlamm": 10,
+      "Algen": 10
+    },
+    "lagen_bedingungen": {
+      "Kies": "vorn an Schnellen und Rinnen (Ruhe < 0,6)",
+      "Fels": "an Lippen und Stufen",
+      "Schlamm": "ruhige Becken, Ruhe >= 0,6, Tiefe >= 0,25 m",
+      "Algen": "ruhige Becken >= 0,4 m, nicht an Schnellen"
+    },
+    "lagen_vorher_bachdekor": {
+      "Kies": 41,
+      "Geroell": 33,
+      "Schlamm": 8,
+      "Fels": 7
+    },
+    "kies_ersetzung_uebermalt_bachdekor": false
+  },
   "C_ufer": {
     "profil": {
       "_doku": "Teil C1: Querprofil. Kein Kasten: Lockermaterial steht nur bis zu seinem Schuettwinkel steil. Fels und Erde mit Wurzeln duerfen steiler.",
       "material": {
-        "kies_geroell": {"winkel_grad": [30, 35], "ziel_grad": 32, "max_grad": 36, "quelle": "[Fach] Schuettwinkel natuerlicher Kies mit Sand 25-30 Grad, kantiger Schotter 35-45 Grad (Wikipedia 'Angle of repose'); max 36 Grad haelt die Flaeche unter der Schichtband-Schwelle 38 Grad"},
-        "erde_rasen": {"winkel_grad": [40, 75], "hoehe_max_m": 0.8, "hinweis": "Rasenkante mit Wurzeln: nur der obere Teil (Wurzelzone 0,3-0,8 m) steil, darunter Kiesfuss mit 30-35 Grad; Ueberhang der Grasnarbe 0,1-0,3 m"},
-        "fels": {"winkel_grad": [60, 90], "nur_wenn": "Fels anstehend (Lage Fels/Felsplatte >= 50 % vor dem Graben) oder Wandhoehe >= 3 m oder Abschnitt durchbruch"}
+        "kies_geroell": {
+          "winkel_grad": [
+            30,
+            35
+          ],
+          "ziel_grad": 32,
+          "max_grad": 36,
+          "quelle": "[Fach] Schuettwinkel natuerlicher Kies mit Sand 25-30 Grad, kantiger Schotter 35-45 Grad (Wikipedia 'Angle of repose'); max 36 Grad haelt die Flaeche unter der Schichtband-Schwelle 38 Grad"
+        },
+        "erde_rasen": {
+          "winkel_grad": [
+            40,
+            75
+          ],
+          "hoehe_max_m": 0.8,
+          "hinweis": "Rasenkante mit Wurzeln: nur der obere Teil (Wurzelzone 0,3-0,8 m) steil, darunter Kiesfuss mit 30-35 Grad; Ueberhang der Grasnarbe 0,1-0,3 m"
+        },
+        "fels": {
+          "winkel_grad": [
+            60,
+            90
+          ],
+          "nur_wenn": "Fels anstehend (Lage Fels/Felsplatte >= 50 % vor dem Graben) oder Wandhoehe >= 3 m oder Abschnitt durchbruch"
+        }
       },
       "lage": {
-        "gerade": {"beide_seiten_grad": [28, 35], "schulter_radius_m": [0.5, 1.0]},
-        "prallhang": {"kruemmung_min": "1/(5 B)", "winkel_grad": [45, 70], "erdanriss_m": [0.3, 0.8], "fuss": "Bloecke (C4)", "felsig_ab_hoehe_m": 1.5, "hinweis": "Aussenkurve: steil, oben Erdanriss mit Wurzeln, unten Blockfuss"},
-        "gleithang": {"winkel_grad": [5, 15], "kiesbank_breite_B": [0.5, 1.0], "kiesbank_hoehe_max_m": 0.3, "hinweis": "Innenkurve: flach mit Kiesbank, Lagen siehe A_altbett.baender[0].kiesbett_gleithang"},
-        "talkaskade_hangseite": {"hinweis": "quer zum Hang laufende Kaskade: bergseitiges Ufer hoeher -> Prallhang-Regel ab h > 1 m; talseitiges Ufer flach 15-25 Grad"},
-        "stufe": {"widerlager_m": [1.0, 2.0], "hinweis": "an Lippen das Ufer 1-2 m lang mit Bloecken (C4) fassen, kein glatter Erdhang neben dem Fall"}
+        "gerade": {
+          "beide_seiten_grad": [
+            28,
+            35
+          ],
+          "schulter_radius_m": [
+            0.5,
+            1.0
+          ]
+        },
+        "prallhang": {
+          "kruemmung_min": "1/(5 B)",
+          "winkel_grad": [
+            45,
+            70
+          ],
+          "erdanriss_m": [
+            0.3,
+            0.8
+          ],
+          "fuss": "Bloecke (C4)",
+          "felsig_ab_hoehe_m": 1.5,
+          "hinweis": "Aussenkurve: steil, oben Erdanriss mit Wurzeln, unten Blockfuss"
+        },
+        "gleithang": {
+          "winkel_grad": [
+            5,
+            15
+          ],
+          "kiesbank_breite_B": [
+            0.5,
+            1.0
+          ],
+          "kiesbank_hoehe_max_m": 0.3,
+          "hinweis": "Innenkurve: flach mit Kiesbank, Lagen siehe A_altbett.baender[0].kiesbett_gleithang"
+        },
+        "talkaskade_hangseite": {
+          "hinweis": "quer zum Hang laufende Kaskade: bergseitiges Ufer hoeher -> Prallhang-Regel ab h > 1 m; talseitiges Ufer flach 15-25 Grad"
+        },
+        "stufe": {
+          "widerlager_m": [
+            1.0,
+            2.0
+          ],
+          "hinweis": "an Lippen das Ufer 1-2 m lang mit Bloecken (C4) fassen, kein glatter Erdhang neben dem Fall"
+        }
       },
-      "kasten_verbot": {"lockermaterial_max_grad": 45, "hoehe_max_m": 0.6, "ausnahmen": ["prallhang mit erdanriss bis 0,8 m", "fels"], "pruefung": "je Querschnitt (alle 2 m entlang s) die groesste zusammenhaengende Hoehe mit Neigung > 45 Grad in Lockermaterial; > 0,6 m = Kasten"},
-      "boeschung_zuruecklegen": {"_doku": "Nachbearbeitung des gegrabenen Betts, wo die Pruefung einen Kasten findet: Hang ab der Wasserkante auf den Zielwinkel zuruecklegen (nur abtragen, nie anheben): z_neu = min(z_alt, z_kante + (d - d_kante) * tan(ziel_grad)). Breite der Aenderung = h / tan(ziel_grad), bei h 1,5 m und 32 Grad 2,4 m.", "ziel_grad": 32, "nur_abtragen": true, "korridor_max_m": 4.0, "kante_rauschen_m": [0.2, 0.4], "kante_wellenlaenge_m": [2.0, 4.0]},
+      "kasten_verbot": {
+        "lockermaterial_max_grad": 45,
+        "hoehe_max_m": 0.6,
+        "ausnahmen": [
+          "prallhang mit erdanriss bis 0,8 m",
+          "fels"
+        ],
+        "pruefung": "je Querschnitt (alle 2 m entlang s) die groesste zusammenhaengende Hoehe mit Neigung > 45 Grad in Lockermaterial; > 0,6 m = Kasten"
+      },
+      "boeschung_zuruecklegen": {
+        "_doku": "Nachbearbeitung des gegrabenen Betts, wo die Pruefung einen Kasten findet: Hang ab der Wasserkante auf den Zielwinkel zuruecklegen (nur abtragen, nie anheben): z_neu = min(z_alt, z_kante + (d - d_kante) * tan(ziel_grad)). Breite der Aenderung = h / tan(ziel_grad), bei h 1,5 m und 32 Grad 2,4 m.",
+        "ziel_grad": 32,
+        "nur_abtragen": true,
+        "korridor_max_m": 4.0,
+        "kante_rauschen_m": [
+          0.2,
+          0.4
+        ],
+        "kante_wellenlaenge_m": [
+          2.0,
+          4.0
+        ]
+      },
       "water_plugin": {
         "_doku": "[Ableitung] Ersatz fuer 16f §3.2 (Kasten-U mit 1,5 m Rampe). Fuer neue oder neu gegrabene Abschnitte; X von der Wasserkante (0) zur Mitte (1) wie in 16f (Richtung lokal einmal pruefen).",
-        "kurve_mulde": [[0.0, 0.0], [0.2, 0.4], [0.5, 0.8], [1.0, 1.0]],
-        "curve_ramp_width": {"faktor_B": 0.35, "min_m": 0.8, "max_m": 2.5},
-        "falloff": {"talkaskade": {"mode": "Angle", "angle_grad": 32}, "kiesbett": {"mode": "Angle", "angle_grad": 25}, "durchbruch": {"mode": "Width", "width_m": 1.0}, "bergrinne": {"mode": "Width", "width_m": 1.0}},
-        "smooth_blending_m": {"inner": 0.3, "outer": 0.8},
+        "kurve_mulde": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.2,
+            0.4
+          ],
+          [
+            0.5,
+            0.8
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ],
+        "curve_ramp_width": {
+          "faktor_B": 0.35,
+          "min_m": 0.8,
+          "max_m": 2.5
+        },
+        "falloff": {
+          "talkaskade": {
+            "mode": "Angle",
+            "angle_grad": 32
+          },
+          "kiesbett": {
+            "mode": "Angle",
+            "angle_grad": 25
+          },
+          "durchbruch": {
+            "mode": "Width",
+            "width_m": 1.0
+          },
+          "bergrinne": {
+            "mode": "Width",
+            "width_m": 1.0
+          }
+        },
+        "smooth_blending_m": {
+          "inner": 0.3,
+          "outer": 0.8
+        },
         "blend_mode": "Min"
       }
     },
-
     "lagen_steil": {
       "_doku": "Teil C2: Lagen nach Neigung, Wandhoehe und Gestein. Die erste passende Klasse gilt. Unter 20 Grad gelten die Baender aus A_altbett bzw. die Umgebung. Uferstreifen (bachbett_regeln.json) bleibt vorn.",
       "klassen": [
-        {"name": "fels_wand", "neigung_grad": [45, 90], "wenn": "wandhoehe_m >= 3 oder fels_anstehend", "lagen": {"Fels": 45, "Felsplatte": 20, "Moos": 20, "Geroell": 15}},
-        {"name": "erdanriss", "neigung_grad": [45, 90], "wenn": "wandhoehe_m < 3", "lagen": {"Erde": 45, "Lehm": 15, "Moos": 20, "Geroell": 15, "Fels": 5}},
-        {"name": "boeschung_steil", "neigung_grad": [32, 45], "lagen": {"Erde": 30, "Moos": 30, "Geroell": 25, "Trockengras": 10, "Lehm": 5}},
-        {"name": "boeschung_locker", "neigung_grad": [20, 32], "lagen": {"Geroell": 25, "Moos": 25, "Trockengras": 20, "Erde": 15, "Kies": 15}}
+        {
+          "name": "fels_wand",
+          "neigung_grad": [
+            45,
+            90
+          ],
+          "wenn": "wandhoehe_m >= 3 oder fels_anstehend",
+          "lagen": {
+            "Fels": 45,
+            "Felsplatte": 20,
+            "Moos": 20,
+            "Geroell": 15
+          }
+        },
+        {
+          "name": "erdanriss",
+          "neigung_grad": [
+            45,
+            90
+          ],
+          "wenn": "wandhoehe_m < 3",
+          "lagen": {
+            "Erde": 45,
+            "Lehm": 15,
+            "Moos": 20,
+            "Geroell": 15,
+            "Fels": 5
+          }
+        },
+        {
+          "name": "boeschung_steil",
+          "neigung_grad": [
+            32,
+            45
+          ],
+          "lagen": {
+            "Erde": 30,
+            "Moos": 30,
+            "Geroell": 25,
+            "Trockengras": 10,
+            "Lehm": 5
+          }
+        },
+        {
+          "name": "boeschung_locker",
+          "neigung_grad": [
+            20,
+            32
+          ],
+          "lagen": {
+            "Geroell": 25,
+            "Moos": 25,
+            "Trockengras": 20,
+            "Erde": 15,
+            "Kies": 15
+          }
+        }
       ],
-      "nordseite": {"hinweis": "Ufer mit Blick nach Nord (Normale Nord +-60 Grad) oder unter Baumkronen: Moos +15 Punkte, abgezogen von Trockengras, dann Erde", "moos_plus": 15},
+      "nordseite": {
+        "hinweis": "Ufer mit Blick nach Nord (Normale Nord +-60 Grad) oder unter Baumkronen: Moos +15 Punkte, abgezogen von Trockengras, dann Erde",
+        "moos_plus": 15
+      },
       "uebergang_grad": 4.0,
       "schichtbaender": {
         "_doku": "V17-Schichtbaender (ocker/roetlich, bisher ab 38 Grad) nur auf echtem Fels und hohen Waenden.",
         "maske": "smoothstep(38, 45, neigung_grad) * smoothstep(3.0, 4.0, wandhoehe_m) * (Fels + Felsplatte >= 50 %)",
-        "aus_in": ["boeschung_locker", "boeschung_steil", "erdanriss", "talkaskade unter 3 m Wandhoehe", "kiesbett"],
-        "an_in": ["durchbruch", "bergrinne", "fels_wand ab 3 m"]
+        "aus_in": [
+          "boeschung_locker",
+          "boeschung_steil",
+          "erdanriss",
+          "talkaskade unter 3 m Wandhoehe",
+          "kiesbett"
+        ],
+        "an_in": [
+          "durchbruch",
+          "bergrinne",
+          "fels_wand ab 3 m"
+        ]
       }
     },
-
     "bewuchs_kante": {
       "_doku": "Teil C3: Bewuchs an der Boeschungsschulter (Linie, an der die Neigung unter 20 Grad faellt) und an der Wasserlinie. Nichts in Lippenzonen (bachbett_regeln.json: 0,3 m vor bis 0,5 m hinter einer Lippe, an Stufen >= 1 m 0,5 m vor bis 1,5 m hinter dem Fuss).",
-      "ueberhaengendes_gras": {"wo": "Erd- und Rasenufer (nicht Fels, nicht Kiesbank)", "anteil_kantenlaenge": [0.6, 0.8], "abstand_m": [0.4, 0.8], "ueberhang_m": [0.15, 0.35], "neigung_zum_wasser_grad": [20, 40], "skala": [0.8, 1.3], "netze": ["SM_grass_bush_01", "SM_grass_bush_02", "SM_grass_bush_03", "SM_grass_bush_04", "SM_GrassyEmbankment_01", "SM_GrassyEmbankment_02"], "landschaftsgras_faktor_kante": 1.3},
-      "moospolster": {"wo": "Ufersteine und Boeschung 0-1,2 m ueber dem Spiegel", "je_m_ufer": [0.33, 0.67], "gruppe": [2, 3], "nordseite_faktor": 2.0, "steine_mit_moos_anteil": 0.6, "auf_steinen_ab_h_m": 0.25, "netze": ["SM_MossClump_01", "SM_MossClump_03", "SM_MossClump_05", "SM_moss_01", "SM_moss_02", "SM_MossyEmbankment_01", "SM_MossyEmbankment_02"]},
-      "farne": {"wo": "nur schattig: Nordufer, Hangfuss oder Baum <= 15 m", "d_m": [0.5, 2.5], "gruppe": [2, 5], "abstand_gruppen_m": [4, 8], "offene_tundra_max_je_15m": 1, "netze": ["SM_Fern_01", "SM_Fern_02", "SM_Fern_04", "SM_EagleFern_S_01", "SM_EagleFern_S_02"]},
-      "wurzeln": {"wo": "nur Erdanriss am Prallhang und nur mit Baum/Strauch <= 6 m von der Kante (4-m-Baumraster); sonst ueberhaengendes Gras", "je_m_anriss": [0.17, 0.33], "unter_kante_m": [0.2, 0.6], "herausragen_m": [0.2, 0.6], "netze": ["SM_Pine_roots_03", "SM_Pine_roots_04", "SM_crooked_root_01", "SM_crooked_root_04", "SM_ForestRoots_01"]},
-      "kraut_blumen": {"d_m": [1.0, 3.0], "hinweis": "Lage Kraut bzw. vorhandene Bluetenpflanzen der Tundra in Flecken, nicht an der Wasserlinie"},
-      "frei": {"wasserlinie_m": 0.3, "ausser": "Moos"}
+      "ueberhaengendes_gras": {
+        "wo": "Erd- und Rasenufer (nicht Fels, nicht Kiesbank)",
+        "anteil_kantenlaenge": [
+          0.6,
+          0.8
+        ],
+        "abstand_m": [
+          0.4,
+          0.8
+        ],
+        "ueberhang_m": [
+          0.15,
+          0.35
+        ],
+        "neigung_zum_wasser_grad": [
+          20,
+          40
+        ],
+        "skala": [
+          0.8,
+          1.3
+        ],
+        "netze": [
+          "SM_grass_bush_01",
+          "SM_grass_bush_02",
+          "SM_grass_bush_03",
+          "SM_grass_bush_04",
+          "SM_GrassyEmbankment_01",
+          "SM_GrassyEmbankment_02"
+        ],
+        "landschaftsgras_faktor_kante": 1.3
+      },
+      "moospolster": {
+        "wo": "Ufersteine und Boeschung 0-1,2 m ueber dem Spiegel",
+        "je_m_ufer": [
+          0.33,
+          0.67
+        ],
+        "gruppe": [
+          2,
+          3
+        ],
+        "nordseite_faktor": 2.0,
+        "steine_mit_moos_anteil": 0.6,
+        "auf_steinen_ab_h_m": 0.25,
+        "netze": [
+          "SM_MossClump_01",
+          "SM_MossClump_03",
+          "SM_MossClump_05",
+          "SM_moss_01",
+          "SM_moss_02",
+          "SM_MossyEmbankment_01",
+          "SM_MossyEmbankment_02"
+        ]
+      },
+      "farne": {
+        "wo": "nur schattig: Nordufer, Hangfuss oder Baum <= 15 m",
+        "d_m": [
+          0.5,
+          2.5
+        ],
+        "gruppe": [
+          2,
+          5
+        ],
+        "abstand_gruppen_m": [
+          4,
+          8
+        ],
+        "offene_tundra_max_je_15m": 1,
+        "netze": [
+          "SM_Fern_01",
+          "SM_Fern_02",
+          "SM_Fern_04",
+          "SM_EagleFern_S_01",
+          "SM_EagleFern_S_02"
+        ]
+      },
+      "wurzeln": {
+        "wo": "nur Erdanriss am Prallhang und nur mit Baum/Strauch <= 6 m von der Kante (4-m-Baumraster); sonst ueberhaengendes Gras",
+        "je_m_anriss": [
+          0.17,
+          0.33
+        ],
+        "unter_kante_m": [
+          0.2,
+          0.6
+        ],
+        "herausragen_m": [
+          0.2,
+          0.6
+        ],
+        "netze": [
+          "SM_Pine_roots_03",
+          "SM_Pine_roots_04",
+          "SM_crooked_root_01",
+          "SM_crooked_root_04",
+          "SM_ForestRoots_01"
+        ]
+      },
+      "kraut_blumen": {
+        "d_m": [
+          1.0,
+          3.0
+        ],
+        "hinweis": "Lage Kraut bzw. vorhandene Bluetenpflanzen der Tundra in Flecken, nicht an der Wasserlinie"
+      },
+      "frei": {
+        "wasserlinie_m": 0.3,
+        "ausser": "Moos"
+      }
     },
-
     "steine": {
       "_doku": "Teil C4: halb eingegrabene Ufersteine. Groesse = groesste Ausdehnung; Einbettung = Anteil der Hoehe im Boden. Lange Achse parallel zur Stroemung (+-20 Grad), stromauf um 10-20 Grad gekippt (Dachziegellage). Netze aus der Tundra-Palette (gefaelle_regeln.json).",
-      "prallhang_fuss": {"groesse_m": [0.6, 1.4], "abstand_m": [1.5, 3.0], "gruppe": [2, 4], "luecke_m": [3, 6], "u_m": [-0.4, 0.6], "einbettung": [0.35, 0.55], "netze": ["SM_TundraMossyBoulder_01", "SM_NordicBoulder_01", "SM_mountain_rock_big_02_1", "SM_mountain_rock_big_02_2", "SM_mountain_rock_big_02_3"]},
-      "stufe_widerlager": {"je_lippenende": [1, 2], "groesse_m": "max(0,8; 0,6 x Stufenhoehe + 0,4) bis 1,8", "einbettung": [0.4, 0.6], "mitte_ausserhalb_kante_m": [0.2, 0.6], "kolkrand": {"anzahl": [1, 3], "groesse_m": [0.5, 1.0], "einbettung": [0.3, 0.5]}, "frei": "Hauptstrahl (Kerbe der Lippe) frei lassen"},
-      "gerade": {"groesse_m": [0.3, 0.6], "je_10m_ufer": [3, 6], "u_m": [-0.3, 1.0], "einbettung": [0.3, 0.5], "netze": ["SM_mountain_rock_small_01_1", "SM_mountain_rock_small_01_2", "SM_mountain_rock_small_01_3", "SM_TundraRockyGround_01"]},
-      "gleithang": {"kiespacks_je_10m": [2, 4], "steine_0_3_0_5_je_10m": 1, "netze": ["SM_SmallStonesPack_01", "SM_SmallStonesPack_03", "SM_SmallStonesPack_06", "SM_SmallStonesPack_13"]},
+      "prallhang_fuss": {
+        "groesse_m": [
+          0.6,
+          1.4
+        ],
+        "abstand_m": [
+          1.5,
+          3.0
+        ],
+        "gruppe": [
+          2,
+          4
+        ],
+        "luecke_m": [
+          3,
+          6
+        ],
+        "u_m": [
+          -0.4,
+          0.6
+        ],
+        "einbettung": [
+          0.35,
+          0.55
+        ],
+        "netze": [
+          "SM_TundraMossyBoulder_01",
+          "SM_NordicBoulder_01",
+          "SM_mountain_rock_big_02_1",
+          "SM_mountain_rock_big_02_2",
+          "SM_mountain_rock_big_02_3"
+        ]
+      },
+      "stufe_widerlager": {
+        "je_lippenende": [
+          1,
+          2
+        ],
+        "groesse_m": "max(0,8; 0,6 x Stufenhoehe + 0,4) bis 1,8",
+        "einbettung": [
+          0.4,
+          0.6
+        ],
+        "mitte_ausserhalb_kante_m": [
+          0.2,
+          0.6
+        ],
+        "kolkrand": {
+          "anzahl": [
+            1,
+            3
+          ],
+          "groesse_m": [
+            0.5,
+            1.0
+          ],
+          "einbettung": [
+            0.3,
+            0.5
+          ]
+        },
+        "frei": "Hauptstrahl (Kerbe der Lippe) frei lassen"
+      },
+      "gerade": {
+        "groesse_m": [
+          0.3,
+          0.6
+        ],
+        "je_10m_ufer": [
+          3,
+          6
+        ],
+        "u_m": [
+          -0.3,
+          1.0
+        ],
+        "einbettung": [
+          0.3,
+          0.5
+        ],
+        "netze": [
+          "SM_mountain_rock_small_01_1",
+          "SM_mountain_rock_small_01_2",
+          "SM_mountain_rock_small_01_3",
+          "SM_TundraRockyGround_01"
+        ]
+      },
+      "gleithang": {
+        "kiespacks_je_10m": [
+          2,
+          4
+        ],
+        "steine_0_3_0_5_je_10m": 1,
+        "netze": [
+          "SM_SmallStonesPack_01",
+          "SM_SmallStonesPack_03",
+          "SM_SmallStonesPack_06",
+          "SM_SmallStonesPack_13"
+        ]
+      },
       "abstand_min_m": 0.3,
       "moos_oben_ab_h_m": 0.3,
-      "nassrand_m": [0.05, 0.15],
+      "nassrand_m": [
+        0.05,
+        0.15
+      ],
       "swr_hindernis": "Steine >= 0,4 m im Wasser oder <= 1 m daneben als SWR-Hindernis (wie fluss_sim 16f), danach Reset + Bake",
-      "talkaskade_summe_je_10m_beide_ufer": {"bloecke": [2, 4], "kopfsteine": [6, 10]}
+      "talkaskade_summe_je_10m_beide_ufer": {
+        "bloecke": [
+          2,
+          4
+        ],
+        "kopfsteine": [
+          6,
+          10
+        ]
+      }
     },
-
     "pruefung": {
       "kasten": "0 Querschnitte mit > 0,6 m zusammenhaengender Hoehe > 45 Grad in Lockermaterial (ausser Prallhang-Anriss <= 0,8 m und Fels)",
       "schichtband": "0 Zellen mit Schichtband-Maske > 0 unter 3 m Wandhoehe",
@@ -128,13 +762,13 @@
       "steine": "Prallhang: >= 1 Block je 3 m Aussenkurve; jede Lippe mit >= 1 Widerlager je Seite"
     }
   },
-
   "quellen": {
     "REPOSE": "Wikipedia, Angle of repose (Tabelle: Kies natuerlich mit Sand 25-30 Grad, Schotter gebrochen 45 Grad, Sand trocken 34 Grad) https://en.wikipedia.org/wiki/Angle_of_repose",
     "MONTGOMERY": "Montgomery & Buffington 1997, Channel-reach morphology in mountain drainage basins (Cascade > 6,5 %, Step-Pool 3-6,5 %), wie 16f",
     "POLLEN": "Pollen & Simon 2005 / Pollen-Bankhead et al. 2009: Wurzelverstaerkung wirkt nur, wenn die Wurzeln die Bruchflaeche kreuzen; bei Ufern deutlich hoeher als die Wurzeltiefe kein Effekt -> Erdanriss mit Wurzeln nur in der oberen 0,3-0,8 m (https://www.engr.colostate.edu/~pierre/ce_old/classes/ce717/Hillslope%20stability/Pollen-Bankhead%20et%20al.%20Streambank%20destabilization%20and%20invasive%20removal%202009.pdf)",
     "USDA": "USDA ARS, Streambank-Stabilitaet (BSTEM): Fussangriff und Unterschneidung, Kragen-Bruch (cantilever) an unterspuelten Rasenufern (https://agresearchmag.ars.usda.gov/2011/feb/streambanks)",
     "PROJEKT": "bachbett_regeln.json (Uferstreifen, Lippenzonen, Felsen der Roh-Ebene: Ufer 0,5-1,4 m, Einbettung 0,3-0,45), gefaelle_regeln.json (Tundra-Netze, Boeschung 35 Grad), 16f §3.2 (Kasten-U, Rampe 1,5 m)",
-    "SPIELE": "[Gestaltung] Bildeindruck aus Witcher 3 (Velen: Erdufer mit Wurzeln und ueberhaengendem Gras, dunkler nasser Saum; Skellige: Blockufer mit Moos und Felsplatten) und RDR2 (Ambarino/Grizzlies: klares Wasser ueber runden Steinen, Gras bis an die Kante, halb eingegrabene Bloecke). Keine Messung."
+    "SPIELE": "[Gestaltung] Bildeindruck aus Witcher 3 (Velen: Erdufer mit Wurzeln und ueberhaengendem Gras, dunkler nasser Saum; Skellige: Blockufer mit Moos und Felsplatten) und RDR2 (Ambarino/Grizzlies: klares Wasser ueber runden Steinen, Gras bis an die Kante, halb eingegrabene Bloecke). Keine Messung.",
+    "JENSEN": "Jensen, Legakis, Dorsey 1999, Rendering of Wet Materials: nasse Oberflaechen dunkler und satter. http://graphics.ucsd.edu/~henrik/papers/rendering_wet_materials/rendering_wet_materials_egwr99.pdf"
   }
 }
