@@ -212,7 +212,7 @@
     }
   },
   "B2_landschaft_bach": {
-    "_doku": "Antwort auf Frage B2 (Nachtrag 16h 11:15): Landschaftsmaterial 'Ufer und Gewaesergrund' fuer Baeche. Bachgewicht = 1 - smoothstep(6, 12, Gewaesserbreite m), als zweiter Kanal der Spiegel-Textur oder eigene R8-Textur; je Parameter Lerp(Welt, Bach, Bachgewicht). Seen/Fluesse behalten K2.",
+    "_doku": "Antwort 16h-nachtrag-materialtest.md (Frage B2): Unter Baechen die Bachdekor-Lagen zeigen und nur nass abdunkeln (keine Kies-Ersetzung); Kies-Ersetzung (Zielbild K2) bleibt fuer Seen und Fluesse ohne eigene Bettlagen. Bachgewicht = 1 - smoothstep(6, 12, Gewaesserbreite m), als zweiter Kanal der Spiegel-Textur oder eigene R8-Textur; je Parameter Lerp(Welt, Bach, Bachgewicht).",
     "bachgewicht_breite_m": [
       6.0,
       12.0
@@ -220,7 +220,8 @@
     "material": {
       "Ufer_Staerke": {
         "welt": 0.85,
-        "bach": 0.25
+        "bach": 0.0,
+        "bach_ohne_lagen": 0.4
       },
       "Ufer_Farbe": {
         "welt": [
@@ -232,7 +233,8 @@
           0.6,
           0.62,
           0.6
-        ]
+        ],
+        "hinweis": "Bach-Farbe nur fuer den Rueckfall ohne Lagen"
       },
       "Nass_Abdunkeln": {
         "welt": 0.55,
@@ -254,7 +256,7 @@
       },
       "Uferband_staerke": {
         "welt": 0.85,
-        "bach": 0.3
+        "bach": 0.0
       },
       "Uferband_normal_z_min": {
         "welt": 0.86,
@@ -285,7 +287,53 @@
       "Schlamm": 8,
       "Fels": 7
     },
-    "kies_ersetzung_uebermalt_bachdekor": false
+    "kies_ersetzung_uebermalt_bachdekor": false,
+    "kies_textur_bach": "graue, gemischte Bachkiesel-Textur fuer die Lage Kies, oder Kies x (0,8; 0,82; 0,8)",
+    "alte_flussfelsen": {
+      "im_bett": "entfernen (C2_Flussfels_006, _002)",
+      "band_0_12m_bis_1_5m": "behalten, 40-60 % eingraben, Moos oben, <= 1 m am Wasser als SWR-Hindernis",
+      "groesser_1_5m": "nur als Uferfels am Prallhang, >= 50 % eingegraben, sonst entfernen",
+      "ausserhalb_12m": "entfernen oder einzelner Findling (hoechstens 1 je 50 m)"
+    },
+    "klaenge": {
+      "stufe_0_5_bis_1m": {
+        "reichweite_m": [
+          15,
+          20
+        ],
+        "db_gegen_fluss": -12
+      },
+      "fall_ab_1m": {
+        "reichweite_m": [
+          30,
+          40
+        ],
+        "innen_m": [
+          3,
+          5
+        ],
+        "db_gegen_fluss": [
+          -8,
+          -6
+        ]
+      },
+      "ruhige_strecke": {
+        "abstand_m": [
+          25,
+          40
+        ],
+        "reichweite_m": [
+          10,
+          15
+        ],
+        "db_gegen_fluss": [
+          -18,
+          -16
+        ]
+      },
+      "gleichzeitig_max": 4,
+      "hinweis": "[Gestaltung, unsicher] im Spiel abhoeren"
+    }
   },
   "C_ufer": {
     "profil": {

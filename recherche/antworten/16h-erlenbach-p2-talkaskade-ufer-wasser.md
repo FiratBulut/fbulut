@@ -4,8 +4,8 @@ Stand 13.10.2026. Grundlage: Auftrag `auftraege/16h-erlenbach-p2-talkaskade-ufer
 `bilder/swr_p2/p2x_bogen.jpg`, `tk_mit_ohne_wasser.jpg`, `altwasser_vorher_nachher.png`, die Parameterliste
 `bilder/swr_p2/mi_el_swr_klar_parameter.txt`, `vorlagen/daten/material_parameter.json` (Master `M_Eldarien_Wasser_Schaum8`)
 und unsere Antworten 16a, 16b, 16e, 16f (beide), 16g, 17 sowie 16c Nachtrag 2–4 (Bachbett-Modul).
-Der Nachtrag `auftraege/16h-nachtrag-materialtest.md` (11:15, Materialtest A–E, Landschaftsmaterial) ist eingearbeitet
-(B.2, B.5, B.6).
+Der Nachtrag `auftraege/16h-nachtrag-materialtest.md` (11:15, Materialtest A–E, Landschaftsmaterial) ist in B.2 eingearbeitet.
+Die Antwort auf seine Fragen steht in [`16h-nachtrag-materialtest.md`](16h-nachtrag-materialtest.md).
 
 **Kennzeichnung:**
 - [Befund]: Ferats Messung bzw. Bild aus dem Auftrag
@@ -44,25 +44,15 @@ Der Nachtrag `auftraege/16h-nachtrag-materialtest.md` (11:15, Materialtest A–E
     sehen deshalb gleich aus.
   - Die hellen Flecken sind verzerrte helle Steine (Normalen 40). Ob der ELD-Schaum mitwirkt, ist noch offen: Test D hat nur
     den Epic-Schaum abgeschaltet.
-- **B2 – Bachbett im Landschaftsmaterial:** eigene Steuerung für Bäche über einen zweiten Kanal der Spiegel-Textur
-  („Bachgewicht“, 1 bei B ≤ 6 m, 0 ab 12 m).
-  - Werte für Bäche: `Ufer_Staerke` 0,85 → **0,25**, sodass die Bachdekor-Lagen durchkommen; `Ufer_Farbe` →
-    **(0,60; 0,62; 0,60)**; `Nass_Abdunkeln` 0,55 → **0,40**; Tiefenabdunkelung bis × 0,7 bei 1 m mit leichtem Grünstich.
-  - Uferband für Bäche nur −10 bis +30 cm, Stärke 0,3; `Nass_Breite_cm` 150 → **50**.
-  - Unter Wasser im Bachbett die Mischung Geroell 40, Kies 25, Fels 10, Felsplatte 5, Schlamm 10, Algen 10.
-  - Seen und Flüsse behalten das Zielbild K2.
+- **B2 – Bachbett im Landschaftsmaterial:** eigene Antwort
+  [`16h-nachtrag-materialtest.md`](16h-nachtrag-materialtest.md).
+  - Unter Bächen die Lagen zeigen und nur nass abdunkeln (`Ufer_Staerke` Bach 0, `Nass_Abdunkeln` 0,40).
+  - Steuerung über einen Kanal „Bachgewicht“; die Kies-Ersetzung bleibt für Seen und Flüsse.
 - **B – Wasserwerte (zweitrangig):** Variante F (16f-Werte, `Foam Opacity` 0) ist als Zwischenstand gut.
   - Für tiefe Becken und später V1: Absorption **(300, 1600, 1200)** cm, Scattering **(0,18; 0,32; 0,28; A 0,008)**,
     Refraction 1,08, Sim Velocity Normal 12.
   - ELD-Schaum: `ELD_DF_Schaum` 0,25 mit Radius 30, Uferschaum 0,15.
-- **Nebenbefunde:**
-  - Die beiden alten `C2_Flussfels`-Blöcke im p2-Bett (`_006`, `_002`) entfernen.
-  - Die übrigen 14 nur behalten, wenn sie ≤ 1,5 m groß sind und im Band 0–12 m halb eingegraben liegen.
-  - Die Flussklänge durch leisere Bachklänge an den Stufen ersetzen (B.6).
-- **B – FoamAtten nachbauen:** **Ja**, etwa 10 Knoten. Das Tempo liest der Master in WCBS aus der Wasser-Info der Water Zone
-  (`WaterVelocityAndHeight`, derselbe Zweig wie `Velocity Debug`).
-  - Start: Schaum ab 250/450 cm/s, Streuung × 5 ab 150/400 cm/s.
-  - Ohne Tempo: Schaum über die Steilheit der gebackenen Wasserfläche.
+- **Nebenbefunde** (alte Flussfelsen, Klänge): ebenfalls in [`16h-nachtrag-materialtest.md`](16h-nachtrag-materialtest.md).
 - **C – Ufer:** Die Kästen kommen vom „Kasten-U“ mit 1,5 m Rampe (unsere 16f-Empfehlung, für Schluchten gedacht) und vom
   kurzen Falloff.
   - Neu: Lockerböschungen 30–35° (max. 36°, unter der Schichtband-Schwelle); Prallhang 45–70° mit Erdanriss, Wurzeln und
@@ -215,10 +205,10 @@ auch nicht der Hebel**; meine Vermutung „A wirkt je cm“ ist durch C widerleg
 ### B.3 Werte für unsere vorhandenen Parameter
 
 **Rang nach dem Nachtrag:**
-- Zuerst das Landschaftsmaterial (B.5). Die Wasserwerte sind zweitrangig.
+- Zuerst das Landschaftsmaterial (Nachtrag-Antwort). Die Wasserwerte sind zweitrangig.
 - Ferats **Variante F** (16f-Werte: Absorption 222/1000/1250, Scattering (0,5; 1; 1) × 0,02, Roughness 0,04, Normalen 15,
   `Foam Opacity` 0) ist als Zwischenstand richtig.
-- Die Tabelle unten dient der Feinabstimmung **nach** B.5, vor allem für tiefe Becken (≥ 1 m) und den Grünstich. „heute“ ist
+- Die Tabelle unten dient der Feinabstimmung **nach** dem Landschaftsmaterial, vor allem für tiefe Becken (≥ 1 m) und den Grünstich. „heute“ ist
   Stand A.
 
 **Ziel:** Grund sichtbar, kein Goldton, leichter Grünstich in tiefen Becken, Weißwasser nur an Stufen. Alle Werte im
@@ -239,7 +229,7 @@ Material-Werte).
 | | `Foam Opacity` / `Foam Boost` / `Foam powr` | 0,5 / 0,8 / 0,6 | **0,4 / 0,5 / 1,2** | 0,45 / 0,6 / 1,0 | 0,35 / 0,45 / 1,5 | nur kräftiger Schaum bleibt (powr > 1 dämpft schwachen Schaum, wenn es eine Potenz ist [unsicher]) |
 | | `Sim Foam Dpeth Min` | 8 | **15** | 15 | 20 | kein Schaum in dünnen Rinnen (16f) |
 | | `Depth for DF Foam` | 24 | **12** | 16 | 8 | DF-Saum nur knapp unter der Fläche |
-| ELD-Schaum | `ELD_DF_Schaum` | 1,15 | **0,25** | 0,4 | 0 | Hauptquelle der Steinflecken |
+| ELD-Schaum | `ELD_DF_Schaum` | 1,15 | **0,25** | 0,4 | 0 | mögliche Quelle heller Kappen über Steinen (T0 e klärt es) |
 | | `ELD_Kontakt_Radius` | 65 | **30** | 35 | 25 | nur Steine, die die Fläche fast berühren |
 | | `ELD_Strom_Schaum` | 0,8 | **0,5** | 0,6 | 0,4 | bis zum FoamAtten-Nachbau |
 | | `ELD_Ufer_Schaum` | 0,5 | **0,15** | 0,2 | 0,1 | dünner Saum statt heller Rand |
@@ -251,7 +241,7 @@ Material-Werte).
   43 / 86 / 81 %, also grünlich mit gut sichtbaren Umrissen. Das ist das Ziel aus 16f §5. Die Streuung ist nach Test C schwach;
   A 0,008 hält sie klein, ohne das Becken „unsichtbar“ zu machen.
 - **Grünstich nur in der Tiefe:** Blau (1 200) kürzer als Grün (1 600) ergibt in Becken ≥ 1 m einen leichten Grünton. Bei
-  0,5 m bleibt das Wasser fast farblos; dort kommt die Farbe vom Grund (B.5).
+  0,5 m bleibt das Wasser fast farblos; dort kommt die Farbe vom Grund (Landschaftsmaterial, Nachtrag-Antwort).
 - **Weißwasser nur an Stufen:** Mit `Foam Opacity` 0 (F) gibt es keinen Epic-Schaum. Den ELD-Schaum zuerst mit T0 e prüfen. Schaum
   an den Stufen kommt erst mit `FoamAtten` zurück (B.4).
 
@@ -296,65 +286,12 @@ Milch nur an Stufen“ genauer als jede Maske. Aufwand etwa 1 h als Kopie `M_Eld
 - **Kapsel-Maske** (16e Option B, `schaum_maske` im Export): für p2 nicht verfügbar, weil p2 nicht in unserem Export liegt.
   Ferats Werkzeug könnte die Kapseln an seinen Stufen selbst setzen; das ist mehr Arbeit als die Steilheit.
 
-### B.5 Antwort auf Frage B2 (Nachtrag): Bachbett im Landschaftsmaterial
+### B.5 Nachtrag Materialtest (Frage B2, alte Flussfelsen, Klänge)
 
-**Befund** [Nachtrag]: Die Funktion „Ufer und Gewässergrund“ (V12–V17, Zielbild K2 helle Kiesufer) gilt mit einer Instanz für
-alle Gewässer. Für Seen und große Flüsse passt K2. Für Gebirgsbäche ist sie zu hell, zu warm und zu einheitlich.
-
-**1. Werte für Witcher-Bachbetten** [Gestaltung, Fach]:
-- Nasse Steine sind deutlich dunkler und satter als trockene. Wasser in den Poren und auf der Fläche senkt die Rückstreuung
-  (Jensen et al. 1999).
-- Gebirgsbäche zeigen unter Wasser graue, gemischte Körnung, an ruhigen Stellen etwas Schlamm und Algenbelag.
-
-| Parameter | heute (weltweit) | **Bach** (Bachgewicht 1) | Begründung |
-|---|---|---|---|
-| `Ufer_Staerke` (Grund unter Wasser) | 0,85 | **0,25** | Bachdekor-Lagen (Geröll, Fels, Schlamm) bleiben sichtbar; nur ein Hauch Kies-Detail |
-| `Ufer_Farbe` | 0,95; 0,93; 0,88 | **0,60; 0,62; 0,60** | neutral-grau statt beige |
-| `Nass_Abdunkeln` | 0,55 | **0,40** | nasser Stein 2- bis 2,5-mal dunkler |
-| `Nass_Breite_cm` | 150 | **50** | dunkler Nassrand nur 0,2–0,5 m über dem Spiegel (16b) |
-| `Nass_Staerke` / `Nass_Spiegel` | 2,5 / 1 | 2,5 / 1 | bleibt |
-| Uferband Höhe | −30 bis +60 cm | **−10 bis +30 cm** | sonst helle Bänder auf den Stufenflächen (Bild 5 m hoch) |
-| Uferband Stärke | 0,85 (wie `Ufer_Staerke`) | **0,3** | der Uferstreifen Moos/Erde/Schlamm (bachbett_regeln) liegt vorn |
-| Uferband Normal-Z | > 0,86 (≤ 31°) | **> 0,94** (≤ 20°) | Kiesbank nur auf echt flachem Gleithang |
-| **Tiefenabdunkelung** (neu, 3 Knoten) | – | Grund × Lerp(1; 0,7; SmoothStep(0,2; 1,0 m; Tiefe)) × Lerp(1; (0,92; 1,0; 0,95); SmoothStep(0,6; 1,5 m; Tiefe)) | Tiefe ablesbar und leicht grün, wo die Absorption bei 0,5 m noch nichts zeigt |
-
-**2. Weltweit oder eigene Steuerung?** **Eigene Steuerung für Bäche** [Ableitung]:
-- Zweiter Kanal in `T_Eldarien_Wasserspiegel_2m` (oder eine eigene R8-Textur gleicher Lage): **Bachgewicht**
-  = 1 − SmoothStep(6 m; 12 m; Gewässerbreite), um eine Zelle weichgezeichnet.
-- Die Breite kommt aus eurer Wasserkarte bzw. der Spline (p2: 1,6–2,4 m → 1; C3-Fluss → 0).
-- Im Material je Parameter `Lerp(Welt, Bach, Bachgewicht)`; das sind 6–8 Lerp-Knoten und ein Textur-Abruf, den es schon gibt.
-- Seen, Meer und Flüsse behalten K2 unverändert.
-
-**3. Soll die Kies-Ersetzung die Bachdekor-Lagen übermalen?** **Nein, nicht im Bach.**
-- Die Lagen sind die geplante Bettstruktur (Schlamm in Becken, Kies an Schnellen, Fels an Lippen).
-- Die Ersetzung bleibt dort nur als Nässe und Detail (`Ufer_Staerke` 0,25).
-- Die Bachdekor-Mischung unter Wasser ist mit Kies 41, Geröll 33, Schlamm 8, Fels 7 aber selbst hell. Vorschlag für Bäche,
-  Prozent unter dem Spiegel:
-
-  | Lage | heute (Bachdekor) | Vorschlag | Bedingung |
-  |---|---|---|---|
-  | Geroell | 33 | **40** | überall |
-  | Kies | 41 | **25** | Schnellen und Rinnen vorn (Ruhe < 0,6) |
-  | Fels / Felsplatte | 7 / – | **10 / 5** | an Lippen und Stufen |
-  | Schlamm | 8 | **10** | ruhige, tiefe Becken (Ruhe ≥ 0,6, Tiefe ≥ 0,25 m) |
-  | Algen | – | **10** | ruhige Becken ≥ 0,4 m, nicht an Schnellen |
-  | übrige | 11 | 0 | – |
-
-Das Gleiche steht maschinenlesbar in `bachbett_ufer_regeln.json` → `B2_landschaft_bach`.
-
-### B.6 Nebenbefunde (Nachtrag §3)
-
-- **Alte Flussfelsen `C2_Flussfels_*` (16 Blöcke des 30-m-Flusses):**
-  - `_006` und `_002` liegen im p2-Bett: **entfernen**. Ein Block des großen Flusses dämmt den 2-m-Bach und steht ohne
-    Wasser-Kollision ohnehin falsch.
-  - Die übrigen 14 bleiben nur, wenn sie im Band 0–12 m (A.2) liegen und ≤ 1,5 m groß sind. Dann 40–60 % eingraben (C.4),
-    Moos oben, und jeder Block ≤ 1 m neben dem Wasser wird SWR-Hindernis (Reset + Bake).
-  - Größere Blöcke bleiben nur als Uferfels an einem Prallhang, ≥ 50 % eingegraben. Sonst entfernen: Ein Blockfeld ohne den
-    Fluss, der es abgelegt hat, wirkt wie der alte Schotterstreifen.
-- **Klänge `C2_Ton_Fluss_01/02/05`** [Gestaltung, unsicher]:
-  - durch Bach-Klänge ersetzen: je Stufe ≥ 0,5 m eine Quelle, sonst alle 25–40 m;
-  - Reichweite 15–25 m, an Fällen ≥ 1 m 30–40 m;
-  - etwa 10–12 dB leiser als der Fluss.
+Die Antwort steht in einer eigenen Datei: [`16h-nachtrag-materialtest.md`](16h-nachtrag-materialtest.md).
+- Im Bach **nicht übermalen**: Die Bachdekor-Lagen bleiben sichtbar und werden nur nass abgedunkelt.
+- Steuerung über das Bachgewicht; die Kies-Ersetzung gilt nur noch für Seen und Flüsse.
+- Dazu die alten Flussfelsen und die Klänge.
 
 ---
 
@@ -453,7 +390,7 @@ Größe = größte Ausdehnung; Einbettung = Anteil der Höhe im Boden. Lange Ach
 
 ### C.5 Umsetzung
 
-- **Ferats Werkzeug:** [`bachbett_ufer_regeln.json`](bachbett_ufer_regeln.json) lesen. Teile: `A_altbett`, `B2_landschaft_bach` (B.5),
+- **Ferats Werkzeug:** [`bachbett_ufer_regeln.json`](bachbett_ufer_regeln.json) lesen. Teile: `A_altbett`, `B2_landschaft_bach` (Nachtrag),
   `C_ufer.profil` (mit `kasten_verbot`, `boeschung_zuruecklegen`, `water_plugin`), `C_ufer.lagen_steil`
   (mit `schichtbaender`), `C_ufer.bewuchs_kante`, `C_ufer.steine`, `C_ufer.pruefung`.
 - **Referenz:** [`skripte/ufer_regeln/ufer_regeln.py`](skripte/ufer_regeln/ufer_regeln.py) mit `altbett_mischung`,
@@ -475,7 +412,7 @@ Größe = größte Ausdehnung; Einbettung = Anteil der Höhe im Boden. Lange Ach
 
 | Nr | Was | Erwartung / Messung | Backen |
 |---|---|---|---|
-| **TL** Landschaft (zuerst, 10 min) | Werte B.5 vorübergehend **global** in `MI_Eldarien_Landschaft_V12` setzen (ohne Bachgewicht), Bilder wie `wv_varianten.jpg`; dann zurück | Bett grau-dunkel, Steine lesbar, kein Sand; zeigt, ob der eigene Bach-Kanal lohnt | nein |
+| **TL** Landschaft (zuerst, 10 min) | Bach-Werte aus `16h-nachtrag-materialtest.md` vorübergehend **global** in `MI_Eldarien_Landschaft_V12` setzen (ohne Bachgewicht), Bilder wie `wv_varianten.jpg`; dann zurück | Bett grau-dunkel, Steine lesbar, kein Sand; zeigt, ob der eigene Bach-Kanal lohnt | nein |
 | **T0** Zerlegung (10 min) | a) Glas: `Absorption` 100 000 (alle drei), Scattering A 0, `Foam Opacity` 0, `ELD_Schaum_Deckkraft` 0 → b) Absorption heute → c) Scattering A 0,1 → d) `Foam Opacity` 0,5 → e) ELD-Schaum heute bzw. `ELD_Schaum_Deckkraft` 0 (Test D ließ ihn an) → f) Refraction 1,0 / 1,15 | a) wie „ohne Wasser“, nur Glanz und Brechung. Der Schritt mit dem größten Sprung zu Gold bzw. Milch ist die Ursache; erwartet c) und e). Zeigt auch, ob A je cm wirkt (c sehr milchig bei 0,5 m) | nein |
 | **T1** Varianten | V1, V2, V3 aus B.3 je als Kopie von `MI_EL_SWR_Klar` | Grund bei 1 m deutlich (Kontrast Stein/Kies im Bild ≥ 50 % von trocken, Pipette); kein Goldton; tiefes Becken leicht grün; Flecken nur an Stufen | nein |
 | T2 Grund | im Bett unter Wasser Geroell vor Kies, 5–10 % `Algen` in ruhigen Becken, Nassfarbe × 0,6 | Gold vom Grund weg | nein (Lagen) |
@@ -491,10 +428,10 @@ Größe = größte Ausdehnung; Einbettung = Anteil der Höhe im Boden. Lange Ach
 Code und Regeln: Commit **`b12cc00`** holen.
 
 1. **Landschaftsmaterial zuerst (Hauptursache):**
-   - Test TL mit den Bach-Werten aus B.5, vorübergehend global;
+   - Test TL mit den Bach-Werten aus [`16h-nachtrag-materialtest.md`](16h-nachtrag-materialtest.md), vorübergehend global;
    - wenn das Bild trägt: Kanal „Bachgewicht“ in die Spiegel-Textur (bzw. eigene R8-Textur) und Lerp im Material;
-   - Lagen unter dem Spiegel nach B.5 Punkt 3 (Bachdekor);
-   - `C2_Flussfels_006` und `_002` entfernen, die übrigen nach B.6.
+   - Lagen unter dem Spiegel nach der Nachtrag-Antwort (Bachdekor);
+   - `C2_Flussfels_006` und `_002` entfernen, die übrigen nach der Nachtrag-Antwort.
 2. **Wasser-Material (ohne Backen, nach 1):** Variante F bleibt; danach
    - T0 an TK1 t430/t500 (Abschnitt Testreihe);
    - dann V1, V2 und V3 als Kopien von `MI_EL_SWR_Klar`, Werte aus B.3;
@@ -557,7 +494,7 @@ Code und Regeln: Commit **`b12cc00`** holen.
 
 ## Rückfragen
 
-1. **TL-Ergebnis:** Trägt das graue, nasse Bett mit `Ufer_Staerke` 0,25? Kann eure Spiegel-Textur einen zweiten Kanal
+1. **TL-Ergebnis:** Trägt das nasse Bett mit den Lagen (`Ufer_Staerke` 0)? Kann eure Spiegel-Textur einen zweiten Kanal
    aufnehmen, oder lieber eine eigene `T_Eldarien_Bachgewicht_2m`?
 2. **T0-Ergebnis:** Welche Stufe (b–f) bringt Gold bzw. Milch? Wirkt Scattering A je cm? Dann trage ich die Werte für V1–V3 als
    Regel in eine Material-Tabelle ein (wie `wasserfarben.json`).

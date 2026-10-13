@@ -259,7 +259,7 @@ def selbsttest(R):
     ok(schichtband_maske(50, 5.0, 0.3) == 0.0, "Schichtband auf Lockermaterial")
     ok(schichtband_maske(50, 5.0, 0.8) == 1.0, "Schichtband auf hoher Felswand fehlt")
     ok(bachgewicht(R, 2.0) == 1.0 and bachgewicht(R, 20.0) == 0.0, "Bachgewicht")
-    ok(landschaft_wert(R, "Ufer_Staerke", 2.0) == 0.25 and landschaft_wert(R, "Ufer_Staerke", 30.0) == 0.85, "Ufer_Staerke Bach/Welt")
+    ok(landschaft_wert(R, "Ufer_Staerke", 2.0) == 0.0 and landschaft_wert(R, "Ufer_Staerke", 30.0) == 0.85, "Ufer_Staerke Bach/Welt")
     kasten = [(0.0, 0.0), (0.3, 1.2), (3.0, 1.4)]          # 76 Grad ueber 1,2 m: Kasten
     ok(kasten_hoehe(kasten) == 1.2, "Kasten nicht erkannt")
     neu = boeschung_zuruecklegen(kasten + [(1.0, 1.25), (2.0, 1.32)], 0.0)
