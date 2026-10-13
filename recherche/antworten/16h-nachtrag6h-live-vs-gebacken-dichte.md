@@ -8,6 +8,9 @@ bzw. geschlossen, [offen] nur durch Test zu klären.
 
 ## Kurzfazit
 
+> **Nachtrag 14.10. (§5):** Punkt 1–2 sind für das gebackene Wasser **widerlegt**. Ferats EpicKlar-Test (P2M) zeigt: Live-Werte im MI
+> ändern gebacken nichts. Die Einheit stimmt weiter, aber das Braun entsteht im Zeichenweg, nicht in den Werten.
+
 1. **Gleiche Einheit, keine Umrechnung.** `Absorption` ist in unserem Master und nach allem, was wir wissen, auch in Epics Niagara-Master
    eine **Sichttiefe in cm** (das Material bildet den Kehrwert). Die Live-Werte gehören **1:1** in `MI_EL_SWR_Klar`. Einen Parameter
    `Koeff_Skala` gibt es nicht, weder im Graph noch in der MI-Liste, und er wird nicht gebraucht.
@@ -142,3 +145,85 @@ Da die Einheit gleich ist, gilt **neu = live**, ohne Faktor.
 3. **Weißwasser nur an Stufen**, auch gebacken (FoamAtten-Plan, 16h Nachtrag 3 §4.2).
 4. **Ufer und Hänge aus großen Blöcken** in Stapeln statt Kleinsteinen und Textur (20/21), gemessen mit dem Pixelanteil aus §2.
 5. **Bett:** längliche Kolke und die Uferstufe aus 6f/6g, damit die neue Wasserfarbe Tiefe zeigen kann.
+
+## §5 Nachtrag zu Ferats §4 (EpicKlar gebacken = kein Unterschied)
+
+Bezug: Auftrag §4 (4f9785c), Bild `bilder/swr_p2/wasser_p2d_p2l_p2m.jpg`.
+
+### Kurzfazit
+
+1. **Widerlegt:** „Live-Werte 1:1 ins MI lösen es“ (Kurzfazit 1–2, §1.2) stimmt für gebackenes Wasser nicht. Die Einheit stimmt weiter, sie
+   ist aber nicht die Ursache. Ebenso widerlegt ist „das Braun ist S6 durch zu klare Werte“: Das Braun ist zwar der Grund, aber weil gebacken
+   **kaum ein Wasserkörper gezeichnet wird**, nicht wegen der Werte. Meine Prüfpunkte 3/4 aus §1.4 (Maske, Tiefe, Zeichenweg) waren die
+   richtige Spur.
+2. **Bild:** P2M ist praktisch gleich P2D. Bei 21 cm Sichttiefe müsste schon eine 10-cm-Schicht deutlich färben, man sieht aber keine Färbung.
+   Also ist die wirksame Wassertiefe gebacken nahe 0, oder die Koeffizienten werden weggemaskt [Ableitung].
+3. **Erster Test, 2 min:** `render_state` = **`BAKED_SIM`**. Dabei zeichnet die SWR das Gebackene selbst, ohne Water Zone. Kosten: 0,3 ms und
+   3 Dispatches (16b gemessen).
+   - Laut Forum 5.8 zeigen „Live Sim“ und „Baked Sim“ korrekt; nur „Water Component with Baked Sim“ macht Probleme, weil die SWR ihre Fläche
+     anders baut als der Water Body [Forum, Suchauszug].
+   - **Sieht BAKED_SIM aus wie live, ist das die Spiellösung ohne Live-Simulation.**
+4. **Regel:** LIVE_SIM im Spiel nur, wenn auch BAKED_SIM braun bleibt, und dann nur an 1–2 Schaustellen (§5.4).
+
+### 5.1 Was das Bild zeigt [Ferat]
+
+| Blick | P2L live | P2D und P2M gebacken |
+|---|---|---|
+| m_talkaskade | Hauptbecken bis zur Kante grün-türkis gefüllt, die Beckenwand verschwindet unter dem Spiegel | braune Beckenwand und Grund frei sichtbar, kaum Wasserfarbe |
+| t500 schräg | jede Stufe mit grünem Wasserkörper, Spiegel in jedem Becken | dunkel-nasse Stufen ohne Körper; nur im untersten Becken Spiegelung |
+| t430 / t500 Auge | ruhiger, durchscheinend grüner Körper, Grund nah sichtbar | Schlieren-Spiegelung über braunem Grund; P2M nur etwas heller (Licht), sonst gleich |
+
+**Rechnung** [Ableitung]: Bei L = 21 cm lässt eine 10-cm-Schicht senkrecht nur 62 % durch, aus Augenhöhe (Weg × 2,9) nur 25 %. Das wäre klar
+sichtbar. Weil gebacken nichts färbt, ist die wirksame Tiefe dort höchstens wenige Zentimeter.
+
+### 5.2 Ursachen nach Wahrscheinlichkeit, je ein Test unter 5 min
+
+| # | Ursache | Stand | Test | Erwartung |
+|---|---|---|---|---|
+| 0 | **Weiche:** Liegt es am Zeichenweg der Water Zone (WCBS) oder an den gebackenen Daten selbst? | – | `render_state` `BAKED_SIM`, gleiche Kameras | live-ähnlich → Ursache 1–3 (WCBS-Weg). Ebenfalls braun → Ursache 4 (Daten) |
+| 1 | **Tiefe und Maske im WCBS-Weg:** Die Koeffizienten laufen über `WaterOpacityMaskFromDepth` → `WaterCoefficientMask`. Die Tiefe kommt aus der Wasser-Info (Wasser-Z minus Boden-W in Zonenauflösung). Live rechnet auf dem Simulationsnetz mit der echten Höhe | Kette [Graph]; dass die Maske ≈ 0 liefert [Ableitung] | im MI den Schalter `UseFixedWaterDepth` → True (steht in der MI-Liste); dazu die Gegenprobe Absorption 2/2/2 | färbt sich das Wasser mit festem Tiefenwert bzw. bei 2/2/2 sichtbar → Tiefe oder Maske ist schuld. Bleibt es braun → Ursache 2 |
+| 2 | **Fläche zu tief bzw. zu dünn:** Die Water-Zone-Fläche liegt auf der Höhe aus der Wasser-Info, nicht auf der Simulationshöhe (vgl. 16g: grobe Info → Bett trocken) | [Ableitung] aus 16g | Messlatte aus §1.1 mit 10-cm-Strichen ins Hauptbecken; Spiegelhöhe live und WCBS ablesen; dazu `r.Water.WaterMesh.ShowWireframe 1` [Doku 5.2] | Spiegel gebacken ≥ 10 cm tiefer, oder Drahtgitter deckt das Becken nicht → Ursache 2. Abhilfe: Zonenauflösung (Regel Pixel ≤ Band/12, 16g-2) |
+| 3 | **Wasser-Info nach dem Bake veraltet** | CVar belegt [Doku 5.2]; Wirkung [offen] | `r.Water.WaterInfo.ForceUpdateWaterInfoNextFrames 10` in der Konsole, dasselbe Bild | ändert sich das Bild → veraltet; dann nach jedem Bake erzwingen bzw. Level neu laden |
+| 4 | **Gebackene Daten grob:** Normal-, Schaum- und Höhentextur niedrig aufgelöst bzw. komprimiert (Bake 319 × 2016) | [Ableitung] | im BAKED_SIM-Bild nah vergleichen; die gebackene Textur im Texture-Viewer öffnen (Größe, Kompression) | erklärt Detail und Schlieren, **nicht** die fehlende Farbe. Niedrige Priorität für das Braun |
+| 5 | **Anderes Material im Niagara-Renderer** (Blend, Shading, eigenes Netz je Zelle) | Netz je Zelle [Leitfaden: „zeichnet selbst“]; Blend/Shading [offen] | `SW_Water_Material_River_Niagara` öffnen → Eltern-Material → Details: Blend Mode, Shading Model; mit `M_Eldarien_Wasser_Schaum8` vergleichen (SingleLayerWater) | anderes Shading (z. B. Translucent) → Live-Look ist im WCBS-Weg nur über einen eigenen Pfad nachbaubar. Gleiches Shading → 1–3 bleiben |
+
+- `r.Water.WaterInfo.RenderMethod` gibt es laut Forum [Forum]; welche Werte gelten, ist unbelegt. Nur abfragen, nicht raten.
+- `Lip Refraction` (0,95) steht auch in unserem MI. Sie erklärt allein nicht, warum der Körper fehlt [Ableitung].
+
+**Nachbau in WCBS:**
+- Bei Ursache 1 oder 3 ja: ein Schalter oder ein CVar.
+- Bei Ursache 2 teilweise, über eine feinere Zone; das kostet Speicher (16g: 100–400 MB bei 2–4 feinen Zonen).
+- Bei Ursache 5 nur mit eigenem Material-Pfad. Dann lohnt eher BAKED_SIM nah.
+
+### 5.3 Umschalten nach Entfernung in 5.8
+
+- **Nicht als eingebaute Funktion belegt** [16a, Suche ohne Treffer].
+- Belegt ist nur: Steht die SWR auf Live oder Baked Sim, blendet sie die Water-Body-Fläche des Flusses selbst aus; für Seen nicht [Forum 5.8,
+  Suchauszug].
+- Ob `render_state` zur Laufzeit umstellbar ist, ist [offen] (T2-4 aus 16a lief nie).
+- **Test (5 min, PIE):** per Blueprint oder Python `render_state` WCBS ↔ BAKED_SIM bzw. LIVE_SIM schalten, zweimal hin und her. Darauf achten:
+  1. Wechselt es ohne Ruckeln und ohne doppelte Fläche?
+  2. Startet LIVE_SIM trocken oder aus dem gebackenen Zustand (Zeit bis ruhig)?
+  3. `ProfileGPU` vorher und nachher.
+  4. Danach einmal im **gepackten Build** prüfen. Laut Forum zeichnet die gebackene SWR dort teils gar nicht (16a).
+
+### 5.4 Entscheidungsregel LIVE_SIM gegen WCBS
+
+| Fall | Nah (≤ 100 m, sichtbar) | Fern |
+|---|---|---|
+| BAKED_SIM sieht aus wie live (Test 0) | **BAKED_SIM** an Schaustellen, höchstens 3 gleichzeitig (≈ 0,9 ms). Keine Interaktion [Leitfaden] → nur, wo man nicht watet | WCBS (0,2 ms) bzw. Water Body |
+| Ursache 1–3 in WCBS behoben | WCBS überall | WCBS |
+| nur LIVE_SIM sieht richtig aus | **LIVE_SIM nur an 1–2 Schaustellen** (Talkaskade), höchstens 1 gleichzeitig (0,6 ms für 179 m, 59 Dispatches, 16b), über den Manager aus 16b (≤ 100 m, sichtbar) | WCBS |
+| nie | LIVE_SIM an allen Bächen: 12 ms bei 1 km Ladebereich (16b) | – |
+
+Budget: 1,5 ms für Wassersimulation und Effekte (Datei 16). Umschalten nach Entfernung nur, wenn der Test aus 5.3 sauber läuft. Sonst bleibt die
+Schaustelle fest im gewählten Zustand.
+
+**„Was fehlt bis Witcher 4“, Punkt 1, wird ersetzt:** zuerst Test 0 (BAKED_SIM), dann 1–3. Die Live-Werte im MI erst setzen, wenn der Weg
+die Wasserfarbe überhaupt zeigt.
+
+**Quellen (neu):**
+- [Forum: ShallowWaterRiver – Lake/Ocean, 5.7/5.8](https://forums.unrealengine.com/t/shallowwaterriver-lake-ocean/2838534) – Live Sim und
+  Baked Sim zeigen korrekt, WCBS nicht für Seen; die SWR baut ihre Fläche anders als der Water Body (Suchauszug).
+- [Tutorial: Baked River Simulations – Parameter Reference](https://forums.unrealengine.com/t/tutorial-baked-river-simulations-parameter-reference/2512112)
+  (Leitfaden, wie in 16a).
