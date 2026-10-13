@@ -1,0 +1,663 @@
+{
+ "knoten": 328,
+ "klassen": {
+  "MaterialExpressionMultiply": 47,
+  "MaterialExpressionConstant": 46,
+  "MaterialExpressionScalarParameter": 32,
+  "MaterialExpressionSubtract": 29,
+  "MaterialExpressionMaterialFunctionCall": 22,
+  "MaterialExpressionDivide": 21,
+  "MaterialExpressionSaturate": 16,
+  "MaterialExpressionAdd": 15,
+  "MaterialExpressionTextureSample": 14,
+  "MaterialExpressionReroute": 10,
+  "MaterialExpressionMax": 10,
+  "MaterialExpressionStaticSwitchParameter": 9,
+  "MaterialExpressionConstant2Vector": 8,
+  "MaterialExpressionLinearInterpolate": 7,
+  "MaterialExpressionComponentMask": 5,
+  "MaterialExpressionAppendVector": 5,
+  "MaterialExpressionVectorParameter": 4,
+  "MaterialExpressionNormalize": 4,
+  "MaterialExpressionDistanceToNearestSurface": 4,
+  "MaterialExpressionAbs": 3,
+  "MaterialExpressionSetMaterialAttributes": 2,
+  "MaterialExpressionGetMaterialAttributes": 2,
+  "MaterialExpressionLength": 2,
+  "MaterialExpressionFrac": 2,
+  "MaterialExpressionSingleLayerWaterMaterialOutput": 1,
+  "MaterialExpressionConstant3Vector": 1,
+  "MaterialExpressionCustom": 1,
+  "MaterialExpressionTransform": 1,
+  "MaterialExpressionBreakMaterialAttributes": 1,
+  "MaterialExpressionMakeMaterialAttributes": 1,
+  "MaterialExpressionWorldPosition": 1,
+  "MaterialExpressionTime": 1,
+  "MaterialExpressionDistanceFieldGradient": 1
+ },
+ "parameter": [
+  [
+   "StaticSwitchParameter[Enable Water VS Mapping]",
+   [
+    "GetMaterialAttributes(utes_1)",
+    "SetMaterialAttributes(utes_1)"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[Enable Ocean Foam]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/SampleFluidSimulation.SampleFluidSimulation]"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[Enable River]",
+   [
+    "Reroute(oute_3)"
+   ]
+  ],
+  [
+   "ScalarParameter[Anisotropy]",
+   [
+    "SingleLayerWaterMaterialOutput(tput_0)"
+   ]
+  ],
+  [
+   "VectorParameter[Scattering]",
+   [
+    "Multiply(iply_0)",
+    "Multiply(iply_0)"
+   ]
+  ],
+  [
+   "VectorParameter[Absorption]",
+   [
+    "Divide(vide_1)",
+    "Divide(vide_2)"
+   ]
+  ],
+  [
+   "ScalarParameter[Water Distant Normal Offset]",
+   [
+    "MaterialFunctionCall[/Engine/Functions/Engine_MaterialFunctions01/Opacity/CameraDepthFade.CameraDepthFade]"
+   ]
+  ],
+  [
+   "ScalarParameter[Water Distant Normal Length]",
+   [
+    "MaterialFunctionCall[/Engine/Functions/Engine_MaterialFunctions01/Opacity/CameraDepthFade.CameraDepthFade]"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[Enable Waves]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterTextureSurface.WaterTextureSurface]"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[Enable Lake Transition]",
+   [
+    "StaticSwitchParameter[Enable Waves]"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[Enable Ocean Transition]",
+   [
+    "StaticSwitchParameter[Enable Lake Transition]"
+   ]
+  ],
+  [
+   "VectorParameter[Foam Scattering]",
+   [
+    "Multiply(iply_3)",
+    "Multiply(iply_3)"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[Enable Ocean Foam]",
+   [
+    "Add(nAdd_2)"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[UseScalarWaterBodyIndex]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/ComputeGerstnerWaves.ComputeGerstnerWaves]"
+   ]
+  ],
+  [
+   "ScalarParameter[WaterBodyIndex]",
+   [
+    "StaticSwitchParameter[UseScalarWaterBodyIndex]"
+   ]
+  ],
+  [
+   "StaticSwitchParameter[Caustics]",
+   [
+    "SingleLayerWaterMaterialOutput(tput_0)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Tiefe_Versatz]",
+   [
+    "Add(nAdd_5)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Tempo]",
+   [
+    "Multiply(iply_5)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Groesse]",
+   [
+    "Divide(vide_6)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Zug]",
+   [
+    "Multiply(iply_7)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Fels_Schaum]",
+   [
+    "Multiply(ply_13)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_DF_Steil]",
+   [
+    "Subtract(ract_5)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Kontakt_Radius]",
+   [
+    "Divide(vide_8)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Spur_Laenge]",
+   [
+    "Multiply(ply_17)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Spur_Laenge]",
+   [
+    "Multiply(ply_21)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Spur_Laenge]",
+   [
+    "Multiply(ply_25)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Wirbel_Tempo]",
+   [
+    "Divide(ide_16)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_DF_Schaum]",
+   [
+    "Multiply(ply_30)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Strom_Schwelle]",
+   [
+    "Subtract(act_21)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Strom_Breite]",
+   [
+    "Divide(ide_17)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Strom_Schaum]",
+   [
+    "Multiply(ply_32)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Saum_Mitte]",
+   [
+    "Subtract(act_22)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Saum_Breite]",
+   [
+    "Divide(ide_18)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Ufer_Schaum]",
+   [
+    "Multiply(ply_34)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Saum_Neigung]",
+   [
+    "Divide(ide_19)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Schwelle]",
+   [
+    "Subtract(act_26)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Kontrast]",
+   [
+    "Multiply(ply_38)"
+   ]
+  ],
+  [
+   "VectorParameter[ELD_Schaum_Farbe]",
+   [
+    "LinearInterpolate(late_1)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Rauheit]",
+   [
+    "LinearInterpolate(late_2)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Deckkraft]",
+   [
+    "LinearInterpolate(late_3)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Wirbel_Groesse]",
+   [
+    "Divide(ide_20)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Wirbel_Zug]",
+   [
+    "Multiply(ply_39)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Wirbel_Normal]",
+   [
+    "Multiply(ply_43)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Schaum_Normal]",
+   [
+    "Multiply(ply_44)"
+   ]
+  ],
+  [
+   "ScalarParameter[ELD_Wirbel_Staerke]",
+   [
+    "Multiply(ply_45)"
+   ]
+  ]
+ ],
+ "funktionen": [
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/SampleFluidSimulation.SampleFluidSimulation]",
+   [
+    "StaticSwitchParameter[Enable Ocean Foam]",
+    "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]"
+   ],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterOpacityMaskFromDepth.WaterOpacityMaskFromDepth]",
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterOpacityMaskFromDepth.WaterOpacityMaskFromDepth]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Layers/BeachFoam.BeachFoam]",
+   [
+    "Reroute(oute_3)"
+   ],
+   [
+    "StaticSwitchParameter[Enable Ocean Foam]",
+    "Multiply(iply_2)"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/SetWaveAttributes.SetWaveAttributes]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterTextureSurface.WaterTextureSurface]"
+   ],
+   [
+    "Reroute(oute_0)"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Layers/WaterAttributes.WaterAttributes]",
+   [],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/ComputeGerstnerWaves.ComputeGerstnerWaves]",
+   [
+    "StaticSwitchParameter[UseScalarWaterBodyIndex]",
+    "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]"
+   ],
+   [
+    "Reroute(oute_8)"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/WaterTextureSurface.WaterTextureSurface]",
+   [
+    "StaticSwitchParameter[Enable Waves]",
+    "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]",
+    "MaterialFunctionCall[/Engine/Functions/Engine_MaterialFunctions01/Opacity/CameraDepthFade.CameraDepthFade]"
+   ],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/SetWaveAttributes.SetWaveAttributes]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Engine/Functions/Engine_MaterialFunctions01/Opacity/CameraDepthFade.CameraDepthFade]",
+   [
+    "ScalarParameter[Water Distant Normal Length]",
+    "ScalarParameter[Water Distant Normal Offset]"
+   ],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterTextureSurface.WaterTextureSurface]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/WaterHeightMappingVS.WaterHeightMappingVS]",
+   [
+    "Reroute(oute_7)"
+   ],
+   [
+    "StaticSwitchParameter[Enable Water VS Mapping]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/WaveVelocityMask.WaveVelocityMask]",
+   [
+    "Reroute(oute_8)"
+   ],
+   [
+    "StaticSwitchParameter[Enable Lake Transition]",
+    "StaticSwitchParameter[Enable Ocean Transition]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/WaterRiverFlowmaps.WaterRiverFlowmaps]",
+   [
+    "Reroute(oute_0)",
+    "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]"
+   ],
+   [
+    "StaticSwitchParameter[Enable River]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Layers/WaterAttributes.WaterAttributes]"
+   ],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/SetWaveAttributes.SetWaveAttributes]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+   [
+    "Divide(vide_5)",
+    "Divide(vide_1)"
+   ],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]",
+   [],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/ComputeGerstnerWaves.ComputeGerstnerWaves]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/WaterOpacityMaskFromDepth.WaterOpacityMaskFromDepth]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/SampleFluidSimulation.SampleFluidSimulation]",
+    "MaterialFunctionCall[/Water/Materials/Functions/SampleFluidSimulation.SampleFluidSimulation]"
+   ],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+    "MaterialFunctionCall[/Water/Materials/Functions/ClipDynamicBounds.ClipDynamicBounds]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]",
+   [],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/SampleFluidSimulation.SampleFluidSimulation]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]",
+   [],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterRiverFlowmaps.WaterRiverFlowmaps]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/GetWaterTime.GetWaterTime]",
+   [],
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterTextureSurface.WaterTextureSurface]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Caustics/Materials/Functions/WaterCaustics_GerstnerWaves.WaterCaustics_GerstnerWaves]",
+   [
+    "GetMaterialAttributes(utes_0)"
+   ],
+   [
+    "StaticSwitchParameter[Caustics]"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Layers/WaterAttributes.WaterAttributes]",
+   [],
+   [
+    "GetMaterialAttributes(utes_0)"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterOpacityMaskFromDepth.WaterOpacityMaskFromDepth]",
+    "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+    "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]"
+   ],
+   [
+    "SingleLayerWaterMaterialOutput(tput_0)",
+    "SingleLayerWaterMaterialOutput(tput_0)"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/Water/Materials/Functions/ClipDynamicBounds.ClipDynamicBounds]",
+   [
+    "MaterialFunctionCall[/Water/Materials/Functions/WaterOpacityMaskFromDepth.WaterOpacityMaskFromDepth]"
+   ],
+   [
+    "Reroute(oute_7)"
+   ]
+  ],
+  [
+   "MaterialFunctionCall[/EldarienWaterLite/Materials/MF_EL_LocalRipples.MF_EL_LocalRipples]",
+   [],
+   [
+    "Transform(form_0)"
+   ]
+  ]
+ ],
+ "ketten": {
+  "Velocity Debug": {
+   "gefunden": 0,
+   "kette": []
+  },
+  "SimFoam Contrast": {
+   "gefunden": 0,
+   "kette": []
+  },
+  "Foam Opacity": {
+   "gefunden": 0,
+   "kette": []
+  },
+  "Scattering": {
+   "gefunden": 1,
+   "kette": [
+    [
+     "VectorParameter[Scattering]",
+     "->",
+     "Multiply(iply_0)"
+    ],
+    [
+     "VectorParameter[Scattering]",
+     "->",
+     "Multiply(iply_0)"
+    ],
+    [
+     "Multiply(iply_0)",
+     "->",
+     "Add(nAdd_2)"
+    ],
+    [
+     "Multiply(iply_0)",
+     "->",
+     "Add(nAdd_2)"
+    ],
+    [
+     "Add(nAdd_2)",
+     "->",
+     "Divide(vide_5)"
+    ],
+    [
+     "Add(nAdd_2)",
+     "->",
+     "Divide(vide_5)"
+    ],
+    [
+     "Divide(vide_5)",
+     "->",
+     "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]"
+    ],
+    [
+     "Divide(vide_5)",
+     "->",
+     "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+     "->",
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+     "->",
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+     "->",
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/Water_Underside.Water_Underside]",
+     "->",
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ],
+    [
+     "MaterialFunctionCall[/Water/Materials/Functions/WaterCoefficientMask.WaterCoefficientMask]",
+     "->",
+     "SingleLayerWaterMaterialOutput(tput_0)"
+    ]
+   ]
+  },
+  "Sim Foam Normal": {
+   "gefunden": 0,
+   "kette": []
+  },
+  "Foam Boost": {
+   "gefunden": 0,
+   "kette": []
+  },
+  "ELD_Schaum_Deckkraft": {
+   "gefunden": 1,
+   "kette": [
+    [
+     "ScalarParameter[ELD_Schaum_Deckkraft]",
+     "->",
+     "LinearInterpolate(late_3)"
+    ],
+    [
+     "LinearInterpolate(late_3)",
+     "->",
+     "MakeMaterialAttributes(utes_0)"
+    ]
+   ]
+  },
+  "MaxFlowVelocity": {
+   "gefunden": 0,
+   "kette": []
+  }
+ }
+}
