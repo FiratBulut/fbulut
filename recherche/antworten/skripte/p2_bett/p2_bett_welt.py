@@ -62,6 +62,21 @@ def lauf_lesen(pfad, einheit=None):
     with open(pfad, encoding="utf-8") as f:
         d = json.load(f)
     P = None
+
+    def spalten_suchen(x, tiefe=0):
+        """Objekt mit parallelen Listen i/j suchen (oben oder bis Tiefe 2, Schluessel sortiert)."""
+        if isinstance(x, dict):
+            if isinstance(x.get("i"), list) and isinstance(x.get("j"), list):
+                return x
+            if tiefe < 2:
+                for k in sorted(x):
+                    r_ = spalten_suchen(x[k], tiefe + 1)
+                    if r_ is not None:
+                        return r_
+        return None
+    sp_ = spalten_suchen(d)
+    if sp_ is not None:
+        d = sp_
     if isinstance(d, dict) and isinstance(d.get("i"), list) and isinstance(d.get("j"), list):
         # Spaltenform (Ferat 6e: Schluessel i, j, s, sohle, spiegel, tiefe, breite je als Liste)
         n = min(len(d["i"]), len(d["j"]))
@@ -315,6 +330,8 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
                             "rolle": "/".join(sorted(e["rollen"])), "sichtweite": e["sichtweite"],
                             "schatten": e["ebene"] != "kleinzeug", "kollision": bool(e["kollision"]),
                             "nanite": Rn.get(v["netz"], {}).get("nanite", "0") == "1", "ebene": "p2_bett"}
+            if e.get("material_vorschlag"):
+                dateien[key]["material_vorschlag"] = e["material_vorschlag"]
             if v["hind"]:
                 dateien[key]["swr_hindernis_anzahl"] = v["hind"]
                 hindernisse.append({"feld": fe, "datei": key + ".f32", "anzahl": v["hind"]})
@@ -333,8 +350,14 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
         i_, j_, _, _ = lauf.punkt(sv)
         spl.append([sv, round((float(j_) - OFF_J) * 100.0, 1), round((float(i_) - OFF_I) * 100.0, 1), round(zv * 100.0, 1)])
     with open(os.path.join(aus, "spline_spiegel.json"), "w", encoding="utf-8") as f:
-        json.dump({"hinweis": "Z der SWR-Spline (cm) je Meter auf der lauf_p2-Mittellinie im Bereich des Plans; ausserhalb "
-                              "unveraendert lassen.", "spalten": ["s_m", "x_cm", "y_cm", "z_cm"], "punkte": spl}, f)
+        stp = []
+        for sv, zv in P.get("spline_stufenpunkte", {}).get("punkte", []):
+            i_, j_, _, _ = lauf.punkt(sv)
+            stp.append([sv, round((float(j_) - OFF_J) * 100.0, 1), round((float(i_) - OFF_I) * 100.0, 1), round(zv * 100.0, 1)])
+        json.dump({"hinweis": "Z der SWR-Spline (cm) auf der lauf_p2-Mittellinie im Bereich des Plans; ausserhalb unveraendert "
+                              "lassen. 'punkte' je Meter; 'stufenpunkte' (16h N6f, empfohlen): je Lippe Lippe und Fuss, "
+                              "sonst je Meter, Punkttyp linear.", "spalten": ["s_m", "x_cm", "y_cm", "z_cm"], "punkte": spl,
+                   "stufenpunkte": stp}, f)
         f.write("\n")
     plan = {"stand": P["stand"], "lauf": LAUF_ID, "quelle": "p2_bett_welt.py aus bettplan_p2.json", "felder": felder,
             "abschnitte": abschnitte, "spline_spiegel": "spline_spiegel.json", "swr_hindernisse": hindernisse,
@@ -386,6 +409,20 @@ def selbsttest():
                    "spiegel": [0.0] * n, "breite": [3.0] * n, "marken_s_m": [0.0, 200.0]}, f)
     I2, J2, S2, art2 = lauf_lesen(lauf_sp)
     spalten_ok = art2 == "raster" and np.allclose(I2, Il) and np.allclose(J2, Jl) and np.allclose(S2, Sl)
+    # 16h N6f: genau Ferats lauf_p2.json-Struktur (parallele Listen i, j, s, sohle, spiegel, tiefe, breite; marken_s_m;
+    # 790 Punkte, letzter s 788,37), oben und verschachtelt unter einem Schluessel
+    n6 = 790
+    s6 = [round(k * 788.37 / (n6 - 1), 3) for k in range(n6)]
+    f6 = {"i": [1293.0 + 0.6 * v for v in s6], "j": [3050.0 + 0.8 * v for v in s6], "s": s6,
+          "sohle": [189.0 - 0.19 * v for v in s6], "spiegel": [189.96 - 0.19 * v for v in s6], "tiefe": [0.4] * n6,
+          "breite": [1.8] * n6, "marken_s_m": {"bergrinne": 0.0, "durchbruch": 200.0, "talkaskade": 390.0}}
+    for nm, inhalt in (("lauf_ferat.json", f6), ("lauf_ferat_verschachtelt.json", {"lauf": "ERLENBACH_P2", "daten": f6})):
+        pf6 = os.path.join(tmp, nm)
+        with open(pf6, "w") as f:
+            json.dump(inhalt, f)
+        I6, J6, S6, a6 = lauf_lesen(pf6)
+        spalten_ok = spalten_ok and a6 == "raster" and len(I6) == n6 and abs(S6[-1] - 788.37) < 1e-6 and \
+            abs(I6[0] - 1293.0) < 1e-9 and abs(J6[0] - 3050.0) < 1e-9
     lauf = Lauf(Il, Jl, Sl)
     # Gelaende: Ist des Plans (angenommenes Bett + Ufer aus den Querschnitten), ausserhalb Narbe
     welt = os.path.join(tmp, "welt")

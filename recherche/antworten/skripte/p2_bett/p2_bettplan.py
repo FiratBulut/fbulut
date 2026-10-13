@@ -765,8 +765,10 @@ def plane_instanzen(G, lippen, becken, R, seed, Rn, sperre, z_neu):
     Sw = R["swr"]
     pal = dict(palette())
     # Lippenbloecke: Riegel + Bloecke + kleine Bergfelsen der Tundra-Palette (mehr Vielfalt bei 0,5-1,2 m)
-    pal["lippe_mix"] = list(dict.fromkeys(pal["riegel"] + pal["bloecke"] + Bl["zusatz_netze"] +
-                                          [n for n in pal["schutt"] if n.startswith("SM_mountain_rock_small")]))
+    ohne = tuple(Bl.get("lippe_ohne_6e", {}).get("praefix", []))
+    pal["lippe_mix"] = [n for n in dict.fromkeys(pal["riegel"] + pal["bloecke"] + Bl["zusatz_netze"] +
+                                                 [n for n in pal["schutt"] if n.startswith("SM_mountain_rock_small")])
+                        if not (ohne and n.startswith(ohne))]
     pal["riegel"] = list(dict.fromkeys(pal["riegel"] + Bl["zusatz_netze"]))
     pal["bloecke"] = list(dict.fromkeys(pal["bloecke"] + Bl["zusatz_netze"]))
     I = Instanzen(Rn, sperre, Bl["skala"])
@@ -792,15 +794,16 @@ def plane_instanzen(G, lippen, becken, R, seed, Rn, sperre, z_neu):
         eb_l, eb_r = zw(*R["lippe"]["einbindung_ufer_m"], seed, "eb", L.nr, "l"), zw(*R["lippe"]["einbindung_ufer_m"],
                                                                                      seed, "eb", L.nr, "r")
         u = er - eb_r
-        g_lip = clamp(0.4 + 0.4 * D, 0.5, 1.2)
-        g_key = clamp(0.5 + 0.5 * D, 0.8, 1.5)
+        B_l = el - er
+        g_key = clamp(min(0.7 * D + 0.3, 0.22 * B_l + 0.2), 0.5, 1.1)      # 6f: nach Breite und Fall
+        g_lip = clamp(0.65 * g_key, 0.35, 0.8)
         frei = [(L.uc + ur, w / 2.0 + Bl["lippe"]["kerbe_frei_m"]) for ur, w, _ in L.kerben]
         # Keystones an den Kerbenraendern (Hauptkerbe)
         keys = []
         if L.kerben and L.D >= Bl["keystone"]["ab_fall_m"]:
             ur, w, _ = L.kerben[0]
             for sg in (-1.0, 1.0):
-                g = g_key * zw(0.85, 1.15, seed, "keyg", L.nr, sg)
+                g = min(g_key * zw(0.85, 1.15, seed, "keyg", L.nr, sg), 1.1)
                 uk = L.uc + ur + sg * (w / 2.0 + Bl["lippe"]["kerbe_frei_m"] + 0.45 * g)
                 if er - eb_r <= uk <= el + eb_l:
                     keys.append(uk)
@@ -814,6 +817,7 @@ def plane_instanzen(G, lippen, becken, R, seed, Rn, sperre, z_neu):
             g = g_lip * (1.0 + Bl["lippe"]["streuung"] * (2 * zufall(seed, "lg", L.nr, n) - 1))
             if L.art == "schnelle":
                 g *= 0.7
+            g = max(g, 0.35)
             uz = u + 0.5 * g
             ok = all(abs(uz - a) > b + 0.4 * g for a, b in frei) and all(abs(uz - k) > 0.75 * g_key for k in keys)
             if ok and (L.art != "schnelle" or zufall(seed, "lsch", L.nr, n) < 0.6 or uz > el or uz < er):
@@ -829,7 +833,7 @@ def plane_instanzen(G, lippen, becken, R, seed, Rn, sperre, z_neu):
             for sd, ue, sg in (("l", el, 1.0), ("r", er, -1.0)):
                 p_eck = Bl["eckblock"]["anteil"] if L.teil == 0 else Bl["eckblock"]["anteil_teilstufe"]
                 if zufall(seed, "eck", L.nr, sd) < p_eck:
-                    g = clamp(zw(*Bl["eckblock"]["groesse_m"], seed, "eg", L.nr, sd), 0.9, max(0.9, 0.6 * D + 0.9))
+                    g = clamp((0.18 * B_l + 0.35 * D + 0.2) * zw(0.85, 1.15, seed, "eg", L.nr, sd), 0.6, 1.3)
                     uu = ue + sg * (zw(*Bl["eckblock"]["aussen_m"], seed, "ea", L.nr, sd) + 0.35 * g)
                     ss = float(L.linie(ue, L.uc)) + zw(*Bl["eckblock"]["stromab_m"], seed, "es", L.nr, sd)
                     liste.append(I.setze(pal["bloecke"], g, (seed, "eck", L.nr, sd), "eckblock", "schutt", kol(g),
@@ -1216,6 +1220,10 @@ def kennzahlen(X):
             "uferstufe_schulter_m": [r2(ust.min()), r2(float(np.median(ust))), r2(np.percentile(ust, 90))] if ust.size else None,
             "kopf_ufer_m": [r2(min(e["kopf_m"] for e in eh)), r2(float(np.median([e["kopf_m"] for e in eh]))),
                             r2(max(e["kopf_m"] for e in eh))],
+            "tiefe_bett_m": {"median": r2(float(np.median((G["W"] - X["z_neu"])[G["innen"]]))),
+                             "p90": r2(float(np.percentile((G["W"] - X["z_neu"])[G["innen"]], 90))),
+                             "hinweis": "alle Bettzellen; die Kolke sind nur ein kleiner Teil der Bettflaeche. Fuer 0,8-1,2 m "
+                                        "die tiefste Stelle je Hauptbecken messen (kolktiefe_haupt_m)"},
             "band_2m_unter_spiegel_anteil": r2(K["band_nass"], 3),
             "aufschuettung_ueber_alter_narbe_max_m": r2(K["aufschuettung_max_m"]),
             "abtrag_m3_geschaetzt": r2(float(-dz[dz < 0].sum() * zelle), 0),
@@ -1228,6 +1236,38 @@ def kennzahlen(X):
             "kollision": sum(1 for x in X["liste"] if x["kol"]),
             "swr_hindernisse": sum(1 for x in X["liste"] if x["hind"]),
         }}
+
+
+def netze_masse():
+    pf = os.path.join(DATEN, "netze_masse.json")
+    if not os.path.exists(pf):
+        return {}
+    with open(pf, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def spline_stufenpunkte(X):
+    """16h N6f: Spline-Punkte fuer die SWR: je Lippe Lippe (Spiegel oben) und Fuss (Spiegel unten) auf u = 0, dazwischen
+    alle 1 m, kein Punkt naeher als 0,25 m an einem anderen. Punkttyp linear."""
+    G, Sp = X["G"], X["R"]["spline_6f"]
+    S, U, W = G["S"], G["U"], G["W"]
+    j0 = int(np.argmin(np.abs(U)))
+    fest = []
+    for L in X["lippen"]:
+        s_l = float(L.linie(0.0, L.uc))
+        fest.append((s_l - 0.02, L.P_up))
+        fest.append((s_l + L.wand + 0.02, L.P_dn))
+    pts = list(fest)
+    for s in np.arange(math.ceil(S[0]), math.floor(S[-1]) + 1e-9, Sp["abstand_m"]):
+        if all(abs(s - a) >= Sp["min_abstand_m"] for a, _ in fest):
+            pts.append((float(s), float(np.interp(s, S, W[:, j0]))))
+    pts.sort()
+    out = []
+    for s, z in pts:
+        if out and s - out[-1][0] < 0.05:
+            continue
+        out.append([r2(s, 2), r2(z, 3)])
+    return out
 
 
 def effekte_vorschlag(X):
@@ -1291,9 +1331,18 @@ def schreiben(X, aus):
                "kopf_ufer_m": r2(e.get("kopf_m", 0.0))} for e in X["EH"]]
     I = X["I"]
     inst = {}
+    mv = X["R"]["bloecke"]["material_vorschlag_6f"]["nach_paket_mi"]
+    masse = netze_masse()
     for k in sorted(I.inst):
         e = dict(I.inst[k])
         e["anzahl"] = len(e["eintraege"])
+        mats = (masse.get(e["pfad"]) or {}).get("mats") or []
+        if mats:
+            pm = mats[0].split("/")[-1].split(".")[0]
+            e["paket_mi"] = pm
+            for muster, vorschlag in mv.items():
+                if pm == muster or (muster.endswith("*") and pm.startswith(muster[:-1])):
+                    e["material_vorschlag"] = vorschlag
         inst[k] = e
     out = {"format": FORMAT, "stand": X["R"]["stand"], "abschnitt": ab,
            "quelle": os.path.relpath(QUER, ANTW).replace(os.sep, "/"),
@@ -1311,6 +1360,10 @@ def schreiben(X, aus):
            "spiegel_je_m": {"hinweis": "Wasserspiegel auf der lauf_p2-Mittellinie (u = 0) je Meter, fuer die Z der "
                                        "SWR-Spline. Stufen liegen zwischen zwei Punkten; genaue Lage in 'lippen'.",
                             "spalten": ["s_m", "z_m"], "punkte": spm},
+           "spline_stufenpunkte": {"hinweis": "16h N6f: je Lippe ein Punkt auf der Lippe (Spiegel oben) und am Fuss der "
+                                              "Stufenwand (Spiegel unten), sonst alle 1 m; Punkttyp linear. Ersetzt die 54 "
+                                              "Editor-Punkte in s 389-580.", "spalten": ["s_m", "z_m"],
+                                   "punkte": spline_stufenpunkte(X)},
            "einheiten": eh_out, "lippen": lip_out, "becken": bk_out,
            "effekte_vorschlag": effekte_vorschlag(X),
            "instanzen_spalten": SPALTEN,

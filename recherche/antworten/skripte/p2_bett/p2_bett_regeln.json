@@ -288,7 +288,7 @@
   "flach_nur_lippe": true,
   "lippe": {
    "abstand_faktor": 0.75,
-   "groesse": "clamp(0.4 + 0.4 * D, 0.5, 1.2)",
+   "groesse": "siehe groesse_6f",
    "streuung": 0.25,
    "einbettung": [
     0.4,
@@ -298,7 +298,7 @@
   },
   "keystone": {
    "ab_fall_m": 0.6,
-   "groesse": "clamp(0.5 + 0.5 * D, 0.8, 1.5)",
+   "groesse": "siehe groesse_6f",
    "einbettung": [
     0.4,
     0.55
@@ -307,10 +307,7 @@
   "eckblock": {
    "anteil": 0.85,
    "anteil_teilstufe": 0.35,
-   "groesse_m": [
-    0.9,
-    1.8
-   ],
+   "groesse_m": "siehe groesse_6f",
    "aussen_m": [
     0.1,
     0.6
@@ -331,8 +328,8 @@
    ],
    "anteil": 0.4,
    "groesse_m": [
-    0.6,
-    1.3
+    0.4,
+    0.9
    ],
    "aussen_m": [
     -0.2,
@@ -350,7 +347,7 @@
    ],
    "groesse_m": [
     0.4,
-    0.9
+    0.8
    ],
    "einbettung": [
     0.3,
@@ -367,6 +364,40 @@
     1.0,
     2.0
    ]
+  },
+  "groesse_6f": {
+   "_doku": "16h Nachtrag 6f (Ferat: Lippenbloecke 1,5-1,8 m wirken an der Kamera riesig): Groesse nach Bachbreite B und Fallhoehe D. Grundlage: Stufenhoehe ~ Blockgroesse (RC2021), Klemmverhaeltnis Breite/Block ~3-6 (CZ2007) -> groesster Block ~0,22 B + 0,2 m.",
+   "keystone": "clamp(min(0.7 * D + 0.3, 0.22 * B + 0.2), 0.5, 1.1)",
+   "lippe": "clamp(0.65 * keystone, 0.35, 0.8)",
+   "eckblock": "clamp(0.18 * B + 0.35 * D + 0.2, 0.6, 1.3)",
+   "randblock_m": [
+    0.4,
+    0.9
+   ],
+   "beckenblock_m": [
+    0.4,
+    0.8
+   ]
+  },
+  "material_vorschlag_6f": {
+   "_doku": "16h Nachtrag 6f: Netze ohne eigene MI/Nasslinie (Mountain_Environment_Set: M_Master_material; Fab-Megascans). Vorschlag MI je Paket-MI; erst setzen, wenn die MI im Projekt existiert (Spalte 'material_vorschlag' im Plan). Megascans-3D_Assets (MossyForestBoulder, LichenedForestBoulder, MossyForestRock, SmallStonesPack, Holz) bekommen die vorhandene bzw. eine neue MI_EL_* auf M_EL_Fels_MS2.",
+   "nach_paket_mi": {
+    "MI_mountain_rocks_big_01": "MI_EL_NL_mountain_rocks_big_01 (Kind von M_EL_Mountain_NL = M_Master_material + MF_EL_Nasslinie + MF_EL_Spiegelhoehe)",
+    "MI_mountain_rocks_atlas_01": "MI_EL_NL_mountain_rocks_atlas_01 (Kind von M_EL_Mountain_NL)",
+    "MI_mountain_rocks_small_01": "MI_EL_NL_mountain_rocks_small_01 (Kind von M_EL_Mountain_NL; Nass_Albedo 0,35)",
+    "MI_rocks_atlas_01": "MI_EL_NL_rocks_atlas_01 (Kind von M_EL_Mountain_NL)",
+    "MI_skjsL": "MI_EL_skjsL auf M_EL_Fels_MS2 (Fab-Texturen; Kanalbelegung pruefen)",
+    "MI_texndcpda": "MI_EL_texndcpda auf M_EL_Fels_MS2 (Fab-Texturen; Kanalbelegung pruefen)",
+    "MI_LichenedForestBoulder_01": "MI_EL_LichenedForestBoulder_01 auf M_EL_Fels_MS2",
+    "MI_MossyForestRock_02": "MI_EL_MossyForestRock_02 auf M_EL_Fels_MS2",
+    "MI_MossyForestBoulder_*": "vorhandene MI_EL_* der Bachdekor-Steine (MS2)"
+   }
+  },
+  "lippe_ohne_6e": {
+   "praefix": [
+    "SM_mountain_rock_small_01_"
+   ],
+   "notiz": "6e/6d: hellstes Netz (Y 0,229) ohne Nasslinie (M_Master_material) nicht an Lippen, bis M_EL_Mountain_NL existiert; dann Eintrag leeren."
   }
  },
  "swr": {
@@ -530,5 +561,69 @@
    ],
    "notiz": "Die Tundra-Palette hat kein Holz; im Tal stehen Birken und Kiefern (Bilder t500). Holz liegt UEBER dem Wasser auf den Schultern bzw. am Eckblock, also kein SWR-Hindernis; Kollision ja (liegender Stamm, FORMAT §3). Optik bitte pruefen."
   }
+ },
+ "lagen_je_zone_6f": {
+  "_doku": "16h Nachtrag 6f Problem A: Bodenlagen je Zone (talkaskade_zonen.u8). Ersetzt die lokale Annahme p2_bett_lagen_regeln_lokal.json. Fels nur an Lippenkrone und Stufenwand (dort, wo Bloecke die Stufe bilden), Boeschungen Erde/Geroell/Gras-Reste. Zonen 1-5 ohne Graslagen (6b). Prozent, je Zelle auf 100 normiert; gewicht wie lokal (1 / fest 0,6 / delta mit 0,5 m).",
+  "1_bett": {
+   "Kies": 35,
+   "Geroell": 30,
+   "Schlamm": 10,
+   "Algen": 15,
+   "Felsplatte": 10
+  },
+  "2_kolk": {
+   "Kies": 25,
+   "Geroell": 20,
+   "Schlamm": 25,
+   "Algen": 20,
+   "Felsplatte": 10
+  },
+  "3_lippenkrone": {
+   "Geroell": 40,
+   "Fels": 25,
+   "Kies": 15,
+   "Algen": 20
+  },
+  "4_stufenwand_rampe": {
+   "Geroell": 40,
+   "Fels": 30,
+   "Algen": 15,
+   "Moos": 15
+  },
+  "5_uferstufe": {
+   "Erde": 35,
+   "Moos": 25,
+   "Geroell": 20,
+   "Schlamm": 10,
+   "Kies": 10
+  },
+  "6_schulter": {
+   "Trockengras": 35,
+   "Gras": 15,
+   "Moos": 20,
+   "Erde": 15,
+   "Geroell": 15,
+   "gewicht": "fest 0,6"
+  },
+  "7_boeschung": {
+   "Erde": 30,
+   "Geroell": 20,
+   "Trockengras": 25,
+   "Moos": 15,
+   "Kies": 10,
+   "gewicht": "delta, voll bei 0,5 m"
+  },
+  "7_boeschung_steiler_40_grad": {
+   "Erde": 40,
+   "Geroell": 35,
+   "Moos": 25,
+   "notiz": "Erdanriss wie C_ufer lagen_steil; kein Fels"
+  },
+  "pruefung": "Zonen 1-5: Graslagen 0; Zonen 4/7: Fels nur in Zone 3/4 und dort <= 30 %; Summe 255 je Zelle"
+ },
+ "spline_6f": {
+  "_doku": "16h Nachtrag 6f: SWR-Spline-Punkte. Zusaetzlich zu spiegel_je_m gibt der Plan 'spline_stufenpunkte': je Lippe ein Punkt auf der Lippe (Spiegel oben) und einer am Fuss der Stufenwand (Spiegel unten), dazwischen alle 1 m; kein Punkt naeher als 0,25 m an einem anderen. Punkttyp linear (Ableitung: keine Ueberschwinger zwischen Lippe und Fuss).",
+  "abstand_m": 1.0,
+  "min_abstand_m": 0.25
  }
 }
