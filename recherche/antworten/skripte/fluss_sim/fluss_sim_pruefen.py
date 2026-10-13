@@ -34,6 +34,8 @@ Geprueft (FEHLER, wenn nicht anders gesagt):
   16e        Tempo (tempo_ms, UE-Wert x 100, Rahmen, Glattheit, nachgerechnet; global Median je Gefaelleklasse steigend,
              flache Becken <= 0,3 m/s, steile Rinnen >= 1 m/s; Rangkorrelation schwach = HINWEIS); schaum_maske (eine
              Kapsel je Vorhang-Fall, Grenzen); Bach-Zelle ungeteilt <= 0,40 m (> 0,30 = HINWEIS), Teilstuecke <= 0,30 m.
+  16g        rand_steil je SWR-Bereich neu gerechnet (UE-Rechteck ohne Breite, Abstand der Quelle, Kontakte, Soll-Rahmen,
+             Hoehenspanne, Steilstrecken im 20-m-Fenster, Eignung); Abweichung = FEHLER, Zusammenfassung = HINWEIS.
 """
 
 import argparse
@@ -547,6 +549,27 @@ def pruefe_swr(g, ss, P, regeln, b):
             qs = sw.get("source_size_cm")
             if SV["source_size"] == "breite_quelle" and (qs is None or abs(qs - P[i0][3]) > 0.051 or qs <= 0):
                 b.append((FEHLER, e["id"], "source_size_cm %r != RiverWidth am ersten Splinepunkt %.1f" % (qs, P[i0][3])))
+        # 16g: Rand und Steilheit (Diagnose) neu gerechnet
+        if "rand_steil" in S:
+            soll_rs = fx.rand_steil(P, ss, i0, i1, e["s_sim_m"][0], e["s_sim_m"][1], k == 0, regeln)
+            ist_rs = e.get("rand_steil")
+            if ist_rs is None:
+                b.append((FEHLER, e["id"], "rand_steil fehlt (Regeln v9, 16g)"))
+            elif json.dumps(ist_rs, sort_keys=True) != json.dumps(json.loads(json.dumps(soll_rs)), sort_keys=True):
+                abw = sorted(k_ for k_ in set(ist_rs) | set(soll_rs)
+                             if json.dumps(ist_rs.get(k_), sort_keys=True) != json.dumps(json.loads(json.dumps(soll_rs.get(k_))), sort_keys=True))
+                b.append((FEHLER, e["id"], "rand_steil weicht von der Neurechnung ab: %s" % ", ".join(abw)))
+            else:
+                R_ = S["rand_steil"]
+                if not (0 < R_["gefaelle_pruefen"] < R_["gefaelle_kaskade"]):
+                    b.append((FEHLER, e["id"], "rand_steil: gefaelle_pruefen < gefaelle_kaskade verletzt"))
+                for st_ in ist_rs["steilstrecken"]:
+                    if st_["laenge_m"] < R_["strecke_min_m"] - 0.011 or not (e["s_sim_m"][0] - 0.011 <= st_["s_m"][0] <= st_["s_m"][1] <= e["s_sim_m"][1] + 0.011):
+                        b.append((FEHLER, e["id"], "Steilstrecke %s zu kurz oder ausserhalb des Simulationsbereichs" % st_["s_m"]))
+                r_ = ist_rs["rahmen_cm"]
+                q_ = ist_rs["rechteck_ue_cm"]
+                if not (r_[0] < q_[0] and r_[1] < q_[1] and r_[2] > q_[2] and r_[3] > q_[3]):
+                    b.append((FEHLER, e["id"], "rahmen_cm schliesst das UE-Rechteck nicht ein"))
         wh = e.get("hindernis_akteur")
         if wh and wh["id"] not in sw["bottom_contour_actors"]:
             b.append((FEHLER, e["id"], "eigener Hindernis-Akteur fehlt in bottom_contour_actors"))
@@ -805,6 +828,32 @@ def pruefe_schaum(g, b):
         b.append((FEHLER, g["id"], "%d Schaumpunkte nicht auf dem Spiegel (z. B. %s)" % (len(falsch_z), wer[falsch_z[0]])))
 
 
+def pruefe_rand_steil_global(alle_swr, regeln, b):
+    """16g: Zusammenfassung Rand/Steilheit als HINWEIS (Vorschlag, keine Grenze verbindlich)."""
+    R = regeln["swr"].get("rand_steil")
+    if not R:
+        return
+    rs = [(eid, e.get("rand_steil")) for eid, (e, _g) in sorted(alle_swr.items()) if e.get("rand_steil")]
+    if not rs:
+        return
+    q = [(i, r) for i, r in rs if r["anfang"]["art"] == "quelle"]
+    nah = [i for i, r in q if r["anfang"]["zu_nah"]]
+    lauf = [i for i, r in rs if any(not k_["am_ende"] for k_ in r["kontakte"])]
+    eig = {}
+    for _, r in rs:
+        eig[r["eignung"]] = eig.get(r["eignung"], 0) + 1
+    b.append((HINWEIS, "Rand (16g)", "%d von %d Quellen < %.0f m vom UE-Rechteck (Median %.2f m); %d SWR-Bereiche mit Bett ueber dem "
+              "Rechteckrand mitten im Lauf (%d Stellen); Soll-Rahmen in rand_steil.rahmen_cm"
+              % (len(nah), len(q), R["quelle_abstand_min_m"], float(np.median([r["anfang"]["abstand_m"] for _, r in q])),
+                 len(lauf), sum(1 for _, r in rs for k_ in r["kontakte"] if not k_["am_ende"]))))
+    top = sorted(rs, key=lambda t: (-t[1]["laenge_kaskade_m"], -t[1]["gefaelle_fenster_max"], t[0]))[:5]
+    b.append((HINWEIS, "Steil (16g)", "Eignung %s; Kaskaden-Strecken (>= %.0f %% im %.0f-m-Fenster, >= %.0f m lang) zusammen %.0f m; steilste: %s"
+              % (", ".join("%s %d" % (k_, eig[k_]) for k_ in sorted(eig)), 100 * R["gefaelle_kaskade"], R["fenster_m"], R["strecke_min_m"],
+                 sum(r["laenge_kaskade_m"] for _, r in rs),
+                 "; ".join("%s %.0f m (max %.0f %%, Hoehenspanne %.0f m)" % (i, r["laenge_kaskade_m"], 100 * r["gefaelle_fenster_max"],
+                                                                          r["hoehenspanne_m"]) for i, r in top))))
+
+
 def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
     pflanze = re.compile(regeln["kollision"]["pflanze_muster"], re.I)
     gr = regeln["swr"].get("hindernis_grenzen") or {}
@@ -1018,6 +1067,7 @@ def main(argv=None):
         else:
             b.append((HINWEIS, "Laeufe", "alle %d Welt-Laeufe in genau einem Gewaesser" % len(soll)))
     pruefe_hindernis_global(alle_swr, alle_kol, regeln, b)
+    pruefe_rand_steil_global(alle_swr, regeln, b)
     pruefe_tempo_global(tempo_global, regeln, b)
     pv = os.path.join(a.aus, "vorschlaege.json")
     mit_v = {gid: g["muendung"]["vorschlag"] for gid, g in alle.items() if g["muendung"].get("vorschlag")}

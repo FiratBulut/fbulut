@@ -1697,6 +1697,107 @@ def achse_von(box):
     return max(box[2] - box[0], box[3] - box[1]) / 100.0
 
 
+def rand_steil(P, ss, i0, i1, a_sim, b_sim, ist_quelle, regeln):
+    """16g (Diagnose, aendert nichts): Rand und Steilheit eines SWR-Bereichs.
+    UE-Rechteck = Box der Splinepunkte OHNE Breite (16g Befund 8: Simulationsflaeche = Rechteck um die Splinepunkte ohne
+    Rand, Quelle 0,2 m vom Nordrand). kontakte = zusammenhaengende Punktfolgen, deren halbe Breite ueber das UE-Rechteck
+    hinausragt (dort liegt das Bett teils ausserhalb der Simulation). rahmen_cm = Rechteck, das jedes Bett +- (halbe Breite
+    + rand_zugabe_m) enthaelt (Soll, falls die Flaeche lokal erweitert werden kann). Steilheit: Spiegelgefaelle I im
+    gleitenden Fenster fenster_m (1-m-Schritt, Spline-z linear zwischen den Punkten, Stufen zaehlen mit); Strecken mit
+    I >= gefaelle_pruefen bzw. >= gefaelle_kaskade (Vereinigung der Fenster, >= strecke_min_m)."""
+    R = regeln["swr"]["rand_steil"]
+    Q = np.asarray(P, float)[i0:i1 + 1]
+    s_ = np.asarray(ss, float)[i0:i1 + 1]
+    h = Q[:, 3] / 2.0
+    x0, y0, x1, y1 = float(Q[:, 0].min()), float(Q[:, 1].min()), float(Q[:, 0].max()), float(Q[:, 1].max())
+    zug = R["rand_zugabe_m"] * 100.0
+    rahmen = [float((Q[:, 0] - h - zug).min()), float((Q[:, 1] - h - zug).min()),
+              float((Q[:, 0] + h + zug).max()), float((Q[:, 1] + h + zug).max())]
+    # Abstand des ersten Punkts (Quelle bzw. Anfang des Teilstuecks) zum UE-Rechteck
+    p0 = Q[0]
+    seiten0 = {"W": p0[0] - x0, "O": x1 - p0[0], "S": p0[1] - y0, "N": y1 - p0[1]}
+    s0_seite = min(sorted(seiten0), key=lambda k: seiten0[k])
+    # Kontakte je Seite
+    kont = []
+    for seite, d in (("W", Q[:, 0] - x0), ("O", x1 - Q[:, 0]), ("S", Q[:, 1] - y0), ("N", y1 - Q[:, 1])):
+        ue = h - d
+        an = None
+        for j in range(len(Q) + 1):
+            drin = j < len(Q) and ue[j] > 0.0
+            if drin and an is None:
+                an = j
+            elif not drin and an is not None:
+                seg = ue[an:j]
+                lo_, hi_ = float(s_[an]), float(s_[j - 1])
+                am_ende = lo_ <= float(s_[0]) + R["quelle_abstand_min_m"] + 1e-9 or hi_ >= float(s_[-1]) - R["quelle_abstand_min_m"] - 1e-9
+                kont.append({"seite": seite, "s_m": [r1(lo_, 2), r1(hi_, 2)], "laenge_m": r1(hi_ - lo_, 2),
+                             "punkt_index": [i0 + an, i0 + j - 1], "am_ende": bool(am_ende),
+                             "ueberstand_max_m": r1(float(seg.max()) / 100.0, 2),
+                             "z_m": r1(float(Q[an + int(np.argmax(seg)), 2]) / 100.0, 2)})
+                an = None
+    kont.sort(key=lambda k: (k["s_m"][0], k["seite"]))
+    # Steilheit (Spiegel der Spline)
+    fen = R["fenster_m"]
+    z_ = Q[:, 2] / 100.0
+    a, b = float(a_sim), float(b_sim)
+    strecken, i_max, s_imax = [], 0.0, None
+    if b - a >= fen - 1e-9:
+        n = int(math.floor(b - a - fen + 1e-9)) + 1
+        st = a + np.arange(n, dtype=float)
+        I = (np.interp(st, s_, z_) - np.interp(st + fen, s_, z_)) / fen
+        k = int(np.argmax(I))
+        i_max, s_imax = float(I[k]), float(st[k])
+        def vereinigung(gr):
+            iv = []
+            for j in np.nonzero(I >= gr - 1e-12)[0]:
+                lo, hi = float(st[j]), float(st[j] + fen)
+                if iv and lo <= iv[-1][1] + 1e-9:
+                    iv[-1][1] = max(iv[-1][1], hi)
+                else:
+                    iv.append([lo, hi])
+            return [v for v in iv if v[1] - v[0] >= R["strecke_min_m"] - 1e-9]
+        iv_k = vereinigung(R["gefaelle_kaskade"])
+        iv_p = []
+        for lo, hi in vereinigung(R["gefaelle_pruefen"]):      # pruefen = ohne die Kaskaden-Strecken
+            teile = [[lo, hi]]
+            for a_, b_ in iv_k:
+                neu = []
+                for c_, d_ in teile:
+                    if b_ <= c_ or a_ >= d_:
+                        neu.append([c_, d_])
+                        continue
+                    if a_ > c_:
+                        neu.append([c_, a_])
+                    if b_ < d_:
+                        neu.append([b_, d_])
+                teile = neu
+            iv_p += [v for v in teile if v[1] - v[0] >= R["strecke_min_m"] - 1e-9]
+        for klasse, iv in (("kaskade", iv_k), ("pruefen", iv_p)):
+            for lo, hi in iv:
+                dz = float(np.interp(lo, s_, z_) - np.interp(hi, s_, z_))
+                strecken.append({"klasse": klasse, "s_m": [r1(lo, 2), r1(hi, 2)], "laenge_m": r1(hi - lo, 2),
+                                 "dz_m": r1(dz, 2), "gefaelle_mittel": r1(dz / (hi - lo), 3)})
+    strecken.sort(key=lambda t: (t["s_m"][0], t["klasse"]))
+    lk = sum(t["laenge_m"] for t in strecken if t["klasse"] == "kaskade")
+    lp = sum(t["laenge_m"] for t in strecken if t["klasse"] == "pruefen")
+    eignung = "kaskade_vorschlag" if lk > 0 else ("pruefen" if lp > 0 else "swr")
+    return {
+        "status": R["status"],
+        "rechteck_ue_cm": [r1(x0) + 0.0, r1(y0) + 0.0, r1(x1) + 0.0, r1(y1) + 0.0],
+        "anfang": {"art": "quelle" if ist_quelle else "teilstueck", "seite": s0_seite, "abstand_m": r1(seiten0[s0_seite] / 100.0, 2),
+                   "halbe_breite_m": r1(float(h[0]) / 100.0, 2),
+                   "zu_nah": bool(seiten0[s0_seite] < R["quelle_abstand_min_m"] * 100.0 - 1e-6)},
+        "kontakte": kont,
+        "rahmen_cm": [r1(v) for v in rahmen],
+        "rahmen_m": [r1((rahmen[2] - rahmen[0]) / 100.0, 2), r1((rahmen[3] - rahmen[1]) / 100.0, 2)],
+        "hoehenspanne_m": r1(float(z_.max() - z_.min()), 2),
+        "z_m": [r1(float(z_.max()), 2), r1(float(z_.min()), 2)],
+        "gefaelle_fenster_max": r1(i_max, 3), "gefaelle_fenster_max_s_m": None if s_imax is None else r1(s_imax, 2),
+        "steilstrecken": strecken,
+        "laenge_kaskade_m": r1(lk, 2), "laenge_pruefen_m": r1(lp, 2),
+        "eignung": eignung}
+
+
 def swr_teilen(sp, abst, becken, regeln, L_max):
     """Teilt die Simulation eines Gewaessers in moeglichst wenige SWR-Bereiche (Nachtrag 17:45): Rechteck je Bereich
     (Splinepunkte des Simulationsbereichs inkl. halber Ueberlappung je Naht, +- halbe Breite) mit laengster Seite <=
@@ -1953,6 +2054,7 @@ def baue_gewaesser_v3(gw, regeln, pool):
                     "render_state": dict(S["render_state"]),
                     "material": {"water_body": S["material_spiel"], "baked_sim_material": S["material_spiel"]}},
             "bereich_cm": [r1(box[0] - rand), r1(box[1] - rand), r1(box[2] + rand), r1(box[3] + rand)],
+            "rand_steil": rand_steil(P, ss, i0, i1, a_sim, b_sim, k == 0, R),
             "zufluesse": [], "hindernis_akteur": None})
 
     def kachel_bei(s_):
@@ -3448,6 +3550,28 @@ def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, g
         "swr_ohne_hindernis": len(ks) - len(whs),
         "gelaende_max_in_swr_m": r1(max(h for h, _ in hoehe_kachel) / 100.0, 2) if hoehe_kachel else None,
         "gelaende_max_swr": max(hoehe_kachel)[1] if hoehe_kachel else None}
+    # 16g: Rand und Steilheit (Diagnose)
+    rs = [(kc["id"], kc["rand_steil"]) for kc in ks]
+    eig = {}
+    for _, r_ in rs:
+        eig[r_["eignung"]] = eig.get(r_["eignung"], 0) + 1
+    hs = np.array([r_["hoehenspanne_m"] for _, r_ in rs], float)
+    zus["swr_rand_steil"] = {
+        "status": S["rand_steil"]["status"],
+        "quelle_zu_nah": sum(1 for _, r_ in rs if r_["anfang"]["art"] == "quelle" and r_["anfang"]["zu_nah"]),
+        "quellen": sum(1 for _, r_ in rs if r_["anfang"]["art"] == "quelle"),
+        "quelle_abstand_m": {"median": r1(float(np.median([r_["anfang"]["abstand_m"] for _, r_ in rs if r_["anfang"]["art"] == "quelle"])), 2),
+                             "unter_1m": sum(1 for _, r_ in rs if r_["anfang"]["art"] == "quelle" and r_["anfang"]["abstand_m"] < 1.0)},
+        "mit_kontakt_im_lauf": sum(1 for _, r_ in rs if any(not k_["am_ende"] for k_ in r_["kontakte"])),
+        "kontakte_im_lauf": sum(1 for _, r_ in rs for k_ in r_["kontakte"] if not k_["am_ende"]),
+        "kontakte_summe": sum(len(r_["kontakte"]) for _, r_ in rs),
+        "hoehenspanne_m": {"median": r1(float(np.median(hs)), 1), "max": r1(float(hs.max()), 1),
+                           "ueber_50": int((hs > 50).sum()), "ueber_100": int((hs > 100).sum())},
+        "eignung": {k_: eig[k_] for k_ in sorted(eig)},
+        "laenge_kaskade_m": r1(sum(r_["laenge_kaskade_m"] for _, r_ in rs), 1),
+        "laenge_pruefen_m": r1(sum(r_["laenge_pruefen_m"] for _, r_ in rs), 1),
+        "steilste": [[i, r_["gefaelle_fenster_max"], r_["laenge_kaskade_m"], r_["hoehenspanne_m"]]
+                     for i, r_ in sorted(rs, key=lambda t: (-t[1]["laenge_kaskade_m"], -t[1]["gefaelle_fenster_max"], t[0]))[:10]]}
     # Varianten der Zielzelle (Zielzelle, hoechste Zelle) fuer Bach / Fluss: wie viele Gewaesser muessten geteilt werden?
     var = {}
     for name, zb, mb, mbu, zf, mf in (

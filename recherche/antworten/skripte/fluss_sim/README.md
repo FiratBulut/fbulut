@@ -75,6 +75,24 @@ Simulations – Parameter Reference“, lokal gelesen):
   ersten Punkt, `sim_vorgaben` in der Back-Liste ≠ SWR, `ausdehnung_m` ≠ neu gerechnet (eigene Rechnung aus Bounds × Skala)
   oder < 0,4 m.
 
+**Ergänzungen 16g** (Regeln Version 9, Format bleibt `fluss_sim_v3`; Antwort
+[`../../16g-swr-steiler-bergbach.md`](../../16g-swr-steiler-bergbach.md)). Nur **Diagnose**: Spline, SWR-Werte,
+`sim_vorgaben` und Fingerabdrücke bleiben gleich.
+- **`swr_bereiche[].rand_steil`** je SWR-Bereich (Grenzen in `swr.rand_steil`, Status „Vorschlag 16g“):
+  - `rechteck_ue_cm`: Box der Splinepunkte **ohne** Breite. So bildet UE die Simulationsfläche (16g Befund 8: Quelle 0,2 m vom
+    Rand). `rechteck_m` und die Zelle rechnet der Export weiter mit ± halber Breite (Rückfrage 3 in 16g).
+  - `anfang`: Seite und Abstand des ersten Punkts zum UE-Rechteck; `zu_nah` unter `quelle_abstand_min_m` (10 m).
+  - `kontakte`: Punktfolgen, deren halbe Breite über das UE-Rechteck ragt (dort liegt das Bett teils außerhalb der
+    Simulation); `am_ende` = beginnt in den ersten bzw. endet in den letzten 10 m des Bereichs.
+  - `rahmen_cm` / `rahmen_m`: Soll-Rechteck, jedes Bett ± (halbe Breite + `rand_zugabe_m` 5 m).
+  - `hoehenspanne_m`, `z_m`, `gefaelle_fenster_max` (Spiegelgefälle im 20-m-Fenster, Stufen zählen mit).
+  - `steilstrecken`: zusammenhängende Strecken ≥ `strecke_min_m` (50 m) mit ≥ 30 % (`kaskade`) bzw. 15–30 % (`pruefen`).
+  - `eignung`: `swr` / `pruefen` / `kaskade_vorschlag` (Plan B: Kaskadennetz + Speisepunkt am Fuß).
+- **`zusammenfassung.json` → `swr_rand_steil`:** Quellen zu nah am Rand, SWR mit Kontakt mitten im Lauf, Höhenspannen,
+  Eignung, Kaskaden-Länge, die zehn steilsten SWR.
+- **Prüfer:** rechnet `rand_steil` neu (Abweichung = FEHLER), prüft Steilstrecken und Rahmen und meldet zwei HINWEIS-Zeilen
+  (Rand, Steil).
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
