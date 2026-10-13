@@ -1,0 +1,214 @@
+{
+ "stand": "2026-10-13 (Auftrag 19)",
+ "feld": "F4",
+ "instanzen": 47,
+ "dateien": {
+  "SM_EagleFern_S_01": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_farn",
+   "rolle": "farn",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_EagleFern_S_02": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_farn",
+   "rolle": "farn",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_Fern_01": {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_farn",
+   "rolle": "farn",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_Fern_02": {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_farn",
+   "rolle": "farn",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_ForestRockFormation_02": {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_platte",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_ForestRockFormation_04": {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_04",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_platte",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_MossClump_01": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+   "anzahl": 4,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_03": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+   "anzahl": 5,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_05": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+   "anzahl": 3,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossyForestBoulder_03": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_MossyForestRock_02": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_ToadRush_00": {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_00",
+   "anzahl": 3,
+   "gruppe": "bach_anfang_binse",
+   "rolle": "binse",
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_ToadRush_01": {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_01",
+   "anzahl": 8,
+   "gruppe": "bach_anfang_binse",
+   "rolle": "binse",
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_ToadRush_02": {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_02",
+   "anzahl": 5,
+   "gruppe": "bach_anfang_binse",
+   "rolle": "binse",
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_moss_01": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+   "anzahl": 4,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_moss_02": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02",
+   "anzahl": 6,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_s_rock_02": {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  }
+ },
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/BachAnfaenge",
+ "ft_praefix": "FT_EL_BA_",
+ "quelle": "Auftrag 19 bach_anfaenge_plan.py (Quellfassungen, Schotterfaecher, Moorwiesen)"
+}

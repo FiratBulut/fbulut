@@ -1,0 +1,106 @@
+{
+ "stand": "2026-10-13 (Auftrag 19)",
+ "feld": "D4",
+ "instanzen": 18,
+ "dateien": {
+  "SM_MossClump_01": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_03": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_05": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_RockSandstone_034_kol": {
+   "pfad": "/Game/AncientContent/Megascans/3DAssets/RockSandstone/SM_RockSandstone_034",
+   "anzahl": 3,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": true
+  },
+  "SM_SmoothRockShelf_01": {
+   "pfad": "/Game/Megascans/3D_Assets/SmoothRockShelf/SM_SmoothRockShelf_01",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_platte",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_moss_01": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+   "anzahl": 6,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_namaqualand_boulder_02_NN_kol": {
+   "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_02_NN",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": true
+  },
+  "SM_namaqualand_boulder_03_NN_kol": {
+   "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_03_NN",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": true
+  }
+ },
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/BachAnfaenge",
+ "ft_praefix": "FT_EL_BA_",
+ "quelle": "Auftrag 19 bach_anfaenge_plan.py (Quellfassungen, Schotterfaecher, Moorwiesen)"
+}

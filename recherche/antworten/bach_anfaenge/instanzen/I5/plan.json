@@ -1,0 +1,70 @@
+{
+ "stand": "2026-10-13 (Auftrag 19)",
+ "feld": "I5",
+ "instanzen": 9,
+ "dateien": {
+  "SM_MossClump_01": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_05": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_ToadRush_00": {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_00",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_binse",
+   "rolle": "binse",
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_ToadRush_02": {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_02",
+   "anzahl": 4,
+   "gruppe": "bach_anfang_binse",
+   "rolle": "binse",
+   "sichtweite": [
+    0,
+    15000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_moss_01": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  }
+ },
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/BachAnfaenge",
+ "ft_praefix": "FT_EL_BA_",
+ "quelle": "Auftrag 19 bach_anfaenge_plan.py (Quellfassungen, Schotterfaecher, Moorwiesen)"
+}

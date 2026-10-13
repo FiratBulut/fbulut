@@ -1,0 +1,118 @@
+{
+ "stand": "2026-10-13 (Auftrag 19)",
+ "feld": "B4",
+ "instanzen": 14,
+ "dateien": {
+  "SM_Big_Rock_02_kol": {
+   "pfad": "/Game/Environment_Set/Environment/Rocks/Models/SM_Big_Rock_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": true
+  },
+  "SM_MossClump_03": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_05": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+   "anzahl": 3,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossyForestBoulder_04_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": true
+  },
+  "SM_moss_01": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_moss_02": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_mountain_rock_big_02_5_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_5",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": true
+  },
+  "plFhY_tier_0": {
+   "pfad": "/Game/Fab/Megascans/3D/Mossy_Rock_Formation_plFhY/Raw/plFhY_tier_0/StaticMeshes/plFhY_tier_0",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "skjsL_tier_0_kol": {
+   "pfad": "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": true
+  }
+ },
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/BachAnfaenge",
+ "ft_praefix": "FT_EL_BA_",
+ "quelle": "Auftrag 19 bach_anfaenge_plan.py (Quellfassungen, Schotterfaecher, Moorwiesen)"
+}

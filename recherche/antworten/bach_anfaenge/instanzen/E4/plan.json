@@ -1,0 +1,58 @@
+{
+ "stand": "2026-10-13 (Auftrag 19)",
+ "feld": "E4",
+ "instanzen": 6,
+ "dateien": {
+  "SM_namaqualand_boulder_05_NN": {
+   "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_05_NN",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_namaqualand_boulder_06_NN": {
+   "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulder_06_NN",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_namaqualand_boulders_01_a_NN": {
+   "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_a_NN",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_namaqualand_boulders_01_b_NN": {
+   "pfad": "/Game/Namaqualand/Meshes/General/NN/SM_namaqualand_boulders_01_b_NN",
+   "anzahl": 3,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  }
+ },
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/BachAnfaenge",
+ "ft_praefix": "FT_EL_BA_",
+ "quelle": "Auftrag 19 bach_anfaenge_plan.py (Quellfassungen, Schotterfaecher, Moorwiesen)"
+}

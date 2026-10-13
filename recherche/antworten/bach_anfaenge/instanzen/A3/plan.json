@@ -1,0 +1,154 @@
+{
+ "stand": "2026-10-13 (Auftrag 19)",
+ "feld": "A3",
+ "instanzen": 20,
+ "dateien": {
+  "SM_EagleFern_S_01": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Scanned_Foliage/Foliage/EagleFern/Meshes/SM_EagleFern_S_01",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_farn",
+   "rolle": "farn",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_Fern_02": {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_farn",
+   "rolle": "farn",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_Fern_04": {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_farn",
+   "rolle": "farn",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_MossClump_01": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_03": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossClump_05": {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_MossyForestBoulder_06": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_ground_rock_02": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "SM_moss_01": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+   "anzahl": 2,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_moss_02": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02",
+   "anzahl": 5,
+   "gruppe": "bach_anfang_moos",
+   "rolle": "moos",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": false,
+   "kollision": false
+  },
+  "SM_stones_01_3": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_3",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  },
+  "xisgcic_tier_0": {
+   "pfad": "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Medium_xisgcic/Raw/xisgcic_tier_0/StaticMeshes/xisgcic_tier_0",
+   "anzahl": 1,
+   "gruppe": "bach_anfang_fels",
+   "rolle": "fels",
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "schatten": true,
+   "kollision": false
+  }
+ },
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/BachAnfaenge",
+ "ft_praefix": "FT_EL_BA_",
+ "quelle": "Auftrag 19 bach_anfaenge_plan.py (Quellfassungen, Schotterfaecher, Moorwiesen)"
+}
