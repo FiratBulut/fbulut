@@ -42,3 +42,13 @@ Fenster Talkaskade (200 × 200 m). Basalt/NWFX ohne Landschaft → Fläche 0 →
   (Open World Demo Collection, Valley of the Ancient, Landscape Mountains, Nature Set, Park Photo Scanned, Rocks Packs, Beach cliff rock face,
   Stein-Piles, Megaplants Black Alder/Norway Spruce/Baltic Pine/Common Hazel; Megascans scree/slate/layered cliff/boulder/rock assembly/fern/lichen).
 - 6g (Uferstufe/37-cm-Zellen) wartet auf Antwort.
+
+## 4. Nachtrag 00:15 – EpicKlar-Test fertig: KEIN Unterschied
+
+`MI_EL_SWR_EpicKlar` (Kind von `SW_Water_Material_River` mit den Niagara-Werten Absorption 20,8/25/24,7, Scattering 0,77/1/0,92/0,5, Albedo 0,083,
+Roughness 0,02, Near Normal 0) im vollen Zyklus (Reset, 5 min, Bake 319 × 2016) sieht gebacken **genauso braun-deckend** aus wie unser MI_EL_SWR_Klar
+(`bilder/swr_p2/wasser_p2d_p2l_p2m.jpg`: links unser, Mitte LIVE, rechts EpicKlar). Also weder Master noch Instanzwerte: Der Live-Look entsteht im
+Niagara-Renderer (eigenes Netz je Zelle, Sim-Normalen/Schaum je Bild, evtl. anderes Blend/Shading) – gebacken zeichnet der WaterBodyRiver mit der
+Water-Zone-Fläche und den gebackenen Texturen. **Frage:** Was genau macht `SW_Water_Material_River_Niagara` anders (Shading Model/Blend, Normal-
+Quelle, Tiefe aus Sim statt Water-Info, Opacity/„Lip Refraction“), und lässt sich das in WCBS nachbauen – oder müssen wir für die Talkaskade LIVE_SIM
+im Spiel lassen (Kosten 0,6 ms/59 Dispatches laut 16b) und WCBS nur fern nutzen?
