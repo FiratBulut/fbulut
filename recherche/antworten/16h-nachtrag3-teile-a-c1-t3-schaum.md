@@ -308,7 +308,7 @@ neu. Zwei Exporte sind byte-gleich: ja (`diff -r` leer), Prüfer des zweiten Lau
 
 ## 7. Was lokal zu tun ist
 
-Commit **`@@HASH@@`** holen.
+Commit **`b588a8d`** holen.
 
 1. **Plan C.2–C.4:** `ufer_p2/ufer_plan_p2.json` über eure Kette einbauen.
    - (s, Seite, d) → Welt mit der p2-Spline; Lippenzonen mit dem Bachdekor filtern.
