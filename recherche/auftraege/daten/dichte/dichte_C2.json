@@ -1,0 +1,9270 @@
+{
+ "stand": "2026-10-13 23:40",
+ "quelle": "eldarien",
+ "kurz": "C2",
+ "pfad": "/Game/Eldarien/Welt/L_Eldarien",
+ "feld": "C2",
+ "fenster_m": [
+  -2714.5,
+  -3052.5,
+  -1706.5,
+  -2044.5
+ ],
+ "akteure_gesamt": 1867,
+ "akteure_je_klasse": {
+  "StaticMeshActor": 1599,
+  "LocationVolume": 85,
+  "LocalFogVolume": 63,
+  "InstancedFoliageActor": 40,
+  "WaterZone": 37,
+  "LandscapeStreamingProxy": 16,
+  "ELWaterAdapter": 6,
+  "WaterBodyRiver": 3,
+  "Actor": 2,
+  "AmbientSound": 2,
+  "WorldDataLayers": 1,
+  "SkyLight": 1,
+  "WaterBodyOcean": 1,
+  "PostProcessVolume": 1,
+  "PlayerStart": 1,
+  "DirectionalLight": 1,
+  "Landscape": 1,
+  "WorldPartitionMiniMap": 1,
+  "RuntimeVirtualTextureVolume": 1,
+  "SkyAtmosphere": 1,
+  "ExponentialHeightFog": 1,
+  "VolumetricCloud": 1,
+  "ShallowWaterRiver": 1,
+  "WaterBodyLake": 1
+ },
+ "komponenten_gezaehlt": 5461,
+ "komponenten_unsichtbar": 2,
+ "netze_riesig": 0,
+ "ausgeschlossen": [
+  {
+   "name": "SM_flower_sunroot_01",
+   "grund": "himmel/hintergrund (Name)"
+  }
+ ],
+ "huelle_m": [
+  -2714.5,
+  -3052.5,
+  -1706.5,
+  -2044.5
+ ],
+ "flaechen_m2": {
+  "fenster": 1016064.0,
+  "landschaft": 1016064.0,
+  "huelle": null,
+  "benutzt": 1016064.0,
+  "benutzt_art": "fenster"
+ },
+ "landschaft": {
+  "teile": 4,
+  "quads_je_m": 1.0,
+  "massstab": [
+   100.0,
+   100.0,
+   200.0
+  ],
+  "komponente_quads": null,
+  "unterteilungen": null,
+  "material": "/Game/Eldarien/Welt/MI_Eldarien_Landschaft_V9b",
+  "lagen": [
+   "Wiese",
+   "Gras",
+   "Trockengras",
+   "Laub",
+   "Nadeln",
+   "Moos",
+   "Heide",
+   "Kraut",
+   "Erde",
+   "Schlamm",
+   "Lehm",
+   "Sand",
+   "Kies",
+   "Geroell",
+   "Fels",
+   "Felsplatte",
+   "Sandstein",
+   "Schnee",
+   "Eis",
+   "Lavafels",
+   "Lavasand",
+   "Algen",
+   "Toenung_R",
+   "Toenung_G",
+   "Toenung_B",
+   "__LANDSCAPE_VISIBILITY__"
+  ],
+  "ebenen": [
+   "Houdini",
+   "Water"
+  ],
+  "umriss_m": [
+   -2714.5,
+   -3052.5,
+   -1706.5,
+   -2044.5
+  ],
+  "flaeche_m2": 1016064.0,
+  "gras": {
+   "basis": "M_Eldarien_Landschaft_V9b",
+   "typen": [
+    {
+     "typ": "GT_Wiese_Hoch",
+     "eingang": "GT_Wiese_Hoch",
+     "sorten": [
+      {
+       "netz": "SM_grass_meadow_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.688,
+        1.062
+       ],
+       "hoehe_m": 1.81,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_grass_meadow_04",
+       "dichte": 0.0,
+       "skala_x": [
+        0.75,
+        1.125
+       ],
+       "hoehe_m": 1.71,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_grass_meadow_08",
+       "dichte": 0.0,
+       "skala_x": [
+        0.75,
+        1.125
+       ],
+       "hoehe_m": 1.78,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_grass_meadow_01",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.438
+       ],
+       "hoehe_m": 1.28,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_grass_meadow_06",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.375
+       ],
+       "hoehe_m": 1.06,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_09",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.0
+       ],
+       "hoehe_m": 0.15,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_13",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.0
+       ],
+       "hoehe_m": 0.13,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_02",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.11,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_05",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.04,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 1.81
+    },
+    {
+     "typ": "GT_Wiese_Kurz",
+     "eingang": "GT_Wiese_Kurz",
+     "sorten": [
+      {
+       "netz": "SM_grass_meadow_03",
+       "dichte": 0.0,
+       "skala_x": [
+        0.92,
+        1.265
+       ],
+       "hoehe_m": 0.77,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_grass_meadow_05",
+       "dichte": 0.0,
+       "skala_x": [
+        0.92,
+        1.38
+       ],
+       "hoehe_m": 0.55,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_grass_meadow_07",
+       "dichte": 0.0,
+       "skala_x": [
+        0.805,
+        1.15
+       ],
+       "hoehe_m": 0.81,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_grass_clover_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.92,
+        1.495
+       ],
+       "hoehe_m": 0.19,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_08",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.18,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_10",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.16,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_14",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.26,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_01",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.08,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_04",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.06,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_02",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.01,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.81
+    },
+    {
+     "typ": "GT_Blumen_Warm",
+     "eingang": "GT_Blumen_Warm",
+     "sorten": [
+      {
+       "netz": "SM_flower_common_poppy_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.265
+       ],
+       "hoehe_m": 0.84,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_common_poppy_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.265
+       ],
+       "hoehe_m": 0.94,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_goldenrod_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.21
+       ],
+       "hoehe_m": 1.13,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_goldenrod_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.77,
+        1.1
+       ],
+       "hoehe_m": 1.58,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_common_Saint_John_s_wort_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.99,
+        1.43
+       ],
+       "hoehe_m": 0.54,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_sunroot_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.66,
+        0.99
+       ],
+       "hoehe_m": 1.55,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 1.58
+    },
+    {
+     "typ": "GT_Blumen_Kalt",
+     "eingang": "GT_Blumen_Kalt",
+     "sorten": [
+      {
+       "netz": "SM_flower_cornflower_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.265
+       ],
+       "hoehe_m": 0.92,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_cornflower_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.265
+       ],
+       "hoehe_m": 0.85,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_common_chicory_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.21
+       ],
+       "hoehe_m": 0.81,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_common_chicory_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.21
+       ],
+       "hoehe_m": 0.81,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.92
+    },
+    {
+     "typ": "GT_Blumen_Bunt",
+     "eingang": "GT_Blumen_Bunt",
+     "sorten": [
+      {
+       "netz": "SM_flower_chamomile_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.32
+       ],
+       "hoehe_m": 0.75,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_chamomile_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.32
+       ],
+       "hoehe_m": 0.65,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_brownray_knapweed_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.21
+       ],
+       "hoehe_m": 0.77,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_brownray_knapweed_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.21
+       ],
+       "hoehe_m": 0.8,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_flower_bouncing_bet_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.21
+       ],
+       "hoehe_m": 0.79,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_meadow_daisy_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.43
+       ],
+       "hoehe_m": 0.22,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.8
+    },
+    {
+     "typ": "GT_Kraut",
+     "eingang": "GT_Kraut",
+     "sorten": [
+      {
+       "netz": "SM_GroundCover_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.43
+       ],
+       "hoehe_m": 0.36,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_GroundCover_06",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.43
+       ],
+       "hoehe_m": 0.37,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_GroundCover_07",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.43
+       ],
+       "hoehe_m": 0.26,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_CloverVarieties_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.32
+       ],
+       "hoehe_m": 0.19,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_CloverVarieties_03",
+       "dichte": 0.0,
+       "skala_x": [
+        0.88,
+        1.32
+       ],
+       "hoehe_m": 0.19,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.9
+       ],
+       "hoehe_m": 0.08,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_13",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.9
+       ],
+       "hoehe_m": 0.06,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_12",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.3
+       ],
+       "hoehe_m": 0.08,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_detail_leaves_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.0
+       ],
+       "hoehe_m": 0.06,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_detail_leaves_03",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        0.9
+       ],
+       "hoehe_m": 0.04,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_02",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.01,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_05",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.04,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_10",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.02,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_01",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.08,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_04",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.06,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_07",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.12,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_detail_branches_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.8
+       ],
+       "hoehe_m": 0.09,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DryBranches_01",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.6
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DryBranches_04",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.6
+       ],
+       "hoehe_m": 0.11,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_08",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.18,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_11",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_14",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.26,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_mushroom_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.0
+       ],
+       "hoehe_m": 0.33,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.37
+    },
+    {
+     "typ": "GT_Farn",
+     "eingang": "GT_Farn",
+     "sorten": [
+      {
+       "netz": "SM_EagleFern_M_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.9,
+        1.5
+       ],
+       "hoehe_m": 1.42,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_EagleFern_S_01",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.6
+       ],
+       "hoehe_m": 0.87,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_EagleFern_S_02",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.6
+       ],
+       "hoehe_m": 0.86,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_EagleFern_S_04",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.6
+       ],
+       "hoehe_m": 0.67,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_12",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.3
+       ],
+       "hoehe_m": 0.08,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_detail_leaves_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.0
+       ],
+       "hoehe_m": 0.06,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_02",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.01,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_10",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.02,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_04",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.06,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_07",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.12,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DryBranches_04",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.6
+       ],
+       "hoehe_m": 0.11,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_09",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.17,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 1.42
+    },
+    {
+     "typ": "GT_Nessel",
+     "eingang": "GT_Nessel",
+     "sorten": [
+      {
+       "netz": "SM_YellowArchangel_04",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        3.5
+       ],
+       "hoehe_m": 0.37,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_YellowArchangel_08",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        3.5
+       ],
+       "hoehe_m": 0.38,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_12",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.3
+       ],
+       "hoehe_m": 0.08,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_03",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.02,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_02",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.11,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DryBranches_01",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.6
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_10",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.16,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.38
+    },
+    {
+     "typ": "GT_Schilf",
+     "eingang": "GT_Schilf",
+     "sorten": [
+      {
+       "netz": "SM_Rohrkolben_Horst_1",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 2.47,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Horst_2",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 2.25,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Horst_3",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 2.16,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Horst_4",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 2.45,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Horst_5",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 2.09,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Horst_6",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 2.49,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Jung_1",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 2.01,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Jung_2",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 1.79,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rohrkolben_Jung_3",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 1.56,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_08",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.18,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_09",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.17,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_12",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.2
+       ],
+       "hoehe_m": 0.14,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DryBranches_01",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.09,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DryBranches_04",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_WoodenSticksAndTwigs_05",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.0
+       ],
+       "hoehe_m": 0.12,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DeadLeaves_12",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.3
+       ],
+       "hoehe_m": 0.08,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 2.49
+    },
+    {
+     "typ": "GT_Steinchen",
+     "eingang": "GT_Steinchen",
+     "sorten": [
+      {
+       "netz": "SM_SmallStonesPack_08",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        3.0
+       ],
+       "hoehe_m": 0.25,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_09",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        3.0
+       ],
+       "hoehe_m": 0.23,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_10",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        3.0
+       ],
+       "hoehe_m": 0.21,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_11",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        3.0
+       ],
+       "hoehe_m": 0.27,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_12",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        3.0
+       ],
+       "hoehe_m": 0.19,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_13",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        3.0
+       ],
+       "hoehe_m": 0.19,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_14",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        3.0
+       ],
+       "hoehe_m": 0.35,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_08",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.5
+       ],
+       "hoehe_m": 0.37,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_11",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.5
+       ],
+       "hoehe_m": 0.41,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_SmallStonesPack_14",
+       "dichte": 0.0,
+       "skala_x": [
+        2.5,
+        4.5
+       ],
+       "hoehe_m": 0.53,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_DryBranches_07",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.05,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.53
+    }
+   ],
+   "dichte_summe": 0.0,
+   "sorten": 104,
+   "hoehe_max_m": 2.49
+  },
+  "hinweis": [],
+  "beschreibung": "Ausdehnung ok 1512,504..3528,2520; Ort -473050,-406050,30000; Massstab 100.00,100.00,200.00; Komponenten 256 (geladen) in 17 Teilen; Komponente 126 Felder; Lagen: Wiese Gras Trockengras Laub Nadeln Moos Heide Kraut Erde Schlamm Lehm Sand Kies Geroell Fels Felsplatte Sandstein Schnee Eis Lavafels Lav"
+ },
+ "kennzahlen": {
+  "flaeche_m2": 1016064.0,
+  "instanzen_gesamt": 95106,
+  "netze_arten": 294,
+  "instanzen_je_100m2": 9.36,
+  "dreiecke_lod0_je_100m2": 16423.0,
+  "nanite_anteil_netze": 0.59,
+  "baum_je_100m2": 1.09,
+  "baum_arten": 60,
+  "baum_flaeche_prozent_obergrenze": 22.933,
+  "baum_dreiecke_je_100m2": 4638.0,
+  "fels_je_100m2": 3.38,
+  "fels_arten": 84,
+  "fels_flaeche_prozent_obergrenze": 78.151,
+  "fels_dreiecke_je_100m2": 10195.0,
+  "pflanze_je_100m2": 2.133,
+  "pflanze_arten": 65,
+  "pflanze_flaeche_prozent_obergrenze": 1.073,
+  "pflanze_dreiecke_je_100m2": 304.0,
+  "sonstiges_je_100m2": 2.757,
+  "sonstiges_arten": 85,
+  "sonstiges_flaeche_prozent_obergrenze": 72.505,
+  "sonstiges_dreiecke_je_100m2": 1285.0,
+  "felsdeckung_prozent_obergrenze": 78.151,
+  "kleinzeug_je_100m2": 3.579,
+  "mittel_je_100m2": 5.324,
+  "baeume_je_ha": 17.06,
+  "totholz_je_100m2": 0.919,
+  "gras_material_je_100m2": 0.0,
+  "gras_typen_material": 10,
+  "gras_sorten_material": 104,
+  "gras_hoehe_max_m": 2.49,
+  "landschaft_quads_je_m": 1.0,
+  "landschaft_lagen": 26,
+  "geschaetzt_massstab": false
+ },
+ "kennzahlen_andere_flaeche": null,
+ "netze": [
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_B_01",
+   "name": "SM_heath_B_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.411,
+    0.402,
+    0.189
+   ],
+   "dreiecke_lod0": 193,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 3568,
+   "quellen": {
+    "foliage": 3568,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1852.88,
+   "hoehe_max_m": 0.57,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.33,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 688624
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_A_01",
+   "name": "SM_heath_A_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.283,
+    0.297,
+    0.223
+   ],
+   "dreiecke_lod0": 59,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 3293,
+   "quellen": {
+    "foliage": 3293,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 954.37,
+   "hoehe_max_m": 0.67,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.4,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 194287
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_heath_cross_01",
+   "name": "SM_heath_cross_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.427,
+    0.443,
+    0.17
+   ],
+   "dreiecke_lod0": 12,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 2918,
+   "quellen": {
+    "foliage": 2918,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1833.31,
+   "hoehe_max_m": 0.5,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.3,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 35016
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_01",
+   "name": "SM_forest_heather_01",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    0.555,
+    0.479,
+    0.434
+   ],
+   "dreiecke_lod0": 16,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2906,
+   "quellen": {
+    "foliage": 2906,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1149.42,
+   "hoehe_max_m": 0.82,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.52,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 46496
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_02",
+   "name": "SM_billberry_02",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.632,
+    0.635,
+    0.302
+   ],
+   "dreiecke_lod0": 45,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2814,
+   "quellen": {
+    "foliage": 2814,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1677.3,
+   "hoehe_max_m": 0.6,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.36,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 126630
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_01",
+   "name": "SM_billberry_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.591,
+    0.648,
+    0.271
+   ],
+   "dreiecke_lod0": 30,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2788,
+   "quellen": {
+    "foliage": 2788,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1595.35,
+   "hoehe_max_m": 0.54,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.33,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 83640
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+   "name": "SM_SmallStonesPack_13",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.14,
+    0.116,
+    0.065
+   ],
+   "dreiecke_lod0": 706,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 2438,
+   "quellen": {
+    "foliage": 2437,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 64.78,
+   "hoehe_max_m": 0.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.08,
+   "groesse": "klein",
+   "dreiecke_gesamt": 1721228
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_A_1",
+   "name": "SM_grass_03_A_1",
+   "klasse": "pflanze",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.613,
+    0.671,
+    0.847
+   ],
+   "dreiecke_lod0": 64,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2437,
+   "quellen": {
+    "foliage": 2437,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1083.88,
+   "hoehe_max_m": 1.18,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.87,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 155968
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_03_B_1",
+   "name": "SM_grass_03_B_1",
+   "klasse": "pflanze",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.718,
+    0.678,
+    1.058
+   ],
+   "dreiecke_lod0": 96,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2209,
+   "quellen": {
+    "foliage": 2209,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 907.16,
+   "hoehe_max_m": 1.48,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.95,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 212064
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_dry_01",
+   "name": "SM_billberry_dry_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.541,
+    0.507,
+    0.222
+   ],
+   "dreiecke_lod0": 33,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2154,
+   "quellen": {
+    "foliage": 2154,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 879.73,
+   "hoehe_max_m": 0.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.27,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 71082
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_A_1",
+   "name": "SM_grass_02_A_1",
+   "klasse": "pflanze",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.323,
+    0.323,
+    0.277
+   ],
+   "dreiecke_lod0": 24,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2096,
+   "quellen": {
+    "foliage": 2096,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 348.95,
+   "hoehe_max_m": 0.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.35,
+   "groesse": "klein",
+   "dreiecke_gesamt": 50304
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+   "name": "SM_SmallStonesPack_14",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.18,
+    0.099,
+    0.118
+   ],
+   "dreiecke_lod0": 614,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 1981,
+   "quellen": {
+    "foliage": 1976,
+    "ism": 5,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 55.39,
+   "hoehe_max_m": 0.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.14,
+   "groesse": "klein",
+   "dreiecke_gesamt": 1216334
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_11",
+   "name": "SM_SmallStonesPack_11",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.121,
+    0.066,
+    0.091
+   ],
+   "dreiecke_lod0": 568,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 1969,
+   "quellen": {
+    "foliage": 1965,
+    "ism": 4,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 21.2,
+   "hoehe_max_m": 0.19,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.1,
+   "groesse": "klein",
+   "dreiecke_gesamt": 1118392
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_08",
+   "name": "SM_SmallStonesPack_08",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.13,
+    0.092,
+    0.083
+   ],
+   "dreiecke_lod0": 698,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 1967,
+   "quellen": {
+    "foliage": 1962,
+    "ism": 5,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 31.67,
+   "hoehe_max_m": 0.17,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "klein",
+   "dreiecke_gesamt": 1372966
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_02_B_1",
+   "name": "SM_grass_02_B_1",
+   "klasse": "pflanze",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.463,
+    0.487,
+    0.324
+   ],
+   "dreiecke_lod0": 26,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 1926,
+   "quellen": {
+    "foliage": 1926,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 649.29,
+   "hoehe_max_m": 0.49,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.39,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 50076
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_12",
+   "name": "SM_SmallStonesPack_12",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.101,
+    0.068,
+    0.064
+   ],
+   "dreiecke_lod0": 714,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 1594,
+   "quellen": {
+    "foliage": 1591,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 17.97,
+   "hoehe_max_m": 0.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.08,
+   "groesse": "klein",
+   "dreiecke_gesamt": 1138116
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_1",
+   "name": "SM_grass_01_1",
+   "klasse": "pflanze",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.732,
+    0.74,
+    0.342
+   ],
+   "dreiecke_lod0": 21,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 1566,
+   "quellen": {
+    "foliage": 1566,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1112.26,
+   "hoehe_max_m": 0.48,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.39,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 32886
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01",
+   "name": "SM_dwarf_pine_small_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.158,
+    1.297,
+    1.103
+   ],
+   "dreiecke_lod0": 550,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1521,
+   "quellen": {
+    "foliage": 1521,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3164.42,
+   "hoehe_max_m": 1.65,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.28,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 836550
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_10",
+   "name": "SM_SmallStonesPack_10",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.12,
+    0.074,
+    0.071
+   ],
+   "dreiecke_lod0": 946,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 1513,
+   "quellen": {
+    "foliage": 1505,
+    "ism": 8,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 21.17,
+   "hoehe_max_m": 0.28,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.08,
+   "groesse": "klein",
+   "dreiecke_gesamt": 1431298
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_grass_01_2",
+   "name": "SM_grass_01_2",
+   "klasse": "pflanze",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.726,
+    0.734,
+    0.308
+   ],
+   "dreiecke_lod0": 19,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 1477,
+   "quellen": {
+    "foliage": 1477,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1028.91,
+   "hoehe_max_m": 0.43,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.35,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 28063
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_02",
+   "name": "SM_dwarf_pine_small_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.198,
+    1.151,
+    0.934
+   ],
+   "dreiecke_lod0": 659,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1459,
+   "quellen": {
+    "foliage": 1459,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2818.57,
+   "hoehe_max_m": 1.4,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.09,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 961481
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_09",
+   "name": "SM_SmallStonesPack_09",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.11,
+    0.067,
+    0.077
+   ],
+   "dreiecke_lod0": 680,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 1455,
+   "quellen": {
+    "foliage": 1450,
+    "ism": 5,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 13.54,
+   "hoehe_max_m": 0.16,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.08,
+   "groesse": "klein",
+   "dreiecke_gesamt": 989400
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_06",
+   "name": "SM_stone_06",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.205,
+    0.215,
+    0.124
+   ],
+   "dreiecke_lod0": 328,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1343,
+   "quellen": {
+    "foliage": 1343,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 89.54,
+   "hoehe_max_m": 0.2,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.15,
+   "groesse": "klein",
+   "dreiecke_gesamt": 440504
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_01",
+   "name": "SM_dwarf_pine_medium_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.013,
+    1.953,
+    1.853
+   ],
+   "dreiecke_lod0": 2684,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1271,
+   "quellen": {
+    "foliage": 1271,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6427.23,
+   "hoehe_max_m": 2.69,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.08,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 3411364
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_02",
+   "name": "SM_dwarf_pine_medium_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.108,
+    2.271,
+    1.856
+   ],
+   "dreiecke_lod0": 2950,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1231,
+   "quellen": {
+    "foliage": 1231,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 7872.79,
+   "hoehe_max_m": 2.69,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.12,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 3631450
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_03",
+   "name": "SM_dwarf_pine_medium_03",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.002,
+    1.861,
+    1.72
+   ],
+   "dreiecke_lod0": 2783,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1038,
+   "quellen": {
+    "foliage": 1038,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 5114.96,
+   "hoehe_max_m": 2.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.96,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2888754
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+   "name": "SM_SmallStonesPack_03",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.121,
+    0.074,
+    0.071
+   ],
+   "dreiecke_lod0": 6236,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 934,
+   "quellen": {
+    "foliage": 928,
+    "ism": 6,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 25.67,
+   "hoehe_max_m": 0.3,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.12,
+   "groesse": "klein",
+   "dreiecke_gesamt": 5824424
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+   "name": "SM_mountain_rock_small_01_1",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.47,
+    0.524,
+    0.192
+   ],
+   "dreiecke_lod0": 1010,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 932,
+   "quellen": {
+    "foliage": 802,
+    "ism": 130,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 202.88,
+   "hoehe_max_m": 0.34,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.17,
+   "groesse": "klein",
+   "dreiecke_gesamt": 941320
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+   "name": "SM_SmallStonesPack_06",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.141,
+    0.117,
+    0.064
+   ],
+   "dreiecke_lod0": 8236,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 907,
+   "quellen": {
+    "foliage": 904,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 40.36,
+   "hoehe_max_m": 0.24,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.1,
+   "groesse": "klein",
+   "dreiecke_gesamt": 7470052
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRock/SM_NordicBeachRock_01",
+   "name": "SM_NordicBeachRock_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.255,
+    0.219,
+    0.164
+   ],
+   "dreiecke_lod0": 7488,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 906,
+   "quellen": {
+    "foliage": 906,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 67.91,
+   "hoehe_max_m": 0.26,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.19,
+   "groesse": "klein",
+   "dreiecke_gesamt": 6784128
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+   "name": "SM_SmallStonesPack_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.131,
+    0.092,
+    0.083
+   ],
+   "dreiecke_lod0": 5802,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 905,
+   "quellen": {
+    "foliage": 903,
+    "ism": 2,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 33.04,
+   "hoehe_max_m": 0.32,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.14,
+   "groesse": "klein",
+   "dreiecke_gesamt": 5250810
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+   "name": "SM_SmallStonesPack_07",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.181,
+    0.1,
+    0.119
+   ],
+   "dreiecke_lod0": 7506,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 895,
+   "quellen": {
+    "foliage": 888,
+    "ism": 7,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 35.7,
+   "hoehe_max_m": 0.4,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.17,
+   "groesse": "klein",
+   "dreiecke_gesamt": 6717870
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_04",
+   "name": "SM_SmallStonesPack_04",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.121,
+    0.066,
+    0.091
+   ],
+   "dreiecke_lod0": 4006,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 874,
+   "quellen": {
+    "foliage": 873,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 21.67,
+   "hoehe_max_m": 0.39,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.15,
+   "groesse": "klein",
+   "dreiecke_gesamt": 3501244
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_02",
+   "name": "SM_SmallStonesPack_02",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.111,
+    0.068,
+    0.077
+   ],
+   "dreiecke_lod0": 6920,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 865,
+   "quellen": {
+    "foliage": 862,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 21.04,
+   "hoehe_max_m": 0.33,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.13,
+   "groesse": "klein",
+   "dreiecke_gesamt": 5985800
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+   "name": "SM_mountain_rock_small_01_2",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.41,
+    0.424,
+    0.304
+   ],
+   "dreiecke_lod0": 1042,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 851,
+   "quellen": {
+    "foliage": 746,
+    "ism": 105,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 142.43,
+   "hoehe_max_m": 0.55,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.29,
+   "groesse": "klein",
+   "dreiecke_gesamt": 886742
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+   "name": "SM_mountain_rock_small_01_4",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.487,
+    0.382,
+    0.257
+   ],
+   "dreiecke_lod0": 1054,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 830,
+   "quellen": {
+    "foliage": 714,
+    "ism": 116,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 184.84,
+   "hoehe_max_m": 1.17,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.26,
+   "groesse": "klein",
+   "dreiecke_gesamt": 874820
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_5",
+   "name": "SM_mountain_rock_small_01_5",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.425,
+    0.337,
+    0.29
+   ],
+   "dreiecke_lod0": 918,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 804,
+   "quellen": {
+    "foliage": 715,
+    "ism": 89,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 144.44,
+   "hoehe_max_m": 1.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.29,
+   "groesse": "klein",
+   "dreiecke_gesamt": 738072
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_04",
+   "name": "SM_stone_04",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.151,
+    0.238,
+    0.036
+   ],
+   "dreiecke_lod0": 173,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 790,
+   "quellen": {
+    "foliage": 790,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 41.24,
+   "hoehe_max_m": 0.06,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.04,
+   "groesse": "klein",
+   "dreiecke_gesamt": 136670
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+   "name": "SM_LichenedForestBoulder_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.83,
+    0.63,
+    0.461
+   ],
+   "dreiecke_lod0": 9356,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 789,
+   "quellen": {
+    "foliage": 788,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 157.66,
+   "hoehe_max_m": 1.13,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.23,
+   "groesse": "klein",
+   "dreiecke_gesamt": 7381884
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_08",
+   "name": "SM_stone_08",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.139,
+    0.109,
+    0.054
+   ],
+   "dreiecke_lod0": 175,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 759,
+   "quellen": {
+    "foliage": 759,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 17.39,
+   "hoehe_max_m": 0.09,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.07,
+   "groesse": "klein",
+   "dreiecke_gesamt": 132825
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_05",
+   "name": "SM_stone_05",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.126,
+    0.11,
+    0.073
+   ],
+   "dreiecke_lod0": 187,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 755,
+   "quellen": {
+    "foliage": 755,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 15.6,
+   "hoehe_max_m": 0.12,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "klein",
+   "dreiecke_gesamt": 141185
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_02",
+   "name": "SM_lingonberry_02",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.397,
+    0.313,
+    0.219
+   ],
+   "dreiecke_lod0": 12,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 694,
+   "quellen": {
+    "foliage": 694,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 140.25,
+   "hoehe_max_m": 0.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.27,
+   "groesse": "klein",
+   "dreiecke_gesamt": 8328
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_lingonberry_01",
+   "name": "SM_lingonberry_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.339,
+    0.429,
+    0.24
+   ],
+   "dreiecke_lod0": 12,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 690,
+   "quellen": {
+    "foliage": 690,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 174.83,
+   "hoehe_max_m": 0.48,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.31,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 8280
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_02",
+   "name": "SM_dwarf_pine_big_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.706,
+    2.853,
+    2.582
+   ],
+   "dreiecke_lod0": 5001,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 668,
+   "quellen": {
+    "foliage": 668,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 5389.16,
+   "hoehe_max_m": 3.59,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.6,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 3340668
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_01",
+   "name": "SM_dwarf_pine_big_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    3.021,
+    3.034,
+    2.566
+   ],
+   "dreiecke_lod0": 6722,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 642,
+   "quellen": {
+    "foliage": 642,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6108.18,
+   "hoehe_max_m": 3.55,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.56,
+   "groesse": "gross",
+   "dreiecke_gesamt": 4315524
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_03",
+   "name": "SM_big_rock_wall_03",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    4.299,
+    1.258,
+    2.342
+   ],
+   "dreiecke_lod0": 3000,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 635,
+   "quellen": {
+    "foliage": 44,
+    "ism": 0,
+    "akteur": 591
+   },
+   "grundflaeche_m2": 228232.98,
+   "hoehe_max_m": 21.08,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 18.79,
+   "groesse": "gross",
+   "dreiecke_gesamt": 1905000
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_05",
+   "name": "SM_SmallStonesPack_05",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.101,
+    0.068,
+    0.064
+   ],
+   "dreiecke_lod0": 8088,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 628,
+   "quellen": {
+    "foliage": 625,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 18.57,
+   "hoehe_max_m": 0.29,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.13,
+   "groesse": "klein",
+   "dreiecke_gesamt": 5079264
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_07",
+   "name": "SM_stone_07",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.099,
+    0.118,
+    0.073
+   ],
+   "dreiecke_lod0": 127,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 605,
+   "quellen": {
+    "foliage": 605,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 10.4,
+   "hoehe_max_m": 0.12,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "klein",
+   "dreiecke_gesamt": 76835
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_02",
+   "name": "SM_big_rock_wall_02",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    5.217,
+    1.475,
+    2.539
+   ],
+   "dreiecke_lod0": 3385,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 603,
+   "quellen": {
+    "foliage": 64,
+    "ism": 0,
+    "akteur": 539
+   },
+   "grundflaeche_m2": 209428.41,
+   "hoehe_max_m": 22.85,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 16.48,
+   "groesse": "gross",
+   "dreiecke_gesamt": 2041155
+  },
+  {
+   "pfad": "/Game/Nature_Set/Meshes/Big_Tree_birch_01",
+   "name": "Big_Tree_birch_01",
+   "klasse": "baum",
+   "paket": "Nature_Set",
+   "netz_m": [
+    0.611,
+    0.582,
+    0.942
+   ],
+   "dreiecke_lod0": 28486,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 586,
+   "quellen": {
+    "foliage": 586,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 177.0,
+   "hoehe_max_m": 1.22,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.86,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 16692796
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_billberry_03",
+   "name": "SM_billberry_03",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.774,
+    0.74,
+    0.381
+   ],
+   "dreiecke_lod0": 73,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 561,
+   "quellen": {
+    "foliage": 561,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 482.47,
+   "hoehe_max_m": 0.76,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.46,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 40953
+  },
+  {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_01",
+   "name": "SM_MossClump_01",
+   "klasse": "pflanze",
+   "paket": "Hivemind",
+   "netz_m": [
+    0.167,
+    0.17,
+    0.095
+   ],
+   "dreiecke_lod0": 528,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 537,
+   "quellen": {
+    "foliage": 537,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 31.36,
+   "hoehe_max_m": 0.23,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.13,
+   "groesse": "klein",
+   "dreiecke_gesamt": 283536
+  },
+  {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_05",
+   "name": "SM_MossClump_05",
+   "klasse": "pflanze",
+   "paket": "Hivemind",
+   "netz_m": [
+    0.173,
+    0.169,
+    0.062
+   ],
+   "dreiecke_lod0": 688,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 517,
+   "quellen": {
+    "foliage": 517,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 31.98,
+   "hoehe_max_m": 0.15,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "klein",
+   "dreiecke_gesamt": 355696
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_common_Saint_John_s_wort_01",
+   "name": "SM_flower_common_Saint_John_s_wort_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.308,
+    0.376,
+    0.379
+   ],
+   "dreiecke_lod0": 41,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 510,
+   "quellen": {
+    "foliage": 510,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 73.04,
+   "hoehe_max_m": 0.49,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.42,
+   "groesse": "klein",
+   "dreiecke_gesamt": 20910
+  },
+  {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_03",
+   "name": "SM_MossClump_03",
+   "klasse": "pflanze",
+   "paket": "Hivemind",
+   "netz_m": [
+    0.161,
+    0.184,
+    0.09
+   ],
+   "dreiecke_lod0": 648,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 486,
+   "quellen": {
+    "foliage": 486,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 29.02,
+   "hoehe_max_m": 0.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.12,
+   "groesse": "klein",
+   "dreiecke_gesamt": 314928
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_01",
+   "name": "SM_grass_bush_01",
+   "klasse": "pflanze",
+   "paket": "Environment_Set",
+   "netz_m": [
+    0.656,
+    0.733,
+    0.606
+   ],
+   "dreiecke_lod0": 29,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 484,
+   "quellen": {
+    "foliage": 484,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 206.99,
+   "hoehe_max_m": 0.79,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.56,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 14036
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_01",
+   "name": "SM_dead_grass_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    2.006,
+    2.275,
+    0.161
+   ],
+   "dreiecke_lod0": 40,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 449,
+   "quellen": {
+    "foliage": 449,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1630.88,
+   "hoehe_max_m": 0.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.14,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 17960
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_01",
+   "name": "SM_grass_meadow_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.999,
+    0.994,
+    0.892
+   ],
+   "dreiecke_lod0": 144,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 439,
+   "quellen": {
+    "foliage": 439,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 403.0,
+   "hoehe_max_m": 1.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.81,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 63216
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_01",
+   "name": "SM_MossyForestRock_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.705,
+    0.534,
+    0.428
+   ],
+   "dreiecke_lod0": 18668,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 430,
+   "quellen": {
+    "foliage": 375,
+    "ism": 55,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 132.47,
+   "hoehe_max_m": 1.04,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.36,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 8027240
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_02",
+   "name": "SM_s_rock_02",
+   "klasse": "fels",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.429,
+    0.45,
+    0.343
+   ],
+   "dreiecke_lod0": 424,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 392,
+   "quellen": {
+    "foliage": 392,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 79.64,
+   "hoehe_max_m": 0.48,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.34,
+   "groesse": "klein",
+   "dreiecke_gesamt": 166208
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_01",
+   "name": "SM_s_rock_01",
+   "klasse": "fels",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.564,
+    0.469,
+    0.444
+   ],
+   "dreiecke_lod0": 354,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 381,
+   "quellen": {
+    "foliage": 381,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 105.05,
+   "hoehe_max_m": 0.62,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.44,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 134874
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Rocks/Meshes/SM_s_rock_03",
+   "name": "SM_s_rock_03",
+   "klasse": "fels",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.41,
+    0.503,
+    0.327
+   ],
+   "dreiecke_lod0": 242,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 375,
+   "quellen": {
+    "foliage": 375,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 85.35,
+   "hoehe_max_m": 0.46,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.34,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 90750
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_kidney_vetch_01",
+   "name": "SM_kidney_vetch_01",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    0.711,
+    0.549,
+    0.64
+   ],
+   "dreiecke_lod0": 30,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 371,
+   "quellen": {
+    "foliage": 371,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 174.09,
+   "hoehe_max_m": 0.83,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 11130
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_beach_grass_01_1",
+   "name": "SM_beach_grass_01_1",
+   "klasse": "pflanze",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.022,
+    0.772,
+    1.023
+   ],
+   "dreiecke_lod0": 108,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 371,
+   "quellen": {
+    "foliage": 371,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 288.4,
+   "hoehe_max_m": 1.33,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.99,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 40068
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_meadow_daisy_01",
+   "name": "SM_meadow_daisy_01",
+   "klasse": "sonstiges",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.533,
+    0.564,
+    0.152
+   ],
+   "dreiecke_lod0": 22,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 368,
+   "quellen": {
+    "foliage": 368,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 150.28,
+   "hoehe_max_m": 0.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.18,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 8096
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_stonecrop_01",
+   "name": "SM_stonecrop_01",
+   "klasse": "fels",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    0.69,
+    0.625,
+    0.222
+   ],
+   "dreiecke_lod0": 58,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 361,
+   "quellen": {
+    "foliage": 361,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 267.95,
+   "hoehe_max_m": 0.36,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.29,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 20938
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_chamomile_02",
+   "name": "SM_flower_chamomile_02",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.314,
+    0.283,
+    0.489
+   ],
+   "dreiecke_lod0": 94,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 358,
+   "quellen": {
+    "foliage": 358,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 35.26,
+   "hoehe_max_m": 0.61,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.51,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 33652
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_01",
+   "name": "SM_CustomMoss_01",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.105,
+    0.116,
+    0.16
+   ],
+   "dreiecke_lod0": 23,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 354,
+   "quellen": {
+    "foliage": 354,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 19.37,
+   "hoehe_max_m": 0.48,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.33,
+   "groesse": "klein",
+   "dreiecke_gesamt": 8142
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_chamomile_01",
+   "name": "SM_flower_chamomile_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.346,
+    0.357,
+    0.566
+   ],
+   "dreiecke_lod0": 101,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 350,
+   "quellen": {
+    "foliage": 350,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 47.68,
+   "hoehe_max_m": 0.71,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.59,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 35350
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
+   "name": "SM_MossyForestBoulder_02",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.919,
+    0.772,
+    0.6
+   ],
+   "dreiecke_lod0": 22336,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 330,
+   "quellen": {
+    "foliage": 328,
+    "ism": 2,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 199.72,
+   "hoehe_max_m": 0.99,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.53,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 7370880
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_03",
+   "name": "SM_CustomMoss_03",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.133,
+    0.14,
+    0.138
+   ],
+   "dreiecke_lod0": 25,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 318,
+   "quellen": {
+    "foliage": 318,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 26.25,
+   "hoehe_max_m": 0.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.28,
+   "groesse": "klein",
+   "dreiecke_gesamt": 7950
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_05",
+   "name": "SM_CustomMoss_05",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.165,
+    0.139,
+    0.148
+   ],
+   "dreiecke_lod0": 20,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 310,
+   "quellen": {
+    "foliage": 310,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 32.29,
+   "hoehe_max_m": 0.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.31,
+   "groesse": "klein",
+   "dreiecke_gesamt": 6200
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_goldenrod_01",
+   "name": "SM_flower_goldenrod_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.46,
+    0.515,
+    1.441
+   ],
+   "dreiecke_lod0": 100,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 308,
+   "quellen": {
+    "foliage": 308,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 66.53,
+   "hoehe_max_m": 1.58,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.37,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 30800
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+   "name": "SM_big_rock_wall_01",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    7.775,
+    3.863,
+    3.357
+   ],
+   "dreiecke_lod0": 4889,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 305,
+   "quellen": {
+    "foliage": 32,
+    "ism": 0,
+    "akteur": 273
+   },
+   "grundflaeche_m2": 223349.36,
+   "hoehe_max_m": 30.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 15.57,
+   "groesse": "gross",
+   "dreiecke_gesamt": 1491145
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_03",
+   "name": "SM_grass_bush_03",
+   "klasse": "pflanze",
+   "paket": "Environment_Set",
+   "netz_m": [
+    0.725,
+    0.788,
+    1.098
+   ],
+   "dreiecke_lod0": 77,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 300,
+   "quellen": {
+    "foliage": 300,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 123.87,
+   "hoehe_max_m": 1.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.92,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 23100
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_02",
+   "name": "SM_CustomMoss_02",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.137,
+    0.129,
+    0.15
+   ],
+   "dreiecke_lod0": 13,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 299,
+   "quellen": {
+    "foliage": 299,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 23.89,
+   "hoehe_max_m": 0.45,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.31,
+   "groesse": "klein",
+   "dreiecke_gesamt": 3887
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_goldenrod_02",
+   "name": "SM_flower_goldenrod_02",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.259,
+    0.254,
+    0.934
+   ],
+   "dreiecke_lod0": 59,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 281,
+   "quellen": {
+    "foliage": 281,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 16.8,
+   "hoehe_max_m": 1.03,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.89,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 16579
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_holly_01",
+   "name": "SM_sea_holly_01",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.107,
+    0.908,
+    0.704
+   ],
+   "dreiecke_lod0": 245,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 277,
+   "quellen": {
+    "foliage": 277,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 341.43,
+   "hoehe_max_m": 0.91,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.78,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 67865
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_01",
+   "name": "SM_Forest_pine_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    7.625,
+    6.606,
+    16.385
+   ],
+   "dreiecke_lod0": 2576,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 265,
+   "quellen": {
+    "foliage": 265,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 9036.21,
+   "hoehe_max_m": 19.43,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 13.25,
+   "groesse": "gross",
+   "dreiecke_gesamt": 682640
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+   "name": "SM_moss_01",
+   "klasse": "pflanze",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.494,
+    0.431,
+    0.031
+   ],
+   "dreiecke_lod0": 9,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 254,
+   "quellen": {
+    "foliage": 254,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 66.06,
+   "hoehe_max_m": 0.04,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.03,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2286
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_02",
+   "name": "SM_Forest_pine_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    7.567,
+    6.671,
+    19.099
+   ],
+   "dreiecke_lod0": 2426,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 252,
+   "quellen": {
+    "foliage": 252,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 8837.27,
+   "hoehe_max_m": 22.81,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 15.66,
+   "groesse": "gross",
+   "dreiecke_gesamt": 611352
+  },
+  {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_02",
+   "name": "SM_MossClump_02",
+   "klasse": "pflanze",
+   "paket": "Hivemind",
+   "netz_m": [
+    0.093,
+    0.091,
+    0.038
+   ],
+   "dreiecke_lod0": 284,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 241,
+   "quellen": {
+    "foliage": 241,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.97,
+   "hoehe_max_m": 0.06,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.05,
+   "groesse": "klein",
+   "dreiecke_gesamt": 68444
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_02",
+   "name": "SM_moss_02",
+   "klasse": "pflanze",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.577,
+    0.41,
+    0.024
+   ],
+   "dreiecke_lod0": 9,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 240,
+   "quellen": {
+    "foliage": 240,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 67.56,
+   "hoehe_max_m": 0.03,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.03,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2160
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_01",
+   "name": "SM_rhododendron_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.391,
+    0.391,
+    0.407
+   ],
+   "dreiecke_lod0": 120,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 228,
+   "quellen": {
+    "foliage": 228,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 91.16,
+   "hoehe_max_m": 1.11,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.64,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 27360
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/CustomMoss/SM_CustomMoss_04",
+   "name": "SM_CustomMoss_04",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.144,
+    0.099,
+    0.139
+   ],
+   "dreiecke_lod0": 18,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 225,
+   "quellen": {
+    "foliage": 225,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 13.86,
+   "hoehe_max_m": 0.42,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.28,
+   "groesse": "klein",
+   "dreiecke_gesamt": 4050
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_3",
+   "name": "SM_stones_01_3",
+   "klasse": "fels",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.791,
+    0.931,
+    0.346
+   ],
+   "dreiecke_lod0": 916,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 218,
+   "quellen": {
+    "foliage": 218,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 167.15,
+   "hoehe_max_m": 0.45,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.35,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 199688
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3",
+   "name": "SM_mountain_rock_small_01_3",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.518,
+    0.314,
+    0.134
+   ],
+   "dreiecke_lod0": 1106,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 217,
+   "quellen": {
+    "foliage": 166,
+    "ism": 51,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 30.83,
+   "hoehe_max_m": 0.23,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.12,
+   "groesse": "klein",
+   "dreiecke_gesamt": 240002
+  },
+  {
+   "pfad": "/Game/Hivemind/Medieval_Docks/Static_Meshes/Foliage/SM_MossClump_04",
+   "name": "SM_MossClump_04",
+   "klasse": "pflanze",
+   "paket": "Hivemind",
+   "netz_m": [
+    0.097,
+    0.096,
+    0.074
+   ],
+   "dreiecke_lod0": 558,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 211,
+   "quellen": {
+    "foliage": 211,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.88,
+   "hoehe_max_m": 0.12,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "klein",
+   "dreiecke_gesamt": 117738
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
+   "name": "SM_MassiveNordicCoastalCliff_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    20.799,
+    15.021,
+    14.658
+   ],
+   "dreiecke_lod0": 28186,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 202,
+   "quellen": {
+    "foliage": 105,
+    "ism": 0,
+    "akteur": 97
+   },
+   "grundflaeche_m2": 68306.17,
+   "hoehe_max_m": 26.38,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 14.92,
+   "groesse": "gross",
+   "dreiecke_gesamt": 5693572
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarC",
+   "name": "SM_wk2oaeyqx_VarC",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    0.668,
+    0.651,
+    0.66
+   ],
+   "dreiecke_lod0": 815,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 195,
+   "quellen": {
+    "foliage": 195,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 94.16,
+   "hoehe_max_m": 0.92,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.69,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 158925
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarF",
+   "name": "SM_wk2oaeyqx_VarF",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    0.721,
+    0.557,
+    0.614
+   ],
+   "dreiecke_lod0": 752,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 191,
+   "quellen": {
+    "foliage": 191,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 82.11,
+   "hoehe_max_m": 0.8,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.63,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 143632
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarB",
+   "name": "SM_wk2oaeyqx_VarB",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    0.401,
+    0.392,
+    0.625
+   ],
+   "dreiecke_lod0": 750,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 183,
+   "quellen": {
+    "foliage": 183,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 31.11,
+   "hoehe_max_m": 0.85,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.64,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 137250
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_4",
+   "name": "SM_stones_01_4",
+   "klasse": "fels",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.492,
+    0.809,
+    0.427
+   ],
+   "dreiecke_lod0": 882,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 177,
+   "quellen": {
+    "foliage": 177,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 73.34,
+   "hoehe_max_m": 0.55,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.43,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 156114
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_forest_heather_simple_01",
+   "name": "SM_forest_heather_simple_01",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    0.353,
+    0.276,
+    0.446
+   ],
+   "dreiecke_lod0": 6,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 177,
+   "quellen": {
+    "foliage": 177,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 40.77,
+   "hoehe_max_m": 0.84,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.68,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1062
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_1",
+   "name": "SM_stones_01_1",
+   "klasse": "fels",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.445,
+    0.938,
+    0.513
+   ],
+   "dreiecke_lod0": 1262,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 175,
+   "quellen": {
+    "foliage": 175,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 77.22,
+   "hoehe_max_m": 0.67,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.52,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 220850
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_03",
+   "name": "SM_Forest_pine_03",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    11.273,
+    11.35,
+    21.927
+   ],
+   "dreiecke_lod0": 5685,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 175,
+   "quellen": {
+    "foliage": 175,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 16200.93,
+   "hoehe_max_m": 25.2,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 18.53,
+   "groesse": "gross",
+   "dreiecke_gesamt": 994875
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_02",
+   "name": "SM_dead_grass_02",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    2.021,
+    1.962,
+    0.17
+   ],
+   "dreiecke_lod0": 39,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 174,
+   "quellen": {
+    "foliage": 174,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 748.36,
+   "hoehe_max_m": 0.22,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.18,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 6786
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_07",
+   "name": "SM_Forest_pine_07",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    17.869,
+    14.694,
+    25.702
+   ],
+   "dreiecke_lod0": 5757,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 171,
+   "quellen": {
+    "foliage": 171,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 47431.03,
+   "hoehe_max_m": 28.26,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 26.37,
+   "groesse": "gross",
+   "dreiecke_gesamt": 984447
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_02",
+   "name": "SM_grey_willow_02",
+   "klasse": "sonstiges",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    1.175,
+    1.311,
+    0.911
+   ],
+   "dreiecke_lod0": 434,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 164,
+   "quellen": {
+    "foliage": 164,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 374.5,
+   "hoehe_max_m": 2.11,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.02,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 71176
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_06",
+   "name": "SM_Forest_pine_06",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    12.713,
+    12.083,
+    25.39
+   ],
+   "dreiecke_lod0": 5456,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 164,
+   "quellen": {
+    "foliage": 164,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 24027.75,
+   "hoehe_max_m": 26.62,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 24.71,
+   "groesse": "gross",
+   "dreiecke_gesamt": 894784
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_02",
+   "name": "SM_grass_bush_02",
+   "klasse": "pflanze",
+   "paket": "Environment_Set",
+   "netz_m": [
+    1.304,
+    1.111,
+    1.452
+   ],
+   "dreiecke_lod0": 107,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 163,
+   "quellen": {
+    "foliage": 163,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 151.15,
+   "hoehe_max_m": 1.45,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.15,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 17441
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_8",
+   "name": "SM_mountain_rock_big_02_8",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    4.968,
+    3.291,
+    3.232
+   ],
+   "dreiecke_lod0": 5619,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 162,
+   "quellen": {
+    "foliage": 162,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 28747.93,
+   "hoehe_max_m": 20.98,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 10.28,
+   "groesse": "gross",
+   "dreiecke_gesamt": 910278
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_01",
+   "name": "SM_grey_willow_01",
+   "klasse": "sonstiges",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.571,
+    0.705,
+    0.815
+   ],
+   "dreiecke_lod0": 132,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 160,
+   "quellen": {
+    "foliage": 160,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 92.52,
+   "hoehe_max_m": 2.06,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.89,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 21120
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_01",
+   "name": "SM_rough_horsetail_01",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    0.888,
+    0.624,
+    0.7
+   ],
+   "dreiecke_lod0": 42,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 159,
+   "quellen": {
+    "foliage": 159,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 54.51,
+   "hoehe_max_m": 0.7,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.55,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 6678
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_14",
+   "name": "SM_DeadLeaves_14",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    1.692,
+    1.718,
+    0.159
+   ],
+   "dreiecke_lod0": 733,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 151,
+   "quellen": {
+    "foliage": 151,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 488.38,
+   "hoehe_max_m": 0.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.17,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 110683
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_12",
+   "name": "SM_DeadLeaves_12",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.77,
+    0.784,
+    0.058
+   ],
+   "dreiecke_lod0": 372,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 150,
+   "quellen": {
+    "foliage": 150,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 101.55,
+   "hoehe_max_m": 0.08,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.06,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 55800
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/DeadLeaves/SM_DeadLeaves_13",
+   "name": "SM_DeadLeaves_13",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    1.688,
+    1.731,
+    0.068
+   ],
+   "dreiecke_lod0": 736,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 148,
+   "quellen": {
+    "foliage": 148,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 494.47,
+   "hoehe_max_m": 0.09,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.07,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 108928
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarG",
+   "name": "SM_wk2oaeyqx_VarG",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    0.627,
+    0.576,
+    0.725
+   ],
+   "dreiecke_lod0": 783,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 148,
+   "quellen": {
+    "foliage": 148,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 58.19,
+   "hoehe_max_m": 1.01,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.75,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 115884
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_5",
+   "name": "SM_EISZAPFEN_5",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    1.021,
+    0.209,
+    0.922
+   ],
+   "dreiecke_lod0": 1408,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 142,
+   "quellen": {
+    "foliage": 142,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 26.89,
+   "hoehe_max_m": 1.1,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.85,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 199936
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_09",
+   "name": "SM_Forest_pine_09",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    10.153,
+    9.609,
+    27.176
+   ],
+   "dreiecke_lod0": 3542,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 141,
+   "quellen": {
+    "foliage": 141,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 17843.37,
+   "hoehe_max_m": 32.59,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 30.88,
+   "groesse": "gross",
+   "dreiecke_gesamt": 499422
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_08",
+   "name": "SM_Forest_pine_08",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    12.355,
+    12.294,
+    28.579
+   ],
+   "dreiecke_lod0": 4218,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 138,
+   "quellen": {
+    "foliage": 138,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 24112.99,
+   "hoehe_max_m": 32.86,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 30.57,
+   "groesse": "gross",
+   "dreiecke_gesamt": 582084
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_1",
+   "name": "SM_EISZAPFEN_1",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    0.804,
+    0.215,
+    0.824
+   ],
+   "dreiecke_lod0": 1096,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 138,
+   "quellen": {
+    "foliage": 138,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 19.4,
+   "hoehe_max_m": 0.99,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.73,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 151248
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_02",
+   "name": "SM_rough_horsetail_02",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.187,
+    1.13,
+    0.687
+   ],
+   "dreiecke_lod0": 56,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 137,
+   "quellen": {
+    "foliage": 137,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 98.35,
+   "hoehe_max_m": 0.62,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.5,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 7672
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_04",
+   "name": "SM_Forest_pine_04",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    10.241,
+    11.688,
+    23.748
+   ],
+   "dreiecke_lod0": 7201,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 136,
+   "quellen": {
+    "foliage": 136,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 12675.7,
+   "hoehe_max_m": 24.54,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 20.89,
+   "groesse": "gross",
+   "dreiecke_gesamt": 979336
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_dead_grass_03",
+   "name": "SM_dead_grass_03",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    1.013,
+    0.803,
+    0.192
+   ],
+   "dreiecke_lod0": 29,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 133,
+   "quellen": {
+    "foliage": 133,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 117.03,
+   "hoehe_max_m": 0.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.2,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 3857
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_04",
+   "name": "SM_grey_willow_04",
+   "klasse": "sonstiges",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    1.656,
+    1.779,
+    1.227
+   ],
+   "dreiecke_lod0": 1390,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 131,
+   "quellen": {
+    "foliage": 131,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 484.4,
+   "hoehe_max_m": 3.13,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.33,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 182090
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_05",
+   "name": "SM_Forest_pine_05",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    15.919,
+    18.575,
+    23.379
+   ],
+   "dreiecke_lod0": 11287,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 130,
+   "quellen": {
+    "foliage": 130,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 32662.17,
+   "hoehe_max_m": 23.61,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 21.5,
+   "groesse": "gross",
+   "dreiecke_gesamt": 1467310
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_02",
+   "name": "SM_ToadRush_02",
+   "klasse": "sonstiges",
+   "paket": "AncientContent",
+   "netz_m": [
+    0.366,
+    0.349,
+    0.314
+   ],
+   "dreiecke_lod0": 18425,
+   "nanite": false,
+   "lods": 6,
+   "instanzen": 127,
+   "quellen": {
+    "foliage": 127,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 21.13,
+   "hoehe_max_m": 0.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.36,
+   "groesse": "klein",
+   "dreiecke_gesamt": 2339975
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grey_willow_03",
+   "name": "SM_grey_willow_03",
+   "klasse": "sonstiges",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    1.535,
+    1.336,
+    0.929
+   ],
+   "dreiecke_lod0": 791,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 124,
+   "quellen": {
+    "foliage": 124,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 367.1,
+   "hoehe_max_m": 2.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.06,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 98084
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_common_poppy_01",
+   "name": "SM_flower_common_poppy_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.311,
+    0.352,
+    0.668
+   ],
+   "dreiecke_lod0": 120,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 113,
+   "quellen": {
+    "foliage": 113,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 13.27,
+   "hoehe_max_m": 0.8,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.69,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 13560
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+   "name": "SM_MossyForestRock_02",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.202,
+    1.063,
+    0.71
+   ],
+   "dreiecke_lod0": 12930,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 111,
+   "quellen": {
+    "foliage": 111,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 71.81,
+   "hoehe_max_m": 1.13,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.44,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1435230
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_cornflower_01",
+   "name": "SM_flower_cornflower_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.44,
+    0.47,
+    0.728
+   ],
+   "dreiecke_lod0": 90,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 111,
+   "quellen": {
+    "foliage": 111,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 24.48,
+   "hoehe_max_m": 0.87,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.75,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 9990
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07",
+   "name": "SM_MossyForestBoulder_07",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.123,
+    0.96,
+    0.939
+   ],
+   "dreiecke_lod0": 8118,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 107,
+   "quellen": {
+    "foliage": 106,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 75.05,
+   "hoehe_max_m": 1.79,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.67,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 868626
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+   "name": "SM_MossyForestBoulder_06",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.254,
+    1.227,
+    0.691
+   ],
+   "dreiecke_lod0": 7414,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 107,
+   "quellen": {
+    "foliage": 107,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 70.46,
+   "hoehe_max_m": 1.22,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.39,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 793298
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_03",
+   "name": "SM_SilverLadyFern_03",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.044,
+    0.747,
+    0.463
+   ],
+   "dreiecke_lod0": 92,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 107,
+   "quellen": {
+    "foliage": 107,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 112.37,
+   "hoehe_max_m": 0.93,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.51,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 9844
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_2",
+   "name": "SM_EISZAPFEN_2",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    1.405,
+    0.232,
+    1.499
+   ],
+   "dreiecke_lod0": 1720,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 97,
+   "quellen": {
+    "foliage": 97,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 25.87,
+   "hoehe_max_m": 1.79,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.33,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 166840
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_cornflower_02",
+   "name": "SM_flower_cornflower_02",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.492,
+    0.531,
+    0.672
+   ],
+   "dreiecke_lod0": 87,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 96,
+   "quellen": {
+    "foliage": 96,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 27.08,
+   "hoehe_max_m": 0.81,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 8352
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_04",
+   "name": "SM_DryBranches_04",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.074,
+    0.474,
+    0.068
+   ],
+   "dreiecke_lod0": 1222,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 95,
+   "quellen": {
+    "foliage": 92,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 7.29,
+   "hoehe_max_m": 0.14,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.1,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 116090
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_07",
+   "name": "SM_Crownbeard_07",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.342,
+    0.336,
+    0.914
+   ],
+   "dreiecke_lod0": 2254,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 95,
+   "quellen": {
+    "foliage": 95,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6.13,
+   "hoehe_max_m": 0.86,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.68,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 214130
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_7",
+   "name": "SM_EISZAPFEN_7",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    2.402,
+    0.19,
+    1.416
+   ],
+   "dreiecke_lod0": 3904,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 94,
+   "quellen": {
+    "foliage": 94,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 33.62,
+   "hoehe_max_m": 1.66,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.23,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 366976
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_3",
+   "name": "SM_EISZAPFEN_3",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    2.004,
+    0.276,
+    2.042
+   ],
+   "dreiecke_lod0": 2344,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 91,
+   "quellen": {
+    "foliage": 91,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 43.26,
+   "hoehe_max_m": 2.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.86,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 213304
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_02",
+   "name": "SM_Pine_broken_branch_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.81,
+    0.385,
+    0.106
+   ],
+   "dreiecke_lod0": 227,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 89,
+   "quellen": {
+    "foliage": 80,
+    "ism": 9,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 35.33,
+   "hoehe_max_m": 0.16,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.12,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 20203
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_stone_03",
+   "name": "SM_stone_03",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.099,
+    0.079,
+    0.033
+   ],
+   "dreiecke_lod0": 79,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 89,
+   "quellen": {
+    "foliage": 89,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.75,
+   "hoehe_max_m": 0.05,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.03,
+   "groesse": "klein",
+   "dreiecke_gesamt": 7031
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_common_poppy_02",
+   "name": "SM_flower_common_poppy_02",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.483,
+    0.443,
+    0.739
+   ],
+   "dreiecke_lod0": 248,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 86,
+   "quellen": {
+    "foliage": 86,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 19.32,
+   "hoehe_max_m": 0.88,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.75,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 21328
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_04",
+   "name": "SM_Crownbeard_04",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.477,
+    0.426,
+    0.831
+   ],
+   "dreiecke_lod0": 4491,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 86,
+   "quellen": {
+    "foliage": 86,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 10.32,
+   "hoehe_max_m": 0.78,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.63,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 386226
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_00",
+   "name": "SM_ToadRush_00",
+   "klasse": "sonstiges",
+   "paket": "AncientContent",
+   "netz_m": [
+    0.434,
+    0.504,
+    0.423
+   ],
+   "dreiecke_lod0": 15400,
+   "nanite": false,
+   "lods": 6,
+   "instanzen": 86,
+   "quellen": {
+    "foliage": 86,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 24.04,
+   "hoehe_max_m": 0.59,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.47,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1324400
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+   "name": "SM_MossyForestBoulder_05",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.399,
+    0.803,
+    0.692
+   ],
+   "dreiecke_lod0": 9622,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 85,
+   "quellen": {
+    "foliage": 85,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 28.95,
+   "hoehe_max_m": 1.16,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.32,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 817870
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_07",
+   "name": "SM_DryBranches_07",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.108,
+    0.361,
+    0.032
+   ],
+   "dreiecke_lod0": 1304,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 81,
+   "quellen": {
+    "foliage": 80,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6.85,
+   "hoehe_max_m": 0.06,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.05,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 105624
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_01",
+   "name": "SM_mountain_branch_01_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.601,
+    0.165,
+    0.066
+   ],
+   "dreiecke_lod0": 1216,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 79,
+   "quellen": {
+    "foliage": 69,
+    "ism": 10,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 12.56,
+   "hoehe_max_m": 0.12,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.08,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 96064
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_mountain_branch_01_02",
+   "name": "SM_mountain_branch_01_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.633,
+    0.164,
+    0.092
+   ],
+   "dreiecke_lod0": 1264,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 78,
+   "quellen": {
+    "foliage": 70,
+    "ism": 8,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 12.1,
+   "hoehe_max_m": 0.17,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.11,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 98592
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_Pine_broken_branch_01",
+   "name": "SM_Pine_broken_branch_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.075,
+    0.846,
+    0.271
+   ],
+   "dreiecke_lod0": 423,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 74,
+   "quellen": {
+    "foliage": 66,
+    "ism": 8,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 69.65,
+   "hoehe_max_m": 0.35,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.27,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 31302
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_05",
+   "name": "SM_DryBranches_05",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.032,
+    0.374,
+    0.071
+   ],
+   "dreiecke_lod0": 1352,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 74,
+   "quellen": {
+    "foliage": 74,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.03,
+   "hoehe_max_m": 0.14,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.11,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 100048
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_09",
+   "name": "SM_BeechFern_09",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.443,
+    0.397,
+    0.238
+   ],
+   "dreiecke_lod0": 2590,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 72,
+   "quellen": {
+    "foliage": 72,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 20.33,
+   "hoehe_max_m": 0.38,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.3,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 186480
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_01",
+   "name": "SM_DryBranches_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.16,
+    0.501,
+    0.061
+   ],
+   "dreiecke_lod0": 1376,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 69,
+   "quellen": {
+    "foliage": 68,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 11.66,
+   "hoehe_max_m": 0.12,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 94944
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/Fir_03_Medium",
+   "name": "Fir_03_Medium",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    5.742,
+    5.985,
+    12.6
+   ],
+   "dreiecke_lod0": 8340,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 69,
+   "quellen": {
+    "foliage": 69,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2070.88,
+   "hoehe_max_m": 15.07,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 11.65,
+   "groesse": "gross",
+   "dreiecke_gesamt": 575460
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_01",
+   "name": "SM_SilverLadyFern_01",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.267,
+    1.21,
+    0.618
+   ],
+   "dreiecke_lod0": 505,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 69,
+   "quellen": {
+    "foliage": 69,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 105.14,
+   "hoehe_max_m": 0.95,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.6,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 34845
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/SilverLadyFern/SM_SilverLadyFern_02",
+   "name": "SM_SilverLadyFern_02",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.342,
+    1.089,
+    0.57
+   ],
+   "dreiecke_lod0": 438,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 68,
+   "quellen": {
+    "foliage": 68,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 107.35,
+   "hoehe_max_m": 0.98,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.57,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 29784
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_01",
+   "name": "SM_ToadRush_01",
+   "klasse": "sonstiges",
+   "paket": "AncientContent",
+   "netz_m": [
+    0.436,
+    0.257,
+    0.279
+   ],
+   "dreiecke_lod0": 17449,
+   "nanite": false,
+   "lods": 6,
+   "instanzen": 68,
+   "quellen": {
+    "foliage": 68,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 9.6,
+   "hoehe_max_m": 0.39,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.31,
+   "groesse": "klein",
+   "dreiecke_gesamt": 1186532
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_flower_common_chicory_01",
+   "name": "SM_flower_common_chicory_01",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.35,
+    0.362,
+    0.671
+   ],
+   "dreiecke_lod0": 114,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 66,
+   "quellen": {
+    "foliage": 66,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 8.31,
+   "hoehe_max_m": 0.77,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.67,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 7524
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
+   "name": "SM_mountain_rock_big_01_1",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.025,
+    0.6,
+    0.833
+   ],
+   "dreiecke_lod0": 2428,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 60,
+   "quellen": {
+    "foliage": 59,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 70.45,
+   "hoehe_max_m": 1.97,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.06,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 145680
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_03",
+   "name": "SM_Forest_pine_plant_03",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.417,
+    2.708,
+    4.102
+   ],
+   "dreiecke_lod0": 3613,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 60,
+   "quellen": {
+    "foliage": 60,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 384.29,
+   "hoehe_max_m": 5.72,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 3.85,
+   "groesse": "gross",
+   "dreiecke_gesamt": 216780
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_5",
+   "name": "SM_mountain_rock_big_01_5",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.048,
+    0.957,
+    0.658
+   ],
+   "dreiecke_lod0": 2132,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 60,
+   "quellen": {
+    "foliage": 60,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 305.52,
+   "hoehe_max_m": 2.72,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.18,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 127920
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_7",
+   "name": "SM_mountain_rock_big_02_7",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    5.797,
+    2.899,
+    3.176
+   ],
+   "dreiecke_lod0": 5232,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 60,
+   "quellen": {
+    "foliage": 59,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 12353.93,
+   "hoehe_max_m": 19.65,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 10.16,
+   "groesse": "gross",
+   "dreiecke_gesamt": 313920
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+   "name": "skjsL_tier_0",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    1.545,
+    1.302,
+    0.911
+   ],
+   "dreiecke_lod0": 19998,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 58,
+   "quellen": {
+    "foliage": 58,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 81.49,
+   "hoehe_max_m": 1.29,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.73,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1159884
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_05",
+   "name": "SM_WhiteWindflower_05",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.798,
+    0.787,
+    0.844
+   ],
+   "dreiecke_lod0": 2265,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 56,
+   "quellen": {
+    "foliage": 56,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 7.43,
+   "hoehe_max_m": 0.46,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.38,
+   "groesse": "klein",
+   "dreiecke_gesamt": 126840
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_01",
+   "name": "SM_WhiteWindflower_01",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.816,
+    0.722,
+    0.939
+   ],
+   "dreiecke_lod0": 1459,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 55,
+   "quellen": {
+    "foliage": 55,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6.23,
+   "hoehe_max_m": 0.51,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.41,
+   "groesse": "klein",
+   "dreiecke_gesamt": 80245
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_10",
+   "name": "SM_BeechFern_10",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.314,
+    0.402,
+    0.22
+   ],
+   "dreiecke_lod0": 2399,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 55,
+   "quellen": {
+    "foliage": 55,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 11.38,
+   "hoehe_max_m": 0.35,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.28,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 131945
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_foliage_fern_01_2",
+   "name": "SM_foliage_fern_01_2",
+   "klasse": "pflanze",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    1.085,
+    1.31,
+    0.506
+   ],
+   "dreiecke_lod0": 227,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 53,
+   "quellen": {
+    "foliage": 53,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 95.21,
+   "hoehe_max_m": 0.65,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.57,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 12031
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+   "name": "SM_MossyForestBoulder_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.699,
+    1.359,
+    0.951
+   ],
+   "dreiecke_lod0": 7094,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 51,
+   "quellen": {
+    "foliage": 51,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 51.83,
+   "hoehe_max_m": 1.03,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.61,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 361794
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/Fir_06_Forest",
+   "name": "Fir_06_Forest",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    7.9,
+    8.409,
+    20.136
+   ],
+   "dreiecke_lod0": 7115,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 50,
+   "quellen": {
+    "foliage": 50,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3118.58,
+   "hoehe_max_m": 23.07,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 19.42,
+   "groesse": "gross",
+   "dreiecke_gesamt": 355750
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_03",
+   "name": "SM_Fern_03",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.486,
+    1.376,
+    0.631
+   ],
+   "dreiecke_lod0": 331,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 48,
+   "quellen": {
+    "foliage": 48,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 130.81,
+   "hoehe_max_m": 0.98,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.71,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 15888
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_02",
+   "name": "SM_WhiteWindflower_02",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.831,
+    0.736,
+    0.955
+   ],
+   "dreiecke_lod0": 1515,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 48,
+   "quellen": {
+    "foliage": 48,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 5.56,
+   "hoehe_max_m": 0.51,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.41,
+   "groesse": "klein",
+   "dreiecke_gesamt": 72720
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_06",
+   "name": "SM_sea_buckthorn_06",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    0.961,
+    0.815,
+    0.823
+   ],
+   "dreiecke_lod0": 54,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 48,
+   "quellen": {
+    "foliage": 48,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 41.68,
+   "hoehe_max_m": 1.07,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.86,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2592
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_rough_horsetail_03",
+   "name": "SM_rough_horsetail_03",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.145,
+    0.996,
+    0.692
+   ],
+   "dreiecke_lod0": 52,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 48,
+   "quellen": {
+    "foliage": 48,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 30.11,
+   "hoehe_max_m": 0.62,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.51,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2496
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_03",
+   "name": "SM_Crownbeard_03",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.661,
+    0.685,
+    0.868
+   ],
+   "dreiecke_lod0": 4742,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 47,
+   "quellen": {
+    "foliage": 47,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 12.11,
+   "hoehe_max_m": 0.82,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.65,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 222874
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_02",
+   "name": "SM_Fern_02",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.667,
+    1.755,
+    0.95
+   ],
+   "dreiecke_lod0": 308,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 46,
+   "quellen": {
+    "foliage": 46,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 90.7,
+   "hoehe_max_m": 1.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.76,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 14168
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_06",
+   "name": "SM_Fern_06",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.574,
+    1.59,
+    0.661
+   ],
+   "dreiecke_lod0": 256,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 45,
+   "quellen": {
+    "foliage": 45,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 124.79,
+   "hoehe_max_m": 0.99,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.67,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 11520
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_foliage_fern_01_1",
+   "name": "SM_foliage_fern_01_1",
+   "klasse": "pflanze",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.842,
+    0.829,
+    0.326
+   ],
+   "dreiecke_lod0": 104,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 45,
+   "quellen": {
+    "foliage": 45,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 41.29,
+   "hoehe_max_m": 0.45,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.37,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 4680
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+   "name": "SM_fern_01_0",
+   "klasse": "pflanze",
+   "paket": "Environment_Set",
+   "netz_m": [
+    0.864,
+    0.9,
+    0.614
+   ],
+   "dreiecke_lod0": 144,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 45,
+   "quellen": {
+    "foliage": 45,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 27.51,
+   "hoehe_max_m": 0.79,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.54,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 6480
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_01",
+   "name": "SM_Fern_01",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.563,
+    1.88,
+    1.032
+   ],
+   "dreiecke_lod0": 306,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 44,
+   "quellen": {
+    "foliage": 44,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 77.58,
+   "hoehe_max_m": 1.29,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.78,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 13464
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_04",
+   "name": "SM_Fern_04",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    1.787,
+    1.647,
+    0.729
+   ],
+   "dreiecke_lod0": 372,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 44,
+   "quellen": {
+    "foliage": 44,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 128.12,
+   "hoehe_max_m": 1.0,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 16368
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_EISZAPFEN_6",
+   "name": "SM_EISZAPFEN_6",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    1.813,
+    0.281,
+    2.617
+   ],
+   "dreiecke_lod0": 2032,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 43,
+   "quellen": {
+    "foliage": 43,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 19.25,
+   "hoehe_max_m": 3.13,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.41,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 87376
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_04",
+   "name": "SM_sea_buckthorn_04",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.225,
+    1.125,
+    1.141
+   ],
+   "dreiecke_lod0": 245,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 43,
+   "quellen": {
+    "foliage": 43,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 66.48,
+   "hoehe_max_m": 1.48,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.2,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 10535
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_03",
+   "name": "SM_WhiteWindflower_03",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.732,
+    0.781,
+    0.779
+   ],
+   "dreiecke_lod0": 1140,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 41,
+   "quellen": {
+    "foliage": 41,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 4.65,
+   "hoehe_max_m": 0.42,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.34,
+   "groesse": "klein",
+   "dreiecke_gesamt": 46740
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_07",
+   "name": "SM_WhiteWindflower_07",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.774,
+    0.755,
+    0.623
+   ],
+   "dreiecke_lod0": 1042,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 40,
+   "quellen": {
+    "foliage": 40,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 4.55,
+   "hoehe_max_m": 0.34,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.27,
+   "groesse": "klein",
+   "dreiecke_gesamt": 41680
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/BeechFern/SM_BeechFern_15",
+   "name": "SM_BeechFern_15",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.444,
+    0.397,
+    0.239
+   ],
+   "dreiecke_lod0": 1439,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 39,
+   "quellen": {
+    "foliage": 39,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 11.87,
+   "hoehe_max_m": 0.38,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.31,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 56121
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Fern/SM_Fern_05",
+   "name": "SM_Fern_05",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    2.016,
+    1.874,
+    0.913
+   ],
+   "dreiecke_lod0": 401,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 38,
+   "quellen": {
+    "foliage": 38,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 84.72,
+   "hoehe_max_m": 1.13,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.67,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 15238
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_06",
+   "name": "SM_WhiteWindflower_06",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.669,
+    0.711,
+    0.749
+   ],
+   "dreiecke_lod0": 840,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 38,
+   "quellen": {
+    "foliage": 38,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3.66,
+   "hoehe_max_m": 0.4,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.33,
+   "groesse": "klein",
+   "dreiecke_gesamt": 31920
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_02",
+   "name": "SM_hazel_02",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.096,
+    1.147,
+    1.682
+   ],
+   "dreiecke_lod0": 526,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 36,
+   "quellen": {
+    "foliage": 36,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 131.76,
+   "hoehe_max_m": 3.59,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.83,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 18936
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_4",
+   "name": "SM_mountain_rock_big_01_4",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.931,
+    1.035,
+    0.383
+   ],
+   "dreiecke_lod0": 2488,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 36,
+   "quellen": {
+    "foliage": 36,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 190.84,
+   "hoehe_max_m": 1.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.78,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 89568
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_05",
+   "name": "SM_sea_buckthorn_05",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.19,
+    1.165,
+    0.939
+   ],
+   "dreiecke_lod0": 121,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 36,
+   "quellen": {
+    "foliage": 36,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 55.68,
+   "hoehe_max_m": 1.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.98,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 4356
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_02",
+   "name": "SM_Forest_pine_plant_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.865,
+    1.9,
+    2.27
+   ],
+   "dreiecke_lod0": 1047,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 35,
+   "quellen": {
+    "foliage": 35,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 152.72,
+   "hoehe_max_m": 3.16,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.49,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 36645
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_08",
+   "name": "SM_EnglishIvy_08",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    1.018,
+    0.094,
+    0.596
+   ],
+   "dreiecke_lod0": 960,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 35,
+   "quellen": {
+    "foliage": 35,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 4.78,
+   "hoehe_max_m": 0.86,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 33600
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_ivy_01_3",
+   "name": "SM_ivy_01_3",
+   "klasse": "sonstiges",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.392,
+    0.956,
+    0.046
+   ],
+   "dreiecke_lod0": 62,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 35,
+   "quellen": {
+    "foliage": 35,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 19.71,
+   "hoehe_max_m": 0.07,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.06,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2170
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_04",
+   "name": "SM_EnglishIvy_04",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    1.319,
+    0.14,
+    0.275
+   ],
+   "dreiecke_lod0": 922,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 34,
+   "quellen": {
+    "foliage": 34,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 10.01,
+   "hoehe_max_m": 0.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.34,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 31348
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_ivy_01_1",
+   "name": "SM_ivy_01_1",
+   "klasse": "sonstiges",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.789,
+    0.837,
+    0.075
+   ],
+   "dreiecke_lod0": 149,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 34,
+   "quellen": {
+    "foliage": 34,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 35.82,
+   "hoehe_max_m": 0.11,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 5066
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_rhododendron_02",
+   "name": "SM_rhododendron_02",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.485,
+    0.493,
+    0.461
+   ],
+   "dreiecke_lod0": 245,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 33,
+   "quellen": {
+    "foliage": 33,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 38.39,
+   "hoehe_max_m": 1.28,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.0,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 8085
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_01",
+   "name": "SM_EnglishIvy_01",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.971,
+    0.092,
+    0.662
+   ],
+   "dreiecke_lod0": 734,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 33,
+   "quellen": {
+    "foliage": 33,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 4.38,
+   "hoehe_max_m": 0.98,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.8,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 24222
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_ivy_01_2",
+   "name": "SM_ivy_01_2",
+   "klasse": "sonstiges",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.547,
+    0.924,
+    0.059
+   ],
+   "dreiecke_lod0": 96,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 33,
+   "quellen": {
+    "foliage": 33,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 24.26,
+   "hoehe_max_m": 0.09,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.07,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 3168
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_sea_buckthorn_03",
+   "name": "SM_sea_buckthorn_03",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.197,
+    1.23,
+    1.876
+   ],
+   "dreiecke_lod0": 362,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 33,
+   "quellen": {
+    "foliage": 33,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 55.6,
+   "hoehe_max_m": 2.43,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.99,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 11946
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_08",
+   "name": "SM_Crownbeard_08",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.31,
+    0.32,
+    0.933
+   ],
+   "dreiecke_lod0": 1923,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 31,
+   "quellen": {
+    "foliage": 31,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1.75,
+   "hoehe_max_m": 0.85,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 59613
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_01",
+   "name": "SM_pine_beach_short_01",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.511,
+    1.835,
+    0.805
+   ],
+   "dreiecke_lod0": 1184,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 30,
+   "quellen": {
+    "foliage": 30,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 81.06,
+   "hoehe_max_m": 0.94,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.78,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 35520
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_07",
+   "name": "SM_EnglishIvy_07",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.829,
+    0.058,
+    0.565
+   ],
+   "dreiecke_lod0": 431,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 30,
+   "quellen": {
+    "foliage": 30,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.27,
+   "hoehe_max_m": 0.84,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 12930
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_011",
+   "name": "SM_ToadRush_011",
+   "klasse": "sonstiges",
+   "paket": "AncientContent",
+   "netz_m": [
+    0.143,
+    0.134,
+    0.211
+   ],
+   "dreiecke_lod0": 1529,
+   "nanite": false,
+   "lods": 6,
+   "instanzen": 30,
+   "quellen": {
+    "foliage": 30,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1.02,
+   "hoehe_max_m": 0.34,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.28,
+   "groesse": "klein",
+   "dreiecke_gesamt": 45870
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/BrokenTreeBranch/SM_BrokenTreeBranch_01",
+   "name": "SM_BrokenTreeBranch_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    1.018,
+    0.342,
+    0.209
+   ],
+   "dreiecke_lod0": 8360,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 29,
+   "quellen": {
+    "foliage": 20,
+    "ism": 9,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 11.62,
+   "hoehe_max_m": 0.28,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.22,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 242440
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_plant_01",
+   "name": "SM_Forest_pine_plant_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.403,
+    1.372,
+    1.68
+   ],
+   "dreiecke_lod0": 596,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 29,
+   "quellen": {
+    "foliage": 29,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 67.93,
+   "hoehe_max_m": 2.34,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.83,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 17284
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/Fir_02_Small",
+   "name": "Fir_02_Small",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    4.562,
+    4.604,
+    6.83
+   ],
+   "dreiecke_lod0": 3655,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 29,
+   "quellen": {
+    "foliage": 29,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 509.39,
+   "hoehe_max_m": 7.96,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 6.0,
+   "groesse": "gross",
+   "dreiecke_gesamt": 105995
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_03",
+   "name": "SM_dead_log_03",
+   "klasse": "baum",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    1.482,
+    0.405,
+    0.124
+   ],
+   "dreiecke_lod0": 2294,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 28,
+   "quellen": {
+    "foliage": 24,
+    "ism": 4,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 20.83,
+   "hoehe_max_m": 0.17,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.14,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 64232
+  },
+  {
+   "pfad": "/Game/Meadow_Environment_Set/Environment/Foliage/Meshes/SM_grass_meadow_08",
+   "name": "SM_grass_meadow_08",
+   "klasse": "pflanze",
+   "paket": "Meadow_Environment_Set",
+   "netz_m": [
+    0.667,
+    0.833,
+    1.58
+   ],
+   "dreiecke_lod0": 49,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 28,
+   "quellen": {
+    "foliage": 28,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 21.42,
+   "hoehe_max_m": 2.2,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.84,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1372
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_04_A",
+   "name": "SM_pine_beach_04_A",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    3.508,
+    3.701,
+    5.301
+   ],
+   "dreiecke_lod0": 13762,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 27,
+   "quellen": {
+    "foliage": 27,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 325.04,
+   "hoehe_max_m": 6.0,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 4.4,
+   "groesse": "gross",
+   "dreiecke_gesamt": 371574
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_09",
+   "name": "SM_Crownbeard_09",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.212,
+    0.253,
+    0.801
+   ],
+   "dreiecke_lod0": 935,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 27,
+   "quellen": {
+    "foliage": 27,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.89,
+   "hoehe_max_m": 0.76,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.62,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 25245
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+   "name": "SM_NordicBoulder_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    6.586,
+    8.905,
+    4.07
+   ],
+   "dreiecke_lod0": 17004,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 27,
+   "quellen": {
+    "foliage": 27,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 44.69,
+   "hoehe_max_m": 0.93,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.67,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 459108
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_01",
+   "name": "SM_pine_beach_crooked_01",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    4.452,
+    5.37,
+    3.365
+   ],
+   "dreiecke_lod0": 6012,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 26,
+   "quellen": {
+    "foliage": 26,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 611.45,
+   "hoehe_max_m": 4.66,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 3.24,
+   "groesse": "gross",
+   "dreiecke_gesamt": 156312
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_short_02",
+   "name": "SM_pine_beach_short_02",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    1.917,
+    2.171,
+    1.035
+   ],
+   "dreiecke_lod0": 1075,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 25,
+   "quellen": {
+    "foliage": 25,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 84.61,
+   "hoehe_max_m": 1.36,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.95,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 26875
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_2",
+   "name": "SM_mountain_rock_big_01_2",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.922,
+    0.666,
+    0.38
+   ],
+   "dreiecke_lod0": 2028,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 25,
+   "quellen": {
+    "foliage": 25,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 43.57,
+   "hoehe_max_m": 1.03,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.57,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 50700
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_hazel_01",
+   "name": "SM_hazel_01",
+   "klasse": "sonstiges",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.079,
+    0.944,
+    0.972
+   ],
+   "dreiecke_lod0": 324,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 25,
+   "quellen": {
+    "foliage": 25,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 73.65,
+   "hoehe_max_m": 2.11,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.63,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 8100
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/EnglishIvy/SM_EnglishIvy_06",
+   "name": "SM_EnglishIvy_06",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.479,
+    0.148,
+    0.538
+   ],
+   "dreiecke_lod0": 372,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 25,
+   "quellen": {
+    "foliage": 25,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.53,
+   "hoehe_max_m": 0.8,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.64,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 9300
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_crooked_02",
+   "name": "SM_pine_beach_crooked_02",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    2.105,
+    1.769,
+    1.725
+   ],
+   "dreiecke_lod0": 2834,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 24,
+   "quellen": {
+    "foliage": 24,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 86.51,
+   "hoehe_max_m": 2.35,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.64,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 68016
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02",
+   "name": "SM_ground_rock_02",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    1.369,
+    0.993,
+    0.932
+   ],
+   "dreiecke_lod0": 2242,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 24,
+   "quellen": {
+    "foliage": 24,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 24.54,
+   "hoehe_max_m": 1.17,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.78,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 53808
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_06",
+   "name": "SM_Crownbeard_06",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.238,
+    0.317,
+    0.706
+   ],
+   "dreiecke_lod0": 1443,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 24,
+   "quellen": {
+    "foliage": 24,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.99,
+   "hoehe_max_m": 0.65,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.52,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 34632
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/WhiteWindflower/SM_WhiteWindflower_04",
+   "name": "SM_WhiteWindflower_04",
+   "klasse": "pflanze",
+   "paket": "Megascans",
+   "netz_m": [
+    0.81,
+    0.802,
+    0.857
+   ],
+   "dreiecke_lod0": 1324,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 23,
+   "quellen": {
+    "foliage": 23,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3.02,
+   "hoehe_max_m": 0.46,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.38,
+   "groesse": "klein",
+   "dreiecke_gesamt": 30452
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_013",
+   "name": "SM_ToadRush_013",
+   "klasse": "sonstiges",
+   "paket": "AncientContent",
+   "netz_m": [
+    0.733,
+    0.666,
+    0.101
+   ],
+   "dreiecke_lod0": 5434,
+   "nanite": false,
+   "lods": 6,
+   "instanzen": 23,
+   "quellen": {
+    "foliage": 23,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 20.2,
+   "hoehe_max_m": 0.16,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.13,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 124982
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_012",
+   "name": "SM_ToadRush_012",
+   "klasse": "sonstiges",
+   "paket": "AncientContent",
+   "netz_m": [
+    0.11,
+    0.109,
+    0.207
+   ],
+   "dreiecke_lod0": 1475,
+   "nanite": false,
+   "lods": 6,
+   "instanzen": 22,
+   "quellen": {
+    "foliage": 22,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.46,
+   "hoehe_max_m": 0.32,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.27,
+   "groesse": "klein",
+   "dreiecke_gesamt": 32450
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/Crownbeard/SM_Crownbeard_05",
+   "name": "SM_Crownbeard_05",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.375,
+    0.423,
+    0.695
+   ],
+   "dreiecke_lod0": 2581,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 21,
+   "quellen": {
+    "foliage": 21,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1.97,
+   "hoehe_max_m": 0.64,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.53,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 54201
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_03_01",
+   "name": "SM_ground_rock_03_01",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.401,
+    1.4,
+    0.221
+   ],
+   "dreiecke_lod0": 2688,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 20,
+   "quellen": {
+    "foliage": 17,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 59.77,
+   "hoehe_max_m": 0.33,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.19,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 53760
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_01",
+   "name": "SM_OldTreeBranch_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.97,
+    0.25,
+    0.208
+   ],
+   "dreiecke_lod0": 17862,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 20,
+   "quellen": {
+    "foliage": 17,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 5.95,
+   "hoehe_max_m": 0.29,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.23,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 357240
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Details/Meshes/SM_beach_driftwood_01",
+   "name": "SM_beach_driftwood_01",
+   "klasse": "sonstiges",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    3.593,
+    0.332,
+    0.32
+   ],
+   "dreiecke_lod0": 3616,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 20,
+   "quellen": {
+    "foliage": 20,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 21.66,
+   "hoehe_max_m": 0.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.3,
+   "groesse": "gross",
+   "dreiecke_gesamt": 72320
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_03_A",
+   "name": "SM_pine_beach_03_A",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    4.451,
+    4.498,
+    7.473
+   ],
+   "dreiecke_lod0": 15164,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 20,
+   "quellen": {
+    "foliage": 20,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 338.09,
+   "hoehe_max_m": 8.49,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 5.97,
+   "groesse": "gross",
+   "dreiecke_gesamt": 303280
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/Fir_07_Forest",
+   "name": "Fir_07_Forest",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    9.438,
+    9.422,
+    21.896
+   ],
+   "dreiecke_lod0": 6025,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 18,
+   "quellen": {
+    "foliage": 18,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1325.01,
+   "hoehe_max_m": 26.18,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 19.73,
+   "groesse": "gross",
+   "dreiecke_gesamt": 108450
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_3",
+   "name": "SM_mountain_rock_big_01_3",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.952,
+    0.759,
+    0.424
+   ],
+   "dreiecke_lod0": 2122,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 17,
+   "quellen": {
+    "foliage": 17,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 44.36,
+   "hoehe_max_m": 1.35,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 36074
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_03",
+   "name": "SM_flat_rock_03",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.041,
+    4.046,
+    0.466
+   ],
+   "dreiecke_lod0": 1132,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 16,
+   "quellen": {
+    "foliage": 14,
+    "ism": 2,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 87.17,
+   "hoehe_max_m": 0.92,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.3,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 18112
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01",
+   "name": "SM_TundraMossyBoulder_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    7.37,
+    3.713,
+    1.792
+   ],
+   "dreiecke_lod0": 10786,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 16,
+   "quellen": {
+    "foliage": 16,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 41.99,
+   "hoehe_max_m": 1.88,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.4,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 172576
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
+   "name": "SM_TundraRockyGround_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    6.039,
+    4.734,
+    0.837
+   ],
+   "dreiecke_lod0": 12072,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 16,
+   "quellen": {
+    "foliage": 16,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 41.12,
+   "hoehe_max_m": 0.37,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.24,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 193152
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_3",
+   "name": "SM_Rohrkolben_Jung_3",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    0.816,
+    0.776,
+    1.297
+   ],
+   "dreiecke_lod0": 419,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 14,
+   "quellen": {
+    "foliage": 14,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 11.45,
+   "hoehe_max_m": 2.0,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.45,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 5866
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_04",
+   "name": "SM_OldTreeBranch_04",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    2.368,
+    0.621,
+    0.468
+   ],
+   "dreiecke_lod0": 7422,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 13,
+   "quellen": {
+    "foliage": 11,
+    "ism": 2,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 13.72,
+   "hoehe_max_m": 0.49,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.39,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 96486
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
+   "name": "SM_NordicBeachRockyGround_02",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    3.508,
+    3.433,
+    0.246
+   ],
+   "dreiecke_lod0": 40029,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 13,
+   "quellen": {
+    "foliage": 13,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 42.48,
+   "hoehe_max_m": 0.18,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.12,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 520377
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+   "name": "SM_MossyForestBoulder_03",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.984,
+    1.991,
+    1.303
+   ],
+   "dreiecke_lod0": 12356,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 11,
+   "quellen": {
+    "foliage": 11,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 24.14,
+   "hoehe_max_m": 1.37,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.94,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 135916
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_2",
+   "name": "SM_mountain_rock_big_02_2",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.714,
+    4.344,
+    1.763
+   ],
+   "dreiecke_lod0": 5563,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 11,
+   "quellen": {
+    "foliage": 11,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 542.96,
+   "hoehe_max_m": 8.52,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.0,
+   "groesse": "gross",
+   "dreiecke_gesamt": 61193
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_6",
+   "name": "SM_mountain_rock_big_02_6",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    4.38,
+    4.014,
+    2.849
+   ],
+   "dreiecke_lod0": 5398,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 11,
+   "quellen": {
+    "foliage": 11,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 5458.65,
+   "hoehe_max_m": 16.88,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 14.44,
+   "groesse": "gross",
+   "dreiecke_gesamt": 59378
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/Fir_01_Plant",
+   "name": "Fir_01_Plant",
+   "klasse": "pflanze",
+   "paket": "Environment_Set",
+   "netz_m": [
+    3.841,
+    4.226,
+    5.506
+   ],
+   "dreiecke_lod0": 757,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 10,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 148.92,
+   "hoehe_max_m": 7.66,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 4.75,
+   "groesse": "gross",
+   "dreiecke_gesamt": 7570
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_3",
+   "name": "SM_mountain_rock_big_02_3",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    6.385,
+    3.556,
+    1.848
+   ],
+   "dreiecke_lod0": 5620,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 10,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 4983.15,
+   "hoehe_max_m": 9.43,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 8.24,
+   "groesse": "gross",
+   "dreiecke_gesamt": 56200
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/PurpleShamrock/SM_PurpleShamrock_03",
+   "name": "SM_PurpleShamrock_03",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.264,
+    0.24,
+    0.245
+   ],
+   "dreiecke_lod0": 594,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 10,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.96,
+   "hoehe_max_m": 0.35,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.3,
+   "groesse": "klein",
+   "dreiecke_gesamt": 5940
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_1",
+   "name": "SM_Rohrkolben_Jung_1",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    0.852,
+    0.734,
+    1.677
+   ],
+   "dreiecke_lod0": 645,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 10,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 8.5,
+   "hoehe_max_m": 2.42,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.93,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 6450
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
+   "name": "SM_mountain_rock_big_02_4",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.76,
+    4.109,
+    2.483
+   ],
+   "dreiecke_lod0": 5503,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 9,
+   "quellen": {
+    "foliage": 9,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1817.95,
+   "hoehe_max_m": 13.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 8.8,
+   "groesse": "gross",
+   "dreiecke_gesamt": 49527
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_02",
+   "name": "SM_pine_stump_02",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.708,
+    0.719,
+    0.232
+   ],
+   "dreiecke_lod0": 808,
+   "nanite": true,
+   "lods": 2,
+   "instanzen": 9,
+   "quellen": {
+    "foliage": 9,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6.08,
+   "hoehe_max_m": 0.34,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.26,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 7272
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_1",
+   "name": "SM_mountain_rock_big_02_1",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    4.733,
+    4.508,
+    2.621
+   ],
+   "dreiecke_lod0": 5948,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 9,
+   "quellen": {
+    "foliage": 9,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2144.26,
+   "hoehe_max_m": 11.95,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 6.84,
+   "groesse": "gross",
+   "dreiecke_gesamt": 53532
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_foliage_fern_01_3",
+   "name": "SM_foliage_fern_01_3",
+   "klasse": "pflanze",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.902,
+    1.092,
+    0.426
+   ],
+   "dreiecke_lod0": 188,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 9,
+   "quellen": {
+    "foliage": 9,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 11.11,
+   "hoehe_max_m": 0.59,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.47,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1692
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0",
+   "name": "texndcpda_tier_0",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    0.946,
+    1.34,
+    0.277
+   ],
+   "dreiecke_lod0": 39956,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 9,
+   "quellen": {
+    "foliage": 9,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 9.74,
+   "hoehe_max_m": 0.47,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.23,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 359604
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_02",
+   "name": "SM_dead_log_02",
+   "klasse": "baum",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    1.072,
+    0.593,
+    0.136
+   ],
+   "dreiecke_lod0": 3872,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 8,
+   "quellen": {
+    "foliage": 6,
+    "ism": 2,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6.05,
+   "hoehe_max_m": 0.19,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.15,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 30976
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_01",
+   "name": "SM_DeadTree_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    2.15,
+    2.767,
+    6.184
+   ],
+   "dreiecke_lod0": 4261,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 8,
+   "quellen": {
+    "foliage": 8,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 37.78,
+   "hoehe_max_m": 6.1,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 5.37,
+   "groesse": "gross",
+   "dreiecke_gesamt": 34088
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyRockFace/SM_MossyRockFace_02",
+   "name": "SM_MossyRockFace_02",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    2.402,
+    1.235,
+    0.984
+   ],
+   "dreiecke_lod0": 27014,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 8,
+   "quellen": {
+    "foliage": 8,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 8.54,
+   "hoehe_max_m": 0.81,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.58,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 216112
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_5",
+   "name": "SM_mountain_rock_big_02_5",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    4.251,
+    3.84,
+    1.894
+   ],
+   "dreiecke_lod0": 4684,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 8,
+   "quellen": {
+    "foliage": 8,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3919.29,
+   "hoehe_max_m": 10.7,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 10.37,
+   "groesse": "gross",
+   "dreiecke_gesamt": 37472
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_1",
+   "name": "SM_fern_01_1",
+   "klasse": "pflanze",
+   "paket": "Environment_Set",
+   "netz_m": [
+    1.009,
+    1.085,
+    0.727
+   ],
+   "dreiecke_lod0": 184,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 8,
+   "quellen": {
+    "foliage": 8,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 8.14,
+   "hoehe_max_m": 0.77,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.7,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1472
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_04",
+   "name": "SM_flat_rock_04",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    3.742,
+    5.236,
+    0.5
+   ],
+   "dreiecke_lod0": 1267,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 7,
+   "quellen": {
+    "foliage": 7,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 278.68,
+   "hoehe_max_m": 1.07,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.59,
+   "groesse": "gross",
+   "dreiecke_gesamt": 8869
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_03",
+   "name": "SM_MossyForestRock_03",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.721,
+    0.747,
+    0.184
+   ],
+   "dreiecke_lod0": 7870,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 7,
+   "quellen": {
+    "foliage": 7,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 10.51,
+   "hoehe_max_m": 0.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.19,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 55090
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/SmoothRockShelf/SM_SmoothRockShelf_01",
+   "name": "SM_SmoothRockShelf_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    3.078,
+    2.727,
+    0.416
+   ],
+   "dreiecke_lod0": 3438,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 7,
+   "quellen": {
+    "foliage": 7,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 59.8,
+   "hoehe_max_m": 0.56,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.38,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 24066
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_02",
+   "name": "SM_OldFallenTree_02",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    3.57,
+    0.295,
+    0.187
+   ],
+   "dreiecke_lod0": 22232,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 7,
+   "quellen": {
+    "foliage": 7,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 7.66,
+   "hoehe_max_m": 0.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.19,
+   "groesse": "gross",
+   "dreiecke_gesamt": 155624
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/Teile/SM_Rohrkolben_Jung_2",
+   "name": "SM_Rohrkolben_Jung_2",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    0.919,
+    0.945,
+    1.493
+   ],
+   "dreiecke_lod0": 781,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 7,
+   "quellen": {
+    "foliage": 7,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 5.82,
+   "hoehe_max_m": 1.61,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.46,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 5467
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_02_A",
+   "name": "SM_pine_beach_02_A",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    6.846,
+    6.527,
+    10.301
+   ],
+   "dreiecke_lod0": 17803,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 6,
+   "quellen": {
+    "foliage": 6,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 264.73,
+   "hoehe_max_m": 13.14,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 9.81,
+   "groesse": "gross",
+   "dreiecke_gesamt": 106818
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_02",
+   "name": "SM_IcelandicBoulder_02",
+   "klasse": "fels",
+   "paket": "AncientContent",
+   "netz_m": [
+    1.81,
+    2.187,
+    1.501
+   ],
+   "dreiecke_lod0": 11686,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 6,
+   "quellen": {
+    "foliage": 6,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 18.23,
+   "hoehe_max_m": 1.5,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.3,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 70116
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/PurpleShamrock/SM_PurpleShamrock_01",
+   "name": "SM_PurpleShamrock_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.277,
+    0.271,
+    0.284
+   ],
+   "dreiecke_lod0": 690,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 6,
+   "quellen": {
+    "foliage": 6,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.76,
+   "hoehe_max_m": 0.41,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.37,
+   "groesse": "klein",
+   "dreiecke_gesamt": 4140
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_02",
+   "name": "SM_flat_rock_02",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    3.986,
+    3.224,
+    0.856
+   ],
+   "dreiecke_lod0": 1362,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 5,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 131.24,
+   "hoehe_max_m": 1.51,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.15,
+   "groesse": "gross",
+   "dreiecke_gesamt": 6810
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/LargeFallenTree/SM_LargeFallenTree_01",
+   "name": "SM_LargeFallenTree_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    3.545,
+    0.739,
+    0.309
+   ],
+   "dreiecke_lod0": 25606,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 5,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 13.67,
+   "hoehe_max_m": 0.42,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.31,
+   "groesse": "gross",
+   "dreiecke_gesamt": 128030
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_leaves_02",
+   "name": "SM_detail_leaves_02",
+   "klasse": "sonstiges",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    0.718,
+    0.601,
+    0.041
+   ],
+   "dreiecke_lod0": 45,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 5,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.28,
+   "hoehe_max_m": 0.05,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.04,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 225
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_10_dead",
+   "name": "SM_Forest_pine_10_dead",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    11.196,
+    8.731,
+    24.909
+   ],
+   "dreiecke_lod0": 4887,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 5,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 299.45,
+   "hoehe_max_m": 21.5,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 19.35,
+   "groesse": "gross",
+   "dreiecke_gesamt": 24435
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_01",
+   "name": "SM_pine_stump_01",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.851,
+    0.877,
+    0.17
+   ],
+   "dreiecke_lod0": 653,
+   "nanite": true,
+   "lods": 2,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 5,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 6.7,
+   "hoehe_max_m": 0.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.23,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 3265
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_pine_stump_03",
+   "name": "SM_pine_stump_03",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.695,
+    0.696,
+    0.171
+   ],
+   "dreiecke_lod0": 389,
+   "nanite": true,
+   "lods": 2,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 5,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3.02,
+   "hoehe_max_m": 0.21,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.19,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1945
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/PurpleShamrock/SM_PurpleShamrock_02",
+   "name": "SM_PurpleShamrock_02",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    0.281,
+    0.236,
+    0.205
+   ],
+   "dreiecke_lod0": 489,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 5,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.47,
+   "hoehe_max_m": 0.29,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.24,
+   "groesse": "klein",
+   "dreiecke_gesamt": 2445
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
+   "name": "SM_NordicBeachRocks_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    5.76,
+    3.562,
+    2.364
+   ],
+   "dreiecke_lod0": 10666,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 5
+   },
+   "grundflaeche_m2": 6.41,
+   "hoehe_max_m": 0.59,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.59,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 53330
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_01_B",
+   "name": "SM_pine_beach_01_B",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    3.805,
+    3.369,
+    9.093
+   ],
+   "dreiecke_lod0": 11250,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 4,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 37.85,
+   "hoehe_max_m": 8.4,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 7.34,
+   "groesse": "gross",
+   "dreiecke_gesamt": 45000
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01",
+   "name": "SM_ForestRockSlab_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    7.151,
+    3.45,
+    0.66
+   ],
+   "dreiecke_lod0": 4568,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 4,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 30.89,
+   "hoehe_max_m": 0.4,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.37,
+   "groesse": "gross",
+   "dreiecke_gesamt": 18272
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_01",
+   "name": "SM_ground_rock_01",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    2.331,
+    1.794,
+    0.739
+   ],
+   "dreiecke_lod0": 4066,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 4,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 13.13,
+   "hoehe_max_m": 0.86,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.61,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 16264
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_03_03",
+   "name": "SM_ground_rock_03_03",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    3.793,
+    3.906,
+    1.325
+   ],
+   "dreiecke_lod0": 6120,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 4,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 51.76,
+   "hoehe_max_m": 2.19,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.05,
+   "groesse": "gross",
+   "dreiecke_gesamt": 24480
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/3D/Dead_Tree_qlEtl/Raw/qlEtl_tier_0/StaticMeshes/qlEtl_tier_0",
+   "name": "qlEtl_tier_0",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    2.177,
+    2.814,
+    6.224
+   ],
+   "dreiecke_lod0": 29994,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 4,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 19.07,
+   "hoehe_max_m": 6.74,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 5.54,
+   "groesse": "gross",
+   "dreiecke_gesamt": 119976
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_03",
+   "name": "SM_WoodenSticksAndTwigs_03",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.018,
+    0.078,
+    0.021
+   ],
+   "dreiecke_lod0": 5646,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 3,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.02,
+   "hoehe_max_m": 0.05,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.05,
+   "groesse": "klein",
+   "dreiecke_gesamt": 16938
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_leaves_01",
+   "name": "SM_detail_leaves_01",
+   "klasse": "sonstiges",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    1.162,
+    1.303,
+    0.065
+   ],
+   "dreiecke_lod0": 110,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 3,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 5.98,
+   "hoehe_max_m": 0.08,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.07,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 330
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_detail_leaves_03",
+   "name": "SM_detail_leaves_03",
+   "klasse": "sonstiges",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    1.903,
+    1.757,
+    0.045
+   ],
+   "dreiecke_lod0": 126,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 3,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 12.59,
+   "hoehe_max_m": 0.05,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.05,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 378
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DeadTree/SM_DeadTree_02",
+   "name": "SM_DeadTree_02",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    4.174,
+    2.385,
+    6.759
+   ],
+   "dreiecke_lod0": 4133,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 3,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 18.12,
+   "hoehe_max_m": 5.91,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 5.38,
+   "groesse": "gross",
+   "dreiecke_gesamt": 12399
+  },
+  {
+   "pfad": "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant01",
+   "name": "SM_WaterPlant01",
+   "klasse": "pflanze",
+   "paket": "CityPark",
+   "netz_m": [
+    2.238,
+    1.362,
+    0.016
+   ],
+   "dreiecke_lod0": 21,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 0,
+    "ism": 3,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 8.42,
+   "hoehe_max_m": 0.02,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.02,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 63
+  },
+  {
+   "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Meshes/SM_pine_beach_01_A",
+   "name": "SM_pine_beach_01_A",
+   "klasse": "baum",
+   "paket": "Coast_Dunes_Environment_Set",
+   "netz_m": [
+    4.886,
+    4.829,
+    8.388
+   ],
+   "dreiecke_lod0": 9828,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 2,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 33.36,
+   "hoehe_max_m": 7.51,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 7.04,
+   "groesse": "gross",
+   "dreiecke_gesamt": 19656
+  },
+  {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Roots_Slopes_Trunks/Meshes/SM_dead_log_01",
+   "name": "SM_dead_log_01",
+   "klasse": "baum",
+   "paket": "Forest_Environment_Set",
+   "netz_m": [
+    1.231,
+    1.105,
+    0.221
+   ],
+   "dreiecke_lod0": 7321,
+   "nanite": true,
+   "lods": 3,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 2,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.6,
+   "hoehe_max_m": 0.22,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.21,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 14642
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Roots/Meshes/SM_stones_roots_01",
+   "name": "SM_stones_roots_01",
+   "klasse": "fels",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    7.473,
+    5.858,
+    1.499
+   ],
+   "dreiecke_lod0": 10712,
+   "nanite": true,
+   "lods": 4,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 2,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 106.09,
+   "hoehe_max_m": 1.73,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.64,
+   "groesse": "gross",
+   "dreiecke_gesamt": 21424
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockShelf/SM_ForestRockShelf_01",
+   "name": "SM_ForestRockShelf_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    5.414,
+    2.411,
+    0.947
+   ],
+   "dreiecke_lod0": 4445,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 2,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 16.0,
+   "hoehe_max_m": 0.87,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.73,
+   "groesse": "gross",
+   "dreiecke_gesamt": 8890
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/RottenTreeStump/SM_RottenTreeStump_01",
+   "name": "SM_RottenTreeStump_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    2.372,
+    1.044,
+    1.688
+   ],
+   "dreiecke_lod0": 15877,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 2,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 4.66,
+   "hoehe_max_m": 1.76,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.63,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 31754
+  },
+  {
+   "pfad": "/Game/Mountain_Environment_Set/Details/Meshes/SM_Forest_Pine_09_log",
+   "name": "SM_Forest_Pine_09_log",
+   "klasse": "baum",
+   "paket": "Mountain_Environment_Set",
+   "netz_m": [
+    0.351,
+    5.591,
+    0.309
+   ],
+   "dreiecke_lod0": 1117,
+   "nanite": true,
+   "lods": 2,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 2,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.35,
+   "hoehe_max_m": 0.26,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.24,
+   "groesse": "gross",
+   "dreiecke_gesamt": 2234
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_03",
+   "name": "SM_OldTreeBranch_03",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    6.841,
+    0.622,
+    0.473
+   ],
+   "dreiecke_lod0": 6688,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 2,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 9.94,
+   "hoehe_max_m": 0.64,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.49,
+   "groesse": "gross",
+   "dreiecke_gesamt": 13376
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_06",
+   "name": "SM_DryBranches_06",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.041,
+    0.319,
+    0.018
+   ],
+   "dreiecke_lod0": 1924,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 0,
+    "ism": 2,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.03,
+   "hoehe_max_m": 0.02,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.02,
+   "groesse": "klein",
+   "dreiecke_gesamt": 3848
+  },
+  {
+   "pfad": "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant04",
+   "name": "SM_WaterPlant04",
+   "klasse": "pflanze",
+   "paket": "CityPark",
+   "netz_m": [
+    3.246,
+    2.832,
+    0.023
+   ],
+   "dreiecke_lod0": 98,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 0,
+    "ism": 2,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 19.61,
+   "hoehe_max_m": 0.03,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.02,
+   "groesse": "gross",
+   "dreiecke_gesamt": 196
+  },
+  {
+   "pfad": "/Game/Eldarien/Welt/Netze/R_M1_M3/SM_R_M1_M3__WASSER",
+   "name": "SM_R_M1_M3__WASSER",
+   "klasse": "sonstiges",
+   "paket": "Eldarien",
+   "netz_m": [
+    927.156,
+    770.33,
+    203.015
+   ],
+   "dreiecke_lod0": 63892,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 714216.08,
+   "hoehe_max_m": 203.01,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 203.01,
+   "groesse": "gross",
+   "dreiecke_gesamt": 63892
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/DryBranches/SM_DryBranches_03",
+   "name": "SM_DryBranches_03",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.047,
+    0.405,
+    0.035
+   ],
+   "dreiecke_lod0": 2138,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.02,
+   "hoehe_max_m": 0.04,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.04,
+   "groesse": "klein",
+   "dreiecke_gesamt": 2138
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/BrokenStump/SM_BrokenStump_01",
+   "name": "SM_BrokenStump_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    0.882,
+    0.953,
+    0.386
+   ],
+   "dreiecke_lod0": 15540,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.98,
+   "hoehe_max_m": 0.42,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.42,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 15540
+  },
+  {
+   "pfad": "/Game/AncientContent/Megascans/3DAssets/IcelandicBoulder/SM_IcelandicBoulder_03",
+   "name": "SM_IcelandicBoulder_03",
+   "klasse": "fels",
+   "paket": "AncientContent",
+   "netz_m": [
+    3.225,
+    3.387,
+    2.561
+   ],
+   "dreiecke_lod0": 15026,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 4.14,
+   "hoehe_max_m": 1.58,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.58,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 15026
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/OldTreeBranch/SM_OldTreeBranch_06",
+   "name": "SM_OldTreeBranch_06",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    4.109,
+    0.488,
+    0.387
+   ],
+   "dreiecke_lod0": 7476,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1.37,
+   "hoehe_max_m": 0.32,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.32,
+   "groesse": "gross",
+   "dreiecke_gesamt": 7476
+  },
+  {
+   "pfad": "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant02",
+   "name": "SM_WaterPlant02",
+   "klasse": "pflanze",
+   "paket": "CityPark",
+   "netz_m": [
+    1.634,
+    1.93,
+    0.023
+   ],
+   "dreiecke_lod0": 35,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1.55,
+   "hoehe_max_m": 0.02,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.02,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 35
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
+   "name": "SM_FallenSpruceTree_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    7.296,
+    1.937,
+    0.904
+   ],
+   "dreiecke_lod0": 14369,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 1,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 14.96,
+   "hoehe_max_m": 0.93,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.93,
+   "groesse": "gross",
+   "dreiecke_gesamt": 14369
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/OldFallenTree/SM_OldFallenTree_01",
+   "name": "SM_OldFallenTree_01",
+   "klasse": "baum",
+   "paket": "Megascans",
+   "netz_m": [
+    2.294,
+    0.664,
+    0.403
+   ],
+   "dreiecke_lod0": 20891,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2.78,
+   "hoehe_max_m": 0.54,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.54,
+   "groesse": "gross",
+   "dreiecke_gesamt": 20891
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_ground_foliage_01",
+   "name": "SM_ground_foliage_01",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    0.8,
+    0.628,
+    0.133
+   ],
+   "dreiecke_lod0": 83,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.34,
+   "hoehe_max_m": 0.11,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.11,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 83
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/Fir_05_Standalone",
+   "name": "Fir_05_Standalone",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    5.309,
+    5.422,
+    18.539
+   ],
+   "dreiecke_lod0": 15576,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 40.71,
+   "hoehe_max_m": 22.05,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 22.05,
+   "groesse": "gross",
+   "dreiecke_gesamt": 15576
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Plants/EuropeanHornbeam/Geometry/SimpleWind/SM_EuropeanHornbeam_Seedling_04",
+   "name": "SM_EuropeanHornbeam_Seedling_04",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.468,
+    0.391,
+    0.316
+   ],
+   "dreiecke_lod0": 615,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.16,
+   "hoehe_max_m": 0.3,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.3,
+   "groesse": "klein",
+   "dreiecke_gesamt": 615
+  },
+  {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_ground_foliage_03_SM_ground_foliage_03",
+   "name": "SM_ground_foliage_03_SM_ground_foliage_03",
+   "klasse": "sonstiges",
+   "paket": "Environment_Set",
+   "netz_m": [
+    0.704,
+    0.723,
+    0.298
+   ],
+   "dreiecke_lod0": 71,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.6,
+   "hoehe_max_m": 0.32,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.32,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 71
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_01",
+   "name": "SM_MossyRocks_01",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    1.85,
+    2.313,
+    0.345
+   ],
+   "dreiecke_lod0": 21826,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1.85,
+   "hoehe_max_m": 0.23,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.23,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 21826
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/WoodenSticksAndTwigs/SM_WoodenSticksAndTwigs_01",
+   "name": "SM_WoodenSticksAndTwigs_01",
+   "klasse": "sonstiges",
+   "paket": "Megascans",
+   "netz_m": [
+    0.032,
+    0.112,
+    0.019
+   ],
+   "dreiecke_lod0": 3820,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 0.02,
+   "hoehe_max_m": 0.04,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.04,
+   "groesse": "klein",
+   "dreiecke_gesamt": 3820
+  },
+  {
+   "pfad": "/Game/Megascans/3D_Assets/MossyRocks/SM_MossyRocks_02",
+   "name": "SM_MossyRocks_02",
+   "klasse": "fels",
+   "paket": "Megascans",
+   "netz_m": [
+    3.397,
+    1.863,
+    0.352
+   ],
+   "dreiecke_lod0": 25672,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 1,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1.27,
+   "hoehe_max_m": 0.16,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.16,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 25672
+  },
+  {
+   "pfad": "/Game/Fab/Megascans/3D/Japanese_Mossy_Boulder_veqhehl/Raw/veqhehl_tier_0/StaticMeshes/veqhehl_tier_0",
+   "name": "veqhehl_tier_0",
+   "klasse": "sonstiges",
+   "paket": "Fab",
+   "netz_m": [
+    1.22,
+    1.041,
+    1.037
+   ],
+   "dreiecke_lod0": 19998,
+   "nanite": true,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 1.27,
+   "hoehe_max_m": 1.04,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.04,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 19998
+  }
+ ],
+ "kameras": [
+  {
+   "name": "Spielstart_E5",
+   "quelle": "PlayerStart",
+   "x": -20548.0,
+   "y": 49548.0,
+   "z": 1759.5,
+   "pitch": -5.0,
+   "yaw": 118.8
+  },
+  {
+   "name": "Spielstart_E5",
+   "quelle": "PlayerStart",
+   "x": -20548.0,
+   "y": 49548.0,
+   "z": 1759.5,
+   "pitch": -5.0,
+   "yaw": 238.8
+  },
+  {
+   "name": "Spielstart_E5",
+   "quelle": "PlayerStart",
+   "x": -20548.0,
+   "y": 49548.0,
+   "z": 1759.5,
+   "pitch": -5.0,
+   "yaw": 358.8
+  }
+ ],
+ "stichprobe": 200,
+ "hinweise": [],
+ "dauer_s": 0.9
+}

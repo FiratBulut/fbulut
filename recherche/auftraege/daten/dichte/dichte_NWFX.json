@@ -1,0 +1,169 @@
+{
+ "stand": "2026-10-13 23:26",
+ "quelle": "demo",
+ "kurz": "NWFX",
+ "pfad": "/Game/NatureWaterFX/Maps/Overview",
+ "feld": null,
+ "fenster_m": null,
+ "akteure_gesamt": 30,
+ "akteure_je_klasse": {
+  "NiagaraActor": 20,
+  "StaticMeshActor": 4,
+  "DirectionalLight": 1,
+  "PlayerStart": 1,
+  "InstancedFoliageActor": 1,
+  "SkyLight": 1,
+  "SphereReflectionCapture": 1,
+  "ExponentialHeightFog": 1
+ },
+ "komponenten_gezaehlt": 4,
+ "komponenten_unsichtbar": 0,
+ "netze_riesig": 0,
+ "ausgeschlossen": [],
+ "huelle_m": null,
+ "flaechen_m2": {
+  "fenster": null,
+  "landschaft": 0.0,
+  "huelle": 0.0,
+  "benutzt": 0.0,
+  "benutzt_art": "huelle"
+ },
+ "landschaft": {
+  "teile": 0,
+  "quads_je_m": null,
+  "massstab": null,
+  "komponente_quads": null,
+  "unterteilungen": null,
+  "material": null,
+  "lagen": [],
+  "ebenen": [],
+  "umriss_m": null,
+  "flaeche_m2": 0.0,
+  "gras": null,
+  "hinweis": []
+ },
+ "kennzahlen": {
+  "flaeche_m2": 0.0,
+  "instanzen_gesamt": 4,
+  "netze_arten": 2,
+  "instanzen_je_100m2": 400000000000.0,
+  "dreiecke_lod0_je_100m2": 288200000000000.0,
+  "nanite_anteil_netze": 0.0,
+  "baum_je_100m2": 0.0,
+  "baum_arten": 0,
+  "baum_flaeche_prozent_obergrenze": 0.0,
+  "baum_dreiecke_je_100m2": 0.0,
+  "fels_je_100m2": 0.0,
+  "fels_arten": 0,
+  "fels_flaeche_prozent_obergrenze": 0.0,
+  "fels_dreiecke_je_100m2": 0.0,
+  "pflanze_je_100m2": 0.0,
+  "pflanze_arten": 0,
+  "pflanze_flaeche_prozent_obergrenze": 0.0,
+  "pflanze_dreiecke_je_100m2": 0.0,
+  "sonstiges_je_100m2": 400000000000.0,
+  "sonstiges_arten": 2,
+  "sonstiges_flaeche_prozent_obergrenze": 2.5045019e+16,
+  "sonstiges_dreiecke_je_100m2": 288200000000000.0,
+  "felsdeckung_prozent_obergrenze": 0.0,
+  "kleinzeug_je_100m2": 0.0,
+  "mittel_je_100m2": 100000000000.0,
+  "baeume_je_ha": 0.0,
+  "totholz_je_100m2": 0.0,
+  "gras_material_je_100m2": null,
+  "gras_typen_material": null,
+  "gras_sorten_material": null,
+  "gras_hoehe_max_m": null,
+  "landschaft_quads_je_m": null,
+  "landschaft_lagen": null,
+  "geschaetzt_massstab": false
+ },
+ "kennzahlen_andere_flaeche": null,
+ "netze": [
+  {
+   "pfad": "/Engine/BasicShapes/Sphere",
+   "name": "Sphere",
+   "klasse": "sonstiges",
+   "paket": "BasicShapes",
+   "netz_m": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "dreiecke_lod0": 960,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 3
+   },
+   "grundflaeche_m2": 450.19,
+   "hoehe_max_m": 12.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 12.25,
+   "groesse": "gross",
+   "dreiecke_gesamt": 2880
+  },
+  {
+   "pfad": "/Engine/BasicShapes/Plane",
+   "name": "Plane",
+   "klasse": "sonstiges",
+   "paket": "BasicShapes",
+   "netz_m": [
+    1.0,
+    1.0,
+    0.0
+   ],
+   "dreiecke_lod0": 2,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 250000.0,
+   "hoehe_max_m": 0.0,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.0,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2
+  }
+ ],
+ "kameras": [
+  {
+   "name": "Player Start",
+   "quelle": "PlayerStart",
+   "x": 0.0,
+   "y": -1120.0,
+   "z": 752.0,
+   "pitch": -5.0,
+   "yaw": 0.0
+  },
+  {
+   "name": "Player Start",
+   "quelle": "PlayerStart",
+   "x": 0.0,
+   "y": -1120.0,
+   "z": 752.0,
+   "pitch": -5.0,
+   "yaw": 120.0
+  },
+  {
+   "name": "Player Start",
+   "quelle": "PlayerStart",
+   "x": 0.0,
+   "y": -1120.0,
+   "z": 752.0,
+   "pitch": -5.0,
+   "yaw": 240.0
+  }
+ ],
+ "stichprobe": 200,
+ "hinweise": [],
+ "dauer_s": 0.0,
+ "world_partition_geladen": 0
+}

@@ -1,0 +1,2426 @@
+{
+ "stand": "2026-10-13 23:25",
+ "quelle": "demo",
+ "kurz": "RA3",
+ "pfad": "/Game/RuralAustralia/Maps/RuralAustralia_Example_03",
+ "feld": null,
+ "fenster_m": null,
+ "akteure_gesamt": 337,
+ "akteure_je_klasse": {
+  "StaticMeshActor": 297,
+  "NiagaraActor": 20,
+  "CineCameraActor": 7,
+  "Spline_Fence_C": 2,
+  "SphereReflectionCapture": 1,
+  "SkyLight": 1,
+  "DirectionalLight": 1,
+  "PostProcessVolume": 1,
+  "InstancedFoliageActor": 1,
+  "Landscape": 1,
+  "BP_Sky_01_C": 1,
+  "LightmassImportanceVolume": 1,
+  "ExponentialHeightFog": 1,
+  "AmbientSound": 1,
+  "BP_GlobalWind_C": 1
+ },
+ "komponenten_gezaehlt": 563,
+ "komponenten_unsichtbar": 0,
+ "netze_riesig": 0,
+ "ausgeschlossen": [
+  {
+   "name": "SM_Horizon_01",
+   "grund": "himmel/hintergrund (Name)"
+  }
+ ],
+ "huelle_m": null,
+ "flaechen_m2": {
+  "fenster": null,
+  "landschaft": 1040400.0,
+  "huelle": 0.0,
+  "benutzt": 1040400.0,
+  "benutzt_art": "landschaft"
+ },
+ "landschaft": {
+  "teile": 1,
+  "quads_je_m": 1.0,
+  "massstab": [
+   100.0,
+   100.0,
+   100.0
+  ],
+  "komponente_quads": null,
+  "unterteilungen": null,
+  "material": "/Game/RuralAustralia/Landscape/MI_Landscape_Example_03",
+  "lagen": [
+   "__LANDSCAPE_VISIBILITY__",
+   "LandscapeLayer_Gravel",
+   "LandscapeLayer_Dirt",
+   "LandscapeLayer_Stones",
+   "LandscapeLayer_Grass",
+   "LandscapeLayer_Leaves"
+  ],
+  "ebenen": [
+   "Layer"
+  ],
+  "umriss_m": [
+   -510.0,
+   -510.0,
+   510.0,
+   510.0
+  ],
+  "flaeche_m2": 1040400.0,
+  "gras": {
+   "basis": "M_Landscape",
+   "typen": [
+    {
+     "typ": "GrassLayer_Dirt",
+     "eingang": "Dirt",
+     "sorten": [
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 0.49,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_E",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.2
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_F",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.29,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_H",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.17,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_I",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_C",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.0
+       ],
+       "hoehe_m": 1.15,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_04_D",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.3
+       ],
+       "hoehe_m": 0.04,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_O",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 1.15
+    },
+    {
+     "typ": "GrassLayer_Stones",
+     "eingang": "Stones",
+     "sorten": [
+      {
+       "netz": "SM_Scatter_04_B",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.05,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_04_A",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        4.0
+       ],
+       "hoehe_m": 0.16,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_04_B",
+       "dichte": 0.0,
+       "skala_x": [
+        3.0,
+        4.0
+       ],
+       "hoehe_m": 0.14,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rock_S_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.5
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rock_S_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.3,
+        0.5
+       ],
+       "hoehe_m": 0.43,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Rock_M_03",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.5
+       ],
+       "hoehe_m": 0.43,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_05",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.0
+       ],
+       "hoehe_m": 0.95,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_GrassTree_03",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.0
+       ],
+       "hoehe_m": 1.46,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_H",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.14,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 0.49,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_B",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.0
+       ],
+       "hoehe_m": 0.35,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Snake_01",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.0
+       ],
+       "hoehe_m": 0.17,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 1.46
+    },
+    {
+     "typ": "GrassLayer_Grass",
+     "eingang": "Grass",
+     "sorten": [
+      {
+       "netz": "SM_Scatter_02_A",
+       "dichte": 0.0,
+       "skala_x": [
+        0.4,
+        1.4
+       ],
+       "hoehe_m": 0.14,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_B",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.1
+       ],
+       "hoehe_m": 0.39,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.0
+       ],
+       "hoehe_m": 0.4,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.0
+       ],
+       "hoehe_m": 0.4,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_E",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.2
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_G",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.7
+       ],
+       "hoehe_m": 0.43,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_J",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.13,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_N",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 0.05,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_O",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 0.09,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_P",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.1
+       ],
+       "hoehe_m": 0.12,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.43
+    },
+    {
+     "typ": "GrassLayer_Leaves",
+     "eingang": "Leaves",
+     "sorten": [
+      {
+       "netz": "SM_Scatter_03_A",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.0
+       ],
+       "hoehe_m": 0.15,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_03_B",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.0
+       ],
+       "hoehe_m": 0.16,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_A",
+       "dichte": 0.0,
+       "skala_x": [
+        0.4,
+        1.8
+       ],
+       "hoehe_m": 0.18,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_B",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.1
+       ],
+       "hoehe_m": 0.39,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 0.49,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        2.0,
+        2.2
+       ],
+       "hoehe_m": 0.89,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_D",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.3
+       ],
+       "hoehe_m": 0.35,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_E",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.2
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_F",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.29,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_G",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.7
+       ],
+       "hoehe_m": 0.43,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_H",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.8
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_I",
+       "dichte": 0.0,
+       "skala_x": [
+        1.2,
+        1.7
+       ],
+       "hoehe_m": 0.11,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_J",
+       "dichte": 0.0,
+       "skala_x": [
+        1.2,
+        1.7
+       ],
+       "hoehe_m": 0.15,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_J",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.2
+       ],
+       "hoehe_m": 0.97,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_K",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.3
+       ],
+       "hoehe_m": 1.55,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_L",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.2
+       ],
+       "hoehe_m": 1.53,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Log_S_01",
+       "dichte": 0.0,
+       "skala_x": [
+        0.3,
+        0.8
+       ],
+       "hoehe_m": 0.73,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Log_S_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.7
+       ],
+       "hoehe_m": 0.73,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_GrassTree_04",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.0
+       ],
+       "hoehe_m": 1.5,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_C",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.0
+       ],
+       "hoehe_m": 1.15,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_B",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.73,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_05",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.0
+       ],
+       "hoehe_m": 0.95,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_GrassTree_03",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 1.9,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_O",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Snake_01",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.0
+       ],
+       "hoehe_m": 0.17,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 1.9
+    },
+    {
+     "typ": "GrassLayer_Roadside",
+     "eingang": "Roadside",
+     "sorten": [
+      {
+       "netz": "SM_Scatter_04_D",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.0
+       ],
+       "hoehe_m": 0.03,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_B",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.6
+       ],
+       "hoehe_m": 0.21,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        0.8
+       ],
+       "hoehe_m": 0.32,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_E",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.2
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_F",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.29,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_H",
+       "dichte": 0.0,
+       "skala_x": [
+        1.3,
+        1.5
+       ],
+       "hoehe_m": 0.17,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 0.32
+    },
+    {
+     "typ": "GrassLayer_Gravel",
+     "eingang": "Gravel",
+     "sorten": [
+      {
+       "netz": "SM_Scatter_02_A",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.0
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_B",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.0
+       ],
+       "hoehe_m": 0.35,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_C",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 0.49,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_D",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.0
+       ],
+       "hoehe_m": 0.27,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_E",
+       "dichte": 0.0,
+       "skala_x": [
+        0.6,
+        1.2
+       ],
+       "hoehe_m": 0.2,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_F",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.29,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_G",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.38,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_H",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.17,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_I",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_02_J",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.5
+       ],
+       "hoehe_m": 0.13,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_J",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.0
+       ],
+       "hoehe_m": 0.8,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_K",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.0
+       ],
+       "hoehe_m": 1.19,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_L",
+       "dichte": 0.0,
+       "skala_x": [
+        0.7,
+        1.0
+       ],
+       "hoehe_m": 1.28,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_C",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        2.0
+       ],
+       "hoehe_m": 1.15,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_04_D",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.0
+       ],
+       "hoehe_m": 0.03,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_04_D",
+       "dichte": 0.0,
+       "skala_x": [
+        1.5,
+        2.5
+       ],
+       "hoehe_m": 0.09,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_GrassTree_02",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.3
+       ],
+       "hoehe_m": 3.72,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_GrassTree_03",
+       "dichte": 0.0,
+       "skala_x": [
+        0.8,
+        1.2
+       ],
+       "hoehe_m": 1.76,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_05",
+       "dichte": 0.0,
+       "skala_x": [
+        0.5,
+        1.1
+       ],
+       "hoehe_m": 1.05,
+       "sicht_m": [
+        null,
+        null
+       ]
+      },
+      {
+       "netz": "SM_Scatter_01_O",
+       "dichte": 0.0,
+       "skala_x": [
+        1.0,
+        1.3
+       ],
+       "hoehe_m": 0.1,
+       "sicht_m": [
+        null,
+        null
+       ]
+      }
+     ],
+     "dichte_summe": 0.0,
+     "hoehe_max_m": 3.72
+    }
+   ],
+   "dichte_summe": 0.0,
+   "sorten": 81,
+   "hoehe_max_m": 3.72
+  },
+  "hinweis": [],
+  "beschreibung": "Ausdehnung ok 0,0..1020,1020; Ort -51000,-51000,0; Massstab 100.00,100.00,100.00; Komponenten 16 (geladen) in 1 Teilen; Komponente 255 Felder; Lagen: __LANDSCAPE_VISIBILITY__(ohne Info) LandscapeLayer_Gravel LandscapeLayer_Dirt LandscapeLayer_Stones LandscapeLayer_Grass LandscapeLayer_Leaves ; Ebene"
+ },
+ "kennzahlen": {
+  "flaeche_m2": 1040400.0,
+  "instanzen_gesamt": 109577,
+  "netze_arten": 45,
+  "instanzen_je_100m2": 10.532,
+  "dreiecke_lod0_je_100m2": 1708.0,
+  "nanite_anteil_netze": 0.0,
+  "baum_je_100m2": 0.024,
+  "baum_arten": 14,
+  "baum_flaeche_prozent_obergrenze": 4.401,
+  "baum_dreiecke_je_100m2": 249.0,
+  "fels_je_100m2": 0.0,
+  "fels_arten": 0,
+  "fels_flaeche_prozent_obergrenze": 0.0,
+  "fels_dreiecke_je_100m2": 0.0,
+  "pflanze_je_100m2": 0.0,
+  "pflanze_arten": 0,
+  "pflanze_flaeche_prozent_obergrenze": 0.0,
+  "pflanze_dreiecke_je_100m2": 0.0,
+  "sonstiges_je_100m2": 10.508,
+  "sonstiges_arten": 31,
+  "sonstiges_flaeche_prozent_obergrenze": 4.807,
+  "sonstiges_dreiecke_je_100m2": 1459.0,
+  "felsdeckung_prozent_obergrenze": 0.0,
+  "kleinzeug_je_100m2": 4.403,
+  "mittel_je_100m2": 6.1,
+  "baeume_je_ha": 1.26,
+  "totholz_je_100m2": 0.011,
+  "gras_material_je_100m2": 0.0,
+  "gras_typen_material": 6,
+  "gras_sorten_material": 81,
+  "gras_hoehe_max_m": 3.72,
+  "landschaft_quads_je_m": 1.0,
+  "landschaft_lagen": 6,
+  "geschaetzt_massstab": true
+ },
+ "kennzahlen_andere_flaeche": null,
+ "netze": [
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_03_B",
+   "name": "SM_Scatter_03_B",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.042,
+    1.08,
+    0.155
+   ],
+   "dreiecke_lod0": 181,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 15317,
+   "quellen": {
+    "foliage": 15317,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 12614.38,
+   "hoehe_max_m": 0.19,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.13,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 2772377
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_03_A",
+   "name": "SM_Scatter_03_A",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.974,
+    1.009,
+    0.149
+   ],
+   "dreiecke_lod0": 112,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 15281,
+   "quellen": {
+    "foliage": 15281,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 11037.12,
+   "hoehe_max_m": 0.18,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.13,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 1711472
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_I",
+   "name": "SM_Scatter_02_I",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.438,
+    0.306,
+    0.064
+   ],
+   "dreiecke_lod0": 10,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 9407,
+   "quellen": {
+    "foliage": 9407,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 838.13,
+   "hoehe_max_m": 0.06,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.05,
+   "groesse": "klein",
+   "dreiecke_gesamt": 94070
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_F",
+   "name": "SM_Scatter_02_F",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.234,
+    0.434,
+    0.227
+   ],
+   "dreiecke_lod0": 27,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 9386,
+   "quellen": {
+    "foliage": 9386,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3496.31,
+   "hoehe_max_m": 0.23,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.19,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 253422
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_H",
+   "name": "SM_Scatter_02_H",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.296,
+    0.403,
+    0.112
+   ],
+   "dreiecke_lod0": 23,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 9354,
+   "quellen": {
+    "foliage": 9354,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 742.49,
+   "hoehe_max_m": 0.11,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.09,
+   "groesse": "klein",
+   "dreiecke_gesamt": 215142
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_J",
+   "name": "SM_Scatter_02_J",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.448,
+    0.416,
+    0.088
+   ],
+   "dreiecke_lod0": 15,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 9348,
+   "quellen": {
+    "foliage": 9348,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1142.11,
+   "hoehe_max_m": 0.09,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.07,
+   "groesse": "klein",
+   "dreiecke_gesamt": 140220
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_G",
+   "name": "SM_Scatter_02_G",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.637,
+    0.342,
+    0.256
+   ],
+   "dreiecke_lod0": 22,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 9266,
+   "quellen": {
+    "foliage": 9266,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1256.99,
+   "hoehe_max_m": 0.26,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.2,
+   "groesse": "klein",
+   "dreiecke_gesamt": 203852
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_E",
+   "name": "SM_Scatter_02_E",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.173,
+    0.555,
+    0.165
+   ],
+   "dreiecke_lod0": 27,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 8983,
+   "quellen": {
+    "foliage": 8983,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 3808.0,
+   "hoehe_max_m": 0.16,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.13,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 242541
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_04_D",
+   "name": "SM_Scatter_04_D",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.634,
+    0.631,
+    0.034
+   ],
+   "dreiecke_lod0": 1192,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 4537,
+   "quellen": {
+    "foliage": 4537,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1192.92,
+   "hoehe_max_m": 0.03,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.03,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 5408104
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_B",
+   "name": "SM_Scatter_01_B",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.728,
+    0.49,
+    0.487
+   ],
+   "dreiecke_lod0": 33,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 2555,
+   "quellen": {
+    "foliage": 2555,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 379.15,
+   "hoehe_max_m": 0.49,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.29,
+   "groesse": "klein",
+   "dreiecke_gesamt": 84315
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_A",
+   "name": "SM_Scatter_01_A",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.788,
+    0.804,
+    0.819
+   ],
+   "dreiecke_lod0": 55,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 2549,
+   "quellen": {
+    "foliage": 2549,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 624.26,
+   "hoehe_max_m": 0.81,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.47,
+   "groesse": "klein",
+   "dreiecke_gesamt": 140195
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_C",
+   "name": "SM_Scatter_01_C",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.231,
+    0.343,
+    0.577
+   ],
+   "dreiecke_lod0": 14,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 2537,
+   "quellen": {
+    "foliage": 2537,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 80.32,
+   "hoehe_max_m": 0.58,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.34,
+   "groesse": "klein",
+   "dreiecke_gesamt": 35518
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_05",
+   "name": "SM_Scatter_05",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.457,
+    1.467,
+    0.951
+   ],
+   "dreiecke_lod0": 160,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 2468,
+   "quellen": {
+    "foliage": 2468,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2818.06,
+   "hoehe_max_m": 0.95,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.68,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 394880
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_J",
+   "name": "SM_Scatter_01_J",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.531,
+    0.344,
+    0.804
+   ],
+   "dreiecke_lod0": 34,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 1094,
+   "quellen": {
+    "foliage": 1094,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 183.86,
+   "hoehe_max_m": 0.96,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.76,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 37196
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_K",
+   "name": "SM_Scatter_01_K",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.566,
+    0.31,
+    1.193
+   ],
+   "dreiecke_lod0": 34,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 1053,
+   "quellen": {
+    "foliage": 1053,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 174.38,
+   "hoehe_max_m": 1.43,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 1.15,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 35802
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_A",
+   "name": "SM_Scatter_02_A",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.48,
+    1.506,
+    0.098
+   ],
+   "dreiecke_lod0": 239,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 834,
+   "quellen": {
+    "foliage": 834,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 676.19,
+   "hoehe_max_m": 0.08,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.06,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 199326
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_C",
+   "name": "SM_Scatter_02_C",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    2.398,
+    0.749,
+    0.405
+   ],
+   "dreiecke_lod0": 850,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 831,
+   "quellen": {
+    "foliage": 831,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1694.56,
+   "hoehe_max_m": 0.61,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.42,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 706350
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_P",
+   "name": "SM_Scatter_01_P",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.699,
+    0.587,
+    0.111
+   ],
+   "dreiecke_lod0": 22,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 824,
+   "quellen": {
+    "foliage": 824,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 202.81,
+   "hoehe_max_m": 0.11,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.08,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 18128
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_D",
+   "name": "SM_Scatter_02_D",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.96,
+    0.651,
+    0.27
+   ],
+   "dreiecke_lod0": 144,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 820,
+   "quellen": {
+    "foliage": 820,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 1206.8,
+   "hoehe_max_m": 0.4,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.28,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 118080
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_02_B",
+   "name": "SM_Scatter_02_B",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    2.71,
+    0.964,
+    0.353
+   ],
+   "dreiecke_lod0": 842,
+   "nanite": false,
+   "lods": 2,
+   "instanzen": 819,
+   "quellen": {
+    "foliage": 819,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 2423.86,
+   "hoehe_max_m": 0.53,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.36,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 689598
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_O",
+   "name": "SM_Scatter_01_O",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.62,
+    0.552,
+    0.079
+   ],
+   "dreiecke_lod0": 12,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 795,
+   "quellen": {
+    "foliage": 795,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 153.86,
+   "hoehe_max_m": 0.08,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.06,
+   "groesse": "klein",
+   "dreiecke_gesamt": 9540
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_N",
+   "name": "SM_Scatter_01_N",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.747,
+    0.339,
+    0.046
+   ],
+   "dreiecke_lod0": 15,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 778,
+   "quellen": {
+    "foliage": 778,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 118.88,
+   "hoehe_max_m": 0.05,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 0.04,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 11670
+  },
+  {
+   "pfad": "/Game/RuralAustralia/Scatter/SM_Scatter_01_L",
+   "name": "SM_Scatter_01_L",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.91,
+    0.515,
+    1.276
+   ],
+   "dreiecke_lod0": 45,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 201,
+   "quellen": {
+    "foliage": 201,
+    "ism": 0,
+    "akteur": 0
+   },
+   "grundflaeche_m2": 89.22,
+   "hoehe_max_m": 1.53,
+   "geschaetzt": true,
+   "hoehe_mittel_m": 1.23,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 9045
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Props/Fence_01/SM_Fence_Wires_01",
+   "name": "SM_Fence_Wires_01",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    3.923,
+    0.223,
+    1.084
+   ],
+   "dreiecke_lod0": 7182,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 122,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 122
+   },
+   "grundflaeche_m2": 106.73,
+   "hoehe_max_m": 1.08,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.08,
+   "groesse": "gross",
+   "dreiecke_gesamt": 876204
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Props/Fence_01/SM_Fence_02",
+   "name": "SM_Fence_02",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.238,
+    0.274,
+    1.362
+   ],
+   "dreiecke_lod0": 4225,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 122,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 122
+   },
+   "grundflaeche_m2": 7.96,
+   "hoehe_max_m": 1.36,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.36,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 515450
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/GrassTree_01/SM_GrassTree_03",
+   "name": "SM_GrassTree_03",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    2.422,
+    2.426,
+    1.464
+   ],
+   "dreiecke_lod0": 2429,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 36,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 36
+   },
+   "grundflaeche_m2": 209.48,
+   "hoehe_max_m": 1.46,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.46,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 87444
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/GrassTree_01/SM_GrassTree_02",
+   "name": "SM_GrassTree_02",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    2.537,
+    2.508,
+    2.859
+   ],
+   "dreiecke_lod0": 2927,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 31,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 31
+   },
+   "grundflaeche_m2": 195.0,
+   "hoehe_max_m": 2.86,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.84,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 90737
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/GrassTree_01/SM_GrassTree_04",
+   "name": "SM_GrassTree_04",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.457,
+    1.467,
+    1.499
+   ],
+   "dreiecke_lod0": 661,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 29,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 29
+   },
+   "grundflaeche_m2": 61.99,
+   "hoehe_max_m": 1.5,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.5,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 19169
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Tree_S_01/SM_Tree_S_01",
+   "name": "SM_Tree_S_01",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    12.333,
+    13.27,
+    12.508
+   ],
+   "dreiecke_lod0": 11307,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 27,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 27
+   },
+   "grundflaeche_m2": 4075.61,
+   "hoehe_max_m": 12.51,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 11.92,
+   "groesse": "gross",
+   "dreiecke_gesamt": 305289
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/GrassTree_01/SM_GrassTree_01",
+   "name": "SM_GrassTree_01",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    2.504,
+    2.648,
+    3.863
+   ],
+   "dreiecke_lod0": 3285,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 21,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 21
+   },
+   "grundflaeche_m2": 139.24,
+   "hoehe_max_m": 3.86,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 3.86,
+   "groesse": "gross",
+   "dreiecke_gesamt": 68985
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Tree_L_01/SM_Tree_L_01",
+   "name": "SM_Tree_L_01",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    30.969,
+    31.718,
+    28.463
+   ],
+   "dreiecke_lod0": 32110,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 20,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 20
+   },
+   "grundflaeche_m2": 21484.38,
+   "hoehe_max_m": 39.45,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 29.75,
+   "groesse": "gross",
+   "dreiecke_gesamt": 642200
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Tree_M_01/SM_Tree_M_01",
+   "name": "SM_Tree_M_01",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    21.295,
+    20.573,
+    22.809
+   ],
+   "dreiecke_lod0": 17813,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 18,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 18
+   },
+   "grundflaeche_m2": 9267.06,
+   "hoehe_max_m": 38.19,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 24.43,
+   "groesse": "gross",
+   "dreiecke_gesamt": 320634
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Tree_M_04/SM_Tree_M_04",
+   "name": "SM_Tree_M_04",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    14.107,
+    18.706,
+    15.75
+   ],
+   "dreiecke_lod0": 16524,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 17,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 17
+   },
+   "grundflaeche_m2": 4687.29,
+   "hoehe_max_m": 20.91,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 16.05,
+   "groesse": "gross",
+   "dreiecke_gesamt": 280908
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Log_S_02/SM_Log_S_02",
+   "name": "SM_Log_S_02",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    2.829,
+    5.02,
+    1.037
+   ],
+   "dreiecke_lod0": 15027,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 16,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 16
+   },
+   "grundflaeche_m2": 192.99,
+   "hoehe_max_m": 1.04,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.94,
+   "groesse": "gross",
+   "dreiecke_gesamt": 240432
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Tree_M_02/SM_Tree_M_02",
+   "name": "SM_Tree_M_02",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    14.033,
+    16.523,
+    18.794
+   ],
+   "dreiecke_lod0": 14376,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 14,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 14
+   },
+   "grundflaeche_m2": 3265.57,
+   "hoehe_max_m": 19.57,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 18.85,
+   "groesse": "gross",
+   "dreiecke_gesamt": 201264
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Props/Delineator_01/SM_Delineator_01",
+   "name": "SM_Delineator_01",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.028,
+    0.09,
+    1.107
+   ],
+   "dreiecke_lod0": 82,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 12,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 12
+   },
+   "grundflaeche_m2": 0.03,
+   "hoehe_max_m": 1.11,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.11,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 984
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Tree_M_03/SM_Tree_M_03",
+   "name": "SM_Tree_M_03",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    11.613,
+    12.809,
+    15.986
+   ],
+   "dreiecke_lod0": 14772,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 10
+   },
+   "grundflaeche_m2": 1487.51,
+   "hoehe_max_m": 15.99,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 15.99,
+   "groesse": "gross",
+   "dreiecke_gesamt": 147720
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Rocks/Ridge_Dirt_01/SM_Ridge_Dirt_01_B",
+   "name": "SM_Ridge_Dirt_01_B",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    6.012,
+    16.076,
+    1.966
+   ],
+   "dreiecke_lod0": 13398,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 10
+   },
+   "grundflaeche_m2": 387.59,
+   "hoehe_max_m": 1.14,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.77,
+   "groesse": "gross",
+   "dreiecke_gesamt": 133980
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Roots_01/SM_Roots_01",
+   "name": "SM_Roots_01",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    3.189,
+    3.246,
+    0.635
+   ],
+   "dreiecke_lod0": 7465,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 9,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 9
+   },
+   "grundflaeche_m2": 267.49,
+   "hoehe_max_m": 1.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.07,
+   "groesse": "gross",
+   "dreiecke_gesamt": 67185
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Props/Road_01/SM_Road_01",
+   "name": "SM_Road_01",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    35.0,
+    8.973,
+    0.269
+   ],
+   "dreiecke_lod0": 210,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 7,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 7
+   },
+   "grundflaeche_m2": 2198.39,
+   "hoehe_max_m": 0.27,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.27,
+   "groesse": "gross",
+   "dreiecke_gesamt": 1470
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Props/KangarooSign_01/SM_KangarooSign_01",
+   "name": "SM_KangarooSign_01",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    0.942,
+    0.09,
+    2.667
+   ],
+   "dreiecke_lod0": 1124,
+   "nanite": false,
+   "lods": 3,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 4
+   },
+   "grundflaeche_m2": 0.34,
+   "hoehe_max_m": 2.67,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.67,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 4496
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Rocks/Ridge_Dirt_01/SM_Ridge_Dirt_01_A",
+   "name": "SM_Ridge_Dirt_01_A",
+   "klasse": "sonstiges",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    4.714,
+    14.467,
+    1.976
+   ],
+   "dreiecke_lod0": 13398,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 4
+   },
+   "grundflaeche_m2": 92.11,
+   "hoehe_max_m": 1.36,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.1,
+   "groesse": "gross",
+   "dreiecke_gesamt": 53592
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Log_L_01/SM_Log_L_01",
+   "name": "SM_Log_L_01",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    8.079,
+    17.715,
+    5.998
+   ],
+   "dreiecke_lod0": 24096,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 4
+   },
+   "grundflaeche_m2": 572.48,
+   "hoehe_max_m": 6.0,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 6.0,
+   "groesse": "gross",
+   "dreiecke_gesamt": 96384
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Log_S_01/SM_Log_S_01",
+   "name": "SM_Log_S_01",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    1.327,
+    5.52,
+    0.913
+   ],
+   "dreiecke_lod0": 6002,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 4
+   },
+   "grundflaeche_m2": 29.3,
+   "hoehe_max_m": 0.91,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.91,
+   "groesse": "gross",
+   "dreiecke_gesamt": 24008
+  },
+  {
+   "pfad": "/Game/RuralAustralia/StaticMeshes/Vegetation/Log_M_01/SM_Log_M_01",
+   "name": "SM_Log_M_01",
+   "klasse": "baum",
+   "paket": "RuralAustralia",
+   "netz_m": [
+    4.622,
+    8.627,
+    2.695
+   ],
+   "dreiecke_lod0": 20415,
+   "nanite": false,
+   "lods": 5,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 3
+   },
+   "grundflaeche_m2": 119.62,
+   "hoehe_max_m": 2.69,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.69,
+   "groesse": "gross",
+   "dreiecke_gesamt": 61245
+  }
+ ],
+ "kameras": [
+  {
+   "name": "Camera1",
+   "quelle": "CameraActor",
+   "x": 13766.4,
+   "y": -4474.7,
+   "z": 96.8,
+   "pitch": 6.0,
+   "yaw": -166.2
+  },
+  {
+   "name": "Camera2",
+   "quelle": "CameraActor",
+   "x": 922.3,
+   "y": -3645.5,
+   "z": 146.6,
+   "pitch": -9.8,
+   "yaw": -152.0
+  },
+  {
+   "name": "Camera3",
+   "quelle": "CameraActor",
+   "x": 11383.5,
+   "y": -4820.4,
+   "z": 97.5,
+   "pitch": 3.8,
+   "yaw": -148.0
+  }
+ ],
+ "stichprobe": 200,
+ "hinweise": [],
+ "dauer_s": 0.1,
+ "world_partition_geladen": 0
+}

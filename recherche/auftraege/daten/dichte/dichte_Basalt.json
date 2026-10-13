@@ -1,0 +1,717 @@
+{
+ "stand": "2026-10-13 23:26",
+ "quelle": "demo",
+ "kurz": "Basalt",
+ "pfad": "/Game/Basalt/maps/Basalt",
+ "feld": null,
+ "fenster_m": null,
+ "akteure_gesamt": 151,
+ "akteure_je_klasse": {
+  "StaticMeshActor": 142,
+  "DirectionalLight": 1,
+  "PlayerStart": 1,
+  "InstancedFoliageActor": 1,
+  "AtmosphericFog": 1,
+  "BP_Sky_Sphere_C": 1,
+  "SkyLight": 1,
+  "PostProcessVolume": 1,
+  "ExponentialHeightFog": 1,
+  "CineCameraActor": 1
+ },
+ "komponenten_gezaehlt": 142,
+ "komponenten_unsichtbar": 0,
+ "netze_riesig": 0,
+ "ausgeschlossen": [],
+ "huelle_m": null,
+ "flaechen_m2": {
+  "fenster": null,
+  "landschaft": 0.0,
+  "huelle": 0.0,
+  "benutzt": 0.0,
+  "benutzt_art": "huelle"
+ },
+ "landschaft": {
+  "teile": 0,
+  "quads_je_m": null,
+  "massstab": null,
+  "komponente_quads": null,
+  "unterteilungen": null,
+  "material": null,
+  "lagen": [],
+  "ebenen": [],
+  "umriss_m": null,
+  "flaeche_m2": 0.0,
+  "gras": null,
+  "hinweis": []
+ },
+ "kennzahlen": {
+  "flaeche_m2": 0.0,
+  "instanzen_gesamt": 142,
+  "netze_arten": 23,
+  "instanzen_je_100m2": 14199999999999.998,
+  "dreiecke_lod0_je_100m2": 2.4352859999999997e+17,
+  "nanite_anteil_netze": 0.0,
+  "baum_je_100m2": 0.0,
+  "baum_arten": 0,
+  "baum_flaeche_prozent_obergrenze": 0.0,
+  "baum_dreiecke_je_100m2": 0.0,
+  "fels_je_100m2": 13999999999999.998,
+  "fels_arten": 22,
+  "fels_flaeche_prozent_obergrenze": 202352999999999.97,
+  "fels_dreiecke_je_100m2": 2.4352819999999997e+17,
+  "pflanze_je_100m2": 0.0,
+  "pflanze_arten": 0,
+  "pflanze_flaeche_prozent_obergrenze": 0.0,
+  "pflanze_dreiecke_je_100m2": 0.0,
+  "sonstiges_je_100m2": 200000000000.0,
+  "sonstiges_arten": 1,
+  "sonstiges_flaeche_prozent_obergrenze": 1281362000000000.0,
+  "sonstiges_dreiecke_je_100m2": 400000000000.0,
+  "felsdeckung_prozent_obergrenze": 202352999999999.97,
+  "kleinzeug_je_100m2": 200000000000.0,
+  "mittel_je_100m2": 7099999999999.999,
+  "baeume_je_ha": 0.0,
+  "totholz_je_100m2": 0.0,
+  "gras_material_je_100m2": null,
+  "gras_typen_material": null,
+  "gras_sorten_material": null,
+  "gras_hoehe_max_m": null,
+  "landschaft_quads_je_m": null,
+  "landschaft_lagen": null,
+  "geschaetzt_massstab": false
+ },
+ "kennzahlen_andere_flaeche": null,
+ "netze": [
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_B_SM",
+   "name": "Basalt_Basalt_Cliff_Rock_B_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    7.487,
+    5.407,
+    1.522
+   ],
+   "dreiecke_lod0": 7360,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 19,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 19
+   },
+   "grundflaeche_m2": 976.63,
+   "hoehe_max_m": 3.42,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.02,
+   "groesse": "gross",
+   "dreiecke_gesamt": 139840
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_B_SM",
+   "name": "Basalt_Basalt_Pillar_Variance_B_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.303,
+    0.318,
+    0.638
+   ],
+   "dreiecke_lod0": 380,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 15,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 15
+   },
+   "grundflaeche_m2": 1.52,
+   "hoehe_max_m": 1.44,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.88,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 5700
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_D_SM",
+   "name": "Basalt_Basalt_Rock_D_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    2.101,
+    2.29,
+    1.358
+   ],
+   "dreiecke_lod0": 768,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 15,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 15
+   },
+   "grundflaeche_m2": 241.77,
+   "hoehe_max_m": 3.06,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.92,
+   "groesse": "gross",
+   "dreiecke_gesamt": 11520
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_D_SM",
+   "name": "Basalt_Basalt_Pillar_Variance_D_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.258,
+    0.291,
+    2.283
+   ],
+   "dreiecke_lod0": 704,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 11,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 11
+   },
+   "grundflaeche_m2": 1.37,
+   "hoehe_max_m": 4.0,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.49,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 7744
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cluster_A_SM",
+   "name": "Basalt_Basalt_Cluster_A_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    3.432,
+    3.831,
+    3.208
+   ],
+   "dreiecke_lod0": 66475,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 10
+   },
+   "grundflaeche_m2": 183.25,
+   "hoehe_max_m": 4.81,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 3.85,
+   "groesse": "gross",
+   "dreiecke_gesamt": 664750
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallSlope_SM",
+   "name": "Basalt_Basalt_Pillars_WallSlope_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    2.44,
+    1.548,
+    3.024
+   ],
+   "dreiecke_lod0": 23216,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 10,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 10
+   },
+   "grundflaeche_m2": 42.49,
+   "hoehe_max_m": 3.78,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.27,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 232160
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_Cluster_Low_SM",
+   "name": "Basalt_Basalt_Pillars_Cluster_Low_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    1.095,
+    0.926,
+    0.624
+   ],
+   "dreiecke_lod0": 4416,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 8,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 8
+   },
+   "grundflaeche_m2": 6.78,
+   "hoehe_max_m": 1.25,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.78,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 35328
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_B_SM",
+   "name": "Basalt_Basalt_Rock_B_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    1.169,
+    1.521,
+    0.782
+   ],
+   "dreiecke_lod0": 704,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 7,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 7
+   },
+   "grundflaeche_m2": 74.46,
+   "hoehe_max_m": 1.96,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.26,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 4928
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_SM",
+   "name": "Basalt_Basalt_Cliff_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    8.609,
+    5.31,
+    6.02
+   ],
+   "dreiecke_lod0": 193128,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 6,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 6
+   },
+   "grundflaeche_m2": 285.71,
+   "hoehe_max_m": 7.52,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 6.27,
+   "groesse": "gross",
+   "dreiecke_gesamt": 1158768
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_Wall_SM",
+   "name": "Basalt_Basalt_Pillars_Wall_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    1.614,
+    0.765,
+    2.549
+   ],
+   "dreiecke_lod0": 7952,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 6,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 6
+   },
+   "grundflaeche_m2": 8.8,
+   "hoehe_max_m": 3.82,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.87,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 47712
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_C_SM",
+   "name": "Basalt_Basalt_Rock_C_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    1.311,
+    1.186,
+    1.669
+   ],
+   "dreiecke_lod0": 704,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 6,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 6
+   },
+   "grundflaeche_m2": 16.33,
+   "hoehe_max_m": 2.5,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.29,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 4224
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_D_SM",
+   "name": "Basalt_Basalt_Pillar_D_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.294,
+    0.263,
+    2.63
+   ],
+   "dreiecke_lod0": 704,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 5
+   },
+   "grundflaeche_m2": 0.77,
+   "hoehe_max_m": 4.6,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 3.55,
+   "groesse": "gross",
+   "dreiecke_gesamt": 3520
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_WallOverhang_SM",
+   "name": "Basalt_Basalt_Pillars_WallOverhang_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    1.623,
+    0.983,
+    2.553
+   ],
+   "dreiecke_lod0": 11496,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 5,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 5
+   },
+   "grundflaeche_m2": 9.77,
+   "hoehe_max_m": 4.47,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 3.19,
+   "groesse": "gross",
+   "dreiecke_gesamt": 57480
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cluster_A_Rocks_SM",
+   "name": "Basalt_Basalt_Cluster_A_Rocks_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    3.399,
+    3.201,
+    3.09
+   ],
+   "dreiecke_lod0": 4799,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 4
+   },
+   "grundflaeche_m2": 43.52,
+   "hoehe_max_m": 3.09,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 3.09,
+   "groesse": "gross",
+   "dreiecke_gesamt": 19196
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillars_Cluster_High_SM",
+   "name": "Basalt_Basalt_Pillars_Cluster_High_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.76,
+    0.79,
+    2.621
+   ],
+   "dreiecke_lod0": 3976,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 4,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 4
+   },
+   "grundflaeche_m2": 2.4,
+   "hoehe_max_m": 2.62,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 2.29,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 15904
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Cliff_Rock_A_SM",
+   "name": "Basalt_Basalt_Cliff_Rock_A_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    8.344,
+    5.07,
+    5.633
+   ],
+   "dreiecke_lod0": 7936,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 3,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 3
+   },
+   "grundflaeche_m2": 126.91,
+   "hoehe_max_m": 5.63,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 4.22,
+   "groesse": "gross",
+   "dreiecke_gesamt": 23808
+  },
+  {
+   "pfad": "/Engine/BasicShapes/Plane",
+   "name": "Plane",
+   "klasse": "sonstiges",
+   "paket": "BasicShapes",
+   "netz_m": [
+    1.0,
+    1.0,
+    0.0
+   ],
+   "dreiecke_lod0": 2,
+   "nanite": false,
+   "lods": 1,
+   "instanzen": 2,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 2
+   },
+   "grundflaeche_m2": 12813.62,
+   "hoehe_max_m": 0.0,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.0,
+   "groesse": "gross",
+   "dreiecke_gesamt": 4
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_A_SM",
+   "name": "Basalt_Basalt_Pillar_A_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.29,
+    0.252,
+    0.147
+   ],
+   "dreiecke_lod0": 308,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 0.07,
+   "hoehe_max_m": 0.15,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.15,
+   "groesse": "klein",
+   "dreiecke_gesamt": 308
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_B_SM",
+   "name": "Basalt_Basalt_Pillar_B_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.287,
+    0.258,
+    0.741
+   ],
+   "dreiecke_lod0": 380,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 0.07,
+   "hoehe_max_m": 0.74,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.74,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 380
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_C_SM",
+   "name": "Basalt_Basalt_Pillar_C_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.288,
+    0.258,
+    0.911
+   ],
+   "dreiecke_lod0": 596,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 0.07,
+   "hoehe_max_m": 0.91,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.91,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 596
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_A_SM",
+   "name": "Basalt_Basalt_Pillar_Variance_A_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.277,
+    0.268,
+    0.219
+   ],
+   "dreiecke_lod0": 308,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 0.07,
+   "hoehe_max_m": 0.22,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.22,
+   "groesse": "klein",
+   "dreiecke_gesamt": 308
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Pillar_Variance_C_SM",
+   "name": "Basalt_Basalt_Pillar_Variance_C_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.244,
+    0.269,
+    1.307
+   ],
+   "dreiecke_lod0": 596,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 0.07,
+   "hoehe_max_m": 1.31,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 1.31,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 596
+  },
+  {
+   "pfad": "/Game/Basalt/meshes/Basalt_Basalt_Rock_A_SM",
+   "name": "Basalt_Basalt_Rock_A_SM",
+   "klasse": "fels",
+   "paket": "Basalt",
+   "netz_m": [
+    0.805,
+    0.864,
+    0.666
+   ],
+   "dreiecke_lod0": 512,
+   "nanite": false,
+   "lods": 4,
+   "instanzen": 1,
+   "quellen": {
+    "foliage": 0,
+    "ism": 0,
+    "akteur": 1
+   },
+   "grundflaeche_m2": 0.7,
+   "hoehe_max_m": 0.67,
+   "geschaetzt": false,
+   "hoehe_mittel_m": 0.67,
+   "groesse": "mittel",
+   "dreiecke_gesamt": 512
+  }
+ ],
+ "kameras": [
+  {
+   "name": "CineCameraActor2",
+   "quelle": "CameraActor",
+   "x": -3495.5,
+   "y": -308.9,
+   "z": 554.9,
+   "pitch": -19.6,
+   "yaw": -24.3
+  },
+  {
+   "name": "Player Start",
+   "quelle": "PlayerStart",
+   "x": 90.4,
+   "y": 683.4,
+   "z": 242.0,
+   "pitch": -5.0,
+   "yaw": 330.0
+  },
+  {
+   "name": "Player Start",
+   "quelle": "PlayerStart",
+   "x": 90.4,
+   "y": 683.4,
+   "z": 242.0,
+   "pitch": -5.0,
+   "yaw": 90.0
+  }
+ ],
+ "stichprobe": 200,
+ "hinweise": [],
+ "dauer_s": 12.0,
+ "world_partition_geladen": 0
+}
