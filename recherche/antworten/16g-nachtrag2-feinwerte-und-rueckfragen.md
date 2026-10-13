@@ -455,6 +455,11 @@ for z in zeilen[-400:]:
   - Unterhalb von s 748 gehört das Wasser dem Fluss. Die p2-Spline darf dort enden.
 - Wir warten auf das Bild der Mündung.
 
+> **Nachtrag (nach 16h Nachtrag 2):** Diese Empfehlung ist überholt, solange Ferats Prüfung aussteht.
+> In [`16h-nachtrag2-tl-t0-kasten.md`](16h-nachtrag2-tl-t0-kasten.md) zeigt sich: Die 37,78 m am Kopf von `F_ERLENBACH_2_C3` sind eine Kopie des Endes des ersetzten `F_ERLENBACH_2_C2`. Sie sind also der Rest der alten Überlappung und kein Flussspiegel.
+> Deshalb gilt dort der p2-Spiegel, ohne Anheben, und `F_ERLENBACH` wird am Kopf gekürzt.
+> Nur wenn das C3-Wasser im Level tatsächlich bei ≈ 37,8 m steht (Rückfrage 3 in 16h Nachtrag 2), gilt der Vorschlag oben.
+
 ---
 
 ## Was lokal zu tun ist
