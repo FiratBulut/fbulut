@@ -47,3 +47,14 @@ nach der Reparatur neu beurteilt werden (hell/dunkel, Größe, „Laub“), bevo
 - Mit Blick auf Witcher 4: nach Bettplan + reparierten Steinen – was fehlt der Talkaskade dann noch (Reihenfolge nach Wirkung)? Insbesondere
   Ufer-Vegetation an der neuen Kante, Totholz quer, Moos/Algen auf nassen Steinen, Licht/Schatten im Einschnitt.
 - Soll die Stein-Palette im Bett nach der Reparatur anders gemischt werden (eure 6c-Zusatznetze gelten weiter)?
+
+## 6. Nachtrag 21:05 – Reparatur erledigt (gespeichert)
+
+- `M_EL_Fels_MSR` (Original-Fels-Graph, neuer Name, 0 Kompilierfehler) → `M_EL_Fels_MS2` = MSR + `MF_EL_Nasslinie` + `MF_EL_Spiegelhoehe`
+  (eure §4.2-Werte; Pixel-Anweisungen 336 → 363, +1 Sampler; Parametername `Nass_Rauheit_Linie`, weil der Fels-Master selbst `Nass_Rauheit`
+  für seine alte Nässe unter dem Objekt-Ursprung hat).
+- **120 Fels-/Holz-Instanzen** von `M_EL_Fels_MS` auf MS2 umgehängt (Werte gleich, nur diese gespeichert) + `MI_EL_Nass_SmallStonesPack_01`.
+- Bild `bilder/swr_p2/fels_master_repariert_msr.jpg` (links E16 = kaputt, rechts MSR): die „Laub“-Flecken sind weg; im Bach liegen jetzt
+  lesbare Steine (SmallStonesPack beige, mountain_rock grau), Stämme werden als Holz sichtbar. Unter Wasser sind die hellen Kleinsteine
+  jetzt helle STEINE (nicht mehr Laub) – Frage aus 6d §3 (Palette/Abdunklung) bitte mit diesem Bild neu beurteilen.
+- V18b (Grund-Ton ab 0 cm) läuft gerade im Editor; Bilder folgen.
