@@ -145,8 +145,7 @@ an Grund und Verzerrung.
 
 ## 7. Was lokal zu tun ist
 
-Code und Regeln: Commit der Hauptantwort (siehe dort), dazu dieser Commit (siehe Commit-Log: „Antwort 16h-Nachtrag
-Materialtest“).
+Regeln und Referenz: Commit **`97a8e12`** holen (enthält auch den Code der Hauptantwort).
 
 1. Variante F lassen. Schnelltest `ELD_Schaum_Deckkraft` 0 (Abschnitt 1).
 2. Test TL: Bach-Werte aus Abschnitt 3 global; Bilder an `C2_t430_auge`, `C2_t500_auge`, `C2_t500_schraeg`, `C2_t550_auge`.

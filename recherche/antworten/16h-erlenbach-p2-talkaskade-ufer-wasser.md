@@ -425,7 +425,7 @@ Größe = größte Ausdehnung; Einbettung = Anteil der Höhe im Boden. Lange Ach
 
 ## Was lokal zu tun ist
 
-Code und Regeln: Commit **`b12cc00`** holen.
+Code und Regeln: Commit **`97a8e12`** holen.
 
 1. **Landschaftsmaterial zuerst (Hauptursache):**
    - Test TL mit den Bach-Werten aus [`16h-nachtrag-materialtest.md`](16h-nachtrag-materialtest.md), vorübergehend global;
