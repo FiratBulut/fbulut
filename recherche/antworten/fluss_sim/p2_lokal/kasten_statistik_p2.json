@@ -1,0 +1,42 @@
+{
+ "bergrinne": {
+  "querschnitte": 200,
+  "kaesten": 93,
+  "kasten_max_m": 9.067,
+  "abtrag_m3": 113.4,
+  "kasten_anteil_pct": 46.5,
+  "kasten_mittel_m": 1.44
+ },
+ "durchbruch": {
+  "querschnitte": 190,
+  "kaesten": 34,
+  "kasten_max_m": 6.497,
+  "abtrag_m3": 23.3,
+  "kasten_anteil_pct": 17.9,
+  "kasten_mittel_m": 0.61
+ },
+ "talkaskade": {
+  "querschnitte": 190,
+  "kaesten": 32,
+  "kasten_max_m": 2.704,
+  "abtrag_m3": 75.5,
+  "kasten_anteil_pct": 16.8,
+  "kasten_mittel_m": 0.27
+ },
+ "kiesbett": {
+  "querschnitte": 148,
+  "kaesten": 0,
+  "kasten_max_m": 0.0,
+  "abtrag_m3": 0.0,
+  "kasten_anteil_pct": 0.0,
+  "kasten_mittel_m": 0.0
+ },
+ "muendung": {
+  "querschnitte": 60,
+  "kaesten": 0,
+  "kasten_max_m": 0.0,
+  "abtrag_m3": 0.0,
+  "kasten_anteil_pct": 0.0,
+  "kasten_mittel_m": 0.0
+ }
+}
