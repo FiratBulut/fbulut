@@ -1,0 +1,12096 @@
+{
+ "format": "p2_bett_v1",
+ "stand": "16h Nachtrag 6c",
+ "abschnitt": "talkaskade",
+ "quelle": "fluss_sim/p2_lokal/querschnitte_p2.json",
+ "regeln": "skripte/p2_bett/p2_bett_regeln.json",
+ "koordinaten": "Bach: s = m entlang lauf_p2 wie querschnitte_p2.json, u = m quer (u > 0 links = (-t_j, t_i) im Raster). Welt ueber p2_bett_welt.py (lauf_p2.json, hoehe.f32).",
+ "anschluss": {
+  "P_vor": 100.96,
+  "P0": 100.65,
+  "P_end": 44.98,
+  "P_nach": 44.23,
+  "s0": 389.0,
+  "s1": 579.0
+ },
+ "gelaende": {
+  "datei": "talkaskade_soll.f32",
+  "form": [
+   6,
+   384,
+   101
+  ],
+  "kanaele": [
+   "z_min",
+   "z_max",
+   "gewicht",
+   "spiegel",
+   "abtrag_max",
+   "kante_abstand"
+  ],
+  "s0_m": 389.0,
+  "ds_m": 0.5,
+  "u0_m": -12.5,
+  "du_m": 0.25,
+  "nan": "keine Grenze",
+  "regel": "neu = max(ist + gewicht * (clip(ist, z_min, z_max) - ist), ist - abtrag_max); Bett: z_min = z_max; Schulter: z_min = Spiegel + Uferstufe; Boeschung: z_max = 35 Grad ab der Uferstufe (zuruecklegen), abtrag_max = Einschnitt gegen den alten Spiegel + 0,3 m, nach aussen auf 0",
+  "zonen": {
+   "datei": "talkaskade_zonen.u8",
+   "werte": {
+    "0": "aussen",
+    "1": "bett",
+    "2": "kolk",
+    "3": "lippenkrone",
+    "4": "stufenwand_rampe",
+    "5": "uferstufe",
+    "6": "schulter",
+    "7": "boeschung"
+   }
+  }
+ },
+ "spiegel_je_m": {
+  "hinweis": "Wasserspiegel auf der lauf_p2-Mittellinie (u = 0) je Meter, fuer die Z der SWR-Spline. Stufen liegen zwischen zwei Punkten; genaue Lage in 'lippen'.",
+  "spalten": [
+   "s_m",
+   "z_m"
+  ],
+  "punkte": [
+   [
+    389.0,
+    100.96
+   ],
+   [
+    390.0,
+    100.65
+   ],
+   [
+    391.0,
+    100.65
+   ],
+   [
+    392.0,
+    100.65
+   ],
+   [
+    393.0,
+    100.609
+   ],
+   [
+    394.0,
+    99.993
+   ],
+   [
+    395.0,
+    99.543
+   ],
+   [
+    396.0,
+    98.81
+   ],
+   [
+    397.0,
+    98.81
+   ],
+   [
+    398.0,
+    98.81
+   ],
+   [
+    399.0,
+    98.81
+   ],
+   [
+    400.0,
+    98.81
+   ],
+   [
+    401.0,
+    98.81
+   ],
+   [
+    402.0,
+    98.399
+   ],
+   [
+    403.0,
+    97.762
+   ],
+   [
+    404.0,
+    97.762
+   ],
+   [
+    405.0,
+    97.762
+   ],
+   [
+    406.0,
+    97.762
+   ],
+   [
+    407.0,
+    95.748
+   ],
+   [
+    408.0,
+    95.748
+   ],
+   [
+    409.0,
+    94.964
+   ],
+   [
+    410.0,
+    94.964
+   ],
+   [
+    411.0,
+    94.964
+   ],
+   [
+    412.0,
+    94.964
+   ],
+   [
+    413.0,
+    94.964
+   ],
+   [
+    414.0,
+    94.964
+   ],
+   [
+    415.0,
+    94.964
+   ],
+   [
+    416.0,
+    94.964
+   ],
+   [
+    417.0,
+    94.964
+   ],
+   [
+    418.0,
+    94.964
+   ],
+   [
+    419.0,
+    94.964
+   ],
+   [
+    420.0,
+    93.381
+   ],
+   [
+    421.0,
+    93.256
+   ],
+   [
+    422.0,
+    93.256
+   ],
+   [
+    423.0,
+    93.256
+   ],
+   [
+    424.0,
+    93.256
+   ],
+   [
+    425.0,
+    93.256
+   ],
+   [
+    426.0,
+    92.528
+   ],
+   [
+    427.0,
+    92.297
+   ],
+   [
+    428.0,
+    92.297
+   ],
+   [
+    429.0,
+    92.297
+   ],
+   [
+    430.0,
+    92.297
+   ],
+   [
+    431.0,
+    91.057
+   ],
+   [
+    432.0,
+    90.693
+   ],
+   [
+    433.0,
+    90.649
+   ],
+   [
+    434.0,
+    90.316
+   ],
+   [
+    435.0,
+    90.127
+   ],
+   [
+    436.0,
+    90.127
+   ],
+   [
+    437.0,
+    90.127
+   ],
+   [
+    438.0,
+    89.432
+   ],
+   [
+    439.0,
+    89.229
+   ],
+   [
+    440.0,
+    89.075
+   ],
+   [
+    441.0,
+    88.696
+   ],
+   [
+    442.0,
+    88.696
+   ],
+   [
+    443.0,
+    87.288
+   ],
+   [
+    444.0,
+    87.288
+   ],
+   [
+    445.0,
+    87.288
+   ],
+   [
+    446.0,
+    87.288
+   ],
+   [
+    447.0,
+    86.398
+   ],
+   [
+    448.0,
+    86.398
+   ],
+   [
+    449.0,
+    84.924
+   ],
+   [
+    450.0,
+    84.624
+   ],
+   [
+    451.0,
+    84.573
+   ],
+   [
+    452.0,
+    82.915
+   ],
+   [
+    453.0,
+    82.915
+   ],
+   [
+    454.0,
+    82.915
+   ],
+   [
+    455.0,
+    82.212
+   ],
+   [
+    456.0,
+    82.193
+   ],
+   [
+    457.0,
+    81.979
+   ],
+   [
+    458.0,
+    79.698
+   ],
+   [
+    459.0,
+    79.698
+   ],
+   [
+    460.0,
+    79.698
+   ],
+   [
+    461.0,
+    79.698
+   ],
+   [
+    462.0,
+    79.698
+   ],
+   [
+    463.0,
+    79.698
+   ],
+   [
+    464.0,
+    79.698
+   ],
+   [
+    465.0,
+    79.698
+   ],
+   [
+    466.0,
+    78.732
+   ],
+   [
+    467.0,
+    78.543
+   ],
+   [
+    468.0,
+    78.543
+   ],
+   [
+    469.0,
+    78.543
+   ],
+   [
+    470.0,
+    78.543
+   ],
+   [
+    471.0,
+    78.543
+   ],
+   [
+    472.0,
+    78.543
+   ],
+   [
+    473.0,
+    77.485
+   ],
+   [
+    474.0,
+    77.485
+   ],
+   [
+    475.0,
+    76.701
+   ],
+   [
+    476.0,
+    76.109
+   ],
+   [
+    477.0,
+    75.453
+   ],
+   [
+    478.0,
+    74.906
+   ],
+   [
+    479.0,
+    74.906
+   ],
+   [
+    480.0,
+    74.906
+   ],
+   [
+    481.0,
+    74.906
+   ],
+   [
+    482.0,
+    74.906
+   ],
+   [
+    483.0,
+    73.358
+   ],
+   [
+    484.0,
+    73.358
+   ],
+   [
+    485.0,
+    73.358
+   ],
+   [
+    486.0,
+    73.358
+   ],
+   [
+    487.0,
+    72.02
+   ],
+   [
+    488.0,
+    71.959
+   ],
+   [
+    489.0,
+    70.901
+   ],
+   [
+    490.0,
+    70.889
+   ],
+   [
+    491.0,
+    70.492
+   ],
+   [
+    492.0,
+    69.845
+   ],
+   [
+    493.0,
+    69.845
+   ],
+   [
+    494.0,
+    69.845
+   ],
+   [
+    495.0,
+    69.064
+   ],
+   [
+    496.0,
+    68.764
+   ],
+   [
+    497.0,
+    67.822
+   ],
+   [
+    498.0,
+    67.485
+   ],
+   [
+    499.0,
+    67.485
+   ],
+   [
+    500.0,
+    67.485
+   ],
+   [
+    501.0,
+    66.129
+   ],
+   [
+    502.0,
+    65.633
+   ],
+   [
+    503.0,
+    65.595
+   ],
+   [
+    504.0,
+    63.723
+   ],
+   [
+    505.0,
+    63.723
+   ],
+   [
+    506.0,
+    63.723
+   ],
+   [
+    507.0,
+    63.723
+   ],
+   [
+    508.0,
+    63.723
+   ],
+   [
+    509.0,
+    63.723
+   ],
+   [
+    510.0,
+    63.235
+   ],
+   [
+    511.0,
+    62.284
+   ],
+   [
+    512.0,
+    62.284
+   ],
+   [
+    513.0,
+    62.284
+   ],
+   [
+    514.0,
+    62.284
+   ],
+   [
+    515.0,
+    61.651
+   ],
+   [
+    516.0,
+    61.651
+   ],
+   [
+    517.0,
+    60.532
+   ],
+   [
+    518.0,
+    60.532
+   ],
+   [
+    519.0,
+    59.549
+   ],
+   [
+    520.0,
+    59.549
+   ],
+   [
+    521.0,
+    59.549
+   ],
+   [
+    522.0,
+    59.549
+   ],
+   [
+    523.0,
+    57.954
+   ],
+   [
+    524.0,
+    57.954
+   ],
+   [
+    525.0,
+    56.994
+   ],
+   [
+    526.0,
+    56.993
+   ],
+   [
+    527.0,
+    56.993
+   ],
+   [
+    528.0,
+    56.993
+   ],
+   [
+    529.0,
+    56.993
+   ],
+   [
+    530.0,
+    56.993
+   ],
+   [
+    531.0,
+    55.462
+   ],
+   [
+    532.0,
+    55.462
+   ],
+   [
+    533.0,
+    55.462
+   ],
+   [
+    534.0,
+    55.462
+   ],
+   [
+    535.0,
+    55.462
+   ],
+   [
+    536.0,
+    54.134
+   ],
+   [
+    537.0,
+    54.134
+   ],
+   [
+    538.0,
+    53.059
+   ],
+   [
+    539.0,
+    53.049
+   ],
+   [
+    540.0,
+    53.049
+   ],
+   [
+    541.0,
+    53.049
+   ],
+   [
+    542.0,
+    53.048
+   ],
+   [
+    543.0,
+    52.16
+   ],
+   [
+    544.0,
+    51.984
+   ],
+   [
+    545.0,
+    50.955
+   ],
+   [
+    546.0,
+    50.955
+   ],
+   [
+    547.0,
+    50.955
+   ],
+   [
+    548.0,
+    50.955
+   ],
+   [
+    549.0,
+    49.834
+   ],
+   [
+    550.0,
+    49.766
+   ],
+   [
+    551.0,
+    49.766
+   ],
+   [
+    552.0,
+    49.766
+   ],
+   [
+    553.0,
+    49.766
+   ],
+   [
+    554.0,
+    49.766
+   ],
+   [
+    555.0,
+    48.623
+   ],
+   [
+    556.0,
+    48.623
+   ],
+   [
+    557.0,
+    48.623
+   ],
+   [
+    558.0,
+    48.623
+   ],
+   [
+    559.0,
+    48.623
+   ],
+   [
+    560.0,
+    48.013
+   ],
+   [
+    561.0,
+    47.417
+   ],
+   [
+    562.0,
+    46.759
+   ],
+   [
+    563.0,
+    46.21
+   ],
+   [
+    564.0,
+    46.21
+   ],
+   [
+    565.0,
+    46.21
+   ],
+   [
+    566.0,
+    46.21
+   ],
+   [
+    567.0,
+    46.21
+   ],
+   [
+    568.0,
+    46.21
+   ],
+   [
+    569.0,
+    46.21
+   ],
+   [
+    570.0,
+    46.139
+   ],
+   [
+    571.0,
+    44.98
+   ],
+   [
+    572.0,
+    44.98
+   ],
+   [
+    573.0,
+    44.98
+   ],
+   [
+    574.0,
+    44.98
+   ],
+   [
+    575.0,
+    44.98
+   ],
+   [
+    576.0,
+    44.98
+   ],
+   [
+    577.0,
+    44.98
+   ],
+   [
+    578.0,
+    44.98
+   ],
+   [
+    579.0,
+    44.98
+   ],
+   [
+    580.0,
+    44.23
+   ]
+  ]
+ },
+ "einheiten": [
+  {
+   "k": 0,
+   "klasse": "anschluss",
+   "von_m": 389.0,
+   "bis_m": 392.94,
+   "laenge_B": 1.16,
+   "spiegel_m": 100.65,
+   "fall_m": 0.31,
+   "teile_m": [
+    0.31
+   ],
+   "uferstufe_m": 0.36,
+   "kopf_ufer_m": 0.0
+  },
+  {
+   "k": 1,
+   "klasse": "mittel",
+   "von_m": 392.94,
+   "bis_m": 401.67,
+   "laenge_B": 2.52,
+   "spiegel_m": 98.81,
+   "fall_m": 1.84,
+   "teile_m": [
+    0.66,
+    1.18
+   ],
+   "uferstufe_m": 0.3,
+   "kopf_ufer_m": 1.33
+  },
+  {
+   "k": 2,
+   "klasse": "kurz",
+   "von_m": 401.67,
+   "bis_m": 405.96,
+   "laenge_B": 1.24,
+   "spiegel_m": 97.762,
+   "fall_m": 1.05,
+   "teile_m": [
+    1.05
+   ],
+   "uferstufe_m": 0.36,
+   "kopf_ufer_m": 1.22
+  },
+  {
+   "k": 3,
+   "klasse": "ruhig",
+   "von_m": 405.96,
+   "bis_m": 419.23,
+   "laenge_B": 3.83,
+   "spiegel_m": 94.964,
+   "fall_m": 2.8,
+   "teile_m": [
+    2.01,
+    0.78
+   ],
+   "uferstufe_m": 0.32,
+   "kopf_ufer_m": 2.61
+  },
+  {
+   "k": 4,
+   "klasse": "mittel",
+   "von_m": 419.23,
+   "bis_m": 425.73,
+   "laenge_B": 1.91,
+   "spiegel_m": 93.256,
+   "fall_m": 1.71,
+   "teile_m": [
+    1.71
+   ],
+   "uferstufe_m": 0.44,
+   "kopf_ufer_m": 1.85
+  },
+  {
+   "k": 5,
+   "klasse": "kurz",
+   "von_m": 425.73,
+   "bis_m": 430.42,
+   "laenge_B": 1.32,
+   "spiegel_m": 92.297,
+   "fall_m": 0.96,
+   "teile_m": [
+    0.96
+   ],
+   "uferstufe_m": 0.32,
+   "kopf_ufer_m": 1.28
+  },
+  {
+   "k": 6,
+   "klasse": "mittel",
+   "von_m": 430.42,
+   "bis_m": 437.6,
+   "laenge_B": 1.9,
+   "spiegel_m": 90.127,
+   "fall_m": 2.17,
+   "teile_m": [
+    1.6,
+    0.57
+   ],
+   "uferstufe_m": 0.43,
+   "kopf_ufer_m": 1.66
+  },
+  {
+   "k": 7,
+   "klasse": "mittel",
+   "von_m": 437.6,
+   "bis_m": 446.21,
+   "laenge_B": 2.3,
+   "spiegel_m": 87.288,
+   "fall_m": 2.84,
+   "teile_m": [
+    0.9,
+    0.53,
+    1.41
+   ],
+   "uferstufe_m": 0.4,
+   "kopf_ufer_m": 1.89
+  },
+  {
+   "k": 8,
+   "klasse": "lang",
+   "von_m": 446.21,
+   "bis_m": 454.63,
+   "laenge_B": 2.25,
+   "spiegel_m": 82.915,
+   "fall_m": 4.37,
+   "teile_m": [
+    0.89,
+    1.77,
+    1.71
+   ],
+   "uferstufe_m": 0.3,
+   "kopf_ufer_m": 1.77
+  },
+  {
+   "k": 9,
+   "klasse": "ruhig",
+   "von_m": 454.63,
+   "bis_m": 465.74,
+   "laenge_B": 2.95,
+   "spiegel_m": 79.698,
+   "fall_m": 3.22,
+   "teile_m": [
+    0.72,
+    2.49
+   ],
+   "uferstufe_m": 0.28,
+   "kopf_ufer_m": 1.97
+  },
+  {
+   "k": 10,
+   "klasse": "kurz",
+   "von_m": 465.74,
+   "bis_m": 472.18,
+   "laenge_B": 1.66,
+   "spiegel_m": 78.543,
+   "fall_m": 1.16,
+   "teile_m": [
+    1.16
+   ],
+   "uferstufe_m": 0.29,
+   "kopf_ufer_m": 1.33
+  },
+  {
+   "k": 11,
+   "klasse": "lang",
+   "von_m": 472.18,
+   "bis_m": 482.26,
+   "laenge_B": 2.43,
+   "spiegel_m": 74.906,
+   "fall_m": 3.64,
+   "teile_m": [
+    1.06,
+    1.38,
+    1.2
+   ],
+   "uferstufe_m": 0.34,
+   "kopf_ufer_m": 2.16
+  },
+  {
+   "k": 12,
+   "klasse": "kurz",
+   "von_m": 482.26,
+   "bis_m": 486.44,
+   "laenge_B": 1.11,
+   "spiegel_m": 73.358,
+   "fall_m": 1.55,
+   "teile_m": [
+    1.55
+   ],
+   "uferstufe_m": 0.27,
+   "kopf_ufer_m": 1.59
+  },
+  {
+   "k": 13,
+   "klasse": "mittel",
+   "von_m": 486.44,
+   "bis_m": 494.66,
+   "laenge_B": 2.01,
+   "spiegel_m": 69.845,
+   "fall_m": 3.51,
+   "teile_m": [
+    1.4,
+    1.07,
+    1.04
+   ],
+   "uferstufe_m": 0.44,
+   "kopf_ufer_m": 1.82
+  },
+  {
+   "k": 14,
+   "klasse": "kurz",
+   "von_m": 494.66,
+   "bis_m": 500.39,
+   "laenge_B": 1.36,
+   "spiegel_m": 67.485,
+   "fall_m": 2.36,
+   "teile_m": [
+    1.08,
+    1.28
+   ],
+   "uferstufe_m": 0.29,
+   "kopf_ufer_m": 1.59
+  },
+  {
+   "k": 15,
+   "klasse": "ruhig",
+   "von_m": 500.39,
+   "bis_m": 509.72,
+   "laenge_B": 2.15,
+   "spiegel_m": 63.723,
+   "fall_m": 3.76,
+   "teile_m": [
+    1.85,
+    1.91
+   ],
+   "uferstufe_m": 0.38,
+   "kopf_ufer_m": 2.61
+  },
+  {
+   "k": 16,
+   "klasse": "kurz",
+   "von_m": 509.72,
+   "bis_m": 514.31,
+   "laenge_B": 1.11,
+   "spiegel_m": 62.284,
+   "fall_m": 1.44,
+   "teile_m": [
+    1.44
+   ],
+   "uferstufe_m": 0.34,
+   "kopf_ufer_m": 1.57
+  },
+  {
+   "k": 17,
+   "klasse": "mittel",
+   "von_m": 514.31,
+   "bis_m": 522.22,
+   "laenge_B": 1.9,
+   "spiegel_m": 59.549,
+   "fall_m": 2.73,
+   "teile_m": [
+    0.63,
+    1.12,
+    0.98
+   ],
+   "uferstufe_m": 0.34,
+   "kopf_ufer_m": 1.65
+  },
+  {
+   "k": 18,
+   "klasse": "mittel",
+   "von_m": 522.22,
+   "bis_m": 530.05,
+   "laenge_B": 1.79,
+   "spiegel_m": 56.993,
+   "fall_m": 2.56,
+   "teile_m": [
+    1.6,
+    0.96
+   ],
+   "uferstufe_m": 0.25,
+   "kopf_ufer_m": 1.58
+  },
+  {
+   "k": 19,
+   "klasse": "kurz",
+   "von_m": 530.05,
+   "bis_m": 535.03,
+   "laenge_B": 1.1,
+   "spiegel_m": 55.462,
+   "fall_m": 1.53,
+   "teile_m": [
+    1.53
+   ],
+   "uferstufe_m": 0.45,
+   "kopf_ufer_m": 1.55
+  },
+  {
+   "k": 20,
+   "klasse": "mittel",
+   "von_m": 535.03,
+   "bis_m": 541.93,
+   "laenge_B": 1.7,
+   "spiegel_m": 53.049,
+   "fall_m": 2.41,
+   "teile_m": [
+    1.33,
+    1.09
+   ],
+   "uferstufe_m": 0.44,
+   "kopf_ufer_m": 2.07
+  },
+  {
+   "k": 21,
+   "klasse": "mittel",
+   "von_m": 541.93,
+   "bis_m": 548.45,
+   "laenge_B": 1.57,
+   "spiegel_m": 50.955,
+   "fall_m": 2.09,
+   "teile_m": [
+    0.89,
+    1.21
+   ],
+   "uferstufe_m": 0.38,
+   "kopf_ufer_m": 1.6
+  },
+  {
+   "k": 22,
+   "klasse": "kurz",
+   "von_m": 548.45,
+   "bis_m": 554.21,
+   "laenge_B": 1.35,
+   "spiegel_m": 49.766,
+   "fall_m": 1.19,
+   "teile_m": [
+    1.19
+   ],
+   "uferstufe_m": 0.35,
+   "kopf_ufer_m": 1.44
+  },
+  {
+   "k": 23,
+   "klasse": "kurz",
+   "von_m": 554.21,
+   "bis_m": 559.68,
+   "laenge_B": 1.25,
+   "spiegel_m": 48.623,
+   "fall_m": 1.14,
+   "teile_m": [
+    1.14
+   ],
+   "uferstufe_m": 0.26,
+   "kopf_ufer_m": 1.31
+  },
+  {
+   "k": 24,
+   "klasse": "mittel",
+   "von_m": 559.68,
+   "bis_m": 569.94,
+   "laenge_B": 2.34,
+   "spiegel_m": 46.21,
+   "fall_m": 2.41,
+   "teile_m": [
+    1.21,
+    1.21
+   ],
+   "uferstufe_m": 0.27,
+   "kopf_ufer_m": 2.12
+  },
+  {
+   "k": 25,
+   "klasse": "lang",
+   "von_m": 569.94,
+   "bis_m": 579.0,
+   "laenge_B": 1.94,
+   "spiegel_m": 44.98,
+   "fall_m": 1.23,
+   "teile_m": [
+    1.23
+   ],
+   "uferstufe_m": 0.26,
+   "kopf_ufer_m": 1.34
+  }
+ ],
+ "lippen": [
+  {
+   "nr": 0,
+   "art": "bestand",
+   "einheit": 0,
+   "teil": 0,
+   "s_m": 389.0,
+   "s_bei_u0_m": 389.0,
+   "spiegel_oben_m": 100.96,
+   "spiegel_unten_m": 100.65,
+   "fall_m": 0.31,
+   "wand_m": 0.5,
+   "winkel_grad": 0.0,
+   "pfeil_m": 0.0,
+   "mitte_u_m": -0.0,
+   "breite_m": 3.41,
+   "kerben": [],
+   "krone_unter_spiegel_m": 0.05
+  },
+  {
+   "nr": 1,
+   "art": "kaskade_teil",
+   "einheit": 1,
+   "teil": 0,
+   "s_m": 392.94,
+   "s_bei_u0_m": 392.92,
+   "spiegel_oben_m": 100.65,
+   "spiegel_unten_m": 99.993,
+   "fall_m": 0.66,
+   "wand_m": 0.5,
+   "winkel_grad": -20.4,
+   "pfeil_m": 0.37,
+   "mitte_u_m": -0.05,
+   "breite_m": 2.94,
+   "kerben": [
+    {
+     "u_m": 0.79,
+     "breite_m": 0.82,
+     "tiefe_m": 0.37
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 2,
+   "art": "kaskade_teil",
+   "einheit": 1,
+   "teil": 1,
+   "s_m": 394.77,
+   "s_bei_u0_m": 394.72,
+   "spiegel_oben_m": 99.993,
+   "spiegel_unten_m": 98.81,
+   "fall_m": 1.18,
+   "wand_m": 0.66,
+   "winkel_grad": -26.7,
+   "pfeil_m": 0.41,
+   "mitte_u_m": -0.08,
+   "breite_m": 2.94,
+   "kerben": [
+    {
+     "u_m": -0.8,
+     "breite_m": 0.68,
+     "tiefe_m": 0.25
+    }
+   ],
+   "krone_unter_spiegel_m": 0.05
+  },
+  {
+   "nr": 3,
+   "art": "stufe",
+   "einheit": 2,
+   "teil": 0,
+   "s_m": 401.67,
+   "s_bei_u0_m": 401.74,
+   "spiegel_oben_m": 98.81,
+   "spiegel_unten_m": 97.762,
+   "fall_m": 1.05,
+   "wand_m": 0.61,
+   "winkel_grad": 23.2,
+   "pfeil_m": 0.42,
+   "mitte_u_m": -0.18,
+   "breite_m": 2.94,
+   "kerben": [
+    {
+     "u_m": 0.61,
+     "breite_m": 1.0,
+     "tiefe_m": 0.39
+    }
+   ],
+   "krone_unter_spiegel_m": 0.05
+  },
+  {
+   "nr": 4,
+   "art": "kaskade_teil",
+   "einheit": 3,
+   "teil": 0,
+   "s_m": 405.96,
+   "s_bei_u0_m": 406.05,
+   "spiegel_oben_m": 97.762,
+   "spiegel_unten_m": 95.748,
+   "fall_m": 2.01,
+   "wand_m": 0.9,
+   "winkel_grad": 21.9,
+   "pfeil_m": 0.36,
+   "mitte_u_m": -0.25,
+   "breite_m": 2.94,
+   "kerben": [
+    {
+     "u_m": -1.01,
+     "breite_m": 0.74,
+     "tiefe_m": 0.39
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 5,
+   "art": "kaskade_teil",
+   "einheit": 3,
+   "teil": 1,
+   "s_m": 408.12,
+   "s_bei_u0_m": 408.21,
+   "spiegel_oben_m": 95.748,
+   "spiegel_unten_m": 94.964,
+   "fall_m": 0.78,
+   "wand_m": 0.53,
+   "winkel_grad": 21.4,
+   "pfeil_m": 0.37,
+   "mitte_u_m": -0.27,
+   "breite_m": 2.89,
+   "kerben": [
+    {
+     "u_m": 0.3,
+     "breite_m": 0.73,
+     "tiefe_m": 0.31
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 6,
+   "art": "stufe",
+   "einheit": 4,
+   "teil": 0,
+   "s_m": 419.23,
+   "s_bei_u0_m": 419.32,
+   "spiegel_oben_m": 94.964,
+   "spiegel_unten_m": 93.256,
+   "fall_m": 1.71,
+   "wand_m": 0.81,
+   "winkel_grad": 22.0,
+   "pfeil_m": 0.22,
+   "mitte_u_m": -0.25,
+   "breite_m": 2.89,
+   "kerben": [
+    {
+     "u_m": -0.66,
+     "breite_m": 0.6,
+     "tiefe_m": 0.33
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 7,
+   "art": "stufe",
+   "einheit": 5,
+   "teil": 0,
+   "s_m": 425.73,
+   "s_bei_u0_m": 425.6,
+   "spiegel_oben_m": 93.256,
+   "spiegel_unten_m": 92.297,
+   "fall_m": 0.96,
+   "wand_m": 0.59,
+   "winkel_grad": -27.6,
+   "pfeil_m": 0.19,
+   "mitte_u_m": -0.23,
+   "breite_m": 3.03,
+   "kerben": [
+    {
+     "u_m": 0.61,
+     "breite_m": 1.05,
+     "tiefe_m": 0.2
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 8,
+   "art": "kaskade_teil",
+   "einheit": 6,
+   "teil": 0,
+   "s_m": 430.42,
+   "s_bei_u0_m": 430.46,
+   "spiegel_oben_m": 92.297,
+   "spiegel_unten_m": 90.693,
+   "fall_m": 1.6,
+   "wand_m": 0.78,
+   "winkel_grad": 10.2,
+   "pfeil_m": 0.12,
+   "mitte_u_m": -0.23,
+   "breite_m": 3.21,
+   "kerben": [
+    {
+     "u_m": -1.11,
+     "breite_m": 1.06,
+     "tiefe_m": 0.26
+    }
+   ],
+   "krone_unter_spiegel_m": 0.09
+  },
+  {
+   "nr": 9,
+   "art": "schnelle",
+   "einheit": 6,
+   "teil": 1,
+   "s_m": 432.81,
+   "s_bei_u0_m": 432.87,
+   "spiegel_oben_m": 90.693,
+   "spiegel_unten_m": 90.127,
+   "fall_m": 0.57,
+   "wand_m": 1.7,
+   "winkel_grad": 19.9,
+   "pfeil_m": 0.25,
+   "mitte_u_m": -0.17,
+   "breite_m": 3.12,
+   "kerben": [
+    {
+     "u_m": 0.54,
+     "breite_m": 1.01,
+     "tiefe_m": 0.27
+    }
+   ],
+   "krone_unter_spiegel_m": 0.05
+  },
+  {
+   "nr": 10,
+   "art": "kaskade_teil",
+   "einheit": 7,
+   "teil": 0,
+   "s_m": 437.6,
+   "s_bei_u0_m": 437.61,
+   "spiegel_oben_m": 90.127,
+   "spiegel_unten_m": 89.229,
+   "fall_m": 0.9,
+   "wand_m": 0.57,
+   "winkel_grad": 27.4,
+   "pfeil_m": 0.37,
+   "mitte_u_m": -0.01,
+   "breite_m": 3.18,
+   "kerben": [
+    {
+     "u_m": 0.47,
+     "breite_m": 0.84,
+     "tiefe_m": 0.37
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 11,
+   "art": "kaskade_teil",
+   "einheit": 7,
+   "teil": 1,
+   "s_m": 439.88,
+   "s_bei_u0_m": 439.84,
+   "spiegel_oben_m": 89.229,
+   "spiegel_unten_m": 88.696,
+   "fall_m": 0.53,
+   "wand_m": 0.46,
+   "winkel_grad": 32.0,
+   "pfeil_m": 0.3,
+   "mitte_u_m": 0.06,
+   "breite_m": 3.01,
+   "kerben": [
+    {
+     "u_m": 0.67,
+     "breite_m": 0.71,
+     "tiefe_m": 0.35
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 12,
+   "art": "kaskade_teil",
+   "einheit": 7,
+   "teil": 2,
+   "s_m": 442.09,
+   "s_bei_u0_m": 442.01,
+   "spiegel_oben_m": 88.696,
+   "spiegel_unten_m": 87.288,
+   "fall_m": 1.41,
+   "wand_m": 0.72,
+   "winkel_grad": 28.3,
+   "pfeil_m": 0.23,
+   "mitte_u_m": 0.13,
+   "breite_m": 3.19,
+   "kerben": [
+    {
+     "u_m": 0.68,
+     "breite_m": 0.8,
+     "tiefe_m": 0.33
+    }
+   ],
+   "krone_unter_spiegel_m": 0.1
+  },
+  {
+   "nr": 13,
+   "art": "kaskade_teil",
+   "einheit": 8,
+   "teil": 0,
+   "s_m": 446.21,
+   "s_bei_u0_m": 446.14,
+   "spiegel_oben_m": 87.288,
+   "spiegel_unten_m": 86.398,
+   "fall_m": 0.89,
+   "wand_m": 0.57,
+   "winkel_grad": 19.9,
+   "pfeil_m": 0.29,
+   "mitte_u_m": 0.19,
+   "breite_m": 3.18,
+   "kerben": [
+    {
+     "u_m": -0.33,
+     "breite_m": 0.94,
+     "tiefe_m": 0.32
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 14,
+   "art": "kaskade_teil",
+   "einheit": 8,
+   "teil": 1,
+   "s_m": 448.49,
+   "s_bei_u0_m": 448.39,
+   "spiegel_oben_m": 86.398,
+   "spiegel_unten_m": 84.624,
+   "fall_m": 1.77,
+   "wand_m": 0.83,
+   "winkel_grad": 25.7,
+   "pfeil_m": 0.43,
+   "mitte_u_m": 0.2,
+   "breite_m": 3.26,
+   "kerben": [
+    {
+     "u_m": 1.13,
+     "breite_m": 1.11,
+     "tiefe_m": 0.26
+    }
+   ],
+   "krone_unter_spiegel_m": 0.04
+  },
+  {
+   "nr": 15,
+   "art": "kaskade_teil",
+   "einheit": 8,
+   "teil": 2,
+   "s_m": 450.97,
+   "s_bei_u0_m": 450.92,
+   "spiegel_oben_m": 84.624,
+   "spiegel_unten_m": 82.915,
+   "fall_m": 1.71,
+   "wand_m": 0.81,
+   "winkel_grad": 13.1,
+   "pfeil_m": 0.39,
+   "mitte_u_m": 0.22,
+   "breite_m": 3.34,
+   "kerben": [
+    {
+     "u_m": 1.29,
+     "breite_m": 0.9,
+     "tiefe_m": 0.33
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 16,
+   "art": "kaskade_teil",
+   "einheit": 9,
+   "teil": 0,
+   "s_m": 454.63,
+   "s_bei_u0_m": 454.53,
+   "spiegel_oben_m": 82.915,
+   "spiegel_unten_m": 82.193,
+   "fall_m": 0.72,
+   "wand_m": 0.52,
+   "winkel_grad": 18.4,
+   "pfeil_m": 0.28,
+   "mitte_u_m": 0.27,
+   "breite_m": 3.2,
+   "kerben": [
+    {
+     "u_m": -0.74,
+     "breite_m": 0.88,
+     "tiefe_m": 0.27
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 17,
+   "art": "kaskade_teil",
+   "einheit": 9,
+   "teil": 1,
+   "s_m": 456.96,
+   "s_bei_u0_m": 456.82,
+   "spiegel_oben_m": 82.193,
+   "spiegel_unten_m": 79.698,
+   "fall_m": 2.49,
+   "wand_m": 1.0,
+   "winkel_grad": 23.1,
+   "pfeil_m": 0.41,
+   "mitte_u_m": 0.3,
+   "breite_m": 3.38,
+   "kerben": [
+    {
+     "u_m": 0.79,
+     "breite_m": 1.17,
+     "tiefe_m": 0.37
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 18,
+   "art": "stufe",
+   "einheit": 10,
+   "teil": 0,
+   "s_m": 465.74,
+   "s_bei_u0_m": 465.52,
+   "spiegel_oben_m": 79.698,
+   "spiegel_unten_m": 78.543,
+   "fall_m": 1.16,
+   "wand_m": 0.65,
+   "winkel_grad": 29.8,
+   "pfeil_m": 0.24,
+   "mitte_u_m": 0.36,
+   "breite_m": 3.31,
+   "kerben": [
+    {
+     "u_m": -0.41,
+     "breite_m": 1.08,
+     "tiefe_m": 0.21
+    }
+   ],
+   "krone_unter_spiegel_m": 0.05
+  },
+  {
+   "nr": 19,
+   "art": "kaskade_teil",
+   "einheit": 11,
+   "teil": 0,
+   "s_m": 472.18,
+   "s_bei_u0_m": 472.02,
+   "spiegel_oben_m": 78.543,
+   "spiegel_unten_m": 77.485,
+   "fall_m": 1.06,
+   "wand_m": 0.62,
+   "winkel_grad": 23.9,
+   "pfeil_m": 0.22,
+   "mitte_u_m": 0.36,
+   "breite_m": 3.52,
+   "kerben": [
+    {
+     "u_m": 0.74,
+     "breite_m": 0.91,
+     "tiefe_m": 0.23
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 20,
+   "art": "kaskade_teil",
+   "einheit": 11,
+   "teil": 1,
+   "s_m": 474.84,
+   "s_bei_u0_m": 474.61,
+   "spiegel_oben_m": 77.485,
+   "spiegel_unten_m": 76.109,
+   "fall_m": 1.38,
+   "wand_m": 0.71,
+   "winkel_grad": 30.6,
+   "pfeil_m": 0.41,
+   "mitte_u_m": 0.36,
+   "breite_m": 3.22,
+   "kerben": [
+    {
+     "u_m": 0.76,
+     "breite_m": 1.07,
+     "tiefe_m": 0.31
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 21,
+   "art": "kaskade_teil",
+   "einheit": 11,
+   "teil": 2,
+   "s_m": 476.81,
+   "s_bei_u0_m": 476.65,
+   "spiegel_oben_m": 76.109,
+   "spiegel_unten_m": 74.906,
+   "fall_m": 1.2,
+   "wand_m": 0.66,
+   "winkel_grad": 22.8,
+   "pfeil_m": 0.2,
+   "mitte_u_m": 0.36,
+   "breite_m": 3.32,
+   "kerben": [
+    {
+     "u_m": -0.38,
+     "breite_m": 1.08,
+     "tiefe_m": 0.24
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 22,
+   "art": "stufe",
+   "einheit": 12,
+   "teil": 0,
+   "s_m": 482.26,
+   "s_bei_u0_m": 482.14,
+   "spiegel_oben_m": 74.906,
+   "spiegel_unten_m": 73.358,
+   "fall_m": 1.55,
+   "wand_m": 0.76,
+   "winkel_grad": 15.4,
+   "pfeil_m": 0.38,
+   "mitte_u_m": 0.36,
+   "breite_m": 3.2,
+   "kerben": [
+    {
+     "u_m": 1.29,
+     "breite_m": 0.67,
+     "tiefe_m": 0.36
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 23,
+   "art": "kaskade_teil",
+   "einheit": 13,
+   "teil": 0,
+   "s_m": 486.44,
+   "s_bei_u0_m": 486.37,
+   "spiegel_oben_m": 73.358,
+   "spiegel_unten_m": 71.959,
+   "fall_m": 1.4,
+   "wand_m": 0.72,
+   "winkel_grad": 15.3,
+   "pfeil_m": 0.51,
+   "mitte_u_m": 0.23,
+   "breite_m": 3.48,
+   "kerben": [
+    {
+     "u_m": -0.59,
+     "breite_m": 0.98,
+     "tiefe_m": 0.27
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 24,
+   "art": "kaskade_teil",
+   "einheit": 13,
+   "teil": 1,
+   "s_m": 488.45,
+   "s_bei_u0_m": 488.42,
+   "spiegel_oben_m": 71.959,
+   "spiegel_unten_m": 70.889,
+   "fall_m": 1.07,
+   "wand_m": 0.62,
+   "winkel_grad": 16.6,
+   "pfeil_m": 0.37,
+   "mitte_u_m": 0.12,
+   "breite_m": 3.4,
+   "kerben": [
+    {
+     "u_m": 0.64,
+     "breite_m": 1.1,
+     "tiefe_m": 0.32
+    }
+   ],
+   "krone_unter_spiegel_m": 0.04
+  },
+  {
+   "nr": 25,
+   "art": "kaskade_teil",
+   "einheit": 13,
+   "teil": 2,
+   "s_m": 490.73,
+   "s_bei_u0_m": 490.74,
+   "spiegel_oben_m": 70.889,
+   "spiegel_unten_m": 69.845,
+   "fall_m": 1.04,
+   "wand_m": 0.61,
+   "winkel_grad": 15.7,
+   "pfeil_m": 0.26,
+   "mitte_u_m": -0.03,
+   "breite_m": 3.33,
+   "kerben": [
+    {
+     "u_m": 0.47,
+     "breite_m": 0.67,
+     "tiefe_m": 0.22
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 26,
+   "art": "kaskade_teil",
+   "einheit": 14,
+   "teil": 0,
+   "s_m": 494.66,
+   "s_bei_u0_m": 494.59,
+   "spiegel_oben_m": 69.845,
+   "spiegel_unten_m": 68.764,
+   "fall_m": 1.08,
+   "wand_m": 0.62,
+   "winkel_grad": -12.5,
+   "pfeil_m": 0.18,
+   "mitte_u_m": -0.28,
+   "breite_m": 3.57,
+   "kerben": [
+    {
+     "u_m": 0.56,
+     "breite_m": 1.16,
+     "tiefe_m": 0.38
+    }
+   ],
+   "krone_unter_spiegel_m": 0.04
+  },
+  {
+   "nr": 27,
+   "art": "kaskade_teil",
+   "einheit": 14,
+   "teil": 1,
+   "s_m": 496.7,
+   "s_bei_u0_m": 496.55,
+   "spiegel_oben_m": 68.764,
+   "spiegel_unten_m": 67.485,
+   "fall_m": 1.28,
+   "wand_m": 0.68,
+   "winkel_grad": -21.2,
+   "pfeil_m": 0.16,
+   "mitte_u_m": -0.38,
+   "breite_m": 3.27,
+   "kerben": [
+    {
+     "u_m": -1.41,
+     "breite_m": 0.91,
+     "tiefe_m": 0.26
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 28,
+   "art": "kaskade_teil",
+   "einheit": 15,
+   "teil": 0,
+   "s_m": 500.39,
+   "s_bei_u0_m": 500.43,
+   "spiegel_oben_m": 67.485,
+   "spiegel_unten_m": 65.633,
+   "fall_m": 1.85,
+   "wand_m": 0.86,
+   "winkel_grad": 6.7,
+   "pfeil_m": 0.13,
+   "mitte_u_m": -0.44,
+   "breite_m": 3.69,
+   "kerben": [
+    {
+     "u_m": -0.95,
+     "breite_m": 0.95,
+     "tiefe_m": 0.4
+    }
+   ],
+   "krone_unter_spiegel_m": 0.04
+  },
+  {
+   "nr": 29,
+   "art": "kaskade_teil",
+   "einheit": 15,
+   "teil": 1,
+   "s_m": 502.83,
+   "s_bei_u0_m": 502.93,
+   "spiegel_oben_m": 65.633,
+   "spiegel_unten_m": 63.723,
+   "fall_m": 1.91,
+   "wand_m": 0.87,
+   "winkel_grad": 15.7,
+   "pfeil_m": 0.25,
+   "mitte_u_m": -0.39,
+   "breite_m": 3.45,
+   "kerben": [
+    {
+     "u_m": -1.36,
+     "breite_m": 1.04,
+     "tiefe_m": 0.35
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 30,
+   "art": "stufe",
+   "einheit": 16,
+   "teil": 0,
+   "s_m": 509.72,
+   "s_bei_u0_m": 509.71,
+   "spiegel_oben_m": 63.723,
+   "spiegel_unten_m": 62.284,
+   "fall_m": 1.44,
+   "wand_m": 0.73,
+   "winkel_grad": -26.6,
+   "pfeil_m": 0.43,
+   "mitte_u_m": -0.0,
+   "breite_m": 3.51,
+   "kerben": [
+    {
+     "u_m": -0.76,
+     "breite_m": 1.14,
+     "tiefe_m": 0.39
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 31,
+   "art": "kaskade_teil",
+   "einheit": 17,
+   "teil": 0,
+   "s_m": 514.31,
+   "s_bei_u0_m": 514.27,
+   "spiegel_oben_m": 62.284,
+   "spiegel_unten_m": 61.651,
+   "fall_m": 0.63,
+   "wand_m": 0.49,
+   "winkel_grad": 10.4,
+   "pfeil_m": 0.12,
+   "mitte_u_m": 0.24,
+   "breite_m": 3.53,
+   "kerben": [
+    {
+     "u_m": 1.46,
+     "breite_m": 0.75,
+     "tiefe_m": 0.34
+    }
+   ],
+   "krone_unter_spiegel_m": 0.1
+  },
+  {
+   "nr": 32,
+   "art": "kaskade_teil",
+   "einheit": 17,
+   "teil": 1,
+   "s_m": 516.29,
+   "s_bei_u0_m": 516.2,
+   "spiegel_oben_m": 61.651,
+   "spiegel_unten_m": 60.532,
+   "fall_m": 1.12,
+   "wand_m": 0.64,
+   "winkel_grad": 15.5,
+   "pfeil_m": 0.24,
+   "mitte_u_m": 0.3,
+   "breite_m": 3.66,
+   "kerben": [
+    {
+     "u_m": -0.48,
+     "breite_m": 1.02,
+     "tiefe_m": 0.24
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 33,
+   "art": "kaskade_teil",
+   "einheit": 17,
+   "teil": 2,
+   "s_m": 518.28,
+   "s_bei_u0_m": 518.19,
+   "spiegel_oben_m": 60.532,
+   "spiegel_unten_m": 59.549,
+   "fall_m": 0.98,
+   "wand_m": 0.59,
+   "winkel_grad": 14.5,
+   "pfeil_m": 0.32,
+   "mitte_u_m": 0.31,
+   "breite_m": 3.4,
+   "kerben": [
+    {
+     "u_m": 0.86,
+     "breite_m": 1.13,
+     "tiefe_m": 0.25
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 34,
+   "art": "kaskade_teil",
+   "einheit": 18,
+   "teil": 0,
+   "s_m": 522.22,
+   "s_bei_u0_m": 522.1,
+   "spiegel_oben_m": 59.549,
+   "spiegel_unten_m": 57.954,
+   "fall_m": 1.6,
+   "wand_m": 0.78,
+   "winkel_grad": 27.0,
+   "pfeil_m": 0.38,
+   "mitte_u_m": 0.23,
+   "breite_m": 3.72,
+   "kerben": [
+    {
+     "u_m": -0.4,
+     "breite_m": 1.0,
+     "tiefe_m": 0.28
+    }
+   ],
+   "krone_unter_spiegel_m": 0.04
+  },
+  {
+   "nr": 35,
+   "art": "kaskade_teil",
+   "einheit": 18,
+   "teil": 1,
+   "s_m": 524.52,
+   "s_bei_u0_m": 524.42,
+   "spiegel_oben_m": 57.954,
+   "spiegel_unten_m": 56.993,
+   "fall_m": 0.96,
+   "wand_m": 0.59,
+   "winkel_grad": 32.0,
+   "pfeil_m": 0.23,
+   "mitte_u_m": 0.15,
+   "breite_m": 3.7,
+   "kerben": [
+    {
+     "u_m": 1.17,
+     "breite_m": 1.21,
+     "tiefe_m": 0.39
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 36,
+   "art": "stufe",
+   "einheit": 19,
+   "teil": 0,
+   "s_m": 530.05,
+   "s_bei_u0_m": 530.04,
+   "spiegel_oben_m": 56.993,
+   "spiegel_unten_m": 55.462,
+   "fall_m": 1.53,
+   "wand_m": 0.76,
+   "winkel_grad": -8.4,
+   "pfeil_m": 0.11,
+   "mitte_u_m": -0.08,
+   "breite_m": 3.84,
+   "kerben": [
+    {
+     "u_m": -1.07,
+     "breite_m": 1.19,
+     "tiefe_m": 0.25
+    }
+   ],
+   "krone_unter_spiegel_m": 0.06
+  },
+  {
+   "nr": 37,
+   "art": "kaskade_teil",
+   "einheit": 20,
+   "teil": 0,
+   "s_m": 535.03,
+   "s_bei_u0_m": 535.11,
+   "spiegel_oben_m": 55.462,
+   "spiegel_unten_m": 54.134,
+   "fall_m": 1.33,
+   "wand_m": 0.7,
+   "winkel_grad": 22.1,
+   "pfeil_m": 0.32,
+   "mitte_u_m": -0.2,
+   "breite_m": 3.45,
+   "kerben": [
+    {
+     "u_m": 0.24,
+     "breite_m": 0.7,
+     "tiefe_m": 0.22
+    }
+   ],
+   "krone_unter_spiegel_m": 0.09
+  },
+  {
+   "nr": 38,
+   "art": "kaskade_teil",
+   "einheit": 20,
+   "teil": 1,
+   "s_m": 537.3,
+   "s_bei_u0_m": 537.41,
+   "spiegel_oben_m": 54.134,
+   "spiegel_unten_m": 53.049,
+   "fall_m": 1.09,
+   "wand_m": 0.63,
+   "winkel_grad": 30.1,
+   "pfeil_m": 0.19,
+   "mitte_u_m": -0.19,
+   "breite_m": 3.66,
+   "kerben": [
+    {
+     "u_m": -1.11,
+     "breite_m": 1.24,
+     "tiefe_m": 0.33
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 39,
+   "art": "kaskade_teil",
+   "einheit": 21,
+   "teil": 0,
+   "s_m": 541.93,
+   "s_bei_u0_m": 541.99,
+   "spiegel_oben_m": 53.049,
+   "spiegel_unten_m": 52.16,
+   "fall_m": 0.89,
+   "wand_m": 0.57,
+   "winkel_grad": 25.2,
+   "pfeil_m": 0.44,
+   "mitte_u_m": -0.15,
+   "breite_m": 3.52,
+   "kerben": [
+    {
+     "u_m": 0.58,
+     "breite_m": 0.72,
+     "tiefe_m": 0.38
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 40,
+   "art": "kaskade_teil",
+   "einheit": 21,
+   "teil": 1,
+   "s_m": 543.78,
+   "s_bei_u0_m": 543.84,
+   "spiegel_oben_m": 52.16,
+   "spiegel_unten_m": 50.955,
+   "fall_m": 1.21,
+   "wand_m": 0.66,
+   "winkel_grad": 27.3,
+   "pfeil_m": 0.45,
+   "mitte_u_m": -0.12,
+   "breite_m": 3.62,
+   "kerben": [
+    {
+     "u_m": 0.57,
+     "breite_m": 0.95,
+     "tiefe_m": 0.27
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 41,
+   "art": "stufe",
+   "einheit": 22,
+   "teil": 0,
+   "s_m": 548.45,
+   "s_bei_u0_m": 548.44,
+   "spiegel_oben_m": 50.955,
+   "spiegel_unten_m": 49.766,
+   "fall_m": 1.19,
+   "wand_m": 0.66,
+   "winkel_grad": -12.2,
+   "pfeil_m": 0.13,
+   "mitte_u_m": -0.06,
+   "breite_m": 3.63,
+   "kerben": [
+    {
+     "u_m": -1.0,
+     "breite_m": 1.13,
+     "tiefe_m": 0.25
+    }
+   ],
+   "krone_unter_spiegel_m": 0.09
+  },
+  {
+   "nr": 42,
+   "art": "stufe",
+   "einheit": 23,
+   "teil": 0,
+   "s_m": 554.21,
+   "s_bei_u0_m": 554.2,
+   "spiegel_oben_m": 49.766,
+   "spiegel_unten_m": 48.623,
+   "fall_m": 1.14,
+   "wand_m": 0.64,
+   "winkel_grad": -18.5,
+   "pfeil_m": 0.24,
+   "mitte_u_m": -0.03,
+   "breite_m": 3.73,
+   "kerben": [
+    {
+     "u_m": 0.42,
+     "breite_m": 0.89,
+     "tiefe_m": 0.34
+    }
+   ],
+   "krone_unter_spiegel_m": 0.1
+  },
+  {
+   "nr": 43,
+   "art": "kaskade_teil",
+   "einheit": 24,
+   "teil": 0,
+   "s_m": 559.68,
+   "s_bei_u0_m": 559.67,
+   "spiegel_oben_m": 48.623,
+   "spiegel_unten_m": 47.417,
+   "fall_m": 1.21,
+   "wand_m": 0.66,
+   "winkel_grad": -22.6,
+   "pfeil_m": 0.4,
+   "mitte_u_m": -0.04,
+   "breite_m": 3.72,
+   "kerben": [
+    {
+     "u_m": -0.52,
+     "breite_m": 1.11,
+     "tiefe_m": 0.22
+    }
+   ],
+   "krone_unter_spiegel_m": 0.07
+  },
+  {
+   "nr": 44,
+   "art": "kaskade_teil",
+   "einheit": 24,
+   "teil": 1,
+   "s_m": 561.66,
+   "s_bei_u0_m": 561.65,
+   "spiegel_oben_m": 47.417,
+   "spiegel_unten_m": 46.21,
+   "fall_m": 1.21,
+   "wand_m": 0.66,
+   "winkel_grad": -16.8,
+   "pfeil_m": 0.27,
+   "mitte_u_m": -0.05,
+   "breite_m": 3.89,
+   "kerben": [
+    {
+     "u_m": 1.07,
+     "breite_m": 1.35,
+     "tiefe_m": 0.35
+    },
+    {
+     "u_m": -0.88,
+     "breite_m": 0.94,
+     "tiefe_m": 0.19
+    }
+   ],
+   "krone_unter_spiegel_m": 0.08
+  },
+  {
+   "nr": 45,
+   "art": "stufe",
+   "einheit": 25,
+   "teil": 0,
+   "s_m": 569.94,
+   "s_bei_u0_m": 569.9,
+   "spiegel_oben_m": 46.21,
+   "spiegel_unten_m": 44.98,
+   "fall_m": 1.23,
+   "wand_m": 0.67,
+   "winkel_grad": -28.4,
+   "pfeil_m": 0.26,
+   "mitte_u_m": -0.07,
+   "breite_m": 3.98,
+   "kerben": [
+    {
+     "u_m": -1.23,
+     "breite_m": 1.36,
+     "tiefe_m": 0.28
+    },
+    {
+     "u_m": 1.0,
+     "breite_m": 0.95,
+     "tiefe_m": 0.17
+    }
+   ],
+   "krone_unter_spiegel_m": 0.09
+  },
+  {
+   "nr": 46,
+   "art": "ende",
+   "einheit": 26,
+   "teil": 0,
+   "s_m": 579.0,
+   "s_bei_u0_m": 579.0,
+   "spiegel_oben_m": 44.98,
+   "spiegel_unten_m": 44.23,
+   "fall_m": 0.75,
+   "wand_m": 0.52,
+   "winkel_grad": 10.0,
+   "pfeil_m": 0.19,
+   "mitte_u_m": -0.0,
+   "breite_m": 3.87,
+   "kerben": [
+    {
+     "u_m": 0.8,
+     "breite_m": 0.86,
+     "tiefe_m": 0.25
+    }
+   ],
+   "krone_unter_spiegel_m": 0.09
+  }
+ ],
+ "becken": [
+  {
+   "nr": 0,
+   "typ": "anschluss",
+   "lippe_oben": 0,
+   "lippe_unten": 1,
+   "spiegel_m": 100.65,
+   "laenge_m": 3.44,
+   "breite_faktor": 1.21,
+   "kolk": {
+    "s_m": 389.74,
+    "u_m": -0.1,
+    "laenge_m": 2.02,
+    "breite_m": 1.56,
+    "tiefe_m": 0.85,
+    "tiefste_gemessen_m": 0.85
+   },
+   "rinne_m": 0.38,
+   "uferstufe_m": {
+    "links": 0.38,
+    "rechts": 0.3
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 1,
+   "typ": "teil",
+   "lippe_oben": 1,
+   "lippe_unten": 2,
+   "spiegel_m": 99.993,
+   "laenge_m": 1.32,
+   "breite_faktor": 1.05,
+   "kolk": {
+    "s_m": 393.18,
+    "u_m": 0.57,
+    "laenge_m": 1.19,
+    "breite_m": 0.92,
+    "tiefe_m": 0.65,
+    "tiefste_gemessen_m": 0.61
+   },
+   "rinne_m": 0.21,
+   "uferstufe_m": {
+    "links": 0.31,
+    "rechts": 0.37
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 2,
+   "typ": "haupt",
+   "lippe_oben": 2,
+   "lippe_unten": 3,
+   "spiegel_m": 98.81,
+   "laenge_m": 6.25,
+   "breite_faktor": 1.11,
+   "kolk": {
+    "s_m": 396.46,
+    "u_m": -0.71,
+    "laenge_m": 4.69,
+    "breite_m": 2.31,
+    "tiefe_m": 1.01,
+    "tiefste_gemessen_m": 1.01
+   },
+   "rinne_m": 0.36,
+   "uferstufe_m": {
+    "links": 0.28,
+    "rechts": 0.26
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 3,
+   "typ": "haupt",
+   "lippe_oben": 3,
+   "lippe_unten": 4,
+   "spiegel_m": 97.762,
+   "laenge_m": 3.68,
+   "breite_faktor": 1.14,
+   "kolk": {
+    "s_m": 402.7,
+    "u_m": 0.5,
+    "laenge_m": 2.2,
+    "breite_m": 1.69,
+    "tiefe_m": 0.84,
+    "tiefste_gemessen_m": 0.84
+   },
+   "rinne_m": 0.32,
+   "uferstufe_m": {
+    "links": 0.34,
+    "rechts": 0.37
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 4,
+   "typ": "teil",
+   "lippe_oben": 4,
+   "lippe_unten": 5,
+   "spiegel_m": 95.748,
+   "laenge_m": 1.25,
+   "breite_faktor": 1.07,
+   "kolk": {
+    "s_m": 406.29,
+    "u_m": -1.0,
+    "laenge_m": 1.13,
+    "breite_m": 0.87,
+    "tiefe_m": 0.68,
+    "tiefste_gemessen_m": 0.67
+   },
+   "rinne_m": 0.31,
+   "uferstufe_m": {
+    "links": 0.38,
+    "rechts": 0.27
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 5,
+   "typ": "haupt",
+   "lippe_oben": 5,
+   "lippe_unten": 6,
+   "spiegel_m": 94.964,
+   "laenge_m": 10.58,
+   "breite_faktor": 1.14,
+   "kolk": {
+    "s_m": 410.35,
+    "u_m": 0.17,
+    "laenge_m": 7.61,
+    "breite_m": 1.89,
+    "tiefe_m": 1.01,
+    "tiefste_gemessen_m": 1.01
+   },
+   "rinne_m": 0.34,
+   "uferstufe_m": {
+    "links": 0.35,
+    "rechts": 0.26
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 6,
+   "typ": "haupt",
+   "lippe_oben": 6,
+   "lippe_unten": 7,
+   "spiegel_m": 93.256,
+   "laenge_m": 5.68,
+   "breite_faktor": 1.22,
+   "kolk": {
+    "s_m": 420.4,
+    "u_m": -0.58,
+    "laenge_m": 3.78,
+    "breite_m": 2.0,
+    "tiefe_m": 1.12,
+    "tiefste_gemessen_m": 1.12
+   },
+   "rinne_m": 0.28,
+   "uferstufe_m": {
+    "links": 0.47,
+    "rechts": 0.47
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 7,
+   "typ": "haupt",
+   "lippe_oben": 7,
+   "lippe_unten": 8,
+   "spiegel_m": 92.297,
+   "laenge_m": 4.11,
+   "breite_faktor": 1.13,
+   "kolk": {
+    "s_m": 426.23,
+    "u_m": 0.44,
+    "laenge_m": 2.51,
+    "breite_m": 1.93,
+    "tiefe_m": 0.99,
+    "tiefste_gemessen_m": 0.99
+   },
+   "rinne_m": 0.36,
+   "uferstufe_m": {
+    "links": 0.34,
+    "rechts": 0.35
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 8,
+   "typ": "teil",
+   "lippe_oben": 8,
+   "lippe_unten": 9,
+   "spiegel_m": 90.693,
+   "laenge_m": 1.61,
+   "breite_faktor": 1.1,
+   "kolk": {
+    "s_m": 430.97,
+    "u_m": -1.09,
+    "laenge_m": 1.45,
+    "breite_m": 1.11,
+    "tiefe_m": 0.67,
+    "tiefste_gemessen_m": 0.66
+   },
+   "rinne_m": 0.21,
+   "uferstufe_m": {
+    "links": 0.37,
+    "rechts": 0.36
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 9,
+   "typ": "lauf",
+   "lippe_oben": 9,
+   "lippe_unten": 10,
+   "spiegel_m": 90.127,
+   "laenge_m": 3.09,
+   "breite_faktor": 1.13,
+   "kolk": {
+    "s_m": 435.06,
+    "u_m": 0.36,
+    "laenge_m": 2.19,
+    "breite_m": 1.68,
+    "tiefe_m": 0.64,
+    "tiefste_gemessen_m": 0.64
+   },
+   "rinne_m": 0.34,
+   "uferstufe_m": {
+    "links": 0.42,
+    "rechts": 0.47
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 10,
+   "typ": "teil",
+   "lippe_oben": 10,
+   "lippe_unten": 11,
+   "spiegel_m": 89.229,
+   "laenge_m": 1.71,
+   "breite_faktor": 1.02,
+   "kolk": {
+    "s_m": 438.45,
+    "u_m": 0.43,
+    "laenge_m": 1.54,
+    "breite_m": 1.18,
+    "tiefe_m": 0.59,
+    "tiefste_gemessen_m": 0.59
+   },
+   "rinne_m": 0.2,
+   "uferstufe_m": {
+    "links": 0.36,
+    "rechts": 0.42
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 11,
+   "typ": "teil",
+   "lippe_oben": 11,
+   "lippe_unten": 12,
+   "spiegel_m": 88.696,
+   "laenge_m": 1.75,
+   "breite_faktor": 1.08,
+   "kolk": {
+    "s_m": 440.77,
+    "u_m": 0.59,
+    "laenge_m": 1.57,
+    "breite_m": 1.21,
+    "tiefe_m": 0.69,
+    "tiefste_gemessen_m": 0.69
+   },
+   "rinne_m": 0.34,
+   "uferstufe_m": {
+    "links": 0.44,
+    "rechts": 0.43
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 12,
+   "typ": "haupt",
+   "lippe_oben": 12,
+   "lippe_unten": 13,
+   "spiegel_m": 87.288,
+   "laenge_m": 3.41,
+   "breite_faktor": 1.16,
+   "kolk": {
+    "s_m": 443.09,
+    "u_m": 0.51,
+    "laenge_m": 1.9,
+    "breite_m": 1.46,
+    "tiefe_m": 1.11,
+    "tiefste_gemessen_m": 1.11
+   },
+   "rinne_m": 0.27,
+   "uferstufe_m": {
+    "links": 0.43,
+    "rechts": 0.46
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 13,
+   "typ": "teil",
+   "lippe_oben": 13,
+   "lippe_unten": 14,
+   "spiegel_m": 86.398,
+   "laenge_m": 1.71,
+   "breite_faktor": 1.07,
+   "kolk": {
+    "s_m": 446.67,
+    "u_m": -0.27,
+    "laenge_m": 1.54,
+    "breite_m": 1.18,
+    "tiefe_m": 0.67,
+    "tiefste_gemessen_m": 0.66
+   },
+   "rinne_m": 0.38,
+   "uferstufe_m": {
+    "links": 0.27,
+    "rechts": 0.27
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 14,
+   "typ": "teil",
+   "lippe_oben": 14,
+   "lippe_unten": 15,
+   "spiegel_m": 84.624,
+   "laenge_m": 1.65,
+   "breite_faktor": 1.1,
+   "kolk": {
+    "s_m": 449.56,
+    "u_m": 1.08,
+    "laenge_m": 1.49,
+    "breite_m": 1.14,
+    "tiefe_m": 0.79,
+    "tiefste_gemessen_m": 0.74
+   },
+   "rinne_m": 0.33,
+   "uferstufe_m": {
+    "links": 0.36,
+    "rechts": 0.33
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 15,
+   "typ": "haupt",
+   "lippe_oben": 15,
+   "lippe_unten": 16,
+   "spiegel_m": 82.915,
+   "laenge_m": 2.84,
+   "breite_faktor": 1.21,
+   "kolk": {
+    "s_m": 451.96,
+    "u_m": 1.3,
+    "laenge_m": 2.03,
+    "breite_m": 1.56,
+    "tiefe_m": 1.12,
+    "tiefste_gemessen_m": 1.12
+   },
+   "rinne_m": 0.27,
+   "uferstufe_m": {
+    "links": 0.29,
+    "rechts": 0.28
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 16,
+   "typ": "teil",
+   "lippe_oben": 16,
+   "lippe_unten": 17,
+   "spiegel_m": 82.193,
+   "laenge_m": 1.81,
+   "breite_faktor": 1.1,
+   "kolk": {
+    "s_m": 454.84,
+    "u_m": -0.71,
+    "laenge_m": 1.6,
+    "breite_m": 1.23,
+    "tiefe_m": 0.72,
+    "tiefste_gemessen_m": 0.71
+   },
+   "rinne_m": 0.4,
+   "uferstufe_m": {
+    "links": 0.22,
+    "rechts": 0.31
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 17,
+   "typ": "haupt",
+   "lippe_oben": 17,
+   "lippe_unten": 18,
+   "spiegel_m": 79.698,
+   "laenge_m": 7.78,
+   "breite_faktor": 1.22,
+   "kolk": {
+    "s_m": 459.06,
+    "u_m": 0.76,
+    "laenge_m": 5.97,
+    "breite_m": 2.4,
+    "tiefe_m": 1.2,
+    "tiefste_gemessen_m": 1.2
+   },
+   "rinne_m": 0.37,
+   "uferstufe_m": {
+    "links": 0.22,
+    "rechts": 0.32
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 18,
+   "typ": "haupt",
+   "lippe_oben": 18,
+   "lippe_unten": 19,
+   "spiegel_m": 78.543,
+   "laenge_m": 5.8,
+   "breite_faktor": 1.22,
+   "kolk": {
+    "s_m": 466.48,
+    "u_m": -0.26,
+    "laenge_m": 3.37,
+    "breite_m": 2.19,
+    "tiefe_m": 1.02,
+    "tiefste_gemessen_m": 1.02
+   },
+   "rinne_m": 0.28,
+   "uferstufe_m": {
+    "links": 0.3,
+    "rechts": 0.26
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 19,
+   "typ": "teil",
+   "lippe_oben": 19,
+   "lippe_unten": 20,
+   "spiegel_m": 77.485,
+   "laenge_m": 2.04,
+   "breite_faktor": 1.03,
+   "kolk": {
+    "s_m": 473.01,
+    "u_m": 0.68,
+    "laenge_m": 1.6,
+    "breite_m": 1.23,
+    "tiefe_m": 0.64,
+    "tiefste_gemessen_m": 0.64
+   },
+   "rinne_m": 0.38,
+   "uferstufe_m": {
+    "links": 0.34,
+    "rechts": 0.3
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 20,
+   "typ": "teil",
+   "lippe_oben": 20,
+   "lippe_unten": 21,
+   "spiegel_m": 76.109,
+   "laenge_m": 1.25,
+   "breite_faktor": 1.09,
+   "kolk": {
+    "s_m": 475.71,
+    "u_m": 0.82,
+    "laenge_m": 1.13,
+    "breite_m": 0.87,
+    "tiefe_m": 0.67,
+    "tiefste_gemessen_m": 0.6
+   },
+   "rinne_m": 0.23,
+   "uferstufe_m": {
+    "links": 0.39,
+    "rechts": 0.33
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 21,
+   "typ": "haupt",
+   "lippe_oben": 21,
+   "lippe_unten": 22,
+   "spiegel_m": 74.906,
+   "laenge_m": 4.79,
+   "breite_faktor": 1.17,
+   "kolk": {
+    "s_m": 477.47,
+    "u_m": -0.43,
+    "laenge_m": 2.96,
+    "breite_m": 2.06,
+    "tiefe_m": 0.92,
+    "tiefste_gemessen_m": 0.92
+   },
+   "rinne_m": 0.35,
+   "uferstufe_m": {
+    "links": 0.39,
+    "rechts": 0.35
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 22,
+   "typ": "haupt",
+   "lippe_oben": 22,
+   "lippe_unten": 23,
+   "spiegel_m": 73.358,
+   "laenge_m": 3.42,
+   "breite_faktor": 1.23,
+   "kolk": {
+    "s_m": 483.25,
+    "u_m": 1.28,
+    "laenge_m": 2.02,
+    "breite_m": 1.55,
+    "tiefe_m": 1.01,
+    "tiefste_gemessen_m": 1.01
+   },
+   "rinne_m": 0.23,
+   "uferstufe_m": {
+    "links": 0.34,
+    "rechts": 0.25
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 23,
+   "typ": "teil",
+   "lippe_oben": 23,
+   "lippe_unten": 24,
+   "spiegel_m": 71.959,
+   "laenge_m": 1.29,
+   "breite_faktor": 1.08,
+   "kolk": {
+    "s_m": 486.77,
+    "u_m": -0.55,
+    "laenge_m": 1.16,
+    "breite_m": 0.89,
+    "tiefe_m": 0.76,
+    "tiefste_gemessen_m": 0.76
+   },
+   "rinne_m": 0.36,
+   "uferstufe_m": {
+    "links": 0.48,
+    "rechts": 0.43
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 24,
+   "typ": "teil",
+   "lippe_oben": 24,
+   "lippe_unten": 25,
+   "spiegel_m": 70.889,
+   "laenge_m": 1.66,
+   "breite_faktor": 1.0,
+   "kolk": {
+    "s_m": 489.22,
+    "u_m": 0.51,
+    "laenge_m": 1.49,
+    "breite_m": 1.15,
+    "tiefe_m": 0.65,
+    "tiefste_gemessen_m": 0.65
+   },
+   "rinne_m": 0.28,
+   "uferstufe_m": {
+    "links": 0.45,
+    "rechts": 0.5
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 25,
+   "typ": "haupt",
+   "lippe_oben": 25,
+   "lippe_unten": 26,
+   "spiegel_m": 69.845,
+   "laenge_m": 3.31,
+   "breite_faktor": 1.13,
+   "kolk": {
+    "s_m": 491.79,
+    "u_m": 0.54,
+    "laenge_m": 2.58,
+    "breite_m": 1.99,
+    "tiefe_m": 1.15,
+    "tiefste_gemessen_m": 1.15
+   },
+   "rinne_m": 0.34,
+   "uferstufe_m": {
+    "links": 0.46,
+    "rechts": 0.42
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 26,
+   "typ": "teil",
+   "lippe_oben": 26,
+   "lippe_unten": 27,
+   "spiegel_m": 68.764,
+   "laenge_m": 1.42,
+   "breite_faktor": 1.07,
+   "kolk": {
+    "s_m": 495.11,
+    "u_m": 0.37,
+    "laenge_m": 1.28,
+    "breite_m": 0.98,
+    "tiefe_m": 0.63,
+    "tiefste_gemessen_m": 0.56
+   },
+   "rinne_m": 0.25,
+   "uferstufe_m": {
+    "links": 0.24,
+    "rechts": 0.29
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 27,
+   "typ": "haupt",
+   "lippe_oben": 27,
+   "lippe_unten": 28,
+   "spiegel_m": 67.485,
+   "laenge_m": 3.01,
+   "breite_faktor": 1.18,
+   "kolk": {
+    "s_m": 497.84,
+    "u_m": -1.46,
+    "laenge_m": 1.86,
+    "breite_m": 1.43,
+    "tiefe_m": 1.02,
+    "tiefste_gemessen_m": 1.02
+   },
+   "rinne_m": 0.35,
+   "uferstufe_m": {
+    "links": 0.27,
+    "rechts": 0.24
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 28,
+   "typ": "teil",
+   "lippe_oben": 28,
+   "lippe_unten": 29,
+   "spiegel_m": 65.633,
+   "laenge_m": 1.58,
+   "breite_faktor": 1.02,
+   "kolk": {
+    "s_m": 501.12,
+    "u_m": -0.77,
+    "laenge_m": 1.43,
+    "breite_m": 1.1,
+    "tiefe_m": 0.58,
+    "tiefste_gemessen_m": 0.55
+   },
+   "rinne_m": 0.21,
+   "uferstufe_m": {
+    "links": 0.33,
+    "rechts": 0.4
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 29,
+   "typ": "haupt",
+   "lippe_oben": 29,
+   "lippe_unten": 30,
+   "spiegel_m": 63.723,
+   "laenge_m": 6.01,
+   "breite_faktor": 1.17,
+   "kolk": {
+    "s_m": 503.8,
+    "u_m": -1.35,
+    "laenge_m": 3.65,
+    "breite_m": 2.36,
+    "tiefe_m": 1.12,
+    "tiefste_gemessen_m": 1.12
+   },
+   "rinne_m": 0.35,
+   "uferstufe_m": {
+    "links": 0.41,
+    "rechts": 0.33
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 30,
+   "typ": "haupt",
+   "lippe_oben": 30,
+   "lippe_unten": 31,
+   "spiegel_m": 62.284,
+   "laenge_m": 3.87,
+   "breite_faktor": 1.18,
+   "kolk": {
+    "s_m": 510.96,
+    "u_m": -0.82,
+    "laenge_m": 2.35,
+    "breite_m": 1.81,
+    "tiefe_m": 1.2,
+    "tiefste_gemessen_m": 1.2
+   },
+   "rinne_m": 0.32,
+   "uferstufe_m": {
+    "links": 0.27,
+    "rechts": 0.34
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 31,
+   "typ": "teil",
+   "lippe_oben": 31,
+   "lippe_unten": 32,
+   "spiegel_m": 61.651,
+   "laenge_m": 1.48,
+   "breite_faktor": 1.1,
+   "kolk": {
+    "s_m": 515.02,
+    "u_m": 1.2,
+    "laenge_m": 1.34,
+    "breite_m": 1.03,
+    "tiefe_m": 0.7,
+    "tiefste_gemessen_m": 0.7
+   },
+   "rinne_m": 0.25,
+   "uferstufe_m": {
+    "links": 0.3,
+    "rechts": 0.37
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 32,
+   "typ": "teil",
+   "lippe_oben": 32,
+   "lippe_unten": 33,
+   "spiegel_m": 60.532,
+   "laenge_m": 1.36,
+   "breite_faktor": 1.01,
+   "kolk": {
+    "s_m": 516.63,
+    "u_m": -0.5,
+    "laenge_m": 1.22,
+    "breite_m": 0.94,
+    "tiefe_m": 0.77,
+    "tiefste_gemessen_m": 0.69
+   },
+   "rinne_m": 0.39,
+   "uferstufe_m": {
+    "links": 0.32,
+    "rechts": 0.38
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 33,
+   "typ": "haupt",
+   "lippe_oben": 33,
+   "lippe_unten": 34,
+   "spiegel_m": 59.549,
+   "laenge_m": 3.35,
+   "breite_faktor": 1.16,
+   "kolk": {
+    "s_m": 519.24,
+    "u_m": 0.91,
+    "laenge_m": 2.31,
+    "breite_m": 1.78,
+    "tiefe_m": 0.97,
+    "tiefste_gemessen_m": 0.97
+   },
+   "rinne_m": 0.23,
+   "uferstufe_m": {
+    "links": 0.32,
+    "rechts": 0.37
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 34,
+   "typ": "teil",
+   "lippe_oben": 34,
+   "lippe_unten": 35,
+   "spiegel_m": 57.954,
+   "laenge_m": 1.51,
+   "breite_faktor": 1.05,
+   "kolk": {
+    "s_m": 522.69,
+    "u_m": -0.22,
+    "laenge_m": 1.36,
+    "breite_m": 1.05,
+    "tiefe_m": 0.77,
+    "tiefste_gemessen_m": 0.76
+   },
+   "rinne_m": 0.39,
+   "uferstufe_m": {
+    "links": 0.25,
+    "rechts": 0.2
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 35,
+   "typ": "haupt",
+   "lippe_oben": 35,
+   "lippe_unten": 36,
+   "spiegel_m": 56.993,
+   "laenge_m": 4.95,
+   "breite_faktor": 1.15,
+   "kolk": {
+    "s_m": 526.12,
+    "u_m": 0.97,
+    "laenge_m": 3.49,
+    "breite_m": 2.19,
+    "tiefe_m": 1.02,
+    "tiefste_gemessen_m": 1.02
+   },
+   "rinne_m": 0.38,
+   "uferstufe_m": {
+    "links": 0.26,
+    "rechts": 0.25
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 36,
+   "typ": "haupt",
+   "lippe_oben": 36,
+   "lippe_unten": 37,
+   "spiegel_m": 55.462,
+   "laenge_m": 4.22,
+   "breite_faktor": 1.24,
+   "kolk": {
+    "s_m": 531.12,
+    "u_m": -0.93,
+    "laenge_m": 2.44,
+    "breite_m": 1.88,
+    "tiefe_m": 1.14,
+    "tiefste_gemessen_m": 1.14
+   },
+   "rinne_m": 0.37,
+   "uferstufe_m": {
+    "links": 0.43,
+    "rechts": 0.39
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 37,
+   "typ": "teil",
+   "lippe_oben": 37,
+   "lippe_unten": 38,
+   "spiegel_m": 54.134,
+   "laenge_m": 1.57,
+   "breite_faktor": 1.09,
+   "kolk": {
+    "s_m": 535.91,
+    "u_m": 0.34,
+    "laenge_m": 1.41,
+    "breite_m": 1.09,
+    "tiefe_m": 0.75,
+    "tiefste_gemessen_m": 0.74
+   },
+   "rinne_m": 0.3,
+   "uferstufe_m": {
+    "links": 0.49,
+    "rechts": 0.39
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 38,
+   "typ": "haupt",
+   "lippe_oben": 38,
+   "lippe_unten": 39,
+   "spiegel_m": 53.049,
+   "laenge_m": 4.0,
+   "breite_faktor": 1.23,
+   "kolk": {
+    "s_m": 537.75,
+    "u_m": -0.93,
+    "laenge_m": 2.46,
+    "breite_m": 1.89,
+    "tiefe_m": 1.09,
+    "tiefste_gemessen_m": 1.09
+   },
+   "rinne_m": 0.31,
+   "uferstufe_m": {
+    "links": 0.47,
+    "rechts": 0.43
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 39,
+   "typ": "teil",
+   "lippe_oben": 39,
+   "lippe_unten": 40,
+   "spiegel_m": 52.16,
+   "laenge_m": 1.29,
+   "breite_faktor": 1.06,
+   "kolk": {
+    "s_m": 542.75,
+    "u_m": 0.57,
+    "laenge_m": 1.16,
+    "breite_m": 0.89,
+    "tiefe_m": 0.64,
+    "tiefste_gemessen_m": 0.64
+   },
+   "rinne_m": 0.28,
+   "uferstufe_m": {
+    "links": 0.37,
+    "rechts": 0.38
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 40,
+   "typ": "haupt",
+   "lippe_oben": 40,
+   "lippe_unten": 41,
+   "spiegel_m": 50.955,
+   "laenge_m": 4.01,
+   "breite_faktor": 1.23,
+   "kolk": {
+    "s_m": 545.06,
+    "u_m": 0.36,
+    "laenge_m": 3.06,
+    "breite_m": 2.36,
+    "tiefe_m": 1.1,
+    "tiefste_gemessen_m": 1.1
+   },
+   "rinne_m": 0.2,
+   "uferstufe_m": {
+    "links": 0.33,
+    "rechts": 0.44
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 41,
+   "typ": "haupt",
+   "lippe_oben": 41,
+   "lippe_unten": 42,
+   "spiegel_m": 49.766,
+   "laenge_m": 5.1,
+   "breite_faktor": 1.24,
+   "kolk": {
+    "s_m": 549.73,
+    "u_m": -0.76,
+    "laenge_m": 3.4,
+    "breite_m": 2.53,
+    "tiefe_m": 1.06,
+    "tiefste_gemessen_m": 1.06
+   },
+   "rinne_m": 0.3,
+   "uferstufe_m": {
+    "links": 0.33,
+    "rechts": 0.31
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 42,
+   "typ": "haupt",
+   "lippe_oben": 42,
+   "lippe_unten": 43,
+   "spiegel_m": 48.623,
+   "laenge_m": 4.83,
+   "breite_faktor": 1.13,
+   "kolk": {
+    "s_m": 555.16,
+    "u_m": 0.27,
+    "laenge_m": 3.04,
+    "breite_m": 2.34,
+    "tiefe_m": 1.12,
+    "tiefste_gemessen_m": 1.12
+   },
+   "rinne_m": 0.3,
+   "uferstufe_m": {
+    "links": 0.22,
+    "rechts": 0.29
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 43,
+   "typ": "teil",
+   "lippe_oben": 43,
+   "lippe_unten": 44,
+   "spiegel_m": 47.417,
+   "laenge_m": 1.32,
+   "breite_faktor": 1.03,
+   "kolk": {
+    "s_m": 560.41,
+    "u_m": -0.33,
+    "laenge_m": 1.19,
+    "breite_m": 0.91,
+    "tiefe_m": 0.67,
+    "tiefste_gemessen_m": 0.66
+   },
+   "rinne_m": 0.29,
+   "uferstufe_m": {
+    "links": 0.22,
+    "rechts": 0.3
+   },
+   "prallseite": "rechts"
+  },
+  {
+   "nr": 44,
+   "typ": "haupt",
+   "lippe_oben": 44,
+   "lippe_unten": 45,
+   "spiegel_m": 46.21,
+   "laenge_m": 7.62,
+   "breite_faktor": 1.19,
+   "kolk": {
+    "s_m": 562.83,
+    "u_m": 0.96,
+    "laenge_m": 5.03,
+    "breite_m": 2.28,
+    "tiefe_m": 0.94,
+    "tiefste_gemessen_m": 0.94
+   },
+   "rinne_m": 0.24,
+   "uferstufe_m": {
+    "links": 0.24,
+    "rechts": 0.26
+   },
+   "prallseite": "links"
+  },
+  {
+   "nr": 45,
+   "typ": "haupt",
+   "lippe_oben": 45,
+   "lippe_unten": 46,
+   "spiegel_m": 44.98,
+   "laenge_m": 8.39,
+   "breite_faktor": 1.14,
+   "kolk": {
+    "s_m": 572.26,
+    "u_m": -1.08,
+    "laenge_m": 6.29,
+    "breite_m": 2.47,
+    "tiefe_m": 1.03,
+    "tiefste_gemessen_m": 1.03
+   },
+   "rinne_m": 0.25,
+   "uferstufe_m": {
+    "links": 0.25,
+    "rechts": 0.32
+   },
+   "prallseite": "rechts"
+  }
+ ],
+ "effekte_vorschlag": {
+  "hinweis": "Nur Vorschlag zu 16h Nachtrag 6b (c), noch nicht setzen: je Einheit an der hoechsten Stufe ab 1 m freiem Fall NS_Impact_Small am Fuss unter der Hauptkerbe, ab 1,8 m zusaetzlich NS_Waterfall_Small an der Lippe; Cull 30-45 m und hoechstens 6 aktive Systeme je Standort wie Antwort 14.",
+  "liste": [
+   {
+    "lippe": 2,
+    "fall_m": 1.18,
+    "s_m": 395.98,
+    "u_m": -0.8,
+    "z_m": 98.86,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 3,
+    "fall_m": 1.05,
+    "s_m": 402.8,
+    "u_m": 0.61,
+    "z_m": 97.812,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 4,
+    "fall_m": 2.01,
+    "s_m": 406.76,
+    "u_m": -1.01,
+    "z_m": 95.798,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 4,
+    "fall_m": 2.01,
+    "s_m": 405.66,
+    "u_m": -1.01,
+    "z_m": 97.812,
+    "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small"
+   },
+   {
+    "lippe": 6,
+    "fall_m": 1.71,
+    "s_m": 420.16,
+    "u_m": -0.66,
+    "z_m": 93.306,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 8,
+    "fall_m": 1.6,
+    "s_m": 431.31,
+    "u_m": -1.11,
+    "z_m": 90.743,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 12,
+    "fall_m": 1.41,
+    "s_m": 443.37,
+    "u_m": 0.68,
+    "z_m": 87.338,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 14,
+    "fall_m": 1.77,
+    "s_m": 449.93,
+    "u_m": 1.13,
+    "z_m": 84.674,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 17,
+    "fall_m": 2.49,
+    "s_m": 458.44,
+    "u_m": 0.79,
+    "z_m": 79.748,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 17,
+    "fall_m": 2.49,
+    "s_m": 457.24,
+    "u_m": 0.79,
+    "z_m": 82.243,
+    "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small"
+   },
+   {
+    "lippe": 18,
+    "fall_m": 1.16,
+    "s_m": 466.19,
+    "u_m": -0.41,
+    "z_m": 78.593,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 20,
+    "fall_m": 1.38,
+    "s_m": 476.07,
+    "u_m": 0.76,
+    "z_m": 76.159,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 22,
+    "fall_m": 1.55,
+    "s_m": 483.45,
+    "u_m": 1.29,
+    "z_m": 73.408,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 23,
+    "fall_m": 1.4,
+    "s_m": 487.12,
+    "u_m": -0.59,
+    "z_m": 72.009,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 27,
+    "fall_m": 1.28,
+    "s_m": 498.02,
+    "u_m": -1.41,
+    "z_m": 67.535,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 29,
+    "fall_m": 1.91,
+    "s_m": 503.65,
+    "u_m": -1.36,
+    "z_m": 63.773,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 29,
+    "fall_m": 1.91,
+    "s_m": 502.58,
+    "u_m": -1.36,
+    "z_m": 65.683,
+    "asset": "/Game/NatureWaterFX/FX/NS_Waterfall_Small"
+   },
+   {
+    "lippe": 30,
+    "fall_m": 1.44,
+    "s_m": 511.05,
+    "u_m": -0.76,
+    "z_m": 62.334,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 32,
+    "fall_m": 1.12,
+    "s_m": 516.96,
+    "u_m": -0.48,
+    "z_m": 60.582,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 34,
+    "fall_m": 1.6,
+    "s_m": 522.94,
+    "u_m": -0.4,
+    "z_m": 58.004,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 36,
+    "fall_m": 1.53,
+    "s_m": 531.23,
+    "u_m": -1.07,
+    "z_m": 55.512,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 37,
+    "fall_m": 1.33,
+    "s_m": 536.19,
+    "u_m": 0.24,
+    "z_m": 54.184,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 40,
+    "fall_m": 1.21,
+    "s_m": 545.03,
+    "u_m": 0.57,
+    "z_m": 51.005,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 41,
+    "fall_m": 1.19,
+    "s_m": 549.58,
+    "u_m": -1.0,
+    "z_m": 49.816,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 42,
+    "fall_m": 1.14,
+    "s_m": 554.99,
+    "u_m": 0.42,
+    "z_m": 48.673,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 43,
+    "fall_m": 1.21,
+    "s_m": 560.82,
+    "u_m": -0.52,
+    "z_m": 47.467,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   },
+   {
+    "lippe": 45,
+    "fall_m": 1.23,
+    "s_m": 571.45,
+    "u_m": -1.23,
+    "z_m": 45.03,
+    "asset": "/Game/NatureWaterFX/FX/NS_Impact_Small"
+   }
+  ],
+  "anzahl": {
+   "NS_Impact_Small": 24,
+   "NS_Waterfall_Small": 3
+  }
+ },
+ "instanzen_spalten": [
+  "s_m",
+  "u_m",
+  "skala",
+  "yaw_rel_grad",
+  "kipp_grad",
+  "einbettung",
+  "groesse_m",
+  "z_plan_m",
+  "swr_hindernis",
+  "nr"
+ ],
+ "instanzen_hinweis": "Schluessel = Netz bzw. Netz_kol (mit Kollision, Bloecke >= 0,8 m). z = neues Gelaende(x, y) - einbettung x groesse (Netzhoehe x skala); z_plan_m nur zur Kontrolle (Plan mit angenommenem Ist). yaw_rel_grad gegen die Fliessrichtung (Tangente von lauf_p2), kipp_grad stromauf. swr_hindernis nach dem N5-Filter; kollision >= 0,8 m.",
+ "instanzen": {
+  "SM_LichenedForestBoulder_01": {
+   "netz": "SM_LichenedForestBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.85,
+    0.63,
+    0.46
+   ],
+   "rollen": {
+    "lippe": 7,
+    "randblock": 2,
+    "beckenblock": 1
+   },
+   "eintraege": [
+    [
+     431.76,
+     -2.79,
+     0.479,
+     102.8,
+     3.1,
+     0.48,
+     0.41,
+     90.97,
+     false,
+     43
+    ],
+    [
+     431.91,
+     -1.88,
+     0.462,
+     129.0,
+     7.7,
+     0.5,
+     0.39,
+     90.61,
+     false,
+     45
+    ],
+    [
+     433.68,
+     2.71,
+     0.39,
+     96.5,
+     4.2,
+     0.41,
+     0.33,
+     91.28,
+     false,
+     49
+    ],
+    [
+     454.81,
+     1.69,
+     0.795,
+     103.2,
+     2.5,
+     0.42,
+     0.68,
+     82.73,
+     false,
+     84
+    ],
+    [
+     495.63,
+     2.2,
+     0.931,
+     76.3,
+     10.2,
+     0.56,
+     0.79,
+     69.34,
+     false,
+     145
+    ],
+    [
+     516.82,
+     2.83,
+     0.843,
+     88.3,
+     4.9,
+     0.45,
+     0.72,
+     61.59,
+     false,
+     171
+    ],
+    [
+     536.03,
+     2.78,
+     0.843,
+     113.7,
+     2.3,
+     0.48,
+     0.72,
+     56.44,
+     false,
+     197
+    ],
+    [
+     424.31,
+     2.47,
+     0.73,
+     11.4,
+     7.9,
+     0.38,
+     0.62,
+     93.04,
+     false,
+     307
+    ],
+    [
+     505.91,
+     0.75,
+     0.544,
+     -4.0,
+     13.9,
+     0.45,
+     0.46,
+     63.47,
+     true,
+     468
+    ],
+    [
+     563.77,
+     -2.74,
+     0.79,
+     -2.6,
+     3.9,
+     0.33,
+     0.67,
+     46.22,
+     false,
+     597
+    ]
+   ],
+   "anzahl": 10
+  },
+  "SM_LichenedForestBoulder_01_kol": {
+   "netz": "SM_LichenedForestBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/LichenedForestBoulder/SM_LichenedForestBoulder_01",
+   "rolle": "eckblock",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.85,
+    0.63,
+    0.46
+   ],
+   "rollen": {
+    "eckblock": 3,
+    "lippe": 5,
+    "keystone": 4
+   },
+   "eintraege": [
+    [
+     420.16,
+     2.03,
+     1.65,
+     13.7,
+     0.5,
+     0.42,
+     1.4,
+     95.39,
+     false,
+     29
+    ],
+    [
+     426.49,
+     -2.12,
+     1.072,
+     56.8,
+     3.1,
+     0.53,
+     0.91,
+     93.25,
+     false,
+     33
+    ],
+    [
+     438.05,
+     1.52,
+     1.26,
+     125.7,
+     10.8,
+     0.4,
+     1.07,
+     90.05,
+     false,
+     51
+    ],
+    [
+     445.39,
+     -1.39,
+     1.139,
+     118.1,
+     11.8,
+     0.51,
+     0.97,
+     86.95,
+     false,
+     66
+    ],
+    [
+     503.35,
+     2.93,
+     1.227,
+     104.1,
+     11.3,
+     0.58,
+     1.04,
+     66.77,
+     false,
+     155
+    ],
+    [
+     534.72,
+     -0.74,
+     1.244,
+     98.6,
+     8.2,
+     0.5,
+     1.06,
+     55.31,
+     false,
+     194
+    ],
+    [
+     534.01,
+     -2.13,
+     1.17,
+     105.8,
+     2.7,
+     0.59,
+     0.99,
+     55.26,
+     false,
+     196
+    ],
+    [
+     536.06,
+     2.2,
+     1.367,
+     -32.9,
+     2.7,
+     0.35,
+     1.16,
+     55.66,
+     false,
+     198
+    ],
+    [
+     558.62,
+     1.91,
+     0.999,
+     49.2,
+     1.1,
+     0.55,
+     0.85,
+     48.52,
+     false,
+     235
+    ],
+    [
+     558.92,
+     2.76,
+     1.665,
+     -35.2,
+     9.9,
+     0.41,
+     1.42,
+     47.58,
+     false,
+     237
+    ],
+    [
+     561.66,
+     -0.2,
+     1.163,
+     61.4,
+     7.7,
+     0.42,
+     0.99,
+     47.3,
+     false,
+     239
+    ],
+    [
+     568.29,
+     2.74,
+     1.106,
+     61.4,
+     10.9,
+     0.46,
+     0.94,
+     45.52,
+     false,
+     245
+    ]
+   ],
+   "anzahl": 12
+  },
+  "SM_MossyForestBoulder_01": {
+   "netz": "SM_MossyForestBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.73,
+    1.39,
+    0.97
+   ],
+   "rollen": {
+    "lippe": 3,
+    "randblock": 2
+   },
+   "eintraege": [
+    [
+     439.71,
+     -0.35,
+     0.405,
+     111.4,
+     6.8,
+     0.45,
+     0.7,
+     89.16,
+     false,
+     57
+    ],
+    [
+     477.89,
+     3.46,
+     0.437,
+     99.8,
+     7.7,
+     0.46,
+     0.76,
+     76.43,
+     false,
+     112
+    ],
+    [
+     486.59,
+     1.72,
+     0.422,
+     113.3,
+     11.6,
+     0.4,
+     0.73,
+     73.27,
+     false,
+     120
+    ],
+    [
+     400.34,
+     2.32,
+     0.36,
+     15.4,
+     5.4,
+     0.42,
+     0.62,
+     98.99,
+     false,
+     275
+    ],
+    [
+     532.89,
+     -2.91,
+     0.421,
+     -15.1,
+     4.6,
+     0.36,
+     0.73,
+     55.72,
+     false,
+     533
+    ]
+   ],
+   "anzahl": 5
+  },
+  "SM_MossyForestBoulder_01_kol": {
+   "netz": "SM_MossyForestBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+   "rolle": "eckblock",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.73,
+    1.39,
+    0.97
+   ],
+   "rollen": {
+    "eckblock": 6,
+    "keystone": 6,
+    "lippe": 3,
+    "randblock": 3
+   },
+   "eintraege": [
+    [
+     402.54,
+     2.27,
+     0.843,
+     38.7,
+     6.1,
+     0.44,
+     1.46,
+     98.96,
+     false,
+     15
+    ],
+    [
+     401.38,
+     -2.58,
+     0.691,
+     -5.5,
+     8.1,
+     0.37,
+     1.2,
+     98.23,
+     false,
+     16
+    ],
+    [
+     437.3,
+     -0.47,
+     0.473,
+     126.4,
+     12.0,
+     0.42,
+     0.82,
+     89.8,
+     false,
+     50
+    ],
+    [
+     443.31,
+     2.83,
+     0.685,
+     110.1,
+     10.8,
+     0.5,
+     1.19,
+     88.97,
+     false,
+     63
+    ],
+    [
+     447.23,
+     -1.83,
+     0.674,
+     102.5,
+     8.7,
+     0.42,
+     1.17,
+     86.66,
+     false,
+     75
+    ],
+    [
+     455.46,
+     2.5,
+     0.656,
+     -36.4,
+     7.5,
+     0.47,
+     1.14,
+     82.41,
+     false,
+     86
+    ],
+    [
+     514.35,
+     0.53,
+     0.515,
+     99.4,
+     13.9,
+     0.48,
+     0.89,
+     62.03,
+     false,
+     162
+    ],
+    [
+     522.44,
+     0.79,
+     0.691,
+     110.6,
+     8.9,
+     0.53,
+     1.2,
+     59.49,
+     false,
+     179
+    ],
+    [
+     525.78,
+     2.37,
+     0.566,
+     135.7,
+     12.8,
+     0.46,
+     0.98,
+     57.19,
+     false,
+     184
+    ],
+    [
+     529.8,
+     1.39,
+     0.514,
+     98.9,
+     10.3,
+     0.51,
+     0.89,
+     56.51,
+     false,
+     190
+    ],
+    [
+     535.44,
+     1.26,
+     0.678,
+     124.4,
+     13.7,
+     0.5,
+     1.17,
+     55.28,
+     false,
+     195
+    ],
+    [
+     542.3,
+     1.53,
+     0.563,
+     124.9,
+     11.7,
+     0.41,
+     0.97,
+     52.74,
+     false,
+     206
+    ],
+    [
+     541.32,
+     -2.94,
+     0.737,
+     15.5,
+     3.4,
+     0.41,
+     1.27,
+     53.04,
+     false,
+     212
+    ],
+    [
+     560.63,
+     -2.68,
+     0.617,
+     -2.0,
+     1.8,
+     0.44,
+     1.07,
+     48.87,
+     false,
+     238
+    ],
+    [
+     571.48,
+     -3.36,
+     0.747,
+     37.0,
+     3.3,
+     0.5,
+     1.29,
+     46.48,
+     false,
+     247
+    ],
+    [
+     499.07,
+     -3.66,
+     0.708,
+     -19.2,
+     6.3,
+     0.31,
+     1.22,
+     68.46,
+     false,
+     449
+    ],
+    [
+     546.69,
+     3.15,
+     0.693,
+     3.8,
+     2.3,
+     0.33,
+     1.2,
+     51.51,
+     false,
+     561
+    ],
+    [
+     547.01,
+     -3.41,
+     0.525,
+     -11.4,
+     3.7,
+     0.36,
+     0.91,
+     51.06,
+     false,
+     562
+    ]
+   ],
+   "anzahl": 18
+  },
+  "SM_MossyForestBoulder_02": {
+   "netz": "SM_MossyForestBoulder_02",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.94,
+    0.78,
+    0.61
+   ],
+   "rollen": {
+    "lippe": 4,
+    "randblock": 4,
+    "beckenblock": 1
+   },
+   "eintraege": [
+    [
+     391.71,
+     2.68,
+     0.756,
+     62.1,
+     5.1,
+     0.56,
+     0.71,
+     101.03,
+     false,
+     5
+    ],
+    [
+     431.93,
+     -2.33,
+     0.535,
+     112.6,
+     11.1,
+     0.51,
+     0.5,
+     90.59,
+     false,
+     44
+    ],
+    [
+     513.95,
+     -1.33,
+     0.822,
+     91.2,
+     8.6,
+     0.42,
+     0.77,
+     62.17,
+     false,
+     165
+    ],
+    [
+     554.47,
+     -1.54,
+     0.83,
+     62.0,
+     1.9,
+     0.51,
+     0.78,
+     49.67,
+     false,
+     229
+    ],
+    [
+     404.18,
+     2.37,
+     0.778,
+     9.6,
+     8.6,
+     0.38,
+     0.73,
+     98.23,
+     false,
+     282
+    ],
+    [
+     428.82,
+     2.31,
+     0.638,
+     -6.6,
+     6.1,
+     0.36,
+     0.6,
+     92.68,
+     false,
+     318
+    ],
+    [
+     481.11,
+     1.59,
+     0.579,
+     -6.8,
+     15.7,
+     0.48,
+     0.54,
+     74.57,
+     true,
+     404
+    ],
+    [
+     511.52,
+     -2.87,
+     0.69,
+     -3.5,
+     3.2,
+     0.38,
+     0.65,
+     63.13,
+     false,
+     477
+    ],
+    [
+     539.13,
+     -3.53,
+     0.821,
+     -18.3,
+     8.8,
+     0.43,
+     0.77,
+     53.98,
+     false,
+     548
+    ]
+   ],
+   "anzahl": 9
+  },
+  "SM_MossyForestBoulder_02_kol": {
+   "netz": "SM_MossyForestBoulder_02",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_02",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.94,
+    0.78,
+    0.61
+   ],
+   "rollen": {
+    "keystone": 10,
+    "lippe": 4,
+    "eckblock": 6,
+    "randblock": 3,
+    "beckenblock": 1
+   },
+   "eintraege": [
+    [
+     395.39,
+     -1.85,
+     1.311,
+     53.1,
+     10.3,
+     0.55,
+     1.23,
+     99.57,
+     false,
+     7
+    ],
+    [
+     404.95,
+     -2.21,
+     1.612,
+     106.7,
+     12.0,
+     0.55,
+     1.51,
+     97.51,
+     false,
+     17
+    ],
+    [
+     419.98,
+     2.57,
+     1.21,
+     129.9,
+     6.1,
+     0.52,
+     1.14,
+     94.92,
+     false,
+     28
+    ],
+    [
+     425.81,
+     -0.52,
+     1.072,
+     48.9,
+     13.8,
+     0.48,
+     1.01,
+     93.02,
+     false,
+     31
+    ],
+    [
+     430.87,
+     2.54,
+     1.023,
+     99.5,
+     10.0,
+     0.59,
+     0.96,
+     92.73,
+     false,
+     40
+    ],
+    [
+     431.11,
+     2.46,
+     1.083,
+     28.1,
+     3.9,
+     0.5,
+     1.02,
+     92.73,
+     false,
+     41
+    ],
+    [
+     438.54,
+     2.59,
+     0.937,
+     116.4,
+     5.8,
+     0.43,
+     0.88,
+     90.61,
+     false,
+     53
+    ],
+    [
+     436.79,
+     -2.08,
+     1.05,
+     32.7,
+     5.7,
+     0.4,
+     0.99,
+     89.17,
+     false,
+     54
+    ],
+    [
+     440.78,
+     -1.7,
+     0.919,
+     124.5,
+     1.1,
+     0.49,
+     0.86,
+     88.49,
+     false,
+     62
+    ],
+    [
+     473.15,
+     2.74,
+     1.033,
+     3.1,
+     9.5,
+     0.48,
+     0.97,
+     78.83,
+     false,
+     103
+    ],
+    [
+     475.85,
+     -1.63,
+     1.318,
+     117.1,
+     13.3,
+     0.42,
+     1.24,
+     76.02,
+     false,
+     109
+    ],
+    [
+     493.94,
+     1.75,
+     1.107,
+     90.2,
+     10.2,
+     0.43,
+     1.04,
+     69.8,
+     false,
+     136
+    ],
+    [
+     500.14,
+     -2.18,
+     1.413,
+     106.3,
+     10.7,
+     0.41,
+     1.33,
+     67.44,
+     false,
+     147
+    ],
+    [
+     510.37,
+     -1.95,
+     1.113,
+     73.6,
+     9.0,
+     0.45,
+     1.05,
+     63.72,
+     false,
+     156
+    ],
+    [
+     510.56,
+     -2.77,
+     1.546,
+     -25.9,
+     6.0,
+     0.4,
+     1.45,
+     64.45,
+     false,
+     161
+    ],
+    [
+     514.62,
+     2.36,
+     0.886,
+     100.7,
+     10.6,
+     0.43,
+     0.83,
+     62.25,
+     false,
+     163
+    ],
+    [
+     534.23,
+     -2.63,
+     1.274,
+     5.7,
+     6.8,
+     0.41,
+     1.2,
+     54.87,
+     false,
+     199
+    ],
+    [
+     535.76,
+     -2.39,
+     1.197,
+     106.1,
+     7.5,
+     0.5,
+     1.12,
+     54.38,
+     false,
+     200
+    ],
+    [
+     541.92,
+     -0.29,
+     0.862,
+     120.3,
+     5.2,
+     0.52,
+     0.81,
+     52.84,
+     false,
+     205
+    ],
+    [
+     548.27,
+     3.03,
+     0.999,
+     -33.8,
+     6.5,
+     0.42,
+     0.94,
+     50.26,
+     false,
+     224
+    ],
+    [
+     462.12,
+     -2.73,
+     1.167,
+     17.7,
+     9.8,
+     0.42,
+     1.1,
+     79.94,
+     false,
+     380
+    ],
+    [
+     460.39,
+     -1.57,
+     0.914,
+     -8.5,
+     16.8,
+     0.42,
+     0.86,
+     79.54,
+     true,
+     381
+    ],
+    [
+     551.3,
+     -3.36,
+     1.14,
+     -9.5,
+     1.5,
+     0.38,
+     1.07,
+     50.47,
+     false,
+     575
+    ],
+    [
+     556.53,
+     -3.15,
+     1.242,
+     9.8,
+     0.3,
+     0.35,
+     1.17,
+     49.0,
+     false,
+     582
+    ]
+   ],
+   "anzahl": 24
+  },
+  "SM_MossyForestBoulder_06": {
+   "netz": "SM_MossyForestBoulder_06",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.27,
+    1.27,
+    0.69
+   ],
+   "rollen": {
+    "lippe": 4,
+    "randblock": 1
+   },
+   "eintraege": [
+    [
+     393.46,
+     -2.42,
+     0.508,
+     54.2,
+     7.6,
+     0.45,
+     0.64,
+     101.02,
+     false,
+     2
+    ],
+    [
+     407.59,
+     -1.38,
+     0.51,
+     100.8,
+     9.0,
+     0.51,
+     0.65,
+     95.53,
+     false,
+     24
+    ],
+    [
+     491.26,
+     2.71,
+     0.623,
+     102.3,
+     11.7,
+     0.46,
+     0.79,
+     71.56,
+     false,
+     133
+    ],
+    [
+     542.97,
+     3.26,
+     0.617,
+     119.3,
+     9.9,
+     0.42,
+     0.78,
+     53.5,
+     false,
+     210
+    ],
+    [
+     512.35,
+     2.86,
+     0.495,
+     -6.3,
+     0.7,
+     0.36,
+     0.63,
+     62.28,
+     false,
+     476
+    ]
+   ],
+   "anzahl": 5
+  },
+  "SM_MossyForestBoulder_06_kol": {
+   "netz": "SM_MossyForestBoulder_06",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_06",
+   "rolle": "eckblock",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.27,
+    1.27,
+    0.69
+   ],
+   "rollen": {
+    "eckblock": 6,
+    "keystone": 8,
+    "lippe": 8,
+    "randblock": 1
+   },
+   "eintraege": [
+    [
+     392.19,
+     2.24,
+     0.916,
+     -17.2,
+     3.9,
+     0.48,
+     1.16,
+     100.54,
+     false,
+     6
+    ],
+    [
+     418.74,
+     -2.35,
+     0.896,
+     37.9,
+     3.5,
+     0.46,
+     1.14,
+     94.81,
+     false,
+     30
+    ],
+    [
+     429.91,
+     -2.4,
+     1.061,
+     92.6,
+     10.3,
+     0.41,
+     1.35,
+     92.74,
+     false,
+     37
+    ],
+    [
+     445.93,
+     -2.5,
+     1.129,
+     -3.5,
+     6.3,
+     0.48,
+     1.43,
+     87.23,
+     false,
+     72
+    ],
+    [
+     451.27,
+     3.94,
+     0.893,
+     83.8,
+     1.8,
+     0.57,
+     1.13,
+     85.8,
+     false,
+     80
+    ],
+    [
+     466.96,
+     2.93,
+     1.148,
+     -36.2,
+     9.0,
+     0.41,
+     1.46,
+     79.92,
+     false,
+     96
+    ],
+    [
+     477.1,
+     0.77,
+     0.811,
+     98.7,
+     6.8,
+     0.53,
+     1.03,
+     76.03,
+     false,
+     110
+    ],
+    [
+     482.33,
+     2.31,
+     0.951,
+     103.6,
+     11.7,
+     0.53,
+     1.21,
+     74.78,
+     false,
+     115
+    ],
+    [
+     481.43,
+     -1.59,
+     0.924,
+     97.0,
+     2.3,
+     0.5,
+     1.17,
+     74.72,
+     false,
+     116
+    ],
+    [
+     488.52,
+     1.75,
+     0.727,
+     106.7,
+     12.9,
+     0.45,
+     0.92,
+     71.91,
+     false,
+     126
+    ],
+    [
+     490.64,
+     -0.44,
+     0.751,
+     104.3,
+     13.8,
+     0.43,
+     0.95,
+     70.82,
+     false,
+     129
+    ],
+    [
+     494.85,
+     -1.74,
+     0.689,
+     59.8,
+     8.7,
+     0.54,
+     0.88,
+     69.66,
+     false,
+     138
+    ],
+    [
+     500.7,
+     2.22,
+     0.701,
+     86.8,
+     2.7,
+     0.44,
+     0.89,
+     67.68,
+     false,
+     149
+    ],
+    [
+     500.76,
+     2.62,
+     1.194,
+     -38.3,
+     6.6,
+     0.42,
+     1.52,
+     67.28,
+     false,
+     150
+    ],
+    [
+     509.46,
+     0.46,
+     0.868,
+     75.2,
+     14.2,
+     0.43,
+     1.1,
+     63.62,
+     false,
+     157
+    ],
+    [
+     507.91,
+     2.83,
+     0.672,
+     83.2,
+     2.9,
+     0.54,
+     0.85,
+     63.77,
+     false,
+     159
+    ],
+    [
+     508.82,
+     2.63,
+     0.766,
+     -19.1,
+     9.2,
+     0.43,
+     0.97,
+     62.5,
+     false,
+     160
+    ],
+    [
+     518.01,
+     -0.3,
+     0.779,
+     109.2,
+     6.3,
+     0.51,
+     0.99,
+     60.45,
+     false,
+     173
+    ],
+    [
+     537.51,
+     0.11,
+     0.788,
+     112.9,
+     13.3,
+     0.47,
+     1.0,
+     53.98,
+     false,
+     201
+    ],
+    [
+     538.19,
+     1.53,
+     0.743,
+     133.6,
+     4.8,
+     0.48,
+     0.94,
+     54.05,
+     false,
+     202
+    ],
+    [
+     542.8,
+     -1.67,
+     0.852,
+     97.6,
+     7.5,
+     0.55,
+     1.08,
+     51.23,
+     false,
+     216
+    ],
+    [
+     562.12,
+     -2.54,
+     0.702,
+     72.8,
+     1.5,
+     0.45,
+     0.89,
+     47.76,
+     false,
+     241
+    ],
+    [
+     575.64,
+     3.12,
+     0.897,
+     14.4,
+     9.5,
+     0.33,
+     1.14,
+     45.2,
+     false,
+     608
+    ]
+   ],
+   "anzahl": 23
+  },
+  "SM_MossyForestBoulder_07": {
+   "netz": "SM_MossyForestBoulder_07",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.13,
+    0.97,
+    0.94
+   ],
+   "rollen": {
+    "lippe": 2,
+    "beckenblock": 1
+   },
+   "eintraege": [
+    [
+     436.38,
+     -1.88,
+     0.604,
+     101.5,
+     0.4,
+     0.52,
+     0.68,
+     89.56,
+     false,
+     52
+    ],
+    [
+     475.92,
+     3.04,
+     0.665,
+     118.5,
+     1.2,
+     0.53,
+     0.75,
+     77.99,
+     false,
+     107
+    ],
+    [
+     572.97,
+     1.84,
+     0.372,
+     18.7,
+     15.1,
+     0.37,
+     0.42,
+     44.86,
+     true,
+     610
+    ]
+   ],
+   "anzahl": 3
+  },
+  "SM_MossyForestBoulder_07_kol": {
+   "netz": "SM_MossyForestBoulder_07",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_07",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.13,
+    0.97,
+    0.94
+   ],
+   "rollen": {
+    "keystone": 8,
+    "lippe": 3,
+    "eckblock": 4,
+    "randblock": 3
+   },
+   "eintraege": [
+    [
+     401.46,
+     -0.46,
+     0.82,
+     114.9,
+     11.7,
+     0.42,
+     0.93,
+     98.76,
+     false,
+     11
+    ],
+    [
+     406.65,
+     2.02,
+     1.304,
+     93.0,
+     2.2,
+     0.53,
+     1.47,
+     98.15,
+     false,
+     19
+    ],
+    [
+     424.46,
+     1.68,
+     0.787,
+     73.0,
+     8.4,
+     0.5,
+     0.89,
+     93.19,
+     false,
+     32
+    ],
+    [
+     430.25,
+     -3.25,
+     1.583,
+     21.4,
+     3.6,
+     0.43,
+     1.79,
+     93.07,
+     false,
+     42
+    ],
+    [
+     446.87,
+     2.46,
+     1.069,
+     21.6,
+     5.0,
+     0.48,
+     1.21,
+     87.2,
+     false,
+     71
+    ],
+    [
+     482.34,
+     0.21,
+     1.158,
+     101.8,
+     5.2,
+     0.42,
+     1.31,
+     74.35,
+     false,
+     114
+    ],
+    [
+     485.33,
+     -1.82,
+     1.159,
+     116.3,
+     5.0,
+     0.48,
+     1.31,
+     73.18,
+     false,
+     118
+    ],
+    [
+     488.2,
+     -0.57,
+     0.992,
+     108.7,
+     5.5,
+     0.41,
+     1.12,
+     71.87,
+     false,
+     125
+    ],
+    [
+     495.05,
+     -2.58,
+     0.723,
+     88.3,
+     4.7,
+     0.44,
+     0.82,
+     69.95,
+     false,
+     137
+    ],
+    [
+     494.42,
+     2.52,
+     1.227,
+     27.2,
+     8.3,
+     0.48,
+     1.39,
+     69.41,
+     false,
+     140
+    ],
+    [
+     500.31,
+     -3.52,
+     1.048,
+     22.5,
+     8.9,
+     0.41,
+     1.18,
+     66.87,
+     false,
+     151
+    ],
+    [
+     503.13,
+     1.74,
+     1.176,
+     85.8,
+     0.5,
+     0.53,
+     1.33,
+     65.56,
+     false,
+     154
+    ],
+    [
+     530.14,
+     0.32,
+     1.271,
+     69.1,
+     6.0,
+     0.55,
+     1.44,
+     56.94,
+     false,
+     189
+    ],
+    [
+     548.94,
+     -2.26,
+     1.063,
+     62.9,
+     8.5,
+     0.43,
+     1.2,
+     51.0,
+     false,
+     219
+    ],
+    [
+     559.31,
+     0.74,
+     1.098,
+     73.1,
+     14.6,
+     0.43,
+     1.24,
+     48.2,
+     false,
+     234
+    ],
+    [
+     453.1,
+     -2.25,
+     0.785,
+     15.5,
+     4.8,
+     0.36,
+     0.89,
+     82.96,
+     false,
+     365
+    ],
+    [
+     459.29,
+     3.28,
+     1.12,
+     -19.6,
+     0.6,
+     0.34,
+     1.27,
+     80.26,
+     false,
+     379
+    ],
+    [
+     563.97,
+     2.82,
+     0.896,
+     -14.7,
+     4.1,
+     0.44,
+     1.01,
+     46.48,
+     false,
+     596
+    ]
+   ],
+   "anzahl": 18
+  },
+  "SM_MossyForestRock_02": {
+   "netz": "SM_MossyForestRock_02",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.21,
+    1.08,
+    0.71
+   ],
+   "rollen": {
+    "lippe": 5
+   },
+   "eintraege": [
+    [
+     432.26,
+     -1.45,
+     0.385,
+     109.3,
+     7.3,
+     0.42,
+     0.47,
+     90.52,
+     false,
+     46
+    ],
+    [
+     432.36,
+     -1.03,
+     0.32,
+     99.1,
+     3.5,
+     0.59,
+     0.39,
+     90.62,
+     false,
+     47
+    ],
+    [
+     495.79,
+     1.45,
+     0.595,
+     87.6,
+     6.5,
+     0.56,
+     0.72,
+     68.48,
+     false,
+     144
+    ],
+    [
+     522.92,
+     -1.96,
+     0.607,
+     129.1,
+     5.0,
+     0.41,
+     0.73,
+     58.05,
+     false,
+     185
+    ],
+    [
+     523.56,
+     -1.23,
+     0.586,
+     133.4,
+     5.0,
+     0.47,
+     0.71,
+     57.88,
+     false,
+     186
+    ]
+   ],
+   "anzahl": 5
+  },
+  "SM_MossyForestRock_02_kol": {
+   "netz": "SM_MossyForestRock_02",
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestRock/SM_MossyForestRock_02",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.21,
+    1.08,
+    0.71
+   ],
+   "rollen": {
+    "keystone": 9,
+    "lippe": 3,
+    "randblock": 1
+   },
+   "eintraege": [
+    [
+     402.12,
+     1.76,
+     0.914,
+     110.7,
+     7.0,
+     0.54,
+     1.11,
+     98.94,
+     false,
+     12
+    ],
+    [
+     407.95,
+     -0.65,
+     0.79,
+     110.6,
+     6.0,
+     0.43,
+     0.96,
+     95.56,
+     false,
+     21
+    ],
+    [
+     408.34,
+     1.19,
+     0.677,
+     98.7,
+     5.5,
+     0.44,
+     0.82,
+     95.53,
+     false,
+     22
+    ],
+    [
+     465.97,
+     0.82,
+     0.989,
+     106.6,
+     5.1,
+     0.53,
+     1.2,
+     79.63,
+     false,
+     93
+    ],
+    [
+     486.59,
+     0.58,
+     0.968,
+     113.3,
+     8.2,
+     0.5,
+     1.17,
+     73.28,
+     false,
+     119
+    ],
+    [
+     496.61,
+     -0.33,
+     0.86,
+     64.3,
+     9.8,
+     0.49,
+     1.04,
+     68.69,
+     false,
+     142
+    ],
+    [
+     508.29,
+     1.96,
+     0.746,
+     81.9,
+     1.4,
+     0.52,
+     0.9,
+     63.36,
+     false,
+     158
+    ],
+    [
+     515.61,
+     -1.58,
+     0.811,
+     109.5,
+     12.3,
+     0.48,
+     0.98,
+     61.57,
+     false,
+     168
+    ],
+    [
+     518.44,
+     1.97,
+     0.728,
+     101.5,
+     5.6,
+     0.43,
+     0.88,
+     60.38,
+     false,
+     174
+    ],
+    [
+     553.05,
+     3.06,
+     0.731,
+     55.7,
+     3.3,
+     0.47,
+     0.88,
+     49.96,
+     false,
+     230
+    ],
+    [
+     558.15,
+     2.76,
+     0.71,
+     75.0,
+     3.4,
+     0.44,
+     0.86,
+     48.85,
+     false,
+     236
+    ],
+    [
+     571.09,
+     -2.51,
+     0.828,
+     73.6,
+     10.0,
+     0.54,
+     1.0,
+     46.53,
+     false,
+     243
+    ],
+    [
+     436.23,
+     2.24,
+     0.979,
+     15.1,
+     6.6,
+     0.32,
+     1.18,
+     90.32,
+     false,
+     331
+    ]
+   ],
+   "anzahl": 13
+  },
+  "SM_SmallStonesPack_01": {
+   "netz": "SM_SmallStonesPack_01",
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_01",
+   "rolle": "kies",
+   "ebene": "kleinzeug",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    3500
+   ],
+   "groesse_m": [
+    0.13,
+    0.09,
+    0.09
+   ],
+   "rollen": {
+    "kies": 37
+   },
+   "eintraege": [
+    [
+     390.25,
+     -0.83,
+     1.72,
+     -78.0,
+     0.0,
+     0.3,
+     0.22,
+     100.28,
+     false,
+     265
+    ],
+    [
+     393.73,
+     0.44,
+     1.422,
+     55.7,
+     0.0,
+     0.3,
+     0.18,
+     99.38,
+     false,
+     273
+    ],
+    [
+     403.26,
+     0.04,
+     1.192,
+     16.1,
+     0.0,
+     0.3,
+     0.16,
+     97.33,
+     false,
+     283
+    ],
+    [
+     404.14,
+     0.5,
+     1.389,
+     -108.7,
+     0.0,
+     0.3,
+     0.18,
+     97.43,
+     false,
+     285
+    ],
+    [
+     406.77,
+     -0.8,
+     1.41,
+     143.9,
+     0.0,
+     0.3,
+     0.18,
+     95.48,
+     false,
+     292
+    ],
+    [
+     422.25,
+     -0.89,
+     1.471,
+     -21.4,
+     0.0,
+     0.3,
+     0.19,
+     92.95,
+     false,
+     309
+    ],
+    [
+     427.06,
+     -0.29,
+     1.209,
+     154.3,
+     0.0,
+     0.3,
+     0.16,
+     91.87,
+     false,
+     320
+    ],
+    [
+     431.61,
+     -0.81,
+     1.627,
+     -56.3,
+     0.0,
+     0.3,
+     0.21,
+     90.41,
+     false,
+     330
+    ],
+    [
+     439.48,
+     -0.11,
+     1.4,
+     -57.3,
+     0.0,
+     0.3,
+     0.18,
+     89.12,
+     false,
+     334
+    ],
+    [
+     443.5,
+     0.62,
+     1.27,
+     141.6,
+     0.0,
+     0.3,
+     0.17,
+     86.17,
+     false,
+     348
+    ],
+    [
+     444.02,
+     1.05,
+     1.234,
+     -14.2,
+     0.0,
+     0.3,
+     0.16,
+     87.04,
+     false,
+     351
+    ],
+    [
+     447.35,
+     0.03,
+     1.43,
+     -132.2,
+     0.0,
+     0.3,
+     0.19,
+     86.04,
+     false,
+     353
+    ],
+    [
+     453.35,
+     1.39,
+     1.48,
+     -158.5,
+     0.0,
+     0.3,
+     0.19,
+     82.72,
+     false,
+     366
+    ],
+    [
+     452.36,
+     0.78,
+     1.698,
+     40.3,
+     0.0,
+     0.3,
+     0.22,
+     82.49,
+     false,
+     368
+    ],
+    [
+     461.12,
+     1.17,
+     1.7,
+     -136.9,
+     0.0,
+     0.3,
+     0.22,
+     78.91,
+     false,
+     382
+    ],
+    [
+     461.91,
+     1.6,
+     1.71,
+     -118.6,
+     0.0,
+     0.3,
+     0.22,
+     79.42,
+     false,
+     383
+    ],
+    [
+     461.6,
+     0.12,
+     1.641,
+     140.9,
+     0.0,
+     0.3,
+     0.21,
+     79.25,
+     false,
+     386
+    ],
+    [
+     473.5,
+     0.97,
+     1.467,
+     120.7,
+     0.0,
+     0.3,
+     0.19,
+     77.0,
+     false,
+     397
+    ],
+    [
+     478.45,
+     0.34,
+     1.786,
+     -140.6,
+     0.0,
+     0.3,
+     0.23,
+     74.48,
+     false,
+     405
+    ],
+    [
+     478.71,
+     0.18,
+     1.211,
+     -9.1,
+     0.0,
+     0.3,
+     0.16,
+     74.48,
+     false,
+     409
+    ],
+    [
+     484.22,
+     0.83,
+     1.27,
+     -173.9,
+     0.0,
+     0.3,
+     0.17,
+     73.06,
+     false,
+     422
+    ],
+    [
+     489.62,
+     0.36,
+     1.397,
+     -73.8,
+     0.0,
+     0.3,
+     0.18,
+     70.33,
+     false,
+     430
+    ],
+    [
+     493.17,
+     1.37,
+     1.439,
+     58.8,
+     0.0,
+     0.3,
+     0.19,
+     69.56,
+     false,
+     435
+    ],
+    [
+     499.11,
+     -0.94,
+     1.251,
+     26.2,
+     0.0,
+     0.3,
+     0.16,
+     67.14,
+     false,
+     454
+    ],
+    [
+     501.65,
+     -0.39,
+     1.757,
+     -76.0,
+     0.0,
+     0.3,
+     0.23,
+     65.24,
+     false,
+     462
+    ],
+    [
+     511.64,
+     -1.66,
+     1.288,
+     28.4,
+     0.0,
+     0.3,
+     0.17,
+     62.07,
+     false,
+     478
+    ],
+    [
+     511.89,
+     -0.04,
+     1.635,
+     153.2,
+     0.0,
+     0.3,
+     0.21,
+     61.96,
+     false,
+     487
+    ],
+    [
+     512.16,
+     -1.5,
+     1.553,
+     66.4,
+     0.0,
+     0.3,
+     0.2,
+     62.06,
+     false,
+     488
+    ],
+    [
+     523.08,
+     0.03,
+     1.79,
+     -130.6,
+     0.0,
+     0.3,
+     0.23,
+     57.29,
+     false,
+     517
+    ],
+    [
+     527.22,
+     1.5,
+     1.492,
+     -104.4,
+     0.0,
+     0.3,
+     0.19,
+     56.32,
+     false,
+     526
+    ],
+    [
+     536.81,
+     0.62,
+     1.661,
+     -136.4,
+     0.0,
+     0.3,
+     0.22,
+     53.93,
+     false,
+     546
+    ],
+    [
+     542.97,
+     0.33,
+     1.487,
+     -71.4,
+     0.0,
+     0.3,
+     0.19,
+     51.79,
+     false,
+     560
+    ],
+    [
+     546.21,
+     1.29,
+     1.387,
+     120.1,
+     0.0,
+     0.3,
+     0.18,
+     50.73,
+     false,
+     571
+    ],
+    [
+     550.55,
+     -1.01,
+     1.352,
+     -78.8,
+     0.0,
+     0.3,
+     0.18,
+     48.74,
+     false,
+     576
+    ],
+    [
+     556.49,
+     0.57,
+     1.278,
+     -139.4,
+     0.0,
+     0.3,
+     0.17,
+     47.94,
+     false,
+     588
+    ],
+    [
+     557.03,
+     0.1,
+     1.654,
+     166.3,
+     0.0,
+     0.3,
+     0.22,
+     48.27,
+     false,
+     589
+    ],
+    [
+     575.45,
+     -0.15,
+     1.736,
+     27.1,
+     0.0,
+     0.3,
+     0.23,
+     44.74,
+     false,
+     619
+    ]
+   ],
+   "anzahl": 37
+  },
+  "SM_SmallStonesPack_03": {
+   "netz": "SM_SmallStonesPack_03",
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_03",
+   "rolle": "kies",
+   "ebene": "kleinzeug",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    3500
+   ],
+   "groesse_m": [
+    0.12,
+    0.07,
+    0.07
+   ],
+   "rollen": {
+    "kies": 25
+   },
+   "eintraege": [
+    [
+     390.11,
+     0.27,
+     1.607,
+     -117.2,
+     0.0,
+     0.3,
+     0.19,
+     99.89,
+     false,
+     257
+    ],
+    [
+     393.7,
+     0.46,
+     1.492,
+     100.5,
+     0.0,
+     0.3,
+     0.18,
+     99.38,
+     false,
+     270
+    ],
+    [
+     393.48,
+     0.24,
+     1.385,
+     167.3,
+     0.0,
+     0.3,
+     0.17,
+     99.7,
+     false,
+     274
+    ],
+    [
+     398.39,
+     0.14,
+     1.769,
+     -84.6,
+     0.0,
+     0.3,
+     0.21,
+     98.46,
+     false,
+     279
+    ],
+    [
+     414.07,
+     -0.14,
+     1.336,
+     27.3,
+     0.0,
+     0.3,
+     0.16,
+     94.51,
+     false,
+     304
+    ],
+    [
+     421.75,
+     -0.79,
+     1.354,
+     -55.2,
+     0.0,
+     0.3,
+     0.16,
+     92.24,
+     false,
+     316
+    ],
+    [
+     427.37,
+     0.98,
+     1.593,
+     -154.7,
+     0.0,
+     0.3,
+     0.19,
+     92.01,
+     false,
+     321
+    ],
+    [
+     431.68,
+     -1.53,
+     1.558,
+     35.2,
+     0.0,
+     0.3,
+     0.19,
+     90.56,
+     false,
+     327
+    ],
+    [
+     447.22,
+     -0.14,
+     1.678,
+     -13.3,
+     0.0,
+     0.3,
+     0.2,
+     85.74,
+     false,
+     355
+    ],
+    [
+     450.56,
+     1.26,
+     1.623,
+     98.3,
+     0.0,
+     0.3,
+     0.19,
+     84.29,
+     false,
+     363
+    ],
+    [
+     468.42,
+     0.57,
+     1.741,
+     -127.0,
+     0.0,
+     0.3,
+     0.21,
+     78.27,
+     false,
+     391
+    ],
+    [
+     479.25,
+     0.49,
+     1.769,
+     131.8,
+     0.0,
+     0.3,
+     0.21,
+     74.56,
+     false,
+     410
+    ],
+    [
+     484.29,
+     1.13,
+     1.653,
+     -123.3,
+     0.0,
+     0.3,
+     0.2,
+     73.1,
+     false,
+     421
+    ],
+    [
+     492.43,
+     1.25,
+     1.695,
+     136.9,
+     0.0,
+     0.3,
+     0.2,
+     69.42,
+     false,
+     440
+    ],
+    [
+     501.38,
+     -1.05,
+     1.559,
+     -13.5,
+     0.0,
+     0.3,
+     0.19,
+     65.18,
+     false,
+     463
+    ],
+    [
+     502.03,
+     -0.48,
+     1.377,
+     94.8,
+     0.0,
+     0.3,
+     0.17,
+     65.44,
+     false,
+     467
+    ],
+    [
+     505.95,
+     -1.6,
+     1.4,
+     133.5,
+     0.0,
+     0.3,
+     0.17,
+     63.32,
+     false,
+     472
+    ],
+    [
+     511.3,
+     -0.81,
+     1.715,
+     115.6,
+     0.0,
+     0.3,
+     0.21,
+     61.09,
+     false,
+     479
+    ],
+    [
+     519.76,
+     0.1,
+     1.672,
+     8.7,
+     0.0,
+     0.3,
+     0.2,
+     59.32,
+     false,
+     507
+    ],
+    [
+     527.55,
+     1.53,
+     1.413,
+     -166.4,
+     0.0,
+     0.3,
+     0.17,
+     56.55,
+     false,
+     527
+    ],
+    [
+     532.75,
+     -1.53,
+     1.741,
+     -40.2,
+     0.0,
+     0.3,
+     0.21,
+     55.15,
+     false,
+     535
+    ],
+    [
+     532.44,
+     -1.0,
+     1.622,
+     179.5,
+     0.0,
+     0.3,
+     0.19,
+     54.97,
+     false,
+     540
+    ],
+    [
+     538.46,
+     -0.65,
+     1.463,
+     -140.2,
+     0.0,
+     0.3,
+     0.18,
+     52.08,
+     false,
+     555
+    ],
+    [
+     555.87,
+     1.12,
+     1.709,
+     123.5,
+     0.0,
+     0.3,
+     0.21,
+     48.09,
+     false,
+     586
+    ],
+    [
+     576.43,
+     -1.24,
+     1.799,
+     -107.3,
+     0.0,
+     0.3,
+     0.22,
+     44.79,
+     false,
+     615
+    ]
+   ],
+   "anzahl": 25
+  },
+  "SM_SmallStonesPack_06": {
+   "netz": "SM_SmallStonesPack_06",
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_06",
+   "rolle": "kies",
+   "ebene": "kleinzeug",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    3500
+   ],
+   "groesse_m": [
+    0.15,
+    0.12,
+    0.07
+   ],
+   "rollen": {
+    "kies": 50
+   },
+   "eintraege": [
+    [
+     390.72,
+     0.47,
+     1.758,
+     119.7,
+     0.0,
+     0.3,
+     0.26,
+     100.27,
+     false,
+     258
+    ],
+    [
+     390.6,
+     -0.14,
+     1.109,
+     -172.9,
+     0.0,
+     0.3,
+     0.17,
+     99.97,
+     false,
+     260
+    ],
+    [
+     397.21,
+     -1.63,
+     1.594,
+     149.8,
+     0.0,
+     0.3,
+     0.24,
+     98.54,
+     false,
+     276
+    ],
+    [
+     406.88,
+     -0.73,
+     1.068,
+     -34.5,
+     0.0,
+     0.3,
+     0.16,
+     95.48,
+     false,
+     291
+    ],
+    [
+     413.6,
+     0.07,
+     1.547,
+     -1.4,
+     0.0,
+     0.3,
+     0.23,
+     94.24,
+     false,
+     300
+    ],
+    [
+     421.93,
+     0.26,
+     1.446,
+     77.3,
+     0.0,
+     0.3,
+     0.22,
+     92.98,
+     false,
+     314
+    ],
+    [
+     427.5,
+     0.18,
+     1.423,
+     14.9,
+     0.0,
+     0.3,
+     0.21,
+     91.76,
+     false,
+     319
+    ],
+    [
+     427.21,
+     0.54,
+     1.633,
+     -131.4,
+     0.0,
+     0.3,
+     0.25,
+     91.39,
+     false,
+     324
+    ],
+    [
+     431.7,
+     -1.34,
+     1.123,
+     113.4,
+     0.0,
+     0.3,
+     0.17,
+     90.26,
+     false,
+     325
+    ],
+    [
+     431.63,
+     -0.55,
+     1.56,
+     -134.5,
+     0.0,
+     0.3,
+     0.23,
+     90.48,
+     false,
+     329
+    ],
+    [
+     439.12,
+     0.71,
+     1.672,
+     -24.7,
+     0.0,
+     0.3,
+     0.25,
+     88.91,
+     false,
+     336
+    ],
+    [
+     439.14,
+     0.18,
+     1.622,
+     119.3,
+     0.0,
+     0.3,
+     0.24,
+     88.79,
+     false,
+     337
+    ],
+    [
+     444.15,
+     0.62,
+     1.065,
+     130.3,
+     0.0,
+     0.3,
+     0.16,
+     86.67,
+     false,
+     346
+    ],
+    [
+     447.61,
+     -0.39,
+     1.788,
+     -131.1,
+     0.0,
+     0.3,
+     0.27,
+     86.14,
+     false,
+     356
+    ],
+    [
+     450.02,
+     1.44,
+     1.454,
+     141.7,
+     0.0,
+     0.3,
+     0.22,
+     84.27,
+     false,
+     361
+    ],
+    [
+     450.02,
+     1.3,
+     1.542,
+     -96.1,
+     0.0,
+     0.3,
+     0.23,
+     83.93,
+     false,
+     362
+    ],
+    [
+     449.8,
+     1.14,
+     1.36,
+     60.4,
+     0.0,
+     0.3,
+     0.2,
+     83.93,
+     false,
+     364
+    ],
+    [
+     467.87,
+     -0.43,
+     1.647,
+     149.0,
+     0.0,
+     0.3,
+     0.25,
+     77.96,
+     false,
+     392
+    ],
+    [
+     473.69,
+     1.29,
+     1.641,
+     10.3,
+     0.0,
+     0.3,
+     0.25,
+     77.15,
+     false,
+     398
+    ],
+    [
+     475.9,
+     1.08,
+     1.035,
+     141.4,
+     0.0,
+     0.3,
+     0.16,
+     75.63,
+     false,
+     401
+    ],
+    [
+     483.65,
+     1.58,
+     1.596,
+     -99.0,
+     0.0,
+     0.3,
+     0.24,
+     72.36,
+     false,
+     412
+    ],
+    [
+     483.93,
+     1.46,
+     1.701,
+     -169.3,
+     0.0,
+     0.3,
+     0.26,
+     72.67,
+     false,
+     413
+    ],
+    [
+     484.6,
+     0.87,
+     1.063,
+     -107.2,
+     0.0,
+     0.3,
+     0.16,
+     73.14,
+     false,
+     416
+    ],
+    [
+     487.52,
+     -0.39,
+     1.515,
+     67.8,
+     0.0,
+     0.3,
+     0.23,
+     71.65,
+     false,
+     426
+    ],
+    [
+     489.61,
+     0.15,
+     1.373,
+     -28.3,
+     0.0,
+     0.3,
+     0.21,
+     70.33,
+     false,
+     429
+    ],
+    [
+     490.22,
+     0.4,
+     1.02,
+     -39.1,
+     0.0,
+     0.3,
+     0.15,
+     70.5,
+     false,
+     433
+    ],
+    [
+     493.03,
+     0.88,
+     1.565,
+     -129.3,
+     0.0,
+     0.3,
+     0.23,
+     69.38,
+     false,
+     436
+    ],
+    [
+     495.57,
+     0.03,
+     1.477,
+     -9.2,
+     0.0,
+     0.3,
+     0.22,
+     68.48,
+     false,
+     447
+    ],
+    [
+     498.12,
+     -1.72,
+     1.641,
+     155.2,
+     0.0,
+     0.3,
+     0.25,
+     66.56,
+     false,
+     452
+    ],
+    [
+     498.76,
+     -1.54,
+     1.125,
+     -54.5,
+     0.0,
+     0.3,
+     0.17,
+     67.11,
+     false,
+     461
+    ],
+    [
+     501.43,
+     -1.17,
+     1.182,
+     50.0,
+     0.0,
+     0.3,
+     0.18,
+     65.42,
+     false,
+     466
+    ],
+    [
+     506.25,
+     -2.29,
+     1.297,
+     177.3,
+     0.0,
+     0.3,
+     0.19,
+     63.54,
+     false,
+     473
+    ],
+    [
+     511.49,
+     0.07,
+     1.696,
+     -93.7,
+     0.0,
+     0.3,
+     0.25,
+     61.96,
+     false,
+     483
+    ],
+    [
+     515.48,
+     0.77,
+     1.569,
+     165.6,
+     0.0,
+     0.3,
+     0.24,
+     61.44,
+     false,
+     492
+    ],
+    [
+     515.87,
+     1.67,
+     1.051,
+     -66.6,
+     0.0,
+     0.3,
+     0.16,
+     61.55,
+     false,
+     494
+    ],
+    [
+     515.53,
+     0.71,
+     1.348,
+     -59.2,
+     0.0,
+     0.3,
+     0.2,
+     61.44,
+     false,
+     495
+    ],
+    [
+     520.82,
+     1.6,
+     1.061,
+     47.2,
+     0.0,
+     0.3,
+     0.16,
+     59.39,
+     false,
+     505
+    ],
+    [
+     520.0,
+     1.47,
+     1.577,
+     79.1,
+     0.0,
+     0.3,
+     0.24,
+     59.24,
+     false,
+     506
+    ],
+    [
+     520.49,
+     0.39,
+     1.538,
+     148.1,
+     0.0,
+     0.3,
+     0.23,
+     59.29,
+     false,
+     509
+    ],
+    [
+     523.47,
+     -0.57,
+     1.694,
+     -110.6,
+     0.0,
+     0.3,
+     0.25,
+     57.68,
+     false,
+     518
+    ],
+    [
+     532.35,
+     -0.86,
+     1.758,
+     51.7,
+     0.0,
+     0.3,
+     0.26,
+     54.98,
+     false,
+     539
+    ],
+    [
+     536.13,
+     -0.09,
+     1.749,
+     -96.2,
+     0.0,
+     0.3,
+     0.26,
+     53.59,
+     false,
+     544
+    ],
+    [
+     546.61,
+     0.68,
+     1.489,
+     -23.3,
+     0.0,
+     0.3,
+     0.22,
+     50.52,
+     false,
+     563
+    ],
+    [
+     545.96,
+     -0.17,
+     1.424,
+     151.1,
+     0.0,
+     0.3,
+     0.21,
+     50.36,
+     false,
+     565
+    ],
+    [
+     555.85,
+     1.07,
+     1.292,
+     -131.7,
+     0.0,
+     0.3,
+     0.19,
+     48.09,
+     false,
+     587
+    ],
+    [
+     556.09,
+     0.45,
+     1.113,
+     -104.7,
+     0.0,
+     0.3,
+     0.17,
+     47.6,
+     false,
+     590
+    ],
+    [
+     556.81,
+     -0.36,
+     1.084,
+     -75.2,
+     0.0,
+     0.3,
+     0.16,
+     48.32,
+     false,
+     591
+    ],
+    [
+     565.04,
+     -0.16,
+     1.296,
+     -86.8,
+     0.0,
+     0.3,
+     0.19,
+     45.98,
+     false,
+     599
+    ],
+    [
+     575.08,
+     -1.66,
+     1.299,
+     -25.3,
+     0.0,
+     0.3,
+     0.19,
+     44.7,
+     false,
+     614
+    ],
+    [
+     573.58,
+     -1.41,
+     1.575,
+     169.3,
+     0.0,
+     0.3,
+     0.24,
+     44.06,
+     false,
+     616
+    ]
+   ],
+   "anzahl": 50
+  },
+  "SM_SmallStonesPack_07": {
+   "netz": "SM_SmallStonesPack_07",
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_07",
+   "rolle": "kies",
+   "ebene": "kleinzeug",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    3500
+   ],
+   "groesse_m": [
+    0.18,
+    0.1,
+    0.12
+   ],
+   "rollen": {
+    "kies": 74
+   },
+   "eintraege": [
+    [
+     390.39,
+     0.08,
+     1.039,
+     69.1,
+     0.0,
+     0.3,
+     0.19,
+     99.94,
+     false,
+     259
+    ],
+    [
+     390.71,
+     -0.45,
+     1.643,
+     -165.2,
+     0.0,
+     0.3,
+     0.3,
+     100.16,
+     false,
+     264
+    ],
+    [
+     393.9,
+     0.15,
+     1.039,
+     -7.8,
+     0.0,
+     0.3,
+     0.19,
+     99.84,
+     false,
+     271
+    ],
+    [
+     393.56,
+     0.9,
+     1.035,
+     -116.9,
+     0.0,
+     0.3,
+     0.19,
+     99.88,
+     false,
+     272
+    ],
+    [
+     399.26,
+     -0.74,
+     1.373,
+     59.0,
+     0.0,
+     0.3,
+     0.25,
+     98.48,
+     false,
+     278
+    ],
+    [
+     399.3,
+     -1.01,
+     1.618,
+     -109.3,
+     0.0,
+     0.3,
+     0.29,
+     98.53,
+     false,
+     280
+    ],
+    [
+     404.2,
+     0.71,
+     1.506,
+     -114.2,
+     0.0,
+     0.3,
+     0.27,
+     97.5,
+     false,
+     287
+    ],
+    [
+     403.4,
+     1.02,
+     1.544,
+     38.6,
+     0.0,
+     0.3,
+     0.28,
+     97.41,
+     false,
+     288
+    ],
+    [
+     406.87,
+     -0.9,
+     1.265,
+     -106.8,
+     0.0,
+     0.3,
+     0.23,
+     95.51,
+     false,
+     293
+    ],
+    [
+     414.35,
+     -0.13,
+     0.956,
+     73.4,
+     0.0,
+     0.3,
+     0.17,
+     94.58,
+     false,
+     299
+    ],
+    [
+     412.14,
+     0.28,
+     1.64,
+     149.4,
+     0.0,
+     0.3,
+     0.3,
+     93.96,
+     false,
+     301
+    ],
+    [
+     412.23,
+     0.65,
+     1.262,
+     -18.0,
+     0.0,
+     0.3,
+     0.23,
+     94.38,
+     false,
+     302
+    ],
+    [
+     422.23,
+     -1.42,
+     0.858,
+     99.0,
+     0.0,
+     0.3,
+     0.15,
+     93.03,
+     false,
+     312
+    ],
+    [
+     421.51,
+     -0.13,
+     1.113,
+     138.3,
+     0.0,
+     0.3,
+     0.2,
+     92.35,
+     false,
+     315
+    ],
+    [
+     431.67,
+     -1.59,
+     0.946,
+     -162.7,
+     0.0,
+     0.3,
+     0.17,
+     90.56,
+     false,
+     326
+    ],
+    [
+     431.4,
+     -1.5,
+     1.02,
+     -68.9,
+     0.0,
+     0.3,
+     0.18,
+     90.56,
+     false,
+     328
+    ],
+    [
+     441.66,
+     0.23,
+     1.364,
+     123.1,
+     0.0,
+     0.3,
+     0.25,
+     88.36,
+     false,
+     338
+    ],
+    [
+     441.17,
+     0.96,
+     1.229,
+     86.0,
+     0.0,
+     0.3,
+     0.22,
+     88.26,
+     false,
+     340
+    ],
+    [
+     444.38,
+     0.61,
+     1.4,
+     26.8,
+     0.0,
+     0.3,
+     0.25,
+     87.03,
+     false,
+     350
+    ],
+    [
+     447.13,
+     0.31,
+     1.296,
+     107.4,
+     0.0,
+     0.3,
+     0.23,
+     86.03,
+     false,
+     352
+    ],
+    [
+     452.41,
+     1.48,
+     1.444,
+     -171.8,
+     0.0,
+     0.3,
+     0.26,
+     81.95,
+     false,
+     372
+    ],
+    [
+     452.58,
+     0.87,
+     1.547,
+     153.9,
+     0.0,
+     0.3,
+     0.28,
+     82.49,
+     false,
+     374
+    ],
+    [
+     461.43,
+     1.92,
+     1.356,
+     37.6,
+     0.0,
+     0.3,
+     0.24,
+     79.52,
+     false,
+     385
+    ],
+    [
+     467.18,
+     0.8,
+     1.423,
+     -1.0,
+     0.0,
+     0.3,
+     0.26,
+     78.3,
+     false,
+     390
+    ],
+    [
+     468.22,
+     0.51,
+     1.053,
+     65.1,
+     0.0,
+     0.3,
+     0.19,
+     78.27,
+     false,
+     393
+    ],
+    [
+     476.06,
+     1.25,
+     1.208,
+     -14.3,
+     0.0,
+     0.3,
+     0.22,
+     75.97,
+     false,
+     403
+    ],
+    [
+     484.48,
+     1.03,
+     1.505,
+     -167.5,
+     0.0,
+     0.3,
+     0.27,
+     73.14,
+     false,
+     419
+    ],
+    [
+     484.14,
+     1.69,
+     1.115,
+     -154.5,
+     0.0,
+     0.3,
+     0.2,
+     73.02,
+     false,
+     423
+    ],
+    [
+     487.16,
+     -0.83,
+     1.559,
+     -154.4,
+     0.0,
+     0.3,
+     0.28,
+     71.33,
+     false,
+     424
+    ],
+    [
+     489.9,
+     0.07,
+     1.277,
+     168.8,
+     0.0,
+     0.3,
+     0.23,
+     70.62,
+     false,
+     427
+    ],
+    [
+     489.47,
+     0.19,
+     1.554,
+     -15.2,
+     0.0,
+     0.3,
+     0.28,
+     70.33,
+     false,
+     428
+    ],
+    [
+     490.14,
+     1.05,
+     1.409,
+     130.3,
+     0.0,
+     0.3,
+     0.25,
+     70.64,
+     false,
+     431
+    ],
+    [
+     490.05,
+     0.24,
+     1.648,
+     -91.3,
+     0.0,
+     0.3,
+     0.3,
+     70.58,
+     false,
+     432
+    ],
+    [
+     493.36,
+     -0.35,
+     0.862,
+     -56.1,
+     0.0,
+     0.3,
+     0.16,
+     69.52,
+     false,
+     439
+    ],
+    [
+     493.02,
+     -0.32,
+     1.537,
+     -105.3,
+     0.0,
+     0.3,
+     0.28,
+     69.53,
+     false,
+     442
+    ],
+    [
+     493.04,
+     0.2,
+     1.104,
+     -46.9,
+     0.0,
+     0.3,
+     0.2,
+     69.24,
+     false,
+     444
+    ],
+    [
+     495.4,
+     -0.01,
+     1.506,
+     1.1,
+     0.0,
+     0.3,
+     0.27,
+     68.48,
+     false,
+     446
+    ],
+    [
+     499.04,
+     -0.94,
+     1.249,
+     -116.4,
+     0.0,
+     0.3,
+     0.22,
+     67.14,
+     false,
+     455
+    ],
+    [
+     499.04,
+     -1.11,
+     1.069,
+     142.8,
+     0.0,
+     0.3,
+     0.19,
+     67.14,
+     false,
+     460
+    ],
+    [
+     501.48,
+     -1.27,
+     1.601,
+     -97.5,
+     0.0,
+     0.3,
+     0.29,
+     65.42,
+     false,
+     464
+    ],
+    [
+     512.5,
+     -0.99,
+     0.975,
+     43.8,
+     0.0,
+     0.3,
+     0.18,
+     62.02,
+     false,
+     481
+    ],
+    [
+     511.97,
+     -0.92,
+     1.406,
+     105.7,
+     0.0,
+     0.3,
+     0.25,
+     61.58,
+     false,
+     482
+    ],
+    [
+     512.34,
+     -0.36,
+     1.602,
+     48.2,
+     0.0,
+     0.3,
+     0.29,
+     61.98,
+     false,
+     484
+    ],
+    [
+     511.65,
+     -0.34,
+     1.415,
+     -164.1,
+     0.0,
+     0.3,
+     0.25,
+     61.63,
+     false,
+     489
+    ],
+    [
+     512.4,
+     -0.77,
+     0.989,
+     99.0,
+     0.0,
+     0.3,
+     0.18,
+     61.99,
+     false,
+     491
+    ],
+    [
+     519.85,
+     0.6,
+     1.336,
+     119.6,
+     0.0,
+     0.3,
+     0.24,
+     58.95,
+     false,
+     504
+    ],
+    [
+     520.01,
+     0.68,
+     1.658,
+     -167.2,
+     0.0,
+     0.3,
+     0.3,
+     58.73,
+     false,
+     511
+    ],
+    [
+     522.99,
+     -0.21,
+     1.666,
+     111.1,
+     0.0,
+     0.3,
+     0.3,
+     57.2,
+     false,
+     516
+    ],
+    [
+     523.53,
+     0.26,
+     1.29,
+     -106.5,
+     0.0,
+     0.3,
+     0.23,
+     57.57,
+     false,
+     520
+    ],
+    [
+     527.82,
+     0.56,
+     1.595,
+     -63.8,
+     0.0,
+     0.3,
+     0.29,
+     56.59,
+     false,
+     524
+    ],
+    [
+     528.19,
+     1.92,
+     1.628,
+     -75.3,
+     0.0,
+     0.3,
+     0.29,
+     56.88,
+     false,
+     528
+    ],
+    [
+     527.8,
+     1.57,
+     1.59,
+     148.4,
+     0.0,
+     0.3,
+     0.29,
+     56.74,
+     false,
+     530
+    ],
+    [
+     536.68,
+     0.35,
+     1.644,
+     59.4,
+     0.0,
+     0.3,
+     0.3,
+     53.64,
+     false,
+     545
+    ],
+    [
+     538.23,
+     -0.44,
+     1.143,
+     -36.5,
+     0.0,
+     0.3,
+     0.21,
+     52.09,
+     false,
+     549
+    ],
+    [
+     538.17,
+     -0.43,
+     1.098,
+     -121.8,
+     0.0,
+     0.3,
+     0.2,
+     52.09,
+     false,
+     550
+    ],
+    [
+     539.37,
+     -0.25,
+     0.966,
+     -21.5,
+     0.0,
+     0.3,
+     0.17,
+     52.74,
+     false,
+     551
+    ],
+    [
+     538.31,
+     -1.79,
+     1.162,
+     110.9,
+     0.0,
+     0.3,
+     0.21,
+     52.83,
+     false,
+     552
+    ],
+    [
+     538.9,
+     -1.36,
+     1.384,
+     -111.6,
+     0.0,
+     0.3,
+     0.25,
+     52.62,
+     false,
+     553
+    ],
+    [
+     538.76,
+     -0.37,
+     1.31,
+     -128.8,
+     0.0,
+     0.3,
+     0.24,
+     52.74,
+     false,
+     554
+    ],
+    [
+     546.82,
+     1.06,
+     0.906,
+     93.9,
+     0.0,
+     0.3,
+     0.16,
+     50.81,
+     false,
+     566
+    ],
+    [
+     546.97,
+     -0.03,
+     1.586,
+     -33.5,
+     0.0,
+     0.3,
+     0.29,
+     50.75,
+     false,
+     567
+    ],
+    [
+     545.93,
+     1.12,
+     1.019,
+     7.8,
+     0.0,
+     0.3,
+     0.18,
+     50.43,
+     false,
+     573
+    ],
+    [
+     546.02,
+     1.39,
+     1.438,
+     115.9,
+     0.0,
+     0.3,
+     0.26,
+     50.82,
+     false,
+     574
+    ],
+    [
+     551.31,
+     -1.64,
+     1.45,
+     46.3,
+     0.0,
+     0.3,
+     0.26,
+     49.59,
+     false,
+     577
+    ],
+    [
+     551.44,
+     -1.79,
+     1.355,
+     15.2,
+     0.0,
+     0.3,
+     0.24,
+     49.59,
+     false,
+     581
+    ],
+    [
+     556.69,
+     0.57,
+     1.27,
+     -154.6,
+     0.0,
+     0.3,
+     0.23,
+     47.94,
+     false,
+     583
+    ],
+    [
+     557.15,
+     -0.78,
+     1.167,
+     -68.1,
+     0.0,
+     0.3,
+     0.21,
+     48.33,
+     false,
+     584
+    ],
+    [
+     560.87,
+     -0.39,
+     1.612,
+     -72.6,
+     0.0,
+     0.3,
+     0.29,
+     47.1,
+     false,
+     593
+    ],
+    [
+     560.99,
+     -0.3,
+     1.209,
+     -20.0,
+     0.0,
+     0.3,
+     0.22,
+     47.05,
+     false,
+     594
+    ],
+    [
+     565.34,
+     1.86,
+     1.378,
+     124.5,
+     0.0,
+     0.3,
+     0.25,
+     46.07,
+     false,
+     600
+    ],
+    [
+     564.75,
+     1.38,
+     1.109,
+     -166.3,
+     0.0,
+     0.3,
+     0.2,
+     45.69,
+     false,
+     603
+    ],
+    [
+     565.33,
+     0.72,
+     1.297,
+     56.2,
+     0.0,
+     0.3,
+     0.23,
+     45.82,
+     false,
+     606
+    ],
+    [
+     575.02,
+     -1.77,
+     1.111,
+     -30.5,
+     0.0,
+     0.3,
+     0.2,
+     44.7,
+     false,
+     613
+    ],
+    [
+     575.07,
+     -1.31,
+     0.953,
+     -121.5,
+     0.0,
+     0.3,
+     0.17,
+     44.36,
+     false,
+     620
+    ]
+   ],
+   "anzahl": 74
+  },
+  "SM_SmallStonesPack_13": {
+   "netz": "SM_SmallStonesPack_13",
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_13",
+   "rolle": "kies",
+   "ebene": "kleinzeug",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    3500
+   ],
+   "groesse_m": [
+    0.15,
+    0.12,
+    0.07
+   ],
+   "rollen": {
+    "kies": 50
+   },
+   "eintraege": [
+    [
+     390.51,
+     0.02,
+     1.776,
+     170.1,
+     0.0,
+     0.3,
+     0.27,
+     99.94,
+     false,
+     261
+    ],
+    [
+     403.64,
+     0.97,
+     1.244,
+     28.6,
+     0.0,
+     0.3,
+     0.19,
+     97.41,
+     false,
+     284
+    ],
+    [
+     403.08,
+     0.55,
+     1.634,
+     -85.9,
+     0.0,
+     0.3,
+     0.25,
+     96.92,
+     false,
+     289
+    ],
+    [
+     406.68,
+     -0.79,
+     1.593,
+     -30.9,
+     0.0,
+     0.3,
+     0.24,
+     95.36,
+     false,
+     290
+    ],
+    [
+     411.87,
+     0.95,
+     1.797,
+     2.2,
+     0.0,
+     0.3,
+     0.27,
+     94.69,
+     false,
+     297
+    ],
+    [
+     415.0,
+     -0.04,
+     1.371,
+     9.1,
+     0.0,
+     0.3,
+     0.21,
+     94.58,
+     false,
+     306
+    ],
+    [
+     421.64,
+     -1.14,
+     1.324,
+     164.9,
+     0.0,
+     0.3,
+     0.2,
+     92.83,
+     false,
+     308
+    ],
+    [
+     422.91,
+     -0.91,
+     1.623,
+     -83.5,
+     0.0,
+     0.3,
+     0.24,
+     93.01,
+     false,
+     311
+    ],
+    [
+     441.5,
+     0.94,
+     1.17,
+     -27.1,
+     0.0,
+     0.3,
+     0.18,
+     88.37,
+     false,
+     339
+    ],
+    [
+     447.0,
+     -0.55,
+     1.465,
+     155.2,
+     0.0,
+     0.3,
+     0.22,
+     85.83,
+     false,
+     354
+    ],
+    [
+     453.29,
+     0.94,
+     1.662,
+     148.6,
+     0.0,
+     0.3,
+     0.25,
+     82.69,
+     false,
+     370
+    ],
+    [
+     452.48,
+     2.06,
+     1.669,
+     -80.4,
+     0.0,
+     0.3,
+     0.25,
+     82.77,
+     false,
+     373
+    ],
+    [
+     455.07,
+     -0.28,
+     1.55,
+     33.3,
+     0.0,
+     0.3,
+     0.23,
+     81.72,
+     false,
+     377
+    ],
+    [
+     462.13,
+     -0.32,
+     1.442,
+     151.5,
+     0.0,
+     0.3,
+     0.22,
+     79.34,
+     false,
+     388
+    ],
+    [
+     467.77,
+     -0.21,
+     1.504,
+     110.3,
+     0.0,
+     0.3,
+     0.23,
+     77.89,
+     false,
+     394
+    ],
+    [
+     468.64,
+     0.78,
+     1.518,
+     163.0,
+     0.0,
+     0.3,
+     0.23,
+     78.29,
+     false,
+     395
+    ],
+    [
+     473.39,
+     1.12,
+     1.492,
+     -106.9,
+     0.0,
+     0.3,
+     0.22,
+     77.0,
+     false,
+     399
+    ],
+    [
+     476.14,
+     1.08,
+     1.114,
+     84.5,
+     0.0,
+     0.3,
+     0.17,
+     75.63,
+     false,
+     400
+    ],
+    [
+     476.19,
+     0.96,
+     1.657,
+     -113.5,
+     0.0,
+     0.3,
+     0.25,
+     75.63,
+     false,
+     402
+    ],
+    [
+     479.14,
+     -1.27,
+     1.504,
+     -24.8,
+     0.0,
+     0.3,
+     0.23,
+     74.62,
+     false,
+     406
+    ],
+    [
+     477.92,
+     0.51,
+     1.698,
+     -35.2,
+     0.0,
+     0.3,
+     0.25,
+     74.57,
+     false,
+     407
+    ],
+    [
+     484.62,
+     1.85,
+     1.459,
+     -57.0,
+     0.0,
+     0.3,
+     0.22,
+     73.19,
+     false,
+     411
+    ],
+    [
+     483.73,
+     1.46,
+     1.598,
+     -9.7,
+     0.0,
+     0.3,
+     0.24,
+     72.36,
+     false,
+     417
+    ],
+    [
+     495.69,
+     0.59,
+     1.403,
+     -105.3,
+     0.0,
+     0.3,
+     0.21,
+     68.25,
+     false,
+     445
+    ],
+    [
+     495.34,
+     0.21,
+     1.42,
+     -16.1,
+     0.0,
+     0.3,
+     0.21,
+     68.22,
+     false,
+     448
+    ],
+    [
+     498.97,
+     -0.91,
+     1.36,
+     7.4,
+     0.0,
+     0.3,
+     0.2,
+     67.14,
+     false,
+     451
+    ],
+    [
+     498.57,
+     -0.87,
+     1.63,
+     133.4,
+     0.0,
+     0.3,
+     0.24,
+     67.14,
+     false,
+     453
+    ],
+    [
+     501.44,
+     -0.9,
+     1.589,
+     -18.4,
+     0.0,
+     0.3,
+     0.24,
+     65.18,
+     false,
+     465
+    ],
+    [
+     512.08,
+     -1.42,
+     1.155,
+     -84.7,
+     0.0,
+     0.3,
+     0.17,
+     62.06,
+     false,
+     485
+    ],
+    [
+     516.96,
+     -0.9,
+     1.035,
+     -24.1,
+     0.0,
+     0.3,
+     0.16,
+     60.31,
+     false,
+     497
+    ],
+    [
+     516.81,
+     -0.77,
+     1.765,
+     57.6,
+     0.0,
+     0.3,
+     0.26,
+     60.08,
+     false,
+     502
+    ],
+    [
+     519.78,
+     0.8,
+     1.028,
+     102.8,
+     0.0,
+     0.3,
+     0.15,
+     58.73,
+     false,
+     508
+    ],
+    [
+     527.54,
+     1.96,
+     1.004,
+     14.9,
+     0.0,
+     0.3,
+     0.15,
+     56.86,
+     false,
+     525
+    ],
+    [
+     531.53,
+     -1.84,
+     1.466,
+     -120.9,
+     0.0,
+     0.3,
+     0.22,
+     55.13,
+     false,
+     534
+    ],
+    [
+     532.46,
+     -0.36,
+     1.104,
+     127.4,
+     0.0,
+     0.3,
+     0.17,
+     55.09,
+     false,
+     536
+    ],
+    [
+     531.89,
+     -1.2,
+     1.382,
+     -118.1,
+     0.0,
+     0.3,
+     0.21,
+     54.67,
+     false,
+     542
+    ],
+    [
+     536.12,
+     0.2,
+     1.443,
+     32.4,
+     0.0,
+     0.3,
+     0.22,
+     53.39,
+     false,
+     547
+    ],
+    [
+     543.02,
+     0.27,
+     1.171,
+     65.3,
+     0.0,
+     0.3,
+     0.18,
+     51.79,
+     false,
+     556
+    ],
+    [
+     543.22,
+     0.46,
+     1.209,
+     -20.1,
+     0.0,
+     0.3,
+     0.18,
+     51.52,
+     false,
+     557
+    ],
+    [
+     543.17,
+     0.99,
+     1.33,
+     -144.1,
+     0.0,
+     0.3,
+     0.2,
+     51.9,
+     false,
+     559
+    ],
+    [
+     547.0,
+     0.77,
+     1.163,
+     22.6,
+     0.0,
+     0.3,
+     0.17,
+     50.79,
+     false,
+     568
+    ],
+    [
+     551.64,
+     -1.79,
+     1.284,
+     110.5,
+     0.0,
+     0.3,
+     0.19,
+     49.59,
+     false,
+     578
+    ],
+    [
+     550.85,
+     -1.5,
+     1.522,
+     -172.0,
+     0.0,
+     0.3,
+     0.23,
+     49.38,
+     false,
+     579
+    ],
+    [
+     550.29,
+     -1.93,
+     1.512,
+     117.8,
+     0.0,
+     0.3,
+     0.23,
+     49.6,
+     false,
+     580
+    ],
+    [
+     555.8,
+     1.07,
+     1.783,
+     109.3,
+     0.0,
+     0.3,
+     0.27,
+     48.09,
+     false,
+     592
+    ],
+    [
+     563.57,
+     1.96,
+     1.56,
+     -129.3,
+     0.0,
+     0.3,
+     0.23,
+     46.04,
+     false,
+     601
+    ],
+    [
+     565.52,
+     0.46,
+     1.28,
+     -134.4,
+     0.0,
+     0.3,
+     0.19,
+     45.9,
+     false,
+     602
+    ],
+    [
+     573.97,
+     -1.96,
+     1.756,
+     -167.0,
+     0.0,
+     0.3,
+     0.26,
+     44.75,
+     false,
+     611
+    ],
+    [
+     575.74,
+     -0.38,
+     1.197,
+     -38.8,
+     0.0,
+     0.3,
+     0.18,
+     44.67,
+     false,
+     612
+    ],
+    [
+     574.66,
+     -0.22,
+     1.217,
+     120.5,
+     0.0,
+     0.3,
+     0.18,
+     44.63,
+     false,
+     618
+    ]
+   ],
+   "anzahl": 50
+  },
+  "SM_SmallStonesPack_14": {
+   "netz": "SM_SmallStonesPack_14",
+   "pfad": "/Game/Megascans/3D_Assets/SmallStonesPack/SM_SmallStonesPack_14",
+   "rolle": "kies",
+   "ebene": "kleinzeug",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    3500
+   ],
+   "groesse_m": [
+    0.19,
+    0.1,
+    0.12
+   ],
+   "rollen": {
+    "kies": 95
+   },
+   "eintraege": [
+    [
+     390.35,
+     0.37,
+     1.501,
+     -71.5,
+     0.0,
+     0.3,
+     0.29,
+     100.08,
+     false,
+     262
+    ],
+    [
+     390.16,
+     -0.76,
+     0.938,
+     58.5,
+     0.0,
+     0.3,
+     0.18,
+     100.28,
+     false,
+     263
+    ],
+    [
+     390.79,
+     0.65,
+     1.121,
+     -99.9,
+     0.0,
+     0.3,
+     0.21,
+     100.27,
+     false,
+     266
+    ],
+    [
+     390.7,
+     -0.25,
+     0.793,
+     -157.3,
+     0.0,
+     0.3,
+     0.15,
+     99.97,
+     false,
+     267
+    ],
+    [
+     390.82,
+     -0.42,
+     1.273,
+     64.2,
+     0.0,
+     0.3,
+     0.24,
+     100.32,
+     false,
+     268
+    ],
+    [
+     393.39,
+     0.95,
+     1.564,
+     14.8,
+     0.0,
+     0.3,
+     0.3,
+     99.88,
+     false,
+     269
+    ],
+    [
+     398.78,
+     -1.25,
+     1.524,
+     -27.2,
+     0.0,
+     0.3,
+     0.29,
+     98.53,
+     false,
+     277
+    ],
+    [
+     398.24,
+     -1.74,
+     1.253,
+     -109.4,
+     0.0,
+     0.3,
+     0.24,
+     98.6,
+     false,
+     281
+    ],
+    [
+     403.21,
+     -0.21,
+     0.868,
+     82.4,
+     0.0,
+     0.3,
+     0.16,
+     97.44,
+     false,
+     286
+    ],
+    [
+     412.12,
+     0.71,
+     0.998,
+     -72.2,
+     0.0,
+     0.3,
+     0.19,
+     94.38,
+     false,
+     298
+    ],
+    [
+     411.51,
+     1.02,
+     1.568,
+     -86.6,
+     0.0,
+     0.3,
+     0.3,
+     94.67,
+     false,
+     303
+    ],
+    [
+     412.58,
+     -0.75,
+     1.312,
+     106.3,
+     0.0,
+     0.3,
+     0.25,
+     94.65,
+     false,
+     305
+    ],
+    [
+     420.99,
+     -0.32,
+     1.239,
+     150.7,
+     0.0,
+     0.3,
+     0.24,
+     92.18,
+     false,
+     310
+    ],
+    [
+     421.45,
+     -0.21,
+     1.526,
+     -167.7,
+     0.0,
+     0.3,
+     0.29,
+     92.35,
+     false,
+     313
+    ],
+    [
+     421.89,
+     -0.67,
+     1.548,
+     -39.7,
+     0.0,
+     0.3,
+     0.29,
+     92.53,
+     false,
+     317
+    ],
+    [
+     427.92,
+     -0.51,
+     1.319,
+     101.6,
+     0.0,
+     0.3,
+     0.25,
+     91.94,
+     false,
+     322
+    ],
+    [
+     427.54,
+     -0.28,
+     1.531,
+     90.3,
+     0.0,
+     0.3,
+     0.29,
+     91.94,
+     false,
+     323
+    ],
+    [
+     439.04,
+     0.65,
+     1.441,
+     98.5,
+     0.0,
+     0.3,
+     0.27,
+     88.91,
+     false,
+     332
+    ],
+    [
+     439.06,
+     0.32,
+     1.527,
+     25.2,
+     0.0,
+     0.3,
+     0.29,
+     88.79,
+     false,
+     333
+    ],
+    [
+     438.91,
+     0.39,
+     1.463,
+     -13.1,
+     0.0,
+     0.3,
+     0.28,
+     88.73,
+     false,
+     335
+    ],
+    [
+     443.6,
+     0.9,
+     1.17,
+     126.8,
+     0.0,
+     0.3,
+     0.22,
+     86.79,
+     false,
+     342
+    ],
+    [
+     444.32,
+     0.91,
+     1.564,
+     127.6,
+     0.0,
+     0.3,
+     0.3,
+     87.06,
+     false,
+     343
+    ],
+    [
+     444.3,
+     0.35,
+     1.41,
+     -15.4,
+     0.0,
+     0.3,
+     0.27,
+     87.03,
+     false,
+     344
+    ],
+    [
+     443.94,
+     -0.12,
+     1.558,
+     -87.1,
+     0.0,
+     0.3,
+     0.3,
+     87.02,
+     false,
+     345
+    ],
+    [
+     444.12,
+     0.7,
+     1.028,
+     6.4,
+     0.0,
+     0.3,
+     0.2,
+     86.81,
+     false,
+     347
+    ],
+    [
+     443.49,
+     1.14,
+     1.538,
+     -81.1,
+     0.0,
+     0.3,
+     0.29,
+     87.06,
+     false,
+     349
+    ],
+    [
+     446.95,
+     -0.56,
+     1.388,
+     15.8,
+     0.0,
+     0.3,
+     0.26,
+     85.83,
+     false,
+     357
+    ],
+    [
+     447.17,
+     -0.83,
+     1.219,
+     -119.1,
+     0.0,
+     0.3,
+     0.23,
+     86.09,
+     false,
+     358
+    ],
+    [
+     450.15,
+     0.54,
+     1.512,
+     -174.5,
+     0.0,
+     0.3,
+     0.29,
+     84.32,
+     false,
+     359
+    ],
+    [
+     449.99,
+     1.16,
+     1.413,
+     -43.7,
+     0.0,
+     0.3,
+     0.27,
+     83.93,
+     false,
+     360
+    ],
+    [
+     452.3,
+     0.81,
+     1.015,
+     84.6,
+     0.0,
+     0.3,
+     0.19,
+     82.49,
+     false,
+     367
+    ],
+    [
+     452.87,
+     2.04,
+     1.095,
+     -146.8,
+     0.0,
+     0.3,
+     0.21,
+     82.77,
+     false,
+     369
+    ],
+    [
+     452.7,
+     0.98,
+     0.898,
+     159.5,
+     0.0,
+     0.3,
+     0.17,
+     82.04,
+     false,
+     371
+    ],
+    [
+     453.28,
+     1.96,
+     1.179,
+     157.5,
+     0.0,
+     0.3,
+     0.22,
+     82.77,
+     false,
+     375
+    ],
+    [
+     455.76,
+     -1.19,
+     1.422,
+     68.6,
+     0.0,
+     0.3,
+     0.27,
+     82.12,
+     false,
+     376
+    ],
+    [
+     455.78,
+     -0.14,
+     1.374,
+     33.2,
+     0.0,
+     0.3,
+     0.26,
+     81.86,
+     false,
+     378
+    ],
+    [
+     461.11,
+     0.94,
+     0.828,
+     101.2,
+     0.0,
+     0.3,
+     0.16,
+     78.7,
+     false,
+     384
+    ],
+    [
+     460.2,
+     0.67,
+     1.465,
+     -105.8,
+     0.0,
+     0.3,
+     0.28,
+     78.5,
+     false,
+     387
+    ],
+    [
+     468.16,
+     -0.8,
+     1.285,
+     138.1,
+     0.0,
+     0.3,
+     0.24,
+     78.14,
+     false,
+     389
+    ],
+    [
+     473.31,
+     0.1,
+     1.275,
+     156.7,
+     0.0,
+     0.3,
+     0.24,
+     77.14,
+     false,
+     396
+    ],
+    [
+     478.43,
+     -1.23,
+     1.056,
+     -173.2,
+     0.0,
+     0.3,
+     0.2,
+     74.6,
+     false,
+     408
+    ],
+    [
+     484.13,
+     0.6,
+     0.88,
+     28.4,
+     0.0,
+     0.3,
+     0.17,
+     73.13,
+     false,
+     414
+    ],
+    [
+     484.28,
+     0.68,
+     1.104,
+     32.0,
+     0.0,
+     0.3,
+     0.21,
+     73.14,
+     false,
+     415
+    ],
+    [
+     483.8,
+     1.33,
+     1.563,
+     17.6,
+     0.0,
+     0.3,
+     0.3,
+     72.56,
+     false,
+     418
+    ],
+    [
+     484.51,
+     0.64,
+     1.498,
+     -119.5,
+     0.0,
+     0.3,
+     0.28,
+     73.14,
+     false,
+     420
+    ],
+    [
+     487.27,
+     -0.87,
+     1.48,
+     16.0,
+     0.0,
+     0.3,
+     0.28,
+     71.73,
+     false,
+     425
+    ],
+    [
+     492.95,
+     -0.29,
+     1.02,
+     -112.7,
+     0.0,
+     0.3,
+     0.19,
+     69.53,
+     false,
+     437
+    ],
+    [
+     493.4,
+     1.25,
+     1.444,
+     73.2,
+     0.0,
+     0.3,
+     0.27,
+     69.57,
+     false,
+     438
+    ],
+    [
+     493.58,
+     0.79,
+     1.504,
+     -164.3,
+     0.0,
+     0.3,
+     0.29,
+     69.5,
+     false,
+     441
+    ],
+    [
+     493.41,
+     -0.33,
+     1.465,
+     -164.4,
+     0.0,
+     0.3,
+     0.28,
+     69.52,
+     false,
+     443
+    ],
+    [
+     498.56,
+     -1.63,
+     1.485,
+     169.6,
+     0.0,
+     0.3,
+     0.28,
+     66.83,
+     false,
+     450
+    ],
+    [
+     498.91,
+     -1.95,
+     1.271,
+     8.4,
+     0.0,
+     0.3,
+     0.24,
+     67.21,
+     false,
+     456
+    ],
+    [
+     498.57,
+     -1.54,
+     1.458,
+     -138.0,
+     0.0,
+     0.3,
+     0.28,
+     66.62,
+     false,
+     457
+    ],
+    [
+     499.01,
+     -1.06,
+     0.942,
+     -117.8,
+     0.0,
+     0.3,
+     0.18,
+     67.14,
+     false,
+     458
+    ],
+    [
+     498.41,
+     -0.96,
+     1.536,
+     -41.8,
+     0.0,
+     0.3,
+     0.29,
+     67.02,
+     false,
+     459
+    ],
+    [
+     506.29,
+     -0.37,
+     1.458,
+     -165.2,
+     0.0,
+     0.3,
+     0.28,
+     63.39,
+     false,
+     469
+    ],
+    [
+     505.9,
+     -1.72,
+     1.522,
+     25.8,
+     0.0,
+     0.3,
+     0.29,
+     63.4,
+     false,
+     470
+    ],
+    [
+     504.91,
+     -0.69,
+     0.998,
+     144.9,
+     0.0,
+     0.3,
+     0.19,
+     63.07,
+     false,
+     471
+    ],
+    [
+     505.03,
+     -1.82,
+     1.242,
+     96.1,
+     0.0,
+     0.3,
+     0.24,
+     62.91,
+     false,
+     474
+    ],
+    [
+     505.75,
+     -1.84,
+     0.884,
+     -94.8,
+     0.0,
+     0.3,
+     0.17,
+     63.4,
+     false,
+     475
+    ],
+    [
+     512.49,
+     -1.52,
+     1.38,
+     60.9,
+     0.0,
+     0.3,
+     0.26,
+     62.09,
+     false,
+     480
+    ],
+    [
+     512.03,
+     -1.72,
+     1.561,
+     -159.3,
+     0.0,
+     0.3,
+     0.3,
+     62.11,
+     false,
+     486
+    ],
+    [
+     511.97,
+     -1.4,
+     0.985,
+     -164.1,
+     0.0,
+     0.3,
+     0.19,
+     62.06,
+     false,
+     490
+    ],
+    [
+     515.95,
+     1.01,
+     1.492,
+     -122.4,
+     0.0,
+     0.3,
+     0.28,
+     61.51,
+     false,
+     493
+    ],
+    [
+     517.26,
+     -0.3,
+     1.014,
+     112.6,
+     0.0,
+     0.3,
+     0.19,
+     60.26,
+     false,
+     496
+    ],
+    [
+     517.46,
+     -0.16,
+     1.172,
+     -92.7,
+     0.0,
+     0.3,
+     0.22,
+     60.26,
+     false,
+     498
+    ],
+    [
+     517.21,
+     -0.77,
+     1.374,
+     -67.7,
+     0.0,
+     0.3,
+     0.26,
+     60.08,
+     false,
+     499
+    ],
+    [
+     517.44,
+     -0.83,
+     0.793,
+     -105.0,
+     0.0,
+     0.3,
+     0.15,
+     60.39,
+     false,
+     500
+    ],
+    [
+     517.46,
+     -0.09,
+     1.197,
+     -25.6,
+     0.0,
+     0.3,
+     0.23,
+     60.21,
+     false,
+     501
+    ],
+    [
+     519.63,
+     0.9,
+     0.894,
+     58.6,
+     0.0,
+     0.3,
+     0.17,
+     58.58,
+     false,
+     503
+    ],
+    [
+     520.12,
+     0.9,
+     1.545,
+     37.5,
+     0.0,
+     0.3,
+     0.29,
+     58.71,
+     false,
+     510
+    ],
+    [
+     520.36,
+     0.3,
+     1.436,
+     -176.7,
+     0.0,
+     0.3,
+     0.27,
+     59.32,
+     false,
+     512
+    ],
+    [
+     519.59,
+     0.24,
+     1.275,
+     -29.7,
+     0.0,
+     0.3,
+     0.24,
+     59.12,
+     false,
+     513
+    ],
+    [
+     520.54,
+     0.52,
+     1.513,
+     124.8,
+     0.0,
+     0.3,
+     0.29,
+     59.29,
+     false,
+     514
+    ],
+    [
+     520.56,
+     0.21,
+     0.952,
+     -105.3,
+     0.0,
+     0.3,
+     0.18,
+     59.32,
+     false,
+     515
+    ],
+    [
+     522.93,
+     -0.57,
+     1.427,
+     -76.7,
+     0.0,
+     0.3,
+     0.27,
+     57.38,
+     false,
+     519
+    ],
+    [
+     522.88,
+     -0.27,
+     1.192,
+     -44.7,
+     0.0,
+     0.3,
+     0.23,
+     57.2,
+     false,
+     521
+    ],
+    [
+     523.34,
+     -0.51,
+     1.477,
+     -148.9,
+     0.0,
+     0.3,
+     0.28,
+     57.68,
+     false,
+     522
+    ],
+    [
+     528.04,
+     0.07,
+     1.312,
+     -131.1,
+     0.0,
+     0.3,
+     0.25,
+     56.62,
+     false,
+     529
+    ],
+    [
+     528.47,
+     1.89,
+     1.195,
+     47.6,
+     0.0,
+     0.3,
+     0.23,
+     56.88,
+     false,
+     531
+    ],
+    [
+     532.76,
+     -0.48,
+     1.542,
+     66.2,
+     0.0,
+     0.3,
+     0.29,
+     55.09,
+     false,
+     537
+    ],
+    [
+     532.17,
+     -0.42,
+     1.484,
+     61.7,
+     0.0,
+     0.3,
+     0.28,
+     54.77,
+     false,
+     538
+    ],
+    [
+     531.61,
+     -0.23,
+     0.935,
+     30.6,
+     0.0,
+     0.3,
+     0.18,
+     54.89,
+     false,
+     541
+    ],
+    [
+     536.55,
+     -0.1,
+     0.971,
+     39.7,
+     0.0,
+     0.3,
+     0.18,
+     53.83,
+     false,
+     543
+    ],
+    [
+     542.97,
+     0.49,
+     1.312,
+     -152.0,
+     0.0,
+     0.3,
+     0.25,
+     51.52,
+     false,
+     558
+    ],
+    [
+     546.99,
+     0.37,
+     1.138,
+     102.5,
+     0.0,
+     0.3,
+     0.22,
+     50.73,
+     false,
+     564
+    ],
+    [
+     546.6,
+     0.04,
+     0.811,
+     110.6,
+     0.0,
+     0.3,
+     0.15,
+     50.47,
+     false,
+     569
+    ],
+    [
+     546.67,
+     -0.66,
+     1.574,
+     -104.4,
+     0.0,
+     0.3,
+     0.3,
+     50.76,
+     false,
+     570
+    ],
+    [
+     546.1,
+     0.49,
+     1.254,
+     -101.9,
+     0.0,
+     0.3,
+     0.24,
+     49.98,
+     false,
+     572
+    ],
+    [
+     557.14,
+     -0.81,
+     1.533,
+     -54.7,
+     0.0,
+     0.3,
+     0.29,
+     48.33,
+     false,
+     585
+    ],
+    [
+     560.87,
+     -0.61,
+     1.437,
+     -84.7,
+     0.0,
+     0.3,
+     0.27,
+     47.1,
+     false,
+     595
+    ],
+    [
+     566.21,
+     0.03,
+     1.526,
+     -33.9,
+     0.0,
+     0.3,
+     0.29,
+     45.97,
+     false,
+     598
+    ],
+    [
+     566.33,
+     0.34,
+     1.304,
+     -36.6,
+     0.0,
+     0.3,
+     0.25,
+     45.98,
+     false,
+     604
+    ],
+    [
+     565.76,
+     1.83,
+     1.484,
+     -115.2,
+     0.0,
+     0.3,
+     0.28,
+     46.08,
+     false,
+     605
+    ],
+    [
+     573.74,
+     -1.4,
+     1.523,
+     60.1,
+     0.0,
+     0.3,
+     0.29,
+     44.06,
+     false,
+     617
+    ]
+   ],
+   "anzahl": 95
+  },
+  "SM_ground_rock_02": {
+   "netz": "SM_ground_rock_02",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.37,
+    0.99,
+    0.93
+   ],
+   "rollen": {
+    "lippe": 1
+   },
+   "eintraege": [
+    [
+     447.0,
+     2.8,
+     0.421,
+     108.1,
+     11.1,
+     0.46,
+     0.58,
+     87.54,
+     false,
+     70
+    ]
+   ],
+   "anzahl": 1
+  },
+  "SM_ground_rock_02_kol": {
+   "netz": "SM_ground_rock_02",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_02",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.37,
+    0.99,
+    0.93
+   ],
+   "rollen": {
+    "keystone": 6,
+    "lippe": 6,
+    "eckblock": 1,
+    "randblock": 4
+   },
+   "eintraege": [
+    [
+     393.04,
+     -0.16,
+     0.633,
+     66.2,
+     14.0,
+     0.43,
+     0.87,
+     100.59,
+     false,
+     0
+    ],
+    [
+     419.35,
+     0.34,
+     0.893,
+     126.4,
+     9.9,
+     0.47,
+     1.22,
+     94.82,
+     false,
+     27
+    ],
+    [
+     450.02,
+     -2.61,
+     0.748,
+     85.9,
+     11.6,
+     0.5,
+     1.02,
+     84.99,
+     false,
+     78
+    ],
+    [
+     457.41,
+     2.21,
+     1.108,
+     105.9,
+     10.2,
+     0.49,
+     1.52,
+     82.04,
+     false,
+     88
+    ],
+    [
+     477.51,
+     2.54,
+     0.791,
+     109.8,
+     7.3,
+     0.56,
+     1.08,
+     76.51,
+     false,
+     111
+    ],
+    [
+     490.21,
+     -1.41,
+     0.664,
+     124.4,
+     1.6,
+     0.43,
+     0.91,
+     70.82,
+     false,
+     132
+    ],
+    [
+     493.87,
+     2.57,
+     0.731,
+     65.5,
+     9.0,
+     0.5,
+     1.0,
+     70.06,
+     false,
+     139
+    ],
+    [
+     495.57,
+     -2.59,
+     0.749,
+     -3.2,
+     1.5,
+     0.43,
+     1.03,
+     68.98,
+     false,
+     141
+    ],
+    [
+     544.32,
+     1.69,
+     0.811,
+     123.3,
+     10.6,
+     0.44,
+     1.11,
+     51.85,
+     false,
+     214
+    ],
+    [
+     544.92,
+     3.44,
+     0.709,
+     120.8,
+     4.0,
+     0.56,
+     0.97,
+     53.07,
+     false,
+     217
+    ],
+    [
+     547.66,
+     2.56,
+     0.621,
+     63.5,
+     1.2,
+     0.48,
+     0.85,
+     50.92,
+     false,
+     222
+    ],
+    [
+     553.66,
+     1.51,
+     0.803,
+     83.6,
+     10.1,
+     0.47,
+     1.1,
+     49.67,
+     false,
+     227
+    ],
+    [
+     560.59,
+     2.36,
+     0.752,
+     81.0,
+     11.6,
+     0.54,
+     1.03,
+     47.47,
+     false,
+     240
+    ],
+    [
+     413.72,
+     1.92,
+     0.947,
+     -12.5,
+     3.5,
+     0.3,
+     1.3,
+     95.37,
+     false,
+     294
+    ],
+    [
+     417.47,
+     1.96,
+     0.818,
+     -19.2,
+     0.0,
+     0.32,
+     1.12,
+     95.31,
+     false,
+     295
+    ],
+    [
+     573.07,
+     2.76,
+     0.794,
+     -2.0,
+     8.4,
+     0.36,
+     1.09,
+     45.04,
+     false,
+     607
+    ],
+    [
+     575.82,
+     -3.18,
+     0.746,
+     4.2,
+     7.7,
+     0.38,
+     1.02,
+     45.44,
+     false,
+     609
+    ]
+   ],
+   "anzahl": 17
+  },
+  "SM_mountain_rock_big_01_1": {
+   "netz": "SM_mountain_rock_big_01_1",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.03,
+    0.6,
+    0.83
+   ],
+   "rollen": {
+    "lippe": 4,
+    "beckenblock": 1
+   },
+   "eintraege": [
+    [
+     393.15,
+     -1.23,
+     0.623,
+     83.0,
+     10.2,
+     0.54,
+     0.64,
+     100.58,
+     false,
+     4
+    ],
+    [
+     446.45,
+     1.53,
+     0.725,
+     99.0,
+     3.0,
+     0.43,
+     0.75,
+     87.22,
+     false,
+     68
+    ],
+    [
+     471.26,
+     -1.44,
+     0.707,
+     102.0,
+     1.7,
+     0.42,
+     0.73,
+     77.76,
+     false,
+     101
+    ],
+    [
+     517.68,
+     -1.26,
+     0.712,
+     122.1,
+     1.9,
+     0.6,
+     0.73,
+     60.46,
+     false,
+     176
+    ],
+    [
+     528.35,
+     -2.16,
+     0.396,
+     0.8,
+     15.1,
+     0.34,
+     0.41,
+     56.89,
+     true,
+     523
+    ]
+   ],
+   "anzahl": 5
+  },
+  "SM_mountain_rock_big_01_1_kol": {
+   "netz": "SM_mountain_rock_big_01_1",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_1",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.03,
+    0.6,
+    0.83
+   ],
+   "rollen": {
+    "keystone": 12,
+    "eckblock": 10,
+    "lippe": 3,
+    "randblock": 2
+   },
+   "eintraege": [
+    [
+     418.33,
+     -1.81,
+     1.498,
+     98.5,
+     8.7,
+     0.41,
+     1.54,
+     94.82,
+     false,
+     26
+    ],
+    [
+     426.81,
+     -2.65,
+     1.177,
+     22.7,
+     3.9,
+     0.37,
+     1.21,
+     93.39,
+     false,
+     36
+    ],
+    [
+     439.3,
+     -2.2,
+     0.889,
+     -4.5,
+     5.2,
+     0.41,
+     0.92,
+     89.17,
+     false,
+     59
+    ],
+    [
+     448.24,
+     -0.28,
+     1.509,
+     119.3,
+     9.1,
+     0.51,
+     1.55,
+     86.3,
+     false,
+     73
+    ],
+    [
+     449.26,
+     2.49,
+     1.426,
+     116.9,
+     7.2,
+     0.49,
+     1.47,
+     86.26,
+     false,
+     74
+    ],
+    [
+     450.9,
+     0.04,
+     1.407,
+     90.4,
+     10.2,
+     0.41,
+     1.45,
+     84.49,
+     false,
+     76
+    ],
+    [
+     453.77,
+     -1.71,
+     0.809,
+     108.3,
+     7.6,
+     0.44,
+     0.83,
+     82.36,
+     false,
+     81
+    ],
+    [
+     464.99,
+     -2.42,
+     1.547,
+     0.1,
+     5.3,
+     0.41,
+     1.59,
+     79.01,
+     false,
+     97
+    ],
+    [
+     475.52,
+     1.99,
+     1.172,
+     115.5,
+     5.6,
+     0.5,
+     1.21,
+     77.4,
+     false,
+     105
+    ],
+    [
+     476.03,
+     2.92,
+     1.166,
+     -10.3,
+     9.7,
+     0.39,
+     1.2,
+     77.99,
+     false,
+     108
+    ],
+    [
+     486.66,
+     3.32,
+     0.918,
+     99.0,
+     7.4,
+     0.45,
+     0.95,
+     74.14,
+     false,
+     122
+    ],
+    [
+     487.13,
+     3.11,
+     1.087,
+     -37.4,
+     8.6,
+     0.49,
+     1.12,
+     73.81,
+     false,
+     123
+    ],
+    [
+     490.85,
+     1.47,
+     1.109,
+     100.8,
+     13.9,
+     0.5,
+     1.14,
+     70.8,
+     false,
+     130
+    ],
+    [
+     496.35,
+     0.64,
+     0.877,
+     59.9,
+     4.1,
+     0.54,
+     0.9,
+     68.11,
+     false,
+     143
+    ],
+    [
+     497.77,
+     -2.82,
+     1.111,
+     -0.8,
+     4.0,
+     0.38,
+     1.14,
+     68.15,
+     false,
+     146
+    ],
+    [
+     502.84,
+     0.0,
+     1.496,
+     99.1,
+     9.8,
+     0.5,
+     1.54,
+     65.51,
+     false,
+     153
+    ],
+    [
+     514.91,
+     3.13,
+     1.242,
+     11.5,
+     7.3,
+     0.46,
+     1.28,
+     62.83,
+     false,
+     167
+    ],
+    [
+     523.5,
+     3.38,
+     0.944,
+     128.7,
+     2.6,
+     0.55,
+     0.97,
+     60.26,
+     false,
+     181
+    ],
+    [
+     524.35,
+     -0.08,
+     1.068,
+     124.5,
+     9.2,
+     0.43,
+     1.1,
+     57.83,
+     false,
+     183
+    ],
+    [
+     523.46,
+     -2.81,
+     1.434,
+     35.4,
+     0.4,
+     0.39,
+     1.48,
+     57.43,
+     false,
+     187
+    ],
+    [
+     530.33,
+     -2.39,
+     1.253,
+     88.0,
+     9.8,
+     0.41,
+     1.29,
+     57.12,
+     false,
+     188
+    ],
+    [
+     548.34,
+     0.21,
+     1.072,
+     63.4,
+     5.4,
+     0.43,
+     1.1,
+     50.75,
+     false,
+     220
+    ],
+    [
+     562.62,
+     -2.83,
+     1.045,
+     9.1,
+     0.6,
+     0.42,
+     1.08,
+     47.17,
+     false,
+     242
+    ],
+    [
+     569.86,
+     0.14,
+     1.17,
+     72.5,
+     12.8,
+     0.47,
+     1.21,
+     45.72,
+     false,
+     244
+    ],
+    [
+     578.77,
+     -3.34,
+     1.305,
+     -23.0,
+     6.8,
+     0.4,
+     1.34,
+     44.79,
+     false,
+     256
+    ],
+    [
+     493.35,
+     -3.25,
+     0.927,
+     14.6,
+     3.3,
+     0.43,
+     0.95,
+     70.7,
+     false,
+     434
+    ],
+    [
+     532.69,
+     3.19,
+     1.029,
+     19.0,
+     6.2,
+     0.44,
+     1.06,
+     55.85,
+     false,
+     532
+    ]
+   ],
+   "anzahl": 27
+  },
+  "SM_mountain_rock_big_01_5": {
+   "netz": "SM_mountain_rock_big_01_5",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_5",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.05,
+    0.96,
+    0.66
+   ],
+   "rollen": {
+    "keystone": 1,
+    "lippe": 4
+   },
+   "eintraege": [
+    [
+     391.94,
+     1.71,
+     0.755,
+     84.4,
+     14.0,
+     0.44,
+     0.79,
+     100.52,
+     false,
+     1
+    ],
+    [
+     407.12,
+     -2.02,
+     0.609,
+     102.0,
+     2.5,
+     0.41,
+     0.64,
+     96.02,
+     false,
+     23
+    ],
+    [
+     439.06,
+     -1.03,
+     0.634,
+     105.2,
+     0.7,
+     0.48,
+     0.67,
+     89.17,
+     false,
+     56
+    ],
+    [
+     446.58,
+     2.21,
+     0.575,
+     98.6,
+     0.6,
+     0.43,
+     0.6,
+     87.72,
+     false,
+     69
+    ],
+    [
+     542.69,
+     2.56,
+     0.591,
+     125.0,
+     4.1,
+     0.56,
+     0.62,
+     53.52,
+     false,
+     209
+    ]
+   ],
+   "anzahl": 5
+  },
+  "SM_mountain_rock_big_01_5_kol": {
+   "netz": "SM_mountain_rock_big_01_5",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_01_5",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.05,
+    0.96,
+    0.66
+   ],
+   "rollen": {
+    "keystone": 9,
+    "eckblock": 7,
+    "lippe": 3,
+    "randblock": 1
+   },
+   "eintraege": [
+    [
+     406.13,
+     0.22,
+     1.516,
+     119.4,
+     9.3,
+     0.48,
+     1.59,
+     97.67,
+     false,
+     18
+    ],
+    [
+     442.79,
+     1.7,
+     1.009,
+     129.3,
+     12.1,
+     0.45,
+     1.06,
+     88.15,
+     false,
+     61
+    ],
+    [
+     441.48,
+     -2.24,
+     1.053,
+     -0.5,
+     1.5,
+     0.48,
+     1.11,
+     87.66,
+     false,
+     65
+    ],
+    [
+     464.31,
+     -1.64,
+     1.129,
+     119.8,
+     8.4,
+     0.51,
+     1.19,
+     79.32,
+     false,
+     92
+    ],
+    [
+     472.03,
+     -0.27,
+     0.844,
+     123.9,
+     11.3,
+     0.49,
+     0.89,
+     78.36,
+     false,
+     98
+    ],
+    [
+     472.79,
+     1.87,
+     1.109,
+     115.5,
+     14.2,
+     0.48,
+     1.16,
+     77.8,
+     false,
+     99
+    ],
+    [
+     473.07,
+     -2.03,
+     0.812,
+     117.7,
+     3.2,
+     0.59,
+     0.85,
+     77.8,
+     false,
+     106
+    ],
+    [
+     483.03,
+     3.31,
+     1.549,
+     21.9,
+     8.3,
+     0.48,
+     1.63,
+     75.2,
+     false,
+     117
+    ],
+    [
+     491.71,
+     2.6,
+     0.93,
+     3.4,
+     3.7,
+     0.46,
+     0.98,
+     71.21,
+     false,
+     134
+    ],
+    [
+     494.85,
+     -0.64,
+     0.989,
+     74.0,
+     14.1,
+     0.44,
+     1.04,
+     69.37,
+     false,
+     135
+    ],
+    [
+     516.32,
+     0.66,
+     1.033,
+     108.7,
+     6.8,
+     0.52,
+     1.08,
+     61.47,
+     false,
+     169
+    ],
+    [
+     515.7,
+     -2.39,
+     1.076,
+     -15.6,
+     5.2,
+     0.39,
+     1.13,
+     61.91,
+     false,
+     172
+    ],
+    [
+     517.37,
+     -2.04,
+     0.783,
+     111.1,
+     8.4,
+     0.43,
+     0.82,
+     60.66,
+     false,
+     175
+    ],
+    [
+     529.87,
+     2.53,
+     1.595,
+     -3.5,
+     4.9,
+     0.37,
+     1.67,
+     56.39,
+     false,
+     192
+    ],
+    [
+     530.82,
+     -2.59,
+     1.18,
+     -10.1,
+     1.5,
+     0.43,
+     1.24,
+     55.93,
+     false,
+     193
+    ],
+    [
+     538.66,
+     2.41,
+     0.771,
+     102.5,
+     5.8,
+     0.42,
+     0.81,
+     54.71,
+     false,
+     203
+    ],
+    [
+     554.54,
+     -0.62,
+     0.931,
+     76.3,
+     11.4,
+     0.44,
+     0.98,
+     49.49,
+     false,
+     226
+    ],
+    [
+     559.98,
+     -1.77,
+     1.143,
+     60.1,
+     9.6,
+     0.51,
+     1.2,
+     48.55,
+     false,
+     233
+    ],
+    [
+     579.97,
+     3.16,
+     1.117,
+     6.6,
+     0.7,
+     0.5,
+     1.17,
+     44.63,
+     false,
+     255
+    ],
+    [
+     415.01,
+     -2.55,
+     0.904,
+     17.1,
+     5.1,
+     0.35,
+     0.95,
+     95.02,
+     false,
+     296
+    ]
+   ],
+   "anzahl": 20
+  },
+  "SM_mountain_rock_big_02_1_kol": {
+   "netz": "SM_mountain_rock_big_02_1",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_1",
+   "rolle": "eckblock",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    4.73,
+    4.51,
+    2.62
+   ],
+   "rollen": {
+    "eckblock": 2
+   },
+   "eintraege": [
+    [
+     476.46,
+     -2.35,
+     0.316,
+     11.0,
+     7.1,
+     0.38,
+     1.49,
+     75.63,
+     false,
+     113
+    ],
+    [
+     542.96,
+     2.41,
+     0.303,
+     -28.5,
+     4.3,
+     0.47,
+     1.43,
+     53.12,
+     false,
+     211
+    ]
+   ],
+   "anzahl": 2
+  },
+  "SM_mountain_rock_big_02_2_kol": {
+   "netz": "SM_mountain_rock_big_02_2",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_2",
+   "rolle": "eckblock",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    2.71,
+    4.34,
+    1.76
+   ],
+   "rollen": {
+    "eckblock": 7,
+    "keystone": 2
+   },
+   "eintraege": [
+    [
+     425.01,
+     2.13,
+     0.34,
+     35.2,
+     3.8,
+     0.42,
+     1.48,
+     92.77,
+     false,
+     35
+    ],
+    [
+     443.37,
+     2.66,
+     0.402,
+     -32.0,
+     5.7,
+     0.44,
+     1.74,
+     88.97,
+     false,
+     64
+    ],
+    [
+     451.07,
+     2.52,
+     0.318,
+     102.6,
+     10.9,
+     0.47,
+     1.38,
+     84.63,
+     false,
+     77
+    ],
+    [
+     456.54,
+     -0.56,
+     0.316,
+     116.9,
+     9.7,
+     0.5,
+     1.37,
+     82.13,
+     false,
+     87
+    ],
+    [
+     485.64,
+     -2.86,
+     0.327,
+     31.1,
+     4.8,
+     0.48,
+     1.42,
+     73.2,
+     false,
+     124
+    ],
+    [
+     519.0,
+     2.74,
+     0.317,
+     -39.4,
+     3.0,
+     0.36,
+     1.37,
+     60.51,
+     false,
+     177
+    ],
+    [
+     539.0,
+     2.72,
+     0.324,
+     28.1,
+     4.8,
+     0.45,
+     1.41,
+     54.0,
+     false,
+     204
+    ],
+    [
+     542.56,
+     -3.28,
+     0.342,
+     37.4,
+     1.7,
+     0.4,
+     1.48,
+     51.91,
+     false,
+     218
+    ],
+    [
+     554.87,
+     -2.92,
+     0.335,
+     31.4,
+     8.0,
+     0.35,
+     1.45,
+     50.34,
+     false,
+     232
+    ]
+   ],
+   "anzahl": 9
+  },
+  "SM_mountain_rock_big_02_4_kol": {
+   "netz": "SM_mountain_rock_big_02_4",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_4",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    2.76,
+    4.11,
+    2.48
+   ],
+   "rollen": {
+    "lippe": 1,
+    "keystone": 2
+   },
+   "eintraege": [
+    [
+     455.52,
+     -2.02,
+     0.303,
+     94.6,
+     2.6,
+     0.5,
+     1.25,
+     82.57,
+     false,
+     89
+    ],
+    [
+     500.37,
+     0.24,
+     0.308,
+     85.9,
+     12.4,
+     0.46,
+     1.27,
+     67.43,
+     false,
+     148
+    ],
+    [
+     501.92,
+     -2.73,
+     0.377,
+     100.9,
+     5.3,
+     0.41,
+     1.55,
+     65.94,
+     false,
+     152
+    ]
+   ],
+   "anzahl": 3
+  },
+  "SM_mountain_rock_small_01_1": {
+   "netz": "SM_mountain_rock_small_01_1",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.47,
+    0.52,
+    0.19
+   ],
+   "rollen": {
+    "lippe": 4
+   },
+   "eintraege": [
+    [
+     393.15,
+     -1.82,
+     1.05,
+     78.0,
+     0.2,
+     0.45,
+     0.55,
+     100.7,
+     false,
+     3
+    ],
+    [
+     438.54,
+     -1.72,
+     1.395,
+     115.6,
+     11.7,
+     0.54,
+     0.73,
+     89.2,
+     false,
+     55
+    ],
+    [
+     578.42,
+     -1.91,
+     1.329,
+     86.1,
+     0.4,
+     0.54,
+     0.69,
+     44.88,
+     false,
+     251
+    ],
+    [
+     579.37,
+     2.6,
+     1.361,
+     89.3,
+     8.4,
+     0.48,
+     0.71,
+     44.74,
+     false,
+     253
+    ]
+   ],
+   "anzahl": 4
+  },
+  "SM_mountain_rock_small_01_1_kol": {
+   "netz": "SM_mountain_rock_small_01_1",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_1",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.47,
+    0.52,
+    0.19
+   ],
+   "rollen": {
+    "lippe": 3
+   },
+   "eintraege": [
+    [
+     393.53,
+     1.59,
+     1.614,
+     65.1,
+     11.6,
+     0.51,
+     0.84,
+     100.01,
+     false,
+     9
+    ],
+    [
+     516.49,
+     2.01,
+     1.767,
+     123.1,
+     9.8,
+     0.44,
+     0.92,
+     61.57,
+     false,
+     170
+    ],
+    [
+     547.64,
+     3.43,
+     1.719,
+     82.2,
+     1.2,
+     0.47,
+     0.89,
+     51.74,
+     false,
+     223
+    ]
+   ],
+   "anzahl": 3
+  },
+  "SM_mountain_rock_small_01_2": {
+   "netz": "SM_mountain_rock_small_01_2",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_2",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.41,
+    0.42,
+    0.3
+   ],
+   "rollen": {
+    "lippe": 2
+   },
+   "eintraege": [
+    [
+     454.95,
+     2.34,
+     1.489,
+     91.0,
+     8.7,
+     0.41,
+     0.63,
+     83.21,
+     false,
+     85
+    ],
+    [
+     554.85,
+     -2.29,
+     1.729,
+     67.0,
+     4.6,
+     0.57,
+     0.73,
+     49.42,
+     false,
+     228
+    ]
+   ],
+   "anzahl": 2
+  },
+  "SM_mountain_rock_small_01_3": {
+   "netz": "SM_mountain_rock_small_01_3",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.52,
+    0.31,
+    0.13
+   ],
+   "rollen": {
+    "lippe": 5
+   },
+   "eintraege": [
+    [
+     408.71,
+     2.24,
+     1.412,
+     101.9,
+     5.6,
+     0.58,
+     0.73,
+     96.46,
+     false,
+     25
+    ],
+    [
+     466.31,
+     1.76,
+     1.281,
+     125.1,
+     4.0,
+     0.47,
+     0.67,
+     79.51,
+     false,
+     94
+    ],
+    [
+     470.9,
+     -2.19,
+     1.463,
+     122.7,
+     6.5,
+     0.41,
+     0.76,
+     78.28,
+     false,
+     100
+    ],
+    [
+     547.95,
+     1.8,
+     1.266,
+     59.9,
+     7.8,
+     0.51,
+     0.66,
+     50.83,
+     false,
+     221
+    ],
+    [
+     578.86,
+     -1.18,
+     1.478,
+     116.4,
+     11.8,
+     0.58,
+     0.77,
+     44.35,
+     false,
+     252
+    ]
+   ],
+   "anzahl": 5
+  },
+  "SM_mountain_rock_small_01_3_kol": {
+   "netz": "SM_mountain_rock_small_01_3",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_3",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.52,
+    0.31,
+    0.13
+   ],
+   "rollen": {
+    "lippe": 1
+   },
+   "eintraege": [
+    [
+     473.35,
+     3.15,
+     1.674,
+     132.0,
+     0.9,
+     0.56,
+     0.87,
+     78.96,
+     false,
+     102
+    ]
+   ],
+   "anzahl": 1
+  },
+  "SM_mountain_rock_small_01_4": {
+   "netz": "SM_mountain_rock_small_01_4",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.49,
+    0.38,
+    0.26
+   ],
+   "rollen": {
+    "lippe": 3
+   },
+   "eintraege": [
+    [
+     400.48,
+     -1.82,
+     1.507,
+     117.7,
+     10.2,
+     0.44,
+     0.74,
+     98.76,
+     false,
+     14
+    ],
+    [
+     433.43,
+     2.34,
+     0.834,
+     116.7,
+     2.0,
+     0.55,
+     0.41,
+     91.12,
+     false,
+     48
+    ],
+    [
+     578.39,
+     -2.57,
+     1.303,
+     88.0,
+     2.6,
+     0.48,
+     0.64,
+     44.95,
+     false,
+     250
+    ]
+   ],
+   "anzahl": 3
+  },
+  "SM_mountain_rock_small_01_4_kol": {
+   "netz": "SM_mountain_rock_small_01_4",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_small_01_4",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.49,
+    0.38,
+    0.26
+   ],
+   "rollen": {
+    "lippe": 1
+   },
+   "eintraege": [
+    [
+     489.05,
+     3.15,
+     1.796,
+     94.8,
+     4.8,
+     0.54,
+     0.88,
+     73.07,
+     false,
+     128
+    ]
+   ],
+   "anzahl": 1
+  },
+  "skjsL_tier_0": {
+   "netz": "skjsL_tier_0",
+   "pfad": "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.55,
+    1.3,
+    0.91
+   ],
+   "rollen": {
+    "lippe": 5,
+    "keystone": 2
+   },
+   "eintraege": [
+    [
+     426.33,
+     -1.32,
+     0.444,
+     57.2,
+     0.3,
+     0.43,
+     0.69,
+     92.56,
+     false,
+     34
+    ],
+    [
+     454.56,
+     0.18,
+     0.485,
+     118.4,
+     12.1,
+     0.46,
+     0.75,
+     82.82,
+     false,
+     82
+    ],
+    [
+     489.9,
+     -2.23,
+     0.47,
+     121.4,
+     10.3,
+     0.5,
+     0.73,
+     71.06,
+     false,
+     131
+    ],
+    [
+     513.76,
+     -2.11,
+     0.505,
+     104.6,
+     7.2,
+     0.42,
+     0.78,
+     62.15,
+     false,
+     164
+    ],
+    [
+     514.08,
+     -0.67,
+     0.351,
+     100.6,
+     0.5,
+     0.48,
+     0.54,
+     62.18,
+     false,
+     166
+    ],
+    [
+     579.12,
+     1.74,
+     0.506,
+     95.9,
+     5.0,
+     0.44,
+     0.78,
+     44.89,
+     false,
+     249
+    ],
+    [
+     579.46,
+     3.28,
+     0.413,
+     104.2,
+     4.6,
+     0.56,
+     0.64,
+     45.15,
+     false,
+     254
+    ]
+   ],
+   "anzahl": 7
+  },
+  "skjsL_tier_0_kol": {
+   "netz": "skjsL_tier_0",
+   "pfad": "/Game/Fab/Megascans/3D/Icelandic_Rock_skjsL/Raw/skjsL_tier_0/StaticMeshes/skjsL_tier_0",
+   "rolle": "keystone",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    1.55,
+    1.3,
+    0.91
+   ],
+   "rollen": {
+    "keystone": 8,
+    "lippe": 8,
+    "eckblock": 6,
+    "randblock": 1
+   },
+   "eintraege": [
+    [
+     394.67,
+     0.23,
+     0.768,
+     72.4,
+     6.0,
+     0.54,
+     1.19,
+     99.94,
+     false,
+     8
+    ],
+    [
+     393.01,
+     2.45,
+     0.567,
+     75.9,
+     10.3,
+     0.4,
+     0.88,
+     100.55,
+     false,
+     10
+    ],
+    [
+     406.87,
+     2.5,
+     0.718,
+     -26.6,
+     3.1,
+     0.48,
+     1.11,
+     97.99,
+     false,
+     20
+    ],
+    [
+     430.42,
+     0.1,
+     0.761,
+     97.7,
+     13.7,
+     0.41,
+     1.18,
+     92.19,
+     false,
+     38
+    ],
+    [
+     430.57,
+     1.44,
+     0.801,
+     119.3,
+     10.7,
+     0.45,
+     1.24,
+     92.21,
+     false,
+     39
+    ],
+    [
+     441.84,
+     -0.5,
+     0.888,
+     128.8,
+     7.4,
+     0.41,
+     1.38,
+     88.05,
+     false,
+     60
+    ],
+    [
+     446.32,
+     0.67,
+     0.541,
+     95.8,
+     10.1,
+     0.52,
+     0.84,
+     87.09,
+     false,
+     67
+    ],
+    [
+     450.12,
+     -1.57,
+     0.673,
+     117.7,
+     2.9,
+     0.44,
+     1.04,
+     84.55,
+     false,
+     79
+    ],
+    [
+     458.23,
+     3.64,
+     0.864,
+     -29.9,
+     7.0,
+     0.4,
+     1.34,
+     82.7,
+     false,
+     91
+    ],
+    [
+     466.82,
+     2.6,
+     0.66,
+     119.8,
+     10.4,
+     0.45,
+     1.02,
+     79.2,
+     false,
+     95
+    ],
+    [
+     474.22,
+     -0.44,
+     0.745,
+     132.2,
+     7.5,
+     0.46,
+     1.16,
+     77.37,
+     false,
+     104
+    ],
+    [
+     487.51,
+     -1.88,
+     0.628,
+     105.1,
+     7.1,
+     0.49,
+     0.97,
+     72.3,
+     false,
+     127
+    ],
+    [
+     520.86,
+     -1.65,
+     0.865,
+     116.9,
+     11.0,
+     0.53,
+     1.34,
+     59.31,
+     false,
+     178
+    ],
+    [
+     523.34,
+     2.85,
+     0.697,
+     32.6,
+     2.8,
+     0.46,
+     1.08,
+     58.96,
+     false,
+     182
+    ],
+    [
+     529.55,
+     2.43,
+     0.771,
+     97.7,
+     8.9,
+     0.53,
+     1.19,
+     57.51,
+     false,
+     191
+    ],
+    [
+     540.89,
+     -1.56,
+     0.607,
+     99.6,
+     5.9,
+     0.45,
+     0.94,
+     52.97,
+     false,
+     208
+    ],
+    [
+     543.47,
+     -0.51,
+     0.653,
+     109.8,
+     13.1,
+     0.44,
+     1.01,
+     52.09,
+     false,
+     213
+    ],
+    [
+     541.93,
+     -2.69,
+     0.616,
+     136.8,
+     0.3,
+     0.58,
+     0.95,
+     52.65,
+     false,
+     215
+    ],
+    [
+     549.45,
+     -3.19,
+     0.7,
+     28.6,
+     0.3,
+     0.4,
+     1.08,
+     51.25,
+     false,
+     225
+    ],
+    [
+     553.88,
+     2.82,
+     0.87,
+     -25.7,
+     6.8,
+     0.41,
+     1.35,
+     49.16,
+     false,
+     231
+    ],
+    [
+     568.86,
+     3.02,
+     0.88,
+     23.3,
+     5.3,
+     0.48,
+     1.36,
+     45.17,
+     false,
+     246
+    ],
+    [
+     578.89,
+     -0.17,
+     0.565,
+     93.5,
+     10.7,
+     0.42,
+     0.88,
+     44.87,
+     false,
+     248
+    ],
+    [
+     444.84,
+     3.01,
+     0.72,
+     -9.6,
+     3.0,
+     0.4,
+     1.12,
+     87.91,
+     false,
+     341
+    ]
+   ],
+   "anzahl": 23
+  },
+  "texndcpda_tier_0": {
+   "netz": "texndcpda_tier_0",
+   "pfad": "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": false,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.95,
+    1.34,
+    0.28
+   ],
+   "rollen": {
+    "lippe": 5
+   },
+   "eintraege": [
+    [
+     400.38,
+     -2.53,
+     0.511,
+     128.8,
+     5.6,
+     0.52,
+     0.68,
+     98.65,
+     false,
+     13
+    ],
+    [
+     440.86,
+     1.89,
+     0.448,
+     139.4,
+     0.4,
+     0.54,
+     0.6,
+     89.09,
+     false,
+     58
+    ],
+    [
+     454.73,
+     1.03,
+     0.487,
+     126.4,
+     10.1,
+     0.47,
+     0.65,
+     82.8,
+     false,
+     83
+    ],
+    [
+     486.5,
+     2.46,
+     0.569,
+     109.4,
+     9.1,
+     0.47,
+     0.76,
+     73.61,
+     false,
+     121
+    ],
+    [
+     540.35,
+     -2.4,
+     0.541,
+     110.9,
+     7.4,
+     0.58,
+     0.73,
+     52.87,
+     false,
+     207
+    ]
+   ],
+   "anzahl": 5
+  },
+  "texndcpda_tier_0_kol": {
+   "netz": "texndcpda_tier_0",
+   "pfad": "/Game/Fab/Megascans/3D/Icelandic_Boulder_texndcpda/Raw/texndcpda_tier_0/StaticMeshes/texndcpda_tier_0",
+   "rolle": "lippe",
+   "ebene": "schutt",
+   "kollision": true,
+   "sichtweite": [
+    0,
+    45000
+   ],
+   "groesse_m": [
+    0.95,
+    1.34,
+    0.28
+   ],
+   "rollen": {
+    "lippe": 2
+   },
+   "eintraege": [
+    [
+     457.85,
+     3.48,
+     0.727,
+     101.4,
+     4.9,
+     0.55,
+     0.97,
+     82.69,
+     false,
+     90
+    ],
+    [
+     522.99,
+     2.33,
+     0.847,
+     130.5,
+     3.9,
+     0.47,
+     1.14,
+     59.41,
+     false,
+     180
+    ]
+   ],
+   "anzahl": 2
+  }
+ },
+ "kennzahlen": {
+  "alt": {
+   "quelle": "Ferat, 16h Nachtrag 6c (lauf_p2.json)",
+   "stufen": 26,
+   "abstand_m": "3-4",
+   "fall_m": [
+    0.68,
+    3.74
+   ],
+   "becken": "3-4 m lang, ~4 m breit (rund), Tiefe am Fuss 0,76-1,20 m, vor der Lippe 0,36-0,71 m; alle mit Brush 'Kasten-U'",
+   "ufer_0_5m_ueber_spiegel_median_m": 0.16
+  },
+  "neu": {
+   "einheiten": 25,
+   "klassen": {
+    "kurz": 9,
+    "mittel": 10,
+    "lang": 3,
+    "ruhig": 3
+   },
+   "lippen": 46,
+   "lippen_je_art": {
+    "stufe": 10,
+    "kaskade_teil": 34,
+    "schnelle": 1,
+    "ende": 1
+   },
+   "einheit_laenge_m": [
+    4.19,
+    7.18,
+    13.27
+   ],
+   "einheit_laenge_B": [
+    1.1,
+    1.9,
+    3.83
+   ],
+   "cv_abstand_einheiten": 0.31,
+   "cv_lippen_abstand": 0.54,
+   "lippen_abstand_m": [
+    1.82,
+    3.93,
+    11.11
+   ],
+   "cv_fall": 0.33,
+   "fall_m": [
+    0.53,
+    1.19,
+    2.49
+   ],
+   "einheit_fall_m": [
+    0.96,
+    4.37
+   ],
+   "kolktiefe_haupt_m": [
+    0.84,
+    1.03,
+    1.2
+   ],
+   "kolk_streckung_haupt": [
+    1.3,
+    1.3,
+    4.02
+   ],
+   "kolk_laenge_haupt_m": [
+    1.86,
+    3.0,
+    7.61
+   ],
+   "becken_laenge_haupt_m": [
+    2.84,
+    4.5,
+    10.58
+   ],
+   "seitenwechsel_anteil": 0.76,
+   "lippen_winkel_grad": [
+    6.7,
+    21.6,
+    32.0
+   ],
+   "uferstufe_schulter_m": [
+    0.22,
+    0.72,
+    1.12
+   ],
+   "kopf_ufer_m": [
+    1.22,
+    1.6,
+    2.61
+   ],
+   "band_2m_unter_spiegel_anteil": 0.001,
+   "aufschuettung_ueber_alter_narbe_max_m": 0.29,
+   "abtrag_m3_geschaetzt": 1469.0,
+   "auftrag_m3_geschaetzt": 100.0,
+   "delta_m": [
+    -3.24,
+    1.66
+   ],
+   "instanzen": 621,
+   "instanzen_je_rolle": {
+    "lippe": 112,
+    "keystone": 87,
+    "eckblock": 58,
+    "randblock": 28,
+    "beckenblock": 5,
+    "kies": 331
+   },
+   "kollision": 216,
+   "swr_hindernisse": 5
+  }
+ },
+ "pruefung": {
+  "fehler": [],
+  "warnungen": [
+   "Becken 15: Hauptbecken nur 2.8 m",
+   "Becken 25: Hauptbecken nur 3.3 m",
+   "Becken 27: Hauptbecken nur 3.0 m"
+  ]
+ }
+}
