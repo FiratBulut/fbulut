@@ -407,7 +407,7 @@ Größe = größte Ausdehnung; Einbettung = Anteil der Höhe im Boden. Lange Ach
 
 ## Was lokal zu tun ist
 
-Code und Regeln: Commit **`@@HASH@@`** holen.
+Code und Regeln: Commit **`47a3aeb`** holen.
 
 1. **Material (sofort, ohne Backen):**
    - T0 an TK1 t430/t500 (Abschnitt Testreihe);
