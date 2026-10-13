@@ -61,11 +61,11 @@
    "datei": "gewaesser/F_ERLENBACH/fluss_sim.json",
    "swr": "SWR_F_ERLENBACH",
    "water_body_river": "WBR_F_ERLENBACH",
-   "punkt_index": [0,315],
+   "punkt_index": [0,298],
    "hindernis_akteur": "WH_F_ERLENBACH",
-   "bereich_cm": [-176361.0,-208144.7,-149618.1,-145215.4],
-   "s_m": [0.0,623.71],
-   "s_sim_m": [0.0,623.71],
+   "bereich_cm": [-174437.5,-205039.7,-149618.1,-145215.4],
+   "s_m": [0.0,590.14],
+   "s_sim_m": [0.0,590.14],
    "naht_oben": "quelle",
    "naht_unten": "muendung",
    "vorgaenger": [],
@@ -73,26 +73,26 @@
    "back_reihenfolge": 0,
    "geteilt": false,
    "resolution_max_axis": 2048,
-   "zelle_m": 0.299,
+   "zelle_m": 0.284,
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
     "match_spline_height_amount": 0.3,
     "remove_outside_spline_amount": 0.0,
-    "source_size_cm": 3600.0,
+    "source_size_cm": 3168.9,
     "sim_speed": 10,
     "num_steps": 10,
     "use_capture": true,
     "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "d48d07dd22ff4b8e1b67c7170bf0e796c3e233b771d49354295a1633f30fbb1e",
+   "fingerabdruck": "3fab28f7938b703ea469e91828bf0ca458a8cf502fdb4611d7b8ce307e122605",
    "teile": {
-    "gelaende": "7db4d8963459ec398549a86314eb06dc1ca4c6cd0545a475ef6e92cb4230dae9",
-    "splines": "aa6541994ab05ecb97a724e90377334962e79bf7f2cb6de48bd525b2bad28c38",
-    "objekte": "69e11ce03b54623b43fe041a175ab56b59bab9b289c2b0c7eeb1bd7e1290632c"
+    "gelaende": "cb51c4a5ae2ab81009b878ae7e96f2322a16e22d4fc1e522250e526080186b21",
+    "splines": "e53de1440055c756717805211957d14f829d2795610bd7ece0a9aeeee3003bd9",
+    "objekte": "753fc97850bec6448e46f899eead148cc5b633d31df2fa034c4d02a6913cccd0"
    },
-   "n_hoehen": 41762,
-   "n_objekte": 139
+   "n_hoehen": 37076,
+   "n_objekte": 131
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T00",

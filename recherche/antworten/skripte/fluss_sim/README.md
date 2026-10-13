@@ -165,6 +165,15 @@ Läufe N1–N7, F1 und F2 an C2 (Zone 4096).
   Mit `--zonen`: Zone mit `half_precision: true` und Höhenstufe über 4 cm = WARNUNG.
 - `zonen_beispiel_c2.json` hat jetzt Ferats echte C2-Werte (Zentrum, 1208 m, 4096, Half Precision aus).
 
+**Ergänzungen 16h Nachtrag 3** (Regeln bleiben Version 11, Format `fluss_sim_v3`; Antwort
+[`../../16h-nachtrag3-teile-a-c1-t3-schaum.md`](../../16h-nachtrag3-teile-a-c1-t3-schaum.md)):
+- **Kopf-Kürzung am Ersatz** (`ersetzt.json` → `ersatz.<ID>.muendung_anschluss`, `aktiv`): Ein Ziel-Lauf ohne Gefälle-Plan, in
+  den ein lokal ersetzter Lauf mündet (`F_ERLENBACH_2_C3` ← Erlenbach p2), beginnt erst am ersten Punkt mit Spiegel ≤ Ersatz-Spiegel
+  + `toleranz_cm`. Der Kopf davor ist der Rest des ersetzten Laufs (alte Feld-Überlappung). Umgesetzt wie die Feldgrenzen-Kürzung
+  (`s_quelle_m`, `gekuerzt_m`); `anfang.kopf_gekuerzt` nennt den Schnitt, `anfang.punkt_cm` den neuen Anfang.
+- **Prüfer:** FEHLER, wenn ein Gewässer am Ziel-Lauf über dem Ersatz-Spiegel beginnt oder der Schnitt nicht zum Lauf passt;
+  sonst HINWEIS.
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 

@@ -45,7 +45,7 @@
       "planer": "Unsere Plaene fuer C2 ruhen: kein Gefaelle-Plan, keine Roh-Ebene, kein fluss_sim-Teil. Bisher war C2 unser Pilot Rang 1 (F_ERLENBACH_1V_C2_s1, A15/16c); dieser Stand ist abgeloest. Fuer p2 gelten nur noch Regel-Dateien, die Ferats Werkzeug lesen kann (antworten/bachbett_ufer_regeln.json).",
       "quelle_auftrag": "recherche/auftraege/16h-erlenbach-p2-talkaskade-ufer-wasser.md",
       "muendung_anschluss": {
-        "status": "Vorschlag 16h Nachtrag 2 (13.10.); wird vom Export noch nicht gelesen. Umsetzung im fluss_sim-Export (16g/v12): Kopf des Ziel-Laufs kuerzen wie die Regel 'Anschluss erst bei passendem Spiegel' der Feldgrenzen (16c Nachtrag 3).",
+        "status": "Umgesetzt 16h Nachtrag 3 (fluss_sim_export: ersatz_anschluesse/kopf_kuerzen; Pruefer prueft den Anfangsspiegel). Nur fuer Ziel-Laeufe ohne Gefaelle-Plan (roh).",
         "ziel_lauf": "F_ERLENBACH_2_C3",
         "p2_s_m": 748,
         "p2_spiegel_m": 36.86,
@@ -64,7 +64,10 @@
         ],
         "befund": "Die ersten drei Punkte von F_ERLENBACH_2_C3 (37,78 / 37,42 / 37,00 m) sind Kopien des Endes des ersetzten F_ERLENBACH_2_C2 (s 174-204: 37,78 / 37,42 / 37,00 m), also die alte Feld-Ueberlappung, kein eigener Flussspiegel.",
         "regel": "F_ERLENBACH beginnt am Anschluss an p2: erster Punkt des Ziel-Laufs mit Spiegel <= p2-Spiegel an der Muendung + 0,02 m (2-m-Daten: s = 34,3 m, interpoliert zwischen 37,00 m bei s 29,7 und 36,55 m bei s 44,5) bzw. die Projektion der p2-Muendung auf den Ziel-Lauf, wenn diese weiter stromab liegt. Der Kopf davor entfaellt (wie die ersetzten Laeufe).",
-        "pruefen_lokal": "Gelaende unter dem C3-Kopf (s 0-34 m) <= 36,56 m (Spiegel - 0,3 m)? Projektion der p2-Muendung (s 748/760) auf F_ERLENBACH_2_C3?"
+        "pruefen_lokal": "Gelaende unter dem C3-Kopf (s 0-34 m) <= 36,56 m (Spiegel - 0,3 m)? Projektion der p2-Muendung (s 748/760) auf F_ERLENBACH_2_C3?",
+        "toleranz_cm": 2.0,
+        "aktiv": true,
+        "befund_bild": "16h Nachtrag 3, bilder/swr_p2/muendung.jpg: C3 ist an der Muendung nur ein Tuempel in einem breiten Schotterbett; keine Glaswand"
       }
     }
   },

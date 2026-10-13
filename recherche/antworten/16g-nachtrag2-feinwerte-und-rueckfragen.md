@@ -459,6 +459,10 @@ for z in zeilen[-400:]:
 > In [`16h-nachtrag2-tl-t0-kasten.md`](16h-nachtrag2-tl-t0-kasten.md) zeigt sich: Die 37,78 m am Kopf von `F_ERLENBACH_2_C3` sind eine Kopie des Endes des ersetzten `F_ERLENBACH_2_C2`. Sie sind also der Rest der alten Überlappung und kein Flussspiegel.
 > Deshalb gilt dort der p2-Spiegel, ohne Anheben, und `F_ERLENBACH` wird am Kopf gekürzt.
 > Nur wenn das C3-Wasser im Level tatsächlich bei ≈ 37,8 m steht (Rückfrage 3 in 16h Nachtrag 2), gilt der Vorschlag oben.
+>
+> **Stand 16h Nachtrag 3:** Ferats Mündungsbild zeigt C3 dort als Tümpel im Schotterbett, ohne Glaswand. Die Kürzung ist im Export
+> umgesetzt (`ersetzt.json` → `muendung_anschluss`, `kopf_kuerzen`), siehe [`16h-nachtrag3-teile-a-c1-t3-schaum.md`](16h-nachtrag3-teile-a-c1-t3-schaum.md) §6.
+> Der Vorschlag oben (p2 anheben) entfällt.
 
 ---
 

@@ -1404,6 +1404,22 @@ def main(argv=None):
         if len(gs) != 1:
             b.append((FEHLER, l_, "Lauf in %d Gewaessern: %s" % (len(gs), gs)))
     ersetzt = fx.ersetzte_laeufe()          # 16h: lokal ersetzte Laeufe (C2 -> Erlenbach p2) in keinem Gewaesser
+    anschl = fx.ersatz_anschluesse()        # 16h Nachtrag 3: Kopf des Ziel-Laufs bis zum Ersatz-Spiegel gekuerzt
+    for gid, g in sorted(alle.items()):
+        if not g.get("laeufe") or g["laeufe"][0]["id"] not in anschl:
+            continue
+        m = anschl[g["laeufe"][0]["id"]]
+        grenze = float(m["p2_spiegel_m"]) * 100.0 + float(m.get("toleranz_cm", 2.0))
+        z0 = float(g["water_body"]["spline"]["punkte"][0][2])
+        kp = g["anfang"].get("kopf_gekuerzt")
+        if z0 > grenze + 0.5:
+            b.append((FEHLER, gid, "Anfang %.1f cm ueber dem Ersatz-Spiegel %.1f cm (%s): Kopf nicht gekuerzt"
+                      % (z0, grenze, m["ersatz"])))
+        elif kp and abs(float(g["laeufe"][0]["s_quelle_m"][0]) - float(kp["s_m"])) > 0.05:
+            b.append((FEHLER, gid, "Kopf-Kuerzung s %.2f m, Lauf beginnt bei s %.2f m" % (kp["s_m"], g["laeufe"][0]["s_quelle_m"][0])))
+        else:
+            b.append((HINWEIS, gid, "Anschluss an %s: Spline beginnt bei %.1f cm (Ersatz-Spiegel %.1f cm)%s"
+                      % (m["ersatz"], z0, grenze, ", Kopf %.2f m gekuerzt" % kp["s_m"] if kp else "")))
     for l_ in sorted(set(lauf_in) & set(ersetzt)):
         b.append((FEHLER, l_, "%s, steht aber in %s" % (fx.ersetzt_grund(l_), lauf_in[l_])))
     if ersetzt:

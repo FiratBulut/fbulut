@@ -861,7 +861,27 @@
       "lagen_summe": "jede Mischung Summe 100 (Selbsttest der Referenz-Umsetzung)",
       "kante_bewuchs": ">= 60 % der Erd-/Rasenkante mit Grasbueschel oder Moos, 0 Stuecke in Lippenzonen",
       "steine": "Prallhang: >= 1 Block je 3 m Aussenkurve; jede Lippe mit >= 1 Widerlager je Seite"
-    }
+    },
+    "prallhaenge_p2": {
+      "_doku": "16h Nachtrag 3: Prallhaenge der Talkaskade nach Ferats Messung (Aussenkurve, Radius < 5 B, R 6,8-16,8 m, Kasten 1,1-2,7 m); beim Zuruecklegen (C1) ausgenommen, nach C.4 ab 1,5 m felsig: Erdanriss oben (0,3-0,8 m), Fels darunter, Blockfuss.",
+      "liste": [
+        {
+          "s_m": [
+            534,
+            540
+          ],
+          "seite": "links"
+        },
+        {
+          "s_m": [
+            550,
+            556
+          ],
+          "seite": "rechts"
+        }
+      ]
+    },
+    "plan_skript": "skripte/ufer_regeln/ufer_plan_p2.py -> ufer_p2/ufer_plan_p2.json (Bach-Koordinaten s/seite/d)"
   },
   "quellen": {
     "REPOSE": "Wikipedia, Angle of repose (Tabelle: Kies natuerlich mit Sand 25-30 Grad, Schotter gebrochen 45 Grad, Sand trocken 34 Grad) https://en.wikipedia.org/wiki/Angle_of_repose",

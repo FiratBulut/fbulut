@@ -1503,6 +1503,8 @@ def zusammenfuegen(kette, links, regeln, topf_oben=None, topf_unten=None):
     dem Spiegel, Breite = groesste Rechteckseite + 2 x Rand (damit das SWR-Rechteck den Topf einschliesst).
     Rueckgabe (linie, abst, extra, laeufe)."""
     cut = [[t.s0, t.s1] for t in kette]
+    if kette and (kette[0].extra.get("kopf") or {}).get("s_m") is not None:
+        cut[0][0] = float(np.clip(kette[0].extra["kopf"]["s_m"], kette[0].s0, kette[0].s1))   # 16h Nachtrag 3
     for i, l in enumerate(links):
         if l["art"] == "ueberlappung":
             P, N = kette[i], kette[i + 1]
@@ -3219,6 +3221,7 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
     ww = welt.wasser_welt or {}
     teile_welt = []
     E = ersetzte_laeufe()                     # 16h: lokal ersetzte Laeufe (C2 -> Erlenbach p2) gehoeren in kein Gewaesser
+    anschluesse = ersatz_anschluesse()        # 16h Nachtrag 3: Kopf des Ziel-Laufs bis zum Ersatz-Spiegel kuerzen
     ersetzt_linien = []
     for f in sorted(ww.get("fluesse", []) or [], key=lambda f: f["id"]):
         if f["id"] in E:
@@ -3245,6 +3248,10 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
             lauf = gd.Lauf.aus_welt(welt, tid)
             g, linie, abst, extra = roh_gewaesser(lauf, regeln, art)
             her = "roh"
+        if tid in anschluesse:
+            kp = kopf_kuerzen(linie, anschluesse[tid], her)
+            if kp:
+                extra["kopf"] = kp
         teile.append(Teil(tid, art, her, g, linie, abst, extra, familie=fam, netz=netz, feld=feld, anschluss=ans))
     teil_ort = {t.id: t for t in teile}
     # Sehens-Baeche und -Seen
@@ -3340,6 +3347,9 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
             if sid1 in toepfe and toepfe[sid1]["abfluss"] is None and toepfe[sid1]["zulauf"] == k[-1].id:
                 topf_unten = toepfe[sid1]
         linie, abst, extra, laeufe = zusammenfuegen(k, links, regeln, topf_oben=topf_oben, topf_unten=topf_unten)
+        kp = k[0].extra.get("kopf") if kat == "welt" else None
+        if kp:
+            an = dict(an, punkt_cm=[r1(linie.x[0]), r1(linie.y[0]), r1(linie.z[0])], kopf_gekuerzt=kp)
         for tp in extra.get("toepfe") or []:
             toepfe[tp["see"]]["gewaesser"] = gid
         if topf_unten is not None:
@@ -3420,6 +3430,36 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
             "teile_roh": sum(1 for t in teile if t.herkunft == "roh"), "sehens_baeche": len(sehens_teile),
             "fortsetzungen": {a_: sum(1 for _, (n_, f) in nach.items() if f["art"] == a_) for a_ in ("anschluss", "ueberlappung")}}
     return gewaesser, teile, karte, info
+
+
+def ersatz_anschluesse():
+    """16h Nachtrag 3: {ziel_lauf: eintrag} aus ersetzt.json -> ersatz.<ID>.muendung_anschluss (Ziel-Lauf, p2-Spiegel).
+    Der Kopf des Ziel-Laufs oberhalb des Ersatz-Spiegels ist ein Rest des ersetzten Laufs (alte Feld-Ueberlappung)."""
+    import gefaelle_daten as gd
+    out = {}
+    for eid, e in sorted((gd.ersetzt_daten().get("ersatz") or {}).items()):
+        m = e.get("muendung_anschluss") or {}
+        if m.get("ziel_lauf") and m.get("p2_spiegel_m") is not None and m.get("aktiv", True):
+            out[m["ziel_lauf"]] = dict(m, ersatz=eid)
+    return out
+
+
+def kopf_kuerzen(linie, m, herkunft):
+    """Erster Punkt der Linie mit Spiegel <= Ersatz-Spiegel + toleranz (linear zwischen Splinepunkten). Rueckgabe dict
+    {s_m, spiegel_cm, kopf_spiegel_cm, ersatz, ziel_lauf} oder None (Lauf mit Plan: nicht kuerzen, Stufen gehoeren dem Plan)."""
+    if herkunft != "roh":
+        return None
+    grenze = float(m["p2_spiegel_m"]) * 100.0 + float(m.get("toleranz_cm", 2.0))
+    z, s_ = linie.z, linie.s
+    if z[0] <= grenze:
+        return None
+    k = int(np.argmax(z <= grenze)) if (z <= grenze).any() else None
+    if k is None or k == 0:
+        return None
+    t = (z[k - 1] - grenze) / max(z[k - 1] - z[k], 1e-9)
+    sc = float(s_[k - 1] + t * (s_[k] - s_[k - 1]))
+    return {"s_m": r1(sc, 2), "spiegel_cm": r1(grenze), "kopf_spiegel_cm": r1(z[0]), "ersatz": m["ersatz"],
+            "ziel_lauf": m["ziel_lauf"], "regel": "16h Nachtrag 3: Kopf = Rest des ersetzten Laufs, Anschluss bei passendem Spiegel"}
 
 
 def ersetzt_nachbar(L, i, linien, G):

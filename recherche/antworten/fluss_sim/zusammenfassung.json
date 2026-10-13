@@ -37,23 +37,23 @@
  },
  "summe": {
   "gewaesser": 186,
-  "laenge_m": 45437.7,
+  "laenge_m": 45404.1,
   "swr_bereiche": 197,
   "gewaesser_eine_swr": 182,
   "faelle": 737,
   "faelle_vorhang": 166,
   "abstuerze": 2032,
   "bereiche": 934,
-  "kollision": 20371,
-  "kollision_im_wasser": 15556,
-  "ueberspannt": 6804,
+  "kollision": 20369,
+  "kollision_im_wasser": 15554,
+  "ueberspannt": 6805,
   "schaum": {
    "aufprallteppich": 166,
    "kehrwasser": 304,
    "schaumstrasse": 787
   },
-  "splinepunkte": 18489,
-  "gefiltert": 20105
+  "splinepunkte": 18472,
+  "gefiltert": 20106
  },
  "kategorien": {
   "sehens/sehens_bach": {
@@ -72,7 +72,7 @@
   },
   "welt/fluss": {
    "gewaesser": 9,
-   "laenge_m": 10667.9,
+   "laenge_m": 10634.3,
    "swr_bereiche": 19,
    "eine_swr": 6,
    "laeufe": 24
@@ -172,11 +172,11 @@
    "max_laengste_seite": 819.0
   },
   "zellen_mio": {
-   "summe": 79.1
+   "summe": 79.0
   },
   "hindernis_akteure": 195,
-  "hindernis_instanzen": 19864,
-  "hindernis_akteure_mit_tag": 361,
+  "hindernis_instanzen": 19863,
+  "hindernis_akteure_mit_tag": 360,
   "swr_ohne_hindernis": 2,
   "gelaende_max_in_swr_m": 331.86,
   "gelaende_max_swr": "F_HAUPTFLUSS_1"
@@ -204,7 +204,7 @@
    "swr": 128
   },
   "laenge_kaskade_m": 1290.0,
-  "laenge_pruefen_m": 7229.0,
+  "laenge_pruefen_m": 7228.0,
   "steilste": [["B_R_P4_M2_04",0.941,152.0,155.67],["SW_gletscher_06_gletschertoepfe_klammbach_oben",1.64,138.0,94.26],["B_K8_ELFENFALL_01",1.168,118.0,117.92],["B_R2_R_P4_M2_01",0.812,92.0,108.53],["B_R_P0_M2_02",0.539,77.0,68.61],["B_R_M2_P1_02",0.623,69.0,46.0],["SW_fjord_02_schleierwand_abfluss4",2.28,67.0,69.48],["B_R_M3_M2_01",0.742,67.0,50.89],["B_R2_R_M1_M1_06",0.38,63.0,31.71],["SW_fjord_02_schleierwand_abfluss1",1.793,60.0,57.89]]
  },
  "varianten_zelle": {
@@ -274,25 +274,25 @@
   "grenze_m": 655.04,
   "ueber_grenze": 0
  },
- "kollision_objekte_eindeutig": 20225,
+ "kollision_objekte_eindeutig": 20223,
  "hindernis_filter": {
   "status": "v11 (16g Nachtrag 2, Ferat Befund N4/N5, 13.10.2026): ein Hindernis-Akteur mit allen 1 718 Bachdekor-Teilen daemmt die 2-m-Rinne (zwei ~1-m-Lippenfelsen nebeneinander, Front steht); gefiltert (1 336 Teile) laeuft das Bett durch (99,8 % nass). Gilt fuer alle Objekte mit Wasser-Kollision (WH_-Akteure). Ausgefilterte Teile bleiben als Deko stehen, nur ohne Wasser-Kollision (ohne_wasser_kollision mit grund filter_*).",
   "teil_max_anteil": 0.4,
   "meter_max_anteil": 0.5,
   "objekte_eindeutig": {
-   "vorher": 40221,
-   "nachher": 20225,
-   "gefiltert": 19996
+   "vorher": 40220,
+   "nachher": 20223,
+   "gefiltert": 19997
   },
   "gefiltert_nach_grund": {
    "filter_anderes_gewaesser": 25,
-   "filter_meter": 3522,
+   "filter_meter": 3523,
    "filter_rolle": 12923,
    "filter_teil": 3526
   },
   "rolle_vorher": {
    "akteur": 982,
-   "andere": 24886,
+   "andere": 24885,
    "bett": 428,
    "bett+lippe": 176,
    "bett+lippe+rand": 3872,
@@ -303,17 +303,17 @@
    "unklar": 1430
   },
   "rolle_nachher": {
-   "akteur": 361,
-   "andere": 19254,
+   "akteur": 360,
+   "andere": 19253,
    "unklar": 610
   },
   "art_vorher": {
-   "fels": 22703,
+   "fels": 22702,
    "holz": 17383,
    "sonstiges": 135
   },
   "art_nachher": {
-   "fels": 7324,
+   "fels": 7322,
    "holz": 12821,
    "sonstiges": 80
   },
@@ -334,7 +334,7 @@
   "regel": "Manning-Strickler bei Normalabfluss je Splinepunkt: v = k_st^(3/5) * q^(2/5) * max(I, gefaelle_min)^(3/10). I = Gefaelle des Wasserspiegels ueber +-fenster_halb_m (Stufen zaehlen mit). q = Q / b (Abfluss je Meter Breite, b = RiverWidth); Q = v_becken_ref_ms * Median(b * h) ueber +-q_fenster_m mit h = Depth * tiefe_mittel_anteil (>= tiefe_min_m): ein Becken mittlerer Groesse fliesst mit v_becken_ref_ms, Engstellen schneller, breite Becken langsamer (Kontinuitaet); in Becken und Toepfen (Rueckstau) v = min(v, q / h). v begrenzt auf [v_min_ms; v_max_ms], entlang s geglaettet (Gauss glatt_sigma_m, Gewicht x halber Punktabstand), dann Aenderung je Meter <= aenderung_max_ms_je_m (untere Huelle: nur Spitzen sinken), zuletzt x tempo_faktor. tempo_ms auf 0,001 m/s gerundet; WaterVelocityScalar_cm_s = tempo_ms x 100 (0,1 cm/s).",
   "tempo_faktor": 1.0,
   "vorher": {
-   "n": 18489,
+   "n": 18472,
    "mittel": 1.639,
    "median": 1.5,
    "p10": 0.8,
@@ -343,11 +343,11 @@
    "max": 4.5
   },
   "nachher": {
-   "n": 18489,
+   "n": 18472,
    "mittel": 0.683,
-   "median": 0.581,
+   "median": 0.58,
    "p10": 0.172,
-   "p90": 1.363,
+   "p90": 1.364,
    "min": 0.1,
    "max": 2.5
   },
@@ -377,12 +377,12 @@
     "nachher": {"n":59,"mittel":0.957,"median":0.991,"p10":0.544,"p90":1.39,"min":0.11,"max":1.849}
    },
    "river": {
-    "vorher": {"n":5979,"mittel":1.618,"median":1.536,"p10":0.8,"p90":3.0,"min":0.3,"max":3.776},
+    "vorher": {"n":5979,"mittel":1.618,"median":1.536,"p10":0.8,"p90":3.0,"min":0.3,"max":3.77},
     "nachher": {"n":5979,"mittel":0.575,"median":0.559,"p10":0.176,"p90":1.025,"min":0.1,"max":2.105}
    },
    "roh": {
-    "vorher": {"n":5457,"mittel":1.705,"median":1.8,"p10":0.352,"p90":2.852,"min":0.3,"max":4.5},
-    "nachher": {"n":5457,"mittel":0.607,"median":0.496,"p10":0.164,"p90":1.264,"min":0.1,"max":2.099}
+    "vorher": {"n":5440,"mittel":1.704,"median":1.8,"p10":0.351,"p90":2.852,"min":0.3,"max":4.5},
+    "nachher": {"n":5440,"mittel":0.606,"median":0.496,"p10":0.164,"p90":1.266,"min":0.1,"max":2.099}
    },
    "topf": {
     "vorher": {"n":61,"mittel":0.463,"median":0.393,"p10":0.1,"p90":0.8,"min":0.1,"max":2.63},
@@ -395,11 +395,11 @@
     "nachher": {"n":4495,"mittel":0.322,"median":0.274,"p10":0.1,"p90":0.663,"min":0.1,"max":1.384}
    },
    "1-5 %": {
-    "vorher": {"n":6314,"mittel":1.57,"median":1.628,"p10":0.8,"p90":2.612,"min":0.548,"max":3.829},
-    "nachher": {"n":6314,"mittel":0.499,"median":0.445,"p10":0.181,"p90":1.015,"min":0.1,"max":1.8}
+    "vorher": {"n":6297,"mittel":1.569,"median":1.628,"p10":0.8,"p90":2.612,"min":0.548,"max":3.829},
+    "nachher": {"n":6297,"mittel":0.498,"median":0.444,"p10":0.181,"p90":1.004,"min":0.1,"max":1.8}
    },
    "5-15 %": {
-    "vorher": {"n":3518,"mittel":1.897,"median":1.854,"p10":0.8,"p90":3.0,"min":0.5,"max":4.5},
+    "vorher": {"n":3518,"mittel":1.898,"median":1.854,"p10":0.8,"p90":3.0,"min":0.5,"max":4.5},
     "nachher": {"n":3518,"mittel":0.807,"median":0.737,"p10":0.577,"p90":1.115,"min":0.223,"max":1.954}
    },
    "> 15 %": {
@@ -413,8 +413,8 @@
     "nachher": {"n":1086,"mittel":0.673,"median":0.683,"p10":0.1,"p90":1.317,"min":0.1,"max":2.407}
    },
    "welt": {
-    "vorher": {"n":17403,"mittel":1.643,"median":1.528,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
-    "nachher": {"n":17403,"mittel":0.684,"median":0.574,"p10":0.18,"p90":1.366,"min":0.1,"max":2.5}
+    "vorher": {"n":17386,"mittel":1.643,"median":1.528,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
+    "nachher": {"n":17386,"mittel":0.683,"median":0.573,"p10":0.179,"p90":1.367,"min":0.1,"max":2.5}
    }
   },
   "spearman_gefaelle": {
