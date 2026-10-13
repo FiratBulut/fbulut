@@ -215,7 +215,10 @@ def bilinear_welt(H, i, j):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
+def welt_rechnen(plan_dir, lauf, H, aus, bild=False, inst_plan=None):
+    """inst_plan (Auftrag 20): ein reiner Instanzen-Plan in Bach-Koordinaten (detailgrad_plan.py: 'spalten' + 'dateien');
+    dann werden NUR dessen Instanzen geschrieben (Ebene/FT-Praefix aus dem Plan), auf dem neuen Gelaende = Ist + Delta des
+    Bettplans; z = Gelaende + z_rel_m, wenn gesetzt, sonst wie der Bettplan."""
     with open(os.path.join(plan_dir, "bettplan_p2.json"), encoding="utf-8") as f:
         P = json.load(f)
     g = P["gelaende"]
@@ -252,15 +255,16 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
     band[innen & (ka <= 0.0)] = 1
     band[innen & (ka > 0.25) & (ka <= 2.0) & (w > 0.5)] = 2
     os.makedirs(aus, exist_ok=True)
-    for sub in ("gelaende", "instanzen", "pruefband"):
+    for sub in (("instanzen",) if inst_plan else ("gelaende", "instanzen", "pruefband")):
         if os.path.isdir(os.path.join(aus, sub)):
             shutil.rmtree(os.path.join(aus, sub))
-    os.makedirs(os.path.join(aus, "gelaende"))
-    os.makedirs(os.path.join(aus, "pruefband"))
+    if not inst_plan:
+        os.makedirs(os.path.join(aus, "gelaende"))
+        os.makedirs(os.path.join(aus, "pruefband"))
     ab = P["abschnitt"]
     abschnitte = []
     felder = sorted({feld_ij(i, j) for i, j in zip(ci[np.abs(delta) > 0.005].astype(int), cj[np.abs(delta) > 0.005].astype(int))})
-    for fe in felder:
+    for fe in ([] if inst_plan else felder):
         fs, fr = SPALTEN.index(fe[0]), int(fe[1:]) - 1
         m = (np.abs(delta) > 0.005) & (cj // FELD_M == fs) & (ci // FELD_M == fr)
         ii, jj = np.nonzero(m)
@@ -285,11 +289,15 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
     # Instanzen
     with open(os.path.join(DATEN, "netze.csv"), encoding="utf-8") as f:
         Rn = {r_["name"]: r_ for r_ in csv.DictReader(f, delimiter=";")}
-    sp = P["instanzen_spalten"]
+    if inst_plan:
+        sp, quelle = inst_plan["spalten"], inst_plan["dateien"]
+        ebene, praefix = inst_plan.get("ebene", "detailgrad"), inst_plan.get("ft_praefix", "FT_EL_DG_")
+    else:
+        sp, quelle, ebene, praefix = P["instanzen_spalten"], P["instanzen"], "p2_bett", "FT_EL_P2B_"
     ix = {k: n for n, k in enumerate(sp)}
     je_feld = {}
     farn_weg = 0
-    for schl, e in sorted(P["instanzen"].items()):
+    for schl, e in sorted(quelle.items()):
         netz = e.get("netz", schl)
         hz = float(e["groesse_m"][2])
         for row in e["eintraege"]:
@@ -300,9 +308,12 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
             a_, b_ = int(round(float(i_))) - i_lo, int(round(float(j_))) - j_lo
             dz = float(delta[a_, b_]) if 0 <= a_ < delta.shape[0] and 0 <= b_ < delta.shape[1] else 0.0
             z = gi + dz - row[ix["einbettung"]] * hz * row[ix["skala"]]
+            if "z_rel_m" in ix and row[ix["z_rel_m"]] is not None:
+                z = gi + dz + row[ix["z_rel_m"]]
             if "z_absolut" in ix and row[ix["z_absolut"]]:
                 z = row[ix["z_plan_m"]]
-            if "farn" in e.get("rollen", {}):
+            ist_farn = (row[ix["rolle"]] == "farn") if "rolle" in ix else ("farn" in e.get("rollen", {}))
+            if ist_farn:
                 # nur Nordufer: Aussennormale (vom Bach zum Ufer) zeigt nach +Y (Sueden) -> Boeschung schaut nach Norden
                 o_i = (1.0 if uv > 0 else -1.0) * float(ti)          # links = (-t_j, t_i): i-Anteil = t_i
                 if o_i <= 0.3:
@@ -329,7 +340,7 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
             dateien[key] = {"pfad": e["pfad"], "anzahl": len(v["rec"]), "gruppe": e["ebene"],
                             "rolle": "/".join(sorted(e["rollen"])), "sichtweite": e["sichtweite"],
                             "schatten": e["ebene"] != "kleinzeug", "kollision": bool(e["kollision"]),
-                            "nanite": Rn.get(v["netz"], {}).get("nanite", "0") == "1", "ebene": "p2_bett"}
+                            "nanite": Rn.get(v["netz"], {}).get("nanite", "0") == "1", "ebene": ebene}
             if e.get("material_vorschlag"):
                 dateien[key]["material_vorschlag"] = e["material_vorschlag"]
             if v["hind"]:
@@ -337,13 +348,23 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
                 hindernisse.append({"feld": fe, "datei": key + ".f32", "anzahl": v["hind"]})
         n = sum(d["anzahl"] for d in dateien.values())
         with open(os.path.join(ordner, "plan.json"), "w", encoding="utf-8") as f:
-            json.dump({"stand": P["stand"], "feld": fe, "ebene": "p2_bett", "instanzen": n,
+            json.dump({"stand": (inst_plan or P)["stand"], "feld": fe, "ebene": ebene, "instanzen": n,
                        "kollision_anzahl": sum(d["anzahl"] for d in dateien.values() if d["kollision"]),
-                       "ft_praefix": "FT_EL_P2B_", "ft_ordner": "/Game/Eldarien/Welt/Foliage/p2_bett",
+                       "ft_praefix": praefix, "ft_ordner": "/Game/Eldarien/Welt/Foliage/" + ebene,
                        "hinweis_setzer": "z enthaelt das Eingraben; Bloecke >= 0,8 m mit Kollision; swr_hindernis_anzahl = "
                                          "Eintraege mit SWR-Hindernis (Spalte in bettplan_p2.json), nur Beckenbloecke",
                        "dateien": dateien}, f, ensure_ascii=False, indent=1)
             f.write("\n")
+    if inst_plan:
+        plan = {"stand": inst_plan["stand"], "lauf": LAUF_ID, "ebene": ebene,
+                "quelle": "p2_bett_welt.py --instanzen-plan (Gelaende = Ist + Delta aus bettplan_p2.json)",
+                "felder": sorted(je_feld), "swr_hindernisse": hindernisse,
+                "kennzahlen": {"instanzen": sum(len(v["rec"]) for dd in je_feld.values() for v in dd.values()),
+                               "farne_nicht_nordufer_weggelassen": farn_weg}}
+        with open(os.path.join(aus, "plan.json"), "w", encoding="utf-8") as f:
+            json.dump(plan, f, ensure_ascii=False, indent=1)
+            f.write("\n")
+        return plan, (ci, cj, s, u, delta, i_lo, j_lo)
     # Spline-Spiegel
     spl = []
     for sv, zv in P["spiegel_je_m"]["punkte"]:
@@ -470,6 +491,38 @@ def selbsttest():
             with open(p1, "rb") as f1, open(p2, "rb") as f2:
                 gleich &= hashlib.sha256(f1.read()).digest() == hashlib.sha256(f2.read()).digest()
     zus["zwei_laeufe_byte_gleich"] = gleich
+    # Auftrag 20: reiner Instanzen-Plan - z = Gelaende(neu) + z_rel_m bzw. - Einbettung x Hoehe bzw. absolut
+    netz = "SM_TundraRockyGround_01"
+    with open(os.path.join(DATEN, "netze.csv"), encoding="utf-8") as f:
+        rr = {r_["name"]: r_ for r_ in csv.DictReader(f, delimiter=";")}[netz]
+    hz = float(rr["groesse_z_m"])
+    sp20 = ["s_m", "u_m", "skala", "yaw_rel_grad", "kipp_grad", "einbettung", "groesse_m", "z_plan_m", "swr_hindernis", "nr",
+            "z_absolut", "z_rel_m", "rolle", "seite", "d_m", "haufen", "lage"]
+    s_t = float(S[len(S) // 2])
+    zeilen = [[s_t, 4.0, 0.5, 90.0, 20.0, 0.5, 3.0, 0.0, False, 0, False, None, "platte", "links", 2.0, -6, 1],
+              [s_t + 1.0, 5.0, 0.5, 90.0, 20.0, 0.0, 3.0, 0.0, False, 1, False, 0.25, "stein", "links", 3.0, 3, 2],
+              [s_t + 2.0, 3.0, 0.5, 90.0, 20.0, 0.0, 3.0, 123.0, False, 2, True, None, "fussstein", "links", 0.0, -3, 1]]
+    ip = {"stand": "selbsttest", "ebene": "detailgrad", "ft_praefix": "FT_EL_DG_", "spalten": sp20,
+          "dateien": {netz: {"netz": netz, "pfad": rr["pfad"], "ebene": "schutt", "rollen": {"platte": 3}, "kollision": False,
+                             "sichtweite": [0, 30000], "groesse_m": [0, 0, hz], "eintraege": zeilen}}}
+    aus3 = os.path.join(tmp, "aus3")
+    welt_rechnen(plan_dir, lauf, H, aus3, inst_plan=ip)
+    fe3 = sorted(os.listdir(os.path.join(aus3, "instanzen")))
+    rec = []
+    for fe in fe3:
+        pf3 = os.path.join(aus3, "instanzen", fe, netz + ".f32")
+        if os.path.exists(pf3):
+            rec += np.fromfile(pf3, dtype="<f4").reshape(-1, 10).tolist()
+    z_ok = len(rec) == 3
+    if z_ok:
+        for row, r3 in zip(zeilen, rec):
+            i_, j_, _, _ = lauf.punkt(row[0], row[1])
+            a_, b_ = int(round(float(i_))) - i_lo, int(round(float(j_))) - j_lo
+            gneu = bilinear_welt(H, float(i_), float(j_)) + float(delta[a_, b_])
+            soll = row[7] if row[10] else (gneu + row[11] if row[11] is not None else gneu - row[5] * hz * row[2])
+            z_ok = z_ok and abs(r3[2] / 100.0 - soll) < 0.01
+    zus["instanzen_plan_z_ok"] = bool(z_ok)
+    gleich = gleich and z_ok
     zus["lauf_spaltenform_gelesen"] = bool(spalten_ok)
     gleich = gleich and spalten_ok
     print(json.dumps(zus, ensure_ascii=False))
@@ -490,6 +543,9 @@ def main(argv=None):
     ap.add_argument("--einheit", choices=["cm", "m", "raster"])
     ap.add_argument("--bild", action="store_true")
     ap.add_argument("--selbsttest", action="store_true")
+    ap.add_argument("--instanzen-plan", dest="instanzen_plan",
+                    help="Auftrag 20: reiner Instanzen-Plan (z. B. antworten/detailgrad/plan_p2_talkaskade.json); schreibt nur "
+                         "dessen Instanzen nach <aus> (Standard <welt>/detailgrad/ERLENBACH_P2)")
     a = ap.parse_args(argv)
     if a.selbsttest:
         rc = selbsttest()
@@ -499,8 +555,15 @@ def main(argv=None):
         ap.error("--lauf und --welt sind noetig (oder --selbsttest)")
     I, J, S, art = lauf_lesen(a.lauf, a.einheit)
     H = hoehe_laden(a.welt)
-    aus = a.aus or os.path.join(a.welt, "p2_bett", LAUF_ID)
-    plan, _ = welt_rechnen(a.plan, Lauf(I, J, S), H, aus, a.bild)
+    ip = None
+    if a.instanzen_plan:
+        with open(a.instanzen_plan, encoding="utf-8") as f:
+            ip = json.load(f)
+    aus = a.aus or os.path.join(a.welt, ip.get("ebene", "detailgrad") if ip else "p2_bett", LAUF_ID)
+    plan, _ = welt_rechnen(a.plan, Lauf(I, J, S), H, aus, a.bild and not ip, inst_plan=ip)
+    if ip:
+        print(json.dumps({"felder": plan["felder"], "kennzahlen": plan["kennzahlen"], "lauf_einheit": art}, ensure_ascii=False))
+        return 0
     print(json.dumps({"felder": plan["felder"], "abschnitte": len(plan["abschnitte"]), "kennzahlen": plan["kennzahlen"],
                       "lauf_einheit": art}, ensure_ascii=False))
     return 0

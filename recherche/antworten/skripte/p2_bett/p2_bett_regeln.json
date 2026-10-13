@@ -326,7 +326,7 @@
     2.5,
     5.0
    ],
-   "anteil": 0.4,
+   "anteil": 0.0,
    "groesse_m": [
     0.4,
     0.9
@@ -338,7 +338,8 @@
    "einbettung": [
     0.3,
     0.45
-   ]
+   ],
+   "notiz_20": "Auftrag 20: Randbloecke traegt der Detailgrad-Plan (Kantensaum, Haufen); hier 0."
   },
   "beckenblock": {
    "je_10m_becken": [
@@ -560,6 +561,13 @@
     "SM_dead_log_04"
    ],
    "notiz": "Die Tundra-Palette hat kein Holz; im Tal stehen Birken und Kiefern (Bilder t500). Holz liegt UEBER dem Wasser auf den Schultern bzw. am Eckblock, also kein SWR-Hindernis; Kollision ja (liegender Stamm, FORMAT §3). Optik bitte pruefen."
+  },
+  "aktiv_20": {
+   "kantengras": false,
+   "moos_ufer": false,
+   "farne": false,
+   "totholz": true,
+   "notiz": "Auftrag 20: Kantengras (Referenz: Gras >= 1 m hinter der Steinkante, Ueberhang nur 5-10 %), Moos (0 % unter 1 m ueber Spiegel) und Farne (in Steinluecken) setzt jetzt skripte/detailgrad/detailgrad_plan.py; der Bettplan behaelt nur das Totholz."
   }
  },
  "lagen_je_zone_6f": {

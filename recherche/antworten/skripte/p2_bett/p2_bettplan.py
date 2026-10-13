@@ -928,7 +928,9 @@ def plane_ausstattung(G, lippen, becken, R, seed, I, Rn):
         return any(abs(s - L.s) < d for L in lippen if L.art != "bestand")
 
     s0, s1 = float(S[0]) + 1.0, lippen[-1].s - 0.5
-    for sd, sg in (("links", 1.0), ("rechts", -1.0)):
+    akt = A.get("aktiv_20", {})
+    for sd, sg in (("links", 1.0), ("rechts", -1.0)) if any(akt.get(k, True) for k in ("kantengras", "moos_ufer", "farne")) \
+            else ():
         E_ = G["EL"] if sg > 0 else G["ER"]
         # Kantengras: Fuss auf der Schulter (Spiegel + Uferstufe), haengt 0,15-0,35 m ueber die Uferstufe
         K = A["kantengras"]

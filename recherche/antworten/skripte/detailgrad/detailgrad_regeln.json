@@ -1,0 +1,1033 @@
+{
+ "_doku": "Auftrag 20 (Detailgrad Bachufer, Referenz Ferat 13.10.): Regeln fuer das Ufer 0-10 m ab der Wasserkante. Grenze zu Auftrag 21 (Felsdeckung Hang): alles bis 10 m ab der Wasserkante gehoert hierher, darueber Auftrag 21. Zahlen je 10 m Uferlaenge und JE SEITE. Herkunft: 'ref' = aus Ferats Zaehltabelle (Auftrag 20 §0), 'ent' = unsere Entscheidung zu einer Frage aus §8.7, 'abl' = Ableitung/Anpassung an Heide-Tundra-Bach (2-4 m breit statt 6-10-m-Fluss). Koordinaten wie der Bettplan p2 (s, u; d = Abstand aussen ab Bettkante).",
+ "stand": "Auftrag 20, 13.10.2026",
+ "grenze_auftrag_21_m": 10.0,
+ "baender_m": {
+  "kante": [
+   0.0,
+   1.0
+  ],
+  "ufer": [
+   1.0,
+   3.0
+  ],
+  "hang": [
+   3.0,
+   10.0
+  ]
+ },
+ "groessenklassen_m": {
+  "K1_kies": [
+   0.03,
+   0.1
+  ],
+  "K2_schutt": [
+   0.1,
+   0.3
+  ],
+  "K3_stein": [
+   0.3,
+   1.0
+  ],
+  "K4_block": [
+   1.0,
+   2.0
+  ],
+  "K5_fels": [
+   3.0,
+   8.0
+  ]
+ },
+ "biome": {
+  "tundra": {
+   "herkunft": "ref (Struktur) + abl (Heide-Tundra-Hang statt Felsbiom: Kante wie Referenz, Hang mit mehr Bewuchs)",
+   "bedeckung_stein_min": {
+    "kante": 0.75,
+    "ufer": 0.65,
+    "hang": 0.3
+   },
+   "erde_max": {
+    "kante": 0.05,
+    "ufer": 0.1,
+    "hang": 0.15
+   },
+   "je_10m": {
+    "K1_kies": [
+     5,
+     10
+    ],
+    "K2_schutt": [
+     50,
+     65
+    ],
+    "K3_stein": [
+     26,
+     36
+    ],
+    "K4_block": [
+     3,
+     5
+    ],
+    "fuss_im_wasser": [
+     2,
+     3
+    ],
+    "K5_fels_je_50m": [
+     1,
+     2
+    ],
+    "gras_ritze": [
+     6,
+     10
+    ],
+    "farn_gleitufer": [
+     2,
+     3
+    ],
+    "farn_nordufer_zusatz": [
+     0,
+     1
+    ],
+    "busch": [
+     1,
+     2
+    ],
+    "gehoelz_gruppe_je_50m": [
+     0.8,
+     1.2
+    ],
+    "notiz": "Zaehlungen je 10 m und Seite im Band 0-3 m ab der Wasserkante (wie Referenz-Zaehltabelle §0); K2 ohne Schuttband am Wandfuss (das wird extra gezaehlt); Hang 3-10 m: nur Gruppen (aufteilung_K3.gruppe_hang) + Platten bis zur Bedeckung",
+    "stapel": "siehe stapel.je_10m",
+    "K2_max_referenz": 85
+   },
+   "aufteilung_K3": {
+    "haufen_ufer": [
+     18,
+     26
+    ],
+    "saum_in_luecken": [
+     4,
+     8
+    ],
+    "gruppe_hang": [
+     5,
+     8
+    ],
+    "notiz": "Haufen reichen von der Wasserkante bis 3 m (Kante in Haufen = Steine der Haufen); in den Luecken Saumsteine 0,3-0,6 m im Abstand 0,6-0,85 m plus Kantenplatten; Begleiter um Bloecke nur auffuellen (zuerst vorhandene Steine im Umkreis zaehlen); Hanggruppe zaehlt im Band 3-10 m"
+   },
+   "verhaeltnis": {
+    "K2_zu_K3": [
+     2.0,
+     3.0
+    ],
+    "K3_zu_K4": [
+     6.0,
+     12.0
+    ],
+    "notiz": "ent zu §8.7 Potenzgesetz: Pruefregel >= 2x je Klasse abwaerts (K2 >= 2 x K3), kein starres x3; K2 wird dafuer ueber 50-65 hinaus bis hoechstens 85 je 10 m aufgefuellt (Referenz 50-100)"
+   },
+   "formen": {
+    "kantig_plattig_min": 0.6,
+    "gerundet_max": 0.3,
+    "stufen_K3_m": [
+     0.35,
+     0.55,
+     0.8
+    ],
+    "stufe_anteil_min": 0.2
+   },
+   "haufen": {
+    "laenge_m": {
+     "prall": [
+      2.5,
+      5.0
+     ],
+     "gleit": [
+      1.5,
+      3.5
+     ]
+    },
+    "luecke_m": {
+     "prall": [
+      0.8,
+      2.0
+     ],
+     "gleit": [
+      1.5,
+      3.0
+     ]
+    },
+    "stuecke": [
+     5,
+     15
+    ],
+    "kontakt_abstand_faktor": [
+     0.5,
+     0.7
+    ],
+    "zweite_lage_anteil": {
+     "prall": 0.35,
+     "gleit": 0.2
+    },
+    "zweite_lage_versatz": [
+     0.25,
+     0.45
+    ],
+    "zweite_lage_verkeilt": 0.35,
+    "kipp_gruppe_grad": [
+     10,
+     25
+    ],
+    "kipp_stein_streuung_grad": 20,
+    "bodenplatte_ab_laenge_m": 2.5,
+    "notiz": "ref: Haufen 5-15, Luecken 1-3 m, 2-3 Lagen, gleiche Fallrichtung +-20 Grad, 30-50 % eingegraben",
+    "mitte_d_m": [
+     0.8,
+     1.8
+    ],
+    "stuecke_je_m": [
+     2.6,
+     3.4
+    ]
+   },
+   "kontakt_min": 0.6,
+   "eingraben": {
+    "K2": [
+     0.4,
+     0.6
+    ],
+    "K3": [
+     0.33,
+     0.5
+    ],
+    "K4": [
+     0.35,
+     0.5
+    ],
+    "platte": [
+     0.6,
+     0.8
+    ],
+    "anteil_min_ab_drittel": 0.5
+   },
+   "kante": {
+    "saum_d_m": [
+     -0.1,
+     0.6
+    ],
+    "fuss_im_wasser_d_m": [
+     -0.45,
+     0.05
+    ],
+    "fuss_oberkante_ueber_spiegel_m": [
+     0.15,
+     0.4
+    ],
+    "fuss_groesse_m": [
+     0.5,
+     1.4
+    ],
+    "gras_ueberhang_anteil": [
+     0.05,
+     0.1
+    ],
+    "gras_fuss_ueber_spiegel_min_m": 0.3,
+    "notiz": "ent zu C.3: Referenz zeigt 0-1 m nackten nassen Stein, Gras >= 1 m hinter der Steinkante; Ueberhang nur in kurzen Grasluecken (5-10 % der Kantenlaenge), nie am Prallhang",
+    "saum_abstand_m": [
+     0.6,
+     0.85
+    ]
+   },
+   "schutt": {
+    "fugen_je_kontakt": [
+     1,
+     2
+    ],
+    "saum_um_haufen_m": [
+     0.2,
+     0.8
+    ],
+    "schuttband_ab_wandhoehe_m": 1.5,
+    "schuttband_breite_m": [
+     1.0,
+     1.5
+    ],
+    "schuttband_je_m2": [
+     10,
+     15
+    ],
+    "zwei_lagen": "nur Schuttband am Wandfuss (ent zu §8.7: sonst Fugenfuellung 1 Lage)",
+    "vorrang_ausduennen": "Fugen > Begleiter > Saum > Fuellung; je 10 m und Seite auf die Quote K2 ausduennen, dann bis zur Quote auffuellen",
+    "fugen_notiz": "je Stein eine Fuge zum naechsten Nachbarn, darin 1-2 Stueck (Haufen von 16 Steinen ~ 15-25 Schutt); Rest der K2-Quote als Saum an Steinen"
+   },
+   "wand": {
+    "ab_hoehe_m": 1.0,
+    "ab_neigung_grad": 38,
+    "fels_anteil_ueber_45_grad_min": 0.9,
+    "modul_abstand_faktor": 0.8,
+    "eingraben": [
+     0.4,
+     0.6
+    ],
+    "notiz": "ent zu §8.7: Flaechen > 45 Grad zu >= 90 % Fels/Stein; Erdboeschungen nur <= 38 Grad - daher Wandmodule ab 1 m Hoehe UND >= 38 Grad mittlerer Neigung im Band 1-2,5 m (Talkaskade: ~15 % der Uferlaenge; 30-38 Grad decken Haufen + Platten)"
+   },
+   "moos": {
+    "ab_ueber_spiegel_m": 1.0,
+    "voll_ab_m": 1.5,
+    "steine_mit_flecken": [
+     0.3,
+     0.5
+    ],
+    "deckung_flecken": [
+     0.2,
+     0.6
+    ],
+    "boden_polster_je_10m": [
+     3,
+     6
+    ],
+    "notiz": "ref: 0 % unter 1 m ueber Wasser; Flecken statt Vollkappe; auf Steinen ueber die Material-Auflage (MI_EL_Auf_*), am Boden als Polster"
+   },
+   "pflanzen": {
+    "ritze_abstand_stein_max_m": 0.3,
+    "ritze_anteil_min": 0.8,
+    "gras_hoehe_max_band_0_3_m": 0.6,
+    "trocken_anteil": [
+     0.3,
+     0.5
+    ],
+    "farn_d_m": [
+     1.0,
+     3.0
+    ],
+    "busch_d_m": [
+     2.0,
+     6.0
+    ],
+    "heide_inseln": {
+     "anteil_max": 0.3,
+     "insel_m": [
+      2,
+      5
+     ],
+     "abstand_m": [
+      3,
+      10
+     ],
+     "nachbar_faktor_min": 3.0
+    }
+   },
+   "gehoelz": {
+    "fuss_d_m": [
+     2.0,
+     6.0
+    ],
+    "neigung_max_grad": 30,
+    "baeume_je_gruppe": [
+     2,
+     3
+    ],
+    "steine_am_fuss": [
+     2,
+     3
+    ],
+    "hoehe_m": [
+     5,
+     12
+    ]
+   },
+   "begleiter": {
+    "ab_block_m": 1.0,
+    "steine_umkreis_2m": [
+     3,
+     6
+    ],
+    "schutt_umkreis_1m": [
+     6,
+     12
+    ],
+    "notiz": "ent zu §8.7: >= 5 Begleiter (Steine + Schutt) um jeden Block >= 1 m"
+   },
+   "sichtweite_cm": {
+    "K1_kies": 4000,
+    "K2_schutt": 9000,
+    "K3_stein": 25000,
+    "K4_block": 50000,
+    "platte": 30000,
+    "wand": 0,
+    "fels": 0,
+    "gras": 9000,
+    "farn": 15000,
+    "moos": 6000,
+    "busch": 30000,
+    "gehoelz": 0
+   },
+   "kollision_ab_m": 0.8,
+   "bedeckung_prall_zuschlag": 0.1,
+   "bedeckung_notiz": "3D-Fussabdruck (Steine, Platten, Wandmodule) je 10 m und Seite; Band 0-3 m zusammen ~0,68 (Gleitufer) bzw. ~0,78 (Prallhang) = Ferats Soll 'Fels/Stein >= 70 %, Prallhang >= 85 %' zusammen mit der Felsschicht im Gelaendematerial; Rest Gras/Farn in Luecken, Erde <= 5 % / <= 10 %",
+   "stapel": {
+    "herkunft": "Ferat 16h N6h Dichte-Zensus: RA2 Felsdeckung 378 % aus gestapelten, ueberlappenden Bloecken (SM_Ridge_Rock_01 2,6/7,2 m, SM_Rock_M 1,3/4 m), Talkaskade 1,2 % aus Kleinsteinen <= 0,5 m; Netze je 100 m2 bei uns nicht niedriger (24 gegen 8,7) -> Komposition: grosse Bloecke gestapelt statt mehr Kleinzeug",
+    "je_10m": {
+     "prall": 2.0,
+     "gleit": 1.0
+    },
+    "bloecke": [
+     2,
+     4
+    ],
+    "basis_m": [
+     3.0,
+     5.0
+    ],
+    "nachbar_m": [
+     2.0,
+     3.5
+    ],
+    "oben_m": [
+     1.2,
+     2.0
+    ],
+    "abstand_faktor": [
+     0.35,
+     0.55
+    ],
+    "oben_verkeilt": 0.35,
+    "mitte_d_m": [
+     1.5,
+     6.0
+    ],
+    "eingraben": [
+     0.3,
+     0.5
+    ],
+    "notiz": "ueberlappend erlaubt (wie die Demo-Karten); Basis + Nachbarn bilden einen Koerper, darum Begleiter nur um die Basis; Prallhang 1 Block in 2. Lage"
+   },
+   "platten": {
+    "notiz": "Bodenplatten liegen in der Boeschung (yaw zum Wasser, kipp = Neigung); groesser und weniger als im ersten Entwurf (Kleinzeug-Budget)",
+    "kante": {
+     "netze": [
+      "SM_NordicBeachRockyGround_02"
+     ],
+     "groesse_m": [
+      1.0,
+      1.5
+     ]
+    },
+    "ufer": {
+     "netze": [
+      "SM_TundraRockyGround_01",
+      "SM_NordicBeachRockyGround_02"
+     ],
+     "groesse_m": [
+      1.3,
+      2.0
+     ]
+    },
+    "hang": {
+     "netze": [
+      "SM_TundraRockyGround_01",
+      "SM_ErodedRockyGround_01"
+     ],
+     "groesse_m": [
+      1.6,
+      2.4
+     ]
+    }
+   },
+   "dichte": {
+    "herkunft": "Ferat 16h N6h dichte_vergleich.md (je 100 m2): RA2 8,7 Netze, Felsdeckung (Obergrenze, Ueberlappung mitgezaehlt) 378 %, 53 verschiedene Netze; C2-Fenster 24,0 / 1,2 % / 181",
+    "felsdeckung_obergrenze_min_prozent": 100,
+    "anteil_felsdeckung_ab_1m_min": 0.5,
+    "verschiedene_netze_max": 55,
+    "notiz": "gemessen im Band 0-10 m je Seite wie der Zensus: Summe der Grundflaechen (Kasten x Skala^2) der Fels-/Steinnetze / Bandflaeche; 'ab 1 m' = Netze >= 1 m (Bloecke, Stapel, Fels, Wand, Platten >= 1 m); 'stehende Bloecke' = Stapel, Bloecke, Fels, Wand, Fuss-Steine und Steine >= 1 m (ohne Bodenplatten) - Ferats Punkt: Deckung aus gestapelten Bloecken, nicht aus Platten/Kleinzeug",
+    "anteil_stehende_bloecke_min": 0.4
+   },
+   "lesbarkeit_30m": {
+    "formen_ab_0_5m_je_10m_min": 10,
+    "herkunft": "Ferat §1 Zielspalte: aus 30 m je 10 m Ufer >= 10 Einzelformen >= 0,5 m (Stein, Block, Stapel, Fels; 1. Lage) - bestaetigt; Sichtweite dafuer K3 >= 250 m, Stapel/Block 500 m"
+   },
+   "netzform": {
+    "ab_m": 1.5,
+    "verhaeltnis_min": 1.4,
+    "herkunft": "Projekt (felsgruppen Runde 5 'Kistenhaufen' abgelehnt; Antwort 21): Steine/Bloecke > 1,5 m nur mit max(x, y) / z >= 1,4 - keine wuerfeligen oder stehenden Netze; im Planer bei der Netzwahl und in der Pruefung"
+   }
+  },
+  "heide": {
+   "wie": "tundra",
+   "abweichung": {
+    "bedeckung_stein_min": {
+     "kante": 0.55,
+     "ufer": 0.35,
+     "hang": 0.1
+    },
+    "K3_stein": [
+     20,
+     28
+    ],
+    "farn_gleitufer": [
+     1,
+     2
+    ],
+    "stapel_je_10m": {
+     "prall": 1.0,
+     "gleit": 0.5
+    }
+   },
+   "herkunft": "abl",
+   "notiz_20": "nicht gerechnet (nur tundra/Talkaskade); Pruefung wie tundra mit diesen Abweichungen"
+  },
+  "bergwald": {
+   "wie": "tundra",
+   "abweichung": {
+    "bedeckung_stein_min": {
+     "kante": 0.6,
+     "ufer": 0.4,
+     "hang": 0.15
+    },
+    "farn_gleitufer": [
+     3,
+     5
+    ],
+    "farn_beide_ufer": true,
+    "moos_ab_ueber_spiegel_m": 0.7,
+    "gehoelz_gruppe_je_50m": [
+     2,
+     3
+    ],
+    "totholz_je_20m": [
+     1,
+     2
+    ],
+    "stapel_je_10m": {
+     "prall": 1.5,
+     "gleit": 0.5
+    }
+   },
+   "herkunft": "abl (Wald: mehr Farn/Moos/Holz, Referenz ist Nadelwald)",
+   "notiz_20": "nicht gerechnet (nur tundra/Talkaskade); Pruefung wie tundra mit diesen Abweichungen"
+  },
+  "aue": {
+   "wie": "tundra",
+   "abweichung": {
+    "bedeckung_stein_min": {
+     "kante": 0.3,
+     "ufer": 0.15,
+     "hang": 0.05
+    },
+    "K3_stein": [
+     8,
+     14
+    ],
+    "K4_block": [
+     0,
+     1
+    ],
+    "kiesbank_anteil_gleitufer": [
+     0.4,
+     0.7
+    ],
+    "gras_ueberhang_anteil": [
+     0.2,
+     0.4
+    ],
+    "stapel_je_10m": {
+     "prall": 0.5,
+     "gleit": 0.0
+    }
+   },
+   "herkunft": "abl (Flachland: Kies- und Grasufer, wenig Block)",
+   "notiz_20": "nicht gerechnet (nur tundra/Talkaskade); Pruefung wie tundra mit diesen Abweichungen"
+  },
+  "elfenwald": {
+   "wie": "bergwald",
+   "abweichung": {
+    "moos_ab_ueber_spiegel_m": 0.3,
+    "moos_steine_mit_flecken": [
+     0.6,
+     0.9
+    ]
+   },
+   "herkunft": "abl",
+   "notiz_20": "nicht gerechnet (nur tundra/Talkaskade); Pruefung wie tundra mit diesen Abweichungen"
+  },
+  "dschungel": {
+   "wie": "bergwald",
+   "abweichung": {
+    "bedeckung_stein_min": {
+     "kante": 0.4,
+     "ufer": 0.2,
+     "hang": 0.05
+    },
+    "wurzeln_je_10m": [
+     2,
+     4
+    ]
+   },
+   "herkunft": "abl",
+   "notiz_20": "nicht gerechnet (nur tundra/Talkaskade); Pruefung wie tundra mit diesen Abweichungen"
+  },
+  "wueste": {
+   "wie": "tundra",
+   "abweichung": {
+    "moos": "keins",
+    "farn_gleitufer": [
+     0,
+     0
+    ],
+    "gras_ritze": [
+     1,
+     3
+    ],
+    "bedeckung_stein_min": {
+     "kante": 0.6,
+     "ufer": 0.5,
+     "hang": 0.3
+    },
+    "stapel_je_10m": {
+     "prall": 2.0,
+     "gleit": 1.0
+    }
+   },
+   "herkunft": "abl",
+   "notiz_20": "nicht gerechnet (nur tundra/Talkaskade); Pruefung wie tundra mit diesen Abweichungen"
+  }
+ },
+ "netze_rollen": {
+  "_doku": "Netze nur aus vorlagen/daten/netze.csv (nicht gesperrt). groesse = groesste Ausdehnung x Skala; Skala [0,3; 1,8] fuer Steine. 'flach' = Hoehe < 0,35 x Laenge.",
+  "K1_kies": [
+   "SM_stone_01",
+   "SM_stone_02",
+   "SM_stone_07"
+  ],
+  "K2_schutt": [
+   "SM_stone_04",
+   "SM_stone_06",
+   "SM_stone_09",
+   "SM_namaqualand_rocks_01_a_NN"
+  ],
+  "K3_kantig": [
+   "xjijbgx_tier_0",
+   "pkeeM_tier_0",
+   "skjsL_tier_0",
+   "SM_stones_01_2",
+   "SM_namaqualand_boulders_01_b_NN"
+  ],
+  "K3_plattig": [
+   "texndcpda_tier_0",
+   "pjcxN_tier_0",
+   "SM_stones_01_3",
+   "SM_namaqualand_boulders_01_a_NN"
+  ],
+  "K3_gerundet": [
+   "SM_mountain_rock_small_01_1",
+   "SM_mountain_rock_small_01_2"
+  ],
+  "K4_block": [
+   "pkeeM_tier_0",
+   "skjsL_tier_0",
+   "SM_mountain_rock_big_01_1",
+   "SM_mountain_rock_big_01_5"
+  ],
+  "haufen_kern": [
+   "xisgcic_tier_0",
+   "xf3odif_tier_0",
+   "xfplcbf_tier_0",
+   "xjijdiz_tier_0"
+  ],
+  "platte_boden": [
+   "SM_TundraRockyGround_01",
+   "SM_NordicBeachRockyGround_02"
+  ],
+  "wand": [
+   "SM_ForestRockFormation_01",
+   "SM_ForestRockFormation_03",
+   "SM_ForestRockSlab_01"
+  ],
+  "K5_fels": [
+   "SM_ForestRockFormation_05",
+   "SM_ForestRockFormation_06"
+  ],
+  "gras_ritze": [
+   "SM_wk2oaeyqx_VarA",
+   "SM_wk2oaeyqx_VarE",
+   "SM_wk2oaeyqx_VarI",
+   "SM_grass_bush_01"
+  ],
+  "gras_trocken": [
+   "SM_dead_grass_03"
+  ],
+  "farn": [
+   "SM_SilverLadyFern_01",
+   "SM_SilverLadyFern_03",
+   "SM_EagleFern_S_02"
+  ],
+  "moos_boden": [
+   "SM_moss_01",
+   "SM_moss_02"
+  ],
+  "busch": [
+   "SM_grey_willow_01",
+   "SM_dwarf_pine_small_01"
+  ],
+  "gehoelz": [
+   "SM_Forest_pine_tree_00_B",
+   "SM_Forest_pine_tree_00_C",
+   "Big_Tree_Birch_01"
+  ],
+  "_doku_vielfalt": "Paletten auf 2-5 Netze je Rolle gekuerzt (gesamt <= 55 verschiedene Netze wie die Demo-Karten 35-53 statt 181-294 im C2-Fenster); ein Gesteinstyp je Ufer (plattig-kantig, grau). Die laengeren Listen aus dem ersten Entwurf stehen unter netze_reserve (fuer Biome/Varianten, nicht in der Talkaskade).",
+  "stapel_block": [
+   "SM_mountain_rock_big_02_1",
+   "SM_mountain_rock_big_02_3",
+   "SM_mountain_rock_big_02_5",
+   "SM_mountain_rock_big_02_8",
+   "SM_flat_rock_02",
+   "SM_ground_rock_03_03"
+  ]
+ },
+ "material_vorschlag": {
+  "_doku": "Wie Bettplan 6f: Mountain-Netze -> MI_EL_NL_* auf M_EL_Mountain_NL (Nasslinie), Fab-/Megascans-Felsen ohne MI_EL -> MI_EL_<Netz> auf M_EL_Fels_MS2; Felsen > 1,5 m ueber Wasser zusaetzlich Auflage (MI_EL_Auf_*_tundra, Moos ab 1 m ueber Spiegel). Erst setzen, wenn die MI existiert.",
+  "Mountain_Environment_Set": "MI_EL_NL_<Paket-MI> (Kind von M_EL_Mountain_NL)",
+  "Fab": "MI_EL_<id> auf M_EL_Fels_MS2 (Kanalbelegung pruefen)",
+  "Megascans": "vorhandene MI_EL_* (MS2) bzw. MI_EL_<Netz> auf M_EL_Fels_MS2",
+  "Namaqualand": "MI_EL_NL_namaqualand_* auf M_EL_Fels_MS2 (grau lassen, Nasslinie)",
+  "Coast_Dunes_Environment_Set": "MI_EL_<Netz>_grau (Toenung grau, Flechte) wie MI_EL_HugeNordicCoastalCliff_01_tundra"
+ },
+ "swr_hindernis": {
+  "herkunft": "16h N5 (hindernisse_filter_p2): Steine >= 0,4 m im Wasser oder <= 1 m daneben; keine Lippen-/Rand-/Bettfelsen (hier: Rollen block, wand, fels, haufen_kern, platte_boden); Teil <= 40 % der Bettbreite; je Meter <= 50 %",
+  "min_m": 0.4,
+  "abstand_wasser_m": 1.0,
+  "rollen_nie": [
+   "block",
+   "busch",
+   "farn",
+   "farn_ritze",
+   "fels",
+   "gehoelz",
+   "gras_kante",
+   "gras_ritze",
+   "haufen_kern",
+   "kies",
+   "moos_boden",
+   "platte",
+   "platte_boden",
+   "schutt",
+   "stapel",
+   "wand"
+  ],
+  "anteil_breite_max": 0.4,
+  "anteil_je_m_max": 0.5
+ },
+ "budget_je_feld": {
+  "instanzen": 45000,
+  "kollision": 3000
+ },
+ "aenderungen_andere_regeln": {
+  "_doku": "Werte fuer bachdekor_swr_regeln.json (lokal, Schluessel wie dort) und kantenufer_p2 (C.4). In der Talkaskade s 389-580 traegt dieser Plan das Ufer 0-10 m; bachdekor dort nur Bett, kantenufer dort aus. Stand nach Ferats Dichte-Zensus 16h N6h: grosse Bloecke gestapelt statt mehr Kleinzeug, weniger verschiedene Netze.",
+  "bachdekor_swr_regeln": {
+   "talkaskade_ufer": "aus (Klassen kiesel ufer_m2/saum_m2, randstein, randfels, moos_ufer_m2, insel_m2, farn, strauch nur ausserhalb s 389-580)",
+   "kiesel_ufer_m2": [
+    0.3,
+    2.0
+   ],
+   "kiesbank": [
+    0.06,
+    0.25
+   ],
+   "becken_minus": [
+    0.55,
+    0.25
+   ],
+   "bett_becken_Schlamm": [
+    80,
+    30
+   ],
+   "abstandsfaktoren_in_gruppe": {
+    "stein/stein": [
+     0.85,
+     0.5
+    ],
+    "kiesel/kiesel": [
+     0.8,
+     0.5
+    ],
+    "kiesel/stein": [
+     0.85,
+     0.4
+    ],
+    "fels/fels": [
+     0.75,
+     0.4
+    ],
+    "pflanze/stein": [
+     0.9,
+     0.1
+    ],
+    "moos/stein": [
+     0.7,
+     0.2
+    ]
+   },
+   "graben_min_anteil": [
+    0.25,
+    0.33
+   ],
+   "randfels_gross_anteil": [
+    [
+     0.75,
+     0.9
+    ],
+    [
+     0.4,
+     0.6
+    ]
+   ],
+   "randfels_gruppe_glieder": [
+    [
+     4,
+     7
+    ],
+    [
+     4,
+     8
+    ]
+   ],
+   "moos_ufer_m2": [
+    0.8,
+    "0 unter 1 m ueber Spiegel, 1,5 darueber"
+   ],
+   "strauch_gruppe": [
+    0.06,
+    0.12
+   ],
+   "zweig_gruppe": [
+    0.12,
+    0.06
+   ],
+   "sichtweite": {
+    "kiesel": [
+     6000,
+     8000
+    ],
+    "bachstein": [
+     18000,
+     25000
+    ],
+    "geroell": [
+     15000,
+     25000
+    ]
+   },
+   "reihenfolge": "Steine vor Pflanzen (Ritzen-Logik), heute umgekehrt",
+   "kiesel_ufer_notiz": "K1+K2 im Band 0-3 m: 55-75 je 10 m = 1,8-2,5 je m2; 2,0 und nur in Fugen/am Stein (Referenz 50-100 je 10 m, nicht mehr - 16h N6h: Komposition statt Kleinzeug)",
+   "felsstapel_neu": {
+    "je_m": {
+     "prallhang": 0.2,
+     "gleitufer": 0.1
+    },
+    "bloecke": [
+     2,
+     4
+    ],
+    "basis_m": [
+     3.0,
+     5.0
+    ],
+    "nachbar_m": [
+     2.0,
+     3.5
+    ],
+    "abstand_faktor": [
+     0.35,
+     0.55
+    ],
+    "eingraben": [
+     0.3,
+     0.5
+    ],
+    "zweite_lage": "Prallhang 1 Block, 35 % verkeilt",
+    "netze": "netze_rollen.stapel_block",
+    "notiz": "16h N6h: RA2 deckt 378 % (Obergrenze) mit gestapelten, ueberlappenden 1-8-m-Bloecken; neue Klasse fuer bachdekor ausserhalb der Talkaskade"
+   },
+   "vielfalt": "je Klasse 2-5 Netze aus netze_rollen (gesamt <= 55 je Bachabschnitt), statt aller Paletten-Netze; 16h N6h: Demo-Karten 35-53 Netze, C2-Fenster 181"
+  },
+  "kantenufer_p2": {
+   "talkaskade": "aus (ersetzt durch plan_p2_talkaskade.json)",
+   "ueberhaengendes_gras.anteil_kantenlaenge": [
+    [
+     0.6,
+     0.8
+    ],
+    [
+     0.05,
+     0.1
+    ]
+   ],
+   "ueberhaengendes_gras.fuss_ueber_spiegel_min_m": 0.3,
+   "moospolster.ab_h_m": [
+    0.25,
+    1.0
+   ],
+   "steine.gerade.je_10m_ufer": [
+    [
+     3,
+     6
+    ],
+    [
+     26,
+     36
+    ]
+   ],
+   "farne": "Gleitufer 2-3 je 10 m in Steinluecken 1-3 m vom Wasser; Nordufer +0-1"
+  },
+  "p2_bett_regeln": {
+   "ausstattung_6e": "Kantengras, Moos, Farne aus; Totholz bleibt (5)",
+   "bloecke.randblock.anteil": [
+    0.4,
+    0.0
+   ]
+  }
+ },
+ "pruefung": {
+  "je_10m_seite": true,
+  "toleranz": 0.0,
+  "kontakt_min": 0.6,
+  "eingraben_min_anteil": 0.5,
+  "bedeckung_raster_m": 0.1,
+  "gras_ueber_wasser": 0,
+  "moos_unter_1m": 0,
+  "farn_toleranz": 1
+ },
+ "netze_reserve": {
+  "K1_kies": [
+   "SM_stone_01",
+   "SM_stone_02",
+   "SM_stone_03",
+   "SM_stone_07",
+   "SM_stone_11",
+   "SM_stone_12",
+   "SM_namaqualand_stones_01_a_NN",
+   "SM_namaqualand_stones_01_b_NN",
+   "SM_namaqualand_stones_01_c_NN",
+   "SM_namaqualand_stones_01_d_NN",
+   "SM_namaqualand_stones_01_e_NN"
+  ],
+  "K2_schutt": [
+   "SM_stone_04",
+   "SM_stone_05",
+   "SM_stone_06",
+   "SM_stone_08",
+   "SM_stone_09",
+   "SM_stone_10",
+   "SM_namaqualand_rocks_01_a_NN",
+   "SM_namaqualand_rocks_01_b_NN",
+   "SM_namaqualand_rocks_01_c_NN",
+   "SM_namaqualand_rocks_01_d_NN",
+   "SM_SmallStonesPack_01",
+   "SM_SmallStonesPack_06",
+   "SM_SmallStonesPack_13"
+  ],
+  "K3_kantig": [
+   "xjijbgx_tier_0",
+   "wjxqcct_tier_0",
+   "wgosajs_tier_0",
+   "pjEr1_tier_0",
+   "pjtsT_tier_0",
+   "pkeeM_tier_0",
+   "skjsL_tier_0",
+   "SM_stones_01_2",
+   "SM_stones_01_6",
+   "SM_MossyForestRock_02",
+   "SM_ground_rock_02",
+   "SM_LichenedForestBoulder_01"
+  ],
+  "K3_plattig": [
+   "texndcpda_tier_0",
+   "pjcxN_tier_0",
+   "rkdau_tier_0",
+   "SM_MossyForestRock_03",
+   "SM_stones_01_3",
+   "SM_namaqualand_boulders_01_a_NN",
+   "SM_namaqualand_boulders_01_b_NN"
+  ],
+  "K3_gerundet": [
+   "SM_mountain_rock_small_01_1",
+   "SM_mountain_rock_small_01_2",
+   "SM_mountain_rock_small_01_4",
+   "SM_MossyForestRock_01"
+  ],
+  "K4_block": [
+   "pkeeM_tier_0",
+   "skjsL_tier_0",
+   "wgosajs_tier_0",
+   "xjijbgx_tier_0",
+   "SM_MossyForestBoulder_01",
+   "SM_MossyForestBoulder_06",
+   "SM_MossyForestBoulder_07",
+   "SM_mountain_rock_big_01_1",
+   "SM_mountain_rock_big_01_5"
+  ],
+  "haufen_kern": [
+   "xisgcic_tier_0",
+   "xf3odif_tier_0",
+   "xfplcbf_tier_0",
+   "xjijdiz_tier_0"
+  ],
+  "platte_boden": [
+   "SM_TundraRockyGround_01",
+   "SM_NordicBeachRockyGround_01",
+   "SM_NordicBeachRockyGround_02",
+   "venodhb_tier_0",
+   "SM_ErodedRockyGround_01"
+  ],
+  "wand": [
+   "SM_ForestRockFormation_01",
+   "SM_ForestRockFormation_02",
+   "SM_ForestRockFormation_03",
+   "SM_ForestRockFormation_04",
+   "SM_ForestRockSlab_01"
+  ],
+  "K5_fels": [
+   "SM_ForestRockFormation_05",
+   "SM_ForestRockFormation_06"
+  ],
+  "gras_ritze": [
+   "SM_wk2oaeyqx_VarA",
+   "SM_wk2oaeyqx_VarD",
+   "SM_wk2oaeyqx_VarE",
+   "SM_wk2oaeyqx_VarH",
+   "SM_wk2oaeyqx_VarI",
+   "SM_grass_bush_01",
+   "SM_grass_bush_04"
+  ],
+  "gras_trocken": [
+   "SM_dead_grass_03"
+  ],
+  "farn": [
+   "SM_SilverLadyFern_01",
+   "SM_SilverLadyFern_02",
+   "SM_SilverLadyFern_03",
+   "SM_EagleFern_S_01",
+   "SM_EagleFern_S_02",
+   "SM_EagleFern_S_04"
+  ],
+  "moos_boden": [
+   "SM_moss_01",
+   "SM_moss_02",
+   "SM_CustomMoss_01",
+   "SM_CustomMoss_03",
+   "SM_CustomMoss_05"
+  ],
+  "busch": [
+   "SM_grey_willow_01",
+   "SM_grey_willow_02",
+   "SM_dwarf_pine_small_01",
+   "SM_dwarf_pine_small_03"
+  ],
+  "gehoelz": [
+   "SM_Forest_pine_tree_00_B",
+   "SM_Forest_pine_tree_00_C",
+   "SM_Forest_pine_tree_00_D",
+   "Big_Tree_Birch_01"
+  ]
+ }
+}
