@@ -214,7 +214,7 @@ Wenn ihr den Kopf so verschiebt, bitte die neuen Kopfpunkte melden. Sie stehen d
 
 ## 5. Was lokal zu tun ist
 
-Commit **`@@HASH@@`** holen.
+Commit **`5fdba07`** holen.
 
 1. `Ufer_Staerke` Bach 0; BaseColor an t500 messen (Ziel Y ≤ 0,15 unter Wasser).
 2. Lagen unter dem Spiegel über `s38 lagen`, dann SRV-Prüflauf; Teile über 64 nach 2.3 zusammenlegen.
