@@ -3251,6 +3251,10 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
         if tid in anschluesse:
             kp = kopf_kuerzen(linie, anschluesse[tid], her)
             if kp:
+                kp, linie_neu = kp
+                if linie_neu is not linie:                 # 16h Nachtrag 4: lokaler Kopf (Ferats Kopfpunkte)
+                    linie = linie_neu
+                    extra["becken"] = becken_aus([], linie)
                 extra["kopf"] = kp
         teile.append(Teil(tid, art, her, g, linie, abst, extra, familie=fam, netz=netz, feld=feld, anschluss=ans))
     teil_ort = {t.id: t for t in teile}
@@ -3445,12 +3449,40 @@ def ersatz_anschluesse():
 
 
 def kopf_kuerzen(linie, m, herkunft):
-    """Erster Punkt der Linie mit Spiegel <= Ersatz-Spiegel + toleranz (linear zwischen Splinepunkten). Rueckgabe dict
-    {s_m, spiegel_cm, kopf_spiegel_cm, ersatz, ziel_lauf} oder None (Lauf mit Plan: nicht kuerzen, Stufen gehoeren dem Plan)."""
+    """Kopf des Ziel-Laufs (nur ohne Gefaelle-Plan) bis zum Ersatz-Spiegel kuerzen. Rueckgabe (kopf, linie) oder None.
+    - Mit m['lokaler_kopf'] (16h Nachtrag 4, Ferats lokaler Stand): Die Linie beginnt am ersten Kopfpunkt; die Kopfpunkte
+      (s, Spiegel, Breite) ersetzen alle Weltpunkte bis zum letzten Kopfpunkt (x/y auf der Weltlinie interpoliert), danach
+      optional die Breiten der Folgepunkte (folge_breite).
+    - Sonst (16h Nachtrag 3): erster Punkt mit Spiegel <= Ersatz-Spiegel + toleranz (linear); die Linie bleibt, zusammenfuegen
+      beginnt dort."""
     if herkunft != "roh":
         return None
     grenze = float(m["p2_spiegel_m"]) * 100.0 + float(m.get("toleranz_cm", 2.0))
     z, s_ = linie.z, linie.s
+    lk = m.get("lokaler_kopf")
+    if lk:
+        ks = np.asarray(lk["s_m"], float)
+        kz = np.asarray(lk["spiegel_m"], float) * 100.0
+        kb = np.asarray(lk["breite_m"], float) * 100.0
+        rest = s_ > ks[-1] + 1e-6
+        S = np.concatenate([ks, s_[rest]])
+        X = np.concatenate([np.interp(ks, s_, linie.x), linie.x[rest]])
+        Y = np.concatenate([np.interp(ks, s_, linie.y), linie.y[rest]])
+        Z = np.concatenate([kz, np.minimum(z[rest], kz[-1])])
+        B = np.concatenate([kb, linie.b[rest]])
+        fb = lk.get("folge_breite") or {}
+        for sf, bf in zip(fb.get("s_m") or [], fb.get("breite_m") or []):
+            j = np.flatnonzero(np.abs(S - float(sf)) <= 0.5)
+            if len(j):
+                B[j[0]] = float(bf) * 100.0
+        T = np.concatenate([np.interp(ks, s_, linie.t), linie.t[rest]])
+        V = np.concatenate([np.interp(ks, s_, linie.v), linie.v[rest]])
+        K = ["roh"] * len(ks) + [linie.knick[i] for i in np.flatnonzero(rest)]
+        neu = Linie(S, X, Y, Z, B, T, V, K)
+        return ({"s_m": r1(float(ks[0]), 2), "spiegel_cm": r1(grenze), "kopf_spiegel_cm": r1(z[0]), "ersatz": m["ersatz"],
+                 "ziel_lauf": m["ziel_lauf"], "lokaler_kopf": True, "kopfpunkte": len(ks),
+                 "regel": "16h Nachtrag 4: Ferats lokaler Kopf (Punkte 0-%d) ersetzt den Rest des ersetzten Laufs" % (len(ks) - 1)},
+                neu)
     if z[0] <= grenze:
         return None
     k = int(np.argmax(z <= grenze)) if (z <= grenze).any() else None
@@ -3458,8 +3490,9 @@ def kopf_kuerzen(linie, m, herkunft):
         return None
     t = (z[k - 1] - grenze) / max(z[k - 1] - z[k], 1e-9)
     sc = float(s_[k - 1] + t * (s_[k] - s_[k - 1]))
-    return {"s_m": r1(sc, 2), "spiegel_cm": r1(grenze), "kopf_spiegel_cm": r1(z[0]), "ersatz": m["ersatz"],
-            "ziel_lauf": m["ziel_lauf"], "regel": "16h Nachtrag 3: Kopf = Rest des ersetzten Laufs, Anschluss bei passendem Spiegel"}
+    return ({"s_m": r1(sc, 2), "spiegel_cm": r1(grenze), "kopf_spiegel_cm": r1(z[0]), "ersatz": m["ersatz"],
+             "ziel_lauf": m["ziel_lauf"], "regel": "16h Nachtrag 3: Kopf = Rest des ersetzten Laufs, Anschluss bei passendem Spiegel"},
+            linie)
 
 
 def ersetzt_nachbar(L, i, linien, G):

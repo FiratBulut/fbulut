@@ -174,6 +174,11 @@ Läufe N1–N7, F1 und F2 an C2 (Zone 4096).
 - **Prüfer:** FEHLER, wenn ein Gewässer am Ziel-Lauf über dem Ersatz-Spiegel beginnt oder der Schnitt nicht zum Lauf passt;
   sonst HINWEIS.
 
+**Ergänzung 16h Nachtrag 4:** `muendung_anschluss.lokaler_kopf` (s, Spiegel, Breite je Kopfpunkt, optional `folge_breite`)
+übernimmt Ferats lokalen C3-Kopf: Die Linie des Ziel-Laufs beginnt am ersten Kopfpunkt (s 24 m), die Kopfpunkte ersetzen die
+Weltpunkte bis s 38 m. p2-Spiegel jetzt 36,80 m. Antwort
+[`../../16h-nachtrag4-v18-muendung.md`](../../16h-nachtrag4-v18-muendung.md).
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 

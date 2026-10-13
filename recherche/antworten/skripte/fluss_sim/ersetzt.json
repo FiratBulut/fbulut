@@ -12,7 +12,7 @@
     "format": "laeufe: {Lauf-ID: {ersetzt_durch, art, feld, grund}}; ersatz: {ID: Beschreibung des neuen Laufs}"
   },
   "version": 1,
-  "stand": "2026-10-13 (Auftrag 16h; Nachtrag 2: muendung_anschluss)",
+  "stand": "2026-10-13 (Auftrag 16h; Nachtrag 4: lokaler Kopf des C3-Laufs)",
   "ersatz": {
     "ERLENBACH_P2": {
       "name": "Erlenbach p2",
@@ -45,11 +45,11 @@
       "planer": "Unsere Plaene fuer C2 ruhen: kein Gefaelle-Plan, keine Roh-Ebene, kein fluss_sim-Teil. Bisher war C2 unser Pilot Rang 1 (F_ERLENBACH_1V_C2_s1, A15/16c); dieser Stand ist abgeloest. Fuer p2 gelten nur noch Regel-Dateien, die Ferats Werkzeug lesen kann (antworten/bachbett_ufer_regeln.json).",
       "quelle_auftrag": "recherche/auftraege/16h-erlenbach-p2-talkaskade-ufer-wasser.md",
       "muendung_anschluss": {
-        "status": "Umgesetzt 16h Nachtrag 3 (fluss_sim_export: ersatz_anschluesse/kopf_kuerzen; Pruefer prueft den Anfangsspiegel). Nur fuer Ziel-Laeufe ohne Gefaelle-Plan (roh).",
+        "status": "Umgesetzt 16h Nachtrag 3/4 (fluss_sim_export: ersatz_anschluesse/kopf_kuerzen mit lokalem Kopf; Pruefer prueft den Anfangsspiegel). Nur fuer Ziel-Laeufe ohne Gefaelle-Plan (roh).",
         "ziel_lauf": "F_ERLENBACH_2_C3",
         "p2_s_m": 748,
-        "p2_spiegel_m": 36.86,
-        "p2_spiegel_bei_s_m": 740,
+        "p2_spiegel_m": 36.8,
+        "p2_spiegel_bei_s_m": "736-788 (16h Nachtrag 4: p2-Bett ab s 736 weitergegraben, Spiegel 36,86 -> 36,80 m)",
         "ziel_kopf_spiegel_m": [
           37.78,
           37.42,
@@ -67,7 +67,40 @@
         "pruefen_lokal": "Gelaende unter dem C3-Kopf (s 0-34 m) <= 36,56 m (Spiegel - 0,3 m)? Projektion der p2-Muendung (s 748/760) auf F_ERLENBACH_2_C3?",
         "toleranz_cm": 2.0,
         "aktiv": true,
-        "befund_bild": "16h Nachtrag 3, bilder/swr_p2/muendung.jpg: C3 ist an der Muendung nur ein Tuempel in einem breiten Schotterbett; keine Glaswand"
+        "befund_bild": "16h Nachtrag 3, bilder/swr_p2/muendung.jpg: C3 ist an der Muendung nur ein Tuempel in einem breiten Schotterbett; keine Glaswand",
+        "lokaler_kopf": {
+          "stand": "16h Nachtrag 4 (13.10., Ferat): lokaler C3-Kopf, Punkte 0-2 nach s (dist) 24/31/38 m verschoben",
+          "s_m": [
+            24.0,
+            31.0,
+            38.0
+          ],
+          "spiegel_m": [
+            36.8,
+            36.72,
+            36.64
+          ],
+          "breite_m": [
+            7.0,
+            11.0,
+            14.0
+          ],
+          "folge_breite": {
+            "s_m": [
+              44.5,
+              59.4,
+              74.2,
+              89.0
+            ],
+            "breite_m": [
+              17.0,
+              22.0,
+              26.0,
+              25.0
+            ],
+            "annahme": "Ferats Punkte 3-6 (Breiten 17/22/26/25 m) sind die Weltpunkte ab s 44,5 m (dort heute 28/26/26/25 m; die Punkte 5 und 6 stimmen ueberein)"
+          }
+        }
       }
     }
   },

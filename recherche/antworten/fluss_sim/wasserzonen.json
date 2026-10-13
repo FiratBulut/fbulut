@@ -19,24 +19,23 @@
    "2048x2048": 3,
    "2048x4096": 5,
    "256x256": 1,
-   "256x512": 1,
    "4096x1024": 1,
    "4096x2048": 6,
    "4096x4096": 3,
    "4096x512": 1,
-   "512x1024": 1,
+   "512x1024": 2,
    "512x2048": 1,
    "512x256": 1,
    "512x4096": 2,
    "512x512": 2
   },
   "speicher_mb": {
-   "rgba16f": 1378.5,
-   "rgba32f": 2757.0
+   "rgba16f": 1381.5,
+   "rgba32f": 2763.0
   },
   "speicher_mb_fein": {
-   "rgba16f": 1250.5,
-   "rgba32f": 2501.0
+   "rgba16f": 1253.5,
+   "rgba32f": 2507.0
   },
   "pixel_welt_m": 2.3381,
   "half_precision": {
@@ -44,8 +43,8 @@
    "ok": 23,
    "aus": 12,
    "aus_zonen": ["WZ_WELT","WZ_F01","WZ_F02","WZ_F04","WZ_F05","WZ_F06","WZ_F10","WZ_F12","WZ_F17","WZ_F19","WZ_F21","WZ_F22"],
-   "speicher_mb_empfohlen": 1962.5,
-   "speicher_mb_empfohlen_fein": 1706.5
+   "speicher_mb_empfohlen": 1965.5,
+   "speicher_mb_empfohlen_fein": 1709.5
   }
  },
  "zonen": [
@@ -212,19 +211,19 @@
   {
    "id": "WZ_F08",
    "art": "fein",
-   "rechteck_cm": [-174637.5,-205239.7,-149418.1,-145015.4],
-   "zentrum_cm": [-162027.8,-175127.5],
-   "ausdehnung_m": [252.2,602.2],
-   "aufloesung": [256,512],
-   "pixel_m": 1.1763,
-   "pixel_max_m": 1.3032,
-   "schmalstes": {"gewaesser":"F_ERLENBACH","breite_m":13.64},
+   "rechteck_cm": [-173879.0,-204835.4,-149418.1,-145015.4],
+   "zentrum_cm": [-161648.5,-174925.4],
+   "ausdehnung_m": [244.6,598.2],
+   "aufloesung": [512,1024],
+   "pixel_m": 0.5842,
+   "pixel_max_m": 0.75,
+   "schmalstes": {"gewaesser":"F_ERLENBACH","breite_m":7.0},
    "ueber_max": false,
    "overlap_priority": 10,
-   "speicher_mb": {"rgba16f":1.0,"rgba32f":2.0},
+   "speicher_mb": {"rgba16f":4.0,"rgba32f":8.0},
    "gewaesser": ["F_ERLENBACH"],
    "swr_bereiche": ["F_ERLENBACH"],
-   "hoehe_m": {"spiegel_max":36.88,"boden_min":1.15,"spanne":35.73},
+   "hoehe_m": {"spiegel_max":36.8,"boden_min":1.15,"spanne":35.65},
    "half_float_stufe_cm": {"absolut":2.0,"relativ":1.74,"massgeblich":2.0},
    "half_precision_ok": true,
    "format_empfohlen": "rgba16f"
