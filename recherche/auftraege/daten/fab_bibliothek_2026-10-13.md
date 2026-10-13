@@ -1,0 +1,459 @@
+# Fab-Bibliothek von Ferat - ausgelesen 13.10.2026 22:50 (fab.com/library, 348 Eintraege)
+
+## Fuer Landschaft/Natur relevant (104, Stichwortfilter)
+
+- Nature Water FX
+- Ready Map Vol 2 - Bridge Environment / Nature
+- Basalt Columns and Rocks 21 Types - AssetKit PBR
+- Historic Medieval Church Ruin Wall Stone Rough 03
+- Military Trenches Ground Patch Rock S 04
+- Military Trenches Debris Patch Rock Corner
+- Military Trench Megascans Sample
+- Megaplants: Rowan Saplings
+- Military Trenches Ground Patch Rock S 03
+- Megaplants: Common Bulrush
+- Military Trenches Pile Sandbag Canvas 01
+- Megaplants: European Beech
+- Megaplants: Norway Maple Saplings
+- Megaplants: Bilberry
+- Megaplants: Stinging Nettle
+- Megaplants: Common Heather
+- Megaplants: European Beech Saplings
+- Megaplants: Japanese Medlar
+- Megaplants: Elder
+- Megaplants: English Oak
+- Megaplants: European Aspen
+- Megaplants: Wood Anemone
+- Megaplants: Silver Birch
+- Megaplants: Goat Willow
+- Megaplants: Giant Bamboo
+- Megaplants: Black Poplar
+- Megaplants: Norway Maple Forest
+- Megaplants: Beach Rose
+- Megaplants: Japanese Cypress
+- Megaplants: Common Hazel
+- Megaplants: Aleppo Pine
+- Megaplants: Yoshino Cherry
+- Megaplants: Norway Spruce
+- Megaplants: European Spindle
+- Megaplants: Dead Pine
+- Megaplants: Black Alder
+- Megaplants: European Hornbeam
+- Megaplants: Ginkgo
+- Megaplants: Baltic Pine
+- Megaplants: Greasewood
+- Swampy forest
+- Stone Hand
+- Winter Ground Pack
+- Meadow - Environment Set
+- Environment Set
+- Forest - Environment Set
+- Mountain - Environment Set
+- Coast & Dunes - Environment Set
+- Mountain Temple (Japanese Temple, Ancient Temple, Temple Shrine, Feudal Japan)
+- Lava & Volcano - Environment Set
+- Landscape Ground Pack
+- Graveyard and Nature Set
+- Nature Set
+- Ice World
+- Park Photo Scanned Assets
+- Bomb Crack_Ground_00 (Free)
+- KHS - Billemotdonggul Lava Tube Pack
+- Smugglers Cove Asset Pack
+- Namaqualand Environment and Asset Pack
+- Landscape Pro 2.0 Auto-Generated Material
+- rocks pack
+- Stylized Elemental Sword Pack - Fire, Void, Nature, Ice
+- Rocky Stone Path Scan
+- Uprooted fallen hornbeam tree
+- Rocks Pack
+- Beach cliff rock face
+- Campfire fire pit hole ash with stones
+- Cut branches and leaves heap
+- Stone Wall
+- Lycian cliff tombs, Dalyan
+- Old red wood tree stump
+- Forest pine tree needles ground soil - free
+- Pile of dirt
+- Leftover tree leaves
+- Large cut oak tree stump - free
+- Dirty stones pile
+- Forest pine boulder
+- Aspen grass stump
+- Old green stump
+- Druid wood pile
+- Realistic Mossy Rocky Grass PBR Material (2K/4K/8K)
+- 10 Premium Tree Bark PBR Materials
+- Rough Brick Ground Material
+- Slate stone pile
+- Old dry broken stump
+- Realistic Muddy Ground Texture with Pebbles and Grass - PBR Material
+- Stone fireplace
+- Forest ground soil pine - free
+- Grass dig hole
+- Mixed firewood branches
+- Medieval Stone Bridge - Nanite Game-Ready (Rothenburg Medieval City Series)
+- Mountain Surrounded Village Environment
+- medieval village stone archway
+- Paragon: Greystone
+- City Park Environment Collection
+- Valley of the Ancient
+- Electric Dreams Env
+- 12th Century Carved Stone Font, Crambe
+- Ancient Terrain
+- Free Mountain Terrain, Rock and Tree - 3d game assets
+- Free Hill Rock Mountain Terrain - 3d environment game asset
+- Landscape Mountains
+- Open World Demo Collection
+- Water Planes
+
+## Alle Eintraege
+
+- Rural Australia
+- Nature Water FX
+- Stylized Harvest Farm Environment
+- Ready Map Vol 2 - Bridge Environment / Nature
+- AdaptivePathfindingSystem: AI Navigation Plugin v2.06
+- Basalt Columns and Rocks 21 Types - AssetKit PBR
+- Free Niagara Particles (CC BY 4.0)
+- Historic Medieval Church Ruin Wall Stone Rough 03
+- SHADERSOURCE - River Buoyancy Tool
+- Military Trenches Ground Patch Rock S 04
+- Military Trenches Debris Patch Rock Corner
+- Military Trench Megascans Sample
+- Megaplants: Rowan Saplings
+- Military Trenches Ground Patch Rock S 03
+- Megaplants: Common Bulrush
+- Military Trenches Pile Sandbag Canvas 01
+- Megaplants: European Beech
+- Megaplants: Norway Maple Saplings
+- Megaplants: Bilberry
+- Megaplants: Stinging Nettle
+- Megaplants: Common Heather
+- Megaplants: European Beech Saplings
+- Megaplants: Japanese Medlar
+- Megaplants: Elder
+- Megaplants: English Oak
+- Megaplants: European Aspen
+- Megaplants: Wood Anemone
+- Megaplants: Silver Birch
+- Megaplants: Goat Willow
+- Megaplants: Giant Bamboo
+- Megaplants: Black Poplar
+- Megaplants: Norway Maple Forest
+- Megaplants: Beach Rose
+- Megaplants: Japanese Cypress
+- Megaplants: Common Hazel
+- Megaplants: Aleppo Pine
+- Megaplants: Yoshino Cherry
+- Megaplants: Norway Spruce
+- Megaplants: European Spindle
+- Megaplants: Dead Pine
+- Megaplants: Black Alder
+- Megaplants: European Hornbeam
+- Megaplants: Ginkgo
+- Megaplants: Baltic Pine
+- Megaplants: Greasewood
+- Palms Pack 01 (Trachycarpus fortunei)
+- Swampy forest
+- Paladin RPG Set
+- Global Search Pro
+- Asian Canal Environment
+- Stone Hand
+- Marketplace Set
+- Weapons
+- Gothic Texture Pack
+- Medieval Dinnerware Pack
+- Medieval Props Pack
+- Gothic Dungeon Props Vol1
+- Airport Set Vol1
+- Gothic Furniture Props Vol1
+- Stylized Foliage Pack V.01
+- Lighting Decor Set - V.01: Gothic
+- Egyptian Props Vol1
+- The Bazaar
+- Brooke Industrial Town
+- Cyber-Town Pack
+- Asian Temple Pack
+- THE LIGHTHOUSE
+- Decay: Oil Drums District - [Rusty Industrial Slum]
+- Apocalyptic Hospital
+- Medieval Village Megapack
+- Gothic Exterior Megapack
+- Feudal Japan Megapack
+- Gothic Interior Megapack
+- Stylized Village Fatpack
+- Bitpart Medieval Archetypes
+- DynamicDesert+SlideSystem
+- Modular Medieval Village (Village, Medieval Village, Medieval Town, Town, Villa)
+- Winter Ground Pack
+- Modular Ancient Ruins: Temple & Dungeon Builder (Ruins, Temple, Dungeon, Nanite)
+- Meadow - Environment Set
+- Environment Set
+- Forest - Environment Set
+- Mountain - Environment Set
+- Coast & Dunes - Environment Set
+- Mountain Temple (Japanese Temple, Ancient Temple, Temple Shrine, Feudal Japan)
+- Modular Town (Modular Town, Modular Village, Rural Town, Rural Village, Farm)
+- Modular Medieval Castle (Gothic Cathedral, Medieval Castle, Gothic Castle, Town)
+- Modular Medieval Town, Docks (Medieval Town, Medieval Village, Town, Village)
+- Medieval Kingdom (Medieval Castle, Medieval Town, Modular Castle, Castle)
+- Modular Castle & Dungeon (Medieval Castle, Castles, Dungeons, Dungeon, Castle)
+- Lava & Volcano - Environment Set
+- Modular Medieval Village (Village, Medieval Village, Bandit village, Town)
+- Landscape Ground Pack
+- Graveyard and Nature Set
+- Modular Haunted Village (Village, Modular Village, Fantasy Village)
+- Modular Haunted House (Modular House, Modular Building, Barn, Haunted House)
+- Nature Set
+- Ice World
+- Graveyard, Cemetery (Graveyard, Cemetery, Horror Cemetery, Horror Graveyard)
+- Park Photo Scanned Assets
+- Modular Medieval Town (Medieval Town, Medieval Village, Modular Town, Camp)
+- Wasteland Props - Free Pack
+- Paragon animations retargeted to Manny
+- Advanced Locomotion System Animations Targeted To Ue5 Mannequin Animations Only
+- Free Animation Pack
+- Omega Game Framework
+- Industrial Infrastructure
+- RPG - Crafting & Environment VFX
+- Sharurs Normandy Village + PCG Plants
+- [18] Free Spells Niagara
+- Free Arrow Trail
+- Free Magic Niagara
+- Easy Impact Frames
+- TransitionFX
+- AYON pipeline integration
+- Immortal Loot Drop VFX (Free Asset)
+- FootPrintsVFX
+- Realistic Fire & Explosion VFX Vol.1 - FREE Starter Pack
+- Bomb Crack_Ground_00 (Free)
+- Mixed VFX
+- Zap VFX
+- Talisman VFX
+- Tentacles VFX
+- Game VFX - Magic Circle(FREE)
+- KHS - Billemotdonggul Lava Tube Pack
+- Smugglers Cove Asset Pack
+- Namaqualand Environment and Asset Pack
+- Free Stylized Assassin
+- Advanced C++ Health, Shield & DBNO Component (AAA Multiplayer)
+- Thornblade Sword Fantasy Game Ready Weapon
+- Landscape Pro 2.0 Auto-Generated Material
+- rocks pack
+- Light and Dark Swords and Shields
+- Demonic Halberd
+- Inferno Rift Greatsword
+- Kraken
+- Monster 4
+- Free - Stylized Dark Sword
+- Dark Knight Longsword Game Ready Weapon
+- Voidfang Arcblade
+- Staff of Time
+- Medieval Decorative Tiles 3
+- Demon Bull - Free Sample Animated Low Poly Enemy Character
+- Stylized Elemental Sword Pack - Fire, Void, Nature, Ice
+- Chinese Ancient Guard
+- Rocky Stone Path Scan
+- Niagara Footstep VFX (Footstep VFX, Footstep Particles)
+- Dark Fantasy Weapon Pack
+- Calibur VGDC
+- 500 FREE Psion & Mindweaver Psychic, Mind & Telekinetic Ability Icons
+- FX Variety Pack
+- Free RPG VFX Sprite Sheet Starter Pack
+- Niagara Examples Pack
+- Advanced Stats with Runes System
+- Action RPG
+- Monkey_B3
+- Rievaulx Abbey
+- Bodiam Castle UK
+- Old Windmill [free, photogrammetry]
+- St Andrews Church South Huish
+- Saepinum Tammaro Gate ITALY
+- Saepinum Benevento Gate ITALY
+- Masked Knight
+- Lincolns Inn Chapel Undercroft
+- Sedilia, Byland Abbey, Yorks
+- Wakefield Tower Room
+- Westminster Abbey Pyx Chamber
+- Mosaic Material Pack
+- St Bartholomew The Great
+- Uprooted fallen hornbeam tree
+- Rocks Pack
+- Beach cliff rock face
+- Zatec Synagogue tower 2nd floor room
+- Campfire fire pit hole ash with stones
+- Cut branches and leaves heap
+- Stone Wall
+- Lycian cliff tombs, Dalyan
+- Old red wood tree stump
+- Brick arcs barn ruin
+- Forest pine tree needles ground soil - free
+- Pile of dirt
+- Leftover tree leaves
+- Dark castle wall
+- White spiral shell
+- Large cut oak tree stump - free
+- Dirty stones pile
+- Forest pine boulder
+- Warrior Queen - Rigged
+- Aspen grass stump
+- Old green stump
+- Druid wood pile
+- Realistic Mossy Rocky Grass PBR Material (2K/4K/8K)
+- 10 Premium Tree Bark PBR Materials
+- Pine Cone [Free]
+- Rough Brick Ground Material
+- Slate stone pile
+- Old dry broken stump
+- Realistic Muddy Ground Texture with Pebbles and Grass - PBR Material
+- Drakonit_monster
+- Stone fireplace
+- Forest ground soil pine - free
+- Grass dig hole
+- Mixed firewood branches
+- Free Fantasy Scythe Pack - 7 Game-Ready Dark RPG Weapons
+- Guillotine
+- Maridalen Ruins
+- Medieval Stone Bridge - Nanite Game-Ready (Rothenburg Medieval City Series)
+- Mountain Surrounded Village Environment
+- Medieval Hooded Cloak
+- Stylized Medieval Weapons Packet
+- ElderBoom Hollow Massive Medieval Village Environment
+- medieval village stone archway
+- Medieval Market/ Tent Prop_01
+- Corvus Reaper - Herald of the Plague - Free Version (Idle Animation)
+- TEUTHISAN Alien Predator (FREE)
+- FREE - Death Walker Metahuman
+- Horror 3D Mansion
+- Zombie Male AAB
+- Zombie monster rigged
+- Zombie
+- Reptilian monster
+- Zombie Crawl - Animated
+- Zombie Number 7 - Animated
+- Demon M6
+- Free Sample Dark Fantasy Gothic Environment Kitbash
+- Horror Decoration
+- Dungeon Environment / 135+ Assets
+- UCreate - Fractal Meshes Pack
+- ASC Teuthisan
+- Whisper
+- Horror Creature
+- echothanatopraxia
+- Warsaw Great Synagogue (1878-1943)
+- Greco-Roman Ornamental Sculpture
+- Archangel Michael bas-relief
+- Angel (silver version)
+- Corinthian Column
+- Crimson Knight Warrior - Free Version
+- Ancient Greek Temple
+- 2 Person Statue Scan MEDPOLY
+- Epic Fantasy Greatsword
+- Decorative Greebles - Free Download
+- Zeus
+- The Motherland Calls
+- Angel Wings (Low Poly)
+- Demon 2
+- Kentaur
+- Church Alters / Monument Pack
+- Hebe Fountain - Animated Courtyard Fountain
+- Paragon: Lt. Belica
+- Paragon: Kallari
+- Paragon: Aurora
+- Paragon: Kwang
+- Paragon: Crunch
+- Paragon: Terra
+- Paragon: GRIM.exe
+- Paragon: Yin
+- Paragon: Drongo
+- Paragon: Steel
+- Paragon: Greystone
+- Paragon: The Fey
+- Paragon: Zinx
+- Paragon: Wraith
+- Paragon: Morigesh
+- Paragon: Sparrow
+- Paragon: Gideon
+- M5 VFX Vol2. Fire and Flames(Niagara)
+- City Park Environment Collection
+- Epic Zen Garden
+- KUBIKOS - Cube World
+- Sci-Fi Creatures Research Lab
+- Hyper Attribute Manager v4
+- Particle Effects
+- Slay Animation Sample
+- ICVFX Production Test
+- City Sample Buildings
+- Soul: City
+- MetaHuman Plugin
+- MetaHumans
+- Valley of the Ancient
+- Content Examples
+- Game Animation Sample
+- Electric Dreams Env
+- Newtonian Falling and Momentum Damage System
+- Modular Japanese Architecture Pack
+- Project Titan
+- Quixel Suite 2.0 Texturing Insight (Fountain)
+- Ancient Constructions and Platforms
+- Dragon Temple (Temple, Cathedral, Temple Interior, Cathedral Interior, Dungeon)
+- Stylized Fantasy Creatures Bundle
+- RPG Footsteps System
+- Shield Demon
+- Pembroke Castle
+- Medieval wooden doors
+- Wall Fragment, St Marys Priory, Old Malton
+- Baroque princess statue
+- 12th Century Carved Stone Font, Crambe
+- Medieval Sculptural Fragment, Amotherby
+- Ancient Terrain
+- Castillo Santiago de la Torre CUENCA - SPAIN
+- PB Thunder Hammer Forge
+- PB Frontier Settlement
+- Wooden barrel
+- Free Mountain Terrain, Rock and Tree - 3d game assets
+- Soul: Cave
+- Blacksmith
+- Free Hill Rock Mountain Terrain - 3d environment game asset
+- StampIT! Collection - FREE Examples
+- 60 Finger Poses Hand animations Male & Female
+- Various Attitudes animations (Motion Cast - FREE01)
+- RamsterZ Free Anims Volume 1
+- Free Animations Pack
+- Golden Axe
+- Trashbaggius Balloonius- Free as Freedom
+- Paragon: Male Announcer
+- Paragon: Dekker
+- Paragon: Gadget
+- Paragon: Twinblast
+- Paragon: Muriel
+- Paragon: Howitzer
+- Paragon: Boris
+- Paragon: Murdock
+- Paragon: Riktor
+- Paragon: Revenant
+- Paragon: Iggy & Scorch
+- Paragon: Phase
+- Paragon: Sevarog
+- Paragon: Shinbi
+- Paragon: Grux
+- Paragon: Minions
+- Paragon: Countess
+- Paragon: Serath
+- Paragon: Wukong
+- Paragon: Khaimera
+- Paragon: Narbash
+- Paragon: Feng Mao
+- Paragon: Agora and Monolith Environment
+- Paragon: Rampage
+- Meerkat Demo
+- Landscape Mountains
+- Open World Demo Collection
+- Water Planes
+- Inventory UI with UMG
+- Strategy Game
+- Blueprints
+- Vehicle Game
+- Substance 3D for Unreal Engine
+- Subway Sequencer
