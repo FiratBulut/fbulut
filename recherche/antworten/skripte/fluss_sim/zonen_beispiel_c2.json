@@ -1,14 +1,16 @@
 {
-  "hinweis": "Beispiel fuer fluss_sim_pruefen.py --zonen (16g Nachtrag). Bekannt ist nur C2_Wasserzone: 1208 x 1208 m, render_target_resolution 1024 (Stand 16g) bzw. 4096 (Ferats Test). Die Lage ist angenommen: Mitte von Feld C2 (feld). Lokal bitte zentrum_cm oder rechteck_cm aus dem Editor eintragen (Zone -> Location, Zone Extent), dazu overlap_priority und, falls gesetzt, die Gewaesser mit WaterZoneOverride (gewaesser).",
+  "hinweis": "Beispiel fuer fluss_sim_pruefen.py --zonen (16g Nachtrag, Lage und Werte aus 16g Nachtrag 2, Ferat 13.10.2026): C2_Wasserzone, Location (-221 050; -254 850; 4 953) cm, Zone Extent 120 800 x 120 800 cm, render_target_resolution 4096, Half Precision aus (32 Bit), enable_local_only_tessellation aus. Der Erlenbach p2 (Ferats lokaler Lauf, WaterZoneOverride auf diese Zone) steht nicht im Export (ersetzt.json). Lokal alle Zonen eintragen: zentrum_cm oder rechteck_cm, ausdehnung_m, aufloesung, overlap_priority, half_precision und die Gewaesser mit WaterZoneOverride (gewaesser).",
   "felder": {
     "id": "Name der Zone",
     "ausdehnung_m": "Zone Extent in m: Zahl (quadratisch) oder [x, y]",
     "aufloesung": "render_target_resolution: Zahl oder [x, y]",
     "lage": "zentrum_cm [x, y] oder rechteck_cm [x0, y0, x1, y1] oder feld (Mitte des Felds)",
     "overlap_priority": "optional, Standard 0",
+    "half_precision": "optional (v11): true = Half Precision an (16 Bit); der Pruefer warnt, wenn die Hoehenstufe der Gewaesser der Zone ueber 4 cm liegt",
     "gewaesser": "optional: Gewaesser-IDs mit WaterZoneOverride auf diese Zone"
   },
   "zonen": [
-    {"id": "C2_Wasserzone", "feld": "C2", "ausdehnung_m": 1208, "aufloesung": 1024, "overlap_priority": 0}
+    {"id": "C2_Wasserzone", "zentrum_cm": [-221050, -254850], "ausdehnung_m": 1208, "aufloesung": 4096, "overlap_priority": 0,
+     "half_precision": false}
   ]
 }

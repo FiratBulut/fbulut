@@ -132,6 +132,39 @@ SWR-Werte, `sim_vorgaben`, `back_liste.json` und Fingerabdrücke bleiben gleich.
 - Planer (`gefaelle_daten.lade_strecken`/`alle_laeufe`, `gefaelle_plan.py`, `bachbett_roh.py` und beide Prüfer) lesen
   dieselbe Datei. Die Roh-Ebene spart die ersetzten Linien wie fremdes Wasser aus (dort fließt lokal der Ersatz).
 
+**Ergänzungen 16g Nachtrag 2** (Regeln Version 11, Format bleibt `fluss_sim_v3`; Antwort
+[`../../16g-nachtrag2-feinwerte-und-rueckfragen.md`](../../16g-nachtrag2-feinwerte-und-rueckfragen.md)). Grundlage: Ferats
+Läufe N1–N7, F1 und F2 an C2 (Zone 4096).
+- **SWR-Vorgaben** (`swr.sim_vorgaben`, auch in `back_liste.json`):
+  - `match_spline_height_amount` **0,3** (0,1 und 0,2 bleiben bei s 76 stehen; 0,3 = gemessene Schwelle). Testreihe 0,3 / 0,4.
+  - `remove_outside_spline_amount` **0** (F1: 50 nimmt 38 % des Überlaufs, macht das Bett aber 15 % flacher).
+  - **`band_zugabe_m` 2** (neu, F2): `RiverWidth` im Editor = Bett (`punkte[3]`, Plan-Bett) + 2 m. Der Export behält in
+    `punkte[3]` das Bett, weil Kollision, Filter und Tempo damit rechnen; das Bau-Werkzeug addiert die Zugabe.
+    Der Planer-Fingerabdruck (Splineteil) rechnet weiter mit `punkte[3]`; der Editor-Fingerabdruck mit der Editor-Breite.
+    Verglichen wird immer gleich mit gleich, und `band_zugabe_m` steht in `sim_vorgaben`, also löst eine Änderung Neu-Backen aus.
+  - `source_size_cm` = max(**300**, `RiverWidth` am ersten Punkt). 55 von 197 SWR ändern sich (vorher ab 70 cm).
+- **Regel Wasser-Info** (`swr.water_info`): Pixel ≤ **schmalstes Band (Bett + 2 m) / 12** (Ferats Vorschlag nach F2:
+  Band = Bett mit 6,8 Pixeln quer → Front s 59; Bett + 2 m mit 12–14 Pixeln → durch). Teiler 6 auf das Bett (v10) reicht
+  nicht. `water_info` je SWR-Bereich nennt zusätzlich `band_min_m`; `pixel_quer` zählt über das Band.
+- **Hindernis-Filter** (`swr.hindernis_filter`, Ferats N5):
+  - Lippen-, Rand- und Bettfelsen bekommen keine Wasser-Kollision (Rolle aus der Instanz-Ebene, `dateien.<netz>.rolle`).
+  - Dazu jedes Teil, das quer im Bett mehr als **40 %** der Bettbreite belegt.
+  - Je Meter Lauflänge zusammen höchstens **50 %** der Bettbreite (gierig, schmalste Teile zuerst).
+  - Ausgefilterte Teile bleiben Deko: Sie stehen in `ohne_wasser_kollision` mit `grund` `filter_rolle` / `filter_teil` /
+    `filter_meter` / `filter_anderes_gewaesser`. Jeder Eintrag hat `filter` (`rolle`, `quer_im_bett_m`, `bett_breite_m`,
+    `s_laengs_m`).
+  - 2-m-Lauf: 40 221 → **20 225** eindeutige Objekte mit Wasser-Kollision, WH-Instanzen 39 239 → 19 864, Akteure mit Tag
+    982 → 361. `zusammenfassung.json` → `hindernis_filter`.
+- **Fingerabdrücke:** Bei 194 von 197 SWR ändert sich der **Objektteil**. Gelände und Splines bleiben gleich, bei allen 197
+  ändern sich die `sim_vorgaben`. Alle SWR sind neu zu backen.
+- **`wasserzonen.json`** je Zone `hoehe_m`, `half_float_stufe_cm` (absolut / relativ / maßgeblich), `half_precision_ok`
+  (Stufe ≤ 4 cm) und `format_empfohlen`; Summe `half_precision` mit dem Speicher bei empfohlenem Format.
+- **Prüfer:** rechnet den Filter unabhängig nach (eigene Drehung der Netz-Bounds, eigene Meter-Rechnung). FEHLER bei Lippen-,
+  Rand- oder Bettfelsen mit Wasser-Kollision, bei einem Teil über 40 %, bei einem Meter über 50 %, bei falschem Grund und
+  bei einem ausgefilterten Teil mit Wasser-Kollision in einem anderen Gewässer. Dazu SWR-Vorgaben v11 und `source_size_cm`.
+  Mit `--zonen`: Zone mit `half_precision: true` und Höhenstufe über 4 cm = WARNUNG.
+- `zonen_beispiel_c2.json` hat jetzt Ferats echte C2-Werte (Zentrum, 1208 m, 4096, Half Precision aus).
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -143,9 +176,9 @@ Stufe, kein Becken, keine Lippe und kein Gelände (13f-Regel); der Prüfer vergl
 |---|---|
 | `fluss_sim_export.py` | Exporter: Läufe verketten, Mündungen, `fluss_sim.json` je Gewässer, `back_liste.json` (je SWR-Bereich), `zusammenfassung.json`; Referenz-Funktionen für den Fingerabdruck |
 | `fluss_sim_pruefen.py` | Prüfer (FEHLER/WARNUNG/HINWEIS), Exit-Code 1 bei FEHLER |
-| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure, SWR-Startwerte, Rand/Steil, Wasser-Info und Zonen), Version 10 |
+| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure, SWR-Startwerte, Rand/Steil, Wasser-Info und Zonen, Hindernis-Filter, Half Precision), Version 11 |
 | `ersetzt.json` | 16h: lokal ersetzte Welt-Läufe (C2 → Erlenbach p2); Planer, Export und Prüfer überspringen sie |
-| `zonen_beispiel_c2.json` | Beispiel für `--zonen` (bekannte Water Zones; C2 1208 m, 1024, Lage = Mitte von Feld C2 angenommen) |
+| `zonen_beispiel_c2.json` | Beispiel für `--zonen` (bekannte Water Zones; C2 nach Ferat: Zentrum (−221 050; −254 850) cm, 1208 m, 4096, Half Precision aus) |
 
 ## Aufruf
 
@@ -383,7 +416,7 @@ an Vorhang-Fällen); `vorhang_status` = „wartet“ (Ferat 16c).
 
 `lage`: `im_wasser` (Grundriss schneidet die Wasserfläche) oder `ufer`. Der Verweis `ref` ist eindeutig:
 `quelle` (Ebene `gefaelle/<lauf>/instanzen/<Feld>/plan.json` bzw. `sw_<biom>/<Feld>/plan.json`) + `datei` + `index`
-(Zeile in `<datei>.f32`) bzw. `liste: "akteure"` + `index`. Objekte anderer Ebenen (Bestand, Felsgruppen, Witcher)
+(Zeile in `<datei>.f32`) bzw. `liste: "akteure"` + `index`. **v11:** Danach wirkt der Hindernis-Filter (Ergänzungen 16g Nachtrag 2). Objekte anderer Ebenen (Bestand, Felsgruppen, Witcher)
 liegen in der Cloud nicht vor; lokal setzt das Bau-Werkzeug dieselbe Regel auf alle Ebenen im SWR-Bereich an.
 
 **Schaumobjekte** je Fall (Nachtrag Datei 16):
@@ -554,6 +587,11 @@ Gelände: Fingerabdruck mit gebautem Lauf, aber Welt ohne Stempel → FEHLER.
   (2 FEHLER), `WZ_F15` auf 2048² (19 FEHLER), `water_zone_vorschlag` von `F_ERLENBACH` auf `WZ_WELT` (1), `water_info`
   entfernt (1); `--zonen zonen_beispiel_c2.json` (C2 1024): 7 FEHLER, mit 4096: 0 FEHLER (je 2 WARNUNG: Bett ragt aus
   der angenommenen Lage der Zone).
+
+- **v11 (16g Nachtrag 2):** SWR-Vorgaben v11, `source_size_cm` ≥ 300, Hindernis-Filter nachgerechnet (siehe „Ergänzungen 16g
+  Nachtrag 2“), `--zonen` mit `half_precision`. Gegenproben (alle FEHLER, Exit 1): gefilterter Randfels zurück in
+  `wasser_kollision` (4 FEHLER), `quer_im_bett_m` auf 90 % der Breite (5), `filter_teil` als `filter_meter` (1),
+  Nachfüllrate 0,02 (2), `source_size_cm` 200 statt 300 (2); C2 mit `half_precision: true` → 1 WARNUNG (16 cm Stufe).
 
 ## Grenzen
 

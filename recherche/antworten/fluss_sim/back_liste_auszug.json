@@ -38,21 +38,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 400.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "13f4f1060d089cc973ad2fe93c99d4df2f67d2270c1466d9d49fe6c92ee0b699",
+   "fingerabdruck": "55ebc0eea7c8425d6f34a2a54c1e9409b43c008145b2087a9e53d139ae05dba0",
    "teile": {
     "gelaende": "328f6b6b344c4d74fd7903a409d48a3c837767c1c885d96b1a388e0b609fb679",
     "splines": "235f9b27339d055203b0da2262d8078c7f3c30645d32acf884598ca0afe61aa5",
-    "objekte": "3329458766105262f12590c21b68293157fb89d470a3bb25f9fbab27f77d648b"
+    "objekte": "3db8ee2be372ae52899418a27c5576a9ab9c08e12317848de3b067b651594495"
    },
    "n_hoehen": 48906,
-   "n_objekte": 374
+   "n_objekte": 198
   },
   {
    "swr_bereich": "F_ERLENBACH",
@@ -76,21 +77,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 3600.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "0b074c99759efc5134cc072e6f1d7b5ba54af94e95dcb5faf62c11cf1e7605b4",
+   "fingerabdruck": "d48d07dd22ff4b8e1b67c7170bf0e796c3e233b771d49354295a1633f30fbb1e",
    "teile": {
     "gelaende": "7db4d8963459ec398549a86314eb06dc1ca4c6cd0545a475ef6e92cb4230dae9",
     "splines": "aa6541994ab05ecb97a724e90377334962e79bf7f2cb6de48bd525b2bad28c38",
-    "objekte": "0645039f0f5d1747f2f98e1c74e29187a35fdff13d18f0a38547dc07b5ae0977"
+    "objekte": "69e11ce03b54623b43fe041a175ab56b59bab9b289c2b0c7eeb1bd7e1290632c"
    },
    "n_hoehen": 41762,
-   "n_objekte": 363
+   "n_objekte": 139
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T00",
@@ -114,21 +116,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 4700.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "0f5450d03545b09348b429b8a1cbce8553e6c2961fd93fd39abe025efd5d2d5b",
+   "fingerabdruck": "c417aaf1131a00a81f40cbd9b0c243361ccc1d35c4b253309bdd999b24f99fc1",
    "teile": {
     "gelaende": "1b048b3ca75aa6ed023e3ca7ae3f74580ddc9210a860b7c8705d5effd986403f",
     "splines": "3060e70b37253d8b3890c03594a4698a9effd3b8669efa05290b473cac32d175",
-    "objekte": "79c749712dd951636e9c4e408bfa944bcdddf289d6bc3774d253e22d1626ec72"
+    "objekte": "c26b6e853a0cfdaf8a9d1c95d570beef7ad6a0b5727d63cfcb9cb16ee721fa56"
    },
    "n_hoehen": 31815,
-   "n_objekte": 356
+   "n_objekte": 192
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T01",
@@ -152,21 +155,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 5800.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "ecdaa0286988e9b1434f1408cca378fde068dd8ce55a1e6db6770de8b5fbfb18",
+   "fingerabdruck": "8c40713a11fcc73b1955c96dce3f5746269857a09569db6ce0ee620f8e0086bb",
    "teile": {
     "gelaende": "2f5175825ac5e9acbfd28d1bce0839dc025746a72a02509426b503fec3fead61",
     "splines": "37b22f3cf4d0b65acfbee84434e760a37dbd3b3dd005d7b345136435dabb251c",
-    "objekte": "63b917316b4aa625700e31e1686c144d1dfe74f19556a8b22768cdd52658697f"
+    "objekte": "2dec17cf7462a82c15a905274740467440d228d667cbc80a7041eeb2884b8a5c"
    },
    "n_hoehen": 62370,
-   "n_objekte": 422
+   "n_objekte": 306
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T02",
@@ -190,21 +194,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 6500.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "8b1d7e3b1dc28895dfb883ca107c916b7a7a340cdd89798fbf7e2c6b99a11e2d",
+   "fingerabdruck": "9c3ba9cf0760ff09661a622d5a471ea6cc774a20f0a39821fc538037a138163f",
    "teile": {
     "gelaende": "37d813a546b3dfb19633af0077f665023e3eaac509f1bb98007ad15ec1f5235e",
     "splines": "d468c763389b38def4e64aa07606b3551a8141e86f2ceb1f2e5d80e45630baec",
-    "objekte": "a25a68a40d5db5bb79f430f37ba4cf0f6cd932d2f4915a39be6c06c83ea6b655"
+    "objekte": "43ff1648fdc30a7e99e3acde86c8e78eea45a675b8f90b1a47eaac878393c8f3"
    },
    "n_hoehen": 36966,
-   "n_objekte": 46
+   "n_objekte": 40
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T03",
@@ -228,21 +233,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 7861.6,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "6039770a0bda58c54e2258068d82eff818f69eb353a3deea1d6bc554644e3869",
+   "fingerabdruck": "5191178b10198e4c8114924dda23ca4a29bd90be71f8770daee27b0b448e0f19",
    "teile": {
     "gelaende": "6952619f41c0ea8b5699a78cb3b6a60d8d354bd2e73165d212049b6b3ac083c6",
     "splines": "284072d6b5bffadbac884a83494ff82943bfd9b5e8dd3404e1dbcfb1ced2983c",
-    "objekte": "fe6d31356e37fa99c9c85725fda0ace5824cdcdedef7b6541a0deaf86f6cfcd9"
+    "objekte": "0922e560e689ed4e10ecc628239dac533f08437e88e2ec636836827828090538"
    },
    "n_hoehen": 37595,
-   "n_objekte": 397
+   "n_objekte": 314
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T04",
@@ -266,21 +272,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 1408,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 5478.1,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "320bf70b98f4dd169a323c85b82c78a7913c5d6d4bbac70ae2a85bcc35cb831f",
+   "fingerabdruck": "436c7d39812fd16ca62753942c07d2b0ff6432b3974ec65545660d386b42db0d",
    "teile": {
     "gelaende": "4ea5e0447b09413e512ebb8988120617c415d17ed9072e84601a4db9019b066c",
     "splines": "f76e93514b5fb557a0ca1fa1d427b9e456846e5ac6bdb9851b92ed408d2931d8",
-    "objekte": "ee84d77b8c80ed6122f0a19607c88df60dc95762137be60cd00b52db0cfec082"
+    "objekte": "3d735140c264f6421b3c7bd8253f95595802eca4b693c1a000f4619a149c3c86"
    },
    "n_hoehen": 42757,
-   "n_objekte": 199
+   "n_objekte": 154
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T05",
@@ -304,21 +311,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
     "source_size_cm": 7488.3,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "ec6fed33711d24c302aed26fc14ded6067abdd24c5210c46ec4e152201e101f4",
+   "fingerabdruck": "6d3f4beb09f074aa8727df5be0b9e59610adbf33d08030cb33247048e17bb352",
    "teile": {
     "gelaende": "1257122dc4d6760c328da2f87fce02755f02ce501354c08cbe0fc9d6f0a67b73",
     "splines": "fe97c2c0a2ae192861e4bb3edd1fa1abadd8080715f51bf21bbef2bd21b48124",
-    "objekte": "d9f178c611562c8f573776d061f80376a9b42749a92081f4d1476c537584d7d7"
+    "objekte": "63bf536e821164c4b8e357f8ed6b6e6ac5959a3b8c68d1080537eb5bd7c2f9ae"
    },
    "n_hoehen": 47946,
-   "n_objekte": 480
+   "n_objekte": 301
   },
   {
    "swr_bereich": "SW_bergwald_06_karsee_abfluss",
@@ -342,21 +350,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 192,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
-    "source_size_cm": 280.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
+    "source_size_cm": 300.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "d17c4ecd8fa412a06644c3b588a5a4d1d498a1dc68c304b59e8dfcd19cd234c0",
+   "fingerabdruck": "d5e4fdf000763ce7739cac02e72c7dec8b3f97ad5c67caefae082c887fc88e88",
    "teile": {
     "gelaende": "87a99824aa65097d0d94b46c022666871af253659fe53dc23ea72f2441be73bf",
     "splines": "05ea44fafcc22cf9adb046769fe093c808596847c444f0d2ed1278a9dd4c23ea",
-    "objekte": "474529e03455eac325ea48708fc3c3ee079c6a1b1ca24f75b2e2b1be3c5c6fc7"
+    "objekte": "1b61d2ec192ee24fa1a559eff37237b95de903141f10eb43e9a9c6e6df2ac771"
    },
    "n_hoehen": 450,
-   "n_objekte": 39
+   "n_objekte": 30
   },
   {
    "swr_bereich": "SW_bergwald_06_karsee_zulauf_sued",
@@ -380,21 +389,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 96,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
-    "source_size_cm": 280.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
+    "source_size_cm": 300.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "151aa7c3ccfbff72911f7858787e0b039834d7f6f0a1cc942c656a1c0b01ec5d",
+   "fingerabdruck": "1de37126e08a8d2b9e230104a50932e5e61779cd8ac6362282d4ad033b92bc85",
    "teile": {
     "gelaende": "f7e86852bbd41de4376a8892900a11b887703e1a996ddc19e455e92122d66afc",
     "splines": "71c83fc0bff0ad4d54563d9c35222c8ce163c8e40d7c58e2b29da4b145031081",
-    "objekte": "c6d3656e362998580f3c68c75aa3725b63158e1b14b8239b50b95d084517f013"
+    "objekte": "7d52bec0106620e22e08ca8b57dc1bffa76d65abb122d86876d492cbabe36356"
    },
    "n_hoehen": 272,
-   "n_objekte": 62
+   "n_objekte": 39
   },
   {
    "swr_bereich": "SW_bergwald_06_karsee_zulauf_west",
@@ -418,21 +428,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 96,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
-    "source_size_cm": 280.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
+    "source_size_cm": 300.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "7012096f454217e583a475b0d8a0a0cf689e8c0ab2f2f14d374d45f9aafc6fc6",
+   "fingerabdruck": "55f3f1c6a19e83ffd271c3bbeddeee612cf9bdf6edc91bf32923677e346e0a54",
    "teile": {
     "gelaende": "611d1e3d22eba8570fe086ad12e7ad3340a97515e8924eb34f941d295485f885",
     "splines": "8d4f084930c24bfba2dcd33c16f7f2debcd8862d9a66d68ee53b4ae184014dfd",
-    "objekte": "3a4cd92ef123055d49ec76d7d21f4744386b8d39314aeca7fd6a8d30681026e1"
+    "objekte": "6dd30ee4ecbc2d9022b455265102e4302e92a791a68b683379aadb66697ff577"
    },
    "n_hoehen": 190,
-   "n_objekte": 38
+   "n_objekte": 22
   },
   {
    "swr_bereich": "SW_elfenwald_04_elfentreppe_zulauf",
@@ -456,21 +467,22 @@
    "sim_vorgaben": {
     "resolution_max_axis": 256,
     "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
-    "source_size_cm": 280.0,
+    "match_spline_height_amount": 0.3,
+    "remove_outside_spline_amount": 0.0,
+    "source_size_cm": 300.0,
     "sim_speed": 10,
     "num_steps": 10,
-    "use_capture": true
+    "use_capture": true,
+    "band_zugabe_m": 2.0
    },
-   "fingerabdruck": "1ed20967fe7a31afc5a23cf9d9333407b5de3ab6731b575d4d44278b40047320",
+   "fingerabdruck": "afb00c4d7c555a6e53ead34fb6a990a9781a5fbc55229b06fa45bd1adfe40614",
    "teile": {
     "gelaende": "d3ed923db8bc42f6fef1dd13f4ba168272f70065ab413ab687ef27bdf84185e6",
     "splines": "80ba4d88c70739cb0514c7a25870d774a9ad83440bd1ffe3291b6d2956f81d4a",
-    "objekte": "cd2e514fc44a44ac7b8ee4e62af0603cffe72062e0aaab38ce4ba14fd58e6440"
+    "objekte": "2b964ceefc615b06e5a6ad01bd14770c38a10b89c2a6daa071e1bf5098ce7af3"
    },
    "n_hoehen": 1292,
-   "n_objekte": 140
+   "n_objekte": 101
   }
  ],
  "hinweis": "Auszug: F_ERLENBACH (ab C3; C2 ersetzt durch Erlenbach p2, 16h), F_HAUPTFLUSS_3 (geteilt), B_R_P3_P0_04 (16e: ungeteilt mit 0,40 m), bergwald_06_karsee, elfenwald_04_elfentreppe (eine SWR mit 5 Toepfen); vollstaendig im Exportordner"

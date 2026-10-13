@@ -44,6 +44,12 @@ Geprueft (FEHLER, wenn nicht anders gesagt):
              --zonen DATEI (bekannte Water Zones, JSON): zustaendige Zone je Gewaesser (Override-Liste, sonst
              ueberlappend mit hoechster overlap_priority); Pixel > schmalste Breite / 6 = FEHLER, Bett ausserhalb der
              Zone = WARNUNG. Ohne --zonen nur die Empfehlung (HINWEIS).
+  v11        16g Nachtrag 2: Regel jetzt Pixel <= schmalstes Band (Bett + 2 m) / 12; SWR-Vorgaben 0,3 / Entfernen 0 /
+             band_zugabe_m 2 / source_size >= 300 cm; Hindernis-Filter nachgerechnet (Rolle aus der Instanz-Ebene, quer im
+             Bett und s-Bereich aus Netz-Bounds, Skala und Drehung, eigene gierige Meter-Rechnung): behaltene Teile ohne
+             Lippen-/Rand-/Bettfels, quer <= 40 %, je Meter <= 50 % der Bettbreite, Grund der ausgefilterten passt, ein
+             ausgefiltertes Teil hat nirgends Wasser-Kollision; mit --zonen und half_precision an einer Zone: Hoehenstufe
+             der 16-Bit-Wasser-Info > 4 cm = WARNUNG.
 """
 
 import argparse
@@ -547,16 +553,23 @@ def pruefe_swr(g, ss, P, regeln, b):
         # 16f Rueckfrage: SWR-Startwerte nach der Epic Parameter Reference
         SV = S.get("sim_vorgaben")
         if SV:
-            for f_ in ("match_spline", "match_spline_height_amount", "remove_outside_spline_amount", "sim_speed", "num_steps"):
+            for f_ in ("match_spline", "match_spline_height_amount", "remove_outside_spline_amount", "sim_speed", "num_steps") \
+                    + (("band_zugabe_m",) if "band_zugabe_m" in SV else ()):
                 if f_ not in sw or sw[f_] != SV[f_] or type(sw[f_]) is not type(SV[f_]):
                     b.append((FEHLER, e["id"], "%s %r != Vorgabe %r" % (f_, sw.get(f_), SV[f_])))
             if sw.get("num_steps", 0) < sw.get("sim_speed", 0):
                 b.append((FEHLER, e["id"], "num_steps %r < sim_speed %r (Substeps >= Speed)" % (sw.get("num_steps"), sw.get("sim_speed"))))
-            if not (0.0 <= SV["match_spline_height_amount"] <= max(SV["testreihe"]["match_spline_height_amount"]) + 1e-9):
-                b.append((FEHLER, e["id"], "match_spline_height_amount ausserhalb der Testreihe 0 ... 0,05"))
+            tr = SV["testreihe"]["match_spline_height_amount"]
+            if not (min(tr) - 1e-9 <= SV["match_spline_height_amount"] <= max(tr) + 1e-9):
+                b.append((FEHLER, e["id"], "match_spline_height_amount ausserhalb der Testreihe %s" % tr))
             qs = sw.get("source_size_cm")
             if SV["source_size"] == "breite_quelle" and (qs is None or abs(qs - P[i0][3]) > 0.051 or qs <= 0):
                 b.append((FEHLER, e["id"], "source_size_cm %r != RiverWidth am ersten Splinepunkt %.1f" % (qs, P[i0][3])))
+            # v11 (16g Nachtrag 2): mindestens source_size_min_cm (Ferats Endstand 300 cm), sonst Breite an der Quelle
+            soll_q = max(float(P[i0][3]), float(SV.get("source_size_min_cm", 0.0)))
+            if SV["source_size"] == "breite_quelle_min" and (qs is None or abs(qs - soll_q) > 0.051):
+                b.append((FEHLER, e["id"], "source_size_cm %r != max(%.0f, RiverWidth am ersten Punkt %.1f) = %.1f"
+                          % (qs, SV["source_size_min_cm"], P[i0][3], soll_q)))
         # 16g: Rand und Steilheit (Diagnose) neu gerechnet
         if "rand_steil" in S:
             soll_rs = fx.rand_steil(P, ss, i0, i1, e["s_sim_m"][0], e["s_sim_m"][1], k == 0, regeln)
@@ -789,9 +802,16 @@ def pruefe_kollision(g, pool, regeln, b):
     for key, o in ohne.items():
         if key in liste:
             b.append((FEHLER, g["id"], "Objekt in wasser_kollision UND ohne_wasser_kollision: %s" % key))
-        if o.get("wasser_kollision") or o.get("grund") != "ueberspannt" or o["lage"] != "im_wasser" \
+        if o.get("wasser_kollision"):
+            b.append((FEHLER, g["id"], "ohne_wasser_kollision mit wasser_kollision true: %s" % key))
+        if str(o.get("grund", "")).startswith("filter_"):
+            if o["grund"] not in FILTER_GRUENDE:
+                b.append((FEHLER, g["id"], "unbekannter Filter-Grund %r: %s" % (o["grund"], key)))
+            continue
+        if o.get("grund") != "ueberspannt" or o["lage"] != "im_wasser" \
                 or o.get("unterkante_ueber_spiegel_m", 0.0) <= ue_max - 0.005:
             b.append((FEHLER, g["id"], "ohne_wasser_kollision erfuellt die Regel 'ueberspannt' nicht: %s" % key))
+    pruefe_filter(g, liste, ohne, pool, regeln, b)
     if pool is None:
         return
     A, B = st
@@ -813,6 +833,159 @@ def pruefe_kollision(g, pool, regeln, b):
                 fehlt.append(key)
     if fehlt:
         b.append((FEHLER, g["id"], "%d Objekte im Wasser ohne wasser_kollision, z. B. %s" % (len(fehlt), fehlt[0])))
+
+
+FILTER_GRUENDE = ("filter_rolle", "filter_teil", "filter_meter", "filter_anderes_gewaesser")
+
+
+def _drehe(q, v):
+    """eigene Quaternion-Drehung (unabhaengig vom Exporter): q = (qx, qy, qz, qw), v (n, 3)."""
+    x, y, z, w = [float(c) for c in q]
+    n = math.sqrt(x * x + y * y + z * z + w * w) or 1.0
+    x, y, z, w = x / n, y / n, z / n, w / n
+    R = np.array([[1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w)],
+                  [2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w)],
+                  [2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y)]])
+    return v @ R.T
+
+
+def filter_mass_neu(pool, key, P, ss):
+    """v11: quer (im Bett), Bettbreite und s-Bereich eines Teils, eigene Rechnung aus Netz-Bounds, Skala und Drehung."""
+    Pp = pool["p"]
+    k = pool["ref_k"][key]
+    r = Pp.recs[k]
+    (bmin, bmax), _ = Pp.masse.bounds(r["pfad"])
+    v = np.asarray(r["v"], float)
+    ecken = np.array([[bmin[0] if i == 0 else bmax[0], bmin[1] if j == 0 else bmax[1], bmin[2] if l_ == 0 else bmax[2]]
+                      for i in (0, 1) for j in (0, 1) for l_ in (0, 1)]) * v[7:10]
+    E = _drehe(v[3:7], ecken) + v[:3]
+    cx, cy = 0.5 * (E[:, 0].min() + E[:, 0].max()), 0.5 * (E[:, 1].min() + E[:, 1].max())
+    best = None
+    for j in range(len(P) - 1):
+        ax, ay, bx, by = P[j, 0], P[j, 1], P[j + 1, 0], P[j + 1, 1]
+        dx, dy = bx - ax, by - ay
+        L2 = max(dx * dx + dy * dy, 1e-9)
+        t = min(1.0, max(0.0, ((cx - ax) * dx + (cy - ay) * dy) / L2))
+        d2 = (cx - ax - t * dx) ** 2 + (cy - ay - t * dy) ** 2
+        if best is None or d2 < best[0] - 1e-12:
+            best = (d2, j, t)
+    _, j, t = best
+    dx, dy = P[j + 1, 0] - P[j, 0], P[j + 1, 1] - P[j, 1]
+    L = math.hypot(dx, dy) or 1.0
+    tx, ty = dx / L, dy / L
+    qx, qy = P[j, 0] + t * dx, P[j, 1] + t * dy
+    u = (E[:, 0] - qx) * -ty + (E[:, 1] - qy) * tx
+    a = (E[:, 0] - qx) * tx + (E[:, 1] - qy) * ty
+    breite = (P[j, 3] + t * (P[j + 1, 3] - P[j, 3])) / 100.0
+    h = 50.0 * breite
+    quer = max(0.0, min(u.max(), h) - max(u.min(), -h)) / 100.0
+    s_m = ss[j] + t * (ss[j + 1] - ss[j])
+    return round(float(quer), 3), round(float(breite), 2), [round(float(s_m + a.min() / 100.0), 3),
+                                                             round(float(s_m + a.max() / 100.0), 3)]
+
+
+def filter_rolle_neu(rolle, F):
+    if rolle is None:
+        return "akteur"
+    kl = set()
+    for x in [x for x in str(rolle).split("/") if x]:
+        treffer = [n for n in ("lippe", "rand", "bett") if re.search(F["rollen"][n], x)]
+        kl.add(treffer[0] if treffer else "andere")
+    if not kl:
+        return "andere"
+    if "andere" not in kl:
+        return "+".join(sorted(kl))
+    return "unklar" if len(kl) > 1 else "andere"
+
+
+def pruefe_filter(g, liste, ohne, pool, regeln, b):
+    """v11 (16g Nachtrag 2): Hindernis-Filter nachgerechnet. Behaltene Teile: keine Lippen-/Rand-/Bettfelsen, quer <= 40 %
+    der Bettbreite, je Meter Summe <= 50 %; ausgefilterte Teile: Grund passt (eigene gierige Neurechnung)."""
+    F = regeln["swr"].get("hindernis_filter")
+    if not F:
+        return
+    alle_t = dict(liste)
+    alle_t.update({k_: o for k_, o in ohne.items() if str(o.get("grund", "")).startswith("filter_")})
+    P = np.asarray(g["water_body"]["spline"]["punkte"], float)
+    ss = np.asarray(g["water_body"]["spline"]["punkte_s_m"], float)
+    werte = {}
+    for key, o in alle_t.items():
+        fi = o.get("filter")
+        if not fi:
+            b.append((FEHLER, g["id"], "Objekt ohne Feld filter (v11): %s" % key))
+            continue
+        if pool is not None and key in pool["refs"]:
+            q, br, sr = filter_mass_neu(pool, key, P, ss)
+            rl = filter_rolle_neu(pool["p"].recs[pool["ref_k"][key]].get("rolle"), F)
+            if abs(q - fi["quer_im_bett_m"]) > 0.0021 or abs(br - fi["bett_breite_m"]) > 0.011 \
+                    or abs(sr[0] - fi["s_laengs_m"][0]) > 0.011 or abs(sr[1] - fi["s_laengs_m"][1]) > 0.011:
+                b.append((FEHLER, g["id"], "filter-Masse %s, neu gerechnet quer %.3f, Breite %.2f, s %s: %s"
+                          % (fi, q, br, sr, key)))
+            if rl != fi["rolle"]:
+                b.append((FEHLER, g["id"], "filter.rolle %r, neu %r: %s" % (fi["rolle"], rl, key)))
+        werte[key] = fi
+    # Entscheidung neu (gierig, schmalste zuerst), dann gegen die Eintraege
+    soll = {}
+    kand = []
+    for key, fi in werte.items():
+        if fi["rolle"] not in ("akteur", "andere", "unklar"):
+            soll[key] = "filter_rolle"
+        elif fi["quer_im_bett_m"] > F["teil_max_anteil"] * fi["bett_breite_m"] + 1e-9:
+            soll[key] = "filter_teil"
+        elif fi["quer_im_bett_m"] <= 0.0:
+            soll[key] = "behalten"
+        else:
+            kand.append((fi["quer_im_bett_m"], key, fi))
+    mm = float(F["meter_m"])
+    s0, s1 = float(ss[0]), float(ss[-1])
+    br_pkt = P[:, 3] / 100.0
+    summe = {}
+    for q, key, fi in sorted(kand):
+        b0 = int(math.floor(max(s0, fi["s_laengs_m"][0]) / mm))
+        b1 = max(b0, int(math.floor(min(s1, fi["s_laengs_m"][1]) / mm)))
+        grenze = {bi: F["meter_max_anteil"] * round(float(np.interp(min(max((bi + 0.5) * mm, s0), s1), ss, br_pkt)), 2)
+                  for bi in range(b0, b1 + 1)}
+        if all(summe.get(bi, 0.0) + q <= grenze[bi] + 1e-9 for bi in grenze):
+            for bi in grenze:
+                summe[bi] = summe.get(bi, 0.0) + q
+            soll[key] = "behalten"
+        else:
+            soll[key] = "filter_meter"
+    n_f = 0
+    for key, s_ in soll.items():
+        ist = "behalten" if key in liste else ohne[key]["grund"]
+        if ist == "filter_anderes_gewaesser":
+            if s_ != "behalten":
+                n_f += 1
+                b.append((FEHLER, g["id"], "filter_anderes_gewaesser, hier aber %s: %s" % (s_, key)))
+            continue
+        if ist != s_:
+            n_f += 1
+            if n_f <= 5:
+                b.append((FEHLER, g["id"], "Hindernis-Filter: %s, neu gerechnet %s: %s" % (ist, s_, key)))
+    if n_f > 5:
+        b.append((FEHLER, g["id"], "Hindernis-Filter: %d Abweichungen insgesamt" % n_f))
+    # behaltene Teile halten die Regel (unabhaengig von der Reihenfolge)
+    meter = {}
+    for key in liste:
+        fi = werte.get(key)
+        if not fi:
+            continue
+        if fi["rolle"] not in ("akteur", "andere", "unklar"):
+            b.append((FEHLER, g["id"], "Lippen-/Rand-/Bettfels (%s) mit Wasser-Kollision: %s" % (fi["rolle"], key)))
+        if fi["quer_im_bett_m"] > F["teil_max_anteil"] * fi["bett_breite_m"] + 1e-9:
+            b.append((FEHLER, g["id"], "Teil quer %.2f m > %.0f %% der Bettbreite %.2f m: %s"
+                      % (fi["quer_im_bett_m"], 100 * F["teil_max_anteil"], fi["bett_breite_m"], key)))
+        if fi["quer_im_bett_m"] > 0.0:
+            b0 = int(math.floor(max(s0, fi["s_laengs_m"][0]) / mm))
+            b1 = max(b0, int(math.floor(min(s1, fi["s_laengs_m"][1]) / mm)))
+            for bi in range(b0, b1 + 1):
+                meter[bi] = meter.get(bi, 0.0) + fi["quer_im_bett_m"]
+    for bi, sm in sorted(meter.items()):
+        w = round(float(np.interp(min(max((bi + 0.5) * mm, s0), s1), ss, br_pkt)), 2)
+        if sm > F["meter_max_anteil"] * w + 1e-6:
+            b.append((FEHLER, g["id"], "Meter s %d-%d: behaltene Teile quer %.2f m > %.0f %% von %.2f m"
+                      % (bi * mm, (bi + 1) * mm, sm, 100 * F["meter_max_anteil"], w)))
 
 
 def pruefe_schaum(g, b):
@@ -906,8 +1079,8 @@ def pruefe_water_info_global(alle, alle_swr, regeln, aus, zonen_pfad, b):
             if not wi:
                 continue
             if z["pixel_m"] > wi["pixel_max_m"] + tol:
-                b.append((FEHLER, e["id"], "Zonenvorschlag %s: Pixel %.3f m > schmalste Breite %.2f m / %g = %.3f m"
-                          % (zid, z["pixel_m"], wi["breite_min_m"], W["breite_teiler"], wi["pixel_max_m"])))
+                b.append((FEHLER, e["id"], "Zonenvorschlag %s: Pixel %.3f m > schmalstes Band %.2f m / %g = %.3f m"
+                          % (zid, z["pixel_m"], wi.get("band_min_m", wi["breite_min_m"]), W["breite_teiler"], wi["pixel_max_m"])))
             q = e["rechteck_cm"]
             if not (r[0] <= q[0] + 0.5 and r[1] <= q[1] + 0.5 and r[2] >= q[2] - 0.5 and r[3] >= q[3] - 0.5):
                 b.append((FEHLER, e["id"], "Bett liegt nicht ganz in der vorgeschlagenen Zone %s" % zid))
@@ -917,9 +1090,9 @@ def pruefe_water_info_global(alle, alle_swr, regeln, aus, zonen_pfad, b):
         enge = min(wi_all, key=lambda w: w["breite_min_m"])
         zb = W["zone_bekannt_m"]
         n_unter = sum(1 for w in wi_all if w["zone_max_m"][str(W["aufloesung_max"])] < zb - 1e-9)
-        b.append((HINWEIS, "Water-Info (16g)", "Regel Pixel <= Breite/%g: schmalste Breite %.2f m -> Pixel <= %.3f m (Zone <= %.0f m bei %d); "
+        b.append((HINWEIS, "Water-Info (16g)", "Regel Pixel <= Band/%g: schmalstes Band %.2f m -> Pixel <= %.3f m (Zone <= %.0f m bei %d); "
                   "%d von %d SWR-Bereichen brauchen bei %d Pixeln eine Zone < %.0f m; in einer %.0f-m-Zone braucht es %s"
-                  % (W["breite_teiler"], enge["breite_min_m"], enge["pixel_max_m"], enge["zone_max_m"][str(W["aufloesung_max"])],
+                  % (W["breite_teiler"], enge.get("band_min_m", enge["breite_min_m"]), enge["pixel_max_m"], enge["zone_max_m"][str(W["aufloesung_max"])],
                      W["aufloesung_max"], n_unter, len(wi_all), W["aufloesung_max"], zb, zb,
                      ", ".join("%s x %d" % (k_, n_) for k_, n_ in sorted(
                          {str(w["zone_bekannt"]["aufloesung"]): sum(1 for v in wi_all if v["zone_bekannt"]["aufloesung"] == w["zone_bekannt"]["aufloesung"])
@@ -945,17 +1118,47 @@ def pruefe_water_info_global(alle, alle_swr, regeln, aus, zonen_pfad, b):
             if z["pixel_m"] > wi["pixel_max_m"] + tol:
                 n_f += 1
                 need = fx._zweierpotenz(max(z["ausdehnung_m"]) / wi["pixel_max_m"], W["aufloesung_min"])
-                b.append((FEHLER, e["id"], "Zone %s (%s): %.0f x %.0f m bei %s -> Pixel %.3f m > schmalste Breite %.2f m (s %.1f) / %g = %.3f m; "
+                b.append((FEHLER, e["id"], "Zone %s (%s): %.0f x %.0f m bei %s -> Pixel %.3f m > schmalstes Band %.2f m (s %.1f) / %g = %.3f m; "
                           "noetig: Aufloesung %d oder Zone <= %.0f m bei %d"
                           % (z["id"], z["lage"], z["ausdehnung_m"][0], z["ausdehnung_m"][1], z["aufloesung"], z["pixel_m"],
-                             wi["breite_min_m"], wi["breite_min_s_m"], W["breite_teiler"], wi["pixel_max_m"], need,
+                             wi.get("band_min_m", wi["breite_min_m"]), wi["breite_min_s_m"], W["breite_teiler"], wi["pixel_max_m"], need,
                              wi["zone_max_m"][str(W["aufloesung_max"])], W["aufloesung_max"])))
             q, r = e["rechteck_cm"], z["rechteck_cm"]
             raus = max(r[0] - q[0], r[1] - q[1], q[2] - r[2], q[3] - r[3]) / 100.0
             if raus > 0.005:
                 b.append((WARNUNG, e["id"], "Bett ragt bis %.1f m aus der Zone %s (%s): dort keine Wasser-Info" % (raus, z["id"], z["lage"])))
-    b.append((HINWEIS, "--zonen", "%d bekannte Zone(n) %s: %d SWR-Bereiche geprueft, %d ueber Breite/%g"
+    b.append((HINWEIS, "--zonen", "%d bekannte Zone(n) %s: %d SWR-Bereiche geprueft, %d ueber Band/%g"
               % (len(bekannt), [z["id"] for z in bekannt], n_gepr, n_f, W["breite_teiler"])))
+    # v11 (16g Nachtrag 2): Half Precision an einer Zone mit hohen bzw. hohen und tiefen Gewaessern -> WARNUNG
+    H = (W.get("zonen") or {}).get("half_precision")
+    if H:
+        je_zone = {}
+        for gid in sorted(alle):
+            g = alle[gid]
+            P = np.asarray(g["water_body"]["spline"]["punkte"], float)
+            box = [min(e["rechteck_cm"][0] for e in g["swr_bereiche"]), min(e["rechteck_cm"][1] for e in g["swr_bereiche"]),
+                   max(e["rechteck_cm"][2] for e in g["swr_bereiche"]), max(e["rechteck_cm"][3] for e in g["swr_bereiche"])]
+            z = fx.zone_bekannt_fuer(gid, box, bekannt)
+            if z is None:
+                continue
+            d = je_zone.setdefault(z["id"], {"z": z, "zmax": -1e18, "bmin": 1e18, "gw": []})
+            d["zmax"] = max(d["zmax"], float(P[:, 2].max()))
+            d["bmin"] = min(d["bmin"], float((P[:, 2] - P[:, 4]).min()))
+            d["gw"].append(gid)
+        for zid in sorted(je_zone):
+            d = je_zone[zid]
+            # eigene Rechnung: Half Float 10 Bit Mantisse; absolut 2^(e-10), relativ Spanne x 2^-11
+            za = max(abs(d["zmax"]), abs(d["bmin"]), 1.0)
+            ab = 2.0 ** (math.floor(math.log2(za)) - H["mantisse_bits"])
+            rel = (d["zmax"] - d["bmin"]) * 2.0 ** -(H["mantisse_bits"] + 1)
+            st = max(ab, rel)
+            hp = d["z"].get("half_precision")
+            txt = "Zone %s: Gewaesser %.1f-%.1f m -> Hoehenstufe in 16 Bit %.1f cm (absolut %.1f, relativ %.1f; Grenze %.0f cm)" % (
+                zid, d["bmin"] / 100.0, d["zmax"] / 100.0, st, ab, rel, H["stufe_max_cm"])
+            if hp and st > H["stufe_max_cm"] + 1e-9:
+                b.append((WARNUNG, zid, txt + ": Half Precision aus (32 Bit)"))
+            else:
+                b.append((HINWEIS, zid, txt + ("; Half Precision %s" % ("an" if hp else ("aus" if hp is False else "unbekannt")))))
 
 
 def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
@@ -1030,6 +1233,37 @@ def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
                       "hoechstens %d): je Netz eine Komponente (16a d2), Teilen nach Netz senkt die Zahl nicht"
                       % (len(ueber_richt), len(wh_ids), k_richt, int(sorted(ueber_richt)[len(ueber_richt) // 2]),
                          max(ueber_richt))))
+
+
+def pruefe_filter_global(alle_kol, alle_filter, regeln, b):
+    """v11: ein ausgefiltertes Teil hat in keinem Gewaesser Wasser-Kollision; filter_anderes_gewaesser nennt ein Gewaesser,
+    in dem es selbst ausgefiltert ist. HINWEIS mit den Zahlen."""
+    F = regeln["swr"].get("hindernis_filter")
+    if not F:
+        return
+    eigen = {}
+    for key, vork in alle_filter.items():
+        for o, gid in vork:
+            if o["grund"] != "filter_anderes_gewaesser":
+                eigen.setdefault(key, set()).add(gid)
+    for key, vork in alle_filter.items():
+        if key in alle_kol:
+            b.append((FEHLER, vork[0][1], "Teil ausgefiltert und zugleich mit Wasser-Kollision in %s: %s"
+                      % (sorted(g_ for _, g_ in alle_kol[key]), key)))
+        for o, gid in vork:
+            if o["grund"] == "filter_anderes_gewaesser":
+                if not set(o.get("gefiltert_in") or []) or set(o.get("gefiltert_in") or []) != eigen.get(key, set()):
+                    b.append((FEHLER, gid, "filter_anderes_gewaesser: gefiltert_in %s, eigene Filter in %s: %s"
+                              % (o.get("gefiltert_in"), sorted(eigen.get(key, set())), key)))
+    gr = {}
+    for key, vork in alle_filter.items():
+        g_ = sorted({o["grund"] for o, _ in vork if o["grund"] != "filter_anderes_gewaesser"})
+        k_ = g_[0] if g_ else "filter_anderes_gewaesser"
+        gr[k_] = gr.get(k_, 0) + 1
+    b.append((HINWEIS, "Hindernis-Filter (v11)", "%d Teile mit Wasser-Kollision, %d ausgefiltert (bleiben Deko): %s; Regel: ohne "
+              "Lippen-/Rand-/Bettfelsen, Teil <= %.0f %%, je %g m <= %.0f %% der Bettbreite"
+              % (len(alle_kol), len(alle_filter), {k_: gr[k_] for k_ in sorted(gr)}, 100 * F["teil_max_anteil"], F["meter_m"],
+                 100 * F["meter_max_anteil"])))
 
 
 regeln_global = None
@@ -1119,6 +1353,7 @@ def main(argv=None):
     if welt is None or not a.sehens:
         seen_ids |= {g["muendung"]["ziel"] for g in alle.values() if g["muendung"]["art"] == "see"}
     alle_swr, alle_kol, lauf_in = {}, {}, {}
+    alle_filter = {}
     tempo_global = []
     wbrs = {}
     toepfe_global.clear()
@@ -1152,6 +1387,9 @@ def main(argv=None):
             alle_swr[e["id"]] = (e, g)
         for o in g["wasser_kollision"]:
             alle_kol.setdefault(json.dumps(o["ref"], sort_keys=True), []).append((o, g["id"]))
+        for o in g.get("ohne_wasser_kollision") or []:
+            if str(o.get("grund", "")).startswith("filter_"):
+                alle_filter.setdefault(json.dumps(o["ref"], sort_keys=True), []).append((o, g["id"]))
     for rel in sorted(befunde_datei):
         if befunde_datei[rel]:
             z = melde(befunde_datei[rel], rel)
@@ -1180,6 +1418,7 @@ def main(argv=None):
         else:
             b.append((HINWEIS, "Laeufe", "alle %d Welt-Laeufe in genau einem Gewaesser" % len(soll)))
     pruefe_hindernis_global(alle_swr, alle_kol, regeln, b)
+    pruefe_filter_global(alle_kol, alle_filter, regeln, b)
     pruefe_rand_steil_global(alle_swr, regeln, b)
     pruefe_water_info_global(alle, alle_swr, regeln, a.aus, a.zonen, b)
     pruefe_tempo_global(tempo_global, regeln, b)

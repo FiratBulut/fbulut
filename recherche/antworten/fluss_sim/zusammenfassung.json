@@ -44,15 +44,16 @@
   "faelle_vorhang": 166,
   "abstuerze": 2032,
   "bereiche": 934,
-  "kollision": 40476,
-  "kollision_im_wasser": 35236,
+  "kollision": 20371,
+  "kollision_im_wasser": 15556,
   "ueberspannt": 6804,
   "schaum": {
    "aufprallteppich": 166,
    "kehrwasser": 304,
    "schaumstrasse": 787
   },
-  "splinepunkte": 18489
+  "splinepunkte": 18489,
+  "gefiltert": 20105
  },
  "kategorien": {
   "sehens/sehens_bach": {
@@ -174,8 +175,8 @@
    "summe": 79.1
   },
   "hindernis_akteure": 195,
-  "hindernis_instanzen": 39239,
-  "hindernis_akteure_mit_tag": 982,
+  "hindernis_instanzen": 19864,
+  "hindernis_akteure_mit_tag": 361,
   "swr_ohne_hindernis": 2,
   "gelaende_max_in_swr_m": 331.86,
   "gelaende_max_swr": "F_HAUPTFLUSS_1"
@@ -273,7 +274,55 @@
   "grenze_m": 655.04,
   "ueber_grenze": 0
  },
- "kollision_objekte_eindeutig": 40221,
+ "kollision_objekte_eindeutig": 20225,
+ "hindernis_filter": {
+  "status": "v11 (16g Nachtrag 2, Ferat Befund N4/N5, 13.10.2026): ein Hindernis-Akteur mit allen 1 718 Bachdekor-Teilen daemmt die 2-m-Rinne (zwei ~1-m-Lippenfelsen nebeneinander, Front steht); gefiltert (1 336 Teile) laeuft das Bett durch (99,8 % nass). Gilt fuer alle Objekte mit Wasser-Kollision (WH_-Akteure). Ausgefilterte Teile bleiben als Deko stehen, nur ohne Wasser-Kollision (ohne_wasser_kollision mit grund filter_*).",
+  "teil_max_anteil": 0.4,
+  "meter_max_anteil": 0.5,
+  "objekte_eindeutig": {
+   "vorher": 40221,
+   "nachher": 20225,
+   "gefiltert": 19996
+  },
+  "gefiltert_nach_grund": {
+   "filter_anderes_gewaesser": 25,
+   "filter_meter": 3522,
+   "filter_rolle": 12923,
+   "filter_teil": 3526
+  },
+  "rolle_vorher": {
+   "akteur": 982,
+   "andere": 24886,
+   "bett": 428,
+   "bett+lippe": 176,
+   "bett+lippe+rand": 3872,
+   "bett+rand": 3710,
+   "lippe": 1197,
+   "lippe+rand": 2081,
+   "rand": 1459,
+   "unklar": 1430
+  },
+  "rolle_nachher": {
+   "akteur": 361,
+   "andere": 19254,
+   "unklar": 610
+  },
+  "art_vorher": {
+   "fels": 22703,
+   "holz": 17383,
+   "sonstiges": 135
+  },
+  "art_nachher": {
+   "fels": 7324,
+   "holz": 12821,
+   "sonstiges": 80
+  },
+  "anteil_quer_nachher": {
+   "median": 0.073,
+   "max": 0.4
+  },
+  "meiste_gefiltert": [["F_ELFENFLUSS",2905,2067],["B_R_P4_M2_04",1442,712],["B_R2_R_P4_M2_01",1147,505],["B_R_P3_M2_01",997,370],["B_R_M2_P1_01",888,409],["B_R_P1_M2_02",637,163],["B_R_P1_M2_01",589,119],["B_R_P0_M2_03",469,62],["B_K1_WASSERFALL_WEST_03",893,494],["B_R2_K8_ELFENFALL_01",626,229]]
+ },
  "objekt_pool": {
   "objekte": 380890,
   "fest_und_gross": 98719,
@@ -613,7 +662,7 @@
   "liste": [["B_K1_WASSERFALL_WEST_01","offen","aue_01_biberstau/stau",96.28],["B_K1_WASSERFALL_WEST_02","luecke","B_R2_R_M1_M1_03",21.95],["B_K1_WASSERFALL_WEST_03","offen","F_HAUPTFLUSS_3",363.65],["B_K8_ELFENFALL_01","offen","B_R_P4_M1_03",98.63],["B_K8_ELFENFALL_02","luecke","F_ELFENFLUSS",8.87],["B_K8_ELFENFALL_03","offen","SW_sumpf_05_der_erlenbruch_rinnsal",109.25],["B_K8_ELFENFALL_04","offen","T_2719_39",272.33],["B_K8_ELFENFALL_05","offen","T_2954_391",289.82],["B_K8_ELFENFALL_06","offen","T_2954_391",360.5],["B_R2_K8_ELFENFALL_01","luecke","S_R_P3_M1_00",17.4],["B_R2_R_P3_P1_03","luecke","B_R_P3_P1_03",4.24],["B_R3_K12_WUESTE_01","offen","wueste_05_salzpfanne/restsole",520.78],["B_R3_R_M1_M1_01","luecke","B_R2_R_M1_M1_03",6.87],["B_R3_R_M1_M1_03","luecke","B_K1_WASSERFALL_WEST_03",4.92],["B_R3_R_M1_P0_01","offen","S_R_M1_P0_00",136.57],["B_R3_R_M2_P1_01","luecke","B_R_M2_P1_02",4.6],["B_R3_R_P2_M1_01","luecke","B_R_P3_M1_03",4.97],["B_R3_R_P3_P0_01","luecke","B_R_P3_P0_02",7.67],["B_R3_R_P3_P0_02","luecke","B_R_P3_P0_01",10.4],["B_R3_R_P4_M1_01","offen","SW_sumpf_05_der_erlenbruch_rinnsal",208.17],["B_R_M1_M1_03","offen","F_HAUPTFLUSS_3",269.25],["B_R_M1_P0_01","offen","S_R_M1_P0_00",128.97],["B_R_M1_P0_02","offen","S_R_M1_P0_00",157.14],["B_R_M2_M1_02","offen","B_R_M2_M2_03",43.6],["B_R_M2_M2_01","offen","meer",74.91],["B_R_P0_M2_01","luecke","B_R_P0_M2_02",20.35],["B_R_P1_M2_01","luecke","B_R_P0_M2_02",11.19],["B_R_P1_P0_04","offen","F_HAUPTFLUSS_3",42.63],["B_R_P2_M3_01","offen","meer",20.0],["B_R_P3_M1_05","offen","F_ELFENFLUSS",86.63],["B_R_P3_M1_06","offen","F_ELFENFLUSS",28.0],["B_R_P3_M1_07","luecke","F_ELFENFLUSS",5.05],["B_R_P3_M1_08","luecke","F_ELFENFLUSS",15.18],["B_R_P3_M1_09","luecke","F_ELFENFLUSS",9.21],["B_R_P3_M2_02","luecke","B_R_P4_M2_02",9.58],["B_R_P3_M2_03","luecke","B_R_P4_M2_02",11.95],["B_R_P3_P0_01","luecke","B_R3_R_P3_P0_02",13.03],["B_R_P3_P0_03","luecke","B_R_P2_P0_04",8.06],["B_R_P3_P0_05","luecke","T_2954_391",12.77],["B_R_P3_P1_01","offen","S_R_P3_P0_03",74.23],["B_R_P4_M1_04","luecke","S_R_P3_M1_00",16.26],["B_R_P4_M2_03","offen","B_R_P3_M2_03",30.63],["F_HAUPTFLUSS_2","offen","F_HAUPTFLUSS_3",591.06],["SW_bergwald_05_klemmblock_klamm_klammbach","offen","meer",181.54],["SW_bergwald_06_karsee_abfluss","offen","B_R3_R_M2_P0_01",360.85],["SW_gletscher_01_gletschertor_gletscherbach","luecke","F_GLETSCHERTAL",6.85]]
  },
  "water_info": {
-  "status": "Regel 16g Nachtrag (Ferat 13.10.2026 07:05): Pixel der Wasser-Info der zustaendigen Water Zone <= schmalste Bachbreite / breite_teiler. Beleg C2: 1208 m / 1024 = 1,18 m je Pixel -> Bett (1,6-2,4 m) 1-2 Pixel breit, Rasterluecken, Front steht; 1208 m / 4096 = 0,29 m -> Bett zu 99,9 % nass bis s 780",
+  "status": "Regel v11 (16g Nachtrag 2, F2): Pixel der Wasser-Info der zustaendigen Water Zone <= schmalstes Band (Bett + 2 m) / 12; v10 (16g Nachtrag, Ferat 13.10.2026 07:05): <= schmalste Bachbreite / 6. Beleg C2: 1208 m / 1024 = 1,18 m je Pixel -> Bett (1,6-2,4 m) 1-2 Pixel breit, Rasterluecken, Front steht; 1208 m / 4096 = 0,29 m -> Bett zu 99,9 % nass bis s 780",
   "swr_bereiche": 197,
   "breite_min_m": {
    "min": 0.7,
@@ -629,50 +678,67 @@
    }
   },
   "pixel_max_m": {
-   "min": 0.1167,
-   "median": 0.471
+   "min": 0.225,
+   "median": 0.4022
   },
   "zone_max_m_bei_4096": {
-   "min": 477.9,
-   "median": 1929.2,
+   "min": 921.6,
+   "median": 1647.3,
    "unter_zone_bekannt": 1
   },
   "zone_bekannt_1208_m_aufloesung": {
-   "256": 12,
-   "512": 3,
+   "256": 4,
+   "512": 8,
    "1024": 4,
-   "2048": 15,
-   "4096": 162,
-   "16384": 1
+   "2048": 4,
+   "4096": 176,
+   "8192": 1
   },
-  "zone_bekannt_1208_m_1024_pixel_quer_unter_6": 178,
-  "schmalste": [["SW_sumpf_05_der_erlenbruch_rinnsal",0.7,0.1167,477.9],["B_R2_K10_TUNDRA_01",2.0,0.3333,1365.3],["B_R2_K10_TUNDRA_02",2.0,0.3333,1365.3],["B_R2_R_M1_M1_03",2.0,0.3333,1365.3],["B_R2_R_M1_M1_04",2.0,0.3333,1365.3],["B_R2_R_M1_M1_06",2.0,0.3333,1365.3],["B_R2_R_M1_M1_07",2.0,0.3333,1365.3],["B_R2_R_M1_M1_08",2.0,0.3333,1365.3],["B_R2_R_M1_M1_09",2.0,0.3333,1365.3],["B_R2_R_M1_P0_02",2.0,0.3333,1365.3]],
+  "zone_bekannt_1208_m_1024_pixel_quer_unter_teiler": 181,
+  "schmalste": [["SW_sumpf_05_der_erlenbruch_rinnsal",0.7,0.225,921.6],["B_R2_K10_TUNDRA_01",2.0,0.3333,1365.3],["B_R2_K10_TUNDRA_02",2.0,0.3333,1365.3],["B_R2_R_M1_M1_03",2.0,0.3333,1365.3],["B_R2_R_M1_M1_04",2.0,0.3333,1365.3],["B_R2_R_M1_M1_06",2.0,0.3333,1365.3],["B_R2_R_M1_M1_07",2.0,0.3333,1365.3],["B_R2_R_M1_M1_08",2.0,0.3333,1365.3],["B_R2_R_M1_M1_09",2.0,0.3333,1365.3],["B_R2_R_M1_P0_02",2.0,0.3333,1365.3]],
   "zonen": {
-   "zonen": 28,
-   "fein": 27,
-   "gewaesser_welt": 6,
-   "gewaesser_fein": 180,
+   "zonen": 35,
+   "fein": 34,
+   "gewaesser_welt": 3,
+   "gewaesser_fein": 183,
    "ueber_max": 0,
    "aufloesungen": {
-    "1024x4096": 3,
+    "1024x1024": 1,
+    "1024x2048": 2,
+    "1024x4096": 1,
+    "1024x512": 2,
     "2048x1024": 1,
-    "2048x2048": 5,
+    "2048x2048": 3,
     "2048x4096": 5,
-    "4096x1024": 2,
+    "256x256": 1,
+    "256x512": 1,
+    "4096x1024": 1,
     "4096x2048": 6,
     "4096x4096": 3,
-    "4096x512": 2,
-    "512x512": 1
+    "4096x512": 1,
+    "512x1024": 1,
+    "512x2048": 1,
+    "512x256": 1,
+    "512x4096": 2,
+    "512x512": 2
    },
    "speicher_mb": {
-    "rgba16f": 1458.0,
-    "rgba32f": 2916.0
+    "rgba16f": 1378.5,
+    "rgba32f": 2757.0
    },
    "speicher_mb_fein": {
-    "rgba16f": 1330.0,
-    "rgba32f": 2660.0
+    "rgba16f": 1250.5,
+    "rgba32f": 2501.0
    },
-   "pixel_welt_m": 2.3381
+   "pixel_welt_m": 2.3381,
+   "half_precision": {
+    "stufe_max_cm": 4.0,
+    "ok": 23,
+    "aus": 12,
+    "aus_zonen": ["WZ_WELT","WZ_F01","WZ_F02","WZ_F04","WZ_F05","WZ_F06","WZ_F10","WZ_F12","WZ_F17","WZ_F19","WZ_F21","WZ_F22"],
+    "speicher_mb_empfohlen": 1962.5,
+    "speicher_mb_empfohlen_fein": 1706.5
+   }
   }
  },
  "eingaben": {

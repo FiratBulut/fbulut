@@ -38,6 +38,13 @@ bleiben bis zelle_max_bach_ungeteilt_m (0,40 m) ungeteilt, Teilstuecke halten ze
 wasserzonen.json (Grundzone WZ_WELT + feine Zonen WZ_Fnn, gruppiert; Ausdehnung, Aufloesung, Speicher) und je Gewaesser
 water_body.water_zone_vorschlag (WaterZoneOverride). Aendert weder Spline noch SWR-Werte noch Fingerabdruck.
 
+16g Nachtrag 2 (Regeln Version 11): SWR-Vorgaben match_spline_height_amount 0,3 (0,1/0,2 bleiben bei s 76 stehen),
+remove_outside_spline_amount 0 (F1: 50 macht das Bett 15 % flacher), band_zugabe_m 2 (RiverWidth im Editor = Bett + 2 m,
+F2), source_size_cm >= 300; Regel water_info jetzt Pixel <= schmalstes Band / 12; Hindernis-Filter (swr.hindernis_filter):
+Lippen-, Rand- und Bettfelsen, Teile > 40 % der Bettbreite und was je Meter ueber 50 % der Bettbreite hinausgeht,
+bekommen keine Wasser-Kollision (bleiben Deko, ohne_wasser_kollision mit grund filter_*) -> Objektteil der
+Fingerabdruecke aendert sich; wasserzonen.json je Zone Hoehenstufe der 16-Bit-Wasser-Info und half_precision_ok.
+
 Eingaben (16d): gelesen werden nur Lauf-Plaene (<lauf>/plan.json mit 'wasser_koerper'); Ordner mit '.' im Namen oder
 fuehrendem '_' (Archivkopien) und andere Plaene (Feld-Instanzplan gefaelle/C2/plan.json von a15_einbau.py) werden
 uebersprungen und im Protokoll genannt, ebenso Archiv-Feldordner unter instanzen/ und sw_<biom>/.
@@ -86,7 +93,7 @@ FORMAT_VERSION = "fluss_sim_v3"
 BACK_FORMAT = "back_liste_v3"
 # 16f Rueckfrage (Epic Parameter Reference): SWR-Felder, die das Backen bestimmen, aber nicht im Fingerabdruck stehen
 SIM_VORGABEN_FELDER = ("resolution_max_axis", "match_spline", "match_spline_height_amount", "remove_outside_spline_amount",
-                       "source_size_cm", "sim_speed", "num_steps", "use_capture")
+                       "source_size_cm", "sim_speed", "num_steps", "use_capture", "band_zugabe_m")
 
 
 def log(*t):
@@ -280,7 +287,7 @@ class Pool:
                 self.recs.append({"quelle": ref_quelle, "datei": key, "index": i, "pfad": info.get("pfad", key),
                                   "netz": key[:-4] if key.endswith("_kol") else key,
                                   "kollision": bool(info.get("kollision")), "gruppe": info.get("gruppe", ""),
-                                  "v": a[i]})
+                                  "rolle": str(info.get("rolle", "")), "v": a[i]})
         for i, ak in enumerate(p.get("akteure") or []):
             if not all(k_ in ak for k_ in ("x", "y", "z", "qx", "qy", "qz", "qw")):
                 continue
@@ -288,7 +295,7 @@ class Pool:
                           ak.get("sx", 1.0), ak.get("sy", 1.0), ak.get("sz", 1.0)], np.float64)
             self.recs.append({"quelle": ref_quelle, "liste": "akteure", "index": i, "pfad": ak.get("pfad", ak.get("netz")),
                               "netz": ak.get("netz", ""), "kollision": bool(ak.get("kollision")),
-                              "gruppe": ak.get("klasse", ""), "v": v})
+                              "gruppe": ak.get("klasse", ""), "rolle": None, "v": v})
 
     def fertig(self):
         n = len(self.recs)
@@ -338,6 +345,7 @@ class Pool:
             lo[ix] = P[:, None, :3].squeeze(1) + E.min(1)
             hi[ix] = P[:, None, :3].squeeze(1) + E.max(1)
         self.lo, self.hi = lo, hi
+        self.bounds_je_pfad = {pf: (c_[0], c_[1]) for pf, c_ in cache.items()}
         for k, r in enumerate(self.recs):
             a = cache[r["pfad"]][3]
             r["art"] = a
@@ -362,6 +370,15 @@ class Pool:
         self.rad = (np.hypot(hi[:, 0] - lo[:, 0], hi[:, 1] - lo[:, 1]) / 200.0) if n else np.zeros(0)
         log("Objekt-Pool: %d Objekte, davon %d fest und gross genug (groesste Ausdehnung >= %.2f m; Regel bis v7: %d)"
             % (n, int(fest.sum()), self.r["min_ausdehnung_m"], int(fest_alt.sum())))
+
+    def ecken_cm(self, k):
+        """8 Ecken der gedrehten Netz-Bounds x Skala in Weltkoordinaten (cm), (8, 3)."""
+        r = self.recs[k]
+        bmin, bmax = self.bounds_je_pfad[r["pfad"]]
+        v = self.V[k]
+        ecken = np.array([[i, j, l] for i in (0, 1) for j in (0, 1) for l in (0, 1)], float)
+        c = (bmin + (bmax - bmin) * ecken) * v[7:10][None, :]
+        return v[None, :3] + quat_drehe(np.repeat(v[None, 3:7], 8, 0), c)
 
     def ref(self, k):
         r = self.recs[k]
@@ -1931,6 +1948,104 @@ def kollision_v3(pool, pts, ss, regeln):
     return out
 
 
+FILTER_KLASSEN = ("lippe", "rand", "bett")
+
+
+def hindernis_rolle(rolle, F):
+    """v11 (16g Nachtrag 2): Bachdekor-Rolle eines Objekts aus der Instanz-Ebene (dateien.<netz>.rolle, mehrere mit '/').
+    Rueckgabe 'lippe', 'rand', 'bett' bzw. deren Verbindung ('bett+rand'), wenn ALLE Rollen der Datei zu diesen Klassen
+    gehoeren; 'unklar' bei gemischten Dateien, 'andere' ohne solche Rolle, 'akteur' fuer Akteure (rolle None)."""
+    if rolle is None:
+        return "akteur"
+    teile = [x for x in str(rolle).split("/") if x]
+    if not teile:
+        return "andere"
+    kl = set()
+    for x in teile:
+        k_ = next((n for n in FILTER_KLASSEN if re.search(F["rollen"][n], x)), "andere")
+        kl.add(k_)
+    if "andere" not in kl:
+        return "+".join(sorted(kl))
+    return "unklar" if len(kl) > 1 else "andere"
+
+
+def ref_text_von(ref):
+    return "%s#%s#%d" % (ref["quelle"], ref.get("datei", "akteure"), ref["index"])
+
+
+def hindernis_mass(ecken_cm, cx_m, cy_m, P, ss):
+    """v11: Mass eines Teils gegen die Spline. P (N, >=4) in cm (x, y, z, RiverWidth), ss (N) in m. Naechster
+    Splineabschnitt zum Mittelpunkt; quer = Ausdehnung der 8 Ecken quer zur Spline, beschnitten auf das Bett (+- halbe
+    Breite); laengs = s-Bereich der Ecken entlang der Spline. Rueckgabe (quer_m, breite_m, s_von, s_bis, s_mitte)."""
+    A, B = P[:-1, :2], P[1:, :2]
+    AB = B - A
+    L2 = np.maximum((AB ** 2).sum(1), 1e-9)
+    c = np.array([cx_m * 100.0, cy_m * 100.0])
+    t = np.clip(((c - A) * AB).sum(1) / L2, 0.0, 1.0)
+    Q = A + t[:, None] * AB
+    j = int(np.argmin(((Q - c) ** 2).sum(1)))
+    tj = float(t[j])
+    L = math.sqrt(float(L2[j]))
+    tx, ty = float(AB[j, 0]) / L, float(AB[j, 1]) / L
+    d = ecken_cm[:, :2] - Q[j][None, :]
+    u = d[:, 0] * -ty + d[:, 1] * tx
+    a = d[:, 0] * tx + d[:, 1] * ty
+    breite = (float(P[j, 3]) + tj * (float(P[j + 1, 3]) - float(P[j, 3]))) / 100.0
+    halb = 50.0 * breite
+    quer = max(0.0, min(float(u.max()), halb) - max(float(u.min()), -halb)) / 100.0
+    s_m = float(ss[j]) + tj * (float(ss[j + 1]) - float(ss[j]))
+    return quer, breite, s_m + float(a.min()) / 100.0, s_m + float(a.max()) / 100.0, s_m
+
+
+def hindernis_filter_entscheiden(teile, ss, breiten, F):
+    """v11: Entscheidung je Teil. teile: Liste dicts mit key, rolle, quer, breite, s (von, bis); Werte schon auf mm/cm
+    gerundet. ss/breiten: Splinepunkte (m) fuer die Bettbreite je Meter. Rueckgabe {key: 'behalten' | 'filter_rolle' |
+    'filter_teil' | 'filter_meter'}. Meter-Regel gierig: schmalste zuerst, dann key."""
+    out = {}
+    kand = []
+    for tl in teile:
+        if tl["rolle"] in ("akteur", "andere", "unklar"):
+            pass
+        else:
+            out[tl["key"]] = "filter_rolle"
+            continue
+        if tl["quer"] > F["teil_max_anteil"] * tl["breite"] + 1e-9:
+            out[tl["key"]] = "filter_teil"
+            continue
+        if tl["quer"] <= 0.0:
+            out[tl["key"]] = "behalten"
+            continue
+        kand.append(tl)
+    mm = float(F["meter_m"])
+    s0, s1 = float(ss[0]), float(ss[-1])
+    summe = {}
+    for tl in sorted(kand, key=lambda x: (x["quer"], x["key"])):
+        b0 = int(math.floor(max(s0, tl["s"][0]) / mm))
+        b1 = int(math.floor(min(s1, tl["s"][1]) / mm))
+        bins = list(range(b0, max(b0, b1) + 1))
+        ok = True
+        for bi in bins:
+            sm = min(max((bi + 0.5) * mm, s0), s1)
+            w = round(float(np.interp(sm, ss, breiten)), 2)
+            if summe.get(bi, 0.0) + tl["quer"] > F["meter_max_anteil"] * w + 1e-9:
+                ok = False
+                break
+        if ok:
+            for bi in bins:
+                summe[bi] = summe.get(bi, 0.0) + tl["quer"]
+            out[tl["key"]] = "behalten"
+        else:
+            out[tl["key"]] = "filter_meter"
+    return out
+
+
+def source_size_regel(breite_cm, SV):
+    """source_size_cm: v8 RiverWidth am ersten Punkt des SWR-Bereichs; v11 mindestens source_size_min_cm (300)."""
+    if SV.get("source_size") == "breite_quelle_min":
+        return r1(max(float(breite_cm), float(SV["source_size_min_cm"])))
+    return r1(breite_cm)
+
+
 def bereich_rolle(a, b, linie, abst_innen, becken, roh):
     if roh:
         return "lauf"
@@ -1960,22 +2075,29 @@ def water_info_bereich(P, ss, i0, i1, regeln):
     i0..i1), groesste zulaessige Pixelgroesse, groesste Zone je Aufloesung, noetige Aufloesung in einer Zone von
     zone_bekannt_m (C2: 1208 m)."""
     W = regeln["swr"]["water_info"]
+    zug = band_zugabe(regeln)
     Q = np.asarray(P, float)[i0:i1 + 1]
     w = Q[:, 3] / 100.0
     j = int(np.argmin(w))
     bmin = float(w[j])
-    px = bmin / W["breite_teiler"]
+    band = bmin + zug
+    px = band / W["breite_teiler"]
     zb = float(W["zone_bekannt_m"])
     rb = _zweierpotenz(zb / px, W["aufloesung_min"])
     return {
-        "status": "Regel v10 (16g Nachtrag): Pixel <= schmalste Breite / %g" % W["breite_teiler"],
-        "breite_min_m": r1(bmin, 2), "breite_min_s_m": r1(float(ss[i0 + j]), 2),
+        "status": "Regel v11 (16g Nachtrag 2): Pixel <= schmalstes Band (Bett + %g m) / %g" % (zug, W["breite_teiler"]),
+        "breite_min_m": r1(bmin, 2), "breite_min_s_m": r1(float(ss[i0 + j]), 2), "band_min_m": r1(band, 2),
         "breite_median_m": r1(float(np.median(w)), 2),
         "pixel_max_m": r1(px, 4),
         "zone_max_m": {str(r): r1(r * px, 1) for r in W["aufloesungen_zeigen"]},
         "zone_bekannt": {"ausdehnung_m": zb, "aufloesung": rb, "pixel_m": r1(zb / rb, 4),
                          "ueber_max": bool(rb > W["aufloesung_max"]),
-                         "pixel_quer": {str(r): r1(bmin / (zb / r), 2) for r in W["aufloesungen_zeigen"]}}}
+                         "pixel_quer": {str(r): r1(band / (zb / r), 2) for r in W["aufloesungen_zeigen"]}}}
+
+
+def band_zugabe(regeln):
+    """v11: Band = Bett + band_zugabe_m (RiverWidth im Editor); 0 ohne Eintrag (v10)."""
+    return float(regeln["swr"]["sim_vorgaben"].get("band_zugabe_m", 0.0))
 
 
 def _zone_mb(box, px, W, art="rgba16f"):
@@ -1983,6 +2105,16 @@ def _zone_mb(box, px, W, art="rgba16f"):
     rx = _zweierpotenz(ex / px, W["aufloesung_min"])
     ry = _zweierpotenz(ey / px, W["aufloesung_min"])
     return rx, ry, rx * ry * W["zonen"]["bytes_je_pixel"][art] / 2.0 ** 20
+
+
+def half_float_stufe_cm(z_abs_max_cm, spanne_cm, mantisse_bits=10):
+    """v11 (16g Nachtrag 2): Hoehenstufe einer 16-Bit-Wasser-Info (Half Float, 10 Bit Mantisse). absolut: Z in cm ueber 0
+    gespeichert -> Stufe = 2^(floor(log2(|z|)) - 10) (190 m: 16 cm); relativ: Z normiert auf die Spanne (0..1) ->
+    Stufe = Spanne x 2^-11 im oberen Halbbereich. Rueckgabe (absolut, relativ) in cm."""
+    za = max(float(z_abs_max_cm), 1.0)
+    ab = 2.0 ** (math.floor(math.log2(za)) - mantisse_bits)
+    rel = max(float(spanne_cm), 0.0) * 2.0 ** -(mantisse_bits + 1)
+    return ab, rel
 
 
 def welt_rechteck_cm():
@@ -2004,7 +2136,8 @@ def zonen_vorschlag(alle, regeln):
     for e in alle:
         P = np.asarray(e["water_body"]["spline"]["punkte"], float)
         b = box_punkte(P, 0, len(P) - 1)
-        items.append({"id": e["id"], "px": float(P[:, 3].min()) / 100.0 / W["breite_teiler"],
+        items.append({"id": e["id"], "px": (float(P[:, 3].min()) / 100.0 + band_zugabe(regeln)) / W["breite_teiler"],
+                      "z_max": float(P[:, 2].max()), "boden_min": float((P[:, 2] - P[:, 4]).min()),
                       "breite": float(P[:, 3].min()) / 100.0,
                       "box": [b[0] - rand, b[1] - rand, b[2] + rand, b[3] + rand],
                       "swr": [kc["id"] for kc in e["swr_bereiche"]]})
@@ -2044,7 +2177,18 @@ def zonen_vorschlag(alle, regeln):
             res = [_zweierpotenz(ex / px_soll, W["aufloesung_min"]), _zweierpotenz(ey / px_soll, W["aufloesung_min"])]
         pix = max(ex / res[0], ey / res[1])
         enger = min(mitglieder, key=lambda it: (it["px"], it["id"])) if mitglieder else None
-        return {"id": zid, "art": art,
+        H = Z.get("half_precision")
+        hp = {}
+        if H and mitglieder:
+            zmax = max(it["z_max"] for it in mitglieder)
+            bmin = min(it["boden_min"] for it in mitglieder)
+            ab, rel = half_float_stufe_cm(max(abs(zmax), abs(bmin)), zmax - bmin, H["mantisse_bits"])
+            ok = max(ab, rel) <= H["stufe_max_cm"] + 1e-9
+            hp = {"hoehe_m": {"spiegel_max": r1(zmax / 100.0, 2), "boden_min": r1(bmin / 100.0, 2),
+                              "spanne": r1((zmax - bmin) / 100.0, 2)},
+                  "half_float_stufe_cm": {"absolut": r1(ab, 2), "relativ": r1(rel, 2), "massgeblich": r1(max(ab, rel), 2)},
+                  "half_precision_ok": bool(ok), "format_empfohlen": "rgba16f" if ok else "rgba32f"}
+        return dict({"id": zid, "art": art,
                 "rechteck_cm": [r1(v) for v in box], "zentrum_cm": [r1(0.5 * (box[0] + box[2])), r1(0.5 * (box[1] + box[3]))],
                 "ausdehnung_m": [r1(ex, 1), r1(ey, 1)], "aufloesung": [int(res[0]), int(res[1])], "pixel_m": r1(pix, 4),
                 "pixel_max_m": r1(enger["px"], 4) if enger else None,
@@ -2052,7 +2196,7 @@ def zonen_vorschlag(alle, regeln):
                 "ueber_max": bool(max(res) > rmax), "overlap_priority": prio,
                 "speicher_mb": {k_: r1(res[0] * res[1] * v / 2.0 ** 20, 1) for k_, v in sorted(Z["bytes_je_pixel"].items())},
                 "gewaesser": sorted(it["id"] for it in mitglieder),
-                "swr_bereiche": sorted(s_ for it in mitglieder for s_ in it["swr"])}
+                "swr_bereiche": sorted(s_ for it in mitglieder for s_ in it["swr"])}, **hp)
     zonen = [zone_eintrag("WZ_WELT", "welt", wb, None, welt, res=list(wr), prio=Z["prioritaet_welt"])]
     for n, z in enumerate(fein):
         zonen.append(zone_eintrag("WZ_F%02d" % (n + 1), "fein", z["box"], z["px"], z["items"], prio=Z["prioritaet_fein"]))
@@ -2067,9 +2211,17 @@ def zonen_vorschlag(alle, regeln):
              "speicher_mb": {k_: r1(sum(z["speicher_mb"][k_] for z in zonen), 1) for k_ in sorted(Z["bytes_je_pixel"])},
              "speicher_mb_fein": {k_: r1(sum(z["speicher_mb"][k_] for z in zonen[1:]), 1) for k_ in sorted(Z["bytes_je_pixel"])},
              "pixel_welt_m": r1(px_welt, 4)}
+    if Z.get("half_precision"):
+        mit = [z for z in zonen if "half_precision_ok" in z]
+        summe["half_precision"] = {
+            "stufe_max_cm": Z["half_precision"]["stufe_max_cm"],
+            "ok": sum(1 for z in mit if z["half_precision_ok"]), "aus": sum(1 for z in mit if not z["half_precision_ok"]),
+            "aus_zonen": [z["id"] for z in mit if not z["half_precision_ok"]],
+            "speicher_mb_empfohlen": r1(sum(z["speicher_mb"][z["format_empfohlen"]] for z in mit), 1),
+            "speicher_mb_empfohlen_fein": r1(sum(z["speicher_mb"][z["format_empfohlen"]] for z in mit if z["art"] == "fein"), 1)}
     return {"format": "fluss_sim_wasserzonen_v1", "regeln_version": regeln["version"], "status": W["status"],
-            "regel": "Pixel der Wasser-Info <= schmalste Bachbreite / %g; Aufloesung je Achse Zweierpotenz <= %d"
-                     % (W["breite_teiler"], rmax),
+            "regel": "Pixel der Wasser-Info <= schmalstes Band (Bett + %g m) / %g; Aufloesung je Achse Zweierpotenz <= %d"
+                     % (band_zugabe(regeln), W["breite_teiler"], rmax),
             "hinweis": "Vorschlag: je Zone ein AWaterZone (zone_extent = ausdehnung_m x 100, render_target_resolution = "
                        "aufloesung, overlap_priority); je Gewaesser WaterZoneOverride = water_body.water_zone_vorschlag. "
                        + Z["format_hinweis"],
@@ -2100,7 +2252,8 @@ def zonen_bekannt_lesen(pfad):
             box = [cx - 50.0 * ae[0], cy - 50.0 * ae[1], cx + 50.0 * ae[0], cy + 50.0 * ae[1]]
         out.append({"id": z["id"], "rechteck_cm": box, "ausdehnung_m": ae, "aufloesung": au,
                     "pixel_m": max(ae[0] / au[0], ae[1] / au[1]), "overlap_priority": z.get("overlap_priority", 0),
-                    "gewaesser": list(z.get("gewaesser") or []), "lage": "rechteck" if z.get("rechteck_cm") else
+                    "gewaesser": list(z.get("gewaesser") or []), "half_precision": z.get("half_precision"),
+                    "lage": "rechteck" if z.get("rechteck_cm") else
                     ("zentrum" if z.get("zentrum_cm") else "feld %s (Mitte angenommen)" % z.get("feld"))})
     return out
 
@@ -2240,7 +2393,8 @@ def baue_gewaesser_v3(gw, regeln, pool):
                     "match_spline": SV["match_spline"],
                     "match_spline_height_amount": SV["match_spline_height_amount"],
                     "remove_outside_spline_amount": SV["remove_outside_spline_amount"],
-                    "source_size_cm": r1(P[i0, 3]),
+                    "band_zugabe_m": SV.get("band_zugabe_m", 0.0),
+                    "source_size_cm": source_size_regel(P[i0, 3], SV),
                     "sim_speed": SV["sim_speed"], "num_steps": SV["num_steps"],
                     "begrenzung": ({"art": "rechteck_um_fluss", "hinweis": "SWR-Bereich = achsparalleles Rechteck um den Fluss (16c Nachtrag 17:45)"}
                                    if einzel else
@@ -2295,6 +2449,32 @@ def baue_gewaesser_v3(gw, regeln, pool):
             u = ((pool.cx[k] * 100 - p["x"]) * -ty_ + (pool.cy[k] * 100 - p["y"]) * tx_) / 100.0
             randbloecke.append({"s": s_, "u": float(u), "r": float(pool.rad[k]), "ref": pool.ref(k)})
     randbloecke.sort(key=lambda t_: (t_["s"], t_["u"]))
+    # v11 (16g Nachtrag 2): Hindernis-Filter - Lippen-, Rand-, Bettfelsen und zu breite Teile ohne Wasser-Kollision
+    F = S.get("hindernis_filter")
+    if F and wk:
+        Pm = np.asarray(sp["punkte"], float)
+        k_von = {pool.ref_text(k): k for k, *_r in kol}
+        teile = []
+        for e_ in wk:
+            key = ref_text_von(e_["ref"])
+            k = k_von[key]
+            quer, breite, sa, sb, _sm = hindernis_mass(pool.ecken_cm(k), float(pool.cx[k]), float(pool.cy[k]), Pm, ss)
+            e_["filter"] = {"rolle": hindernis_rolle(pool.recs[k]["rolle"], F), "quer_im_bett_m": r1(quer, 3),
+                            "bett_breite_m": r1(breite, 2), "s_laengs_m": [r1(sa, 3), r1(sb, 3)]}
+            teile.append({"key": key, "rolle": e_["filter"]["rolle"], "quer": e_["filter"]["quer_im_bett_m"],
+                          "breite": e_["filter"]["bett_breite_m"], "s": e_["filter"]["s_laengs_m"]})
+        ent = hindernis_filter_entscheiden(teile, ss, Pm[:, 3] / 100.0, F)
+        behalten = []
+        for e_ in wk:
+            g_ = ent[ref_text_von(e_["ref"])]
+            if g_ == "behalten":
+                behalten.append(e_)
+            else:
+                e_["wasser_kollision"] = False
+                e_["grund"] = g_
+                ohne.append(e_)
+        wk = behalten
+        ohne.sort(key=lambda e_: ref_text_von(e_["ref"]))
     # Faelle
     fl = []
     KN = R["kaskadennetz"]
@@ -3424,6 +3604,24 @@ def main(argv=None):
         e["muendung"]["stufe"] = stufe(e)
     # Vorschlaege fuer offene Enden und Luecken (getrennt von der Spline)
     vorschlaege = vorschlaege_bilden(alle, karte, welt, gel, regeln)
+    # v11: ein Teil, das in einem Gewaesser ausgefiltert ist, ist es in allen (Wasser-Kollision ist je Objekt eine)
+    gefiltert = {}
+    for rel in sorted(dateien):
+        for e in dateien[rel]:
+            for o in e["ohne_wasser_kollision"]:
+                if str(o.get("grund", "")).startswith("filter_"):
+                    gefiltert.setdefault(ref_text_von(o["ref"]), []).append(e["id"])
+    for rel in sorted(dateien):
+        for e in dateien[rel]:
+            weg = [o for o in e["wasser_kollision"] if ref_text_von(o["ref"]) in gefiltert]
+            if not weg:
+                continue
+            for o in weg:
+                o["wasser_kollision"] = False
+                o["grund"] = "filter_anderes_gewaesser"
+                o["gefiltert_in"] = sorted(set(gefiltert[ref_text_von(o["ref"])]))
+            e["wasser_kollision"] = [o for o in e["wasser_kollision"] if o["wasser_kollision"]]
+            e["ohne_wasser_kollision"] = sorted(e["ohne_wasser_kollision"] + weg, key=lambda o: ref_text_von(o["ref"]))
     # Wasser-Kollision global: jedes Objekt genau einem Hindernis-Akteur WH_<kachel> zuordnen (naechste Kachel)
     fpr = regeln["fingerabdruck"]
     kol_global, kand_kachel = {}, {}
@@ -3658,6 +3856,50 @@ def schaum_maske_zusammenfassung(alle, regeln):
             "radius_m": _stat(rad)}
 
 
+def hindernis_filter_zusammenfassung(alle, regeln):
+    """v11 (16g Nachtrag 2): Zahlen zum Hindernis-Filter (vorher = alle Objekte, die nach v10 Wasser-Kollision hatten)."""
+    F = regeln["swr"].get("hindernis_filter")
+    if not F:
+        return None
+    vor, nach, grund, rolle_v, rolle_n, art_v, art_n = {}, {}, {}, {}, {}, {}, {}
+    je_gw = []
+    for e in alle:
+        n_v = n_n = 0
+        for o in e["wasser_kollision"]:
+            k_ = ref_text_von(o["ref"])
+            vor[k_] = o
+            nach[k_] = o
+            n_v += 1
+            n_n += 1
+        for o in e["ohne_wasser_kollision"]:
+            g_ = str(o.get("grund", ""))
+            if g_.startswith("filter_"):
+                vor[ref_text_von(o["ref"])] = o
+                n_v += 1
+        if n_v != n_n:
+            je_gw.append((n_v - n_n, e["id"], n_v, n_n))
+    for k_, o in vor.items():
+        r_ = (o.get("filter") or {}).get("rolle", "?")
+        rolle_v[r_] = rolle_v.get(r_, 0) + 1
+        art_v[o["art"]] = art_v.get(o["art"], 0) + 1
+        if k_ in nach:
+            rolle_n[r_] = rolle_n.get(r_, 0) + 1
+            art_n[o["art"]] = art_n.get(o["art"], 0) + 1
+        else:
+            g_ = o.get("grund")
+            grund[g_] = grund.get(g_, 0) + 1
+    srt = lambda d: {k_: d[k_] for k_ in sorted(d)}
+    q = np.array([(o.get("filter") or {}).get("quer_im_bett_m", 0.0) / max((o.get("filter") or {}).get("bett_breite_m", 1.0), 1e-6)
+                  for o in nach.values()], float)
+    return {"status": F["status"], "teil_max_anteil": F["teil_max_anteil"], "meter_max_anteil": F["meter_max_anteil"],
+            "objekte_eindeutig": {"vorher": len(vor), "nachher": len(nach), "gefiltert": len(vor) - len(nach)},
+            "gefiltert_nach_grund": srt(grund), "rolle_vorher": srt(rolle_v), "rolle_nachher": srt(rolle_n),
+            "art_vorher": srt(art_v), "art_nachher": srt(art_n),
+            "anteil_quer_nachher": {"median": r1(float(np.median(q)), 3) if len(q) else None,
+                                    "max": r1(float(q.max()), 3) if len(q) else None},
+            "meiste_gefiltert": [[i, v_, n_] for d_, i, v_, n_ in sorted(je_gw, key=lambda t_: (-t_[0], t_[1]))[:10]]}
+
+
 def water_info_zusammenfassung(alle, wz, regeln):
     """16g Nachtrag: Zahlen zur Regel water_info und zum Zonenvorschlag."""
     W = regeln["swr"]["water_info"]
@@ -3684,7 +3926,7 @@ def water_info_zusammenfassung(alle, wz, regeln):
         "zone_max_m_bei_%d" % W["aufloesung_max"]: {"min": r1(float(zm.min()), 1), "median": r1(float(np.median(zm)), 1),
                                                      "unter_zone_bekannt": int((zm < zb - 1e-9).sum())},
         "zone_bekannt_%g_m_aufloesung" % zb: {k_: rb[k_] for k_ in sorted(rb, key=int)},
-        "zone_bekannt_%g_m_1024_pixel_quer_unter_6" % zb: sum(1 for _, w in wi if w["zone_bekannt"]["pixel_quer"]["1024"] < W["breite_teiler"] - 1e-9),
+        "zone_bekannt_%g_m_1024_pixel_quer_unter_teiler" % zb: sum(1 for _, w in wi if w["zone_bekannt"]["pixel_quer"]["1024"] < W["breite_teiler"] - 1e-9),
         "schmalste": [[i, w["breite_min_m"], w["pixel_max_m"], w["zone_max_m"][str(W["aufloesung_max"])]]
                       for i, w in sorted(wi, key=lambda t: (t[1]["breite_min_m"], t[0]))[:10]],
         "zonen": wz["summe"]}
@@ -3767,7 +4009,9 @@ def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, g
         su["bereiche"] += len(e["bereiche"])
         su["kollision"] += len(e["wasser_kollision"])
         su["kollision_im_wasser"] += sum(1 for o in e["wasser_kollision"] if o["lage"] == "im_wasser")
-        su["ueberspannt"] += len(e["ohne_wasser_kollision"])
+        su["ueberspannt"] += sum(1 for o in e["ohne_wasser_kollision"] if o.get("grund") == "ueberspannt")
+        su["gefiltert"] = su.get("gefiltert", 0) + sum(1 for o in e["ohne_wasser_kollision"]
+                                                      if str(o.get("grund", "")).startswith("filter_"))
         su["splinepunkte"] += len(e["water_body"]["spline"]["punkte"])
         for f in e["faelle"]:
             for s_ in f["schaum_objekte"]:
@@ -3910,6 +4154,7 @@ def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, g
     zus["hoehe"] = {"hoechste_spline_m": [[i, r1(z / 100.0, 2), k_] for z, i, k_ in hz[:8]],
                     "grenze_m": 655.04, "ueber_grenze": sum(1 for z, _, _ in hz if z > 65504.0)}
     zus["kollision_objekte_eindeutig"] = len(kol_global)
+    zus["hindernis_filter"] = hindernis_filter_zusammenfassung(alle, regeln)
     zus["objekt_pool"] = {"objekte": len(pool.recs), "fest_und_gross": int(pool.fest.sum()),
                           "fest_und_gross_regel_bis_v7": int(pool.fest_alt.sum()),
                           "mindestgroesse": "groesste Ausdehnung (Netz-Bounds x |Skala|) >= %.2f m und Hoehe >= %.2f m"
