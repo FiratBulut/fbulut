@@ -1,27 +1,31 @@
-# 19 – Bach- und Flussanfänge: 43 beginnen aus dem Nichts, alle 177 mit voller Breite (FERAT 13.10. 21:00)
+# 19 – Bach- und Flussanfänge: 83 beginnen aus dem Nichts, keiner beginnt schmal (FERAT 13.10. 21:00)
 
 Ferat: „Prüfe die River-Splines, vor allem wo ein Bach startet – nicht, dass er aus dem Nichts auftaucht.“ Messlatte Witcher 4.
 
-## Befund (lokale Prüfung aller 193 Fließgewässer, `daten/bach_anfaenge/bach_anfaenge.md|json|png`)
+## Befund (lokale Prüfung aller 193 Fließgewässer, `daten/bach_anfaenge/bach_anfaenge.md|json|png`, Werkzeug `scripts/wasser/bach_anfaenge.py`)
+
+Mulde gemessen ab Uferniveau (Ring-Median) – mit der Bettsohle würde das eingeschnittene Bett eine Mulde vortäuschen (dann 93 d / 43 e).
 
 | Klasse | Anzahl |
 |---|---|
-| e – aus dem Nichts (offener Hang, keine Quelle erkennbar) | **43** |
-| d – Quellmulde / Hangfuß unter Fels | 93 |
-| c – Gletscher / Schnee | 7 |
-| b – Abzweig / Fortsetzung / Zusammenfluss / Lücke / Wasserfall | 47 |
+| e – aus dem Nichts (offener Hang, keine Quelle erkennbar) | **83** (78 Bäche, 5 Flüsse; Biome aue 36, dschungel 12, heide 10, bergwald 9, elfenwald 9, tundra 4; Felder G5 10, C4 8, G4 7, G6 6) |
+| d – Quellmulde / Hangfuß | 53 (26 davon nur schwach, < 1 m Anstieg – im Spiel kaum als Quelle lesbar) |
+| c – Gletscher / Schnee | 7 (nur 3 mit Schnee/Eis in 20 m; 4 ohne Gletschertor, u. a. `F_GLETSCHERTAL_D2`) |
+| b – Fortsetzung 17 / Zusammenfluss 15 / Abzweig 10 / Wasserfall-Fuß 4 / Lücke 1 | 47 |
 | a – Seeabfluss | **3** |
 
-- **Alle 177 echten Anfänge beginnen breiter als 1,5 m; 115 ohne jede Verjüngung** (Breite bei Punkt 0 = Breite nach 20 m). Kein Bach beginnt als Rinnsal.
-- **Enden:** 59 versickern im Nichts, 18 Meer, 22 Zusammenfluss, 6 See, 88 Fortsetzung an Feldgrenzen.
-- Die 20 schlimmsten Fälle mit Vorschlag stehen im MD (Schwere aus Klasse, Anfangsbreite, Verjüngung, Ende). Spitze:
-  1. `F_CANYONBACH_D4` – 51 m breit aus dem Nichts (Trockengras, Canyon).
-  2. `F_DSCHUNGELFLUSS_H5` – 49 m breit aus dem Nichts (Sumpf, 72 m neben Teich `T_3313_789`).
-  3. `F_HAUPTFLUSS_3_C4` – 47 m breit; Vorgänger `F_HAUPTFLUSS_2_B4` endet 570 m entfernt und 156 m höher = die **offene Kaskade K1 (B4/C4)**, dort fehlt das Epic-Wasser noch (bekannt).
-  4. `F_HAUPTFLUSS_2_B4` – Lücke, 37 m breit.
-  5. `F_HAUPTFLUSS_1_B4` – 32 m breit aus dem Nichts (Bergwald).
-  Dann Elfenfluss H4 (Wasserfall, ok?), Gletschertal D2, Erlenbach 2 D3 (Abzweig) und 12 Bäche „e“ mit 2–4 m Breite.
-- Daten je Gewässer: Feld, Anfang X/Y/Z, Breite Anfang/+20 m, Gefälle, Lagen, Biom, Mulde (Anstieg in 4 Richtungen), Fels hangauf, nächste Gewässer, Ende.
+- **Kein Bach beginnt schmal:** Anfangsbreite Bäche min 2,0 m, Median 4,0 m, 122 von 167 ≥ 4 m; **125 von 193 ohne jede Verjüngung**, nur 32 verjüngen
+  deutlich. Ursache: Die Houdini-Exporte tragen am ersten Punkt die volle Breite, `baeche_bauen.py` klemmt die Tiefe auf ≥ 40 cm.
+- **Enden:** Fortsetzung 88, Meer 50, Zusammenfluss 22, See 6, Lücke ≤ 60 m 14, Wasserfallkante voraus 3, **versickert im Nichts 8**
+  (u. a. `F_HAUPTFLUSS_2_B4` Ende bei 198 m, `B_R3_K12_WUESTE_01` 13,9 m breit).
+- Die 20 schlimmsten mit Vorschlag im MD. Spitze: 1 `F_CANYONBACH_D4` (51 m, Gefälle 0 %, Canyon-Kopf; Teich `T_-1344_-574` 330 m entfernt und 12 m
+  höher → Quelle + Wasserfall?), 2 `F_DSCHUNGELFLUSS_H5` (49 m, Sumpf → Quellsumpf-See), 3 `F_HAUPTFLUSS_3_C4` (47 m; beginnt 570 m unter dem Ende
+  von `2_B4`, 156 m tiefer = **Kaskade K1**, bekannt offen), 4/5 `F_HAUPTFLUSS_2_B4` + `F_ELFENFLUSS_1_H4` (Wasserfall-Fuß, in Ordnung),
+  6 `F_HAUPTFLUSS_1_B4` (21 m breiter 30-m-Stummel oberhalb WF_K1 ohne Quelle → Karsee ≈ 60 × 80 m bei 288 m?).
+  Schlimmste Bäche: `B_R_P3_P1_03` (G6, 11,3 m, 21 m neben See `S_R_P3_P1_01` → Seeabfluss), `B_R_M1_M1_01` (C3, 8 m), `B_R_M2_P0_01` (B5),
+  `B_R_M2_P1_03` (B6, Lavafels), `B_R_P3_P2_01`, `B_R2_R_P3_P1_05` (G6) – alle volle Breite ab Punkt 0, keine Mulde in 50 m hangauf.
+- 10 der 83 e-Anfänge haben ≤ 50 m hangauf eine Mulde (`mulde_vorschlag` im JSON mit Koordinaten); 2 Anfänge liegen ≤ 60 m an einem See.
+- Daten je Gewässer: Feld, Anfang/Ende X/Y/Z, Breite Anfang/+20 m, Gefälle, Lagen, Biom, Mulde (Anstieg in 4 Richtungen), Fels hangauf, nächste Gewässer.
 
 ## Auftrag
 
