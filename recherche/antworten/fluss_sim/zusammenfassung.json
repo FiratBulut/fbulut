@@ -1,32 +1,58 @@
 {
  "laeufe": {
-  "teile_welt": 195,
-  "teile_plan": 98,
-  "teile_roh": 97,
+  "ersetzt": {
+   "F_ERLENBACH_1V_C2": {
+    "ersetzt_durch": "ERLENBACH_P2",
+    "art": "fluss",
+    "feld": "C2",
+    "im_export": false
+   },
+   "F_ERLENBACH_1_C2": {
+    "ersetzt_durch": "ERLENBACH_P2",
+    "art": "fluss",
+    "feld": "C2",
+    "im_export": false
+   },
+   "F_ERLENBACH_2_C2": {
+    "ersetzt_durch": "ERLENBACH_P2",
+    "art": "fluss",
+    "feld": "C2",
+    "im_export": false
+   },
+   "B_R3_K10_TUNDRA_01": {
+    "ersetzt_durch": "ERLENBACH_P2",
+    "art": "bach",
+    "feld": "C2",
+    "im_export": false
+   }
+  },
+  "teile_welt": 191,
+  "teile_plan": 96,
+  "teile_roh": 95,
   "sehens_baeche": 42,
   "fortsetzungen": {
    "anschluss": 23,
-   "ueberlappung": 18
+   "ueberlappung": 15
   }
  },
  "summe": {
-  "gewaesser": 187,
-  "laenge_m": 45893.9,
-  "swr_bereiche": 199,
+  "gewaesser": 186,
+  "laenge_m": 45437.7,
+  "swr_bereiche": 197,
   "gewaesser_eine_swr": 182,
-  "faelle": 762,
-  "faelle_vorhang": 170,
-  "abstuerze": 2078,
-  "bereiche": 960,
-  "kollision": 41235,
-  "kollision_im_wasser": 35959,
-  "ueberspannt": 6863,
+  "faelle": 737,
+  "faelle_vorhang": 166,
+  "abstuerze": 2032,
+  "bereiche": 934,
+  "kollision": 40476,
+  "kollision_im_wasser": 35236,
+  "ueberspannt": 6804,
   "schaum": {
-   "aufprallteppich": 170,
-   "kehrwasser": 316,
-   "schaumstrasse": 806
+   "aufprallteppich": 166,
+   "kehrwasser": 304,
+   "schaumstrasse": 787
   },
-  "splinepunkte": 18719
+  "splinepunkte": 18489
  },
  "kategorien": {
   "sehens/sehens_bach": {
@@ -37,23 +63,23 @@
    "laeufe": 42
   },
   "welt/bach": {
-   "gewaesser": 145,
-   "laenge_m": 32886.0,
-   "swr_bereiche": 146,
-   "eine_swr": 144,
-   "laeufe": 168
+   "gewaesser": 144,
+   "laenge_m": 32812.8,
+   "swr_bereiche": 145,
+   "eine_swr": 143,
+   "laeufe": 167
   },
   "welt/fluss": {
    "gewaesser": 9,
-   "laenge_m": 11050.9,
-   "swr_bereiche": 20,
-   "eine_swr": 5,
-   "laeufe": 27
+   "laenge_m": 10667.9,
+   "swr_bereiche": 19,
+   "eine_swr": 6,
+   "laeufe": 24
   }
  },
  "muendungen": {
   "bach": 61,
-  "fluss": 13,
+  "fluss": 12,
   "meer": 55,
   "offen": 24,
   "see": 11,
@@ -65,14 +91,14 @@
   "anschluss_r2": 47,
   "geometrie": 32,
   "geometrie (Meer-Raster)": 55,
-  "geometrie (nah)": 20,
+  "geometrie (nah)": 19,
   "sehens": 31,
   "sehens (houdini R_M2_P0__WASSER, kein Lauf in Reichweite)": 1,
   "sehens (houdini houdini, kein Lauf in Reichweite)": 1
  },
  "muendungen_offen": ["B_K1_WASSERFALL_WEST_01","B_K1_WASSERFALL_WEST_03","B_K8_ELFENFALL_01","B_K8_ELFENFALL_03","B_K8_ELFENFALL_04","B_K8_ELFENFALL_05","B_K8_ELFENFALL_06","B_R3_K12_WUESTE_01","B_R3_R_M1_P0_01","B_R3_R_P4_M1_01","B_R_M1_M1_03","B_R_M1_P0_01","B_R_M1_P0_02","B_R_M2_M1_02","B_R_M2_M2_01","B_R_P1_P0_04","B_R_P2_M3_01","B_R_P3_M1_05","B_R_P3_M1_06","B_R_P3_P1_01","B_R_P4_M2_03","F_HAUPTFLUSS_2","SW_bergwald_05_klemmblock_klamm_klammbach","SW_bergwald_06_karsee_abfluss"],
  "anfang": {
-  "quelle": 169,
+  "quelle": 168,
   "see": 5,
   "topf": 10,
   "wasserfall": 3
@@ -80,27 +106,27 @@
  "zufluesse_mit_endstueck_aus_plan": ["B_R2_R_P0_M2_01","B_R2_R_P1_M2_01","B_R2_R_P2_P1_01","B_R2_R_P3_M2_01","B_R2_R_P4_M1_02","B_R2_R_P4_M2_01","B_R_P2_M1_03","B_R_P3_M1_07"],
  "laenge_m": {
   "min": 7.5,
-  "median": 140.7,
+  "median": 141.1,
   "max": 3856.1,
   "verteilung": {
    "<= 50": 24,
-   "<= 100": 41,
+   "<= 100": 40,
    "<= 130": 21,
    "<= 180": 24,
    "<= 256": 30,
    "<= 500": 32,
-   "<= 1000": 9,
-   "<= 2000": 3,
+   "<= 1000": 10,
+   "<= 2000": 2,
    "> 2000": 3
   },
-  "laengste": [["F_HAUPTFLUSS_3",3856.1],["F_DSCHUNGELFLUSS",2867.0],["F_ELFENFLUSS",2212.7],["B_R_P3_P0_02",1294.83],["B_K1_WASSERFALL_WEST_03",1039.94],["F_ERLENBACH",1006.7],["B_R_P3_P0_04",944.76],["B_R_M1_P0_04",766.95],["B_R3_R_M2_P0_01",755.93],["B_R_P4_M2_04",743.86]]
+  "laengste": [["F_HAUPTFLUSS_3",3856.1],["F_DSCHUNGELFLUSS",2867.0],["F_ELFENFLUSS",2212.7],["B_R_P3_P0_02",1294.83],["B_K1_WASSERFALL_WEST_03",1039.94],["B_R_P3_P0_04",944.76],["B_R_M1_P0_04",766.95],["B_R3_R_M2_P0_01",755.93],["B_R_P4_M2_04",743.86],["B_R_P3_P1_01",706.2]]
  },
  "box_achse_m": {
-  "median": 127.0,
+  "median": 127.9,
   "max": 3497.9,
   "verteilung": {
    "<= 50": 28,
-   "<= 100": 48,
+   "<= 100": 47,
    "<= 130": 21,
    "<= 180": 25,
    "<= 256": 29,
@@ -111,22 +137,22 @@
   }
  },
  "swr": {
-  "anzahl": 199,
+  "anzahl": 197,
   "typ": {
-   "bach": 188,
+   "bach": 186,
    "fluss": 11
   },
   "gewaesser_eine_swr": 182,
-  "gewaesser_geteilt": 5,
-  "swr_in_geteilten": 17,
-  "geteilte": [["F_HAUPTFLUSS_3",6,3856.1],["F_ELFENFLUSS",4,2212.7],["F_DSCHUNGELFLUSS",3,2867.0],["B_R_P3_P0_02",2,1294.83],["F_ERLENBACH",2,1006.7]],
+  "gewaesser_geteilt": 4,
+  "swr_in_geteilten": 15,
+  "geteilte": [["F_HAUPTFLUSS_3",6,3856.1],["F_ELFENFLUSS",4,2212.7],["F_DSCHUNGELFLUSS",3,2867.0],["B_R_P3_P0_02",2,1294.83]],
   "naehte": {
-   "becken": 12
+   "becken": 11
   },
   "aufloesung": {
-   "<= 512": 95,
+   "<= 512": 94,
    "513-1024": 56,
-   "1025-2048": 48,
+   "1025-2048": 47,
    "> 2048": 0
   },
   "aufloesung_median": 544,
@@ -136,7 +162,7 @@
    "median": 0.244,
    "max": 0.4,
    "verteilung": {
-    "bach": {"<= 0.20":3,"<= 0.25":173,"<= 0.30":9,"<= 0.35":1,"> 0.35":2},
+    "bach": {"<= 0.20":3,"<= 0.25":171,"<= 0.30":9,"<= 0.35":1,"> 0.35":2},
     "fluss": {"<= 0.35":11}
    }
   },
@@ -145,98 +171,98 @@
    "max_laengste_seite": 819.0
   },
   "zellen_mio": {
-   "summe": 80.0
+   "summe": 79.1
   },
-  "hindernis_akteure": 197,
-  "hindernis_instanzen": 39946,
-  "hindernis_akteure_mit_tag": 1034,
+  "hindernis_akteure": 195,
+  "hindernis_instanzen": 39239,
+  "hindernis_akteure_mit_tag": 982,
   "swr_ohne_hindernis": 2,
   "gelaende_max_in_swr_m": 331.86,
   "gelaende_max_swr": "F_HAUPTFLUSS_1"
  },
  "swr_rand_steil": {
   "status": "Info (16g Nachtrag 13.10.2026): nur Diagnose, aendert weder Spline noch SWR-Werte noch Fingerabdruck. Ursache des Stillstands war die Wasser-Info der Water Zone (water_info), nicht Rand oder Gefaelle: anfang.zu_nah (Vorlauf 10 m) ist nur noch eine Option, wenn die Quelle sichtbar zu wenig speist; eignung pruefen/kaskade_vorschlag heisst nur noch: im Bild ansehen, Plan B (Kaskadennetz) nur, wenn das Bild es braucht",
-  "quelle_zu_nah": 187,
-  "quellen": 187,
+  "quelle_zu_nah": 186,
+  "quellen": 186,
   "quelle_abstand_m": {
    "median": 0.0,
-   "unter_1m": 187
+   "unter_1m": 186
   },
-  "mit_kontakt_im_lauf": 76,
-  "kontakte_im_lauf": 98,
-  "kontakte_summe": 826,
+  "mit_kontakt_im_lauf": 75,
+  "kontakte_im_lauf": 97,
+  "kontakte_summe": 818,
   "hoehenspanne_m": {
    "median": 11.6,
    "max": 155.7,
-   "ueber_50": 20,
+   "ueber_50": 19,
    "ueber_100": 3
   },
   "eignung": {
-   "kaskade_vorschlag": 18,
+   "kaskade_vorschlag": 17,
    "pruefen": 52,
-   "swr": 129
+   "swr": 128
   },
-  "laenge_kaskade_m": 1454.0,
+  "laenge_kaskade_m": 1290.0,
   "laenge_pruefen_m": 7229.0,
-  "steilste": [["F_ERLENBACH_T00",0.52,164.0,68.34],["B_R_P4_M2_04",0.941,152.0,155.67],["SW_gletscher_06_gletschertoepfe_klammbach_oben",1.64,138.0,94.26],["B_K8_ELFENFALL_01",1.168,118.0,117.92],["B_R2_R_P4_M2_01",0.812,92.0,108.53],["B_R_P0_M2_02",0.539,77.0,68.61],["B_R_M2_P1_02",0.623,69.0,46.0],["SW_fjord_02_schleierwand_abfluss4",2.28,67.0,69.48],["B_R_M3_M2_01",0.742,67.0,50.89],["B_R2_R_M1_M1_06",0.38,63.0,31.71]]
+  "steilste": [["B_R_P4_M2_04",0.941,152.0,155.67],["SW_gletscher_06_gletschertoepfe_klammbach_oben",1.64,138.0,94.26],["B_K8_ELFENFALL_01",1.168,118.0,117.92],["B_R2_R_P4_M2_01",0.812,92.0,108.53],["B_R_P0_M2_02",0.539,77.0,68.61],["B_R_M2_P1_02",0.623,69.0,46.0],["SW_fjord_02_schleierwand_abfluss4",2.28,67.0,69.48],["B_R_M3_M2_01",0.742,67.0,50.89],["B_R2_R_M1_M1_06",0.38,63.0,31.71],["SW_fjord_02_schleierwand_abfluss1",1.793,60.0,57.89]]
  },
  "varianten_zelle": {
   "regel 16e: bach 0.25 (ungeteilt bis 0.40, Teilstuecke max 0.30), fluss 0.35": {
-   "gewaesser_geteilt": 5,
+   "gewaesser_geteilt": 4,
    "gewaesser_eine_swr": 182,
-   "swr": 199,
+   "swr": 197,
    "aufloesung": {
-    "<= 512": 95,
+    "<= 512": 94,
     "513-1024": 56,
-    "1025-2048": 48
+    "1025-2048": 47
    }
   },
   "16d: bach 0.25 (max 0.30), fluss 0.35": {
-   "gewaesser_geteilt": 8,
+   "gewaesser_geteilt": 7,
    "gewaesser_eine_swr": 179,
-   "swr": 202,
+   "swr": 200,
    "aufloesung": {
-    "<= 512": 95,
+    "<= 512": 94,
     "513-1024": 58,
-    "1025-2048": 49
+    "1025-2048": 48
    }
   },
   "bach 0.25 (max 0.25), fluss 0.35": {
    "gewaesser_geteilt": 11,
-   "gewaesser_eine_swr": 176,
-   "swr": 207,
+   "gewaesser_eine_swr": 175,
+   "swr": 206,
    "aufloesung": {
-    "<= 512": 95,
+    "<= 512": 94,
     "513-1024": 60,
     "1025-2048": 52
    }
   },
   "alle 0.25": {
    "gewaesser_geteilt": 12,
-   "gewaesser_eine_swr": 175,
-   "swr": 210,
+   "gewaesser_eine_swr": 174,
+   "swr": 209,
    "aufloesung": {
-    "<= 512": 94,
+    "<= 512": 93,
     "513-1024": 61,
     "1025-2048": 55
    }
   },
   "bach 0.30, fluss 0.35": {
-   "gewaesser_geteilt": 8,
+   "gewaesser_geteilt": 7,
    "gewaesser_eine_swr": 179,
-   "swr": 202,
+   "swr": 200,
    "aufloesung": {
-    "<= 512": 111,
+    "<= 512": 110,
     "513-1024": 53,
-    "1025-2048": 38
+    "1025-2048": 37
    }
   },
   "bis 512 (Zwischenregel 16c): bach 0.35, fluss 0.5": {
    "gewaesser_geteilt": 66,
-   "gewaesser_eine_swr": 121,
-   "swr": 739,
+   "gewaesser_eine_swr": 120,
+   "swr": 427,
    "aufloesung": {
-    "<= 512": 739,
+    "<= 512": 427,
     "513-1024": 0,
     "1025-2048": 0
    }
@@ -247,11 +273,11 @@
   "grenze_m": 655.04,
   "ueber_grenze": 0
  },
- "kollision_objekte_eindeutig": 40980,
+ "kollision_objekte_eindeutig": 40221,
  "objekt_pool": {
-  "objekte": 383818,
-  "fest_und_gross": 99581,
-  "fest_und_gross_regel_bis_v7": 102338,
+  "objekte": 380890,
+  "fest_und_gross": 98719,
+  "fest_und_gross_regel_bis_v7": 101466,
   "mindestgroesse": "groesste Ausdehnung (Netz-Bounds x |Skala|) >= 0.40 m und Hoehe >= 0.20 m"
  },
  "tempo": {
@@ -259,7 +285,7 @@
   "regel": "Manning-Strickler bei Normalabfluss je Splinepunkt: v = k_st^(3/5) * q^(2/5) * max(I, gefaelle_min)^(3/10). I = Gefaelle des Wasserspiegels ueber +-fenster_halb_m (Stufen zaehlen mit). q = Q / b (Abfluss je Meter Breite, b = RiverWidth); Q = v_becken_ref_ms * Median(b * h) ueber +-q_fenster_m mit h = Depth * tiefe_mittel_anteil (>= tiefe_min_m): ein Becken mittlerer Groesse fliesst mit v_becken_ref_ms, Engstellen schneller, breite Becken langsamer (Kontinuitaet); in Becken und Toepfen (Rueckstau) v = min(v, q / h). v begrenzt auf [v_min_ms; v_max_ms], entlang s geglaettet (Gauss glatt_sigma_m, Gewicht x halber Punktabstand), dann Aenderung je Meter <= aenderung_max_ms_je_m (untere Huelle: nur Spitzen sinken), zuletzt x tempo_faktor. tempo_ms auf 0,001 m/s gerundet; WaterVelocityScalar_cm_s = tempo_ms x 100 (0,1 cm/s).",
   "tempo_faktor": 1.0,
   "vorher": {
-   "n": 18719,
+   "n": 18489,
    "mittel": 1.639,
    "median": 1.5,
    "p10": 0.8,
@@ -268,46 +294,46 @@
    "max": 4.5
   },
   "nachher": {
-   "n": 18719,
-   "mittel": 0.687,
-   "median": 0.584,
-   "p10": 0.173,
-   "p90": 1.373,
+   "n": 18489,
+   "mittel": 0.683,
+   "median": 0.581,
+   "p10": 0.172,
+   "p90": 1.363,
    "min": 0.1,
    "max": 2.5
   },
   "nach_rolle": {
    "becken": {
-    "vorher": {"n":2437,"mittel":0.804,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":3.0},
-    "nachher": {"n":2437,"mittel":0.214,"median":0.208,"p10":0.133,"p90":0.291,"min":0.1,"max":2.407}
+    "vorher": {"n":2394,"mittel":0.804,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":3.0},
+    "nachher": {"n":2394,"mittel":0.214,"median":0.207,"p10":0.133,"p90":0.288,"min":0.1,"max":2.407}
    },
    "fuss": {
-    "vorher": {"n":2078,"mittel":1.624,"median":1.5,"p10":1.5,"p90":1.5,"min":0.5,"max":3.0},
-    "nachher": {"n":2078,"mittel":1.196,"median":1.216,"p10":0.767,"p90":1.528,"min":0.404,"max":2.343}
+    "vorher": {"n":2032,"mittel":1.625,"median":1.5,"p10":1.5,"p90":1.5,"min":0.5,"max":3.0},
+    "nachher": {"n":2032,"mittel":1.185,"median":1.21,"p10":0.762,"p90":1.507,"min":0.404,"max":2.106}
    },
    "gerinne": {
-    "vorher": {"n":84,"mittel":1.814,"median":1.839,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
-    "nachher": {"n":84,"mittel":0.766,"median":0.659,"p10":0.501,"p90":1.204,"min":0.368,"max":2.268}
+    "vorher": {"n":82,"mittel":1.806,"median":1.804,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
+    "nachher": {"n":82,"mittel":0.769,"median":0.659,"p10":0.504,"p90":1.237,"min":0.368,"max":2.268}
    },
    "lippe": {
-    "vorher": {"n":2078,"mittel":2.36,"median":2.4,"p10":2.4,"p90":2.4,"min":0.5,"max":2.4},
-    "nachher": {"n":2078,"mittel":1.2,"median":1.211,"p10":0.765,"p90":1.553,"min":0.404,"max":2.348}
+    "vorher": {"n":2032,"mittel":2.359,"median":2.4,"p10":2.4,"p90":2.4,"min":0.5,"max":2.4},
+    "nachher": {"n":2032,"mittel":1.188,"median":1.203,"p10":0.762,"p90":1.531,"min":0.404,"max":2.169}
    },
    "rampe": {
-    "vorher": {"n":397,"mittel":2.615,"median":3.0,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
-    "nachher": {"n":397,"mittel":1.058,"median":1.121,"p10":0.136,"p90":1.734,"min":0.1,"max":2.5}
+    "vorher": {"n":393,"mittel":2.611,"median":3.0,"p10":0.8,"p90":3.0,"min":0.8,"max":3.0},
+    "nachher": {"n":393,"mittel":1.055,"median":1.105,"p10":0.136,"p90":1.735,"min":0.1,"max":2.5}
    },
    "rinne": {
     "vorher": {"n":59,"mittel":1.837,"median":1.65,"p10":0.962,"p90":2.892,"min":0.8,"max":3.0},
     "nachher": {"n":59,"mittel":0.957,"median":0.991,"p10":0.544,"p90":1.39,"min":0.11,"max":1.849}
    },
    "river": {
-    "vorher": {"n":6059,"mittel":1.616,"median":1.536,"p10":0.8,"p90":3.0,"min":0.3,"max":3.773},
-    "nachher": {"n":6059,"mittel":0.577,"median":0.562,"p10":0.188,"p90":1.024,"min":0.1,"max":2.105}
+    "vorher": {"n":5979,"mittel":1.618,"median":1.536,"p10":0.8,"p90":3.0,"min":0.3,"max":3.776},
+    "nachher": {"n":5979,"mittel":0.575,"median":0.559,"p10":0.176,"p90":1.025,"min":0.1,"max":2.105}
    },
    "roh": {
-    "vorher": {"n":5466,"mittel":1.706,"median":1.8,"p10":0.352,"p90":2.852,"min":0.3,"max":4.5},
-    "nachher": {"n":5466,"mittel":0.607,"median":0.496,"p10":0.163,"p90":1.283,"min":0.1,"max":2.099}
+    "vorher": {"n":5457,"mittel":1.705,"median":1.8,"p10":0.352,"p90":2.852,"min":0.3,"max":4.5},
+    "nachher": {"n":5457,"mittel":0.607,"median":0.496,"p10":0.164,"p90":1.264,"min":0.1,"max":2.099}
    },
    "topf": {
     "vorher": {"n":61,"mittel":0.463,"median":0.393,"p10":0.1,"p90":0.8,"min":0.1,"max":2.63},
@@ -316,20 +342,20 @@
   },
   "nach_gefaelle": {
    "< 1 %": {
-    "vorher": {"n":4520,"mittel":1.171,"median":0.865,"p10":0.3,"p90":2.457,"min":0.1,"max":3.27},
-    "nachher": {"n":4520,"mittel":0.322,"median":0.274,"p10":0.1,"p90":0.663,"min":0.1,"max":1.384}
+    "vorher": {"n":4495,"mittel":1.169,"median":0.864,"p10":0.3,"p90":2.457,"min":0.1,"max":3.0},
+    "nachher": {"n":4495,"mittel":0.322,"median":0.274,"p10":0.1,"p90":0.663,"min":0.1,"max":1.384}
    },
    "1-5 %": {
-    "vorher": {"n":6406,"mittel":1.565,"median":1.619,"p10":0.8,"p90":2.611,"min":0.548,"max":3.829},
-    "nachher": {"n":6406,"mittel":0.499,"median":0.446,"p10":0.182,"p90":1.006,"min":0.1,"max":1.8}
+    "vorher": {"n":6314,"mittel":1.57,"median":1.628,"p10":0.8,"p90":2.612,"min":0.548,"max":3.829},
+    "nachher": {"n":6314,"mittel":0.499,"median":0.445,"p10":0.181,"p90":1.015,"min":0.1,"max":1.8}
    },
    "5-15 %": {
-    "vorher": {"n":3540,"mittel":1.898,"median":1.859,"p10":0.8,"p90":3.0,"min":0.5,"max":4.5},
-    "nachher": {"n":3540,"mittel":0.81,"median":0.738,"p10":0.577,"p90":1.119,"min":0.223,"max":1.954}
+    "vorher": {"n":3518,"mittel":1.897,"median":1.854,"p10":0.8,"p90":3.0,"min":0.5,"max":4.5},
+    "nachher": {"n":3518,"mittel":0.807,"median":0.737,"p10":0.577,"p90":1.115,"min":0.223,"max":1.954}
    },
    "> 15 %": {
-    "vorher": {"n":4253,"mittel":2.033,"median":2.4,"p10":1.5,"p90":3.0,"min":0.8,"max":4.5},
-    "nachher": {"n":4253,"mittel":1.257,"median":1.265,"p10":0.883,"p90":1.581,"min":0.26,"max":2.5}
+    "vorher": {"n":4162,"mittel":2.034,"median":2.4,"p10":1.5,"p90":3.0,"min":0.8,"max":4.5},
+    "nachher": {"n":4162,"mittel":1.247,"median":1.255,"p10":0.881,"p90":1.561,"min":0.26,"max":2.5}
    }
   },
   "nach_kategorie": {
@@ -338,8 +364,8 @@
     "nachher": {"n":1086,"mittel":0.673,"median":0.683,"p10":0.1,"p90":1.317,"min":0.1,"max":2.407}
    },
    "welt": {
-    "vorher": {"n":17633,"mittel":1.643,"median":1.528,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
-    "nachher": {"n":17633,"mittel":0.688,"median":0.576,"p10":0.18,"p90":1.376,"min":0.1,"max":2.5}
+    "vorher": {"n":17403,"mittel":1.643,"median":1.528,"p10":0.8,"p90":2.881,"min":0.3,"max":4.5},
+    "nachher": {"n":17403,"mittel":0.684,"median":0.574,"p10":0.18,"p90":1.366,"min":0.1,"max":2.5}
    }
   },
   "spearman_gefaelle": {
@@ -349,53 +375,22 @@
   },
   "c2": {
    "lauf": "F_ERLENBACH_1V_C2",
-   "punkte": 124,
-   "vorher": {
-    "n": 124,
-    "mittel": 1.748,
-    "median": 1.5,
-    "p10": 0.8,
-    "p90": 2.4,
-    "min": 0.8,
-    "max": 3.27
-   },
-   "nachher": {
-    "n": 124,
-    "mittel": 1.353,
-    "median": 1.605,
-    "p10": 0.228,
-    "p90": 1.963,
-    "min": 0.149,
-    "max": 2.348
-   },
-   "nach_rolle": {
-    "becken": {"vorher":{"n":25,"mittel":0.8,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":0.8},"nachher":{"n":25,"mittel":0.239,"median":0.233,"p10":0.186,"p90":0.301,"min":0.149,"max":0.442}},
-    "fuss": {"vorher":{"n":42,"mittel":1.536,"median":1.5,"p10":1.5,"p90":1.5,"min":1.5,"max":3.0},"nachher":{"n":42,"mittel":1.741,"median":1.715,"p10":1.509,"p90":1.97,"min":1.447,"max":2.343}},
-    "gerinne": {"vorher":{"n":1,"mittel":2.452,"median":2.452,"p10":2.452,"p90":2.452,"min":2.452,"max":2.452},"nachher":{"n":1,"mittel":0.758,"median":0.758,"p10":0.758,"p90":0.758,"min":0.758,"max":0.758}},
-    "lippe": {"vorher":{"n":42,"mittel":2.4,"median":2.4,"p10":2.4,"p90":2.4,"min":2.4,"max":2.4},"nachher":{"n":42,"mittel":1.752,"median":1.732,"p10":1.494,"p90":2.013,"min":1.447,"max":2.348}},
-    "rampe": {"vorher":{"n":4,"mittel":3.0,"median":3.0,"p10":3.0,"p90":3.0,"min":3.0,"max":3.0},"nachher":{"n":4,"mittel":1.313,"median":1.321,"p10":1.266,"p90":1.355,"min":1.249,"max":1.363}},
-    "river": {"vorher":{"n":10,"mittel":1.702,"median":1.461,"p10":0.8,"p90":2.696,"min":0.8,"max":3.27},"nachher":{"n":10,"mittel":0.91,"median":1.137,"p10":0.25,"p90":1.347,"min":0.162,"max":1.349}}
-   },
-   "nach_gefaelle": {
-    "< 1 %": {"vorher":{"n":4,"mittel":2.725,"median":2.566,"p10":2.5,"p90":3.079,"min":2.5,"max":3.27},"nachher":{"n":4,"mittel":0.366,"median":0.349,"p10":0.191,"p90":0.555,"min":0.162,"max":0.606}},
-    "1-5 %": {"vorher":{"n":26,"mittel":0.864,"median":0.8,"p10":0.8,"p90":0.8,"min":0.8,"max":2.452},"nachher":{"n":26,"mittel":0.259,"median":0.234,"p10":0.188,"p90":0.321,"min":0.149,"max":0.758}},
-    "5-15 %": {"vorher":{"n":7,"mittel":1.303,"median":0.8,"p10":0.8,"p90":2.168,"min":0.8,"max":3.0},"nachher":{"n":7,"mittel":1.269,"median":1.325,"p10":1.148,"p90":1.348,"min":0.996,"max":1.349}},
-    "> 15 %": {"vorher":{"n":87,"mittel":2.003,"median":2.4,"p10":1.5,"p90":2.4,"min":1.5,"max":3.0},"nachher":{"n":87,"mittel":1.732,"median":1.714,"p10":1.482,"p90":2.001,"min":1.307,"max":2.348}}
-   }
+   "ersetzt": "ersetzt durch ERLENBACH_P2 (fluss_sim/ersetzt.json, 16h)",
+   "hinweis": "C2 ist lokal Ferats Erlenbach p2; kein Teil dieses Exports (16h)"
   }
  },
  "schaum_maske": {
-  "kapseln": 170,
-  "gewaesser_mit_kapseln": 33,
+  "kapseln": 166,
+  "gewaesser_mit_kapseln": 32,
   "je_gewaesser_max": 17,
   "slots_max": 8,
   "ueber_slots": ["SW_elfenwald_05_farnschlucht_tobelbach","SW_fjord_02_schleierwand_abfluss1","SW_fjord_02_schleierwand_abfluss3","SW_fjord_02_schleierwand_abfluss4","SW_gletscher_03_moraenensee_seeabfluss","SW_gletscher_06_gletschertoepfe_klammbach_oben"],
   "radius_m": {
-   "n": 170,
-   "mittel": 1.449,
+   "n": 166,
+   "mittel": 1.425,
    "median": 1.26,
    "p10": 1.26,
-   "p90": 2.25,
+   "p90": 2.245,
    "min": 1.06,
    "max": 3.0
   }
@@ -589,47 +584,47 @@
   "hinweis": "Toepfe sind Teil ihres Gewaessers (Bereich rolle 'topf', Feld toepfe[]): lokal KEIN WaterBodyLake bauen"
  },
  "vorschlaege": {
-  "anzahl": 47,
+  "anzahl": 46,
   "datei": "vorschlaege.json",
   "nach_art": {
-   "luecke": 23,
+   "luecke": 22,
    "offen": 24
   },
   "methode": {
-   "gerade": 23,
+   "gerade": 22,
    "geringster_anstieg": 4,
    "steilstes_gefaelle": 7,
    "steilstes_gefaelle+geringster_anstieg": 13
   },
   "ziel": {
    "bach": 20,
-   "fluss": 12,
+   "fluss": 11,
    "meer": 3,
    "see": 12
   },
   "laenge_m": {
    "min": 4.2,
-   "median": 21.9,
+   "median": 25.0,
    "max": 591.1
   },
   "einschnitt_ueber_1m": [["B_K1_WASSERFALL_WEST_03",2.97],["B_R3_K12_WUESTE_01",3.9],["B_R3_R_M1_P0_01",6.61],["B_R_M1_P0_01",7.51],["B_R_M1_P0_02",5.7],["B_R_P1_P0_04",1.27],["B_R_P3_M1_05",1.05],["B_R_P4_M2_03",1.02],["F_HAUPTFLUSS_2",12.36]],
   "kreuzt_hoeheres_wasser": [["B_R3_R_M1_P0_01",["F_HAUPTFLUSS_3"]],["B_R_M1_P0_01",["F_HAUPTFLUSS_3"]],["B_R_M1_P0_02",["F_HAUPTFLUSS_3"]]],
   "ohne_ziel": [],
-  "liste": [["B_K1_WASSERFALL_WEST_01","offen","aue_01_biberstau/stau",96.28],["B_K1_WASSERFALL_WEST_02","luecke","B_R2_R_M1_M1_03",21.95],["B_K1_WASSERFALL_WEST_03","offen","F_HAUPTFLUSS_3",363.65],["B_K8_ELFENFALL_01","offen","B_R_P4_M1_03",98.63],["B_K8_ELFENFALL_02","luecke","F_ELFENFLUSS",8.87],["B_K8_ELFENFALL_03","offen","SW_sumpf_05_der_erlenbruch_rinnsal",109.25],["B_K8_ELFENFALL_04","offen","T_2719_39",272.33],["B_K8_ELFENFALL_05","offen","T_2954_391",289.82],["B_K8_ELFENFALL_06","offen","T_2954_391",360.5],["B_R2_K8_ELFENFALL_01","luecke","S_R_P3_M1_00",17.4],["B_R2_R_P3_P1_03","luecke","B_R_P3_P1_03",4.24],["B_R3_K10_TUNDRA_01","luecke","F_ERLENBACH",9.44],["B_R3_K12_WUESTE_01","offen","wueste_05_salzpfanne/restsole",520.78],["B_R3_R_M1_M1_01","luecke","B_R2_R_M1_M1_03",6.87],["B_R3_R_M1_M1_03","luecke","B_K1_WASSERFALL_WEST_03",4.92],["B_R3_R_M1_P0_01","offen","S_R_M1_P0_00",136.57],["B_R3_R_M2_P1_01","luecke","B_R_M2_P1_02",4.6],["B_R3_R_P2_M1_01","luecke","B_R_P3_M1_03",4.97],["B_R3_R_P3_P0_01","luecke","B_R_P3_P0_02",7.67],["B_R3_R_P3_P0_02","luecke","B_R_P3_P0_01",10.4],["B_R3_R_P4_M1_01","offen","SW_sumpf_05_der_erlenbruch_rinnsal",208.17],["B_R_M1_M1_03","offen","F_HAUPTFLUSS_3",269.25],["B_R_M1_P0_01","offen","S_R_M1_P0_00",128.97],["B_R_M1_P0_02","offen","S_R_M1_P0_00",157.14],["B_R_M2_M1_02","offen","B_R_M2_M2_03",43.6],["B_R_M2_M2_01","offen","meer",74.91],["B_R_P0_M2_01","luecke","B_R_P0_M2_02",20.35],["B_R_P1_M2_01","luecke","B_R_P0_M2_02",11.19],["B_R_P1_P0_04","offen","F_HAUPTFLUSS_3",42.63],["B_R_P2_M3_01","offen","meer",20.0],["B_R_P3_M1_05","offen","F_ELFENFLUSS",86.63],["B_R_P3_M1_06","offen","F_ELFENFLUSS",28.0],["B_R_P3_M1_07","luecke","F_ELFENFLUSS",5.05],["B_R_P3_M1_08","luecke","F_ELFENFLUSS",15.18],["B_R_P3_M1_09","luecke","F_ELFENFLUSS",9.21],["B_R_P3_M2_02","luecke","B_R_P4_M2_02",9.58],["B_R_P3_M2_03","luecke","B_R_P4_M2_02",11.95],["B_R_P3_P0_01","luecke","B_R3_R_P3_P0_02",13.03],["B_R_P3_P0_03","luecke","B_R_P2_P0_04",8.06],["B_R_P3_P0_05","luecke","T_2954_391",12.77],["B_R_P3_P1_01","offen","S_R_P3_P0_03",74.23],["B_R_P4_M1_04","luecke","S_R_P3_M1_00",16.26],["B_R_P4_M2_03","offen","B_R_P3_M2_03",30.63],["F_HAUPTFLUSS_2","offen","F_HAUPTFLUSS_3",591.06],["SW_bergwald_05_klemmblock_klamm_klammbach","offen","meer",181.54],["SW_bergwald_06_karsee_abfluss","offen","B_R3_R_M2_P0_01",360.85],["SW_gletscher_01_gletschertor_gletscherbach","luecke","F_GLETSCHERTAL",6.85]]
+  "liste": [["B_K1_WASSERFALL_WEST_01","offen","aue_01_biberstau/stau",96.28],["B_K1_WASSERFALL_WEST_02","luecke","B_R2_R_M1_M1_03",21.95],["B_K1_WASSERFALL_WEST_03","offen","F_HAUPTFLUSS_3",363.65],["B_K8_ELFENFALL_01","offen","B_R_P4_M1_03",98.63],["B_K8_ELFENFALL_02","luecke","F_ELFENFLUSS",8.87],["B_K8_ELFENFALL_03","offen","SW_sumpf_05_der_erlenbruch_rinnsal",109.25],["B_K8_ELFENFALL_04","offen","T_2719_39",272.33],["B_K8_ELFENFALL_05","offen","T_2954_391",289.82],["B_K8_ELFENFALL_06","offen","T_2954_391",360.5],["B_R2_K8_ELFENFALL_01","luecke","S_R_P3_M1_00",17.4],["B_R2_R_P3_P1_03","luecke","B_R_P3_P1_03",4.24],["B_R3_K12_WUESTE_01","offen","wueste_05_salzpfanne/restsole",520.78],["B_R3_R_M1_M1_01","luecke","B_R2_R_M1_M1_03",6.87],["B_R3_R_M1_M1_03","luecke","B_K1_WASSERFALL_WEST_03",4.92],["B_R3_R_M1_P0_01","offen","S_R_M1_P0_00",136.57],["B_R3_R_M2_P1_01","luecke","B_R_M2_P1_02",4.6],["B_R3_R_P2_M1_01","luecke","B_R_P3_M1_03",4.97],["B_R3_R_P3_P0_01","luecke","B_R_P3_P0_02",7.67],["B_R3_R_P3_P0_02","luecke","B_R_P3_P0_01",10.4],["B_R3_R_P4_M1_01","offen","SW_sumpf_05_der_erlenbruch_rinnsal",208.17],["B_R_M1_M1_03","offen","F_HAUPTFLUSS_3",269.25],["B_R_M1_P0_01","offen","S_R_M1_P0_00",128.97],["B_R_M1_P0_02","offen","S_R_M1_P0_00",157.14],["B_R_M2_M1_02","offen","B_R_M2_M2_03",43.6],["B_R_M2_M2_01","offen","meer",74.91],["B_R_P0_M2_01","luecke","B_R_P0_M2_02",20.35],["B_R_P1_M2_01","luecke","B_R_P0_M2_02",11.19],["B_R_P1_P0_04","offen","F_HAUPTFLUSS_3",42.63],["B_R_P2_M3_01","offen","meer",20.0],["B_R_P3_M1_05","offen","F_ELFENFLUSS",86.63],["B_R_P3_M1_06","offen","F_ELFENFLUSS",28.0],["B_R_P3_M1_07","luecke","F_ELFENFLUSS",5.05],["B_R_P3_M1_08","luecke","F_ELFENFLUSS",15.18],["B_R_P3_M1_09","luecke","F_ELFENFLUSS",9.21],["B_R_P3_M2_02","luecke","B_R_P4_M2_02",9.58],["B_R_P3_M2_03","luecke","B_R_P4_M2_02",11.95],["B_R_P3_P0_01","luecke","B_R3_R_P3_P0_02",13.03],["B_R_P3_P0_03","luecke","B_R_P2_P0_04",8.06],["B_R_P3_P0_05","luecke","T_2954_391",12.77],["B_R_P3_P1_01","offen","S_R_P3_P0_03",74.23],["B_R_P4_M1_04","luecke","S_R_P3_M1_00",16.26],["B_R_P4_M2_03","offen","B_R_P3_M2_03",30.63],["F_HAUPTFLUSS_2","offen","F_HAUPTFLUSS_3",591.06],["SW_bergwald_05_klemmblock_klamm_klammbach","offen","meer",181.54],["SW_bergwald_06_karsee_abfluss","offen","B_R3_R_M2_P0_01",360.85],["SW_gletscher_01_gletschertor_gletscherbach","luecke","F_GLETSCHERTAL",6.85]]
  },
  "water_info": {
   "status": "Regel 16g Nachtrag (Ferat 13.10.2026 07:05): Pixel der Wasser-Info der zustaendigen Water Zone <= schmalste Bachbreite / breite_teiler. Beleg C2: 1208 m / 1024 = 1,18 m je Pixel -> Bett (1,6-2,4 m) 1-2 Pixel breit, Rasterluecken, Front steht; 1208 m / 4096 = 0,29 m -> Bett zu 99,9 % nass bis s 780",
-  "swr_bereiche": 199,
+  "swr_bereiche": 197,
   "breite_min_m": {
    "min": 0.7,
    "median": 2.83,
    "verteilung": {
     "<= 1": 1,
-    "<= 2": 42,
+    "<= 2": 41,
     "<= 3": 101,
     "<= 5": 33,
     "<= 10": 4,
-    "<= 15": 3,
+    "<= 15": 2,
     "> 15": 15
    }
   },
@@ -645,53 +640,52 @@
   "zone_bekannt_1208_m_aufloesung": {
    "256": 12,
    "512": 3,
-   "1024": 5,
+   "1024": 4,
    "2048": 15,
-   "4096": 163,
+   "4096": 162,
    "16384": 1
   },
-  "zone_bekannt_1208_m_1024_pixel_quer_unter_6": 179,
+  "zone_bekannt_1208_m_1024_pixel_quer_unter_6": 178,
   "schmalste": [["SW_sumpf_05_der_erlenbruch_rinnsal",0.7,0.1167,477.9],["B_R2_K10_TUNDRA_01",2.0,0.3333,1365.3],["B_R2_K10_TUNDRA_02",2.0,0.3333,1365.3],["B_R2_R_M1_M1_03",2.0,0.3333,1365.3],["B_R2_R_M1_M1_04",2.0,0.3333,1365.3],["B_R2_R_M1_M1_06",2.0,0.3333,1365.3],["B_R2_R_M1_M1_07",2.0,0.3333,1365.3],["B_R2_R_M1_M1_08",2.0,0.3333,1365.3],["B_R2_R_M1_M1_09",2.0,0.3333,1365.3],["B_R2_R_M1_P0_02",2.0,0.3333,1365.3]],
   "zonen": {
-   "zonen": 29,
-   "fein": 28,
+   "zonen": 28,
+   "fein": 27,
    "gewaesser_welt": 6,
-   "gewaesser_fein": 181,
+   "gewaesser_fein": 180,
    "ueber_max": 0,
    "aufloesungen": {
     "1024x4096": 3,
     "2048x1024": 1,
     "2048x2048": 5,
     "2048x4096": 5,
-    "256x512": 1,
-    "4096x1024": 3,
-    "4096x2048": 5,
+    "4096x1024": 2,
+    "4096x2048": 6,
     "4096x4096": 3,
     "4096x512": 2,
     "512x512": 1
    },
    "speicher_mb": {
-    "rgba16f": 1427.0,
-    "rgba32f": 2854.0
+    "rgba16f": 1458.0,
+    "rgba32f": 2916.0
    },
    "speicher_mb_fein": {
-    "rgba16f": 1299.0,
-    "rgba32f": 2598.0
+    "rgba16f": 1330.0,
+    "rgba32f": 2660.0
    },
    "pixel_welt_m": 2.3381
   }
  },
  "eingaben": {
-  "lauf_plaene": 98,
+  "lauf_plaene": 96,
   "uebersprungen": [],
   "bachbett_roh": {
    "ordner": "bachbett_roh",
-   "laeufe": 131,
-   "ebenen": 163
+   "laeufe": 128,
+   "ebenen": 158
   }
  },
  "gelaende_deltas": {
-  "addiert": 224,
+  "addiert": 222,
   "nicht_addiert": 0,
   "gebaut": [],
   "lauf_json_ungebaut": [],
@@ -700,5 +694,5 @@
  },
  "daten": "2m (Cloud-Test)",
  "format": "fluss_sim_v3",
- "dateien": 180
+ "dateien": 179
 }

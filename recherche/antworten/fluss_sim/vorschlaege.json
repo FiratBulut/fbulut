@@ -79,12 +79,6 @@
    "vorschlag": {"art":"luecke","methode":"gerade","ziel":{"art":"bach","id":"B_R_P3_P1_03","spiegel_cm":938.5,"s_m":105.96},"punkte_felder":["x_cm","y_cm","z_cm","RiverWidth_cm","Depth_cm","WaterVelocityScalar_cm_s"],"punkte":[[149050.0,109150.0,938.5,200.0,30.0,11.5],[149402.5,109385.0,938.5,200.0,30.0,11.5]],"laenge_m":4.24,"dz_m":0.0,"einschnitt_max_m":0.0,"gelaende_max_ueber_ende_m":-2.23,"kreuzt":[],"begruendung":"Luecke 3.2 m: gerade Verlaengerung vom Spline-Ende 4.2 m bis 1.0 m hinter den Wasserrand von B_R_P3_P1_03","hinweis":"Vorschlag, nicht in der Spline: lokal pruefen und uebernehmen (Spline verlaengern bzw. Weltdaten nachziehen)"}
   },
   {
-   "gewaesser": "B_R3_K10_TUNDRA_01",
-   "muendung_art": "fluss",
-   "luecke_m": 8.44,
-   "vorschlag": {"art":"luecke","methode":"gerade","ziel":{"art":"fluss","id":"F_ERLENBACH","spiegel_cm":3793.5,"s_m":376.42},"punkte_felder":["x_cm","y_cm","z_cm","RiverWidth_cm","Depth_cm","WaterVelocityScalar_cm_s"],"punkte":[[-171850.0,-207650.0,3856.4,200.0,30.0,17.1],[-172239.5,-207383.2,3823.1,200.0,30.0,17.1],[-172629.1,-207116.3,3793.5,200.0,30.0,17.1]],"laenge_m":9.44,"dz_m":0.63,"einschnitt_max_m":0.12,"gelaende_max_ueber_ende_m":-0.3,"kreuzt":[],"begruendung":"Luecke 8.4 m: gerade Verlaengerung vom Spline-Ende 9.4 m bis 1.0 m hinter den Wasserrand von F_ERLENBACH","hinweis":"Vorschlag, nicht in der Spline: lokal pruefen und uebernehmen (Spline verlaengern bzw. Weltdaten nachziehen)"}
-  },
-  {
    "gewaesser": "B_R3_K12_WUESTE_01",
    "muendung_art": "offen",
    "luecke_m": null,

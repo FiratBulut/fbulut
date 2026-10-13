@@ -455,6 +455,17 @@ class Gelaende:
 # ======================================================================================================================
 # Eingaben (16d): nur echte Lauf-Plaene, keine Archivordner; schon gebaute Laeufe ohne Gelaende-Delta
 # ======================================================================================================================
+def ersetzte_laeufe():
+    """16h: Welt-Laeufe, die lokal durch einen eigenen Lauf ersetzt sind (fluss_sim/ersetzt.json, gefaelle_daten)."""
+    import gefaelle_daten as gd
+    return gd.ersetzte_laeufe()
+
+
+def ersetzt_grund(lauf_id):
+    e = ersetzte_laeufe().get(lauf_id) or {}
+    return "ersetzt durch %s (fluss_sim/ersetzt.json, 16h)" % e.get("ersetzt_durch", "?")
+
+
 def ist_archiv(name):
     """Archiv- bzw. Ablageordner: Name mit '.' (F_..._C2.alt_v1_gebaut) oder fuehrendem '_' (_alt)."""
     return "." in name or name.startswith("_")
@@ -476,6 +487,9 @@ def lauf_plaene(gef_basis):
             weg.append({"ordner": name, "grund": "Archivordner ('.' im Namen bzw. fuehrendes '_')"})
             continue
         if not os.path.exists(pf):
+            continue
+        if name in ersetzte_laeufe():
+            weg.append({"ordner": name, "grund": ersetzt_grund(name)})
             continue
         try:
             plan = lese_json(pf)
@@ -533,6 +547,9 @@ def roh_ebenen(roh_basis):
             weg.append({"ordner": name, "grund": "Archivordner ('.' im Namen bzw. fuehrendes '_')"})
             continue
         if not os.path.exists(os.path.join(d, "plan.json")):
+            continue
+        if name in ersetzte_laeufe():
+            weg.append({"ordner": name, "grund": ersetzt_grund(name)})
             continue
         fp_, w_ = feld_plaene(os.path.join(d, "instanzen"))
         weg += [dict(x, ordner="%s/instanzen/%s" % (name, x["ordner"])) for x in w_]
@@ -3021,9 +3038,17 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
     G = regeln["gewaesser"]
     ww = welt.wasser_welt or {}
     teile_welt = []
+    E = ersetzte_laeufe()                     # 16h: lokal ersetzte Laeufe (C2 -> Erlenbach p2) gehoeren in kein Gewaesser
+    ersetzt_linien = []
     for f in sorted(ww.get("fluesse", []) or [], key=lambda f: f["id"]):
+        if f["id"] in E:
+            ersetzt_linien.append((f["id"], np.asarray(f["punkte"], float)))
+            continue
         teile_welt.append(("fluss", f["id"], f.get("fluss"), None, f.get("feld"), None))
     for b in sorted(welt.baeche or [], key=lambda b: b["id"]):
+        if b["id"] in E:
+            ersetzt_linien.append((b["id"], np.asarray(b["punkte"], float)))
+            continue
         teile_welt.append(("bach", b["id"], None, b.get("netz"), b.get("feld"), b.get("anschluss")))
     teile = []
     for art, tid, fam, netz, feld, ans in teile_welt:
@@ -3115,6 +3140,16 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
         vergeben.add(gid)
         mu = muendung_suchen(k, teile, karte, G, teil_ort)
         an = anfang_suchen(k[0], karte, G)
+        if kat == "welt" and ersetzt_linien:
+            ob = ersetzt_nachbar(k[0].linie, 0, ersetzt_linien, G)
+            if ob:
+                an["ersetzter_oberlauf"] = ersetzt_eintrag(ob, E, "Anfang liegt am ersetzten Lauf; das Wasser kommt "
+                                                                  "lokal aus dem Ersatz (Zufluss, nicht in diesem Export)")
+            if mu.get("art") == "offen":
+                ub = ersetzt_nachbar(k[-1].linie, -1, ersetzt_linien, G)
+                if ub:
+                    mu["ersetzter_lauf"] = ersetzt_eintrag(ub, E, "muendete in einen ersetzten Lauf; lokal Anschluss an "
+                                                                  "den Ersatz pruefen")
         topf_oben = topf_unten = None
         if kat == "sehens":
             sh0, sh1 = k[0].sehens, k[-1].sehens
@@ -3199,10 +3234,39 @@ def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
                         a_["quelle"] = "gefaelle/%s/plan.json#zufluesse" % Q.id
                         mu["endstueck_angepasst"] = a_
     info = {"toepfe": toepfe, "sehens_seen": sehens_seen,
+            "ersetzt": {lid: {"ersetzt_durch": E[lid].get("ersetzt_durch"), "art": E[lid].get("art"),
+                              "feld": E[lid].get("feld"), "im_export": False} for lid, _ in ersetzt_linien},
             "teile_welt": len(teile), "teile_plan": sum(1 for t in teile if t.herkunft == "plan"),
             "teile_roh": sum(1 for t in teile if t.herkunft == "roh"), "sehens_baeche": len(sehens_teile),
             "fortsetzungen": {a_: sum(1 for _, (n_, f) in nach.items() if f["art"] == a_) for a_ in ("anschluss", "ueberlappung")}}
     return gewaesser, teile, karte, info
+
+
+def ersetzt_nachbar(L, i, linien, G):
+    """16h: Ersetzte Laeufe, deren Linie <= halbe Breite + fortsetzung_abstand_m am Punkt i (0 = Anfang, -1 = Ende) der
+    Linie L liegt. Rueckgabe [(lauf_id, abstand_m)] sortiert."""
+    x, y = float(L.x[i]), float(L.y[i])
+    r_m = float(L.b[i]) / 200.0 + float(G["fortsetzung_abstand_m"])
+    out = []
+    for lid, P in linien:
+        d = projektion_schnell_cm(P, x, y)
+        hb = float(np.max(P[:, 3])) / 200.0 if P.shape[1] > 3 else 0.0
+        if d / 100.0 <= r_m + hb:
+            out.append((lid, round(d / 100.0, 2)))
+    return sorted(out, key=lambda t_: (t_[1], t_[0]))
+
+
+def projektion_schnell_cm(P, x, y):
+    """Kleinster Abstand (cm) eines Punkts zur Polylinie P (N x >= 2, cm)."""
+    a, b = P[:-1, :2], P[1:, :2]
+    ab = b - a
+    t = np.clip(((x - a[:, 0]) * ab[:, 0] + (y - a[:, 1]) * ab[:, 1]) / np.maximum((ab ** 2).sum(1), 1e-9), 0.0, 1.0)
+    return float(np.min(np.hypot(x - (a[:, 0] + t * ab[:, 0]), y - (a[:, 1] + t * ab[:, 1]))))
+
+
+def ersetzt_eintrag(nachbarn, E, hinweis):
+    return {"laeufe": [lid for lid, _ in nachbarn], "abstand_m": [d for _, d in nachbarn],
+            "ersetzt_durch": sorted({E[lid].get("ersetzt_durch") for lid, _ in nachbarn}), "hinweis": hinweis}
 
 
 def hindernis_komponenten(komp, grenzen=None):
@@ -3321,6 +3385,9 @@ def main(argv=None):
     log("Laeufe: %d Welt (%d mit Plan, %d roh), %d Sehens-Baeche; Fortsetzungen %s; Gewaesser: %d, Gelaende-Deltas %d"
         % (info["teile_welt"], info["teile_plan"], info["teile_roh"], info["sehens_baeche"], info["fortsetzungen"],
            len(gewaesser), len(gel.deltas)))
+    if info.get("ersetzt"):
+        log("Ersetzt (16h, ersetzt.json), nicht exportiert: %s" % ", ".join(
+            "%s -> %s" % (k_, v_["ersetzt_durch"]) for k_, v_ in info["ersetzt"].items()))
     # je Gewaesser bauen
     dateien = {}
     alle = []
@@ -3558,6 +3625,9 @@ def tempo_zusammenfassung(alle, tempo_alt, regeln):
                      "nach_gefaelle": {k: {"vorher": _stat([a for a, g in zip(a_, g_) if gefaelle_klasse(g, gr)[0] == k]),
                                            "nachher": _stat([n for n, g in zip(n_, g_) if gefaelle_klasse(g, gr)[0] == k])}
                                        for k in namen if any(gefaelle_klasse(g, gr)[0] == k for g in g_)}}
+    elif C2_LAUF in ersetzte_laeufe():
+        out["c2"] = {"lauf": C2_LAUF, "ersetzt": ersetzt_grund(C2_LAUF),
+                     "hinweis": "C2 ist lokal Ferats Erlenbach p2; kein Teil dieses Exports (16h)"}
     return out
 
 

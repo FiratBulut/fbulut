@@ -55,80 +55,42 @@
    "n_objekte": 374
   },
   {
-   "swr_bereich": "F_ERLENBACH_T00",
+   "swr_bereich": "F_ERLENBACH",
    "gewaesser": "F_ERLENBACH",
    "datei": "gewaesser/F_ERLENBACH/fluss_sim.json",
-   "swr": "SWR_F_ERLENBACH_T00",
+   "swr": "SWR_F_ERLENBACH",
    "water_body_river": "WBR_F_ERLENBACH",
-   "punkt_index": [0,260],
-   "hindernis_akteur": "WH_F_ERLENBACH_T00",
-   "bereich_cm": [-181303.4,-243571.6,-166645.5,-196064.0],
-   "s_m": [0.0,468.89],
-   "s_sim_m": [0.0,472.89],
+   "punkt_index": [0,315],
+   "hindernis_akteur": "WH_F_ERLENBACH",
+   "bereich_cm": [-176361.0,-208144.7,-149618.1,-145215.4],
+   "s_m": [0.0,623.71],
+   "s_sim_m": [0.0,623.71],
    "naht_oben": "quelle",
-   "naht_unten": "becken",
-   "vorgaenger": [],
-   "nachfolger": ["F_ERLENBACH_T01"],
-   "back_reihenfolge": 0,
-   "geteilt": true,
-   "resolution_max_axis": 1856,
-   "zelle_m": 0.247,
-   "sim_vorgaben": {
-    "resolution_max_axis": 1856,
-    "match_spline": true,
-    "match_spline_height_amount": 0.02,
-    "remove_outside_spline_amount": 50.0,
-    "source_size_cm": 3300.0,
-    "sim_speed": 10,
-    "num_steps": 10,
-    "use_capture": true
-   },
-   "fingerabdruck": "1a8d8a30aa667d442ca6adf56a46d90a502c17f2e34d4e1267b7501762fde753",
-   "teile": {
-    "gelaende": "0a3622deee89b57ab644588000d20d71024ed2505c6733a712af08033536eff1",
-    "splines": "9fb6423b5f885107e3a9c1d84fb1b4148ae5c7de3acefe2af2ce9ee177cf2d58",
-    "objekte": "d435b63404125bca63f3fcc49c3cf96ffd7b915c09d7a1aa5c8d2dfb63ff359f"
-   },
-   "n_hoehen": 17301,
-   "n_objekte": 823
-  },
-  {
-   "swr_bereich": "F_ERLENBACH_T01",
-   "gewaesser": "F_ERLENBACH",
-   "datei": "gewaesser/F_ERLENBACH/fluss_sim.json",
-   "swr": "SWR_F_ERLENBACH_T01",
-   "water_body_river": "WBR_F_ERLENBACH",
-   "punkt_index": [256,530],
-   "hindernis_akteur": "WH_F_ERLENBACH_T01",
-   "bereich_cm": [-171339.2,-200800.2,-149618.1,-145215.4],
-   "s_m": [468.89,1006.7],
-   "s_sim_m": [464.89,1006.7],
-   "naht_oben": "becken",
    "naht_unten": "muendung",
-   "vorgaenger": ["F_ERLENBACH_T00"],
+   "vorgaenger": [],
    "nachfolger": [],
-   "back_reihenfolge": 1,
-   "geteilt": true,
+   "back_reihenfolge": 0,
+   "geteilt": false,
    "resolution_max_axis": 2048,
-   "zelle_m": 0.264,
+   "zelle_m": 0.299,
    "sim_vorgaben": {
     "resolution_max_axis": 2048,
     "match_spline": true,
     "match_spline_height_amount": 0.02,
     "remove_outside_spline_amount": 50.0,
-    "source_size_cm": 2547.9,
+    "source_size_cm": 3600.0,
     "sim_speed": 10,
     "num_steps": 10,
     "use_capture": true
    },
-   "fingerabdruck": "b581468ac5a5ba9fd75661eba09aec716cddca4f5b841a5c50ffb566bfe53a1a",
+   "fingerabdruck": "0b074c99759efc5134cc072e6f1d7b5ba54af94e95dcb5faf62c11cf1e7605b4",
    "teile": {
-    "gelaende": "a90f9d9ccc50e47b19d41ebdf0ccc13587542e0bcc166d285e244a63e3e73913",
-    "splines": "d7043444c8a11b53db014d3bc112cb313a1124fc70b8434c78d6cdae25de80ef",
-    "objekte": "e56cb5b09ccd933d9ad3f343f8f73301c9f283f14440d574ae0baa4e2d0298f8"
+    "gelaende": "7db4d8963459ec398549a86314eb06dc1ca4c6cd0545a475ef6e92cb4230dae9",
+    "splines": "aa6541994ab05ecb97a724e90377334962e79bf7f2cb6de48bd525b2bad28c38",
+    "objekte": "0645039f0f5d1747f2f98e1c74e29187a35fdff13d18f0a38547dc07b5ae0977"
    },
-   "n_hoehen": 30024,
-   "n_objekte": 309
+   "n_hoehen": 41762,
+   "n_objekte": 363
   },
   {
    "swr_bereich": "F_HAUPTFLUSS_3_T00",
@@ -511,5 +473,5 @@
    "n_objekte": 140
   }
  ],
- "hinweis": "Auszug: F_ERLENBACH (mit C2), F_HAUPTFLUSS_3 (geteilt), B_R_P3_P0_04 (16e: ungeteilt mit 0,40 m), bergwald_06_karsee, elfenwald_04_elfentreppe (eine SWR mit 5 Toepfen); vollstaendig im Exportordner"
+ "hinweis": "Auszug: F_ERLENBACH (ab C3; C2 ersetzt durch Erlenbach p2, 16h), F_HAUPTFLUSS_3 (geteilt), B_R_P3_P0_04 (16e: ungeteilt mit 0,40 m), bergwald_06_karsee, elfenwald_04_elfentreppe (eine SWR mit 5 Toepfen); vollstaendig im Exportordner"
 }

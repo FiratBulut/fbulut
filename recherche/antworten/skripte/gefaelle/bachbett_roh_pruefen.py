@@ -147,6 +147,12 @@ def pruefe_alle(aus, welt=None, inv=None, rw=None, laeufe=None, orte=None, ausga
     if laeufe:
         namen = [n for n in namen if n in set(laeufe)]
     alle = []
+    ersetzt = gd.ersetzte_laeufe()                     # 16h: alte Ausgaben ersetzter Laeufe nicht mehr pruefen
+    for n in [n for n in namen if n in ersetzt]:
+        z[HINWEIS] += 1
+        alle.append((HINWEIS, n, "ersetzt durch %s (fluss_sim/ersetzt.json) - alte Ausgabe, nicht geprueft"
+                     % ersetzt[n].get("ersetzt_durch")))
+    namen = [n for n in namen if n not in ersetzt]
     for n in namen:
         bef = pruefe_lauf(os.path.join(aus, n), welt, inv, rw, orte)
         for st, oid, t in bef:

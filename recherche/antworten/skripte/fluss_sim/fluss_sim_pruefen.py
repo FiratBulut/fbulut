@@ -12,7 +12,8 @@ Exit-Code 1 bei FEHLER.
 Geprueft (FEHLER, wenn nicht anders gesagt):
   Ein Fluss  je Gewaesser genau ein WaterBodyRiver (WBR_<gewaesser>, global eindeutig), jede SWR nennt ihn als Quelle
              und Senke; jeder Welt-Lauf in genau einem Gewaesser (mit --daten: alle Laeufe aus wasser_welt.json und
-             baeche_alle.json kommen vor), Laeufe lueckenlos hintereinander.
+             baeche_alle.json kommen vor, ausser den ersetzten aus ersetzt.json, 16h), Laeufe lueckenlos
+             hintereinander; ein ersetzter Lauf in einem Gewaesser ist FEHLER.
   Spline     >= 2 Punkte, Felder gleich lang, s steigend von 0 bis laenge_m, durchgehend (kein Grundriss-Sprung,
              Abstand <= 2 x Ziel ausser zwischen Lippe und Fuss), z nie steigend, Breite/Tiefe > 0, Tempo in
              [0; 1024]; Becken-Punkte flach (<= 3 %) und auf dem Becken-Spiegel (+-2 cm).
@@ -1164,8 +1165,15 @@ def main(argv=None):
     for l_, gs in sorted(lauf_in.items()):
         if len(gs) != 1:
             b.append((FEHLER, l_, "Lauf in %d Gewaessern: %s" % (len(gs), gs)))
+    ersetzt = fx.ersetzte_laeufe()          # 16h: lokal ersetzte Laeufe (C2 -> Erlenbach p2) in keinem Gewaesser
+    for l_ in sorted(set(lauf_in) & set(ersetzt)):
+        b.append((FEHLER, l_, "%s, steht aber in %s" % (fx.ersetzt_grund(l_), lauf_in[l_])))
+    if ersetzt:
+        b.append((HINWEIS, "Ersetzt", "%d Welt-Laeufe ersetzt und nicht exportiert: %s" % (
+            len(ersetzt), ", ".join("%s -> %s" % (k_, v_.get("ersetzt_durch")) for k_, v_ in ersetzt.items()))))
     if welt is not None:
         soll = {f["id"] for f in (welt.wasser_welt or {}).get("fluesse", []) or []} | {x["id"] for x in welt.baeche or []}
+        soll -= set(ersetzt)
         fehlt = sorted(soll - set(lauf_in))
         if fehlt:
             b.append((FEHLER, "Laeufe", "%d Welt-Laeufe in keinem Gewaesser, z. B. %s" % (len(fehlt), fehlt[:3])))

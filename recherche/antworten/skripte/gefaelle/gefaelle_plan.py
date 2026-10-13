@@ -39,6 +39,7 @@ Aufruf (python -I, NumPy + Pillow):
   python -I gefaelle_plan.py [--laeufe ID ...] [--strecken ID ...] [--alle] [--daten2m DIR] [--aus DIR] [--bild]
                              [--bild-ordner DIR] [--variante A|C] [--ohne-pruefung]
   Ohne --laeufe/--strecken/--alle: alle Laeufe der 20 Pilot-Strecken aus prioritaet.json.
+  Ersetzte Laeufe (16h, fluss_sim/ersetzt.json: C2 -> Erlenbach p2) plant er nie; sie stehen nur im Log.
   Ohne --daten2m: 1-m-Originale aus <basis>/export/unreal/welt, Ausgabe <basis>/export/unreal/welt/gefaelle/<lauf>/.
   Cloud-Test: --daten2m recherche/vorlagen/daten/sehens --aus <scratchpad>/a15/plan
 Ausgabe je Lauf (<aus>/<lauf>/): plan.json (spiegel_neu_cm, stufen, wasser_koerper, abschnitte, effekte, kameras),
@@ -3853,7 +3854,19 @@ def main(argv=None):
         pilot = pd_.get("pilot", [])
     else:
         _log("WARNUNG: Prioritaetenliste fehlt (%s) - alle Strecken 'offen', keine Pilot-Kameras" % a.prioritaet)
-    strecken, _ = gd.lade_strecken(a.strecken_datei, welt, baeche, welt.wasser_welt)
+    strecken, sd_ = gd.lade_strecken(a.strecken_datei, welt, baeche, welt.wasser_welt)
+    ersetzt = gd.ersetzte_laeufe()
+    if ersetzt:
+        _log("Ersetzt (16h, fluss_sim/ersetzt.json): %d Laeufe uebersprungen (%d Strecken): %s" % (
+            len(ersetzt), sd_.get("ersetzt_strecken", 0), ", ".join("%s -> %s" % (k, v.get("ersetzt_durch"))
+                                                               for k, v in ersetzt.items())))
+        frage = set(a.laeufe or []) | {x.rsplit("_s", 1)[0] for x in a.strecken or []}
+        for lid in sorted(frage & set(ersetzt)):
+            _log("HINWEIS: %s ist ersetzt durch %s - kein Plan (Eintrag in fluss_sim/ersetzt.json entfernen, um ihn "
+                 "wieder zu planen)" % (lid, ersetzt[lid].get("ersetzt_durch")))
+        welt_ww, baeche = gd.ohne_ersetzte(welt.wasser_welt, baeche)
+    else:
+        welt_ww = welt.wasser_welt
     if a.strecken:
         ziel = [x for x in strecken if x["id"] in a.strecken]
     elif a.laeufe:
@@ -3863,6 +3876,10 @@ def main(argv=None):
     else:
         ziel = [x for x in strecken if x["id"] in pilot]
     if not ziel:
+        if ersetzt and (a.laeufe or a.strecken) and \
+                set(a.laeufe or []) | {x.rsplit("_s", 1)[0] for x in a.strecken or []} <= set(ersetzt):
+            _log("Planer: nur ersetzte Laeufe gewaehlt - nichts zu planen")
+            return 0
         _log("FEHLER: keine Strecken gewaehlt")
         return 2
     laeufe = []
@@ -3873,9 +3890,9 @@ def main(argv=None):
     if not umbau:
         _log("HINWEIS: keine Sehens-Planausgaben in %s - Umbau-Zonen nur aus der Prioritaetenliste" % a.p2)
     K = {"welt": welt, "gel": gel, "inv": inv, "rw": rw, "prio": prio, "strecken": strecken,
-         "orte": gd.sehens_orte(a.sehens), "umbau": umbau, "baeche": baeche, "wasser_welt": welt.wasser_welt,
+         "orte": gd.sehens_orte(a.sehens), "umbau": umbau, "baeche": baeche, "wasser_welt": welt_ww,
          "aus": aus, "wp": sicht.Wegpunkte(welt, 20.0), "klamm": gr.klamm_werte(rw, 4.0), "variante": a.variante,
-         "h1m": h1m, "laeufe": gd.alle_laeufe(welt, baeche, welt.wasser_welt)}
+         "h1m": h1m, "laeufe": gd.alle_laeufe(welt, baeche, welt_ww)}
     rc = 0
     alle_meld = []
     zusammen = []

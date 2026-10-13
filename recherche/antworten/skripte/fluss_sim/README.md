@@ -119,6 +119,19 @@ SWR-Werte, `sim_vorgaben`, `back_liste.json` und Fingerabdrücke bleiben gleich.
   Gewässer (Liste `gewaesser` = Override, sonst überlappend mit höchster `overlap_priority`), **Pixel > Breite / 6 = FEHLER**,
   Bett ragt aus der Zone = WARNUNG. Ohne `--zonen` nur die Empfehlung (zwei HINWEIS-Zeilen).
 
+**Ergänzungen 16h** (Regeln bleiben Version 10, Format `fluss_sim_v3`; Antwort
+[`../../16h-erlenbach-p2-talkaskade-ufer-wasser.md`](../../16h-erlenbach-p2-talkaskade-ufer-wasser.md)):
+- **[`ersetzt.json`](ersetzt.json):** Welt-Läufe, die lokal durch einen eigenen Lauf ersetzt sind. Stand: `F_ERLENBACH_1_C2`,
+  `F_ERLENBACH_1V_C2` (bisher Pilot C2), `F_ERLENBACH_2_C2` und `B_R3_K10_TUNDRA_01` → **Erlenbach p2** (Ferats lokaler Lauf).
+  Unsere C2-Pläne ruhen.
+- **Export:** Teile, Lauf-Pläne (`<lauf>/plan.json`) und Roh-Ebenen ersetzter Läufe werden übersprungen
+  (`zusammenfassung.json` → `eingaben.uebersprungen` mit Grund, `laeufe.ersetzt`). Ein Gewässer, das am ersetzten Lauf
+  beginnt, trägt `anfang.ersetzter_oberlauf`; eine offene Mündung an einem ersetzten Lauf `muendung.ersetzter_lauf`.
+  `tempo.c2` nennt nur noch den Ersatz.
+- **Prüfer:** Soll-Läufe ohne die ersetzten; ein ersetzter Lauf in einem Gewässer ist FEHLER; HINWEIS mit der Liste.
+- Planer (`gefaelle_daten.lade_strecken`/`alle_laeufe`, `gefaelle_plan.py`, `bachbett_roh.py` und beide Prüfer) lesen
+  dieselbe Datei. Die Roh-Ebene spart die ersetzten Linien wie fremdes Wasser aus (dort fließt lokal der Ersatz).
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -131,6 +144,7 @@ Stufe, kein Becken, keine Lippe und kein Gelände (13f-Regel); der Prüfer vergl
 | `fluss_sim_export.py` | Exporter: Läufe verketten, Mündungen, `fluss_sim.json` je Gewässer, `back_liste.json` (je SWR-Bereich), `zusammenfassung.json`; Referenz-Funktionen für den Fingerabdruck |
 | `fluss_sim_pruefen.py` | Prüfer (FEHLER/WARNUNG/HINWEIS), Exit-Code 1 bei FEHLER |
 | `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure, SWR-Startwerte, Rand/Steil, Wasser-Info und Zonen), Version 10 |
+| `ersetzt.json` | 16h: lokal ersetzte Welt-Läufe (C2 → Erlenbach p2); Planer, Export und Prüfer überspringen sie |
 | `zonen_beispiel_c2.json` | Beispiel für `--zonen` (bekannte Water Zones; C2 1208 m, 1024, Lage = Mitte von Feld C2 angenommen) |
 
 ## Aufruf
@@ -182,7 +196,7 @@ wasserzonen.json                         Vorschlag Water Zones (Grundzone + fein
 zusammenfassung.json                     Zahlen (Gewässer, Mündungen, SWR, Auflösungen, Varianten, Höhen)
 ```
 
-Beispiele im Repo: [`../../fluss_sim/`](../../fluss_sim/) – `gewaesser/F_ERLENBACH` (enthält C2 bei s 17,4–220,6 m),
+Beispiele im Repo: [`../../fluss_sim/`](../../fluss_sim/) – `gewaesser/F_ERLENBACH` (seit 16h ab dem C3-Lauf; C2 ist durch Erlenbach p2 ersetzt, `ersetzt.json`),
 `sehens/bergwald/bergwald_06_karsee`, `sehens/elfenwald/elfenwald_04_elfentreppe` (ein Gewässer mit 5 Töpfen, eine SWR),
 `zusammenfassung.json`, `vorschlaege.json`, `back_liste_auszug.json`, `wasserzonen.json`.
 

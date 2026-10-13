@@ -103,6 +103,14 @@ python -I recherche/antworten/skripte/gefaelle/gefaelle_pruefen.py <aus> [--date
    davor und danach. Prüfung (a) Bett ≥ 0,2 m unter dem Spiegel und (b) Ufer am Netzrand ≥ 0,1 m darüber, gegen das
    Gelände nach dem Stempel.
 
+## C2 ersetzt durch Erlenbach p2 (16h, 13.10.)
+
+Die Läufe `F_ERLENBACH_1_C2`, `F_ERLENBACH_1V_C2`, `F_ERLENBACH_2_C2` und `B_R3_K10_TUNDRA_01` gibt es lokal nicht mehr; Ferat
+baut dort seinen eigenen Lauf **Erlenbach p2**. Sie stehen in [`../fluss_sim/ersetzt.json`](../fluss_sim/ersetzt.json).
+`gefaelle_daten.lade_strecken` und `alle_laeufe` lassen sie weg (157 statt 161 Strecken); Planer, Roh-Ebene und Prüfer
+überspringen sie, alte Ausgabeordner ergeben nur einen HINWEIS. **Der folgende Abschnitt (C2 als Pilot Rang 1) ruht.**
+Antwort: [`../../16h-erlenbach-p2-talkaskade-ufer-wasser.md`](../../16h-erlenbach-p2-talkaskade-ufer-wasser.md).
+
 ## C2 und H4 (Koordinator 11.10.)
 
 - **C2 (`F_ERLENBACH_1V_C2`)** ist zurückgestellt (14b) und wird vollständig mit Kaskadennetz geplant, Pilot Rang 1.

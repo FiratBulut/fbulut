@@ -4,7 +4,8 @@
 Wird von gefaelle_prioritaet.py, gefaelle_plan.py und gefaelle_pruefen.py importiert (python -I: der Planer setzt
 seinen Ordner selbst in sys.path).
 
-  strecken = lade_strecken(pfad)            # 161 Strecken mit stabiler id <lauf>_s<k> (k = Reihenfolge im Lauf)
+  strecken = lade_strecken(pfad)            # 161 Strecken mit stabiler id <lauf>_s<k> (k = Reihenfolge im Lauf),
+                                            # ohne die Strecken ersetzter Laeufe (16h, fluss_sim/ersetzt.json): 157
   lauf = Lauf.aus_welt(welt, lauf_id, baeche=..., wasser_welt=...)   # Punkte [x, y, z, breite, tiefe, v] in cm
   lauf.s_von_cm(x, y) -> Bogenlaenge (m) der Projektion; lauf.abschnitt(s0, s1, schritt_m) -> Proben
   orte = sehens_orte(sehens_ordner)         # 120 Orte (standorte.json): mitte, radius, kameras
@@ -126,13 +127,55 @@ def fortsetzung_regeln():
     return r
 
 
-def alle_laeufe(welt, baeche=None, wasser_welt=None):
-    """{id: Lauf} aller Welt-Laeufe (wasser_welt.json 'fluesse', Baeche)."""
+# ----------------------------------------------------------------------------------------------------------------------
+# Ersetzte Laeufe (Auftrag 16h): lokal durch einen eigenen Lauf ersetzt (Erlenbach p2) -> alle Planer ueberspringen sie
+# ----------------------------------------------------------------------------------------------------------------------
+ERSETZT_STANDARD = os.path.join(SKRIPTE, "fluss_sim", "ersetzt.json")
+_ERSETZT = {}
+
+
+def ersetzt_daten(pfad=None):
+    """Inhalt von fluss_sim/ersetzt.json (16h); {} ohne Datei. Gecacht je Pfad."""
+    pfad = pfad or ERSETZT_STANDARD
+    if pfad not in _ERSETZT:
+        try:
+            _ERSETZT[pfad] = lese_json(pfad)
+        except (OSError, ValueError):
+            _ERSETZT[pfad] = {}
+    return _ERSETZT[pfad]
+
+
+def ersetzte_laeufe(pfad=None):
+    """{lauf_id: eintrag} der ersetzten Welt-Laeufe (Eintraege mit 'aktiv': false zaehlen nicht)."""
+    L = ersetzt_daten(pfad).get("laeufe") or {}
+    return {k: v for k, v in sorted(L.items()) if v.get("aktiv", True)}
+
+
+def ist_ersetzt(lauf_id, pfad=None):
+    return lauf_id in ersetzte_laeufe(pfad)
+
+
+def ohne_ersetzte(wasser_welt, baeche, pfad=None):
+    """Kopien von wasser_welt (nur 'fluesse' gefiltert) und der Bachliste ohne ersetzte Laeufe."""
+    E = ersetzte_laeufe(pfad)
+    ww = dict(wasser_welt or {})
+    if "fluesse" in ww:
+        ww["fluesse"] = [f for f in ww.get("fluesse") or [] if f.get("id") not in E]
+    return ww, [b for b in (baeche or []) if b.get("id") not in E]
+
+
+def alle_laeufe(welt, baeche=None, wasser_welt=None, mit_ersetzten=False):
+    """{id: Lauf} aller Welt-Laeufe (wasser_welt.json 'fluesse', Baeche), ohne die ersetzten (16h, ersetzt.json)."""
     ww = wasser_welt if wasser_welt is not None else (welt.wasser_welt or {})
+    E = {} if mit_ersetzten else ersetzte_laeufe()
     out = {}
     for f in ww.get("fluesse", []) or []:
+        if f["id"] in E:
+            continue
         out[f["id"]] = Lauf(f["id"], "fluss", f["punkte"], f.get("feld"), "wasser_welt.json")
     for b in (baeche if baeche is not None else welt.baeche) or []:
+        if b["id"] in E:
+            continue
         if b["id"] not in out and len(b.get("punkte") or []) >= 2:
             out[b["id"]] = Lauf(b["id"], "bach", b["punkte"], b.get("feld"), "baeche_alle.json")
     return out
@@ -235,7 +278,10 @@ def lade_strecken(pfad=None, welt=None, baeche=None, wasser_welt=None):
     """Liste der steilen Strecken (steile_strecken.json) mit stabiler id <lauf>_s<k> (k ab 1 in Fliessrichtung).
     Mit welt: zusaetzlich s0_m/s1_m (Bogenlaenge auf dem Lauf) und abstand_projektion_m."""
     d = lese_json(pfad or STRECKEN_STANDARD)
-    st = [dict(x) for x in d["strecken"]]
+    E = ersetzte_laeufe()
+    st = [dict(x) for x in d["strecken"] if x["lauf"] not in E]
+    d = dict(d, ersetzt_uebersprungen=sorted({x["lauf"] for x in d["strecken"] if x["lauf"] in E}),
+             ersetzt_strecken=sum(1 for x in d["strecken"] if x["lauf"] in E))
     laeufe = {}
     for x in st:
         laeufe.setdefault(x["lauf"], []).append(x)
@@ -362,6 +408,9 @@ def umbau_ueberlappung(proben, umbau, abstand_m=15.0):
     return out
 
 
+# 16h (13.10.): C2 (F_ERLENBACH_1_C2/_1V_C2/_2_C2, B_R3_K10_TUNDRA_01) ist lokal durch Erlenbach p2 ersetzt
+# (fluss_sim/ersetzt.json). lade_strecken/alle_laeufe ueberspringen diese Laeufe; die Eintraege unten bleiben nur als
+# Geschichte (wirken nicht mehr, weil es keinen C2-Plan mehr gibt).
 # 14b (11.10.): C2 auf einen durchgehenden Fluss zurueckgestellt, Stufen-Akteure entfernt -> nicht mehr "gebaut";
 # A15 plant C2 vollstaendig (Kaskadennetz) und ersetzt die A14-Eintraege (Koordinator 11.10.)
 ZURUECKGESTELLT = {"F_ERLENBACH_1V_C2": "14b: durchgehender Fluss, Stufen-Akteure entfernt; A15 ersetzt A14 (C2_A-C2_E)"}

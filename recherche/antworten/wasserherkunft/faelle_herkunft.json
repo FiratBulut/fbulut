@@ -7,11 +7,11 @@
  "erzeugt_von": "recherche/antworten/skripte/wasserherkunft/wasserherkunft.py",
  "hinweis": "Vorschlagsdaten (Auftrag 17). Nichts davon ist in einen Planer eingebaut. Einheiten: cm fuer Lagen, m/m2/l/s sonst. Bewertung: verhaeltnis = mittlerer Abfluss / Bedarf eines geschlossenen Vorhangs (Poleni, h = 20 mm).",
  "zusammenfassung": {
-  "faelle": 178,
+  "faelle": 174,
   "bewertung": {
    "plausibel": 69,
-   "fragwuerdig": 78,
-   "aus_dem_nichts": 31
+   "fragwuerdig": 76,
+   "aus_dem_nichts": 29
   },
   "je_art": {
    "sehens_wasserfall": {
@@ -20,8 +20,8 @@
    },
    "vorhang_fall": {
     "plausibel": 69,
-    "fragwuerdig": 75,
-    "aus_dem_nichts": 16
+    "fragwuerdig": 73,
+    "aus_dem_nichts": 14
    },
    "welt_wasserfall": {
     "aus_dem_nichts": 2
@@ -70,8 +70,8 @@
     "aus_dem_nichts": 1
    },
    "tundra": {
-    "aus_dem_nichts": 6,
-    "fragwuerdig": 6
+    "aus_dem_nichts": 4,
+    "fragwuerdig": 4
    },
    "wueste": {
     "fragwuerdig": 1
@@ -84,16 +84,16 @@
    "keine_aenderung": 69,
    "oberlauf_ergaenzen": 8,
    "quellaustritt_felswand": 13,
-   "schneefeld_oberhalb": 62
+   "schneefeld_oberhalb": 58
   },
   "auf_inseln": 38,
   "ohne_wasser_oberhalb": 64,
   "ohne_sichtbare_herkunft": 15,
-  "mit_rinne": 127,
+  "mit_rinne": 123,
   "eingaben": {
-   "gewaesser": 187,
-   "faelle_fluss_sim": 762,
-   "faelle_vorhang": 170,
+   "gewaesser": 186,
+   "faelle_fluss_sim": 737,
+   "faelle_vorhang": 166,
    "sehens_wasserfaelle": 16,
    "welt_wasserfaelle": 2,
    "muendung_wasserfall": [
@@ -600,18 +600,6 @@
    "muendung": "meer",
    "einzugsgebiet_max_ha": 6.53,
    "oberster_fall": "WF_K8"
-  },
-  {
-   "gewaesser": "F_ERLENBACH",
-   "faelle": 4,
-   "bewertung": {
-    "aus_dem_nichts": 2,
-    "fragwuerdig": 2
-   },
-   "anfang": "quelle",
-   "muendung": "meer",
-   "einzugsgebiet_max_ha": 2.4,
-   "oberster_fall": "F_ERLENBACH_1V_C2_s1_S04"
   },
   {
    "gewaesser": "F_HAUPTFLUSS",
@@ -6170,342 +6158,6 @@
     "keine_aenderung"
    ],
    "empfehlung": "Herkunft passt - nichts tun"
-  },
-  {
-   "id": "F_ERLENBACH_1V_C2_s1_S04",
-   "quelle": "fluss_sim/gewaesser/F_ERLENBACH/fluss_sim.json",
-   "lage": {
-    "feld": "C2",
-    "lippe_cm": [
-     -174147,
-     -234539,
-     8885
-    ],
-    "lippe_d8_cm": [
-     -174200,
-     -234400,
-     8762
-    ]
-   },
-   "fall_m": 4.7,
-   "breite_m": 1.8,
-   "breite_quelle": "fluss_sim strahl_breite_m (stufen.ueberfall_breite_cm)",
-   "biom": "tundra",
-   "insel": false,
-   "landmasse": "HAUPTLAND",
-   "einzugsgebiet_m2": 14232,
-   "einzugsgebiet_ha": 1.42,
-   "abfluss_mittel_l_s": 0.16,
-   "abfluss_klasse": "rinnsal",
-   "bedarf_vorhang_l_s": 8.8,
-   "bedarf_schleier_l_s": 1.1,
-   "verhaeltnis": 0.018,
-   "flaeche_noetig_m2": 773159,
-   "flaeche_noetig_faktor": 54.3,
-   "breite_passend_m": 0.03,
-   "wasser_oberhalb_m": 110.1,
-   "wasser_oberhalb_plan_m": 70.0,
-   "wasser_oberhalb_welt_m": 110.1,
-   "wasser_oberhalb": {
-    "art": "gewaesser",
-    "id": "F_ERLENBACH",
-    "s_lippe_m": 70.0,
-    "anfang_art": "quelle",
-    "anfang_ziel": null,
-    "zufluesse_oberhalb": 0,
-    "laengster_zufluss_m": 0.0,
-    "quelle_geplant": false
-   },
-   "fliessweg_gelaende_m": 258.9,
-   "gipfel_m": 209.7,
-   "gipfel_ueber_lippe_m": 122.1,
-   "schnee_m2": 0,
-   "see_m2": 0,
-   "rinne": {
-    "rinne": true,
-    "tpi_median_m": -1.08,
-    "flaeche_median_m2": 4000,
-    "laenge_m": 120.9
-   },
-   "quellmerkmale": [],
-   "relief_flach_oben": false,
-   "art": "vorhang_fall",
-   "gewaesser": "F_ERLENBACH",
-   "kategorie": "welt",
-   "fall_art": "fall",
-   "vorhang_grund": "einzelabsturz >= 3.0 m",
-   "fluss_sim_faelle": [
-    "F_ERLENBACH_1V_C2_s1_S04"
-   ],
-   "herkunft_sichtbar": true,
-   "menge": "viel_zu_wenig",
-   "bewertung": "aus_dem_nichts",
-   "oberlauf": {
-    "ende": "wasser_reicht_bis_mulde",
-    "ab_lippe_m": 110.1,
-    "laenge_m": 0.0,
-    "punkte_cm": [],
-    "hoehe_gewinn_m": 0.0,
-    "flaeche_am_ende_m2": 1384
-   },
-   "massnahmen": [
-    "schneefeld_oberhalb",
-    "fall_verkleinern",
-    "nassstreifen_moos"
-   ],
-   "empfehlung": "Schneefeld/Gletscherrest oberhalb (Schmelzwasser)"
-  },
-  {
-   "id": "F_ERLENBACH_1V_C2_s1_S05",
-   "quelle": "fluss_sim/gewaesser/F_ERLENBACH/fluss_sim.json",
-   "lage": {
-    "feld": "C2",
-    "lippe_cm": [
-     -174584,
-     -233557,
-     8397
-    ],
-    "lippe_d8_cm": [
-     -174600,
-     -233600,
-     8317
-    ]
-   },
-   "fall_m": 3.5,
-   "breite_m": 2.6,
-   "breite_quelle": "fluss_sim strahl_breite_m (stufen.ueberfall_breite_cm)",
-   "biom": "tundra",
-   "insel": false,
-   "landmasse": "HAUPTLAND",
-   "einzugsgebiet_m2": 14540,
-   "einzugsgebiet_ha": 1.45,
-   "abfluss_mittel_l_s": 0.17,
-   "abfluss_klasse": "rinnsal",
-   "bedarf_vorhang_l_s": 13.1,
-   "bedarf_schleier_l_s": 1.63,
-   "verhaeltnis": 0.013,
-   "flaeche_noetig_m2": 1146559,
-   "flaeche_noetig_faktor": 78.9,
-   "breite_passend_m": 0.03,
-   "wasser_oberhalb_m": 119.7,
-   "wasser_oberhalb_plan_m": 80.8,
-   "wasser_oberhalb_welt_m": 119.7,
-   "wasser_oberhalb": {
-    "art": "gewaesser",
-    "id": "F_ERLENBACH",
-    "s_lippe_m": 80.8,
-    "anfang_art": "quelle",
-    "anfang_ziel": null,
-    "zufluesse_oberhalb": 0,
-    "laengster_zufluss_m": 0.0,
-    "quelle_geplant": false
-   },
-   "fliessweg_gelaende_m": 268.6,
-   "gipfel_m": 209.7,
-   "gipfel_ueber_lippe_m": 126.5,
-   "schnee_m2": 0,
-   "see_m2": 0,
-   "rinne": {
-    "rinne": true,
-    "tpi_median_m": -1.14,
-    "flaeche_median_m2": 4868,
-    "laenge_m": 121.7
-   },
-   "quellmerkmale": [],
-   "relief_flach_oben": false,
-   "art": "vorhang_fall",
-   "gewaesser": "F_ERLENBACH",
-   "kategorie": "welt",
-   "fall_art": "fall",
-   "vorhang_grund": "einzelabsturz >= 3.0 m",
-   "fluss_sim_faelle": [
-    "F_ERLENBACH_1V_C2_s1_S05"
-   ],
-   "herkunft_sichtbar": true,
-   "menge": "viel_zu_wenig",
-   "bewertung": "aus_dem_nichts",
-   "oberlauf": {
-    "ende": "wasser_reicht_bis_mulde",
-    "ab_lippe_m": 119.7,
-    "laenge_m": 0.0,
-    "punkte_cm": [],
-    "hoehe_gewinn_m": 0.0,
-    "flaeche_am_ende_m2": 1384
-   },
-   "massnahmen": [
-    "schneefeld_oberhalb",
-    "fall_verkleinern",
-    "nassstreifen_moos"
-   ],
-   "empfehlung": "Schneefeld/Gletscherrest oberhalb (Schmelzwasser)"
-  },
-  {
-   "id": "F_ERLENBACH_1V_C2_s1_S10",
-   "quelle": "fluss_sim/gewaesser/F_ERLENBACH/fluss_sim.json",
-   "lage": {
-    "feld": "C2",
-    "lippe_cm": [
-     -176360,
-     -229853,
-     6998
-    ],
-    "lippe_d8_cm": [
-     -176400,
-     -229600,
-     6736
-    ]
-   },
-   "fall_m": 2.8,
-   "breite_m": 1.6,
-   "breite_quelle": "fluss_sim strahl_breite_m (stufen.ueberfall_breite_cm)",
-   "biom": "tundra",
-   "insel": false,
-   "landmasse": "HAUPTLAND",
-   "einzugsgebiet_m2": 21768,
-   "einzugsgebiet_ha": 2.18,
-   "abfluss_mittel_l_s": 0.25,
-   "abfluss_klasse": "rinnsal",
-   "bedarf_vorhang_l_s": 8.2,
-   "bedarf_schleier_l_s": 1.02,
-   "verhaeltnis": 0.03,
-   "flaeche_noetig_m2": 716050,
-   "flaeche_noetig_faktor": 32.9,
-   "breite_passend_m": 0.05,
-   "wasser_oberhalb_m": 167.2,
-   "wasser_oberhalb_plan_m": 122.2,
-   "wasser_oberhalb_welt_m": 167.2,
-   "wasser_oberhalb": {
-    "art": "gewaesser",
-    "id": "F_ERLENBACH",
-    "s_lippe_m": 122.2,
-    "anfang_art": "quelle",
-    "anfang_ziel": null,
-    "zufluesse_oberhalb": 0,
-    "laengster_zufluss_m": 0.0,
-    "quelle_geplant": false
-   },
-   "fliessweg_gelaende_m": 316.0,
-   "gipfel_m": 214.5,
-   "gipfel_ueber_lippe_m": 147.1,
-   "schnee_m2": 0,
-   "see_m2": 0,
-   "rinne": {
-    "rinne": true,
-    "tpi_median_m": -1.82,
-    "flaeche_median_m2": 12744,
-    "laenge_m": 121.1
-   },
-   "quellmerkmale": [],
-   "relief_flach_oben": false,
-   "art": "vorhang_fall",
-   "gewaesser": "F_ERLENBACH",
-   "kategorie": "welt",
-   "fall_art": "fall",
-   "vorhang_grund": "senkrechte felslippe (versatz 0.73 m <= 0.3 x fall)",
-   "fluss_sim_faelle": [
-    "F_ERLENBACH_1V_C2_s1_S10"
-   ],
-   "herkunft_sichtbar": true,
-   "menge": "viel_zu_wenig",
-   "bewertung": "fragwuerdig",
-   "oberlauf": {
-    "ende": "wasser_reicht_bis_mulde",
-    "ab_lippe_m": 167.2,
-    "laenge_m": 0.0,
-    "punkte_cm": [],
-    "hoehe_gewinn_m": 0.0,
-    "flaeche_am_ende_m2": 1384
-   },
-   "massnahmen": [
-    "schneefeld_oberhalb",
-    "fall_verkleinern",
-    "nassstreifen_moos"
-   ],
-   "empfehlung": "Schneefeld/Gletscherrest oberhalb (Schmelzwasser)"
-  },
-  {
-   "id": "F_ERLENBACH_1V_C2_s1_S13",
-   "quelle": "fluss_sim/gewaesser/F_ERLENBACH/fluss_sim.json",
-   "lage": {
-    "feld": "C2",
-    "lippe_cm": [
-     -177255,
-     -227625,
-     6118
-    ],
-    "lippe_d8_cm": [
-     -177200,
-     -227600,
-     6012
-    ]
-   },
-   "fall_m": 3.0,
-   "breite_m": 1.9,
-   "breite_quelle": "fluss_sim strahl_breite_m (stufen.ueberfall_breite_cm)",
-   "biom": "tundra",
-   "insel": false,
-   "landmasse": "HAUPTLAND",
-   "einzugsgebiet_m2": 24000,
-   "einzugsgebiet_ha": 2.4,
-   "abfluss_mittel_l_s": 0.27,
-   "abfluss_klasse": "rinnsal",
-   "bedarf_vorhang_l_s": 9.8,
-   "bedarf_schleier_l_s": 1.22,
-   "verhaeltnis": 0.028,
-   "flaeche_noetig_m2": 856625,
-   "flaeche_noetig_faktor": 35.7,
-   "breite_passend_m": 0.05,
-   "wasser_oberhalb_m": 190.5,
-   "wasser_oberhalb_plan_m": 146.2,
-   "wasser_oberhalb_welt_m": 190.5,
-   "wasser_oberhalb": {
-    "art": "gewaesser",
-    "id": "F_ERLENBACH",
-    "s_lippe_m": 146.2,
-    "anfang_art": "quelle",
-    "anfang_ziel": null,
-    "zufluesse_oberhalb": 0,
-    "laengster_zufluss_m": 0.0,
-    "quelle_geplant": false
-   },
-   "fliessweg_gelaende_m": 339.4,
-   "gipfel_m": 214.5,
-   "gipfel_ueber_lippe_m": 154.4,
-   "schnee_m2": 0,
-   "see_m2": 0,
-   "rinne": {
-    "rinne": true,
-    "tpi_median_m": -2.05,
-    "flaeche_median_m2": 15020,
-    "laenge_m": 121.1
-   },
-   "quellmerkmale": [],
-   "relief_flach_oben": false,
-   "art": "vorhang_fall",
-   "gewaesser": "F_ERLENBACH",
-   "kategorie": "welt",
-   "fall_art": "fall",
-   "vorhang_grund": "senkrechte felslippe (versatz 0.35 m <= 0.3 x fall)",
-   "fluss_sim_faelle": [
-    "F_ERLENBACH_1V_C2_s1_S13"
-   ],
-   "herkunft_sichtbar": true,
-   "menge": "viel_zu_wenig",
-   "bewertung": "fragwuerdig",
-   "oberlauf": {
-    "ende": "wasser_reicht_bis_mulde",
-    "ab_lippe_m": 190.5,
-    "laenge_m": 0.0,
-    "punkte_cm": [],
-    "hoehe_gewinn_m": 0.0,
-    "flaeche_am_ende_m2": 1384
-   },
-   "massnahmen": [
-    "schneefeld_oberhalb",
-    "fall_verkleinern",
-    "nassstreifen_moos"
-   ],
-   "empfehlung": "Schneefeld/Gletscherrest oberhalb (Schmelzwasser)"
   },
   {
    "id": "SW_aue_07_blautopf_quellbach_S00",

@@ -1,0 +1,34 @@
+{
+  "_doku": {
+    "zweck": "Welt-Laeufe (wasser_welt.json 'fluesse', baeche_alle.json), die lokal durch einen eigenen Lauf ersetzt sind. Die Planer und der fluss_sim-Export ueberspringen sie (Auftrag 16h, Ferat 13.10.2026: 'in euren Planern als ersetzt durch Erlenbach p2 behandeln').",
+    "wer_liest": [
+      "gefaelle/gefaelle_daten.py: ersetzte_laeufe(), alle_laeufe() und lade_strecken() ohne ersetzte Laeufe -> gefaelle_plan.py, gefaelle_pruefen.py, gefaelle_prioritaet.py, bachbett_roh.py, bachbett_roh_pruefen.py",
+      "fluss_sim/fluss_sim_export.py: keine Teile, keine Lauf-Plaene und keine Roh-Ebenen ersetzter Laeufe (mit Grund in zusammenfassung.json 'eingaben.uebersprungen' bzw. 'ersetzt')",
+      "fluss_sim/fluss_sim_pruefen.py: Soll-Laeufe ohne ersetzte; FEHLER, wenn ein ersetzter Lauf doch in einem Gewaesser steht",
+      "wasserherkunft/wasserherkunft.py: liest die fluss_sim-Ausgabe, die die ersetzten Laeufe schon nicht mehr enthaelt"
+    ],
+    "nicht_betroffen": "Sehens-Planer (planen keinen dieser Laeufe). Die 2-m-Raster der Cloud (karte_wasser/wasser_2m) enthalten die alten Fluesse weiter; sie wirken im Gefaelle-Planer nur als 'fremdes Wasser' (Schutzzone) und stehen damit ungefaehr dort, wo jetzt p2 fliesst. Lokal hat Ferat die Raster schon bereinigt (scripts/swr/altwasser_reinigen_p2.py).",
+    "abschalten": "Eintrag aus 'laeufe' entfernen (oder 'aktiv': false). Ohne diese Datei gilt nichts als ersetzt.",
+    "format": "laeufe: {Lauf-ID: {ersetzt_durch, art, feld, grund}}; ersatz: {ID: Beschreibung des neuen Laufs}"
+  },
+  "version": 1,
+  "stand": "2026-10-13 (Auftrag 16h)",
+  "ersatz": {
+    "ERLENBACH_P2": {
+      "name": "Erlenbach p2",
+      "stand": "lokal, Ferats eigener Lauf (Water-Plugin-Bett Kasten-U, 3 Durchgaenge; Bachdekor 21 448 Teile; SWR gebacken, WCBS; Bett 99,9 % nass)",
+      "quelle": "D2-Felsrinne, Quelle auf 190 m",
+      "laenge_m": 788,
+      "muendung": "C3-Fluss (Welt-Lauf F_ERLENBACH_2_C3 bzw. Gewaesser F_ERLENBACH)",
+      "abschnitte_s_m": {"bergrinne": [0, 199], "durchbruch": [199, 390], "talkaskade": [390, 579], "kiesbett": [579, 728], "muendung": [728, 788]},
+      "planer": "Unsere Plaene fuer C2 ruhen: kein Gefaelle-Plan, keine Roh-Ebene, kein fluss_sim-Teil. Bisher war C2 unser Pilot Rang 1 (F_ERLENBACH_1V_C2_s1, A15/16c); dieser Stand ist abgeloest. Fuer p2 gelten nur noch Regel-Dateien, die Ferats Werkzeug lesen kann (antworten/bachbett_ufer_regeln.json).",
+      "quelle_auftrag": "recherche/auftraege/16h-erlenbach-p2-talkaskade-ufer-wasser.md"
+    }
+  },
+  "laeufe": {
+    "F_ERLENBACH_1_C2": {"ersetzt_durch": "ERLENBACH_P2", "art": "fluss", "feld": "C2", "grund": "alter Epic-Fluss (Houdini-Stand, 23-39 m breit), existiert lokal nicht mehr"},
+    "F_ERLENBACH_1V_C2": {"ersetzt_durch": "ERLENBACH_P2", "art": "fluss", "feld": "C2", "grund": "bisheriger Pilot C2 (A14/A15, 16a-16g); existiert lokal nicht mehr"},
+    "F_ERLENBACH_2_C2": {"ersetzt_durch": "ERLENBACH_P2", "art": "fluss", "feld": "C2", "grund": "alter Epic-Fluss, existiert lokal nicht mehr"},
+    "B_R3_K10_TUNDRA_01": {"ersetzt_durch": "ERLENBACH_P2", "art": "bach", "feld": "C2", "grund": "alter Bach, existiert lokal nicht mehr"}
+  }
+}

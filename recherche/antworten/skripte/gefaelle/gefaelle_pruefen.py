@@ -948,6 +948,13 @@ def main(argv=None):
         else:
             laeufe += sorted(os.path.join(o, d) for d in os.listdir(o) if os.path.exists(os.path.join(o, d, "plan.json")))
     gesamt = {FEHLER: 0, WARNUNG: 0, HINWEIS: 0}
+    ersetzt = gd.ersetzte_laeufe()              # 16h: alte Plaene ersetzter Laeufe (C2 -> Erlenbach p2) nicht pruefen
+    for o in [o for o in laeufe if os.path.basename(o.rstrip("/")) in ersetzt]:
+        n_ = os.path.basename(o.rstrip("/"))
+        sys.stdout.write("  HINWEIS %-24s ersetzt durch %s (fluss_sim/ersetzt.json) - alter Plan, nicht geprueft\n"
+                         % (n_, ersetzt[n_].get("ersetzt_durch")))
+        gesamt[HINWEIS] += 1
+    laeufe = [o for o in laeufe if os.path.basename(o.rstrip("/")) not in ersetzt]
     for o in laeufe:
         z = melde(pruefe_lauf(o, welt=welt, inv=inv, rw=rw, orte=orte, h1m=h1m), os.path.basename(o))
         for k in gesamt:

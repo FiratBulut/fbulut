@@ -155,6 +155,15 @@ def ausgespart(lauf_id, lauf, S, X, Y, B, K, plan):
         d, sp_, _ = bb.projektion_schnell(px, py, o.xy, 2048)
         hb = np.interp(sp_, o.s, o.breite) / 2.0
         m_w |= d <= hb + float(A["fremd_wasser_rand_m"])
+    # 16h: ersetzte Welt-Laeufe (C2 -> Erlenbach p2) liegen ungefaehr dort, wo lokal der Ersatz fliesst (Muendung in den
+    # C3-Lauf): wie fremdes Wasser aussparen, damit dort keine Felsen/kein Totholz im Ersatz-Bett oder seiner Muendung liegt
+    m_e = np.zeros(len(ss), bool)
+    for oid, o in (K.get("ersetzt") or {}).items():
+        if o.xy[:, 0].max() < bx[0] or o.xy[:, 0].min() > bx[1] or o.xy[:, 1].max() < bx[2] or o.xy[:, 1].min() > bx[3]:
+            continue
+        d, sp_, _ = bb.projektion_schnell(px, py, o.xy, 2048)
+        hb = np.interp(sp_, o.s, o.breite) / 2.0
+        m_e |= d <= hb + float(A["fremd_wasser_rand_m"])
     for see in K["seen"]:
         U = see["umriss_m"]
         if U[:, 0].max() < bx[0] or U[:, 0].min() > bx[1] or U[:, 1].max() < bx[2] or U[:, 1].min() > bx[3]:
@@ -174,6 +183,7 @@ def ausgespart(lauf_id, lauf, S, X, Y, B, K, plan):
     aus += masken_intervalle(ss, m_ort, "Ort/Bauwerk (karte_ort)")
     aus += masken_intervalle(ss, m_w, "fremdes Wasser (Muendung/Zusammenfluss)")
     aus += masken_intervalle(ss, m_s, "See/Teich")
+    aus += masken_intervalle(ss, m_e, "Ersatz-Gewaesser (ersetzt.json, 16h: Erlenbach p2 lokal)")
     # Sehenswuerdigkeiten (Radius + abstand_sehens_m): die Sehens-Planer bauen dort selbst
     m_o = np.zeros(len(ss), bool)
     for o in K["orte"]:
@@ -517,7 +527,9 @@ def main(argv=None):
         if daten1m and os.path.isdir(os.path.join(daten1m, "ufer")):
             ufer = {n[len("foliage_"):] for n in os.listdir(os.path.join(daten1m, "ufer")) if n.startswith("foliage_")}
     aus = os.path.abspath(a.aus or os.path.join(a.basis, "export", "unreal", "welt", "bachbett_roh"))
+    alle_mit = gd.alle_laeufe(welt, baeche, welt.wasser_welt, mit_ersetzten=True)
     K = {"welt": welt, "gel": gel, "inv": inv, "rw": rw, "laeufe": laeufe, "geplant": geplant, "seen": seen,
+         "ersetzt": {k: v for k, v in alle_mit.items() if k not in laeufe},
          "orte": gd.sehens_orte(a.sehens), "aus": aus, "ufer_felder": ufer, "h1m": None}
     _log(welt.info(), "| %d Laeufe, %d mit Stufenplan, Ufer-Ebene (ohne Felsen und Totholz): %s" % (
         len(laeufe), len(geplant), ", ".join(sorted(ufer)) or "-"))
@@ -525,7 +537,18 @@ def main(argv=None):
     alle_meld = []
     zus = {"roh": 0, "rest": 0}
     rc = 0
+    ersetzt = gd.ersetzte_laeufe()
+    if ersetzt:
+        _log("Ersetzt (16h, fluss_sim/ersetzt.json), keine Roh-Ebene: %s" % ", ".join(
+            "%s -> %s" % (k, v.get("ersetzt_durch")) for k, v in ersetzt.items()))
+        alt = [n for n in ersetzt if os.path.isdir(os.path.join(aus, n))]
+        if alt:
+            _log("HINWEIS: alte Ausgaben ersetzter Laeufe in %s: %s - werden nicht mehr gelesen (fluss_sim, Pruefer), "
+                 "Ordner koennen weg" % (aus, ", ".join(alt)))
     for lid in ziel:
+        if lid in ersetzt:
+            _log("HINWEIS: Lauf %s ist ersetzt durch %s - keine Roh-Ebene" % (lid, ersetzt[lid].get("ersetzt_durch")))
+            continue
         if lid not in laeufe:
             _log("WARNUNG: Lauf %s unbekannt" % lid)
             continue
