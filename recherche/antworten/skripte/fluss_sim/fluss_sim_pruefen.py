@@ -5,7 +5,7 @@ fluss_sim_pruefen.py - Pruefer fuer die Ausgaben von fluss_sim_export.py (Entsch
 
 Aufruf:  python -I fluss_sim_pruefen.py <aus> [--gefaelle DIR] [--sehens DIR] [--sw-ordner DIR]
                                          [--daten2m DIR | --daten1m DIR] [--vergleich <aus2>]
-                                         [--gebaut LAUF ...] [--einbau DIR] [--ohne-erkennung]
+                                         [--gebaut LAUF ...] [--einbau DIR] [--ohne-erkennung] [--zonen DATEI]
          <aus> = Ausgabeordner des Exporters (fluss_sim.json-Dateien, back_liste.json, vorschlaege.json).
 Exit-Code 1 bei FEHLER.
 
@@ -35,7 +35,14 @@ Geprueft (FEHLER, wenn nicht anders gesagt):
              flache Becken <= 0,3 m/s, steile Rinnen >= 1 m/s; Rangkorrelation schwach = HINWEIS); schaum_maske (eine
              Kapsel je Vorhang-Fall, Grenzen); Bach-Zelle ungeteilt <= 0,40 m (> 0,30 = HINWEIS), Teilstuecke <= 0,30 m.
   16g        rand_steil je SWR-Bereich neu gerechnet (UE-Rechteck ohne Breite, Abstand der Quelle, Kontakte, Soll-Rahmen,
-             Hoehenspanne, Steilstrecken im 20-m-Fenster, Eignung); Abweichung = FEHLER, Zusammenfassung = HINWEIS.
+             Hoehenspanne, Steilstrecken im 20-m-Fenster, Eignung); Abweichung = FEHLER, Zusammenfassung = HINWEIS
+             (seit v10 nur Info).
+  v10        16g Nachtrag: water_info je SWR-Bereich neu gerechnet (schmalste Breite, Pixel <= Breite / 6, groesste Zone je
+             Aufloesung, noetige Aufloesung in einer 1208-m-Zone); wasserzonen.json neu gerechnet, jede vorgeschlagene
+             Zone erfuellt die Regel fuer alle ihre SWR-Bereiche und enthaelt deren Bett, water_zone_vorschlag passt.
+             --zonen DATEI (bekannte Water Zones, JSON): zustaendige Zone je Gewaesser (Override-Liste, sonst
+             ueberlappend mit hoechster overlap_priority); Pixel > schmalste Breite / 6 = FEHLER, Bett ausserhalb der
+             Zone = WARNUNG. Ohne --zonen nur die Empfehlung (HINWEIS).
 """
 
 import argparse
@@ -570,6 +577,16 @@ def pruefe_swr(g, ss, P, regeln, b):
                 q_ = ist_rs["rechteck_ue_cm"]
                 if not (r_[0] < q_[0] and r_[1] < q_[1] and r_[2] > q_[2] and r_[3] > q_[3]):
                     b.append((FEHLER, e["id"], "rahmen_cm schliesst das UE-Rechteck nicht ein"))
+        # 16g Nachtrag (v10): Wasser-Info-Regel je SWR-Bereich neu gerechnet
+        if "water_info" in S:
+            soll_wi = json.loads(json.dumps(fx.water_info_bereich(P, ss, i0, i1, regeln)))
+            ist_wi = e.get("water_info")
+            if ist_wi is None:
+                b.append((FEHLER, e["id"], "water_info fehlt (Regeln v10, 16g Nachtrag)"))
+            elif json.dumps(ist_wi, sort_keys=True) != json.dumps(soll_wi, sort_keys=True):
+                abw = sorted(k_ for k_ in set(ist_wi) | set(soll_wi)
+                             if json.dumps(ist_wi.get(k_), sort_keys=True) != json.dumps(soll_wi.get(k_), sort_keys=True))
+                b.append((FEHLER, e["id"], "water_info weicht von der Neurechnung ab: %s" % ", ".join(abw)))
         wh = e.get("hindernis_akteur")
         if wh and wh["id"] not in sw["bottom_contour_actors"]:
             b.append((FEHLER, e["id"], "eigener Hindernis-Akteur fehlt in bottom_contour_actors"))
@@ -829,7 +846,7 @@ def pruefe_schaum(g, b):
 
 
 def pruefe_rand_steil_global(alle_swr, regeln, b):
-    """16g: Zusammenfassung Rand/Steilheit als HINWEIS (Vorschlag, keine Grenze verbindlich)."""
+    """16g: Zusammenfassung Rand/Steilheit als HINWEIS (seit v10 nur Info: Ursache war die Wasser-Info, water_info)."""
     R = regeln["swr"].get("rand_steil")
     if not R:
         return
@@ -842,16 +859,102 @@ def pruefe_rand_steil_global(alle_swr, regeln, b):
     eig = {}
     for _, r in rs:
         eig[r["eignung"]] = eig.get(r["eignung"], 0) + 1
-    b.append((HINWEIS, "Rand (16g)", "%d von %d Quellen < %.0f m vom UE-Rechteck (Median %.2f m); %d SWR-Bereiche mit Bett ueber dem "
-              "Rechteckrand mitten im Lauf (%d Stellen); Soll-Rahmen in rand_steil.rahmen_cm"
+    b.append((HINWEIS, "Rand (Info, 16g)", "%d von %d Quellen < %.0f m vom UE-Rechteck (Median %.2f m); %d SWR-Bereiche mit Bett ueber dem "
+              "Rechteckrand mitten im Lauf (%d Stellen); Soll-Rahmen in rand_steil.rahmen_cm; Vorlauf 10 m nur noch Option"
               % (len(nah), len(q), R["quelle_abstand_min_m"], float(np.median([r["anfang"]["abstand_m"] for _, r in q])),
                  len(lauf), sum(1 for _, r in rs for k_ in r["kontakte"] if not k_["am_ende"]))))
     top = sorted(rs, key=lambda t: (-t[1]["laenge_kaskade_m"], -t[1]["gefaelle_fenster_max"], t[0]))[:5]
-    b.append((HINWEIS, "Steil (16g)", "Eignung %s; Kaskaden-Strecken (>= %.0f %% im %.0f-m-Fenster, >= %.0f m lang) zusammen %.0f m; steilste: %s"
+    b.append((HINWEIS, "Steil (Info, 16g)", "Eignung %s (nur Bildpruefung, Plan B nur bei Bedarf); Kaskaden-Strecken (>= %.0f %% im %.0f-m-Fenster, >= %.0f m lang) zusammen %.0f m; steilste: %s"
               % (", ".join("%s %d" % (k_, eig[k_]) for k_ in sorted(eig)), 100 * R["gefaelle_kaskade"], R["fenster_m"], R["strecke_min_m"],
                  sum(r["laenge_kaskade_m"] for _, r in rs),
                  "; ".join("%s %.0f m (max %.0f %%, Hoehenspanne %.0f m)" % (i, r["laenge_kaskade_m"], 100 * r["gefaelle_fenster_max"],
                                                                           r["hoehenspanne_m"]) for i, r in top))))
+
+
+def pruefe_water_info_global(alle, alle_swr, regeln, aus, zonen_pfad, b):
+    """16g Nachtrag (v10): Zonenvorschlag (wasserzonen.json) neu gerechnet und gegen die Regel geprueft; mit --zonen die
+    bekannten Water Zones: Pixel > schmalste Breite / 6 = FEHLER, Bett ragt aus der Zone = WARNUNG."""
+    W = regeln["swr"].get("water_info")
+    if not W:
+        return
+    tol = 1e-4
+    pz = os.path.join(aus, "wasserzonen.json")
+    if not os.path.exists(pz):
+        b.append((FEHLER, "wasserzonen.json", "fehlt (Regeln v10)"))
+        return
+    wz = fx.lese_json(pz)
+    soll = json.loads(json.dumps(fx.zonen_vorschlag([alle[k_] for k_ in sorted(alle)], regeln)))
+    if json.dumps(wz, sort_keys=True) != json.dumps(soll, sort_keys=True):
+        abw = sorted(k_ for k_ in set(wz) | set(soll) if json.dumps(wz.get(k_), sort_keys=True) != json.dumps(soll.get(k_), sort_keys=True))
+        b.append((FEHLER, "wasserzonen.json", "weicht von der Neurechnung ab: %s" % ", ".join(abw)))
+    zonen = {z["id"]: z for z in wz.get("zonen") or []}
+    for gid in sorted(alle):
+        g = alle[gid]
+        zid = (wz.get("gewaesser") or {}).get(gid)
+        if zid not in zonen:
+            b.append((FEHLER, gid, "keine Water Zone im Vorschlag"))
+            continue
+        if g["water_body"].get("water_zone_vorschlag") != zid:
+            b.append((FEHLER, gid, "water_body.water_zone_vorschlag %r != wasserzonen.json %r" % (g["water_body"].get("water_zone_vorschlag"), zid)))
+        z = zonen[zid]
+        r = z["rechteck_cm"]
+        if max(z["aufloesung"]) > W["aufloesung_max"] and not z["ueber_max"]:
+            b.append((FEHLER, zid, "Aufloesung %s ueber %d ohne Kennzeichen ueber_max" % (z["aufloesung"], W["aufloesung_max"])))
+        for e in g["swr_bereiche"]:
+            wi = e.get("water_info")
+            if not wi:
+                continue
+            if z["pixel_m"] > wi["pixel_max_m"] + tol:
+                b.append((FEHLER, e["id"], "Zonenvorschlag %s: Pixel %.3f m > schmalste Breite %.2f m / %g = %.3f m"
+                          % (zid, z["pixel_m"], wi["breite_min_m"], W["breite_teiler"], wi["pixel_max_m"])))
+            q = e["rechteck_cm"]
+            if not (r[0] <= q[0] + 0.5 and r[1] <= q[1] + 0.5 and r[2] >= q[2] - 0.5 and r[3] >= q[3] - 0.5):
+                b.append((FEHLER, e["id"], "Bett liegt nicht ganz in der vorgeschlagenen Zone %s" % zid))
+    s_ = wz.get("summe") or {}
+    wi_all = [e["water_info"] for e, _g in alle_swr.values() if e.get("water_info")]
+    if wi_all:
+        enge = min(wi_all, key=lambda w: w["breite_min_m"])
+        zb = W["zone_bekannt_m"]
+        n_unter = sum(1 for w in wi_all if w["zone_max_m"][str(W["aufloesung_max"])] < zb - 1e-9)
+        b.append((HINWEIS, "Water-Info (16g)", "Regel Pixel <= Breite/%g: schmalste Breite %.2f m -> Pixel <= %.3f m (Zone <= %.0f m bei %d); "
+                  "%d von %d SWR-Bereichen brauchen bei %d Pixeln eine Zone < %.0f m; in einer %.0f-m-Zone braucht es %s"
+                  % (W["breite_teiler"], enge["breite_min_m"], enge["pixel_max_m"], enge["zone_max_m"][str(W["aufloesung_max"])],
+                     W["aufloesung_max"], n_unter, len(wi_all), W["aufloesung_max"], zb, zb,
+                     ", ".join("%s x %d" % (k_, n_) for k_, n_ in sorted(
+                         {str(w["zone_bekannt"]["aufloesung"]): sum(1 for v in wi_all if v["zone_bekannt"]["aufloesung"] == w["zone_bekannt"]["aufloesung"])
+                          for w in wi_all}.items(), key=lambda t: int(t[0]))))))
+        b.append((HINWEIS, "Water Zones (16g)", "Vorschlag %d Zonen (Grundzone + %d feine; Aufloesungen %s), %.0f MB RGBA16F bzw. %.0f MB "
+                  "RGBA32F, wenn alle geladen sind (Format unbekannt); %d ueber %d"
+                  % (s_.get("zonen", 0), s_.get("fein", 0), s_.get("aufloesungen"), (s_.get("speicher_mb") or {}).get("rgba16f", 0),
+                     (s_.get("speicher_mb") or {}).get("rgba32f", 0), s_.get("ueber_max", 0), W["aufloesung_max"])))
+    if not zonen_pfad:
+        return
+    bekannt = fx.zonen_bekannt_lesen(zonen_pfad)
+    n_gepr, n_f = 0, 0
+    for gid in sorted(alle):
+        g = alle[gid]
+        for e in g["swr_bereiche"]:
+            wi = e.get("water_info")
+            if not wi:
+                continue
+            z = fx.zone_bekannt_fuer(gid, e["rechteck_cm"], bekannt)
+            if z is None:
+                continue
+            n_gepr += 1
+            if z["pixel_m"] > wi["pixel_max_m"] + tol:
+                n_f += 1
+                need = fx._zweierpotenz(max(z["ausdehnung_m"]) / wi["pixel_max_m"], W["aufloesung_min"])
+                b.append((FEHLER, e["id"], "Zone %s (%s): %.0f x %.0f m bei %s -> Pixel %.3f m > schmalste Breite %.2f m (s %.1f) / %g = %.3f m; "
+                          "noetig: Aufloesung %d oder Zone <= %.0f m bei %d"
+                          % (z["id"], z["lage"], z["ausdehnung_m"][0], z["ausdehnung_m"][1], z["aufloesung"], z["pixel_m"],
+                             wi["breite_min_m"], wi["breite_min_s_m"], W["breite_teiler"], wi["pixel_max_m"], need,
+                             wi["zone_max_m"][str(W["aufloesung_max"])], W["aufloesung_max"])))
+            q, r = e["rechteck_cm"], z["rechteck_cm"]
+            raus = max(r[0] - q[0], r[1] - q[1], q[2] - r[2], q[3] - r[3]) / 100.0
+            if raus > 0.005:
+                b.append((WARNUNG, e["id"], "Bett ragt bis %.1f m aus der Zone %s (%s): dort keine Wasser-Info" % (raus, z["id"], z["lage"])))
+    b.append((HINWEIS, "--zonen", "%d bekannte Zone(n) %s: %d SWR-Bereiche geprueft, %d ueber Breite/%g"
+              % (len(bekannt), [z["id"] for z in bekannt], n_gepr, n_f, W["breite_teiler"])))
 
 
 def pruefe_hindernis_global(alle_swr, alle_kol, regeln, b):
@@ -949,6 +1052,8 @@ def main(argv=None):
     ap.add_argument("--gebaut", nargs="+", default=None, help="wie beim Exporter (nur zum Abgleich der Erkennung)")
     ap.add_argument("--einbau", default=None, help="wie beim Exporter (sehens_einbau/)")
     ap.add_argument("--ohne-erkennung", action="store_true")
+    ap.add_argument("--zonen", default=None,
+                    help="16g Nachtrag: bekannte Water Zones (JSON, siehe zonen_bekannt_lesen): Pixel > Breite/6 = FEHLER")
     a = ap.parse_args(argv)
     regeln = fx.lese_json(a.regeln)
     regeln_global = regeln
@@ -1068,6 +1173,7 @@ def main(argv=None):
             b.append((HINWEIS, "Laeufe", "alle %d Welt-Laeufe in genau einem Gewaesser" % len(soll)))
     pruefe_hindernis_global(alle_swr, alle_kol, regeln, b)
     pruefe_rand_steil_global(alle_swr, regeln, b)
+    pruefe_water_info_global(alle, alle_swr, regeln, a.aus, a.zonen, b)
     pruefe_tempo_global(tempo_global, regeln, b)
     pv = os.path.join(a.aus, "vorschlaege.json")
     mit_v = {gid: g["muendung"]["vorschlag"] for gid, g in alle.items() if g["muendung"].get("vorschlag")}

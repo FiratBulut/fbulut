@@ -1,0 +1,14 @@
+{
+  "hinweis": "Beispiel fuer fluss_sim_pruefen.py --zonen (16g Nachtrag). Bekannt ist nur C2_Wasserzone: 1208 x 1208 m, render_target_resolution 1024 (Stand 16g) bzw. 4096 (Ferats Test). Die Lage ist angenommen: Mitte von Feld C2 (feld). Lokal bitte zentrum_cm oder rechteck_cm aus dem Editor eintragen (Zone -> Location, Zone Extent), dazu overlap_priority und, falls gesetzt, die Gewaesser mit WaterZoneOverride (gewaesser).",
+  "felder": {
+    "id": "Name der Zone",
+    "ausdehnung_m": "Zone Extent in m: Zahl (quadratisch) oder [x, y]",
+    "aufloesung": "render_target_resolution: Zahl oder [x, y]",
+    "lage": "zentrum_cm [x, y] oder rechteck_cm [x0, y0, x1, y1] oder feld (Mitte des Felds)",
+    "overlap_priority": "optional, Standard 0",
+    "gewaesser": "optional: Gewaesser-IDs mit WaterZoneOverride auf diese Zone"
+  },
+  "zonen": [
+    {"id": "C2_Wasserzone", "feld": "C2", "ausdehnung_m": 1208, "aufloesung": 1024, "overlap_priority": 0}
+  ]
+}

@@ -93,6 +93,32 @@ Simulations – Parameter Reference“, lokal gelesen):
 - **Prüfer:** rechnet `rand_steil` neu (Abweichung = FEHLER), prüft Steilstrecken und Rahmen und meldet zwei HINWEIS-Zeilen
   (Rand, Steil).
 
+**Ergänzungen 16g Nachtrag** (Regeln Version 10, Format bleibt `fluss_sim_v3`; Antwort
+[`../../16g-nachtrag-ursache-gefunden.md`](../../16g-nachtrag-ursache-gefunden.md)). Ursache des Stillstands war die zu grobe
+**Wasser-Info der Water Zone** (C2: 1208 m / 1024 = 1,18 m je Pixel; mit 4096 ist das Bett zu 99,9 % nass). Spline,
+SWR-Werte, `sim_vorgaben`, `back_liste.json` und Fingerabdrücke bleiben gleich.
+- **Regel** (`swr.water_info`, Ferat): Pixel der Wasser-Info der zuständigen Zone ≤ **schmalste Bachbreite / 6**. Breite =
+  `RiverWidth` der Splinepunkte (Plan-Bett).
+- **`swr_bereiche[].water_info`** je SWR-Bereich: `breite_min_m` (+ s), `breite_median_m`, `pixel_max_m` (= Breite / 6),
+  `zone_max_m` je Auflösung 1024/2048/4096 (größte Zone, die die Regel erfüllt, also „Zone ≤ X m bei 4096“),
+  `zone_bekannt` (nötige Auflösung in einer 1208-m-Zone wie `C2_Wasserzone`, Zweierpotenz; `ueber_max` über 4096;
+  `pixel_quer` = Pixel quer über das schmalste Bett bei 1024/2048/4096).
+- **`wasserzonen.json`** (neu): Vorschlag für die ganze Welt. Grundzone `WZ_WELT` (9 577 × 7 057 m, 4096², 2,34 m je Pixel)
+  für Seen, Meer und Gewässer ab 14 m Breite; feine Zonen `WZ_Fnn` gruppiert (nach geforderter Pixelgröße, eine Zone wächst,
+  solange sie mit ≤ 4096 je Achse die Regel hält und das nicht mehr Speicher kostet als eine eigene Zone + 32 MB).
+  Je Zone Rechteck, Ausdehnung, Auflösung (Zweierpotenz je Achse), Pixel, schmalstes Gewässer, `overlap_priority`
+  (Welt 0, fein 10), Speicher RGBA16F/RGBA32F (Format unbekannt), Gewässer und SWR-Bereiche.
+- **`water_body.water_zone_vorschlag`** je Gewässer = seine Zone (als `WaterZoneOverride` setzen; ein Water Body gehört zu
+  genau einer Zone, also muss sein ganzes Bett darin liegen).
+- **`zusammenfassung.json` → `water_info`**: Breiten, Pixel, Zonengrößen, Auflösungen in einer 1208-m-Zone, Zonenvorschlag.
+- **`rand_steil`** ist nur noch **Info** (Status-Text): Vorlauf 10 m an der Quelle ist eine Option, `pruefen` /
+  `kaskade_vorschlag` heißen „im Bild ansehen“, Plan B nur, wenn das Bild es braucht.
+- **Prüfer:** `water_info` je SWR-Bereich und `wasserzonen.json` neu gerechnet (Abweichung = FEHLER); jede vorgeschlagene Zone
+  hält die Regel für alle ihre SWR-Bereiche und enthält deren Bett (sonst FEHLER); `water_zone_vorschlag` passt. Mit
+  **`--zonen DATEI`** (bekannte Zonen, Beispiel [`zonen_beispiel_c2.json`](zonen_beispiel_c2.json)): zuständige Zone je
+  Gewässer (Liste `gewaesser` = Override, sonst überlappend mit höchster `overlap_priority`), **Pixel > Breite / 6 = FEHLER**,
+  Bett ragt aus der Zone = WARNUNG. Ohne `--zonen` nur die Empfehlung (zwei HINWEIS-Zeilen).
+
 Antwort dazu: [`../../16c-ferat-ein-fluss-je-gewaesser.md`](../../16c-ferat-ein-fluss-je-gewaesser.md); v2 (Strecken-Einheiten):
 [`../../16b-swr-c2-ganze-strecke.md`](../../16b-swr-c2-ganze-strecke.md).
 
@@ -104,7 +130,8 @@ Stufe, kein Becken, keine Lippe und kein Gelände (13f-Regel); der Prüfer vergl
 |---|---|
 | `fluss_sim_export.py` | Exporter: Läufe verketten, Mündungen, `fluss_sim.json` je Gewässer, `back_liste.json` (je SWR-Bereich), `zusammenfassung.json`; Referenz-Funktionen für den Fingerabdruck |
 | `fluss_sim_pruefen.py` | Prüfer (FEHLER/WARNUNG/HINWEIS), Exit-Code 1 bei FEHLER |
-| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure, SWR-Startwerte), Version 8 |
+| `fluss_sim_regeln.json` | alle Zahlen (Verkettung, Mündung, Spline, SWR/Auflösung/Teilung, Fall, Kollision, Schaum, Vorhang, Fingerabdruck, Grenzen der Hindernis-Akteure, SWR-Startwerte, Rand/Steil, Wasser-Info und Zonen), Version 10 |
+| `zonen_beispiel_c2.json` | Beispiel für `--zonen` (bekannte Water Zones; C2 1208 m, 1024, Lage = Mitte von Feld C2 angenommen) |
 
 ## Aufruf
 
@@ -118,7 +145,7 @@ python -I recherche/antworten/skripte/gefaelle/bachbett_roh.py --gefaelle <s>/ge
 python -I recherche/antworten/skripte/fluss_sim/fluss_sim_export.py --gefaelle <s>/gef --sehens <s>/sehens \
        --roh <s>/bachbett_roh --daten2m recherche/vorlagen/daten/sehens --aus <s>/fs
 python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py <s>/fs --gefaelle <s>/gef --sehens <s>/sehens \
-       --roh <s>/bachbett_roh --daten2m recherche/vorlagen/daten/sehens [--vergleich <s>/fs_zweiter_lauf]
+       --roh <s>/bachbett_roh --daten2m recherche/vorlagen/daten/sehens [--vergleich <s>/fs_zweiter_lauf] [--zonen DATEI]
 ```
 
 Lokal (1 m), nach den Planer-Läufen auf 1 m:
@@ -151,12 +178,13 @@ gewaesser/<gewaesser>/fluss_sim.json     je Welt-Gewässer (154; Gefälle-Läufe
 sehens/<biom>/<ort>/fluss_sim.json       je Sehens-Ort mit Bach (26 Orte, 42 Bäche in 33 Gewässern)
 vorschlaege.json                         Vorschläge für offene Enden und Lücken (16d), nicht in der Spline
 back_liste.json                          alle SWR-Bereiche mit Fingerabdruck und Back-Reihenfolge (back_liste_v3)
+wasserzonen.json                         Vorschlag Water Zones (Grundzone + feine Zonen, Auflösung, Speicher; v10)
 zusammenfassung.json                     Zahlen (Gewässer, Mündungen, SWR, Auflösungen, Varianten, Höhen)
 ```
 
 Beispiele im Repo: [`../../fluss_sim/`](../../fluss_sim/) – `gewaesser/F_ERLENBACH` (enthält C2 bei s 17,4–220,6 m),
 `sehens/bergwald/bergwald_06_karsee`, `sehens/elfenwald/elfenwald_04_elfentreppe` (ein Gewässer mit 5 Töpfen, eine SWR),
-`zusammenfassung.json`, `vorschlaege.json`, `back_liste_auszug.json`.
+`zusammenfassung.json`, `vorschlaege.json`, `back_liste_auszug.json`, `wasserzonen.json`.
 
 ## Eingaben und gebaute Läufe (16d)
 
@@ -507,9 +535,17 @@ nicht auf dem Spiegel, Topf ≥ 30 m, Rechteck ohne Topf, Topf ohne Bereich, Top
 Topf als See, Vorschlag steigt / beginnt nicht am Ende / Abstand 8 m / Ziel verfehlt / fehlt, `vorschlaege.json` weicht ab.
 Gelände: Fingerabdruck mit gebautem Lauf, aber Welt ohne Stempel → FEHLER.
 
+- **v10 (16g Nachtrag):** `water_info` und `wasserzonen.json` neu gerechnet, Regel je vorgeschlagener Zone, `--zonen`
+  (siehe „Ergänzungen 16g Nachtrag“). Gegenproben (alle FEHLER, Exit 1): `water_info.pixel_max_m` von Hand 0,5
+  (2 FEHLER), `WZ_F15` auf 2048² (19 FEHLER), `water_zone_vorschlag` von `F_ERLENBACH` auf `WZ_WELT` (1), `water_info`
+  entfernt (1); `--zonen zonen_beispiel_c2.json` (C2 1024): 7 FEHLER, mit 4096: 0 FEHLER (je 2 WARNUNG: Bett ragt aus
+  der angenommenen Lage der Zone).
+
 ## Grenzen
 
 - **2-m-Daten:** Längen, Tiefen und Gelände-Fingerabdrücke stammen aus dem 2-m-Raster; lokal auf 1 m neu exportieren.
+- **Breiten (v10):** Die Plan-Breiten der 2-m-Daten sind oft breiter als das lokale Bett (Erlenbach C2: 2 m: ≥ 12,7 m,
+  lokal 1,6–2,4 m). `water_info` und `wasserzonen.json` deshalb lokal auf 1 m neu rechnen; erst dann gelten die Zonen.
 - **Andere Ebenen:** Felsen anderer Ebenen (Bestand, Felsgruppen) findet erst der lokale Lauf.
 - **Mündungen mit Lücke** (`luecke_m`, 23) und **offene Enden** (24) sind Lücken in den Weltdaten (Bach endet 25–700 m vor
   dem nächsten Wasser oder tiefer als der Fluss daneben); die Spline wird nicht erfunden. Die Vorschläge (16d) stehen

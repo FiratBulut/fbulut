@@ -155,7 +155,7 @@
   "gelaende_max_swr": "F_HAUPTFLUSS_1"
  },
  "swr_rand_steil": {
-  "status": "Vorschlag 16g: nur Diagnose (aendert weder Spline noch SWR-Werte noch Fingerabdruck); Grenzen werden nach dem Rampentest (16g, Test R) festgelegt",
+  "status": "Info (16g Nachtrag 13.10.2026): nur Diagnose, aendert weder Spline noch SWR-Werte noch Fingerabdruck. Ursache des Stillstands war die Wasser-Info der Water Zone (water_info), nicht Rand oder Gefaelle: anfang.zu_nah (Vorlauf 10 m) ist nur noch eine Option, wenn die Quelle sichtbar zu wenig speist; eignung pruefen/kaskade_vorschlag heisst nur noch: im Bild ansehen, Plan B (Kaskadennetz) nur, wenn das Bild es braucht",
   "quelle_zu_nah": 187,
   "quellen": 187,
   "quelle_abstand_m": {
@@ -616,6 +616,70 @@
   "kreuzt_hoeheres_wasser": [["B_R3_R_M1_P0_01",["F_HAUPTFLUSS_3"]],["B_R_M1_P0_01",["F_HAUPTFLUSS_3"]],["B_R_M1_P0_02",["F_HAUPTFLUSS_3"]]],
   "ohne_ziel": [],
   "liste": [["B_K1_WASSERFALL_WEST_01","offen","aue_01_biberstau/stau",96.28],["B_K1_WASSERFALL_WEST_02","luecke","B_R2_R_M1_M1_03",21.95],["B_K1_WASSERFALL_WEST_03","offen","F_HAUPTFLUSS_3",363.65],["B_K8_ELFENFALL_01","offen","B_R_P4_M1_03",98.63],["B_K8_ELFENFALL_02","luecke","F_ELFENFLUSS",8.87],["B_K8_ELFENFALL_03","offen","SW_sumpf_05_der_erlenbruch_rinnsal",109.25],["B_K8_ELFENFALL_04","offen","T_2719_39",272.33],["B_K8_ELFENFALL_05","offen","T_2954_391",289.82],["B_K8_ELFENFALL_06","offen","T_2954_391",360.5],["B_R2_K8_ELFENFALL_01","luecke","S_R_P3_M1_00",17.4],["B_R2_R_P3_P1_03","luecke","B_R_P3_P1_03",4.24],["B_R3_K10_TUNDRA_01","luecke","F_ERLENBACH",9.44],["B_R3_K12_WUESTE_01","offen","wueste_05_salzpfanne/restsole",520.78],["B_R3_R_M1_M1_01","luecke","B_R2_R_M1_M1_03",6.87],["B_R3_R_M1_M1_03","luecke","B_K1_WASSERFALL_WEST_03",4.92],["B_R3_R_M1_P0_01","offen","S_R_M1_P0_00",136.57],["B_R3_R_M2_P1_01","luecke","B_R_M2_P1_02",4.6],["B_R3_R_P2_M1_01","luecke","B_R_P3_M1_03",4.97],["B_R3_R_P3_P0_01","luecke","B_R_P3_P0_02",7.67],["B_R3_R_P3_P0_02","luecke","B_R_P3_P0_01",10.4],["B_R3_R_P4_M1_01","offen","SW_sumpf_05_der_erlenbruch_rinnsal",208.17],["B_R_M1_M1_03","offen","F_HAUPTFLUSS_3",269.25],["B_R_M1_P0_01","offen","S_R_M1_P0_00",128.97],["B_R_M1_P0_02","offen","S_R_M1_P0_00",157.14],["B_R_M2_M1_02","offen","B_R_M2_M2_03",43.6],["B_R_M2_M2_01","offen","meer",74.91],["B_R_P0_M2_01","luecke","B_R_P0_M2_02",20.35],["B_R_P1_M2_01","luecke","B_R_P0_M2_02",11.19],["B_R_P1_P0_04","offen","F_HAUPTFLUSS_3",42.63],["B_R_P2_M3_01","offen","meer",20.0],["B_R_P3_M1_05","offen","F_ELFENFLUSS",86.63],["B_R_P3_M1_06","offen","F_ELFENFLUSS",28.0],["B_R_P3_M1_07","luecke","F_ELFENFLUSS",5.05],["B_R_P3_M1_08","luecke","F_ELFENFLUSS",15.18],["B_R_P3_M1_09","luecke","F_ELFENFLUSS",9.21],["B_R_P3_M2_02","luecke","B_R_P4_M2_02",9.58],["B_R_P3_M2_03","luecke","B_R_P4_M2_02",11.95],["B_R_P3_P0_01","luecke","B_R3_R_P3_P0_02",13.03],["B_R_P3_P0_03","luecke","B_R_P2_P0_04",8.06],["B_R_P3_P0_05","luecke","T_2954_391",12.77],["B_R_P3_P1_01","offen","S_R_P3_P0_03",74.23],["B_R_P4_M1_04","luecke","S_R_P3_M1_00",16.26],["B_R_P4_M2_03","offen","B_R_P3_M2_03",30.63],["F_HAUPTFLUSS_2","offen","F_HAUPTFLUSS_3",591.06],["SW_bergwald_05_klemmblock_klamm_klammbach","offen","meer",181.54],["SW_bergwald_06_karsee_abfluss","offen","B_R3_R_M2_P0_01",360.85],["SW_gletscher_01_gletschertor_gletscherbach","luecke","F_GLETSCHERTAL",6.85]]
+ },
+ "water_info": {
+  "status": "Regel 16g Nachtrag (Ferat 13.10.2026 07:05): Pixel der Wasser-Info der zustaendigen Water Zone <= schmalste Bachbreite / breite_teiler. Beleg C2: 1208 m / 1024 = 1,18 m je Pixel -> Bett (1,6-2,4 m) 1-2 Pixel breit, Rasterluecken, Front steht; 1208 m / 4096 = 0,29 m -> Bett zu 99,9 % nass bis s 780",
+  "swr_bereiche": 199,
+  "breite_min_m": {
+   "min": 0.7,
+   "median": 2.83,
+   "verteilung": {
+    "<= 1": 1,
+    "<= 2": 42,
+    "<= 3": 101,
+    "<= 5": 33,
+    "<= 10": 4,
+    "<= 15": 3,
+    "> 15": 15
+   }
+  },
+  "pixel_max_m": {
+   "min": 0.1167,
+   "median": 0.471
+  },
+  "zone_max_m_bei_4096": {
+   "min": 477.9,
+   "median": 1929.2,
+   "unter_zone_bekannt": 1
+  },
+  "zone_bekannt_1208_m_aufloesung": {
+   "256": 12,
+   "512": 3,
+   "1024": 5,
+   "2048": 15,
+   "4096": 163,
+   "16384": 1
+  },
+  "zone_bekannt_1208_m_1024_pixel_quer_unter_6": 179,
+  "schmalste": [["SW_sumpf_05_der_erlenbruch_rinnsal",0.7,0.1167,477.9],["B_R2_K10_TUNDRA_01",2.0,0.3333,1365.3],["B_R2_K10_TUNDRA_02",2.0,0.3333,1365.3],["B_R2_R_M1_M1_03",2.0,0.3333,1365.3],["B_R2_R_M1_M1_04",2.0,0.3333,1365.3],["B_R2_R_M1_M1_06",2.0,0.3333,1365.3],["B_R2_R_M1_M1_07",2.0,0.3333,1365.3],["B_R2_R_M1_M1_08",2.0,0.3333,1365.3],["B_R2_R_M1_M1_09",2.0,0.3333,1365.3],["B_R2_R_M1_P0_02",2.0,0.3333,1365.3]],
+  "zonen": {
+   "zonen": 29,
+   "fein": 28,
+   "gewaesser_welt": 6,
+   "gewaesser_fein": 181,
+   "ueber_max": 0,
+   "aufloesungen": {
+    "1024x4096": 3,
+    "2048x1024": 1,
+    "2048x2048": 5,
+    "2048x4096": 5,
+    "256x512": 1,
+    "4096x1024": 3,
+    "4096x2048": 5,
+    "4096x4096": 3,
+    "4096x512": 2,
+    "512x512": 1
+   },
+   "speicher_mb": {
+    "rgba16f": 1427.0,
+    "rgba32f": 2854.0
+   },
+   "speicher_mb_fein": {
+    "rgba16f": 1299.0,
+    "rgba32f": 2598.0
+   },
+   "pixel_welt_m": 2.3381
+  }
  },
  "eingaben": {
   "lauf_plaene": 98,

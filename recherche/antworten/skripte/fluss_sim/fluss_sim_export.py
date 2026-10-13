@@ -32,6 +32,12 @@ Abfluss aus der Becken-Geometrie, geglaettet, tempo_faktor) -> spline.tempo_ms (
 (= x 100); schaum_maske je Gewaesser (Kapseln nur an Vorhang-Faellen, Option B: Simulationsschaum nur dort); Baeche
 bleiben bis zelle_max_bach_ungeteilt_m (0,40 m) ungeteilt, Teilstuecke halten zelle_max_bach_m (0,30 m).
 
+16g Nachtrag (Regeln Version 10): Ursache des Stillstands war die zu grobe Wasser-Info der Water Zone (C2 1208 m /
+1024 = 1,18 m je Pixel). Regel (Ferat): Pixel <= schmalste Bachbreite / 6. Je SWR-Bereich swr_bereiche[].water_info
+(schmalste Breite, groesste Pixelgroesse, groesste Zone je Aufloesung, noetige Aufloesung in einer 1208-m-Zone); global
+wasserzonen.json (Grundzone WZ_WELT + feine Zonen WZ_Fnn, gruppiert; Ausdehnung, Aufloesung, Speicher) und je Gewaesser
+water_body.water_zone_vorschlag (WaterZoneOverride). Aendert weder Spline noch SWR-Werte noch Fingerabdruck.
+
 Eingaben (16d): gelesen werden nur Lauf-Plaene (<lauf>/plan.json mit 'wasser_koerper'); Ordner mit '.' im Namen oder
 fuehrendem '_' (Archivkopien) und andere Plaene (Feld-Instanzplan gefaelle/C2/plan.json von a15_einbau.py) werden
 uebersprungen und im Protokoll genannt, ebenso Archiv-Feldordner unter instanzen/ und sw_<biom>/.
@@ -1922,6 +1928,179 @@ def bereich_rolle(a, b, linie, abst_innen, becken, roh):
     return "gerinne"
 
 
+def _zweierpotenz(x, lo):
+    """kleinste Zweierpotenz >= x (mindestens lo)."""
+    r = int(lo)
+    while r < x - 1e-9:
+        r *= 2
+    return r
+
+
+def water_info_bereich(P, ss, i0, i1, regeln):
+    """16g Nachtrag (Regel v10): Wasser-Info der Water Zone. Die Simulation erkennt das Bett nur, wo die Wasser-Info der
+    zustaendigen Zone das Bett luecklos rastert (C2: 1,18 m je Pixel -> Luecken, Front steht; 0,29 m -> 99,9 % nass).
+    Regel (Ferat): Pixel <= schmalste Bachbreite / breite_teiler (6). Rueckgabe: schmalste Breite (RiverWidth der Punkte
+    i0..i1), groesste zulaessige Pixelgroesse, groesste Zone je Aufloesung, noetige Aufloesung in einer Zone von
+    zone_bekannt_m (C2: 1208 m)."""
+    W = regeln["swr"]["water_info"]
+    Q = np.asarray(P, float)[i0:i1 + 1]
+    w = Q[:, 3] / 100.0
+    j = int(np.argmin(w))
+    bmin = float(w[j])
+    px = bmin / W["breite_teiler"]
+    zb = float(W["zone_bekannt_m"])
+    rb = _zweierpotenz(zb / px, W["aufloesung_min"])
+    return {
+        "status": "Regel v10 (16g Nachtrag): Pixel <= schmalste Breite / %g" % W["breite_teiler"],
+        "breite_min_m": r1(bmin, 2), "breite_min_s_m": r1(float(ss[i0 + j]), 2),
+        "breite_median_m": r1(float(np.median(w)), 2),
+        "pixel_max_m": r1(px, 4),
+        "zone_max_m": {str(r): r1(r * px, 1) for r in W["aufloesungen_zeigen"]},
+        "zone_bekannt": {"ausdehnung_m": zb, "aufloesung": rb, "pixel_m": r1(zb / rb, 4),
+                         "ueber_max": bool(rb > W["aufloesung_max"]),
+                         "pixel_quer": {str(r): r1(bmin / (zb / r), 2) for r in W["aufloesungen_zeigen"]}}}
+
+
+def _zone_mb(box, px, W, art="rgba16f"):
+    ex, ey = (box[2] - box[0]) / 100.0, (box[3] - box[1]) / 100.0
+    rx = _zweierpotenz(ex / px, W["aufloesung_min"])
+    ry = _zweierpotenz(ey / px, W["aufloesung_min"])
+    return rx, ry, rx * ry * W["zonen"]["bytes_je_pixel"][art] / 2.0 ** 20
+
+
+def welt_rechteck_cm():
+    from sehens_lib import daten
+    return [daten.X_MIN_M * 100.0, daten.Y_MIN_M * 100.0, daten.X_MAX_M * 100.0, daten.Y_MAX_M * 100.0]
+
+
+def zonen_vorschlag(alle, regeln):
+    """16g Nachtrag (Regel v10): Water Zones fuer die ganze Welt, so dass jedes Gewaesser die Regel water_info erfuellt.
+    Ein WaterBodyRiver gehoert zu genau einer Zone (WaterZoneOverride bzw. overlap_priority), also muss das ganze Bett
+    eines Gewaessers in seiner Zone liegen. Grundzone WZ_WELT (ganze Welt, welt_aufloesung) fuer alle Gewaesser, deren
+    geforderte Pixelgroesse sie erfuellt; die uebrigen gierig zu feinen Zonen gruppiert (siehe zone_aufschlag_hinweis).
+    Deterministisch. Rueckgabe dict fuer wasserzonen.json."""
+    W = regeln["swr"]["water_info"]
+    Z = W["zonen"]
+    rand = Z["rand_m"] * 100.0
+    rmax = W["aufloesung_max"]
+    items = []
+    for e in alle:
+        P = np.asarray(e["water_body"]["spline"]["punkte"], float)
+        b = box_punkte(P, 0, len(P) - 1)
+        items.append({"id": e["id"], "px": float(P[:, 3].min()) / 100.0 / W["breite_teiler"],
+                      "breite": float(P[:, 3].min()) / 100.0,
+                      "box": [b[0] - rand, b[1] - rand, b[2] + rand, b[3] + rand],
+                      "swr": [kc["id"] for kc in e["swr_bereiche"]]})
+    wb = welt_rechteck_cm()
+    wr = Z["welt_aufloesung"]
+    px_welt = max((wb[2] - wb[0]) / 100.0 / wr[0], (wb[3] - wb[1]) / 100.0 / wr[1])
+    welt = [it for it in items if it["px"] >= px_welt - 1e-9]
+    rest = sorted((it for it in items if it["px"] < px_welt - 1e-9), key=lambda it: (it["px"], it["id"]))
+    fein = []
+    for it in rest:
+        rx, ry, alleine = _zone_mb(it["box"], it["px"], W)
+        best = None
+        for k, z in enumerate(fein):
+            if z["ueber_max"]:
+                continue
+            b = [min(z["box"][0], it["box"][0]), min(z["box"][1], it["box"][1]),
+                 max(z["box"][2], it["box"][2]), max(z["box"][3], it["box"][3])]
+            px = min(z["px"], it["px"])
+            rx_, ry_, mb = _zone_mb(b, px, W)
+            if rx_ > rmax or ry_ > rmax:
+                continue
+            d = mb - z["mb"]
+            if d <= alleine + Z["zone_aufschlag_mb"] + 1e-9 and (best is None or d < best[0] - 1e-9):
+                best = (d, k, b, px, mb)
+        if best is not None:
+            z = fein[best[1]]
+            z.update(box=best[2], px=best[3], mb=best[4])
+            z["items"].append(it)
+        else:
+            fein.append({"box": list(it["box"]), "px": it["px"], "mb": alleine, "items": [it],
+                         "ueber_max": bool(rx > rmax or ry > rmax)})
+    fein.sort(key=lambda z: (z["box"][1], z["box"][0], z["items"][0]["id"]))
+
+    def zone_eintrag(zid, art, box, px_soll, mitglieder, res=None, prio=0):
+        ex, ey = (box[2] - box[0]) / 100.0, (box[3] - box[1]) / 100.0
+        if res is None:
+            res = [_zweierpotenz(ex / px_soll, W["aufloesung_min"]), _zweierpotenz(ey / px_soll, W["aufloesung_min"])]
+        pix = max(ex / res[0], ey / res[1])
+        enger = min(mitglieder, key=lambda it: (it["px"], it["id"])) if mitglieder else None
+        return {"id": zid, "art": art,
+                "rechteck_cm": [r1(v) for v in box], "zentrum_cm": [r1(0.5 * (box[0] + box[2])), r1(0.5 * (box[1] + box[3]))],
+                "ausdehnung_m": [r1(ex, 1), r1(ey, 1)], "aufloesung": [int(res[0]), int(res[1])], "pixel_m": r1(pix, 4),
+                "pixel_max_m": r1(enger["px"], 4) if enger else None,
+                "schmalstes": {"gewaesser": enger["id"], "breite_m": r1(enger["breite"], 2)} if enger else None,
+                "ueber_max": bool(max(res) > rmax), "overlap_priority": prio,
+                "speicher_mb": {k_: r1(res[0] * res[1] * v / 2.0 ** 20, 1) for k_, v in sorted(Z["bytes_je_pixel"].items())},
+                "gewaesser": sorted(it["id"] for it in mitglieder),
+                "swr_bereiche": sorted(s_ for it in mitglieder for s_ in it["swr"])}
+    zonen = [zone_eintrag("WZ_WELT", "welt", wb, None, welt, res=list(wr), prio=Z["prioritaet_welt"])]
+    for n, z in enumerate(fein):
+        zonen.append(zone_eintrag("WZ_F%02d" % (n + 1), "fein", z["box"], z["px"], z["items"], prio=Z["prioritaet_fein"]))
+    zuordnung = {g_: z["id"] for z in zonen for g_ in z["gewaesser"]}
+    ra = {}
+    for z in zonen:
+        k_ = "%dx%d" % tuple(z["aufloesung"])
+        ra[k_] = ra.get(k_, 0) + 1
+    summe = {"zonen": len(zonen), "fein": len(fein), "gewaesser_welt": len(welt), "gewaesser_fein": len(rest),
+             "ueber_max": sum(1 for z in zonen if z["ueber_max"]),
+             "aufloesungen": {k_: ra[k_] for k_ in sorted(ra)},
+             "speicher_mb": {k_: r1(sum(z["speicher_mb"][k_] for z in zonen), 1) for k_ in sorted(Z["bytes_je_pixel"])},
+             "speicher_mb_fein": {k_: r1(sum(z["speicher_mb"][k_] for z in zonen[1:]), 1) for k_ in sorted(Z["bytes_je_pixel"])},
+             "pixel_welt_m": r1(px_welt, 4)}
+    return {"format": "fluss_sim_wasserzonen_v1", "regeln_version": regeln["version"], "status": W["status"],
+            "regel": "Pixel der Wasser-Info <= schmalste Bachbreite / %g; Aufloesung je Achse Zweierpotenz <= %d"
+                     % (W["breite_teiler"], rmax),
+            "hinweis": "Vorschlag: je Zone ein AWaterZone (zone_extent = ausdehnung_m x 100, render_target_resolution = "
+                       "aufloesung, overlap_priority); je Gewaesser WaterZoneOverride = water_body.water_zone_vorschlag. "
+                       + Z["format_hinweis"],
+            "summe": summe, "zonen": zonen, "gewaesser": {k_: zuordnung[k_] for k_ in sorted(zuordnung)}}
+
+
+def zonen_bekannt_lesen(pfad):
+    """--zonen: bekannte Water Zones (JSON). {"zonen": [{"id", "ausdehnung_m": [x, y] | x, "aufloesung": [x, y] | x,
+    ("zentrum_cm": [x, y] | "rechteck_cm": [x0, y0, x1, y1] | "feld": "C2"), "overlap_priority" (0), "gewaesser": [ids]
+    (WaterZoneOverride, optional)}]}. Rueckgabe Liste mit rechteck_cm, pixel_m."""
+    d = lese_json(pfad)
+    out = []
+    for z in d.get("zonen") or []:
+        ae = z.get("ausdehnung_m")
+        au = z["aufloesung"]
+        au = [int(au), int(au)] if not isinstance(au, list) else [int(au[0]), int(au[1])]
+        if z.get("rechteck_cm"):
+            box = [float(v) for v in z["rechteck_cm"]]
+            ae = [(box[2] - box[0]) / 100.0, (box[3] - box[1]) / 100.0]
+        else:
+            ae = [float(ae), float(ae)] if not isinstance(ae, list) else [float(ae[0]), float(ae[1])]
+            if z.get("zentrum_cm"):
+                cx, cy = float(z["zentrum_cm"][0]), float(z["zentrum_cm"][1])
+            else:
+                from sehens_lib import daten
+                x0, y0, x1, y1 = daten.feld_grenzen_m(z["feld"])
+                cx, cy = 50.0 * (x0 + x1), 50.0 * (y0 + y1)
+            box = [cx - 50.0 * ae[0], cy - 50.0 * ae[1], cx + 50.0 * ae[0], cy + 50.0 * ae[1]]
+        out.append({"id": z["id"], "rechteck_cm": box, "ausdehnung_m": ae, "aufloesung": au,
+                    "pixel_m": max(ae[0] / au[0], ae[1] / au[1]), "overlap_priority": z.get("overlap_priority", 0),
+                    "gewaesser": list(z.get("gewaesser") or []), "lage": "rechteck" if z.get("rechteck_cm") else
+                    ("zentrum" if z.get("zentrum_cm") else "feld %s (Mitte angenommen)" % z.get("feld"))})
+    return out
+
+
+def zone_bekannt_fuer(gid, box, bekannt):
+    """Zustaendige bekannte Zone eines Gewaessers: WaterZoneOverride (gewaesser-Liste), sonst die ueberlappende Zone mit
+    der hoechsten overlap_priority (gleich: kleinste Pixelgroesse, dann ID). None, wenn keine bekannt ist."""
+    for z in bekannt:
+        if gid in z["gewaesser"]:
+            return z
+    kand = [z for z in bekannt if z["rechteck_cm"][0] < box[2] and z["rechteck_cm"][2] > box[0]
+            and z["rechteck_cm"][1] < box[3] and z["rechteck_cm"][3] > box[1]]
+    if not kand:
+        return None
+    return sorted(kand, key=lambda z: (-z["overlap_priority"], z["pixel_m"], z["id"]))[0]
+
+
 def baue_gewaesser_v3(gw, regeln, pool):
     """gw: dict id, kategorie, art, linie, abst, extra, laeufe, muendung, anfang, roh_bei. Rueckgabe Eintrag (ohne
     Fingerabdruecke und WH)."""
@@ -2055,6 +2234,7 @@ def baue_gewaesser_v3(gw, regeln, pool):
                     "material": {"water_body": S["material_spiel"], "baked_sim_material": S["material_spiel"]}},
             "bereich_cm": [r1(box[0] - rand), r1(box[1] - rand), r1(box[2] + rand), r1(box[3] + rand)],
             "rand_steil": rand_steil(P, ss, i0, i1, a_sim, b_sim, k == 0, R),
+            "water_info": water_info_bereich(P, ss, i0, i1, R),
             "zufluesse": [], "hindernis_akteur": None})
 
     def kachel_bei(s_):
@@ -3271,6 +3451,10 @@ def main(argv=None):
                              "resolution_max_axis": sw["resolution_max_axis"], "zelle_m": sw["zelle_m"],
                              "sim_vorgaben": {k_: sw[k_] for k_ in SIM_VORGABEN_FELDER},
                              "fingerabdruck": ges, "teile": teile_, "n_hoehen": nh, "n_objekte": no})
+    # 16g Nachtrag (Regel v10): Water Zones fuer die ganze Welt (Wasser-Info fein genug fuer das schmalste Bett)
+    wz = zonen_vorschlag(alle, regeln)
+    for e in alle:
+        e["water_body"]["water_zone_vorschlag"] = wz["gewaesser"][e["id"]]
     # schreiben
     for rel in sorted(dateien):
         d = {"format": FORMAT_VERSION, "regeln_version": regeln["version"], "fall_schwelle_m": regeln["fall_schwelle_m"],
@@ -3281,12 +3465,14 @@ def main(argv=None):
     zus["schaum_maske"] = schaum_maske_zusammenfassung(alle, regeln)
     zus["toepfe"] = toepfe_zusammenfassung(toepfe, sehens_seen, karte, regeln, info, alle)
     zus["vorschlaege"] = vorschlaege_zusammenfassung(vorschlaege)
+    zus["water_info"] = water_info_zusammenfassung(alle, wz, regeln)
     zus["eingaben"] = eingaben
     zus["gelaende_deltas"] = gdelta
     zus["daten"] = "1m" if a.daten1m else "2m (Cloud-Test)"
     zus["format"] = FORMAT_VERSION
     zus["dateien"] = len(dateien)
     schreibe_json(os.path.join(a.aus, "zusammenfassung.json"), zus)
+    schreibe_json(os.path.join(a.aus, "wasserzonen.json"), wz, max_tiefe=3)
     schreibe_json(os.path.join(a.aus, "vorschlaege.json"),
                   {"format": "fluss_sim_vorschlaege_v1", "regeln": regeln["gewaesser"]["vorschlag"],
                    "hinweis": "Vorschlagspunkte fuer offene Enden und Luecken (16d). NICHT in water_body.spline enthalten; lokal "
@@ -3298,6 +3484,11 @@ def main(argv=None):
                    "gelaende": {"hinweis": "Fingerabdruck Gelaende = Welt + Planer-Deltas ohne die schon gebauter Laeufe (16d)",
                                 "gebaut": [g["id"] for g in ginfo["gebaut"]], "deltas_ohne": ginfo["ohne_dateien"]},
                    "swr_bereiche": back})
+    wi_ = zus["water_info"]
+    log("Water-Info (16g Nachtrag): schmalste Breite %.2f m -> Pixel <= %.3f m; Zonenvorschlag %d Zonen (%d fein, %s), "
+        "%.0f MB RGBA16F / %.0f MB RGBA32F"
+        % (wi_["breite_min_m"]["min"], wi_["pixel_max_m"]["min"], wz["summe"]["zonen"], wz["summe"]["fein"],
+           wz["summe"]["aufloesungen"], wz["summe"]["speicher_mb"]["rgba16f"], wz["summe"]["speicher_mb"]["rgba32f"]))
     s_ = zus["summe"]
     log("geschrieben: %d Dateien, %d Gewaesser (%d mit einer SWR), %d SWR-Bereiche, Aufloesung %s, Muendungen %s, %d Faelle "
         "(%d mit Vorhang), %d Kollisionsobjekte (%d eindeutig, %d ueberspannt), %d Hindernis-Akteure"
@@ -3395,6 +3586,38 @@ def schaum_maske_zusammenfassung(alle, regeln):
             "je_gewaesser_max": int(max(n)) if n else 0, "slots_max": M["slots_max"],
             "ueber_slots": sorted(e["id"] for e in alle if e["schaum_maske"]["ueber_slots"]),
             "radius_m": _stat(rad)}
+
+
+def water_info_zusammenfassung(alle, wz, regeln):
+    """16g Nachtrag: Zahlen zur Regel water_info und zum Zonenvorschlag."""
+    W = regeln["swr"]["water_info"]
+    ks = [kc for e in alle for kc in e["swr_bereiche"]]
+    wi = [(kc["id"], kc["water_info"]) for kc in ks]
+    b = np.array([w["breite_min_m"] for _, w in wi], float)
+    px = np.array([w["pixel_max_m"] for _, w in wi], float)
+    zm = np.array([w["zone_max_m"][str(W["aufloesung_max"])] for _, w in wi], float)
+    zb = W["zone_bekannt_m"]
+    rb = {}
+    for _, w in wi:
+        k_ = str(w["zone_bekannt"]["aufloesung"])
+        rb[k_] = rb.get(k_, 0) + 1
+    grenzen = [1.0, 2.0, 3.0, 5.0, 10.0, 15.0]
+    bv, lo = {}, 0.0
+    for g_ in grenzen:
+        bv["<= %g" % g_] = int(((b > lo) & (b <= g_ + 1e-9)).sum())
+        lo = g_ + 1e-9
+    bv["> %g" % grenzen[-1]] = int((b > grenzen[-1] + 1e-9).sum())
+    return {
+        "status": W["status"], "swr_bereiche": len(wi),
+        "breite_min_m": {"min": r1(float(b.min()), 2), "median": r1(float(np.median(b)), 2), "verteilung": bv},
+        "pixel_max_m": {"min": r1(float(px.min()), 4), "median": r1(float(np.median(px)), 4)},
+        "zone_max_m_bei_%d" % W["aufloesung_max"]: {"min": r1(float(zm.min()), 1), "median": r1(float(np.median(zm)), 1),
+                                                     "unter_zone_bekannt": int((zm < zb - 1e-9).sum())},
+        "zone_bekannt_%g_m_aufloesung" % zb: {k_: rb[k_] for k_ in sorted(rb, key=int)},
+        "zone_bekannt_%g_m_1024_pixel_quer_unter_6" % zb: sum(1 for _, w in wi if w["zone_bekannt"]["pixel_quer"]["1024"] < W["breite_teiler"] - 1e-9),
+        "schmalste": [[i, w["breite_min_m"], w["pixel_max_m"], w["zone_max_m"][str(W["aufloesung_max"])]]
+                      for i, w in sorted(wi, key=lambda t: (t[1]["breite_min_m"], t[0]))[:10]],
+        "zonen": wz["summe"]}
 
 
 def vorschlaege_zusammenfassung(vorschlaege):
