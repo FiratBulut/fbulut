@@ -1,0 +1,44 @@
+MI_EL_SWR_Klar – alle Parameter (gelesen 13.10.2026 ~10:40, Editor UE 5.8.3)
+Kette: MI_EL_SWR_Klar -> MI_Eldarien_Wasser_Fluss -> MI_Eldarien_Wasser_Basis -> M_Eldarien_Wasser_Schaum8 (Kopie des Epic-Wassermaterials + ELD_*-Schaum)
+Einheiten lokal: Absorption RGB = Sichtweite in cm je Farbe (A unbekannt, 8); Scattering RGB = Streufarbe, A = Stärke.
+
+SKALARE
+WaterZoneIndex 0 | MaxFlowVelocity 1024 | WaterBodyIndex 0
+Fluidsim Normal Strength 1 | Max Fluid Displacement 1024 | Fluid Displacement Multiplier 1 | Velocity Debug 0
+Simulation Flowmap Speed 0.75 | Sim Foam Scale 350 | Sim Flowmap Detection 1.5 | SIm Flowmap Speed 1.5
+Fluidsim Velocity EdgeFalloff 0.2 | Fluidsim Velocity Edgeoffset 0.02 | Sim Foam Dpeth Min 8 | Foam Attachment 0.4
+Water Depth to Mask Waves 100 | Sim Foam Normal 1 | Foam Opacity 0.5 | Foam Roughness 0.4
+Wave Over Object Mask Distance 256 | Wave DF Mask Bias -64 | Sim Velocity Normal Strength 40 | Sim Foam Velocity Mip 128
+Wave over Rock Steepness 0 | SimFoam Contrast 12 | ShowSim 1 | Fluidsim Flow Density 0.25 | WPO Flowmap 6
+Foam Distance 140 | Depth for DF Foam 24 | Foam Dpeth Min 30 | FoamContrast 1 | Foam MacroScale 1536 | Foam Normal I 0.5
+Foam normal offset 0.002 | Foam Wave normal Z 2 | Foam powr 0.6 | Foam Boost 0.8 | Height Bias -1 | Front Foam Scale 654
+Front Height Bias -0.5 | Foam Scattering Mip 8 | Foam Texture Blend Min 0.6 | Foam Texture Blend Width 0.4 | Foam Phase Mip Bias 0
+Foam Scatter Bias 0.25 | Wave Foam Erase Near FluidsimSize 0.5 | Mask Wave Foam near FluidSim 1 | Fluid Eraose Ssaler 0.5
+Water Roughness 0.02 | Water Specular 0.225 | Refraction 1.15 | Depth for Min Refraction 5000 | Refraction Far 1.02
+Water Fresnel Roughness 0.1 | Water Fresnel Specular 0.225 | Water Fresnel  Exponenth 5 | Anisotropy 0.1
+Default Distant Water Scale 3500 | Default Disant Water Speed 0.75 | Default Distant Normal Strength 0.3 | Default Distant Normal StrengthB 0.25
+Far Normal Fresnel Power 9 | Default Near Water Scale 512 | Default Near Normal Strength 0.25 | Water Distant Normal Offset 5000
+Water Distant Normal Length 10000 | Velocity to Mask waves 100 | River Flowmap Speed 0.002 | River Flowmap Detection Velocity 64
+River Foam Scale 1536 | River Time Modulation Size 2750 | River Normal Flatness 0.5 | River Flowmap Depth Density 0.005 | River Flowmap Depth Bias 96
+Critical Angle Dot 0.225 | Critical Angle Width 0.01 | Refraction Bottom Amount 1 | Critical Angle Bend Width -0.75 | Lip Refraction 0.95
+Water Opacity Mask Offset -24 | RefractionDownsampleFactor 2 | Multiply Refraction 1 | FD 1 | Light Parallax 1
+Caustics Finite Offset 16 | Caustics Brightness Adjust 1 | Refract Caustic Position 2 | Min focus size 0.0005 | Caustics Water Depth Bias 64
+Water Depth Caustics Spread 0 | Caustics Waves Water Body Index 0 | EL_Time 0
+ELD_Tiefe_Versatz 10 | ELD_Schaum_Tempo 0.35 | ELD_Schaum_Groesse 320 | ELD_Schaum_Zug 0.55 | ELD_Fels_Schaum 0 | ELD_DF_Steil 0.8
+ELD_Kontakt_Radius 65 | ELD_Spur_Laenge 0.85 | ELD_Wirbel_Tempo 0.35 | ELD_DF_Schaum 1.15 | ELD_Strom_Schwelle 3.5 | ELD_Strom_Breite 2
+ELD_Strom_Schaum 0.8 | ELD_Saum_Mitte 6 | ELD_Saum_Breite 7 | ELD_Ufer_Schaum 0.5 | ELD_Saum_Neigung 0.05 | ELD_Schaum_Schwelle 0.13
+ELD_Schaum_Kontrast 3 | ELD_Schaum_Rauheit 0.55 | ELD_Schaum_Deckkraft 1 | ELD_Wirbel_Groesse 140 | ELD_Wirbel_Zug 1.3 | ELD_Wirbel_Normal 0.9
+ELD_Schaum_Normal 0.6 | ELD_Wirbel_Staerke 0.85
+
+VEKTOREN
+BakedWaterSimSize (0,0,0,0) | Foam Emissive (0,0,0,1) | foramnormal (0.5,0.5,1,0) | Water Albedo (0.03,0.03,0.03,0.5)
+Scattering (0.2,0.3,0.28,0.1) | Absorption (400,900,750,8) | Foam Scattering (1,1,1,5) | EL_Ripple0..7 (0,0,-100,0) | ELD_Schaum_Farbe (0.8,0.84,0.82,1)
+
+SCHALTER (statisch)
+Enable Water VS Mapping True | UseVT False | UseHighQualityFiltering False | UseScalarWaterBodyIndex False | UseFixedVelocity False
+UseWaterInfoTexture True | UseFixedZ False | UseFixedWaterDepth False | UseBakedSim False | Fluidsim Use Custom DistanceField False
+Show FluidSim Debug Bounds False | Enable Ocean Foam False | Enable River True | Enable Waves False | Enable Lake Transition False
+Enable Ocean Transition False | Caustics Use Manual Water Body Index False | Caustics False | DisableDynamicBoundsClip False
+
+NICHT vorhanden (aus 16f §3.2/§4): FoamAttenMin, FoamAttenMax, LowVelocityFoamScale, Scattering Min/Max Velocity, Low Velocity Wave Scale,
+Wave Atten Min/Max.
