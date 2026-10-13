@@ -2,72 +2,533 @@
  "_doku": "16h Nachtrag 6c: natuerlicher Bettplan fuer Erlenbach p2 (Talkaskade s 389-579). Alle Zahlen hier, nicht im Code. Herkunft je Block: 'quelle' (Kuerzel wie gefaelle_regeln.json 'quellen') oder 'herkunft' (Antwort 18, 15f, 15g, 16h N5, Ferat). 'annahme': true = Gestaltungswert, nicht gemessen. Koordinaten: s = m entlang lauf_p2 wie querschnitte_p2.json, u = m quer, u > 0 = links (Ferat: links = (-t_j, t_i) im Raster).",
  "stand": "16h Nachtrag 6c",
  "abschnitte": {
-  "talkaskade": {"s_m": [389.0, 579.0], "spiegel_oben": "alt bei s 390 (100,65 m)", "spiegel_unten": "alt bei s 578 (44,98 m)",
-                 "letzte_lippe_auf_m": "alt bei s 580 (Kiesbett, 44,23 m)", "zuruecklegen": true,
-                 "notiz": "Kopf: Fuss der letzten Durchbruch-Stufe (s 389, alt 100,96 -> 100,65). Fuss: letzte Lippe bei s 579 faellt auf das unveraenderte Kiesbett."}
+  "talkaskade": {
+   "s_m": [
+    389.0,
+    579.0
+   ],
+   "spiegel_oben": "alt bei s 390 (100,65 m)",
+   "spiegel_unten": "alt bei s 578 (44,98 m)",
+   "letzte_lippe_auf_m": "alt bei s 580 (Kiesbett, 44,23 m)",
+   "zuruecklegen": true,
+   "notiz": "Kopf: Fuss der letzten Durchbruch-Stufe (s 389, alt 100,96 -> 100,65). Fuss: letzte Lippe bei s 579 faellt auf das unveraenderte Kiesbett."
+  }
  },
- "narbe": {"herkunft": "querschnitte_p2.json (Ferat 13.10.)", "d_ref_m": 1.5,
-           "glaetten": {"min_fenster_m": 2.0, "mittel_fenster_m": 4.0},
-           "notiz": "Grasnarbe neben dem Bach = Gelaende 1,5 m neben der alten Wasserkante (ausserhalb der 'Kasten-U'-Rampe von 1,5 m), Minimum beider Seiten, geglaettet und talwaerts nie steigend."},
- "breite": {"herkunft": "alte Planbreite (querschnitte breite_m), gleitender Median", "median_fenster_m": 10.0},
+ "narbe": {
+  "herkunft": "querschnitte_p2.json (Ferat 13.10.)",
+  "d_ref_m": 1.5,
+  "glaetten": {
+   "min_fenster_m": 2.0,
+   "mittel_fenster_m": 4.0
+  },
+  "notiz": "Grasnarbe neben dem Bach = Gelaende 1,5 m neben der alten Wasserkante (ausserhalb der 'Kasten-U'-Rampe von 1,5 m), Minimum beider Seiten, geglaettet und talwaerts nie steigend."
+ },
+ "breite": {
+  "herkunft": "alte Planbreite (querschnitte breite_m), gleitender Median",
+  "median_fenster_m": 10.0
+ },
  "einheit": {
   "_doku": "Eine Einheit = Stufe oder Kaskade am Kopf + Becken + Auslauf bis zur naechsten Lippe. Laenge L in Bachbreiten B (Lippe bis Lippe).",
-  "quelle": ["MB1997", "CHIN1999", "ABR1995"], "herkunft": "Ferat 6c: 1-4 Bachbreiten, nach dem Gefaelle, einzelne laengere ruhige Strecken",
-  "klassen": [
-   {"name": "kurz", "anteil": 0.38, "L_B": [1.0, 1.3], "kopf_ufer_max_m": 2.0, "stufe_max_m": 1.8, "teil_ziel_m": 1.3},
-   {"name": "mittel", "anteil": 0.32, "L_B": [1.5, 2.2], "kopf_ufer_max_m": 2.4, "stufe_max_m": 1.8, "teil_ziel_m": 1.3},
-   {"name": "lang", "anteil": 0.2, "L_B": [2.4, 3.0], "kopf_ufer_max_m": 2.9, "stufe_max_m": 2.2, "teil_ziel_m": 1.6},
-   {"name": "ruhig", "anteil": 0.1, "L_B": [3.0, 4.0], "kopf_ufer_max_m": 3.4, "stufe_max_m": 2.6, "teil_ziel_m": 2.0}
+  "quelle": [
+   "MB1997",
+   "CHIN1999",
+   "ABR1995"
   ],
-  "ruhig_abstand_min_m": 35.0, "gleiche_klasse_max_folge": 2,
-  "gefaelle_bezug": 0.30, "gefaelle_exponent": 0.5, "gefaelle_faktor": [0.75, 1.3],
+  "herkunft": "Ferat 6c: 1-4 Bachbreiten, nach dem Gefaelle, einzelne laengere ruhige Strecken",
+  "klassen": [
+   {
+    "name": "kurz",
+    "anteil": 0.38,
+    "L_B": [
+     1.0,
+     1.3
+    ],
+    "kopf_ufer_max_m": 2.0,
+    "stufe_max_m": 1.8,
+    "teil_ziel_m": 1.3
+   },
+   {
+    "name": "mittel",
+    "anteil": 0.32,
+    "L_B": [
+     1.5,
+     2.2
+    ],
+    "kopf_ufer_max_m": 2.4,
+    "stufe_max_m": 1.8,
+    "teil_ziel_m": 1.3
+   },
+   {
+    "name": "lang",
+    "anteil": 0.2,
+    "L_B": [
+     2.4,
+     3.0
+    ],
+    "kopf_ufer_max_m": 2.9,
+    "stufe_max_m": 2.2,
+    "teil_ziel_m": 1.6
+   },
+   {
+    "name": "ruhig",
+    "anteil": 0.1,
+    "L_B": [
+     3.0,
+     4.0
+    ],
+    "kopf_ufer_max_m": 3.4,
+    "stufe_max_m": 2.6,
+    "teil_ziel_m": 2.0
+   }
+  ],
+  "ruhig_abstand_min_m": 35.0,
+  "gleiche_klasse_max_folge": 2,
+  "gefaelle_bezug": 0.3,
+  "gefaelle_exponent": 0.5,
+  "gefaelle_faktor": [
+   0.75,
+   1.3
+  ],
   "notiz": "stufe_max_m: groesster Einzelfall der Klasse (darueber Blockkaskade), bei ruhigen Strecken bis 2,4 m (hohe Blockstufe), damit die Laenge dem Becken bleibt und nicht in Teilbecken aufgeht. Laengen werden mit (0,30 / oertliches Talgefaelle)^0,5 skaliert: steiler -> kuerzer. Bei 30 % Talgefaelle liegt das Ufer am Beckenkopf zwangslaeufig um Fall + Uferstufe ueber dem Spiegel; kopf_ufer_max_m begrenzt diese Einschnitttiefe (sonst Einheit kuerzer)."
  },
- "uferstufe": {"herkunft": "Antwort 18 §3.2 (0,2-0,5 m, Spiegel unter der Grasnarbe); 6b Ziel <= 5 % nass im 2-m-Band",
-               "einheit_m": [0.25, 0.45], "seite_streuung_m": 0.07, "min_m": 0.2, "max_m": 0.5,
-               "aufschuettung_max_m": 0.5,
-               "notiz": "Spiegel jedes Beckens = min(Narbe ueber dem Becken) - U. Wo die Narbe einer Seite tiefer liegt, wird die Schulter bis Spiegel + U angehoben (hoechstens 0,5 m)."},
- "stufe": {"quelle": ["ABR1995", "RC2021"], "herkunft": "gefaelle_regeln.json stufen.arten, 15f",
-           "D_min_m": 0.3, "D_einzeln_max_m": 1.8, "D_einheit_max_m": 3.8,
-           "kaskade": {"teil_m": [0.35, 1.6], "teil_ziel_m": 1.1, "teilhoehen_streuung": 0.75, "rampe_bis_m": 0.7, "rampe_anteil": 0.3, "teilbecken_B": [0.3, 0.5]},
-           "schnelle": {"D_max_m": 0.7, "anteil": 0.6, "laenge": "clamp(3 * D, 1.5, 3.0)", "gefaelle_max": 0.35},
-           "wand_m": "clamp(0.3 * D + 0.3, 0.4, 1.0)",
-           "hauptbecken_min_B": 0.8,
-           "notiz": "Ueber 1,8 m Fall (ruhige Strecken 2,6 m) wird die Stufe zur Blockkaskade aus 2-4 Teilstufen (je 0,45-1,3 m) mit kurzen Teilbecken (0,3-0,5 B: steiler als das Tal, sonst bleibt dem Hauptbecken keine Laenge); unter 0,7 m in 60 % der Faelle eine Schnelle (Rinne) statt einer Stufe; Teilstufen einer Kaskade bis 0,7 m werden zu 30 % eine Rampe (15f: rampe_anteil), wenn das Hauptbecken die Laenge hergibt."},
- "lippe": {"quelle": ["MB1997", "CHIN1999"], "herkunft": "15f lippen_geo/lippen_formen, gefaelle_regeln.json stufen.unregelmaessig", "annahme": true,
-           "winkel_grad": [15.0, 30.0], "kaskade_winkel_streuung_grad": 8.0, "pfeil_B": [0.05, 0.15],
-           "versatz_max_anteil_becken": 0.45,
-           "kerbe": {"breite_B": [0.2, 0.35], "breite_m": [0.6, 1.4], "lage_B": [0.1, 0.35], "tiefe_m": [0.2, 0.4],
-                     "zwei_ab_B_m": 4.4, "zwei_anteil": 0.4, "rand_m": 0.3},
-           "seitenwechsel_anteil": 0.75,
-           "krone_unter_spiegel_m": [0.04, 0.1], "krone_zone_m": 0.8,
-           "einschnuerung": 0.85, "einschnuerung_laenge_m": 1.2, "einbindung_ufer_m": [0.5, 1.2]},
- "becken": {"herkunft": "Antwort 18 §3.3 (0,8-1,2 m), gefaelle_regeln.json kolk.form, Ferat 6c (Kolk unter dem Absturz, laenglich)",
-            "breite_faktor": [1.1, 1.25], "spiegel_gefaelle": 0.0,
-            "kolk_tiefe_m": [0.8, 1.2], "kolk_tiefe_je_m_fall": 0.2,
-            "kolk_laenge_anteil": [0.55, 0.8], "kolk_laenge_m": [1.6, 8.0], "kolk_breite_B": [0.5, 0.7], "kolk_streckung_min": 1.3,
-            "kolk_lage_oben_anteil": 0.3, "rinne_tiefe_m": [0.2, 0.4], "rand_tiefe_m": [0.03, 0.08], "quer_exponent": [1.6, 2.4],
-            "notiz": "Tiefster Punkt direkt unter dem Hauptstrahl (Kerbe der oberen Lippe), steil zur Stufe, flach zur naechsten Lippe; Talweg wandert vom Kolk zur Kerbe der naechsten Lippe (pendelt, weil die Kerben die Seite wechseln)."},
- "lauf_pendel": {"annahme": true, "amp_B": 0.12, "amp_max_m": 0.45, "wellenlaenge_m": [16.0, 28.0]},
- "buchten": {"herkunft": "15g ufer_rauschen", "amp": "clip(0.2 * B - 0.3, 0, 0.8)", "wellenlaenge_m": [4.0, 9.0], "lippe_frei_m": 0.6},
- "ufer_profil": {"herkunft": "bachbett_ufer_regeln.json C_ufer.profil (zuruecklegen_16h2: 32/38 Grad), Antwort 18 §3.2",
-                 "stufe_lauf_m": {"prall": [0.25, 0.4], "gleit": [0.5, 0.9]}, "schulter_m": 1.0,
-                 "boeschung_grad": 35.0, "korridor_m": 6.0, "uebergang_m": 2.0, "abtrag_zugabe_m": 0.3,
-                 "notiz": "Uferstufe = kurze, steile Kante von Spiegel - Randtiefe auf Spiegel + U (Prallseite steiler), dann 1 m Schulter auf mindestens Spiegel + U, dahinter hoechstens 35 Grad bis 6 m (zuruecklegen statt Kasten), Uebergang 2 m. Abgetragen wird dort hoechstens der Einschnitt gegen den alten Spiegel + 0,3 m, nach aussen linear auf 0: die Talflanke selbst bleibt."},
- "bloecke": {"herkunft": "15f lippen_blockpunkte, 15g rand_bloecke, bachbett_ufer_regeln.json C_ufer.steine.stufe_widerlager", "annahme": true,
-             "palette": "gefaelle_regeln.json biome.tundra.netze (riegel, bloecke, kies)", "skala": [0.3, 1.8], "zusatz_netze": ["SM_mountain_rock_big_01_1", "SM_mountain_rock_big_01_5", "SM_ground_rock_02", "SM_MossyForestBoulder_01", "SM_MossyForestBoulder_02", "SM_MossyForestBoulder_06", "SM_MossyForestBoulder_07", "SM_LichenedForestBoulder_01", "SM_MossyForestRock_02"], "zusatz_notiz": "Ergaenzung aus dem Inventar (netze.csv, nicht gesperrt): dieselben Pakete wie die Tundra-Palette (Mountain_Environment_Set) bzw. bemooste Megascans-Bloecke wie SM_TundraMossyBoulder_01. Grund: unter 1,2 m hat die Tundra-Palette nur einen klobigen Block (skjsL_tier_0). Optik bitte pruefen.", "flach_grenze": 0.35, "flach_nur_lippe": true,
-             "lippe": {"abstand_faktor": 0.75, "groesse": "clamp(0.4 + 0.4 * D, 0.5, 1.2)", "streuung": 0.25, "einbettung": [0.4, 0.6], "kerbe_frei_m": 0.15},
-             "keystone": {"ab_fall_m": 0.6, "groesse": "clamp(0.5 + 0.5 * D, 0.8, 1.5)", "einbettung": [0.4, 0.55]},
-             "eckblock": {"anteil": 0.85, "anteil_teilstufe": 0.35, "groesse_m": [0.9, 1.8], "aussen_m": [0.1, 0.6], "stromab_m": [0.2, 0.8], "einbettung": [0.35, 0.5]},
-             "randblock": {"abstand_m": [2.5, 5.0], "anteil": 0.4, "groesse_m": [0.6, 1.3], "aussen_m": [-0.2, 0.5], "einbettung": [0.3, 0.45]},
-             "beckenblock": {"je_10m_becken": [0.0, 1.2], "groesse_m": [0.4, 0.9], "einbettung": [0.3, 0.5], "strahl_frei_m": 0.6},
-             "kies_kolk": {"anzahl": [6, 14], "skala": [1.0, 2.0]}},
- "swr": {"herkunft": "16h N5 (Ferat): SWR-Hindernisse = Steine >= 0,4 m im Wasser oder <= 1 m daneben; keine Lippen-, Rand-, Bettfelsen; Teil <= 40 % der Bettbreite; je Meter <= 50 %",
-         "hindernis_min_m": 0.4, "abstand_wasser_m": 1.0, "anteil_breite_max": 0.4, "anteil_je_m_max": 0.5,
-         "rollen_nie": ["lippe", "keystone", "eckblock", "randblock", "kies"],
-         "kollision_ab_m": 0.8,
-         "band_m": 2.0, "band_ab_m": 0.25, "band_nass_max": 0.05, "band_notiz": "Band ab 0,25 m hinter der Bettkante: die ersten 0,1-0,2 m der Uferstufe liegen gewollt unter Wasser (Wasserlinie an der Kante)."},
- "pruefung": {"cv_abstand_min": 0.3, "cv_lippen_abstand_min": 0.45, "cv_fall_min": 0.3, "_cv_notiz": "15f: C2 nach dem Umbau CV Lippenabstaende 0,51, Fallhoehen 0,67; Einheiten (Lippe bis Lippe der Hauptstufen) streuen weniger, weil das Ufer am Beckenkopf die Laenge begrenzt.", "seitenwechsel_min": 0.55, "laenge_B": [1.0, 4.0],
-              "kolk_tiefe_m": [0.8, 1.2], "rinne_tiefe_m": [0.2, 0.4], "uferstufe_min_m": 0.2,
-              "ruhig_min": 2, "becken_gefaelle_max": 0.01}
+ "uferstufe": {
+  "herkunft": "Antwort 18 §3.2 (0,2-0,5 m, Spiegel unter der Grasnarbe); 6b Ziel <= 5 % nass im 2-m-Band",
+  "einheit_m": [
+   0.25,
+   0.45
+  ],
+  "seite_streuung_m": 0.07,
+  "min_m": 0.2,
+  "max_m": 0.5,
+  "aufschuettung_max_m": 0.5,
+  "notiz": "Spiegel jedes Beckens = min(Narbe ueber dem Becken) - U. Wo die Narbe einer Seite tiefer liegt, wird die Schulter bis Spiegel + U angehoben (hoechstens 0,5 m)."
+ },
+ "stufe": {
+  "quelle": [
+   "ABR1995",
+   "RC2021"
+  ],
+  "herkunft": "gefaelle_regeln.json stufen.arten, 15f",
+  "D_min_m": 0.3,
+  "D_einzeln_max_m": 1.8,
+  "D_einheit_max_m": 3.8,
+  "kaskade": {
+   "teil_m": [
+    0.35,
+    1.6
+   ],
+   "teil_ziel_m": 1.1,
+   "teilhoehen_streuung": 0.75,
+   "rampe_bis_m": 0.7,
+   "rampe_anteil": 0.3,
+   "teilbecken_B": [
+    0.3,
+    0.5
+   ]
+  },
+  "schnelle": {
+   "D_max_m": 0.7,
+   "anteil": 0.6,
+   "laenge": "clamp(3 * D, 1.5, 3.0)",
+   "gefaelle_max": 0.35
+  },
+  "wand_m": "clamp(0.3 * D + 0.3, 0.4, 1.0)",
+  "hauptbecken_min_B": 0.8,
+  "notiz": "Ueber 1,8 m Fall (ruhige Strecken 2,6 m) wird die Stufe zur Blockkaskade aus 2-4 Teilstufen (je 0,45-1,3 m) mit kurzen Teilbecken (0,3-0,5 B: steiler als das Tal, sonst bleibt dem Hauptbecken keine Laenge); unter 0,7 m in 60 % der Faelle eine Schnelle (Rinne) statt einer Stufe; Teilstufen einer Kaskade bis 0,7 m werden zu 30 % eine Rampe (15f: rampe_anteil), wenn das Hauptbecken die Laenge hergibt."
+ },
+ "lippe": {
+  "quelle": [
+   "MB1997",
+   "CHIN1999"
+  ],
+  "herkunft": "15f lippen_geo/lippen_formen, gefaelle_regeln.json stufen.unregelmaessig",
+  "annahme": true,
+  "winkel_grad": [
+   15.0,
+   30.0
+  ],
+  "kaskade_winkel_streuung_grad": 8.0,
+  "pfeil_B": [
+   0.05,
+   0.15
+  ],
+  "versatz_max_anteil_becken": 0.45,
+  "kerbe": {
+   "breite_B": [
+    0.2,
+    0.35
+   ],
+   "breite_m": [
+    0.6,
+    1.4
+   ],
+   "lage_B": [
+    0.1,
+    0.35
+   ],
+   "tiefe_m": [
+    0.2,
+    0.4
+   ],
+   "zwei_ab_B_m": 4.4,
+   "zwei_anteil": 0.4,
+   "rand_m": 0.3
+  },
+  "seitenwechsel_anteil": 0.75,
+  "krone_unter_spiegel_m": [
+   0.04,
+   0.1
+  ],
+  "krone_zone_m": 0.8,
+  "einschnuerung": 0.85,
+  "einschnuerung_laenge_m": 1.2,
+  "einbindung_ufer_m": [
+   0.5,
+   1.2
+  ]
+ },
+ "becken": {
+  "herkunft": "Antwort 18 §3.3 (0,8-1,2 m), gefaelle_regeln.json kolk.form, Ferat 6c (Kolk unter dem Absturz, laenglich)",
+  "breite_faktor": [
+   1.1,
+   1.25
+  ],
+  "spiegel_gefaelle": 0.0,
+  "kolk_tiefe_m": [
+   0.8,
+   1.2
+  ],
+  "kolk_tiefe_je_m_fall": 0.2,
+  "kolk_laenge_anteil": [
+   0.55,
+   0.8
+  ],
+  "kolk_laenge_m": [
+   1.6,
+   8.0
+  ],
+  "kolk_breite_B": [
+   0.5,
+   0.7
+  ],
+  "kolk_streckung_min": 1.3,
+  "kolk_lage_oben_anteil": 0.3,
+  "rinne_tiefe_m": [
+   0.2,
+   0.4
+  ],
+  "rand_tiefe_m": [
+   0.03,
+   0.08
+  ],
+  "quer_exponent": [
+   1.6,
+   2.4
+  ],
+  "notiz": "Tiefster Punkt direkt unter dem Hauptstrahl (Kerbe der oberen Lippe), steil zur Stufe, flach zur naechsten Lippe; Talweg wandert vom Kolk zur Kerbe der naechsten Lippe (pendelt, weil die Kerben die Seite wechseln)."
+ },
+ "lauf_pendel": {
+  "annahme": true,
+  "amp_B": 0.12,
+  "amp_max_m": 0.45,
+  "wellenlaenge_m": [
+   16.0,
+   28.0
+  ]
+ },
+ "buchten": {
+  "herkunft": "15g ufer_rauschen",
+  "amp": "clip(0.2 * B - 0.3, 0, 0.8)",
+  "wellenlaenge_m": [
+   4.0,
+   9.0
+  ],
+  "lippe_frei_m": 0.6
+ },
+ "ufer_profil": {
+  "herkunft": "bachbett_ufer_regeln.json C_ufer.profil (zuruecklegen_16h2: 32/38 Grad), Antwort 18 §3.2",
+  "stufe_lauf_m": {
+   "prall": [
+    0.25,
+    0.4
+   ],
+   "gleit": [
+    0.5,
+    0.9
+   ]
+  },
+  "schulter_m": 1.0,
+  "boeschung_grad": 35.0,
+  "korridor_m": 6.0,
+  "uebergang_m": 2.0,
+  "abtrag_zugabe_m": 0.3,
+  "notiz": "Uferstufe = kurze, steile Kante von Spiegel - Randtiefe auf Spiegel + U (Prallseite steiler), dann 1 m Schulter auf mindestens Spiegel + U, dahinter hoechstens 35 Grad bis 6 m (zuruecklegen statt Kasten), Uebergang 2 m. Abgetragen wird dort hoechstens der Einschnitt gegen den alten Spiegel + 0,3 m, nach aussen linear auf 0: die Talflanke selbst bleibt."
+ },
+ "bloecke": {
+  "herkunft": "15f lippen_blockpunkte, 15g rand_bloecke, bachbett_ufer_regeln.json C_ufer.steine.stufe_widerlager",
+  "annahme": true,
+  "palette": "gefaelle_regeln.json biome.tundra.netze (riegel, bloecke, kies)",
+  "skala": [
+   0.3,
+   1.8
+  ],
+  "zusatz_netze": [
+   "SM_mountain_rock_big_01_1",
+   "SM_mountain_rock_big_01_5",
+   "SM_ground_rock_02",
+   "SM_MossyForestBoulder_01",
+   "SM_MossyForestBoulder_02",
+   "SM_MossyForestBoulder_06",
+   "SM_MossyForestBoulder_07",
+   "SM_LichenedForestBoulder_01",
+   "SM_MossyForestRock_02"
+  ],
+  "zusatz_notiz": "Ergaenzung aus dem Inventar (netze.csv, nicht gesperrt): dieselben Pakete wie die Tundra-Palette (Mountain_Environment_Set) bzw. bemooste Megascans-Bloecke wie SM_TundraMossyBoulder_01. Grund: unter 1,2 m hat die Tundra-Palette nur einen klobigen Block (skjsL_tier_0). Optik bitte pruefen.",
+  "flach_grenze": 0.35,
+  "flach_nur_lippe": true,
+  "lippe": {
+   "abstand_faktor": 0.75,
+   "groesse": "clamp(0.4 + 0.4 * D, 0.5, 1.2)",
+   "streuung": 0.25,
+   "einbettung": [
+    0.4,
+    0.6
+   ],
+   "kerbe_frei_m": 0.15
+  },
+  "keystone": {
+   "ab_fall_m": 0.6,
+   "groesse": "clamp(0.5 + 0.5 * D, 0.8, 1.5)",
+   "einbettung": [
+    0.4,
+    0.55
+   ]
+  },
+  "eckblock": {
+   "anteil": 0.85,
+   "anteil_teilstufe": 0.35,
+   "groesse_m": [
+    0.9,
+    1.8
+   ],
+   "aussen_m": [
+    0.1,
+    0.6
+   ],
+   "stromab_m": [
+    0.2,
+    0.8
+   ],
+   "einbettung": [
+    0.35,
+    0.5
+   ]
+  },
+  "randblock": {
+   "abstand_m": [
+    2.5,
+    5.0
+   ],
+   "anteil": 0.4,
+   "groesse_m": [
+    0.6,
+    1.3
+   ],
+   "aussen_m": [
+    -0.2,
+    0.5
+   ],
+   "einbettung": [
+    0.3,
+    0.45
+   ]
+  },
+  "beckenblock": {
+   "je_10m_becken": [
+    0.0,
+    1.2
+   ],
+   "groesse_m": [
+    0.4,
+    0.9
+   ],
+   "einbettung": [
+    0.3,
+    0.5
+   ],
+   "strahl_frei_m": 0.6
+  },
+  "kies_kolk": {
+   "anzahl": [
+    6,
+    14
+   ],
+   "skala": [
+    1.0,
+    2.0
+   ]
+  }
+ },
+ "swr": {
+  "herkunft": "16h N5 (Ferat): SWR-Hindernisse = Steine >= 0,4 m im Wasser oder <= 1 m daneben; keine Lippen-, Rand-, Bettfelsen; Teil <= 40 % der Bettbreite; je Meter <= 50 %",
+  "hindernis_min_m": 0.4,
+  "abstand_wasser_m": 1.0,
+  "anteil_breite_max": 0.4,
+  "anteil_je_m_max": 0.5,
+  "rollen_nie": [
+   "lippe",
+   "keystone",
+   "eckblock",
+   "randblock",
+   "kies"
+  ],
+  "kollision_ab_m": 0.8,
+  "band_m": 2.0,
+  "band_ab_m": 0.25,
+  "band_nass_max": 0.05,
+  "band_notiz": "Band ab 0,25 m hinter der Bettkante: die ersten 0,1-0,2 m der Uferstufe liegen gewollt unter Wasser (Wasserlinie an der Kante)."
+ },
+ "pruefung": {
+  "cv_abstand_min": 0.3,
+  "cv_lippen_abstand_min": 0.45,
+  "cv_fall_min": 0.3,
+  "_cv_notiz": "15f: C2 nach dem Umbau CV Lippenabstaende 0,51, Fallhoehen 0,67; Einheiten (Lippe bis Lippe der Hauptstufen) streuen weniger, weil das Ufer am Beckenkopf die Laenge begrenzt.",
+  "seitenwechsel_min": 0.55,
+  "laenge_B": [
+   1.0,
+   4.0
+  ],
+  "kolk_tiefe_m": [
+   0.8,
+   1.2
+  ],
+  "rinne_tiefe_m": [
+   0.2,
+   0.4
+  ],
+  "uferstufe_min_m": 0.2,
+  "ruhig_min": 2,
+  "becken_gefaelle_max": 0.01
+ },
+ "ausstattung_6e": {
+  "_doku": "16h Nachtrag 6e (Witcher-4-Messlatte): Ufer-Vegetation an der NEUEN Kante, Moos am Ufer, Totholz quer, Farne nur im Schatten. Regeln aus bachbett_ufer_regeln.json C_ufer.bewuchs_kante (16h N3/N5), auf die Geometrie des Bettplans uebertragen. Netze nur aus dem Inventar.",
+  "kantengras": {
+   "herkunft": "C_ufer.bewuchs_kante.ueberhaengendes_gras",
+   "anteil_kantenlaenge": [
+    0.6,
+    0.8
+   ],
+   "abstand_m": [
+    0.4,
+    0.8
+   ],
+   "ueberhang_m": [
+    0.15,
+    0.35
+   ],
+   "neigung_zum_wasser_grad": [
+    20,
+    40
+   ],
+   "skala": [
+    0.8,
+    1.3
+   ],
+   "lippe_frei_m": 0.6,
+   "netze": [
+    "SM_grass_bush_01",
+    "SM_grass_bush_02",
+    "SM_grass_bush_03",
+    "SM_grass_bush_04",
+    "SM_GrassyEmbankment_01",
+    "SM_GrassyEmbankment_02"
+   ],
+   "fuss": "auf Schulterhoehe (Spiegel + Uferstufe), haengt ueber die Uferstufe"
+  },
+  "moos_ufer": {
+   "herkunft": "C_ufer.bewuchs_kante.moospolster",
+   "je_m_ufer": [
+    0.33,
+    0.67
+   ],
+   "gruppe": [
+    2,
+    3
+   ],
+   "hoehe_ueber_spiegel_m": [
+    0.05,
+    1.2
+   ],
+   "netze": [
+    "SM_moss_01",
+    "SM_moss_02",
+    "SM_MossClump_01",
+    "SM_MossClump_03",
+    "SM_MossClump_05"
+   ]
+  },
+  "farne": {
+   "herkunft": "C_ufer.bewuchs_kante.farne",
+   "nur": "Ufer, dessen Boeschung nach Norden schaut (Weltwerkzeug filtert: Aussennormale Y-Anteil > 0,3)",
+   "d_hinter_schulter_m": [
+    0.3,
+    2.0
+   ],
+   "gruppe": [
+    1,
+    3
+   ],
+   "abstand_gruppen_m": [
+    8,
+    15
+   ],
+   "skala": [
+    0.7,
+    1.1
+   ],
+   "netze": [
+    "SM_Fern_01",
+    "SM_Fern_02",
+    "SM_Fern_04",
+    "SM_EagleFern_S_01",
+    "SM_EagleFern_S_02"
+   ],
+   "notiz": "offene Tundra: C_ufer.farne erlaubt hoechstens 1 Gruppe je 15 m; der schattige Einschnitt am Nordufer rechtfertigt Gruppen alle 8-15 m, nur dort."
+  },
+  "totholz": {
+   "herkunft": "15f (Totholz quer im Becken 30 %), 13k (Saegeschnitt verboten, Skala 0,6-1,8), gefaelle_regeln.json biome.aue/bergwald.netze.holz",
+   "annahme": true,
+   "abstand_m": [
+    28,
+    45
+   ],
+   "arten": {
+    "quer_ueber_becken": 0.6,
+    "schraeg_an_lippenende": 0.4
+   },
+   "auflage_ueber_spiegel_m": [
+    0.15,
+    0.35
+   ],
+   "laenge_ueber_breite": [
+    1.15,
+    1.45
+   ],
+   "skala": [
+    0.6,
+    1.8
+   ],
+   "netze": [
+    "SM_OldTreeBranch_02",
+    "SM_OldTreeBranch_03",
+    "SM_OldTreeBranch_06",
+    "SM_OldFallenTree_01",
+    "SM_OldFallenTree_02",
+    "SM_FallenSpruceTree_01",
+    "SM_dead_log_03",
+    "SM_dead_log_04"
+   ],
+   "notiz": "Die Tundra-Palette hat kein Holz; im Tal stehen Birken und Kiefern (Bilder t500). Holz liegt UEBER dem Wasser auf den Schultern bzw. am Eckblock, also kein SWR-Hindernis; Kollision ja (liegender Stamm, FORMAT §3). Optik bitte pruefen."
+  }
+ }
 }

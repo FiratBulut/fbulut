@@ -54,7 +54,7 @@ FORMAT = "p2_bett_v1"
 ZONEN = {0: "aussen", 1: "bett", 2: "kolk", 3: "lippenkrone", 4: "stufenwand_rampe", 5: "uferstufe", 6: "schulter",
          7: "boeschung"}
 SPALTEN = ["s_m", "u_m", "skala", "yaw_rel_grad", "kipp_grad", "einbettung", "groesse_m", "z_plan_m", "swr_hindernis",
-           "nr"]
+           "nr", "z_absolut"]
 
 
 # ======================================================================================================================
@@ -733,8 +733,15 @@ class Instanzen:
             return None, None
         return ok[int(zufall(*key) * len(ok)) % len(ok)]
 
-    def setze(self, liste, groesse, key, rolle, ebene, kollision, sicht, s, u, yaw, kipp, einb, z_plan, hind=False):
-        netz, sk = self.netz_fuer(liste, groesse, key, flach_ok=rolle in ("lippe", "kies") or not self.flach_nur_lippe)
+    def setze(self, liste, groesse, key, rolle, ebene, kollision, sicht, s, u, yaw, kipp, einb, z_plan, hind=False,
+              z_abs=False, skala_fest=None):
+        if skala_fest is not None:
+            netz = liste[int(zufall(*key) * len(liste)) % len(liste)]
+            netz = netz if netz in self.Rn and self.Rn[netz]["pfad"] not in self.sperre else None
+            sk = skala_fest
+        else:
+            netz, sk = self.netz_fuer(liste, groesse, key,
+                                      flach_ok=rolle in ("lippe", "kies") or not self.flach_nur_lippe)
         if netz is None:
             self.fehler.append("kein Netz fuer %s %.2f m" % (rolle, groesse))
             return None
@@ -745,10 +752,12 @@ class Instanzen:
                                         "groesse_m": [float(r["groesse_x_m"]), float(r["groesse_y_m"]),
                                                       float(r["groesse_z_m"])], "rollen": {}, "eintraege": []})
         e["rollen"][rolle] = e["rollen"].get(rolle, 0) + 1
-        row = [r2(s), r2(u), r2(sk, 3), r2(yaw, 1), r2(kipp, 1), r2(einb), r2(groesse), r2(z_plan), bool(hind), self.n]
+        row = [r2(s), r2(u), r2(sk, 3), r2(yaw, 1), r2(kipp, 1), r2(einb), r2(groesse), r2(z_plan, 3), bool(hind), self.n,
+               bool(z_abs)]
         e["eintraege"].append(row)
         self.n += 1
-        return {"netz": netz, "rolle": rolle, "s": s, "u": u, "g": groesse, "hind": hind, "row": row, "kol": kollision}
+        return {"netz": netz, "rolle": rolle, "s": s, "u": u, "g": groesse, "hind": hind, "row": row, "kol": kollision,
+                "z": z_plan, "z_abs": z_abs}
 
 
 def plane_instanzen(G, lippen, becken, R, seed, Rn, sperre, z_neu):
@@ -896,6 +905,122 @@ def plane_instanzen(G, lippen, becken, R, seed, Rn, sperre, z_neu):
     return I, liste
 
 
+def plane_ausstattung(G, lippen, becken, R, seed, I, Rn):
+    """16h Nachtrag 6e: Kantengras, Moos am Ufer, Farne (Kandidaten, Nordufer filtert das Weltwerkzeug), Totholz quer."""
+    A = R["ausstattung_6e"]
+    S, U, W = G["S"], G["U"], G["W"]
+    out = []
+
+    def zeile(s):
+        return int(np.clip(round((s - S[0]) / DS), 0, len(S) - 1))
+
+    def becken_bei(s):
+        i = zeile(s)
+        j = int(np.argmin(np.abs(U - G["UC"][i])))
+        p = int(G["pidx"][i, j])
+        return becken[p] if 0 <= p < len(becken) else None
+
+    def nahe_lippe(s, d):
+        return any(abs(s - L.s) < d for L in lippen if L.art != "bestand")
+
+    s0, s1 = float(S[0]) + 1.0, lippen[-1].s - 0.5
+    for sd, sg in (("links", 1.0), ("rechts", -1.0)):
+        E_ = G["EL"] if sg > 0 else G["ER"]
+        # Kantengras: Fuss auf der Schulter (Spiegel + Uferstufe), haengt 0,15-0,35 m ueber die Uferstufe
+        K = A["kantengras"]
+        s, n = s0, 0
+        while s < s1:
+            bk = becken_bei(s)
+            if bk and not nahe_lippe(s, K["lippe_frei_m"]) and zufall(seed, "kg_p", sd, n) < zw(*K["anteil_kantenlaenge"], seed, "kg_a", sd):
+                i = zeile(s)
+                rf = bk["r_face"][sd]
+                u = float(E_[i]) + sg * (rf - zw(*K["ueberhang_m"], seed, "kg_u", sd, n))
+                j = int(np.clip(round((u - U[0]) / DU), 0, len(U) - 1))
+                if int(G["pidx"][i, j]) != bk["nr"] or abs(float(W[i, j]) - bk["P"]) > 0.01:
+                    s += zw(*K["abstand_m"], seed, "kg_d", sd, n)
+                    n += 1
+                    continue                   # Stufenwand einer schraegen Lippe: dort kein Kantengras
+                z = bk["P"] + bk["U"][sd] - 0.02
+                out.append(I.setze(K["netze"], 0.0, (seed, "kg_n", sd, n), "kantengras", "bewuchs", False, [0, 9000], s, u,
+                                   -sg * 90.0 + zw(-25, 25, seed, "kg_y", sd, n), zw(*K["neigung_zum_wasser_grad"], seed, "kg_k", sd, n),
+                                   0.02, z, z_abs=True, skala_fest=zw(*K["skala"], seed, "kg_s", sd, n)))
+            s += zw(*K["abstand_m"], seed, "kg_d", sd, n)
+            n += 1
+        # Moos an Uferstufe und Schulter (0,05-1,2 m ueber dem Spiegel)
+        M = A["moos_ufer"]
+        s, n = s0, 0
+        while s < s1:
+            bk = becken_bei(s)
+            if bk and zufall(seed, "mo_p", sd, n) < zw(*M["je_m_ufer"], seed, "mo_a", sd, n) * 2.0:
+                i = zeile(s)
+                for k in range(int(zw(M["gruppe"][0], M["gruppe"][1] + 0.99, seed, "mo_g", sd, n))):
+                    d = zw(0.05, bk["r_face"][sd] + 0.6, seed, "mo_d", sd, n, k)
+                    ss = s + zw(-0.6, 0.6, seed, "mo_s", sd, n, k)
+                    out.append(I.setze(M["netze"], 0.0, (seed, "mo_n", sd, n, k), "moos", "kontakt", False, [0, 12000],
+                                       ss, float(E_[zeile(ss)]) + sg * d, zw(-180, 180, seed, "mo_y", sd, n, k), 0.0, 0.0,
+                                       0.0, skala_fest=zw(0.8, 1.4, seed, "mo_k", sd, n, k)))
+            s += 2.0
+            n += 1
+        # Farne (Kandidaten; das Weltwerkzeug behaelt nur das Nordufer = Boeschung schaut nach Norden)
+        Fa = A["farne"]
+        s, n = s0 + zw(0, 4, seed, "fa0", sd), 0
+        while s < s1:
+            bk = becken_bei(s)
+            if bk:
+                for k in range(int(zw(Fa["gruppe"][0], Fa["gruppe"][1] + 0.99, seed, "fa_g", sd, n))):
+                    ss = s + zw(-1.0, 1.0, seed, "fa_s", sd, n, k)
+                    d = bk["r_face"][sd] + R["ufer_profil"]["schulter_m"] * 0.3 + zw(*Fa["d_hinter_schulter_m"], seed, "fa_d", sd, n, k)
+                    out.append(I.setze(Fa["netze"], 0.0, (seed, "fa_n", sd, n, k), "farn", "bewuchs", False, [0, 25000], ss,
+                                       float(E_[zeile(ss)]) + sg * d, zw(-180, 180, seed, "fa_y", sd, n, k), 0.0, 0.03, 0.0,
+                                       skala_fest=zw(*Fa["skala"], seed, "fa_k", sd, n, k)))
+            s += zw(*Fa["abstand_gruppen_m"], seed, "fa_a", sd, n)
+            n += 1
+    # Totholz: quer ueber ein Hauptbecken (auf beiden Schultern) oder schraeg am Lippenende (auf dem Eckblock)
+    T = A["totholz"]
+    s, n = s0 + zw(5, 15, seed, "th0"), 0
+    haupt = [b for b in becken if b["typ"] == "haupt" and b["laenge_m"] >= 4.5]
+    while s < s1 and haupt:
+        bk = min(haupt, key=lambda b: abs((lippen[b["oben"]].s + lippen[b["unten"]].s) / 2 - s))
+        A_, N_ = lippen[bk["oben"]], lippen[bk["unten"]]
+        quer = zufall(seed, "th_art", n) < T["arten"]["quer_ueber_becken"]
+        if quer:
+            sm = A_.s + A_.wand + zw(0.45, 0.65, seed, "th_s", n) * bk["laenge_m"]
+            i = zeile(sm)
+            breite = float(G["EL"][i] - G["ER"][i]) + bk["r_face"]["links"] + bk["r_face"]["rechts"]
+            ziel = breite * zw(*T["laenge_ueber_breite"], seed, "th_l", n)
+            um = float(G["UC"][i])
+            # Laengsausdehnung des schraeg liegenden Stamms bleibt im Becken (0,5 m Abstand zu beiden Lippen)
+            frei = min(sm - (A_.s + A_.wand), N_.s - sm) - 0.5
+            dw = math.degrees(math.asin(clamp(frei / max(ziel / 2.0, 0.1), 0.0, 1.0)))
+            yaw = 90.0 + clamp(zw(-20, 20, seed, "th_y", n), -dw, dw)
+            z = bk["P"] + min(bk["U"].values()) + zw(*T["auflage_ueber_spiegel_m"], seed, "th_z", n)
+        else:
+            sg = 1.0 if zufall(seed, "th_sd", n) < 0.5 else -1.0
+            sm = N_.s - zw(0.3, 0.8, seed, "th_s", n)
+            i = zeile(sm)
+            um = float(G["EL"][i] if sg > 0 else G["ER"][i]) - sg * zw(0.2, 0.6, seed, "th_u", n)
+            ziel = zw(2.0, 3.5, seed, "th_l", n)
+            yaw = sg * zw(30, 60, seed, "th_y", n)
+            z = N_.P_up + zw(*T["auflage_ueber_spiegel_m"], seed, "th_z", n)
+        kand = []
+        for nm in T["netze"]:
+            r = Rn.get(nm)
+            if r is None:
+                continue
+            Lm = max(float(r["groesse_x_m"]), float(r["groesse_y_m"]))
+            sk = ziel / Lm
+            if T["skala"][0] <= sk <= T["skala"][1]:
+                kand.append((nm, sk, float(r["groesse_y_m"]) > float(r["groesse_x_m"])))
+        if kand:
+            nm, sk, y_lang = kand[int(zufall(seed, "th_n", n) * len(kand)) % len(kand)]
+            out.append(I.setze([nm], ziel, (seed, "th_k", n), "totholz", "schutt", True, [0, 45000], sm, um,
+                               yaw + (90.0 if y_lang else 0.0), zw(0, 6, seed, "th_k2", n), 0.0, z, z_abs=True,
+                               skala_fest=round(sk, 3)))
+        s += zw(*T["abstand_m"], seed, "th_d", n)
+        n += 1
+    return [x for x in out if x]
+
+
 # ======================================================================================================================
 # Pruefung und Kennzahlen
 # ======================================================================================================================
@@ -1008,6 +1133,18 @@ def pruefen(EH, lippen, becken, G, z_neu, ist_z, I, liste, R, rand, ist):
             F.append("SWR-Hindernis mit Rolle %s" % x["rolle"])
         if x["kol"] != (x["g"] >= R["swr"]["kollision_ab_m"]) and x["rolle"] != "kies":
             F.append("Kollision falsch: %s %.2f m" % (x["netz"], x["g"]))
+    for x in liste:
+        if x["rolle"] in ("kantengras", "totholz"):
+            i = int(np.clip(round((x["s"] - S[0]) / DS), 0, len(S) - 1))
+            j = int(np.clip(round((x["u"] - U[0]) / DU), 0, len(U) - 1))
+            if x["z"] < W[i, j] + 0.15:
+                F.append("%s bei s %.1f liegt nur %.2f m ueber dem Spiegel" % (x["rolle"], x["s"], x["z"] - W[i, j]))
+        if x["rolle"] == "totholz":
+            for L in lippen:
+                if L.art == "bestand" or not L.kerben:
+                    continue
+                if abs(x["s"] - float(L.linie(x["u"], L.uc))) < 0.3 and abs(x["u"] - (L.uc + L.kerben[0][0])) < 1.0:
+                    F.append("Totholz im Hauptstrahl der Lippe %d" % L.nr)
     return F, Wn, {"band_nass": nass, "aufschuettung_max_m": float(auf.max()), "kolktiefen": tiefen,
                    "seitenwechsel": wechsel, "cv_abstand": cv(abst), "cv_lippen_abstand": cv(la),
                    "lippen_abstand": [float(la.min()), float(np.median(la)), float(la.max())], "cv_fall": cv(falle), "ruhig": nruhig}
@@ -1030,6 +1167,7 @@ def rechne(ab="talkaskade", seed=None):
     z_neu = anwenden(ist_z, G)
     Rn, sperre = netze_lesen()
     I, liste = plane_instanzen(G, lippen, becken, R, seed, Rn, sperre, z_neu)
+    liste += plane_ausstattung(G, lippen, becken, R, seed, I, Rn)
     F, Wn, K = pruefen(EH, lippen, becken, G, z_neu, ist_z, I, liste, R, rand, ist)
     return {"R": R, "ist": ist, "EH": EH, "rand": rand, "lippen": lippen, "becken": becken, "G": G, "ist_z": ist_z,
             "z_neu": z_neu, "I": I, "liste": liste, "F": F, "Wn": Wn, "K": K, "ab": ab, "seed": seed}
@@ -1085,7 +1223,8 @@ def kennzahlen(X):
             "delta_m": [r2(dz.min()), r2(dz.max())],
             "instanzen": X["I"].n,
             "instanzen_je_rolle": {r: sum(1 for x in X["liste"] if x["rolle"] == r) for r in
-                                   ("lippe", "keystone", "eckblock", "randblock", "beckenblock", "kies")},
+                                   ("lippe", "keystone", "eckblock", "randblock", "beckenblock", "kies", "kantengras", "moos",
+                                    "farn", "totholz")},
             "kollision": sum(1 for x in X["liste"] if x["kol"]),
             "swr_hindernisse": sum(1 for x in X["liste"] if x["hind"]),
         }}
@@ -1175,7 +1314,9 @@ def schreiben(X, aus):
            "einheiten": eh_out, "lippen": lip_out, "becken": bk_out,
            "effekte_vorschlag": effekte_vorschlag(X),
            "instanzen_spalten": SPALTEN,
-           "instanzen_hinweis": "Schluessel = Netz bzw. Netz_kol (mit Kollision, Bloecke >= 0,8 m). "
+           "instanzen_hinweis": "Schluessel = Netz bzw. Netz_kol (mit Kollision: Bloecke >= 0,8 m, Totholz). z_absolut = "
+                                "true: z_plan_m ist die absolute Hoehe der Netzmitte unten (Kantengras auf der Schulter, Totholz "
+                                "auf Schultern/Eckblock). Rolle farn: nur am Ufer behalten, dessen Boeschung nach Norden schaut. "
                                 "z = neues Gelaende(x, y) - einbettung x groesse (Netzhoehe x skala); z_plan_m nur zur "
                                 "Kontrolle (Plan mit angenommenem Ist). yaw_rel_grad gegen die Fliessrichtung (Tangente "
                                 "von lauf_p2), kipp_grad stromauf. swr_hindernis nach dem N5-Filter; kollision >= 0,8 m.",

@@ -5,7 +5,9 @@ instanzen/<Feld>/plan.json + <Netz>.f32 nach FORMAT.md §3) sowie die Spiegelpun
 
 Eingabe:
   --plan DIR     antworten/p2_bett/ (bettplan_p2.json, talkaskade_soll.f32)
-  --lauf DATEI   lauf_p2.json (Ferat, 1-m-Punkte). Erkannt werden: Liste von Punkten oder ein Objekt mit einer
+  --lauf DATEI   lauf_p2.json (Ferat 6e: Schluessel i, j = Zeile/Spalte des 1-m-Rasters, X = (j - 4730,5) m,
+                 Y = (i - 4060,5) m, s in m auf den 1-m-Punkten; dazu sohle, spiegel, tiefe, breite, marken_s_m).
+                 Erkannt werden Spaltenform {i: [...], j: [...], s: [...]}, Liste von Punkten oder ein Objekt mit einer
                  Punktliste ('punkte', 'mittellinie', 'linie', 'spline', 'points'); Punkt = [x, y, ...] oder
                  {x|x_cm|X, y|y_cm|Y} oder {i, j}. Einheit automatisch (i/j = Raster, |Wert| > 20000 = cm), sonst
                  --einheit cm|m|raster. s aus 's'/'s_m' je Punkt, sonst Bogenlaenge (wie querschnitte_p2.json).
@@ -60,7 +62,12 @@ def lauf_lesen(pfad, einheit=None):
     with open(pfad, encoding="utf-8") as f:
         d = json.load(f)
     P = None
-    if isinstance(d, list):
+    if isinstance(d, dict) and isinstance(d.get("i"), list) and isinstance(d.get("j"), list):
+        # Spaltenform (Ferat 6e: Schluessel i, j, s, sohle, spiegel, tiefe, breite je als Liste)
+        n = min(len(d["i"]), len(d["j"]))
+        ss = d.get("s") if isinstance(d.get("s"), list) and len(d["s"]) >= n else None
+        P = [{"i": d["i"][k], "j": d["j"][k], **({"s": ss[k]} if ss else {})} for k in range(n)]
+    elif isinstance(d, list):
         P = d
     else:
         for k in ("punkte", "mittellinie", "linie", "spline", "points", "punkte_1m"):
@@ -266,6 +273,7 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
     sp = P["instanzen_spalten"]
     ix = {k: n for n, k in enumerate(sp)}
     je_feld = {}
+    farn_weg = 0
     for schl, e in sorted(P["instanzen"].items()):
         netz = e.get("netz", schl)
         hz = float(e["groesse_m"][2])
@@ -277,6 +285,14 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
             a_, b_ = int(round(float(i_))) - i_lo, int(round(float(j_))) - j_lo
             dz = float(delta[a_, b_]) if 0 <= a_ < delta.shape[0] and 0 <= b_ < delta.shape[1] else 0.0
             z = gi + dz - row[ix["einbettung"]] * hz * row[ix["skala"]]
+            if "z_absolut" in ix and row[ix["z_absolut"]]:
+                z = row[ix["z_plan_m"]]
+            if "farn" in e.get("rollen", {}):
+                # nur Nordufer: Aussennormale (vom Bach zum Ufer) zeigt nach +Y (Sueden) -> Boeschung schaut nach Norden
+                o_i = (1.0 if uv > 0 else -1.0) * float(ti)          # links = (-t_j, t_i): i-Anteil = t_i
+                if o_i <= 0.3:
+                    farn_weg += 1
+                    continue
             x_cm = (float(j_) - OFF_J) * 100.0
             y_cm = (float(i_) - OFF_I) * 100.0
             kurs = math.degrees(math.atan2(float(ti), float(tj)))         # Fliessrichtung in Welt (X = j, Y = i)
@@ -324,6 +340,7 @@ def welt_rechnen(plan_dir, lauf, H, aus, bild=False):
             "abschnitte": abschnitte, "spline_spiegel": "spline_spiegel.json", "swr_hindernisse": hindernisse,
             "kennzahlen": {"zellen_geaendert": int((np.abs(delta) > 0.005).sum()),
                            "delta_m": [round(float(delta.min()), 2), round(float(delta.max()), 2)],
+                           "farne_nicht_nordufer_weggelassen": farn_weg,
                            "abtrag_m3": round(float(-delta[delta < 0].sum()), 0),
                            "auftrag_m3": round(float(delta[delta > 0].sum()), 0)}}
     with open(os.path.join(aus, "plan.json"), "w", encoding="utf-8") as f:
@@ -363,6 +380,12 @@ def selbsttest():
     with open(lauf_pf, "w") as f:
         json.dump({"punkte": [{"i": round(a, 4), "j": round(b, 4), "s": float(k)} for k, (a, b) in enumerate(zip(I, J))]}, f)
     Il, Jl, Sl, art = lauf_lesen(lauf_pf)
+    lauf_sp = os.path.join(tmp, "lauf_p2_spalten.json")
+    with open(lauf_sp, "w") as f:
+        json.dump({"i": [round(a, 4) for a in I], "j": [round(b, 4) for b in J], "s": [float(k) for k in range(n)],
+                   "spiegel": [0.0] * n, "breite": [3.0] * n, "marken_s_m": [0.0, 200.0]}, f)
+    I2, J2, S2, art2 = lauf_lesen(lauf_sp)
+    spalten_ok = art2 == "raster" and np.allclose(I2, Il) and np.allclose(J2, Jl) and np.allclose(S2, Sl)
     lauf = Lauf(Il, Jl, Sl)
     # Gelaende: Ist des Plans (angenommenes Bett + Ufer aus den Querschnitten), ausserhalb Narbe
     welt = os.path.join(tmp, "welt")
@@ -410,6 +433,8 @@ def selbsttest():
             with open(p1, "rb") as f1, open(p2, "rb") as f2:
                 gleich &= hashlib.sha256(f1.read()).digest() == hashlib.sha256(f2.read()).digest()
     zus["zwei_laeufe_byte_gleich"] = gleich
+    zus["lauf_spaltenform_gelesen"] = bool(spalten_ok)
+    gleich = gleich and spalten_ok
     print(json.dumps(zus, ensure_ascii=False))
     shutil.rmtree(tmp, ignore_errors=True)
     return 0 if ok and gleich else 1

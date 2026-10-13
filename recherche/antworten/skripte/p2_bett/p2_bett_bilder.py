@@ -163,9 +163,17 @@ def _karte(X, farbe_fn, titel, legende_fn, pfad, unterzeile):
                              width=SK)
         # Bloecke
         for x in X["liste"]:
-            if x["rolle"] == "kies" or not (a <= x["s"] <= b):
+            if not (a <= x["s"] <= b):
                 continue
             x_, y_ = px(x["s"], x["u"])
+            if x["rolle"] == "totholz":
+                L_ = x["g"] / 2.0 * pxm
+                w_ = math.radians(x["row"][3])
+                Lw.linie([(x_ - L_ * math.cos(w_), y_ + L_ * math.sin(w_)), (x_ + L_ * math.cos(w_), y_ - L_ * math.sin(w_))],
+                         (120, 80, 40), 4)
+                continue
+            if x["rolle"] not in ("lippe", "keystone", "eckblock", "randblock", "beckenblock"):
+                continue
             Lw.kreis(x_, y_, max(1.8, x["g"] * pxm * 0.35), (70, 66, 60), (255, 255, 255))
         # Achsen
         Lw.rechteck(rand_l, y0, rand_l + (S[ii[-1]] - S[ii[0]]) * pxm + pxm * 0.5, y0 + hoehe_str, None, GITTER)
@@ -202,7 +210,7 @@ def bild_delta(X, pfad):
         Lw.text(x, y + 54, "blau = Abtrag (Bett, Kolke, zurueckgelegte Boeschung)   rot = Auftrag (Schulter, Lippen-Einschnuerung)",
                 11, TINTE2)
         Lw.text(x, y + 72, "Linien: schwarz = neue Bettkante, grau gestrichelt = alte Planbreite, dunkel dick = Lippe, "
-                           "weisser Punkt = Hauptkerbe, Ellipse = Kolk, Punkte = Bloecke", 11, TINTE2)
+                           "weisser Punkt = Hauptkerbe, Ellipse = Kolk, Punkte = Bloecke, braun = Totholz", 11, TINTE2)
         Lw.text(x + 400, y + 18, "Ist im alten Bett ANGENOMMEN (Kasten-U, 1,0 -> 0,55 m); Ufer aus querschnitte_p2.json",
                 11, ROT_D)
 
