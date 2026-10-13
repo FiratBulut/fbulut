@@ -1,0 +1,50 @@
+{
+ "name": "BCX",
+ "s": 500.0,
+ "ausrichtung": {
+  "drehung": 0,
+  "gespiegelt": false,
+  "median_m": 0.009
+ },
+ "klassen": {
+  "unter_wasser": {
+   "pixel": 14961,
+   "median": 0.067,
+   "mittel": 0.077,
+   "p10": 0.042,
+   "p90": 0.117,
+   "ziel": "<= 0,15",
+   "rgb_median": [
+    0.078,
+    0.065,
+    0.051
+   ]
+  },
+  "nasses_band": {
+   "pixel": 2166,
+   "median": 0.063,
+   "mittel": 0.07,
+   "p10": 0.036,
+   "p90": 0.106,
+   "ziel": "<= 0,25",
+   "rgb_median": [
+    0.074,
+    0.061,
+    0.048
+   ]
+  },
+  "trockener_kies": {
+   "pixel": 1069,
+   "median": 0.129,
+   "mittel": 0.137,
+   "p10": 0.069,
+   "p90": 0.213,
+   "ziel": "0,30-0,40",
+   "rgb_median": [
+    0.162,
+    0.122,
+    0.074
+   ]
+  }
+ }
+}
