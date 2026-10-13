@@ -1,0 +1,4209 @@
+{
+ "stand": "2026-10-13 20:35:38",
+ "quelle": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS",
+ "ziel": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS2",
+ "funktionen": {
+  "spiegelhoehe": "/Game/Eldarien/Welt/Material/Funktionen/MF_EL_Spiegelhoehe",
+  "nasslinie": "/Game/Eldarien/Welt/Material/Funktionen/MF_EL_Nasslinie"
+ },
+ "parameter_vorgabe": {
+  "Nass_Albedo": 0.5,
+  "Nass_Entsaettigung": 0.3,
+  "Nass_Rauheit": 0.2,
+  "Nass_Voll_cm": 8.0,
+  "Nass_Rand_cm": 20.0,
+  "Nass_Staerke": 1.0,
+  "Nass_Spiegel_Max4": false,
+  "Nass_Oben_Trocken": false
+ },
+ "vorlagen": {
+  "stein": {
+   "Nass_Albedo": 0.5,
+   "Nass_Entsaettigung": 0.3,
+   "Nass_Rauheit": 0.2,
+   "Nass_Voll_cm": 8.0,
+   "Nass_Rand_cm": 20.0
+  },
+  "holz": {
+   "Nass_Albedo": 0.55,
+   "Nass_Entsaettigung": 0.2,
+   "Nass_Rauheit": 0.3,
+   "Nass_Voll_cm": 15.0,
+   "Nass_Rand_cm": 30.0
+  }
+ },
+ "sampler_quelle": "SSM_CLAMP_WORLD_GROUP_SETTINGS",
+ "knoten_soll": {
+  "spiegelhoehe": 19,
+  "nasslinie": 56,
+  "ms2": 1
+ },
+ "kodierung": {
+  "datei": "D:\\Das Lied der Asche\\ELDARIEN_ENVIRONMENT_SKILLS_V1\\production\\export\\unreal\\welt\\ue_texturen\\T_Eldarien_Hoehe_2m.json",
+  "konstanten": {
+   "H0_m": -51.0,
+   "H1_m": 686.0,
+   "spanne_cm": 73700.0,
+   "h0_cm": -5100.0,
+   "groesse": [
+    4789,
+    3529
+   ],
+   "raster": [
+    9577.0,
+    7057.0
+   ],
+   "ecke_cm": [
+    -473050.0,
+    -406050.0
+   ]
+  },
+  "json": {
+   "H0": -51.0,
+   "H1": 686.0,
+   "groesse": [
+    4789,
+    3529
+   ]
+  }
+ },
+ "landschaft_gegenprobe": {
+  "material": "/Game/Eldarien/Welt/M_Eldarien_Landschaft_V18.M_Eldarien_Landschaft_V18",
+  "proben": [
+   "MaterialExpressionTextureSample_152"
+  ],
+  "spanne": [
+   {
+    "knoten": "MaterialExpressionMultiply_31",
+    "const_b": 73700.0
+   }
+  ],
+  "h0": [
+   {
+    "knoten": "MaterialExpressionAdd_25",
+    "const_b": -5100.0
+   }
+  ],
+  "wasser_da": [
+   {
+    "knoten": "MaterialExpressionMultiply_35",
+    "const_b": 100000.0
+   }
+  ],
+  "uv": "MaterialExpressionDivide_161 (Divide) @(550, -2200)",
+  "uv_raster": [
+   9577.0,
+   7057.0
+  ],
+  "uv_versatz": 0.5,
+  "uv_koordinaten": "MaterialExpressionLandscapeLayerCoords_1 (LandscapeLayerCoords) @(200, -2200)"
+ },
+ "landschaft_lage": {
+  "ort": [
+   -473050.0,
+   -406050.0,
+   30000.0
+  ],
+  "massstab": [
+   100.0,
+   100.0,
+   200.0
+  ]
+ },
+ "spiegel_textur": {
+  "pfad": "/Game/Eldarien/Welt/Wasser/T_Eldarien_Wasserspiegel_2m",
+  "vorhanden": true,
+  "srgb": false,
+  "kompression": "<TextureCompressionSettings.TC_SINGLE_FLOAT: 15>",
+  "lod_gruppe": "<TextureGroup.TEXTUREGROUP_16_BIT_DATA: 33>",
+  "mips": "<TextureMipGenSettings.TMGS_NO_MIPMAPS: 13>",
+  "filter": "<TextureFilter.TF_BILINEAR: 1>",
+  "adresse": [
+   "<TextureAddress.TA_CLAMP: 1>",
+   "<TextureAddress.TA_CLAMP: 1>"
+  ],
+  "vt": false,
+  "groesse": [
+   4789,
+   3529
+  ],
+  "sampler_typ": "<MaterialSamplerType.SAMPLERTYPE_DATA: 8>"
+ },
+ "funktion_befund": {
+  "spiegelhoehe": {
+   "vorhanden": false
+  },
+  "nasslinie": {
+   "vorhanden": false
+  }
+ },
+ "quelle_material": {
+  "pfad": "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS",
+  "auf_platte": true,
+  "ungespeichert": false,
+  "eigenschaften": {
+   "material_domain": "<MaterialDomain.MD_SURFACE: 0>",
+   "blend_mode": "<BlendMode.BLEND_MASKED: 1>",
+   "shading_model": "<MaterialShadingModel.MSM_TWO_SIDED_FOLIAGE: 6>",
+   "two_sided": true,
+   "opacity_mask_clip_value": 0.4000000059604645,
+   "dithered_lod_transition": false,
+   "tangent_space_normal": true,
+   "use_material_attributes": false,
+   "automatically_set_usage_in_editor": true
+  },
+  "nutzung": {
+   "used_with_skeletal_mesh": false,
+   "used_with_editor_compositing": false,
+   "used_with_particle_sprites": false,
+   "used_with_beam_trails": false,
+   "used_with_mesh_particles": false,
+   "used_with_niagara_sprites": false,
+   "used_with_niagara_ribbons": false,
+   "used_with_niagara_mesh_particles": false,
+   "used_with_geometry_cache": false,
+   "used_with_static_lighting": false,
+   "used_with_morph_targets": false,
+   "used_with_spline_meshes": false,
+   "used_with_instanced_static_meshes": true,
+   "used_with_geometry_collections": false,
+   "used_with_clothing": false,
+   "used_with_water": false,
+   "used_with_hair_strands": false,
+   "used_with_lidar_point_cloud": false,
+   "used_with_virtual_heightfield_mesh": false,
+   "used_with_nanite": true,
+   "used_with_volumetric_cloud": false,
+   "used_with_heterogeneous_volumes": false
+  },
+  "kosten": {
+   "anweisungen": 357,
+   "vertex_anweisungen": 225,
+   "abtastungen": 3,
+   "sampler": 4,
+   "vt_abtastungen": 3,
+   "texturen": 4,
+   "texturen_benutzt": 3,
+   "knoten": 46,
+   "nass_knoten": 0
+  },
+  "texturen": [
+   "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_N.T_MossyForestBoulder_03_N",
+   "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_AoRT.T_WhiteWindflower_01_AoRT",
+   "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_BC.T_WhiteWindflower_01_BC",
+   "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_N.T_WhiteWindflower_01_N"
+  ],
+  "parameter_listen": {
+   "skalar": [
+    "Durchscheinen",
+    "EL_Version_2",
+    "Helligkeit",
+    "Nass_Dunkel",
+    "Nass_Weich",
+    "Normal_Flach",
+    "Rauheit",
+    "Specular",
+    "Variation",
+    "Wind_Hoehe",
+    "Wind_Staerke",
+    "Wind_Tempo"
+   ],
+   "vektor": [
+    "Farbe",
+    "Toenung"
+   ],
+   "textur": [
+    "AoRT",
+    "BC",
+    "N",
+    "Normal",
+    "T"
+   ],
+   "schalter": [
+    "Eigene_T"
+   ]
+  },
+  "parameter_knoten": {
+   "Normal": [
+    "TextureSampleParameter2D"
+   ],
+   "Toenung": [
+    "VectorParameter"
+   ],
+   "Helligkeit": [
+    "ScalarParameter",
+    "ScalarParameter"
+   ],
+   "Nass_Weich": [
+    "ScalarParameter"
+   ],
+   "Nass_Dunkel": [
+    "ScalarParameter"
+   ],
+   "BC": [
+    "TextureSampleParameter2D"
+   ],
+   "AoRT": [
+    "TextureSampleParameter2D"
+   ],
+   "N": [
+    "TextureSampleParameter2D"
+   ],
+   "T": [
+    "TextureSampleParameter2D"
+   ],
+   "Farbe": [
+    "VectorParameter"
+   ],
+   "Variation": [
+    "ScalarParameter"
+   ],
+   "Rauheit": [
+    "ScalarParameter"
+   ],
+   "Specular": [
+    "ScalarParameter"
+   ],
+   "Normal_Flach": [
+    "ScalarParameter"
+   ],
+   "Eigene_T": [
+    "StaticSwitchParameter"
+   ],
+   "Durchscheinen": [
+    "ScalarParameter"
+   ],
+   "Wind_Hoehe": [
+    "ScalarParameter"
+   ],
+   "Wind_Staerke": [
+    "ScalarParameter"
+   ],
+   "Wind_Tempo": [
+    "ScalarParameter"
+   ],
+   "EL_Version_2": [
+    "ScalarParameter"
+   ]
+  },
+  "skalar_standard": {
+   "Durchscheinen": 0.8,
+   "EL_Version_2": 2.0,
+   "Helligkeit": 1.0,
+   "Nass_Dunkel": 0.55,
+   "Nass_Weich": 15.0,
+   "Normal_Flach": 0.0,
+   "Rauheit": 1.0,
+   "Specular": 0.35,
+   "Variation": 0.6,
+   "Wind_Hoehe": 60.0,
+   "Wind_Staerke": 0.25,
+   "Wind_Tempo": 0.5
+  },
+  "material_eingaenge": {
+   "base_color": {
+    "knoten": "MaterialExpressionMultiply_6",
+    "klasse": "Multiply",
+    "ausgang": "",
+    "desc": ""
+   },
+   "metallic": null,
+   "specular": {
+    "knoten": "MaterialExpressionScalarParameter_9",
+    "klasse": "ScalarParameter",
+    "ausgang": "",
+    "desc": ""
+   },
+   "roughness": {
+    "knoten": "MaterialExpressionMultiply_7",
+    "klasse": "Multiply",
+    "ausgang": "",
+    "desc": ""
+   },
+   "anisotropy": null,
+   "emissive": null,
+   "opacity": null,
+   "opacity_mask": {
+    "knoten": "MaterialExpressionTextureSampleParameter2D_4",
+    "klasse": "TextureSampleParameter2D",
+    "ausgang": "R",
+    "desc": ""
+   },
+   "normal": {
+    "knoten": "MaterialExpressionMaterialFunctionCall_0",
+    "klasse": "MaterialFunctionCall",
+    "ausgang": "Result",
+    "desc": ""
+   },
+   "tangent": null,
+   "world_position_offset": {
+    "knoten": "MaterialExpressionMaterialFunctionCall_1",
+    "klasse": "MaterialFunctionCall",
+    "ausgang": "Result",
+    "desc": ""
+   },
+   "subsurface_color": {
+    "knoten": "MaterialExpressionMultiply_9",
+    "klasse": "Multiply",
+    "ausgang": "",
+    "desc": ""
+   },
+   "ambient_occlusion": null,
+   "refraction": null
+  },
+  "kette_base_color": [
+   "MaterialExpressionMultiply_6 (Multiply) <- A: MaterialExpressionMultiply_4, B: MaterialExpressionMultiply_5",
+   "  MaterialExpressionMultiply_4 (Multiply) <- A: MaterialExpressionTextureSampleParameter2D_3.RGB, B: MaterialExpressionVectorParameter_1.RGB",
+   "    MaterialExpressionTextureSampleParameter2D_3 (TextureSampleParameter2D) „BC“",
+   "    MaterialExpressionVectorParameter_1 (VectorParameter) „Farbe“",
+   "  MaterialExpressionMultiply_5 (Multiply) <- A: MaterialExpressionLinearInterpolate_3, B: MaterialExpressionScalarParameter_7",
+   "    MaterialExpressionLinearInterpolate_3 (LinearInterpolate) <- A: MaterialExpressionConstant_0, B: MaterialExpressionLinearInterpolate_2, Alpha: MaterialExpressionScalarParameter_6",
+   "      MaterialExpressionConstant_0 (Constant)",
+   "      MaterialExpressionLinearInterpolate_2 (LinearInterpolate) <- A: MaterialExpressionConstant3Vector_0, B: MaterialExpressionConstant3Vector_1, Alpha: MaterialExpressionPerInstanceRandom_0",
+   "      MaterialExpressionScalarParameter_6 (ScalarParameter) „Variation“",
+   "    MaterialExpressionScalarParameter_7 (ScalarParameter) „Helligkeit“"
+  ],
+  "kette_roughness": [
+   "MaterialExpressionMultiply_7 (Multiply) <- A: MaterialExpressionTextureSampleParameter2D_4.G, B: MaterialExpressionScalarParameter_8",
+   "  MaterialExpressionTextureSampleParameter2D_4 (TextureSampleParameter2D) „AoRT“",
+   "  MaterialExpressionScalarParameter_8 (ScalarParameter) „Rauheit“"
+  ],
+  "alte_naesse": {
+   "Nass_Weich": {
+    "knoten": [
+     "MaterialExpressionScalarParameter_2"
+    ],
+    "standard": [
+     15.0
+    ],
+    "verbraucher": [],
+    "wirkt": false,
+    "custom_primitive_data": [
+     false
+    ]
+   },
+   "Nass_Dunkel": {
+    "knoten": [
+     "MaterialExpressionScalarParameter_3"
+    ],
+    "standard": [
+     0.55
+    ],
+    "verbraucher": [],
+    "wirkt": false,
+    "custom_primitive_data": [
+     false
+    ]
+   },
+   "_verwaiste_knoten": 12,
+   "_knoten": 46
+  },
+  "graph": {
+   "anzahl": 46,
+   "knoten": [
+    {
+     "id": "MaterialExpressionTextureSampleParameter2D_1",
+     "klasse": "MaterialExpressionTextureSampleParameter2D",
+     "desc": "",
+     "x": -1200,
+     "y": 200,
+     "wert_sampler_type": "<MaterialSamplerType.SAMPLERTYPE_VIRTUAL_NORMAL: 13>",
+     "wert_sampler_source": "<SamplerSourceMode.SSM_FROM_TEXTURE_ASSET: 0>",
+     "wert_parameter_name": "Normal",
+     "wert_group": "None",
+     "wert_mip_value_mode": "<TextureMipValueMode.TMVM_NONE: 0>",
+     "wert_const_coordinate": 0,
+     "texture": "/Game/Megascans/3D_Assets/MossyForestBoulder/T_MossyForestBoulder_03_N.T_MossyForestBoulder_03_N",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "UVs",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "Apply View MipBias",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      "RGB",
+      "R",
+      "G",
+      "B",
+      "A",
+      "RGBA"
+     ]
+    },
+    {
+     "id": "MaterialExpressionVectorParameter_0",
+     "klasse": "MaterialExpressionVectorParameter",
+     "desc": "",
+     "x": -1200,
+     "y": -450,
+     "wert_default_value": "<Struct 'LinearColor' (0x0000022ED27B6578) {r: 1.000000, g: 1.000000, b: 1.000000, a: 1.000000}>",
+     "wert_parameter_name": "Toenung",
+     "wert_group": "None",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      "RGB",
+      "R",
+      "G",
+      "B",
+      "A",
+      "RGBA"
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_0",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -900,
+     "y": -150,
+     "wert_default_value": 1.0,
+     "wert_parameter_name": "Helligkeit",
+     "wert_group": "None",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionWorldPosition_0",
+     "klasse": "MaterialExpressionWorldPosition",
+     "desc": "",
+     "x": -1200,
+     "y": 900,
+     "wert_world_position_shader_offset": "<WorldPositionIncludedOffsets.WPT_DEFAULT: 0>",
+     "eingaenge": [],
+     "ausgaenge": [
+      "XYZ",
+      "XY",
+      "Z"
+     ]
+    },
+    {
+     "id": "MaterialExpressionObjectPositionWS_0",
+     "klasse": "MaterialExpressionObjectPositionWS",
+     "desc": "",
+     "x": -1200,
+     "y": 1050,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionSubtract_0",
+     "klasse": "MaterialExpressionSubtract",
+     "desc": "",
+     "x": -850,
+     "y": 950,
+     "wert_const_a": 1.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionSubtract_1",
+     "klasse": "MaterialExpressionSubtract",
+     "desc": "",
+     "x": -700,
+     "y": 1000,
+     "wert_const_a": 1.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionSubtract_0",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_2",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -700,
+     "y": 1150,
+     "wert_default_value": 15.0,
+     "wert_parameter_name": "Nass_Weich",
+     "wert_group": "None",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_3",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -600,
+     "y": -150,
+     "wert_default_value": 0.550000011920929,
+     "wert_parameter_name": "Nass_Dunkel",
+     "wert_group": "None",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionLinearInterpolate_0",
+     "klasse": "MaterialExpressionLinearInterpolate",
+     "desc": "",
+     "x": -250,
+     "y": -300,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "wert_const_alpha": 0.5,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 2,
+       "name": "Alpha",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMultiply_3",
+     "klasse": "MaterialExpressionMultiply",
+     "desc": "",
+     "x": -750,
+     "y": 650,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionTextureSampleParameter2D_3",
+     "klasse": "MaterialExpressionTextureSampleParameter2D",
+     "desc": "",
+     "x": -1400,
+     "y": -300,
+     "wert_sampler_type": "<MaterialSamplerType.SAMPLERTYPE_VIRTUAL_COLOR: 10>",
+     "wert_sampler_source": "<SamplerSourceMode.SSM_FROM_TEXTURE_ASSET: 0>",
+     "wert_parameter_name": "BC",
+     "wert_group": "Texturen",
+     "wert_mip_value_mode": "<TextureMipValueMode.TMVM_NONE: 0>",
+     "wert_const_coordinate": 0,
+     "texture": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_BC.T_WhiteWindflower_01_BC",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "UVs",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "Apply View MipBias",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      "RGB",
+      "R",
+      "G",
+      "B",
+      "A",
+      "RGBA"
+     ]
+    },
+    {
+     "id": "MaterialExpressionTextureSampleParameter2D_4",
+     "klasse": "MaterialExpressionTextureSampleParameter2D",
+     "desc": "",
+     "x": -1400,
+     "y": 50,
+     "wert_sampler_type": "<MaterialSamplerType.SAMPLERTYPE_VIRTUAL_MASKS: 14>",
+     "wert_sampler_source": "<SamplerSourceMode.SSM_FROM_TEXTURE_ASSET: 0>",
+     "wert_parameter_name": "AoRT",
+     "wert_group": "Texturen",
+     "wert_mip_value_mode": "<TextureMipValueMode.TMVM_NONE: 0>",
+     "wert_const_coordinate": 0,
+     "texture": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_AoRT.T_WhiteWindflower_01_AoRT",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "UVs",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "Apply View MipBias",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      "RGB",
+      "R",
+      "G",
+      "B",
+      "A",
+      "RGBA"
+     ]
+    },
+    {
+     "id": "MaterialExpressionTextureSampleParameter2D_5",
+     "klasse": "MaterialExpressionTextureSampleParameter2D",
+     "desc": "",
+     "x": -1400,
+     "y": 400,
+     "wert_sampler_type": "<MaterialSamplerType.SAMPLERTYPE_VIRTUAL_NORMAL: 13>",
+     "wert_sampler_source": "<SamplerSourceMode.SSM_FROM_TEXTURE_ASSET: 0>",
+     "wert_parameter_name": "N",
+     "wert_group": "Texturen",
+     "wert_mip_value_mode": "<TextureMipValueMode.TMVM_NONE: 0>",
+     "wert_const_coordinate": 0,
+     "texture": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_N.T_WhiteWindflower_01_N",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "UVs",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "Apply View MipBias",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      "RGB",
+      "R",
+      "G",
+      "B",
+      "A",
+      "RGBA"
+     ]
+    },
+    {
+     "id": "MaterialExpressionTextureSampleParameter2D_6",
+     "klasse": "MaterialExpressionTextureSampleParameter2D",
+     "desc": "",
+     "x": -1400,
+     "y": 750,
+     "wert_sampler_type": "<MaterialSamplerType.SAMPLERTYPE_VIRTUAL_COLOR: 10>",
+     "wert_sampler_source": "<SamplerSourceMode.SSM_FROM_TEXTURE_ASSET: 0>",
+     "wert_parameter_name": "T",
+     "wert_group": "Texturen",
+     "wert_mip_value_mode": "<TextureMipValueMode.TMVM_NONE: 0>",
+     "wert_const_coordinate": 0,
+     "texture": "/Game/Megascans/3D_Plants/WhiteWindflower/T_WhiteWindflower_01_BC.T_WhiteWindflower_01_BC",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "UVs",
+       "von": null,
+       "ausgang": null
+      },
+      {
+       "nr": 1,
+       "name": "Apply View MipBias",
+       "von": null,
+       "ausgang": null
+      }
+     ],
+     "ausgaenge": [
+      "RGB",
+      "R",
+      "G",
+      "B",
+      "A",
+      "RGBA"
+     ]
+    },
+    {
+     "id": "MaterialExpressionVectorParameter_1",
+     "klasse": "MaterialExpressionVectorParameter",
+     "desc": "",
+     "x": -1100,
+     "y": -500,
+     "wert_default_value": "<Struct 'LinearColor' (0x0000022ED27B66F8) {r: 1.000000, g: 1.000000, b: 1.000000, a: 1.000000}>",
+     "wert_parameter_name": "Farbe",
+     "wert_group": "Pflanze",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      "RGB",
+      "R",
+      "G",
+      "B",
+      "A",
+      "RGBA"
+     ]
+    },
+    {
+     "id": "MaterialExpressionPerInstanceRandom_0",
+     "klasse": "MaterialExpressionPerInstanceRandom",
+     "desc": "",
+     "x": -1100,
+     "y": -650,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionLinearInterpolate_2",
+     "klasse": "MaterialExpressionLinearInterpolate",
+     "desc": "",
+     "x": -900,
+     "y": -650,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "wert_const_alpha": 0.5,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionConstant3Vector_0",
+       "ausgang": ""
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionConstant3Vector_1",
+       "ausgang": ""
+      },
+      {
+       "nr": 2,
+       "name": "Alpha",
+       "von": "MaterialExpressionPerInstanceRandom_0",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionConstant3Vector_0",
+     "klasse": "MaterialExpressionConstant3Vector",
+     "desc": "",
+     "x": -1100,
+     "y": -800,
+     "wert_constant": "<Struct 'LinearColor' (0x0000022ED2635068) {r: 0.860000, g: 0.900000, b: 0.820000, a: 1.000000}>",
+     "eingaenge": [],
+     "ausgaenge": [
+      "",
+      "R",
+      "G",
+      "B"
+     ]
+    },
+    {
+     "id": "MaterialExpressionConstant3Vector_1",
+     "klasse": "MaterialExpressionConstant3Vector",
+     "desc": "",
+     "x": -1100,
+     "y": -900,
+     "wert_constant": "<Struct 'LinearColor' (0x0000022ED2635148) {r: 1.100000, g: 1.070000, b: 0.920000, a: 1.000000}>",
+     "eingaenge": [],
+     "ausgaenge": [
+      "",
+      "R",
+      "G",
+      "B"
+     ]
+    },
+    {
+     "id": "MaterialExpressionLinearInterpolate_3",
+     "klasse": "MaterialExpressionLinearInterpolate",
+     "desc": "",
+     "x": -700,
+     "y": -650,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "wert_const_alpha": 0.5,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionConstant_0",
+       "ausgang": ""
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionLinearInterpolate_2",
+       "ausgang": ""
+      },
+      {
+       "nr": 2,
+       "name": "Alpha",
+       "von": "MaterialExpressionScalarParameter_6",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionConstant_0",
+     "klasse": "MaterialExpressionConstant",
+     "desc": "",
+     "x": -900,
+     "y": -800,
+     "wert_r": 1.0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_6",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -900,
+     "y": -500,
+     "wert_default_value": 0.6000000238418579,
+     "wert_parameter_name": "Variation",
+     "wert_group": "Pflanze",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMultiply_4",
+     "klasse": "MaterialExpressionMultiply",
+     "desc": "",
+     "x": -900,
+     "y": -300,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionTextureSampleParameter2D_3",
+       "ausgang": "RGB"
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionVectorParameter_1",
+       "ausgang": "RGB"
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_7",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -700,
+     "y": -450,
+     "wert_default_value": 1.0,
+     "wert_parameter_name": "Helligkeit",
+     "wert_group": "Pflanze",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMultiply_5",
+     "klasse": "MaterialExpressionMultiply",
+     "desc": "",
+     "x": -550,
+     "y": -550,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionLinearInterpolate_3",
+       "ausgang": ""
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionScalarParameter_7",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMultiply_6",
+     "klasse": "MaterialExpressionMultiply",
+     "desc": "",
+     "x": -500,
+     "y": -300,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionMultiply_4",
+       "ausgang": ""
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionMultiply_5",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_8",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -1000,
+     "y": 150,
+     "wert_default_value": 1.0,
+     "wert_parameter_name": "Rauheit",
+     "wert_group": "Pflanze",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMultiply_7",
+     "klasse": "MaterialExpressionMultiply",
+     "desc": "",
+     "x": -800,
+     "y": 100,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionTextureSampleParameter2D_4",
+       "ausgang": "G"
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionScalarParameter_8",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_9",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -800,
+     "y": 250,
+     "wert_default_value": 0.3499999940395355,
+     "wert_parameter_name": "Specular",
+     "wert_group": "Pflanze",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMaterialFunctionCall_0",
+     "klasse": "MaterialExpressionMaterialFunctionCall",
+     "desc": "",
+     "x": -900,
+     "y": 400,
+     "material_function": "/Engine/Functions/Engine_MaterialFunctions01/Texturing/FlattenNormal.FlattenNormal",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "Normal",
+       "von": "MaterialExpressionTextureSampleParameter2D_5",
+       "ausgang": "RGB"
+      },
+      {
+       "nr": 1,
+       "name": "Flatness",
+       "von": "MaterialExpressionScalarParameter_10",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      "Result"
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_10",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -1100,
+     "y": 550,
+     "wert_default_value": 0.0,
+     "wert_parameter_name": "Normal_Flach",
+     "wert_group": "Pflanze",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionStaticSwitchParameter_0",
+     "klasse": "MaterialExpressionStaticSwitchParameter",
+     "desc": "",
+     "x": -800,
+     "y": 700,
+     "wert_default_value": false,
+     "wert_parameter_name": "Eigene_T",
+     "wert_group": "Texturen",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "True",
+       "von": "MaterialExpressionTextureSampleParameter2D_6",
+       "ausgang": "RGB"
+      },
+      {
+       "nr": 1,
+       "name": "False",
+       "von": "MaterialExpressionMultiply_8",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMultiply_8",
+     "klasse": "MaterialExpressionMultiply",
+     "desc": "",
+     "x": -1000,
+     "y": 650,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionTextureSampleParameter2D_3",
+       "ausgang": "RGB"
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionTextureSampleParameter2D_4",
+       "ausgang": "B"
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_11",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -800,
+     "y": 850,
+     "wert_default_value": 0.800000011920929,
+     "wert_parameter_name": "Durchscheinen",
+     "wert_group": "Pflanze",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMultiply_9",
+     "klasse": "MaterialExpressionMultiply",
+     "desc": "",
+     "x": -600,
+     "y": 700,
+     "wert_const_a": 0.0,
+     "wert_const_b": 1.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionStaticSwitchParameter_0",
+       "ausgang": ""
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionScalarParameter_11",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionPreSkinnedPosition_0",
+     "klasse": "MaterialExpressionPreSkinnedPosition",
+     "desc": "",
+     "x": -1400,
+     "y": 1100,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionComponentMask_2",
+     "klasse": "MaterialExpressionComponentMask",
+     "desc": "",
+     "x": -1200,
+     "y": 1100,
+     "wert_r": false,
+     "wert_g": false,
+     "wert_b": true,
+     "wert_a": false,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "",
+       "von": "MaterialExpressionPreSkinnedPosition_0",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionSaturate_1",
+     "klasse": "MaterialExpressionSaturate",
+     "desc": "",
+     "x": -900,
+     "y": 1100,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "",
+       "von": "MaterialExpressionDivide_1",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_12",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -1200,
+     "y": 1250,
+     "wert_default_value": 60.0,
+     "wert_parameter_name": "Wind_Hoehe",
+     "wert_group": "Wind",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionDivide_1",
+     "klasse": "MaterialExpressionDivide",
+     "desc": "",
+     "x": -1050,
+     "y": 1100,
+     "wert_const_a": 1.0,
+     "wert_const_b": 2.0,
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "A",
+       "von": "MaterialExpressionComponentMask_2",
+       "ausgang": ""
+      },
+      {
+       "nr": 1,
+       "name": "B",
+       "von": "MaterialExpressionScalarParameter_12",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionMaterialFunctionCall_1",
+     "klasse": "MaterialExpressionMaterialFunctionCall",
+     "desc": "",
+     "x": -600,
+     "y": 1100,
+     "material_function": "/Engine/Functions/Engine_MaterialFunctions01/WorldPositionOffset/SimpleGrassWind.SimpleGrassWind",
+     "eingaenge": [
+      {
+       "nr": 0,
+       "name": "WindIntensity",
+       "von": "MaterialExpressionScalarParameter_13",
+       "ausgang": ""
+      },
+      {
+       "nr": 1,
+       "name": "WindWeight",
+       "von": "MaterialExpressionSaturate_1",
+       "ausgang": ""
+      },
+      {
+       "nr": 2,
+       "name": "WindSpeed",
+       "von": "MaterialExpressionScalarParameter_14",
+       "ausgang": ""
+      },
+      {
+       "nr": 3,
+       "name": "AdditionalWPO",
+       "von": "MaterialExpressionConstant3Vector_2",
+       "ausgang": ""
+      }
+     ],
+     "ausgaenge": [
+      "Result"
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_13",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -900,
+     "y": 1250,
+     "wert_default_value": 0.25,
+     "wert_parameter_name": "Wind_Staerke",
+     "wert_group": "Wind",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_14",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -900,
+     "y": 1350,
+     "wert_default_value": 0.5,
+     "wert_parameter_name": "Wind_Tempo",
+     "wert_group": "Wind",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    },
+    {
+     "id": "MaterialExpressionConstant3Vector_2",
+     "klasse": "MaterialExpressionConstant3Vector",
+     "desc": "",
+     "x": -900,
+     "y": 1450,
+     "wert_constant": "<Struct 'LinearColor' (0x0000022ED2635228) {r: 0.000000, g: 0.000000, b: 0.000000, a: 0.000000}>",
+     "eingaenge": [],
+     "ausgaenge": [
+      "",
+      "R",
+      "G",
+      "B"
+     ]
+    },
+    {
+     "id": "MaterialExpressionScalarParameter_15",
+     "klasse": "MaterialExpressionScalarParameter",
+     "desc": "",
+     "x": -1400,
+     "y": 1450,
+     "wert_default_value": 2.0,
+     "wert_parameter_name": "EL_Version_2",
+     "wert_group": "Intern",
+     "wert_use_custom_primitive_data": false,
+     "wert_primitive_data_index": 0,
+     "eingaenge": [],
+     "ausgaenge": [
+      ""
+     ]
+    }
+   ],
+   "material_eingaenge": {
+    "base_color": {
+     "von": "MaterialExpressionMultiply_6",
+     "ausgang": ""
+    },
+    "metallic": null,
+    "specular": {
+     "von": "MaterialExpressionScalarParameter_9",
+     "ausgang": ""
+    },
+    "roughness": {
+     "von": "MaterialExpressionMultiply_7",
+     "ausgang": ""
+    },
+    "anisotropy": null,
+    "emissive": null,
+    "opacity": null,
+    "opacity_mask": {
+     "von": "MaterialExpressionTextureSampleParameter2D_4",
+     "ausgang": "R"
+    },
+    "normal": {
+     "von": "MaterialExpressionMaterialFunctionCall_0",
+     "ausgang": "Result"
+    },
+    "tangent": null,
+    "world_position_offset": {
+     "von": "MaterialExpressionMaterialFunctionCall_1",
+     "ausgang": "Result"
+    },
+    "subsurface_color": {
+     "von": "MaterialExpressionMultiply_9",
+     "ausgang": ""
+    },
+    "ambient_occlusion": null,
+    "refraction": null
+   }
+  }
+ },
+ "anker": {
+  "base_color": "MaterialExpressionMultiply_6 (Multiply) @(-500, -300)",
+  "base_color_ausgang": "",
+  "roughness": "MaterialExpressionMultiply_7 (Multiply) @(-800, 100)",
+  "roughness_ausgang": "",
+  "platz": [
+   150,
+   -900
+  ],
+  "hinweise": []
+ },
+ "instanzen": {
+  "/Game/Eldarien/Welt/Material/Fels/M_EL_Fels_MS": {
+   "anzahl": 147,
+   "arten": {
+    "pflanze": 25,
+    "fels": 121,
+    "sonst": 1
+   },
+   "holz": 33,
+   "verwaist": {
+    "Albedo": 121,
+    "DpRF": 57
+   },
+   "nass_ueberschrieben": {},
+   "suche": {
+    "tag_treffer": 147,
+    "ohne_tag": 0,
+    "referenz_treffer": 0,
+    "kinder_treffer": 0,
+    "andere_nutzer": [],
+    "indirekt": 0,
+    "fehler": [],
+    "kinder": 147
+   },
+   "instanzen": [
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_BeechFern_02",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Crownbeard_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_CustomMoss_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_DeadLeaves_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EagleFern_Atlas_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.05,
+      "Durchscheinen": 0.8,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Elderberry_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EnglishIvy_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Atlas_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.05,
+      "Durchscheinen": 0.8,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Bark_01",
+     "art": "pflanze",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.0,
+      "Durchscheinen": 0.15,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanBeech_Detail_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.05,
+      "Durchscheinen": 0.8,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Decoration",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.0,
+      "Durchscheinen": 0.15,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Tileable",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.0,
+      "Durchscheinen": 0.15,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_01",
+     "art": "pflanze",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.0,
+      "Durchscheinen": 0.15,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_02",
+     "art": "pflanze",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.0,
+      "Durchscheinen": 0.15,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_Trunk_03",
+     "art": "pflanze",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.0,
+      "Durchscheinen": 0.15,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_EuropeanHornbeam_TwoSided",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {
+      "Wind_Hoehe": 1500.0,
+      "Wind_Staerke": 0.05,
+      "Durchscheinen": 0.8,
+      "Variation": 0.35
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Fern_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_GroundCover_02",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Ivy_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_KikuyuGrass_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_Periwinkle_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_PurpleShamrock_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_RedLachenalia_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_SilverLadyFern_01",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Bewuchs/Material/MI_EL_SilverLadyFern_02",
+     "art": "pflanze",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "AoRT",
+      "BC",
+      "N",
+      "T"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BeachSandWithPebbles_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BirchTreeStump_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenStump_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenTreeAssembly_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_BrokenTreeBranch_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_CanyonSandstoneRidge_04",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_DeadTree_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_DryBranches_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_DryRiverBed_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ErodedRockyGround_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_FallenSpruceTree_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_FallenTreeAssembly_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_04",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockFormation_05",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockShelf_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockShelf_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRockSlab_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRoots_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_ForestRoots_02",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_GrassyEmbankment_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_bergwald",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_fjord",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_gletscher",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.2
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_kueste",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_01_tundra",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.25
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_bergwald",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_fjord",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_gletscher",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.2
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_kueste",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeNordicCoastalCliff_02_tundra",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.25
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_04",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_05",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_06",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_HugeSandstoneCliff_07",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_LargeFallenTree_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_LargeFallenTree_02",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_LichenedForestBoulder_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_bergwald",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_fjord",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_gletscher",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.2
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_kueste",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.3
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveNordicCoastalCliff_01_tundra",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.25
+     },
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_04",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveSandstoneCliff_05",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveTundraRockFormation_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MassiveTundraRockFormation_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyEmbankment_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyEmbankment_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_04",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_05",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_06",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_07",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_09",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestBoulder_10",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRock_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRock_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRock_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_02",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyForestRoots_03",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyRockFace_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyRocks_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyRocks_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_MossyTree_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_Nass_SmallStonesPack_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": true,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 0.55
+     },
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRock_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRocks_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRockyGround_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBeachRockyGround_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_NordicBoulder_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OakBranch_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldFallenTree_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldFallenTree_02",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_02",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_03",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_05",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_06",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_OldTreeBranch_07",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_RottenTreeStump_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_RottenTreeStump_02",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_04",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneBoulder_05",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SandstoneCliff_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {
+      "Helligkeit": 1.0
+     },
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_02",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_03",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_04",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_05",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_06",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_07",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_08",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_09",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_10",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_11",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_12",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_13",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmallStonesPack_14",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_SmoothRockShelf_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TreeStump_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TundraMossyBoulder_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_TundraRockyGround_01",
+     "art": "fels",
+     "holz": false,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Fels/MI_EL_WoodenSticksAndTwigs_01",
+     "art": "fels",
+     "holz": true,
+     "ausgeschlossen": false,
+     "nass_kinder": [],
+     "eigene_texturen": [
+      "Albedo",
+      "DpRF",
+      "Normal"
+     ],
+     "eigene_skalare": {},
+     "verwaist": [
+      "Albedo",
+      "DpRF"
+     ],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    },
+    {
+     "pfad": "/Game/Eldarien/Welt/Material/Sehens/MI_EL_SW_Klammfels_Nass",
+     "art": "sonst",
+     "holz": false,
+     "ausgeschlossen": true,
+     "nass_kinder": [],
+     "eigene_texturen": [],
+     "eigene_skalare": {
+      "Nass_Dunkel": 0.75
+     },
+     "verwaist": [],
+     "nass_ueberschrieben": {},
+     "fehler": []
+    }
+   ],
+   "umhaenge_plan": {
+    "filter": "alle",
+    "gewaehlt": 145,
+    "nicht_gewaehlt": 0,
+    "ausgeschlossen_nass": [
+     "MI_EL_Nass_SmallStonesPack_01",
+     "MI_EL_SW_Klammfels_Nass"
+    ],
+    "uebersprungen_nass_kind": []
+   }
+  }
+ },
+ "bach_mis": {
+  "stein_materialien": 43,
+  "davon_gefunden": 43,
+  "fehlen": []
+ },
+ "sicherung": {
+  "datei": "D:\\Das Lied der Asche\\ELDARIEN_ENVIRONMENT_SKILLS_V1\\production\\live\\claude_code\\wasser_check\\nasslinie_eltern_sicherung.json",
+  "eintraege": 0
+ },
+ "probleme": [],
+ "warnungen": [
+  "M_EL_Fels_MS ist Masked (<MaterialShadingModel.MSM_TWO_SIDED_FOLIAGE: 6>) – Opazität aus der Textur; Nanite rechnet Masked teurer",
+  "M_EL_Fels_MS hat World Position Offset angeschlossen (Wind?) – bewegte Felsen machen VSM-Seiten jedes Bild ungültig (Wind_Staerke-Standard 0.25)",
+  "121 Instanzen an M_EL_Fels_MS setzen Parameter, die der Master nicht kennt {'Albedo': 121, 'DpRF': 57} – diese Werte wirken NICHT (z. B. Fels-Texturen Albedo/DpRF an einem Master mit BC/AoRT)"
+ ]
+}
