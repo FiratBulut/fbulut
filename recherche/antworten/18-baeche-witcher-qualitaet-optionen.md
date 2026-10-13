@@ -26,7 +26,7 @@ Alle Web-Aussagen stammen aus **Suchmaschinen-Auszügen**. Preise auf Fab konnte
 2. **Unsere Technik (Water + gebackene SWR) reicht.** Kein Kaufprodukt schließt die Lücken. Fluid Flux kostet ab 349,99 USD [Auszug]; die günstigen Fab-Flusswerkzeuge sind Spline-Mesh-Flüsse (teils UE4) und würden die SWR ersetzen.
 3. **Lücken [Bild]:** Die Oberfläche spiegelt nicht klar; unter Lumen sind SLW-Spiegelungen „forced to mirror“, also sind die **Normalen** der Hebel, nicht die Rauheit. Das Wasser liegt als dünner Film bündig im Talboden, ohne Uferstufe und dunkle Becken. Die Kante ist glatt, helle Platten unter Wasser wirken wie Laub.
 4. **Weg (0 €):** Messbasis → ELD-Wirbel aus, Normalen nach Tempo → Rural-Australia-A/B → Uferstufe, tiefere Becken, Kante brechen, Nasslinie → Lippen → Partikel nur an Fällen → Ton.
-5. **Schon bezahlt und ungenutzt:** vier NatureManufacture-Pakete mit Fluss-/Wassermaterialien und 14 Nassufer-Decals [Projekt]. Kaufen lohnt sich derzeit für nichts.
+5. **Schon bezahlt:** **Nature Water FX** (20 Niagara-Systeme für Fälle, Aufprall, Kehrwasser; seit 14/15/16 fest eingeplant) und vier NatureManufacture-Pakete mit Fluss-/Wassermaterialien und 14 Nassufer-Decals [Projekt]. Weiteres Kaufen lohnt sich derzeit für nichts.
 
 ---
 
@@ -167,8 +167,8 @@ Erfolg: Bei t430/t500 Auge sind Hang und Bäume im Becken als Spiegelbild erkenn
 ### 3.5 Partikel und Gischt (nur an Fällen)
 
 - Wasserfälle warten (Ferat). Wenn sie kommen:
-  - Aufprall-Niagara wie geplant (16, 16e);
-  - Nebelkarten: Epics kostenloses **Niagara Examples Pack** (Januar 2026, für 5.7) enthält „mist cards“ [Beleg, [Epic News](https://www.unrealengine.com/en-US/news/discover-over-50-free-niagara-systems-ready-to-use-in-unreal-engine-5-7)].
+  - **Nature Water FX** (gekauft, `/Game/NatureWaterFX/FX/`) ist die Hauptquelle: `NS_Waterfall_*`, `NS_Impact_*`, `NS_Wake_*`, `NS_Stream_*`. So steht es schon in 14, 15 §2.9 und im SWR-Export (16, `effekte`) [Projekt];
+  - nur ergänzend Nebelkarten: Epics kostenloses **Niagara Examples Pack** (Januar 2026, für 5.7) enthält „mist cards“ [Beleg, [Epic News](https://www.unrealengine.com/en-US/news/discover-over-50-free-niagara-systems-ready-to-use-in-unreal-engine-5-7)].
     Auf 5.8 testen;
   - Bläschen-Schleier unter Wasser im Becken (16f).
 - Weißwasser besteht aus drei Teilen: Spritzer, Oberflächenschaum, Blasen [Auszug, Asher Zhu, Epic,
@@ -224,7 +224,8 @@ Vor jeder Entscheidung den Preis im Launcher bzw. auf Fab nachsehen.
 | 4 | **Schon gekaufte Pakete** im Projekt: NatureManufacture Mountain (Fluss-Material mit Auto-Wasserfällen, Fluss-Splines), Coast & Dunes (Meer-/Fluss-Material, 14 Nassufer-Decals), Lava (Flowmaps über Epic Water), Forest (Sumpf-Wasser) [Projekt] | 0 (bezahlt) | 4.21–5.8 bzw. 5.5–5.8 laut Fab [Projekt]; ihre Fluss-Materialien sind für Spline-Meshes oder Epic Water gebaut, SWR-Tauglichkeit unbekannt | 1–3 h je Paket | – | Fab-Standard | **Decals und Normal-Texturen sofort nutzen**; Materialien nur als Vergleich |
 | 5 | **Houdini + SideFX Labs Flowmap** (Flowmap, Flowmap Obstacle, Guide Flowmap, Flowmap to Color, Flowmap Visualize) [Beleg, [SideFX Labs](https://www.sidefx.com/docs/houdini/labs/index.html), [Flowmap Obstacle](https://www.sidefx.com/ja/docs/houdini/nodes/sop/labs--flowmap_obstacle-3.0.html)] | 0 (Labs frei, quelloffen) | für **Netze** (Kaskaden-Vorhänge, ferne Bäche ohne SWR); für die SWR nicht nötig, die liefert die Strömung | 1–2 Tage für die Pipeline | eine Textur je Netz | Labs frei; **Houdini-Lizenzart** (Apprentice/Indie/Commercial) für kommerzielle Nutzung prüfen [unsicher] | erst, wenn Fälle kommen |
 | 6 | **Niagara Fluids** (Plugin an) | 0 | 5.8 ja; 3D-FLIP nur für einen Schau-Wasserfall mit Cache (16g) | hoch | teuer | Engine | nur Schau-Fall |
-| 7 | **Niagara Examples Pack** (über 50 Systeme, u. a. Nebelkarten; Januar 2026) [Beleg] | 0 | gelistet für 5.7, auf 5.8 testen | 1 h | je System | Fab | für Fälle |
+| 7a | **Nature Water FX** (gekauft; 20 Niagara-Systeme: Wasserfall, Aufprall, Kehrwasser, Bach, Geysir, Fontäne) [Projekt, 13d/14] | 0 (bezahlt) | im Projekt, in 14/15/16 schon eingeplant | – | je System, Cull 30–150 m (14) | Fab-Standard | **Hauptquelle an Fällen und Stufen** |
+| 7 | **Niagara Examples Pack** (über 50 Systeme, u. a. Nebelkarten; Januar 2026) [Beleg] | 0 | gelistet für 5.7, auf 5.8 testen | 1 h | je System | Fab | nur Ergänzung (Nebelkarten) |
 | 8 | **Content Examples** (Karte `Niagara_Fluids` mit Fluss) [Auszug, [80.lv](https://80.lv/articles/working-with-niagara-fluids-to-create-water-simulations)]; Engine-Testlevel `WaterFluidSimtestShallow` [Auszug, [Forum 5.7.4](https://forums.unrealengine.com/t/shallowwaterriver-simulation-does-not-initialize-in-unreal-engine-5-7-4/2731772)] | 0 | Referenz | 1 h | – | Epic | nur Referenz |
 | 9 | **Flowmap selbst malen** in UE (Scriptable Tools; Devlog von Ghislain Girardot, Projektdateien auf Patreon) [Auszug, [80.lv](https://80.lv/articles/tutorial-paint-flow-maps-with-ue5-s-scriptable-tools/)] | 0 bzw. Patreon | für Netze; mit SWR unnötig | mittel | – | prüfen | nicht nötig |
 | 10 | **Megascans** (eigene 956 Assets im Projekt [Projekt]; seit 2025 überwiegend bezahlt ab 0,99 USD je Asset, Pakete ab 24,99 USD, frei: Starter-Paket mit 1 500+ Assets und monatliche Gratis-Drops, Megaplants frei) [Beleg, [CG Channel](https://www.cgchannel.com/2024/10/epic-games-has-made-megascans-free-to-all-but-only-until-the-end-of-2024/), [Fab FAQ](https://support.fab.com/s/article/Fab-Transition-FAQs?language=en_US)] | 0 für Starter-Paket und Monats-Drops | Nanite, 5.8 | gering | 2K-Stufe wählen | Fab-Standard bzw. alte UE-only-Lizenz je Claim-Weg | **Bachsteine, nasse Oberflächen zuerst in der eigenen Bibliothek suchen** |
@@ -253,7 +254,7 @@ Grundsatz: Alles baut auf SWR/WCBS, `M_Eldarien_Wasser_Schaum8` und V18 auf. Kei
 | **2 Rural Australia A/B** | im Testprojekt öffnen, Prüfliste 5b §6. Nur übernehmen, was SLW-fähig ist (Normal-Texturen, Werte) | gleiche Kameras; K1/K2 besser als Schritt 1? |
 | **3 Ufer und Becken** | Uferstufe 0,2–0,5 m; Becken 0,8–1,2 m; helle Platten unter Wasser ersetzen; Kante brechen (Blöcke, Kies, Gras-Überhang); Nasslinie an Steinen und Holz; Coast-&-Dunes-Decals am Ufer | K3, K4, K7 |
 | **4 Lippen** | je Stufe Lippenfels oder Stamm; glatte Zunge (Normalen an der Lippe nicht erhöhen); Kehrwasser über die vorhandene Wasser-Kollision | K5, K6 |
-| **5 Fälle** (wenn Ferat sie freigibt) | Schaum-Kapseln, Aufprall-Niagara, Nebelkarten aus dem Niagara Examples Pack, Bläschen-Schleier; Vorhang-Netze mit Houdini-Labs-Flowmap | K6, Leistung K9 |
+| **5 Fälle** (wenn Ferat sie freigibt) | Schaum-Kapseln, Nature-Water-FX-Systeme nach Plan 14/15 (Wasserfall, Aufprall, Kehrwasser), ergänzend Nebelkarten aus dem Niagara Examples Pack, Bläschen-Schleier; Vorhang-Netze mit Houdini-Labs-Flowmap | K6, Leistung K9 |
 | **6 Ton** | Plan 16h §6; eine Spline-Tonquelle je ruhiger Strecke | K8 |
 
 ---
@@ -374,3 +375,5 @@ Grundsatz: Alles baut auf SWR/WCBS, `M_Eldarien_Wasser_Schaum8` und V18 auf. Kei
 - `vorlagen/doku/fab_pakete_bewertung_2026-10-10.md`
 - `antworten/fluss_sim/p2_lokal/master_graph_schaum8.json`
 - `bilder/swr_p2/wasser_oberflaeche_g0_g4.jpg`, `bilder/zielbilder/witcher_01.jpg`
+
+> **Nachtrag (Korrektur):** Die erste Fassung dieses Berichts hat das gekaufte Paket **Nature Water FX** übersehen. Es bleibt die Hauptquelle für Wasserfall-, Aufprall- und Kehrwasser-Partikel (Pläne 14, 15 §2.9, SWR-Export 16). Das Niagara Examples Pack ist nur eine Ergänzung für Nebelkarten.
