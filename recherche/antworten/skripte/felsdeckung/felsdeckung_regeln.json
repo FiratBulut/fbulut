@@ -1,0 +1,503 @@
+{
+ "_doku": "Regeln Auftrag 21 (Felsdeckung je Neigung und Zone). Alle Zahlen Richtwerte, begruendet in antworten/21-detailgrad-landschaft-felsdeckung.md. Dichten je 100 m2 Grundriss. Netznamen nur aus vorlagen/daten/netze.csv (mehrdeutige mit vollem Pfad). Gilt fuer bergwald; Biom-Abweichungen unter 'biome'.",
+ "version": "fs_plan v9 Entwurf 1 / Pilot B5-Ost",
+ "seed": 2113,
+ "pilot": {
+  "feld": "B5",
+  "fenster_m": [
+   -3200.0,
+   0.0,
+   -2720.0,
+   500.0
+  ],
+  "rand_m": 64.0,
+  "biom": "bergwald",
+  "begruendung": "B5-Ostfront: bergwald 96 %, im 500-m-Fenster Wand >= 50 Grad 3,4 ha, Haldenhang 5,9 ha, Talboden 2,6 ha; Wand -> Halde -> Tal -> Bach in einer Blickachse von Osten",
+  "kameras": [
+   {
+    "name": "K1_talblick",
+    "x_m": -2660.0,
+    "y_m": 240.0,
+    "ueber_boden_m": 30.0,
+    "blick_kompass_grad": 270.0,
+    "pitch_grad": 12.0,
+    "fov_grad": 60.0,
+    "zweck": "Referenz-Standpunkt (Wand im oberen Drittel, 450-600 m), fuer Netz-Pixelanteil"
+   },
+   {
+    "name": "K2_haldenfuss",
+    "x_m": -2840.0,
+    "y_m": 300.0,
+    "ueber_boden_m": 2.0,
+    "blick_kompass_grad": 265.0,
+    "pitch_grad": 18.0,
+    "fov_grad": 70.0,
+    "zweck": "Nahbild Hangfuss/Halde (Platten, Fugen, Bloecke, Baum-Block-Regel)"
+   },
+   {
+    "name": "K3_schrofen",
+    "x_m": -2960.0,
+    "y_m": 140.0,
+    "ueber_boden_m": 25.0,
+    "blick_kompass_grad": 300.0,
+    "pitch_grad": 5.0,
+    "fov_grad": 60.0,
+    "zweck": "Schrofen-Baender von der Seite (Bandlogik, Front-Achse pruefen)"
+   }
+  ]
+ },
+ "zonen": {
+  "_doku": "Hang aus hoehe (Zelle) ohne Glaettung; Wand nur mit Relief >= wand_relief_m im Quadrat 2 r; Halde = unter einer Wand (Abstand, tiefer als mittlere Wandhoehe im Umkreis 40 m)",
+  "wand_grad": 50.0,
+  "wand_relief_m": 6.0,
+  "wand_relief_radius_m": 6.0,
+  "wand_hoch_relief_m": 20.0,
+  "schrofen_grad": [
+   38.0,
+   50.0
+  ],
+  "halde_grad": [
+   26.0,
+   40.0
+  ],
+  "halde_max_abstand_wand_m": 60.0,
+  "halde_wandhoehe_radius_m": 40.0,
+  "fuss_grad": [
+   12.0,
+   26.0
+  ],
+  "fuss_max_abstand_wand_m": 150.0,
+  "fuss_nah_m": 60.0,
+  "hangwald_grad": [
+   26.0,
+   38.0
+  ],
+  "grat_tpi_radius_m": 20.0,
+  "grat_tpi_min_m": 3.0,
+  "sperre": {
+   "wasser_m": 10.0,
+   "wasser_uebergang_m": 15.0,
+   "weg_m": 4.0,
+   "ort_m": 5.0
+  },
+  "_sperre_doku": "0-10 m ab Wasserkante = Uferband Auftrag 20 (dort nichts von diesem Planer); 10-15 m Uebergang: nur Bloecke/Platten, Schutt-Teppich 50 %",
+  "glaettung_m": 3.0
+ },
+ "schichtung": {
+  "_doku": "eine Schichtlage je Massiv (Pilotfenster = ein Massiv): Bandfunktion f = h - tan(dip) * (x cos s + y sin s); Baender auf f = k * dz",
+  "streichen_grad": 20.0,
+  "fallen_grad": 8.0
+ },
+ "rauschen": {
+  "kegel_wellenlaenge_m": 36.0,
+  "luecken_wellenlaenge_m": 48.0,
+  "baum_wellenlaenge_m": 60.0
+ },
+ "halde": {
+  "_doku": "t = Abstand zur Wand / halde_max_abstand (0 Wandfuss, 1 unterer Rand). Deckung = Ziel Grundriss-Netzdeckung (Teppich + Bloecke). Fall-Sortierung: grosse Bloecke unten.",
+  "deckung_oben": 0.72,
+  "deckung_unten": 0.42,
+  "kegel_modulation": 0.55,
+  "rasenzunge_schwelle": -0.55,
+  "rasenzunge_faktor": 0.25,
+  "teppich_zelle_m": 8.0,
+  "teppich_mindestabstand_faktor": 0.42,
+  "teppich_skala": [
+   1.3,
+   1.8
+  ],
+  "teppich_yaw_streuung_grad": 25.0,
+  "bloecke_je_100m2": {
+   "_doku": "[oben t=0, unten t=1] je Groessenklasse (laengste Achse d in m)",
+   "0.8-1.5": [
+    2.0,
+    1.0
+   ],
+   "1.5-3": [
+    0.6,
+    0.8
+   ],
+   "3-6": [
+    0.1,
+    0.3
+   ],
+   "6-9": [
+    0.0,
+    0.04
+   ]
+  },
+  "block_mindestabstand_faktor": 0.62,
+  "block_eingraben_senkrecht": [
+   0.4,
+   0.6
+  ],
+  "block_achse_falllinie_grad": 20.0,
+  "akteur_ab_d_m": 6.0
+ },
+ "schrofen": {
+  "_doku": "38-50 Grad: Felsbaender entlang der Schichtlinien (Stufenhang), dazwischen Trittflaechen mit Latschen/Gras",
+  "band_dz_m": 5.5,
+  "band_dz_streuung_m": 1.2,
+  "band_hoehe_m": [
+   3.0,
+   4.5
+  ],
+  "band_ueberlappung": 0.25,
+  "band_kontinuitaet": 0.8,
+  "band_rueckneigung_grad": 14.0,
+  "band_versatz_m": [
+   0.5,
+   2.0
+  ],
+  "block_je_100m2": 0.35,
+  "latschen_gruppen_je_ha": 18.0
+ },
+ "wand": {
+  "_doku": ">= 50 Grad mit Relief >= wand_hoch_relief_m: Reihen aus Grossmodulen (Reihenlogik klippen_plan 2.1), dz = 0,75 x Modulhoehe, 35 % Ueberlappung, Versatz halbe Modullaenge je Reihe. Als Foliage (ISM, Kollision), nur Turm/Gratklotz als Akteur.",
+  "reihe_dz_faktor": 0.75,
+  "ueberlappung": 0.35,
+  "kipp_grad": [
+   4.0,
+   10.0
+  ],
+  "eingraben": 0.3,
+  "max_module": 700,
+  "turm_je_front": 1,
+  "turm_ueber_grat_max_m": 25.0,
+  "gratkrone_abstand_m": 36.0
+ },
+ "platten": {
+  "_doku": "Hangfuss 12-26 Grad: Plattenfelder nur wo Kegelrauschen >= feld_schwelle (Gruppen statt Konfetti); nah (<= fuss_nah_m unter Halde/Wand) Deckung 0,28, fern 0,08; Fugenbewuchs an den Kanten",
+  "deckung_nah": 0.28,
+  "deckung_fern": 0.08,
+  "zelle_m": 10.0,
+  "laenge_m": [
+   4.0,
+   10.0
+  ],
+  "eingraben": [
+   0.4,
+   0.6
+  ],
+  "mindestabstand_faktor": 0.55,
+  "fugen_je_m_rand": 0.3,
+  "fugen_anteil": {
+   "gras": 0.6,
+   "farn": 0.25,
+   "moos": 0.15
+  },
+  "laenge_exponent": 0.8,
+  "feld_schwelle": -0.2
+ },
+ "baumgruppen": {
+  "_doku": "Nadelbaeume 4-15 m in Gruppen 3-8, Lueckenrauschen sorgt fuer >= 35 % baumfreie Felszone; jeder Baum mit Block 1-3 m im Radius 3 m",
+  "zentrum_abstand_m": {
+   "fuss": 30.0,
+   "hangwald": 30.0,
+   "halde": 40.0,
+   "schrofen": 45.0
+  },
+  "wahrscheinlichkeit": {
+   "fuss": 0.55,
+   "hangwald": 0.6,
+   "halde": 0.35,
+   "schrofen": 0.25
+  },
+  "luecke_schwelle": -0.15,
+  "groesse": [
+   3,
+   8
+  ],
+  "radius_m": [
+   5.0,
+   11.0
+  ],
+  "baum_mindestabstand_m": 3.5,
+  "klassen": {
+   "jung": 0.3,
+   "mittel": 0.4,
+   "hoch": 0.3
+  },
+  "block_radius_m": 3.0,
+  "totholz_liegend_je_gruppe": 0.5,
+  "totholz_stehend_je_baeume": 18,
+  "grat_abstand_m": 8.0,
+  "grat_max_gruppe": 3,
+  "grat_gruppen_abstand_m": 40.0
+ },
+ "ausduennen": {
+  "_doku": "Maske fuer remove_foliage_by_mask: 255 = Altbestand-Baeume entfernen. Immer: Wand, Halde (t < halde_bis_t), Gratband 8 m. Schrofen ausser Bestandsinseln (Lueckenrauschen >= schrofen_insel_schwelle), Fuss/Hangwald nur in Luecken (Rauschen < luecke_schwelle).",
+  "halde_bis_t": 0.6,
+  "luecke_schwelle": -0.05,
+  "grat_band_m": 8.0,
+  "schrofen_insel_schwelle": 0.25
+ },
+ "lagen": {
+  "geroell_halde": 235,
+  "geroell_unter_stueck": 225,
+  "felsplatte_unter_platte": 200,
+  "fels_schrofen_wand": 210,
+  "stueck_saum_m": 1.0
+ },
+ "gras": {
+  "_doku": "grasdichte_B5.u8: Faktor 0-255 auf die GT-Dichtekarten im Fenster. Unter Stuecken 0, Fugenring 0,3-1,5 m 255, Halde/Schrofen sonst nur Flecken (Rauschen) <= 20 %",
+  "fugen_ring_m": [
+   0.3,
+   1.5
+  ],
+  "flecken_anteil_halde": 0.18,
+  "flecken_anteil_fuss": 0.6,
+  "flecken_wellenlaenge_m": 5.0
+ },
+ "gelaende": {
+  "_doku": "Variante B (optional): Schuettkegel an Rinnenausgaengen am Wandfuss, nur anheben, konkav 34 -> 29 Grad, Sektor +-55 Grad um die Falllinie",
+  "kegel_anzahl": 3,
+  "kegel_abstand_m": 80.0,
+  "kegel_radius_m": 38.0,
+  "kegel_winkel_oben_grad": 34.0,
+  "kegel_winkel_unten_grad": 29.0,
+  "kegel_sektor_grad": 55.0,
+  "kegel_max_m": 5.0,
+  "wasser_frei_m": 12.0,
+  "weg_frei_m": 4.0,
+  "rand_m": 8.0,
+  "min_relief_oben_m": 30.0,
+  "min_volumen_m3": 500.0
+ },
+ "budget": {
+  "_doku": "je Thema im Pilotfenster (24 ha); Feldwerte siehe Antwort (d)",
+  "instanzen_je_thema": 30000,
+  "kollision_gesamt": 3000,
+  "akteure_gesamt": 40
+ },
+ "pruef_schwellen": {
+  "_doku": "Grundriss-Netzdeckung je Zone (gerastert 0,5 m, Fussabdruck-Ellipse der gedrehten Bounds x 0,85); Dichtegrenzen je 48-m-Zelle",
+  "deckung_halde_min": 0.5,
+  "deckung_halde_oben_min": 0.6,
+  "deckung_schrofen_min": 0.5,
+  "deckung_wand_min": 0.6,
+  "deckung_fuss_nah_min": 0.22,
+  "halde_bloecke_gt2_je_100m2_max": 1.2,
+  "halde_bloecke_gt4_je_100m2_max": 0.35,
+  "ausserhalb_halde_gt2_je_100m2_max": 0.67,
+  "wuerfel_max_d_m": 1.5,
+  "schwebe_toleranz_m": 0.15,
+  "baumfrei_felszone_min": 0.35,
+  "grat_reihe_max": 3,
+  "block_je_baum_min": 1.0,
+  "fels_lage_ohne_netz_max": 0.45
+ },
+ "paletten": {
+  "_doku": "bergwald (nordisch). 'teppich' = flache Scan-Bodenplatten (Schutt als 1 Netz statt 30 Steine); Fehlende/kaputte Netze: SM_ErodedRockyGround_01-03 (Materialbefund textur_leer) erst nach Material-Fix; SM_IcelandicBoulder_* gesperrt; SM_flat_rock_01 ohne Nanite. Palette bewusst klein (Dichte-Zensus 6h: Demo-Karten 35-53 Netze, Eldarien 294 - Vielfalt ist nicht das Problem): Pilot ~40 Netze.",
+  "teppich": [
+   "SM_TundraRockyGround_01",
+   "SM_NordicBeachRockyGround_01",
+   "SM_NordicBeachRockyGround_02",
+   "SM_ForestRockFormation_05",
+   "SM_ForestRockFormation_06"
+  ],
+  "block_klein": [
+   "SM_MossyForestBoulder_01",
+   "SM_MossyForestBoulder_05",
+   "xjijbgx_tier_0",
+   "SM_stones_01_6"
+  ],
+  "block_mittel": [
+   "SM_MossyForestBoulder_03",
+   "SM_MossyForestBoulder_04",
+   "xf3odif_tier_0",
+   "xfplcbf_tier_0",
+   "SM_ground_rock_01"
+  ],
+  "block_gross": [
+   "SM_mountain_rock_big_02_1",
+   "SM_mountain_rock_big_02_3",
+   "SM_mountain_rock_big_02_5",
+   "SM_mountain_rock_big_02_7",
+   "SM_mountain_rock_big_02_8",
+   "SM_NordicBeachRocks_01"
+  ],
+  "block_hero": [
+   "SM_NordicBoulder_01",
+   "SM_TundraMossyBoulder_01"
+  ],
+  "band": [
+   "SM_big_rock_wall_01",
+   "SM_big_rock_wall_02",
+   "SM_ForestRockSlab_01",
+   "SM_mountain_rock_big_02_3"
+  ],
+  "wand": [
+   "SM_MassiveNordicCoastalCliff_01",
+   "SM_HugeNordicCoastalCliff_01",
+   "SM_HugeNordicCoastalCliff_02",
+   "ukjhcamga_tier_0"
+  ],
+  "turm": [
+   "veqnci0db_tier_2"
+  ],
+  "gratkrone": [
+   "SM_HugeNordicCoastalCliff_02",
+   "SM_big_rock_wall_01"
+  ],
+  "platte": [
+   "SM_flat_rock_02",
+   "SM_flat_rock_04",
+   "SM_ForestRockSlab_01",
+   "SM_TundraRockyGround_01",
+   "SM_ForestRockFormation_06"
+  ],
+  "fuge_gras": [
+   "SM_grass_bush_01",
+   "SM_grass_bush_04",
+   "SM_wk2oaeyqx_VarA"
+  ],
+  "fuge_farn": [
+   "SM_fern_01_0",
+   "SM_fern_01_1"
+  ],
+  "fuge_moos": [
+   "SM_moss_01"
+  ],
+  "baum_jung": [
+   "SM_Forest_pine_tree_00_A",
+   "SM_Forest_pine_tree_00_B"
+  ],
+  "baum_mittel": [
+   "SM_Forest_pine_tree_00_C",
+   "SM_Forest_pine_tree_00_D"
+  ],
+  "baum_hoch": [
+   "SM_Forest_pine_10_special",
+   "SM_Forest_pine_01"
+  ],
+  "baum_tot": [
+   "SM_Forest_pine_10_dead"
+  ],
+  "latsche": [
+   "SM_dwarf_pine_big_01",
+   "SM_dwarf_pine_medium_01",
+   "SM_dwarf_pine_small_01"
+  ],
+  "totholz": [
+   "SM_FallenSpruceTree_01",
+   "SM_LargeFallenTree_02"
+  ],
+  "fussblock": [
+   "SM_MossyForestBoulder_03",
+   "SM_MossyForestBoulder_04",
+   "SM_mountain_rock_big_02_5"
+  ]
+ },
+ "baum_hoehe_m": {
+  "jung": [
+   4.5,
+   6.5
+  ],
+  "mittel": [
+   8.5,
+   12.0
+  ],
+  "hoch": [
+   12.5,
+   15.0
+  ],
+  "tot": [
+   12.0,
+   15.0
+  ]
+ },
+ "wuerfel_verhaeltnis": 1.4,
+ "front_achse_annahme": "-y",
+ "front_achse_doku": "netze_masse.json fuehrt fuer Klippen-/Bandnetze keine front_achse. Annahme: Schauseite = lokale -Y (Rueckseite +Y in den Hang). Im Pilot an 3 Bandstuecken pruefen; falsch -> hier '+y'/'+x'/'-x' eintragen und neu rechnen.",
+ "sichtweite_cm": {
+  "teppich": [
+   0,
+   60000
+  ],
+  "block": [
+   0,
+   60000
+  ],
+  "block_klein": [
+   0,
+   35000
+  ],
+  "band": [
+   0,
+   0
+  ],
+  "wand": [
+   0,
+   0
+  ],
+  "platte": [
+   0,
+   60000
+  ],
+  "fuge": [
+   0,
+   9000
+  ],
+  "baum": [
+   0,
+   0
+  ],
+  "latsche": [
+   0,
+   25000
+  ],
+  "totholz": [
+   0,
+   40000
+  ]
+ },
+ "biome": {
+  "_doku": "Faktoren auf Deckung/Dichte gegen bergwald (Antwort Tabelle a2). Pilot nutzt nur bergwald.",
+  "bergwald": {
+   "deckung": 1.0,
+   "baeume": 1.0
+  },
+  "fjord": {
+   "deckung": 1.1,
+   "baeume": 0.7
+  },
+  "gletscher": {
+   "deckung": 1.0,
+   "baeume": 0.35,
+   "schnee_auf_teppich": true
+  },
+  "kueste": {
+   "deckung": 0.9,
+   "baeume": 0.5
+  },
+  "tundra": {
+   "deckung": 0.8,
+   "baeume": 0.5
+  },
+  "wueste": {
+   "deckung": 0.7,
+   "baeume": 0.0
+  },
+  "canyon": {
+   "deckung": 0.9,
+   "baeume": 0.1
+  },
+  "elfenwald": {
+   "deckung": 0.55,
+   "baeume": 1.3
+  },
+  "dschungel": {
+   "deckung": 0.5,
+   "baeume": 1.5
+  },
+  "lava": {
+   "deckung": 0.8,
+   "baeume": 0.0
+  },
+  "oedland": {
+   "deckung": 0.7,
+   "baeume": 0.2
+  }
+ }
+}

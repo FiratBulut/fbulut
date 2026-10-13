@@ -1,0 +1,65 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "feld": "B5",
+ "fenster_ij": [
+  4060,
+  1530,
+  502,
+  482
+ ],
+ "fenster_m": [
+  -3200.0,
+  0.0,
+  -2720.0,
+  500.0
+ ],
+ "lagen": {
+  "datei_praefix": "lagen/felsdeckung_B5_",
+  "fenster_ij": [
+   4060,
+   1530,
+   502,
+   482
+  ],
+  "lagen": [
+   "Geroell",
+   "Fels",
+   "Felsplatte"
+  ]
+ },
+ "masken": {
+  "grasdichte": {
+   "datei": "masken/grasdichte_B5.u8",
+   "form": [
+    502,
+    482
+   ]
+  },
+  "ausduennen": {
+   "datei": "masken/ausduennen_B5.u8",
+   "form": [
+    502,
+    482
+   ]
+  },
+  "zonen": {
+   "datei": "masken/zonen_B5.u8",
+   "form": [
+    502,
+    482
+   ]
+  }
+ },
+ "zonen_codes": {
+  "tal": 0,
+  "fuss": 1,
+  "hangwald": 2,
+  "halde": 3,
+  "schrofen": 4,
+  "wand": 5,
+  "sperre": 9
+ },
+ "grasdichte_hinweis": "Faktor 0-255 auf die GT-Dichtekarten (welt/*.r8) im Fenster multiplizieren, dann rebuild_grass_maps + grass.FlushCache; 0 = kein Gras (unter Stuecken), 255 = Fugenring und Flecken.",
+ "ausduennen_hinweis": "255 = Altbestand entfernen (remove_foliage_by_mask), NUR Baum-Typen des Altbestands (Houdini-Baeume, FT_EL_WIT_* Hangwald/Haine, FT_EL_BST_*), nie FT_EL_FS_*/FT_EL_FG_*/Bachdekor/Ufer. Vor dem Setzen der neuen Themen anwenden.",
+ "anteil_ausduennen_fenster": 0.598
+}

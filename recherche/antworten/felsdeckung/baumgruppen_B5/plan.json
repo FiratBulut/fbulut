@@ -1,0 +1,206 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "feld": "B5",
+ "thema": "baumgruppen",
+ "kuerzel": "BGRP",
+ "variante": "A",
+ "instanzen": 731,
+ "kollision_anzahl": 346,
+ "akteure_anzahl": 0,
+ "fenster_m": [
+  -3200.0,
+  0.0,
+  -2720.0,
+  500.0
+ ],
+ "dateien": {
+  "SM_FallenSpruceTree_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/FallenSpruceTree/SM_FallenSpruceTree_01",
+   "anzahl": 18,
+   "gruppe": "baumgruppen",
+   "rolle": "totholz",
+   "sichtweite": [
+    0,
+    40000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_Forest_pine_10_dead_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_10_dead",
+   "anzahl": 8,
+   "gruppe": "baumgruppen",
+   "rolle": "baum_tot",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_Forest_pine_10_special_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_10_special",
+   "anzahl": 62,
+   "gruppe": "baumgruppen",
+   "rolle": "baum_hoch",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_Forest_pine_tree_00_B_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_tree_00_B",
+   "anzahl": 57,
+   "gruppe": "baumgruppen",
+   "rolle": "baum_jung",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_Forest_pine_tree_00_C_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_tree_00_C",
+   "anzahl": 43,
+   "gruppe": "baumgruppen",
+   "rolle": "baum_mittel",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_Forest_pine_tree_00_D_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_Forest_pine_tree_00_D",
+   "anzahl": 39,
+   "gruppe": "baumgruppen",
+   "rolle": "baum_mittel",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_03": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+   "anzahl": 33,
+   "gruppe": "baumgruppen",
+   "rolle": "fussblock",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_03_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+   "anzahl": 59,
+   "gruppe": "baumgruppen",
+   "rolle": "fussblock",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_04_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+   "anzahl": 50,
+   "gruppe": "baumgruppen",
+   "rolle": "fussblock",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_dwarf_pine_big_01": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_big_01",
+   "anzahl": 124,
+   "gruppe": "baumgruppen",
+   "rolle": "latsche",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_dwarf_pine_medium_01": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_medium_01",
+   "anzahl": 112,
+   "gruppe": "baumgruppen",
+   "rolle": "latsche",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_dwarf_pine_small_01": {
+   "pfad": "/Game/Mountain_Environment_Set/Foliage/Meshes/SM_dwarf_pine_small_01",
+   "anzahl": 116,
+   "gruppe": "baumgruppen",
+   "rolle": "latsche",
+   "sichtweite": [
+    0,
+    25000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_mountain_rock_big_02_5_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_5",
+   "anzahl": 10,
+   "gruppe": "baumgruppen",
+   "rolle": "fussblock",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  }
+ },
+ "akteure": [],
+ "entfernen": "",
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/Felsdeckung/Baumgruppen",
+ "ft_praefix": "FT_EL_BGRP_",
+ "ziel_ordner_lokal": "export/unreal/welt/baumgruppen/B5/",
+ "hinweis_setzer": "Generischer FORMAT-§3-Setzer: f32 je Netz (10 float32), Foliage-Typ = ft_praefix + Dateischluessel; Dateien mit 'akteur_' bzw. rolle 'akteur' als StaticMeshActor (Liste 'akteure', identisch in akteure_B5.json). z enthaelt das Eingraben. Reihenfolge: 1. Ausduenn-Maske anwenden, 2. Lagen, 3. Themen klippenband -> halde -> platten -> baumgruppen setzen. Kuerzel nie 'BACH*'."
+}

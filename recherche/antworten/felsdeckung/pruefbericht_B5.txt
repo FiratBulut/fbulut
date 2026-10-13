@@ -1,0 +1,36 @@
+Pruefbericht Felsdeckung B5 (Variante A)
+HINWEIS  halde: 1149 Instanzen, 6 Akteure, 26 Dateien
+HINWEIS  klippenband: 2031 Instanzen, 1 Akteure, 9 Dateien
+HINWEIS  platten: 2560 Instanzen, 0 Akteure, 10 Dateien
+HINWEIS  baumgruppen: 731 Instanzen, 0 Akteure, 13 Dateien
+HINWEIS  Stuecke ausserhalb Feld B5: 0
+HINWEIS  Stuecke ausserhalb des Fensters: 0
+HINWEIS  Stuecke in Sperre (Uferband 0-10 m A20 / Weg / Ort / Meer): 0
+HINWEIS  schwebende Felsstuecke: 0
+HINWEIS  wuerfelige/stehende Bloecke > 1,5 m: 0
+HINWEIS  Pflanzen/Baeume mit Pivot nicht am Boden: 0
+HINWEIS  Fussflaechen-Summe halde 145 % der Zonenflaeche (Obergrenze wie Zensus 6h, RA2 = 378 %)
+HINWEIS  Fussflaechen-Summe schrofen 68 % der Zonenflaeche (Obergrenze wie Zensus 6h, RA2 = 378 %)
+HINWEIS  Fussflaechen-Summe wand 128 % der Zonenflaeche (Obergrenze wie Zensus 6h, RA2 = 378 %)
+HINWEIS  Fussflaechen-Summe fuss 29 % der Zonenflaeche (Obergrenze wie Zensus 6h, RA2 = 378 %)
+HINWEIS  Netzdeckung halde 77.4 % (Schwelle 50 %)
+HINWEIS  Netzdeckung halde_oben 82.6 % (Schwelle 60 %)
+HINWEIS  Netzdeckung schrofen 57.1 % (Schwelle 50 %)
+HINWEIS  Netzdeckung wand 80.3 % (Schwelle 60 %)
+HINWEIS  Netzdeckung fuss_nah 28.3 % (Schwelle 22 %)
+HINWEIS  Netzdeckung fuss_fern 19.9 %
+HINWEIS  Netzdeckung hangwald 19.4 %
+HINWEIS  Netzdeckung felszone_gesamt 66.8 %
+HINWEIS  Fels-Lage >= 38 Grad ohne Netz: 24.8 % (6.40 ha; Grenze 45 %)
+HINWEIS  Halde Bloecke > 2 m: max 1.02 je 100 m2 je 48-m-Zelle (Grenze 1.20)
+HINWEIS  Halde Bloecke > 4 m: max 0.25 je 100 m2 je 48-m-Zelle (Grenze 0.35)
+HINWEIS  Steilhang ausserhalb Halde Bloecke > 2 m: max 0.37 je 100 m2 je 48-m-Zelle (Grenze 0.67)
+HINWEIS  baumfreie Felszone (kein Baum im Radius 7,5 m) 90.3 % (min 35 %)
+HINWEIS  Baeume mit Block >= 1 m im Radius 3 m: 97.6 % (204/209), Block:Baum 4.21
+HINWEIS  groesste Baumkette am Grat: 3 (max 3), Baeume im Gratband 27
+HINWEIS  Baumhoehen min/median/max 4.5/10.3/14.9 m, hoechster/niedrigster 3.31
+HINWEIS  Ausduenn-Maske: 59.8 % des Fensters
+HINWEIS  A15: Zellen mit Auftrag naeher als 12 m am Wasser: 0
+HINWEIS  A15 halde_kegel_B5: max 5.00 m, Auftrag 9168 m3, 3 Kegel
+HINWEIS  Determinismus: zwei Laeufe (PYTHONHASHSEED 1/4711) byte-gleich, 78 Dateien
+Ergebnis: 0 FEHLER, 0 WARNUNG, 34 HINWEIS

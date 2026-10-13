@@ -1,0 +1,164 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "feld": "B5",
+ "thema": "platten",
+ "kuerzel": "PLATTE",
+ "variante": "A",
+ "instanzen": 2560,
+ "kollision_anzahl": 429,
+ "akteure_anzahl": 0,
+ "fenster_m": [
+  -3200.0,
+  0.0,
+  -2720.0,
+  500.0
+ ],
+ "dateien": {
+  "SM_ForestRockFormation_06_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_06",
+   "anzahl": 98,
+   "gruppe": "platten",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_ForestRockSlab_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01",
+   "anzahl": 67,
+   "gruppe": "platten",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_TundraRockyGround_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
+   "anzahl": 83,
+   "gruppe": "platten",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_fern_01_0": {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_fern_01_0",
+   "anzahl": 541,
+   "gruppe": "platten",
+   "rolle": "fuge",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_flat_rock_02_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_02",
+   "anzahl": 87,
+   "gruppe": "platten",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_flat_rock_04_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_flat_rock_04",
+   "anzahl": 94,
+   "gruppe": "platten",
+   "rolle": "platte",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_grass_bush_01": {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_01",
+   "anzahl": 110,
+   "gruppe": "platten",
+   "rolle": "fuge",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_grass_bush_04": {
+   "pfad": "/Game/Environment_Set/Environment/Foliage/Models/SM_grass_bush_04",
+   "anzahl": 484,
+   "gruppe": "platten",
+   "rolle": "fuge",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_moss_01": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Details/Meshes/SM_moss_01",
+   "anzahl": 303,
+   "gruppe": "platten",
+   "rolle": "fuge",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": false,
+   "akteur": false
+  },
+  "SM_wk2oaeyqx_VarA": {
+   "pfad": "/Game/Fab/Megascans/Plants/Tundra_Grass_wk2oaeyqx/Raw/wk2oaeyqx_tier_0/StaticMeshes/SM_wk2oaeyqx_VarA",
+   "anzahl": 693,
+   "gruppe": "platten",
+   "rolle": "fuge",
+   "sichtweite": [
+    0,
+    9000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  }
+ },
+ "akteure": [],
+ "entfernen": "",
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/Felsdeckung/Platten",
+ "ft_praefix": "FT_EL_PLATTE_",
+ "ziel_ordner_lokal": "export/unreal/welt/platten/B5/",
+ "hinweis_setzer": "Generischer FORMAT-§3-Setzer: f32 je Netz (10 float32), Foliage-Typ = ft_praefix + Dateischluessel; Dateien mit 'akteur_' bzw. rolle 'akteur' als StaticMeshActor (Liste 'akteure', identisch in akteure_B5.json). z enthaelt das Eingraben. Reihenfolge: 1. Ausduenn-Maske anwenden, 2. Lagen, 3. Themen klippenband -> halde -> platten -> baumgruppen setzen. Kuerzel nie 'BACH*'."
+}

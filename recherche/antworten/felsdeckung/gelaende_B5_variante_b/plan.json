@@ -1,0 +1,74 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "format": "A15 (wie gefaelle/<lauf>/plan.json, p2_bett_welt.py)",
+ "variante": "B (optional)",
+ "abschnitte": [
+  {
+   "id": "halde_kegel_B5",
+   "feld": "B5",
+   "gelaende": {
+    "datei": "gelaende/halde_kegel_B5.f32",
+    "fenster_ij": [
+     4060,
+     1530,
+     502,
+     482
+    ],
+    "max_aenderung_m": 5.0,
+    "modus": "add",
+    "einheit": "Delta in m, 1-m-Raster, float32 LE zeilenweise"
+   }
+  }
+ ],
+ "kegel": [
+  {
+   "x_m": -3060.0,
+   "y_m": 394.0,
+   "z_m": 258.83,
+   "einzug_m2": 768.0,
+   "fallrichtung_kompass": 79.0,
+   "max_auftrag_m": 4.95,
+   "volumen_m3": 2389.0
+  },
+  {
+   "x_m": -2998.0,
+   "y_m": 168.0,
+   "z_m": 203.75,
+   "einzug_m2": 640.0,
+   "fallrichtung_kompass": 45.8,
+   "max_auftrag_m": 4.99,
+   "volumen_m3": 2015.0
+  },
+  {
+   "x_m": -3154.0,
+   "y_m": 276.0,
+   "z_m": 351.2,
+   "einzug_m2": 312.0,
+   "fallrichtung_kompass": 110.2,
+   "max_auftrag_m": 5.0,
+   "volumen_m3": 4764.0
+  }
+ ],
+ "volumen_auftrag_m3": 9168.0,
+ "regeln": {
+  "kegel_anzahl": 3,
+  "kegel_abstand_m": 80.0,
+  "kegel_radius_m": 38.0,
+  "kegel_winkel_oben_grad": 34.0,
+  "kegel_winkel_unten_grad": 29.0,
+  "kegel_sektor_grad": 55.0,
+  "kegel_max_m": 5.0,
+  "wasser_frei_m": 12.0,
+  "weg_frei_m": 4.0,
+  "rand_m": 8.0,
+  "min_relief_oben_m": 30.0,
+  "min_volumen_m3": 500.0
+ },
+ "reihenfolge_lokal": [
+  "Feld B5 komplett: hoehen -> 40 s -> lagen -> rest (a15_einbau / s38-Kette)",
+  "Gras-Karten neu (grass_maps_check 'falsch 0 max 0'), Nanite je Teil",
+  "shift_foliage_by_height_delta fuer Bestand im Fenster",
+  "Planer mit --gelaende neu laufen lassen (Instanzen auf dem neuen Boden), dann setzen"
+ ],
+ "hinweis": "Nur anheben (Auftrag), >= 12 m vom Wasser (Uferband A20 unberuehrt), >= 4 m von Wegen, Rand 8 m weich."
+}

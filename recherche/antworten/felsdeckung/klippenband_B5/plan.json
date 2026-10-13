@@ -1,0 +1,172 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "feld": "B5",
+ "thema": "klippenband",
+ "kuerzel": "KBAND",
+ "variante": "A",
+ "instanzen": 2031,
+ "kollision_anzahl": 2031,
+ "akteure_anzahl": 1,
+ "fenster_m": [
+  -3200.0,
+  0.0,
+  -2720.0,
+  500.0
+ ],
+ "dateien": {
+  "SM_ForestRockSlab_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockSlab/SM_ForestRockSlab_01",
+   "anzahl": 218,
+   "gruppe": "klippenband",
+   "rolle": "band",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_HugeNordicCoastalCliff_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_01",
+   "anzahl": 219,
+   "gruppe": "klippenband",
+   "rolle": "wandreihe",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_HugeNordicCoastalCliff_02_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/HugeNordicCoastalCliff/SM_HugeNordicCoastalCliff_02",
+   "anzahl": 187,
+   "gruppe": "klippenband",
+   "rolle": "gratkrone/wandreihe",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MassiveNordicCoastalCliff_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MassiveNordicCoastalCliff/SM_MassiveNordicCoastalCliff_01",
+   "anzahl": 145,
+   "gruppe": "klippenband",
+   "rolle": "wandreihe",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_big_rock_wall_01_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_01",
+   "anzahl": 423,
+   "gruppe": "klippenband",
+   "rolle": "band/gratkrone",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_big_rock_wall_02_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_big_rock_wall_02",
+   "anzahl": 470,
+   "gruppe": "klippenband",
+   "rolle": "band",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_mountain_rock_big_02_3_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_3",
+   "anzahl": 276,
+   "gruppe": "klippenband",
+   "rolle": "band",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "akteur_veqnci0db_tier_2_kol": {
+   "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_veqnci0db/Medium/veqnci0db_tier_2/StaticMeshes/veqnci0db_tier_2",
+   "anzahl": 1,
+   "gruppe": "klippenband",
+   "rolle": "akteur",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": true
+  },
+  "ukjhcamga_tier_0_kol": {
+   "pfad": "/Game/Fab/Megascans/3D/Massive_Layered_Rock_Cliff_ukjhcamga/Raw/ukjhcamga_tier_0/StaticMeshes/ukjhcamga_tier_0",
+   "anzahl": 93,
+   "gruppe": "klippenband",
+   "rolle": "wandreihe",
+   "sichtweite": [
+    0,
+    0
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  }
+ },
+ "akteure": [
+  {
+   "netz": "veqnci0db_tier_2",
+   "pfad": "/Game/Fab/Megascans/3D/Massive_Nordic_Coastal_Cliff_veqnci0db/Medium/veqnci0db_tier_2/StaticMeshes/veqnci0db_tier_2",
+   "thema": "klippenband",
+   "klasse": "turm",
+   "x": -312553.2,
+   "y": 45658.0,
+   "z": 30590.0,
+   "qx": 0.0,
+   "qy": 0.0,
+   "qz": -0.55637,
+   "qw": 0.830935,
+   "sx": 1.0,
+   "sy": 1.0,
+   "sz": 1.0,
+   "groesse_m": 37.67,
+   "kollision": true,
+   "nanite": true,
+   "turm": true,
+   "ueber_grat_m": -5.5
+  }
+ ],
+ "entfernen": "",
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/Felsdeckung/Klippenband",
+ "ft_praefix": "FT_EL_KBAND_",
+ "ziel_ordner_lokal": "export/unreal/welt/klippenband/B5/",
+ "hinweis_setzer": "Generischer FORMAT-§3-Setzer: f32 je Netz (10 float32), Foliage-Typ = ft_praefix + Dateischluessel; Dateien mit 'akteur_' bzw. rolle 'akteur' als StaticMeshActor (Liste 'akteure', identisch in akteure_B5.json). z enthaelt das Eingraben. Reihenfolge: 1. Ausduenn-Maske anwenden, 2. Lagen, 3. Themen klippenband -> halde -> platten -> baumgruppen setzen. Kuerzel nie 'BACH*'."
+}

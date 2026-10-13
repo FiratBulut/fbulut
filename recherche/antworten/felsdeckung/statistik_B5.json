@@ -1,0 +1,76 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "feld": "B5",
+ "variante": "A",
+ "fenster_m": [
+  -3200.0,
+  0.0,
+  -2720.0,
+  500.0
+ ],
+ "fenster_ha": 24.0,
+ "zonen_ha": {
+  "tal": 0.029,
+  "fuss": 2.607,
+  "hangwald": 2.72,
+  "halde": 2.011,
+  "schrofen": 8.272,
+  "wand": 4.348,
+  "sperre": 4.013
+ },
+ "je_rolle": {
+  "baumgruppen:baum_hoch": 62,
+  "baumgruppen:baum_jung": 57,
+  "baumgruppen:baum_mittel": 82,
+  "baumgruppen:baum_tot": 8,
+  "baumgruppen:fussblock": 152,
+  "baumgruppen:latsche": 352,
+  "baumgruppen:totholz": 18,
+  "halde:akteur": 6,
+  "halde:block": 416,
+  "halde:teppich": 733,
+  "klippenband:akteur": 1,
+  "klippenband:band": 1364,
+  "klippenband:gratkrone": 42,
+  "klippenband:wandreihe": 625,
+  "platten:fuge": 2131,
+  "platten:platte": 429
+ },
+ "planer": {
+  "klippenband": {
+   "band": 1364,
+   "wandreihe": 625,
+   "gratkrone": 42,
+   "turm": 1,
+   "band_dz_m": 5.5,
+   "wand_dz_m": 7.47
+  },
+  "halde": {
+   "teppich": 733,
+   "bloecke": {
+    "6-9": 4,
+    "3-6": 29,
+    "1.5-3": 143,
+    "0.8-1.5": 246
+   }
+  },
+  "platten": {
+   "platten": 429,
+   "fugenbewuchs": 2131
+  },
+  "baumgruppen": {
+   "gruppen": 49,
+   "baeume": 209,
+   "davon_tot_stehend": 8,
+   "fussbloecke": 152,
+   "totholz_liegend": 18,
+   "latschen": 352
+  }
+ },
+ "stuecke": 6478,
+ "akteure": 7,
+ "kollision": 3000,
+ "netze_unterschiedlich": 46,
+ "dreiecke_summe_quellnetze": 48957355,
+ "netz_fehler": []
+}

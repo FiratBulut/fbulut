@@ -1,0 +1,503 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "feld": "B5",
+ "thema": "halde",
+ "kuerzel": "HALDE",
+ "variante": "A",
+ "instanzen": 1149,
+ "kollision_anzahl": 194,
+ "akteure_anzahl": 6,
+ "fenster_m": [
+  -3200.0,
+  0.0,
+  -2720.0,
+  500.0
+ ],
+ "dateien": {
+  "SM_ForestRockFormation_05": {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_05",
+   "anzahl": 125,
+   "gruppe": "halde",
+   "rolle": "teppich",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_ForestRockFormation_06": {
+   "pfad": "/Game/Megascans/3D_Assets/ForestRockFormation/SM_ForestRockFormation_06",
+   "anzahl": 143,
+   "gruppe": "halde",
+   "rolle": "teppich",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_01": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+   "anzahl": 41,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    35000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_01",
+   "anzahl": 19,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_03_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_03",
+   "anzahl": 32,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_04_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_04",
+   "anzahl": 20,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_05": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+   "anzahl": 56,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    35000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_MossyForestBoulder_05_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/MossyForestBoulder/SM_MossyForestBoulder_05",
+   "anzahl": 5,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    35000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_NordicBeachRocks_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
+   "anzahl": 4,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_NordicBeachRockyGround_01": {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_01",
+   "anzahl": 165,
+   "gruppe": "halde",
+   "rolle": "teppich",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_NordicBeachRockyGround_02": {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRockyGround/SM_NordicBeachRockyGround_02",
+   "anzahl": 151,
+   "gruppe": "halde",
+   "rolle": "teppich",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_TundraRockyGround_01": {
+   "pfad": "/Game/Megascans/3D_Assets/TundraRockyGround/SM_TundraRockyGround_01",
+   "anzahl": 149,
+   "gruppe": "halde",
+   "rolle": "teppich",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_ground_rock_01_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_ground_rock_01",
+   "anzahl": 38,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_mountain_rock_big_02_1_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_1",
+   "anzahl": 6,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_mountain_rock_big_02_3_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_3",
+   "anzahl": 6,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_mountain_rock_big_02_5_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_5",
+   "anzahl": 2,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_mountain_rock_big_02_7_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_7",
+   "anzahl": 6,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_mountain_rock_big_02_8_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_8",
+   "anzahl": 3,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "SM_stones_01_6": {
+   "pfad": "/Game/Forest_Environment_Set/Environment/Rocks/Meshes/SM_stones_01_6",
+   "anzahl": 62,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    35000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  },
+  "akteur_SM_NordicBeachRocks_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
+   "anzahl": 1,
+   "gruppe": "halde",
+   "rolle": "akteur",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": true
+  },
+  "akteur_SM_NordicBoulder_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+   "anzahl": 2,
+   "gruppe": "halde",
+   "rolle": "akteur",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": true
+  },
+  "akteur_SM_TundraMossyBoulder_01_kol": {
+   "pfad": "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01",
+   "anzahl": 2,
+   "gruppe": "halde",
+   "rolle": "akteur",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": true
+  },
+  "akteur_SM_mountain_rock_big_02_7_kol": {
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_7",
+   "anzahl": 1,
+   "gruppe": "halde",
+   "rolle": "akteur",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": true
+  },
+  "xf3odif_tier_0_kol": {
+   "pfad": "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xf3odif/Raw/xf3odif_tier_0/StaticMeshes/xf3odif_tier_0",
+   "anzahl": 31,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "xfplcbf_tier_0_kol": {
+   "pfad": "/Game/Fab/Megascans/3D/Nordic_Forest_Cluster_Rock_Medium_xfplcbf/Raw/xfplcbf_tier_0/StaticMeshes/xfplcbf_tier_0",
+   "anzahl": 22,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    60000
+   ],
+   "schatten": true,
+   "kollision": true,
+   "nanite": true,
+   "akteur": false
+  },
+  "xjijbgx_tier_0": {
+   "pfad": "/Game/Fab/Megascans/3D/Nordic_Forest_Rock_Small_xjijbgx/Raw/xjijbgx_tier_0/StaticMeshes/xjijbgx_tier_0",
+   "anzahl": 63,
+   "gruppe": "halde",
+   "rolle": "block",
+   "sichtweite": [
+    0,
+    35000
+   ],
+   "schatten": true,
+   "kollision": false,
+   "nanite": true,
+   "akteur": false
+  }
+ },
+ "akteure": [
+  {
+   "netz": "SM_NordicBeachRocks_01",
+   "pfad": "/Game/Megascans/3D_Assets/NordicBeachRocks/SM_NordicBeachRocks_01",
+   "thema": "halde",
+   "klasse": "hero_block",
+   "x": -282274.2,
+   "y": 46461.4,
+   "z": 8713.4,
+   "qx": 0.184027,
+   "qy": 0.274041,
+   "qz": -0.664072,
+   "qw": 0.670853,
+   "sx": 1.0573,
+   "sy": 1.0424,
+   "sz": 1.0367,
+   "groesse_m": 6.09,
+   "kollision": true,
+   "nanite": true
+  },
+  {
+   "netz": "SM_NordicBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+   "thema": "halde",
+   "klasse": "hero_block",
+   "x": -276901.8,
+   "y": 23156.2,
+   "z": 7596.4,
+   "qx": -0.128407,
+   "qy": 0.187751,
+   "qz": -0.923376,
+   "qw": 0.309253,
+   "sx": 0.7097,
+   "sy": 0.7216,
+   "sz": 0.7121,
+   "groesse_m": 6.43,
+   "kollision": true,
+   "nanite": true
+  },
+  {
+   "netz": "SM_NordicBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/NordicBoulder/SM_NordicBoulder_01",
+   "thema": "halde",
+   "klasse": "hero_block",
+   "x": -283558.3,
+   "y": 40399.9,
+   "z": 10828.6,
+   "qx": -0.099459,
+   "qy": 0.202232,
+   "qz": -0.730527,
+   "qw": 0.644625,
+   "sx": 0.7114,
+   "sy": 0.7028,
+   "sz": 0.7107,
+   "groesse_m": 6.26,
+   "kollision": true,
+   "nanite": true
+  },
+  {
+   "netz": "SM_TundraMossyBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01",
+   "thema": "halde",
+   "klasse": "hero_block",
+   "x": -277934.3,
+   "y": 4074.8,
+   "z": 8316.7,
+   "qx": -0.122796,
+   "qy": 0.221318,
+   "qz": 0.200437,
+   "qw": 0.946448,
+   "sx": 0.9577,
+   "sy": 0.9832,
+   "sz": 0.9656,
+   "groesse_m": 7.11,
+   "kollision": true,
+   "nanite": true
+  },
+  {
+   "netz": "SM_TundraMossyBoulder_01",
+   "pfad": "/Game/Megascans/3D_Assets/TundraMossyBoulder/SM_TundraMossyBoulder_01",
+   "thema": "halde",
+   "klasse": "hero_block",
+   "x": -281895.3,
+   "y": 5693.9,
+   "z": 8943.8,
+   "qx": -0.088693,
+   "qy": 0.24502,
+   "qz": 0.45267,
+   "qw": 0.852754,
+   "sx": 1.1636,
+   "sy": 1.059,
+   "sz": 1.1059,
+   "groesse_m": 8.63,
+   "kollision": true,
+   "nanite": true
+  },
+  {
+   "netz": "SM_mountain_rock_big_02_7",
+   "pfad": "/Game/Mountain_Environment_Set/Rocks/Meshes/SM_mountain_rock_big_02_7",
+   "thema": "halde",
+   "klasse": "hero_block",
+   "x": -284705.6,
+   "y": 45370.7,
+   "z": 10147.0,
+   "qx": -0.153359,
+   "qy": 0.273136,
+   "qz": 0.50462,
+   "qw": 0.80451,
+   "sx": 1.036,
+   "sy": 0.908,
+   "sz": 0.9673,
+   "groesse_m": 6.01,
+   "kollision": true,
+   "nanite": true
+  }
+ ],
+ "entfernen": "",
+ "ft_ordner": "/Game/Eldarien/Welt/Foliage/Felsdeckung/Halde",
+ "ft_praefix": "FT_EL_HALDE_",
+ "ziel_ordner_lokal": "export/unreal/welt/halde/B5/",
+ "hinweis_setzer": "Generischer FORMAT-§3-Setzer: f32 je Netz (10 float32), Foliage-Typ = ft_praefix + Dateischluessel; Dateien mit 'akteur_' bzw. rolle 'akteur' als StaticMeshActor (Liste 'akteure', identisch in akteure_B5.json). z enthaelt das Eingraben. Reihenfolge: 1. Ausduenn-Maske anwenden, 2. Lagen, 3. Themen klippenband -> halde -> platten -> baumgruppen setzen. Kuerzel nie 'BACH*'."
+}

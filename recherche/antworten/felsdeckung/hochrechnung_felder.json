@@ -1,0 +1,1645 @@
+{
+ "stand": "2026-10-13 (Auftrag 21, Entwurf 1)",
+ "raten_je_ha_zielzone": {
+  "halde": {
+   "inst": 571.4,
+   "akteur": 2.984,
+   "zonen": [
+    "halde"
+   ]
+  },
+  "klippenband": {
+   "inst": 160.9,
+   "akteur": 0.079,
+   "zonen": [
+    "schrofen",
+    "wand"
+   ]
+  },
+  "platten": {
+   "inst": 981.9,
+   "akteur": 0.0,
+   "zonen": [
+    "fuss"
+   ]
+  },
+  "baumgruppen": {
+   "inst": 46.8,
+   "akteur": 0.0,
+   "zonen": [
+    "fuss",
+    "hangwald",
+    "halde",
+    "schrofen"
+   ]
+  }
+ },
+ "zonen_codes": {
+  "tal": 0,
+  "fuss": 1,
+  "hangwald": 2,
+  "halde": 3,
+  "schrofen": 4,
+  "wand": 5,
+  "sperre": 9
+ },
+ "pilot_zonen_ha": {
+  "tal": 0.03,
+  "fuss": 2.61,
+  "hangwald": 2.72,
+  "halde": 2.01,
+  "schrofen": 8.27,
+  "wand": 4.35,
+  "sperre": 4.01
+ },
+ "bytes_je_instanz": [
+  200,
+  600
+ ],
+ "welt_summe": 388842,
+ "welt_zonen_ha": {
+  "tal": 1472.8,
+  "fuss": 285.9,
+  "hangwald": 249.4,
+  "halde": 132.6,
+  "schrofen": 387.7,
+  "wand": 292.0,
+  "sperre": 3123.5
+ },
+ "top12": [
+  [
+   "D2",
+   24030,
+   22,
+   "tundra"
+  ],
+  [
+   "E2",
+   23477,
+   19,
+   "gletscher"
+  ],
+  [
+   "B5",
+   22062,
+   19,
+   "bergwald"
+  ],
+  [
+   "E4",
+   18838,
+   17,
+   "wueste"
+  ],
+  [
+   "B4",
+   18337,
+   13,
+   "bergwald"
+  ],
+  [
+   "E6",
+   15798,
+   10,
+   "oedland"
+  ],
+  [
+   "H6",
+   15193,
+   8,
+   "dschungel"
+  ],
+  [
+   "D4",
+   14984,
+   11,
+   "canyon"
+  ],
+  [
+   "C6",
+   14917,
+   21,
+   "lava"
+  ],
+  [
+   "C2",
+   14683,
+   9,
+   "gletscher"
+  ],
+  [
+   "D3",
+   14182,
+   13,
+   "tundra"
+  ],
+  [
+   "D6",
+   14171,
+   10,
+   "oedland"
+  ]
+ ],
+ "felder": {
+  "A3": {
+   "biom": "bergwald",
+   "land_ha": 15.9,
+   "zonen_ha": {
+    "tal": 7.02,
+    "fuss": 2.41,
+    "hangwald": 1.06,
+    "halde": 1.01,
+    "schrofen": 0.81,
+    "wand": 0.09,
+    "sperre": 89.21
+   },
+   "instanzen": {
+    "halde": 577,
+    "klippenband": 145,
+    "platten": 2366,
+    "baumgruppen": 248
+   },
+   "summe": 3336,
+   "akteure": 3,
+   "ram_mb": [
+    0.7,
+    2.0
+   ]
+  },
+  "A4": {
+   "biom": "bergwald",
+   "land_ha": 36.5,
+   "zonen_ha": {
+    "tal": 4.92,
+    "fuss": 2.99,
+    "hangwald": 4.19,
+    "halde": 2.08,
+    "schrofen": 7.14,
+    "wand": 4.95,
+    "sperre": 75.34
+   },
+   "instanzen": {
+    "halde": 1189,
+    "klippenband": 1946,
+    "platten": 2936,
+    "baumgruppen": 768
+   },
+   "summe": 6839,
+   "akteure": 7,
+   "ram_mb": [
+    1.4,
+    4.1
+   ]
+  },
+  "A5": {
+   "biom": "kueste",
+   "land_ha": 24.6,
+   "zonen_ha": {
+    "tal": 0.87,
+    "fuss": 1.74,
+    "hangwald": 3.58,
+    "halde": 2.07,
+    "schrofen": 10.15,
+    "wand": 2.16,
+    "sperre": 81.05
+   },
+   "instanzen": {
+    "halde": 1065,
+    "klippenband": 1783,
+    "platten": 1538,
+    "baumgruppen": 411
+   },
+   "summe": 4797,
+   "akteure": 6,
+   "ram_mb": [
+    1.0,
+    2.9
+   ]
+  },
+  "A6": {
+   "biom": "aue",
+   "land_ha": 8.7,
+   "zonen_ha": {
+    "tal": 7.14,
+    "fuss": 0.77,
+    "hangwald": 0.09,
+    "halde": 0.04,
+    "schrofen": 0.05,
+    "wand": 0.03,
+    "sperre": 93.48
+   },
+   "instanzen": {
+    "halde": 11,
+    "klippenband": 6,
+    "platten": 378,
+    "baumgruppen": 22
+   },
+   "summe": 417,
+   "akteure": 0,
+   "ram_mb": [
+    0.1,
+    0.3
+   ]
+  },
+  "A7": {
+   "biom": "aue",
+   "land_ha": 12.2,
+   "zonen_ha": {
+    "tal": 11.58,
+    "fuss": 0.0,
+    "hangwald": 0.0,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 90.03
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 0
+   },
+   "summe": 0,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "B1": {
+   "biom": "gletscher",
+   "land_ha": 9.1,
+   "zonen_ha": {
+    "tal": 0.01,
+    "fuss": 0.19,
+    "hangwald": 0.75,
+    "halde": 1.33,
+    "schrofen": 4.71,
+    "wand": 0.77,
+    "sperre": 93.84
+   },
+   "instanzen": {
+    "halde": 760,
+    "klippenband": 882,
+    "platten": 187,
+    "baumgruppen": 114
+   },
+   "summe": 1943,
+   "akteure": 4,
+   "ram_mb": [
+    0.4,
+    1.2
+   ]
+  },
+  "B2": {
+   "biom": "gletscher",
+   "land_ha": 25.8,
+   "zonen_ha": {
+    "tal": 0.0,
+    "fuss": 0.34,
+    "hangwald": 1.45,
+    "halde": 3.45,
+    "schrofen": 13.93,
+    "wand": 3.66,
+    "sperre": 78.78
+   },
+   "instanzen": {
+    "halde": 1971,
+    "klippenband": 2831,
+    "platten": 334,
+    "baumgruppen": 314
+   },
+   "summe": 5450,
+   "akteure": 12,
+   "ram_mb": [
+    1.1,
+    3.3
+   ]
+  },
+  "B3": {
+   "biom": "bergwald",
+   "land_ha": 47.5,
+   "zonen_ha": {
+    "tal": 0.16,
+    "fuss": 1.89,
+    "hangwald": 3.67,
+    "halde": 3.88,
+    "schrofen": 14.06,
+    "wand": 7.4,
+    "sperre": 70.56
+   },
+   "instanzen": {
+    "halde": 2217,
+    "klippenband": 3454,
+    "platten": 1856,
+    "baumgruppen": 1100
+   },
+   "summe": 8627,
+   "akteure": 13,
+   "ram_mb": [
+    1.7,
+    5.2
+   ]
+  },
+  "B4": {
+   "biom": "bergwald",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 2.36,
+    "fuss": 4.41,
+    "hangwald": 9.71,
+    "halde": 2.69,
+    "schrofen": 25.14,
+    "wand": 40.14,
+    "sperre": 17.16
+   },
+   "instanzen": {
+    "halde": 1537,
+    "klippenband": 10506,
+    "platten": 4330,
+    "baumgruppen": 1964
+   },
+   "summe": 18337,
+   "akteure": 13,
+   "ram_mb": [
+    3.7,
+    11.0
+   ]
+  },
+  "B5": {
+   "biom": "bergwald",
+   "land_ha": 99.6,
+   "zonen_ha": {
+    "tal": 3.44,
+    "fuss": 7.0,
+    "hangwald": 12.93,
+    "halde": 4.81,
+    "schrofen": 30.55,
+    "wand": 30.66,
+    "sperre": 12.22
+   },
+   "instanzen": {
+    "halde": 2749,
+    "klippenband": 9851,
+    "platten": 6873,
+    "baumgruppen": 2589
+   },
+   "summe": 22062,
+   "akteure": 19,
+   "ram_mb": [
+    4.4,
+    13.2
+   ]
+  },
+  "B6": {
+   "biom": "bergwald",
+   "land_ha": 63.1,
+   "zonen_ha": {
+    "tal": 31.1,
+    "fuss": 7.46,
+    "hangwald": 13.84,
+    "halde": 1.23,
+    "schrofen": 3.47,
+    "wand": 0.06,
+    "sperre": 44.45
+   },
+   "instanzen": {
+    "halde": 703,
+    "klippenband": 568,
+    "platten": 7325,
+    "baumgruppen": 1218
+   },
+   "summe": 9814,
+   "akteure": 4,
+   "ram_mb": [
+    2.0,
+    5.9
+   ]
+  },
+  "B7": {
+   "biom": "aue",
+   "land_ha": 26.4,
+   "zonen_ha": {
+    "tal": 24.49,
+    "fuss": 0.0,
+    "hangwald": 0.31,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 76.81
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 7
+   },
+   "summe": 7,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "C1": {
+   "biom": "gletscher",
+   "land_ha": 38.4,
+   "zonen_ha": {
+    "tal": 0.09,
+    "fuss": 1.66,
+    "hangwald": 3.85,
+    "halde": 2.42,
+    "schrofen": 15.26,
+    "wand": 10.95,
+    "sperre": 67.38
+   },
+   "instanzen": {
+    "halde": 1383,
+    "klippenband": 4218,
+    "platten": 1630,
+    "baumgruppen": 380
+   },
+   "summe": 7611,
+   "akteure": 9,
+   "ram_mb": [
+    1.5,
+    4.6
+   ]
+  },
+  "C2": {
+   "biom": "gletscher",
+   "land_ha": 65.5,
+   "zonen_ha": {
+    "tal": 2.9,
+    "fuss": 6.72,
+    "hangwald": 6.6,
+    "halde": 1.93,
+    "schrofen": 17.52,
+    "wand": 22.53,
+    "sperre": 43.41
+   },
+   "instanzen": {
+    "halde": 1103,
+    "klippenband": 6445,
+    "platten": 6598,
+    "baumgruppen": 537
+   },
+   "summe": 14683,
+   "akteure": 9,
+   "ram_mb": [
+    2.9,
+    8.8
+   ]
+  },
+  "C3": {
+   "biom": "aue",
+   "land_ha": 62.0,
+   "zonen_ha": {
+    "tal": 39.56,
+    "fuss": 3.72,
+    "hangwald": 3.36,
+    "halde": 0.84,
+    "schrofen": 0.5,
+    "wand": 0.08,
+    "sperre": 53.54
+   },
+   "instanzen": {
+    "halde": 240,
+    "klippenband": 47,
+    "platten": 1826,
+    "baumgruppen": 197
+   },
+   "summe": 2310,
+   "akteure": 1,
+   "ram_mb": [
+    0.5,
+    1.4
+   ]
+  },
+  "C4": {
+   "biom": "aue",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 55.52,
+    "fuss": 8.4,
+    "hangwald": 3.28,
+    "halde": 2.65,
+    "schrofen": 1.96,
+    "wand": 0.54,
+    "sperre": 29.27
+   },
+   "instanzen": {
+    "halde": 757,
+    "klippenband": 201,
+    "platten": 4124,
+    "baumgruppen": 381
+   },
+   "summe": 5463,
+   "akteure": 4,
+   "ram_mb": [
+    1.1,
+    3.3
+   ]
+  },
+  "C5": {
+   "biom": "aue",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 71.28,
+    "fuss": 0.0,
+    "hangwald": 0.45,
+    "halde": 0.0,
+    "schrofen": 0.01,
+    "wand": 0.0,
+    "sperre": 29.87
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 1,
+    "platten": 0,
+    "baumgruppen": 11
+   },
+   "summe": 12,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "C6": {
+   "biom": "lava",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 49.49,
+    "fuss": 10.82,
+    "hangwald": 12.32,
+    "halde": 8.18,
+    "schrofen": 16.55,
+    "wand": 4.26,
+    "sperre": 0.0
+   },
+   "instanzen": {
+    "halde": 3739,
+    "klippenband": 2679,
+    "platten": 8499,
+    "baumgruppen": 0
+   },
+   "summe": 14917,
+   "akteure": 21,
+   "ram_mb": [
+    3.0,
+    9.0
+   ]
+  },
+  "C7": {
+   "biom": "lava",
+   "land_ha": 48.8,
+   "zonen_ha": {
+    "tal": 10.3,
+    "fuss": 3.88,
+    "hangwald": 11.81,
+    "halde": 6.08,
+    "schrofen": 12.6,
+    "wand": 2.93,
+    "sperre": 54.01
+   },
+   "instanzen": {
+    "halde": 2779,
+    "klippenband": 1999,
+    "platten": 3048,
+    "baumgruppen": 0
+   },
+   "summe": 7826,
+   "akteure": 15,
+   "ram_mb": [
+    1.6,
+    4.7
+   ]
+  },
+  "D1": {
+   "biom": "gletscher",
+   "land_ha": 40.4,
+   "zonen_ha": {
+    "tal": 0.34,
+    "fuss": 1.07,
+    "hangwald": 3.42,
+    "halde": 2.57,
+    "schrofen": 15.59,
+    "wand": 14.16,
+    "sperre": 64.47
+   },
+   "instanzen": {
+    "halde": 1469,
+    "klippenband": 4788,
+    "platten": 1051,
+    "baumgruppen": 371
+   },
+   "summe": 7679,
+   "akteure": 10,
+   "ram_mb": [
+    1.5,
+    4.6
+   ]
+  },
+  "D2": {
+   "biom": "tundra",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 12.74,
+    "fuss": 17.53,
+    "hangwald": 17.65,
+    "halde": 8.23,
+    "schrofen": 21.87,
+    "wand": 16.73,
+    "sperre": 6.85
+   },
+   "instanzen": {
+    "halde": 3762,
+    "klippenband": 4970,
+    "platten": 13770,
+    "baumgruppen": 1528
+   },
+   "summe": 24030,
+   "akteure": 22,
+   "ram_mb": [
+    4.8,
+    14.4
+   ]
+  },
+  "D3": {
+   "biom": "tundra",
+   "land_ha": 76.6,
+   "zonen_ha": {
+    "tal": 24.8,
+    "fuss": 12.37,
+    "hangwald": 7.87,
+    "halde": 5.07,
+    "schrofen": 7.33,
+    "wand": 3.41,
+    "sperre": 40.74
+   },
+   "instanzen": {
+    "halde": 2318,
+    "klippenband": 1383,
+    "platten": 9717,
+    "baumgruppen": 764
+   },
+   "summe": 14182,
+   "akteure": 13,
+   "ram_mb": [
+    2.8,
+    8.5
+   ]
+  },
+  "D4": {
+   "biom": "canyon",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 42.33,
+    "fuss": 13.56,
+    "hangwald": 4.78,
+    "halde": 3.78,
+    "schrofen": 3.55,
+    "wand": 2.92,
+    "sperre": 30.68
+   },
+   "instanzen": {
+    "halde": 1944,
+    "klippenband": 937,
+    "platten": 11983,
+    "baumgruppen": 120
+   },
+   "summe": 14984,
+   "akteure": 11,
+   "ram_mb": [
+    3.0,
+    9.0
+   ]
+  },
+  "D5": {
+   "biom": "aue",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 55.06,
+    "fuss": 1.14,
+    "hangwald": 0.36,
+    "halde": 0.06,
+    "schrofen": 0.1,
+    "wand": 0.0,
+    "sperre": 44.88
+   },
+   "instanzen": {
+    "halde": 17,
+    "klippenband": 8,
+    "platten": 560,
+    "baumgruppen": 39
+   },
+   "summe": 624,
+   "akteure": 0,
+   "ram_mb": [
+    0.1,
+    0.4
+   ]
+  },
+  "D6": {
+   "biom": "oedland",
+   "land_ha": 98.5,
+   "zonen_ha": {
+    "tal": 49.34,
+    "fuss": 15.81,
+    "hangwald": 6.66,
+    "halde": 4.45,
+    "schrofen": 5.83,
+    "wand": 4.97,
+    "sperre": 14.54
+   },
+   "instanzen": {
+    "halde": 1780,
+    "klippenband": 1217,
+    "platten": 10867,
+    "baumgruppen": 307
+   },
+   "summe": 14171,
+   "akteure": 10,
+   "ram_mb": [
+    2.8,
+    8.5
+   ]
+  },
+  "D7": {
+   "biom": "aue",
+   "land_ha": 35.6,
+   "zonen_ha": {
+    "tal": 16.29,
+    "fuss": 3.92,
+    "hangwald": 4.46,
+    "halde": 2.3,
+    "schrofen": 2.82,
+    "wand": 1.99,
+    "sperre": 69.83
+   },
+   "instanzen": {
+    "halde": 657,
+    "klippenband": 387,
+    "platten": 1925,
+    "baumgruppen": 316
+   },
+   "summe": 3285,
+   "akteure": 4,
+   "ram_mb": [
+    0.7,
+    2.0
+   ]
+  },
+  "E1": {
+   "biom": "gletscher",
+   "land_ha": 35.4,
+   "zonen_ha": {
+    "tal": 5.85,
+    "fuss": 1.96,
+    "hangwald": 3.74,
+    "halde": 2.51,
+    "schrofen": 7.92,
+    "wand": 8.76,
+    "sperre": 70.86
+   },
+   "instanzen": {
+    "halde": 1434,
+    "klippenband": 2684,
+    "platten": 1925,
+    "baumgruppen": 264
+   },
+   "summe": 6307,
+   "akteure": 9,
+   "ram_mb": [
+    1.3,
+    3.8
+   ]
+  },
+  "E2": {
+   "biom": "gletscher",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 23.17,
+    "fuss": 14.81,
+    "hangwald": 16.7,
+    "halde": 5.47,
+    "schrofen": 19.23,
+    "wand": 11.14,
+    "sperre": 11.07
+   },
+   "instanzen": {
+    "halde": 3126,
+    "klippenband": 4888,
+    "platten": 14542,
+    "baumgruppen": 921
+   },
+   "summe": 23477,
+   "akteure": 19,
+   "ram_mb": [
+    4.7,
+    14.1
+   ]
+  },
+  "E3": {
+   "biom": "tundra",
+   "land_ha": 55.9,
+   "zonen_ha": {
+    "tal": 20.69,
+    "fuss": 7.38,
+    "hangwald": 6.48,
+    "halde": 4.61,
+    "schrofen": 7.34,
+    "wand": 3.68,
+    "sperre": 51.42
+   },
+   "instanzen": {
+    "halde": 2107,
+    "klippenband": 1419,
+    "platten": 5797,
+    "baumgruppen": 604
+   },
+   "summe": 9927,
+   "akteure": 12,
+   "ram_mb": [
+    2.0,
+    6.0
+   ]
+  },
+  "E4": {
+   "biom": "wueste",
+   "land_ha": 89.7,
+   "zonen_ha": {
+    "tal": 18.32,
+    "fuss": 19.99,
+    "hangwald": 8.13,
+    "halde": 7.89,
+    "schrofen": 10.61,
+    "wand": 6.63,
+    "sperre": 30.04
+   },
+   "instanzen": {
+    "halde": 3156,
+    "klippenband": 1942,
+    "platten": 13740,
+    "baumgruppen": 0
+   },
+   "summe": 18838,
+   "akteure": 17,
+   "ram_mb": [
+    3.8,
+    11.3
+   ]
+  },
+  "E5": {
+   "biom": "aue",
+   "land_ha": 98.4,
+   "zonen_ha": {
+    "tal": 77.31,
+    "fuss": 0.68,
+    "hangwald": 1.05,
+    "halde": 0.0,
+    "schrofen": 0.04,
+    "wand": 0.0,
+    "sperre": 22.52
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 3,
+    "platten": 334,
+    "baumgruppen": 41
+   },
+   "summe": 378,
+   "akteure": 0,
+   "ram_mb": [
+    0.1,
+    0.2
+   ]
+  },
+  "E6": {
+   "biom": "oedland",
+   "land_ha": 88.7,
+   "zonen_ha": {
+    "tal": 44.55,
+    "fuss": 18.13,
+    "hangwald": 3.61,
+    "halde": 4.58,
+    "schrofen": 4.97,
+    "wand": 5.79,
+    "sperre": 19.98
+   },
+   "instanzen": {
+    "halde": 1832,
+    "klippenband": 1212,
+    "platten": 12461,
+    "baumgruppen": 293
+   },
+   "summe": 15798,
+   "akteure": 10,
+   "ram_mb": [
+    3.2,
+    9.5
+   ]
+  },
+  "E7": {
+   "biom": "oedland",
+   "land_ha": 12.5,
+   "zonen_ha": {
+    "tal": 10.02,
+    "fuss": 0.0,
+    "hangwald": 0.0,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 91.59
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 0
+   },
+   "summe": 0,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "F1": {
+   "biom": "aue",
+   "land_ha": 9.1,
+   "zonen_ha": {
+    "tal": 6.91,
+    "fuss": 0.94,
+    "hangwald": 0.19,
+    "halde": 0.06,
+    "schrofen": 0.02,
+    "wand": 0.0,
+    "sperre": 93.48
+   },
+   "instanzen": {
+    "halde": 17,
+    "klippenband": 2,
+    "platten": 461,
+    "baumgruppen": 28
+   },
+   "summe": 508,
+   "akteure": 0,
+   "ram_mb": [
+    0.1,
+    0.3
+   ]
+  },
+  "F2": {
+   "biom": "aue",
+   "land_ha": 33.4,
+   "zonen_ha": {
+    "tal": 18.94,
+    "fuss": 1.53,
+    "hangwald": 6.07,
+    "halde": 0.36,
+    "schrofen": 3.79,
+    "wand": 0.01,
+    "sperre": 70.9
+   },
+   "instanzen": {
+    "halde": 103,
+    "klippenband": 306,
+    "platten": 751,
+    "baumgruppen": 275
+   },
+   "summe": 1435,
+   "akteure": 1,
+   "ram_mb": [
+    0.3,
+    0.9
+   ]
+  },
+  "F4": {
+   "biom": "aue",
+   "land_ha": 53.9,
+   "zonen_ha": {
+    "tal": 47.03,
+    "fuss": 0.39,
+    "hangwald": 0.22,
+    "halde": 0.38,
+    "schrofen": 0.3,
+    "wand": 0.18,
+    "sperre": 53.11
+   },
+   "instanzen": {
+    "halde": 109,
+    "klippenband": 39,
+    "platten": 191,
+    "baumgruppen": 30
+   },
+   "summe": 369,
+   "akteure": 1,
+   "ram_mb": [
+    0.1,
+    0.2
+   ]
+  },
+  "F5": {
+   "biom": "heide",
+   "land_ha": 57.1,
+   "zonen_ha": {
+    "tal": 44.76,
+    "fuss": 0.0,
+    "hangwald": 0.27,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 56.57
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 6
+   },
+   "summe": 6,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "F6": {
+   "biom": "aue",
+   "land_ha": 50.6,
+   "zonen_ha": {
+    "tal": 42.23,
+    "fuss": 2.5,
+    "hangwald": 0.92,
+    "halde": 0.56,
+    "schrofen": 0.44,
+    "wand": 0.3,
+    "sperre": 54.65
+   },
+   "instanzen": {
+    "halde": 160,
+    "klippenband": 60,
+    "platten": 1227,
+    "baumgruppen": 103
+   },
+   "summe": 1550,
+   "akteure": 1,
+   "ram_mb": [
+    0.3,
+    0.9
+   ]
+  },
+  "F7": {
+   "biom": "aue",
+   "land_ha": 20.3,
+   "zonen_ha": {
+    "tal": 14.71,
+    "fuss": 0.0,
+    "hangwald": 0.0,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 86.89
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 0
+   },
+   "summe": 0,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "G2": {
+   "biom": "aue",
+   "land_ha": 3.6,
+   "zonen_ha": {
+    "tal": 0.32,
+    "fuss": 0.27,
+    "hangwald": 1.76,
+    "halde": 0.12,
+    "schrofen": 0.68,
+    "wand": 0.0,
+    "sperre": 98.46
+   },
+   "instanzen": {
+    "halde": 34,
+    "klippenband": 55,
+    "platten": 133,
+    "baumgruppen": 66
+   },
+   "summe": 288,
+   "akteure": 0,
+   "ram_mb": [
+    0.1,
+    0.2
+   ]
+  },
+  "G3": {
+   "biom": "elfenwald",
+   "land_ha": 72.4,
+   "zonen_ha": {
+    "tal": 53.1,
+    "fuss": 1.73,
+    "hangwald": 7.74,
+    "halde": 0.56,
+    "schrofen": 0.35,
+    "wand": 0.0,
+    "sperre": 38.12
+   },
+   "instanzen": {
+    "halde": 176,
+    "klippenband": 31,
+    "platten": 934,
+    "baumgruppen": 632
+   },
+   "summe": 1773,
+   "akteure": 1,
+   "ram_mb": [
+    0.4,
+    1.1
+   ]
+  },
+  "G4": {
+   "biom": "elfenwald",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 88.02,
+    "fuss": 0.0,
+    "hangwald": 0.36,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 13.23
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 22
+   },
+   "summe": 22,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "G5": {
+   "biom": "heide",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 81.57,
+    "fuss": 1.7,
+    "hangwald": 1.08,
+    "halde": 0.63,
+    "schrofen": 0.57,
+    "wand": 0.47,
+    "sperre": 15.58
+   },
+   "instanzen": {
+    "halde": 180,
+    "klippenband": 84,
+    "platten": 835,
+    "baumgruppen": 93
+   },
+   "summe": 1192,
+   "akteure": 1,
+   "ram_mb": [
+    0.2,
+    0.7
+   ]
+  },
+  "G6": {
+   "biom": "dschungel",
+   "land_ha": 81.0,
+   "zonen_ha": {
+    "tal": 43.28,
+    "fuss": 9.5,
+    "hangwald": 2.76,
+    "halde": 3.7,
+    "schrofen": 4.3,
+    "wand": 10.85,
+    "sperre": 27.22
+   },
+   "instanzen": {
+    "halde": 1057,
+    "klippenband": 1219,
+    "platten": 4664,
+    "baumgruppen": 1423
+   },
+   "summe": 8363,
+   "akteure": 6,
+   "ram_mb": [
+    1.7,
+    5.0
+   ]
+  },
+  "G7": {
+   "biom": "dschungel",
+   "land_ha": 9.9,
+   "zonen_ha": {
+    "tal": 5.1,
+    "fuss": 0.99,
+    "hangwald": 0.48,
+    "halde": 0.41,
+    "schrofen": 0.78,
+    "wand": 0.69,
+    "sperre": 93.16
+   },
+   "instanzen": {
+    "halde": 117,
+    "klippenband": 118,
+    "platten": 486,
+    "baumgruppen": 187
+   },
+   "summe": 908,
+   "akteure": 1,
+   "ram_mb": [
+    0.2,
+    0.5
+   ]
+  },
+  "H2": {
+   "biom": "kueste",
+   "land_ha": 39.5,
+   "zonen_ha": {
+    "tal": 3.61,
+    "fuss": 2.22,
+    "hangwald": 8.46,
+    "halde": 2.59,
+    "schrofen": 15.69,
+    "wand": 3.05,
+    "sperre": 65.99
+   },
+   "instanzen": {
+    "halde": 1332,
+    "klippenband": 2714,
+    "platten": 1962,
+    "baumgruppen": 678
+   },
+   "summe": 6686,
+   "akteure": 8,
+   "ram_mb": [
+    1.3,
+    4.0
+   ]
+  },
+  "H3": {
+   "biom": "elfenwald",
+   "land_ha": 90.6,
+   "zonen_ha": {
+    "tal": 14.33,
+    "fuss": 8.01,
+    "hangwald": 9.52,
+    "halde": 3.0,
+    "schrofen": 18.83,
+    "wand": 21.47,
+    "sperre": 26.44
+   },
+   "instanzen": {
+    "halde": 943,
+    "klippenband": 3567,
+    "platten": 4326,
+    "baumgruppen": 2396
+   },
+   "summe": 11232,
+   "akteure": 7,
+   "ram_mb": [
+    2.2,
+    6.7
+   ]
+  },
+  "H4": {
+   "biom": "elfenwald",
+   "land_ha": 101.6,
+   "zonen_ha": {
+    "tal": 31.86,
+    "fuss": 7.71,
+    "hangwald": 7.54,
+    "halde": 3.47,
+    "schrofen": 16.68,
+    "wand": 8.71,
+    "sperre": 25.64
+   },
+   "instanzen": {
+    "halde": 1091,
+    "klippenband": 2247,
+    "platten": 4164,
+    "baumgruppen": 2155
+   },
+   "summe": 9657,
+   "akteure": 7,
+   "ram_mb": [
+    1.9,
+    5.8
+   ]
+  },
+  "H5": {
+   "biom": "sumpf",
+   "land_ha": 100.3,
+   "zonen_ha": {
+    "tal": 85.31,
+    "fuss": 7.9,
+    "hangwald": 0.96,
+    "halde": 1.29,
+    "schrofen": 0.83,
+    "wand": 0.76,
+    "sperre": 4.56
+   },
+   "instanzen": {
+    "halde": 369,
+    "klippenband": 128,
+    "platten": 3878,
+    "baumgruppen": 257
+   },
+   "summe": 4632,
+   "akteure": 2,
+   "ram_mb": [
+    0.9,
+    2.8
+   ]
+  },
+  "H6": {
+   "biom": "dschungel",
+   "land_ha": 95.4,
+   "zonen_ha": {
+    "tal": 44.06,
+    "fuss": 20.92,
+    "hangwald": 3.56,
+    "halde": 5.3,
+    "schrofen": 4.9,
+    "wand": 7.18,
+    "sperre": 15.68
+   },
+   "instanzen": {
+    "halde": 1514,
+    "klippenband": 972,
+    "platten": 10271,
+    "baumgruppen": 2436
+   },
+   "summe": 15193,
+   "akteure": 8,
+   "ram_mb": [
+    3.0,
+    9.1
+   ]
+  },
+  "H7": {
+   "biom": "dschungel",
+   "land_ha": 21.4,
+   "zonen_ha": {
+    "tal": 12.74,
+    "fuss": 2.0,
+    "hangwald": 0.5,
+    "halde": 0.5,
+    "schrofen": 0.4,
+    "wand": 0.29,
+    "sperre": 85.18
+   },
+   "instanzen": {
+    "halde": 143,
+    "klippenband": 56,
+    "platten": 982,
+    "baumgruppen": 239
+   },
+   "summe": 1420,
+   "akteure": 1,
+   "ram_mb": [
+    0.3,
+    0.9
+   ]
+  },
+  "I1": {
+   "biom": "aue",
+   "land_ha": 10.9,
+   "zonen_ha": {
+    "tal": 10.39,
+    "fuss": 0.0,
+    "hangwald": 0.0,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 91.22
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 0
+   },
+   "summe": 0,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "I3": {
+   "biom": "bergwald",
+   "land_ha": 30.8,
+   "zonen_ha": {
+    "tal": 6.9,
+    "fuss": 0.19,
+    "hangwald": 0.94,
+    "halde": 1.76,
+    "schrofen": 8.63,
+    "wand": 6.51,
+    "sperre": 76.68
+   },
+   "instanzen": {
+    "halde": 1006,
+    "klippenband": 2437,
+    "platten": 187,
+    "baumgruppen": 539
+   },
+   "summe": 4169,
+   "akteure": 6,
+   "ram_mb": [
+    0.8,
+    2.5
+   ]
+  },
+  "I4": {
+   "biom": "bergwald",
+   "land_ha": 63.6,
+   "zonen_ha": {
+    "tal": 5.83,
+    "fuss": 3.87,
+    "hangwald": 8.1,
+    "halde": 3.94,
+    "schrofen": 20.94,
+    "wand": 11.56,
+    "sperre": 47.36
+   },
+   "instanzen": {
+    "halde": 2251,
+    "klippenband": 5230,
+    "platten": 3800,
+    "baumgruppen": 1726
+   },
+   "summe": 13007,
+   "akteure": 14,
+   "ram_mb": [
+    2.6,
+    7.8
+   ]
+  },
+  "I5": {
+   "biom": "bergwald",
+   "land_ha": 49.9,
+   "zonen_ha": {
+    "tal": 41.67,
+    "fuss": 2.53,
+    "hangwald": 2.13,
+    "halde": 0.45,
+    "schrofen": 0.19,
+    "wand": 0.02,
+    "sperre": 54.61
+   },
+   "instanzen": {
+    "halde": 257,
+    "klippenband": 34,
+    "platten": 2484,
+    "baumgruppen": 248
+   },
+   "summe": 3023,
+   "akteure": 1,
+   "ram_mb": [
+    0.6,
+    1.8
+   ]
+  },
+  "I6": {
+   "biom": "dschungel",
+   "land_ha": 63.6,
+   "zonen_ha": {
+    "tal": 18.33,
+    "fuss": 14.58,
+    "hangwald": 6.33,
+    "halde": 4.91,
+    "schrofen": 6.26,
+    "wand": 6.51,
+    "sperre": 44.69
+   },
+   "instanzen": {
+    "halde": 1403,
+    "klippenband": 1028,
+    "platten": 7158,
+    "baumgruppen": 2253
+   },
+   "summe": 11842,
+   "akteure": 8,
+   "ram_mb": [
+    2.4,
+    7.1
+   ]
+  },
+  "I7": {
+   "biom": "dschungel",
+   "land_ha": 15.1,
+   "zonen_ha": {
+    "tal": 2.73,
+    "fuss": 3.72,
+    "hangwald": 1.31,
+    "halde": 2.41,
+    "schrofen": 1.54,
+    "wand": 2.07,
+    "sperre": 87.82
+   },
+   "instanzen": {
+    "halde": 689,
+    "klippenband": 290,
+    "platten": 1826,
+    "baumgruppen": 631
+   },
+   "summe": 3436,
+   "akteure": 4,
+   "ram_mb": [
+    0.7,
+    2.1
+   ]
+  },
+  "J3": {
+   "biom": "aue",
+   "land_ha": 3.2,
+   "zonen_ha": {
+    "tal": 2.95,
+    "fuss": 0.0,
+    "hangwald": 0.0,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 47.85
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 0
+   },
+   "summe": 0,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "J5": {
+   "biom": "aue",
+   "land_ha": 4.1,
+   "zonen_ha": {
+    "tal": 3.89,
+    "fuss": 0.0,
+    "hangwald": 0.0,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 46.91
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 0
+   },
+   "summe": 0,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  },
+  "J6": {
+   "biom": "aue",
+   "land_ha": 20.1,
+   "zonen_ha": {
+    "tal": 19.16,
+    "fuss": 0.0,
+    "hangwald": 0.0,
+    "halde": 0.0,
+    "schrofen": 0.0,
+    "wand": 0.0,
+    "sperre": 31.65
+   },
+   "instanzen": {
+    "halde": 0,
+    "klippenband": 0,
+    "platten": 0,
+    "baumgruppen": 0
+   },
+   "summe": 0,
+   "akteure": 0,
+   "ram_mb": [
+    0.0,
+    0.0
+   ]
+  }
+ }
+}
