@@ -1,0 +1,730 @@
+{
+ "SM_BeechFern_04": {
+  "textur": "T_BeechFern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.17,
+  "faktor": 1.0,
+  "Y_wirksam": 0.17
+ },
+ "SM_BeechFern_09": {
+  "textur": "T_BeechFern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.17,
+  "faktor": 1.0,
+  "Y_wirksam": 0.17
+ },
+ "SM_BeechFern_10": {
+  "textur": "T_BeechFern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.17,
+  "faktor": 1.0,
+  "Y_wirksam": 0.17
+ },
+ "SM_BeechFern_15": {
+  "textur": "T_BeechFern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.17,
+  "faktor": 1.0,
+  "Y_wirksam": 0.17
+ },
+ "SM_billberry_01": {
+  "textur": "T_berries_atlas_01_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.1648,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1648
+ },
+ "SM_billberry_02": {
+  "textur": "T_berries_atlas_01_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.1648,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1648
+ },
+ "SM_BrokenTreeBranch_01": {
+  "textur": "T_BrokenTreeBranch_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0697,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0697
+ },
+ "SM_Crownbeard_03": {
+  "textur": "T_Crownbeard_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2942,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2942
+ },
+ "SM_Crownbeard_04": {
+  "textur": "T_Crownbeard_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2942,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2942
+ },
+ "SM_Crownbeard_07": {
+  "textur": "T_Crownbeard_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2942,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2942
+ },
+ "SM_CustomMoss_01": {
+  "textur": "T_CustomMoss_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2586,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2586
+ },
+ "SM_CustomMoss_02": {
+  "textur": "T_CustomMoss_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2586,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2586
+ },
+ "SM_CustomMoss_03": {
+  "textur": "T_CustomMoss_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2586,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2586
+ },
+ "SM_CustomMoss_04": {
+  "textur": "T_CustomMoss_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2586,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2586
+ },
+ "SM_CustomMoss_05": {
+  "textur": "T_CustomMoss_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2586,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2586
+ },
+ "SM_dead_log_01": {
+  "textur": "T_beech_dead_logs_01_BC",
+  "master": "M_NM_Basic",
+  "Y_textur": 0.0661,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0661
+ },
+ "SM_dead_log_02": {
+  "textur": "T_beech_dead_logs_01_BC",
+  "master": "M_NM_Basic",
+  "Y_textur": 0.0661,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0661
+ },
+ "SM_dead_log_03": {
+  "textur": "T_beech_dead_logs_01_BC",
+  "master": "M_NM_Basic",
+  "Y_textur": 0.0661,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0661
+ },
+ "SM_DryBranches_01": {
+  "textur": "T_DryBranches_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2046,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2046
+ },
+ "SM_DryBranches_04": {
+  "textur": "T_DryBranches_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2046,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2046
+ },
+ "SM_DryBranches_05": {
+  "textur": "T_DryBranches_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2046,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2046
+ },
+ "SM_DryBranches_07": {
+  "textur": "T_DryBranches_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2046,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2046
+ },
+ "SM_EagleFern_S_01": {
+  "textur": "T_EagleFern_01_D",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1014,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1014
+ },
+ "SM_Elderberry_05": {
+  "textur": "T_Elderberry_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0934,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0934
+ },
+ "SM_Elderberry_12": {
+  "textur": "T_Elderberry_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0934,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0934
+ },
+ "SM_FallenTreeAssembly_01": {
+  "textur": "T_FallenTreeAssembly_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0801,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0801
+ },
+ "SM_Fern_01": {
+  "textur": "T_Fern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0786,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0786
+ },
+ "SM_Fern_03": {
+  "textur": "T_Fern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0786,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0786
+ },
+ "SM_Fern_04": {
+  "textur": "T_Fern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0786,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0786
+ },
+ "SM_Fern_06": {
+  "textur": "T_Fern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0786,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0786
+ },
+ "SM_flat_rock_03": {
+  "textur": "T_Flat_rock_01_tiled_BC_H",
+  "master": "M_Master_material",
+  "Y_textur": 0.1637,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1637
+ },
+ "SM_Forest_pine_04_log": {
+  "textur": "T_Pine_logs_ends_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.1388,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1388
+ },
+ "SM_Forest_Pine_09_log": {
+  "textur": "T_Pine_logs_ends_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.1388,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1388
+ },
+ "SM_ForestRockFormation_02": {
+  "textur": "T_ForestRockFormation_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1589,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1589
+ },
+ "SM_grass_02_A_1": {
+  "textur": "T_grass_02_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.1554,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1554
+ },
+ "SM_grass_03_A_1": {
+  "textur": "T_grass_03_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.223,
+  "faktor": 1.0,
+  "Y_wirksam": 0.223
+ },
+ "SM_ground_rock_03_01": {
+  "textur": "T_rocks_atlas_01_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.1766,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1766
+ },
+ "SM_heath_A_01": {
+  "textur": "T_heath_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.1627,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1627
+ },
+ "SM_heath_B_01": {
+  "textur": "T_heath_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.1627,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1627
+ },
+ "SM_KikuyuGrass_01": {
+  "textur": "T_KikuyuGrass_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.3032,
+  "faktor": 1.0,
+  "Y_wirksam": 0.3032
+ },
+ "SM_KikuyuGrass_03": {
+  "textur": "T_KikuyuGrass_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.3032,
+  "faktor": 1.0,
+  "Y_wirksam": 0.3032
+ },
+ "SM_KikuyuGrass_04": {
+  "textur": "T_KikuyuGrass_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.3032,
+  "faktor": 1.0,
+  "Y_wirksam": 0.3032
+ },
+ "SM_KikuyuGrass_05": {
+  "textur": "T_KikuyuGrass_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.3032,
+  "faktor": 1.0,
+  "Y_wirksam": 0.3032
+ },
+ "SM_LargeFallenTree_01": {
+  "textur": "T_LargeFallenTree_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0875,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0875
+ },
+ "SM_LichenedForestBoulder_01": {
+  "textur": "T_LichenedForestBoulder_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0721,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0721
+ },
+ "SM_LilyOfTheValley_01": {
+  "textur": "T_LilyOfTheValley_01_BC",
+  "master": "M_EL_Pflanze",
+  "Y_textur": 0.2407,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2407
+ },
+ "SM_LilyOfTheValley_02": {
+  "textur": "T_LilyOfTheValley_01_BC",
+  "master": "M_EL_Pflanze",
+  "Y_textur": 0.2407,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2407
+ },
+ "SM_lingonberry_01": {
+  "textur": "T_berries_atlas_01_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.1648,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1648
+ },
+ "SM_lingonberry_02": {
+  "textur": "T_berries_atlas_01_BC_M",
+  "master": "M_Grass",
+  "Y_textur": 0.1648,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1648
+ },
+ "SM_MossyForestBoulder_01": {
+  "textur": "T_MossyForestBoulder_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0516,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0516
+ },
+ "SM_MossyForestBoulder_02": {
+  "textur": "T_MossyForestBoulder_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0714,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0714
+ },
+ "SM_MossyForestBoulder_03": {
+  "textur": "T_MossyForestBoulder_03_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0871,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0871
+ },
+ "SM_MossyForestBoulder_04": {
+  "textur": "T_MossyForestBoulder_04_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0503,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0503
+ },
+ "SM_MossyForestBoulder_05": {
+  "textur": "T_MossyForestBoulder_05_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1659,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1659
+ },
+ "SM_MossyForestBoulder_06": {
+  "textur": "T_MossyForestBoulder_06_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0747,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0747
+ },
+ "SM_MossyForestBoulder_07": {
+  "textur": "T_MossyForestBoulder_07_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1146,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1146
+ },
+ "SM_MossyForestRock_01": {
+  "textur": "T_MossyForestRock_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0863,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0863
+ },
+ "SM_MossyForestRock_02": {
+  "textur": "T_MossyForestRock_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0922,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0922
+ },
+ "SM_MossyForestRock_03": {
+  "textur": "T_MossyForestRock_03_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1204,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1204
+ },
+ "SM_MossyForestRoots_01": {
+  "textur": "T_MossyForestRoots_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0474,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0474
+ },
+ "SM_MossyForestRoots_02": {
+  "textur": "T_MossyForestRoots_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.042,
+  "faktor": 1.0,
+  "Y_wirksam": 0.042
+ },
+ "SM_MossyRocks_01": {
+  "textur": "T_MossyRocks_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0425,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0425
+ },
+ "SM_MossyRocks_02": {
+  "textur": "T_MossyRocks_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0507,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0507
+ },
+ "SM_mountain_branch_01_01": {
+  "textur": "T_mountain_branches_01_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.1414,
+  "faktor": 0.87,
+  "Y_wirksam": 0.123
+ },
+ "SM_mountain_branch_01_02": {
+  "textur": "T_mountain_branches_01_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.1414,
+  "faktor": 0.87,
+  "Y_wirksam": 0.123
+ },
+ "SM_mountain_rock_small_01_1": {
+  "textur": "T_rocks_01_small_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.229,
+  "faktor": 1.0,
+  "Y_wirksam": 0.229
+ },
+ "SM_mountain_rock_small_01_2": {
+  "textur": "T_rocks_01_small_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.229,
+  "faktor": 1.0,
+  "Y_wirksam": 0.229
+ },
+ "SM_mountain_rock_small_01_3": {
+  "textur": "T_rocks_01_small_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.229,
+  "faktor": 1.0,
+  "Y_wirksam": 0.229
+ },
+ "SM_mountain_rock_small_01_4": {
+  "textur": "T_rocks_01_small_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.229,
+  "faktor": 1.0,
+  "Y_wirksam": 0.229
+ },
+ "SM_mountain_rock_small_01_5": {
+  "textur": "T_rocks_01_small_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.229,
+  "faktor": 1.0,
+  "Y_wirksam": 0.229
+ },
+ "SM_NordicBeachRockyGround_02": {
+  "textur": "T_NordicBeachRockyGround_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1279,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1279
+ },
+ "SM_NordicBoulder_01": {
+  "textur": "T_NordicBoulder_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0672,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0672
+ },
+ "SM_OldFallenTree_01": {
+  "textur": "T_OldFallenTree_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0702,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0702
+ },
+ "SM_OldFallenTree_02": {
+  "textur": "T_OldFallenTree_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0736,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0736
+ },
+ "SM_OldTreeBranch_01": {
+  "textur": "T_OldTreeBranch_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.085,
+  "faktor": 1.0,
+  "Y_wirksam": 0.085
+ },
+ "SM_OldTreeBranch_02": {
+  "textur": "T_OldTreeBranch_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0695,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0695
+ },
+ "SM_OldTreeBranch_03": {
+  "textur": "T_OldTreeBranch_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0695,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0695
+ },
+ "SM_OldTreeBranch_04": {
+  "textur": "T_OldTreeBranch_03_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0691,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0691
+ },
+ "SM_OldTreeBranch_06": {
+  "textur": "T_OldTreeBranch_05_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0861,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0861
+ },
+ "SM_Periwinkle_01": {
+  "textur": "T_Periwinkle_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2618,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2618
+ },
+ "SM_Periwinkle_03": {
+  "textur": "T_Periwinkle_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.2618,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2618
+ },
+ "SM_SilverLadyFern_01": {
+  "textur": "T_SilverLadyFern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1127,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1127
+ },
+ "SM_SilverLadyFern_02": {
+  "textur": "T_SilverLadyFern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1127,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1127
+ },
+ "SM_SilverLadyFern_03": {
+  "textur": "T_SilverLadyFern_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1127,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1127
+ },
+ "SM_SmallStonesPack_01": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_02": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_03": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_04": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_05": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_06": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_07": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_10": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_12": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_13": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmallStonesPack_14": {
+  "textur": "T_SmallStonesPack_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.1251,
+  "faktor": 1.0,
+  "Y_wirksam": 0.1251
+ },
+ "SM_SmoothRockShelf_01": {
+  "textur": "T_SmoothRockShelf_02_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.172,
+  "faktor": 1.0,
+  "Y_wirksam": 0.172
+ },
+ "SM_TundraMossyBoulder_01": {
+  "textur": "T_TundraMossyBoulder_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0701,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0701
+ },
+ "SM_TundraRockyGround_01": {
+  "textur": "T_TundraRockyGround_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.067,
+  "faktor": 1.0,
+  "Y_wirksam": 0.067
+ },
+ "SM_WhiteWindflower_01": {
+  "textur": "T_WhiteWindflower_01_BC",
+  "master": "M_EL_Pflanze",
+  "Y_textur": 0.2028,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2028
+ },
+ "SM_WhiteWindflower_02": {
+  "textur": "T_WhiteWindflower_01_BC",
+  "master": "M_EL_Pflanze",
+  "Y_textur": 0.2028,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2028
+ },
+ "SM_WhiteWindflower_05": {
+  "textur": "T_WhiteWindflower_01_BC",
+  "master": "M_EL_Pflanze",
+  "Y_textur": 0.2028,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2028
+ },
+ "SM_GrassyEmbankment_01": {
+  "textur": "T_GrassyEmbankment_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0674,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0674
+ },
+ "SM_GrassyEmbankment_02": {
+  "textur": "T_GrassyEmbankment_01_BC",
+  "master": "M_EL_Fels_MS",
+  "Y_textur": 0.0674,
+  "faktor": 1.0,
+  "Y_wirksam": 0.0674
+ },
+ "SM_mountain_rock_big_02_2": {
+  "textur": "T_mountain_rocks_atlas_01_BC",
+  "master": "M_Master_material",
+  "Y_textur": 0.2043,
+  "faktor": 1.0,
+  "Y_wirksam": 0.2043
+ }
+}

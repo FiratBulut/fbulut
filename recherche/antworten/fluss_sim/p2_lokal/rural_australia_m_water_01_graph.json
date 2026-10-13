@@ -1,0 +1,1059 @@
+{
+ "material": "/Game/RuralAustralia/Water/M_Water_01",
+ "knoten": 116,
+ "ausgaenge": {
+  "MP_BASE_COLOR": {
+   "knoten": "LinearInterpolate(ate_11){const_a=0.0;const_b=1.0}",
+   "von": [
+    {
+     "knoten": "Add(nAdd_2){const_a=0.0;const_b=1.0}",
+     "von": [
+      {
+       "knoten": "Multiply(iply_6){const_a=0.0;const_b=1.0}",
+       "von": [
+        {
+         "knoten": "SceneColor(olor_0){}",
+         "eingang": "A"
+        },
+        {
+         "knoten": "VectorParameter(eter_0){parameter_name=Underwater Multiply}",
+         "eingang": "B"
+        }
+       ],
+       "eingang": "A"
+      },
+      {
+       "knoten": "TextureSampleParameter2D(er2D_4){parameter_name=Caustics Texture;texture=T_Water_Caustics_01_C.T_Water_Caustics_01_C}",
+       "von": [
+        {
+         "knoten": "Add(nAdd_1){const_a=0.0;const_b=1.0}",
+         "von": [
+          {
+           "knoten": "Divide(vide_0){const_a=1.0;const_b=2.0}",
+           "von": [
+            {
+             "knoten": "ComponentMask(Mask_4){r=True}",
+             "von": [
+              {
+               "knoten": "Add(nAdd_3){const_a=0.0;const_b=1.0}",
+               "von": [
+                {
+                 "knoten": "MaterialFunctionCall(all_17){material_function=WorldPositionBehindTranslucency.WorldPositionBehindTranslucency}",
+                 "eingang": "A"
+                },
+                {
+                 "knoten": "WorldPosition(tion_3){}",
+                 "eingang": "B"
+                }
+               ],
+               "eingang": "None"
+              }
+             ],
+             "eingang": "A"
+            },
+            {
+             "knoten": "ScalarParameter(ter_28){parameter_name=Caustics Tiling}",
+             "eingang": "B"
+            }
+           ],
+           "eingang": "A"
+          },
+          {
+           "knoten": "MaterialFunctionCall(Call_2){material_function=MakeFloat2.MakeFloat2}",
+           "von": [
+            {
+             "knoten": "ComponentMask(Mask_3){r=True}",
+             "von": [
+              {
+               "knoten": "Add(nAdd_4){const_a=0.0;const_b=1.0}",
+               "von": [
+                {
+                 "knoten": "LinearInterpolate(late_8){const_a=0.0;const_b=1.0}",
+                 "von": [
+                  {
+                   "knoten": "Constant3Vector(ctor_0){}",
+                   "eingang": "A"
+                  },
+                  {
+                   "knoten": "Normalize(lize_0){}",
+                   "von": [
+                    {
+                     "knoten": "LinearInterpolate(late_6){const_a=0.0;const_b=1.0}",
+                     "von": [
+                      {
+                       "knoten": "MaterialFunctionCall(all_15){material_function=MF_NormalStrength.MF_NormalStrength}",
+                       "eingang": "A"
+                      },
+                      {
+                       "knoten": "LinearInterpolate(late_9){const_a=0.0;const_b=1.0}",
+                       "eingang": "B"
+                      },
+                      {
+                       "knoten": "Saturate(rate_3){}",
+                       "eingang": "Alpha"
+                      }
+                     ],
+                     "eingang": "VectorInput"
+                    }
+                   ],
+                   "eingang": "B"
+                  },
+                  {
+                   "knoten": "ScalarParameter(eter_3){parameter_name=Wobble Strength}",
+                   "eingang": "Alpha"
+                  }
+                 ],
+                 "eingang": "A"
+                },
+                {
+                 "knoten": "MaterialFunctionCall(Call_6){material_function=MF_NormalStrength.MF_NormalStrength}",
+                 "von": [
+                  {
+                   "knoten": "ScalarParameter(ter_12){parameter_name=Normals Strength Near}",
+                   "eingang": "Strength"
+                  },
+                  {
+                   "knoten": "Add(nAdd_7){const_a=0.0;const_b=1.0}",
+                   "von": [
+                    {
+                     "knoten": "MaterialFunctionCall(Call_3){material_function=MF_ReconstructZ.MF_ReconstructZ}",
+                     "von": [
+                      {
+                       "knoten": "TextureSampleParameter2D(er2D_1){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+                       "eingang": "Normal"
+                      }
+                     ],
+                     "eingang": "A"
+                    },
+                    {
+                     "knoten": "MaterialFunctionCall(Call_5){material_function=MF_ReconstructZ.MF_ReconstructZ}",
+                     "von": [
+                      {
+                       "knoten": "TextureSampleParameter2D(er2D_2){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+                       "eingang": "Normal"
+                      }
+                     ],
+                     "eingang": "B"
+                    }
+                   ],
+                   "eingang": "Normal"
+                  }
+                 ],
+                 "eingang": "B"
+                }
+               ],
+               "eingang": "None"
+              }
+             ],
+             "eingang": "X"
+            },
+            {
+             "knoten": "ComponentMask(Mask_1){r=False}",
+             "von": [
+              {
+               "knoten": "Add(nAdd_4){const_a=0.0;const_b=1.0}",
+               "schon": true,
+               "eingang": "None"
+              }
+             ],
+             "eingang": "Y"
+            }
+           ],
+           "eingang": "B"
+          }
+         ],
+         "eingang": "UVs"
+        }
+       ],
+       "eingang": "B"
+      }
+     ],
+     "eingang": "A"
+    },
+    {
+     "knoten": "LinearInterpolate(late_1){const_a=0.0;const_b=1.0}",
+     "von": [
+      {
+       "knoten": "LinearInterpolate(late_4){const_a=0.0;const_b=1.0}",
+       "von": [
+        {
+         "knoten": "LinearInterpolate(late_3){const_a=0.0;const_b=1.0}",
+         "von": [
+          {
+           "knoten": "LinearInterpolate(late_0){const_a=0.0;const_b=1.0}",
+           "von": [
+            {
+             "knoten": "VectorParameter(eter_1){parameter_name=Base}",
+             "eingang": "A"
+            },
+            {
+             "knoten": "VectorParameter(eter_3){parameter_name=Mask R - Shore}",
+             "eingang": "B"
+            },
+            {
+             "knoten": "TextureSampleParameter2D(er2D_0){parameter_name=RGB Mask;texture=T_Water_01_M.T_Water_01_M;desc=Mesh Paint on a flat plane in editor directly to this texture}",
+             "von": [
+              {
+               "knoten": "TextureCoordinate(nate_0){coordinate_index=0}",
+               "eingang": "UVs"
+              }
+             ],
+             "eingang": "Alpha"
+            }
+           ],
+           "eingang": "A"
+          },
+          {
+           "knoten": "VectorParameter(eter_2){parameter_name=Mask G - Dark}",
+           "eingang": "B"
+          },
+          {
+           "knoten": "TextureSampleParameter2D(er2D_0){parameter_name=RGB Mask;texture=T_Water_01_M.T_Water_01_M;desc=Mesh Paint on a flat plane in editor directly to this texture}",
+           "schon": true,
+           "eingang": "Alpha"
+          }
+         ],
+         "eingang": "A"
+        },
+        {
+         "knoten": "VectorParameter(eter_4){parameter_name=Mask B - Light}",
+         "eingang": "B"
+        },
+        {
+         "knoten": "TextureSampleParameter2D(er2D_0){parameter_name=RGB Mask;texture=T_Water_01_M.T_Water_01_M;desc=Mesh Paint on a flat plane in editor directly to this texture}",
+         "schon": true,
+         "eingang": "Alpha"
+        }
+       ],
+       "eingang": "A"
+      },
+      {
+       "knoten": "VectorParameter(eter_5){parameter_name=Dirty Water Colour}",
+       "eingang": "B"
+      },
+      {
+       "knoten": "Multiply(iply_3){const_a=0.0;const_b=1.0}",
+       "von": [
+        {
+         "knoten": "TextureSampleParameter2D(er2D_5){parameter_name=Dirty Water Texture (A channel);texture=T_Water_01_M.T_Water_01_M}",
+         "von": [
+          {
+           "knoten": "Add(nAdd_0){const_a=0.0;const_b=1.0}",
+           "von": [
+            {
+             "knoten": "Divide(vide_1){const_a=1.0;const_b=2.0}",
+             "von": [
+              {
+               "knoten": "ComponentMask(Mask_0){r=True}",
+               "von": [
+                {
+                 "knoten": "WorldPosition(tion_1){}",
+                 "eingang": "None"
+                }
+               ],
+               "eingang": "A"
+              },
+              {
+               "knoten": "ScalarParameter(eter_0){parameter_name=Dirty Water UV Tiling}",
+               "eingang": "B"
+              }
+             ],
+             "eingang": "A"
+            },
+            {
+             "knoten": "MaterialFunctionCall(Call_0){material_function=MakeFloat2.MakeFloat2}",
+             "von": [
+              {
+               "knoten": "ComponentMask(ask_13){r=True}",
+               "von": [
+                {
+                 "knoten": "LinearInterpolate(late_8){const_a=0.0;const_b=1.0}",
+                 "schon": true,
+                 "eingang": "None"
+                }
+               ],
+               "eingang": "X"
+              },
+              {
+               "knoten": "ComponentMask(ask_14){r=False}",
+               "von": [
+                {
+                 "knoten": "LinearInterpolate(late_8){const_a=0.0;const_b=1.0}",
+                 "schon": true,
+                 "eingang": "None"
+                }
+               ],
+               "eingang": "Y"
+              }
+             ],
+             "eingang": "B"
+            }
+           ],
+           "eingang": "UVs"
+          }
+         ],
+         "eingang": "A"
+        },
+        {
+         "knoten": "OneMinus(inus_0){}",
+         "von": [
+          {
+           "knoten": "MaterialFunctionCall(Call_9){material_function=MF_CheapCameraFade.MF_CheapCameraFade}",
+           "von": [
+            {
+             "knoten": "ScalarParameter(eter_5){parameter_name=Fade Out at Distance End}",
+             "eingang": "Fade"
+            },
+            {
+             "knoten": "ScalarParameter(eter_8){parameter_name=Fade Out at Distance Start}",
+             "eingang": "Start"
+            }
+           ],
+           "eingang": "None"
+          }
+         ],
+         "eingang": "B"
+        }
+       ],
+       "eingang": "Alpha"
+      }
+     ],
+     "eingang": "B"
+    },
+    {
+     "knoten": "Saturate(rate_7){}",
+     "von": [
+      {
+       "knoten": "Multiply(iply_1){const_a=0.0;const_b=1.0}",
+       "von": [
+        {
+         "knoten": "Divide(vide_7){const_a=1.0;const_b=2.0}",
+         "von": [
+          {
+           "knoten": "DistanceToNearestSurface(face_1){}",
+           "von": [
+            {
+             "knoten": "WorldPosition(tion_2){}",
+             "eingang": "World Position"
+            }
+           ],
+           "eingang": "A"
+          },
+          {
+           "knoten": "ScalarParameter(ter_26){parameter_name=Underwater Distance from Shoreline}",
+           "eingang": "B"
+          }
+         ],
+         "eingang": "A"
+        },
+        {
+         "knoten": "Constant(tant_0){r=9.851059913635254}",
+         "eingang": "B"
+        }
+       ],
+       "eingang": "None"
+      }
+     ],
+     "eingang": "Alpha"
+    }
+   ]
+  },
+  "MP_OPACITY": {
+   "knoten": "DepthFade(Fade_0){}",
+   "von": [
+    {
+     "knoten": "Constant(tant_2){r=0.9950000047683716}",
+     "eingang": "Opacity"
+    },
+    {
+     "knoten": "Constant(tant_3){r=20.0}",
+     "eingang": "FadeDistance"
+    }
+   ]
+  },
+  "MP_NORMAL": {
+   "knoten": "Normalize(lize_0){}",
+   "von": [
+    {
+     "knoten": "LinearInterpolate(late_6){const_a=0.0;const_b=1.0}",
+     "von": [
+      {
+       "knoten": "MaterialFunctionCall(all_15){material_function=MF_NormalStrength.MF_NormalStrength}",
+       "von": [
+        {
+         "knoten": "ScalarParameter(ter_21){parameter_name=Ripples Normals Strength}",
+         "eingang": "Strength"
+        },
+        {
+         "knoten": "DeriveNormalZ(malZ_2){}",
+         "von": [
+          {
+           "knoten": "ConstantBiasScale(cale_2){}",
+           "von": [
+            {
+             "knoten": "ComponentMask(Mask_6){r=False}",
+             "von": [
+              {
+               "knoten": "TextureSampleParameter2D(er2D_3){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+               "von": [
+                {
+                 "knoten": "MaterialFunctionCall(Call_4){material_function=MakeFloat2.MakeFloat2}",
+                 "von": [
+                  {
+                   "knoten": "Multiply(iply_5){const_a=0.0;const_b=1.0}",
+                   "von": [
+                    {
+                     "knoten": "ComponentMask(ask_10){r=True}",
+                     "von": [
+                      {
+                       "knoten": "WorldPosition(tion_0){}",
+                       "eingang": "None"
+                      }
+                     ],
+                     "eingang": "A"
+                    },
+                    {
+                     "knoten": "ScalarParameter(ter_15){parameter_name=Ripples Normals Tiling X}",
+                     "eingang": "B"
+                    }
+                   ],
+                   "eingang": "X"
+                  },
+                  {
+                   "knoten": "ComponentMask(Mask_9){r=False}",
+                   "von": [
+                    {
+                     "knoten": "Panner(nner_2){}",
+                     "von": [
+                      {
+                       "knoten": "Multiply(iply_4){const_a=0.0;const_b=1.0}",
+                       "eingang": "Coordinate"
+                      },
+                      {
+                       "knoten": "Multiply(iply_0){const_a=0.0;const_b=1.0}",
+                       "eingang": "Time"
+                      }
+                     ],
+                     "eingang": "None"
+                    }
+                   ],
+                   "eingang": "Y"
+                  }
+                 ],
+                 "eingang": "UVs"
+                }
+               ],
+               "eingang": "None"
+              }
+             ],
+             "eingang": "None"
+            }
+           ],
+           "eingang": "InXY"
+          }
+         ],
+         "eingang": "Normal"
+        }
+       ],
+       "eingang": "A"
+      },
+      {
+       "knoten": "LinearInterpolate(late_9){const_a=0.0;const_b=1.0}",
+       "von": [
+        {
+         "knoten": "LinearInterpolate(ate_13){const_a=0.0;const_b=1.0}",
+         "von": [
+          {
+           "knoten": "MaterialFunctionCall(Call_6){material_function=MF_NormalStrength.MF_NormalStrength}",
+           "von": [
+            {
+             "knoten": "ScalarParameter(ter_12){parameter_name=Normals Strength Near}",
+             "eingang": "Strength"
+            },
+            {
+             "knoten": "Add(nAdd_7){const_a=0.0;const_b=1.0}",
+             "von": [
+              {
+               "knoten": "MaterialFunctionCall(Call_3){material_function=MF_ReconstructZ.MF_ReconstructZ}",
+               "von": [
+                {
+                 "knoten": "TextureSampleParameter2D(er2D_1){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+                 "von": [
+                  {
+                   "knoten": "Panner(nner_0){}",
+                   "von": [
+                    {
+                     "knoten": "Divide(vide_5){const_a=1.0;const_b=2.0}",
+                     "von": [
+                      {
+                       "knoten": "ComponentMask(Mask_2){r=True}",
+                       "eingang": "A"
+                      },
+                      {
+                       "knoten": "ScalarParameter(ter_11){parameter_name=Normals UV Tiling}",
+                       "eingang": "B"
+                      }
+                     ],
+                     "eingang": "Coordinate"
+                    },
+                    {
+                     "knoten": "Multiply(iply_2){const_a=0.0;const_b=1.0}",
+                     "von": [
+                      {
+                       "knoten": "ScalarParameter(ter_18){parameter_name=Normals UV Speed}",
+                       "eingang": "A"
+                      },
+                      {
+                       "knoten": "Time(Time_0){}",
+                       "eingang": "B"
+                      }
+                     ],
+                     "eingang": "Time"
+                    }
+                   ],
+                   "eingang": "UVs"
+                  }
+                 ],
+                 "eingang": "Normal"
+                }
+               ],
+               "eingang": "A"
+              },
+              {
+               "knoten": "MaterialFunctionCall(Call_5){material_function=MF_ReconstructZ.MF_ReconstructZ}",
+               "von": [
+                {
+                 "knoten": "TextureSampleParameter2D(er2D_2){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+                 "von": [
+                  {
+                   "knoten": "Panner(nner_1){}",
+                   "von": [
+                    {
+                     "knoten": "Divide(vide_5){const_a=1.0;const_b=2.0}",
+                     "schon": true,
+                     "eingang": "Coordinate"
+                    },
+                    {
+                     "knoten": "Multiply(iply_2){const_a=0.0;const_b=1.0}",
+                     "schon": true,
+                     "eingang": "Time"
+                    }
+                   ],
+                   "eingang": "UVs"
+                  }
+                 ],
+                 "eingang": "Normal"
+                }
+               ],
+               "eingang": "B"
+              }
+             ],
+             "eingang": "Normal"
+            }
+           ],
+           "eingang": "A"
+          },
+          {
+           "knoten": "MaterialFunctionCall(Call_7){material_function=MF_NormalStrength.MF_NormalStrength}",
+           "von": [
+            {
+             "knoten": "ScalarParameter(ter_27){parameter_name=Normals Strength Far}",
+             "eingang": "Strength"
+            },
+            {
+             "knoten": "Add(nAdd_7){const_a=0.0;const_b=1.0}",
+             "schon": true,
+             "eingang": "Normal"
+            }
+           ],
+           "eingang": "B"
+          },
+          {
+           "knoten": "MaterialFunctionCall(Call_8){material_function=MF_CheapCameraFade.MF_CheapCameraFade}",
+           "von": [
+            {
+             "knoten": "ScalarParameter(ter_16){parameter_name=Fade to Stronger Normals at Distance End}",
+             "eingang": "Fade"
+            },
+            {
+             "knoten": "ScalarParameter(ter_17){parameter_name=Fade to Stronger Normals at Distance Start}",
+             "eingang": "Start"
+            }
+           ],
+           "eingang": "Alpha"
+          }
+         ],
+         "eingang": "A"
+        },
+        {
+         "knoten": "MaterialFunctionCall(Call_1){material_function=MF_NormalStrength.MF_NormalStrength}",
+         "von": [
+          {
+           "knoten": "ScalarParameter(eter_7){parameter_name=Normals Strength Grazing Angle}",
+           "eingang": "Strength"
+          },
+          {
+           "knoten": "Add(nAdd_7){const_a=0.0;const_b=1.0}",
+           "schon": true,
+           "eingang": "Normal"
+          }
+         ],
+         "eingang": "B"
+        },
+        {
+         "knoten": "Power(ower_0){}",
+         "von": [
+          {
+           "knoten": "Fresnel(snel_1){}",
+           "von": [
+            {
+             "knoten": "ScalarParameter(eter_1){parameter_name=Grazing Angle Exponent}",
+             "eingang": "ExponentIn"
+            },
+            {
+             "knoten": "VertexNormalWS(alWS_0){}",
+             "eingang": "Normal"
+            }
+           ],
+           "eingang": "Base"
+          }
+         ],
+         "eingang": "Alpha"
+        }
+       ],
+       "eingang": "B"
+      },
+      {
+       "knoten": "Saturate(rate_3){}",
+       "von": [
+        {
+         "knoten": "Divide(vide_3){const_a=1.0;const_b=2.0}",
+         "von": [
+          {
+           "knoten": "DistanceToNearestSurface(face_1){}",
+           "von": [
+            {
+             "knoten": "WorldPosition(tion_2){}",
+             "eingang": "World Position"
+            }
+           ],
+           "eingang": "A"
+          },
+          {
+           "knoten": "ScalarParameter(ter_30){parameter_name=Ripples Distance from Shoreline}",
+           "eingang": "B"
+          }
+         ],
+         "eingang": "None"
+        }
+       ],
+       "eingang": "Alpha"
+      }
+     ],
+     "eingang": "VectorInput"
+    }
+   ]
+  },
+  "MP_ROUGHNESS": {
+   "knoten": "LinearInterpolate(late_7){const_a=0.0;const_b=1.0}",
+   "von": [
+    {
+     "knoten": "Constant(tant_6){r=0.0}",
+     "eingang": "A"
+    },
+    {
+     "knoten": "ScalarParameter(eter_9){parameter_name=Roughness}",
+     "eingang": "B"
+    },
+    {
+     "knoten": "Multiply(iply_3){const_a=0.0;const_b=1.0}",
+     "von": [
+      {
+       "knoten": "TextureSampleParameter2D(er2D_5){parameter_name=Dirty Water Texture (A channel);texture=T_Water_01_M.T_Water_01_M}",
+       "von": [
+        {
+         "knoten": "Add(nAdd_0){const_a=0.0;const_b=1.0}",
+         "von": [
+          {
+           "knoten": "Divide(vide_1){const_a=1.0;const_b=2.0}",
+           "von": [
+            {
+             "knoten": "ComponentMask(Mask_0){r=True}",
+             "von": [
+              {
+               "knoten": "WorldPosition(tion_1){}",
+               "eingang": "None"
+              }
+             ],
+             "eingang": "A"
+            },
+            {
+             "knoten": "ScalarParameter(eter_0){parameter_name=Dirty Water UV Tiling}",
+             "eingang": "B"
+            }
+           ],
+           "eingang": "A"
+          },
+          {
+           "knoten": "MaterialFunctionCall(Call_0){material_function=MakeFloat2.MakeFloat2}",
+           "von": [
+            {
+             "knoten": "ComponentMask(ask_13){r=True}",
+             "von": [
+              {
+               "knoten": "LinearInterpolate(late_8){const_a=0.0;const_b=1.0}",
+               "von": [
+                {
+                 "knoten": "Constant3Vector(ctor_0){}",
+                 "eingang": "A"
+                },
+                {
+                 "knoten": "Normalize(lize_0){}",
+                 "von": [
+                  {
+                   "knoten": "LinearInterpolate(late_6){const_a=0.0;const_b=1.0}",
+                   "von": [
+                    {
+                     "knoten": "MaterialFunctionCall(all_15){material_function=MF_NormalStrength.MF_NormalStrength}",
+                     "von": [
+                      {
+                       "knoten": "ScalarParameter(ter_21){parameter_name=Ripples Normals Strength}",
+                       "eingang": "Strength"
+                      },
+                      {
+                       "knoten": "DeriveNormalZ(malZ_2){}",
+                       "eingang": "Normal"
+                      }
+                     ],
+                     "eingang": "A"
+                    },
+                    {
+                     "knoten": "LinearInterpolate(late_9){const_a=0.0;const_b=1.0}",
+                     "von": [
+                      {
+                       "knoten": "LinearInterpolate(ate_13){const_a=0.0;const_b=1.0}",
+                       "eingang": "A"
+                      },
+                      {
+                       "knoten": "MaterialFunctionCall(Call_1){material_function=MF_NormalStrength.MF_NormalStrength}",
+                       "eingang": "B"
+                      },
+                      {
+                       "knoten": "Power(ower_0){}",
+                       "eingang": "Alpha"
+                      }
+                     ],
+                     "eingang": "B"
+                    },
+                    {
+                     "knoten": "Saturate(rate_3){}",
+                     "von": [
+                      {
+                       "knoten": "Divide(vide_3){const_a=1.0;const_b=2.0}",
+                       "eingang": "None"
+                      }
+                     ],
+                     "eingang": "Alpha"
+                    }
+                   ],
+                   "eingang": "VectorInput"
+                  }
+                 ],
+                 "eingang": "B"
+                },
+                {
+                 "knoten": "ScalarParameter(eter_3){parameter_name=Wobble Strength}",
+                 "eingang": "Alpha"
+                }
+               ],
+               "eingang": "None"
+              }
+             ],
+             "eingang": "X"
+            },
+            {
+             "knoten": "ComponentMask(ask_14){r=False}",
+             "von": [
+              {
+               "knoten": "LinearInterpolate(late_8){const_a=0.0;const_b=1.0}",
+               "schon": true,
+               "eingang": "None"
+              }
+             ],
+             "eingang": "Y"
+            }
+           ],
+           "eingang": "B"
+          }
+         ],
+         "eingang": "UVs"
+        }
+       ],
+       "eingang": "A"
+      },
+      {
+       "knoten": "OneMinus(inus_0){}",
+       "von": [
+        {
+         "knoten": "MaterialFunctionCall(Call_9){material_function=MF_CheapCameraFade.MF_CheapCameraFade}",
+         "von": [
+          {
+           "knoten": "ScalarParameter(eter_5){parameter_name=Fade Out at Distance End}",
+           "eingang": "Fade"
+          },
+          {
+           "knoten": "ScalarParameter(eter_8){parameter_name=Fade Out at Distance Start}",
+           "eingang": "Start"
+          }
+         ],
+         "eingang": "None"
+        }
+       ],
+       "eingang": "B"
+      }
+     ],
+     "eingang": "Alpha"
+    }
+   ]
+  },
+  "MP_REFRACTION": {
+   "knoten": "LinearInterpolate(late_5){const_a=0.0;const_b=1.0}",
+   "von": [
+    {
+     "knoten": "Constant(tant_4){r=1.0}",
+     "eingang": "A"
+    },
+    {
+     "knoten": "LinearInterpolate(ate_10){const_a=0.0;const_b=1.0}",
+     "von": [
+      {
+       "knoten": "ScalarParameter(ter_13){parameter_name=Refraction Strength}",
+       "eingang": "A"
+      },
+      {
+       "knoten": "Constant(tant_4){r=1.0}",
+       "schon": true,
+       "eingang": "B"
+      },
+      {
+       "knoten": "Fresnel(snel_0){}",
+       "von": [
+        {
+         "knoten": "Normalize(lize_0){}",
+         "von": [
+          {
+           "knoten": "LinearInterpolate(late_6){const_a=0.0;const_b=1.0}",
+           "von": [
+            {
+             "knoten": "MaterialFunctionCall(all_15){material_function=MF_NormalStrength.MF_NormalStrength}",
+             "von": [
+              {
+               "knoten": "ScalarParameter(ter_21){parameter_name=Ripples Normals Strength}",
+               "eingang": "Strength"
+              },
+              {
+               "knoten": "DeriveNormalZ(malZ_2){}",
+               "von": [
+                {
+                 "knoten": "ConstantBiasScale(cale_2){}",
+                 "von": [
+                  {
+                   "knoten": "ComponentMask(Mask_6){r=False}",
+                   "von": [
+                    {
+                     "knoten": "TextureSampleParameter2D(er2D_3){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+                     "von": [
+                      {
+                       "knoten": "MaterialFunctionCall(Call_4){material_function=MakeFloat2.MakeFloat2}",
+                       "eingang": "UVs"
+                      }
+                     ],
+                     "eingang": "None"
+                    }
+                   ],
+                   "eingang": "None"
+                  }
+                 ],
+                 "eingang": "InXY"
+                }
+               ],
+               "eingang": "Normal"
+              }
+             ],
+             "eingang": "A"
+            },
+            {
+             "knoten": "LinearInterpolate(late_9){const_a=0.0;const_b=1.0}",
+             "von": [
+              {
+               "knoten": "LinearInterpolate(ate_13){const_a=0.0;const_b=1.0}",
+               "von": [
+                {
+                 "knoten": "MaterialFunctionCall(Call_6){material_function=MF_NormalStrength.MF_NormalStrength}",
+                 "von": [
+                  {
+                   "knoten": "ScalarParameter(ter_12){parameter_name=Normals Strength Near}",
+                   "eingang": "Strength"
+                  },
+                  {
+                   "knoten": "Add(nAdd_7){const_a=0.0;const_b=1.0}",
+                   "von": [
+                    {
+                     "knoten": "MaterialFunctionCall(Call_3){material_function=MF_ReconstructZ.MF_ReconstructZ}",
+                     "von": [
+                      {
+                       "knoten": "TextureSampleParameter2D(er2D_1){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+                       "eingang": "Normal"
+                      }
+                     ],
+                     "eingang": "A"
+                    },
+                    {
+                     "knoten": "MaterialFunctionCall(Call_5){material_function=MF_ReconstructZ.MF_ReconstructZ}",
+                     "von": [
+                      {
+                       "knoten": "TextureSampleParameter2D(er2D_2){parameter_name=Normals Texture;texture=T_Water_01_N.T_Water_01_N;desc=Base Normals - RG channels\r\nShoreline Normals - BA channels}",
+                       "eingang": "Normal"
+                      }
+                     ],
+                     "eingang": "B"
+                    }
+                   ],
+                   "eingang": "Normal"
+                  }
+                 ],
+                 "eingang": "A"
+                },
+                {
+                 "knoten": "MaterialFunctionCall(Call_7){material_function=MF_NormalStrength.MF_NormalStrength}",
+                 "von": [
+                  {
+                   "knoten": "ScalarParameter(ter_27){parameter_name=Normals Strength Far}",
+                   "eingang": "Strength"
+                  },
+                  {
+                   "knoten": "Add(nAdd_7){const_a=0.0;const_b=1.0}",
+                   "schon": true,
+                   "eingang": "Normal"
+                  }
+                 ],
+                 "eingang": "B"
+                },
+                {
+                 "knoten": "MaterialFunctionCall(Call_8){material_function=MF_CheapCameraFade.MF_CheapCameraFade}",
+                 "von": [
+                  {
+                   "knoten": "ScalarParameter(ter_16){parameter_name=Fade to Stronger Normals at Distance End}",
+                   "eingang": "Fade"
+                  },
+                  {
+                   "knoten": "ScalarParameter(ter_17){parameter_name=Fade to Stronger Normals at Distance Start}",
+                   "eingang": "Start"
+                  }
+                 ],
+                 "eingang": "Alpha"
+                }
+               ],
+               "eingang": "A"
+              },
+              {
+               "knoten": "MaterialFunctionCall(Call_1){material_function=MF_NormalStrength.MF_NormalStrength}",
+               "von": [
+                {
+                 "knoten": "ScalarParameter(eter_7){parameter_name=Normals Strength Grazing Angle}",
+                 "eingang": "Strength"
+                },
+                {
+                 "knoten": "Add(nAdd_7){const_a=0.0;const_b=1.0}",
+                 "schon": true,
+                 "eingang": "Normal"
+                }
+               ],
+               "eingang": "B"
+              },
+              {
+               "knoten": "Power(ower_0){}",
+               "von": [
+                {
+                 "knoten": "Fresnel(snel_1){}",
+                 "von": [
+                  {
+                   "knoten": "ScalarParameter(eter_1){parameter_name=Grazing Angle Exponent}",
+                   "eingang": "ExponentIn"
+                  },
+                  {
+                   "knoten": "VertexNormalWS(alWS_0){}",
+                   "eingang": "Normal"
+                  }
+                 ],
+                 "eingang": "Base"
+                }
+               ],
+               "eingang": "Alpha"
+              }
+             ],
+             "eingang": "B"
+            },
+            {
+             "knoten": "Saturate(rate_3){}",
+             "von": [
+              {
+               "knoten": "Divide(vide_3){const_a=1.0;const_b=2.0}",
+               "von": [
+                {
+                 "knoten": "DistanceToNearestSurface(face_1){}",
+                 "von": [
+                  {
+                   "knoten": "WorldPosition(tion_2){}",
+                   "eingang": "World Position"
+                  }
+                 ],
+                 "eingang": "A"
+                },
+                {
+                 "knoten": "ScalarParameter(ter_30){parameter_name=Ripples Distance from Shoreline}",
+                 "eingang": "B"
+                }
+               ],
+               "eingang": "None"
+              }
+             ],
+             "eingang": "Alpha"
+            }
+           ],
+           "eingang": "VectorInput"
+          }
+         ],
+         "eingang": "Normal"
+        }
+       ],
+       "eingang": "Alpha"
+      }
+     ],
+     "eingang": "B"
+    },
+    {
+     "knoten": "DepthFade(Fade_0){}",
+     "von": [
+      {
+       "knoten": "Constant(tant_2){r=0.9950000047683716}",
+       "eingang": "Opacity"
+      },
+      {
+       "knoten": "Constant(tant_3){r=20.0}",
+       "eingang": "FadeDistance"
+      }
+     ],
+     "eingang": "Alpha"
+    }
+   ]
+  },
+  "MP_EMISSIVE_COLOR": null,
+  "MP_METALLIC": null,
+  "MP_SPECULAR": {
+   "knoten": "Constant(tant_5){r=1.0}"
+  },
+  "MP_OPACITY_MASK": null,
+  "MP_WORLD_POSITION_OFFSET": null
+ }
+}

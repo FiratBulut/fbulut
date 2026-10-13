@@ -1,0 +1,747 @@
+[
+ {
+  "pfad": "/Game/Basalt/materials/Basalt_UnderWater_Dark_Inst",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Basalt/materials/Master/Basalt_Natural_MASTER",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Basalt/materials/Basalt_UnderWater_Light_Inst",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Basalt/materials/Master/Basalt_Natural_MASTER",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Basalt/materials/Master/Water_MASTER",
+  "klasse": "Material",
+  "master": "/Game/Basalt/materials/Master/Water_MASTER",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": [
+   "water_n"
+  ]
+ },
+ {
+  "pfad": "/Game/Basalt/materials/Water_Inst",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Basalt/materials/Master/Water_MASTER",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/CityPark/Materials/BaseMaterial/M_Particle_water",
+  "klasse": "Material",
+  "master": "/Game/CityPark/Materials/BaseMaterial/M_Particle_water",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_BG_D",
+   "T_B_N"
+  ]
+ },
+ {
+  "pfad": "/Game/CityPark/Materials/Flora/Grass/MI_WaterPlants",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/CityPark/Materials/BaseMaterial/M_FloraShader_V_04",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_TWO_SIDED_FOLIAGE",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_NoAlbedoNoNormals",
+  "material_domain": "MD_DEFERRED_DECAL",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Deca_Wet_Flat",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_NoAlbedo",
+  "material_domain": "MD_DEFERRED_DECAL",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Sand_Wet",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Master_Materials/M_NM_Decal_Normals",
+  "material_domain": "MD_DEFERRED_DECAL",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_Coast_Water_Material",
+  "klasse": "Material",
+  "master": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_Coast_Water_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": [
+   "BlackTexture2DArray",
+   "Black_1x1_EXR_Texture",
+   "T_WaterFlow_01_Foam_Tiled",
+   "T_WaterFlow_01_Foam_Tiled_N",
+   "T_Water_TilingNormal_With_Height_02_Softened",
+   "WaterDistanceField"
+  ]
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_NM_HLODWater",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/Water_MaterialFar",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_NM_Water_FarMesh",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/Water_MaterialFar",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_NM_Water_Material_Ocean",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_Coast_Water_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_NM_Water_Material_Ocean_LOD",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Water/Materials/WaterSurface/Water_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/Water_MaterialFar",
+  "klasse": "Material",
+  "master": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/Water_MaterialFar",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": [
+   "BlackTexture2DArray",
+   "Black_1x1_EXR_Texture",
+   "T_WaterFlow_01_Foam_Tiled",
+   "T_WaterFlow_01_Foam_Tiled_N",
+   "T_Water_TilingNormal_With_Height_02_Softened",
+   "WaterDistanceField"
+  ]
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Materials/MI_sea_buckthorn",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Foliage/Materials/M_leaves",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_TWO_SIDED_FOLIAGE",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Materials/MI_sea_holly",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Foliage/Materials/M_Grass",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_TWO_SIDED_FOLIAGE",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Foliage/Materials/MI_sea_wormwood",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Foliage/Materials/M_Grass",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_TWO_SIDED_FOLIAGE",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Water/Materials/MI_Coast_Water_Material",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Demo/Unreal_Water_Plugin/M_Coast_Water_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_SINGLE_LAYER_WATER",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Water/Materials/MI_Lake_Water",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Water/Materials/M_Lake_Water_Vertex_Offset",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Water/Materials/MI_River_Water",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Coast_Dunes_Environment_Set/Water/Materials/M_River_Water_Vertex_Offset",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Water/Materials/M_Lake_Water_Vertex_Offset",
+  "klasse": "Material",
+  "master": "/Game/Coast_Dunes_Environment_Set/Water/Materials/M_Lake_Water_Vertex_Offset",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Water_01_H",
+   "T_Water_01_N"
+  ]
+ },
+ {
+  "pfad": "/Game/Coast_Dunes_Environment_Set/Water/Materials/M_River_Water_Vertex_Offset",
+  "klasse": "Material",
+  "master": "/Game/Coast_Dunes_Environment_Set/Water/Materials/M_River_Water_Vertex_Offset",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Base_Foam_02_M",
+   "T_River_Noise_3",
+   "T_River_Waterfall_01_H",
+   "T_River_Waterfall_01_N",
+   "T_Water_01_H",
+   "T_Water_01_N",
+   "T_Water_02_H",
+   "T_Water_02_N"
+  ]
+ },
+ {
+  "pfad": "/Game/Fab/Megascans/Plants/Rembrandt_Water_Lily_uc2kajgia/Materials/MI_Rembrandt_Water_Lily_uc2kajgia",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Fab/Materials/Standard/M_MS_Foliage",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_TWO_SIDED_FOLIAGE",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Landscape/Materials/MI_Ground_Lava_River_01",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Landscape/Materials/M_Ground_Overview",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Landscape/Materials/MI_Ground_Lava_River_02",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Landscape/Materials/M_Ground_Overview",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Blueprint_Splines_Materials/MI_BP_Lava_06_Volcano_River",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Lake_Materials/MI_Lake_Lava_06_Small_Volcano",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Lake_Materials/MI_Lake_Lava_06_Volcano",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Lake_Materials/MI_Lake_Lava_Frozen_07_Lake",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Frozen_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Lake_Materials/MI_Lake_Lava_Frozen_07_Lake_Small",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Frozen_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Lake_Materials/MI_Lake_Lava_Frozen_3_Lake",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Frozen_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Lake_Materials/MI_Lake_Lava_Frozen_3_Lake_Small",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Frozen_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_River/Landscape_Splines_Materials/MI_LS_Lava_06_Volcano_River",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_River/Materials/M_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/MI_Lava_River_01",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/MI_Lava_River_02",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/MI_Lava_River_03",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/MI_SW_Lava_River_Out_1",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/MI_SW_Lava_River_Out_2",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/MI_SW_Lava_River_Out_3",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Water_Material_Lava_Niagara_1",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Water_Material_Lava_Niagara_2",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Water_Material_Lava_Niagara_3",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Water_Material_Lava_Niagara_Cached_1",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Water_Material_Lava_Niagara_Cached_2",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Water_Material_Lava_Niagara_Cached_3",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Lava_Simulation/Materials/SW_Lava_Material",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/MI_Particle_Lava_Waterfall",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Waterfall",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/MI_Particle_Lava_Waterfall_1",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Waterfall",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/MI_Particle_Lava_Waterfall_2",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Splash_Cutout",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/MI_Particle_Lava_Waterfall_3",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Splash_Cutout",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/MI_Particle_Lava_Waterfall_4",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Splash_Cutout",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/MI_Particle_Lava_Waterfall_5",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Splash_Cutout",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Waterfall",
+  "klasse": "Material",
+  "master": "/Game/Lava_Volcano_Environment_Set/Particles/Materials/M_Particle_Lava_Waterfall",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_MASKED",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Lava_Noise",
+   "T_lava_splash_0_E_M",
+   "T_lava_splash_0_MT_R_AO",
+   "T_lava_splash_0_N"
+  ]
+ },
+ {
+  "pfad": "/Game/MSPresets/M_MS_Default_Material_VT/M_MS_Default_Material_VT_WaterTest",
+  "klasse": "Material",
+  "master": "/Game/MSPresets/M_MS_Default_Material_VT/M_MS_Default_Material_VT_WaterTest",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/MI_DryRiverBed_01",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/MI_DryRiverBed_02",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Megascans/3D_Assets/DryRiverBed/MI_DryRiverBed_03",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Custom/CustomMaterials/Materials/Master_Materials/M_MS_Default_Material_VT_DynamicLayering",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Roads_River/MI_Road_01",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Mountain_Environment_Set/Roads_River/M_Road",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Roads_River/M_Road",
+  "klasse": "Material",
+  "master": "/Game/Mountain_Environment_Set/Roads_River/M_Road",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Perlin_Noise_M",
+   "T_ground_soil_01_BC_M",
+   "T_ground_soil_01_MT_R_AO",
+   "T_ground_soil_01_N",
+   "T_ground_soil_02_BC_M",
+   "T_ground_soil_02_MT_R_AO",
+   "T_ground_soil_02_N"
+  ]
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/MI_Lake_Water_Translucent",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_Lake_Water_Translucent_Tess",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/MI_River2_Water_Translucent",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent_Tess",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/MI_River_Water_Translucent",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent_Tess",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/MI_STream_Water_Translucent",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent_Tess",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/MI_Stream2_Water_Translucent",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent_Tess",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/M_Lake_Water_Translucent",
+  "klasse": "Material",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_Lake_Water_Translucent",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Water_N"
+  ]
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/M_Lake_Water_Translucent_Tess",
+  "klasse": "Material",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_Lake_Water_Translucent_Tess",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Water_N"
+  ]
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent",
+  "klasse": "Material",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Noise",
+   "T_RAM_River_Cascade_BC",
+   "T_Water_N",
+   "T_Waterfall_foam_01"
+  ]
+ },
+ {
+  "pfad": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent_Tess",
+  "klasse": "Material",
+  "master": "/Game/Mountain_Environment_Set/Water/Materials/M_River_Water_Translucent_Tess",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Noise",
+   "T_RAM_River_Cascade_BC",
+   "T_Water_H",
+   "T_Water_N",
+   "T_Waterfall05_H",
+   "T_Waterfall_foam_01"
+  ]
+ },
+ {
+  "pfad": "/Game/NatureWaterFX/Materials/M_WaterSharp",
+  "klasse": "Material",
+  "master": "/Game/NatureWaterFX/Materials/M_WaterSharp",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Smoke_01",
+   "T_Smoke_01_Normal"
+  ]
+ },
+ {
+  "pfad": "/Game/NatureWaterFX/Materials/M_WaterSoft",
+  "klasse": "Material",
+  "master": "/Game/NatureWaterFX/Materials/M_WaterSoft",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Cloud_Noise",
+   "T_SmokeWispy",
+   "T_SmokeWispy_Normal"
+  ]
+ },
+ {
+  "pfad": "/Game/NatureWaterFX/Materials/M_WaterSurface",
+  "klasse": "Material",
+  "master": "/Game/NatureWaterFX/Materials/M_WaterSurface",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_OPAQUE",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Noise_Soft_Normal"
+  ]
+ },
+ {
+  "pfad": "/Game/RuralAustralia/Water/MI_Water_01",
+  "klasse": "MaterialInstanceConstant",
+  "master": "/Game/RuralAustralia/Water/M_Water_01",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": []
+ },
+ {
+  "pfad": "/Game/RuralAustralia/Water/M_Water_01",
+  "klasse": "Material",
+  "master": "/Game/RuralAustralia/Water/M_Water_01",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_Water_01_M",
+   "T_Water_01_N",
+   "T_Water_Caustics_01_C"
+  ]
+ },
+ {
+  "pfad": "/Game/Village/Environment/Asset/Effects/Material/Water/M_WaterFalls_New",
+  "klasse": "Material",
+  "master": "/Game/Village/Environment/Asset/Effects/Material/Water/M_WaterFalls_New",
+  "material_domain": "MD_SURFACE",
+  "blend_mode": "BLEND_TRANSLUCENT",
+  "shading_model": "MSM_DEFAULT_LIT",
+  "texturen": [
+   "T_FallingWater_01",
+   "T_FallingWater_01_N",
+   "T_FallingWater_02",
+   "T_FallingWater_02_N",
+   "T_TilingNoise03"
+  ]
+ }
+]
