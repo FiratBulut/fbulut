@@ -174,7 +174,7 @@ Alle Bilder sind abgewickelt (x = s, y = u, links oben). Die Ufer stammen aus eu
   - optional `delta_welt.png`
 
 **Reihenfolge lokal:**
-1. Bilder ansehen. Passt die Form, Commit dieser Antwort ziehen.
+1. Bilder ansehen. Passt die Form, den Stand ziehen (Commit `bd593e8` oder neuer).
 2. Im Talkaskaden-Korridor (s 389–580, ±8 m) entfernen:
    - das alte Bachdekor
    - die Talkaskaden-Teile des Kantenufers (`ufer_plan_p2`, Stand 16h N5), weil sie sich auf die alte Wasserkante beziehen
@@ -182,7 +182,8 @@ Alle Bilder sind abgewickelt (x = s, y = u, links oben). Die Ufer stammen aus eu
 3. `python -I recherche/antworten/skripte/p2_bett/p2_bett_welt.py --plan recherche/antworten/p2_bett --lauf <lauf_p2.json> --welt <export/unreal/welt> --bild`
 4. Einbau über `a15_einbau.py` bzw. die s38-Kette mit `<welt>/p2_bett/ERLENBACH_P2/plan.json`. Danach Instanzen setzen.
 5. Spline-Z im Bereich s 389–580 auf `spline_spiegel.json` legen. Außerhalb bleibt alles: eine SWR von der Quelle bis zur Mündung, Mündung 36,80 m.
-6. Hindernis-Akteur ergänzen: nur die 5 Beckenblöcke aus `swr_hindernis_anzahl`. Dann Reset + Bake. Prüfen nach 6b §1.
+6. Hindernis-Akteur ergänzen: nur die 5 Beckenblöcke aus `swr_hindernis_anzahl`. Dann Reset + Bake. Prüfen nach 6b (a), Prüfband aus Schritt 3.
+   Danach die Landschafts-Texturen `T_Eldarien_Wasserspiegel_2m` und `T_Eldarien_Bachgewicht_2m` für den neuen Spiegel neu erzeugen.
 7. Neue Querschnitte schicken, dann rechnen wir Kantenufer und Lagen für die neue Kante neu.
 
 ## 6. Mündung und fluss_sim
