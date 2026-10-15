@@ -145,6 +145,10 @@ Aktuell maßgebliche Einstiegspunkte sind die lokalen Befunde
 BAKED_SIM ist lokal optisch erfolgreich beschrieben; gepackter Build, Streaming und
 GPU-Kosten bleiben gesondert nachzuweisen. Die Teilung mit trockenen Nähten gilt nicht
 als fertige Lösung. Vor weiteren Teilungen tatsächliche Engine-Bounds/Quellen/Senken prüfen.
+Der [Exporter und Prüfer](antworten/skripte/fluss_sim/README.md) sperren seit 15.10.
+Teilungspläne technisch. Formale Prüfung und lokaler Unreal-Nachweis bleiben getrennt.
+Bei Änderungen an gemeinsamen Ressourcen auch die betroffenen Vergleichsstellen nach
+den [Prüfregeln](vorlagen/pruefung.md#auswirkungen-auf-andere-stellen) kontrollieren.
 
 Am Sitzungsende bzw. im bestehenden Morgenbericht knapp: geliefert, geprüft, offen,
 nächster Schritt – jeweils mit Beleg. Keine neue Zeitsteuerung aus dieser Anleitung ableiten.

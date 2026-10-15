@@ -89,11 +89,11 @@
     "status": "wartet (Ferat 16c: Wasserfaelle/Vorhaenge vorerst nicht bauen; Regel und Felder bleiben wie 16b)"
   },
   "swr": {
-    "einheit": "v3 (16c Nachtrag 17:45): je Gewaesser EIN WaterBodyRiver und EINE ShallowWaterRiver. SWR-Bereich = achsparalleles Rechteck um den Fluss; resolution_max_axis = laengste Rechteckseite / Zielzelle (Vielfaches von 32, hoechstens resolution_max). Nur wenn die Zelle dann ueber zelle_max laege (Bach > 2048 x 0,30 = 614 m, Fluss > 2048 x 0,35 = 717 m), wird die Simulation in wenige lange Stuecke geteilt; der Fluss bleibt ein WaterBodyRiver.",
+    "einheit": "Je Gewaesser EIN WaterBodyRiver und EINE ShallowWaterRiver. SWR-Bereich = achsparalleles Rechteck um den Fluss; resolution_max_axis = laengste Rechteckseite / Zielzelle (Vielfaches von 32, hoechstens resolution_max). 15.10.2026: Ueberschreitet das Gewaesser die Grenze fuer ungeteilte Simulation, wird der Export gesperrt. Die interne Teilungsrechnung ist nur Diagnose (16h/6i, 6j).",
     "zelle_ziel_bach_m": 0.25,
     "zelle_max_bach_m": 0.3,
     "zelle_max_bach_ungeteilt_m": 0.4,
-    "zelle_ungeteilt_hinweis": "16e (Ferat 16d Nachtrag Punkt 2): ein Bach bleibt ungeteilt, solange seine Zelle bei resolution_max <= zelle_max_bach_ungeteilt_m bleibt (Rechteck <= 819 m); erst darueber wird geteilt, und die Teilstuecke halten zelle_max_bach_m. Vergleichsbilder 0,27 / 0,19 m stehen aus.",
+    "zelle_ungeteilt_hinweis": "16e: Ein Bach bleibt ungeteilt, solange seine Zelle bei resolution_max <= zelle_max_bach_ungeteilt_m bleibt (Rechteck <= 819 m). Darueber berechnete Teilungen sind seit 15.10.2026 vom Export ausgeschlossen. Vergleichsbilder 0,27 / 0,19 m stehen aus.",
     "zelle_ziel_fluss_m": 0.35,
     "zelle_max_fluss_m": 0.35,
     "zelle_hinweis": "Ferat 17:45: Baeche 0,25-0,30 m, Fluesse bis 0,35 m. Bach = Lauf mit Abstuerzen im Plan, Median der Breite < 15 m oder Sehens-Bach; ein SWR-Bereich, der einen Bach-Lauf beruehrt, gilt als Bach. Pruefer: Zelle <= zelle_max + 0,005 m, Aufloesung <= resolution_max.",
@@ -190,7 +190,7 @@
       "naht_abstand_absturz_m": 5.0,
       "min_teil_m": 50.0,
       "hinweis": "Nur fuer Gewaesser, deren Rechteck bei resolution_max die zelle_max ueberschreitet. Kleinste Anzahl Teilstuecke; unter gleich vielen die mit der kleinsten Summe der Rechteckflaechen (gewundene und diagonale Laeufe). Naht an einem Splinepunkt, >= naht_abstand_absturz_m von jeder Stufe (nicht an Faellen), >= min_teil_m vom Anfang/Ende. Nachbarbereiche ueberlappen ueberlappung_m (je Seite die Haelfte); naht.art = becken, wenn die Naht in einem Becken liegt, sonst lauf.",
-      "geteilt_hinweis": "Teilstueck einer geteilten Simulation: beide SWR nennen denselben WaterBodyRiver als Quelle und Senke. Da der SWR-Bereich gemessen das Rechteck um die Quell-Fluesse ist, muss das Rechteck dieses Teilstuecks lokal begrenzt werden (Test 16c, Abschnitt Recherche); bis dahin vorlaeufig."
+      "geteilt_hinweis": "GESPERRT (15.10.2026, 16h/6i, 6j): Teilrechtecke auf demselben Quellfluss sind kein bestaetigter UE-Weg; Flusskopien hatten Stillstand/trockene Naehte. Nur Diagnose, nicht anwenden. Export erst nach geaenderter Implementierung und lokalem Bounds-/Stroemungs-/Nahtnachweis."
     }
   },
   "gewaesser": {

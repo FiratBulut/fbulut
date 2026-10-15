@@ -7,10 +7,32 @@ laut [lokalem Befund 16h/6i §3](../../../auftraege/16h-nachtrag6i-baked-sim-tes
 für den dort geprüften Build nicht erfüllt: die Fläche wird aus den Quell-Wasserkörpern
 berechnet. Die anschließende Teilung mit Flusskopien wurde wegen Stillstand/trockener
 Nähte [in 6j §1 verworfen](../../../auftraege/16h-nachtrag6j-teilung-ergebnis.md).
-Teilungspläne unten deshalb nicht als freigegebene Spiellösung anwenden. Vor Anwendung
-den aktuellen lokalen Stand und die wirklichen Bounds prüfen; Exporter/Regeldateien
-wurden durch diesen Dokumentationshinweis nicht geändert.
+**Technische Sperre vom 15.10.2026 (in Ferats Auftrag):** Der Exporter bricht bei einem
+Teilungsplan im ausgewählten Lauf mit Exit-Code 1 ab, bevor er Ausgabedateien schreibt.
+Er nennt die betroffenen Gewässer. Der gesamte ausgewählte Lauf wird abgebrochen;
+bestehende Dateien bleiben unverändert und sind kein Ergebnis dieses Versuchs.
+Ungeteilte Gewässer können mit `--nur ID ...` gezielt in einen **neuen Ausgabeordner**
+exportiert werden. Bei einer leeren Auswahl wird ebenfalls abgebrochen.
+
+Der Prüfer lehnt auch alte Teilungspläne anhand ihrer Struktur ab: mehrere SWR,
+`geteilt` oder `rechteck_teil`. Das Entfernen eines Warntextes hebt die Sperre nicht auf.
+Es gibt keinen Freigabeschalter. Erst eine geänderte Implementierung mit lokalem
+Bounds-/Strömungs-/Nahtnachweis kann eine spätere Aufhebung rechtfertigen; ein Textvermerk
+allein genügt nicht. Die Teilungsrechnung bleibt intern für Diagnosezwecke erhalten.
+Historische Teilungsbeschreibungen und rechnerische Varianten weiter unten sind keine
+anwendbaren Pläne.
+
+Exportierte Gewässerdateien und Back-Liste tragen `unreal_validierung: ausstehend`.
+Ein erfolgreicher Prüferlauf bestätigt nur die ausgeführten formalen Kontrollen und nennt
+den Unreal-Nachweis separat als **nicht geprüft**. Fehlende Quellen-/Weltdaten schränken
+den Prüfumfang weiterhin ein. Vor Anwendung lokale Datenversion und wirkliche Bounds prüfen;
+Belege für Strömung, Nähte, Bildqualität und Laufzeit bleiben erforderlich.
 Übergabe und Abnahme: [Recherche-README](../../../README.md).
+
+Regressionen der Sperre (Python mit NumPy und Pillow, vom Repository-Stamm):
+`python -m unittest discover -s recherche/antworten/skripte/fluss_sim -p "test_*.py" -v`.
+Die Tests verwenden kleine Testpläne und ersetzen beim Export-Abbruchtest den Welt-/Planerzugriff.
+Sie prüfen keine Unreal-Simulation und keinen vollständigen Weltexport.
 
 Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBodyRiver` + `ShallowWaterRiver`
 (UE 5.8.3, Plugins Water + Niagara Fluids); die Simulation wird im Editor **gebacken**; Seen bleiben `WaterBodyLake`

@@ -59,3 +59,22 @@ keine garantierten Engine-Grenzen.
 Technisch erfolgreich und visuell gelungen getrennt beurteilen. Am nächsten kurzen
 Bachabschnitt müssen passende Referenzbilder und wenige sichtbare Kriterien die
 Gestaltungsentscheidung tragen. Statische Bilder belegen weder Strömung noch Laufzeitkosten.
+
+## Auswirkungen auf andere Stellen
+
+Vor Änderungen an gemeinsam genutzten Materialien, Wasserzonen, Kollisionsregeln oder
+Exportparametern deren betroffene Nutzer/Flächen ermitteln. Neben dem Zielabschnitt wenige
+aussagekräftige Vergleichsstellen wählen: den angeschlossenen Übergang oder die Mündung,
+einen weiteren Nutzer derselben Ressource und, soweit verfügbar, eine unveränderte
+Kontrollstelle. Fehlt eine passende Stelle, die Prüflücke nennen.
+
+Für Ziel und Vergleichsstellen vorher dieselben relevanten Kriterien und Toleranzen
+festlegen. Vom gesicherten Ausgangsstand vor/nach der Änderung unter gleichen Bedingungen
+prüfen: je nach Änderung Wasserlauf/Naht, Pegel/Uferband, Bild oder GPU-Zeit. Bei gemeinsamem
+Material auch dessen weitere relevante Varianten prüfen; bei Zonen die betroffenen
+Gewässer und Ladegrenzen. Unabhängige Bereiche brauchen keinen erneuten Volltest.
+
+Eine Verbesserung am Ziel bei Verschlechterung einer betroffenen Vergleichsstelle ist
+keine bestandene Abnahme. Ursache eingrenzen, Änderung lokal begrenzen oder zurücksetzen;
+einen gewünschten Kompromiss ausdrücklich mit Ferat entscheiden. In der vorhandenen
+Übergabe betroffene Stellen, Ergebnisse und verbleibende Prüflücken verlinken.

@@ -8,6 +8,8 @@ Aufruf:  python -I fluss_sim_pruefen.py <aus> [--gefaelle DIR] [--sehens DIR] [-
                                          [--gebaut LAUF ...] [--einbau DIR] [--ohne-erkennung] [--zonen DATEI]
          <aus> = Ausgabeordner des Exporters (fluss_sim.json-Dateien, back_liste.json, vorschlaege.json).
 Exit-Code 1 bei FEHLER.
+15.10.2026: Teilungsplaene werden vor der Detailpruefung gesperrt, auch alte Ausgaben
+ohne neue Metadaten. Erfolg betrifft nur ausgefuehrte formale Pruefungen, nie Unreal-Abnahme.
 
 Geprueft (FEHLER, wenn nicht anders gesagt):
   Ein Fluss  je Gewaesser genau ein WaterBodyRiver (WBR_<gewaesser>, global eindeutig), jede SWR nennt ihn als Quelle
@@ -469,7 +471,23 @@ def pruefe_toepfe(g, b):
                     b.append((FEHLER, sid, "SWR-Rechteck %s schliesst den Topf %s nicht ein" % (e["id"], r)))
 
 
+def pruefe_swr_ausfuehrbarkeit(g, b):
+    """Auch alte Plaene ohne neue Metadaten anhand ihrer Struktur sperren."""
+    bereiche = g.get("swr_bereiche") or []
+    if len(bereiche) != 1:
+        b.append((FEHLER, g["id"], "genau eine SWR erforderlich; %d Bereiche. "
+                  "Teilung ohne bestaetigte UE-Implementierung gesperrt (16h/6i, 6j)" % len(bereiche)))
+        return False
+    e = bereiche[0]
+    if e.get("geteilt") or e.get("swr", {}).get("begrenzung", {}).get("art") == "rechteck_teil":
+        b.append((FEHLER, g["id"], "Teilungskennzeichnung/Teilrechteck trotz einzelnem Bereich; nicht freigegeben"))
+        return False
+    return True
+
+
 def pruefe_swr(g, ss, P, regeln, b):
+    if not pruefe_swr_ausfuehrbarkeit(g, b):
+        return
     S = regeln["swr"]
     T = S["teilung"]
     gid = g["id"]
@@ -1272,6 +1290,17 @@ seen_umriss = {}
 welt_global = None
 
 
+def abschluss(gesamt, vorpruefung=False):
+    sys.stdout.write("[fluss_sim_pruefen] GESAMT: %d FEHLER, %d WARNUNG, %d HINWEIS\n" %
+                     (gesamt[FEHLER], gesamt[WARNUNG], gesamt[HINWEIS]))
+    status = "NICHT BESTANDEN" if gesamt[FEHLER] else "BESTANDEN (nur ausgefuehrte Pruefungen; Hinweise beachten)"
+    sys.stdout.write("[fluss_sim_pruefen] FORMALE PLANPRUEFUNG: %s%s\n" %
+                     (status, "; nach Vorpruefung abgebrochen" if vorpruefung else ""))
+    sys.stdout.write("[fluss_sim_pruefen] UNREAL-NACHWEIS: NICHT GEPRUEFT. "
+                     "Bounds, Stroemung, Naehte, Bild und Laufzeit brauchen lokale Belege.\n")
+    return 1 if gesamt[FEHLER] else 0
+
+
 def main(argv=None):
     global regeln_global, welt_global
     ap = argparse.ArgumentParser(description="Pruefer Entscheidung 16 (fluss_sim v3)")
@@ -1322,6 +1351,7 @@ def main(argv=None):
     # alle Dateien laden
     alle, datei_von = {}, {}
     befunde_datei = {}
+    swr_gesperrt = False
     for pf in dateien_finden(a.aus):
         d = fx.lese_json(pf)
         rel = os.path.relpath(pf, a.aus)
@@ -1329,10 +1359,21 @@ def main(argv=None):
         if d.get("format") != fx.FORMAT_VERSION:
             b.append((FEHLER, rel, "format %r" % d.get("format")))
         for g in d.get("gewaesser") or []:
+            if not pruefe_swr_ausfuehrbarkeit(g, b):
+                swr_gesperrt = True
             if g["id"] in alle:
                 b.append((FEHLER, g["id"], "Gewaesser-ID doppelt"))
             alle[g["id"]] = g
             datei_von[g["id"]] = rel
+    if not alle:
+        befunde_datei.setdefault(a.aus, []).append((FEHLER, a.aus, "keine Gewaesser gefunden"))
+        swr_gesperrt = True
+    if swr_gesperrt:
+        for rel, b in sorted(befunde_datei.items()):
+            z = melde(b, rel)
+            for k in gesamt:
+                gesamt[k] += z[k]
+        return abschluss(gesamt, vorpruefung=True)
     seen_ids = set()
     welt_global = welt
     seen_umriss.clear()
@@ -1544,8 +1585,7 @@ def main(argv=None):
     z = melde(b, "back_liste/Determinismus")
     for k_ in gesamt:
         gesamt[k_] += z[k_]
-    sys.stdout.write("[fluss_sim_pruefen] GESAMT: %d FEHLER, %d WARNUNG, %d HINWEIS\n" % (gesamt[FEHLER], gesamt[WARNUNG], gesamt[HINWEIS]))
-    return 1 if gesamt[FEHLER] else 0
+    return abschluss(gesamt)
 
 
 if __name__ == "__main__":

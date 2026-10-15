@@ -65,6 +65,10 @@ Optionen: --nur ID ... (Gewaesser-, Lauf- oder Ort-IDs; verkettet wird immer ueb
 
 Deterministisch (keine Zeitstempel, sortierte Ausgabe, Zufall aus SHA-256 der IDs). Keine Unreal-Importe.
 Die Funktion fingerabdruck() ist die Referenz fuer das lokale Werkzeug (Handaenderungen im Editor).
+
+15.10.2026: Teilungsmodelle unten sind nur noch Diagnose. main() sperrt alle ausgewaehlten
+Ausgaben vor dem Schreiben, sobald ein Teilungsplan vorliegt (16h/6i, 6j). Ein erfolgreicher
+Export ersetzt weder formale Pruefung noch lokale Unreal-Abnahme.
 """
 
 import argparse
@@ -3540,6 +3544,21 @@ def hindernis_komponenten(komp, grenzen=None):
     return out
 
 
+def export_sperrgruende(gewaesser):
+    """Keine ausfuehrbaren Teilungsplaene ohne bestaetigte UE-Implementierung (16h/6i, 6j)."""
+    if not gewaesser:
+        return ["keine Gewaesser ausgewaehlt; Eingaben und --nur pruefen"]
+    gruende = []
+    for g in gewaesser:
+        bereiche = g.get("swr_bereiche") or []
+        if len(bereiche) != 1 or any(
+                e.get("geteilt") or
+                e.get("swr", {}).get("begrenzung", {}).get("art") == "rechteck_teil"
+                for e in bereiche):
+            gruende.append("%s: %d SWR-Bereiche / Teilungsplan nicht freigegeben" % (g["id"], len(bereiche)))
+    return gruende
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Exporter Entscheidung 16 (v3, 16c): fluss_sim.json je Gewaesser + back_liste.json")
     ap.add_argument("--gefaelle", default=None, help="Ordner mit <lauf>/plan.json (gefaelle_plan.py)")
@@ -3648,6 +3667,14 @@ def main(argv=None):
         e = baue_gewaesser_v3(gw, regeln, pool)
         alle.append(e)
         dateien.setdefault(gw["rel"], []).append(e)
+    sperren = export_sperrgruende(alle)
+    if sperren:
+        for grund in sperren:
+            log("FEHLER: " + grund)
+        log("EXPORT ABGEBROCHEN vor dem Schreiben. Bestehende Ausgaben wurden nicht aktualisiert und sind kein Ergebnis dieses Laufs.")
+        log("Ungeteilte Gewaesser gezielt mit --nur in einen neuen Ausgabeordner exportieren. "
+            "Teilungen brauchen zuerst eine lokal bestaetigte Implementierung mit echten Bounds und Nahtnachweis (16h/6i, 6j).")
+        return 1
     tempo_alt = {e["id"]: e.pop("_tempo_alt_cm_s") for e in alle}
     nach_id = {e["id"]: e for e in alle}
     # Zufluesse und Rang (overlap_material_priority: Hauptlauf vor Zufluss)
@@ -3796,7 +3823,7 @@ def main(argv=None):
     # schreiben
     for rel in sorted(dateien):
         d = {"format": FORMAT_VERSION, "regeln_version": regeln["version"], "fall_schwelle_m": regeln["fall_schwelle_m"],
-             "daten": "1m" if a.daten1m else "2m (Cloud-Test)", "gewaesser": dateien[rel]}
+             "daten": "1m" if a.daten1m else "2m (Cloud-Test)", "unreal_validierung": "ausstehend", "gewaesser": dateien[rel]}
         schreibe_json(os.path.join(a.aus, rel), d)
     zus = zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, gewaesser)
     zus["tempo"] = tempo_zusammenfassung(alle, tempo_alt, regeln)
@@ -3818,7 +3845,8 @@ def main(argv=None):
                    "vorschlaege": vorschlaege}, max_tiefe=3)
     schreibe_json(os.path.join(a.aus, "back_liste.json"),
                   {"format": BACK_FORMAT, "fingerabdruck": dict(fpr, formel="siehe README fluss_sim, Abschnitt Fingerabdruck"),
-                   "einheit": "SWR-Bereich (eine SWR je Gewaesser; Teilstuecke nur bei sehr grossem Rechteck)",
+                   "einheit": "SWR-Bereich (eine SWR je Gewaesser; Teilungsplaene gesperrt)",
+                   "unreal_validierung": "ausstehend",
                    "gelaende": {"hinweis": "Fingerabdruck Gelaende = Welt + Planer-Deltas ohne die schon gebauter Laeufe (16d)",
                                 "gebaut": [g["id"] for g in ginfo["gebaut"]], "deltas_ohne": ginfo["ohne_dateien"]},
                    "swr_bereiche": back})
@@ -3832,6 +3860,7 @@ def main(argv=None):
         "(%d mit Vorhang), %d Kollisionsobjekte (%d eindeutig, %d ueberspannt), %d Hindernis-Akteure"
         % (len(dateien), s_["gewaesser"], s_["gewaesser_eine_swr"], s_["swr_bereiche"], zus["swr"]["aufloesung"], zus["muendungen"],
            s_["faelle"], s_["faelle_vorhang"], s_["kollision"], len(kol_global), s_["ueberspannt"], zus["swr"]["hindernis_akteure"]))
+    log("EXPORT erstellt; formale Pruefung separat ausfuehren. UNREAL-NACHWEIS: ausstehend (Bounds, Stroemung, Naehte, Bild und Laufzeit lokal pruefen).")
     return 0
 
 
@@ -4218,6 +4247,7 @@ def zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, g
                 rv["<= 512" if r_ <= 512 else ("513-1024" if r_ <= 1024 else "1025-2048")] += 1
         var[name] = {"gewaesser_geteilt": n_t, "gewaesser_eine_swr": len(alle) - n_t, "swr": n_k, "aufloesung": rv}
     zus["varianten_zelle"] = var
+    zus["varianten_zelle_hinweis"] = "Nur rechnerische Diagnose; Varianten mit Teilungen sind gesperrt und keine anwendbaren UE-Plaene."
     # Hoehen (T2-10)
     hz = []
     for e in alle:

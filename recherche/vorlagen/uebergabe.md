@@ -28,6 +28,8 @@ gemacht wird. Eine bloße Suchvorschau ist keine vollständige Quellenbestätigu
 - **Ausführung:** Test-ID; vorbereitet / angewendet / geprüft / verworfen bzw. zurückgesetzt;
   im Speicher oder gespeichert; erwarteter Eingang vor Anwendung bestätigt oder abweichend.
 - **Ergebnis / Erklärung:** vorher → nachher mit Beleg; Ursache nachgewiesen oder Hypothese.
+- **Mitbetroffene Stellen:** Bei gemeinsamen Ressourcen Vergleichsstellen und Ergebnisse
+  nach [Prüfregeln](pruefung.md#auswirkungen-auf-andere-stellen); fehlende Prüfungen nennen.
 - **Entscheidung:** übernehmen, verwerfen oder genau nächster Test; was wird dadurch ersetzt?
 
 Vor Ausführung stehen nur Plan und Basis fest. Nach Abbruch Ausführungsstand mit dem echten
