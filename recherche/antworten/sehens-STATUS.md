@@ -1,6 +1,12 @@
 # Auftrag 13 – Sehenswürdigkeiten (8 je Biom): Status
 
-Stand: 2026-10-12 (13k). **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session. Wird bei jedem Push aktualisiert.
+Stand: 2026-10-12 (13k). **Phase 1 abgeschlossen** (Antwort `13-sehenswuerdigkeiten-8-je-biom.md`). Koordinator: Cloud-Session.
+
+**Leseregel ab 15.10.2026:** Dies ist eine datierte Arbeitsübersicht. „Fertig“ bedeutet
+nur den jeweils genannten Liefer-/Prüfumfang, nicht automatisch lokal eingebaut, visuell
+abgenommen oder im gepackten Build geprüft. Den Ausführungsstand aus dem neuesten lokalen
+Befund übernehmen; hier nur betroffene Einträge aktualisieren, keine Aktualisierung bei
+jedem beliebigen Push behaupten. [Aktueller Übergabeablauf](../README.md).
 
 ## Phase 1
 

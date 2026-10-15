@@ -1,11 +1,22 @@
 # Eldarien – Datenformate und Konventionen für Verteilungs-Skripte (Stand 10.10.2026)
 
-Für Cloud-Agenten, die Verteilungs-/Planer-Skripte schreiben. Die Skripte laufen **nicht in der Cloud**, sondern lokal auf dem
+**Gültigkeitshinweis 15.10.2026:** Datenformate bleiben Liefervertrag; Bestands- und
+Implementierungsangaben darunter sind auf den genannten Stand datiert. Für aktuelle
+Projektbefunde gilt die [README](../README.md). Inventare ausschließlich über
+[daten/zusammenfassung.md](daten/zusammenfassung.md) beziehen, nicht separat duplizieren.
+Die frühere Annahme „Gras wächst direkt aus Bodenlagen“ ist für den in
+[16h/6i §5](../auftraege/16h-nachtrag6i-baked-sim-tests-stand.md) beschriebenen lokalen
+Stand ersetzt: dort steuern Bewuchskarten `v_*.r8` die Grasdichte.
+
+Für Cloud-Agenten, die Verteilungs-/Planer-Skripte schreiben. Der produktive Lauf erfolgt lokal auf dem
 Projekt-PC (Windows 11, Python 3.11, NumPy, numba, Pillow; `python -I`), und zwar in zwei Stufen:
 
 1. **Planer (offline, reines Python):** liest die Weltdaten (unten), schreibt Instanzlisten je Gitterfeld. Kein Unreal nötig.
 2. **Setzer (Unreal-Editor-Python):** liest die Instanzlisten und setzt sie als Foliage (HISM) oder Akteure. Dafür gibt es bereits
    generische Setzer; ein neuer Planer soll das **vorhandene Setzer-Format** bedienen, dann ist kein neuer Setzer nötig.
+
+Die Cloud darf Offline-Planer mit verfügbaren Daten selbst prüfen. Tests auf gröberen
+Ersatzdaten bestätigen jedoch nicht die endgültigen Positionen oder den lokalen 1-m-Lauf.
 
 Alle Pfade relativ zu `production/` (= `D:\Das Lied der Asche\ELDARIEN_ENVIRONMENT_SKILLS_V1\production\`).
 
@@ -73,7 +84,7 @@ Dazu je Feld ein `plan.json`:
 | Ufer | `scripts/ufer/ufer_plan.py` | `wassertest/ufer_setzen.py` | `FT_EL_UF_*` | Kiesel, Kopfsteine, Blöcke, Platten, Treibholz an allen Ufern (5 Felder gesetzt) |
 | Felsschalen | `scripts/felsschalen/fs_plan.py` | `felsschalen/feld_setzen.py` + `fs_foliage_setzen.py` | `FT_EL_FS_*` + Akteure | Offene Klippen-Schalen an Steilwänden (Rück-/Unterseite im Gelände), kleine Stücke als Foliage |
 | Klippen (neu) | `scripts/klippen/klippen_plan.py` | `ue_klippen_setzen.py` | Akteure | Fab-Klippennetze als Wandfronten (A5/B5 geplant) |
-| Landschafts-Gras | Landschaftsmaterial | – | `GT_*` (19 Grasarten) | GPU-Gras 0,2–1,2 m aus Bodenlagen, nur um die Kamera |
+| Landschafts-Gras | Landschaftsmaterial + lokale Bewuchskarten | – | `GT_*` (Anzahl laut aktuellem Inventar) | Grasdichte im lokalen Befund 16h/6i aus `v_*.r8`; Bodenlagen nicht als direkten Dichteschalter voraussetzen |
 
 Ein neuer Biom-Planer liefert deshalb **eine oder mehrere neue Ebenen** (z. B. `mittelschicht/<Feld>/`, `felsgruppen/<Feld>/`,
 `spuren/<Feld>/`) im Format aus Abschnitt 3, plus optional `entfernen`-Filter für Ebenen, die er ersetzt.

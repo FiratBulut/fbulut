@@ -1,5 +1,17 @@
 # fluss_sim – Exporter für Shallow Water River (Entscheidung 16, Format v3)
 
+**Gültigkeitshinweis 15.10.2026:** Die folgenden Abschnitte dokumentieren Exportformat
+und frühere Regeln, keine durchgehend bestätigten Engine-Funktionen. Die Annahme,
+mehrere SWR auf demselben Quellfluss bekämen automatisch getrennte Rechenflächen, ist
+laut [lokalem Befund 16h/6i §3](../../../auftraege/16h-nachtrag6i-baked-sim-tests-stand.md)
+für den dort geprüften Build nicht erfüllt: die Fläche wird aus den Quell-Wasserkörpern
+berechnet. Die anschließende Teilung mit Flusskopien wurde wegen Stillstand/trockener
+Nähte [in 6j §1 verworfen](../../../auftraege/16h-nachtrag6j-teilung-ergebnis.md).
+Teilungspläne unten deshalb nicht als freigegebene Spiellösung anwenden. Vor Anwendung
+den aktuellen lokalen Stand und die wirklichen Bounds prüfen; Exporter/Regeldateien
+wurden durch diesen Dokumentationshinweis nicht geändert.
+Übergabe und Abnahme: [Recherche-README](../../../README.md).
+
 Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBodyRiver` + `ShallowWaterRiver`
 (UE 5.8.3, Plugins Water + Niagara Fluids); die Simulation wird im Editor **gebacken**; Seen bleiben `WaterBodyLake`
 ([`../../16-shallow-water-alle-gewaesser.md`](../../16-shallow-water-alle-gewaesser.md)).

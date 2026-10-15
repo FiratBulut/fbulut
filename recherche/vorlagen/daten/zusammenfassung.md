@@ -1,5 +1,28 @@
 # Asset-Inventar Eldarien (Stand 2026-10-11 15:56)
 
+## Maßgebliche Ablage und Gültigkeit
+
+Dieser Einstieg und die vorhandenen Exporte in diesem Ordner sind die gemeinsame
+Inventarablage. Pflege: Claude Code lokal; Cloud liest und meldet Abweichungen.
+**Die Zahlen unten wurden am 15.10. nicht neu erhoben:** sie bleiben Stand 11.10.
+Keine zweite vollständige Inventarkopie unter `auftraege/daten/` anlegen.
+
+Zusammengehörige Exporte bei relevanten Änderungen gemeinsam aktualisieren, Exportdatum
+und Projektstand hier vermerken und ihre Dateiversionen im Vorgang referenzieren:
+[inventar.json](inventar.json), [inventar_extra.json](inventar_extra.json),
+[netze.csv](netze.csv), [netze_masse.json](netze_masse.json),
+[material_parameter.json](material_parameter.json),
+[netz_sperre.json](netz_sperre.json), [netz_check_ergebnis.json](netz_check_ergebnis.json).
+Dateien können unterschiedliche Erhebungsstände haben; vor einem frischen Export deren
+gemeinsame Aktualität nicht voraussetzen.
+
+**Neuere Einzelbefunde bis zum nächsten Export:** [16h/6i §4–5](../../auftraege/16h-nachtrag6i-baked-sim-tests-stand.md)
+meldet fehlende Materialinstanzen/`M_EL_Mountain_NL` und Grassteuerung über Bewuchskarten.
+Diese Aussagen nur auf die dort geprüften Objekte und den dortigen Stand beziehen.
+Bei der nächsten Erhebung abgleichen und diesen Hinweis als abgeglichen markieren.
+
+## Historische Exportübersicht
+
 Netze 1965 (Nanite 1082), Pflanzentypen 2960, Grasarten 20, Materialien 357, Instanzen 1601, Texturen 3194.
 
 | Paket | Netze | Nanite | davon in Foliage/Gras | Dreiecke gesamt |

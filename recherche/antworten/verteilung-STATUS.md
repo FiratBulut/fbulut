@@ -2,6 +2,11 @@
 
 Stand: 2026-10-11 05:00 UTC. Runde 5 abgeschlossen, Antwort: verteilung-korrektur-runde5.md.
 
+**Leseregel ab 15.10.2026:** Datierte Arbeitsübersicht, kein aktueller Gesamt-Abnahmenachweis.
+„Abgeschlossen/fertig“ gilt nur für den ausdrücklich beschriebenen Liefer-/Prüfumfang.
+Lokalen Einbau und Bild-/Laufzeitabnahme aus dem neuesten lokalen Befund übernehmen.
+Betroffene Einträge mit diesem Befund verlinken; [Übergabeablauf](../README.md).
+
 Hinweis: Um 12:40 UTC brach ein API-Sitzungslimit alle zehn laufenden Agenten ab (Teil D und B1–B9). Die bis dahin
 geschriebenen Dateien sind als Zwischenstand gepusht (Skripte syntaxgeprüft, aber Rauchtests und Berichte teils offen).
 Fortsetzung ab 12:55 UTC in drei Wellen zu je 3–4 Agenten, die auf den vorhandenen Dateien aufsetzen.

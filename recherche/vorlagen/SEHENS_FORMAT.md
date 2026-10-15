@@ -1,5 +1,11 @@
 # Eldarien – Lieferformat Sehenswürdigkeiten (Auftrag 13, Stand 11.10.2026)
 
+**Korrekturhinweis 15.10.2026:** Formate und aktuelle Projektbefunde unterscheiden.
+Grassteuerung und Niagara-Bestand wurden unten berichtigt. Die übrigen Bestandsangaben
+sind auf den ursprünglichen Stand datiert und vor Verwendung am
+[maßgeblichen Inventar](daten/zusammenfassung.md) prüfen.
+Für Übergabe und Abnahme gilt die [README](../README.md).
+
 Ergänzt `FORMAT.md` (Raster, Koordinaten, Instanzformat). Alles hier beschreibt, was ein **Sehenswürdigkeiten-Planer** schreiben soll,
 damit ich (Claude lokal) es ohne Rückfragen in Unreal 5.8 umsetzen kann. Die Planer laufen lokal (`python -I`, NumPy/numba/Pillow) auf den
 1-m-Daten; zum Testen in der Cloud liegen dieselben Karten in 2 m unter `vorlagen/daten/sehens/` (Kodierung in `legende.json`).
@@ -50,7 +56,11 @@ python -I sehens_<biom>.py [--orte ID …] [--bild] [--daten2m <Ordner>] [--aus 
 - **Bodenlagen**: uint8-Zielgewicht 0–255 je genannter Lage (Namen exakt wie FORMAT.md §2: Wiese, Gras, Trockengras, Laub, Nadeln, Moos,
   Heide, Kraut, Erde, Lehm, Schlamm, Sand, Kies, Geroell, Fels, Felsplatte, Sandstein, Schnee, Eis, Lavafels, Lavasand, Algen).
   Ich setze `neu = max(alt, ziel)` und skaliere die übrigen Lagen, damit die Summe 255 bleibt. Weiche Ränder (≥ 3 m), fleckig statt Kreis.
-  Die Lagen steuern auch das GPU-Gras (19 Grasarten wachsen aus Wiese/Gras/Trockengras/Kraut/Heide/Moos …).
+  **Ersetzt durch lokalen Befund 16h/6i §5:** Die Grasdichte hängt dort an separaten
+  Bewuchskarten `v_*.r8`, nicht direkt an diesen Lagen. Eine Dichtemaske gezielt auf die
+  betroffenen Bewuchskarten anwenden und Texturen/Gras-Karten lokal erneuern. Betroffene
+  Karten und Ablauf vor Umsetzung lokal prüfen; nicht aus einer Lagenänderung eine
+  Grasänderung ableiten. [Beleg](../auftraege/16h-nachtrag6i-baked-sim-tests-stand.md).
 
 ## 4. Instanzen (Ebene `sw_<biom>`, Format exakt wie FORMAT.md §3)
 
@@ -82,8 +92,13 @@ ich lege dafür je eine Wasser-Instanz an. Heiße Quellen: `thermal` + Effekt Da
 |---|---|---|
 | `punktlicht` / `spotlicht` | `pos_cm`, `farbe` [r, g, b] 0–1, `intensitaet_cd`, `radius_cm`, (`richtung_q`, `kegel_grad`), `schatten`: false | ≤ 4 je Ort, Schatten nur begründet |
 | `lokaler_nebel` | `pos_cm`, `radius_cm`, `dichte` (0–1, Richtwert 0,02–0,2), `farbe`, `hoehenabfall` | ≤ 2 je Ort (Local Fog Volume) |
-| `niagara` | `asset` (Pfad), `pos_cm`, `rot_q`, `skala` | **Im Projekt gibt es derzeit KEINE Niagara-Systeme** → Wunsch in die Download-Liste, im Plan `"optional": true` |
+| `niagara` | `asset` (Pfad), `pos_cm`, `rot_q`, `skala` | Bestand anhand Inventar und lokalem Assetpfad prüfen. Fehlende Assets als Wunsch und `"optional": true` kennzeichnen; keine pauschale Annahme „keine Systeme vorhanden“. |
 | `decal` | `material` (Pfad aus `inventar_extra.json`), `pos_cm`, `groesse_cm` [x, y, z], `rot_q` | ≤ 12 je Ort |
+
+Die frühere Aussage „KEINE Niagara-Systeme“ ist überholt: der spätere
+[Sehens-Status, Phase 2](../antworten/sehens-STATUS.md) benennt Systeme und Niagara-Kopien.
+Ein genannter Plan allein beweist aber nicht den heutigen lokalen Assetbestand; exakten
+Pfad vor Anwendung prüfen.
 
 Licht: feste Sonne (~24°, 5 900 K), kein Tag-Nacht-Wechsel, Höhennebel W7. Leuchten (Glut, Pilze, Irrlichter) deshalb dezent und nur in
 Schatten/Senken wirksam planen; die Wirkung muss auch tagsüber tragen.
