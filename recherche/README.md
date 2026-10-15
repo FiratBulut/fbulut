@@ -12,6 +12,21 @@ Diese Datei ist zu Beginn jeder Sitzung zu lesen. Sie regelt die Zusammenarbeit.
 Bestehende Projektregeln und Ferats fachliche Entscheidungen gelten weiter. Diese
 Änderung ist keine Freigabe für zusätzliche Dienste, Ausgaben oder destruktive Aktionen.
 
+## Kurzablauf für die nächste Sitzung
+
+1. Neuesten Befund lesen; ein konkretes Ergebnis wählen.
+2. **Lokal:** wiederherstellbaren Ausgangsstand sichern und die für diesen Test benötigten
+   Messwerkzeuge an bekannten Kontrollfällen prüfen. Belege im bestehenden Vorgang ablegen.
+3. **Cloud:** diese Belege auswerten, Beobachtung und Ursachenhypothese trennen und nur
+   die entscheidende offene Frage bearbeiten. Zustimmung einer zweiten KI ist kein Beleg.
+4. Einen kontrollierten Vergleich durchführen; technische und visuelle Abnahme trennen.
+5. Die [Kurzvorlage](#kurzvorlage-für-jede-übergabe) aktualisieren und eine Entscheidung
+   festhalten. Bestehende Nachweise verlinken, nicht den gesamten Verlauf wiederholen.
+
+Priorität: belastbare Messung und reproduzierbarer Ausgangsstand vor weiterer Optimierung.
+Nicht betroffene Arbeiten können weiterlaufen. Die hier festgelegten Prüfungen sind noch
+keine durch Codex ausgeführten Unreal-Tests; Durchführung und Nachweis liegen lokal.
+
 ## Rollen und Übergabe
 
 - **Claude Code lokal** hat Zugriff auf das Projekt und die installierte Engine.
@@ -100,11 +115,8 @@ bzw. betroffenen Gewässer prüfen; Laufzeitfragen zusätzlich im gepackten Buil
 
 ### 4. Einheitliche Rückmeldung mit Belegen
 
-Pro Test eine kurze Tabelle und, soweit bereits verfügbar, maschinenlesbare Messdaten:
-
-| Test-ID / Ausgangsstand | Änderung | Erwartung | Messwert vorher → nachher | Urteil | Beleg / gespeichert? |
-|---|---|---|---|---|---|
-| stabile ID + Commit/Datenstand | eine Einflussgröße | Abnahmekriterium | gemessen oder „nicht gemessen“ | bestanden / widerlegt / unklar | Bild-/Datenpfad; gespeichert oder nur getestet |
+Die Kurzvorlage unten verwenden; Messdaten soweit bereits verfügbar maschinenlesbar
+beilegen. Keine zweite Zusammenfassung mit denselben Angaben anlegen.
 
 Bei Wasserproblemen je nach Test Wasserlauf, nasses Bett/Uferband samt Tiefenschwellen,
 Nahtsprünge/trockene Stellen und GPU-Zeit mit Hardware-/Auflösungsbezug erfassen.
@@ -123,6 +135,70 @@ Nach zwei erfolglosen Runden ausdrücklich entscheiden: Ansatz ändern, einen br
 Zwischenstand mit Grenzen übernehmen oder begründet zurückstellen. Ein zurückgestellter
 Punkt braucht einen Wiederaufnahmegrund, etwa neue Messdaten oder eine geänderte Version.
 Keine weiteren Aufträge mit derselben Frage ohne neue Grundlage erzeugen.
+
+### 6. Messwerkzeuge vor ihrer Verwendung prüfen
+
+Lokal prüft nur die Werkzeuge, deren Zahlen für die nächste Entscheidung gebraucht werden.
+Für jedes davon Kontrollfall, unabhängig bekannten Sollwert, vorab festgelegte Toleranz,
+Istwert, Werkzeugversion und Gültigkeitsbereich festhalten. Den Sollwert nicht mit genau
+dem Algorithmus erzeugen, der geprüft werden soll.
+
+- **Pixelanteile:** zuerst einfache Flächen mit bekanntem sichtbarem Bildanteil sowie
+  einen Verdeckungsfall verwenden. Zähler, Nenner, Hintergrund und Klassen explizit
+  definieren. Danach relevante Darstellungsarten wie Nanite und Foliage getrennt prüfen.
+  Erfolgreiche einfache Geometrie bestätigt noch nicht die Messung dieser Darstellungsarten.
+- **Wassertiefe/Uferband:** ein kleines synthetisches Raster mit bekannten Boden- und
+  Wasserhöhen prüfen; Einheiten, trockene/ungültige Zellen, Bandzuordnung und Werte direkt
+  an den verwendeten Tiefenschwellen berücksichtigen. Danach lokale Stichproben im Projekt
+  mit unabhängig abgelesenen Höhen vergleichen.
+- **GPU-Zeit:** dieselbe Szene, Hardware, Auflösung und denselben Renderzustand nach
+  vergleichbarer Aufwärmphase wiederholt messen. Messumfang und Streuung angeben;
+  Unterschiede innerhalb der Streuung nicht als Leistungsgewinn bewerten.
+
+Besteht ein Werkzeug einen relevanten Kontrollfall nicht, betroffene Zahlen als
+**nicht belastbar** markieren und daraus keine Optimierungsentscheidung ableiten.
+Nur abhängige Entscheidungen warten; qualitative Beobachtungen bleiben als solche nutzbar.
+Nach Änderungen am Messweg oder relevanten Engine-/Renderfunktionen betroffene Kontrollen
+wiederholen; sonst vorhandene Prüfnachweise wiederverwenden. Die Cloud prüft Methode und
+Belege, erklärt aber ungeprüfte Messungen nicht durch bloße Plausibilität für gültig.
+
+### 7. Reproduzierbaren Ausgangsstand sichern
+
+Vor einem Vergleich lokal eine eindeutige Ausgangsstand-ID vergeben und im vorhandenen
+Datenbereich ein kurzes Manifest führen: Projektcommit plus uncommittierte Abweichungen,
+Engine-/Pluginstand, Karte und relevante Assets, Gelände-/Spline-/Eingabedaten mit Hash
+oder eindeutiger Version, Material- und Simulationsparameter, Kameras/Beleuchtung sowie
+Reset-, Einschwing- und Bake-Ablauf. Bei Zufallsprozessen den Seed mitführen.
+Binäre Projektstände und große Bakes lokal wiederherstellbar sichern; im öffentlichen
+Repository genügen zulässige Metadaten und Belege, keine kompletten Projektkopien.
+
+Einmal tatsächlich aus diesem Stand neu laden/zurücksetzen und das Ausgangsergebnis
+erneut erfassen. Die Wiederholung muss innerhalb einer vorher festgelegten Toleranz
+liegen; andernfalls die Ursache oder die natürliche Streuung klären. „Fünf Minuten
+gewartet“ allein beweist keinen eingeschwungenen Zustand: ein zum Versuch passendes
+Stabilitätskriterium, etwa stabile Pegel/Front über mehrere Messzeitpunkte, festlegen.
+
+Jede Variante beginnt von diesem Stand; unbeabsichtigte Reständerungen ausschließen.
+Nur geplante Einflussgrößen variieren. Einen verbesserten Stand erst nach Abnahme zur
+neuen Referenz machen, mit Bezug zur bisherigen ID. Den alten Rücksetzstand erhalten.
+Nicht alle historischen Versuche nacharbeiten; mit dem nächsten entscheidenden Test starten.
+
+## Schlussfolgerungen und Zuständigkeit
+
+- **Beobachtung, Erklärung und Entscheidung getrennt schreiben.** „BAKED_SIM zeigt einen
+  Wasserkörper“ kann beobachtet sein; „WCBS zeichnet zu tief“ benötigt einen eigenen
+  Nachweis. Auch eine wirksame Zwischenlösung bestätigt nicht automatisch ihre Erklärung.
+- Für eine Ursachenbehauptung angeben, welcher Test sie von einer plausiblen Alternative
+  unterscheidet. Wo dieser fehlt, bleibt die Ursache eine Hypothese. Ein funktionierender
+  Zwischenstand darf trotzdem übernommen werden, wenn seine Grenzen klar dokumentiert sind.
+- Engine-Verknüpfungen, echte Bounds, Materialgraphen und Ladeverhalten lokal prüfen.
+  Die Cloud analysiert diese Nachweise und externe Quellen. Eine Aussage zählt nicht als
+  unabhängig bestätigt, wenn beide Sitzungen lediglich dieselbe ursprüngliche Vermutung
+  oder denselben Suchauszug wiederholen.
+- Pro Vorgang eine Entscheidung bearbeiten. Wasserverhalten/Darstellung → davon abhängige
+  Uferanpassung → Dekoration nach Abhängigkeit ordnen. Unabhängige Arbeiten weiterführen;
+  gemischte bestehende Nachträge über getrennte Punkte und Belege erschließen, nicht
+  durch eine neue Kette gegenseitiger Aufträge vervielfachen.
 
 ## Zielbilder sind Teil der Abnahme
 
@@ -167,20 +243,29 @@ diese Quellen immer unzugänglich sind.
   **Hypothese**, **widerlegt** oder **offen** kennzeichnen. Fremde Tests bestätigen
   nicht automatisch das Verhalten im eigenen Projekt.
 
+## Kurzvorlage für jede Übergabe
+
+Am Kopf der bestehenden Auftrags- bzw. Antwortdatei aktualisieren. Pro Feld möglichst
+ein Satz plus Beleglink; Details und Messdaten darunter oder in vorhandenen Dateien.
+„Nicht gemessen“, „nicht gesehen“ oder „noch offen“ statt erfundener Vollständigkeit.
+Die lokale Seite pflegt den Ausführungsstand, die Cloud ihre Auswertung und verweist
+auf diesen Stand. Keine parallelen widersprüchlichen Statuslisten führen.
+
+```markdown
+**ID / Stand:** <ID, Datum, Bezugscommit; Engine-/Inventarlink>
+**Status / zuständig:** <offen | in Arbeit | wartet auf Beleg | bereit zum Test | bestätigt | verworfen | zurückgestellt; lokal/Cloud>
+**Ziel:** <eine Entscheidung und messbares/visuelles Abnahmekriterium>
+**Ausgangsstand:** <Referenz-ID und Manifest; Wiederherstellung geprüft/offen>
+**Messung / Bilder:** <Kontrollnachweis und Gültigkeitsbereich; Zielbilder gesehen/nicht gesehen>
+**Änderung / Erwartung:** <eine Einflussgröße; erwarteter Unterschied>
+**Beobachtung:** <vorher → nachher, Einheit/Schwelle/Streuung; Beleg>
+**Erklärung:** <bestätigte Ursache mit unterscheidendem Test oder ausdrücklich Hypothese>
+**Entscheidung:** <übernehmen | verwerfen | weiterer Test; gespeichert oder nur im Speicher>
+**Ersetzt:** <überholte Empfehlung und Grund, sonst keine>
+**Nächster Schritt:** <eine Handlung, zuständige Seite, Budget/Abbruchkriterium; bei Zurückstellung Wiederaufnahmegrund>
+```
+
 ## Aktueller Stand statt widersprüchlicher Nachträge
-
-Am Anfang beider Übergabedateien steht eine kurze, aktualisierte Übersicht:
-
-| Feld | Inhalt |
-|---|---|
-| ID / Bezug | Stabile ID, relevante Dateien und Commitstände |
-| Ziel | Konkretes Ergebnis und Abnahmekriterium |
-| Stand | Datum, exakte Engine-Version/Build, relevante Plugins |
-| Status | offen / in Arbeit / wartet auf Beleg / bereit zum Test / bestätigt / verworfen / zurückgestellt |
-| Verantwortlich | lokal oder Cloud; nächster konkreter Schritt |
-| Aufwand / Ende | Recherche-/Testbudget, Abbruchkriterium; bei Zurückstellung Wiederaufnahmegrund |
-| Gültiger Befund | Was heute gilt, mit Beleg |
-| Widerlegt / ersetzt | Welche frühere Aussage nicht mehr gilt und warum |
 
 **Eine vorhandene Antwortdatei bedeutet nur „beantwortet“, nicht „erledigt“.**
 Bei einer Umsetzung bestätigt lokal den Abschluss anhand des Tests. Bei reiner Recherche
@@ -199,10 +284,11 @@ Zuerst die jeweils neuesten Befunde prüfen. Ausgangspunkt dieser Ablaufkorrektu
 `auftraege/16h-nachtrag6j-teilung-ergebnis.md` sowie die Antworten 6g und 6h.
 Neuere Ergebnisse haben Vorrang.
 
-Reihenfolge für die Einführung: zuerst Inventar und Vorprüfung in den laufenden Vorgang
-aufnehmen, danach ein geeignetes Testlevel bereitstellen. Ergebnisformat und Zeitbudget
-sofort verwenden. Diese Vorbereitungen an den nächsten konkreten Wassertest koppeln,
-statt die laufende Arbeit für eine vollständige Umstellung aufzuhalten.
+Reihenfolge für die Einführung: Inventar und Vorprüfung im laufenden Vorgang aktualisieren,
+einen wiederherstellbaren Ausgangsstand sichern und benötigte Messwerkzeuge an Kontrollfällen
+prüfen; dazu das geeignete Testlevel nutzen oder klein ergänzen. Anschließend den nächsten
+entscheidenden Wassertest ausführen. Kurzvorlage und Zeitbudget sofort verwenden.
+Diese Vorbereitungen am konkreten Test erledigen; keine vollständige Umstellung abwarten.
 
 - **Darstellung zuerst absichern:** Der lokale Bericht beschreibt BAKED_SIM als optisch
   erfolgreich. Daraus folgt noch keine bestätigte Laufzeitlösung. Darstellung im gepackten
