@@ -80,6 +80,8 @@ import re
 import sys
 
 HIER = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HIER)
+import fluss_sim_paket as paket
 SKRIPTE = os.path.dirname(HIER)
 sys.path.insert(0, SKRIPTE)
 sys.path.insert(0, os.path.join(SKRIPTE, "gefaelle"))
@@ -111,7 +113,7 @@ def lese_json(p):
 
 
 def _kompakt(o):
-    return json.dumps(o, ensure_ascii=True, separators=(",", ":"))
+    return json.dumps(o, ensure_ascii=True, separators=(",", ":"), allow_nan=False)
 
 
 def json_text(o, tiefe=0, max_tiefe=4):
@@ -128,10 +130,7 @@ def json_text(o, tiefe=0, max_tiefe=4):
 
 
 def schreibe_json(p, d, max_tiefe=4):
-    os.makedirs(os.path.dirname(p), exist_ok=True)
-    with open(p, "w", encoding="utf-8", newline="\n") as f:
-        f.write(json_text(d, 0, max_tiefe))
-        f.write("\n")
+    paket.schreibe_atomar(p, json_text(d, 0, max_tiefe) + "\n")
 
 
 def r1(v, n=1):
@@ -281,10 +280,15 @@ class Pool:
             info = p["dateien"][key]
             f = os.path.join(ordner, key + ".f32")
             if not os.path.exists(f):
-                continue
+                raise paket.PaketFehler("Angekuendigte Instanzdatei fehlt: " + f)
+            if os.path.getsize(f) % 40:
+                raise paket.PaketFehler("Instanzdatei abgeschnitten (40 Bytes je Instanz erwartet): " + f)
             a = np.fromfile(f, dtype="<f4")
-            if a.size % 10:
-                continue
+            if a.size % 10 or not np.isfinite(a).all():
+                raise paket.PaketFehler("Ungueltige Instanzdaten: " + f)
+            erwartet = info.get("anzahl")
+            if erwartet is not None and erwartet != a.size // 10:
+                raise paket.PaketFehler("Instanzanzahl stimmt nicht mit plan.json ueberein: " + f)
             a = a.reshape(-1, 10).astype(np.float64)
             self.dateien_n[(ref_quelle, key)] = len(a)
             for i in range(len(a)):
@@ -294,9 +298,11 @@ class Pool:
                                   "rolle": str(info.get("rolle", "")), "v": a[i]})
         for i, ak in enumerate(p.get("akteure") or []):
             if not all(k_ in ak for k_ in ("x", "y", "z", "qx", "qy", "qz", "qw")):
-                continue
+                raise paket.PaketFehler("Akteur %d in %s unvollstaendig" % (i, plan_pfad))
             v = np.array([ak["x"], ak["y"], ak["z"], ak["qx"], ak["qy"], ak["qz"], ak["qw"],
                           ak.get("sx", 1.0), ak.get("sy", 1.0), ak.get("sz", 1.0)], np.float64)
+            if not np.isfinite(v).all():
+                raise paket.PaketFehler("Akteur %d in %s enthaelt ungueltige Zahlen" % (i, plan_pfad))
             self.recs.append({"quelle": ref_quelle, "liste": "akteure", "index": i, "pfad": ak.get("pfad", ak.get("netz")),
                               "netz": ak.get("netz", ""), "kollision": bool(ak.get("kollision")),
                               "gruppe": ak.get("klasse", ""), "rolle": None, "v": v})
@@ -410,14 +416,20 @@ class Gelaende:
         for e in eintraege or []:
             g = e.get("gelaende") or {}
             fij = g.get("fenster_ij")
-            if not (g.get("datei") and isinstance(fij, list) and len(fij) == 4):
+            if not g.get("datei"):
                 continue
+            if not (isinstance(fij, list) and len(fij) == 4 and
+                    all(isinstance(v, int) for v in fij) and min(fij[2:]) >= 2):
+                raise paket.PaketFehler("Ungueltiges Gelaendefenster: %s" % g)
             pf = os.path.join(basis, g["datei"])
-            if os.path.exists(pf) and os.path.getsize(pf) == fij[2] * fij[3] * 4:
-                i0, j0, hh, ww = fij
-                box = (j0 - _d.OFF_J, i0 - _d.OFF_I, j0 + ww - 1 - _d.OFF_J, i0 + hh - 1 - _d.OFF_I)
-                self.deltas.append((tuple(fij), box, pf))
-                n += 1
+            if not os.path.isfile(pf) or os.path.getsize(pf) != fij[2] * fij[3] * 4:
+                raise paket.PaketFehler("Angekuendigtes Gelaende-Delta fehlt oder ist abgeschnitten: " + pf)
+            if not np.isfinite(np.fromfile(pf, dtype="<f4")).all():
+                raise paket.PaketFehler("Gelaende-Delta enthaelt ungueltige Zahlen: " + pf)
+            i0, j0, hh, ww = fij
+            box = (j0 - _d.OFF_J, i0 - _d.OFF_I, j0 + ww - 1 - _d.OFF_J, i0 + hh - 1 - _d.OFF_I)
+            self.deltas.append((tuple(fij), box, pf))
+            n += 1
         return n
 
     def delta(self, x, y):
@@ -514,9 +526,8 @@ def lauf_plaene(gef_basis):
             continue
         try:
             plan = lese_json(pf)
-        except (OSError, ValueError):
-            weg.append({"ordner": name, "grund": "plan.json nicht lesbar"})
-            continue
+        except (OSError, ValueError) as exc:
+            raise paket.PaketFehler("Lauf-Plan nicht lesbar: %s (%s)" % (pf, exc)) from exc
         if not isinstance(plan, dict) or "wasser_koerper" not in plan:
             weg.append({"ordner": name, "grund": "kein Lauf-Plan (ohne 'wasser_koerper', z. B. Feld-Instanzplan von a15_einbau.py)"})
             continue
@@ -2128,7 +2139,7 @@ def welt_rechteck_cm():
     return [daten.X_MIN_M * 100.0, daten.Y_MIN_M * 100.0, daten.X_MAX_M * 100.0, daten.Y_MAX_M * 100.0]
 
 
-def zonen_vorschlag(alle, regeln):
+def zonen_vorschlag(alle, regeln, namespace=""):
     """16g Nachtrag (Regel v10): Water Zones fuer die ganze Welt, so dass jedes Gewaesser die Regel water_info erfuellt.
     Ein WaterBodyRiver gehoert zu genau einer Zone (WaterZoneOverride bzw. overlap_priority), also muss das ganze Bett
     eines Gewaessers in seiner Zone liegen. Grundzone WZ_WELT (ganze Welt, welt_aufloesung) fuer alle Gewaesser, deren
@@ -2178,6 +2189,7 @@ def zonen_vorschlag(alle, regeln):
     fein.sort(key=lambda z: (z["box"][1], z["box"][0], z["items"][0]["id"]))
 
     def zone_eintrag(zid, art, box, px_soll, mitglieder, res=None, prio=0):
+        zid = namespace + zid
         ex, ey = (box[2] - box[0]) / 100.0, (box[3] - box[1]) / 100.0
         if res is None:
             res = [_zweierpotenz(ex / px_soll, W["aufloesung_min"]), _zweierpotenz(ey / px_soll, W["aufloesung_min"])]
@@ -3560,6 +3572,14 @@ def export_sperrgruende(gewaesser):
 
 
 def main(argv=None):
+    try:
+        return _main(argv)
+    except (OSError, ValueError) as exc:
+        log("FEHLER: %s. Kein neuer Export freigegeben." % exc)
+        return 1
+
+
+def _main(argv=None):
     ap = argparse.ArgumentParser(description="Exporter Entscheidung 16 (v3, 16c): fluss_sim.json je Gewaesser + back_liste.json")
     ap.add_argument("--gefaelle", default=None, help="Ordner mit <lauf>/plan.json (gefaelle_plan.py)")
     ap.add_argument("--sehens", default=None, help="Ordner mit <biom>/orte.json (Sehens-Planer)")
@@ -3580,6 +3600,8 @@ def main(argv=None):
     from sehens_lib import daten
     daten.argumente_hinzufuegen(ap)
     a = ap.parse_args(argv)
+    paket.pruefe_ordner(a)
+    paket.neues_ziel(a.aus)
     regeln = lese_json(a.regeln)
     welt = daten.lade(a.daten2m or (None if a.daten1m else os.path.join(RECHERCHE, "vorlagen", "daten", "sehens")),
                       a.daten1m, pfade=False)
@@ -3623,7 +3645,7 @@ def main(argv=None):
         log("uebersprungen: %s/%s - %s" % (w["eingabe"], w["ordner"], w["grund"]))
     einbau = None if a.ohne_erkennung else einbau_ordner_finden(a.einbau, a.daten1m, a.gefaelle, a.sehens, a.sw_ordner)
     if a.einbau and not einbau and not a.ohne_erkennung:
-        log("WARNUNG: --einbau %s nicht gefunden - keine Erkennung gebauter Laeufe" % a.einbau)
+        raise paket.PaketFehler("--einbau %s nicht erkannt; gebaute Laeufe nicht sicher bestimmbar" % a.einbau)
     ginfo = gelaende_laden(gel, a.gefaelle, gef_plaene, a.sehens if sehens_ok else None, a.gebaut or (), einbau)
     unbekannt = sorted(set(a.gebaut or ()) - set(gef_plaene) - {g["id"] for g in ginfo["gebaut"]}
                        - {o["id"] for _, o, _ in sehens} - {"SW_%s_%s" % (o["id"], w.get("id")) for _, o, _ in sehens
@@ -3634,8 +3656,8 @@ def main(argv=None):
     for g in ginfo["lauf_json_ungebaut"]:
         log("lauf.json ohne passendes Feld (%s nicht in nachgezogen, Form %s): %s - Delta wird addiert"
             % ("/".join(g["felder"]) or "?", g["nachgezogen_form"], g["lauf_json"]))
-    for u in unbekannt:
-        log("WARNUNG: --gebaut %s: kein Lauf-Plan bzw. Sehens-Ort mit Gelaende-Delta" % u)
+    if unbekannt:
+        raise paket.PaketFehler("Unbekannte --gebaut-IDs: " + ", ".join(unbekannt))
     log("Gelaende-Deltas: %d addiert, %d nicht addiert (gebaut: %s); sehens_einbau %s"
         % (ginfo["addiert"], ginfo["ohne"], ", ".join(g["id"] for g in ginfo["gebaut"]) or "keiner",
            "gefunden" if einbau else ("nicht ausgewertet" if a.ohne_erkennung else "nicht gefunden")))
@@ -3650,10 +3672,6 @@ def main(argv=None):
     gdelta = {"addiert": ginfo["addiert"], "nicht_addiert": ginfo["ohne"], "gebaut": ginfo["gebaut"],
                                "lauf_json_ungebaut": ginfo["lauf_json_ungebaut"], "gebaut_unbekannt": unbekannt,
                                "sehens_einbau": "gefunden" if einbau else ("nicht ausgewertet" if a.ohne_erkennung else "nicht gefunden")}
-    nur = set(a.nur) if a.nur else None
-    if nur:
-        gewaesser = [gw for gw in gewaesser if gw["id"] in nur or any(l_["id"] in nur for l_ in gw["laeufe"])
-                     or (gw.get("quelle_sehens") or {}).get("ort") in nur]
     log("Laeufe: %d Welt (%d mit Plan, %d roh), %d Sehens-Baeche; Fortsetzungen %s; Gewaesser: %d, Gelaende-Deltas %d"
         % (info["teile_welt"], info["teile_plan"], info["teile_roh"], info["sehens_baeche"], info["fortsetzungen"],
            len(gewaesser), len(gel.deltas)))
@@ -3666,7 +3684,14 @@ def main(argv=None):
     for gw in gewaesser:
         e = baue_gewaesser_v3(gw, regeln, pool)
         alle.append(e)
-        dateien.setdefault(gw["rel"], []).append(e)
+    enthalten, umfang = paket.auswahl_mit_kontext(gewaesser, alle, a.nur)
+    for gw, e in zip(gewaesser, alle):
+        if e["id"] in enthalten:
+            dateien.setdefault(gw["rel"], []).append(e)
+    alle = [e for e in alle if e["id"] in enthalten]
+    gewaesser = [g for g in gewaesser if g["id"] in enthalten]
+    log("Paketumfang: %s; Ziele %s; mitbetroffener Kontext %s" %
+        (umfang["art"], umfang["ziele"], umfang["kontext"]))
     sperren = export_sperrgruende(alle)
     if sperren:
         for grund in sperren:
@@ -3817,14 +3842,17 @@ def main(argv=None):
                              "sim_vorgaben": {k_: sw[k_] for k_ in SIM_VORGABEN_FELDER},
                              "fingerabdruck": ges, "teile": teile_, "n_hoehen": nh, "n_objekte": no})
     # 16g Nachtrag (Regel v10): Water Zones fuer die ganze Welt (Wasser-Info fein genug fuer das schmalste Bett)
-    wz = zonen_vorschlag(alle, regeln)
+    wz = zonen_vorschlag(alle, regeln, namespace=umfang["zonen_namespace"])
     for e in alle:
         e["water_body"]["water_zone_vorschlag"] = wz["gewaesser"][e["id"]]
-    # schreiben
+    # Erst alles serialisieren; schreiben/pruefen/publizieren als abgeschlossenes Paket.
+    ausgaben = {}
+    def vormerken(rel, daten, max_tiefe=4):
+        ausgaben[rel.replace(os.sep, "/")] = json_text(daten, 0, max_tiefe) + "\n"
     for rel in sorted(dateien):
         d = {"format": FORMAT_VERSION, "regeln_version": regeln["version"], "fall_schwelle_m": regeln["fall_schwelle_m"],
              "daten": "1m" if a.daten1m else "2m (Cloud-Test)", "unreal_validierung": "ausstehend", "gewaesser": dateien[rel]}
-        schreibe_json(os.path.join(a.aus, rel), d)
+        vormerken(rel, d)
     zus = zusammenfassung(alle, regeln, info, kol_global, pool, karte, hoehe_kachel, gewaesser)
     zus["tempo"] = tempo_zusammenfassung(alle, tempo_alt, regeln)
     zus["schaum_maske"] = schaum_maske_zusammenfassung(alle, regeln)
@@ -3836,20 +3864,35 @@ def main(argv=None):
     zus["daten"] = "1m" if a.daten1m else "2m (Cloud-Test)"
     zus["format"] = FORMAT_VERSION
     zus["dateien"] = len(dateien)
-    schreibe_json(os.path.join(a.aus, "zusammenfassung.json"), zus)
-    schreibe_json(os.path.join(a.aus, "wasserzonen.json"), wz, max_tiefe=3)
-    schreibe_json(os.path.join(a.aus, "vorschlaege.json"),
+    vormerken("zusammenfassung.json", zus)
+    vormerken("wasserzonen.json", wz, max_tiefe=3)
+    vormerken("vorschlaege.json",
                   {"format": "fluss_sim_vorschlaege_v1", "regeln": regeln["gewaesser"]["vorschlag"],
                    "hinweis": "Vorschlagspunkte fuer offene Enden und Luecken (16d). NICHT in water_body.spline enthalten; lokal "
                               "pruefen und uebernehmen. Erster Punkt = Spline-Ende, z nie steigend.",
                    "vorschlaege": vorschlaege}, max_tiefe=3)
-    schreibe_json(os.path.join(a.aus, "back_liste.json"),
+    vormerken("back_liste.json",
                   {"format": BACK_FORMAT, "fingerabdruck": dict(fpr, formel="siehe README fluss_sim, Abschnitt Fingerabdruck"),
                    "einheit": "SWR-Bereich (eine SWR je Gewaesser; Teilungsplaene gesperrt)",
                    "unreal_validierung": "ausstehend",
                    "gelaende": {"hinweis": "Fingerabdruck Gelaende = Welt + Planer-Deltas ohne die schon gebauter Laeufe (16d)",
                                 "gebaut": [g["id"] for g in ginfo["gebaut"]], "deltas_ohne": ginfo["ohne_dateien"]},
                    "swr_bereiche": back})
+    from fluss_sim_pruefen import main as pruefer_main
+    def pruefen(ordner):
+        args = [ordner, "--regeln", a.regeln]
+        for name in ("gefaelle", "sehens", "sw_ordner", "roh", "einbau", "daten1m", "daten2m"):
+            wert = getattr(a, name, None)
+            if wert:
+                args += ["--" + name.replace("_", "-"), wert]
+        if not a.daten1m and not a.daten2m:
+            args += ["--daten2m", os.path.join(RECHERCHE, "vorlagen", "daten", "sehens")]
+        if a.gebaut:
+            args += ["--gebaut"] + a.gebaut
+        if a.ohne_erkennung:
+            args += ["--ohne-erkennung"]
+        return pruefer_main(args)
+    paket.paket_schreiben(a.aus, ausgaben, umfang, pruefen)
     wi_ = zus["water_info"]
     log("Water-Info (16g Nachtrag): schmalste Breite %.2f m -> Pixel <= %.3f m; Zonenvorschlag %d Zonen (%d fein, %s), "
         "%.0f MB RGBA16F / %.0f MB RGBA32F"
@@ -3860,7 +3903,7 @@ def main(argv=None):
         "(%d mit Vorhang), %d Kollisionsobjekte (%d eindeutig, %d ueberspannt), %d Hindernis-Akteure"
         % (len(dateien), s_["gewaesser"], s_["gewaesser_eine_swr"], s_["swr_bereiche"], zus["swr"]["aufloesung"], zus["muendungen"],
            s_["faelle"], s_["faelle_vorhang"], s_["kollision"], len(kol_global), s_["ueberspannt"], zus["swr"]["hindernis_akteure"]))
-    log("EXPORT erstellt; formale Pruefung separat ausfuehren. UNREAL-NACHWEIS: ausstehend (Bounds, Stroemung, Naehte, Bild und Laufzeit lokal pruefen).")
+    log("EXPORT erstellt und formal geprueft. UNREAL-NACHWEIS: ausstehend (Bounds, Stroemung, Naehte, Bild und Laufzeit lokal pruefen).")
     return 0
 
 

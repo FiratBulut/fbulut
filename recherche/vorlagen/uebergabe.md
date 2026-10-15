@@ -25,6 +25,8 @@ gemacht wird. Eine bloße Suchvorschau ist keine vollständige Quellenbestätigu
 - **Ziel / Erwartung:** Eine Änderung und ihr Erfolgskriterium.
 - **Basis / Paket:** Ausgangsstand-ID, relevante Eingabeversionen und Artefaktversion;
   [Wiederherstellungs-/Messnachweise](pruefung.md) verlinken statt wiederholen.
+  Bei Shallow-Water-Exporten den veröffentlichten Paketordner samt `paket.json` und
+  Prüfergebnis nennen; bei Teilpaketen Zielgewässer und mitgelieferten Kontext angeben.
 - **Ausführung:** Test-ID; vorbereitet / angewendet / geprüft / verworfen bzw. zurückgesetzt;
   im Speicher oder gespeichert; erwarteter Eingang vor Anwendung bestätigt oder abweichend.
 - **Ergebnis / Erklärung:** vorher → nachher mit Beleg; Ursache nachgewiesen oder Hypothese.

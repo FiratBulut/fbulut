@@ -113,7 +113,7 @@ class UebergabeTests(unittest.TestCase):
             stack.enter_context(patch.object(fx, "baue_gewaesser_v3", side_effect=lambda g, *_: g))
             schreiben = stack.enter_context(patch.object(fx, "schreibe_json", wraps=fx.schreibe_json))
             out = stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
-            self.assertEqual(fx.main(["--aus", tmp, "--ohne-erkennung"]), 1)
+            self.assertEqual(fx.main(["--aus", str(Path(tmp, "neu")), "--ohne-erkennung"]), 1)
             schreiben.assert_not_called()
             self.assertEqual(alt.read_bytes(), b"alter Stand unveraendert")
             self.assertEqual(list(Path(tmp).iterdir()), [alt])

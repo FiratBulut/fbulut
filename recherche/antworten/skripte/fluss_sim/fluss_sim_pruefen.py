@@ -1063,7 +1063,7 @@ def pruefe_rand_steil_global(alle_swr, regeln, b):
                                                                           r["hoehenspanne_m"]) for i, r in top))))
 
 
-def pruefe_water_info_global(alle, alle_swr, regeln, aus, zonen_pfad, b):
+def pruefe_water_info_global(alle, alle_swr, regeln, aus, zonen_pfad, b, namespace=""):
     """16g Nachtrag (v10): Zonenvorschlag (wasserzonen.json) neu gerechnet und gegen die Regel geprueft; mit --zonen die
     bekannten Water Zones: Pixel > schmalste Breite / 6 = FEHLER, Bett ragt aus der Zone = WARNUNG."""
     W = regeln["swr"].get("water_info")
@@ -1075,7 +1075,7 @@ def pruefe_water_info_global(alle, alle_swr, regeln, aus, zonen_pfad, b):
         b.append((FEHLER, "wasserzonen.json", "fehlt (Regeln v10)"))
         return
     wz = fx.lese_json(pz)
-    soll = json.loads(json.dumps(fx.zonen_vorschlag([alle[k_] for k_ in sorted(alle)], regeln)))
+    soll = json.loads(json.dumps(fx.zonen_vorschlag([alle[k_] for k_ in sorted(alle)], regeln, namespace=namespace)))
     if json.dumps(wz, sort_keys=True) != json.dumps(soll, sort_keys=True):
         abw = sorted(k_ for k_ in set(wz) | set(soll) if json.dumps(wz.get(k_), sort_keys=True) != json.dumps(soll.get(k_), sort_keys=True))
         b.append((FEHLER, "wasserzonen.json", "weicht von der Neurechnung ab: %s" % ", ".join(abw)))
@@ -1302,6 +1302,14 @@ def abschluss(gesamt, vorpruefung=False):
 
 
 def main(argv=None):
+    try:
+        return _main(argv)
+    except (OSError, ValueError) as exc:
+        sys.stdout.write("[fluss_sim_pruefen] FEHLER: %s\n" % exc)
+        return abschluss({FEHLER: 1, WARNUNG: 0, HINWEIS: 0}, vorpruefung=True)
+
+
+def _main(argv=None):
     global regeln_global, welt_global
     ap = argparse.ArgumentParser(description="Pruefer Entscheidung 16 (fluss_sim v3)")
     ap.add_argument("aus")
@@ -1319,6 +1327,8 @@ def main(argv=None):
     ap.add_argument("--zonen", default=None,
                     help="16g Nachtrag: bekannte Water Zones (JSON, siehe zonen_bekannt_lesen): Pixel > Breite/6 = FEHLER")
     a = ap.parse_args(argv)
+    fx.paket.pruefe_ordner(a)
+    manifest = fx.paket.lies_manifest(a.aus)
     regeln = fx.lese_json(a.regeln)
     regeln_global = regeln
     gesamt = {FEHLER: 0, WARNUNG: 0, HINWEIS: 0}
@@ -1326,7 +1336,7 @@ def main(argv=None):
     gef_plaene, eingabe_weg = fx.lauf_plaene(a.gefaelle)
     quellen["gef_plaene"] = gef_plaene
     pool = None
-    if a.gefaelle or a.sehens:
+    if a.gefaelle or a.sehens or a.roh:
         P = fx.Pool(regeln, fx.Masse())
         for lauf in sorted(gef_plaene):
             for pf in fx.feld_plaene(os.path.join(a.gefaelle, lauf, "instanzen"))[0]:
@@ -1365,6 +1375,7 @@ def main(argv=None):
                 b.append((FEHLER, g["id"], "Gewaesser-ID doppelt"))
             alle[g["id"]] = g
             datei_von[g["id"]] = rel
+    umfang = fx.paket.pruefe_umfang(manifest, alle)
     if not alle:
         befunde_datei.setdefault(a.aus, []).append((FEHLER, a.aus, "keine Gewaesser gefunden"))
         swr_gesperrt = True
@@ -1469,15 +1480,18 @@ def main(argv=None):
     if welt is not None:
         soll = {f["id"] for f in (welt.wasser_welt or {}).get("fluesse", []) or []} | {x["id"] for x in welt.baeche or []}
         soll -= set(ersetzt)
-        fehlt = sorted(soll - set(lauf_in))
+        fehlt = sorted(soll - set(lauf_in)) if not umfang or umfang["art"] == "voll" else []
         if fehlt:
             b.append((FEHLER, "Laeufe", "%d Welt-Laeufe in keinem Gewaesser, z. B. %s" % (len(fehlt), fehlt[:3])))
+        elif umfang and umfang["art"] == "teil":
+            b.append((HINWEIS, "Teilpruefung", "%d Gewaesser inklusive Kontext; keine Vollstaendigkeitsabnahme der Welt" % len(alle)))
         else:
             b.append((HINWEIS, "Laeufe", "alle %d Welt-Laeufe in genau einem Gewaesser" % len(soll)))
     pruefe_hindernis_global(alle_swr, alle_kol, regeln, b)
     pruefe_filter_global(alle_kol, alle_filter, regeln, b)
     pruefe_rand_steil_global(alle_swr, regeln, b)
-    pruefe_water_info_global(alle, alle_swr, regeln, a.aus, a.zonen, b)
+    pruefe_water_info_global(alle, alle_swr, regeln, a.aus, a.zonen, b,
+                            namespace=umfang["zonen_namespace"] if umfang else "")
     pruefe_tempo_global(tempo_global, regeln, b)
     pv = os.path.join(a.aus, "vorschlaege.json")
     mit_v = {gid: g["muendung"]["vorschlag"] for gid, g in alle.items() if g["muendung"].get("vorschlag")}
@@ -1523,7 +1537,7 @@ def main(argv=None):
                 einbau = fx.einbau_ordner_finden(a.einbau, a.daten1m, a.gefaelle, a.sehens, a.sw_ordner)
                 jetzt = fx.gelaende_laden(fx.Gelaende(welt), a.gefaelle, gef_plaene, a.sehens, a.gebaut or (), einbau)
                 if set(jetzt["ohne_dateien"]) != ohne:
-                    b.append((WARNUNG, "gebaut", "Erkennung jetzt %s, beim Export %s (lauf.json seit dem Export geaendert?)"
+                    b.append((FEHLER, "gebaut", "Erkennung jetzt %s, beim Export %s (lauf.json seit dem Export geaendert?)"
                               % (sorted(g["id"] for g in jetzt["gebaut"]), blg.get("gebaut"))))
             if blg.get("gebaut"):
                 b.append((HINWEIS, "gebaut", "Gelaende-Deltas ohne %d Datei(en) gebauter Laeufe: %s" % (len(ohne), blg["gebaut"])))

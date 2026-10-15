@@ -11,8 +11,9 @@ Nähte [in 6j §1 verworfen](../../../auftraege/16h-nachtrag6j-teilung-ergebnis.
 Teilungsplan im ausgewählten Lauf mit Exit-Code 1 ab, bevor er Ausgabedateien schreibt.
 Er nennt die betroffenen Gewässer. Der gesamte ausgewählte Lauf wird abgebrochen;
 bestehende Dateien bleiben unverändert und sind kein Ergebnis dieses Versuchs.
-Ungeteilte Gewässer können mit `--nur ID ...` gezielt in einen **neuen Ausgabeordner**
-exportiert werden. Bei einer leeren Auswahl wird ebenfalls abgebrochen.
+Ungeteilte Gewässer können mit `--nur ID ...` samt benötigtem Kontext in einen **neuen,
+noch nicht vorhandenen Ausgabeordner** exportiert werden (Paketregeln unten). Bei einer
+leeren Auswahl oder unbekannten ID wird abgebrochen, auch wenn andere IDs gültig sind.
 
 Der Prüfer lehnt auch alte Teilungspläne anhand ihrer Struktur ab: mehrere SWR,
 `geteilt` oder `rechteck_teil`. Das Entfernen eines Warntextes hebt die Sperre nicht auf.
@@ -31,8 +32,49 @@ Belege für Strömung, Nähte, Bildqualität und Laufzeit bleiben erforderlich.
 
 Regressionen der Sperre (Python mit NumPy und Pillow, vom Repository-Stamm):
 `python -m unittest discover -s recherche/antworten/skripte/fluss_sim -p "test_*.py" -v`.
-Die Tests verwenden kleine Testpläne und ersetzen beim Export-Abbruchtest den Welt-/Planerzugriff.
-Sie prüfen keine Unreal-Simulation und keinen vollständigen Weltexport.
+Die Tests verwenden kleine Testpläne. Ein durchgehender Test baut echte Spline-/SWR-Geometrie,
+exportiert und prüft Voll- und Teilpakete mit verbundenen Gewässern; nur Quelldatenzugriff
+und Terrain sind ersetzt. Fehlerfälle umfassen fehlende/beschädigte Daten, Schreibabbruch,
+abgelehnte Pakete, geänderte Dateien und Kontextverlust. Keine Unreal-Simulation und kein
+vollständiger Projekt-Weltexport werden damit bestätigt.
+
+## Abgeschlossene Pakete und gezielte Teilprüfung (15.10.2026)
+
+- **Eingaben:** Explizit angegebene Ordner müssen existieren. Angekündigte Instanzdateien
+  müssen vollständig sein (40 Bytes je Instanz, deklarierte Anzahl, endliche Zahlen).
+  Unlesbare Laufpläne und fehlende/beschädigte anzuwendende Gelände-Deltas stoppen den Lauf.
+  Unbekannte `--gebaut`-IDs stoppen ebenfalls; eine geänderte Gebaut-Erkennung ist beim
+  Prüfer ein Fehler. Fehlende Daten nicht durch leere Dateien oder weggelassene Argumente
+  kaschieren. Den konkreten fehlenden Eingang einmal gezielt nachliefern lassen.
+- **Schreiben:** Alle Ausgaben werden zunächst vorbereitet und in einem temporären
+  Nachbarordner geschrieben. Der echte Prüfer läuft mit denselben angegebenen Eingaben.
+  Erst bei Exit-Code 0 wird der gesamte Ordner am neuen Ziel bereitgestellt. Existierende
+  Ziele werden nicht überschrieben oder ergänzt. Bei Fehlern bleibt der bisherige Stand
+  erhalten. Ein harter Prozess-/Rechnerabbruch kann einen `.fluss_sim-*`-Restordner
+  hinterlassen; diesen nie als Ergebnis verwenden. Vor dessen Bereinigung sicherstellen,
+  dass der zugehörige Lauf beendet ist.
+- **Paketprüfung:** `paket.json` nennt Zielgewässer, automatisch aufgenommenen Kontext,
+  enthaltene Läufe und SHA-256-Prüfsummen aller Ausgabedateien. Der Prüfer erkennt fehlende,
+  zusätzliche und veränderte Dateien. `formal: bestanden` ersetzt keine erneute Prüfung
+  nach Änderungen und keinen lokalen Unreal-Nachweis. Historische Exporte ohne Manifest
+  bleiben prüfbar, besitzen aber keinen bestätigten Paketumfang.
+- **`--nur`:** Hydraulisch verbundene Gewässer, gemeinsame Ortsdateien, überlappende
+  SWR-Rahmen und gemeinsame Kollisionsobjekte werden transitiv aufgenommen. Ziele und
+  Kontext stehen im Protokoll und Manifest. Deshalb bleibt etwa die Priorität eines
+  Zuflusses erhalten. Benötigter Kontext mit gesperrter Teilung sperrt auch das Teilpaket;
+  Kontext nicht entfernen, um diese Prüfung zu umgehen. Unaufgelöste Verweise werden
+  spätestens durch die abschließende Prüfung abgelehnt.
+- **Teilpakete sind abgegrenzte Testpakete:** Der Prüfer prüft enthaltene Gewässer und
+  Referenzen; er verlangt nicht die übrige Welt und behauptet keine Weltvollständigkeit.
+  Vorgeschlagene Zonen heißen `TEST_<Auswahlkennung>_…`, damit sie nicht globale `WZ_Fxx`
+  ersetzen. Lokal zunächst im gesicherten Teststand verwenden; keine automatische
+  Übernahme der zusätzlichen Kontextgewässer oder Zonen ins Spielprojekt. Vor Integration
+  gemeinsame Ressourcen und Vergleichsstellen gemäß den [Prüfregeln](../../../vorlagen/pruefung.md)
+  prüfen. Die Kontextauswahl aus Exportdaten ist kein vollständiges Unreal-Assetinventar.
+
+Für den nächsten Lauf einen neuen Namen verwenden, z. B. `--aus <scratch>/fluss_sim_paket_01`.
+Nur den vollständig veröffentlichten Ordner an die lokale Sitzung übergeben; alte und neue
+Pakete nicht zusammenkopieren. Die alte Referenz bis zur lokalen Abnahme aufbewahren.
 
 Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBodyRiver` + `ShallowWaterRiver`
 (UE 5.8.3, Plugins Water + Niagara Fluids); die Simulation wird im Editor **gebacken**; Seen bleiben `WaterBodyLake`

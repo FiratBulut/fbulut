@@ -77,6 +77,14 @@ Bis die bestehende Abfrage geprüft/angepasst ist, den Versionsvergleich bei die
 Übergabepunkten manuell ausführen. Ein Push startet keine Sitzung. Keine zusätzliche
 Zeitsteuerung oder Quittungsschleife einrichten.
 
+**Einmaliger Starttest am nächsten lokalen Termin:** Bestehenden Startprompt/Abfrageweg
+prüfen und bei Bedarf auf diese README und Inhaltsversionen umstellen. Eine kontrollierte
+Änderung in einer bestehenden aktiven Datei muss beim nächsten Start erkannt werden;
+eine unveränderte oder nur quittierte Revision darf keine Wiederholung auslösen. Den
+Erkennungsnachweis und das daraus tatsächlich gelieferte Ergebnis im bestehenden Bericht
+festhalten. Bis dahin bleibt „automatische Übernahme des Ablaufs“ offen, auch bei grünen
+Exporter-Tests. Dieser Test wurde hier nicht ausgeführt.
+
 ## Anwendung und Wiederaufnahme
 
 Vor einer Umsetzung prüft lokal: genannte Assets/APIs vorhanden, Einheiten und Formate
@@ -84,6 +92,12 @@ passend, benötigte Dateien vollständig und **erwarteter Eingabestand noch gül
 Zum Arbeitspaket gehören die relevanten Eingabeversionen und das gelieferte Artefakt.
 Vor dem Anwenden erneut vergleichen. Ein fachlich veränderter Eingang macht nur die
 abhängigen Teile neu prüfpflichtig; keine blinde Übernahme nach einem sauberen Git-Merge.
+
+Shallow-Water-Exporte nur als abgeschlossenes, geprüftes Paket aus einem neuen Zielordner
+übergeben; [Paketregeln](antworten/skripte/fluss_sim/README.md). Eingabefehler nicht still
+überspringen, alte Dateien nicht in neue Exporte mischen. Bei `--nur` automatisch
+aufgenommenen Kontext mitlesen; ein Teilpaket ist ein abgegrenzter Test, keine vollständige
+Projektfreigabe. Vor lokaler Anwendung Paketprüfung und Eingabevergleich wiederholen.
 
 Jeder Versuch erhält eine Test-ID und im lokalen Befund einen Ausführungsstand:
 `vorbereitet → angewendet → geprüft` bzw. `verworfen/zurückgesetzt`, jeweils mit
