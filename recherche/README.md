@@ -3,6 +3,8 @@
 ## Auftrag von Ferat – gültig ab 15.10.2026
 
 Ferat hat Codex beauftragt, den Arbeitsablauf zu korrigieren und effizienter zu machen.
+Ferat hat auch die nachfolgenden Ergänzungen zu Inventar, Vorprüfung, Testlevel,
+Ergebnisformat und Zeitbudget zur Übernahme in den Arbeitsablauf beauftragt.
 **Ziel: mehr überprüfbare Ergebnisse im Unreal-Projekt, weniger gegenseitige Aufträge,
 Wiederholungen und lange Antworten ohne Umsetzung.**
 
@@ -31,6 +33,8 @@ Bestehende Projektregeln und Ferats fachliche Entscheidungen gelten weiter. Dies
    lesen, einschließlich Nachträgen. Nicht allein vom ursprünglichen Auftrag ausgehen.
 3. Prüfen, ob die letzte Antwort bereits getestet, widerlegt oder durch einen neueren
    Befund ersetzt wurde. Bereits erledigte Arbeit nicht erneut beauftragen.
+   Aktuelles Projektinventar prüfen; bei visuellen Fragen die relevanten Zielbilder
+   und aktuellen Projektbilder tatsächlich öffnen (siehe unten).
 4. Den nächsten Schritt nach seinem Nutzen wählen: einen konkreten Fehler beheben,
    eine entscheidende Unsicherheit klären oder ein verwendbares Ergebnis liefern.
    Pro Problem nur einen aktiven Übergabevorgang führen.
@@ -56,6 +60,88 @@ Rückfragen nur stellen, wenn ihre Antwort den nächsten Schritt tatsächlich ve
 Zusammengehörige Fragen bündeln; unabhängige Arbeit währenddessen fortsetzen. Ferat nur
 für fehlende Zielentscheidungen oder tatsächlich erforderliche Freigaben einbeziehen.
 Bereits autorisierte Schritte nicht erneut zur Entscheidung vorlegen.
+
+## Verbindliche Ergänzungen ab der nächsten Sitzung
+
+Die folgenden Schritte gehören zum Arbeitsablauf. Vorhandene Werkzeuge und Daten zuerst
+verwenden. Fehlende Hilfsmittel lokal schrittweise ergänzen; keinen eigenen großen
+Infrastrukturauftrag daraus machen. Diese README legt den Ablauf fest, sie behauptet
+nicht, dass Inventarexport, Testlevel oder automatische Prüfungen bereits existieren.
+
+### 1. Aktuelles Projektinventar
+
+Lokal pflegt einen kompakten, möglichst automatisch erzeugten Inventarexport unter
+`recherche/auftraege/daten/` und verlinkt ihn im aktiven Vorgang. Er enthält Engine-Build,
+relevante Plugins, vorhandene Assets/Materialien mit exakten Pfaden, benötigte APIs und
+Parameter sowie wesentliche Einstellungen. Datum und Projekt-/Datenstand mitführen.
+Nur bei relevanten Änderungen aktualisieren; nur den benötigten Ausschnitt exportieren.
+Die Cloud nutzt diesen Stand und kennzeichnet neu anzulegende Assets ausdrücklich.
+Sie darf vorgeschlagene Namen nicht als bereits vorhandene Projektbestandteile behandeln.
+
+### 2. Voraussetzungen prüfen, bevor gebaut wird
+
+Die Cloud liefert ein direkt prüfbares Paket: Ziel, Voraussetzungen, konkrete Änderung
+oder verwendbares Artefakt, Test und Erfolgskriterium. Lokal prüft zuerst kostengünstig:
+Existieren Parameter, API und Materialien? Ist die vorgeschlagene Funktion im installierten
+Build verfügbar? Stimmen Einheiten, Datenstände und tatsächliche Simulationsgrenzen?
+Bei einer falschen Voraussetzung den betroffenen Schritt stoppen, den konkreten Befund
+zurückmelden und eine belegte Alternative wählen. Keine aufwendige Umsetzung auf bloßer
+Annahme starten. Vorhandene lokale Nachweise nicht für jeden Auftrag neu erzeugen.
+
+### 3. Kleines, wiederverwendbares Wasser-Testlevel
+
+Lokal verwendet ein bestehendes geeignetes Testlevel oder richtet eines mit geradem Bach,
+steilem Abschnitt, Becken und Übergang ein. Feste Kameras, Beleuchtung, Ausgangsparameter
+und Rücksetzstand dokumentieren. Neue technische Varianten zunächst dort prüfen, sofern
+der relevante Fehler dort reproduzierbar ist. Falls nicht, einen begrenzten Abschnitt
+des echten Projekts verwenden und die Abweichung festhalten.
+Ein erfolgreicher Kleintest ist noch keine Projektfreigabe: anschließend am Erlenbach
+bzw. betroffenen Gewässer prüfen; Laufzeitfragen zusätzlich im gepackten Build testen.
+
+### 4. Einheitliche Rückmeldung mit Belegen
+
+Pro Test eine kurze Tabelle und, soweit bereits verfügbar, maschinenlesbare Messdaten:
+
+| Test-ID / Ausgangsstand | Änderung | Erwartung | Messwert vorher → nachher | Urteil | Beleg / gespeichert? |
+|---|---|---|---|---|---|
+| stabile ID + Commit/Datenstand | eine Einflussgröße | Abnahmekriterium | gemessen oder „nicht gemessen“ | bestanden / widerlegt / unklar | Bild-/Datenpfad; gespeichert oder nur getestet |
+
+Bei Wasserproblemen je nach Test Wasserlauf, nasses Bett/Uferband samt Tiefenschwellen,
+Nahtsprünge/trockene Stellen und GPU-Zeit mit Hardware-/Auflösungsbezug erfassen.
+Fehlende Messungen nicht als Null oder Erfolg behandeln. Lokal ergänzt nach Bedarf einen
+einfachen wiederverwendbaren Prüfer für Pflichtangaben, vorhandene Belegpfade und
+Assetreferenzen; die Cloud prüft diese Angaben vor ihrer nächsten Empfehlung.
+
+### 5. Zeitbudget und Ende einer Schleife
+
+Jede Übergabe nennt ein angemessenes Recherche-/Testbudget und ein Abbruchkriterium.
+Für eine eng begrenzte Quellenfrage gelten ohne andere Vorgabe zunächst 20 Minuten
+Recherche. Bei fehlendem entscheidendem Inhalt dann gezielt einen lokalen Beleg anfordern
+oder einen unterscheidenden Test vorbereiten. Lange Builds/Bakes separat abschätzen;
+laufende Vorgänge nicht allein wegen dieses Recherchebudgets abbrechen.
+Nach zwei erfolglosen Runden ausdrücklich entscheiden: Ansatz ändern, einen brauchbaren
+Zwischenstand mit Grenzen übernehmen oder begründet zurückstellen. Ein zurückgestellter
+Punkt braucht einen Wiederaufnahmegrund, etwa neue Messdaten oder eine geänderte Version.
+Keine weiteren Aufträge mit derselben Frage ohne neue Grundlage erzeugen.
+
+## Zielbilder sind Teil der Abnahme
+
+- Ferats ausgewählte Zielbilder mit konkreten Pfaden/Links und ihrem Zweck im aktiven
+  Vorgang festhalten. „Witcher 4“ oder „Rural Australia“ allein ist kein Abnahmekriterium.
+- Vor einer visuellen Empfehlung müssen beide Seiten die relevanten Zielbilder und
+  aktuellen Projektbilder tatsächlich ansehen. Falls eine Seite sie nicht öffnen kann,
+  einmal gezielt eine zugängliche Darstellung anfordern und „nicht selbst gesehen“
+  festhalten. Textberichte und Bildverweise ersetzen keine eigene Bildprüfung.
+- Wenige sichtbare Merkmale festlegen: etwa Wasserfarbe und Transparenz, Form der Kolke,
+  Schaumverteilung, Uferübergang, Felsmaßstab und Vegetation. Ferats vorhandene Vorgaben
+  verwenden; nur bei einer entscheidenden Unklarheit nachfragen.
+- Vorher/nachher aus derselben Kamera und Beleuchtung vergleichen. Bei fremden Zielbildern
+  Unterschiede in Szene und Blickwinkel berücksichtigen. Technische Messwerte und
+  visuelle Zielerreichung getrennt bewerten; höhere Dichte oder feinere Zellen allein
+  bedeuten keinen besseren Look. Ohne eigene Bildprüfung kein visuelles Qualitätsurteil.
+- Codex hat bei dieser Ablaufkorrektur die Berichte und Bildverweise gelesen, die
+  Zielbilder selbst jedoch nicht geprüft. Die bisherigen Empfehlungen zum Ablauf sind
+  daher keine Bestätigung der Bildqualität oder der Nähe zum visuellen Ziel.
 
 ## Wenn die Cloud Quellen nicht öffnen kann
 
@@ -90,8 +176,9 @@ Am Anfang beider Übergabedateien steht eine kurze, aktualisierte Übersicht:
 | ID / Bezug | Stabile ID, relevante Dateien und Commitstände |
 | Ziel | Konkretes Ergebnis und Abnahmekriterium |
 | Stand | Datum, exakte Engine-Version/Build, relevante Plugins |
-| Status | offen / in Arbeit / wartet auf Beleg / bereit zum Test / bestätigt / verworfen |
+| Status | offen / in Arbeit / wartet auf Beleg / bereit zum Test / bestätigt / verworfen / zurückgestellt |
 | Verantwortlich | lokal oder Cloud; nächster konkreter Schritt |
+| Aufwand / Ende | Recherche-/Testbudget, Abbruchkriterium; bei Zurückstellung Wiederaufnahmegrund |
 | Gültiger Befund | Was heute gilt, mit Beleg |
 | Widerlegt / ersetzt | Welche frühere Aussage nicht mehr gilt und warum |
 
@@ -111,6 +198,11 @@ Zuerst die jeweils neuesten Befunde prüfen. Ausgangspunkt dieser Ablaufkorrektu
 `auftraege/16h-nachtrag6i-baked-sim-tests-stand.md` und
 `auftraege/16h-nachtrag6j-teilung-ergebnis.md` sowie die Antworten 6g und 6h.
 Neuere Ergebnisse haben Vorrang.
+
+Reihenfolge für die Einführung: zuerst Inventar und Vorprüfung in den laufenden Vorgang
+aufnehmen, danach ein geeignetes Testlevel bereitstellen. Ergebnisformat und Zeitbudget
+sofort verwenden. Diese Vorbereitungen an den nächsten konkreten Wassertest koppeln,
+statt die laufende Arbeit für eine vollständige Umstellung aufzuhalten.
 
 - **Darstellung zuerst absichern:** Der lokale Bericht beschreibt BAKED_SIM als optisch
   erfolgreich. Daraus folgt noch keine bestätigte Laufzeitlösung. Darstellung im gepackten
