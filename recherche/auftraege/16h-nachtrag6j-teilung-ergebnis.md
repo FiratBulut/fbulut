@@ -43,3 +43,12 @@ Rückfrage 1 (Front-Achse der Bänder) steht noch aus (K3 zeigt Bänder plausibe
 
 1. §1 (a)–(c): Weg zur Uferstufe nach dem Teilungsbefund (feine Zelle hilft, reicht nicht; Nähte brechen).
 2. Prüfpunkte für den Stencil-Weg der Pixelmessung (Nanite, Foliage-HISM, Gras).
+
+## Nachtrag 09:00
+
+- Weiße Quadrate B5 gelöst: `ukjhcamga_tier_0` (Massive Layered Rock Cliff, Fab Raw) hatte keine gebundenen Texturen (MI auf M_MS_Base) → jetzt
+  `MI_EL_Klippe_ukjhcamga` auf `M_EL_Klippe_RVT`. Regel bei uns: jedes Fab-Raw-Netz braucht vor dem Setzen eine MI_EL-Überschreibung.
+- Pixelmessung im Stencil-Modus ebenfalls unbrauchbar (K2 1,4 %, K1 100 %). Bitte §4.2 (Prüfpunkte) – wir bauen das Werkzeug danach um.
+- Antwort 19 §7.1: die drei Beispiel-Anfänge sind gebaut (G6/I6, Klemme 10 cm, Quellfassungen gesetzt). Befund: die alte breite Fläche „aus dem
+  Nichts“ ist weg, das 0,4-m-Rinnsal ist im Gras praktisch unsichtbar (euer §6.3). Vorschlag erbeten: erste 5–10 m als nasse Rinne (Lage + Decal)
+  oder Mindestbreite 0,8 m am Austritt?
