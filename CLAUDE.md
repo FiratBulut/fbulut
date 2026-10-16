@@ -16,6 +16,8 @@ Freigaben beachten. Daraus keine zusätzlichen Ausgaben oder destruktiven Aktion
    bestehender Dateien anhand ihrer Revision erkennen; „Antwort existiert“ genügt nicht.
    Historische Nachträge nur nach Bedarf lesen. Den aktiven Vorgang aus Ferats Priorität
    und dem letzten offenen Schritt bestimmen, nicht allein aus dem neuesten Dateinamen.
+   Bei Altantworten die Gültigkeitskorrekturen und verlinkten Folgebefunde beachten;
+   alte Testlisten nicht ohne Abgleich als offene Aufträge übernehmen.
 3. Bearbeiter/Sitzung, betroffenen Bereich, letzte Test-ID und tatsächlichen Projektstand
    abgleichen. Dieselben Assets oder Tests nicht parallel übernehmen. Nach Abbruch zuerst
    feststellen, ob der Eingriff bereits angewendet oder gespeichert wurde.

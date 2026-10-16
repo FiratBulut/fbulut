@@ -1,5 +1,22 @@
 # Antwort 16h Nachtrag 6h – Live gegen gebacken, Dichte-Zensus
 
+**Gültigkeitskorrektur 16.10.2026 (in Ferats Auftrag):** Diese Antwort enthält historische
+Hypothesen und Testaufträge. [6i §1](../auftraege/16h-nachtrag6i-baked-sim-tests-stand.md)
+dokumentiert den optischen Erfolg von BAKED_SIM sowie Ergebnisse zu FixedWaterDepth,
+Absorption 2/2/2, Water-Info-Aktualisierung und Materialpfad. Die entsprechenden Tests aus
+§5.2 sind daher keine offenen Erstaufträge mehr. Den vorhandenen Befund verwenden;
+Wiederholung nur mit neuem Eingang oder begründetem Testzweck. Die frühe Empfehlung
+„Live-Werte übernehmen“ wurde bereits durch §5 eingeschränkt und darf nicht isoliert
+als Lösung gelesen werden.
+
+[6j §2 und Nachtrag 09:00](../auftraege/16h-nachtrag6j-teilung-ergebnis.md) melden die
+verwendeten Ausblend-/Stencil-Pixelmessungen als unbrauchbar bzw. ungeeicht. §2 unten
+beschreibt deshalb keinen abgenommenen Messweg. Erst die
+[Messkontrollen](../vorlagen/pruefung.md#messwerkzeuge) erfüllen, dann Zahlen zur Optimierung
+verwenden. Der optische Befund allein bestätigt weder die genaue WCBS-Ursache noch
+gepackten Build, Streaming oder aktuelle GPU-Kosten. Die Werte und Schaustellenzahlen
+aus §5.4 sind keine pauschale Freigabe für den heutigen Projektstand.
+
 Stand 14.10.2026. Bezug: `auftraege/16h-nachtrag6h-live-vs-gebacken-dichte.md` (0bf16f1), Bilder `bilder/swr_p2/wasser_live_vs_gebacken_p2l.jpg`,
 `epic_material_gebacken_p2h.jpg`, `mi_el_swr_klar_parameter.txt`, Graph-Dump `antworten/fluss_sim/p2_lokal/master_graph_schaum8.json`.
 
@@ -122,6 +139,11 @@ Da die Einheit gleich ist, gilt **neu = live**, ohne Faktor.
   sichtbar ist. Deshalb ja zur Pixelmessung.
 
 **Pixelmessung je Prüfbild (für 21 §5 g):**
+
+**Nicht abgenommen:** Der lokale Nachtest in 6j meldet Fehler auch beim Stencil-Weg.
+Die folgende Konstruktion erst an Kontrollfällen validieren; ihre Kennzahlen noch nicht
+zur Bestands-/Dichteentscheidung verwenden. Siehe Gültigkeitskorrektur am Dateianfang.
+
 1. Je Prüfkamera (GEF_*, BERG11_*, die RA-Bilder zur Eichung) einen SceneCapture2D mit derselben Lage und demselben FOV.
 2. Alle Netz-Komponenten in Sicht bekommen `Render CustomDepth` und einen Stencil-Wert: 1 Fels/Stein, 2 Pflanze, 3 Sonstiges. Die Landschaft
    bekommt keinen.
@@ -178,6 +200,10 @@ sichtbar. Weil gebacken nichts färbt, ist die wirksame Tiefe dort höchstens we
 
 ### 5.2 Ursachen nach Wahrscheinlichkeit, je ein Test unter 5 min
 
+**Befund vorhanden:** 6i §1 dokumentiert Ergebnisse zu 0, 1 (beide Gegenproben), 3 und 5.
+Die Messlatte unter 2 wurde dort ausdrücklich nicht durchgeführt. Kein vollständiges
+Bestehen dieser Tabelle und keine gesicherte Ursachenbestimmung daraus ableiten.
+
 | # | Ursache | Stand | Test | Erwartung |
 |---|---|---|---|---|
 | 0 | **Weiche:** Liegt es am Zeichenweg der Water Zone (WCBS) oder an den gebackenen Daten selbst? | – | `render_state` `BAKED_SIM`, gleiche Kameras | live-ähnlich → Ursache 1–3 (WCBS-Weg). Ebenfalls braun → Ursache 4 (Daten) |
@@ -208,6 +234,10 @@ sichtbar. Weil gebacken nichts färbt, ist die wirksame Tiefe dort höchstens we
   4. Danach einmal im **gepackten Build** prüfen. Laut Forum zeichnet die gebackene SWR dort teils gar nicht (16a).
 
 ### 5.4 Entscheidungsregel LIVE_SIM gegen WCBS
+
+**Historische Planungswerte:** Die nachfolgende Tabelle ersetzt keine aktuelle Messung
+am Zielgerät und keine Prüfung im gepackten Build. Insbesondere „höchstens 3“ ist hier
+eine damalige Budgetannahme, kein nachgewiesenes Engine-Limit und keine aktuelle Abnahme.
 
 | Fall | Nah (≤ 100 m, sichtbar) | Fern |
 |---|---|---|

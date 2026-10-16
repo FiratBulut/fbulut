@@ -1,5 +1,17 @@
 # Antwort 16h Nachtrag 6g – Uferstufe hält in der Simulation nicht: feinere SWR, Nachfüllen nur im Bett, Ziel bei 37-cm-Zellen, Kolktiefe
 
+**Gültigkeitskorrektur 16.10.2026 (in Ferats Auftrag):** Die Teilungsempfehlung in
+Kurzfazit 1 und §1 ist historisch, kein aktueller Ausführungsauftrag. Laut
+[lokalem Befund 6i §3](../auftraege/16h-nachtrag6i-baked-sim-tests-stand.md) erzeugen mehrere
+SWR auf demselben Quellfluss nicht die hier angenommenen getrennten Rechenflächen.
+Die anschließende Variante mit Flusskopien wurde in
+[6j §1](../auftraege/16h-nachtrag6j-teilung-ergebnis.md) wegen Stillstand und trockener Nähte
+verworfen. Der [aktuelle Exporter](skripte/fluss_sim/README.md) sperrt Teilungspläne.
+Diese Versuche nicht allein aufgrund der folgenden historischen Empfehlung wiederholen.
+Neue Varianten brauchen neue Evidenz bzw. einen ausdrücklich geänderten Testgrund.
+Die übrigen Ableitungen und Zahlenziele sind damit weder pauschal widerlegt noch bestätigt;
+sie müssen zum verwendeten Build und Messweg passen. Offene Fragen aus 6j bleiben offen.
+
 Stand 13.10.2026. Bezug: `auftraege/16h-nachtrag6g-uferstufe-simulation.md` (Ferat 3b9e6b5), 6f, 6b, 6c, fluss_sim-Regeln (README
 `skripte/fluss_sim/README.md`), 16a/16b/16c (Tests und Nähte).
 
@@ -72,6 +84,10 @@ Stand 13.10.2026. Bezug: `auftraege/16h-nachtrag6g-uferstufe-simulation.md` (Fer
 Eine Grenze von 2048 für `ResolutionMaxAxis` ist bei Epic nicht belegt. Sie ist unsere Regel.
 
 ### 1.3 Test für Ferat (zuerst Kopie der Karte bzw. Stand sichern)
+
+**Überholt:** Die nachfolgende Empfehlung von Variante B beruht auf der in 6i §3
+widerlegten Flächenannahme; Flusskopien wurden danach in 6j §1 verworfen. Siehe
+Gültigkeitskorrektur am Dateianfang. Keine erneute Umsetzung aus dieser Anleitung ableiten.
 
 **Zellen** [Rechnung, Rechtecke grob nach eurem Wert ~200 × 30 m]:
 

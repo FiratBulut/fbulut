@@ -223,6 +223,15 @@ keine weiteren Prüfrunden allein wegen eines unveränderten Status beginnen.
 Aktuell maßgebliche Einstiegspunkte sind die lokalen Befunde
 [6i](auftraege/16h-nachtrag6i-baked-sim-tests-stand.md) und
 [6j](auftraege/16h-nachtrag6j-teilung-ergebnis.md); spätere passende Belege haben Vorrang.
+Die folgenden Zuordnungen beziehen sich auf diese datierten Befunde, nicht auf einen hier
+neu geprüften Live-Stand. Korrekturen stehen auch direkt in den betroffenen Altantworten.
+
+| Historischer Ansatz | Weiterarbeiten ab |
+| --- | --- |
+| [6g §1: SWR-Teilung](antworten/16h-nachtrag6g-uferstufe-simulation.md) | 6i §3 und 6j §1: Flächenannahme widerlegt, Flusskopien verworfen; keine Wiederholung ohne neuen Testgrund. |
+| [6h §5.2: Darstellungstests](antworten/16h-nachtrag6h-live-vs-gebacken-dichte.md) | 6i §1: vorhandene Resultate verwenden; optischer Erfolg ist keine vollständige Ursachen-/Laufzeitabnahme. |
+| [6h §2: Pixelmessung](antworten/16h-nachtrag6h-live-vs-gebacken-dichte.md) | 6j §2/Nachtrag: Messweg erst kalibrieren, dann Dichteentscheidungen treffen. |
+
 BAKED_SIM ist lokal optisch erfolgreich beschrieben; gepackter Build, Streaming und
 GPU-Kosten bleiben gesondert nachzuweisen. Die Teilung mit trockenen Nähten gilt nicht
 als fertige Lösung. Vor weiteren Teilungen tatsächliche Engine-Bounds/Quellen/Senken prüfen.
