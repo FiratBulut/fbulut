@@ -32,7 +32,8 @@ Priorität einmal klären und bis dahin nur unabhängige Arbeit ausführen.
 
 ## A. Quellenfrage
 
-- **Frage / Zielversion:** Welche Entscheidung hängt davon ab?
+- **Frage / Zielversion:** Welche nächste Entscheidung hängt davon ab, welcher Beleg fehlt
+  trotz vorhandener Befunde und lokaler Möglichkeiten noch?
 - **Befund / Beleg:** Antwort mit URL, Abschnitt/Beitrag, Datum und Gültigkeitsbereich.
 - **Grenze / Abschluss:** bestätigt oder offen; fehlender Zugriff und genau benötigter
   lokaler Beleg, falls entscheidend. Sonst als beantwortet abschließen.
@@ -42,7 +43,9 @@ gemacht wird. Eine bloße Suchvorschau ist keine vollständige Quellenbestätigu
 
 ## B. Umsetzungstest
 
-- **Ziel / Erwartung:** Eine Änderung und ihr Erfolgskriterium.
+- **Ziel / Erwartung:** Eine Änderung und ihr Erfolgskriterium; bei aufwendigen Versuchen
+  außerdem Fehler-/Abbruchbedingung. Bei zwei möglichen Ursachen die unterscheidende
+  Beobachtung nennen.
 - **Basis / Paket:** Ausgangsstand-ID, relevante Eingabeversionen und Artefaktversion;
   [Wiederherstellungs-/Messnachweise](pruefung.md) verlinken statt wiederholen.
   Bei Shallow-Water-Exporten Paketordner, Paket-ID aus `paket.json` und Ergebnis von
@@ -56,6 +59,7 @@ gemacht wird. Eine bloße Suchvorschau ist keine vollständige Quellenbestätigu
 - **Mitbetroffene Stellen:** Bei gemeinsamen Ressourcen Vergleichsstellen und Ergebnisse
   nach [Prüfregeln](pruefung.md#auswirkungen-auf-andere-stellen); fehlende Prüfungen nennen.
 - **Entscheidung:** übernehmen, verwerfen oder genau nächster Test; was wird dadurch ersetzt?
+  Beantwortete Teilfrage schließen und verbleibende Folgefrage ausdrücklich abgrenzen.
 
 Vor Ausführung stehen nur Plan und Basis fest. Nach Abbruch Ausführungsstand mit dem echten
 Projekt abgleichen. Ein bereits angewendetes Paket nicht nochmals blind ausführen.

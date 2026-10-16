@@ -9,14 +9,18 @@ Ferat hat Codex am 15.10.2026 beauftragt, den Ablauf ergebnisorientiert zu korri
    Befunde des aktiven Problems lesen. Pro Problem einen Vorgang mit stabiler ID führen.
    Einstieg für neue Sitzungen: [CLAUDE.md](../CLAUDE.md); ein kurzer Starttext steht in
    der [Übergabevorlage](vorlagen/uebergabe.md#starttext-für-die-nächste-sitzung).
-2. Genau eine nächste Entscheidung wählen. Vorhandene Belege, Inventare und Werkzeuge
-   verwenden; nur die dafür fehlenden Angaben beschaffen.
+2. Genau eine nächste Entscheidung für Ferats aktuelle Priorität wählen. Einen begonnenen
+   ausführbaren Schritt abschließen, bevor gleichrangige Nebenfragen begonnen werden.
+   Vorhandene Belege, Inventare und Werkzeuge verwenden; nur fehlende entscheidende Angaben
+   beschaffen. Der kleinste reversible, aussagekräftige Versuch hat Vorrang vor breiter Suche.
 3. Die passende [Kurzvorlage](vorlagen/uebergabe.md) verwenden: Quellenfrage,
    Umsetzungstest oder Bildbewertung. Unpassende Felder entfallen.
 4. Cloud liefert eine belegte Antwort, ein verwendbares Artefakt oder einen unterscheidenden
    Test. Lokal prüft Voraussetzungen, setzt um und meldet Ergebnis samt Beleg zurück.
 5. Entscheiden: übernehmen, verwerfen, gezielt weiterprüfen oder begründet zurückstellen.
    Negative Tests zählen als Fortschritt, wenn sie eine Ursache ausschließen.
+   Abgeschlossene Teilfragen schließen; offene Folgefragen getrennt im selben Vorgang
+   kennzeichnen. Verworfene Ansätze nur mit neuer Evidenz oder geändertem Testgrund aufnehmen.
 
 **Arbeitsregel ab 16.10.:** Pro Problem genau eine ausführbare nächste Handlung mit einer
 zuständigen Seite. Kann diese Seite die Frage selbst beantworten, liefert sie das Ergebnis
@@ -204,7 +208,9 @@ ins öffentliche Repository. Bei Foren auch spätere Korrekturen lesen.
 
 Pro Übergabe nur nächste Handlung, Zuständigkeit und angemessenes Budget nennen.
 Bei engen Quellenfragen höchstens 20 Minuten ohne andere Vorgabe; früher aufhören, sobald
-die Antwort vorliegt. Lange Builds/Bakes gesondert planen. Nach zwei Runden ohne neue
+die entscheidende Antwort belegt ist. Zeitablauf ist kein Beleg; offene Fragen bleiben offen.
+Vor aufwendigen Versuchen Erfolgs-, Fehler- und Abbruchbedingung festlegen; ungeklärte
+Voraussetzungen zuerst kostengünstig prüfen. Lange Builds/Bakes gesondert planen. Nach zwei Runden ohne neue
 Erkenntnis Ansatz prüfen, statt dieselbe Frage neu zu stellen. Zurückstellung braucht
 einen Wiederaufnahmegrund. Hilfsmittel am konkreten Problem verbessern; kein Großprojekt
 zur Prozesspflege starten.
@@ -226,7 +232,8 @@ Bei Änderungen an gemeinsamen Ressourcen auch die betroffenen Vergleichsstellen
 den [Prüfregeln](vorlagen/pruefung.md#auswirkungen-auf-andere-stellen) kontrollieren.
 
 Am Sitzungsende bzw. im bestehenden Morgenbericht knapp: geliefert, geprüft, offen,
-nächster Schritt – jeweils mit Beleg. Keine neue Zeitsteuerung aus dieser Anleitung ableiten.
+nächster Schritt – jeweils mit Beleg und der dadurch möglichen Entscheidung. Ausführliche
+Messdaten einmal ablegen und verlinken. Keine neue Zeitsteuerung aus dieser Anleitung ableiten.
 Die Prüfungen sind Arbeitsaufträge für die zuständige Sitzung, keine bereits ausgeführten
 Unreal-Tests. Codex hat am 15.10. die sieben Witcher-Zielbilder, die Flussreferenz und den
 BAKED_SIM-Vergleich angesehen; dies ist keine Laufzeit- oder Gesamtprojektabnahme.

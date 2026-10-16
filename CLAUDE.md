@@ -23,6 +23,28 @@ Freigaben beachten. Daraus keine zusätzlichen Ausgaben oder destruktiven Aktion
    Vorgang festhalten und innerhalb der bestehenden Freigabe ausführen. Den Kopf nicht
    als eigene Quittungsrunde veröffentlichen; sachlichen Fortschritt mitliefern.
 
+## Die nächste Handlung auswählen
+
+Ferats aktuelle Priorität bestimmt das Ziel. Zuerst einen unterbrochenen Eingriff am
+betroffenen Stand klären. Danach den begonnenen, ausführbaren Schritt abschließen; neue
+Nebenfragen nur vorziehen, wenn sie diesen Schritt tatsächlich blockieren. Unter mehreren
+gleichwertigen Möglichkeiten den kleinsten reversiblen Versuch wählen, der die nächste
+Entscheidung ermöglicht. Eine neue Nachricht allein setzt die laufende Arbeit nicht zurück.
+
+| Situation | Handlung |
+| --- | --- |
+| Passender Beleg oder verwendbares Ergebnis liegt bereits vor. | Gültigkeit prüfen und weiterverwenden; keine Wiederholungsrecherche. |
+| Cloud liefert eine umsetzbare Antwort für den aktuellen Stand. | Lokal prüfen, umsetzen und Ergebnis zurückmelden. |
+| Zwei Ursachen bleiben möglich. | Einen Test wählen, dessen Beobachtung zwischen ihnen unterscheidet; erwartete Folgen vorher nennen. |
+| Eine benötigte Messung ist nachweislich unbrauchbar. | Erst den Messweg am Kontrollfall klären; daraus noch keine Parameteroptimierung ableiten. |
+| Nötiger Zugriff oder Eingang fehlt. | Einmal gezielt beschaffen lassen und eine unabhängige Aufgabe mit Ergebniswert bearbeiten. |
+
+Erfolgs-, Fehler- und Abbruchbedingung vor aufwendigen Versuchen festlegen. Beispielsweise
+bei ungeklärten Bounds nicht schon einen langen Bake oder eine höhere Auflösung starten.
+Bei engen Quellenfragen gilt ohne andere Vorgabe das 20-Minuten-Budget der README;
+früher aufhören, sobald die Entscheidung belegt ist. Ein Zeitlimit macht eine Vermutung
+nicht zur bestätigten Antwort. Lange Builds/Bakes benötigen einen passenden eigenen Rahmen.
+
 ## Lokal umsetzen und belegen
 
 - Claude Code übernimmt verfügbare lokale Prüfungen: Engine-/Pluginstand, Assets, APIs,
@@ -45,6 +67,9 @@ Freigaben beachten. Daraus keine zusätzlichen Ausgaben oder destruktiven Aktion
 - Nach einem aussagekräftigen Ergebnis entscheiden: übernehmen, verwerfen oder genau
   den noch fehlenden Nachweis beschaffen. Ein negativer Test mit belegtem Ausschluss zählt.
   Danach am nächsten Wasser-/Bild-Ergebnis weiterarbeiten; keine endlose Prozesspflege.
+  Abgeschlossene Teilfragen schließen; ein offenes Folgeproblem hält nicht sämtliche
+  Ergebnisse offen. Einen verworfenen Ansatz nur mit neuer Evidenz oder ausdrücklich
+  geändertem Testgrund wieder aufnehmen.
 
 ## Zusammenarbeit mit der Cloud
 
@@ -55,6 +80,8 @@ Die [Übergabevorlage](recherche/vorlagen/uebergabe.md) passend zur Aufgabe verw
 - Recherche nur übergeben, wenn eine konkrete fehlende Erkenntnis die nächste Entscheidung
   beeinflusst. Bereits geprüfte Ansätze, genaue Frage, Zielversion und benötigten Beleg
   mitgeben. Keinen neuen Auftrag nur deshalb erzeugen, weil die andere Seite geantwortet hat.
+  Vor Übergabe prüfen: Ist die Antwort schon vorhanden, lokal feststellbar oder für die
+  nächste Entscheidung unerheblich? Dann selbst handeln bzw. die Nebenfrage zurückstellen.
 - Kann die Cloud eine entscheidende Quelle oder ein Bild nicht öffnen, selbst den lokal
   verfügbaren Zugang prüfen. Einen gezielten, zulässigen Auszug, Screenshot oder Engine-Dump
   mit Herkunft und Versionsbezug bereitstellen; vorhandene Inventare wiederverwenden.
@@ -74,6 +101,9 @@ nächster Schritt** – jeweils mit Beleg, Zuständigkeit und relevanter Version
 Gegenstand als `Gelesen: <Pfad> @ <Blob-SHA> (Commit <SHA>)` nennen. Für Umsetzungstests
 Paket-/Artefaktversion, Ausgangsstand-ID, Test-ID und echten Ausführungsstand verknüpfen.
 Keine separate Statusablage, zusätzliche Zeitsteuerung oder neue Datei je Rückfrage anlegen.
+Ausführliche Messdaten nur einmal ablegen und im Morgenbericht verlinken. Der Abschluss
+muss sagen, welche Entscheidung das Ergebnis ermöglicht und was jetzt tatsächlich anders
+ist; eine Liste gelesener Seiten oder erteilter Aufträge allein ist kein Ergebnis.
 
 Eigene zusammengehörige Änderungen gezielt committen, vor Push den aktuellen Branch
 abgleichen (`git pull --rebase`), Konflikte fachlich lösen und ohne Force-Push veröffentlichen.
