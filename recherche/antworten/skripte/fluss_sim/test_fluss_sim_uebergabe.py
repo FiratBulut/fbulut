@@ -104,7 +104,7 @@ class UebergabeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, contextlib.ExitStack() as stack:
             alt = Path(tmp, "fluss_sim.json")
             alt.write_bytes(b"alter Stand unveraendert")
-            stack.enter_context(patch.object(daten, "lade", return_value=object()))
+            stack.enter_context(patch.object(daten, "lade", return_value=Mock(wasser_welt={}, baeche=[])))
             stack.enter_context(patch.object(fx, "Masse"))
             stack.enter_context(patch.object(fx, "Pool"))
             stack.enter_context(patch.object(fx, "Gelaende", return_value=Mock(deltas=[])))

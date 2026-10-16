@@ -110,8 +110,14 @@ Für neue Pakete `fluss_sim_pruefen.py <Paketordner> --uebergabe` mit den releva
 Daten-/Quelloptionen aus `pruefprofil.json` verwenden. Der Prüfer verlangt dieselben
 Quelloptionen, den Datenmodus, die Gebaut-Erkennung und den Regeldateiinhalt wie beim
 Export; lokale Pfade dürfen sich unterscheiden. Dieser Modus verlangt ein fertiges
-v2-Paket samt Profil und prüft dessen Inhalt erneut. Alte Pakete ohne Profil für eine neue
-Übergabe neu exportieren. Die ausgegebene Paket-ID im Umsetzungsbefund festhalten.
+v2-Paket samt Profil und Quellgeometrie-Nachweis und prüft dessen Inhalt erneut. Alte Pakete
+ohne Profil oder `quellgeometrie.json` für eine neue Übergabe neu exportieren.
+Der Quellgeometrie-Vergleich erkennt geänderte Weltgewässer, Lauf- und Sehens-Ortspläne
+sowie hinzugekommene oder entfernte Pläne. Bei Abweichung lokal den richtigen Eingabestand
+zuordnen; bei gewollter Änderung neu exportieren. Die Prüfsummen nicht von Hand anpassen.
+Diese Kontrolle erfasst keine vollständigen Binärdaten, Assets oder Editoränderungen;
+den Projektstand weiterhin separat abgleichen. Während Export und Prüfung Eingaben nicht
+parallel bearbeiten. Die ausgegebene Paket-ID im Umsetzungsbefund festhalten.
 Gleiche Paket-ID plus unveränderter Ausgangsstand und bereits dokumentiertes Ergebnis
 bedeutet: vorhandenen Befund wiederverwenden, auch wenn der Ordner umbenannt wurde.
 Ein neuer Ausgangsstand oder eine ausdrücklich begründete Wiederholungsmessung erhält

@@ -1363,6 +1363,9 @@ def _main(argv=None):
     if a.daten2m or a.daten1m:
         from sehens_lib import daten
         welt = daten.lade(a.daten2m, a.daten1m, pfade=False)
+    if a.uebergabe or (manifest and fx.paket.QUELLGEOMETRIE in manifest.get("dateien_sha256", {})):
+        fx.paket.pruefe_quellgeometrie(a.aus, manifest, fx.quellgeometrie(welt, gef_plaene, a.sehens),
+                                     uebergabe=a.uebergabe)
     # alle Dateien laden
     alle, datei_von = {}, {}
     befunde_datei = {}

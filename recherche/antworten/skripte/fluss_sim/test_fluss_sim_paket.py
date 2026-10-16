@@ -187,6 +187,62 @@ class PaketTests(unittest.TestCase):
                     with self.assertRaises(pk.PaketFehler):
                         pk.pruefe_umfang({"umfang": umfang}, {"A": gewaesser("A")})
 
+    def quellpaket(self, stand):
+        ziel = self.root / "paket"
+        pk.paket_schreiben(str(ziel), {pk.QUELLGEOMETRIE: json.dumps(stand)}, self.umfang(), lambda _: 0)
+        return ziel, pk.lies_manifest(ziel)
+
+    def test_geaenderter_laufplan_stoppt(self):
+        plan = self.root / "plan.json"
+        plan.write_text('{"breite_cm": 300}', encoding="utf-8")
+        welt = SimpleNamespace(wasser_welt={}, baeche=[])
+        ziel, manifest = self.quellpaket(fx.quellgeometrie(welt, {"A": str(plan)}, None))
+        plan.write_text('{"breite_cm": 400}', encoding="utf-8")
+        with self.assertRaisesRegex(pk.PaketFehler, "gefaelle/A/plan.json"):
+            pk.pruefe_quellgeometrie(ziel, manifest, fx.quellgeometrie(welt, {"A": str(plan)}, None))
+
+    def test_geaenderte_quellplan_bestandsliste_stoppt(self):
+        basis = {"welt/baeche": [], "gefaelle/A/plan.json": {"id": "A"}}
+        ziel, manifest = self.quellpaket(pk.quellgeometrie(basis))
+        for neu in ({"welt/baeche": []}, dict(basis, **{"gefaelle/B/plan.json": {"id": "B"}})):
+            with self.subTest(neu=neu), self.assertRaisesRegex(pk.PaketFehler, "Quellgeometrie geaendert"):
+                pk.pruefe_quellgeometrie(ziel, manifest, pk.quellgeometrie(neu))
+
+    def test_quellplan_kopie_und_json_formatierung_bleiben_gueltig(self):
+        welt = SimpleNamespace(wasser_welt={}, baeche=[])
+        alt, neu = self.root / "alt.json", self.root / "neu.json"
+        alt.write_text('{"id":"A","breite_cm":300}', encoding="utf-8")
+        neu.write_text('{\n  "breite_cm": 300, "id": "A"\n}', encoding="utf-8")
+        ziel, manifest = self.quellpaket(fx.quellgeometrie(welt, {"A": str(alt)}, None))
+        pk.pruefe_quellgeometrie(ziel, manifest, fx.quellgeometrie(welt, {"A": str(neu)}, None))
+
+    def test_geaenderter_sehens_plan_stoppt(self):
+        welt = SimpleNamespace(wasser_welt={}, baeche=[])
+        biom = self.root / fx.BIOME[0]
+        biom.mkdir()
+        plan = biom / "orte.json"
+        plan.write_text('{"orte": []}', encoding="utf-8")
+        ziel, manifest = self.quellpaket(fx.quellgeometrie(welt, {}, str(self.root)))
+        plan.write_text('{"orte": [{"id": "neu"}]}', encoding="utf-8")
+        with self.assertRaisesRegex(pk.PaketFehler, "sehens/.*orte.json"):
+            pk.pruefe_quellgeometrie(ziel, manifest, fx.quellgeometrie(welt, {}, str(self.root)))
+
+    def test_altes_paket_ohne_quellnachweis_nur_analysierbar(self):
+        pk.pruefe_quellgeometrie(self.root, None, None)
+        with self.assertRaisesRegex(pk.PaketFehler, "ohne Quellgeometrie"):
+            pk.pruefe_quellgeometrie(self.root, None, None, uebergabe=True)
+
+    def test_defekter_quellnachweis_und_fehlende_welt_stoppen(self):
+        stand = pk.quellgeometrie({"welt/baeche": []})
+        ziel, manifest = self.quellpaket(stand)
+        with self.assertRaisesRegex(pk.PaketFehler, "ohne Weltdaten"):
+            pk.pruefe_quellgeometrie(ziel, manifest, None)
+        for kaputt in (None, {}, dict(stand, sha256=None), dict(stand, sha256={"welt/baeche": 42})):
+            with self.subTest(kaputt=kaputt):
+                (ziel / pk.QUELLGEOMETRIE).write_text(json.dumps(kaputt), encoding="utf-8")
+                with self.assertRaisesRegex(pk.PaketFehler, "Ungueltiger Quellgeometrie"):
+                    pk.pruefe_quellgeometrie(ziel, manifest, stand)
+
     def test_expliziter_falscher_eingabeordner_stoppt_beide_einstiege(self):
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(fx.main(["--aus", str(self.root / "neu"), "--gefaelle", str(self.root / "fehlt")]), 1)
@@ -486,7 +542,25 @@ class PaketTests(unittest.TestCase):
                         self.assertEqual(fp.main([str(out), "--uebergabe", "--daten2m", str(self.root), "--ohne-erkennung"]), 0)
                         self.assertEqual(fp.main([str(out), "--uebergabe"]), 1,
                                          "Uebergabe darf die beim Export verwendeten Weltdaten nicht weglassen")
+                    welt.wasser_welt["fluesse"][0]["punkte"] = [[0, 0, 1500], [10000, 0, 1400]]
+                    try:
+                        with contextlib.redirect_stdout(log):
+                            self.assertEqual(fp.main([str(out), "--uebergabe", "--daten2m", str(self.root),
+                                                      "--ohne-erkennung"]), 1,
+                                             "Geaenderte Quellgeometrie muss das alte Paket sperren")
+                    finally:
+                        del welt.wasser_welt["fluesse"][0]["punkte"]
             echt = fx.baue_gewaesser_v3
+            def quellwechsel(*args):
+                welt.wasser_welt["fluesse"][0]["punkte"] = [[1, 2, 3], [4, 5, 6]]
+                return echt(*args)
+            try:
+                with patch.object(fx, "baue_gewaesser_v3", side_effect=quellwechsel), contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(fx.main(["--aus", str(self.root / "quellwechsel"), "--daten2m", str(self.root),
+                                              "--ohne-erkennung"]), 1)
+                self.assertFalse((self.root / "quellwechsel").exists())
+            finally:
+                del welt.wasser_welt["fluesse"][0]["punkte"]
             def kaputt(*args):
                 e = echt(*args)
                 if e["id"] == "A":

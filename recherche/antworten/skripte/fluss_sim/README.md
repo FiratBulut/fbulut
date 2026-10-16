@@ -104,10 +104,10 @@ Kontextsuche; bei Teilmengen bleibt sie aktiv.
 Die empfangende Sitzung verwendet vor Anwendung:
 `python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py <Paketordner> --uebergabe`
 plus die in `pruefprofil.json` festgelegten Daten-/Quelloptionen. `--uebergabe` verlangt ein fertiges
-v2-Paket mit gültiger ID und Prüfprofil, lehnt temporäre Zwischenstände ab und führt anschließend die
+v2-Paket mit gültiger ID, Prüfprofil und Quellgeometrie-Nachweis, lehnt temporäre Zwischenstände ab und führt anschließend die
 formalen Kontrollen aus. Es bestätigt keine Unreal-Abnahme und vergleicht nicht selbst
 den lokalen Ausführungsstand. v1-Pakete und ältere Auszüge bleiben ohne diese Option
-analysierbar; Pakete ohne Prüfprofil für eine neue Übergabe erneut exportieren.
+analysierbar; Pakete ohne Prüfprofil oder Quellgeometrie-Nachweis für eine neue Übergabe erneut exportieren.
 
 **Prüfprofil (16.10.):** Der Export hält Datenmodus (1 m oder 2 m), Quelloptionen,
 `--gebaut`, Erkennungsmodus und den SHA-256 der Regeldatei fest. Das Profil gehört zu den
@@ -119,6 +119,23 @@ Absolute lokale Pfade werden nicht gespeichert: dieselben Quellen können auf ei
 Rechner an anderer Stelle liegen. Das Profil ist kein vollständiger Eingabe-Snapshot.
 Aktuelle Projekt-/Assetversionen weiterhin separat mit dem Ausgangsstand abgleichen;
 bei beabsichtigtem Wechsel von Datenmodus, Regeln oder Quellen neu exportieren.
+
+**Quellgeometrie (16.10.):** `quellgeometrie.json` hält SHA-256-Inhaltskennungen der geladenen
+Weltgewässer (`wasser_welt`, `baeche`), aller aktiven Gefälle-Laufpläne und der vorhandenen
+Sehens-Ortspläne (`<biom>/orte.json`) fest. Objekt-Schlüsselreihenfolge und Einrückung in JSON
+sowie lokale Ablagepfade beeinflussen diese Kennungen nicht; Listenreihenfolge bleibt relevant.
+Die Datei gehört zum Paketmanifest und zur Paket-ID. Der interne Prüfer und spätere Prüfungen
+vergleichen den aktuellen Bestand damit; geänderte, hinzugekommene und entfernte Pläne
+stoppen mit den betroffenen logischen Quellnamen. Auch Teilpakete binden den gesamten
+erfassten Planbestand, weil andere Gewässer ihren benötigten Kontext verändern können.
+Für eine neue Übergabe fehlt dieser Nachweis bei älteren Paketen: neu exportieren.
+
+Die Prüfung hasht gezielt Planinhalte, keine zusätzlichen vollständigen Terrainraster oder
+Instanzdateien. Sie ersetzt weder die vorhandenen Geometrie-/Terrain-/Kollisionskontrollen
+noch den Abgleich von Engine, Skriptversionen, Assets und lokalem Ausgangsstand. Eingaben
+während Export und Prüfung unverändert halten; es gibt keine Dateisperre oder atomare
+Momentaufnahme aller Quellen. Bei Abweichung den Stand klären, niemals Prüfsummen im
+Paket passend machen oder die Nachweisdatei entfernen.
 
 Paket-ID, Ausgangsstand-ID und Ergebnis im bestehenden Umsetzungsbefund verknüpfen.
 Ein bereits geprüfter Versuch wird bei unverändertem Ausgangsstand nicht allein wegen

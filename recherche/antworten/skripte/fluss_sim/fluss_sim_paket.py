@@ -8,11 +8,44 @@ import tempfile
 
 MANIFEST = "paket.json"
 PRUEFPROFIL = "pruefprofil.json"
+QUELLGEOMETRIE = "quellgeometrie.json"
 QUELLOPTIONEN = ("gefaelle", "sehens", "sw_ordner", "roh", "einbau")
 
 
 class PaketFehler(ValueError):
     pass
+
+
+def quellgeometrie(daten):
+    """Inhalt der Geometrieplaene, unabhaengig von Ablagepfad und JSON-Einrueckung.
+
+    Kein Vollabdruck der Binaerdaten oder des Unreal-Projekts.
+    """
+    return {"format": "fluss_sim_quellgeometrie_v1", "sha256": {
+        name: hashlib.sha256(json.dumps(wert, ensure_ascii=True, sort_keys=True,
+                                       separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+        for name, wert in sorted(daten.items())}}
+
+
+def pruefe_quellgeometrie(aus, manifest, ist, uebergabe=False):
+    if not manifest or QUELLGEOMETRIE not in manifest.get("dateien_sha256", {}):
+        if uebergabe:
+            raise PaketFehler("Paket ohne Quellgeometrie-Nachweis: fuer die Uebergabe neu exportieren")
+        return
+    soll = json.loads((Path(aus) / QUELLGEOMETRIE).read_text(encoding="utf-8"))
+    if (not isinstance(soll, dict) or set(soll) != {"format", "sha256"} or
+            soll.get("format") != "fluss_sim_quellgeometrie_v1" or
+            not isinstance(soll.get("sha256"), dict) or not soll["sha256"] or
+            any(not isinstance(v, str) or len(v) != 64 or any(c not in "0123456789abcdef" for c in v)
+                for v in soll["sha256"].values())):
+        raise PaketFehler("Ungueltiger Quellgeometrie-Nachweis")
+    if ist is None:
+        raise PaketFehler("Quellgeometrie kann ohne Weltdaten nicht geprueft werden")
+    abweichend = sorted(k for k in set(soll["sha256"]) | set(ist["sha256"])
+                       if soll["sha256"].get(k) != ist["sha256"].get(k))
+    if abweichend:
+        raise PaketFehler("Quellgeometrie geaendert (%d): %s. Eingabestand klaeren und neu exportieren." %
+                          (len(abweichend), ", ".join(abweichend[:8])))
 
 
 def pruefprofil(argumente, export=False):

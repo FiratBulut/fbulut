@@ -3251,6 +3251,20 @@ def finde_sw(sehens_basis, sw_ordner, biom):
     return None
 
 
+def quellgeometrie(welt, gef_plaene, sehens_basis):
+    if welt is None:
+        return None
+    daten = {"welt/wasser_welt": welt.wasser_welt, "welt/baeche": welt.baeche}
+    for lauf, pf in sorted(gef_plaene.items()):
+        daten["gefaelle/%s/plan.json" % lauf] = lese_json(pf)
+    if sehens_basis:
+        for biom in BIOME:
+            pf = os.path.join(sehens_basis, biom, "orte.json")
+            if os.path.exists(pf):
+                daten["sehens/%s/orte.json" % biom] = lese_json(pf)
+    return paket.quellgeometrie(daten)
+
+
 def gewaesser_bilden(welt, gef, sehens, regeln, log_=log, gef_plaene=None):
     """Alle Laeufe laden, verketten, Muendungen bestimmen. Rueckgabe (gewaesser, teile, karte, info)."""
     import gefaelle_daten as gd
@@ -3632,6 +3646,7 @@ def _main(argv=None):
     gel = Gelaende(welt)
     gef_ok = os.path.isdir(a.gefaelle) if a.gefaelle else False
     gef_plaene, eingabe_weg = lauf_plaene(a.gefaelle if gef_ok else None)
+    geometrie_stand = quellgeometrie(welt, gef_plaene, a.sehens)
     eingabe_weg = [dict(w, eingabe="gefaelle") for w in eingabe_weg]
     for lauf in sorted(gef_plaene):
         fp_, weg_ = feld_plaene(os.path.join(a.gefaelle, lauf, "instanzen"))
@@ -3872,6 +3887,7 @@ def _main(argv=None):
     def vormerken(rel, daten, max_tiefe=4):
         ausgaben[rel.replace(os.sep, "/")] = json_text(daten, 0, max_tiefe) + "\n"
     vormerken(paket.PRUEFPROFIL, pruefprofil)
+    vormerken(paket.QUELLGEOMETRIE, geometrie_stand)
     for rel in sorted(dateien):
         d = {"format": FORMAT_VERSION, "regeln_version": regeln["version"], "fall_schwelle_m": regeln["fall_schwelle_m"],
              "daten": "1m" if a.daten1m else "2m (Cloud-Test)", "unreal_validierung": "ausstehend", "gewaesser": dateien[rel]}
