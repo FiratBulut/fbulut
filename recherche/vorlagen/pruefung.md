@@ -78,3 +78,26 @@ Eine Verbesserung am Ziel bei Verschlechterung einer betroffenen Vergleichsstell
 keine bestandene Abnahme. Ursache eingrenzen, Änderung lokal begrenzen oder zurücksetzen;
 einen gewünschten Kompromiss ausdrücklich mit Ferat entscheiden. In der vorhandenen
 Übergabe betroffene Stellen, Ergebnisse und verbleibende Prüflücken verlinken.
+
+## Ablaufprobe für die Sitzungsübergabe
+
+Diese Fälle beschreiben das erwartete Verhalten, keine hier ausgeführten Sitzungs- oder
+Unreal-Tests. Beim nächsten lokalen Start den vorhandenen Start-/Abfrageweg mit einer
+harmlosen Änderung prüfen. Unterbrechungen in einer Testkopie bzw. anhand gespeicherter
+Belege nachstellen, nicht durch Abbruch eines produktiven Bakes. Den Nachweis im vorhandenen
+Bericht festhalten; keine dauerhafte neue Prüfroutine daraus machen.
+
+| Fall | Erwartetes Verhalten |
+| --- | --- |
+| Bestehende Antwort erhält einen neuen fachlichen Befund. | Inhalt und Revision erkennen, die nächste Entscheidung bearbeiten; nicht nur neue Dateinamen suchen. |
+| Nur Lesebestätigung oder Formatierung ändert sich. | Kein neuer Test und keine Gegenquittung. |
+| Zweite Sitzung beginnt am selben Asset/Teststand. | Bestehenden Bearbeiter beachten; keine zweite Ausführung starten, unabhängig arbeiten. |
+| Alte Sitzung scheint inaktiv. | Prozesse und letzten gespeicherten Stand prüfen; kein automatisches Übernehmen nach Zeitablauf. |
+| Ergebnis stammt aus einer inzwischen ersetzten Eingabeversion. | Ergebnis an alte Basis binden und Anwendbarkeit klären; neueren Befund nicht überschreiben. |
+| Test ist durchgeführt, Push scheitert oder Verbindung bricht ab. | Beleg lokal erhalten, Remote-Stand prüfen und nötigenfalls nur Veröffentlichung wiederholen. |
+| Eingriff ist angewendet, Ergebnisbericht fehlt nach Neustart. | Tatsächlichen Zustand und Test-ID rekonstruieren, Eingriff nicht nochmals anwenden. |
+| Cloud erreicht Quelle oder Zielbild nicht. | Zugriffslücke einmal konkret benennen; unabhängig weiterarbeiten, keine Quellen-/Bildbestätigung erfinden. |
+| Derselbe Blocker bleibt unverändert. | Auf den benannten Eingang warten; keine neue Auftragsschleife oder bloße Statusänderung erzeugen. |
+
+Bestehen heißt: der echte Sitzungsweg zeigt die erwartete Entscheidung und liefert einen
+nachvollziehbaren Beleg. Das Lesen dieser Tabelle oder grüne Exporter-Tests genügen nicht.

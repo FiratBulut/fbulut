@@ -7,6 +7,8 @@ Ferat hat Codex am 15.10.2026 beauftragt, den Ablauf ergebnisorientiert zu korri
 
 1. Branch `claude/recherche-auftrag-s5m3y6` aktualisieren, diese README und die neuesten
    Befunde des aktiven Problems lesen. Pro Problem einen Vorgang mit stabiler ID führen.
+   Einstieg für neue Sitzungen: [CLAUDE.md](../CLAUDE.md); ein kurzer Starttext steht in
+   der [Übergabevorlage](vorlagen/uebergabe.md#starttext-für-die-nächste-sitzung).
 2. Genau eine nächste Entscheidung wählen. Vorhandene Belege, Inventare und Werkzeuge
    verwenden; nur die dafür fehlenden Angaben beschaffen.
 3. Die passende [Kurzvorlage](vorlagen/uebergabe.md) verwenden: Quellenfrage,
@@ -29,6 +31,35 @@ Recherche und Auswertung sowie alles, was ihre Werkzeuge selbst erlauben. Unabh�
 läuft weiter. Rückfragen bündeln und nur stellen, wenn sie den nächsten Schritt verändern.
 Ferats bestehende Entscheidungen und Freigaben gelten; keine erneute Bestätigung bereits
 autorisierter Arbeit. Zusätzliche Ausgaben oder destruktive Aktionen sind damit nicht freigegeben.
+
+## Zuständigkeit und Unterbrechungen
+
+Im bestehenden Vorgangskopf stehen **Bearbeiter/Sitzung, betroffener Bereich, Stand und
+nächste Handlung**. Eine kurze Sitzungskennung genügt. Auftragsdatei und Antwort dürfen
+verschiedene Bearbeiter haben; dieselbe Datei, dasselbe Asset oder derselbe Teststand
+hat gleichzeitig nur einen ausführenden Bearbeiter. Unabhängige Recherche bleibt möglich.
+Keine zusätzliche Statusdatei und keine eigene Quittungsrunde anlegen.
+
+| Stand | Nächste Handlung |
+| --- | --- |
+| offen | Zuständigkeit im Vorgang klären, bestehenden Stand prüfen und Arbeit beginnen. |
+| in Arbeit | Derselbe Bearbeiter setzt fort; weitere Sitzungen liefern nur unabhängige Beiträge. |
+| wartet auf … | Konkreten fehlenden Eingang, Lieferseite und Wiederaufnahmebedingung nennen; unabhängig weiterarbeiten. |
+| geliefert | Empfänger führt die benannte Prüfung/Entscheidung aus; reine Quellenantworten dürfen damit abgeschlossen sein. |
+| abgeschlossen / verworfen | Befund wiederverwenden; nur bei neuem relevanten Eingang oder begründetem neuen Versuch öffnen. |
+
+Bei zwei Sitzungen derselben Seite die bereits eingetragene ausführende Sitzung beibehalten.
+Ein alter Zeitstempel, eine Pause oder ein fehlender Push gibt den Bereich nicht automatisch
+frei. Vor Übernahme letzten gespeicherten Stand und laufende Prozesse prüfen und bestätigen,
+dass die alte Ausführung beendet ist; andernfalls nur unabhängig weiterarbeiten. Die
+Übernahme samt letzter Test-ID im bestehenden Vorgang notieren. Diese Regel ist organisatorisch,
+keine technische Sperre gegen gleichzeitig gestartete Prozesse.
+
+Ändert sich während der Arbeit eine relevante Vorgabe, das Ergebnis an die tatsächlich
+verwendete Revision binden. Abweichung vor Anwendung prüfen: weiter gültig, gezielt
+anzupassen oder überholt. Ein verspätetes Ergebnis darf einen neueren lokalen Befund nicht
+still überschreiben. Prozessstatus und Ausführungsstand eines Tests getrennt halten:
+„geliefert“ bedeutet insbesondere nicht „im Projekt angewendet“.
 
 ## Welche Aussage gilt?
 
@@ -78,7 +109,8 @@ lesen und beurteilen; eine geänderte SHA bedeutet nicht automatisch neue Ausfü
 „Bereit zum Test“ ersetzt nicht die unten beschriebene lokale Vorprüfung. Danach bereits
 autorisierte Arbeit ohne erneute Freigabefrage ausführen.
 
-**Noch lokal zu verifizieren:** Ob vorhandene Startprompts und Abfragen diese README lesen
+**Noch lokal zu verifizieren:** Der Repository-Einstieg ist in `CLAUDE.md` hinterlegt.
+Ob vorhandene Startprompts und Abfragen diesen Einstieg bzw. diese README lesen
 und Änderungen bestehender Dateien erkennen, wurde nicht nachgewiesen. Beim nächsten
 Sitzungsstart die gelesene README-Version einmal im vorhandenen Bericht festhalten.
 Bis die bestehende Abfrage geprüft/angepasst ist, den Versionsvergleich bei diesen
@@ -92,6 +124,8 @@ eine unveränderte oder nur quittierte Revision darf keine Wiederholung auslöse
 Erkennungsnachweis und das daraus tatsächlich gelieferte Ergebnis im bestehenden Bericht
 festhalten. Bis dahin bleibt „automatische Übernahme des Ablaufs“ offen, auch bei grünen
 Exporter-Tests. Dieser Test wurde hier nicht ausgeführt.
+Für Unterbrechungen und konkurrierende Sitzungen die
+[Ablaufprobe](vorlagen/pruefung.md#ablaufprobe-für-die-sitzungsübergabe) verwenden.
 
 ## Anwendung und Wiederaufnahme
 
@@ -101,53 +135,35 @@ Zum Arbeitspaket gehören die relevanten Eingabeversionen und das gelieferte Art
 Vor dem Anwenden erneut vergleichen. Ein fachlich veränderter Eingang macht nur die
 abhängigen Teile neu prüfpflichtig; keine blinde Übernahme nach einem sauberen Git-Merge.
 
-Shallow-Water-Exporte nur als abgeschlossenes, geprüftes Paket aus einem neuen Zielordner
-übergeben; [Paketregeln](antworten/skripte/fluss_sim/README.md). Eingabefehler nicht still
-überspringen, alte Dateien nicht in neue Exporte mischen. Bei `--nur` automatisch
-aufgenommenen Kontext mitlesen; ein Teilpaket ist ein abgegrenzter Test, keine vollständige
-Projektfreigabe. Vor lokaler Anwendung Paketprüfung und Eingabevergleich wiederholen.
-Für neue Pakete `fluss_sim_pruefen.py <Paketordner> --uebergabe` mit den relevanten
-Daten-/Quelloptionen aus `pruefprofil.json` verwenden. Der Prüfer verlangt dieselben
-Quelloptionen, den Datenmodus, die Gebaut-Erkennung und den Regeldateiinhalt wie beim
-Export; lokale Pfade dürfen sich unterscheiden. Dieser Modus verlangt ein fertiges
-v2-Paket samt Profil und Quellgeometrie-Nachweis und prüft dessen Inhalt erneut. Alte Pakete
-ohne Profil oder `quellgeometrie.json` für eine neue Übergabe neu exportieren.
-Der Quellgeometrie-Vergleich erkennt geänderte Weltgewässer, Lauf- und Sehens-Ortspläne
-sowie hinzugekommene oder entfernte Pläne. Bei Abweichung lokal den richtigen Eingabestand
-zuordnen; bei gewollter Änderung neu exportieren. Die Prüfsummen nicht von Hand anpassen.
-Diese Kontrolle erfasst keine vollständigen Binärdaten, Assets oder Editoränderungen;
-den Projektstand weiterhin separat abgleichen. Während Export und Prüfung Eingaben nicht
-parallel bearbeiten. Die ausgegebene Paket-ID im Umsetzungsbefund festhalten.
-Gleiche Paket-ID plus unveränderter Ausgangsstand und bereits dokumentiertes Ergebnis
-bedeutet: vorhandenen Befund wiederverwenden, auch wenn der Ordner umbenannt wurde.
-Ein neuer Ausgangsstand oder eine ausdrücklich begründete Wiederholungsmessung erhält
-eine neue Test-ID. Die Paket-ID belegt den Artefaktinhalt, nicht die Gültigkeit im Projekt.
+Shallow-Water-Exporte nur als abgeschlossenes Paket aus einem neuen Zielordner übergeben.
+Die technischen [Paketregeln](antworten/skripte/fluss_sim/README.md) sind die maßgebliche
+Detailanleitung. Vor Anwendung `fluss_sim_pruefen.py <Paketordner> --uebergabe` mit den
+Daten-/Quelloptionen aus `pruefprofil.json` ausführen. Alte Pakete ohne Profil oder
+`quellgeometrie.json` neu exportieren; Dateien nicht mischen und Prüfsummen nicht anpassen.
+Bei `--nur` den mitgelieferten Kontext prüfen; das Teilpaket ist keine Projektfreigabe.
+Eingaben während Export/Prüfung unverändert halten. Projekt-, Asset- und Editorstand
+zusätzlich abgleichen: das Paket bildet nicht sämtliche Eingaben ab.
 
-Jeder Versuch erhält eine Test-ID und im lokalen Befund einen Ausführungsstand:
-`vorbereitet → angewendet → geprüft` bzw. `verworfen/zurückgesetzt`, jeweils mit
-Speicherstatus und Beleg. Nach Abbruch zuerst den tatsächlichen Projektzustand feststellen.
-Bei unklarem Stand nicht erneut blind anwenden: mit Sicherung abgleichen, fortsetzen oder
-gezielt zurücksetzen. Eine bereits angewendete Revision nicht nochmals setzen; Wiederholung
-als neuen Versuch vom bekannten Ausgangsstand dokumentieren. Vorhandene Setzer auf Verhalten
-bei Wiederholung prüfen, insbesondere bei Gelände-Deltas und Instanzen.
+Paket-ID, Ausgangsstand-ID und Test-ID im Befund verknüpfen. Gleiche Paket-ID plus gleicher
+Ausgangsstand und vorhandenes Ergebnis bedeutet: Befund wiederverwenden, auch nach einem
+Ordnerwechsel. Ein neuer Ausgangsstand oder begründeter Wiederholungstest erhält eine neue
+Test-ID. Die Paket-ID allein bestätigt keine Gültigkeit im Projekt.
 
-**Bei beschädigtem Einbaustand:** Eine vorhandene, unlesbare oder nicht unterstützte
-`sehens_einbau/A15_<lauf>/lauf.json` ist kein Nachweis „noch nicht gebaut“. Der Export
-stoppt bei erkannten Lese-/Formatfehlern. Lokal den tatsächlichen Terrainstand mit der
-Sicherung abgleichen und die Statusdatei daraus wiederherstellen; die Cloud nennt dazu
-den konkreten Dateipfad und Fehler im bestehenden Vorgang. Datei nicht löschen oder
-leeren und keine Erkennung abschalten, nur um die Sperre zu umgehen. Erst nach geklärtem
-Stand neu exportieren. Eine tatsächlich fehlende Datei gilt technisch weiterhin als
-„ungebaut“; deshalb bleibt der lokale Eingabevergleich auch nach erfolgreicher Prüfung nötig.
+Jeder Versuch hat einen Ausführungsstand `vorbereitet → angewendet → geprüft` bzw.
+`verworfen/zurückgesetzt`, mit Speicherstatus und Beleg. Nach Abbruch zuerst den tatsächlichen
+Projektzustand feststellen: sichern, fortsetzen oder gezielt zurücksetzen. Fehlt nur der
+Bericht, den vorhandenen Versuch rekonstruieren; einen angewendeten Eingriff nicht erneut
+setzen. Wiederholungen vom bekannten Ausgangsstand ausführen, insbesondere bei Deltas und
+Instanzen. Vorhandene Setzer auf ihr Verhalten bei Wiederholung prüfen.
 
-**Bei nur teilweise eingebautem Gelände:** Erledigte und offene Felder lokal feststellen.
-Deckt dieselbe Delta-Datei beide ab, stoppt der Export: sie darf weder komplett nochmals
-addiert noch komplett ausgelassen werden. Lokal einen bekannten Ausgangsstand herstellen
-oder fachlich getrennte Deltas samt passender Feldzuordnung bereitstellen und prüfen.
-Bereits getrennte Dateien verarbeitet der Export gezielt weiter. `--gebaut` bzw.
-`nachgezogen: true` nur für vollständig eingebaute Einheiten verwenden, niemals zur
-Umgehung dieser Sperre. Im selben Vorgang Dateipfad, erledigte Felder und gewählte
-Wiederherstellung festhalten; die Cloud braucht dafür keinen neuen Rechercheauftrag.
+Bei beschädigtem oder teilweise eingebautem Terrain lokal den tatsächlichen Stand klären
+und Statusdaten wiederherstellen bzw. passende getrennte Deltas liefern; Details in den
+Paketregeln. Ein Delta über erledigte und offene Felder weder vollständig addieren noch
+auslassen. Statusdateien nicht löschen/leeren und `--gebaut` oder ausgeschaltete Erkennung
+nicht zur Umgehung verwenden. Fehlende Statusdateien gelten technisch weiterhin als
+„ungebaut“, daher bleibt der lokale Abgleich nötig. Die Cloud nennt Dateipfad und Fehler
+einmal im bestehenden Vorgang; für diese Wiederherstellung keinen neuen Rechercheauftrag
+erzeugen.
 
 Eine Antwortdatei bedeutet „beantwortet“, nicht „erledigt“. Quellenfragen enden mit belegter
 Antwort; Umsetzungen mit lokalem Abnahmeergebnis. Für die Ausführung ist der lokale Befund
@@ -217,7 +233,21 @@ BAKED_SIM-Vergleich angesehen; dies ist keine Laufzeit- oder Gesamtprojektabnahm
 
 ## Git
 
-Vor Push `git pull --rebase`; Konflikte unter Erhalt beider Beiträge lösen, kein Force-Push.
+Eigene Änderungen gezielt committen; fremde/unzugehörige Änderungen erhalten. Vor Push
+`git pull --rebase`; Konflikte unter Erhalt beider Beiträge lösen, kein Force-Push.
 Bei API-Schreiben unmittelbar vorher lesen und aktuelle Datei-SHA verwenden. Änderungen
 eines zusammengehörigen Arbeitspakets möglichst gemeinsam committen. Ein konfliktfreier
 Push ersetzt weder die Eingabeprüfung noch die lokale Abnahme.
+
+Bei Schreibkonflikten aktuelle Gegenfassung lesen und fachlich abgleichen; nicht blind
+dieselben Inhalte erneut senden oder widersprüchliche Befunde zusammenkleben. Nur die vom
+Konflikt betroffenen Prüfungen wiederholen. Ein Ergebnis gilt erst als im Repository
+übergeben, wenn der Push/Schreibvorgang erfolgreich war und die veröffentlichte Version
+bestätigt wurde.
+
+Scheitert nur die Veröffentlichung, lokalen Commit/Entwurf und Testbelege erhalten und
+„lokal fertig, nicht veröffentlicht“ im verfügbaren Bericht nennen. Beim Wiederanlauf
+zuerst nachsehen, ob die Version trotz Verbindungsabbruch schon angekommen ist. Falls
+nicht, nach Abgleich nur die Veröffentlichung wiederholen; den Test oder Projekteingriff
+nicht deshalb erneut ausführen. Fehlt der neueren Sitzung der lokale Stand, diesen einmal
+gezielt beschaffen statt aus einem alten Repositorystand eine Wiederholung abzuleiten.

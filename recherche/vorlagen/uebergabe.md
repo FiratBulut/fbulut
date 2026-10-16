@@ -5,12 +5,30 @@ Auftrags-/Antwortdatei verwenden. Je Feld ein Satz plus Beleglink genügt. Ein F
 erst ausgefüllt, wenn es für den aktuellen Schritt gebraucht wird; kein erfundenes Ergebnis.
 Neue ID nur für ein eigenständiges Problem, keine neue Datei für jede Rückfrage.
 
-Gemeinsamer Kopf: ID, Datum, Status/Zuständigkeit, gelesene Gegenstellen-Version und nächste
-Handlung samt Budget. Beispiel für den Bezug: `Gelesen: recherche/auftraege/<id>.md @ <Blob-SHA>
+Gemeinsamer Kopf: ID, Datum, Status, Bearbeiter/Seite/Sitzungskennung, betroffener Bereich,
+gelesene Gegenstellen-Version und nächste Handlung samt Budget. Beispiel für den Bezug:
+`Gelesen: recherche/auftraege/<id>.md @ <Blob-SHA>
 (Commit <SHA>)`. Bei einem neuen Erstauftrag entfällt dieser Bezug. Antworten auf reine
 Quittungsänderungen sind nicht nötig. Überholte Empfehlungen bei Bedarf ausdrücklich nennen.
 Wenn blockiert: „wartet auf <konkreter Beleg>, zuständig <Seite>; weiter bei <neuem Eingang>“
 im vorhandenen Kopf ergänzen. Unverändert blockierte Vorgänge nicht erneut beauftragen.
+Bei Übernahme letzte Test-ID und bestätigten Ausführungsstand nennen. Bei fehlgeschlagener
+Veröffentlichung „lokal fertig, nicht veröffentlicht“ samt erhaltenem Commit/Entwurf nennen;
+ein erneuter Push ist kein neuer Umsetzungstest.
+
+## Starttext für die nächste Sitzung
+
+> Lies `CLAUDE.md`, `recherche/README.md` und den aktuellen Auftrag samt Antwort für den
+> aktiven Vorgang. Prüfe Zuständigkeit, gelesene Revision und tatsächlichen Ausführungsstand.
+> Setze genau die nächste autorisierte Handlung fort und liefere ein überprüfbares Ergebnis.
+> Übernimm keinen noch laufenden Eingriff einer anderen Sitzung. Bei fehlendem Zugriff
+> benenne einmal den konkreten benötigten Beleg und bearbeite unabhängig mögliche Arbeit.
+> Halte Ergebnis, Beleg, Stand und nächsten Schritt im vorhandenen Vorgang fest.
+
+Im vorhandenen Startprompt verwenden; keine zweite Zeitsteuerung einrichten. Ist kein
+aktiver Vorgang eindeutig erkennbar, aktuelle offene Köpfe und Ferats jüngste Priorität
+vergleichen. Bleiben mehrere gleichrangige Aufgaben mit gemeinsamer Ressource, die
+Priorität einmal klären und bis dahin nur unabhängige Arbeit ausführen.
 
 ## A. Quellenfrage
 
