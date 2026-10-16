@@ -1313,6 +1313,8 @@ def _main(argv=None):
     global regeln_global, welt_global
     ap = argparse.ArgumentParser(description="Pruefer Entscheidung 16 (fluss_sim v3)")
     ap.add_argument("aus")
+    ap.add_argument("--uebergabe", action="store_true",
+                    help="fertiges v2-Paket mit Paket-ID verlangen; Zwischenstaende und Altformate ablehnen")
     ap.add_argument("--gefaelle", default=None)
     ap.add_argument("--sehens", default=None)
     ap.add_argument("--sw-ordner", default=None)
@@ -1328,7 +1330,9 @@ def _main(argv=None):
                     help="16g Nachtrag: bekannte Water Zones (JSON, siehe zonen_bekannt_lesen): Pixel > Breite/6 = FEHLER")
     a = ap.parse_args(argv)
     fx.paket.pruefe_ordner(a)
-    manifest = fx.paket.lies_manifest(a.aus)
+    manifest = fx.paket.lies_manifest(a.aus, uebergabe=a.uebergabe)
+    if a.uebergabe:
+        sys.stdout.write("[fluss_sim_pruefen] UEBERGABE-PAKET: %s; formale Inhaltspruefung folgt\n" % manifest["paket_id"])
     regeln = fx.lese_json(a.regeln)
     regeln_global = regeln
     gesamt = {FEHLER: 0, WARNUNG: 0, HINWEIS: 0}

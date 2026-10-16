@@ -3892,7 +3892,8 @@ def _main(argv=None):
         if a.ohne_erkennung:
             args += ["--ohne-erkennung"]
         return pruefer_main(args)
-    paket.paket_schreiben(a.aus, ausgaben, umfang, pruefen)
+    paketkennung = paket.paket_schreiben(a.aus, ausgaben, umfang, pruefen)
+    log("Paket-ID: " + paketkennung)
     wi_ = zus["water_info"]
     log("Water-Info (16g Nachtrag): schmalste Breite %.2f m -> Pixel <= %.3f m; Zonenvorschlag %d Zonen (%d fein, %s), "
         "%.0f MB RGBA16F / %.0f MB RGBA32F"

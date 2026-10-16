@@ -141,6 +141,71 @@ class PaketTests(unittest.TestCase):
         with self.assertRaisesRegex(pk.PaketFehler, "fremde Dateien"):
             pk.lies_manifest(ziel)
 
+    def test_identische_pakete_haben_unabhaengig_vom_ordner_dieselbe_id(self):
+        ids = []
+        for name in ("erster", "erneut"):
+            ziel = self.root / name
+            pk.paket_schreiben(str(ziel), {"a.json": "{}"}, self.umfang(), lambda _: 0)
+            ids.append(pk.lies_manifest(ziel, uebergabe=True)["paket_id"])
+        self.assertEqual(ids[0], ids[1])
+
+    def test_manifestumfang_nachtraeglich_geaendert_wird_erkannt(self):
+        ziel = self.root / "neu"
+        pk.paket_schreiben(str(ziel), {"a.json": "{}"}, self.umfang(), lambda _: 0)
+        p = ziel / pk.MANIFEST
+        manifest = json.loads(p.read_text())
+        manifest["umfang"]["ziele"] = ["ANDERES_ZIEL"]
+        p.write_text(json.dumps(manifest))
+        with self.assertRaisesRegex(pk.PaketFehler, "Paket-ID"):
+            pk.lies_manifest(ziel)
+
+    def test_aenderung_durch_pruefer_verhindert_publikation(self):
+        for art in ("datei", "manifest"):
+            with self.subTest(art=art):
+                def pruefen(stage):
+                    if art == "datei":
+                        (Path(stage) / "a.json").write_text('{"unerwartet":1}')
+                    else:
+                        p = Path(stage) / pk.MANIFEST
+                        m = json.loads(p.read_text())
+                        m["formal"] = "bestanden"
+                        p.write_text(json.dumps(m))
+                    return 0
+                with self.assertRaises(pk.PaketFehler):
+                    pk.paket_schreiben(str(self.root / art), {"a.json":"{}"}, self.umfang(), pruefen)
+                self.assertFalse((self.root / art).exists())
+
+    def test_uebergabe_lehnt_zwischenstand_und_altformat_ab(self):
+        ziel = self.root / "neu"
+        def pruefen(stage):
+            with self.assertRaisesRegex(pk.PaketFehler, "Zwischenstand"):
+                pk.lies_manifest(stage, uebergabe=True)
+            return 0
+        pk.paket_schreiben(str(ziel), {"a.json":"{}"}, self.umfang(), pruefen)
+        p = ziel / pk.MANIFEST
+        m = json.loads(p.read_text())
+        m["format"] = "fluss_sim_paket_v1"
+        m.pop("paket_id")
+        p.write_text(json.dumps(m))
+        self.assertIsNotNone(pk.lies_manifest(ziel))
+        with self.assertRaisesRegex(pk.PaketFehler, "Altformat"):
+            pk.lies_manifest(ziel, uebergabe=True)
+
+    def test_uebergabe_cli_verlangt_manifest(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            self.assertEqual(fp.main([str(self.root), "--uebergabe"]), 1)
+        self.assertIn("paket.json", out.getvalue())
+
+    def test_doppelte_baueintraege_werden_nicht_abgeschnitten(self):
+        a = gewaesser("A")
+        with self.assertRaises(pk.PaketFehler):
+            pk.auswahl_mit_kontext([a], [a, copy.deepcopy(a)], None)
+
+    def test_volle_auswahl_und_explizite_alle_auswahl_sind_gleich(self):
+        gs = [gewaesser("A"), gewaesser("B")]
+        self.assertEqual(pk.auswahl_mit_kontext(gs, gs, None), pk.auswahl_mit_kontext(gs, gs, ["A", "B"]))
+
     def test_verbindungen_und_nachbarn_werden_transitiv_aufgenommen(self):
         a = gewaesser("A", "B")
         b = gewaesser("B", box=[1000,0,1100,100])
@@ -230,7 +295,7 @@ class PaketTests(unittest.TestCase):
                         wz = json.loads((out / "wasserzonen.json").read_text())
                         self.assertTrue(all(z["id"].startswith("TEST_") for z in wz["zonen"]))
                     with contextlib.redirect_stdout(log):
-                        self.assertEqual(fp.main([str(out), "--daten2m", str(self.root), "--ohne-erkennung"]), 0)
+                        self.assertEqual(fp.main([str(out), "--uebergabe", "--daten2m", str(self.root), "--ohne-erkennung"]), 0)
             echt = fx.baue_gewaesser_v3
             def kaputt(*args):
                 e = echt(*args)

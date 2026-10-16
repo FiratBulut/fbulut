@@ -76,6 +76,27 @@ Für den nächsten Lauf einen neuen Namen verwenden, z. B. `--aus <scratch>/flus
 Nur den vollständig veröffentlichten Ordner an die lokale Sitzung übergeben; alte und neue
 Pakete nicht zusammenkopieren. Die alte Referenz bis zur lokalen Abnahme aufbewahren.
 
+**Ergänzung 16.10.:** Neue Pakete verwenden `fluss_sim_paket_v2`. Ihre `paket_id` wird
+aus Format, Umfang und Dateiprüfsummen berechnet und bleibt beim Umbenennen/Kopieren
+gleich. Änderungen am Umfang oder Dateimanifest werden damit ebenfalls erkannt.
+Das ist eine Inhaltskennung, keine Signatur und kein Nachweis aktueller Projekteingaben.
+Nach dem internen Prüferlauf werden Dateien und Manifest vor Veröffentlichung nochmals
+auf unveränderten Inhalt kontrolliert. Vollauswahlen überspringen die unnötige paarweise
+Kontextsuche; bei Teilmengen bleibt sie aktiv.
+
+Die empfangende Sitzung verwendet vor Anwendung:
+`python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py <Paketordner> --uebergabe`
+plus die zum Paket passenden Daten-/Quelloptionen. `--uebergabe` verlangt ein fertiges
+v2-Paket mit gültiger ID, lehnt temporäre Zwischenstände ab und führt anschließend die
+formalen Kontrollen aus. Es bestätigt keine Unreal-Abnahme und vergleicht nicht selbst
+den lokalen Ausführungsstand. v1-Pakete und ältere Auszüge bleiben ohne diese Option
+analysierbar; für eine neue Übergabe erneut exportieren. Fehlende Quellen nicht durch
+Weglassen der Optionen umgehen; die relevanten Eingabestände separat abgleichen.
+
+Paket-ID, Ausgangsstand-ID und Ergebnis im bestehenden Umsetzungsbefund verknüpfen.
+Ein bereits geprüfter Versuch wird bei unverändertem Ausgangsstand nicht allein wegen
+eines neuen Ordnernamens wiederholt. Begründete Wiederholungen erhalten eine neue Test-ID.
+
 Ferat hat am 12.10.2026 entschieden: Alle Bäche und Flüsse laufen mit `WaterBodyRiver` + `ShallowWaterRiver`
 (UE 5.8.3, Plugins Water + Niagara Fluids); die Simulation wird im Editor **gebacken**; Seen bleiben `WaterBodyLake`
 ([`../../16-shallow-water-alle-gewaesser.md`](../../16-shallow-water-alle-gewaesser.md)).

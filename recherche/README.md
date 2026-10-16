@@ -16,6 +16,14 @@ Ferat hat Codex am 15.10.2026 beauftragt, den Ablauf ergebnisorientiert zu korri
 5. Entscheiden: übernehmen, verwerfen, gezielt weiterprüfen oder begründet zurückstellen.
    Negative Tests zählen als Fortschritt, wenn sie eine Ursache ausschließen.
 
+**Arbeitsregel ab 16.10.:** Pro Problem genau eine ausführbare nächste Handlung mit einer
+zuständigen Seite. Kann diese Seite die Frage selbst beantworten, liefert sie das Ergebnis
+in derselben Sitzung. Ein neuer Testauftrag ist nur nötig, wenn ein entscheidender Beleg
+anders nicht erreichbar ist; erwartete Beobachtung und Entscheidung danach mitliefern.
+Bei fehlenden Daten einmal konkret benennen, was fehlt und wer es liefern kann. Den Vorgang
+auf „wartet auf <Beleg>“ setzen und unabhängig weiterarbeiten. Ohne neuen Eingang keine
+erneute Rückfrage, Ersatzauftragskette oder bloße Statusantwort erzeugen.
+
 Lokal prüft Engine, Projekt, Materialgraphen, echte Bounds und Laufzeit. Die Cloud übernimmt
 Recherche und Auswertung sowie alles, was ihre Werkzeuge selbst erlauben. Unabhängige Arbeit
 läuft weiter. Rückfragen bündeln und nur stellen, wenn sie den nächsten Schritt verändern.
@@ -98,6 +106,13 @@ Shallow-Water-Exporte nur als abgeschlossenes, geprüftes Paket aus einem neuen 
 überspringen, alte Dateien nicht in neue Exporte mischen. Bei `--nur` automatisch
 aufgenommenen Kontext mitlesen; ein Teilpaket ist ein abgegrenzter Test, keine vollständige
 Projektfreigabe. Vor lokaler Anwendung Paketprüfung und Eingabevergleich wiederholen.
+Für neue Pakete `fluss_sim_pruefen.py <Paketordner> --uebergabe` mit den relevanten
+Daten-/Quelloptionen verwenden. Dieser Modus verlangt ein fertiges v2-Paket und prüft
+dessen Inhalt erneut. Die ausgegebene Paket-ID im Umsetzungsbefund festhalten.
+Gleiche Paket-ID plus unveränderter Ausgangsstand und bereits dokumentiertes Ergebnis
+bedeutet: vorhandenen Befund wiederverwenden, auch wenn der Ordner umbenannt wurde.
+Ein neuer Ausgangsstand oder eine ausdrücklich begründete Wiederholungsmessung erhält
+eine neue Test-ID. Die Paket-ID belegt den Artefaktinhalt, nicht die Gültigkeit im Projekt.
 
 Jeder Versuch erhält eine Test-ID und im lokalen Befund einen Ausführungsstand:
 `vorbereitet → angewendet → geprüft` bzw. `verworfen/zurückgesetzt`, jeweils mit
@@ -150,6 +165,9 @@ die Antwort vorliegt. Lange Builds/Bakes gesondert planen. Nach zwei Runden ohne
 Erkenntnis Ansatz prüfen, statt dieselbe Frage neu zu stellen. Zurückstellung braucht
 einen Wiederaufnahmegrund. Hilfsmittel am konkreten Problem verbessern; kein Großprojekt
 zur Prozesspflege starten.
+Prozessregeln nur bei einem belegten Ablaufproblem oder auf Ferats Auftrag erweitern.
+Nach einem bestandenen gezielten Test wieder am nächsten Wasser-/Bild-Ergebnis arbeiten;
+keine weiteren Prüfrunden allein wegen eines unveränderten Status beginnen.
 
 ## Startpunkt Shallow Water und Sitzungsabschluss
 

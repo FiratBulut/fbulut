@@ -58,6 +58,13 @@ def _relativ(name):
     return p
 
 
+def paket_id(manifest):
+    """Inhaltsidentitaet ohne Ordnername oder wechselnden Pruefstatus; keine Signatur."""
+    basis = {k: manifest.get(k) for k in ("format", "umfang", "dateien_sha256")}
+    text = json.dumps(basis, ensure_ascii=True, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
 def paket_schreiben(aus, dateien, umfang, pruefen):
     """Nur neuen Ordner publizieren; Fehler lassen Ziel und bisherigen Stand unangetastet.
 
@@ -77,26 +84,38 @@ def paket_schreiben(aus, dateien, umfang, pruefen):
                 raise PaketFehler("paket.json ist fuer das Manifest reserviert")
             schreibe_atomar(stage / p, text)
             summen[p.as_posix()] = hashlib.sha256((stage / p).read_bytes()).hexdigest()
-        manifest = {"format": "fluss_sim_paket_v1", "umfang": umfang, "dateien_sha256": summen,
+        manifest = {"format": "fluss_sim_paket_v2", "umfang": umfang, "dateien_sha256": summen,
                     "formal": "ausstehend", "unreal": "nicht_geprueft"}
+        manifest["paket_id"] = paket_id(manifest)
         _json(stage / MANIFEST, manifest)
         if pruefen(str(stage)) != 0:
             raise PaketFehler("Formale Paketpruefung fehlgeschlagen; kein neuer Export veroeffentlicht")
+        nachher = lies_manifest(stage)
+        if nachher != manifest:
+            raise PaketFehler("Paketmanifest waehrend der Pruefung veraendert; Export abgebrochen")
         manifest["formal"] = "bestanden"
         _json(stage / MANIFEST, manifest)
         neues_ziel(aus)
         # Kein Ersetzen/Mischen bestehender Pakete. Gleicher Datentraeger, ein Rename.
         os.rename(stage, ziel)
+    return manifest["paket_id"]
 
 
-def lies_manifest(aus):
+def lies_manifest(aus, uebergabe=False):
     """Inventar und Bytes pruefen; alte Exporte ohne Manifest bleiben separat pruefbar."""
     root = Path(aus)
     if not (root / MANIFEST).exists():
+        if uebergabe:
+            raise PaketFehler("Uebergabe braucht ein abgeschlossenes Paket mit paket.json")
         return None
     m = json.loads((root / MANIFEST).read_text(encoding="utf-8"))
-    if m.get("format") != "fluss_sim_paket_v1":
+    if not isinstance(m, dict) or m.get("format") not in ("fluss_sim_paket_v1", "fluss_sim_paket_v2"):
         raise PaketFehler("Unbekanntes Paketformat")
+    if m["format"] == "fluss_sim_paket_v2" and m.get("paket_id") != paket_id(m):
+        raise PaketFehler("Paket-ID passt nicht zu Umfang/Dateimanifest")
+    if uebergabe and (m["format"] != "fluss_sim_paket_v2" or m.get("formal") != "bestanden" or
+                      root.name.startswith(".fluss_sim-")):
+        raise PaketFehler("Kein fertiges v2-Uebergabepaket; Altformat oder Zwischenstand neu exportieren")
     soll = m.get("dateien_sha256")
     if not isinstance(soll, dict) or not soll:
         raise PaketFehler("Leeres/ungueltiges Dateimanifest")
@@ -117,7 +136,7 @@ def auswahl_mit_kontext(gewaesser, eintraege, nur):
     erfolgt erst nach Aufbau aller Gewaesser; die Prioritaetsberechnung sieht ganze Ketten.
     """
     ids = {g["id"] for g in gewaesser}
-    if len(ids) != len(gewaesser) or ids != {e["id"] for e in eintraege}:
+    if len(ids) != len(gewaesser) or [g["id"] for g in gewaesser] != [e["id"] for e in eintraege]:
         raise PaketFehler("Gewaesser-IDs doppelt oder Eintraege unvollstaendig")
     ziel = set()
     for token in nur or []:
@@ -129,6 +148,18 @@ def auswahl_mit_kontext(gewaesser, eintraege, nur):
         ziel |= treffer
     if not nur:
         ziel = set(ids)
+
+    def fertig(enthalten):
+        teil = enthalten != ids
+        namespace = "TEST_" + hashlib.sha256("\n".join(sorted(enthalten)).encode()).hexdigest()[:12] + "_" if teil else ""
+        umfang = {"art": "teil" if teil else "voll", "ziele": sorted(ziel), "kontext": sorted(enthalten - ziel),
+                  "gewaesser": sorted(enthalten), "zonen_namespace": namespace,
+                  "laeufe": sorted({l["id"] for e in eintraege if e["id"] in enthalten for l in e.get("laeufe", [])})}
+        return enthalten, umfang
+
+    if ziel == ids:
+        # Vollauswahl enthaelt bereits jeden Kontext; keine paarweisen Rechteckvergleiche.
+        return fertig(set(ids))
     nachbarn = {gid: set() for gid in ids}
 
     def verbinden(a, b):
@@ -165,19 +196,15 @@ def auswahl_mit_kontext(gewaesser, eintraege, nur):
         for gid in nachbarn[offen.pop()] - enthalten:
             enthalten.add(gid)
             offen.append(gid)
-    teil = bool(nur) and enthalten != ids
-    # Testzonen einer Teilauswahl duerfen keine globalen WZ_Fxx ueberschreiben.
-    namespace = "TEST_" + hashlib.sha256("\n".join(sorted(enthalten)).encode()).hexdigest()[:12] + "_" if teil else ""
-    umfang = {"art": "teil" if teil else "voll", "ziele": sorted(ziel), "kontext": sorted(enthalten - ziel),
-              "gewaesser": sorted(enthalten), "zonen_namespace": namespace,
-              "laeufe": sorted({l["id"] for e in eintraege if e["id"] in enthalten for l in e.get("laeufe", [])})}
-    return enthalten, umfang
+    return fertig(enthalten)
 
 
 def pruefe_umfang(manifest, alle):
     if manifest is None:
         return None
     u = manifest.get("umfang") or {}
+    if not isinstance(u, dict):
+        raise PaketFehler("Ungueltiger Paketumfang")
     ids = set(alle)
     if (u.get("art") not in ("voll", "teil") or set(u.get("gewaesser", [])) != ids or
             set(u.get("ziele", [])) | set(u.get("kontext", [])) != ids or not u.get("ziele") or
