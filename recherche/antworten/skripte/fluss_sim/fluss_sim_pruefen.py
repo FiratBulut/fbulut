@@ -1331,6 +1331,7 @@ def _main(argv=None):
     a = ap.parse_args(argv)
     fx.paket.pruefe_ordner(a)
     manifest = fx.paket.lies_manifest(a.aus, uebergabe=a.uebergabe)
+    fx.paket.pruefe_pruefprofil(a.aus, manifest, a)
     if a.uebergabe:
         sys.stdout.write("[fluss_sim_pruefen] UEBERGABE-PAKET: %s; formale Inhaltspruefung folgt\n" % manifest["paket_id"])
     regeln = fx.lese_json(a.regeln)

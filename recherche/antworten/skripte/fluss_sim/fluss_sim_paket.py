@@ -7,10 +7,53 @@ import tempfile
 
 
 MANIFEST = "paket.json"
+PRUEFPROFIL = "pruefprofil.json"
+QUELLOPTIONEN = ("gefaelle", "sehens", "sw_ordner", "roh", "einbau")
 
 
 class PaketFehler(ValueError):
     pass
+
+
+def pruefprofil(argumente, export=False):
+    """Pfadunabhaengiger Pruefumfang; keine Behauptung identischer Projektinhalte."""
+    daten = "daten1m" if getattr(argumente, "daten1m", None) else (
+        "daten2m" if getattr(argumente, "daten2m", None) or export else None)
+    return {"format": "fluss_sim_pruefprofil_v1", "daten": daten,
+            "quelloptionen": sorted(k for k in QUELLOPTIONEN if getattr(argumente, k, None)),
+            "gebaut": sorted(set(getattr(argumente, "gebaut", None) or [])),
+            "ohne_erkennung": bool(getattr(argumente, "ohne_erkennung", False)),
+            "regeln_sha256": hashlib.sha256(Path(argumente.regeln).read_bytes()).hexdigest()}
+
+
+def pruefe_pruefprofil(aus, manifest, argumente):
+    """Keine stillschweigend reduzierte Pruefung eines neuen Pakets zulassen."""
+    if not manifest or PRUEFPROFIL not in manifest.get("dateien_sha256", {}):
+        if getattr(argumente, "uebergabe", False):
+            raise PaketFehler("Paket ohne Pruefprofil: fuer die Uebergabe mit aktuellem Exporter neu erzeugen")
+        return
+    soll = json.loads((Path(aus) / PRUEFPROFIL).read_text(encoding="utf-8"))
+    ist = pruefprofil(argumente)
+    if (not isinstance(soll, dict) or set(soll) != set(ist) or
+            soll.get("format") != ist["format"] or soll.get("daten") not in ("daten1m", "daten2m") or
+            not isinstance(soll.get("quelloptionen"), list) or
+            any(k not in QUELLOPTIONEN for k in soll["quelloptionen"]) or
+            not isinstance(soll.get("gebaut"), list) or not all(isinstance(k, str) for k in soll["gebaut"]) or
+            type(soll.get("ohne_erkennung")) is not bool or
+            not isinstance(soll.get("regeln_sha256"), str) or len(soll["regeln_sha256"]) != 64 or
+            any(k not in "0123456789abcdef" for k in soll["regeln_sha256"])):
+        raise PaketFehler("Ungueltiges Pruefprofil")
+    if soll == ist:
+        return
+    abweichend = ", ".join(k for k in ist if soll[k] != ist[k])
+    flags = ["--" + soll["daten"]] + ["--" + k.replace("_", "-") for k in soll["quelloptionen"]]
+    if soll["gebaut"]:
+        flags += ["--gebaut " + " ".join(soll["gebaut"])]
+    if soll["ohne_erkennung"]:
+        flags += ["--ohne-erkennung"]
+    raise PaketFehler("Pruefprofil abweichend (%s). Erwartete Optionen: %s; Regeln-SHA256: %s. "
+                      "Passende lokale Quellpfade angeben; bei absichtlich geaendertem Stand neu exportieren." %
+                      (abweichend, " ".join(flags), soll["regeln_sha256"]))
 
 
 def pruefe_ordner(argumente):

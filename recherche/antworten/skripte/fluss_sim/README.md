@@ -25,8 +25,8 @@ anwendbaren Pläne.
 
 Exportierte Gewässerdateien und Back-Liste tragen `unreal_validierung: ausstehend`.
 Ein erfolgreicher Prüferlauf bestätigt nur die ausgeführten formalen Kontrollen und nennt
-den Unreal-Nachweis separat als **nicht geprüft**. Fehlende Quellen-/Weltdaten schränken
-den Prüfumfang weiterhin ein. Vor Anwendung lokale Datenversion und wirkliche Bounds prüfen;
+den Unreal-Nachweis separat als **nicht geprüft**. Bei historischen Auszügen ohne Prüfprofil
+schränken fehlende Quellen-/Weltdaten den Prüfumfang ein. Vor Anwendung lokale Datenversion und wirkliche Bounds prüfen;
 Belege für Strömung, Nähte, Bildqualität und Laufzeit bleiben erforderlich.
 Übergabe und Abnahme: [Recherche-README](../../../README.md).
 
@@ -86,12 +86,22 @@ Kontextsuche; bei Teilmengen bleibt sie aktiv.
 
 Die empfangende Sitzung verwendet vor Anwendung:
 `python -I recherche/antworten/skripte/fluss_sim/fluss_sim_pruefen.py <Paketordner> --uebergabe`
-plus die zum Paket passenden Daten-/Quelloptionen. `--uebergabe` verlangt ein fertiges
-v2-Paket mit gültiger ID, lehnt temporäre Zwischenstände ab und führt anschließend die
+plus die in `pruefprofil.json` festgelegten Daten-/Quelloptionen. `--uebergabe` verlangt ein fertiges
+v2-Paket mit gültiger ID und Prüfprofil, lehnt temporäre Zwischenstände ab und führt anschließend die
 formalen Kontrollen aus. Es bestätigt keine Unreal-Abnahme und vergleicht nicht selbst
 den lokalen Ausführungsstand. v1-Pakete und ältere Auszüge bleiben ohne diese Option
-analysierbar; für eine neue Übergabe erneut exportieren. Fehlende Quellen nicht durch
-Weglassen der Optionen umgehen; die relevanten Eingabestände separat abgleichen.
+analysierbar; Pakete ohne Prüfprofil für eine neue Übergabe erneut exportieren.
+
+**Prüfprofil (16.10.):** Der Export hält Datenmodus (1 m oder 2 m), Quelloptionen,
+`--gebaut`, Erkennungsmodus und den SHA-256 der Regeldatei fest. Das Profil gehört zu den
+Dateiprüfsummen und damit zur Paket-ID. Fehlt beim erneuten Prüfen eine erforderliche Option,
+kommt eine andere Quelloption hinzu oder weicht der Regelinhalt ab, wird abgebrochen und
+die erwartete Konfiguration ausgegeben. Das gilt bei Paketen mit Profil auch ohne
+`--uebergabe`; Weglassen des Schalters reduziert deren Prüfung nicht.
+Absolute lokale Pfade werden nicht gespeichert: dieselben Quellen können auf einem anderen
+Rechner an anderer Stelle liegen. Das Profil ist kein vollständiger Eingabe-Snapshot.
+Aktuelle Projekt-/Assetversionen weiterhin separat mit dem Ausgangsstand abgleichen;
+bei beabsichtigtem Wechsel von Datenmodus, Regeln oder Quellen neu exportieren.
 
 Paket-ID, Ausgangsstand-ID und Ergebnis im bestehenden Umsetzungsbefund verknüpfen.
 Ein bereits geprüfter Versuch wird bei unverändertem Ausgangsstand nicht allein wegen

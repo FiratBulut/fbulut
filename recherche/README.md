@@ -107,8 +107,11 @@ Shallow-Water-Exporte nur als abgeschlossenes, geprüftes Paket aus einem neuen 
 aufgenommenen Kontext mitlesen; ein Teilpaket ist ein abgegrenzter Test, keine vollständige
 Projektfreigabe. Vor lokaler Anwendung Paketprüfung und Eingabevergleich wiederholen.
 Für neue Pakete `fluss_sim_pruefen.py <Paketordner> --uebergabe` mit den relevanten
-Daten-/Quelloptionen verwenden. Dieser Modus verlangt ein fertiges v2-Paket und prüft
-dessen Inhalt erneut. Die ausgegebene Paket-ID im Umsetzungsbefund festhalten.
+Daten-/Quelloptionen aus `pruefprofil.json` verwenden. Der Prüfer verlangt dieselben
+Quelloptionen, den Datenmodus, die Gebaut-Erkennung und den Regeldateiinhalt wie beim
+Export; lokale Pfade dürfen sich unterscheiden. Dieser Modus verlangt ein fertiges
+v2-Paket samt Profil und prüft dessen Inhalt erneut. Alte Pakete ohne Profil für eine neue
+Übergabe neu exportieren. Die ausgegebene Paket-ID im Umsetzungsbefund festhalten.
 Gleiche Paket-ID plus unveränderter Ausgangsstand und bereits dokumentiertes Ergebnis
 bedeutet: vorhandenen Befund wiederverwenden, auch wenn der Ordner umbenannt wurde.
 Ein neuer Ausgangsstand oder eine ausdrücklich begründete Wiederholungsmessung erhält

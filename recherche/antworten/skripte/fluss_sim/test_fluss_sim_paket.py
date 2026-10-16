@@ -197,6 +197,78 @@ class PaketTests(unittest.TestCase):
             self.assertEqual(fp.main([str(self.root), "--uebergabe"]), 1)
         self.assertIn("paket.json", out.getvalue())
 
+    def profil_paket(self, **werte):
+        args = SimpleNamespace(regeln=fx.REGELN_STANDARD, daten2m=str(self.root), **werte)
+        ziel = self.root / "profilpaket"
+        profil = pk.pruefprofil(args, export=True)
+        pk.paket_schreiben(str(ziel), {pk.PRUEFPROFIL: json.dumps(profil)}, self.umfang(), lambda _: 0)
+        return ziel, pk.lies_manifest(ziel), args
+
+    def test_pruefprofil_verlangt_die_exportquellen(self):
+        ziel, manifest, args = self.profil_paket(gefaelle=str(self.root), roh=str(self.root))
+        pk.pruefe_pruefprofil(ziel, manifest, args)
+        for option in ("gefaelle", "roh", "daten2m"):
+            weniger = copy.copy(args)
+            setattr(weniger, option, None)
+            with self.subTest(option=option), self.assertRaisesRegex(pk.PaketFehler, "Pruefprofil abweichend"):
+                pk.pruefe_pruefprofil(ziel, manifest, weniger)
+
+    def test_pruefprofil_unterscheidet_1m_und_2m(self):
+        ziel, manifest, args = self.profil_paket()
+        args.daten2m = None
+        args.daten1m = str(self.root)
+        with self.assertRaisesRegex(pk.PaketFehler, "daten"):
+            pk.pruefe_pruefprofil(ziel, manifest, args)
+
+    def test_pruefprofil_bindet_gebaut_und_erkennung(self):
+        ziel, manifest, args = self.profil_paket(gebaut=["A"], ohne_erkennung=True)
+        for option, wert in (("gebaut", []), ("ohne_erkennung", False)):
+            andere = copy.copy(args)
+            setattr(andere, option, wert)
+            with self.subTest(option=option), self.assertRaisesRegex(pk.PaketFehler, option):
+                pk.pruefe_pruefprofil(ziel, manifest, andere)
+
+    def test_pruefprofil_bindet_regelinhalt_statt_dateiname(self):
+        ziel, manifest, args = self.profil_paket()
+        kopie = self.root / "gleiche_regeln.json"
+        kopie.write_bytes(Path(args.regeln).read_bytes())
+        args.regeln = str(kopie)
+        pk.pruefe_pruefprofil(ziel, manifest, args)
+        andere = json.loads(kopie.read_text(encoding="utf-8"))
+        andere["swr"]["resolution_max"] = 1024
+        kopie.write_text(json.dumps(andere), encoding="utf-8")
+        with self.assertRaisesRegex(pk.PaketFehler, "regeln_sha256"):
+            pk.pruefe_pruefprofil(ziel, manifest, args)
+
+    def test_pruefprofil_enthaelt_keine_lokalen_pfade(self):
+        args = SimpleNamespace(regeln=fx.REGELN_STANDARD, gefaelle="C:/privat/quelle")
+        profil = pk.pruefprofil(args, export=True)
+        self.assertNotIn("privat", json.dumps(profil))
+        self.assertEqual(profil["daten"], "daten2m")
+
+    def test_altpaket_ohne_pruefprofil_nicht_zur_uebergabe(self):
+        ziel = self.root / "alt"
+        pk.paket_schreiben(str(ziel), {"a.json": "{}"}, self.umfang(), lambda _: 0)
+        args = SimpleNamespace(uebergabe=True)
+        with self.assertRaisesRegex(pk.PaketFehler, "ohne Pruefprofil"):
+            pk.pruefe_pruefprofil(ziel, pk.lies_manifest(ziel), args)
+
+    def test_pruefprofil_erlaubt_quellkopie_an_anderem_ort(self):
+        ziel, manifest, args = self.profil_paket(gefaelle="C:/export/alt")
+        args.gefaelle = "D:/neuer/ort"
+        pk.pruefe_pruefprofil(ziel, manifest, args)
+
+    def test_fehlerhaftes_pruefprofil_wird_klar_abgelehnt(self):
+        ziel, manifest, args = self.profil_paket()
+        profil = pk.pruefprofil(args)
+        for feld, wert in (("gebaut", 1), ("ohne_erkennung", "false"), ("regeln_sha256", None)):
+            with self.subTest(feld=feld):
+                kaputt = dict(profil, **{feld: wert})
+                (ziel / pk.PRUEFPROFIL).write_text(json.dumps(kaputt))
+                # Profilparser isoliert; Dateipruefsummen sind separat getestet.
+                with self.assertRaisesRegex(pk.PaketFehler, "Ungueltiges Pruefprofil"):
+                    pk.pruefe_pruefprofil(ziel, manifest, args)
+
     def test_doppelte_baueintraege_werden_nicht_abgeschnitten(self):
         a = gewaesser("A")
         with self.assertRaises(pk.PaketFehler):
@@ -296,6 +368,8 @@ class PaketTests(unittest.TestCase):
                         self.assertTrue(all(z["id"].startswith("TEST_") for z in wz["zonen"]))
                     with contextlib.redirect_stdout(log):
                         self.assertEqual(fp.main([str(out), "--uebergabe", "--daten2m", str(self.root), "--ohne-erkennung"]), 0)
+                        self.assertEqual(fp.main([str(out), "--uebergabe"]), 1,
+                                         "Uebergabe darf die beim Export verwendeten Weltdaten nicht weglassen")
             echt = fx.baue_gewaesser_v3
             def kaputt(*args):
                 e = echt(*args)

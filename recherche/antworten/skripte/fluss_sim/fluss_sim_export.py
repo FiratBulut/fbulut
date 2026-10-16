@@ -3602,6 +3602,7 @@ def _main(argv=None):
     a = ap.parse_args(argv)
     paket.pruefe_ordner(a)
     paket.neues_ziel(a.aus)
+    pruefprofil = paket.pruefprofil(a, export=True)
     regeln = lese_json(a.regeln)
     welt = daten.lade(a.daten2m or (None if a.daten1m else os.path.join(RECHERCHE, "vorlagen", "daten", "sehens")),
                       a.daten1m, pfade=False)
@@ -3849,6 +3850,7 @@ def _main(argv=None):
     ausgaben = {}
     def vormerken(rel, daten, max_tiefe=4):
         ausgaben[rel.replace(os.sep, "/")] = json_text(daten, 0, max_tiefe) + "\n"
+    vormerken(paket.PRUEFPROFIL, pruefprofil)
     for rel in sorted(dateien):
         d = {"format": FORMAT_VERSION, "regeln_version": regeln["version"], "fall_schwelle_m": regeln["fall_schwelle_m"],
              "daten": "1m" if a.daten1m else "2m (Cloud-Test)", "unreal_validierung": "ausstehend", "gewaesser": dateien[rel]}

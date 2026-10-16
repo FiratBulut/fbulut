@@ -29,6 +29,7 @@ gemacht wird. Eine bloße Suchvorschau ist keine vollständige Quellenbestätigu
   [Wiederherstellungs-/Messnachweise](pruefung.md) verlinken statt wiederholen.
   Bei Shallow-Water-Exporten Paketordner, Paket-ID aus `paket.json` und Ergebnis von
   `--uebergabe` nennen; bei Teilpaketen Zielgewässer und mitgelieferten Kontext angeben.
+  Die verlangten Quelloptionen stehen in `pruefprofil.json`; passende lokale Pfade einsetzen.
 - **Ausführung:** Test-ID; vorbereitet / angewendet / geprüft / verworfen bzw. zurückgesetzt;
   im Speicher oder gespeichert; erwarteter Eingang vor Anwendung bestätigt oder abweichend.
 - **Ergebnis / Erklärung:** vorher → nachher mit Beleg; Ursache nachgewiesen oder Hypothese.
