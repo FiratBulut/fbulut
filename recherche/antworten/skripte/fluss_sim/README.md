@@ -43,6 +43,12 @@ vollständiger Projekt-Weltexport werden damit bestätigt.
 - **Eingaben:** Explizit angegebene Ordner müssen existieren. Angekündigte Instanzdateien
   müssen vollständig sein (40 Bytes je Instanz, deklarierte Anzahl, endliche Zahlen).
   Unlesbare Laufpläne und fehlende/beschädigte anzuwendende Gelände-Deltas stoppen den Lauf.
+  Auch unlesbare Einbaustände (`lauf.json`), JSON-Werte ohne Objektstruktur und erkannte
+  unbekannte `nachgezogen`-Formate stoppen die automatische Erkennung, statt Gelände-Deltas
+  möglicherweise erneut zu addieren. Lokal aus dem bestätigten Terrainstand reparieren;
+  nicht löschen/leeren oder mit Erkennungsschaltern umgehen. Eine fehlende Datei sowie
+  historische Objekte ohne `nachgezogen` bleiben gemäß bisherigem Format „ungebaut“;
+  der Parser ersetzt keinen Abgleich mit dem Projekt.
   Unbekannte `--gebaut`-IDs stoppen ebenfalls; eine geänderte Gebaut-Erkennung ist beim
   Prüfer ein Fehler. Fehlende Daten nicht durch leere Dateien oder weggelassene Argumente
   kaschieren. Den konkreten fehlenden Eingang einmal gezielt nachliefern lassen.
@@ -56,7 +62,9 @@ vollständiger Projekt-Weltexport werden damit bestätigt.
 - **Paketprüfung:** `paket.json` nennt Zielgewässer, automatisch aufgenommenen Kontext,
   enthaltene Läufe und SHA-256-Prüfsummen aller Ausgabedateien. Der Prüfer erkennt fehlende,
   zusätzliche und veränderte Dateien. `formal: bestanden` ersetzt keine erneute Prüfung
-  nach Änderungen und keinen lokalen Unreal-Nachweis. Historische Exporte ohne Manifest
+  nach Änderungen und keinen lokalen Unreal-Nachweis. Ziel-, Kontext-, Gewässer- und
+  Lauf-IDs müssen Listen eindeutiger, nicht leerer Texte sein; beschädigte Umfangsangaben
+  werden mit einer gezielten Fehlermeldung abgelehnt. Historische Exporte ohne Manifest
   bleiben prüfbar, besitzen aber keinen bestätigten Paketumfang.
 - **`--nur`:** Hydraulisch verbundene Gewässer, gemeinsame Ortsdateien, überlappende
   SWR-Rahmen und gemeinsame Kollisionsobjekte werden transitiv aufgenommen. Ziele und

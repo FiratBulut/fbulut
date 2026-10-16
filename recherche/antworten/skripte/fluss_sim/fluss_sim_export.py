@@ -642,7 +642,7 @@ def nachgezogen_felder(d, tiefe=0):
         return {str(k).strip().upper() for k, w in v.items() if _wahr(w)}, "objekt"
     if not v:
         return set(), "leer"
-    return None, "unbekannt (%s)" % type(v).__name__
+    raise paket.PaketFehler("Unbekanntes nachgezogen-Format: %s" % type(v).__name__)
 
 
 def einbau_ordner_finden(einbau, daten1m, gefaelle, sehens, sw_ordner):
@@ -665,13 +665,20 @@ def lauf_json_lesen(einbau, lauf_id):
         return None
     rel = "sehens_einbau/A15_%s/lauf.json" % lauf_id
     pf = os.path.join(einbau, "A15_" + lauf_id, "lauf.json")
-    if not os.path.exists(pf):
-        return None
     try:
         d = lese_json(pf)
-    except (OSError, ValueError):
-        return None, "nicht lesbar", rel
-    f, form = nachgezogen_felder(d)
+    except FileNotFoundError as exc:
+        if not os.path.lexists(pf):
+            return None
+        raise paket.PaketFehler("Einbaustand nicht lesbar: %s (%s)" % (pf, exc)) from exc
+    except (OSError, ValueError) as exc:
+        raise paket.PaketFehler("Einbaustand nicht lesbar: %s (%s)" % (pf, exc)) from exc
+    if not isinstance(d, dict):
+        raise paket.PaketFehler("Einbaustand ist kein JSON-Objekt: %s" % pf)
+    try:
+        f, form = nachgezogen_felder(d)
+    except paket.PaketFehler as exc:
+        raise paket.PaketFehler("Ungueltiger Einbaustand: %s (%s)" % (pf, exc)) from exc
     return f, form, rel
 
 

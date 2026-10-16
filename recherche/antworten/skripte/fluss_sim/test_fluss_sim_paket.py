@@ -71,6 +71,51 @@ class PaketTests(unittest.TestCase):
         with self.assertRaisesRegex(pk.PaketFehler, "nicht lesbar"):
             fx.lauf_plaene(str(self.root))
 
+    def test_beschaedigter_einbaustand_addiert_kein_delta(self):
+        lauf = self.root / "A15_LAUF"
+        lauf.mkdir()
+        status = lauf / "lauf.json"
+        plan = self.root / "plan.json"
+        plan.write_text(json.dumps({"felder": ["C2"], "abschnitte": [
+            {"gelaende": {"datei": "delta.f32", "fenster_ij": [0, 0, 2, 2]}}
+        ]}), encoding="utf-8")
+        for inhalt in ('{', '[]', 'null', '{"nachgezogen": 42}', '{"stand": {"nachgezogen": 42}}'):
+            with self.subTest(inhalt=inhalt):
+                status.write_text(inhalt, encoding="utf-8")
+                gel = fx.Gelaende(None)
+                with patch.object(gel, "delta_hinzu", return_value=1) as addieren:
+                    with self.assertRaisesRegex(pk.PaketFehler, "Einbaustand"):
+                        fx.gelaende_laden(gel, str(self.root), {"LAUF": str(plan)}, None,
+                                         einbau=str(self.root))
+                    addieren.assert_not_called()
+
+    def test_fehlender_einbaustand_bleibt_ungebaut(self):
+        self.assertIsNone(fx.lauf_json_lesen(str(self.root), "LAUF"))
+
+    def test_einbaustand_lesefehler_ist_nicht_fehlende_datei(self):
+        with patch.object(fx, "lese_json", side_effect=PermissionError("gesperrt")):
+            with self.assertRaisesRegex(pk.PaketFehler, "Einbaustand"):
+                fx.lauf_json_lesen(str(self.root), "LAUF")
+
+    def test_bisherige_einbaustand_formate_bleiben_lesbar(self):
+        lauf = self.root / "A15_LAUF"
+        lauf.mkdir()
+        for daten, erwartet in (({}, None), ({"nachgezogen": False}, set()),
+                                ({"nachgezogen": True}, "alle"),
+                                ({"nachgezogen": ["C2"]}, {"C2"}),
+                                ({"stand": {"nachgezogen": "C2,C3"}}, {"C2", "C3"})):
+            with self.subTest(daten=daten):
+                (lauf / "lauf.json").write_text(json.dumps(daten), encoding="utf-8")
+                self.assertEqual(fx.lauf_json_lesen(str(self.root), "LAUF")[0], erwartet)
+
+    def test_umfang_verlangt_eindeutige_id_listen(self):
+        for feld in ("ziele", "kontext", "gewaesser", "laeufe"):
+            for wert in (None, 1, "A", [["A"]], ["A", "A"], [""]):
+                with self.subTest(feld=feld, wert=wert):
+                    umfang = dict(self.umfang(), **{feld: wert})
+                    with self.assertRaises(pk.PaketFehler):
+                        pk.pruefe_umfang({"umfang": umfang}, {"A": gewaesser("A")})
+
     def test_expliziter_falscher_eingabeordner_stoppt_beide_einstiege(self):
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(fx.main(["--aus", str(self.root / "neu"), "--gefaelle", str(self.root / "fehlt")]), 1)

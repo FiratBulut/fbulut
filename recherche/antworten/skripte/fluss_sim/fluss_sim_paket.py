@@ -248,6 +248,12 @@ def pruefe_umfang(manifest, alle):
     u = manifest.get("umfang") or {}
     if not isinstance(u, dict):
         raise PaketFehler("Ungueltiger Paketumfang")
+    for feld in ("gewaesser", "ziele", "kontext", "laeufe"):
+        werte = u.get(feld)
+        if (not isinstance(werte, list) or
+                any(not isinstance(w, str) or not w.strip() for w in werte) or
+                len(set(werte)) != len(werte)):
+            raise PaketFehler("Ungueltiger Paketumfang: %s muss eine Liste eindeutiger, nicht leerer IDs sein" % feld)
     ids = set(alle)
     if (u.get("art") not in ("voll", "teil") or set(u.get("gewaesser", [])) != ids or
             set(u.get("ziele", [])) | set(u.get("kontext", [])) != ids or not u.get("ziele") or

@@ -125,6 +125,15 @@ gezielt zurücksetzen. Eine bereits angewendete Revision nicht nochmals setzen; 
 als neuen Versuch vom bekannten Ausgangsstand dokumentieren. Vorhandene Setzer auf Verhalten
 bei Wiederholung prüfen, insbesondere bei Gelände-Deltas und Instanzen.
 
+**Bei beschädigtem Einbaustand:** Eine vorhandene, unlesbare oder nicht unterstützte
+`sehens_einbau/A15_<lauf>/lauf.json` ist kein Nachweis „noch nicht gebaut“. Der Export
+stoppt bei erkannten Lese-/Formatfehlern. Lokal den tatsächlichen Terrainstand mit der
+Sicherung abgleichen und die Statusdatei daraus wiederherstellen; die Cloud nennt dazu
+den konkreten Dateipfad und Fehler im bestehenden Vorgang. Datei nicht löschen oder
+leeren und keine Erkennung abschalten, nur um die Sperre zu umgehen. Erst nach geklärtem
+Stand neu exportieren. Eine tatsächlich fehlende Datei gilt technisch weiterhin als
+„ungebaut“; deshalb bleibt der lokale Eingabevergleich auch nach erfolgreicher Prüfung nötig.
+
 Eine Antwortdatei bedeutet „beantwortet“, nicht „erledigt“. Quellenfragen enden mit belegter
 Antwort; Umsetzungen mit lokalem Abnahmeergebnis. Für die Ausführung ist der lokale Befund
 maßgeblich, die Cloud verweist darauf. Historische „fertig“-Angaben nicht ungeprüft übernehmen.
