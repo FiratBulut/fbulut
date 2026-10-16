@@ -134,6 +134,15 @@ leeren und keine Erkennung abschalten, nur um die Sperre zu umgehen. Erst nach g
 Stand neu exportieren. Eine tatsächlich fehlende Datei gilt technisch weiterhin als
 „ungebaut“; deshalb bleibt der lokale Eingabevergleich auch nach erfolgreicher Prüfung nötig.
 
+**Bei nur teilweise eingebautem Gelände:** Erledigte und offene Felder lokal feststellen.
+Deckt dieselbe Delta-Datei beide ab, stoppt der Export: sie darf weder komplett nochmals
+addiert noch komplett ausgelassen werden. Lokal einen bekannten Ausgangsstand herstellen
+oder fachlich getrennte Deltas samt passender Feldzuordnung bereitstellen und prüfen.
+Bereits getrennte Dateien verarbeitet der Export gezielt weiter. `--gebaut` bzw.
+`nachgezogen: true` nur für vollständig eingebaute Einheiten verwenden, niemals zur
+Umgehung dieser Sperre. Im selben Vorgang Dateipfad, erledigte Felder und gewählte
+Wiederherstellung festhalten; die Cloud braucht dafür keinen neuen Rechercheauftrag.
+
 Eine Antwortdatei bedeutet „beantwortet“, nicht „erledigt“. Quellenfragen enden mit belegter
 Antwort; Umsetzungen mit lokalem Abnahmeergebnis. Für die Ausführung ist der lokale Befund
 maßgeblich, die Cloud verweist darauf. Historische „fertig“-Angaben nicht ungeprüft übernehmen.

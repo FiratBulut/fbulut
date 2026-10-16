@@ -694,6 +694,7 @@ def gelaende_laden(gel, gef_basis, gef_plaene, sehens_basis, gebaut_ids=(), einb
       - Lauf-ID (gefaelle) bzw. Ort-ID oder SW_<ort>_<bach> (Sehens) in gebaut_ids (--gebaut), oder
       - sehens_einbau/A15_<lauf>/lauf.json existiert und 'nachgezogen' enthaelt das Feld (alle Felder des Eintrags);
         Sehens: A15_<ort>/lauf.json oder A15_SW_<ort>_<bach>/lauf.json. Fehlt die Datei, gilt der Lauf als ungebaut.
+    Deckt eine Delta-Datei zugleich gebaute und offene Felder, wird abgebrochen; keine automatische Teilung.
     ohne_dateien (Pruefer): genau diese Delta-Dateien weglassen, keine Erkennung.
     Rueckgabe info (addiert, ohne, gebaut[], lauf_json_ungebaut[], ohne_dateien[])."""
     gebaut_ids = set(gebaut_ids or ())
@@ -712,6 +713,15 @@ def gelaende_laden(gel, gef_basis, gef_plaene, sehens_basis, gebaut_ids=(), einb
             else:
                 fel = e.get("felder") or felder_std
                 weg = quelle is not None and (quelle[0] == "--gebaut" or _deckt(quelle[1], fel))
+                if not weg and quelle is not None and quelle[1]:
+                    if not fel:
+                        raise paket.PaketFehler("Fehlende Feldzuordnung fuer Delta %s bei bekanntem Einbaustand %s" %
+                                               (rel, quelle[2]))
+                    gemeinsam = {str(f).upper() for f in fel} & quelle[1]
+                    if gemeinsam:
+                        raise paket.PaketFehler("Teilweise gebautes Gelaende-Delta %s; bereits gebaut: %s (%s). "
+                                               "Terrainstand klaeren, Delta nicht vollstaendig erneut addieren." %
+                                               (rel, ", ".join(sorted(gemeinsam)), quelle[2]))
             if weg:
                 n_ohne += 1
                 info["ohne_dateien"].append(rel)
@@ -766,6 +776,10 @@ def gelaende_laden(gel, gef_basis, gef_plaene, sehens_basis, gebaut_ids=(), einb
                             if _deckt(lj[0], felder):
                                 quelle = ("lauf.json", lj[0], lj[2], lj[1])
                                 break
+                            # Teilstaende nicht als ungebaut verwerfen. Ein spaeterer vollstaendiger
+                            # Beleg darf weiterhin decken; ansonsten stoppt eintragen beim Mischzustand.
+                            if lj[0] and (not felder or {str(f).upper() for f in felder} & lj[0]):
+                                quelle = ("lauf.json", lj[0], lj[2], lj[1])
                             info["lauf_json_ungebaut"].append({"id": lid, "lauf_json": lj[2], "nachgezogen_form": lj[1],
                                                                "felder": sorted(felder)})
                 eintragen(os.path.join(sehens_basis, biom), "sehens/%s" % biom, [ort], oid, "sehens", felder, quelle)

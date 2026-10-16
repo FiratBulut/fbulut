@@ -52,6 +52,15 @@ vollständiger Projekt-Weltexport werden damit bestätigt.
   Unbekannte `--gebaut`-IDs stoppen ebenfalls; eine geänderte Gebaut-Erkennung ist beim
   Prüfer ein Fehler. Fehlende Daten nicht durch leere Dateien oder weggelassene Argumente
   kaschieren. Den konkreten fehlenden Eingang einmal gezielt nachliefern lassen.
+- **Teilweise eingebautes Terrain:** Bei automatischer Erkennung wird jede Delta-Datei
+  anhand ihrer Feldzuordnung geprüft (Abschnittsfelder, sonst Planfelder). Vollständig
+  eingebaute Dateien werden ausgelassen, vollständig offene addiert. Überschneidet eine
+  Datei erledigte und offene Felder, stoppt der Export mit Dateipfad und betroffenen Feldern.
+  Bei bekanntem Einbaustand ohne Feldzuordnung wird ebenfalls gestoppt. Dies gilt auch
+  für Sehens-Orte; Teilstände aus den zugehörigen Laufdateien werden nicht verworfen.
+  Es findet keine automatische räumliche Aufteilung einer Delta-Datei statt. Lokal den
+  Ausgangsstand wiederherstellen oder getrennte, geprüfte Deltas liefern. `--gebaut` und
+  `nachgezogen: true` setzen weiterhin einen vollständig bestätigten Einbau voraus.
 - **Schreiben:** Alle Ausgaben werden zunächst vorbereitet und in einem temporären
   Nachbarordner geschrieben. Der echte Prüfer läuft mit denselben angegebenen Eingaben.
   Erst bei Exit-Code 0 wird der gesamte Ordner am neuen Ziel bereitgestellt. Existierende

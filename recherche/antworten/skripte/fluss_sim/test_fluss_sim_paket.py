@@ -92,6 +92,77 @@ class PaketTests(unittest.TestCase):
     def test_fehlender_einbaustand_bleibt_ungebaut(self):
         self.assertIsNone(fx.lauf_json_lesen(str(self.root), "LAUF"))
 
+    def terrain_fixture(self, gebaut, felder, abschnitt_felder=None, sehens=False):
+        einbau = self.root / "einbau"
+        status = einbau / "A15_LAUF"
+        status.mkdir(parents=True)
+        (status / "lauf.json").write_text(json.dumps({"nachgezogen": gebaut}), encoding="utf-8")
+        basis = self.root / "quelle"
+        ort = basis / (fx.BIOME[0] if sehens else "LAUF")
+        ort.mkdir(parents=True)
+        eintraege = []
+        for i, fel in enumerate(abschnitt_felder if abschnitt_felder is not None else [None]):
+            datei = "delta_%s.f32" % i
+            (ort / datei).write_bytes(np.ones(4, dtype="<f4").tobytes())
+            e = {"gelaende": {"datei": datei, "fenster_ij": [0, 0, 2, 2]}}
+            if fel is not None:
+                e["felder"] = fel
+            eintraege.append(e)
+        if sehens:
+            ort_daten = dict(eintraege[0], id="LAUF", felder=felder,
+                             wasser=[{"id": "B", "typ": "bach"}])
+            (ort / "orte.json").write_text(json.dumps({"orte": [ort_daten]}), encoding="utf-8")
+            args = (None, {}, str(basis))
+        else:
+            plan = ort / "plan.json"
+            plan.write_text(json.dumps({"felder": felder, "abschnitte": eintraege}), encoding="utf-8")
+            args = (str(basis), {"LAUF": str(plan)}, None)
+        return fx.Gelaende(None), args, str(einbau)
+
+    def test_teilweise_gebautes_delta_stoppt(self):
+        gel, args, einbau = self.terrain_fixture(["C2"], ["C2", "C3"])
+        with self.assertRaisesRegex(pk.PaketFehler, "Teilweise.*delta_0"):
+            fx.gelaende_laden(gel, *args, einbau=einbau)
+        self.assertEqual(gel.deltas, [])
+
+    def test_sehens_teilstand_wird_nicht_verworfen(self):
+        gel, args, einbau = self.terrain_fixture(["C2"], ["C2", "C3"], sehens=True)
+        with self.assertRaisesRegex(pk.PaketFehler, "Teilweise.*delta_0"):
+            fx.gelaende_laden(gel, *args, einbau=einbau)
+        self.assertEqual(gel.deltas, [])
+
+    def test_getrennte_deltas_nur_ungebautes_feld_addieren(self):
+        gel, args, einbau = self.terrain_fixture(["C2"], ["C2", "C3"], [["C2"], ["C3"]])
+        info = fx.gelaende_laden(gel, *args, einbau=einbau)
+        self.assertEqual((info["addiert"], info["ohne"]), (1, 1))
+        self.assertEqual(Path(gel.deltas[0][2]).name, "delta_1.f32")
+
+    def test_vollstaendig_gebautes_delta_auslassen(self):
+        gel, args, einbau = self.terrain_fixture(["C2", "C3"], ["C2", "C3"])
+        info = fx.gelaende_laden(gel, *args, einbau=einbau)
+        self.assertEqual((info["addiert"], info["ohne"]), (0, 1))
+        self.assertEqual(gel.deltas, [])
+
+    def test_nicht_betroffenes_delta_bleibt_anwendbar(self):
+        gel, args, einbau = self.terrain_fixture(["C4"], ["C2", "C3"])
+        info = fx.gelaende_laden(gel, *args, einbau=einbau)
+        self.assertEqual((info["addiert"], info["ohne"]), (1, 0))
+
+    def test_gebautes_feld_ohne_delta_feldzuordnung_stoppt(self):
+        gel, args, einbau = self.terrain_fixture(["C2"], [])
+        with self.assertRaisesRegex(pk.PaketFehler, "Feldzuordnung"):
+            fx.gelaende_laden(gel, *args, einbau=einbau)
+        self.assertEqual(gel.deltas, [])
+
+    def test_sehens_vollstaendiger_beleg_deckt_delta(self):
+        gel, args, einbau = self.terrain_fixture(["C2"], ["C2", "C3"], sehens=True)
+        anderer = Path(einbau) / "A15_SW_LAUF_B"
+        anderer.mkdir()
+        (anderer / "lauf.json").write_text(json.dumps({"nachgezogen": ["C2", "C3"]}), encoding="utf-8")
+        info = fx.gelaende_laden(gel, *args, einbau=einbau)
+        self.assertEqual((info["addiert"], info["ohne"]), (0, 1))
+        self.assertEqual(gel.deltas, [])
+
     def test_einbaustand_lesefehler_ist_nicht_fehlende_datei(self):
         with patch.object(fx, "lese_json", side_effect=PermissionError("gesperrt")):
             with self.assertRaisesRegex(pk.PaketFehler, "Einbaustand"):
