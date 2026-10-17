@@ -1,9 +1,11 @@
-# Opus-Projektleitung, fünf Opus-Rollen und Fable-Endprüfung
+# Opus-Projektleitung, fünf Fachrollen und Fable-Endprüfung
 
 Ferat hat Codex am 17.10.2026 beauftragt, diese Arbeitsteilung festzulegen.
 Seine jüngste Entscheidung ersetzt die frühere Zuordnung: Opus 5.5 leitet das Projekt;
 Fable prüft nur vollständig umgesetzte Aufträge abschließend. Damit soll Fable seltener
 aufgerufen werden; eine konkrete Kosten-/Limitersparnis ist hier nicht gemessen.
+Ferat hat zusätzlich Sonnet 5.5 für einfachere Aufgaben innerhalb der fünf bestehenden
+Subagenten-Plätze freigegeben. Die Fachrolle bleibt gleich; das Modell wird pro Paket gewählt.
 Ziel sind verwendbare Assets und überprüfte UE5.8-Ergebnisse. Opus-PM übernimmt Verantwortung
 für das Ergebnis; die Zahl gestarteter Agenten oder erteilter Aufträge ist kein Fortschrittsmaß.
 Für Recherche und technische Nachweise gelten weiterhin [README](README.md) und
@@ -14,20 +16,23 @@ Für Recherche und technische Nachweise gelten weiterhin [README](README.md) und
 | Rolle | Liefert | Grenze |
 | --- | --- | --- |
 | **Opus-PM – Opus 5.5, Projektmanager / primäre Claude-Code-Sitzung** | Priorität, Asset-/Testauftrag, Aufgabenvergabe, Annahme von Zwischenlieferungen oder konkrete Korrektur, lokale Unreal-Ausführung, Abschlussbericht | Einziger Bediener des laufenden Unreal-Editors; respektiert Ferats aktive Arbeit und bestehende Ausführungsschleifen. Endgültiger Abschluss nach Fables Endprüfung. |
-| **Opus 1 – Technik und Shallow Water** | Lokale Quell-/Datenanalyse, überprüfbare Ursachenabgrenzung, Offline-Testskripte und Parameterpläne; technische Assetvorgaben | Kein eigener paralleler Web-Recherchekreislauf, keine Live-Editor-Steuerung. Fehlende externe Erkenntnisse einmal über Opus-PM an die Cloud. |
-| **Opus 2 – Blender-Modellierung** | Maßstäbliche Geometrie, Silhouette, Pivot, benannte Objekte, editierbare `.blend`-Datei und Ansichten | Arbeitet auf dem von Opus-PM angenommenen Bildstand; keine erfundene automatische Bild-zu-3D-Fähigkeit. |
-| **Opus 3 – Materialien und Assetaufbereitung** | UVs, Materialien/Texturen, benötigte Kollision/Detailstufen und freigegebener Export aus einer eigenen Folgerevision | Beginnt am übergebenen Modell; bearbeitet nicht gleichzeitig dieselbe `.blend` wie Opus 2. Technische Anforderungen aus dem Auftrag übernehmen. |
-| **Opus 4 – Unreal-Integration vorbereiten** | Import-/Platzierungsskripte, Abhängigkeiten, Zielpfade, Wiederherstellungsplan und gezielte Prüfungen | Offline-Vorbereitung; kein `ue.py`, kein Start/Ende des Editors, kein Schreiben in das aktive Unreal-Projekt. Opus-PM führt aus. |
-| **Opus 5 – technische Vorprüfung und Belege** | Prüfung der tatsächlichen Lieferdateien, gezielte Zwischenkontrollen, Abweichungsliste und vollständiges Belegpaket für den Projektmanager | Prüft Arbeit anderer; keine eigene Implementierung abnehmen. Laufzeitbehauptungen brauchen von Opus-PM ausgeführte Messungen. Ersetzt nicht Fables Endurteil. |
+| **Rolle 1 – Technik und Shallow Water** | Lokale Quell-/Datenanalyse, überprüfbare Ursachenabgrenzung, Offline-Testskripte und Parameterpläne; technische Assetvorgaben | Kein eigener paralleler Web-Recherchekreislauf, keine Live-Editor-Steuerung. Fehlende externe Erkenntnisse einmal über Opus-PM an die Cloud. |
+| **Rolle 2 – Blender-Modellierung** | Maßstäbliche Geometrie, Silhouette, Pivot, benannte Objekte, editierbare `.blend`-Datei und Ansichten | Arbeitet auf dem von Opus-PM angenommenen Bildstand; keine erfundene automatische Bild-zu-3D-Fähigkeit. |
+| **Rolle 3 – Materialien und Assetaufbereitung** | UVs, Materialien/Texturen, benötigte Kollision/Detailstufen und freigegebener Export aus einer eigenen Folgerevision | Beginnt am übergebenen Modell; bearbeitet nicht gleichzeitig dieselbe `.blend` wie Opus 2. Technische Anforderungen aus dem Auftrag übernehmen. |
+| **Rolle 4 – Unreal-Integration vorbereiten** | Import-/Platzierungsskripte, Abhängigkeiten, Zielpfade, Wiederherstellungsplan und gezielte Prüfungen | Offline-Vorbereitung; kein `ue.py`, kein Start/Ende des Editors, kein Schreiben in das aktive Unreal-Projekt. Opus-PM führt aus. |
+| **Rolle 5 – technische Vorprüfung und Belege** | Prüfung der tatsächlichen Lieferdateien, gezielte Zwischenkontrollen, Abweichungsliste und vollständiges Belegpaket für den Projektmanager | Prüft Arbeit anderer; keine eigene Implementierung abnehmen. Laufzeitbehauptungen brauchen von Opus-PM ausgeführte Messungen. Ersetzt nicht Fables Endurteil. |
 | **Fable – abschließender Qualitätsmanager** | Ein gebündeltes Urteil zum vollständig umgesetzten Auftrag anhand der vereinbarten Kriterien und echten Belege | Kein laufender Manager, keine Zwischenfreigaben, kein Polling, keine Editorsteuerung. Erst nach dem Abschluss der Umsetzungsarbeit aufrufen. |
 | **Cloud-Sitzung – Recherche** | Belegte Antworten, Quellen, verwendbare Daten/Versuchsvorschläge nach dem bestehenden Rechercheablauf | Bleibt außerhalb der fünf Subagenten. Fehlender Quellenzugriff wird einmal konkret überbrückt; kein dauerhaftes Hin-und-her. |
 | **Codex – Bildlieferant** | Angeforderte Referenz-/Assetbilder als echte Dateien mit Liefernachweis | Bleibt außerhalb der fünf Subagenten; erzeugt durch diese Rolle noch kein Blender-Modell und übernimmt keine Projektleitung. |
 
-Opus 5.5 und Fable sind die **gewünschten Modellbezeichnungen**; Opus-PM ist die Rollenkennung
+Opus 5.5, Sonnet 5.5 und Fable sind die **gewünschten Modellbezeichnungen**; Opus-PM ist die Rollenkennung
 des Projektmanagers, kein weiterer Modellname. Opus-PM prüft beim tatsächlichen
 Start, welche Modellkennungen, Agentenplätze und Werkzeuge verfügbar sind, und notiert die
-Zuordnung im bestehenden Sitzungsbericht. Nicht verfügbare Modelle einmal melden; einen
-Ersatz nur mit Ferats Entscheidung einsetzen. Diese Anleitung konfiguriert keine Modelle.
+Zuordnung im bestehenden Sitzungsbericht. Die unten definierte Zuteilung zwischen Sonnet
+und Opus ist von Ferat autorisiert und braucht keine erneute Bestätigung. Nicht verfügbare
+Modelle einmal melden; keine ungenannten Ersatzmodelle verwenden. Diese Anleitung
+konfiguriert keine Modelle. Die früheren Bezeichnungen „Opus 1“ bis „Opus 5“ entsprechen
+den Fachrollen 1 bis 5; vorhandene Belege und Aufgaben behalten dadurch ihre Identität.
 Die Cloud behält ihre bisherige Sitzung; sie wird nicht automatisch in einen Subagenten umgewandelt.
 
 Fünf feste Rollen, maximal fünf aktive Subagenten; keine weiteren Unteragenten erzeugen.
@@ -37,11 +42,50 @@ für die Endprüfung aktiviert. Nicht vorsorglich starten oder dauerhaft mitlauf
 Opus-PM hält im bestehenden Sitzungsbericht Rolle, tatsächliche Agent-/Sitzungskennung und
 offenes Arbeitspaket fest. Eine vorhandene passende Sitzung fortsetzen; kein Duplikat nur
 wegen einer neuen Nachricht starten. Beim Neustart aktive Agenten zuerst abgleichen.
-Es müssen nicht alle gleichzeitig laufen. Bei Wasserproblemen arbeiten etwa Opus 1 und 4
-an getrennten Eingaben, danach Opus 5 an den Belegen. Opus 2/3 werden nur bei benötigten
+Es müssen nicht alle gleichzeitig laufen. Bei Wasserproblemen arbeiten etwa Rolle 1 und 4
+an getrennten Eingaben, danach Rolle 5 an den Belegen. Rollen 2/3 werden nur bei benötigten
 Assets gestartet. Pro Agent genau ein ausführbares Arbeitspaket; wartende Rollen ruhen.
 Opus-PM bündelt Entscheidungen und beseitigt Blockaden, statt jede kleine Handlung erneut
 genehmigen zu lassen. Bestehende Freigaben gelten, zusätzliche Ausgaben sind nicht pauschal erlaubt.
+
+### Modellwahl pro Arbeitspaket
+
+Opus-PM entscheidet vor dem Start anhand von Aufgabe, Eingaben und Abnahmekriterien.
+Sonnet belegt einen der fünf vorhandenen Plätze. Ein Wechsel zu Opus übernimmt denselben
+Vorgang samt brauchbaren Ergebnissen; die bisherige Ausführung muss vorher beendet sein.
+Rollenbesitzer, Modell und Eingabestand im bestehenden Auftrag notieren, keine Modellwarteschlange
+oder neue Datei je Wechsel anlegen. Kein zusätzliches dauerhaftes Sonnet-Team starten.
+
+| Arbeitspaket | Modell und Begrenzung |
+| --- | --- |
+| Dateien, Benennung, Vollständigkeit und Prüfsummen kontrollieren | Sonnet 5.5; feste Soll-Liste und tatsächliche Dateien vergleichen. |
+| Protokolle auswerten, Belege zusammenstellen, Liefernachweise/Dokumentation vorbereiten | Sonnet 5.5; Aussagen an vorhandene Belege binden, fehlende Nachweise offen lassen. |
+| Geprüftes Offline-Skript mit festgelegten Parametern ausführen | Sonnet 5.5, wenn Opus-PM Eingaben, Schreibbereich, erwartetes Ergebnis und Wiederanlauf geklärt hat. Live-Unreal-Ausführung bleibt bei Opus-PM. |
+| Unklare Fehlerursache, neue Blender-/Unreal-Verfahren, komplexe Geometrie-/Materialentscheidungen | Opus 5.5; keine Routineannahme trotz unklarer Voraussetzungen. |
+| Architektur, Prioritäten, Zwischenannahme und lokale Editorsteuerung | Opus-PM mit Opus 5.5. |
+| Endurteil zum vollständig umgesetzten Auftrag | Fable, ausschließlich nach Abschnitt 6. |
+
+**Sonnet zuerst für Dateiprüfung, Protokollauswertung und Dokumentation einsetzen.** Das
+betrifft besonders Routinepakete der Rolle 5 und klar begrenzte Teilaufgaben anderer Rollen.
+Anspruchsvolle technische Bewertung innerhalb derselben Rolle bleibt bei Opus. Keine
+pauschale Zuweisung einer ganzen Fachrolle an Sonnet nur aufgrund ihres Namens.
+
+Jeder Sonnet-Auftrag braucht konkrete Eingaben, erlaubte Änderungen, ein gefordertes
+Ergebnis, prüfbare Erfolgskriterien und einen Aufwandrahmen. Bei unklaren Anforderungen
+oder einem nicht lösbaren Fehler meldet Sonnet einmal Befund, bereits ausgeführte Schritte,
+Dateistand und konkrete offene Frage an Opus-PM. Keine eigenständige Weiterdelegation,
+kein blindes Wiederholen und keine spekulative Erweiterung des Auftrags. Opus-PM klärt den
+Eingang, übernimmt mit Opus oder stellt das Paket begründet zurück. Kein Modellwechsel
+behebt fehlenden Zugriff; diesen zuerst klären. Ist Sonnet nicht verfügbar, darf Opus-PM
+das Paket selbst erledigen oder mit verfügbarem Opus 5.5 besetzen und die Abweichung notieren.
+
+Opus-PM kontrolliert die Lieferung an den vereinbarten Kriterien und verwendet brauchbare
+Ergebnisse weiter. Vorhandene maschinelle Prüfer bevorzugen; keine vollständige zweite
+Bearbeitung desselben Routinepakets durch Opus allein wegen des Sonnet-Einsatzes.
+Sonnet bestätigt weder eigene Implementierungen unabhängig noch Fables Endabnahme.
+Der erste echte Routineauftrag dient als Eignungsprobe: verwertbares Ergebnis, Prüfbeleg
+und nötige Nacharbeit im bestehenden Bericht nennen. Eine konkrete Kosten-/Limitersparnis
+erst aus tatsächlicher Nutzung ableiten, nicht aus dem Modellnamen.
 
 ## 2. Ein Auftrag, klare Eingaben, eine zuständige Stelle
 
@@ -78,10 +122,10 @@ asset_pipeline/<asset-id>/
   auftrag.md                       # nur Opus-PM; einziger maßgeblicher Auftragsstatus
   eingaben/r001/                    # Opus-PM: eingefrorener Bildauftrag/Referenzkopien
   codex/r001/                       # Codex: Bilddateien + lieferung.md
-  modell/r001/                      # Opus 2: .blend + Ansichten + lieferung.md
-  material/r001/                    # Opus 3: neue .blend + Texturen/Export + lieferung.md
-  integration/r001/                 # Opus 4: Skripte/Importplan + lieferung.md
-  pruefung/r001/                    # Opus 5: Prüfbericht; Opus-PM: getrennte UE-Belege
+  modell/r001/                      # Rolle 2: .blend + Ansichten + lieferung.md
+  material/r001/                    # Rolle 3: neue .blend + Texturen/Export + lieferung.md
+  integration/r001/                 # Rolle 4: Skripte/Importplan + lieferung.md
+  pruefung/r001/                    # Rolle 5: Prüfbericht; Opus-PM: getrennte UE-Belege
   endpruefung/r001/                 # erst am Ende: Fables Urteil zum eingefrorenen Gesamtpaket
 ```
 
@@ -130,7 +174,7 @@ Diese Regeln sind organisatorisch; eine technische Sperre ist damit noch nicht i
    Opus-PM bestätigt nach Kopie den lokalen Pfad und dieselbe Prüfsumme.
 5. Codex meldet Bildpfad, Auftrag/Revision, Prüfsumme und Abweichungen zurück. Opus-PM sieht
    das Bild selbst an und entscheidet an den vereinbarten Kriterien: annehmen oder gezielte
-   Korrektur im selben Auftrag. Erst dann übernimmt Opus 2 genau diese Bildrevision.
+   Korrektur im selben Auftrag. Erst dann übernimmt Rolle 2 genau diese Bildrevision.
 
 Ein schönes Bild ist keine maßhaltige Geometrie. Mehrere generierte Ansichten können sich
 widersprechen: Opus-PM benennt die führende Ansicht und lässt entscheidende Widersprüche vor
@@ -144,10 +188,10 @@ Bildgenerierung liefert keine automatische UV-, Topologie-, Material- oder Kolli
 | vorbereitet | Opus-PM hat Ziel, Eingaben, Kriterien, Zugriff und nächsten Besitzer geklärt. |
 | wartet auf Codex-Start / Bild in Arbeit | Auftrag ist zugestellt bzw. Codex hat tatsächlich begonnen. Keine Blender-Arbeit auf einem noch unbekannten Bildstand. |
 | Bild geliefert → Bild angenommen | Datei nachweislich vorhanden und lesbar; Opus-PM hat genau diese Revision visuell geprüft. |
-| Modell in Arbeit → Modell angenommen | Opus 2 modelliert in Blender; editierbare Datei lässt sich erneut öffnen. Maße, Silhouette und Ansichten geprüft; Opus-PM übernimmt mit Prüfbeleg. |
-| Material/Export in Arbeit → Paket geprüft | Opus 3 liefert Materialien, UVs und benötigte Exportdateien. Opus 5 prüft die tatsächlichen Dateien gegen die Kriterien; Opus-PM entscheidet. |
-| Integration vorbereitet → angewendet | Opus 4 liefert Import-/Rücksetzplan; Opus-PM prüft aktuellen Projektstand, sichert Ausgangspunkt und importiert exklusiv in Unreal. |
-| im Projekt geprüft → umgesetzt – Endprüfung offen | Opus-PM liefert reale Projektbilder/Messungen; Opus 5 prüft Vollständigkeit und technische Kriterien. Erst wenn der ganze Auftrag umgesetzt und belegt ist, übergibt Opus-PM an Fable. |
+| Modell in Arbeit → Modell angenommen | Rolle 2 modelliert in Blender; editierbare Datei lässt sich erneut öffnen. Maße, Silhouette und Ansichten geprüft; Opus-PM übernimmt mit Prüfbeleg. |
+| Material/Export in Arbeit → Paket geprüft | Rolle 3 liefert Materialien, UVs und benötigte Exportdateien. Rolle 5 prüft die tatsächlichen Dateien gegen die Kriterien; Opus-PM entscheidet. |
+| Integration vorbereitet → angewendet | Rolle 4 liefert Import-/Rücksetzplan; Opus-PM prüft aktuellen Projektstand, sichert Ausgangspunkt und importiert exklusiv in Unreal. |
+| im Projekt geprüft → umgesetzt – Endprüfung offen | Opus-PM liefert reale Projektbilder/Messungen; Rolle 5 prüft Vollständigkeit und technische Kriterien. Erst wenn der ganze Auftrag umgesetzt und belegt ist, übergibt Opus-PM an Fable. |
 | Endprüfung → abgeschlossen / Korrektur | Fable bewertet das vollständige Ergebnis. Bei bestandenem Urteil schließt Opus-PM ab; bei konkreten Mängeln vergibt Opus-PM die Korrektur. |
 | wartet auf … / Korrektur / verworfen | Opus-PM nennt genau fehlenden Eingang bzw. Mangel, Besitzer und Wiederaufnahmebedingung; keine neue Auftragskette. |
 
@@ -158,8 +202,8 @@ Nur das im Auftrag benötigte Austauschformat liefern; FBX/glTF nicht pauschal b
 Export separat wieder einlesen und gegen Maße/Materialien prüfen. Externe Texturen im Paket
 mitliefern oder nachvollziehbar packen; keine nur auf dem Rechner des Erstellers gültigen Pfade.
 
-Opus 4 darf den Importplan früh auf festen technischen Vorgaben vorbereiten; endgültige
-Dateinamen/Prüfsummen und Validierung erst am angenommenen Export festlegen. Opus 3 kann
+Rolle 4 darf den Importplan früh auf festen technischen Vorgaben vorbereiten; endgültige
+Dateinamen/Prüfsummen und Validierung erst am angenommenen Export festlegen. Rolle 3 kann
 Materialrezepte unabhängig vorbereiten, aber das Modell erst nach Übergabe verändern.
 Opus-PM allein führt Live-Editor- und Projektänderungen aus, auch wenn ein Hilfsagent Zugang hätte.
 Bestehende Editoraufträge, Ferats Nutzung, Speicher-/PIE-Regeln und Wiederherstellung beachten.
@@ -175,7 +219,7 @@ umgesetzt sein. Umfang nicht künstlich in Kleinstaufträge aufteilen, um Fable 
 
 Vor Fables Aufruf müssen alle vereinbarten Lieferungen vorliegen, erforderliche lokale
 Tests gelaufen und bekannte blockierende Mängel behoben sein. Fehlende Pflichtbelege
-beschafft das Opus-Team; Fable wird nicht zum Einsammeln oder zur Fortschrittskontrolle gestartet.
+beschafft das Fachteam; Fable wird nicht zum Einsammeln oder zur Fortschrittskontrolle gestartet.
 Opus-PM friert ein kompaktes Endpaket ein: Auftrag und Kriterien, angenommene Dateirevisionen
 mit Prüfsummen, tatsächliche Testbelege, Ziel-/Ergebnisbilder und bekannte Grenzen. Keine
 vollständigen Chatverläufe oder wiederholte Recherche als Standardkontext mitgeben.
@@ -186,7 +230,7 @@ nötig** mit konkretem Kriterium/Beleg oder **nicht beurteilbar** mit fehlendem 
 Keine unbelegte pauschale Freigabe. Fable implementiert nichts, verteilt keine Subaufträge
 und erweitert den Umfang nicht eigenständig. Opus-PM bleibt der einzige Koordinator.
 
-Bei Mängeln bearbeitet das Opus-Team die betroffenen Teile, prüft Auswirkungen und liefert
+Bei Mängeln bearbeitet das Fachteam die betroffenen Teile, prüft Auswirkungen und liefert
 wieder ein vollständiges korrigiertes Paket. Erst dann Fable erneut aufrufen, mit Fokus auf
 die geänderten Kriterien und betroffenen Abhängigkeiten. Keine unveränderte Endprüfung im
 30-Minuten-Takt. Ist Fable nicht verfügbar, bleibt der Stand „umgesetzt – Endprüfung offen“;
@@ -197,8 +241,8 @@ Bildgenerierung, Zwischenübergaben oder die GitHub-Abfrage.
 
 - Eine Lieferung wird erst nach vollständigem Speichern geprüft. Eine fehlende oder nicht
   passende Prüfsumme, beschädigte Datei oder veraltete Eingabe blockiert nur abhängige Arbeit.
-- Keine pauschale Wiederholung der Pipeline: bei UV-Fehler Opus 3 korrigieren lassen, bei
-  Importfehler Opus 4/Opus-PM; ein fertiges Bild dafür nicht erneut generieren.
+- Keine pauschale Wiederholung der Pipeline: bei UV-Fehler Rolle 3 korrigieren lassen, bei
+  Importfehler Rolle 4/Opus-PM; ein fertiges Bild dafür nicht erneut generieren.
 - Nach Sitzungsabbruch erst Lieferung, laufende Prozesse und tatsächlichen Projektstand
   prüfen. Bereits erfolgten Import nicht noch einmal ausführen, nur weil der Bericht fehlt.
 - Opus-PM entzieht/überträgt einen Auftrag ausdrücklich. Bei geänderter Vorgabe laufende
@@ -227,7 +271,7 @@ nicht installiert. Keine bereits laufenden Subagenten oder getestete Gesamtkoppl
 
 Erste Probe: ein tatsächlich benötigtes einfaches Asset aus Ferats Priorität, ein Bild,
 ein Blender-Modell, ein Material-/Exportpaket, ein Import in ein geeignetes kleines Testlevel.
-Opus 5 prüft die Lieferkette und Opus-PMs UE-Beleg. Dabei auch prüfen: unveränderter Auftrag
+Rolle 5 prüft die Lieferkette und Opus-PMs UE-Beleg. Dabei auch prüfen: unveränderter Auftrag
 startet keine zweite Bildgenerierung; eine Korrektur betrifft nur abhängige Stufen; ein
 unterbrochener Schritt wird vom gespeicherten Stand fortgesetzt. Fable erhält erst das
 vollständige Endpaket; sein Urteil ist der letzte Abnahmeschritt. Im Bericht echte Ergebnisse

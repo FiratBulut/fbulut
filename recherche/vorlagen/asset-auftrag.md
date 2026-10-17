@@ -10,9 +10,11 @@ Diese Vorlage ist kein gestarteter Auftrag.
 - ID / Auftragsrevision / Datum:
 - Opus-PM-Sitzung / Ferats Ziel / Priorität:
 - Status / nächste ausführbare Handlung / zuständige Sitzung und tatsächliches Modell:
+- Fachrolle 1–5 / Modellwahl: Sonnet 5.5 für Routine oder Opus 5.5 für anspruchsvolle Arbeit / kurzer Grund:
 - Erlaubter Schreibbereich / exklusive Ressource und Besitzer:
 - Abhängigkeiten / konkreter Blocker / Wiederaufnahmebedingung:
 - Aufwandrahmen / erlaubte Bildanzahl / Abbruchkriterium:
+- Für Sonnet: konkretes Ergebnis und Prüfkriterium / wann mit Befund an Opus-PM zurückgeben:
 
 ## Asset und Abnahme
 

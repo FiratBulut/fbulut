@@ -4,9 +4,10 @@ Ferat hat Codex am 15.10.2026 beauftragt, den Ablauf ergebnisorientiert zu korri
 **Ziel: bestätigte Lösungen und sichtbare Fortschritte statt wiederholter Aufträge.**
 
 **Aktualisierte Rollenentscheidung vom 17.10.2026:** Opus 5.5 (Opus-PM) übernimmt die Projektleitung,
-fünf Opus-5.5-Subagenten erhalten feste Fachrollen, Codex liefert angeforderte Assetbilder.
+fünf Subagenten-Plätze erhalten feste Fachrollen. Opus-PM wählt Sonnet 5.5 für klar begrenzte
+Routineaufgaben und Opus 5.5 für anspruchsvolle Arbeit. Codex liefert angeforderte Assetbilder.
 Fable übernimmt ausschließlich die Endprüfung des vollständig umgesetzten Auftrags;
-vorherige operative Prüfungen erledigt das Opus-Team. Bis zur Endprüfung bleibt der Auftrag
+vorherige operative Prüfungen erledigt das Fachteam. Bis zur Endprüfung bleibt der Auftrag
 „umgesetzt – Endprüfung offen“. Das ersetzt die frühere Projektmanager-Rolle von Fable.
 Der [Teamworkflow](TEAM_WORKFLOW.md) regelt diese Arbeitsaufteilung und die lokale
 Bild-/Blender-Produktion. Diese README bleibt maßgeblich für Recherche, Quellenbelege,

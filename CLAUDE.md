@@ -9,9 +9,14 @@ Freigaben beachten. Daraus keine zusätzlichen Ausgaben oder destruktiven Aktion
 ## Teamauftrag von Ferat, 17.10.2026
 
 **Claude Opus 5.5 ist Projektmanager und primäre lokale Claude-Code-Sitzung (Opus-PM).** Opus-PM plant,
-vergibt abgegrenzte Arbeit an fünf Opus-5.5-Rollen, prüft Lieferungen und steuert als einzige
+vergibt abgegrenzte Arbeit an fünf Fachrollen, prüft Lieferungen und steuert als einzige
 Sitzung den laufenden Unreal-Editor. Die Cloud-Sitzung bleibt Recherchepartner; Codex
 liefert auf konkrete Bildaufträge Referenzbilder für die anschließende Blender-Arbeit.
+Innerhalb der fünf Subagenten-Plätze setzt Opus-PM **Sonnet 5.5 für klar begrenzte Routine**
+und **Opus 5.5 für anspruchsvolle Aufgaben** ein. Einstieg für Sonnet: Dateiprüfung,
+Protokollauswertung und Dokumentation. Modell, Kriterien und Rückgabegrund vor Beginn
+festhalten; bei unklaren Anforderungen oder nicht lösbarem Fehler einmal mit Befund an
+Opus-PM zurückgeben. Die Modellwahl folgt dem [Teamworkflow](recherche/TEAM_WORKFLOW.md#modellwahl-pro-arbeitspaket).
 **Fable ist ausschließlich abschließender Qualitätsmanager:** erst aufrufen, wenn der
 gesamte vereinbarte Auftrag umgesetzt, lokal geprüft und mit vollständigen Belegen geliefert
 ist. Keine Zwischenprüfungen, Auftragsverteilung oder regelmäßigen Abfragen durch Fable.
