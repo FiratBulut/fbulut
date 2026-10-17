@@ -30,6 +30,10 @@ autorisiert. Codex hat dafür einen aktiven Zeitplan in diesem Chat; Opus-PM/Clo
 eigenen Abfrageweg tatsächlich einrichten und prüfen. Keine zweite Codex-Automatisierung anlegen.
 Fünf Rollen bedeuten nicht fünf gleichzeitig laufende Aufgaben. Nur ausführbare Pakete
 starten, fertige Ergebnisse wiederverwenden und gemeinsame Dateien exklusiv bearbeiten.
+Diese Startanweisung richtet sich an Opus-PM. Subagenten erhalten ihren abgegrenzten
+Auftrag samt relevanten Regeln; sie übernehmen dadurch weder Projektleitung noch Editorrechte.
+Teilaufträge als Teil des benannten Gesamtauftrags führen: eine gelieferte Cloud-Antwort
+oder ein geprüftes Bild löst noch keinen Fable-Aufruf aus. Die Endprüfung gilt dem Gesamtauftrag.
 
 ## Bei jedem Sitzungsstart
 
@@ -37,7 +41,9 @@ starten, fertige Ergebnisse wiederverwenden und gemeinsame Dateien exklusiv bear
    auf `claude/recherche-auftrag-s5m3y6` in diesem Repository. Eigene unveröffentlichte
    Ergebnisse erhalten, fremde Änderungen nicht überschreiben. Den Forschungsstand
    aktualisieren; nicht deshalb den Branch eines getrennten Unreal-Projekts wechseln.
-2. Die Workflow-README, den Teamworkflow und den aktiven Auftrag samt Antwort lesen. Fachliche Änderungen
+2. Beim Einstieg die Workflow-README, den Teamworkflow und den aktiven Auftrag samt Antwort lesen.
+   Später relevante Änderungen und die für den nächsten Schritt nötigen Abschnitte laden;
+   nicht jedem Hilfsagenten die vollständige Vorgeschichte mitgeben. Fachliche Änderungen
    bestehender Dateien anhand ihrer Revision erkennen; „Antwort existiert“ genügt nicht.
    Historische Nachträge nur nach Bedarf lesen. Den aktiven Vorgang aus Ferats Priorität
    und dem letzten offenen Schritt bestimmen, nicht allein aus dem neuesten Dateinamen.

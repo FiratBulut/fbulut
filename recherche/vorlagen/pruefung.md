@@ -98,6 +98,16 @@ Bericht festhalten; keine dauerhafte neue Prüfroutine daraus machen.
 | Eingriff ist angewendet, Ergebnisbericht fehlt nach Neustart. | Tatsächlichen Zustand und Test-ID rekonstruieren, Eingriff nicht nochmals anwenden. |
 | Cloud erreicht Quelle oder Zielbild nicht. | Zugriffslücke einmal konkret benennen; unabhängig weiterarbeiten, keine Quellen-/Bildbestätigung erfinden. |
 | Derselbe Blocker bleibt unverändert. | Auf den benannten Eingang warten; keine neue Auftragsschleife oder bloße Statusänderung erzeugen. |
+| Sonnet gibt ein Routinepaket an Opus zurück. | Gesicherte Ergebnisse, verbrauchter Aufwand und offene Frage bleiben am selben Vorgang; keine parallele zweite Ausführung. |
+| Eine Cloud-Teilfrage ist beantwortet. | Opus-PM verwendet sie weiter; Fable wird erst beim vollständigen Gesamtauftrag aufgerufen. |
+| Die Cloud übernimmt die Bild-Ergebnisabfrage. | Rückgabeweg zu Opus-PM vorab nachgewiesen; andernfalls bleibt Opus-PM zuständiger Abfrager. |
+| Zwei Codex-Starts wollen denselben Bildauftrag übernehmen. | Zweiter Start erkennt Besitzer oder unklaren Zustand; keine Generierung und kein Überschreiben der Antwort durch Konfliktauflösung. |
+| Bei laufendem Bildauftrag ändert sich nur die Priorität. | Bestehenden Bildstand weiterverwenden; keine Generierung aufgrund einer neuen Datei-SHA. |
+| Referenzinhalt ändert sich am selben Pfad. | Abweichende Prüfsumme erkennen; neue fachliche Revision verlangen, keine stille Übernahme. |
+| Bild ist fertig, Übertragung oder Push scheitert; GitHub bleibt unverändert. | Vorhandenes Ergebnis finden und nur Transfer/Veröffentlichung nachholen. |
+| GitHub ist vorübergehend nicht erreichbar. | Stand als unbekannt behandeln; beim nächsten regulären Lauf Zugriff prüfen, keine Arbeit aus vermeintlich leerer Warteschlange ableiten. |
+| Fable liefert ein Urteil zu einem inzwischen geänderten Paket. | Urteil an seine alte Revision binden; betroffene Änderungen prüfen, aktuellen Gesamtauftrag nicht ungeprüft schließen. |
+| Fable nennt eine optionale Verbesserung bei erfüllten Pflichtkriterien. | Optional kennzeichnen und durch Opus-PM priorisieren; keine automatische Korrekturschleife. |
 
 Bestehen heißt: der echte Sitzungsweg zeigt die erwartete Entscheidung und liefert einen
 nachvollziehbaren Beleg. Das Lesen dieser Tabelle oder grüne Exporter-Tests genügen nicht.

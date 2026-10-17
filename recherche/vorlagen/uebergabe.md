@@ -8,7 +8,8 @@ Für Bild-/Blender-Arbeit stattdessen den lokalen [Assetauftrag](asset-auftrag.m
 Rollen und Ablage stehen im [Teamworkflow](../TEAM_WORKFLOW.md). Nur eine davon unabhängige,
 entscheidende Quellenfrage bekommt einen Forschungsauftrag mit Querverweis.
 
-Gemeinsamer Kopf: ID, Datum, Status, Bearbeiter/Seite/Sitzungskennung, betroffener Bereich,
+Gemeinsamer Kopf: ID, Gesamtauftrag-ID (oder „selbst Gesamtauftrag“), Datum, Status,
+Bearbeiter/Seite/Sitzungskennung, betroffener Bereich,
 gelesene Gegenstellen-Version und nächste Handlung samt Budget. Beispiel für den Bezug:
 `Gelesen: recherche/auftraege/<id>.md @ <Blob-SHA>
 (Commit <SHA>)`. Bei einem neuen Erstauftrag entfällt dieser Bezug. Antworten auf reine
@@ -18,6 +19,8 @@ im vorhandenen Kopf ergänzen. Unverändert blockierte Vorgänge nicht erneut be
 Bei Übernahme letzte Test-ID und bestätigten Ausführungsstand nennen. Bei fehlgeschlagener
 Veröffentlichung „lokal fertig, nicht veröffentlicht“ samt erhaltenem Commit/Entwurf nennen;
 ein erneuter Push ist kein neuer Umsetzungstest.
+Eine beantwortete Teilfrage kann sofort weiterverwendet werden. Fable bekommt erst das
+vollständige Ergebnis des benannten Gesamtauftrags, nicht jede Zwischenantwort.
 
 ## Starttext für die nächste Sitzung
 

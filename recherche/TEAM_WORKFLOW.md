@@ -18,7 +18,7 @@ Für Recherche und technische Nachweise gelten weiterhin [README](README.md) und
 | **Opus-PM – Opus 5.5, Projektmanager / primäre Claude-Code-Sitzung** | Priorität, Asset-/Testauftrag, Aufgabenvergabe, Annahme von Zwischenlieferungen oder konkrete Korrektur, lokale Unreal-Ausführung, Abschlussbericht | Einziger Bediener des laufenden Unreal-Editors; respektiert Ferats aktive Arbeit und bestehende Ausführungsschleifen. Endgültiger Abschluss nach Fables Endprüfung. |
 | **Rolle 1 – Technik und Shallow Water** | Lokale Quell-/Datenanalyse, überprüfbare Ursachenabgrenzung, Offline-Testskripte und Parameterpläne; technische Assetvorgaben | Kein eigener paralleler Web-Recherchekreislauf, keine Live-Editor-Steuerung. Fehlende externe Erkenntnisse einmal über Opus-PM an die Cloud. |
 | **Rolle 2 – Blender-Modellierung** | Maßstäbliche Geometrie, Silhouette, Pivot, benannte Objekte, editierbare `.blend`-Datei und Ansichten | Arbeitet auf dem von Opus-PM angenommenen Bildstand; keine erfundene automatische Bild-zu-3D-Fähigkeit. |
-| **Rolle 3 – Materialien und Assetaufbereitung** | UVs, Materialien/Texturen, benötigte Kollision/Detailstufen und freigegebener Export aus einer eigenen Folgerevision | Beginnt am übergebenen Modell; bearbeitet nicht gleichzeitig dieselbe `.blend` wie Opus 2. Technische Anforderungen aus dem Auftrag übernehmen. |
+| **Rolle 3 – Materialien und Assetaufbereitung** | UVs, Materialien/Texturen, benötigte Kollision/Detailstufen und freigegebener Export aus einer eigenen Folgerevision | Beginnt am übergebenen Modell; bearbeitet nicht gleichzeitig dieselbe `.blend` wie Rolle 2. Technische Anforderungen aus dem Auftrag übernehmen. |
 | **Rolle 4 – Unreal-Integration vorbereiten** | Import-/Platzierungsskripte, Abhängigkeiten, Zielpfade, Wiederherstellungsplan und gezielte Prüfungen | Offline-Vorbereitung; kein `ue.py`, kein Start/Ende des Editors, kein Schreiben in das aktive Unreal-Projekt. Opus-PM führt aus. |
 | **Rolle 5 – technische Vorprüfung und Belege** | Prüfung der tatsächlichen Lieferdateien, gezielte Zwischenkontrollen, Abweichungsliste und vollständiges Belegpaket für den Projektmanager | Prüft Arbeit anderer; keine eigene Implementierung abnehmen. Laufzeitbehauptungen brauchen von Opus-PM ausgeführte Messungen. Ersetzt nicht Fables Endurteil. |
 | **Fable – abschließender Qualitätsmanager** | Ein gebündeltes Urteil zum vollständig umgesetzten Auftrag anhand der vereinbarten Kriterien und echten Belege | Kein laufender Manager, keine Zwischenfreigaben, kein Polling, keine Editorsteuerung. Erst nach dem Abschluss der Umsetzungsarbeit aufrufen. |
@@ -40,11 +40,15 @@ Der Opus-Projektmanager ist zusätzlich zu diesen fünf Rollen vorgesehen. Fable
 außerhalb des operativen Subagententeams und wird erst nach dessen fertiger Lieferung
 für die Endprüfung aktiviert. Nicht vorsorglich starten oder dauerhaft mitlaufen lassen.
 Opus-PM hält im bestehenden Sitzungsbericht Rolle, tatsächliche Agent-/Sitzungskennung und
-offenes Arbeitspaket fest. Eine vorhandene passende Sitzung fortsetzen; kein Duplikat nur
+Verweis auf das aktive Arbeitspaket fest; dessen Besitzer und Stand führt allein der Auftrag.
+Eine vorhandene passende Sitzung fortsetzen; kein Duplikat nur
 wegen einer neuen Nachricht starten. Beim Neustart aktive Agenten zuerst abgleichen.
 Es müssen nicht alle gleichzeitig laufen. Bei Wasserproblemen arbeiten etwa Rolle 1 und 4
 an getrennten Eingaben, danach Rolle 5 an den Belegen. Rollen 2/3 werden nur bei benötigten
 Assets gestartet. Pro Agent genau ein ausführbares Arbeitspaket; wartende Rollen ruhen.
+Die fünf Plätze sind eine Obergrenze, kein Auslastungsziel. Nur unabhängige Arbeit ohne
+gemeinsame Schreib-/Rechenressource parallel starten; vorhandene Speicher- und GPU-Grenzen
+beachten. Einen kleinen direkt erledigbaren Schritt nicht eigens zum Delegationspaket machen.
 Opus-PM bündelt Entscheidungen und beseitigt Blockaden, statt jede kleine Handlung erneut
 genehmigen zu lassen. Bestehende Freigaben gelten, zusätzliche Ausgaben sind nicht pauschal erlaubt.
 
@@ -83,6 +87,8 @@ Opus-PM kontrolliert die Lieferung an den vereinbarten Kriterien und verwendet b
 Ergebnisse weiter. Vorhandene maschinelle Prüfer bevorzugen; keine vollständige zweite
 Bearbeitung desselben Routinepakets durch Opus allein wegen des Sonnet-Einsatzes.
 Sonnet bestätigt weder eigene Implementierungen unabhängig noch Fables Endabnahme.
+Unabhängigkeit bezieht sich auf die tatsächliche Sitzung und Arbeit: ein Modellwechsel
+oder die Umbenennung des Erstellers in Rolle 5 macht dessen Selbstprüfung nicht unabhängig.
 Der erste echte Routineauftrag dient als Eignungsprobe: verwertbares Ergebnis, Prüfbeleg
 und nötige Nacharbeit im bestehenden Bericht nennen. Eine konkrete Kosten-/Limitersparnis
 erst aus tatsächlicher Nutzung ableiten, nicht aus dem Modellnamen.
@@ -98,9 +104,14 @@ stabile ID, Revision, Ziel, vorhandene Referenzen, Maße, Abnahmekriterien, ben�
 zuständige Sitzung und nächste Handlung. Technische Maße kommen aus dem Auftrag, nicht aus
 geschätzten Pixelabständen eines generierten Bildes. Nicht sichtbare Rückseiten und Details
 als Annahmen kennzeichnen und von Opus-PM vor abhängiger Ausarbeitung entscheiden lassen.
+Den Gesamtauftrag und seine Pflichtkriterien beim Start benennen. Interne Recherche-, Bild-
+und Fachpakete verweisen darauf; sie dürfen ihre Teilziele abschließen, ohne eine eigene
+Fable-Endprüfung auszulösen. Ein freigegebener fertiger Teil darf sofort weiterverarbeitet werden.
 
 Jeder Subagent erhält nur seinen klaren Ausschnitt: Ziel, unveränderliche Eingabepfade und
 SHA-256, erlaubter Schreibbereich, Abhängigkeiten, Ergebnisformat, Kriterien und Aufwandrahmen.
+Nur relevante Regeln und Belege mitgeben; vollständige Chatverläufe und wiederholtes Lesen
+sämtlicher Workflow-Dateien sind keine Pflicht pro Teilaufgabe oder Polling-Lauf.
 Er prüft seine verfügbaren Werkzeuge vor Beginn. Ohne Blender-Zugriff kann er ein Skript
 vorbereiten, aber keine ausgeführte Modellierung melden. Ohne Bildzugriff keine Sichtprüfung.
 Fehlt ein entscheidender Eingang, einmal an Opus-PM melden und die betroffene Arbeit ruhen lassen.
@@ -214,8 +225,10 @@ Materialdarstellung und Einfügung in den Zielabschnitt lokal belegen, soweit im
 
 Opus-PM definiert den Umfang eines vollständigen Auftrags beim Start. Ein einzelnes
 Referenzbild, Modell oder Teilpaket innerhalb eines Assetauftrags ist kein Gesamtabschluss.
-Eine eigenständige Quellenfrage kann dagegen mit ihrer vollständigen belegten Antwort
-umgesetzt sein. Umfang nicht künstlich in Kleinstaufträge aufteilen, um Fable öfter aufzurufen.
+Eine Quellenfrage innerhalb dieses Auftrags endet als beantworteter Teil. Nur wenn Ferat
+die Recherche selbst als eigenständiges Gesamtziel beauftragt hat, ist ihre vollständige
+belegte Antwort das Endpaket. Umfang nicht künstlich in Kleinstaufträge aufteilen, um Fable
+öfter aufzurufen.
 
 Vor Fables Aufruf müssen alle vereinbarten Lieferungen vorliegen, erforderliche lokale
 Tests gelaufen und bekannte blockierende Mängel behoben sein. Fehlende Pflichtbelege
@@ -223,12 +236,17 @@ beschafft das Fachteam; Fable wird nicht zum Einsammeln oder zur Fortschrittskon
 Opus-PM friert ein kompaktes Endpaket ein: Auftrag und Kriterien, angenommene Dateirevisionen
 mit Prüfsummen, tatsächliche Testbelege, Ziel-/Ergebnisbilder und bekannte Grenzen. Keine
 vollständigen Chatverläufe oder wiederholte Recherche als Standardkontext mitgeben.
+Vor dem Aufruf klären, dass Fables Sitzung auf dieses Paket und seine Bilder zugreifen kann;
+fehlenden Transfer zuerst erledigen. Ein lokaler Pfad allein bestätigt keinen Zugriff.
 
 Fable prüft den vereinbarten Gesamtumfang, sieht die relevanten Bilder selbst an und liefert
 einmal je vollständig vorbereiteter Ergebnisrevision ein Urteil: **bestanden**, **Korrektur
 nötig** mit konkretem Kriterium/Beleg oder **nicht beurteilbar** mit fehlendem Nachweis.
 Keine unbelegte pauschale Freigabe. Fable implementiert nichts, verteilt keine Subaufträge
 und erweitert den Umfang nicht eigenständig. Opus-PM bleibt der einzige Koordinator.
+Pflichtkriterium verletzt bedeutet Korrekturbedarf. Zusätzliche Verbesserungsideen getrennt
+als optional kennzeichnen; sie verhindern keine Abnahme erfüllter Pflichtkriterien und
+lösen ohne Priorisierung durch Opus-PM keinen weiteren Arbeitszyklus aus.
 
 Bei Mängeln bearbeitet das Fachteam die betroffenen Teile, prüft Auswirkungen und liefert
 wieder ein vollständiges korrigiertes Paket. Erst dann Fable erneut aufrufen, mit Fokus auf
@@ -236,6 +254,9 @@ die geänderten Kriterien und betroffenen Abhängigkeiten. Keine unveränderte E
 30-Minuten-Takt. Ist Fable nicht verfügbar, bleibt der Stand „umgesetzt – Endprüfung offen“;
 unabhängige nächste Aufgaben dürfen weiterlaufen. Fable ist kein Voraussetzungsschritt für
 Bildgenerierung, Zwischenübergaben oder die GitHub-Abfrage.
+Während der Endprüfung die referenzierten Dateien unverändert lassen. Bei neuer Eingabe
+nur betroffene Teile erneut prüfen; Fables Urteil gilt ausschließlich für das benannte Paket.
+Ein Urteil zu einer älteren Revision schließt den geänderten Auftrag nicht automatisch ab.
 
 ## 7. Fehler, Wiederaufnahme und Ergebnisdruck
 
@@ -252,6 +273,9 @@ Bildgenerierung, Zwischenübergaben oder die GitHub-Abfrage.
   Methode ändern bzw. begründet zurückstellen. Kein dritter wortgleicher Auftrag.
 - Bei teuren Bildern, Bakes und Renderings vorher Umfang und Stopkriterium festlegen;
   keine nicht verfügbaren Werkzeuge oder zusätzliche bezahlte Dienste als gegeben behandeln.
+- Aufwand und Korrekturrunden gelten für das Arbeitspaket insgesamt. Modellwechsel, neue
+  Sitzung oder Lieferrevision setzen sie nicht zurück. Nach Erreichen der Grenze Opus-PM
+  entscheiden lassen, bevor weitere aufwendige Arbeit beginnt.
 - Im bestehenden Morgen-/Sitzungsbericht: verwendbare Ergebnisse, Beleg, offene technische
   Grenze, nächster Besitzer/Schritt. Nicht zusätzlich fünf Statusberichte zusammenkopieren.
 
@@ -264,6 +288,11 @@ Diese neue Rollenverteilung ersetzt ältere Rollenpläne; bestehende Projekt-, E
 Zugriffsschutzregeln gelten weiter. Für die lokale Übernahme lautet der Einstieg:
 `D:\Das Lied der Asche\recherche_repo\CLAUDE.md` und
 `D:\Das Lied der Asche\recherche_repo\recherche\TEAM_WORKFLOW.md`.
+Bekannte Einstiegslücke: die Desktop-`CLAUDE.md` und ältere Cloud-Erinnerungen enthalten
+noch pauschale Cloud-Delegation bzw. alte Rollenregeln. Sie wurden bei dieser Prüfung nur
+gelesen, nicht aktualisiert. Opus-PM muss beim realen Start nachweisen, dass er diesen neuen
+Einstieg verwendet und die jüngste Rollenentscheidung übernimmt. Eine aktualisierte
+Recherche-Kopie allein ist kein Nachweis dafür.
 Tatsächliche Modell-/Werkzeugzuordnung und Codex-Zustellweg im bestehenden Bericht nennen.
 Der Codex-Zeitplan ist eingerichtet; der erste geplante Lauf und die Bild-Lieferkette sind
 noch praktisch nachzuweisen. Die automatische Ergebnisabfrage bei Opus-PM/Cloud ist damit

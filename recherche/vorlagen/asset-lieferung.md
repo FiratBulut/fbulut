@@ -5,6 +5,7 @@ Opus-PM trägt die Annahme in den einzelnen Assetauftrag ein; dieser Beleg ist k
 Es gilt der [Teamworkflow](../TEAM_WORKFLOW.md). Keine leeren Vorlagen als fertiges Ergebnis melden.
 
 - Asset-ID / Stufe / Lieferrevision / Datum / Produzent und Sitzung:
+- Gesamtauftrag-ID / tatsächlich erfüllte Teilkriterien:
 - Fachrolle und tatsächlich verwendetes Modell (Subagent: Sonnet 5.5/Opus 5.5; Endprüfung: Fable; Codex-Bild: tatsächlich verwendetes Bildwerkzeug):
 - Verwendeter Auftrag: Pfad, Revision und SHA-256 des eingefrorenen Eingabestands:
 - Weitere verwendete Eingaben: tatsächliche Dateipfade und SHA-256:

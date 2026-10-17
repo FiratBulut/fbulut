@@ -8,12 +8,13 @@ Diese Vorlage ist kein gestarteter Auftrag.
 ## Auftrag und nächster Schritt
 
 - ID / Auftragsrevision / Datum:
+- Gesamtauftrag-ID (oder „selbst Gesamtauftrag“) / vereinbarter vollständiger Umfang:
 - Opus-PM-Sitzung / Ferats Ziel / Priorität:
 - Status / nächste ausführbare Handlung / zuständige Sitzung und tatsächliches Modell:
 - Fachrolle 1–5 / Modellwahl: Sonnet 5.5 für Routine oder Opus 5.5 für anspruchsvolle Arbeit / kurzer Grund:
 - Erlaubter Schreibbereich / exklusive Ressource und Besitzer:
 - Abhängigkeiten / konkreter Blocker / Wiederaufnahmebedingung:
-- Aufwandrahmen / erlaubte Bildanzahl / Abbruchkriterium:
+- Aufwandrahmen / erlaubte Bildanzahl / Abbruchkriterium / bereits verbrauchter Aufwand und Korrekturrunden (bei Modellwechsel fortführen):
 - Für Sonnet: konkretes Ergebnis und Prüfkriterium / wann mit Befund an Opus-PM zurückgeben:
 
 ## Asset und Abnahme
@@ -21,7 +22,7 @@ Diese Vorlage ist kein gestarteter Auftrag.
 - Verwendung im Projekt / Zielpfad / benötigter Ausschnitt:
 - Vorhandene Assets geprüft / warum Neuanfertigung nötig:
 - Objekt / Maße und Einheit / Pivot / relevante technische Budgets:
-- Stil / Materialien / sichtbare Kriterien:
+- Stil / Materialien / sichtbare Pflichtkriterien / davon getrennte optionale Wünsche:
 - Referenzdateien mit SHA-256 / führende Ansicht / bekannte Widersprüche:
 - Offene Rückseiten/Details und entschiedene Annahmen:
 - Benötigte Lieferungen (.blend, Austauschformat, Texturen, Ansichten):
@@ -62,7 +63,7 @@ eine Datei enthält nicht ihre eigene Prüfsumme. Referenzdateien separat identi
 | Fable-Endprüfung des gesamten Auftrags | | | |
 
 Fable erst aufrufen, wenn die gesamte vereinbarte Umsetzung samt Pflichtprüfungen geliefert
-ist. Opus-PM hält bis dahin „umgesetzt – Endprüfung offen“ fest. Für Fable ein kompaktes
+ist. Danach bis zum Endurteil „umgesetzt – Endprüfung offen“ festhalten. Für Fable ein kompaktes
 vollständiges Paket mit Kriterien, Dateirevisionen, Belegen und bekannten Grenzen verlinken.
 Nach bestandenem Endurteil abschließen; Korrekturen weiterhin durch Opus-PM vergeben.
 

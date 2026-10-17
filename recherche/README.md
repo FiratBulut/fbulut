@@ -64,7 +64,8 @@ derselbe Vorgang wird nicht zusätzlich als Forschungsauftrag gespiegelt.
 | offen | Zuständigkeit im Vorgang klären, bestehenden Stand prüfen und Arbeit beginnen. |
 | in Arbeit | Derselbe Bearbeiter setzt fort; weitere Sitzungen liefern nur unabhängige Beiträge. |
 | wartet auf … | Konkreten fehlenden Eingang, Lieferseite und Wiederaufnahmebedingung nennen; unabhängig weiterarbeiten. |
-| geliefert | Empfänger führt die benannte Prüfung/Entscheidung aus; reine Quellenantworten dürfen damit abgeschlossen sein. |
+| geliefert / beantwortet | Empfänger übernimmt die passende belegte Teilantwort; der übergeordnete Gesamtauftrag läuft weiter. |
+| umgesetzt – Endprüfung offen | Alle vereinbarten Teile des Gesamtauftrags sind umgesetzt und geprüft; erst jetzt Fable aufrufen. |
 | abgeschlossen / verworfen | Befund wiederverwenden; nur bei neuem relevanten Eingang oder begründetem neuen Versuch öffnen. |
 
 Bei zwei Sitzungen derselben Seite die bereits eingetragene ausführende Sitzung beibehalten.
@@ -185,9 +186,13 @@ nicht zur Umgehung verwenden. Fehlende Statusdateien gelten technisch weiterhin 
 einmal im bestehenden Vorgang; für diese Wiederherstellung keinen neuen Rechercheauftrag
 erzeugen.
 
-Eine Antwortdatei bedeutet „beantwortet“, nicht „erledigt“. Quellenfragen enden mit belegter
-Antwort; Umsetzungen mit lokalem Abnahmeergebnis. Für die Ausführung ist der lokale Befund
-maßgeblich, die Cloud verweist darauf. Historische „fertig“-Angaben nicht ungeprüft übernehmen.
+Eine Antwortdatei bedeutet noch keine bestätigte Lösung. Eine belegte Quellen-Teilfrage
+endet als „beantwortet“, eine Umsetzung als „lokal geprüft“. Diese Ergebnisse kann Opus-PM
+sofort weiterverwenden. Der Gesamtauftrag endet erst nach Fables Endprüfung gemäß
+[Teamworkflow](TEAM_WORKFLOW.md#6-fable-nur-am-ende-einsetzen). Für die Ausführung ist der
+lokale Befund maßgeblich, die Cloud verweist darauf. Historische „fertig“-Angaben nicht
+ungeprüft übernehmen. Der Vorgang nennt seine Gesamtauftrag-ID oder ist ausdrücklich selbst
+der Gesamtauftrag; keine Endprüfung für jede interne Übergabe erzeugen.
 
 ## Tests und sichtbare Abnahme
 
@@ -200,7 +205,8 @@ Kleintests anschließend am betroffenen Projektabschnitt bestätigen.
 **Wer visuell bewertet, muss die relevanten Ziel- und Projektbilder selbst gesehen haben.**
 Fehlenden Bildzugriff benennen und einmal gezielt eine zugängliche Darstellung anfordern.
 Die andere Seite darf unabhängig technisch arbeiten, aber keine eigene Bildbewertung
-behaupten. Kein Warten auf zwei identische Bildfreigaben.
+behaupten. Zwischenübergaben brauchen nur Opus-PMs operative Annahme. Fables spätere
+Endprüfung bewertet den Gesamtauftrag; keine zusätzliche Cloud-Freigabe desselben Bildes abwarten.
 
 Pro Bildaufgabe passende [Zielbilder](bilder/zielbilder/) und wenige sichtbare Kriterien wählen.
 Bei Wasser etwa Uferform, Kolke, Transparenz und Schaumverteilung; für Fernansichten andere
