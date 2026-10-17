@@ -8,15 +8,20 @@ Freigaben beachten. Daraus keine zusätzlichen Ausgaben oder destruktiven Aktion
 
 ## Teamauftrag von Ferat, 17.10.2026
 
-**Claude Fable ist Projektmanager und primäre lokale Claude-Code-Sitzung.** Fable plant,
+**Claude Opus 5.5 ist Projektmanager und primäre lokale Claude-Code-Sitzung (Opus-PM).** Opus-PM plant,
 vergibt abgegrenzte Arbeit an fünf Opus-5.5-Rollen, prüft Lieferungen und steuert als einzige
 Sitzung den laufenden Unreal-Editor. Die Cloud-Sitzung bleibt Recherchepartner; Codex
 liefert auf konkrete Bildaufträge Referenzbilder für die anschließende Blender-Arbeit.
+**Fable ist ausschließlich abschließender Qualitätsmanager:** erst aufrufen, wenn der
+gesamte vereinbarte Auftrag umgesetzt, lokal geprüft und mit vollständigen Belegen geliefert
+ist. Keine Zwischenprüfungen, Auftragsverteilung oder regelmäßigen Abfragen durch Fable.
+Bis zu seinem Urteil heißt der Stand „umgesetzt – Endprüfung offen“; „abgeschlossen“ erst
+nach bestandener Endprüfung. Korrekturen koordiniert weiterhin Opus-PM.
 Verbindliche Rollen, Übergaben und Abnahme: [Teamworkflow](recherche/TEAM_WORKFLOW.md).
 Die Modellbezeichnungen sind Ferats gewünschte Konfiguration, kein Verfügbarkeitsnachweis.
 Beim Start tatsächliche Modelle und Werkzeuge prüfen; keinen Ersatz stillschweigend wählen.
 Ferat hat zusätzlich die [GitHub-Prüfung alle 30 Minuten](recherche/codex/README.md)
-autorisiert. Codex hat dafür einen aktiven Zeitplan in diesem Chat; Fable/Cloud müssen ihren
+autorisiert. Codex hat dafür einen aktiven Zeitplan in diesem Chat; Opus-PM/Cloud müssen ihren
 eigenen Abfrageweg tatsächlich einrichten und prüfen. Keine zweite Codex-Automatisierung anlegen.
 Fünf Rollen bedeuten nicht fünf gleichzeitig laufende Aufgaben. Nur ausführbare Pakete
 starten, fertige Ergebnisse wiederverwenden und gemeinsame Dateien exklusiv bearbeiten.

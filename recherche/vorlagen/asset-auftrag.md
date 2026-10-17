@@ -1,14 +1,14 @@
 # Lokaler Assetauftrag – Vorlage
 
-Fable kopiert diese Vorlage einmal nach `<Assetwurzel>/<asset-id>/auftrag.md`.
+Opus-PM kopiert diese Vorlage einmal nach `<Assetwurzel>/<asset-id>/auftrag.md`.
 Nur benötigte Felder ausfüllen; Pflichtangaben für den aktuellen Schritt nicht erraten.
-Es gilt der [Teamworkflow](../TEAM_WORKFLOW.md). Nur Fable pflegt den Auftragsstatus.
+Es gilt der [Teamworkflow](../TEAM_WORKFLOW.md). Nur Opus-PM pflegt den Auftragsstatus.
 Diese Vorlage ist kein gestarteter Auftrag.
 
 ## Auftrag und nächster Schritt
 
 - ID / Auftragsrevision / Datum:
-- Fable-Sitzung / Ferats Ziel / Priorität:
+- Opus-PM-Sitzung / Ferats Ziel / Priorität:
 - Status / nächste ausführbare Handlung / zuständige Sitzung und tatsächliches Modell:
 - Erlaubter Schreibbereich / exklusive Ressource und Besitzer:
 - Abhängigkeiten / konkreter Blocker / Wiederaufnahmebedingung:
@@ -48,7 +48,7 @@ Ergebnisempfänger benennen. Eine Veröffentlichung ist noch kein Bearbeitungsbe
 Die SHA-256 des Bildauftrags wird außerhalb der eingefrorenen Datei im Zustelltext ergänzt;
 eine Datei enthält nicht ihre eigene Prüfsumme. Referenzdateien separat identifizieren.
 
-## Annahmen und Übergaben – von Fable fortführen
+## Annahmen und Übergaben – von Opus-PM fortführen
 
 | Stufe | Angenommene Lieferung / Pfad / SHA-256 | Prüfer und Beleg | Entscheidung / nächster Besitzer |
 | --- | --- | --- | --- |
@@ -57,6 +57,12 @@ eine Datei enthält nicht ihre eigene Prüfsumme. Referenzdateien separat identi
 | Material/Export | | | |
 | Integration | | | |
 | Projektabnahme | | | |
+| Fable-Endprüfung des gesamten Auftrags | | | |
+
+Fable erst aufrufen, wenn die gesamte vereinbarte Umsetzung samt Pflichtprüfungen geliefert
+ist. Opus-PM hält bis dahin „umgesetzt – Endprüfung offen“ fest. Für Fable ein kompaktes
+vollständiges Paket mit Kriterien, Dateirevisionen, Belegen und bekannten Grenzen verlinken.
+Nach bestandenem Endurteil abschließen; Korrekturen weiterhin durch Opus-PM vergeben.
 
 Korrekturen hier mit Mangel, betroffener Revision und Besitzer ergänzen. Alte angenommene
 Stände nachvollziehbar erhalten. Bei geänderten Eingaben nur betroffene Stufen erneut prüfen.

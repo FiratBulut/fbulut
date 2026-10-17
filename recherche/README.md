@@ -3,8 +3,11 @@
 Ferat hat Codex am 15.10.2026 beauftragt, den Ablauf ergebnisorientiert zu korrigieren.
 **Ziel: bestätigte Lösungen und sichtbare Fortschritte statt wiederholter Aufträge.**
 
-**Erweiterung vom 17.10.2026 auf Ferats Auftrag:** Fable übernimmt die Projektleitung,
+**Aktualisierte Rollenentscheidung vom 17.10.2026:** Opus 5.5 (Opus-PM) übernimmt die Projektleitung,
 fünf Opus-5.5-Subagenten erhalten feste Fachrollen, Codex liefert angeforderte Assetbilder.
+Fable übernimmt ausschließlich die Endprüfung des vollständig umgesetzten Auftrags;
+vorherige operative Prüfungen erledigt das Opus-Team. Bis zur Endprüfung bleibt der Auftrag
+„umgesetzt – Endprüfung offen“. Das ersetzt die frühere Projektmanager-Rolle von Fable.
 Der [Teamworkflow](TEAM_WORKFLOW.md) regelt diese Arbeitsaufteilung und die lokale
 Bild-/Blender-Produktion. Diese README bleibt maßgeblich für Recherche, Quellenbelege,
 Shallow-Water-Prüfungen und Git-Übergaben. Die Cloud-Recherche wird dadurch nicht ersetzt.
