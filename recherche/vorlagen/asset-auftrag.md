@@ -30,6 +30,9 @@ Diese Vorlage ist kein gestarteter Auftrag.
 Den folgenden ausgefüllten Abschnitt samt erreichbaren Eingaben zustellen, nicht nur einen
 Ordnerpfad nennen. Eingabestand vor Zustellung unter `eingaben/<revision>/bildauftrag.md`
 einfrieren. Einen bestehenden identischen Auftrag nicht erneut auslösen.
+Für die von Ferat autorisierte 30-Minuten-Abfrage auf GitHub nach dem
+[Abfrageprotokoll](../codex/README.md) veröffentlichen; genau eine Sitzung als
+Ergebnisempfänger benennen. Eine Veröffentlichung ist noch kein Bearbeitungsbeginn.
 
 > Erzeuge für Asset [ID] auf Basis der Eingaberevision [Revision / SHA-256 des Bildauftrags]
 > [Anzahl] Referenzbild(er) für die Modellierung in Blender.

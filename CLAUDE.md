@@ -15,6 +15,9 @@ liefert auf konkrete Bildaufträge Referenzbilder für die anschließende Blende
 Verbindliche Rollen, Übergaben und Abnahme: [Teamworkflow](recherche/TEAM_WORKFLOW.md).
 Die Modellbezeichnungen sind Ferats gewünschte Konfiguration, kein Verfügbarkeitsnachweis.
 Beim Start tatsächliche Modelle und Werkzeuge prüfen; keinen Ersatz stillschweigend wählen.
+Ferat hat zusätzlich die [GitHub-Prüfung alle 30 Minuten](recherche/codex/README.md)
+autorisiert. Codex hat dafür einen aktiven Zeitplan in diesem Chat; Fable/Cloud müssen ihren
+eigenen Abfrageweg tatsächlich einrichten und prüfen. Keine zweite Codex-Automatisierung anlegen.
 Fünf Rollen bedeuten nicht fünf gleichzeitig laufende Aufgaben. Nur ausführbare Pakete
 starten, fertige Ergebnisse wiederverwenden und gemeinsame Dateien exklusiv bearbeiten.
 
@@ -114,7 +117,8 @@ Im vorhandenen Vorgang bzw. Morgenbericht knapp festhalten: **geliefert, geprüf
 nächster Schritt** – jeweils mit Beleg, Zuständigkeit und relevanter Version. Den gelesenen
 Gegenstand als `Gelesen: <Pfad> @ <Blob-SHA> (Commit <SHA>)` nennen. Für Umsetzungstests
 Paket-/Artefaktversion, Ausgangsstand-ID, Test-ID und echten Ausführungsstand verknüpfen.
-Keine doppelte Statusablage, zusätzliche Zeitsteuerung oder neue Datei je Rückfrage anlegen.
+Keine doppelte Statusablage oder neue Datei je Rückfrage anlegen. Zeitsteuerung nur im
+ausdrücklich autorisierten Umfang der GitHub-Prüfung; keine weiteren parallelen Zeitpläne.
 Für lokale Assetproduktion ist ausschließlich der im Teamworkflow definierte Assetauftrag
 maßgeblich; der Forschungsbericht verlinkt ihn bei Bedarf, statt seinen Status zu kopieren.
 Ausführliche Messdaten nur einmal ablegen und im Morgenbericht verlinken. Der Abschluss

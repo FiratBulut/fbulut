@@ -101,12 +101,12 @@ Diese Regeln sind organisatorisch; eine technische Sperre ist damit noch nicht i
    Hintergrund/Transparenz, Dateiformat, Zielordner und sichtbare Abnahmekriterien.
    Für Modellierung bevorzugt klare Silhouette, vollständiges Objekt, ruhiger Hintergrund
    und wenig perspektivische Verzerrung. Weitere Ansichten nur, wenn sie eine offene Frage lösen.
-2. **Zustellung ist ein eigener tatsächlicher Schritt:** Fable gibt den Bildauftrag an eine
-   aktive Codex-Sitzung über einen vorhandenen, autorisierten Nachrichtenweg. Gibt es keinen
-   solchen Weg, liefert Fable Ferat einmal den fertigen Auftragstext mit erreichbaren Dateien
-   zum Einfügen in Codex. Status bleibt „wartet auf Codex-Start“, bis Codex wirklich beginnt.
-   Ein Git-Push, eine Ordnerdatei oder eine Erwähnung startet Codex nicht. Keine unbelegte
-   automatische Kopplung, neue Dauerschleife oder zusätzliche Zeitsteuerung behaupten.
+2. **Zustellung über GitHub:** Ferat hat am 17.10. die Prüfung alle 30 Minuten autorisiert.
+   Fable veröffentlicht den Bildauftrag nach dem [Abfrageprotokoll](codex/README.md).
+   Codex hat dafür einen aktiven Zeitplan in diesem Chat. Status bleibt „wartet auf
+   Codex-Start“, bis die Bearbeitung tatsächlich beginnt. Ein Push löst keinen sofortigen
+   Lauf aus. Bei ausgefallenem Zeitplan kann Ferat denselben Auftrag hier direkt starten;
+   vorherige Antworten und lokale Lieferungen dabei ebenfalls auf Doppelarbeit prüfen.
 3. Codex liest den tatsächlichen Auftrag und sieht bereitgestellte Referenzbilder an. Prüft
    vor Generierung: gleiche ID + gleicher Eingabestand schon geliefert? Dann vorhandene
    Lieferung verwenden. Ohne andere Vorgabe ein Bild erzeugen; kein unbegrenztes Variantenbudget.
@@ -180,7 +180,9 @@ Zugriffsschutzregeln gelten weiter. Für die lokale Übernahme lautet der Einsti
 `D:\Das Lied der Asche\recherche_repo\CLAUDE.md` und
 `D:\Das Lied der Asche\recherche_repo\recherche\TEAM_WORKFLOW.md`.
 Tatsächliche Modell-/Werkzeugzuordnung und Codex-Zustellweg im bestehenden Bericht nennen.
-Keine bereits laufenden Agenten oder funktionierende automatische Verbindung behaupten.
+Der Codex-Zeitplan ist eingerichtet; der erste geplante Lauf und die Bild-Lieferkette sind
+noch praktisch nachzuweisen. Die automatische Ergebnisabfrage bei Fable/Cloud ist damit
+nicht installiert. Keine bereits laufenden Subagenten oder getestete Gesamtkopplung behaupten.
 
 Erste Probe: ein tatsächlich benötigtes einfaches Asset aus Ferats Priorität, ein Bild,
 ein Blender-Modell, ein Material-/Exportpaket, ein Import in ein geeignetes kleines Testlevel.

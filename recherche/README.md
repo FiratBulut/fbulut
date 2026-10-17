@@ -8,6 +8,9 @@ fünf Opus-5.5-Subagenten erhalten feste Fachrollen, Codex liefert angeforderte 
 Der [Teamworkflow](TEAM_WORKFLOW.md) regelt diese Arbeitsaufteilung und die lokale
 Bild-/Blender-Produktion. Diese README bleibt maßgeblich für Recherche, Quellenbelege,
 Shallow-Water-Prüfungen und Git-Übergaben. Die Cloud-Recherche wird dadurch nicht ersetzt.
+Ferat hat am 17.10. zusätzlich eine [30-Minuten-Abfrage für Codex-Bildaufträge](codex/README.md)
+autorisiert. Dort stehen Eingangs-/Antwortpfade und die Regel für Ergebnisabfragen durch
+den zuständigen Auftraggeber. Andere Abfragewege dadurch nicht doppelt starten.
 
 ## Start und nächstes Ergebnis
 
@@ -127,7 +130,8 @@ und Änderungen bestehender Dateien erkennen, wurde nicht nachgewiesen. Beim nä
 Sitzungsstart die gelesene README-Version einmal im vorhandenen Bericht festhalten.
 Bis die bestehende Abfrage geprüft/angepasst ist, den Versionsvergleich bei diesen
 Übergabepunkten manuell ausführen. Ein Push startet keine Sitzung. Keine zusätzliche
-Zeitsteuerung oder Quittungsschleife einrichten.
+Zeitsteuerung oder Quittungsschleife außer der ausdrücklich beauftragten Codex-Abfrage und
+der zugehörigen Ergebnisabfrage einrichten; bestehende Abfragen dafür verwenden.
 
 **Einmaliger Starttest am nächsten lokalen Termin:** Bestehenden Startprompt/Abfrageweg
 prüfen und bei Bedarf auf diese README und Inhaltsversionen umstellen. Eine kontrollierte
@@ -250,7 +254,8 @@ den [Prüfregeln](vorlagen/pruefung.md#auswirkungen-auf-andere-stellen) kontroll
 
 Am Sitzungsende bzw. im bestehenden Morgenbericht knapp: geliefert, geprüft, offen,
 nächster Schritt – jeweils mit Beleg und der dadurch möglichen Entscheidung. Ausführliche
-Messdaten einmal ablegen und verlinken. Keine neue Zeitsteuerung aus dieser Anleitung ableiten.
+Messdaten einmal ablegen und verlinken. Weitere Zeitsteuerung nur auf ausdrücklichen Auftrag;
+für die autorisierte GitHub-Abfrage gelten die oben verlinkten Regeln.
 Die Prüfungen sind Arbeitsaufträge für die zuständige Sitzung, keine bereits ausgeführten
 Unreal-Tests. Codex hat am 15.10. die sieben Witcher-Zielbilder, die Flussreferenz und den
 BAKED_SIM-Vergleich angesehen; dies ist keine Laufzeit- oder Gesamtprojektabnahme.
