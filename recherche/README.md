@@ -3,6 +3,12 @@
 Ferat hat Codex am 15.10.2026 beauftragt, den Ablauf ergebnisorientiert zu korrigieren.
 **Ziel: bestätigte Lösungen und sichtbare Fortschritte statt wiederholter Aufträge.**
 
+**Erweiterung vom 17.10.2026 auf Ferats Auftrag:** Fable übernimmt die Projektleitung,
+fünf Opus-5.5-Subagenten erhalten feste Fachrollen, Codex liefert angeforderte Assetbilder.
+Der [Teamworkflow](TEAM_WORKFLOW.md) regelt diese Arbeitsaufteilung und die lokale
+Bild-/Blender-Produktion. Diese README bleibt maßgeblich für Recherche, Quellenbelege,
+Shallow-Water-Prüfungen und Git-Übergaben. Die Cloud-Recherche wird dadurch nicht ersetzt.
+
 ## Start und nächstes Ergebnis
 
 1. Branch `claude/recherche-auftrag-s5m3y6` aktualisieren, diese README und die neuesten
@@ -42,7 +48,9 @@ Im bestehenden Vorgangskopf stehen **Bearbeiter/Sitzung, betroffener Bereich, St
 nächste Handlung**. Eine kurze Sitzungskennung genügt. Auftragsdatei und Antwort dürfen
 verschiedene Bearbeiter haben; dieselbe Datei, dasselbe Asset oder derselbe Teststand
 hat gleichzeitig nur einen ausführenden Bearbeiter. Unabhängige Recherche bleibt möglich.
-Keine zusätzliche Statusdatei und keine eigene Quittungsrunde anlegen.
+Keine zusätzliche Statusdatei und keine eigene Quittungsrunde anlegen. Die neue lokale
+Assetproduktion verwendet ihren eigenen einzelnen Assetauftrag gemäß Teamworkflow;
+derselbe Vorgang wird nicht zusätzlich als Forschungsauftrag gespiegelt.
 
 | Stand | Nächste Handlung |
 | --- | --- |

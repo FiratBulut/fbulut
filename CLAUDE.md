@@ -6,13 +6,25 @@ Diese Datei regelt den Einstieg für Claude Code; die verbindlichen Details steh
 [recherche/README.md](recherche/README.md). Ferats aktuelle Anweisungen und bestehende
 Freigaben beachten. Daraus keine zusätzlichen Ausgaben oder destruktiven Aktionen ableiten.
 
+## Teamauftrag von Ferat, 17.10.2026
+
+**Claude Fable ist Projektmanager und primäre lokale Claude-Code-Sitzung.** Fable plant,
+vergibt abgegrenzte Arbeit an fünf Opus-5.5-Rollen, prüft Lieferungen und steuert als einzige
+Sitzung den laufenden Unreal-Editor. Die Cloud-Sitzung bleibt Recherchepartner; Codex
+liefert auf konkrete Bildaufträge Referenzbilder für die anschließende Blender-Arbeit.
+Verbindliche Rollen, Übergaben und Abnahme: [Teamworkflow](recherche/TEAM_WORKFLOW.md).
+Die Modellbezeichnungen sind Ferats gewünschte Konfiguration, kein Verfügbarkeitsnachweis.
+Beim Start tatsächliche Modelle und Werkzeuge prüfen; keinen Ersatz stillschweigend wählen.
+Fünf Rollen bedeuten nicht fünf gleichzeitig laufende Aufgaben. Nur ausführbare Pakete
+starten, fertige Ergebnisse wiederverwenden und gemeinsame Dateien exklusiv bearbeiten.
+
 ## Bei jedem Sitzungsstart
 
 1. Repository, Branch, lokale Änderungen und laufende Arbeit prüfen. Der Austausch liegt
    auf `claude/recherche-auftrag-s5m3y6` in diesem Repository. Eigene unveröffentlichte
    Ergebnisse erhalten, fremde Änderungen nicht überschreiben. Den Forschungsstand
    aktualisieren; nicht deshalb den Branch eines getrennten Unreal-Projekts wechseln.
-2. Die Workflow-README und den aktiven Auftrag samt Antwort lesen. Fachliche Änderungen
+2. Die Workflow-README, den Teamworkflow und den aktiven Auftrag samt Antwort lesen. Fachliche Änderungen
    bestehender Dateien anhand ihrer Revision erkennen; „Antwort existiert“ genügt nicht.
    Historische Nachträge nur nach Bedarf lesen. Den aktiven Vorgang aus Ferats Priorität
    und dem letzten offenen Schritt bestimmen, nicht allein aus dem neuesten Dateinamen.
@@ -102,7 +114,9 @@ Im vorhandenen Vorgang bzw. Morgenbericht knapp festhalten: **geliefert, geprüf
 nächster Schritt** – jeweils mit Beleg, Zuständigkeit und relevanter Version. Den gelesenen
 Gegenstand als `Gelesen: <Pfad> @ <Blob-SHA> (Commit <SHA>)` nennen. Für Umsetzungstests
 Paket-/Artefaktversion, Ausgangsstand-ID, Test-ID und echten Ausführungsstand verknüpfen.
-Keine separate Statusablage, zusätzliche Zeitsteuerung oder neue Datei je Rückfrage anlegen.
+Keine doppelte Statusablage, zusätzliche Zeitsteuerung oder neue Datei je Rückfrage anlegen.
+Für lokale Assetproduktion ist ausschließlich der im Teamworkflow definierte Assetauftrag
+maßgeblich; der Forschungsbericht verlinkt ihn bei Bedarf, statt seinen Status zu kopieren.
 Ausführliche Messdaten nur einmal ablegen und im Morgenbericht verlinken. Der Abschluss
 muss sagen, welche Entscheidung das Ergebnis ermöglicht und was jetzt tatsächlich anders
 ist; eine Liste gelesener Seiten oder erteilter Aufträge allein ist kein Ergebnis.

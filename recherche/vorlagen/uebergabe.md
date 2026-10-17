@@ -4,6 +4,9 @@ Es gilt der [Arbeitsablauf](../README.md). Nur eine passende Vorlage am Kopf der
 Auftrags-/Antwortdatei verwenden. Je Feld ein Satz plus Beleglink genügt. Ein Feld wird
 erst ausgefüllt, wenn es für den aktuellen Schritt gebraucht wird; kein erfundenes Ergebnis.
 Neue ID nur für ein eigenständiges Problem, keine neue Datei für jede Rückfrage.
+Für Bild-/Blender-Arbeit stattdessen den lokalen [Assetauftrag](asset-auftrag.md) verwenden;
+Rollen und Ablage stehen im [Teamworkflow](../TEAM_WORKFLOW.md). Nur eine davon unabhängige,
+entscheidende Quellenfrage bekommt einen Forschungsauftrag mit Querverweis.
 
 Gemeinsamer Kopf: ID, Datum, Status, Bearbeiter/Seite/Sitzungskennung, betroffener Bereich,
 gelesene Gegenstellen-Version und nächste Handlung samt Budget. Beispiel für den Bezug:
@@ -18,7 +21,7 @@ ein erneuter Push ist kein neuer Umsetzungstest.
 
 ## Starttext für die nächste Sitzung
 
-> Lies `CLAUDE.md`, `recherche/README.md` und den aktuellen Auftrag samt Antwort für den
+> Lies `CLAUDE.md`, `recherche/README.md`, `recherche/TEAM_WORKFLOW.md` und den aktuellen Auftrag samt Antwort für den
 > aktiven Vorgang. Prüfe Zuständigkeit, gelesene Revision und tatsächlichen Ausführungsstand.
 > Setze genau die nächste autorisierte Handlung fort und liefere ein überprüfbares Ergebnis.
 > Übernimm keinen noch laufenden Eingriff einer anderen Sitzung. Bei fehlendem Zugriff
