@@ -6,6 +6,7 @@ Es gilt der [Teamworkflow](../TEAM_WORKFLOW.md). Keine leeren Vorlagen als ferti
 
 - Asset-ID / Stufe / Lieferrevision / Datum / Produzent und Sitzung:
 - Gesamtauftrag-ID / tatsächlich erfüllte Teilkriterien:
+- Bei Codex-Bildern: Ausführungs-ID und Eingabe-SHA-256 aus dem lokalen `ausfuehrung.json`:
 - Fachrolle und tatsächlich verwendetes Modell (Subagent: Sonnet 5.5/Opus 5.5; Endprüfung: Fable; Codex-Bild: tatsächlich verwendetes Bildwerkzeug):
 - Verwendeter Auftrag: Pfad, Revision und SHA-256 des eingefrorenen Eingabestands:
 - Weitere verwendete Eingaben: tatsächliche Dateipfade und SHA-256:

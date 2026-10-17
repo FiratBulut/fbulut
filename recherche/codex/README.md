@@ -2,8 +2,9 @@
 
 Ferat hat am 17.10.2026 die Prüfung alle 30 Minuten beauftragt. Der Codex-Zeitplan
 „GitHub-Bildaufträge für Codex prüfen“ wurde in diesem Chat mit Status ACTIVE angelegt.
-Kennung: `github-bildauftr-ge-f-r-codex-pr-fen`. Dies belegt die Einrichtung, noch keinen
-erfolgreichen geplanten Lauf. Bestehende pausierte Automatisierungen bleiben pausiert.
+Kennung: `github-bildauftr-ge-f-r-codex-pr-fen`. Mehrere erfolgreiche planmäßige GitHub-Abrufe
+sind am 17.10. im Chat belegt; dabei lagen noch keine Bildaufträge vor. Die vollständige
+Bildlieferung ist damit noch nicht nachgewiesen. Bestehende pausierte Automatisierungen bleiben pausiert.
 Der [Teamworkflow](../TEAM_WORKFLOW.md) und seine Rollen gelten weiterhin.
 Aktuelle Leitung: Opus 5.5 als Opus-PM. Fable wird ausschließlich zur Endprüfung eines
 vollständig umgesetzten Auftrags aufgerufen und übernimmt keine 30-Minuten-Abfrage.
@@ -74,6 +75,7 @@ Bildvarianten zählen zum vereinbarten Aufwand, auch nach Modell-/Sitzungswechse
 2. Höchstens einen bereiten, vollständigen Auftrag nach Opus-PMs Priorität übernehmen. Vor
    Bildgenerierung Besitzer/Sitzung und Eingabestand in derselben Antwortdatei als `in Arbeit`
    veröffentlichen. Scheitert das, noch keine neue Generierung starten.
+   Anschließend vor dem Bildwerkzeug die unten beschriebene lokale Reservierung durchführen.
    Priorität 1 vor 2 vor 3; ohne Angabe 2, bei Gleichstand die älteste Erstveröffentlichung
    zuerst. Blockierte Aufträge überspringen; laufende Arbeit hat Vorrang vor neuer Arbeit.
 3. Gleicher Auftrag mit vorhandener Lieferung: verwenden, nicht erneut erzeugen. `in Arbeit`
@@ -94,8 +96,9 @@ Ein bereits vorhandener fremder Besitzer wird nicht überschrieben. Nach einem a
 Push aktuelle Antwort prüfen: einen inzwischen veröffentlichten Übernahmevermerk nicht
 durch Rebase/automatische Konfliktauflösung verdrängen. Vor Werkzeugstart bestätigen, dass
 die veröffentlichte Antwort noch den eigenen Besitzer und Eingabestand enthält und der
-Auftrag weiter bereit ist. Das ist eine organisatorische Übernahmeprüfung, keine verteilte
-technische Sperre; unklaren Besitz zuerst klären. Der einmalige Übernahmevermerk schützt
+Auftrag weiter bereit ist. Zusätzlich die lokale Reservierung verwenden. GitHub-Besitzprüfung
+und lokale Datei bilden keine Sperre über verschiedene Dateisysteme; unklaren Besitz zuerst klären.
+Der einmalige Übernahmevermerk schützt
 die Ausführung und ist die Ausnahme vom Verbot reiner Quittungsrunden.
 
 Fachlich geänderter Inhalt unter derselben bereits begonnenen Revision: `blockiert` und
@@ -151,4 +154,49 @@ aktuellen Zustand prüfen; ausgefallene Intervalle nicht als mehrere Aufträge n
 
 Die erste echte Probe muss Auftragserkennung, Bildablage, GitHub-Antwort und Annahme durch
 Opus-PM zeigen. Ein erneuter Abruf derselben Revision darf kein zweites Bild auslösen. Bis dahin
-ist nur der Zeitplan eingerichtet, die vollständige Automatisierung noch nicht nachgewiesen.
+sind GitHub-Abfrage und lokale Reservierung belegt, die vollständige Lieferkette noch nicht.
+
+## Lokale Sicherung vor Bildgenerierung
+
+`bildstart.py` reserviert eine Assetrevision durch exklusive Dateierstellung. Zwei Prozesse
+auf derselben Assetwurzel können nicht beide erfolgreich dieselbe Reservierung anlegen.
+Der Marker `ausfuehrung.json` enthält Besitzer, Ausführungs-ID und SHA-256 des eingefrorenen
+Auftrags. Er ist ein unveränderlicher Ausführungsbeleg, keine zweite Aufgabenliste.
+
+Nach erfolgreicher GitHub-Übernahme, aber **vor jedem erstmaligen Bildwerkzeug-Aufruf**:
+
+1. Assetwurzel gemäß Teamworkflow anlegen, falls der erste reale Auftrag sie benötigt.
+   Auftrag und Referenz-Prüfsummen unter `eingaben/<revision>/` unverändert sichern.
+2. Mit der tatsächlichen ID, Revision, Sitzungs-/Laufkennung und dem eingefrorenen Auftrag
+   aufrufen. Beispiel mit Platzhaltern, nicht als echten Auftrag ausführen:
+
+```text
+python recherche/codex/bildstart.py reserve --asset-id <id> --revision r001 --owner <sitzung/lauf> --input <absoluter-pfad-zum-eingefrorenen-auftrag>
+```
+
+3. Nur Rückgabecode 0 von `reserve` erlaubt die erstmalige Fortsetzung dieser Reservierung.
+   Ein erfolgreicher `inspect`-Aufruf erlaubt keinen neuen Bildstart. Ausführungs-ID
+   im lokalen Lieferbeleg und in der nächsten sachlichen GitHub-Antwort mitführen. Direkt
+   vor dem Bildwerkzeug Eingaben und Auftrag nochmals prüfen. Die Reservierung ersetzt weder
+   diese Prüfung noch die Bildfreigabe. Kein Bildwerkzeug außerhalb dieses Pfades starten.
+4. Bei Fehler (Code 2), bestehender Reservierung oder vorhandenen Ergebnisdateien kein neues
+   Bild starten. Mit `inspect` und denselben ID-/Revisionsangaben den Beleg lesen, Dateien und
+   bisherigen Werkzeuglauf abgleichen. Auch ein leerer/beschädigter Marker bleibt gesperrt.
+
+Ein Marker beweist noch nicht, dass das Bildwerkzeug lief. Ist im selben Lauf sicher belegt,
+dass nach der Reservierung noch kein Aufruf erfolgte, darf der reservierte Ablauf fortgesetzt
+werden. Nach unklarem Abbruch vorhandene Werkzeugergebnisse zuerst rekonstruieren; keine
+Generierung auf Verdacht. Lief das Werkzeug erfolgreich, nur Speichern/Transfer/Push nachholen.
+Ungeklärte Fälle einmal an Opus-PM geben. Ein ausdrücklich beschlossener neuer Versuch erhält
+eine neue Revision und zählt zum bisherigen Aufwand. Marker niemals zum Umgehen der Sperre
+löschen, überschreiben oder nach Zeitablauf freigeben; auch nach Erfolg erhalten.
+
+Das Werkzeug prüft ID, Revision, bereits vorhandene Dateien und Pfadverknüpfungen. Es prüft
+keine Bildqualität, führt keine Generierung aus und sperrt keine andere Maschine mit eigener
+Assetkopie. Es setzt eine stabile, vertrauenswürdige lokale Ordnerstruktur voraus; laufende
+Änderungen an Ordnerverknüpfungen während der Ausführung sind nicht erlaubt.
+
+Offline-Prüfung: `python -m unittest discover -s recherche/codex -p 'test_bildstart.py' -v`.
+Am 17.10. bestanden alle 12 Fälle, einschließlich Prozesskonkurrenz, Abbruch beim Schreiben,
+vorhandener Lieferung und Windows-Junction außerhalb der Testwurzel. Alle Testdaten lagen
+in eigens erzeugten temporären Ordnern; keine Produktionsbilder oder Editorarbeit verändert.

@@ -3,6 +3,9 @@
 Ferat hat Codex am 15.10.2026 beauftragt, den Ablauf ergebnisorientiert zu korrigieren.
 **Ziel: bestätigte Lösungen und sichtbare Fortschritte statt wiederholter Aufträge.**
 
+Für die nächste Claude-Fortsetzung: [START_HIER.md](START_HIER.md) enthält den kurzen
+Einstieg für Sonntag ab 04:00 Uhr, die Übernahmeprüfung und die noch offenen Praxisnachweise.
+
 **Aktualisierte Rollenentscheidung vom 17.10.2026:** Opus 5.5 (Opus-PM) übernimmt die Projektleitung,
 fünf Subagenten-Plätze erhalten feste Fachrollen. Opus-PM wählt Sonnet 5.5 für klar begrenzte
 Routineaufgaben und Opus 5.5 für anspruchsvolle Arbeit. Codex liefert angeforderte Assetbilder.

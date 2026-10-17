@@ -161,6 +161,9 @@ Kein Timeout gibt eine Ressource frei. Nach Absturz Prozesse und gespeicherten S
 Bei getrennten Arbeitskopien Dateien tatsächlich übertragen und Prüfsummen auf Empfängerseite
 prüfen; ein lokaler Pfad allein macht sie für einen anderen Agenten nicht zugänglich.
 Diese Regeln sind organisatorisch; eine technische Sperre ist damit noch nicht installiert.
+Für Codex-Bildstarts gibt es zusätzlich die lokale atomare Reservierung nach dem
+[Abfrageprotokoll](codex/README.md#lokale-sicherung-vor-bildgenerierung). Sie gilt nur für
+diesen Bildauftrag, nicht für Blender, Unreal oder unabhängige Dateisysteme.
 
 ## 4. Bildauftrag von Opus-PM an Codex
 
@@ -281,6 +284,10 @@ Ein Urteil zu einer älteren Revision schließt den geänderten Auftrag nicht au
 
 ## 8. Übernahme und erste praktische Probe
 
+Der kompakte Einstieg steht in [START_HIER.md](START_HIER.md). Ferat hat den Beginn nach
+Rücksetzung des Wochenlimits für Sonntag, 18.10., ab 04:00 Uhr Schweizer Zeit genannt.
+Das bedeutet kein Löschen der bisherigen Sitzung oder Neustart erledigter Arbeit.
+
 Beim nächsten echten Start liest Opus-PM [CLAUDE.md](../CLAUDE.md), diesen Workflow und den
 aktiven Vorgang. Startweg und ältere lokale Anweisungen auf diese Arbeitsteilung abgleichen;
 die Veröffentlichung allein aktualisiert keine Desktop-Startdateien oder Erinnerungen.
@@ -294,8 +301,9 @@ gelesen, nicht aktualisiert. Opus-PM muss beim realen Start nachweisen, dass er 
 Einstieg verwendet und die jüngste Rollenentscheidung übernimmt. Eine aktualisierte
 Recherche-Kopie allein ist kein Nachweis dafür.
 Tatsächliche Modell-/Werkzeugzuordnung und Codex-Zustellweg im bestehenden Bericht nennen.
-Der Codex-Zeitplan ist eingerichtet; der erste geplante Lauf und die Bild-Lieferkette sind
-noch praktisch nachzuweisen. Die automatische Ergebnisabfrage bei Opus-PM/Cloud ist damit
+Der Codex-Zeitplan und mehrere erfolgreiche planmäßige GitHub-Abrufe sind im Chat belegt;
+bislang gab es dort keine Bildaufträge. Die Bild-Lieferkette ist noch praktisch nachzuweisen.
+Die automatische Ergebnisabfrage bei Opus-PM/Cloud ist damit
 nicht installiert. Keine bereits laufenden Subagenten oder getestete Gesamtkopplung behaupten.
 
 Erste Probe: ein tatsächlich benötigtes einfaches Asset aus Ferats Priorität, ein Bild,

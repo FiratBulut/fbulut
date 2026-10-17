@@ -5,6 +5,9 @@ Ferat hat beauftragt, den Arbeitsablauf zu korrigieren und effizienter zu machen
 Diese Datei regelt den Einstieg für Claude Code; die verbindlichen Details stehen in
 [recherche/README.md](recherche/README.md). Ferats aktuelle Anweisungen und bestehende
 Freigaben beachten. Daraus keine zusätzlichen Ausgaben oder destruktiven Aktionen ableiten.
+Für die Fortsetzung nach der Limit-Rücksetzung am 18.10. ab 04:00 Uhr Schweizer Zeit:
+[kurzer Einstieg mit Übernahmeprüfung](recherche/START_HIER.md). Die bisherige Sitzung
+und gespeicherte Ergebnisse fortführen; die Rücksetzung betrifft das Nutzungslimit.
 
 ## Teamauftrag von Ferat, 17.10.2026
 
