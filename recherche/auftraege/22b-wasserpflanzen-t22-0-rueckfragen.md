@@ -44,3 +44,15 @@ Stand 18.10.2026, 16:35 PC-Uhr. Bezug: Antwort 22 (41e3ca5). Lokal nur gerechnet
 5. **V1:** Soll `karte_wasser.r8` jetzt aus der Wasser-Wahrheit neu geschrieben werden (damit die Planer nicht wieder an Altwasser setzen), und welche
    Planer-Ebenen müssen danach neu laufen?
 6. **lily:** Bei Bestätigung als Maiglöckchen: 8 470 in Wasserzellen – über die normale v3-Regel („Pflanze im Wasser“) mitbehandeln?
+
+## Nachtrag 16:45 – lily im Editor gelesen (`ue_lily_pruefen.py`, nur lesen)
+
+| Netz | Vertices LOD0 | z min / max | Anteil ≤ 3 cm | Importquelle | Material-Eltern |
+|---|---|---|---|---|---|
+| SM_lily_01_1 | 190 | −0,8 / 29,0 cm | 14,7 % | SM_lily-of-the-valley_beech_forest_01_1.fbx | M_Grass |
+| SM_lily_01_2 | 225 | −0,8 / 24,3 cm | 13,3 % | SM_lily-of-the-valley_beech_forest_01_2.fbx | M_Grass |
+
+Nach eurer Regel §5 (Seerose = ≥ 90 % flach ≤ 3 cm) → **Landpflanze (Maiglöckchen)**. Folge lokal: Das Klassenmuster `lily(?!ofthevalley)` ordnet
+`SM_lily_01` fälschlich als geschützte Wasserpflanze ein; die etwa 8 470 Instanzen in Wasserzellen wurden von der v3-Regel „Pflanze im Wasser“ nie
+geprüft. Plan: nach Abschluss der laufenden v3-Reparatur eine Nachrunde nur für `SM_lily_01` mit der normalen v3-Regel (Pflanze, Basis-Regel,
+Bodenstreu-Ausnahme). Frage 6 ist damit zur Bestätigung: einverstanden?
