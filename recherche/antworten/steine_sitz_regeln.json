@@ -22,12 +22,13 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.3",
-  "stand": "2026-10-18 (Auftrag 23, Nachtraege 23b und 23c)",
+  "version": "23.4",
+  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b, 23c und 23d)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
-    {"version": "23.3", "stand": "2026-10-18", "quelle": "Antwort 23c", "inhalt": "neu: verteilung (Fenster, Kennzahlen, Ziele je Biom, Gradienten, Groesse, Netz, Totholz, Fremdgestein), ringe (Herkunft im Repo, Detektor, erklaerte Ringe, Gruppenkohaerenz, Aufloesen), haengend (Eiszapfen: Ort, Pruefung, Planerbefund, Material), farbe_untergrund (CIELAB gegen Lage am Ort), reparatur_23_3 (Gesamtreihenfolge, Verteilungsschritte, Entfernungsgrenzen), planer_verteilung; Prueffaelle V1-V10, H1-H4, U1-U4. Alle Schluessel aus 23.1/23.2 unveraendert; sitz_pruefung.py und wiederholung_23b.py lesen die Datei mit unveraenderten Signaturen."}
+    {"version": "23.3", "stand": "2026-10-18", "quelle": "Antwort 23c", "inhalt": "neu: verteilung (Fenster, Kennzahlen, Ziele je Biom, Gradienten, Groesse, Netz, Totholz, Fremdgestein), ringe (Herkunft im Repo, Detektor, erklaerte Ringe, Gruppenkohaerenz, Aufloesen), haengend (Eiszapfen: Ort, Pruefung, Planerbefund, Material), farbe_untergrund (CIELAB gegen Lage am Ort), reparatur_23_3 (Gesamtreihenfolge, Verteilungsschritte, Entfernungsgrenzen), planer_verteilung; Prueffaelle V1-V10, H1-H4, U1-U4. Alle Schluessel aus 23.1/23.2 unveraendert; sitz_pruefung.py und wiederholung_23b.py lesen die Datei mit unveraenderten Signaturen."},
+    {"version": "23.4", "stand": "2026-10-19", "quelle": "Antwort 23d", "inhalt": "NEUE Version, lokal ausdruecklich zu uebernehmen (eingefroren ist 23.3 als regeln_23c_cda6ceb0). Neu nur der Block nachtrag_23_4: korrekturen (weisse Steine, C6_34, Gelaende), deckung (Vereinigung statt Summe, Zonenziele, Lage statt Netz, Kleinzeug-Grenzen, Kontrollfall), ringe_23_4 (radiale Streuung relativ, Achsverhaeltnis, Mitte; gruppe_einheitlich), herkunft_zuordnung (Lookup Planausgabe), gruppen_kohaerenz_23_4 (Nachbarschaft ohne ID, Sicherung), messweg (Stufe B je Klasse, Traeger-Kern, Dreiecksmodell, e_hoehe mit H, K31-K32), verteilung_kalibrierung (netz_anteil je Schicht nur WARNUNG, Diagnose bis T23c-1), spiegeltest_nicht_nanite. Alle Schluessel aus 23.1-23.3 unveraendert; die drei Referenzcodes behalten ihre Signaturen."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -661,6 +662,145 @@
     {"nr": "H1-H4", "fall": "Eiszapfen an 60-Grad-Wand mit z_versatz 0,85 / unter Ueberhang / auf Grat / Achse 40 Grad", "soll": "FEHLER schwebt_frei (Spalt 0,49 m) / ok / FEHLER schwebt_frei / FEHLER achse_lot"},
     {"nr": "U1-U4", "fall": "grau auf grauer Halde / roetlich (170,110,80) auf grauer Halde / Lava (40,38,38) auf Wiese (95,140,60) / Lava auf Lavasand", "soll": "ok / FEHLER dE / FEHLER helligkeit / ok"}
   ],
+  "nachtrag_23_4": {
+    "_doku": "23.4 (Antwort 23d) ist eine NEUE Version. Der lokal eingefrorene Stand regeln_23c_cda6ceb0 (23.3) bleibt gueltig, bis die Projektleitung 23.4 ausdruecklich uebernimmt. Alle Schluessel aus 23.1-23.3 sind unveraendert; dieser Block ergaenzt bzw. ersetzt nur dort, wo 'ersetzt' steht. sitz_pruefung.py, wiederholung_23b.py und verteilung_23c.py lesen die Datei mit unveraenderten Signaturen (64a654746495eca8, dabb50741db8b9ac, b4ebdb213b2f71ba); die Regeln dieses Blocks sind noch nicht im Referenzcode.",
+    "korrekturen": [
+      "23b §6: Ursache der weissen Steine war NICHT skjsL_tier_0/texndcpda_tier_0/SM_beach_driftwood_01, sondern xjijbgx_tier_0 (Fab-Raw, MI ohne Textur = T_DefaultColor) sowie pjtsT, xf3odif/xfplcbf und das Tundra-Gras wk2oaeyqx (Auftrag 23d §1). 'Kein gemessenes Y' heisst nur 'nicht gemessen', nicht 'weiss'; material_pruefung.ohne_Y bleibt WARNUNG. Die Material-Reparatur ist lokal erledigt.",
+      "23c §1/§11: C6_34 ist kein Ring, sondern eine ovale Gruppe (von oben 5,8 x 2,8 m, Mitte belegt, Kreis-Fit-RMS 0,75 m). Das Abbruchkriterium 'Ring in C6_34 wird nicht gefunden' entfaellt; C6_34 ist Negativfall des Ringdetektors, K25 bleibt Positivfall.",
+      "23 §2 / _doku.bezug.gelaende_H: Gelaende nicht bilinear, sondern als Dreiecke je Quad (messweg.gelaende)."
+    ],
+    "deckung": {
+      "_doku": "ersetzt die Zielgroesse 'Felsdeckung (Obergrenze) 130-139 %' aus Antwort 20 (detailgrad_regeln.json dichte.felsdeckung_obergrenze_min_prozent): das ist eine Summe der Kasten-Grundflaechen mit Ueberlappung, keine Deckung. Sie bleibt nur als Diagnose (ueberlappungsfaktor).",
+      "vereinigung": "Anteil der Zonenflaeche unter mindestens einem Fussabdruck, 0,1-m-Raster (Hang 0,2 m), Fussabdruck wie detailgrad_plan.py bedeckung(): Platte/Wand/Fels Ellipse der gedrehten Grundflaeche x 0,85, sonst Kreis 0,5 sqrt(gx gy) x Skala x 0,9 x max(0,15; 1 - einb)^0,3",
+      "sichtbar": "Vereinigung aus Netz-Fussabdruecken und Zellen mit Landschaftslage Geroell/Fels/Felsplatte/Kies >= 0,5, ohne Doppelzaehlung",
+      "zonen_ziel": {
+        "kante_0_1m": {
+          "sichtbar_min": 0.85,
+          "sichtbar_prallhang_min": 0.9,
+          "netz_min": 0.5,
+          "netz_prallhang_min": 0.6,
+          "erde_max": 0.05
+        },
+        "ufer_1_3m": {
+          "sichtbar_min": 0.75,
+          "netz_min": 0.4,
+          "erde_max": 0.1
+        },
+        "hang_3_10m": {
+          "netz_min": 0.25,
+          "erde_max": 0.1,
+          "rest": "Fels-/Geroell-Lage, Moos, Gras (Antwort 20)"
+        }
+      },
+      "ueberlappungsfaktor_max": {
+        "kante_0_1m": 1.6,
+        "sonst": 1.4,
+        "art": "WARNUNG, Summe/Vereinigung; darueber Durchdringung pruefen"
+      },
+      "kleinzeug": {
+        "K1_unter_0_1m_netze_max_je_10m_seite": 10,
+        "K1_sonst": "nur Lage",
+        "K2_0_1_bis_0_3m_max_je_10m_seite": 85,
+        "K2_dichte_max_je_m2_band_0_3m": 2.8,
+        "K2_dichte_max_je_m2_hang": 0.5
+      },
+      "lage_statt_netz": "entfernte Kleinschutt-Flaechen und Platten der Rolle 'platte': Grundriss + 0,3 m als Lage Geroell bzw. Felsplatte malen (neu = max(alt, ziel)), nur trocken und Hang <= 38 Grad; Decals nur fuer Raender und Nasslinie, nicht als Deckung",
+      "bild": [
+        "t430/t500: Steine 0,3-1 m sichtbar >= 20 je 10 m",
+        "nackte Erde 0-3 m <= 10 %",
+        "keine Platte wie ein Brett",
+        "keine Lagenkante als gerade Linie lesbar"
+      ],
+      "kontrollfall_plan": "plan_p2_talkaskade.json, s 390-578, links/rechts: Vereinigung kante 0,88/0,85, ufer 0,81/0,78, hang 0,35/0,35; ohne Rolle platte 0,23/0,23, 0,46/0,42, 0,22/0,19 (Cloud-Rechnung 23d, Toleranz 0,02)"
+    },
+    "ringe_23_4": {
+      "ring_zusaetzlich": {
+        "radial_rms_rel_max": 0.1,
+        "achsverhaeltnis_min": 0.6,
+        "mitte": "Ellipse mit 0,5 x Halbachsen der Glieder-Ellipse enthaelt hoechstens 1 Stueck derselben Klasse und Schicht"
+      },
+      "ringartig_warnung": {
+        "radial_rms_rel": [
+          0.1,
+          0.18
+        ],
+        "achsverhaeltnis_min": 0.6,
+        "mitte_leer": true,
+        "folge": "Bild bestaetigen, keine Werkzeug-Entfernung"
+      },
+      "doku": "Ring (FEHLER) nur, wenn alle 23.3-Bedingungen UND die drei Zusatzbedingungen gelten. Achsverhaeltnis aus den zweiten Momenten der Glieder (b/a). Gemessen von oben, nie aus dem Bild. C6_34: b/a 0,48, Mitte belegt, RMS 0,75 m -> kein Ring.",
+      "gruppe_einheitlich": "WARNUNG (nur Planerhinweis, keine Werkzeug-Entfernung): >= 6 Stuecke Stein/Fels einer Schicht mit NN-Abstand <= 1,5 m, L p90/p10 < 1,6 und kein Stueck >= 1,5 x Median-L; Abhilfe beim Neulauf: ein dominantes Stueck 1,5-2,5 x Median, Begleiter nach Potenzgesetz"
+    },
+    "herkunft_zuordnung": {
+      "lookup": "je Planerausgabe (Plan-JSON) Eintraege in Weltlage umrechnen (Transformation des jeweiligen Welt-Setzers); Zensus-Instanz = Planeintrag, wenn gleiches Netz und XY-Abstand <= 0,10 m (z nicht vergleichen, der Welt-Setzer aendert z)",
+      "eindeutig": "genau ein Treffer",
+      "unklar": "0 oder >= 2 Treffer",
+      "fenster_schicht_zuordnung_min": 0.8,
+      "folge_unklar": "Fensterproblem: nur Werkzeugschritte in den Grenzen reparatur_23_3.grenzen (35 % je 50-m-Fenster, 15 % je Feld, Pilot 25 %); keine Neuplanung aus unklarer Herkunft; braucht ein Fenster mehr, Liste 'Neuplanung offen, Herkunft klaeren'",
+      "einheit_neuplanung": "bleibt die Planerschicht je Feld (Planer laufen je Feld), nicht das Fenster",
+      "reihenfolge": [
+        "1 die 19 eindeutigen Schichten, sofern ihr Listengrund ein 23.1-Instanz-FEHLER > 30 % ist",
+        "2 Zensus neu, Misch-Fenster neu bewerten",
+        "3 verbleibende Misch-Fenster als Fensterproblem",
+        "4 Schichten, die nur wegen unkalibrierter Verteilungs-Kennzahlen gelistet sind, erst nach Kalibrierung"
+      ]
+    },
+    "gruppen_kohaerenz_23_4": {
+      "vorrang": "echte Gruppen-ID aus der Planausgabe (detailgrad: Spalte 'haufen'; felsgruppen: gid, sofern ausgegeben) ueber herkunft_zuordnung",
+      "nachbarschaft_ohne_id": {
+        "hauptstueck": "Stein/Fels mit L >= 1,0 m",
+        "begleiter": "Kiesel L < 0,3 m derselben Planerschicht (eindeutig zugeordnet)",
+        "abstand": "Mittenabstand zum Hauptstueck zwischen 0,8 r_h und r_h + min(2,0 m; 1,5 r_h), r_h = halbe L des Hauptstuecks; bei mehreren Hauptstuecken das naechste",
+        "gruppe_min": "mindestens 3 Begleiter UND Begleiterdichte im Ring >= 2 x Dichte derselben Klasse und Schicht im Umkreis 10 m ausserhalb des Rings",
+        "ausnahme": "bleibt, wenn <= 2 m ein anderes Stueck >= 1 m steht, das bleibt (23.3)"
+      },
+      "sicherung": "Entfernen per Nachbarschaft nur, wenn das Hauptstueck im selben Lauf selbst FEHLER hat und entfernt wird; fehlt das Hauptstueck schon oder bleibt es, nur WARNUNG begleiter_verdacht. Entfernte Begleiter zaehlen in die Grenzen reparatur_23_3.grenzen."
+    },
+    "messweg": {
+      "stufe_b_klassen": {
+        "fels": "ja",
+        "platte": "ja",
+        "totholz_stamm": "ja (Wurzelteller-Ende, talseitige Luecke)",
+        "totholz_wurzel": "ja",
+        "stein": "nur Instanzen, die in Stufe A allein ueber luecke/deckung/eingrab anschlagen",
+        "kiesel": "nein",
+        "kleinschutt": "nein"
+      },
+      "stufe_b_t23_0": "Punktwolke je Netz (nicht je Instanz) fuer die Netze von K3-K7, K9-K10, K16; Stufe B muss dort dasselbe Urteil liefern wie Stufe A oder die Abweichung erklaeren",
+      "traeger": "bestaetigt: gedrehte Box (oberseite_bei). Neu: bei Fels-/Stein-Traegern zaehlt die Oberseite nur innerhalb der Kern-Ellipse (0,6 x halbe Box), damit Boxecken keinen Kontakt vortaeuschen; Stufe B: obere Huelle der Traeger-Punktwolke",
+      "gelaende": "ersetzt 'bilinear': Hoehe aus dem Dreieck des Quads. Diagonale vor Gebrauch mit K31 bestimmen. Bei Diagonale (i,j)-(i+1,j+1): fu >= fv -> h = h00 + fu (h10 - h00) + fv (h11 - h10), sonst h = h00 + fv (h01 - h00) + fu (h11 - h01); andere Diagonale entsprechend. Line-Traces treffen die Kollision: CollisionMipLevel muss 0 sein, sonst gilt das Ergebnis nicht fuer die Darstellung",
+      "e_hoehe": "bestaetigt: mit H (Gelaende), wie 23 §2 und Code; luecke/deckung/schwerpunkt mit T. Fuer aufliegende Stuecke (> 50 % der Kontakte auf Instanzen) wird eingrab nicht beurteilt",
+      "pruef_faelle": [
+        {
+          "nr": "K31",
+          "aufbau": "Testlandschaft, ein Quad als Sattel: zwei gegenueberliegende Ecken +0,8 m, zwei 0; Line-Trace in der Quadmitte",
+          "soll": "Mittel des Eckpaars auf der Diagonale (0,8 oder 0) statt bilinear 0,4 -> Diagonale festgelegt"
+        },
+        {
+          "nr": "K32",
+          "aufbau": "SM_stones_01_2 auf einer Ecke eines Fels-Traegers (ausserhalb der Kern-Ellipse)",
+          "soll": "FEHLER luecke bzw. schwerpunkt (Box ohne Kern-Regel: ok)"
+        }
+      ]
+    },
+    "verteilung_kalibrierung": {
+      "netz_anteil": "FEHLER nur im gemeinsamen Fenster aller Schichten je Klasse; je Planerschicht nur WARNUNG (Palettenhinweis an den Planer)",
+      "status": "Weltzaehlung 23.3/23.4 ist Diagnose, bis T23c-1 bestanden ist: keine Welt-Reparatur aus Verteilungs-Kennzahlen vorher",
+      "kalibrierung": "bekannt gute Fenster: die Gegenproben aus Auftrag 23c, soweit Ferat sie im Bild als gut bestaetigt (C6_34 nicht), plus je betroffenem Biom 3 gute und 3 schlechte Fenster (T23c-1). Eine Kennzahl, die in mehr als 1 von 6 guten Fenstern FEHLER meldet, bleibt WARNUNG bis zur Neueinstellung",
+      "zaehleinheit": "Fenster x Schicht x Klasse angeben; Fenster ueberlappen (Schritt 25 m), Summen nicht als Flaechenanteil lesen"
+    },
+    "spiegeltest_nicht_nanite": {
+      "zweck": "T23b-S Nicht-Nanite-Pfad: gespiegelte Darstellung (Wicklung/Culling), Normalen/Tangenten, Schatten, Kollision, Foliage-Instanzen",
+      "netz_bedingungen": [
+        "Nanite am Netz aus (im Netz-Editor bzw. per Nanite-Visualisierung belegt)",
+        "Normalmap mit erkennbar unsymmetrischem Detail",
+        "einfache und komplexe Kollision vorhanden",
+        "Material mit gebundenen Texturen"
+      ],
+      "groesse": "beliebig; ein Lava-Block 1,8 m genuegt, Normalen im WorldNormal-Puffer pruefen (dunkle Albedo verdeckt Lichtfehler)",
+      "ersatz": "Kopie eines grauen Steins nur im Testordner mit Nanite aus, nur im Testlevel; Projekt-Assets unveraendert, Kopie danach loeschen"
+    }
+  },
   "quellen": {
     "IMBRIKATION": "Suchauszuege: Galvin 2002 GSA (a-b-Ebenen neigen stromauf), Sub-Himalaya-Studie (mittlere AB-Neigung 22,6-37,6 Grad), Studie an 1 007 Klasten (Median etwa 35 Grad Wasserschotter, 47 Debris-Flood, 65 Murgang); https://gsa.confex.com/gsa/2002AM/webprogram/Paper45012.html, https://repository.ias.ac.in/67306, https://boris.unibe.ch/119827/1/esurf-6-743-2018.pdf",
     "HALDE": "Suchauszuege: Wikipedia Scree/Angle of repose (konkav, Maximalneigung = Schuettwinkel), Francou & Mante (naehert sich 35 Grad), trockene Halden versagen ueber 33-37 Grad; Langachsen hangabwaerts (Tuckerman Ravine, Montana, Chaos Crags); https://en.wikipedia.org/wiki/Scree, https://deepblue.lib.umich.edu/bitstream/2027.42/25798/1/0000360.pdf, https://scholarworks.montana.edu/bitstreams/e54f20bf-a5b1-4470-9b4e-ac4d91ab8d89/download",
@@ -679,6 +819,7 @@
     "HALDE_23C": "Suchauszuege: Yosemite-Halden, Blockvolumen nimmt hangab nichtlinear zu https://nhess.copernicus.org/articles/19/2249/2019/nhess-19-2249-2019.html; Halden-Fabric: Mehrheit der Bloecke hangab ausgerichtet https://dggs.alaska.gov/pubs/id/28436, schwach hangparallel https://scholarworks.montana.edu/bitstreams/e54f20bf-a5b1-4470-9b4e-ac4d91ab8d89/download; Sturzvolumen Potenzgesetz https://www.isterre.fr/IMG/pdf/DussaugeJGR-2003.pdf",
     "EIS_23C": "Suchauszuege: Eiszapfen entstehen, wo Schmelz- oder Sickerwasser eine Kante erreicht und abtropft, auch an Felsen und Sickerstellen https://glossary.ametsoc.org/wiki/Icicle, https://www.weathergamut.com/2015/02/11/how-icicles-form/; Foliage Align to Normal/Align Max Angle richten nur zum Boden aus https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/FoliageType",
     "FARBE_23C": "Suchauszug: dE*ab etwa 2,3 als Wahrnehmungsschwelle (Mahy et al. 1994, colour-science) https://colour.readthedocs.io/en/latest/generated/colour.difference.JND_CIE1976.html",
-    "GESTALTUNG_23C": "Suchauszuege: gleichmaessige Dichte wirkt kuenstlich, natuerliche Bestaende sind fleckig https://www.strayspark.studio/blog/building-believable-biomes-procedural-scatter; verschachtelte Streuung um Elternpunkte https://developer.blender.org/T84816"
+    "GESTALTUNG_23C": "Suchauszuege: gleichmaessige Dichte wirkt kuenstlich, natuerliche Bestaende sind fleckig https://www.strayspark.studio/blog/building-believable-biomes-procedural-scatter; verschachtelte Streuung um Elternpunkte https://developer.blender.org/T84816",
+    "UE_LANDSCHAFT_23D": "Suchauszuege, Seiten aus der Cloud nicht abrufbar: UE-264921 (Hoehenabfrage der Landschaft interpoliert aus dem falschen Dreieck, behoben fuer 5.6) https://issues.unrealengine.com/issue/UE-264921; Landscape Technical Guide (Komponenten/Sektionen aus Quads) https://dev.epicgames.com/documentation/unreal-engine/landscape-technical-guide-in-unreal-engine. Die Diagonale selbst ist nicht belegt -> K31"
   }
 }
