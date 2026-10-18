@@ -22,8 +22,12 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.1",
-  "stand": "2026-10-18 (Auftrag 23)",
+  "version": "23.2",
+  "stand": "2026-10-18 (Auftrag 23, Nachtrag 23b)",
+  "aenderungen": [
+    {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
+    {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."}
+  ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
     "kleinschutt_muster": ["RockyGround", "ErodedRockyGround", "BeachSandWithPebbles", "DryRiverBed", "GroundPatch", "ground_patch"],
@@ -197,7 +201,23 @@
     "orange": {"hue_grad": [10, 45], "saettigung_ab": 0.35, "urteil": "FEHLER als ganzer Stein; nur als Patina-Maske <= 30 % der Oberflaeche, S <= 0,45, Y <= 0,12, an Spiegellinie/Sickerstellen, <= 5 % der Steine je 50 m"},
     "weiss": {"Y_trocken_ab": 0.3, "Y_nass_ab": 0.12, "relativ_zum_median_ab": 2.0, "urteil": "WARNUNG; Quarzgeroell hoechstens 1 je 20 m, <= 0,15 m, nicht gehaeuft; sonst FEHLER"},
     "gemessen_projekt": {"SM_SmallStonesPack": 0.125, "SM_mountain_rock_small": 0.229, "bett_unter_wasser": 0.067},
-    "reparatur": ["Netz gut, graues MI vorhanden -> MI tauschen (mit Nasslinie, nie doppelt abdunkeln, 6d)", "Textur fest orange/weiss, kein graues MI -> Netz gleicher Groessenklasse aus der Rollenpalette", "Kiesel < 0,15 m im Wasser -> entfernen"]
+    "reparatur": ["Netz gut, graues MI vorhanden -> MI tauschen (mit Nasslinie, nie doppelt abdunkeln, 6d)", "Textur fest orange/weiss, kein graues MI -> Netz gleicher Groessenklasse aus der Rollenpalette", "Kiesel < 0,15 m im Wasser -> entfernen"],
+    "helligkeit_23_2": {
+      "_doku": "23.2: Mittel-Y der wirksamen BaseColor (linear, wie stein_albedo.json Y_wirksam). Palette trocken_Y 0,07-0,22 bleibt Ziel; darueber Warnband, ab Fehlergrenze FEHLER. 'weiss' (23.1) bleibt als Relativregel (>= 2 x Median der Nachbarn) und Quarz-Ausnahme bestehen.",
+      "trocken_warnung_fehler": [0.22, 0.35],
+      "nass_warnung_fehler": [0.09, 0.15],
+      "srgb_8bit_zum_vergleich": {"0.08": 80, "0.09": 85, "0.12": 97, "0.15": 108, "0.22": 129, "0.30": 149, "0.35": 160},
+      "quarz_ausnahme": "Kiesel <= 0,15 m, hoechstens 1 je 20 m, Y trocken <= 0,45; sonst wie oben",
+      "begruendung": "[Suchauszug] Albedo-Tabellen fuer PBR nennen 'rock' 0,3-0,4 linear (Spannweite heller Gesteine), nass dunkler als trocken; nicht-metallisch 0,04 (Kohle) bis 0,8-0,9 (Neuschnee). [Projekt] gemessene Bachnetze 0,087-0,229 (stein_albedo.json), Bett unter Wasser 0,067 (6d). [Ableitung] nordischer Granit/Gneis mit Flechte und Algenfilm liegt unter der Tabellen-Obergrenze: FEHLER erst ab 0,35, Warnband 0,22-0,35."
+    },
+    "untexturiert": {
+      "urteil": "FEHLER textur_fehlt",
+      "material_regel": "wirksame BaseColor-Textur der MI ist nicht gebunden oder ist der Master-Standard (/Fab/Textures/Standard/T_Default*, /Engine/EngineResources/WhiteSquareTexture, /Engine/EngineResources/DefaultTexture)",
+      "bild_regel": "Bildmessung je Instanz: Y >= 0,6 und Saettigung <= 0,05 -> FEHLER untexturiert_verdacht",
+      "messung_regel": "stein_albedo.json/helle_steine_p2.json ohne Y (Y = null) -> WARNUNG ohne_Y, Material pruefen",
+      "projekt_befund": "material_parameter.json: M_MS_Base und M_MS_Decal haben BaseColorTexture = /Fab/Textures/Standard/T_DefaultColor; helle_steine_p2.json: skjsL_tier_0 (103, davon 84 im Bett), texndcpda_tier_0 (6), SM_beach_driftwood_01 (14) ohne Y",
+      "reparatur": "Material reparieren (MI_EL_<id> auf M_EL_Fels_MS2 mit den Raw-Texturen _B/_N/_ORM, anzulegen), Steine nicht entfernen, ausser sie fallen auch nach den Sitz- oder Wiederholungsregeln durch"
+    }
   },
   "reparatur": {
     "reihenfolge": [
@@ -216,7 +236,77 @@
     ],
     "schicht_neu_planen_ab_fehleranteil": 0.3,
     "swr_hindernis": "Steine >= 0,4 m im Wasser oder <= 1 m daneben: im Piloten nur z/Drehung, kein XY, nicht entfernen; Liste fuer einen eigenen Schritt mit Hindernis-Neubau, Reset und Bake",
-    "sicherung": "je Instanz Alt- und Neu-Transformation, Netz, Foliage-Typ, Regelversion 23.1, Test-ID, Fehlerklassen und Messwerte"
+    "sicherung": "je Instanz Alt- und Neu-Transformation, Netz, Foliage-Typ, Regelversion 23.1, Test-ID, Fehlerklassen und Messwerte",
+    "wiederholung_schritte": {
+      "_doku": "23.2, nur fuer die Klasse 'wiederholung'; nach jedem Schritt Sitzpruefung (23.1) und Wiederholungspruefung neu. Sitzfehler werden vorher nach 'schritte' repariert. Von einem Paar wird die kleinere bzw. spaeter gesetzte Instanz geaendert.",
+      "reihenfolge": [
+        "1 drehen: Yaw um die Hochachse (Platte: um die Plattennormale) auf >= theta der Klasse Abstand zu jedem gleichen Netz im Fenster; Sitz neu rechnen",
+        "2 spiegeln + drehen: nur wenn spiegeln.freigabe fuer Netz und Renderweg; Skala X oder Y negativ, dazu Yaw >= 45 Grad; nie Z",
+        "3 Netz tauschen: Geschwister derselben Familie (gleiches Gestein, gleiche Groessenklasse, Grundriss +-20 %), danach Sitz neu",
+        "4 Skala nur ergaenzend (skala_wiederholung), nie allein als Korrektur",
+        "5 versetzen nach reparatur.schritte neu_setzen_versatz (XY-Grenzen 23.1), sonst entfernen mit Sicherung"
+      ],
+      "nicht_bei": "Ausbiss-Gruppen (Fallen/Streichen muessen gleich bleiben): nur Drehung um die Plattennormale, Spiegeln an einer Achse in der Schichtebene (nur mit schichtung_ok) oder Netztausch"
+    }
+  },
+  "wiederholung": {
+    "_doku": "23.2 Klasse 'erkennbare Wiederholung'. Je Paar gleichen Netzes: s = groesste Ausdehnung x |Skala| der groesseren Instanz; rho = Abstand der Boxmitten / s; theta = kleinster Drehwinkel (geodaetisch, aus FQuat) zwischen den kanonischen Drehungen, minimiert ueber die Symmetrie des Netzes um lokal Z (symmetrie_z: 1 keine, 2, 4, 0 rotationssymmetrisch). Gespiegelte Instanz: kanonische Drehung = R x diag(Vorzeichen) x diag(1,-1,1). Urteil FEHLER bei rho < rho_f, WARNUNG bei rho < rho_w, jeweils nur wenn theta < theta. Abstufung je eine Stufe: nur gespiegelt (Netz nicht spiegelsymmetrisch), Skalenunterschied >= abstufung_skala_ab. Gruppe: >= gruppe_n gleiche, untereinander aehnliche Instanzen in einem Fenster mit Durchmesser gruppe_d m -> gruppe_urteil (2 FEHLER, 1 WARNUNG). Haeufung: >= haeufung_n gleiche Instanzen im Fenster unabhaengig von der Drehung -> WARNUNG. Kiesel: nur 'doppelt'.",
+    "klassen": {
+      "fels": {"theta": 45, "rho_f": 3.0, "rho_w": 6.0, "gruppe_d": 15.0, "gruppe_n": 3, "gruppe_urteil": 2, "haeufung_n": 3},
+      "platte": {"theta": 30, "rho_f": 3.0, "rho_w": 5.0, "gruppe_d": 15.0, "gruppe_n": 3, "gruppe_urteil": 2, "haeufung_n": 4},
+      "stein": {"theta": 30, "rho_f": 2.0, "rho_w": 4.0, "gruppe_d": 5.0, "gruppe_n": 4, "gruppe_urteil": 1, "haeufung_n": 0},
+      "totholz_stamm": {"theta": 45, "rho_f": 2.0, "rho_w": 5.0, "gruppe_d": 30.0, "gruppe_n": 3, "gruppe_urteil": 2, "haeufung_n": 2},
+      "totholz_stumpf": {"theta": 30, "rho_f": 2.0, "rho_w": 4.0, "gruppe_d": 15.0, "gruppe_n": 3, "gruppe_urteil": 1, "haeufung_n": 0},
+      "kleinschutt": {"theta": 30, "rho_f": 0.0, "rho_w": 1.5, "gruppe_d": 0, "gruppe_n": 0, "gruppe_urteil": 0, "haeufung_n": 0}
+    },
+    "kiesel": "unkritisch; nur 'doppelt' und Anteil eines Netzes <= 60 % der Kiesel im 5-m-Fenster (WARNUNG)",
+    "stein_anteil": "Anteil eines Netzes <= 40 % der Steine im 15-m-Fenster, wenn dort >= 5 Steine (WARNUNG); noch nicht im Referenzcode",
+    "abstufung_skala_ab": 0.25,
+    "doppelt": {"rho": 0.05, "theta": 5, "sigma": 0.05, "urteil": "FEHLER fuer alle Klassen"},
+    "netz_merkmale_anzulegen": "je Netz in netze_masse.json: symmetrie_z, spiegel_sym, moos_seite (lokaler Vektor oder null), schichtung_ok, detailscan, familie; aus der Punktwolke (Stufe B) bzw. der Albedo-Messung, bis dahin symmetrie_z 1, spiegel_sym false",
+    "begruendung": "[Suchauszug] Objekterkennung ist weitgehend invariant gegen Verschieben, Groesse und Links-rechts-Spiegelung (Biederman & Cooper 1991), Drehung in der Tiefe senkt dagegen das Wiedererkennen metrischer Formmerkmale deutlich (Biederman & Bar 1999). [Ableitung] Drehen ist das staerkste Mittel, Spiegeln und Skala allein nur eine Stufe. [Gestaltung] Zahlen im Pilot T23b-1 an Ferats Bild kalibrieren."
+  },
+  "spiegeln": {
+    "achsen": "nur Skala X oder Y negativ (genau eine); Z nie (FEHLER spiegel_z); zwei negative Achsen sind eine Drehung (WARNUNG negativ_ohne_spiegel, als Yaw 180 normalisieren)",
+    "freigabe": "erst nach bestandenem Einzeltest T23b-S je Renderweg (Nanite, Nicht-Nanite) und Setzweg (Akteur, Foliage-ISM/HISM); bis dahin Wahrscheinlichkeit 0",
+    "wahrscheinlichkeit_nach_freigabe": 0.5,
+    "nicht_wenn": [
+      "moos_seite gesetzt und die Seite nach dem Spiegeln mehr als 60 Grad von der Sollrichtung (Nord/Schatten/Uferseite) abweicht (gilt ebenso fuer Drehen)",
+      "Rolle Ausbiss/Band und schichtung_ok false (schraege innere Schichtung wuerde gegen das Gruppenfallen kippen)",
+      "sichtbares gerichtetes Licht in der Albedo (Helligkeitsgefaelle zwischen Seiten > 20 %); entkoppelte Scans (Megascans) sind unkritisch",
+      "Abnutzung/Glaettung mit Richtung (Stossseite) oder Treibholz-Ausrichtung zur Stroemung, wenn die Gegenseite dann stromauf zeigt",
+      "Schrift/Decals: im Bestand nicht betroffen"
+    ],
+    "totholz": "Stamm, Stumpf, Ast: X oder Y erlaubt (nach T23b-S); Wurzelteller-Ende bleibt am Ufer"
+  },
+  "skala_wiederholung": {
+    "_doku": "Aenderung gegenueber der Planer-Skala bei einer Wiederholungskorrektur; Faktor = geometrisches Mittel der Achsfaktoren, aniso = groesster/kleinster Achsfaktor. Die 23.1-Regel 'verkleinern 0,8-1,0' fuer Sitzfehler an Platten/Kleinschutt bleibt.",
+    "klassen": {
+      "fels": {"gleichmaessig": [0.85, 1.15], "aniso_max": 1.1},
+      "stein": {"gleichmaessig": [0.85, 1.15], "aniso_max": 1.1},
+      "kiesel": {"gleichmaessig": [0.8, 1.25], "aniso_max": 1.1},
+      "platte": {"gleichmaessig": [0.8, 1.0], "aniso_max": 1.0},
+      "kleinschutt": {"gleichmaessig": [0.8, 1.0], "aniso_max": 1.0},
+      "totholz_stamm": {"gleichmaessig": [0.85, 1.15], "aniso_max": 1.1},
+      "totholz_stumpf": {"gleichmaessig": [0.85, 1.15], "aniso_max": 1.1}
+    },
+    "detailscan_aniso_max": 1.02,
+    "detailscan": "Fab-Raw 8K und Helden-Felsen >= 2 m in Nahsicht; ungleichmaessige Skala dort nicht, weil die Scan-Texeldichte sichtbar verzerrt",
+    "groessenklasse": "muss gleich bleiben (Fels/Stein/Kiesel-Grenzen der Erkennung)"
+  },
+  "totholz_23_2": {
+    "wurzelteller_im_bett_talkaskade": "FEHLER (Regel 23.1 bestaetigt). Reparatur: Teller-Ende aufs Ufer drehen/versetzen innerhalb der XY-Grenzen, sonst entfernen; Ersatz nur ueber p2bett-Neuplanung als Bruecke mit Teller am Ufer",
+    "treibholz": "SM_beach_driftwood_01 im Bergbach FEHLER netzwahl (23.1 nicht_im_bergbach) -> entfernen",
+    "uferanbruch_held": "Stamm mit Teller am Fuss der Boeschung nur als von Hand gesetzter Sehens-Ort: Teller >= 50 % an der Boeschung, Abrisskante/Wurzelgrube am Ufer sichtbar, Stamm >= Gerinnebreite; nicht fuer Planer"
+  },
+  "planer_wiederholung": {
+    "gilt_fuer": ["detailgrad", "p2bett", "kantenufer_p2", "bachdekor_swr", "felsschalen", "felsgruppen", "B5-Themen", "Biom-Planer ueber felsgruppen_overrides"],
+    "mindestabstand_gleiches_netz": "rho_f x s, ausser theta >= theta der Klasse; Stein rho_f 2, Fels/Platte 3",
+    "yaw": "gleichverteilt 0-360 je Instanz (Platten: um die Normale); Regeln mit fester Ausrichtung (Dachziegel, Ausbiss, Keystone quer) variieren statt Yaw das Netz bzw. die Drehung um die Normale",
+    "spiegeln": "Wahrscheinlichkeit 0 bis zur Freigabe, dann 0,5 je Instanz, wenn spiegeln.nicht_wenn nicht greift",
+    "deckel_je_15m_fenster": {"fels_ab_2m": 2, "fels_1_2m": 3, "platte_ab_1m": 3, "stein_anteil_max": 0.4, "stamm_je_30m": 1},
+    "familie": "Netzwahl nach 'am laengsten nicht benutzt im Fenster' aus der Familie der Rolle; Familie = gleiches Gestein und gleiche Groessenklasse (Liste je Planer anzulegen)",
+    "nachpruefung": "pruefe_wiederholung vor dem Schreiben wie sitz_pruefung (Setzer-Vertrag 23 §11)"
   },
   "pruef_faelle_synthetisch": [
     {"nr": "F1", "fall": "Platte flach, 50 % der Dicke im Boden", "soll": "ok"},
@@ -244,7 +334,25 @@
     {"nr": "F23", "fall": "dieselbe Platte stromab einfallend", "soll": "FEHLER winkel"},
     {"nr": "F24", "fall": "Farben grau / orange / weiss", "soll": "ok / FEHLER / WARNUNG"},
     {"nr": "F25", "fall": "Stein als Punktwolke (Ellipsoid), 35 % im Boden, Stufe B", "soll": "ok"},
-    {"nr": "F26", "fall": "derselbe Stein 4 cm ueber dem Boden, Stufe B", "soll": "FEHLER luecke"}
+    {"nr": "F26", "fall": "derselbe Stein 4 cm ueber dem Boden, Stufe B", "soll": "FEHLER luecke"},
+    {"nr": "W1", "fall": "zwei gleiche Felsen 2 m, Abstand 4 m (rho 2), Yaw 10 Grad", "soll": "FEHLER paar"},
+    {"nr": "W2", "fall": "wie W1, Yaw 120 Grad", "soll": "ok"},
+    {"nr": "W3", "fall": "wie W1 mit Yaw 180, Netz 2-zaehlig symmetrisch", "soll": "FEHLER paar"},
+    {"nr": "W4", "fall": "wie W1, nur gespiegelt (Y -1), gleicher Yaw", "soll": "WARNUNG paar"},
+    {"nr": "W5", "fall": "gespiegelt und Yaw 60", "soll": "ok"},
+    {"nr": "W6", "fall": "nur Skala 1,3", "soll": "WARNUNG paar"},
+    {"nr": "W7", "fall": "Abstand 9 m (rho 4,5), Yaw 10", "soll": "WARNUNG paar"},
+    {"nr": "W8", "fall": "zwei Steine 0,5 m, Abstand 0,8 m (rho 1,6)", "soll": "FEHLER paar"},
+    {"nr": "W9", "fall": "zwei Kiesel 0,3 m auseinander", "soll": "ok"},
+    {"nr": "W10", "fall": "Kiesel doppelt (4 mm, 1 Grad)", "soll": "FEHLER doppelt"},
+    {"nr": "W11", "fall": "drei gleiche Felsen je 7 m, Yaw 0/10/20", "soll": "FEHLER gruppe"},
+    {"nr": "W12", "fall": "drei gleiche Felsen je 7 m, Yaw 0/120/240", "soll": "WARNUNG haeufung"},
+    {"nr": "W13", "fall": "zwei Platten 2,4 m, 5 m, Yaw 40", "soll": "ok"},
+    {"nr": "W14", "fall": "Skala Z -1", "soll": "FEHLER spiegel_z"},
+    {"nr": "W15", "fall": "Skala X -1 und Y -1", "soll": "WARNUNG negativ_ohne_spiegel"},
+    {"nr": "W16", "fall": "spiegelsymmetrisches Netz, nur gespiegelt", "soll": "FEHLER paar"},
+    {"nr": "S1-S7", "fall": "Skala Fels 0,9 / 1,2 / X 1,08 / X 1,12 / Detailscan X 1,04 / Platte 1,1 / X -1", "soll": "ok / skala / ok / skala_aniso / skala_aniso / skala / ok"},
+    {"nr": "M1-M10", "fall": "BaseColor ungebunden / T_DefaultColor / Y 0,85 S 0,01 / trocken 0,14 / 0,229 / 0,40 / nass 0,08 / 0,11 / 0,16 / ohne Y", "soll": "FEHLER / FEHLER / FEHLER / ok / WARNUNG / FEHLER / ok / WARNUNG / FEHLER / WARNUNG"}
   ],
   "quellen": {
     "IMBRIKATION": "Suchauszuege: Galvin 2002 GSA (a-b-Ebenen neigen stromauf), Sub-Himalaya-Studie (mittlere AB-Neigung 22,6-37,6 Grad), Studie an 1 007 Klasten (Median etwa 35 Grad Wasserschotter, 47 Debris-Flood, 65 Murgang); https://gsa.confex.com/gsa/2002AM/webprogram/Paper45012.html, https://repository.ias.ac.in/67306, https://boris.unibe.ch/119827/1/esurf-6-743-2018.pdf",
@@ -255,6 +363,10 @@
     "EISEN": "Suchauszuege: orange Flecken auf Granit durch umgelagertes Fe2+ als Hydroxid (duenner Belag); orange Baeche = oxidiertes Eisen, oft mit Schwermetallen; https://revista.ipt.br/revistaIPT/en/article/view/126/137, https://www.usgs.gov/centers/alaska-science-center/multimedia/images?page=10",
     "UNREAL": "Suchauszuege: Foliage Align to Normal / Align Max Angle / Random Pitch / Z Offset (https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/FoliageType), RVT fuer Landschafts- und Objektblend (https://dev.epicgames.com/documentation/en-us/unreal-engine/virtual-texturing-in-unreal-engine), Polycount RVT-Blend-Anleitung (https://polycount.com/discussion/comment/2711284), UE-5.8-Forum: RVT gibt nur Grundfarbe aus (https://forums.unrealengine.com/t/runtime-virtual-texture-only-outputs-landscape-base-color-instead-of-painted-landscape-layers-ue-5-8/2739603)",
     "SETZEN": "Suchauszug: Landschaftsbau-Anleitung, Fels zu 1/3-1/2 seiner Hoehe eingraben, Unterteil unsichtbar (https://landscapearchitect.com/landscape-articles/rockin-a-hard-place)",
-    "PROJEKT": "20 (detailgrad_regeln.json), felsgruppen_regeln.json (platten, rollen), p2_bett_regeln.json (ausstattung_6e.totholz), bachbett_ufer_regeln.json C_ufer.steine, 6d/6e (Helligkeit), 6i (Slab-Pivot +Y), 6k §3.1 / 6m / 6n / 6o (Wasser), 21 (Nanite-Displacement aus), 22 §6 (Sicherung)"
+    "PROJEKT": "20 (detailgrad_regeln.json), felsgruppen_regeln.json (platten, rollen), p2_bett_regeln.json (ausstattung_6e.totholz), bachbett_ufer_regeln.json C_ufer.steine, 6d/6e (Helligkeit), 6i (Slab-Pivot +Y), 6k §3.1 / 6m / 6n / 6o (Wasser), 21 (Nanite-Displacement aus), 22 §6 (Sicherung)",
+    "WIEDERHOLUNG_23B": "Suchauszuege: Biederman & Cooper 1991, Perception 20, 585 (Priming invariant gegen Verschieben und Links-rechts-Spiegelung) https://journals.sagepub.com/doi/pdf/10.1068/p200585; Biederman & Bar 1999, Vision Research 39, 2885 (Drehung in der Tiefe senkt das Erkennen metrischer Unterschiede) https://www.nmr.mgh.harvard.edu/publications/journal_articles/2753; Neverwinter-Blog (fuenf Felsnetze, gedreht und skaliert) https://www.arcgames.com/pl/games/neverwinter/news/detail/10090723-art-developer-blog%253A-cold-run",
+    "SPIEGELN_UE": "Suchauszuege, Epic-Seiten aus der Cloud nicht abrufbar: Forum 397236 (negative Skala bei ISM: anderer Cull-Modus, eigener Draw-Call; UE4-Zeit) https://forums.unrealengine.com/t/are-there-any-issues-with-setting-a-negative-scale-to-a-mesh/397236; UE-51647 (Convex an gespiegelten Objekten, behoben 4.19), UE-96052 (gedrehte Kollision bei negativer Skala, behoben 5.0), UE-142739 (Chaos-Spiegelung, behoben 5.0) https://issues.unrealengine.com/issue/UE-96052; UE-76078 (negative Skala ISM vs. Einzelnetz, 4.22) https://issues.unrealengine.com/issue/UE-76078",
+    "ALBEDO_23B": "Suchauszuege: PBR-Albedotabellen (rock 0,3-0,4 linear; Kohle 0,04; Neuschnee 0,8-0,9; nass dunkler) https://learn.enscape3d.com/?p=32192, https://old-wiki.warthunder.com/PBR_texture_compliance, https://polycount.com/discussion/comment/2705069",
+    "TOTHOLZ_23B": "Suchauszuege: Stuecke laenger als die Gerinnebreite sind in kleinen Gerinnen stabil (Montgomery & Buffington 1993 nach Cenderelli 2023) https://seakfhp.org/wp-content/uploads/2023/11/Session-1.5-Beyond-Biology-Recruitment-and-Delivery-of-Wood-CENDERELLI.pdf; Staemme mit Wurzelteller wandern kuerzer als ohne (chilenische Bergbaeche, Hydrological Processes 2018, Zusammenfassung) https://esurf.copernicus.org/articles/8/195/2020/"
   }
 }
