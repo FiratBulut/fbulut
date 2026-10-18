@@ -1,0 +1,72 @@
+NACHBAU Loeser-Zustand aus T6M3A_2: nasse Zellen 63662 (G > 0,1 cm: 70408)
+NACHBAU Breite 1 gegen T6M3A_2: |dR| Median 0.00 / p90 4.00 cm, |dG| Median 0.00 / p90 0.00 cm, Jaccard nass 0.972
+NACHBAU Breite 1 geschrieben: export/unreal/welt/fluss_sim/swr_wasser/dump/T6N_NACHBAU\SWR_Sim_F_ERLENBACH_1V_C2_NACHBAU_B1
+NACHBAU Breite 2 geschrieben: export/unreal/welt/fluss_sim/swr_wasser/dump/T6N_NACHBAU\SWR_Sim_F_ERLENBACH_1V_C2_NACHBAU_B2
+NACHBAU Breite 5 gegen T6L2B_2: |dR| Median 0.25 / p90 4.00 cm, |dG| Median 0.08 / p90 2.09 cm, Jaccard nass 0.979
+NACHBAU Breite 5 geschrieben: export/unreal/welt/fluss_sim/swr_wasser/dump/T6N_NACHBAU\SWR_Sim_F_ERLENBACH_1V_C2_NACHBAU_B5
+=== Nachbau Breite 5
+P6N Kontrollfall 6m §3 (KB1-KB6): OK {'ist_nass_saum_trocken_s5bild_s5sim_kolk': (3, 2, 1, 4, 3, 1.1), 'soll': (3, 2, 1, 4, 3, 1.1)}
+P6N G1 Pruefband sichtbar_5 (Bild) Breite 5 (NACHBAU_B5): 11.16 % ohne Hindernis-Zellen (n 430) | mit 14.74 % | Breite 5 (T6L2B_2): 10.47 / 13.98 % | Sim-Definition B5 6.51 / B5 6.51 % -> BESTANDEN (<= 16,0 %)
+P6N G2 (ohne_hindernis) Kolke n 24: Median |dW| 0.00 cm, max 10.0 cm, Median dW +0.00 cm, |dW| > 5 cm: [25] | 0,8-1,35 m: Breite 5 23/24, Breite 5 24/24 | unter 0,8 m bei 5: [] -> VERFEHLT
+P6N G2 (mit_hindernis) Kolke n 24: Median |dW| 0.00 cm, max 10.0 cm, Median dW +0.00 cm, |dW| > 5 cm: [25] | 0,8-1,35 m: Breite 5 23/24, Breite 5 24/24 | unter 0,8 m bei 5: [] -> VERFEHLT
+P6N G3 Bett nass_sim Breite 5: 55.04 % ohne Hindernis-Zellen (n 625), mit 56.79 % | Breite 5: 54.24 / 56.37 % (nur Info; 6n: traegt bei 5 nicht) | Saum im Bett B5 44.96 % -> VERFEHLT (>= 97 %)
+P6N D (mit_hindernis) Kernbett n 250: sichtbar_1 Breite 5 97.6 %, Breite 5 97.6 % (Fehlzellen bei 5: 6); Fehlzellen bei 5:
+P6N D    s 455.75 u -0.33 | Zone bett | Neigung 0.36 | Lippe 16 (kaskade_teil, Fall 0.72 m) ds 1.12 m | W-H bei 5 -3.7 cm (G 49.5) | bei N +0.3 cm (G 49.5, sichtbar_1 False) | F-H -3.7 cm | Hindernis False Kolk False
+P6N D    s 481.86 u +0.56 | Zone lippenkrone | Neigung 0.48 | Lippe 22 (stufe, Fall 1.55 m) ds 0.40 m | W-H bei 5 -13.7 cm (G 31.9) | bei N -13.7 cm (G 31.9, sichtbar_1 False) | F-H -9.7 cm | Hindernis False Kolk False
+P6N D    s 515.81 u +0.68 | Zone lippenkrone | Neigung 0.24 | Lippe 32 (kaskade_teil, Fall 1.12 m) ds 0.48 m | W-H bei 5 -7.2 cm (G 30.6) | bei N -7.2 cm (G 30.5, sichtbar_1 False) | F-H -19.2 cm | Hindernis False Kolk False
+P6N D    s 523.87 u -0.54 | Zone lippenkrone | Neigung 0.43 | Lippe 35 (kaskade_teil, Fall 0.96 m) ds 0.65 m | W-H bei 5 -7.0 cm (G 32.3) | bei N -5.0 cm (G 32.1, sichtbar_1 False) | F-H -29.0 cm | Hindernis False Kolk False
+P6N D    s 529.67 u +0.22 | Zone bett | Neigung 0.48 | Lippe 36 (stufe, Fall 1.53 m) ds 0.38 m | W-H bei 5 -0.4 cm (G 25.8) | bei N -0.4 cm (G 25.8, sichtbar_1 False) | F-H -6.4 cm | Hindernis False Kolk False
+P6N D    s 578.96 u +0.59 | Zone lippenkrone | Neigung 0.49 | Lippe 46 (ende, Fall 0.75 m) ds 0.04 m | W-H bei 5 -2.2 cm (G 23.5) | bei N -2.2 cm (G 23.5, sichtbar_1 False) | F-H -2.2 cm | Hindernis False Kolk False
+P6N D (ohne_hindernis) Kernbett n 244: sichtbar_1 Breite 5 97.5 %, Breite 5 97.5 % (Fehlzellen bei 5: 6); Fehlzellen bei 5:
+P6N D    s 455.75 u -0.33 | Zone bett | Neigung 0.36 | Lippe 16 (kaskade_teil, Fall 0.72 m) ds 1.12 m | W-H bei 5 -3.7 cm (G 49.5) | bei N +0.3 cm (G 49.5, sichtbar_1 False) | F-H -3.7 cm | Hindernis False Kolk False
+P6N D    s 481.86 u +0.56 | Zone lippenkrone | Neigung 0.48 | Lippe 22 (stufe, Fall 1.55 m) ds 0.40 m | W-H bei 5 -13.7 cm (G 31.9) | bei N -13.7 cm (G 31.9, sichtbar_1 False) | F-H -9.7 cm | Hindernis False Kolk False
+P6N D    s 515.81 u +0.68 | Zone lippenkrone | Neigung 0.24 | Lippe 32 (kaskade_teil, Fall 1.12 m) ds 0.48 m | W-H bei 5 -7.2 cm (G 30.6) | bei N -7.2 cm (G 30.5, sichtbar_1 False) | F-H -19.2 cm | Hindernis False Kolk False
+P6N D    s 523.87 u -0.54 | Zone lippenkrone | Neigung 0.43 | Lippe 35 (kaskade_teil, Fall 0.96 m) ds 0.65 m | W-H bei 5 -7.0 cm (G 32.3) | bei N -5.0 cm (G 32.1, sichtbar_1 False) | F-H -29.0 cm | Hindernis False Kolk False
+P6N D    s 529.67 u +0.22 | Zone bett | Neigung 0.48 | Lippe 36 (stufe, Fall 1.53 m) ds 0.38 m | W-H bei 5 -0.4 cm (G 25.8) | bei N -0.4 cm (G 25.8, sichtbar_1 False) | F-H -6.4 cm | Hindernis False Kolk False
+P6N D    s 578.96 u +0.59 | Zone lippenkrone | Neigung 0.49 | Lippe 46 (ende, Fall 0.75 m) ds 0.04 m | W-H bei 5 -2.2 cm (G 23.5) | bei N -2.2 cm (G 23.5, sichtbar_1 False) | F-H -2.2 cm | Hindernis False Kolk False
+P6N Projektprobe F (flaches Kernbett, Neigung < 0,2, n 133): Median |F-H| 1.73 cm (Median F-H -0.47), 94.0 % in +-10 cm -> BESTANDEN | Halbzellen-Versatz: bestes RMS 12.5 cm bei Zeile +0.0 / Spalte +0.0 (ohne Versatz 12.5 cm)
+P6N ERGEBNIS U3 (G1 bestanden, G2 verfehlt, G3 verfehlt; Breite 5 gegen 5; Kernbett Breite 5 97.6 %) | T6N2 verfehlt (-> U3) | JSON docs/pruefung/wasser/t6n/p6n_nachbau_b5.json
+=== Nachbau Breite 2
+P6N Kontrollfall 6m §3 (KB1-KB6): OK {'ist_nass_saum_trocken_s5bild_s5sim_kolk': (3, 2, 1, 4, 3, 1.1), 'soll': (3, 2, 1, 4, 3, 1.1)}
+P6N G1 Pruefband sichtbar_5 (Bild) Breite 2 (NACHBAU_B2): 11.63 % ohne Hindernis-Zellen (n 430) | mit 15.19 % | Breite 5 (T6L2B_2): 10.47 / 13.98 % | Sim-Definition B2 10.70 / B5 6.51 % -> BESTANDEN (<= 16,0 %)
+P6N G2 (ohne_hindernis) Kolke n 24: Median |dW| 4.00 cm, max 48.0 cm, Median dW -3.00 cm, |dW| > 5 cm: [3, 6, 12, 15, 22, 25, 35, 36, 40] | 0,8-1,35 m: Breite 2 23/24, Breite 5 24/24 | unter 0,8 m bei 2: ['Nr 3: 0.720 m (bei 5: 0.800 m, dW -8.0 cm)'] -> VERFEHLT
+P6N G2 (mit_hindernis) Kolke n 24: Median |dW| 4.00 cm, max 48.0 cm, Median dW -3.00 cm, |dW| > 5 cm: [3, 6, 12, 15, 22, 25, 35, 36, 40] | 0,8-1,35 m: Breite 2 23/24, Breite 5 24/24 | unter 0,8 m bei 2: ['Nr 3: 0.720 m (bei 5: 0.800 m, dW -8.0 cm)'] -> VERFEHLT
+P6N G3 Bett nass_sim Breite 2: 99.84 % ohne Hindernis-Zellen (n 625), mit 99.86 % | Breite 5: 54.24 / 56.37 % (nur Info; 6n: traegt bei 5 nicht) | Saum im Bett B2 0.16 % -> BESTANDEN (>= 97 %)
+P6N D (mit_hindernis) Kernbett n 250: sichtbar_1 Breite 5 97.6 %, Breite 2 100.0 % (Fehlzellen bei 2: 0); Fehlzellen bei 5:
+P6N D    s 455.75 u -0.33 | Zone bett | Neigung 0.36 | Lippe 16 (kaskade_teil, Fall 0.72 m) ds 1.12 m | W-H bei 5 -3.7 cm (G 49.5) | bei N +56.3 cm (G 58.3, sichtbar_1 True) | F-H -3.7 cm | Hindernis False Kolk False
+P6N D    s 481.86 u +0.56 | Zone lippenkrone | Neigung 0.48 | Lippe 22 (stufe, Fall 1.55 m) ds 0.40 m | W-H bei 5 -13.7 cm (G 31.9) | bei N +24.3 cm (G 34.3, sichtbar_1 True) | F-H -9.7 cm | Hindernis False Kolk False
+P6N D    s 515.81 u +0.68 | Zone lippenkrone | Neigung 0.24 | Lippe 32 (kaskade_teil, Fall 1.12 m) ds 0.48 m | W-H bei 5 -7.2 cm (G 30.6) | bei N +12.8 cm (G 31.3, sichtbar_1 True) | F-H -19.2 cm | Hindernis False Kolk False
+P6N D    s 523.87 u -0.54 | Zone lippenkrone | Neigung 0.43 | Lippe 35 (kaskade_teil, Fall 0.96 m) ds 0.65 m | W-H bei 5 -7.0 cm (G 32.3) | bei N +3.0 cm (G 31.7, sichtbar_1 True) | F-H -29.0 cm | Hindernis False Kolk False
+P6N D    s 529.67 u +0.22 | Zone bett | Neigung 0.48 | Lippe 36 (stufe, Fall 1.53 m) ds 0.38 m | W-H bei 5 -0.4 cm (G 25.8) | bei N +17.6 cm (G 25.1, sichtbar_1 True) | F-H -6.4 cm | Hindernis False Kolk False
+P6N D    s 578.96 u +0.59 | Zone lippenkrone | Neigung 0.49 | Lippe 46 (ende, Fall 0.75 m) ds 0.04 m | W-H bei 5 -2.2 cm (G 23.5) | bei N +20.8 cm (G 23.7, sichtbar_1 True) | F-H -2.2 cm | Hindernis False Kolk False
+P6N D (ohne_hindernis) Kernbett n 244: sichtbar_1 Breite 5 97.5 %, Breite 2 100.0 % (Fehlzellen bei 2: 0); Fehlzellen bei 5:
+P6N D    s 455.75 u -0.33 | Zone bett | Neigung 0.36 | Lippe 16 (kaskade_teil, Fall 0.72 m) ds 1.12 m | W-H bei 5 -3.7 cm (G 49.5) | bei N +56.3 cm (G 58.3, sichtbar_1 True) | F-H -3.7 cm | Hindernis False Kolk False
+P6N D    s 481.86 u +0.56 | Zone lippenkrone | Neigung 0.48 | Lippe 22 (stufe, Fall 1.55 m) ds 0.40 m | W-H bei 5 -13.7 cm (G 31.9) | bei N +24.3 cm (G 34.3, sichtbar_1 True) | F-H -9.7 cm | Hindernis False Kolk False
+P6N D    s 515.81 u +0.68 | Zone lippenkrone | Neigung 0.24 | Lippe 32 (kaskade_teil, Fall 1.12 m) ds 0.48 m | W-H bei 5 -7.2 cm (G 30.6) | bei N +12.8 cm (G 31.3, sichtbar_1 True) | F-H -19.2 cm | Hindernis False Kolk False
+P6N D    s 523.87 u -0.54 | Zone lippenkrone | Neigung 0.43 | Lippe 35 (kaskade_teil, Fall 0.96 m) ds 0.65 m | W-H bei 5 -7.0 cm (G 32.3) | bei N +3.0 cm (G 31.7, sichtbar_1 True) | F-H -29.0 cm | Hindernis False Kolk False
+P6N D    s 529.67 u +0.22 | Zone bett | Neigung 0.48 | Lippe 36 (stufe, Fall 1.53 m) ds 0.38 m | W-H bei 5 -0.4 cm (G 25.8) | bei N +17.6 cm (G 25.1, sichtbar_1 True) | F-H -6.4 cm | Hindernis False Kolk False
+P6N D    s 578.96 u +0.59 | Zone lippenkrone | Neigung 0.49 | Lippe 46 (ende, Fall 0.75 m) ds 0.04 m | W-H bei 5 -2.2 cm (G 23.5) | bei N +20.8 cm (G 23.7, sichtbar_1 True) | F-H -2.2 cm | Hindernis False Kolk False
+P6N Projektprobe F (flaches Kernbett, Neigung < 0,2, n 133): Median |F-H| 1.73 cm (Median F-H -0.47), 94.0 % in +-10 cm -> BESTANDEN | Halbzellen-Versatz: bestes RMS 12.5 cm bei Zeile +0.0 / Spalte +0.0 (ohne Versatz 12.5 cm)
+P6N ERGEBNIS U2 (G1 bestanden, G2 verfehlt, G3 bestanden; Breite 2 gegen 5; Kernbett Breite 2 100.0 %) | T6N2 verfehlt (-> U3) | JSON docs/pruefung/wasser/t6n/p6n_nachbau_b2.json
+=== Nachbau Breite 1
+P6N Kontrollfall 6m §3 (KB1-KB6): OK {'ist_nass_saum_trocken_s5bild_s5sim_kolk': (3, 2, 1, 4, 3, 1.1), 'soll': (3, 2, 1, 4, 3, 1.1)}
+P6N G1 Pruefband sichtbar_5 (Bild) Breite 1 (NACHBAU_B1): 11.86 % ohne Hindernis-Zellen (n 430) | mit 15.19 % | Breite 5 (T6L2B_2): 10.47 / 13.98 % | Sim-Definition B1 10.93 / B5 6.51 % -> BESTANDEN (<= 16,0 %)
+P6N G2 (ohne_hindernis) Kolke n 24: Median |dW| 4.00 cm, max 48.0 cm, Median dW -3.00 cm, |dW| > 5 cm: [3, 6, 12, 15, 22, 25, 35, 36, 40] | 0,8-1,35 m: Breite 1 23/24, Breite 5 24/24 | unter 0,8 m bei 1: ['Nr 3: 0.720 m (bei 5: 0.800 m, dW -8.0 cm)'] -> VERFEHLT
+P6N G2 (mit_hindernis) Kolke n 24: Median |dW| 4.00 cm, max 48.0 cm, Median dW -3.00 cm, |dW| > 5 cm: [3, 6, 12, 15, 22, 25, 35, 36, 40] | 0,8-1,35 m: Breite 1 23/24, Breite 5 24/24 | unter 0,8 m bei 1: ['Nr 3: 0.720 m (bei 5: 0.800 m, dW -8.0 cm)'] -> VERFEHLT
+P6N G3 Bett nass_sim Breite 1: 99.84 % ohne Hindernis-Zellen (n 625), mit 99.86 % | Breite 5: 54.24 / 56.37 % (nur Info; 6n: traegt bei 5 nicht) | Saum im Bett B1 0.16 % -> BESTANDEN (>= 97 %)
+P6N D (mit_hindernis) Kernbett n 250: sichtbar_1 Breite 5 97.6 %, Breite 1 100.0 % (Fehlzellen bei 1: 0); Fehlzellen bei 5:
+P6N D    s 455.75 u -0.33 | Zone bett | Neigung 0.36 | Lippe 16 (kaskade_teil, Fall 0.72 m) ds 1.12 m | W-H bei 5 -3.7 cm (G 49.5) | bei N +56.3 cm (G 58.3, sichtbar_1 True) | F-H -3.7 cm | Hindernis False Kolk False
+P6N D    s 481.86 u +0.56 | Zone lippenkrone | Neigung 0.48 | Lippe 22 (stufe, Fall 1.55 m) ds 0.40 m | W-H bei 5 -13.7 cm (G 31.9) | bei N +24.3 cm (G 34.3, sichtbar_1 True) | F-H -9.7 cm | Hindernis False Kolk False
+P6N D    s 515.81 u +0.68 | Zone lippenkrone | Neigung 0.24 | Lippe 32 (kaskade_teil, Fall 1.12 m) ds 0.48 m | W-H bei 5 -7.2 cm (G 30.6) | bei N +12.8 cm (G 31.4, sichtbar_1 True) | F-H -19.2 cm | Hindernis False Kolk False
+P6N D    s 523.87 u -0.54 | Zone lippenkrone | Neigung 0.43 | Lippe 35 (kaskade_teil, Fall 0.96 m) ds 0.65 m | W-H bei 5 -7.0 cm (G 32.3) | bei N +3.0 cm (G 31.7, sichtbar_1 True) | F-H -29.0 cm | Hindernis False Kolk False
+P6N D    s 529.67 u +0.22 | Zone bett | Neigung 0.48 | Lippe 36 (stufe, Fall 1.53 m) ds 0.38 m | W-H bei 5 -0.4 cm (G 25.8) | bei N +19.6 cm (G 25.1, sichtbar_1 True) | F-H -6.4 cm | Hindernis False Kolk False
+P6N D    s 578.96 u +0.59 | Zone lippenkrone | Neigung 0.49 | Lippe 46 (ende, Fall 0.75 m) ds 0.04 m | W-H bei 5 -2.2 cm (G 23.5) | bei N +21.8 cm (G 23.8, sichtbar_1 True) | F-H -2.2 cm | Hindernis False Kolk False
+P6N D (ohne_hindernis) Kernbett n 244: sichtbar_1 Breite 5 97.5 %, Breite 1 100.0 % (Fehlzellen bei 1: 0); Fehlzellen bei 5:
+P6N D    s 455.75 u -0.33 | Zone bett | Neigung 0.36 | Lippe 16 (kaskade_teil, Fall 0.72 m) ds 1.12 m | W-H bei 5 -3.7 cm (G 49.5) | bei N +56.3 cm (G 58.3, sichtbar_1 True) | F-H -3.7 cm | Hindernis False Kolk False
+P6N D    s 481.86 u +0.56 | Zone lippenkrone | Neigung 0.48 | Lippe 22 (stufe, Fall 1.55 m) ds 0.40 m | W-H bei 5 -13.7 cm (G 31.9) | bei N +24.3 cm (G 34.3, sichtbar_1 True) | F-H -9.7 cm | Hindernis False Kolk False
+P6N D    s 515.81 u +0.68 | Zone lippenkrone | Neigung 0.24 | Lippe 32 (kaskade_teil, Fall 1.12 m) ds 0.48 m | W-H bei 5 -7.2 cm (G 30.6) | bei N +12.8 cm (G 31.4, sichtbar_1 True) | F-H -19.2 cm | Hindernis False Kolk False
+P6N D    s 523.87 u -0.54 | Zone lippenkrone | Neigung 0.43 | Lippe 35 (kaskade_teil, Fall 0.96 m) ds 0.65 m | W-H bei 5 -7.0 cm (G 32.3) | bei N +3.0 cm (G 31.7, sichtbar_1 True) | F-H -29.0 cm | Hindernis False Kolk False
+P6N D    s 529.67 u +0.22 | Zone bett | Neigung 0.48 | Lippe 36 (stufe, Fall 1.53 m) ds 0.38 m | W-H bei 5 -0.4 cm (G 25.8) | bei N +19.6 cm (G 25.1, sichtbar_1 True) | F-H -6.4 cm | Hindernis False Kolk False
+P6N D    s 578.96 u +0.59 | Zone lippenkrone | Neigung 0.49 | Lippe 46 (ende, Fall 0.75 m) ds 0.04 m | W-H bei 5 -2.2 cm (G 23.5) | bei N +21.8 cm (G 23.8, sichtbar_1 True) | F-H -2.2 cm | Hindernis False Kolk False
+P6N Projektprobe F (flaches Kernbett, Neigung < 0,2, n 133): Median |F-H| 1.73 cm (Median F-H -0.47), 94.0 % in +-10 cm -> BESTANDEN | Halbzellen-Versatz: bestes RMS 12.5 cm bei Zeile +0.0 / Spalte +0.0 (ohne Versatz 12.5 cm)
+P6N ERGEBNIS U2 (G1 bestanden, G2 verfehlt, G3 bestanden; Breite 1 gegen 5; Kernbett Breite 1 100.0 %) | JSON docs/pruefung/wasser/t6n/p6n_nachbau_b1.json
