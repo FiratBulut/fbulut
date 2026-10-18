@@ -83,6 +83,8 @@ nicht zur bestätigten Antwort. Lange Builds/Bakes benötigen einen passenden ei
 
 ## Lokal umsetzen und belegen
 
+- Feste Prüfeingaben, unabhängige Nachprüfung nach Korrekturen und Pilotfreigabe vor großflächigen
+  Eingriffen gelten nach [Teamworkflow](recherche/TEAM_WORKFLOW.md#feste-prüfeingaben-nachprüfung-und-pilotfreigabe).
 - Claude Code übernimmt verfügbare lokale Prüfungen: Engine-/Pluginstand, Assets, APIs,
   Materialgraphen, tatsächliche Bounds, Ausführung und Messungen. Zuerst die realen
   Zugriffsmöglichkeiten prüfen; ohne Projekt-/Editorzugriff keine Durchführung behaupten.

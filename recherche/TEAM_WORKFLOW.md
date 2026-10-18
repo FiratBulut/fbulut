@@ -224,6 +224,27 @@ Bestehende Editoraufträge, Ferats Nutzung, Speicher-/PIE-Regeln und Wiederherst
 Ein offline gültiger Export ist noch kein getestetes UE5.8-Asset; Laufzeit, Maßstab, Kollision,
 Materialdarstellung und Einfügung in den Zielabschnitt lokal belegen, soweit im Auftrag nötig.
 
+### Feste Prüfeingaben, Nachprüfung und Pilotfreigabe
+
+Gilt für alle Arbeitspakete (Assets, Werkzeuge, Welt-Eingriffe); von Codex im Auftrag Ferats am 18.10. festgelegt.
+
+1. **Feste Eingabestände.** Geprüft wird nur ein eingefrorener Stand, nie eine Datei, die eine laufende Kette noch schreibt.
+   Nach abgeschlossener Schreibung sichert Opus-PM die benötigten Eingaben unter einer eindeutigen Standbezeichnung mit
+   Zeitpunkt und SHA-256-Liste. Vorher- und Nachher-Stände eines Eingriffs bleiben getrennt. Fehlt ein historischer Eingang,
+   heißt die betroffene Prüfung „nicht belegbar“; sie wird nicht aus späteren Daten nachgebaut. Jedes Prüfergebnis nennt
+   die Standbezeichnung und die Prüfsummen, gegen die es gilt.
+2. **Korrekturen erneut unabhängig prüfen.** Nach einer Korrekturrunde prüft ein unabhängiger technischer Prüfer (Opus 5.5,
+   nicht der Ersteller, nicht Fable) die behobenen kritischen und wichtigen Mängel an der korrigierten Fassung und wiederholt
+   die passenden Gegenfälle. Erst danach gibt Opus-PM die Ausführung frei. Bleibt ein solcher Mangel offen, bleibt das Paket
+   gesperrt; keine automatische weitere Korrekturschleife (Grenzen nach Abschnitt 7). Fable bleibt der Endprüfung vorbehalten.
+3. **Rekonstruierte Prüfgrundlagen vor großflächiger Anwendung bestätigen.** Neu berechnete Karten, Masken oder Klassenregeln
+   gelten als unbestätigt, bis Opus-PM sie mit dem tatsächlich gebauten Zustand im Editor verglichen hat – an Fällen, die
+   geändert werden sollen, und an Fällen, die erhalten bleiben müssen. Danach folgt eine begrenzte Pilot-Anwendung mit
+   Sicherung, dokumentiertem Rückweg, festen Vorher-/Nachher-Kameras und erneutem Zensus. Erst nach bestandener Prüfung des
+   Piloten wird ausgeweitet. Bei Widersprüchen wird das betroffene Gebiet ausgelassen und der Befund im Auftrag festgehalten.
+
+Welche Stände, Vergleichsfälle und Freigaben konkret gelten, steht im jeweiligen Auftrag (einziger Auftragsstatus).
+
 ## 6. Fable nur am Ende einsetzen
 
 Opus-PM definiert den Umfang eines vollständigen Auftrags beim Start. Ein einzelnes
