@@ -242,6 +242,18 @@ Gilt für alle Arbeitspakete (Assets, Werkzeuge, Welt-Eingriffe); von Codex im A
    geändert werden sollen, und an Fällen, die erhalten bleiben müssen. Danach folgt eine begrenzte Pilot-Anwendung mit
    Sicherung, dokumentiertem Rückweg, festen Vorher-/Nachher-Kameras und erneutem Zensus. Erst nach bestandener Prüfung des
    Piloten wird ausgeweitet. Bei Widersprüchen wird das betroffene Gebiet ausgelassen und der Befund im Auftrag festgehalten.
+4. **Jedes veränderte Paket gespeichert belegen** (Codex, 18.10.). Vor einem Eingriff ermittelt das Werkzeug die betroffenen Pakete.
+   Enthält eines davon bereits ungespeicherte Änderungen, wird der Eingriff blockiert und Opus-PM klärt den Zustand; fremde
+   Änderungen werden weder automatisch mitgespeichert noch verworfen. Nach dem Eingriff braucht jedes tatsächlich veränderte
+   Paket einen erfolgreichen Speicherbeleg; fehlende oder fehlgeschlagene Speicherung ergibt keinen Erfolgsstatus. Bei
+   ungespeicherten Änderungen oder unklarem Speicherzustand ist ein automatischer Neustart gesperrt. Der Beleg unterscheidet
+   „im Speicher verändert“, „erfolgreich gespeichert“ und „nach erneutem Laden bestätigt“. Ein unterbrochener Lauf wird nicht
+   blind wiederholt; zuerst Protokoll, Speicherstand und Projektzustand prüfen.
+5. **Abweichende Eingabestände blockieren die Änderung.** Vor Sicherung und Änderung müssen Auswahl, Auswertung und eingefrorener
+   Eingabestand über Standbezeichnung und SHA-256 zusammenpassen; Zeitstempel allein genügen nicht. Fehlt ein Nachweis oder
+   weicht er ab: vor der Änderung abbrechen, Befund festhalten, Auswertung auf einem neuen konsistenten Stand wiederholen.
+   Keine Warnung übergehen, keine Prüfsumme nachträglich passend schreiben. Zusätzlich im Editor prüfen, dass die ausgewählten
+   Objekte noch dem geprüften Zustand entsprechen; Dateiprüfsummen allein belegen das nicht.
 
 Welche Stände, Vergleichsfälle und Freigaben konkret gelten, steht im jeweiligen Auftrag (einziger Auftragsstatus).
 
