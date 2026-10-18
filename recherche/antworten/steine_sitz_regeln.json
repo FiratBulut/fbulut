@@ -1,0 +1,260 @@
+{
+  "_doku": {
+    "zweck": "Regeln 'sitzt organisch im Boden' fuer Steine, Platten, Kleinschutt-Flaechen und Totholz (Antwort 23, Ferats Bild C2 Talkaskade). Grundlage fuer die lokale Pruefung v4 (Rolle 1), das Werkzeug 'umsetzen' (Rolle 4) und die Planer (Frage 8).",
+    "lesen": "Nur JSON. Laengen in m, Winkel in Grad, Anteile 0-1. Referenz-Umsetzung (nur Python-Standardbibliothek) steht in Antwort 23 §7 (sitz_pruefung.py, Selbsttest). Die Grenzwerte im Code sind dieselben wie hier unter 'klassen'; mit --regeln <diese Datei> liest der Code sie von hier.",
+    "bezug": {
+      "gelaende_H": "hoehe.f32, 1-m-Raster, bilinear; Nanite-Displacement der Landschaft ist aus (Antwort 21), die Landschaft ist also das Hoehenfeld",
+      "wasser_W": "gezeichneter Spiegel des zum Pruefzeitpunkt gespeicherten Stands (heute BAKED_SIM mit Glaettungsbreite 5; nach Ferats Freigabe von T6N1 ggf. Breite 1, Antwort 6o), Dump-ID mitschreiben, W = R + Akteurhoehe; nur Zellen 'sichtbar_1' (nass und W - H > 0,01) zaehlen als Wasser (6k §3.1). Nie den Dump-Boden R - G auf trockenen Zellen verwenden (6m/6n: Ausgabe-Artefakt).",
+      "traeger_T": "Traegerflaeche je Punkt = max(H, Oberseite jeder anderen Fels-/Holz-Instanz, die die senkrechte Linie durch den Punkt unterhalb von z + 0,10 m schneidet)",
+      "unterseite": "Stufe A (Zensus + Netzgrenzen): 7 x 7 Punkte der Unterseite der Box (lokal z = min_z). Fuer Steine und Fels nur die Kern-Ellipse (Halbachsen 0,6 x halbe Box), weil Felsen unten nicht kastenfoermig sind (wie 16h N5: Auflage 60 % der Huelle). Stufe B (Punktwolke aus dem Editor): untere Huelle = je 10-cm-Zelle des lokalen Grundrisses der tiefste Netzpunkt; bei Steinen und Fels ebenfalls nur in der Kern-Ellipse, weil die Flanke eines runden Steins keine Luecke ist. Talseitige Grenzen fuer Fels (punktwolke_talseite_*) sind noch nicht im Referenzcode.",
+      "d_i": "d_i = z_i - T(x_i, y_i) je Unterseitenpunkt; > 0 Luecke, < 0 im Boden bzw. im Traeger",
+      "luecke_max": "max(d_i)",
+      "deckung": "Anteil der Unterseitenpunkte mit d_i <= toleranz_kontakt (ersetzt v2 'Unterkante ueber dem hoechsten von 5 Bodenpunkten')",
+      "eingrab_hoehe": "(Median H unter den Unterseitenpunkten - z_min) / (z_max - z_min), z aus den 8 Boxecken bzw. der Punktwolke",
+      "eingrab_dicke": "Mittel ueber die Unterseitenpunkte von clamp(-(z_i - H_i) / T_dicke, 0, 1); fuer Platten und Kleinschutt-Flaechen",
+      "winkel_normale": "Winkel zwischen der duennsten Netzachse (Welt) und der Normale der Ausgleichsebene des Gelaendes ueber die Unterseitenpunkte",
+      "planaritaet": "max |H_i - Ausgleichsebene_i| ueber die Unterseitenpunkte",
+      "kante_frei": "max(z - H) ueber 32 Punkte am Rand der Oberseite",
+      "durchdringung": "Eindringtiefe zweier gedrehter Boxen (Trennachsen-Test, 15 Achsen), relativ zur kleineren Dicke",
+      "schwerpunkt": "Boxmitte (bei Wurzeltellern Punktwolken-Schwerpunkt) senkrecht projiziert; muss in der konvexen Huelle der Kontaktpunkte liegen, Rand >= 10 % der halben Grundbreite",
+      "treiben": "Instanz mit >= 50 % Unterseite ueber sichtbarem Wasser und luecke_max > toleranz_wasser gegen das echte Bett H (bzw. einen Traeger)",
+      "totholz_achse": "Punkte alle 0,25 m entlang der langen Achse an der Unterkante; Stuetzen = Punkte mit d <= 0,03 m; Kragarm = Abstand vom Schwerpunkt zur naechsten Stuetze, wenn der Schwerpunkt ausserhalb [erste, letzte Stuetze] liegt, sonst groesster freier Ueberstand jenseits der aeussersten Stuetze"
+    },
+    "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
+  },
+  "version": "23.1",
+  "stand": "2026-10-18 (Auftrag 23)",
+  "erkennung": {
+    "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
+    "kleinschutt_muster": ["RockyGround", "ErodedRockyGround", "BeachSandWithPebbles", "DryRiverBed", "GroundPatch", "ground_patch"],
+    "totholz_muster": {
+      "stumpf": ["Stump", "stump"],
+      "wurzel": ["Roots", "roots", "root_", "Root_"],
+      "holz": ["Branch", "branch", "bark_debris", "log", "Log", "Fallen", "Trunk", "trunk", "driftwood"],
+      "stamm_oder_ast": "Holz-Netz mit L >= 2,0 und B >= 0,2 ist Stamm, sonst Ast (SM_OldTreeBranch_02 mit 6,84 m ist also ein Stamm)"
+    },
+    "kleinschutt_form": "T / L <= 0,12 und L >= 1,5 und T <= 0,35",
+    "platte_form": "T / B <= 0,35 und L >= 0,3 (und kein Kleinschutt)",
+    "fels_ab_L_m": 1.0,
+    "stein_ab_L_m": 0.3,
+    "kiesel_unter_L_m": 0.3,
+    "wurzelteller": "Stamm-Netz, dessen 10-%-Endscheibe (Punktwolke) >= 1,8 x den Querschnitt der anderen Endscheibe hat; vorlaeufig Liste unten, lokal pruefen",
+    "wurzelteller_kandidaten": ["SM_FallenSpruceTree_01", "SM_LargeFallenTree_01"],
+    "nicht_im_bergbach": ["SM_beach_driftwood_01"]
+  },
+  "toleranzen": {
+    "kontakt_m": 0.03,
+    "wasser_m": 0.02,
+    "raster_zuschlag_stufe_a_m": 0.02,
+    "kern_ellipse": 0.6,
+    "spiegelrand_m": 0.03,
+    "_doku": "raster_zuschlag nur in Stufe A (Box + 1-m-Raster) auf alle Luecken-Grenzen; Stufe B (Punktwolke + Line-Trace) ohne Zuschlag"
+  },
+  "klassen": {
+    "fels": {
+      "_doku": "groesste Ausdehnung >= 1,0 m, nicht flach. Detailgrad K4/Stapel/Fuss, felsgruppen hero/block, bachdekor fels/uferblock.",
+      "eingrab_hoehe": {"ziel": [0.25, 0.5], "fehler_unter": 0.15, "fehler_ueber": 0.75},
+      "luecke_max_m": {"kern_stufe_a": 0.06, "punktwolke_bergseite": 0.05, "punktwolke_talseite_anteil_h": 0.15, "punktwolke_talseite_max": 0.3},
+      "deckung_min": 0.6,
+      "winkel_normale_max": 30,
+      "winkel_gilt_wenn_T_durch_L_unter": 0.6,
+      "frei_liegend": {"wo": ["halde 26-40 Grad", "blockfeld", "gleithang-kiesbank"], "eingrab_min": 0.1, "kontakte_min": 3, "lange_achse_zur_falllinie_max": 25},
+      "begruendung": "[Fach] Bloecke in Bergbaechen und Halden sind gesetzt oder verkeilt (Keystones), auf Halden liegen die Langachsen hangabwaerts. [Projekt] 20: K4 35-50 %, felsgruppen block 25-38 %, hero 25-35 %. [Gestaltung] 1/3 eingegraben ist der Spielstandard; ueber 3/4 wirkt der Block wie eine Gelaendebeule."
+    },
+    "stein": {
+      "_doku": "0,3-1,0 m (K3).",
+      "eingrab_hoehe": {"ziel": [0.3, 0.5], "fehler_unter": 0.2, "fehler_ueber": 0.8},
+      "luecke_max_m": {"kern_stufe_a": 0.03, "punktwolke": 0.03},
+      "deckung_min": 0.7,
+      "winkel_normale_max": 25,
+      "winkel_gilt_wenn_T_durch_L_unter": 0.6,
+      "frei_liegend": {"wo": ["halde", "kiesbank", "hochwasserbett"], "eingrab_min": 0.15},
+      "begruendung": "[Projekt] 20: K3 33-50 %, Kontakt >= 60 % mit Nachbar. [Fach] Steine liegen mit der flachen Seite parallel zur Unterlage (stabile Lage); Kippung gegen den Hang nur in Haufen (20: 10-25 Grad je Haufen)."
+    },
+    "kiesel": {
+      "_doku": "< 0,3 m (K1 Kies, K2 Schutt).",
+      "eingrab_hoehe": {"ziel": [0.4, 0.6], "fehler_unter": 0.25, "fehler_ueber": 0.9},
+      "luecke_max_m": {"kern_stufe_a": 0.015, "punktwolke": 0.015},
+      "deckung_min": 0.8,
+      "winkel_normale_max": 25,
+      "winkel_gilt_wenn_T_durch_L_unter": 0.7,
+      "traeger_neigung_max": 25,
+      "begruendung": "[Projekt] 20: K2 40-60 %. [Fach] Reibungs-/Schuettwinkel um 30-35 Grad: auf steileren Flaechen bleibt loses Kleinzeug nicht liegen; 25 Grad laesst Sicherheitsabstand. Kiesel obenauf auf schraegen Platten (Ferat Kreis 1) ist deshalb FEHLER."
+    },
+    "platte": {
+      "_doku": "duenn (T/B <= 0,35), liegend als Standard. Ausnahmen: Dachziegel im Wasser, Ausbiss nur in erklaerten Rollen.",
+      "eingrab_dicke": {"ziel": [0.3, 0.6], "fehler_unter": 0.15},
+      "luecke_max_m": {"formel": "min(0,25 x T, 0,04)"},
+      "deckung_min": {"stufe_a": 0.85, "punktwolke": 0.7},
+      "winkel_normale_max": 12,
+      "winkel_gestaltung": [0, 8],
+      "kante_frei_m": {"formel": "0,6 x T + 0,03"},
+      "planaritaet_m": {"formel": "0,5 x T"},
+      "gras_unter_platte": "Grasdichte-Maske unter dem Grundriss + 0,3 m auf 0; Landschaftslage dort Felsplatte/Geroell/Kies",
+      "dachziegel": {
+        "gilt": ">= 50 % der Unterseite ueber sichtbarem Wasser oder Uferband d <= 0,6 m, Fliessrichtung bekannt",
+        "winkel_zum_bett": [8, 30],
+        "kipprichtung": "Normale der Platte zeigt waagrecht stromauf (Abweichung <= 45 Grad); die stromab liegende Kante ist die hohe",
+        "deckung_stromauf_haelfte_min": 0.8,
+        "luecke_max_m": "min(0,15; 0,6 x T + 0,5 x L x sin(winkel))",
+        "lange_achse": "parallel zur Stroemung +-20 Grad (16h C4) oder quer +-20 Grad (Kiesel a(t)b(i)); nicht 30-60 Grad schraeg",
+        "ueberlappung": "stromab liegende Platte mit ihrem stromauf-Ende UNTER dem stromab-Ende der oberen Platte, 10-30 % von L",
+        "begruendung": "[Fach] Imbrikation: a-b-Ebenen fallen stromauf ein, gemessene Mittel 22-38 Grad, Wasserschotter Median etwa 35 Grad, ueber 50 Grad eher Murgang [Suchauszuege]. [Gestaltung] 8-30 Grad, damit es im Spiel als Strömungslage und nicht als 'Brett' liest."
+      },
+      "ausbiss": {
+        "gilt_nur_fuer_rollen": ["felsgruppen:band", "felsgruppen:wand", "klippenband_B5", "detailgrad:wand"],
+        "hang_min_grad": 30,
+        "gruppe": {"min_stueck": 3, "radius_m": 6, "fallrichtung_streuung_max": 15, "fallwinkel_streuung_max": 10},
+        "verborgen_min": 0.5,
+        "kante_frei_max_m": "min(0,5 x L, 0,6)",
+        "dicke_min_m": 0.15,
+        "lagen_um_fels_min": 0.5,
+        "begruendung": "[Fach] Schichtausbisse zeigen in einer Gruppe einheitliches Streichen und Fallen. [Gestaltung] Nur erklaerte Rollen duerfen stehen; eine Bodenplatte der Rolle 'platte' wird nie zum Ausbiss erklaert."
+      },
+      "begruendung": "[Fach] Platten liegen stabil mit der grossen Flaeche auf. [Projekt] felsgruppen platten: Z = Gelaendenormale, >= 50 % eingegraben, Schwebetoleranz 5 cm; 20: Platten 60-80 % der Netzhoehe. [Ableitung] Eine 3,5-6 m grosse Platte kann einem gekruemmten Ufer nicht folgen; daher Planaritaet und Kante als eigene Grenzen."
+    },
+    "kleinschutt": {
+      "_doku": "sehr duennes Netz mit Kies-/Schutttextur (RockyGround, Eroded usw.), nur flach auflegen.",
+      "eingrab_dicke": {"ziel": [0.4, 0.7], "fehler_unter": 0.25},
+      "luecke_max_m": 0.02,
+      "deckung_min": 0.9,
+      "winkel_normale_max": 5,
+      "kante_frei_m": {"formel": "0,5 x T + 0,02"},
+      "planaritaet_m": {"formel": "0,4 x T"},
+      "hang_max_grad": 38,
+      "im_wasser": {"bett_neigung_max": 15, "oberkante_unter_W_m": 0.05, "nicht_an_lippen": true},
+      "begruendung": "[Fach] Halden 30-37 Grad, Schuettwinkel um 35 Grad. [Gestaltung] Eine Kiestextur auf einem schraegen Brett ist sofort als Fehler lesbar (Ferat Kreise 5, 6, 8); daher nur flach, fast ganz im Boden, ohne freie Kante."
+    },
+    "totholz_stamm": {
+      "eingrab_durchmesser": [0.05, 0.35],
+      "kontakt_anteil_liegend_min": 0.5,
+      "kragarm_max_anteil_L": 0.25,
+      "schwerpunkt_zwischen_stuetzen": true,
+      "achse_folgt_gelaende_max": 10,
+      "bruecke": {"auflage_je_ende_min_m": 0.5, "auflage_kontakt_min": 0.5, "unterkante_ueber_W_min_m": 0.1, "unterkante_ueber_W_ziel_m": [0.15, 0.35], "winkel_zur_stroemung": [60, 90], "laenge_zu_breite": [1.3, 2.5]},
+      "rampe": "ein Ende auf dem Ufer (Kontakt), das andere auf dem Bett (Kontakt), dazwischen frei; Schwerpunkt zwischen den Stuetzen",
+      "treiben": "kein Achsenpunkt ueber sichtbarem Wasser unter W ohne Kontakt zum Bett",
+      "begruendung": "[Fach] In kleinen Bergbaechen liegen umgestuerzte Staemme meist quer (Bruecke), auf den Ufern abgestuetzt, oft jahrelang ueber dem Gerinne; Teilbruecke/lose/vergraben mit zunehmendem Zerfall. Wurzelteller bleiben am Ufer. [Projekt] p2bett: Auflage 0,15-0,35 m ueber Spiegel, Laenge 1,15-1,45 x Breite (hier strenger: Auflage je Ende >= 0,5 m)."
+    },
+    "totholz_ast": {
+      "kontakt_anteil_min": 0.5,
+      "kragarm_max_anteil_L": 0.3,
+      "im_wasser": {"kontakt_anteil_min": 0.7, "oder_verkeilt": "ein Ende an einem Stein >= 0,3 m auf dessen Stromauf-Seite", "lange_achse_zur_stroemung_max": 30},
+      "begruendung": "[Fach] Kleines Holz wird von der Stroemung ausgerichtet und an Steinen verkeilt; frei im Wasser schwebende Aeste gibt es nicht."
+    },
+    "totholz_stumpf": {
+      "achse_zu_welt_z_max": 8,
+      "eingrab_m": [0.05, 0.2],
+      "luecke_talseite_max_anteil_D": 0.1,
+      "begruendung": "[Fach] Baeume wachsen lotrecht, nicht nach der Hangnormale; der Stumpf steht daher senkrecht, talseits darf der Wurzelanlauf frei liegen."
+    },
+    "totholz_wurzel": {
+      "_doku": "flache Wurzelnetze (ForestRoots, MossyForestRoots)",
+      "luecke_max_m": 0.03,
+      "deckung_min": 0.75,
+      "winkel_normale_max": 10,
+      "eingrab_dicke": {"ziel": [0.2, 0.5], "fehler_unter": 0.1}
+    },
+    "wurzelteller": {
+      "ort": "am Ufer: >= 50 % des Tellergrundrisses auf trockenem Gelaende, Teller >= 0,3 m hinter der Wasserkante",
+      "im_wasser_nur": "Rampe, Teller mit >= 40 % Bettkontakt, Wassertiefe <= 0,5 x Tellerhoehe, Stamm laeuft zum Ufer hinauf; in Baechen < 6 m Breite der Talkaskade nie",
+      "begruendung": "[Fach] Rekrutierung durch Ufererosion und Windwurf: der Wurzelteller bleibt am Ufer, der Stamm faellt meist senkrecht zum Gerinne."
+    }
+  },
+  "wasser": {
+    "eingrab_im_bett": {"fels": [0.3, 0.5], "keystone": [0.4, 0.6], "stein": [0.3, 0.5], "kiesel": [0.5, 0.8]},
+    "luecke_max_m": 0.02,
+    "deckung_min": 0.8,
+    "auftauchen": {"erlaubt_ab_L_m": 0.4, "max_anteil_h": 0.6, "klein_unter_L_m": 0.2, "klein_nur_wenn_tiefe_unter_m": 0.08, "spiegelrand_warnung_m": 0.03},
+    "kleinschutt": "liegt auf dem Bett, Oberkante <= W - 0,05, Bettneigung <= 15 Grad, nie an Lippen und Stufenwaenden",
+    "aeste": "auf dem Bett (Kontakt >= 70 %) oder verkeilt, Langachse +-30 Grad zur Stroemung, dunkel (Y 0,04-0,08)",
+    "begruendung": "[Fach] Bettsteine sind eingebettet; Keystones sind zwischen den Ufern verkeilt. [Projekt] 6k §3.1 'sichtbar'; 6d Zielhelligkeit unter Wasser Y 0,08. [Gestaltung] Klares Wasser zeigt jede Luecke, daher 2 cm."
+  },
+  "stapel": {
+    "getragen": {
+      "schwerpunkt_in_kontakthuelle_rand": 0.1,
+      "kontakte_min": 3,
+      "kontakt_anteil_min": {"block": 0.15, "platte": 0.4, "kiesel": 0.3},
+      "traeger_neigung_max": 30
+    },
+    "durchdringung": {
+      "bloecke_max_anteil_T": 0.35,
+      "platte_in_block_max_anteil_T": 0.5,
+      "platte_platte_parallel_max_winkel": 10,
+      "platte_platte_parallel_max_anteil_T": 0.3,
+      "platte_platte_kreuzend_ab_winkel": 20,
+      "platte_platte_kreuzend_max_anteil_T": 0.1
+    },
+    "begruendung": "[Fach] Ein Stein ist getragen, wenn sein Schwerpunkt ueber der Auflage liegt und die Auflage nicht steiler als der Reibungswinkel ist. [Projekt] 20: Stapel 2-4 Bloecke ueberlappend, 2. Lage 35 % in der 1. verkeilt. [Gestaltung] Verzahnung bis 1/3 der Dicke liest als ein Koerper; eine Platte, die eine andere schraeg durchsticht, nie."
+  },
+  "farbe": {
+    "_doku": "Mittelwerte der BaseColor-Textur (linear) je Netz/MI, wie stein_albedo.json; HSV auf sRGB.",
+    "trocken_Y": [0.07, 0.22],
+    "nass_unter_wasser_Y": [0.06, 0.09],
+    "saettigung_max": 0.25,
+    "saettigung_neutral_bis": 0.12,
+    "warmton_hue_grad": [20, 60],
+    "orange": {"hue_grad": [10, 45], "saettigung_ab": 0.35, "urteil": "FEHLER als ganzer Stein; nur als Patina-Maske <= 30 % der Oberflaeche, S <= 0,45, Y <= 0,12, an Spiegellinie/Sickerstellen, <= 5 % der Steine je 50 m"},
+    "weiss": {"Y_trocken_ab": 0.3, "Y_nass_ab": 0.12, "relativ_zum_median_ab": 2.0, "urteil": "WARNUNG; Quarzgeroell hoechstens 1 je 20 m, <= 0,15 m, nicht gehaeuft; sonst FEHLER"},
+    "gemessen_projekt": {"SM_SmallStonesPack": 0.125, "SM_mountain_rock_small": 0.229, "bett_unter_wasser": 0.067},
+    "reparatur": ["Netz gut, graues MI vorhanden -> MI tauschen (mit Nasslinie, nie doppelt abdunkeln, 6d)", "Textur fest orange/weiss, kein graues MI -> Netz gleicher Groessenklasse aus der Rollenpalette", "Kiesel < 0,15 m im Wasser -> entfernen"]
+  },
+  "reparatur": {
+    "reihenfolge": [
+      "0 Sperren: Sehens-Orte, Akteure, V0-Zonen nur melden",
+      "1 Schicht fuer Schicht von unten: zuerst Instanzen mit Gelaende-Kontakt, dann 2. Lage; nach jeder Aenderung der Traeger die getragenen neu pruefen",
+      "2 innerhalb einer Schicht gross vor klein: Fels, Platte, Stein, Kleinschutt, Kiesel",
+      "3 Totholz nach den Steinen (liegt auf Ufern und Steinen)",
+      "4 Farbe zuletzt, nur an verbleibenden Instanzen"
+    ],
+    "schritte": [
+      {"name": "neu_setzen_ort", "aendert": "z, Pitch, Roll, Yaw +-20", "bedingung": "Pruefung danach bestanden"},
+      {"name": "neu_setzen_versatz", "aendert": "zusaetzlich XY", "xy_max_m": "min(0,5; 0,25 x L); Totholz laengs 0,5, quer 0,3", "verbot": "kein Wechsel nass/trocken, nicht ueber die Uferkante, nicht in Lippen-/Hauptstrahlzone, nicht auf Wege, Mindestabstaende der Planer"},
+      {"name": "verkleinern", "skala_faktor": [0.8, 1.0], "nur": "Platte, Kleinschutt", "bedingung": "Groessenklasse bleibt, gleichmaessig, nie vergroessern"},
+      {"name": "ersetzen", "durch": "kleineres/duenneres Netz derselben Rollenpalette; Platte -> 2-4 Steine K3; Kleinschutt -> Lage Kies/Geroell + 3-6 K2"},
+      {"name": "entfernen", "wann": "nichts davon besteht oder die Rolle ist im Umkreis schon gedeckt; Sicherung je Instanz wie v3"}
+    ],
+    "schicht_neu_planen_ab_fehleranteil": 0.3,
+    "swr_hindernis": "Steine >= 0,4 m im Wasser oder <= 1 m daneben: im Piloten nur z/Drehung, kein XY, nicht entfernen; Liste fuer einen eigenen Schritt mit Hindernis-Neubau, Reset und Bake",
+    "sicherung": "je Instanz Alt- und Neu-Transformation, Netz, Foliage-Typ, Regelversion 23.1, Test-ID, Fehlerklassen und Messwerte"
+  },
+  "pruef_faelle_synthetisch": [
+    {"nr": "F1", "fall": "Platte flach, 50 % der Dicke im Boden", "soll": "ok"},
+    {"nr": "F2", "fall": "Platte 25 Grad gekippt, eine Ecke beruehrt den Boden", "soll": "FEHLER luecke, winkel, kante (v2: ok)"},
+    {"nr": "F3", "fall": "Platte 10 cm ueber dem Boden", "soll": "FEHLER luecke"},
+    {"nr": "F4", "fall": "Platte auf 30-Grad-Hang, normal ausgerichtet, halb im Boden", "soll": "ok"},
+    {"nr": "F5", "fall": "Platte ueber konvexem Hangknick", "soll": "FEHLER luecke, kante"},
+    {"nr": "F6", "fall": "Kleinschutt-Flaeche flach, halb im Boden", "soll": "ok"},
+    {"nr": "F7", "fall": "Kleinschutt-Flaeche ueber Hangknick", "soll": "FEHLER planaritaet, kante"},
+    {"nr": "F8", "fall": "Stein 40 % eingegraben", "soll": "ok"},
+    {"nr": "F9", "fall": "Stein 6 cm schwebend", "soll": "FEHLER luecke, eingrab"},
+    {"nr": "F10", "fall": "Kiesel auf 30-Grad-Platte", "soll": "FEHLER traeger_neigung"},
+    {"nr": "F11", "fall": "Stein mittig auf Block", "soll": "ok"},
+    {"nr": "F12", "fall": "Stein ueber der Blockkante, Schwerpunkt aussen", "soll": "FEHLER schwerpunkt, luecke"},
+    {"nr": "F13", "fall": "zwei Platten kreuzen sich unter 40 Grad", "soll": "FEHLER durchdringung"},
+    {"nr": "F14", "fall": "Stamm als Bruecke, beide Enden auf dem Ufer", "soll": "ok"},
+    {"nr": "F15", "fall": "Stamm mit Schwerpunkt ueber dem Wasser, ein Ende in der Luft", "soll": "FEHLER schwerpunkt/kragarm"},
+    {"nr": "F16", "fall": "Stein im Wasser 5 cm ueber dem Bett", "soll": "FEHLER treiben"},
+    {"nr": "F17", "fall": "Block im Wasser 40 % im Bett, ragt 6 cm heraus", "soll": "ok"},
+    {"nr": "F18", "fall": "Stumpf 20 Grad schief", "soll": "FEHLER stumpf_achse"},
+    {"nr": "F19", "fall": "Stumpf lotrecht, 10 cm im Boden", "soll": "ok"},
+    {"nr": "F20", "fall": "drei Ausbiss-Platten mit gleichem Fallen am 30-Grad-Hang (Rolle band)", "soll": "ok"},
+    {"nr": "F21", "fall": "dieselbe Platte allein (Rolle platte)", "soll": "FEHLER"},
+    {"nr": "F22", "fall": "Dachziegel im Bett, 15 Grad, stromauf einfallend", "soll": "ok"},
+    {"nr": "F23", "fall": "dieselbe Platte stromab einfallend", "soll": "FEHLER winkel"},
+    {"nr": "F24", "fall": "Farben grau / orange / weiss", "soll": "ok / FEHLER / WARNUNG"},
+    {"nr": "F25", "fall": "Stein als Punktwolke (Ellipsoid), 35 % im Boden, Stufe B", "soll": "ok"},
+    {"nr": "F26", "fall": "derselbe Stein 4 cm ueber dem Boden, Stufe B", "soll": "FEHLER luecke"}
+  ],
+  "quellen": {
+    "IMBRIKATION": "Suchauszuege: Galvin 2002 GSA (a-b-Ebenen neigen stromauf), Sub-Himalaya-Studie (mittlere AB-Neigung 22,6-37,6 Grad), Studie an 1 007 Klasten (Median etwa 35 Grad Wasserschotter, 47 Debris-Flood, 65 Murgang); https://gsa.confex.com/gsa/2002AM/webprogram/Paper45012.html, https://repository.ias.ac.in/67306, https://boris.unibe.ch/119827/1/esurf-6-743-2018.pdf",
+    "HALDE": "Suchauszuege: Wikipedia Scree/Angle of repose (konkav, Maximalneigung = Schuettwinkel), Francou & Mante (naehert sich 35 Grad), trockene Halden versagen ueber 33-37 Grad; Langachsen hangabwaerts (Tuckerman Ravine, Montana, Chaos Crags); https://en.wikipedia.org/wiki/Scree, https://deepblue.lib.umich.edu/bitstream/2027.42/25798/1/0000360.pdf, https://scholarworks.montana.edu/bitstreams/e54f20bf-a5b1-4470-9b4e-ac4d91ab8d89/download",
+    "STEP_POOL": "Suchauszuege: Keystones verkeilen sich quer im Gerinne, bevorzugt an Engstellen; https://esurf.copernicus.org/preprints/esurf-2020-30/esurf-2020-30.pdf, https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/2507304",
+    "EINBETTUNG": "Suchauszuege: embeddedness = Anteil, zu dem Steine in Feinmaterial stecken, Klassen 0-25/26-50/51-75/76-100 %; https://dep.wv.gov/WWE/getinvolved/sos/Pages/SOPhabitat.aspx, https://apps.dtic.mil/sti/pdfs/ADA434902.pdf",
+    "TOTHOLZ": "Suchauszuege: Jones, Daniels & Powell 2011 (Klassen Bruecke, Teilbruecke, lose, vergraben; junge Staemme quer, ueber dem Gerinne), BC-Studie (meist senkrecht zum Gerinne, jahrelang ueber dem Bach), Karpaten (Rekrutierung durch Ufererosion/Windwurf; Laenge/Gerinnebreite bestimmt die Verankerung an den Ufern); https://friresearch.ca/resource/abundance-and-function-large-woody-debris-small-headwater-sterams-rocky-mountain-foothills, https://www.bcwatertool.ca/info-sources/coast/result.php?q=NTk%3D, https://www.iop.krakow.pl/pobierz-publikacje,1869",
+    "EISEN": "Suchauszuege: orange Flecken auf Granit durch umgelagertes Fe2+ als Hydroxid (duenner Belag); orange Baeche = oxidiertes Eisen, oft mit Schwermetallen; https://revista.ipt.br/revistaIPT/en/article/view/126/137, https://www.usgs.gov/centers/alaska-science-center/multimedia/images?page=10",
+    "UNREAL": "Suchauszuege: Foliage Align to Normal / Align Max Angle / Random Pitch / Z Offset (https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/FoliageType), RVT fuer Landschafts- und Objektblend (https://dev.epicgames.com/documentation/en-us/unreal-engine/virtual-texturing-in-unreal-engine), Polycount RVT-Blend-Anleitung (https://polycount.com/discussion/comment/2711284), UE-5.8-Forum: RVT gibt nur Grundfarbe aus (https://forums.unrealengine.com/t/runtime-virtual-texture-only-outputs-landscape-base-color-instead-of-painted-landscape-layers-ue-5-8/2739603)",
+    "SETZEN": "Suchauszug: Landschaftsbau-Anleitung, Fels zu 1/3-1/2 seiner Hoehe eingraben, Unterteil unsichtbar (https://landscapearchitect.com/landscape-articles/rockin-a-hard-place)",
+    "PROJEKT": "20 (detailgrad_regeln.json), felsgruppen_regeln.json (platten, rollen), p2_bett_regeln.json (ausstattung_6e.totholz), bachbett_ufer_regeln.json C_ufer.steine, 6d/6e (Helligkeit), 6i (Slab-Pivot +Y), 6k §3.1 / 6m / 6n / 6o (Wasser), 21 (Nanite-Displacement aus), 22 §6 (Sicherung)"
+  }
+}
