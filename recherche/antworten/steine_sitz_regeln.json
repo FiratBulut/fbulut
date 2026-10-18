@@ -22,11 +22,12 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.2",
-  "stand": "2026-10-18 (Auftrag 23, Nachtrag 23b)",
+  "version": "23.3",
+  "stand": "2026-10-18 (Auftrag 23, Nachtraege 23b und 23c)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
-    {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."}
+    {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
+    {"version": "23.3", "stand": "2026-10-18", "quelle": "Antwort 23c", "inhalt": "neu: verteilung (Fenster, Kennzahlen, Ziele je Biom, Gradienten, Groesse, Netz, Totholz, Fremdgestein), ringe (Herkunft im Repo, Detektor, erklaerte Ringe, Gruppenkohaerenz, Aufloesen), haengend (Eiszapfen: Ort, Pruefung, Planerbefund, Material), farbe_untergrund (CIELAB gegen Lage am Ort), reparatur_23_3 (Gesamtreihenfolge, Verteilungsschritte, Entfernungsgrenzen), planer_verteilung; Prueffaelle V1-V10, H1-H4, U1-U4. Alle Schluessel aus 23.1/23.2 unveraendert; sitz_pruefung.py und wiederholung_23b.py lesen die Datei mit unveraenderten Signaturen."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -308,6 +309,300 @@
     "familie": "Netzwahl nach 'am laengsten nicht benutzt im Fenster' aus der Familie der Rolle; Familie = gleiches Gestein und gleiche Groessenklasse (Liste je Planer anzulegen)",
     "nachpruefung": "pruefe_wiederholung vor dem Schreiben wie sitz_pruefung (Setzer-Vertrag 23 §11)"
   },
+  "verteilung": {
+    "_doku": "23.3 (Antwort 23c): Verteilung auf Fensterebene. Gilt je Klasse (fels, stein, kiesel, totholz_stamm) und zusaetzlich fuer 'stein+fels' (L >= 0,3 m), je Planerschicht (Foliage-Typ-Praefix) und gemeinsam. Referenzcode verteilung_23c.py (Antwort 23c §10). Zielwerte sind Gestaltungswerte fuer das Witcher/RDR2-Ziel, im Pilot T23c-1 an Ferats Bildurteil zu kalibrieren; Literatur nur fuer die Messverfahren.",
+    "fenster": {
+      "groesse_m": 50,
+      "schritt_m": 25,
+      "maske": "Flaeche A = Zellen der zulaessigen Maske im Fenster (Biom/Lagen der Klasse, ohne Wasser, Wege, Orte); Punkte ausserhalb der Maske zaehlen nicht",
+      "randkorrektur": "Rechteckfenster mit Maskenanteil >= 0,9: Donnelly (1978) wie spatstat clarkevans; sonst Rand-(Guard-)Korrektur 5 m auf der Maske; Ripley K mit isotroper Randkorrektur",
+      "band": "Ufer-, Strandwall-, Wandfuss-Baender (Breite < 15 m) nicht als 2D-Fenster bewerten, sondern laengs mit reihe_cv und Dichte je 10 m"
+    },
+    "kennzahlen": {
+      "n_min": {
+        "clark_evans": 30,
+        "l_funktion": 50,
+        "netz_50m": 20,
+        "groesse": 50,
+        "ausrichtung": 15
+      },
+      "ce_gleichmaessig_fehler": 1.1,
+      "zelle_m": 10.0,
+      "netz_anteil_max_50m": 0.35,
+      "netz_min_50m": 4,
+      "groesse_p90_p10_min": 2.5,
+      "groesse_b": [
+        1.8,
+        3.0
+      ],
+      "reihe_cv_fehler": 0.35,
+      "l_funktion": "L(r) - r fuer r = 1, 2, 4, 8 m; FEHLER 'gleichmaessig', wenn L(1)-1 <= -0,3 m und R > 1,10; WARNUNG 'ohne Gruppen', wenn max L(r)-r fuer r 2-8 m < +0,3 m (ausser Halde/Blockfeld)",
+      "quadrate": "10-m-Zellen der Maske: VMR = Varianz/Mittel der Zahl je Zelle (1 = zufaellig, < 1 gleichmaessig, > 1 geklumpt), leer = Anteil Zellen ohne Stueck",
+      "neigung_streuung_min_grad": 6,
+      "neigung_streuung": "Stein/Fels (nicht Platte), n >= 20: Standardabweichung des Winkels lokale Z-Achse zur Gelaendenormale < 6 Grad -> WARNUNG 'alle aufrecht' (Bild C6_28)",
+      "ausrichtung": "Achsdaten (Langachse L/B >= 1,5), Winkel verdoppelt: Rbar2, Rayleigh-p, Lage zur Falllinie mittel cos(2(theta - Fall))"
+    },
+    "ziele_je_biom": {
+      "_doku": "Stein+Fels >= 0,3 m im 50-m-Fenster. R = Clark-Evans (Donnelly/Rand). leer = Anteil leerer 10-m-Zellen, vmr = Mindest-VMR. Unter dem Bereich nur WARNUNG (sehr dichte Haufen sind natuerlich), ueber 1,10 immer FEHLER.",
+      "aue": {
+        "R": [
+          0.45,
+          0.8
+        ],
+        "leer_min": 0.5,
+        "vmr_min": 2.0
+      },
+      "bergwald": {
+        "R": [
+          0.55,
+          0.85
+        ],
+        "leer_min": 0.35,
+        "vmr_min": 1.5
+      },
+      "gletscher": {
+        "R": [
+          0.65,
+          0.95
+        ],
+        "leer_min": 0.2,
+        "vmr_min": 1.2
+      },
+      "tundra": {
+        "R": [
+          0.5,
+          0.85
+        ],
+        "leer_min": 0.4,
+        "vmr_min": 1.5
+      },
+      "canyon": {
+        "R": [
+          0.6,
+          0.9
+        ],
+        "leer_min": 0.3,
+        "vmr_min": 1.3
+      },
+      "oedland": {
+        "R": [
+          0.55,
+          0.9
+        ],
+        "leer_min": 0.3,
+        "vmr_min": 1.5
+      },
+      "heide": {
+        "R": [
+          0.45,
+          0.8
+        ],
+        "leer_min": 0.5,
+        "vmr_min": 2.0
+      },
+      "elfenwald": {
+        "R": [
+          0.5,
+          0.8
+        ],
+        "leer_min": 0.4,
+        "vmr_min": 1.5
+      },
+      "dschungel": {
+        "R": [
+          0.5,
+          0.85
+        ],
+        "leer_min": 0.4,
+        "vmr_min": 1.5
+      },
+      "kueste": {
+        "R": [
+          0.6,
+          0.95
+        ],
+        "leer_min": 0.3,
+        "vmr_min": 1.3
+      },
+      "wueste": {
+        "R": [
+          0.6,
+          0.95
+        ],
+        "leer_min": 0.35,
+        "vmr_min": 1.3,
+        "ausnahme": "Kiesel-Pflaster (nur Klasse kiesel, Lage Kies): R bis 1,15"
+      },
+      "lava": {
+        "R": [
+          0.6,
+          0.9
+        ],
+        "leer_min": 0.25,
+        "vmr_min": 1.3,
+        "ausnahme": "Aa-Blockfeld auf Lage Lavafels >= 50 %: R bis 1,00, leer ab 0,10"
+      },
+      "frost": {
+        "R": [
+          0.6,
+          0.9
+        ],
+        "leer_min": 0.3,
+        "vmr_min": 1.3
+      },
+      "sumpf": {
+        "R": [
+          0.45,
+          0.8
+        ],
+        "leer_min": 0.5,
+        "vmr_min": 2.0
+      },
+      "fjord": {
+        "R": [
+          0.6,
+          0.95
+        ],
+        "leer_min": 0.3,
+        "vmr_min": 1.3
+      }
+    },
+    "gradient": {
+      "halde": "Fenster laengs der Falllinie in Drittel: Anzahl unten / oben >= 1,5 und Median-L unten / oben >= 1,3 (WARNUNG); Langachsen Rbar2 >= 0,25 und mittlere Richtung +-25 Grad zur Falllinie (wie 23.1 fels.frei_liegend)",
+      "ufer": "Dichte 0-3 m / 3-10 m hinter der Wasserkante >= 2 (Antwort 20, Uferband)",
+      "wiese": "Steine auf Lagen Wiese/Gras ohne Fels-/Kies-Lage im Umkreis 5 m: hoechstens 1 Gruppe je 50-m-Fenster, sonst WARNUNG 'gestreut'"
+    },
+    "groesse": "Stein+Fels ab 0,3 m: MLE-Exponent b (kumulativ N(>L) ~ L^-b) 1,8-3,0 (WARNUNG ausserhalb), p90/p10 der Laenge >= 2,5 (FEHLER 'einheitsgroesse'); passt zu 20: K3 : K4 = 6-12",
+    "netz": "je Klasse im 50-m-Fenster bei n >= 20: >= 4 Netze, haeufigstes <= 35 % (FEHLER); im 15-m-Fenster gilt 23.2 (Stein <= 40 %)",
+    "totholz": "Stammstuecke >= 2 m: Laengen p90/p10 >= 2; gleiches Netz <= 1 je 30 m (23.2); Stuecke mit Schnittflaeche nur <= 30 m von Weg, Holzschlag oder Koehler (spuren); Windwurf-Gruppen mit gemeinsamer Fallrichtung Rbar2 >= 0,4, Einzelstuecke frei; Dichte liegend je ha im Bergwald 20-80 (Gestaltung), FEHLER ueber 200",
+    "fremdgestein": "Gestein eines anderen Bioms (z. B. Lava in der Aue) nur auf seinen Lagen (Lagenanteil >= 50 %) oder <= 5 m davon, dort als Kette entlang des Randes; nicht flaechig im 30-m-Biomsaum",
+    "begruendung": "[Quelle] Clark-Evans R < 1 geklumpt, > 1 geordnet; Donnelly-Randkorrektur (spatstat-Quelle); L(r) = sqrt(K/pi), L - r > 0 geklumpt. [Suchauszug] Halden: Blockvolumen nimmt hangab zu (Yosemite), Langachsen bevorzugt hangab. [Gestaltung] Zielbereiche je Biom; die Spanne 0,6-0,9 fuer Felsfelder ist Projektvorgabe, keine Literaturzahl."
+  },
+  "ringe": {
+    "_doku": "23.3: kuenstliche Kreis-/Bogenmuster. Detektor = Hough-artige Suche Mitte x Radius (verteilung_23c.py ringe). Je Klasse und je Planerschicht laufen lassen; auf dichtem gemischtem Hintergrund sinkt die Empfindlichkeit (Hintergrund = andere Klassen herausnehmen).",
+    "herkunft_repo": [
+      "spuren_plan.py sf_zusatzklassen (ab Z. 1799), Z. 1865-1867: Zusatzklassen mit anordnung 'ring' -> fester Radius, Winkel 2 pi k / n +- 0,15 rad; lava_regeln.json spuren_overrides.zusatzklassen.opferstaette_steinkreis: 8-12 SM_lava_s_rock_06/07 auf r 3,0 m um opferstaette_saeule (SM_Column_02, Akteur, eigene Zusatzklasse), Punkt aus lava_plan.py Z. 947-958 (25 m hangab vom Spire/Kegelgipfel)",
+      "spuren_plan.py Z. 1478-1495 (_ring): Steinkreis r 6-11 m (Z. 1497-1515), Huegelgrab r 4-7 m (Z. 1517-1532), Opferstaette-Ensemble r 3 m (Z. 1744-1750): gleichmaessig auf festem Radius",
+      "felsgruppen_plan.py Z. 3517-3551 (_saum): Kieselsaum im Ring r_m + 0,5...2,0 m um jedes grosse Stueck; budget Z. 4017ff. duennt Rollen getrennt aus (kiesel nach Instanz-Hash, Bloecke nach Gruppe), netz_biom_pruefung Z. 3950-3986 laesst Stuecke ohne Ersatz entfallen -> Saum ohne Mitte moeglich",
+      "felsgruppen_plan.py Z. 2961-2981: Formgruppen-Satelliten am Rand der Hero-Ellipse -> Bogen, wenn der Hero (Akteur) fehlt",
+      "lava_plan.py Z. 1012-1020: Gruppenglieder gleichverteilt in der Kreisscheibe (sqrt) -> kein Ring"
+    ],
+    "detektor": {
+      "r": [
+        1.5,
+        12.0
+      ],
+      "r_schritt": 0.25,
+      "gitter_m": 0.5,
+      "w": [
+        0.25,
+        0.08
+      ],
+      "n_min": 8,
+      "dichte_faktor": 4.0,
+      "p_max": 1e-07,
+      "p_grob": 0.001,
+      "innen_max_anteil": 0.15,
+      "innen_dichte_max": 1.5,
+      "sektoren": 12,
+      "winkel_cv_max": 0.6,
+      "winkel_luecke_max_grad": 90,
+      "sektoren_bogen": 6,
+      "bogen_n_min": 9,
+      "bogen_dichte_faktor": 6.0,
+      "fit_rms_max": 0.15
+    },
+    "detektor_doku": "Band +-w (w = max(0,25; 0,08 r)) >= 4 x dichter als Fenster und Aussenband, Poisson-Rest <= 1e-7, Inneres leer (<= 0,15 x Banddichte und <= 1,5 x Umgebung + 2), Winkelabstaende gleichmaessig (CV <= 0,6, groesste Luecke <= 90 Grad) -> ring (FEHLER); Bogen >= 6 zusammenhaengende Sektoren, n >= 9 -> WARNUNG. Synthetisch: 24 von 28 eingesetzten Ringen (n 8-12, r 1,5-6) gefunden, 1 Fehlalarm in 60 Zufalls-/Klumpenfenstern",
+    "erklaerte_ringe": "nur Spuren-Sonderformen steinkreis, huegelgrab, opferstaette, feuerstelle; zulaessig nur mit Mittelobjekt (Saeule, Huegel, Feuerstelle; Hoehe >= 1 m bzw. Feuerstellen-Netz) innerhalb 0,3 r, hoechstens max_je_feld, als Sperre in der Reparatur; sonst FEHLER ring_mitte_fehlt",
+    "gruppen_kohaerenz": "Begleiter (Kieselsaum, Satelliten, Ringsteine) leben mit ihrem Hauptstueck (gleiche gid): faellt das Hauptstueck (Budget, Biomsperre, Reparatur 23), fallen die Begleiter mit oder bleiben nur, wenn <= 2 m ein anderes Stueck >= 1 m liegt",
+    "aufloesen": [
+      "1 erklaerter Ring ohne Mitte: Mittelobjekt setzen (Planer/Akteur), nicht die Steine verschieben",
+      "2 Saum/Satelliten ohne Hauptstueck: Begleiter entfernen (gruppen_kohaerenz) oder Hauptstueck neu setzen",
+      "3 unerklaerter Ring: >= 50 % der Glieder in einem zusammenhaengenden Bogen >= 150 Grad entfernen; die uebrigen bilden eine Gruppe auf einer Seite; Versatz der Reste nur in den 23.1-Grenzen (min(0,5 m; 0,25 L)); danach Detektor ohne Fund und keine Luecke > 120 Grad im Rest"
+    ]
+  },
+  "haengend": {
+    "_doku": "23.3: Netze ohne Bodenauflage (Rolle eis, Haengewurzeln, Lianen). Sitzpruefung 23.1 gilt nicht; stattdessen diese Pruefung. Bisher schaltet felsgruppen_plan.py Z. 3887-3888 die Schwebepruefung fuer haengende Stuecke ab.",
+    "netze_erlaubt": "SM_EISZAPFEN_1-9 (Pivot oben, Zapfen nach -Z, Ruecken = duenne Y-Achse laut netze_masse.json); weitere haengende Netze nur mit Eintrag haengend:true je Netz (anzulegen)",
+    "ort": "nur unter Ueberhang-Unterseiten (Felsnetz, Klippen-/Schalen-Akteur) oder an einer Simskante: oberhalb <= 35 Grad (Sims/Plateau), darunter >= 70 Grad, Kante <= 0,3 m waagrecht vom Pivot; an schraegen Waenden 55-85 Grad ohne Sims keine freien Zapfen (dort hoechstens anliegende Eisglasur als Decal/Netz); nie auf Graten ohne Oberkante",
+    "pruefung": {
+      "kontakt_oben_max_m": 0.05,
+      "eindring_m": [
+        0.02,
+        0.1
+      ],
+      "wand_oben_max_m": 0.05,
+      "wand_spitze_max_m": 0.4,
+      "achse_max_grad": 5.0,
+      "ruecken_max_grad": 30.0,
+      "kontakt_anteil_min": 0.7
+    },
+    "pruefung_doku": "Line-Traces je Instanz: 5 Punkte auf der Oberkante, je Trace Welt +Z bis 0,3 m: >= 70 % Treffer <= 5 cm (sonst kontakt_oben; kein Treffer = schwebt_frei); Oberkante 2-10 cm im Fels; waagrechter Trace entlang -Ruecken: Wand <= 5 cm an der Oberkante, Spitze 0-40 cm vor der Wand (nicht in der Wand); Zapfenachse <= 5 Grad zum Lot; Ruecken <= 30 Grad zur waagrechten Wandnormale; Spitze >= 0,1 m ueber Boden",
+    "planerbefund": "hochgebirge_regeln.json klassen.eiszapfen Z. 1186-1250: z_versatz_anteil 0,85, kippen 0, yaw zufall; hochgebirge_plan.py Z. 968-969: z = Gelaende + 0,85 x Hoehe x Skala senkrecht ueber dem Zellpunkt; felsgruppen zusatzklassen.eis gleich (felsgruppen_plan.py Z. 3908-3909, 3926). Folge: Spalt zur Wand 0,85 h / tan(Hang), bei 60 Grad und h 1 m 0,49 m; zufaelliger Yaw; auf Gratzellen ueber der Kante",
+    "horizont_zaun": "Bild E2: die weissen zaunartigen Teile in der Luft am Horizont sind sehr wahrscheinlich Eiszapfen-Netze (Balken + Zapfen) auf Grat-/Kantenzellen. Pruefung: Instanzen SM_EISZAPFEN_* mit Oberkante > max Gelaende im Umkreis 2 m + 0,1 m oder ohne Treffer nach oben = FEHLER schwebt_frei",
+    "material": "M_Eldarien_Eis hat laut material_parameter.json keine Parameter, keine Texturen, 0 Instanzen -> flaches Weiss im Bild; MI mit Durchscheinen/Rauheit/Normal anzulegen; Eis ist von der Helligkeitsregel 23.2 und untexturiert_verdacht ausgenommen, wenn das MI Texturen bindet"
+  },
+  "farbe_untergrund": {
+    "_doku": "23.3: Farbe eines Felsmoduls gegen den Untergrund am Ort (Bild B5_08 roetlich auf grau, C5_16 schwarz auf gruen, H3_17 grau auf braun). CIELAB (D65) aus linearer BaseColor.",
+    "messweg": [
+      "A Datenweg: Modul = Mittel der wirksamen BaseColor (wie stein_albedo.json Y_wirksam, dazu RGB) x MI-Toenung x Helligkeit (M_EL_Fels_MS/MS2: VectorParameter 'Toenung', ScalarParameter 'Helligkeit', Verdrahtung zu pruefen); Boden = Lagengewichte unter Grundriss + 1 m x Mittel-BaseColor je Landschaftslage (landschaft_lagen_albedo.json anzulegen)",
+      "B Bildweg zur Kontrolle: Pufferansicht BaseColor (ohne Licht), Pixel des Moduls gegen Ring 0,5-2 m um den Grundriss"
+    ],
+    "grenzen": {
+      "gleich": {
+        "dL": 10.0,
+        "dE": 12.0,
+        "dE_fehler": 20.0,
+        "dh": 25.0
+      },
+      "fremd": {
+        "dL_fehler": 35.0,
+        "dh_fehler": 30.0,
+        "C_min": 8.0
+      }
+    },
+    "grenzen_doku": "gleiches_gestein (Lage Fels/Geroell/Kies/Lavafels/Lavasand des Gesteins): dE76 <= 12 ok, 12-20 bzw. |dL| > 10 bzw. dh > 25 Grad WARNUNG, > 20 FEHLER. Anderer Untergrund (Wiese, Waldboden, Sand): |dL| > 35 FEHLER helligkeit, dh > 30 Grad bei Modul-Chroma >= 15 FEHLER farbton; Bunttonvergleich nur, wenn beide C* >= 8. Zusaetzlich gilt die Biom-Gesteinspalette (Fels-Lage des Bioms als Bezug, anzulegen). Wahrnehmungsschwelle dE76 etwa 2,3 (Suchauszug); die Grenzen hier sind Gestaltungswerte fuer Distanz und Licht.",
+    "reparatur": [
+      "1 MI-Toenung/Helligkeit Richtung Ziel, nur wenn |dL| <= 15 und dh <= 40 Grad (kleiner Abstand); als Kind-MI je Biom wie MI_EL_HugeNordicCoastalCliff_01_<biom>; nie das gemeinsame MI aendern",
+      "2 Netz der Gesteinsfamilie des Bioms tauschen (gleiche Groessenklasse, 23.2 Familie), wenn die Textur selbst fremd ist (z. B. rote Findlinge ausserhalb canyon/oedland/wueste/lava, felsgruppen netz_nur_biome)",
+      "3 entfernen, wenn kein Ersatz und Fremdgestein ausserhalb seiner Lagen (verteilung.fremdgestein)"
+    ]
+  },
+  "reparatur_23_3": {
+    "_doku": "23.3: Gesamtreihenfolge 23 + 23b + 23c. 'reparatur.reihenfolge' (23.1) und 'reparatur.wiederholung_schritte' (23.2) bleiben gueltig und werden hier eingeordnet.",
+    "reihenfolge": [
+      "0 Sperren melden (Sehens-Orte, Akteure, V0, erklaerte Ringe mit Mitte, SWR-Hindernisse)",
+      "1 Asset-Aenderungen vorab: MI-Reparatur weisser Steine (23.2), Eis-MI, Biom-Kind-MI fuer Toenung",
+      "2 je Planerschicht entscheiden: > 30 % der 50-m-Fenster mit Verteilungs-FEHLER oder > 30 % Instanz-FEHLER einer Klasse -> Planer aendern und Schicht neu setzen (23.1 schicht_neu_planen)",
+      "3 Entfernen vor Umsetzen: Ringe aufloesen, Begleiter ohne Hauptstueck, Ausduennen gleichmaessiger Fenster",
+      "4 Sitz 23.1 (Schicht von unten, gross vor klein)",
+      "5 Wiederholung 23.2 und Netzanteil 23.3 (Netztausch ohne Ortswechsel)",
+      "6 Totholz",
+      "7 Haengendes (nach den Felsen, an denen es haengt)",
+      "8 Farbe zuletzt (Tausch/Toenung)",
+      "9 Verteilung erneut messen; Grenzen unten einhalten"
+    ],
+    "verteilung_schritte": [
+      "ausduennen: Stuecke in Lueckenzonen (Wertrauschen 20-40 m, untere 30-40 %) entfernen, bis R und leer im Zielbereich; kleinste und haeufigste Netze zuerst",
+      "einzeln versetzen nur in den 23.1-Grenzen min(0,5 m; 0,25 L); groessere Verschiebung = Neuplanung",
+      "neu gruppieren nur ueber den Planer (Neulauf), nicht per Werkzeug 'umsetzen'",
+      "drehen fuer Ausrichtung: Stein/Fels Yaw frei, danach Sitz 23.1 neu; Stamm um die Mitte <= 60 Grad nur mit beiden Auflagen (23.1 totholz)"
+    ],
+    "grenzen": {
+      "entfernt_max_je_50m_fenster": 0.35,
+      "entfernt_max_je_feld": 0.15,
+      "entfernt_max_pilotfenster": 0.25,
+      "behalten": "Hero >= 2 m, Akteure, Sehens-Orte, erklaerte Ringe mit Mitte, SWR-Hindernisse, Ausbiss-Gruppen"
+    }
+  },
+  "planer_verteilung": {
+    "alle": "Gruppenzentren duenn: Flaechenanteil der Gruppenscheiben lambda_eltern x pi r^2 <= 0,15; Dichte mit Wertrauschen 20-60 m modulieren (leer-Ziel je Biom); Groessen je Gruppe nach Potenzgesetz (ein dominantes Stueck); Netzwahl nach 23.2 Familie; vor dem Schreiben verteilung_23c (Fenster) zusaetzlich zu sitz_pruefung und pruefe_wiederholung",
+    "spuren": "anordnung ring und _ring nur zusammen mit dem Mittelobjekt in derselben Transaktion; faellt die Mitte weg, entfaellt der Ring; Radius +- 10 %, Winkel +- 20 Grad je Stein, 10-25 % fehlend/umgefallen",
+    "felsgruppen": "_saum: Abstand vom Fuss exponentiell (Mittel 0,6 m, 0,2-2,5 m) statt gleichverteilt im Ring; Saum erst nach budget und netz_biom_pruefung erzeugen bzw. mit seiner gid mit ausduennen; Satelliten entfallen mit dem Hero",
+    "lava": "Saum zur Aue: Lavagestein nur auf Lava-Lagen bzw. <= 5 m davon (verteilung.fremdgestein); Gruppenzentren duenn (siehe alle); opferstaette: Saeule pruefen",
+    "hochgebirge_eis": "z_versatz ersetzen: Haengepunkt suchen (Ueberhang-Unterseite eines Felsnetzes oder Simskante nach haengend.ort), z = Unterseite - 0,02...0,08 m, Yaw = Ruecken zur waagrechten Wandnormale, sonst nicht setzen",
+    "totholz": "mittelschicht/felsdeckung: Stammstuecke nach verteilung.totholz; Laengen gemischt, gleiches Netz <= 1 je 30 m"
+  },
   "pruef_faelle_synthetisch": [
     {"nr": "F1", "fall": "Platte flach, 50 % der Dicke im Boden", "soll": "ok"},
     {"nr": "F2", "fall": "Platte 25 Grad gekippt, eine Ecke beruehrt den Boden", "soll": "FEHLER luecke, winkel, kante (v2: ok)"},
@@ -352,7 +647,19 @@
     {"nr": "W15", "fall": "Skala X -1 und Y -1", "soll": "WARNUNG negativ_ohne_spiegel"},
     {"nr": "W16", "fall": "spiegelsymmetrisches Netz, nur gespiegelt", "soll": "FEHLER paar"},
     {"nr": "S1-S7", "fall": "Skala Fels 0,9 / 1,2 / X 1,08 / X 1,12 / Detailscan X 1,04 / Platte 1,1 / X -1", "soll": "ok / skala / ok / skala_aniso / skala_aniso / skala / ok"},
-    {"nr": "M1-M10", "fall": "BaseColor ungebunden / T_DefaultColor / Y 0,85 S 0,01 / trocken 0,14 / 0,229 / 0,40 / nass 0,08 / 0,11 / 0,16 / ohne Y", "soll": "FEHLER / FEHLER / FEHLER / ok / WARNUNG / FEHLER / ok / WARNUNG / FEHLER / WARNUNG"}
+    {"nr": "M1-M10", "fall": "BaseColor ungebunden / T_DefaultColor / Y 0,85 S 0,01 / trocken 0,14 / 0,229 / 0,40 / nass 0,08 / 0,11 / 0,16 / ohne Y", "soll": "FEHLER / FEHLER / FEHLER / ok / WARNUNG / FEHLER / ok / WARNUNG / FEHLER / WARNUNG"},
+    {"nr": "V1a-c", "fall": "Poisson 400 Punkte in 50 x 50 m (3 Saaten)", "soll": "R 0,9-1,1 (Donnelly) bzw. 0,85-1,15 (Rand 5 m), |L(r)-r| <= 0,3 m fuer r 1/2/4, kein Ring"},
+    {"nr": "V2", "fall": "Thomas-Prozess 40 Eltern, sigma 1,5 m, 10 Kinder", "soll": "R < 0,8; L(3)-3 = 1,64 +- 0,45 (analytisch K = pi r^2 + (1 - exp(-r^2/4 sigma^2))/kappa); VMR > 2; kein Ring"},
+    {"nr": "V3", "fall": "Quadratgitter 2,5 m +- 0,1 m (400)", "soll": "R 1,85-2,05 (analytisch 2,0), L(1)-1 <= -0,95, FEHLER gleichmaessig"},
+    {"nr": "V4", "fall": "Ring r 3 m, 10 Steine, auf 100 Zufallspunkten", "soll": "genau 1 Ring, Mitte +- 0,3 m, r +- 0,3 m"},
+    {"nr": "V5", "fall": "Kieselsaum ohne Hauptstueck (gid ohne haupt)", "soll": "FEHLER begleiter_ohne_haupt (14)"},
+    {"nr": "V6", "fall": "Opferstaette-Ring r 3 m, 10 Steine, mit / ohne Saeule", "soll": "ok_erklaert / FEHLER_mitte_fehlt"},
+    {"nr": "V7", "fall": "Netzanteil 70 % / 5 x 20 %", "soll": "FEHLER / ok"},
+    {"nr": "V8", "fall": "Pareto kumulativ b = 2,0 ab 0,3 m (2000) / Einheitsgroesse 1,0-1,2 m", "soll": "b 2,0 +- 0,15 ok / FEHLER einheitsgroesse"},
+    {"nr": "V9", "fall": "Langachsen gleichverteilt / Falllinie +- 15 Grad", "soll": "Rbar2 < 0,15, p > 0,05 / Rbar2 > 0,7, zur Falllinie > 0,7"},
+    {"nr": "V10", "fall": "Reihe 1,5 m +- 0,1 / exponentielle Abstaende", "soll": "FEHLER reihe (CV < 0,35) / ok"},
+    {"nr": "H1-H4", "fall": "Eiszapfen an 60-Grad-Wand mit z_versatz 0,85 / unter Ueberhang / auf Grat / Achse 40 Grad", "soll": "FEHLER schwebt_frei (Spalt 0,49 m) / ok / FEHLER schwebt_frei / FEHLER achse_lot"},
+    {"nr": "U1-U4", "fall": "grau auf grauer Halde / roetlich (170,110,80) auf grauer Halde / Lava (40,38,38) auf Wiese (95,140,60) / Lava auf Lavasand", "soll": "ok / FEHLER dE / FEHLER helligkeit / ok"}
   ],
   "quellen": {
     "IMBRIKATION": "Suchauszuege: Galvin 2002 GSA (a-b-Ebenen neigen stromauf), Sub-Himalaya-Studie (mittlere AB-Neigung 22,6-37,6 Grad), Studie an 1 007 Klasten (Median etwa 35 Grad Wasserschotter, 47 Debris-Flood, 65 Murgang); https://gsa.confex.com/gsa/2002AM/webprogram/Paper45012.html, https://repository.ias.ac.in/67306, https://boris.unibe.ch/119827/1/esurf-6-743-2018.pdf",
@@ -367,6 +674,11 @@
     "WIEDERHOLUNG_23B": "Suchauszuege: Biederman & Cooper 1991, Perception 20, 585 (Priming invariant gegen Verschieben und Links-rechts-Spiegelung) https://journals.sagepub.com/doi/pdf/10.1068/p200585; Biederman & Bar 1999, Vision Research 39, 2885 (Drehung in der Tiefe senkt das Erkennen metrischer Unterschiede) https://www.nmr.mgh.harvard.edu/publications/journal_articles/2753; Neverwinter-Blog (fuenf Felsnetze, gedreht und skaliert) https://www.arcgames.com/pl/games/neverwinter/news/detail/10090723-art-developer-blog%253A-cold-run",
     "SPIEGELN_UE": "Suchauszuege, Epic-Seiten aus der Cloud nicht abrufbar: Forum 397236 (negative Skala bei ISM: anderer Cull-Modus, eigener Draw-Call; UE4-Zeit) https://forums.unrealengine.com/t/are-there-any-issues-with-setting-a-negative-scale-to-a-mesh/397236; UE-51647 (Convex an gespiegelten Objekten, behoben 4.19), UE-96052 (gedrehte Kollision bei negativer Skala, behoben 5.0), UE-142739 (Chaos-Spiegelung, behoben 5.0) https://issues.unrealengine.com/issue/UE-96052; UE-76078 (negative Skala ISM vs. Einzelnetz, 4.22) https://issues.unrealengine.com/issue/UE-76078",
     "ALBEDO_23B": "Suchauszuege: PBR-Albedotabellen (rock 0,3-0,4 linear; Kohle 0,04; Neuschnee 0,8-0,9; nass dunkler) https://learn.enscape3d.com/?p=32192, https://old-wiki.warthunder.com/PBR_texture_compliance, https://polycount.com/discussion/comment/2705069",
-    "TOTHOLZ_23B": "Suchauszuege: Stuecke laenger als die Gerinnebreite sind in kleinen Gerinnen stabil (Montgomery & Buffington 1993 nach Cenderelli 2023) https://seakfhp.org/wp-content/uploads/2023/11/Session-1.5-Beyond-Biology-Recruitment-and-Delivery-of-Wood-CENDERELLI.pdf; Staemme mit Wurzelteller wandern kuerzer als ohne (chilenische Bergbaeche, Hydrological Processes 2018, Zusammenfassung) https://esurf.copernicus.org/articles/8/195/2020/"
+    "TOTHOLZ_23B": "Suchauszuege: Stuecke laenger als die Gerinnebreite sind in kleinen Gerinnen stabil (Montgomery & Buffington 1993 nach Cenderelli 2023) https://seakfhp.org/wp-content/uploads/2023/11/Session-1.5-Beyond-Biology-Recruitment-and-Delivery-of-Wood-CENDERELLI.pdf; Staemme mit Wurzelteller wandern kuerzer als ohne (chilenische Bergbaeche, Hydrological Processes 2018, Zusammenfassung) https://esurf.copernicus.org/articles/8/195/2020/",
+    "VERTEILUNG_23C": "Vollseite: spatstat.explore R/clarkevans.R (Donnelly: Dpois + (0,0514 + 0,0412/sqrt(n)) x P/n) https://raw.githubusercontent.com/spatstat/spatstat.explore/master/R/clarkevans.R; Suchauszuege: spatstat clarkevans-Doku (R > 1 Ordnung, R < 1 Klumpung, Randverzerrung) https://www.rdocumentation.org/packages/spatstat.explore/versions/3.5-2/topics/clarkevans, Ripley K/L und isotrope Randkorrektur https://pdixon.stat.iastate.edu/stat406/RipleyK.pdf, https://www.rdocumentation.org/packages/spatstat/versions/1.18-2/topics/Kest",
+    "HALDE_23C": "Suchauszuege: Yosemite-Halden, Blockvolumen nimmt hangab nichtlinear zu https://nhess.copernicus.org/articles/19/2249/2019/nhess-19-2249-2019.html; Halden-Fabric: Mehrheit der Bloecke hangab ausgerichtet https://dggs.alaska.gov/pubs/id/28436, schwach hangparallel https://scholarworks.montana.edu/bitstreams/e54f20bf-a5b1-4470-9b4e-ac4d91ab8d89/download; Sturzvolumen Potenzgesetz https://www.isterre.fr/IMG/pdf/DussaugeJGR-2003.pdf",
+    "EIS_23C": "Suchauszuege: Eiszapfen entstehen, wo Schmelz- oder Sickerwasser eine Kante erreicht und abtropft, auch an Felsen und Sickerstellen https://glossary.ametsoc.org/wiki/Icicle, https://www.weathergamut.com/2015/02/11/how-icicles-form/; Foliage Align to Normal/Align Max Angle richten nur zum Boden aus https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/FoliageType",
+    "FARBE_23C": "Suchauszug: dE*ab etwa 2,3 als Wahrnehmungsschwelle (Mahy et al. 1994, colour-science) https://colour.readthedocs.io/en/latest/generated/colour.difference.JND_CIE1976.html",
+    "GESTALTUNG_23C": "Suchauszuege: gleichmaessige Dichte wirkt kuenstlich, natuerliche Bestaende sind fleckig https://www.strayspark.studio/blog/building-believable-biomes-procedural-scatter; verschachtelte Streuung um Elternpunkte https://developer.blender.org/T84816"
   }
 }
