@@ -22,15 +22,16 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.6",
-  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b, 23c, 23d, 23e; Klasse kiesel_haufen aus 22e)",
+  "version": "23.7",
+  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23f; Klasse kiesel_haufen aus 22e)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
     {"version": "23.3", "stand": "2026-10-18", "quelle": "Antwort 23c", "inhalt": "neu: verteilung (Fenster, Kennzahlen, Ziele je Biom, Gradienten, Groesse, Netz, Totholz, Fremdgestein), ringe (Herkunft im Repo, Detektor, erklaerte Ringe, Gruppenkohaerenz, Aufloesen), haengend (Eiszapfen: Ort, Pruefung, Planerbefund, Material), farbe_untergrund (CIELAB gegen Lage am Ort), reparatur_23_3 (Gesamtreihenfolge, Verteilungsschritte, Entfernungsgrenzen), planer_verteilung; Prueffaelle V1-V10, H1-H4, U1-U4. Alle Schluessel aus 23.1/23.2 unveraendert; sitz_pruefung.py und wiederholung_23b.py lesen die Datei mit unveraenderten Signaturen."},
     {"version": "23.4", "stand": "2026-10-19", "quelle": "Antwort 23d", "inhalt": "NEUE Version, lokal ausdruecklich zu uebernehmen (eingefroren ist 23.3 als regeln_23c_cda6ceb0). Neu nur der Block nachtrag_23_4: korrekturen (weisse Steine, C6_34, Gelaende), deckung (Vereinigung statt Summe, Zonenziele, Lage statt Netz, Kleinzeug-Grenzen, Kontrollfall), ringe_23_4 (radiale Streuung relativ, Achsverhaeltnis, Mitte; gruppe_einheitlich), herkunft_zuordnung (Lookup Planausgabe), gruppen_kohaerenz_23_4 (Nachbarschaft ohne ID, Sicherung), messweg (Stufe B je Klasse, Traeger-Kern, Dreiecksmodell, e_hoehe mit H, K31-K32), verteilung_kalibrierung (netz_anteil je Schicht nur WARNUNG, Diagnose bis T23c-1), spiegeltest_nicht_nanite. Alle Schluessel aus 23.1-23.3 unveraendert; die drei Referenzcodes behalten ihre Signaturen."},
     {"version": "23.5", "stand": "2026-10-19", "quelle": "Antwort 22e", "inhalt": "neu nur nachtrag_23_5: Klasse kiesel_haufen (Eingraben 10-20 % statt 40-60 %, Basis unsichtbar, nur Bettsohle), Korrektur der 342 F6-Ersatzkiesel per Protokoll, 4 Prueffaelle. Alle uebrigen Schluessel unveraendert; unabhaengig von der Uebernahme von 23.4."},
-    {"version": "23.6", "stand": "2026-10-19", "quelle": "Antwort 23e", "inhalt": "neu nur nachtrag_23_6: Stufe-B-Luecke nur mit dem Umriss verbunden (Hohlraeume zaehlen nicht), Huelle aus Dreiecken, 5 Prueffaelle SB1-SB5; Zonen ab sichtbarer Wasserkante des gespeicherten Stands; Kleinzeug-Zaehlung; 0,55 m2 nur Schaetzung; Herkunft-Rekonstruktion im Plan-Modus mit Kontrolle. Alle uebrigen Schluessel unveraendert."}
+    {"version": "23.6", "stand": "2026-10-19", "quelle": "Antwort 23e", "inhalt": "neu nur nachtrag_23_6: Stufe-B-Luecke nur mit dem Umriss verbunden (Hohlraeume zaehlen nicht), Huelle aus Dreiecken, 5 Prueffaelle SB1-SB5; Zonen ab sichtbarer Wasserkante des gespeicherten Stands; Kleinzeug-Zaehlung; 0,55 m2 nur Schaetzung; Herkunft-Rekonstruktion im Plan-Modus mit Kontrolle. Alle uebrigen Schluessel unveraendert."},
+    {"version": "23.7", "stand": "2026-10-19", "quelle": "Antwort 23f", "inhalt": "neu nur nachtrag_23_7: Umriss nur zum Aussenraum (SB6), Wandfels ab 4 m (Ueberhang als WARNUNG bei Verankerung, Reparaturreihenfolge, Groessengrenze Absenken), Zonen: sichtbar_1 bleibt, trockene Bettzellen zaehlen mit (nur kollisionsfrei), Fels-Lage 38-45 Grad mit Fernbild, Planer im Plan-Modus auf T6N1_0. Alle uebrigen Schluessel unveraendert."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -913,6 +914,41 @@
       "kontrolle": "zuerst eine Schicht, deren Original-Plan-JSON vorliegt: Rekonstruktion trifft >= 99 % der Original-Eintraege (gleiches Netz, XY <= 0,10 m). Sonst nicht rekonstruieren, sondern folge_unklar (23.4).",
       "versatz": "vor dem Abgleich protokollierte XY-Versaetze der Reparaturen (v3, 23) zurueckrechnen; sonst fehlen reparierte Instanzen",
       "folge": "bleibt danach eine Schicht unter fenster_schicht_zuordnung_min 0,8: folge_unklar wie 23.4"
+    }
+  },
+  "nachtrag_23_7": {
+    "_doku": "23.7 (Antwort 23f). Ergaenzt bzw. ersetzt nur dort, wo 'ersetzt' steht. Alle Schluessel aus 23.1-23.6 unveraendert. Lokal ausdruecklich zu uebernehmen (eingefroren ist 23.6 als regeln_23f_2ae02a28).",
+    "stufe_b_umriss": {
+      "ersetzt": "nachtrag_23_6.stufe_b_luecke.regel: 'Umriss = Zelle mit mindestens einem Nachbarn ohne Treffer'",
+      "regel": "Umriss = Zelle mit mindestens einem 4er-Nachbarn im AUSSENRAUM. Aussenraum = Zellen ohne Treffer, die ueber Zellen ohne Treffer mit dem Rand des um 1 erweiterten Rasters verbunden sind. Loecher im Inneren einer ausgeduennten Eckpunkt-Huelle (Netz-Export mit Punktgrenze) sind kein Aussenraum.",
+      "beleg": "23f: Variante 'Umriss nur zum Aussenraum' 83 statt 72 von 116 wieder ok; synthetisch SB6",
+      "nicht_gewaehlt": "groessere Zellen (0,20/0,30 m): glaetten auch echte Luecken weg",
+      "pruef_fall": {
+        "nr": "SB6",
+        "fall": "SB5 (Hohlraum) mit Loch in der Eckpunkt-Huelle ueber dem Hohlraum, nur Eckpunkt-Weg",
+        "soll": "ok, hohl 0,50 (23.6-Weg: FEHLER luecke +0,188 m)"
+      }
+    },
+    "wandfels": {
+      "_doku": "Fels mit L x Skala >= 4 m. Ueberhang (Felsdach, Abri) ist an Waenden natuerlich; schwebend ist er nicht, wenn der Fels bergseitig verankert ist und die Luft nur zu einer Seite offen ist.",
+      "ab_L_m": 4.0,
+      "verankert": "Anteil der Huellen-Zellen (volle Huelle) mit d <= kontakt >= 0,40, und davon liegt die Mehrheit in der bergseitigen Haelfte (Gelaendegradient)",
+      "ueberhang_warnung": "verankert UND luecke_max <= 0,25 x Instanzhoehe UND die offenen Umrisszellen machen <= 50 % des Umrisses aus -> WARNUNG 'ueberhang' statt FEHLER luecke; Bildpruefung mit freier Sicht: kein Tageslicht durch, Lippe liest nicht als schwebend",
+      "sonst": "FEHLER luecke wie bisher",
+      "reparatur_reihenfolge": [
+        "1 Felsfuss: Bloecke 1-3 m unter die Lippe (Stapelregeln 23, Kontaktanteil), bis >= 60 % des offenen Umrisses geschlossen sind",
+        "2 Drehung <= 10 Grad um die waagrechte Achse parallel zur Wand, Lippe nach unten",
+        "3 andere Netzvariante mit passender Basis",
+        "4 Absenken nur bis dz <= min(1,0 m; 0,1 x Instanzhoehe)",
+        "kein Gelaendeeingriff in diesem Schritt"
+      ],
+      "groessengrenze": "Eingraben/Absenken als Loesung nur bis min(1,0 m; 0,1 x Hoehe); darueber nur 1-3"
+    },
+    "zonen_bezug_23_7": {
+      "wasserkante": "bleibt sichtbar_1 (eine Wasserdefinition fuer Zonen und Wasserregeln). Rundung der gespeicherten Oberflaeche (2/4 cm) als Spanne mitfuehren: sichtbar_5 einmal als Empfindlichkeit berichten",
+      "trockene_bettzellen": "Zellen innerhalb der geplanten Bettkante (d < 0), die in BEIDEN Dumps (gespeichert und Kandidat) nicht sichtbar_1 sind, zaehlen zur Kante. Dort nur Lage (Kies/Geroell, <= 38 Grad) und Stuecke ohne Kollision (kein SWR-Hindernis: Kiesel, kiesel_haufen, K2 ohne Kollision). K3 und Bloecke mit Kollision erst im 16h-Bettschritt.",
+      "fels_lage_steil": "Lage Fels 38-45 Grad zulaessig, wenn eine Fernkamera (>= 80 m, RVT von oben, Streckung bis 1,41) keine gestreckte Textur zeigt; ueber 45 Grad nur Netz",
+      "gespeicherter_stand": "ersetzt 23e-Abbruchregel fuer die Zonen: Breite 1 und Breite 5 verschieben die sichtbare Wasserkante kaum (23f: +2 / 0 pp). Planer-Neulauf im Plan-Modus darf auf T6N1_0 rechnen; nach dem Speichern von T6N1/T6N1b Zonen nachrechnen, bei Verschiebung der Kante > 0,3 m im Median neu planen."
     }
   },
   "quellen": {
