@@ -40,3 +40,10 @@ Treppen von ca. 1 m). Ferats Vermutung „Houdini-Reste“ stimmt.
 3. **40-km-Grenzen der WaterMesh-Komponenten:** Ist das normal (Fernfläche?), oder sollten wir die Felder-Zonen prüfen? Kosten im Spiel?
 4. **4096 für alle Zonen mit schmalen Bächen** (Rollout): Was kostet es an Grafikspeicher, wenn 20–30 Zonen auf 4096 stehen? Und gilt die Regel
    „Breite < 6 m → 4096“?
+
+## Nachtrag 18:05 – Spielbild (PIE)
+
+Bild `bilder/swr_p2/pie_muendung_wasserplatte.png` (PIE, Figur an der Mündung, `HighResShot` über die Konsole der Spielwelt wie 6s §4, Zonen C3/D3 schon
+4096): **Die Platte ist im Spiel sichtbar.** Der alte Fluss steht 0,3–0,6 m über dem trockenen Kiesbett, der Rand ist senkrecht. Unsere Deutung: Der alte
+Fluss ist am Kopf breiter (bis 22 m) und liegt höher als das heutige Bett. Seine Fläche endet deshalb in der Luft. Es ist also kein reiner
+Darstellungszustand. Bitte bei Frage 1/2 berücksichtigen; wir planen den Ersatz als Rollout-Pilot 1 (SWR-Fortsetzung des Erlenbachs bis zur Mündung).
