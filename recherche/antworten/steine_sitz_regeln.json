@@ -22,8 +22,8 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.10",
-  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23h; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
+  "version": "23.11",
+  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23i; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
@@ -34,7 +34,8 @@
     {"version": "23.7", "stand": "2026-10-19", "quelle": "Antwort 23f", "inhalt": "neu nur nachtrag_23_7: Umriss nur zum Aussenraum (SB6), Wandfels ab 4 m (Ueberhang als WARNUNG bei Verankerung, Reparaturreihenfolge, Groessengrenze Absenken), Zonen: sichtbar_1 bleibt, trockene Bettzellen zaehlen mit (nur kollisionsfrei), Fels-Lage 38-45 Grad mit Fernbild, Planer im Plan-Modus auf T6N1_0. Alle uebrigen Schluessel unveraendert."},
     {"version": "23.8", "stand": "2026-10-19", "quelle": "Antwort 22f", "inhalt": "nur Korrektur von Texten in nachtrag_23_5: SM_SmallStonesPack_01 misst 13,1 x 9,2 x 8,3 cm (netze_masse.json), nicht 0,26 x 0,18 x 0,16 m (Faktor 2 falsch in der Referenzliste aus Antwort 23). Schwellen unveraendert (10-20 % von T); Klasse bleibt kiesel/kiesel_haufen, Groessenklasse K2."},
     {"version": "23.9", "stand": "2026-10-19", "quelle": "Antwort 23g", "inhalt": "neu nur nachtrag_23_9: Bezugsflaeche S = H + Verdraengung der Lagen (statt H) fuer die Sitzpruefung, Validierung K33 per Tiefenaufnahme, keine Kiesel-Netze auf Lage Kies >= 0,5; Zielwert Kies-Verdraengung 0,08-gleichwertig (11,2 cm) mit Gate. Alle uebrigen Schluessel unveraendert."},
-    {"version": "23.10", "stand": "2026-10-19", "quelle": "Antwort 23h", "inhalt": "neu nur nachtrag_23_10: Haufen nach Form statt Inselzahl, Wandmodule ohne durchdringung (WARNUNG naht), Kulisse ab 15 m (Halt + Sichtbarkeit), offene Netze ueber offenen Rand, Dreiecke entscheiden ab 15 cm, Bestand in trockenen Bettzellen bleibt. Alle uebrigen Schluessel unveraendert."}
+    {"version": "23.10", "stand": "2026-10-19", "quelle": "Antwort 23h", "inhalt": "neu nur nachtrag_23_10: Haufen nach Form statt Inselzahl, Wandmodule ohne durchdringung (WARNUNG naht), Kulisse ab 15 m (Halt + Sichtbarkeit), offene Netze ueber offenen Rand, Dreiecke entscheiden ab 15 cm, Bestand in trockenen Bettzellen bleibt. Alle uebrigen Schluessel unveraendert."},
+    {"version": "23.11", "stand": "2026-10-19", "quelle": "Antwort 23i", "inhalt": "neu nur nachtrag_23_11: SmallStonesPack sind Einzelsteine (Haufen-Kalibrierung entfaellt), Foliage nie spiegeln (nur Akteure), Kante zweistufig (Land jetzt, Wasserlinie im 16h-Bettschritt), Platz am Hang (FEHLER-Altbestand und Bewuchs < 0,5 m duerfen weichen), Bestand in Weltlage, Bettzellen-Kollision nach Grundriss. Alle uebrigen Schluessel unveraendert."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -1011,6 +1012,37 @@
     },
     "dreiecke_entscheiden": "Luecken >= 15 cm entscheidet die Dreiecks-Huelle (Nanite-Ersatznetz) allein; < 15 cm nur mit Bild oder vollem Nanite-Netz. Vorher pruefen, ob das Netz offen ist (dann offene_netze)",
     "bestand_trockene_bettzellen": "Bestehende Stuecke mit Kollision in trockenen Bettzellen bleiben (sie sind Teil des Bakes T6N1b_2). Neu wird dort nichts mit Kollision gesetzt; Bestand wird im 16h-Bettschritt mit neuem Bake bewertet"
+  },
+  "nachtrag_23_11": {
+    "_doku": "23.11 (Antwort 23i). Ergaenzt bzw. ersetzt nur dort, wo 'ersetzt' steht. Alle uebrigen Schluessel aus 23.1-23.10 unveraendert. Lokal ausdruecklich zu uebernehmen.",
+    "korrektur_haufen": "SM_SmallStonesPack_01-14 sind EINZELSTEINE (T23-0 Bild K8, Dreiecke 23h: eine geschlossene Huelle). nachtrag_23_5.netze_bestaetigt und die Kalibrierung in nachtrag_23_10.haufen_nach_form entfallen; es gilt klasse kiesel (40-60 %). Die Klasse kiesel_haufen bleibt fuer echte Haufen-Netze bestehen; heute ist keines bekannt.",
+    "spiegeln": {
+      "ersetzt": "spiegeln (23.2) fuer Foliage",
+      "regel": "Spiegeln (negative Skala) nur fuer Akteure. Foliage-Instanzen nie spiegeln: Nicht-Nanite-Netze und der Nanite-Rueckfallweg zeichnen gespiegelte Instanzen mit Rueckseiten (T23b-S).",
+      "ersatz_gegen_wiederholung": [
+        "Yaw frei",
+        "Skala im Rahmen skala_wiederholung",
+        "Familienrotation (23.2)",
+        "Neigung bis 10 Grad nur, wo die Sitzregeln es erlauben",
+        "Instanzfarbe per PerInstanceRandom nur, wenn das Material es auswertet (zu pruefen)"
+      ],
+      "bestand": "Gespiegelte Foliage-Instanzen zaehlen; Skala-Vorzeichen positiv setzen, Yaw + 180 Grad, danach Sitzpruefung; Protokoll mit alter Transform"
+    },
+    "kante_zweistufig": {
+      "ersetzt": "Abnahme der Kante in einem Schritt",
+      "landschritt": "Zwischenziel Kante: Netz >= 0,40, sichtbar >= 0,75 (je Seite)",
+      "wasserlinie": "Der Rest bis Netz >= 0,50 / sichtbar >= 0,85 kommt aus Steinen an und in der Wasserlinie im 16h-Bettschritt (neuer Bake); Endabnahme der Kante erst danach",
+      "kein_saum_auffuellen": "Kein Auffuellen mit Saumsteinen ueber die 2-fache Stueckgrenze hinaus (Kleinzeug-Rauschen)"
+    },
+    "hang_platz": {
+      "altbestand": "Altstuecke mit Sitz-FEHLER nach 23.10 (Dreiecke, S, Wandmodule) duerfen fuer Bloecke >= 1 m weichen; Altstuecke ohne FEHLER bleiben",
+      "bewuchs": "Foliage-Instanzen < 0,5 m Hoehe (Gras, Kraut, kleine Farne) im Grundriss + 0,2 m eines neuen Blocks duerfen weichen; nicht: Baeume, Bueschel > 0,5 m, Roehricht, Sehens-Planer-Bestand, gesperrte Orte",
+      "protokoll": "jede Entfernung mit Sicherung wie v3/T22, Ruecknahme moeglich"
+    },
+    "planer_lage_bestand": {
+      "weltlage": "Bestandsstuecke immer in ihrer Weltlage (Zensus) fuehren, nie auf die Planlage (r001) zuruecksetzen",
+      "kollision_bettzelle": "nach Grundriss (Fussabdruck wie deckung.vereinigung), nicht nach Mitte"
+    }
   },
   "quellen": {
     "IMBRIKATION": "Suchauszuege: Galvin 2002 GSA (a-b-Ebenen neigen stromauf), Sub-Himalaya-Studie (mittlere AB-Neigung 22,6-37,6 Grad), Studie an 1 007 Klasten (Median etwa 35 Grad Wasserschotter, 47 Debris-Flood, 65 Murgang); https://gsa.confex.com/gsa/2002AM/webprogram/Paper45012.html, https://repository.ias.ac.in/67306, https://boris.unibe.ch/119827/1/esurf-6-743-2018.pdf",
