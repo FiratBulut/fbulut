@@ -22,13 +22,14 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.4",
-  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b, 23c und 23d)",
+  "version": "23.5",
+  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b, 23c, 23d; Klasse kiesel_haufen aus 22e)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
     {"version": "23.3", "stand": "2026-10-18", "quelle": "Antwort 23c", "inhalt": "neu: verteilung (Fenster, Kennzahlen, Ziele je Biom, Gradienten, Groesse, Netz, Totholz, Fremdgestein), ringe (Herkunft im Repo, Detektor, erklaerte Ringe, Gruppenkohaerenz, Aufloesen), haengend (Eiszapfen: Ort, Pruefung, Planerbefund, Material), farbe_untergrund (CIELAB gegen Lage am Ort), reparatur_23_3 (Gesamtreihenfolge, Verteilungsschritte, Entfernungsgrenzen), planer_verteilung; Prueffaelle V1-V10, H1-H4, U1-U4. Alle Schluessel aus 23.1/23.2 unveraendert; sitz_pruefung.py und wiederholung_23b.py lesen die Datei mit unveraenderten Signaturen."},
-    {"version": "23.4", "stand": "2026-10-19", "quelle": "Antwort 23d", "inhalt": "NEUE Version, lokal ausdruecklich zu uebernehmen (eingefroren ist 23.3 als regeln_23c_cda6ceb0). Neu nur der Block nachtrag_23_4: korrekturen (weisse Steine, C6_34, Gelaende), deckung (Vereinigung statt Summe, Zonenziele, Lage statt Netz, Kleinzeug-Grenzen, Kontrollfall), ringe_23_4 (radiale Streuung relativ, Achsverhaeltnis, Mitte; gruppe_einheitlich), herkunft_zuordnung (Lookup Planausgabe), gruppen_kohaerenz_23_4 (Nachbarschaft ohne ID, Sicherung), messweg (Stufe B je Klasse, Traeger-Kern, Dreiecksmodell, e_hoehe mit H, K31-K32), verteilung_kalibrierung (netz_anteil je Schicht nur WARNUNG, Diagnose bis T23c-1), spiegeltest_nicht_nanite. Alle Schluessel aus 23.1-23.3 unveraendert; die drei Referenzcodes behalten ihre Signaturen."}
+    {"version": "23.4", "stand": "2026-10-19", "quelle": "Antwort 23d", "inhalt": "NEUE Version, lokal ausdruecklich zu uebernehmen (eingefroren ist 23.3 als regeln_23c_cda6ceb0). Neu nur der Block nachtrag_23_4: korrekturen (weisse Steine, C6_34, Gelaende), deckung (Vereinigung statt Summe, Zonenziele, Lage statt Netz, Kleinzeug-Grenzen, Kontrollfall), ringe_23_4 (radiale Streuung relativ, Achsverhaeltnis, Mitte; gruppe_einheitlich), herkunft_zuordnung (Lookup Planausgabe), gruppen_kohaerenz_23_4 (Nachbarschaft ohne ID, Sicherung), messweg (Stufe B je Klasse, Traeger-Kern, Dreiecksmodell, e_hoehe mit H, K31-K32), verteilung_kalibrierung (netz_anteil je Schicht nur WARNUNG, Diagnose bis T23c-1), spiegeltest_nicht_nanite. Alle Schluessel aus 23.1-23.3 unveraendert; die drei Referenzcodes behalten ihre Signaturen."},
+    {"version": "23.5", "stand": "2026-10-19", "quelle": "Antwort 22e", "inhalt": "neu nur nachtrag_23_5: Klasse kiesel_haufen (Eingraben 10-20 % statt 40-60 %, Basis unsichtbar, nur Bettsohle), Korrektur der 342 F6-Ersatzkiesel per Protokoll, 4 Prueffaelle. Alle uebrigen Schluessel unveraendert; unabhaengig von der Uebernahme von 23.4."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -800,6 +801,58 @@
       "groesse": "beliebig; ein Lava-Block 1,8 m genuegt, Normalen im WorldNormal-Puffer pruefen (dunkle Albedo verdeckt Lichtfehler)",
       "ersatz": "Kopie eines grauen Steins nur im Testordner mit Nanite aus, nur im Testlevel; Projekt-Assets unveraendert, Kopie danach loeschen"
     }
+  },
+  "nachtrag_23_5": {
+    "_doku": "23.5 (Antwort 22e) ergaenzt NUR die Klasse kiesel_haufen. Unabhaengig von der Uebernahme von 23.4: der Block kann allein auf 23.3/23.1 gelegt werden (z. B. im Ersatzwerkzeug trockenbett22), weil er keinen bestehenden Schluessel aendert. Erkennung kiesel_haufen geht vor kiesel; alle uebrigen Kiesel-Regeln (Neigung, Wasser-Entfernung, Wiederholung, Farbe) gelten unveraendert.",
+    "korrektur": "23 (Erstfassung) behandelte Haufen-Netze wie Einzelkiesel: 40-60 % der HAUFENhoehe eingegraben. Bei einem Haufen aus vielen kleinen Steinen auf flacher Basis verschwindet damit fast der ganze Haufen (Pilot F6, Bild kpb1_kiesel_zoom Zeilen 2-3). Das war ein Fehler der Regel, nicht der Ausfuehrung.",
+    "klasse_kiesel_haufen": {
+      "_doku": "Netz aus vielen getrennten Kleinsteinen auf gemeinsamer flacher Basis. Bezug ist der Einzelstein bzw. die Basis, nicht die Haufenhoehe.",
+      "erkennung": {
+        "netze_bestaetigt": [
+          "SM_SmallStonesPack_01",
+          "SM_SmallStonesPack_03"
+        ],
+        "netze_zu_pruefen": "SM_SmallStonesPack_02 und _04 bis _14 (u. a. FT_EL_UF_SmallStonesPack_<nn>_gruen_kiesel): je Netz Inselzahl im Netz-Export oder eine Nahaufnahme; ab 8 getrennten Inseln mit gemeinsamer Unterkante gilt kiesel_haufen",
+        "form": "zusaetzlich nur, wenn L < 0,3 m (sonst Kleinschutt- bzw. Steinregeln)",
+        "vorrang": "vor kiesel, nach kleinschutt_muster"
+      },
+      "eingrab_hoehe": {
+        "ziel": [
+          0.1,
+          0.2
+        ],
+        "fehler_unter": 0.05,
+        "fehler_ueber": 0.3,
+        "bezug": "Anteil der Haufenhoehe T x Skala_z"
+      },
+      "eingrab_einzelstein": "Gegenprobe: eingegraben 0,3-0,5 x mittlere Hoehe eines Einzelsteins des Haufens; bei SmallStonesPack_01 (T 0,16 m) entspricht 0,10-0,20 x T etwa 1,6-3,2 cm",
+      "basis_unsichtbar": "Die flache Unterkante darf an keiner Stelle sichtbar sein: luecke_max_m 0,015 entlang des Umrisses (wie kiesel)",
+      "sichtbar_min": "Bildkriterium: Der Haufen ist aus 3 m Augenhoehe als Gruppe einzelner Steine erkennbar (Nahkamera wie kpb1_kiesel_zoom)",
+      "traeger_neigung_max": 25,
+      "winkel_normale_max": 25,
+      "wasser": "In Wasserzellen keine Haufen setzen; bestehende Haufen im Wasser wie Kiesel behandeln (farbe.reparatur)",
+      "lage": "Auf Riss-Schlamm nicht als Streu ueber die Flaeche, sondern nur in der Bettsohle (Tiefenlinie) und an Innenkurven: dort lagert ein Bach Kies ab, auf der Schlammkruste nicht",
+      "begruendung": "[Projekt] Pilot F6 (22e): 342 Kiesel mit 50 % eingegraben, Haufen praktisch unsichtbar. [Gestaltung] Bezug auf die Basis: verdeckt die Kante, laesst die Steine stehen."
+    },
+    "korrektur_bestand": "Bereits gesetzte Haufen (F6: 342 Ersatz-Kiesel) werden per Protokoll angehoben: dz = (0,50 - 0,15) x T x Skala_z; danach Sitzpruefung gegen kiesel_haufen. Ruecknahme = alte Transform aus dem Protokoll.",
+    "pruef_faelle": [
+      {
+        "fall": "SM_SmallStonesPack_01, T 0,16 m, 15 % eingegraben, Boden eben",
+        "erwartet": "OK"
+      },
+      {
+        "fall": "SM_SmallStonesPack_01, 50 % eingegraben",
+        "erwartet": "FEHLER eingrab_hoehe (ueber 0,30)"
+      },
+      {
+        "fall": "SM_SmallStonesPack_01, 2 % eingegraben, Umrisskante 2 cm frei",
+        "erwartet": "FEHLER eingrab_hoehe und luecke"
+      },
+      {
+        "fall": "SM_SmallStonesPack_01 auf 30-Grad-Platte",
+        "erwartet": "FEHLER traeger_neigung (wie kiesel)"
+      }
+    ]
   },
   "quellen": {
     "IMBRIKATION": "Suchauszuege: Galvin 2002 GSA (a-b-Ebenen neigen stromauf), Sub-Himalaya-Studie (mittlere AB-Neigung 22,6-37,6 Grad), Studie an 1 007 Klasten (Median etwa 35 Grad Wasserschotter, 47 Debris-Flood, 65 Murgang); https://gsa.confex.com/gsa/2002AM/webprogram/Paper45012.html, https://repository.ias.ac.in/67306, https://boris.unibe.ch/119827/1/esurf-6-743-2018.pdf",
