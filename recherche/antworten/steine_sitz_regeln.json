@@ -22,8 +22,8 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.7",
-  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23f; Klasse kiesel_haufen aus 22e)",
+  "version": "23.8",
+  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23f; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
@@ -31,7 +31,8 @@
     {"version": "23.4", "stand": "2026-10-19", "quelle": "Antwort 23d", "inhalt": "NEUE Version, lokal ausdruecklich zu uebernehmen (eingefroren ist 23.3 als regeln_23c_cda6ceb0). Neu nur der Block nachtrag_23_4: korrekturen (weisse Steine, C6_34, Gelaende), deckung (Vereinigung statt Summe, Zonenziele, Lage statt Netz, Kleinzeug-Grenzen, Kontrollfall), ringe_23_4 (radiale Streuung relativ, Achsverhaeltnis, Mitte; gruppe_einheitlich), herkunft_zuordnung (Lookup Planausgabe), gruppen_kohaerenz_23_4 (Nachbarschaft ohne ID, Sicherung), messweg (Stufe B je Klasse, Traeger-Kern, Dreiecksmodell, e_hoehe mit H, K31-K32), verteilung_kalibrierung (netz_anteil je Schicht nur WARNUNG, Diagnose bis T23c-1), spiegeltest_nicht_nanite. Alle Schluessel aus 23.1-23.3 unveraendert; die drei Referenzcodes behalten ihre Signaturen."},
     {"version": "23.5", "stand": "2026-10-19", "quelle": "Antwort 22e", "inhalt": "neu nur nachtrag_23_5: Klasse kiesel_haufen (Eingraben 10-20 % statt 40-60 %, Basis unsichtbar, nur Bettsohle), Korrektur der 342 F6-Ersatzkiesel per Protokoll, 4 Prueffaelle. Alle uebrigen Schluessel unveraendert; unabhaengig von der Uebernahme von 23.4."},
     {"version": "23.6", "stand": "2026-10-19", "quelle": "Antwort 23e", "inhalt": "neu nur nachtrag_23_6: Stufe-B-Luecke nur mit dem Umriss verbunden (Hohlraeume zaehlen nicht), Huelle aus Dreiecken, 5 Prueffaelle SB1-SB5; Zonen ab sichtbarer Wasserkante des gespeicherten Stands; Kleinzeug-Zaehlung; 0,55 m2 nur Schaetzung; Herkunft-Rekonstruktion im Plan-Modus mit Kontrolle. Alle uebrigen Schluessel unveraendert."},
-    {"version": "23.7", "stand": "2026-10-19", "quelle": "Antwort 23f", "inhalt": "neu nur nachtrag_23_7: Umriss nur zum Aussenraum (SB6), Wandfels ab 4 m (Ueberhang als WARNUNG bei Verankerung, Reparaturreihenfolge, Groessengrenze Absenken), Zonen: sichtbar_1 bleibt, trockene Bettzellen zaehlen mit (nur kollisionsfrei), Fels-Lage 38-45 Grad mit Fernbild, Planer im Plan-Modus auf T6N1_0. Alle uebrigen Schluessel unveraendert."}
+    {"version": "23.7", "stand": "2026-10-19", "quelle": "Antwort 23f", "inhalt": "neu nur nachtrag_23_7: Umriss nur zum Aussenraum (SB6), Wandfels ab 4 m (Ueberhang als WARNUNG bei Verankerung, Reparaturreihenfolge, Groessengrenze Absenken), Zonen: sichtbar_1 bleibt, trockene Bettzellen zaehlen mit (nur kollisionsfrei), Fels-Lage 38-45 Grad mit Fernbild, Planer im Plan-Modus auf T6N1_0. Alle uebrigen Schluessel unveraendert."},
+    {"version": "23.8", "stand": "2026-10-19", "quelle": "Antwort 22f", "inhalt": "nur Korrektur von Texten in nachtrag_23_5: SM_SmallStonesPack_01 misst 13,1 x 9,2 x 8,3 cm (netze_masse.json), nicht 0,26 x 0,18 x 0,16 m (Faktor 2 falsch in der Referenzliste aus Antwort 23). Schwellen unveraendert (10-20 % von T); Klasse bleibt kiesel/kiesel_haufen, Groessenklasse K2."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -827,7 +828,7 @@
         "fehler_ueber": 0.3,
         "bezug": "Anteil der Haufenhoehe T x Skala_z"
       },
-      "eingrab_einzelstein": "Gegenprobe: eingegraben 0,3-0,5 x mittlere Hoehe eines Einzelsteins des Haufens; bei SmallStonesPack_01 (T 0,16 m) entspricht 0,10-0,20 x T etwa 1,6-3,2 cm",
+      "eingrab_einzelstein": "Gegenprobe: eingegraben 0,3-0,5 x mittlere Hoehe eines Einzelsteins des Haufens; bei SmallStonesPack_01 (T 0,083 m laut netze_masse.json, korrigiert 23.8) entspricht 0,10-0,20 x T etwa 0,8-1,7 cm",
       "basis_unsichtbar": "Die flache Unterkante darf an keiner Stelle sichtbar sein: luecke_max_m 0,015 entlang des Umrisses (wie kiesel)",
       "sichtbar_min": "Bildkriterium: Der Haufen ist aus 3 m Augenhoehe als Gruppe einzelner Steine erkennbar (Nahkamera wie kpb1_kiesel_zoom)",
       "traeger_neigung_max": 25,
@@ -839,7 +840,7 @@
     "korrektur_bestand": "Bereits gesetzte Haufen (F6: 342 Ersatz-Kiesel) werden per Protokoll angehoben: dz = (0,50 - 0,15) x T x Skala_z; danach Sitzpruefung gegen kiesel_haufen. Ruecknahme = alte Transform aus dem Protokoll.",
     "pruef_faelle": [
       {
-        "fall": "SM_SmallStonesPack_01, T 0,16 m, 15 % eingegraben, Boden eben",
+        "fall": "SM_SmallStonesPack_01, T 0,083 m (korrigiert 23.8), 15 % eingegraben, Boden eben",
         "erwartet": "OK"
       },
       {
