@@ -22,8 +22,8 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.8",
-  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23f; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
+  "version": "23.9",
+  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23g; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
@@ -32,7 +32,8 @@
     {"version": "23.5", "stand": "2026-10-19", "quelle": "Antwort 22e", "inhalt": "neu nur nachtrag_23_5: Klasse kiesel_haufen (Eingraben 10-20 % statt 40-60 %, Basis unsichtbar, nur Bettsohle), Korrektur der 342 F6-Ersatzkiesel per Protokoll, 4 Prueffaelle. Alle uebrigen Schluessel unveraendert; unabhaengig von der Uebernahme von 23.4."},
     {"version": "23.6", "stand": "2026-10-19", "quelle": "Antwort 23e", "inhalt": "neu nur nachtrag_23_6: Stufe-B-Luecke nur mit dem Umriss verbunden (Hohlraeume zaehlen nicht), Huelle aus Dreiecken, 5 Prueffaelle SB1-SB5; Zonen ab sichtbarer Wasserkante des gespeicherten Stands; Kleinzeug-Zaehlung; 0,55 m2 nur Schaetzung; Herkunft-Rekonstruktion im Plan-Modus mit Kontrolle. Alle uebrigen Schluessel unveraendert."},
     {"version": "23.7", "stand": "2026-10-19", "quelle": "Antwort 23f", "inhalt": "neu nur nachtrag_23_7: Umriss nur zum Aussenraum (SB6), Wandfels ab 4 m (Ueberhang als WARNUNG bei Verankerung, Reparaturreihenfolge, Groessengrenze Absenken), Zonen: sichtbar_1 bleibt, trockene Bettzellen zaehlen mit (nur kollisionsfrei), Fels-Lage 38-45 Grad mit Fernbild, Planer im Plan-Modus auf T6N1_0. Alle uebrigen Schluessel unveraendert."},
-    {"version": "23.8", "stand": "2026-10-19", "quelle": "Antwort 22f", "inhalt": "nur Korrektur von Texten in nachtrag_23_5: SM_SmallStonesPack_01 misst 13,1 x 9,2 x 8,3 cm (netze_masse.json), nicht 0,26 x 0,18 x 0,16 m (Faktor 2 falsch in der Referenzliste aus Antwort 23). Schwellen unveraendert (10-20 % von T); Klasse bleibt kiesel/kiesel_haufen, Groessenklasse K2."}
+    {"version": "23.8", "stand": "2026-10-19", "quelle": "Antwort 22f", "inhalt": "nur Korrektur von Texten in nachtrag_23_5: SM_SmallStonesPack_01 misst 13,1 x 9,2 x 8,3 cm (netze_masse.json), nicht 0,26 x 0,18 x 0,16 m (Faktor 2 falsch in der Referenzliste aus Antwort 23). Schwellen unveraendert (10-20 % von T); Klasse bleibt kiesel/kiesel_haufen, Groessenklasse K2."},
+    {"version": "23.9", "stand": "2026-10-19", "quelle": "Antwort 23g", "inhalt": "neu nur nachtrag_23_9: Bezugsflaeche S = H + Verdraengung der Lagen (statt H) fuer die Sitzpruefung, Validierung K33 per Tiefenaufnahme, keine Kiesel-Netze auf Lage Kies >= 0,5; Zielwert Kies-Verdraengung 0,08-gleichwertig (11,2 cm) mit Gate. Alle uebrigen Schluessel unveraendert."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -950,6 +951,29 @@
       "trockene_bettzellen": "Zellen innerhalb der geplanten Bettkante (d < 0), die in BEIDEN Dumps (gespeichert und Kandidat) nicht sichtbar_1 sind, zaehlen zur Kante. Dort nur Lage (Kies/Geroell, <= 38 Grad) und Stuecke ohne Kollision (kein SWR-Hindernis: Kiesel, kiesel_haufen, K2 ohne Kollision). K3 und Bloecke mit Kollision erst im 16h-Bettschritt.",
       "fels_lage_steil": "Lage Fels 38-45 Grad zulaessig, wenn eine Fernkamera (>= 80 m, RVT von oben, Streckung bis 1,41) keine gestreckte Textur zeigt; ueber 45 Grad nur Netz",
       "gespeicherter_stand": "ersetzt 23e-Abbruchregel fuer die Zonen: Breite 1 und Breite 5 verschieben die sichtbare Wasserkante kaum (23f: +2 / 0 pp). Planer-Neulauf im Plan-Modus darf auf T6N1_0 rechnen; nach dem Speichern von T6N1/T6N1b Zonen nachrechnen, bei Verschiebung der Kante > 0,3 m im Median neu planen."
+    }
+  },
+  "nachtrag_23_9": {
+    "_doku": "23.9 (Antwort 23g). Ergaenzt nur. Alle Schluessel aus 23.1-23.8 unveraendert. Lokal ausdruecklich zu uebernehmen.",
+    "verdraengung_bezug": {
+      "grund": "Das Landschaftsmaterial verdraengt per Nanite-Tessellation (Kies-Hub 31,5 cm bei Magnitude 0,225). Die sichtbare Oberflaeche liegt dann bis zum halben Hub ueber/unter hoehe.f32; Luecke/Eingraben gegen hoehe.f32 messen etwas anderes als das Bild zeigt.",
+      "formel": "S(x,y) = H(x,y) + sum_l Hub_l x (T_l(x,y) - c) x w_l(x,y); T_l = Hoehentextur der Lage l aus Welt-XY (Kachel laut Material), c = Verdraengungsmitte des Materials (laut 23g 0,5; lokal am Material bestaetigen), w_l = Lagengewicht, Hub_l = Lagenanteil x volle Tiefe x Magnitude/0,225",
+      "gilt_fuer": "alle Klassen in Zellen mit sum_l w_l x Hub_l >= 2 cm; sonst S = H",
+      "statt_H": "S ersetzt H in traeger(), e_hoehe, luecke, deckung, kante_frei, planaritaet; Wasser und Lagen-Malerei bleiben auf H",
+      "validierung": {
+        "nr": "K33",
+        "aufbau": "SceneCapture2D, orthografisch von oben, SceneDepth, 5 x 5 m Kiesflaeche und 5 x 5 m Felsplatte, nur im Testlevel, nichts speichern",
+        "soll": "RMS(Tiefe - S) <= 1,5 cm und RMS(Tiefe - H) deutlich groesser; sonst S nicht verwenden und melden"
+      },
+      "kiesel_auf_kies": "Auf Lage Kies >= 0,5 keine kiesel/kiesel_haufen-Netze setzen (die Lage zeigt den Kies); bestehende dort nur pruefen, nicht ergaenzen"
+    },
+    "verdraengung_ziel": {
+      "kies_magnitude_gleichwert": 0.08,
+      "kies_hub_cm": 11.2,
+      "kies_anteil_parameter": 0.25,
+      "gate": "Flanken > 45 Grad <= 10 % der Kiesflaeche und Streckung p99 <= 2,5 (offline wie 23g), Bild an den drei Kameras ohne erkennbare senkrechte Streifen",
+      "faustregel": "Hub <= 0,5 x mittlerer Steindurchmesser der Hoehentextur bei der verwendeten Kachel (zu pruefen fuer T_ground_big_pebbles_01 bei 2,5 m)",
+      "fels": "gleiche Kennzahlen je Lage auf flachen Felsflaechen (Hang < 20 Grad) messen; Hub nur senken, wenn Flanken > 45 Grad ueber 10 % oder Bild streift"
     }
   },
   "quellen": {
