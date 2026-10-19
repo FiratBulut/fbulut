@@ -22,8 +22,8 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.9",
-  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23g; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
+  "version": "23.10",
+  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23h; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
@@ -33,7 +33,8 @@
     {"version": "23.6", "stand": "2026-10-19", "quelle": "Antwort 23e", "inhalt": "neu nur nachtrag_23_6: Stufe-B-Luecke nur mit dem Umriss verbunden (Hohlraeume zaehlen nicht), Huelle aus Dreiecken, 5 Prueffaelle SB1-SB5; Zonen ab sichtbarer Wasserkante des gespeicherten Stands; Kleinzeug-Zaehlung; 0,55 m2 nur Schaetzung; Herkunft-Rekonstruktion im Plan-Modus mit Kontrolle. Alle uebrigen Schluessel unveraendert."},
     {"version": "23.7", "stand": "2026-10-19", "quelle": "Antwort 23f", "inhalt": "neu nur nachtrag_23_7: Umriss nur zum Aussenraum (SB6), Wandfels ab 4 m (Ueberhang als WARNUNG bei Verankerung, Reparaturreihenfolge, Groessengrenze Absenken), Zonen: sichtbar_1 bleibt, trockene Bettzellen zaehlen mit (nur kollisionsfrei), Fels-Lage 38-45 Grad mit Fernbild, Planer im Plan-Modus auf T6N1_0. Alle uebrigen Schluessel unveraendert."},
     {"version": "23.8", "stand": "2026-10-19", "quelle": "Antwort 22f", "inhalt": "nur Korrektur von Texten in nachtrag_23_5: SM_SmallStonesPack_01 misst 13,1 x 9,2 x 8,3 cm (netze_masse.json), nicht 0,26 x 0,18 x 0,16 m (Faktor 2 falsch in der Referenzliste aus Antwort 23). Schwellen unveraendert (10-20 % von T); Klasse bleibt kiesel/kiesel_haufen, Groessenklasse K2."},
-    {"version": "23.9", "stand": "2026-10-19", "quelle": "Antwort 23g", "inhalt": "neu nur nachtrag_23_9: Bezugsflaeche S = H + Verdraengung der Lagen (statt H) fuer die Sitzpruefung, Validierung K33 per Tiefenaufnahme, keine Kiesel-Netze auf Lage Kies >= 0,5; Zielwert Kies-Verdraengung 0,08-gleichwertig (11,2 cm) mit Gate. Alle uebrigen Schluessel unveraendert."}
+    {"version": "23.9", "stand": "2026-10-19", "quelle": "Antwort 23g", "inhalt": "neu nur nachtrag_23_9: Bezugsflaeche S = H + Verdraengung der Lagen (statt H) fuer die Sitzpruefung, Validierung K33 per Tiefenaufnahme, keine Kiesel-Netze auf Lage Kies >= 0,5; Zielwert Kies-Verdraengung 0,08-gleichwertig (11,2 cm) mit Gate. Alle uebrigen Schluessel unveraendert."},
+    {"version": "23.10", "stand": "2026-10-19", "quelle": "Antwort 23h", "inhalt": "neu nur nachtrag_23_10: Haufen nach Form statt Inselzahl, Wandmodule ohne durchdringung (WARNUNG naht), Kulisse ab 15 m (Halt + Sichtbarkeit), offene Netze ueber offenen Rand, Dreiecke entscheiden ab 15 cm, Bestand in trockenen Bettzellen bleibt. Alle uebrigen Schluessel unveraendert."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -975,6 +976,41 @@
       "faustregel": "Hub <= 0,5 x mittlerer Steindurchmesser der Hoehentextur bei der verwendeten Kachel (zu pruefen fuer T_ground_big_pebbles_01 bei 2,5 m)",
       "fels": "gleiche Kennzahlen je Lage auf flachen Felsflaechen (Hang < 20 Grad) messen; Hub nur senken, wenn Flanken > 45 Grad ueber 10 % oder Bild streift"
     }
+  },
+  "nachtrag_23_10": {
+    "_doku": "23.10 (Antwort 23h). Ergaenzt bzw. ersetzt nur dort, wo 'ersetzt' steht. Alle uebrigen Schluessel aus 23.1-23.9 unveraendert. Lokal ausdruecklich zu uebernehmen.",
+    "haufen_nach_form": {
+      "ersetzt": "nachtrag_23_5.klasse_kiesel_haufen.erkennung.netze_zu_pruefen (Inselzahl >= 8) - Inselzahl ist die falsche Pruefgroesse, Haufen koennen als eine geschlossene Huelle modelliert sein (23h)",
+      "regel": "kiesel_haufen, wenn aus der Dreiecks-Huelle (1-cm-Raster): (a) >= 60 % der Unterseiten-Zellen liegen <= 1 cm ueber der Ausgleichsebene der Unterseite (flache Basis) UND (b) die Oberseite hat >= 5 lokale Maxima mit >= 1 cm Praegnanz",
+      "kalibrierung": "SM_SmallStonesPack_01 und _03 muessen Haufen sein (Bild kpb1_kiesel_zoom); ein Einzelkiesel mit runder Unterseite darf es nicht sein. Trennt die Regel diese Faelle nicht, Nahaufnahme je Netz",
+      "groesse_gegen_form": "Die Form bestimmt das Eingraben (Haufen: 10-20 % der Hoehe, Basis unsichtbar). Die Groesse (L x Skala) bestimmt Toleranzen und Zaehlung (kiesel/stein, K1/K2/K3). Die 1 055 SmallStonesPack-Instanzen der Groesse 'stein' werden also wie Haufen eingegraben, mit Stein-Toleranzen",
+      "geltung": "nur ausserhalb Lage Kies >= 0,5 (23.9)"
+    },
+    "wand_module": {
+      "ersetzt": "durchdringung (23) fuer Paare, die beide Wandfels sind",
+      "paar": "beide L x Skala >= 4 m UND gleiche Familie (Netzname ohne Ziffernsuffix) oder Helligkeitsunterschied der Oberflaeche <= 0,10 (Y, wie farbe 23.2)",
+      "urteil": "keine durchdringung fuer solche Paare; stattdessen WARNUNG 'naht', wenn die Ueberlappung duenner als 0,10 m durch die Oberflaeche des anderen tritt (Splitter) oder die Familien verschieden und Y-Differenz > 0,10",
+      "sonst": "Paare mit einem Stueck < 4 m: durchdringung wie bisher"
+    },
+    "kulisse": {
+      "ab_L_m": 15.0,
+      "_doku": "Felsen ab 15 m (L x Skala) sind Klippen-/Kulissenbausteine; Sitzregeln (Eingraben, Luecke im Kern) gelten nicht, statt dessen Halt und Sichtbarkeit",
+      "halt": "Kontakt (d <= 5 cm) mit Gelaende oder anderem Fels >= 4 m an der Unterseite ODER an zwei gegenueberliegenden Seiten (Klemmblock: Kontaktsektoren mit >= 120 Grad Abstand im Grundriss)",
+      "sichtbarkeit": "Luft unter dem Stueck ist nur FEHLER, wenn sie von begehbaren Punkten (Hang <= 35 Grad, <= 200 m, 1,7 m Augenhoehe, Rasterweite 10 m) mit freier Sichtlinie zu sehen ist; sonst WARNUNG",
+      "reparatur": [
+        "1 Netztausch gegen Variante mit passender Basis",
+        "2 Drehen/Versetzen innerhalb der Wand bis Halt erfuellt",
+        "3 Entfernen, wenn die Wand ohne das Stueck geschlossen bleibt (Bild)"
+      ]
+    },
+    "offene_netze": {
+      "_doku": "Netze ohne Boden (nach Verschweissen offene Kanten). Hohlraum/Deckung sind fuer sie bedeutungslos.",
+      "regel": "Randpunkte aller offenen Kanten (Kanten mit nur einem Dreieck, alle 5 cm abgetastet) muessen <= -0,02 m unter S liegen (S = Bezugsflaeche 23.9 bzw. Traeger). Sonst FEHLER 'offener_rand' (man sieht in das Netz)",
+      "ok": "alle Randpunkte unter S: ok, Hohlraum-Anteil nicht berichten",
+      "vorrang": "vor luecke/deckung fuer offene Netze"
+    },
+    "dreiecke_entscheiden": "Luecken >= 15 cm entscheidet die Dreiecks-Huelle (Nanite-Ersatznetz) allein; < 15 cm nur mit Bild oder vollem Nanite-Netz. Vorher pruefen, ob das Netz offen ist (dann offene_netze)",
+    "bestand_trockene_bettzellen": "Bestehende Stuecke mit Kollision in trockenen Bettzellen bleiben (sie sind Teil des Bakes T6N1b_2). Neu wird dort nichts mit Kollision gesetzt; Bestand wird im 16h-Bettschritt mit neuem Bake bewertet"
   },
   "quellen": {
     "IMBRIKATION": "Suchauszuege: Galvin 2002 GSA (a-b-Ebenen neigen stromauf), Sub-Himalaya-Studie (mittlere AB-Neigung 22,6-37,6 Grad), Studie an 1 007 Klasten (Median etwa 35 Grad Wasserschotter, 47 Debris-Flood, 65 Murgang); https://gsa.confex.com/gsa/2002AM/webprogram/Paper45012.html, https://repository.ias.ac.in/67306, https://boris.unibe.ch/119827/1/esurf-6-743-2018.pdf",
