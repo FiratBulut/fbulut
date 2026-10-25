@@ -1,0 +1,1957 @@
+{
+ "_doku": {
+  "zweck": "Antwort 24 (Auftrag 24): Gewaesser je Biom nach dem Erlenbach-Muster, Seen, Wasserfaelle ohne Houdini, Efeu. Nur JSON-Regeln fuer Ferats lokale Werkzeuge; die Landschaft bleibt.",
+  "lesen": "Laengen m, Winkel Grad, Anteile 0-1, Lagen in Prozent (Summe 100) mit Namen aus FORMAT.md par. 2. Faktoren beziehen sich auf die bestehenden Dichten der genannten Dateien. Werte [Fach] mit Quelle, [Ableitung] gerechnet, [Gestaltung] gesetzt.",
+  "erzeugt_von": "skripte/gewaesser_biome/gewaesser_biome_regeln_erzeugen.py (Selbsttest)",
+  "wasser_y": "y_0_3m/y_1_0m = Helligkeit des Grundes durch das Wasser bei 0,3 bzw. 1,0 m Tiefe, Lichtweg 2 x Tiefe (16h-6f); Absorption = Sichtweite je Farbe in cm wie MI_EL_SWR_* [Ferat]"
+ },
+ "version": 1,
+ "stand": "2026-10-25 (Antwort 24)",
+ "lagen_namen": [
+  "Wiese",
+  "Gras",
+  "Trockengras",
+  "Laub",
+  "Nadeln",
+  "Moos",
+  "Heide",
+  "Kraut",
+  "Erde",
+  "Lehm",
+  "Schlamm",
+  "Sand",
+  "Kies",
+  "Geroell",
+  "Fels",
+  "Felsplatte",
+  "Sandstein",
+  "Schnee",
+  "Eis",
+  "Lavafels",
+  "Lavasand",
+  "Algen"
+ ],
+ "biom_zuordnung": {
+  "nordic_mischwald": [
+   "tundra",
+   "bergwald"
+  ],
+  "bergwald": [
+   "bergwald"
+  ],
+  "aue": [
+   "aue"
+  ],
+  "elfenwald": [
+   "elfenwald"
+  ],
+  "heide": [
+   "heide"
+  ],
+  "tundra": [
+   "tundra"
+  ],
+  "gletscher": [
+   "gletscher"
+  ],
+  "frost": [
+   "frost"
+  ],
+  "lava": [
+   "lava"
+  ],
+  "nordkueste": [
+   "fjord",
+   "kueste"
+  ],
+  "sumpf": [
+   "sumpf"
+  ],
+  "wueste": [
+   "wueste",
+   "canyon",
+   "oedland"
+  ],
+  "dschungel": [
+   "dschungel"
+  ]
+ },
+ "allgemein": {
+  "bettform_nach_gefaelle": {
+   "_doku": "Montgomery & Buffington 1997 [Fach]; Grenzen als Gefaelle (m/m) ueber 2 Bachbreiten gemittelt. Gilt fuer alle Biome; das Biom waehlt nur, welche Formen bevorzugt sind und womit sie belegt werden.",
+   "kaskade": {
+    "gefaelle": [
+     0.08,
+     0.3
+    ],
+    "merkmal": "Bloecke >= 0,5 B ueberlagern sich, kurze Becken < 1 B, viel Weisswasser"
+   },
+   "stufe_becken": {
+    "gefaelle": [
+     0.03,
+     0.08
+    ],
+    "stufenabstand_B": [
+     1.0,
+     4.0
+    ],
+    "stufenhoehe_durch_abstand_durch_gefaelle": [
+     1.0,
+     2.0
+    ],
+    "quelle": "Chin 1989; Abrahams et al. 1995 (H/L/S = 1-2)"
+   },
+   "flachbett": {
+    "gefaelle": [
+     0.01,
+     0.03
+    ],
+    "merkmal": "gleichmaessige Kies-/Geroellsohle, kaum Becken"
+   },
+   "furt_kolk": {
+    "gefaelle": [
+     0.001,
+     0.02
+    ],
+    "kolkabstand_B": [
+     5.0,
+     7.0
+    ],
+    "merkmal": "Kiesbank am Gleithang, Kolk am Prallhang",
+    "quelle": "Leopold & Wolman 1957 [Fach]"
+   },
+   "maeander": {
+    "gefaelle": [
+     0.0,
+     0.01
+    ],
+    "wellenlaenge_B": [
+     10.0,
+     14.0
+    ],
+    "kruemmungsradius_B": [
+     2.0,
+     3.0
+    ],
+    "nur_wo": "Talboden flacher als 2 Grad und breiter als 6 B"
+   },
+   "steil_ueber": {
+    "gefaelle": 0.3,
+    "folge": "kein SWR-Bett mehr, sondern Wasserfall-Regeln (wasserfaelle)"
+   }
+  },
+  "breite_aus_einzugsgebiet": {
+   "_doku": "Richtwert fuer neue Laeufe und zur Pruefung bestehender Betten. Bordvoll-Breite B und -Tiefe D aus dem Einzugsgebiet A (km2) nach regionalen Kurven feuchter Mittelgebirge [Fach, Groessenordnung]; der Spielfaktor 1,5 ist Gestaltung (die Inseln sind klein, 17 par. 1). Mittelwasser-Breite = 0,6-0,8 B.",
+   "B_m": "1,5 x 2,5 x A^0,45",
+   "D_m": "0,25 x A^0,30 (Becken bis 3 D)",
+   "spielfaktor": 1.5,
+   "beispiele": {
+    "A_0_1km2": {
+     "B_m": 1.3,
+     "D_m": 0.13
+    },
+    "A_1km2": {
+     "B_m": 3.8,
+     "D_m": 0.25
+    },
+    "A_5km2": {
+     "B_m": 7.6,
+     "D_m": 0.4
+    }
+   },
+   "biom_faktor_B": {
+    "wueste": 1.6,
+    "canyon": 1.3,
+    "gletscher": 1.8,
+    "sumpf": 1.3,
+    "dschungel": 1.4,
+    "sonst": 1.0
+   },
+   "biom_faktor_begruendung": "Wueste/Gletscher: breite, flache Sohle aus Sand bzw. Sander, die nur teilweise Wasser fuehrt; Sumpf/Dschungel: weiche Ufer, breiteres Gerinne bei gleichem Abfluss [Fach qualitativ, Ableitung]"
+  },
+  "zonen": {
+   "_doku": "Abstand d zur Wasserkante sichtbar_1 (23f par. 3). Gleiche Zonen wie steine_sitz_regeln.json nachtrag_23_4; 'sichtbar' = Vereinigung aus Netz-Fussabdruecken und Zellen, deren kantenbelag-Lagen zusammen >= 0,5 erreichen.",
+   "bett": "Wasser (sichtbar_1) und trockene Bettzellen (23.7)",
+   "kante_0_1m": [
+    0,
+    1
+   ],
+   "ufer_1_3m": [
+    1,
+    3
+   ],
+   "hang_3_10m": [
+    3,
+    10
+   ],
+   "saum_10_30m": [
+    10,
+    30
+   ],
+   "saum": "Uebergang zur Biom-Umgebung, Lagen weich ueber 3 m, Grenzen +/- 1,5 m verrauscht (16h A.1)"
+  },
+  "deckung_bezug": {
+   "_doku": "Die Zielwerte der Talkaskade (23.4) sind der Wert 1,0. Jedes Biom nennt Faktoren; netz_min und sichtbar_min = Faktor x Bezug, gedeckelt auf 0,95.",
+   "kante_0_1m": {
+    "netz_min": 0.5,
+    "sichtbar_min": 0.85
+   },
+   "ufer_1_3m": {
+    "netz_min": 0.4,
+    "sichtbar_min": 0.75
+   },
+   "hang_3_10m": {
+    "netz_min": 0.25
+   },
+   "zwischenstufe": "Landschritt vor dem Bettschritt wie 23.11: Netz >= 0,8 x netz_min, sichtbar >= 0,88 x sichtbar_min"
+  },
+  "swr": {
+   "_doku": "SWR-Werte haengen von Breite, Gefaelle und Laenge ab, nicht vom Biom. Bezug Erlenbach p2 [Ferat]: Nachfuellen 0,3, smoothing_width 1, BAKED_SIM. Biome aendern nur Material und Hindernisse.",
+   "zelle_m": "clamp(B_mittelwasser / 12; 0,15; 0,40) - mindestens 12 Zellen ueber die Breite; Median heute 0,244 m (fluss_sim)",
+   "aufloesung_max": 2048,
+   "laenger": "teilen mit Naht in einem Becken (fluss_sim, 11 Becken-Naehte)",
+   "nachfuellen": {
+    "standard": 0.3,
+    "hinweis": "nur aendern, wenn der Lauf in der Messzeit nicht voll wird; kein Biomwert [Ableitung]"
+   },
+   "smoothing_width": {
+    "B_unter_3m": 1,
+    "B_3_bis_8m": 1,
+    "B_ueber_8m": "1, Vergleich mit 2 an einer Stelle (zu pruefen)"
+   },
+   "render_state": "BAKED_SIM nur, wo WCBS sichtbar versagt, solange die gemessene Summe im Wasserbudget 1,5 ms bleibt (16h-6i par. 1.2); Render-State je Akteur fest waehlen",
+   "wasserzone": "Regel 6t par. 4: Aufloesung nach Epic-Wasserkoerpern mit sichtbarem Rand; Seen und Fluesse >= 6 m: 2048; 4096 nur, wo ein schmaler Epic-Fluss bleibt; fuer SWR entscheidet Z1 aus Pilot 1; Fernflaeche bei Binnenzonen aus",
+   "muendung": "letzter Splinepunkt liegt im Zielgewaesser (Fluss/See/Meer), das Zielgewaesser ist Senke (sink); ohne gueltige Senke verschwindet die Flaeche (Forum 5.8.3)"
+  },
+  "herkunft": "Jeder Lauf und jeder Fall braucht eine sichtbare Herkunft nach Antwort 17 par. 5 (Einzugsgebiet nach Breite und Biom und 30 m sichtbares Wasser oberhalb oder Quellmerkmal); Quellen nach 19 (bach_anfaenge_regeln.json)",
+  "bezug_dateien": {
+   "totholz": "skripte/sehens_lib/bachbett_regeln.json biome[<intern>] (lw, Verklausung, Aeste, Zweige, Netze)",
+   "uferstreifen": "skripte/sehens_lib/bachbett_regeln.json biome[<intern>].streifen (gilt weiter fuer 0-3,5 m, wird hier nur bei abweichender Kante ueberschrieben)",
+   "ufer_profil": "bachbett_ufer_regeln.json C_ufer (Schuettwinkel, Prallhang, Gleithang, Kasten-Pruefung)",
+   "sitz": "steine_sitz_regeln.json (23.1-23.11; Kragarm 24 par. 8)",
+   "landschaft_unter_bach": "bachbett_ufer_regeln.json B2_landschaft_bach (Bachgewicht, keine Kies-Ersetzung unter Baechen)"
+  }
+ },
+ "biome": {
+  "nordic_mischwald": {
+   "intern": [
+    "tundra",
+    "bergwald"
+   ],
+   "hinweis": "Bezug Erlenbach p2 (Felder C2/C3/D2). Zuordnung im Raster zu bestaetigen (Rueckfrage 1)",
+   "bettform": [
+    "stufe_becken",
+    "kaskade",
+    "flachbett"
+   ],
+   "profil": "wie p2: Lockerboeschung 30-35 Grad, Prallhang 45-70 Grad mit Erdanriss und Blockfuss, Gleithang 5-15 Grad mit Kiesbank (16h C)",
+   "lagen": {
+    "bett": {
+     "Geroell": 35,
+     "Kies": 30,
+     "Fels": 15,
+     "Sand": 10,
+     "Schlamm": 10
+    },
+    "kante_0_1m": {
+     "Geroell": 30,
+     "Moos": 25,
+     "Kies": 20,
+     "Erde": 15,
+     "Fels": 10
+    },
+    "ufer_1_3m": {
+     "Moos": 30,
+     "Trockengras": 20,
+     "Geroell": 20,
+     "Heide": 15,
+     "Erde": 15
+    },
+    "hang_3_10m": {
+     "Trockengras": 30,
+     "Heide": 25,
+     "Moos": 20,
+     "Geroell": 15,
+     "Fels": 10
+    }
+   },
+   "kantenbelag": [
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Kies"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 1.0,
+    "ufer_1_3m": 1.0,
+    "hang_3_10m": 1.0
+   },
+   "totholz_bezug": "tundra (Talboden) bzw. bergwald (Wald im Radius 40 m)",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "grasbueschel",
+      "farn"
+     ],
+     "faktor": 0.6
+    },
+    "1_3m": {
+     "klassen": [
+      "strauch",
+      "farn",
+      "hochstaude",
+      "grasbueschel"
+     ],
+     "faktor": 1.2
+    },
+    "3_10m": {
+     "klassen": [
+      "strauch",
+      "jungbaum",
+      "totholz_liegend"
+     ],
+     "faktor": 1.1
+    },
+    "gehoelz": "Erle/Weide/Birke am Ufer, sonst Biom-Bestand; keine Baeume naeher als 1 m an der Kante"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Bergbach",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     160,
+     650,
+     850
+    ],
+    "scattering_faktor_zu_E16": 1.0,
+    "scattering_farbe_rgb": "E16",
+    "y_0_3m": 0.87,
+    "y_1_0m": 0.64,
+    "bild": "klar, leicht gruenblau im Kolk",
+    "herleitung": "[Ferat] p2-Stand (6f)"
+   }
+  },
+  "bergwald": {
+   "intern": [
+    "bergwald"
+   ],
+   "bettform": [
+    "stufe_becken",
+    "kaskade"
+   ],
+   "profil": "steile Kerbtaeler, Prallhang mit Wurzeln und Blockfuss, Ufer bis 40 Grad bewaldet",
+   "lagen": {
+    "bett": {
+     "Geroell": 40,
+     "Fels": 20,
+     "Kies": 25,
+     "Sand": 5,
+     "Schlamm": 10
+    },
+    "kante_0_1m": {
+     "Moos": 35,
+     "Geroell": 25,
+     "Erde": 15,
+     "Fels": 15,
+     "Laub": 10
+    },
+    "ufer_1_3m": {
+     "Moos": 30,
+     "Laub": 25,
+     "Nadeln": 15,
+     "Erde": 15,
+     "Geroell": 15
+    },
+    "hang_3_10m": {
+     "Laub": 30,
+     "Nadeln": 30,
+     "Moos": 20,
+     "Erde": 10,
+     "Geroell": 10
+    }
+   },
+   "kantenbelag": [
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Kies",
+    "Moos"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 1.0,
+    "ufer_1_3m": 0.9,
+    "hang_3_10m": 0.8
+   },
+   "totholz_bezug": "bergwald",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "farn",
+      "grasbueschel"
+     ],
+     "faktor": 0.8
+    },
+    "1_3m": {
+     "klassen": [
+      "farn",
+      "hochstaude",
+      "strauch"
+     ],
+     "faktor": 1.4
+    },
+    "3_10m": {
+     "klassen": [
+      "jungbaum",
+      "farn",
+      "totholz_liegend",
+      "totholz_stumpf"
+     ],
+     "faktor": 1.2
+    },
+    "gehoelz": "Erle und Esche am Bach, Fichte/Buche dahinter; Moos auf Bloecken in Bachnaehe (Spritzzone 0-1 m)"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Bergbach",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     160,
+     650,
+     850
+    ],
+    "scattering_faktor_zu_E16": 1.0,
+    "scattering_farbe_rgb": "E16",
+    "y_0_3m": 0.87,
+    "y_1_0m": 0.64,
+    "bild": "wie Nordic",
+    "herleitung": "Gleicher Bachtyp (Bergbach, Silikat) [Ableitung]"
+   }
+  },
+  "aue": {
+   "intern": [
+    "aue"
+   ],
+   "bettform": [
+    "furt_kolk",
+    "maeander",
+    "flachbett"
+   ],
+   "profil": "flache Ufer 5-15 Grad, Prallhang als 0,5-1,5 m Erdanriss mit Wurzeln, Gleithang mit breiter Kiesbank (0,5-1,0 B), Altwasser in Senken",
+   "lagen": {
+    "bett": {
+     "Kies": 45,
+     "Sand": 25,
+     "Schlamm": 20,
+     "Geroell": 10
+    },
+    "kante_0_1m": {
+     "Kies": 30,
+     "Schlamm": 25,
+     "Sand": 20,
+     "Erde": 15,
+     "Gras": 10
+    },
+    "ufer_1_3m": {
+     "Gras": 35,
+     "Wiese": 20,
+     "Schlamm": 15,
+     "Erde": 15,
+     "Kies": 15
+    },
+    "hang_3_10m": {
+     "Wiese": 45,
+     "Gras": 30,
+     "Kraut": 15,
+     "Erde": 10
+    }
+   },
+   "kantenbelag": [
+    "Kies",
+    "Geroell",
+    "Sand",
+    "Schlamm"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.5,
+    "ufer_1_3m": 0.4,
+    "hang_3_10m": 0.2
+   },
+   "totholz_bezug": "aue",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "roehricht",
+      "grasbueschel"
+     ],
+     "faktor": 1.0,
+     "nur": "Gleithang und Altwasser, nicht am Prallhang"
+    },
+    "1_3m": {
+     "klassen": [
+      "strauch",
+      "hochstaude",
+      "roehricht"
+     ],
+     "faktor": 1.5
+    },
+    "3_10m": {
+     "klassen": [
+      "jungbaum",
+      "strauch",
+      "totholz_liegend"
+     ],
+     "faktor": 1.3
+    },
+    "gehoelz": "Weichholzaue (Weide, Pappel, Erle) 0-15 m, Hartholzaue (Eiche, Esche, Ulme) ab 15 m"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Aue",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     260,
+     400,
+     100
+    ],
+    "scattering_faktor_zu_E16": 3.0,
+    "scattering_farbe_rgb": [
+     0.55,
+     0.6,
+     0.4
+    ],
+    "y_0_3m": 0.82,
+    "y_1_0m": 0.54,
+    "bild": "gruenlich-trueb, Grund nur bis ~0,5 m klar",
+    "herleitung": "CDOM a440 ~ 1/m plus Schwebstoff (Pope & Fry 1997; CDOM-Kurve S ~ 0,016) [Fach, Ableitung]"
+   }
+  },
+  "elfenwald": {
+   "intern": [
+    "elfenwald"
+   ],
+   "bettform": [
+    "stufe_becken",
+    "furt_kolk"
+   ],
+   "profil": "bemooste Stufen, runde Becken, Ufer 20-35 Grad unter Wald; Wurzelvorhaenge an Prallhaengen",
+   "lagen": {
+    "bett": {
+     "Kies": 30,
+     "Geroell": 30,
+     "Fels": 15,
+     "Sand": 15,
+     "Algen": 10
+    },
+    "kante_0_1m": {
+     "Moos": 50,
+     "Geroell": 20,
+     "Fels": 15,
+     "Erde": 15
+    },
+    "ufer_1_3m": {
+     "Moos": 45,
+     "Laub": 20,
+     "Kraut": 20,
+     "Erde": 15
+    },
+    "hang_3_10m": {
+     "Moos": 35,
+     "Laub": 35,
+     "Kraut": 20,
+     "Erde": 10
+    }
+   },
+   "kantenbelag": [
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Kies",
+    "Moos"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.9,
+    "ufer_1_3m": 0.8,
+    "hang_3_10m": 0.6
+   },
+   "totholz_bezug": "elfenwald",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "farn",
+      "grasbueschel"
+     ],
+     "faktor": 1.0
+    },
+    "1_3m": {
+     "klassen": [
+      "farn",
+      "hochstaude",
+      "pilz"
+     ],
+     "faktor": 1.6
+    },
+    "3_10m": {
+     "klassen": [
+      "farn",
+      "jungbaum",
+      "totholz_liegend",
+      "pilz"
+     ],
+     "faktor": 1.4
+    },
+    "gehoelz": "Biom-Bestand bis an die Kante (Wurzeln im Ufer), Moos auf jedem Block in 0-3 m"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Elfenklar",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     220,
+     1100,
+     900
+    ],
+    "scattering_faktor_zu_E16": 0.7,
+    "scattering_farbe_rgb": [
+     0.45,
+     0.75,
+     0.7
+    ],
+    "y_0_3m": 0.91,
+    "y_1_0m": 0.74,
+    "bild": "sehr klar, tuerkisgruen in Becken",
+    "herleitung": "fast reines Wasser (Pope & Fry 1997) + Gestaltung Tuerkis [Gestaltung]"
+   }
+  },
+  "heide": {
+   "intern": [
+    "heide"
+   ],
+   "bettform": [
+    "furt_kolk",
+    "maeander",
+    "flachbett"
+   ],
+   "profil": "Moorbach: Torf-/Erdkante 0,3-0,8 m senkrecht mit Ueberhang der Grasnarbe, sonst flache Ufer; Sandsohle",
+   "lagen": {
+    "bett": {
+     "Sand": 40,
+     "Kies": 25,
+     "Schlamm": 25,
+     "Geroell": 10
+    },
+    "kante_0_1m": {
+     "Erde": 30,
+     "Moos": 30,
+     "Sand": 20,
+     "Heide": 20
+    },
+    "ufer_1_3m": {
+     "Heide": 40,
+     "Moos": 25,
+     "Trockengras": 25,
+     "Erde": 10
+    },
+    "hang_3_10m": {
+     "Heide": 50,
+     "Trockengras": 30,
+     "Moos": 20
+    }
+   },
+   "kantenbelag": [
+    "Sand",
+    "Kies",
+    "Geroell",
+    "Erde"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.4,
+    "ufer_1_3m": 0.3,
+    "hang_3_10m": 0.3
+   },
+   "totholz_bezug": "heide",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "grasbueschel",
+      "roehricht"
+     ],
+     "faktor": 1.2,
+     "hinweis": "Binsen/Seggen"
+    },
+    "1_3m": {
+     "klassen": [
+      "grasbueschel",
+      "strauch"
+     ],
+     "faktor": 1.0
+    },
+    "3_10m": {
+     "klassen": [
+      "strauch"
+     ],
+     "faktor": 0.8
+    },
+    "gehoelz": "einzelne Birken/Weiden, keine geschlossene Galerie"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Moorbach",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     210,
+     160,
+     35
+    ],
+    "scattering_faktor_zu_E16": 1.0,
+    "scattering_farbe_rgb": [
+     0.55,
+     0.4,
+     0.25
+    ],
+    "y_0_3m": 0.67,
+    "y_1_0m": 0.29,
+    "bild": "bernstein bis teefarben, Sand schimmert golden",
+    "herleitung": "Huminstoffe a440 ~ 3/m (sichtbar gefaerbt ab 3/m), S 0,016 [Fach, Ableitung]"
+   }
+  },
+  "tundra": {
+   "intern": [
+    "tundra"
+   ],
+   "bettform": [
+    "flachbett",
+    "stufe_becken",
+    "furt_kolk"
+   ],
+   "profil": "flache, steinige Ufer, Bulten und Moospolster bis an die Kante, Blockfelder; keine hohen Erdanrisse",
+   "lagen": {
+    "bett": {
+     "Geroell": 40,
+     "Kies": 35,
+     "Sand": 15,
+     "Fels": 10
+    },
+    "kante_0_1m": {
+     "Moos": 35,
+     "Geroell": 30,
+     "Kies": 20,
+     "Erde": 15
+    },
+    "ufer_1_3m": {
+     "Moos": 40,
+     "Trockengras": 30,
+     "Geroell": 20,
+     "Erde": 10
+    },
+    "hang_3_10m": {
+     "Trockengras": 40,
+     "Moos": 35,
+     "Geroell": 15,
+     "Heide": 10
+    }
+   },
+   "kantenbelag": [
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Kies"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.8,
+    "ufer_1_3m": 0.7,
+    "hang_3_10m": 0.6
+   },
+   "totholz_bezug": "tundra",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "grasbueschel"
+     ],
+     "faktor": 0.8
+    },
+    "1_3m": {
+     "klassen": [
+      "grasbueschel",
+      "strauch"
+     ],
+     "faktor": 0.8,
+     "hinweis": "Zwergweiden"
+    },
+    "3_10m": {
+     "klassen": [
+      "strauch"
+     ],
+     "faktor": 0.5
+    },
+    "gehoelz": "keine Baeume ausser Biom-Bestand"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Tundra",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     190,
+     500,
+     300
+    ],
+    "scattering_faktor_zu_E16": 1.0,
+    "scattering_farbe_rgb": "E16",
+    "y_0_3m": 0.85,
+    "y_1_0m": 0.59,
+    "bild": "klar, leicht braeunlich in Becken",
+    "herleitung": "wenig Humus a440 ~ 0,5-1/m [Fach, Ableitung]"
+   }
+  },
+  "gletscher": {
+   "intern": [
+    "gletscher"
+   ],
+   "bettform": [
+    "kaskade",
+    "flachbett"
+   ],
+   "verzweigt": "auf Sanderflaechen (Gefaelle < 2 %) in 2-4 Arme verzweigt, Arme 0,3-0,6 B",
+   "profil": "kein Bewuchs, lose Moraenenboeschungen 30-35 Grad, Blockbetten; Sander flach und breit",
+   "lagen": {
+    "bett": {
+     "Geroell": 45,
+     "Kies": 35,
+     "Sand": 10,
+     "Schlamm": 10
+    },
+    "kante_0_1m": {
+     "Geroell": 40,
+     "Kies": 30,
+     "Schlamm": 20,
+     "Fels": 10
+    },
+    "ufer_1_3m": {
+     "Geroell": 50,
+     "Kies": 25,
+     "Fels": 15,
+     "Schnee": 10
+    },
+    "hang_3_10m": {
+     "Geroell": 50,
+     "Fels": 30,
+     "Schnee": 20
+    }
+   },
+   "kantenbelag": [
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Kies"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 1.0,
+    "ufer_1_3m": 1.0,
+    "hang_3_10m": 0.8
+   },
+   "totholz_bezug": "gletscher",
+   "totholz_faktor": 0.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [],
+     "faktor": 0.0
+    },
+    "1_3m": {
+     "klassen": [],
+     "faktor": 0.0
+    },
+    "3_10m": {
+     "klassen": [
+      "grasbueschel"
+     ],
+     "faktor": 0.2,
+     "nur": "unterhalb der lokalen Schneegrenze"
+    }
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Gletscher",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     300,
+     1000,
+     900
+    ],
+    "scattering_faktor_zu_E16": 8.0,
+    "scattering_farbe_rgb": [
+     0.75,
+     0.9,
+     0.95
+    ],
+    "y_0_3m": 0.92,
+    "y_1_0m": 0.75,
+    "bild": "milchig tuerkis, Grund ab ~0,3 m verschleiert",
+    "herleitung": "Gletschermehl ist Streuung, nicht Absorption (Rose et al. 2014) [Fach]; Zahl b nicht belegt, Startwert [Gestaltung]"
+   }
+  },
+  "frost": {
+   "intern": [
+    "frost"
+   ],
+   "bettform": [
+    "kaskade",
+    "flachbett"
+   ],
+   "eis": "Randeis 0,3-1,5 m breit auf ruhigen Abschnitten (Gleithang, Becken), nie in Kaskaden",
+   "profil": "wie gletscher, dazu Schneewaechten an Kanten > 1 m",
+   "lagen": {
+    "bett": {
+     "Geroell": 45,
+     "Kies": 30,
+     "Fels": 15,
+     "Sand": 10
+    },
+    "kante_0_1m": {
+     "Eis": 30,
+     "Geroell": 30,
+     "Schnee": 25,
+     "Kies": 15
+    },
+    "ufer_1_3m": {
+     "Schnee": 50,
+     "Geroell": 25,
+     "Eis": 15,
+     "Fels": 10
+    },
+    "hang_3_10m": {
+     "Schnee": 60,
+     "Fels": 25,
+     "Geroell": 15
+    }
+   },
+   "kantenbelag": [
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Kies",
+    "Eis"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.8,
+    "ufer_1_3m": 0.6,
+    "hang_3_10m": 0.5
+   },
+   "totholz_bezug": "frost",
+   "totholz_faktor": 0.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [],
+     "faktor": 0.0
+    },
+    "1_3m": {
+     "klassen": [],
+     "faktor": 0.0
+    },
+    "3_10m": {
+     "klassen": [],
+     "faktor": 0.0
+    }
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Frost",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     300,
+     1000,
+     900
+    ],
+    "scattering_faktor_zu_E16": 6.0,
+    "scattering_farbe_rgb": [
+     0.75,
+     0.9,
+     0.95
+    ],
+    "y_0_3m": 0.92,
+    "y_1_0m": 0.75,
+    "bild": "wie gletscher, etwas klarer",
+    "herleitung": "wie gletscher [Gestaltung]"
+   }
+  },
+  "lava": {
+   "intern": [
+    "lava"
+   ],
+   "bettform": [
+    "kaskade",
+    "stufe_becken"
+   ],
+   "profil": "Basaltstufen und Saeulen, scharfkantige Bloecke; Wasser versickert in junger Lava: Laeufe nur auf altem Gestein bzw. aus Quellen am Lavarand (17 Schichtquelle)",
+   "lagen": {
+    "bett": {
+     "Lavafels": 45,
+     "Lavasand": 35,
+     "Geroell": 20
+    },
+    "kante_0_1m": {
+     "Lavafels": 35,
+     "Moos": 35,
+     "Lavasand": 30
+    },
+    "ufer_1_3m": {
+     "Moos": 45,
+     "Lavasand": 30,
+     "Lavafels": 25
+    },
+    "hang_3_10m": {
+     "Lavafels": 45,
+     "Moos": 30,
+     "Lavasand": 25
+    }
+   },
+   "kantenbelag": [
+    "Lavafels",
+    "Geroell",
+    "Fels"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.8,
+    "ufer_1_3m": 0.7,
+    "hang_3_10m": 0.6
+   },
+   "totholz_bezug": "lava",
+   "totholz_faktor": 0.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "moospolster"
+     ],
+     "faktor": 1.5,
+     "hinweis": "Biom-Sonderform 'Moospolster auf Lava' (KONVENTIONEN par. 4); nur hier dicht"
+    },
+    "1_3m": {
+     "klassen": [
+      "moospolster",
+      "grasbueschel"
+     ],
+     "faktor": 1.0
+    },
+    "3_10m": {
+     "klassen": [
+      "moospolster"
+     ],
+     "faktor": 0.6
+    }
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Lavaklar",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     260,
+     1500,
+     1800
+    ],
+    "scattering_faktor_zu_E16": 0.5,
+    "scattering_farbe_rgb": "E16",
+    "y_0_3m": 0.93,
+    "y_1_0m": 0.79,
+    "bild": "kristallklar, blau ueber dunklem Grund",
+    "herleitung": "Quellwasser aus Basalt, kaum CDOM (Pope & Fry 1997) [Fach]"
+   }
+  },
+  "nordkueste": {
+   "intern": [
+    "fjord",
+    "kueste"
+   ],
+   "bettform": [
+    "kaskade",
+    "stufe_becken"
+   ],
+   "profil": "kurze steile Laeufe zur See; Muendung als Kies-/Geroellfaecher ueber den Strand, nie als Kanal; Felskerben in Klippen",
+   "lagen": {
+    "bett": {
+     "Geroell": 40,
+     "Fels": 25,
+     "Kies": 25,
+     "Sand": 10
+    },
+    "kante_0_1m": {
+     "Geroell": 30,
+     "Moos": 30,
+     "Fels": 25,
+     "Gras": 15
+    },
+    "ufer_1_3m": {
+     "Gras": 35,
+     "Moos": 30,
+     "Geroell": 20,
+     "Fels": 15
+    },
+    "hang_3_10m": {
+     "Gras": 40,
+     "Heide": 25,
+     "Fels": 20,
+     "Moos": 15
+    }
+   },
+   "kantenbelag": [
+    "Geroell",
+    "Fels",
+    "Felsplatte",
+    "Kies"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 1.0,
+    "ufer_1_3m": 0.9,
+    "hang_3_10m": 0.8
+   },
+   "totholz_bezug": "fjord bzw. kueste (Treibholz nur im Muendungsfaecher)",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "grasbueschel",
+      "farn"
+     ],
+     "faktor": 0.8
+    },
+    "1_3m": {
+     "klassen": [
+      "grasbueschel",
+      "farn",
+      "strauch"
+     ],
+     "faktor": 1.0
+    },
+    "3_10m": {
+     "klassen": [
+      "strauch",
+      "jungbaum"
+     ],
+     "faktor": 0.8
+    },
+    "meer": "Muendung: KONVENTIONEN par. 1b (unter -0,3 m nichts, Kuestensaum nur strand-Rollen)"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Fjordbach",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     200,
+     800,
+     500
+    ],
+    "scattering_faktor_zu_E16": 1.0,
+    "scattering_farbe_rgb": "E16",
+    "y_0_3m": 0.89,
+    "y_1_0m": 0.68,
+    "bild": "klar, leicht braun in Becken",
+    "herleitung": "Moor-Einzugsgebiete der Westkueste, a440 ~ 1/m [Fach, Ableitung]"
+   }
+  },
+  "sumpf": {
+   "intern": [
+    "sumpf"
+   ],
+   "bettform": [
+    "maeander",
+    "furt_kolk"
+   ],
+   "lauf": "traege, ohne klare Kante; Gerinne verlieren sich in Flachwasser und Seen",
+   "profil": "Ufer 0-10 Grad, Kante = Uebergang Schlamm/Moos, keine Boeschung; Bulten und Schlenken",
+   "lagen": {
+    "bett": {
+     "Schlamm": 60,
+     "Algen": 15,
+     "Sand": 10,
+     "Erde": 15
+    },
+    "kante_0_1m": {
+     "Schlamm": 45,
+     "Moos": 30,
+     "Algen": 15,
+     "Erde": 10
+    },
+    "ufer_1_3m": {
+     "Moos": 45,
+     "Schlamm": 25,
+     "Gras": 20,
+     "Kraut": 10
+    },
+    "hang_3_10m": {
+     "Moos": 40,
+     "Gras": 30,
+     "Kraut": 20,
+     "Laub": 10
+    }
+   },
+   "kantenbelag": [
+    "Schlamm",
+    "Moos",
+    "Algen"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.15,
+    "ufer_1_3m": 0.1,
+    "hang_3_10m": 0.1
+   },
+   "netz_statt_stein": "Deckung an der Kante kommt aus Wurzeln, Totholz und Bulten, nicht aus Steinen; Steine hoechstens 1 je 20 m",
+   "totholz_bezug": "sumpf",
+   "totholz_faktor": 1.2,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "roehricht",
+      "grasbueschel"
+     ],
+     "faktor": 2.0
+    },
+    "1_3m": {
+     "klassen": [
+      "roehricht",
+      "hochstaude",
+      "strauch"
+     ],
+     "faktor": 1.6
+    },
+    "3_10m": {
+     "klassen": [
+      "strauch",
+      "jungbaum",
+      "totholz_stumpf"
+     ],
+     "faktor": 1.3
+    },
+    "gehoelz": "Erlenbruch, Weidengebuesch; Baeume duerfen im Flachwasser bis 0,3 m stehen"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Moor",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     130,
+     50,
+     10
+    ],
+    "scattering_faktor_zu_E16": 1.5,
+    "scattering_farbe_rgb": [
+     0.35,
+     0.25,
+     0.12
+    ],
+    "y_0_3m": 0.35,
+    "y_1_0m": 0.06,
+    "bild": "dunkel teefarben, Grund ab ~0,2 m unsichtbar",
+    "herleitung": "Huminstoffe a440 ~ 10/m (Moorwasser 5-20/m), S 0,015-0,018 (Kurve wie Antwort-Quellen) [Fach, Ableitung]"
+   }
+  },
+  "wueste": {
+   "intern": [
+    "wueste",
+    "canyon",
+    "oedland"
+   ],
+   "bettform": [
+    "flachbett",
+    "furt_kolk"
+   ],
+   "lauf": "Trockental mit breiter Sandsohle (B x 1,6); Wasser nur in 30-60 % der Sohle, Rest trocken mit Spuelsaum; im Canyon Felsbecken (Tinajas) unter Stufen",
+   "profil": "steile Sandstein-/Granitwaende im Canyon, sonst Lehmkanten 0,5-2 m mit Erosionsrinnen; Namaqualand: Granitkuppen am Ufer",
+   "lagen": {
+    "bett": {
+     "Sand": 55,
+     "Kies": 25,
+     "Lehm": 10,
+     "Geroell": 10
+    },
+    "kante_0_1m": {
+     "Sand": 40,
+     "Lehm": 30,
+     "Kies": 20,
+     "Schlamm": 10
+    },
+    "ufer_1_3m": {
+     "Sand": 45,
+     "Lehm": 25,
+     "Trockengras": 20,
+     "Kies": 10
+    },
+    "hang_3_10m": {
+     "Sand": 50,
+     "Trockengras": 25,
+     "Lehm": 15,
+     "Geroell": 10
+    }
+   },
+   "kantenbelag": [
+    "Sand",
+    "Kies",
+    "Geroell",
+    "Fels",
+    "Sandstein",
+    "Felsplatte"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.5,
+    "ufer_1_3m": 0.4,
+    "hang_3_10m": 0.4
+   },
+   "totholz_bezug": "wueste bzw. canyon/oedland",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "roehricht"
+     ],
+     "faktor": 0.8,
+     "nur": "wo Wasser ganzjaehrig steht (SWR-Wasser)"
+    },
+    "1_3m": {
+     "klassen": [
+      "strauch",
+      "grasbueschel"
+     ],
+     "faktor": 2.0,
+     "hinweis": "Galerie: das Wasser ist der einzige gruene Streifen"
+    },
+    "3_10m": {
+     "klassen": [
+      "strauch",
+      "jungbaum"
+     ],
+     "faktor": 1.5
+    },
+    "gehoelz": "Akazie/Tamariske-artige Straeucher (Palette Wueste, zu pruefen), sonst nichts"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Wuestenklar",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     250,
+     1400,
+     1600
+    ],
+    "scattering_faktor_zu_E16": 0.5,
+    "scattering_farbe_rgb": "E16",
+    "y_0_3m": 0.92,
+    "y_1_0m": 0.78,
+    "bild": "sehr klar, Sand leuchtet hell",
+    "herleitung": "kaum CDOM, wenig Schwebstoff bei Niedrigwasser [Fach, Ableitung]"
+   }
+  },
+  "dschungel": {
+   "intern": [
+    "dschungel"
+   ],
+   "bettform": [
+    "furt_kolk",
+    "maeander",
+    "stufe_becken"
+   ],
+   "profil": "steile Lehm-/Tonufer 45-80 Grad mit Wurzelgeflecht, Brettwurzeln an der Kante; Felsen nur an Faellen und Engstellen",
+   "lagen": {
+    "bett": {
+     "Schlamm": 40,
+     "Lehm": 25,
+     "Sand": 20,
+     "Kies": 15
+    },
+    "kante_0_1m": {
+     "Lehm": 35,
+     "Schlamm": 30,
+     "Laub": 20,
+     "Moos": 15
+    },
+    "ufer_1_3m": {
+     "Laub": 35,
+     "Lehm": 25,
+     "Moos": 20,
+     "Kraut": 20
+    },
+    "hang_3_10m": {
+     "Laub": 45,
+     "Kraut": 30,
+     "Moos": 15,
+     "Erde": 10
+    }
+   },
+   "kantenbelag": [
+    "Lehm",
+    "Schlamm",
+    "Geroell",
+    "Fels"
+   ],
+   "deckung_faktor": {
+    "kante_0_1m": 0.3,
+    "ufer_1_3m": 0.3,
+    "hang_3_10m": 0.3
+   },
+   "netz_statt_stein": "Kante aus Wurzeln, Brettwurzeln, Lianen und Totholz; Steine nur an Engstellen",
+   "totholz_bezug": "dschungel",
+   "totholz_faktor": 1.0,
+   "vegetation": {
+    "0_1m": {
+     "klassen": [
+      "farn",
+      "hochstaude"
+     ],
+     "faktor": 1.5
+    },
+    "1_3m": {
+     "klassen": [
+      "farn",
+      "hochstaude",
+      "strauch",
+      "liane"
+     ],
+     "faktor": 2.0
+    },
+    "3_10m": {
+     "klassen": [
+      "jungbaum",
+      "liane",
+      "farn"
+     ],
+     "faktor": 1.6
+    },
+    "ueberhang": "Kronen und Lianen haengen 1-3 m ueber das Wasser"
+   },
+   "wasser": {
+    "mi": "MI_EL_SWR_Dschungel",
+    "eltern": "MI_EL_SWR_Bergbach (Eltern MI_EL_SWR_Klar, E16)",
+    "absorption_cm_rgb": [
+     200,
+     280,
+     50
+    ],
+    "scattering_faktor_zu_E16": 3.0,
+    "scattering_farbe_rgb": [
+     0.4,
+     0.6,
+     0.3
+    ],
+    "y_0_3m": 0.76,
+    "y_1_0m": 0.43,
+    "bild": "gruenlich-trueb",
+    "herleitung": "Chlorophyll + CDOM: Blau und Rot absorbiert, Gruen gestreut [Fach qualitativ, Gestaltung nach Ferat]"
+   }
+  }
+ },
+ "seen": {
+  "_doku": "Epic WaterBodyLake. Landschaft bleibt: affects_landscape = False, Spline auf dem Seespiegel, Rand 0,5-2 m ausserhalb der Wasserlinie im Gelaende versteckt (Rand endet nie in der Luft, 6t). Alle Splinepunkte auf einer Hoehe [Doku].",
+  "spiegel": "Ueberlauf (tiefster Punkt der Umrandung = Ausfluss-Schwelle) - 3 cm (teiche.json-Regel); ohne Ausfluss: Spiegel = Becken-Ueberlauf - 0,3 m",
+  "houdini": "Vor dem Bau im Umriss + 20 m alle Houdini-Netze und Houdini-Spiegel entfernen (wasser_welt.json-Quelle r5: 'Houdini-Spiegel, wo Becken haelt'); genau ein Wasserkoerper je Becken - Ursache von Ferats 'See im See'",
+  "wasser_brush": "Kein WaterBrushManager anlegen, solange Wasserkoerper mit affects_landscape = True in der Karte stehen (T11: alter Fluss True). Ein spaeter angelegter Brush-Manager wuerde sie alle ins Gelaende schneiden",
+  "uferform_nach_hang": {
+   "flachufer": {
+    "hang_grad": [
+     0,
+     8
+    ],
+    "lagen_0_1m": {
+     "Schlamm": 35,
+     "Sand": 30,
+     "Kies": 20,
+     "Gras": 15
+    },
+    "roehricht": true
+   },
+   "kiesufer": {
+    "hang_grad": [
+     8,
+     20
+    ],
+    "lagen_0_1m": {
+     "Kies": 50,
+     "Geroell": 25,
+     "Sand": 25
+    },
+    "roehricht": "nur in Buchten"
+   },
+   "steilufer": {
+    "hang_grad": [
+     20,
+     35
+    ],
+    "lagen_0_1m": {
+     "Geroell": 40,
+     "Erde": 30,
+     "Moos": 30
+    },
+    "roehricht": false
+   },
+   "felsufer": {
+    "hang_grad": [
+     35,
+     90
+    ],
+    "lagen_0_1m": {
+     "Fels": 60,
+     "Geroell": 25,
+     "Moos": 15
+    },
+    "roehricht": false
+   }
+  },
+  "flachwasser": {
+   "_doku": "Verlandungsreihe von aussen nach innen [Fach, Lehrbuch; Tiefenwerte als Gestaltung, nicht einzeln belegt]",
+   "seggen_binsen": {
+    "tiefe_m": [
+     -0.3,
+     0.1
+    ],
+    "hinweis": "negative Tiefe = ueber dem Spiegel"
+   },
+   "roehricht_schilf": {
+    "tiefe_m": [
+     0.0,
+     1.0
+    ],
+    "dichte": "Guertel 3-15 m breit, Luecken alle 20-60 m",
+    "quelle": "Schilf steht flacher als Rohrkolben (Photosynthetica 2021)"
+   },
+   "rohrkolben": {
+    "tiefe_m": [
+     0.2,
+     1.3
+    ]
+   },
+   "schwimmblatt": {
+    "tiefe_m": [
+     0.5,
+     2.5
+    ],
+    "nur": "windstille Buchten, Seen < 5 ha, nicht im Hochgebirge"
+   },
+   "kein_bewuchs": "Wellenexponierte Ufer (Fetch > 300 m in Hauptwindrichtung) und alle Felsufer"
+  },
+  "biom": {
+   "aue": {
+    "ufer": [
+     "flachufer",
+     "kiesufer"
+    ],
+    "roehricht": 1.0,
+    "schwimmblatt": 1.0,
+    "wasser": "MI_EL_See_Aue (wie Bach Aue, Streuung x 2)"
+   },
+   "sumpf": {
+    "ufer": [
+     "flachufer"
+    ],
+    "roehricht": 1.5,
+    "schwimmblatt": 1.5,
+    "wasser": "MI_EL_See_Moor (wie Bach Moor)",
+    "baeume_im_wasser_m": 0.3
+   },
+   "heide": {
+    "ufer": [
+     "flachufer",
+     "steilufer"
+    ],
+    "roehricht": 0.6,
+    "schwimmblatt": 0.5,
+    "wasser": "MI_EL_See_Moor (Absorption x 1,5 heller)"
+   },
+   "tundra": {
+    "ufer": [
+     "kiesufer",
+     "felsufer"
+    ],
+    "roehricht": 0.2,
+    "schwimmblatt": 0.0,
+    "wasser": "MI_EL_See_Tundra"
+   },
+   "nordic_mischwald": {
+    "ufer": [
+     "kiesufer",
+     "steilufer",
+     "felsufer"
+    ],
+    "roehricht": 0.4,
+    "schwimmblatt": 0.3,
+    "wasser": "MI_EL_See_Bergsee"
+   },
+   "bergwald": {
+    "ufer": [
+     "kiesufer",
+     "steilufer",
+     "felsufer"
+    ],
+    "roehricht": 0.3,
+    "schwimmblatt": 0.3,
+    "wasser": "MI_EL_See_Bergsee"
+   },
+   "elfenwald": {
+    "ufer": [
+     "flachufer",
+     "steilufer"
+    ],
+    "roehricht": 0.5,
+    "schwimmblatt": 1.0,
+    "wasser": "MI_EL_See_Elfenklar"
+   },
+   "dschungel": {
+    "ufer": [
+     "flachufer",
+     "steilufer"
+    ],
+    "roehricht": 1.0,
+    "schwimmblatt": 1.5,
+    "wasser": "MI_EL_See_Dschungel"
+   },
+   "gletscher": {
+    "ufer": [
+     "kiesufer",
+     "felsufer"
+    ],
+    "roehricht": 0.0,
+    "schwimmblatt": 0.0,
+    "wasser": "MI_EL_See_Gletscher (Streuung hoch)"
+   },
+   "frost": {
+    "ufer": [
+     "kiesufer",
+     "felsufer"
+    ],
+    "roehricht": 0.0,
+    "schwimmblatt": 0.0,
+    "eis": "eis=true in wasser_welt.json: kein WaterBody, Eisflaeche als Netz bzw. Lage Eis"
+   },
+   "lava": {
+    "ufer": [
+     "felsufer",
+     "kiesufer"
+    ],
+    "roehricht": 0.0,
+    "schwimmblatt": 0.0,
+    "wasser": "MI_EL_See_Lavaklar"
+   },
+   "nordkueste": {
+    "ufer": [
+     "kiesufer",
+     "felsufer"
+    ],
+    "roehricht": 0.2,
+    "schwimmblatt": 0.0,
+    "wasser": "MI_EL_See_Bergsee"
+   },
+   "wueste": {
+    "ufer": [
+     "flachufer",
+     "felsufer"
+    ],
+    "roehricht": 0.8,
+    "schwimmblatt": 0.0,
+    "wasser": "MI_EL_See_Wuestenklar",
+    "hinweis": "Oase: Schilf nur, wo Wasser dauerhaft steht"
+   }
+  },
+  "zulauf": {
+   "bach": "SWR-Spline endet 5-10 m im See; der See ist Senke (sink). Sedimentfaecher (Kies/Sand, Lage) 1-3 B breit in den See, Roehricht seitlich daneben, nicht im Faecher-Kern",
+   "fluss_epic": "WaterBodyRiver endet im See-Polygon; Uebergang ueber lake_transition_material; Fluss-Heightmap mit Blend Min (nur relevant mit Brush-Manager)",
+   "pruefung": "SWR mit See als Senke ist in 5.8 nicht dokumentiert (Forum: 'moeglich, nicht voll unterstuetzt'); lokal zuerst ein Bake mit See als Senke, sonst Fluss als Senke und See darueber"
+  },
+  "abfluss": {
+   "schwelle": "Ausfluss am tiefsten Punkt der Umrandung; Schwelle aus Geroell/Fels 2-5 m lang, Spiegel = Schwelle - 3 cm",
+   "swr": "SWR-Quelle 3-5 m im See, Startwasserhoehe = Seespiegel; die ersten 1-2 B als Riffel mit Weisswasser"
+  }
+ },
+ "wasserfaelle": {
+  "_doku": "Ohne Houdini: Netz-Vorhang aus Unreal (Spline-Band bzw. Geometry Script/Modeling) mit MI_EL_Wasserfall (Vertexfarben R Tempo, G Fallanteil, B Randfaktor, A Dicke wie wasserfaelle.json, jetzt in Unreal gerechnet) + Nature Water FX an Lippe und Fuss; SWR oben (Zulauf) und unten (Becken). Ein WaterBodyRiver ueber eine Steilstufe ist nicht unterstuetzt (Forum, 14b).",
+  "typen": {
+   "swr_stufe": {
+    "fallhoehe_m": [
+     0.0,
+     0.8
+    ],
+    "werkzeug": "nur SWR-Gelaende (Absturz im Bett), Schaum aus fluss_sim"
+   },
+   "kaskade": {
+    "fallhoehe_m": [
+     0.8,
+     30
+    ],
+    "neigung_grad": [
+     45,
+     75
+    ],
+    "werkzeug": "Netz-Band, das dem Fels anliegt (Abstand <= 5 cm), NS_Stream_*/NS_Impact_Small an Stufen"
+   },
+   "vorhang": {
+    "fallhoehe_m": [
+     1.8,
+     60
+    ],
+    "neigung_grad": [
+     75,
+     90
+    ],
+    "werkzeug": "Netz-Vorhang frei, NS_Waterfall_Small/Medium/Large nach Breite, NS_Impact_* am Fuss"
+   },
+   "schleier": {
+    "bedingung": "Abfluss klein (Einzugsgebiet unter 17-Mindestwert fuer Vorhang) oder H > Zerfallslaenge",
+    "werkzeug": "duennes Band, das nach der Zerfallslaenge in Partikel uebergeht; kein voller Vorhang"
+   }
+  },
+  "mindestregeln": {
+   "herkunft": "Antwort 17 par. 5 Pflicht (sonst Fall verkleinern oder Quellaustritt)",
+   "abwurf_m": "x = v0 x sqrt(2 H / g), v0 = Zulauftempo; Vorhang steht um x vom Fels ab, unten nie im Fels",
+   "zerfall_m": "Lb ~ 6 x q^0,32 (q = Abfluss je m Breite in m2/s; Horeni, Labor q < 0,25) - unter Lb weisser, zerrissener Vorhang",
+   "aufprall_tempo_m_s": "sqrt(2 g H): Sprueh- und Nebelradius ~ 0,5-1,0 x sqrt(H) x 2 m (Gestaltung, mit Tempo skaliert)",
+   "becken": {
+    "durchmesser_m": "max(2 B; 1,2 x sqrt(H) x 2)",
+    "tiefe_m": "0,3 x sqrt(H) x 2, mindestens 1,0",
+    "beleg": "WF_K1: 55 m, Becken r 16 m, t 5 m (wasser_welt.json) passt"
+   },
+   "breite_zu_hoehe": "Vorhang B/H 0,1-1,0; schmaler = Schleier, breiter als H nur bei Fluessen",
+   "fels": "Lippe aus festem Fels (Lage Fels, Hero/Wand-Netze), dahinter Nischen; Nass- und Moosstreifen 1-3 m neben dem Vorhang (17 par. 2)",
+   "biom": {
+    "gletscher": "Schmelzwasser milchig, Eis an der Lippe",
+    "frost": "teilweise gefroren (Eiszapfen-Zusatzklasse), Vorhang schmaler",
+    "wueste": "nur Schleier und Tinaja-Becken",
+    "sumpf": "keine Faelle",
+    "lava": "Faelle ueber Basaltsaeulen, kristallklar",
+    "dschungel": "Vorhang mit Lianen und Farnen in der Spruehzone (Bewuchs x 2 im Nebelradius)"
+   }
+  },
+  "akteur": "NiagaraActor wie wasser_fx/plan.json (FX14-Konvention): GPU, keine Schatten, Cull 50-150 m",
+  "warteschlange": "Ferats Auftraege 175-184 (seit 12.10.) laufen mit diesen Regeln an; der alte Houdini-Vorhang (MI_EL_Wasserfall_*-Netze SM_WF_*) kommt weg, das Material bleibt"
+ },
+ "efeu": {
+  "_doku": "Paket Foliage VOL.23 - Ivy (Low Poly, Dekogon): 49 Netze 0,4-11,6 m. Efeu (Hedera) ist schattentolerant, braucht Bodenfeuchte und milde Winter (laengere Froeste begrenzen ihn, Metcalfe 2005) [Fach]. Ruinen/Mauern und die 11 Demo-Bauteile: nicht setzen (Regel 'nur Landschaft, keine menschlichen Spuren'); gilt erst fuer Sehenswuerdigkeiten mit Ruinen.",
+  "biom": {
+   "elfenwald": {
+    "fels_anteil_waende": 0.5,
+    "flaeche_je_wand": [
+     0.15,
+     0.45
+    ],
+    "staemme_anteil": 0.5,
+    "exposition": "alle"
+   },
+   "aue": {
+    "fels_anteil_waende": 0.2,
+    "flaeche_je_wand": [
+     0.1,
+     0.3
+    ],
+    "staemme_anteil": 0.35,
+    "exposition": "alle",
+    "hinweis": "Hartholzaue ab 15 m vom Wasser: Efeu typisch; Weichholzaue 0-15 m nur 10 %"
+   },
+   "bergwald": {
+    "fels_anteil_waende": 0.15,
+    "flaeche_je_wand": [
+     0.05,
+     0.25
+    ],
+    "staemme_anteil": 0.1,
+    "exposition": "N, NO, O, NW (Schatten)",
+    "hoehe_rel_baumgrenze_m": [
+     -1000,
+     -80
+    ]
+   },
+   "nordic_mischwald": {
+    "fels_anteil_waende": 0.08,
+    "flaeche_je_wand": [
+     0.05,
+     0.15
+    ],
+    "staemme_anteil": 0.05,
+    "exposition": "N, NO, O",
+    "nur": "unter Laubbaum-Kronen"
+   },
+   "sumpf": {
+    "fels_anteil_waende": 0.0,
+    "staemme_anteil": 0.15,
+    "nur": "Staemme auf Bulten, nie unter 0,5 m ueber dem Spiegel"
+   },
+   "dschungel": {
+    "fels_anteil_waende": 0.3,
+    "flaeche_je_wand": [
+     0.1,
+     0.4
+    ],
+    "staemme_anteil": 0.25,
+    "exposition": "alle",
+    "hinweis": "nur ergaenzend zu Lianen; Low-Poly-Efeu liest als Kletterpflanze"
+   },
+   "nordkueste": {
+    "fels_anteil_waende": 0.05,
+    "flaeche_je_wand": [
+     0.05,
+     0.15
+    ],
+    "staemme_anteil": 0.05,
+    "exposition": "N, NO, O, lee zur See",
+    "nur": "Waende >= 30 m vom Meer"
+   },
+   "heide": {
+    "fels_anteil_waende": 0.03,
+    "flaeche_je_wand": [
+     0.05,
+     0.1
+    ],
+    "staemme_anteil": 0.0,
+    "nur": "geschuetzte Felsnischen in Senken"
+   },
+   "nie": [
+    "tundra",
+    "gletscher",
+    "frost",
+    "lava",
+    "wueste",
+    "canyon",
+    "oedland"
+   ],
+   "nie_begruendung": "Kaelte/Frost (Tundra, Hochgebirge), Trockenheit (Wueste, Canyon, Oedland), junger Fels ohne Boden (Lava) [Fach]"
+  },
+  "baeume": {
+   "bevorzugt": "Laubbaeume mit rauer Rinde (Eiche, Esche, Ulme, Ahorn, Pappel, Weide) und alte Kiefern",
+   "selten": "Buche (glatte Rinde) 0,3 x, Fichte im dichten Bestand 0,2 x",
+   "nie": "Jungbaeume unter 20 cm Stammdurchmesser, abgestorbene Staemme ohne Bodenkontakt",
+   "hoehe": "bis 0,3-0,7 x Baumhoehe, nie ueber den Kronenansatz hinaus in die Krone (Low Poly)"
+  },
+  "fels": {
+   "waende_ab_m": 2.0,
+   "flaechen": "Wandneigung >= 60 Grad und Ueberhaenge; Oberseiten mit Normale z > 0,7 nur am Rand als Ueberhang von oben",
+   "wasser_abstand_m": {
+    "min_ueber_spiegel_m": 0.5,
+    "dichte_faktor": {
+     "0_10m": 1.5,
+     "10_50m": 1.0,
+     "ueber_50m": 0.6
+    }
+   }
+  },
+  "sitz": {
+   "anliegen": "Je Netz 5 x 5 Strahlen von der Netzrueckseite entlang der Flaechennormale gegen Fels/Stamm: >= 85 % Treffer mit Abstand <= 3 cm, kein Strahl > 8 cm Luft, Eindringen <= 4 cm",
+   "verbunden": "Jeder Efeu-Teppich hat Bodenkontakt: unterer Rand <= 0,3 m ueber Gelaende oder Anschluss an ein anderes Efeu-Netz (<= 0,2 m); von oben haengend nur, wenn die Oberkante an Boden/Moos der Felsoberseite anschliesst",
+   "kein_schnee": "nicht auf Flaechen mit Lage Schnee/Eis >= 60 (lagen_max wie Pflanzen) und nicht in Hochgebirgs-Zellen; Felsmaterial mit Schnee-Oben-Ueberblendung: nur Flaechen mit Normale z < 0,3",
+   "nicht": "frei in der Luft, ueber Kanten in den Himmel, durch Wasserfall-Vorhang, auf Steinen < 1 m",
+   "foliage_oder_akteur": "Akteur bzw. ISM mit Snap an die Oberflaeche; Foliage-Pinsel nur mit 'An Normale ausrichten' und anschliessender Sitzpruefung; nie spiegeln (23.11)"
+  },
+  "kosten": "Masked-Karten: Overdraw bei grossen Netzen nah an der Kamera; Sichtweite 60-120 m, darueber Felsmaterial mit Moos-/Efeu-Farbe (zu pruefen am ersten Pilot)"
+ },
+ "gras_unter_fels": {
+  "_doku": "Antwort 24 Frage 7. Landschafts-Gras wird je Landschafts-Vertex (8 Bit, bilinear) abgetastet; Dichte-Sperren und RVT im Grass Output kommen deshalb nie unter ~1 m (Quelle 5.3.2 LandscapeGrass.cpp, fuer 5.8 zu pruefen).",
+  "empfehlung": "Ausschluss-Boxen je Fels: ALandscapeProxy::AddExclusionBox(Owner, FBox) aus einer kleinen C++-Komponente bzw. einem Subsystem, das beim Laden je Fels-Instanz 1-4 achsparallele Boxen meldet",
+  "boxen": {
+   "je_instanz": "1 Box fuer Steine bis 1 m; Felsen > 1 m: Grundriss in 0,5-m-Streifen entlang der laengeren Achse, je Streifen eine Box (max. 4)",
+   "einzug_m": 0.05,
+   "z_bereich_m": "Gelaende -0,2 bis Unterkante Fels +0,3",
+   "nur": "Fels-/Stein-Netze mit Fuss im Gras (Lage Gras/Wiese/Trockengras/Heide >= 0,3 im Grundriss)"
+  },
+  "bestehende_sperre": "Dichte 0 unter Fels bleibt nur fuer Felsen >= 3 m Grundriss (dort spart sie Gras-Instanzen); sonst zurueck auf Biomdichte, damit der kahle Hof verschwindet",
+  "persistenz": "keine; Boxen leben im Speicher und werden je Sitzung neu gemeldet - Fels-Liste aus dem Zensus oder Komponenten am Akteur",
+  "kosten": "Box-gegen-Komponente beim Melden, dann Instanzen x aktive Boxen je Gras-Komponente; vor dem Ausrollen mit stat-Werten im Pilot messen",
+  "rueckfall": "PCG-Gras (Generate Grass Maps + Difference gegen Fels-Kollision) nur, wenn die Boxen zu teuer werden"
+ },
+ "rollout": {
+  "_doku": "Antwort 24 Frage 4. Laengen nach dominantem Feldbiom (biome_je_feld.json; eigner.r8 fehlt in der Cloud) aus wasser_welt.json, baeche_alle.json, teiche.json",
+  "laenge_m_nach_feldbiom": {
+   "aue": [
+    4567,
+    10124
+   ],
+   "elfenwald": [
+    2008,
+    7237
+   ],
+   "heide": [
+    474,
+    6312
+   ],
+   "dschungel": [
+    2774,
+    2557
+   ],
+   "bergwald": [
+    151,
+    2697
+   ],
+   "gletscher": [
+    450,
+    1804
+   ],
+   "tundra": [
+    649,
+    876
+   ],
+   "wueste": [
+    0,
+    687
+   ],
+   "oedland": [
+    0,
+    662
+   ],
+   "canyon": [
+    282,
+    0
+   ],
+   "sumpf": [
+    151,
+    128
+   ]
+  },
+  "laenge_spalten": [
+   "fluss_m",
+   "bach_m"
+  ],
+  "seen_ha_nach_feldbiom": {
+   "sumpf": 34.9,
+   "elfenwald": 8.0,
+   "aue": 5.1,
+   "bergwald": 1.7,
+   "dschungel": 1.2,
+   "heide": 1.2,
+   "tundra": 0.8
+  },
+  "reihenfolge": [
+   {
+    "pilot": 1,
+    "biom": "nordic_mischwald",
+    "was": "Erlenbach p2 fertig + alter C3/D3-Fluss als SWR-Fortsetzung (T11)"
+   },
+   {
+    "pilot": 2,
+    "biom": "aue",
+    "was": "Fortsetzung unterhalb der p2-Muendung im Feld C3 (61 % Aue) bis zum naechsten See/Hauptfluss; ein Aue-See S_K10_TUNDRA_02-04 (C3) als erster See-Pilot",
+    "grund": "33 % aller Laufmeter, Gegensatz zum Bergbach (Furt-Kolk, Maeander, Kiesbank), direkt anschliessend, Mündung und Seeanschluss in einem Pilot"
+   },
+   {
+    "pilot": 3,
+    "biom": "sumpf",
+    "was": "ein Teichverbund in H5/I5",
+    "grund": "35 ha = 66 % aller Seeflaeche; Seeregeln und Moorwasser"
+   },
+   {
+    "pilot": 4,
+    "biom": "elfenwald",
+    "was": "Elfenfluss-Abschnitt mit Fall",
+    "grund": "zweitlaengstes Netz, erster Wasserfall ohne Houdini"
+   },
+   {
+    "danach": [
+     "heide",
+     "dschungel",
+     "bergwald",
+     "gletscher/frost",
+     "tundra",
+     "wueste",
+     "lava",
+     "nordkueste"
+    ]
+   }
+  ]
+ },
+ "quellen": {
+  "GRAS_SRC": "UE 5.3.2 Quelle (Spiegel chenyong2github/UnrealEngine @ c865e168): Landscape/Classes/LandscapeProxy.h L998-1013 (AddExclusionBox), Private/LandscapeGrass.cpp L1271/L1315 (Grass-Map je Vertex), L2672-2715 (IsExcluded), L2884-2914 (bilinear)",
+  "GRAS_API": "https://dev.epicgames.com/documentation/unreal-engine/API/Runtime/Landscape/ALandscapeProxy/AddExclusionBox",
+  "MB97": "Montgomery & Buffington 1997, Channel-reach morphology in mountain drainage basins, GSA Bulletin 109",
+  "CHIN89": "Chin 1989, Step pools in stream channels, Prog. Phys. Geogr. 13; Abrahams, Li & Atkinson 1995, Water Resour. Res. 31",
+  "LW57": "Leopold & Wolman 1957, River channel patterns, USGS PP 282-B",
+  "POPEFRY": "Pope & Fry 1997, Absorption spectrum of pure water, Appl. Opt. 36: https://doi.org/10.1364/AO.36.008710",
+  "CDOM": "CDOM-Kurve a(l) = a440 exp(-S (l - 440)), S 0,016-0,018; sichtbar gefaerbt ab a440 > 3/m: https://bg.copernicus.org/articles/14/1215/2017/bg-14-1215-2017.html",
+  "ROSE14": "Rose et al. 2014, Gletschermehl verursacht etwa 2/3 der Lichtschwaechung: https://researchcommons.waikato.ac.nz/entities/publication/27bfd7c2-cdca-4b1f-aa0b-6341f2128894",
+  "HORENI": "Strahlzerfall Lb ~ 6 q^0,32: https://www.upct.es/hidrom/publicaciones/congresos/CI13.pdf",
+  "SCHILF": "Photosynthetica 2021, 59(2): Schilf flacher als Rohrkolben: https://ps.ueb.cas.cz/artkey/phs-202102-0002_comparison-of-water-depth-tolerance-in-two-major-wetland-macrophytes-phragmites-australis-and-typha-angustifol.php",
+  "EFEU": "Hedera helix: https://en.wikipedia.org/wiki/Hedera_helix ; BSBI: https://sppaccounts.bsbi.org/content/hedera-helix-0.html ; Info Flora: https://www.infoflora.ch/en/flora/hedera-helix.html ; Frostgrenze nach Metcalfe 2005 (zitiert in https://www.scielo.br/j/oh/a/pSmkCcppz9DJ3d97k7Tbs3M/?lang=en)",
+  "EPIC_WATER": "https://dev.epicgames.com/documentation/unreal-engine/water-body-actors-in-unreal-engine (Suchauszug)",
+  "SWR_SENKE": "https://forums.unrealengine.com/t/wateradvanced-shallowwaterrivercomponent-no-valid-sinks-warning-and-river-disappears-in-5-8-3/2840450 ; https://forums.unrealengine.com/t/shallowwaterriver-lake-ocean/2838534 (Suchauszuege)"
+ }
+}
