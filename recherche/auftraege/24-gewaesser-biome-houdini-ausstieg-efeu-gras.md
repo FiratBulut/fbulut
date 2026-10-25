@@ -85,3 +85,13 @@ Aus Gras-im-Fels r001 §3, offen seit 19.10.:
 - Empfehlung zum Gras-Mechanismus mit Testablauf.
 - Bestätigung oder Korrektur der Punkte 8–10.
 - Kein Projekt-Quellcode nötig. Lokale Daten liegen beim PM.
+
+## Nachtrag 25.10. 20:10 – vorhandene Pakete, Kaufentscheidungen
+
+- **NatureWaterFX** (Fab, gekauft 11.10.) liegt im Projekt (45 Assets: Niagara-Systeme `NS_Impact_Small/Large`, `NS_Wake_Small/Large`, `NS_Stream_Small/Medium` u. a.,
+  Materialien, Texturen). Heute nur an 15 Stellen benutzt: Gischt an den Wasserfällen K1/K8, Sehens-Pilot B5-Karsee. **Bitte bei Frage A3
+  (Wasserfälle ohne Houdini) und bei den Bach-Regeln (Aufprall an Stufen, Strömung an Steinen) ausdrücklich mit diesen Effekten planen.**
+- Ferat verzichtet auf Fluid Flux (zu teuer), River Generator (EasyBiomes, Seen-Ufer per PCG) und River-Lake Ecosystem (ScansLibrary): Seen- und
+  Ufer-Regeln bitte mit den vorhandenen Assets (rund 2 000 Netze, Megascans, Fab-Pakete) planen. Falls für ein Biom eine echte Asset-Lücke bleibt
+  (z. B. Wasserpflanzen Sumpf/Dschungel), bitte konkret benennen.
+- FluidNinja LIVE-2 (interaktive Flachsimulation: Waten, Spuren, Talnebel) ist für später vorgemerkt (Spielgefühl-Phase), nicht Teil dieses Auftrags.
