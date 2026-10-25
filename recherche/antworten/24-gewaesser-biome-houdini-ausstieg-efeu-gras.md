@@ -485,6 +485,77 @@ und der p2-Bake kommt in den Pilot.
 
 ---
 
+## 9. Nachtrag 25.10. 20:10 – Nature Water FX fest eingeplant, keine Käufe
+
+Gelesen: recherche/auftraege/24-gewaesser-biome-houdini-ausstieg-efeu-gras.md @ fe98744692a6c10d7ab13ba055d8480401bf5f43 (Commit 72d9f1b)
+
+**Kurzfazit Nachtrag:**
+- Nature Water FX ist jetzt in der Regeldatei (v2, Schlüssel `nature_water_fx`) das Partikel-Werkzeug für jede Rolle: Fallkörper,
+  Aufprall, Beckenauslauf, Rinne bzw. Überlauf und Strömung an Steinen. Zugeordnet ist nach Größe, Biom und Budget.
+- Die Seen- und Uferregeln aus §2 brauchen keine Kaufpakete. Echte Lücken gibt es nur bei Wasserpflanzen: Schwimmblatt, grünes
+  Schilf als Netz, tropische Wasserpflanzen, Wasserlinsen. Dazu fehlt ein Wasserfall-Klang.
+- Status: beantwortet. Die Lücken warten auf zwei Formprüfungen bzw. eine Gratis-Suche.
+
+### 9.1 Nature Water FX je Rolle
+
+- Die Systeme liegen laut `inventar_extra.json` unter `/Game/NatureWaterFX/FX/`: `NS_Waterfall_`, `NS_Impact_`, `NS_Wake_` und
+  `NS_Stream_` je Small/Medium/Large, dazu `NS_Geyser_Small/Large` [Projekt].
+- Akteur-Konvention, Effekttypen, Cull und Budget übernehme ich aus `wasser_fx/plan.json` (Auftrag 14):
+  - GPU, keine Schatten;
+  - `NET_EL_Wasser_Nah` 50 m, `NET_EL_Wasser_Held` 150 m;
+  - je Ort höchstens 3 Systeme, gleichzeitig aktiv höchstens 6.
+
+| Rolle | System | Wann | Wo |
+|---|---|---|---|
+| Fallkörper | `NS_Waterfall_*` | Vorhang ab 1,8 m; das Unreal-Netz bleibt Träger, NS bricht ihn auf | Lippe bis 2/3 der Fallhöhe |
+| Aufprall | `NS_Impact_*` | jeder Fall und jede Stufe ab 1,0 m | am Auftreffpunkt (Abwurf x aus §3), nicht am Felsfuß |
+| Beckenauslauf, Engstelle | `NS_Wake_*` | Becken unter Fällen ab 5 m, Engstellen mit Tempo > 1,5 m/s | Auslauf bzw. hinter dem Block |
+| Rinne, Überlauf | `NS_Stream_*` | Kaskaden, Rinnen über Fels 0,8–1,8 m, Überlauf an Dämmen, Verklausungen und Felsbecken | entlang der Rinne, +X = Fließrichtung |
+| Strömung an Steinen | `NS_Wake_Small` | nur Schaustellen: Block ≥ 0,5 B im Hauptstrom bei Tempo > 1,0 m/s, alle 30–60 m | hinter dem Block |
+
+- **Größe:** Gewählt wird die kleinste Stufe, deren Annahme aus `plan.json` (z. B. Waterfall S 3 × 5, M 6 × 15, L 12 × 30 m)
+  mindestens 0,8 × Ziel erreicht. Die Skala liegt in 0,8–1,5; darüber die nächste Stufe.
+- **Skalen messen:** Die Annahmen sind weiter nicht gemessen [Projekt 14]. Der erste Fall ohne Houdini misst sie einmal.
+- **Strömung an Steinen:** Ein System an jedem Stein würde Budget und Bild überladen. Den Rest tragen die Schaumstraßen der SWR
+  (787 im Export) [Projekt].
+- **Biome:**
+  - Sumpf nur `Wake` an Verklausungen; Aue `Wake` an Treibholz, `Stream` an Dämmen.
+  - Wüste nur `Stream_Small` an Felsbecken-Überläufen.
+  - Frost Skala × 0,7, Gletscher × 1,2.
+  - Lava optional `NS_Geyser_*` an heißen Quellen, als eigener Sehens-Ort.
+- **Bestand:** Die heutigen 15 Stellen hängen zum Teil an K1/K8 (Gischt). Sie ziehen beim Houdini-Ausstieg mit an die neuen Vorhänge
+  um, mit denselben Gruppen aus `plan.json` (`WF_K1`, `WF_K8`).
+
+### 9.2 Seen und Ufer mit vorhandenen Assets
+
+**Abgleich** [Projekt, Namenssuche in `inventar.json` + `inventar_extra.json`, 6 608 Pfade]:
+
+| Bedarf (§2) | vorhanden | Urteil |
+|---|---|---|
+| Schilfgürtel | Megaplant *Dry Common Reeds* (12, trocken), `GT_Schilf` (Grass Type) | Netze nur trocken; grünes Schilf nah an der Kamera fehlt |
+| Rohrkolben | Megaplant Bulrush (`MI_VEGMP_MI_Bulrush_01_Foliage`) | reicht |
+| Binsen, Seggen | Megascans ToadRush | reicht für Säume |
+| Schachtelhalm | Coast & Dunes `rough_horsetail` | reicht |
+| Algen, Wasserlinsen | `MI_Decal_Algae` (Coast & Dunes) | als Decal auf stehendem Wasser prüfen |
+| Sumpfbaum | `SM_SwampCypress_A` | reicht für Einzelbäume |
+| Schwimmblatt (Seerose) | `SM_lily_01_1/2` (Forest Environment) und `SM_WaterPlant01–04` (CityPark): Form aus dem Namen nicht sicher | **zu prüfen** |
+| Kies-/Fels-/Steilufer | rund 2 000 Netze, Megascans, Fab | reicht |
+
+**Echte Lücken** (nur wenn die Formprüfung negativ ist):
+1. **Schwimmblatt** für Sumpf, Aue, Elfenwald und Dschungel.
+2. **Grünes Schilf als Netz** für Gürtel in Sumpf und Aue.
+3. **Tropische Wasser- und Uferpflanzen** (Papyrus-, Lotus-, Wasserhyazinthen-artig) im Dschungel.
+4. **Wasserfall-Tosen** als Klang: heute gibt es nur `CUE_Water_Stream_I–X` (`plan.json`, `klang.luecke`).
+
+**Vorgehen nach der Regel „kostenlos vor Kauf“:**
+1. `SM_lily_01` und `SM_WaterPlant01–04` einmal ansehen.
+2. Dann in den freien Megascans-Freigaben und den Gratis-Paketen auf Fab suchen (water lily, lotus, papyrus, reed, duckweed).
+3. Nur was dort fehlt, kommt als Kaufliste mit Preis zu Ferat.
+
+Fluid Flux, River Generator und River-Lake Ecosystem braucht keine Regel aus §1–3.
+
+---
+
 ## Was fehlt bis Witcher 4
 
 Nach Wirkung geordnet, nur für diesen Vorgang:

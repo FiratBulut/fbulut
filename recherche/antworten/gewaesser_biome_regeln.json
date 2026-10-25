@@ -5,8 +5,8 @@
   "erzeugt_von": "skripte/gewaesser_biome/gewaesser_biome_regeln_erzeugen.py (Selbsttest)",
   "wasser_y": "y_0_3m/y_1_0m = Helligkeit des Grundes durch das Wasser bei 0,3 bzw. 1,0 m Tiefe, Lichtweg 2 x Tiefe (16h-6f); Absorption = Sichtweite je Farbe in cm wie MI_EL_SWR_* [Ferat]"
  },
- "version": 1,
- "stand": "2026-10-25 (Antwort 24)",
+ "version": 2,
+ "stand": "2026-10-25 (Antwort 24; v2 Nachtrag 20:10: nature_water_fx, asset_luecken)",
  "lagen_namen": [
   "Wiese",
   "Gras",
@@ -1938,6 +1938,95 @@
     ]
    }
   ]
+ },
+ "nature_water_fx": {
+  "_doku": "Nachtrag 24 (25.10. 20:10): Nature Water FX (/Game/NatureWaterFX/FX/, gekauft) ist das Partikel-Werkzeug fuer alle Faelle, Stufen und Stroemung. Systeme laut inventar_extra.json: NS_Waterfall_, NS_Impact_, NS_Wake_, NS_Stream_ je Small/Medium/Large, NS_Geyser_Small/Large. Akteur, Effekttypen, Budget und Cull wie wasser_fx/plan.json (Auftrag 14), dort auch die Skala-Annahmen.",
+  "skala_annahme_m": "wasser_fx/plan.json einstellungen_alle.skala_annahme_m (Waterfall S 3x5, M 6x15, L 12x30; Impact/Wake S/M/L 3/6/12 m; Stream S 2x5, M 4x10, L 8x20) - Annahme, am ersten Fall messen",
+  "groesse_waehlen": "kleinste Stufe, deren Annahme >= 0,8 x Ziel ist; Skala = Ziel / Annahme in [0,8; 1,5]; daruber die naechste Stufe",
+  "rollen": {
+   "vorhang_koerper": {
+    "system": "NS_Waterfall_*",
+    "wann": "Typ vorhang ab 1,8 m (Netz-Vorhang bleibt Traeger, NS bricht ihn auf)",
+    "ort": "Lippe bis 2/3 der Fallhoehe",
+    "groesse_nach": "Breite und Hoehe des Vorhangs"
+   },
+   "aufprall": {
+    "system": "NS_Impact_*",
+    "wann": "jeder Fall und jede Stufe ab 1,0 m",
+    "ort": "Auftreffpunkt (Abwurf x beachten), nicht am Felsfuss",
+    "groesse_nach": "Spruehdurchmesser ~ max(B; 2 x sqrt(H)) m"
+   },
+   "becken_ausstrom": {
+    "system": "NS_Wake_*",
+    "wann": "Becken unter Faellen ab 5 m und Engstellen mit Tempo > 1,5 m/s",
+    "ort": "Beckenauslauf bzw. hinter dem Block",
+    "groesse_nach": "Auslaufbreite"
+   },
+   "ueberlauf_rinne": {
+    "system": "NS_Stream_*",
+    "wann": "Kaskaden, Rinnen ueber Fels 0,8-1,8 m, Ueberlauf an Daemmen/Verklausungen und Tinajas",
+    "ort": "entlang der Rinne, +X = Fliessrichtung",
+    "groesse_nach": "Rinnenbreite x Laenge"
+   },
+   "stroemung_an_steinen": {
+    "system": "NS_Wake_Small",
+    "wann": "nur Schaustellen: Block >= 0,5 B im Hauptstrom, Tempo > 1,0 m/s (fluss_sim tempo)",
+    "abstand_m": [
+     30,
+     60
+    ],
+    "hinweis": "nicht an jedem Stein - die Schaumstrassen der SWR (787 heute) tragen den Rest"
+   }
+  },
+  "budget": "wie plan.json: je Ort/Gruppe <= 3 Systeme, gleichzeitig aktiv <= 6; Cull NET_EL_Wasser_Nah 50 m fuer Stufen/Steine, NET_EL_Wasser_Held 150 m fuer grosse Faelle; GPU Wasser-FX > 0,5 ms -> cull_rueckfall_m",
+  "biom": {
+   "sumpf": "nur Wake an Verklausungen; keine Impact/Stream (kein Gefaelle)",
+   "aue": "Wake an Treibholz und Furten; Stream an Biberdaemmen/Verklausungen",
+   "heide": "selten: Stream an Torfstufen",
+   "wueste": "nur Stream_Small an Tinaja-Ueberlaeufen und Impact_Small unter Schleiern",
+   "gletscher": "alle Rollen; Skala x 1,2 (mehr Wasser zur Schmelzzeit)",
+   "frost": "Skala x 0,7, keine Wake auf Randeis",
+   "lava": "alle Rollen; optional NS_Geyser_* an heissen Quellen (eigener Sehens-Ort, nicht im Bachlauf)",
+   "dschungel": "Vorhang + Impact mit Nebel; Bewuchs x 2 im Nebelradius",
+   "sonst": "alle Rollen nach Gefaelle"
+  },
+  "rueckfall_ferne": "jenseits Cull traegt das Netz (Vorhang, Aufprall-Scheibe MI_EL_Wasserfall_Aufprall) allein"
+ },
+ "asset_luecken": {
+  "_doku": "Nachtrag 24: Kein Kauf von Fluid Flux, River Generator, River-Lake Ecosystem. Abgleich der Wasserpflanzen mit inventar.json + inventar_extra.json (6 608 Pfade, Namenssuche). Form der mit 'zu pruefen' markierten Netze ist aus dem Namen nicht sicher.",
+  "vorhanden": {
+   "schilf": [
+    "/Game/Megaplant_Library/Plant_Dry_Common_Reeds/... (12, trocken)",
+    "/Game/Eldarien/Welt/Bewuchs/Gras/GT_Schilf (Grass Type)"
+   ],
+   "rohrkolben": [
+    "MI_VEGMP_MI_Bulrush_01_Foliage (Megaplant Bulrush, in 22 verwendet)"
+   ],
+   "binsen": [
+    "/Game/AncientContent/Megascans/3DPlants/ToadRush/SM_ToadRush_* (Krötenbinse, klein)"
+   ],
+   "schachtelhalm": [
+    "Coast_Dunes SM_rough_horsetail_* / FT_EL_AUE_rough_horsetail_*"
+   ],
+   "algen_decal": [
+    "/Game/Coast_Dunes_Environment_Set/Decals/Materials/MI_Decal_Algae"
+   ],
+   "sumpfbaum": [
+    "SM_SwampCypress_A"
+   ],
+   "zu_pruefen": [
+    "/Game/CityPark/Meshes/Flora/Grass/SM_WaterPlant01-04 (Form?)",
+    "/Game/Forest_Environment_Set/Environment/Foliage/Models/SM_lily_01_1/2 (Seerose oder Lilie?)"
+   ]
+  },
+  "luecken": {
+   "schwimmblatt": "Seerosen-/Teichrosen-Blaetter flach auf dem Wasser fuer Sumpf, Aue, Elfenwald, Dschungel - fehlt, falls SM_lily_01/SM_WaterPlant keine Schwimmblaetter sind",
+   "gruenes_schilf": "nur trockenes Schilf (Dry Common Reeds) als Netz; gruenes Sommerschilf nur als Grass Type GT_Schilf - fuer Sumpf/Aue-Guertel nah an der Kamera zu wenig",
+   "dschungel_wasser": "tropische Ufer- und Wasserpflanzen (Papyrus/Lotus-artig, Wasserhyazinthe-artig) fehlen",
+   "wasserlinsen": "Teppich auf stehendem Wasser (Sumpf) - Decal/Material statt Netz moeglich (MI_Decal_Algae pruefen)",
+   "wasserfall_klang": "kein echtes Tosen, nur CUE_Water_Stream_I-X (plan.json klang.luecke)"
+  },
+  "suche_frei": "Erst kostenlos suchen: Fab-Freigaben der Megascans-Bibliothek und die monatlichen Gratis-Pakete (Stichworte: water lily, lotus, papyrus, reed, duckweed). Nur wenn dort nichts passt, eine Kaufliste mit Preis zur Entscheidung an Ferat."
  },
  "quellen": {
   "GRAS_SRC": "UE 5.3.2 Quelle (Spiegel chenyong2github/UnrealEngine @ c865e168): Landscape/Classes/LandscapeProxy.h L998-1013 (AddExclusionBox), Private/LandscapeGrass.cpp L1271/L1315 (Grass-Map je Vertex), L2672-2715 (IsExcluded), L2884-2914 (bilinear)",
