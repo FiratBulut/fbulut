@@ -22,8 +22,8 @@
     },
     "kennzeichnung": "[Fach] Geomorphologie/Literatur (nur Suchauszuege, siehe quellen), [Projekt] eigene Daten und Regeln, [Gestaltung] Gestaltungswert fuer das Witcher/RDR2-Ziel, [Ableitung] aus beidem geschlossen, im Pilot zu bestaetigen"
   },
-  "version": "23.11",
-  "stand": "2026-10-19 (Auftrag 23, Nachtraege 23b-23i; Klasse kiesel_haufen aus 22e, Masskorrektur 22f)",
+  "version": "23.13",
+  "stand": "2026-10-27 (Auftrag 23, Nachtraege 23b-23i; Klasse kiesel_haufen aus 22e, Masskorrektur 22f; 23.12 aus 24, 23.13 aus 25)",
   "aenderungen": [
     {"version": "23.1", "stand": "2026-10-18", "quelle": "Antwort 23", "inhalt": "Erstfassung: Klassen, Toleranzen, Wasser, Stapel, Farbe, Reparatur, Prueffaelle F1-F26"},
     {"version": "23.2", "stand": "2026-10-18", "quelle": "Antwort 23b", "inhalt": "neu: wiederholung, spiegeln, skala_wiederholung, material_pruefung, totholz_23_2, farbe.helligkeit_23_2; reparatur.wiederholung_schritte neu (reparatur.schritte und verkleinern 0,8-1,0 aus 23.1 bleiben fuer Sitzfehler); Prueffaelle W1-W16, S1-S7, M1-M10. Alle Schluessel aus 23.1 unveraendert; sitz_pruefung.py (23.1) liest die Datei weiter mit derselben Signatur."},
@@ -35,7 +35,9 @@
     {"version": "23.8", "stand": "2026-10-19", "quelle": "Antwort 22f", "inhalt": "nur Korrektur von Texten in nachtrag_23_5: SM_SmallStonesPack_01 misst 13,1 x 9,2 x 8,3 cm (netze_masse.json), nicht 0,26 x 0,18 x 0,16 m (Faktor 2 falsch in der Referenzliste aus Antwort 23). Schwellen unveraendert (10-20 % von T); Klasse bleibt kiesel/kiesel_haufen, Groessenklasse K2."},
     {"version": "23.9", "stand": "2026-10-19", "quelle": "Antwort 23g", "inhalt": "neu nur nachtrag_23_9: Bezugsflaeche S = H + Verdraengung der Lagen (statt H) fuer die Sitzpruefung, Validierung K33 per Tiefenaufnahme, keine Kiesel-Netze auf Lage Kies >= 0,5; Zielwert Kies-Verdraengung 0,08-gleichwertig (11,2 cm) mit Gate. Alle uebrigen Schluessel unveraendert."},
     {"version": "23.10", "stand": "2026-10-19", "quelle": "Antwort 23h", "inhalt": "neu nur nachtrag_23_10: Haufen nach Form statt Inselzahl, Wandmodule ohne durchdringung (WARNUNG naht), Kulisse ab 15 m (Halt + Sichtbarkeit), offene Netze ueber offenen Rand, Dreiecke entscheiden ab 15 cm, Bestand in trockenen Bettzellen bleibt. Alle uebrigen Schluessel unveraendert."},
-    {"version": "23.11", "stand": "2026-10-19", "quelle": "Antwort 23i", "inhalt": "neu nur nachtrag_23_11: SmallStonesPack sind Einzelsteine (Haufen-Kalibrierung entfaellt), Foliage nie spiegeln (nur Akteure), Kante zweistufig (Land jetzt, Wasserlinie im 16h-Bettschritt), Platz am Hang (FEHLER-Altbestand und Bewuchs < 0,5 m duerfen weichen), Bestand in Weltlage, Bettzellen-Kollision nach Grundriss. Alle uebrigen Schluessel unveraendert."}
+    {"version": "23.11", "stand": "2026-10-19", "quelle": "Antwort 23i", "inhalt": "neu nur nachtrag_23_11: SmallStonesPack sind Einzelsteine (Haufen-Kalibrierung entfaellt), Foliage nie spiegeln (nur Akteure), Kante zweistufig (Land jetzt, Wasserlinie im 16h-Bettschritt), Platz am Hang (FEHLER-Altbestand und Bewuchs < 0,5 m duerfen weichen), Bestand in Weltlage, Bettzellen-Kollision nach Grundriss. Alle uebrigen Schluessel unveraendert."},
+    {"version": "23.12", "stand": "2026-10-27", "quelle": "Antwort 24 par. 7.1 (JSON nachgetragen mit 25)", "inhalt": "neu nur nachtrag_23_12: Kragarm senkrecht in Welt messen, h aus Welt-Ausdehnung, Talseite ab 10 Grad, 10 % Grundriss mit > 30 cm Luft. Werte aus klassen.fels.luecke_max_m unveraendert."},
+    {"version": "23.13", "stand": "2026-10-27", "quelle": "Antwort 25", "inhalt": "neu nur nachtrag_23_13: offene Schalen (dick -2 cm, duenn +1 cm und Median <= 0, Spalt bis 3 cm per z, Wurzeln ab 3 cm Oeffnung, Felsfuss vor Kulisse, Netztausch frei) und PG1 (Rand 5 % mit Lauflaenge 15 cm und max +1 cm, Steilhang S3 nur mit Fehler + 12 Kontrollbilder, Brett immer FEHLER, dachziegel_reihe). Alle uebrigen Schluessel unveraendert."}
   ],
   "erkennung": {
     "_doku": "Reihenfolge: Name, dann Form. L >= B >= T = sortierte Ausdehnung der Box mal Skala.",
@@ -1042,6 +1044,44 @@
     "planer_lage_bestand": {
       "weltlage": "Bestandsstuecke immer in ihrer Weltlage (Zensus) fuehren, nie auf die Planlage (r001) zuruecksetzen",
       "kollision_bettzelle": "nach Grundriss (Fussabdruck wie deckung.vereinigung), nicht nach Mitte"
+    }
+  },
+  "nachtrag_23_12": {
+    "_doku": "23.12 (Antwort 24 par. 7.1, in der JSON nachgetragen mit Antwort 25). Ergaenzt klassen.fels.luecke_max_m (Werte unveraendert) um Messrichtung und Flaechengrenze. Alle uebrigen Schluessel unveraendert. Lokal ausdruecklich zu uebernehmen.",
+    "kragarm": {
+      "messung": "senkrecht von oben in Weltkoordinaten (nicht im lokalen Grundriss): Luft = Abstand Unterseite (Dreiecke) zu S bzw. Traeger entlang -Z",
+      "h_m": "senkrechte Ausdehnung der Instanz in Welt (z_max - z_min der Punktwolke), nicht die lokale Netzhoehe",
+      "kern_bergseite_max_m": 0.05,
+      "kern_talseite_max_m": "min(0,15 x h; 0,30)",
+      "flaeche_luft_ueber_0_30m_max_anteil": 0.10,
+      "talseite": "Grundrisshaelfte mit Gelaende unter dem Mittelwert in Falllinienrichtung; Unterscheidung nur ab Hang 10 Grad, darunter rundum die Bergseiten-Grenze",
+      "gilt_fuer": "Klasse fels (>= 1,0 m) und stein ab 0,5 m bei Hang >= 10 Grad; Platten >= 2 m ueber nachtrag_23_13.pg1",
+      "ausnahmen": ["Wandfels mit Ueberhang-WARNUNG (23.7) bleibt WARNUNG", "haengend (23.3)"],
+      "bestand": "kein automatisches Entfernen: zuerst hang_platz (23.11) tiefer setzen oder Yaw drehen, dann neu pruefen"
+    }
+  },
+  "nachtrag_23_13": {
+    "_doku": "23.13 (Antwort 25). Bestaetigt bzw. korrigiert die PM-Regeln so-r001 (offene Schalen) und PG1 (Platten >= 2 m). Ergaenzt nachtrag_23_10.offene_netze; alle uebrigen Schluessel unveraendert. Lokal ausdruecklich zu uebernehmen.",
+    "schalen_offen": {
+      "oeffnung": "Oeffnungsrichtung gegen die Auflage-Normale: o . n <= -0,7 (so-r001)",
+      "dick": {"gilt": "Schalendicke entlang der Oeffnung >= 0,10 m", "rand_max_m": -0.02, "regel": "jeder offene Randpunkt <= -2 cm unter S bzw. Traeger (23.10)"},
+      "duenn": {"gilt": "Schalendicke 0,02-0,10 m", "rand_max_m": 0.01, "rand_median_max_m": 0.0, "regel": "jeder offene Randpunkt <= +1 cm UND Median aller Randpunkte <= 0 cm (Kontakt, Kiesel 'klebt')", "einbettung_max_anteil_dicke": 0.30},
+      "spalt_bis_3cm": {"urteil": "FEHLER wie so-r001, reparieren", "reparatur": "nur z senken bis zur Grenze der Klasse; Einbettung <= 60 % der Hoehe, sonst Netztausch", "bett_gebacken": "Instanzen MIT Kollision in Bettzellen gebackener SWR nur melden, Anwendung mit naechstem Bake; ohne Kollision senken erlaubt"},
+      "wurzel_stumpf": {"gilt": "offene Raender mit Oeffnung >= 0,03 m groesster Ausdehnung der Randschleife", "regel": "wie dick (Randpunkte <= -2 cm)", "reparatur": ["z senken bis -0,15 m, solange >= 70 % der Hoehe sichtbar bleibt", "Netztausch", "melden (nie entfernen)"]},
+      "kulisse_wand": {"gilt": "Kulisse >= 15 m und Wandmodule 4-15 m mit frei haengendem offenem Rand (Drehen verboten, 23.7)", "erst": "Sichtbarkeit nach nachtrag_23_10.kulisse.sichtbarkeit; nicht sichtbar -> nur melden", "reparatur": "Felsfuss/Haldenblock davor: geschlossenes Netz, gleiche Familie oder Y-Differenz <= 0,10, Sitz nach Klasse (Kragarm 23.12), deckt alle Randpunkte fuer alle sichtbaren Rasterpunkte (gleicher Sichtstrahl); nicht in SWR-Bettzellen ohne neuen Bake"},
+      "netztausch": {"freigabe": true, "ziel": "geschlossen oder nach Tausch so-r001-gerecht; gleiche Familie oder Y-Differenz <= 0,10; L, B, T je +-20 %; Typ-Lesung je Feld", "danach": ["volle Sitzpruefung", "Wiederholung 23.2 (planer_wiederholung.mindestabstand_gleiches_netz) - keine neuen Reihen gleicher Netze"]}
+    },
+    "pg1": {
+      "_doku": "Platten L x Skala >= 2 m. 23.3 'Hero >= 2 m bleibt' und 23 par. 6 'Hindernis nur z/Drehung' gelten fuer PG1 nicht (SWR-Nacharbeit danach).",
+      "hangparallel_max_grad": 10,
+      "einbettung_min_anteil_dicke": 0.30,
+      "rand": {"grenze_m": -0.02, "max_anteil_ueber_grenze": 0.05, "max_lauflaenge_ueber_grenze_m": 0.15, "kein_punkt_ueber_m": 0.01, "_doku": "5 % allein erlaubt eine zusammenhaengende Luecke von 30 cm (Platte 2 x 1 m, ~120 Randpunkte)"},
+      "kragarm": "nachtrag_23_12.kragarm",
+      "steilhang": {"hang_ab_grad": 35, "L_ab_m": 3.0, "regel": "verkleinern <= 3 m, sonst Block gleicher Typ-Eigenschaften, sonst entfernen", "s3_bergfelder": "nur mit weiterem Fehler (--nur-steil-mit-fehler)", "kontrolle": "12 Bilder (6 Felder mit den meisten sonst gut sitzenden Steilplatten, je 2 Kameras 20-40 m); >= 3 Bilder mit Platten, die nicht als Fels lesen -> volle Ersetzung"},
+      "wasser": "lange Achse <= 45 Grad zur Stroemung",
+      "brett_ueber_wasser": "immer FEHLER (beide Enden auf Ufer, Luft darunter: liest als Bauwerk)",
+      "ausbiss_reihen_ausnehmen": false,
+      "dachziegel_reihe": {"art": "FEHLER", "gilt": ">= 3 Platten >= 2 m im 15-m-Fenster, Fallrichtung +-15 Grad, Fallwinkel +-10 Grad, jede ueberlappt die naechste hangab mit sichtbarer Kante > 0,6 m", "reparatur": ["jede zweite tiefer (verborgen >= 0,5)", "eine gegen Block tauschen", "entfernen"], "nicht": "Imbrikation im Wasser (klassen.platte.dachziegel, 8-30 Grad) ist gewollt"}
     }
   },
   "quellen": {

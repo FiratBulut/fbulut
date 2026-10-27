@@ -5,8 +5,8 @@
   "erzeugt_von": "skripte/gewaesser_biome/gewaesser_biome_regeln_erzeugen.py (Selbsttest)",
   "wasser_y": "y_0_3m/y_1_0m = Helligkeit des Grundes durch das Wasser bei 0,3 bzw. 1,0 m Tiefe, Lichtweg 2 x Tiefe (16h-6f); Absorption = Sichtweite je Farbe in cm wie MI_EL_SWR_* [Ferat]"
  },
- "version": 2,
- "stand": "2026-10-25 (Antwort 24; v2 Nachtrag 20:10: nature_water_fx, asset_luecken)",
+ "version": 3,
+ "stand": "2026-10-27 (Antwort 24; v2 Nachtrag 20:10: nature_water_fx, asset_luecken; v3 Antwort 25: nachtrag_25)",
  "lagen_namen": [
   "Wiese",
   "Gras",
@@ -1656,7 +1656,7 @@
      0.0,
      0.8
     ],
-    "werkzeug": "nur SWR-Gelaende (Absturz im Bett), Schaum aus fluss_sim"
+    "werkzeug": "nur SWR-Gelaende (Absturz im Bett), Schaum aus fluss_sim; Darstellung der gebackenen Rampe nach nachtrag_25.stufen"
    },
    "kaskade": {
     "fallhoehe_m": [
@@ -2028,6 +2028,142 @@
   },
   "suche_frei": "Erst kostenlos suchen: Fab-Freigaben der Megascans-Bibliothek und die monatlichen Gratis-Pakete (Stichworte: water lily, lotus, papyrus, reed, duckweed). Nur wenn dort nichts passt, eine Kaufliste mit Preis zur Entscheidung an Ferat."
  },
+ "nachtrag_25": {
+  "_doku": "Antwort 25 (Auftrag 25 C/D): Wasserwaende an gebackenen SWR-Stufen und verzweigte Arme im Kiesfaecher. In BAKED_SIM zeichnet die Niagara-Komponente der SWR (Grid2D_SW_River, Material SW_Water_Material_River_Niagara_Cached) [Projekt 25]; MI_EL_SWR_* wirken dort erst, wenn ihr Master zur Niagara-Familie gehoert (T25-C0).",
+  "material_weg": {
+   "test": "T25-C0: Signal-MI auf SW_Water_Material_River_Niagara_Cached als baked_sim_material (UShallowWaterRiverComponent.BakedSimMaterial, UMaterialInstance), render_state BAKED->LIVE->BAKED ohne Reset/Bake, used_renderer_materials lesen",
+   "wenn_wirkt": "Kopie des Masters SW_Water_Material_River_Niagara_Cached nach /Game/Eldarien/Welt/Wasser/SWR/ mit Steilmaske, MI je Biom (Werte 24 par. 1.2) als BakedSimMaterial; kein C++",
+   "wenn_nicht": "Kopie Grid2D_SW_River nach /Game, Renderer-Material ersetzen, in den Projekteinstellungen (Water / Shallow Water Simulation) als System eintragen; C++ nur ohne diese Einstellung",
+   "rueckfall": "Weg B Stufen-Haut (MI_EL_Stufenfall_Schnelle, 5-8 cm vor Flaechen >= 30 Grad aus dem Dump); bei Erfolg von Weg A nur an Stufen >= 1,5 m behalten"
+  },
+  "steilmaske": {
+   "cos_ab_grad": 30,
+   "cos_voll_grad": 45,
+   "normale": "cross(ddy(WPos), ddx(WPos)), nur fuer die Maske, nicht als Lichtnormale",
+   "wirkung": "BaseColor -> Schaumfarbe, Absorption/Opacity hoch, Roughness 0,5, Normalstaerke x 0,3",
+   "schaumfarbe_rgb": [
+    0.85,
+    0.87,
+    0.86
+   ],
+   "epic_standard_schaum_rgb": [
+    0.39,
+    0.76,
+    0.56
+   ],
+   "schuerze_m": [
+    0.5,
+    1.5
+   ],
+   "schuerze": "Steilmaske aus der Hoehe 1 m stromauf, falls der Master die Gitterhoehe liest (zu pruefen), sonst Decal-Band aus dem Dump",
+   "einheiten": "Absorption im Niagara-Master vermutlich 1/m (20,8/25/24,7); a = 100 / Sichtweite_cm nur nach Signalprobe"
+  },
+  "stufen": [
+   {
+    "fallhoehe_m": [
+     0.0,
+     0.5
+    ],
+    "flaeche_45_min_m2": null,
+    "darstellung": "nur Schaum (Steilmaske bzw. Decal-Schuerze)",
+    "ns": []
+   },
+   {
+    "fallhoehe_m": [
+     0.5,
+     0.8
+    ],
+    "flaeche_45_min_m2": 0.5,
+    "darstellung": "Haut oder Weg A; unter 0,5 m2 Flaeche >= 45 Grad nur Schaum",
+    "ns": []
+   },
+   {
+    "fallhoehe_m": [
+     0.8,
+     1.0
+    ],
+    "flaeche_45_min_m2": null,
+    "darstellung": "Haut oder Weg A",
+    "ns": [
+     "NS_Stream_Small nur an Schaustellen"
+    ]
+   },
+   {
+    "fallhoehe_m": [
+     1.0,
+     30.0
+    ],
+    "flaeche_45_min_m2": null,
+    "darstellung": "Haut oder Weg A",
+    "ns": [
+     "NS_Impact_Small nach Budget"
+    ]
+   }
+  ],
+  "ns_budget_stufen": {
+   "fenster_m": 50,
+   "je_fenster": "die 2 hoechsten Stufen >= 1,0 m NS_Impact_Small, 1 Rinne/Stufe 0,8-1,8 m NS_Stream_Small, Rest nur Material/Haut",
+   "gleichzeitig_max": 6,
+   "effekttyp": "NET_EL_Wasser_Nah (Signifikanz nach Abstand)"
+  },
+  "verzweigung": {
+   "arm_breite_anteil_B": [
+    0.35,
+    0.5
+   ],
+   "arm_tiefe_m": 0.3,
+   "gefaelle": [
+    0.017,
+    0.021
+   ],
+   "manning_n": 0.035,
+   "richtwerte": {
+    "v_m_s": [
+     1.4,
+     1.64
+    ],
+    "froude": [
+     0.82,
+     0.96
+    ],
+    "q_m3_s": [
+     0.84,
+     1.48
+    ],
+    "leitfaehigkeit_anteil_hauptlauf": [
+     0.1,
+     0.37
+    ]
+   },
+   "zulauf_je_arm": "eigene Quelle je Arm-SWR, Zulauf ~ 0,25 Q_p2 (nicht hoeher, sonst wirkt der Hauptlauf schwach)",
+   "froude_max": 1.0,
+   "ueber_froude_max": "Gefaelle des Arms auf <= 1,8 % senken, nicht verbreitern (Rollwellen/Saegezahn 6s)",
+   "nicht_trocken": {
+    "tiefe_min_m": 0.1,
+    "breite_anteil_min": 0.8,
+    "laenge_anteil_min": 0.95,
+    "v_min_m_s": 0.5,
+    "v_laenge_anteil_min": 0.9,
+    "nasslinie_m": [
+     0.3,
+     0.5
+    ],
+    "pfuetze_ohne_verbindung_max_m2": 2.0
+   },
+   "zusammenfluss": "wie Naht 24 par. 7.3: Ueberlappung 5-10 m, Spiegel <= 2 cm, nie an einer Stufe, Ziel-SWR ist Senke",
+   "schwelle": "liegt die Abzweig-Schwelle ueber dem Spiegel der Haupt-SWR, fliesst nichts ueber; Arm beginnt hinter der Kiesbarre (Sickerzulauf)"
+  },
+  "zudecken_gebacken": {
+   "erlaubt": "Zwischenstand bis zum naechsten geplanten Bake der Haupt-SWR",
+   "hoehe": "je Landschaftsmasche hoechster gebackener Spiegel + 0,07 m (ueber Rauschband 0,02 m)",
+   "pruefen": [
+    "PIE: Figur ueber die Flaeche, kein Schwimmen/Platschen/Naesse (use_baked_sim_for_queries_and_physics)",
+    "Rand zum Hauptlauf als Kiesbank-Kante 0,12-0,22 m, keine senkrechte Stufe",
+    "Maske schneidet keine mit dem Hauptstrom verbundene Zelle mit Tiefe >= 5 cm (4-Nachbarschaft)"
+   ],
+   "sicherung": "Hoehenplan mit Vorher-Hoehen, damit der spaetere Neu-Bake auf derselben Gelaendebasis laeuft"
+  }
+ },
  "quellen": {
   "GRAS_SRC": "UE 5.3.2 Quelle (Spiegel chenyong2github/UnrealEngine @ c865e168): Landscape/Classes/LandscapeProxy.h L998-1013 (AddExclusionBox), Private/LandscapeGrass.cpp L1271/L1315 (Grass-Map je Vertex), L2672-2715 (IsExcluded), L2884-2914 (bilinear)",
   "GRAS_API": "https://dev.epicgames.com/documentation/unreal-engine/API/Runtime/Landscape/ALandscapeProxy/AddExclusionBox",
@@ -2041,6 +2177,7 @@
   "SCHILF": "Photosynthetica 2021, 59(2): Schilf flacher als Rohrkolben: https://ps.ueb.cas.cz/artkey/phs-202102-0002_comparison-of-water-depth-tolerance-in-two-major-wetland-macrophytes-phragmites-australis-and-typha-angustifol.php",
   "EFEU": "Hedera helix: https://en.wikipedia.org/wiki/Hedera_helix ; BSBI: https://sppaccounts.bsbi.org/content/hedera-helix-0.html ; Info Flora: https://www.infoflora.ch/en/flora/hedera-helix.html ; Frostgrenze nach Metcalfe 2005 (zitiert in https://www.scielo.br/j/oh/a/pSmkCcppz9DJ3d97k7Tbs3M/?lang=en)",
   "EPIC_WATER": "https://dev.epicgames.com/documentation/unreal-engine/water-body-actors-in-unreal-engine (Suchauszug)",
+  "SWR_MATERIAL": "UShallowWaterRiverComponent (WaterAdvanced, ShallowWaterRiverActor.h): BakedSimMaterial, BakedSimRiverToLakeTransitionMaterial, BakedSimRiverToOceanTransitionMaterial (UMaterialInstance, Rendering): https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/WaterAdvanced/UShallowWaterRiverComponent (Suchauszug)",
   "SWR_SENKE": "https://forums.unrealengine.com/t/wateradvanced-shallowwaterrivercomponent-no-valid-sinks-warning-and-river-disappears-in-5-8-3/2840450 ; https://forums.unrealengine.com/t/shallowwaterriver-lake-ocean/2838534 (Suchauszuege)"
  }
 }
